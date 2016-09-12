@@ -12,12 +12,10 @@ from math import cos, radians, sin
 
 # all public contants, classes and functions
 __all__ = ()  # none
-__version__ = '16.09.03'
+__version__ = '16.09.12'
 
 
 class _Base(object):
-
-    datum = None
 
     def __repr__(self):
         return '%s(%s)' % (self.__class__.__name__, str(self))
@@ -59,11 +57,11 @@ class _LatLonHeightBase(_Base):
            longitude and height.
 
            @param {degrees|DMSstrNS} lat - Latitude in degrees
-                                 or as DMS string with N or S.
+                           or as DMS string with N or S suffix.
            @param {degrees|DMSstrEW} lon - Longitude in degrees
-                                  or as DMS string with E or W.
-           @param {meter} [height=0] - Height or elevation in
-                                       meter.
+                            or as DMS string with E or W suffix.
+           @param {meter} [height=0] - Height above or below the
+                                       earth surface in meter.
 
            @returns {LatLon} LatLon instance.
 

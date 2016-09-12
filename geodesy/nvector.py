@@ -14,7 +14,7 @@ from vector3d import Vector3d
 # all public constants, classes and functions
 __all__ = ('NorthPole', 'Nvector', 'SouthPole',  # constants
            'sumOf')  # functions
-__version__ = '16.09.06'
+__version__ = '16.09.12'
 
 
 class Nvector(Vector3d):  # XXX kept private
@@ -66,7 +66,7 @@ class Nvector(Vector3d):  # XXX kept private
 
            @param {number} [prec=5] - Number of decimals, unstripped.
            @param {string} [fmt='[%s]'] - Enclosing backets format.
-           @param {string} [sep=', '] - Separator between NEDs.
+           @param {string} [sep=', '] - Separator between components.
 
            @returns {string} Comma-separated x, y, z [, h] values.
 
@@ -85,9 +85,10 @@ class Nvector(Vector3d):  # XXX kept private
            @returns {Nvector} Normalised vector.
         '''
         if not self._united:
-            self._united = Vector3d.unit(self)
+            u = Vector3d.unit(self).copy()
             if self.h:
-                self._united.h = self.h
+                u.h = self.h
+            self._united = u._united = u
         return self._united
 
 _NvectorBase = Nvector  # XXX same for now
