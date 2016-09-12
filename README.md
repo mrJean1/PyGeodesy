@@ -14,4 +14,4 @@ More details at
 - <http://www.movable-type.co.uk/scripts/latlong-vectors.html>
 - <http://www.movable-type.co.uk/scripts/latlong-os-gridref.html>
 
-Still in work in-progress, especially more Python documentation.
+Still a work in-progress, especially more Python documentation.
