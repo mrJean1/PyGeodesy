@@ -14,7 +14,7 @@ from vector3d import Vector3d
 # all public constants, classes and functions
 __all__ = ('NorthPole', 'Nvector', 'SouthPole',  # constants
            'sumOf')  # functions
-__version__ = '16.09.12'
+__version__ = '16.09.13'
 
 
 class Nvector(Vector3d):  # XXX kept private
@@ -41,6 +41,16 @@ class Nvector(Vector3d):  # XXX kept private
         Vector3d.__init__(self, x, y, z)
         if h:
             self.h = float(h)
+
+    def copy(self):
+        '''Return a copy of this vector.
+
+           @returns {Nvector} Copy of this vector.
+        '''
+        n = Vector3d.copy(self)
+        if self.h != n.h:
+            n.h = self.h
+        return n
 
     def to3latlonheight(self):
         '''Convert this n-vector to (geodetic) lat-, longitude
@@ -86,12 +96,10 @@ class Nvector(Vector3d):  # XXX kept private
         '''
         if not self._united:
             u = Vector3d.unit(self).copy()
-            if self.h:
+            if self.h != u.h:
                 u.h = self.h
             self._united = u._united = u
         return self._united
-
-_NvectorBase = Nvector  # XXX same for now
 
 NorthPole = Nvector(0, 0, +1)
 SouthPole = Nvector(0, 0, -1)

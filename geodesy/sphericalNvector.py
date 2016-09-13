@@ -23,7 +23,8 @@
 # to a normalised version of an (ECEF) cartesian coordinate.
 
 from datum import R_M
-from nvector import NorthPole, _LatLonNvectorBase, _NvectorBase, sumOf
+from nvector import NorthPole, _LatLonNvectorBase, \
+                    Nvector as _NvectorBase, sumOf
 from sphericalBase import _LatLonSphericalBase
 from utils import EPS, EPS1, PI, PI2, PI_2, degrees360, \
                   fsum, isscalar, len2
@@ -33,7 +34,7 @@ from math import cos, radians, sin
 __all__ = ('LatLon',  # classes
            'areaOf', 'intersection', 'meanOf',  # functions
            'triangulate', 'trilaterate')
-__version__ = '16.09.06'
+__version__ = '16.09.13'
 
 
 class LatLon(_LatLonNvectorBase, _LatLonSphericalBase):
@@ -700,7 +701,7 @@ if __name__ == '__main__':
 
     # Typical test results (on MacOS X):
 
-    # testing sphericalNvector.py version 16.09.06
+    # testing sphericalNvector.py version 16.09.13
     # test 1 lat/lonDMS: 52.20472°N, 000.14056°E
     # test 2 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
     # test 3 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
@@ -745,7 +746,7 @@ if __name__ == '__main__':
     # test 42 copy: True
     # all sphericalNvector.py tests passed (Python 2.7.10)
 
-    # testing sphericalNvector.py version 16.09.06
+    # testing sphericalNvector.py version 16.09.13
     # test 1 lat/lonDMS: 52.20472°N, 000.14056°E
     # test 2 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
     # test 3 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E

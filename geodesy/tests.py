@@ -340,7 +340,7 @@ if __name__ == '__main__':
 
     # testing tests.py version 16.09.06
 
-    # testing __init__.pyc version 16.09.05
+    # testing __init__.pyc version 16.09.12
     # test 1 geodesy.Datum() class (datum): True
     # test 2 geodesy.Datums attribute (datum): True
     # test 3 geodesy.EPS float: True
@@ -459,7 +459,7 @@ if __name__ == '__main__':
     # test 110 utils.wrapPI2() function: True
     # test 111 utils.wrapPI_2() function: True
 
-    # testing ellipsoidalNvector.pyc version 16.09.06
+    # testing ellipsoidalNvector.pyc version 16.09.13
     # test 112 ellipsoidalNvector.Cartesian() class: True
     # test 113 ellipsoidalNvector.LatLon() class: True
     # test 114 ellipsoidalNvector.Ned() class: True
@@ -467,11 +467,11 @@ if __name__ == '__main__':
     # test 116 ellipsoidalNvector.meanOf() function: True
     # test 117 ellipsoidalNvector.toNed() function: True
 
-    # testing ellipsoidalVincenty.pyc version 16.09.04
+    # testing ellipsoidalVincenty.pyc version 16.09.12
     # test 118 ellipsoidalVincenty.LatLon() class: True
     # test 119 ellipsoidalVincenty.VincentyError() class: True
 
-    # testing sphericalNvector.pyc version 16.09.06
+    # testing sphericalNvector.pyc version 16.09.13
     # test 120 sphericalNvector.LatLon() class: True
     # test 121 sphericalNvector.areaOf() function: True
     # test 122 sphericalNvector.intersection() function: True
@@ -483,13 +483,13 @@ if __name__ == '__main__':
     # test 126 sphericalTrigonometry.LatLon() class: True
     # test 127 sphericalTrigonometry.meanOf() function: True
 
-    # testing nvector.pyc version 16.09.06
+    # testing nvector.pyc version 16.09.13
     # test 128 nvector.NorthPole attribute: True
     # test 129 nvector.Nvector() class: True
     # test 130 nvector.SouthPole attribute: True
     # test 131 nvector.sumOf() function: True
 
-    # testing vector3d.pyc version 16.09.06
+    # testing vector3d.pyc version 16.09.12
     # test 132 vector3d.Vector3d() class: True
     # test 133 vector3d.sumOf() function: True
 
@@ -572,7 +572,7 @@ if __name__ == '__main__':
 
     # testing tests.py version 16.09.06
 
-    # testing __init__.py version 16.09.05
+    # testing __init__.py version 16.09.12
     # test 1 geodesy.Datum() class (datum): True
     # test 2 geodesy.Datums attribute (datum): True
     # test 3 geodesy.EPS float: True
@@ -691,7 +691,7 @@ if __name__ == '__main__':
     # test 110 utils.wrapPI2() function: True
     # test 111 utils.wrapPI_2() function: True
 
-    # testing ellipsoidalNvector.py version 16.09.06
+    # testing ellipsoidalNvector.py version 16.09.13
     # test 112 ellipsoidalNvector.Cartesian() class: True
     # test 113 ellipsoidalNvector.LatLon() class: True
     # test 114 ellipsoidalNvector.Ned() class: True
@@ -699,11 +699,11 @@ if __name__ == '__main__':
     # test 116 ellipsoidalNvector.meanOf() function: True
     # test 117 ellipsoidalNvector.toNed() function: True
 
-    # testing ellipsoidalVincenty.py version 16.09.04
+    # testing ellipsoidalVincenty.py version 16.09.12
     # test 118 ellipsoidalVincenty.LatLon() class: True
     # test 119 ellipsoidalVincenty.VincentyError() class: True
 
-    # testing sphericalNvector.py version 16.09.06
+    # testing sphericalNvector.py version 16.09.13
     # test 120 sphericalNvector.LatLon() class: True
     # test 121 sphericalNvector.areaOf() function: True
     # test 122 sphericalNvector.intersection() function: True
@@ -715,13 +715,13 @@ if __name__ == '__main__':
     # test 126 sphericalTrigonometry.LatLon() class: True
     # test 127 sphericalTrigonometry.meanOf() function: True
 
-    # testing nvector.py version 16.09.06
+    # testing nvector.py version 16.09.13
     # test 128 nvector.NorthPole attribute: True
     # test 129 nvector.Nvector() class: True
     # test 130 nvector.SouthPole attribute: True
     # test 131 nvector.sumOf() function: True
 
-    # testing vector3d.py version 16.09.06
+    # testing vector3d.py version 16.09.12
     # test 132 vector3d.Vector3d() class: True
     # test 133 vector3d.sumOf() function: True
 

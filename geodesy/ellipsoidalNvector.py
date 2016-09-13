@@ -17,7 +17,8 @@
 from datum import Datums
 from dms import F_D, toDMS
 from ellipsoidalBase import _CartesianBase, _LatLonHeightDatumBase
-from nvector import NorthPole, _LatLonNvectorBase, _NvectorBase, sumOf
+from nvector import NorthPole, _LatLonNvectorBase, \
+                    Nvector as _NvectorBase, sumOf
 from utils import EPS, EPS1, degrees90, degrees360, \
                   cbrt, fdot, hypot3, radians, fStr
 from vector3d import Vector3d
@@ -26,7 +27,7 @@ from math import asin, atan2, cos, hypot, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '16.09.06'
+__version__ = '16.09.13'
 
 
 class Cartesian(_CartesianBase):
@@ -706,6 +707,16 @@ class Nvector(_NvectorBase):
         if datum and datum is not Nvector.datum:
             self.datum = datum
 
+    def copy(self):
+        '''Return a copy of this vector.
+
+           @returns {Nvector} Copy of this vector.
+        '''
+        n = _NvectorBase.copy(self)
+        if self.datum != n.datum:
+            n.datum = self.datum
+        return n
+
     def toLatLon(self):
         '''Converts this n-vector to an (ellipsoidalNvector) LatLon point.
 
@@ -736,6 +747,17 @@ class Nvector(_NvectorBase):
         r = E.a2b2 * n + h
 
         return Cartesian(x * r, y * r, z * (n + h))
+
+    def unit(self):
+        '''Normalize this vector to unit length.
+
+           @returns {Nvector} Normalised vector.
+        '''
+        if not self._united:
+            self._united = u = _NvectorBase.unit(self)
+            if self.datum != u.datum:
+                u.datum = self.datum
+        return self._united
 
 
 def meanOf(points, datum=Datums.WGS84):
@@ -815,7 +837,7 @@ if __name__ == '__main__':
 
     # Typical test results (on MacOS X):
 
-    # testing ellipsoidalNvector.py version 16.09.06
+    # testing ellipsoidalNvector.py version 16.09.13
     # test 1 toLatLon: 44.995674°N, 045.0°E
     # test 2 toNvector: (0.50004, 0.50004, 0.70705)
     # test 3 equals: False
@@ -830,7 +852,7 @@ if __name__ == '__main__':
     # test 12 convertDatum: 51.4773°N, 000.0°E, -45.91m
     # all ellipsoidalNvector.py tests passed (Python 2.7.10)
 
-    # testing ellipsoidalNvector.py version 16.09.06
+    # testing ellipsoidalNvector.py version 16.09.13
     # test 1 toLatLon: 44.995674°N, 045.0°E
     # test 2 toNvector: (0.50004, 0.50004, 0.70705)
     # test 3 equals: False
