@@ -51,7 +51,7 @@ from math import atan2, cos, hypot, sin, tan
 
 # all public contants, classes and functions
 __all__ = ('LatLon', 'VincentyError')  # classes
-__version__ = '16.09.04'
+__version__ = '16.09.12'
 
 
 class VincentyError(Exception):
@@ -391,8 +391,9 @@ def _dl(f, c2a, sa, s, cs, ss, c2sm):
 
 def _ds(B, cs, ss, c2sm):
     c2sm2 = 2 * c2sm * c2sm - 1
+    ss2 = (ss * ss * 4 - 3) * (c2sm2 * 2 - 1)
     return B * ss * (c2sm + B / 4.0 * (c2sm2 * cs -
-                            B / 6.0 *  c2sm  * (ss * ss * 4 - 3) * (c2sm2 * 2 - 1)))
+                            B / 6.0 *  c2sm  * ss2))
 
 
 if __name__ == '__main__':
