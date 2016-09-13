@@ -6,7 +6,7 @@ spherical earth models using trigonometric and vector-based methods.
 Transcribed from JavaScript originals by (C) Chris Veness 2005-2016
 and published under the same MIT Licence.
 
-For more more information and details see:
+For more information and details see:
 
 - <https://github.com/chrisveness/geodesy/>
 - <http://www.movable-type.co.uk/scripts/latlong.html>
