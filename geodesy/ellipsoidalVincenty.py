@@ -51,7 +51,7 @@ from math import atan2, cos, hypot, sin, tan
 
 # all public contants, classes and functions
 __all__ = ('LatLon', 'VincentyError')  # classes
-__version__ = '16.09.12'
+__version__ = '16.09.14'
 
 
 class VincentyError(Exception):
@@ -394,54 +394,3 @@ def _ds(B, cs, ss, c2sm):
     ss2 = (ss * ss * 4 - 3) * (c2sm2 * 2 - 1)
     return B * ss * (c2sm + B / 4.0 * (c2sm2 * cs -
                             B / 6.0 *  c2sm  * ss2))
-
-
-if __name__ == '__main__':
-
-    from datum import Datums
-    from tests import Tests
-
-    t = Tests(__file__, __version__)
-    for d in (Datums.WGS84, Datums.NAD83,):  # Datums.Sphere):
-        t.testVincenty(LatLon, d, VincentyError)
-    t.results()
-
-    # Typical test results (on MacOS X):
-
-    # testing ellipsoidalVincenty.py version 16.09.04
-    # test 1 distanceTo (WGS84): 866455.43292
-    # test 2 VincentyError (WGS84): LatLon(41.49008°N, 071.312796°W) coincident with LatLon(41.49008°N, 071.312796°W)
-    # test 3 distanceTo (WGS84): 969954.1663
-    # test 4 copy: True
-    # test 5 distanceTo3 (WGS84): 969954.166314, 9.141877, 11.29722
-    # test 6 distanceTo (WGS84): 54973.295
-    # test 7 distanceTo3 (WGS84): 54973.29527, 126.86992, 127.17539
-    # test 8 destination2 (WGS84): 37.652818°S, 143.926498°E, 307.1736°NW
-    # test 9 distanceTo (NAD83): 866455.43292
-    # test 10 VincentyError (NAD83): LatLon(41.49008°N, 071.312796°W) coincident with LatLon(41.49008°N, 071.312796°W)
-    # test 11 distanceTo (NAD83): 969954.1663
-    # test 12 copy: True
-    # test 13 distanceTo3 (NAD83): 969954.166314, 9.141877, 11.29722
-    # test 14 distanceTo (NAD83): 54973.295
-    # test 15 distanceTo3 (NAD83): 54973.29527, 126.86992, 127.17539
-    # test 16 destination2 (NAD83): 37.652818°S, 143.926498°E, 307.1736°NW
-    # all ellipsoidalVincenty.py tests passed (Python 2.7.10)
-
-    # testing ellipsoidalVincenty.py version 16.09.04
-    # test 1 distanceTo (WGS84): 866455.43292
-    # test 2 VincentyError (WGS84): LatLon(41.49008°N, 071.312796°W) coincident with LatLon(41.49008°N, 071.312796°W)
-    # test 3 distanceTo (WGS84): 969954.1663
-    # test 4 copy: True
-    # test 5 distanceTo3 (WGS84): 969954.166314, 9.141877, 11.29722
-    # test 6 distanceTo (WGS84): 54973.295
-    # test 7 distanceTo3 (WGS84): 54973.29527, 126.86992, 127.17539
-    # test 8 destination2 (WGS84): 37.652818°S, 143.926498°E, 307.1736°NW
-    # test 9 distanceTo (NAD83): 866455.43292
-    # test 10 VincentyError (NAD83): LatLon(41.49008°N, 071.312796°W) coincident with LatLon(41.49008°N, 071.312796°W)
-    # test 11 distanceTo (NAD83): 969954.1663
-    # test 12 copy: True
-    # test 13 distanceTo3 (NAD83): 969954.166314, 9.141877, 11.29722
-    # test 14 distanceTo (NAD83): 54973.295
-    # test 15 distanceTo3 (NAD83): 54973.29527, 126.86992, 127.17539
-    # test 16 destination2 (NAD83): 37.652818°S, 143.926498°E, 307.1736°NW
-    # all ellipsoidalVincenty.py tests passed (Python 3.5.1)

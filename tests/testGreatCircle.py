@@ -32,14 +32,12 @@
 # Created by Brian Lambert on 6/5/16.
 # Copyright © 2016 Softwarenerd.
 
-__version__ = '16.09.13'
+__version__ = '16.09.14'
 
 if __name__ == '__main__':
 
-    from dms import F_D
     from tests import Tests as _Tests
-    import sphericalNvector
-    import sphericalTrigonometry
+    from geodesy import F_D, sphericalNvector, sphericalTrigonometry
 
     class Tests(_Tests):
         # overload test() method
@@ -50,7 +48,7 @@ if __name__ == '__main__':
 
     def testGreatCircle(S):
         # run tests for spherical module S
-        t = Tests(__file__ + ' (' + S.__name__ + ')', __version__)
+        t = Tests(__file__ , __version__, S)
 
         # Indian Pond, in Piermond, NH.  My old Boy Scout Camp
         IndianPond = S.LatLon(43.930912, -72.053811)
@@ -178,7 +176,7 @@ if __name__ == '__main__':
 
     # Typical test results (on MacOS X):
 
-    # testing testGreatCircle.py (sphericalTrigonometry) version 16.09.13
+    # testing geodesy.sphericalNvector version 16.09.14
     # test 1 InitialBearingSameLocations: 0.0
     # test 2 InitialBearingEqualLocations: 0.0
     # test 3 FinalBearingSameLocations: 180.0
@@ -202,9 +200,9 @@ if __name__ == '__main__':
     # test 21 CrossTrackDistance90Degrees200Meters: 200.0
     # test 22 CrossTrackDistance270Degrees200Meters: -200.0
     # test 23 CrossTrackDistanceThatShouldBeVeryCloseToZero: 0.00000000
-    # 5 testGreatCircle.py (sphericalTrigonometry) tests (21.7%) FAILED (Python 2.7.10)
+    # 5 geodesy.sphericalNvector tests (21.7%) FAILED (Python 2.7.10)
 
-    # testing testGreatCircle.py (sphericalNvector) version 16.09.13
+    # testing geodesy.sphericalTrigonometry version 16.09.14
     # test 1 InitialBearingSameLocations: 0.0
     # test 2 InitialBearingEqualLocations: 0.0
     # test 3 FinalBearingSameLocations: 180.0
@@ -228,36 +226,9 @@ if __name__ == '__main__':
     # test 21 CrossTrackDistance90Degrees200Meters: 200.0
     # test 22 CrossTrackDistance270Degrees200Meters: -200.0
     # test 23 CrossTrackDistanceThatShouldBeVeryCloseToZero: 0.00000000
-    # 5 testGreatCircle.py (sphericalNvector) tests (21.7%) FAILED (Python 2.7.10)
+    # 5 geodesy.sphericalTrigonometry tests (21.7%) FAILED (Python 2.7.10)
 
-
-    # testing testGreatCircle.py (sphericalTrigonometry) version 16.09.13
-    # test 1 InitialBearingSameLocations: 0.0
-    # test 2 InitialBearingEqualLocations: 0.0
-    # test 3 FinalBearingSameLocations: 180.0
-    # test 4 FinalBearingEqualLocations: 180.0
-    # test 5 DistanceSameLocations: 0.0
-    # test 6 DistanceEqualLocations: 0.0
-    # test 7 DistanceEiffelToVersailles: 14084.3001  FAILED, expected 14084.2807
-    # test 8 DistanceVersaillesToEiffel: 14084.3001  FAILED, expected 14084.2807
-    # test 9 InitialBearingEiffelToVersailles: 245.13460297
-    # test 10 InitialBearingVersaillesToEiffel: 65.003253951
-    # test 11 FinalBearingEiffelToVersailles: 245.00325395
-    # test 12 FinalBearingVersaillesToEiffel: 65.134602969
-    # test 13 GenerateLocationVersailles: 48.804766°N, 002.120339°E
-    # test 14 GenerateLocationEiffelTower: 48.858158°N, 002.294825°E
-    # test 15 MidpointEiffelToVersailles: 48.831495°N, 002.207536°E
-    # test 16 MidpointEiffelToVersailles(m): 7042.150047881641  FAILED, expected 7042.159743304608
-    # test 17 MidpointVersaillesToEiffel: 48.831495°N, 002.207536°E  FAILED, expected 48.831495°N, 002.207535°E
-    # test 18 MidpointVersaillesToEiffel(m): 7042.150047882363  FAILED, expected 7042.159743304893
-    # test 19 Intersection: 48.83569095°N, 002.221252031°E
-    # test 20 Intersection: 48.8356909498836°N, 002.2212520313074°E
-    # test 21 CrossTrackDistance90Degrees200Meters: 200.0
-    # test 22 CrossTrackDistance270Degrees200Meters: -200.0
-    # test 23 CrossTrackDistanceThatShouldBeVeryCloseToZero: 0.00000000
-    # 5 testGreatCircle.py (sphericalTrigonometry) tests (21.7%) FAILED (Python 3.5.1)
-
-    # testing testGreatCircle.py (sphericalNvector) version 16.09.13
+    # testing sphericalNvector version 16.09.14
     # test 1 InitialBearingSameLocations: 0.0
     # test 2 InitialBearingEqualLocations: 0.0
     # test 3 FinalBearingSameLocations: 180.0
@@ -281,4 +252,30 @@ if __name__ == '__main__':
     # test 21 CrossTrackDistance90Degrees200Meters: 200.0
     # test 22 CrossTrackDistance270Degrees200Meters: -200.0
     # test 23 CrossTrackDistanceThatShouldBeVeryCloseToZero: 0.00000000
-    # 5 testGreatCircle.py (sphericalNvector) tests (21.7%) FAILED (Python 3.5.1)
+    # 5 sphericalNvector tests (21.7%) FAILED (Python 3.5.1)
+
+    # testing sphericalTrigonometry version 16.09.14
+    # test 1 InitialBearingSameLocations: 0.0
+    # test 2 InitialBearingEqualLocations: 0.0
+    # test 3 FinalBearingSameLocations: 180.0
+    # test 4 FinalBearingEqualLocations: 180.0
+    # test 5 DistanceSameLocations: 0.0
+    # test 6 DistanceEqualLocations: 0.0
+    # test 7 DistanceEiffelToVersailles: 14084.3001  FAILED, expected 14084.2807
+    # test 8 DistanceVersaillesToEiffel: 14084.3001  FAILED, expected 14084.2807
+    # test 9 InitialBearingEiffelToVersailles: 245.13460297
+    # test 10 InitialBearingVersaillesToEiffel: 65.003253951
+    # test 11 FinalBearingEiffelToVersailles: 245.00325395
+    # test 12 FinalBearingVersaillesToEiffel: 65.134602969
+    # test 13 GenerateLocationVersailles: 48.804766°N, 002.120339°E
+    # test 14 GenerateLocationEiffelTower: 48.858158°N, 002.294825°E
+    # test 15 MidpointEiffelToVersailles: 48.831495°N, 002.207536°E
+    # test 16 MidpointEiffelToVersailles(m): 7042.150047881641  FAILED, expected 7042.159743304608
+    # test 17 MidpointVersaillesToEiffel: 48.831495°N, 002.207536°E  FAILED, expected 48.831495°N, 002.207535°E
+    # test 18 MidpointVersaillesToEiffel(m): 7042.150047882363  FAILED, expected 7042.159743304893
+    # test 19 Intersection: 48.83569095°N, 002.221252031°E
+    # test 20 Intersection: 48.8356909498836°N, 002.2212520313074°E
+    # test 21 CrossTrackDistance90Degrees200Meters: 200.0
+    # test 22 CrossTrackDistance270Degrees200Meters: -200.0
+    # test 23 CrossTrackDistanceThatShouldBeVeryCloseToZero: 0.00000000
+    # 5 sphericalTrigonometry tests (21.7%) FAILED (Python 3.5.1)

@@ -27,7 +27,7 @@ from math import asin, atan2, cos, hypot, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '16.09.13'
+__version__ = '16.09.14'
 
 
 class Cartesian(_CartesianBase):
@@ -798,71 +798,3 @@ def toNed(distance, bearing, elevation):
               -sin(e) * d)
 
 fromDistanceBearingElevation = toNed  # XXX original name
-
-
-if __name__ == '__main__':
-
-    from tests import Tests as _Tests
-
-    class Tests(_Tests):
-
-        def testEllipsoidalNvector(self, LatLon, Nvector, Cartesian):
-
-            c = Cartesian(3980581, 97, 4966825)
-            n = c.toNvector()  # {x: 0.6228, y: 0.0000, z: 0.7824, h: 0.0000}  # XXX height
-            self.test('toNVector', n.toStr(4), '(0.6228, 0.0, 0.7824, +0.24)')
-            c = n.toCartesian()
-            self.test('toCartesian', c.toStr(0), '[3980581, 97, 4966825]')
-
-            n = Nvector(0.5, 0.5, 0.7071)
-
-            c = n.toCartesian()  # [3194434, 3194434, 4487327]
-            self.test('toCartesian', c, '[3194434.411, 3194434.411, 4487326.82]')
-            p = c.toLatLon()  # 45.0°N, 45.0°E
-            self.test('toLatLon', p.toStr('d', 2), '45.0°N, 045.0°E, +0.00m')  # 45.0°N, 45.0°E
-
-            self.test('Nvector', n, '(0.5, 0.5, 0.7071)')
-            n = Nvector(0.5, 0.5, 0.7071, 1).toStr(3)
-            self.test('Nvector', n, '(0.5, 0.5, 0.707, +1.00)')
-
-            p = LatLon(51.4778, -0.0016, 0, Datums.WGS84)
-            c = p.convertDatum(Datums.OSGB36)
-            self.test('convertDatum', c.toStr(F_D, prec=4), '51.4773°N, 000.0°E, -45.91m')
-
-    t = Tests(__file__, __version__)
-#   t.testLatLon(LatLon)
-    t.testVectorial(LatLon, Nvector)
-    t.testEllipsoidalNvector(LatLon, Nvector, Cartesian)
-    t.results()
-
-    # Typical test results (on MacOS X):
-
-    # testing ellipsoidalNvector.py version 16.09.13
-    # test 1 toLatLon: 44.995674°N, 045.0°E
-    # test 2 toNvector: (0.50004, 0.50004, 0.70705)
-    # test 3 equals: False
-    # test 4 equals: True
-    # test 5 copy: True
-    # test 6 toNVector: (0.6228, 0.0, 0.7824, +0.24)
-    # test 7 toCartesian: [3980581, 97, 4966825]
-    # test 8 toCartesian: [3194434.411, 3194434.411, 4487326.82]
-    # test 9 toLatLon: 45.0°N, 045.0°E, +0.00m
-    # test 10 Nvector: (0.5, 0.5, 0.7071)
-    # test 11 Nvector: (0.5, 0.5, 0.707, +1.00)
-    # test 12 convertDatum: 51.4773°N, 000.0°E, -45.91m
-    # all ellipsoidalNvector.py tests passed (Python 2.7.10)
-
-    # testing ellipsoidalNvector.py version 16.09.13
-    # test 1 toLatLon: 44.995674°N, 045.0°E
-    # test 2 toNvector: (0.50004, 0.50004, 0.70705)
-    # test 3 equals: False
-    # test 4 equals: True
-    # test 5 copy: True
-    # test 6 toNVector: (0.6228, 0.0, 0.7824, +0.24)
-    # test 7 toCartesian: [3980581, 97, 4966825]
-    # test 8 toCartesian: [3194434.411, 3194434.411, 4487326.82]
-    # test 9 toLatLon: 45.0°N, 045.0°E, +0.00m
-    # test 10 Nvector: (0.5, 0.5, 0.7071)
-    # test 11 Nvector: (0.5, 0.5, 0.707, +1.00)
-    # test 12 convertDatum: 51.4773°N, 000.0°E, -45.91m
-    # all ellipsoidalNvector.py tests passed (Python 3.5.1)

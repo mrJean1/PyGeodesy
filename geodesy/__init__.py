@@ -15,23 +15,31 @@
 # <http://www.movable-type.co.uk/scripts/latlong-vectors.html>
 # <http://www.movable-type.co.uk/scripts/latlong-os-gridref.html>
 
-from datum import *  # __all__
-from dms   import *  # __all__
-from utils import *  # __all__
-import ellipsoidalNvector
-import ellipsoidalVincenty
-import sphericalNvector
-import sphericalTrigonometry
+try:
+    import datum as _  # PYCHOK expected
+except ImportError:
+    # extend sys.path for Python 3+
+    import os, sys  # PYCHOK expected
+    sys.path.insert(0, os.path.dirname(__file__))
+    del os, sys
+
+from datum import *  # PYCHOK __all__
+from dms   import *  # PYCHOK __all__
+from utils import *  # PYCHOK __all__
+import ellipsoidalNvector  # PYCHOK false
+import ellipsoidalVincenty  # PYCHOK false
+import sphericalNvector  # PYCHOK false
+import sphericalTrigonometry  # PYCHOK false
 
 VincentyError = ellipsoidalVincenty.VincentyError
 
-import datum as _datum, dms as _dms, utils as _utils
+import datum as _datum, dms as _dms, utils as _utils  # PYCHOK expected
 
 # all public contants, classes and functions
 __all__ = _datum.__all__ + _dms.__all__ + (
           'ellipsoidalNvector', 'ellipsoidalVincenty',
           'sphericalNvector', 'sphericalTrigonometry',
           'VincentyError') + _utils.__all__
-__version__ = '16.09.12'
+__version__ = '16.09.14'
 
 del _datum, _dms, _utils

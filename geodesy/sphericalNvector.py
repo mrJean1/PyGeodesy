@@ -34,7 +34,7 @@ from math import cos, radians, sin
 __all__ = ('LatLon',  # classes
            'areaOf', 'intersection', 'meanOf',  # functions
            'triangulate', 'trilaterate')
-__version__ = '16.09.13'
+__version__ = '16.09.14'
 
 
 class LatLon(_LatLonNvectorBase, _LatLonSphericalBase):
@@ -687,106 +687,3 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3, radius=
 
     n = n1.plus(X.times(x)).plus(Y.times(y))
     return Nvector(n.x, n.y, n.z).toLatLon(height=h, datum=point1.datum)
-
-
-if __name__ == '__main__':
-
-    from tests import Tests
-
-    t = Tests(__file__, __version__)
-    t.testLatLon(LatLon)
-    t.testSpherical(LatLon, Nvector)
-    t.testVectorial(LatLon, Nvector)
-    t.results()
-
-    # Typical test results (on MacOS X):
-
-    # testing sphericalNvector.py version 16.09.13
-    # test 1 lat/lonDMS: 52.20472°N, 000.14056°E
-    # test 2 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
-    # test 3 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
-    # test 4 lat/lonDMS F_DMS: 52°12′17″N, 000°08′26″E
-    # test 5 lat/lonDMS F_DMS: 52°12′17.0″N, 000°08′26.0″E
-    # test 6 lat/lonDMS F_RAD: 0.911144N, 0.002453E
-    # test 7 equals: True
-    # test 8 equals: False
-    # test 9 bearingTo: 156.1666
-    # test 10 finalBearingTo: 157.8904
-    # test 11 bearingTo: 65.8921
-    # test 12 copy: True
-    # test 13 distanceTo: 404279.720589
-    # test 14 distanceTo: 404279.720589
-    # test 15 distanceTo: 2145
-    # test 16 midpointTo: 50.536327°N, 001.274614°E
-    # test 17 destination: 51.513546°N, 000.098345°W
-    # test 18 destination: 51°30′49″N, 000°05′54″W
-    # test 19 destination: 34°37′N, 116°33′W
-    # test 20 destination: 34.613643°N, 116.551171°W
-    # test 21 crossTrackDistanceTo: -305.67
-    # test 22 crossTrackDistanceTo: -307.55
-    # test 23 greatCircle: (-0.79408, 0.12856, 0.59406)
-    # test 24 greatCircleTo: (-0.79408, 0.12859, 0.59406)
-    # test 25 intermediateTo: 51.372294°N, 000.707192°E
-    # test 26 intersection: 50.907608°N, 004.508575°E
-    # test 27 intersection: 50°54′27.39″N, 004°30′30.87″E
-    # test 28 intersection: 43.5719°N, 116.188757°W
-    # test 29 intersection: 43°34′18.84″N, 116°11′19.53″W
-    # test 30 maxLat0: 90.0
-    # test 31 maxLat1: 89.0
-    # test 32 maxLat90: 0.0
-    # test 33 rhumbBearingTo: 116.722
-    # test 34 rhumbDistanceTo: 40307.8
-    # test 35 rhumbMidpointo: 51.0455°N, 001.595727°E
-    # test 36 crossTrackDistanceTo: -305.67
-    # test 37 crossTrackDistanceTo: -307.55
-    # test 38 toLatLon: 44.995674°N, 045.0°E
-    # test 39 toNvector: (0.50004, 0.50004, 0.70705)
-    # test 40 equals: False
-    # test 41 equals: True
-    # test 42 copy: True
-    # all sphericalNvector.py tests passed (Python 2.7.10)
-
-    # testing sphericalNvector.py version 16.09.13
-    # test 1 lat/lonDMS: 52.20472°N, 000.14056°E
-    # test 2 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
-    # test 3 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
-    # test 4 lat/lonDMS F_DMS: 52°12′17″N, 000°08′26″E
-    # test 5 lat/lonDMS F_DMS: 52°12′17.0″N, 000°08′26.0″E
-    # test 6 lat/lonDMS F_RAD: 0.911144N, 0.002453E
-    # test 7 equals: True
-    # test 8 equals: False
-    # test 9 bearingTo: 156.1666
-    # test 10 finalBearingTo: 157.8904
-    # test 11 bearingTo: 65.8921
-    # test 12 copy: True
-    # test 13 distanceTo: 404279.720589
-    # test 14 distanceTo: 404279.720589
-    # test 15 distanceTo: 2145
-    # test 16 midpointTo: 50.536327°N, 001.274614°E
-    # test 17 destination: 51.513546°N, 000.098345°W
-    # test 18 destination: 51°30′49″N, 000°05′54″W
-    # test 19 destination: 34°37′N, 116°33′W
-    # test 20 destination: 34.613643°N, 116.551171°W
-    # test 21 crossTrackDistanceTo: -305.67
-    # test 22 crossTrackDistanceTo: -307.55
-    # test 23 greatCircle: (-0.79408, 0.12856, 0.59406)
-    # test 24 greatCircleTo: (-0.79408, 0.12859, 0.59406)
-    # test 25 intermediateTo: 51.372294°N, 000.707192°E
-    # test 26 intersection: 50.907608°N, 004.508575°E
-    # test 27 intersection: 50°54′27.39″N, 004°30′30.87″E
-    # test 28 intersection: 43.5719°N, 116.188757°W
-    # test 29 intersection: 43°34′18.84″N, 116°11′19.53″W
-    # test 30 maxLat0: 90.0
-    # test 31 maxLat1: 89.0
-    # test 32 maxLat90: 0.0
-    # test 33 rhumbBearingTo: 116.722
-    # test 34 rhumbDistanceTo: 40307.8
-    # test 35 rhumbMidpointo: 51.0455°N, 001.595727°E
-    # test 36 crossTrackDistanceTo: -305.67
-    # test 37 crossTrackDistanceTo: -307.55
-    # test 38 toLatLon: 44.995674°N, 045.0°E
-    # test 39 toNvector: (0.50004, 0.50004, 0.70705)
-    # test 40 equals: False
-    # test 41 equals: True
-    # test 42 copy: True
-    # all sphericalNvector.py tests passed (Python 3.5.1)

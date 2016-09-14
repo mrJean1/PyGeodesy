@@ -19,7 +19,7 @@ from math import atan2, cos, hypot, sin
 # all public contants, classes and functions
 __all__ = ('Vector3d',  # classes
            'sumOf')  # functions
-__version__ = '16.09.12'
+__version__ = '16.09.14'
 
 
 class Vector3d(_VectorBase):
@@ -345,8 +345,3 @@ def sumOf(vectors):
     return Vector3d(fsum(v.x for v in vectors),
                     fsum(v.y for v in vectors),
                     fsum(v.z for v in vectors))
-
-
-if __name__ == '__main__':
-
-    pass

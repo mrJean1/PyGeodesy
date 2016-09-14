@@ -7,12 +7,12 @@
 # see <http://www.movable-type.co.uk/scripts/latlong.html>
 # and <http://www.movable-type.co.uk/scripts/latlong-vectors.html>
 
-from dms import F_D, F_DMS, latDMS, lonDMS, parseDMS, precision
+from dms import F_D, F_DMS, latDMS, lonDMS, parseDMS
 from math import cos, radians, sin
 
 # all public contants, classes and functions
 __all__ = ()  # none
-__version__ = '16.09.12'
+__version__ = '16.09.14'
 
 
 class _Base(object):
@@ -158,55 +158,3 @@ class _LatLonHeightBase(_Base):
         a, b = self.toradians()
         ca = cos(a)
         return ca * cos(b), ca * sin(b), sin(a)
-
-
-if __name__ == '__main__':
-
-    from tests import Tests as _Tests
-
-    class LatLon(_LatLonHeightBase):
-        pass
-
-    class Tests(_Tests):
-
-        def testBases(self):
-
-            p = LatLon(50.06632, -5.71475)
-            self.test('lat, lon', p, '50.06632°N, 005.71475°W')
-            q = LatLon('50°03′59″N', """005°42'53"W""")
-            self.test('lat, lon', q, '50.066389°N, 005.714722°W')
-
-            p = LatLon(52.205, 0.119)
-            q = LatLon(52.205, 0.119)
-            self.test('equals', p.equals(q), 'True')
-
-            p = LatLon(51.4778, -0.0016)
-            precision(F_DMS, 0)
-            self.test('toStr', p.toStr(), '''51°28'40"N, 000°00'06"W''')
-            self.test('toStr', p.toStr(F_D), '51.4778°N, 000.0016°W')
-            p = LatLon(51.4778, -0.0016, 42)
-            self.test('toStr', p.toStr(), '''51°28'40"N, 000°00'06"W, +42.00m''')
-
-    t = Tests(__file__, __version__)
-    t.testBases()
-    t.results()
-
-    # Typical test results (on MacOS X):
-
-    # testing bases.py version 16.09.03
-    # test 1 lat, lon: 50.06632°N, 005.71475°W
-    # test 2 lat, lon: 50.066389°N, 005.714722°W
-    # test 3 equals: True
-    # test 4 toStr: 51°28′40″N, 000°00′06″W
-    # test 5 toStr: 51.4778°N, 000.0016°W
-    # test 6 toStr: 51°28′40″N, 000°00′06″W, +42.00m
-    # all bases.py tests passed (Python 2.7.10)
-
-    # testing bases.py version 16.09.03
-    # test 1 lat, lon: 50.06632°N, 005.71475°W
-    # test 2 lat, lon: 50.066389°N, 005.714722°W
-    # test 3 equals: True
-    # test 4 toStr: 51°28′40″N, 000°00′06″W
-    # test 5 toStr: 51.4778°N, 000.0016°W
-    # test 6 toStr: 51°28′40″N, 000°00′06″W, +42.00m
-    # all bases.py tests passed (Python 3.5.1)

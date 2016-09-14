@@ -17,7 +17,7 @@ from math import acos, asin, atan2, cos, hypot, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('LatLon',  # classes
            'meanOf')  # functions
-__version__ = '16.09.06'
+__version__ = '16.09.14'
 
 
 class LatLon(_LatLonSphericalBase):
@@ -459,91 +459,3 @@ def meanOf(points):
     lat, lon = m.to2latlon()
     h = fsum(p.height for p in points) / (n or 1)
     return LatLon(lat, lon, height=h)
-
-
-if __name__ == '__main__':
-
-    from tests import Tests
-
-    t = Tests(__file__, __version__)
-    t.testLatLon(LatLon)
-    t.testSpherical(LatLon)
-    t.results()
-
-    # Typical test results (on MacOS X):
-
-    # testing sphericalTrigonometry.py version 16.09.06
-    # test 1 lat/lonDMS: 52.20472°N, 000.14056°E
-    # test 2 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
-    # test 3 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
-    # test 4 lat/lonDMS F_DMS: 52°12′17″N, 000°08′26″E
-    # test 5 lat/lonDMS F_DMS: 52°12′17.0″N, 000°08′26.0″E
-    # test 6 lat/lonDMS F_RAD: 0.911144N, 0.002453E
-    # test 7 equals: True
-    # test 8 equals: False
-    # test 9 bearingTo: 156.1666
-    # test 10 finalBearingTo: 157.8904
-    # test 11 bearingTo: 65.8921
-    # test 12 copy: True
-    # test 13 distanceTo: 404279.720589
-    # test 14 distanceTo: 404279.720589
-    # test 15 distanceTo: 2145
-    # test 16 midpointTo: 50.536327°N, 001.274614°E
-    # test 17 destination: 51.513546°N, 000.098345°W
-    # test 18 destination: 51°30′49″N, 000°05′54″W
-    # test 19 destination: 34°37′N, 116°33′W
-    # test 20 destination: 34.613643°N, 116.551171°W
-    # test 21 crossTrackDistanceTo: LatLon.crossTrackDistanceTo(end=bearing)
-    # test 22 crossTrackDistanceTo: -307.55
-    # test 23 greatCircle: (-0.79408, 0.12856, 0.59406)
-    # test 24 intermediateTo: 51.372084°N, 000.707337°E
-    # test 25 intersection: 50.907608°N, 004.508575°E
-    # test 26 intersection: 50°54′27.39″N, 004°30′30.87″E
-    # test 27 intersection: 43.5719°N, 116.188757°W
-    # test 28 intersection: 43°34′18.84″N, 116°11′19.53″W
-    # test 29 maxLat0: 90.0
-    # test 30 maxLat1: 89.0
-    # test 31 maxLat90: 0.0
-    # test 32 rhumbBearingTo: 116.722
-    # test 33 rhumbDistanceTo: 40307.8
-    # test 34 rhumbMidpointo: 51.0455°N, 001.595727°E
-    # test 35 crossingParallels: 009°35′38.65″E, 170°24′21.35″E
-    # all sphericalTrigonometry.py tests passed (Python 2.7.10)
-
-    # testing sphericalTrigonometry.py version 16.09.06
-    # test 1 lat/lonDMS: 52.20472°N, 000.14056°E
-    # test 2 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
-    # test 3 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
-    # test 4 lat/lonDMS F_DMS: 52°12′17″N, 000°08′26″E
-    # test 5 lat/lonDMS F_DMS: 52°12′17.0″N, 000°08′26.0″E
-    # test 6 lat/lonDMS F_RAD: 0.911144N, 0.002453E
-    # test 7 equals: True
-    # test 8 equals: False
-    # test 9 bearingTo: 156.1666
-    # test 10 finalBearingTo: 157.8904
-    # test 11 bearingTo: 65.8921
-    # test 12 copy: True
-    # test 13 distanceTo: 404279.720589
-    # test 14 distanceTo: 404279.720589
-    # test 15 distanceTo: 2145
-    # test 16 midpointTo: 50.536327°N, 001.274614°E
-    # test 17 destination: 51.513546°N, 000.098345°W
-    # test 18 destination: 51°30′49″N, 000°05′54″W
-    # test 19 destination: 34°37′N, 116°33′W
-    # test 20 destination: 34.613643°N, 116.551171°W
-    # test 21 crossTrackDistanceTo: LatLon.crossTrackDistanceTo(end=bearing)
-    # test 22 crossTrackDistanceTo: -307.55
-    # test 23 greatCircle: (-0.79408, 0.12856, 0.59406)
-    # test 24 intermediateTo: 51.372084°N, 000.707337°E
-    # test 25 intersection: 50.907608°N, 004.508575°E
-    # test 26 intersection: 50°54′27.39″N, 004°30′30.87″E
-    # test 27 intersection: 43.5719°N, 116.188757°W
-    # test 28 intersection: 43°34′18.84″N, 116°11′19.53″W
-    # test 29 maxLat0: 90.0
-    # test 30 maxLat1: 89.0
-    # test 31 maxLat90: 0.0
-    # test 32 rhumbBearingTo: 116.722
-    # test 33 rhumbDistanceTo: 40307.8
-    # test 34 rhumbMidpointo: 51.0455°N, 001.595727°E
-    # test 35 crossingParallels: 009°35′38.65″E, 170°24′21.35″E
-    # all sphericalTrigonometry.py tests passed (Python 3.5.1)
