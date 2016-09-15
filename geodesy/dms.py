@@ -19,7 +19,7 @@ __all__ = ('F_D', 'F_DM', 'F_DMS', 'F_RAD',  # format contants
            'bearingDMS', 'compassDMS', 'compassPoint',  # functions
            'latDMS', 'lonDMS', 'normDMS',
            'parseDMS', 'parse3llh', 'precision', 'toDMS')
-__version__ = '16.09.14'
+__version__ = '16.09.15'
 
 F_D   = 'd'    # format degrees as deg°
 F_DM  = 'dm'   # format degrees as deg°min'
@@ -187,15 +187,10 @@ def parse3llh(strll, height=0, sep=','):
     '''Parse a string representing lat-/longitude point and return a
        3-tuple (lat, lon, height).
 
-       The lat- and longitude must be separated by a comma.  If height
-       is present it must follow the longitude, separated by another
-       comma.
-
-        The lat- and longitude must be separated by a sep[arator]
-        character.  If height is present it must follow and be
-        separated by another sep[arator].  Lat- and longitude may
-        be swapped, provided at least one ends with the proper
-        compass direction.
+       The lat- and longitude must be separated by a sep[arator]
+       character.  If height is present it must follow and be separated
+       by another sep[arator].  Lat- and longitude may be swapped,
+       provided at least one ends with the proper compass direction.
 
        See parseDMS for more details on the forms accepted.
 
