@@ -123,7 +123,7 @@ if __name__ == '__main__':
 
     # Typical test results (on MacOS X):
 
-    # testing navlabExamples.py version 16.09.06
+    # testing testNavlabExamples.py version 16.09.14
     # test 1 Example 1 delta: [N:331730.863, E:332998.501, D:17398.304]
     # test 2 Example 1 delta: [L:470357.384, B:45.109°, E:-2.12°]
     # test 3 Example 1 elevation: -2.1198
@@ -148,9 +148,9 @@ if __name__ == '__main__':
     # test 22 Example 8 destination(elVincenty): 79.991584°N, 090.017621°W
     # test 23 Example 9 intersection: 40.318643°N, 055.901868°E
     # test 24 Example 10 crossTrackDistance: 11118
-    # 1 navlabExamples.py test (4.2%) FAILED (Python 2.7.10)
-
-    # testing navlabExamples.py version 16.09.06
+    # 1 testNavlabExamples.py test (4.2%) FAILED (Python 2.7.10)
+=
+    # testing testNavlabExamples.py version 16.09.14
     # test 1 Example 1 delta: [N:331730.863, E:332998.501, D:17398.304]
     # test 2 Example 1 delta: [L:470357.384, B:45.109°, E:-2.12°]
     # test 3 Example 1 elevation: -2.1198
@@ -175,4 +175,4 @@ if __name__ == '__main__':
     # test 22 Example 8 destination(elVincenty): 79.991584°N, 090.017621°W
     # test 23 Example 9 intersection: 40.318643°N, 055.901868°E
     # test 24 Example 10 crossTrackDistance: 11118
-    # 1 navlabExamples.py test (4.2%) FAILED (Python 3.5.1)
+    # 1 testNavlabExamples.py test (4.2%) FAILED (Python 3.5.1)

@@ -84,12 +84,12 @@ def _toDMS(deg, form=F_DMS, prec=None, ddd=3):
     return t + s
 
 
-def bearingDMS(deg, form=F_D, prec=6):
+def bearingDMS(deg, form=F_D, prec=None):
     '''Convert numeric degrees to a bearing 0°..360°.
 
        @param {number} deg - Degrees to be formatted as specified.
        @param {string} [form=F_D] - Use F_D, F_DM, F_DMS for deg°, deg°min', deg°min'sec".
-       @param {number} [prec=0..8] - Number of decimal digits.
+       @param {number} [prec=6] - Number of decimal digits (0..9).
 
        @returns {string} Degrees formatted per the specified form.
     '''
@@ -110,7 +110,7 @@ def compassDMS(deg, form=F_D, prec=None):
 
        @param {number} deg - Degrees to be formatted as specified.
        @param {string} [form=F_D] - Use F_D, F_DM, F_DMS for deg°, deg°min', deg°min'sec".
-       @param {number} [prec=0..8] - Number of decimal digits.
+       @param {number} [prec6] - Number of decimal digits (0..9).
 
        @returns {string} Formatted bearing and compass point.
     '''
@@ -145,7 +145,7 @@ def latDMS(deg, form=F_DMS, prec=2):
 
        @param {number} deg - Degrees to be formatted as specified.
        @param {string} [form=F_DMS] - Use F_D, F_DM, F_DMS for deg°, deg°min', deg°min'sec".
-       @param {number} [prec=6] - Number of decimal digits (0..8).
+       @param {number} [prec=2] - Number of decimal digits (0..9).
 
        @returns {string} Degrees formatted per the specified form.
     '''
@@ -288,7 +288,7 @@ def toDMS(deg, form=F_DMS, prec=2, ddd=2, neg='-', pos=''):
 
        @param {number} deg - Degrees to be formatted as specified.
        @param {string} [form=F_DMS] - F_D, F_DM, F_DMS, F_RAD for deg°, deg°min', deg°min'sec".
-       @param {number} [prec=6] - Number of decimal digits (0..8).
+       @param {number} [prec=2] - Number of decimal digits (0..9).
        @param {number} [ddd=3] - Number of digits for deg° (2|3).
        @param {string} [neg='-'] - Sign for negative degrees.
        @param {string} [pos=''] - Sign for positive degrees.
