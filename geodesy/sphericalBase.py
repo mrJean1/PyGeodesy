@@ -16,7 +16,7 @@ from math import acos, atan2, cos, hypot, log, sin
 
 # all public contants, classes and functions
 __all__ = ()  # classes
-__version__ = '16.09.05'
+__version__ = '16.10.03'
 
 
 class _LatLonSphericalBase(_LatLonHeightBase):
@@ -88,6 +88,8 @@ class _LatLonSphericalBase(_LatLonHeightBase):
         m = acos(abs(sin(radians(bearing)) * cos(radians(self.lat))))
         return degrees90(m)
 
+    maxLatitude = maxLat  # XXX original name
+
     def minLat(self, bearing):
         '''Returns minimum latitude reached when travelling
            on a great circle on given bearing from this
@@ -98,6 +100,8 @@ class _LatLonSphericalBase(_LatLonHeightBase):
            @returns {degrees90} Minimum latitude in degrees.
         '''
         return -self.maxLat(bearing)
+
+    minLatitude = minLat  # XXX original name?
 
     def parse(self, strll, height=0, sep=','):
         '''Parse a string representing lat-/longitude point and
