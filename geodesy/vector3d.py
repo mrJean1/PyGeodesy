@@ -19,7 +19,7 @@ from math import atan2, cos, hypot, sin
 # all public contants, classes and functions
 __all__ = ('Vector3d',  # classes
            'sumOf')  # functions
-__version__ = '16.09.14'
+__version__ = '16.10.03'
 
 
 class Vector3d(_VectorBase):
@@ -319,9 +319,9 @@ class Vector3d(_VectorBase):
 
            @returns {Vector3d} Normalised vector.
         '''
-        if not self._united:
+        if self._united is None:
             n = self.length()
-            if n > EPS2:  # and abs(n - 1) > EPS
+            if n > EPS2 and abs(n - 1) > EPS2:
                 u = self.dividedBy(n)
                 u._length = 1
             else:

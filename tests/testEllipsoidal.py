@@ -3,7 +3,7 @@
 
 # Test ellipsoidal earth model functions and methods.
 
-__version__ = '16.09.14'
+__version__ = '16.10.03'
 
 if __name__ == '__main__':
 
@@ -24,7 +24,7 @@ if __name__ == '__main__':
 
     # Typical test results (on MacOS X):
 
-    # testing geodesy.ellipsoidalNvector version 16.09.14
+    # testing geodesy.ellipsoidalNvector version 16.10.03
     # test 1 toLatLon: 44.995674°N, 045.0°E
     # test 2 toNvector: (0.50004, 0.50004, 0.70705)
     # test 3 equals: False
@@ -59,7 +59,7 @@ if __name__ == '__main__':
     # test 16 destination2 (NAD83): 37.652818°S, 143.926498°E, 307.1736°NW
     # all geodesy.ellipsoidalVincenty tests passed (Python 2.7.10)
 
-    # testing ellipsoidalNvector version 16.09.14
+    # testing ellipsoidalNvector version 16.10.03
     # test 1 toLatLon: 44.995674°N, 045.0°E
     # test 2 toNvector: (0.50004, 0.50004, 0.70705)
     # test 3 equals: False

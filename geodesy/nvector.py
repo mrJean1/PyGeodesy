@@ -14,7 +14,7 @@ from vector3d import Vector3d
 # all public constants, classes and functions
 __all__ = ('NorthPole', 'Nvector', 'SouthPole',  # constants
            'sumOf')  # functions
-__version__ = '16.09.13'
+__version__ = '16.10.03'
 
 
 class Nvector(Vector3d):  # XXX kept private
@@ -48,7 +48,7 @@ class Nvector(Vector3d):  # XXX kept private
            @returns {Nvector} Copy of this vector.
         '''
         n = Vector3d.copy(self)
-        if self.h != n.h:
+        if n.h != self.h:
             n.h = self.h
         return n
 
@@ -72,7 +72,7 @@ class Nvector(Vector3d):  # XXX kept private
     def toStr(self, prec=5, fmt='(%s)', sep=', '):  # PYCHOK expected
         '''Return a string representation of this n-vector.
 
-           Height component is only shown if non-zero.
+           Height component is only included if non-zero.
 
            @param {number} [prec=5] - Number of decimals, unstripped.
            @param {string} [fmt='[%s]'] - Enclosing backets format.
@@ -81,8 +81,8 @@ class Nvector(Vector3d):  # XXX kept private
            @returns {string} Comma-separated x, y, z [, h] values.
 
            @example
-           Nvector(0.5, 0.5, 0.7071).toStr()  # (0.50000, 0.50000, 0.70710)
-           Nvector(0.5, 0.5, 0.7071, 1).toStr(3)  # (0.500, 0.500, 0.707, +1.00)
+           Nvector(0.5, 0.5, 0.7071).toStr()  # (0.5, 0.5, 0.7071)
+           Nvector(0.5, 0.5, 0.7071, 1).toStr(-3)  # (0.500, 0.500, 0.707, +1.00)
         '''
         t = Vector3d.toStr(self, prec=prec, fmt='%s', sep=sep)
         if self.h:
@@ -94,9 +94,9 @@ class Nvector(Vector3d):  # XXX kept private
 
            @returns {Nvector} Normalised vector.
         '''
-        if not self._united:
+        if self._united is None:
             u = Vector3d.unit(self).copy()
-            if self.h != u.h:
+            if u.h != self.h:
                 u.h = self.h
             self._united = u._united = u
         return self._united

@@ -27,7 +27,7 @@ from math import asin, atan2, cos, hypot, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '16.09.14'
+__version__ = '16.10.03'
 
 
 class Cartesian(_CartesianBase):
@@ -56,9 +56,9 @@ class Cartesian(_CartesianBase):
 
            @example
            c = Cartesian(3980581, 97, 4966825)
-           n = c.toNvector()  # {x: 0.6228, y: 0.0, z: 0.7824, h: 0.0}
+           n = c.toNvector()  # (0.6228, 0.0, 0.7824, 0.0)
         '''
-        if not self._Nv or datum != self._Nv.datum:
+        if self._Nv is None or datum != self._Nv.datum:
             E = datum.ellipsoid
             x, y, z = self.to3tuple()
 
@@ -753,10 +753,11 @@ class Nvector(_NvectorBase):
 
            @returns {Nvector} Normalised vector.
         '''
-        if not self._united:
-            self._united = u = _NvectorBase.unit(self)
-            if self.datum != u.datum:
+        if self._united is None:
+            u = _NvectorBase.unit(self)
+            if u.datum != self.datum:
                 u.datum = self.datum
+            self._united = u._united = u
         return self._united
 
 
