@@ -12,7 +12,7 @@ from math import cos, radians, sin
 
 # all public contants, classes and functions
 __all__ = ()  # none
-__version__ = '16.09.14'
+__version__ = '16.10.05'
 
 
 class _Base(object):
@@ -126,13 +126,14 @@ class _LatLonHeightBase(_Base):
         '''
         return radians(self.lat), radians(self.lon)
 
-    def toStr(self, form=F_DMS, prec=None, m='m'):
+    def toStr(self, form=F_DMS, prec=None, m='m', sep=', '):
         '''Convert this point to a "lat, lon [+/-height]" string, formatted
            in the given form.
 
            @param {string} [form=D_DMS] - Use F_D, F_DM, F_DMS for deg°, deg°min', deg°min'sec".
            @param {number} [prec=0..8] - Number of decimal digits.
            @param {string} [m='m'] - Unit of the height, default meter
+           @param {string} [sep=', '] - Separator to join.
 
            @returns {string} Point as string in the specified form.
 
@@ -141,11 +142,11 @@ class _LatLonHeightBase(_Base):
            LatLon(51.4778, -0.0016).toStr(F_D)  # 51.4778°N, 000.0016°W
            LatLon(51.4778, -0.0016, 42).toStr()  # 51°28′40″N, 000°00′06″W, +42.00m
         '''
-        t = latDMS(self.lat, form=form, prec=prec) + ', ' + \
-            lonDMS(self.lon, form=form, prec=prec)
+        t = [latDMS(self.lat, form=form, prec=prec),
+             lonDMS(self.lon, form=form, prec=prec)]
         if self.height:
-            t = '%s, %+.2f%s' % (t, self.height, m)
-        return t
+            t += ['%+.2f%s' % (self.height, m)]
+        return sep.join(t)
 
     def to3xyz(self):
         '''Convert this (geodetic) LatLon point to n-vector

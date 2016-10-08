@@ -15,7 +15,7 @@ from math import atan2, copysign, cos, hypot, sin, sqrt
 
 # all public constants, classes and functions
 __all__ = ()  # none
-__version__ = '16.09.05'
+__version__ = '16.09.07'
 
 
 class _CartesianBase(Vector3d):
@@ -99,6 +99,7 @@ class _LatLonHeightDatumBase(_LatLonHeightBase):
     '''Base class for ellipsoidal LatLon.
     '''
     _datum = Datums.WGS84
+    _utm   = None
 
     def __init__(self, lat, lon, height=0, datum=None):
         '''Create an (ellipsoidal) LatLon point frome the given
@@ -246,3 +247,16 @@ class _LatLonHeightDatumBase(_LatLonHeightBase):
         return ((h + r) * ca * cos(b),
                 (h + r) * ca * sin(b),
                 (h + r * (1 - E.e2)) * sa)
+
+    def toUtm(self):
+        '''Convert this lat-/longitude to UTM coordinate.
+
+           See function toUtm in mudole utm for more details.
+
+           @returns {Utm} UTM coordinate.
+        '''
+        if self._utm is None:
+            from utm import toUtm
+            self._utm = toUtm(self, datum=self.datum)
+            self._utm._latlon = self
+        return self._utm

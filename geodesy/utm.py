@@ -1,0 +1,375 @@
+
+# -*- coding: utf-8 -*-
+
+# Python implementation of UTM / WGS-84 conversion functions using
+# an ellipsoidal earth model.  Transcribed from JavaScript originals
+# by (C) Chris Veness 2011-2016 published under the same MIT Licence,
+# see <http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html>
+# and <http://www.movable-type.co.uk/scripts/geodesy/docs/module-utm.html>
+
+from math import asinh, atan, atanh, atan2, cos, cosh, \
+                 hypot, sin, sinh, sqrt, tan, tanh
+from bases import _Base
+from datum import Datums
+from dms   import S_DEG
+from utils import degrees, degrees90, degrees180, fStr, fsum, \
+                  isscalar, radians, wrap90, wrap180, EPS
+
+# The Universal Transverse Mercator (UTM) system is a 2-dimensional
+# Cartesian coordinate system providing locations on the surface of
+# the Earth.
+
+# UTM is a set of 60 transverse Mercator projections, normally based
+# on the WGS-84 ellipsoid.  Within each zone, coordinates are
+# represented as eastings and northings, measures in metres.
+
+# This method based on Karney 2011 'Transverse Mercator with an
+# accuracy of a few nanometers', building on Krüger 1912 'Konforme
+# Abbildung des Erdellipsoids in der Ebene'.  References
+# <https://arxiv.org/pdf/1002.1417v3.pdf>,
+# <http://bib.gfz-potsdam.de/pub/digi/krueger2.pdf> and
+# <http://henrik-seidel.gmxhome.de/gausskrueger.pdf>
+
+# all public contants, classes and functions
+__all__ = ('Utm',  # classes
+           'toUtm')  # functions
+__version__ = '16.10.07'
+
+_FalseEasting  =   500e3  # meter
+_FalseNorthing = 10000e3  # meter
+_K0            = 0.9996   # UTM scale on the central meridian
+
+
+class Utm(_Base):
+    '''UTM coordinate.
+    '''
+    _band     = ''
+    _converge = None
+    _datum    = Datums.WGS84
+    _easting  = 0
+    _hemis    = ''
+    _latlon   = None  # set by ellipsoidal._LatLonHeightDatumBase.toUtm.
+    _northing = 0
+    _scale    = None
+    _zone     = 0
+
+    def __init__(self, zone, hemisphere, easting, northing, band='',
+                       datum=Datums.WGS84, convergence=None, scale=None):
+        '''Creates a UTM coordinate.
+
+           @param {number|string} zone - UTM 6° longitudinal zone (1..60
+                                         covering 180°W..180°E) as number
+                                         or zzB zone and band as string.
+           @param {string} hemisphere - N for the northern or S for the
+                                        southern hemisphere.
+           @param {meter} easting - Easting from false easting (-500km
+                                    from central meridian).
+           @param {meter} northing - Northing from equator (N) or from
+                                     false northing -10,000km (S).
+           @param {string} [band=''] - UTM 8° latitudal band (A..Z).
+           @param {Datum} [datum=WGS84] - Datum for this UTM coordinate.
+           @param {degrees} [convergence=None] - Meridian convergence
+                                     (bearing of grid north, clockwise
+                                      from true North) in degrees.
+           @param {number} [scale=None] - Grid scale factor.
+
+           @throws {ValueError} Invalid UTM coordinate.
+
+           @example
+           import utm
+           g = utm.Utm(31, 'N', 448251, 5411932)
+        '''
+        if isscalar(zone):
+            z, b = int(zone), str(band)
+        else:
+            z, b = int(zone[:-1] or 0), zone[-1:]
+        if 1 > z or z > 60:
+            raise ValueError('%s invalid: %r' % ('zone', zone))
+
+        h = str(hemisphere)[:1]
+        if h not in 'NnSs':
+            raise ValueError('%s invalid: %r' % ('hemisphere', hemisphere))
+
+        e, n = float(easting), float(northing)
+        # range-check easting/northing (with 40km overlap between zones) - is this worthwhile?
+        if 120e3 > e or e > 880e3:
+            raise ValueError('%s invalid: %r' % ('easting', easting))
+        if 0 > n or n > _FalseNorthing:
+            raise ValueError('%s invalid: %r' % ('northing', northing))
+
+        self._zone     = z
+        self._hemis    = h.upper()
+        self._easting  = e
+        self._northing = n
+        if self._band != b:
+            self._band = b
+        if self._datum != datum:
+            self._datum = datum
+        if self._converge != convergence:
+            self._converge = convergence
+        if self._scale != scale:
+            self._scale = scale
+
+    def __str__(self):
+        return self.toStr()
+
+    def toLatLon(self, LatLon):
+        '''Converts UTM coordinate to a lat-/longitude.
+
+           @param {LatLon} LatLon - Ellipsoidal class to use.
+
+           @returns {LatLon} Lat-/longitude of this UTM coordinate.
+
+           @example
+           g = Utm(31, 'N', 448251.795, 5411932.678)
+           from geodesy import ellipsoidalVincenty as eV
+           ll = g.toLatLon(eV.LatLon)  # 48°51′29.52″N, 002°17′40.20″E
+        '''
+        if self._latlon:  # set below
+            return self._latlon
+
+        E = self._datum.ellipsoid
+
+        x = self._easting - _FalseEasting  # relative to central meridian
+        y = self._northing
+        if self._hemis == 'S':  # relative to equator
+            y -= _FalseNorthing
+
+        # from Karney 2011 Eq 15-22, 36
+        A0 = _K0 * E.A
+        x /= A0  # η eta
+        y /= A0  # ξ ksi
+
+        B6 = E.Beta6
+        y2 = y * 2  # ξ * 2
+        x2 = x * 2  # η * 2
+
+        y -= fsum(B6[j] * sin(j * y2) * cosh(j * x2) for j in range(1, 7))  # ξ'
+        x -= fsum(B6[j] * cos(j * y2) * sinh(j * x2) for j in range(1, 7))  # η'
+
+        shx = sinh(x)
+        cy, sy = cos(y), sin(y)
+
+        H = hypot(shx, cy)
+
+        T = t0 = sy / H
+        d = 1
+        # note, relatively large convergence test as dT
+        # toggles on ±1.12e-16 for eg 31 N 400000 5000000
+        while abs(d) > EPS:  # 1e-12
+            h = sqrt(1 + T * T)
+            s = sinh(E.e * atanh(E.e * T / h))
+            t = T * sqrt(1 + s * s) - s * h
+            d = (t0 - t) / sqrt(1 + t * t) * (1 + E.e21 * T * T) / (E.e21 * h)
+            T += d
+
+        a = atan(T)  # lat
+        b = atan2(shx, cy) + radians(self._zone * 6 - 183)  # lon of central meridian
+        ll = LatLon(degrees180(a), degrees90(b), datum=self._datum)
+
+        # convergence: Karney 2011 Eq 26, 27
+        p = 1 - fsum(2 * j * B6[j] * cos(j * y2) * cosh(j * x2) for j in range(1, 7))
+        q =     fsum(2 * j * B6[j] * sin(j * y2) * sinh(j * x2) for j in range(1, 7))
+        ll.convergence = degrees(atan(tan(y) * tanh(x)) + atan2(q, p))
+
+        # scale: Karney 2011 Eq 28
+        s = sin(a) * E.e
+        ll.scale = sqrt(1 - s * s) * sqrt(1 + T * T) * H * (A0 / E.a / hypot(p, q))
+
+        self._latlon = ll
+        return ll
+
+    def toStr(self, prec=0, sep=' ', cs=False):
+        '''Returns a string representation of this UTM coordinate.
+
+           To distinguish from MGRS grid zone designators, a
+           space is left between the zone and the hemisphere.
+
+           Note that UTM coordinates get rounded, not truncated
+           (unlike MGRS grid references).
+
+           @param {number} [prec=0] - Number of decimal, unstripped.
+           @param {string} [sep=' '] - Separator to join.
+           @param {bool} [cs=False] - Include grid convergence and
+                                      scale factor.
+
+           @returns {string} UTM as string "00B N|S meter meter"
+                             plus "degrees float" if cs is True.
+
+           @example
+           u = Utm(3, 'N', 448251, 5411932.0001)
+           u.toStr(4)  # 03 N 448251.0 5411932.0001
+           u.toStr(sep=', ')  # 03 N, 448251, 5411932
+        '''
+        t = ['%02d%s %s' % (self._zone, self._band, self._hemis),
+             fStr(self._easting, prec=prec),
+             fStr(self._northing, prec=prec)]
+        if cs:
+            t += ['n/a' if self._converge is None else
+                      fStr(self._converge, prec=8, fmt='%+013.*f') + S_DEG,
+                  'n/a' if self._scale is None else
+                      fStr(self._scale, prec=8)]
+        return sep.join(t)
+
+    def toStr2(self, prec=0, fmt='[%s]', sep=', ', cs=False):
+        '''Returns a string representation of this UTM coordinate.
+
+           @param {number} [prec=0] - Number of decimals.
+           @param {string} [fmt='[%s]'] - Enclosing backets format.
+           @param {string} [sep=', '] - Separator between name:values.
+           @param {bool} [cs=False] - Include grid convergence and
+                                      scale factor.
+
+           @returns {string} This Utm as "[Zone:00B, Hemisphere:N|S,
+                    Easting:meter, Northing:meter]" string plus
+                    "Convergence:degrees, Scale:float" for cs True.
+        '''
+        t = self.toStr(prec=prec, sep=' ', cs=cs).split()
+        k = 'Zone', 'Hemisphere', 'Easting', 'Northing'
+        if cs:
+            k += 'Convergence', 'Scale'
+        return fmt % (sep.join('%s:%s' % t for t in zip(k, t)),)
+
+    @property
+    def band(self):
+        '''Return latitudal band (A..Z).'''
+        return self._band
+
+    @property
+    def convergence(self):
+        '''Return convergence in degrees or None.'''
+        return self._converge
+
+    @property
+    def datum(self):
+        '''Return UTM datum.'''
+        return self._datum
+
+    @property
+    def easting(self):
+        '''Return easting in meter.'''
+        self._easting
+
+    @property
+    def hemisphere(self):
+        '''Return hemisphere (N|S).'''
+        self._hemis
+
+    @property
+    def northing(self):
+        '''Return northing in meter.'''
+        self._northing
+
+    @property
+    def scale(self):
+        '''Return convergence in degrees or None.'''
+        return self._scale
+
+    @property
+    def zone(self):
+        '''Return longitudal zone (1..60).'''
+        return self._zone
+
+
+def toUtm(latlon, lon=None, datum=Datums.WGS84):
+    '''Convert lat-/longitude to UTM coordinate.
+
+       Implements Karney’s method, using 6-th order Krüger series,
+       giving results accurate to 5 nm for distances up to 3900 km
+       from the central meridian.
+
+       @param {degrees|LatLon} latlon - Latitude in degrees or a
+                                        LatLon instance.
+       @param {degrees} [lon=None] - Longitude in degrees or None.
+       @param {Datum} [datum=WGS84] - Datum for this UTM coordinate.
+
+       @returns {Utm} UTM coordinate.
+
+       @throws {TypeError} If latlon not an ellipsoidal LatLon.
+       @throws {ValueError} If latitude is missing.
+
+       @example
+       ll = LatLon(48.8582, 2.2945)
+       u = toUtm(ll)  # 31 N 448252 5411933
+       ll = LatLon(13.4125, 103.8667)
+       u = toUtm(ll)  # 48 N 377302 1483035
+    '''
+    try:
+        if not hasattr(latlon, 'toUtm'):
+            raise TypeError('%s not ellipsoidal: %r' % ('latlon', latlon))
+        lat, lon = latlon.lat, latlon.lon
+    except AttributeError:
+        if lon is None:
+            raise ValueError('%s invalid: %r' % ('latlon', latlon))
+        lat = latlon
+
+    lat, lon = wrap90(lat), wrap180(lon)
+
+    if lat > 84:  # latitudal band
+        B = 'Y' if lon < 0 else 'Z'
+    elif lat < -84:
+        B = 'A' if lon < 0 else 'B'
+    else:
+        B = 'CDEFGHJKLMNPQRSTUVWXX'[int(lat + 80) >> 3]
+
+    z = int((lon + 180) / 6) + 1  # longitudinal zone
+    if lat > 55 and lon > -1:
+        if lat < 64:  # southern Norway
+            if lon < 3:
+                z = 31
+            elif lon < 12:
+                z = 32
+        elif 71 < lat < 84:  # Svalbard
+            if lon < 9:
+                z = 31
+            elif lon < 21:
+                z = 33
+            elif lon < 33:
+                z = 35
+            elif lon < 42:
+                z = 37
+
+    b = radians(lon - (z * 6) + 183)  # lon off central meridian
+    a = radians(lat)  # lat off equator
+    h = 'S' if a < 0 else 'N'  # hemisphere
+
+    E = datum.ellipsoid
+
+    # easting, northing: Karney 2011 Eq 7-14, 29, 35
+    cb, sb, tb = cos(b), sin(b), tan(b)
+
+    T = tan(a)
+    T12 = sqrt(1 + T * T)
+    S = sinh(E.e * atanh(E.e * T / T12))
+
+    T_ = T * sqrt(1 + S * S) - S * T12
+    H = hypot(T_, cb)
+
+    y = atan2(T_, cb)  # ξ' ksi
+    x = asinh(sb / H)  # η' eta
+
+    A6 = E.Alpha6
+    y2 = y * 2  # ξ' * 2
+    x2 = x * 2  # η' * 2
+
+    y += fsum(A6[j] * sin(j * y2) * cosh(j * x2) for j in range(1, 7))  # ξ
+    x += fsum(A6[j] * cos(j * y2) * sinh(j * x2) for j in range(1, 7))  # η
+
+    A0 = _K0 * E.A
+    x *= A0
+    y *= A0
+
+    x += _FalseEasting  # make x relative to false easting
+    if y < 0:
+        y += _FalseNorthing  # y relative to false northing in S
+
+    # convergence: Karney 2011 Eq 23, 24
+    p_ = 1 + fsum(2 * j * A6[j] * cos(j * y2) * cosh(j * x2) for j in range(1, 7))
+    q_ =     fsum(2 * j * A6[j] * sin(j * y2) * sinh(j * x2) for j in range(1, 7))
+    c = degrees(atan(T_ / sqrt(1 + T_ * T_) * tb) + atan2(q_, p_))
+
+    # scale: Karney 2011 Eq 25
+    s = sin(a) * E.e
+    k = sqrt(1 - s * s) * T12 / H * (A0 / E.a * hypot(p_, q_))
+
+    return Utm(z, h, x, y, band=B, datum=datum, convergence=c, scale=k)

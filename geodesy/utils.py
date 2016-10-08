@@ -13,11 +13,11 @@ import sys
 
 # all public contants, classes and functions
 __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2',  # math constants
-           'degrees', 'degrees90', 'degrees180', 'degrees360',
-           'cbrt', 'fdot', 'fsum', 'fStr', 'hypot3', 'isscalar',
-           'len2', 'sin_2', 'tanPI_2_2', 'radians', 'radiansPI',
-           'radiansPI_2', 'wrapPI', 'wrapPI2', 'wrapPI_2')
-__version__ = '16.09.03'
+           'cbrt', 'degrees', 'degrees90', 'degrees180', 'degrees360',
+           'fdot', 'fsum', 'fStr', 'hypot3', 'isscalar', 'len2',
+           'sin_2', 'tanPI_2_2', 'radians', 'radiansPI', 'radiansPI_2',
+           'wrap90', 'wrap180', 'wrapPI', 'wrapPI2', 'wrapPI_2')
+__version__ = '16.10.05'
 
 try:
     from math import fsum  # precision sum
@@ -49,13 +49,6 @@ def cbrt(x):
         return float(x) ** _3rd
 
 
-def _degrees(rad, wrap):
-    d = degrees(rad) % 360  # -1.5 % 360 == 358.5
-    if d > wrap:
-        d -= 360
-    return d
-
-
 def degrees90(rad):
     '''Convert radians to degrees -90..+90.
 
@@ -63,7 +56,7 @@ def degrees90(rad):
 
        @returns {degrees90} Degrees -90..+90.
     '''
-    return _degrees(rad, 90)
+    return _drap(degrees(rad), 90)
 
 
 def degrees180(rad):
@@ -73,7 +66,7 @@ def degrees180(rad):
 
        @returns {degrees180} Degrees -180..+180.
     '''
-    return _degrees(rad, 180)
+    return _drap(degrees(rad), 180)
 
 
 def degrees360(rad):
@@ -83,7 +76,14 @@ def degrees360(rad):
 
        @returns {degrees360} Degrees 0..360.
     '''
-    return _degrees(rad, 360)
+    return _drap(degrees(rad), 360)
+
+
+def _drap(deg, wrap):
+    d = deg % 360  # -1.5 % 360 == 358.5
+    if d > wrap:
+        d -= 360
+    return d
 
 
 def fdot(a, *b):
@@ -98,25 +98,26 @@ def fdot(a, *b):
     return fsum(map(mul, a, b))
 
 
-def fStr(floats, prec=6, sep=', '):
+def fStr(floats, prec=6, sep=', ', fmt='%.*f'):
     '''Convert floats to string with zero decimals stripped.
 
        @param {float[]} floats - List of floating point numbers.
        @param {number} [prec=6] - Number of decimals, unstripped.
        @param {string} [sep=', '] - Separator to join.
+       @param {string} [fmt='%.*f'] - Float format.
 
        @returns {string} Floats as '[f, f, ... f]' string.
     '''
     def _fstr(p, f):
-        t = '%.*f' % (abs(p), f)
+        t = fmt % (abs(p), f)
         if p > 1 and t.endswith('0'):
             z = len(t) - p + 1
             t = t[:z] + t[z:].rstrip('0')
         return t
 
     if isscalar(floats):
-        floats = (floats,)
-
+        return _fstr(prec, floats)
+    else:
     return sep.join(_fstr(prec, f) for f in floats)
 
 
@@ -196,6 +197,26 @@ def tanPI_2_2(rad):
     '''Return tan((rad + PI/2) / 2).
     '''
     return tan((rad + PI_2) * 0.5)
+
+
+def wrap90(deg):
+    '''Wrap degrees t0 -90..+90.
+
+       @param {degrees} deg - Angle in degrees.
+
+       @returns {degrees90} Degrees -90..+90.
+    '''
+    return _drap(deg, 90)
+
+
+def wrap180(deg):
+    '''Wrap degrees t0 -180..+180.
+
+       @param {degrees} deg - Angle in degrees.
+
+       @returns {degrees180} Degrees -180..+180.
+    '''
+    return _drap(deg, 180)
 
 
 def _wrap(rad, wrap):
