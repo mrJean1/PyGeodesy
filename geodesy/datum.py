@@ -43,7 +43,7 @@ from utils import fdot, fStr, radians
 __all__ = ('R_KM', 'R_M', 'R_NM', 'R_SM',  # constants
            'Datum',  'Ellipsoid',  'Transform',  # classes
            'Datums', 'Ellipsoids', 'Transforms')  # enum-like
-__version__ = '16.10.07'
+__version__ = '16.10.08'
 
 
 class _Enum(dict):  # enum-like
@@ -114,12 +114,12 @@ class Ellipsoid(_Base):
     # precomputed, frequently used values
     a2   = 0  # (1 / a^2) squared
     a2b2 = 1  # (a / b)^2 squared or 1 / (1 - f) squared
-    e    = 0  # 1st eccentricity: sqrt(e2)
-    e2   = 0  # 1st eccentricity squared: f * (2 - f) = 1 - a2b2
+    e    = 0  # 1st eccentricity: sqrt(1 - (b / a)^2))
+    e2   = 0  # 1st eccentricity squared: f * (2 - f) = (a^2 - b^2) / a^2
     e4   = 0  # e2 squared
-    e21  = 1  # (1 - e2)
+    e12  = 1  # (1 - e2)
     e22  = 0  # 2nd eccentricity squared: e2 / (1 - e2) = a2b2 - 1
-    f    = 0  # inverse flattening: (a - b) / a
+    f    = 0  # inverse flattening: a / (a - b)
     n    = 0  # 3rd flattening: f / (2 - f) = (a - b) / (a + b)
     R    = 0  # mean radius: (2 * a + b) / 3 per IUGG definition
     Rm   = 0  # mean radius: sqrt(a * b)
@@ -137,28 +137,28 @@ class Ellipsoid(_Base):
             self.e2 = self.f * (2 - self.f)  # 1st eccentricity squared
             self.e4 = self.e2 * self.e2  # for Nvector.Cartesian.toNvector
             self.e  = sqrt(self.e2)  # eccentricity for utm
-            self.e21 = 1 - self.e2  # for Nvector.Cartesian.toNvector and utm
-            self.e22 = self.e2 / self.e21  # 2nd eccentricity squared
+            self.e12 = 1 - self.e2  # for Nvector.Cartesian.toNvector and utm
+            self.e22 = self.e2 / self.e12  # 2nd eccentricity squared
             self.a2b2 = (self.a / self.b) ** 2  # for Nvector.toCartesian
         self.a2 = 1 / (self.a * self.a)  # for Nvector.Cartesian.toNvector
         self.R = (2 * self.a + self.b) / 3  # per IUGG definition for WGS84
         self.Rm = sqrt(self.a * self.b)  # mean radius
         self._register(Ellipsoids, name)
-        # some sanity checks to catch mistakes
-        if self.a < self.b or min(self.a, self.b) < 1:
-            raise AssertionError('%s=%0.9f vs %s=%0.9f' %
-                                ('a', self.a, 'b', self.b))
         d = self.a - self.b
-        if d > 0:
+        self._ab_90 = d / 90  # for radiusat below
+
+        # some sanity checks to catch mistakes
+        if d < 0 or min(self.a, self.b) < 1:
+            raise AssertionError('%s: %s=%0.9f vs %s=%0.9f' % (name,
+                                 'a', self.a, 'b', self.b))
             t = d / self.a
-            if self.f and abs(self.f - t) > 1e-8:
-                raise AssertionError('%s: %s=%.9e vs %s=%.9e' %
-                                     (name, '1/f', self.f, '(a-b)/a', t))
+        if abs(self.f - t) > 1e-8:
+            raise AssertionError('%s: %s=%.9e vs %s=%.9e' % (name,
+                                 '1/f', self.f, '(a-b)/a', t))
             t = d / (self.a + self.b)
-            if self.n and abs(self.n - t) > 1e-8:
-                raise AssertionError('%s: %s=%.9e vs %s=%.9e' %
-                                     (name, 'n', self.n, '(a-b)/(a+b)', t))
-        self._ab_90 = d / 90  # see radiusat below
+        if abs(self.n - t) > 1e-8:
+            raise AssertionError('%s: %s=%.9e vs %s=%.9e' % (name,
+                                 'n', self.n, '(a-b)/(a+b)', t))
 
     def __eq__(self, other):
         return self is other or (isinstance(other, Ellipsoid) and
@@ -184,7 +184,7 @@ class Ellipsoid(_Base):
         '''
         if self._Alpha6 is None:
             self._Alpha6 = self._Krueger6(  # 1-origin
-                # XXX i/i requires from __future__ import division
+                # XXX i/i requires  from __future__ import division
                 (1/2, -2/3,   5/16,    41/180,    -127/288,       7891/37800),
                      (13/48, -3/5,    557/1440,    281/630,   -1983433/1935360),
                             (61/240, -103/140,   15061/26880,   167603/181440),
@@ -199,7 +199,7 @@ class Ellipsoid(_Base):
         '''
         if self._Beta6 is None:
             self._Beta6 = self._Krueger6(  # 1-origin
-                # XXX i/i requires from __future__ import division
+                # XXX i/i requires  from __future__ import division
                 (1/2, -2/3, 37/96,   -1/360,    -81/512,      96199/604800),
                       (1/48, 1/15, -437/1440,    46/105,   -1118711/3870720),
                            (17/480, -37/840,   -209/4480,      5569/90720),
@@ -209,7 +209,10 @@ class Ellipsoid(_Base):
         return self._Beta6
 
     def _Krueger6(self, *fs6):
-        # compute 6th-order Krüger Alpha or Beta series
+        # compute 6th-order Krüger Alpha or Beta series per
+        # Karney 2011, 'Transverse Mercator with an accuracy
+        # of a few nanometers', page7, equations 35 and 36
+        # <https://arxiv.org/pdf/1002.1417v3.pdf>
         ns = [self.n]  # 3rd flattening: n, n^2, ... n^6
         for i in range(len(fs6) - 1):
             ns.append(ns[0] * ns[i])

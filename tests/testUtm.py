@@ -17,7 +17,7 @@ if __name__ == '__main__':
 
     # Typical test results (on MacOS X):
 
-    # testing geodesy.utm version 16.10.07
+    # testing geodesy.utm version 16.10.08
     # test 1 Utm1: 03 N 448251.0 5411932.0001
     # test 2 Utm2: 31 N 448252 5411933
     # test 3 Utm2: 31 N 448251.795 5411932.678
@@ -26,7 +26,7 @@ if __name__ == '__main__':
     # test 6 Utm.toLatLon1: 48°51′29.52″N, 002°17′40.2″E
     # test 7 toUtm1: 31U N 448252 5411933
     # test 8 toUtm1: 31U N 448251.795 5411932.678
-    # test 9 toUtm2: [Zone:31U, Hemisphere:N, Easting:448252, Northing:5411933]
+    # test 9 toUtm2: [Z:31U, H:N, E:448252, N:5411933, C:-000.53131221°, S:0.9996329]
     # test 10 toUtm4: 48P N 377302 1483035
     # test 11 toUtm5: 48P N 377302.354183 1483034.777084 -000.26291348° 0.99978623
     # test 12 toUtm6: 13L S 622698 8516965
@@ -49,7 +49,7 @@ if __name__ == '__main__':
     # test 29 toUtm(89.3454°S, 048.9306°W): 22A S 502639 75073
     # all geodesy.utm tests passed (Python 2.7.10)
 
-    # testing geodesy.utm version 16.10.07
+    # testing geodesy.utm version 16.10.08
     # test 1 Utm1: 03 N 448251.0 5411932.0001
     # test 2 Utm2: 31 N 448252 5411933
     # test 3 Utm2: 31 N 448251.795 5411932.678
@@ -58,7 +58,7 @@ if __name__ == '__main__':
     # test 6 Utm.toLatLon1: 48°51′29.52″N, 002°17′40.2″E
     # test 7 toUtm1: 31U N 448252 5411933
     # test 8 toUtm1: 31U N 448251.795 5411932.678
-    # test 9 toUtm2: [Zone:31U, Hemisphere:N, Easting:448252, Northing:5411933]
+    # test 9 toUtm2: [Z:31U, H:N, E:448252, N:5411933, C:-000.53131221°, S:0.9996329]
     # test 10 toUtm4: 48P N 377302 1483035
     # test 11 toUtm5: 48P N 377302.354183 1483034.777084 -000.26291348° 0.99978623
     # test 12 toUtm6: 13L S 622698 8516965

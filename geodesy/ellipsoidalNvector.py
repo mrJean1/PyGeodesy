@@ -27,7 +27,7 @@ from math import asin, atan2, cos, hypot, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '16.10.03'
+__version__ = '16.10.08'
 
 
 class Cartesian(_CartesianBase):
@@ -64,7 +64,7 @@ class Cartesian(_CartesianBase):
 
             # Kenneth Gade eqn 23
             p = (x * x + y * y) * E.a2
-            q = (z * z * E.e21) * E.a2
+            q = (z * z * E.e12) * E.a2
             r = (p + q - E.e4) / 6
             s = (p * q * E.e4) / (4 * r * r * r)
             t = cbrt(1 + s + sqrt(s * (2 + s)))
