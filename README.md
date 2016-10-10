@@ -14,4 +14,9 @@ For more information and details see:
 - <http://www.movable-type.co.uk/scripts/latlong-vectors.html>
 - <http://www.movable-type.co.uk/scripts/latlong-os-gridref.html>
 
-Still a work-in-progress, especially testing and documentation.
+Included are also conversions to and from UTM coordinates and MGRS
+grid references, see:
+
+- <http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html>
+
+Last updated Oct 10, 2016.
