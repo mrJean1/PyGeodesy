@@ -18,9 +18,8 @@ __all__ = ('F_D', 'F_DM', 'F_DMS', 'F_RAD',  # format contants
            'S_DEG', 'S_MIN', 'S_SEC', 'S_SEP',  # symbols
            'bearingDMS', 'compassDMS', 'compassPoint',  # functions
            'latDMS', 'lonDMS', 'normDMS',
-           'parseDMS', 'parse3llh', 'parseUTM',
-           'precision', 'toDMS')
-__version__ = '16.10.07'
+           'parseDMS', 'parse3llh', 'precision', 'toDMS')
+__version__ = '16.10.08'
 
 F_D   = 'd'    # format degrees as deg°
 F_DM  = 'dm'   # format degrees as deg°min'
@@ -261,34 +260,6 @@ def parseDMS(strDMS, suffix='NSEW'):
         raise ValueError('parsing %r' % (strDMS,))
 
     return d
-
-
-def parseUTM(strUTM):
-    '''Parse a string representing a UTM coordinate,
-       consisting of zone, hemisphere, easting and northing.
-
-       @param {string} strUTM - UTM coordinate.
-
-       @returns {(number, string, number, number)} 4-Tuple (zone,
-                                hemispere, easting and notrthng).
-
-       @throws {ValueError} Invalid strUTM.
-
-       @example
-       u4 = parseUTM('31 N 448251 5411932')
-       g = Utm(*u4).toStr2()  # [zone: 31, hemisphere: 'N', easting: 448251, northing: 5411932]
-    '''
-    u = strUTM.strip().replace(',', ' ').split()
-    try:
-        if len(u) != 4:
-            raise ValueError
-        z, h = u[:2]
-        if z.isdigit():
-            z = int(z)
-        e, n = map(float, u[2:])
-    except ValueError:
-        raise ValueError('%s invalid: %r' % ('strUTM', strUTM))
-    return z, h.upper(), e, n
 
 
 def precision(form, prec=None):

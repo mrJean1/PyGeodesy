@@ -15,7 +15,7 @@ from math import atan2, copysign, cos, hypot, sin, sqrt
 
 # all public constants, classes and functions
 __all__ = ()  # none
-__version__ = '16.09.07'
+__version__ = '16.10.10'
 
 
 class _CartesianBase(Vector3d):
@@ -249,11 +249,11 @@ class _LatLonHeightDatumBase(_LatLonHeightBase):
                 (h + r * (1 - E.e2)) * sa)
 
     def toUtm(self):
-        '''Convert this lat-/longitude to UTM coordinate.
+        '''Convert this lat-/longitude to a UTM coordinate.
 
-           See function toUtm in mudole utm for more details.
+           See function toUtm in module utm for more details.
 
-           @returns {Utm} UTM coordinate.
+           @returns {Utm} A UTM coordinate.
         '''
         if self._utm is None:
             from utm import toUtm

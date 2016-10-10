@@ -33,12 +33,39 @@ from utils import degrees, degrees90, degrees180, fStr, fsum, \
 
 # all public contants, classes and functions
 __all__ = ('Utm',  # classes
-           'toUtm')  # functions
-__version__ = '16.10.08'
+           'parseUTM', 'toUtm')  # functions
+__version__ = '16.10.10'
 
+# Latitude bands C..X of 8° each, covering 80°S to 84°N
+_Bands         = 'CDEFGHJKLMNPQRSTUVWXX'  # X repeated for 80-84°N
 _FalseEasting  =   500e3  # meter
 _FalseNorthing = 10000e3  # meter
 _K0            = 0.9996   # UTM scale on the central meridian
+
+
+def _toZBL(zone, band):  # used by mgrs.Mgrs
+    '''Check and return zone, band and band latitude
+    '''
+    if isscalar(zone):
+        z, B, x = int(zone), str(band), band
+    else:  # elif isstr(zone)
+        z, B, x = int(zone[:-1] or 0), zone[-1:], zone
+
+    if 1 > z or z > 60:
+        raise ValueError('%s invalid: %r' % ('zone', zone))
+
+    b = _Bands.find(B)
+    if b < 0:
+        if B in 'AB':
+            b = -88  # XXX -90?
+        elif B in 'YZ':
+            b = +88  # XXX +90?
+        else:
+            raise ValueError('%s invalid: %r' % ('band', x))
+    else:
+        b = (b - 10) << 3
+
+    return z, B, b
 
 
 class Utm(_Base):
@@ -50,6 +77,7 @@ class Utm(_Base):
     _easting  = 0
     _hemis    = ''
     _latlon   = None  # set by ellipsoidal._LatLonHeightDatumBase.toUtm.
+    _mgrs     = None
     _northing = 0
     _scale    = None
     _zone     = 0
@@ -68,7 +96,7 @@ class Utm(_Base):
            @param {meter} northing - Northing from equator (N) or from
                                      false northing -10,000km (S).
            @param {string} [band=''] - UTM 8° latitudinal band (A..Z).
-           @param {Datum} [datum=WGS84] - Datum for this UTM coordinate.
+           @param {Datum} [datum=Datums.WGS84] - This coordinate's datum.
            @param {degrees} [convergence=None] - Meridian convergence
                                                  (bearing of grid north,
                                                  clockwise from true
@@ -81,12 +109,7 @@ class Utm(_Base):
            import utm
            g = utm.Utm(31, 'N', 448251, 5411932)
         '''
-        if isscalar(zone):
-            z, b = int(zone), str(band)
-        else:
-            z, b = int(zone[:-1] or 0), zone[-1:]
-        if 1 > z or z > 60:
-            raise ValueError('%s invalid: %r' % ('zone', zone))
+        self._zone, B, _ = _toZBL(zone, band)
 
         h = str(hemisphere)[:1]
         if h not in 'NnSs':
@@ -100,12 +123,11 @@ class Utm(_Base):
         if 0 > n or n > _FalseNorthing:
             raise ValueError('%s invalid: %r' % ('northing', northing))
 
-        self._zone     = z
         self._hemis    = h.upper()
         self._easting  = e
         self._northing = n
-        if self._band != b:
-            self._band = b
+        if self._band != B:
+            self._band = B
         if self._datum != datum:
             self._datum = datum
         if self._converge != convergence:
@@ -113,8 +135,46 @@ class Utm(_Base):
         if self._scale != scale:
             self._scale = scale
 
+    def __repr__(self):
+        return self.toStr2()
+
     def __str__(self):
         return self.toStr()
+
+    @property
+    def band(self):
+        '''Return latitudinal band (A..Z).'''
+        return self._band
+
+    @property
+    def convergence(self):
+        '''Return convergence in degrees or None.'''
+        return self._converge
+
+    @property
+    def datum(self):
+        '''Return the datum.'''
+        return self._datum
+
+    @property
+    def easting(self):
+        '''Return easting in meter.'''
+        return self._easting
+
+    @property
+    def hemisphere(self):
+        '''Return hemisphere (N|S).'''
+        return self._hemis
+
+    @property
+    def northing(self):
+        '''Return northing in meter.'''
+        return self._northing
+
+    @property
+    def scale(self):
+        '''Return convergence in degrees or None.'''
+        return self._scale
 
     def toLatLon(self, LatLon):
         '''Converts UTM coordinate to an ellipsoidal lat-/longitude.
@@ -183,6 +243,18 @@ class Utm(_Base):
         self._latlon = ll
         return ll
 
+    def toMgrs(self):
+        '''Convert this UTM coordinate to an MGRS grid reference.
+
+           See function toMgrs in module mgrs for more details.
+
+           @returns {Mgrs} The MGRS grid reference.
+        '''
+        if self._mgrs is None:
+            from mgrs import toMgrs  # PYCHOK recursive import
+            self._mgrs = toMgrs(self)
+        return self._mgrs
+
     def toStr(self, prec=0, sep=' ', cs=False):
         '''Returns a string representation of this UTM coordinate.
 
@@ -232,48 +304,44 @@ class Utm(_Base):
         return fmt % (sep.join('%s:%s' % t for t in zip(k, t)),)
 
     @property
-    def band(self):
-        '''Return latitudinal band (A..Z).'''
-        return self._band
-
-    @property
-    def convergence(self):
-        '''Return convergence in degrees or None.'''
-        return self._converge
-
-    @property
-    def datum(self):
-        '''Return the datum.'''
-        return self._datum
-
-    @property
-    def easting(self):
-        '''Return easting in meter.'''
-        self._easting
-
-    @property
-    def hemisphere(self):
-        '''Return hemisphere (N|S).'''
-        self._hemis
-
-    @property
-    def northing(self):
-        '''Return northing in meter.'''
-        self._northing
-
-    @property
-    def scale(self):
-        '''Return convergence in degrees or None.'''
-        return self._scale
-
-    @property
     def zone(self):
         '''Return longitudal zone (1..60).'''
         return self._zone
 
 
+def parseUTM(strUTM, datum=Datums.WGS84):
+    '''Parse a string representing a UTM coordinate,
+       consisting of zone, hemisphere, easting and northing.
+
+       @param {string} strUTM - UTM coordinate.
+       @param {Datum} [datum=Datums.WGS84] - This coordinate's datum.
+
+       @returns {Utm} Utm instance.
+
+       @throws {ValueError} Invalid strUTM.
+
+       @example
+       u = parseUTM('31 N 448251 5411932')
+       u.toStr2()  # [Z:31U, H:N, E:448251, N:5411932]
+    '''
+    u = strUTM.strip().replace(',', ' ').split()
+    try:
+        if len(u) != 4:
+            raise ValueError  # caught below
+        z, h = u[:2]
+        if z.isdigit():
+            z = int(z)
+        else:
+            z = z.upper()
+        e, n = map(float, u[2:])
+    except ValueError:
+        raise ValueError('%s invalid: %r' % ('strUTM', strUTM))
+
+    return Utm(z, h.upper(), e, n, datum=datum)
+
+
 def toUtm(latlon, lon=None, datum=Datums.WGS84):
-    '''Convert lat-/longitude to UTM coordinate.
+    '''Convert lat-/longitude to a UTM coordinate.
 
        Implements Karney’s method, using 6-th order Krüger series,
        giving results accurate to 5 nm for distances up to 3900 km
@@ -284,7 +352,7 @@ def toUtm(latlon, lon=None, datum=Datums.WGS84):
        @param {degrees} [lon=None] - Longitude in degrees or None.
        @param {Datum} [datum=WGS84] - Datum for this UTM coordinate.
 
-       @returns {Utm} UTM coordinate.
+       @returns {Utm} The UTM coordinate.
 
        @throws {TypeError} If latlon is not an ellipsoidal LatLon.
        @throws {ValueError} If latitude value is missing.
@@ -311,7 +379,7 @@ def toUtm(latlon, lon=None, datum=Datums.WGS84):
     elif lat < -84:
         B = 'A' if lon < 0 else 'B'
     else:
-        B = 'CDEFGHJKLMNPQRSTUVWXX'[int(lat + 80) >> 3]
+        B = _Bands[int(lat + 80) >> 3]
 
     z = int((lon + 180) / 6) + 1  # longitudinal zone
     if lat > 55 and lon > -1:
