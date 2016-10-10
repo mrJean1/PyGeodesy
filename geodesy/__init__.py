@@ -13,7 +13,7 @@
 # <http://www.movable-type.co.uk/scripts/latlong.html>
 # <http://www.movable-type.co.uk/scripts/latlong-vincenty.html>
 # <http://www.movable-type.co.uk/scripts/latlong-vectors.html>
-# <http://www.movable-type.co.uk/scripts/latlong-os-gridref.html>
+# <http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html>
 
 try:
     import datum as _  # PYCHOK expected
@@ -25,6 +25,7 @@ except ImportError:
 
 from datum import *  # PYCHOK __all__
 from dms   import *  # PYCHOK __all__
+from mgrs  import *  # PYCHOK __all__
 from utils import *  # PYCHOK __all__
 from utm   import *  # PYCHOK __all__
 import ellipsoidalNvector  # PYCHOK false
@@ -34,14 +35,14 @@ import sphericalTrigonometry  # PYCHOK false
 
 VincentyError = ellipsoidalVincenty.VincentyError
 
-import datum as _datum, dms as _dms, \
+import datum as _datum, dms as _dms, mgrs as _mgrs, \
        utils as _utils, utm as _utm  # PYCHOK expected
 
 # all public contants, classes and functions
-__all__ = _datum.__all__ + _dms.__all__ + (
+__all__ = _datum.__all__ + _dms.__all__ + _mgrs.__all__ + (
           'ellipsoidalNvector', 'ellipsoidalVincenty',
           'sphericalNvector', 'sphericalTrigonometry',
           'VincentyError') + _utils.__all__ + _utm.__all__
-__version__ = '16.10.04'
+__version__ = '16.10.10'
 
-del _datum, _dms, _utils, _utm
+del _datum, _dms, _mgrs, _utils, _utm
