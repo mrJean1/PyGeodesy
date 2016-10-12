@@ -3,7 +3,7 @@
 
 # Python implementation of UTM / WGS-84 conversion functions using
 # an ellipsoidal earth model.  Transcribed from JavaScript originals
-# by (C) Chris Veness 2011-2016 published under the same MIT Licence,
+# by (C) Chris Veness 2011-2016 published under the same MIT Licence**,
 # see <http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html>
 # and <http://www.movable-type.co.uk/scripts/geodesy/docs/module-utm.html>
 
@@ -188,7 +188,8 @@ class Utm(_Base):
            from geodesy import ellipsoidalVincenty as eV
            ll = g.toLatLon(eV.LatLon)  # 48°51′29.52″N, 002°17′40.20″E
         '''
-        if self._latlon and self._latlon.__class__ is LatLon:
+        if self._latlon and self._latlon.__class__ is LatLon \
+                        and self._latlon.datum == self._datum:
             return self._latlon  # set below
 
         E = self._datum.ellipsoid  # XXX vs LatLon.datum.ellipsoid
@@ -443,3 +444,25 @@ def toUtm(latlon, lon=None, datum=Datums.WGS84):
     k = sqrt(1 - s * s) * T12 / H * (A0 / E.a * hypot(p_, q_))
 
     return Utm(z, h, x, y, band=B, datum=datum, convergence=c, scale=k)
+
+# **) MIT License
+#
+# Copyright (c) 2016 mrJean1@Gmail.com
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+# OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+# ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.

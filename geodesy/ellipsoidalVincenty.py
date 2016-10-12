@@ -3,7 +3,7 @@
 
 # Python implementation of geodesy tools for an ellipsoidal earth model.
 # Transcribed from JavaScript originals by (C) Chris Veness 2005-2016
-# and published under the same MIT Licence, see for example
+# and published under the same MIT Licence**, see for example
 # <http://www.movable-type.co.uk/scripts/LatLongVincenty.html>,
 # <http://github.com/geopy> and <http://python.org/pypi/geopy>.
 
@@ -51,7 +51,7 @@ from math import atan2, cos, hypot, sin, tan
 
 # all public contants, classes and functions
 __all__ = ('LatLon', 'VincentyError')  # classes
-__version__ = '16.09.14'
+__version__ = '16.10.10'
 
 
 class VincentyError(Exception):
@@ -394,3 +394,25 @@ def _ds(B, cs, ss, c2sm):
     ss2 = (ss * ss * 4 - 3) * (c2sm2 * 2 - 1)
     return B * ss * (c2sm + B / 4.0 * (c2sm2 * cs -
                             B / 6.0 *  c2sm  * ss2))
+
+# **) MIT License
+#
+# Copyright (c) 2016 mrJean1@Gmail.com
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+# OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+# ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.

@@ -3,7 +3,7 @@
 
 # Common base classes and functions.
 
-# After (C) Chris Veness 2011-2015 published under the same MIT Licence,
+# After (C) Chris Veness 2011-2015 published under the same MIT Licence**,
 # see <http://www.movable-type.co.uk/scripts/latlong.html>
 # and <http://www.movable-type.co.uk/scripts/latlong-vectors.html>
 
@@ -17,7 +17,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2',  # math constants
            'fdot', 'fsum', 'fStr', 'hypot3', 'isscalar', 'len2',
            'sin_2', 'tanPI_2_2', 'radians', 'radiansPI', 'radiansPI_2',
            'wrap90', 'wrap180', 'wrapPI', 'wrapPI2', 'wrapPI_2')
-__version__ = '16.10.05'
+__version__ = '16.10.10'
 
 try:
     from math import fsum  # precision sum
@@ -254,3 +254,25 @@ def wrapPI_2(rad):
        @returns {radiansPI_2} Radians -PI_2..PI_2.
     '''
     return _wrap(rad, PI_2)
+
+# **) MIT License
+#
+# Copyright (c) 2016 mrJean1@Gmail.com
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+# OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+# ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.

@@ -6,7 +6,7 @@
 # Includes ellipsoid parameters and datums for different geographic coordinate
 # systems and methods for converting between them and to cartesian coordinates.
 # Transcribed from JavaScript originals by (C) Chris Veness 2005-2016 and
-# published under the same MIT Licence, see <http://www.movable-type.co.uk/
+# published under the same MIT Licence**, see <http://www.movable-type.co.uk/
 # scripts/geodesy/docs/latlon-ellipsoidal.js.html>
 
 # Historical geodetic datums: a latitude/longitude point defines a geographic
@@ -43,7 +43,7 @@ from utils import fdot, fStr, radians
 __all__ = ('R_KM', 'R_M', 'R_NM', 'R_SM',  # constants
            'Datum',  'Ellipsoid',  'Transform',  # classes
            'Datums', 'Ellipsoids', 'Transforms')  # enum-like
-__version__ = '16.10.08'
+__version__ = '16.10.10'
 
 
 class _Enum(dict):  # enum-like
@@ -127,6 +127,7 @@ class Ellipsoid(_Base):
     _A      = None  # meridian radius
     _Alpha6 = None  # 6th-order Krüger Alpha series
     _Beta6  = None  # 6th-order Krüger Beta series
+    _Mabcd  = None  # OSGB meridional coefficients
 
     def __init__(self, a, b, f, name=''):
         self.a = float(a)  # major half-axis in meter
@@ -224,6 +225,20 @@ class Ellipsoid(_Base):
 
         return tuple(k6)
 
+    @property
+    def Mabcd(self):
+        '''Return OSGB meridional coefficients, Airy130 only.
+        '''
+        if self._Mabcd is None:
+            n = self.n
+            n2 = n * n
+            n3 = n * n2
+            self._Mabcd = (fdot((1, n, n2, n3), 1, 1,  5/4, 5/4),
+                           fdot(   (n, n2, n3), 3, 3, 21/8),
+                           fdot(      (n2, n3), 15/8, 15/8),
+                                   35/24 * n3)
+        return self._Mabcd
+
     def radiusAt(self, lat):
         '''Approximate the ellipsoid radius at the given
            latitude in degrees by trivial interpolation.
@@ -302,7 +317,7 @@ class Transform(_Base):
             self.sz = sz
         if s:
             self.s = float(s)
-            self.s1 = s * 1.0e-6 + 1  # normalize ppm to (s + 1)
+            self.s1 = s * 1.e-6 + 1  # normalize ppm to (s + 1)
         self._register(Transforms, name)
 
     def __eq__(self, other):
@@ -330,15 +345,17 @@ class Transform(_Base):
         '''Transform a (geocentric) Cartesian point, forward or inverse.
         '''
         if inverse:
-            _xyz = -1, -x, -y, -z
+            xyz = -1, -x, -y, -z
+            _s1 = self.s1 - 2  # negative inverse: -(1 - s * 1.e-6)
         else:
-            _xyz =  1,  x,  y,  z
+            xyz =  1,  x,  y,  z
+            _s1 = self.s1
         # x', y', z' = (.tx + x * .s1 - y * .rz + z * .ry,
         #               .ty + x * .rz + y * .s1 - z * .rx,
         #               .tz - x * .ry + y * .rx + z * .s1)
-        return (fdot(_xyz, self.tx,  self.s1, -self.rz,  self.ry),
-                fdot(_xyz, self.ty,  self.rz,  self.s1, -self.rx),
-                fdot(_xyz, self.tz, -self.ry,  self.rx,  self.s1))
+        return (fdot(xyz, self.tx,      _s1, -self.rz,  self.ry),
+                fdot(xyz, self.ty,  self.rz,      _s1, -self.rx),
+                fdot(xyz, self.tz, -self.ry,  self.rx,      _s1))
 
 
 # <https://en.wikipedia.org/wiki/Helmert_transformation>
@@ -452,7 +469,29 @@ if __name__ == '__main__':
         'Beta6=%r' % (E.Beta6,))
     print('\n%s: %s' % (E.name, ',\n       '.join(t)))
 
-    # Typical result (on MacOS X)
+# **) MIT License
+#
+# Copyright (c) 2016 mrJean1@Gmail.com
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+# OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+# ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.
+
+# Typical result (on MacOS X)
 
 # Ellipsoids.Airy1830: Ellipsoid(a=6377563.396, b=6356256.909, f=0.00334085, e2=0.00667054, e22=0.00671533, R=6370461.23366667, Rm=6366901.23988196, name='Airy1830')
 # Ellipsoids.AiryModified: Ellipsoid(a=6377340.189, b=6356034.448, f=0.00334085, e2=0.00667054, e22=0.00671533, R=6370238.27533333, Rm=6366678.40619415, name='AiryModified')

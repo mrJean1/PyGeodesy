@@ -3,7 +3,7 @@
 
 # Common base class and functions for modules geodesySphere and -Vector.
 
-# After (C) Chris Veness 2011-2015 published under the same MIT Licence,
+# After (C) Chris Veness 2011-2015 published under the same MIT Licence**,
 # see <http://www.movable-type.co.uk/scripts/latlong.html>
 # and <http://www.movable-type.co.uk/scripts/latlong-vectors.html>
 
@@ -19,7 +19,7 @@ __all__ = ('F_D', 'F_DM', 'F_DMS', 'F_RAD',  # format contants
            'bearingDMS', 'compassDMS', 'compassPoint',  # functions
            'latDMS', 'lonDMS', 'normDMS',
            'parseDMS', 'parse3llh', 'precision', 'toDMS')
-__version__ = '16.10.08'
+__version__ = '16.10.10'
 
 F_D   = 'd'    # format degrees as deg°
 F_DM  = 'dm'   # format degrees as deg°min'
@@ -298,3 +298,25 @@ def toDMS(deg, form=F_DMS, prec=2, ddd=2, neg='-', pos=''):
     t = _toDMS(deg, form=form, prec=prec, ddd=ddd)
     s = neg if deg < 0 else pos
     return s + t
+
+# **) MIT License
+#
+# Copyright (c) 2016 mrJean1@Gmail.com
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+# OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+# ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.

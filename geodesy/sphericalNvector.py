@@ -3,7 +3,7 @@
 
 # Python implementation of vector-based spherical geodetic (lat-/
 # longitude) functions.  Transcribed from JavaScript originals by
-# (C) Chris Veness 2011-2016, published under the same MIT Licence.
+# (C) Chris Veness 2011-2016, published under the same MIT Licence**.
 # See <http://www.movable-type.co.uk/scripts/latlong-vectors.html> and
 # <http://www.movable-type.co.uk/scripts/geodesy/docs/module-latlon-
 # nvector-spherical.html>.
@@ -687,3 +687,25 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3, radius=
 
     n = n1.plus(X.times(x)).plus(Y.times(y))
     return Nvector(n.x, n.y, n.z).toLatLon(height=h, datum=point1.datum)
+
+# **) MIT License
+#
+# Copyright (c) 2016 mrJean1@Gmail.com
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+# OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+# ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.

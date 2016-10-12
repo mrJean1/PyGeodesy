@@ -3,7 +3,7 @@
 
 # Python implementation of geodesy tools for an ellipsoidal earth model.
 # Transcribed from JavaScript originals by (C) Chris Veness 2005-2016
-# and published under the same MIT Licence, see for example
+# and published under the same MIT Licence**, see for example
 # <http://www.movable-type.co.uk/scripts/geodesy/docs/latlon-ellipsoidal.js.html>
 
 from bases import _LatLonHeightBase
@@ -46,8 +46,8 @@ class _CartesianBase(Vector3d):
                                           (lat, lon, heigth).
 
            Uses Bowring’s (1985) formulation for μm precision in
-           concise form: "The accuracy of geodetic latitude and
-           height equations", B. R. Bowring, Survey Review, Vol
+           concise form: 'The accuracy of geodetic latitude and
+           height equations', B. R. Bowring, Survey Review, Vol
            28, 218, Oct 1985.
         '''
         E = datum.ellipsoid
@@ -99,6 +99,7 @@ class _LatLonHeightDatumBase(_LatLonHeightBase):
     '''Base class for ellipsoidal LatLon.
     '''
     _datum = Datums.WGS84
+    _osgr  = None
     _utm   = None
 
     def __init__(self, lat, lon, height=0, datum=None):
@@ -129,16 +130,16 @@ class _LatLonHeightDatumBase(_LatLonHeightBase):
 
            @example
            pWGS84 = LatLon(51.4778, -0.0016)  # default Datums.WGS84
-           pOSGB  = pWGS84.convertDatum(Datums.OSGB36)  # 51.4773°N, 000.0000°E
+           pOSGB  = pWGS84.convertDatum(Datums.OSGB36)  # 51.477284°N, 000.00002°E
         '''
-        if self.datum is toDatum:
+        if self.datum == toDatum:
             return self.copy()
 
-        elif self.datum is Datums.WGS84:
+        elif self.datum == Datums.WGS84:
             # converting from WGS 84
             ll, t, i = self, toDatum.transform, False
 
-        elif toDatum is Datums.WGS84:
+        elif toDatum == Datums.WGS84:
             # converting to WGS84, use inverse transform
             ll, t, i = self, self.datum.transform, True
 
@@ -248,15 +249,50 @@ class _LatLonHeightDatumBase(_LatLonHeightBase):
                 (h + r) * ca * sin(b),
                 (h + r * (1 - E.e2)) * sa)
 
+    def toOsgr(self):
+        '''Convert this lat-/longitude to an OSGR coordinate.
+
+           See function toOsgr in module osgr for more details.
+
+           @returns {Osgr} The OSGR coordinate.
+        '''
+        if self._osgr is None:
+            from osgr import toOsgr  # PYCHOK recursive import
+            self._osgr = toOsgr(self, datum=self.datum)
+            self._osgr._latlon = self
+        return self._osgr
+
     def toUtm(self):
         '''Convert this lat-/longitude to a UTM coordinate.
 
            See function toUtm in module utm for more details.
 
-           @returns {Utm} A UTM coordinate.
+           @returns {Utm} The UTM coordinate.
         '''
         if self._utm is None:
-            from utm import toUtm
+            from utm import toUtm  # PYCHOK recursive import
             self._utm = toUtm(self, datum=self.datum)
             self._utm._latlon = self
         return self._utm
+
+# **) MIT License
+#
+# Copyright (c) 2016 mrJean1@Gmail.com
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+# OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+# ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.
