@@ -3,7 +3,7 @@
 
 # Test ellipsoidal earth model functions and methods.
 
-__version__ = '16.10.03'
+__version__ = '16.10.13'
 
 if __name__ == '__main__':
 
@@ -24,7 +24,7 @@ if __name__ == '__main__':
 
     # Typical test results (on MacOS X):
 
-    # testing geodesy.ellipsoidalNvector version 16.10.03
+    # testing geodesy.ellipsoidalNvector version 16.10.10
     # test 1 toLatLon: 44.995674°N, 045.0°E
     # test 2 toNvector: (0.50004, 0.50004, 0.70705)
     # test 3 equals: False
@@ -40,7 +40,7 @@ if __name__ == '__main__':
     # test 13 Nvector: (0.5, 0.5, 0.707, +1.00)
     # all geodesy.ellipsoidalNvector tests passed (Python 2.7.10)
 
-    # testing geodesy.ellipsoidalVincenty version 16.09.14
+    # testing geodesy.ellipsoidalVincenty version 16.10.10
     # test 1 distanceTo (WGS84): 866455.43292
     # test 2 VincentyError (WGS84): LatLon(41.49008°N, 071.312796°W) coincident with LatLon(41.49008°N, 071.312796°W)
     # test 3 distanceTo (WGS84): 969954.1663
@@ -59,7 +59,7 @@ if __name__ == '__main__':
     # test 16 destination2 (NAD83): 37.652818°S, 143.926498°E, 307.1736°NW
     # all geodesy.ellipsoidalVincenty tests passed (Python 2.7.10)
 
-    # testing ellipsoidalNvector version 16.10.03
+    # testing ellipsoidalNvector version 16.10.10
     # test 1 toLatLon: 44.995674°N, 045.0°E
     # test 2 toNvector: (0.50004, 0.50004, 0.70705)
     # test 3 equals: False
@@ -75,7 +75,7 @@ if __name__ == '__main__':
     # test 13 Nvector: (0.5, 0.5, 0.707, +1.00)
     # all ellipsoidalNvector tests passed (Python 3.5.1)
 
-    # testing ellipsoidalVincenty version 16.09.14
+    # testing ellipsoidalVincenty version 16.10.10
     # test 1 distanceTo (WGS84): 866455.43292
     # test 2 VincentyError (WGS84): LatLon(41.49008°N, 071.312796°W) coincident with LatLon(41.49008°N, 071.312796°W)
     # test 3 distanceTo (WGS84): 969954.1663

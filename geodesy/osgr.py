@@ -10,7 +10,7 @@
 from math import cos, sin, sqrt, tan
 from bases import _Base
 from datum import Datums
-from utils import degrees90, degrees180, fdot, isscalar, radians
+from utils import degrees90, degrees180, fdot, halfs, isscalar, radians
 
 # Ordnance Survey Grid References (OSGR) provide geocoordinate references
 # for UK mapping purposes, converted 2015 to work with WGS84 datum by
@@ -18,7 +18,8 @@ from utils import degrees90, degrees180, fdot, isscalar, radians
 
 # See <http://www.OrdnanceSurvey.co.uk/docs/support/guide-coordinate-systems-great-britain.pdf>
 # <https://www.OrdnanceSurvey.co.uk/blog/2014/09/proposed-changes-to-latitude-and-longitude-representation-on-paper-maps-tell-us-your-thoughts/>,
-# and <http://www.OrdnanceSurvey.co.uk/blog/2014/12/confirmation-on-changes-to-latitude-and-longitude>.
+# <http://www.OrdnanceSurvey.co.uk/blog/2014/12/confirmation-on-changes-to-latitude-and-longitude>.
+# and <https://en.wikipedia.org/wiki/Ordnance_Survey_National_Grid>
 
 # See also Karney 2011 'Transverse Mercator with an accuracy of a few
 # nanometers' and Krüger 1912 'Konforme Abbildung des Erdellipsoids in
@@ -32,7 +33,7 @@ from utils import degrees90, degrees180, fdot, isscalar, radians
 # all public contants, classes and functions
 __all__ = ('Osgr',  # classes
            'parseOSGR', 'toOsgr')  # functions
-__version__ = '16.10.10'
+__version__ = '16.10.12'
 
 _10um    = 1e-5  # 0.01 millimeter
 _100km   = 100000  # 100 km in (int) meter
@@ -308,15 +309,9 @@ def parseOSGR(strOSGR):
 
             g = s.split()
             if len(g) == 1:  # no whitespace
-                n = len(s)
-                if n < 2 or (n & 1):  # odd
-                    raise ValueError  # caught below
-                h = n // 2  # split halfway
-                e, n = s[:h], s[h:]
-
+                e, n = halfs(s)
             elif len(g) == 2:
                 e, n = g
-
             else:
                 raise ValueError  # caught below
 

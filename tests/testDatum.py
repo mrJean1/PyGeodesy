@@ -3,7 +3,7 @@
 
 # Test datums, ellipsoids and transforms.
 
-__version__ = '16.09.14'
+__version__ = '16.10.13'
 
 if __name__ == '__main__':
 
@@ -18,16 +18,16 @@ if __name__ == '__main__':
 
     # Typical test results (on MacOS X):
 
-    # testing datum.py version 16.09.14
+    # testing geodesy.datum version 16.10.10
     # test 1 ellipsoid: True
     # test 2 transform: True
     # test 3 datum: True
     # test 4 meanR: 6371008.77142
-    # all datum.py tests passed (Python 2.7.10)
+    # all geodesy.datum tests passed (Python 2.7.10)
 
-    # testing datum.py version 16.09.14
+    # testing geodesy.datum version 16.10.10
     # test 1 ellipsoid: True
     # test 2 transform: True
     # test 3 datum: True
     # test 4 meanR: 6371008.77142
-    # all datum.py tests passed (Python 3.5.1)
+    # all geodesy.datum tests passed (Python 3.5.1)

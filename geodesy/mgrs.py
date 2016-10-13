@@ -9,7 +9,10 @@
 
 from bases import _Base
 from datum import Datums
-from utm import toUtm, Utm, _toZBL
+from utils import halfs
+from utm   import toUtm, Utm, _toZBL
+
+import re  # PYCHOK warning locale.Error
 
 # Military Grid Reference System (MGRS/NATO) grid references provides
 # geocoordinate references covering the entire globe, based on UTM
@@ -21,15 +24,15 @@ from utm import toUtm, Utm, _toZBL
 # Depending on requirements, some parts of the reference may be omitted
 # (implied), and easting/northing may be given to varying resolution.
 
-# qv <http://www.fgdc.gov/standards/projects/FGDC-standards-projects/
-#            usng/fgdc_std_011_2001_usng.pdf>
+# Qv <http://www.fgdc.gov/standards/projects/FGDC-standards-projects/usng/fgdc_std_011_2001_usng.pdf>
+# and <https://en.wikipedia.org/wiki/Military_grid_reference_system>
 
 # all public contants, classes and functions
 __all__ = ('Mgrs',  # classes
            'parseMGRS', 'toMgrs')  # functions
-__version__ = '16.10.10'
+__version__ = '16.10.12'
 
-_100km  = 100e3  # 100 km in meter
+_100km  =  100e3  # 100 km in meter
 _2000km = 2000e3  # 2,000 km in meter
 
 # 100 km grid square column (‘e’) letters repeat every third zone
@@ -37,13 +40,17 @@ _Le100k = 'ABCDEFGH', 'JKLMNPQR', 'STUVWXYZ'
 # 100 km grid square row (‘n’) letters repeat every other zone
 _Ln100k = 'ABCDEFGHJKLMNPQRSTUV', 'FGHJKLMNPQRSTUVABCDE'
 
+# split an MGRS string "12ABC1235..." into 3 parts
+_MGRSre = re.compile('(\d{1,2}[C-X]{1})([A-Z]{2})(\d+)', re.IGNORECASE)
+_GZDre  = re.compile('(\d{1,2}[C-X]{1})', re.IGNORECASE)
+
 
 class Mgrs(_Base):
     '''Military Grid Reference System (MGRS/NATO) references,
        with method to convert to UTM coordinates.
     '''
     _band     = ''
-    _bandLat  = 0
+    _bandLat  = None
     _datum    = Datums.WGS84
     _en100k   = ''
     _easting  = 0
@@ -56,7 +63,7 @@ class Mgrs(_Base):
 
            @param  {number} zone - 6° longitudinal zone (1..60 covering 180°W..180°E).
            @param  {string} band - 8° latitudinal band (C..X covering 80°S..84°N).
-           @param  {string} en100k - Two-letter (EN) 100 km grid square.
+           @param  {string} en100k - Two-letter (EN digraph) 100 km grid square.
            @param  {meter} easting - Easting in metres within 100 km grid square.
            @param  {meter} northing - Northing in metres within 100 km grid square.
            @param  {Datum} [datum=Datums.WGS84] - This reference's datum.
@@ -67,7 +74,7 @@ class Mgrs(_Base):
            from mgrs import Mgrs
            m = Mgrs('31U', 'DQ', 48251, 11932)  # 31U DQ 48251 11932
         '''
-        self._zone, self._band, self._bandLat = _toZBL(zone, band)
+        self._zone, self._band, self._bandLat = _toZBL(zone, band, True)
 
         try:
             en = str(en100k).upper()
@@ -79,7 +86,9 @@ class Mgrs(_Base):
             raise ValueError('%s invalid: %r' ('en100k', en100k))
 
         self._easting, self._northing = float(easting), float(northing)
-        self._datum = datum
+
+        if self._datum != datum:
+            self._datum = datum
 
     def __repr__(self):
         return self.toStr2()
@@ -104,7 +113,7 @@ class Mgrs(_Base):
 
     @property
     def bandLatitude(self):
-        '''Return band latitude in degrees90.'''
+        '''Return band latitude in degrees90 or None.'''
         return self._bandLat
 
     @property
@@ -176,7 +185,8 @@ class Mgrs(_Base):
         '''
         # get northing of the band bottom, extended to
         # include entirety of bottom-most 100 km square
-        nb = int(toUtm(self._bandLat, 0, datum=self._datum).northing / _100km) * _100km
+        n = toUtm(self._bandLat, 0, datum=self._datum).northing
+        nb = int(n / _100km) * _100km
 
         e, n = self._en100k2m()
         # 100 km grid square row letters repeat every 2,000 km north;
@@ -200,7 +210,7 @@ def parseMGRS(strMGRS, datum=Datums.WGS84):
        consisting of zone, grid, easting and northing.
 
        @param {string} strMGRS - MGRS grid reference.
-       @param  {Datum} [datum=Datums.WGS84] - This datum to use.
+       @param  {Datum} [datum=Datums.WGS84] - The datum to use.
 
        @returns {Mgrs} The MGRS grid reference.
 
@@ -212,14 +222,33 @@ def parseMGRS(strMGRS, datum=Datums.WGS84):
        m = parseMGRS('31UDQ4825111932')
        repr(m)  # [Z:31U, G:DQ, E:48251, N:11932]
     '''
-    m = strMGRS.strip().replace(',', ' ').split()
-    try:
-        if len(m) == 1:
-            m = m[0]
-            m = m[:3], m[3:5], m[5:10], m[10:]
-        elif len(m) != 4:
+    def _mg(cre, s):  # return re.match groups
+        m = cre.match(s)
+        if not m:
             raise ValueError
-        e, n = map(float, m[2:])
+        return m.groups()
+
+    def _s2m(g):  # e or n string to meter
+        f = float(g)
+        n = int(f)
+        if n:
+            n = len(str(n))
+        if n < 5:
+            f *= pow(10, 5 - n)
+        return f
+
+    m = tuple(strMGRS.strip().replace(',', ' ').split())
+    try:
+        if len(m) == 1:  # 01ABC1234512345'
+            m = _mg(_MGRSre, m[0])
+            m = m[:2] + halfs(m[2])
+        elif len(m) == 2:  # 01ABC 1234512345'
+            m = _mg(_GZDre, m[0]) + halfs(m[1])
+        elif len(m) == 3:  # 01ABC 12345 12345'
+            m = _mg(_GZDre, m[0]) + m[1:]
+        if len(m) != 4:  # 01A BC 1234 12345
+            raise ValueError
+        e, n = map(_s2m, m[2:])
     except ValueError:
         raise ValueError('%s invalid: %r' % ('strMGRS', strMGRS))
 
@@ -229,7 +258,7 @@ def parseMGRS(strMGRS, datum=Datums.WGS84):
 def toMgrs(utm):
     '''Convert a UTM coordinate to an MGRS grid reference.
 
-       @param {Utm} utm - The UTM coordinate.
+       @param {Utm} utm - A UTM coordinate.
 
        @returns {Mgrs} The MGRS grid reference.
 
@@ -249,7 +278,7 @@ def toMgrs(utm):
     # at 166e3 due to 500km false origin)
     z = utm.zone - 1
     en = (_Le100k[z % 3][int(E) - 1] +
-         # rows in even zones are A-V, in odd zones are F-E
+          # rows in even zones are A-V, in odd zones are F-E
           _Ln100k[z % 2][int(N) % len(_Ln100k[0])])
 
     return Mgrs(utm.zone, en, e, n, band=utm.band, datum=utm.datum)

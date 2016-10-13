@@ -3,7 +3,7 @@
 
 # Test MGRS functions and methods.
 
-__version__ = '16.10.10'
+__version__ = '16.10.13'
 
 if __name__ == '__main__':
 
@@ -28,38 +28,38 @@ if __name__ == '__main__':
             self.test('Mgrs3', repr(m), '[Z:31U, G:DQ, E:48251, N:11932]')
 
             u = m.toUtm()
-            self.test('toUtm1', str(u), '31U N 448251 5411932')
-            self.test('toUtm1', repr(u), '[Z:31U, H:N, E:448251, N:5411932]')
+            self.test('toUtm1', str(u), '31 N 448251 5411932')
+            self.test('toUtm1', repr(u), '[Z:31, H:N, E:448251, N:5411932]')
 
             m = u.toMgrs()
             self.test('toMgrs', str(m), '31U DQ 48251 11932')
 
-    t = Tests(__file__, __version__)
+    t = Tests(__file__, __version__, mgrs)
     t.testMgrs()
     t.results()
 
     # Typical test results (on MacOS X):
 
-    # testing testMgrs.py version 16.10.10
+   # testing geodesy.mgrs version 16.10.12
     # test 1 Mgrs1: 31U DQ 48251 11932
     # test 2 Mgrs1: [Z:31U, G:DQ, E:48251, N:11932]
     # test 3 Mgrs2: 31U DQ 48251 11932
     # test 4 Mgrs2: [Z:31U, G:DQ, E:48251, N:11932]
     # test 5 Mgrs3: 31U DQ 48251 11932
     # test 6 Mgrs3: [Z:31U, G:DQ, E:48251, N:11932]
-    # test 7 toUtm1: 31U N 448251 5411932
-    # test 8 toUtm1: [Z:31U, H:N, E:448251, N:5411932]
+    # test 7 toUtm1: 31 N 448251 5411932
+    # test 8 toUtm1: [Z:31, H:N, E:448251, N:5411932]
     # test 9 toMgrs: 31U DQ 48251 11932
-    # all testMgrs.py tests passed (Python 2.7.10)
+    # all geodesy.mgrs tests passed (Python 2.7.10)
 
-    # testing testMgrs.py version 16.10.10
+    # testing geodesy.mgrs version 16.10.12
     # test 1 Mgrs1: 31U DQ 48251 11932
     # test 2 Mgrs1: [Z:31U, G:DQ, E:48251, N:11932]
     # test 3 Mgrs2: 31U DQ 48251 11932
     # test 4 Mgrs2: [Z:31U, G:DQ, E:48251, N:11932]
     # test 5 Mgrs3: 31U DQ 48251 11932
     # test 6 Mgrs3: [Z:31U, G:DQ, E:48251, N:11932]
-    # test 7 toUtm1: 31U N 448251 5411932
-    # test 8 toUtm1: [Z:31U, H:N, E:448251, N:5411932]
+    # test 7 toUtm1: 31 N 448251 5411932
+    # test 8 toUtm1: [Z:31, H:N, E:448251, N:5411932]
     # test 9 toMgrs: 31U DQ 48251 11932
-    # all testMgrs.py tests passed (Python 3.5.1)
+    # all geodesy.mgrs tests passed (Python 3.5.1)

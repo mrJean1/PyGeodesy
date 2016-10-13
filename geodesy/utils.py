@@ -14,10 +14,10 @@ import sys
 # all public contants, classes and functions
 __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2',  # math constants
            'cbrt', 'degrees', 'degrees90', 'degrees180', 'degrees360',
-           'fdot', 'fsum', 'fStr', 'hypot3', 'isscalar', 'len2',
+           'fdot', 'fsum', 'fStr', 'halfs', 'hypot3', 'isscalar', 'len2',
            'sin_2', 'tanPI_2_2', 'radians', 'radiansPI', 'radiansPI_2',
            'wrap90', 'wrap180', 'wrapPI', 'wrapPI2', 'wrapPI_2')
-__version__ = '16.10.10'
+__version__ = '16.10.12'
 
 try:
     from math import fsum  # precision sum
@@ -118,7 +118,16 @@ def fStr(floats, prec=6, sep=', ', fmt='%.*f'):
     if isscalar(floats):
         return _fstr(prec, floats)
     else:
-    return sep.join(_fstr(prec, f) for f in floats)
+        return sep.join(_fstr(prec, f) for f in floats)
+
+
+def halfs(str2):
+    '''Split string in 2 halfs.
+    '''
+    h, odd = divmod(len(str2), 2)
+    if odd or not h:
+        raise ValueError('%s invalid: %r' % ('str2', str2))
+    return str2[:h], str2[h:]
 
 
 def hypot3(x, y, z):

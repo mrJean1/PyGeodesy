@@ -3,7 +3,7 @@
 
 # Test degrees, minutes, seconds functions.
 
-__version__ = '16.09.14'
+__version__ = '16.10.13'
 
 if __name__ == '__main__':
 
@@ -16,7 +16,7 @@ if __name__ == '__main__':
 
     # Typical test results (on MacOS X):
 
-    # testing geodesy.dms version 16.09.14
+    # testing geodesy.dms version 16.10.10
     # test 1 parseDMS: 0.0
     # test 2 parseDMS: 0.0
     # test 3 parseDMS: 0.0
@@ -49,7 +49,7 @@ if __name__ == '__main__':
     # test 30 compassPoint: WSW
     # all geodesy.dms tests passed (Python 2.7.10)
 
-    # testing geodesy.dms version 16.09.14
+    # testing geodesy.dms version 16.10.10
     # test 1 parseDMS: 0.0
     # test 2 parseDMS: 0.0
     # test 3 parseDMS: 0.0

@@ -4,6 +4,9 @@
 # A Python implementation of geodesy tools for various ellipsoidal and
 # spherical earth models using trigonometric and vector-based methods.
 
+# All modules have been tested with 64-bit Python 2.7.10 and 3.5.1 only
+# on MacOS X 10.11.6 and checked with PyChecker, PyFlakes and Pep8.
+
 # Transcribed from JavaScript originals by (C) Chris Veness 2005-2016
 # and published under the same MIT Licence**.
 
@@ -40,9 +43,9 @@ VincentyError = ellipsoidalVincenty.VincentyError
 
 # all public contants, classes and functions
 __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',
-          'sphericalNvector', 'sphericalTrigonometry',
+           'sphericalNvector', 'sphericalTrigonometry',
            'VincentyError')  # extended below
-__version__ = '16.10.10'
+__version__ = '16.10.12'
 
 # lift all public constants, functions, etc.
 import datum as _datum, dms as _dms, mgrs as _mgrs, \

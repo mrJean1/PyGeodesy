@@ -3,7 +3,7 @@
 
 # Test spherical earth model functions and methods.
 
-__version__ = '16.09.14'
+__version__ = '16.10.13'
 
 if __name__ == '__main__':
 
@@ -69,7 +69,7 @@ if __name__ == '__main__':
     # test 42 copy: True
     # all geodesy.sphericalNvector tests passed (Python 2.7.10)
 
-    # testing geodesy.sphericalTrigonometry version 16.09.14
+    # testing geodesy.sphericalTrigonometry version 16.10.10
     # test 1 lat/lonDMS: 52.20472°N, 000.14056°E
     # test 2 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
     # test 3 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
@@ -152,7 +152,7 @@ if __name__ == '__main__':
     # test 42 copy: True
     # all sphericalNvector tests passed (Python 3.5.1)
 
-    # testing sphericalTrigonometry version 16.09.14
+    # testing sphericalTrigonometry version 16.10.10
     # test 1 lat/lonDMS: 52.20472°N, 000.14056°E
     # test 2 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
     # test 3 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E

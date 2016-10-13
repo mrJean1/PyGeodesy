@@ -32,7 +32,7 @@
 # Created by Brian Lambert on 6/5/16.
 # Copyright © 2016 Softwarenerd.
 
-__version__ = '16.09.15'
+__version__ = '16.10.13'
 
 if __name__ == '__main__':
 
@@ -215,7 +215,7 @@ if __name__ == '__main__':
     # test 29 CrossTrackDistanceThatShouldBeVeryCloseToZero: 0.00000000
     # 5 geodesy.sphericalNvector tests (17.2%) FAILED (Python 2.7.10)
 
-    # testing geodesy.sphericalTrigonometry version 16.09.14
+    # testing geodesy.sphericalTrigonometry version 16.10.10
     # test 1 InitialBearingSameLocations: 0.0
     # test 2 InitialBearingEqualLocations: 0.0
     # test 3 FinalBearingSameLocations: 180.0
@@ -279,7 +279,7 @@ if __name__ == '__main__':
     # test 29 CrossTrackDistanceThatShouldBeVeryCloseToZero: 0.00000000
     # 5 sphericalNvector tests (17.2%) FAILED (Python 3.5.1)
 
-    # testing sphericalTrigonometry version 16.09.14
+    # testing sphericalTrigonometry version 16.10.10
     # test 1 InitialBearingSameLocations: 0.0
     # test 2 InitialBearingEqualLocations: 0.0
     # test 3 FinalBearingSameLocations: 180.0

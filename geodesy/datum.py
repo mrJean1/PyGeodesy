@@ -152,11 +152,11 @@ class Ellipsoid(_Base):
         if d < 0 or min(self.a, self.b) < 1:
             raise AssertionError('%s: %s=%0.9f vs %s=%0.9f' % (name,
                                  'a', self.a, 'b', self.b))
-            t = d / self.a
+        t = d / self.a
         if abs(self.f - t) > 1e-8:
             raise AssertionError('%s: %s=%.9e vs %s=%.9e' % (name,
                                  '1/f', self.f, '(a-b)/a', t))
-            t = d / (self.a + self.b)
+        t = d / (self.a + self.b)
         if abs(self.n - t) > 1e-8:
             raise AssertionError('%s: %s=%.9e vs %s=%.9e' % (name,
                                  'n', self.n, '(a-b)/(a+b)', t))
