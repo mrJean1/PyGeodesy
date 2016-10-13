@@ -3,7 +3,7 @@
 
 # Test MGRS functions and methods.
 
-__version__ = '16.10.13'
+__version__ = '16.10.14'
 
 if __name__ == '__main__':
 
@@ -40,7 +40,7 @@ if __name__ == '__main__':
 
     # Typical test results (on MacOS X):
 
-   # testing geodesy.mgrs version 16.10.12
+    # testing geodesy.mgrs version 16.10.12
     # test 1 Mgrs1: 31U DQ 48251 11932
     # test 2 Mgrs1: [Z:31U, G:DQ, E:48251, N:11932]
     # test 3 Mgrs2: 31U DQ 48251 11932

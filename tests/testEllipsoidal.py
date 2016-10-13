@@ -3,7 +3,7 @@
 
 # Test ellipsoidal earth model functions and methods.
 
-__version__ = '16.10.13'
+__version__ = '16.10.14'
 
 if __name__ == '__main__':
 
@@ -24,7 +24,7 @@ if __name__ == '__main__':
 
     # Typical test results (on MacOS X):
 
-    # testing geodesy.ellipsoidalNvector version 16.10.10
+    # testing geodesy.ellipsoidalNvector version 16.10.14
     # test 1 toLatLon: 44.995674°N, 045.0°E
     # test 2 toNvector: (0.50004, 0.50004, 0.70705)
     # test 3 equals: False
@@ -40,26 +40,28 @@ if __name__ == '__main__':
     # test 13 Nvector: (0.5, 0.5, 0.707, +1.00)
     # all geodesy.ellipsoidalNvector tests passed (Python 2.7.10)
 
-    # testing geodesy.ellipsoidalVincenty version 16.10.10
+    # testing geodesy.ellipsoidalVincenty version 16.10.14
     # test 1 distanceTo (WGS84): 866455.43292
     # test 2 VincentyError (WGS84): LatLon(41.49008°N, 071.312796°W) coincident with LatLon(41.49008°N, 071.312796°W)
-    # test 3 distanceTo (WGS84): 969954.1663
-    # test 4 copy: True
-    # test 5 distanceTo3 (WGS84): 969954.166314, 9.141877, 11.29722
-    # test 6 distanceTo (WGS84): 54973.295
-    # test 7 distanceTo3 (WGS84): 54973.29527, 126.86992, 127.17539
-    # test 8 destination2 (WGS84): 37.652818°S, 143.926498°E, 307.1736°NW
-    # test 9 distanceTo (NAD83): 866455.43292
-    # test 10 VincentyError (NAD83): LatLon(41.49008°N, 071.312796°W) coincident with LatLon(41.49008°N, 071.312796°W)
-    # test 11 distanceTo (NAD83): 969954.1663
-    # test 12 copy: True
-    # test 13 distanceTo3 (NAD83): 969954.166314, 9.141877, 11.29722
-    # test 14 distanceTo (NAD83): 54973.295
-    # test 15 distanceTo3 (NAD83): 54973.29527, 126.86992, 127.17539
-    # test 16 destination2 (NAD83): 37.652818°S, 143.926498°E, 307.1736°NW
+    # test 3 ValueError (WGS84): other Ellipsoid mistmatch: Ellipsoids.Airy1830 vs Ellipsoids.WGS84
+    # test 4 distanceTo (WGS84): 969954.1663
+    # test 5 copy: True
+    # test 6 distanceTo3 (WGS84): 969954.166314, 9.141877, 11.29722
+    # test 7 distanceTo (WGS84): 54973.295
+    # test 8 distanceTo3 (WGS84): 54973.29527, 126.86992, 127.17539
+    # test 9 destination2 (WGS84): 37.652818°S, 143.926498°E, 307.1736°NW
+    # test 10 distanceTo (NAD83): 866455.43292
+    # test 11 VincentyError (NAD83): LatLon(41.49008°N, 071.312796°W) coincident with LatLon(41.49008°N, 071.312796°W)
+    # test 12 ValueError (NAD83): other Ellipsoid mistmatch: Ellipsoids.Airy1830 vs Ellipsoids.GRS80
+    # test 13 distanceTo (NAD83): 969954.1663
+    # test 14 copy: True
+    # test 15 distanceTo3 (NAD83): 969954.166314, 9.141877, 11.29722
+    # test 16 distanceTo (NAD83): 54973.295
+    # test 17 distanceTo3 (NAD83): 54973.29527, 126.86992, 127.17539
+    # test 18 destination2 (NAD83): 37.652818°S, 143.926498°E, 307.1736°NW
     # all geodesy.ellipsoidalVincenty tests passed (Python 2.7.10)
 
-    # testing ellipsoidalNvector version 16.10.10
+    # testing ellipsoidalNvector version 16.10.14
     # test 1 toLatLon: 44.995674°N, 045.0°E
     # test 2 toNvector: (0.50004, 0.50004, 0.70705)
     # test 3 equals: False
@@ -75,21 +77,23 @@ if __name__ == '__main__':
     # test 13 Nvector: (0.5, 0.5, 0.707, +1.00)
     # all ellipsoidalNvector tests passed (Python 3.5.1)
 
-    # testing ellipsoidalVincenty version 16.10.10
+    # testing ellipsoidalVincenty version 16.10.14
     # test 1 distanceTo (WGS84): 866455.43292
     # test 2 VincentyError (WGS84): LatLon(41.49008°N, 071.312796°W) coincident with LatLon(41.49008°N, 071.312796°W)
-    # test 3 distanceTo (WGS84): 969954.1663
-    # test 4 copy: True
-    # test 5 distanceTo3 (WGS84): 969954.166314, 9.141877, 11.29722
-    # test 6 distanceTo (WGS84): 54973.295
-    # test 7 distanceTo3 (WGS84): 54973.29527, 126.86992, 127.17539
-    # test 8 destination2 (WGS84): 37.652818°S, 143.926498°E, 307.1736°NW
-    # test 9 distanceTo (NAD83): 866455.43292
-    # test 10 VincentyError (NAD83): LatLon(41.49008°N, 071.312796°W) coincident with LatLon(41.49008°N, 071.312796°W)
-    # test 11 distanceTo (NAD83): 969954.1663
-    # test 12 copy: True
-    # test 13 distanceTo3 (NAD83): 969954.166314, 9.141877, 11.29722
-    # test 14 distanceTo (NAD83): 54973.295
-    # test 15 distanceTo3 (NAD83): 54973.29527, 126.86992, 127.17539
-    # test 16 destination2 (NAD83): 37.652818°S, 143.926498°E, 307.1736°NW
+    # test 3 ValueError (WGS84): other Ellipsoid mistmatch: Ellipsoids.Airy1830 vs Ellipsoids.WGS84
+    # test 4 distanceTo (WGS84): 969954.1663
+    # test 5 copy: True
+    # test 6 distanceTo3 (WGS84): 969954.166314, 9.141877, 11.29722
+    # test 7 distanceTo (WGS84): 54973.295
+    # test 8 distanceTo3 (WGS84): 54973.29527, 126.86992, 127.17539
+    # test 9 destination2 (WGS84): 37.652818°S, 143.926498°E, 307.1736°NW
+    # test 10 distanceTo (NAD83): 866455.43292
+    # test 11 VincentyError (NAD83): LatLon(41.49008°N, 071.312796°W) coincident with LatLon(41.49008°N, 071.312796°W)
+    # test 12 ValueError (NAD83): other Ellipsoid mistmatch: Ellipsoids.Airy1830 vs Ellipsoids.GRS80
+    # test 13 distanceTo (NAD83): 969954.1663
+    # test 14 copy: True
+    # test 15 distanceTo3 (NAD83): 969954.166314, 9.141877, 11.29722
+    # test 16 distanceTo (NAD83): 54973.295
+    # test 17 distanceTo3 (NAD83): 54973.29527, 126.86992, 127.17539
+    # test 18 destination2 (NAD83): 37.652818°S, 143.926498°E, 307.1736°NW
     # all ellipsoidalVincenty tests passed (Python 3.5.1)

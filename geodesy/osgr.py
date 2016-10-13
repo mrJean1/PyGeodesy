@@ -21,9 +21,9 @@ from utils import degrees90, degrees180, fdot, halfs, isscalar, radians
 # <http://www.OrdnanceSurvey.co.uk/blog/2014/12/confirmation-on-changes-to-latitude-and-longitude>.
 # and <https://en.wikipedia.org/wiki/Ordnance_Survey_National_Grid>
 
-# See also Karney 2011 'Transverse Mercator with an accuracy of a few
-# nanometers' and Krüger 1912 'Konforme Abbildung des Erdellipsoids in
-# der Ebene'.
+# See also Karney 2011 "Transverse Mercator with an accuracy of a few
+# nanometers" and Krüger 1912 "Konforme Abbildung des Erdellipsoids in
+# der Ebene".
 
 # References <https://arxiv.org/pdf/1002.1417v3.pdf>,
 # <http://bib.gfz-potsdam.de/pub/digi/krueger2.pdf>,
@@ -33,7 +33,7 @@ from utils import degrees90, degrees180, fdot, halfs, isscalar, radians
 # all public contants, classes and functions
 __all__ = ('Osgr',  # classes
            'parseOSGR', 'toOsgr')  # functions
-__version__ = '16.10.12'
+__version__ = '16.10.14'
 
 _10um    = 1e-5  # 0.01 millimeter
 _100km   = 100000  # 100 km in (int) meter
@@ -345,7 +345,7 @@ def toOsgr(latlon, lon=None, datum=Datums.WGS84):
     '''
     if isscalar(lon) and isscalar(latlon):
         # XXX any ellipsoidal LatLon with .convertDatum
-        from ellipsoidalNvector import LatLon as _LatLon
+        from ellipsoidalVincenty import LatLon as _LatLon
         latlon = _LatLon(latlon, lon, datum=datum)
     elif not hasattr(latlon, 'convertDatum'):
         raise TypeError('%s not ellipsoidal: %r' % ('latlon', latlon))

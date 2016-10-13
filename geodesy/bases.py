@@ -12,7 +12,7 @@ from math import cos, radians, sin
 
 # all public contants, classes and functions
 __all__ = ()  # none
-__version__ = '16.10.10'
+__version__ = '16.10.14'
 
 
 class _Base(object):
@@ -154,7 +154,7 @@ class _LatLonHeightBase(_Base):
 
            @returns {(meter, meter, meter)} 3-Tuple (x, y, z).
         '''
-        # Kenneth Gade eqn (3), but using right-handed
+        # Kenneth Gade eqn 3, but using right-handed
         # vector x -> 0°E,0°N, y -> 90°E,0°N, z -> 90°N
         a, b = self.toradians()
         ca = cos(a)

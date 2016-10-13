@@ -27,12 +27,12 @@ from math import asin, atan2, cos, hypot, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '16.10.10'
+__version__ = '16.10.14'
 
 
 class Cartesian(_CartesianBase):
-    '''Nvector Cartesian extends ellipsoidalCartersian with
-       method to convert cartesian coordinates to n-vectors.
+    '''Extend with method to convert Cartesian to Nvector and
+       Nvector-based LatLon.
     '''
     _Nv = None  # cache Nvector
 
@@ -537,9 +537,8 @@ class LatLon(_LatLonNvectorBase, _LatLonHeightDatumBase):
            @returns {Cartesian} Cartesian point equivalent, with x,
                                 y and z in meter from earth center.
         '''
-        # to this (ellipsoidalNvector) Cartesian, with toNvector method
         x, y, z = self.to3xyz()  # ellipsoidalBase._LatLonHeightDatumBase
-        return Cartesian(x, y, z)
+        return Cartesian(x, y, z)  # this ellipsoidalNvector Cartesian
 
     def toNvector(self):  # note: replicated in LatLonNvectorSpherical
         '''Convert this (geodetic) LatLon point to n-vector (normal

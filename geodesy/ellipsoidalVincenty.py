@@ -45,13 +45,14 @@ or by converting to anothor datum:
 
     >>> p = p.convertDatum(Datums.OSGB36)
 '''
-from ellipsoidalBase import _LatLonHeightDatumBase
+from datum import Datums
+from ellipsoidalBase import _CartesianBase, _LatLonHeightDatumBase
 from utils import EPS, degrees90, degrees180, degrees360, radians
 from math import atan2, cos, hypot, sin, tan
 
 # all public contants, classes and functions
-__all__ = ('LatLon', 'VincentyError')  # classes
-__version__ = '16.10.10'
+__all__ = ('Cartesian', 'LatLon', 'VincentyError')  # classes
+__version__ = '16.10.14'
 
 
 class VincentyError(Exception):
@@ -59,6 +60,22 @@ class VincentyError(Exception):
        for coincident points and lack of convergence.
     '''
     pass
+
+
+class Cartesian(_CartesianBase):
+    '''Extend with method to convert Cartesian to
+       Vincenty-based LatLon.
+    '''
+    def toLatLon(self, datum=Datums.WGS84):  # PYCHOK XXX
+        '''Converts this (geocentric) Cartesian (x/y/z) point to
+           (ellipsoidal geodetic) LatLon point on the specified datum.
+
+           @param {Datum} [datum=Datums.WGS84] - Datum to use.
+
+           @returns {LatLon} The (ellipsoidal) LatLon point.
+        '''
+        a, b, h = self.to3latlonheight(datum)
+        return LatLon(a, b, height=h, datum=datum)  # Vincenty
 
 
 class LatLon(_LatLonHeightDatumBase):
@@ -276,6 +293,16 @@ class LatLon(_LatLonHeightDatumBase):
         '''
         if 2 < int(limit) < 200:
             self._iterations = int(limit)
+
+    def toCartesian(self):
+        '''Convert this (geodetic) LatLon point to (geocentric) x/y/z
+           cartesian coordinates.
+
+           @returns {Cartesian} Cartesian point equivalent, with x,
+                                y and z in meter from earth center.
+        '''
+        x, y, z = self.to3xyz()  # ellipsoidalBase._LatLonHeightDatumBase
+        return Cartesian(x, y, z)  # this ellipsoidalVincenty.Cartesian
 
     def _direct(self, distance, bearing, llr):
         # direct Vincenty method, private
