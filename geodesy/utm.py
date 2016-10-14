@@ -35,7 +35,7 @@ from utils import degrees, degrees90, degrees180, fStr, fsum, \
 # all public contants, classes and functions
 __all__ = ('Utm',  # classes
            'parseUTM', 'toUtm')  # functions
-__version__ = '16.10.12'
+__version__ = '16.10.15'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N
 _Bands         = 'CDEFGHJKLMNPQRSTUVWXX'  # X repeated for 80-84°N
@@ -172,6 +172,14 @@ class Utm(_Base):
     def northing(self):
         '''Return northing in meter.'''
         return self._northing
+
+    def parseUTM(self, strUTM):
+        '''Parse a string to a UTM coordinate.
+
+           For details, see function parseUTM
+           in this module utm.
+        '''
+        return parseUTM(strUTM, datum=self.datum)
 
     @property
     def scale(self):
@@ -322,10 +330,10 @@ def parseUTM(strUTM, datum=Datums.WGS84):
     '''Parse a string representing a UTM coordinate, consisting of
        zone, hemisphere, easting and northing.
 
-       @param {string} strUTM - UTM coordinate.
-       @param {Datum} [datum=Datums.WGS84] - This coordinate's datum.
+       @param {string} strUTM - A UTM coordinate.
+       @param {Datum} [datum=Datums.WGS84] - The datum to use.
 
-       @returns {Utm} A Utm instance.
+       @returns {Utm} The UTM coordinate.
 
        @throws {ValueError} Invalid strUTM.
 

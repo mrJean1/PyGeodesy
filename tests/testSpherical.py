@@ -3,7 +3,7 @@
 
 # Test spherical earth model functions and methods.
 
-__version__ = '16.10.13'
+__version__ = '16.10.15'
 
 if __name__ == '__main__':
 
@@ -24,7 +24,7 @@ if __name__ == '__main__':
 
     # Typical test results (on MacOS X):
 
-    # testing geodesy.sphericalNvector version 16.09.14
+    # testing geodesy.sphericalNvector version 16.10.15
     # test 1 lat/lonDMS: 52.20472°N, 000.14056°E
     # test 2 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
     # test 3 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
@@ -49,24 +49,25 @@ if __name__ == '__main__':
     # test 22 crossTrackDistanceTo: -307.55
     # test 23 greatCircle: (-0.79408, 0.12856, 0.59406)
     # test 24 greatCircleTo: (-0.79408, 0.12859, 0.59406)
-    # test 25 intermediateTo: 51.372294°N, 000.707192°E
-    # test 26 intersection: 50.907608°N, 004.508575°E
-    # test 27 intersection: 50°54′27.39″N, 004°30′30.87″E
-    # test 28 intersection: 43.5719°N, 116.188757°W
-    # test 29 intersection: 43°34′18.84″N, 116°11′19.53″W
-    # test 30 maxLat0: 90.0
-    # test 31 maxLat1: 89.0
-    # test 32 maxLat90: 0.0
-    # test 33 rhumbBearingTo: 116.722
-    # test 34 rhumbDistanceTo: 40307.8
-    # test 35 rhumbMidpointo: 51.0455°N, 001.595727°E
-    # test 36 crossTrackDistanceTo: -305.67
-    # test 37 crossTrackDistanceTo: -307.55
-    # test 38 toLatLon: 44.995674°N, 045.0°E
-    # test 39 toNvector: (0.50004, 0.50004, 0.70705)
-    # test 40 equals: False
-    # test 41 equals: True
-    # test 42 copy: True
+    # test 25 intermediateTo: 51.372084°N, 000.707337°E
+    # test 26 intermediateChordTo: 51.372294°N, 000.707192°E
+    # test 27 intersection: 50.907608°N, 004.508575°E
+    # test 28 intersection: 50°54′27.39″N, 004°30′30.87″E
+    # test 29 intersection: 43.5719°N, 116.188757°W
+    # test 30 intersection: 43°34′18.84″N, 116°11′19.53″W
+    # test 31 maxLat0: 90.0
+    # test 32 maxLat1: 89.0
+    # test 33 maxLat90: 0.0
+    # test 34 rhumbBearingTo: 116.722
+    # test 35 rhumbDistanceTo: 40307.8
+    # test 36 rhumbMidpointo: 51.0455°N, 001.595727°E
+    # test 37 crossTrackDistanceTo: -305.67
+    # test 38 crossTrackDistanceTo: -307.55
+    # test 39 toLatLon: 44.995674°N, 045.0°E
+    # test 40 toNvector: (0.50004, 0.50004, 0.70705)
+    # test 41 equals: False
+    # test 42 equals: True
+    # test 43 copy: True
     # all geodesy.sphericalNvector tests passed (Python 2.7.10)
 
     # testing geodesy.sphericalTrigonometry version 16.10.10
@@ -107,7 +108,7 @@ if __name__ == '__main__':
     # test 35 rhumbMidpointo: 51.0455°N, 001.595727°E
     # all geodesy.sphericalTrigonometry tests passed (Python 2.7.10)
 
-    # testing sphericalNvector version 16.09.14
+    # testing sphericalNvector version 16.10.15
     # test 1 lat/lonDMS: 52.20472°N, 000.14056°E
     # test 2 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
     # test 3 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
@@ -132,24 +133,25 @@ if __name__ == '__main__':
     # test 22 crossTrackDistanceTo: -307.55
     # test 23 greatCircle: (-0.79408, 0.12856, 0.59406)
     # test 24 greatCircleTo: (-0.79408, 0.12859, 0.59406)
-    # test 25 intermediateTo: 51.372294°N, 000.707192°E
-    # test 26 intersection: 50.907608°N, 004.508575°E
-    # test 27 intersection: 50°54′27.39″N, 004°30′30.87″E
-    # test 28 intersection: 43.5719°N, 116.188757°W
-    # test 29 intersection: 43°34′18.84″N, 116°11′19.53″W
-    # test 30 maxLat0: 90.0
-    # test 31 maxLat1: 89.0
-    # test 32 maxLat90: 0.0
-    # test 33 rhumbBearingTo: 116.722
-    # test 34 rhumbDistanceTo: 40307.8
-    # test 35 rhumbMidpointo: 51.0455°N, 001.595727°E
-    # test 36 crossTrackDistanceTo: -305.67
-    # test 37 crossTrackDistanceTo: -307.55
-    # test 38 toLatLon: 44.995674°N, 045.0°E
-    # test 39 toNvector: (0.50004, 0.50004, 0.70705)
-    # test 40 equals: False
-    # test 41 equals: True
-    # test 42 copy: True
+    # test 25 intermediateTo: 51.372084°N, 000.707337°E
+    # test 26 intermediateChordTo: 51.372294°N, 000.707192°E
+    # test 27 intersection: 50.907608°N, 004.508575°E
+    # test 28 intersection: 50°54′27.39″N, 004°30′30.87″E
+    # test 29 intersection: 43.5719°N, 116.188757°W
+    # test 30 intersection: 43°34′18.84″N, 116°11′19.53″W
+    # test 31 maxLat0: 90.0
+    # test 32 maxLat1: 89.0
+    # test 33 maxLat90: 0.0
+    # test 34 rhumbBearingTo: 116.722
+    # test 35 rhumbDistanceTo: 40307.8
+    # test 36 rhumbMidpointo: 51.0455°N, 001.595727°E
+    # test 37 crossTrackDistanceTo: -305.67
+    # test 38 crossTrackDistanceTo: -307.55
+    # test 39 toLatLon: 44.995674°N, 045.0°E
+    # test 40 toNvector: (0.50004, 0.50004, 0.70705)
+    # test 41 equals: False
+    # test 42 equals: True
+    # test 43 copy: True
     # all sphericalNvector tests passed (Python 3.5.1)
 
     # testing sphericalTrigonometry version 16.10.10

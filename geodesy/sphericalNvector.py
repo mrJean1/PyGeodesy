@@ -28,13 +28,13 @@ from nvector import NorthPole, _LatLonNvectorBase, \
 from sphericalBase import _LatLonSphericalBase
 from utils import EPS, EPS1, PI, PI2, PI_2, degrees360, \
                   fsum, isscalar, len2
-from math import cos, radians, sin
+from math import atan2, cos, radians, sin
 
 # all public contants, classes and functions
 __all__ = ('LatLon',  # classes
            'areaOf', 'intersection', 'meanOf',  # functions
            'triangulate', 'trilaterate')
-__version__ = '16.09.14'
+__version__ = '16.10.15'
 
 
 class LatLon(_LatLonNvectorBase, _LatLonSphericalBase):
@@ -216,6 +216,37 @@ class LatLon(_LatLonNvectorBase, _LatLonSphericalBase):
         gc, _, _ = self._gc3(self, other, 'other')
         return gc.unit()
 
+    def intermediateChordTo(self, other, fraction):
+        '''Returns the point projected from the point at given fraction
+           on a straight line (chord) between this and an other point.
+
+           @param {LatLon} other - The other point.
+           @param {number} fraction - Fraction between both points
+                                      0 = this point, 1 = other point.
+
+           @returns {LatLon} Intermediate point.
+
+           @example
+           p = LatLon(52.205, 0.119)
+           q = LatLon(48.857, 2.351)
+           i = p.intermediateChordTo(q, 0.25)  # 51.3723°N, 000.7072°E
+        '''
+        self.others(other)
+
+        if fraction > EPS1:
+            i = other
+        elif fraction < EPS:  # EPS2
+            i = self
+        else:
+            i = self.toNvector().times(1 - fraction).plus(
+               other.toNvector().times(fraction))
+#           i = other.toNvector() * fraction + \
+#                self.toNvector() * (1 - fraction))
+            i = Nvector(i.x, i.y, i.z).toLatLon()
+        return i
+
+    intermediatePointDirectlyTo = intermediateChordTo  # XXX original name
+
     def intermediateTo(self, other, fraction):
         '''Returns the point at given fraction between this and
            an other point.
@@ -229,7 +260,7 @@ class LatLon(_LatLonNvectorBase, _LatLonSphericalBase):
            @example
            p = LatLon(52.205, 0.119)
            q = LatLon(48.857, 2.351)
-           i = p.intermediateTo(q, 0.25)  # 51.3721°N, 000.7073°E
+           i = p.intermediateTo(q, 0.25)  # 51.3721°N, 000.7074°E
         '''
         self.others(other)
 
@@ -238,10 +269,13 @@ class LatLon(_LatLonNvectorBase, _LatLonSphericalBase):
         elif fraction < EPS:  # EPS2
             i = self
         else:
-            i = self.toNvector().times(1 - fraction).plus(
-               other.toNvector().times(fraction))
-#           i = other.toNvector() * fraction + \
-#                self.toNvector() * (1 - fraction))
+            p = self.toNvector()
+            q = other.toNvector()
+            x = p.cross(q)
+            d = x.unit().cross(p)  # unit(p × q) × p
+            # angular distance tan(a) = |p × q| / p ⋅ q
+            a = atan2(x.length(), p.dot(q)) * fraction  # interpolated
+            i = p.times(cos(a)).plus(d.times(sin(a)))  # p * cosα + d * sinα
             i = Nvector(i.x, i.y, i.z).toLatLon()
         return i
 

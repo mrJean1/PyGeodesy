@@ -30,7 +30,7 @@ import re  # PYCHOK warning locale.Error
 # all public contants, classes and functions
 __all__ = ('Mgrs',  # classes
            'parseMGRS', 'toMgrs')  # functions
-__version__ = '16.10.12'
+__version__ = '16.10.15'
 
 _100km  =  100e3  # 100 km in meter
 _2000km = 2000e3  # 2,000 km in meter
@@ -136,6 +136,14 @@ class Mgrs(_Base):
         '''Return northing in meter.'''
         return self._northing
 
+    def parse(self, strMGRS):
+        '''Parse a string to a MGRS grid reference.
+
+           For details, see function parseMGRS in
+           this module mrgs.
+        '''
+        return parseMGRS(strMGRS, datum=self.datum)
+
     def toStr(self, prec=10, sep=' '):
         '''Returns a string representation of this MGRS grid reference.
 
@@ -207,10 +215,10 @@ class Mgrs(_Base):
 
 def parseMGRS(strMGRS, datum=Datums.WGS84):
     '''Parse a string representing a MGRS grid reference,
-       consisting of zone, grid, easting and northing.
+       consisting of zoneBand, grid, easting and northing.
 
        @param {string} strMGRS - MGRS grid reference.
-       @param  {Datum} [datum=Datums.WGS84] - The datum to use.
+       @param {Datum} [datum=Datums.WGS84] - The datum to use.
 
        @returns {Mgrs} The MGRS grid reference.
 

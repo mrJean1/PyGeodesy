@@ -33,7 +33,7 @@ from utils import degrees90, degrees180, fdot, halfs, isscalar, radians
 # all public contants, classes and functions
 __all__ = ('Osgr',  # classes
            'parseOSGR', 'toOsgr')  # functions
-__version__ = '16.10.14'
+__version__ = '16.10.15'
 
 _10um    = 1e-5  # 0.01 millimeter
 _100km   = 100000  # 100 km in (int) meter
@@ -70,8 +70,8 @@ class Osgr(_Base):
            @throws {ValueError} Invalid OSGR grid reference.
 
            @example
-           from geodesy import OSgr
-           r = OSgr(651409, 313177)
+           from geodesy import Osgr
+           r = Osgr(651409, 313177)
         '''
         self._easting  = float(easting)
         self._northing = float(northing)
@@ -97,6 +97,14 @@ class Osgr(_Base):
         '''Return northing in meter.'''
         return self._northing
 
+    def parse(self, strOSGR):
+        '''Parse a string to an Osgr instance.
+
+           For details, see function parseOSGR
+           in this module osgr.
+        '''
+        return parseOSGR(strOSGR)
+
     def toLatLon(self, LatLon, datum=Datums.WGS84):
         '''Convert this OSGR coordinate to an ellipsoidal lat-/longitude.
 
@@ -112,7 +120,7 @@ class Osgr(_Base):
 
            @example
            from geodesy import ellipsoidalVincenty as eV
-           g = OSgr(651409.903, 313177.270)
+           g = Osgr(651409.903, 313177.270)
            p = g.toLatLon(ev.LatLon)  # 52°39′28.723″N, 001°42′57.787″E
            # to obtain (historical) OSGB36 lat-/longitude point
            p = g.toLatLon(ev.LatLon, datum=Datums.OSGB36)  # 52°39′27.253″N, 001°43′04.518″E
@@ -194,7 +202,7 @@ class Osgr(_Base):
                              "meter,meter' if prec<=0
 
            @example
-           r = OSgr(651409, 313177)
+           r = Osgr(651409, 313177)
            str(r)  # TG 5140 1317
            r.toStr(prec=0)  # 651409,313177
         '''
@@ -249,7 +257,7 @@ class Osgr(_Base):
 
 
 def parseOSGR(strOSGR):
-    '''Parse a OSGR coordinate string to an OSgr instance.
+    '''Parse an OSGR coordinate string to an Osgr instance.
 
        Accepts standard OS Grid References like 'SU 387 148',
        with or without whitespace separators, from 2- up to
