@@ -8,18 +8,19 @@ and published under the same MIT Licence**.
 
 For more information and details see:
 
-- <https://github.com/chrisveness/geodesy/>
+- <http://github.com/chrisveness/geodesy/>
 - <http://www.movable-type.co.uk/scripts/latlong.html>
 - <http://www.movable-type.co.uk/scripts/latlong-vincenty.html>
 - <http://www.movable-type.co.uk/scripts/latlong-vectors.html>
-- <http://www.movable-type.co.uk/scripts/latlong-os-gridref.html>
 
 Included are also conversions to and from UTM coordinates and MGRS
-grid references, see:
+and OSGR grid references, see:
 
 - <http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html>
+- <http://www.movable-type.co.uk/scripts/latlong-os-gridref.html>
 
-Last updated: Oct 11, 2016.
+
+Last updated: Oct 15, 2016.
 
 
 **) MIT License
