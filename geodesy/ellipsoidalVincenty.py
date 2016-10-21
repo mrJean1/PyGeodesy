@@ -7,44 +7,43 @@
 # <http://www.movable-type.co.uk/scripts/LatLongVincenty.html>,
 # <http://github.com/geopy> and <http://python.org/pypi/geopy>.
 
-'''
-Calculate geodesic distance between two points using the Vincenty
-distance <https://en.wikipedia.org/wiki/Vincenty's_formulae> and
-one of several ellipsoid models of the earth.  The default is the
-WGS-84 model, which is the most accurate and widely used globally-
-applicable model for the earth ellipsoid.
+# Calculate geodesic distance between two points using the Vincenty
+# methods <https://en.wikipedia.org/wiki/Vincenty's_formulae> and
+# one of several ellipsoid models of the earth.  The default model is
+# WGS-84, most accurate and widely used globally-applicable model for
+# the earth ellipsoid.
+#
+# Other ellipsoids offering a better fit to the local geoid include
+# Airy (1830) in the UK, Clarke (1880) in Africa, International 1924
+# in much of Europe, and GRS-67 in South America.  North America
+# (NAD83) and Australia (GDA) use GRS-80, which is equivalent to the
+# WGS-84 model.
+#
+# Great-circle distance uses a spherical model of the earth with the
+# mean earth radius defined by the International Union of Geodesy and
+# Geophysics (IUGG) as (2 * a + b) / 3 = 6371008.7714150598 meter or
+# approx. 6371009 meter (for WGS-84, resulting in an error of up to
+# about 0.5%).
+#
+# Here's an example usage of Vincenty:
+#
+#     >>> from geodesy.ellipsoidalVincenty import LatLon
+#     >>> Newport_RI = LatLon(41.49008, -71.312796)
+#     >>> Cleveland_OH = LatLon(41.499498, -81.695391)
+#     >>> print(Newport_RI.distance(Cleveland_OH))
+#     866,457.166175  # meter == 538.3904451566326 miles
+#
+# You can change the ellipsoid model used by the Vincenty formulae
+# as follows:
+#
+#     >>> from geodesy import Datums
+#     >>> from geodesy.ellipsoidalVincenty import LatLon
+#     >>> p = LatLon(0, 0, datum=Datums.OSGB36)
+#
+# or by converting to anothor datum:
+#
+#     >>> p = p.convertDatum(Datums.OSGB36)
 
-Other ellipsoids offering a better fit to the local geoid include
-Airy (1830) in the UK, Clarke (1880) in Africa, International 1924
-in much of Europe, and GRS-67 in South America.  North America
-(NAD83) and Australia (GDA) use GRS-80, which is equivalent to the
-WGS-84 model.
-
-Great-circle distance uses a spherical model of the earth with the
-mean earth radius defined by the International Union of Geodesy and
-Geophysics (IUGG) as (2 * a + b) / 3 = 6371008.7714150598 meter or
-approx. 6371009 meter (for WGS-84), resulting in an error of up to
-about 0.5%.
-
-Here's an example usage of Vincenty:
-
-    >>> from geodesy.ellipsoidalVincenty import LatLon
-    >>> Newport_RI = LatLon(41.49008, -71.312796)
-    >>> Cleveland_OH = LatLon(41.499498, -81.695391)
-    >>> print(Newport_RI.distance(Cleveland_OH))
-    866,457.166175  # meter == 538.3904451566326 miles
-
-You can change the ellipsoid model used by the Vincenty formulae
-as follows:
-
-    >>> from geodesy.datum import Datums
-    >>> from geodesy.ellipsoidalVincenty import LatLon
-    >>> p = LatLon(0, 0, datum=Datums.OSGB36)
-
-or by converting to anothor datum:
-
-    >>> p = p.convertDatum(Datums.OSGB36)
-'''
 from datum import Datums
 from ellipsoidalBase import _CartesianBase, _LatLonHeightDatumBase
 from utils import EPS, degrees90, degrees180, degrees360, radians
@@ -52,7 +51,7 @@ from math import atan2, cos, hypot, sin, tan
 
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'VincentyError')  # classes
-__version__ = '16.10.14'
+__version__ = '16.10.20'
 
 
 class VincentyError(Exception):
@@ -369,7 +368,7 @@ class LatLon(_LatLonHeightDatumBase):
             sa = c1c2 * sll / ss
             c2a = 1 - (sa * sa)
             if abs(c2a) < EPS:
-                c2a = 0.0  # Equatorial line
+                c2a = 0  # equatorial line
                 ll = dl + E.f * sa * s
             else:
                 c2sm = cs - 2 * s1s2 / c2a

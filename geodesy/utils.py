@@ -12,29 +12,38 @@ from operator import mul
 import sys
 
 # all public contants, classes and functions
-__all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2',  # math constants
-           'cbrt', 'degrees', 'degrees90', 'degrees180', 'degrees360',
-           'fdot', 'fsum', 'fStr', 'halfs', 'hypot3', 'isscalar', 'len2',
-           'sin_2', 'tanPI_2_2', 'radians', 'radiansPI', 'radiansPI_2',
+__all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2',  # constants
+           'cbrt',
+           'degrees', 'degrees90', 'degrees180', 'degrees360',
+           'fdot', 'fsum', 'fStr', 'halfs', 'hypot3',
+           'isint', 'isscalar', 'len2',
+           'radians', 'radiansPI', 'radiansPI_2',
+           'sin_2', 'tanPI_2_2',
            'wrap90', 'wrap180', 'wrapPI', 'wrapPI2', 'wrapPI_2')
-__version__ = '16.10.12'
+__version__ = '16.10.17'
 
 try:
     from math import fsum  # precision sum
 except ImportError:
     fsum = sum  # use standard, built-in sum
+
 try:
+    _Ints = int, long
     _Scalars = int, long, float
 except NameError:  # Python 3+
+    _Ints = int
     _Scalars = int, float
+
 try:
     EPS = sys.float_info.epsilon
 except AttributeError:
     EPS = 2.2204460492503131e-16
 EPS1 = 1 - EPS
 EPS2 = sqrt(EPS)
+
 PI2  = PI * 2  # PYCHOK expected
-PI_2 = PI * 0.5
+PI_2 = PI / 2
+
 _3rd = 1.0 / 3.0  # float!
 
 
@@ -98,7 +107,7 @@ def fdot(a, *b):
     return fsum(map(mul, a, b))
 
 
-def fStr(floats, prec=6, sep=', ', fmt='%.*f'):
+def fStr(floats, prec=6, sep=', ', fmt='%.*f', ints=False):
     '''Convert floats to string with zero decimals stripped.
 
        @param {float[]} floats - List of floating point numbers.
@@ -113,6 +122,8 @@ def fStr(floats, prec=6, sep=', ', fmt='%.*f'):
         if p > 1 and t.endswith('0'):
             z = len(t) - p + 1
             t = t[:z] + t[z:].rstrip('0')
+        if ints and isint(f):
+            t = t.split('.')[0]
         return t
 
     if isscalar(floats):
@@ -156,6 +167,16 @@ def hypot3(x, y, z):
     return h
 
 
+def isint(inst):
+    '''Check for integer.
+
+       @param {object} inst - any object.
+
+       @returns {bool} True if inst is integer.
+    '''
+    return isinstance(inst, _Ints)
+
+
 def isscalar(inst):
     '''Check for scalar.
 
@@ -168,8 +189,8 @@ def isscalar(inst):
 
 def len2(geniter):
     '''Make len() work for generators, iterators, etc.
-       and return a list of the items since it is not
-       possible to restart a generator, iterator, etc.
+       plus return a list of items (since generators,
+       iterators, etc. can not be restarted).
     '''
     if not isinstance(geniter, (list, tuple)):
         geniter = list(geniter)
@@ -209,7 +230,7 @@ def tanPI_2_2(rad):
 
 
 def wrap90(deg):
-    '''Wrap degrees t0 -90..+90.
+    '''Wrap degrees to -90..+90.
 
        @param {degrees} deg - Angle in degrees.
 
@@ -219,7 +240,7 @@ def wrap90(deg):
 
 
 def wrap180(deg):
-    '''Wrap degrees t0 -180..+180.
+    '''Wrap degrees to -180..+180.
 
        @param {degrees} deg - Angle in degrees.
 

@@ -43,7 +43,7 @@ from utils import fdot, fStr, radians
 __all__ = ('R_KM', 'R_M', 'R_NM', 'R_SM',  # constants
            'Datum',  'Ellipsoid',  'Transform',  # classes
            'Datums', 'Ellipsoids', 'Transforms')  # enum-like
-__version__ = '16.10.10'
+__version__ = '16.10.17'
 
 
 class _Enum(dict):  # enum-like
@@ -86,9 +86,11 @@ class _Base(object):
     def __str__(self):
         return self.toStr()  # PYCHOK expected
 
-    def _fStr(self, prec, *attrs):
-        t = fStr([getattr(self, a) for a in attrs], prec=prec, sep=' ')
+    def _fStr(self, prec, *attrs, **others):
+        t = fStr([getattr(self, a) for a in attrs], prec=prec, sep=' ', ints=True)
         t = ['%s=%s' % (a, v) for a, v in zip(attrs, t.split())]
+        if others:
+            t += ['%s=%s' % (a, v) for a, v in sorted(others.items())]
         return ', '.join(t + ['name=%r' % (self.name,)])
 
     def _register(self, enum, name):

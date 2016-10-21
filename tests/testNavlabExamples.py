@@ -8,7 +8,7 @@ This page illustrates implementations of the examples from
 those used in nvector.readthedocs.org.  Tests marked with
 # +++ are additional, not present in the original examples.
 '''
-__version__ = '16.10.10'
+__version__ = '16.10.20'
 
 if __name__ == '__main__':
 
@@ -75,13 +75,17 @@ if __name__ == '__main__':
 # Example 6: Interpolated position
     a = sphericalNvector.LatLon(89, 0)
     b = sphericalNvector.LatLon(89, 180)
+    p = a.intermediateChordTo(b, 0.6)
+    t.test(6, 'intermediateChordTo', p.toStr(F_D), '89.799981°N, 180.0°E')
     p = a.intermediateTo(b, 0.6)
-    t.test(6, 'intermediateTo', p.toStr(F_D), '89.799981°N, 180.0°E')
+    t.test(6, 'intermediateTo', p.toStr(F_D), '89.8°N, 180.0°E')
 
     a = sphericalNvector.LatLon(52.205, 0.119)  # +++
     b = sphericalNvector.LatLon(48.857, 2.351)
+    p = a.intermediateChordTo(b, 0.25)
+    t.test(6, 'intermediateChordTo', p.toStr(F_D), '51.372294°N, 000.707192°E')  # 51.3723°N, 000.7072°E
     p = a.intermediateTo(b, 0.25)
-    t.test(6, 'intermediateTo', p.toStr(F_D), '51.372294°N, 000.707192°E')  # 51.3723°N, 000.7072°E
+    t.test(6, 'intermediateTo', p.toStr(F_D), '51.372084°N, 000.707337°E')
 
 # Example 7: Mean position
     points = [sphericalNvector.LatLon(90,   0),
@@ -123,7 +127,7 @@ if __name__ == '__main__':
 
     # Typical test results (on MacOS X):
 
-    # testing testNavLabExamples.py version 16.10.10
+    # testing testNavlabExamples.py version 16.10.20
     # test 1 Example 1 delta: [N:331730.863, E:332998.501, D:17398.304]
     # test 2 Example 1 delta: [L:470357.384, B:45.109°, E:-2.12°]
     # test 3 Example 1 elevation: -2.1198
@@ -140,17 +144,19 @@ if __name__ == '__main__':
     # test 14 Example 3 toLatLon: 39.379°N, 048.013°W, +4702059.83m
     # test 15 Example 4 toCartesian: [6373290.277, 222560.201, 110568.827]
     # test 16 Example 5 distanceTo: 332457
-    # test 17 Example 6 intermediateTo: 89.799981°N, 180.0°E
-    # test 18 Example 6 intermediateTo: 51.372294°N, 000.707192°E
-    # test 19 Example 7 meanOf: 67.2362°N, 006.9175°W
-    # test 20 Example 8 destinationPoint(sphNv): 79.991549°N, 090.017698°W
-    # test 21 Example 8 destinationPoint(sphTy): 79.991549°N, 090.017698°W
-    # test 22 Example 8 destination(elVincenty): 79.991584°N, 090.017621°W
-    # test 23 Example 9 intersection: 40.318643°N, 055.901868°E
-    # test 24 Example 10 crossTrackDistance: 11118
-    # 1 testNavLabExamples.py test (4.2%) FAILED (Python 2.7.10)
+    # test 17 Example 6 intermediateChordTo: 89.799981°N, 180.0°E
+    # test 18 Example 6 intermediateTo: 89.8°N, 180.0°E
+    # test 19 Example 6 intermediateChordTo: 51.372294°N, 000.707192°E
+    # test 20 Example 6 intermediateTo: 51.372084°N, 000.707337°E
+    # test 21 Example 7 meanOf: 67.2362°N, 006.9175°W
+    # test 22 Example 8 destinationPoint(sphNv): 79.991549°N, 090.017698°W
+    # test 23 Example 8 destinationPoint(sphTy): 79.991549°N, 090.017698°W
+    # test 24 Example 8 destination(elVincenty): 79.991584°N, 090.017621°W
+    # test 25 Example 9 intersection: 40.318643°N, 055.901868°E
+    # test 26 Example 10 crossTrackDistance: 11118
+    # 1 testNavlabExamples.py test (3.8%) FAILED (Python 2.7.10)
 
-    # testing testNavlabExamples.py version 16.10.10
+    # testing testNavlabExamples.py version 16.10.20
     # test 1 Example 1 delta: [N:331730.863, E:332998.501, D:17398.304]
     # test 2 Example 1 delta: [L:470357.384, B:45.109°, E:-2.12°]
     # test 3 Example 1 elevation: -2.1198
@@ -167,12 +173,14 @@ if __name__ == '__main__':
     # test 14 Example 3 toLatLon: 39.379°N, 048.013°W, +4702059.83m
     # test 15 Example 4 toCartesian: [6373290.277, 222560.201, 110568.827]
     # test 16 Example 5 distanceTo: 332457
-    # test 17 Example 6 intermediateTo: 89.799981°N, 180.0°E
-    # test 18 Example 6 intermediateTo: 51.372294°N, 000.707192°E
-    # test 19 Example 7 meanOf: 67.2362°N, 006.9175°W
-    # test 20 Example 8 destinationPoint(sphNv): 79.991549°N, 090.017698°W
-    # test 21 Example 8 destinationPoint(sphTy): 79.991549°N, 090.017698°W
-    # test 22 Example 8 destination(elVincenty): 79.991584°N, 090.017621°W
-    # test 23 Example 9 intersection: 40.318643°N, 055.901868°E
-    # test 24 Example 10 crossTrackDistance: 11118
-    # 1 testNavlabExamples.py test (4.2%) FAILED (Python 3.5.1)
+    # test 17 Example 6 intermediateChordTo: 89.799981°N, 180.0°E
+    # test 18 Example 6 intermediateTo: 89.8°N, 180.0°E
+    # test 19 Example 6 intermediateChordTo: 51.372294°N, 000.707192°E
+    # test 20 Example 6 intermediateTo: 51.372084°N, 000.707337°E
+    # test 21 Example 7 meanOf: 67.2362°N, 006.9175°W
+    # test 22 Example 8 destinationPoint(sphNv): 79.991549°N, 090.017698°W
+    # test 23 Example 8 destinationPoint(sphTy): 79.991549°N, 090.017698°W
+    # test 24 Example 8 destination(elVincenty): 79.991584°N, 090.017621°W
+    # test 25 Example 9 intersection: 40.318643°N, 055.901868°E
+    # test 26 Example 10 crossTrackDistance: 11118
+    # 1 testNavlabExamples.py test (3.8%) FAILED (Python 3.5.1)
