@@ -19,7 +19,7 @@ from math import atan2, cos, hypot, sin
 # all public contants, classes and functions
 __all__ = ('Vector3d',  # classes
            'sumOf')  # functions
-__version__ = '16.10.10'
+__version__ = '16.11.11'
 
 
 class Vector3d(_VectorBase):
@@ -36,6 +36,10 @@ class Vector3d(_VectorBase):
     _length = None  # cache length
     _united = None  # cache normalised, unit
 
+    _x = 0
+    _y = 0
+    _z = 0
+
     def __init__(self, x, y, z):
         '''Create a 3-d vector.
 
@@ -47,9 +51,9 @@ class Vector3d(_VectorBase):
            @param {number} y - Y component of vector.
            @param {number} z - Z component of vector.
         '''
-        self.x = x
-        self.y = y
-        self.z = z
+        self._x = x
+        self._y = y
+        self._z = z
 
     def __add__(self, other):
         return self.plus(other)
@@ -76,8 +80,9 @@ class Vector3d(_VectorBase):
     def __rsub__(self, other):
         return other.minus(self)
 
-    def __str__(self):
-        return self.toStr()
+    def _updated(self, updated):
+        if updated:  # reset caches
+            self._length = self._united = None
 
     def angleTo(self, other, vSign=None):
         '''Calculates the angle between this and an other vector.
@@ -123,16 +128,16 @@ class Vector3d(_VectorBase):
                         self.z * other.x - self.x * other.z,
                         self.x * other.y - self.y * other.x)
 
-    def dividedBy(self, scalar):
+    def dividedBy(self, factor):
         '''Return this vector divided by a scalar.
 
-           @param {number} scalar - Scale factor.
+           @param {number} factor - Scale factor.
 
            @returns {Vector3d} New vector scaled.
         '''
-        if not isscalar(scalar):
-            raise TypeError('%s not scalar: %r' % ('scalar', scalar))
-        return self.times(1.0 / scalar)
+        if not isscalar(factor):
+            raise TypeError('%s not scalar: %r' % ('factor', factor))
+        return self.times(1.0 / factor)
 
     def dot(self, other):
         '''Return the dot (scalar) product of this and an other vector.
@@ -270,18 +275,18 @@ class Vector3d(_VectorBase):
 
     sum = plus  # alternate name
 
-    def times(self, scalar):
+    def times(self, factor):
         '''Return this vector multiplied by a scalar.
 
-           @param {number} scalar - Scale factor.
+           @param {number} factor - Scale factor.
 
            @returns {Vector3d} New vector scaled.
         '''
-        if not isscalar(scalar):
-            raise TypeError('%s not scalar: %r' % ('scalar', scalar))
-        return self.Top(self.x * scalar,
-                        self.y * scalar,
-                        self.z * scalar)
+        if not isscalar(factor):
+            raise TypeError('%s not scalar: %r' % ('factor', factor))
+        return self.Top(self.x * factor,
+                        self.y * factor,
+                        self.z * factor)
 
     def to2latlon(self):
         '''Convert this vector to (geodetic) lat- and longitude.
@@ -303,7 +308,7 @@ class Vector3d(_VectorBase):
         '''
         return self.x, self.y, self.z
 
-    def toStr(self, prec=5, fmt='(%s)', sep=', '):
+    def toStr(self, prec=5, fmt='(%s)', sep=', '):  # PYCHOK expected
         '''String representation of this vector.
 
            @param {number} [prec=6] - Number of decimal places.
@@ -328,6 +333,24 @@ class Vector3d(_VectorBase):
                 u = self.copy()
             self._united = u._united = u
         return self._united
+
+    @property
+    def x(self):
+        '''The x component.
+        '''
+        return self._x
+
+    @property
+    def y(self):
+        '''The y component.
+        '''
+        return self._y
+
+    @property
+    def z(self):
+        '''The z component.
+        '''
+        return self._z
 
 
 def sumOf(vectors):

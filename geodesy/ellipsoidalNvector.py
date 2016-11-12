@@ -27,7 +27,7 @@ from math import asin, atan2, cos, hypot, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '16.10.14'
+__version__ = '16.11.11'
 
 
 class Cartesian(_CartesianBase):
@@ -100,11 +100,11 @@ class LatLon(_LatLonNvectorBase, _LatLonHeightDatumBase):
        p = LatLon(52.205, 0.119)  # height=0, datum=Datums.WGS84
     '''
     _Nv = None  # cache Nvector
-    _r3 = ()    # cache _rotation3
+    _r3 = None  # cache _rotation3
 
     def _rotation3(self):
         # build rotation matrix from n-vector coordinate frame axes
-        if not self._r3:
+        if self._r3 is None:
             nv = self.toNvector()  # local (n-vector) coordinate frame
 
             d = nv.negate()  # down (opposite to n-vector)
@@ -113,6 +113,10 @@ class LatLon(_LatLonNvectorBase, _LatLonHeightDatumBase):
 
             self._r3 = n, e, d  # matrix rows
         return self._r3
+
+    def _update(self, updated):
+        if updated:  # reset caches
+            self._Nv = self._r3 = None
 
 #     def bearingTo(self, other):
 #         '''Return the initial bearing (forward azimuth) from this
@@ -551,7 +555,7 @@ class LatLon(_LatLonNvectorBase, _LatLonHeightDatumBase):
            n = p.toNvector()
            n.toStr()  # [0.50000, 0.50000, 0.70710]
         '''
-        if not self._Nv:
+        if self._Nv is None:
             x, y, z, h = self.to4xyzh()  # nvector._LatLonNvectorBase
             self._Nv = Nvector(x, y, z, h=h, datum=self.datum)
         return self._Nv
@@ -633,7 +637,7 @@ class Ned(object):
             self._length = hypot3(self.north, self.east, self.down)
         return self._length
 
-    def toStr(self, prec=3, fmt='[%s]', sep=', '):
+    def toStr(self, prec=3, fmt='[%s]', sep=', '):  # PYCHOK expected
         '''Return a string representation of this NED vector.
 
            @param {number} [prec=3] - Number of decimals, unstripped.
@@ -645,7 +649,7 @@ class Ned(object):
         t3 = fStr(self.to3tuple(), prec=prec, sep=' ').split()
         return fmt % (sep.join('%s:%s' % t for t in zip('NED', t3)),)
 
-    def toStr2(self, prec=None, fmt='[%s]', sep=', '):
+    def toStr2(self, prec=None, fmt='[%s]', sep=', '):  # PYCHOK expected
         '''Return a string representation of this NED vector as
            length, bearing and elevation.
 

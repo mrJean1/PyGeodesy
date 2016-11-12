@@ -12,16 +12,19 @@ from math import cos, radians, sin
 
 # all public contants, classes and functions
 __all__ = ()  # none
-__version__ = '16.10.14'
+__version__ = '16.11.11'
 
 
 class _Base(object):
 
     def __repr__(self):
-        return '%s(%s)' % (self.__class__.__name__, str(self))
+        return self.toStr2()
 
     def __str__(self):
-        return ''
+        return self.toStr()
+
+    def _update(self, unused):
+        pass
 
     def notImplemented(self, attr):
         c = self.__class__.__name__
@@ -42,15 +45,22 @@ class _Base(object):
         '''
         return self.__class__(*args, **kwds)
 
+    def toStr(self, **unused):
+        return ''
 
-_VectorBase = _Base  # used by ...
+    def toStr2(self, **kwds):
+        t = self.toStr(**kwds).lstrip('([{').rstrip('}])')
+        return '%s(%s)' % (self.__class__.__name__, t)
+
+
+_VectorBase = _Base  # used by vector3d
 
 
 class _LatLonHeightBase(_Base):
     '''Base class for LatLon points on sphereical
        or ellipsiodal earth models.
     '''
-    height = 0
+    _height = 0
 
     def __init__(self, lat, lon, height=0):
         '''Create a new LatLon instance from the given lat-,
@@ -72,10 +82,10 @@ class _LatLonHeightBase(_Base):
            p = LatLon(50.06632, -5.71475)
            q = LatLon('50°03′59″N', """005°42'53"W""")
         '''
-        self.lat = parseDMS(lat, suffix='NS')
-        self.lon = parseDMS(lon, suffix='EW')
+        self._lat = parseDMS(lat, suffix='NS')
+        self._lon = parseDMS(lon, suffix='EW')
         if height:  # elevation
-            self.height = float(height)
+            self._height = float(height)
 
     def __eq__(self, other):
         return self.equals(other)
@@ -119,6 +129,45 @@ class _LatLonHeightBase(_Base):
                    self.lon == other.lon  # and \
 #                  self.height == other.height
 
+    @property
+    def height(self):
+        '''Height in meter.
+        '''
+        return self._height
+
+    @height.setter  # PYCHOK setter!
+    def height(self, height):
+        '''Set height in meter.
+        '''
+        self._update(height != self._height)
+        self._height = height
+
+    @property
+    def lat(self):
+        '''Latitude in degrees.
+        '''
+        return self._lat
+
+    @lat.setter  # PYCHOK setter!
+    def lat(self, lat):
+        '''Set latitude in degrees.
+        '''
+        self._update(lat != self._lat)
+        self._lat = lat
+
+    @property
+    def lon(self):
+        '''Longitude in degrees.
+        '''
+        return self._lon
+
+    @lon.setter  # PYCHOK setter!
+    def lon(self, lon):
+        '''Set longitude in degrees.
+        '''
+        self._update(lon != self._lon)
+        self._lon = lon
+
     def toradians(self):
         '''Return this point's lat-/longitude in radians.
 
@@ -126,7 +175,7 @@ class _LatLonHeightBase(_Base):
         '''
         return radians(self.lat), radians(self.lon)
 
-    def toStr(self, form=F_DMS, prec=None, m='m', sep=', '):
+    def toStr(self, form=F_DMS, prec=None, m='m', sep=', '):  # PYCHOK expected
         '''Convert this point to a "lat, lon [+/-height]" string, formatted
            in the given form.
 

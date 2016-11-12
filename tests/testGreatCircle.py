@@ -183,7 +183,7 @@ if __name__ == '__main__':
 
     # Typical test results (on MacOS X):
 
-    # testing geodesy.sphericalNvector version 16.09.14
+    # testing geodesy.sphericalNvector version 16.11.11
     # test 1 InitialBearingSameLocations: 0.0
     # test 2 InitialBearingEqualLocations: 0.0
     # test 3 FinalBearingSameLocations: 180.0
@@ -215,7 +215,7 @@ if __name__ == '__main__':
     # test 29 CrossTrackDistanceThatShouldBeVeryCloseToZero: 0.00000000
     # 5 geodesy.sphericalNvector tests (17.2%) FAILED (Python 2.7.10)
 
-    # testing geodesy.sphericalTrigonometry version 16.10.10
+    # testing geodesy.sphericalTrigonometry version 16.11.11
     # test 1 InitialBearingSameLocations: 0.0
     # test 2 InitialBearingEqualLocations: 0.0
     # test 3 FinalBearingSameLocations: 180.0
@@ -247,7 +247,7 @@ if __name__ == '__main__':
     # test 29 CrossTrackDistanceThatShouldBeVeryCloseToZero: 0.00000000
     # 5 geodesy.sphericalTrigonometry tests (17.2%) FAILED (Python 2.7.10)
 
-    # testing sphericalNvector version 16.09.14
+    # testing sphericalNvector version 16.11.11
     # test 1 InitialBearingSameLocations: 0.0
     # test 2 InitialBearingEqualLocations: 0.0
     # test 3 FinalBearingSameLocations: 180.0
@@ -277,9 +277,9 @@ if __name__ == '__main__':
     # test 27 CrossTrackDistance90Degrees200Meters: 200.0
     # test 28 CrossTrackDistance270Degrees200Meters: -200.0
     # test 29 CrossTrackDistanceThatShouldBeVeryCloseToZero: 0.00000000
-    # 5 sphericalNvector tests (17.2%) FAILED (Python 3.5.1)
+    # 5 sphericalNvector tests (17.2%) FAILED (Python 3.5.2)
 
-    # testing sphericalTrigonometry version 16.10.10
+    # testing sphericalTrigonometry version 16.11.11
     # test 1 InitialBearingSameLocations: 0.0
     # test 2 InitialBearingEqualLocations: 0.0
     # test 3 FinalBearingSameLocations: 180.0
@@ -309,4 +309,4 @@ if __name__ == '__main__':
     # test 27 CrossTrackDistance90Degrees200Meters: 200.0
     # test 28 CrossTrackDistance270Degrees200Meters: -200.0
     # test 29 CrossTrackDistanceThatShouldBeVeryCloseToZero: 0.00000000
-    # 5 sphericalTrigonometry tests (17.2%) FAILED (Python 3.5.1)
+    # 5 sphericalTrigonometry tests (17.2%) FAILED (Python 3.5.2)

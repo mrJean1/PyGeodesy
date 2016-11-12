@@ -30,7 +30,7 @@ import re  # PYCHOK warning locale.Error
 # all public contants, classes and functions
 __all__ = ('Mgrs',  # classes
            'parseMGRS', 'toMgrs')  # functions
-__version__ = '16.10.15'
+__version__ = '16.11.11'
 
 _100km  =  100e3  # 100 km in meter
 _2000km = 2000e3  # 2,000 km in meter
@@ -90,12 +90,6 @@ class Mgrs(_Base):
         if self._datum != datum:
             self._datum = datum
 
-    def __repr__(self):
-        return self.toStr2()
-
-    def __str__(self):
-        return self.toStr()
-
     def _en100k2m(self):
         # check and convert grid letters to meter
         z = self._zone - 1
@@ -144,7 +138,7 @@ class Mgrs(_Base):
         '''
         return parseMGRS(strMGRS, datum=self.datum)
 
-    def toStr(self, prec=10, sep=' '):
+    def toStr(self, prec=10, sep=' '):  # PYCHOK expected
         '''Returns a string representation of this MGRS grid reference.
 
            Note that MGRS grid references are truncated, not rounded
@@ -169,7 +163,7 @@ class Mgrs(_Base):
              '%0*d' % (w, int(self._northing * p))]
         return sep.join(t)
 
-    def toStr2(self, prec=10, fmt='[%s]', sep=', '):
+    def toStr2(self, prec=10, fmt='[%s]', sep=', '):  # PYCHOK expected
         '''Returns a string representation of this MGRS grid reference.
 
            @param {number} [prec=10] - Number of digits (4:km, 10:m).

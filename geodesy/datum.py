@@ -37,13 +37,14 @@ if not 1/2:  # PYCHOK 1/2 == 0
     raise ImportError('1/2 == %d' % (1/2,))
 
 from math  import sqrt
+from bases import _Base
 from utils import fdot, fStr, radians
 
 # all public contants, classes and functions
 __all__ = ('R_KM', 'R_M', 'R_NM', 'R_SM',  # constants
            'Datum',  'Ellipsoid',  'Transform',  # classes
            'Datums', 'Ellipsoids', 'Transforms')  # enum-like
-__version__ = '16.10.17'
+__version__ = '16.11.11'
 
 
 class _Enum(dict):  # enum-like
@@ -73,18 +74,12 @@ Transforms = _Enum('Transforms')
 Datums     = _Enum('Datums')
 
 
-class _Base(object):
+class _Based(_Base):
 
     name = ''
 
     def __ne__(self, other):
         return not self.__eq__(other)
-
-    def __repr__(self):
-        return '%s(%s)' % (self.__class__.__name__, self)
-
-    def __str__(self):
-        return self.toStr()  # PYCHOK expected
 
     def _fStr(self, prec, *attrs, **others):
         t = fStr([getattr(self, a) for a in attrs], prec=prec, sep=' ', ints=True)
@@ -102,7 +97,7 @@ class _Base(object):
             self.name = name
 
 
-class Ellipsoid(_Base):
+class Ellipsoid(_Based):
     '''Ellipsoid with semi-major axis (a), semi-minor axis (b) and
        flattening (f) or inverse flattening (1/f).
 
@@ -252,7 +247,7 @@ class Ellipsoid(_Base):
         # r = major - (major - minor) * |lat| / 90
         return self.a - self._ab_90 * min(90, abs(lat))
 
-    def toStr(self, prec=8):
+    def toStr(self, prec=8):  # PYCHOK expected
         '''Return this ellipsoid as a string.
 
            @param {int} [prec=8] - Number of decimals, unstripped.
@@ -282,7 +277,7 @@ Ellipsoids._assert(
 )
 
 
-class Transform(_Base):
+class Transform(_Based):
     '''Helmert transformation.
     '''
     tx = 0  # translate in meter
@@ -332,7 +327,7 @@ class Transform(_Base):
                                  self.rz == other.rz and
                                  self.s  == other.s)
 
-    def toStr(self, prec=4):
+    def toStr(self, prec=4):  # PYCHOK expected
         '''Return this transform as a string.
 
            @param {int} [prec=4] - Number of decimals, unstripped.
@@ -389,7 +384,7 @@ Transforms._assert(
 )
 
 
-class Datum(_Base):
+class Datum(_Based):
     '''Create a new datum from the given ellipsoid and transform.
     '''
     def __init__(self, ellipsoid, transform=None, name=''):
@@ -408,7 +403,7 @@ class Datum(_Base):
                                  self.ellipsoid == other.ellipsoid and
                                  self.transform == other.transform)
 
-    def toStr(self, **unused):
+    def toStr(self, **unused):  # PYCHOK expected
         '''Return this datum as a string.
 
            @returns {string} Datum string.

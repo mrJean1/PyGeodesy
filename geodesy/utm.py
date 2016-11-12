@@ -35,7 +35,7 @@ from utils import degrees, degrees90, degrees180, fStr, fsum, \
 # all public contants, classes and functions
 __all__ = ('Utm',  # classes
            'parseUTM', 'toUtm')  # functions
-__version__ = '16.10.15'
+__version__ = '16.11.11'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N
 _Bands         = 'CDEFGHJKLMNPQRSTUVWXX'  # X repeated for 80-84°N
@@ -78,7 +78,7 @@ class Utm(_Base):
     _datum    = Datums.WGS84
     _easting  = 0
     _hemi     = ''
-    _latlon   = None  # set by ellipsoidal._LatLonHeightDatumBase.toUtm.
+    _latlon   = None  # also set by ellipsoidalBase._LatLonHeightDatumBase.toUtm.
     _mgrs     = None
     _northing = 0
     _scale    = None
@@ -136,12 +136,6 @@ class Utm(_Base):
             self._converge = convergence
         if self._scale != scale:
             self._scale = scale
-
-    def __repr__(self):
-        return self.toStr2()
-
-    def __str__(self):
-        return self.toStr()
 
     @property
     def band(self):
@@ -266,7 +260,7 @@ class Utm(_Base):
             self._mgrs = toMgrs(self)
         return self._mgrs
 
-    def toStr(self, prec=0, sep=' ', B=False, cs=False):
+    def toStr(self, prec=0, sep=' ', B=False, cs=False):  # PYCHOK expected
         '''Returns a string representation of this UTM coordinate.
 
            To distinguish from MGRS grid zone designators, a
@@ -300,7 +294,7 @@ class Utm(_Base):
                       fStr(self._scale, prec=8)]
         return sep.join(t)
 
-    def toStr2(self, prec=0, fmt='[%s]', sep=', ', B=False, cs=False):
+    def toStr2(self, prec=0, fmt='[%s]', sep=', ', B=False, cs=False):  # PYCHOK expected
         '''Returns a string representation of this UTM coordinate.
 
            Note that UTM coordinates are rounded, not truncated

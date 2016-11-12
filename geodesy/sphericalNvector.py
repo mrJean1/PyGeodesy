@@ -34,7 +34,7 @@ from math import atan2, cos, radians, sin
 __all__ = ('LatLon',  # classes
            'areaOf', 'intersection', 'meanOf',  # functions
            'triangulate', 'trilaterate')
-__version__ = '16.10.15'
+__version__ = '16.11.11'
 
 
 class LatLon(_LatLonNvectorBase, _LatLonSphericalBase):
@@ -53,6 +53,11 @@ class LatLon(_LatLonNvectorBase, _LatLonSphericalBase):
        p = LatLon(52.205, 0.119)
     '''
     _Nv = None  # cache Nvector
+
+    def _update(self, updated):
+        if updated:  # reset caches
+            self._Nv = None
+#           _LatLonNvectorBase._update(self, updated)
 
     def _gc3(self, start, end, name):
         # private, return great circle, start and end
@@ -485,7 +490,7 @@ class LatLon(_LatLonNvectorBase, _LatLonSphericalBase):
            n = p.toNvector()
            n.toStr()  # [0.50000, 0.50000, 0.70710]
         '''
-        if not self._Nv:
+        if self._Nv is None:
             x, y, z, h = self.to4xyzh()
             self._Nv = Nvector(x, y, z, h)
         return self._Nv

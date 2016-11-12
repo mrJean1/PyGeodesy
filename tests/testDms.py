@@ -80,4 +80,4 @@ if __name__ == '__main__':
     # test 28 compassPoint: W
     # test 29 compassPoint: SW
     # test 30 compassPoint: WSW
-    # all geodesy.dms tests passed (Python 3.5.1)
+    # all geodesy.dms tests passed (Python 3.5.2)

@@ -16,7 +16,7 @@ from math import acos, atan2, cos, hypot, log, sin
 
 # all public contants, classes and functions
 __all__ = ()  # classes
-__version__ = '16.10.03'
+__version__ = '16.11.11'
 
 
 class _LatLonSphericalBase(_LatLonHeightBase):
@@ -47,6 +47,7 @@ class _LatLonSphericalBase(_LatLonHeightBase):
         E = datum.ellipsoid
         if not E.a == E.b == E.R:
             raise ValueError('%r not %s: %r' % ('datum', 'spherical', E))
+        self._update(datum != self._datum)
         self._datum = datum
 
     def finalBearingTo(self, other):

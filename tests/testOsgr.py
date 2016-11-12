@@ -77,7 +77,7 @@ if __name__ == '__main__':
 
     # Typical test results (on MacOS X):
 
-    # testing geodesy.osgr version 16.10.14
+    # testing geodesy.osgr version 16.11.11
     # test 1 WGS84: 51.4778°N, 000.0016°W
     # test 2 OSGB36: 51.477284°N, 000.00002°E
     # test 3 WGS84: 51.4778°N, 000.0016°W
@@ -104,7 +104,7 @@ if __name__ == '__main__':
     # test 24 OSGR6: 651409,313177
     # 6 geodesy.osgr tests (25.0%) FAILED (Python 2.7.10)
 
-    # testing geodesy.osgr version 16.10.14
+    # testing geodesy.osgr version 16.11.11
     # test 1 WGS84: 51.4778°N, 000.0016°W
     # test 2 OSGB36: 51.477284°N, 000.00002°E
     # test 3 WGS84: 51.4778°N, 000.0016°W
@@ -129,4 +129,4 @@ if __name__ == '__main__':
     # test 22 OSGR5: 651409,313177
     # test 23 OSGR5: [OSGR:651409.000,313177.000]
     # test 24 OSGR6: 651409,313177
-    # 6 geodesy.osgr tests (25.0%) FAILED (Python 3.5.1)
+    # 6 geodesy.osgr tests (25.0%) FAILED (Python 3.5.2)

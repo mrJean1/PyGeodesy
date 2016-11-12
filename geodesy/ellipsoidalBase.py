@@ -15,7 +15,7 @@ from math import atan2, copysign, cos, hypot, sin, sqrt
 
 # all public constants, classes and functions
 __all__ = ()  # none
-__version__ = '16.10.10'
+__version__ = '16.11.11'
 
 
 class _CartesianBase(Vector3d):
@@ -83,7 +83,7 @@ class _CartesianBase(Vector3d):
 
         return a, b, h
 
-    def toStr(self, prec=3, fmt='[%s]', sep=', '):
+    def toStr(self, prec=3, fmt='[%s]', sep=', '):  # PYCHOK expected
         '''String representation of this cartesion.
 
            @param {number} [prec=3] - Number of decimals, unstripped.
@@ -99,8 +99,8 @@ class _LatLonHeightDatumBase(_LatLonHeightBase):
     '''Base class for ellipsoidal LatLon.
     '''
     _datum = Datums.WGS84
-    _osgr  = None
-    _utm   = None
+    _osgr  = None  # cache toOsgr
+    _utm   = None  # cache toUtm
 
     def __init__(self, lat, lon, height=0, datum=None):
         '''Create an (ellipsoidal) LatLon point frome the given
@@ -120,6 +120,11 @@ class _LatLonHeightDatumBase(_LatLonHeightBase):
         _LatLonHeightBase.__init__(self, lat, lon, height=height)
         if datum:
             self.datum = datum
+
+    def _update(self, updated):
+        if updated:  # reset caches
+            self._osgr = self._utm = None
+#           _LatLonHeightBase._update(self, updated)
 
     def convertDatum(self, toDatum):
         '''Converts this LatLon instance to new coordinate system.
@@ -180,6 +185,7 @@ class _LatLonHeightDatumBase(_LatLonHeightBase):
         E = datum.ellipsoid
         if not E.a > E.R > E.b:
             raise ValueError('%r not %s: %r' % ('datum', 'ellipsoidal', E))
+        self._update(datum != self._datum)
         self._datum = datum
 
     def ellipsoid(self, datum=Datums.WGS84):

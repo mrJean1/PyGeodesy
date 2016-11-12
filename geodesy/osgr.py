@@ -33,7 +33,7 @@ from utils import degrees90, degrees180, fdot, halfs, isscalar, radians
 # all public contants, classes and functions
 __all__ = ('Osgr',  # classes
            'parseOSGR', 'toOsgr')  # functions
-__version__ = '16.10.15'
+__version__ = '16.11.11'
 
 _10um    = 1e-5  # 0.01 millimeter
 _100km   = 100000  # 100 km in (int) meter
@@ -58,7 +58,7 @@ class Osgr(_Base):
     '''
     _datum    = _OSGB36
     _easting  = 0
-    _latlon   = None  # set by ellipsoidal._LatLonHeightDatumBase.toUtm.
+    _latlon   = None  # also set by ellipsoidalBase._LatLonHeightDatumBase.toUtm.
     _northing = 0
 
     def __init__(self, easting, northing):
@@ -75,12 +75,6 @@ class Osgr(_Base):
         '''
         self._easting  = float(easting)
         self._northing = float(northing)
-
-    def __repr__(self):
-        return self.toStr2()
-
-    def __str__(self):
-        return self.toStr()
 
     @property
     def datum(self):
@@ -189,7 +183,7 @@ class Osgr(_Base):
         self._latlon = ll
         return ll
 
-    def toStr(self, prec=10, sep=' '):
+    def toStr(self, prec=10, sep=' '):  # PYCHOK expected
         '''Returns a string representation of this OSGR coordinate.
 
            Note that OSGR coordinates are truncated, not rounded
@@ -238,7 +232,7 @@ class Osgr(_Base):
             t = ['%06d' % int(t) for t in (e, n)]
         return s.join(t)
 
-    def toStr2(self, prec=10, fmt='[%s]', sep=', '):
+    def toStr2(self, prec=10, fmt='[%s]', sep=', '):  # PYCHOK expected
         '''Returns a string representation of this OSGR coordinate.
 
            @param {number} [prec=10] - Number of digits.

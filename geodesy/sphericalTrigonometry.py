@@ -17,7 +17,7 @@ from math import acos, asin, atan2, cos, hypot, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('LatLon',  # classes
            'meanOf')  # functions
-__version__ = '16.10.10'
+__version__ = '16.11.11'
 
 
 class LatLon(_LatLonSphericalBase):
@@ -34,6 +34,13 @@ class LatLon(_LatLonSphericalBase):
        @example
        p = LatLon(52.205, 0.119)  # height=0
     '''
+
+    _v3d = None  # cache Vector3d
+
+    def _update(self, updated):
+        if updated:  # reset caches
+            self._v3d = None
+#           _LatLonHeightBase._update(self, updated)
 
     def bearingTo(self, other):
         '''Return the initial bearing (forward azimuth) from this
@@ -432,8 +439,6 @@ class LatLon(_LatLonSphericalBase):
         raise self.notImplemented('nearestOn')
 
     nearestPointOnSegment = nearestOn  # XXX original name
-
-    _v3d = None  # cache Vector3d
 
     def toVector3d(self):
         '''Converts this point to a Vector3d (normal to earth's surface).

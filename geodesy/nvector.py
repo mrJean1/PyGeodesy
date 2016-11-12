@@ -14,16 +14,15 @@ from vector3d import Vector3d
 # all public constants, classes and functions
 __all__ = ('NorthPole', 'Nvector', 'SouthPole',  # constants
            'sumOf')  # functions
-__version__ = '16.10.10'
+__version__ = '16.11.11'
 
 
 class Nvector(Vector3d):  # XXX kept private
     '''Base class for ellipsoidal and spherical Nvector.
     '''
-    _united = None
+    _h = 0
 
     H = ''  # or '↑' XXX
-    h = 0
 
     def __init__(self, x, y, z, h=0):
         '''Create an n-vector normal to the earth's surface.
@@ -40,7 +39,7 @@ class Nvector(Vector3d):  # XXX kept private
         '''
         Vector3d.__init__(self, x, y, z)
         if h:
-            self.h = float(h)
+            self._h = float(h)
 
     def copy(self):
         '''Return a copy of this vector.
@@ -51,6 +50,19 @@ class Nvector(Vector3d):  # XXX kept private
         if n.h != self.h:
             n.h = self.h
         return n
+
+    @property
+    def h(self):
+        '''Height above surface in meter.
+        '''
+        return self._h
+
+    @h.setter  # PYCHOK setter!
+    def h(self, h):
+        '''Set height above surface in meter.
+        '''
+        self._update(h != self._h)
+        self._h = h
 
     def to3latlonheight(self):
         '''Convert this n-vector to (geodetic) lat-, longitude
