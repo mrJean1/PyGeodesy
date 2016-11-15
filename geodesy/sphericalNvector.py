@@ -34,7 +34,7 @@ from math import atan2, cos, radians, sin
 __all__ = ('LatLon',  # classes
            'areaOf', 'intersection', 'meanOf',  # functions
            'triangulate', 'trilaterate')
-__version__ = '16.11.11'
+__version__ = '16.11.15'
 
 
 class LatLon(_LatLonNvectorBase, _LatLonSphericalBase):
@@ -457,16 +457,16 @@ class LatLon(_LatLonNvectorBase, _LatLonSphericalBase):
            s = LatLon(51.0, 1.9)
            p = s.nearestOn(s1, s2)  # 51.0004°N, 001.9000°E
 
-           d = p.distanceTo(p)  # 42.71 m
+           d = p.distanceTo(s)  # 42.71 m
 
            s = LatLon(51.0, 2.1)
            p = s.nearestOn(s1, s2)  # 51.0000°N, 002.0000°E
         '''
         if self.isWithin(point1, point2):
             # closer to segment than to its endpoints,
-            # find closest point on the segment
-            gc1 = point1.greatCircleTo(point2)  # gc thru p1 and p2
-            gc2 = self.greatCircleTo(point1)  # gc thru self normal to gc1
+            # find the closest point on the segment
+            gc1 = point1.toNvector().cross(point2.toNvector())
+            gc2 = self.toNvector().cross(gc1)
             p = gc1.cross(gc2).toLatLon()
 
             # beyond segment extent, take closer endpoint

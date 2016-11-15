@@ -22,7 +22,7 @@ from geodesy import R_M, R_NM, Datums, F_D, F_DM, F_DMS, F_RAD, \
                     precision, toDMS
 
 __all__ = ('Tests',)
-__version__ = '16.11.08'
+__version__ = '16.11.15'
 
 try:
     _int = int, long
@@ -280,6 +280,10 @@ class Tests(object):
                 if not a.startswith('__'):
                     a += _type(m.LatLon, a)
                     attrs[a] = attrs.get(a, ()) + (m.__name__,)
+            for a in ('lat', 'lon', 'height', 'h'):
+                if hasattr(ll, a):
+                    a += _type(m.LatLon, a)
+                    attrs[a] = attrs.get(a, ()) + (m.__name__,)
         for a, m in sorted(attrs.items()):
             m = ', '.join(sorted(m))
             self.test(a, m, m)  # passes always
@@ -377,6 +381,25 @@ class Tests(object):
         v = Nvector(52.205, 0.119, 0.0)
         c = v.copy()
         self.test('copy', c.equals(v), 'True')
+
+        if hasattr(LatLon, 'nearestOn'):
+            s1 = LatLon(51.0, 1.0)
+            s2 = LatLon(51.0, 2.0)
+            s = LatLon(51.0, 1.9)
+            p = s.nearestOn(s1, s2)  # 51.0004°N, 001.9000°E
+            self.test('nearestOn', p.toStr(F_D, prec=4), '51.0004°N, 001.9°E')
+            d = p.distanceTo(s)  # 42.71 m
+            self.test('distanceTo', d, '42.712', fmt='%.3f')
+            s = LatLon(51.0, 2.1)
+            p = s.nearestOn(s1, s2)  # 51.0000°N, 002.0000°E
+            self.test('nearestOn', p.toStr(F_D), '51.0°N, 002.0°E')
+
+            # courtesy AkimboEG on GitHub
+            s1 = LatLon(0, 0)
+            s2 = LatLon(0, 1)
+            s = LatLon(1, 0)
+            p = s.nearestOn(s1, s2)  # 0.0°N, 0.0°E
+            self.test('nearestOn', p, '00.0°N, 000.0°E')
 
     def testVincenty(self, LatLon, datum, VincentyError):
         d = datum

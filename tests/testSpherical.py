@@ -3,7 +3,7 @@
 
 # Test spherical earth model functions and methods.
 
-__version__ = '16.10.15'
+__version__ = '16.11.15'
 
 if __name__ == '__main__':
 
@@ -24,7 +24,7 @@ if __name__ == '__main__':
 
     # Typical test results (on MacOS X):
 
-    # testing geodesy.sphericalNvector version 16.11.11
+    # testing geodesy.sphericalNvector version 16.11.15
     # test 1 lat/lonDMS: 52.20472°N, 000.14056°E
     # test 2 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
     # test 3 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
@@ -68,9 +68,13 @@ if __name__ == '__main__':
     # test 41 equals: False
     # test 42 equals: True
     # test 43 copy: True
+    # test 44 nearestOn: 51.0004°N, 001.9°E
+    # test 45 distanceTo: 42.712
+    # test 46 nearestOn: 51.0°N, 002.0°E
+    # test 47 nearestOn: 00.0°N, 000.0°E
     # all geodesy.sphericalNvector tests passed (Python 2.7.10)
 
-    # testing geodesy.sphericalTrigonometry version 16.11.11
+    # testing geodesy.sphericalTrigonometry version 16.11.10
     # test 1 lat/lonDMS: 52.20472°N, 000.14056°E
     # test 2 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
     # test 3 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
@@ -108,7 +112,7 @@ if __name__ == '__main__':
     # test 35 rhumbMidpointo: 51.0455°N, 001.595727°E
     # all geodesy.sphericalTrigonometry tests passed (Python 2.7.10)
 
-    # testing sphericalNvector version 16.11.11
+    # testing sphericalNvector version 16.11.15
     # test 1 lat/lonDMS: 52.20472°N, 000.14056°E
     # test 2 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
     # test 3 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
@@ -152,9 +156,13 @@ if __name__ == '__main__':
     # test 41 equals: False
     # test 42 equals: True
     # test 43 copy: True
+    # test 44 nearestOn: 51.0004°N, 001.9°E
+    # test 45 distanceTo: 42.712
+    # test 46 nearestOn: 51.0°N, 002.0°E
+    # test 47 nearestOn: 00.0°N, 000.0°E
     # all sphericalNvector tests passed (Python 3.5.2)
 
-    # testing sphericalTrigonometry version 16.11.11
+    # testing sphericalTrigonometry version 16.11.10
     # test 1 lat/lonDMS: 52.20472°N, 000.14056°E
     # test 2 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
     # test 3 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
@@ -191,4 +199,3 @@ if __name__ == '__main__':
     # test 34 rhumbDistanceTo: 40307.8
     # test 35 rhumbMidpointo: 51.0455°N, 001.595727°E
     # all sphericalTrigonometry tests passed (Python 3.5.2)
-
