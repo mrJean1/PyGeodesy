@@ -3,7 +3,7 @@
 
 # Test spherical earth model functions and methods.
 
-__version__ = '16.11.15'
+__version__ = '16.11.16'
 
 if __name__ == '__main__':
 
@@ -72,6 +72,7 @@ if __name__ == '__main__':
     # test 45 distanceTo: 42.712
     # test 46 nearestOn: 51.0°N, 002.0°E
     # test 47 nearestOn: 00.0°N, 000.0°E
+    # test 48 nearestOn: 00.0°N, 020.0°E
     # all geodesy.sphericalNvector tests passed (Python 2.7.10)
 
     # testing geodesy.sphericalTrigonometry version 16.11.10
@@ -160,6 +161,7 @@ if __name__ == '__main__':
     # test 45 distanceTo: 42.712
     # test 46 nearestOn: 51.0°N, 002.0°E
     # test 47 nearestOn: 00.0°N, 000.0°E
+    # test 48 nearestOn: 00.0°N, 020.0°E
     # all sphericalNvector tests passed (Python 3.5.2)
 
     # testing sphericalTrigonometry version 16.11.10
