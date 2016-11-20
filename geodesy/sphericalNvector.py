@@ -34,7 +34,7 @@ from math import atan2, cos, radians, sin
 __all__ = ('LatLon',  # classes
            'areaOf', 'intersection', 'meanOf',  # functions
            'triangulate', 'trilaterate')
-__version__ = '16.11.16'
+__version__ = '16.11.20'
 
 
 class LatLon(_LatLonNvectorBase, _LatLonSphericalBase):
@@ -413,13 +413,13 @@ class LatLon(_LatLonNvectorBase, _LatLonSphericalBase):
         if n0.dot(n1) < 0 or n0.dot(n2) < 0:
             return False  # different hemisphere
 
-        # get vectors representing p0->p1, p0->p2, p1->p2, p2->p1
-        d10, d12 = n0.minus(n1), n2.minus(n1)
-        d20, d21 = n0.minus(n2), n1.minus(n2)
-
-        # dot product d10⋅d12 tells us if p0 is on
-        # p2 side of p1, similarly for d20⋅d21 and 
-        return d10.dot(d12) >= 0 and d20.dot(d21) >= 0
+        # get vectors representing d0=p0->p1 and d2=p2->p1
+        # and dot product d0⋅d2 tells us if p0 is on the
+        # p2 side of p1 or on the other side (similarly
+        # for d0=p0->p2 and d1=p1->p2 and dot product
+        # d0⋅d1 and p0 on the p1 side of p2 or not)
+        return n0.minus(n1).dot(n2.minus(n1)) >= 0 and \
+               n0.minus(n2).dot(n1.minus(n2)) >= 0
 
     isWithinExtent = isWithin  # XXX original name
 
