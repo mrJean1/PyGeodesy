@@ -30,8 +30,8 @@
 #     >>> from geodesy.ellipsoidalVincenty import LatLon
 #     >>> Newport_RI = LatLon(41.49008, -71.312796)
 #     >>> Cleveland_OH = LatLon(41.499498, -81.695391)
-#     >>> print(Newport_RI.distance(Cleveland_OH))
-#     866,457.166175  # meter == 538.3904451566326 miles
+#     >>> print(Newport_RI.distanceTo(Cleveland_OH))
+#     866455.432916  # meter
 #
 # You can change the ellipsoid model used by the Vincenty formulae
 # as follows:
@@ -51,7 +51,7 @@ from math import atan2, cos, hypot, sin, tan
 
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'VincentyError')  # classes
-__version__ = '16.10.20'
+__version__ = '16.11.28'
 
 
 class VincentyError(Exception):
@@ -154,7 +154,7 @@ class LatLon(_LatLonHeightDatumBase):
            @example
            p = LatLon(-37.95103, 144.42487)
            b = 306.86816
-           d, f = p.destination2(54972.271, b)
+           d, f = p.destination2(54972.271, b)  # 37.652818°S, 143.926498°E, 307.1736
         '''
         return self._direct(distance, bearing, True)
 

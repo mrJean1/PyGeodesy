@@ -3,7 +3,7 @@
 
 # Test spherical earth model functions and methods.
 
-__version__ = '16.11.16'
+__version__ = '16.11.28'
 
 if __name__ == '__main__':
 
