@@ -19,7 +19,7 @@ from math import atan2, cos, hypot, sin
 # all public contants, classes and functions
 __all__ = ('Vector3d',  # classes
            'sumOf')  # functions
-__version__ = '16.11.11'
+__version__ = '16.11.30'
 
 
 class Vector3d(_VectorBase):
@@ -80,7 +80,7 @@ class Vector3d(_VectorBase):
     def __rsub__(self, other):
         return other.minus(self)
 
-    def _updated(self, updated):
+    def _update(self, updated):
         if updated:  # reset caches
             self._length = self._united = None
 
