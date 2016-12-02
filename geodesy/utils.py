@@ -15,12 +15,12 @@ import sys
 __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2',  # constants
            'cbrt',
            'degrees', 'degrees90', 'degrees180', 'degrees360',
-           'fdot', 'fsum', 'fStr', 'halfs', 'hypot3',
+           'fdot', 'fsum', 'fStr', 'halfs', 'hypot1', 'hypot3',
            'isint', 'isscalar', 'len2',
            'radians', 'radiansPI', 'radiansPI_2',
            'sin_2', 'tanPI_2_2',
            'wrap90', 'wrap180', 'wrapPI', 'wrapPI2', 'wrapPI_2')
-__version__ = '16.10.17'
+__version__ = '16.12.02'
 
 try:
     from math import fsum  # precision sum
@@ -139,6 +139,25 @@ def halfs(str2):
     if odd or not h:
         raise ValueError('%s invalid: %r' % ('str2', str2))
     return str2[:h], str2[h:]
+
+
+def hypot1(x):
+    '''Compute the sqrt(1 + x^2).
+
+       @param {number} x - X coordinate.
+
+       @returns {number} Length, norm.
+    '''
+    h = abs(x)
+    if h > 1:
+        x = 1.0 / h
+        if x > EPS2:
+            h *= sqrt(1 + x * x)
+    elif h > EPS2:
+        h = sqrt(1 + x * x)
+    else:
+        h = 1.0
+    return h
 
 
 def hypot3(x, y, z):

@@ -9,13 +9,13 @@
 from bases import _LatLonHeightBase
 from datum import Datum, Datums
 from dms import parse3llh
-from utils import EPS2, degrees90, degrees180
+from utils import EPS2, degrees90, degrees180, hypot1
 from vector3d import Vector3d
 from math import atan2, copysign, cos, hypot, sin, sqrt
 
 # all public constants, classes and functions
 __all__ = ()  # none
-__version__ = '16.11.11'
+__version__ = '16.12.02'
 
 
 class _CartesianBase(Vector3d):
@@ -59,7 +59,7 @@ class _CartesianBase(Vector3d):
         if min(p, r) > EPS2:
             # parametric latitude (Bowring eqn 17, replaced)
             t = (E.b * z) / (E.a * p) * (1 + E.e22 * E.b / r)
-            s = t / sqrt(1 + t * t)
+            s = t / hypot1(t)
             c = s / t
 
             # geodetic latitude (Bowring eqn 18)
@@ -69,9 +69,9 @@ class _CartesianBase(Vector3d):
 
             # height above ellipsoid (Bowring eqn 7)
             ca, sa = cos(a), sin(a)
-#           r = E.a / sqrt(1 - E.e2 * sa * sa)  # length of normal terminated by minor axis
+#           r = E.a / E.e2s2(sa)  # length of normal terminated by minor axis
 #           h = p * ca + z * sa - (E.a * E.a / r)
-            h = p * ca + z * sa - (E.a * sqrt(1 - E.e2 * sa * sa))
+            h = p * ca + z * sa - (E.a * E.e2s2(sa))
 
             a, b = degrees90(a), degrees180(b)
 

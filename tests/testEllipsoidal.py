@@ -75,7 +75,7 @@ if __name__ == '__main__':
     # test 11 toLatLon: 45.0°N, 045.0°E, +0.00m
     # test 12 Nvector: (0.5, 0.5, 0.7071)
     # test 13 Nvector: (0.5, 0.5, 0.707, +1.00)
-    # all ellipsoidalNvector tests passed (Python 3.5.1)
+    # all ellipsoidalNvector tests passed (Python 3.5.2)
 
     # testing ellipsoidalVincenty version 16.11.28
     # test 1 distanceTo (WGS84): 866455.43292
@@ -96,4 +96,4 @@ if __name__ == '__main__':
     # test 16 distanceTo (NAD83): 54973.295
     # test 17 distanceTo3 (NAD83): 54973.29527, 126.86992, 127.17539
     # test 18 destination2 (NAD83): 37.652818°S, 143.926498°E, 307.1736°NW
-    # all ellipsoidalVincenty tests passed (Python 3.5.1)
+    # all ellipsoidalVincenty tests passed (Python 3.5.2)

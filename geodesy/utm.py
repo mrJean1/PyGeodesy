@@ -8,12 +8,12 @@
 # and <http://www.movable-type.co.uk/scripts/geodesy/docs/module-utm.html>
 
 from math import asinh, atan, atanh, atan2, cos, cosh, \
-                 hypot, sin, sinh, sqrt, tan, tanh
+                 hypot, sin, sinh, tan, tanh
 from bases import _Base
 from datum import Datums
 from dms   import S_DEG
 from utils import degrees, degrees90, degrees180, fStr, fsum, \
-                  isscalar, radians, wrap90, wrap180, EPS
+                  hypot1, isscalar, radians, wrap90, wrap180, EPS
 
 # The Universal Transverse Mercator (UTM) system is a 2-dimensional
 # Cartesian coordinate system providing locations on the surface of
@@ -35,7 +35,7 @@ from utils import degrees, degrees90, degrees180, fStr, fsum, \
 # all public contants, classes and functions
 __all__ = ('Utm',  # classes
            'parseUTM', 'toUtm')  # functions
-__version__ = '16.11.11'
+__version__ = '16.12.02'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N
 _Bands         = 'CDEFGHJKLMNPQRSTUVWXX'  # X repeated for 80-84°N
@@ -55,7 +55,7 @@ def _toZBL(zone, band, mgrs=False):  # used by mgrs.Mgrs
         if 1 > z or z > 60:
             raise ValueError
 
-    except (AttributeError, ValueError, TypeError):
+    except (AttributeError, TypeError, ValueError):
         raise ValueError('%s invalid: %r' % ('zone', zone))
 
     b = None
@@ -222,14 +222,15 @@ class Utm(_Base):
         H = hypot(shx, cy)
 
         T = t0 = sy / H
+        q = 1.0 / E.e12
         d = 1
         # note, a relatively large convergence test as d
         # toggles on ±1.12e-16 for eg 31 N 400000 5000000
         while abs(d) > EPS:  # 1e-12
-            h = sqrt(1 + T * T)
+            h = hypot1(T)
             s = sinh(E.e * atanh(E.e * T / h))
-            t = T * sqrt(1 + s * s) - s * h
-            d = (t0 - t) / sqrt(1 + t * t) * (1 + E.e12 * T * T) / (E.e12 * h)
+            t = T * hypot1(s) - s * h
+            d = (t0 - t) / hypot1(t) * (q + T * T) / h
             T += d
 
         a = atan(T)  # lat
@@ -242,8 +243,7 @@ class Utm(_Base):
         ll.convergence = degrees(atan(tan(y) * tanh(x)) + atan2(q, p))
 
         # scale: Karney 2011 Eq 28
-        s = sin(a) * E.e
-        ll.scale = sqrt(1 - s * s) * sqrt(1 + T * T) * H * (A0 / E.a / hypot(p, q))
+        ll.scale = E.e2s2(sin(a)) * hypot1(T) * H * (A0 / E.a / hypot(p, q))
 
         self._latlon = ll
         return ll
@@ -419,10 +419,10 @@ def toUtm(latlon, lon=None, datum=Datums.WGS84):
     cb, sb, tb = cos(b), sin(b), tan(b)
 
     T = tan(a)
-    T12 = sqrt(1 + T * T)
+    T12 = hypot1(T)
     S = sinh(E.e * atanh(E.e * T / T12))
 
-    T_ = T * sqrt(1 + S * S) - S * T12
+    T_ = T * hypot1(S) - S * T12
     H = hypot(T_, cb)
 
     y = atan2(T_, cb)  # ξ' ksi
@@ -447,11 +447,10 @@ def toUtm(latlon, lon=None, datum=Datums.WGS84):
     # convergence: Karney 2011 Eq 23, 24
     p_ = 1 + fsum(2 * j * A6[j] * cos(j * y2) * cosh(j * x2) for j in range(1, k6))
     q_ =     fsum(2 * j * A6[j] * sin(j * y2) * sinh(j * x2) for j in range(1, k6))
-    c = degrees(atan(T_ / sqrt(1 + T_ * T_) * tb) + atan2(q_, p_))
+    c = degrees(atan(T_ / hypot1(T_) * tb) + atan2(q_, p_))
 
     # scale: Karney 2011 Eq 25
-    s = sin(a) * E.e
-    k = sqrt(1 - s * s) * T12 / H * (A0 / E.a * hypot(p_, q_))
+    k = E.e2s2(sin(a)) * T12 / H * (A0 / E.a * hypot(p_, q_))
 
     return Utm(z, h, x, y, band=B, datum=datum, convergence=c, scale=k)
 

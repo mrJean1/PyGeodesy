@@ -44,7 +44,7 @@ from utils import fdot, fStr, radians
 __all__ = ('R_KM', 'R_M', 'R_NM', 'R_SM',  # constants
            'Datum',  'Ellipsoid',  'Transform',  # classes
            'Datums', 'Ellipsoids', 'Transforms')  # enum-like
-__version__ = '16.11.11'
+__version__ = '16.12.02'
 
 
 class _Enum(dict):  # enum-like
@@ -205,6 +205,11 @@ class Ellipsoid(_Based):
                                               (4583/161280, -108847/3991680),
                                                           (20648693/638668800,))
         return self._Beta6
+
+    def e2s2(self, s):
+        '''Return norm.
+        '''
+        return sqrt(1 - self.e2 * s * s)
 
     def _Krueger6(self, *fs6):
         # compute 6th-order Krüger Alpha or Beta series per
