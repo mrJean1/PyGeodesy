@@ -32,6 +32,8 @@ from utils import degrees, degrees90, degrees180, fStr, fsum, \
 # <http://henrik-seidel.gmxhome.de/gausskrueger.pdf> and
 # <http://wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system>.
 
+from operator import mul
+
 # all public contants, classes and functions
 __all__ = ('Utm',  # classes
            'parseUTM', 'toUtm')  # functions
@@ -42,6 +44,46 @@ _Bands         = 'CDEFGHJKLMNPQRSTUVWXX'  # X repeated for 80-84°N
 _FalseEasting  =   500e3  # meter
 _FalseNorthing = 10000e3  # meter
 _K0            = 0.9996   # UTM scale on the central meridian
+
+
+class _Ks(object):
+    # Alpha or Beta Krüger series summations
+    def __init__(self, AB, x, y):
+        # AB is a 1-origin list or tuple
+        j2 = tuple(range(2, len(AB) * 2, 2))
+
+        self._ab = AB[1:]  # 0-origin
+        self._pq = _maps(mul, j2, self._ab)
+
+        x2 = _maps(mul, j2, (x,) * len(j2))
+        self._chx = _maps(cosh, x2)
+        self._shx = _maps(sinh, x2)
+
+        y2 = _maps(mul, j2, (y,) * len(j2))
+        self._cy = _maps(cos, y2)
+        self._sy = _maps(sin, y2)
+
+    def xs(self):
+        return fsum(map(_mul3, self._ab, self._cy, self._shx))
+
+    def ys(self):
+        return fsum(map(_mul3, self._ab, self._sy, self._chx))
+
+    def ps(self):
+        return fsum(map(_mul3, self._pq, self._cy, self._chx))
+
+    def qs(self):
+        return fsum(map(_mul3, self._pq, self._sy, self._shx))
+
+
+def _maps(func, *args):
+    # Python3+ map returns an iterator-like map object
+    # which generates only once the result of the map.
+    return tuple(map(func, *args))
+
+
+def _mul3(a, b, c):  # helper function
+    return a * b * c
 
 
 def _toZBL(zone, band, mgrs=False):  # used by mgrs.Mgrs
@@ -208,13 +250,9 @@ class Utm(_Base):
         x /= A0  # η eta
         y /= A0  # ξ ksi
 
-        B6 = E.Beta6  # 6th-order Krüger series, 1-origin
-        k6 = len(B6)
-        y2 = y * 2  # ξ * 2
-        x2 = x * 2  # η * 2
-
-        y -= fsum(B6[j] * sin(j * y2) * cosh(j * x2) for j in range(1, k6))  # ξ'
-        x -= fsum(B6[j] * cos(j * y2) * sinh(j * x2) for j in range(1, k6))  # η'
+        B6 = _Ks(E.Beta6, x, y)  # 6th-order Krüger series, 1-origin
+        y -= B6.ys()  # ξ'
+        x -= B6.xs()  # η'
 
         shx = sinh(x)
         cy, sy = cos(y), sin(y)
@@ -238,8 +276,8 @@ class Utm(_Base):
         ll = LatLon(degrees180(a), degrees90(b), datum=self._datum)
 
         # convergence: Karney 2011 Eq 26, 27
-        p = 1 - fsum(2 * j * B6[j] * cos(j * y2) * cosh(j * x2) for j in range(1, k6))
-        q =     fsum(2 * j * B6[j] * sin(j * y2) * sinh(j * x2) for j in range(1, k6))
+        p = 1 - B6.ps()
+        q =     B6.qs()
         ll.convergence = degrees(atan(tan(y) * tanh(x)) + atan2(q, p))
 
         # scale: Karney 2011 Eq 28
@@ -428,13 +466,9 @@ def toUtm(latlon, lon=None, datum=Datums.WGS84):
     y = atan2(T_, cb)  # ξ' ksi
     x = asinh(sb / H)  # η' eta
 
-    A6 = E.Alpha6  # 6th-order Krüger series, 1-origin
-    k6 = len(A6)
-    y2 = y * 2  # ξ' * 2
-    x2 = x * 2  # η' * 2
-
-    y += fsum(A6[j] * sin(j * y2) * cosh(j * x2) for j in range(1, k6))  # ξ
-    x += fsum(A6[j] * cos(j * y2) * sinh(j * x2) for j in range(1, k6))  # η
+    A6 = _Ks(E.Alpha6, x, y)  # 6th-order Krüger series, 1-origin
+    y += A6.ys()  # ξ
+    x += A6.xs()  # η
 
     A0 = _K0 * E.A
     x *= A0
@@ -445,8 +479,8 @@ def toUtm(latlon, lon=None, datum=Datums.WGS84):
         y += _FalseNorthing  # y relative to false northing in S
 
     # convergence: Karney 2011 Eq 23, 24
-    p_ = 1 + fsum(2 * j * A6[j] * cos(j * y2) * cosh(j * x2) for j in range(1, k6))
-    q_ =     fsum(2 * j * A6[j] * sin(j * y2) * sinh(j * x2) for j in range(1, k6))
+    p_ = 1 + A6.ps()
+    q_ =     A6.qs()
     c = degrees(atan(T_ / hypot1(T_) * tb) + atan2(q_, p_))
 
     # scale: Karney 2011 Eq 25
