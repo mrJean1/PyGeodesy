@@ -17,11 +17,11 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2',  # constants
            'degrees', 'degrees90', 'degrees180', 'degrees360',
            'fdot', 'fdot3', 'fStr', 'fsum',
            'halfs', 'hypot1', 'hypot3',
-           'isint', 'isscalar', 'len2',
+           'isint', 'isscalar', 'len2', 'map2',
            'radians', 'radiansPI', 'radiansPI_2',
            'sin_2', 'tanPI_2_2',
            'wrap90', 'wrap180', 'wrapPI', 'wrapPI2', 'wrapPI_2')
-__version__ = '16.12.03'
+__version__ = '16.12.04'
 
 try:
     from math import fsum  # precision sum
@@ -110,12 +110,13 @@ def fdot(a, *b):
     return fsum(map(mul, a, b))
 
 
-def fdot3(a, b, c):
+def fdot3(a, b, c, start=0):
     '''Precision dot product.
 
        @param {numbers} a - List or tuple of numbers.
        @param {numbers} b - List or tuple of numbers.
        @param {numbers} c - List or tuple of numbers.
+       @param {number} [start=0] - Optional start number.
 
        @returns {number} Dot product.
     '''
@@ -123,7 +124,10 @@ def fdot3(a, b, c):
         return a * b * c
 
     assert len(a) == len(b) == len(c)
-    return fsum(map(mul3, a, b, c))
+    m3 = map(mul3, a, b, c)
+    if start:
+        m3 = (start,) + tuple(m3)
+    return fsum(m3)
 
 
 def fStr(floats, prec=6, sep=', ', fmt='%.*f', ints=False):
@@ -233,6 +237,22 @@ def len2(geniter):
     if not isinstance(geniter, (list, tuple)):
         geniter = list(geniter)
     return len(geniter), geniter
+
+
+def map2(func, *args):
+    '''Apply a function to arguments, like built-in
+       map and return a tuple with the results.
+
+       However, Python 3+ map returns a map object, an
+       iterator- like object which can generate the map
+       result only once.  By converting the map object
+       into a tuple, the results can be used any number
+       of times.
+    '''
+    r = map(func, *args)
+    if not isinstance(r, tuple):
+        r = tuple(r)
+    return r
 
 
 def radiansPI(deg):

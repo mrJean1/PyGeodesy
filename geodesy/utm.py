@@ -13,8 +13,9 @@ from operator import mul
 from bases import _Base
 from datum import Datums
 from dms   import S_DEG
-from utils import degrees, degrees90, degrees180, fdot3, fStr, \
-                  hypot1, isscalar, radians, wrap90, wrap180, EPS
+from utils import EPS, degrees, degrees90, degrees180, \
+                  fdot3, fStr, hypot1, isscalar, len2, map2, \
+                  radians, wrap90, wrap180
 
 # The Universal Transverse Mercator (UTM) system is a 2-dimensional
 # Cartesian coordinate system providing locations on the surface of
@@ -36,7 +37,7 @@ from utils import degrees, degrees90, degrees180, fdot3, fStr, \
 # all public contants, classes and functions
 __all__ = ('Utm',  # classes
            'parseUTM', 'toUtm')  # functions
-__version__ = '16.12.03'
+__version__ = '16.12.04'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N
 _Bands         = 'CDEFGHJKLMNPQRSTUVWXX'  # X repeated for 80-84°N
@@ -52,38 +53,34 @@ class _Ks(object):
 
     def __init__(self, AB, x, y):
         # AB is a 1-origin list or tuple
-        j2 = tuple(range(2, len(AB) * 2, 2))
+        n, j2 = len2(range(2, len(AB) * 2, 2))
 
         self._ab = AB[1:]  # 0-origin
-        self._pq = _maps(mul, j2, self._ab)
+        self._pq = map2(mul, j2, self._ab)
 
-        x2 = _maps(mul, j2, (x,) * len(j2))
-        self._chx = _maps(cosh, x2)
-        self._shx = _maps(sinh, x2)
+        assert len(self._ab) == len(self._pq) == n
 
-        y2 = _maps(mul, j2, (y,) * len(j2))
-        self._cy = _maps(cos, y2)
-        self._sy = _maps(sin, y2)
+        x2 = map2(mul, j2, (x,) * n)
+        self._chx = map2(cosh, x2)
+        self._shx = map2(sinh, x2)
 
-    def xs(self):
-        return fdot3(self._ab, self._cy, self._shx)
+        y2 = map2(mul, j2, (y,) * n)
+        self._cy = map2(cos, y2)
+        self._sy = map2(sin, y2)
 
-    def ys(self):
-        return fdot3(self._ab, self._sy, self._chx)
+        assert len(x2) == len(y2) == n
 
-    def ps(self):
-        return fdot3(self._pq, self._cy, self._chx)
+    def xs(self, x):
+        return fdot3(self._ab, self._cy, self._shx, start=x)
 
-    def qs(self):
-        return fdot3(self._pq, self._sy, self._shx)
+    def ys(self, y):
+        return fdot3(self._ab, self._sy, self._chx, start=y)
 
+    def ps(self, p):
+        return fdot3(self._pq, self._cy, self._chx, start=p)
 
-def _maps(func, *args):
-    # Python 3+ map returns an map object, an iterator-
-    # like object which can generate the map result only
-    # once.  By converting the map object into a tuple,
-    # the result can be reused any number of times.
-    return tuple(map(func, *args))
+    def qs(self, q):
+        return fdot3(self._pq, self._sy, self._shx, start=q)
 
 
 def _toZBL(zone, band, mgrs=False):  # used by mgrs.Mgrs
@@ -251,8 +248,8 @@ class Utm(_Base):
         y /= A0  # ξ ksi
 
         B6 = _Ks(E.Beta6, x, y)  # 6th-order Krüger series, 1-origin
-        y -= B6.ys()  # ξ'
-        x -= B6.xs()  # η'
+        y = -B6.ys(-y)  # ξ'
+        x = -B6.xs(-x)  # η'
 
         shx = sinh(x)
         cy, sy = cos(y), sin(y)
@@ -276,8 +273,8 @@ class Utm(_Base):
         ll = LatLon(degrees180(a), degrees90(b), datum=self._datum)
 
         # convergence: Karney 2011 Eq 26, 27
-        p = 1 - B6.ps()
-        q =     B6.qs()
+        p = -B6.ps(-1)
+        q =  B6.qs(0)
         ll.convergence = degrees(atan(tan(y) * tanh(x)) + atan2(q, p))
 
         # scale: Karney 2011 Eq 28
@@ -466,21 +463,18 @@ def toUtm(latlon, lon=None, datum=Datums.WGS84):
     y = atan2(T_, cb)  # ξ' ksi
     x = asinh(sb / H)  # η' eta
 
-    A6 = _Ks(E.Alpha6, x, y)  # 6th-order Krüger series, 1-origin
-    y += A6.ys()  # ξ
-    x += A6.xs()  # η
-
     A0 = _K0 * E.A
-    x *= A0
-    y *= A0
+    A6 = _Ks(E.Alpha6, x, y)  # 6th-order Krüger series, 1-origin
+    y = A6.ys(y) * A0  # ξ
+    x = A6.xs(x) * A0  # η
 
     x += _FalseEasting  # make x relative to false easting
     if y < 0:
         y += _FalseNorthing  # y relative to false northing in S
 
     # convergence: Karney 2011 Eq 23, 24
-    p_ = 1 + A6.ps()
-    q_ =     A6.qs()
+    p_ = A6.ps(1)
+    q_ = A6.qs(0)
     c = degrees(atan(T_ / hypot1(T_) * tb) + atan2(q_, p_))
 
     # scale: Karney 2011 Eq 25
