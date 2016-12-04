@@ -15,17 +15,20 @@ import sys
 __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2',  # constants
            'cbrt',
            'degrees', 'degrees90', 'degrees180', 'degrees360',
-           'fdot', 'fsum', 'fStr', 'halfs', 'hypot1', 'hypot3',
+           'fdot', 'fdot3', 'fStr', 'fsum',
+           'halfs', 'hypot1', 'hypot3',
            'isint', 'isscalar', 'len2',
            'radians', 'radiansPI', 'radiansPI_2',
            'sin_2', 'tanPI_2_2',
            'wrap90', 'wrap180', 'wrapPI', 'wrapPI2', 'wrapPI_2')
-__version__ = '16.12.02'
+__version__ = '16.12.03'
 
 try:
     from math import fsum  # precision sum
 except ImportError:
-    fsum = sum  # use standard, built-in sum
+    fsum = sum  # use standard, built-in sum (or Kahan's sum
+    # <https://en.wikipedia.org/wiki/Kahan_summation_algorithm> or
+    # Hettinger's <https://code.activestate.com/recipes/393090/>)
 
 try:
     _Ints = int, long
@@ -105,6 +108,22 @@ def fdot(a, *b):
     '''
     assert len(a) == len(b)
     return fsum(map(mul, a, b))
+
+
+def fdot3(a, b, c):
+    '''Precision dot product.
+
+       @param {numbers} a - List or tuple of numbers.
+       @param {numbers} b - List or tuple of numbers.
+       @param {numbers} c - List or tuple of numbers.
+
+       @returns {number} Dot product.
+    '''
+    def mul3(a, b, c):  # map function
+        return a * b * c
+
+    assert len(a) == len(b) == len(c)
+    return fsum(map(mul3, a, b, c))
 
 
 def fStr(floats, prec=6, sep=', ', fmt='%.*f', ints=False):

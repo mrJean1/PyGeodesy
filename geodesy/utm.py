@@ -9,10 +9,11 @@
 
 from math import asinh, atan, atanh, atan2, cos, cosh, \
                  hypot, sin, sinh, tan, tanh
+from operator import mul
 from bases import _Base
 from datum import Datums
 from dms   import S_DEG
-from utils import degrees, degrees90, degrees180, fStr, fsum, \
+from utils import degrees, degrees90, degrees180, fdot3, fStr, \
                   hypot1, isscalar, radians, wrap90, wrap180, EPS
 
 # The Universal Transverse Mercator (UTM) system is a 2-dimensional
@@ -32,12 +33,10 @@ from utils import degrees, degrees90, degrees180, fStr, fsum, \
 # <http://henrik-seidel.gmxhome.de/gausskrueger.pdf> and
 # <http://wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system>.
 
-from operator import mul
-
 # all public contants, classes and functions
 __all__ = ('Utm',  # classes
            'parseUTM', 'toUtm')  # functions
-__version__ = '16.12.02'
+__version__ = '16.12.03'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N
 _Bands         = 'CDEFGHJKLMNPQRSTUVWXX'  # X repeated for 80-84°N
@@ -47,7 +46,10 @@ _K0            = 0.9996   # UTM scale on the central meridian
 
 
 class _Ks(object):
-    # Alpha or Beta Krüger series summations
+    # Alpha or Beta Krüger series summations for x, y,
+    # p and q and caching the cos, sin, cosh, and sinh
+    # for the given x and y angles (in radians).
+
     def __init__(self, AB, x, y):
         # AB is a 1-origin list or tuple
         j2 = tuple(range(2, len(AB) * 2, 2))
@@ -64,26 +66,24 @@ class _Ks(object):
         self._sy = _maps(sin, y2)
 
     def xs(self):
-        return fsum(map(_mul3, self._ab, self._cy, self._shx))
+        return fdot3(self._ab, self._cy, self._shx)
 
     def ys(self):
-        return fsum(map(_mul3, self._ab, self._sy, self._chx))
+        return fdot3(self._ab, self._sy, self._chx)
 
     def ps(self):
-        return fsum(map(_mul3, self._pq, self._cy, self._chx))
+        return fdot3(self._pq, self._cy, self._chx)
 
     def qs(self):
-        return fsum(map(_mul3, self._pq, self._sy, self._shx))
+        return fdot3(self._pq, self._sy, self._shx)
 
 
 def _maps(func, *args):
-    # Python3+ map returns an iterator-like map object
-    # which generates only once the result of the map.
+    # Python 3+ map returns an map object, an iterator-
+    # like object which can generate the map result only
+    # once.  By converting the map object into a tuple,
+    # the result can be reused any number of times.
     return tuple(map(func, *args))
-
-
-def _mul3(a, b, c):  # helper function
-    return a * b * c
 
 
 def _toZBL(zone, band, mgrs=False):  # used by mgrs.Mgrs
