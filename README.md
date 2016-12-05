@@ -30,7 +30,7 @@ Last updated: Dec 04, 2016.
 
 **) MIT License
 
-Copyright (c) 2016-29017 mrJean1@Gmail.com
+Copyright (c) 2016-2017 mrJean1@Gmail.com
 
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the "Software"),
