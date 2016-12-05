@@ -19,11 +19,11 @@ and OSGR grid references, see:
 - <http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html>
 - <http://www.movable-type.co.uk/scripts/latlong-os-gridref.html>
 
-The Python code is checked with PyChecker, PyFlakes, Pep8 and pychok**
+The Python code is checked with PyChecker, PyFlakes, Pep8 and pychok*
 using Python 2.7.10.  The tests run with Python 2.7.10, 3.5.1/.2 but
 on MacOS 10.10 Yosemite and MacOS 10.11 El Capitan only.
 
-**) <http://code.activestate.com/recipes/546532-pychecker-postprocessor/>
+*) <http://code.activestate.com/recipes/546532-pychecker-postprocessor/>
 
 Last updated: Dec 04, 2016.
 
