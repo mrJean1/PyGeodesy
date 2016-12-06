@@ -22,7 +22,7 @@ from geodesy import R_M, R_NM, Datums, F_D, F_DM, F_DMS, F_RAD, \
                     precision, toDMS
 
 __all__ = ('Tests',)
-__version__ = '16.11.28'
+__version__ = '16.12.06'
 
 try:
     _int = int, long
@@ -135,6 +135,17 @@ class Tests(object):
 
         R, fmt = geodesy.Ellipsoids.WGS84.R, '%.5f'
         self.test('meanR', R, fmt % (R_M,), fmt=fmt)
+
+        E = geodesy.Datums.WGS84.ellipsoid
+        e = (E.a - E.b) / (E.a + E.b) - E.n
+        t = (E.toStr(prec=10),
+            'A=%r, e=%.10f, f=1/%.10f, n=%.10f(%.10e)' % (E.A, E.e, 1/E.f, E.n, e),
+            'Alpha6=%r' % (E.Alpha6,),
+            'Beta6=%r' % (E.Beta6,))
+        self.test('WGS84', t[0], "a=6378137.0, b=6356752.3142499998, f=0.0033528107, e2=0.00669438, e22=0.0067394967, R=6371008.7714166669, Rm=6367435.6797186071, name='WGS84'")
+        self.test('WGS84', t[1], "A=6367449.145823415, e=0.0818191908, f=1/298.2572235630, n=0.0016792204(-3.7914875232e-13)")
+        self.test('WGS84', t[2], "Alpha6=(0, 0.0008377318206244698, 7.608527773572307e-07, 1.1976455033294527e-09, 2.4291706072013587e-12, 5.711757677865804e-15, 1.4911177312583895e-17)")
+        self.test('WGS84', t[3], "Beta6=(0, 0.0008377321640579486, 5.905870152220203e-08, 1.6734826652839968e-10, 2.1647980400627059e-13, 3.7879780461686053e-16, 7.2487488906941545e-19)")
 
     def testDMS(self):
         # dms module tests
@@ -477,7 +488,7 @@ if __name__ == '__main__':
 
     # Typical test results (on MacOS X)
 
-    # testing tests.py version 16.11.28
+    # testing tests.py version 16.12.06
 
     # testing __init__.pyc version 16.11.11
     # test 1 geodesy.Datum() class (geodesy.datum): True
@@ -555,7 +566,7 @@ if __name__ == '__main__':
     # test 73 geodesy.wrapPI2() function (geodesy.utils): True
     # test 74 geodesy.wrapPI_2() function (geodesy.utils): True
 
-    # testing datum.pyc version 16.12.02
+    # testing datum.pyc version 16.12.06
     # test 75 datum.Datum() class: True
     # test 76 datum.Datums attribute: True
     # test 77 datum.Ellipsoid() class: True
@@ -666,12 +677,12 @@ if __name__ == '__main__':
     # test 162 vector3d.Vector3d() class: True
     # test 163 vector3d.sumOf() function: True
 
-    # testing utm.pyc version 16.12.04
+    # testing utm.pyc version 16.12.06
     # test 164 utm.Utm() class: True
     # test 165 utm.parseUTM() function: True
     # test 166 utm.toUtm() function: True
 
-    # testing LatLon.attrs version 16.11.28
+    # testing LatLon.attrs version 16.12.06
     # test 167 Top() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
     # test 168 _Nv attribute: geodesy.ellipsoidalNvector, geodesy.sphericalNvector
     # test 169 _alter() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
@@ -753,7 +764,7 @@ if __name__ == '__main__':
     # test 245 triangulate() method: geodesy.sphericalNvector
     # test 246 trilaterate() method: geodesy.sphericalNvector
 
-    # testing LatLon.mro version 16.11.28
+    # testing LatLon.mro version 16.12.06
     # test 247 geodesy.ellipsoidalNvector: geodesy.ellipsoidalNvector.LatLon, geodesy.nvector._LatLonNvectorBase, geodesy.ellipsoidalBase._LatLonHeightDatumBase, geodesy.bases._LatLonHeightBase, geodesy.bases._Base
     # test 248 geodesy.ellipsoidalVincenty: geodesy.ellipsoidalVincenty.LatLon, geodesy.ellipsoidalBase._LatLonHeightDatumBase, geodesy.bases._LatLonHeightBase, geodesy.bases._Base
     # test 249 geodesy.sphericalNvector: geodesy.sphericalNvector.LatLon, geodesy.nvector._LatLonNvectorBase, geodesy.sphericalBase._LatLonSphericalBase, geodesy.bases._LatLonHeightBase, geodesy.bases._Base
@@ -761,7 +772,7 @@ if __name__ == '__main__':
 
     # all tests.py tests passed (Python 2.7.10)
 
-    # testing tests.py version 16.11.28
+    # testing tests.py version 16.12.06
 
     # testing __init__.py version 16.11.11
     # test 1 geodesy.Datum() class (datum): True
@@ -839,7 +850,7 @@ if __name__ == '__main__':
     # test 73 geodesy.wrapPI2() function (utils): True
     # test 74 geodesy.wrapPI_2() function (utils): True
 
-    # testing datum.py version 16.12.02
+    # testing datum.py version 16.12.06
     # test 75 datum.Datum() class: True
     # test 76 datum.Datums attribute: True
     # test 77 datum.Ellipsoid() class: True
@@ -950,12 +961,12 @@ if __name__ == '__main__':
     # test 162 vector3d.Vector3d() class: True
     # test 163 vector3d.sumOf() function: True
 
-    # testing utm.py version 16.12.04
+    # testing utm.py version 16.12.06
     # test 164 utm.Utm() class: True
     # test 165 utm.parseUTM() function: True
     # test 166 utm.toUtm() function: True
 
-    # testing LatLon.attrs version 16.11.28
+    # testing LatLon.attrs version 16.12.06
     # test 167 Top() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
     # test 168 _Nv attribute: ellipsoidalNvector, sphericalNvector
     # test 169 _alter() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
@@ -1037,7 +1048,7 @@ if __name__ == '__main__':
     # test 245 triangulate() function: sphericalNvector
     # test 246 trilaterate() function: sphericalNvector
 
-    # testing LatLon.mro version 16.11.28
+    # testing LatLon.mro version 16.12.06
     # test 247 ellipsoidalNvector: ellipsoidalNvector.LatLon, nvector._LatLonNvectorBase, ellipsoidalBase._LatLonHeightDatumBase, bases._LatLonHeightBase, bases._Base
     # test 248 ellipsoidalVincenty: ellipsoidalVincenty.LatLon, ellipsoidalBase._LatLonHeightDatumBase, bases._LatLonHeightBase, bases._Base
     # test 249 sphericalNvector: sphericalNvector.LatLon, nvector._LatLonNvectorBase, sphericalBase._LatLonSphericalBase, bases._LatLonHeightBase, bases._Base

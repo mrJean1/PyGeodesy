@@ -183,7 +183,7 @@ if __name__ == '__main__':
 
     # Typical test results (on MacOS X):
 
-    # testing geodesy.sphericalNvector version 16.11.11
+    # testing geodesy.sphericalNvector version 16.11.20
     # test 1 InitialBearingSameLocations: 0.0
     # test 2 InitialBearingEqualLocations: 0.0
     # test 3 FinalBearingSameLocations: 180.0
@@ -247,7 +247,7 @@ if __name__ == '__main__':
     # test 29 CrossTrackDistanceThatShouldBeVeryCloseToZero: 0.00000000
     # 5 geodesy.sphericalTrigonometry tests (17.2%) FAILED (Python 2.7.10)
 
-    # testing sphericalNvector version 16.11.11
+    # testing sphericalNvector version 16.11.20
     # test 1 InitialBearingSameLocations: 0.0
     # test 2 InitialBearingEqualLocations: 0.0
     # test 3 FinalBearingSameLocations: 180.0

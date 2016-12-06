@@ -44,7 +44,7 @@ from utils import fdot, fStr, radians
 __all__ = ('R_KM', 'R_M', 'R_NM', 'R_SM',  # constants
            'Datum',  'Ellipsoid',  'Transform',  # classes
            'Datums', 'Ellipsoids', 'Transforms')  # enum-like
-__version__ = '16.12.02'
+__version__ = '16.12.06'
 
 
 class _Enum(dict):  # enum-like
@@ -127,36 +127,42 @@ class Ellipsoid(_Based):
     _Mabcd  = None  # OSGB meridional coefficients
 
     def __init__(self, a, b, f, name=''):
-        self.a = float(a)  # major half-axis in meter
-        self.b = float(b)  # minor half-axis in meter
+        self.a = a = float(a)  # major half-axis in meter
+        self.b = b = float(b)  # minor half-axis in meter
         if f > 0:
-            self.f = 1 / float(f)  # inverse flattening
-            self.n  = self.f / (2 - self.f)  # 3rd flattening for utm
-            self.e2 = self.f * (2 - self.f)  # 1st eccentricity squared
-            self.e4 = self.e2 * self.e2  # for Nvector.Cartesian.toNvector
-            self.e  = sqrt(self.e2)  # eccentricity for utm
-            self.e12 = 1 - self.e2  # for Nvector.Cartesian.toNvector and utm
-            self.e22 = self.e2 / self.e12  # 2nd eccentricity squared
-            self.a2b2 = (self.a / self.b) ** 2  # for Nvector.toCartesian
-        self.a2 = 1 / (self.a * self.a)  # for Nvector.Cartesian.toNvector
-        self.R = (2 * self.a + self.b) / 3  # per IUGG definition for WGS84
-        self.Rm = sqrt(self.a * self.b)  # mean radius
+            self.f  = f  = 1 / float(f)  # inverse flattening
+            self.n  = n  = f / (2 - f)  # 3rd flattening for utm
+            self.e2 = e2 = f * (2 - f)  # 1st eccentricity squared
+            self.e4 = e2 * e2  # for Nvector.Cartesian.toNvector
+            self.e  = sqrt(e2)  # eccentricity for utm
+            self.e12 = 1 - e2  # for Nvector.Cartesian.toNvector and utm
+            self.e22 = e2 / (1 - e2)  # 2nd eccentricity squared
+            self.a2b2 = (a / b) ** 2  # for Nvector.toCartesian
+        else:
+            f = n = 0
+        self.a2 = 1 / (a * a)  # for Nvector.Cartesian.toNvector
+        self.R = (2 * a + b) / 3  # per IUGG definition for WGS84
+        self.Rm = sqrt(a * b)  # mean radius
         self._register(Ellipsoids, name)
-        d = self.a - self.b
-        self._ab_90 = d / 90  # for radiusat below
+        d = a - b
+        self._ab_90 = d / 90  # for radiusAt below
 
         # some sanity checks to catch mistakes
-        if d < 0 or min(self.a, self.b) < 1:
+        if d < 0 or min(a, b) < 1:
             raise AssertionError('%s: %s=%0.9f vs %s=%0.9f' % (name,
-                                 'a', self.a, 'b', self.b))
-        t = d / self.a
-        if abs(self.f - t) > 1e-8:
+                                 'a', a, 'b', b))
+        t = d / a
+        if abs(f - t) > 1e-8:
             raise AssertionError('%s: %s=%.9e vs %s=%.9e' % (name,
-                                 '1/f', self.f, '(a-b)/a', t))
-        t = d / (self.a + self.b)
-        if abs(self.n - t) > 1e-8:
+                                 '1/f', f, '(a-b)/a', t))
+        t = d / (a + b)
+        if abs(n - t) > 1e-8:
             raise AssertionError('%s: %s=%.9e vs %s=%.9e' % (name,
-                                 'n', self.n, '(a-b)/(a+b)', t))
+                                 'n', n, '(a-b)/(a+b)', t))
+        t = self.a2b2 - 1
+        if abs(self.e22 - t) > 1e-8:
+            raise AssertionError('%s: %s=%.9e vs %s=%.9e' % (name,
+                                 'e22', self.e22, 'a2b2-1', t))
 
     def __eq__(self, other):
         return self is other or (isinstance(other, Ellipsoid) and
@@ -173,37 +179,39 @@ class Ellipsoid(_Based):
             n4_64 = n2_4 * n2_4 / 4
             # A = a / (1 + n) * (1 + n^2 / 4 + n^4 / 64 + n^6 / 256 +
             #                    n^8 * 25 / 16384 + n^10 * 49 / 65536)
-            self._A = self.a / (1 + n) * (1 + n2_4 + n4_64 * (1 + n2_4))
+            self._A = self.a / (1 + n) * (1 + n2_4) * (1 + n4_64)
         return self._A
 
     @property
     def Alpha6(self):
-        '''Return the 6th-order Krüger series, 1-origin.
+        '''Return the 6th-order Krüger Alpha series, 1-origin.
         '''
         if self._Alpha6 is None:
-            self._Alpha6 = self._Krueger6(  # 1-origin
-                # XXX i/i requires  from __future__ import division
+            self._Alpha6 = self._K6(
+                # XXX i/i quotients require  from __future__ import division
+                # n    n^2    n^3       n^4          n^5             n^6
                 (1/2, -2/3,   5/16,    41/180,    -127/288,       7891/37800),
-                     (13/48, -3/5,    557/1440,    281/630,   -1983433/1935360),
-                            (61/240, -103/140,   15061/26880,   167603/181440),
-                                   (49561/161280, -179/168,    6601661/7257600),
-                                                (34729/80640, -3418889/1995840),
-                                                            (212378941/319334400,))
+                     (13/48, -3/5,    557/1440,    281/630,   -1983433/1935360),  # PYCHOK expected
+                            (61/240, -103/140,   15061/26880,   167603/181440),  # PYCHOK expected
+                                   (49561/161280, -179/168,    6601661/7257600),  # PYCHOK expected
+                                                (34729/80640, -3418889/1995840),  # PYCHOK expected
+                                                            (212378941/319334400,))  # PYCHOK expected
         return self._Alpha6
 
     @property
     def Beta6(self):
-        '''Return the 6th-order Krüger series, 1-origin.
+        '''Return the 6th-order Krüger Beta series, 1-origin.
         '''
         if self._Beta6 is None:
-            self._Beta6 = self._Krueger6(  # 1-origin
-                # XXX i/i requires  from __future__ import division
+            self._Beta6 = self._K6(
+                # XXX i/i quotients require  from __future__ import division
+                # n    n^2   n^3      n^4         n^5             n^6
                 (1/2, -2/3, 37/96,   -1/360,    -81/512,      96199/604800),
-                      (1/48, 1/15, -437/1440,    46/105,   -1118711/3870720),
-                           (17/480, -37/840,   -209/4480,      5569/90720),
-                                  (4397/161280, -11/504,    -830251/7257600),
-                                              (4583/161280, -108847/3991680),
-                                                          (20648693/638668800,))
+                      (1/48, 1/15, -437/1440,    46/105,   -1118711/3870720),  # PYCHOK expected
+                           (17/480, -37/840,   -209/4480,      5569/90720),  # PYCHOK expected
+                                  (4397/161280, -11/504,    -830251/7257600),  # PYCHOK expected
+                                              (4583/161280, -108847/3991680),  # PYCHOK expected
+                                                          (20648693/638668800,))  # PYCHOK expected
         return self._Beta6
 
     def e2s2(self, s):
@@ -211,10 +219,10 @@ class Ellipsoid(_Based):
         '''
         return sqrt(1 - self.e2 * s * s)
 
-    def _Krueger6(self, *fs6):
-        # compute 6th-order Krüger Alpha or Beta series per
+    def _K6(self, *fs6):
+        # Compute 6th-order Krüger Alpha or Beta series per
         # Karney 2011, 'Transverse Mercator with an accuracy
-        # of a few nanometers', page7, equations 35 and 36
+        # of a few nanometers', page 7, equations 35 and 36
         # <https://arxiv.org/pdf/1002.1417v3.pdf>
         ns = [self.n]  # 3rd flattening: n, n^2, ... n^6
         for i in range(len(fs6) - 1):
@@ -235,6 +243,7 @@ class Ellipsoid(_Based):
             n = self.n
             n2 = n * n
             n3 = n * n2
+            # XXX i/i quotients require  from __future__ import division
             self._Mabcd = (fdot((1, n, n2, n3), 1, 1,  5/4, 5/4),
                            fdot(   (n, n2, n3), 3, 3, 21/8),
                            fdot(      (n2, n3), 15/8, 15/8),
@@ -250,7 +259,7 @@ class Ellipsoid(_Based):
            @returns {number} Radius at that latitude.
         '''
         # r = major - (major - minor) * |lat| / 90
-        return self.a - self._ab_90 * min(90, abs(lat))
+        return self.a - self._ab_90 * min(abs(lat), 90)
 
     def toStr(self, prec=8):  # PYCHOK expected
         '''Return this ellipsoid as a string.
@@ -259,7 +268,7 @@ class Ellipsoid(_Based):
 
            @returns {string} Ellipsoid string.
         '''
-        return self._fStr(prec, 'a', 'b', 'f', 'e2', 'e22', 'R','Rm')
+        return self._fStr(prec, 'a', 'b', 'f', 'e2', 'e22', 'R', 'Rm')
 
 
 R_KM = 6371.008771415  # mean (spherical) earth radius in kilo meter
@@ -381,8 +390,8 @@ Transforms._assert(
                                         sx= 0.0267, sy= 0.00034, sz= 0.011,
                                          s=-0.0015),
     NTF            = Transform('NTF', tx=-168, ty= -60, tz=320),  # XXX verify
-    OSGB36         = Transform('OSGB36', tx=-446.448,  ty=125.157, tz=-542.060,
-                                         sx=  -0.1502, sy=-0.2470, sz=-0.8421,
+    OSGB36         = Transform('OSGB36', tx=-446.448,  ty=125.157,  tz=-542.060,
+                                         sx=  -0.1502, sy= -0.2470, sz=  -0.8421,
                                           s=  20.4894),
     TokyoJapan     = Transform('TokyoJapan', tx=148, ty=-507, tz=-685),
     WGS72          = Transform('WGS72', tz=-4.5, sz=0.554, s=-0.22),
@@ -473,7 +482,7 @@ if __name__ == '__main__':
 
 # **) MIT License
 #
-# Copyright (c) 2016-2017 mrJean1@Gmail.com
+# Copyright (c) 2016-2017 -- mrJean1@Gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

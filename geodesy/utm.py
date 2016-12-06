@@ -37,7 +37,7 @@ from utils import EPS, degrees, degrees90, degrees180, \
 # all public contants, classes and functions
 __all__ = ('Utm',  # classes
            'parseUTM', 'toUtm')  # functions
-__version__ = '16.12.04'
+__version__ = '16.12.06'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N
 _Bands         = 'CDEFGHJKLMNPQRSTUVWXX'  # X repeated for 80-84°N
@@ -52,7 +52,8 @@ class _Ks(object):
     # for the given x and y angles (in radians).
 
     def __init__(self, AB, x, y):
-        # AB is a 1-origin list or tuple
+        # AB is a 1-origin, 6th-order
+        # Krüger Alpha or Beta series
         n, j2 = len2(range(2, len(AB) * 2, 2))
 
         self._ab = AB[1:]  # 0-origin
@@ -64,11 +65,13 @@ class _Ks(object):
         self._chx = map2(cosh, x2)
         self._shx = map2(sinh, x2)
 
+        assert len(x2) == len(self._chx) == len(self._shx) == n
+
         y2 = map2(mul, j2, (y,) * n)
         self._cy = map2(cos, y2)
         self._sy = map2(sin, y2)
 
-        assert len(x2) == len(y2) == n
+        assert len(y2) == len(self._cy) == len(self._sy) == n
 
     def xs(self, x):
         return fdot3(self._ab, self._cy, self._shx, start=x)
@@ -464,6 +467,7 @@ def toUtm(latlon, lon=None, datum=Datums.WGS84):
     x = asinh(sb / H)  # η' eta
 
     A0 = _K0 * E.A
+
     A6 = _Ks(E.Alpha6, x, y)  # 6th-order Krüger series, 1-origin
     y = A6.ys(y) * A0  # ξ
     x = A6.xs(x) * A0  # η
@@ -484,7 +488,7 @@ def toUtm(latlon, lon=None, datum=Datums.WGS84):
 
 # **) MIT License
 #
-# Copyright (c) 2016-2017 mrJean1@Gmail.com
+# Copyright (c) 2016-2017 -- mrJean1@Gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

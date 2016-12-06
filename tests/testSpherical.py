@@ -24,7 +24,7 @@ if __name__ == '__main__':
 
     # Typical test results (on MacOS X):
 
-    # testing geodesy.sphericalNvector version 16.11.15
+    # testing geodesy.sphericalNvector version 16.11.20
     # test 1 lat/lonDMS: 52.20472°N, 000.14056°E
     # test 2 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
     # test 3 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
@@ -75,7 +75,7 @@ if __name__ == '__main__':
     # test 48 nearestOn: 00.0°N, 020.0°E
     # all geodesy.sphericalNvector tests passed (Python 2.7.10)
 
-    # testing geodesy.sphericalTrigonometry version 16.11.10
+    # testing geodesy.sphericalTrigonometry version 16.11.11
     # test 1 lat/lonDMS: 52.20472°N, 000.14056°E
     # test 2 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
     # test 3 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
@@ -113,7 +113,7 @@ if __name__ == '__main__':
     # test 35 rhumbMidpointo: 51.0455°N, 001.595727°E
     # all geodesy.sphericalTrigonometry tests passed (Python 2.7.10)
 
-    # testing sphericalNvector version 16.11.15
+    # testing sphericalNvector version 16.11.20
     # test 1 lat/lonDMS: 52.20472°N, 000.14056°E
     # test 2 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
     # test 3 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
@@ -164,7 +164,7 @@ if __name__ == '__main__':
     # test 48 nearestOn: 00.0°N, 020.0°E
     # all sphericalNvector tests passed (Python 3.5.2)
 
-    # testing sphericalTrigonometry version 16.11.10
+    # testing sphericalTrigonometry version 16.11.11
     # test 1 lat/lonDMS: 52.20472°N, 000.14056°E
     # test 2 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
     # test 3 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
