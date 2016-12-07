@@ -8,7 +8,7 @@ This page illustrates implementations of the examples from
 those used in nvector.readthedocs.org.  Tests marked with
 # +++ are additional, not present in the original examples.
 '''
-__version__ = '16.10.20'
+__version__ = '16.12.07'
 
 if __name__ == '__main__':
 
@@ -45,7 +45,7 @@ if __name__ == '__main__':
     t.test(2, 'delta', delta, '[N:3000.0, E:2000.0, D:100.0]')  # ++
     t.test(2, 'delta', delta.toStr2(prec=3), '[L:3606.938, B:33.69°, E:-1.589°]')  # +++
     c = b.destinationPoint(delta)
-    t.test(2, 'destinationPoint', c.toStr(F_D), '53.327726°N, 063.464965°E, +299.138m')
+    t.test(2, 'destinationPoint', c.toStr(F_D), '53.327726°N, 063.464965°E, +299.138m', known=True)
 
     a = ellipsoidalNvector.LatLon(49.66618, 3.45063)  # ++
     b = ellipsoidalNvector.LatLon(48.88667, 2.37472)  # ++
@@ -124,10 +124,11 @@ if __name__ == '__main__':
     t.test(10, 'crossTrackDistance', c, '11118', fmt='%.0f')  # 11,118 m == 11.12 km
 
     t.results()
+    t.exit()
 
     # Typical test results (on MacOS X):
 
-    # testing testNavlabExamples.py version 16.10.20
+    # testing testNavlabExamples.py version 16.12.07
     # test 1 Example 1 delta: [N:331730.863, E:332998.501, D:17398.304]
     # test 2 Example 1 delta: [L:470357.384, B:45.109°, E:-2.12°]
     # test 3 Example 1 elevation: -2.1198
@@ -137,7 +138,7 @@ if __name__ == '__main__':
     # test 7 Example 2 toNvector: (0.267, 0.535, 0.802, +400.00)
     # test 8 Example 2 delta: [N:3000.0, E:2000.0, D:100.0]
     # test 9 Example 2 delta: [L:3606.938, B:33.69°, E:-1.589°]
-    # test 10 Example 2 destinationPoint: 53.327726°N, 063.464965°E, +301.02m  FAILED, expected 53.327726°N, 063.464965°E, +299.138m
+    # test 10 Example 2 destinationPoint: 53.327726°N, 063.464965°E, +301.02m  FAILED, KNOWN, expected 53.327726°N, 063.464965°E, +299.138m
     # test 11 Example 2 delta: [N:-86126, E:-78900, D:1069]
     # test 12 Example 2 delta: [L:116807.681, B:222.493°, E:-0.524°]
     # test 13 Example 2 destinationPoint: 48.88667°N, 002.37472°E
@@ -154,9 +155,9 @@ if __name__ == '__main__':
     # test 24 Example 8 destination(elVincenty): 79.991584°N, 090.017621°W
     # test 25 Example 9 intersection: 40.318643°N, 055.901868°E
     # test 26 Example 10 crossTrackDistance: 11118
-    # 1 testNavlabExamples.py test (3.8%) FAILED (Python 2.7.10)
+    # 1 testNavlabExamples.py test (3.8%) FAILED, incl. 1 KNOWN (Python 2.7.10)
 
-    # testing testNavlabExamples.py version 16.10.20
+    # testing testNavlabExamples.py version 16.12.07
     # test 1 Example 1 delta: [N:331730.863, E:332998.501, D:17398.304]
     # test 2 Example 1 delta: [L:470357.384, B:45.109°, E:-2.12°]
     # test 3 Example 1 elevation: -2.1198
@@ -166,7 +167,7 @@ if __name__ == '__main__':
     # test 7 Example 2 toNvector: (0.267, 0.535, 0.802, +400.00)
     # test 8 Example 2 delta: [N:3000.0, E:2000.0, D:100.0]
     # test 9 Example 2 delta: [L:3606.938, B:33.69°, E:-1.589°]
-    # test 10 Example 2 destinationPoint: 53.327726°N, 063.464965°E, +301.02m  FAILED, expected 53.327726°N, 063.464965°E, +299.138m
+    # test 10 Example 2 destinationPoint: 53.327726°N, 063.464965°E, +301.02m  FAILED, KNOWN, expected 53.327726°N, 063.464965°E, +299.138m
     # test 11 Example 2 delta: [N:-86126, E:-78900, D:1069]
     # test 12 Example 2 delta: [L:116807.681, B:222.493°, E:-0.524°]
     # test 13 Example 2 destinationPoint: 48.88667°N, 002.37472°E
@@ -183,4 +184,4 @@ if __name__ == '__main__':
     # test 24 Example 8 destination(elVincenty): 79.991584°N, 090.017621°W
     # test 25 Example 9 intersection: 40.318643°N, 055.901868°E
     # test 26 Example 10 crossTrackDistance: 11118
-    # 1 testNavlabExamples.py test (3.8%) FAILED (Python 3.5.2)
+    # 1 testNavlabExamples.py test (3.8%) FAILED, incl. 1 KNOWN (Python 3.5.2)

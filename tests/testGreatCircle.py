@@ -32,7 +32,7 @@
 # Created by Brian Lambert on 6/5/16.
 # Copyright © 2016 Softwarenerd.
 
-__version__ = '16.10.13'
+__version__ = '16.12.07'
 
 if __name__ == '__main__':
 
@@ -42,10 +42,10 @@ if __name__ == '__main__':
 
     class Tests(_Tests):
         # overload test() method
-        def test(self, name, value, expect, fmt='%s'):
+        def test(self, name, value, expect, fmt='%s', known=False):
             if isinstance(expect, float):
                 expect = fmt % (expect,)
-            _Tests.test(self, name, value, expect, fmt=fmt)
+            _Tests.test(self, name, value, expect, fmt=fmt, known=known)
 
     def testGreatCircle(S):
         # run tests for spherical module S
@@ -98,11 +98,11 @@ if __name__ == '__main__':
 
         # distance between Eiffel Tower and Versailles
         d = Eiffel.distanceTo(Versailles)
-        t.test('DistanceEiffelToVersailles', d, dEiffelToVersailles, mEiffelToVersailles)
+        t.test('DistanceEiffelToVersailles', d, dEiffelToVersailles, mEiffelToVersailles, known=True)
 
         # distance between Versailles and Eiffel Tower
         d = Versailles.distanceTo(Eiffel)
-        t.test('DistanceVersaillesToEiffel', d, dEiffelToVersailles, mEiffelToVersailles)
+        t.test('DistanceVersaillesToEiffel', d, dEiffelToVersailles, mEiffelToVersailles, known=True)
 
         # initial bearing between Eiffel Tower and Versailles
         b = Eiffel.bearingTo(Versailles)
@@ -139,17 +139,17 @@ if __name__ == '__main__':
         t.test('MidpointEiffelToVersailles(DMS)', a.toStr(F_DMS, prec=4), '48°49′53.3817″N, 002°12′27.1279″E')
         a = Eiffel.distanceTo(a)
         b = Versailles.distanceTo(b)
-        t.test('MidpointEiffelToVersailles(m)', a, str(b))
+        t.test('MidpointEiffelToVersailles(m)', a, str(b), known=True)
 
         # midpoint between Versailles and the Eiffel Tower
         a = Versailles.midpointTo(Eiffel)
         b = Versailles.destination(dEiffelToVersailles / 2.0,
                                    ibVersaillesToEiffel)
-        t.test('MidpointVersaillesToEiffel', a, str(b))
+        t.test('MidpointVersaillesToEiffel', a, str(b), known=True)
         t.test('MidpointVersaillesToEiffel(DMS)', a.toStr(F_DMS, prec=4), '48°49′53.3817″N, 002°12′27.1279″E')
         a = Versailles.distanceTo(a)
         b = Eiffel.distanceTo(b)
-        t.test('MidpointVersaillesToEiffel(m)', a, str(b))
+        t.test('MidpointVersaillesToEiffel(m)', a, str(b), known=True)
 
         # intersection.
         b = StGermain.bearingTo(Orly)
@@ -177,9 +177,11 @@ if __name__ == '__main__':
         t.test('CrossTrackDistanceThatShouldBeVeryCloseToZero', d, '0.00000000', '%.8f')
 
         t.results()
+        return t
 
-    testGreatCircle(sphericalNvector)
-    testGreatCircle(sphericalTrigonometry)
+    e = testGreatCircle(sphericalNvector).errors()
+    t = testGreatCircle(sphericalTrigonometry)
+    t.exit(e)
 
     # Typical test results (on MacOS X):
 
@@ -190,8 +192,8 @@ if __name__ == '__main__':
     # test 4 FinalBearingEqualLocations: 180.0
     # test 5 DistanceSameLocations: 0.0
     # test 6 DistanceEqualLocations: 0.0
-    # test 7 DistanceEiffelToVersailles: 14084.3001  FAILED, expected 14084.2807
-    # test 8 DistanceVersaillesToEiffel: 14084.3001  FAILED, expected 14084.2807
+    # test 7 DistanceEiffelToVersailles: 14084.3001  FAILED, KNOWN, expected 14084.2807
+    # test 8 DistanceVersaillesToEiffel: 14084.3001  FAILED, KNOWN, expected 14084.2807
     # test 9 InitialBearingEiffelToVersailles: 245.13460297
     # test 10 InitialBearingEiffelToVersailles(DMS): 245°08′04.5707″
     # test 11 InitialBearingVersaillesToEiffel: 65.003253951
@@ -204,16 +206,16 @@ if __name__ == '__main__':
     # test 18 GenerateLocationEiffel: 48.858158°N, 002.294825°E
     # test 19 MidpointEiffelToVersailles: 48.831495°N, 002.207536°E
     # test 20 MidpointEiffelToVersailles(DMS): 48°49′53.3817″N, 002°12′27.1279″E
-    # test 21 MidpointEiffelToVersailles(m): 7042.15004788  FAILED, expected 7042.1597433
-    # test 22 MidpointVersaillesToEiffel: 48.831495°N, 002.207536°E  FAILED, expected 48.831495°N, 002.207535°E
+    # test 21 MidpointEiffelToVersailles(m): 7042.15004788  FAILED, KNOWN, expected 7042.1597433
+    # test 22 MidpointVersaillesToEiffel: 48.831495°N, 002.207536°E  FAILED, KNOWN, expected 48.831495°N, 002.207535°E
     # test 23 MidpointVersaillesToEiffel(DMS): 48°49′53.3817″N, 002°12′27.1279″E
-    # test 24 MidpointVersaillesToEiffel(m): 7042.15004788  FAILED, expected 7042.1597433
+    # test 24 MidpointVersaillesToEiffel(m): 7042.15004788  FAILED, KNOWN, expected 7042.1597433
     # test 25 Intersection: 48.83569095°N, 002.221252031°E
     # test 26 Intersection: 48.8356909498836°N, 002.2212520313074°E
     # test 27 CrossTrackDistance90Degrees200Meters: 200.0
     # test 28 CrossTrackDistance270Degrees200Meters: -200.0
     # test 29 CrossTrackDistanceThatShouldBeVeryCloseToZero: 0.00000000
-    # 5 geodesy.sphericalNvector tests (17.2%) FAILED (Python 2.7.10)
+    # 5 geodesy.sphericalNvector tests (17.2%) FAILED, incl. 5 KNOWN (Python 2.7.10)
 
     # testing geodesy.sphericalTrigonometry version 16.11.11
     # test 1 InitialBearingSameLocations: 0.0
@@ -222,8 +224,8 @@ if __name__ == '__main__':
     # test 4 FinalBearingEqualLocations: 180.0
     # test 5 DistanceSameLocations: 0.0
     # test 6 DistanceEqualLocations: 0.0
-    # test 7 DistanceEiffelToVersailles: 14084.3001  FAILED, expected 14084.2807
-    # test 8 DistanceVersaillesToEiffel: 14084.3001  FAILED, expected 14084.2807
+    # test 7 DistanceEiffelToVersailles: 14084.3001  FAILED, KNOWN, expected 14084.2807
+    # test 8 DistanceVersaillesToEiffel: 14084.3001  FAILED, KNOWN, expected 14084.2807
     # test 9 InitialBearingEiffelToVersailles: 245.13460297
     # test 10 InitialBearingEiffelToVersailles(DMS): 245°08′04.5707″
     # test 11 InitialBearingVersaillesToEiffel: 65.003253951
@@ -236,16 +238,16 @@ if __name__ == '__main__':
     # test 18 GenerateLocationEiffel: 48.858158°N, 002.294825°E
     # test 19 MidpointEiffelToVersailles: 48.831495°N, 002.207536°E
     # test 20 MidpointEiffelToVersailles(DMS): 48°49′53.3817″N, 002°12′27.1279″E
-    # test 21 MidpointEiffelToVersailles(m): 7042.15004788  FAILED, expected 7042.1597433
-    # test 22 MidpointVersaillesToEiffel: 48.831495°N, 002.207536°E  FAILED, expected 48.831495°N, 002.207535°E
+    # test 21 MidpointEiffelToVersailles(m): 7042.15004788  FAILED, KNOWN, expected 7042.1597433
+    # test 22 MidpointVersaillesToEiffel: 48.831495°N, 002.207536°E  FAILED, KNOWN, expected 48.831495°N, 002.207535°E
     # test 23 MidpointVersaillesToEiffel(DMS): 48°49′53.3817″N, 002°12′27.1279″E
-    # test 24 MidpointVersaillesToEiffel(m): 7042.15004788  FAILED, expected 7042.1597433
+    # test 24 MidpointVersaillesToEiffel(m): 7042.15004788  FAILED, KNOWN, expected 7042.1597433
     # test 25 Intersection: 48.83569095°N, 002.221252031°E
     # test 26 Intersection: 48.8356909498836°N, 002.2212520313074°E
     # test 27 CrossTrackDistance90Degrees200Meters: 200.0
     # test 28 CrossTrackDistance270Degrees200Meters: -200.0
     # test 29 CrossTrackDistanceThatShouldBeVeryCloseToZero: 0.00000000
-    # 5 geodesy.sphericalTrigonometry tests (17.2%) FAILED (Python 2.7.10)
+    # 5 geodesy.sphericalTrigonometry tests (17.2%) FAILED, incl. 5 KNOWN (Python 2.7.10)
 
     # testing sphericalNvector version 16.11.20
     # test 1 InitialBearingSameLocations: 0.0
@@ -254,8 +256,8 @@ if __name__ == '__main__':
     # test 4 FinalBearingEqualLocations: 180.0
     # test 5 DistanceSameLocations: 0.0
     # test 6 DistanceEqualLocations: 0.0
-    # test 7 DistanceEiffelToVersailles: 14084.3001  FAILED, expected 14084.2807
-    # test 8 DistanceVersaillesToEiffel: 14084.3001  FAILED, expected 14084.2807
+    # test 7 DistanceEiffelToVersailles: 14084.3001  FAILED, KNOWN, expected 14084.2807
+    # test 8 DistanceVersaillesToEiffel: 14084.3001  FAILED, KNOWN, expected 14084.2807
     # test 9 InitialBearingEiffelToVersailles: 245.13460297
     # test 10 InitialBearingEiffelToVersailles(DMS): 245°08′04.5707″
     # test 11 InitialBearingVersaillesToEiffel: 65.003253951
@@ -268,16 +270,16 @@ if __name__ == '__main__':
     # test 18 GenerateLocationEiffel: 48.858158°N, 002.294825°E
     # test 19 MidpointEiffelToVersailles: 48.831495°N, 002.207536°E
     # test 20 MidpointEiffelToVersailles(DMS): 48°49′53.3817″N, 002°12′27.1279″E
-    # test 21 MidpointEiffelToVersailles(m): 7042.150047881914  FAILED, expected 7042.159743304898
-    # test 22 MidpointVersaillesToEiffel: 48.831495°N, 002.207536°E  FAILED, expected 48.831495°N, 002.207535°E
+    # test 21 MidpointEiffelToVersailles(m): 7042.150047881914  FAILED, KNOWN, expected 7042.159743304898
+    # test 22 MidpointVersaillesToEiffel: 48.831495°N, 002.207536°E  FAILED, KNOWN, expected 48.831495°N, 002.207535°E
     # test 23 MidpointVersaillesToEiffel(DMS): 48°49′53.3817″N, 002°12′27.1279″E
-    # test 24 MidpointVersaillesToEiffel(m): 7042.150047882616  FAILED, expected 7042.159743304495
+    # test 24 MidpointVersaillesToEiffel(m): 7042.150047882616  FAILED, KNOWN, expected 7042.159743304495
     # test 25 Intersection: 48.83569095°N, 002.221252031°E
     # test 26 Intersection: 48.8356909498836°N, 002.2212520313074°E
     # test 27 CrossTrackDistance90Degrees200Meters: 200.0
     # test 28 CrossTrackDistance270Degrees200Meters: -200.0
     # test 29 CrossTrackDistanceThatShouldBeVeryCloseToZero: 0.00000000
-    # 5 sphericalNvector tests (17.2%) FAILED (Python 3.5.2)
+    # 5 sphericalNvector tests (17.2%) FAILED, incl. 5 KNOWN (Python 3.5.2)
 
     # testing sphericalTrigonometry version 16.11.11
     # test 1 InitialBearingSameLocations: 0.0
@@ -286,8 +288,8 @@ if __name__ == '__main__':
     # test 4 FinalBearingEqualLocations: 180.0
     # test 5 DistanceSameLocations: 0.0
     # test 6 DistanceEqualLocations: 0.0
-    # test 7 DistanceEiffelToVersailles: 14084.3001  FAILED, expected 14084.2807
-    # test 8 DistanceVersaillesToEiffel: 14084.3001  FAILED, expected 14084.2807
+    # test 7 DistanceEiffelToVersailles: 14084.3001  FAILED, KNOWN, expected 14084.2807
+    # test 8 DistanceVersaillesToEiffel: 14084.3001  FAILED, KNOWN, expected 14084.2807
     # test 9 InitialBearingEiffelToVersailles: 245.13460297
     # test 10 InitialBearingEiffelToVersailles(DMS): 245°08′04.5707″
     # test 11 InitialBearingVersaillesToEiffel: 65.003253951
@@ -300,13 +302,13 @@ if __name__ == '__main__':
     # test 18 GenerateLocationEiffel: 48.858158°N, 002.294825°E
     # test 19 MidpointEiffelToVersailles: 48.831495°N, 002.207536°E
     # test 20 MidpointEiffelToVersailles(DMS): 48°49′53.3817″N, 002°12′27.1279″E
-    # test 21 MidpointEiffelToVersailles(m): 7042.150047881641  FAILED, expected 7042.159743304608
-    # test 22 MidpointVersaillesToEiffel: 48.831495°N, 002.207536°E  FAILED, expected 48.831495°N, 002.207535°E
+    # test 21 MidpointEiffelToVersailles(m): 7042.150047881641  FAILED, KNOWN, expected 7042.159743304608
+    # test 22 MidpointVersaillesToEiffel: 48.831495°N, 002.207536°E  FAILED, KNOWN, expected 48.831495°N, 002.207535°E
     # test 23 MidpointVersaillesToEiffel(DMS): 48°49′53.3817″N, 002°12′27.1279″E
-    # test 24 MidpointVersaillesToEiffel(m): 7042.150047882363  FAILED, expected 7042.159743304893
+    # test 24 MidpointVersaillesToEiffel(m): 7042.150047882363  FAILED, KNOWN, expected 7042.159743304893
     # test 25 Intersection: 48.83569095°N, 002.221252031°E
     # test 26 Intersection: 48.8356909498836°N, 002.2212520313074°E
     # test 27 CrossTrackDistance90Degrees200Meters: 200.0
     # test 28 CrossTrackDistance270Degrees200Meters: -200.0
     # test 29 CrossTrackDistanceThatShouldBeVeryCloseToZero: 0.00000000
-    # 5 sphericalTrigonometry tests (17.2%) FAILED (Python 3.5.2)
+    # 5 sphericalTrigonometry tests (17.2%) FAILED, incl. 5 KNOWN (Python 3.5.2)

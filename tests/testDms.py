@@ -3,7 +3,7 @@
 
 # Test degrees, minutes, seconds functions.
 
-__version__ = '16.10.13'
+__version__ = '16.12.07'
 
 if __name__ == '__main__':
 
@@ -13,6 +13,7 @@ if __name__ == '__main__':
     t = Tests(__file__, __version__, dms)
     t.testDMS()
     t.results()
+    t.exit()
 
     # Typical test results (on MacOS X):
 

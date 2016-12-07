@@ -3,7 +3,7 @@
 
 # Test ellipsoidal earth model functions and methods.
 
-__version__ = '16.11.28'
+__version__ = '16.12.07'
 
 if __name__ == '__main__':
 
@@ -21,6 +21,7 @@ if __name__ == '__main__':
     for d in (Datums.WGS84, Datums.NAD83,):  # Datums.Sphere):
         t.testVincenty(V.LatLon, d, VincentyError)
     t.results()
+    t.exit()
 
     # Typical test results (on MacOS X):
 
