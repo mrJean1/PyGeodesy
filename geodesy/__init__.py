@@ -10,7 +10,7 @@
 # Transcribed from JavaScript originals by (C) Chris Veness 2005-2016
 # and published under the same MIT Licence**.
 
-# For more information and details see:
+# For more information and further details see:
 #
 # <https://github.com/chrisveness/geodesy/>
 # <http://www.movable-type.co.uk/scripts/latlong.html>
@@ -45,7 +45,7 @@ VincentyError = ellipsoidalVincenty.VincentyError
 __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',
            'sphericalNvector', 'sphericalTrigonometry',
            'VincentyError')  # extended below
-__version__ = '16.11.11'
+__version__ = '16.12.12'
 
 # lift all public constants, functions, etc.
 import datum as _datum, dms as _dms, mgrs as _mgrs, \
@@ -56,7 +56,7 @@ del m, _datum, _dms, _mgrs, _osgr, _utm, _utils
 
 # **) MIT License
 #
-# Copyright (c) 2016-2017 -- mrJean1@Gmail.com
+# Copyright (C) 2016-2017 -- mrJean1@Gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

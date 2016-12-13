@@ -11,7 +11,7 @@ from os.path import dirname, join
 from subprocess import PIPE, STDOUT, Popen
 import sys
 
-__version__ = '16.12.09'
+__version__ = '16.12.12'
 
 _python = sys.executable  # path
 
@@ -80,7 +80,6 @@ else:
 # tests/run.py /usr/bin/python tests/testDms.py
 # tests/run.py /usr/bin/python tests/testEllipsoidal.py
 # tests/run.py /usr/bin/python tests/testGreatCircle.py
-# tests/run.py /usr/bin/python tests/testLambert.py
 # tests/run.py /usr/bin/python tests/testMgrs.py
 # tests/run.py /usr/bin/python tests/testNavlabExamples.py
 # tests/run.py /usr/bin/python tests/testOsgr.py
@@ -95,7 +94,6 @@ else:
 # tests/run.py /usr/local/bin/python3 tests/testDms.py
 # tests/run.py /usr/local/bin/python3 tests/testEllipsoidal.py
 # tests/run.py /usr/local/bin/python3 tests/testGreatCircle.py
-# tests/run.py /usr/local/bin/python3 tests/testLambert.py
 # tests/run.py /usr/local/bin/python3 tests/testMgrs.py
 # tests/run.py /usr/local/bin/python3 tests/testNavlabExamples.py
 # tests/run.py /usr/local/bin/python3 tests/testOsgr.py

@@ -6,31 +6,32 @@ spherical earth models using trigonometric and vector-based methods.
 Transcribed from JavaScript originals by (C) Chris Veness 2005-2016
 and published under the same MIT Licence**.
 
-For more information and details see:
+For more information and further details see:
 
 - <http://github.com/chrisveness/geodesy/>
 - <http://www.movable-type.co.uk/scripts/latlong.html>
 - <http://www.movable-type.co.uk/scripts/latlong-vincenty.html>
 - <http://www.movable-type.co.uk/scripts/latlong-vectors.html>
 
-Included are also conversions to and from UTM coordinates and MGRS
+Also included are conversions to and from UTM coordinates and MGRS
 and OSGR grid references, see:
 
 - <http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html>
 - <http://www.movable-type.co.uk/scripts/latlong-os-gridref.html>
 
-The Python code is checked with PyChecker, PyFlakes, Pep8 and pychok*
-using Python 2.7.10.  The tests have been run with Python 2.7.10 and
-3.5.1/.2 and on MacOS 10.10 Yosemite and MacOS 10.11 El Capitan only.
+The Python code was statically checked with PyChecker, PyFlakes,
+Pep8 and pychok* using Python 2.7.10.  The tests were run with
+Python 2.7.10, 3.5.1/.2 and 3.6.0rc1, but only on MacOS 10.10
+Yosemite and MacOS 10.11 El Capitan.
 
 *) <http://code.activestate.com/recipes/546532-pychecker-postprocessor/>
 
-Last updated: Dec 06, 2016.
+Last updated: Dec 12, 2016.
 
 
 **) MIT License
 
-Copyright (c) 2016-2017 -- mrJean1@Gmail.com
+Copyright (C) 2016-2017 -- mrJean1@Gmail.com
 
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the "Software"),
