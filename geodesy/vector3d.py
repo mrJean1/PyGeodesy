@@ -19,7 +19,7 @@ from math import atan2, cos, hypot, sin
 # all public contants, classes and functions
 __all__ = ('Vector3d',  # classes
            'sumOf')  # functions
-__version__ = '16.11.30'
+__version__ = '16.12.13'
 
 
 class Vector3d(_VectorBase):
@@ -247,6 +247,8 @@ class Vector3d(_VectorBase):
                         self.y + other.y,
                         self.z + other.z)
 
+    sum = plus  # alternate name
+
     def rotate(self, axis, theta):
         '''Rotates this vector by a specified angle around an axis.
 
@@ -273,7 +275,7 @@ class Vector3d(_VectorBase):
                         fdot(p, a.y * b.x + s.z, a.y * b.y + c,   a.y * b.z - s.x),
                         fdot(p, a.z * b.x - s.y, a.z * b.y + s.x, a.z * b.z + c))
 
-    sum = plus  # alternate name
+    rotateAround = rotate  # alternate name
 
     def times(self, factor):
         '''Return this vector multiplied by a scalar.
