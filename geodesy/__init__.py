@@ -30,6 +30,7 @@ except ImportError:
 
 from datum import *  # PYCHOK __all__
 from dms   import *  # PYCHOK __all__
+from lcc   import *  # PYCHOK __all__
 from mgrs  import *  # PYCHOK __all__
 from osgr  import *  # PYCHOK __all__
 from utils import *  # PYCHOK __all__
@@ -45,14 +46,15 @@ VincentyError = ellipsoidalVincenty.VincentyError
 __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',
            'sphericalNvector', 'sphericalTrigonometry',
            'VincentyError')  # extended below
-__version__ = '16.12.12'
+__version__ = '16.12.15'
 
 # lift all public constants, functions, etc.
 import datum as _datum, dms as _dms, mgrs as _mgrs, \
-       utils as _utils, utm as _utm, osgr as _osgr  # PYCHOK expected
-for m in (_datum, _dms, _mgrs, _osgr, _utm, _utils):
+       utils as _utils, utm as _utm, osgr as _osgr, \
+       lcc as _lcc  # PYCHOK expected
+for m in (_datum, _dms, _mgrs, _osgr, _utm, _utils, _lcc):
     __all__ += m.__all__
-del m, _datum, _dms, _mgrs, _osgr, _utm, _utils
+del m, _datum, _dms, _mgrs, _osgr, _utm, _utils, _lcc
 
 # **) MIT License
 #

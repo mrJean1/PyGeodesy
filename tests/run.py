@@ -11,7 +11,7 @@ from os.path import dirname, join
 from subprocess import PIPE, STDOUT, Popen
 import sys
 
-__version__ = '16.12.12'
+__version__ = '16.12.15'
 
 _python = sys.executable  # path
 
@@ -80,6 +80,7 @@ else:
 # tests/run.py /usr/bin/python tests/testDms.py
 # tests/run.py /usr/bin/python tests/testEllipsoidal.py
 # tests/run.py /usr/bin/python tests/testGreatCircle.py
+# tests/run.py /usr/bin/python tests/testLcc.py
 # tests/run.py /usr/bin/python tests/testMgrs.py
 # tests/run.py /usr/bin/python tests/testNavlabExamples.py
 # tests/run.py /usr/bin/python tests/testOsgr.py
@@ -94,10 +95,11 @@ else:
 # tests/run.py /usr/local/bin/python3 tests/testDms.py
 # tests/run.py /usr/local/bin/python3 tests/testEllipsoidal.py
 # tests/run.py /usr/local/bin/python3 tests/testGreatCircle.py
+# tests/run.py /usr/local/bin/python3 tests/testLcc.py
 # tests/run.py /usr/local/bin/python3 tests/testMgrs.py
 # tests/run.py /usr/local/bin/python3 tests/testNavlabExamples.py
 # tests/run.py /usr/local/bin/python3 tests/testOsgr.py
 # tests/run.py /usr/local/bin/python3 tests/testSpherical.py
 # tests/run.py /usr/local/bin/python3 tests/testUtm.py
-# tests/run.py /usr/bin/python tests/tests.py
+# tests/run.py /usr/local/bin/python3 tests/tests.py
 # tests/run.py /usr/local/bin/python3 all OK (Python 3.6.0rc1)

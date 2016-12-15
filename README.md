@@ -19,6 +19,11 @@ and OSGR grid references, see:
 - <http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html>
 - <http://www.movable-type.co.uk/scripts/latlong-os-gridref.html>
 
+Another module provides Lambert conformal conic projections and
+positions, transcribed from:
+
+- <https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf> pp 107-109.
+
 The Python code was statically checked with PyChecker, PyFlakes,
 Pep8 and pychok* using Python 2.7.10.  The tests were run with
 Python 2.7.10, 3.5.1/.2 and 3.6.0rc1, but only on MacOS 10.10
@@ -26,7 +31,7 @@ Yosemite and MacOS 10.11 El Capitan.
 
 *) <http://code.activestate.com/recipes/546532-pychecker-postprocessor/>
 
-Last updated: Dec 12, 2016.
+Last updated: Dec 15, 2016.
 
 
 **) MIT License
