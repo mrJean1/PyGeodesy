@@ -17,14 +17,14 @@ from utils import EPS, PI_2, degrees90, degrees180, fStr, radians
 # all public constants, classes and functions
 __all__ = ('Conic', 'Conics', 'Lcc',
            'toLcc')  # functions
-__version__ = '16.12.15'
+__version__ = '16.12.19'
 
 
 Conics = _Enum('Conics')
 
 
 class Conic(_Based):
-    '''Lambert conformal conic projection (1- or 2SP).
+    '''Lambert conformal conic projection (1- or 2-SP).
     '''
     _auth  = ''
     _datum = None
@@ -51,8 +51,8 @@ class Conic(_Based):
                        k0=1, opt3=0, name='', auth=''):
         '''Create a Lambert conformal conic projection.
 
-           @param {LatLon} latlon - Origin in degrees including an
-                                    ellipsoidal datum.
+           @param {LatLon} latlon - Origin in degrees including
+                                    an ellipsoidal datum.
            @param {degrees90} par1 - First standard parallel.
            @param {degrees90} par2 - Second standard parallel.
            @param {meter} [E0=0] - False easting in meter.
@@ -180,7 +180,7 @@ class Conic(_Based):
 
     @property
     def SP(self):
-        '''Return 1- or 2SP.
+        '''Return 1- or 2-SP.
         '''
         return self._SP
 
@@ -297,7 +297,7 @@ class Lcc(_Based):
     '''
 
     def __init__(self, e, n, h=0, conic=Conics.WRF_Lb):
-        '''Create a LambertCC location.
+        '''Create an Lcc position.
 
            @param {meter} e - Easting.
            @param {meter} n - Northing.
@@ -370,7 +370,7 @@ class Lcc(_Based):
         return LatLon(degrees90(x), degrees180(y), height=self.height, datum=c.datum)
 
     def toStr(self, prec=0, sep=' ', m='m'):  # PYCHOK expected
-        '''Returns a string representation of this Lcc coordinate.
+        '''Returns a string representation of this Lcc position.
 
            @param {number} [prec=0] - Number of decimal, unstripped.
            @param {string} [sep=' '] - Separator to join.
@@ -391,7 +391,7 @@ class Lcc(_Based):
         return sep.join(t)
 
     def toStr2(self, prec=0, fmt='[%s]', sep=', ', m='m', C=False):  # PYCHOK expected
-        '''Returns a string representation of this Lcc coordinate.
+        '''Returns a string representation of this Lcc position.
 
            @param {number} [prec=0] - Number of decimals, unstripped.
            @param {string} [fmt='[%s]'] - Enclosing backets format.
@@ -460,10 +460,10 @@ if __name__ == '__main__':
 
 # Typical result (on MacOS X)
 
-# Conics.Be72Lb: Conic(Lat0=90.0, Lon0=4.3674867, Par1=49.8333339, Par2=51.1666672, E0=150000.013, N0=5400088.438, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.GRS80, transform=Transforms.NAD83, name='NAD83'), name='Be72Lb')
-# Conics.Fr93Lb: Conic(Lat0=46.5, Lon0=3.0, Par1=49.0, Par2=44.0, E0=700000.0, N0=6600000.0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84, name='WGS84'), name='Fr93Lb')
-# Conics.MaNLb: Conic(Lat0=33.3, Lon0=-5.4, Par1=31.73, Par2=34.87, E0=500000.0, N0=300000.0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.Clarke1880IGN, transform=Transforms.NTF, name='NTF'), name='MaNLb')
-# Conics.MxLb: Conic(Lat0=12.0, Lon0=-102.0, Par1=17.5, Par2=29.5, E0=2500000.0, N0=0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84, name='WGS84'), name='MxLb')
-# Conics.PyT_Lb: Conic(Lat0=46.8, Lon0=2.33722917, Par1=45.8989389, Par2=47.6960144, E0=600000.0, N0=200000.0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.Clarke1880IGN, transform=Transforms.NTF, name='NTF'), name='PyT_Lb')
-# Conics.USA_Lb: Conic(Lat0=23.0, Lon0=-96.0, Par1=33.0, Par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84, name='WGS84'), name='USA_Lb')
-# Conics.WRF_Lb: Conic(Lat0=40.0, Lon0=-97.0, Par1=33.0, Par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84, name='WGS84'), name='WRF_Lb')
+# Conics.Be72Lb: Conic(lat0=90.0, lon0=4.3674867, par1=49.8333339, par2=51.1666672, E0=150000.013, N0=5400088.438, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.GRS80, transform=Transforms.NAD83, name='NAD83'), name='Be72Lb')
+# Conics.Fr93Lb: Conic(lat0=46.5, lon0=3.0, par1=49.0, par2=44.0, E0=700000.0, N0=6600000.0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84, name='WGS84'), name='Fr93Lb')
+# Conics.MaNLb: Conic(lat0=33.3, lon0=-5.4, par1=31.73, par2=34.87, E0=500000.0, N0=300000.0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.Clarke1880IGN, transform=Transforms.NTF, name='NTF'), name='MaNLb')
+# Conics.MxLb: Conic(lat0=12.0, lon0=-102.0, par1=17.5, par2=29.5, E0=2500000.0, N0=0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84, name='WGS84'), name='MxLb')
+# Conics.PyT_Lb: Conic(lat0=46.8, lon0=2.33722917, par1=45.8989389, par2=47.6960144, E0=600000.0, N0=200000.0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.Clarke1880IGN, transform=Transforms.NTF, name='NTF'), name='PyT_Lb')
+# Conics.USA_Lb: Conic(lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84, name='WGS84'), name='USA_Lb')
+# Conics.WRF_Lb: Conic(lat0=40.0, lon0=-97.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84, name='WGS84'), name='WRF_Lb')

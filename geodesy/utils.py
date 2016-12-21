@@ -21,7 +21,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2',  # constants
            'radians', 'radiansPI', 'radiansPI_2',
            'sin_2', 'tanPI_2_2',
            'wrap90', 'wrap180', 'wrapPI', 'wrapPI2', 'wrapPI_2')
-__version__ = '16.12.04'
+__version__ = '16.12.19'
 
 try:
     from math import fsum  # precision sum
@@ -104,7 +104,7 @@ def fdot(a, *b):
        @param {numbers} a - List or tuple of numbers.
        @param {numbers} b - List or tuple of numbers.
 
-       @returns {number} Dot product.
+       @returns {number} Dot product sum(a * b).
     '''
     assert len(a) == len(b)
     return fsum(map(mul, a, b))
@@ -118,7 +118,7 @@ def fdot3(a, b, c, start=0):
        @param {numbers} c - List or tuple of numbers.
        @param {number} [start=0] - Optional start number.
 
-       @returns {number} Dot product.
+       @returns {number} Dot product sum(a * b * c).
     '''
     def mul3(a, b, c):  # map function
         return a * b * c
@@ -229,30 +229,26 @@ def isscalar(inst):
     return isinstance(inst, _Scalars)
 
 
-def len2(geniter):
+def len2(xtor):
     '''Make len() work for generators, iterators, etc.
-       plus return a list of items (since generators,
-       iterators, etc. can not be restarted).
+       plus return the items as list (since generators,
+       iterators, etc. can only be started once).
     '''
-    if not isinstance(geniter, (list, tuple)):
-        geniter = list(geniter)
-    return len(geniter), geniter
+    if not isinstance(xtor, (list, tuple)):
+        xtor = list(xtor)
+    return len(xtor), xtor
 
 
 def map2(func, *args):
     '''Apply a function to arguments, like built-in
        map and return a tuple with the results.
 
-       However, Python 3+ map returns a map object, an
-       iterator- like object which can generate the map
-       result only once.  By converting the map object
-       into a tuple, the results can be used any number
-       of times.
+       Note, Python 3+ map returns a map object, an
+       iterator-like object which generates the map
+       result only once.  Converting the map object
+       into a tuple restores the Python 2 behavior.
     '''
-    r = map(func, *args)
-    if not isinstance(r, tuple):
-        r = tuple(r)
-    return r
+    return tuple(map(func, *args))
 
 
 def radiansPI(deg):

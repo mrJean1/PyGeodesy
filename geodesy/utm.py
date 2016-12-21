@@ -37,7 +37,7 @@ from utils import EPS, degrees, degrees90, degrees180, \
 # all public contants, classes and functions
 __all__ = ('Utm',  # classes
            'parseUTM', 'toUtm')  # functions
-__version__ = '16.12.06'
+__version__ = '16.12.19'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N
 _Bands         = 'CDEFGHJKLMNPQRSTUVWXX'  # X repeated for 80-84°N
@@ -263,7 +263,7 @@ class Utm(_Base):
         q = 1.0 / E.e12
         d = 1
         # note, a relatively large convergence test as d
-        # toggles on ±1.12e-16 for eg 31 N 400000 5000000
+        # toggles on +/-1.12e-16 eg. 31 N 400000 5000000
         while abs(d) > EPS:  # 1e-12
             h = hypot1(T)
             s = sinh(E.e * atanh(E.e * T / h))
