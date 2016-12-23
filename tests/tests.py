@@ -22,7 +22,7 @@ from geodesy import R_M, R_NM, F_D, F_DM, F_DMS, F_RAD, Datums, \
                     precision, toDMS
 
 __all__ = ('Tests',)
-__version__ = '16.12.15'
+__version__ = '16.12.23'
 
 try:
     _int = int, long
@@ -907,7 +907,7 @@ if __name__ == '__main__':
     # test 105 dms.precision() function: True
     # test 106 dms.toDMS() function: True
 
-    # testing lcc.py version 16.12.15
+    # testing lcc.py version 16.12.19
     # test 107 lcc.Conic() class: True
     # test 108 lcc.Conics attribute (datum): True
     # test 109 lcc.Lcc() class: True
@@ -958,12 +958,12 @@ if __name__ == '__main__':
     # test 138 vector3d.Vector3d() class: True
     # test 139 vector3d.sumOf() function: True
 
-    # testing utm.py version 16.12.06
+    # testing utm.py version 16.12.19
     # test 140 utm.Utm() class: True
     # test 141 utm.parseUTM() function: True
     # test 142 utm.toUtm() function: True
 
-    # testing utils.py version 16.12.04
+    # testing utils.py version 16.12.19
     # test 143 utils.EPS float: True
     # test 144 utils.EPS1 float: True
     # test 145 utils.EPS2 float: True
@@ -1085,4 +1085,4 @@ if __name__ == '__main__':
     # test 257 sphericalNvector: sphericalNvector.LatLon, nvector._LatLonNvectorBase, sphericalBase._LatLonSphericalBase, bases._LatLonHeightBase, bases._Base
     # test 258 sphericalTrigonometry: sphericalTrigonometry.LatLon, sphericalBase._LatLonSphericalBase, bases._LatLonHeightBase, bases._Base
 
-    # all tests.py tests passed (Python 3.6.0rc1)
+    # all tests.py tests passed (Python 3.6.0)
