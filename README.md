@@ -25,9 +25,9 @@ positions, transcribed from:
 - <https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf> pp 107-109.
 
 The Python code was statically checked with PyChecker, PyFlakes,
-Pep8 and pychok* using Python 2.7.10.  The tests were run with
-64-bit Python 2.7.10, 2.7.13, 3.5.2 and 3.6.0, but only on MacOS
-10.10 Yosemite and MacOS 10.11 El Capitan.
+Pep8 and pychok* using Python 2.7.10 and 2.7.13.  The tests were
+run with 64-bit Python 2.7.10, 2.7.13, 3.5.2 and 3.6.0, but only
+on MacOS 10.10 Yosemite and MacOS 10.11 El Capitan.
 
 *) <http://code.activestate.com/recipes/546532-pychecker-postprocessor/>
 

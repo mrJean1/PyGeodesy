@@ -4,20 +4,25 @@
 # A Python implementation of geodesy tools for various ellipsoidal and
 # spherical earth models using trigonometric and vector-based methods.
 
-# All modules have been tested with 64-bit Python 2.7.10 and 3.5.1 only
-# on MacOS X 10.11.6 and checked with PyChecker, PyFlakes and Pep8.
+# All modules have been checked statically with PyChecker, PyFlakes,
+# Pep8 and pychok* using Python 2.7.10 and 2.7.13 and tested with
+# 64-bit Python 2.7.10, 2.7.13, 3.5.2 and 3.6.0, but only on MacOS
+# 10.10 Yosemite and MacOS 10.11 El Capitan.
 
 # Transcribed from JavaScript originals by (C) Chris Veness 2005-2016
 # and published under the same MIT Licence**.
 
 # For more information and further details see:
-#
+
 # <https://github.com/chrisveness/geodesy/>
 # <http://www.movable-type.co.uk/scripts/latlong.html>
 # <http://www.movable-type.co.uk/scripts/latlong-vincenty.html>
 # <http://www.movable-type.co.uk/scripts/latlong-vectors.html>
 # <http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html>
 # <http://www.movable-type.co.uk/scripts/latlong-os-gridref.html>
+
+# __
+# *) <http://code.activestate.com/recipes/546532-pychecker-postprocessor/>
 
 try:
     import datum as _  # PYCHOK expected
@@ -46,7 +51,7 @@ VincentyError = ellipsoidalVincenty.VincentyError
 __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',
            'sphericalNvector', 'sphericalTrigonometry',
            'VincentyError')  # extended below
-__version__ = '16.12.15'
+__version__ = '16.12.27'
 
 # lift all public constants, functions, etc.
 import datum as _datum, dms as _dms, mgrs as _mgrs, \
