@@ -103,7 +103,7 @@ if __name__ == '__main__':
     # test 22 OSGR5: 651409,313177
     # test 23 OSGR5: [OSGR:651409.000,313177.000]
     # test 24 OSGR6: 651409,313177
-    # 6 geodesy.osgr tests (25.0%) FAILED, incl. 6 KNOWN (Python 2.7.10)
+    # 6 geodesy.osgr tests (25.0%) FAILED, incl. 6 KNOWN (Python 2.7.10 64bit)
 
     # testing geodesy.osgr version 16.11.11
     # test 1 WGS84: 51.4778°N, 000.0016°W
@@ -130,4 +130,4 @@ if __name__ == '__main__':
     # test 22 OSGR5: 651409,313177
     # test 23 OSGR5: [OSGR:651409.000,313177.000]
     # test 24 OSGR6: 651409,313177
-    # 6 geodesy.osgr tests (25.0%) FAILED, incl. 6 KNOWN (Python 3.5.2)
+    # 6 geodesy.osgr tests (25.0%) FAILED, incl. 6 KNOWN (Python 3.6.0 64bit)

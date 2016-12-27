@@ -26,12 +26,12 @@ positions, transcribed from:
 
 The Python code was statically checked with PyChecker, PyFlakes,
 Pep8 and pychok* using Python 2.7.10.  The tests were run with
-Python 2.7.10, 3.5.2 and 3.6.0, but only on MacOS 10.10 Yosemite
-and MacOS 10.11 El Capitan.
+64-bit Python 2.7.10, 2.7.13, 3.5.2 and 3.6.0, but only on MacOS
+10.10 Yosemite and MacOS 10.11 El Capitan.
 
 *) <http://code.activestate.com/recipes/546532-pychecker-postprocessor/>
 
-Last updated: Dec 23, 2016.
+Last updated: Dec 27, 2016.
 
 
 **) MIT License:

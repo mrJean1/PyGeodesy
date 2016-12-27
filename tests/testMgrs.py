@@ -51,7 +51,7 @@ if __name__ == '__main__':
     # test 7 toUtm1: 31 N 448251 5411932
     # test 8 toUtm1: [Z:31, H:N, E:448251, N:5411932]
     # test 9 toMgrs: 31U DQ 48251 11932
-    # all geodesy.mgrs tests passed (Python 2.7.10)
+    # all geodesy.mgrs tests passed (Python 2.7.10 64bit)
 
     # testing geodesy.mgrs version 16.11.11
     # test 1 Mgrs1: 31U DQ 48251 11932
@@ -63,4 +63,4 @@ if __name__ == '__main__':
     # test 7 toUtm1: 31 N 448251 5411932
     # test 8 toUtm1: [Z:31, H:N, E:448251, N:5411932]
     # test 9 toMgrs: 31U DQ 48251 11932
-    # all geodesy.mgrs tests passed (Python 3.5.2)
+    # all geodesy.mgrs tests passed (Python 3.6.0 64bit)

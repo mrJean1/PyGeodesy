@@ -74,7 +74,7 @@ if __name__ == '__main__':
     # test 46 nearestOn: 51.0°N, 002.0°E
     # test 47 nearestOn: 00.0°N, 000.0°E
     # test 48 nearestOn: 00.0°N, 020.0°E
-    # all geodesy.sphericalNvector tests passed (Python 2.7.10)
+    # all geodesy.sphericalNvector tests passed (Python 2.7.10 64bit)
 
     # testing geodesy.sphericalTrigonometry version 16.11.11
     # test 1 lat/lonDMS: 52.20472°N, 000.14056°E
@@ -112,7 +112,7 @@ if __name__ == '__main__':
     # test 33 rhumbBearingTo: 116.722
     # test 34 rhumbDistanceTo: 40307.8
     # test 35 rhumbMidpointo: 51.0455°N, 001.595727°E
-    # all geodesy.sphericalTrigonometry tests passed (Python 2.7.10)
+    # all geodesy.sphericalTrigonometry tests passed (Python 2.7.10 64bit)
 
     # testing sphericalNvector version 16.11.20
     # test 1 lat/lonDMS: 52.20472°N, 000.14056°E
@@ -163,7 +163,7 @@ if __name__ == '__main__':
     # test 46 nearestOn: 51.0°N, 002.0°E
     # test 47 nearestOn: 00.0°N, 000.0°E
     # test 48 nearestOn: 00.0°N, 020.0°E
-    # all sphericalNvector tests passed (Python 3.5.2)
+    # all sphericalNvector tests passed (Python 3.6.0 64bit)
 
     # testing sphericalTrigonometry version 16.11.11
     # test 1 lat/lonDMS: 52.20472°N, 000.14056°E
@@ -201,4 +201,4 @@ if __name__ == '__main__':
     # test 33 rhumbBearingTo: 116.722
     # test 34 rhumbDistanceTo: 40307.8
     # test 35 rhumbMidpointo: 51.0455°N, 001.595727°E
-    # all sphericalTrigonometry tests passed (Python 3.5.2)
+    # all sphericalTrigonometry tests passed (Python 3.6.0 64bit)

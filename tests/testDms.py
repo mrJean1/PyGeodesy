@@ -48,7 +48,7 @@ if __name__ == '__main__':
     # test 28 compassPoint: W
     # test 29 compassPoint: SW
     # test 30 compassPoint: WSW
-    # all geodesy.dms tests passed (Python 2.7.10)
+    # all geodesy.dms tests passed (Python 2.7.10 64bit)
 
     # testing geodesy.dms version 16.10.10
     # test 1 parseDMS: 0.0
@@ -81,4 +81,4 @@ if __name__ == '__main__':
     # test 28 compassPoint: W
     # test 29 compassPoint: SW
     # test 30 compassPoint: WSW
-    # all geodesy.dms tests passed (Python 3.5.2)
+    # all geodesy.dms tests passed (Python 3.6.0 64bit)

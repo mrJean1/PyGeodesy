@@ -215,7 +215,7 @@ if __name__ == '__main__':
     # test 27 CrossTrackDistance90Degrees200Meters: 200.0
     # test 28 CrossTrackDistance270Degrees200Meters: -200.0
     # test 29 CrossTrackDistanceThatShouldBeVeryCloseToZero: 0.00000000
-    # 5 geodesy.sphericalNvector tests (17.2%) FAILED, incl. 5 KNOWN (Python 2.7.10)
+    # 5 geodesy.sphericalNvector tests (17.2%) FAILED, incl. 5 KNOWN (Python 2.7.10 64bit)
 
     # testing geodesy.sphericalTrigonometry version 16.11.11
     # test 1 InitialBearingSameLocations: 0.0
@@ -247,7 +247,7 @@ if __name__ == '__main__':
     # test 27 CrossTrackDistance90Degrees200Meters: 200.0
     # test 28 CrossTrackDistance270Degrees200Meters: -200.0
     # test 29 CrossTrackDistanceThatShouldBeVeryCloseToZero: 0.00000000
-    # 5 geodesy.sphericalTrigonometry tests (17.2%) FAILED, incl. 5 KNOWN (Python 2.7.10)
+    # 5 geodesy.sphericalTrigonometry tests (17.2%) FAILED, incl. 5 KNOWN (Python 2.7.10 64bit)
 
     # testing sphericalNvector version 16.11.20
     # test 1 InitialBearingSameLocations: 0.0
@@ -279,7 +279,7 @@ if __name__ == '__main__':
     # test 27 CrossTrackDistance90Degrees200Meters: 200.0
     # test 28 CrossTrackDistance270Degrees200Meters: -200.0
     # test 29 CrossTrackDistanceThatShouldBeVeryCloseToZero: 0.00000000
-    # 5 sphericalNvector tests (17.2%) FAILED, incl. 5 KNOWN (Python 3.5.2)
+    # 5 sphericalNvector tests (17.2%) FAILED, incl. 5 KNOWN (Python 3.6.0 64bit)
 
     # testing sphericalTrigonometry version 16.11.11
     # test 1 InitialBearingSameLocations: 0.0
@@ -311,4 +311,4 @@ if __name__ == '__main__':
     # test 27 CrossTrackDistance90Degrees200Meters: 200.0
     # test 28 CrossTrackDistance270Degrees200Meters: -200.0
     # test 29 CrossTrackDistanceThatShouldBeVeryCloseToZero: 0.00000000
-    # 5 sphericalTrigonometry tests (17.2%) FAILED, incl. 5 KNOWN (Python 3.5.2)
+    # 5 sphericalTrigonometry tests (17.2%) FAILED, incl. 5 KNOWN (Python 3.6.0 64bit)

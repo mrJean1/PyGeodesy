@@ -7,8 +7,9 @@
 # see <http://www.movable-type.co.uk/scripts/latlong-vectors.html>
 # and <http://www.movable-type.co.uk/scripts/latlong.html>.
 
-import sys
 from os.path import basename, dirname
+from platform import architecture
+import sys
 try:
     import geodesy as _  # PYCHOK expected
 except ImportError:
@@ -22,7 +23,7 @@ from geodesy import R_M, R_NM, F_D, F_DM, F_DMS, F_RAD, Datums, \
                     precision, toDMS
 
 __all__ = ('Tests',)
-__version__ = '16.12.23'
+__version__ = '16.12.27'
 
 try:
     _int = int, long
@@ -88,7 +89,7 @@ class Tests(object):
         print(nl + self._prefix + (fmt % args))
 
     def results(self, nl=0):
-        v = sys.version.split()[0]
+        v = 'Python %s %s' % (sys.version.split()[0], architecture()[0])
         n = self.failed
         if n:
             p = '' if n == 1 else 's'
@@ -98,7 +99,7 @@ class Tests(object):
             r = '(%.1f%%) FAILED%s' % (100.0 * n / self.total, k)
         else:
             n, p, r = 'all', 's', 'passed'
-        self.printf('%s %s test%s %s (Python %s)', n, self._name, p, r, v, nl=nl)
+        self.printf('%s %s test%s %s (%s)', n, self._name, p, r, v, nl=nl)
 
     def test(self, name, value, expect, fmt='%s', known=False):
         self.total += 1  # tests
@@ -791,7 +792,7 @@ if __name__ == '__main__':
     # test 257 geodesy.sphericalNvector: geodesy.sphericalNvector.LatLon, geodesy.nvector._LatLonNvectorBase, geodesy.sphericalBase._LatLonSphericalBase, geodesy.bases._LatLonHeightBase, geodesy.bases._Base
     # test 258 geodesy.sphericalTrigonometry: geodesy.sphericalTrigonometry.LatLon, geodesy.sphericalBase._LatLonSphericalBase, geodesy.bases._LatLonHeightBase, geodesy.bases._Base
 
-    # all tests.py tests passed (Python 2.7.10)
+    # all tests.py tests passed (Python 2.7.10 64bit)
 
     # testing tests.py version 16.12.15
 
@@ -1085,4 +1086,4 @@ if __name__ == '__main__':
     # test 257 sphericalNvector: sphericalNvector.LatLon, nvector._LatLonNvectorBase, sphericalBase._LatLonSphericalBase, bases._LatLonHeightBase, bases._Base
     # test 258 sphericalTrigonometry: sphericalTrigonometry.LatLon, sphericalBase._LatLonSphericalBase, bases._LatLonHeightBase, bases._Base
 
-    # all tests.py tests passed (Python 3.6.0)
+    # all tests.py tests passed (Python 3.6.0 64bit)

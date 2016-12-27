@@ -24,7 +24,7 @@ if __name__ == '__main__':
     # test 4 toStr: 51°28′40″N, 000°00′06″W
     # test 5 toStr: 51.4778°N, 000.0016°W
     # test 6 toStr: 51°28′40″N, 000°00′06″W, +42.00m
-    # all geodesy.bases tests passed (Python 2.7.10)
+    # all geodesy.bases tests passed (Python 2.7.10 64bit)
 
     # testing geodesy.bases version 16.11.11
     # test 1 lat, lon: 50.06632°N, 005.71475°W
@@ -33,4 +33,4 @@ if __name__ == '__main__':
     # test 4 toStr: 51°28′40″N, 000°00′06″W
     # test 5 toStr: 51.4778°N, 000.0016°W
     # test 6 toStr: 51°28′40″N, 000°00′06″W, +42.00m
-    # all geodesy.bases tests passed (Python 3.5.2)
+    # all geodesy.bases tests passed (Python 3.6.0 64bit)
