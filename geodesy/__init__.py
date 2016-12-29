@@ -7,7 +7,7 @@
 # All modules have been checked statically with PyChecker, PyFlakes,
 # Pep8 and pychok* using Python 2.7.10 and 2.7.13 and tested with
 # 64-bit Python 2.7.10, 2.7.13, 3.5.2 and 3.6.0, but only on MacOS
-# 10.10 Yosemite and MacOS 10.11 El Capitan.
+# 10.10 Yosemite, MacOS 10.11 El Capitan and MacOS 10.12.2 Sierra.
 
 # Transcribed from JavaScript originals by (C) Chris Veness 2005-2016
 # and published under the same MIT Licence**.
@@ -51,7 +51,7 @@ VincentyError = ellipsoidalVincenty.VincentyError
 __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',
            'sphericalNvector', 'sphericalTrigonometry',
            'VincentyError')  # extended below
-__version__ = '16.12.27'
+__version__ = '16.12.29'
 
 # lift all public constants, functions, etc.
 import datum as _datum, dms as _dms, mgrs as _mgrs, \
