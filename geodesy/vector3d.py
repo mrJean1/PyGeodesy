@@ -19,7 +19,18 @@ from math import atan2, cos, hypot, sin
 # all public contants, classes and functions
 __all__ = ('Vector3d',  # classes
            'sumOf')  # functions
-__version__ = '16.12.13'
+__version__ = '17.01.09'
+
+try:
+    _cmp = cmp
+except NameError:  # Python 3+
+    def _cmp(a, b):
+        if a < b:
+            return -1
+        elif a > b:
+            return +1
+        else:
+            return 0
 
 
 class Vector3d(_VectorBase):
@@ -62,14 +73,20 @@ class Vector3d(_VectorBase):
     def __abs__(self):
         return self.length()
 
-    def __cmp__(self, other):
-        return cmp(self.length(), other.length())
+    def __cmp__(self, other):  # Pythpon 2-
+        return _cmp(self.length(), other.length())
 
     def __div__(self, scalar):
         return self.dividedBy(scalar)
 
+    def __gt__(self, other):
+        return self.length() > other.length()
+
     def __mul__(self, scalar):
         return self.times(scalar)
+
+    def __lt__(self, other):  # Python 3+
+        return self.length() < other.length()
 
     def __neg__(self):
         return self.negate()
