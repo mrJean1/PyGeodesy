@@ -5,8 +5,8 @@
 # spherical earth models using trigonometric and vector-based methods.
 
 # All modules have been checked statically with PyChecker, PyFlakes,
-# PyCodeStyle (formerly Pep8) and pychok* using Python 2.7.10 and
-# 2.7.13 and with Flake8 on Python 3.6.0.  The tests have been run
+# PyCodeStyle (formerly Pep8), McCabe and pychok* using Python 2.7.10
+# and 2.7.13 and with Flake8 on Python 3.6.0.  The tests have been run
 # with 64-bit Python 2.7.10, 2.7.13, 3.5.2 and 3.6.0, but only on
 # MacOS 10.10 Yosemite, MacOS 10.11 El Capitan and MacOS 10.12.2 Sierra.
 
@@ -52,7 +52,7 @@ VincentyError = ellipsoidalVincenty.VincentyError
 __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',
            'sphericalNvector', 'sphericalTrigonometry',
            'VincentyError')  # extended below
-__version__ = '17.01.09'
+__version__ = '17.01.10'
 
 # lift all public constants, functions, etc.
 import datum as _datum, dms as _dms, mgrs as _mgrs, \
