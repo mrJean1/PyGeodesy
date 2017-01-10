@@ -37,7 +37,7 @@ from utils import EPS, degrees, degrees90, degrees180, \
 # all public contants, classes and functions
 __all__ = ('Utm',  # classes
            'parseUTM', 'toUtm')  # functions
-__version__ = '16.12.19'
+__version__ = '17.01.10'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N
 _Bands         = 'CDEFGHJKLMNPQRSTUVWXX'  # X repeated for 80-84°N
@@ -391,7 +391,7 @@ def parseUTM(strUTM, datum=Datums.WGS84):
     return Utm(z, h.upper(), e, n, datum=datum)
 
 
-def toUtm(latlon, lon=None, datum=Datums.WGS84):
+def toUtm(latlon, lon=None, datum=Datums.WGS84):  # MCCABE 16
     '''Convert lat-/longitude location to a UTM coordinate.
 
        Implements Karney’s method, using 6-th order Krüger series,
