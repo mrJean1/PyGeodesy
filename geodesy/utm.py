@@ -37,7 +37,7 @@ from utils import EPS, degrees, degrees90, degrees180, \
 # all public contants, classes and functions
 __all__ = ('Utm',  # classes
            'parseUTM', 'toUtm')  # functions
-__version__ = '17.01.10'
+__version__ = '17.01.11'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N
 _Bands         = 'CDEFGHJKLMNPQRSTUVWXX'  # X repeated for 80-84°N
@@ -110,6 +110,23 @@ def _toZBL(zone, band, mgrs=False):  # used by mgrs.Mgrs
         raise ValueError('%s missing' % ('band',))
 
     return z, B, b
+
+
+def _toZone(lat, lon):
+    # return UTM zone for lat-/longitude (in
+    # degrees90, respectively in degrees180)
+    if lon >= 0 and lat > 55:
+        if lat < 64:  # southern Norway
+            if lon < 3:
+                return 31
+            elif lon < 12:
+                return 32
+        elif 71 < lat < 84:  # Svalbard
+            if lon < 21:
+                return 31 if lon < 9 else 33
+            elif lon < 42:
+                return 35 if lon < 33 else 37
+    return int((lon + 180) / 6) + 1  # longitudinal zone
 
 
 class Utm(_Base):
@@ -391,7 +408,7 @@ def parseUTM(strUTM, datum=Datums.WGS84):
     return Utm(z, h.upper(), e, n, datum=datum)
 
 
-def toUtm(latlon, lon=None, datum=Datums.WGS84):  # MCCABE 16
+def toUtm(latlon, lon=None, datum=Datums.WGS84):
     '''Convert lat-/longitude location to a UTM coordinate.
 
        Implements Karney’s method, using 6-th order Krüger series,
@@ -430,23 +447,7 @@ def toUtm(latlon, lon=None, datum=Datums.WGS84):  # MCCABE 16
         raise ValueError('%s outside UTM: %s' % ('lat', lat))
 
     lon = wrap180(lon)
-    z = int((lon + 180) / 6) + 1  # longitudinal zone
-    if lat > 55 and lon > -1:
-        if lat < 64:  # southern Norway
-            if lon < 3:
-                z = 31
-            elif lon < 12:
-                z = 32
-        elif 71 < lat < 84:  # Svalbard
-            if lon < 9:
-                z = 31
-            elif lon < 21:
-                z = 33
-            elif lon < 33:
-                z = 35
-            elif lon < 42:
-                z = 37
-
+    z = _toZone(lat, lon)
     b = radians(lon - (z * 6) + 183)  # lon off central meridian
     a = radians(lat)  # lat off equator
     h = 'S' if a < 0 else 'N'  # hemisphere
