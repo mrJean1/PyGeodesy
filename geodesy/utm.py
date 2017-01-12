@@ -37,7 +37,7 @@ from utils import EPS, degrees, degrees90, degrees180, \
 # all public contants, classes and functions
 __all__ = ('Utm',  # classes
            'parseUTM', 'toUtm')  # functions
-__version__ = '17.01.11'
+__version__ = '17.01.12'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N
 _Bands         = 'CDEFGHJKLMNPQRSTUVWXX'  # X repeated for 80-84°N
@@ -112,21 +112,20 @@ def _toZBL(zone, band, mgrs=False):  # used by mgrs.Mgrs
     return z, B, b
 
 
-def _toZone(lat, lon):
-    # return UTM zone for lat-/longitude (in
-    # degrees90, respectively in degrees180)
-    if lon >= 0 and lat > 55:
-        if lat < 64:  # southern Norway
-            if lon < 3:
-                return 31
-            elif lon < 12:
-                return 32
-        elif 71 < lat < 84:  # Svalbard
-            if lon < 21:
-                return 31 if lon < 9 else 33
-            elif lon < 42:
-                return 35 if lon < 33 else 37
-    return int((lon + 180) / 6) + 1  # longitudinal zone
+def _toZone(B, lon):
+    # return UTM zone for latitude band
+    # and longitude (in degrees180)
+    z = int((lon + 180) / 6) + 1  # longitudinal zone
+    if B == 'X':
+        x = {32: 9, 34: 21, 36: 33}.get(z, 0)
+        if x:  # Svalbard
+            if lon >= x:
+                z += 1
+            else:
+                z -= 1
+    elif B == 'V' and z == 31 and lon >=3:
+        z += 1  # southern Norway
+    return z
 
 
 class Utm(_Base):
@@ -447,7 +446,7 @@ def toUtm(latlon, lon=None, datum=Datums.WGS84):
         raise ValueError('%s outside UTM: %s' % ('lat', lat))
 
     lon = wrap180(lon)
-    z = _toZone(lat, lon)
+    z = _toZone(B, lon)
     b = radians(lon - (z * 6) + 183)  # lon off central meridian
     a = radians(lat)  # lat off equator
     h = 'S' if a < 0 else 'N'  # hemisphere
