@@ -23,7 +23,7 @@ from geodesy import R_M, R_NM, F_D, F_DM, F_DMS, F_RAD, Datums, \
                     precision, toDMS
 
 __all__ = ('Tests',)
-__version__ = '16.12.27'
+__version__ = '17.01.14'
 
 try:
     _int = int, long
@@ -154,13 +154,13 @@ class Tests(object):
         E = geodesy.Datums.WGS84.ellipsoid
         e = (E.a - E.b) / (E.a + E.b) - E.n
         t = (E.toStr(prec=10),
-            'A=%r, e=%.10f, f=1/%.10f, n=%.10f(%.10e)' % (E.A, E.e, 1/E.f, E.n, e),
-            'Alpha6=%r' % (E.Alpha6,),
-            'Beta6=%r' % (E.Beta6,))
+            'A=%.10f, e=%.10f, f=1/%.10f, n=%.10f(%.10e)' % (E.A, E.e, 1/E.f, E.n, e),
+            'Alpha6=(%s)' % (fStr(E.Alpha6, prec=12, fmt='%.*e', ints=True),),
+            'Beta6=(%s)' % (fStr(E.Beta6, prec=12, fmt='%.*e', ints=True),))
         self.test('WGS84', t[0], "a=6378137.0, b=6356752.3142499998, f=0.0033528107, e2=0.00669438, e22=0.0067394967, R=6371008.7714166669, Rm=6367435.6797186071, name='WGS84'")
-        self.test('WGS84', t[1], "A=6367449.145823415, e=0.0818191908, f=1/298.2572235630, n=0.0016792204(-3.7914875232e-13)")
-        self.test('WGS84', t[2], "Alpha6=(0, 0.0008377318206244698, 7.608527773572307e-07, 1.1976455033294527e-09, 2.4291706072013587e-12, 5.711757677865804e-15, 1.4911177312583895e-17)")
-        self.test('WGS84', t[3], "Beta6=(0, 0.0008377321640579486, 5.905870152220203e-08, 1.6734826652839968e-10, 2.1647980400627059e-13, 3.7879780461686053e-16, 7.2487488906941545e-19)")
+        self.test('WGS84', t[1], "A=6367449.1458234154, e=0.0818191908, f=1/298.2572235630, n=0.0016792204(-3.7914875232e-13)")
+        self.test('WGS84', t[2], "Alpha6=(0, 8.377318206245e-04, 7.608527773572e-07, 1.197645503329e-09, 2.429170607201e-12, 5.711757677866e-15, 1.491117731258e-17)")
+        self.test('WGS84', t[3], "Beta6=(0, 8.377321640579e-04, 5.905870152220e-08, 1.673482665284e-1, 2.164798040063e-13, 3.787978046169e-16, 7.248748890694e-19)")
 
     def testDMS(self):
         # dms module tests
@@ -500,9 +500,9 @@ if __name__ == '__main__':
 
     # Typical test results (on MacOS X)
 
-    # testing tests.py version 16.12.15
+    # testing tests.py version 17.01.14
 
-    # testing __init__.py version 16.12.15
+    # testing __init__.py version 17.01.11
     # test 1 geodesy.Conic() class (geodesy.lcc): True
     # test 2 geodesy.Conics attribute (geodesy.datum): True
     # test 3 geodesy.Datum() class (geodesy.datum): True
@@ -614,7 +614,7 @@ if __name__ == '__main__':
     # test 105 dms.precision() function: True
     # test 106 dms.toDMS() function: True
 
-    # testing lcc.py version 16.12.15
+    # testing lcc.py version 16.12.19
     # test 107 lcc.Conic() class: True
     # test 108 lcc.Conics attribute (geodesy.datum): True
     # test 109 lcc.Lcc() class: True
@@ -661,16 +661,16 @@ if __name__ == '__main__':
     # test 136 nvector.SouthPole attribute: True
     # test 137 nvector.sumOf() function: True
 
-    # testing vector3d.py version 16.12.13
+    # testing vector3d.py version 17.01.09
     # test 138 vector3d.Vector3d() class: True
     # test 139 vector3d.sumOf() function: True
 
-    # testing utm.py version 16.12.06
+    # testing utm.py version 17.01.14
     # test 140 utm.Utm() class: True
     # test 141 utm.parseUTM() function: True
     # test 142 utm.toUtm() function: True
 
-    # testing utils.py version 16.12.04
+    # testing utils.py version 17.01.14
     # test 143 utils.EPS float: True
     # test 144 utils.EPS1 float: True
     # test 145 utils.EPS2 float: True
@@ -704,7 +704,7 @@ if __name__ == '__main__':
     # test 173 utils.wrapPI2() function: True
     # test 174 utils.wrapPI_2() function: True
 
-    # testing LatLon.attrs version 16.12.15
+    # testing LatLon.attrs version 17.01.14
     # test 175 Top() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
     # test 176 _Nv attribute: geodesy.ellipsoidalNvector, geodesy.sphericalNvector
     # test 177 _alter() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
@@ -786,17 +786,17 @@ if __name__ == '__main__':
     # test 253 triangulate() method: geodesy.sphericalNvector
     # test 254 trilaterate() method: geodesy.sphericalNvector
 
-    # testing LatLon.mro version 16.12.15
+    # testing LatLon.mro version 17.01.14
     # test 255 geodesy.ellipsoidalNvector: geodesy.ellipsoidalNvector.LatLon, geodesy.nvector._LatLonNvectorBase, geodesy.ellipsoidalBase._LatLonHeightDatumBase, geodesy.bases._LatLonHeightBase, geodesy.bases._Base
     # test 256 geodesy.ellipsoidalVincenty: geodesy.ellipsoidalVincenty.LatLon, geodesy.ellipsoidalBase._LatLonHeightDatumBase, geodesy.bases._LatLonHeightBase, geodesy.bases._Base
     # test 257 geodesy.sphericalNvector: geodesy.sphericalNvector.LatLon, geodesy.nvector._LatLonNvectorBase, geodesy.sphericalBase._LatLonSphericalBase, geodesy.bases._LatLonHeightBase, geodesy.bases._Base
     # test 258 geodesy.sphericalTrigonometry: geodesy.sphericalTrigonometry.LatLon, geodesy.sphericalBase._LatLonSphericalBase, geodesy.bases._LatLonHeightBase, geodesy.bases._Base
 
-    # all tests.py tests passed (Python 2.7.10 64bit)
+    # all tests.py tests passed (Python 2.7.13 64bit)
 
-    # testing tests.py version 16.12.15
+    # testing tests.py version 17.01.14
 
-    # testing __init__.py version 16.12.15
+    # testing __init__.py version 17.01.11
     # test 1 geodesy.Conic() class (lcc): True
     # test 2 geodesy.Conics attribute (datum): True
     # test 3 geodesy.Datum() class (datum): True
@@ -955,16 +955,16 @@ if __name__ == '__main__':
     # test 136 nvector.SouthPole attribute: True
     # test 137 nvector.sumOf() function: True
 
-    # testing vector3d.py version 16.12.13
+    # testing vector3d.py version 17.01.09
     # test 138 vector3d.Vector3d() class: True
     # test 139 vector3d.sumOf() function: True
 
-    # testing utm.py version 16.12.19
+    # testing utm.py version 17.01.14
     # test 140 utm.Utm() class: True
     # test 141 utm.parseUTM() function: True
     # test 142 utm.toUtm() function: True
 
-    # testing utils.py version 16.12.19
+    # testing utils.py version 17.01.14
     # test 143 utils.EPS float: True
     # test 144 utils.EPS1 float: True
     # test 145 utils.EPS2 float: True
@@ -998,7 +998,7 @@ if __name__ == '__main__':
     # test 173 utils.wrapPI2() function: True
     # test 174 utils.wrapPI_2() function: True
 
-    # testing LatLon.attrs version 16.12.15
+    # testing LatLon.attrs version 17.01.14
     # test 175 Top() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
     # test 176 _Nv attribute: ellipsoidalNvector, sphericalNvector
     # test 177 _alter() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
@@ -1080,7 +1080,7 @@ if __name__ == '__main__':
     # test 253 triangulate() function: sphericalNvector
     # test 254 trilaterate() function: sphericalNvector
 
-    # testing LatLon.mro version 16.12.15
+    # testing LatLon.mro version 17.01.14
     # test 255 ellipsoidalNvector: ellipsoidalNvector.LatLon, nvector._LatLonNvectorBase, ellipsoidalBase._LatLonHeightDatumBase, bases._LatLonHeightBase, bases._Base
     # test 256 ellipsoidalVincenty: ellipsoidalVincenty.LatLon, ellipsoidalBase._LatLonHeightDatumBase, bases._LatLonHeightBase, bases._Base
     # test 257 sphericalNvector: sphericalNvector.LatLon, nvector._LatLonNvectorBase, sphericalBase._LatLonSphericalBase, bases._LatLonHeightBase, bases._Base
