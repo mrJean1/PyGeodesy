@@ -21,10 +21,10 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2',  # constants
            'radians', 'radiansPI', 'radiansPI_2',
            'sin_2', 'tanPI_2_2',
            'wrap90', 'wrap180', 'wrapPI', 'wrapPI2', 'wrapPI_2')
-__version__ = '16.12.19'
+__version__ = '17.01.14'
 
 try:
-    from math import fsum  # precision sum
+    from math import fsum  # precision sum, Python 2.6+
 except ImportError:
     fsum = sum  # use standard, built-in sum (or Kahan's sum
     # <https://en.wikipedia.org/wiki/Kahan_summation_algorithm> or
@@ -51,7 +51,11 @@ _3rd = 1.0 / 3.0  # float!
 
 
 def cbrt(x):
-    '''Return the cubic root.
+    '''Compute the cubic root.
+
+       @param {int|float} x - Number.
+
+       @returns {float} Cubic root x^(1/3).
     '''
     # simpler and more accurate than Ken Turkowski's CubeRoot, see
     # <http://people.freebsd.org/~lstewart/references/apple_tr_kt32_cuberoot.pdf>
@@ -104,7 +108,8 @@ def fdot(a, *b):
        @param {numbers} a - List or tuple of numbers.
        @param {numbers} b - List or tuple of numbers.
 
-       @returns {number} Dot product sum(a * b).
+       @returns {number} Dot product sum(a[i] * b[i]
+                         for i in range(len(a))).
     '''
     assert len(a) == len(b)
     return fsum(map(mul, a, b))
@@ -116,9 +121,10 @@ def fdot3(a, b, c, start=0):
        @param {numbers} a - List or tuple of numbers.
        @param {numbers} b - List or tuple of numbers.
        @param {numbers} c - List or tuple of numbers.
-       @param {number} [start=0] - Optional start number.
+       @param {number} [start=0] - Optional bias.
 
-       @returns {number} Dot product sum(a * b * c).
+       @returns {number} Dot product sum(a[i] * b[i] * c[i])
+                         for i in range(len(a))) + start.
     '''
     def mul3(a, b, c):  # map function
         return a * b * c
@@ -131,22 +137,25 @@ def fdot3(a, b, c, start=0):
 
 
 def fStr(floats, prec=6, sep=', ', fmt='%.*f', ints=False):
-    '''Convert floats to string with zero decimals stripped.
+    '''Convert floats to string with trailing zero decimals stripped.
 
        @param {float[]} floats - List of floating point numbers.
        @param {number} [prec=6] - Number of decimals, unstripped.
+                                  Trailing zero decimals are not
+                                  stripped if prec is 2 or less.
        @param {string} [sep=', '] - Separator to join.
        @param {string} [fmt='%.*f'] - Float format.
+       @param {bool} [ints=False} - Remove dot for integer values.
 
        @returns {string} Floats as '[f, f, ... f]' string.
     '''
     def _fstr(p, f):
         t = fmt % (abs(p), f)
-        if p > 1 and t.endswith('0'):
-            z = len(t) - p + 1
-            t = t[:z] + t[z:].rstrip('0')
         if ints and isint(f):
             t = t.split('.')[0]
+        elif p > 1 and t.endswith('0'):
+            z = len(t) - p + 1
+            t = t[:z] + t[z:].rstrip('0')
         return t
 
     if isscalar(floats):
@@ -157,6 +166,12 @@ def fStr(floats, prec=6, sep=', ', fmt='%.*f', ints=False):
 
 def halfs(str2):
     '''Split string in 2 halfs.
+
+       @param {string} str2 - String to split.
+
+       @returns {2-tuple} Two string halfs.
+
+       @throws {ValueError} If str2 has zero or odd length.
     '''
     h, odd = divmod(len(str2), 2)
     if odd or not h:
@@ -233,6 +248,10 @@ def len2(xtor):
     '''Make len() work for generators, iterators, etc.
        plus return the items as list (since generators,
        iterators, etc. can only be started once).
+
+       @param {generator|iterator|list|tuple|...} xtor - Sequence.
+
+       @returns {2-tuple} Number and list of items.
     '''
     if not isinstance(xtor, (list, tuple)):
         xtor = list(xtor)
@@ -247,6 +266,11 @@ def map2(func, *args):
        iterator-like object which generates the map
        result only once.  Converting the map object
        into a tuple restores the Python 2 behavior.
+
+       @param {callable} func - Function to apply.
+       @param {list|tuple} args - Arguments to apply.
+
+       @returns {tuple} Function results.
     '''
     return tuple(map(func, *args))
 
@@ -254,7 +278,7 @@ def map2(func, *args):
 def radiansPI(deg):
     '''Convert degrees to radians -PI..PI.
 
-       @param {degrees} rad - Angle in degrees.
+       @param {degrees} deg - Angle in degrees.
 
        @returns {radiansPI} Radians -PI..PI.
     '''
@@ -272,13 +296,21 @@ def radiansPI_2(deg):
 
 
 def sin_2(rad):
-    '''Return sin(rad / 2).
+    '''Compute sin of half angle.
+
+       @param {number} rad - Angle in radians.
+
+       @returns {number} sin(rad / 2).
     '''
     return sin(rad * 0.5)
 
 
 def tanPI_2_2(rad):
-    '''Return tan((rad + PI/2) / 2).
+    '''Compute tan of half angle rotated.
+
+       @param {number} rad - Angle in radians.
+
+       @return {number} tan((rad + PI/2) / 2).
     '''
     return tan((rad + PI_2) * 0.5)
 

@@ -37,7 +37,7 @@ from utils import EPS, degrees, degrees90, degrees180, \
 # all public contants, classes and functions
 __all__ = ('Utm',  # classes
            'parseUTM', 'toUtm')  # functions
-__version__ = '17.01.12'
+__version__ = '17.01.14'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N
 _Bands         = 'CDEFGHJKLMNPQRSTUVWXX'  # X repeated for 80-84°N
@@ -105,19 +105,25 @@ def _toZBL(zone, band, mgrs=False):  # used by mgrs.Mgrs
         b = _Bands.find(B)
         if b < 0:
             raise ValueError('%s invalid: %r' % ('band', x))
-        b = (b - 10) * 8
+        b = (b << 3) - 80
     elif mgrs:
         raise ValueError('%s missing' % ('band',))
 
     return z, B, b
 
 
-def _toZone(B, lon):
-    # return UTM zone for latitude band
-    # and longitude (in degrees180)
+def _toZBll(lat, lon):
+    # return zone, Band and central
+    # lat- and longitude (in radians)
+    lat = wrap90(lat)
+    if -80 > lat or lat > 84:
+        raise ValueError('%s outside UTM: %s' % ('lat', lat))
+    B = _Bands[int(lat + 80) >> 3]
+
+    lon = wrap180(lon)
     z = int((lon + 180) / 6) + 1  # longitudinal zone
     if B == 'X':
-        x = {32: 9, 34: 21, 36: 33}.get(z, 0)
+        x = {32: 9, 34: 21, 36: 33}.get(z, None)
         if x:  # Svalbard
             if lon >= x:
                 z += 1
@@ -125,7 +131,10 @@ def _toZone(B, lon):
                 z -= 1
     elif B == 'V' and z == 31 and lon >=3:
         z += 1  # southern Norway
-    return z
+
+    b = radians(lon - (z * 6) + 183)  # lon off central meridian
+    a = radians(lat)  # lat off equator
+    return z, B, a, b
 
 
 class Utm(_Base):
@@ -407,7 +416,7 @@ def parseUTM(strUTM, datum=Datums.WGS84):
     return Utm(z, h.upper(), e, n, datum=datum)
 
 
-def toUtm(latlon, lon=None, datum=Datums.WGS84):
+def toUtm(latlon, lon=None, datum=None):
     '''Convert lat-/longitude location to a UTM coordinate.
 
        Implements Karney’s method, using 6-th order Krüger series,
@@ -417,12 +426,15 @@ def toUtm(latlon, lon=None, datum=Datums.WGS84):
        @param {degrees|LatLon} latlon - Latitude in degrees or a
                                         LatLon instance.
        @param {degrees} [lon=None] - Longitude in degrees or None.
-       @param {Datum} [datum=WGS84] - Datum for this UTM coordinate.
+       @param {Datum} [datum=WGS84] - Datum for this UTM coordinate,
+                                      overriding LatLon's datum.
 
        @returns {Utm} The UTM coordinate.
 
        @throws {TypeError} If latlon is not an ellipsoidal LatLon.
-       @throws {ValueError} If latitude value is missing.
+       @throws {ValueError} If longitude value is missing or if
+                            latitude is not scalar or latitude
+                            is outside valid UTM bands.
 
        @example
        p = LatLon(48.8582, 2.2945)  # 31 N 448251.8 5411932.7
@@ -434,24 +446,19 @@ def toUtm(latlon, lon=None, datum=Datums.WGS84):
         lat, lon = latlon.lat, latlon.lon
         if not hasattr(latlon, 'toUtm'):
             raise TypeError('%s not ellipsoidal: %r' % ('latlon', latlon))
+        d = datum or latlon.datum
     except AttributeError:
         if lon is None:
             raise ValueError('%s invalid: %r' % ('latlon', latlon))
         lat = latlon
+        if not isscalar(lat):
+            raise ValueError('%s invalid: %r' % ('lat', lat))
+        d = datum or Datums.WGS84
 
-    lat = wrap90(lat)
-    if -80 < lat < 84:  # UTM latitude range
-        B = _Bands[int(lat + 80) >> 3]
-    else:
-        raise ValueError('%s outside UTM: %s' % ('lat', lat))
+    E = d.ellipsoid
 
-    lon = wrap180(lon)
-    z = _toZone(B, lon)
-    b = radians(lon - (z * 6) + 183)  # lon off central meridian
-    a = radians(lat)  # lat off equator
+    z, B, a, b = _toZBll(lat, lon)
     h = 'S' if a < 0 else 'N'  # hemisphere
-
-    E = datum.ellipsoid
 
     # easting, northing: Karney 2011 Eq 7-14, 29, 35
     cb, sb, tb = cos(b), sin(b), tan(b)
@@ -484,7 +491,7 @@ def toUtm(latlon, lon=None, datum=Datums.WGS84):
     # scale: Karney 2011 Eq 25
     k = E.e2s2(sin(a)) * T12 / H * (A0 / E.a * hypot(p_, q_))
 
-    return Utm(z, h, x, y, band=B, datum=datum, convergence=c, scale=k)
+    return Utm(z, h, x, y, band=B, datum=d, convergence=c, scale=k)
 
 # **) MIT License
 #
