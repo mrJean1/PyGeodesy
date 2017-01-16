@@ -27,12 +27,12 @@ and positions, transcribed from:
 The Python code was statically checked* with PyChecker, PyFlakes,
 PyCodeStyle (formerly Pep8), McCabe on Python 2.7.10 and 2.7.13
 and with Flake8 on Python 3.6.0.  The tests were run with 64-bit
-Python 2.7.10, 2.7.13, 3.5.2 and 3.6.0, but only on MacOS 10.10
-Yosemite, MacOS 10.11 El Capitan and MacOS 10.12.2 Sierra.
+Python 2.6.9, 2.7.10, 2.7.13, 3.5.2 and 3.6.0, but only on MacOS
+10.10 Yosemite, MacOS 10.11 El Capitan and/or MacOS 10.12.2 Sierra.
 
 *) <http://code.activestate.com/recipes/546532-pychecker-postprocessor/>
 
-Last updated: Jan 14, 2017.
+Last updated: Jan 15, 2017.
 
 
 **) MIT License:

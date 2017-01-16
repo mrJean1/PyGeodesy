@@ -502,7 +502,7 @@ if __name__ == '__main__':
 
     # testing tests.py version 17.01.14
 
-    # testing __init__.py version 17.01.11
+    # testing __init__.py version 17.01.15
     # test 1 geodesy.Conic() class (geodesy.lcc): True
     # test 2 geodesy.Conics attribute (geodesy.datum): True
     # test 3 geodesy.Datum() class (geodesy.datum): True
@@ -796,7 +796,7 @@ if __name__ == '__main__':
 
     # testing tests.py version 17.01.14
 
-    # testing __init__.py version 17.01.11
+    # testing __init__.py version 17.01.15
     # test 1 geodesy.Conic() class (lcc): True
     # test 2 geodesy.Conics attribute (datum): True
     # test 3 geodesy.Datum() class (datum): True
