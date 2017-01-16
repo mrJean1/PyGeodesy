@@ -30,7 +30,7 @@ import re  # PYCHOK warning locale.Error
 # all public contants, classes and functions
 __all__ = ('Mgrs',  # classes
            'parseMGRS', 'toMgrs')  # functions
-__version__ = '16.11.11'
+__version__ = '17.01.15'
 
 _100km  =  100e3  # 100 km in meter
 _2000km = 2000e3  # 2,000 km in meter
@@ -61,12 +61,12 @@ class Mgrs(_Base):
                              band='', datum=Datums.WGS84):
         '''Create an Mgrs grid reference object.
 
-           @param  {number} zone - 6° longitudinal zone (1..60 covering 180°W..180°E).
-           @param  {string} band - 8° latitudinal band (C..X covering 80°S..84°N).
-           @param  {string} en100k - Two-letter (EN digraph) 100 km grid square.
-           @param  {meter} easting - Easting in metres within 100 km grid square.
-           @param  {meter} northing - Northing in metres within 100 km grid square.
-           @param  {Datum} [datum=Datums.WGS84] - This reference's datum.
+           @param {number} zone - 6° longitudinal zone (1..60 covering 180°W..180°E).
+           @param {string} band - 8° latitudinal band (C..X covering 80°S..84°N).
+           @param {string} en100k - Two-letter (EN digraph) 100 km grid square.
+           @param {meter} easting - Easting in metres within 100 km grid square.
+           @param {meter} northing - Northing in metres within 100 km grid square.
+           @param {Datum} [datum=Datums.WGS84] - This reference's datum.
 
            @throws {Error} Invalid MGRS grid reference.
 
@@ -233,10 +233,10 @@ def parseMGRS(strMGRS, datum=Datums.WGS84):
     def _s2m(g):  # e or n string to meter
         f = float(g)
         n = int(f)
-        if n:
+        if n > 0:
             n = len(str(n))
-        if n < 5:
-            f *= pow(10, 5 - n)
+            if 0 < n < 5:
+                f *= (0, 10000, 1000, 100, 10)[n]
         return f
 
     m = tuple(strMGRS.strip().replace(',', ' ').split())
