@@ -12,6 +12,7 @@ from datum import Datums
 from utils import halfs
 from utm   import toUtm, Utm, _toZBL
 
+from math import log10
 import re  # PYCHOK warning locale.Error
 
 # Military Grid Reference System (MGRS/NATO) grid references provides
@@ -30,7 +31,7 @@ import re  # PYCHOK warning locale.Error
 # all public contants, classes and functions
 __all__ = ('Mgrs',  # classes
            'parseMGRS', 'toMgrs')  # functions
-__version__ = '17.01.15'
+__version__ = '17.01.16'
 
 _100km  =  100e3  # 100 km in meter
 _2000km = 2000e3  # 2,000 km in meter
@@ -178,8 +179,8 @@ class Mgrs(_Base):
     def toUtm(self):
         '''Convert this MGRS grid reference to a UTM coordinate.
 
-           @returns {Utm} The UTM coordinate equivalent to
-                          the MGRS grid reference.
+           @returns {Utm} The UTM coordinate equivalent to this
+                          MGRS grid reference.
 
            @example
            m = Mgrs('31U', 'DQ', 448251, 11932)
@@ -193,13 +194,14 @@ class Mgrs(_Base):
         e, n = self._en100k2m()
         # 100 km grid square row letters repeat every 2,000 km north;
         # add enough 2,000 km blocks to get into required band
+        e += self._easting
         n += self._northing
         while n < nb:
             n += _2000km
 
         h = 'S' if self._bandLat < 0 else 'N'  # if self._band < 'N'
 
-        return Utm(self._zone, h, e + self._easting, n, band=self._band, datum=self._datum)
+        return Utm(self._zone, h, e, n, band=self._band, datum=self._datum)
 
     @property
     def zone(self):
@@ -232,11 +234,10 @@ def parseMGRS(strMGRS, datum=Datums.WGS84):
 
     def _s2m(g):  # e or n string to meter
         f = float(g)
-        n = int(f)
-        if n > 0:
-            n = len(str(n))
-            if 0 < n < 5:
-                f *= (0, 10000, 1000, 100, 10)[n]
+        if f > 0:
+            x = int(log10(f))
+            if 0 <= x < 4:  # at least 5 digits
+                f *= (10000, 1000, 100, 10)[x]
         return f
 
     m = tuple(strMGRS.strip().replace(',', ' ').split())
