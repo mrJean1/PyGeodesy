@@ -15,7 +15,7 @@ from math import atan2, copysign, cos, hypot, sin, sqrt
 
 # all public constants, classes and functions
 __all__ = ()  # none
-__version__ = '16.12.02'
+__version__ = '17.02.01'
 
 
 class _CartesianBase(Vector3d):
@@ -32,10 +32,10 @@ class _CartesianBase(Vector3d):
 
            @returns {Cartesian} The transformed point.
         '''
-        x, y, z = self.to3tuple()
+        x, y, z = self.to3xyz()
         return self.Top(*transform.transform(x, y, z, inverse))
 
-    def to3latlonheight(self, datum=Datums.WGS84):
+    def to3llh(self, datum=Datums.WGS84):
         '''Converts this (geocentric) Cartesian (x/y/z) point to
            (ellipsoidal geodetic) lat-, longitude and height on
            the given datum.
@@ -51,7 +51,7 @@ class _CartesianBase(Vector3d):
            28, 218, Oct 1985.
         '''
         E = datum.ellipsoid
-        x, y, z = self.to3tuple()
+        x, y, z = self.to3xyz()
 
         p = hypot(x, y)  # distance from minor axis
         r = hypot(p, z)  # polar radius

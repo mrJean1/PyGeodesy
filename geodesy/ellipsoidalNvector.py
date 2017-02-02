@@ -27,7 +27,7 @@ from math import asin, atan2, cos, hypot, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '16.11.11'
+__version__ = '17.02.01'
 
 
 class Cartesian(_CartesianBase):
@@ -44,7 +44,7 @@ class Cartesian(_CartesianBase):
 
            @returns {LatLon} The (ellipsoidal) LatLon point.
         '''
-        a, b, h = self.to3latlonheight(datum)
+        a, b, h = self.to3llh(datum)
         return LatLon(a, b, height=h, datum=datum)
 
     def toNvector(self, datum=Datums.WGS84):
@@ -60,7 +60,7 @@ class Cartesian(_CartesianBase):
         '''
         if self._Nv is None or datum != self._Nv.datum:
             E = datum.ellipsoid
-            x, y, z = self.to3tuple()
+            x, y, z = self.to3xyz()
 
             # Kenneth Gade eqn 23
             p = (x * x + y * y) * E.a2
@@ -181,7 +181,7 @@ class LatLon(_LatLonNvectorBase, _LatLonHeightDatumBase):
 #         return a * float(radius)
 
     def deltaTo(self, other):
-        '''Calculates delta from this point to an other LatLon point.
+        '''Calculates delta from this point to an other point.
 
            The delta is given as a north-east-down NED vector.  Note
            that this is a linear delta, unrelated to a geodesic on
@@ -256,7 +256,7 @@ class LatLon(_LatLonNvectorBase, _LatLonHeightDatumBase):
 
         n, e, d = self._rotation3()
         # convert NED delta to standard Vector3d in coordinate frame of n-vector
-        dn = delta.toVector3d().to3tuple()
+        dn = delta.toVector3d().to3xyz()
         # rotate dn to get delta in cartesian (ECEF) coordinate
         # reference frame using the rotation matrix column vectors
         dc = Cartesian(fdot(dn, n.x, e.x, d.x),
@@ -637,6 +637,13 @@ class Ned(object):
             self._length = hypot3(self.north, self.east, self.down)
         return self._length
 
+    def to3ned(self):
+        '''Return this NED vector as a 3-tuple.
+
+           @returns {(degrees, degrees, number)} 3-Tuple (north, east, down).
+        '''
+        return self.north, self.east, self.down
+
     def toStr(self, prec=3, fmt='[%s]', sep=', '):  # PYCHOK expected
         '''Return a string representation of this NED vector.
 
@@ -646,7 +653,7 @@ class Ned(object):
 
            @returns {string} This Ned as "[N:f, E:f, D:f]" string.
         '''
-        t3 = fStr(self.to3tuple(), prec=prec, sep=' ').split()
+        t3 = fStr(self.to3ned(), prec=prec, sep=' ').split()
         return fmt % (sep.join('%s:%s' % t for t in zip('NED', t3)),)
 
     def toStr2(self, prec=None, fmt='[%s]', sep=', '):  # PYCHOK expected
@@ -664,19 +671,12 @@ class Ned(object):
               toDMS(self.elevation, form=F_D, prec=prec, ddd=0))
         return fmt % (sep.join('%s:%s' % t for t in zip('LBE', t3)),)
 
-    def to3tuple(self):
-        '''Return this NED vector as a 3-tuple.
-
-           @returns {(degrees, degrees, number)} 3-Tuple (north, east, down).
-        '''
-        return self.north, self.east, self.down
-
     def toVector3d(self):
         '''Return this NED vector as a Vector3d.
 
            @returns {Vector3d} From (north, east, down).
         '''
-        return Vector3d(*self.to3tuple())
+        return Vector3d(*self.to3ned())
 
 
 class Nvector(_NvectorBase):
@@ -711,7 +711,7 @@ class Nvector(_NvectorBase):
             self.datum = datum
 
     def copy(self):
-        '''Return a copy of this vector.
+        '''Copy this vector.
 
            @returns {Nvector} Copy of this vector.
         '''
@@ -729,7 +729,7 @@ class Nvector(_NvectorBase):
            v = Nvector(0.5, 0.5, 0.7071)
            p = v.toLatLon()  # 45.0°N, 45.0°E
         '''
-        a, b, h = self.to3latlonheight()
+        a, b, h = self.to3llh()
         return LatLon(a, b, height=h, datum=self.datum)
 
     def toCartesian(self):
@@ -744,7 +744,7 @@ class Nvector(_NvectorBase):
         '''
         E = self.datum.ellipsoid
 
-        x, y, z, h = self.to4tuple()
+        x, y, z, h = self.to4xyzh()
         # Kenneth Gade eqn (22)
         n = E.b / sqrt(z * z + (x * x + y * y) * E.a2b2)
         r = E.a2b2 * n + h
@@ -774,8 +774,8 @@ def meanOf(points, datum=Datums.WGS84):
     '''
     # geographic mean
     m = sumOf(p.toNvector() for p in points)
-    lat, lon, _ = m.to3latlonheight()
-    return LatLon(lat, lon, height=m.h, datum=datum)
+    a, b, h = m.to3llh()
+    return LatLon(a, b, height=h, datum=datum)
 
 
 def toNed(distance, bearing, elevation):
@@ -800,6 +800,7 @@ def toNed(distance, bearing, elevation):
     return Ned(cos(b) * dce,
                sin(b) * dce,
               -sin(e) * d)
+
 
 fromDistanceBearingElevation = toNed  # XXX original name
 

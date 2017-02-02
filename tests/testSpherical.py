@@ -3,7 +3,7 @@
 
 # Test spherical earth model functions and methods.
 
-__version__ = '16.12.07'
+__version__ = '17.02.01'
 
 if __name__ == '__main__':
 
@@ -13,7 +13,7 @@ if __name__ == '__main__':
     t = Tests(__file__, __version__, N)
     t.testLatLon(N.LatLon)
     t.testSpherical(N.LatLon, N.Nvector)
-    t.testVectorial(N.LatLon, N.Nvector)
+    t.testVectorial(N.LatLon, N.Nvector, N.sumOf)
     t.results()
 
     from geodesy import sphericalTrigonometry as T
@@ -25,7 +25,7 @@ if __name__ == '__main__':
 
     # Typical test results (on MacOS X):
 
-    # testing geodesy.sphericalNvector version 16.11.20
+    # testing geodesy.sphericalNvector version 17.02.01
     # test 1 lat/lonDMS: 52.20472°N, 000.14056°E
     # test 2 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
     # test 3 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
@@ -68,15 +68,17 @@ if __name__ == '__main__':
     # test 40 toNvector: (0.50004, 0.50004, 0.70705)
     # test 41 equals: False
     # test 42 equals: True
-    # test 43 copy: True
-    # test 44 nearestOn: 51.0004°N, 001.9°E
-    # test 45 distanceTo: 42.712
-    # test 46 nearestOn: 51.0°N, 002.0°E
-    # test 47 nearestOn: 00.0°N, 000.0°E
-    # test 48 nearestOn: 00.0°N, 020.0°E
-    # all geodesy.sphericalNvector tests passed (Python 2.7.10 64bit)
+    # test 43 sumOf: (52.70504, 0.61904, 0.70705)
+    # test 44 sumOf: Nv
+    # test 45 copy: True
+    # test 46 nearestOn: 51.0004°N, 001.9°E
+    # test 47 distanceTo: 42.712
+    # test 48 nearestOn: 51.0°N, 002.0°E
+    # test 49 nearestOn: 00.0°N, 000.0°E
+    # test 50 nearestOn: 00.0°N, 020.0°E
+    # all geodesy.sphericalNvector tests passed (Python 2.7.13 64bit)
 
-    # testing geodesy.sphericalTrigonometry version 16.11.11
+    # testing geodesy.sphericalTrigonometry version 17.02.01
     # test 1 lat/lonDMS: 52.20472°N, 000.14056°E
     # test 2 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
     # test 3 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
@@ -112,9 +114,9 @@ if __name__ == '__main__':
     # test 33 rhumbBearingTo: 116.722
     # test 34 rhumbDistanceTo: 40307.8
     # test 35 rhumbMidpointo: 51.0455°N, 001.595727°E
-    # all geodesy.sphericalTrigonometry tests passed (Python 2.7.10 64bit)
+    # all geodesy.sphericalTrigonometry tests passed (Python 2.7.13 64bit)
 
-    # testing sphericalNvector version 16.11.20
+    # testing sphericalNvector version 17.02.01
     # test 1 lat/lonDMS: 52.20472°N, 000.14056°E
     # test 2 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
     # test 3 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
@@ -157,15 +159,17 @@ if __name__ == '__main__':
     # test 40 toNvector: (0.50004, 0.50004, 0.70705)
     # test 41 equals: False
     # test 42 equals: True
-    # test 43 copy: True
-    # test 44 nearestOn: 51.0004°N, 001.9°E
-    # test 45 distanceTo: 42.712
-    # test 46 nearestOn: 51.0°N, 002.0°E
-    # test 47 nearestOn: 00.0°N, 000.0°E
-    # test 48 nearestOn: 00.0°N, 020.0°E
+    # test 43 sumOf: (52.70504, 0.61904, 0.70705)
+    # test 44 sumOf: Nv
+    # test 45 copy: True
+    # test 46 nearestOn: 51.0004°N, 001.9°E
+    # test 47 distanceTo: 42.712
+    # test 48 nearestOn: 51.0°N, 002.0°E
+    # test 49 nearestOn: 00.0°N, 000.0°E
+    # test 50 nearestOn: 00.0°N, 020.0°E
     # all sphericalNvector tests passed (Python 3.6.0 64bit)
 
-    # testing sphericalTrigonometry version 16.11.11
+    # testing sphericalTrigonometry version 17.02.01
     # test 1 lat/lonDMS: 52.20472°N, 000.14056°E
     # test 2 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
     # test 3 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E

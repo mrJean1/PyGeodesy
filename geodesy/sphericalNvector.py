@@ -34,7 +34,7 @@ from math import atan2, cos, radians, sin
 __all__ = ('LatLon',  # classes
            'areaOf', 'intersection', 'meanOf',  # functions
            'triangulate', 'trilaterate')
-__version__ = '16.11.20'
+__version__ = '17.02.01'
 
 
 class LatLon(_LatLonNvectorBase, _LatLonSphericalBase):
@@ -556,7 +556,7 @@ class Nvector(_NvectorBase):
            v = Nvector(0.5, 0.5, 0.7071)
            p = v.toLatLon()  # 45.0°N, 45.0°E
         '''
-        a, b, h = self.to3latlonheight()
+        a, b, h = self.to3llh()
         return LatLon(a, b, height=h if height is None else height)
 
     def greatCircle(self, bearing):
@@ -650,7 +650,7 @@ def meanOf(points, height=None):
     '''
     # geographic mean
     m = sumOf(p.toNvector() for p in points)
-    lat, lon, _ = m.to3latlonheight()
+    lat, lon, _ = m.to3llh()
     return LatLon(lat, lon, height=m.h if height is None else height)
 
 

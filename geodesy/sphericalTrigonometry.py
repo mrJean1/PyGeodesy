@@ -17,7 +17,7 @@ from math import acos, asin, atan2, cos, hypot, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('LatLon',  # classes
            'meanOf')  # functions
-__version__ = '16.11.11'
+__version__ = '17.02.01'
 
 
 class LatLon(_LatLonSphericalBase):
@@ -461,7 +461,7 @@ def meanOf(points):
     # geographic mean
     n, points = len2(points)
     m = sumOf(p.Vector3d() for p in points)
-    lat, lon = m.to2latlon()
+    lat, lon = m.to2ll()
     h = fsum(p.height for p in points) / (n or 1)
     return LatLon(lat, lon, height=h)
 

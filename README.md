@@ -32,7 +32,7 @@ Python 2.6.9, 2.7.10, 2.7.13, 3.5.2 and 3.6.0, but only on MacOS
 
 *) <http://code.activestate.com/recipes/546532-pychecker-postprocessor/>
 
-Last updated: Jan 15, 2017.
+Last updated: Feb 01, 2017.
 
 
 **) MIT License:

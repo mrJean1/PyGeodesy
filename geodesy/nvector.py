@@ -8,13 +8,14 @@
 
 from bases import _LatLonHeightBase
 from utils import fsum, len2
-from vector3d import Vector3d
+from vector3d import Vector3d, sumOf as _sumOf
 # from math import cos, sin
 
 # all public constants, classes and functions
-__all__ = ('NorthPole', 'Nvector', 'SouthPole',  # constants
+__all__ = ('NorthPole', 'SouthPole',  # constants
+           'Nvector',  # classes
            'sumOf')  # functions
-__version__ = '16.11.11'
+__version__ = '17.02.01'
 
 
 class Nvector(Vector3d):  # XXX kept private
@@ -42,7 +43,7 @@ class Nvector(Vector3d):  # XXX kept private
             self._h = float(h)
 
     def copy(self):
-        '''Return a copy of this vector.
+        '''Copy this vector.
 
            @returns {Nvector} Copy of this vector.
         '''
@@ -64,16 +65,16 @@ class Nvector(Vector3d):  # XXX kept private
         self._update(h != self._h)
         self._h = h
 
-    def to3latlonheight(self):
+    def to3llh(self):
         '''Convert this n-vector to (geodetic) lat-, longitude
            and height.
 
            @returns {(degrees90, degrees180, meter)} 3-Tuple of
                  (lat, lon, height) equivalent to this n-vector.
         '''
-        return Vector3d.to2latlon(self) + (self.h,)
+        return Vector3d.to2ll(self) + (self.h,)
 
-    def to4tuple(self):
+    def to4xyzh(self):
         '''Return this n-vector as a 4-tuple.
 
            @returns {(x, y, z, h)} 4-Tuple with the components of
@@ -113,6 +114,7 @@ class Nvector(Vector3d):  # XXX kept private
             self._united = u._united = u
         return self._united
 
+
 NorthPole = Nvector(0, 0, +1)
 SouthPole = Nvector(0, 0, -1)
 
@@ -144,22 +146,23 @@ class _LatLonNvectorBase(_LatLonHeightBase):
         return _LatLonHeightBase.to3xyz(self) + (self.height,)
 
 
-def sumOf(nvectors):
+def sumOf(nvectors, Vector=Nvector, **kwds):
     '''Return the vectorial sum of any number of n-vectors.
 
        @param {Nvector[]} nvectors - The n-vectors to be added.
+       @param {Nvector} Vector - Vector class to instantiate.
+       @param kwds - Optional, additional Vector keyword arguments.
 
-       @returns {Nvector} New Nvector, vectorial sum.
+       @returns {Vector} Vectorial sum.
 
        @throws {ValueError} No nvectors.
     '''
     n, nvectors = len2(nvectors)
     if n < 1:
         raise ValueError('no nvectors: %r' & (n,))
-    return Nvector(fsum(n.x for n in nvectors),
-                   fsum(n.y for n in nvectors),
-                   fsum(n.z for n in nvectors),
-                 h=fsum(n.h for n in nvectors))
+    if 'h' not in kwds:
+        kwds['h'] = fsum(v.h for v in nvectors) / n
+    return _sumOf(nvectors, Vector=Vector, **kwds)
 
 # **) MIT License
 #

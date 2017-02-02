@@ -12,12 +12,13 @@
 from math import atan, copysign, cos, hypot, log, sin, sqrt, tan
 from ellipsoidalBase import _LatLonHeightDatumBase as _LL
 from datum import _Based, Datums, _Enum
-from utils import EPS, PI_2, degrees90, degrees180, fStr, radians
+from utils import EPS, PI_2, \
+                  degrees90, degrees180, false2f, fStr, radians
 
 # all public constants, classes and functions
 __all__ = ('Conic', 'Conics', 'Lcc',
            'toLcc')  # functions
-__version__ = '16.12.19'
+__version__ = '17.02.01'
 
 
 Conics = _Enum('Conics')
@@ -47,7 +48,7 @@ class Conic(_Based):
     _n_ = 0
     _r0 = 0
 
-    def __init__(self, latlon0, par1, par2, E0=0, N0=0,
+    def __init__(self, latlon0, par1, par2=None, E0=0, N0=0,
                        k0=1, opt3=0, name='', auth=''):
         '''Create a Lambert conformal conic projection.
 
@@ -76,7 +77,10 @@ class Conic(_Based):
 
             self._lat0, self._lon0 = latlon0.toradians()
             self._par1 = radians(par1)
-            self._par2 = radians(par2)
+            if par2 is None:
+                self._par2 = self._par1
+            else:
+                self._par2 = radians(par2)
             self._opt3 = radians(opt3)
 
             if k0 != 1:
@@ -102,7 +106,7 @@ class Conic(_Based):
     def copy(self, name=''):
         '''Return a copy of this Conic, unregistered.
         '''
-        c = Conic(None, 0, 0, name=name or self._name)
+        c = Conic(None, 0, name=name or self._name)
         self._dup2(c)
         return c
 
@@ -236,9 +240,14 @@ class Conic(_Based):
 
            @returns {string} Conic string.
         '''
-        return self._fStr(prec, 'lat0', 'lon0', 'par1', 'par2',
-                                'E0', 'N0', 'k0', 'SP',
-                                 datum='(%s)' % (self.datum),)
+        if self._SP == 1:
+            return self._fStr(prec, 'lat0', 'lon0', 'par1',
+                                    'E0', 'N0', 'k0', 'SP',
+                                     datum='(%s)' % (self.datum),)
+        else:
+            return self._fStr(prec, 'lat0', 'lon0', 'par1', 'par2',
+                                    'E0', 'N0', 'k0', 'SP',
+                                     datum='(%s)' % (self.datum),)
 
     def _dup2(self, c):
         # copy self to c
@@ -295,6 +304,7 @@ Conics._assert(  # <http://spatialreference.org/ref/sr-org/...>
 class Lcc(_Based):
     '''Lambert conformal conic East-/Northing location.
     '''
+    _height = 0
 
     def __init__(self, e, n, h=0, conic=Conics.WRF_Lb):
         '''Create an Lcc position.
@@ -309,9 +319,12 @@ class Lcc(_Based):
            @example
            lb = Lcc(448251, 5411932.0001)
         '''
-        self._easting = e
-        self._northing = n
-        self._height = h
+        self._easting  = false2f(e, 'easting', false=False)
+        self._northing = false2f(n, 'northing', false=False)
+        if h:
+            self._height = float(h)
+        if not isinstance(conic, Conic):
+            raise TypeError('%s not Conic: %r' % ('conic', conic))
         self._conic = conic
 
     @property
@@ -363,7 +376,7 @@ class Lcc(_Based):
         x = c._xdef(t_)  # XXX c._lon0
         while True:
             p, x = x, c._xdef(t_ * c._pdef(x))
-            if abs(x - p) < 1e-9:  # EPS
+            if abs(x - p) < 1e-9:  # XXX EPS too small?
                 break
         y = (atan(e / n) + c._opt3) * c._n_ + c._lon0
 

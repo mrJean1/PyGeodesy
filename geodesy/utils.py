@@ -15,13 +15,13 @@ import sys
 __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2',  # constants
            'cbrt',
            'degrees', 'degrees90', 'degrees180', 'degrees360',
-           'fdot', 'fdot3', 'fStr', 'fsum',
+           'false2f', 'fdot', 'fdot3', 'fStr', 'fsum',
            'halfs', 'hypot1', 'hypot3',
            'isint', 'isscalar', 'len2', 'map2',
            'radians', 'radiansPI', 'radiansPI_2',
            'sin_2', 'tanPI_2_2',
            'wrap90', 'wrap180', 'wrapPI', 'wrapPI2', 'wrapPI_2')
-__version__ = '17.01.14'
+__version__ = '17.02.01'
 
 try:
     from math import fsum  # precision sum, Python 2.6+
@@ -102,6 +102,26 @@ def _drap(deg, wrap):
     return d
 
 
+def false2f(value, name='value', false=True):
+    '''Convert false east-/northing to non-negative float.
+
+       @param value: Value to convert (scalar).
+       @keyword name: Name of the value (string).
+       @keyword false: Value must be false (bool).
+
+       @return: Value (float).
+
+       @raise ValueError: Invalid or negative value.
+    '''
+    try:
+        f = float(value)
+        if f < 0 and false:
+            raise ValueError
+    except (TypeError, ValueError):
+        raise ValueError('%s invalid: %r' % (name, value))
+    return f
+
+
 def fdot(a, *b):
     '''Precision dot product.
 
@@ -150,7 +170,7 @@ def fStr(floats, prec=6, sep=', ', fmt='%.*f', ints=False):
        @returns {string} Floats as '[f, f, ... f]' string.
     '''
     def _fstr(p, f):
-        t = fmt % (abs(p), f)
+        t = fmt % (abs(p), float(f))
         if ints and isint(f):
             t = t.split('.')[0]
         elif p > 1 and t.endswith('0'):
@@ -180,7 +200,7 @@ def halfs(str2):
 
 
 def hypot1(x):
-    '''Compute the sqrt(1 + x^2).
+    '''Compute the norm sqrt(1 + x^2).
 
        @param {number} x - X coordinate.
 
@@ -199,7 +219,7 @@ def hypot1(x):
 
 
 def hypot3(x, y, z):
-    '''Compute the sqrt(x^2 + y^2 + z^2).
+    '''Compute the norm sqrt(x^2 + y^2 + z^2).
 
        @param {number} x - X coordinate.
        @param {number} y - Y coordinate.
@@ -306,7 +326,7 @@ def sin_2(rad):
 
 
 def tanPI_2_2(rad):
-    '''Compute tan of half angle rotated.
+    '''Compute tan of half angle, rotated.
 
        @param {number} rad - Angle in radians.
 
@@ -353,7 +373,7 @@ def wrapPI(rad):
 
 
 def wrapPI2(rad):
-    '''Wrap radians to -PI2..PI2.
+    '''Wrap radians to -2PI..2PI.
 
        @param {number} rad - Angle in radians.
 

@@ -52,7 +52,7 @@ VincentyError = ellipsoidalVincenty.VincentyError
 __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',
            'sphericalNvector', 'sphericalTrigonometry',
            'VincentyError')  # extended below
-__version__ = '17.01.15'
+__version__ = '17.02.01'
 
 # lift all public constants, functions, etc.
 import datum as _datum, dms as _dms, mgrs as _mgrs, \

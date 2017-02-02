@@ -51,7 +51,7 @@ from math import atan2, cos, hypot, sin, tan
 
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'VincentyError')  # classes
-__version__ = '16.11.28'
+__version__ = '17.02.01'
 
 
 class VincentyError(Exception):
@@ -73,7 +73,7 @@ class Cartesian(_CartesianBase):
 
            @returns {LatLon} The (ellipsoidal) LatLon point.
         '''
-        a, b, h = self.to3latlonheight(datum)
+        a, b, h = self.to3llh(datum)
         return LatLon(a, b, height=h, datum=datum)  # Vincenty
 
 

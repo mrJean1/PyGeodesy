@@ -10,7 +10,8 @@
 from math import cos, sin, sqrt, tan
 from bases import _Base
 from datum import Datums
-from utils import degrees90, degrees180, fdot, halfs, isscalar, radians
+from utils import degrees90, degrees180, false2f, fdot, \
+                  halfs, isscalar, radians
 
 # Ordnance Survey Grid References (OSGR) provide geocoordinate references
 # for UK mapping purposes, converted 2015 to work with WGS84 datum by
@@ -33,7 +34,7 @@ from utils import degrees90, degrees180, fdot, halfs, isscalar, radians
 # all public contants, classes and functions
 __all__ = ('Osgr',  # classes
            'parseOSGR', 'toOsgr')  # functions
-__version__ = '16.11.11'
+__version__ = '17.02.01'
 
 _10um    = 1e-5  # 0.01 millimeter
 _100km   = 100000  # 100 km in (int) meter
@@ -73,8 +74,8 @@ class Osgr(_Base):
            from geodesy import Osgr
            r = Osgr(651409, 313177)
         '''
-        self._easting  = float(easting)
-        self._northing = float(northing)
+        self._easting  = false2f(easting, 'easting')
+        self._northing = false2f(northing, 'northing')
 
     @property
     def datum(self):

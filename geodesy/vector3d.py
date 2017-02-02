@@ -19,7 +19,7 @@ from math import atan2, cos, hypot, sin
 # all public contants, classes and functions
 __all__ = ('Vector3d',  # classes
            'sumOf')  # functions
-__version__ = '17.01.09'
+__version__ = '17.02.01'
 
 try:
     _cmp = cmp
@@ -123,7 +123,7 @@ class Vector3d(_VectorBase):
         return atan2(s, self.dot(other))
 
     def copy(self):
-        '''Return a copy of this vector.
+        '''Copy this vector.
 
            @returns {Vector3d} Copy of this vector.
         '''
@@ -164,7 +164,7 @@ class Vector3d(_VectorBase):
         '''
         self.others(other)
 
-        return fdot(self.to3tuple(), *other.to3tuple())
+        return fdot(self.to3xyz(), *other.to3xyz())
 
     def equals(self, other, units=False):
         '''Check if this vector is equal or equivalent to an other.
@@ -185,12 +185,9 @@ class Vector3d(_VectorBase):
 
         if units:
             d = self.unit().minus(other.unit())
-            return max(map(abs, d.to3tuple())) < EPS2
-
         else:
-            return self.x == other.x and \
-                   self.y == other.y and \
-                   self.z == other.z
+            d = self.minus(other)
+        return max(map(abs, d.to3xyz())) < EPS2
 
     def length(self):
         '''Return the length (magnitude or norm) of this vector.
@@ -204,7 +201,7 @@ class Vector3d(_VectorBase):
     def minus(self, other):
         '''Return the vectorial difference of this and an other vector.
 
-           @param {Vector3d} other - Vector3d to be subtracted from this.
+           @param {Vector3d} other - The other vector.
 
            @returns {Vector3d} New vector, difference of this and the other.
         '''
@@ -254,7 +251,7 @@ class Vector3d(_VectorBase):
     def plus(self, other):
         '''Return the vectorial sum of this and an other vector.
 
-           @param {Vector3d} other - Vector to be added to this.
+           @param {Vector3d} other - The other vector.
 
            @returns {Vector3d} New vector, sum of this and the other.
         '''
@@ -286,7 +283,7 @@ class Vector3d(_VectorBase):
         b = a.times(1 - c)
         s = a.times(sin(theta))
 
-        p = self.unit().to3tuple()  # point being rotated
+        p = self.unit().to3xyz()  # point being rotated
         # multiply p by a quaternion-derived rotation matrix
         return self.Top(fdot(p, a.x * b.x + c,   a.x * b.y - s.z, a.x * b.z + s.y),
                         fdot(p, a.y * b.x + s.z, a.y * b.y + c,   a.y * b.z - s.x),
@@ -307,20 +304,20 @@ class Vector3d(_VectorBase):
                         self.y * factor,
                         self.z * factor)
 
-    def to2latlon(self):
+    def to2ll(self):
         '''Convert this vector to (geodetic) lat- and longitude.
 
            @returns {(degrees90, degrees180)} 2-Tuple with (lat, lon).
 
            @example
            v = Vector3d(0.500, 0.500, 0.707)
-           a, b = v.to2latlon()  # 45.0, 45.0
+           a, b = v.to2ll()  # 45.0, 45.0
         '''
         a = atan2(self.z, hypot(self.x, self.y))
         b = atan2(self.y, self.x)
         return degrees90(a), degrees180(b)
 
-    def to3tuple(self):
+    def to3xyz(self):
         '''Return this vector as a 3-tuple.
 
            @returns {(x, y, z)} 3-Tuple of x, y and z.
@@ -336,7 +333,7 @@ class Vector3d(_VectorBase):
 
            @returns {string} Vector represented as "(x, y, z)".
         '''
-        return fmt % (fStr(self.to3tuple(), prec=prec, sep=sep),)
+        return fmt % (fStr(self.to3xyz(), prec=prec, sep=sep),)
 
     def unit(self):
         '''Normalize this vector to unit length.
@@ -372,21 +369,23 @@ class Vector3d(_VectorBase):
         return self._z
 
 
-def sumOf(vectors):
-    '''Return the vectorial sum of any number of vectors.
+def sumOf(vectors, Vector=Vector3d, **kwds):
+    '''Vectorially add a number of vectors.
 
        @param {Vector3d[]} vectors - Array of Vector3d to be added.
+       @param {Vector3d} Vector: Vector class to instantiate.
+       @param kwds - Optional, additional Vector keyword arguments.
 
-       @returns {Vector3d} New vector, sum of the vectors.
+       @returns {Vector} Vectorial sum.
 
        @throws {ValueError} No vectors.
     '''
     n, vectors = len2(vectors)
     if n < 1:
         raise ValueError('no vectors: %r' & (n,))
-    return Vector3d(fsum(v.x for v in vectors),
-                    fsum(v.y for v in vectors),
-                    fsum(v.z for v in vectors))
+    return Vector(fsum(v.x for v in vectors),
+                  fsum(v.y for v in vectors),
+                  fsum(v.z for v in vectors), **kwds)
 
 # **) MIT License
 #
