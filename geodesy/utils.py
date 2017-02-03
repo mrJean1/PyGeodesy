@@ -18,10 +18,10 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2',  # constants
            'false2f', 'fdot', 'fdot3', 'fStr', 'fsum',
            'halfs', 'hypot1', 'hypot3',
            'isint', 'isscalar', 'len2', 'map2',
-           'radians', 'radiansPI', 'radiansPI_2',
+           'radians', 'radiansPI', 'radiansPI2', 'radiansPI_2',
            'sin_2', 'tanPI_2_2',
            'wrap90', 'wrap180', 'wrapPI', 'wrapPI2', 'wrapPI_2')
-__version__ = '17.02.01'
+__version__ = '17.02.02'
 
 try:
     from math import fsum  # precision sum, Python 2.6+
@@ -86,11 +86,11 @@ def degrees180(rad):
 
 
 def degrees360(rad):
-    '''Convert radians to degrees 0..360.
+    '''Convert radians to degrees 0..+360.
 
        @param {radians} rad - Angle in radians.
 
-       @returns {degrees360} Degrees 0..360.
+       @returns {degrees360} Degrees 0..+360.
     '''
     return _drap(degrees(rad), 360)
 
@@ -305,12 +305,22 @@ def radiansPI(deg):
     return _wrap(radians(deg), PI)
 
 
+def radiansPI2(deg):
+    '''Convert degrees to radians -2PI..2PI.
+
+       @param {degrees} deg - Angle in degrees.
+
+       @returns {radiansPI} Radians -2PI..2PI.
+    '''
+    return _wrap(radians(deg), PI2)
+
+
 def radiansPI_2(deg):
-    '''Convert degrees to radians -PI_2..PI_2.
+    '''Convert degrees to radians -PI/2..PI/2.
 
        @param {degrees} rad - Angle in degrees.
 
-       @returns {radiansPI_2} Radians -PI_2..PI_2.
+       @returns {radiansPI_2} Radians -PI/2..PI/2.
     '''
     return _wrap(radians(deg), PI_2)
 
@@ -363,31 +373,31 @@ def _wrap(rad, wrap):
 
 
 def wrapPI(rad):
-    '''Wrap radians to -PI..PI.
+    '''Wrap radians to -PI..+PI.
 
        @param {number} rad - Angle in radians.
 
-       @returns {radiansPI} Radians -PI..PI.
+       @returns {radiansPI} Radians -PI..+PI.
     '''
     return _wrap(rad, PI)
 
 
 def wrapPI2(rad):
-    '''Wrap radians to -2PI..2PI.
+    '''Wrap radians to -2PI..+2PI.
 
        @param {number} rad - Angle in radians.
 
-       @returns {radiansPI2} Radians -PI2..PI2.
+       @returns {radiansPI2} Radians -2PI..+2PI.
     '''
     return _wrap(rad, PI2)
 
 
 def wrapPI_2(rad):
-    '''Wrap radians to -PI_2..PI_2.
+    '''Wrap radians to -PI/2..+PI/2.
 
        @param {number} rad - Angle in radians.
 
-       @returns {radiansPI_2} Radians -PI_2..PI_2.
+       @returns {radiansPI_2} Radians -PI/2..+PI/2.
     '''
     return _wrap(rad, PI_2)
 

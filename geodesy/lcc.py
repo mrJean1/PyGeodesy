@@ -18,7 +18,7 @@ from utils import EPS, PI_2, \
 # all public constants, classes and functions
 __all__ = ('Conic', 'Conics', 'Lcc',
            'toLcc')  # functions
-__version__ = '17.02.01'
+__version__ = '17.02.02'
 
 
 Conics = _Enum('Conics')
@@ -319,13 +319,13 @@ class Lcc(_Based):
            @example
            lb = Lcc(448251, 5411932.0001)
         '''
-        self._easting  = false2f(e, 'easting', false=False)
-        self._northing = false2f(n, 'northing', false=False)
-        if h:
-            self._height = float(h)
         if not isinstance(conic, Conic):
             raise TypeError('%s not Conic: %r' % ('conic', conic))
         self._conic = conic
+        self._easting  = false2f(e, 'easting',  false=conic.E0 > 0)
+        self._northing = false2f(n, 'northing', false=conic.N0 > 0)
+        if h:
+            self._height = float(h)
 
     @property
     def conic(self):
