@@ -23,7 +23,7 @@ from geodesy import R_M, R_NM, F_D, F_DM, F_DMS, F_RAD, Datums, \
                     precision, toDMS
 
 __all__ = ('Tests',)
-__version__ = '17.02.01'
+__version__ = '17.02.02'
 
 try:
     _int = int, long
@@ -504,11 +504,11 @@ if __name__ == '__main__':
     t.results(nl=1)
     t.exit()
 
-    # Typical test results (on MacOS X)
+    # Typical test results (on MacOS 10.12.2)
 
-    # testing tests.py version 17.02.01
+    # testing tests.py version 17.02.02
 
-    # testing __init__.py version 17.02.01
+    # testing __init__.py version 17.02.06
     # test 1 geodesy.Conic() class (geodesy.lcc): True
     # test 2 geodesy.Conics attribute (geodesy.datum): True
     # test 3 geodesy.Datum() class (geodesy.datum): True
@@ -565,246 +565,251 @@ if __name__ == '__main__':
     # test 54 geodesy.lonDMS() function (geodesy.dms): True
     # test 55 geodesy.map2() function (geodesy.utils): True
     # test 56 geodesy.normDMS() function (geodesy.dms): True
-    # test 57 geodesy.parse3llh() function (geodesy.dms): True
-    # test 58 geodesy.parseDMS() function (geodesy.dms): True
-    # test 59 geodesy.parseMGRS() function (geodesy.mgrs): True
-    # test 60 geodesy.parseOSGR() function (geodesy.osgr): True
-    # test 61 geodesy.parseUTM() function (geodesy.utm): True
-    # test 62 geodesy.precision() function (geodesy.dms): True
-    # test 63 geodesy.radians attribute (math): True
-    # test 64 geodesy.radiansPI() function (geodesy.utils): True
-    # test 65 geodesy.radiansPI_2() function (geodesy.utils): True
-    # test 66 geodesy.sin_2() function (geodesy.utils): True
-    # test 67 geodesy.sphericalNvector module: True
-    # test 68 geodesy.sphericalTrigonometry module: True
-    # test 69 geodesy.tanPI_2_2() function (geodesy.utils): True
-    # test 70 geodesy.toDMS() function (geodesy.dms): True
-    # test 71 geodesy.toLcc() function (geodesy.lcc): True
-    # test 72 geodesy.toMgrs() function (geodesy.mgrs): True
-    # test 73 geodesy.toOsgr() function (geodesy.osgr): True
-    # test 74 geodesy.toUtm() function (geodesy.utm): True
-    # test 75 geodesy.wrap180() function (geodesy.utils): True
-    # test 76 geodesy.wrap90() function (geodesy.utils): True
-    # test 77 geodesy.wrapPI() function (geodesy.utils): True
-    # test 78 geodesy.wrapPI2() function (geodesy.utils): True
-    # test 79 geodesy.wrapPI_2() function (geodesy.utils): True
+    # test 57 geodesy.nvector module: True
+    # test 58 geodesy.parse3llh() function (geodesy.dms): True
+    # test 59 geodesy.parseDMS() function (geodesy.dms): True
+    # test 60 geodesy.parseMGRS() function (geodesy.mgrs): True
+    # test 61 geodesy.parseOSGR() function (geodesy.osgr): True
+    # test 62 geodesy.parseUTM() function (geodesy.utm): True
+    # test 63 geodesy.precision() function (geodesy.dms): True
+    # test 64 geodesy.radians attribute (math): True
+    # test 65 geodesy.radiansPI() function (geodesy.utils): True
+    # test 66 geodesy.radiansPI2() function (geodesy.utils): True
+    # test 67 geodesy.radiansPI_2() function (geodesy.utils): True
+    # test 68 geodesy.sin_2() function (geodesy.utils): True
+    # test 69 geodesy.sphericalNvector module: True
+    # test 70 geodesy.sphericalTrigonometry module: True
+    # test 71 geodesy.tanPI_2_2() function (geodesy.utils): True
+    # test 72 geodesy.toDMS() function (geodesy.dms): True
+    # test 73 geodesy.toLcc() function (geodesy.lcc): True
+    # test 74 geodesy.toMgrs() function (geodesy.mgrs): True
+    # test 75 geodesy.toOsgr() function (geodesy.osgr): True
+    # test 76 geodesy.toUtm() function (geodesy.utm): True
+    # test 77 geodesy.vector3d module: True
+    # test 78 geodesy.wrap180() function (geodesy.utils): True
+    # test 79 geodesy.wrap90() function (geodesy.utils): True
+    # test 80 geodesy.wrapPI() function (geodesy.utils): True
+    # test 81 geodesy.wrapPI2() function (geodesy.utils): True
+    # test 82 geodesy.wrapPI_2() function (geodesy.utils): True
 
-    # testing datum.py version 16.12.06
-    # test 80 datum.Datum() class: True
-    # test 81 datum.Datums attribute: True
-    # test 82 datum.Ellipsoid() class: True
-    # test 83 datum.Ellipsoids attribute: True
-    # test 84 datum.R_KM float: True
-    # test 85 datum.R_M float: True
-    # test 86 datum.R_NM float: True
-    # test 87 datum.R_SM float: True
-    # test 88 datum.Transform() class: True
-    # test 89 datum.Transforms attribute: True
+    # testing datum.py version 17.02.07
+    # test 83 datum.Datum() class: True
+    # test 84 datum.Datums attribute: True
+    # test 85 datum.Ellipsoid() class: True
+    # test 86 datum.Ellipsoids attribute: True
+    # test 87 datum.R_KM float: True
+    # test 88 datum.R_M float: True
+    # test 89 datum.R_NM float: True
+    # test 90 datum.R_SM float: True
+    # test 91 datum.Transform() class: True
+    # test 92 datum.Transforms attribute: True
 
-    # testing dms.py version 16.10.10
-    # test 90 dms.F_D str: True
-    # test 91 dms.F_DM str: True
-    # test 92 dms.F_DMS str: True
-    # test 93 dms.F_RAD str: True
-    # test 94 dms.S_DEG str: True
-    # test 95 dms.S_MIN str: True
-    # test 96 dms.S_SEC str: True
-    # test 97 dms.S_SEP str: True
-    # test 98 dms.bearingDMS() function: True
-    # test 99 dms.compassDMS() function: True
-    # test 100 dms.compassPoint() function: True
-    # test 101 dms.latDMS() function: True
-    # test 102 dms.lonDMS() function: True
-    # test 103 dms.normDMS() function: True
-    # test 104 dms.parse3llh() function: True
-    # test 105 dms.parseDMS() function: True
-    # test 106 dms.precision() function: True
-    # test 107 dms.toDMS() function: True
+    # testing dms.py version 17.02.07
+    # test 93 dms.F_D str: True
+    # test 94 dms.F_DM str: True
+    # test 95 dms.F_DMS str: True
+    # test 96 dms.F_RAD str: True
+    # test 97 dms.S_DEG str: True
+    # test 98 dms.S_MIN str: True
+    # test 99 dms.S_SEC str: True
+    # test 100 dms.S_SEP str: True
+    # test 101 dms.bearingDMS() function: True
+    # test 102 dms.compassDMS() function: True
+    # test 103 dms.compassPoint() function: True
+    # test 104 dms.latDMS() function: True
+    # test 105 dms.lonDMS() function: True
+    # test 106 dms.normDMS() function: True
+    # test 107 dms.parse3llh() function: True
+    # test 108 dms.parseDMS() function: True
+    # test 109 dms.precision() function: True
+    # test 110 dms.toDMS() function: True
 
-    # testing lcc.py version 17.02.01
-    # test 108 lcc.Conic() class: True
-    # test 109 lcc.Conics attribute (geodesy.datum): True
-    # test 110 lcc.Lcc() class: True
-    # test 111 lcc.toLcc() function: True
+    # testing lcc.py version 17.02.07
+    # test 111 lcc.Conic() class: True
+    # test 112 lcc.Conics attribute (geodesy.datum): True
+    # test 113 lcc.Lcc() class: True
+    # test 114 lcc.toLcc() function: True
 
-    # testing mgrs.py version 17.01.16
-    # test 112 mgrs.Mgrs() class: True
-    # test 113 mgrs.parseMGRS() function: True
-    # test 114 mgrs.toMgrs() function: True
+    # testing mgrs.py version 17.02.07
+    # test 115 mgrs.Mgrs() class: True
+    # test 116 mgrs.parseMGRS() function: True
+    # test 117 mgrs.toMgrs() function: True
 
-    # testing osgr.py version 17.02.01
-    # test 115 osgr.Osgr() class: True
-    # test 116 osgr.parseOSGR() function: True
-    # test 117 osgr.toOsgr() function: True
+    # testing osgr.py version 17.02.07
+    # test 118 osgr.Osgr() class: True
+    # test 119 osgr.parseOSGR() function: True
+    # test 120 osgr.toOsgr() function: True
 
-    # testing ellipsoidalNvector.py version 17.02.01
-    # test 118 ellipsoidalNvector.Cartesian() class: True
-    # test 119 ellipsoidalNvector.LatLon() class: True
-    # test 120 ellipsoidalNvector.Ned() class: True
-    # test 121 ellipsoidalNvector.Nvector() class: True
-    # test 122 ellipsoidalNvector.meanOf() function: True
-    # test 123 ellipsoidalNvector.toNed() function: True
+    # testing ellipsoidalNvector.py version 17.02.07
+    # test 121 ellipsoidalNvector.Cartesian() class: True
+    # test 122 ellipsoidalNvector.LatLon() class: True
+    # test 123 ellipsoidalNvector.Ned() class: True
+    # test 124 ellipsoidalNvector.Nvector() class: True
+    # test 125 ellipsoidalNvector.meanOf() function: True
+    # test 126 ellipsoidalNvector.toNed() function: True
 
-    # testing ellipsoidalVincenty.py version 17.02.01
-    # test 124 ellipsoidalVincenty.Cartesian() class: True
-    # test 125 ellipsoidalVincenty.LatLon() class: True
-    # test 126 ellipsoidalVincenty.VincentyError() class: True
+    # testing ellipsoidalVincenty.py version 17.02.07
+    # test 127 ellipsoidalVincenty.Cartesian() class: True
+    # test 128 ellipsoidalVincenty.LatLon() class: True
+    # test 129 ellipsoidalVincenty.VincentyError() class: True
 
-    # testing sphericalNvector.py version 17.02.01
-    # test 127 sphericalNvector.LatLon() class: True
-    # test 128 sphericalNvector.areaOf() function: True
-    # test 129 sphericalNvector.intersection() function: True
-    # test 130 sphericalNvector.meanOf() function: True
-    # test 131 sphericalNvector.triangulate() function: True
-    # test 132 sphericalNvector.trilaterate() function: True
+    # testing sphericalNvector.py version 17.02.07
+    # test 130 sphericalNvector.LatLon() class: True
+    # test 131 sphericalNvector.Nvector() class: True
+    # test 132 sphericalNvector.areaOf() function: True
+    # test 133 sphericalNvector.intersection() function: True
+    # test 134 sphericalNvector.meanOf() function: True
+    # test 135 sphericalNvector.triangulate() function: True
+    # test 136 sphericalNvector.trilaterate() function: True
 
-    # testing sphericalTrigonometry.py version 17.02.01
-    # test 133 sphericalTrigonometry.LatLon() class: True
-    # test 134 sphericalTrigonometry.meanOf() function: True
+    # testing sphericalTrigonometry.py version 17.02.07
+    # test 137 sphericalTrigonometry.LatLon() class: True
+    # test 138 sphericalTrigonometry.meanOf() function: True
 
-    # testing nvector.py version 17.02.01
-    # test 135 nvector.NorthPole attribute: True
-    # test 136 nvector.Nvector() class: True
-    # test 137 nvector.SouthPole attribute: True
-    # test 138 nvector.sumOf() function: True
+    # testing nvector.py version 17.02.07
+    # test 139 nvector.NorthPole attribute: True
+    # test 140 nvector.Nvector() class: True
+    # test 141 nvector.SouthPole attribute: True
+    # test 142 nvector.sumOf() function: True
 
-    # testing vector3d.py version 17.02.01
-    # test 139 vector3d.Vector3d() class: True
-    # test 140 vector3d.sumOf() function: True
+    # testing vector3d.py version 17.02.07
+    # test 143 vector3d.Vector3d() class: True
+    # test 144 vector3d.sumOf() function: True
 
-    # testing utm.py version 17.01.14
-    # test 141 utm.Utm() class: True
-    # test 142 utm.parseUTM() function: True
-    # test 143 utm.toUtm() function: True
+    # testing utm.py version 17.02.07
+    # test 145 utm.Utm() class: True
+    # test 146 utm.parseUTM() function: True
+    # test 147 utm.toUtm() function: True
 
-    # testing utils.py version 17.02.01
-    # test 144 utils.EPS float: True
-    # test 145 utils.EPS1 float: True
-    # test 146 utils.EPS2 float: True
-    # test 147 utils.PI float: True
-    # test 148 utils.PI2 float: True
-    # test 149 utils.PI_2 float: True
-    # test 150 utils.cbrt() function: True
-    # test 151 utils.degrees attribute (math): True
-    # test 152 utils.degrees180() function: True
-    # test 153 utils.degrees360() function: True
-    # test 154 utils.degrees90() function: True
-    # test 155 utils.fStr() function: True
-    # test 156 utils.false2f() function: True
-    # test 157 utils.fdot() function: True
-    # test 158 utils.fdot3() function: True
-    # test 159 utils.fsum attribute (math): True
-    # test 160 utils.halfs() function: True
-    # test 161 utils.hypot1() function: True
-    # test 162 utils.hypot3() function: True
-    # test 163 utils.isint() function: True
-    # test 164 utils.isscalar() function: True
-    # test 165 utils.len2() function: True
-    # test 166 utils.map2() function: True
-    # test 167 utils.radians attribute (math): True
-    # test 168 utils.radiansPI() function: True
-    # test 169 utils.radiansPI_2() function: True
-    # test 170 utils.sin_2() function: True
-    # test 171 utils.tanPI_2_2() function: True
-    # test 172 utils.wrap180() function: True
-    # test 173 utils.wrap90() function: True
-    # test 174 utils.wrapPI() function: True
-    # test 175 utils.wrapPI2() function: True
-    # test 176 utils.wrapPI_2() function: True
+    # testing utils.py version 17.02.06
+    # test 148 utils.EPS float: True
+    # test 149 utils.EPS1 float: True
+    # test 150 utils.EPS2 float: True
+    # test 151 utils.PI float: True
+    # test 152 utils.PI2 float: True
+    # test 153 utils.PI_2 float: True
+    # test 154 utils.cbrt() function: True
+    # test 155 utils.degrees attribute (math): True
+    # test 156 utils.degrees180() function: True
+    # test 157 utils.degrees360() function: True
+    # test 158 utils.degrees90() function: True
+    # test 159 utils.fStr() function: True
+    # test 160 utils.false2f() function: True
+    # test 161 utils.fdot() function: True
+    # test 162 utils.fdot3() function: True
+    # test 163 utils.fsum attribute (math): True
+    # test 164 utils.halfs() function: True
+    # test 165 utils.hypot1() function: True
+    # test 166 utils.hypot3() function: True
+    # test 167 utils.isint() function: True
+    # test 168 utils.isscalar() function: True
+    # test 169 utils.len2() function: True
+    # test 170 utils.map2() function: True
+    # test 171 utils.radians attribute (math): True
+    # test 172 utils.radiansPI() function: True
+    # test 173 utils.radiansPI2() function: True
+    # test 174 utils.radiansPI_2() function: True
+    # test 175 utils.sin_2() function: True
+    # test 176 utils.tanPI_2_2() function: True
+    # test 177 utils.wrap180() function: True
+    # test 178 utils.wrap90() function: True
+    # test 179 utils.wrapPI() function: True
+    # test 180 utils.wrapPI2() function: True
+    # test 181 utils.wrapPI_2() function: True
 
     # testing LatLon.attrs version 17.02.02
-    # test 177 Top() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 178 _Nv attribute: geodesy.ellipsoidalNvector, geodesy.sphericalNvector
-    # test 179 _alter() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 180 _datum attribute: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 181 _direct() method: geodesy.ellipsoidalVincenty
-    # test 182 _epsilon float: geodesy.ellipsoidalVincenty
-    # test 183 _gc3() method: geodesy.sphericalNvector
-    # test 184 _height int: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 185 _inverse() method: geodesy.ellipsoidalVincenty
-    # test 186 _iterations int: geodesy.ellipsoidalVincenty
-    # test 187 _lat attribute: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 188 _lon attribute: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 189 _osgr attribute: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty
-    # test 190 _r3 attribute: geodesy.ellipsoidalNvector
-    # test 191 _rhumb3() method: geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 192 _rotation3() method: geodesy.ellipsoidalNvector
-    # test 193 _update() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 194 _utm attribute: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty
-    # test 195 _v3d attribute: geodesy.sphericalTrigonometry
-    # test 196 bearingTo() method: geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 197 convertDatum() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty
-    # test 198 copy() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 199 crossTrackDistanceTo() method: geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 200 crossingParallels() method: geodesy.sphericalTrigonometry
-    # test 201 datum property: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 202 deltaTo() method: geodesy.ellipsoidalNvector
-    # test 203 destination() method: geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 204 destination2() method: geodesy.ellipsoidalVincenty
-    # test 205 destinationNed() method: geodesy.ellipsoidalNvector
-    # test 206 destinationPoint() method: geodesy.ellipsoidalNvector, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 207 distanceTo() method: geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 208 distanceTo3() method: geodesy.ellipsoidalVincenty
-    # test 209 ellipsoid() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty
-    # test 210 ellipsoids() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty
-    # test 211 enclosedBy() method: geodesy.sphericalNvector
-    # test 212 epsilon property: geodesy.ellipsoidalVincenty
-    # test 213 equals() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 214 finalBearingOn() method: geodesy.ellipsoidalVincenty
-    # test 215 finalBearingTo() method: geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 216 greatCircle() method: geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 217 greatCircleTo() method: geodesy.sphericalNvector
-    # test 218 height property: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 219 initialBearingTo() method: geodesy.ellipsoidalVincenty
-    # test 220 intermediateChordTo() method: geodesy.sphericalNvector
-    # test 221 intermediatePointDirectlyTo() method: geodesy.sphericalNvector
-    # test 222 intermediatePointTo() method: geodesy.ellipsoidalNvector, geodesy.sphericalNvector
-    # test 223 intermediateTo() method: geodesy.ellipsoidalNvector, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 224 intersection() method: geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 225 isEnclosedBy() method: geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 226 isWithin() method: geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 227 isWithinExtent() method: geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 228 iterations property: geodesy.ellipsoidalVincenty
-    # test 229 lat property: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 230 lon property: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 231 maxLat() method: geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 232 maxLatitude() method: geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 233 midpointTo() method: geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 234 minLat() method: geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 235 minLatitude() method: geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 236 nearestOn() method: geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 237 nearestPointOnSegment() method: geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 238 notImplemented() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 239 others() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 240 parse() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 241 rhumbBearingTo() method: geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 242 rhumbDistanceTo() method: geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 243 rhumbMidpointTo() method: geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 244 to3xyz() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 245 to4xyzh() method: geodesy.ellipsoidalNvector, geodesy.sphericalNvector
-    # test 246 toCartesian() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty
-    # test 247 toDatum() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty
-    # test 248 toNvector() method: geodesy.ellipsoidalNvector, geodesy.sphericalNvector
-    # test 249 toOsgr() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty
-    # test 250 toStr() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 251 toStr2() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 252 toUtm() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty
-    # test 253 toVector3d() method: geodesy.sphericalTrigonometry
-    # test 254 toradians() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
-    # test 255 triangulate() method: geodesy.sphericalNvector
-    # test 256 trilaterate() method: geodesy.sphericalNvector
+    # test 182 _Nv attribute: geodesy.ellipsoidalNvector, geodesy.sphericalNvector
+    # test 183 _alter() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 184 _datum attribute: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 185 _direct() method: geodesy.ellipsoidalVincenty
+    # test 186 _epsilon float: geodesy.ellipsoidalVincenty
+    # test 187 _gc3() method: geodesy.sphericalNvector
+    # test 188 _height int: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 189 _inverse() method: geodesy.ellipsoidalVincenty
+    # test 190 _iterations int: geodesy.ellipsoidalVincenty
+    # test 191 _lat int: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 192 _lon int: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 193 _osgr attribute: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty
+    # test 194 _r3 attribute: geodesy.ellipsoidalNvector
+    # test 195 _rhumb3() method: geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 196 _rotation3() method: geodesy.ellipsoidalNvector
+    # test 197 _update() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 198 _utm attribute: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty
+    # test 199 _v3d attribute: geodesy.sphericalTrigonometry
+    # test 200 bearingTo() method: geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 201 convertDatum() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty
+    # test 202 copy() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 203 crossTrackDistanceTo() method: geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 204 crossingParallels() method: geodesy.sphericalTrigonometry
+    # test 205 datum property: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 206 deltaTo() method: geodesy.ellipsoidalNvector
+    # test 207 destination() method: geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 208 destination2() method: geodesy.ellipsoidalVincenty
+    # test 209 destinationNed() method: geodesy.ellipsoidalNvector
+    # test 210 destinationPoint() method: geodesy.ellipsoidalNvector, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 211 distanceTo() method: geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 212 distanceTo3() method: geodesy.ellipsoidalVincenty
+    # test 213 ellipsoid() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty
+    # test 214 ellipsoids() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty
+    # test 215 enclosedBy() method: geodesy.sphericalNvector
+    # test 216 epsilon property: geodesy.ellipsoidalVincenty
+    # test 217 equals() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 218 finalBearingOn() method: geodesy.ellipsoidalVincenty
+    # test 219 finalBearingTo() method: geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 220 greatCircle() method: geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 221 greatCircleTo() method: geodesy.sphericalNvector
+    # test 222 height property: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 223 initialBearingTo() method: geodesy.ellipsoidalVincenty
+    # test 224 intermediateChordTo() method: geodesy.sphericalNvector
+    # test 225 intermediatePointDirectlyTo() method: geodesy.sphericalNvector
+    # test 226 intermediatePointTo() method: geodesy.ellipsoidalNvector, geodesy.sphericalNvector
+    # test 227 intermediateTo() method: geodesy.ellipsoidalNvector, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 228 intersection() method: geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 229 isEnclosedBy() method: geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 230 isWithin() method: geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 231 isWithinExtent() method: geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 232 iterations property: geodesy.ellipsoidalVincenty
+    # test 233 lat property: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 234 lon property: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 235 maxLat() method: geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 236 maxLatitude() method: geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 237 midpointTo() method: geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 238 minLat() method: geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 239 minLatitude() method: geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 240 nearestOn() method: geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 241 nearestPointOnSegment() method: geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 242 notImplemented() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 243 others() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 244 parse() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 245 rhumbBearingTo() method: geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 246 rhumbDistanceTo() method: geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 247 rhumbMidpointTo() method: geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 248 to3xyz() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 249 to4xyzh() method: geodesy.ellipsoidalNvector, geodesy.sphericalNvector
+    # test 250 toCartesian() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty
+    # test 251 toDatum() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty
+    # test 252 toNvector() method: geodesy.ellipsoidalNvector, geodesy.sphericalNvector
+    # test 253 toOsgr() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty
+    # test 254 toStr() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 255 toStr2() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 256 toUtm() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty
+    # test 257 toVector3d() method: geodesy.sphericalTrigonometry
+    # test 258 topsub() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 259 toradians() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
+    # test 260 triangulate() method: geodesy.sphericalNvector
+    # test 261 trilaterate() method: geodesy.sphericalNvector
 
     # testing LatLon.mro version 17.02.02
-    # test 257 geodesy.ellipsoidalNvector: geodesy.ellipsoidalNvector.LatLon, geodesy.nvector._LatLonNvectorBase, geodesy.ellipsoidalBase._LatLonHeightDatumBase, geodesy.bases._LatLonHeightBase, geodesy.bases._Base
-    # test 258 geodesy.ellipsoidalVincenty: geodesy.ellipsoidalVincenty.LatLon, geodesy.ellipsoidalBase._LatLonHeightDatumBase, geodesy.bases._LatLonHeightBase, geodesy.bases._Base
-    # test 259 geodesy.sphericalNvector: geodesy.sphericalNvector.LatLon, geodesy.nvector._LatLonNvectorBase, geodesy.sphericalBase._LatLonSphericalBase, geodesy.bases._LatLonHeightBase, geodesy.bases._Base
-    # test 260 geodesy.sphericalTrigonometry: geodesy.sphericalTrigonometry.LatLon, geodesy.sphericalBase._LatLonSphericalBase, geodesy.bases._LatLonHeightBase, geodesy.bases._Base
+    # test 262 geodesy.ellipsoidalNvector: geodesy.ellipsoidalNvector.LatLon, geodesy.nvector.LatLonNvectorBase, geodesy.ellipsoidalBase.LatLonEllipsoidalBase, geodesy.bases.LatLonHeightBase, geodesy.bases.Base
+    # test 263 geodesy.ellipsoidalVincenty: geodesy.ellipsoidalVincenty.LatLon, geodesy.ellipsoidalBase.LatLonEllipsoidalBase, geodesy.bases.LatLonHeightBase, geodesy.bases.Base
+    # test 264 geodesy.sphericalNvector: geodesy.sphericalNvector.LatLon, geodesy.nvector.LatLonNvectorBase, geodesy.sphericalBase.LatLonSphericalBase, geodesy.bases.LatLonHeightBase, geodesy.bases.Base
+    # test 265 geodesy.sphericalTrigonometry: geodesy.sphericalTrigonometry.LatLon, geodesy.sphericalBase.LatLonSphericalBase, geodesy.bases.LatLonHeightBase, geodesy.bases.Base
 
     # all tests.py tests passed (Python 2.7.13 64bit)
 
     # testing tests.py version 17.02.02
 
-    # testing __init__.py version 17.02.01
+    # testing __init__.py version 17.02.06
     # test 1 geodesy.Conic() class (lcc): True
     # test 2 geodesy.Conics attribute (datum): True
     # test 3 geodesy.Datum() class (datum): True
@@ -861,239 +866,244 @@ if __name__ == '__main__':
     # test 54 geodesy.lonDMS() function (dms): True
     # test 55 geodesy.map2() function (utils): True
     # test 56 geodesy.normDMS() function (dms): True
-    # test 57 geodesy.parse3llh() function (dms): True
-    # test 58 geodesy.parseDMS() function (dms): True
-    # test 59 geodesy.parseMGRS() function (mgrs): True
-    # test 60 geodesy.parseOSGR() function (osgr): True
-    # test 61 geodesy.parseUTM() function (utm): True
-    # test 62 geodesy.precision() function (dms): True
-    # test 63 geodesy.radians attribute (math): True
-    # test 64 geodesy.radiansPI() function (utils): True
-    # test 65 geodesy.radiansPI_2() function (utils): True
-    # test 66 geodesy.sin_2() function (utils): True
-    # test 67 geodesy.sphericalNvector module: True
-    # test 68 geodesy.sphericalTrigonometry module: True
-    # test 69 geodesy.tanPI_2_2() function (utils): True
-    # test 70 geodesy.toDMS() function (dms): True
-    # test 71 geodesy.toLcc() function (lcc): True
-    # test 72 geodesy.toMgrs() function (mgrs): True
-    # test 73 geodesy.toOsgr() function (osgr): True
-    # test 74 geodesy.toUtm() function (utm): True
-    # test 75 geodesy.wrap180() function (utils): True
-    # test 76 geodesy.wrap90() function (utils): True
-    # test 77 geodesy.wrapPI() function (utils): True
-    # test 78 geodesy.wrapPI2() function (utils): True
-    # test 79 geodesy.wrapPI_2() function (utils): True
+    # test 57 geodesy.nvector module: True
+    # test 58 geodesy.parse3llh() function (dms): True
+    # test 59 geodesy.parseDMS() function (dms): True
+    # test 60 geodesy.parseMGRS() function (mgrs): True
+    # test 61 geodesy.parseOSGR() function (osgr): True
+    # test 62 geodesy.parseUTM() function (utm): True
+    # test 63 geodesy.precision() function (dms): True
+    # test 64 geodesy.radians attribute (math): True
+    # test 65 geodesy.radiansPI() function (utils): True
+    # test 66 geodesy.radiansPI2() function (utils): True
+    # test 67 geodesy.radiansPI_2() function (utils): True
+    # test 68 geodesy.sin_2() function (utils): True
+    # test 69 geodesy.sphericalNvector module: True
+    # test 70 geodesy.sphericalTrigonometry module: True
+    # test 71 geodesy.tanPI_2_2() function (utils): True
+    # test 72 geodesy.toDMS() function (dms): True
+    # test 73 geodesy.toLcc() function (lcc): True
+    # test 74 geodesy.toMgrs() function (mgrs): True
+    # test 75 geodesy.toOsgr() function (osgr): True
+    # test 76 geodesy.toUtm() function (utm): True
+    # test 77 geodesy.vector3d module: True
+    # test 78 geodesy.wrap180() function (utils): True
+    # test 79 geodesy.wrap90() function (utils): True
+    # test 80 geodesy.wrapPI() function (utils): True
+    # test 81 geodesy.wrapPI2() function (utils): True
+    # test 82 geodesy.wrapPI_2() function (utils): True
 
-    # testing datum.py version 16.12.06
-    # test 80 datum.Datum() class: True
-    # test 81 datum.Datums attribute: True
-    # test 82 datum.Ellipsoid() class: True
-    # test 83 datum.Ellipsoids attribute: True
-    # test 84 datum.R_KM float: True
-    # test 85 datum.R_M float: True
-    # test 86 datum.R_NM float: True
-    # test 87 datum.R_SM float: True
-    # test 88 datum.Transform() class: True
-    # test 89 datum.Transforms attribute: True
+    # testing datum.py version 17.02.07
+    # test 83 datum.Datum() class: True
+    # test 84 datum.Datums attribute: True
+    # test 85 datum.Ellipsoid() class: True
+    # test 86 datum.Ellipsoids attribute: True
+    # test 87 datum.R_KM float: True
+    # test 88 datum.R_M float: True
+    # test 89 datum.R_NM float: True
+    # test 90 datum.R_SM float: True
+    # test 91 datum.Transform() class: True
+    # test 92 datum.Transforms attribute: True
 
-    # testing dms.py version 16.10.10
-    # test 90 dms.F_D str: True
-    # test 91 dms.F_DM str: True
-    # test 92 dms.F_DMS str: True
-    # test 93 dms.F_RAD str: True
-    # test 94 dms.S_DEG str: True
-    # test 95 dms.S_MIN str: True
-    # test 96 dms.S_SEC str: True
-    # test 97 dms.S_SEP str: True
-    # test 98 dms.bearingDMS() function: True
-    # test 99 dms.compassDMS() function: True
-    # test 100 dms.compassPoint() function: True
-    # test 101 dms.latDMS() function: True
-    # test 102 dms.lonDMS() function: True
-    # test 103 dms.normDMS() function: True
-    # test 104 dms.parse3llh() function: True
-    # test 105 dms.parseDMS() function: True
-    # test 106 dms.precision() function: True
-    # test 107 dms.toDMS() function: True
+    # testing dms.py version 17.02.07
+    # test 93 dms.F_D str: True
+    # test 94 dms.F_DM str: True
+    # test 95 dms.F_DMS str: True
+    # test 96 dms.F_RAD str: True
+    # test 97 dms.S_DEG str: True
+    # test 98 dms.S_MIN str: True
+    # test 99 dms.S_SEC str: True
+    # test 100 dms.S_SEP str: True
+    # test 101 dms.bearingDMS() function: True
+    # test 102 dms.compassDMS() function: True
+    # test 103 dms.compassPoint() function: True
+    # test 104 dms.latDMS() function: True
+    # test 105 dms.lonDMS() function: True
+    # test 106 dms.normDMS() function: True
+    # test 107 dms.parse3llh() function: True
+    # test 108 dms.parseDMS() function: True
+    # test 109 dms.precision() function: True
+    # test 110 dms.toDMS() function: True
 
-    # testing lcc.py version 17.02.01
-    # test 108 lcc.Conic() class: True
-    # test 109 lcc.Conics attribute (datum): True
-    # test 110 lcc.Lcc() class: True
-    # test 111 lcc.toLcc() function: True
+    # testing lcc.py version 17.02.07
+    # test 111 lcc.Conic() class: True
+    # test 112 lcc.Conics attribute (datum): True
+    # test 113 lcc.Lcc() class: True
+    # test 114 lcc.toLcc() function: True
 
-    # testing mgrs.py version 17.01.16
-    # test 112 mgrs.Mgrs() class: True
-    # test 113 mgrs.parseMGRS() function: True
-    # test 114 mgrs.toMgrs() function: True
+    # testing mgrs.py version 17.02.07
+    # test 115 mgrs.Mgrs() class: True
+    # test 116 mgrs.parseMGRS() function: True
+    # test 117 mgrs.toMgrs() function: True
 
-    # testing osgr.py version 17.02.01
-    # test 115 osgr.Osgr() class: True
-    # test 116 osgr.parseOSGR() function: True
-    # test 117 osgr.toOsgr() function: True
+    # testing osgr.py version 17.02.07
+    # test 118 osgr.Osgr() class: True
+    # test 119 osgr.parseOSGR() function: True
+    # test 120 osgr.toOsgr() function: True
 
-    # testing ellipsoidalNvector.py version 17.02.01
-    # test 118 ellipsoidalNvector.Cartesian() class: True
-    # test 119 ellipsoidalNvector.LatLon() class: True
-    # test 120 ellipsoidalNvector.Ned() class: True
-    # test 121 ellipsoidalNvector.Nvector() class: True
-    # test 122 ellipsoidalNvector.meanOf() function: True
-    # test 123 ellipsoidalNvector.toNed() function: True
+    # testing ellipsoidalNvector.py version 17.02.07
+    # test 121 ellipsoidalNvector.Cartesian() class: True
+    # test 122 ellipsoidalNvector.LatLon() class: True
+    # test 123 ellipsoidalNvector.Ned() class: True
+    # test 124 ellipsoidalNvector.Nvector() class: True
+    # test 125 ellipsoidalNvector.meanOf() function: True
+    # test 126 ellipsoidalNvector.toNed() function: True
 
-    # testing ellipsoidalVincenty.py version 17.02.01
-    # test 124 ellipsoidalVincenty.Cartesian() class: True
-    # test 125 ellipsoidalVincenty.LatLon() class: True
-    # test 126 ellipsoidalVincenty.VincentyError() class: True
+    # testing ellipsoidalVincenty.py version 17.02.07
+    # test 127 ellipsoidalVincenty.Cartesian() class: True
+    # test 128 ellipsoidalVincenty.LatLon() class: True
+    # test 129 ellipsoidalVincenty.VincentyError() class: True
 
-    # testing sphericalNvector.py version 17.02.01
-    # test 127 sphericalNvector.LatLon() class: True
-    # test 128 sphericalNvector.areaOf() function: True
-    # test 129 sphericalNvector.intersection() function: True
-    # test 130 sphericalNvector.meanOf() function: True
-    # test 131 sphericalNvector.triangulate() function: True
-    # test 132 sphericalNvector.trilaterate() function: True
+    # testing sphericalNvector.py version 17.02.07
+    # test 130 sphericalNvector.LatLon() class: True
+    # test 131 sphericalNvector.Nvector() class: True
+    # test 132 sphericalNvector.areaOf() function: True
+    # test 133 sphericalNvector.intersection() function: True
+    # test 134 sphericalNvector.meanOf() function: True
+    # test 135 sphericalNvector.triangulate() function: True
+    # test 136 sphericalNvector.trilaterate() function: True
 
-    # testing sphericalTrigonometry.py version 17.02.01
-    # test 133 sphericalTrigonometry.LatLon() class: True
-    # test 134 sphericalTrigonometry.meanOf() function: True
+    # testing sphericalTrigonometry.py version 17.02.07
+    # test 137 sphericalTrigonometry.LatLon() class: True
+    # test 138 sphericalTrigonometry.meanOf() function: True
 
-    # testing nvector.py version 17.02.01
-    # test 135 nvector.NorthPole attribute: True
-    # test 136 nvector.Nvector() class: True
-    # test 137 nvector.SouthPole attribute: True
-    # test 138 nvector.sumOf() function: True
+    # testing nvector.py version 17.02.07
+    # test 139 nvector.NorthPole attribute: True
+    # test 140 nvector.Nvector() class: True
+    # test 141 nvector.SouthPole attribute: True
+    # test 142 nvector.sumOf() function: True
 
-    # testing vector3d.py version 17.02.01
-    # test 139 vector3d.Vector3d() class: True
-    # test 140 vector3d.sumOf() function: True
+    # testing vector3d.py version 17.02.07
+    # test 143 vector3d.Vector3d() class: True
+    # test 144 vector3d.sumOf() function: True
 
-    # testing utm.py version 17.01.14
-    # test 141 utm.Utm() class: True
-    # test 142 utm.parseUTM() function: True
-    # test 143 utm.toUtm() function: True
+    # testing utm.py version 17.02.07
+    # test 145 utm.Utm() class: True
+    # test 146 utm.parseUTM() function: True
+    # test 147 utm.toUtm() function: True
 
-    # testing utils.py version 17.02.01
-    # test 144 utils.EPS float: True
-    # test 145 utils.EPS1 float: True
-    # test 146 utils.EPS2 float: True
-    # test 147 utils.PI float: True
-    # test 148 utils.PI2 float: True
-    # test 149 utils.PI_2 float: True
-    # test 150 utils.cbrt() function: True
-    # test 151 utils.degrees attribute (math): True
-    # test 152 utils.degrees180() function: True
-    # test 153 utils.degrees360() function: True
-    # test 154 utils.degrees90() function: True
-    # test 155 utils.fStr() function: True
-    # test 156 utils.false2f() function: True
-    # test 157 utils.fdot() function: True
-    # test 158 utils.fdot3() function: True
-    # test 159 utils.fsum attribute (math): True
-    # test 160 utils.halfs() function: True
-    # test 161 utils.hypot1() function: True
-    # test 162 utils.hypot3() function: True
-    # test 163 utils.isint() function: True
-    # test 164 utils.isscalar() function: True
-    # test 165 utils.len2() function: True
-    # test 166 utils.map2() function: True
-    # test 167 utils.radians attribute (math): True
-    # test 168 utils.radiansPI() function: True
-    # test 169 utils.radiansPI_2() function: True
-    # test 170 utils.sin_2() function: True
-    # test 171 utils.tanPI_2_2() function: True
-    # test 172 utils.wrap180() function: True
-    # test 173 utils.wrap90() function: True
-    # test 174 utils.wrapPI() function: True
-    # test 175 utils.wrapPI2() function: True
-    # test 176 utils.wrapPI_2() function: True
+    # testing utils.py version 17.02.06
+    # test 148 utils.EPS float: True
+    # test 149 utils.EPS1 float: True
+    # test 150 utils.EPS2 float: True
+    # test 151 utils.PI float: True
+    # test 152 utils.PI2 float: True
+    # test 153 utils.PI_2 float: True
+    # test 154 utils.cbrt() function: True
+    # test 155 utils.degrees attribute (math): True
+    # test 156 utils.degrees180() function: True
+    # test 157 utils.degrees360() function: True
+    # test 158 utils.degrees90() function: True
+    # test 159 utils.fStr() function: True
+    # test 160 utils.false2f() function: True
+    # test 161 utils.fdot() function: True
+    # test 162 utils.fdot3() function: True
+    # test 163 utils.fsum attribute (math): True
+    # test 164 utils.halfs() function: True
+    # test 165 utils.hypot1() function: True
+    # test 166 utils.hypot3() function: True
+    # test 167 utils.isint() function: True
+    # test 168 utils.isscalar() function: True
+    # test 169 utils.len2() function: True
+    # test 170 utils.map2() function: True
+    # test 171 utils.radians attribute (math): True
+    # test 172 utils.radiansPI() function: True
+    # test 173 utils.radiansPI2() function: True
+    # test 174 utils.radiansPI_2() function: True
+    # test 175 utils.sin_2() function: True
+    # test 176 utils.tanPI_2_2() function: True
+    # test 177 utils.wrap180() function: True
+    # test 178 utils.wrap90() function: True
+    # test 179 utils.wrapPI() function: True
+    # test 180 utils.wrapPI2() function: True
+    # test 181 utils.wrapPI_2() function: True
 
     # testing LatLon.attrs version 17.02.02
-    # test 177 Top() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    # test 178 _Nv attribute: ellipsoidalNvector, sphericalNvector
-    # test 179 _alter() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    # test 180 _datum attribute: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    # test 181 _direct() function: ellipsoidalVincenty
-    # test 182 _epsilon float: ellipsoidalVincenty
-    # test 183 _gc3() function: sphericalNvector
-    # test 184 _height int: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    # test 185 _inverse() function: ellipsoidalVincenty
-    # test 186 _iterations int: ellipsoidalVincenty
-    # test 187 _lat attribute: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    # test 188 _lon attribute: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    # test 189 _osgr attribute: ellipsoidalNvector, ellipsoidalVincenty
-    # test 190 _r3 attribute: ellipsoidalNvector
-    # test 191 _rhumb3() function: sphericalNvector, sphericalTrigonometry
-    # test 192 _rotation3() function: ellipsoidalNvector
-    # test 193 _update() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    # test 194 _utm attribute: ellipsoidalNvector, ellipsoidalVincenty
-    # test 195 _v3d attribute: sphericalTrigonometry
-    # test 196 bearingTo() function: ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    # test 197 convertDatum() function: ellipsoidalNvector, ellipsoidalVincenty
-    # test 198 copy() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    # test 199 crossTrackDistanceTo() function: sphericalNvector, sphericalTrigonometry
-    # test 200 crossingParallels() function: sphericalTrigonometry
-    # test 201 datum property: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    # test 202 deltaTo() function: ellipsoidalNvector
-    # test 203 destination() function: ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    # test 204 destination2() function: ellipsoidalVincenty
-    # test 205 destinationNed() function: ellipsoidalNvector
-    # test 206 destinationPoint() function: ellipsoidalNvector, sphericalNvector, sphericalTrigonometry
-    # test 207 distanceTo() function: ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    # test 208 distanceTo3() function: ellipsoidalVincenty
-    # test 209 ellipsoid() function: ellipsoidalNvector, ellipsoidalVincenty
-    # test 210 ellipsoids() function: ellipsoidalNvector, ellipsoidalVincenty
-    # test 211 enclosedBy() function: sphericalNvector
-    # test 212 epsilon property: ellipsoidalVincenty
-    # test 213 equals() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    # test 214 finalBearingOn() function: ellipsoidalVincenty
-    # test 215 finalBearingTo() function: ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    # test 216 greatCircle() function: sphericalNvector, sphericalTrigonometry
-    # test 217 greatCircleTo() function: sphericalNvector
-    # test 218 height property: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    # test 219 initialBearingTo() function: ellipsoidalVincenty
-    # test 220 intermediateChordTo() function: sphericalNvector
-    # test 221 intermediatePointDirectlyTo() function: sphericalNvector
-    # test 222 intermediatePointTo() function: ellipsoidalNvector, sphericalNvector
-    # test 223 intermediateTo() function: ellipsoidalNvector, sphericalNvector, sphericalTrigonometry
-    # test 224 intersection() function: sphericalNvector, sphericalTrigonometry
-    # test 225 isEnclosedBy() function: sphericalNvector, sphericalTrigonometry
-    # test 226 isWithin() function: sphericalNvector, sphericalTrigonometry
-    # test 227 isWithinExtent() function: sphericalNvector, sphericalTrigonometry
-    # test 228 iterations property: ellipsoidalVincenty
-    # test 229 lat property: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    # test 230 lon property: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    # test 231 maxLat() function: sphericalNvector, sphericalTrigonometry
-    # test 232 maxLatitude() function: sphericalNvector, sphericalTrigonometry
-    # test 233 midpointTo() function: sphericalNvector, sphericalTrigonometry
-    # test 234 minLat() function: sphericalNvector, sphericalTrigonometry
-    # test 235 minLatitude() function: sphericalNvector, sphericalTrigonometry
-    # test 236 nearestOn() function: sphericalNvector, sphericalTrigonometry
-    # test 237 nearestPointOnSegment() function: sphericalNvector, sphericalTrigonometry
-    # test 238 notImplemented() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    # test 239 others() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    # test 240 parse() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    # test 241 rhumbBearingTo() function: sphericalNvector, sphericalTrigonometry
-    # test 242 rhumbDistanceTo() function: sphericalNvector, sphericalTrigonometry
-    # test 243 rhumbMidpointTo() function: sphericalNvector, sphericalTrigonometry
-    # test 244 to3xyz() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    # test 245 to4xyzh() function: ellipsoidalNvector, sphericalNvector
-    # test 246 toCartesian() function: ellipsoidalNvector, ellipsoidalVincenty
-    # test 247 toDatum() function: ellipsoidalNvector, ellipsoidalVincenty
-    # test 248 toNvector() function: ellipsoidalNvector, sphericalNvector
-    # test 249 toOsgr() function: ellipsoidalNvector, ellipsoidalVincenty
-    # test 250 toStr() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    # test 251 toStr2() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    # test 252 toUtm() function: ellipsoidalNvector, ellipsoidalVincenty
-    # test 253 toVector3d() function: sphericalTrigonometry
-    # test 254 toradians() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    # test 255 triangulate() function: sphericalNvector
-    # test 256 trilaterate() function: sphericalNvector
+    # test 182 _Nv attribute: ellipsoidalNvector, sphericalNvector
+    # test 183 _alter() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    # test 184 _datum attribute: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    # test 185 _direct() function: ellipsoidalVincenty
+    # test 186 _epsilon float: ellipsoidalVincenty
+    # test 187 _gc3() function: sphericalNvector
+    # test 188 _height int: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    # test 189 _inverse() function: ellipsoidalVincenty
+    # test 190 _iterations int: ellipsoidalVincenty
+    # test 191 _lat int: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    # test 192 _lon int: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    # test 193 _osgr attribute: ellipsoidalNvector, ellipsoidalVincenty
+    # test 194 _r3 attribute: ellipsoidalNvector
+    # test 195 _rhumb3() function: sphericalNvector, sphericalTrigonometry
+    # test 196 _rotation3() function: ellipsoidalNvector
+    # test 197 _update() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    # test 198 _utm attribute: ellipsoidalNvector, ellipsoidalVincenty
+    # test 199 _v3d attribute: sphericalTrigonometry
+    # test 200 bearingTo() function: ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    # test 201 convertDatum() function: ellipsoidalNvector, ellipsoidalVincenty
+    # test 202 copy() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    # test 203 crossTrackDistanceTo() function: sphericalNvector, sphericalTrigonometry
+    # test 204 crossingParallels() function: sphericalTrigonometry
+    # test 205 datum property: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    # test 206 deltaTo() function: ellipsoidalNvector
+    # test 207 destination() function: ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    # test 208 destination2() function: ellipsoidalVincenty
+    # test 209 destinationNed() function: ellipsoidalNvector
+    # test 210 destinationPoint() function: ellipsoidalNvector, sphericalNvector, sphericalTrigonometry
+    # test 211 distanceTo() function: ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    # test 212 distanceTo3() function: ellipsoidalVincenty
+    # test 213 ellipsoid() function: ellipsoidalNvector, ellipsoidalVincenty
+    # test 214 ellipsoids() function: ellipsoidalNvector, ellipsoidalVincenty
+    # test 215 enclosedBy() function: sphericalNvector
+    # test 216 epsilon property: ellipsoidalVincenty
+    # test 217 equals() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    # test 218 finalBearingOn() function: ellipsoidalVincenty
+    # test 219 finalBearingTo() function: ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    # test 220 greatCircle() function: sphericalNvector, sphericalTrigonometry
+    # test 221 greatCircleTo() function: sphericalNvector
+    # test 222 height property: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    # test 223 initialBearingTo() function: ellipsoidalVincenty
+    # test 224 intermediateChordTo() function: sphericalNvector
+    # test 225 intermediatePointDirectlyTo() function: sphericalNvector
+    # test 226 intermediatePointTo() function: ellipsoidalNvector, sphericalNvector
+    # test 227 intermediateTo() function: ellipsoidalNvector, sphericalNvector, sphericalTrigonometry
+    # test 228 intersection() function: sphericalNvector, sphericalTrigonometry
+    # test 229 isEnclosedBy() function: sphericalNvector, sphericalTrigonometry
+    # test 230 isWithin() function: sphericalNvector, sphericalTrigonometry
+    # test 231 isWithinExtent() function: sphericalNvector, sphericalTrigonometry
+    # test 232 iterations property: ellipsoidalVincenty
+    # test 233 lat property: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    # test 234 lon property: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    # test 235 maxLat() function: sphericalNvector, sphericalTrigonometry
+    # test 236 maxLatitude() function: sphericalNvector, sphericalTrigonometry
+    # test 237 midpointTo() function: sphericalNvector, sphericalTrigonometry
+    # test 238 minLat() function: sphericalNvector, sphericalTrigonometry
+    # test 239 minLatitude() function: sphericalNvector, sphericalTrigonometry
+    # test 240 nearestOn() function: sphericalNvector, sphericalTrigonometry
+    # test 241 nearestPointOnSegment() function: sphericalNvector, sphericalTrigonometry
+    # test 242 notImplemented() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    # test 243 others() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    # test 244 parse() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    # test 245 rhumbBearingTo() function: sphericalNvector, sphericalTrigonometry
+    # test 246 rhumbDistanceTo() function: sphericalNvector, sphericalTrigonometry
+    # test 247 rhumbMidpointTo() function: sphericalNvector, sphericalTrigonometry
+    # test 248 to3xyz() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    # test 249 to4xyzh() function: ellipsoidalNvector, sphericalNvector
+    # test 250 toCartesian() function: ellipsoidalNvector, ellipsoidalVincenty
+    # test 251 toDatum() function: ellipsoidalNvector, ellipsoidalVincenty
+    # test 252 toNvector() function: ellipsoidalNvector, sphericalNvector
+    # test 253 toOsgr() function: ellipsoidalNvector, ellipsoidalVincenty
+    # test 254 toStr() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    # test 255 toStr2() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    # test 256 toUtm() function: ellipsoidalNvector, ellipsoidalVincenty
+    # test 257 toVector3d() function: sphericalTrigonometry
+    # test 258 topsub() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    # test 259 toradians() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    # test 260 triangulate() function: sphericalNvector
+    # test 261 trilaterate() function: sphericalNvector
 
     # testing LatLon.mro version 17.02.02
-    # test 257 ellipsoidalNvector: ellipsoidalNvector.LatLon, nvector._LatLonNvectorBase, ellipsoidalBase._LatLonHeightDatumBase, bases._LatLonHeightBase, bases._Base
-    # test 258 ellipsoidalVincenty: ellipsoidalVincenty.LatLon, ellipsoidalBase._LatLonHeightDatumBase, bases._LatLonHeightBase, bases._Base
-    # test 259 sphericalNvector: sphericalNvector.LatLon, nvector._LatLonNvectorBase, sphericalBase._LatLonSphericalBase, bases._LatLonHeightBase, bases._Base
-    # test 260 sphericalTrigonometry: sphericalTrigonometry.LatLon, sphericalBase._LatLonSphericalBase, bases._LatLonHeightBase, bases._Base
+    # test 262 ellipsoidalNvector: ellipsoidalNvector.LatLon, nvector.LatLonNvectorBase, ellipsoidalBase.LatLonEllipsoidalBase, bases.LatLonHeightBase, bases.Base
+    # test 263 ellipsoidalVincenty: ellipsoidalVincenty.LatLon, ellipsoidalBase.LatLonEllipsoidalBase, bases.LatLonHeightBase, bases.Base
+    # test 264 sphericalNvector: sphericalNvector.LatLon, nvector.LatLonNvectorBase, sphericalBase.LatLonSphericalBase, bases.LatLonHeightBase, bases.Base
+    # test 265 sphericalTrigonometry: sphericalTrigonometry.LatLon, sphericalBase.LatLonSphericalBase, bases.LatLonHeightBase, bases.Base
 
     # all tests.py tests passed (Python 3.6.0 64bit)

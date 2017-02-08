@@ -1,12 +1,15 @@
 
 # -*- coding: utf-8 -*-
 
-# Python implementation of geodetic (lat-/longitude) functions.
-# Transcribed from JavaScript originals by (C) Chris Veness 2011-2016
-# and published under the same MIT Licence**, see
-# <http://www.movable-type.co.uk/scripts/latlong.html>.
+'''(INTERNAL) Spherical base classes.
 
-from bases import _LatLonHeightBase
+Python implementation of geodetic (lat-/longitude) functions.
+Transcribed from JavaScript originals by I{(C) Chris Veness 2011-2016}
+and published under the same MIT Licence**, see
+U{http://www.movable-type.co.uk/scripts/latlong.html}.
+'''
+
+from bases import LatLonHeightBase
 from datum import R_M, Datum, Datums
 from dms import parse3llh
 from utils import EPS, EPS2, PI, PI2, \
@@ -14,22 +17,20 @@ from utils import EPS, EPS2, PI, PI2, \
                   radians, radiansPI, tanPI_2_2
 from math import acos, atan2, cos, hypot, log, sin
 
-# all public contants, classes and functions
-__all__ = ()  # classes
-__version__ = '16.11.11'
+# XXX the following classes are listed only to get
+# Epydoc to include class and method documentation
+__all__ = ('LatLonSphericalBase',)
+__version__ = '17.02.07'
 
 
-class _LatLonSphericalBase(_LatLonHeightBase):
-    '''Private class containing methods shared between the
-       sphericalNvector and -Trig flavors.  Otherwise, such
-       methods would have to be duplicated in both flavors.
+class LatLonSphericalBase(LatLonHeightBase):
+    '''(INTERNAL) Base class for spherical Latlons.
     '''
-
-    _datum = Datums.Sphere  # XXX TBD
+    _datum = Datums.Sphere  #: (INTERNAL) XXX TBD
 
     @property
     def datum(self):
-        '''Get this point's datum.
+        '''Get this point's datum (L{Datum}).
         '''
         return self._datum
 
@@ -37,16 +38,16 @@ class _LatLonSphericalBase(_LatLonHeightBase):
     def datum(self, datum):
         '''Set this point's datum without conversion.
 
-           @param {Datum} datum - New datum.
+           @param datum: New datum (L{Datum}).
 
-           @throws {TypeError} If datum is not a Datum.
-           @throws {ValueError} If datum.ellipsoid is not spherical.
+           @raise TypeError: If L{datum} is not a L{Datum}.
+           @raise ValueError: If L{datum} is not spherical.
         '''
         if not isinstance(datum, Datum):
             raise TypeError('%r not a %s: %r' % ('datum', Datum.__name__, datum))
         E = datum.ellipsoid
-        if not E.a == E.b == E.R:
-            raise ValueError('%r not %s: %r' % ('datum', 'spherical', E))
+        if E.isellipsoidal():
+            raise ValueError('%r not %s: %r' % ('datum', 'spherical', datum))
         self._update(datum != self._datum)
         self._datum = datum
 
@@ -54,11 +55,11 @@ class _LatLonSphericalBase(_LatLonHeightBase):
         '''Return the final bearing (reverse azimuth) from this
            to an other point, in compass degrees from North.
 
-           @param {LatLon} other - The other point.
+           @param other: The other point (L{LatLonSphericalBase}).
 
-           @returns {degrees360} Final bearing in degrees from North.
+           @return: Final bearing from North (degrees).
 
-           @example
+           @example:
            p = LatLon(52.205, 0.119)
            q = LatLon(48.857, 2.351)
            b = p.finalBearingTo(q)  # 157.9
@@ -79,12 +80,12 @@ class _LatLonSphericalBase(_LatLonHeightBase):
            The maximum latitude is independent of longitude,
            it is the same for all points on a given latitude.
 
-           Negate the result for the minimum latitude (in
+           Negate the result for the minimum latitude (on
            the Southern hemisphere).
 
-           @param {degrees} bearing - Initial bearing in degrees.
+           @param bearing: Initial bearing from North (degrees).
 
-           @returns {degrees90} Maximum latitude in degrees.
+           @return: Maximum latitude (degrees90).
         '''
         m = acos(abs(sin(radians(bearing)) * cos(radians(self.lat))))
         return degrees90(m)
@@ -94,11 +95,11 @@ class _LatLonSphericalBase(_LatLonHeightBase):
     def minLat(self, bearing):
         '''Returns minimum latitude reached when travelling
            on a great circle on given bearing from this
-           point.  See method maxLat for more details.
+           point.  See method L{maxLat} for more details.
 
-           @param {degrees} bearing - Initial bearing in degrees.
+           @param bearing: Initial bearing from North (degrees).
 
-           @returns {degrees90} Minimum latitude in degrees.
+           @return: Minimum latitude (degrees90).
         '''
         return -self.maxLat(bearing)
 
@@ -114,21 +115,24 @@ class _LatLonSphericalBase(_LatLonHeightBase):
            may be swapped, provided at least one ends with the
            proper compass direction.
 
-           For more details, see functions parse3llh and parseDMS
-           in module dms.
+           For more details, see functions L{parse3llh} and L{parseDMS}
+           in module L{dms}.
 
-           @param {string} strll - Latitude, longitude [, height].
-           @param {meter} [height=0] - Default height in meter.
-           @param {string} [sep=','] - Separator.
+           @param strll: Lat, lon [, height] (string).
+           @keyword height: Default height (meter).
+           @keyword sep: Separator (string).
 
-           @returns {LatLon} Point for the location.
+           @return: The point (L{LatLonSphericalBase}).
 
-           @throws {ValueError} Invalid strll.
+           @raise ValueError: Invalid L{strll}.
         '''
-        return self.Top(*parse3llh(strll, height=height, sep=sep))
+        return self.topsub(*parse3llh(strll, height=height, sep=sep))
 
     def _rhumb3(self, other):
-        # rhumb_ helper function
+        '''(INTERNAL) Rhumb_ helper function.
+
+           @param other: The other point (L{LatLonSphericalBase}).
+        '''
         self.others(other)
 
         a1 = radians(self.lat)
@@ -144,11 +148,11 @@ class _LatLonSphericalBase(_LatLonHeightBase):
            to an other point along a rhumb (loxodrome) line, in
            compass degrees from North.
 
-           @param {LatLon} other - The other LatLon point.
+           @param other: The other point (L{LatLonSphericalBase}).
 
-           @returns {degrees360} Initial bearing in degrees from North.
+           @return: Initial bearing from North (degrees).
 
-           @example
+           @example:
            p = LatLon(51.127, 1.338)
            q = LatLon(50.964, 1.853)
            b = p.rhumbBearingTo(q)  # 116.7
@@ -161,14 +165,12 @@ class _LatLonSphericalBase(_LatLonHeightBase):
         '''Returns distance from this to an other point along
            a rhumb (loxodrome) line.
 
-           @param {LatLon} other - the other LatLon point.
-           @param {number} [radius=R_M] - Mean radius of earth,
-                                          defaults to meter.
+           @param other: The other point (L{LatLonSphericalBase}).
+           @keyword radius: Mean radius of earth (scalar, default meter).
 
-           @returns {number} Distance between this and the other
-                             point (in the same units as radius).
+           @return: Distance (in the same units as radius).
 
-           @example
+           @example:
            p = LatLon(51.127, 1.338)
            q = LatLon(50.964, 1.853)
            d = p.rhumbDistanceTo(q)  # 403100
@@ -191,11 +193,11 @@ class _LatLonSphericalBase(_LatLonHeightBase):
         '''Return the loxodromic midpoint between this and
            an other point.
 
-           @param {LatLon} other - the other LatLon point.
+           @param other: The other point (L{LatLonSphericalBase}).
 
-           @returns {LatLon} Midpoint between both points.
+           @return: The midpoint (L{LatLonSphericalBase}).
 
-           @example
+           @example:
            p = LatLon(51.127, 1.338)
            q = LatLon(50.964, 1.853)
            m = p.rhumb_midpointTo(q)
@@ -223,7 +225,7 @@ class _LatLonSphericalBase(_LatLonHeightBase):
                     b3 = (b1 * log(f2) -
                           b2 * log(f1) + (b2 - b1) * log(f3)) / f
 
-        return self.Top(degrees90(a3), degrees180(b3), height=self._alter(other))
+        return self.topsub(degrees90(a3), degrees180(b3), height=self._alter(other))
 
 # **) MIT License
 #

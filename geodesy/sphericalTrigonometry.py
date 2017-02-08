@@ -1,13 +1,17 @@
 
 # -*- coding: utf-8 -*-
 
-# Python implementation of geodetic (lat-/longitude) functions using
-# spherical trigonometry.  Transcribed from JavaScript originals by
-# (C) Chris Veness 2011-2016 published under the same MIT Licence**,
-# see <http://www.movable-type.co.uk/scripts/latlong.html>
+'''Trigonometric spherical geodetic (lat-longitude) class L{LatLon}
+and function L{meanOf}.
+
+Python implementation of geodetic (lat-/longitude) methods using
+spherical trigonometry.  Transcribed from JavaScript originals by
+I{(C) Chris Veness 2011-2016} published under the same MIT Licence**,
+see U{http://www.movable-type.co.uk/scripts/latlong.html}.
+'''
 
 from datum import R_M
-from sphericalBase import _LatLonSphericalBase
+from sphericalBase import LatLonSphericalBase
 from utils import EPS, EPS1, EPS2, PI2, PI_2, \
                   degrees90, degrees180, degrees360, \
                   fsum, isscalar, len2, radians, sin_2, wrapPI
@@ -17,40 +21,36 @@ from math import acos, asin, atan2, cos, hypot, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('LatLon',  # classes
            'meanOf')  # functions
-__version__ = '17.02.01'
+__version__ = '17.02.07'
 
 
-class LatLon(_LatLonSphericalBase):
-    '''Create a LatLon point on spherical model earth.
+class LatLon(LatLonSphericalBase):
+    '''New point on spherical model earth model.
 
-       @classdesc Tools for working with points and paths
-       on (a spherical model of) the earth's surface using
-       spherical trigonometry.
-
-       @constructor
-       @param {number} lat - Latitude in degrees.
-       @param {number} lon - Longitude in degrees.
-
-       @example
+       @example:
        p = LatLon(52.205, 0.119)  # height=0
     '''
 
     _v3d = None  # cache Vector3d
 
     def _update(self, updated):
+        '''(INTERNAL) Clear caches if updated.
+        '''
         if updated:  # reset caches
             self._v3d = None
-#           _LatLonHeightBase._update(self, updated)
+#           LatLonSphericalBase._update(self, updated)
 
     def bearingTo(self, other):
-        '''Return the initial bearing (forward azimuth) from this
-           to an other point, in compass degrees from North.
+        '''Computes the initial bearing (forward azimuth) from this
+           to an other point (in compass degrees from North).
 
-           @param {LatLon} other - The other LatLon point.
+           @param other: The other point (L{LatLon}).
 
-           @returns {degrees360} Initial bearing in degrees from North.
+           @return: Initial compass bearing (degrees).
 
-           @example
+           @raise TypeError: If L{other} is not L{LatLon}.
+
+           @example:
            p1 = LatLon(52.205, 0.119)
            p2 = LatLon(48.857, 2.351)
            b = p1.bearingTo(p2)  # 156.2
@@ -72,13 +72,11 @@ class LatLon(_LatLonSphericalBase):
         '''Return the pair of meridians at which a great circle defined
            by this and an other point crosses the given latitude.
 
-           @param {LatLon} point1 - First point defining great circle.
-           @param {LatLon} point2 - Second point defining great circle.
-           @param {degrees} lat - Latitude at the crossings.
+           @param other: The other point defining great circle (L{LatLon}).
+           @param lat: Latitude at the crossing (degrees).
 
-           @returns {(degrees180, degrees180)} 2-Tuple of the meridians.
-           @returns {None} If the great circle doesn't reach the given
-                           latitude.
+           @return: 2-Tuple (lon1, lon2) in (degrees180, ...) or None if
+                    the great circle doesn't reach the given latitude.
         '''
         self.others(other)
 
@@ -108,18 +106,17 @@ class LatLon(_LatLonSphericalBase):
         return degrees180(bm - bi), degrees180(bm + bi)
 
     def crossTrackDistanceTo(self, start, end, radius=R_M):
-        '''Return (signed) distance from this point to great circle
+        '''Returns (signed) distance from this point to great circle
            defined by a start and end point.
 
-           @param {LatLon} start - Start point of great circle path.
-           @param {LatLon} end - End point of great circle path.
-           @param {number} [radius=R_M] - Mean radius of earth,
-                                          defaults to meter.
+           @param start: Start point of great circle path (L{LatLon}).
+           @param end: End point of great circle path (L{LatLon}).
+           @keyword radius: Mean earth radius (meter).
 
-           @returns {number} Distance to great circle (negative if to
-                             left or positive if to right of path).
+           @return: Distance to great circle (negative if to the
+                    left or positive if to the right of the path).
 
-           @example
+           @example:
            p = LatLon(53.2611, -0.7972)
 
            s = LatLon(53.3206, -1.7297)
@@ -138,18 +135,16 @@ class LatLon(_LatLonSphericalBase):
         return asin(sin(r) * sin(b - e)) * radius
 
     def destination(self, distance, bearing, radius=R_M):
-        '''Return the destination LatLon from this point after having
+        '''Locates the destination from this point after having
            travelled the given distance on the given initial bearing.
 
-           @param {number} distance - Distance travelled (in same units
-                                      as the given earth radius).
-           @param {degrees} bearing - Initial bearing in degrees from North.
-           @param {number} [radius=R_M] - Mean radius of earth (default
-                                          the WGS84 mean in meter).
+           @param distance: Distance travelled (same units radius).
+           @param bearing: Initial compass bearing (degrees).
+           @keyword radius: Mean earth radius (meter).
 
-           @returns {LatLon} Destination point.
+           @return: Destination point (L{LatLon}).
 
-           @example
+           @example:
            p1 = LatLon(51.4778, -0.0015)
            p2 = p1.destination(7794, 300.7)
            p2.toStr()  # '51.5135°N, 000.0983°W'
@@ -170,16 +165,15 @@ class LatLon(_LatLonSphericalBase):
     destinationPoint = destination  # XXX original name
 
     def distanceTo(self, other, radius=R_M):
-        '''Returns distance from this to an other point.
+        '''Computes the distance from this to an other point.
 
-           @param {LatLon} other - the other LatLon point.
-           @param {number} [radius=R_M] - Mean radius of earth (default
-                                          the WGS84 mean in meter).
+           @param other: The other point (L{LatLon}).
+           @keyword radius: Mean earth radius (meter).
 
-           @returns {number} Distance between this and the other point
+           @return: Distance between this and the other point
                              (in the same units as radius).
 
-           @example
+           @example:
            p1 = LatLon(52.205, 0.119)
            p2 = LatLon(48.857, 2.351);
            d = p1.distanceTo(p2)  # 404300
@@ -200,15 +194,17 @@ class LatLon(_LatLonSphericalBase):
         return c * float(radius)
 
     def greatCircle(self, bearing):
-        '''Great circle heading on given bearing from this point.
+        '''Computes vector normal to great circle obtained by heading
+           on the given compass bearing from this point.
 
-           Direction of vector is such that initial bearing vector b = c x p.
+           Direction of vector is such that initial bearing vector
+           b = c x p, where p is a vector representing this point.
 
-           @param {degrees} bearing - Compass bearing in degrees from North.
+           @param bearing: Compass bearing (degrees).
 
-           @returns {Vector3d} Normalised vector representing great circle.
+           @return: Vector representing great circle (L{Vector3d}).
 
-           @example
+           @example:
            p = LatLon(53.3206, -1.7297)
            g = p.greatCircle(96.0)
            g.toStr()  # (-0.794, 0.129, 0.594)
@@ -225,16 +221,16 @@ class LatLon(_LatLonSphericalBase):
                         ca * st)  # XXX .unit()?
 
     def intermediateTo(self, other, fraction):
-        '''Returns the point at given fraction between this and
+        '''Locates the point at given fraction between this and
            an other point.
 
-           @param {LatLon} other - The other point.
-           @param {number} fraction - Fraction between both points, 0
-                                      for this or 1 for other point.
+           @param other: The other point (L{LatLon}).
+           @param fraction: Fraction between both points (float, 0.0 =
+                            this point, 1.0 = the other point).
 
-           @returns {LatLon} Intermediate point.
+           @return: Intermediate point (L{LatLon}).
 
-           @example
+           @example:
            p1 = LatLon(52.205, 0.119)
            p2 = LatLon(48.857, 2.351)
            p = p1.intermediateTo(p2, 0.25)  # 51.3721°N, 000.7073°E
@@ -278,20 +274,20 @@ class LatLon(_LatLonSphericalBase):
 
     def intersection(self, bearing, start2, bearing2):
         '''Return the intersection point of two paths each defined
-           by a start point and initial bearing.
+           by a start point and an initial bearing.
 
-           @param {degrees} bearing - Initial bearing from this point.
-           @param {LatLon} start2 - Start point of second path.
-           @param {degrees} bearing2 - Initial bearing from start2.
+           @param bearing: Initial compass bearing from this point (degrees).
+           @param start2: Start point of second path (L{LatLon}).
+           @param bearing2 - Initial compass bearing from start2 (degrees).
 
-           @returns {LatLon} Intersection point.
+           @return: Intersection point (L{LatLon}).
 
-           @throws {TypeError} Point start2 is not a LatLon.
+           @raise TypeError: Point L{start2} is not a L{LatLon}.
 
-           @throws {ValueError} Intersection is ambiguous or infinite
-                                or the paths are parallel or coincide.
+           @raise ValueError: Intersection is ambiguous or infinite
+                              or the paths are parallel or coincide.
 
-           @example
+           @example:
            p = LatLon(51.8853, 0.2545)
            s = LatLon(49.0034, 2.5735)
            i = p.intersection(108.547, s, 32.435)  # '50.9078°N, 004.5084°E'
@@ -347,18 +343,18 @@ class LatLon(_LatLonSphericalBase):
         return LatLon(degrees90(a3), degrees180(b3), height=self._alter(start2))
 
     def isEnclosedBy(self, points):
-        '''Test whether this point is enclosed by the polygon
-           defined by a list, set or tuple of points.
+        '''Tests whether this point is enclosed by the polygon
+           defined by a list, sequence, set or tuple of points.
 
-           @param {LatLon[]} points - Ordered set of points defining the
-                                      vertices of polygon.
+           @param points: Ordered set of points defining the vertices
+                          of the polygon (L{LatLon}[]).
 
-           @returns {bool} Whether this point is enclosed by the polygon.
+           @return: True if the polygon encloses this point (bool).
 
-           @throws {ValueError} If polygon is not convex or has too few
-                                points.
+           @raise ValueError: If polygon is not convex or has too few
+                              points.
 
-           @example
+           @example:
            b = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
            p = LatLon(45,1, 1.1)
            inside = p.isEnclosedBy(b)  # True
@@ -367,7 +363,7 @@ class LatLon(_LatLonSphericalBase):
         if n > 0 and points[0].equals(points[n-1]):
             n -= 1
         if n < 3:
-            raise ValueError('too few polygon points: %s' % (n,))
+            raise ValueError('too few points: %s' % (n,))
 
         # get great-circle vector for each edge
         gc, v2 = [], points[n-1].toVector3d()
@@ -407,12 +403,13 @@ class LatLon(_LatLonSphericalBase):
     isWithinExtent = isWithin  # XXX original name
 
     def midpointTo(self, other):
-        '''Return the midpoint between this and an other point.
+        '''Finds the midpoint between this and an other point.
 
-           @param {LatLon} other - the other LatLon point.
-           @returns {LatLon} Midpoint between both points.
+           @param other: The other point (L{LatLon}).
 
-           @example
+           @return: Midpoint (L{LatLon}).
+
+           @example:
            p1 = LatLon(52.205, 0.119)
            p2 = LatLon(48.857, 2.351)
            m = p1.midpointTo(p2)  # '50.5363°N, 001.2746°E'
@@ -441,9 +438,9 @@ class LatLon(_LatLonSphericalBase):
     nearestPointOnSegment = nearestOn  # XXX original name
 
     def toVector3d(self):
-        '''Converts this point to a Vector3d (normal to earth's surface).
+        '''Converts this point to a vector normal to earth's surface.
 
-           @returns {Vector3d} Normalised n-vector representing LatLon point.
+           @return: Vector representing this point (L{Vector3d}).
         '''
         if self._v3d is None:
             x, y, z = self.to3xyz()
@@ -451,19 +448,27 @@ class LatLon(_LatLonSphericalBase):
         return self._v3d
 
 
-def meanOf(points):
-    '''Return the geographic mean of the supplied points.
+def meanOf(points, height=None):
+    '''Computes the geographic mean of the supplied points.
 
-       @param {LatLon[]} points - Array of LatLon pionts to be averaged.
+       @param points: Points to be averaged (L{LatLon}[]).
+       @keyword height: Height to use inlieu of mean (meter).
 
-       @returns {LatLon} Point at the geographic mean and mean height.
+       @return: Point at geographic mean and mean height (L{LatLon}).
+
+       @raise ValueError: If no L{points}.
     '''
     # geographic mean
     n, points = len2(points)
+    if n < 1:
+        raise ValueError('no points: %r' & (n,))
     m = sumOf(p.Vector3d() for p in points)
-    lat, lon = m.to2ll()
-    h = fsum(p.height for p in points) / (n or 1)
-    return LatLon(lat, lon, height=h)
+    a, b = m.to2ll()
+    if height is None:
+        h = fsum(p.height for p in points) / n
+    else:
+        h = height
+    return LatLon(a, b, height=h)
 
 # **) MIT License
 #

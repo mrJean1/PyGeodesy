@@ -1,12 +1,15 @@
 
 # -*- coding: utf-8 -*-
 
-# Python implementation of n-vector-based geodesy tools for an
-# ellipsoidal earth model.  Transcribed from JavaScript originals by
-# (C) Chris Veness 2005-2016 and published under the same MIT Licence**,
-# see <http://www.movable-type.co.uk/scripts/latlong-vectors.html>
+'''N-vector base class L{Nvector} and function L{sumOf}.
 
-from bases import _LatLonHeightBase
+Python implementation of n-vector-based geodesy tools for an
+ellipsoidal earth model.  Transcribed from JavaScript originals by
+I{(C) Chris Veness 2005-2016} and published under the same MIT Licence**,
+see U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
+'''
+
+from bases import LatLonHeightBase
 from utils import fsum, len2
 from vector3d import Vector3d, sumOf as _sumOf
 # from math import cos, sin
@@ -15,26 +18,26 @@ from vector3d import Vector3d, sumOf as _sumOf
 __all__ = ('NorthPole', 'SouthPole',  # constants
            'Nvector',  # classes
            'sumOf')  # functions
-__version__ = '17.02.01'
+__version__ = '17.02.07'
 
 
 class Nvector(Vector3d):  # XXX kept private
-    '''Base class for ellipsoidal and spherical Nvector.
+    '''Base class for ellipsoidal and spherical L{Nvector}.
     '''
-    _h = 0
+    _h = 0     #: (INTERNAL) Height (meter).
 
-    H = ''  # or '↑' XXX
+    H = ''  #: Heigth prefix (string) or '↑' XXX
 
     def __init__(self, x, y, z, h=0):
-        '''Create an n-vector normal to the earth's surface.
+        '''New n-vector normal to the earth's surface.
 
-           @param {number} x - X component.
-           @param {number} y - Y component.
-           @param {number} z - Z component.
-           @param {number} [h=0] - Height above surface in meter.
+           @param x: X component (scalar).
+           @param y: Y component (scalar).
+           @param z: Z component (scalar).
+           @keyword h: Height above surface (meter).
 
-           @example
-           from ellipsoidalNvector import Nvector
+           @example:
+           from sphericalNvector import Nvector
            v = Nvector(0.5, 0.5, 0.7071, 1)
            v.toLatLon()  # 45.0°N, 045.0°E, +1.00m
         '''
@@ -45,7 +48,7 @@ class Nvector(Vector3d):  # XXX kept private
     def copy(self):
         '''Copy this vector.
 
-           @returns {Nvector} Copy of this vector.
+           @return: Copy (L{Nvector}).
         '''
         n = Vector3d.copy(self)
         if n.h != self.h:
@@ -54,13 +57,15 @@ class Nvector(Vector3d):  # XXX kept private
 
     @property
     def h(self):
-        '''Height above surface in meter.
+        '''Get the height above surface (meter).
         '''
         return self._h
 
     @h.setter  # PYCHOK setter!
     def h(self, h):
-        '''Set height above surface in meter.
+        '''Set height above surface.
+
+           @param h: Height (meter).
         '''
         self._update(h != self._h)
         self._h = h
@@ -69,16 +74,15 @@ class Nvector(Vector3d):  # XXX kept private
         '''Convert this n-vector to (geodetic) lat-, longitude
            and height.
 
-           @returns {(degrees90, degrees180, meter)} 3-Tuple of
-                 (lat, lon, height) equivalent to this n-vector.
+           @return: 3-Tuple (lat, lon, height) in (degrees90,
+                    degrees180, meter).
         '''
         return Vector3d.to2ll(self) + (self.h,)
 
     def to4xyzh(self):
         '''Return this n-vector as a 4-tuple.
 
-           @returns {(x, y, z, h)} 4-Tuple with the components of
-                                   this n-vector.
+           @return: 4-Tuple (x, y, z, h) in (meter, ...).
         '''
         return self.x, self.y, self.z, self.h
 
@@ -87,13 +91,13 @@ class Nvector(Vector3d):  # XXX kept private
 
            Height component is only included if non-zero.
 
-           @param {number} [prec=5] - Number of decimals, unstripped.
-           @param {string} [fmt='[%s]'] - Enclosing backets format.
-           @param {string} [sep=', '] - Separator between components.
+           @keyword prec: Number of decimals, unstripped (int).
+           @keyword fmt: Enclosing backets format (string).
+           @keyword sep: Separator between components (string).
 
-           @returns {string} Comma-separated x, y, z [, h] values.
+           @return: Comma-separated "x, y, z [, h]" (string).
 
-           @example
+           @example:
            Nvector(0.5, 0.5, 0.7071).toStr()  # (0.5, 0.5, 0.7071)
            Nvector(0.5, 0.5, 0.7071, 1).toStr(-3)  # (0.500, 0.500, 0.707, +1.00)
         '''
@@ -105,7 +109,7 @@ class Nvector(Vector3d):  # XXX kept private
     def unit(self):
         '''Normalize this vector to unit length.
 
-           @returns {Nvector} Normalised vector.
+           @return: Normalised, unit vector (L{Nvector}).
         '''
         if self._united is None:
             u = Vector3d.unit(self).copy()
@@ -115,47 +119,53 @@ class Nvector(Vector3d):  # XXX kept private
         return self._united
 
 
-NorthPole = Nvector(0, 0, +1)
-SouthPole = Nvector(0, 0, -1)
+NorthPole = Nvector(0, 0, +1)  #: North pole (L{Nvector}).
+SouthPole = Nvector(0, 0, -1)  #: South pole (L{Nvector}).
 
 
-class _LatLonNvectorBase(_LatLonHeightBase):
-    '''Base class for n-vector-based ellipsoidal and spherical LatLon.
+class LatLonNvectorBase(LatLonHeightBase):
+    '''(INTERNAL) Base class for n-vector-based ellipsoidal
+        and spherical LatLon.
     '''
 
     def others(self, other, name='other'):
         '''Refine class comparison.
+
+           @param other: The other point (L{LatLon}).
+           @keyword name: Other's name (string).
+
+           @raise TypeError: For type mismatch.
         '''
         try:
-            _LatLonHeightBase.others(self, other, name=name)
+            LatLonHeightBase.others(self, other, name=name)
         except TypeError:
             if not isinstance(other, Nvector):
                 raise
 
     def to4xyzh(self):
-        '''Convert this (geodetic) LatLon point to n-vector (normal
+        '''Convert this (geodetic) point to n-vector (normal
            to the earth's surface) x/y/z components and height.
 
-           @returns {(meter, meter, meter, meter)} 4-Tuple (x, y, z, h).
+           @return: 4-Tuple (x, y, z, h) in (meter, ...).
         '''
         # Kenneth Gade eqn (3), but using right-handed
         # vector x -> 0°E,0°N, y -> 90°E,0°N, z -> 90°N
 #       a, b = self.toradians()
 #       ca = cos(a)
 #       x, y, z = ca * cos(b), ca * sin(b), sin(a)
-        return _LatLonHeightBase.to3xyz(self) + (self.height,)
+        return LatLonHeightBase.to3xyz(self) + (self.height,)
 
 
 def sumOf(nvectors, Vector=Nvector, **kwds):
     '''Return the vectorial sum of any number of n-vectors.
 
-       @param {Nvector[]} nvectors - The n-vectors to be added.
-       @param {Nvector} Vector - Vector class to instantiate.
-       @param kwds - Optional, additional Vector keyword arguments.
+       @param nvectors: Vectors to be added (L{Nvector}[]).
+       @keyword Vector: Vector class to instantiate (L{Nvector}).
+       @keyword kwds: Optional, additional Vector keyword argments.
 
-       @returns {Vector} Vectorial sum.
+       @return: Vectorial sum (Vector).
 
-       @throws {ValueError} No nvectors.
+       @raise ValueError: No L{nvectors}.
     '''
     n, nvectors = len2(nvectors)
     if n < 1:

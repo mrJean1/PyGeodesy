@@ -1,0 +1,1431 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>geodesy.sphericalNvector.LatLon</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="geodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="rl=https://github.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="geodesy-module.html">Package&nbsp;geodesy</a> ::
+        <a href="geodesy.sphericalNvector-module.html">Module&nbsp;sphericalNvector</a> ::
+        Class&nbsp;LatLon
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="geodesy.sphericalNvector.LatLon-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class LatLon</h1><p class="nomargin-top"></p>
+<pre class="base-tree">
+               object --+            
+                        |            
+               <a href="geodesy.bases.Base-class.html">bases.Base</a> --+        
+                            |        
+       <a href="geodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a> --+    
+                                |    
+        nvector.LatLonNvectorBase --+
+                                    |
+               object --+           |
+                        |           |
+               <a href="geodesy.bases.Base-class.html">bases.Base</a> --+       |
+                            |       |
+       <a href="geodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a> --+   |
+                                |   |
+<a href="geodesy.sphericalBase.LatLonSphericalBase-class.html">sphericalBase.LatLonSphericalBase</a> --+
+                                    |
+                                   <strong class="uidshort">LatLon</strong>
+</pre>
+
+<hr />
+<p>New n-vector based point on spherical earth model.</p>
+  <p>Tools for working with points and paths on (a spherical model of) the 
+  earth's surface using vector-based methods.</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Instance Methods</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="geodesy.sphericalNvector.LatLon-class.html#bearingTo" class="summary-sig-name">bearingTo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>)</span><br />
+      Computes the initial bearing (forward azimuth) from this to an other 
+      point (in compass degrees from North).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="geodesy.sphericalNvector.LatLon-class.html#crossTrackDistanceTo" class="summary-sig-name">crossTrackDistanceTo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">start</span>,
+        <span class="summary-sig-arg">end</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77142</span>)</span><br />
+      Returns (signed) distance from this point to great circle defined by 
+      a start and end point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="geodesy.sphericalNvector.LatLon-class.html#destination" class="summary-sig-name">destination</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">distance</span>,
+        <span class="summary-sig-arg">bearing</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77142</span>)</span><br />
+      Locates the destination from this point after having travelled the 
+      given distance on the given initial bearing.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="geodesy.sphericalNvector.LatLon-class.html#destinationPoint" class="summary-sig-name">destinationPoint</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">distance</span>,
+        <span class="summary-sig-arg">bearing</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77142</span>)</span><br />
+      Locates the destination from this point after having travelled the 
+      given distance on the given initial bearing.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="geodesy.sphericalNvector.LatLon-class.html#distanceTo" class="summary-sig-name">distanceTo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77142</span>)</span><br />
+      Computes the distance from this to an other point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="geodesy.sphericalNvector.LatLon-class.html#greatCircle" class="summary-sig-name">greatCircle</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">bearing</span>)</span><br />
+      Computes vector normal to great circle obtained by heading on the 
+      given compass bearing from this point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="geodesy.sphericalNvector.LatLon-class.html#greatCircleTo" class="summary-sig-name">greatCircleTo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>)</span><br />
+      Vector normal to great circle obtained by heading from this point to 
+      another point on a given compass bearing from this point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="geodesy.sphericalNvector.LatLon-class.html#intermediateChordTo" class="summary-sig-name">intermediateChordTo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">fraction</span>)</span><br />
+      Locates the point projected from the point at given fraction on a 
+      straight line (chord) between this and an other point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="geodesy.sphericalNvector.LatLon-class.html#intermediatePointDirectlyTo" class="summary-sig-name">intermediatePointDirectlyTo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">fraction</span>)</span><br />
+      Locates the point projected from the point at given fraction on a 
+      straight line (chord) between this and an other point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="geodesy.sphericalNvector.LatLon-class.html#intermediateTo" class="summary-sig-name">intermediateTo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">fraction</span>)</span><br />
+      Locates the point at a given fraction between this and an other 
+      point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="geodesy.sphericalNvector.LatLon-class.html#intermediatePointTo" class="summary-sig-name">intermediatePointTo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">fraction</span>)</span><br />
+      Locates the point at a given fraction between this and an other 
+      point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="geodesy.sphericalNvector.LatLon-class.html#intersection" class="summary-sig-name">intersection</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">end1</span>,
+        <span class="summary-sig-arg">start2</span>,
+        <span class="summary-sig-arg">end2</span>)</span><br />
+      Locates the point of intersection of two paths each defined by two 
+      points or a start point and bearing from North.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="geodesy.sphericalNvector.LatLon-class.html#isEnclosedBy" class="summary-sig-name">isEnclosedBy</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">points</span>)</span><br />
+      Tests whether this point is enclosed by the polygon defined by a 
+      list, sequence, set or tuple of points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="geodesy.sphericalNvector.LatLon-class.html#enclosedBy" class="summary-sig-name">enclosedBy</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">points</span>)</span><br />
+      Tests whether this point is enclosed by the polygon defined by a 
+      list, sequence, set or tuple of points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="geodesy.sphericalNvector.LatLon-class.html#isWithin" class="summary-sig-name">isWithin</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">point1</span>,
+        <span class="summary-sig-arg">point2</span>)</span><br />
+      Tests whether this point is within the extent of a segment joining 
+      two other points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="geodesy.sphericalNvector.LatLon-class.html#isWithinExtent" class="summary-sig-name">isWithinExtent</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">point1</span>,
+        <span class="summary-sig-arg">point2</span>)</span><br />
+      Tests whether this point is within the extent of a segment joining 
+      two other points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="geodesy.sphericalNvector.LatLon-class.html#midpointTo" class="summary-sig-name">midpointTo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>)</span><br />
+      Finds the midpoint between this and an other point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="geodesy.sphericalNvector.LatLon-class.html#nearestOn" class="summary-sig-name">nearestOn</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">point1</span>,
+        <span class="summary-sig-arg">point2</span>)</span><br />
+      Locates the point closest on great circle segment between two points 
+      and this point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="geodesy.sphericalNvector.LatLon-class.html#nearestPointOnSegment" class="summary-sig-name">nearestPointOnSegment</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">point1</span>,
+        <span class="summary-sig-arg">point2</span>)</span><br />
+      Locates the point closest on great circle segment between two points 
+      and this point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="geodesy.sphericalNvector.LatLon-class.html#toNvector" class="summary-sig-name">toNvector</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Converts this (geodetic) point to a (spherical) n-vector (normal to 
+      the earth's surface).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="geodesy.sphericalNvector.LatLon-class.html#triangulate" class="summary-sig-name">triangulate</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">bearing1</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">bearing2</span>)</span><br />
+      Locates a point given this and an other point and bearings at this 
+      and the other point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="geodesy.sphericalNvector.LatLon-class.html#trilaterate" class="summary-sig-name">trilaterate</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">distance1</span>,
+        <span class="summary-sig-arg">other2</span>,
+        <span class="summary-sig-arg">distance2</span>,
+        <span class="summary-sig-arg">other3</span>,
+        <span class="summary-sig-arg">distance3</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77142</span>)</span><br />
+      Locates a point at given distances from this and two other points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>nvector.LatLonNvectorBase</code></b>:
+      <code>others</code>,
+      <code>to4xyzh</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="geodesy.sphericalBase.LatLonSphericalBase-class.html">sphericalBase.LatLonSphericalBase</a></code></b>:
+      <code><a href="geodesy.sphericalBase.LatLonSphericalBase-class.html#finalBearingTo">finalBearingTo</a></code>,
+      <code><a href="geodesy.sphericalBase.LatLonSphericalBase-class.html#maxLat">maxLat</a></code>,
+      <code><a href="geodesy.sphericalBase.LatLonSphericalBase-class.html#maxLatitude">maxLatitude</a></code>,
+      <code><a href="geodesy.sphericalBase.LatLonSphericalBase-class.html#minLat">minLat</a></code>,
+      <code><a href="geodesy.sphericalBase.LatLonSphericalBase-class.html#minLatitude">minLatitude</a></code>,
+      <code><a href="geodesy.sphericalBase.LatLonSphericalBase-class.html#parse">parse</a></code>,
+      <code><a href="geodesy.sphericalBase.LatLonSphericalBase-class.html#rhumbBearingTo">rhumbBearingTo</a></code>,
+      <code><a href="geodesy.sphericalBase.LatLonSphericalBase-class.html#rhumbDistanceTo">rhumbDistanceTo</a></code>,
+      <code><a href="geodesy.sphericalBase.LatLonSphericalBase-class.html#rhumbMidpointTo">rhumbMidpointTo</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="geodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a></code></b>:
+      <code><a href="geodesy.bases.LatLonHeightBase-class.html#__eq__">__eq__</a></code>,
+      <code><a href="geodesy.bases.LatLonHeightBase-class.html#__init__">__init__</a></code>,
+      <code><a href="geodesy.bases.LatLonHeightBase-class.html#__ne__">__ne__</a></code>,
+      <code><a href="geodesy.bases.LatLonHeightBase-class.html#__str__">__str__</a></code>,
+      <code><a href="geodesy.bases.LatLonHeightBase-class.html#copy">copy</a></code>,
+      <code><a href="geodesy.bases.LatLonHeightBase-class.html#equals">equals</a></code>,
+      <code><a href="geodesy.bases.LatLonHeightBase-class.html#to3xyz">to3xyz</a></code>,
+      <code><a href="geodesy.bases.LatLonHeightBase-class.html#toStr">toStr</a></code>,
+      <code><a href="geodesy.bases.LatLonHeightBase-class.html#toradians">toradians</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="geodesy.bases.Base-class.html">bases.Base</a></code></b>:
+      <code><a href="geodesy.bases.Base-class.html#__repr__">__repr__</a></code>,
+      <code><a href="geodesy.bases.Base-class.html#notImplemented">notImplemented</a></code>,
+      <code><a href="geodesy.bases.Base-class.html#toStr2">toStr2</a></code>,
+      <code><a href="geodesy.bases.Base-class.html#topsub">topsub</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__new__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Properties</span></td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="geodesy.sphericalBase.LatLonSphericalBase-class.html">sphericalBase.LatLonSphericalBase</a></code></b>:
+      <code><a href="geodesy.sphericalBase.LatLonSphericalBase-class.html#datum">datum</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="geodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a></code></b>:
+      <code><a href="geodesy.bases.LatLonHeightBase-class.html#height">height</a></code>,
+      <code><a href="geodesy.bases.LatLonHeightBase-class.html#lat">lat</a></code>,
+      <code><a href="geodesy.bases.LatLonHeightBase-class.html#lon">lon</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Method Details</span></td>
+</tr>
+</table>
+<a name="bearingTo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">bearingTo</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Computes the initial bearing (forward azimuth) from this to an other 
+  point (in compass degrees from North).</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Initial compass bearing (degrees).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <code class="link">other</code> is not <a 
+        href="geodesy.sphericalNvector.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="crossTrackDistanceTo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">crossTrackDistanceTo</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">start</span>,
+        <span class="sig-arg">end</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77142</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns (signed) distance from this point to great circle defined by a
+  start and end point.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>start</code></strong> - Start point of great circle path (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>end</code></strong> - End point of great circle path (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (meter).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Distance to great circle (negative if to the left or positive if 
+          to the right of the path).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="destination"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">destination</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">distance</span>,
+        <span class="sig-arg">bearing</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77142</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Locates the destination from this point after having travelled the 
+  given distance on the given initial bearing.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>distance</code></strong> - Distance travelled (same units radius).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Initial compass bearing (degrees).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (meter).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Destination point (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="destinationPoint"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">destinationPoint</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">distance</span>,
+        <span class="sig-arg">bearing</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77142</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Locates the destination from this point after having travelled the 
+  given distance on the given initial bearing.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>distance</code></strong> - Distance travelled (same units radius).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Initial compass bearing (degrees).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (meter).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Destination point (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="distanceTo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">distanceTo</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77142</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Computes the distance from this to an other point.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - the other point (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (meter).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Distance between this and the other point (in the same units as 
+          radius).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="greatCircle"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">greatCircle</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">bearing</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Computes vector normal to great circle obtained by heading on the 
+  given compass bearing from this point.</p>
+  <p>Direction of vector is such that initial bearing vector b = c x n, 
+  where n is an n-vector representing this point.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (degrees).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Normalised vector representing great circle (<a 
+          href="geodesy.sphericalNvector.Nvector-class.html" 
+          class="link">Nvector</a>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="greatCircleTo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">greatCircleTo</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Vector normal to great circle obtained by heading from this point to 
+  another point on a given compass bearing from this point.</p>
+  <p>Direction of vector is such that initial bearing vector b = c x n, 
+  where n is an n-vector representing this point.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>) or the bearing from this point 
+          (degrees).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Normalised vector representing great circle (<a 
+          href="geodesy.sphericalNvector.Nvector-class.html" 
+          class="link">Nvector</a>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="intermediateChordTo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">intermediateChordTo</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">fraction</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Locates the point projected from the point at given fraction on a 
+  straight line (chord) between this and an other point.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>fraction</code></strong> - Fraction between both points (float, 0.0 = this point, 1.0 = 
+          other point.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Intermediate point (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="intermediatePointDirectlyTo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">intermediatePointDirectlyTo</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">fraction</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Locates the point projected from the point at given fraction on a 
+  straight line (chord) between this and an other point.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>fraction</code></strong> - Fraction between both points (float, 0.0 = this point, 1.0 = 
+          other point.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Intermediate point (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="intermediateTo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">intermediateTo</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">fraction</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Locates the point at a given fraction between this and an other 
+  point.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>fraction</code></strong> - Fraction between both points (float, 0.0 = this point, 1.0 = 
+          other point).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Intermediate point (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="intermediatePointTo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">intermediatePointTo</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">fraction</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Locates the point at a given fraction between this and an other 
+  point.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>fraction</code></strong> - Fraction between both points (float, 0.0 = this point, 1.0 = 
+          other point).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Intermediate point (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="intersection"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">intersection</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">end1</span>,
+        <span class="sig-arg">start2</span>,
+        <span class="sig-arg">end2</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Locates the point of intersection of two paths each defined by two 
+  points or a start point and bearing from North.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>end1</code></strong> - End point of first path (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>) or the initial compass bearing at this 
+          point (degrees).</li>
+        <li><strong class="pname"><code>start2</code></strong> - Start point of the second path (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>end2</code></strong> - End point of second path (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>) or the initial compass bearing at the 
+          second point (degrees).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Intersection point (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>) or None if no unique intersection is 
+          defined.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Start or end points not <a 
+        href="geodesy.sphericalNvector.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isEnclosedBy"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isEnclosedBy</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">points</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Tests whether this point is enclosed by the polygon defined by a list,
+  sequence, set or tuple of points.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - Ordered set of points defining the vertices of the polygon (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>[]).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>True if the polygon encloses this point (bool).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - If polygon is not convex or has too few <code 
+        class="link">points</code>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="enclosedBy"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">enclosedBy</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">points</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Tests whether this point is enclosed by the polygon defined by a list,
+  sequence, set or tuple of points.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - Ordered set of points defining the vertices of the polygon (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>[]).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>True if the polygon encloses this point (bool).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - If polygon is not convex or has too few <code 
+        class="link">points</code>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isWithin"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isWithin</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">point1</span>,
+        <span class="sig-arg">point2</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Tests whether this point is within the extent of a segment joining two
+  other points.</p>
+  <p>If this point is not on the great circle defined by both points, 
+  return whether it is within the area bound by perpendiculars to the great
+  circle at each point (in the same hemispere).</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>point1</code></strong> - Start point of the segment (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>point2</code></strong> - End point of the segment (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>True if this point is within the segment (bool).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isWithinExtent"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isWithinExtent</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">point1</span>,
+        <span class="sig-arg">point2</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Tests whether this point is within the extent of a segment joining two
+  other points.</p>
+  <p>If this point is not on the great circle defined by both points, 
+  return whether it is within the area bound by perpendiculars to the great
+  circle at each point (in the same hemispere).</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>point1</code></strong> - Start point of the segment (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>point2</code></strong> - End point of the segment (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>True if this point is within the segment (bool).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="midpointTo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">midpointTo</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Finds the midpoint between this and an other point.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Midpoint (<a href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="nearestOn"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">point1</span>,
+        <span class="sig-arg">point2</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Locates the point closest on great circle segment between two points 
+  and this point.</p>
+  <p>If this point is within the extent of the segment between both end 
+  points, the returned point is on the segment. Otherwise the returned 
+  point is the closest of the segment end points.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>point1</code></strong> - Start point of the segment (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>point2</code></strong> - End point of the segment (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Closest point on segment (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="nearestPointOnSegment"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestPointOnSegment</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">point1</span>,
+        <span class="sig-arg">point2</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Locates the point closest on great circle segment between two points 
+  and this point.</p>
+  <p>If this point is within the extent of the segment between both end 
+  points, the returned point is on the segment. Otherwise the returned 
+  point is the closest of the segment end points.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>point1</code></strong> - Start point of the segment (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>point2</code></strong> - End point of the segment (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Closest point on segment (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toNvector"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toNvector</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Converts this (geodetic) point to a (spherical) n-vector (normal to 
+  the earth's surface).</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>N-vector representing this point (<a 
+          href="geodesy.sphericalNvector.Nvector-class.html" 
+          class="link">Nvector</a>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="triangulate"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">triangulate</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">bearing1</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">bearing2</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Locates a point given this and an other point and bearings at this and
+  the other point.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>bearing1</code></strong> - Compass bearing at this point (degrees).</li>
+        <li><strong class="pname"><code>other</code></strong> - The other point (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>bearing2</code></strong> - Compass bearing at the other point (degrees).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Triangulated point (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="trilaterate"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">trilaterate</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">distance1</span>,
+        <span class="sig-arg">other2</span>,
+        <span class="sig-arg">distance2</span>,
+        <span class="sig-arg">other3</span>,
+        <span class="sig-arg">distance3</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77142</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Locates a point at given distances from this and two other points.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>distance1</code></strong> - Distance to the this point (same units as radius).</li>
+        <li><strong class="pname"><code>other2</code></strong> - Second reference point (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>distance2</code></strong> - Distance to the second point (same units as radius).</li>
+        <li><strong class="pname"><code>other3</code></strong> - Third reference point (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>distance3</code></strong> - Distance to the third point (same units as radius).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (meter).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Triliterated point (<a 
+          href="geodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).
+          <p>See &lt;http://wikipedia.org/wiki/Trilateration&gt;</p></dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="geodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="rl=https://github.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Tue Feb  7 19:29:20 2017
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

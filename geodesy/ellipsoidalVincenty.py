@@ -1,57 +1,61 @@
 
 # -*- coding: utf-8 -*-
 
-# Python implementation of geodesy tools for an ellipsoidal earth model.
-# Transcribed from JavaScript originals by (C) Chris Veness 2005-2016
-# and published under the same MIT Licence**, see for example
-# <http://www.movable-type.co.uk/scripts/LatLongVincenty.html>,
-# <http://github.com/geopy> and <http://python.org/pypi/geopy>.
+'''Vincenty's ellipsoidal geodetic (lat-/longitude) and cartesian (x/y/z)
+classes L{LatLon}, L{Cartesian} and L{VincentyError}.
 
-# Calculate geodesic distance between two points using the Vincenty
-# methods <https://en.wikipedia.org/wiki/Vincenty's_formulae> and
-# one of several ellipsoid models of the earth.  The default model is
-# WGS-84, most accurate and widely used globally-applicable model for
-# the earth ellipsoid.
-#
-# Other ellipsoids offering a better fit to the local geoid include
-# Airy (1830) in the UK, Clarke (1880) in Africa, International 1924
-# in much of Europe, and GRS-67 in South America.  North America
-# (NAD83) and Australia (GDA) use GRS-80, which is equivalent to the
-# WGS-84 model.
-#
-# Great-circle distance uses a spherical model of the earth with the
-# mean earth radius defined by the International Union of Geodesy and
-# Geophysics (IUGG) as (2 * a + b) / 3 = 6371008.7714150598 meter or
-# approx. 6371009 meter (for WGS-84, resulting in an error of up to
-# about 0.5%).
-#
-# Here's an example usage of Vincenty:
-#
-#     >>> from geodesy.ellipsoidalVincenty import LatLon
-#     >>> Newport_RI = LatLon(41.49008, -71.312796)
-#     >>> Cleveland_OH = LatLon(41.499498, -81.695391)
-#     >>> print(Newport_RI.distanceTo(Cleveland_OH))
-#     866455.432916  # meter
-#
-# You can change the ellipsoid model used by the Vincenty formulae
-# as follows:
-#
-#     >>> from geodesy import Datums
-#     >>> from geodesy.ellipsoidalVincenty import LatLon
-#     >>> p = LatLon(0, 0, datum=Datums.OSGB36)
-#
-# or by converting to anothor datum:
-#
-#     >>> p = p.convertDatum(Datums.OSGB36)
+Python implementation of geodesy tools for an ellipsoidal earth model.
+Transcribed from JavaScript originals by I{(C) Chris Veness 2005-2016}
+and published under the same MIT Licence**. For details see
+U{http://www.movable-type.co.uk/scripts/LatLongVincenty.html} and also
+U{http://github.com/geopy>} and U{<http://python.org/pypi/geopy}.
+
+Calculate geodesic distance between two points using the U{Vincenty
+<https://en.wikipedia.org/wiki/Vincenty's_formulae>} formulae and
+one of several ellipsoidal earth models.  The default model is WGS-84,
+the most accurate and widely used globally-applicable model for the
+earth ellipsoid.
+
+Other ellipsoids offering a better fit to the local geoid include
+Airy (1830) in the UK, Clarke (1880) in Africa, International 1924
+in much of Europe, and GRS-67 in South America.  North America
+(NAD83) and Australia (GDA) use GRS-80, which is equivalent to the
+WGS-84 model.
+
+Great-circle distance uses a spherical model of the earth with the
+mean earth radius defined by the International Union of Geodesy and
+Geophysics (IUGG) as M{(2 * a + b) / 3 = 6371008.7714150598} meter or
+approx. 6371009 meter (for WGS-84, resulting in an error of up to
+about 0.5%).
+
+Here's an example usage of Vincenty:
+
+    >>> from geodesy.ellipsoidalVincenty import LatLon
+    >>> Newport_RI = LatLon(41.49008, -71.312796)
+    >>> Cleveland_OH = LatLon(41.499498, -81.695391)
+    >>> print(Newport_RI.distanceTo(Cleveland_OH))
+    866455.432916  # meter
+
+You can change the ellipsoid model used by the Vincenty formulae
+as follows:
+
+    >>> from geodesy import Datums
+    >>> from geodesy.ellipsoidalVincenty import LatLon
+    >>> p = LatLon(0, 0, datum=Datums.OSGB36)
+
+or by converting to anothor datum:
+
+    >>> p = p.convertDatum(Datums.OSGB36)
+'''
 
 from datum import Datums
-from ellipsoidalBase import _CartesianBase, _LatLonHeightDatumBase
+from ellipsoidalBase import CartesianBase, LatLonEllipsoidalBase
 from utils import EPS, degrees90, degrees180, degrees360, radians
 from math import atan2, cos, hypot, sin, tan
 
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'VincentyError')  # classes
-__version__ = '17.02.01'
+__version__ = '17.02.07'
 
 
 class VincentyError(Exception):
@@ -61,23 +65,22 @@ class VincentyError(Exception):
     pass
 
 
-class Cartesian(_CartesianBase):
-    '''Extend with method to convert Cartesian to
-       Vincenty-based LatLon.
+class Cartesian(CartesianBase):
+    '''Extended to convert geocentric L{Cartesian} points to
+       Vincenty-based ellipsoidal L{LatLon}.
     '''
     def toLatLon(self, datum=Datums.WGS84):  # PYCHOK XXX
         '''Converts this (geocentric) Cartesian (x/y/z) point to
-           (ellipsoidal geodetic) LatLon point on the specified datum.
+           an (ellipsoidal geodetic) point on the specified datum.
 
-           @param {Datum} [datum=Datums.WGS84] - Datum to use.
+           @keyword datum: Datum to use (L{Datum}).
 
-           @returns {LatLon} The (ellipsoidal) LatLon point.
+           @return: Ellipsoidal geodetic point (L{LatLon}).
         '''
-        a, b, h = self.to3llh(datum)
-        return LatLon(a, b, height=h, datum=datum)  # Vincenty
+        return self._toLatLon(LatLon, datum)  # Vincenty
 
 
-class LatLon(_LatLonHeightDatumBase):
+class LatLon(LatLonEllipsoidalBase):
     '''Using the formulae devised by Thaddeus Vincenty (1975) with an
        ellipsoidal model of the earth to compute the geodesic distance
        and bearings between two given points or the destination point
@@ -90,18 +93,18 @@ class LatLon(_LatLonHeightDatumBase):
        Note: This implementation of the Vincenty methods may not
        converge for some valid points, raising a VincentyError.  In
        that case, a result may be obtained by increasing the epsilon
-       and/or the iteration limit, see LatLon properties epsilon and
-       iterations.
+       and/or the iteration limit, see properties L{LatLon.epsilon}
+       and L{LatLon.iterations}.
     '''
     _epsilon    = 1.0e-12  # about 0.006 mm
     _iterations = 50
 
     def copy(self):
-        '''Return a copy of this point.
+        '''Copy this point.
 
-           @returns {LatLon} Copy of this point.
+           @return: Copy of this point (L{LatLon}).
         '''
-        p = _LatLonHeightDatumBase.copy(self)
+        p = LatLonEllipsoidalBase.copy(self)
         assert hasattr(p, 'epsilon')
         p.epsilon = self.epsilon
         assert hasattr(p, 'iterations')
@@ -117,10 +120,13 @@ class LatLon(_LatLonHeightDatumBase):
            See method destination2 for more details, parameter
            descriptions and exceptions thrown.
 
-           @returns {LatLon} The destination point.
+           @param distance: Distance in meters (scalar).
+           @param bearing: Initial bearing in degrees from North (scalar).
 
-           @example
-           p = LatLon(-37.95103, 144.42487);
+           @return: The destination point (L{LatLon}).
+
+           @example:
+           p = LatLon(-37.95103, 144.42487)
            d = p.destination(54972.271, 306.86816)  # 37.6528°S, 143.9265°E
         '''
         return self._direct(distance, bearing, True)[0]
@@ -141,17 +147,15 @@ class LatLon(_LatLonHeightDatumBase):
            The destination point's height and datum are set to this
            point's height and datum.
 
-           @param {number} distance - Distance in meters.
-           @param {degrees} bearing - Initial bearing in degrees from North.
+           @param distance: Distance in meters (scalar).
+           @param bearing: Initial bearing in degrees from North (scalar).
 
-           @returns {(LatLon, degrees360)} 2-Tuple of (destination point,
-                                           final bearing), with the latter
-                                           in degrees from North.
+           @return: 2-Tuple (destination, final bearing) in (L{LatLon}, degrees360).
 
-           @throws {VincentyError} If Vincenty failed to converge for the
-                                   current epsilon and iteration limit.
+           @raise VincentyError: If Vincenty failed to converge for the
+           current L{LatLon.epsilon} and L{LatLon.iterations} limit.
 
-           @example
+           @example:
            p = LatLon(-37.95103, 144.42487)
            b = 306.86816
            d, f = p.destination2(54972.271, b)  # 37.652818°S, 143.926498°E, 307.1736
@@ -165,9 +169,11 @@ class LatLon(_LatLonHeightDatumBase):
            See method distanceTo3 for more details, parameter
            descriptions and exceptions thrown.
 
-           @returns {number} Distance in meters.
+           @param other: The other point (L{LatLon}).
 
-           @example
+           @return: Distance in meters (scalar).
+
+           @example:
            p = LatLon(50.06632, -5.71475)
            q = LatLon(58.64402, -3.07009)
            d = p.distanceTo(q)  # 969,954.166 m
@@ -186,24 +192,24 @@ class LatLon(_LatLonHeightDatumBase):
            The initial and final bearing (aka forward and reverse azimuth)
            are in compass degrees from North.
 
-           @param {LatLon} other - Destination LatLon point.
+           @param other: Destination point (L{LatLon}).
 
-           @returns {(meter, degrees360, degrees360)} 3-Tuple with
-                       (distance, initial bearing, final bearing).
+           @return: 3-Tuple (distance, initial bearing, final bearing)
+           in (meter, degrees360, degree360).
 
-           @throws {TypeError} If this and the other point's LatLon
-                               types are incompatiple.
-           @throws {ValueError} If this and the other point's datum
-                                ellipsoids do not match.
-           @throws {VincentyError} If Vincenty failed to converge for
-                                   the current epsilon and iteration
-                                   limit or if both points coincide.
+           @raise TypeError: If this and the L{other} point's L{LatLon}
+           types are incompatiple.
+           @raise ValueError: If this and the L{other} point's L{Datum}
+           ellipsoids do not match.
+           @raise VincentyError: If both points coincide or if Vincenty
+           fails to converge for the current L{LatLon.epsilon} and
+           L{LatLon.iterations} limit.
         '''
         return self._inverse(other, True)
 
     @property
     def epsilon(self, eps=None):
-        '''Get the convergence epsilon.
+        '''Get the convergence epsilon (scalar).
         '''
         return self._epsilon
 
@@ -211,7 +217,7 @@ class LatLon(_LatLonHeightDatumBase):
     def epsilon(self, eps):
         '''Set the convergence epsilon.
 
-           @param {float} eps - New epsilon value.
+           @param eps: New epsilon (scalar).
         '''
         if 0 < float(eps) < 1:
             self._epsilon = float(eps)
@@ -225,9 +231,12 @@ class LatLon(_LatLonHeightDatumBase):
            See method destination2 for more details, parameter
            descriptions and exceptions thrown.
 
-           @returns {degrees360} Final bearing in degrees from North.
+           @param distance: Distance in meter (scalar).
+           @param bearing: Initial bearing from North (degrees).
 
-           @example
+           @return: Final bearing from North (degrees360).
+
+           @example:
            p = LatLon(-37.95103, 144.42487)
            b = 306.86816
            f = p.finalBearingOn(54972.271, b)  # 307.1736
@@ -242,9 +251,11 @@ class LatLon(_LatLonHeightDatumBase):
            See method distanceTo3 for more details, parameter
            descriptions and exceptions thrown.
 
-           @returns {degrees360} Final bearing in degrees from North.
+           @param other: The other point (L{LatLon}).
 
-           @example
+           @return: Final bearing from North (degrees360).
+
+           @example:
            p = new LatLon(50.06632, -5.71475)
            q = new LatLon(58.64402, -3.07009)
            f = p1.finalBearingTo(q)  # 11.2972°
@@ -257,15 +268,17 @@ class LatLon(_LatLonHeightDatumBase):
 
     def initialBearingTo(self, other):
         '''Return the initial bearing (forward azimuth) to travel
-           along a geodesic fromfrom this point to an other point,
+           along a geodesic from this point to an other point,
            using Vincenty's inverse method.
 
            See method distanceTo3 for more details, parameter
            descriptions and exceptions thrown.
 
-           @returns {degrees360} Initial bearing in degrees from North.
+           @param other: The other point (L{LatLon}).
 
-           @example
+           @return: Initial bearing from North (degrees360).
+
+           @example:
            p = LatLon(50.06632, -5.71475)
            q = LatLon(58.64402, -3.07009)
            b = p.bearingTo(q)  # 9.1419°
@@ -280,31 +293,31 @@ class LatLon(_LatLonHeightDatumBase):
 
     @property
     def iterations(self):
-        '''Get the limit for the number of iterations.
+        '''Get the iteration limit (int).
         '''
         return self._iterations
 
     @iterations.setter  # PYCHOK setter!
     def iterations(self, limit):
-        '''Set the limit for the number of iterations.
+        '''Set the iteration limit.
 
-           @param {number} limit - New iteration limit.
+           @param limit: New iteration limit (int).
         '''
         if 2 < int(limit) < 200:
             self._iterations = int(limit)
 
     def toCartesian(self):
-        '''Convert this (geodetic) LatLon point to (geocentric) x/y/z
+        '''Convert this (geodetic) point to (geocentric) x/y/z
            cartesian coordinates.
 
-           @returns {Cartesian} Cartesian point equivalent, with x,
-                                y and z in meter from earth center.
+           @return: The cartesian point (L{Cartesian}).
         '''
-        x, y, z = self.to3xyz()  # ellipsoidalBase._LatLonHeightDatumBase
+        x, y, z = self.to3xyz()  # ellipsoidalBase.LatLonEllipsoidalBase
         return Cartesian(x, y, z)  # this ellipsoidalVincenty.Cartesian
 
     def _direct(self, distance, bearing, llr):
-        # direct Vincenty method, private
+        '''(INTERNAL) Direct Vincenty method.
+        '''
         E = self.ellipsoid()
 
         c1, s1, t1 = _r3(self.lat, E.f)
@@ -345,7 +358,8 @@ class LatLon(_LatLonHeightDatumBase):
         return r
 
     def _inverse(self, other, azis):
-        # inverse Vincenty method, private
+        '''(INTERNAL) Inverse Vincenty method.
+        '''
         E = self.ellipsoids(other)
 
         c1, s1, _ = _r3(self.lat, E.f)
@@ -395,14 +409,18 @@ class LatLon(_LatLonHeightDatumBase):
         return d
 
 
-def _p2(c2a, ab2):  # A, B polynomials
+def _p2(c2a, ab2):
+    '''(INTERNAL) Compute A, B polynomials.
+    '''
     u2 = c2a * ab2  # e'2 WGS84 = 0.00673949674227643
     A = u2 / 16384.0 * (4096 + u2 * (-768 + u2 * (320 - 175 * u2))) + 1
     B = u2 /  1024.0 * ( 256 + u2 * (-128 + u2 * ( 74 -  47 * u2)))
     return A, B
 
 
-def _r3(a, f):  # reduced cos, sin, tan
+def _r3(a, f):
+    '''(INTERNAL) Reduced cos, sin, tan.
+    '''
     t = (1 - f) * tan(radians(a))
     c = 1 / hypot(1, t)
     s = t * c
@@ -410,12 +428,16 @@ def _r3(a, f):  # reduced cos, sin, tan
 
 
 def _dl(f, c2a, sa, s, cs, ss, c2sm):
+    '''(INTERNAL) Dl.
+    '''
     C = f / 16.0 * c2a * (4 + f * (4 - 3 * c2a))
     return (1 - C) * f * sa * (s + C * ss * (c2sm +
                      C * cs * (c2sm * c2sm * 2 - 1)))
 
 
 def _ds(B, cs, ss, c2sm):
+    '''(INTERNAL) Ds.
+    '''
     c2sm2 = 2 * c2sm * c2sm - 1
     ss2 = (ss * ss * 4 - 3) * (c2sm2 * 2 - 1)
     return B * ss * (c2sm + B / 4.0 * (c2sm2 * cs -

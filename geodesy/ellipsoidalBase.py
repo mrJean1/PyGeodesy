@@ -1,54 +1,69 @@
 
 # -*- coding: utf-8 -*-
 
-# Python implementation of geodesy tools for an ellipsoidal earth model.
-# Transcribed from JavaScript originals by (C) Chris Veness 2005-2016
-# and published under the same MIT Licence**, see for example
-# <http://www.movable-type.co.uk/scripts/geodesy/docs/latlon-ellipsoidal.js.html>
+'''(INTERNAL) Ellipsoidal base classes.
 
-from bases import _LatLonHeightBase
+Python implementation of geodesy tools for an ellipsoidal earth model.
+Transcribed from JavaScript originals by I{(C) Chris Veness 2005-2016}
+and published under the same MIT Licence**, see for example
+U{http://www.movable-type.co.uk/scripts/geodesy/docs/latlon-ellipsoidal.js.html}
+'''
+
+from bases import LatLonHeightBase
 from datum import Datum, Datums
 from dms import parse3llh
 from utils import EPS2, degrees90, degrees180, hypot1
 from vector3d import Vector3d
 from math import atan2, copysign, cos, hypot, sin, sqrt
 
-# all public constants, classes and functions
-__all__ = ()  # none
-__version__ = '17.02.01'
+# XXX the following classes are listed only to get
+# Epydoc to include class and method documentation
+__all__ = ('CartesianBase', 'LatLonEllipsoidalBase')
+__version__ = '17.02.07'
 
 
-class _CartesianBase(Vector3d):
-    '''Base class for ellipsoidal Cartesian.
+class CartesianBase(Vector3d):
+    '''(INTERNAL) Base class for ellipsoidal Cartesians.
     '''
 
     def _applyHelmert(self, transform, inverse=False):
-        '''Return a new (geocentric) Cartesian point by
-           applying a Helmert transform to this point.
+        '''(INTERNAL) Return a new (geocentric) Cartesian point
+           by applying a Helmert transform to this point.
 
-           @private
-           @param {Transform} transform - Transform to apply.
-           @param (bool} inverse - Apply inverse Helmert transform.
+           @param transform: Transform to apply (L{Transform}).
+           @keyword inverse: Apply inverse Helmert transform (bool).
 
-           @returns {Cartesian} The transformed point.
+           @return: The transformed point (L{Cartesian}).
         '''
         x, y, z = self.to3xyz()
-        return self.Top(*transform.transform(x, y, z, inverse))
+        return self.topsub(*transform.transform(x, y, z, inverse))
+
+    def _toLatLon(self, LatLon, datum):
+        '''(INTERNAL) Converts this cartesian point to an n-vector- or
+           Vincenty-based ellipsoidal LatLon on the specified datum.
+
+           @param LatLon: Ellipsoidal LatLon to use.
+           @param datum: Datum to use (L{Datum}).
+
+           @return: Ellipsoidal geodetic point (LatLon).
+        '''
+        a, b, h = self.to3llh(datum)
+        return LatLon(a, b, height=h, datum=datum)  # Vincenty
 
     def to3llh(self, datum=Datums.WGS84):
         '''Converts this (geocentric) Cartesian (x/y/z) point to
            (ellipsoidal geodetic) lat-, longitude and height on
            the given datum.
 
-           @param {Datum} [datum=Datums.WGS84] - Datum to use.
-
-           @returns {(degrees90, degrees180, meter)} 3-Tuple
-                                          (lat, lon, heigth).
-
            Uses Bowring’s (1985) formulation for μm precision in
            concise form: 'The accuracy of geodetic latitude and
            height equations', B. R. Bowring, Survey Review, Vol
            28, 218, Oct 1985.
+
+           @keyword datum: Datum to use (L{Datum}).
+
+           @return: 3-Tuple (lat, lon, heigth) in (degrees90,
+                    degrees180, meter).
         '''
         E = datum.ellipsoid
         x, y, z = self.to3xyz()
@@ -86,39 +101,37 @@ class _CartesianBase(Vector3d):
     def toStr(self, prec=3, fmt='[%s]', sep=', '):  # PYCHOK expected
         '''String representation of this cartesion.
 
-           @param {number} [prec=3] - Number of decimals, unstripped.
-           @param {string} [fmt='[%s]'] - Enclosing backets format.
-           @param {string} [sep=', '] - Separator to join.
+           @keyword prec: Number of decimals, unstripped (int).
+           @keyword fmt: Enclosing backets format (string).
+           @keyword sep: Separator to join (string).
 
-           @returns {string} Cartesion represented as "[x, y, z]".
+           @return: Cartesian represented as "[x, y, z]" (string).
         '''
         return Vector3d.toStr(self, prec=prec, fmt=fmt, sep=sep)
 
 
-class _LatLonHeightDatumBase(_LatLonHeightBase):
-    '''Base class for ellipsoidal LatLon.
+class LatLonEllipsoidalBase(LatLonHeightBase):
+    '''(INTERNAL) Base class for ellipsoidal LatLons.
     '''
-    _datum = Datums.WGS84
-    _osgr  = None  # cache toOsgr
-    _utm   = None  # cache toUtm
+    _datum = Datums.WGS84  #: (INTERNAL) Datum (L{Datum}).
+    _osgr  = None  #: (INTERNAL) cache toOsgr ({Osgr}).
+    _utm   = None  #: (INTERNAL) cache toUtm (L{Utm}).
 
     def __init__(self, lat, lon, height=0, datum=None):
         '''Create an (ellipsoidal) LatLon point frome the given
            lat-, longitude and height (elevation, altitude) on
            a given datum.
 
-           @constructor
-           @param {degrees|strDMS} lat - Latitude as degrees or string.
-           @param {degrees|strDMS} lon - Longitude as degrees or string.
-           @param {number} [height=0] - Elevation in meter (must be
-                          the same units as the datum's half-axes).
-           @param {Datum} [datum=Datums.WGS84] - Datum to use.
+           @param lat: Latitude (degrees or DMS string with N or S suffix).
+           @param lon: Longitude (degrees or DMS string with E or W suffix).
+           @keyword height: Elevation (meter or the same units as datum's half-axes).
+           @keyword datum: Datum to use (L{Datum}).
 
-           @example
+           @example:
            p = LatLon(51.4778, -0.0016)  # height=0, datum=Datums.WGS84
         '''
-        _LatLonHeightBase.__init__(self, lat, lon, height=height)
-        if datum:
+        LatLonHeightBase.__init__(self, lat, lon, height=height)
+        if datum:  # check datum
             self.datum = datum
 
     def _update(self, updated):
@@ -127,13 +140,13 @@ class _LatLonHeightDatumBase(_LatLonHeightBase):
 #           _LatLonHeightBase._update(self, updated)
 
     def convertDatum(self, toDatum):
-        '''Converts this LatLon instance to new coordinate system.
+        '''Converts this point to a new coordinate system.
 
-           @param {Datum} toDatum - Datum to convert to.
+           @param toDatum: Datum to convert to (L{Datum}).
 
-           @returns {LatLon} This point converted to toDatum.
+           @return: The converted point (L{LatLonEllipsoidalBase}).
 
-           @example
+           @example:
            pWGS84 = LatLon(51.4778, -0.0016)  # default Datums.WGS84
            pOSGB  = pWGS84.convertDatum(Datums.OSGB36)  # 51.477284°N, 000.00002°E
         '''
@@ -156,18 +169,18 @@ class _LatLonHeightDatumBase(_LatLonHeightBase):
     toDatum = convertDatum  # alternate name
 
     def copy(self):
-        '''Return a copy of this point.
+        '''Copy this point.
 
-           @returns {LatLon} Copy of this point.
+           @return: Copy of this point (L{LatLonEllipsoidalBase}).
         '''
-        p = _LatLonHeightBase.copy(self)
+        p = LatLonHeightBase.copy(self)
         assert hasattr(p, 'datum')
         p.datum = self.datum
         return p
 
     @property
     def datum(self):
-        '''Get this point's datum.
+        '''Get this point's datum (L{Datum}).
         '''
         return self._datum
 
@@ -175,26 +188,36 @@ class _LatLonHeightDatumBase(_LatLonHeightBase):
     def datum(self, datum):
         '''Set this point's datum without conversion.
 
-           @param {Datum} datum - New datum.
+           @param datum: New datum (L{Datum}).
 
-           @throws {TypeError} If datum is not a Datum.
-           @throws {ValueError} If datum.ellipsoid is not ellipsoidal.
+           @raise TypeError: If L{datum} is not a L{Datum}.
+           @raise ValueError: If L{datum}.ellipsoid is not ellipsoidal.
         '''
         if not isinstance(datum, Datum):
             raise TypeError('%r not a %s: %r' % ('datum', Datum.__name__, datum))
         E = datum.ellipsoid
-        if not E.a > E.R > E.b:
-            raise ValueError('%r not %s: %r' % ('datum', 'ellipsoidal', E))
+        if not E.isellipsoidal():
+            raise ValueError('%r not %s: %r' % ('datum', 'ellipsoidal', datum))
         self._update(datum != self._datum)
         self._datum = datum
 
     def ellipsoid(self, datum=Datums.WGS84):
         '''Return the ellipsoid of this or the given datum.
+
+           @keyword datum: Optional datum (L{Datum}).
+
+           @return: The ellipsoid (L{Ellipsoid}).
         '''
         return getattr(self, 'datum', datum).ellipsoid
 
     def ellipsoids(self, other):
-        '''Check type and ellipsoid model match.
+        '''Check type and ellipsoid of this and an other datum.
+
+           @param other: The other datum (L{Datum}).
+
+           @return: This datum's ellipsoid (L{Ellipsoid}).
+
+           @raise ValueError: If ellipsoids are incompatible.
         '''
         self.others(other)
 
@@ -213,8 +236,7 @@ class _LatLonHeightDatumBase(_LatLonHeightBase):
         return E
 
     def parse(self, strll, height=0, datum=None, sep=','):
-        '''Parse a string representing lat-/longitude point and
-           return a LatLon.
+        '''Parse a string representing lat-/longitude point.
 
            The lat- and longitude must be separated by a sep[arator]
            character.  If height is present it must follow and be
@@ -225,23 +247,23 @@ class _LatLonHeightDatumBase(_LatLonHeightBase):
            For more details, see functions parse3llh and parseDMS
            in module dms.
 
-           @param {string} strll - Latitude, longitude [, height].
-           @param {meter|None} [height=0] - Default height in meter.
-           @param {Datum} [datum=self.datum] - Default datum.
-           @param {string} [sep=','] - Separator.
+           @param strll: Lat, lon [, height] (string).
+           @keyword height: Default height (meter or None).
+           @keyword datum: Default datum (L{Datum}).
+           @keyword sep: Separator (string).
 
-           @returns {LatLon} Point for the location.
+           @return: The point (L{LatLonEllipsoidalBase}).
 
-           @throws {ValueError} Invalid strll.
+           @raise ValueError: Invalid L{strll}.
         '''
         a, b, h = parse3llh(strll, height=height, sep=sep)
-        return self.Top(a, b, height=h, datum=datum or self.datum)
+        return self.topsub(a, b, height=h, datum=datum or self.datum)
 
     def to3xyz(self):  # overloads _LatLonHeightBase.to3xyz
         '''Converts this (ellipsoidal geodetic) LatLon point to
            (ellipsoidal geocentric) cartesian x/y/z components.
 
-           @returns {(meter, meter, meter)} 3-Tuple (x, y, z).
+           @return: 3-Tuple (x, y, z) in (meter, ...).
         '''
         a, b = self.toradians()
         ca, sa = cos(a), sin(a)
@@ -258,9 +280,9 @@ class _LatLonHeightDatumBase(_LatLonHeightBase):
     def toOsgr(self):
         '''Convert this lat-/longitude to an OSGR coordinate.
 
-           See function toOsgr in module osgr for more details.
+           See function L{toOsgr} in module L{osgr} for more details.
 
-           @returns {Osgr} The OSGR coordinate.
+           @return: The OSGR coordinate (L{Osgr}).
         '''
         if self._osgr is None:
             from osgr import toOsgr  # PYCHOK recursive import
@@ -271,9 +293,9 @@ class _LatLonHeightDatumBase(_LatLonHeightBase):
     def toUtm(self):
         '''Convert this lat-/longitude to a UTM coordinate.
 
-           See function toUtm in module utm for more details.
+           See function L{toUtm} in module L{utm} for more details.
 
-           @returns {Utm} The UTM coordinate.
+           @return: The UTM coordinate (L{Utm}).
         '''
         if self._utm is None:
             from utm import toUtm  # PYCHOK recursive import

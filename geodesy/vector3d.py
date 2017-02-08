@@ -1,16 +1,14 @@
 
 # -*- coding: utf-8 -*-
 
-# Python implementation of vector-based geodetic (lat-/longitude) functions
-# by (C) Chris Veness 2011-2015 published under the same MIT Licence**,
-# see <http://www.movable-type.co.uk/scripts/latlong-vectors.html>
-#
-# These functions work with
-# a) geodesic (polar) lat-/longitude points on the earth's surface
-# b) 3D vectors used as n-vectors representing points on the earth's
-#    surface or vectors normal to the plane of a great circle
+'''Generic 3-D vector base class L{Vector3d} and function L{sumOf}.
 
-from bases import _VectorBase
+Python implementation of vector-based functions by I{(C) Chris Veness
+2011-2015} published under the same MIT Licence**, see
+U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
+'''
+
+from bases import VectorBase
 from utils import EPS2, \
                   degrees90, degrees180, fdot, fsum, \
                   hypot3, isscalar, fStr, len2
@@ -19,7 +17,7 @@ from math import atan2, cos, hypot, sin
 # all public contants, classes and functions
 __all__ = ('Vector3d',  # classes
            'sumOf')  # functions
-__version__ = '17.02.01'
+__version__ = '17.02.07'
 
 try:
     _cmp = cmp
@@ -33,88 +31,116 @@ except NameError:  # Python 3+
             return 0
 
 
-class Vector3d(_VectorBase):
-    '''Generic 3-d vector manipulation.
+class Vector3d(VectorBase):
+    '''Generic 3-D vector manipulation.
 
        In a geodesy context, these may be used to represent:
-       - n-vector representing a normal to point on earth's surface
-       - earth-centered, earth-fixed vector (= n-vector for spherical model)
-       - great circle normal to vector
-       - motion vector on earth's surface
-       - etc.
+        - n-vector representing a normal to point on earth's surface
+        - earth-centered, earth-fixed vector (= n-vector for spherical model)
+        - great circle normal to vector
+        - motion vector on earth's surface
+        - etc.
     '''
 
-    _length = None  # cache length
-    _united = None  # cache normalised, unit
+    _length = None  #: (INTERNAL) cached length.
+    _united = None  #: (INTERNAL) cached norm, unit.
 
-    _x = 0
-    _y = 0
-    _z = 0
+    _x = 0  #: (INTERNAL) X component.
+    _y = 0  #: (INTERNAL) Y component.
+    _z = 0  #: (INTERNAL) Z component.
 
     def __init__(self, x, y, z):
-        '''Create a 3-d vector.
+        '''New 3-D vector.
 
            The vector may be normalised, or use x/y/z values for
            height relative to the surface of the sphere or ellipsoid,
            distance from earth centre, etc.
 
-           @param {number} x - X component of vector.
-           @param {number} y - Y component of vector.
-           @param {number} z - Z component of vector.
+           @param x: X component of vector.
+           @param y: Y component of vector.
+           @param z: Z component of vector.
         '''
         self._x = x
         self._y = y
         self._z = z
 
     def __add__(self, other):
+        '''This plus an other vector (L{Vector3d}).
+        '''
         return self.plus(other)
     __radd__ = __add__
 
     def __abs__(self):
+        '''Norm of this vector (scalar).
+        '''
         return self.length()
 
-    def __cmp__(self, other):  # Pythpon 2-
+    def __cmp__(self, other):  # Python 2-
+        '''Compare this and an other vector?
+           @return: -1, 0 or +1 (int).
+        '''
         return _cmp(self.length(), other.length())
 
     def __div__(self, scalar):
+        '''Divide this vector by a scalar.
+           @return: Quotient (L{Vector3d}).
+        '''
         return self.dividedBy(scalar)
 
     def __gt__(self, other):
+        '''Is this vector longer than other vector?
+           @return: True if so (bool).
+        '''
         return self.length() > other.length()
 
     def __mul__(self, scalar):
+        '''Multiply this vector by a scalar
+           @return: Product (L{Vector3d}).
+        '''
         return self.times(scalar)
 
     def __lt__(self, other):  # Python 3+
+        '''Is this vector shorter than other vector?
+           @return: True if so (bool).
+        '''
         return self.length() < other.length()
 
     def __neg__(self):
+        '''Negate this vector.
+           @return: Opposite (L{Vector3d})
+        '''
         return self.negate()
 
     def __sub__(self, other):
+        '''This minus an other vector.
+           @return: Difference (L{Vector3d}).
+        '''
         return self.minus(other)
 
     def __rsub__(self, other):
+        '''An other minus this vector.
+           @return: Difference (L{Vector3d}).
+        '''
         return other.minus(self)
 
     def _update(self, updated):
+        '''(INTERNAL) Clear caches.
+        '''
         if updated:  # reset caches
             self._length = self._united = None
 
     def angleTo(self, other, vSign=None):
-        '''Calculates the angle between this and an other vector.
+        '''Angle between this and an other vector.
 
-           @param {Vector3d} other - The other vector.
-           @param {Vector3d} [vSign=None] - If supplied (and out of
-                             plane of this and other), angle is signed
-                             positive if this->other is clockwise
-                             looking along vSign or negative in opposite
-                             direction (otherwise unsigned angle).
+           @param other: The other vector (L{Vector3d}).
+           @keyword vSign: Vector, if supplied (and out of the plane of
+                           this and the other), angle is signed positive
+                           if this->other is clockwise looking along vSign
+                           or negative in opposite direction, otherwise
+                           angle is unsigned.
 
-           @returns {radians} Angle between this and other vector.
+           @return: Angle (radians).
         '''
-        self.others(other)
-
         x = self.cross(other)
         s = x.length()
         # use vSign as reference to get sign of s
@@ -125,58 +151,60 @@ class Vector3d(_VectorBase):
     def copy(self):
         '''Copy this vector.
 
-           @returns {Vector3d} Copy of this vector.
+           @return: New, vector copy (Vector3d).
         '''
-        v = self.Top(self.x, self.y, self.z)
+        v = self.topsub(self.x, self.y, self.z)
         v._length = self._length
         v._united = self._united
         return v
 
     def cross(self, other):
-        '''Return cross product of this and an other vector.
+        '''Cross product of this and an other vector.
 
-           @param {Vector3d} other - Vector to be crossed with this vector.
+           @param other: The other vector (L{Vector3d}).
 
-           @returns {Vector3d} Cross product of this and the other.
+           @return: Cross product (L{Vector3d}).
         '''
         self.others(other)
 
-        return self.Top(self.y * other.z - self.z * other.y,
-                        self.z * other.x - self.x * other.z,
-                        self.x * other.y - self.y * other.x)
+        return self.topsub(self.y * other.z - self.z * other.y,
+                           self.z * other.x - self.x * other.z,
+                           self.x * other.y - self.y * other.x)
 
     def dividedBy(self, factor):
-        '''Return this vector divided by a scalar.
+        '''Divide this vector by a scalar.
 
-           @param {number} factor - Scale factor.
+           @param factor: The divisor (scalar).
 
-           @returns {Vector3d} New vector scaled.
+           @return: New, scaled vector (L{Vector3d}).
+
+           @raise TypeError: If L{factor} not scalar'
         '''
         if not isscalar(factor):
             raise TypeError('%s not scalar: %r' % ('factor', factor))
         return self.times(1.0 / factor)
 
     def dot(self, other):
-        '''Return the dot (scalar) product of this and an other vector.
+        '''Dot (scalar) product of this and an other vector.
 
-           @param {Vector3d} other - Vector to be dotted with this.
-           @returns {number} Dot product of this and the other.
+           @param other: The other vector (L{Vector3d}).
+
+           @return: Dot product (float).
         '''
         self.others(other)
 
         return fdot(self.to3xyz(), *other.to3xyz())
 
     def equals(self, other, units=False):
-        '''Check if this vector is equal or equivalent to an other.
+        '''Check if this and an other vector are equal or equivalent.
 
-           @param {Vector3d} other - Vector to be compared against this.
-           @param {bool} [units=False] - Use units=True to compare the
-                                         normalized version of both
-                                         vectors.
+           @param other: The other vector (L{Vector3d}).
+           @keyword units: Use units=True to compare the normalized,
+                           unit version of both vectors.
 
-           @returns {bool} True if vectors are identical.
+           @return: True if vectors are identical.
 
-           @example
+           @example:
            v1 = Vector3d(52.205, 0.119)
            v2 = Vector3d(52.205, 0.119)
            e = v1.equals(v2)  # True
@@ -190,91 +218,92 @@ class Vector3d(_VectorBase):
         return max(map(abs, d.to3xyz())) < EPS2
 
     def length(self):
-        '''Return the length (magnitude or norm) of this vector.
+        '''Length (aka norm or magnitude) of this vector.
 
-           @returns {number} Magnitude of this vector.
+           @return: Norm (float).
         '''
         if self._length is None:
             self._length = hypot3(self.x, self.y, self.z)
         return self._length
 
     def minus(self, other):
-        '''Return the vectorial difference of this and an other vector.
+        '''Subtract an other vector from this vector.
 
-           @param {Vector3d} other - The other vector.
+           @param other: The other vector (L{Vector3d}).
 
-           @returns {Vector3d} New vector, difference of this and the other.
+           @return: New vector difference (L{Vector3d}).
         '''
         self.others(other)
 
-        return self.Top(self.x - other.x,
-                        self.y - other.y,
-                        self.z - other.z)
+        return self.topsub(self.x - other.x,
+                           self.y - other.y,
+                           self.z - other.z)
 
     def negate(self):
-        '''Return the vector in opposite direction of this one.
+        '''This vector in opposite direction.
 
-           @returns {Vector3d} New vector.
+           @return: New, opposite vector (L{Vector3d}).
         '''
-        return self.Top(-self.x, -self.y, -self.z)
+        return self.topsub(-self.x, -self.y, -self.z)
 
     def others(self, other, name='other'):
-        '''Refine class comparison.
+        '''Refined class comparison.
+
+           @param other: The other vector (L{Vector3d}).
+           @keyword name: Other's name (string).
+
+           @raise TypeError: For type mismatch.
         '''
         try:
-            _VectorBase.others(self, other, name=name)
+            VectorBase.others(self, other, name=name)
         except TypeError:
             if not isinstance(other, Vector3d):
                 raise
 
     def parse(self, str3d):
-        '''Parse a string representing x, y and z and return a
-           Vector3d.
+        '''Parse an "x, y, z" string representing a L{Vector3d}.
 
            The x, y and z must be separated by a comma.
 
-           @param {string} str3d - X, y and z string.
+           @param str3d: X, y and z string.
 
-           @returns {Vector3d} Point for the location.
+           @return: New vector (L{Vector3d}).
 
-           @throws {ValueError} Invalid str3d.
+           @raise ValueError: Invalid L{str3d}.
         '''
         try:
             v = [float(v.strip()) for v in str3d.split(',')]
             if len(v) != 3:
                 raise ValueError
         except ValueError:
-            raise ValueError('parsing %r' % (str3d,))
+            raise ValueError('%s invalid: %r' % ('str3d', str3d))
 
-        return self.Top(*v)
+        return self.topsub(*v)
 
     def plus(self, other):
-        '''Return the vectorial sum of this and an other vector.
+        '''Add this and an other vector.
 
-           @param {Vector3d} other - The other vector.
+           @param other: The other vector (L{Vector3d}).
 
-           @returns {Vector3d} New vector, sum of this and the other.
+           @return: New vector sum (L{Vector3d}).
         '''
         self.others(other)
 
-        return self.Top(self.x + other.x,
-                        self.y + other.y,
-                        self.z + other.z)
+        return self.topsub(self.x + other.x,
+                         self.y + other.y,
+                         self.z + other.z)
 
     sum = plus  # alternate name
 
     def rotate(self, axis, theta):
-        '''Rotates this vector by a specified angle around an axis.
+        '''Rotate this vector by a specified angle around an axis.
 
-           @param {Vector3d} axis - The axis being rotated around.
-           @param {number} theta - The angle of rotation (in radians).
+           @param axis: The axis being rotated around (L{Vector3d}).
+           @param theta: The angle of rotation (radians).
 
-           @returns {Vector3d} The rotated vector.
+           @return: New, rotated vector (L{Vector3d}).
 
-           http://en.wikipedia.org/wiki/
-                  Rotation_matrix#Rotation_matrix_from_axis_and_angle
-                  Quaternions_and_spatial_rotation#Quaternion-derived_rotation_matrix
-                  Rodrigues'_rotation_formula...
+           @see: U{http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle/Quaternions_and_spatial_rotation#Quaternion-derived_rotation_matrix/Rodrigues'_rotation_formula...}
         '''
         self.others(axis, name='axis')
 
@@ -285,31 +314,31 @@ class Vector3d(_VectorBase):
 
         p = self.unit().to3xyz()  # point being rotated
         # multiply p by a quaternion-derived rotation matrix
-        return self.Top(fdot(p, a.x * b.x + c,   a.x * b.y - s.z, a.x * b.z + s.y),
-                        fdot(p, a.y * b.x + s.z, a.y * b.y + c,   a.y * b.z - s.x),
-                        fdot(p, a.z * b.x - s.y, a.z * b.y + s.x, a.z * b.z + c))
+        return self.topsub(fdot(p, a.x * b.x + c,   a.x * b.y - s.z, a.x * b.z + s.y),
+                           fdot(p, a.y * b.x + s.z, a.y * b.y + c,   a.y * b.z - s.x),
+                           fdot(p, a.z * b.x - s.y, a.z * b.y + s.x, a.z * b.z + c))
 
     rotateAround = rotate  # alternate name
 
     def times(self, factor):
-        '''Return this vector multiplied by a scalar.
+        '''Multiply this vector by a scalar.
 
-           @param {number} factor - Scale factor.
+           @param factor: Scale factor (scalar).
 
-           @returns {Vector3d} New vector scaled.
+           @return: New, scaled vector (L{Vector3d}).
         '''
         if not isscalar(factor):
             raise TypeError('%s not scalar: %r' % ('factor', factor))
-        return self.Top(self.x * factor,
-                        self.y * factor,
-                        self.z * factor)
+        return self.topsub(self.x * factor,
+                           self.y * factor,
+                           self.z * factor)
 
     def to2ll(self):
         '''Convert this vector to (geodetic) lat- and longitude.
 
-           @returns {(degrees90, degrees180)} 2-Tuple with (lat, lon).
+           @return: 2-Tuple (lat, lon) in (degrees90, degrees180).
 
-           @example
+           @example:
            v = Vector3d(0.500, 0.500, 0.707)
            a, b = v.to2ll()  # 45.0, 45.0
         '''
@@ -320,25 +349,25 @@ class Vector3d(_VectorBase):
     def to3xyz(self):
         '''Return this vector as a 3-tuple.
 
-           @returns {(x, y, z)} 3-Tuple of x, y and z.
+           @return: 3-Tuple (x, y, z) as (scalar, ...).
         '''
         return self.x, self.y, self.z
 
     def toStr(self, prec=5, fmt='(%s)', sep=', '):  # PYCHOK expected
         '''String representation of this vector.
 
-           @param {number} [prec=6] - Number of decimal places.
-           @param {string} [fmt='(%s)'] - Format to use.
-           @param {string} [sep=', '] - Separator between NEDs.
+           @keyword prec: Number of decimal places (int).
+           @keyword fmt: Enclosing format to use (string).
+           @keyword sep: Separator between components (string).
 
-           @returns {string} Vector represented as "(x, y, z)".
+           @return: Vector as "(x, y, z)" (string).
         '''
         return fmt % (fStr(self.to3xyz(), prec=prec, sep=sep),)
 
     def unit(self):
         '''Normalize this vector to unit length.
 
-           @returns {Vector3d} Normalised vector.
+           @return: Normalised, unit vector (L{Vector3d}).
         '''
         if self._united is None:
             n = self.length()
@@ -352,19 +381,19 @@ class Vector3d(_VectorBase):
 
     @property
     def x(self):
-        '''The x component.
+        '''Get the X component (scalar).
         '''
         return self._x
 
     @property
     def y(self):
-        '''The y component.
+        '''Get the Y component (scalar).
         '''
         return self._y
 
     @property
     def z(self):
-        '''The z component.
+        '''Get the Z component (scalar).
         '''
         return self._z
 
@@ -372,13 +401,13 @@ class Vector3d(_VectorBase):
 def sumOf(vectors, Vector=Vector3d, **kwds):
     '''Vectorially add a number of vectors.
 
-       @param {Vector3d[]} vectors - Array of Vector3d to be added.
-       @param {Vector3d} Vector: Vector class to instantiate.
-       @param kwds - Optional, additional Vector keyword arguments.
+       @param vectors: Vectors to be added (L{Vector3d}[]).
+       @keyword Vector: Vector class to instantiate (L{Vector3d}).
+       @keyword kwds: Optional, additional L{Vector} keyword argments.
 
-       @returns {Vector} Vectorial sum.
+       @return: Vectorial sum (L{Vector}).
 
-       @throws {ValueError} No vectors.
+       @raise ValueError: No L{vectors}.
     '''
     n, vectors = len2(vectors)
     if n < 1:

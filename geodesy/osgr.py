@@ -1,52 +1,56 @@
 
 # -*- coding: utf-8 -*-
 
-# Python implementation of OS Grid Reference functions using an
-# ellipsoidal earth model.  Transcribed from JavaScript originals
-# by (C) Chris Veness 2005-2016 published under the same MIT Licence**,
-# see <http://www.movable-type.co.uk/scripts/latlong-os-gridref.html>
-# and <http://www.movable-type.co.uk/scripts/geodesy/docs/module-osgridref.html>
+'''Ordnance Survey Grid References (OSGR) class L{Osgr} and functions
+L{parseOSGR} and L{toOsgr}.
+
+Python implementation of OS Grid Reference functions using an
+ellipsoidal earth model.  Transcribed from JavaScript originals
+by I{(C) Chris Veness 2005-2016} published under the same MIT Licence**,
+see U{http://www.movable-type.co.uk/scripts/latlong-os-gridref.html}
+and U{http://www.movable-type.co.uk/scripts/geodesy/docs/module-osgridref.html}.
+
+OSGR provides geocoordinate references for UK mapping purposes,
+converted 2015 to work with WGS84 datum by default or OSGB36 as option.
+
+See U{http://www.OrdnanceSurvey.co.uk/docs/support/guide-coordinate-systems-great-britain.pdf},
+U{https://www.OrdnanceSurvey.co.uk/blog/2014/09/proposed-changes-to-latitude-and-longitude-representation-on-paper-maps-tell-us-your-thoughts/},
+U{http://www.OrdnanceSurvey.co.uk/blog/2014/12/confirmation-on-changes-to-latitude-and-longitude}
+and U{https://en.wikipedia.org/wiki/Ordnance_Survey_National_Grid}.
+
+See also Karney 2011 "Transverse Mercator with an accuracy of a few
+nanometers" and Krüger 1912 "Konforme Abbildung des Erdellipsoids in
+der Ebene", references U{https://arxiv.org/pdf/1002.1417v3.pdf},
+U{http://bib.gfz-potsdam.de/pub/digi/krueger2.pdf},
+U{http://henrik-seidel.gmxhome.de/gausskrueger.pdf} and
+U{https://en.wikipedia.org/wiki/Transverse_Mercator:_Redfearn_series}.
+'''
 
 from math import cos, sin, sqrt, tan
-from bases import _Base
+from bases import Base
 from datum import Datums
+from ellipsoidalBase import LatLonEllipsoidalBase
 from utils import degrees90, degrees180, false2f, fdot, \
                   halfs, isscalar, radians
-
-# Ordnance Survey Grid References (OSGR) provide geocoordinate references
-# for UK mapping purposes, converted 2015 to work with WGS84 datum by
-# default or OSGB36 as option.
-
-# See <http://www.OrdnanceSurvey.co.uk/docs/support/guide-coordinate-systems-great-britain.pdf>
-# <https://www.OrdnanceSurvey.co.uk/blog/2014/09/proposed-changes-to-latitude-and-longitude-representation-on-paper-maps-tell-us-your-thoughts/>,
-# <http://www.OrdnanceSurvey.co.uk/blog/2014/12/confirmation-on-changes-to-latitude-and-longitude>.
-# and <https://en.wikipedia.org/wiki/Ordnance_Survey_National_Grid>
-
-# See also Karney 2011 "Transverse Mercator with an accuracy of a few
-# nanometers" and Krüger 1912 "Konforme Abbildung des Erdellipsoids in
-# der Ebene".
-
-# References <https://arxiv.org/pdf/1002.1417v3.pdf>,
-# <http://bib.gfz-potsdam.de/pub/digi/krueger2.pdf>,
-# <http://henrik-seidel.gmxhome.de/gausskrueger.pdf> and
-# <https://en.wikipedia.org/wiki/Transverse_Mercator:_Redfearn_series>
 
 # all public contants, classes and functions
 __all__ = ('Osgr',  # classes
            'parseOSGR', 'toOsgr')  # functions
-__version__ = '17.02.01'
+__version__ = '17.02.07'
 
-_10um    = 1e-5  # 0.01 millimeter
-_100km   = 100000  # 100 km in (int) meter
+_10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (meter)
+_100km   = 100000  #: (INTERNAL) 100 km (int meter)
 
-_A0, _B0 = radians(49), radians(-2)  # NatGrid true origin, 49°N,2°W
-_E0, _N0 = 400e3, -100e3  # east-/northing of true origin, meter
-_F0      = 0.9996012717   # NatGrid scale of central meridian
+_A0, _B0 = radians(49), radians(-2)  #: (INTERNAL) NatGrid true origin, 49°N,2°W.
+_E0, _N0 = 400e3, -100e3  #: (INTERNAL) East-/northing of true origin (meter)
+_F0      = 0.9996012717   #: (INTERNAL) NatGrid scale of central meridian
 
-_OSGB36  = Datums.OSGB36  # Airy130 ellipsoid
+_OSGB36  = Datums.OSGB36  #: (INTERNAL) Airy130 ellipsoid
 
 
-def _M(Mabcd, a):  # meridional arc
+def _M(Mabcd, a):
+    '''(INTERNAL) Compute meridional arc.
+    '''
     a_ = a - _A0
     _a = a + _A0
     return _F0 * fdot(Mabcd, a_, -sin(a_)     * cos(_a),
@@ -54,23 +58,24 @@ def _M(Mabcd, a):  # meridional arc
                                  -sin(a_ * 3) * cos(_a * 3))
 
 
-class Osgr(_Base):
+class Osgr(Base):
     '''OSGR coordinate.
     '''
-    _datum    = _OSGB36
-    _easting  = 0
-    _latlon   = None  # also set by ellipsoidalBase._LatLonHeightDatumBase.toUtm.
-    _northing = 0
+    _datum    = _OSGB36  #: (INTERNAL) Datum (L{Datum})
+    _easting  = 0        #: (INTERNAL) Easting (meter).
+    # _latlon also set by ellipsoidalBase.LatLonEllipsoidalBase.toUtm.
+    _latlon   = None     #: (INTERNAL) Cache _toLatlon
+    _northing = 0        #: (INTERNAL) Nothing (meter).
 
     def __init__(self, easting, northing):
-        '''Creates an OSGR National Grid Reference.
+        '''New OSGR National Grid Reference.
 
-           @param {meter} easting - Easting from OS false easting.
-           @param {meter} northing - Northing from from OS false northing.
+           @param easting: Easting from OS false easting (meter).
+           @param northing: Northing from from OS false northing (meter).
 
-           @throws {ValueError} Invalid OSGR grid reference.
+           @raise ValueError: Invalid OSGR grid reference.
 
-           @example
+           @example:
            from geodesy import Osgr
            r = Osgr(651409, 313177)
         '''
@@ -79,41 +84,45 @@ class Osgr(_Base):
 
     @property
     def datum(self):
-        '''Return the datum.'''
+        '''Get the datum (L{Datum}).
+        '''
         return self._datum
 
     @property
     def easting(self):
-        '''Return easting in meter.'''
+        '''Get easting (meter).
+        '''
         return self._easting
 
     @property
     def northing(self):
-        '''Return northing in meter.'''
+        '''Get northing (meter).
+        '''
         return self._northing
 
     def parse(self, strOSGR):
         '''Parse a string to an Osgr instance.
 
-           For details, see function parseOSGR
-           in this module osgr.
+           For more details, see function L{parseOSGR} in this module L{osgr}.
         '''
         return parseOSGR(strOSGR)
 
     def toLatLon(self, LatLon, datum=Datums.WGS84):
-        '''Convert this OSGR coordinate to an ellipsoidal lat-/longitude.
+        '''Convert this OSGR coordinate to an ellipsoidal lat-/longitude
+           point.
 
            Note formulation implemented here due to Thomas, Redfearn, etc.
            is as published by OS, but is inferior to Krüger as used by
            e.g. Karney 2011.
 
-           @param {LatLon} LatLon - Ellipsoidal LatLon class to use.
+           @param LatLon: Ellipsoidal LatLon class to use (L{LatLon}).
+           @param datum: Darum to use (L{Datum}).
 
-           @returns {LatLon} Lat-/longitude of this OSGR coordinate.
+           @return: The elliposoidal point (L{LatLon}).
 
-           @throws {TypeError} If LatLon is not ellipsoidal.
+           @raise TypeError: If L{LatLon} is not ellipsoidal.
 
-           @example
+           @example:
            from geodesy import ellipsoidalVincenty as eV
            g = Osgr(651409.903, 313177.270)
            p = g.toLatLon(ev.LatLon)  # 52°39′28.723″N, 001°42′57.787″E
@@ -124,8 +133,8 @@ class Osgr(_Base):
                         and self._latlon.datum == datum:
             return self._latlon  # set below
 
-        if not hasattr(LatLon, 'convertDatum'):
-            raise TypeError('%s not ellipsoidal: %r' % ('LatLon', LatLon))
+        if not issubclass(LatLon, LatLonEllipsoidalBase):
+            raise TypeError('%s not %s: %r' % ('LatLon', 'ellipsoidal', LatLon))
 
         E = _OSGB36.ellipsoid  # Airy130
         Mabcd = E.Mabcd
@@ -190,13 +199,13 @@ class Osgr(_Base):
            Note that OSGR coordinates are truncated, not rounded
            (unlike UTM grid references).
 
-           @param {number} [prec=10] - Number of ditits.
-           @param {string} [sep=' '] - Separator to join.
+           @keyword prec: Number of digits (int).
+           @keyword sep: Separator to join (string).
 
-           @returns {string} This OSGR as string "EN meter meter" or
-                             "meter,meter' if prec<=0
+           @return: This OSGR as string "EN meter meter" or as
+                    "meter,meter' if prec non-positive (string).
 
-           @example
+           @example:
            r = Osgr(651409, 313177)
            str(r)  # TG 5140 1317
            r.toStr(prec=0)  # 651409,313177
@@ -236,12 +245,12 @@ class Osgr(_Base):
     def toStr2(self, prec=10, fmt='[%s]', sep=', '):  # PYCHOK expected
         '''Returns a string representation of this OSGR coordinate.
 
-           @param {number} [prec=10] - Number of digits.
-           @param {string} [fmt='[%s]'] - Enclosing backets format.
-           @param {string} [sep=', '] - Separator between name:values.
+           @keyword prec: Number of digits (int).
+           @keyword fmt: Enclosing backets format (string).
+           @keyword sep: Separator to join (string).
 
-           @returns {string} This OSGR as "[G:00B, E:meter, N:meter]"
-                             or "OSGR:meter,meter" if prec<=0.
+           @return: This OSGR as "[G:00B, E:meter, N:meter]" or as
+                    "OSGR:meter,meter" if prec non-positive (string).
         '''
         t = self.toStr(prec=prec, sep=' ')
         if prec > 0:
@@ -260,13 +269,13 @@ def parseOSGR(strOSGR):
        numeric, comma-separated references in metres, for
        example '438700,114800'.
 
-       @param {string} strOSGR - OSGR coordinate.
+       @param strOSGR: An OSGR coordinate (string).
 
-       @returns {Osgr} The OSGR coordinate.
+       @return: The OSGR coordinate (L{Osgr}).
 
-       @throws {ValueError} Invalid strOSGR.
+       @raise ValueError: Invalid L{strOSGR}.
 
-       @example
+       @example:
        g = parseOSGR('TG 51409 13177')
        str(g)  # TG 51409 13177
        g = parseOSGR('TG5140913177')
@@ -330,17 +339,17 @@ def parseOSGR(strOSGR):
 def toOsgr(latlon, lon=None, datum=Datums.WGS84):
     '''Convert lat-/longitude to a OSGR coordinate.
 
-       @param {degrees|LatLon} latlon - Latitude in degrees or an
-                                        ellipsoidal LatLon instance.
-       @param {degrees} [lon=None] - Longitude in degrees or None.
-       @param {Datum} [datum=WGS84] - Lat-/longitude datum.
+       @param latlon: Latitude in degrees (scalar) or an
+                      ellipsoidal LatLon location.
+       @keyword lon: Longitude in degrees (scalar or None).
+       @keyword datum: Datum to use (L{Datum}).
 
-       @returns {Osgr} The OSGR coordinate.
+       @return: The OSGR coordinate (L{Osgr}).
 
-       @throws {TypeError} If latlon is not an ellipsoidal LatLon.
-       @throws {ValueError} If lat-/longitude is invalid.
+       @raise TypeError: If L{latlon} is not an ellipsoidal LatLon.
+       @raise ValueError: If L{lon} is invalid.
 
-       @example
+       @example:
        p = LatLon(52.65798, 1.71605)
        r = toOsgr(p)  # TG 51409 13177
        # for conversion of (historical) OSGB36 lat-/longitude:
@@ -348,8 +357,8 @@ def toOsgr(latlon, lon=None, datum=Datums.WGS84):
     '''
     if isscalar(lon) and isscalar(latlon):
         # XXX any ellipsoidal LatLon with .convertDatum
-        from ellipsoidalVincenty import LatLon as _LatLon
-        latlon = _LatLon(latlon, lon, datum=datum)
+        from ellipsoidalVincenty import LatLon as _LL
+        latlon = _LL(latlon, lon, datum=datum)
     elif not hasattr(latlon, 'convertDatum'):
         raise TypeError('%s not ellipsoidal: %r' % ('latlon', latlon))
     elif lon is not None:

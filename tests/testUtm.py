@@ -84,9 +84,9 @@ if __name__ == '__main__':
     t.results()
     t.exit()
 
-    # Typical test results (on MacOS X):
+    # Typical test results (on MacOS 10.12.2):
 
-    # testing geodesy.utm version 17.01.14
+    # testing geodesy.utm version 17.02.07
     # test 1 Utm1: 03 N 448251.0 5411932.0001
     # test 2 Utm2: 31 N 448252 5411933
     # test 3 Utm2: 31 N 448251.795 5411932.678
@@ -130,7 +130,7 @@ if __name__ == '__main__':
     # test 41 toUtm(76.0°N, 037.0°E): 37X N 446000 8436100
     # all geodesy.utm tests passed (Python 2.7.13 64bit)
 
-    # testing geodesy.utm version 17.01.14
+    # testing geodesy.utm version 17.02.07
     # test 1 Utm1: 03 N 448251.0 5411932.0001
     # test 2 Utm2: 31 N 448252 5411933
     # test 3 Utm2: 31 N 448251.795 5411932.678

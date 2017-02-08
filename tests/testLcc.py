@@ -73,9 +73,9 @@ if __name__ == '__main__':
     t.results()
     t.exit()
 
-    # Typical test results (on MacOS X):
+    # Typical test results (on MacOS 10.12.2):
 
-    # testing testLcc.py version 16.12.15
+    # testing testLcc.py version 16.12.23
     # test 1 lb1: 448251.0 5411932.0001
     # test 2 lb1: 448251, 5411932
     # test 3 lb1: WRF_Lb.WGS84
@@ -188,9 +188,9 @@ if __name__ == '__main__':
     # test 110 WRF_Lb: WGS84
     # test 111 Snyder1: lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27, name='NAD27'), name='Snyder1'
     # test 112 Snyder2: lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27, name='NAD27'), name='Snyder2'
-    # all testLcc.py tests passed (Python 2.7.10 64bit)
+    # all testLcc.py tests passed (Python 2.7.13 64bit)
 
-    # testing testLcc.py version 16.12.15
+    # testing testLcc.py version 16.12.23
     # test 1 lb1: 448251.0 5411932.0001
     # test 2 lb1: 448251, 5411932
     # test 3 lb1: WRF_Lb.WGS84
@@ -303,4 +303,4 @@ if __name__ == '__main__':
     # test 110 WRF_Lb: WGS84
     # test 111 Snyder1: lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27, name='NAD27'), name='Snyder1'
     # test 112 Snyder2: lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27, name='NAD27'), name='Snyder2'
-    # all testLcc.py tests passed (Python 3.6.0 64bit)
+    # all testLcc.py tests passed (Python 3.6.0 64bit)0

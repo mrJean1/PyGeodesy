@@ -1,35 +1,32 @@
 
 # -*- coding: utf-8 -*-
 
-# Python implementation of geodesy tools for an ellipsoidal earth model.
-#
-# Includes ellipsoid parameters and datums for different geographic coordinate
-# systems and methods for converting between them and to cartesian coordinates.
-# Transcribed from JavaScript originals by (C) Chris Veness 2005-2016 and
-# published under the same MIT Licence**, see <http://www.movable-type.co.uk/
-# scripts/geodesy/docs/latlon-ellipsoidal.js.html>
+'''Classes L{Datum}, L{Ellipsoid} and L{Transform} and registries thereof.
 
-# Historical geodetic datums: a latitude/longitude point defines a geographic
-# location on or above/below the earth’s surface, measured in degrees from
-# the equator and the International Reference Meridian and meters above the
-# ellipsoid, and based on a given datum.  The datum is based on a reference
-# ellipsoid and tied to geodetic survey reference points.
+Python implementation of geodesy tools for an ellipsoidal earth model.
 
-# Modern geodesy is generally based on the WGS84 datum (as used for instance
-# by GPS systems), but previously various reference ellipsoids and datum
-# references were used.
+Includes ellipsoid parameters and datums for different geographic coordinate
+systems and methods for converting between them and to cartesian coordinates.
+Transcribed from JavaScript originals by I{(C) Chris Veness 2005-2016} and
+published under the same MIT Licence**, see U{http://www.movable-type.co.uk/
+scripts/geodesy/docs/latlon-ellipsoidal.js.html}.
 
-# This module extends the core latlon-ellipsoidal module to include ellipsoid
-# parameters and datum transformation parameters, and methods for converting
-# between different (generally historical) datums.
+Historical geodetic datums: a latitude/longitude point defines a geographic
+location on or above/below the earth’s surface, measured in degrees from
+the equator and the International Reference Meridian and meters above the
+ellipsoid, and based on a given datum.  The datum is based on a reference
+ellipsoid and tied to geodetic survey reference points.
 
-# The UK Ordnance Survey National Grid References are still based on the
-# otherwise historical OSGB36 datum, q.v. Ordnance Survey 'A guide to
-# coordinate systems in Great Britain' Section 6 <http://www.ordnancesurvey
-# .co.uk/docs/support/guide-coordinate-systems-great-britain.pdf> and also
-# <http://www.ordnancesurvey.co.uk/blog/2014/12/2>.
+Modern geodesy is generally based on the WGS84 datum (as used for instance
+by GPS systems), but previously various reference ellipsoids and datum
+references were used.
 
-# This module is used for UK Ordnance Survey mapping, and for historical purposes.
+The UK Ordnance Survey National Grid References are still based on the
+otherwise historical OSGB36 datum, q.v. Ordnance Survey 'A guide to
+coordinate systems in Great Britain' Section 6 U{http://www.ordnancesurvey
+.co.uk/docs/support/guide-coordinate-systems-great-britain.pdf} and also
+U{http://www.ordnancesurvey.co.uk/blog/2014/12/2}.
+'''
 
 # force int division to yield float quotient
 from __future__ import division as _
@@ -37,51 +34,69 @@ if not 1/2:  # PYCHOK 1/2 == 0
     raise ImportError('1/2 == %d' % (1/2,))
 
 from math  import sqrt
-from bases import _Base
+from bases import Base, Named
 from utils import fdot, fStr, radians
+
+R_KM = 6371.008771415  #: Mean, spherical earth radius (kilo meter).
+R_M  = R_KM * 1.0e3    #: Mean, spherical earth radius (meter).
+R_NM = R_KM * 0.53996  #: Mean, spherical earth radius (nautical miles).
+R_SM = R_KM * 0.62137  #: Mean, spherical earth radius (statute miles).
+#R_? = 6372797.560856  # XXX some other earth radius?  # PYCHOK expected
 
 # all public contants, classes and functions
 __all__ = ('R_KM', 'R_M', 'R_NM', 'R_SM',  # constants
            'Datum',  'Ellipsoid',  'Transform',  # classes
            'Datums', 'Ellipsoids', 'Transforms')  # enum-like
-__version__ = '16.12.06'
+__version__ = '17.02.07'
 
 
-class _Enum(dict):  # enum-like
-
+class _Enum(dict, Named):
+    '''(INTERNAL) Enum-like dict sub-class.
+    '''
     def __init__(self, name):
-        self.name = name
+        '''New Enum.
+
+           @param name: Name (string).
+        '''
+        self._name = name
 
     def __getattr__(self, attr):
         try:
             return self[attr]
         except KeyError:
-            raise AttributeError("%s.%s doesn't exist" % (self.name, attr))
+            raise AttributeError("%s.%s doesn't exist" % (self._name, attr))
 
     def __repr__(self):
-        return '\n'.join('%s.%s: %r' % (self.name, n, v) for n, v in sorted(self.items()))
+        return '\n'.join('%s.%s: %r' % (self._name, n, v) for n, v in sorted(self.items()))
 
     def __str__(self):
-        return self.name + ', '.join(sorted('.' + n for n in self.keys()))
+        return self._name + ', '.join(sorted('.' + n for n in self.keys()))
 
     def _assert(self, **kwds):
-        # check names against given names
+        '''(INTERNAL) Check names against given names.
+        '''
         for a, v in kwds.items():
             assert getattr(self, a) is v
 
-Ellipsoids = _Enum('Ellipsoids')
-Transforms = _Enum('Transforms')
-Datums     = _Enum('Datums')
+
+Datums     = _Enum('Datums')      #: Registered datums.
+Ellipsoids = _Enum('Ellipsoids')  #: Registered ellipsoids.
+Transforms = _Enum('Transforms')  #: Registered transforms.
 
 
-class _Based(_Base):
-
-    name = ''
-
+class _Based(Base, Named):
+    '''(INTERNAL) Base class.
+    '''
     def __ne__(self, other):
+        '''Compare this and an other ellipsoid.
+
+           @return: True if different (bool).
+        '''
         return not self.__eq__(other)
 
     def _fStr(self, prec, *attrs, **others):
+        '''(INTERNAL) Format.
+        '''
         t = fStr([getattr(self, a) for a in attrs], prec=prec, sep=' ', ints=True)
         t = ['%s=%s' % (a, v) for a, v in zip(attrs, t.split())]
         if others:
@@ -89,44 +104,48 @@ class _Based(_Base):
         return ', '.join(t + ['name=%r' % (self.name,)])
 
     def _register(self, enum, name):
-        # add this enum name
+        '''(INTERNAL) Add this enum name.
+        '''
         if name:
             if name in enum:
                 raise NameError('%s.%s exists' % (enum.name, name))
             enum[name] = self
-            self.name = name
+            self._name = name
 
 
 class Ellipsoid(_Based):
-    '''Ellipsoid with semi-major axis (a), semi-minor axis (b) and
-       flattening (f) or inverse flattening (1/f).
-
-       Flattening (f) is defined as a / (a − b), the 1st eccentricity
-       squared (e2) as f * (2 - f) or (a^2 - b^2) / a^2, the 2nd
-       eccentricity squared (e22) as e2 / (1 - e2) or (a^2 - b^2) / b^2
-       and the mean radius (R) as (2 * a + b) / 3.
+    '''Ellipsoid with semi-major, semi-minor axis inverse flattening.
     '''
-    a    = 0  # semi-major, equatorial axis in meter
-    b    = 0  # semi-minor, polar axis in meter
+    a    = 0  #: Semi-major, equatorial axis (meter).
+    b    = 0  #: Semi-minor, polar axis (meter).
     # precomputed, frequently used values
-    a2   = 0  # (1 / a^2) squared
-    a2b2 = 1  # (a / b)^2 squared or 1 / (1 - f) squared
-    e    = 0  # 1st eccentricity: sqrt(1 - (b / a)^2))
-    e2   = 0  # 1st eccentricity squared: f * (2 - f) = (a^2 - b^2) / a^2
-    e4   = 0  # e2 squared
-    e12  = 1  # (1 - e2)
-    e22  = 0  # 2nd eccentricity squared: e2 / (1 - e2) = a2b2 - 1
-    f    = 0  # inverse flattening: a / (a - b)
-    n    = 0  # 3rd flattening: f / (2 - f) = (a - b) / (a + b)
-    R    = 0  # mean radius: (2 * a + b) / 3 per IUGG definition
-    Rm   = 0  # mean radius: sqrt(a * b)
+    a2   = 0  #: (1 / a^2) (float).
+    a2b2 = 1  #: (a / b)^2 = 1 / (1 - f)^2 (float).
+    e    = 0  #: 1st Eccentricity: sqrt(1 - (b / a)^2)) (float).
+    e2   = 0  #: 1st Eccentricity squared: f * (2 - f) = (a^2 - b^2) / a^2 (float).
+    e4   = 0  #: e2^2 (float).
+    e12  = 1  #: (1 - e2) (float).
+    e22  = 0  #: 2nd Eccentricity squared: e2 / (1 - e2) = a2b2 - 1 (float).
+    f    = 0  #: Inverse flattening: a / (a - b) (float).
+    n    = 0  #: 3rd Flattening: f / (2 - f) = (a - b) / (a + b) (float).
+    R    = 0  #: Mean radius: (2 * a + b) / 3 per IUGG definition (meter).
+    Rm   = 0  #: Mean radius: sqrt(a * b) (meter).
 
-    _A      = None  # meridian radius
-    _Alpha6 = None  # 6th-order Krüger Alpha series
-    _Beta6  = None  # 6th-order Krüger Beta series
-    _Mabcd  = None  # OSGB meridional coefficients
+    _A      = None  #: (INTERNAL) meridian radius
+    _Alpha6 = None  #: (INTERNAL) 6th-order Krüger Alpha series
+    _Beta6  = None  #: (INTERNAL) 6th-order Krüger Beta series
+    _Mabcd  = None  #: (INTERNAL) OSGB meridional coefficients
 
     def __init__(self, a, b, f, name=''):
+        '''New ellipsoid.
+
+          @param a: Semi-major, equatorial axis (meter).
+          @param b: Semi-minor, polar axis (meter).
+          @param f: Flattening: a / (a - b) (float >>> 1).
+          @keyword name: Optional, unique name (string).
+
+           @raise NameError: If ellipsoid L{name} already exists.
+        '''
         self.a = a = float(a)  # major half-axis in meter
         self.b = b = float(b)  # minor half-axis in meter
         if f > 0:
@@ -144,6 +163,7 @@ class Ellipsoid(_Based):
         self.R = (2 * a + b) / 3  # per IUGG definition for WGS84
         self.Rm = sqrt(a * b)  # mean radius
         self._register(Ellipsoids, name)
+
         d = a - b
         self._ab_90 = d / 90  # for radiusAt below
 
@@ -165,13 +185,19 @@ class Ellipsoid(_Based):
                                  'e22', self.e22, 'a2b2-1', t))
 
     def __eq__(self, other):
+        '''Compare this and an other ellipsoid.
+
+           @param other: The other ellipsoid (L{Ellipsoid}).
+
+           @return: True if equal (bool).
+        '''
         return self is other or (isinstance(other, Ellipsoid) and
                                  self.a == other.a and
                                  self.b == other.b)
 
     @property
     def A(self):
-        '''Return the meridian radius.
+        '''Get the meridional radius (meter).
         '''
         if self._A is None:
             n = self.n
@@ -184,7 +210,7 @@ class Ellipsoid(_Based):
 
     @property
     def Alpha6(self):
-        '''Return the 6th-order Krüger Alpha series, 1-origin.
+        '''Get the 6th-order Krüger Alpha series (1-origin, 7-tuple).
         '''
         if self._Alpha6 is None:
             self._Alpha6 = self._K6(
@@ -200,7 +226,7 @@ class Ellipsoid(_Based):
 
     @property
     def Beta6(self):
-        '''Return the 6th-order Krüger Beta series, 1-origin.
+        '''Get the 6th-order Krüger Beta series (1-origin, 7-tuple).
         '''
         if self._Beta6 is None:
             self._Beta6 = self._K6(
@@ -215,15 +241,31 @@ class Ellipsoid(_Based):
         return self._Beta6
 
     def e2s2(self, s):
-        '''Return norm.
+        '''Compute norm sqrt(1 - e2 * s^2).
+
+           @param s: S value (scalar).
+
+           @return: Norm (float).
         '''
         return sqrt(1 - self.e2 * s * s)
 
+    def isellipsoidal(self):
+        '''Check ellipsoidal or spherical.
+
+           @return: True is ellipsoidal (bool).
+        '''
+        return self.a > self.R > self.b
+
     def _K6(self, *fs6):
-        # Compute 6th-order Krüger Alpha or Beta series per
-        # Karney 2011, 'Transverse Mercator with an accuracy
-        # of a few nanometers', page 7, equations 35 and 36
-        # <https://arxiv.org/pdf/1002.1417v3.pdf>
+        '''(INTERNAL) Compute 6th-order Krüger Alpha or Beta series
+           per Karney 2011, 'Transverse Mercator with an accuracy
+           of a few nanometers', page 7, equations 35 and 36, see
+           <https://arxiv.org/pdf/1002.1417v3.pdf>.
+
+           @param fs6: 6-Tuple of coefficent tuples.
+
+           @return: 6th-Order Krüger (1-origin, 7-tuple).
+        '''
         ns = [self.n]  # 3rd flattening: n, n^2, ... n^6
         for i in range(len(fs6) - 1):
             ns.append(ns[0] * ns[i])
@@ -237,7 +279,7 @@ class Ellipsoid(_Based):
 
     @property
     def Mabcd(self):
-        '''Return OSGB meridional coefficients, Airy130 only.
+        '''Get the OSGB meridional coefficients, Airy130 only (4-tuple).
         '''
         if self._Mabcd is None:
             n = self.n
@@ -254,9 +296,9 @@ class Ellipsoid(_Based):
         '''Approximate the ellipsoid radius at the given
            latitude in degrees by trivial interpolation.
 
-           @param {degrees90} lat - Latitude in degrees.
+           @param lat: Latitude (degrees90).
 
-           @returns {number} Radius at that latitude.
+           @return: Radius at that L{lat}itude (meter).
         '''
         # r = major - (major - minor) * |lat| / 90
         return self.a - self._ab_90 * min(abs(lat), 90)
@@ -264,18 +306,12 @@ class Ellipsoid(_Based):
     def toStr(self, prec=8):  # PYCHOK expected
         '''Return this ellipsoid as a string.
 
-           @param {int} [prec=8] - Number of decimals, unstripped.
+           @keyword prec: Number of decimals, unstripped (int).
 
-           @returns {string} Ellipsoid string.
+           @return: Ellipsoid attributes (string).
         '''
         return self._fStr(prec, 'a', 'b', 'f', 'e2', 'e22', 'R', 'Rm')
 
-
-R_KM = 6371.008771415  # mean (spherical) earth radius in kilo meter
-R_M  = R_KM * 1.0e3    # mean (spherical) earth radius in meter
-R_NM = R_KM * 0.53996  # mean (spherical) earth radius in nautical miles
-R_SM = R_KM * 0.62137  # mean (spherical) earth radius in statute miles
-#R_? = 6372797.560856  # XXX some other mean radius?  # PYCHOK expected
 
 Ellipsoids._assert(
     WGS84         = Ellipsoid(6378137.0,   6356752.31425, 298.257223563, 'WGS84'),
@@ -294,23 +330,36 @@ Ellipsoids._assert(
 class Transform(_Based):
     '''Helmert transformation.
     '''
-    tx = 0  # translate in meter
-    ty = 0
-    tz = 0
+    tx = 0  #: X translation (meter).
+    ty = 0  #: Y translation (meter).
+    tz = 0  #: Z translation (meter).
 
-    rx = 0  # rotation in radians
-    ry = 0
-    rz = 0
+    rx = 0  #: X rotation (radians).
+    ry = 0  #: Y rotation (radians).
+    rz = 0  #: Z rotation (radians).
 
-    s  = 0  # ppm
-    s1 = 1
+    s  = 0  #: Scale ppm (float).
+    s1 = 1  #: Scale + 1 (float).
 
-    sx = 0  # rotation in degree seconds
-    sy = 0
-    sz = 0
+    sx = 0  #: X rotation (degree seconds).
+    sy = 0  #: Y rotation (degree seconds).
+    sz = 0  #: Z rotation (degree seconds).
 
     def __init__(self, name='', tx=0, ty=0, tz=0,
                                 sx=0, sy=0, sz=0, s=0):
+        '''New transform.
+
+           @keyword name: Optional, unique name (string).
+           @keyword tx: X translation (meter).
+           @keyword ty: Y translation (meter).
+           @keyword tz: Z translation (meter).
+           @keyword s: Scale ppm (float).
+           @keyword sx: X rotation (degree seconds).
+           @keyword sy: Y rotation (degree seconds).
+           @keyword sz: Z rotation (degree seconds).
+
+           @raise NameError: If transform L{name} already exists.
+        '''
         if tx:
             self.tx = float(tx)
         if ty:
@@ -332,6 +381,12 @@ class Transform(_Based):
         self._register(Transforms, name)
 
     def __eq__(self, other):
+        '''Compare this and an other transform.
+
+           @param other: The other transform (L{Transform}).
+
+           @return: True if equal (bool).
+        '''
         return self is other or (isinstance(other, Transform) and
                                  self.tx == other.tx and
                                  self.ty == other.ty and
@@ -344,9 +399,9 @@ class Transform(_Based):
     def toStr(self, prec=4):  # PYCHOK expected
         '''Return this transform as a string.
 
-           @param {int} [prec=4] - Number of decimals, unstripped.
+           @keyword prec: Number of decimals, unstripped (int).
 
-           @returns {string} Transform string.
+           @return: Transform attributes (string).
         '''
         return self._fStr(prec, 'tx', 'ty', 'tz',
                                 'rx', 'ry', 'rz', 's', 's1',
@@ -354,6 +409,13 @@ class Transform(_Based):
 
     def transform(self, x, y, z, inverse=False):
         '''Transform a (geocentric) Cartesian point, forward or inverse.
+
+           @param x: X coordinate (meter).
+           @param y: Y coordinate (meter).
+           @param z: Z coordinate (meter).
+           @keyword inverse: Direction, forward or inverse (bool).
+
+           @return: Transformed point (3-tuple).
         '''
         if inverse:
             xyz = -1, -x, -y, -z
@@ -399,20 +461,39 @@ Transforms._assert(
 
 
 class Datum(_Based):
-    '''Create a new datum from the given ellipsoid and transform.
+    '''Datum ellipsoid and transform.
     '''
+    ellipsoid = Ellipsoids.WGS84  #: Ellipsoid instance (L{Ellipsoid}).
+    transform = Transforms.WGS84  #: Transform instance (L{Transform}).
+
     def __init__(self, ellipsoid, transform=None, name=''):
-        self.ellipsoid = ellipsoid or Ellipsoids.WGS84
+        '''New datum.
+
+           @param ellipsoid: Ellipsoid instance (L{Ellipsoid}).
+           @keyword transform: Transform instance (L{Transform}).
+           @keyword name: Optional, unique name (string).
+
+           @raise NameError: If datum L{name} already exists.
+           @raise TypeError: If L{ellipsoid} is not an L{Ellipsoid}
+                             or L{transform} is not a L{Transform}.
+        '''
+        self.ellipsoid = ellipsoid or Datum.ellipsoid
         if not isinstance(self.ellipsoid, Ellipsoid):
             raise TypeError('%s not an %s: %r' % ('ellipsoid', Ellipsoid.__name__, self.ellipsoid))
 
-        self.transform = transform or Transforms.WGS84
+        self.transform = transform or Datum.transform
         if not isinstance(self.transform, Transform):
             raise TypeError('%s not a %s: %r' % ('transform', Transform.__name__, self.transform))
 
         self._register(Datums, name or self.transform.name or self.ellipsoid.name)
 
     def __eq__(self, other):
+        '''Compare this and an other datum.
+
+           @param other: The other datum (L{Datum}).
+
+           @return: True if equal (bool)
+        '''
         return self is other or (isinstance(other, Datum) and
                                  self.ellipsoid == other.ellipsoid and
                                  self.transform == other.transform)
@@ -420,7 +501,7 @@ class Datum(_Based):
     def toStr(self, **unused):  # PYCHOK expected
         '''Return this datum as a string.
 
-           @returns {string} Datum string.
+           @return: Datum attributes (string).
         '''
         t = []
         for a in ('ellipsoid', 'transform'):
@@ -511,22 +592,22 @@ if __name__ == '__main__':
 # Ellipsoids.Clarke1880IGN: Ellipsoid(a=6378249.2, b=6356515.0, f=0.00340755, e2=0.00680349, e22=0.00685009, R=6371004.46666667, Rm=6367372.82664821, name='Clarke1880IGN')
 # Ellipsoids.GRS80: Ellipsoid(a=6378137.0, b=6356752.31414, f=0.00335281, e2=0.00669438, e22=0.0067395, R=6371008.77138, Rm=6367435.67966351, name='GRS80')
 # Ellipsoids.Intl1924: Ellipsoid(a=6378388.0, b=6356911.946, f=0.003367, e2=0.00672267, e22=0.00676817, R=6371229.31533333, Rm=6367640.91900784, name='Intl1924')
-# Ellipsoids.Sphere: Ellipsoid(a=6371008.771415, b=6371008.771415, f=0.0, e2=0.0, e22=0.0, R=6371008.771415, Rm=6371008.771415, name='Sphere')
+# Ellipsoids.Sphere: Ellipsoid(a=6371008.771415, b=6371008.771415, f=0, e2=0, e22=0, R=6371008.771415, Rm=6371008.771415, name='Sphere')
 # Ellipsoids.WGS72: Ellipsoid(a=6378135.0, b=6356750.5, f=0.00335278, e2=0.00669432, e22=0.00673943, R=6371006.83333333, Rm=6367433.77274687, name='WGS72')
 # Ellipsoids.WGS84: Ellipsoid(a=6378137.0, b=6356752.31425, f=0.00335281, e2=0.00669438, e22=0.0067395, R=6371008.77141667, Rm=6367435.67971861, name='WGS84')
 #
-# Transforms.Clarke1866: Transform(tx=8.0, ty=-160.0, tz=-176.0, rx=0.0, ry=0.0, rz=0.0, s=0.0, s1=1.0, sx=0.0, sy=0.0, sz=0.0, name='Clarke1866')
-# Transforms.ED50: Transform(tx=89.5, ty=93.8, tz=123.1, rx=0.0, ry=0.0, rz=0.0, s=-1.2, s1=1.0, sx=0.0, sy=0.0, sz=0.156, name='ED50')
+# Transforms.Clarke1866: Transform(tx=8.0, ty=-160.0, tz=-176.0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0, name='Clarke1866')
+# Transforms.ED50: Transform(tx=89.5, ty=93.8, tz=123.1, rx=0, ry=0, rz=0.0, s=-1.2, s1=1.0, sx=0, sy=0, sz=0.156, name='ED50')
 # Transforms.Irl1975: Transform(tx=-482.53, ty=130.596, tz=-564.557, rx=-0.0, ry=-0.0, rz=-0.0, s=-1.1, s1=1.0, sx=-1.042, sy=-0.214, sz=-0.631, name='Irl1975')
 # Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-0.0, ry=0.0, rz=0.0, s=-2.423, s1=1.0, sx=-0.02, sy=0.26, sz=0.13, name='Krassovsky1940')
 # Transforms.MGI: Transform(tx=-577.326, ty=-90.129, tz=-463.92, rx=0.0, ry=0.0, rz=0.0, s=-2.423, s1=1.0, sx=5.137, sy=1.474, sz=5.297, name='MGI')
-# Transforms.NAD27: Transform(tx=8.0, ty=-160.0, tz=-176.0, rx=0.0, ry=0.0, rz=0.0, s=0.0, s1=1.0, sx=0.0, sy=0.0, sz=0.0, name='NAD27')
+# Transforms.NAD27: Transform(tx=8.0, ty=-160.0, tz=-176.0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0, name='NAD27')
 # Transforms.NAD83: Transform(tx=1.004, ty=-1.91, tz=-0.515, rx=0.0, ry=0.0, rz=0.0, s=-0.0015, s1=1.0, sx=0.0267, sy=0.0003, sz=0.011, name='NAD83')
-# Transforms.NTF: Transform(tx=-168.0, ty=-60.0, tz=320.0, rx=0.0, ry=0.0, rz=0.0, s=0.0, s1=1.0, sx=0.0, sy=0.0, sz=0.0, name='NTF')
+# Transforms.NTF: Transform(tx=-168.0, ty=-60.0, tz=320.0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0, name='NTF')
 # Transforms.OSGB36: Transform(tx=-446.448, ty=125.157, tz=-542.06, rx=-0.0, ry=-0.0, rz=-0.0, s=20.4894, s1=1.0, sx=-0.1502, sy=-0.247, sz=-0.8421, name='OSGB36')
-# Transforms.TokyoJapan: Transform(tx=148.0, ty=-507.0, tz=-685.0, rx=0.0, ry=0.0, rz=0.0, s=0.0, s1=1.0, sx=0.0, sy=0.0, sz=0.0, name='TokyoJapan')
-# Transforms.WGS72: Transform(tx=0.0, ty=0.0, tz=-4.5, rx=0.0, ry=0.0, rz=0.0, s=-0.22, s1=1.0, sx=0.0, sy=0.0, sz=0.554, name='WGS72')
-# Transforms.WGS84: Transform(tx=0.0, ty=0.0, tz=0.0, rx=0.0, ry=0.0, rz=0.0, s=0.0, s1=1.0, sx=0.0, sy=0.0, sz=0.0, name='WGS84')
+# Transforms.TokyoJapan: Transform(tx=148.0, ty=-507.0, tz=-685.0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0, name='TokyoJapan')
+# Transforms.WGS72: Transform(tx=0, ty=0, tz=-4.5, rx=0, ry=0, rz=0.0, s=-0.22, s1=1.0, sx=0, sy=0, sz=0.554, name='WGS72')
+# Transforms.WGS84: Transform(tx=0, ty=0, tz=0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0, name='WGS84')
 #
 # Datums.ED50: Datum(ellipsoid=Ellipsoids.Intl1924, transform=Transforms.ED50, name='ED50')
 # Datums.Irl1975: Datum(ellipsoid=Ellipsoids.AiryModified, transform=Transforms.Irl1975, name='Irl1975')

@@ -1,16 +1,18 @@
 
 # -*- coding: utf-8 -*-
 
-# Lambert Conformal Conic projection for 1 or 2 Standard Parallels.
+'''Lambert conformal conic projection for 1 or 2 Standard Parallels
+class L{Conic} and position class L{Lcc}.
 
-# <http://wikipedia.org/wiki/Lambert_conformal_conic_projection>
-# <http://www.linz.govt.nz/data/geodetic-system/coordinate-conversion/
-#         projection-conversions/lambert-conformal-conic-geographic>
-# Snyder <https://pubs.er.usgs.gov/djvu/PP/PP_1395.pdf> pp 107-109
-# <http://mathworld.wolfram.com/LambertConformalConicProjection.html>
+U{http://wikipedia.org/wiki/Lambert_conformal_conic_projection},
+U{http://www.linz.govt.nz/data/geodetic-system/coordinate-conversion/
+projection-conversions/lambert-conformal-conic-geographic},
+U{Snyder <https://pubs.er.usgs.gov/djvu/PP/PP_1395.pdf} pp 107-109 and
+U{http://mathworld.wolfram.com/LambertConformalConicProjection.html}.
+'''
 
 from math import atan, copysign, cos, hypot, log, sin, sqrt, tan
-from ellipsoidalBase import _LatLonHeightDatumBase as _LL
+from ellipsoidalBase import LatLonEllipsoidalBase as _LL
 from datum import _Based, Datums, _Enum
 from utils import EPS, PI_2, \
                   degrees90, degrees180, false2f, fStr, radians
@@ -18,62 +20,60 @@ from utils import EPS, PI_2, \
 # all public constants, classes and functions
 __all__ = ('Conic', 'Conics', 'Lcc',
            'toLcc')  # functions
-__version__ = '17.02.02'
+__version__ = '17.02.07'
 
 
-Conics = _Enum('Conics')
+Conics = _Enum('Conics')  #: Registered conics.
 
 
 class Conic(_Based):
     '''Lambert conformal conic projection (1- or 2-SP).
     '''
-    _auth  = ''
-    _datum = None
-    _name  = 'Conic'
+    _auth  = ''  #: (INTERNAL) authorization (string).
+    _datum = None  #: (INTERNAL) Datum (L{Datum}).
+    _name  = 'Conic'  #: (INTERNAL) Conic (L{Conic}).
 
-    _e  = 0  # ellipsoid excentricity
-    _E0 = 0  # false easting
-    _k0 = 1  # scale factor
-    _N0 = 0  # false northing
-    _SP = 0  # 1- or 2-SP
+    _e  = 0  #: (INTERNAL) Ellipsoid excentricity (float).
+    _E0 = 0  #: (INTERNAL) False easting (float).
+    _k0 = 1  #: (INTERNAL) Scale factor (float).
+    _N0 = 0  #: (INTERNAL) false northing (float).
+    _SP = 0  #: (INTERNAL) 1- or 2-SP (int)
 
-    _lat0 = 0  # origin lat in radians
-    _lon0 = 0  # origin lon in radians
-    _par1 = 0  # 1st std parallel in radians
-    _par2 = 0  # 2nd std parallel in radians
-    _opt3 = 0  # XXX optional, longitude in radians
+    _lat0 = 0  #: (INTERNAL) Origin lat (radians).
+    _lon0 = 0  #: (INTERNAL) Origin lon (radians).
+    _par1 = 0  #: (INTERNAL) 1st std parallel (radians).
+    _par2 = 0  #: (INTERNAL) 2nd std parallel (radians).
+    _opt3 = 0  #: (INTERNAL) Optional, longitude (radians).
 
-    _aF = 0  # precomputed values
-    _n  = 0
-    _n_ = 0
-    _r0 = 0
+    _aF = 0  #: (INTERNAL) Precomputed F.
+    _n  = 0  #: (INTERNAL) Precomputed n.
+    _n_ = 0  #: (INTERNAL) Precomputed 1 / n.
+    _r0 = 0  #: (INTERNAL) Precomputed rho0.
 
     def __init__(self, latlon0, par1, par2=None, E0=0, N0=0,
                        k0=1, opt3=0, name='', auth=''):
-        '''Create a Lambert conformal conic projection.
+        '''New Lambert conformal conic projection.
 
-           @param {LatLon} latlon - Origin in degrees including
-                                    an ellipsoidal datum.
-           @param {degrees90} par1 - First standard parallel.
-           @param {degrees90} par2 - Second standard parallel.
-           @param {meter} [E0=0] - False easting in meter.
-           @param {meter} [N0=0] - False northing in meter.
-           @param {number} [k0=1] - Scale factor.
-           @param {degrees180} [opt3=0] - Optional, longitude.
-           @param {string} [name=''] - Name of the conic.
-           @param {string} [auth=''] - Authentication authority.
+           @param latlon0: Origin including an ellipsoidal datum (LatLon).
+           @param par1: First standard parallel (degrees90).
+           @keyword par2: Second standard parallel (degrees90).
+           @keyword E0: False easting in meter (scalar).
+           @keyword N0: False northing in meter (scalar).
+           @keyword k0: Scale factor (scalar).
+           @keyword opt3: Optional meridian (degrees180).
+           @keyword name: Name of the conic (string).
+           @keyword auth: Authentication authority (string).
 
-           @returns {Conic} The Lambert projection.
+           @return: A Lambert projection (L{Conic}).
 
-           @example
+           @example:
            from geodesy import Conic, Datums, ellipsoidalNvector
-           LL = ellipsoidalNvector.LatLon
-           Snyder = Conic(LL(23, -96, datum=Datums.NAD27),
-                          33, 45, E0=0, N0=0, name='Snyder')
+           ll0 = ellipsoidalNvector.LatLon(23, -96, datum=Datums.NAD27)
+           Snyder = Conic(ll0, 33, 45, E0=0, N0=0, name='Snyder')
         '''
         if latlon0 is not None:
             if not isinstance(latlon0, _LL):
-                raise TypeError('%s not ellipsoidal: %r' % ('latlon0', latlon0))
+                raise TypeError('%s not %s: %r' % ('latlon0', 'ellipsoidal', latlon0))
 
             self._lat0, self._lon0 = latlon0.toradians()
             self._par1 = radians(par1)
@@ -99,12 +99,14 @@ class Conic(_Based):
 
     @property
     def auth(self):
-        '''Return the authentication.
+        '''Get the authentication authority (string).
         '''
         return self._auth
 
     def copy(self, name=''):
-        '''Return a copy of this Conic, unregistered.
+        '''Copy this conic.
+
+           @return: Conic, unregistered (L{Conic}).
         '''
         c = Conic(None, 0, name=name or self._name)
         self._dup2(c)
@@ -112,43 +114,43 @@ class Conic(_Based):
 
     @property
     def datum(self):
-        '''Return the datum.
+        '''Get the datum (L{Datum}).
         '''
         return self._datum
 
     @property
     def E0(self):
-        '''Return false easting in meter.
+        '''Get the false easting (meter).
         '''
         return self._E0
 
     @property
     def k0(self):
-        '''Return scale factor.
+        '''Get scale factor (scalar).
         '''
         return self._k0
 
     @property
     def lat0(self):
-        '''Return latitude of origin in degrees90.
+        '''Get the origin latitude (degrees90).
         '''
         return degrees90(self._lat0)
 
     @property
     def lon0(self):
-        '''Return central meridian in degrees180.
+        '''Get the central meridian (degrees180).
         '''
         return degrees180(self._lon0)
 
     @property
     def N0(self):
-        '''Return false northing in meter.
+        '''Get the false northing (meter).
         '''
         return self._N0
 
     @property
     def name(self):
-        '''Return the name.
+        '''Get the conic name (string).
         '''
         return self._name
 
@@ -160,40 +162,44 @@ class Conic(_Based):
 
     @property
     def name2(self):
-        '''Return the conic and datum name.
+        '''Get the conic and datum names as "conic.datum" (string).
         '''
         return self._name + '.' + self._datum.name
 
     @property
     def par1(self):
-        '''Return 1st standard parallel in degrees90.
+        '''Get the 1st standard parallel (degrees90).
         '''
         return degrees90(self._par1)
 
     @property
     def par2(self):
-        '''Return 2nd standard parallel in degrees90.
+        '''Get the 2nd standard parallel (degrees90).
         '''
         return degrees90(self._par2)
 
     @property
     def opt3(self):
-        '''Return optional longitude in degrees180.
+        '''Get the optional meridian (degrees180).
         '''
         return degrees180(self._opt3)
 
     @property
     def SP(self):
-        '''Return 1- or 2-SP.
+        '''Get the number of standard parallels (int).
         '''
         return self._SP
 
     def toDatum(self, datum):
         '''Convert this conic to the given datum.
+
+           @param datum: Ellipsoidal datum to use (L{Datum}).
+
+           @return: Converted conic, unregistered (L{Conic}).
         '''
         E = datum.ellipsoid
-        if not E.b < E.R < E.a:
-            raise ValueError('%s not ellipsoidal: %r' % ('datum', datum))
+        if not E.isellipsoidal():
+            raise ValueError('%s not %s: %r' % ('datum', 'ellipsoidal', datum))
 
         c = self
         if c._e != E.e or c._datum != datum:
@@ -236,9 +242,9 @@ class Conic(_Based):
     def toStr(self, prec=8):  # PYCHOK expected
         '''Return this conic as a string.
 
-           @param {int} [prec=8] - Number of decimals, unstripped.
+           @keyword prec: Number of decimals, unstripped (int).
 
-           @returns {string} Conic string.
+           @return: Conic attributes (string).
         '''
         if self._SP == 1:
             return self._fStr(prec, 'lat0', 'lon0', 'par1',
@@ -250,7 +256,9 @@ class Conic(_Based):
                                      datum='(%s)' % (self.datum),)
 
     def _dup2(self, c):
-        # copy self to c
+        '''(INTERNAL) Copy this conic to c.
+           @param c: Duplicate (L{Conic}).
+        '''
         c._auth  = self._auth
         c._datum = self._datum
 
@@ -271,21 +279,31 @@ class Conic(_Based):
         c._n_ = self._n_
         c._r0 = self._r0
 
-    def _mdef(self, lat):  # compute m(lat)
+    def _mdef(self, lat):
+        '''(INTERNAL) Compute m(lat).
+        '''
         s = self._e * sin(lat)
         return cos(lat) / sqrt(1 - s * s)
 
-    def _pdef(self, lat):  # compute p(lat)
+    def _pdef(self, lat):
+        '''(INTERNAL) Compute p(lat).
+        '''
         s = self._e * sin(lat)
         return pow((1 - s) / (1 + s), self._e / 2)
 
-    def _rdef(self, t):  # compute r(t)
+    def _rdef(self, t):
+        '''(INTERNAL) Compute r(t).
+        '''
         return self._aF * pow(t, self._n)
 
-    def _tdef(self, lat):  # compute t(lat)
+    def _tdef(self, lat):
+        '''(INTERNAL) Compute t(lat).
+        '''
         return max(0, tan((PI_2 - lat) / 2) / self._pdef(lat))
 
     def _xdef(self, t_x):
+        '''(INTERNAL) Compute x(t_x).
+        '''
         return PI_2 - 2 * atan(t_x)  # XXX + self._lat0
 
 
@@ -304,19 +322,25 @@ Conics._assert(  # <http://spatialreference.org/ref/sr-org/...>
 class Lcc(_Based):
     '''Lambert conformal conic East-/Northing location.
     '''
-    _height = 0
+    _easting  = 0  #: (INTERNAL) Easting (float).
+    _height   = 0  #: (INTERNAL) Height (meter).
+    _northing = 0  #: (INTERNAL) Northing (float).
+    _conic = None  #: (INTERNAL) Lamber projection (L{Conic}).
 
     def __init__(self, e, n, h=0, conic=Conics.WRF_Lb):
         '''Create an Lcc position.
 
-           @param {meter} e - Easting.
-           @param {meter} n - Northing.
-           @param {meter} [h=0] - Height
-           @param {Conic} [conic=Conics.WRF_Lb] - The conic projection.
+           @param e: Easting in meter (scalar).
+           @param n: Northing in meter (scalar).
+           @keyword h: Height in meter (scalar).
+           @keyword conic: The conic projection (L{Conic}).
 
-           @returns {Lcc} The Lcc location.
+           @return: The Lambert location (L{Lcc}).
 
-           @example
+           @raise TypeError: If L{conic} is not L{Conic}.
+           @raise ValueError: If L{e} or L{n} is invalid or negative.
+
+           @example:
            lb = Lcc(448251, 5411932.0001)
         '''
         if not isinstance(conic, Conic):
@@ -329,39 +353,39 @@ class Lcc(_Based):
 
     @property
     def conic(self):
-        '''Return the conic projection.
+        '''Get the conic projection (L{Conic}).
         '''
         return self._conic
 
     @property
     def easting(self):
-        '''Return the easting in meter.
+        '''Get the easting (meter).
         '''
         return self._easting
 
     @property
     def height(self):
-        '''Return the height in meter.
+        '''Get the height (meter).
         '''
         return self._height
 
     @property
     def northing(self):
-        '''Return the northing in meter.
+        '''Get the northing (meter).
         '''
         return self._northing
 
     def toLatLon(self, LatLon=_LL, datum=None):
         '''Convert this Lcc to a lat-/longitude instance.
 
-           @param {LatLon} LatLon - LatLon (sub-)class to instantiate.
-           @param (Datum} [datum=None] - LatLon datum to use, otherwise
-                                         use this Lcc's conic.datum.
+           @keyword LatLon: LatLon (sub-)class to instantiate.
+           @keyword datum: Datum to use, otherwise use this Lcc's
+                           conic.datum (L{Datum}).
 
-           @returns {LatLon} The position as a LatLon instance.
+           @return: The position (L{LatLon}).
         '''
         if not issubclass(LatLon, _LL):
-            raise TypeError('%s not ellipsoidal: %r' % ('LatLon', LatLon))
+            raise TypeError('%s not %s: %r' % ('LatLon', 'ellipsoidal', LatLon))
 
         c = self.conic
         if datum:
@@ -383,16 +407,16 @@ class Lcc(_Based):
         return LatLon(degrees90(x), degrees180(y), height=self.height, datum=c.datum)
 
     def toStr(self, prec=0, sep=' ', m='m'):  # PYCHOK expected
-        '''Returns a string representation of this Lcc position.
+        '''Return a string representation of this Lcc position.
 
-           @param {number} [prec=0] - Number of decimal, unstripped.
-           @param {string} [sep=' '] - Separator to join.
-           @param {string} [m='m'] - Unit of the height, default meter.
+           @keyword prec: Number of decimal, unstripped (int).
+           @keyword sep: Separator to join (string).
+           @keyword m: Unit of the height, default meter (string).
 
-           @returns {string} Lcc as string "easting nothing" in meter
-                             plus " height" in m if non-zero.
+           @return: This Lcc as string "easting nothing" in meter plus
+                    " height" and 'm' if non-zero (string).
 
-           @example
+           @example:
            lb = Lcc(448251, 5411932.0001)
            lb.toStr(4)  # 448251.0 5411932.0001
            lb.toStr(sep=', ')  # 448251, 5411932
@@ -404,15 +428,16 @@ class Lcc(_Based):
         return sep.join(t)
 
     def toStr2(self, prec=0, fmt='[%s]', sep=', ', m='m', C=False):  # PYCHOK expected
-        '''Returns a string representation of this Lcc position.
+        '''Return a string representation of this Lcc position.
 
-           @param {number} [prec=0] - Number of decimals, unstripped.
-           @param {string} [fmt='[%s]'] - Enclosing backets format.
-           @param {string} [sep=', '] - Separator between name:values.
-           @param {string} [m='m'] - Unit of the height, default meter.
-           @param {bool} [C=False] - Include name of conic and datum.
+           @keyword prec: Number of decimals, unstripped (int).
+           @keyword fmt: Enclosing backets format (string).
+           @keyword sep: Separator between name:values (string).
+           @keyword m: Unit of the height, default meter (string).
+           @keyword C: Include name of conic and datum (bool).
 
-           @returns {string} This Lcc as "[E:meter, N:meter, H:m, C:Conic.Datum]".
+           @return: This Lcc as "[E:meter, N:meter, H:m, C:Conic.Datum]"
+                   (string).
         '''
         t = self.toStr(prec=prec, sep=' ', m=m).split()
         k = 'ENH'[:len(t)]
@@ -423,15 +448,17 @@ class Lcc(_Based):
 
 
 def toLcc(latlon, conic=Conics.WRF_Lb):
-    '''Convert a lat-/longitude position to an Lcc instance.
+    '''Convert a lat-/longitude position to an L{Lcc} instance.
 
-       @param {LatLon} latlon - Lat-/longitude location.
-       @parma {Conic} [conic=Conics.WRF_Lb] - Lambert conic to use.
+       @param latlon: Ellipsoidal at-/longitude location (LatLon).
+       @keyword conic: Lambert projection to use (L{Conic}).
 
-       @returns {Lcc} The location as an Lcc instance.
+       @return: The Lambert location (L{Lcc}).
+
+       @raise TypeError: If L{latlon} is not ellipsoidal.
     '''
     if not isinstance(latlon, _LL):
-        raise TypeError('%s not ellipsoidal: %r' % ('latlon', latlon))
+        raise TypeError('%s not %s: %r' % ('latlon', 'ellipsoidal', latlon))
 
     c = conic.toDatum(latlon.datum)
 
@@ -471,8 +498,20 @@ if __name__ == '__main__':
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-# Typical result (on MacOS X)
+# Typical result (on MacOS 10.12.2)
 
+# % python2.7 geodesy/lcc.py
+#
+# Conics.Be72Lb: Conic(lat0=90.0, lon0=4.3674867, par1=49.8333339, par2=51.1666672, E0=150000.013, N0=5400088.438, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.GRS80, transform=Transforms.NAD83, name='NAD83'), name='Be72Lb')
+# Conics.Fr93Lb: Conic(lat0=46.5, lon0=3.0, par1=49.0, par2=44.0, E0=700000.0, N0=6600000.0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84, name='WGS84'), name='Fr93Lb')
+# Conics.MaNLb: Conic(lat0=33.3, lon0=-5.4, par1=31.73, par2=34.87, E0=500000.0, N0=300000.0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.Clarke1880IGN, transform=Transforms.NTF, name='NTF'), name='MaNLb')
+# Conics.MxLb: Conic(lat0=12.0, lon0=-102.0, par1=17.5, par2=29.5, E0=2500000.0, N0=0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84, name='WGS84'), name='MxLb')
+# Conics.PyT_Lb: Conic(lat0=46.8, lon0=2.33722917, par1=45.8989389, par2=47.6960144, E0=600000.0, N0=200000.0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.Clarke1880IGN, transform=Transforms.NTF, name='NTF'), name='PyT_Lb')
+# Conics.USA_Lb: Conic(lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84, name='WGS84'), name='USA_Lb')
+# Conics.WRF_Lb: Conic(lat0=40.0, lon0=-97.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84, name='WGS84'), name='WRF_Lb')
+
+# % python3.6 geodesy/lcc.py
+#
 # Conics.Be72Lb: Conic(lat0=90.0, lon0=4.3674867, par1=49.8333339, par2=51.1666672, E0=150000.013, N0=5400088.438, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.GRS80, transform=Transforms.NAD83, name='NAD83'), name='Be72Lb')
 # Conics.Fr93Lb: Conic(lat0=46.5, lon0=3.0, par1=49.0, par2=44.0, E0=700000.0, N0=6600000.0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84, name='WGS84'), name='Fr93Lb')
 # Conics.MaNLb: Conic(lat0=33.3, lon0=-5.4, par1=31.73, par2=34.87, E0=500000.0, N0=300000.0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.Clarke1880IGN, transform=Transforms.NTF, name='NTF'), name='MaNLb')
