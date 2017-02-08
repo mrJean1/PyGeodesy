@@ -139,10 +139,10 @@ class Ellipsoid(_Based):
     def __init__(self, a, b, f, name=''):
         '''New ellipsoid.
 
-          @param a: Semi-major, equatorial axis (meter).
-          @param b: Semi-minor, polar axis (meter).
-          @param f: Flattening: a / (a - b) (float >>> 1).
-          @keyword name: Optional, unique name (string).
+           @param a: Semi-major, equatorial axis (meter).
+           @param b: Semi-minor, polar axis (meter).
+           @param f: Flattening: a / (a - b) (float >>> 1).
+           @keyword name: Optional, unique name (string).
 
            @raise NameError: If ellipsoid L{name} already exists.
         '''
@@ -250,9 +250,9 @@ class Ellipsoid(_Based):
         return sqrt(1 - self.e2 * s * s)
 
     def isellipsoidal(self):
-        '''Check ellipsoidal or spherical.
+        '''Check whether ellipsoidal or spherical.
 
-           @return: True is ellipsoidal (bool).
+           @return: True if ellipsoidal (bool).
         '''
         return self.a > self.R > self.b
 
