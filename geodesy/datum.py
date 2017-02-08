@@ -250,7 +250,7 @@ class Ellipsoid(_Based):
         return sqrt(1 - self.e2 * s * s)
 
     def isellipsoidal(self):
-        '''Check whether ellipsoidal or spherical.
+        '''Check ellipsoidal or spherical model.
 
            @return: True if ellipsoidal (bool).
         '''
@@ -279,7 +279,7 @@ class Ellipsoid(_Based):
 
     @property
     def Mabcd(self):
-        '''Get the OSGB meridional coefficients, Airy130 only (4-tuple).
+        '''Get the OSGR meridional coefficients, Airy130 only (4-tuple).
         '''
         if self._Mabcd is None:
             n = self.n
