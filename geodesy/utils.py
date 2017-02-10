@@ -180,7 +180,7 @@ def fStr(floats, prec=6, sep=', ', fmt='%.*f', ints=False):
        @param fmt: Float format (string).
        @param ints: Remove dot for integer values (bool).
 
-       @return: Floats as '[f, f, ... f]' (string).
+       @return: Floats as 'f, f, ... f' (string).
     '''
     def _fstr(p, f):
         t = fmt % (abs(p), float(f))

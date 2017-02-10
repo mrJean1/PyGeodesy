@@ -72,7 +72,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 @var F_D:   Format degrees as deg° (string).
 @var F_DM:  Format degrees as deg°min′ (string).
-@var F_DMS: Format degrees as deg°min'sec″ (string).
+@var F_DMS: Format degrees as deg°min′sec″ (string).
 @var F_RAD: Convert degrees to radians and format (string).
 
 @var PI:   Constant math.pi (float)
@@ -84,9 +84,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 @var R_NM: Mean, spherical earth radius (nautical miles).
 @var R_SM: Mean, spherical earth radius (statute miles).
 
-@var S_DEG: Degree symbol (string).
-@var S_MIN: Minutes symbol (string).
-@var S_SEC: Seconds symbol (string).
+@var S_DEG: Degrees ° symbol (string).
+@var S_MIN: Minutes ′ symbol (string).
+@var S_SEC: Seconds ″ symbol (string).
 @var S_SEP: Separator between deg°, min′ and sec″ (string).
 
 @var Conics:     Registered conics (enum).

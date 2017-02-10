@@ -288,7 +288,7 @@ class LatLon(LatLonSphericalBase):
 
            @param bearing: Initial compass bearing from this point (degrees).
            @param start2: Start point of second path (L{LatLon}).
-           @param bearing2 - Initial compass bearing from start2 (degrees).
+           @param bearing2: Initial compass bearing from start2 (degrees).
 
            @return: Intersection point (L{LatLon}).
 

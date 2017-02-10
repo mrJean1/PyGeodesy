@@ -27,15 +27,15 @@ __version__ = '17.02.09'
 
 F_D   = 'd'    #: Format degrees as deg° (string).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (string).
-F_DMS = 'dms'  #: Format degrees as deg°min'sec″ (string).
+F_DMS = 'dms'  #: Format degrees as deg°min′sec″ (string).
 F_RAD = 'rad'  #: Convert degrees to radians and format (string).
 
-S_DEG = '°'  #: Degree symbol (string).
+S_DEG = '°'  #: Degrees symbol (string).
 S_MIN = '′'  #: Minutes symbol (string).
 S_SEC = '″'  #: Seconds symbol (string).
 S_SEP = ''   #: Separator between deg, min and sec (string).
 
-_F_prec = {F_D: 6, F_DM: 4, F_DMS: 2}  #: (INTERNAL) default precs.
+_F_prec = {F_D: 6, F_DM: 4, F_DMS: 2, F_RAD: 5}  #: (INTERNAL) default precs.
 
 _S_norm = {'^': S_DEG, '˚': S_DEG,  #: (INTERNAL) normalized DMS.
            "'": S_MIN, '’': S_MIN, '′': S_MIN,
