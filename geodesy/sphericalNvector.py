@@ -42,7 +42,7 @@ from math import atan2, cos, radians, sin
 __all__ = ('LatLon', 'Nvector',  # classes
            'areaOf', 'intersection', 'meanOf',  # functions
            'triangulate', 'trilaterate')
-__version__ = '17.02.09'
+__version__ = '17.02.10'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -709,7 +709,7 @@ def triangulate(point1, bearing1, point2, bearing2):
 
     h = point1._alter(point2)
     i = gc1.cross(gc2)  # n-vector of intersection point
-    return Nvector(i.x, i.y, i.z).toLatLon(height=h, datum=point1.datum)
+    return Nvector(i.x, i.y, i.z).toLatLon(height=h)
 
 
 def trilaterate(point1, distance1, point2, distance2, point3, distance3, radius=R_M):
@@ -726,7 +726,6 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3, radius=
        @keyword radius: Mean earth radius (meter).
 
        @return: Triliterated point (L{LatLon}.
-
     '''
     point1.others(point2, name='point2')
     point1.others(point3, name='point3')
@@ -753,10 +752,10 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3, radius=
 #   Z = X.cross(Y)  # unit vec to r perpendicular to plane
     # note don't use z component; assume points at same height
 #   z = sqrt(d12 - z)  # z will be NaN for no intersections
-    h = sum(p.height for p in (point1, point2, point3)) / 3
+    h = fsum(p.height for p in (point1, point2, point3)) / 3
 
     n = n1.plus(X.times(x)).plus(Y.times(y))
-    return Nvector(n.x, n.y, n.z).toLatLon(height=h, datum=point1.datum)
+    return Nvector(n.x, n.y, n.z).toLatLon(height=h)
 
 # **) MIT License
 #

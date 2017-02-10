@@ -23,7 +23,7 @@ from geodesy import R_M, R_NM, F_D, F_DM, F_DMS, F_RAD, Datums, \
                     precision, toDMS
 
 __all__ = ('Tests',)
-__version__ = '17.02.09'
+__version__ = '17.02.10'
 
 try:
     _int = int, long
@@ -432,6 +432,15 @@ class Tests(object):
 
             p = LatLon(10, -140).nearestOn(LatLon(0, 20), LatLon(0, 40))
             self.test('nearestOn', p, '00.0°N, 020.0°E')
+
+        if hasattr(LatLon, 'triangulate'):
+            # courtesy of pvezid  Feb 10, 2017
+            p = LatLon("47°18.228'N","002°34.326'W")  # Basse Castouillet
+            self.test('BasseC', p, '47.3038°N, 002.5721°W')
+            s = LatLon("47°18.664'N","002°31.717'W")  # Basse Hergo
+            self.test('BasseH', s, '47.311067°N, 002.528617°W')
+            t = p.triangulate(7, s, 295)
+            self.test('triangulate', t, '47.323667°N, 002.568501°W')
 
     def testVincenty(self, LatLon, datum, VincentyError):
         d = datum
