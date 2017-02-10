@@ -13,8 +13,8 @@ U{http://www.movable-type.co.uk/scripts/geodesy/docs/latlon-ellipsoidal.js.html}
 
 from bases import LatLonHeightBase
 from datum import Datum, Datums
-from dms   import parse3llh
-from utils import EPS2, degrees90, degrees180, hypot1
+from dms import parse3llh
+from utils import EPS, degrees90, degrees180, hypot1
 from vector3d import Vector3d
 
 from math import atan2, copysign, cos, hypot, sin, sqrt
@@ -74,7 +74,7 @@ class CartesianBase(Vector3d):
         p = hypot(x, y)  # distance from minor axis
         r = hypot(p, z)  # polar radius
 
-        if min(p, r) > EPS2:
+        if min(p, r) > EPS:
             # parametric latitude (Bowring eqn 17, replaced)
             t = (E.b * z) / (E.a * p) * (1 + E.e22 * E.b / r)
             s = t / hypot1(t)
@@ -94,7 +94,7 @@ class CartesianBase(Vector3d):
             a, b = degrees90(a), degrees180(b)
 
         # see <http://GIS.StackExchange.com/questions/28446/>
-        elif p > EPS2:  # latitude arbitrarily zero
+        elif p > EPS:  # latitude arbitrarily zero
             a, b, h = 0.0, degrees180(atan2(y, x)), p - E.a
         else:  # polar latitude, longitude arbitrarily zero
             a, b, h = copysign(90.0, z), 0.0, abs(z) - E.b

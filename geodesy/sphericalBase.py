@@ -14,7 +14,7 @@ U{http://www.movable-type.co.uk/scripts/latlong.html}.
 from bases import LatLonHeightBase
 from datum import R_M, Datum, Datums
 from dms   import parse3llh
-from utils import EPS, EPS2, PI, PI2, \
+from utils import EPS, PI, PI2, \
                   degrees90, degrees180, degrees360, \
                   radians, radiansPI, tanPI_2_2
 
@@ -188,7 +188,7 @@ class LatLonSphericalBase(LatLonHeightBase):
         # by latitude; the 'stretch factor' q becomes ill-
         # conditioned along E-W line (0/0); use an empirical
         # tolerance to avoid it
-        if abs(da) < EPS2:
+        if abs(da) < EPS:
             q = cos(radians(self.lat))
         else:
             q = da / ds

@@ -11,7 +11,7 @@ U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
 '''
 
 from bases import VectorBase
-from utils import EPS2, degrees90, degrees180, fdot, fStr, fsum, \
+from utils import EPS, degrees90, degrees180, fdot, fStr, fsum, \
                   hypot3, isscalar, len2
 
 from math import atan2, cos, hypot, sin
@@ -218,7 +218,7 @@ class Vector3d(VectorBase):
             d = self.unit().minus(other.unit())
         else:
             d = self.minus(other)
-        return max(map(abs, d.to3xyz())) < EPS2
+        return max(map(abs, d.to3xyz())) < EPS
 
     def length(self):
         '''Length (aka norm or magnitude) of this vector.
@@ -375,7 +375,7 @@ class Vector3d(VectorBase):
         '''
         if self._united is None:
             n = self.length()
-            if n > EPS2 and abs(n - 1) > EPS2:
+            if n > EPS and abs(n - 1) > EPS:
                 u = self.dividedBy(n)
                 u._length = 1
             else:

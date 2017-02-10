@@ -224,7 +224,7 @@ def hypot1(x):
         x = 1.0 / h
         if x > EPS2:
             h *= sqrt(1 + x * x)
-    elif h > EPS2:
+    elif h > EPS:
         h = sqrt(1 + x * x)
     else:
         h = 1.0
@@ -246,12 +246,12 @@ def hypot3(x, y, z):
     if x < z:
         x, z = z, x
     x = float(x)
-    if x > EPS2:
+    if x > EPS:
         y /= x
         z /= x
         h = x * sqrt(1 + y * y + z * z)
     elif x:
-        h = EPS2
+        h = x  # EPS
     else:
         h = 0
     return h

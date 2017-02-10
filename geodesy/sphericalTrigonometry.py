@@ -14,7 +14,7 @@ see U{http://www.movable-type.co.uk/scripts/latlong.html}.
 
 from datum import R_M
 from sphericalBase import LatLonSphericalBase
-from utils import EPS, EPS1, EPS2, PI2, PI_2, \
+from utils import EPS, EPS1, PI2, PI_2, \
                   degrees90, degrees180, degrees360, \
                   fsum, isscalar, len2, radians, sin_2, wrapPI
 from vector3d import Vector3d, sumOf
@@ -314,7 +314,7 @@ class LatLon(LatLonSphericalBase):
 
         # angular distance
         r12 = asin(sqrt(sa * sa + cos(a1) * cos(a2) * sb * sb)) * 2
-        if abs(r12) < EPS2:
+        if abs(r12) < EPS:
             raise ValueError('intersection %s: %r vs %r' % ('parallel', self, start2))
         cr12 = cos(r12)
         sr12 = sin(r12)
