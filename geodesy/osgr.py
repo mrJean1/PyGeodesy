@@ -24,19 +24,22 @@ der Ebene", references U{https://arxiv.org/pdf/1002.1417v3.pdf},
 U{http://bib.gfz-potsdam.de/pub/digi/krueger2.pdf},
 U{http://henrik-seidel.gmxhome.de/gausskrueger.pdf} and
 U{https://en.wikipedia.org/wiki/Transverse_Mercator:_Redfearn_series}.
+
+@newfield example: Example, Examples
 '''
 
-from math import cos, sin, sqrt, tan
 from bases import Base
 from datum import Datums
 from ellipsoidalBase import LatLonEllipsoidalBase
 from utils import degrees90, degrees180, false2f, fdot, \
                   halfs, isscalar, radians
 
+from math import cos, sin, sqrt, tan
+
 # all public contants, classes and functions
 __all__ = ('Osgr',  # classes
            'parseOSGR', 'toOsgr')  # functions
-__version__ = '17.02.07'
+__version__ = '17.02.09'
 
 _10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (meter)
 _100km   = 100000  #: (INTERNAL) 100 km (int meter)
@@ -76,8 +79,9 @@ class Osgr(Base):
            @raise ValueError: Invalid OSGR grid reference.
 
            @example:
-           from geodesy import Osgr
-           r = Osgr(651409, 313177)
+
+           >>> from geodesy import Osgr
+           >>> r = Osgr(651409, 313177)
         '''
         self._easting  = false2f(easting, 'easting')
         self._northing = false2f(northing, 'northing')
@@ -123,11 +127,12 @@ class Osgr(Base):
            @raise TypeError: If L{LatLon} is not ellipsoidal.
 
            @example:
-           from geodesy import ellipsoidalVincenty as eV
-           g = Osgr(651409.903, 313177.270)
-           p = g.toLatLon(ev.LatLon)  # 52°39′28.723″N, 001°42′57.787″E
-           # to obtain (historical) OSGB36 lat-/longitude point
-           p = g.toLatLon(ev.LatLon, datum=Datums.OSGB36)  # 52°39′27.253″N, 001°43′04.518″E
+
+           >>> from geodesy import ellipsoidalVincenty as eV
+           >>> g = Osgr(651409.903, 313177.270)
+           >>> p = g.toLatLon(ev.LatLon)  # 52°39′28.723″N, 001°42′57.787″E
+           >>> # to obtain (historical) OSGB36 lat-/longitude point
+           >>> p = g.toLatLon(ev.LatLon, datum=Datums.OSGB36)  # 52°39′27.253″N, 001°43′04.518″E
         '''
         if self._latlon and self._latlon.__class__ is LatLon \
                         and self._latlon.datum == datum:
@@ -206,9 +211,10 @@ class Osgr(Base):
                     "meter,meter' if prec non-positive (string).
 
            @example:
-           r = Osgr(651409, 313177)
-           str(r)  # TG 5140 1317
-           r.toStr(prec=0)  # 651409,313177
+
+           >>> r = Osgr(651409, 313177)
+           >>> str(r)  # TG 5140 1317
+           >>> r.toStr(prec=0)  # 651409,313177
         '''
         def _i2c(i):
             if i > 7:
@@ -276,15 +282,16 @@ def parseOSGR(strOSGR):
        @raise ValueError: Invalid L{strOSGR}.
 
        @example:
-       g = parseOSGR('TG 51409 13177')
-       str(g)  # TG 51409 13177
-       g = parseOSGR('TG5140913177')
-       str(g)  # TG 51409 13177
-       g = parseOSGR('TG51409 13177')
-       str(g)  # TG 51409 13177
-       g = parseOSGR('651409,313177')
-       str(g)  # TG 51409 13177
-       g.toStr(prec=0)  # 651409,313177
+
+       >>> g = parseOSGR('TG 51409 13177')
+       >>> str(g)  # TG 51409 13177
+       >>> g = parseOSGR('TG5140913177')
+       >>> str(g)  # TG 51409 13177
+       >>> g = parseOSGR('TG51409 13177')
+       >>> str(g)  # TG 51409 13177
+       >>> g = parseOSGR('651409,313177')
+       >>> str(g)  # TG 51409 13177
+       >>> g.toStr(prec=0)  # 651409,313177
     '''
     def _c2i(G):
         g = ord(G.upper()) - ord('A')
@@ -350,15 +357,15 @@ def toOsgr(latlon, lon=None, datum=Datums.WGS84):
        @raise ValueError: If L{lon} is invalid.
 
        @example:
-       p = LatLon(52.65798, 1.71605)
-       r = toOsgr(p)  # TG 51409 13177
-       # for conversion of (historical) OSGB36 lat-/longitude:
-       r = toOsgr(52.65757, 1.71791, datum=Datums.OSGB36)
+
+       >>> p = LatLon(52.65798, 1.71605)
+       >>> r = toOsgr(p)  # TG 51409 13177
+       >>> # for conversion of (historical) OSGB36 lat-/longitude:
+       >>> r = toOsgr(52.65757, 1.71791, datum=Datums.OSGB36)
     '''
     if isscalar(lon) and isscalar(latlon):
         # XXX any ellipsoidal LatLon with .convertDatum
-        from ellipsoidalVincenty import LatLon as _LL
-        latlon = _LL(latlon, lon, datum=datum)
+        latlon = LatLonEllipsoidalBase(latlon, lon, datum=datum)
     elif not hasattr(latlon, 'convertDatum'):
         raise TypeError('%s not ellipsoidal: %r' % ('latlon', latlon))
     elif lon is not None:

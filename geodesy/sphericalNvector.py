@@ -25,6 +25,8 @@ z => 90°N while Gade uses x => 90°N, y => 0°N,90°E, z => 0°N,0°E.
 
 Also note that on a spherical model earth, an n-vector is equivalent
 to a normalised version of an (ECEF) cartesian coordinate.
+
+@newfield example: Example, Examples
 '''
 
 from datum import R_M
@@ -33,13 +35,14 @@ from nvector import NorthPole, LatLonNvectorBase, \
 from sphericalBase import LatLonSphericalBase
 from utils import EPS, EPS1, PI, PI2, PI_2, degrees360, \
                   fsum, isscalar, len2
+
 from math import atan2, cos, radians, sin
 
 # all public contants, classes and functions
 __all__ = ('LatLon', 'Nvector',  # classes
            'areaOf', 'intersection', 'meanOf',  # functions
            'triangulate', 'trilaterate')
-__version__ = '17.02.07'
+__version__ = '17.02.09'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -49,8 +52,9 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
        model of) the earth's surface using vector-based methods.
 
        @example:
-       from sphericalNvector import LatLon
-       p = LatLon(52.205, 0.119)
+
+       >>> from sphericalNvector import LatLon
+       >>> p = LatLon(52.205, 0.119)
     '''
     _Nv = None  #: (INTERNAL) cache _toNvector L{Nvector}).
 
@@ -85,9 +89,10 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @raise TypeError: If L{other} is not L{LatLon}.
 
            @example:
-           p1 = LatLon(52.205, 0.119)
-           p2 = LatLon(48.857, 2.351)
-           b = p1.bearingTo(p2)  # 156.2
+
+           >>> p1 = LatLon(52.205, 0.119)
+           >>> p2 = LatLon(48.857, 2.351)
+           >>> b = p1.bearingTo(p2)  # 156.2
         '''
         gc1 = self.greatCircleTo(other)
         gc2 = self.toNvector().cross(NorthPole)
@@ -107,13 +112,14 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
                     left or positive if to the right of the path).
 
            @example:
-           p = LatLon(53.2611, -0.7972)
 
-           s = LatLon(53.3206, -1.7297)
-           d = p.crossTrackDistanceTo(s, 96)  # -305.7
+           >>> p = LatLon(53.2611, -0.7972)
 
-           e = LatLon(53.1887, 0.1334)
-           d = p.crossTrackDistanceTo(s, e)  # -307.5
+           >>> s = LatLon(53.3206, -1.7297)
+           >>> d = p.crossTrackDistanceTo(s, 96)  # -305.7
+
+           >>> e = LatLon(53.1887, 0.1334)
+           >>> d = p.crossTrackDistanceTo(s, e)  # -307.5
         '''
         self.others(start, name='start')
         gc, _, _ = self._gc3(start, end, 'end')
@@ -132,9 +138,10 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @return: Destination point (L{LatLon}).
 
            @example:
-           p = LatLon(51.4778, -0.0015)
-           q = p.destination(7794, 300.7)
-           q.toStr()  # 51.513546°N, 000.098345°W
+
+           >>> p = LatLon(51.4778, -0.0015)
+           >>> q = p.destination(7794, 300.7)
+           >>> q.toStr()  # 51.513546°N, 000.098345°W
         '''
         p = self.toNvector()
         e = NorthPole.cross(p).unit()  # east vector at p
@@ -159,9 +166,10 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
                              (in the same units as radius).
 
            @example:
-           p = LatLon(52.205, 0.119)
-           q = LatLon(48.857, 2.351);
-           d = p.distanceTo(q)  # 404300
+
+           >>> p = LatLon(52.205, 0.119)
+           >>> q = LatLon(48.857, 2.351);
+           >>> d = p.distanceTo(q)  # 404300
         '''
         self.others(other)
 
@@ -179,9 +187,10 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @return: Normalised vector representing great circle (L{Nvector}).
 
            @example:
-           p = LatLon(53.3206, -1.7297)
-           gc = p.greatCircle(96.0)
-           gc.toStr()  # [-0.794, 0.129, 0.594]
+
+           >>> p = LatLon(53.3206, -1.7297)
+           >>> gc = p.greatCircle(96.0)
+           >>> gc.toStr()  # [-0.794, 0.129, 0.594]
         '''
         a, b = self.toradians()
         t = radians(bearing)
@@ -208,13 +217,14 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @return: Normalised vector representing great circle (L{Nvector}).
 
            @example:
-           p = LatLon(53.3206, -1.7297)
-           gc = p.greatCircle(96.0)
-           gc.toStr()  # (-0.79408, 0.12856, 0.59406)
 
-           q = LatLon(53.1887, 0.1334)
-           g = p.greatCircleTo(q)
-           g.toStr()  # (-0.79408, 0.12859, 0.59406)
+           >>> p = LatLon(53.3206, -1.7297)
+           >>> gc = p.greatCircle(96.0)
+           >>> gc.toStr()  # (-0.79408, 0.12856, 0.59406)
+
+           >>> q = LatLon(53.1887, 0.1334)
+           >>> g = p.greatCircleTo(q)
+           >>> g.toStr()  # (-0.79408, 0.12859, 0.59406)
         '''
         gc, _, _ = self._gc3(self, other, 'other')
         return gc.unit()
@@ -230,9 +240,10 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @return: Intermediate point (L{LatLon}).
 
            @example:
-           p = LatLon(52.205, 0.119)
-           q = LatLon(48.857, 2.351)
-           i = p.intermediateChordTo(q, 0.25)  # 51.3723°N, 000.7072°E
+
+           >>> p = LatLon(52.205, 0.119)
+           >>> q = LatLon(48.857, 2.351)
+           >>> i = p.intermediateChordTo(q, 0.25)  # 51.3723°N, 000.7072°E
         '''
         self.others(other)
 
@@ -261,9 +272,10 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @return: Intermediate point (L{LatLon}).
 
            @example:
-           p = LatLon(52.205, 0.119)
-           q = LatLon(48.857, 2.351)
-           i = p.intermediateTo(q, 0.25)  # 51.3721°N, 000.7074°E
+
+           >>> p = LatLon(52.205, 0.119)
+           >>> q = LatLon(48.857, 2.351)
+           >>> i = p.intermediateTo(q, 0.25)  # 51.3721°N, 000.7074°E
         '''
         self.others(other)
 
@@ -301,9 +313,10 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @raise TypeError: Start or end points not L{LatLon}.
 
            @example:
-           s = LatLon(51.8853, 0.2545)
-           e = LatLon(49.0034, 2.5735)
-           i = s.intersection(108.55, e, 32.44)  # 50.9076°N, 004.5086°E
+
+           >>> s = LatLon(51.8853, 0.2545)
+           >>> e = LatLon(49.0034, 2.5735)
+           >>> i = s.intersection(108.55, e, 32.44)  # 50.9076°N, 004.5086°E
         '''
         # If gc1 and gc2 are great circles through start and end points
         # (or defined by start point and bearing), then the candidate
@@ -360,9 +373,10 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
                               L{points}.
 
            @example:
-           b = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
-           p = LatLon(45,1, 1.1);
-           inside = p.isEnclosedBy(b)  # True
+
+           >>> b = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
+           >>> p = LatLon(45,1, 1.1);
+           >>> inside = p.isEnclosedBy(b)  # True
         '''
         # this method uses angle summation test; on a plane, angles for
         # an enclosed point will sum to 360°, angles for an exterior
@@ -431,9 +445,10 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @return: Midpoint (L{LatLon}).
 
            @example:
-           p1 = LatLon(52.205, 0.119)
-           p2 = LatLon(48.857, 2.351)
-           m = p1.midpointTo(p2)  # '50.5363°N, 001.2746°E'
+
+           >>> p1 = LatLon(52.205, 0.119)
+           >>> p2 = LatLon(48.857, 2.351)
+           >>> m = p1.midpointTo(p2)  # '50.5363°N, 001.2746°E'
         '''
         self.others(other)
 
@@ -455,16 +470,17 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @return: Closest point on segment (L{LatLon}).
 
            @example:
-           s1 = LatLon(51.0, 1.0)
-           s2 = LatLon(51.0, 2.0)
 
-           s = LatLon(51.0, 1.9)
-           p = s.nearestOn(s1, s2)  # 51.0004°N, 001.9000°E
+           >>> s1 = LatLon(51.0, 1.0)
+           >>> s2 = LatLon(51.0, 2.0)
 
-           d = p.distanceTo(s)  # 42.71 m
+           >>> s = LatLon(51.0, 1.9)
+           >>> p = s.nearestOn(s1, s2)  # 51.0004°N, 001.9000°E
 
-           s = LatLon(51.0, 2.1)
-           p = s.nearestOn(s1, s2)  # 51.0000°N, 002.0000°E
+           >>> d = p.distanceTo(s)  # 42.71 m
+
+           >>> s = LatLon(51.0, 2.1)
+           >>> p = s.nearestOn(s1, s2)  # 51.0000°N, 002.0000°E
         '''
         if self.isWithin(point1, point2):
             # closer to segment than to its endpoints,
@@ -490,9 +506,10 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @return: N-vector representing this point (L{Nvector}).
 
            @example:
-           p = LatLon(45, 45)
-           n = p.toNvector()
-           n.toStr()  # [0.50000, 0.50000, 0.70710]
+
+           >>> p = LatLon(45, 45)
+           >>> n = p.toNvector()
+           >>> n.toStr()  # [0.50000, 0.50000, 0.70710]
         '''
         if self._Nv is None:
             x, y, z, h = self.to4xyzh()
@@ -515,6 +532,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         '''Locates a point at given distances from this and two other
            points.
 
+           See U{Triliteration<http://wikipedia.org/wiki/Trilateration>}.
+
            @param distance1: Distance to the this point (same units
                              as radius).
            @param other2: Second reference point (L{LatLon}).
@@ -526,8 +545,6 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @keyword radius: Mean earth radius (meter).
 
            @return: Triliterated point (L{LatLon}).
-
-           See <http://wikipedia.org/wiki/Trilateration>
         '''
         return trilaterate(self, distance1, other2, distance2,
                                             other3, distance3, radius=radius)
@@ -556,8 +573,9 @@ class Nvector(NvectorBase):
            @return: Point equivalent to this n-vector (L{LatLon}).
 
            @example:
-           v = Nvector(0.5, 0.5, 0.7071)
-           p = v.toLatLon()  # 45.0°N, 45.0°E
+
+           >>> v = Nvector(0.5, 0.5, 0.7071)
+           >>> p = v.toLatLon()  # 45.0°N, 45.0°E
         '''
         a, b, h = self.to3llh()
         return LatLon(a, b, height=h if height is None else height)
@@ -574,8 +592,9 @@ class Nvector(NvectorBase):
            @return: Normalised vector representing great circle (L{Nvector}).
 
            @example:
-           n = LatLon(53.3206, -1.7297).toNvector()
-           gc = n.greatCircle(96.0)  # [-0.794, 0.129, 0.594]
+
+           >>> n = LatLon(53.3206, -1.7297).toNvector()
+           >>> gc = n.greatCircle(96.0)  # [-0.794, 0.129, 0.594]
         '''
         t = radians(bearing)
 
@@ -623,7 +642,7 @@ def intersection(start1, end1, start2, end2):
 
        @param start1: Start point of the first path (L{LatLon}).
        @param end1: End point of first path (L{LatLon}) or the
-                    initial compass bearing the first start
+                    initial compass bearing at the first start
                     point (degrees).
        @param start2: Start point of the second path (L{LatLon}).
        @param end2: End point of second path (L{LatLon}) or the
@@ -636,9 +655,10 @@ def intersection(start1, end1, start2, end2):
        @raise TypeError: Start or end points not L{LatLon}.
 
        @example:
-       p = LatLon(51.8853, 0.2545)
-       q = LatLon(49.0034, 2.5735)
-       i = intersection(p, 108.55, q, 32.44)  # 50.9076°N, 004.5086°E
+
+       >>> p = LatLon(51.8853, 0.2545)
+       >>> q = LatLon(49.0034, 2.5735)
+       >>> i = intersection(p, 108.55, q, 32.44)  # 50.9076°N, 004.5086°E
     '''
     return start1.intersection(end1, start2, end2)
 
@@ -695,20 +715,18 @@ def triangulate(point1, bearing1, point2, bearing2):
 def trilaterate(point1, distance1, point2, distance2, point3, distance3, radius=R_M):
     '''Locates a point at given distances from three other points.
 
+       See U{Triliteration<http://wikipedia.org/wiki/Trilateration>}.
+
        @param point1: First reference point (L{LatLon}).
-       @param distance1: Distance to the first point (same units
-                         as radius).
+       @param distance1: Distance to the first point (same units as radius).
        @param point2: Second reference point (L{LatLon}).
-       @param distance2: Distance to the second point (same units
-                         as radius).
+       @param distance2: Distance to the second point (same units as radius).
        @param point3: Third reference point (L{LatLon}).
-       @param distance3: Distance to the third point (same units
-                         as radius).
+       @param distance3: Distance to the third point (same units as radius).
        @keyword radius: Mean earth radius (meter).
 
        @return: Triliterated point (L{LatLon}.
 
-       @see: <http://wikipedia.org/wiki/Trilateration>
     '''
     point1.others(point2, name='point2')
     point1.others(point3, name='point3')

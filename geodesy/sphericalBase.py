@@ -7,20 +7,23 @@ Python implementation of geodetic (lat-/longitude) functions.
 Transcribed from JavaScript originals by I{(C) Chris Veness 2011-2016}
 and published under the same MIT Licence**, see
 U{http://www.movable-type.co.uk/scripts/latlong.html}.
+
+@newfield example: Example, Examples
 '''
 
 from bases import LatLonHeightBase
 from datum import R_M, Datum, Datums
-from dms import parse3llh
+from dms   import parse3llh
 from utils import EPS, EPS2, PI, PI2, \
                   degrees90, degrees180, degrees360, \
                   radians, radiansPI, tanPI_2_2
+
 from math import acos, atan2, cos, hypot, log, sin
 
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('LatLonSphericalBase',)
-__version__ = '17.02.07'
+__version__ = '17.02.09'
 
 
 class LatLonSphericalBase(LatLonHeightBase):
@@ -60,9 +63,10 @@ class LatLonSphericalBase(LatLonHeightBase):
            @return: Final bearing from North (degrees).
 
            @example:
-           p = LatLon(52.205, 0.119)
-           q = LatLon(48.857, 2.351)
-           b = p.finalBearingTo(q)  # 157.9
+
+           >>> p = LatLon(52.205, 0.119)
+           >>> q = LatLon(48.857, 2.351)
+           >>> b = p.finalBearingTo(q)  # 157.9
         '''
         self.others(other)
 
@@ -153,9 +157,10 @@ class LatLonSphericalBase(LatLonHeightBase):
            @return: Initial bearing from North (degrees).
 
            @example:
-           p = LatLon(51.127, 1.338)
-           q = LatLon(50.964, 1.853)
-           b = p.rhumbBearingTo(q)  # 116.7
+
+           >>> p = LatLon(51.127, 1.338)
+           >>> q = LatLon(50.964, 1.853)
+           >>> b = p.rhumbBearingTo(q)  # 116.7
         '''
         _, db, ds = self._rhumb3(other)
 
@@ -171,9 +176,10 @@ class LatLonSphericalBase(LatLonHeightBase):
            @return: Distance (in the same units as radius).
 
            @example:
-           p = LatLon(51.127, 1.338)
-           q = LatLon(50.964, 1.853)
-           d = p.rhumbDistanceTo(q)  # 403100
+
+           >>> p = LatLon(51.127, 1.338)
+           >>> q = LatLon(50.964, 1.853)
+           >>> d = p.rhumbDistanceTo(q)  # 403100
         '''
         # see http://williams.best.vwh.net/avform.htm#Rhumb
         da, db, ds = self._rhumb3(other)
@@ -198,10 +204,11 @@ class LatLonSphericalBase(LatLonHeightBase):
            @return: The midpoint (L{LatLonSphericalBase}).
 
            @example:
-           p = LatLon(51.127, 1.338)
-           q = LatLon(50.964, 1.853)
-           m = p.rhumb_midpointTo(q)
-           m.toStr()  # '51.0455°N, 001.5957°E'
+
+           >>> p = LatLon(51.127, 1.338)
+           >>> q = LatLon(50.964, 1.853)
+           >>> m = p.rhumb_midpointTo(q)
+           >>> m.toStr()  # '51.0455°N, 001.5957°E'
         '''
         self.others(other)
 

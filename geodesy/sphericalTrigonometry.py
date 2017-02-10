@@ -8,6 +8,8 @@ Python implementation of geodetic (lat-/longitude) methods using
 spherical trigonometry.  Transcribed from JavaScript originals by
 I{(C) Chris Veness 2011-2016} published under the same MIT Licence**,
 see U{http://www.movable-type.co.uk/scripts/latlong.html}.
+
+@newfield example: Example, Examples
 '''
 
 from datum import R_M
@@ -16,19 +18,21 @@ from utils import EPS, EPS1, EPS2, PI2, PI_2, \
                   degrees90, degrees180, degrees360, \
                   fsum, isscalar, len2, radians, sin_2, wrapPI
 from vector3d import Vector3d, sumOf
+
 from math import acos, asin, atan2, cos, hypot, sin, sqrt
 
 # all public contants, classes and functions
 __all__ = ('LatLon',  # classes
            'meanOf')  # functions
-__version__ = '17.02.07'
+__version__ = '17.02.09'
 
 
 class LatLon(LatLonSphericalBase):
     '''New point on spherical model earth model.
 
        @example:
-       p = LatLon(52.205, 0.119)  # height=0
+
+       >>> p = LatLon(52.205, 0.119)  # height=0
     '''
 
     _v3d = None  # cache Vector3d
@@ -46,14 +50,15 @@ class LatLon(LatLonSphericalBase):
 
            @param other: The other point (L{LatLon}).
 
-           @return: Initial compass bearing (degrees).
+           @return: Initial bearing from North (degrees).
 
            @raise TypeError: If L{other} is not L{LatLon}.
 
            @example:
-           p1 = LatLon(52.205, 0.119)
-           p2 = LatLon(48.857, 2.351)
-           b = p1.bearingTo(p2)  # 156.2
+
+           >>> p1 = LatLon(52.205, 0.119)
+           >>> p2 = LatLon(48.857, 2.351)
+           >>> b = p1.bearingTo(p2)  # 156.2
         '''
         self.others(other)
 
@@ -117,11 +122,12 @@ class LatLon(LatLonSphericalBase):
                     left or positive if to the right of the path).
 
            @example:
-           p = LatLon(53.2611, -0.7972)
 
-           s = LatLon(53.3206, -1.7297)
-           e = LatLon(53.1887, 0.1334)
-           d = p.crossTrackDistanceTo(s, e)  # -307.5
+           >>> p = LatLon(53.2611, -0.7972)
+
+           >>> s = LatLon(53.3206, -1.7297)
+           >>> e = LatLon(53.1887, 0.1334)
+           >>> d = p.crossTrackDistanceTo(s, e)  # -307.5
         '''
         if isscalar(end):
             raise self.notImplemented('crossTrackDistanceTo(end=bearing)')
@@ -145,9 +151,10 @@ class LatLon(LatLonSphericalBase):
            @return: Destination point (L{LatLon}).
 
            @example:
-           p1 = LatLon(51.4778, -0.0015)
-           p2 = p1.destination(7794, 300.7)
-           p2.toStr()  # '51.5135°N, 000.0983°W'
+
+           >>> p1 = LatLon(51.4778, -0.0015)
+           >>> p2 = p1.destination(7794, 300.7)
+           >>> p2.toStr()  # '51.5135°N, 000.0983°W'
         '''
         d = float(distance) / float(radius)  # angular distance in radians
         t = radians(bearing)
@@ -174,9 +181,10 @@ class LatLon(LatLonSphericalBase):
                              (in the same units as radius).
 
            @example:
-           p1 = LatLon(52.205, 0.119)
-           p2 = LatLon(48.857, 2.351);
-           d = p1.distanceTo(p2)  # 404300
+
+           >>> p1 = LatLon(52.205, 0.119)
+           >>> p2 = LatLon(48.857, 2.351);
+           >>> d = p1.distanceTo(p2)  # 404300
         '''
         self.others(other)
 
@@ -205,9 +213,10 @@ class LatLon(LatLonSphericalBase):
            @return: Vector representing great circle (L{Vector3d}).
 
            @example:
-           p = LatLon(53.3206, -1.7297)
-           g = p.greatCircle(96.0)
-           g.toStr()  # (-0.794, 0.129, 0.594)
+
+           >>> p = LatLon(53.3206, -1.7297)
+           >>> g = p.greatCircle(96.0)
+           >>> g.toStr()  # (-0.794, 0.129, 0.594)
         '''
         a, b = self.toradians()
         t = radians(bearing)
@@ -231,9 +240,10 @@ class LatLon(LatLonSphericalBase):
            @return: Intermediate point (L{LatLon}).
 
            @example:
-           p1 = LatLon(52.205, 0.119)
-           p2 = LatLon(48.857, 2.351)
-           p = p1.intermediateTo(p2, 0.25)  # 51.3721°N, 000.7073°E
+
+           >>> p1 = LatLon(52.205, 0.119)
+           >>> p2 = LatLon(48.857, 2.351)
+           >>> p = p1.intermediateTo(p2, 0.25)  # 51.3721°N, 000.7073°E
         '''
         self.others(other)
 
@@ -288,9 +298,10 @@ class LatLon(LatLonSphericalBase):
                               or the paths are parallel or coincide.
 
            @example:
-           p = LatLon(51.8853, 0.2545)
-           s = LatLon(49.0034, 2.5735)
-           i = p.intersection(108.547, s, 32.435)  # '50.9078°N, 004.5084°E'
+
+           >>> p = LatLon(51.8853, 0.2545)
+           >>> s = LatLon(49.0034, 2.5735)
+           >>> i = p.intersection(108.547, s, 32.435)  # '50.9078°N, 004.5084°E'
         '''
         self.others(start2, name='start2')
 
@@ -355,9 +366,10 @@ class LatLon(LatLonSphericalBase):
                               points.
 
            @example:
-           b = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
-           p = LatLon(45,1, 1.1)
-           inside = p.isEnclosedBy(b)  # True
+
+           >>> b = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
+           >>> p = LatLon(45,1, 1.1)
+           >>> inside = p.isEnclosedBy(b)  # True
         '''
         n, points = len2(points)
         if n > 0 and points[0].equals(points[n-1]):
@@ -410,9 +422,10 @@ class LatLon(LatLonSphericalBase):
            @return: Midpoint (L{LatLon}).
 
            @example:
-           p1 = LatLon(52.205, 0.119)
-           p2 = LatLon(48.857, 2.351)
-           m = p1.midpointTo(p2)  # '50.5363°N, 001.2746°E'
+
+           >>> p1 = LatLon(52.205, 0.119)
+           >>> p2 = LatLon(48.857, 2.351)
+           >>> m = p1.midpointTo(p2)  # '50.5363°N, 001.2746°E'
         '''
         self.others(other)
 

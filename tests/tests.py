@@ -23,7 +23,7 @@ from geodesy import R_M, R_NM, F_D, F_DM, F_DMS, F_RAD, Datums, \
                     precision, toDMS
 
 __all__ = ('Tests',)
-__version__ = '17.02.02'
+__version__ = '17.02.09'
 
 try:
     _int = int, long
@@ -132,6 +132,7 @@ class Tests(object):
         self.test('toStr', p.toStr(), '''51°28'40"N, 000°00'06"W''')
         self.test('toStr', p.toStr(F_D), '51.4778°N, 000.0016°W')
         p = LatLon(51.4778, -0.0016, 42)
+        self.test('precision', precision(F_DMS), '0')
         self.test('toStr', p.toStr(), '''51°28'40"N, 000°00'06"W, +42.00m''')
 
     def testDatum(self, geodesy):
@@ -506,9 +507,9 @@ if __name__ == '__main__':
 
     # Typical test results (on MacOS 10.12.2)
 
-    # testing tests.py version 17.02.02
+    # testing tests.py version 17.02.09
 
-    # testing __init__.py version 17.02.06
+    # testing __init__.py version 17.02.09
     # test 1 geodesy.Conic() class (geodesy.lcc): True
     # test 2 geodesy.Conics attribute (geodesy.datum): True
     # test 3 geodesy.Datum() class (geodesy.datum): True
@@ -592,7 +593,7 @@ if __name__ == '__main__':
     # test 81 geodesy.wrapPI2() function (geodesy.utils): True
     # test 82 geodesy.wrapPI_2() function (geodesy.utils): True
 
-    # testing datum.py version 17.02.07
+    # testing datum.py version 17.02.09
     # test 83 datum.Datum() class: True
     # test 84 datum.Datums attribute: True
     # test 85 datum.Ellipsoid() class: True
@@ -604,7 +605,7 @@ if __name__ == '__main__':
     # test 91 datum.Transform() class: True
     # test 92 datum.Transforms attribute: True
 
-    # testing dms.py version 17.02.07
+    # testing dms.py version 17.02.09
     # test 93 dms.F_D str: True
     # test 94 dms.F_DM str: True
     # test 95 dms.F_DMS str: True
@@ -624,23 +625,23 @@ if __name__ == '__main__':
     # test 109 dms.precision() function: True
     # test 110 dms.toDMS() function: True
 
-    # testing lcc.py version 17.02.07
+    # testing lcc.py version 17.02.09
     # test 111 lcc.Conic() class: True
     # test 112 lcc.Conics attribute (geodesy.datum): True
     # test 113 lcc.Lcc() class: True
     # test 114 lcc.toLcc() function: True
 
-    # testing mgrs.py version 17.02.07
+    # testing mgrs.py version 17.02.09
     # test 115 mgrs.Mgrs() class: True
     # test 116 mgrs.parseMGRS() function: True
     # test 117 mgrs.toMgrs() function: True
 
-    # testing osgr.py version 17.02.07
+    # testing osgr.py version 17.02.09
     # test 118 osgr.Osgr() class: True
     # test 119 osgr.parseOSGR() function: True
     # test 120 osgr.toOsgr() function: True
 
-    # testing ellipsoidalNvector.py version 17.02.07
+    # testing ellipsoidalNvector.py version 17.02.09
     # test 121 ellipsoidalNvector.Cartesian() class: True
     # test 122 ellipsoidalNvector.LatLon() class: True
     # test 123 ellipsoidalNvector.Ned() class: True
@@ -648,12 +649,12 @@ if __name__ == '__main__':
     # test 125 ellipsoidalNvector.meanOf() function: True
     # test 126 ellipsoidalNvector.toNed() function: True
 
-    # testing ellipsoidalVincenty.py version 17.02.07
+    # testing ellipsoidalVincenty.py version 17.02.09
     # test 127 ellipsoidalVincenty.Cartesian() class: True
     # test 128 ellipsoidalVincenty.LatLon() class: True
     # test 129 ellipsoidalVincenty.VincentyError() class: True
 
-    # testing sphericalNvector.py version 17.02.07
+    # testing sphericalNvector.py version 17.02.09
     # test 130 sphericalNvector.LatLon() class: True
     # test 131 sphericalNvector.Nvector() class: True
     # test 132 sphericalNvector.areaOf() function: True
@@ -662,21 +663,21 @@ if __name__ == '__main__':
     # test 135 sphericalNvector.triangulate() function: True
     # test 136 sphericalNvector.trilaterate() function: True
 
-    # testing sphericalTrigonometry.py version 17.02.07
+    # testing sphericalTrigonometry.py version 17.02.09
     # test 137 sphericalTrigonometry.LatLon() class: True
     # test 138 sphericalTrigonometry.meanOf() function: True
 
-    # testing nvector.py version 17.02.07
+    # testing nvector.py version 17.02.09
     # test 139 nvector.NorthPole attribute: True
     # test 140 nvector.Nvector() class: True
     # test 141 nvector.SouthPole attribute: True
     # test 142 nvector.sumOf() function: True
 
-    # testing vector3d.py version 17.02.07
+    # testing vector3d.py version 17.02.09
     # test 143 vector3d.Vector3d() class: True
     # test 144 vector3d.sumOf() function: True
 
-    # testing utm.py version 17.02.07
+    # testing utm.py version 17.02.09
     # test 145 utm.Utm() class: True
     # test 146 utm.parseUTM() function: True
     # test 147 utm.toUtm() function: True
@@ -717,7 +718,7 @@ if __name__ == '__main__':
     # test 180 utils.wrapPI2() function: True
     # test 181 utils.wrapPI_2() function: True
 
-    # testing LatLon.attrs version 17.02.02
+    # testing LatLon.attrs version 17.02.09
     # test 182 _Nv attribute: geodesy.ellipsoidalNvector, geodesy.sphericalNvector
     # test 183 _alter() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
     # test 184 _datum attribute: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
@@ -799,7 +800,7 @@ if __name__ == '__main__':
     # test 260 triangulate() method: geodesy.sphericalNvector
     # test 261 trilaterate() method: geodesy.sphericalNvector
 
-    # testing LatLon.mro version 17.02.02
+    # testing LatLon.mro version 17.02.09
     # test 262 geodesy.ellipsoidalNvector: geodesy.ellipsoidalNvector.LatLon, geodesy.nvector.LatLonNvectorBase, geodesy.ellipsoidalBase.LatLonEllipsoidalBase, geodesy.bases.LatLonHeightBase, geodesy.bases.Base
     # test 263 geodesy.ellipsoidalVincenty: geodesy.ellipsoidalVincenty.LatLon, geodesy.ellipsoidalBase.LatLonEllipsoidalBase, geodesy.bases.LatLonHeightBase, geodesy.bases.Base
     # test 264 geodesy.sphericalNvector: geodesy.sphericalNvector.LatLon, geodesy.nvector.LatLonNvectorBase, geodesy.sphericalBase.LatLonSphericalBase, geodesy.bases.LatLonHeightBase, geodesy.bases.Base
@@ -807,9 +808,9 @@ if __name__ == '__main__':
 
     # all tests.py tests passed (Python 2.7.13 64bit)
 
-    # testing tests.py version 17.02.02
+    # testing tests.py version 17.02.09
 
-    # testing __init__.py version 17.02.06
+    # testing __init__.py version 17.02.09
     # test 1 geodesy.Conic() class (lcc): True
     # test 2 geodesy.Conics attribute (datum): True
     # test 3 geodesy.Datum() class (datum): True
@@ -893,7 +894,7 @@ if __name__ == '__main__':
     # test 81 geodesy.wrapPI2() function (utils): True
     # test 82 geodesy.wrapPI_2() function (utils): True
 
-    # testing datum.py version 17.02.07
+    # testing datum.py version 17.02.09
     # test 83 datum.Datum() class: True
     # test 84 datum.Datums attribute: True
     # test 85 datum.Ellipsoid() class: True
@@ -905,7 +906,7 @@ if __name__ == '__main__':
     # test 91 datum.Transform() class: True
     # test 92 datum.Transforms attribute: True
 
-    # testing dms.py version 17.02.07
+    # testing dms.py version 17.02.09
     # test 93 dms.F_D str: True
     # test 94 dms.F_DM str: True
     # test 95 dms.F_DMS str: True
@@ -925,23 +926,23 @@ if __name__ == '__main__':
     # test 109 dms.precision() function: True
     # test 110 dms.toDMS() function: True
 
-    # testing lcc.py version 17.02.07
+    # testing lcc.py version 17.02.09
     # test 111 lcc.Conic() class: True
     # test 112 lcc.Conics attribute (datum): True
     # test 113 lcc.Lcc() class: True
     # test 114 lcc.toLcc() function: True
 
-    # testing mgrs.py version 17.02.07
+    # testing mgrs.py version 17.02.09
     # test 115 mgrs.Mgrs() class: True
     # test 116 mgrs.parseMGRS() function: True
     # test 117 mgrs.toMgrs() function: True
 
-    # testing osgr.py version 17.02.07
+    # testing osgr.py version 17.02.09
     # test 118 osgr.Osgr() class: True
     # test 119 osgr.parseOSGR() function: True
     # test 120 osgr.toOsgr() function: True
 
-    # testing ellipsoidalNvector.py version 17.02.07
+    # testing ellipsoidalNvector.py version 17.02.09
     # test 121 ellipsoidalNvector.Cartesian() class: True
     # test 122 ellipsoidalNvector.LatLon() class: True
     # test 123 ellipsoidalNvector.Ned() class: True
@@ -949,12 +950,12 @@ if __name__ == '__main__':
     # test 125 ellipsoidalNvector.meanOf() function: True
     # test 126 ellipsoidalNvector.toNed() function: True
 
-    # testing ellipsoidalVincenty.py version 17.02.07
+    # testing ellipsoidalVincenty.py version 17.02.09
     # test 127 ellipsoidalVincenty.Cartesian() class: True
     # test 128 ellipsoidalVincenty.LatLon() class: True
     # test 129 ellipsoidalVincenty.VincentyError() class: True
 
-    # testing sphericalNvector.py version 17.02.07
+    # testing sphericalNvector.py version 17.02.09
     # test 130 sphericalNvector.LatLon() class: True
     # test 131 sphericalNvector.Nvector() class: True
     # test 132 sphericalNvector.areaOf() function: True
@@ -963,21 +964,21 @@ if __name__ == '__main__':
     # test 135 sphericalNvector.triangulate() function: True
     # test 136 sphericalNvector.trilaterate() function: True
 
-    # testing sphericalTrigonometry.py version 17.02.07
+    # testing sphericalTrigonometry.py version 17.02.09
     # test 137 sphericalTrigonometry.LatLon() class: True
     # test 138 sphericalTrigonometry.meanOf() function: True
 
-    # testing nvector.py version 17.02.07
+    # testing nvector.py version 17.02.09
     # test 139 nvector.NorthPole attribute: True
     # test 140 nvector.Nvector() class: True
     # test 141 nvector.SouthPole attribute: True
     # test 142 nvector.sumOf() function: True
 
-    # testing vector3d.py version 17.02.07
+    # testing vector3d.py version 17.02.09
     # test 143 vector3d.Vector3d() class: True
     # test 144 vector3d.sumOf() function: True
 
-    # testing utm.py version 17.02.07
+    # testing utm.py version 17.02.09
     # test 145 utm.Utm() class: True
     # test 146 utm.parseUTM() function: True
     # test 147 utm.toUtm() function: True
@@ -1018,7 +1019,7 @@ if __name__ == '__main__':
     # test 180 utils.wrapPI2() function: True
     # test 181 utils.wrapPI_2() function: True
 
-    # testing LatLon.attrs version 17.02.02
+    # testing LatLon.attrs version 17.02.09
     # test 182 _Nv attribute: ellipsoidalNvector, sphericalNvector
     # test 183 _alter() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
     # test 184 _datum attribute: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
@@ -1100,7 +1101,7 @@ if __name__ == '__main__':
     # test 260 triangulate() function: sphericalNvector
     # test 261 trilaterate() function: sphericalNvector
 
-    # testing LatLon.mro version 17.02.02
+    # testing LatLon.mro version 17.02.09
     # test 262 ellipsoidalNvector: ellipsoidalNvector.LatLon, nvector.LatLonNvectorBase, ellipsoidalBase.LatLonEllipsoidalBase, bases.LatLonHeightBase, bases.Base
     # test 263 ellipsoidalVincenty: ellipsoidalVincenty.LatLon, ellipsoidalBase.LatLonEllipsoidalBase, bases.LatLonHeightBase, bases.Base
     # test 264 sphericalNvector: sphericalNvector.LatLon, nvector.LatLonNvectorBase, sphericalBase.LatLonSphericalBase, bases.LatLonHeightBase, bases.Base

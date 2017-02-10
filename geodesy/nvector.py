@@ -7,18 +7,21 @@ Python implementation of n-vector-based geodesy tools for an
 ellipsoidal earth model.  Transcribed from JavaScript originals by
 I{(C) Chris Veness 2005-2016} and published under the same MIT Licence**,
 see U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
+
+@newfield example: Example, Examples
 '''
 
 from bases import LatLonHeightBase
 from utils import fsum, len2
 from vector3d import Vector3d, sumOf as _sumOf
+
 # from math import cos, sin
 
 # all public constants, classes and functions
 __all__ = ('NorthPole', 'SouthPole',  # constants
            'Nvector',  # classes
            'sumOf')  # functions
-__version__ = '17.02.07'
+__version__ = '17.02.09'
 
 
 class Nvector(Vector3d):  # XXX kept private
@@ -37,9 +40,10 @@ class Nvector(Vector3d):  # XXX kept private
            @keyword h: Height above surface (meter).
 
            @example:
-           from sphericalNvector import Nvector
-           v = Nvector(0.5, 0.5, 0.7071, 1)
-           v.toLatLon()  # 45.0°N, 045.0°E, +1.00m
+
+           >>> from sphericalNvector import Nvector
+           >>> v = Nvector(0.5, 0.5, 0.7071, 1)
+           >>> v.toLatLon()  # 45.0°N, 045.0°E, +1.00m
         '''
         Vector3d.__init__(self, x, y, z)
         if h:
@@ -98,8 +102,9 @@ class Nvector(Vector3d):  # XXX kept private
            @return: Comma-separated "x, y, z [, h]" (string).
 
            @example:
-           Nvector(0.5, 0.5, 0.7071).toStr()  # (0.5, 0.5, 0.7071)
-           Nvector(0.5, 0.5, 0.7071, 1).toStr(-3)  # (0.500, 0.500, 0.707, +1.00)
+
+           >>> Nvector(0.5, 0.5, 0.7071).toStr()  # (0.5, 0.5, 0.7071)
+           >>> Nvector(0.5, 0.5, 0.7071, 1).toStr(-3)  # (0.500, 0.500, 0.707, +1.00)
         '''
         t = Vector3d.toStr(self, prec=prec, fmt='%s', sep=sep)
         if self.h:

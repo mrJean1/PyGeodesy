@@ -3,19 +3,19 @@
 
 # Test LCC functions and methods.
 
-__version__ = '16.12.23'
+__version__ = '17.02.09'
 
 if __name__ == '__main__':
 
     from tests import Tests as _Tests
 
-    from geodesy import Conic, Conics, Datums, F_D, F_DMS, Lcc, toLcc
-    from geodesy.ellipsoidalNvector  import LatLon as _LatLon
-    from geodesy.ellipsoidalVincenty import LatLon
+    from geodesy import Conic, Conics, Datums, F_D, F_DMS, lcc, Lcc, toLcc
+    from geodesy.ellipsoidalNvector  import LatLon as nLatLon
+    from geodesy.ellipsoidalVincenty import LatLon as vLatLon
 
     # Snyder, pp 297 <https://pubs.er.usgs.gov/djvu/PP/PP_1395.pdf>
-    Snyder = Conic(LatLon(23, -96, datum=Datums.NAD27),
-                   33, 45, E0=0, N0=0, name='Snyder')
+    Snyder = Conic(vLatLon(23, -96, datum=Datums.NAD27),
+                           33, 45, E0=0, N0=0, name='Snyder')
 
     class Tests(_Tests):
 
@@ -25,7 +25,7 @@ if __name__ == '__main__':
             c = Conic(LatLon(23, -96, datum=Datums.NAD27), 33, 45, E0=0, N0=0, name=n)
             self.test(n, c, "lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27, name='NAD27'), name='%s'" % (n,))
 
-        def testLcc(self):
+        def testLcc(self, LatLon):
 
             lb = Lcc(448251, 5411932.0001)
             self.test('lb1', lb.toStr(4), '448251.0 5411932.0001')
@@ -66,16 +66,17 @@ if __name__ == '__main__':
                         self.test(n, ll, str(ll_))
                         self.test(n, ll.datum.name, ll_.datum.name)
 
-    t = Tests(__file__, __version__)
-    t.testLcc()
-    t.testConic( LatLon, 1)
-    t.testConic(_LatLon, 2)
+    t = Tests(__file__, __version__, lcc)
+    t.testLcc(nLatLon)
+    t.testLcc(vLatLon)
+    t.testConic(vLatLon, 1)
+    t.testConic(nLatLon, 2)
     t.results()
     t.exit()
 
     # Typical test results (on MacOS 10.12.2):
 
-    # testing testLcc.py version 16.12.23
+    # testing geodesy.lcc version 17.02.09
     # test 1 lb1: 448251.0 5411932.0001
     # test 2 lb1: 448251, 5411932
     # test 3 lb1: WRF_Lb.WGS84
@@ -186,11 +187,121 @@ if __name__ == '__main__':
     # test 108 WRF_Lb: WGS84
     # test 109 WRF_Lb: 45.0°N, 085.0°W
     # test 110 WRF_Lb: WGS84
-    # test 111 Snyder1: lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27, name='NAD27'), name='Snyder1'
-    # test 112 Snyder2: lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27, name='NAD27'), name='Snyder2'
-    # all testLcc.py tests passed (Python 2.7.13 64bit)
+    # test 111 lb1: 448251.0 5411932.0001
+    # test 112 lb1: 448251, 5411932
+    # test 113 lb1: WRF_Lb.WGS84
+    # test 114 LatLon: 46.5°N, 003.0°E
+    # test 115 LatLon: 46°30′00.0″N, 003°00′00.0″E
+    # test 116 toLcc1: 700000 6600000
+    # test 117 toLcc1: 46.5°N, 003.0°E
+    # test 118 lb2: 1894411 1564650
+    # test 119 lb2: Clarke1866
+    # test 120 toLatLon2: 35.0°N, 075.0°W
+    # test 121 toLatLon2: 35°00′00.0007″N, 074°59′59.9997″W
+    # test 122 toLatLon2: NAD27
+    # test 123 toLcc2: 1894410.9 1564649.5
+    # test 124 toLcc2: Snyder.NAD27
+    # test 125 Be72Lb: 49.833334°N, 003.034153°E
+    # test 126 Be72Lb: NAD83
+    # test 127 Be72Lb: 49.833334°N, 004.367487°E
+    # test 128 Be72Lb: NAD83
+    # test 129 Be72Lb: 49.833334°N, 005.70082°E
+    # test 130 Be72Lb: NAD83
+    # test 131 Be72Lb: 51.166667°N, 003.034153°E
+    # test 132 Be72Lb: NAD83
+    # test 133 Be72Lb: 51.166667°N, 004.367487°E
+    # test 134 Be72Lb: NAD83
+    # test 135 Be72Lb: 51.166667°N, 005.70082°E
+    # test 136 Be72Lb: NAD83
+    # test 137 Fr93Lb: 49.0°N, 002.0°W
+    # test 138 Fr93Lb: WGS84
+    # test 139 Fr93Lb: 49.0°N, 003.0°E
+    # test 140 Fr93Lb: WGS84
+    # test 141 Fr93Lb: 49.0°N, 008.0°E
+    # test 142 Fr93Lb: WGS84
+    # test 143 Fr93Lb: 44.0°N, 002.0°W
+    # test 144 Fr93Lb: WGS84
+    # test 145 Fr93Lb: 44.0°N, 003.0°E
+    # test 146 Fr93Lb: WGS84
+    # test 147 Fr93Lb: 44.0°N, 008.0°E
+    # test 148 Fr93Lb: WGS84
+    # test 149 MaNLb: 31.73°N, 008.54°W
+    # test 150 MaNLb: NTF
+    # test 151 MaNLb: 31.73°N, 005.4°W
+    # test 152 MaNLb: NTF
+    # test 153 MaNLb: 31.73°N, 002.26°W
+    # test 154 MaNLb: NTF
+    # test 155 MaNLb: 34.87°N, 008.54°W
+    # test 156 MaNLb: NTF
+    # test 157 MaNLb: 34.87°N, 005.4°W
+    # test 158 MaNLb: NTF
+    # test 159 MaNLb: 34.87°N, 002.26°W
+    # test 160 MaNLb: NTF
+    # test 161 MxLb: 17.5°N, 114.0°W
+    # test 162 MxLb: WGS84
+    # test 163 MxLb: 17.5°N, 102.0°W
+    # test 164 MxLb: WGS84
+    # test 165 MxLb: 17.5°N, 090.0°W
+    # test 166 MxLb: WGS84
+    # test 167 MxLb: 29.5°N, 114.0°W
+    # test 168 MxLb: WGS84
+    # test 169 MxLb: 29.5°N, 102.0°W
+    # test 170 MxLb: WGS84
+    # test 171 MxLb: 29.5°N, 090.0°W
+    # test 172 MxLb: WGS84
+    # test 173 PyT_Lb: 45.898939°N, 000.540154°E
+    # test 174 PyT_Lb: NTF
+    # test 175 PyT_Lb: 45.898939°N, 002.337229°E
+    # test 176 PyT_Lb: NTF
+    # test 177 PyT_Lb: 45.898939°N, 004.134305°E
+    # test 178 PyT_Lb: NTF
+    # test 179 PyT_Lb: 47.696014°N, 000.540154°E
+    # test 180 PyT_Lb: NTF
+    # test 181 PyT_Lb: 47.696014°N, 002.337229°E
+    # test 182 PyT_Lb: NTF
+    # test 183 PyT_Lb: 47.696014°N, 004.134305°E
+    # test 184 PyT_Lb: NTF
+    # test 185 Snyder: 33.0°N, 108.0°W
+    # test 186 Snyder: NAD27
+    # test 187 Snyder: 33.0°N, 096.0°W
+    # test 188 Snyder: NAD27
+    # test 189 Snyder: 33.0°N, 084.0°W
+    # test 190 Snyder: NAD27
+    # test 191 Snyder: 45.0°N, 108.0°W
+    # test 192 Snyder: NAD27
+    # test 193 Snyder: 45.0°N, 096.0°W
+    # test 194 Snyder: NAD27
+    # test 195 Snyder: 45.0°N, 084.0°W
+    # test 196 Snyder: NAD27
+    # test 197 USA_Lb: 33.0°N, 108.0°W
+    # test 198 USA_Lb: WGS84
+    # test 199 USA_Lb: 33.0°N, 096.0°W
+    # test 200 USA_Lb: WGS84
+    # test 201 USA_Lb: 33.0°N, 084.0°W
+    # test 202 USA_Lb: WGS84
+    # test 203 USA_Lb: 45.0°N, 108.0°W
+    # test 204 USA_Lb: WGS84
+    # test 205 USA_Lb: 45.0°N, 096.0°W
+    # test 206 USA_Lb: WGS84
+    # test 207 USA_Lb: 45.0°N, 084.0°W
+    # test 208 USA_Lb: WGS84
+    # test 209 WRF_Lb: 33.0°N, 109.0°W
+    # test 210 WRF_Lb: WGS84
+    # test 211 WRF_Lb: 33.0°N, 097.0°W
+    # test 212 WRF_Lb: WGS84
+    # test 213 WRF_Lb: 33.0°N, 085.0°W
+    # test 214 WRF_Lb: WGS84
+    # test 215 WRF_Lb: 45.0°N, 109.0°W
+    # test 216 WRF_Lb: WGS84
+    # test 217 WRF_Lb: 45.0°N, 097.0°W
+    # test 218 WRF_Lb: WGS84
+    # test 219 WRF_Lb: 45.0°N, 085.0°W
+    # test 220 WRF_Lb: WGS84
+    # test 221 Snyder1: lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27, name='NAD27'), name='Snyder1'
+    # test 222 Snyder2: lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27, name='NAD27'), name='Snyder2'
+    # all geodesy.lcc tests passed (Python 2.7.13 64bit)
 
-    # testing testLcc.py version 16.12.23
+    # testing lcc version 17.02.09
     # test 1 lb1: 448251.0 5411932.0001
     # test 2 lb1: 448251, 5411932
     # test 3 lb1: WRF_Lb.WGS84
@@ -301,6 +412,116 @@ if __name__ == '__main__':
     # test 108 WRF_Lb: WGS84
     # test 109 WRF_Lb: 45.0°N, 085.0°W
     # test 110 WRF_Lb: WGS84
-    # test 111 Snyder1: lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27, name='NAD27'), name='Snyder1'
-    # test 112 Snyder2: lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27, name='NAD27'), name='Snyder2'
-    # all testLcc.py tests passed (Python 3.6.0 64bit)0
+    # test 111 lb1: 448251.0 5411932.0001
+    # test 112 lb1: 448251, 5411932
+    # test 113 lb1: WRF_Lb.WGS84
+    # test 114 LatLon: 46.5°N, 003.0°E
+    # test 115 LatLon: 46°30′00.0″N, 003°00′00.0″E
+    # test 116 toLcc1: 700000 6600000
+    # test 117 toLcc1: 46.5°N, 003.0°E
+    # test 118 lb2: 1894411 1564650
+    # test 119 lb2: Clarke1866
+    # test 120 toLatLon2: 35.0°N, 075.0°W
+    # test 121 toLatLon2: 35°00′00.0007″N, 074°59′59.9997″W
+    # test 122 toLatLon2: NAD27
+    # test 123 toLcc2: 1894410.9 1564649.5
+    # test 124 toLcc2: Snyder.NAD27
+    # test 125 Be72Lb: 49.833334°N, 003.034153°E
+    # test 126 Be72Lb: NAD83
+    # test 127 Be72Lb: 49.833334°N, 004.367487°E
+    # test 128 Be72Lb: NAD83
+    # test 129 Be72Lb: 49.833334°N, 005.70082°E
+    # test 130 Be72Lb: NAD83
+    # test 131 Be72Lb: 51.166667°N, 003.034153°E
+    # test 132 Be72Lb: NAD83
+    # test 133 Be72Lb: 51.166667°N, 004.367487°E
+    # test 134 Be72Lb: NAD83
+    # test 135 Be72Lb: 51.166667°N, 005.70082°E
+    # test 136 Be72Lb: NAD83
+    # test 137 Fr93Lb: 49.0°N, 002.0°W
+    # test 138 Fr93Lb: WGS84
+    # test 139 Fr93Lb: 49.0°N, 003.0°E
+    # test 140 Fr93Lb: WGS84
+    # test 141 Fr93Lb: 49.0°N, 008.0°E
+    # test 142 Fr93Lb: WGS84
+    # test 143 Fr93Lb: 44.0°N, 002.0°W
+    # test 144 Fr93Lb: WGS84
+    # test 145 Fr93Lb: 44.0°N, 003.0°E
+    # test 146 Fr93Lb: WGS84
+    # test 147 Fr93Lb: 44.0°N, 008.0°E
+    # test 148 Fr93Lb: WGS84
+    # test 149 MaNLb: 31.73°N, 008.54°W
+    # test 150 MaNLb: NTF
+    # test 151 MaNLb: 31.73°N, 005.4°W
+    # test 152 MaNLb: NTF
+    # test 153 MaNLb: 31.73°N, 002.26°W
+    # test 154 MaNLb: NTF
+    # test 155 MaNLb: 34.87°N, 008.54°W
+    # test 156 MaNLb: NTF
+    # test 157 MaNLb: 34.87°N, 005.4°W
+    # test 158 MaNLb: NTF
+    # test 159 MaNLb: 34.87°N, 002.26°W
+    # test 160 MaNLb: NTF
+    # test 161 MxLb: 17.5°N, 114.0°W
+    # test 162 MxLb: WGS84
+    # test 163 MxLb: 17.5°N, 102.0°W
+    # test 164 MxLb: WGS84
+    # test 165 MxLb: 17.5°N, 090.0°W
+    # test 166 MxLb: WGS84
+    # test 167 MxLb: 29.5°N, 114.0°W
+    # test 168 MxLb: WGS84
+    # test 169 MxLb: 29.5°N, 102.0°W
+    # test 170 MxLb: WGS84
+    # test 171 MxLb: 29.5°N, 090.0°W
+    # test 172 MxLb: WGS84
+    # test 173 PyT_Lb: 45.898939°N, 000.540154°E
+    # test 174 PyT_Lb: NTF
+    # test 175 PyT_Lb: 45.898939°N, 002.337229°E
+    # test 176 PyT_Lb: NTF
+    # test 177 PyT_Lb: 45.898939°N, 004.134305°E
+    # test 178 PyT_Lb: NTF
+    # test 179 PyT_Lb: 47.696014°N, 000.540154°E
+    # test 180 PyT_Lb: NTF
+    # test 181 PyT_Lb: 47.696014°N, 002.337229°E
+    # test 182 PyT_Lb: NTF
+    # test 183 PyT_Lb: 47.696014°N, 004.134305°E
+    # test 184 PyT_Lb: NTF
+    # test 185 Snyder: 33.0°N, 108.0°W
+    # test 186 Snyder: NAD27
+    # test 187 Snyder: 33.0°N, 096.0°W
+    # test 188 Snyder: NAD27
+    # test 189 Snyder: 33.0°N, 084.0°W
+    # test 190 Snyder: NAD27
+    # test 191 Snyder: 45.0°N, 108.0°W
+    # test 192 Snyder: NAD27
+    # test 193 Snyder: 45.0°N, 096.0°W
+    # test 194 Snyder: NAD27
+    # test 195 Snyder: 45.0°N, 084.0°W
+    # test 196 Snyder: NAD27
+    # test 197 USA_Lb: 33.0°N, 108.0°W
+    # test 198 USA_Lb: WGS84
+    # test 199 USA_Lb: 33.0°N, 096.0°W
+    # test 200 USA_Lb: WGS84
+    # test 201 USA_Lb: 33.0°N, 084.0°W
+    # test 202 USA_Lb: WGS84
+    # test 203 USA_Lb: 45.0°N, 108.0°W
+    # test 204 USA_Lb: WGS84
+    # test 205 USA_Lb: 45.0°N, 096.0°W
+    # test 206 USA_Lb: WGS84
+    # test 207 USA_Lb: 45.0°N, 084.0°W
+    # test 208 USA_Lb: WGS84
+    # test 209 WRF_Lb: 33.0°N, 109.0°W
+    # test 210 WRF_Lb: WGS84
+    # test 211 WRF_Lb: 33.0°N, 097.0°W
+    # test 212 WRF_Lb: WGS84
+    # test 213 WRF_Lb: 33.0°N, 085.0°W
+    # test 214 WRF_Lb: WGS84
+    # test 215 WRF_Lb: 45.0°N, 109.0°W
+    # test 216 WRF_Lb: WGS84
+    # test 217 WRF_Lb: 45.0°N, 097.0°W
+    # test 218 WRF_Lb: WGS84
+    # test 219 WRF_Lb: 45.0°N, 085.0°W
+    # test 220 WRF_Lb: WGS84
+    # test 221 Snyder1: lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27, name='NAD27'), name='Snyder1'
+    # test 222 Snyder2: lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27, name='NAD27'), name='Snyder2'
+    # all lcc tests passed (Python 3.6.0 64bit)

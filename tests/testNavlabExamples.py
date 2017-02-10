@@ -128,7 +128,7 @@ if __name__ == '__main__':
 
     # Typical test results (on MacOS 10.12.2):
 
-    # testing testNavlabExamples.py version 16.12.07
+    # testing testNavlabExamples.py version 16.12.09
     # test 1 Example 1 delta: [N:331730.863, E:332998.501, D:17398.304]
     # test 2 Example 1 delta: [L:470357.384, B:45.109°, E:-2.12°]
     # test 3 Example 1 elevation: -2.1198
@@ -157,7 +157,7 @@ if __name__ == '__main__':
     # test 26 Example 10 crossTrackDistance: 11118
     # 1 testNavlabExamples.py test (3.8%) FAILED, incl. 1 KNOWN (Python 2.7.13 64bit)
 
-    # testing testNavlabExamples.py version 16.12.07
+    # testing testNavlabExamples.py version 16.12.09
     # test 1 Example 1 delta: [N:331730.863, E:332998.501, D:17398.304]
     # test 2 Example 1 delta: [L:470357.384, B:45.109°, E:-2.12°]
     # test 3 Example 1 elevation: -2.1198

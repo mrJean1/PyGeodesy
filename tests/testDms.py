@@ -17,7 +17,7 @@ if __name__ == '__main__':
 
     # Typical test results (on MacOS 10.12.2):
 
-    # testing geodesy.dms version 17.02.07
+    # testing geodesy.dms version 17.02.09
     # test 1 parseDMS: 0.0
     # test 2 parseDMS: 0.0
     # test 3 parseDMS: 0.0
@@ -50,7 +50,7 @@ if __name__ == '__main__':
     # test 30 compassPoint: WSW
     # all geodesy.dms tests passed (Python 2.7.13 64bit)
 
-    # testing geodesy.dms version 17.02.07
+    # testing geodesy.dms version 17.02.09
     # test 1 parseDMS: 0.0
     # test 2 parseDMS: 0.0
     # test 3 parseDMS: 0.0

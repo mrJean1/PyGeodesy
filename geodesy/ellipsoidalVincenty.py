@@ -46,16 +46,19 @@ as follows:
 or by converting to anothor datum:
 
     >>> p = p.convertDatum(Datums.OSGB36)
+
+@newfield example: Example, Examples
 '''
 
 from datum import Datums
 from ellipsoidalBase import CartesianBase, LatLonEllipsoidalBase
 from utils import EPS, degrees90, degrees180, degrees360, radians
+
 from math import atan2, cos, hypot, sin, tan
 
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'VincentyError')  # classes
-__version__ = '17.02.07'
+__version__ = '17.02.09'
 
 
 class VincentyError(Exception):
@@ -126,8 +129,9 @@ class LatLon(LatLonEllipsoidalBase):
            @return: The destination point (L{LatLon}).
 
            @example:
-           p = LatLon(-37.95103, 144.42487)
-           d = p.destination(54972.271, 306.86816)  # 37.6528°S, 143.9265°E
+
+           >>> p = LatLon(-37.95103, 144.42487)
+           >>> d = p.destination(54972.271, 306.86816)  # 37.6528°S, 143.9265°E
         '''
         return self._direct(distance, bearing, True)[0]
 
@@ -156,9 +160,10 @@ class LatLon(LatLonEllipsoidalBase):
            current L{LatLon.epsilon} and L{LatLon.iterations} limit.
 
            @example:
-           p = LatLon(-37.95103, 144.42487)
-           b = 306.86816
-           d, f = p.destination2(54972.271, b)  # 37.652818°S, 143.926498°E, 307.1736
+
+           >>> p = LatLon(-37.95103, 144.42487)
+           >>> b = 306.86816
+           >>> d, f = p.destination2(54972.271, b)  # 37.652818°S, 143.926498°E, 307.1736
         '''
         return self._direct(distance, bearing, True)
 
@@ -174,9 +179,10 @@ class LatLon(LatLonEllipsoidalBase):
            @return: Distance in meters (scalar).
 
            @example:
-           p = LatLon(50.06632, -5.71475)
-           q = LatLon(58.64402, -3.07009)
-           d = p.distanceTo(q)  # 969,954.166 m
+
+           >>> p = LatLon(50.06632, -5.71475)
+           >>> q = LatLon(58.64402, -3.07009)
+           >>> d = p.distanceTo(q)  # 969,954.166 m
         '''
         return self._inverse(other, False)
 
@@ -237,9 +243,10 @@ class LatLon(LatLonEllipsoidalBase):
            @return: Final bearing from North (degrees360).
 
            @example:
-           p = LatLon(-37.95103, 144.42487)
-           b = 306.86816
-           f = p.finalBearingOn(54972.271, b)  # 307.1736
+
+           >>> p = LatLon(-37.95103, 144.42487)
+           >>> b = 306.86816
+           >>> f = p.finalBearingOn(54972.271, b)  # 307.1736
         '''
         return self._direct(distance, bearing, False)
 
@@ -256,13 +263,14 @@ class LatLon(LatLonEllipsoidalBase):
            @return: Final bearing from North (degrees360).
 
            @example:
-           p = new LatLon(50.06632, -5.71475)
-           q = new LatLon(58.64402, -3.07009)
-           f = p1.finalBearingTo(q)  # 11.2972°
 
-           p = LatLon(52.205, 0.119)
-           q = LatLon(48.857, 2.351)
-           f = p.finalBearingTo(q)  # 157.9
+           >>> p = new LatLon(50.06632, -5.71475)
+           >>> q = new LatLon(58.64402, -3.07009)
+           >>> f = p1.finalBearingTo(q)  # 11.2972°
+
+           >>> p = LatLon(52.205, 0.119)
+           >>> q = LatLon(48.857, 2.351)
+           >>> f = p.finalBearingTo(q)  # 157.9
         '''
         return self._inverse(other, True)[2]
 
@@ -279,13 +287,14 @@ class LatLon(LatLonEllipsoidalBase):
            @return: Initial bearing from North (degrees360).
 
            @example:
-           p = LatLon(50.06632, -5.71475)
-           q = LatLon(58.64402, -3.07009)
-           b = p.bearingTo(q)  # 9.1419°
 
-           p = LatLon(52.205, 0.119)
-           q = LatLon(48.857, 2.351)
-           b = p.bearingTo(q)  # 156.2°
+           >>> p = LatLon(50.06632, -5.71475)
+           >>> q = LatLon(58.64402, -3.07009)
+           >>> b = p.bearingTo(q)  # 9.1419°
+
+           >>> p = LatLon(52.205, 0.119)
+           >>> q = LatLon(48.857, 2.351)
+           >>> b = p.bearingTo(q)  # 156.2°
         '''
         return self._inverse(other, True)[1]
 

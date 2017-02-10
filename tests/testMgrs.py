@@ -54,7 +54,7 @@ if __name__ == '__main__':
 
     # Typical test results (on MacOS 10.12.2):
 
-    # testing geodesy.mgrs version 17.02.07
+    # testing geodesy.mgrs version 17.02.09
     # test 1 Mgrs1: 31U DQ 48251 11932
     # test 2 Mgrs1: [Z:31U, G:DQ, E:48251, N:11932]
     # test 3 Mgrs2: 31U DQ 48251 11932
@@ -73,7 +73,7 @@ if __name__ == '__main__':
     # test 16 toUtm(76.0°N, 037.0°E).toMgrs: 37X DE 45999 36099
     # all geodesy.mgrs tests passed (Python 2.7.13 64bit)
 
-    # testing geodesy.mgrs version 17.02.07
+    # testing geodesy.mgrs version 17.02.09
     # test 1 Mgrs1: 31U DQ 48251 11932
     # test 2 Mgrs1: [Z:31U, G:DQ, E:48251, N:11932]
     # test 3 Mgrs2: 31U DQ 48251 11932

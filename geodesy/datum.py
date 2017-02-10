@@ -26,6 +26,8 @@ otherwise historical OSGB36 datum, q.v. Ordnance Survey 'A guide to
 coordinate systems in Great Britain' Section 6 U{http://www.ordnancesurvey
 .co.uk/docs/support/guide-coordinate-systems-great-britain.pdf} and also
 U{http://www.ordnancesurvey.co.uk/blog/2014/12/2}.
+
+@newfield example: Example, Examples
 '''
 
 # force int division to yield float quotient
@@ -33,9 +35,10 @@ from __future__ import division as _
 if not 1/2:  # PYCHOK 1/2 == 0
     raise ImportError('1/2 == %d' % (1/2,))
 
-from math  import sqrt
 from bases import Base, Named
 from utils import fdot, fStr, radians
+
+from math import sqrt
 
 R_KM = 6371.008771415  #: Mean, spherical earth radius (kilo meter).
 R_M  = R_KM * 1.0e3    #: Mean, spherical earth radius (meter).
@@ -47,7 +50,7 @@ R_SM = R_KM * 0.62137  #: Mean, spherical earth radius (statute miles).
 __all__ = ('R_KM', 'R_M', 'R_NM', 'R_SM',  # constants
            'Datum',  'Ellipsoid',  'Transform',  # classes
            'Datums', 'Ellipsoids', 'Transforms')  # enum-like
-__version__ = '17.02.07'
+__version__ = '17.02.09'
 
 
 class _Enum(dict, Named):
@@ -79,9 +82,9 @@ class _Enum(dict, Named):
             assert getattr(self, a) is v
 
 
-Datums     = _Enum('Datums')      #: Registered datums.
-Ellipsoids = _Enum('Ellipsoids')  #: Registered ellipsoids.
-Transforms = _Enum('Transforms')  #: Registered transforms.
+Datums     = _Enum('Datums')      #: Registered datums (L{_Enum}).
+Ellipsoids = _Enum('Ellipsoids')  #: Registered ellipsoids (L{_Enum}).
+Transforms = _Enum('Transforms')  #: Registered transforms (L{_Enum}).
 
 
 class _Based(Base, Named):
@@ -104,13 +107,14 @@ class _Based(Base, Named):
         return ', '.join(t + ['name=%r' % (self.name,)])
 
     def _register(self, enum, name):
-        '''(INTERNAL) Add this enum name.
+        '''(INTERNAL) Add this as enum.name.
         '''
         if name:
-            if name in enum:
-                raise NameError('%s.%s exists' % (enum.name, name))
-            enum[name] = self
             self._name = name
+            if name[:1].isalpha():
+                if name in enum:
+                    raise NameError('%s.%s exists' % (enum.name, name))
+                enum[name] = self
 
 
 class Ellipsoid(_Based):
@@ -162,7 +166,6 @@ class Ellipsoid(_Based):
         self.a2 = 1 / (a * a)  # for Nvector.Cartesian.toNvector
         self.R = (2 * a + b) / 3  # per IUGG definition for WGS84
         self.Rm = sqrt(a * b)  # mean radius
-        self._register(Ellipsoids, name)
 
         d = a - b
         self._ab_90 = d / 90  # for radiusAt below
@@ -183,6 +186,8 @@ class Ellipsoid(_Based):
         if abs(self.e22 - t) > 1e-8:
             raise AssertionError('%s: %s=%.9e vs %s=%.9e' % (name,
                                  'e22', self.e22, 'a2b2-1', t))
+
+        self._register(Ellipsoids, name)
 
     def __eq__(self, other):
         '''Compare this and an other ellipsoid.
@@ -378,6 +383,7 @@ class Transform(_Based):
         if s:
             self.s = float(s)
             self.s1 = s * 1.e-6 + 1  # normalize ppm to (s + 1)
+
         self._register(Transforms, name)
 
     def __eq__(self, other):

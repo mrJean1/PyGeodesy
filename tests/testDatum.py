@@ -3,23 +3,22 @@
 
 # Test datums, ellipsoids and transforms.
 
-__version__ = '17.01.14'
+__version__ = '17.02.09'
 
 if __name__ == '__main__':
 
     from tests import Tests
 
     import geodesy
-    import geodesy.datum as D
 
-    t = Tests(__file__, __version__, D)
+    t = Tests(__file__, __version__, geodesy.datum)
     t.testDatum(geodesy)
     t.results()
     t.exit()
 
     # Typical test results (on MacOS 10.12.2):
 
-    # testing geodesy.datum version 17.02.07
+    # testing geodesy.datum version 17.02.09
     # test 1 ellipsoid: True
     # test 2 transform: True
     # test 3 datum: True
@@ -30,7 +29,7 @@ if __name__ == '__main__':
     # test 8 WGS84: Beta6=(0, 8.377321640579e-04, 5.905870152220e-08, 1.673482665284e-1, 2.164798040063e-13, 3.787978046169e-16, 7.248748890694e-19)
     # all geodesy.datum tests passed (Python 2.7.13 64bit)
 
-    # testing geodesy.datum version 17.02.07
+    # testing geodesy.datum version 17.02.09
     # test 1 ellipsoid: True
     # test 2 transform: True
     # test 3 datum: True

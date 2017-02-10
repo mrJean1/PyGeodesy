@@ -85,7 +85,13 @@
   href="geodesy.ellipsoidalNvector.LatLon-class.html" 
   class="link">LatLon</a>.</p>
 
-<!-- ==================== INSTANCE METHODS ==================== -->
+<hr />
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-keyword">from</span> ellipsoidalNvector <span class="py-keyword">import</span> LatLon
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(52.205, 0.119)  <span class="py-comment"># height=0, datum=Datums.WGS84</span></pre>
+      </p>
+</div><!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
 <table class="summary" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
@@ -101,7 +107,7 @@
         <tr>
           <td><span class="summary-sig"><a href="geodesy.ellipsoidalNvector.LatLon-class.html#deltaTo" class="summary-sig-name">deltaTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
-      Calculates delta from this point to an other point.</td>
+      Calculates NED delta from this point to an other point.</td>
           <td align="right" valign="top">
             
             
@@ -334,10 +340,10 @@
     </td>
   </tr></table>
   
-  <p>Calculates delta from this point to an other point.</p>
-  <p>The delta is given as a north-east-down NED vector.  Note that this is
-  a linear delta, unrelated to a geodesic on the ellipsoid.</p>
-  <p>Points need not be defined on the same datum.</p>
+  <p>Calculates NED delta from this point to an other point.</p>
+  <p>The delta is returned as a Nrth-East-Down (NED) vector.</p>
+  <p>Note, this is a linear delta, unrelated to a geodesic on the 
+  ellipsoid.  The points need not be defined on the same datum.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -346,12 +352,20 @@
           class="link">LatLon</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Delta from this point to the other point in local tangent plane 
-          of this point (<a 
+        <dd>Delta of this point (<a 
           href="geodesy.ellipsoidalNvector.Ned-class.html" 
           class="link">Ned</a>).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>a = LatLon(49.66618, 3.45063)
+<span class="py-prompt">&gt;&gt;&gt; </span>b = LatLon(48.88667, 2.37472)
+<span class="py-prompt">&gt;&gt;&gt; </span>delta = a.deltaTo(b)  <span class="py-comment"># [N:-86126, E:-78900, D:1069]</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>d = delta.length  <span class="py-comment"># 116807.681 m</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>b = delta.bearing  <span class="py-comment"># 222.493&#176;</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>e = delta.elevation  <span class="py-comment"># -0.5245&#176;</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="destinationNed"></a>
 <div>
@@ -381,7 +395,13 @@
           href="geodesy.ellipsoidalNvector.Cartesian-class.html" 
           class="link">Cartesian</a>).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>a = LatLon(49.66618, 3.45063)
+<span class="py-prompt">&gt;&gt;&gt; </span>delta = toNed(116807.681, 222.493, -0.5245)  <span class="py-comment"># [N:-86126, E:-78900, D:1069]</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>b = a.destinationNed(delta)  <span class="py-comment"># 48.88667&#176;N, 002.37472&#176;E</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="destinationPoint"></a>
 <div>
@@ -411,7 +431,13 @@
           href="geodesy.ellipsoidalNvector.Cartesian-class.html" 
           class="link">Cartesian</a>).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>a = LatLon(49.66618, 3.45063)
+<span class="py-prompt">&gt;&gt;&gt; </span>delta = toNed(116807.681, 222.493, -0.5245)  <span class="py-comment"># [N:-86126, E:-78900, D:1069]</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>b = a.destinationNed(delta)  <span class="py-comment"># 48.88667&#176;N, 002.37472&#176;E</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="equals"></a>
 <div>
@@ -444,7 +470,13 @@
         <a href="geodesy.bases.LatLonHeightBase-class.html#equals">bases.LatLonHeightBase.equals</a>
     </dt>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(52.205, 0.119)
+<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(52.205, 0.119)
+<span class="py-prompt">&gt;&gt;&gt; </span>e = p.equals(q)  <span class="py-comment"># True</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="intermediateTo"></a>
 <div>
@@ -478,7 +510,13 @@
           href="geodesy.ellipsoidalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(52.205, 0.119)
+<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(48.857, 2.351)
+<span class="py-prompt">&gt;&gt;&gt; </span>p = p.intermediateTo(q, 0.25)  <span class="py-comment"># 51.3721&#176;N, 000.7073&#176;E</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="intermediatePointTo"></a>
 <div>
@@ -512,7 +550,13 @@
           href="geodesy.ellipsoidalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(52.205, 0.119)
+<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(48.857, 2.351)
+<span class="py-prompt">&gt;&gt;&gt; </span>p = p.intermediateTo(q, 0.25)  <span class="py-comment"># 51.3721&#176;N, 000.7073&#176;E</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="toCartesian"></a>
 <div>
@@ -560,7 +604,13 @@
           href="geodesy.ellipsoidalNvector.Nvector-class.html" 
           class="link">Nvector</a>).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(45, 45)
+<span class="py-prompt">&gt;&gt;&gt; </span>n = p.toNvector()
+<span class="py-prompt">&gt;&gt;&gt; </span>n.toStr()  <span class="py-comment"># [0.50000, 0.50000, 0.70710]</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
@@ -594,7 +644,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Feb  7 22:14:11 2017
+    Generated by Epydoc 3.0.1 on Thu Feb  9 19:24:20 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

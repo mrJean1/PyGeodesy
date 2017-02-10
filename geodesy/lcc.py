@@ -9,21 +9,24 @@ U{http://www.linz.govt.nz/data/geodetic-system/coordinate-conversion/
 projection-conversions/lambert-conformal-conic-geographic},
 U{Snyder <https://pubs.er.usgs.gov/djvu/PP/PP_1395.pdf} pp 107-109 and
 U{http://mathworld.wolfram.com/LambertConformalConicProjection.html}.
+
+@newfield example: Example, Examples
 '''
 
-from math import atan, copysign, cos, hypot, log, sin, sqrt, tan
 from ellipsoidalBase import LatLonEllipsoidalBase as _LL
 from datum import _Based, Datums, _Enum
 from utils import EPS, PI_2, \
                   degrees90, degrees180, false2f, fStr, radians
 
+from math import atan, copysign, cos, hypot, log, sin, sqrt, tan
+
 # all public constants, classes and functions
 __all__ = ('Conic', 'Conics', 'Lcc',
            'toLcc')  # functions
-__version__ = '17.02.07'
+__version__ = '17.02.09'
 
 
-Conics = _Enum('Conics')  #: Registered conics.
+Conics = _Enum('Conics')  #: Registered conics (L{_Enum}).
 
 
 class Conic(_Based):
@@ -67,9 +70,10 @@ class Conic(_Based):
            @return: A Lambert projection (L{Conic}).
 
            @example:
-           from geodesy import Conic, Datums, ellipsoidalNvector
-           ll0 = ellipsoidalNvector.LatLon(23, -96, datum=Datums.NAD27)
-           Snyder = Conic(ll0, 33, 45, E0=0, N0=0, name='Snyder')
+
+           >>> from geodesy import Conic, Datums, ellipsoidalNvector
+           >>> ll0 = ellipsoidalNvector.LatLon(23, -96, datum=Datums.NAD27)
+           >>> Snyder = Conic(ll0, 33, 45, E0=0, N0=0, name='Snyder')
         '''
         if latlon0 is not None:
             if not isinstance(latlon0, _LL):
@@ -341,7 +345,8 @@ class Lcc(_Based):
            @raise ValueError: If L{e} or L{n} is invalid or negative.
 
            @example:
-           lb = Lcc(448251, 5411932.0001)
+
+           >>> lb = Lcc(448251, 5411932.0001)
         '''
         if not isinstance(conic, Conic):
             raise TypeError('%s not Conic: %r' % ('conic', conic))
@@ -417,9 +422,10 @@ class Lcc(_Based):
                     " height" and 'm' if non-zero (string).
 
            @example:
-           lb = Lcc(448251, 5411932.0001)
-           lb.toStr(4)  # 448251.0 5411932.0001
-           lb.toStr(sep=', ')  # 448251, 5411932
+
+           >>> lb = Lcc(448251, 5411932.0001)
+           >>> lb.toStr(4)  # 448251.0 5411932.0001
+           >>> lb.toStr(sep=', ')  # 448251, 5411932
         '''
         t = [fStr(self._easting, prec=prec),
              fStr(self._northing, prec=prec)]

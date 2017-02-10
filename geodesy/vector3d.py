@@ -6,18 +6,20 @@
 Python implementation of vector-based functions by I{(C) Chris Veness
 2011-2015} published under the same MIT Licence**, see
 U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
+
+@newfield example: Example, Examples
 '''
 
 from bases import VectorBase
-from utils import EPS2, \
-                  degrees90, degrees180, fdot, fsum, \
-                  hypot3, isscalar, fStr, len2
+from utils import EPS2, degrees90, degrees180, fdot, fStr, fsum, \
+                  hypot3, isscalar, len2
+
 from math import atan2, cos, hypot, sin
 
 # all public contants, classes and functions
 __all__ = ('Vector3d',  # classes
            'sumOf')  # functions
-__version__ = '17.02.07'
+__version__ = '17.02.09'
 
 try:
     _cmp = cmp
@@ -205,9 +207,10 @@ class Vector3d(VectorBase):
            @return: True if vectors are identical.
 
            @example:
-           v1 = Vector3d(52.205, 0.119)
-           v2 = Vector3d(52.205, 0.119)
-           e = v1.equals(v2)  # True
+
+           >>> v1 = Vector3d(52.205, 0.119)
+           >>> v2 = Vector3d(52.205, 0.119)
+           >>> e = v1.equals(v2)  # True
         '''
         self.others(other)
 
@@ -298,12 +301,12 @@ class Vector3d(VectorBase):
     def rotate(self, axis, theta):
         '''Rotate this vector by a specified angle around an axis.
 
+           See U{Rotation matrix from axis and angle<http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle/Quaternions_and_spatial_rotation#Quaternion-derived_rotation_matrix/Rodrigues'_rotation_formula...>}
+
            @param axis: The axis being rotated around (L{Vector3d}).
            @param theta: The angle of rotation (radians).
 
            @return: New, rotated vector (L{Vector3d}).
-
-           @see: U{http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle/Quaternions_and_spatial_rotation#Quaternion-derived_rotation_matrix/Rodrigues'_rotation_formula...}
         '''
         self.others(axis, name='axis')
 
@@ -339,8 +342,9 @@ class Vector3d(VectorBase):
            @return: 2-Tuple (lat, lon) in (degrees90, degrees180).
 
            @example:
-           v = Vector3d(0.500, 0.500, 0.707)
-           a, b = v.to2ll()  # 45.0, 45.0
+
+           >>> v = Vector3d(0.500, 0.500, 0.707)
+           >>> a, b = v.to2ll()  # 45.0, 45.0
         '''
         a = atan2(self.z, hypot(self.x, self.y))
         b = atan2(self.y, self.x)

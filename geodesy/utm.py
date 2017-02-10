@@ -25,23 +25,26 @@ References U{https://arxiv.org/pdf/1002.1417v3.pdf},
 U{http://bib.gfz-potsdam.de/pub/digi/krueger2.pdf},
 U{http://henrik-seidel.gmxhome.de/gausskrueger.pdf} and
 U{http://wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system}.
+
+@newfield example: Example, Examples
 '''
 
-from math import asinh, atan, atanh, atan2, cos, cosh, \
-                 hypot, sin, sinh, tan, tanh
-from operator import mul
 from bases import Base
 from datum import Datums
 from dms   import S_DEG
 from ellipsoidalBase import LatLonEllipsoidalBase
 from utils import EPS, degrees, degrees90, degrees180, \
-                  fdot3, fStr, hypot1, isscalar, len2, map2, \
-                  radians, wrap90, wrap180
+                   fdot3, fStr, hypot1, isscalar, len2, map2, \
+                   radians, wrap90, wrap180
+
+from math import asinh, atan, atanh, atan2, cos, cosh, \
+                 hypot, sin, sinh, tan, tanh
+from operator import mul
 
 # all public contants, classes and functions
 __all__ = ('Utm',  # classes
            'parseUTM', 'toUtm')  # functions
-__version__ = '17.02.07'
+__version__ = '17.02.09'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -205,8 +208,9 @@ class Utm(Base):
            @raise ValueError: Invalid L{easting} or L{northing}.
 
            @example:
-           import geodesy
-           g = geodesy.Utm(31, 'N', 448251, 5411932)
+
+           >>> import geodesy
+           >>> g = geodesy.Utm(31, 'N', 448251, 5411932)
         '''
         self._zone, B, _ = _toZBL(zone, band)
 
@@ -293,9 +297,10 @@ class Utm(Base):
            @raise TypeError: If L{LatLon} is not ellipsoidal.
 
            @example:
-           g = Utm(31, 'N', 448251.795, 5411932.678)
-           from geodesy import ellipsoidalVincenty as eV
-           ll = g.toLatLon(eV.LatLon)  # 48°51′29.52″N, 002°17′40.20″E
+
+           >>> g = Utm(31, 'N', 448251.795, 5411932.678)
+           >>> from geodesy import ellipsoidalVincenty as eV
+           >>> ll = g.toLatLon(eV.LatLon)  # 48°51′29.52″N, 002°17′40.20″E
         '''
         if self._latlon and self._latlon.__class__ is LatLon \
                         and self._latlon.datum == self._datum:
@@ -360,7 +365,7 @@ class Utm(Base):
            @return: The MGRS grid reference (L{Mgrs}).
         '''
         if self._mgrs is None:
-            from mgrs import toMgrs  # PYCHOK recursive import
+            from geodesy.mgrs import toMgrs  # PYCHOK recursive import
             self._mgrs = toMgrs(self)
         return self._mgrs
 
@@ -383,9 +388,10 @@ class Utm(Base):
                     "degrees float" if cs is True (string).
 
            @example:
-           u = Utm(3, 'N', 448251, 5411932.0001)
-           u.toStr(4)  # 03 N 448251.0 5411932.0001
-           u.toStr(sep=', ')  # 03 N, 448251, 5411932
+
+           >>> u = Utm(3, 'N', 448251, 5411932.0001)
+           >>> u.toStr(4)  # 03 N 448251.0 5411932.0001
+           >>> u.toStr(sep=', ')  # 03 N, 448251, 5411932
         '''
         b = self._band if B else ''
         t = ['%02d%s %s' % (self._zone, b, self._hemi),
@@ -438,10 +444,11 @@ def parseUTM(strUTM, datum=Datums.WGS84):
        @raise ValueError: Invalid strUTM.
 
        @example:
-       u = parseUTM('31 N 448251 5411932')
-       u.toStr2()  # [Z:31, H:N, E:448251, N:5411932]
-       u = parseUTM('31 N 448251.8 5411932.7')
-       u.toStr()  # 31 N 448252 5411933
+
+       >>> u = parseUTM('31 N 448251 5411932')
+       >>> u.toStr2()  # [Z:31, H:N, E:448251, N:5411932]
+       >>> u = parseUTM('31 N 448251.8 5411932.7')
+       >>> u.toStr()  # 31 N 448252 5411933
     '''
     u = strUTM.strip().replace(',', ' ').split()
     try:
@@ -480,10 +487,11 @@ def toUtm(latlon, lon=None, datum=None):
                           outside valid UTM bands.
 
        @example:
-       p = LatLon(48.8582, 2.2945)  # 31 N 448251.8 5411932.7
-       u = toUtm(p)  # 31 N 448252 5411933
-       p = LatLon(13.4125, 103.8667) # 48 N 377302.4 1483034.8
-       u = toUtm(p)  # 48 N 377302 1483035
+
+       >>> p = LatLon(48.8582, 2.2945)  # 31 N 448251.8 5411932.7
+       >>> u = toUtm(p)  # 31 N 448252 5411933
+       >>> p = LatLon(13.4125, 103.8667) # 48 N 377302.4 1483034.8
+       >>> u = toUtm(p)  # 48 N 377302 1483035
     '''
     try:
         lat, lon = latlon.lat, latlon.lon

@@ -7,19 +7,22 @@ Python implementation of geodesy tools for an ellipsoidal earth model.
 Transcribed from JavaScript originals by I{(C) Chris Veness 2005-2016}
 and published under the same MIT Licence**, see for example
 U{http://www.movable-type.co.uk/scripts/geodesy/docs/latlon-ellipsoidal.js.html}
+
+@newfield example: Example, Examples
 '''
 
 from bases import LatLonHeightBase
 from datum import Datum, Datums
-from dms import parse3llh
+from dms   import parse3llh
 from utils import EPS2, degrees90, degrees180, hypot1
 from vector3d import Vector3d
+
 from math import atan2, copysign, cos, hypot, sin, sqrt
 
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('CartesianBase', 'LatLonEllipsoidalBase')
-__version__ = '17.02.07'
+__version__ = '17.02.09'
 
 
 class CartesianBase(Vector3d):
@@ -128,7 +131,8 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
            @keyword datum: Datum to use (L{Datum}).
 
            @example:
-           p = LatLon(51.4778, -0.0016)  # height=0, datum=Datums.WGS84
+
+           >>> p = LatLon(51.4778, -0.0016)  # height=0, datum=Datums.WGS84
         '''
         LatLonHeightBase.__init__(self, lat, lon, height=height)
         if datum:  # check datum
@@ -147,8 +151,9 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
            @return: The converted point (L{LatLonEllipsoidalBase}).
 
            @example:
-           pWGS84 = LatLon(51.4778, -0.0016)  # default Datums.WGS84
-           pOSGB  = pWGS84.convertDatum(Datums.OSGB36)  # 51.477284°N, 000.00002°E
+
+           >>> pWGS84 = LatLon(51.4778, -0.0016)  # default Datums.WGS84
+           >>> pOSGB  = pWGS84.convertDatum(Datums.OSGB36)  # 51.477284°N, 000.00002°E
         '''
         if self.datum == toDatum:
             return self.copy()
@@ -285,7 +290,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
            @return: The OSGR coordinate (L{Osgr}).
         '''
         if self._osgr is None:
-            from osgr import toOsgr  # PYCHOK recursive import
+            from geodesy.osgr import toOsgr  # PYCHOK recursive import
             self._osgr = toOsgr(self, datum=self.datum)
             self._osgr._latlon = self
         return self._osgr
@@ -298,7 +303,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
            @return: The UTM coordinate (L{Utm}).
         '''
         if self._utm is None:
-            from utm import toUtm  # PYCHOK recursive import
+            from geodesy.utm import toUtm  # PYCHOK recursive import
             self._utm = toUtm(self, datum=self.datum)
             self._utm._latlon = self
         return self._utm

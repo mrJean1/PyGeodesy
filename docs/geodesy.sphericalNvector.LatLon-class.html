@@ -85,7 +85,13 @@
   <p>Tools for working with points and paths on (a spherical model of) the 
   earth's surface using vector-based methods.</p>
 
-<!-- ==================== INSTANCE METHODS ==================== -->
+<hr />
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-keyword">from</span> sphericalNvector <span class="py-keyword">import</span> LatLon
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(52.205, 0.119)</pre>
+      </p>
+</div><!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
 <table class="summary" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
@@ -646,7 +652,13 @@
         class="link">LatLon</a>.</li>
     </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p1 = LatLon(52.205, 0.119)
+<span class="py-prompt">&gt;&gt;&gt; </span>p2 = LatLon(48.857, 2.351)
+<span class="py-prompt">&gt;&gt;&gt; </span>b = p1.bearingTo(p2)  <span class="py-comment"># 156.2</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="crossTrackDistanceTo"></a>
 <div>
@@ -682,7 +694,17 @@
         <dd>Distance to great circle (negative if to the left or positive if 
           to the right of the path).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(53.2611, -0.7972)</pre>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>s = LatLon(53.3206, -1.7297)
+<span class="py-prompt">&gt;&gt;&gt; </span>d = p.crossTrackDistanceTo(s, 96)  <span class="py-comment"># -305.7</span></pre>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>e = LatLon(53.1887, 0.1334)
+<span class="py-prompt">&gt;&gt;&gt; </span>d = p.crossTrackDistanceTo(s, e)  <span class="py-comment"># -307.5</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="destination"></a>
 <div>
@@ -715,7 +737,13 @@
           href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(51.4778, -0.0015)
+<span class="py-prompt">&gt;&gt;&gt; </span>q = p.destination(7794, 300.7)
+<span class="py-prompt">&gt;&gt;&gt; </span>q.toStr()  <span class="py-comment"># 51.513546&#176;N, 000.098345&#176;W</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="destinationPoint"></a>
 <div>
@@ -748,7 +776,13 @@
           href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(51.4778, -0.0015)
+<span class="py-prompt">&gt;&gt;&gt; </span>q = p.destination(7794, 300.7)
+<span class="py-prompt">&gt;&gt;&gt; </span>q.toStr()  <span class="py-comment"># 51.513546&#176;N, 000.098345&#176;W</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="distanceTo"></a>
 <div>
@@ -779,7 +813,13 @@
         <dd>Distance between this and the other point (in the same units as 
           radius).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(52.205, 0.119)
+<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(48.857, 2.351);
+<span class="py-prompt">&gt;&gt;&gt; </span>d = p.distanceTo(q)  <span class="py-comment"># 404300</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="greatCircle"></a>
 <div>
@@ -810,7 +850,13 @@
           href="geodesy.sphericalNvector.Nvector-class.html" 
           class="link">Nvector</a>).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(53.3206, -1.7297)
+<span class="py-prompt">&gt;&gt;&gt; </span>gc = p.greatCircle(96.0)
+<span class="py-prompt">&gt;&gt;&gt; </span>gc.toStr()  <span class="py-comment"># [-0.794, 0.129, 0.594]</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="greatCircleTo"></a>
 <div>
@@ -844,7 +890,17 @@
           href="geodesy.sphericalNvector.Nvector-class.html" 
           class="link">Nvector</a>).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(53.3206, -1.7297)
+<span class="py-prompt">&gt;&gt;&gt; </span>gc = p.greatCircle(96.0)
+<span class="py-prompt">&gt;&gt;&gt; </span>gc.toStr()  <span class="py-comment"># (-0.79408, 0.12856, 0.59406)</span></pre>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(53.1887, 0.1334)
+<span class="py-prompt">&gt;&gt;&gt; </span>g = p.greatCircleTo(q)
+<span class="py-prompt">&gt;&gt;&gt; </span>g.toStr()  <span class="py-comment"># (-0.79408, 0.12859, 0.59406)</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="intermediateChordTo"></a>
 <div>
@@ -878,7 +934,13 @@
           href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(52.205, 0.119)
+<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(48.857, 2.351)
+<span class="py-prompt">&gt;&gt;&gt; </span>i = p.intermediateChordTo(q, 0.25)  <span class="py-comment"># 51.3723&#176;N, 000.7072&#176;E</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="intermediatePointDirectlyTo"></a>
 <div>
@@ -912,7 +974,13 @@
           href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(52.205, 0.119)
+<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(48.857, 2.351)
+<span class="py-prompt">&gt;&gt;&gt; </span>i = p.intermediateChordTo(q, 0.25)  <span class="py-comment"># 51.3723&#176;N, 000.7072&#176;E</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="intermediateTo"></a>
 <div>
@@ -946,7 +1014,13 @@
           href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(52.205, 0.119)
+<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(48.857, 2.351)
+<span class="py-prompt">&gt;&gt;&gt; </span>i = p.intermediateTo(q, 0.25)  <span class="py-comment"># 51.3721&#176;N, 000.7074&#176;E</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="intermediatePointTo"></a>
 <div>
@@ -980,7 +1054,13 @@
           href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(52.205, 0.119)
+<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(48.857, 2.351)
+<span class="py-prompt">&gt;&gt;&gt; </span>i = p.intermediateTo(q, 0.25)  <span class="py-comment"># 51.3721&#176;N, 000.7074&#176;E</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="intersection"></a>
 <div>
@@ -1028,7 +1108,13 @@
         class="link">LatLon</a>.</li>
     </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>s = LatLon(51.8853, 0.2545)
+<span class="py-prompt">&gt;&gt;&gt; </span>e = LatLon(49.0034, 2.5735)
+<span class="py-prompt">&gt;&gt;&gt; </span>i = s.intersection(108.55, e, 32.44)  <span class="py-comment"># 50.9076&#176;N, 004.5086&#176;E</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="isEnclosedBy"></a>
 <div>
@@ -1062,7 +1148,13 @@
         class="link">points</code>.</li>
     </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>b = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(45,1, 1.1);
+<span class="py-prompt">&gt;&gt;&gt; </span>inside = p.isEnclosedBy(b)  <span class="py-comment"># True</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="enclosedBy"></a>
 <div>
@@ -1096,7 +1188,13 @@
         class="link">points</code>.</li>
     </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>b = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(45,1, 1.1);
+<span class="py-prompt">&gt;&gt;&gt; </span>inside = p.isEnclosedBy(b)  <span class="py-comment"># True</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="isWithin"></a>
 <div>
@@ -1197,7 +1295,13 @@
         <dd>Midpoint (<a href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p1 = LatLon(52.205, 0.119)
+<span class="py-prompt">&gt;&gt;&gt; </span>p2 = LatLon(48.857, 2.351)
+<span class="py-prompt">&gt;&gt;&gt; </span>m = p1.midpointTo(p2)  <span class="py-comment"># '50.5363&#176;N, 001.2746&#176;E'</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="nearestOn"></a>
 <div>
@@ -1235,7 +1339,20 @@
           href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>s1 = LatLon(51.0, 1.0)
+<span class="py-prompt">&gt;&gt;&gt; </span>s2 = LatLon(51.0, 2.0)</pre>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>s = LatLon(51.0, 1.9)
+<span class="py-prompt">&gt;&gt;&gt; </span>p = s.nearestOn(s1, s2)  <span class="py-comment"># 51.0004&#176;N, 001.9000&#176;E</span></pre>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>d = p.distanceTo(s)  <span class="py-comment"># 42.71 m</span></pre>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>s = LatLon(51.0, 2.1)
+<span class="py-prompt">&gt;&gt;&gt; </span>p = s.nearestOn(s1, s2)  <span class="py-comment"># 51.0000&#176;N, 002.0000&#176;E</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="nearestPointOnSegment"></a>
 <div>
@@ -1273,7 +1390,20 @@
           href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>s1 = LatLon(51.0, 1.0)
+<span class="py-prompt">&gt;&gt;&gt; </span>s2 = LatLon(51.0, 2.0)</pre>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>s = LatLon(51.0, 1.9)
+<span class="py-prompt">&gt;&gt;&gt; </span>p = s.nearestOn(s1, s2)  <span class="py-comment"># 51.0004&#176;N, 001.9000&#176;E</span></pre>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>d = p.distanceTo(s)  <span class="py-comment"># 42.71 m</span></pre>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>s = LatLon(51.0, 2.1)
+<span class="py-prompt">&gt;&gt;&gt; </span>p = s.nearestOn(s1, s2)  <span class="py-comment"># 51.0000&#176;N, 002.0000&#176;E</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="toNvector"></a>
 <div>
@@ -1297,7 +1427,13 @@
           href="geodesy.sphericalNvector.Nvector-class.html" 
           class="link">Nvector</a>).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(45, 45)
+<span class="py-prompt">&gt;&gt;&gt; </span>n = p.toNvector()
+<span class="py-prompt">&gt;&gt;&gt; </span>n.toStr()  <span class="py-comment"># [0.50000, 0.50000, 0.70710]</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="triangulate"></a>
 <div>
@@ -1355,6 +1491,8 @@
   </tr></table>
   
   <p>Locates a point at given distances from this and two other points.</p>
+  <p>See <a href="http://wikipedia.org/wiki/Trilateration" 
+  target="_top">Triliteration</a>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -1372,8 +1510,7 @@
     <dt>Returns:</dt>
         <dd>Triliterated point (<a 
           href="geodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>).
-          <p>See &lt;http://wikipedia.org/wiki/Trilateration&gt;</p></dd>
+          class="link">LatLon</a>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1409,7 +1546,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Feb  7 22:14:12 2017
+    Generated by Epydoc 3.0.1 on Thu Feb  9 19:24:20 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -7,6 +7,8 @@ minute and second forms.
 After I{(C) Chris Veness 2011-2015} published under the same MIT Licence**,
 see <http://www.movable-type.co.uk/scripts/latlong.html>
 and <http://www.movable-type.co.uk/scripts/latlong-vectors.html>
+
+@newfield example: Example, Examples
 '''
 
 from math import radians
@@ -21,17 +23,17 @@ __all__ = ('F_D', 'F_DM', 'F_DMS', 'F_RAD',  # format contants
            'bearingDMS', 'compassDMS', 'compassPoint',  # functions
            'latDMS', 'lonDMS', 'normDMS',
            'parseDMS', 'parse3llh', 'precision', 'toDMS')
-__version__ = '17.02.07'
+__version__ = '17.02.09'
 
 F_D   = 'd'    #: Format degrees as deg° (string).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (string).
 F_DMS = 'dms'  #: Format degrees as deg°min'sec″ (string).
 F_RAD = 'rad'  #: Convert degrees to radians and format (string).
 
-S_DEG = '°'  #: Degree symbol (° string).
-S_MIN = '′'  #: Minutes symbol (′ string).
-S_SEC = '″'  #: Seconds symbol (″ string).
-S_SEP = ''   #: Separator between deg°, min′ and sec″ (string).
+S_DEG = '°'  #: Degree symbol (string).
+S_MIN = '′'  #: Minutes symbol (string).
+S_SEC = '″'  #: Seconds symbol (string).
+S_SEP = ''   #: Separator between deg, min and sec (string).
 
 _F_prec = {F_D: 6, F_DM: 4, F_DMS: 2}  #: (INTERNAL) default precs.
 
@@ -41,7 +43,7 @@ _S_norm = {'^': S_DEG, '˚': S_DEG,  #: (INTERNAL) normalized DMS.
 _S_ALL  = (S_DEG, S_MIN, S_SEC) + tuple(_S_norm.keys())  #: (INTERNAL) alternates.
 
 
-def _toDMS(deg, form=F_DMS, prec=None, ddd=3):
+def _toDMS(deg, form, prec, ddd):
     '''(INTERNAL) Convert numeric degrees, without sign or suffix.
     '''
     try:
@@ -52,7 +54,7 @@ def _toDMS(deg, form=F_DMS, prec=None, ddd=3):
     if prec is None:
         z = _F_prec.get(form, 6)
     else:
-        z = int(prec) or 0
+        z = int(prec)
     p = abs(z)
     w = p + (1 if p else 0)
 
@@ -95,7 +97,7 @@ def bearingDMS(bearing, form=F_D, prec=None):
 
        @return: Bearing per the specified form (string).
     '''
-    return _toDMS(bearing % 360, form=form, prec=prec, ddd=3)
+    return _toDMS(bearing % 360, form, prec, 3)
 
 
 toBrng = bearingDMS  # XXX original name
@@ -133,8 +135,9 @@ def compassPoint(bearing, prec=3):
        @raise ValueError: Invalid L{prec}ision.
 
        @example:
-       p = compass(24)     # 'NNE'
-       p = compass(24, 1)  # 'N'
+
+       >>> p = compass(24)     # 'NNE'
+       >>> p = compass(24, 1)  # 'N'
     '''
     try:
         m, x = _M_X[prec]
@@ -154,7 +157,7 @@ def latDMS(deg, form=F_DMS, prec=2):
 
        @return: Degrees per the specified form (string).
     '''
-    return _toDMS(deg, form=form, prec=prec, ddd=2) + ('S' if deg < 0 else 'N')
+    return _toDMS(deg, form, prec, 2) + ('S' if deg < 0 else 'N')
 
 
 toLat = latDMS  # XXX original name
@@ -169,7 +172,7 @@ def lonDMS(deg, form=F_DMS, prec=2):
 
        @return: Degrees per the specified form (string).
     '''
-    return _toDMS(deg, form=form, prec=prec, ddd=3) + ('W' if deg < 0 else 'E')
+    return _toDMS(deg, form, prec, 3) + ('W' if deg < 0 else 'E')
 
 
 toLon = lonDMS  # XXX original name
@@ -188,7 +191,8 @@ def normDMS(strDMS):
     return strDMS
 
 
-normDMS.__doc__  %= (S_DEG, S_MIN, S_SEC)
+if __debug__:  # no __doc__ at -O and -OO
+    normDMS.__doc__  %= (S_DEG, S_MIN, S_SEC)
 
 
 def parse3llh(strll, height=0, sep=','):
@@ -210,7 +214,8 @@ def parse3llh(strll, height=0, sep=','):
        @raise ValueError: Invalid L{strll}.
 
        @example:
-       t = parse3llh('000°00′05.31″W, 51° 28′ 40.12″ N')  # (51.4778°N, 000.0015°W, 0)
+
+       >>> t = parse3llh('000°00′05.31″W, 51° 28′ 40.12″ N')  # (51.4778°N, 000.0015°W, 0)
     '''
     ll = strll.strip().split(sep)
     if len(ll) > 2:  # XXX interpret height unit
@@ -302,7 +307,7 @@ def toDMS(deg, form=F_DMS, prec=2, ddd=2, neg='-', pos=''):
 
        @return: Degrees per the specified form (string).
     '''
-    t = _toDMS(deg, form=form, prec=prec, ddd=ddd)
+    t = _toDMS(deg, form, prec, ddd)
     s = neg if deg < 0 else pos
     return s + t
 

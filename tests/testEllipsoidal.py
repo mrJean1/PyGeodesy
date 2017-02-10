@@ -3,7 +3,7 @@
 
 # Test ellipsoidal earth model functions and methods.
 
-__version__ = '17.02.02'
+__version__ = '17.02.09'
 
 if __name__ == '__main__':
 
@@ -25,7 +25,7 @@ if __name__ == '__main__':
 
     # Typical test results (on MacOS 10.12.2):
 
-    # testing geodesy.ellipsoidalNvector version 17.02.07
+    # testing geodesy.ellipsoidalNvector version 17.02.09
     # test 1 toLatLon: 44.995674°N, 045.0°E
     # test 2 toNvector: (0.50004, 0.50004, 0.70705)
     # test 3 equals: False
@@ -43,7 +43,7 @@ if __name__ == '__main__':
     # test 15 Nvector: (0.5, 0.5, 0.707, +1.00)
     # all geodesy.ellipsoidalNvector tests passed (Python 2.7.13 64bit)
 
-    # testing geodesy.ellipsoidalVincenty version 17.02.07
+    # testing geodesy.ellipsoidalVincenty version 17.02.09
     # test 1 distanceTo (WGS84): 866455.43292
     # test 2 VincentyError (WGS84): LatLon(41°29′24.29″N, 071°18′46.07″W) coincident with LatLon(41°29′24.29″N, 071°18′46.07″W)
     # test 3 ValueError (WGS84): other Ellipsoid mistmatch: Ellipsoids.Airy1830 vs Ellipsoids.WGS84
@@ -64,7 +64,7 @@ if __name__ == '__main__':
     # test 18 destination2 (NAD83): 37.652818°S, 143.926498°E, 307.1736°NW
     # all geodesy.ellipsoidalVincenty tests passed (Python 2.7.13 64bit)
 
-    # testing ellipsoidalNvector version 17.02.07
+    # testing ellipsoidalNvector version 17.02.09
     # test 1 toLatLon: 44.995674°N, 045.0°E
     # test 2 toNvector: (0.50004, 0.50004, 0.70705)
     # test 3 equals: False
@@ -82,7 +82,7 @@ if __name__ == '__main__':
     # test 15 Nvector: (0.5, 0.5, 0.707, +1.00)
     # all ellipsoidalNvector tests passed (Python 3.6.0 64bit)
 
-    # testing ellipsoidalVincenty version 17.02.07
+    # testing ellipsoidalVincenty version 17.02.09
     # test 1 distanceTo (WGS84): 866455.43292
     # test 2 VincentyError (WGS84): LatLon(41°29′24.29″N, 071°18′46.07″W) coincident with LatLon(41°29′24.29″N, 071°18′46.07″W)
     # test 3 ValueError (WGS84): other Ellipsoid mistmatch: Ellipsoids.Airy1830 vs Ellipsoids.WGS84

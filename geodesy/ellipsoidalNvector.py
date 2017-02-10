@@ -17,6 +17,8 @@ surface or vectors normal to the plane of a great circle.
 See Kenneth Gade, "A Non-singular Horizontal Position Representation",
 The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.  Also at
 U{http://www.navlab.net/Publications/A_Nonsingular_Horizontal_Position_Representation.pdf}.
+
+@newfield example: Example, Examples
 '''
 
 from datum import Datum, Datums
@@ -27,12 +29,13 @@ from nvector import NorthPole, LatLonNvectorBase, \
 from utils import EPS, EPS1, degrees90, degrees360, \
                   cbrt, fdot, hypot3, radians, fStr
 from vector3d import Vector3d
+
 from math import asin, atan2, cos, hypot, sin, sqrt
 
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '17.02.07'
+__version__ = '17.02.09'
 
 
 class Cartesian(CartesianBase):
@@ -59,8 +62,9 @@ class Cartesian(CartesianBase):
            @return: Ellipsoidal n-vector (L{Nvector}).
 
            @example:
-           c = Cartesian(3980581, 97, 4966825)
-           n = c.toNvector()  # (0.6228, 0.0, 0.7824, 0.0)
+
+           >>> c = Cartesian(3980581, 97, 4966825)
+           >>> n = c.toNvector()  # (0.6228, 0.0, 0.7824, 0.0)
         '''
         if self._Nv is None or datum != self._Nv.datum:
             E = datum.ellipsoid
@@ -93,8 +97,9 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
     '''An n-vector-based ellipsoidal L{LatLon}.
 
        @example:
-       from ellipsoidalNvector import LatLon
-       p = LatLon(52.205, 0.119)  # height=0, datum=Datums.WGS84
+
+       >>> from ellipsoidalNvector import LatLon
+       >>> p = LatLon(52.205, 0.119)  # height=0, datum=Datums.WGS84
     '''
     _Nv  = None  #: (INTERNAL) Cache _toNvector (L{Nvector}).
     _r3  = None  #: (INTERNAL) Cache _rotation3 (L{Nvector}).
@@ -129,9 +134,10 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #            @return: Initial bearing from North (degrees).
 #
 #            @example:
-#            p1 = LatLon(52.205, 0.119)
-#            p2 = LatLon(48.857, 2.351)
-#            b = p1.bearingTo(p2)  # 156.2
+#
+#            >>> p1 = LatLon(52.205, 0.119)
+#            >>> p2 = LatLon(48.857, 2.351)
+#            >>> b = p1.bearingTo(p2)  # 156.2
 #         '''
 #         self.others(other)
 #
@@ -158,14 +164,15 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #                     positive if to right of path (scalar).
 #
 #            @example:
-#            p = LatLon(53.2611, -0.7972)
 #
-#            s = LatLon(53.3206, -1.7297)
-#            b = 96.0
-#            d = p.crossTrackDistanceTo(s, b)  # -305.7
+#            >>> p = LatLon(53.2611, -0.7972)
 #
-#            e = LatLon(53.1887, 0.1334)
-#            d = p.crossTrackDistanceTo(s, e)  # -307.5
+#            >>> s = LatLon(53.3206, -1.7297)
+#            >>> b = 96.0
+#            >>> d = p.crossTrackDistanceTo(s, b)  # -305.7
+#
+#            >>> e = LatLon(53.1887, 0.1334)
+#            >>> d = p.crossTrackDistanceTo(s, e)  # -307.5
 #         '''
 #         self.others(start, name='start')
 #
@@ -184,26 +191,26 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #         return a * float(radius)
 
     def deltaTo(self, other):
-        '''Calculates delta from this point to an other point.
+        '''Calculates NED delta from this point to an other point.
 
-           The delta is given as a north-east-down NED vector.  Note
-           that this is a linear delta, unrelated to a geodesic on
-           the ellipsoid.
+           The delta is returned as a Nrth-East-Down (NED) vector.
 
-           Points need not be defined on the same datum.
+           Note, this is a linear delta, unrelated to a geodesic
+           on the ellipsoid.  The points need not be defined on
+           the same datum.
 
            @param other: The other point (L{LatLon}).
 
-           @return: Delta from this point to the other point in
-                    local tangent plane of this point (L{Ned}).
+           @return: Delta of this point (L{Ned}).
 
            @example:
-           a = LatLon(49.66618, 3.45063)
-           b = LatLon(48.88667, 2.37472)
-           delta = a.deltaTo(b)  # [N:-86126, E:-78900, D:1069]
-           d = delta.length  # 116807.681 m
-           b = delta.bearing  # 222.493°
-           e = delta.elevation  # -0.5245°
+
+           >>> a = LatLon(49.66618, 3.45063)
+           >>> b = LatLon(48.88667, 2.37472)
+           >>> delta = a.deltaTo(b)  # [N:-86126, E:-78900, D:1069]
+           >>> d = delta.length  # 116807.681 m
+           >>> b = delta.bearing  # 222.493°
+           >>> e = delta.elevation  # -0.5245°
         '''
         self.ellipsoids(other)  # throws TypeError and ValueError
 
@@ -226,9 +233,10 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #            @return: Destination point (L{LatLon}).
 #
 #            @example:
-#            p = LatLon(51.4778, -0.0015)
-#            q = p.destination(7794, 300.7)
-#            q.toStr()  # '51.5135°N, 000.0983°W' ?
+#
+#            >>> p = LatLon(51.4778, -0.0015)
+#            >>> q = p.destination(7794, 300.7)
+#            >>> q.toStr()  # '51.5135°N, 000.0983°W' ?
 #         '''
 #         r = float(distance) / float(radius)  # angular distance in radians
 #         # great circle by starting from this point on given bearing
@@ -250,9 +258,10 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
            @return: Destination point (L{Cartesian}).
 
            @example:
-           a = LatLon(49.66618, 3.45063)
-           delta = toNed(116807.681, 222.493, -0.5245)  # [N:-86126, E:-78900, D:1069]
-           b = a.destinationNed(delta)  # 48.88667°N, 002.37472°E
+
+           >>> a = LatLon(49.66618, 3.45063)
+           >>> delta = toNed(116807.681, 222.493, -0.5245)  # [N:-86126, E:-78900, D:1069]
+           >>> b = a.destinationNed(delta)  # 48.88667°N, 002.37472°E
         '''
         if not isinstance(delta, Ned):
             raise TypeError('%s not a %s.%s' % ('delta', Ned.__module__, Ned.__name__))
@@ -282,9 +291,10 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #            @return: Distance (meter).
 #
 #            @example:
-#            p = LatLon(52.205, 0.119)
-#            q = LatLon(48.857, 2.351);
-#            d = p.distanceTo(q)  # 404300
+#
+#            >>> p = LatLon(52.205, 0.119)
+#            >>> q = LatLon(48.857, 2.351);
+#            >>> d = p.distanceTo(q)  # 404300
 #         '''
 #         self.others(other)
 #
@@ -303,9 +313,10 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #            @return: Distance (meter).
 #
 #            @example:
-#            p = LatLon(52.205, 0.119)
-#            q = LatLon(48.857, 2.351);
-#            d = p.distanceTo(q)  # 404300
+#
+#            >>> p = LatLon(52.205, 0.119)
+#            >>> q = LatLon(48.857, 2.351);
+#            >>> d = p.distanceTo(q)  # 404300
 #         '''
 #         self.others(other)
 #
@@ -322,9 +333,10 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
            @return: True if points are identical (bool).
 
            @example:
-           p = LatLon(52.205, 0.119)
-           q = LatLon(52.205, 0.119)
-           e = p.equals(q)  # True
+
+           >>> p = LatLon(52.205, 0.119)
+           >>> q = LatLon(52.205, 0.119)
+           >>> e = p.equals(q)  # True
         '''
         return LatLonEllipsoidalBase.equals(self, other, eps=eps) and \
                self.height == other.height and self.datum == other.datum
@@ -339,9 +351,10 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #            @return: Normalised vector representing great circle (L{Vector3d}).
 #
 #            @example:
-#            p = LatLon(53.3206, -1.7297)
-#            g = p.greatCircle(96.0)
-#            g.toStr()  # '(-0.794, 0.129, 0.594)'
+#
+#            >>> p = LatLon(53.3206, -1.7297)
+#            >>> g = p.greatCircle(96.0)
+#            >>> g.toStr()  # '(-0.794, 0.129, 0.594)'
 #         '''
 #         b, a = self.toradians()
 #         c = radians(bearing)
@@ -365,9 +378,10 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
            @return: Intermediate point (L{LatLon}).
 
            @example:
-           p = LatLon(52.205, 0.119)
-           q = LatLon(48.857, 2.351)
-           p = p.intermediateTo(q, 0.25)  # 51.3721°N, 000.7073°E
+
+           >>> p = LatLon(52.205, 0.119)
+           >>> q = LatLon(48.857, 2.351)
+           >>> p = p.intermediateTo(q, 0.25)  # 51.3721°N, 000.7073°E
         '''
         self.others(other)
 
@@ -398,10 +412,11 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #            @return: Intersection point (L{LatLon}).
 #
 #            @example:
-#            p1 = LatLon(51.8853, 0.2545); b1 = 108.55
-#            p2 = LatLon(49.0034, 2.5735); b2 =  32.44
-#            i = p1.intersection(b1, p2, b2)
-#            i.toStr()  # 50.9076°N, 004.5086°E
+#
+#            >>> p1 = LatLon(51.8853, 0.2545); b1 = 108.55
+#            >>> p2 = LatLon(49.0034, 2.5735); b2 =  32.44
+#            >>> i = p1.intersection(b1, p2, b2)
+#            >>> i.toStr()  # 50.9076°N, 004.5086°E
 #         '''
 #         self.others(start2, name='start2')
 #
@@ -477,9 +492,10 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #                               few L{points}.
 #
 #            @example:
-#            r = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
-#            p = LatLon(45.1, 1.1)
-#            i = p.isEnclosedBy(r)  # True
+#
+#            >>> r = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
+#            >>> p = LatLon(45.1, 1.1)
+#            >>> i = p.isEnclosedBy(r)  # True
 #         '''
 #         n, points = len2(points)
 #         if n > 0 and points[0].equals(points[n-1]):
@@ -525,10 +541,11 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #            @return: Midpoint (L{LatLon}).
 #
 #            @example:
-#            p = LatLon(52.205, 0.119)
-#            q = LatLon(48.857, 2.351)
-#            m = p.midpointTo(q)
-#            m.toStr()  # '50.5363°N, 001.2746°E'
+#
+#            >>> p = LatLon(52.205, 0.119)
+#            >>> q = LatLon(48.857, 2.351)
+#            >>> m = p.midpointTo(q)
+#            >>> m.toStr()  # '50.5363°N, 001.2746°E'
 #         '''
 #         self.others(other)
 #
@@ -554,9 +571,10 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
            @return: N-vector representing this point (L{Nvector}).
 
            @example:
-           p = LatLon(45, 45)
-           n = p.toNvector()
-           n.toStr()  # [0.50000, 0.50000, 0.70710]
+
+           >>> p = LatLon(45, 45)
+           >>> n = p.toNvector()
+           >>> n.toStr()  # [0.50000, 0.50000, 0.70710]
         '''
         if self._Nv is None:
             x, y, z, h = self.to4xyzh()  # nvector.LatLonNvectorBase
@@ -569,9 +587,10 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #            @return: Vector representing this point (L{Vector3d}).
 #
 #            @example:
-#            p = LatLon(45, 45)
-#            v = p.toVector3d()
-#            v.toStr()  # '(0.500. 0.500. 0.707)'
+#
+#            >>> p = LatLon(45, 45)
+#            >>> v = p.toVector3d()
+#            >>> v.toStr()  # '(0.500. 0.500. 0.707)'
 #         '''
 #         if self._v3d is None:
 #             x, y, z, _ = self.to4xyzh()  # nvector.LatLonNvectorBase
@@ -596,9 +615,10 @@ class Ned(object):
                         of the ellipsoid) in meter (scalar).
 
            @example:
-           from ellipsiodalNvector import Ned
-           delta = Ned(110569, 111297, 1936)
-           delta.toStr(prec=0)  #  [N:110569, E:111297, D:1936]
+
+           >>> from ellipsiodalNvector import Ned
+           >>> delta = Ned(110569, 111297, 1936)
+           >>> delta.toStr(prec=0)  #  [N:110569, E:111297, D:1936]
         '''
         self.north = north
         self.east  = east
@@ -700,9 +720,10 @@ class Nvector(NvectorBase):
            @raise TypeError: If L{datum} is not a L{Datum}.
 
            @example:
-           from ellipsoidalNvector import Nvector
-           v = Nvector(0.5, 0.5, 0.7071, 1)
-           v.toLatLon()  # 45.0°N, 045.0°E, +1.00m
+
+           >>> from ellipsoidalNvector import Nvector
+           >>> v = Nvector(0.5, 0.5, 0.7071, 1)
+           >>> v.toLatLon()  # 45.0°N, 045.0°E, +1.00m
         '''
         NvectorBase.__init__(self, x, y, z, h=h)
         if datum:
@@ -732,8 +753,9 @@ class Nvector(NvectorBase):
            @return: Point equivalent to this n-vector (L{LatLon}).
 
            @example:
-           v = Nvector(0.5, 0.5, 0.7071)
-           p = v.toLatLon()  # 45.0°N, 45.0°E
+
+           >>> v = Nvector(0.5, 0.5, 0.7071)
+           >>> p = v.toLatLon()  # 45.0°N, 45.0°E
         '''
         a, b, h = self.to3llh()
         return LatLon(a, b, height=h, datum=self.datum)
@@ -744,9 +766,10 @@ class Nvector(NvectorBase):
            @return: Cartesian equivalent to this n-vector (L{Cartesian}).
 
            @example:
-           v = Nvector(0.5, 0.5, 0.7071)
-           c = v.toCartesian()  # [3194434, 3194434, 4487327]
-           p = c.toLatLon()  # 45.0°N, 45.0°E
+
+           >>> v = Nvector(0.5, 0.5, 0.7071)
+           >>> c = v.toCartesian()  # [3194434, 3194434, 4487327]
+           >>> p = c.toLatLon()  # 45.0°N, 45.0°E
         '''
         E = self.datum.ellipsoid
 

@@ -6,6 +6,8 @@
 After I{(C) Chris Veness 2011-2015} published under the same MIT Licence**,
 see U{http://www.movable-type.co.uk/scripts/latlong.html}
 and U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
+
+@newfield example: Example, Examples
 '''
 
 from math import degrees, pi as PI, radians, sin, sqrt, tan
@@ -43,7 +45,7 @@ try:
 except AttributeError:
     EPS = 2.2204460492503131e-16  #: Approximate epsilon (float)
 EPS1 = 1 - EPS    #: 1 - EPS (float)
-EPS2 = sqrt(EPS)  #: EPS ^ (1/2) (float)
+EPS2 = sqrt(EPS)  #: sqrt(EPS) (float)
 
 PI2  = PI * 2  #: Two PI, PI * 2 (float)  # PYCHOK expected
 PI_2 = PI / 2  #: Half PI, PI / 2 (float)

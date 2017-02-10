@@ -444,7 +444,12 @@
           href="geodesy.ellipsoidalVincenty.LatLon-class.html" 
           class="link">LatLon</a>).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(-37.95103, 144.42487)
+<span class="py-prompt">&gt;&gt;&gt; </span>d = p.destination(54972.271, 306.86816)  <span class="py-comment"># 37.6528&#176;S, 143.9265&#176;E</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="destination2"></a>
 <div>
@@ -491,7 +496,13 @@
         class="link">LatLon.iterations</a> limit.</li>
     </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(-37.95103, 144.42487)
+<span class="py-prompt">&gt;&gt;&gt; </span>b = 306.86816
+<span class="py-prompt">&gt;&gt;&gt; </span>d, f = p.destination2(54972.271, b)  <span class="py-comment"># 37.652818&#176;S, 143.926498&#176;E, 307.1736</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="distanceTo"></a>
 <div>
@@ -522,7 +533,13 @@
     <dt>Returns:</dt>
         <dd>Distance in meters (scalar).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(50.06632, -5.71475)
+<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(58.64402, -3.07009)
+<span class="py-prompt">&gt;&gt;&gt; </span>d = p.distanceTo(q)  <span class="py-comment"># 969,954.166 m</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="distanceTo3"></a>
 <div>
@@ -605,7 +622,13 @@
     <dt>Returns:</dt>
         <dd>Final bearing from North (degrees360).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(-37.95103, 144.42487)
+<span class="py-prompt">&gt;&gt;&gt; </span>b = 306.86816
+<span class="py-prompt">&gt;&gt;&gt; </span>f = p.finalBearingOn(54972.271, b)  <span class="py-comment"># 307.1736</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="finalBearingTo"></a>
 <div>
@@ -637,7 +660,17 @@
     <dt>Returns:</dt>
         <dd>Final bearing from North (degrees360).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = new LatLon(50.06632, -5.71475)
+<span class="py-prompt">&gt;&gt;&gt; </span>q = new LatLon(58.64402, -3.07009)
+<span class="py-prompt">&gt;&gt;&gt; </span>f = p1.finalBearingTo(q)  <span class="py-comment"># 11.2972&#176;</span></pre>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(52.205, 0.119)
+<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(48.857, 2.351)
+<span class="py-prompt">&gt;&gt;&gt; </span>f = p.finalBearingTo(q)  <span class="py-comment"># 157.9</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="initialBearingTo"></a>
 <div>
@@ -669,7 +702,17 @@
     <dt>Returns:</dt>
         <dd>Initial bearing from North (degrees360).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(50.06632, -5.71475)
+<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(58.64402, -3.07009)
+<span class="py-prompt">&gt;&gt;&gt; </span>b = p.bearingTo(q)  <span class="py-comment"># 9.1419&#176;</span></pre>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(52.205, 0.119)
+<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(48.857, 2.351)
+<span class="py-prompt">&gt;&gt;&gt; </span>b = p.bearingTo(q)  <span class="py-comment"># 156.2&#176;</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="bearingTo"></a>
 <div>
@@ -701,7 +744,17 @@
     <dt>Returns:</dt>
         <dd>Initial bearing from North (degrees360).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(50.06632, -5.71475)
+<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(58.64402, -3.07009)
+<span class="py-prompt">&gt;&gt;&gt; </span>b = p.bearingTo(q)  <span class="py-comment"># 9.1419&#176;</span></pre>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(52.205, 0.119)
+<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(48.857, 2.351)
+<span class="py-prompt">&gt;&gt;&gt; </span>b = p.bearingTo(q)  <span class="py-comment"># 156.2&#176;</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="toCartesian"></a>
 <div>
@@ -810,7 +863,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Feb  7 22:14:11 2017
+    Generated by Epydoc 3.0.1 on Thu Feb  9 19:24:20 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

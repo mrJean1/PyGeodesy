@@ -21,6 +21,8 @@ Depending on requirements, some parts of the reference may be omitted
 
 Qv U{http://www.fgdc.gov/standards/projects/FGDC-standards-projects/usng/fgdc_std_011_2001_usng.pdf}
 and U{https://en.wikipedia.org/wiki/Military_grid_reference_system}.
+
+@newfield example: Example, Examples
 '''
 
 from bases import Base
@@ -34,7 +36,7 @@ import re  # PYCHOK warning locale.Error
 # all public contants, classes and functions
 __all__ = ('Mgrs',  # classes
            'parseMGRS', 'toMgrs')  # functions
-__version__ = '17.02.07'
+__version__ = '17.02.09'
 
 _100km  =  100e3  #: (INTERNAL) 100 km in meter.
 _2000km = 2000e3  #: (INTERNAL) 2,000 km in meter.
@@ -75,8 +77,9 @@ class Mgrs(Base):
            @raise ValueError: Invalid MGRS grid reference.
 
            @example:
-           from mgrs import Mgrs
-           m = Mgrs('31U', 'DQ', 48251, 11932)  # 31U DQ 48251 11932
+
+           >>> from mgrs import Mgrs
+           >>> m = Mgrs('31U', 'DQ', 48251, 11932)  # 31U DQ 48251 11932
         '''
         self._zone, self._band, self._bandLat = _toZBL(zone, band, True)
 
@@ -163,8 +166,9 @@ class Mgrs(Base):
            @return: This Mgrs as "00B EN easting northing" (string).
 
            @example:
-           m = Mgrs(31, 'DQ', 48251, 11932, band='U')
-           m.toStr()  # '31U DQ 48251 11932'
+
+           >>> m = Mgrs(31, 'DQ', 48251, 11932, band='U')
+           >>> m.toStr()  # '31U DQ 48251 11932'
         '''
         w = prec // 2
         if 1 > w or w > 5:
@@ -194,8 +198,9 @@ class Mgrs(Base):
            @return: The UTM coordinate (L{Utm}).
 
            @example:
-           m = Mgrs('31U', 'DQ', 448251, 11932)
-           u = m.toUtm()  # 31 N 448251 5411932
+
+           >>> m = Mgrs('31U', 'DQ', 448251, 11932)
+           >>> u = m.toUtm()  # 31 N 448251 5411932
         '''
         # get northing of the band bottom, extended to
         # include entirety of bottom-most 100 km square
@@ -233,10 +238,11 @@ def parseMGRS(strMGRS, datum=Datums.WGS84):
        @raise ValueError: Invalid L{strMGRS}.
 
        @example:
-       m = parseMGRS('31U DQ 48251 11932')
-       str(m)  # 31U DQ 48251 11932
-       m = parseMGRS('31UDQ4825111932')
-       repr(m)  # [Z:31U, G:DQ, E:48251, N:11932]
+
+       >>> m = parseMGRS('31U DQ 48251 11932')
+       >>> str(m)  # 31U DQ 48251 11932
+       >>> m = parseMGRS('31UDQ4825111932')
+       >>> repr(m)  # [Z:31U, G:DQ, E:48251, N:11932]
     '''
     def _mg(cre, s):  # return re.match groups
         m = cre.match(s)
@@ -280,8 +286,9 @@ def toMgrs(utm):
        @raise TypeError: Invalid L{utm}.
 
        @example:
-       u = Utm(31, 'N', 448251, 5411932)
-       m = u.toMgrs()  # 31U DQ 48251 11932
+
+       >>> u = Utm(31, 'N', 448251, 5411932)
+       >>> m = u.toMgrs()  # 31U DQ 48251 11932
     '''
     # truncate east-/northing to within 100 km grid square
     # XXX add rounding to nm precision?

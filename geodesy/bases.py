@@ -6,15 +6,18 @@
 After I{(C) Chris Veness 2011-2015} published under the same MIT Licence**,
 see U{http://www.movable-type.co.uk/scripts/latlong.html}
 and U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
+
+@newfield example: Example, Examples
 '''
 
 from dms import F_D, F_DMS, latDMS, lonDMS, parseDMS
+
 from math import cos, radians, sin
 
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('Base', 'LatLonHeightBase', 'Named', 'VectorBase')
-__version__ = '17.02.07'
+__version__ = '17.02.09'
 
 
 class Base(object):
@@ -96,8 +99,9 @@ class LatLonHeightBase(Base):
            @raise ValueError: Invalid L{lat}- or L{lon}gitude.
 
            @example:
-           p = LatLon(50.06632, -5.71475)
-           q = LatLon('50°03′59″N', """005°42'53"W""")
+
+           >>> p = LatLon(50.06632, -5.71475)
+           >>> q = LatLon('50°03′59″N', """005°42'53"W""")
         '''
         self._lat = parseDMS(lat, suffix='NS')
         self._lon = parseDMS(lon, suffix='EW')
@@ -133,9 +137,10 @@ class LatLonHeightBase(Base):
            @return: True if points are identical (bool).
 
            @example:
-           p = LatLon(52.205, 0.119)
-           q = LatLon(52.205, 0.119)
-           e = p.equals(q)  # True
+
+           >>> p = LatLon(52.205, 0.119)
+           >>> q = LatLon(52.205, 0.119)
+           >>> e = p.equals(q)  # True
         '''
         self.others(other)
 
@@ -211,9 +216,10 @@ class LatLonHeightBase(Base):
            @return: Point in the specified form (string).
 
            @example:
-           LatLon(51.4778, -0.0016).toStr()  # 51°28′40″N, 000°00′06″W
-           LatLon(51.4778, -0.0016).toStr(F_D)  # 51.4778°N, 000.0016°W
-           LatLon(51.4778, -0.0016, 42).toStr()  # 51°28′40″N, 000°00′06″W, +42.00m
+
+           >>> LatLon(51.4778, -0.0016).toStr()  # 51°28′40″N, 000°00′06″W
+           >>> LatLon(51.4778, -0.0016).toStr(F_D)  # 51.4778°N, 000.0016°W
+           >>> LatLon(51.4778, -0.0016, 42).toStr()  # 51°28′40″N, 000°00′06″W, +42.00m
 
         '''
         t = [latDMS(self.lat, form=form, prec=prec),
