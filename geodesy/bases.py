@@ -69,11 +69,13 @@ class Base(object):
 
     def toStr(self, **args):
         '''(INTERNAL) Must be overloaded.
+           @param args: Optional, positional arguments.
         '''
         raise AssertionError('%s.toStr%r' % (self.__class__.__name__, args))
 
     def toStr2(self, **kwds):
         '''(INTERNAL) To be overloaded.
+           @keyword kwds: Optional, keyword arguments.
         '''
         t = self.toStr(**kwds).lstrip('([{').rstrip('}])')
         return '%s(%s)' % (self.__class__.__name__, t)
