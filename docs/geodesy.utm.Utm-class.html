@@ -91,7 +91,7 @@ object --+
         <span class="summary-sig-arg">easting</span>,
         <span class="summary-sig-arg">northing</span>,
         <span class="summary-sig-arg">band</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84, <code class="variable-ellipsis">...</code></span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">convergence</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">scale</span>=<span class="summary-sig-default">None</span>)</span><br />
       New UTM coordinate.</td>
@@ -327,7 +327,7 @@ object --+
         <span class="sig-arg">easting</span>,
         <span class="sig-arg">northing</span>,
         <span class="sig-arg">band</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84, <code class="variable-ellipsis">...</code></span>,
+        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">convergence</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">scale</span>=<span class="sig-default">None</span>)</span>
     <br /><em class="fname">(Constructor)</em>
@@ -566,7 +566,7 @@ object --+
   <p>Get the latitudinal band (C..X or '').</p>
   <dl class="fields">
     <dt>Get Method:</dt>
-    <dd class="value"><span class="summary-sig"><i>unreachable</i>.band(<span class="summary-sig-arg">self</span>)</span>
+    <dd class="value"><span class="summary-sig">band(<span class="summary-sig-arg">self</span>)</span>
         - Get the latitudinal band (C..X or '').
     </dd>
   </dl>
@@ -581,7 +581,7 @@ object --+
   <p>Get the meridian convergence (degrees or None).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
-    <dd class="value"><span class="summary-sig"><i>unreachable</i>.convergence(<span class="summary-sig-arg">self</span>)</span>
+    <dd class="value"><span class="summary-sig">convergence(<span class="summary-sig-arg">self</span>)</span>
         - Get the meridian convergence (degrees or None).
     </dd>
   </dl>
@@ -597,7 +597,7 @@ object --+
   class="link">Datum</a>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
-    <dd class="value"><span class="summary-sig"><i>unreachable</i>.datum(<span class="summary-sig-arg">self</span>)</span>
+    <dd class="value"><span class="summary-sig">datum(<span class="summary-sig-arg">self</span>)</span>
         - Get the datum (<a href="geodesy.datum.Datum-class.html" 
 class="link">Datum</a>).
     </dd>
@@ -613,7 +613,7 @@ class="link">Datum</a>).
   <p>Get easting (meter).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
-    <dd class="value"><span class="summary-sig"><i>unreachable</i>.easting(<span class="summary-sig-arg">self</span>)</span>
+    <dd class="value"><span class="summary-sig">easting(<span class="summary-sig-arg">self</span>)</span>
         - Get easting (meter).
     </dd>
   </dl>
@@ -628,7 +628,7 @@ class="link">Datum</a>).
   <p>Get the hemisphere (N|S).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
-    <dd class="value"><span class="summary-sig"><i>unreachable</i>.hemisphere(<span class="summary-sig-arg">self</span>)</span>
+    <dd class="value"><span class="summary-sig">hemisphere(<span class="summary-sig-arg">self</span>)</span>
         - Get the hemisphere (N|S).
     </dd>
   </dl>
@@ -643,7 +643,7 @@ class="link">Datum</a>).
   <p>Get northing (meter).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
-    <dd class="value"><span class="summary-sig"><i>unreachable</i>.northing(<span class="summary-sig-arg">self</span>)</span>
+    <dd class="value"><span class="summary-sig">northing(<span class="summary-sig-arg">self</span>)</span>
         - Get northing (meter).
     </dd>
   </dl>
@@ -658,7 +658,7 @@ class="link">Datum</a>).
   <p>Get the grid scale (scalar or None).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
-    <dd class="value"><span class="summary-sig"><i>unreachable</i>.scale(<span class="summary-sig-arg">self</span>)</span>
+    <dd class="value"><span class="summary-sig">scale(<span class="summary-sig-arg">self</span>)</span>
         - Get the grid scale (scalar or None).
     </dd>
   </dl>
@@ -673,7 +673,7 @@ class="link">Datum</a>).
   <p>Get the longitudinal zone (1..60).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
-    <dd class="value"><span class="summary-sig"><i>unreachable</i>.zone(<span class="summary-sig-arg">self</span>)</span>
+    <dd class="value"><span class="summary-sig">zone(<span class="summary-sig-arg">self</span>)</span>
         - Get the longitudinal zone (1..60).
     </dd>
   </dl>
@@ -711,7 +711,7 @@ class="link">Datum</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Feb 12 21:36:57 2017
+    Generated by Epydoc 3.0.1 on Mon Feb 13 15:24:04 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

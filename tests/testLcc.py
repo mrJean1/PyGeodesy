@@ -3,7 +3,7 @@
 
 # Test LCC functions and methods.
 
-__version__ = '17.02.09'
+__version__ = '17.02.13'
 
 if __name__ == '__main__':
 
@@ -23,7 +23,7 @@ if __name__ == '__main__':
 
             n = 'Snyder' + str(n)
             c = Conic(LatLon(23, -96, datum=Datums.NAD27), 33, 45, E0=0, N0=0, name=n)
-            self.test(n, c, "lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27, name='NAD27'), name='%s'" % (n,))
+            self.test(n, c, "name='%s', lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27)" % (n,))
 
         def testLcc(self, LatLon):
 
@@ -74,7 +74,7 @@ if __name__ == '__main__':
     t.results()
     t.exit()
 
-    # Typical test results (on MacOS 10.12.2):
+    # Typical test results (on MacOS 10.12.3):
 
     # testing geodesy.lcc version 17.02.09
     # test 1 lb1: 448251.0 5411932.0001
@@ -297,8 +297,8 @@ if __name__ == '__main__':
     # test 218 WRF_Lb: WGS84
     # test 219 WRF_Lb: 45.0°N, 085.0°W
     # test 220 WRF_Lb: WGS84
-    # test 221 Snyder1: lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27, name='NAD27'), name='Snyder1'
-    # test 222 Snyder2: lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27, name='NAD27'), name='Snyder2'
+    # test 221 Snyder1: name='Snyder1', lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27)
+    # test 222 Snyder2: name='Snyder2', lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27)
     # all geodesy.lcc tests passed (Python 2.7.13 64bit)
 
     # testing lcc version 17.02.09
@@ -522,6 +522,6 @@ if __name__ == '__main__':
     # test 218 WRF_Lb: WGS84
     # test 219 WRF_Lb: 45.0°N, 085.0°W
     # test 220 WRF_Lb: WGS84
-    # test 221 Snyder1: lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27, name='NAD27'), name='Snyder1'
-    # test 222 Snyder2: lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27, name='NAD27'), name='Snyder2'
+    # test 221 Snyder1: name='Snyder1', lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27)
+    # test 222 Snyder2: name='Snyder2', lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27)
     # all lcc tests passed (Python 3.6.0 64bit)

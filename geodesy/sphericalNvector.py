@@ -39,9 +39,9 @@ from math import atan2, cos, radians, sin
 
 # all public contants, classes and functions
 __all__ = ('LatLon', 'Nvector',  # classes
-           'areaOf', 'intersection', 'meanOf',  # functions
+           'areaOf', 'intersection', 'isclockwise', 'meanOf',  # functions
            'triangulate', 'trilaterate')
-__version__ = '17.02.12'
+__version__ = '17.02.13'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -686,6 +686,29 @@ def intersection(start1, end1, start2, end2):
 
     i = i1 if d > 0 else i2
     return Nvector(i.x, i.y, i.z).toLatLon()
+
+
+def isclockwise(points):
+    '''Determine direction of a polygon defined by a list,
+       sequence, set or tuple of L{LatLon} points.
+
+       @param points: The points defining the polygon (L{LatLon}[]).
+
+       @return: True if clockwise, False otherwise.
+
+       @raise TypeError: Some L{points} are not L{LatLon}.
+
+       @raise ValueError: Too few L{points} or polygon has zero area.
+
+       @example:
+
+       >>> f = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
+       >>> isclockwise(f)  # False
+
+       >>> t = LatLon(45,1), LatLon(46,1), LatLon(46,2), LatLon(45,1)
+       >>> isclockwise(t)  # True
+    '''
+    return _Nvll.isclockwise(points)
 
 
 def meanOf(points, height=None):

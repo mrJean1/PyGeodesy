@@ -121,7 +121,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy.lcc-module.html#toLcc" class="summary-sig-name">toLcc</a>(<span class="summary-sig-arg">latlon</span>,
-        <span class="summary-sig-arg">conic</span>=<span class="summary-sig-default">Conic(lat0=40.0, lon0=-97.0, par1=33.0, par2=45.0, E0=0, N0=0,<code class="variable-ellipsis">...</code></span>)</span><br />
+        <span class="summary-sig-arg">conic</span>=<span class="summary-sig-default">Conic(name='WRF_Lb', lat0=40.0, lon0=-97.0, par1=33.0, par2=45<code class="variable-ellipsis">...</code></span>)</span><br />
       Convert a lat-/longitude position to an <a 
       href="geodesy.lcc.Lcc-class.html" class="link">Lcc</a> instance.</td>
           <td align="right" valign="top">
@@ -146,15 +146,15 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="geodesy.lcc-module.html#Conics" class="summary-name">Conics</a> = <code title="Conics.Be72Lb: Conic(lat0=90.0, lon0=4.3674867, par1=49.8333339, par2=\
-51.1666672, E0=150000.013, N0=5400088.438, k0=1, SP=2, datum=(ellipsoi\
-d=Ellipsoids.GRS80, transform=Transforms.NAD83, name='NAD83'), name='B\
-e72Lb')
-Conics.Fr93Lb: Conic(lat0=46.5, lon0=3.0, par1=49.0, par2=44.0, E0=700\
-000.0, N0=6600000.0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.WGS84, tr\
-ansform=Transforms.WGS84, name='WGS84'), name='Fr93Lb')
-Conics.MaNLb: Conic(lat0=33.3, lon0=-5.4, par1=31.73, par2=34.87, E0=5\
-...">Conics.Be72Lb: Conic(lat0=90.0, lon0=4.3674867, par1=<code class="variable-ellipsis">...</code></code><br />
+        <a href="geodesy.lcc-module.html#Conics" class="summary-name">Conics</a> = <code title="Conics.Be72Lb: Conic(name='Be72Lb', lat0=90.0, lon0=4.3674867, par1=49\
+.8333339, par2=51.1666672, E0=150000.013, N0=5400088.438, k0=1, SP=2, \
+datum=(name='NAD83', ellipsoid=Ellipsoids.GRS80, transform=Transforms.\
+NAD83)
+Conics.Fr93Lb: Conic(name='Fr93Lb', lat0=46.5, lon0=3.0, par1=49.0, pa\
+r2=44.0, E0=700000.0, N0=6600000.0, k0=1, SP=2, datum=(name='WGS84', e\
+llipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84)
+Conics.MaNLb: Conic(name='MaNLb', lat0=33.3, lon0=-5.4, par1=31.73, pa\
+...">Conics.Be72Lb: Conic(name='Be72Lb', lat0=90.0, lon0=4<code class="variable-ellipsis">...</code></code><br />
       Registered conics (_Enum).
     </td>
   </tr>
@@ -176,7 +176,7 @@ Conics.MaNLb: Conic(lat0=33.3, lon0=-5.4, par1=31.73, par2=34.87, E0=5\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toLcc</span>(<span class="sig-arg">latlon</span>,
-        <span class="sig-arg">conic</span>=<span class="sig-default">Conic(lat0=40.0, lon0=-97.0, par1=33.0, par2=45.0, E0=0, N0=0,<code class="variable-ellipsis">...</code></span>)</span>
+        <span class="sig-arg">conic</span>=<span class="sig-default">Conic(name='WRF_Lb', lat0=40.0, lon0=-97.0, par1=33.0, par2=45<code class="variable-ellipsis">...</code></span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -224,14 +224,14 @@ Conics.MaNLb: Conic(lat0=33.3, lon0=-5.4, par1=31.73, par2=34.87, E0=5\
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-Conics.Be72Lb: Conic(lat0=90.0, lon0=4.3674867, par1=49.8333339, par2=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-51.1666672, E0=150000.013, N0=5400088.438, k0=1, SP=2, datum=(ellipsoi<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-d=Ellipsoids.GRS80, transform=Transforms.NAD83, name='NAD83'), name='B<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-e72Lb')
-Conics.Fr93Lb: Conic(lat0=46.5, lon0=3.0, par1=49.0, par2=44.0, E0=700<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-000.0, N0=6600000.0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.WGS84, tr<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-ansform=Transforms.WGS84, name='WGS84'), name='Fr93Lb')
-Conics.MaNLb: Conic(lat0=33.3, lon0=-5.4, par1=31.73, par2=34.87, E0=5<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+Conics.Be72Lb: Conic(name='Be72Lb', lat0=90.0, lon0=4.3674867, par1=49<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+.8333339, par2=51.1666672, E0=150000.013, N0=5400088.438, k0=1, SP=2, <span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+datum=(name='NAD83', ellipsoid=Ellipsoids.GRS80, transform=Transforms.<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+NAD83)
+Conics.Fr93Lb: Conic(name='Fr93Lb', lat0=46.5, lon0=3.0, par1=49.0, pa<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+r2=44.0, E0=700000.0, N0=6600000.0, k0=1, SP=2, datum=(name='WGS84', e<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+llipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84)
+Conics.MaNLb: Conic(name='MaNLb', lat0=33.3, lon0=-5.4, par1=31.73, pa<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 <code class="variable-ellipsis">...</code>
 </pre></td></tr></table>
 </dd>
@@ -270,7 +270,7 @@ Conics.MaNLb: Conic(lat0=33.3, lon0=-5.4, par1=31.73, par2=34.87, E0=5<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Feb 12 21:36:56 2017
+    Generated by Epydoc 3.0.1 on Mon Feb 13 15:24:03 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

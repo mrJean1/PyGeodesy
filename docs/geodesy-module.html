@@ -148,7 +148,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.02.12
+        17.02.13
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -344,7 +344,7 @@
           <td><span class="summary-sig"><a href="geodesy-module.html#bearingDMS" class="summary-sig-name">bearingDMS</a>(<span class="summary-sig-arg">bearing</span>,
         <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Convert bearing.</td>
+      Converts bearing to string.</td>
           <td align="right" valign="top">
             
             
@@ -361,7 +361,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy-module.html#cbrt" class="summary-sig-name">cbrt</a>(<span class="summary-sig-arg">x</span>)</span><br />
-      Compute the cubic root x^(1/3).</td>
+      Computes the cubic root <i class="math">x**(1/3)</i>.</td>
           <td align="right" valign="top">
             
             
@@ -380,7 +380,7 @@
           <td><span class="summary-sig"><a href="geodesy-module.html#compassDMS" class="summary-sig-name">compassDMS</a>(<span class="summary-sig-arg">bearing</span>,
         <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Convert bearing suffixed with compass point.</td>
+      Converts bearing to string suffixed with compass point.</td>
           <td align="right" valign="top">
             
             
@@ -398,7 +398,7 @@
         <tr>
           <td><span class="summary-sig"><a href="geodesy-module.html#compassPoint" class="summary-sig-name">compassPoint</a>(<span class="summary-sig-arg">bearing</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">3</span>)</span><br />
-      Convert bearing to compass point.</td>
+      Converts bearing to compass point.</td>
           <td align="right" valign="top">
             
             
@@ -432,7 +432,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy-module.html#degrees180" class="summary-sig-name">degrees180</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Convert radians to degrees -180..+180.</td>
+      Converts and wraps radians to degrees <i class="math">-180..+180</i>.</td>
           <td align="right" valign="top">
             
             
@@ -449,7 +449,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy-module.html#degrees360" class="summary-sig-name">degrees360</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Convert radians to degrees 0..+360.</td>
+      Converts and wraps radians to degrees <i class="math">0..+360</i>.</td>
           <td align="right" valign="top">
             
             
@@ -466,7 +466,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy-module.html#degrees90" class="summary-sig-name">degrees90</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Convert radians to degrees -270..+90.</td>
+      Converts and wraps radians to degrees <i class="math">-270..+90</i>.</td>
           <td align="right" valign="top">
             
             
@@ -487,7 +487,7 @@
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">%.*f</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">ints</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Convert floats to string, optionally with trailing zero decimals 
+      Converts floats to string, optionally with trailing zero decimals 
       stripped.</td>
           <td align="right" valign="top">
             
@@ -507,7 +507,7 @@
           <td><span class="summary-sig"><a href="geodesy-module.html#false2f" class="summary-sig-name">false2f</a>(<span class="summary-sig-arg">value</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">value</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">false</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Convert false east-/northing to non-negative float.</td>
+      Converts false east-/northing to non-negative float.</td>
           <td align="right" valign="top">
             
             
@@ -525,7 +525,8 @@
         <tr>
           <td><span class="summary-sig"><a href="geodesy-module.html#fdot" class="summary-sig-name">fdot</a>(<span class="summary-sig-arg">a</span>,
         <span class="summary-sig-arg">*b</span>)</span><br />
-      Precision dot product sum(a[i] * b[i] for i in range(len(a))).</td>
+      Precision dot product <i class="math">sum(a[i] * b[i] for i in 
+      range(len(a)))</i>.</td>
           <td align="right" valign="top">
             
             
@@ -545,8 +546,8 @@
         <span class="summary-sig-arg">b</span>,
         <span class="summary-sig-arg">c</span>,
         <span class="summary-sig-arg">start</span>=<span class="summary-sig-default">0</span>)</span><br />
-      Precision dot product sum(a[i] * b[i] * c[i] for i in range(len(a))) 
-      + start.</td>
+      Precision dot product <i class="math">sum(a[i] * b[i] * c[i] for i in
+      range(len(a))) + start</i>.</td>
           <td align="right" valign="top">
             
             
@@ -580,7 +581,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy-module.html#halfs" class="summary-sig-name">halfs</a>(<span class="summary-sig-arg">str2</span>)</span><br />
-      Split string in 2 halfs.</td>
+      Splits a string in 2 halfs.</td>
           <td align="right" valign="top">
             
             
@@ -597,7 +598,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy-module.html#hypot1" class="summary-sig-name">hypot1</a>(<span class="summary-sig-arg">x</span>)</span><br />
-      Compute the norm sqrt(1 + x^2).</td>
+      Computes the norm <i class="math">sqrt(1 + x**2)</i>.</td>
           <td align="right" valign="top">
             
             
@@ -616,7 +617,7 @@
           <td><span class="summary-sig"><a href="geodesy-module.html#hypot3" class="summary-sig-name">hypot3</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">y</span>,
         <span class="summary-sig-arg">z</span>)</span><br />
-      Compute the norm sqrt(x^2 + y^2 + z^2).</td>
+      Computes the norm <i class="math">sqrt(x**2 + y**2 + z**2)</i>.</td>
           <td align="right" valign="top">
             
             
@@ -632,8 +633,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="geodesy-module.html#isint" class="summary-sig-name">isint</a>(<span class="summary-sig-arg">inst</span>)</span><br />
-      Check for integer object.</td>
+          <td><span class="summary-sig"><a href="geodesy-module.html#isint" class="summary-sig-name">isint</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Checks for integer object or value.</td>
           <td align="right" valign="top">
             
             
@@ -649,8 +650,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="geodesy-module.html#isscalar" class="summary-sig-name">isscalar</a>(<span class="summary-sig-arg">inst</span>)</span><br />
-      Check for scalar object.</td>
+          <td><span class="summary-sig"><a href="geodesy-module.html#isscalar" class="summary-sig-name">isscalar</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Checks for scalar object.</td>
           <td align="right" valign="top">
             
             
@@ -669,7 +670,7 @@
           <td><span class="summary-sig"><a href="geodesy-module.html#latDMS" class="summary-sig-name">latDMS</a>(<span class="summary-sig-arg">deg</span>,
         <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">2</span>)</span><br />
-      Convert latitude suffixed with N or S.</td>
+      Converts latitude to string suffixed with N or S.</td>
           <td align="right" valign="top">
             
             
@@ -686,8 +687,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy-module.html#len2" class="summary-sig-name">len2</a>(<span class="summary-sig-arg">xtor</span>)</span><br />
-      Make built-in <code class="link">len</code>() work for generators, 
-      iterators, etc.</td>
+      Makes built-in <code class="link">len</code>() function work for 
+      generators, iterators, etc.</td>
           <td align="right" valign="top">
             
             
@@ -706,7 +707,7 @@
           <td><span class="summary-sig"><a href="geodesy-module.html#lonDMS" class="summary-sig-name">lonDMS</a>(<span class="summary-sig-arg">deg</span>,
         <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">2</span>)</span><br />
-      Convert longitude suffixed with E or W.</td>
+      Converts longitude to string suffixed with E or W.</td>
           <td align="right" valign="top">
             
             
@@ -724,8 +725,8 @@
         <tr>
           <td><span class="summary-sig"><a href="geodesy-module.html#map2" class="summary-sig-name">map2</a>(<span class="summary-sig-arg">func</span>,
         <span class="summary-sig-arg">*args</span>)</span><br />
-      Apply a function to arguments, like built-in map and return a tuple 
-      with the results.</td>
+      Applies arguments to a function, like built-in <code 
+      class="link">map</code>.</td>
           <td align="right" valign="top">
             
             
@@ -742,7 +743,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy-module.html#normDMS" class="summary-sig-name">normDMS</a>(<span class="summary-sig-arg">strDMS</span>)</span><br />
-      Normalize the degree &#730;, minute ' and second &quot; symbols in a 
+      Normalizes the degree &#730;, minute ' and second &quot; symbols in a 
       string to the defaults &#176;, &#8242; and &#8243;.</td>
           <td align="right" valign="top">
             
@@ -780,7 +781,7 @@
         <tr>
           <td><span class="summary-sig"><a href="geodesy-module.html#parseDMS" class="summary-sig-name">parseDMS</a>(<span class="summary-sig-arg">strDMS</span>,
         <span class="summary-sig-arg">suffix</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">NSEW</code><code class="variable-quote">'</code></span>)</span><br />
-      Parse a string representing deg&#176;min'sec&quot; into degrees.</td>
+      Parse a string representing deg&#176; min' sec&quot; into degrees.</td>
           <td align="right" valign="top">
             
             
@@ -797,7 +798,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy-module.html#parseMGRS" class="summary-sig-name">parseMGRS</a>(<span class="summary-sig-arg">strMGRS</span>,
-        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84, <code class="variable-ellipsis">...</code></span>)</span><br />
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>)</span><br />
       Parse a string representing a MGRS grid reference, consisting of 
       zoneBand, grid, easting and northing.</td>
           <td align="right" valign="top">
@@ -833,7 +834,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy-module.html#parseUTM" class="summary-sig-name">parseUTM</a>(<span class="summary-sig-arg">strUTM</span>,
-        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84, <code class="variable-ellipsis">...</code></span>)</span><br />
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>)</span><br />
       Parse a string representing a UTM coordinate, consisting of zone, 
       hemisphere, easting and northing.</td>
           <td align="right" valign="top">
@@ -853,7 +854,7 @@
         <tr>
           <td><span class="summary-sig"><a href="geodesy-module.html#precision" class="summary-sig-name">precision</a>(<span class="summary-sig-arg">form</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Set the default precison for a given F_ format.</td>
+      Sets the default precison for a given F_ form.</td>
           <td align="right" valign="top">
             
             
@@ -887,7 +888,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy-module.html#radiansPI" class="summary-sig-name">radiansPI</a>(<span class="summary-sig-arg">deg</span>)</span><br />
-      Convert degrees to radians -PI..+PI.</td>
+      Converts and wraps degrees to radians <i class="math">-PI..+PI</i>.</td>
           <td align="right" valign="top">
             
             
@@ -904,7 +905,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy-module.html#radiansPI2" class="summary-sig-name">radiansPI2</a>(<span class="summary-sig-arg">deg</span>)</span><br />
-      Convert degrees to radians 0..+2PI.</td>
+      Converts and wraps degrees to radians <i class="math">0..+2PI</i>.</td>
           <td align="right" valign="top">
             
             
@@ -921,7 +922,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy-module.html#radiansPI_2" class="summary-sig-name">radiansPI_2</a>(<span class="summary-sig-arg">deg</span>)</span><br />
-      Convert degrees to radians -3PI/2..+PI/2.</td>
+      Converts and wraps degrees to radians <i 
+      class="math">-3PI/2..+PI/2</i>.</td>
           <td align="right" valign="top">
             
             
@@ -938,7 +940,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy-module.html#sin_2" class="summary-sig-name">sin_2</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Compute sin of half angle.</td>
+      Computes sin of half angle.</td>
           <td align="right" valign="top">
             
             
@@ -955,7 +957,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy-module.html#tanPI_2_2" class="summary-sig-name">tanPI_2_2</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Compute tan of half angle, rotated.</td>
+      Computes tan of half angle, rotated.</td>
           <td align="right" valign="top">
             
             
@@ -977,7 +979,7 @@
         <span class="summary-sig-arg">ddd</span>=<span class="summary-sig-default">2</span>,
         <span class="summary-sig-arg">neg</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">-</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">pos</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
-      Convert signed degrees, without suffix.</td>
+      Converts signed degrees to string, without suffix.</td>
           <td align="right" valign="top">
             
             
@@ -994,7 +996,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy-module.html#toLcc" class="summary-sig-name">toLcc</a>(<span class="summary-sig-arg">latlon</span>,
-        <span class="summary-sig-arg">conic</span>=<span class="summary-sig-default">Conic(lat0=40.0, lon0=-97.0, par1=33.0, par2=45.0, E0=0, N0=0,<code class="variable-ellipsis">...</code></span>)</span><br />
+        <span class="summary-sig-arg">conic</span>=<span class="summary-sig-default">Conic(name='WRF_Lb', lat0=40.0, lon0=-97.0, par1=33.0, par2=45<code class="variable-ellipsis">...</code></span>)</span><br />
       Convert a lat-/longitude position to an <a 
       href="geodesy.lcc.Lcc-class.html" class="link">Lcc</a> instance.</td>
           <td align="right" valign="top">
@@ -1031,7 +1033,7 @@
         <tr>
           <td><span class="summary-sig"><a href="geodesy-module.html#toOsgr" class="summary-sig-name">toOsgr</a>(<span class="summary-sig-arg">latlon</span>,
         <span class="summary-sig-arg">lon</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84, <code class="variable-ellipsis">...</code></span>)</span><br />
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>)</span><br />
       Convert lat-/longitude to a OSGR coordinate.</td>
           <td align="right" valign="top">
             
@@ -1068,7 +1070,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy-module.html#wrap180" class="summary-sig-name">wrap180</a>(<span class="summary-sig-arg">deg</span>)</span><br />
-      Wrap degrees to -180..+180.</td>
+      Wraps degrees to <i class="math">-180..+180</i>.</td>
           <td align="right" valign="top">
             
             
@@ -1085,7 +1087,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy-module.html#wrap90" class="summary-sig-name">wrap90</a>(<span class="summary-sig-arg">deg</span>)</span><br />
-      Wrap degrees to -270..+90.</td>
+      Wraps degrees to <i class="math">-270..+90</i>.</td>
           <td align="right" valign="top">
             
             
@@ -1102,7 +1104,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy-module.html#wrapPI" class="summary-sig-name">wrapPI</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Wrap radians to -PI..+PI.</td>
+      Wraps radians to <i class="math">-PI..+PI</i>.</td>
           <td align="right" valign="top">
             
             
@@ -1119,7 +1121,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy-module.html#wrapPI2" class="summary-sig-name">wrapPI2</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Wrap radians to 0..+2PI.</td>
+      Wraps radians to <i class="math">0..+2PI</i>.</td>
           <td align="right" valign="top">
             
             
@@ -1136,7 +1138,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy-module.html#wrapPI_2" class="summary-sig-name">wrapPI_2</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Wrap radians to -3PI/2..+PI/2.</td>
+      Wraps radians to <i class="math">-3PI/2..+PI/2</i>.</td>
           <td align="right" valign="top">
             
             
@@ -1159,15 +1161,15 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="geodesy-module.html#Conics" class="summary-name">Conics</a> = <code title="Conics.Be72Lb: Conic(lat0=90.0, lon0=4.3674867, par1=49.8333339, par2=\
-51.1666672, E0=150000.013, N0=5400088.438, k0=1, SP=2, datum=(ellipsoi\
-d=Ellipsoids.GRS80, transform=Transforms.NAD83, name='NAD83'), name='B\
-e72Lb')
-Conics.Fr93Lb: Conic(lat0=46.5, lon0=3.0, par1=49.0, par2=44.0, E0=700\
-000.0, N0=6600000.0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.WGS84, tr\
-ansform=Transforms.WGS84, name='WGS84'), name='Fr93Lb')
-Conics.MaNLb: Conic(lat0=33.3, lon0=-5.4, par1=31.73, par2=34.87, E0=5\
-...">Conics.Be72Lb: Conic(lat0=90.0, lon0=4.3674867, par1=<code class="variable-ellipsis">...</code></code><br />
+        <a href="geodesy-module.html#Conics" class="summary-name">Conics</a> = <code title="Conics.Be72Lb: Conic(name='Be72Lb', lat0=90.0, lon0=4.3674867, par1=49\
+.8333339, par2=51.1666672, E0=150000.013, N0=5400088.438, k0=1, SP=2, \
+datum=(name='NAD83', ellipsoid=Ellipsoids.GRS80, transform=Transforms.\
+NAD83)
+Conics.Fr93Lb: Conic(name='Fr93Lb', lat0=46.5, lon0=3.0, par1=49.0, pa\
+r2=44.0, E0=700000.0, N0=6600000.0, k0=1, SP=2, datum=(name='WGS84', e\
+llipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84)
+Conics.MaNLb: Conic(name='MaNLb', lat0=33.3, lon0=-5.4, par1=31.73, pa\
+...">Conics.Be72Lb: Conic(name='Be72Lb', lat0=90.0, lon0=4<code class="variable-ellipsis">...</code></code><br />
       Registered conics (enum).
     </td>
   </tr>
@@ -1175,15 +1177,15 @@ Conics.MaNLb: Conic(lat0=33.3, lon0=-5.4, par1=31.73, par2=34.87, E0=5\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="geodesy-module.html#Datums" class="summary-name">Datums</a> = <code title="Datums.ED50: Datum(ellipsoid=Ellipsoids.Intl1924, transform=Transforms\
-.ED50, name='ED50')
-Datums.Irl1975: Datum(ellipsoid=Ellipsoids.AiryModified, transform=Tra\
-nsforms.Irl1975, name='Irl1975')
-Datums.NAD27: Datum(ellipsoid=Ellipsoids.Clarke1866, transform=Transfo\
-rms.NAD27, name='NAD27')
-Datums.NAD83: Datum(ellipsoid=Ellipsoids.GRS80, transform=Transforms.N\
-AD83, name='NAD83')
-...">Datums.ED50: Datum(ellipsoid=Ellipsoids.Intl1924, tra<code class="variable-ellipsis">...</code></code><br />
+        <a href="geodesy-module.html#Datums" class="summary-name">Datums</a> = <code title="Datums.ED50: Datum(name='ED50', ellipsoid=Ellipsoids.Intl1924, transfo\
+rm=Transforms.ED50)
+Datums.Irl1975: Datum(name='Irl1975', ellipsoid=Ellipsoids.AiryModifie\
+d, transform=Transforms.Irl1975)
+Datums.NAD27: Datum(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, tra\
+nsform=Transforms.NAD27)
+Datums.NAD83: Datum(name='NAD83', ellipsoid=Ellipsoids.GRS80, transfor\
+m=Transforms.NAD83)
+...">Datums.ED50: Datum(name='ED50', ellipsoid=Ellipsoids.<code class="variable-ellipsis">...</code></code><br />
       Registered datums (enum).
     </td>
   </tr>
@@ -1192,7 +1194,7 @@ AD83, name='NAD83')
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="EPS"></a><span class="summary-name">EPS</span> = <code title="2.22044604925e-16">2.22044604925e-16</code><br />
-      System's epsilon (float)
+      System's <i class="math">epsilon</i> (float)
     </td>
   </tr>
 <tr>
@@ -1200,7 +1202,7 @@ AD83, name='NAD83')
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="EPS1"></a><span class="summary-name">EPS1</span> = <code title="1.0">1.0</code><br />
-      1 - EPS (float)
+      <i class="math">1 - EPS</i> (float)
     </td>
   </tr>
 <tr>
@@ -1208,22 +1210,22 @@ AD83, name='NAD83')
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="EPS2"></a><span class="summary-name">EPS2</span> = <code title="1.49011611938e-08">1.49011611938e-08</code><br />
-      sqrt(EPS) (float)
+      <i class="math">sqrt(EPS)</i> (float)
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="geodesy-module.html#Ellipsoids" class="summary-name">Ellipsoids</a> = <code title="Ellipsoids.Airy1830: Ellipsoid(a=6377563.396, b=6356256.909, f=0.00334\
-085, e2=0.00667054, e22=0.00671533, R=6370461.23366667, Rm=6366901.239\
-88196, name='Airy1830')
-Ellipsoids.AiryModified: Ellipsoid(a=6377340.189, b=6356034.448, f=0.0\
-0334085, e2=0.00667054, e22=0.00671533, R=6370238.27533333, Rm=6366678\
-.40619415, name='AiryModified')
-Ellipsoids.Bessel1841: Ellipsoid(a=6377397.155, b=6356078.963, f=0.003\
-34277, e2=0.00667437, e22=0.00671922, R=6370291.091, Rm=6366729.136345\
-...">Ellipsoids.Airy1830: Ellipsoid(a=6377563.396, b=6<code class="variable-ellipsis">...</code></code><br />
+        <a href="geodesy-module.html#Ellipsoids" class="summary-name">Ellipsoids</a> = <code title="Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, b=63562\
+56.909, f=0.00334085, e2=0.00667054, e22=0.00671533, R=6370461.2336666\
+7, Rm=6366901.23988196)
+Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
+ b=6356034.448, f=0.00334085, e2=0.00667054, e22=0.00671533, R=6370238\
+.27533333, Rm=6366678.40619415)
+Ellipsoids.Bessel1841: Ellipsoid(name='Bessel1841', a=6377397.155, b=6\
+356078.963, f=0.00334277, e2=0.00667437, e22=0.00671922, R=6370291.091\
+...">Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a<code class="variable-ellipsis">...</code></code><br />
       Registered ellipsoids (enum).
     </td>
   </tr>
@@ -1256,7 +1258,7 @@ Ellipsoids.Bessel1841: Ellipsoid(a=6377397.155, b=6356078.963, f=0.003\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_RAD"></a><span class="summary-name">F_RAD</span> = <code title="'rad'"><code class="variable-quote">'</code><code class="variable-string">rad</code><code class="variable-quote">'</code></code><br />
-      Convert degrees to radians and format (string).
+      Converts degrees to radians and format (string).
     </td>
   </tr>
 <tr>
@@ -1264,7 +1266,7 @@ Ellipsoids.Bessel1841: Ellipsoid(a=6377397.155, b=6356078.963, f=0.003\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="PI"></a><span class="summary-name">PI</span> = <code title="3.14159265359">3.14159265359</code><br />
-      Constant math.pi (float)
+      Constant <i class="math">math.pi</i> (float)
     </td>
   </tr>
 <tr>
@@ -1272,7 +1274,7 @@ Ellipsoids.Bessel1841: Ellipsoid(a=6377397.155, b=6356078.963, f=0.003\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="PI2"></a><span class="summary-name">PI2</span> = <code title="6.28318530718">6.28318530718</code><br />
-      Two PI, PI * 2 (float)
+      Two PI, <i class="math">math.pi * 2</i> (float)
     </td>
   </tr>
 <tr>
@@ -1280,7 +1282,7 @@ Ellipsoids.Bessel1841: Ellipsoid(a=6377397.155, b=6356078.963, f=0.003\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="PI_2"></a><span class="summary-name">PI_2</span> = <code title="1.57079632679">1.57079632679</code><br />
-      Half PI, PI / 2 (float)
+      Half PI, <i class="math">math.pi / 2</i> (float)
     </td>
   </tr>
 <tr>
@@ -1320,7 +1322,7 @@ Ellipsoids.Bessel1841: Ellipsoid(a=6377397.155, b=6356078.963, f=0.003\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="S_DEG"></a><span class="summary-name">S_DEG</span> = <code title="'\xc2\xb0'"><code class="variable-quote">'</code><code class="variable-string">\xc2\xb0</code><code class="variable-quote">'</code></code><br />
-      Degrees &#176; symbol (string).
+      Degrees symbol '&#176;' (string).
     </td>
   </tr>
 <tr>
@@ -1328,7 +1330,7 @@ Ellipsoids.Bessel1841: Ellipsoid(a=6377397.155, b=6356078.963, f=0.003\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="S_MIN"></a><span class="summary-name">S_MIN</span> = <code title="'\xe2\x80\xb2'"><code class="variable-quote">'</code><code class="variable-string">\xe2\x80\xb2</code><code class="variable-quote">'</code></code><br />
-      Minutes &#8242; symbol (string).
+      Minutes symbol '&#8242;' (string).
     </td>
   </tr>
 <tr>
@@ -1336,7 +1338,7 @@ Ellipsoids.Bessel1841: Ellipsoid(a=6377397.155, b=6356078.963, f=0.003\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="S_SEC"></a><span class="summary-name">S_SEC</span> = <code title="'\xe2\x80\xb3'"><code class="variable-quote">'</code><code class="variable-string">\xe2\x80\xb3</code><code class="variable-quote">'</code></code><br />
-      Seconds &#8243; symbol (string).
+      Seconds symbol '&#8243;' (string).
     </td>
   </tr>
 <tr>
@@ -1351,15 +1353,15 @@ Ellipsoids.Bessel1841: Ellipsoid(a=6377397.155, b=6356078.963, f=0.003\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="geodesy-module.html#Transforms" class="summary-name">Transforms</a> = <code title="Transforms.Clarke1866: Transform(tx=8.0, ty=-160.0, tz=-176.0, rx=0, r\
-y=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0, name='Clarke1866')
-Transforms.ED50: Transform(tx=89.5, ty=93.8, tz=123.1, rx=0, ry=0, rz=\
-0.0, s=-1.2, s1=1.0, sx=0, sy=0, sz=0.156, name='ED50')
-Transforms.Irl1975: Transform(tx=-482.53, ty=130.596, tz=-564.557, rx=\
--0.0, ry=-0.0, rz=-0.0, s=-1.1, s1=1.0, sx=-1.042, sy=-0.214, sz=-0.63\
-1, name='Irl1975')
-Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
-...">Transforms.Clarke1866: Transform(tx=8.0, ty=-160.<code class="variable-ellipsis">...</code></code><br />
+        <a href="geodesy-module.html#Transforms" class="summary-name">Transforms</a> = <code title="Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
+ tz=-176.0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
+Transforms.ED50: Transform(name='ED50', tx=89.5, ty=93.8, tz=123.1, rx\
+=0, ry=0, rz=0.0, s=-1.2, s1=1.0, sx=0, sy=0, sz=0.156)
+Transforms.Irl1975: Transform(name='Irl1975', tx=-482.53, ty=130.596, \
+tz=-564.557, rx=-0.0, ry=-0.0, rz=-0.0, s=-1.1, s1=1.0, sx=-1.042, sy=\
+-0.214, sz=-0.631)
+Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, \
+...">Transforms.Clarke1866: Transform(name='Clarke1866<code class="variable-ellipsis">...</code></code><br />
       Registered transforms (enum).
     </td>
   </tr>
@@ -1389,16 +1391,17 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
     </td>
   </tr></table>
   
-  <p>Convert bearing.</p>
+  <p>Converts bearing to string.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (degrees).</li>
-        <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS for deg&#176;, deg&#176;min', deg&#176;min'sec&quot;.</li>
-        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or None).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (compass degrees).</li>
+        <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS or F_RAD for deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243; or
+          radians.</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Bearing per the specified form (string).</dd>
+        <dd>Compass degrees per the specified form (string).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1416,7 +1419,7 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
     </td>
   </tr></table>
   
-  <p>Compute the cubic root x^(1/3).</p>
+  <p>Computes the cubic root <i class="math">x**(1/3)</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -1443,16 +1446,17 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
     </td>
   </tr></table>
   
-  <p>Convert bearing suffixed with compass point.</p>
+  <p>Converts bearing to string suffixed with compass point.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (degrees).</li>
-        <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS for deg&#176;, deg&#176;min', deg&#176;min'sec&quot;.</li>
-        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or None).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (compass degrees).</li>
+        <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS or F_RAD for deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243; or
+          radians.</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Bearing per the specified form and compass point (string).</dd>
+        <dd>Compass degrees and point per the specified form (string).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1471,12 +1475,12 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
     </td>
   </tr></table>
   
-  <p>Convert bearing to compass point.</p>
+  <p>Converts bearing to compass point.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (degrees).</li>
-        <li><strong class="pname"><code>prec</code></strong> - Precision (1: cardinal, 2: intercardinal or 3: 
+        <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (compass degrees).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional precision (1 for cardinal, 2 for intercardinal or 3 for 
           secondary-intercardinal).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -1507,14 +1511,15 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
     </td>
   </tr></table>
   
-  <p>Convert radians to degrees -180..+180.</p>
+  <p>Converts and wraps radians to degrees <i 
+  class="math">-180..+180</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Wrapped degrees (degrees180).</dd>
+        <dd>Degrees, wrapped (degrees180).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1532,14 +1537,14 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
     </td>
   </tr></table>
   
-  <p>Convert radians to degrees 0..+360.</p>
+  <p>Converts and wraps radians to degrees <i class="math">0..+360</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Wrapped degrees (degrees360).</dd>
+        <dd>Degrees, wrapped (degrees360).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1557,14 +1562,15 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
     </td>
   </tr></table>
   
-  <p>Convert radians to degrees -270..+90.</p>
+  <p>Converts and wraps radians to degrees <i 
+  class="math">-270..+90</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Wrapped degrees (degrees90).</dd>
+        <dd>Degrees, wrapped (degrees90).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1586,20 +1592,21 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
     </td>
   </tr></table>
   
-  <p>Convert floats to string, optionally with trailing zero decimals 
+  <p>Converts floats to string, optionally with trailing zero decimals 
   stripped.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>floats</code></strong> - List, set, sequence or tuple (scalars).</li>
-        <li><strong class="pname"><code>prec</code></strong> - Number of decimals, unstripped.  Trailing zero decimals are not 
-          stripped if prec is 2 or less.</li>
-        <li><strong class="pname"><code>sep</code></strong> - Separator to join (string).</li>
-        <li><strong class="pname"><code>fmt</code></strong> - Float format (string).</li>
-        <li><strong class="pname"><code>ints</code></strong> - Remove dot for integer values (bool).</li>
+        <li><strong class="pname"><code>floats</code></strong> - List, sequence, tuple, etc. (scalars).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimals, unstripped.  Trailing zero decimals
+          are not stripped if <code class="link">prec</code> is 2 or 
+          negative.</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional, separator to join (string).</li>
+        <li><strong class="pname"><code>fmt</code></strong> - Optional, float format (string).</li>
+        <li><strong class="pname"><code>ints</code></strong> - Optionally, remove decimal dot (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Floats as 'f, f, ... f' (string).</dd>
+        <dd>The <code class="link">floats</code> as 'f, f, ... f' (string).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1619,13 +1626,13 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
     </td>
   </tr></table>
   
-  <p>Convert false east-/northing to non-negative float.</p>
+  <p>Converts false east-/northing to non-negative float.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>value</code></strong> - Value to convert (scalar).</li>
         <li><strong class="pname"><code>name</code></strong> - Name of the value (string).</li>
-        <li><strong class="pname"><code>false</code></strong> - Value must be false (bool).</li>
+        <li><strong class="pname"><code>false</code></strong> - Value must include false origin (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The value (float).</dd>
@@ -1651,12 +1658,13 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
     </td>
   </tr></table>
   
-  <p>Precision dot product sum(a[i] * b[i] for i in range(len(a))).</p>
+  <p>Precision dot product <i class="math">sum(a[i] * b[i] for i in 
+  range(len(a)))</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>a</code></strong> - List, tuple or sequence (scalars).</li>
-        <li><strong class="pname"><code>b</code></strong> - List, tuple or sequence (scalars).</li>
+        <li><strong class="pname"><code>a</code></strong> - List, sequence, tuple, etc. (scalars).</li>
+        <li><strong class="pname"><code>b</code></strong> - List, sequence, tuple, etc. (scalars).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Dot product (float).</dd>
@@ -1685,14 +1693,14 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
     </td>
   </tr></table>
   
-  <p>Precision dot product sum(a[i] * b[i] * c[i] for i in range(len(a))) +
-  start.</p>
+  <p>Precision dot product <i class="math">sum(a[i] * b[i] * c[i] for i in 
+  range(len(a))) + start</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>a</code></strong> - List, tuple or sequence (scalars).</li>
-        <li><strong class="pname"><code>b</code></strong> - List, tuple or sequence (scalars).</li>
-        <li><strong class="pname"><code>c</code></strong> - List, tuple or sequence (scalars).</li>
+        <li><strong class="pname"><code>a</code></strong> - List, sequence, tuple, etc. (scalars).</li>
+        <li><strong class="pname"><code>b</code></strong> - List, sequence, tuple, etc. (scalars).</li>
+        <li><strong class="pname"><code>c</code></strong> - List, sequence, tuple, etc. (scalars).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Dot product (float).</dd>
@@ -1739,7 +1747,7 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
     </td>
   </tr></table>
   
-  <p>Split string in 2 halfs.</p>
+  <p>Splits a string in 2 halfs.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -1749,7 +1757,7 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
         <dd>2-Tuple (1st, 2nd) halfs (strings).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - If <code class="link">str2</code> has zero or odd length.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Zero or odd <code class="link">str2</code> length.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1768,7 +1776,7 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
     </td>
   </tr></table>
   
-  <p>Compute the norm sqrt(1 + x^2).</p>
+  <p>Computes the norm <i class="math">sqrt(1 + x**2)</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -1795,7 +1803,7 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
     </td>
   </tr></table>
   
-  <p>Compute the norm sqrt(x^2 + y^2 + z^2).</p>
+  <p>Computes the norm <i class="math">sqrt(x**2 + y**2 + z**2)</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -1815,21 +1823,21 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">isint</span>(<span class="sig-arg">inst</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isint</span>(<span class="sig-arg">obj</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Check for integer object.</p>
+  <p>Checks for integer object or value.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>inst</code></strong> - An object (any).</li>
+        <li><strong class="pname"><code>obj</code></strong> - An object (any).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if inst is integer (bool).</dd>
+        <dd>True if <code class="link">obj</code> is integer (bool).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1840,21 +1848,21 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">isscalar</span>(<span class="sig-arg">inst</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isscalar</span>(<span class="sig-arg">obj</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Check for scalar object.</p>
+  <p>Checks for scalar object.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>inst</code></strong> - An object (any).</li>
+        <li><strong class="pname"><code>obj</code></strong> - An object (any).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if inst is scalar (bool).</dd>
+        <dd>True if <code class="link">obj</code> is scalar (bool).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1874,13 +1882,14 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
     </td>
   </tr></table>
   
-  <p>Convert latitude suffixed with N or S.</p>
+  <p>Converts latitude to string suffixed with N or S.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>deg</code></strong> - Lat to be formatted as specified (degrees).</li>
-        <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS for deg&#176;, deg&#176;min', deg&#176;min'sec&quot;.</li>
-        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or None).</li>
+        <li><strong class="pname"><code>deg</code></strong> - Latitude to be formatted (degrees).</li>
+        <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS or F_RAD for deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243; or
+          radians.</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees per the specified form (string).</dd>
@@ -1901,8 +1910,8 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
     </td>
   </tr></table>
   
-  <p>Make built-in <code class="link">len</code>() work for generators, 
-  iterators, etc. since those can only be started once.</p>
+  <p>Makes built-in <code class="link">len</code>() function work for 
+  generators, iterators, etc. since those can only be started once.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -1929,13 +1938,14 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
     </td>
   </tr></table>
   
-  <p>Convert longitude suffixed with E or W.</p>
+  <p>Converts longitude to string suffixed with E or W.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>deg</code></strong> - Lon to be formatted as specified (degrees).</li>
-        <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS for deg&#176;, deg&#176;min', deg&#176;min'sec&quot;.</li>
-        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or None).</li>
+        <li><strong class="pname"><code>deg</code></strong> - Longitude to be formatted (degrees).</li>
+        <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS or F_RAD for deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243; or
+          radians.</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees per the specified form (string).</dd>
@@ -1957,8 +1967,12 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
     </td>
   </tr></table>
   
-  <p>Apply a function to arguments, like built-in map and return a tuple 
-  with the results.</p>
+  <p>Applies arguments to a function, like built-in <code 
+  class="link">map</code>.</p>
+  <p>Python 3+ <code class="link">map</code> returns a <code 
+  class="link">map</code> object, an iterator-like object which generates 
+  the results only once.  Converting the <code class="link">map</code> 
+  object into a tuple maintains Python 2 behavior.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -1968,12 +1982,7 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
     <dt>Returns:</dt>
         <dd>Function results (tuple).</dd>
   </dl>
-<div class="fields">      <p><strong>Note:</strong>
-        Python 3+ map returns a map object, an iterator-like object which 
-        generates the map result only once.  Converting the map object into
-        a tuple restores the Python 2 behavior.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="normDMS"></a>
 <div>
@@ -1989,8 +1998,8 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
     </td>
   </tr></table>
   
-  <p>Normalize the degree &#730;, minute ' and second &quot; symbols in a string
-  to the defaults &#176;, &#8242; and &#8243;.</p>
+  <p>Normalizes the degree &#730;, minute ' and second &quot; symbols in a 
+  string to the defaults &#176;, &#8242; and &#8243;.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -2018,21 +2027,23 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
   </tr></table>
   
   <p>Parse a string representing lat-, longitude and height point.</p>
-  <p>The lat- and longitude must be separated by a sep[arator] character.  
-  If height is present it must follow and be separated by another 
-  sep[arator].  Lat- and longitude may be swapped, provided at least one 
+  <p>The lat- and longitude value must be separated by a <code 
+  class="link">sep</code>arator character.  If height is present it must 
+  follow, separated by another <code class="link">sep</code>arator.</p>
+  <p>The lat- and longitude values may be swapped, provided at least one 
   ends with the proper compass direction.</p>
   <p>See function <a href="geodesy.dms-module.html#parseDMS" 
-  class="link">parseDMS</a> for more details on the forms accepted.</p>
+  class="link">parseDMS</a> for more details on the forms and symbols 
+  accepted.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>strll</code></strong> - Lat, lon[, height] (string).</li>
-        <li><strong class="pname"><code>height</code></strong> - Default height (meter).</li>
+        <li><strong class="pname"><code>height</code></strong> - Default for missing height (meter).</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional, separator (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>3-Tuple (Lat, lon, height).</dd>
+        <dd>3-Tuple (Lat, lon, height) as (scalar, ...).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <code class="link">strll</code>.</li>
@@ -2059,15 +2070,16 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
     </td>
   </tr></table>
   
-  <p>Parse a string representing deg&#176;min'sec&quot; into degrees.</p>
+  <p>Parse a string representing deg&#176; min' sec&quot; into degrees.</p>
   <p>This is very flexible on formats, allowing signed decimal degrees, 
   degrees and minutes or degrees minutes and seconds optionally suffixed by
-  compass direction NSEW.  A variety of separators are accepted, for 
+  compass direction NSEW.</p>
+  <p>A variety of symbols, separators and suffixes are accepted, for 
   example 3&#176; 37' 09&quot;W.  Minutes and seconds may be omitted.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>strDMS</code></strong> - Degrees in one of several forms (string).</li>
+        <li><strong class="pname"><code>strDMS</code></strong> - Degrees in any of several forms (string).</li>
         <li><strong class="pname"><code>suffix</code></strong> - Optional, valid compass directions (NEWS).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -2087,7 +2099,7 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">parseMGRS</span>(<span class="sig-arg">strMGRS</span>,
-        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84, <code class="variable-ellipsis">...</code></span>)</span>
+        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2174,7 +2186,7 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">parseUTM</span>(<span class="sig-arg">strUTM</span>,
-        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84, <code class="variable-ellipsis">...</code></span>)</span>
+        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2223,13 +2235,13 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
     </td>
   </tr></table>
   
-  <p>Set the default precison for a given F_ format.</p>
+  <p>Sets the default precison for a given F_ form.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS (string).</li>
-        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits or None to remain unchanged 
-          (int).</li>
+        <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS or F_RAD (string).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (int) or None to remain 
+          unchanged.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Previous precision (int).</dd>
@@ -2250,14 +2262,15 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
     </td>
   </tr></table>
   
-  <p>Convert degrees to radians -PI..+PI.</p>
+  <p>Converts and wraps degrees to radians <i 
+  class="math">-PI..+PI</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Angle (degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Radians (radiansPI)</dd>
+        <dd>Radians, wrapped (radiansPI)</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2275,14 +2288,14 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
     </td>
   </tr></table>
   
-  <p>Convert degrees to radians 0..+2PI.</p>
+  <p>Converts and wraps degrees to radians <i class="math">0..+2PI</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Angle (degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Radians (radiansPI2)</dd>
+        <dd>Radians, wrapped (radiansPI2)</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2300,14 +2313,15 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
     </td>
   </tr></table>
   
-  <p>Convert degrees to radians -3PI/2..+PI/2.</p>
+  <p>Converts and wraps degrees to radians <i 
+  class="math">-3PI/2..+PI/2</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Angle (degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Radians (radiansPI_2)</dd>
+        <dd>Radians, wrapped (radiansPI_2)</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2325,14 +2339,14 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
     </td>
   </tr></table>
   
-  <p>Compute sin of half angle.</p>
+  <p>Computes sin of half angle.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Sin(rad / 2) (float).</dd>
+        <dd><i class="math">sin(rad / 2)</i> (float).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2350,14 +2364,14 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
     </td>
   </tr></table>
   
-  <p>Compute tan of half angle, rotated.</p>
+  <p>Computes tan of half angle, rotated.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Tan((rad + PI/2) / 2) (float).</dd>
+        <dd><i class="math">tan((rad + PI/2) / 2)</i> (float).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2380,16 +2394,17 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
     </td>
   </tr></table>
   
-  <p>Convert signed degrees, without suffix.</p>
+  <p>Converts signed degrees to string, without suffix.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>deg</code></strong> - Degrees to be formatted as specified.</li>
-        <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS, F_RAD for deg&#176;, deg&#176;min', deg&#176;min'sec&quot;.</li>
-        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or None).</li>
-        <li><strong class="pname"><code>ddd</code></strong> - Optional number of digits for deg&#176; (2 or 3).</li>
-        <li><strong class="pname"><code>neg</code></strong> - Optional sign for negative degrees ('-').</li>
-        <li><strong class="pname"><code>pos</code></strong> - Optional sign for positive degrees ('').</li>
+        <li><strong class="pname"><code>deg</code></strong> - Degrees to be formatted (scalar).</li>
+        <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS or F_RAD for deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243; or 
+          radians.</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None).</li>
+        <li><strong class="pname"><code>ddd</code></strong> - Optional, number of digits for deg&#176; (2 or 3).</li>
+        <li><strong class="pname"><code>neg</code></strong> - Optional, sign for negative degrees ('-').</li>
+        <li><strong class="pname"><code>pos</code></strong> - Optional, sign for positive degrees ('').</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees per the specified form (string).</dd>
@@ -2404,7 +2419,7 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toLcc</span>(<span class="sig-arg">latlon</span>,
-        <span class="sig-arg">conic</span>=<span class="sig-default">Conic(lat0=40.0, lon0=-97.0, par1=33.0, par2=45.0, E0=0, N0=0,<code class="variable-ellipsis">...</code></span>)</span>
+        <span class="sig-arg">conic</span>=<span class="sig-default">Conic(name='WRF_Lb', lat0=40.0, lon0=-97.0, par1=33.0, par2=45<code class="variable-ellipsis">...</code></span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2476,7 +2491,7 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toOsgr</span>(<span class="sig-arg">latlon</span>,
         <span class="sig-arg">lon</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84, <code class="variable-ellipsis">...</code></span>)</span>
+        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2575,14 +2590,14 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
     </td>
   </tr></table>
   
-  <p>Wrap degrees to -180..+180.</p>
+  <p>Wraps degrees to <i class="math">-180..+180</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Angle (degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Wrapped degrees (degrees180).</dd>
+        <dd>Degrees, wrapped (degrees180).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2600,14 +2615,14 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
     </td>
   </tr></table>
   
-  <p>Wrap degrees to -270..+90.</p>
+  <p>Wraps degrees to <i class="math">-270..+90</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Angle (degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Wrapped degrees (degrees90).</dd>
+        <dd>Degrees, wrapped (degrees90).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2625,14 +2640,14 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
     </td>
   </tr></table>
   
-  <p>Wrap radians to -PI..+PI.</p>
+  <p>Wraps radians to <i class="math">-PI..+PI</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Wrapped radians (radiansPI).</dd>
+        <dd>Radians, wrapped (radiansPI).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2650,14 +2665,14 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
     </td>
   </tr></table>
   
-  <p>Wrap radians to 0..+2PI.</p>
+  <p>Wraps radians to <i class="math">0..+2PI</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Wrapped radians (radiansPI2).</dd>
+        <dd>Radians, wrapped (radiansPI2).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2675,14 +2690,14 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
     </td>
   </tr></table>
   
-  <p>Wrap radians to -3PI/2..+PI/2.</p>
+  <p>Wraps radians to <i class="math">-3PI/2..+PI/2</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Wrapped radians (radiansPI_2).</dd>
+        <dd>Radians, wrapped (radiansPI_2).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2708,14 +2723,14 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-Conics.Be72Lb: Conic(lat0=90.0, lon0=4.3674867, par1=49.8333339, par2=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-51.1666672, E0=150000.013, N0=5400088.438, k0=1, SP=2, datum=(ellipsoi<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-d=Ellipsoids.GRS80, transform=Transforms.NAD83, name='NAD83'), name='B<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-e72Lb')
-Conics.Fr93Lb: Conic(lat0=46.5, lon0=3.0, par1=49.0, par2=44.0, E0=700<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-000.0, N0=6600000.0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.WGS84, tr<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-ansform=Transforms.WGS84, name='WGS84'), name='Fr93Lb')
-Conics.MaNLb: Conic(lat0=33.3, lon0=-5.4, par1=31.73, par2=34.87, E0=5<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+Conics.Be72Lb: Conic(name='Be72Lb', lat0=90.0, lon0=4.3674867, par1=49<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+.8333339, par2=51.1666672, E0=150000.013, N0=5400088.438, k0=1, SP=2, <span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+datum=(name='NAD83', ellipsoid=Ellipsoids.GRS80, transform=Transforms.<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+NAD83)
+Conics.Fr93Lb: Conic(name='Fr93Lb', lat0=46.5, lon0=3.0, par1=49.0, pa<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+r2=44.0, E0=700000.0, N0=6600000.0, k0=1, SP=2, datum=(name='WGS84', e<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+llipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84)
+Conics.MaNLb: Conic(name='MaNLb', lat0=33.3, lon0=-5.4, par1=31.73, pa<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 <code class="variable-ellipsis">...</code>
 </pre></td></tr></table>
 </dd>
@@ -2734,14 +2749,14 @@ Conics.MaNLb: Conic(lat0=33.3, lon0=-5.4, par1=31.73, par2=34.87, E0=5<span clas
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-Datums.ED50: Datum(ellipsoid=Ellipsoids.Intl1924, transform=Transforms<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-.ED50, name='ED50')
-Datums.Irl1975: Datum(ellipsoid=Ellipsoids.AiryModified, transform=Tra<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-nsforms.Irl1975, name='Irl1975')
-Datums.NAD27: Datum(ellipsoid=Ellipsoids.Clarke1866, transform=Transfo<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-rms.NAD27, name='NAD27')
-Datums.NAD83: Datum(ellipsoid=Ellipsoids.GRS80, transform=Transforms.N<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-AD83, name='NAD83')
+Datums.ED50: Datum(name='ED50', ellipsoid=Ellipsoids.Intl1924, transfo<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+rm=Transforms.ED50)
+Datums.Irl1975: Datum(name='Irl1975', ellipsoid=Ellipsoids.AiryModifie<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+d, transform=Transforms.Irl1975)
+Datums.NAD27: Datum(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, tra<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+nsform=Transforms.NAD27)
+Datums.NAD83: Datum(name='NAD83', ellipsoid=Ellipsoids.GRS80, transfor<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+m=Transforms.NAD83)
 <code class="variable-ellipsis">...</code>
 </pre></td></tr></table>
 </dd>
@@ -2760,14 +2775,14 @@ AD83, name='NAD83')
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-Ellipsoids.Airy1830: Ellipsoid(a=6377563.396, b=6356256.909, f=0.00334<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-085, e2=0.00667054, e22=0.00671533, R=6370461.23366667, Rm=6366901.239<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-88196, name='Airy1830')
-Ellipsoids.AiryModified: Ellipsoid(a=6377340.189, b=6356034.448, f=0.0<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-0334085, e2=0.00667054, e22=0.00671533, R=6370238.27533333, Rm=6366678<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-.40619415, name='AiryModified')
-Ellipsoids.Bessel1841: Ellipsoid(a=6377397.155, b=6356078.963, f=0.003<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-34277, e2=0.00667437, e22=0.00671922, R=6370291.091, Rm=6366729.136345<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, b=63562<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+56.909, f=0.00334085, e2=0.00667054, e22=0.00671533, R=6370461.2336666<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+7, Rm=6366901.23988196)
+Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ b=6356034.448, f=0.00334085, e2=0.00667054, e22=0.00671533, R=6370238<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+.27533333, Rm=6366678.40619415)
+Ellipsoids.Bessel1841: Ellipsoid(name='Bessel1841', a=6377397.155, b=6<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+356078.963, f=0.00334277, e2=0.00667437, e22=0.00671922, R=6370291.091<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 <code class="variable-ellipsis">...</code>
 </pre></td></tr></table>
 </dd>
@@ -2786,14 +2801,14 @@ Ellipsoids.Bessel1841: Ellipsoid(a=6377397.155, b=6356078.963, f=0.003<span clas
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-Transforms.Clarke1866: Transform(tx=8.0, ty=-160.0, tz=-176.0, rx=0, r<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-y=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0, name='Clarke1866')
-Transforms.ED50: Transform(tx=89.5, ty=93.8, tz=123.1, rx=0, ry=0, rz=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-0.0, s=-1.2, s1=1.0, sx=0, sy=0, sz=0.156, name='ED50')
-Transforms.Irl1975: Transform(tx=-482.53, ty=130.596, tz=-564.557, rx=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
--0.0, ry=-0.0, rz=-0.0, s=-1.1, s1=1.0, sx=-1.042, sy=-0.214, sz=-0.63<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-1, name='Irl1975')
-Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ tz=-176.0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
+Transforms.ED50: Transform(name='ED50', tx=89.5, ty=93.8, tz=123.1, rx<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+=0, ry=0, rz=0.0, s=-1.2, s1=1.0, sx=0, sy=0, sz=0.156)
+Transforms.Irl1975: Transform(name='Irl1975', tx=-482.53, ty=130.596, <span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+tz=-564.557, rx=-0.0, ry=-0.0, rz=-0.0, s=-1.1, s1=1.0, sx=-1.042, sy=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+-0.214, sz=-0.631)
+Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, <span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 <code class="variable-ellipsis">...</code>
 </pre></td></tr></table>
 </dd>
@@ -2832,7 +2847,7 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Feb 12 21:36:56 2017
+    Generated by Epydoc 3.0.1 on Mon Feb 13 15:24:03 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

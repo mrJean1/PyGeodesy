@@ -94,7 +94,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.02.09
+        17.02.13
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -173,15 +173,15 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="geodesy.datum-module.html#Datums" class="summary-name">Datums</a> = <code title="Datums.ED50: Datum(ellipsoid=Ellipsoids.Intl1924, transform=Transforms\
-.ED50, name='ED50')
-Datums.Irl1975: Datum(ellipsoid=Ellipsoids.AiryModified, transform=Tra\
-nsforms.Irl1975, name='Irl1975')
-Datums.NAD27: Datum(ellipsoid=Ellipsoids.Clarke1866, transform=Transfo\
-rms.NAD27, name='NAD27')
-Datums.NAD83: Datum(ellipsoid=Ellipsoids.GRS80, transform=Transforms.N\
-AD83, name='NAD83')
-...">Datums.ED50: Datum(ellipsoid=Ellipsoids.Intl1924, tra<code class="variable-ellipsis">...</code></code><br />
+        <a href="geodesy.datum-module.html#Datums" class="summary-name">Datums</a> = <code title="Datums.ED50: Datum(name='ED50', ellipsoid=Ellipsoids.Intl1924, transfo\
+rm=Transforms.ED50)
+Datums.Irl1975: Datum(name='Irl1975', ellipsoid=Ellipsoids.AiryModifie\
+d, transform=Transforms.Irl1975)
+Datums.NAD27: Datum(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, tra\
+nsform=Transforms.NAD27)
+Datums.NAD83: Datum(name='NAD83', ellipsoid=Ellipsoids.GRS80, transfor\
+m=Transforms.NAD83)
+...">Datums.ED50: Datum(name='ED50', ellipsoid=Ellipsoids.<code class="variable-ellipsis">...</code></code><br />
       Registered datums (_Enum).
     </td>
   </tr>
@@ -189,15 +189,15 @@ AD83, name='NAD83')
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="geodesy.datum-module.html#Ellipsoids" class="summary-name">Ellipsoids</a> = <code title="Ellipsoids.Airy1830: Ellipsoid(a=6377563.396, b=6356256.909, f=0.00334\
-085, e2=0.00667054, e22=0.00671533, R=6370461.23366667, Rm=6366901.239\
-88196, name='Airy1830')
-Ellipsoids.AiryModified: Ellipsoid(a=6377340.189, b=6356034.448, f=0.0\
-0334085, e2=0.00667054, e22=0.00671533, R=6370238.27533333, Rm=6366678\
-.40619415, name='AiryModified')
-Ellipsoids.Bessel1841: Ellipsoid(a=6377397.155, b=6356078.963, f=0.003\
-34277, e2=0.00667437, e22=0.00671922, R=6370291.091, Rm=6366729.136345\
-...">Ellipsoids.Airy1830: Ellipsoid(a=6377563.396, b=6<code class="variable-ellipsis">...</code></code><br />
+        <a href="geodesy.datum-module.html#Ellipsoids" class="summary-name">Ellipsoids</a> = <code title="Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, b=63562\
+56.909, f=0.00334085, e2=0.00667054, e22=0.00671533, R=6370461.2336666\
+7, Rm=6366901.23988196)
+Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
+ b=6356034.448, f=0.00334085, e2=0.00667054, e22=0.00671533, R=6370238\
+.27533333, Rm=6366678.40619415)
+Ellipsoids.Bessel1841: Ellipsoid(name='Bessel1841', a=6377397.155, b=6\
+356078.963, f=0.00334277, e2=0.00667437, e22=0.00671922, R=6370291.091\
+...">Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a<code class="variable-ellipsis">...</code></code><br />
       Registered ellipsoids (_Enum).
     </td>
   </tr>
@@ -205,15 +205,15 @@ Ellipsoids.Bessel1841: Ellipsoid(a=6377397.155, b=6356078.963, f=0.003\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="geodesy.datum-module.html#Transforms" class="summary-name">Transforms</a> = <code title="Transforms.Clarke1866: Transform(tx=8.0, ty=-160.0, tz=-176.0, rx=0, r\
-y=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0, name='Clarke1866')
-Transforms.ED50: Transform(tx=89.5, ty=93.8, tz=123.1, rx=0, ry=0, rz=\
-0.0, s=-1.2, s1=1.0, sx=0, sy=0, sz=0.156, name='ED50')
-Transforms.Irl1975: Transform(tx=-482.53, ty=130.596, tz=-564.557, rx=\
--0.0, ry=-0.0, rz=-0.0, s=-1.1, s1=1.0, sx=-1.042, sy=-0.214, sz=-0.63\
-1, name='Irl1975')
-Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
-...">Transforms.Clarke1866: Transform(tx=8.0, ty=-160.<code class="variable-ellipsis">...</code></code><br />
+        <a href="geodesy.datum-module.html#Transforms" class="summary-name">Transforms</a> = <code title="Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
+ tz=-176.0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
+Transforms.ED50: Transform(name='ED50', tx=89.5, ty=93.8, tz=123.1, rx\
+=0, ry=0, rz=0.0, s=-1.2, s1=1.0, sx=0, sy=0, sz=0.156)
+Transforms.Irl1975: Transform(name='Irl1975', tx=-482.53, ty=130.596, \
+tz=-564.557, rx=-0.0, ry=-0.0, rz=-0.0, s=-1.1, s1=1.0, sx=-1.042, sy=\
+-0.214, sz=-0.631)
+Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, \
+...">Transforms.Clarke1866: Transform(name='Clarke1866<code class="variable-ellipsis">...</code></code><br />
       Registered transforms (_Enum).
     </td>
   </tr>
@@ -239,14 +239,14 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-\
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-Datums.ED50: Datum(ellipsoid=Ellipsoids.Intl1924, transform=Transforms<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-.ED50, name='ED50')
-Datums.Irl1975: Datum(ellipsoid=Ellipsoids.AiryModified, transform=Tra<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-nsforms.Irl1975, name='Irl1975')
-Datums.NAD27: Datum(ellipsoid=Ellipsoids.Clarke1866, transform=Transfo<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-rms.NAD27, name='NAD27')
-Datums.NAD83: Datum(ellipsoid=Ellipsoids.GRS80, transform=Transforms.N<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-AD83, name='NAD83')
+Datums.ED50: Datum(name='ED50', ellipsoid=Ellipsoids.Intl1924, transfo<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+rm=Transforms.ED50)
+Datums.Irl1975: Datum(name='Irl1975', ellipsoid=Ellipsoids.AiryModifie<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+d, transform=Transforms.Irl1975)
+Datums.NAD27: Datum(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, tra<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+nsform=Transforms.NAD27)
+Datums.NAD83: Datum(name='NAD83', ellipsoid=Ellipsoids.GRS80, transfor<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+m=Transforms.NAD83)
 <code class="variable-ellipsis">...</code>
 </pre></td></tr></table>
 </dd>
@@ -265,14 +265,14 @@ AD83, name='NAD83')
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-Ellipsoids.Airy1830: Ellipsoid(a=6377563.396, b=6356256.909, f=0.00334<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-085, e2=0.00667054, e22=0.00671533, R=6370461.23366667, Rm=6366901.239<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-88196, name='Airy1830')
-Ellipsoids.AiryModified: Ellipsoid(a=6377340.189, b=6356034.448, f=0.0<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-0334085, e2=0.00667054, e22=0.00671533, R=6370238.27533333, Rm=6366678<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-.40619415, name='AiryModified')
-Ellipsoids.Bessel1841: Ellipsoid(a=6377397.155, b=6356078.963, f=0.003<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-34277, e2=0.00667437, e22=0.00671922, R=6370291.091, Rm=6366729.136345<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, b=63562<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+56.909, f=0.00334085, e2=0.00667054, e22=0.00671533, R=6370461.2336666<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+7, Rm=6366901.23988196)
+Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ b=6356034.448, f=0.00334085, e2=0.00667054, e22=0.00671533, R=6370238<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+.27533333, Rm=6366678.40619415)
+Ellipsoids.Bessel1841: Ellipsoid(name='Bessel1841', a=6377397.155, b=6<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+356078.963, f=0.00334277, e2=0.00667437, e22=0.00671922, R=6370291.091<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 <code class="variable-ellipsis">...</code>
 </pre></td></tr></table>
 </dd>
@@ -291,14 +291,14 @@ Ellipsoids.Bessel1841: Ellipsoid(a=6377397.155, b=6356078.963, f=0.003<span clas
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-Transforms.Clarke1866: Transform(tx=8.0, ty=-160.0, tz=-176.0, rx=0, r<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-y=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0, name='Clarke1866')
-Transforms.ED50: Transform(tx=89.5, ty=93.8, tz=123.1, rx=0, ry=0, rz=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-0.0, s=-1.2, s1=1.0, sx=0, sy=0, sz=0.156, name='ED50')
-Transforms.Irl1975: Transform(tx=-482.53, ty=130.596, tz=-564.557, rx=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
--0.0, ry=-0.0, rz=-0.0, s=-1.1, s1=1.0, sx=-1.042, sy=-0.214, sz=-0.63<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-1, name='Irl1975')
-Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ tz=-176.0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
+Transforms.ED50: Transform(name='ED50', tx=89.5, ty=93.8, tz=123.1, rx<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+=0, ry=0, rz=0.0, s=-1.2, s1=1.0, sx=0, sy=0, sz=0.156)
+Transforms.Irl1975: Transform(name='Irl1975', tx=-482.53, ty=130.596, <span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+tz=-564.557, rx=-0.0, ry=-0.0, rz=-0.0, s=-1.1, s1=1.0, sx=-1.042, sy=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+-0.214, sz=-0.631)
+Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, <span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 <code class="variable-ellipsis">...</code>
 </pre></td></tr></table>
 </dd>
@@ -337,7 +337,7 @@ Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Feb 12 21:36:56 2017
+    Generated by Epydoc 3.0.1 on Mon Feb 13 15:24:03 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

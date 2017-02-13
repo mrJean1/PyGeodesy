@@ -24,7 +24,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2',  # constants
            'radians', 'radiansPI', 'radiansPI2', 'radiansPI_2',
            'sin_2', 'tanPI_2_2',
            'wrap90', 'wrap180', 'wrapPI', 'wrapPI2', 'wrapPI_2')
-__version__ = '17.02.12'
+__version__ = '17.02.13'
 
 try:
     from math import fsum  #: precision sum, Python 2.6+
@@ -45,16 +45,16 @@ try:
 except AttributeError:
     EPS = 2.2204460492503131e-16  #: Approximate epsilon (float)
 EPS1 = 1 - EPS    #: 1 - EPS (float)
-EPS2 = sqrt(EPS)  #: sqrt(EPS) (float)
+EPS2 = sqrt(EPS)  #: M{sqrt(EPS)} (float)
 
-PI2  = PI * 2  #: Two PI, PI * 2 (float)  # PYCHOK expected
-PI_2 = PI / 2  #: Half PI, PI / 2 (float)
+PI2  = PI * 2  #: Two PI, M{PI * 2} (float)  # PYCHOK expected
+PI_2 = PI / 2  #: Half PI, M{PI / 2} (float)
 
 _3rd = 1.0 / 3.0  #: (INTERNAL) One third (float)
 
 
 def cbrt(x):
-    '''Compute the cubic root x^(1/3).
+    '''Computes the cubic root M{x**(1/3)}.
 
        @param x: Scalar (float or int).
 
@@ -69,42 +69,42 @@ def cbrt(x):
 
 
 def degrees90(rad):
-    '''Convert radians to degrees -270..+90.
+    '''Converts and wraps radians to degrees M{-270..+90}.
 
        @param rad: Angle (radians).
 
-       @return: Wrapped degrees (degrees90).
+       @return: Degrees, wrapped (degrees90).
     '''
     return _drap(degrees(rad), 90)
 
 
 def degrees180(rad):
-    '''Convert radians to degrees -180..+180.
+    '''Converts and wraps radians to degrees M{-180..+180}.
 
        @param rad: Angle (radians).
 
-       @return: Wrapped degrees (degrees180).
+       @return: Degrees, wrapped (degrees180).
     '''
     return _drap(degrees(rad), 180)
 
 
 def degrees360(rad):
-    '''Convert radians to degrees 0..+360.
+    '''Converts and wraps radians to degrees M{0..+360}.
 
        @param rad: Angle (radians).
 
-       @return: Wrapped degrees (degrees360).
+       @return: Degrees, wrapped (degrees360).
     '''
     return _drap(degrees(rad), 360)
 
 
 def _drap(deg, wrap):
-    '''(INTERNAL) Degree wrapper (wrap-360)..+wrap.
+    '''(INTERNAL) Degree wrapper M{(wrap-360)..+wrap}.
 
        @param deg: Angle (degrees).
        @param wrap: Limit (degrees).
 
-       @returns: Wrapped angle (degrees).
+       @returns: Degrees, wrapped (degrees).
     '''
     d = deg % 360  # -1.5 % 360 == 358.5
     if d > wrap:
@@ -113,11 +113,11 @@ def _drap(deg, wrap):
 
 
 def false2f(value, name='value', false=True):
-    '''Convert false east-/northing to non-negative float.
+    '''Converts false east-/northing to non-negative float.
 
        @param value: Value to convert (scalar).
        @keyword name: Name of the value (string).
-       @keyword false: Value must be false (bool).
+       @keyword false: Value must include false origin (bool).
 
        @return: The value (float).
 
@@ -133,11 +133,11 @@ def false2f(value, name='value', false=True):
 
 
 def fdot(a, *b):
-    '''Precision dot product sum(a[i] * b[i]
-       for i in range(len(a))).
+    '''Precision dot product M{sum(a[i] * b[i]
+       for i in range(len(a)))}.
 
-       @param a: List, tuple or sequence (scalars).
-       @param b: List, tuple or sequence (scalars).
+       @param a: List, sequence, tuple, etc. (scalars).
+       @param b: List, sequence, tuple, etc. (scalars).
 
        @return: Dot product (float).
 
@@ -148,12 +148,12 @@ def fdot(a, *b):
 
 
 def fdot3(a, b, c, start=0):
-    '''Precision dot product sum(a[i] * b[i] * c[i]
-       for i in range(len(a))) + start.
+    '''Precision dot product M{sum(a[i] * b[i] * c[i]
+       for i in range(len(a))) + start}.
 
-       @param a: List, tuple or sequence (scalars).
-       @param b: List, tuple or sequence (scalars).
-       @param c: List, tuple or sequence (scalars).
+       @param a: List, sequence, tuple, etc. (scalars).
+       @param b: List, sequence, tuple, etc. (scalars).
+       @param c: List, sequence, tuple, etc. (scalars).
 
        @return: Dot product (float).
 
@@ -170,17 +170,17 @@ def fdot3(a, b, c, start=0):
 
 
 def fStr(floats, prec=6, sep=', ', fmt='%.*f', ints=False):
-    '''Convert floats to string, optionally with trailing
+    '''Converts floats to string, optionally with trailing
        zero decimals stripped.
 
-       @param floats: List, set, sequence or tuple (scalars).
-       @param prec: Number of decimals, unstripped.  Trailing zero
-                    decimals are not stripped if prec is 2 or less.
-       @param sep: Separator to join (string).
-       @param fmt: Float format (string).
-       @param ints: Remove dot for integer values (bool).
+       @param floats: List, sequence, tuple, etc. (scalars).
+       @keyword prec: Optional, number of decimals, unstripped.  Trailing
+                      zero decimals are not stripped if L{prec} is 2 or negative.
+       @keyword sep: Optional, separator to join (string).
+       @keyword fmt: Optional, float format (string).
+       @keyword ints: Optionally, remove decimal dot (bool).
 
-       @return: Floats as 'f, f, ... f' (string).
+       @return: The L{floats} as 'f, f, ... f' (string).
     '''
     def _fstr(p, f):
         t = fmt % (abs(p), float(f))
@@ -198,22 +198,22 @@ def fStr(floats, prec=6, sep=', ', fmt='%.*f', ints=False):
 
 
 def halfs(str2):
-    '''Split string in 2 halfs.
+    '''Splits a string in 2 halfs.
 
        @param str2: String to split (string).
 
        @return: 2-Tuple (1st, 2nd) halfs (strings).
 
-       @raise ValueError: If L{str2} has zero or odd length.
+       @raise ValueError: Zero or odd L{str2} length.
     '''
-    h, odd = divmod(len(str2), 2)
-    if odd or not h:
+    h, r = divmod(len(str2), 2)
+    if r or not h:
         raise ValueError('%s invalid: %r' % ('str2', str2))
     return str2[:h], str2[h:]
 
 
 def hypot1(x):
-    '''Compute the norm sqrt(1 + x^2).
+    '''Computes the norm M{sqrt(1 + x**2)}.
 
        @param x: Argument (scalar).
 
@@ -232,7 +232,7 @@ def hypot1(x):
 
 
 def hypot3(x, y, z):
-    '''Compute the norm sqrt(x^2 + y^2 + z^2).
+    '''Computes the norm M{sqrt(x**2 + y**2 + z**2)}.
 
        @param x: X argument (scalar).
        @param y: Y argument (scalar).
@@ -257,29 +257,34 @@ def hypot3(x, y, z):
     return h
 
 
-def isint(inst):
-    '''Check for integer object.
+def isint(obj):
+    '''Checks for integer object or value.
 
-       @param inst: An object (any).
+       @param obj: An object (any).
 
-       @return: True if inst is integer (bool).
+       @return: True if L{obj} is integer (bool).
     '''
-    return isinstance(inst, _Ints)
+#   if isinstance(obj, float):
+#       try:
+#           return obj.is_integer()
+#       except AttributeError:
+#           return False
+    return isinstance(obj, _Ints)
 
 
-def isscalar(inst):
-    '''Check for scalar object.
+def isscalar(obj):
+    '''Checks for scalar object.
 
-       @param inst: An object (any).
+       @param obj: An object (any).
 
-       @return: True if inst is scalar (bool).
+       @return: True if L{obj} is scalar (bool).
     '''
-    return isinstance(inst, _Scalars)
+    return isinstance(obj, _Scalars)
 
 
 def len2(xtor):
-    '''Make built-in L{len}() work for generators, iterators, etc.
-       since those can only be started once.
+    '''Makes built-in L{len}() function work for generators,
+       iterators, etc. since those can only be started once.
 
        @param xtor: Generator, iterator, list, tuple, etc.
 
@@ -291,13 +296,11 @@ def len2(xtor):
 
 
 def map2(func, *args):
-    '''Apply a function to arguments, like built-in
-       map and return a tuple with the results.
+    '''Applies arguments to a function, like built-in L{map}.
 
-       @note: Python 3+ map returns a map object, an
-       iterator-like object which generates the map
-       result only once.  Converting the map object
-       into a tuple restores the Python 2 behavior.
+       Python 3+ L{map} returns a L{map} object, an iterator-like
+       object which generates the results only once.  Converting
+       the L{map} object into a tuple maintains Python 2 behavior.
 
        @param func: Function to apply (callable).
        @param args: Arguments to apply (list, tuple, ...).
@@ -308,82 +311,82 @@ def map2(func, *args):
 
 
 def radiansPI(deg):
-    '''Convert degrees to radians -PI..+PI.
+    '''Converts and wraps degrees to radians M{-PI..+PI}.
 
        @param deg: Angle (degrees).
 
-       @return: Radians (radiansPI)
+       @return: Radians, wrapped (radiansPI)
     '''
     return _wrap(radians(deg), PI)
 
 
 def radiansPI2(deg):
-    '''Convert degrees to radians 0..+2PI.
+    '''Converts and wraps degrees to radians M{0..+2PI}.
 
        @param deg: Angle (degrees).
 
-       @return: Radians (radiansPI2)
+       @return: Radians, wrapped (radiansPI2)
     '''
     return _wrap(radians(deg), PI2)
 
 
 def radiansPI_2(deg):
-    '''Convert degrees to radians -3PI/2..+PI/2.
+    '''Converts and wraps degrees to radians M{-3PI/2..+PI/2}.
 
        @param deg: Angle (degrees).
 
-       @return: Radians (radiansPI_2)
+       @return: Radians, wrapped (radiansPI_2)
     '''
     return _wrap(radians(deg), PI_2)
 
 
 def sin_2(rad):
-    '''Compute sin of half angle.
+    '''Computes sin of half angle.
 
        @param rad: Angle (radians).
 
-       @return: Sin(rad / 2) (float).
+       @return: M{sin(rad / 2)} (float).
     '''
     return sin(rad * 0.5)
 
 
 def tanPI_2_2(rad):
-    '''Compute tan of half angle, rotated.
+    '''Computes tan of half angle, rotated.
 
        @param rad: Angle (radians).
 
-       @return: Tan((rad + PI/2) / 2) (float).
+       @return: M{tan((rad + PI/2) / 2)} (float).
     '''
     return tan((rad + PI_2) * 0.5)
 
 
 def wrap90(deg):
-    '''Wrap degrees to -270..+90.
+    '''Wraps degrees to M{-270..+90}.
 
        @param deg: Angle (degrees).
 
-       @return: Wrapped degrees (degrees90).
+       @return: Degrees, wrapped (degrees90).
     '''
     return _drap(deg, 90)
 
 
 def wrap180(deg):
-    '''Wrap degrees to -180..+180.
+    '''Wraps degrees to M{-180..+180}.
 
        @param deg: Angle (degrees).
 
-       @return: Wrapped degrees (degrees180).
+       @return: Degrees, wrapped (degrees180).
     '''
     return _drap(deg, 180)
 
 
 def _wrap(rad, wrap):
-    '''(INTERNAL) Radians wrapper (wrap-2PI)..+wrap.
+    '''(INTERNAL) Radians wrapper M{(wrap-2PI)..+wrap}.
 
        @param rad: Angle (radians).
        @param wrap: Limit (radians).
 
-       @returns: Wrapped angle (radians).
+       @returns: Radians, wrapped (radians).
     '''
     r = rad % PI2  # -1.5 % 3.14 == 1.64
     if r > wrap:
@@ -392,31 +395,31 @@ def _wrap(rad, wrap):
 
 
 def wrapPI(rad):
-    '''Wrap radians to -PI..+PI.
+    '''Wraps radians to M{-PI..+PI}.
 
        @param rad: Angle (radians).
 
-       @return: Wrapped radians (radiansPI).
+       @return: Radians, wrapped (radiansPI).
     '''
     return _wrap(rad, PI)
 
 
 def wrapPI2(rad):
-    '''Wrap radians to 0..+2PI.
+    '''Wraps radians to M{0..+2PI}.
 
        @param rad: Angle (radians).
 
-       @return: Wrapped radians (radiansPI2).
+       @return: Radians, wrapped (radiansPI2).
     '''
     return _wrap(rad, PI2)
 
 
 def wrapPI_2(rad):
-    '''Wrap radians to -3PI/2..+PI/2.
+    '''Wraps radians to M{-3PI/2..+PI/2}.
 
        @param rad: Angle (radians).
 
-       @return: Wrapped radians (radiansPI_2).
+       @return: Radians, wrapped (radiansPI_2).
     '''
     return _wrap(rad, PI_2)
 

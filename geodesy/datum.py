@@ -50,7 +50,7 @@ R_SM = R_KM * 0.62137  #: Mean, spherical earth radius (statute miles).
 __all__ = ('R_KM', 'R_M', 'R_NM', 'R_SM',  # constants
            'Datum',  'Ellipsoid',  'Transform',  # classes
            'Datums', 'Ellipsoids', 'Transforms')  # enum-like
-__version__ = '17.02.09'
+__version__ = '17.02.13'
 
 
 class _Enum(dict, Named):
@@ -104,7 +104,7 @@ class _Based(Base, Named):
         t = ['%s=%s' % (a, v) for a, v in zip(attrs, t.split())]
         if others:
             t += ['%s=%s' % (a, v) for a, v in sorted(others.items())]
-        return ', '.join(t + ['name=%r' % (self.name,)])
+        return ', '.join(['name=%r' % (self.name,)] + t)
 
     def _register(self, enum, name):
         '''(INTERNAL) Add this as enum.name.
@@ -123,11 +123,11 @@ class Ellipsoid(_Based):
     a    = 0  #: Semi-major, equatorial axis (meter).
     b    = 0  #: Semi-minor, polar axis (meter).
     # precomputed, frequently used values
-    a2   = 0  #: (1 / a^2) (float).
-    a2b2 = 1  #: (a / b)^2 = 1 / (1 - f)^2 (float).
-    e    = 0  #: 1st Eccentricity: sqrt(1 - (b / a)^2)) (float).
-    e2   = 0  #: 1st Eccentricity squared: f * (2 - f) = (a^2 - b^2) / a^2 (float).
-    e4   = 0  #: e2^2 (float).
+    a2   = 0  #: (1 / a**2) (float).
+    a2b2 = 1  #: (a / b)**2 = 1 / (1 - f)**2 (float).
+    e    = 0  #: 1st Eccentricity: sqrt(1 - (b / a)**2)) (float).
+    e2   = 0  #: 1st Eccentricity squared: f * (2 - f) = (a**2 - b**2) / a**2 (float).
+    e4   = 0  #: e2**2 (float).
     e12  = 1  #: (1 - e2) (float).
     e22  = 0  #: 2nd Eccentricity squared: e2 / (1 - e2) = a2b2 - 1 (float).
     f    = 0  #: Inverse flattening: a / (a - b) (float).
@@ -208,8 +208,8 @@ class Ellipsoid(_Based):
             n = self.n
             n2_4 = n * n / 4
             n4_64 = n2_4 * n2_4 / 4
-            # A = a / (1 + n) * (1 + n^2 / 4 + n^4 / 64 + n^6 / 256 +
-            #                    n^8 * 25 / 16384 + n^10 * 49 / 65536)
+            # A = a / (1 + n) * (1 + n**2 / 4 + n**4 / 64 + n**6 / 256 +
+            #                   n**8 * 25 / 16384 + n**10 * 49 / 65536)
             self._A = self.a / (1 + n) * (1 + n2_4) * (1 + n4_64)
         return self._A
 
@@ -220,7 +220,7 @@ class Ellipsoid(_Based):
         if self._Alpha6 is None:
             self._Alpha6 = self._K6(
                 # XXX i/i quotients require  from __future__ import division
-                # n    n^2    n^3       n^4          n^5             n^6
+                # n    n**2   n**3      n**4         n**5            n**6
                 (1/2, -2/3,   5/16,    41/180,    -127/288,       7891/37800),
                      (13/48, -3/5,    557/1440,    281/630,   -1983433/1935360),  # PYCHOK expected
                             (61/240, -103/140,   15061/26880,   167603/181440),  # PYCHOK expected
@@ -236,7 +236,7 @@ class Ellipsoid(_Based):
         if self._Beta6 is None:
             self._Beta6 = self._K6(
                 # XXX i/i quotients require  from __future__ import division
-                # n    n^2   n^3      n^4         n^5             n^6
+                # n    n**2  n**3     n**4        n**5            n**6
                 (1/2, -2/3, 37/96,   -1/360,    -81/512,      96199/604800),
                       (1/48, 1/15, -437/1440,    46/105,   -1118711/3870720),  # PYCHOK expected
                            (17/480, -37/840,   -209/4480,      5569/90720),  # PYCHOK expected
@@ -246,7 +246,7 @@ class Ellipsoid(_Based):
         return self._Beta6
 
     def e2s2(self, s):
-        '''Compute norm sqrt(1 - e2 * s^2).
+        '''Compute norm sqrt(1 - e2 * s**2).
 
            @param s: S value (scalar).
 
@@ -271,7 +271,7 @@ class Ellipsoid(_Based):
 
            @return: 6th-Order Krüger (1-origin, 7-tuple).
         '''
-        ns = [self.n]  # 3rd flattening: n, n^2, ... n^6
+        ns = [self.n]  # 3rd flattening: n, n**2, ... n**6
         for i in range(len(fs6) - 1):
             ns.append(ns[0] * ns[i])
 
@@ -469,14 +469,14 @@ Transforms._assert(
 class Datum(_Based):
     '''Datum ellipsoid and transform.
     '''
-    ellipsoid = Ellipsoids.WGS84  #: Ellipsoid instance (L{Ellipsoid}).
-    transform = Transforms.WGS84  #: Transform instance (L{Transform}).
+    ellipsoid = Ellipsoids.WGS84  #: Default ellipsoid (L{Ellipsoid}).
+    transform = Transforms.WGS84  #: Default transform (L{Transform}).
 
     def __init__(self, ellipsoid, transform=None, name=''):
         '''New datum.
 
-           @param ellipsoid: Ellipsoid instance (L{Ellipsoid}).
-           @keyword transform: Transform instance (L{Transform}).
+           @param ellipsoid: The ellipsoid (L{Ellipsoid}).
+           @keyword transform: The transform (L{Transform}).
            @keyword name: Optional, unique name (string).
 
            @raise NameError: If datum L{name} already exists.
@@ -513,7 +513,7 @@ class Datum(_Based):
         for a in ('ellipsoid', 'transform'):
             v = getattr(self, a)
             t.append('%s=%ss.%s' % (a, v.__class__.__name__, v.name))
-        return ', '.join(t + ['name=%r' % (self.name,)])
+        return ', '.join(['name=%r' % (self.name,)] + t)
 
 
 # Datums with associated ellipsoid and Helmert transform parameters
@@ -589,31 +589,31 @@ if __name__ == '__main__':
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-# Typical result (on MacOS X)
+# Typical result (on MacOS 10.12.3)
 
-# Ellipsoids.Airy1830: Ellipsoid(a=6377563.396, b=6356256.909, f=0.00334085, e2=0.00667054, e22=0.00671533, R=6370461.23366667, Rm=6366901.23988196, name='Airy1830')
-# Ellipsoids.AiryModified: Ellipsoid(a=6377340.189, b=6356034.448, f=0.00334085, e2=0.00667054, e22=0.00671533, R=6370238.27533333, Rm=6366678.40619415, name='AiryModified')
-# Ellipsoids.Bessel1841: Ellipsoid(a=6377397.155, b=6356078.963, f=0.00334277, e2=0.00667437, e22=0.00671922, R=6370291.091, Rm=6366729.13634557, name='Bessel1841')
-# Ellipsoids.Clarke1866: Ellipsoid(a=6378206.4, b=6356583.8, f=0.00339008, e2=0.00676866, e22=0.00681478, R=6370998.86666667, Rm=6367385.92165547, name='Clarke1866')
-# Ellipsoids.Clarke1880IGN: Ellipsoid(a=6378249.2, b=6356515.0, f=0.00340755, e2=0.00680349, e22=0.00685009, R=6371004.46666667, Rm=6367372.82664821, name='Clarke1880IGN')
-# Ellipsoids.GRS80: Ellipsoid(a=6378137.0, b=6356752.31414, f=0.00335281, e2=0.00669438, e22=0.0067395, R=6371008.77138, Rm=6367435.67966351, name='GRS80')
-# Ellipsoids.Intl1924: Ellipsoid(a=6378388.0, b=6356911.946, f=0.003367, e2=0.00672267, e22=0.00676817, R=6371229.31533333, Rm=6367640.91900784, name='Intl1924')
-# Ellipsoids.Sphere: Ellipsoid(a=6371008.771415, b=6371008.771415, f=0, e2=0, e22=0, R=6371008.771415, Rm=6371008.771415, name='Sphere')
-# Ellipsoids.WGS72: Ellipsoid(a=6378135.0, b=6356750.5, f=0.00335278, e2=0.00669432, e22=0.00673943, R=6371006.83333333, Rm=6367433.77274687, name='WGS72')
-# Ellipsoids.WGS84: Ellipsoid(a=6378137.0, b=6356752.31425, f=0.00335281, e2=0.00669438, e22=0.0067395, R=6371008.77141667, Rm=6367435.67971861, name='WGS84')
+# Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, b=6356256.909, f=0.00334085, e2=0.00667054, e22=0.00671533, R=6370461.23366667, Rm=6366901.23988196)
+# Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189, b=6356034.448, f=0.00334085, e2=0.00667054, e22=0.00671533, R=6370238.27533333, Rm=6366678.40619415)
+# Ellipsoids.Bessel1841: Ellipsoid(name='Bessel1841', a=6377397.155, b=6356078.963, f=0.00334277, e2=0.00667437, e22=0.00671922, R=6370291.091, Rm=6366729.13634557)
+# Ellipsoids.Clarke1866: Ellipsoid(name='Clarke1866', a=6378206.4, b=6356583.8, f=0.00339008, e2=0.00676866, e22=0.00681478, R=6370998.86666667, Rm=6367385.92165547)
+# Ellipsoids.Clarke1880IGN: Ellipsoid(name='Clarke1880IGN', a=6378249.2, b=6356515.0, f=0.00340755, e2=0.00680349, e22=0.00685009, R=6371004.46666667, Rm=6367372.82664821)
+# Ellipsoids.GRS80: Ellipsoid(name='GRS80', a=6378137.0, b=6356752.31414, f=0.00335281, e2=0.00669438, e22=0.0067395, R=6371008.77138, Rm=6367435.67966351)
+# Ellipsoids.Intl1924: Ellipsoid(name='Intl1924', a=6378388.0, b=6356911.946, f=0.003367, e2=0.00672267, e22=0.00676817, R=6371229.31533333, Rm=6367640.91900784)
+# Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=6371008.771415, f=0, e2=0, e22=0, R=6371008.771415, Rm=6371008.771415)
+# Ellipsoids.WGS72: Ellipsoid(name='WGS72', a=6378135.0, b=6356750.5, f=0.00335278, e2=0.00669432, e22=0.00673943, R=6371006.83333333, Rm=6367433.77274687)
+# Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137.0, b=6356752.31425, f=0.00335281, e2=0.00669438, e22=0.0067395, R=6371008.77141667, Rm=6367435.67971861)
 #
-# Transforms.Clarke1866: Transform(tx=8.0, ty=-160.0, tz=-176.0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0, name='Clarke1866')
-# Transforms.ED50: Transform(tx=89.5, ty=93.8, tz=123.1, rx=0, ry=0, rz=0.0, s=-1.2, s1=1.0, sx=0, sy=0, sz=0.156, name='ED50')
-# Transforms.Irl1975: Transform(tx=-482.53, ty=130.596, tz=-564.557, rx=-0.0, ry=-0.0, rz=-0.0, s=-1.1, s1=1.0, sx=-1.042, sy=-0.214, sz=-0.631, name='Irl1975')
-# Transforms.Krassovsky1940: Transform(tx=-24.0, ty=123.0, tz=94.0, rx=-0.0, ry=0.0, rz=0.0, s=-2.423, s1=1.0, sx=-0.02, sy=0.26, sz=0.13, name='Krassovsky1940')
-# Transforms.MGI: Transform(tx=-577.326, ty=-90.129, tz=-463.92, rx=0.0, ry=0.0, rz=0.0, s=-2.423, s1=1.0, sx=5.137, sy=1.474, sz=5.297, name='MGI')
-# Transforms.NAD27: Transform(tx=8.0, ty=-160.0, tz=-176.0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0, name='NAD27')
-# Transforms.NAD83: Transform(tx=1.004, ty=-1.91, tz=-0.515, rx=0.0, ry=0.0, rz=0.0, s=-0.0015, s1=1.0, sx=0.0267, sy=0.0003, sz=0.011, name='NAD83')
-# Transforms.NTF: Transform(tx=-168.0, ty=-60.0, tz=320.0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0, name='NTF')
-# Transforms.OSGB36: Transform(tx=-446.448, ty=125.157, tz=-542.06, rx=-0.0, ry=-0.0, rz=-0.0, s=20.4894, s1=1.0, sx=-0.1502, sy=-0.247, sz=-0.8421, name='OSGB36')
-# Transforms.TokyoJapan: Transform(tx=148.0, ty=-507.0, tz=-685.0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0, name='TokyoJapan')
-# Transforms.WGS72: Transform(tx=0, ty=0, tz=-4.5, rx=0, ry=0, rz=0.0, s=-0.22, s1=1.0, sx=0, sy=0, sz=0.554, name='WGS72')
-# Transforms.WGS84: Transform(tx=0, ty=0, tz=0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0, name='WGS84')
+# Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0, tz=-176.0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
+# Transforms.ED50: Transform(name='ED50', tx=89.5, ty=93.8, tz=123.1, rx=0, ry=0, rz=0.0, s=-1.2, s1=1.0, sx=0, sy=0, sz=0.156)
+# Transforms.Irl1975: Transform(name='Irl1975', tx=-482.53, ty=130.596, tz=-564.557, rx=-0.0, ry=-0.0, rz=-0.0, s=-1.1, s1=1.0, sx=-1.042, sy=-0.214, sz=-0.631)
+# Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, ty=123.0, tz=94.0, rx=-0.0, ry=0.0, rz=0.0, s=-2.423, s1=1.0, sx=-0.02, sy=0.26, sz=0.13)
+# Transforms.MGI: Transform(name='MGI', tx=-577.326, ty=-90.129, tz=-463.92, rx=0.0, ry=0.0, rz=0.0, s=-2.423, s1=1.0, sx=5.137, sy=1.474, sz=5.297)
+# Transforms.NAD27: Transform(name='NAD27', tx=8.0, ty=-160.0, tz=-176.0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
+# Transforms.NAD83: Transform(name='NAD83', tx=1.004, ty=-1.91, tz=-0.515, rx=0.0, ry=0.0, rz=0.0, s=-0.0015, s1=1.0, sx=0.0267, sy=0.0003, sz=0.011)
+# Transforms.NTF: Transform(name='NTF', tx=-168.0, ty=-60.0, tz=320.0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
+# Transforms.OSGB36: Transform(name='OSGB36', tx=-446.448, ty=125.157, tz=-542.06, rx=-0.0, ry=-0.0, rz=-0.0, s=20.4894, s1=1.0, sx=-0.1502, sy=-0.247, sz=-0.8421)
+# Transforms.TokyoJapan: Transform(name='TokyoJapan', tx=148.0, ty=-507.0, tz=-685.0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
+# Transforms.WGS72: Transform(name='WGS72', tx=0, ty=0, tz=-4.5, rx=0, ry=0, rz=0.0, s=-0.22, s1=1.0, sx=0, sy=0, sz=0.554)
+# Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
 #
 # Datums.ED50: Datum(ellipsoid=Ellipsoids.Intl1924, transform=Transforms.ED50, name='ED50')
 # Datums.Irl1975: Datum(ellipsoid=Ellipsoids.AiryModified, transform=Transforms.Irl1975, name='Irl1975')
@@ -626,7 +626,7 @@ if __name__ == '__main__':
 # Datums.WGS72: Datum(ellipsoid=Ellipsoids.WGS72, transform=Transforms.WGS72, name='WGS72')
 # Datums.WGS84: Datum(ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84, name='WGS84')
 #
-# WGS84: a=6378137.0, b=6356752.3142499998, f=0.0033528107, e2=0.00669438, e22=0.0067394967, R=6371008.7714166669, Rm=6367435.6797186071, name='WGS84',
+# WGS84: name='WGS84', a=6378137.0, b=6356752.3142499998, f=0.0033528107, e2=0.00669438, e22=0.0067394967, R=6371008.7714166669, Rm=6367435.6797186071,
 #        A=6367449.145823415, e=0.0818191908, f=1/298.2572235630, n=0.0016792204(-3.7914875232e-13),
 #        Alpha6=(0, 0.0008377318206244698, 7.608527773572307e-07, 1.1976455033294527e-09, 2.4291706072013587e-12, 5.711757677865804e-15, 1.4911177312583895e-17),
 #        Beta6=(0, 0.0008377321640579486, 5.905870152220203e-08, 1.6734826652839968e-10, 2.1647980400627059e-13, 3.7879780461686053e-16, 7.2487488906941545e-19)

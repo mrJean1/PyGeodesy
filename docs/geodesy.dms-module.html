@@ -68,7 +68,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.02.09
+        17.02.13
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -87,7 +87,7 @@
           <td><span class="summary-sig"><a href="geodesy.dms-module.html#bearingDMS" class="summary-sig-name">bearingDMS</a>(<span class="summary-sig-arg">bearing</span>,
         <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Convert bearing.</td>
+      Converts bearing to string.</td>
           <td align="right" valign="top">
             
             
@@ -106,7 +106,7 @@
           <td><span class="summary-sig"><a href="geodesy.dms-module.html#compassDMS" class="summary-sig-name">compassDMS</a>(<span class="summary-sig-arg">bearing</span>,
         <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Convert bearing suffixed with compass point.</td>
+      Converts bearing to string suffixed with compass point.</td>
           <td align="right" valign="top">
             
             
@@ -124,7 +124,7 @@
         <tr>
           <td><span class="summary-sig"><a href="geodesy.dms-module.html#compassPoint" class="summary-sig-name">compassPoint</a>(<span class="summary-sig-arg">bearing</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">3</span>)</span><br />
-      Convert bearing to compass point.</td>
+      Converts bearing to compass point.</td>
           <td align="right" valign="top">
             
             
@@ -143,7 +143,7 @@
           <td><span class="summary-sig"><a href="geodesy.dms-module.html#latDMS" class="summary-sig-name">latDMS</a>(<span class="summary-sig-arg">deg</span>,
         <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">2</span>)</span><br />
-      Convert latitude suffixed with N or S.</td>
+      Converts latitude to string suffixed with N or S.</td>
           <td align="right" valign="top">
             
             
@@ -162,7 +162,7 @@
           <td><span class="summary-sig"><a href="geodesy.dms-module.html#lonDMS" class="summary-sig-name">lonDMS</a>(<span class="summary-sig-arg">deg</span>,
         <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">2</span>)</span><br />
-      Convert longitude suffixed with E or W.</td>
+      Converts longitude to string suffixed with E or W.</td>
           <td align="right" valign="top">
             
             
@@ -179,7 +179,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy.dms-module.html#normDMS" class="summary-sig-name">normDMS</a>(<span class="summary-sig-arg">strDMS</span>)</span><br />
-      Normalize the degree &#730;, minute ' and second &quot; symbols in a 
+      Normalizes the degree &#730;, minute ' and second &quot; symbols in a 
       string to the defaults &#176;, &#8242; and &#8243;.</td>
           <td align="right" valign="top">
             
@@ -217,7 +217,7 @@
         <tr>
           <td><span class="summary-sig"><a href="geodesy.dms-module.html#parseDMS" class="summary-sig-name">parseDMS</a>(<span class="summary-sig-arg">strDMS</span>,
         <span class="summary-sig-arg">suffix</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">NSEW</code><code class="variable-quote">'</code></span>)</span><br />
-      Parse a string representing deg&#176;min'sec&quot; into degrees.</td>
+      Parse a string representing deg&#176; min' sec&quot; into degrees.</td>
           <td align="right" valign="top">
             
             
@@ -235,7 +235,7 @@
         <tr>
           <td><span class="summary-sig"><a href="geodesy.dms-module.html#precision" class="summary-sig-name">precision</a>(<span class="summary-sig-arg">form</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Set the default precison for a given F_ format.</td>
+      Sets the default precison for a given F_ form.</td>
           <td align="right" valign="top">
             
             
@@ -257,7 +257,7 @@
         <span class="summary-sig-arg">ddd</span>=<span class="summary-sig-default">2</span>,
         <span class="summary-sig-arg">neg</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">-</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">pos</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
-      Convert signed degrees, without suffix.</td>
+      Converts signed degrees to string, without suffix.</td>
           <td align="right" valign="top">
             
             
@@ -366,16 +366,17 @@
     </td>
   </tr></table>
   
-  <p>Convert bearing.</p>
+  <p>Converts bearing to string.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (degrees).</li>
-        <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS for deg&#176;, deg&#176;min', deg&#176;min'sec&quot;.</li>
-        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or None).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (compass degrees).</li>
+        <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS or F_RAD for deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243; or
+          radians.</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Bearing per the specified form (string).</dd>
+        <dd>Compass degrees per the specified form (string).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -395,16 +396,17 @@
     </td>
   </tr></table>
   
-  <p>Convert bearing suffixed with compass point.</p>
+  <p>Converts bearing to string suffixed with compass point.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (degrees).</li>
-        <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS for deg&#176;, deg&#176;min', deg&#176;min'sec&quot;.</li>
-        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or None).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (compass degrees).</li>
+        <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS or F_RAD for deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243; or
+          radians.</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Bearing per the specified form and compass point (string).</dd>
+        <dd>Compass degrees and point per the specified form (string).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -423,12 +425,12 @@
     </td>
   </tr></table>
   
-  <p>Convert bearing to compass point.</p>
+  <p>Converts bearing to compass point.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (degrees).</li>
-        <li><strong class="pname"><code>prec</code></strong> - Precision (1: cardinal, 2: intercardinal or 3: 
+        <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (compass degrees).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional precision (1 for cardinal, 2 for intercardinal or 3 for 
           secondary-intercardinal).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -461,13 +463,14 @@
     </td>
   </tr></table>
   
-  <p>Convert latitude suffixed with N or S.</p>
+  <p>Converts latitude to string suffixed with N or S.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>deg</code></strong> - Lat to be formatted as specified (degrees).</li>
-        <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS for deg&#176;, deg&#176;min', deg&#176;min'sec&quot;.</li>
-        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or None).</li>
+        <li><strong class="pname"><code>deg</code></strong> - Latitude to be formatted (degrees).</li>
+        <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS or F_RAD for deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243; or
+          radians.</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees per the specified form (string).</dd>
@@ -490,13 +493,14 @@
     </td>
   </tr></table>
   
-  <p>Convert longitude suffixed with E or W.</p>
+  <p>Converts longitude to string suffixed with E or W.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>deg</code></strong> - Lon to be formatted as specified (degrees).</li>
-        <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS for deg&#176;, deg&#176;min', deg&#176;min'sec&quot;.</li>
-        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or None).</li>
+        <li><strong class="pname"><code>deg</code></strong> - Longitude to be formatted (degrees).</li>
+        <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS or F_RAD for deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243; or
+          radians.</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees per the specified form (string).</dd>
@@ -517,8 +521,8 @@
     </td>
   </tr></table>
   
-  <p>Normalize the degree &#730;, minute ' and second &quot; symbols in a string
-  to the defaults &#176;, &#8242; and &#8243;.</p>
+  <p>Normalizes the degree &#730;, minute ' and second &quot; symbols in a 
+  string to the defaults &#176;, &#8242; and &#8243;.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -546,21 +550,23 @@
   </tr></table>
   
   <p>Parse a string representing lat-, longitude and height point.</p>
-  <p>The lat- and longitude must be separated by a sep[arator] character.  
-  If height is present it must follow and be separated by another 
-  sep[arator].  Lat- and longitude may be swapped, provided at least one 
+  <p>The lat- and longitude value must be separated by a <code 
+  class="link">sep</code>arator character.  If height is present it must 
+  follow, separated by another <code class="link">sep</code>arator.</p>
+  <p>The lat- and longitude values may be swapped, provided at least one 
   ends with the proper compass direction.</p>
   <p>See function <a href="geodesy.dms-module.html#parseDMS" 
-  class="link">parseDMS</a> for more details on the forms accepted.</p>
+  class="link">parseDMS</a> for more details on the forms and symbols 
+  accepted.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>strll</code></strong> - Lat, lon[, height] (string).</li>
-        <li><strong class="pname"><code>height</code></strong> - Default height (meter).</li>
+        <li><strong class="pname"><code>height</code></strong> - Default for missing height (meter).</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional, separator (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>3-Tuple (Lat, lon, height).</dd>
+        <dd>3-Tuple (Lat, lon, height) as (scalar, ...).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <code class="link">strll</code>.</li>
@@ -587,15 +593,16 @@
     </td>
   </tr></table>
   
-  <p>Parse a string representing deg&#176;min'sec&quot; into degrees.</p>
+  <p>Parse a string representing deg&#176; min' sec&quot; into degrees.</p>
   <p>This is very flexible on formats, allowing signed decimal degrees, 
   degrees and minutes or degrees minutes and seconds optionally suffixed by
-  compass direction NSEW.  A variety of separators are accepted, for 
+  compass direction NSEW.</p>
+  <p>A variety of symbols, separators and suffixes are accepted, for 
   example 3&#176; 37' 09&quot;W.  Minutes and seconds may be omitted.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>strDMS</code></strong> - Degrees in one of several forms (string).</li>
+        <li><strong class="pname"><code>strDMS</code></strong> - Degrees in any of several forms (string).</li>
         <li><strong class="pname"><code>suffix</code></strong> - Optional, valid compass directions (NEWS).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -622,13 +629,13 @@
     </td>
   </tr></table>
   
-  <p>Set the default precison for a given F_ format.</p>
+  <p>Sets the default precison for a given F_ form.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS (string).</li>
-        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits or None to remain unchanged 
-          (int).</li>
+        <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS or F_RAD (string).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (int) or None to remain 
+          unchanged.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Previous precision (int).</dd>
@@ -654,16 +661,17 @@
     </td>
   </tr></table>
   
-  <p>Convert signed degrees, without suffix.</p>
+  <p>Converts signed degrees to string, without suffix.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>deg</code></strong> - Degrees to be formatted as specified.</li>
-        <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS, F_RAD for deg&#176;, deg&#176;min', deg&#176;min'sec&quot;.</li>
-        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or None).</li>
-        <li><strong class="pname"><code>ddd</code></strong> - Optional number of digits for deg&#176; (2 or 3).</li>
-        <li><strong class="pname"><code>neg</code></strong> - Optional sign for negative degrees ('-').</li>
-        <li><strong class="pname"><code>pos</code></strong> - Optional sign for positive degrees ('').</li>
+        <li><strong class="pname"><code>deg</code></strong> - Degrees to be formatted (scalar).</li>
+        <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS or F_RAD for deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243; or 
+          radians.</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None).</li>
+        <li><strong class="pname"><code>ddd</code></strong> - Optional, number of digits for deg&#176; (2 or 3).</li>
+        <li><strong class="pname"><code>neg</code></strong> - Optional, sign for negative degrees ('-').</li>
+        <li><strong class="pname"><code>pos</code></strong> - Optional, sign for positive degrees ('').</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees per the specified form (string).</dd>
@@ -702,7 +710,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Feb 12 21:36:56 2017
+    Generated by Epydoc 3.0.1 on Mon Feb 13 15:24:03 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

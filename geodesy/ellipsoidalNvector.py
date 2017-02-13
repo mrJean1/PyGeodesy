@@ -35,7 +35,7 @@ from math import asin, atan2, cos, hypot, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '17.02.12'
+__version__ = '17.02.13'
 
 
 class Cartesian(CartesianBase):
@@ -94,7 +94,7 @@ class Cartesian(CartesianBase):
 
 
 class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
-    '''An n-vector-based ellipsoidal L{LatLon}.
+    '''An n-vector-based ellipsoidal L{LatLon} point.
 
        @example:
 
@@ -159,13 +159,13 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #            @param start: Start point of great circle path (L{LatLon}).
 #            @param end: End point of great circle path (L{LatLon}) or
 #                        initial bearing (in compass degrees) at the
-#                        great circle start point.
+#                        L{start} point.
 #            @keyword radius: Mean earth radius (meter).
 #
 #            @return: Distance to great circle, negative if to left or
 #                     positive if to right of path (scalar).
 #
-#            @raise TypeError: The L{start} point is not L{LatLon}.
+#            @raise TypeError: The L{start} or L{end}point is not L{LatLon}.
 #
 #            @example:
 #
@@ -180,10 +180,10 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #         '''
 #         self.others(start, name='start')
 #
-#         if isinstance(end, LatLon):  # gc by two points
-#             gc = start.toNvector().cross(end.toNvector())
-#         else:  # gc from point and bearing
+#         if isscalar(end):  # gc from point and bearing
 #             gc = start.greatCircle(end)
+#         else:  # gc by two points
+#             gc = start.toNvector().cross(end.toNvector())
 #
 #         # (signed) angle between point and gc normal vector
 #         v = self.toNvector()
@@ -260,8 +260,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
     def destinationNed(self, delta):
         '''Calculates destination point using supplied delta from this point.
 
-           @param delta: Delta from this to the other point in
-                         local tangent plane of this point (L{Ned}).
+           @param delta: Delta from this to the other point in the
+                         local tangent plane (LTP) of this point (L{Ned}).
 
            @return: Destination point (L{Cartesian}).
 
@@ -391,7 +391,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
            @param other: The other point (L{LatLon}).
            @param fraction: Fraction between both points ranging from
-                            0 = this point to 1 = other point (float).
+                            0 = this point to 1 = L{other} point (float).
 
            @return: Intermediate point (L{LatLon}).
 
@@ -420,18 +420,18 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
     intermediatePointTo = intermediateTo  # XXX original name
 
     def toCartesian(self):
-        '''Convert this (geodetic) LatLon point to (geocentric) x/y/z
-           cartesian coordinates.
+        '''Convert this (geodtic) point to (geocentric) x/y/z cartesian
+           coordinates.
 
-           @return: Cartesian point equivalent, with x, y and z in
-                    meter from earth center (L{Cartesian}).
+           @return: Cartesian representing this point, with x, y and z
+                    in meter from earth center (L{Cartesian}).
         '''
         x, y, z = self.to3xyz()  # ellipsoidalBase.LatLonEllipsoidalBase
         return Cartesian(x, y, z)  # this ellipsoidalNvector Cartesian
 
     def toNvector(self):  # note: replicated in LatLonNvectorSpherical
-        '''Convert this (geodetic) LatLon point to n-vector (normal
-           to the earth's surface).
+        '''Convert this point to an L{Nvector} normal to the
+           earth's surface.
 
            @return: N-vector representing this point (L{Nvector}).
 
@@ -447,7 +447,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         return self._Nv
 
 #     def toVector3d(self):
-#         '''Converts this point to a Vector3d (normal to earth's surface).
+#         '''Converts this point to a L{Vector3d} normal to the
+#            earth's surface.
 #
 #            @return: Vector representing this point (L{Vector3d}).
 #
@@ -616,7 +617,7 @@ class Nvector(NvectorBase):
         return self._datum
 
     def toLatLon(self):
-        '''Converts this n-vector to an (ellipsoidalNvector) LatLon point.
+        '''Converts this n-vector to a L{LatLon} point.
 
            @return: Point equivalent to this n-vector (L{LatLon}).
 
@@ -629,7 +630,7 @@ class Nvector(NvectorBase):
         return LatLon(a, b, height=h, datum=self.datum)
 
     def toCartesian(self):
-        '''Convert this n-vector to an (ellipsoidalNvector) Cartesian.
+        '''Convert this n-vector to a L{Cartesian}.
 
            @return: Cartesian equivalent to this n-vector (L{Cartesian}).
 

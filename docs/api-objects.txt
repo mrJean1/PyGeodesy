@@ -210,6 +210,7 @@ geodesy.sphericalBase.radians	geodesy.utils-module.html#radians
 geodesy.sphericalNvector	geodesy.sphericalNvector-module.html
 geodesy.sphericalNvector.triangulate	geodesy.sphericalNvector-module.html#triangulate
 geodesy.sphericalNvector.meanOf	geodesy.sphericalNvector-module.html#meanOf
+geodesy.sphericalNvector.isclockwise	geodesy.sphericalNvector-module.html#isclockwise
 geodesy.sphericalNvector.degrees360	geodesy.utils-module.html#degrees360
 geodesy.sphericalNvector.isscalar	geodesy.utils-module.html#isscalar
 geodesy.sphericalNvector.__package__	geodesy.sphericalNvector-module.html#__package__

@@ -432,9 +432,9 @@
   
   <p>Return the destination point after having travelled for the given 
   distance from this point along a geodesic given by an initial bearing, 
-  using Vincenty's direct method.</p>
-  <p>See method destination2 for more details, parameter descriptions and 
-  exceptions thrown.</p>
+  using Vincenty's direct method.  See method <a 
+  href="geodesy.ellipsoidalVincenty.LatLon-class.html#destination2" 
+  class="link">destination2</a> for more details.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -530,9 +530,9 @@
   </tr></table>
   
   <p>Compute the distance between this and an other point along a geodesic,
-  using Vincenty's inverse method.</p>
-  <p>See method distanceTo3 for more details, parameter descriptions and 
-  exceptions thrown.</p>
+  using Vincenty's inverse method. See method <a 
+  href="geodesy.ellipsoidalVincenty.LatLon-class.html#distanceTo3" 
+  class="link">distanceTo3</a> for more details.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -542,6 +542,21 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance in meters (scalar).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        href="geodesy.ellipsoidalVincenty.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <code class="link">other</code> point's <a 
+        href="geodesy.datum.Datum-class.html" class="link">Datum</a> 
+        ellipsoids are not compatible.</li>
+        <li><code><strong class='fraise'><a href="geodesy.ellipsoidalVincenty.VincentyError-class.html">VincentyError</a></strong></code> - Vincenty fails to converge for the current <a 
+        href="geodesy.ellipsoidalVincenty.LatLon-class.html#epsilon" 
+        class="link">LatLon.epsilon</a> and <a 
+        href="geodesy.ellipsoidalVincenty.LatLon-class.html#iterations" 
+        class="link">LatLon.iterations</a> limit or this and the <code 
+        class="link">other</code> point coincide.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -620,9 +635,9 @@
   
   <p>Return the final bearing (reverse azimuth) after having travelled for 
   the given distance along a geodesic given by an initial bearing from this
-  point, using Vincenty's direct method.</p>
-  <p>See method destination2 for more details, parameter descriptions and 
-  exceptions thrown.</p>
+  point, using Vincenty's direct method.  See method <a 
+  href="geodesy.ellipsoidalVincenty.LatLon-class.html#destination2" 
+  class="link">destination2</a> for more details.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -665,9 +680,9 @@
   
   <p>Return the final bearing (reverse azimuth) after having travelled 
   along a geodesic from this point to an other point, using Vincenty's 
-  inverse method.</p>
-  <p>See method distanceTo3 for more details, parameter descriptions and 
-  exceptions thrown.</p>
+  inverse method.  See method <a 
+  href="geodesy.ellipsoidalVincenty.LatLon-class.html#distanceTo3" 
+  class="link">distanceTo3</a> for more details.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -685,6 +700,12 @@
         <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <code class="link">other</code> point's <a 
         href="geodesy.datum.Datum-class.html" class="link">Datum</a> 
         ellipsoids are not compatible.</li>
+        <li><code><strong class='fraise'><a href="geodesy.ellipsoidalVincenty.VincentyError-class.html">VincentyError</a></strong></code> - Vincenty fails to converge for the current <a 
+        href="geodesy.ellipsoidalVincenty.LatLon-class.html#epsilon" 
+        class="link">LatLon.epsilon</a> and <a 
+        href="geodesy.ellipsoidalVincenty.LatLon-class.html#iterations" 
+        class="link">LatLon.iterations</a> limit or this and the <code 
+        class="link">other</code> point coincide.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -716,9 +737,9 @@
   
   <p>Return the initial bearing (forward azimuth) to travel along a 
   geodesic from this point to an other point, using Vincenty's inverse 
-  method.</p>
-  <p>See method distanceTo3 for more details, parameter descriptions and 
-  exceptions thrown.</p>
+  method.  See method <a 
+  href="geodesy.ellipsoidalVincenty.LatLon-class.html#distanceTo3" 
+  class="link">distanceTo3</a> for more details.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -736,6 +757,12 @@
         <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <code class="link">other</code> point's <a 
         href="geodesy.datum.Datum-class.html" class="link">Datum</a> 
         ellipsoids are not compatible.</li>
+        <li><code><strong class='fraise'><a href="geodesy.ellipsoidalVincenty.VincentyError-class.html">VincentyError</a></strong></code> - Vincenty fails to converge for the current <a 
+        href="geodesy.ellipsoidalVincenty.LatLon-class.html#epsilon" 
+        class="link">LatLon.epsilon</a> and <a 
+        href="geodesy.ellipsoidalVincenty.LatLon-class.html#iterations" 
+        class="link">LatLon.iterations</a> limit or this and the <code 
+        class="link">other</code> point coincide.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -767,9 +794,9 @@
   
   <p>Return the initial bearing (forward azimuth) to travel along a 
   geodesic from this point to an other point, using Vincenty's inverse 
-  method.</p>
-  <p>See method distanceTo3 for more details, parameter descriptions and 
-  exceptions thrown.</p>
+  method.  See method <a 
+  href="geodesy.ellipsoidalVincenty.LatLon-class.html#distanceTo3" 
+  class="link">distanceTo3</a> for more details.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -787,6 +814,12 @@
         <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <code class="link">other</code> point's <a 
         href="geodesy.datum.Datum-class.html" class="link">Datum</a> 
         ellipsoids are not compatible.</li>
+        <li><code><strong class='fraise'><a href="geodesy.ellipsoidalVincenty.VincentyError-class.html">VincentyError</a></strong></code> - Vincenty fails to converge for the current <a 
+        href="geodesy.ellipsoidalVincenty.LatLon-class.html#epsilon" 
+        class="link">LatLon.epsilon</a> and <a 
+        href="geodesy.ellipsoidalVincenty.LatLon-class.html#iterations" 
+        class="link">LatLon.iterations</a> limit or this and the <code 
+        class="link">other</code> point coincide.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -819,7 +852,7 @@
   coordinates.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>The cartesian point (<a 
+        <dd>Ellipsoidal geocentric cartesian point (<a 
           href="geodesy.ellipsoidalVincenty.Cartesian-class.html" 
           class="link">Cartesian</a>).</dd>
   </dl>
@@ -844,12 +877,12 @@
   <p>Get the convergence epsilon (scalar).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
-    <dd class="value"><span class="summary-sig"><i>unreachable</i>.epsilon(<span class="summary-sig-arg">self</span>,
+    <dd class="value"><span class="summary-sig">epsilon(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">None</span>)</span>
         - Get the convergence epsilon (scalar).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig"><i>unreachable</i>.epsilon(<span class="summary-sig-arg">self</span>,
+    <dd class="value"><span class="summary-sig">epsilon(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">eps</span>)</span>
         - Set the convergence epsilon.
     </dd>
@@ -865,11 +898,11 @@
   <p>Get the iteration limit (int).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
-    <dd class="value"><span class="summary-sig"><i>unreachable</i>.iterations(<span class="summary-sig-arg">self</span>)</span>
+    <dd class="value"><span class="summary-sig">iterations(<span class="summary-sig-arg">self</span>)</span>
         - Get the iteration limit (int).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig"><i>unreachable</i>.iterations(<span class="summary-sig-arg">self</span>,
+    <dd class="value"><span class="summary-sig">iterations(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">limit</span>)</span>
         - Set the iteration limit.
     </dd>
@@ -908,7 +941,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Feb 12 21:36:57 2017
+    Generated by Epydoc 3.0.1 on Mon Feb 13 15:24:04 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

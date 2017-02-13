@@ -58,7 +58,7 @@ from math import atan2, cos, hypot, sin, tan
 
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'VincentyError')  # classes
-__version__ = '17.02.12'
+__version__ = '17.02.13'
 
 
 class VincentyError(Exception):
@@ -118,10 +118,7 @@ class LatLon(LatLonEllipsoidalBase):
         '''Return the destination point after having travelled
            for the given distance from this point along a geodesic
            given by an initial bearing, using Vincenty's direct
-           method.
-
-           See method destination2 for more details, parameter
-           descriptions and exceptions thrown.
+           method.  See method L{destination2} for more details.
 
            @param distance: Distance in meters (scalar).
            @param bearing: Initial bearing in compass degrees (scalar).
@@ -175,13 +172,21 @@ class LatLon(LatLonEllipsoidalBase):
     def distanceTo(self, other):
         '''Compute the distance between this and an other point
            along a geodesic, using Vincenty's inverse method.
-
-           See method distanceTo3 for more details, parameter
-           descriptions and exceptions thrown.
+           See method L{distanceTo3} for more details.
 
            @param other: The other point (L{LatLon}).
 
            @return: Distance in meters (scalar).
+
+           @raise TypeError: The L{other} point is not L{LatLon}.
+
+           @raise ValueError: If this and the L{other} point's L{Datum}
+                              ellipsoids are not compatible.
+
+           @raise VincentyError: Vincenty fails to converge for the current
+                                 L{LatLon.epsilon} and L{LatLon.iterations}
+                                 limit or this and the L{other} point
+                                 coincide.
 
            @example:
 
@@ -239,10 +244,7 @@ class LatLon(LatLonEllipsoidalBase):
         '''Return the final bearing (reverse azimuth) after having
            travelled for the given distance along a geodesic given
            by an initial bearing from this point, using Vincenty's
-           direct method.
-
-           See method destination2 for more details, parameter
-           descriptions and exceptions thrown.
+           direct method.  See method L{destination2} for more details.
 
            @param distance: Distance in meter (scalar).
            @param bearing: Initial bearing (compass degrees).
@@ -264,10 +266,8 @@ class LatLon(LatLonEllipsoidalBase):
     def finalBearingTo(self, other):
         '''Return the final bearing (reverse azimuth) after having
            travelled along a geodesic from this point to an other
-           point, using Vincenty's inverse method.
-
-           See method distanceTo3 for more details, parameter
-           descriptions and exceptions thrown.
+           point, using Vincenty's inverse method.  See method
+           L{distanceTo3} for more details.
 
            @param other: The other point (L{LatLon}).
 
@@ -277,6 +277,11 @@ class LatLon(LatLonEllipsoidalBase):
 
            @raise ValueError: If this and the L{other} point's L{Datum}
                               ellipsoids are not compatible.
+
+           @raise VincentyError: Vincenty fails to converge for the current
+                                 L{LatLon.epsilon} and L{LatLon.iterations}
+                                 limit or this and the L{other} point
+                                 coincide.
 
            @example:
 
@@ -293,10 +298,8 @@ class LatLon(LatLonEllipsoidalBase):
     def initialBearingTo(self, other):
         '''Return the initial bearing (forward azimuth) to travel
            along a geodesic from this point to an other point,
-           using Vincenty's inverse method.
-
-           See method distanceTo3 for more details, parameter
-           descriptions and exceptions thrown.
+           using Vincenty's inverse method.  See method
+           L{distanceTo3} for more details.
 
            @param other: The other point (L{LatLon}).
 
@@ -306,6 +309,11 @@ class LatLon(LatLonEllipsoidalBase):
 
            @raise ValueError: If this and the L{other} point's L{Datum}
                               ellipsoids are not compatible.
+
+           @raise VincentyError: Vincenty fails to converge for the current
+                                 L{LatLon.epsilon} and L{LatLon.iterations}
+                                 limit or this and the L{other} point
+                                 coincide.
 
            @example:
 
@@ -340,13 +348,17 @@ class LatLon(LatLonEllipsoidalBase):
         '''Convert this (geodetic) point to (geocentric) x/y/z
            cartesian coordinates.
 
-           @return: The cartesian point (L{Cartesian}).
+           @return: Ellipsoidal geocentric cartesian point (L{Cartesian}).
         '''
         x, y, z = self.to3xyz()  # ellipsoidalBase.LatLonEllipsoidalBase
         return Cartesian(x, y, z)  # this ellipsoidalVincenty.Cartesian
 
     def _direct(self, distance, bearing, llr):
         '''(INTERNAL) Direct Vincenty method.
+
+           @raise VincentyError: Vincenty fails to converge for the current
+                                 L{LatLon.epsilon} and L{LatLon.iterations}
+                                 limit.
         '''
         E = self.ellipsoid()
 
@@ -361,7 +373,7 @@ class LatLon(LatLonEllipsoidalBase):
         if c2a < EPS:
             c2a = 0
             A, B = 1, 0
-        else:  # e22 == (a / b) ^ 2 - 1
+        else:  # e22 == (a / b) ** 2 - 1
             A, B = _p2(c2a, E.e22)
 
         s = d = distance / (E.b * A)
@@ -389,6 +401,16 @@ class LatLon(LatLonEllipsoidalBase):
 
     def _inverse(self, other, azis):
         '''(INTERNAL) Inverse Vincenty method.
+
+           @raise TypeError: The L{other} point is not L{LatLon}.
+
+           @raise ValueError: If this and the L{other} point's L{Datum}
+                              ellipsoids are not compatible.
+
+           @raise VincentyError: Vincenty fails to converge for the current
+                                 L{LatLon.epsilon} and L{LatLon.iterations}
+                                 limit or this and the L{other} point
+                                 coincide.
         '''
         E = self.ellipsoids(other)
 
@@ -423,7 +445,7 @@ class LatLon(LatLonEllipsoidalBase):
         else:
             raise VincentyError('no convergence %r to %r' % (self, other))
 
-        if c2a:  # e22 == (a / b) ^ 2 - 1
+        if c2a:  # e22 == (a / b) ** 2 - 1
             A, B = _p2(c2a, E.e22)
             s = A * (s - _ds(B, cs, ss, c2sm))
 

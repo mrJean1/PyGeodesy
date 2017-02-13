@@ -69,7 +69,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.02.12
+        17.02.13
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -137,7 +137,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy.utils-module.html#cbrt" class="summary-sig-name">cbrt</a>(<span class="summary-sig-arg">x</span>)</span><br />
-      Compute the cubic root x^(1/3).</td>
+      Computes the cubic root <i class="math">x**(1/3)</i>.</td>
           <td align="right" valign="top">
             
             
@@ -154,7 +154,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy.utils-module.html#degrees90" class="summary-sig-name">degrees90</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Convert radians to degrees -270..+90.</td>
+      Converts and wraps radians to degrees <i class="math">-270..+90</i>.</td>
           <td align="right" valign="top">
             
             
@@ -171,7 +171,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy.utils-module.html#degrees180" class="summary-sig-name">degrees180</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Convert radians to degrees -180..+180.</td>
+      Converts and wraps radians to degrees <i class="math">-180..+180</i>.</td>
           <td align="right" valign="top">
             
             
@@ -188,7 +188,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy.utils-module.html#degrees360" class="summary-sig-name">degrees360</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Convert radians to degrees 0..+360.</td>
+      Converts and wraps radians to degrees <i class="math">0..+360</i>.</td>
           <td align="right" valign="top">
             
             
@@ -207,7 +207,7 @@
           <td><span class="summary-sig"><a href="geodesy.utils-module.html#false2f" class="summary-sig-name">false2f</a>(<span class="summary-sig-arg">value</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">value</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">false</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Convert false east-/northing to non-negative float.</td>
+      Converts false east-/northing to non-negative float.</td>
           <td align="right" valign="top">
             
             
@@ -225,7 +225,8 @@
         <tr>
           <td><span class="summary-sig"><a href="geodesy.utils-module.html#fdot" class="summary-sig-name">fdot</a>(<span class="summary-sig-arg">a</span>,
         <span class="summary-sig-arg">*b</span>)</span><br />
-      Precision dot product sum(a[i] * b[i] for i in range(len(a))).</td>
+      Precision dot product <i class="math">sum(a[i] * b[i] for i in 
+      range(len(a)))</i>.</td>
           <td align="right" valign="top">
             
             
@@ -245,8 +246,8 @@
         <span class="summary-sig-arg">b</span>,
         <span class="summary-sig-arg">c</span>,
         <span class="summary-sig-arg">start</span>=<span class="summary-sig-default">0</span>)</span><br />
-      Precision dot product sum(a[i] * b[i] * c[i] for i in range(len(a))) 
-      + start.</td>
+      Precision dot product <i class="math">sum(a[i] * b[i] * c[i] for i in
+      range(len(a))) + start</i>.</td>
           <td align="right" valign="top">
             
             
@@ -267,7 +268,7 @@
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">%.*f</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">ints</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Convert floats to string, optionally with trailing zero decimals 
+      Converts floats to string, optionally with trailing zero decimals 
       stripped.</td>
           <td align="right" valign="top">
             
@@ -285,7 +286,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy.utils-module.html#halfs" class="summary-sig-name">halfs</a>(<span class="summary-sig-arg">str2</span>)</span><br />
-      Split string in 2 halfs.</td>
+      Splits a string in 2 halfs.</td>
           <td align="right" valign="top">
             
             
@@ -302,7 +303,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy.utils-module.html#hypot1" class="summary-sig-name">hypot1</a>(<span class="summary-sig-arg">x</span>)</span><br />
-      Compute the norm sqrt(1 + x^2).</td>
+      Computes the norm <i class="math">sqrt(1 + x**2)</i>.</td>
           <td align="right" valign="top">
             
             
@@ -321,7 +322,7 @@
           <td><span class="summary-sig"><a href="geodesy.utils-module.html#hypot3" class="summary-sig-name">hypot3</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">y</span>,
         <span class="summary-sig-arg">z</span>)</span><br />
-      Compute the norm sqrt(x^2 + y^2 + z^2).</td>
+      Computes the norm <i class="math">sqrt(x**2 + y**2 + z**2)</i>.</td>
           <td align="right" valign="top">
             
             
@@ -337,8 +338,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="geodesy.utils-module.html#isint" class="summary-sig-name">isint</a>(<span class="summary-sig-arg">inst</span>)</span><br />
-      Check for integer object.</td>
+          <td><span class="summary-sig"><a href="geodesy.utils-module.html#isint" class="summary-sig-name">isint</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Checks for integer object or value.</td>
           <td align="right" valign="top">
             
             
@@ -354,8 +355,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="geodesy.utils-module.html#isscalar" class="summary-sig-name">isscalar</a>(<span class="summary-sig-arg">inst</span>)</span><br />
-      Check for scalar object.</td>
+          <td><span class="summary-sig"><a href="geodesy.utils-module.html#isscalar" class="summary-sig-name">isscalar</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Checks for scalar object.</td>
           <td align="right" valign="top">
             
             
@@ -372,8 +373,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy.utils-module.html#len2" class="summary-sig-name">len2</a>(<span class="summary-sig-arg">xtor</span>)</span><br />
-      Make built-in <code class="link">len</code>() work for generators, 
-      iterators, etc.</td>
+      Makes built-in <code class="link">len</code>() function work for 
+      generators, iterators, etc.</td>
           <td align="right" valign="top">
             
             
@@ -391,8 +392,8 @@
         <tr>
           <td><span class="summary-sig"><a href="geodesy.utils-module.html#map2" class="summary-sig-name">map2</a>(<span class="summary-sig-arg">func</span>,
         <span class="summary-sig-arg">*args</span>)</span><br />
-      Apply a function to arguments, like built-in map and return a tuple 
-      with the results.</td>
+      Applies arguments to a function, like built-in <code 
+      class="link">map</code>.</td>
           <td align="right" valign="top">
             
             
@@ -409,7 +410,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy.utils-module.html#radiansPI" class="summary-sig-name">radiansPI</a>(<span class="summary-sig-arg">deg</span>)</span><br />
-      Convert degrees to radians -PI..+PI.</td>
+      Converts and wraps degrees to radians <i class="math">-PI..+PI</i>.</td>
           <td align="right" valign="top">
             
             
@@ -426,7 +427,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy.utils-module.html#radiansPI2" class="summary-sig-name">radiansPI2</a>(<span class="summary-sig-arg">deg</span>)</span><br />
-      Convert degrees to radians 0..+2PI.</td>
+      Converts and wraps degrees to radians <i class="math">0..+2PI</i>.</td>
           <td align="right" valign="top">
             
             
@@ -443,7 +444,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy.utils-module.html#radiansPI_2" class="summary-sig-name">radiansPI_2</a>(<span class="summary-sig-arg">deg</span>)</span><br />
-      Convert degrees to radians -3PI/2..+PI/2.</td>
+      Converts and wraps degrees to radians <i 
+      class="math">-3PI/2..+PI/2</i>.</td>
           <td align="right" valign="top">
             
             
@@ -460,7 +462,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy.utils-module.html#sin_2" class="summary-sig-name">sin_2</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Compute sin of half angle.</td>
+      Computes sin of half angle.</td>
           <td align="right" valign="top">
             
             
@@ -477,7 +479,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy.utils-module.html#tanPI_2_2" class="summary-sig-name">tanPI_2_2</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Compute tan of half angle, rotated.</td>
+      Computes tan of half angle, rotated.</td>
           <td align="right" valign="top">
             
             
@@ -494,7 +496,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy.utils-module.html#wrap90" class="summary-sig-name">wrap90</a>(<span class="summary-sig-arg">deg</span>)</span><br />
-      Wrap degrees to -270..+90.</td>
+      Wraps degrees to <i class="math">-270..+90</i>.</td>
           <td align="right" valign="top">
             
             
@@ -511,7 +513,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy.utils-module.html#wrap180" class="summary-sig-name">wrap180</a>(<span class="summary-sig-arg">deg</span>)</span><br />
-      Wrap degrees to -180..+180.</td>
+      Wraps degrees to <i class="math">-180..+180</i>.</td>
           <td align="right" valign="top">
             
             
@@ -528,7 +530,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy.utils-module.html#wrapPI" class="summary-sig-name">wrapPI</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Wrap radians to -PI..+PI.</td>
+      Wraps radians to <i class="math">-PI..+PI</i>.</td>
           <td align="right" valign="top">
             
             
@@ -545,7 +547,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy.utils-module.html#wrapPI2" class="summary-sig-name">wrapPI2</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Wrap radians to 0..+2PI.</td>
+      Wraps radians to <i class="math">0..+2PI</i>.</td>
           <td align="right" valign="top">
             
             
@@ -562,7 +564,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy.utils-module.html#wrapPI_2" class="summary-sig-name">wrapPI_2</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Wrap radians to -3PI/2..+PI/2.</td>
+      Wraps radians to <i class="math">-3PI/2..+PI/2</i>.</td>
           <td align="right" valign="top">
             
             
@@ -609,7 +611,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="EPS2"></a><span class="summary-name">EPS2</span> = <code title="1.49011611938e-08">1.49011611938e-08</code><br />
-      sqrt(EPS) (float)
+      <i class="math">sqrt(EPS)</i> (float)
     </td>
   </tr>
 <tr>
@@ -617,7 +619,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="PI2"></a><span class="summary-name">PI2</span> = <code title="6.28318530718">6.28318530718</code><br />
-      Two PI, PI * 2 (float)  # PYCHOK expected
+      Two PI, <i class="math">PI * 2</i> (float)  # PYCHOK expected
     </td>
   </tr>
 <tr>
@@ -625,7 +627,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="PI_2"></a><span class="summary-name">PI_2</span> = <code title="1.57079632679">1.57079632679</code><br />
-      Half PI, PI / 2 (float)
+      Half PI, <i class="math">PI / 2</i> (float)
     </td>
   </tr>
 </table>
@@ -671,7 +673,7 @@
     </td>
   </tr></table>
   
-  <p>Compute the cubic root x^(1/3).</p>
+  <p>Computes the cubic root <i class="math">x**(1/3)</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -696,14 +698,15 @@
     </td>
   </tr></table>
   
-  <p>Convert radians to degrees -270..+90.</p>
+  <p>Converts and wraps radians to degrees <i 
+  class="math">-270..+90</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Wrapped degrees (degrees90).</dd>
+        <dd>Degrees, wrapped (degrees90).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -721,14 +724,15 @@
     </td>
   </tr></table>
   
-  <p>Convert radians to degrees -180..+180.</p>
+  <p>Converts and wraps radians to degrees <i 
+  class="math">-180..+180</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Wrapped degrees (degrees180).</dd>
+        <dd>Degrees, wrapped (degrees180).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -746,14 +750,14 @@
     </td>
   </tr></table>
   
-  <p>Convert radians to degrees 0..+360.</p>
+  <p>Converts and wraps radians to degrees <i class="math">0..+360</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Wrapped degrees (degrees360).</dd>
+        <dd>Degrees, wrapped (degrees360).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -773,13 +777,13 @@
     </td>
   </tr></table>
   
-  <p>Convert false east-/northing to non-negative float.</p>
+  <p>Converts false east-/northing to non-negative float.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>value</code></strong> - Value to convert (scalar).</li>
         <li><strong class="pname"><code>name</code></strong> - Name of the value (string).</li>
-        <li><strong class="pname"><code>false</code></strong> - Value must be false (bool).</li>
+        <li><strong class="pname"><code>false</code></strong> - Value must include false origin (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The value (float).</dd>
@@ -805,12 +809,13 @@
     </td>
   </tr></table>
   
-  <p>Precision dot product sum(a[i] * b[i] for i in range(len(a))).</p>
+  <p>Precision dot product <i class="math">sum(a[i] * b[i] for i in 
+  range(len(a)))</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>a</code></strong> - List, tuple or sequence (scalars).</li>
-        <li><strong class="pname"><code>b</code></strong> - List, tuple or sequence (scalars).</li>
+        <li><strong class="pname"><code>a</code></strong> - List, sequence, tuple, etc. (scalars).</li>
+        <li><strong class="pname"><code>b</code></strong> - List, sequence, tuple, etc. (scalars).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Dot product (float).</dd>
@@ -839,14 +844,14 @@
     </td>
   </tr></table>
   
-  <p>Precision dot product sum(a[i] * b[i] * c[i] for i in range(len(a))) +
-  start.</p>
+  <p>Precision dot product <i class="math">sum(a[i] * b[i] * c[i] for i in 
+  range(len(a))) + start</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>a</code></strong> - List, tuple or sequence (scalars).</li>
-        <li><strong class="pname"><code>b</code></strong> - List, tuple or sequence (scalars).</li>
-        <li><strong class="pname"><code>c</code></strong> - List, tuple or sequence (scalars).</li>
+        <li><strong class="pname"><code>a</code></strong> - List, sequence, tuple, etc. (scalars).</li>
+        <li><strong class="pname"><code>b</code></strong> - List, sequence, tuple, etc. (scalars).</li>
+        <li><strong class="pname"><code>c</code></strong> - List, sequence, tuple, etc. (scalars).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Dot product (float).</dd>
@@ -877,20 +882,21 @@
     </td>
   </tr></table>
   
-  <p>Convert floats to string, optionally with trailing zero decimals 
+  <p>Converts floats to string, optionally with trailing zero decimals 
   stripped.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>floats</code></strong> - List, set, sequence or tuple (scalars).</li>
-        <li><strong class="pname"><code>prec</code></strong> - Number of decimals, unstripped.  Trailing zero decimals are not 
-          stripped if prec is 2 or less.</li>
-        <li><strong class="pname"><code>sep</code></strong> - Separator to join (string).</li>
-        <li><strong class="pname"><code>fmt</code></strong> - Float format (string).</li>
-        <li><strong class="pname"><code>ints</code></strong> - Remove dot for integer values (bool).</li>
+        <li><strong class="pname"><code>floats</code></strong> - List, sequence, tuple, etc. (scalars).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimals, unstripped.  Trailing zero decimals
+          are not stripped if <code class="link">prec</code> is 2 or 
+          negative.</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional, separator to join (string).</li>
+        <li><strong class="pname"><code>fmt</code></strong> - Optional, float format (string).</li>
+        <li><strong class="pname"><code>ints</code></strong> - Optionally, remove decimal dot (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Floats as 'f, f, ... f' (string).</dd>
+        <dd>The <code class="link">floats</code> as 'f, f, ... f' (string).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -908,7 +914,7 @@
     </td>
   </tr></table>
   
-  <p>Split string in 2 halfs.</p>
+  <p>Splits a string in 2 halfs.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -918,7 +924,7 @@
         <dd>2-Tuple (1st, 2nd) halfs (strings).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - If <code class="link">str2</code> has zero or odd length.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Zero or odd <code class="link">str2</code> length.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -937,7 +943,7 @@
     </td>
   </tr></table>
   
-  <p>Compute the norm sqrt(1 + x^2).</p>
+  <p>Computes the norm <i class="math">sqrt(1 + x**2)</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -964,7 +970,7 @@
     </td>
   </tr></table>
   
-  <p>Compute the norm sqrt(x^2 + y^2 + z^2).</p>
+  <p>Computes the norm <i class="math">sqrt(x**2 + y**2 + z**2)</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -984,21 +990,21 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">isint</span>(<span class="sig-arg">inst</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isint</span>(<span class="sig-arg">obj</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Check for integer object.</p>
+  <p>Checks for integer object or value.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>inst</code></strong> - An object (any).</li>
+        <li><strong class="pname"><code>obj</code></strong> - An object (any).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if inst is integer (bool).</dd>
+        <dd>True if <code class="link">obj</code> is integer (bool).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1009,21 +1015,21 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">isscalar</span>(<span class="sig-arg">inst</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isscalar</span>(<span class="sig-arg">obj</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Check for scalar object.</p>
+  <p>Checks for scalar object.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>inst</code></strong> - An object (any).</li>
+        <li><strong class="pname"><code>obj</code></strong> - An object (any).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if inst is scalar (bool).</dd>
+        <dd>True if <code class="link">obj</code> is scalar (bool).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1041,8 +1047,8 @@
     </td>
   </tr></table>
   
-  <p>Make built-in <code class="link">len</code>() work for generators, 
-  iterators, etc. since those can only be started once.</p>
+  <p>Makes built-in <code class="link">len</code>() function work for 
+  generators, iterators, etc. since those can only be started once.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -1068,8 +1074,12 @@
     </td>
   </tr></table>
   
-  <p>Apply a function to arguments, like built-in map and return a tuple 
-  with the results.</p>
+  <p>Applies arguments to a function, like built-in <code 
+  class="link">map</code>.</p>
+  <p>Python 3+ <code class="link">map</code> returns a <code 
+  class="link">map</code> object, an iterator-like object which generates 
+  the results only once.  Converting the <code class="link">map</code> 
+  object into a tuple maintains Python 2 behavior.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -1079,12 +1089,7 @@
     <dt>Returns:</dt>
         <dd>Function results (tuple).</dd>
   </dl>
-<div class="fields">      <p><strong>Note:</strong>
-        Python 3+ map returns a map object, an iterator-like object which 
-        generates the map result only once.  Converting the map object into
-        a tuple restores the Python 2 behavior.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="radiansPI"></a>
 <div>
@@ -1100,14 +1105,15 @@
     </td>
   </tr></table>
   
-  <p>Convert degrees to radians -PI..+PI.</p>
+  <p>Converts and wraps degrees to radians <i 
+  class="math">-PI..+PI</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Angle (degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Radians (radiansPI)</dd>
+        <dd>Radians, wrapped (radiansPI)</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1125,14 +1131,14 @@
     </td>
   </tr></table>
   
-  <p>Convert degrees to radians 0..+2PI.</p>
+  <p>Converts and wraps degrees to radians <i class="math">0..+2PI</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Angle (degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Radians (radiansPI2)</dd>
+        <dd>Radians, wrapped (radiansPI2)</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1150,14 +1156,15 @@
     </td>
   </tr></table>
   
-  <p>Convert degrees to radians -3PI/2..+PI/2.</p>
+  <p>Converts and wraps degrees to radians <i 
+  class="math">-3PI/2..+PI/2</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Angle (degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Radians (radiansPI_2)</dd>
+        <dd>Radians, wrapped (radiansPI_2)</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1175,14 +1182,14 @@
     </td>
   </tr></table>
   
-  <p>Compute sin of half angle.</p>
+  <p>Computes sin of half angle.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Sin(rad / 2) (float).</dd>
+        <dd><i class="math">sin(rad / 2)</i> (float).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1200,14 +1207,14 @@
     </td>
   </tr></table>
   
-  <p>Compute tan of half angle, rotated.</p>
+  <p>Computes tan of half angle, rotated.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Tan((rad + PI/2) / 2) (float).</dd>
+        <dd><i class="math">tan((rad + PI/2) / 2)</i> (float).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1225,14 +1232,14 @@
     </td>
   </tr></table>
   
-  <p>Wrap degrees to -270..+90.</p>
+  <p>Wraps degrees to <i class="math">-270..+90</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Angle (degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Wrapped degrees (degrees90).</dd>
+        <dd>Degrees, wrapped (degrees90).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1250,14 +1257,14 @@
     </td>
   </tr></table>
   
-  <p>Wrap degrees to -180..+180.</p>
+  <p>Wraps degrees to <i class="math">-180..+180</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Angle (degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Wrapped degrees (degrees180).</dd>
+        <dd>Degrees, wrapped (degrees180).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1275,14 +1282,14 @@
     </td>
   </tr></table>
   
-  <p>Wrap radians to -PI..+PI.</p>
+  <p>Wraps radians to <i class="math">-PI..+PI</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Wrapped radians (radiansPI).</dd>
+        <dd>Radians, wrapped (radiansPI).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1300,14 +1307,14 @@
     </td>
   </tr></table>
   
-  <p>Wrap radians to 0..+2PI.</p>
+  <p>Wraps radians to <i class="math">0..+2PI</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Wrapped radians (radiansPI2).</dd>
+        <dd>Radians, wrapped (radiansPI2).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1325,14 +1332,14 @@
     </td>
   </tr></table>
   
-  <p>Wrap radians to -3PI/2..+PI/2.</p>
+  <p>Wraps radians to <i class="math">-3PI/2..+PI/2</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Wrapped radians (radiansPI_2).</dd>
+        <dd>Radians, wrapped (radiansPI_2).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1368,7 +1375,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Feb 12 21:36:57 2017
+    Generated by Epydoc 3.0.1 on Mon Feb 13 15:24:03 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

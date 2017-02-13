@@ -23,7 +23,7 @@ __all__ = ('F_D', 'F_DM', 'F_DMS', 'F_RAD',  # format contants
            'bearingDMS', 'compassDMS', 'compassPoint',  # functions
            'latDMS', 'lonDMS', 'normDMS',
            'parseDMS', 'parse3llh', 'precision', 'toDMS')
-__version__ = '17.02.09'
+__version__ = '17.02.13'
 
 F_D   = 'd'    #: Format degrees as deg° (string).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (string).
@@ -44,7 +44,7 @@ _S_ALL  = (S_DEG, S_MIN, S_SEC) + tuple(_S_norm.keys())  #: (INTERNAL) alternate
 
 
 def _toDMS(deg, form, prec, ddd):
-    '''(INTERNAL) Convert numeric degrees, without sign or suffix.
+    '''(INTERNAL) Converts degrees to string, without sign or suffix.
     '''
     try:
         d = abs(float(deg))
@@ -89,13 +89,13 @@ def _toDMS(deg, form, prec, ddd):
 
 
 def bearingDMS(bearing, form=F_D, prec=None):
-    '''Convert bearing.
+    '''Converts bearing to string.
 
-       @param bearing: Bearing from North (degrees).
-       @keyword form: Use F_D, F_DM, F_DMS for deg°, deg°min', deg°min'sec".
-       @keyword prec: Optional number of decimal digits (0..9 or None).
+       @param bearing: Bearing from North (compass degrees).
+       @keyword form: Use F_D, F_DM, F_DMS or F_RAD for deg°, deg°min′, deg°min′sec″ or radians.
+       @keyword prec: Optional, number of decimal digits (0..9 or None).
 
-       @return: Bearing per the specified form (string).
+       @return: Compass degrees per the specified form (string).
     '''
     return _toDMS(bearing % 360, form, prec, 3)
 
@@ -111,24 +111,24 @@ _M_X = {1: (4, 4), 2: (8, 2), 3: (16, 1)}  #: (INTERNAL) precs
 
 
 def compassDMS(bearing, form=F_D, prec=None):
-    '''Convert bearing suffixed with compass point.
+    '''Converts bearing to string suffixed with compass point.
 
-       @param bearing: Bearing from North (degrees).
-       @keyword form: Use F_D, F_DM, F_DMS for deg°, deg°min', deg°min'sec".
-       @keyword prec: Optional number of decimal digits (0..9 or None).
+       @param bearing: Bearing from North (compass degrees).
+       @keyword form: Use F_D, F_DM, F_DMS or F_RAD for deg°, deg°min′, deg°min′sec″ or radians.
+       @keyword prec: Optional, number of decimal digits (0..9 or None).
 
-       @return: Bearing per the specified form and compass point (string).
+       @return: Compass degrees and point per the specified form (string).
     '''
     t = bearingDMS(bearing, form=form, prec=prec), compassPoint(bearing)
     return S_SEP.join(t)
 
 
 def compassPoint(bearing, prec=3):
-    '''Convert bearing to compass point.
+    '''Converts bearing to compass point.
 
-       @param bearing: Bearing from North (degrees).
-       @keyword prec: Precision (1: cardinal, 2: intercardinal or
-                                 3: secondary-intercardinal).
+       @param bearing: Bearing from North (compass degrees).
+       @keyword prec: Optional precision (1 for cardinal, 2 for
+                      intercardinal or 3 for secondary-intercardinal).
 
        @return: Compass point (1-, 2- or 3-letter string).
 
@@ -142,18 +142,18 @@ def compassPoint(bearing, prec=3):
     try:
         m, x = _M_X[prec]
     except KeyError:
-        raise ValueError('invalid prec: %r' % (prec,))
+        raise ValueError('%s invalid: %r' % ('prec', prec))
 
     q = int(round((bearing % 360) * m / 360.0)) % m
     return _COMPASS[q * x]
 
 
 def latDMS(deg, form=F_DMS, prec=2):
-    '''Convert latitude suffixed with N or S.
+    '''Converts latitude to string suffixed with N or S.
 
-       @param deg: Lat to be formatted as specified (degrees).
-       @keyword form: Use F_D, F_DM, F_DMS for deg°, deg°min', deg°min'sec".
-       @keyword prec: Optional number of decimal digits (0..9 or None).
+       @param deg: Latitude to be formatted (degrees).
+       @keyword form: Use F_D, F_DM, F_DMS or F_RAD for deg°, deg°min′, deg°min′sec″ or radians.
+       @keyword prec: Optional, number of decimal digits (0..9 or None).
 
        @return: Degrees per the specified form (string).
     '''
@@ -164,11 +164,11 @@ toLat = latDMS  # XXX original name
 
 
 def lonDMS(deg, form=F_DMS, prec=2):
-    '''Convert longitude suffixed with E or W.
+    '''Converts longitude to string suffixed with E or W.
 
-       @param deg: Lon to be formatted as specified (degrees).
-       @keyword form: Use F_D, F_DM, F_DMS for deg°, deg°min', deg°min'sec".
-       @keyword prec: Optional number of decimal digits (0..9 or None).
+       @param deg: Longitude to be formatted (degrees).
+       @keyword form: Use F_D, F_DM, F_DMS or F_RAD for deg°, deg°min′, deg°min′sec″ or radians.
+       @keyword prec: Optional, number of decimal digits (0..9 or None).
 
        @return: Degrees per the specified form (string).
     '''
@@ -179,7 +179,7 @@ toLon = lonDMS  # XXX original name
 
 
 def normDMS(strDMS):
-    '''Normalize the degree ˚, minute ' and second " symbols
+    '''Normalizes the degree ˚, minute ' and second " symbols
        in a string to the defaults %s, %s and %s.
 
        @param strDMS: DMS (string).
@@ -198,18 +198,21 @@ if __debug__:  # no __doc__ at -O and -OO
 def parse3llh(strll, height=0, sep=','):
     '''Parse a string representing lat-, longitude and height point.
 
-       The lat- and longitude must be separated by a sep[arator]
-       character.  If height is present it must follow and be separated
-       by another sep[arator].  Lat- and longitude may be swapped,
-       provided at least one ends with the proper compass direction.
+       The lat- and longitude value must be separated by a L{sep}arator
+       character.  If height is present it must follow, separated by
+       another L{sep}arator.
 
-       See function L{parseDMS} for more details on the forms accepted.
+       The lat- and longitude values may be swapped, provided at least
+       one ends with the proper compass direction.
+
+       See function L{parseDMS} for more details on the forms and
+       symbols accepted.
 
        @param strll: Lat, lon[, height] (string).
-       @keyword height: Default height (meter).
+       @keyword height: Default for missing height (meter).
        @keyword sep: Optional, separator (string).
 
-       @return: 3-Tuple (Lat, lon, height).
+       @return: 3-Tuple (Lat, lon, height) as (scalar, ...).
 
        @raise ValueError: Invalid L{strll}.
 
@@ -223,7 +226,7 @@ def parse3llh(strll, height=0, sep=','):
     else:
         h = height
     if len(ll) != 2:
-        return ValueError('parsing %r' % (strll,))
+        return ValueError('parsing %r failed' % (strll,))
 
     a, b = [_.strip() for _ in ll]
     if a[-1:] in 'EW' or b[-1:] in 'NS':
@@ -232,15 +235,16 @@ def parse3llh(strll, height=0, sep=','):
 
 
 def parseDMS(strDMS, suffix='NSEW'):
-    '''Parse a string representing deg°min'sec" into degrees.
+    '''Parse a string representing deg° min' sec" into degrees.
 
        This is very flexible on formats, allowing signed decimal
        degrees, degrees and minutes or degrees minutes and seconds
-       optionally suffixed by compass direction NSEW.  A variety of
-       separators are accepted, for example 3° 37' 09"W.  Minutes
-       and seconds may be omitted.
+       optionally suffixed by compass direction NSEW.
 
-       @param strDMS: Degrees in one of several forms (string).
+       A variety of symbols, separators and suffixes are accepted,
+       for example 3° 37' 09"W.  Minutes and seconds may be omitted.
+
+       @param strDMS: Degrees in any of several forms (string).
        @keyword suffix: Optional, valid compass directions (NEWS).
 
        @return: Degrees (float).
@@ -269,17 +273,17 @@ def parseDMS(strDMS, suffix='NSEW'):
             d = -d
 
     except (IndexError, ValueError):
-        raise ValueError('parsing %r' % (strDMS,))
+        raise ValueError('parsing %r failed' % (strDMS,))
 
     return d
 
 
 def precision(form, prec=None):
-    '''Set the default precison for a given F_ format.
+    '''Sets the default precison for a given F_ form.
 
-       @param form: F_D, F_DM, F_DMS (string).
-       @keyword prec: Optional number of decimal digits
-                      or None to remain unchanged (int).
+       @param form: F_D, F_DM, F_DMS or F_RAD (string).
+       @keyword prec: Optional, number of decimal digits (int)
+                      or None to remain unchanged.
 
        @return: Previous precision (int).
     '''
@@ -296,14 +300,14 @@ def precision(form, prec=None):
 
 
 def toDMS(deg, form=F_DMS, prec=2, ddd=2, neg='-', pos=''):
-    '''Convert signed degrees, without suffix.
+    '''Converts signed degrees to string, without suffix.
 
-       @param deg: Degrees to be formatted as specified.
-       @keyword form: F_D, F_DM, F_DMS, F_RAD for deg°, deg°min', deg°min'sec".
-       @keyword prec: Optional number of decimal digits (0..9 or None).
-       @keyword ddd: Optional number of digits for deg° (2 or 3).
-       @keyword neg: Optional sign for negative degrees ('-').
-       @keyword pos: Optional sign for positive degrees ('').
+       @param deg: Degrees to be formatted (scalar).
+       @keyword form: F_D, F_DM, F_DMS or F_RAD for deg°, deg°min′, deg°min′sec″ or radians.
+       @keyword prec: Optional, number of decimal digits (0..9 or None).
+       @keyword ddd: Optional, number of digits for deg° (2 or 3).
+       @keyword neg: Optional, sign for negative degrees ('-').
+       @keyword pos: Optional, sign for positive degrees ('').
 
        @return: Degrees per the specified form (string).
     '''

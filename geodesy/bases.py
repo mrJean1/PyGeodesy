@@ -18,7 +18,7 @@ from math import cos, radians, sin
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('Base', 'LatLonHeightBase', 'Named', 'VectorBase')
-__version__ = '17.02.12'
+__version__ = '17.02.13'
 
 
 class Base(object):
@@ -199,11 +199,19 @@ class LatLonHeightBase(Base):
 
            @param points: The points defining the polygon (LatLon[]).
 
-           @return: True if clockwise, False if counter- or anti-
-                    clockwise.
+           @return: True if clockwise, False otherwise.
 
-           @raise ValueError: Too few L{points} or if the polygon
-                              has zero area.
+           @raise TypeError: Some L{points} are not LatLon.
+
+           @raise ValueError: Too few L{points} or polygon has zero area.
+
+           @example:
+
+           >>> f = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
+           >>> LatLon(0,0).isclockwise(f)  # False
+
+           >>> t = LatLon(45,1), LatLon(46,1), LatLon(46,2)
+           >>> LatLon(0,0).isclockwise(t)  # True
         '''
         def _2xy(p):  # map to flat x-y space
             return wrap180(p.lon), wrap90(p.lat)

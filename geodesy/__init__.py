@@ -66,27 +66,27 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 @newfield example: Example, Examples
 
-@var EPS:  System's epsilon (float)
-@var EPS1: 1 - EPS (float)
-@var EPS2: sqrt(EPS) (float)
+@var EPS:  System's M{epsilon} (float)
+@var EPS1: M{1 - EPS} (float)
+@var EPS2: M{sqrt(EPS)} (float)
 
 @var F_D:   Format degrees as deg° (string).
 @var F_DM:  Format degrees as deg°min′ (string).
 @var F_DMS: Format degrees as deg°min′sec″ (string).
-@var F_RAD: Convert degrees to radians and format (string).
+@var F_RAD: Converts degrees to radians and format (string).
 
-@var PI:   Constant math.pi (float)
-@var PI2:  Two PI, PI * 2 (float)
-@var PI_2: Half PI, PI / 2 (float)
+@var PI:   Constant M{math.pi} (float)
+@var PI2:  Two PI, M{math.pi * 2} (float)
+@var PI_2: Half PI, M{math.pi / 2} (float)
 
 @var R_KM: Mean, spherical earth radius (kilo meter).
 @var R_M:  Mean, spherical earth radius (meter).
 @var R_NM: Mean, spherical earth radius (nautical miles).
 @var R_SM: Mean, spherical earth radius (statute miles).
 
-@var S_DEG: Degrees ° symbol (string).
-@var S_MIN: Minutes ′ symbol (string).
-@var S_SEC: Seconds ″ symbol (string).
+@var S_DEG: Degrees symbol '°' (string).
+@var S_MIN: Minutes symbol '′' (string).
+@var S_SEC: Seconds symbol '″' (string).
 @var S_SEP: Separator between deg°, min′ and sec″ (string).
 
 @var Conics:     Registered conics (enum).
@@ -121,7 +121,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',
            'sphericalNvector', 'sphericalTrigonometry',
            'VincentyError',
            'nvector', 'vector3d')  # extended below
-__version__ = '17.02.12'
+__version__ = '17.02.13'
 
 # lift all public classes, constants, functions, etc. but
 # only from the following sub-modules ... (see also David

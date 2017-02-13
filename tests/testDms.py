@@ -15,9 +15,9 @@ if __name__ == '__main__':
     t.results()
     t.exit()
 
-    # Typical test results (on MacOS 10.12.2):
+    # Typical test results (on MacOS 10.12.3):
 
-    # testing geodesy.dms version 17.02.09
+    # testing geodesy.dms version 17.02.13
     # test 1 parseDMS: 0.0
     # test 2 parseDMS: 0.0
     # test 3 parseDMS: 0.0
@@ -50,7 +50,7 @@ if __name__ == '__main__':
     # test 30 compassPoint: WSW
     # all geodesy.dms tests passed (Python 2.7.13 64bit)
 
-    # testing geodesy.dms version 17.02.09
+    # testing dms version 17.02.13
     # test 1 parseDMS: 0.0
     # test 2 parseDMS: 0.0
     # test 3 parseDMS: 0.0
@@ -81,4 +81,4 @@ if __name__ == '__main__':
     # test 28 compassPoint: W
     # test 29 compassPoint: SW
     # test 30 compassPoint: WSW
-    # all geodesy.dms tests passed (Python 3.6.0 64bit)
+    # all dms tests passed (Python 3.6.0 64bit)

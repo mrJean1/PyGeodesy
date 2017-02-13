@@ -183,9 +183,9 @@ if __name__ == '__main__':
     t = testGreatCircle(sphericalTrigonometry)
     t.exit(e)
 
-    # Typical test results (on MacOS 10.12.2):
+    # Typical test results (on MacOS 10.12.3):
 
-    # testing geodesy.sphericalNvector version 17.02.09
+    # testing geodesy.sphericalNvector version 17.02.13
     # test 1 InitialBearingSameLocations: 0.0
     # test 2 InitialBearingEqualLocations: 0.0
     # test 3 FinalBearingSameLocations: 180.0
@@ -217,7 +217,7 @@ if __name__ == '__main__':
     # test 29 CrossTrackDistanceThatShouldBeVeryCloseToZero: 0.00000000
     # 5 geodesy.sphericalNvector tests (17.2%) FAILED, incl. 5 KNOWN (Python 2.7.13 64bit)
 
-    # testing geodesy.sphericalTrigonometry version 17.02.09
+    # testing geodesy.sphericalTrigonometry version 17.02.12
     # test 1 InitialBearingSameLocations: 0.0
     # test 2 InitialBearingEqualLocations: 0.0
     # test 3 FinalBearingSameLocations: 180.0
@@ -249,7 +249,7 @@ if __name__ == '__main__':
     # test 29 CrossTrackDistanceThatShouldBeVeryCloseToZero: 0.00000000
     # 5 geodesy.sphericalTrigonometry tests (17.2%) FAILED, incl. 5 KNOWN (Python 2.7.13 64bit)
 
-    # testing sphericalNvector version 17.02.09
+    # testing sphericalNvector version 17.02.13
     # test 1 InitialBearingSameLocations: 0.0
     # test 2 InitialBearingEqualLocations: 0.0
     # test 3 FinalBearingSameLocations: 180.0
@@ -281,7 +281,7 @@ if __name__ == '__main__':
     # test 29 CrossTrackDistanceThatShouldBeVeryCloseToZero: 0.00000000
     # 5 sphericalNvector tests (17.2%) FAILED, incl. 5 KNOWN (Python 3.6.0 64bit)
 
-    # testing sphericalTrigonometry version 17.02.09
+    # testing sphericalTrigonometry version 17.02.12
     # test 1 InitialBearingSameLocations: 0.0
     # test 2 InitialBearingEqualLocations: 0.0
     # test 3 FinalBearingSameLocations: 180.0
