@@ -35,7 +35,7 @@ from math import asin, atan2, cos, hypot, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '17.02.09'
+__version__ = '17.02.12'
 
 
 class Cartesian(CartesianBase):
@@ -127,11 +127,13 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
 #     def bearingTo(self, other):
 #         '''Return the initial bearing (forward azimuth) from this
-#            to an other point, in compass degrees from North.
+#            to an other point.
 #
 #            @param other: The other point (L{LatLon}).
 #
-#            @return: Initial bearing from North (degrees).
+#            @return: Initial bearing in compass degrees (degrees360).
+#
+#            @raise TypeError: The L{other} point is not L{LatLon}.
 #
 #            @example:
 #
@@ -141,8 +143,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #         '''
 #         self.others(other)
 #
-#         v1 = self.toVector3d()
-#         v2 = other.toVector3d()
+#         v1 = self.toNvector()
+#         v2 = other.toNvector()
 #
 #         gc1 = v1.cross(v2)  # gc through v1 & v2
 #         gc2 = v1.cross(_NP3)  # gc through v1 & North pole
@@ -156,12 +158,14 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #
 #            @param start: Start point of great circle path (L{LatLon}).
 #            @param end: End point of great circle path (L{LatLon}) or
-#                        initial bearing from North (in degrees) at the
+#                        initial bearing (in compass degrees) at the
 #                        great circle start point.
 #            @keyword radius: Mean earth radius (meter).
 #
 #            @return: Distance to great circle, negative if to left or
 #                     positive if to right of path (scalar).
+#
+#            @raise TypeError: The L{start} point is not L{LatLon}.
 #
 #            @example:
 #
@@ -177,12 +181,12 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #         self.others(start, name='start')
 #
 #         if isinstance(end, LatLon):  # gc by two points
-#             gc = start.toVector3d().cross(end.toVector3d())
+#             gc = start.toNvector().cross(end.toNvector())
 #         else:  # gc from point and bearing
 #             gc = start.greatCircle(end)
 #
 #         # (signed) angle between point and gc normal vector
-#         v = self.toVector3d()
+#         v = self.toNvector()
 #         a = gc.angleTo(v, v.cross(gc))
 #         if a < 0:
 #             a = -PI_2 - a
@@ -202,6 +206,10 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
            @param other: The other point (L{LatLon}).
 
            @return: Delta of this point (L{Ned}).
+
+           @raise TypeError: The L{other} point is not L{LatLon}.
+
+           @raise ValueError: If ellipsoids are incompatible.
 
            @example:
 
@@ -227,7 +235,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #
 #            @param distance: Distance traveled (same units as the
 #                             given earth radius.
-#            @param bearing: Initial bearing from North (degrees).
+#            @param bearing: Initial bearing (compass degrees).
 #            @keyword radius: Mean earth radius (meter).
 #
 #            @return: Destination point (L{LatLon}).
@@ -242,7 +250,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #         # great circle by starting from this point on given bearing
 #         gc = self.greatCircle(bearing)
 #
-#         v1 = self.toVector3d()
+#         v1 = self.toNvector()
 #         x = v1.times(cos(r))  # component of v2 parallel to v1
 #         y = gc.cross(v1).times(sin(r))  # component of v2 perpendicular to v1
 #
@@ -257,6 +265,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
            @return: Destination point (L{Cartesian}).
 
+           @raise TypeError: The L{delta} is not L{Ned}.
+
            @example:
 
            >>> a = LatLon(49.66618, 3.45063)
@@ -264,7 +274,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
            >>> b = a.destinationNed(delta)  # 48.88667°N, 002.37472°E
         '''
         if not isinstance(delta, Ned):
-            raise TypeError('%s not a %s.%s' % ('delta', Ned.__module__, Ned.__name__))
+            raise TypeError('type(%s) not %s.%s' % ('delta',
+                             Ned.__module__, Ned.__name__))
 
         n, e, d = self._rotation3()
         # convert NED delta to standard Vector3d in coordinate frame of n-vector
@@ -290,6 +301,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #
 #            @return: Distance (meter).
 #
+#            @raise TypeError: The L{other} point is not L{LatLon}.
+#
 #            @example:
 #
 #            >>> p = LatLon(52.205, 0.119)
@@ -312,6 +325,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #
 #            @return: Distance (meter).
 #
+#            @raise TypeError: The L{other} point is not L{LatLon}.
+#
 #            @example:
 #
 #            >>> p = LatLon(52.205, 0.119)
@@ -332,6 +347,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
            @return: True if points are identical (bool).
 
+           @raise TypeError: The L{other} point is not L{LatLon}.
+
            @example:
 
            >>> p = LatLon(52.205, 0.119)
@@ -342,13 +359,14 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
                self.height == other.height and self.datum == other.datum
 
 #     def greatCircle(self, bearing):
-#         '''Great circle heading on given bearing from this point.
+#         '''Great circle heading on the given bearing from this point.
 #
-#            Direction of vector is such that initial bearing vector b = c x p.
+#            Direction of vector is such that initial bearing vector
+#            b = c × p, where p is representing this point.
 #
-#            @param bearing: Compass bearing from North (degrees).
+#            @param bearing: Bearing from this point (compass degrees).
 #
-#            @return: Normalised vector representing great circle (L{Vector3d}).
+#            @return: N-vector representing great circle (L{Nvector}).
 #
 #            @example:
 #
@@ -363,9 +381,9 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #         cb, sb = cos(b), sin(b)
 #         cc, sc = cos(c), sin(c)
 #
-#         return Vector3d(sa * cc - ca * sb * sc,
-#                        -ca * cc - sa * sb * sc,
-#                         cb * sc)
+#         return Nvector(sa * cc - ca * sb * sc,
+#                       -ca * cc - sa * sb * sc,
+#                        cb * sc)
 
     def intermediateTo(self, other, fraction):
         '''Returns the point at given fraction between this and
@@ -376,6 +394,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
                             0 = this point to 1 = other point (float).
 
            @return: Intermediate point (L{LatLon}).
+
+           @raise TypeError: The L{other} point is not L{LatLon}.
 
            @example:
 
@@ -398,161 +418,6 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         return i
 
     intermediatePointTo = intermediateTo  # XXX original name
-
-#     def intersection(self, end, start2, end2):
-#         '''Return the point of intersection of two paths, each defined
-#            by a start and end point or a start point and bearing.
-#
-#            @param end: End point (L{LatLon}) of first path or the
-#                        initial bearing from North (degrees) at this point.
-#            @param start2: Start point of second path (L{LatLon}).
-#            @param end2: End point (L{LatLon}) of second path or the
-#                         initial bearing from North (degrees) at start2.
-#
-#            @return: Intersection point (L{LatLon}).
-#
-#            @example:
-#
-#            >>> p1 = LatLon(51.8853, 0.2545); b1 = 108.55
-#            >>> p2 = LatLon(49.0034, 2.5735); b2 =  32.44
-#            >>> i = p1.intersection(b1, p2, b2)
-#            >>> i.toStr()  # 50.9076°N, 004.5086°E
-#         '''
-#         self.others(start2, name='start2')
-#
-#         # If gc1 & gc2 are great circles through start and end points
-#         # (or defined by start point plus bearing), then candidate
-#         # intersections are simply gc1 x gc2 and gc2 x gc1.  Most of
-#         # the work is deciding the correct intersection point to select!
-#
-#         # If bearing is given, that determines which intersection, if both
-#         # paths are defined by start/end points, take closer intersection
-#
-#         # gc1 and gc2 are vectors defining great circles through
-#         # start and end points; v x gc gives initial bearing vector
-#
-#         v1 = self.toVector3d()
-#         e1 = isinstance(end, LatLon)
-#         if e1:  # path1 defined by end point
-#             e1 = end.toVector3d()
-#             gc1 = v1.cross(e1)
-#         else:  # path1 defined by initial bearing
-#             gc1 = self.greatCircle(end)
-#
-#         v2 = start2.toVector3d()
-#         e2 = isinstance(end2, LatLon)
-#         if e2:  # path2 defined by end point
-#             e2 = end2.toVector3d()
-#             gc2 = v2.cross(e2)
-#         else:  # path2 defined by initial bearing
-#             gc2 = start2.greatCircle(end2)
-#
-#         # there are two antipodal candidate intersection
-#         # points ... we have to choose the one to return
-#         i1 = gc1.cross(gc2)
-#         i2 = gc2.cross(gc1)
-#
-#         # selection of intersection point depends on how
-#         # paths are defined (by bearings or endpoints)
-#         if e1 and e2:  # endpoint+endpoint
-#             d = sumOf((v1, v2, e1, e2)).dot(i1)
-#         elif e1 and not e2:  # endpoint+bearing
-#             # gc2 x v2 . i1 +ve means v2 bearing points to i1
-#             d = gc2.cross(v2).dot(i1)
-#         elif e2 and not e1:  # bearing+endpoint
-#             # gc1 x v1 . i1 +ve means v1 bearing points to i1
-#             d = gc1.cross(v1).dot(i1)
-#         else:  # bearing+bearing
-#             # if gc x v . i1 is +ve, initial bearing is
-#             # towards i1, otherwise towards antipodal i2
-#             d1 = gc1.cross(v1).dot(i1)
-#             d2 = gc2.cross(v2).dot(i1)
-#             if d1 > 0 and d2 > 0:
-#                 d = 1  # both point to i1
-#             elif d1 < 0 and d2 < 0:
-#                 d = -1  # both point to i2
-#             else:  # d1, d2 opposite signs
-#                 # intersection is at further-away intersection
-#                 # point, take opposite intersection from mid-
-#                 # point of v1 and v2 [is this always true?]
-#                 d = -v1.plus(v2).dot(i1)
-#         i = i1 if d > 0 else i2
-#         return i.toLatLon()
-
-#     def isEnclosedBy(self, points):
-#         '''Test whether this point is enclosed by the (convex)
-#            polygon defined by a set of points.
-#
-#            @param points: Ordered set of points defining the polygon
-#                           (L{LatLon}[]).
-#
-#            @return: True if this point is enclosed (bool).
-#
-#            @raise ValueError: If polygon is not convex or has too
-#                               few L{points}.
-#
-#            @example:
-#
-#            >>> r = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
-#            >>> p = LatLon(45.1, 1.1)
-#            >>> i = p.isEnclosedBy(r)  # True
-#         '''
-#         n, points = len2(points)
-#         if n > 0 and points[0].equals(points[n-1]):
-#             n -= 1
-#         if n < 3:
-#             raise ValueError('too few points: %s' % (n,))
-#
-#         # get great-circle vector for each edge
-#         gc, v2 = [], points[n-1].toVector3d()
-#         for i in range(n):
-#             v1 = v2
-#             v2 = points[i].toVector3d()
-#             gc.append(v1.cross(v2))
-#
-#         v = self.toVector3d()
-#         # check whether this point on same side of all
-#         # polygon edges (to the left or right depending
-#         # on anti-/clockwise polygon direction)
-#         t0 = gc[0].angleTo(v) > PI_2  # True if on the right
-#         for i in range(1, n):
-#             ti = gc[i].angleTo(v) > PI_2
-#             if ti != t0:  # different sides of edge i
-#                 return False  # outside
-#
-#         # check for convex polygon (otherwise
-#         # the test above is not reliable)
-#         gc2 = gc[n-1]
-#         for i in range(n):
-#             gc1 = gc2
-#             gc2 = gc[i]
-#             # angle between gc vectors,
-#             # signed by direction of v
-#             if gc1.angleTo(gc2, v) < 0:
-#                 raise ValueError('polygon is not convex')
-#
-#         return True  # inside
-
-#     def midpointTo(self, other):
-#         '''Return the midpoint between this and an other point.
-#
-#            @param other: The other point (L{LatLon}).
-#
-#            @return: Midpoint (L{LatLon}).
-#
-#            @example:
-#
-#            >>> p = LatLon(52.205, 0.119)
-#            >>> q = LatLon(48.857, 2.351)
-#            >>> m = p.midpointTo(q)
-#            >>> m.toStr()  # '50.5363°N, 001.2746°E'
-#         '''
-#         self.others(other)
-#
-#         v1 = self.toVector3d()
-#         v2 = other.toVector3d()
-#         m = v1.plus(v2).unit()
-#         return m.toLatLon(self._alter(other))
 
     def toCartesian(self):
         '''Convert this (geodetic) LatLon point to (geocentric) x/y/z
@@ -602,7 +467,7 @@ class Ned(object):
     '''North-Eeast-Down (NED), also known as Local Tangent Plane (LTP),
        is a vector in the local coordinate frame of a body.
     '''
-    _bearing   = None  #: (INTERNAL) Cache bearing (degrees).
+    _bearing   = None  #: (INTERNAL) Cache bearing (compass degrees).
     _elevation = None  #: (INTERNAL) Cache elevation (degrees).
     _length    = None  #: (INTERNAL) Cache length (scalar).
 
@@ -629,7 +494,7 @@ class Ned(object):
 
     @property
     def bearing(self):
-        '''Get bearing of this NED vector in degrees from North (degrees360).
+        '''Get bearing of this NED vector in compass degrees (degrees360).
         '''
         if self._bearing is None:
             self._bearing = degrees360(atan2(self.east, self.north))
@@ -692,6 +557,9 @@ class Ned(object):
            @return: North, east, down vector (L{Vector3d}).
         '''
         return Vector3d(*self.to3ned())
+
+
+_Nvll = LatLon(0, 0)  #: (INTERNAL) Reference instance (L{LatLon}).
 
 
 class Nvector(NvectorBase):
@@ -799,8 +667,11 @@ def meanOf(points, datum=Datums.WGS84):
        @param points: Array of points to be averaged (L{LatLon}[]).
        @keyword datum: Optional datum to use (L{Datum}).
 
-       @return: Point at the geographic mean and mean height (L{LatLon}).
+       @return: Point at geographic mean and mean height (L{LatLon}).
+
+       @raise ValueError: Too few L{points}.
     '''
+    _, points = _Nvll.points(points, closed=False)
     # geographic mean
     m = sumOf(p.toNvector() for p in points)
     a, b, h = m.to3llh()
@@ -812,7 +683,7 @@ def toNed(distance, bearing, elevation):
        (in local coordinate system).
 
        @param distance: NED vector length in meter (scalar).
-       @param bearing: NED vector bearing from North in degrees (scalar).
+       @param bearing: NED vector bearing in compass degrees (scalar).
        @param elevation: NED vector elevation in degrees from local
                          coordinate frame horizontal (scalar).
 

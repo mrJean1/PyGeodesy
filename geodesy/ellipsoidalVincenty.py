@@ -58,7 +58,7 @@ from math import atan2, cos, hypot, sin, tan
 
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'VincentyError')  # classes
-__version__ = '17.02.09'
+__version__ = '17.02.12'
 
 
 class VincentyError(Exception):
@@ -124,9 +124,13 @@ class LatLon(LatLonEllipsoidalBase):
            descriptions and exceptions thrown.
 
            @param distance: Distance in meters (scalar).
-           @param bearing: Initial bearing in degrees from North (scalar).
+           @param bearing: Initial bearing in compass degrees (scalar).
 
            @return: The destination point (L{LatLon}).
+
+           @raise VincentyError: Vincenty fails to converge for the current
+                                 L{LatLon.epsilon} and L{LatLon.iterations}
+                                 limit.
 
            @example:
 
@@ -146,18 +150,19 @@ class LatLon(LatLonEllipsoidalBase):
            surface of the ellipsoid, ignoring this point's height.
 
            The initial and final bearing (aka forward and reverse azimuth)
-           are in compass degrees from North.
+           are in compass degrees.
 
            The destination point's height and datum are set to this
            point's height and datum.
 
            @param distance: Distance in meters (scalar).
-           @param bearing: Initial bearing in degrees from North (scalar).
+           @param bearing: Initial bearing in compass degrees (scalar).
 
            @return: 2-Tuple (destination, final bearing) in (L{LatLon}, degrees360).
 
-           @raise VincentyError: If Vincenty failed to converge for the
-           current L{LatLon.epsilon} and L{LatLon.iterations} limit.
+           @raise VincentyError: Vincenty fails to converge for the current
+                                 L{LatLon.epsilon} and L{LatLon.iterations}
+                                 limit.
 
            @example:
 
@@ -203,13 +208,15 @@ class LatLon(LatLonEllipsoidalBase):
            @return: 3-Tuple (distance, initial bearing, final bearing)
            in (meter, degrees360, degree360).
 
-           @raise TypeError: If this and the L{other} point's L{LatLon}
-           types are incompatiple.
+           @raise TypeError: The L{other} point is not L{LatLon}.
+
            @raise ValueError: If this and the L{other} point's L{Datum}
-           ellipsoids do not match.
-           @raise VincentyError: If both points coincide or if Vincenty
-           fails to converge for the current L{LatLon.epsilon} and
-           L{LatLon.iterations} limit.
+                              ellipsoids are not compatible.
+
+           @raise VincentyError: Vincenty fails to converge for the current
+                                 L{LatLon.epsilon} and L{LatLon.iterations}
+                                 limit or this and the L{other} point
+                                 coincide.
         '''
         return self._inverse(other, True)
 
@@ -238,9 +245,13 @@ class LatLon(LatLonEllipsoidalBase):
            descriptions and exceptions thrown.
 
            @param distance: Distance in meter (scalar).
-           @param bearing: Initial bearing from North (degrees).
+           @param bearing: Initial bearing (compass degrees).
 
            @return: Final bearing from North (degrees360).
+
+           @raise VincentyError: Vincenty fails to converge for the current
+                                 L{LatLon.epsilon} and L{LatLon.iterations}
+                                 limit.
 
            @example:
 
@@ -260,7 +271,12 @@ class LatLon(LatLonEllipsoidalBase):
 
            @param other: The other point (L{LatLon}).
 
-           @return: Final bearing from North (degrees360).
+           @return: Final bearing in compass degrees (degrees360).
+
+           @raise TypeError: The L{other} point is not L{LatLon}.
+
+           @raise ValueError: If this and the L{other} point's L{Datum}
+                              ellipsoids are not compatible.
 
            @example:
 
@@ -284,7 +300,12 @@ class LatLon(LatLonEllipsoidalBase):
 
            @param other: The other point (L{LatLon}).
 
-           @return: Initial bearing from North (degrees360).
+           @return: Initial bearing in compass degrees (degrees360).
+
+           @raise TypeError: The L{other} point is not L{LatLon}.
+
+           @raise ValueError: If this and the L{other} point's L{Datum}
+                              ellipsoids are not compatible.
 
            @example:
 

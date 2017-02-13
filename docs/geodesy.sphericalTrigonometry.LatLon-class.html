@@ -96,8 +96,8 @@
         <tr>
           <td><span class="summary-sig"><a href="geodesy.sphericalTrigonometry.LatLon-class.html#bearingTo" class="summary-sig-name">bearingTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
-      Computes the initial bearing (forward azimuth) from this to an other 
-      point (in compass degrees from North).</td>
+      Computes the initial bearing (aka forward azimuth) from this to an 
+      other point.</td>
           <td align="right" valign="top">
             
             
@@ -218,7 +218,7 @@
           <td><span class="summary-sig"><a href="geodesy.sphericalTrigonometry.LatLon-class.html#greatCircle" class="summary-sig-name">greatCircle</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">bearing</span>)</span><br />
       Computes vector normal to great circle obtained by heading on the 
-      given compass bearing from this point.</td>
+      given initial bearing from this point.</td>
           <td align="right" valign="top">
             
             
@@ -257,8 +257,8 @@
         <span class="summary-sig-arg">bearing</span>,
         <span class="summary-sig-arg">start2</span>,
         <span class="summary-sig-arg">bearing2</span>)</span><br />
-      Return the intersection point of two paths each defined by a start 
-      point and an initial bearing.</td>
+      Locates the intersection of two paths each defined by a start point 
+      and an initial bearing.</td>
           <td align="right" valign="top">
             
             
@@ -293,81 +293,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="isWithin"></a><span class="summary-sig-name">isWithin</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">point1</span>,
-        <span class="summary-sig-arg">point2</span>)</span></td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="isWithinExtent"></a><span class="summary-sig-name">isWithinExtent</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">point1</span>,
-        <span class="summary-sig-arg">point2</span>)</span></td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a href="geodesy.sphericalTrigonometry.LatLon-class.html#midpointTo" class="summary-sig-name">midpointTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
       Finds the midpoint between this and an other point.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="nearestOn"></a><span class="summary-sig-name">nearestOn</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">point1</span>,
-        <span class="summary-sig-arg">point2</span>)</span></td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="nearestPointOnSegment"></a><span class="summary-sig-name">nearestPointOnSegment</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">point1</span>,
-        <span class="summary-sig-arg">point2</span>)</span></td>
           <td align="right" valign="top">
             
             
@@ -414,13 +342,15 @@
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#__str__">__str__</a></code>,
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#copy">copy</a></code>,
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#equals">equals</a></code>,
+      <code><a href="geodesy.bases.LatLonHeightBase-class.html#isclockwise">isclockwise</a></code>,
+      <code><a href="geodesy.bases.LatLonHeightBase-class.html#points">points</a></code>,
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#to3xyz">to3xyz</a></code>,
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#toStr">toStr</a></code>,
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#toradians">toradians</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="geodesy.bases.Base-class.html">bases.Base</a></code></b>:
       <code><a href="geodesy.bases.Base-class.html#__repr__">__repr__</a></code>,
-      <code><a href="geodesy.bases.Base-class.html#notImplemented">notImplemented</a></code>,
+      <code><a href="geodesy.bases.Base-class.html#classname">classname</a></code>,
       <code><a href="geodesy.bases.Base-class.html#others">others</a></code>,
       <code><a href="geodesy.bases.Base-class.html#toStr2">toStr2</a></code>,
       <code><a href="geodesy.bases.Base-class.html#topsub">topsub</a></code>
@@ -488,8 +418,8 @@
     </td>
   </tr></table>
   
-  <p>Computes the initial bearing (forward azimuth) from this to an other 
-  point (in compass degrees from North).</p>
+  <p>Computes the initial bearing (aka forward azimuth) from this to an 
+  other point.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -498,10 +428,10 @@
           class="link">LatLon</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Initial bearing from North (degrees).</dd>
+        <dd>Initial bearing (compass degrees).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - If <code class="link">other</code> is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
         href="geodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -579,6 +509,13 @@
     <dt>Returns:</dt>
         <dd>Distance to great circle (negative if to the left or positive if 
           to the right of the path).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">start</code> or <code 
+        class="link">end</code> point is not <a 
+        href="geodesy.sphericalTrigonometry.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -613,7 +550,7 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>distance</code></strong> - Distance travelled (same units radius).</li>
-        <li><strong class="pname"><code>bearing</code></strong> - Initial compass bearing (degrees).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Bearing from this point (compass degrees).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (meter).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -652,7 +589,7 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>distance</code></strong> - Distance travelled (same units radius).</li>
-        <li><strong class="pname"><code>bearing</code></strong> - Initial compass bearing (degrees).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Bearing from this point (compass degrees).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (meter).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -694,8 +631,14 @@
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (meter).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Distance between this and the other point (in the same units as 
-          radius).</dd>
+        <dd>Distance between this and the <code class="link">other</code> 
+          point (in the same units as radius).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        href="geodesy.sphericalTrigonometry.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -721,13 +664,13 @@
   </tr></table>
   
   <p>Computes vector normal to great circle obtained by heading on the 
-  given compass bearing from this point.</p>
-  <p>Direction of vector is such that initial bearing vector b = c x p, 
-  where p is a vector representing this point.</p>
+  given initial bearing from this point.</p>
+  <p>Direction of vector is such that initial bearing vector b = c &#215; n, 
+  where n is an n-vector representing this point.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>bearing</code></strong> - Compass bearing (degrees).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Bearing from this point (compass degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Vector representing great circle (<a 
@@ -767,12 +710,18 @@
           href="geodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>fraction</code></strong> - Fraction between both points (float, 0.0 = this point, 1.0 = the 
-          other point).</li>
+          <code class="link">other</code> point).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Intermediate point (<a 
           href="geodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        href="geodesy.sphericalTrigonometry.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -799,16 +748,17 @@
     </td>
   </tr></table>
   
-  <p>Return the intersection point of two paths each defined by a start 
-  point and an initial bearing.</p>
+  <p>Locates the intersection of two paths each defined by a start point 
+  and an initial bearing.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>bearing</code></strong> - Initial compass bearing from this point (degrees).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Initial bearing from this point (compass degrees).</li>
         <li><strong class="pname"><code>start2</code></strong> - Start point of second path (<a 
           href="geodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>bearing2</code></strong> - Initial compass bearing from start2 (degrees).</li>
+        <li><strong class="pname"><code>bearing2</code></strong> - Initial bearing from <code class="link">start2</code> (compass 
+          degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Intersection point (<a 
@@ -851,7 +801,7 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - Ordered set of points defining the vertices of the polygon (<a 
+        <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<a 
           href="geodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>[]).</li>
     </ul></dd>
@@ -859,7 +809,12 @@
         <dd>True if the polygon encloses this point (bool).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - If polygon is not convex or has too few points.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Too few <a href="geodesy.bases.LatLonHeightBase-class.html#points" 
+        class="link">points</a> or non-convex polygon.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <a href="geodesy.bases.LatLonHeightBase-class.html#points" 
+        class="link">points</a> are not <a 
+        href="geodesy.sphericalTrigonometry.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -897,6 +852,12 @@
         <dd>Midpoint (<a 
           href="geodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        href="geodesy.sphericalTrigonometry.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -961,7 +922,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Feb  9 21:21:49 2017
+    Generated by Epydoc 3.0.1 on Sun Feb 12 21:36:57 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

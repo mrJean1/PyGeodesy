@@ -23,9 +23,9 @@ if __name__ == '__main__':
     t.results()
     t.exit()
 
-    # Typical test results (on MacOS 10.12.2):
+    # Typical test results (on MacOS 10.12.3):
 
-    # testing geodesy.sphericalNvector version 17.02.10
+    # testing geodesy.sphericalNvector version 17.02.12
     # test 1 lat/lonDMS: 52.20472°N, 000.14056°E
     # test 2 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
     # test 3 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
@@ -81,7 +81,7 @@ if __name__ == '__main__':
     # test 53 triangulate: 47.323667°N, 002.568501°W
     # all geodesy.sphericalNvector tests passed (Python 2.7.13 64bit)
 
-    # testing geodesy.sphericalTrigonometry version 17.02.09
+    # testing geodesy.sphericalTrigonometry version 17.02.12
     # test 1 lat/lonDMS: 52.20472°N, 000.14056°E
     # test 2 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
     # test 3 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
@@ -102,7 +102,7 @@ if __name__ == '__main__':
     # test 18 destination: 51°30′49″N, 000°05′54″W
     # test 19 destination: 34°37′N, 116°33′W
     # test 20 destination: 34.613643°N, 116.551171°W
-    # test 21 crossTrackDistanceTo: LatLon.crossTrackDistanceTo(end=bearing)
+    # test 21 crossTrackDistanceTo: type(end) mismatch: int vs sphericalTrigonometry.LatLon
     # test 22 crossTrackDistanceTo: -307.55
     # test 23 greatCircle: (-0.79408, 0.12856, 0.59406)
     # test 24 intermediateTo: 51.372084°N, 000.707337°E
@@ -119,7 +119,7 @@ if __name__ == '__main__':
     # test 35 rhumbMidpointo: 51.0455°N, 001.595727°E
     # all geodesy.sphericalTrigonometry tests passed (Python 2.7.13 64bit)
 
-    # testing sphericalNvector version 17.02.10
+    # testing sphericalNvector version 17.02.12
     # test 1 lat/lonDMS: 52.20472°N, 000.14056°E
     # test 2 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
     # test 3 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
@@ -175,7 +175,7 @@ if __name__ == '__main__':
     # test 53 triangulate: 47.323667°N, 002.568501°W
     # all sphericalNvector tests passed (Python 3.6.0 64bit)
 
-    # testing sphericalTrigonometry version 17.02.09
+    # testing sphericalTrigonometry version 17.02.12
     # test 1 lat/lonDMS: 52.20472°N, 000.14056°E
     # test 2 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
     # test 3 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
@@ -196,7 +196,7 @@ if __name__ == '__main__':
     # test 18 destination: 51°30′49″N, 000°05′54″W
     # test 19 destination: 34°37′N, 116°33′W
     # test 20 destination: 34.613643°N, 116.551171°W
-    # test 21 crossTrackDistanceTo: LatLon.crossTrackDistanceTo(end=bearing)
+    # test 21 crossTrackDistanceTo: type(end) mismatch: int vs sphericalTrigonometry.LatLon
     # test 22 crossTrackDistanceTo: -307.55
     # test 23 greatCircle: (-0.79408, 0.12856, 0.59406)
     # test 24 intermediateTo: 51.372084°N, 000.707337°E

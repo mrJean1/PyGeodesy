@@ -21,7 +21,7 @@ from vector3d import Vector3d, sumOf as _sumOf
 __all__ = ('NorthPole', 'SouthPole',  # constants
            'Nvector',  # classes
            'sumOf')  # functions
-__version__ = '17.02.09'
+__version__ = '17.02.11'
 
 
 class Nvector(Vector3d):  # XXX kept private
@@ -139,7 +139,7 @@ class LatLonNvectorBase(LatLonHeightBase):
            @param other: The other point (L{LatLon}).
            @keyword name: Other's name (string).
 
-           @raise TypeError: For type mismatch.
+           @raise TypeError: Incompatible type(L{other}).
         '''
         try:
             LatLonHeightBase.others(self, other, name=name)

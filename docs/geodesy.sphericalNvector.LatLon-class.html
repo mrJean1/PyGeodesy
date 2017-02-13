@@ -107,8 +107,8 @@
         <tr>
           <td><span class="summary-sig"><a href="geodesy.sphericalNvector.LatLon-class.html#bearingTo" class="summary-sig-name">bearingTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
-      Computes the initial bearing (forward azimuth) from this to an other 
-      point (in compass degrees from North).</td>
+      Computes the initial bearing (aka forward azimuth) from this to an 
+      other point.</td>
           <td align="right" valign="top">
             
             
@@ -150,7 +150,7 @@
         <span class="summary-sig-arg">bearing</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77142</span>)</span><br />
       Locates the destination from this point after having travelled the 
-      given distance on the given initial bearing.</td>
+      given distance on the given bearing.</td>
           <td align="right" valign="top">
             
             
@@ -171,7 +171,7 @@
         <span class="summary-sig-arg">bearing</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77142</span>)</span><br />
       Locates the destination from this point after having travelled the 
-      given distance on the given initial bearing.</td>
+      given distance on the given bearing.</td>
           <td align="right" valign="top">
             
             
@@ -208,8 +208,8 @@
         <tr>
           <td><span class="summary-sig"><a href="geodesy.sphericalNvector.LatLon-class.html#greatCircle" class="summary-sig-name">greatCircle</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">bearing</span>)</span><br />
-      Computes vector normal to great circle obtained by heading on the 
-      given compass bearing from this point.</td>
+      Computes the vector normal to great circle obtained by heading on the
+      given bearing from this point.</td>
           <td align="right" valign="top">
             
             
@@ -227,8 +227,8 @@
         <tr>
           <td><span class="summary-sig"><a href="geodesy.sphericalNvector.LatLon-class.html#greatCircleTo" class="summary-sig-name">greatCircleTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
-      Vector normal to great circle obtained by heading from this point to 
-      another point on a given compass bearing from this point.</td>
+      Computes the vector normal to great circle obtained by heading from 
+      this to an other point or on a given bearing.</td>
           <td align="right" valign="top">
             
             
@@ -347,8 +347,8 @@
         <tr>
           <td><span class="summary-sig"><a href="geodesy.sphericalNvector.LatLon-class.html#isEnclosedBy" class="summary-sig-name">isEnclosedBy</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">points</span>)</span><br />
-      Tests whether this point is enclosed by the polygon defined by a 
-      list, sequence, set or tuple of points.</td>
+      Tests whether this point is enclosed by a (convex) polygon defined by
+      a list, sequence, set or tuple of points.</td>
           <td align="right" valign="top">
             
             
@@ -366,8 +366,8 @@
         <tr>
           <td><span class="summary-sig"><a href="geodesy.sphericalNvector.LatLon-class.html#enclosedBy" class="summary-sig-name">enclosedBy</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">points</span>)</span><br />
-      Tests whether this point is enclosed by the polygon defined by a 
-      list, sequence, set or tuple of points.</td>
+      Tests whether this point is enclosed by a (convex) polygon defined by
+      a list, sequence, set or tuple of points.</td>
           <td align="right" valign="top">
             
             
@@ -522,9 +522,9 @@
         <tr>
           <td><span class="summary-sig"><a href="geodesy.sphericalNvector.LatLon-class.html#trilaterate" class="summary-sig-name">trilaterate</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">distance1</span>,
-        <span class="summary-sig-arg">other2</span>,
+        <span class="summary-sig-arg">point2</span>,
         <span class="summary-sig-arg">distance2</span>,
-        <span class="summary-sig-arg">other3</span>,
+        <span class="summary-sig-arg">point3</span>,
         <span class="summary-sig-arg">distance3</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77142</span>)</span><br />
       Locates a point at given distances from this and two other points.</td>
@@ -561,13 +561,15 @@
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#__str__">__str__</a></code>,
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#copy">copy</a></code>,
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#equals">equals</a></code>,
+      <code><a href="geodesy.bases.LatLonHeightBase-class.html#isclockwise">isclockwise</a></code>,
+      <code><a href="geodesy.bases.LatLonHeightBase-class.html#points">points</a></code>,
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#to3xyz">to3xyz</a></code>,
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#toStr">toStr</a></code>,
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#toradians">toradians</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="geodesy.bases.Base-class.html">bases.Base</a></code></b>:
       <code><a href="geodesy.bases.Base-class.html#__repr__">__repr__</a></code>,
-      <code><a href="geodesy.bases.Base-class.html#notImplemented">notImplemented</a></code>,
+      <code><a href="geodesy.bases.Base-class.html#classname">classname</a></code>,
       <code><a href="geodesy.bases.Base-class.html#toStr2">toStr2</a></code>,
       <code><a href="geodesy.bases.Base-class.html#topsub">topsub</a></code>
       </p>
@@ -634,8 +636,8 @@
     </td>
   </tr></table>
   
-  <p>Computes the initial bearing (forward azimuth) from this to an other 
-  point (in compass degrees from North).</p>
+  <p>Computes the initial bearing (aka forward azimuth) from this to an 
+  other point.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -644,10 +646,10 @@
           class="link">LatLon</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Initial compass bearing (degrees).</dd>
+        <dd>Initial bearing (compass degrees).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - If <code class="link">other</code> is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
         href="geodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -693,6 +695,13 @@
     <dt>Returns:</dt>
         <dd>Distance to great circle (negative if to the left or positive if 
           to the right of the path).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">start</code> or <code 
+        class="link">end</code> point is not <a 
+        href="geodesy.sphericalNvector.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -724,12 +733,12 @@
   </tr></table>
   
   <p>Locates the destination from this point after having travelled the 
-  given distance on the given initial bearing.</p>
+  given distance on the given bearing.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>distance</code></strong> - Distance travelled (same units radius).</li>
-        <li><strong class="pname"><code>bearing</code></strong> - Initial compass bearing (degrees).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Bearing from this point (compass degrees).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (meter).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -763,12 +772,12 @@
   </tr></table>
   
   <p>Locates the destination from this point after having travelled the 
-  given distance on the given initial bearing.</p>
+  given distance on the given bearing.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>distance</code></strong> - Distance travelled (same units radius).</li>
-        <li><strong class="pname"><code>bearing</code></strong> - Initial compass bearing (degrees).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Bearing from this point (compass degrees).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (meter).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -804,14 +813,20 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - the other point (<a 
+        <li><strong class="pname"><code>other</code></strong> - The other point (<a 
           href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (meter).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Distance between this and the other point (in the same units as 
-          radius).</dd>
+        <dd>Distance between this and the <code class="link">other</code> 
+          point (in the same units as radius).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        href="geodesy.sphericalNvector.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -836,17 +851,17 @@
     </td>
   </tr></table>
   
-  <p>Computes vector normal to great circle obtained by heading on the 
-  given compass bearing from this point.</p>
-  <p>Direction of vector is such that initial bearing vector b = c x n, 
+  <p>Computes the vector normal to great circle obtained by heading on the 
+  given bearing from this point.</p>
+  <p>Direction of vector is such that initial bearing vector b = c &#215; n, 
   where n is an n-vector representing this point.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (degrees).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Bearing from this point (compass degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Normalised vector representing great circle (<a 
+        <dd>N-vector representing great circle (<a 
           href="geodesy.sphericalNvector.Nvector-class.html" 
           class="link">Nvector</a>).</dd>
   </dl>
@@ -873,22 +888,28 @@
     </td>
   </tr></table>
   
-  <p>Vector normal to great circle obtained by heading from this point to 
-  another point on a given compass bearing from this point.</p>
-  <p>Direction of vector is such that initial bearing vector b = c x n, 
+  <p>Computes the vector normal to great circle obtained by heading from 
+  this to an other point or on a given bearing.</p>
+  <p>Direction of vector is such that initial bearing vector b = c &#215; n, 
   where n is an n-vector representing this point.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<a 
           href="geodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>) or the bearing from this point 
-          (degrees).</li>
+          class="link">LatLon</a>) or the bearing from this point (compass 
+          degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Normalised vector representing great circle (<a 
+        <dd>N-vector representing great circle (<a 
           href="geodesy.sphericalNvector.Nvector-class.html" 
           class="link">Nvector</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        href="geodesy.sphericalNvector.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -927,12 +948,18 @@
           href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>fraction</code></strong> - Fraction between both points (float, 0.0 = this point, 1.0 = 
-          other point.</li>
+          other point).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Intermediate point (<a 
           href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        href="geodesy.sphericalNvector.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -967,12 +994,18 @@
           href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>fraction</code></strong> - Fraction between both points (float, 0.0 = this point, 1.0 = 
-          other point.</li>
+          other point).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Intermediate point (<a 
           href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        href="geodesy.sphericalNvector.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -1006,13 +1039,19 @@
         <li><strong class="pname"><code>other</code></strong> - The other point (<a 
           href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>fraction</code></strong> - Fraction between both points (float, 0.0 = this point, 1.0 = 
-          other point).</li>
+        <li><strong class="pname"><code>fraction</code></strong> - Fraction between both points (float, 0.0 = this point, 1.0 = the 
+          <code class="link">other</code> point).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Intermediate point (<a 
           href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        href="geodesy.sphericalNvector.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -1046,13 +1085,19 @@
         <li><strong class="pname"><code>other</code></strong> - The other point (<a 
           href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>fraction</code></strong> - Fraction between both points (float, 0.0 = this point, 1.0 = 
-          other point).</li>
+        <li><strong class="pname"><code>fraction</code></strong> - Fraction between both points (float, 0.0 = this point, 1.0 = the 
+          <code class="link">other</code> point).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Intermediate point (<a 
           href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        href="geodesy.sphericalNvector.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -1086,25 +1131,25 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>end1</code></strong> - End point of first path (<a 
           href="geodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>) or the initial compass bearing at this 
-          point (degrees).</li>
+          class="link">LatLon</a>) or the initial bearing at this point 
+          (compass degrees).</li>
         <li><strong class="pname"><code>start2</code></strong> - Start point of the second path (<a 
           href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>end2</code></strong> - End point of second path (<a 
           href="geodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>) or the initial compass bearing at the 
-          second point (degrees).</li>
+          class="link">LatLon</a>) or the initial bearing at the second 
+          point (compass degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Intersection point (<a 
           href="geodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>) or None if no unique intersection is 
-          defined.</dd>
+          class="link">LatLon</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Start or end points not <a 
-        href="geodesy.sphericalNvector.LatLon-class.html" 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">start2</code>, <code 
+        class="link">end1</code> or <code class="link">end2</code> point is
+        not <a href="geodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
   </dl>
@@ -1131,12 +1176,12 @@
     </td>
   </tr></table>
   
-  <p>Tests whether this point is enclosed by the polygon defined by a list,
-  sequence, set or tuple of points.</p>
+  <p>Tests whether this point is enclosed by a (convex) polygon defined by 
+  a list, sequence, set or tuple of points.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - Ordered set of points defining the vertices of the polygon (<a 
+        <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<a 
           href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>[]).</li>
     </ul></dd>
@@ -1144,8 +1189,12 @@
         <dd>True if the polygon encloses this point (bool).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - If polygon is not convex or has too few <code 
-        class="link">points</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Too few <a href="geodesy.bases.LatLonHeightBase-class.html#points" 
+        class="link">points</a>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <a href="geodesy.bases.LatLonHeightBase-class.html#points" 
+        class="link">points</a> are not <a 
+        href="geodesy.sphericalNvector.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -1171,12 +1220,12 @@
     </td>
   </tr></table>
   
-  <p>Tests whether this point is enclosed by the polygon defined by a list,
-  sequence, set or tuple of points.</p>
+  <p>Tests whether this point is enclosed by a (convex) polygon defined by 
+  a list, sequence, set or tuple of points.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - Ordered set of points defining the vertices of the polygon (<a 
+        <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<a 
           href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>[]).</li>
     </ul></dd>
@@ -1184,8 +1233,12 @@
         <dd>True if the polygon encloses this point (bool).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - If polygon is not convex or has too few <code 
-        class="link">points</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Too few <a href="geodesy.bases.LatLonHeightBase-class.html#points" 
+        class="link">points</a>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <a href="geodesy.bases.LatLonHeightBase-class.html#points" 
+        class="link">points</a> are not <a 
+        href="geodesy.sphericalNvector.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -1229,6 +1282,12 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>True if this point is within the segment (bool).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - One of the points is not <a 
+        href="geodesy.sphericalNvector.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1265,6 +1324,12 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>True if this point is within the segment (bool).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - One of the points is not <a 
+        href="geodesy.sphericalNvector.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1294,6 +1359,12 @@
     <dt>Returns:</dt>
         <dd>Midpoint (<a href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        href="geodesy.sphericalNvector.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -1338,6 +1409,13 @@
         <dd>Closest point on segment (<a 
           href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <a href="geodesy.bases.LatLonHeightBase-class.html#points" 
+        class="link">points</a> are not <a 
+        href="geodesy.sphericalNvector.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -1389,6 +1467,13 @@
         <dd>Closest point on segment (<a 
           href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <a href="geodesy.bases.LatLonHeightBase-class.html#points" 
+        class="link">points</a> are not <a 
+        href="geodesy.sphericalNvector.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -1457,18 +1542,30 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>bearing1</code></strong> - Compass bearing at this point (degrees).</li>
+        <li><strong class="pname"><code>bearing1</code></strong> - Bearing at this point (compass degrees).</li>
         <li><strong class="pname"><code>other</code></strong> - The other point (<a 
           href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>bearing2</code></strong> - Compass bearing at the other point (degrees).</li>
+        <li><strong class="pname"><code>bearing2</code></strong> - Bearing at the other point (compass degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Triangulated point (<a 
           href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        href="geodesy.sphericalNvector.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+    </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(<span class="py-string">&quot;47&#176;18.228'N&quot;</span>,<span class="py-string">&quot;002&#176;34.326'W&quot;</span>)  <span class="py-comment"># Basse Castouillet</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(<span class="py-string">&quot;47&#176;18.664'N&quot;</span>,<span class="py-string">&quot;002&#176;31.717'W&quot;</span>)  <span class="py-comment"># Basse Hergo</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>t = p.triangulate(7, q, 295)  <span class="py-comment"># 47.323667&#176;N, 002.568501&#176;W'</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="trilaterate"></a>
 <div>
@@ -1479,9 +1576,9 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">trilaterate</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">distance1</span>,
-        <span class="sig-arg">other2</span>,
+        <span class="sig-arg">point2</span>,
         <span class="sig-arg">distance2</span>,
-        <span class="sig-arg">other3</span>,
+        <span class="sig-arg">point3</span>,
         <span class="sig-arg">distance3</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77142</span>)</span>
   </h3>
@@ -1490,27 +1587,36 @@
     </td>
   </tr></table>
   
-  <p>Locates a point at given distances from this and two other points.</p>
-  <p>See <a href="http://wikipedia.org/wiki/Trilateration" 
-  target="_top">Triliteration</a>.</p>
+  <p>Locates a point at given distances from this and two other points. See
+  also <a href="http://wikipedia.org/wiki/Trilateration" 
+  target="_top">Trilateration</a>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>distance1</code></strong> - Distance to the this point (same units as radius).</li>
-        <li><strong class="pname"><code>other2</code></strong> - Second reference point (<a 
+        <li><strong class="pname"><code>distance1</code></strong> - Distance to this point (same units as radius).</li>
+        <li><strong class="pname"><code>point2</code></strong> - Second reference point (<a 
           href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>distance2</code></strong> - Distance to the second point (same units as radius).</li>
-        <li><strong class="pname"><code>other3</code></strong> - Third reference point (<a 
+        <li><strong class="pname"><code>distance2</code></strong> - Distance to <code class="link">point2</code> (same units as 
+          radius).</li>
+        <li><strong class="pname"><code>point3</code></strong> - Third reference point (<a 
           href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>distance3</code></strong> - Distance to the third point (same units as radius).</li>
+        <li><strong class="pname"><code>distance3</code></strong> - Distance to <code class="link">point3</code> (same units as 
+          radius).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (meter).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Triliterated point (<a 
+        <dd>Trilaterated point (<a 
           href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - One of the points is not <a 
+        href="geodesy.sphericalNvector.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Distance(s) exceeds trilateration.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1546,7 +1652,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Feb  9 21:21:49 2017
+    Generated by Epydoc 3.0.1 on Sun Feb 12 21:36:57 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

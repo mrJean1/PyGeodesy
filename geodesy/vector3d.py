@@ -19,7 +19,7 @@ from math import atan2, cos, hypot, sin
 # all public contants, classes and functions
 __all__ = ('Vector3d',  # classes
            'sumOf')  # functions
-__version__ = '17.02.09'
+__version__ = '17.02.11'
 
 try:
     _cmp = cmp
@@ -255,7 +255,7 @@ class Vector3d(VectorBase):
            @param other: The other vector (L{Vector3d}).
            @keyword name: Other's name (string).
 
-           @raise TypeError: For type mismatch.
+           @raise TypeError: Incompatible type(L{other}).
         '''
         try:
             VectorBase.others(self, other, name=name)

@@ -101,7 +101,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.02.09
+        17.02.12
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -146,7 +146,7 @@
           <td><span class="summary-sig"><a href="geodesy.sphericalNvector-module.html#areaOf" class="summary-sig-name">areaOf</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77142</span>)</span><br />
       Calculates the area of a spherical polygon where the sides of the 
-      polygon are great circle arcs joining the vertices.</td>
+      polygon are great circle arcs joining the points.</td>
           <td align="right" valign="top">
             
             
@@ -167,7 +167,7 @@
         <span class="summary-sig-arg">start2</span>,
         <span class="summary-sig-arg">end2</span>)</span><br />
       Locates the intersection of two paths each defined by two points or 
-      by a start point and bearing.</td>
+      by a start point and an initial bearing.</td>
           <td align="right" valign="top">
             
             
@@ -205,8 +205,8 @@
         <span class="summary-sig-arg">bearing1</span>,
         <span class="summary-sig-arg">point2</span>,
         <span class="summary-sig-arg">bearing2</span>)</span><br />
-      Locates a point given two known points and bearings from those 
-      points.</td>
+      Locates a point given two known points and initial bearings from 
+      those points.</td>
           <td align="right" valign="top">
             
             
@@ -265,19 +265,31 @@
   </tr></table>
   
   <p>Calculates the area of a spherical polygon where the sides of the 
-  polygon are great circle arcs joining the vertices.</p>
+  polygon are great circle arcs joining the points.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - Ordered set of points defining the vertices of the polygon (<a 
+        <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<a 
           href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>[]).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (meter).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Polygon area (float, same units as radius squared).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Too few polygon <code class="link">points</code>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <code class="link">points</code> are not <a 
+        href="geodesy.sphericalNvector.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+    </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>b = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
+<span class="py-prompt">&gt;&gt;&gt; </span>areaOf(b)  <span class="py-comment"># 8666058750.718977</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="intersection"></a>
 <div>
@@ -297,7 +309,7 @@
   </tr></table>
   
   <p>Locates the intersection of two paths each defined by two points or by
-  a start point and bearing.</p>
+  a start point and an initial bearing.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -306,15 +318,15 @@
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>end1</code></strong> - End point of first path (<a 
           href="geodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>) or the initial compass bearing at the 
-          first start point (degrees).</li>
+          class="link">LatLon</a>) or the initial bearing at the first 
+          start point (compass degrees).</li>
         <li><strong class="pname"><code>start2</code></strong> - Start point of the second path (<a 
           href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>end2</code></strong> - End point of second path (<a 
           href="geodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>) or the initial compass bearing at the 
-          second start point (degrees).</li>
+          class="link">LatLon</a>) or the initial bearing at the second 
+          start point (compass degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Intersection point (<a 
@@ -323,7 +335,7 @@
           exists.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Start or end points not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - Start or end point is not <a 
         href="geodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -366,7 +378,7 @@
           class="link">LatLon</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - If no <code class="link">points</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Too few <code class="link">points</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -388,7 +400,7 @@
     </td>
   </tr></table>
   
-  <p>Locates a point given two known points and bearings from those 
+  <p>Locates a point given two known points and initial bearings from those
   points.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -396,18 +408,30 @@
         <li><strong class="pname"><code>point1</code></strong> - First reference point (<a 
           href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>bearing1</code></strong> - Compass bearing at the first point (degrees).</li>
+        <li><strong class="pname"><code>bearing1</code></strong> - Bearing at the first point (compass degrees).</li>
         <li><strong class="pname"><code>point2</code></strong> - Second reference point (<a 
           href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>bearing2</code></strong> - Compass bearing at the second point (degrees).</li>
+        <li><strong class="pname"><code>bearing2</code></strong> - Bearing at the second point (compass degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Triangulated point (<a 
           href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - One of the points is not <a 
+        href="geodesy.sphericalNvector.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+    </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(<span class="py-string">&quot;47&#176;18.228'N&quot;</span>,<span class="py-string">&quot;002&#176;34.326'W&quot;</span>)  <span class="py-comment"># Basse Castouillet</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(<span class="py-string">&quot;47&#176;18.664'N&quot;</span>,<span class="py-string">&quot;002&#176;31.717'W&quot;</span>)  <span class="py-comment"># Basse Hergo</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>t = triangulate(p, 7, q, 295)  <span class="py-comment"># 47.323667&#176;N, 002.568501&#176;W'</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="trilaterate"></a>
 <div>
@@ -429,9 +453,9 @@
     </td>
   </tr></table>
   
-  <p>Locates a point at given distances from three other points.</p>
-  <p>See <a href="http://wikipedia.org/wiki/Trilateration" 
-  target="_top">Triliteration</a>.</p>
+  <p>Locates a point at given distances from three other points. See also 
+  <a href="http://wikipedia.org/wiki/Trilateration" 
+  target="_top">Trilateration</a>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -450,9 +474,14 @@
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (meter).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Triliterated point (<a 
+        <dd>Trilaterated point (<a 
           href="geodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>.</dd>
+          class="link">LatLon</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - One of the points is not L({LatLon}).</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Distance(s) exceeds trilateration.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -488,7 +517,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Feb  9 21:21:48 2017
+    Generated by Epydoc 3.0.1 on Sun Feb 12 21:36:56 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

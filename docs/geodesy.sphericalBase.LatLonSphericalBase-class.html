@@ -96,7 +96,7 @@
           <td><span class="summary-sig"><a href="geodesy.sphericalBase.LatLonSphericalBase-class.html#finalBearingTo" class="summary-sig-name">finalBearingTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
       Return the final bearing (reverse azimuth) from this to an other 
-      point, in compass degrees from North.</td>
+      point.</td>
           <td align="right" valign="top">
             
             
@@ -210,8 +210,8 @@
         <tr>
           <td><span class="summary-sig"><a href="geodesy.sphericalBase.LatLonSphericalBase-class.html#rhumbBearingTo" class="summary-sig-name">rhumbBearingTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
-      Return the initial bearing (forward azimuth) from this to an other 
-      point along a rhumb (loxodrome) line, in compass degrees from North.</td>
+      Return the initial bearing (aka forward azimuth) from this to an 
+      other point along a rhumb (loxodrome) line.</td>
           <td align="right" valign="top">
             
             
@@ -268,13 +268,15 @@
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#__str__">__str__</a></code>,
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#copy">copy</a></code>,
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#equals">equals</a></code>,
+      <code><a href="geodesy.bases.LatLonHeightBase-class.html#isclockwise">isclockwise</a></code>,
+      <code><a href="geodesy.bases.LatLonHeightBase-class.html#points">points</a></code>,
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#to3xyz">to3xyz</a></code>,
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#toStr">toStr</a></code>,
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#toradians">toradians</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="geodesy.bases.Base-class.html">bases.Base</a></code></b>:
       <code><a href="geodesy.bases.Base-class.html#__repr__">__repr__</a></code>,
-      <code><a href="geodesy.bases.Base-class.html#notImplemented">notImplemented</a></code>,
+      <code><a href="geodesy.bases.Base-class.html#classname">classname</a></code>,
       <code><a href="geodesy.bases.Base-class.html#others">others</a></code>,
       <code><a href="geodesy.bases.Base-class.html#toStr2">toStr2</a></code>,
       <code><a href="geodesy.bases.Base-class.html#topsub">topsub</a></code>
@@ -349,7 +351,7 @@
   </tr></table>
   
   <p>Return the final bearing (reverse azimuth) from this to an other 
-  point, in compass degrees from North.</p>
+  point.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -358,7 +360,13 @@
           class="link">LatLonSphericalBase</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Final bearing from North (degrees).</dd>
+        <dd>Final bearing (compass degrees).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        href="geodesy.sphericalBase.LatLonSphericalBase-class.html" 
+        class="link">LatLonSphericalBase</a>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -392,7 +400,7 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>bearing</code></strong> - Initial bearing from North (degrees).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Initial bearing (compass degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Maximum latitude (degrees90).</dd>
@@ -423,7 +431,7 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>bearing</code></strong> - Initial bearing from North (degrees).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Initial bearing (compass degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Maximum latitude (degrees90).</dd>
@@ -452,7 +460,7 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>bearing</code></strong> - Initial bearing from North (degrees).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Initial bearing (compass degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Minimum latitude (degrees90).</dd>
@@ -481,7 +489,7 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>bearing</code></strong> - Initial bearing from North (degrees).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Initial bearing (compass degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Minimum latitude (degrees90).</dd>
@@ -549,8 +557,8 @@
     </td>
   </tr></table>
   
-  <p>Return the initial bearing (forward azimuth) from this to an other 
-  point along a rhumb (loxodrome) line, in compass degrees from North.</p>
+  <p>Return the initial bearing (aka forward azimuth) from this to an other
+  point along a rhumb (loxodrome) line.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -559,7 +567,13 @@
           class="link">LatLonSphericalBase</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Initial bearing from North (degrees).</dd>
+        <dd>Initial bearing (compass degrees).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        href="geodesy.sphericalBase.LatLonSphericalBase-class.html" 
+        class="link">LatLonSphericalBase</a>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -597,6 +611,12 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (in the same units as radius).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        href="geodesy.sphericalBase.LatLonSphericalBase-class.html" 
+        class="link">LatLonSphericalBase</a>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -633,6 +653,12 @@
         <dd>The midpoint (<a 
           href="geodesy.sphericalBase.LatLonSphericalBase-class.html" 
           class="link">LatLonSphericalBase</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        href="geodesy.sphericalBase.LatLonSphericalBase-class.html" 
+        class="link">LatLonSphericalBase</a>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -707,7 +733,7 @@ class="link">Datum</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Feb  9 21:21:49 2017
+    Generated by Epydoc 3.0.1 on Sun Feb 12 21:36:57 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

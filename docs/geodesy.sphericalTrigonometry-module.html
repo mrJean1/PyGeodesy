@@ -72,7 +72,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.02.09
+        17.02.12
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -105,6 +105,27 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="geodesy.sphericalTrigonometry-module.html#intersection" class="summary-sig-name">intersection</a>(<span class="summary-sig-arg">start1</span>,
+        <span class="summary-sig-arg">bearing1</span>,
+        <span class="summary-sig-arg">start2</span>,
+        <span class="summary-sig-arg">bearing2</span>)</span><br />
+      Return the intersection point of two paths each defined by a start 
+      point and an initial bearing.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="geodesy.sphericalTrigonometry-module.html#meanOf" class="summary-sig-name">meanOf</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
       Computes the geographic mean of the supplied points.</td>
@@ -127,6 +148,61 @@
     <span class="table-header">Function Details</span></td>
 </tr>
 </table>
+<a name="intersection"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">intersection</span>(<span class="sig-arg">start1</span>,
+        <span class="sig-arg">bearing1</span>,
+        <span class="sig-arg">start2</span>,
+        <span class="sig-arg">bearing2</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the intersection point of two paths each defined by a start 
+  point and an initial bearing.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>start1</code></strong> - Start point of first path (<a 
+          href="geodesy.sphericalTrigonometry.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>bearing1</code></strong> - Initial bearing from <code class="link">start1</code> (compass 
+          degrees).</li>
+        <li><strong class="pname"><code>start2</code></strong> - Start point of second path (<a 
+          href="geodesy.sphericalTrigonometry.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>bearing2</code></strong> - Initial bearing from <code class="link">start2</code> (compass 
+          degrees).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Intersection point (<a 
+          href="geodesy.sphericalTrigonometry.LatLon-class.html" 
+          class="link">LatLon</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Point <code class="link">start1</code> or <code 
+        class="link">start2</code> is not a <a 
+        href="geodesy.sphericalTrigonometry.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Intersection is ambiguous or infinite or the paths are parallel or 
+        coincide.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(51.8853, 0.2545)
+<span class="py-prompt">&gt;&gt;&gt; </span>s = LatLon(49.0034, 2.5735)
+<span class="py-prompt">&gt;&gt;&gt; </span>i = intersection(p, 108.547, s, 32.435)  <span class="py-comment"># '50.9078&#176;N, 004.5084&#176;E'</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
 <a name="meanOf"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -152,11 +228,12 @@
         <li><strong class="pname"><code>height</code></strong> - Height to use inlieu of mean (meter).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Point at geographic mean and mean height (<a 
+        <dd>Point at geographic mean and <code class="link">height</code> (<a
           href="geodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <code class="link">points</code> are not a L({LatLon}).</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - If no <code class="link">points</code>.</li>
     </ul></dd>
   </dl>
@@ -194,7 +271,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Feb  9 21:21:48 2017
+    Generated by Epydoc 3.0.1 on Sun Feb 12 21:36:57 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

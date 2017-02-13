@@ -10,14 +10,15 @@ and U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
 @newfield example: Example, Examples
 '''
 
-from dms import F_D, F_DMS, latDMS, lonDMS, parseDMS
+from dms   import F_D, F_DMS, latDMS, lonDMS, parseDMS
+from utils import fsum, len2, wrap90, wrap180
 
 from math import cos, radians, sin
 
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('Base', 'LatLonHeightBase', 'Named', 'VectorBase')
-__version__ = '17.02.09'
+__version__ = '17.02.12'
 
 
 class Base(object):
@@ -34,30 +35,44 @@ class Base(object):
         '''
         pass
 
-    def notImplemented(self, attr):
-        '''Raise a NotImplementedError.
+    def classname(self, *other):
+        '''Build module.class name of this object.
 
-           @param attr: Attibute name (string).
+           @param other: Optional object other than self (any).
 
-           @raise NotImplementedError: No such L{attr}ibute.
+           @return: Name of module and class (string).
         '''
-        c = self.__class__.__name__
-        return NotImplementedError('%s.%s' % (c, attr))
+        o = self if not other else other[0]
+        n = o.__class__.__name__
+        try:
+            m = o.__module__
+            n = '.'.join(m.split('.')[-1:] + [n])
+        except AttributeError:
+            pass
+        return n
+
+#   def notImplemented(self, attr):
+#       '''Raise error for a missing method, function or attribute.
+#
+#          @param attr: Attribute name (string).
+#
+#          @raise NotImplementedError: No such L{attr}ibute.
+#       '''
+#       c = self.__class__.__name__
+#       return NotImplementedError('%s.%s' % (c, attr))
 
     def others(self, other, name='other'):
-        '''Check this and an other instance for mutual compatiblility.
+        '''Check this and an other instance for type compatiblility.
 
            @param other: The other instance (any).
-           @keyword name: Other's name (string).
+           @keyword name: Optional, name for L{other} (string).
 
-           @raise TypeError: Incompatible instances.
+           @raise TypeError: Mismatch of this and type(L{other}).
         '''
         if not (isinstance(self, other.__class__) or
                 isinstance(other, self.__class__)):
-            o = other.__class__.__name__
-            s = self.__class__.__name__
-            raise TypeError('%s %s mismatch: %s.%s vs %s.%s' % (name,
-                            o, other.__module__, o, self.__module__, s))
+            raise TypeError('type(%s) mismatch: %s vs %s' % (name,
+                             self.classname(other), self.classname()))
 
     def topsub(self, *args, **kwds):
         '''New instance of this "top- or sub-most" class.
@@ -69,12 +84,14 @@ class Base(object):
 
     def toStr(self, **args):
         '''(INTERNAL) Must be overloaded.
+
            @param args: Optional, positional arguments.
         '''
         raise AssertionError('%s.toStr%r' % (self.__class__.__name__, args))
 
     def toStr2(self, **kwds):
         '''(INTERNAL) To be overloaded.
+
            @keyword kwds: Optional, keyword arguments.
         '''
         t = self.toStr(**kwds).lstrip('([{').rstrip('}])')
@@ -120,7 +137,12 @@ class LatLonHeightBase(Base):
         return self.toStr(form=F_D, prec=6)
 
     def _alter(self, other, f=0.5):
-        '''(INTERNAL) Adjust elevations.
+        '''(INTERNAL) Weighted, average height.
+
+           @param other: An other point (LatLon).
+           @keyword f: Optional average (float).
+
+           @return: Average height (float).
         '''
         return self.height + f * (other.height - self.height)
 
@@ -136,7 +158,9 @@ class LatLonHeightBase(Base):
 
            @param other: The other point (LatLon).
 
-           @return: True if points are identical (bool).
+           @return: True if both points are identical (bool).
+
+           @raise TypeError: The L{other} point is not LatLon.
 
            @example:
 
@@ -169,6 +193,38 @@ class LatLonHeightBase(Base):
         self._update(height != self._height)
         self._height = height
 
+    def isclockwise(self, points):
+        '''Determine direction of a polygon defined by a list,
+           sequence, set or tuple of LatLon points.
+
+           @param points: The points defining the polygon (LatLon[]).
+
+           @return: True if clockwise, False if counter- or anti-
+                    clockwise.
+
+           @raise ValueError: Too few L{points} or if the polygon
+                              has zero area.
+        '''
+        def _2xy(p):  # map to flat x-y space
+            return wrap180(p.lon), wrap90(p.lat)
+
+        _, points = self.points(points)
+
+        pa = []
+        x1, y1 = _2xy(points[-1])
+        for p in points:  # pseudo-area of each segment
+            x2, y2 = _2xy(p)
+            pa.append((x2 - x1) * (y2 + y1))
+            x1, y1 = x2, y2
+        if pa:  # signed pseudo-area
+            pa = fsum(pa)
+            if pa > 0:
+                return True
+            elif pa < 0:
+                return False
+
+        raise ValueError('zero area: %r' % (points[:3],))
+
     @property
     def lat(self):
         '''Get the latitude (degrees).
@@ -189,6 +245,32 @@ class LatLonHeightBase(Base):
         '''Get the longitude (degrees).
         '''
         return self._lon
+
+    def points(self, points, closed=True):
+        '''Check a polygon given as list, sequence, set or tuple
+           of points.
+
+           @param points: The points of the polygon (LatLon[])
+           @keyword closed: Treat polygon as closed (bool).
+
+           @return: 2-Tuple (number, list) of points.
+
+           @raise TypeError: Some L{points} are not LatLon.
+
+           @raise ValueError: Too few L{points}.
+        '''
+        n, points = len2(points)
+        if closed and n > 1 and points[0].equals(points[-1]):
+            n -= 1  # remove last point
+            points = points[:n]
+
+        if n < (3 if closed else 1):
+            raise ValueError('too few points: %s' % (n,))
+
+        for i, p in enumerate(points):
+            self.others(p, name='points[%s]' % (i,))
+
+        return n, points
 
     @lon.setter  # PYCHOK setter!
     def lon(self, lon):

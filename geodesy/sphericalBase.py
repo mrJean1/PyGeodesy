@@ -23,7 +23,7 @@ from math import acos, atan2, cos, hypot, log, sin
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('LatLonSphericalBase',)
-__version__ = '17.02.09'
+__version__ = '17.02.12'
 
 
 class LatLonSphericalBase(LatLonHeightBase):
@@ -56,11 +56,13 @@ class LatLonSphericalBase(LatLonHeightBase):
 
     def finalBearingTo(self, other):
         '''Return the final bearing (reverse azimuth) from this
-           to an other point, in compass degrees from North.
+           to an other point.
 
            @param other: The other point (L{LatLonSphericalBase}).
 
-           @return: Final bearing from North (degrees).
+           @return: Final bearing (compass degrees).
+
+           @raise TypeError: The L{other} point is not L{LatLonSphericalBase}.
 
            @example:
 
@@ -87,7 +89,7 @@ class LatLonSphericalBase(LatLonHeightBase):
            Negate the result for the minimum latitude (on
            the Southern hemisphere).
 
-           @param bearing: Initial bearing from North (degrees).
+           @param bearing: Initial bearing (compass degrees).
 
            @return: Maximum latitude (degrees90).
         '''
@@ -101,7 +103,7 @@ class LatLonSphericalBase(LatLonHeightBase):
            on a great circle on given bearing from this
            point.  See method L{maxLat} for more details.
 
-           @param bearing: Initial bearing from North (degrees).
+           @param bearing: Initial bearing (compass degrees).
 
            @return: Minimum latitude (degrees90).
         '''
@@ -135,7 +137,7 @@ class LatLonSphericalBase(LatLonHeightBase):
     def _rhumb3(self, other):
         '''(INTERNAL) Rhumb_ helper function.
 
-           @param other: The other point (L{LatLonSphericalBase}).
+           @param other: The L{other} point (L{LatLonSphericalBase}).
         '''
         self.others(other)
 
@@ -148,13 +150,14 @@ class LatLonSphericalBase(LatLonHeightBase):
         return (a2 - a1), db, ds
 
     def rhumbBearingTo(self, other):
-        '''Return the initial bearing (forward azimuth) from this
-           to an other point along a rhumb (loxodrome) line, in
-           compass degrees from North.
+        '''Return the initial bearing (aka forward azimuth) from this
+           to an other point along a rhumb (loxodrome) line.
 
            @param other: The other point (L{LatLonSphericalBase}).
 
-           @return: Initial bearing from North (degrees).
+           @return: Initial bearing (compass degrees).
+
+           @raise TypeError: The L{other} point is not L{LatLonSphericalBase}.
 
            @example:
 
@@ -174,6 +177,8 @@ class LatLonSphericalBase(LatLonHeightBase):
            @keyword radius: Mean radius of earth (scalar, default meter).
 
            @return: Distance (in the same units as radius).
+
+           @raise TypeError: The L{other} point is not L{LatLonSphericalBase}.
 
            @example:
 
@@ -196,12 +201,14 @@ class LatLonSphericalBase(LatLonHeightBase):
         return float(radius) * hypot(da, q * db)
 
     def rhumbMidpointTo(self, other):
-        '''Return the loxodromic midpoint between this and
-           an other point.
+        '''Return the loxodromic midpoint between this and an
+           other point.
 
            @param other: The other point (L{LatLonSphericalBase}).
 
            @return: The midpoint (L{LatLonSphericalBase}).
+
+           @raise TypeError: The L{other} point is not L{LatLonSphericalBase}.
 
            @example:
 

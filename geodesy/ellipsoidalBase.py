@@ -22,7 +22,7 @@ from math import atan2, copysign, cos, hypot, sin, sqrt
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('CartesianBase', 'LatLonEllipsoidalBase')
-__version__ = '17.02.09'
+__version__ = '17.02.12'
 
 
 class CartesianBase(Vector3d):
@@ -195,8 +195,9 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
 
            @param datum: New datum (L{Datum}).
 
-           @raise TypeError: If L{datum} is not a L{Datum}.
-           @raise ValueError: If L{datum}.ellipsoid is not ellipsoidal.
+           @raise TypeError: The L{datum} is not a L{Datum}.
+
+           @raise ValueError: The L{datum} is not ellipsoidal.
         '''
         if not isinstance(datum, Datum):
             raise TypeError('%r not a %s: %r' % ('datum', Datum.__name__, datum))
@@ -222,7 +223,9 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
 
            @return: This datum's ellipsoid (L{Ellipsoid}).
 
-           @raise ValueError: If ellipsoids are incompatible.
+           @raise TypeError: The L{other} point is not LatLon.
+
+           @raise ValueError: If datum ellipsoids are incompatible.
         '''
         self.others(other)
 
@@ -236,8 +239,8 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
                 e = E  # no datum, XXX assume equivalent?
         if e != E:
             c = E.__class__.__name__
-            raise ValueError('other %s mistmatch: %ss.%s vs %ss.%s' %
-                             (c, c, e.name, c, E.name))
+            raise ValueError('%s %s mistmatch: %ss.%s vs %ss.%s' %
+                             ('other', c, c, e.name, c, E.name))
         return E
 
     def parse(self, strll, height=0, datum=None, sep=','):

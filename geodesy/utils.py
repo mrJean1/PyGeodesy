@@ -24,7 +24,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2',  # constants
            'radians', 'radiansPI', 'radiansPI2', 'radiansPI_2',
            'sin_2', 'tanPI_2_2',
            'wrap90', 'wrap180', 'wrapPI', 'wrapPI2', 'wrapPI_2')
-__version__ = '17.02.06'
+__version__ = '17.02.12'
 
 try:
     from math import fsum  #: precision sum, Python 2.6+
@@ -69,7 +69,7 @@ def cbrt(x):
 
 
 def degrees90(rad):
-    '''Convert radians to degrees -90..+90.
+    '''Convert radians to degrees -270..+90.
 
        @param rad: Angle (radians).
 
@@ -99,7 +99,7 @@ def degrees360(rad):
 
 
 def _drap(deg, wrap):
-    '''(INTERNAL) Degree wrapper -wrap..+wrap.
+    '''(INTERNAL) Degree wrapper (wrap-360)..+wrap.
 
        @param deg: Angle (degrees).
        @param wrap: Limit (degrees).
@@ -318,7 +318,7 @@ def radiansPI(deg):
 
 
 def radiansPI2(deg):
-    '''Convert degrees to radians -2PI..+2PI.
+    '''Convert degrees to radians 0..+2PI.
 
        @param deg: Angle (degrees).
 
@@ -328,7 +328,7 @@ def radiansPI2(deg):
 
 
 def radiansPI_2(deg):
-    '''Convert degrees to radians -PI/2..+PI/2.
+    '''Convert degrees to radians -3PI/2..+PI/2.
 
        @param deg: Angle (degrees).
 
@@ -358,7 +358,7 @@ def tanPI_2_2(rad):
 
 
 def wrap90(deg):
-    '''Wrap degrees to -90..+90.
+    '''Wrap degrees to -270..+90.
 
        @param deg: Angle (degrees).
 
@@ -378,7 +378,7 @@ def wrap180(deg):
 
 
 def _wrap(rad, wrap):
-    '''(INTERNAL) Radians wrapper -wrap..+wrap.
+    '''(INTERNAL) Radians wrapper (wrap-2PI)..+wrap.
 
        @param rad: Angle (radians).
        @param wrap: Limit (radians).
@@ -402,7 +402,7 @@ def wrapPI(rad):
 
 
 def wrapPI2(rad):
-    '''Wrap radians to -2PI..+2PI.
+    '''Wrap radians to 0..+2PI.
 
        @param rad: Angle (radians).
 
@@ -412,7 +412,7 @@ def wrapPI2(rad):
 
 
 def wrapPI_2(rad):
-    '''Wrap radians to -PI/2..+PI/2.
+    '''Wrap radians to -3PI/2..+PI/2.
 
        @param rad: Angle (radians).
 

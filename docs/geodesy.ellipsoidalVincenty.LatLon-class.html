@@ -312,12 +312,14 @@
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#__ne__">__ne__</a></code>,
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#__str__">__str__</a></code>,
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#equals">equals</a></code>,
+      <code><a href="geodesy.bases.LatLonHeightBase-class.html#isclockwise">isclockwise</a></code>,
+      <code><a href="geodesy.bases.LatLonHeightBase-class.html#points">points</a></code>,
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#toStr">toStr</a></code>,
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#toradians">toradians</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="geodesy.bases.Base-class.html">bases.Base</a></code></b>:
       <code><a href="geodesy.bases.Base-class.html#__repr__">__repr__</a></code>,
-      <code><a href="geodesy.bases.Base-class.html#notImplemented">notImplemented</a></code>,
+      <code><a href="geodesy.bases.Base-class.html#classname">classname</a></code>,
       <code><a href="geodesy.bases.Base-class.html#others">others</a></code>,
       <code><a href="geodesy.bases.Base-class.html#toStr2">toStr2</a></code>,
       <code><a href="geodesy.bases.Base-class.html#topsub">topsub</a></code>
@@ -437,12 +439,20 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>distance</code></strong> - Distance in meters (scalar).</li>
-        <li><strong class="pname"><code>bearing</code></strong> - Initial bearing in degrees from North (scalar).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Initial bearing in compass degrees (scalar).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The destination point (<a 
           href="geodesy.ellipsoidalVincenty.LatLon-class.html" 
           class="link">LatLon</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="geodesy.ellipsoidalVincenty.VincentyError-class.html">VincentyError</a></strong></code> - Vincenty fails to converge for the current <a 
+        href="geodesy.ellipsoidalVincenty.LatLon-class.html#epsilon" 
+        class="link">LatLon.epsilon</a> and <a 
+        href="geodesy.ellipsoidalVincenty.LatLon-class.html#iterations" 
+        class="link">LatLon.iterations</a> limit.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -474,14 +484,14 @@
   conventially meter.  The distance is measured on the surface of the 
   ellipsoid, ignoring this point's height.</p>
   <p>The initial and final bearing (aka forward and reverse azimuth) are in
-  compass degrees from North.</p>
+  compass degrees.</p>
   <p>The destination point's height and datum are set to this point's 
   height and datum.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>distance</code></strong> - Distance in meters (scalar).</li>
-        <li><strong class="pname"><code>bearing</code></strong> - Initial bearing in degrees from North (scalar).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Initial bearing in compass degrees (scalar).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple (destination, final bearing) in (<a 
@@ -489,7 +499,7 @@
           class="link">LatLon</a>, degrees360).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="geodesy.ellipsoidalVincenty.VincentyError-class.html">VincentyError</a></strong></code> - If Vincenty failed to converge for the current <a 
+        <li><code><strong class='fraise'><a href="geodesy.ellipsoidalVincenty.VincentyError-class.html">VincentyError</a></strong></code> - Vincenty fails to converge for the current <a 
         href="geodesy.ellipsoidalVincenty.LatLon-class.html#epsilon" 
         class="link">LatLon.epsilon</a> and <a 
         href="geodesy.ellipsoidalVincenty.LatLon-class.html#iterations" 
@@ -576,18 +586,18 @@
           degrees360, degree360).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - If this and the <code class="link">other</code> point's <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
         href="geodesy.ellipsoidalVincenty.LatLon-class.html" 
-        class="link">LatLon</a> types are incompatiple.</li>
+        class="link">LatLon</a>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <code class="link">other</code> point's <a 
         href="geodesy.datum.Datum-class.html" class="link">Datum</a> 
-        ellipsoids do not match.</li>
-        <li><code><strong class='fraise'><a href="geodesy.ellipsoidalVincenty.VincentyError-class.html">VincentyError</a></strong></code> - If both points coincide or if Vincenty fails to converge for the 
-        current <a 
+        ellipsoids are not compatible.</li>
+        <li><code><strong class='fraise'><a href="geodesy.ellipsoidalVincenty.VincentyError-class.html">VincentyError</a></strong></code> - Vincenty fails to converge for the current <a 
         href="geodesy.ellipsoidalVincenty.LatLon-class.html#epsilon" 
         class="link">LatLon.epsilon</a> and <a 
         href="geodesy.ellipsoidalVincenty.LatLon-class.html#iterations" 
-        class="link">LatLon.iterations</a> limit.</li>
+        class="link">LatLon.iterations</a> limit or this and the <code 
+        class="link">other</code> point coincide.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -617,10 +627,18 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>distance</code></strong> - Distance in meter (scalar).</li>
-        <li><strong class="pname"><code>bearing</code></strong> - Initial bearing from North (degrees).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Initial bearing (compass degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Final bearing from North (degrees360).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="geodesy.ellipsoidalVincenty.VincentyError-class.html">VincentyError</a></strong></code> - Vincenty fails to converge for the current <a 
+        href="geodesy.ellipsoidalVincenty.LatLon-class.html#epsilon" 
+        class="link">LatLon.epsilon</a> and <a 
+        href="geodesy.ellipsoidalVincenty.LatLon-class.html#iterations" 
+        class="link">LatLon.iterations</a> limit.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -658,7 +676,16 @@
           class="link">LatLon</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Final bearing from North (degrees360).</dd>
+        <dd>Final bearing in compass degrees (degrees360).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        href="geodesy.ellipsoidalVincenty.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <code class="link">other</code> point's <a 
+        href="geodesy.datum.Datum-class.html" class="link">Datum</a> 
+        ellipsoids are not compatible.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -700,7 +727,16 @@
           class="link">LatLon</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Initial bearing from North (degrees360).</dd>
+        <dd>Initial bearing in compass degrees (degrees360).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        href="geodesy.ellipsoidalVincenty.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <code class="link">other</code> point's <a 
+        href="geodesy.datum.Datum-class.html" class="link">Datum</a> 
+        ellipsoids are not compatible.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -742,7 +778,16 @@
           class="link">LatLon</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Initial bearing from North (degrees360).</dd>
+        <dd>Initial bearing in compass degrees (degrees360).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        href="geodesy.ellipsoidalVincenty.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <code class="link">other</code> point's <a 
+        href="geodesy.datum.Datum-class.html" class="link">Datum</a> 
+        ellipsoids are not compatible.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -863,7 +908,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Feb  9 21:21:49 2017
+    Generated by Epydoc 3.0.1 on Sun Feb 12 21:36:57 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
