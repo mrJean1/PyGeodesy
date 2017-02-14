@@ -21,7 +21,7 @@ from vector3d import Vector3d, sumOf as _sumOf
 __all__ = ('NorthPole', 'SouthPole',  # constants
            'Nvector',  # classes
            'sumOf')  # functions
-__version__ = '17.02.11'
+__version__ = '17.02.14'
 
 
 class Nvector(Vector3d):  # XXX kept private
@@ -29,7 +29,7 @@ class Nvector(Vector3d):  # XXX kept private
     '''
     _h = 0     #: (INTERNAL) Height (meter).
 
-    H = ''  #: Heigth prefix (string) or '↑' XXX
+    H = ''  #: Heigth prefix (string), '↑' in JS version
 
     def __init__(self, x, y, z, h=0):
         '''New n-vector normal to the earth's surface.
@@ -86,7 +86,7 @@ class Nvector(Vector3d):  # XXX kept private
     def to4xyzh(self):
         '''Return this n-vector as a 4-tuple.
 
-           @return: 4-Tuple (x, y, z, h) in (meter, ...).
+           @return: 4-Tuple (x, y, z, h) in (meter).
         '''
         return self.x, self.y, self.z, self.h
 
@@ -139,7 +139,7 @@ class LatLonNvectorBase(LatLonHeightBase):
            @param other: The other point (L{LatLon}).
            @keyword name: Other's name (string).
 
-           @raise TypeError: Incompatible type(L{other}).
+           @raise TypeError: Incompatible type(other).
         '''
         try:
             LatLonHeightBase.others(self, other, name=name)
@@ -151,11 +151,11 @@ class LatLonNvectorBase(LatLonHeightBase):
         '''Convert this (geodetic) point to n-vector (normal
            to the earth's surface) x/y/z components and height.
 
-           @return: 4-Tuple (x, y, z, h) in (meter, ...).
+           @return: 4-Tuple (x, y, z, h) in (meter).
         '''
         # Kenneth Gade eqn (3), but using right-handed
         # vector x -> 0°E,0°N, y -> 90°E,0°N, z -> 90°N
-#       a, b = self.toradians()
+#       a, b = self.to2ab()
 #       ca = cos(a)
 #       x, y, z = ca * cos(b), ca * sin(b), sin(a)
         return LatLonHeightBase.to3xyz(self) + (self.height,)
@@ -170,7 +170,7 @@ def sumOf(nvectors, Vector=Nvector, **kwds):
 
        @return: Vectorial sum (Vector).
 
-       @raise ValueError: No L{nvectors}.
+       @raise ValueError: No nvectors.
     '''
     n, nvectors = len2(nvectors)
     if n < 1:

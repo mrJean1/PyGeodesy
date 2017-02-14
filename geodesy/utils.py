@@ -24,7 +24,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2',  # constants
            'radians', 'radiansPI', 'radiansPI2', 'radiansPI_2',
            'sin_2', 'tanPI_2_2',
            'wrap90', 'wrap180', 'wrapPI', 'wrapPI2', 'wrapPI_2')
-__version__ = '17.02.13'
+__version__ = '17.02.14'
 
 try:
     from math import fsum  #: precision sum, Python 2.6+
@@ -121,7 +121,7 @@ def false2f(value, name='value', false=True):
 
        @return: The value (float).
 
-       @raise ValueError: Invalid or negative L{value}.
+       @raise ValueError: Invalid or negative value.
     '''
     try:
         f = float(value)
@@ -141,7 +141,7 @@ def fdot(a, *b):
 
        @return: Dot product (float).
 
-       @raise AssertionError: If len(L{a}) and len(L{b}) differ.
+       @raise AssertionError: If len(a) and len(b) differ.
     '''
     assert len(a) == len(b)
     return fsum(map(mul, a, b))
@@ -157,7 +157,7 @@ def fdot3(a, b, c, start=0):
 
        @return: Dot product (float).
 
-       @raise AssertionError: If len(L{a}), len(L{b}) and/or len(L{c}) differ.
+       @raise AssertionError: If len(a), len(b) and/or len(c) differ.
     '''
     def mul3(a, b, c):  # map function
         return a * b * c
@@ -175,12 +175,12 @@ def fStr(floats, prec=6, sep=', ', fmt='%.*f', ints=False):
 
        @param floats: List, sequence, tuple, etc. (scalars).
        @keyword prec: Optional, number of decimals, unstripped.  Trailing
-                      zero decimals are not stripped if L{prec} is 2 or negative.
+                      zero decimals are not stripped if prec is 2 or negative.
        @keyword sep: Optional, separator to join (string).
        @keyword fmt: Optional, float format (string).
        @keyword ints: Optionally, remove decimal dot (bool).
 
-       @return: The L{floats} as 'f, f, ... f' (string).
+       @return: The floats as 'f, f, ... f' (string).
     '''
     def _fstr(p, f):
         t = fmt % (abs(p), float(f))
@@ -204,7 +204,7 @@ def halfs(str2):
 
        @return: 2-Tuple (1st, 2nd) halfs (strings).
 
-       @raise ValueError: Zero or odd L{str2} length.
+       @raise ValueError: Zero or odd str2 length.
     '''
     h, r = divmod(len(str2), 2)
     if r or not h:
@@ -257,27 +257,28 @@ def hypot3(x, y, z):
     return h
 
 
-def isint(obj):
-    '''Checks for integer object or value.
+def isint(obj, both=False):
+    '''Checks for integer types and value.
 
-       @param obj: An object (any).
+       @param obj: The object (any type).
+       @keyword both: Check both type and value (bool).
 
-       @return: True if L{obj} is integer (bool).
+       @return: True if obj is integer (bool).
     '''
-#   if isinstance(obj, float):
-#       try:
-#           return obj.is_integer()
-#       except AttributeError:
-#           return False
+    if both and isinstance(obj, float):
+        try:
+            return obj.is_integer()
+        except AttributeError:
+            return False
     return isinstance(obj, _Ints)
 
 
 def isscalar(obj):
-    '''Checks for scalar object.
+    '''Checks for scalar types.
 
-       @param obj: An object (any).
+       @param obj: The object (any type).
 
-       @return: True if L{obj} is scalar (bool).
+       @return: True if obj is scalar (bool).
     '''
     return isinstance(obj, _Scalars)
 

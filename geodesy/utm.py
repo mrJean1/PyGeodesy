@@ -44,7 +44,7 @@ from operator import mul
 # all public contants, classes and functions
 __all__ = ('Utm',  # classes
            'parseUTM', 'toUtm')  # functions
-__version__ = '17.02.09'
+__version__ = '17.02.14'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -205,7 +205,7 @@ class Utm(Base):
                                  North (degrees or None).
            @keyword scale: Optional grid scale factor (scalar or None).
 
-           @raise ValueError: Invalid L{easting} or L{northing}.
+           @raise ValueError: Invalid easting or northing.
 
            @example:
 
@@ -294,7 +294,7 @@ class Utm(Base):
 
            @return: Lat-/longitude of this UTM coordinate (L{LatLon}).
 
-           @raise TypeError: If L{LatLon} is not ellipsoidal.
+           @raise TypeError: If LatLon is not ellipsoidal.
 
            @example:
 
@@ -437,7 +437,7 @@ def parseUTM(strUTM, datum=Datums.WGS84):
        zone, hemisphere, easting and northing.
 
        @param strUTM: A UTM coordinate (string).
-       @keyword datum: L{Datum} to use (L{Datum}).
+       @keyword datum: Datum to use (L{Datum}).
 
        @return: The UTM coordinate (L{Utm}).
 
@@ -477,14 +477,15 @@ def toUtm(latlon, lon=None, datum=None):
                       instance.
        @keyword lon: Longitude (degrees or None).
        @keyword datum: Datum for this UTM coordinate, overriding
-                       L{latlon}'s datum (L{Datum}).
+                       latlon's datum (L{Datum}).
 
        @return: The UTM coordinate (L{Utm}).
 
-       @raise TypeError: If L{latlon} is not ellipsoidal.
-       @raise ValueError: If L{lon} value is missing or if
-                          L{latlon} is not scalar or L{latlon} is
-                          outside valid UTM bands.
+       @raise TypeError: If latlon is not ellipsoidal.
+
+       @raise ValueError: If lon value is missing, if latlon
+                          is not scalar or latlon is outside
+                          the valid UTM bands.
 
        @example:
 

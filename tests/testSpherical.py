@@ -13,7 +13,7 @@ if __name__ == '__main__':
     t = Tests(__file__, __version__, N)
     t.testLatLon(N.LatLon)
     t.testSpherical(N.LatLon, N.Nvector)
-    t.testVectorial(N.LatLon, N.Nvector, N.sumOf)
+    t.testVectorial(N.LatLon, N.Nvector, N.sumOf, N.isclockwise)
     t.results()
 
     from geodesy import sphericalTrigonometry as T

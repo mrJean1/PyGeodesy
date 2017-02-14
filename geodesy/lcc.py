@@ -23,7 +23,7 @@ from math import atan, copysign, cos, hypot, log, sin, sqrt, tan
 # all public constants, classes and functions
 __all__ = ('Conic', 'Conics', 'Lcc',
            'toLcc')  # functions
-__version__ = '17.02.09'
+__version__ = '17.02.14'
 
 
 Conics = _Enum('Conics')  #: Registered conics (L{_Enum}).
@@ -79,7 +79,7 @@ class Conic(_Based):
             if not isinstance(latlon0, _LL):
                 raise TypeError('%s not %s: %r' % ('latlon0', 'ellipsoidal', latlon0))
 
-            self._lat0, self._lon0 = latlon0.toradians()
+            self._lat0, self._lon0 = latlon0.to2ab()
             self._par1 = radians(par1)
             if par2 is None:
                 self._par2 = self._par1
@@ -341,8 +341,9 @@ class Lcc(_Based):
 
            @return: The Lambert location (L{Lcc}).
 
-           @raise TypeError: If L{conic} is not L{Conic}.
-           @raise ValueError: If L{e} or L{n} is invalid or negative.
+           @raise TypeError: If conic is not L{Conic}.
+
+           @raise ValueError: If e or n is invalid or negative.
 
            @example:
 
@@ -461,14 +462,14 @@ def toLcc(latlon, conic=Conics.WRF_Lb):
 
        @return: The Lambert location (L{Lcc}).
 
-       @raise TypeError: If L{latlon} is not ellipsoidal.
+       @raise TypeError: If latlon is not ellipsoidal.
     '''
     if not isinstance(latlon, _LL):
         raise TypeError('%s not %s: %r' % ('latlon', 'ellipsoidal', latlon))
 
     c = conic.toDatum(latlon.datum)
 
-    lat, lon = latlon.toradians()
+    lat, lon = latlon.to2ab()
     r = c._rdef(c._tdef(lat))
     t = c._n * (lon - c._lon0) - c._opt3
 

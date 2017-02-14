@@ -39,7 +39,7 @@ from math import cos, sin, sqrt, tan
 # all public contants, classes and functions
 __all__ = ('Osgr',  # classes
            'parseOSGR', 'toOsgr')  # functions
-__version__ = '17.02.09'
+__version__ = '17.02.14'
 
 _10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (meter)
 _100km   = 100000  #: (INTERNAL) 100 km (int meter)
@@ -279,7 +279,7 @@ def parseOSGR(strOSGR):
 
        @return: The OSGR coordinate (L{Osgr}).
 
-       @raise ValueError: Invalid L{strOSGR}.
+       @raise ValueError: Invalid strOSGR.
 
        @example:
 
@@ -353,8 +353,9 @@ def toOsgr(latlon, lon=None, datum=Datums.WGS84):
 
        @return: The OSGR coordinate (L{Osgr}).
 
-       @raise TypeError: If L{latlon} is not an ellipsoidal LatLon.
-       @raise ValueError: If L{lon} is invalid.
+       @raise TypeError: If latlon is not ellipsoidal.
+
+       @raise ValueError: If lon is invalid, not None.
 
        @example:
 
@@ -363,7 +364,7 @@ def toOsgr(latlon, lon=None, datum=Datums.WGS84):
        >>> # for conversion of (historical) OSGB36 lat-/longitude:
        >>> r = toOsgr(52.65757, 1.71791, datum=Datums.OSGB36)
     '''
-    if isscalar(lon) and isscalar(latlon):
+    if isscalar(latlon) and isscalar(lon):
         # XXX any ellipsoidal LatLon with .convertDatum
         latlon = LatLonEllipsoidalBase(latlon, lon, datum=datum)
     elif not hasattr(latlon, 'convertDatum'):

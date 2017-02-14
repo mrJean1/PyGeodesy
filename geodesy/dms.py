@@ -23,7 +23,7 @@ __all__ = ('F_D', 'F_DM', 'F_DMS', 'F_RAD',  # format contants
            'bearingDMS', 'compassDMS', 'compassPoint',  # functions
            'latDMS', 'lonDMS', 'normDMS',
            'parseDMS', 'parse3llh', 'precision', 'toDMS')
-__version__ = '17.02.13'
+__version__ = '17.02.14'
 
 F_D   = 'd'    #: Format degrees as deg° (string).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (string).
@@ -132,7 +132,7 @@ def compassPoint(bearing, prec=3):
 
        @return: Compass point (1-, 2- or 3-letter string).
 
-       @raise ValueError: Invalid L{prec}ision.
+       @raise ValueError: Invalid prec.
 
        @example:
 
@@ -198,23 +198,23 @@ if __debug__:  # no __doc__ at -O and -OO
 def parse3llh(strll, height=0, sep=','):
     '''Parse a string representing lat-, longitude and height point.
 
-       The lat- and longitude value must be separated by a L{sep}arator
+       The lat- and longitude value must be separated by a separator
        character.  If height is present it must follow, separated by
-       another L{sep}arator.
+       another separator.
 
        The lat- and longitude values may be swapped, provided at least
        one ends with the proper compass direction.
 
-       See function L{parseDMS} for more details on the forms and
+       See function parseDMS for more details on the forms and
        symbols accepted.
 
        @param strll: Lat, lon[, height] (string).
        @keyword height: Default for missing height (meter).
        @keyword sep: Optional, separator (string).
 
-       @return: 3-Tuple (Lat, lon, height) as (scalar, ...).
+       @return: 3-Tuple (lat, lon, height) as (scalars).
 
-       @raise ValueError: Invalid L{strll}.
+       @raise ValueError: Invalid strll.
 
        @example:
 
@@ -249,7 +249,7 @@ def parseDMS(strDMS, suffix='NSEW'):
 
        @return: Degrees (float).
 
-       @raise ValueError: Invalid L{strDMS}.
+       @raise ValueError: Invalid strDMS.
     '''
     try:  # signed decimal degrees without NSEW
         return float(strDMS)

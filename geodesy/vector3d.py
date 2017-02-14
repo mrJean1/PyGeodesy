@@ -19,7 +19,7 @@ from math import atan2, cos, hypot, sin
 # all public contants, classes and functions
 __all__ = ('Vector3d',  # classes
            'sumOf')  # functions
-__version__ = '17.02.11'
+__version__ = '17.02.14'
 
 try:
     _cmp = cmp
@@ -204,7 +204,7 @@ class Vector3d(VectorBase):
            @keyword units: Use units=True to compare the normalized,
                            unit version of both vectors.
 
-           @return: True if vectors are identical.
+           @return: True if vectors are identical (bool).
 
            @example:
 
@@ -255,7 +255,7 @@ class Vector3d(VectorBase):
            @param other: The other vector (L{Vector3d}).
            @keyword name: Other's name (string).
 
-           @raise TypeError: Incompatible type(L{other}).
+           @raise TypeError: Incompatible type(other).
         '''
         try:
             VectorBase.others(self, other, name=name)
@@ -272,7 +272,7 @@ class Vector3d(VectorBase):
 
            @return: New vector (L{Vector3d}).
 
-           @raise ValueError: Invalid L{str3d}.
+           @raise ValueError: Invalid str3d.
         '''
         try:
             v = [float(v.strip()) for v in str3d.split(',')]
@@ -353,7 +353,7 @@ class Vector3d(VectorBase):
     def to3xyz(self):
         '''Return this vector as a 3-tuple.
 
-           @return: 3-Tuple (x, y, z) as (scalar, ...).
+           @return: 3-Tuple (x, y, z) as (scalars).
         '''
         return self.x, self.y, self.z
 
@@ -407,11 +407,11 @@ def sumOf(vectors, Vector=Vector3d, **kwds):
 
        @param vectors: Vectors to be added (L{Vector3d}[]).
        @keyword Vector: Vector class to instantiate (L{Vector3d}).
-       @keyword kwds: Optional, additional L{Vector} keyword argments.
+       @keyword kwds: Optional, additional Vector keyword argments.
 
-       @return: Vectorial sum (L{Vector}).
+       @return: Vectorial sum (Vector).
 
-       @raise ValueError: No L{vectors}.
+       @raise ValueError: No vectors.
     '''
     n, vectors = len2(vectors)
     if n < 1:

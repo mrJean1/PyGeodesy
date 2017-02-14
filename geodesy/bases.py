@@ -18,7 +18,7 @@ from math import cos, radians, sin
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('Base', 'LatLonHeightBase', 'Named', 'VectorBase')
-__version__ = '17.02.13'
+__version__ = '17.02.14'
 
 
 class Base(object):
@@ -56,7 +56,7 @@ class Base(object):
 #
 #          @param attr: Attribute name (string).
 #
-#          @raise NotImplementedError: No such L{attr}ibute.
+#          @raise NotImplementedError: No such attribute.
 #       '''
 #       c = self.__class__.__name__
 #       return NotImplementedError('%s.%s' % (c, attr))
@@ -65,9 +65,9 @@ class Base(object):
         '''Check this and an other instance for type compatiblility.
 
            @param other: The other instance (any).
-           @keyword name: Optional, name for L{other} (string).
+           @keyword name: Optional, name for other (string).
 
-           @raise TypeError: Mismatch of this and type(L{other}).
+           @raise TypeError: Mismatch of this and type(other).
         '''
         if not (isinstance(self, other.__class__) or
                 isinstance(other, self.__class__)):
@@ -102,9 +102,10 @@ class LatLonHeightBase(Base):
     '''(INTERNAL) Base class for LatLon points on
        spherical or ellipsiodal earth models.
     '''
-    _height = 0  #: (INTERNAL) Height (meter)
-    _lat    = 0  #: (INTERNAL) Latitude (degrees)
-    _lon    = 0  #: (INTERNAL) Longitude (degrees)
+    _ab     = ()  #: (INTERNAL) Cache (lat, lon) radians (2-tuple)
+    _height = 0   #: (INTERNAL) Height (meter)
+    _lat    = 0   #: (INTERNAL) Latitude (degrees)
+    _lon    = 0   #: (INTERNAL) Longitude (degrees)
 
     def __init__(self, lat, lon, height=0):
         '''New LatLon.
@@ -115,7 +116,7 @@ class LatLonHeightBase(Base):
 
            @return: New instance (LatLon).
 
-           @raise ValueError: Invalid L{lat}- or L{lon}gitude.
+           @raise ValueError: Invalid lat or lon.
 
            @example:
 
@@ -146,6 +147,12 @@ class LatLonHeightBase(Base):
         '''
         return self.height + f * (other.height - self.height)
 
+    def _update(self, updated):
+        '''(INTERNAL) Reset caches if updated.
+        '''
+        if updated:  # reset caches
+            self._ab = None
+
     def copy(self):
         '''Copy this point.
 
@@ -160,7 +167,7 @@ class LatLonHeightBase(Base):
 
            @return: True if both points are identical (bool).
 
-           @raise TypeError: The L{other} point is not LatLon.
+           @raise TypeError: The other point is not LatLon.
 
            @example:
 
@@ -201,9 +208,9 @@ class LatLonHeightBase(Base):
 
            @return: True if clockwise, False otherwise.
 
-           @raise TypeError: Some L{points} are not LatLon.
+           @raise TypeError: Some points are not LatLon.
 
-           @raise ValueError: Too few L{points} or polygon has zero area.
+           @raise ValueError: Too few points or polygon has zero area.
 
            @example:
 
@@ -241,7 +248,7 @@ class LatLonHeightBase(Base):
 
     @lat.setter  # PYCHOK setter!
     def lat(self, lat):
-        '''Set the latitude.
+        '''Set the latitude (degrees).
 
            @param lat: New latitude (degrees).
         '''
@@ -254,6 +261,15 @@ class LatLonHeightBase(Base):
         '''
         return self._lon
 
+    @lon.setter  # PYCHOK setter!
+    def lon(self, lon):
+        '''Set the longitude (degrees).
+
+           @param lon: New longitude (degrees).
+        '''
+        self._update(lon != self._lon)
+        self._lon = lon
+
     def points(self, points, closed=True):
         '''Check a polygon given as list, sequence, set or tuple
            of points.
@@ -261,11 +277,11 @@ class LatLonHeightBase(Base):
            @param points: The points of the polygon (LatLon[])
            @keyword closed: Treat polygon as closed (bool).
 
-           @return: 2-Tuple (number, list) of points.
+           @return: 2-Tuple (number, list) of points (int, list).
 
-           @raise TypeError: Some L{points} are not LatLon.
+           @raise TypeError: Some points are not LatLon.
 
-           @raise ValueError: Too few L{points}.
+           @raise ValueError: Too few points.
         '''
         n, points = len2(points)
         if closed and n > 1 and points[0].equals(points[-1]):
@@ -280,21 +296,14 @@ class LatLonHeightBase(Base):
 
         return n, points
 
-    @lon.setter  # PYCHOK setter!
-    def lon(self, lon):
-        '''Set the longitude.
-
-           @param lon: New longitude (degrees).
-        '''
-        self._update(lon != self._lon)
-        self._lon = lon
-
-    def toradians(self):
+    def to2ab(self):
         '''Return this point's lat-/longitude in radians.
 
-           @return: 2-Tuple (lat, lon) in (radians, ...).
+           @return: 2-Tuple (lat, lon) in (radians, radians).
         '''
-        return radians(self.lat), radians(self.lon)
+        if not self._ab:
+            self._ab = radians(self.lat), radians(self.lon)
+        return self._ab
 
     def toStr(self, form=F_DMS, prec=None, m='m', sep=', '):  # PYCHOK expected
         '''Convert this point to a "lat, lon [+/-height]" string,
@@ -324,11 +333,11 @@ class LatLonHeightBase(Base):
         '''Convert this (geodetic) point to n-vector (normal
            to the earth's surface) x/y/z components.
 
-           @return: 3-Tuple (x, y, z) in (meter, ...).
+           @return: 3-Tuple (x, y, z) in (meter).
         '''
         # Kenneth Gade eqn 3, but using right-handed
         # vector x -> 0°E,0°N, y -> 90°E,0°N, z -> 90°N
-        a, b = self.toradians()
+        a, b = self.to2ab()
         ca = cos(a)
         return ca * cos(b), ca * sin(b), sin(a)
 

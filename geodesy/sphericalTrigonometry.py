@@ -24,7 +24,7 @@ from math import acos, asin, atan2, cos, hypot, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('LatLon',  # classes
            'intersection', 'meanOf')  # functions
-__version__ = '17.02.12'
+__version__ = '17.02.14'
 
 
 class LatLon(LatLonSphericalBase):
@@ -52,7 +52,7 @@ class LatLon(LatLonSphericalBase):
 
            @return: Initial bearing (compass degrees).
 
-           @raise TypeError: The L{other} point is not L{LatLon}.
+           @raise TypeError: The other point is not L{LatLon}.
 
            @example:
 
@@ -62,8 +62,8 @@ class LatLon(LatLonSphericalBase):
         '''
         self.others(other)
 
-        a1, b1 = self.toradians()
-        a2, b2 = other.toradians()
+        a1, b1 = self.to2ab()
+        a2, b2 = other.to2ab()
         db = b2 - b1
 
         ca2 = cos(a2)
@@ -80,16 +80,16 @@ class LatLon(LatLonSphericalBase):
            @param other: The other point defining great circle (L{LatLon}).
            @param lat: Latitude at the crossing (degrees).
 
-           @return: 2-Tuple (lon1, lon2) in (degrees180, ...) or None if
-                    the great circle doesn't reach the given latitude.
+           @return: 2-Tuple (lon1, lon2) in (degrees180) or None if the
+                    great circle doesn't reach the given latitude.
         '''
         self.others(other)
 
         a = radians(lat)
         ca, sa = cos(a), sin(a)
 
-        a1, b1 = self.toradians()
-        a2, b2 = other.toradians()
+        a1, b1 = self.to2ab()
+        a2, b2 = other.to2ab()
 
         ca1, sa1 = cos(a1), sin(a1)
         ca2, sa2 = cos(a2), sin(a2)
@@ -121,7 +121,7 @@ class LatLon(LatLonSphericalBase):
            @return: Distance to great circle (negative if to the
                     left or positive if to the right of the path).
 
-           @raise TypeError: The L{start} or L{end} point is not L{LatLon}.
+           @raise TypeError: The start or end point is not L{LatLon}.
 
            @example:
 
@@ -144,7 +144,7 @@ class LatLon(LatLonSphericalBase):
         '''Locates the destination from this point after having
            travelled the given distance on the given initial bearing.
 
-           @param distance: Distance travelled (same units radius).
+           @param distance: Distance travelled (same units as radius).
            @param bearing: Bearing from this point (compass degrees).
            @keyword radius: Mean earth radius (meter).
 
@@ -160,7 +160,7 @@ class LatLon(LatLonSphericalBase):
         t = radians(bearing)
 
         # see http://williams.best.vwh.net/avform.htm#LL
-        a1, b1 = self.toradians()
+        a1, b1 = self.to2ab()
         ca1, sa1 = cos(a1), sin(a1)
 
         cd, sd = cos(d), sin(d)
@@ -177,10 +177,10 @@ class LatLon(LatLonSphericalBase):
            @param other: The other point (L{LatLon}).
            @keyword radius: Mean earth radius (meter).
 
-           @return: Distance between this and the L{other} point
+           @return: Distance between this and the other point
                     (in the same units as radius).
 
-           @raise TypeError: The L{other} point is not L{LatLon}.
+           @raise TypeError: The other point is not L{LatLon}.
 
            @example:
 
@@ -190,8 +190,8 @@ class LatLon(LatLonSphericalBase):
         '''
         self.others(other)
 
-        a1, b1 = self.toradians()
-        a2, b2 = other.toradians()
+        a1, b1 = self.to2ab()
+        a2, b2 = other.to2ab()
 
         # see http://williams.best.vwh.net/avform.htm#Dist
         sa = sin_2(a2 - a1)
@@ -220,7 +220,7 @@ class LatLon(LatLonSphericalBase):
            >>> g = p.greatCircle(96.0)
            >>> g.toStr()  # (-0.794, 0.129, 0.594)
         '''
-        a, b = self.toradians()
+        a, b = self.to2ab()
         t = radians(bearing)
 
         ca, sa = cos(a), sin(a)
@@ -237,11 +237,11 @@ class LatLon(LatLonSphericalBase):
 
            @param other: The other point (L{LatLon}).
            @param fraction: Fraction between both points (float, 0.0 =
-                            this point, 1.0 = the L{other} point).
+                            this point, 1.0 = the other point).
 
            @return: Intermediate point (L{LatLon}).
 
-           @raise TypeError: The L{other} point is not L{LatLon}.
+           @raise TypeError: The other point is not L{LatLon}.
 
            @example:
 
@@ -256,8 +256,8 @@ class LatLon(LatLonSphericalBase):
         elif fraction > EPS1:
             i = other
         else:
-            a1, b1 = self.toradians()
-            a2, b2 = other.toradians()
+            a1, b1 = self.to2ab()
+            a2, b2 = other.to2ab()
 
             ca1, sa1, cb1, sb1 = cos(a1), sin(a1), cos(b1), sin(b1)
             ca2, sa2, cb2, sb2 = cos(a2), sin(a2), cos(b2), sin(b2)
@@ -292,11 +292,11 @@ class LatLon(LatLonSphericalBase):
 
            @param bearing: Initial bearing from this point (compass degrees).
            @param start2: Start point of second path (L{LatLon}).
-           @param bearing2: Initial bearing from L{start2} (compass degrees).
+           @param bearing2: Initial bearing from start2 (compass degrees).
 
            @return: Intersection point (L{LatLon}).
 
-           @raise TypeError: Point L{start2} is not a L{LatLon}.
+           @raise TypeError: Point start2 is not a L{LatLon}.
 
            @raise ValueError: Intersection is ambiguous or infinite
                               or the paths are parallel or coincide.
@@ -317,9 +317,9 @@ class LatLon(LatLonSphericalBase):
 
            @return: True if the polygon encloses this point (bool).
 
-           @raise ValueError: Too few L{points} or non-convex polygon.
+           @raise ValueError: Too few points or non-convex polygon.
 
-           @raise TypeError: Some L{points} are not L{LatLon}.
+           @raise TypeError: Some points are not L{LatLon}.
 
            @example:
 
@@ -378,7 +378,7 @@ class LatLon(LatLonSphericalBase):
 
            @return: Midpoint (L{LatLon}).
 
-           @raise TypeError: The L{other} point is not L{LatLon}.
+           @raise TypeError: The other point is not L{LatLon}.
 
            @example:
 
@@ -389,8 +389,8 @@ class LatLon(LatLonSphericalBase):
         self.others(other)
 
         # see http://mathforum.org/library/drmath/view/51822.html
-        a1, b1 = self.toradians()
-        a2, b2 = other.toradians()
+        a1, b1 = self.to2ab()
+        a2, b2 = other.to2ab()
 
         d = b2 - b1
         c = cos(a2)
@@ -441,7 +441,7 @@ def intersection(start1, bearing1, start2, bearing2):
 
        @return: Intersection point (L{LatLon}).
 
-       @raise TypeError: Point L{start1} or L{start2} is not a L{LatLon}.
+       @raise TypeError: Point start1 or start2 is not L{LatLon}.
 
        @raise ValueError: Intersection is ambiguous or infinite
                           or the paths are parallel or coincide.
@@ -456,8 +456,8 @@ def intersection(start1, bearing1, start2, bearing2):
     _Trll.others(start2, name='start2')
 
     # see http://williams.best.vwh.net/avform.htm#Intersection
-    a1, b1 = start1.toradians()
-    a2, b2 = start2.toradians()
+    a1, b1 = start1.to2ab()
+    a2, b2 = start2.to2ab()
 
     sa = sin_2(a2 - a1)
     sb = sin_2(b2 - b1)
@@ -510,11 +510,11 @@ def meanOf(points, height=None):
        @param points: Points to be averaged (L{LatLon}[]).
        @keyword height: Height to use inlieu of mean (meter).
 
-       @return: Point at geographic mean and L{height} (L{LatLon}).
+       @return: Point at geographic mean and height (L{LatLon}).
 
-       @raise TypeError: Some L{points} are not a L({LatLon}).
+       @raise TypeError: Some points are not L({LatLon}).
 
-       @raise ValueError: If no L{points}.
+       @raise ValueError: If no points.
     '''
     # geographic mean
     n, points = _Trll.points(points, closes=False)

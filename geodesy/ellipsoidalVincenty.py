@@ -58,7 +58,7 @@ from math import atan2, cos, hypot, sin, tan
 
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'VincentyError')  # classes
-__version__ = '17.02.13'
+__version__ = '17.02.14'
 
 
 class VincentyError(Exception):
@@ -178,15 +178,14 @@ class LatLon(LatLonEllipsoidalBase):
 
            @return: Distance in meters (scalar).
 
-           @raise TypeError: The L{other} point is not L{LatLon}.
+           @raise TypeError: The other point is not L{LatLon}.
 
-           @raise ValueError: If this and the L{other} point's L{Datum}
+           @raise ValueError: If this and the other point's L{Datum}
                               ellipsoids are not compatible.
 
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limit or this and the L{other} point
-                                 coincide.
+                                 limit or this and the other point coincide.
 
            @example:
 
@@ -213,15 +212,14 @@ class LatLon(LatLonEllipsoidalBase):
            @return: 3-Tuple (distance, initial bearing, final bearing)
            in (meter, degrees360, degree360).
 
-           @raise TypeError: The L{other} point is not L{LatLon}.
+           @raise TypeError: The other point is not L{LatLon}.
 
-           @raise ValueError: If this and the L{other} point's L{Datum}
+           @raise ValueError: If this and the other point's L{Datum}
                               ellipsoids are not compatible.
 
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limit or this and the L{other} point
-                                 coincide.
+                                 limit or this and the other point coincide.
         '''
         return self._inverse(other, True)
 
@@ -273,15 +271,14 @@ class LatLon(LatLonEllipsoidalBase):
 
            @return: Final bearing in compass degrees (degrees360).
 
-           @raise TypeError: The L{other} point is not L{LatLon}.
+           @raise TypeError: The other point is not L{LatLon}.
 
-           @raise ValueError: If this and the L{other} point's L{Datum}
+           @raise ValueError: If this and the other point's L{Datum}
                               ellipsoids are not compatible.
 
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limit or this and the L{other} point
-                                 coincide.
+                                 limit or this and the other point coincide.
 
            @example:
 
@@ -305,15 +302,14 @@ class LatLon(LatLonEllipsoidalBase):
 
            @return: Initial bearing in compass degrees (degrees360).
 
-           @raise TypeError: The L{other} point is not L{LatLon}.
+           @raise TypeError: The other point is not L{LatLon}.
 
-           @raise ValueError: If this and the L{other} point's L{Datum}
+           @raise ValueError: If this and the other point's L{Datum}
                               ellipsoids are not compatible.
 
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limit or this and the L{other} point
-                                 coincide.
+                                 limit or this and the other point coincide.
 
            @example:
 
@@ -402,15 +398,14 @@ class LatLon(LatLonEllipsoidalBase):
     def _inverse(self, other, azis):
         '''(INTERNAL) Inverse Vincenty method.
 
-           @raise TypeError: The L{other} point is not L{LatLon}.
+           @raise TypeError: The other point is not L{LatLon}.
 
-           @raise ValueError: If this and the L{other} point's L{Datum}
+           @raise ValueError: If this and the other point's L{Datum}
                               ellipsoids are not compatible.
 
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limit or this and the L{other} point
-                                 coincide.
+                                 limit or this and the other point coincide.
         '''
         E = self.ellipsoids(other)
 

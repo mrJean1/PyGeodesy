@@ -23,7 +23,7 @@ from math import acos, atan2, cos, hypot, log, sin
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('LatLonSphericalBase',)
-__version__ = '17.02.12'
+__version__ = '17.02.14'
 
 
 class LatLonSphericalBase(LatLonHeightBase):
@@ -43,8 +43,9 @@ class LatLonSphericalBase(LatLonHeightBase):
 
            @param datum: New datum (L{Datum}).
 
-           @raise TypeError: If L{datum} is not a L{Datum}.
-           @raise ValueError: If L{datum} is not spherical.
+           @raise TypeError: If datum is not a L{Datum}.
+
+           @raise ValueError: If datum is not spherical.
         '''
         if not isinstance(datum, Datum):
             raise TypeError('%r not a %s: %r' % ('datum', Datum.__name__, datum))
@@ -58,11 +59,11 @@ class LatLonSphericalBase(LatLonHeightBase):
         '''Return the final bearing (reverse azimuth) from this
            to an other point.
 
-           @param other: The other point (L{LatLonSphericalBase}).
+           @param other: The other point (spherical LatLon).
 
            @return: Final bearing (compass degrees).
 
-           @raise TypeError: The L{other} point is not L{LatLonSphericalBase}.
+           @raise TypeError: The other point is not spherical.
 
            @example:
 
@@ -128,16 +129,16 @@ class LatLonSphericalBase(LatLonHeightBase):
            @keyword height: Default height (meter).
            @keyword sep: Separator (string).
 
-           @return: The point (L{LatLonSphericalBase}).
+           @return: The point (spherical LatLon).
 
-           @raise ValueError: Invalid L{strll}.
+           @raise ValueError: Invalid strll.
         '''
         return self.topsub(*parse3llh(strll, height=height, sep=sep))
 
     def _rhumb3(self, other):
         '''(INTERNAL) Rhumb_ helper function.
 
-           @param other: The L{other} point (L{LatLonSphericalBase}).
+           @param other: The other point (spherical LatLon).
         '''
         self.others(other)
 
@@ -153,11 +154,11 @@ class LatLonSphericalBase(LatLonHeightBase):
         '''Return the initial bearing (aka forward azimuth) from this
            to an other point along a rhumb (loxodrome) line.
 
-           @param other: The other point (L{LatLonSphericalBase}).
+           @param other: The other point (spherical LatLon).
 
            @return: Initial bearing (compass degrees).
 
-           @raise TypeError: The L{other} point is not L{LatLonSphericalBase}.
+           @raise TypeError: The other point is not spherical.
 
            @example:
 
@@ -173,12 +174,12 @@ class LatLonSphericalBase(LatLonHeightBase):
         '''Returns distance from this to an other point along
            a rhumb (loxodrome) line.
 
-           @param other: The other point (L{LatLonSphericalBase}).
+           @param other: The other point (spherical LatLon).
            @keyword radius: Mean radius of earth (scalar, default meter).
 
            @return: Distance (in the same units as radius).
 
-           @raise TypeError: The L{other} point is not L{LatLonSphericalBase}.
+           @raise TypeError: The other point is not spherical.
 
            @example:
 
@@ -204,11 +205,11 @@ class LatLonSphericalBase(LatLonHeightBase):
         '''Return the loxodromic midpoint between this and an
            other point.
 
-           @param other: The other point (L{LatLonSphericalBase}).
+           @param other: The other point (spherical LatLon).
 
-           @return: The midpoint (L{LatLonSphericalBase}).
+           @return: The midpoint (spherical LatLon).
 
-           @raise TypeError: The L{other} point is not L{LatLonSphericalBase}.
+           @raise TypeError: The other point is not spherical.
 
            @example:
 
@@ -220,8 +221,8 @@ class LatLonSphericalBase(LatLonHeightBase):
         self.others(other)
 
         # see http://mathforum.org/library/drmath/view/51822.html
-        a1, b1 = self.toradians()
-        a2, b2 = other.toradians()
+        a1, b1 = self.to2ab()
+        a2, b2 = other.to2ab()
         if abs(b2 - b1) > PI:
             b1 += PI2  # crossing anti-meridian
 

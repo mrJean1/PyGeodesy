@@ -563,9 +563,9 @@
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#equals">equals</a></code>,
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#isclockwise">isclockwise</a></code>,
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#points">points</a></code>,
+      <code><a href="geodesy.bases.LatLonHeightBase-class.html#to2ab">to2ab</a></code>,
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#to3xyz">to3xyz</a></code>,
-      <code><a href="geodesy.bases.LatLonHeightBase-class.html#toStr">toStr</a></code>,
-      <code><a href="geodesy.bases.LatLonHeightBase-class.html#toradians">toradians</a></code>
+      <code><a href="geodesy.bases.LatLonHeightBase-class.html#toStr">toStr</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="geodesy.bases.Base-class.html">bases.Base</a></code></b>:
       <code><a href="geodesy.bases.Base-class.html#__repr__">__repr__</a></code>,
@@ -649,7 +649,7 @@
         <dd>Initial bearing (compass degrees).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
         href="geodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -697,8 +697,7 @@
           to the right of the path).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">start</code> or <code 
-        class="link">end</code> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The start or end is not <a 
         href="geodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -819,11 +818,11 @@
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (meter).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Distance between this and the <code class="link">other</code> 
-          point (in the same units as radius).</dd>
+        <dd>Distance between this and the other point (in the same units as 
+          radius).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
         href="geodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -906,7 +905,7 @@
           class="link">Nvector</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
         href="geodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -956,7 +955,7 @@
           class="link">LatLon</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
         href="geodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -1002,7 +1001,7 @@
           class="link">LatLon</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
         href="geodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -1040,7 +1039,7 @@
           href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>fraction</code></strong> - Fraction between both points (float, 0.0 = this point, 1.0 = the 
-          <code class="link">other</code> point).</li>
+          other point).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Intermediate point (<a 
@@ -1048,7 +1047,7 @@
           class="link">LatLon</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
         href="geodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -1086,7 +1085,7 @@
           href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>fraction</code></strong> - Fraction between both points (float, 0.0 = this point, 1.0 = the 
-          <code class="link">other</code> point).</li>
+          other point).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Intermediate point (<a 
@@ -1094,7 +1093,7 @@
           class="link">LatLon</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
         href="geodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -1147,9 +1146,8 @@
           class="link">LatLon</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">start2</code>, <code 
-        class="link">end1</code> or <code class="link">end2</code> point is
-        not <a href="geodesy.sphericalNvector.LatLon-class.html" 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The start2, end1 or end2 is not <a 
+        href="geodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
   </dl>
@@ -1189,10 +1187,8 @@
         <dd>True if the polygon encloses this point (bool).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Too few <a href="geodesy.bases.LatLonHeightBase-class.html#points" 
-        class="link">points</a>.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <a href="geodesy.bases.LatLonHeightBase-class.html#points" 
-        class="link">points</a> are not <a 
+        <li><code><strong class='fraise'>ValueError</strong></code> - Too few points.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <a 
         href="geodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -1233,10 +1229,8 @@
         <dd>True if the polygon encloses this point (bool).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Too few <a href="geodesy.bases.LatLonHeightBase-class.html#points" 
-        class="link">points</a>.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <a href="geodesy.bases.LatLonHeightBase-class.html#points" 
-        class="link">points</a> are not <a 
+        <li><code><strong class='fraise'>ValueError</strong></code> - Too few points.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <a 
         href="geodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -1284,7 +1278,7 @@
         <dd>True if this point is within the segment (bool).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - One of the points is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - If point1 or point2 is not <a 
         href="geodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -1326,7 +1320,7 @@
         <dd>True if this point is within the segment (bool).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - One of the points is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - If point1 or point2 is not <a 
         href="geodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -1361,7 +1355,7 @@
           class="link">LatLon</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
         href="geodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -1411,8 +1405,7 @@
           class="link">LatLon</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <a href="geodesy.bases.LatLonHeightBase-class.html#points" 
-        class="link">points</a> are not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - If point1 or point2 is not <a 
         href="geodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -1469,8 +1462,7 @@
           class="link">LatLon</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <a href="geodesy.bases.LatLonHeightBase-class.html#points" 
-        class="link">points</a> are not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - If point1 or point2 is not <a 
         href="geodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -1554,7 +1546,7 @@
           class="link">LatLon</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
         href="geodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -1597,13 +1589,11 @@
         <li><strong class="pname"><code>point2</code></strong> - Second reference point (<a 
           href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>distance2</code></strong> - Distance to <code class="link">point2</code> (same units as 
-          radius).</li>
+        <li><strong class="pname"><code>distance2</code></strong> - Distance to point2 (same units as radius).</li>
         <li><strong class="pname"><code>point3</code></strong> - Third reference point (<a 
           href="geodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>distance3</code></strong> - Distance to <code class="link">point3</code> (same units as 
-          radius).</li>
+        <li><strong class="pname"><code>distance3</code></strong> - Distance to point3 (same units as radius).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (meter).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -1652,7 +1642,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Feb 13 15:24:04 2017
+    Generated by Epydoc 3.0.1 on Tue Feb 14 15:06:15 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

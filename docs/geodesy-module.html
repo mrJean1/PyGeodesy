@@ -148,7 +148,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.02.13
+        17.02.14
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -633,8 +633,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="geodesy-module.html#isint" class="summary-sig-name">isint</a>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Checks for integer object or value.</td>
+          <td><span class="summary-sig"><a href="geodesy-module.html#isint" class="summary-sig-name">isint</a>(<span class="summary-sig-arg">obj</span>,
+        <span class="summary-sig-arg">both</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Checks for integer types and value.</td>
           <td align="right" valign="top">
             
             
@@ -651,7 +652,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy-module.html#isscalar" class="summary-sig-name">isscalar</a>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Checks for scalar object.</td>
+      Checks for scalar types.</td>
           <td align="right" valign="top">
             
             
@@ -1487,7 +1488,7 @@ Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, \
         <dd>Compass point (1-, 2- or 3-letter string).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <code class="link">prec</code>ision.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid prec.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -1599,14 +1600,13 @@ Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, \
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>floats</code></strong> - List, sequence, tuple, etc. (scalars).</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimals, unstripped.  Trailing zero decimals
-          are not stripped if <code class="link">prec</code> is 2 or 
-          negative.</li>
+          are not stripped if prec is 2 or negative.</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional, separator to join (string).</li>
         <li><strong class="pname"><code>fmt</code></strong> - Optional, float format (string).</li>
         <li><strong class="pname"><code>ints</code></strong> - Optionally, remove decimal dot (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The <code class="link">floats</code> as 'f, f, ... f' (string).</dd>
+        <dd>The floats as 'f, f, ... f' (string).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1638,7 +1638,7 @@ Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, \
         <dd>The value (float).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or negative <code class="link">value</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or negative value.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1670,8 +1670,7 @@ Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, \
         <dd>Dot product (float).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>AssertionError</strong></code> - If len(<code class="link">a</code>) and len(<code 
-        class="link">b</code>) differ.</li>
+        <li><code><strong class='fraise'>AssertionError</strong></code> - If len(a) and len(b) differ.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1706,9 +1705,7 @@ Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, \
         <dd>Dot product (float).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>AssertionError</strong></code> - If len(<code class="link">a</code>), len(<code 
-        class="link">b</code>) and/or len(<code class="link">c</code>) 
-        differ.</li>
+        <li><code><strong class='fraise'>AssertionError</strong></code> - If len(a), len(b) and/or len(c) differ.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1757,7 +1754,7 @@ Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, \
         <dd>2-Tuple (1st, 2nd) halfs (strings).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Zero or odd <code class="link">str2</code> length.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Zero or odd str2 length.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1823,21 +1820,23 @@ Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, \
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">isint</span>(<span class="sig-arg">obj</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isint</span>(<span class="sig-arg">obj</span>,
+        <span class="sig-arg">both</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Checks for integer object or value.</p>
+  <p>Checks for integer types and value.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>obj</code></strong> - An object (any).</li>
+        <li><strong class="pname"><code>obj</code></strong> - The object (any type).</li>
+        <li><strong class="pname"><code>both</code></strong> - Check both type and value (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if <code class="link">obj</code> is integer (bool).</dd>
+        <dd>True if obj is integer (bool).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1855,14 +1854,14 @@ Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, \
     </td>
   </tr></table>
   
-  <p>Checks for scalar object.</p>
+  <p>Checks for scalar types.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>obj</code></strong> - An object (any).</li>
+        <li><strong class="pname"><code>obj</code></strong> - The object (any type).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if <code class="link">obj</code> is scalar (bool).</dd>
+        <dd>True if obj is scalar (bool).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2027,13 +2026,12 @@ Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, \
   </tr></table>
   
   <p>Parse a string representing lat-, longitude and height point.</p>
-  <p>The lat- and longitude value must be separated by a <code 
-  class="link">sep</code>arator character.  If height is present it must 
-  follow, separated by another <code class="link">sep</code>arator.</p>
+  <p>The lat- and longitude value must be separated by a separator 
+  character.  If height is present it must follow, separated by another 
+  separator.</p>
   <p>The lat- and longitude values may be swapped, provided at least one 
   ends with the proper compass direction.</p>
-  <p>See function <a href="geodesy.dms-module.html#parseDMS" 
-  class="link">parseDMS</a> for more details on the forms and symbols 
+  <p>See function parseDMS for more details on the forms and symbols 
   accepted.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -2043,10 +2041,10 @@ Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, \
         <li><strong class="pname"><code>sep</code></strong> - Optional, separator (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>3-Tuple (Lat, lon, height) as (scalar, ...).</dd>
+        <dd>3-Tuple (lat, lon, height) as (scalars).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <code class="link">strll</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid strll.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -2086,7 +2084,7 @@ Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, \
         <dd>Degrees (float).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <code class="link">strDMS</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid strDMS.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -2120,7 +2118,7 @@ Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, \
           class="link">Mgrs</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <code class="link">strMGRS</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid strMGRS.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -2161,7 +2159,7 @@ Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, \
           class="link">Osgr</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <code class="link">strOSGR</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid strOSGR.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -2199,8 +2197,7 @@ Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, \
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>strUTM</code></strong> - A UTM coordinate (string).</li>
-        <li><strong class="pname"><code>datum</code></strong> - <a href="geodesy.datum.Datum-class.html" class="link">Datum</a> 
-          to use (<a href="geodesy.datum.Datum-class.html" 
+        <li><strong class="pname"><code>datum</code></strong> - Datum to use (<a href="geodesy.datum.Datum-class.html" 
           class="link">Datum</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -2440,7 +2437,7 @@ Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, \
           class="link">Lcc</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - If <code class="link">latlon</code> is not ellipsoidal.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - If latlon is not ellipsoidal.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -2471,8 +2468,9 @@ Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, \
           class="link">Mgrs</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <a href="geodesy.utm-module.html" class="link" 
-        onclick="show_private();">utm</a>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - If utm is not <a href="geodesy.utm.Utm-class.html" 
+        class="link">Utm</a>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid utm.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -2512,8 +2510,8 @@ Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, \
           class="link">Osgr</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - If <code class="link">latlon</code> is not an ellipsoidal LatLon.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - If <code class="link">lon</code> is invalid.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - If latlon is not ellipsoidal.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - If lon is invalid, not None.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -2547,8 +2545,7 @@ Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, \
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>latlon</code></strong> - Latitude (degrees) or an ellipsoidal LatLon instance.</li>
         <li><strong class="pname"><code>lon</code></strong> - Longitude (degrees or None).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Datum for this UTM coordinate, overriding <code 
-          class="link">latlon</code>'s datum (<a 
+        <li><strong class="pname"><code>datum</code></strong> - Datum for this UTM coordinate, overriding latlon's datum (<a 
           href="geodesy.datum.Datum-class.html" class="link">Datum</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -2556,10 +2553,9 @@ Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, \
           class="link">Utm</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - If <code class="link">latlon</code> is not ellipsoidal.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - If <code class="link">lon</code> value is missing or if <code 
-        class="link">latlon</code> is not scalar or <code 
-        class="link">latlon</code> is outside valid UTM bands.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - If latlon is not ellipsoidal.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - If lon value is missing, if latlon is not scalar or latlon is 
+        outside the valid UTM bands.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -2847,7 +2843,7 @@ Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, <span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Feb 13 15:24:03 2017
+    Generated by Epydoc 3.0.1 on Tue Feb 14 15:06:14 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

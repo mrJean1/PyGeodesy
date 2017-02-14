@@ -217,7 +217,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy.ellipsoidalNvector.LatLon-class.html#toCartesian" class="summary-sig-name">toCartesian</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Convert this (geodtic) point to (geocentric) x/y/z cartesian 
+      Convert this (geodetic) point to (geocentric) x/y/z cartesian 
       coordinates.</td>
           <td align="right" valign="top">
             
@@ -271,8 +271,8 @@
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#__str__">__str__</a></code>,
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#isclockwise">isclockwise</a></code>,
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#points">points</a></code>,
-      <code><a href="geodesy.bases.LatLonHeightBase-class.html#toStr">toStr</a></code>,
-      <code><a href="geodesy.bases.LatLonHeightBase-class.html#toradians">toradians</a></code>
+      <code><a href="geodesy.bases.LatLonHeightBase-class.html#to2ab">to2ab</a></code>,
+      <code><a href="geodesy.bases.LatLonHeightBase-class.html#toStr">toStr</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="geodesy.bases.Base-class.html">bases.Base</a></code></b>:
       <code><a href="geodesy.bases.Base-class.html#__repr__">__repr__</a></code>,
@@ -360,7 +360,7 @@
           class="link">Ned</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
         href="geodesy.ellipsoidalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - If ellipsoids are incompatible.</li>
@@ -407,7 +407,7 @@
           class="link">Cartesian</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">delta</code> is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The delta is not <a 
         href="geodesy.ellipsoidalNvector.Ned-class.html" 
         class="link">Ned</a>.</li>
     </ul></dd>
@@ -450,7 +450,7 @@
           class="link">Cartesian</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">delta</code> is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The delta is not <a 
         href="geodesy.ellipsoidalNvector.Ned-class.html" 
         class="link">Ned</a>.</li>
     </ul></dd>
@@ -492,7 +492,7 @@
         <dd>True if points are identical (bool).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
         href="geodesy.ellipsoidalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -533,7 +533,7 @@
           href="geodesy.ellipsoidalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>fraction</code></strong> - Fraction between both points ranging from 0 = this point to 1 = 
-          <code class="link">other</code> point (float).</li>
+          other point (float).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Intermediate point (<a 
@@ -541,7 +541,7 @@
           class="link">LatLon</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
         href="geodesy.ellipsoidalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -579,7 +579,7 @@
           href="geodesy.ellipsoidalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>fraction</code></strong> - Fraction between both points ranging from 0 = this point to 1 = 
-          <code class="link">other</code> point (float).</li>
+          other point (float).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Intermediate point (<a 
@@ -587,7 +587,7 @@
           class="link">LatLon</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
         href="geodesy.ellipsoidalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -614,14 +614,13 @@
     </td>
   </tr></table>
   
-  <p>Convert this (geodtic) point to (geocentric) x/y/z cartesian 
+  <p>Convert this (geodetic) point to (geocentric) x/y/z cartesian 
   coordinates.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>Cartesian representing this point, with x, y and z in meter from 
-          earth center (<a 
+        <dd>Cartesian cordinates x, y and z (<a 
           href="geodesy.ellipsoidalNvector.Cartesian-class.html" 
-          class="link">Cartesian</a>).</dd>
+          class="link">Cartesian</a>) in meter from the earth center.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -688,7 +687,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Feb 13 15:24:04 2017
+    Generated by Epydoc 3.0.1 on Tue Feb 14 15:06:15 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

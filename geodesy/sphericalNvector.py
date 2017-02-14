@@ -41,7 +41,7 @@ from math import atan2, cos, radians, sin
 __all__ = ('LatLon', 'Nvector',  # classes
            'areaOf', 'intersection', 'isclockwise', 'meanOf',  # functions
            'triangulate', 'trilaterate')
-__version__ = '17.02.13'
+__version__ = '17.02.14'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -85,7 +85,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @return: Initial bearing (compass degrees).
 
-           @raise TypeError: The L{other} point is not L{LatLon}.
+           @raise TypeError: The other point is not L{LatLon}.
 
            @example:
 
@@ -110,7 +110,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @return: Distance to great circle (negative if to the
                     left or positive if to the right of the path).
 
-           @raise TypeError: The L{start} or L{end} point is not L{LatLon}.
+           @raise TypeError: The start or end is not L{LatLon}.
 
            @example:
 
@@ -163,10 +163,10 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @param other: The other point (L{LatLon}).
            @keyword radius: Mean earth radius (meter).
 
-           @return: Distance between this and the L{other} point
+           @return: Distance between this and the other point
                     (in the same units as radius).
 
-           @raise TypeError: The L{other} point is not L{LatLon}.
+           @raise TypeError: The other point is not L{LatLon}.
 
            @example:
 
@@ -195,7 +195,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            >>> gc = p.greatCircle(96.0)
            >>> gc.toStr()  # [-0.794, 0.129, 0.594]
         '''
-        a, b = self.toradians()
+        a, b = self.to2ab()
         t = radians(bearing)
 
         ca, sa = cos(a), sin(a)
@@ -218,7 +218,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @return: N-vector representing great circle (L{Nvector}).
 
-           @raise TypeError: The L{other} point is not L{LatLon}.
+           @raise TypeError: The other point is not L{LatLon}.
 
            @example:
 
@@ -243,7 +243,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @return: Intermediate point (L{LatLon}).
 
-           @raise TypeError: The L{other} point is not L{LatLon}.
+           @raise TypeError: The other point is not L{LatLon}.
 
            @example:
 
@@ -273,11 +273,11 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @param other: The other point (L{LatLon}).
            @param fraction: Fraction between both points (float, 0.0 =
-                            this point, 1.0 = the L{other} point).
+                            this point, 1.0 = the other point).
 
            @return: Intermediate point (L{LatLon}).
 
-           @raise TypeError: The L{other} point is not L{LatLon}.
+           @raise TypeError: The other point is not L{LatLon}.
 
            @example:
 
@@ -317,8 +317,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @return: Intersection point (L{LatLon}).
 
-           @raise TypeError: The L{start2}, L{end1} or L{end2}
-                             point is not L{LatLon}.
+           @raise TypeError: The start2, end1 or end2 is not L{LatLon}.
 
            @example:
 
@@ -336,8 +335,9 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @return: True if the polygon encloses this point (bool).
 
-           @raise ValueError: Too few L{points}.
-           @raise TypeError: Some L{points} are not L{LatLon}.
+           @raise ValueError: Too few points.
+
+           @raise TypeError: Some points are not L{LatLon}.
 
            @example:
 
@@ -380,7 +380,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @return: True if this point is within the segment (bool).
 
-           @raise TypeError: One of the points is not L{LatLon}.
+           @raise TypeError: If point1 or point2 is not L{LatLon}.
         '''
         self.others(point1, name='point1')
         self.others(point2, name='point2')
@@ -409,7 +409,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @return: Midpoint (L{LatLon}).
 
-           @raise TypeError: The L{other} point is not L{LatLon}.
+           @raise TypeError: The other point is not L{LatLon}.
 
            @example:
 
@@ -436,7 +436,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @return: Closest point on segment (L{LatLon}).
 
-           @raise TypeError: Some L{points} are not L{LatLon}.
+           @raise TypeError: If point1 or point2 is not L{LatLon}.
 
            @example:
 
@@ -495,7 +495,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @return: Triangulated point (L{LatLon}).
 
-           @raise TypeError: The L{other} point is not L{LatLon}.
+           @raise TypeError: The other point is not L{LatLon}.
 
            @example:
 
@@ -511,9 +511,9 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @param distance1: Distance to this point (same units as radius).
            @param point2: Second reference point (L{LatLon}).
-           @param distance2: Distance to L{point2} (same units as radius).
+           @param distance2: Distance to point2 (same units as radius).
            @param point3: Third reference point (L{LatLon}).
-           @param distance3: Distance to L{point3} (same units as radius).
+           @param distance3: Distance to point3 (same units as radius).
            @keyword radius: Mean earth radius (meter).
 
            @return: Trilaterated point (L{LatLon}).
@@ -564,7 +564,7 @@ class Nvector(NvectorBase):
            c × p.
 
            @param bearing: Initial compass bearing (degrees).
-                                        .
+
            @return: N-vector representing great circle (L{Nvector}).
 
            @example:
@@ -594,8 +594,9 @@ def areaOf(points, radius=R_M):
 
        @return: Polygon area (float, same units as radius squared).
 
-       @raise ValueError: Too few polygon L{points}.
-       @raise TypeError: Some L{points} are not L{LatLon}.
+       @raise TypeError: Some points are not L{LatLon}.
+
+       @raise ValueError: Too few polygon points.
 
        @example:
 
@@ -696,9 +697,9 @@ def isclockwise(points):
 
        @return: True if clockwise, False otherwise.
 
-       @raise TypeError: Some L{points} are not L{LatLon}.
+       @raise TypeError: Some points are not L{LatLon}.
 
-       @raise ValueError: Too few L{points} or polygon has zero area.
+       @raise ValueError: Too few points or polygon has zero area.
 
        @example:
 
@@ -719,7 +720,7 @@ def meanOf(points, height=None):
 
        @return: Point at geographic mean and mean height (L{LatLon}).
 
-       @raise ValueError: Too few L{points}.
+       @raise ValueError: Too few points.
     '''
     _, points = _Nvll.points(points, closed=False)
     # geographic mean
@@ -771,11 +772,11 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3, radius=
     '''Locates a point at given distances from three other points.
        See also U{Trilateration<http://wikipedia.org/wiki/Trilateration>}.
 
-       @param point1: First reference point (L{LatLon}).
+       @param point1: First point (L{LatLon}).
        @param distance1: Distance to the first point (same units as radius).
-       @param point2: Second reference point (L{LatLon}).
+       @param point2: Second point (L{LatLon}).
        @param distance2: Distance to the second point (same units as radius).
-       @param point3: Third reference point (L{LatLon}).
+       @param point3: Third point (L{LatLon}).
        @param distance3: Distance to the third point (same units as radius).
        @keyword radius: Mean earth radius (meter).
 

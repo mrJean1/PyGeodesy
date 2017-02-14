@@ -69,7 +69,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.02.13
+        17.02.14
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -338,8 +338,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="geodesy.utils-module.html#isint" class="summary-sig-name">isint</a>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Checks for integer object or value.</td>
+          <td><span class="summary-sig"><a href="geodesy.utils-module.html#isint" class="summary-sig-name">isint</a>(<span class="summary-sig-arg">obj</span>,
+        <span class="summary-sig-arg">both</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Checks for integer types and value.</td>
           <td align="right" valign="top">
             
             
@@ -356,7 +357,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy.utils-module.html#isscalar" class="summary-sig-name">isscalar</a>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Checks for scalar object.</td>
+      Checks for scalar types.</td>
           <td align="right" valign="top">
             
             
@@ -789,7 +790,7 @@
         <dd>The value (float).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or negative <code class="link">value</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or negative value.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -821,8 +822,7 @@
         <dd>Dot product (float).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>AssertionError</strong></code> - If len(<code class="link">a</code>) and len(<code 
-        class="link">b</code>) differ.</li>
+        <li><code><strong class='fraise'>AssertionError</strong></code> - If len(a) and len(b) differ.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -857,9 +857,7 @@
         <dd>Dot product (float).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>AssertionError</strong></code> - If len(<code class="link">a</code>), len(<code 
-        class="link">b</code>) and/or len(<code class="link">c</code>) 
-        differ.</li>
+        <li><code><strong class='fraise'>AssertionError</strong></code> - If len(a), len(b) and/or len(c) differ.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -889,14 +887,13 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>floats</code></strong> - List, sequence, tuple, etc. (scalars).</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimals, unstripped.  Trailing zero decimals
-          are not stripped if <code class="link">prec</code> is 2 or 
-          negative.</li>
+          are not stripped if prec is 2 or negative.</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional, separator to join (string).</li>
         <li><strong class="pname"><code>fmt</code></strong> - Optional, float format (string).</li>
         <li><strong class="pname"><code>ints</code></strong> - Optionally, remove decimal dot (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The <code class="link">floats</code> as 'f, f, ... f' (string).</dd>
+        <dd>The floats as 'f, f, ... f' (string).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -924,7 +921,7 @@
         <dd>2-Tuple (1st, 2nd) halfs (strings).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Zero or odd <code class="link">str2</code> length.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Zero or odd str2 length.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -990,21 +987,23 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">isint</span>(<span class="sig-arg">obj</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isint</span>(<span class="sig-arg">obj</span>,
+        <span class="sig-arg">both</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Checks for integer object or value.</p>
+  <p>Checks for integer types and value.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>obj</code></strong> - An object (any).</li>
+        <li><strong class="pname"><code>obj</code></strong> - The object (any type).</li>
+        <li><strong class="pname"><code>both</code></strong> - Check both type and value (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if <code class="link">obj</code> is integer (bool).</dd>
+        <dd>True if obj is integer (bool).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1022,14 +1021,14 @@
     </td>
   </tr></table>
   
-  <p>Checks for scalar object.</p>
+  <p>Checks for scalar types.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>obj</code></strong> - An object (any).</li>
+        <li><strong class="pname"><code>obj</code></strong> - The object (any type).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if <code class="link">obj</code> is scalar (bool).</dd>
+        <dd>True if obj is scalar (bool).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1375,7 +1374,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Feb 13 15:24:03 2017
+    Generated by Epydoc 3.0.1 on Tue Feb 14 15:06:15 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

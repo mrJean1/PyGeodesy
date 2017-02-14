@@ -23,7 +23,7 @@ from geodesy import R_M, R_NM, F_D, F_DM, F_DMS, F_RAD, Datums, \
                     precision, toDMS
 
 __all__ = ('Tests',)
-__version__ = '17.02.13'
+__version__ = '17.02.14'
 
 try:
     _int = int, long
@@ -237,7 +237,7 @@ class Tests(object):
         self.test('lat/lonDMS F_DMS', p.toStr(F_DMS, 0), '''52°12'17"N, 000°08'26"E''')
         self.test('lat/lonDMS F_DMS', p.toStr(F_DMS, 1), '''52°12'17.0"N, 000°08'26.0"E''')
         self.test('lat/lonDMS F_RAD', p.toStr(F_RAD, 6), '0.911144N, 0.002453E')
-        q = LatLon(*map(degrees, p.toradians()))
+        q = LatLon(*map(degrees, p.to2ab()))
         self.test('equals', q.equals(p), 'True')
 
         LAX = LatLon(33.+57./60, -(118.+24./60))

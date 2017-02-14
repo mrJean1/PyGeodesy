@@ -50,7 +50,7 @@ R_SM = R_KM * 0.62137  #: Mean, spherical earth radius (statute miles).
 __all__ = ('R_KM', 'R_M', 'R_NM', 'R_SM',  # constants
            'Datum',  'Ellipsoid',  'Transform',  # classes
            'Datums', 'Ellipsoids', 'Transforms')  # enum-like
-__version__ = '17.02.13'
+__version__ = '17.02.14'
 
 
 class _Enum(dict, Named):
@@ -148,7 +148,7 @@ class Ellipsoid(_Based):
            @param f: Flattening: a / (a - b) (float >>> 1).
            @keyword name: Optional, unique name (string).
 
-           @raise NameError: If ellipsoid L{name} already exists.
+           @raise NameError: If ellipsoid name already exists.
         '''
         self.a = a = float(a)  # major half-axis in meter
         self.b = b = float(b)  # minor half-axis in meter
@@ -215,7 +215,7 @@ class Ellipsoid(_Based):
 
     @property
     def Alpha6(self):
-        '''Get the 6th-order Krüger Alpha series (1-origin, 7-tuple).
+        '''Get the 6th-order Krüger Alpha series (7-tuple, 1-origin).
         '''
         if self._Alpha6 is None:
             self._Alpha6 = self._K6(
@@ -231,7 +231,7 @@ class Ellipsoid(_Based):
 
     @property
     def Beta6(self):
-        '''Get the 6th-order Krüger Beta series (1-origin, 7-tuple).
+        '''Get the 6th-order Krüger Beta series (7-tuple, 1-origin).
         '''
         if self._Beta6 is None:
             self._Beta6 = self._K6(
@@ -269,7 +269,7 @@ class Ellipsoid(_Based):
 
            @param fs6: 6-Tuple of coefficent tuples.
 
-           @return: 6th-Order Krüger (1-origin, 7-tuple).
+           @return: 6th-Order Krüger (7-tuple, 1-origin).
         '''
         ns = [self.n]  # 3rd flattening: n, n**2, ... n**6
         for i in range(len(fs6) - 1):
@@ -303,7 +303,7 @@ class Ellipsoid(_Based):
 
            @param lat: Latitude (degrees90).
 
-           @return: Radius at that L{lat}itude (meter).
+           @return: Radius at that latitude (meter).
         '''
         # r = major - (major - minor) * |lat| / 90
         return self.a - self._ab_90 * min(abs(lat), 90)
@@ -363,7 +363,7 @@ class Transform(_Based):
            @keyword sy: Y rotation (degree seconds).
            @keyword sz: Z rotation (degree seconds).
 
-           @raise NameError: If transform L{name} already exists.
+           @raise NameError: If transform name already exists.
         '''
         if tx:
             self.tx = float(tx)
@@ -421,7 +421,7 @@ class Transform(_Based):
            @param z: Z coordinate (meter).
            @keyword inverse: Direction, forward or inverse (bool).
 
-           @return: Transformed point (3-tuple).
+           @return: #-Tuple (x, y, z) transformed.
         '''
         if inverse:
             xyz = -1, -x, -y, -z
@@ -479,9 +479,10 @@ class Datum(_Based):
            @keyword transform: The transform (L{Transform}).
            @keyword name: Optional, unique name (string).
 
-           @raise NameError: If datum L{name} already exists.
-           @raise TypeError: If L{ellipsoid} is not an L{Ellipsoid}
-                             or L{transform} is not a L{Transform}.
+           @raise NameError: If datum name already exists.
+
+           @raise TypeError: If ellipsoid is not an L{Ellipsoid}
+                             or transform is not a L{Transform}.
         '''
         self.ellipsoid = ellipsoid or Datum.ellipsoid
         if not isinstance(self.ellipsoid, Ellipsoid):

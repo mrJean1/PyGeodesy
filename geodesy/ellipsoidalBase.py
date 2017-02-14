@@ -22,7 +22,7 @@ from math import atan2, copysign, cos, hypot, sin, sqrt
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('CartesianBase', 'LatLonEllipsoidalBase')
-__version__ = '17.02.12'
+__version__ = '17.02.14'
 
 
 class CartesianBase(Vector3d):
@@ -141,7 +141,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
     def _update(self, updated):
         if updated:  # reset caches
             self._osgr = self._utm = None
-#           _LatLonHeightBase._update(self, updated)
+            LatLonHeightBase._update(self, updated)
 
     def convertDatum(self, toDatum):
         '''Converts this point to a new coordinate system.
@@ -195,9 +195,9 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
 
            @param datum: New datum (L{Datum}).
 
-           @raise TypeError: The L{datum} is not a L{Datum}.
+           @raise TypeError: The datum is not a L{Datum}.
 
-           @raise ValueError: The L{datum} is not ellipsoidal.
+           @raise ValueError: The datum is not ellipsoidal.
         '''
         if not isinstance(datum, Datum):
             raise TypeError('%r not a %s: %r' % ('datum', Datum.__name__, datum))
@@ -223,7 +223,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
 
            @return: This datum's ellipsoid (L{Ellipsoid}).
 
-           @raise TypeError: The L{other} point is not LatLon.
+           @raise TypeError: The other point is not LatLon.
 
            @raise ValueError: If datum ellipsoids are incompatible.
         '''
@@ -262,7 +262,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
 
            @return: The point (L{LatLonEllipsoidalBase}).
 
-           @raise ValueError: Invalid L{strll}.
+           @raise ValueError: Invalid strll.
         '''
         a, b, h = parse3llh(strll, height=height, sep=sep)
         return self.topsub(a, b, height=h, datum=datum or self.datum)
@@ -271,9 +271,9 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
         '''Converts this (ellipsoidal geodetic) LatLon point to
            (ellipsoidal geocentric) cartesian x/y/z components.
 
-           @return: 3-Tuple (x, y, z) in (meter, ...).
+           @return: 3-Tuple (x, y, z) in (meter).
         '''
-        a, b = self.toradians()
+        a, b = self.to2ab()
         ca, sa = cos(a), sin(a)
 
         E = self.ellipsoid()
@@ -293,7 +293,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
            @return: The OSGR coordinate (L{Osgr}).
         '''
         if self._osgr is None:
-            from geodesy.osgr import toOsgr  # PYCHOK recursive import
+            from osgr import toOsgr  # PYCHOK recursive import
             self._osgr = toOsgr(self, datum=self.datum)
             self._osgr._latlon = self
         return self._osgr
@@ -306,7 +306,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
            @return: The UTM coordinate (L{Utm}).
         '''
         if self._utm is None:
-            from geodesy.utm import toUtm  # PYCHOK recursive import
+            from utm import toUtm  # PYCHOK recursive import
             self._utm = toUtm(self, datum=self.datum)
             self._utm._latlon = self
         return self._utm

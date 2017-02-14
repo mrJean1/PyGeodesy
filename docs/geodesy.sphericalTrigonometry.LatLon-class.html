@@ -344,9 +344,9 @@
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#equals">equals</a></code>,
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#isclockwise">isclockwise</a></code>,
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#points">points</a></code>,
+      <code><a href="geodesy.bases.LatLonHeightBase-class.html#to2ab">to2ab</a></code>,
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#to3xyz">to3xyz</a></code>,
-      <code><a href="geodesy.bases.LatLonHeightBase-class.html#toStr">toStr</a></code>,
-      <code><a href="geodesy.bases.LatLonHeightBase-class.html#toradians">toradians</a></code>
+      <code><a href="geodesy.bases.LatLonHeightBase-class.html#toStr">toStr</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="geodesy.bases.Base-class.html">bases.Base</a></code></b>:
       <code><a href="geodesy.bases.Base-class.html#__repr__">__repr__</a></code>,
@@ -431,7 +431,7 @@
         <dd>Initial bearing (compass degrees).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
         href="geodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -471,8 +471,8 @@
         <li><strong class="pname"><code>lat</code></strong> - Latitude at the crossing (degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (lon1, lon2) in (degrees180, ...) or None if the great 
-          circle doesn't reach the given latitude.</dd>
+        <dd>2-Tuple (lon1, lon2) in (degrees180) or None if the great circle 
+          doesn't reach the given latitude.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -511,8 +511,7 @@
           to the right of the path).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">start</code> or <code 
-        class="link">end</code> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The start or end point is not <a 
         href="geodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -549,7 +548,7 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>distance</code></strong> - Distance travelled (same units radius).</li>
+        <li><strong class="pname"><code>distance</code></strong> - Distance travelled (same units as radius).</li>
         <li><strong class="pname"><code>bearing</code></strong> - Bearing from this point (compass degrees).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (meter).</li>
     </ul></dd>
@@ -588,7 +587,7 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>distance</code></strong> - Distance travelled (same units radius).</li>
+        <li><strong class="pname"><code>distance</code></strong> - Distance travelled (same units as radius).</li>
         <li><strong class="pname"><code>bearing</code></strong> - Bearing from this point (compass degrees).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (meter).</li>
     </ul></dd>
@@ -631,11 +630,11 @@
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (meter).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Distance between this and the <code class="link">other</code> 
-          point (in the same units as radius).</dd>
+        <dd>Distance between this and the other point (in the same units as 
+          radius).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
         href="geodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -710,7 +709,7 @@
           href="geodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>fraction</code></strong> - Fraction between both points (float, 0.0 = this point, 1.0 = the 
-          <code class="link">other</code> point).</li>
+          other point).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Intermediate point (<a 
@@ -718,7 +717,7 @@
           class="link">LatLon</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
         href="geodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -757,8 +756,7 @@
         <li><strong class="pname"><code>start2</code></strong> - Start point of second path (<a 
           href="geodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>bearing2</code></strong> - Initial bearing from <code class="link">start2</code> (compass 
-          degrees).</li>
+        <li><strong class="pname"><code>bearing2</code></strong> - Initial bearing from start2 (compass degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Intersection point (<a 
@@ -766,7 +764,7 @@
           class="link">LatLon</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Point <code class="link">start2</code> is not a <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - Point start2 is not a <a 
         href="geodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Intersection is ambiguous or infinite or the paths are parallel or 
@@ -809,10 +807,8 @@
         <dd>True if the polygon encloses this point (bool).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Too few <a href="geodesy.bases.LatLonHeightBase-class.html#points" 
-        class="link">points</a> or non-convex polygon.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <a href="geodesy.bases.LatLonHeightBase-class.html#points" 
-        class="link">points</a> are not <a 
+        <li><code><strong class='fraise'>ValueError</strong></code> - Too few points or non-convex polygon.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <a 
         href="geodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -854,7 +850,7 @@
           class="link">LatLon</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
         href="geodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -922,7 +918,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Feb 13 15:24:04 2017
+    Generated by Epydoc 3.0.1 on Tue Feb 14 15:06:15 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

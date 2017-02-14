@@ -270,9 +270,9 @@
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#equals">equals</a></code>,
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#isclockwise">isclockwise</a></code>,
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#points">points</a></code>,
+      <code><a href="geodesy.bases.LatLonHeightBase-class.html#to2ab">to2ab</a></code>,
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#to3xyz">to3xyz</a></code>,
-      <code><a href="geodesy.bases.LatLonHeightBase-class.html#toStr">toStr</a></code>,
-      <code><a href="geodesy.bases.LatLonHeightBase-class.html#toradians">toradians</a></code>
+      <code><a href="geodesy.bases.LatLonHeightBase-class.html#toStr">toStr</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="geodesy.bases.Base-class.html">bases.Base</a></code></b>:
       <code><a href="geodesy.bases.Base-class.html#__repr__">__repr__</a></code>,
@@ -355,17 +355,13 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - The other point (<a 
-          href="geodesy.sphericalBase.LatLonSphericalBase-class.html" 
-          class="link">LatLonSphericalBase</a>).</li>
+        <li><strong class="pname"><code>other</code></strong> - The other point (spherical LatLon).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Final bearing (compass degrees).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
-        href="geodesy.sphericalBase.LatLonSphericalBase-class.html" 
-        class="link">LatLonSphericalBase</a>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not spherical.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -532,12 +528,10 @@
         <li><strong class="pname"><code>sep</code></strong> - Separator (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The point (<a 
-          href="geodesy.sphericalBase.LatLonSphericalBase-class.html" 
-          class="link">LatLonSphericalBase</a>).</dd>
+        <dd>The point (spherical LatLon).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <code class="link">strll</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid strll.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -562,17 +556,13 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - The other point (<a 
-          href="geodesy.sphericalBase.LatLonSphericalBase-class.html" 
-          class="link">LatLonSphericalBase</a>).</li>
+        <li><strong class="pname"><code>other</code></strong> - The other point (spherical LatLon).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Initial bearing (compass degrees).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
-        href="geodesy.sphericalBase.LatLonSphericalBase-class.html" 
-        class="link">LatLonSphericalBase</a>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not spherical.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -604,18 +594,14 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - The other point (<a 
-          href="geodesy.sphericalBase.LatLonSphericalBase-class.html" 
-          class="link">LatLonSphericalBase</a>).</li>
+        <li><strong class="pname"><code>other</code></strong> - The other point (spherical LatLon).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean radius of earth (scalar, default meter).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (in the same units as radius).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
-        href="geodesy.sphericalBase.LatLonSphericalBase-class.html" 
-        class="link">LatLonSphericalBase</a>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not spherical.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -645,19 +631,13 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - The other point (<a 
-          href="geodesy.sphericalBase.LatLonSphericalBase-class.html" 
-          class="link">LatLonSphericalBase</a>).</li>
+        <li><strong class="pname"><code>other</code></strong> - The other point (spherical LatLon).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The midpoint (<a 
-          href="geodesy.sphericalBase.LatLonSphericalBase-class.html" 
-          class="link">LatLonSphericalBase</a>).</dd>
+        <dd>The midpoint (spherical LatLon).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
-        href="geodesy.sphericalBase.LatLonSphericalBase-class.html" 
-        class="link">LatLonSphericalBase</a>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not spherical.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -733,7 +713,7 @@ class="link">Datum</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Feb 13 15:24:04 2017
+    Generated by Epydoc 3.0.1 on Tue Feb 14 15:06:15 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
@@ -749,6 +729,11 @@ class="link">Datum</a>).
   // visible); but by default, we want to hide them.  So hide
   // them unless we have a cookie that says to show them.
   checkCookie();
+  // -->
+</script>
+</body>
+</html>
+);
   // -->
 </script>
 </body>

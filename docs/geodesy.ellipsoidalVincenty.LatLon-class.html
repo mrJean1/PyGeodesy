@@ -314,8 +314,8 @@
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#equals">equals</a></code>,
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#isclockwise">isclockwise</a></code>,
       <code><a href="geodesy.bases.LatLonHeightBase-class.html#points">points</a></code>,
-      <code><a href="geodesy.bases.LatLonHeightBase-class.html#toStr">toStr</a></code>,
-      <code><a href="geodesy.bases.LatLonHeightBase-class.html#toradians">toradians</a></code>
+      <code><a href="geodesy.bases.LatLonHeightBase-class.html#to2ab">to2ab</a></code>,
+      <code><a href="geodesy.bases.LatLonHeightBase-class.html#toStr">toStr</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="geodesy.bases.Base-class.html">bases.Base</a></code></b>:
       <code><a href="geodesy.bases.Base-class.html#__repr__">__repr__</a></code>,
@@ -544,18 +544,18 @@
         <dd>Distance in meters (scalar).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
         href="geodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <code class="link">other</code> point's <a 
+        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the other point's <a 
         href="geodesy.datum.Datum-class.html" class="link">Datum</a> 
         ellipsoids are not compatible.</li>
         <li><code><strong class='fraise'><a href="geodesy.ellipsoidalVincenty.VincentyError-class.html">VincentyError</a></strong></code> - Vincenty fails to converge for the current <a 
         href="geodesy.ellipsoidalVincenty.LatLon-class.html#epsilon" 
         class="link">LatLon.epsilon</a> and <a 
         href="geodesy.ellipsoidalVincenty.LatLon-class.html#iterations" 
-        class="link">LatLon.iterations</a> limit or this and the <code 
-        class="link">other</code> point coincide.</li>
+        class="link">LatLon.iterations</a> limit or this and the other 
+        point coincide.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -601,18 +601,18 @@
           degrees360, degree360).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
         href="geodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <code class="link">other</code> point's <a 
+        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the other point's <a 
         href="geodesy.datum.Datum-class.html" class="link">Datum</a> 
         ellipsoids are not compatible.</li>
         <li><code><strong class='fraise'><a href="geodesy.ellipsoidalVincenty.VincentyError-class.html">VincentyError</a></strong></code> - Vincenty fails to converge for the current <a 
         href="geodesy.ellipsoidalVincenty.LatLon-class.html#epsilon" 
         class="link">LatLon.epsilon</a> and <a 
         href="geodesy.ellipsoidalVincenty.LatLon-class.html#iterations" 
-        class="link">LatLon.iterations</a> limit or this and the <code 
-        class="link">other</code> point coincide.</li>
+        class="link">LatLon.iterations</a> limit or this and the other 
+        point coincide.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -694,18 +694,18 @@
         <dd>Final bearing in compass degrees (degrees360).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
         href="geodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <code class="link">other</code> point's <a 
+        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the other point's <a 
         href="geodesy.datum.Datum-class.html" class="link">Datum</a> 
         ellipsoids are not compatible.</li>
         <li><code><strong class='fraise'><a href="geodesy.ellipsoidalVincenty.VincentyError-class.html">VincentyError</a></strong></code> - Vincenty fails to converge for the current <a 
         href="geodesy.ellipsoidalVincenty.LatLon-class.html#epsilon" 
         class="link">LatLon.epsilon</a> and <a 
         href="geodesy.ellipsoidalVincenty.LatLon-class.html#iterations" 
-        class="link">LatLon.iterations</a> limit or this and the <code 
-        class="link">other</code> point coincide.</li>
+        class="link">LatLon.iterations</a> limit or this and the other 
+        point coincide.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -751,18 +751,18 @@
         <dd>Initial bearing in compass degrees (degrees360).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
         href="geodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <code class="link">other</code> point's <a 
+        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the other point's <a 
         href="geodesy.datum.Datum-class.html" class="link">Datum</a> 
         ellipsoids are not compatible.</li>
         <li><code><strong class='fraise'><a href="geodesy.ellipsoidalVincenty.VincentyError-class.html">VincentyError</a></strong></code> - Vincenty fails to converge for the current <a 
         href="geodesy.ellipsoidalVincenty.LatLon-class.html#epsilon" 
         class="link">LatLon.epsilon</a> and <a 
         href="geodesy.ellipsoidalVincenty.LatLon-class.html#iterations" 
-        class="link">LatLon.iterations</a> limit or this and the <code 
-        class="link">other</code> point coincide.</li>
+        class="link">LatLon.iterations</a> limit or this and the other 
+        point coincide.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -808,18 +808,18 @@
         <dd>Initial bearing in compass degrees (degrees360).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
         href="geodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <code class="link">other</code> point's <a 
+        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the other point's <a 
         href="geodesy.datum.Datum-class.html" class="link">Datum</a> 
         ellipsoids are not compatible.</li>
         <li><code><strong class='fraise'><a href="geodesy.ellipsoidalVincenty.VincentyError-class.html">VincentyError</a></strong></code> - Vincenty fails to converge for the current <a 
         href="geodesy.ellipsoidalVincenty.LatLon-class.html#epsilon" 
         class="link">LatLon.epsilon</a> and <a 
         href="geodesy.ellipsoidalVincenty.LatLon-class.html#iterations" 
-        class="link">LatLon.iterations</a> limit or this and the <code 
-        class="link">other</code> point coincide.</li>
+        class="link">LatLon.iterations</a> limit or this and the other 
+        point coincide.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -941,7 +941,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Feb 13 15:24:04 2017
+    Generated by Epydoc 3.0.1 on Tue Feb 14 15:06:15 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
@@ -956,6 +956,12 @@
   // javascript is turned off then we want them to be
   // visible); but by default, we want to hide them.  So hide
   // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>
+that says to show them.
   checkCookie();
   // -->
 </script>

@@ -237,7 +237,7 @@ object --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="geodesy.bases.LatLonHeightBase-class.html#toradians" class="summary-sig-name">toradians</a>(<span class="summary-sig-arg">self</span>)</span><br />
+          <td><span class="summary-sig"><a href="geodesy.bases.LatLonHeightBase-class.html#to2ab" class="summary-sig-name">to2ab</a>(<span class="summary-sig-arg">self</span>)</span><br />
       Return this point's lat-/longitude in radians.</td>
           <td align="right" valign="top">
             
@@ -391,10 +391,7 @@ object --+
         <dd>New instance (LatLon).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <a href="geodesy.bases.LatLonHeightBase-class.html#lat" 
-        class="link">lat</a>- or <a 
-        href="geodesy.bases.LatLonHeightBase-class.html#lon" 
-        class="link">lon</a>gitude.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid lat or lon.</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
@@ -478,7 +475,7 @@ object --+
         <dd>True if both points are identical (bool).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <code class="link">other</code> point is not LatLon.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not LatLon.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -515,10 +512,8 @@ object --+
         <dd>True if clockwise, False otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <a href="geodesy.bases.LatLonHeightBase-class.html#points" 
-        class="link">points</a> are not LatLon.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Too few <a href="geodesy.bases.LatLonHeightBase-class.html#points" 
-        class="link">points</a> or polygon has zero area.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not LatLon.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Too few points or polygon has zero area.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -555,25 +550,23 @@ object --+
         <li><strong class="pname"><code>closed</code></strong> - Treat polygon as closed (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (number, list) of points.</dd>
+        <dd>2-Tuple (number, list) of points (int, list).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <a href="geodesy.bases.LatLonHeightBase-class.html#points" 
-        class="link">points</a> are not LatLon.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Too few <a href="geodesy.bases.LatLonHeightBase-class.html#points" 
-        class="link">points</a>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not LatLon.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Too few points.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
 </div>
-<a name="toradians"></a>
+<a name="to2ab"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toradians</span>(<span class="sig-arg">self</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">to2ab</span>(<span class="sig-arg">self</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -583,7 +576,7 @@ object --+
   <p>Return this point's lat-/longitude in radians.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>2-Tuple (lat, lon) in (radians, ...).</dd>
+        <dd>2-Tuple (lat, lon) in (radians, radians).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -648,7 +641,7 @@ object --+
   surface) x/y/z components.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>3-Tuple (x, y, z) in (meter, ...).</dd>
+        <dd>3-Tuple (x, y, z) in (meter).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -697,7 +690,7 @@ object --+
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">lat(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat</span>)</span>
-        - Set the latitude.
+        - Set the latitude (degrees).
     </dd>
   </dl>
 </td></tr></table>
@@ -717,7 +710,7 @@ object --+
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">lon(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lon</span>)</span>
-        - Set the longitude.
+        - Set the longitude (degrees).
     </dd>
   </dl>
 </td></tr></table>
@@ -754,7 +747,7 @@ object --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Feb 13 15:24:03 2017
+    Generated by Epydoc 3.0.1 on Tue Feb 14 15:06:15 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
@@ -768,6 +761,13 @@ object --+
   // Private objects are initially displayed (because if
   // javascript is turned off then we want them to be
   // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>
+ide
   // them unless we have a cookie that says to show them.
   checkCookie();
   // -->

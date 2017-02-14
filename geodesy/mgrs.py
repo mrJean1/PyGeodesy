@@ -36,7 +36,7 @@ import re  # PYCHOK warning locale.Error
 # all public contants, classes and functions
 __all__ = ('Mgrs',  # classes
            'parseMGRS', 'toMgrs')  # functions
-__version__ = '17.02.09'
+__version__ = '17.02.14'
 
 _100km  =  100e3  #: (INTERNAL) 100 km in meter.
 _2000km = 2000e3  #: (INTERNAL) 2,000 km in meter.
@@ -235,7 +235,7 @@ def parseMGRS(strMGRS, datum=Datums.WGS84):
 
        @return: The MGRS grid reference (L{Mgrs}).
 
-       @raise ValueError: Invalid L{strMGRS}.
+       @raise ValueError: Invalid strMGRS.
 
        @example:
 
@@ -283,13 +283,18 @@ def toMgrs(utm):
 
        @return: The MGRS grid reference (L{Mgrs}).
 
-       @raise TypeError: Invalid L{utm}.
+       @raise TypeError: If utm is not L{Utm}.
+
+       @raise ValueError: Invalid utm.
 
        @example:
 
        >>> u = Utm(31, 'N', 448251, 5411932)
        >>> m = u.toMgrs()  # 31U DQ 48251 11932
     '''
+    if not isinstance(utm, Utm):
+        raise TypeError('%s not Utm: %s' % ('utm', type(utm)))
+
     # truncate east-/northing to within 100 km grid square
     # XXX add rounding to nm precision?
     E, e = divmod(utm.easting, _100km)

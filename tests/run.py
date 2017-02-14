@@ -3,9 +3,9 @@
 
 # Script to run some or all PyGeodesy tests with Python 2 or 3.
 
-# Tested with 64-bit Python 2.6.9, 2.7.10, 2.7.13, 3.5.2, 3.5.2
+# Tested with 64-bit Python 2.6.9, 2.7.10, 2.7.13, 3.5.2, 3.5.3
 # and 3.6.0 but only on MacOS 10.10 Mavericks, MacOS 10.11 El
-# Capitan and MacOS 10.12.2 Sierra.
+# Capitan and MacOS 10.12.2 and 10.12.3 Sierra.
 
 from glob import glob
 from os.path import dirname, join
@@ -13,7 +13,7 @@ from platform import architecture
 from subprocess import PIPE, STDOUT, Popen
 import sys
 
-__version__ = '17.02.09'
+__version__ = '17.02.14'
 
 _python = sys.executable  # path
 _python_O = _python
@@ -84,7 +84,7 @@ else:
     print('%s %s all OK (%s)' % (argv0, _python, v))
 
 
-# Typical test results (on MacOS X):
+# Typical test results (on MacOS 10.12.3):
 
 # % /usr/bin/python tests/run.py
 # tests/run.py /usr/bin/python tests/testBases.py

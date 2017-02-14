@@ -35,7 +35,7 @@ from math import asin, atan2, cos, hypot, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '17.02.13'
+__version__ = '17.02.14'
 
 
 class Cartesian(CartesianBase):
@@ -133,7 +133,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #
 #            @return: Initial bearing in compass degrees (degrees360).
 #
-#            @raise TypeError: The L{other} point is not L{LatLon}.
+#            @raise TypeError: The other point is not L{LatLon}.
 #
 #            @example:
 #
@@ -159,13 +159,13 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #            @param start: Start point of great circle path (L{LatLon}).
 #            @param end: End point of great circle path (L{LatLon}) or
 #                        initial bearing (in compass degrees) at the
-#                        L{start} point.
+#                        start point.
 #            @keyword radius: Mean earth radius (meter).
 #
 #            @return: Distance to great circle, negative if to left or
 #                     positive if to right of path (scalar).
 #
-#            @raise TypeError: The L{start} or L{end}point is not L{LatLon}.
+#            @raise TypeError: The start or end point is not L{LatLon}.
 #
 #            @example:
 #
@@ -207,7 +207,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
            @return: Delta of this point (L{Ned}).
 
-           @raise TypeError: The L{other} point is not L{LatLon}.
+           @raise TypeError: The other point is not L{LatLon}.
 
            @raise ValueError: If ellipsoids are incompatible.
 
@@ -265,7 +265,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
            @return: Destination point (L{Cartesian}).
 
-           @raise TypeError: The L{delta} is not L{Ned}.
+           @raise TypeError: The delta is not L{Ned}.
 
            @example:
 
@@ -301,7 +301,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #
 #            @return: Distance (meter).
 #
-#            @raise TypeError: The L{other} point is not L{LatLon}.
+#            @raise TypeError: The other point is not L{LatLon}.
 #
 #            @example:
 #
@@ -325,7 +325,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #
 #            @return: Distance (meter).
 #
-#            @raise TypeError: The L{other} point is not L{LatLon}.
+#            @raise TypeError: The other point is not L{LatLon}.
 #
 #            @example:
 #
@@ -347,7 +347,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
            @return: True if points are identical (bool).
 
-           @raise TypeError: The L{other} point is not L{LatLon}.
+           @raise TypeError: The other point is not L{LatLon}.
 
            @example:
 
@@ -374,7 +374,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #            >>> g = p.greatCircle(96.0)
 #            >>> g.toStr()  # '(-0.794, 0.129, 0.594)'
 #         '''
-#         b, a = self.toradians()
+#         b, a = self.to2ab()
 #         c = radians(bearing)
 #
 #         ca, sa = cos(a), sin(a)
@@ -391,11 +391,11 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
            @param other: The other point (L{LatLon}).
            @param fraction: Fraction between both points ranging from
-                            0 = this point to 1 = L{other} point (float).
+                            0 = this point to 1 = other point (float).
 
            @return: Intermediate point (L{LatLon}).
 
-           @raise TypeError: The L{other} point is not L{LatLon}.
+           @raise TypeError: The other point is not L{LatLon}.
 
            @example:
 
@@ -420,11 +420,11 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
     intermediatePointTo = intermediateTo  # XXX original name
 
     def toCartesian(self):
-        '''Convert this (geodtic) point to (geocentric) x/y/z cartesian
+        '''Convert this (geodetic) point to (geocentric) x/y/z cartesian
            coordinates.
 
-           @return: Cartesian representing this point, with x, y and z
-                    in meter from earth center (L{Cartesian}).
+           @return: Cartesian cordinates x, y and z (L{Cartesian}) in
+                    meter from the earth center.
         '''
         x, y, z = self.to3xyz()  # ellipsoidalBase.LatLonEllipsoidalBase
         return Cartesian(x, y, z)  # this ellipsoidalNvector Cartesian
@@ -519,9 +519,9 @@ class Ned(object):
         return self._length
 
     def to3ned(self):
-        '''Return this NED vector as a 3-tuple.
+        '''Return this NED vector as north/east/down components.
 
-           @return: 3-Tuple (north, east, down) in (degrees, ...).
+           @return: 3-Tuple (north, east, down) in (degrees).
         '''
         return self.north, self.east, self.down
 
@@ -586,7 +586,7 @@ class Nvector(NvectorBase):
            @keyword datum: Optional datum this n-vector is defined
                            within (L{Datum}).
 
-           @raise TypeError: If L{datum} is not a L{Datum}.
+           @raise TypeError: If datum is not a L{Datum}.
 
            @example:
 
@@ -670,7 +670,7 @@ def meanOf(points, datum=Datums.WGS84):
 
        @return: Point at geographic mean and mean height (L{LatLon}).
 
-       @raise ValueError: Too few L{points}.
+       @raise ValueError: Too few points.
     '''
     _, points = _Nvll.points(points, closed=False)
     # geographic mean
