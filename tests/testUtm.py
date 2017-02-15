@@ -3,7 +3,7 @@
 
 # Test UTM functions and methods.
 
-__version__ = '17.01.12'
+__version__ = '17.01.15'
 
 if __name__ == '__main__':
 
@@ -42,6 +42,12 @@ if __name__ == '__main__':
             u = ll.toUtm()  # 13L S 622697.645817337 8516965.22293619 -000.26291348° 0.999786229
             self.test('toUtm6', u, '13 S 622698 8516965')
             self.test('toUtm7', u.toStr(prec=6, B=True, cs=True), '13L S 622697.645817 8516965.222916 -000.26291348° 0.99978623')
+
+            m = u.toMgrs()
+            self.test('toMgrs1', m, '13L FF 22697 16965')
+
+            m = utm.Utm('31U', 'N', 448251, 5411932).toMgrs()
+            self.test('toMgrs2', m, '31U DQ 48251 11932')
 
             for lat, lon, x in (( 61.44,      25.4,    '35V N 414668 6812845'),  # 35V N 414668.257431168 6812844.72764648
                                 (-47.04,     -73.48,   '18G S 615472 4789270'),  # 18G S 615471.65815765  4789269.76738578
@@ -84,9 +90,9 @@ if __name__ == '__main__':
     t.results()
     t.exit()
 
-    # Typical test results (on MacOS 10.12.2):
+    # Typical test results (on MacOS 10.12.3):
 
-    # testing geodesy.utm version 17.02.09
+    # testing geodesy.utm version 17.02.15
     # test 1 Utm1: 03 N 448251.0 5411932.0001
     # test 2 Utm2: 31 N 448252 5411933
     # test 3 Utm2: 31 N 448251.795 5411932.678
@@ -100,37 +106,39 @@ if __name__ == '__main__':
     # test 11 toUtm5: 48P N 377302.354183 1483034.777084 -000.26291348° 0.99978623
     # test 12 toUtm6: 13 S 622698 8516965
     # test 13 toUtm7: 13L S 622697.645817 8516965.222916 -000.26291348° 0.99978623
-    # test 14 toUtm(61.44°N, 025.4°E): 35V N 414668 6812845
-    # test 15 toUtm(47.04°S, 073.48°W): 18G S 615472 4789270
-    # test 16 toUtm(40.4°N, 074.7°W): 18T N 525458 4472198
-    # test 17 toUtm(44.5°N, 088.5°W): 16T N 380753 4928503
-    # test 18 toUtm(50.8694°N, 115.6508°W): 11U N 594937 5636169
-    # test 19 toUtm(00.0°N, 000.0°E): 31N N 166021 0
-    # test 20 toUtm(00.13°N, 000.2324°W): 30N N 808084 14386
-    # test 21 toUtm(45.6456°S, 023.3545°E): 34G S 683474 4942631
-    # test 22 toUtm(12.765°S, 033.8765°W): 25L S 404859 8588691
-    # test 23 toUtm(80.5434°S, 170.654°W): lat outside UTM: -80.5434
-    # test 24 toUtm(90.0°N, 177.0°E): lat outside UTM: 90.0
-    # test 25 toUtm(90.0°S, 177.0°W): lat outside UTM: -90.0
-    # test 26 toUtm(90.0°N, 003.0°E): lat outside UTM: 90.0
-    # test 27 toUtm(23.4578°N, 135.4545°W): 08Q N 453580 2594273
-    # test 28 toUtm(77.345°N, 156.9876°E): 57X N 450794 8586116
-    # test 29 toUtm(89.3454°S, 048.9306°W): lat outside UTM: -89.3454
-    # test 30 toUtm(60.0°N, 001.0°E): 31V N 388456 6653097
-    # test 31 toUtm(60.0°N, 003.0°E): 32V N 165640 6666594
-    # test 32 toUtm(60.0°N, 006.0°E): 32V N 332705 6655205
-    # test 33 toUtm(60.0°N, 009.0°E): 32V N 500000 6651411
-    # test 34 toUtm(60.0°N, 012.0°E): 33V N 332705 6655205
-    # test 35 toUtm(76.0°N, 001.0°E): 31X N 446000 8436100
-    # test 36 toUtm(76.0°N, 007.0°E): 31X N 607943 8438843
-    # test 37 toUtm(76.0°N, 013.0°E): 33X N 446000 8436100
-    # test 38 toUtm(76.0°N, 019.0°E): 33X N 607943 8438843
-    # test 39 toUtm(76.0°N, 025.0°E): 35X N 446000 8436100
-    # test 40 toUtm(76.0°N, 031.0°E): 35X N 607943 8438843
-    # test 41 toUtm(76.0°N, 037.0°E): 37X N 446000 8436100
+    # test 14 toMgrs1: 13L FF 22697 16965
+    # test 15 toMgrs2: 31U DQ 48251 11932
+    # test 16 toUtm(61.44°N, 025.4°E): 35V N 414668 6812845
+    # test 17 toUtm(47.04°S, 073.48°W): 18G S 615472 4789270
+    # test 18 toUtm(40.4°N, 074.7°W): 18T N 525458 4472198
+    # test 19 toUtm(44.5°N, 088.5°W): 16T N 380753 4928503
+    # test 20 toUtm(50.8694°N, 115.6508°W): 11U N 594937 5636169
+    # test 21 toUtm(00.0°N, 000.0°E): 31N N 166021 0
+    # test 22 toUtm(00.13°N, 000.2324°W): 30N N 808084 14386
+    # test 23 toUtm(45.6456°S, 023.3545°E): 34G S 683474 4942631
+    # test 24 toUtm(12.765°S, 033.8765°W): 25L S 404859 8588691
+    # test 25 toUtm(80.5434°S, 170.654°W): lat outside UTM: -80.5434
+    # test 26 toUtm(90.0°N, 177.0°E): lat outside UTM: 90.0
+    # test 27 toUtm(90.0°S, 177.0°W): lat outside UTM: -90.0
+    # test 28 toUtm(90.0°N, 003.0°E): lat outside UTM: 90.0
+    # test 29 toUtm(23.4578°N, 135.4545°W): 08Q N 453580 2594273
+    # test 30 toUtm(77.345°N, 156.9876°E): 57X N 450794 8586116
+    # test 31 toUtm(89.3454°S, 048.9306°W): lat outside UTM: -89.3454
+    # test 32 toUtm(60.0°N, 001.0°E): 31V N 388456 6653097
+    # test 33 toUtm(60.0°N, 003.0°E): 32V N 165640 6666594
+    # test 34 toUtm(60.0°N, 006.0°E): 32V N 332705 6655205
+    # test 35 toUtm(60.0°N, 009.0°E): 32V N 500000 6651411
+    # test 36 toUtm(60.0°N, 012.0°E): 33V N 332705 6655205
+    # test 37 toUtm(76.0°N, 001.0°E): 31X N 446000 8436100
+    # test 38 toUtm(76.0°N, 007.0°E): 31X N 607943 8438843
+    # test 39 toUtm(76.0°N, 013.0°E): 33X N 446000 8436100
+    # test 40 toUtm(76.0°N, 019.0°E): 33X N 607943 8438843
+    # test 41 toUtm(76.0°N, 025.0°E): 35X N 446000 8436100
+    # test 42 toUtm(76.0°N, 031.0°E): 35X N 607943 8438843
+    # test 43 toUtm(76.0°N, 037.0°E): 37X N 446000 8436100
     # all geodesy.utm tests passed (Python 2.7.13 64bit)
 
-    # testing geodesy.utm version 17.02.09
+    # testing utm version 17.02.15
     # test 1 Utm1: 03 N 448251.0 5411932.0001
     # test 2 Utm2: 31 N 448252 5411933
     # test 3 Utm2: 31 N 448251.795 5411932.678
@@ -144,32 +152,34 @@ if __name__ == '__main__':
     # test 11 toUtm5: 48P N 377302.354183 1483034.777084 -000.26291348° 0.99978623
     # test 12 toUtm6: 13 S 622698 8516965
     # test 13 toUtm7: 13L S 622697.645817 8516965.222916 -000.26291348° 0.99978623
-    # test 14 toUtm(61.44°N, 025.4°E): 35V N 414668 6812845
-    # test 15 toUtm(47.04°S, 073.48°W): 18G S 615472 4789270
-    # test 16 toUtm(40.4°N, 074.7°W): 18T N 525458 4472198
-    # test 17 toUtm(44.5°N, 088.5°W): 16T N 380753 4928503
-    # test 18 toUtm(50.8694°N, 115.6508°W): 11U N 594937 5636169
-    # test 19 toUtm(00.0°N, 000.0°E): 31N N 166021 0
-    # test 20 toUtm(00.13°N, 000.2324°W): 30N N 808084 14386
-    # test 21 toUtm(45.6456°S, 023.3545°E): 34G S 683474 4942631
-    # test 22 toUtm(12.765°S, 033.8765°W): 25L S 404859 8588691
-    # test 23 toUtm(80.5434°S, 170.654°W): lat outside UTM: -80.54340000000002
-    # test 24 toUtm(90.0°N, 177.0°E): lat outside UTM: 90.0
-    # test 25 toUtm(90.0°S, 177.0°W): lat outside UTM: -90.0
-    # test 26 toUtm(90.0°N, 003.0°E): lat outside UTM: 90.0
-    # test 27 toUtm(23.4578°N, 135.4545°W): 08Q N 453580 2594273
-    # test 28 toUtm(77.345°N, 156.9876°E): 57X N 450794 8586116
-    # test 29 toUtm(89.3454°S, 048.9306°W): lat outside UTM: -89.34539999999998
-    # test 30 toUtm(60.0°N, 001.0°E): 31V N 388456 6653097
-    # test 31 toUtm(60.0°N, 003.0°E): 32V N 165640 6666594
-    # test 32 toUtm(60.0°N, 006.0°E): 32V N 332705 6655205
-    # test 33 toUtm(60.0°N, 009.0°E): 32V N 500000 6651411
-    # test 34 toUtm(60.0°N, 012.0°E): 33V N 332705 6655205
-    # test 35 toUtm(76.0°N, 001.0°E): 31X N 446000 8436100
-    # test 36 toUtm(76.0°N, 007.0°E): 31X N 607943 8438843
-    # test 37 toUtm(76.0°N, 013.0°E): 33X N 446000 8436100
-    # test 38 toUtm(76.0°N, 019.0°E): 33X N 607943 8438843
-    # test 39 toUtm(76.0°N, 025.0°E): 35X N 446000 8436100
-    # test 40 toUtm(76.0°N, 031.0°E): 35X N 607943 8438843
-    # test 41 toUtm(76.0°N, 037.0°E): 37X N 446000 8436100
-    # all geodesy.utm tests passed (Python 3.6.0 64bit)
+    # test 14 toMgrs1: 13L FF 22697 16965
+    # test 15 toMgrs2: 31U DQ 48251 11932
+    # test 16 toUtm(61.44°N, 025.4°E): 35V N 414668 6812845
+    # test 17 toUtm(47.04°S, 073.48°W): 18G S 615472 4789270
+    # test 18 toUtm(40.4°N, 074.7°W): 18T N 525458 4472198
+    # test 19 toUtm(44.5°N, 088.5°W): 16T N 380753 4928503
+    # test 20 toUtm(50.8694°N, 115.6508°W): 11U N 594937 5636169
+    # test 21 toUtm(00.0°N, 000.0°E): 31N N 166021 0
+    # test 22 toUtm(00.13°N, 000.2324°W): 30N N 808084 14386
+    # test 23 toUtm(45.6456°S, 023.3545°E): 34G S 683474 4942631
+    # test 24 toUtm(12.765°S, 033.8765°W): 25L S 404859 8588691
+    # test 25 toUtm(80.5434°S, 170.654°W): lat outside UTM: -80.54340000000002
+    # test 26 toUtm(90.0°N, 177.0°E): lat outside UTM: 90.0
+    # test 27 toUtm(90.0°S, 177.0°W): lat outside UTM: -90.0
+    # test 28 toUtm(90.0°N, 003.0°E): lat outside UTM: 90.0
+    # test 29 toUtm(23.4578°N, 135.4545°W): 08Q N 453580 2594273
+    # test 30 toUtm(77.345°N, 156.9876°E): 57X N 450794 8586116
+    # test 31 toUtm(89.3454°S, 048.9306°W): lat outside UTM: -89.34539999999998
+    # test 32 toUtm(60.0°N, 001.0°E): 31V N 388456 6653097
+    # test 33 toUtm(60.0°N, 003.0°E): 32V N 165640 6666594
+    # test 34 toUtm(60.0°N, 006.0°E): 32V N 332705 6655205
+    # test 35 toUtm(60.0°N, 009.0°E): 32V N 500000 6651411
+    # test 36 toUtm(60.0°N, 012.0°E): 33V N 332705 6655205
+    # test 37 toUtm(76.0°N, 001.0°E): 31X N 446000 8436100
+    # test 38 toUtm(76.0°N, 007.0°E): 31X N 607943 8438843
+    # test 39 toUtm(76.0°N, 013.0°E): 33X N 446000 8436100
+    # test 40 toUtm(76.0°N, 019.0°E): 33X N 607943 8438843
+    # test 41 toUtm(76.0°N, 025.0°E): 35X N 446000 8436100
+    # test 42 toUtm(76.0°N, 031.0°E): 35X N 607943 8438843
+    # test 43 toUtm(76.0°N, 037.0°E): 37X N 446000 8436100
+    # all utm tests passed (Python 3.6.0 64bit)

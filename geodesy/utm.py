@@ -44,7 +44,7 @@ from operator import mul
 # all public contants, classes and functions
 __all__ = ('Utm',  # classes
            'parseUTM', 'toUtm')  # functions
-__version__ = '17.02.14'
+__version__ = '17.02.15'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -365,7 +365,7 @@ class Utm(Base):
            @return: The MGRS grid reference (L{Mgrs}).
         '''
         if self._mgrs is None:
-            from geodesy.mgrs import toMgrs  # PYCHOK recursive import
+            from mgrs import toMgrs  # PYCHOK recursive import
             self._mgrs = toMgrs(self)
         return self._mgrs
 
