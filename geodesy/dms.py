@@ -23,7 +23,7 @@ __all__ = ('F_D', 'F_DM', 'F_DMS', 'F_RAD',  # format contants
            'bearingDMS', 'compassDMS', 'compassPoint',  # functions
            'latDMS', 'lonDMS', 'normDMS',
            'parseDMS', 'parse3llh', 'precision', 'toDMS')
-__version__ = '17.02.14'
+__version__ = '17.02.15'
 
 F_D   = 'd'    #: Format degrees as deg° (string).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (string).
@@ -96,11 +96,11 @@ def bearingDMS(bearing, form=F_D, prec=None):
        @keyword prec: Optional, number of decimal digits (0..9 or None).
 
        @return: Compass degrees per the specified form (string).
+
+       @JSname: I{toBrng}.
     '''
     return _toDMS(bearing % 360, form, prec, 3)
 
-
-toBrng = bearingDMS  # XXX original name
 
 _COMPASS = ('N', 'NNE', 'NE', 'ENE',
             'E', 'ESE', 'SE', 'SSE',
@@ -156,11 +156,10 @@ def latDMS(deg, form=F_DMS, prec=2):
        @keyword prec: Optional, number of decimal digits (0..9 or None).
 
        @return: Degrees per the specified form (string).
+
+       @JSname: I{toLat}.
     '''
     return _toDMS(deg, form, prec, 2) + ('S' if deg < 0 else 'N')
-
-
-toLat = latDMS  # XXX original name
 
 
 def lonDMS(deg, form=F_DMS, prec=2):
@@ -171,6 +170,8 @@ def lonDMS(deg, form=F_DMS, prec=2):
        @keyword prec: Optional, number of decimal digits (0..9 or None).
 
        @return: Degrees per the specified form (string).
+
+       @JSname: I{toLon}.
     '''
     return _toDMS(deg, form, prec, 3) + ('W' if deg < 0 else 'E')
 
@@ -196,7 +197,7 @@ if __debug__:  # no __doc__ at -O and -OO
 
 
 def parse3llh(strll, height=0, sep=','):
-    '''Parse a string representing lat-, longitude and height point.
+    '''Parses a string representing lat-, longitude and height point.
 
        The lat- and longitude value must be separated by a separator
        character.  If height is present it must follow, separated by

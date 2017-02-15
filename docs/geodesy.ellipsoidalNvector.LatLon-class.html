@@ -141,24 +141,6 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="geodesy.ellipsoidalNvector.LatLon-class.html#destinationPoint" class="summary-sig-name">destinationPoint</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">delta</span>)</span><br />
-      Calculates destination point using supplied delta from this point.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a href="geodesy.ellipsoidalNvector.LatLon-class.html#equals" class="summary-sig-name">equals</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">None</span>)</span><br />
@@ -179,25 +161,6 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="geodesy.ellipsoidalNvector.LatLon-class.html#intermediateTo" class="summary-sig-name">intermediateTo</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>,
-        <span class="summary-sig-arg">fraction</span>)</span><br />
-      Returns the point at given fraction between this and an other point.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="geodesy.ellipsoidalNvector.LatLon-class.html#intermediatePointTo" class="summary-sig-name">intermediatePointTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">fraction</span>)</span><br />
       Returns the point at given fraction between this and an other point.</td>
@@ -418,48 +381,8 @@
 <span class="py-prompt">&gt;&gt;&gt; </span>delta = toNed(116807.681, 222.493, -0.5245)  <span class="py-comment"># [N:-86126, E:-78900, D:1069]</span>
 <span class="py-prompt">&gt;&gt;&gt; </span>b = a.destinationNed(delta)  <span class="py-comment"># 48.88667&#176;N, 002.37472&#176;E</span></pre>
       </p>
-</div></td></tr></table>
-</div>
-<a name="destinationPoint"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">destinationPoint</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">delta</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Calculates destination point using supplied delta from this point.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>delta</code></strong> - Delta from this to the other point in the local tangent plane 
-          (LTP) of this point (<a 
-          href="geodesy.ellipsoidalNvector.Ned-class.html" 
-          class="link">Ned</a>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Destination point (<a 
-          href="geodesy.ellipsoidalNvector.Cartesian-class.html" 
-          class="link">Cartesian</a>).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The delta is not <a 
-        href="geodesy.ellipsoidalNvector.Ned-class.html" 
-        class="link">Ned</a>.</li>
-    </ul></dd>
-  </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>a = LatLon(49.66618, 3.45063)
-<span class="py-prompt">&gt;&gt;&gt; </span>delta = toNed(116807.681, 222.493, -0.5245)  <span class="py-comment"># [N:-86126, E:-78900, D:1069]</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>b = a.destinationNed(delta)  <span class="py-comment"># 48.88667&#176;N, 002.37472&#176;E</span></pre>
+      <p><strong>JS name:</strong>
+        <i>destinationPoint</i>.
       </p>
 </div></td></tr></table>
 </div>
@@ -552,51 +475,8 @@
 <span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(48.857, 2.351)
 <span class="py-prompt">&gt;&gt;&gt; </span>p = p.intermediateTo(q, 0.25)  <span class="py-comment"># 51.3721&#176;N, 000.7073&#176;E</span></pre>
       </p>
-</div></td></tr></table>
-</div>
-<a name="intermediatePointTo"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">intermediatePointTo</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">other</span>,
-        <span class="sig-arg">fraction</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Returns the point at given fraction between this and an other 
-  point.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - The other point (<a 
-          href="geodesy.ellipsoidalNvector.LatLon-class.html" 
-          class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>fraction</code></strong> - Fraction between both points ranging from 0 = this point to 1 = 
-          other point (float).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Intermediate point (<a 
-          href="geodesy.ellipsoidalNvector.LatLon-class.html" 
-          class="link">LatLon</a>).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
-        href="geodesy.ellipsoidalNvector.LatLon-class.html" 
-        class="link">LatLon</a>.</li>
-    </ul></dd>
-  </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(52.205, 0.119)
-<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(48.857, 2.351)
-<span class="py-prompt">&gt;&gt;&gt; </span>p = p.intermediateTo(q, 0.25)  <span class="py-comment"># 51.3721&#176;N, 000.7073&#176;E</span></pre>
+      <p><strong>JS name:</strong>
+        <i>intermediatePointTo</i>.
       </p>
 </div></td></tr></table>
 </div>
@@ -687,7 +567,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Feb 14 15:06:15 2017
+    Generated by Epydoc 3.0.1 on Wed Feb 15 13:37:49 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

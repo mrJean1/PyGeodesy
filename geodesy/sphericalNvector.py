@@ -143,6 +143,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            >>> p = LatLon(51.4778, -0.0015)
            >>> q = p.destination(7794, 300.7)
            >>> q.toStr()  # 51.513546°N, 000.098345°W
+
+           @JSname: I{destinationPoint}.
         '''
         p = self.toNvector()
         e = NorthPole.cross(p).unit()  # east vector at p
@@ -154,8 +156,6 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         r = float(distance) / float(radius)  # angular distance in radians
         n = p.times(cos(r)).plus(q.times(sin(r)))
         return Nvector(n.x, n.y, n.z).toLatLon()
-
-    destinationPoint = destination  # XXX original name
 
     def distanceTo(self, other, radius=R_M):
         '''Computes the distance from this to an other point.
@@ -250,6 +250,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            >>> p = LatLon(52.205, 0.119)
            >>> q = LatLon(48.857, 2.351)
            >>> i = p.intermediateChordTo(q, 0.25)  # 51.3723°N, 000.7072°E
+
+           @JSname: I{intermediatePointDirectlyTo}.
         '''
         self.others(other)
 
@@ -264,8 +266,6 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 #                self.toNvector() * (1 - fraction))
             i = Nvector(i.x, i.y, i.z).toLatLon()
         return i
-
-    intermediatePointDirectlyTo = intermediateChordTo  # XXX original name
 
     def intermediateTo(self, other, fraction):
         '''Locates the point at a given fraction between this and an
@@ -284,6 +284,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            >>> p = LatLon(52.205, 0.119)
            >>> q = LatLon(48.857, 2.351)
            >>> i = p.intermediateTo(q, 0.25)  # 51.3721°N, 000.7074°E
+
+           @JSname: I{intermediatePointTo}.
         '''
         self.others(other)
 
@@ -301,8 +303,6 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
             i = p.times(cos(a)).plus(d.times(sin(a)))  # p * cosα + d * sinα
             i = Nvector(i.x, i.y, i.z).toLatLon()
         return i
-
-    intermediatePointTo = intermediateTo  # XXX original name
 
     def intersection(self, end1, start2, end2):
         '''Locates the point of intersection of two paths each defined
@@ -344,6 +344,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            >>> b = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
            >>> p = LatLon(45,1, 1.1);
            >>> inside = p.isEnclosedBy(b)  # True
+
+           @JSname: I{enclosedBy}.
         '''
         n, points = self.points(points)
         v = self.toNvector()
@@ -364,8 +366,6 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         s = fsum(vs[i].angleTo(vs[i+1], vSign=v) for i in range(n))
         return abs(s) > PI
 
-    enclosedBy = isEnclosedBy  # XXX original name
-
     def isWithin(self, point1, point2):
         '''Tests whether this point is within the extent of a
            segment joining two other points.
@@ -381,6 +381,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @return: True if this point is within the segment (bool).
 
            @raise TypeError: If point1 or point2 is not L{LatLon}.
+
+           @JSname: I{isWithinExtent}.
         '''
         self.others(point1, name='point1')
         self.others(point2, name='point2')
@@ -399,8 +401,6 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         # d0⋅d1 and p0 on the p1 side of p2 or not)
         return n0.minus(n1).dot(n2.minus(n1)) >= 0 and \
                n0.minus(n2).dot(n1.minus(n2)) >= 0
-
-    isWithinExtent = isWithin  # XXX original name
 
     def midpointTo(self, other):
         '''Finds the midpoint between this and an other point.
@@ -450,6 +450,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            >>> s = LatLon(51.0, 2.1)
            >>> p = s.nearestOn(s1, s2)  # 51.0000°N, 002.0000°E
+
+           @JSname: I{nearestPointOnSegment}.
         '''
         if self.isWithin(point1, point2):
             # closer to segment than to its endpoints,
@@ -465,8 +467,6 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
             p = point2
 
         return p
-
-    nearestPointOnSegment = nearestOn  # XXX original name
 
     def toNvector(self):
         '''Converts this (geodetic) point to a (spherical) n-vector

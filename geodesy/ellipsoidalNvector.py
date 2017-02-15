@@ -35,7 +35,7 @@ from math import asin, atan2, cos, hypot, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '17.02.14'
+__version__ = '17.02.15'
 
 
 class Cartesian(CartesianBase):
@@ -272,6 +272,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
            >>> a = LatLon(49.66618, 3.45063)
            >>> delta = toNed(116807.681, 222.493, -0.5245)  # [N:-86126, E:-78900, D:1069]
            >>> b = a.destinationNed(delta)  # 48.88667°N, 002.37472°E
+
+           @JSname: I{destinationPoint}.
         '''
         if not isinstance(delta, Ned):
             raise TypeError('type(%s) not %s.%s' % ('delta',
@@ -291,8 +293,6 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         v = self.toCartesian().plus(dc)  # the plus() gives a plain vector
 
         return Cartesian(v.x, v.y, v.z).toLatLon(datum=self.datum)
-
-    destinationPoint = destinationNed  # XXX original name
 
 #     def distanceTo(self, other):
 #         '''Returns distance from this to an other point.
@@ -314,8 +314,6 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #         v1 = self.toNvector()
 #         v2 = other.toNvector()
 #         return v1.angleTo(v2) * self.datum.ellipsoid.R
-#
-#     distanceTo = distanceTo  # XXX original name
 #
 #     def distanceTo(self, other, radius=R_M):
 #         '''Returns distance from this to an other point.
@@ -402,6 +400,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
            >>> p = LatLon(52.205, 0.119)
            >>> q = LatLon(48.857, 2.351)
            >>> p = p.intermediateTo(q, 0.25)  # 51.3721°N, 000.7073°E
+
+           @JSname: I{intermediatePointTo}.
         '''
         self.others(other)
 
@@ -416,8 +416,6 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #                self.toNvector() * (1 - fraction)
             i = Nvector(i.x, i.y, i.z).toLatLon()
         return i
-
-    intermediatePointTo = intermediateTo  # XXX original name
 
     def toCartesian(self):
         '''Convert this (geodetic) point to (geocentric) x/y/z cartesian
@@ -690,6 +688,8 @@ def toNed(distance, bearing, elevation):
 
        @return: NED vector equivalent to distance, bearing and
                 elevation (L{Ned}).
+
+       @JSname: I{fromDistanceBearingElevation}.
     '''
     b, e = radians(bearing), radians(elevation)
 
@@ -699,9 +699,6 @@ def toNed(distance, bearing, elevation):
     return Ned(cos(b) * dce,
                sin(b) * dce,
               -sin(e) * d)
-
-
-fromDistanceBearingElevation = toNed  # XXX original name
 
 # **) MIT License
 #

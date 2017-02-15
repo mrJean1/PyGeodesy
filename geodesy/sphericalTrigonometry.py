@@ -155,6 +155,8 @@ class LatLon(LatLonSphericalBase):
            >>> p1 = LatLon(51.4778, -0.0015)
            >>> p2 = p1.destination(7794, 300.7)
            >>> p2.toStr()  # '51.5135°N, 000.0983°W'
+
+           @JSname: I{destinationPoint}.
         '''
         d = float(distance) / float(radius)  # angular distance in radians
         t = radians(bearing)
@@ -168,8 +170,6 @@ class LatLon(LatLonSphericalBase):
         b2 = atan2(sin(t) * sd * ca1, cd - sa1 * sin(a2)) + b1
 
         return LatLon(degrees90(a2), degrees180(b2), height=self.height)
-
-    destinationPoint = destination  # XXX original name
 
     def distanceTo(self, other, radius=R_M):
         '''Computes the distance from this to an other point.
@@ -364,12 +364,12 @@ class LatLon(LatLonSphericalBase):
 #          @raise NotImplementedError: Not available.
 #
 #          @raise TypeError: One of the points is not L{LatLon}.
+#
+#          @JSname: I{isWithinExtent}.
 #       '''
 #       self.others(point1, name='point1')
 #       self.others(point2, name='point2')
 #       raise self.notImplemented('isWithin')
-#
-#   isWithinExtent = isWithin  # XXX original name
 
     def midpointTo(self, other):
         '''Finds the midpoint between this and an other point.
@@ -409,12 +409,12 @@ class LatLon(LatLonSphericalBase):
 #          @raise NotImplementedError: Not available.
 #
 #          @raise TypeError: One of the points is not L{LatLon}.
+#
+#          @JSname: I{nearestPointOnSegment}.
 #       '''
 #       self.others(point1, name='point1')
 #       self.others(point2, name='point2')
 #       raise self.notImplemented('nearestOn')
-#
-#   nearestPointOnSegment = nearestOn  # XXX original name
 
     def toVector3d(self):
         '''Converts this point to a vector normal to earth's surface.

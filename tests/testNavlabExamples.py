@@ -8,7 +8,7 @@ This page illustrates implementations of the examples from
 those used in nvector.readthedocs.org.  Tests marked with
 # +++ are additional, not present in the original examples.
 '''
-__version__ = '16.12.07'
+__version__ = '17.02.15'
 
 if __name__ == '__main__':
 
@@ -44,16 +44,16 @@ if __name__ == '__main__':
     delta = ellipsoidalNvector.Ned(3000, 2000, 100)
     t.test(2, 'delta', delta, '[N:3000.0, E:2000.0, D:100.0]')  # ++
     t.test(2, 'delta', delta.toStr2(prec=3), '[L:3606.938, B:33.69°, E:-1.589°]')  # +++
-    c = b.destinationPoint(delta)
-    t.test(2, 'destinationPoint', c.toStr(F_D), '53.327726°N, 063.464965°E, +299.138m', known=True)
+    c = b.destinationNed(delta)  # JSname: destinationPoint
+    t.test(2, 'destinationNed', c.toStr(F_D), '53.327726°N, 063.464965°E, +299.138m', known=True)
 
     a = ellipsoidalNvector.LatLon(49.66618, 3.45063)  # ++
     b = ellipsoidalNvector.LatLon(48.88667, 2.37472)  # ++
     delta = a.deltaTo(b)  # ++
     t.test(2, 'delta', delta.toStr(prec=0), '[N:-86126, E:-78900, D:1069]')  # ++
     t.test(2, 'delta', delta.toStr2(prec=3), '[L:116807.681, B:222.493°, E:-0.524°]')  # +++
-    c = a.destinationNed(delta)
-    t.test(2, 'destinationPoint', c.toStr(F_D), '48.88667°N, 002.37472°E')
+    c = a.destinationNed(delta)  # JSname: destinationPoint
+    t.test(2, 'destinationNed', c.toStr(F_D), '48.88667°N, 002.37472°E')
 
 # Example 3: ECEF-vector to geodetic latitude
     c = ellipsoidalNvector.Cartesian(0.9*6371e3, -1.0*6371e3, 1.1*6371e3)
@@ -97,12 +97,12 @@ if __name__ == '__main__':
 
 # Example 8: A and azimuth/distance to B
     a = sphericalNvector.LatLon(80, -90)
-    b = a.destinationPoint(1000, 200)
-    t.test(8, 'destinationPoint(sphNv)', b.toStr(F_D), '79.991549°N, 090.017698°W')
+    b = a.destination(1000, 200)  # JSname: destinationPoint
+    t.test(8, 'destination(sphNv)', b.toStr(F_D), '79.991549°N, 090.017698°W')
 
     a = sphericalTrigonometry.LatLon(80, -90)  # +++
-    b = a.destinationPoint(1000, 200)
-    t.test(8, 'destinationPoint(sphTy)', b.toStr(F_D), '79.991549°N, 090.017698°W')
+    b = a.destination(1000, 200)  # JSname: destinationPoint
+    t.test(8, 'destination(sphTy)', b.toStr(F_D), '79.991549°N, 090.017698°W')
 
     a = ellipsoidalVincenty.LatLon(80, -90)  # +++
     b = a.destination(1000, 200)
@@ -128,7 +128,7 @@ if __name__ == '__main__':
 
     # Typical test results (on MacOS 10.12.3):
 
-    # testing testNavlabExamples.py version 16.12.07
+    # testing testNavlabExamples.py version 17.02.15
     # test 1 Example 1 delta: [N:331730.863, E:332998.501, D:17398.304]
     # test 2 Example 1 delta: [L:470357.384, B:45.109°, E:-2.12°]
     # test 3 Example 1 elevation: -2.1198
@@ -138,10 +138,10 @@ if __name__ == '__main__':
     # test 7 Example 2 toNvector: (0.267, 0.535, 0.802, +400.00)
     # test 8 Example 2 delta: [N:3000.0, E:2000.0, D:100.0]
     # test 9 Example 2 delta: [L:3606.938, B:33.69°, E:-1.589°]
-    # test 10 Example 2 destinationPoint: 53.327726°N, 063.464965°E, +301.02m  FAILED, KNOWN, expected 53.327726°N, 063.464965°E, +299.138m
+    # test 10 Example 2 destinationNed: 53.327726°N, 063.464965°E, +301.02m  FAILED, KNOWN, expected 53.327726°N, 063.464965°E, +299.138m
     # test 11 Example 2 delta: [N:-86126, E:-78900, D:1069]
     # test 12 Example 2 delta: [L:116807.681, B:222.493°, E:-0.524°]
-    # test 13 Example 2 destinationPoint: 48.88667°N, 002.37472°E
+    # test 13 Example 2 destinationNed: 48.88667°N, 002.37472°E
     # test 14 Example 3 toLatLon: 39.379°N, 048.013°W, +4702059.83m
     # test 15 Example 4 toCartesian: [6373290.277, 222560.201, 110568.827]
     # test 16 Example 5 distanceTo: 332457
@@ -150,14 +150,14 @@ if __name__ == '__main__':
     # test 19 Example 6 intermediateChordTo: 51.372294°N, 000.707192°E
     # test 20 Example 6 intermediateTo: 51.372084°N, 000.707337°E
     # test 21 Example 7 meanOf: 67.2362°N, 006.9175°W
-    # test 22 Example 8 destinationPoint(sphNv): 79.991549°N, 090.017698°W
-    # test 23 Example 8 destinationPoint(sphTy): 79.991549°N, 090.017698°W
+    # test 22 Example 8 destination(sphNv): 79.991549°N, 090.017698°W
+    # test 23 Example 8 destination(sphTy): 79.991549°N, 090.017698°W
     # test 24 Example 8 destination(elVincenty): 79.991584°N, 090.017621°W
     # test 25 Example 9 intersection: 40.318643°N, 055.901868°E
     # test 26 Example 10 crossTrackDistance: 11118
     # 1 testNavlabExamples.py test (3.8%) FAILED, incl. 1 KNOWN (Python 2.7.13 64bit)
 
-    # testing testNavlabExamples.py version 16.12.07
+    # testing testNavlabExamples.py version 17.02.15
     # test 1 Example 1 delta: [N:331730.863, E:332998.501, D:17398.304]
     # test 2 Example 1 delta: [L:470357.384, B:45.109°, E:-2.12°]
     # test 3 Example 1 elevation: -2.1198
@@ -167,10 +167,10 @@ if __name__ == '__main__':
     # test 7 Example 2 toNvector: (0.267, 0.535, 0.802, +400.00)
     # test 8 Example 2 delta: [N:3000.0, E:2000.0, D:100.0]
     # test 9 Example 2 delta: [L:3606.938, B:33.69°, E:-1.589°]
-    # test 10 Example 2 destinationPoint: 53.327726°N, 063.464965°E, +301.02m  FAILED, KNOWN, expected 53.327726°N, 063.464965°E, +299.138m
+    # test 10 Example 2 destinationNed: 53.327726°N, 063.464965°E, +301.02m  FAILED, KNOWN, expected 53.327726°N, 063.464965°E, +299.138m
     # test 11 Example 2 delta: [N:-86126, E:-78900, D:1069]
     # test 12 Example 2 delta: [L:116807.681, B:222.493°, E:-0.524°]
-    # test 13 Example 2 destinationPoint: 48.88667°N, 002.37472°E
+    # test 13 Example 2 destinationNed: 48.88667°N, 002.37472°E
     # test 14 Example 3 toLatLon: 39.379°N, 048.013°W, +4702059.83m
     # test 15 Example 4 toCartesian: [6373290.277, 222560.201, 110568.827]
     # test 16 Example 5 distanceTo: 332457
@@ -179,8 +179,8 @@ if __name__ == '__main__':
     # test 19 Example 6 intermediateChordTo: 51.372294°N, 000.707192°E
     # test 20 Example 6 intermediateTo: 51.372084°N, 000.707337°E
     # test 21 Example 7 meanOf: 67.2362°N, 006.9175°W
-    # test 22 Example 8 destinationPoint(sphNv): 79.991549°N, 090.017698°W
-    # test 23 Example 8 destinationPoint(sphTy): 79.991549°N, 090.017698°W
+    # test 22 Example 8 destination(sphNv): 79.991549°N, 090.017698°W
+    # test 23 Example 8 destination(sphTy): 79.991549°N, 090.017698°W
     # test 24 Example 8 destination(elVincenty): 79.991584°N, 090.017621°W
     # test 25 Example 9 intersection: 40.318643°N, 055.901868°E
     # test 26 Example 10 crossTrackDistance: 11118

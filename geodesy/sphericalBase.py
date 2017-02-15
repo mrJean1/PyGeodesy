@@ -23,7 +23,7 @@ from math import acos, atan2, cos, hypot, log, sin
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('LatLonSphericalBase',)
-__version__ = '17.02.14'
+__version__ = '17.02.15'
 
 
 class LatLonSphericalBase(LatLonHeightBase):
@@ -93,11 +93,11 @@ class LatLonSphericalBase(LatLonHeightBase):
            @param bearing: Initial bearing (compass degrees).
 
            @return: Maximum latitude (degrees90).
+
+           @JSname: I{maxLatitude}.
         '''
         m = acos(abs(sin(radians(bearing)) * cos(radians(self.lat))))
         return degrees90(m)
-
-    maxLatitude = maxLat  # XXX original name
 
     def minLat(self, bearing):
         '''Returns minimum latitude reached when travelling
@@ -107,10 +107,10 @@ class LatLonSphericalBase(LatLonHeightBase):
            @param bearing: Initial bearing (compass degrees).
 
            @return: Minimum latitude (degrees90).
+
+           @JSname: I{minLatitude}.
         '''
         return -self.maxLat(bearing)
-
-    minLatitude = minLat  # XXX original name?
 
     def parse(self, strll, height=0, sep=','):
         '''Parse a string representing lat-/longitude point and

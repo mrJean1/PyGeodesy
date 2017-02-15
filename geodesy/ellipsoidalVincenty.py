@@ -320,10 +320,10 @@ class LatLon(LatLonEllipsoidalBase):
            >>> p = LatLon(52.205, 0.119)
            >>> q = LatLon(48.857, 2.351)
            >>> b = p.bearingTo(q)  # 156.2°
+
+           @JSname: I{bearingTo}.
         '''
         return self._inverse(other, True)[1]
-
-    bearingTo = initialBearingTo  # XXX original name
 
     @property
     def iterations(self):
