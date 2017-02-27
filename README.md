@@ -39,14 +39,14 @@ Documentation tag ```JS name:``` shows the original name.
 
 __
 
-*) Links
- - <http://code.activestate.com/recipes/546532-pychecker-postprocessor/>
- - <https://pypi.python.org/pypi/pychecker>
- - <https://pypi.python.org/pypi/pyflakes>
- - <https://pypi.python.org/pypi/pycodestyle>
- - <https://pypi.python.org/pypi/mccabe>
- - <https://pypi.python.org/pypi/flake8>
- - <https://pypi.python.org/pypi/epydoc>
+*) Links:
+ - PostProcessor <http://code.activestate.com/recipes/546532/>
+ - PyChecker <https://pypi.python.org/pypi/pychecker>
+ - PyFlakes <https://pypi.python.org/pypi/pyflakes>
+ - PyCodeStyle <https://pypi.python.org/pypi/pycodestyle>
+ - McCabe <https://pypi.python.org/pypi/mccabe>
+ - Flake8 <https://pypi.python.org/pypi/flake8>
+ - Epydoc <https://pypi.python.org/pypi/epydoc>
 
 **) MIT License <https://opensource.org/licenses/MIT> text follows:
 
@@ -72,4 +72,4 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 ```
 
-_Last updated: Feb 20, 2017._
+_Last updated: Feb 27, 2017._

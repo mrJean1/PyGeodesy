@@ -24,12 +24,12 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2',  # constants
            'radians', 'radiansPI', 'radiansPI2', 'radiansPI_2',
            'sin_2', 'tanPI_2_2',
            'wrap90', 'wrap180', 'wrapPI', 'wrapPI2', 'wrapPI_2')
-__version__ = '17.02.14'
+__version__ = '17.02.27'
 
 try:
-    from math import fsum  #: precision sum, Python 2.6+
+    from math import fsum  # precision sum, Python 2.6+
 except ImportError:
-    fsum = sum  #: standard, built-in sum (or Kahan's sum
+    fsum = sum  # use standard, built-in sum (or Kahan's summation
     # <https://en.wikipedia.org/wiki/Kahan_summation_algorithm> or
     # Hettinger's <https://code.activestate.com/recipes/393090/>)
 
@@ -44,7 +44,7 @@ try:
     EPS = sys.float_info.epsilon  #: System's epsilon (float)
 except AttributeError:
     EPS = 2.2204460492503131e-16  #: Approximate epsilon (float)
-EPS1 = 1 - EPS    #: 1 - EPS (float)
+EPS1 = 1.0 - EPS  #: 1.0 - EPS (float)
 EPS2 = sqrt(EPS)  #: M{sqrt(EPS)} (float)
 
 PI2  = PI * 2  #: Two PI, M{PI * 2} (float)  # PYCHOK expected
@@ -141,7 +141,7 @@ def fdot(a, *b):
 
        @return: Dot product (float).
 
-       @raise AssertionError: If len(a) and len(b) differ.
+       @raise AssertionError: Unequal len(a) and len(b).
     '''
     assert len(a) == len(b)
     return fsum(map(mul, a, b))
@@ -157,7 +157,7 @@ def fdot3(a, b, c, start=0):
 
        @return: Dot product (float).
 
-       @raise AssertionError: If len(a), len(b) and/or len(c) differ.
+       @raise AssertionError: Unequal len(a), len(b) and/or len(c).
     '''
     def mul3(a, b, c):  # map function
         return a * b * c
