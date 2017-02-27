@@ -24,7 +24,7 @@ from math import acos, asin, atan2, cos, hypot, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('LatLon',  # classes
            'intersection', 'meanOf')  # functions
-__version__ = '17.02.14'
+__version__ = '17.02.27'
 
 
 class LatLon(LatLonSphericalBase):
@@ -435,9 +435,9 @@ def intersection(start1, bearing1, start2, bearing2):
        by a start point and an initial bearing.
 
        @param start1: Start point of first path (L{LatLon}).
-       @param bearing1: Initial bearing from L{start1} (compass degrees).
+       @param bearing1: Initial bearing from start1 (compass degrees).
        @param start2: Start point of second path (L{LatLon}).
-       @param bearing2: Initial bearing from L{start2} (compass degrees).
+       @param bearing2: Initial bearing from start2 (compass degrees).
 
        @return: Intersection point (L{LatLon}).
 
@@ -512,7 +512,7 @@ def meanOf(points, height=None):
 
        @return: Point at geographic mean and height (L{LatLon}).
 
-       @raise TypeError: Some points are not L({LatLon}).
+       @raise TypeError: Some points are not L{LatLon}.
 
        @raise ValueError: If no points.
     '''

@@ -41,7 +41,7 @@ from math import atan2, cos, radians, sin
 __all__ = ('LatLon', 'Nvector',  # classes
            'areaOf', 'intersection', 'isclockwise', 'meanOf',  # functions
            'triangulate', 'trilaterate')
-__version__ = '17.02.14'
+__version__ = '17.02.27'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -716,7 +716,7 @@ def meanOf(points, height=None):
     '''Computes the geographic mean of the supplied points.
 
        @param points: Array of points to be averaged (L{LatLon}[]).
-       @keyword height: Height to use inlieu of mean (meter).
+       @keyword height: Height to use inlieu of mean height (meter).
 
        @return: Point at geographic mean and mean height (L{LatLon}).
 
@@ -782,7 +782,7 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3, radius=
 
        @return: Trilaterated point (L{LatLon}).
 
-       @raise TypeError: One of the points is not L({LatLon}).
+       @raise TypeError: One of the points is not L{LatLon}.
 
        @raise ValueError: Distance(s) exceeds trilateration.
     '''
