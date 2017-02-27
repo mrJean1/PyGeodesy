@@ -50,7 +50,7 @@ R_SM = R_KM * 0.62137  #: Mean, spherical earth radius (statute miles).
 __all__ = ('R_KM', 'R_M', 'R_NM', 'R_SM',  # constants
            'Datum',  'Ellipsoid',  'Transform',  # classes
            'Datums', 'Ellipsoids', 'Transforms')  # enum-like
-__version__ = '17.02.14'
+__version__ = '17.02.27'
 
 
 class _Enum(dict, Named):
@@ -421,7 +421,7 @@ class Transform(_Based):
            @param z: Z coordinate (meter).
            @keyword inverse: Direction, forward or inverse (bool).
 
-           @return: #-Tuple (x, y, z) transformed.
+           @return: 3-Tuple (x, y, z) transformed.
         '''
         if inverse:
             xyz = -1, -x, -y, -z
@@ -467,7 +467,7 @@ Transforms._assert(
 
 
 class Datum(_Based):
-    '''Datum ellipsoid and transform.
+    '''Ellipsoid and transform parameters for an earth model.
     '''
     ellipsoid = Ellipsoids.WGS84  #: Default ellipsoid (L{Ellipsoid}).
     transform = Transforms.WGS84  #: Default transform (L{Transform}).
