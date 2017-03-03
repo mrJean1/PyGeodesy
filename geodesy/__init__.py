@@ -125,7 +125,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',
            'sphericalNvector', 'sphericalTrigonometry',
            'VincentyError',
            'nvector', 'vector3d')  # extended below
-__version__ = '17.02.15'
+__version__ = '17.03.03'
 
 # lift all public classes, constants, functions, etc. but
 # only from the following sub-modules ... (see also David
