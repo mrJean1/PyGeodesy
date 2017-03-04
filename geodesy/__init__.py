@@ -125,7 +125,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',
            'sphericalNvector', 'sphericalTrigonometry',
            'VincentyError',
            'nvector', 'vector3d')  # extended below
-__version__ = '17.03.03'
+__version__ = '17.03.04'
 
 # lift all public classes, constants, functions, etc. but
 # only from the following sub-modules ... (see also David
@@ -146,7 +146,7 @@ import osgr   # PYCHOK expected
 import utils  # PYCHOK expected
 import utm    # PYCHOK expected
 
-# concat __all__ from the public classes, constants,
+# concat __all__ with the public classes, constants,
 # functions, etc. from the sub-modules mentioned above
 for m in (datum, dms, lcc, mgrs, osgr, utils, utm):
     __all__ += tuple(m.__all__)

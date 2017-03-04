@@ -13,75 +13,88 @@ from platform import architecture
 from subprocess import PIPE, STDOUT, Popen
 import sys
 
-__version__ = '17.02.14'
+__all__ = ('run',)
+__version__ = '17.03.04'
 
-_python = sys.executable  # path
-_python_O = _python
+_python_O = _python = sys.executable  # path
 if not __debug__:
     _python_O += ' -OO'
 
-_failedonly = False
-_raiser = False
-_verbose = False
 
-argv0, args = sys.argv[0], sys.argv[1:]
-while args and args[0].startswith('-'):
-    arg = args.pop(0)
-    if '-help'.startswith(arg):
-        print('usage: %s [-failedonly] [-raiser] [-verbose] [tests/test...py ...]' % (argv0,))
-        sys.exit(0)
-    elif '-failedonly'.startswith(arg):
-        _failedonly = True
-    elif '-raiser'.startswith(arg):
-        _raiser = True  # break on error
-    elif '-verbose'.startswith(arg):
-        _verbose = True
-    else:
-        print('%s invalid option: %s' % (argv0, arg))
-        sys.exit(1)
-
-if not args:  # no tests specified, get all test*.py
-    # scripts in the same directory as this one
-    args = sorted(glob(join(dirname(__file__), 'test*.py')))
-
-f = 0
-for arg in args:
-    print('%s %s %s' % (argv0, _python_O, arg))
-
-    cmd = [_python_O, arg]
-    p = Popen(cmd, creationflags=0,
-                   executable   =_python,
-                 # shell        =True,
-                   stdin        =None,
-                   stdout       =PIPE,  # XXX
-                   stderr       =STDOUT)  # XXX
+def run(test):
+    '''Invoke a test and return the
+       exit status and console output.
+    '''
+    c = [_python_O, test]
+    p = Popen(c, creationflags=0,
+                 executable   =_python,
+               # shell        =True,
+                 stdin        =None,
+                 stdout       =PIPE,  # XXX
+                 stderr       =STDOUT)  # XXX
 
     r = p.communicate()[0]
     if isinstance(r, bytes):  # Python 3+
         r = r.decode('utf-8')
 
-    f += p.returncode  # failures
+    # the exit status reflects the number of
+    # test failures in the tested module
+    return p.returncode, r
 
-    if 'Traceback' in r:
-        print('%s' % (r,))
-        if _raiser:
-            break
-    elif _failedonly:
-        for t in r.split('\n'):
-            if 'FAILED' in t or 'passed' in t:
-                print(t.rstrip())
-    elif _verbose:
-        print('%s' % (r,))
+
+_failedonly = False
+_raiser = False
+_verbose = False
+
+if __name__ == '__main__':
+
+    argv0, args = sys.argv[0], sys.argv[1:]
+    while args and args[0].startswith('-'):
+        arg = args.pop(0)
+        if '-help'.startswith(arg):
+            print('usage: %s [-failedonly] [-raiser] [-verbose] [tests/test...py ...]' % (argv0,))
+            sys.exit(0)
+        elif '-failedonly'.startswith(arg):
+            _failedonly = True
+        elif '-raiser'.startswith(arg):
+            _raiser = True  # break on error
+        elif '-verbose'.startswith(arg):
+            _verbose = True
+        else:
+            print('%s invalid option: %s' % (argv0, arg))
+            sys.exit(1)
+
+    if not args:  # no tests specified, get all test*.py
+        # scripts in the same directory as this one
+        args = sorted(glob(join(dirname(__file__), 'test*.py')))
+
+    f = 0
+    for arg in args:
+        print('%s %s %s' % (argv0, _python_O, arg))
+
+        x, r = run(arg)
+        f += x  # failures
+
+        if 'Traceback' in r:
+            print('%s' % (r,))
+            if _raiser:
+                break
+        elif _failedonly:
+            for t in r.split('\n'):
+                if 'FAILED' in t or 'passed' in t:
+                    print(t.rstrip())
+        elif _verbose:
+            print('%s' % (r,))
+        else:
+            continue
+
+        print('')
+
+    v = 'Python %s %s' % (sys.version.split()[0], architecture()[0])
+    if f:
+        print('%s %s %s FAILED (%s)' % (argv0, _python, f, v))
     else:
-        continue
-
-    print('')
-
-v = 'Python %s %s' % (sys.version.split()[0], architecture()[0])
-if f:
-    print('%s %s %s FAILED (%s)' % (argv0, _python, f, v))
-else:
-    print('%s %s all OK (%s)' % (argv0, _python, v))
+        print('%s %s all OK (%s)' % (argv0, _python, v))
 
 
 # Typical test results (on MacOS 10.12.3):
