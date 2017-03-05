@@ -16,7 +16,7 @@ from datum import R_M
 from sphericalBase import LatLonSphericalBase
 from utils import EPS, EPS1, PI2, PI_2, \
                   degrees90, degrees180, degrees360, \
-                  fsum, radians, sin_2, wrapPI
+                  hsin, fsum, radians, wrapPI
 from vector3d import Vector3d, sumOf
 
 from math import acos, asin, atan2, cos, hypot, sin, sqrt
@@ -24,7 +24,7 @@ from math import acos, asin, atan2, cos, hypot, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('LatLon',  # classes
            'intersection', 'meanOf')  # functions
-__version__ = '17.02.27'
+__version__ = '17.03.05'
 
 
 class LatLon(LatLonSphericalBase):
@@ -194,12 +194,12 @@ class LatLon(LatLonSphericalBase):
         a2, b2 = other.to2ab()
 
         # see http://williams.best.vwh.net/avform.htm#Dist
-        sa = sin_2(a2 - a1)
-        sb = sin_2(b2 - b1)
+        ha = hsin(a2 - a1)
+        hb = hsin(b2 - b1)
 
-        a = sa * sa + cos(a1) * cos(a2) * sb * sb
-        c = 2 * atan2(sqrt(a), sqrt(1 - a))
-#       c = 2 * asin(sqrt(a))
+        a = ha + cos(a1) * cos(a2) * hb
+        c = atan2(sqrt(a), sqrt(1 - a)) * 2
+#       c = asin(sqrt(a)) * 2
 
         return c * float(radius)
 
@@ -264,9 +264,9 @@ class LatLon(LatLonSphericalBase):
 
             # distance between points
             da, db = (a2 - a1), (b2 - b1)
-            sa, sb = sin_2(da), sin_2(db)
+            ha, hb = hsin(da), hsin(db)
 
-            a = sa * sa + ca1 * ca2 * sb * sb
+            a = ha + ca1 * ca2 * hb
             d = atan2(sqrt(a), sqrt(1 - a)) * 2
             sd = sin(d)
             if abs(sd) > EPS:
@@ -459,11 +459,14 @@ def intersection(start1, bearing1, start2, bearing2):
     a1, b1 = start1.to2ab()
     a2, b2 = start2.to2ab()
 
-    sa = sin_2(a2 - a1)
-    sb = sin_2(b2 - b1)
+    ca1 = cos(a1)
+    ca2 = cos(a2)
+
+    ha = hsin(a2 - a1)
+    hb = hsin(b2 - b1)
 
     # angular distance
-    r12 = asin(sqrt(sa * sa + cos(a1) * cos(a2) * sb * sb)) * 2
+    r12 = asin(sqrt(ha + ca1 * ca2 * hb)) * 2
     if abs(r12) < EPS:
         raise ValueError('intersection %s: %r vs %r' % ('parallel', start1, start2))
     cr12 = cos(r12)
@@ -471,8 +474,8 @@ def intersection(start1, bearing1, start2, bearing2):
 
     sa1 = sin(a1)
     sa2 = sin(a2)
-    t1 = acos((sa2 - sa1 * cr12) / (sr12 * cos(a1)))
-    t2 = acos((sa1 - sa2 * cr12) / (sr12 * cos(a2)))
+    t1 = acos((sa2 - sa1 * cr12) / (sr12 * ca1))
+    t2 = acos((sa1 - sa2 * cr12) / (sr12 * ca2))
     if sin(b2 - b1) > 0:
         t12, t21 = t1, PI2 - t2
     else:
@@ -491,7 +494,6 @@ def intersection(start1, bearing1, start2, bearing2):
         raise ValueError('intersection %s: %r vs %r' % ('ambiguous', start1, start2))
     cx1 = cos(x1)
     cx2 = cos(x2)
-    ca1 = cos(a1)
 
     x3 = acos(-cx1 * cx2 + sx3 * cr12)
     r13 = atan2(sr12 * sx3, cx2 + cx1 * cos(x3))

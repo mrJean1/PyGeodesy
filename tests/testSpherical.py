@@ -25,7 +25,7 @@ if __name__ == '__main__':
 
     # Typical test results (on MacOS 10.12.3):
 
-    # testing geodesy.sphericalNvector version 17.02.13
+    # testing geodesy.sphericalNvector version 17.02.27
     # test 1 lat/lonDMS: 52.20472°N, 000.14056°E
     # test 2 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
     # test 3 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
@@ -84,7 +84,7 @@ if __name__ == '__main__':
     # test 56 triangulate: 47.323667°N, 002.568501°W
     # all geodesy.sphericalNvector tests passed (Python 2.7.13 64bit)
 
-    # testing geodesy.sphericalTrigonometry version 17.02.12
+    # testing geodesy.sphericalTrigonometry version 17.03.05
     # test 1 lat/lonDMS: 52.20472°N, 000.14056°E
     # test 2 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
     # test 3 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
@@ -122,7 +122,7 @@ if __name__ == '__main__':
     # test 35 rhumbMidpointo: 51.0455°N, 001.595727°E
     # all geodesy.sphericalTrigonometry tests passed (Python 2.7.13 64bit)
 
-    # testing sphericalNvector version 17.02.13
+    # testing sphericalNvector version 17.02.27
     # test 1 lat/lonDMS: 52.20472°N, 000.14056°E
     # test 2 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
     # test 3 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
@@ -181,7 +181,7 @@ if __name__ == '__main__':
     # test 56 triangulate: 47.323667°N, 002.568501°W
     # all sphericalNvector tests passed (Python 3.6.0 64bit)
 
-    # testing sphericalTrigonometry version 17.02.12
+    # testing sphericalTrigonometry version 17.03.05
     # test 1 lat/lonDMS: 52.20472°N, 000.14056°E
     # test 2 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
     # test 3 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E

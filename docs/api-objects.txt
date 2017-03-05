@@ -5,6 +5,7 @@ geodesy.F_RAD	geodesy-module.html#F_RAD
 geodesy.F_D	geodesy-module.html#F_D
 geodesy.isscalar	geodesy-module.html#isscalar
 geodesy.S_SEP	geodesy-module.html#S_SEP
+geodesy.hsin	geodesy-module.html#hsin
 geodesy.S_SEC	geodesy-module.html#S_SEC
 geodesy.degrees180	geodesy-module.html#degrees180
 geodesy.parse3llh	geodesy-module.html#parse3llh
@@ -61,7 +62,6 @@ geodesy.isint	geodesy-module.html#isint
 geodesy.wrapPI_2	geodesy-module.html#wrapPI_2
 geodesy.normDMS	geodesy-module.html#normDMS
 geodesy.halfs	geodesy-module.html#halfs
-geodesy.sin_2	geodesy-module.html#sin_2
 geodesy.toMgrs	geodesy-module.html#toMgrs
 geodesy.toOsgr	geodesy-module.html#toOsgr
 geodesy.map2	geodesy-module.html#map2
@@ -224,10 +224,10 @@ geodesy.sphericalTrigonometry.meanOf	geodesy.sphericalTrigonometry-module.html#m
 geodesy.sphericalTrigonometry.degrees360	geodesy.utils-module.html#degrees360
 geodesy.sphericalTrigonometry._Trll	geodesy.sphericalTrigonometry-module.html#_Trll
 geodesy.sphericalTrigonometry.__package__	geodesy.sphericalTrigonometry-module.html#__package__
+geodesy.sphericalTrigonometry.hsin	geodesy.utils-module.html#hsin
 geodesy.sphericalTrigonometry.degrees180	geodesy.utils-module.html#degrees180
 geodesy.sphericalTrigonometry.sumOf	geodesy.vector3d-module.html#sumOf
 geodesy.sphericalTrigonometry.wrapPI	geodesy.utils-module.html#wrapPI
-geodesy.sphericalTrigonometry.sin_2	geodesy.utils-module.html#sin_2
 geodesy.sphericalTrigonometry.intersection	geodesy.sphericalTrigonometry-module.html#intersection
 geodesy.sphericalTrigonometry.radians	geodesy.utils-module.html#radians
 geodesy.utils	geodesy.utils-module.html
@@ -249,6 +249,7 @@ geodesy.utils.wrap180	geodesy.utils-module.html#wrap180
 geodesy.utils._Scalars	geodesy.utils-module.html#_Scalars
 geodesy.utils.fdot3	geodesy.utils-module.html#fdot3
 geodesy.utils.wrap90	geodesy.utils-module.html#wrap90
+geodesy.utils.hsin	geodesy.utils-module.html#hsin
 geodesy.utils.degrees	geodesy.utils-module.html#degrees
 geodesy.utils.degrees180	geodesy.utils-module.html#degrees180
 geodesy.utils.wrapPI	geodesy.utils-module.html#wrapPI
@@ -257,7 +258,6 @@ geodesy.utils._3rd	geodesy.utils-module.html#_3rd
 geodesy.utils.wrapPI_2	geodesy.utils-module.html#wrapPI_2
 geodesy.utils._drap	geodesy.utils-module.html#_drap
 geodesy.utils.halfs	geodesy.utils-module.html#halfs
-geodesy.utils.sin_2	geodesy.utils-module.html#sin_2
 geodesy.utils.PI2	geodesy.utils-module.html#PI2
 geodesy.utils.wrapPI2	geodesy.utils-module.html#wrapPI2
 geodesy.utils.PI	geodesy.utils-module.html#PI

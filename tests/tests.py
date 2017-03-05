@@ -528,7 +528,7 @@ if __name__ == '__main__':
 
     # testing tests.py version 17.02.14
 
-    # testing __init__.py version 17.02.15
+    # testing __init__.py version 17.03.05
     # test 1 geodesy.Conic() class (geodesy.lcc): True
     # test 2 geodesy.Conics attribute (geodesy.datum): True
     # test 3 geodesy.Datum() class (geodesy.datum): True
@@ -576,27 +576,27 @@ if __name__ == '__main__':
     # test 45 geodesy.fdot3() function (geodesy.utils): True
     # test 46 geodesy.fsum attribute (math): True
     # test 47 geodesy.halfs() function (geodesy.utils): True
-    # test 48 geodesy.hypot1() function (geodesy.utils): True
-    # test 49 geodesy.hypot3() function (geodesy.utils): True
-    # test 50 geodesy.isint() function (geodesy.utils): True
-    # test 51 geodesy.isscalar() function (geodesy.utils): True
-    # test 52 geodesy.latDMS() function (geodesy.dms): True
-    # test 53 geodesy.len2() function (geodesy.utils): True
-    # test 54 geodesy.lonDMS() function (geodesy.dms): True
-    # test 55 geodesy.map2() function (geodesy.utils): True
-    # test 56 geodesy.normDMS() function (geodesy.dms): True
-    # test 57 geodesy.nvector module: True
-    # test 58 geodesy.parse3llh() function (geodesy.dms): True
-    # test 59 geodesy.parseDMS() function (geodesy.dms): True
-    # test 60 geodesy.parseMGRS() function (geodesy.mgrs): True
-    # test 61 geodesy.parseOSGR() function (geodesy.osgr): True
-    # test 62 geodesy.parseUTM() function (geodesy.utm): True
-    # test 63 geodesy.precision() function (geodesy.dms): True
-    # test 64 geodesy.radians attribute (math): True
-    # test 65 geodesy.radiansPI() function (geodesy.utils): True
-    # test 66 geodesy.radiansPI2() function (geodesy.utils): True
-    # test 67 geodesy.radiansPI_2() function (geodesy.utils): True
-    # test 68 geodesy.sin_2() function (geodesy.utils): True
+    # test 48 geodesy.hsin() function (geodesy.utils): True
+    # test 49 geodesy.hypot1() function (geodesy.utils): True
+    # test 50 geodesy.hypot3() function (geodesy.utils): True
+    # test 51 geodesy.isint() function (geodesy.utils): True
+    # test 52 geodesy.isscalar() function (geodesy.utils): True
+    # test 53 geodesy.latDMS() function (geodesy.dms): True
+    # test 54 geodesy.len2() function (geodesy.utils): True
+    # test 55 geodesy.lonDMS() function (geodesy.dms): True
+    # test 56 geodesy.map2() function (geodesy.utils): True
+    # test 57 geodesy.normDMS() function (geodesy.dms): True
+    # test 58 geodesy.nvector module: True
+    # test 59 geodesy.parse3llh() function (geodesy.dms): True
+    # test 60 geodesy.parseDMS() function (geodesy.dms): True
+    # test 61 geodesy.parseMGRS() function (geodesy.mgrs): True
+    # test 62 geodesy.parseOSGR() function (geodesy.osgr): True
+    # test 63 geodesy.parseUTM() function (geodesy.utm): True
+    # test 64 geodesy.precision() function (geodesy.dms): True
+    # test 65 geodesy.radians attribute (math): True
+    # test 66 geodesy.radiansPI() function (geodesy.utils): True
+    # test 67 geodesy.radiansPI2() function (geodesy.utils): True
+    # test 68 geodesy.radiansPI_2() function (geodesy.utils): True
     # test 69 geodesy.sphericalNvector module: True
     # test 70 geodesy.sphericalTrigonometry module: True
     # test 71 geodesy.tanPI_2_2() function (geodesy.utils): True
@@ -612,7 +612,7 @@ if __name__ == '__main__':
     # test 81 geodesy.wrapPI2() function (geodesy.utils): True
     # test 82 geodesy.wrapPI_2() function (geodesy.utils): True
 
-    # testing datum.py version 17.02.14
+    # testing datum.py version 17.02.27
     # test 83 datum.Datum() class: True
     # test 84 datum.Datums attribute: True
     # test 85 datum.Ellipsoid() class: True
@@ -673,7 +673,7 @@ if __name__ == '__main__':
     # test 128 ellipsoidalVincenty.LatLon() class: True
     # test 129 ellipsoidalVincenty.VincentyError() class: True
 
-    # testing sphericalNvector.py version 17.02.14
+    # testing sphericalNvector.py version 17.02.27
     # test 130 sphericalNvector.LatLon() class: True
     # test 131 sphericalNvector.Nvector() class: True
     # test 132 sphericalNvector.areaOf() function: True
@@ -683,7 +683,7 @@ if __name__ == '__main__':
     # test 136 sphericalNvector.triangulate() function: True
     # test 137 sphericalNvector.trilaterate() function: True
 
-    # testing sphericalTrigonometry.py version 17.02.14
+    # testing sphericalTrigonometry.py version 17.03.05
     # test 138 sphericalTrigonometry.LatLon() class: True
     # test 139 sphericalTrigonometry.intersection() function: True
     # test 140 sphericalTrigonometry.meanOf() function: True
@@ -698,12 +698,12 @@ if __name__ == '__main__':
     # test 145 vector3d.Vector3d() class: True
     # test 146 vector3d.sumOf() function: True
 
-    # testing utm.py version 17.02.14
+    # testing utm.py version 17.02.15
     # test 147 utm.Utm() class: True
     # test 148 utm.parseUTM() function: True
     # test 149 utm.toUtm() function: True
 
-    # testing utils.py version 17.02.14
+    # testing utils.py version 17.03.05
     # test 150 utils.EPS float: True
     # test 151 utils.EPS1 float: True
     # test 152 utils.EPS2 float: True
@@ -721,17 +721,17 @@ if __name__ == '__main__':
     # test 164 utils.fdot3() function: True
     # test 165 utils.fsum attribute (math): True
     # test 166 utils.halfs() function: True
-    # test 167 utils.hypot1() function: True
-    # test 168 utils.hypot3() function: True
-    # test 169 utils.isint() function: True
-    # test 170 utils.isscalar() function: True
-    # test 171 utils.len2() function: True
-    # test 172 utils.map2() function: True
-    # test 173 utils.radians attribute (math): True
-    # test 174 utils.radiansPI() function: True
-    # test 175 utils.radiansPI2() function: True
-    # test 176 utils.radiansPI_2() function: True
-    # test 177 utils.sin_2() function: True
+    # test 167 utils.hsin() function: True
+    # test 168 utils.hypot1() function: True
+    # test 169 utils.hypot3() function: True
+    # test 170 utils.isint() function: True
+    # test 171 utils.isscalar() function: True
+    # test 172 utils.len2() function: True
+    # test 173 utils.map2() function: True
+    # test 174 utils.radians attribute (math): True
+    # test 175 utils.radiansPI() function: True
+    # test 176 utils.radiansPI2() function: True
+    # test 177 utils.radiansPI_2() function: True
     # test 178 utils.tanPI_2_2() function: True
     # test 179 utils.wrap180() function: True
     # test 180 utils.wrap90() function: True
@@ -826,7 +826,7 @@ if __name__ == '__main__':
 
     # testing tests.py version 17.02.14
 
-    # testing __init__.py version 17.02.15
+    # testing __init__.py version 17.03.05
     # test 1 geodesy.Conic() class (lcc): True
     # test 2 geodesy.Conics attribute (datum): True
     # test 3 geodesy.Datum() class (datum): True
@@ -874,27 +874,27 @@ if __name__ == '__main__':
     # test 45 geodesy.fdot3() function (utils): True
     # test 46 geodesy.fsum attribute (math): True
     # test 47 geodesy.halfs() function (utils): True
-    # test 48 geodesy.hypot1() function (utils): True
-    # test 49 geodesy.hypot3() function (utils): True
-    # test 50 geodesy.isint() function (utils): True
-    # test 51 geodesy.isscalar() function (utils): True
-    # test 52 geodesy.latDMS() function (dms): True
-    # test 53 geodesy.len2() function (utils): True
-    # test 54 geodesy.lonDMS() function (dms): True
-    # test 55 geodesy.map2() function (utils): True
-    # test 56 geodesy.normDMS() function (dms): True
-    # test 57 geodesy.nvector module: True
-    # test 58 geodesy.parse3llh() function (dms): True
-    # test 59 geodesy.parseDMS() function (dms): True
-    # test 60 geodesy.parseMGRS() function (mgrs): True
-    # test 61 geodesy.parseOSGR() function (osgr): True
-    # test 62 geodesy.parseUTM() function (utm): True
-    # test 63 geodesy.precision() function (dms): True
-    # test 64 geodesy.radians attribute (math): True
-    # test 65 geodesy.radiansPI() function (utils): True
-    # test 66 geodesy.radiansPI2() function (utils): True
-    # test 67 geodesy.radiansPI_2() function (utils): True
-    # test 68 geodesy.sin_2() function (utils): True
+    # test 48 geodesy.hsin() function (utils): True
+    # test 49 geodesy.hypot1() function (utils): True
+    # test 50 geodesy.hypot3() function (utils): True
+    # test 51 geodesy.isint() function (utils): True
+    # test 52 geodesy.isscalar() function (utils): True
+    # test 53 geodesy.latDMS() function (dms): True
+    # test 54 geodesy.len2() function (utils): True
+    # test 55 geodesy.lonDMS() function (dms): True
+    # test 56 geodesy.map2() function (utils): True
+    # test 57 geodesy.normDMS() function (dms): True
+    # test 58 geodesy.nvector module: True
+    # test 59 geodesy.parse3llh() function (dms): True
+    # test 60 geodesy.parseDMS() function (dms): True
+    # test 61 geodesy.parseMGRS() function (mgrs): True
+    # test 62 geodesy.parseOSGR() function (osgr): True
+    # test 63 geodesy.parseUTM() function (utm): True
+    # test 64 geodesy.precision() function (dms): True
+    # test 65 geodesy.radians attribute (math): True
+    # test 66 geodesy.radiansPI() function (utils): True
+    # test 67 geodesy.radiansPI2() function (utils): True
+    # test 68 geodesy.radiansPI_2() function (utils): True
     # test 69 geodesy.sphericalNvector module: True
     # test 70 geodesy.sphericalTrigonometry module: True
     # test 71 geodesy.tanPI_2_2() function (utils): True
@@ -910,7 +910,7 @@ if __name__ == '__main__':
     # test 81 geodesy.wrapPI2() function (utils): True
     # test 82 geodesy.wrapPI_2() function (utils): True
 
-    # testing datum.py version 17.02.14
+    # testing datum.py version 17.02.27
     # test 83 datum.Datum() class: True
     # test 84 datum.Datums attribute: True
     # test 85 datum.Ellipsoid() class: True
@@ -971,7 +971,7 @@ if __name__ == '__main__':
     # test 128 ellipsoidalVincenty.LatLon() class: True
     # test 129 ellipsoidalVincenty.VincentyError() class: True
 
-    # testing sphericalNvector.py version 17.02.14
+    # testing sphericalNvector.py version 17.02.27
     # test 130 sphericalNvector.LatLon() class: True
     # test 131 sphericalNvector.Nvector() class: True
     # test 132 sphericalNvector.areaOf() function: True
@@ -981,7 +981,7 @@ if __name__ == '__main__':
     # test 136 sphericalNvector.triangulate() function: True
     # test 137 sphericalNvector.trilaterate() function: True
 
-    # testing sphericalTrigonometry.py version 17.02.14
+    # testing sphericalTrigonometry.py version 17.03.05
     # test 138 sphericalTrigonometry.LatLon() class: True
     # test 139 sphericalTrigonometry.intersection() function: True
     # test 140 sphericalTrigonometry.meanOf() function: True
@@ -996,12 +996,12 @@ if __name__ == '__main__':
     # test 145 vector3d.Vector3d() class: True
     # test 146 vector3d.sumOf() function: True
 
-    # testing utm.py version 17.02.14
+    # testing utm.py version 17.02.15
     # test 147 utm.Utm() class: True
     # test 148 utm.parseUTM() function: True
     # test 149 utm.toUtm() function: True
 
-    # testing utils.py version 17.02.14
+    # testing utils.py version 17.03.05
     # test 150 utils.EPS float: True
     # test 151 utils.EPS1 float: True
     # test 152 utils.EPS2 float: True
@@ -1019,17 +1019,17 @@ if __name__ == '__main__':
     # test 164 utils.fdot3() function: True
     # test 165 utils.fsum attribute (math): True
     # test 166 utils.halfs() function: True
-    # test 167 utils.hypot1() function: True
-    # test 168 utils.hypot3() function: True
-    # test 169 utils.isint() function: True
-    # test 170 utils.isscalar() function: True
-    # test 171 utils.len2() function: True
-    # test 172 utils.map2() function: True
-    # test 173 utils.radians attribute (math): True
-    # test 174 utils.radiansPI() function: True
-    # test 175 utils.radiansPI2() function: True
-    # test 176 utils.radiansPI_2() function: True
-    # test 177 utils.sin_2() function: True
+    # test 167 utils.hsin() function: True
+    # test 168 utils.hypot1() function: True
+    # test 169 utils.hypot3() function: True
+    # test 170 utils.isint() function: True
+    # test 171 utils.isscalar() function: True
+    # test 172 utils.len2() function: True
+    # test 173 utils.map2() function: True
+    # test 174 utils.radians attribute (math): True
+    # test 175 utils.radiansPI() function: True
+    # test 176 utils.radiansPI2() function: True
+    # test 177 utils.radiansPI_2() function: True
     # test 178 utils.tanPI_2_2() function: True
     # test 179 utils.wrap180() function: True
     # test 180 utils.wrap90() function: True

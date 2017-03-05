@@ -19,12 +19,12 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2',  # constants
            'cbrt',
            'degrees', 'degrees90', 'degrees180', 'degrees360',
            'false2f', 'fdot', 'fdot3', 'fStr', 'fsum',
-           'halfs', 'hypot1', 'hypot3',
+           'halfs', 'hsin', 'hypot1', 'hypot3',
            'isint', 'isscalar', 'len2', 'map2',
            'radians', 'radiansPI', 'radiansPI2', 'radiansPI_2',
-           'sin_2', 'tanPI_2_2',
+           'tanPI_2_2',
            'wrap90', 'wrap180', 'wrapPI', 'wrapPI2', 'wrapPI_2')
-__version__ = '17.02.27'
+__version__ = '17.03.05'
 
 try:
     from math import fsum  # precision sum, Python 2.6+
@@ -212,6 +212,19 @@ def halfs(str2):
     return str2[:h], str2[h:]
 
 
+def hsin(rad):
+    '''Compute the Haversine value of an angle.
+
+       @param rad: Angle (radians).
+
+       @return: M{sin(rad / 2)**2} (float).
+
+       @note: U{http://en.wikipedia.org/wiki/Haversine_formula}.
+    '''
+    h = sin(rad * 0.5)
+    return h * h
+
+
 def hypot1(x):
     '''Computes the norm M{sqrt(1 + x**2)}.
 
@@ -339,16 +352,6 @@ def radiansPI_2(deg):
        @return: Radians, wrapped (radiansPI_2)
     '''
     return _wrap(radians(deg), PI_2)
-
-
-def sin_2(rad):
-    '''Computes sin of half angle.
-
-       @param rad: Angle (radians).
-
-       @return: M{sin(rad / 2)} (float).
-    '''
-    return sin(rad * 0.5)
 
 
 def tanPI_2_2(rad):
