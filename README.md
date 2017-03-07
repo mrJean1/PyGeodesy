@@ -1,7 +1,8 @@
 ## PyGeodesy
 
-A pure Python implementation of geodesy tools for various ellipsoidal and
-spherical earth models using trigonometric and vector-based methods.
+A pure Python implementation of geodesy tools for various ellipsoidal
+and spherical earth models using trigonometric and vector-based methods
+for geodetic (lat-/longitude) and cartesian (x/y/z) coordinates.
 
 Transcribed from JavaScript originals by _(C) Chris Veness 2005-2016_
 and published under the same MIT Licence**.
@@ -13,8 +14,9 @@ For more information and further details see:
 - <http://www.movable-type.co.uk/scripts/latlong-vincenty.html>
 - <http://www.movable-type.co.uk/scripts/latlong-vectors.html>
 
-Also included are conversions to and from UTM coordinates and MGRS
-and OSGR grid references, see:
+Also included are conversions to and from UTM (Universal Transverse Mercator)
+coordinates and MGRS (NATO Military Grid Reference System) and OSGR (British
+Ordinance Survery Grid Reference) grid references, see:
 
 - <http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html>
 - <http://www.movable-type.co.uk/scripts/latlong-os-gridref.html>
@@ -76,4 +78,4 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 ```
 
-_Last updated: Mar 06, 2017._
+_Last updated: Mar 07, 2017._

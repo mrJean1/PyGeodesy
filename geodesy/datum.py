@@ -3,7 +3,7 @@
 
 '''Classes L{Datum}, L{Ellipsoid} and L{Transform} and registries thereof.
 
-Python implementation of geodesy tools for an ellipsoidal earth model.
+Pure Python implementation of geodesy tools for ellipsoidal earth models.
 
 Includes ellipsoid parameters and datums for different geographic coordinate
 systems and methods for converting between them and to cartesian coordinates.

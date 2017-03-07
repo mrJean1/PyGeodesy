@@ -3,58 +3,61 @@
 
 # Test MGRS functions and methods.
 
-__version__ = '17.01.12'
+__all__ = ('Tests',)
+__version__ = '17.03.07'
+
+from tests import Tests as _Tests
+
+from geodesy import mgrs
+
+
+class Tests(_Tests):
+
+    def testMgrs(self, LatLon):
+
+        m = mgrs.Mgrs('31U', 'DQ', 48251, 11932)
+        self.test('Mgrs1', str(m), '31U DQ 48251 11932')
+        self.test('Mgrs1', repr(m), '[Z:31U, G:DQ, E:48251, N:11932]')
+
+        m = mgrs.parseMGRS('31U DQ 48251, 11932')
+        self.test('Mgrs2', str(m), '31U DQ 48251 11932')
+        self.test('Mgrs2', repr(m), '[Z:31U, G:DQ, E:48251, N:11932]')
+
+        m = mgrs.parseMGRS('31UDQ4825111932')
+        self.test('Mgrs3', str(m), '31U DQ 48251 11932')
+        self.test('Mgrs3', repr(m), '[Z:31U, G:DQ, E:48251, N:11932]')
+
+        u = m.toUtm()
+        self.test('toUtm1', str(u), '31 N 448251 5411932')
+        self.test('toUtm1', repr(u), '[Z:31, H:N, E:448251, N:5411932]')
+
+        m = u.toMgrs()
+        self.test('toMgrs', str(m), '31U DQ 48251 11932')
+
+        for lat, lon, x in ((60.0,  1.0, '31V CG 88455 53097'),  # southern Norway
+                            (60.0,  3.0, '32V JM 65640 66593'),
+                            (60.0,  9.0, '32V NM 00000 51411'),
+                            (76.0,  1.0, '31X DE 45999 36099'),  # Svalbard
+                            (76.0, 13.0, '33X VE 45999 36099'),
+                            (76.0, 25.0, '35X ME 45999 36099'),
+                            (76.0, 37.0, '37X DE 45999 36099')):
+            p = LatLon(lat, lon)
+            m = p.toUtm().toMgrs()
+            self.test('toUtm(%s).toMgrs' % (p,), m, x)
+
 
 if __name__ == '__main__':
 
-    from tests import Tests as _Tests
-
-    from geodesy import ellipsoidalVincenty, mgrs
-
-    LatLon = ellipsoidalVincenty.LatLon
-
-    class Tests(_Tests):
-
-        def testMgrs(self):
-
-            m = mgrs.Mgrs('31U', 'DQ', 48251, 11932)
-            self.test('Mgrs1', str(m), '31U DQ 48251 11932')
-            self.test('Mgrs1', repr(m), '[Z:31U, G:DQ, E:48251, N:11932]')
-
-            m = mgrs.parseMGRS('31U DQ 48251, 11932')
-            self.test('Mgrs2', str(m), '31U DQ 48251 11932')
-            self.test('Mgrs2', repr(m), '[Z:31U, G:DQ, E:48251, N:11932]')
-
-            m = mgrs.parseMGRS('31UDQ4825111932')
-            self.test('Mgrs3', str(m), '31U DQ 48251 11932')
-            self.test('Mgrs3', repr(m), '[Z:31U, G:DQ, E:48251, N:11932]')
-
-            u = m.toUtm()
-            self.test('toUtm1', str(u), '31 N 448251 5411932')
-            self.test('toUtm1', repr(u), '[Z:31, H:N, E:448251, N:5411932]')
-
-            m = u.toMgrs()
-            self.test('toMgrs', str(m), '31U DQ 48251 11932')
-
-            for lat, lon, x in ((60.0,  1.0, '31V CG 88455 53097'),  # southern Norway
-                                (60.0,  3.0, '32V JM 65640 66593'),
-                                (60.0,  9.0, '32V NM 00000 51411'),
-                                (76.0,  1.0, '31X DE 45999 36099'),  # Svalbard
-                                (76.0, 13.0, '33X VE 45999 36099'),
-                                (76.0, 25.0, '35X ME 45999 36099'),
-                                (76.0, 37.0, '37X DE 45999 36099')):
-                p = LatLon(lat, lon)
-                m = p.toUtm().toMgrs()
-                self.test('toUtm(%s).toMgrs' % (p,), m, x)
+    from geodesy import ellipsoidalVincenty
 
     t = Tests(__file__, __version__, mgrs)
-    t.testMgrs()
+    t.testMgrs(ellipsoidalVincenty.LatLon)
     t.results()
     t.exit()
 
-    # Typical test results (on MacOS 10.12.2):
+    # Typical test results (on MacOS 10.12.3):
 
-    # testing geodesy.mgrs version 17.02.09
+    # testing geodesy.mgrs version 17.03.07
     # test 1 Mgrs1: 31U DQ 48251 11932
     # test 2 Mgrs1: [Z:31U, G:DQ, E:48251, N:11932]
     # test 3 Mgrs2: 31U DQ 48251 11932
@@ -73,7 +76,7 @@ if __name__ == '__main__':
     # test 16 toUtm(76.0°N, 037.0°E).toMgrs: 37X DE 45999 36099
     # all geodesy.mgrs tests passed (Python 2.7.13 64bit)
 
-    # testing geodesy.mgrs version 17.02.09
+    # testing mgrs version 17.03.07
     # test 1 Mgrs1: 31U DQ 48251 11932
     # test 2 Mgrs1: [Z:31U, G:DQ, E:48251, N:11932]
     # test 3 Mgrs2: 31U DQ 48251 11932
@@ -90,4 +93,4 @@ if __name__ == '__main__':
     # test 14 toUtm(76.0°N, 013.0°E).toMgrs: 33X VE 45999 36099
     # test 15 toUtm(76.0°N, 025.0°E).toMgrs: 35X ME 45999 36099
     # test 16 toUtm(76.0°N, 037.0°E).toMgrs: 37X DE 45999 36099
-    # all geodesy.mgrs tests passed (Python 3.6.0 64bit)
+    # all mgrs tests passed (Python 3.6.0 64bit)

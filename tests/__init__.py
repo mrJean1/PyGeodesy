@@ -10,7 +10,7 @@ import unittest
 try:
     from run import run
 except ImportError:  # Python 3+ ModuleNotFoundError
-    from .run import run
+    from .run import run  # PYCHOK expected
 
 __all__ = ('TestSuite', 'run')
 __version__ = '17.03.04'

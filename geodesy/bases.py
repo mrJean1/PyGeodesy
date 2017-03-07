@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-'''(INTERNAL) Common base classes and functions.
+'''(INTERNAL) Common base classes.
 
 After I{(C) Chris Veness 2011-2015} published under the same MIT Licence**,
 see U{http://www.movable-type.co.uk/scripts/latlong.html}
@@ -18,7 +18,7 @@ from math import cos, radians, sin
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('Base', 'LatLonHeightBase', 'Named', 'VectorBase')
-__version__ = '17.02.14'
+__version__ = '17.03.07'
 
 
 class Base(object):

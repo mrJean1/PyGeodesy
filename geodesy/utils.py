@@ -24,7 +24,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2',  # constants
            'radians', 'radiansPI', 'radiansPI2', 'radiansPI_2',
            'tanPI_2_2',
            'wrap90', 'wrap180', 'wrapPI', 'wrapPI2', 'wrapPI_2')
-__version__ = '17.03.05'
+__version__ = '17.03.07'
 
 try:
     from math import fsum  # precision sum, Python 2.6+
@@ -204,7 +204,7 @@ def halfs(str2):
 
        @return: 2-Tuple (1st, 2nd) halfs (strings).
 
-       @raise ValueError: Zero or odd str2 length.
+       @raise ValueError: Zero or odd len(str2).
     '''
     h, r = divmod(len(str2), 2)
     if r or not h:

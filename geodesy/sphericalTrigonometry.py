@@ -24,7 +24,7 @@ from math import acos, asin, atan2, cos, hypot, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('LatLon',  # classes
            'intersection', 'meanOf')  # functions
-__version__ = '17.03.05'
+__version__ = '17.03.07'
 
 
 class LatLon(LatLonSphericalBase):
@@ -165,9 +165,9 @@ class LatLon(LatLonSphericalBase):
         a1, b1 = self.to2ab()
         ca1, sa1 = cos(a1), sin(a1)
 
-        cd, sd = cos(d), sin(d)
-        a2 = asin(sa1 * cd + ca1 * sd * cos(t))
-        b2 = atan2(sin(t) * sd * ca1, cd - sa1 * sin(a2)) + b1
+        cd, sd_ca1 = cos(d), sin(d) * ca1
+        a2 = asin(cos(t) * sd_ca1 + cd * sa1)
+        b2 = atan2(sin(t) * sd_ca1, cd - sa1 * sin(a2)) + b1
 
         return LatLon(degrees90(a2), degrees180(b2), height=self.height)
 
@@ -495,13 +495,12 @@ def intersection(start1, bearing1, start2, bearing2):
     cx1 = cos(x1)
     cx2 = cos(x2)
 
-    x3 = acos(-cx1 * cx2 + sx3 * cr12)
+    x3 = acos(cr12 * sx3 - cx2 * cx1)
     r13 = atan2(sr12 * sx3, cx2 + cx1 * cos(x3))
-    cr13 = cos(r13)
-    sr13 = sin(r13)
 
-    a3 = asin(sa1 * cr13 + ca1 * sr13 * cos(t13))
-    b3 = atan2(sin(t13) * sr13 * ca1, cr13 - sa1 * sin(a3)) + b1
+    cr13, sr13_ca1 = cos(r13), sin(r13) * ca1
+    a3 = asin(cos(t13) * sr13_ca1 + cr13 * sa1)
+    b3 = atan2(sin(t13) * sr13_ca1, cr13 - sa1 * sin(a3)) + b1
 
     return LatLon(degrees90(a3), degrees180(b3), height=start1._alter(start2))
 

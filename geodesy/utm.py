@@ -4,7 +4,7 @@
 '''Universal Transverse Mercator (UTM) class L{Utm} and functions
 L{parseUTM} and L{toUtm}.
 
-Python implementation of UTM / WGS-84 conversion functions using
+Pure Python implementation of UTM / WGS-84 conversion functions using
 an ellipsoidal earth model.  Transcribed from JavaScript originals
 by I{(C) Chris Veness 2011-2016} published under the same MIT Licence**,
 see U{http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html}
@@ -44,7 +44,7 @@ from operator import mul
 # all public contants, classes and functions
 __all__ = ('Utm',  # classes
            'parseUTM', 'toUtm')  # functions
-__version__ = '17.02.15'
+__version__ = '17.03.07'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N

@@ -17,13 +17,11 @@ except ImportError:
     sys.path.insert(0, dirname(dirname(__file__)))
 from inspect import isclass, isfunction, ismethod, ismodule
 
-from geodesy import R_M, R_NM, F_D, F_DM, F_DMS, F_RAD, Datums, \
-                    compassDMS, compassPoint, degrees, fStr, \
-                    lonDMS, normDMS, parseDMS, parse3llh, \
-                    precision, toDMS
+from geodesy import R_NM, F_D, F_DM, F_DMS, F_RAD, \
+                    degrees, normDMS  # PYCHOK expected
 
 __all__ = ('Tests',)
-__version__ = '17.02.14'
+__version__ = '17.03.07'
 
 try:
     _int = int, long
@@ -116,119 +114,7 @@ class Tests(object):
     def title(self, module, version):
         self.printf('testing %s version %s', basename(module), version, nl=1)
 
-    def testBases(self, LatLon):
-        # bases module tests
-        p = LatLon(50.06632, -5.71475)
-        self.test('lat, lon', p, '50.06632°N, 005.71475°W')
-        q = LatLon('50°03′59″N', """005°42'53"W""")
-        self.test('lat, lon', q, '50.066389°N, 005.714722°W')
-
-        p = LatLon(52.205, 0.119)
-        q = LatLon(52.205, 0.119)
-        self.test('equals', p.equals(q), 'True')
-
-        p = LatLon(51.4778, -0.0016)
-        precision(F_DMS, 0)
-        self.test('toStr', p.toStr(), '''51°28'40"N, 000°00'06"W''')
-        self.test('toStr', p.toStr(F_D), '51.4778°N, 000.0016°W')
-        p = LatLon(51.4778, -0.0016, 42)
-        self.test('precision', precision(F_DMS), '0')
-        self.test('toStr', p.toStr(), '''51°28'40"N, 000°00'06"W, +42.00m''')
-
-    def testDatum(self, geodesy):
-        # datum module tests
-        E = geodesy.Ellipsoid(1000, 1000, 0, name='TestEllipsiod')
-        self.test('ellipsoid', E is geodesy.Ellipsoids.TestEllipsiod, 'True')
-#       print(Ellipsoid())
-
-        T = geodesy.Transform(name='TestTransform')
-        self.test('transform', T is geodesy.Transforms.TestTransform, 'True')
-#       print(Transform())
-
-        D = geodesy.Datum(E, T, name='TestDatum')
-        self.test('datum', D is Datums.TestDatum, 'True')
-#       print(Datum())
-
-        R, fmt = geodesy.Ellipsoids.WGS84.R, '%.5f'
-        self.test('meanR', R, fmt % (R_M,), fmt=fmt)
-
-        E = geodesy.Datums.WGS84.ellipsoid
-        e = (E.a - E.b) / (E.a + E.b) - E.n
-        t = (E.toStr(prec=10),
-            'A=%.10f, e=%.10f, f=1/%.10f, n=%.10f(%.10e)' % (E.A, E.e, 1/E.f, E.n, e),
-            'Alpha6=(%s)' % (fStr(E.Alpha6, prec=12, fmt='%.*e', ints=True),),
-            'Beta6=(%s)' % (fStr(E.Beta6, prec=12, fmt='%.*e', ints=True),))
-        self.test('WGS84', t[0], "name='WGS84', a=6378137.0, b=6356752.3142499998, f=0.0033528107, e2=0.00669438, e22=0.0067394967, R=6371008.7714166669, Rm=6367435.6797186071")
-        self.test('WGS84', t[1], "A=6367449.1458234154, e=0.0818191908, f=1/298.2572235630, n=0.0016792204(-3.7914875232e-13)")
-        self.test('WGS84', t[2], "Alpha6=(0, 8.377318206245e-04, 7.608527773572e-07, 1.197645503329e-09, 2.429170607201e-12, 5.711757677866e-15, 1.491117731258e-17)")
-        self.test('WGS84', t[3], "Beta6=(0, 8.377321640579e-04, 5.905870152220e-08, 1.673482665284e-1, 2.164798040063e-13, 3.787978046169e-16, 7.248748890694e-19)")
-
-    def testDMS(self):
-        # dms module tests
-        self.test('parseDMS', parseDMS(  '0.0°'), '0.0')
-        self.test('parseDMS', parseDMS(    '0°'), '0.0')
-        self.test('parseDMS', parseDMS('''000°00'00"'''),   '0.0')
-        self.test('parseDMS', parseDMS('''000°00'00.0"'''), '0.0')
-        self.test('parseDMS', parseDMS('''000° 00'00"'''),    '0.0')
-        self.test('parseDMS', parseDMS('''000°00 ' 00.0"'''), '0.0')
-
-        x = parse3llh('000° 00′ 05.31″W, 51° 28′ 40.12″ N')
-        x = ', '.join('%.6f' % a for a in x)  # XXX fStr
-        self.test('parse3llh', x, '51.477811, -0.001475, 0.000000')
-
-        for a, x in (((),            '''45°45'45.36"'''),
-                     ((F_D, None),     '45.7626°'),
-                     ((F_DM, None),    "45°45.756'"),
-                     ((F_DMS, None), '''45°45'45.36"'''),
-                     ((F_D, 6),     '45.7626°'),
-                     ((F_DM, -4),   "45°45.7560'"),
-                     ((F_DMS, 2), '''45°45'45.36"''')):
-            self.test('toDMS', toDMS(45.76260, *a), x)
-
-        for a, x in (((1,),   'N'),
-                     ((0,),   'N'),
-                     ((-1,),  'N'),
-                     ((359,), 'N'),
-                     ((24,),   'NNE'),
-                     ((24, 1), 'N'),
-                     ((24, 2), 'NE'),
-                     ((24, 3), 'NNE'),
-                     ((226,),   'SW'),
-                     ((226, 1), 'W'),
-                     ((226, 2), 'SW'),
-                     ((226, 3), 'SW'),
-                     ((237,),   'WSW'),
-                     ((237, 1), 'W'),
-                     ((237, 2), 'SW'),
-                     ((237, 3), 'WSW')):
-            self.test('compassPoint', compassPoint(*a), x)
-
-    def testEllipsoidal(self, LatLon, Nvector=None, Cartesian=None):
-        # ellipsoidal modules tests
-        p = LatLon(51.4778, -0.0016, 0, Datums.WGS84)
-        d = p.convertDatum(Datums.OSGB36)
-        self.test('convertDatum', d, '51.477284°N, 000.00002°E, -45.91m')  # 51.4773°N, 000.0000°E, -45.91m
-        self.test('convertDatum', d.toStr(F_D, prec=4), '51.4773°N, 000.0°E, -45.91m')
-
-        if Cartesian:
-            c = Cartesian(3980581, 97, 4966825)
-            n = c.toNvector()  # {x: 0.6228, y: 0.0000, z: 0.7824, h: 0.0000}  # XXX height
-            self.test('toNVector', n.toStr(4), '(0.6228, 0.0, 0.7824, +0.24)')
-            c = n.toCartesian()
-            self.test('toCartesian', c.toStr(0), '[3980581, 97, 4966825]')
-
-        if Nvector:
-            n = Nvector(0.5, 0.5, 0.7071)
-            c = n.toCartesian()  # [3194434, 3194434, 4487327]
-            self.test('toCartesian', c, '[3194434.411, 3194434.411, 4487326.82]')
-            p = c.toLatLon()  # 45.0°N, 45.0°E
-            self.test('toLatLon', p.toStr('d', 2), '45.0°N, 045.0°E, +0.00m')  # 45.0°N, 45.0°E
-
-            self.test('Nvector', n, '(0.5, 0.5, 0.7071)')
-            n = Nvector(0.5, 0.5, 0.7071, 1).toStr(3)
-            self.test('Nvector', n, '(0.5, 0.5, 0.707, +1.00)')
-
-    def testLatLon(self, LatLon):
+    def testLatLon(self, LatLon, Sph=True):
         # basic LatLon class tests
         p = LatLon(52.20472, 0.14056)
         self.test('lat/lonDMS', p, '52.20472°N, 000.14056°E')  # 52.20472°N, 000.14056°E
@@ -247,33 +133,37 @@ class Tests(object):
         q = LatLon(48.857, 2.351)
         self.test('equals', p.equals(q), 'False')
 
-        b = p.bearingTo(q)
-        self.test('bearingTo', b, '156.1666', '%.4f')  # 156.2
-        b = p.finalBearingTo(q)
-        self.test('finalBearingTo', b, '157.8904', '%.4f')
-        b = LAX.bearingTo(JFK)
-        self.test('bearingTo', b, '65.8921', '%.4f')  # 66
+        if hasattr(LatLon, 'bearingTo'):
+            b = p.bearingTo(q)
+            self.test('bearingTo', b, '156.1666', '%.4f')  # 156.2
+            b = p.finalBearingTo(q)
+            self.test('finalBearingTo', b, '157.8904', '%.4f')
+            b = LAX.bearingTo(JFK)
+            self.test('bearingTo', b, '65.8921', '%.4f')  # 66
 
         c = p.copy()
         self.test('copy', p.equals(c), 'True')
 
-        d = p.distanceTo(q)
-        self.test('distanceTo', d, '404279.720589', '%.6f')  # 404300
-        d = q.distanceTo(p)
-        self.test('distanceTo', d, '404279.720589', '%.6f')  # 404300
-        d = LAX.distanceTo(JFK, radius=R_NM)
-        self.test('distanceTo', d, '2145', '%.0f')  # 2144
+        if hasattr(LatLon, 'distanceTo'):
+            d = p.distanceTo(q)
+            self.test('distanceTo', d, '404279.720589' if Sph else '404607.805988', '%.6f')  # 404300
+            d = q.distanceTo(p)
+            self.test('distanceTo', d, '404279.720589' if Sph else '404607.805988', '%.6f')  # 404300
+            d = LAX.distanceTo(JFK, radius=R_NM) if Sph else LAX.distanceTo(JFK)
+            self.test('distanceTo', d, '2145' if Sph else '3981601', '%.0f')  # PYCHOK false?
 
-        m = p.midpointTo(q)
-        self.test('midpointTo', m, '50.536327°N, 001.274614°E')  # 50.5363°N, 001.2746°E
+        if hasattr(LatLon, 'midpointTo'):
+            m = p.midpointTo(q)
+            self.test('midpointTo', m, '50.536327°N, 001.274614°E')  # PYCHOK false?  # 50.5363°N, 001.2746°E
 
-        p = LatLon(51.4778, -0.0015)
-        d = p.destination(7794, 300.7)
-        self.test('destination', d, '51.513546°N, 000.098345°W')  # 51.5135°N, 0.0983°W ???
-        self.test('destination', d.toStr(F_DMS, 0), '''51°30'49"N, 000°05'54"W''')
-        d = LAX.destination(100, 66, radius=R_NM)
-        self.test('destination', d.toStr(F_DM, prec=0), "34°37'N, 116°33'W")
-        self.test('destination', d, '34.613643°N, 116.551171°W')
+        if hasattr(LatLon, 'destination'):
+            p = LatLon(51.4778, -0.0015)
+            d = p.destination(7794, 300.7)
+            self.test('destination', d, '51.513546°N, 000.098345°W' if Sph else '51.513526°N, 000.098038°W')  # 51.5135°N, 0.0983°W ???
+            self.test('destination', d.toStr(F_DMS, 0), '51°30′49″N, 000°05′54″W' if Sph else '51°30′49″N, 000°05′53″W')
+            d = LAX.destination(100, 66, radius=R_NM) if Sph else LAX.destination(100, 66)
+            self.test('destination', d.toStr(F_DM, prec=0), "34°37'N, 116°33'W" if Sph else "33°57'N, 118°24'W")
+            self.test('destination', d, '34.613643°N, 116.551171°W' if Sph else '33.950367°N, 118.399012°W')  # PYCHOK false?
 
         if hasattr(LatLon, 'crossTrackDistanceTo'):
             p = LatLon(53.2611, -0.7972)
@@ -282,21 +172,21 @@ class Tests(object):
                 d = p.crossTrackDistanceTo(s, 96)
                 self.test('crossTrackDistanceTo', d, '-305.67', '%.2f')  # -305.7
             except TypeError as x:
-                self.test('crossTrackDistanceTo', x, 'type(end) mismatch: int vs sphericalTrigonometry.LatLon')
+                self.test('crossTrackDistanceTo', x, 'type(end) mismatch: int vs sphericalTrigonometry.LatLon')  # PYCHOK false?
             e = LatLon(53.1887, 0.1334)
             d = p.crossTrackDistanceTo(s, e)
-            self.test('crossTrackDistanceTo', d, '-307.55', '%.2f')  # -307.5
+            self.test('crossTrackDistanceTo', d, '-307.55', '%.2f')  # PYCHOK false?  # -307.5
 
         if hasattr(LatLon, 'greatCircle'):
             p = LatLon(53.3206, -1.7297)
             gc = p.greatCircle(96.0)
-            self.test('greatCircle', gc, '(-0.79408, 0.12856, 0.59406)')
+            self.test('greatCircle', gc, '(-0.79408, 0.12856, 0.59406)')  # PYCHOK false?
 
         if hasattr(LatLon, 'greatCircleTo'):
             p = LatLon(53.3206, -1.7297)
             q = LatLon(53.1887, 0.1334)
             gc = p.greatCircleTo(q)
-            self.test('greatCircleTo', gc, '(-0.79408, 0.12859, 0.59406)')
+            self.test('greatCircleTo', gc, '(-0.79408, 0.12859, 0.59406)')  # PYCHOK false?
 
     def testLatLonAttr(self, *modules):
         self.title('LatLon.attrs', __version__)
@@ -327,51 +217,6 @@ class Tests(object):
             if o and o != m.__name__:
                 n = '%s (%s)' % (n, o)
             self.test(n, hasattr(m, a), 'True')
-
-    def testSpherical(self, LatLon, Nvector=None):
-        p = LatLon(52.205, 0.119)
-        q = LatLon(48.857, 2.351)
-        i = p.intermediateTo(q, 0.25)
-        self.test('intermediateTo', i, '51.372084°N, 000.707337°E')
-
-        if hasattr(LatLon, 'intermediateChordTo'):
-            i = p.intermediateChordTo(q, 0.25)
-            self.test('intermediateChordTo', i, '51.372294°N, 000.707192°E')
-
-        p = LatLon(51.8853, 0.2545)
-        q = LatLon(49.0034, 2.5735)
-        i = p.intersection(108.55, q, 32.44)
-        self.test('intersection', i.toStr(F_D),  '50.907608°N, 004.508575°E' if Nvector
-                                            else '50.907608°N, 004.508575°E')  # 50.9076°N, 004.5086°E  # Trig
-        self.test('intersection', i.toStr(F_DMS), '50°54′27.39″N, 004°30′30.87″E')
-
-        REO = LatLon(42.600, -117.866)
-        BKE = LatLon(44.840, -117.806)
-        i = REO.intersection(51, BKE, 137)
-        self.test('intersection', i.toStr(F_D), '43.5719°N, 116.188757°W' if Nvector
-                                           else '43.5719°N, 116.188757°W')  # 43.572°N, 116.189°W
-        self.test('intersection', i.toStr(F_DMS), '43°34′18.84″N, 116°11′19.53″W')
-
-        p = LatLon(0, 0)
-        self.test('maxLat0',  p.maxLat( 0), '90.0')
-        self.test('maxLat1',  p.maxLat( 1), '89.0')
-        self.test('maxLat90', p.maxLat(90),  '0.0')
-
-        if hasattr(LatLon, 'crossingParallels'):
-            ps = p.crossingParallels(LatLon(60, 30), 30)
-            t = ', '.join(map(lonDMS, ps))
-            self.test('crossingParallels', t, '''009°35'38.65"E, 170°24'21.35"E''')
-
-        p = LatLon(51.127, 1.338)
-        q = LatLon(50.964, 1.853)
-        b = p.rhumbBearingTo(q)
-        self.test('rhumbBearingTo', b, '116.722', '%.3f')  # 116.7
-
-        d = p.rhumbDistanceTo(q)
-        self.test('rhumbDistanceTo', d, '40307.8', '%.1f')  # 40310 ?
-
-        m = p.rhumbMidpointTo(q)
-        self.test('rhumbMidpointo', m, '51.0455°N, 001.595727°E')  # 51.0455°N, 001.5957°E
 
     def testVectorial(self, LatLon, Nvector, sumOf, isclockwise=None):
         if hasattr(LatLon, 'crossTrackDistanceTo'):
@@ -452,64 +297,14 @@ class Tests(object):
             t = p.triangulate(7, s, 295)
             self.test('triangulate', t, '47.323667°N, 002.568501°W')
 
-    def testVincenty(self, LatLon, datum, VincentyError):
-        d = datum
-        n = ' (%s)' % (d.name,)
-
-        Newport_RI = LatLon(41.49008, -71.312796, datum=d)
-        Cleveland_OH = LatLon(41.499498, -81.695391, datum=d)
-        m = Newport_RI.distanceTo(Cleveland_OH)
-        self.test('distanceTo' + n, '%.5f' % m, '866455.43292')
-
-        try:
-            t = None
-            m = Newport_RI.distanceTo(Newport_RI)
-        except VincentyError as x:
-            t = x  # Python 3+
-        self.test('VincentyError' + n, t, 'LatLon(41°29′24.29″N, 071°18′46.07″W) coincident with LatLon(41°29′24.29″N, 071°18′46.07″W)')
-
-        if hasattr(LatLon, 'toCartesian'):
-            try:
-                m = Newport_RI.distanceTo(Cleveland_OH.convertDatum(Datums.OSGB36))
-                self.test('ValueError' + n, None, 'other Ellipsoid mistmatch: ...' + d.ellipsoid.name)
-            except ValueError as x:
-                self.test('ValueError' + n, x, 'other Ellipsoid mistmatch: Ellipsoids.Airy1830 vs Ellipsoids.' + d.ellipsoid.name)
-            except Exception as x:
-                self.test('ValueError' + n, x, 'ValueError ...' + d.ellipsoid.name)
-
-        p = LatLon(50.06632, -5.71475, datum=d)
-        q = LatLon(58.64402, -3.07009, datum=d)
-        m = p.distanceTo(q)
-        self.test('distanceTo' + n, '%.4f' % m, '969954.1663')
-
-        self.test('copy', p.copy().equals(p), 'True')
-
-        t = p.distanceTo3(q)
-        t = fStr(t, prec=6)
-        self.test('distanceTo3' + n, t, '969954.166314, 9.141877, 11.29722')
-
-        p = LatLon(37.95103, 144.42487, datum=d)
-        q = LatLon(37.65280, 143.9265, datum=d)
-        m = p.distanceTo(q)
-        self.test('distanceTo' + n, '%.3f' % m, '54973.295')
-
-        t = p.distanceTo3(q)
-        t = fStr(t, prec=5)
-        self.test('distanceTo3' + n, t, '54973.29527, 126.86992, 127.17539')
-
-        p = LatLon(-37.95103, 144.42487, datum=d)
-        p, f = p.destination2(54972.271, 306.86816)
-        t = p.toStr(F_D) + ', ' + compassDMS(f, prec=4)
-        self.test('destination2' + n, t, '37.652818°S, 143.926498°E, 307.1736°NW')
-
 
 if __name__ == '__main__':
 
     from geodesy import datum, dms, lcc, mgrs, osgr, \
                         ellipsoidalNvector, ellipsoidalVincenty, \
                         sphericalNvector, sphericalTrigonometry, \
-                        nvector, vector3d, utm, utils
-    import geodesy
+                        nvector, vector3d, utm, utils  # PYCHOK expected
+    import geodesy  # PYCHOK expected
 
     t = Tests(__file__, __version__)
     # check that __all__ names exist in each module
@@ -526,9 +321,9 @@ if __name__ == '__main__':
 
     # Typical test results (on MacOS 10.12.3)
 
-    # testing tests.py version 17.02.14
+    # testing tests.py version 17.03.07
 
-    # testing __init__.py version 17.03.05
+    # testing __init__.py version 17.03.07
     # test 1 geodesy.Conic() class (geodesy.lcc): True
     # test 2 geodesy.Conics attribute (geodesy.datum): True
     # test 3 geodesy.Datum() class (geodesy.datum): True
@@ -650,12 +445,12 @@ if __name__ == '__main__':
     # test 113 lcc.Lcc() class: True
     # test 114 lcc.toLcc() function: True
 
-    # testing mgrs.py version 17.02.14
+    # testing mgrs.py version 17.03.07
     # test 115 mgrs.Mgrs() class: True
     # test 116 mgrs.parseMGRS() function: True
     # test 117 mgrs.toMgrs() function: True
 
-    # testing osgr.py version 17.02.14
+    # testing osgr.py version 17.03.07
     # test 118 osgr.Osgr() class: True
     # test 119 osgr.parseOSGR() function: True
     # test 120 osgr.toOsgr() function: True
@@ -683,7 +478,7 @@ if __name__ == '__main__':
     # test 136 sphericalNvector.triangulate() function: True
     # test 137 sphericalNvector.trilaterate() function: True
 
-    # testing sphericalTrigonometry.py version 17.03.05
+    # testing sphericalTrigonometry.py version 17.03.07
     # test 138 sphericalTrigonometry.LatLon() class: True
     # test 139 sphericalTrigonometry.intersection() function: True
     # test 140 sphericalTrigonometry.meanOf() function: True
@@ -698,12 +493,12 @@ if __name__ == '__main__':
     # test 145 vector3d.Vector3d() class: True
     # test 146 vector3d.sumOf() function: True
 
-    # testing utm.py version 17.02.15
+    # testing utm.py version 17.03.07
     # test 147 utm.Utm() class: True
     # test 148 utm.parseUTM() function: True
     # test 149 utm.toUtm() function: True
 
-    # testing utils.py version 17.03.05
+    # testing utils.py version 17.03.07
     # test 150 utils.EPS float: True
     # test 151 utils.EPS1 float: True
     # test 152 utils.EPS2 float: True
@@ -739,7 +534,7 @@ if __name__ == '__main__':
     # test 182 utils.wrapPI2() function: True
     # test 183 utils.wrapPI_2() function: True
 
-    # testing LatLon.attrs version 17.02.14
+    # testing LatLon.attrs version 17.03.07
     # test 184 _Nv attribute: geodesy.ellipsoidalNvector, geodesy.sphericalNvector
     # test 185 _ab attribute: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
     # test 186 _alter() method: geodesy.ellipsoidalNvector, geodesy.ellipsoidalVincenty, geodesy.sphericalNvector, geodesy.sphericalTrigonometry
@@ -816,7 +611,7 @@ if __name__ == '__main__':
     # test 257 triangulate() method: geodesy.sphericalNvector
     # test 258 trilaterate() method: geodesy.sphericalNvector
 
-    # testing LatLon.mro version 17.02.14
+    # testing LatLon.mro version 17.03.07
     # test 259 geodesy.ellipsoidalNvector: geodesy.ellipsoidalNvector.LatLon, geodesy.nvector.LatLonNvectorBase, geodesy.ellipsoidalBase.LatLonEllipsoidalBase, geodesy.bases.LatLonHeightBase, geodesy.bases.Base
     # test 260 geodesy.ellipsoidalVincenty: geodesy.ellipsoidalVincenty.LatLon, geodesy.ellipsoidalBase.LatLonEllipsoidalBase, geodesy.bases.LatLonHeightBase, geodesy.bases.Base
     # test 261 geodesy.sphericalNvector: geodesy.sphericalNvector.LatLon, geodesy.nvector.LatLonNvectorBase, geodesy.sphericalBase.LatLonSphericalBase, geodesy.bases.LatLonHeightBase, geodesy.bases.Base
@@ -824,9 +619,9 @@ if __name__ == '__main__':
 
     # all tests.py tests passed (Python 2.7.13 64bit)
 
-    # testing tests.py version 17.02.14
+    # testing tests.py version 17.03.07
 
-    # testing __init__.py version 17.03.05
+    # testing __init__.py version 17.03.07
     # test 1 geodesy.Conic() class (lcc): True
     # test 2 geodesy.Conics attribute (datum): True
     # test 3 geodesy.Datum() class (datum): True
@@ -948,12 +743,12 @@ if __name__ == '__main__':
     # test 113 lcc.Lcc() class: True
     # test 114 lcc.toLcc() function: True
 
-    # testing mgrs.py version 17.02.14
+    # testing mgrs.py version 17.03.07
     # test 115 mgrs.Mgrs() class: True
     # test 116 mgrs.parseMGRS() function: True
     # test 117 mgrs.toMgrs() function: True
 
-    # testing osgr.py version 17.02.14
+    # testing osgr.py version 17.03.07
     # test 118 osgr.Osgr() class: True
     # test 119 osgr.parseOSGR() function: True
     # test 120 osgr.toOsgr() function: True
@@ -981,7 +776,7 @@ if __name__ == '__main__':
     # test 136 sphericalNvector.triangulate() function: True
     # test 137 sphericalNvector.trilaterate() function: True
 
-    # testing sphericalTrigonometry.py version 17.03.05
+    # testing sphericalTrigonometry.py version 17.03.07
     # test 138 sphericalTrigonometry.LatLon() class: True
     # test 139 sphericalTrigonometry.intersection() function: True
     # test 140 sphericalTrigonometry.meanOf() function: True
@@ -996,12 +791,12 @@ if __name__ == '__main__':
     # test 145 vector3d.Vector3d() class: True
     # test 146 vector3d.sumOf() function: True
 
-    # testing utm.py version 17.02.15
+    # testing utm.py version 17.03.07
     # test 147 utm.Utm() class: True
     # test 148 utm.parseUTM() function: True
     # test 149 utm.toUtm() function: True
 
-    # testing utils.py version 17.03.05
+    # testing utils.py version 17.03.07
     # test 150 utils.EPS float: True
     # test 151 utils.EPS1 float: True
     # test 152 utils.EPS2 float: True
@@ -1037,7 +832,7 @@ if __name__ == '__main__':
     # test 182 utils.wrapPI2() function: True
     # test 183 utils.wrapPI_2() function: True
 
-    # testing LatLon.attrs version 17.02.14
+    # testing LatLon.attrs version 17.03.07
     # test 184 _Nv attribute: ellipsoidalNvector, sphericalNvector
     # test 185 _ab attribute: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
     # test 186 _alter() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
@@ -1114,7 +909,7 @@ if __name__ == '__main__':
     # test 257 triangulate() function: sphericalNvector
     # test 258 trilaterate() function: sphericalNvector
 
-    # testing LatLon.mro version 17.02.14
+    # testing LatLon.mro version 17.03.07
     # test 259 ellipsoidalNvector: ellipsoidalNvector.LatLon, nvector.LatLonNvectorBase, ellipsoidalBase.LatLonEllipsoidalBase, bases.LatLonHeightBase, bases.Base
     # test 260 ellipsoidalVincenty: ellipsoidalVincenty.LatLon, ellipsoidalBase.LatLonEllipsoidalBase, bases.LatLonHeightBase, bases.Base
     # test 261 sphericalNvector: sphericalNvector.LatLon, nvector.LatLonNvectorBase, sphericalBase.LatLonSphericalBase, bases.LatLonHeightBase, bases.Base

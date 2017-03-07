@@ -1,10 +1,10 @@
 
 # -*- coding: utf-8 -*-
 
-'''Ordnance Survey Grid References (OSGR) class L{Osgr} and functions
+'''Ordinance Survey Grid References (OSGR) class L{Osgr} and functions
 L{parseOSGR} and L{toOsgr}.
 
-Python implementation of OS Grid Reference functions using an
+Pure Python implementation of OS Grid Reference functions using an
 ellipsoidal earth model.  Transcribed from JavaScript originals
 by I{(C) Chris Veness 2005-2016} published under the same MIT Licence**,
 see U{http://www.movable-type.co.uk/scripts/latlong-os-gridref.html}
@@ -39,7 +39,7 @@ from math import cos, sin, sqrt, tan
 # all public contants, classes and functions
 __all__ = ('Osgr',  # classes
            'parseOSGR', 'toOsgr')  # functions
-__version__ = '17.02.14'
+__version__ = '17.03.07'
 
 _10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (meter)
 _100km   = 100000  #: (INTERNAL) 100 km (int meter)

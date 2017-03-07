@@ -4,7 +4,7 @@
 '''Military Grid Reference System (MGRS/NATO) class L{Mgrs} and
 functions L{parseMGRS} and L{toMgrs}.
 
-Python implementation of MGRS / UTM conversion functions using
+Pure Python implementation of MGRS / UTM conversion functions using
 an ellipsoidal earth model.  Transcribed from JavaScript originals
 by I{(C) Chris Veness 2014-2016} published under the same MIT Licence**,
 see U{http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html}
@@ -36,7 +36,7 @@ import re  # PYCHOK warning locale.Error
 # all public contants, classes and functions
 __all__ = ('Mgrs',  # classes
            'parseMGRS', 'toMgrs')  # functions
-__version__ = '17.02.14'
+__version__ = '17.03.07'
 
 _100km  =  100e3  #: (INTERNAL) 100 km in meter.
 _2000km = 2000e3  #: (INTERNAL) 2,000 km in meter.
