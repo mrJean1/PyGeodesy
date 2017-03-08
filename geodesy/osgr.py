@@ -190,7 +190,7 @@ class Osgr(Base):
         a = fdot(V4, 1,    -d2,     d4,     -d6)
         b = fdot(X5, 1, d, -d2 * d, d4 * d, -d6 * d)
 
-        ll = LatLon(degrees180(a), degrees90(b), datum=_OSGB36)
+        ll = LatLon(degrees90(a), degrees180(b), datum=_OSGB36)
         if datum != _OSGB36:
             ll = ll.convertDatum(datum)
             ll = LatLon(ll.lat, ll.lon, datum=datum)

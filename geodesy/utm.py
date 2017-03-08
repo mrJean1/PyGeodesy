@@ -11,11 +11,11 @@ see U{http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html}
 and U{http://www.movable-type.co.uk/scripts/geodesy/docs/module-utm.html}.
 
 The UTM system is a 2-dimensional cartesian coordinate system providing
-locations on the surface of the Earth.
+locations on the surface of the earth.
 
-UTM is a set of 60 transverse Mercator projections, normally based
-on the WGS-84 ellipsoid.  Within each zone, coordinates are
-represented as eastings and northings, measured in metres.
+UTM is a set of 60 transverse Mercator projections, normally based on
+the WGS-84 ellipsoid.  Within each zone, coordinates are represented
+as eastings and northings, measured in metres.
 
 This method based on Karney 2011 'Transverse Mercator with an
 accuracy of a few nanometers', building on Krüger 1912 'Konforme
@@ -57,13 +57,13 @@ _K0            = 0.9996   #: (INTERNAL) UTM scale central meridian.
 class _Ks(object):
     '''(INTERNAL) Alpha or Beta Krüger series summations for
        eta, ksi, p and q while caching the cos, sin, cosh and
-       sinh for the given eta and ksiy angles (in radians).
+       sinh for the given eta and ksi angles (in radians).
     '''
     def __init__(self, AB, x, y):
         '''(INTERNAL) New Alpha or Beta Krüger series
 
            @param AB: 6th-order Krüger Alpha or Beta series (1-origin).
-           @param x: Eta angle (redians).
+           @param x: Eta angle (radians).
            @param y: Ksi angle (radians).
         '''
         n, j2 = len2(range(2, len(AB) * 2, 2))
@@ -344,7 +344,7 @@ class Utm(Base):
 
         a = atan(T)  # lat
         b = atan2(shx, cy) + radians(self._zone * 6 - 183)  # lon of central meridian
-        ll = LatLon(degrees180(a), degrees90(b), datum=self._datum)
+        ll = LatLon(degrees90(a), degrees180(b), datum=self._datum)
 
         # convergence: Karney 2011 Eq 26, 27
         p = -B6.ps(-1)
