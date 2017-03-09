@@ -4,7 +4,7 @@
 # Test MGRS functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.03.07'
+__version__ = '17.03.08'
 
 from tests import Tests as _Tests
 
@@ -54,43 +54,3 @@ if __name__ == '__main__':
     t.testMgrs(ellipsoidalVincenty.LatLon)
     t.results()
     t.exit()
-
-    # Typical test results (on MacOS 10.12.3):
-
-    # testing geodesy.mgrs version 17.03.07
-    # test 1 Mgrs1: 31U DQ 48251 11932
-    # test 2 Mgrs1: [Z:31U, G:DQ, E:48251, N:11932]
-    # test 3 Mgrs2: 31U DQ 48251 11932
-    # test 4 Mgrs2: [Z:31U, G:DQ, E:48251, N:11932]
-    # test 5 Mgrs3: 31U DQ 48251 11932
-    # test 6 Mgrs3: [Z:31U, G:DQ, E:48251, N:11932]
-    # test 7 toUtm1: 31 N 448251 5411932
-    # test 8 toUtm1: [Z:31, H:N, E:448251, N:5411932]
-    # test 9 toMgrs: 31U DQ 48251 11932
-    # test 10 toUtm(60.0°N, 001.0°E).toMgrs: 31V CG 88455 53097
-    # test 11 toUtm(60.0°N, 003.0°E).toMgrs: 32V JM 65640 66593
-    # test 12 toUtm(60.0°N, 009.0°E).toMgrs: 32V NM 00000 51411
-    # test 13 toUtm(76.0°N, 001.0°E).toMgrs: 31X DE 45999 36099
-    # test 14 toUtm(76.0°N, 013.0°E).toMgrs: 33X VE 45999 36099
-    # test 15 toUtm(76.0°N, 025.0°E).toMgrs: 35X ME 45999 36099
-    # test 16 toUtm(76.0°N, 037.0°E).toMgrs: 37X DE 45999 36099
-    # all geodesy.mgrs tests passed (Python 2.7.13 64bit)
-
-    # testing mgrs version 17.03.07
-    # test 1 Mgrs1: 31U DQ 48251 11932
-    # test 2 Mgrs1: [Z:31U, G:DQ, E:48251, N:11932]
-    # test 3 Mgrs2: 31U DQ 48251 11932
-    # test 4 Mgrs2: [Z:31U, G:DQ, E:48251, N:11932]
-    # test 5 Mgrs3: 31U DQ 48251 11932
-    # test 6 Mgrs3: [Z:31U, G:DQ, E:48251, N:11932]
-    # test 7 toUtm1: 31 N 448251 5411932
-    # test 8 toUtm1: [Z:31, H:N, E:448251, N:5411932]
-    # test 9 toMgrs: 31U DQ 48251 11932
-    # test 10 toUtm(60.0°N, 001.0°E).toMgrs: 31V CG 88455 53097
-    # test 11 toUtm(60.0°N, 003.0°E).toMgrs: 32V JM 65640 66593
-    # test 12 toUtm(60.0°N, 009.0°E).toMgrs: 32V NM 00000 51411
-    # test 13 toUtm(76.0°N, 001.0°E).toMgrs: 31X DE 45999 36099
-    # test 14 toUtm(76.0°N, 013.0°E).toMgrs: 33X VE 45999 36099
-    # test 15 toUtm(76.0°N, 025.0°E).toMgrs: 35X ME 45999 36099
-    # test 16 toUtm(76.0°N, 037.0°E).toMgrs: 37X DE 45999 36099
-    # all mgrs tests passed (Python 3.6.0 64bit)

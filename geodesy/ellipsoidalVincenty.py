@@ -33,8 +33,8 @@ Here's an example usage of Vincenty:
     >>> from geodesy.ellipsoidalVincenty import LatLon
     >>> Newport_RI = LatLon(41.49008, -71.312796)
     >>> Cleveland_OH = LatLon(41.499498, -81.695391)
-    >>> print(Newport_RI.distanceTo(Cleveland_OH))
-    866455.432916  # meter
+    >>> Newport_RI.distanceTo(Cleveland_OH)
+    866455.4329158525  # meter
 
 You can change the ellipsoid model used by the Vincenty formulae
 as follows:
@@ -58,7 +58,7 @@ from math import atan2, cos, hypot, sin, tan
 
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'VincentyError')  # classes
-__version__ = '17.02.14'
+__version__ = '17.03.08'
 
 
 class VincentyError(Exception):
@@ -80,7 +80,8 @@ class Cartesian(CartesianBase):
 
            @return: Ellipsoidal geodetic point (L{LatLon}).
         '''
-        return self._toLatLon(LatLon, datum)  # Vincenty
+        a, b, h = self.to3llh(datum)
+        return LatLon(a, b, height=h, datum=datum)
 
 
 class LatLon(LatLonEllipsoidalBase):

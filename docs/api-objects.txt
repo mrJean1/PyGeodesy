@@ -459,7 +459,6 @@ geodesy.bases.Base.classname	geodesy.bases.Base-class.html#classname
 geodesy.bases.Base.__repr__	geodesy.bases.Base-class.html#__repr__
 geodesy.vector3d.Vector3d.rotate	geodesy.vector3d.Vector3d-class.html#rotate
 geodesy.vector3d.Vector3d._united	geodesy.vector3d.Vector3d-class.html#_united
-geodesy.ellipsoidalBase.CartesianBase._toLatLon	geodesy.ellipsoidalBase.CartesianBase-class.html#_toLatLon
 geodesy.vector3d.Vector3d.to2ll	geodesy.vector3d.Vector3d-class.html#to2ll
 geodesy.vector3d.Vector3d.times	geodesy.vector3d.Vector3d-class.html#times
 geodesy.vector3d.Vector3d.length	geodesy.vector3d.Vector3d-class.html#length
@@ -509,7 +508,7 @@ geodesy.bases.LatLonHeightBase.points	geodesy.bases.LatLonHeightBase-class.html#
 geodesy.bases.Base.__repr__	geodesy.bases.Base-class.html#__repr__
 geodesy.ellipsoidalBase.LatLonEllipsoidalBase.convertDatum	geodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convertDatum
 geodesy.ellipsoidalNvector.Cartesian	geodesy.ellipsoidalNvector.Cartesian-class.html
-geodesy.vector3d.Vector3d._update	geodesy.vector3d.Vector3d-class.html#_update
+geodesy.ellipsoidalNvector.Cartesian._update	geodesy.ellipsoidalNvector.Cartesian-class.html#_update
 geodesy.bases.Base.__str__	geodesy.bases.Base-class.html#__str__
 geodesy.vector3d.Vector3d.__gt__	geodesy.vector3d.Vector3d-class.html#__gt__
 geodesy.ellipsoidalNvector.Cartesian._Nv	geodesy.ellipsoidalNvector.Cartesian-class.html#_Nv
@@ -548,7 +547,6 @@ geodesy.bases.Base.classname	geodesy.bases.Base-class.html#classname
 geodesy.bases.Base.__repr__	geodesy.bases.Base-class.html#__repr__
 geodesy.vector3d.Vector3d.rotate	geodesy.vector3d.Vector3d-class.html#rotate
 geodesy.vector3d.Vector3d._united	geodesy.vector3d.Vector3d-class.html#_united
-geodesy.ellipsoidalBase.CartesianBase._toLatLon	geodesy.ellipsoidalBase.CartesianBase-class.html#_toLatLon
 geodesy.vector3d.Vector3d.to2ll	geodesy.vector3d.Vector3d-class.html#to2ll
 geodesy.vector3d.Vector3d.times	geodesy.vector3d.Vector3d-class.html#times
 geodesy.vector3d.Vector3d.length	geodesy.vector3d.Vector3d-class.html#length
@@ -681,11 +679,12 @@ geodesy.vector3d.Vector3d.__gt__	geodesy.vector3d.Vector3d-class.html#__gt__
 geodesy.vector3d.Vector3d.__radd__	geodesy.vector3d.Vector3d-class.html#__radd__
 geodesy.vector3d.Vector3d.parse	geodesy.vector3d.Vector3d-class.html#parse
 geodesy.ellipsoidalVincenty.Cartesian.toLatLon	geodesy.ellipsoidalVincenty.Cartesian-class.html#toLatLon
+geodesy.vector3d.Vector3d.unit	geodesy.vector3d.Vector3d-class.html#unit
 geodesy.vector3d.Vector3d.__rsub__	geodesy.vector3d.Vector3d-class.html#__rsub__
 geodesy.vector3d.Vector3d.negate	geodesy.vector3d.Vector3d-class.html#negate
 geodesy.vector3d.Vector3d.__lt__	geodesy.vector3d.Vector3d-class.html#__lt__
 geodesy.vector3d.Vector3d.__cmp__	geodesy.vector3d.Vector3d-class.html#__cmp__
-geodesy.vector3d.Vector3d.unit	geodesy.vector3d.Vector3d-class.html#unit
+geodesy.vector3d.Vector3d.__init__	geodesy.vector3d.Vector3d-class.html#__init__
 geodesy.vector3d.Vector3d.__sub__	geodesy.vector3d.Vector3d-class.html#__sub__
 geodesy.ellipsoidalBase.CartesianBase.to3llh	geodesy.ellipsoidalBase.CartesianBase-class.html#to3llh
 geodesy.bases.Base.topsub	geodesy.bases.Base-class.html#topsub
@@ -712,14 +711,12 @@ geodesy.bases.Base.classname	geodesy.bases.Base-class.html#classname
 geodesy.bases.Base.__repr__	geodesy.bases.Base-class.html#__repr__
 geodesy.vector3d.Vector3d.rotate	geodesy.vector3d.Vector3d-class.html#rotate
 geodesy.vector3d.Vector3d._united	geodesy.vector3d.Vector3d-class.html#_united
-geodesy.ellipsoidalBase.CartesianBase._toLatLon	geodesy.ellipsoidalBase.CartesianBase-class.html#_toLatLon
 geodesy.vector3d.Vector3d.to2ll	geodesy.vector3d.Vector3d-class.html#to2ll
 geodesy.vector3d.Vector3d.times	geodesy.vector3d.Vector3d-class.html#times
 geodesy.vector3d.Vector3d.length	geodesy.vector3d.Vector3d-class.html#length
 geodesy.vector3d.Vector3d.__mul__	geodesy.vector3d.Vector3d-class.html#__mul__
 geodesy.vector3d.Vector3d.plus	geodesy.vector3d.Vector3d-class.html#plus
 geodesy.vector3d.Vector3d.__neg__	geodesy.vector3d.Vector3d-class.html#__neg__
-geodesy.vector3d.Vector3d.__init__	geodesy.vector3d.Vector3d-class.html#__init__
 geodesy.vector3d.Vector3d.y	geodesy.vector3d.Vector3d-class.html#y
 geodesy.vector3d.Vector3d.x	geodesy.vector3d.Vector3d-class.html#x
 geodesy.vector3d.Vector3d.z	geodesy.vector3d.Vector3d-class.html#z

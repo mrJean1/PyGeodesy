@@ -35,14 +35,21 @@ from math import asin, atan2, cos, hypot, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '17.02.15'
+__version__ = '17.03.08'
 
 
 class Cartesian(CartesianBase):
     '''Extended to convert geocentric L{Cartesian} points to
        to L{Nvector} and n-vector-based ellipsoidal L{LatLon}.
     '''
-    _Nv = None  #: (INTERNAL) Cache _toNvector (L{Nvector}).
+    _Nv = None  #: (INTERNAL) Cache toNvector (L{Nvector}).
+
+    def _update(self, updated):
+        '''(INTERNAL) Clear caches if updated.
+        '''
+        if updated:  # reset caches
+            self._Nv = None
+            CartesianBase._update(self, updated)
 
     def toLatLon(self, datum=Datums.WGS84):  # PYCHOK XXX
         '''Converts this (geocentric) Cartesian (x/y/z) point to
@@ -52,7 +59,8 @@ class Cartesian(CartesianBase):
 
            @return: Ellipsoidal geodetic point (L{LatLon}).
         '''
-        return self._toLatLon(LatLon, datum)  # Nvector
+        a, b, h = self.to3llh(datum)
+        return LatLon(a, b, height=h, datum=datum)
 
     def toNvector(self, datum=Datums.WGS84):
         '''Converts this cartesian to an (ellipsoidal) n-vector.
@@ -63,8 +71,9 @@ class Cartesian(CartesianBase):
 
            @example:
 
+           >>> from ellipsoidalNvector import LatLon
            >>> c = Cartesian(3980581, 97, 4966825)
-           >>> n = c.toNvector()  # (0.6228, 0.0, 0.7824, 0.0)
+           >>> n = c.toNvector()  # (0.62282, 0.000002, 0.78237, +0.24)
         '''
         if self._Nv is None or datum != self._Nv.datum:
             E = datum.ellipsoid
@@ -101,9 +110,9 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
        >>> from ellipsoidalNvector import LatLon
        >>> p = LatLon(52.205, 0.119)  # height=0, datum=Datums.WGS84
     '''
-    _Nv  = None  #: (INTERNAL) Cache _toNvector (L{Nvector}).
-    _r3  = None  #: (INTERNAL) Cache _rotation3 (L{Nvector}).
-#   _v3d = None  #: (INTERNAL) Cache _toVector3d (L{Vector3d}).
+    _Nv  = None  #: (INTERNAL) Cache toNvector (L{Nvector}).
+#   _v3d = None  #: (INTERNAL) Cache toVector3d (L{Vector3d}).
+    _r3  = None  #: (INTERNAL) Cache _rotation3 (3-Tuple L{Nvector}s).
 
     def _rotation3(self):
         '''(INTERNAL) Build rotation matrix from n-vector
@@ -412,8 +421,6 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         else:
             i = other.toNvector().times(fraction).plus(
                  self.toNvector().times(1 - fraction))
-#           i = other.toNvector() * fraction + \
-#                self.toNvector() * (1 - fraction)
             i = Nvector(i.x, i.y, i.z).toLatLon()
         return i
 

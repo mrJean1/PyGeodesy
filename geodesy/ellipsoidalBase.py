@@ -6,7 +6,7 @@
 Python implementation of geodesy tools for an ellipsoidal earth model.
 Transcribed from JavaScript originals by I{(C) Chris Veness 2005-2016}
 and published under the same MIT Licence**, see for example
-U{http://www.movable-type.co.uk/scripts/geodesy/docs/latlon-ellipsoidal.js.html}
+U{http://www.movable-type.co.uk/scripts/geodesy/docs/latlon-ellipsoidal.js.html}.
 
 @newfield example: Example, Examples
 '''
@@ -22,7 +22,7 @@ from math import atan2, copysign, cos, hypot, sin, sqrt
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('CartesianBase', 'LatLonEllipsoidalBase')
-__version__ = '17.02.14'
+__version__ = '17.03.08'
 
 
 class CartesianBase(Vector3d):
@@ -40,18 +40,6 @@ class CartesianBase(Vector3d):
         '''
         x, y, z = self.to3xyz()
         return self.topsub(*transform.transform(x, y, z, inverse))
-
-    def _toLatLon(self, LatLon, datum):
-        '''(INTERNAL) Converts this cartesian point to an n-vector- or
-           Vincenty-based ellipsoidal LatLon on the specified datum.
-
-           @param LatLon: Ellipsoidal LatLon to use.
-           @param datum: Datum to use (L{Datum}).
-
-           @return: Ellipsoidal geodetic point (LatLon).
-        '''
-        a, b, h = self.to3llh(datum)
-        return LatLon(a, b, height=h, datum=datum)  # Vincenty
 
     def to3llh(self, datum=Datums.WGS84):
         '''Converts this (geocentric) Cartesian (x/y/z) point to

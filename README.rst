@@ -72,4 +72,4 @@ Documentation tag **JS name:** shows the original JavaScript name.
  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  OTHER DEALINGS IN THE SOFTWARE.
 
-*Last updated: Mar 07, 2017.*
+*Last updated: Mar 09, 2017.*
