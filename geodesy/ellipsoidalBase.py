@@ -22,7 +22,7 @@ from math import atan2, copysign, cos, hypot, sin, sqrt
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('CartesianBase', 'LatLonEllipsoidalBase')
-__version__ = '17.03.08'
+__version__ = '17.03.09'
 
 
 class CartesianBase(Vector3d):
@@ -65,8 +65,8 @@ class CartesianBase(Vector3d):
         if min(p, r) > EPS:
             # parametric latitude (Bowring eqn 17, replaced)
             t = (E.b * z) / (E.a * p) * (1 + E.e22 * E.b / r)
-            s = t / hypot1(t)
-            c = s / t
+            c = 1 / hypot1(t)
+            s = t * c
 
             # geodetic latitude (Bowring eqn 18)
             a = atan2(z + E.e22 * E.b * s * s * s,
