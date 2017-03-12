@@ -35,7 +35,7 @@ from math import asin, atan2, cos, hypot, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '17.03.08'
+__version__ = '17.03.11'
 
 
 class Cartesian(CartesianBase):
@@ -133,6 +133,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         '''
         if updated:  # reset caches
             self._Nv = self._r3 = None
+            LatLonNvectorBase._update(self, updated)
+            LatLonEllipsoidalBase._update(self, updated)
 
 #     def bearingTo(self, other):
 #         '''Return the initial bearing (forward azimuth) from this

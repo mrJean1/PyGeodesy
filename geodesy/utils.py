@@ -11,6 +11,12 @@ and U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
 '''
 
 from math import degrees, pi as PI, radians, sin, sqrt, tan
+try:
+    from math import fsum  # precision sum, Python 2.6+
+except ImportError:
+    fsum = sum  # use standard, built-in sum (or Kahan's summation
+    # <https://en.wikipedia.org/wiki/Kahan_summation_algorithm> or
+    # Hettinger's <https://code.activestate.com/recipes/393090/>)
 from operator import mul
 import sys
 
@@ -18,20 +24,13 @@ import sys
 __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2',  # constants
            'cbrt',
            'degrees', 'degrees90', 'degrees180', 'degrees360',
-           'false2f', 'fdot', 'fdot3', 'fStr', 'fsum',
+           'false2f', 'favg', 'fdot', 'fdot3', 'fStr', 'fsum',
            'halfs', 'hsin', 'hypot1', 'hypot3',
-           'isint', 'isscalar', 'len2', 'map2',
+           'isint', 'isscalar', 'len2', 'map1', 'map2',
            'radians', 'radiansPI', 'radiansPI2', 'radiansPI_2',
            'tanPI_2_2',
            'wrap90', 'wrap180', 'wrapPI', 'wrapPI2', 'wrapPI_2')
-__version__ = '17.03.07'
-
-try:
-    from math import fsum  # precision sum, Python 2.6+
-except ImportError:
-    fsum = sum  # use standard, built-in sum (or Kahan's summation
-    # <https://en.wikipedia.org/wiki/Kahan_summation_algorithm> or
-    # Hettinger's <https://code.activestate.com/recipes/393090/>)
+__version__ = '17.03.12'
 
 try:
     _Ints = int, long  #: (INTERNAL) Int objects (tuple)
@@ -132,6 +131,22 @@ def false2f(value, name='value', false=True):
     return f
 
 
+def favg(v1, v2, f=0.5):
+    '''Weighted average of two values.
+
+       @param v1: One value (scalar).
+       @param v2: Other value (saclar).
+       @keyword f: Fraction (scalar).
+
+       @return: M{v1 + f * (v2 - v1)} (float).
+
+       @raise ValueError: Fraction out of range.
+    '''
+    if not 0 <= f <= 1:
+        raise ValueError('%s invalid: %r' % ('fraction', f))
+    return v1 + f * (v2 - v1)
+
+
 def fdot(a, *b):
     '''Precision dot product M{sum(a[i] * b[i]
        for i in range(len(a)))}.
@@ -141,9 +156,11 @@ def fdot(a, *b):
 
        @return: Dot product (float).
 
-       @raise AssertionError: Unequal len(a) and len(b).
+       @raise ValueError: Unequal len(a) and len(b).
     '''
-    assert len(a) == len(b)
+    if not len(a) == len(b):
+        raise ValueError('unequal len: %s vs %s' % (len(a), len(b)))
+
     return fsum(map(mul, a, b))
 
 
@@ -157,12 +174,14 @@ def fdot3(a, b, c, start=0):
 
        @return: Dot product (float).
 
-       @raise AssertionError: Unequal len(a), len(b) and/or len(c).
+       @raise ValueError: Unequal len(a), len(b) and/or len(c).
     '''
     def mul3(a, b, c):  # map function
         return a * b * c
 
-    assert len(a) == len(b) == len(c)
+    if not len(a) == len(b) == len(c):
+        raise ValueError('unequal len: %s vs %s vs %s' % (len(a), len(b), len(c)))
+
     m3 = map(mul3, a, b, c)
     if start:
         m3 = (start,) + tuple(m3)
@@ -300,13 +319,24 @@ def len2(xtor):
     '''Makes built-in L{len}() function work for generators,
        iterators, etc. since those can only be started once.
 
-       @param xtor: Generator, iterator, list, tuple, etc.
+       @param xtor: Generator, iterator, list, sequence, tuple, etc.
 
        @return: 2-Tuple (number, list) of items (int, list).
     '''
     if not isinstance(xtor, (list, tuple)):
         xtor = list(xtor)
     return len(xtor), xtor
+
+
+def map1(func, *args):
+    '''Applies each argument to a single-argument function.
+
+       @param func: Function to apply (callable).
+       @param args: Arguments to apply (any).
+
+       @return: Function results (tuple).
+    '''
+    return tuple(map(func, args))
 
 
 def map2(func, *args):

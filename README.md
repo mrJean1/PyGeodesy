@@ -30,7 +30,7 @@ The Python code has been statically checked* with PyChecker, PyFlakes,
 PyCodeStyle (formerly Pep8), McCabe on Python 2.7.10 and 2.7.13
 and with Flake8 on Python 3.6.0.  The tests were run with 64-bit
 Python 2.6.9, 2.7.10, 2.7.13, 3.5.2, 3.5.3 and 3.6.0, but only on
-MacOS 10.10 Yosemite, MacOS 10.11 El Capitan and/or MacOS 10.12.2
+MacOSX 10.10 Yosemite, MacOSX 10.11 El Capitan and/or macOS 10.12.2
 and 10.12.3 Sierra.
 
 The ```zip``` and ```tar``` files in directory ```dist``` each contain
@@ -78,4 +78,4 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 ```
 
-_Last updated: Mar 09, 2017._
+_Last updated: Mar 12, 2017._

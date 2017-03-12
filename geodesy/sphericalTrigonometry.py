@@ -14,9 +14,9 @@ see U{http://www.movable-type.co.uk/scripts/latlong.html}.
 
 from datum import R_M
 from sphericalBase import LatLonSphericalBase
-from utils import EPS, EPS1, PI2, PI_2, \
+from utils import EPS, EPS1, PI, PI2, PI_2, \
                   degrees90, degrees180, degrees360, \
-                  hsin, fsum, radians, wrapPI
+                  favg, fsum, hsin, map1, radians, wrapPI
 from vector3d import Vector3d, sumOf
 
 from math import acos, asin, atan2, cos, hypot, sin, sqrt
@@ -24,7 +24,7 @@ from math import acos, asin, atan2, cos, hypot, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('LatLon',  # classes
            'intersection', 'meanOf')  # functions
-__version__ = '17.03.07'
+__version__ = '17.03.12'
 
 
 class LatLon(LatLonSphericalBase):
@@ -42,7 +42,7 @@ class LatLon(LatLonSphericalBase):
         '''
         if updated:  # reset caches
             self._v3d = None
-#           LatLonSphericalBase._update(self, updated)
+            LatLonSphericalBase._update(self, updated)
 
     def bearingTo(self, other):
         '''Computes the initial bearing (aka forward azimuth) from
@@ -64,12 +64,15 @@ class LatLon(LatLonSphericalBase):
 
         a1, b1 = self.to2ab()
         a2, b2 = other.to2ab()
+
         db = b2 - b1
 
-        ca2 = cos(a2)
+        ca1, ca2, cdb = map1(cos, a1, a2, db)
+        sa1, sa2, sdb = map1(sin, a1, a2, db)
+
         # see http://mathforum.org/library/drmath/view/55417.html
-        x = cos(a1) * sin(a2) - sin(a1) * ca2 * cos(db)
-        y = sin(db) * ca2
+        x = ca1 * sa2 - sa1 * ca2 * cdb
+        y = sdb * ca2
 
         return degrees360(atan2(y, x))
 
@@ -85,17 +88,13 @@ class LatLon(LatLonSphericalBase):
         '''
         self.others(other)
 
-        a = radians(lat)
-        ca, sa = cos(a), sin(a)
-
         a1, b1 = self.to2ab()
         a2, b2 = other.to2ab()
 
-        ca1, sa1 = cos(a1), sin(a1)
-        ca2, sa2 = cos(a2), sin(a2)
+        a, db = radians(lat), (b2 - b1)
 
-        db = b2 - b1
-        cdb, sdb = cos(db), sin(db)
+        ca, ca1, ca2, cdb = map1(cos, a, a1, a2, db)
+        sa, sa1, sa2, sdb = map1(sin, a, a1, a2, db)
 
         x = sa1 * ca2 * ca * sdb
         y = sa1 * ca2 * ca * cdb - ca1 * sa2 * ca
@@ -158,16 +157,17 @@ class LatLon(LatLonSphericalBase):
 
            @JSname: I{destinationPoint}.
         '''
-        d = float(distance) / float(radius)  # angular distance in radians
-        t = radians(bearing)
-
         # see http://williams.best.vwh.net/avform.htm#LL
         a1, b1 = self.to2ab()
-        ca1, sa1 = cos(a1), sin(a1)
 
-        cd, sd_ca1 = cos(d), sin(d) * ca1
-        a2 = asin(cos(t) * sd_ca1 + cd * sa1)
-        b2 = atan2(sin(t) * sd_ca1, cd - sa1 * sin(a2)) + b1
+        r = float(distance) / float(radius)  # angular distance in radians
+        t = radians(bearing)
+
+        ca1, cr, ct = map1(cos, a1, r, t)
+        sa1, sr, st = map1(sin, a1, r, t)
+
+        a2 = asin(ct * sr * ca1 + cr * sa1)
+        b2 = atan2(st * sr * ca1, cr - sa1 * sin(a2)) + b1
 
         return LatLon(degrees90(a2), degrees180(b2), height=self.height)
 
@@ -193,15 +193,8 @@ class LatLon(LatLonSphericalBase):
         a1, b1 = self.to2ab()
         a2, b2 = other.to2ab()
 
-        # see http://williams.best.vwh.net/avform.htm#Dist
-        ha = hsin(a2 - a1)
-        hb = hsin(b2 - b1)
-
-        a = ha + cos(a1) * cos(a2) * hb
-        c = atan2(sqrt(a), sqrt(1 - a)) * 2
-#       c = asin(sqrt(a)) * 2
-
-        return c * float(radius)
+        r, _, _ = _haversine3(a2, a1, b2 - b1)
+        return r * float(radius)
 
     def greatCircle(self, bearing):
         '''Computes vector normal to great circle obtained by heading
@@ -223,9 +216,8 @@ class LatLon(LatLonSphericalBase):
         a, b = self.to2ab()
         t = radians(bearing)
 
-        ca, sa = cos(a), sin(a)
-        cb, sb = cos(b), sin(b)
-        ct, st = cos(t), sin(t)
+        ca, cb, ct = map1(cos, a, b, t)
+        sa, sb, st = map1(sin, a, b, t)
 
         return Vector3d(sb * ct - cb * sa * st,
                        -cb * ct - sb * sa * st,
@@ -252,39 +244,35 @@ class LatLon(LatLonSphericalBase):
         self.others(other)
 
         if fraction < EPS:
-            i = self
+            a, b, h = self.to3llh()
         elif fraction > EPS1:
-            i = other
+            a, b, h = other.to3llh()
         else:
             a1, b1 = self.to2ab()
             a2, b2 = other.to2ab()
 
-            ca1, sa1, cb1, sb1 = cos(a1), sin(a1), cos(b1), sin(b1)
-            ca2, sa2, cb2, sb2 = cos(a2), sin(a2), cos(b2), sin(b2)
+            d, ca2, ca1 = _haversine3(a2, a1, b2 - b1)
+            if d > EPS:
+                cb1, cb2               = map1(cos, b1, b2)
+                sb1, sb2, sa1, sa2, sd = map1(sin, b1, b2, a1, a2, d)
 
-            # distance between points
-            da, db = (a2 - a1), (b2 - b1)
-            ha, hb = hsin(da), hsin(db)
+                a = sin((1 - fraction) * d) / sd
+                b = sin(     fraction  * d) / sd
 
-            a = ha + ca1 * ca2 * hb
-            d = atan2(sqrt(a), sqrt(1 - a)) * 2
-            sd = sin(d)
-            if abs(sd) > EPS:
-                A = sin((1 - fraction) * d) / sd
-                B = sin(     fraction  * d) / sd
+                x = a * ca1 * cb1 + b * ca2 * cb2
+                y = a * ca1 * sb1 + b * ca2 * sb2
+                z = a * sa1       + b * sa2
 
-                x = A * ca1 * cb1 + B * ca2 * cb2
-                y = A * ca1 * sb1 + B * ca2 * sb2
-                z = A * sa1       + B * sa2
-
-                a3 = atan2(z, hypot(x, y))
-                b3 = atan2(y, x)
+                a = atan2(z, hypot(x, y))
+                b = atan2(y, x)
             else:  # points too close
-                a3 = a1 + fraction * da
-                b3 = b1 + fraction * db
-            i = LatLon(degrees90(a3), degrees180(b3),
-                       height=self._alter(other, f=fraction))
-        return i
+                a = favg(a1, a2, f=fraction)
+                b = favg(b1, b2, f=fraction)
+
+            h = self._alter(other, f=fraction)
+            a, b = degrees90(a), degrees180(b)
+
+        return LatLon(a, b, height=h)  # XXX self.topsub(a, b, ...)
 
     def intersection(self, bearing, start2, bearing2):
         '''Locates the intersection of two paths each defined by
@@ -459,41 +447,29 @@ def intersection(start1, bearing1, start2, bearing2):
     a1, b1 = start1.to2ab()
     a2, b2 = start2.to2ab()
 
-    ca1 = cos(a1)
-    ca2 = cos(a2)
-
-    ha = hsin(a2 - a1)
-    hb = hsin(b2 - b1)
-
-    # angular distance
-    r12 = asin(sqrt(ha + ca1 * ca2 * hb)) * 2
+    r12, ca2, ca1 = _haversine3(a2, a1, b2 - b1)
     if abs(r12) < EPS:
         raise ValueError('intersection %s: %r vs %r' % ('parallel', start1, start2))
-    cr12 = cos(r12)
-    sr12 = sin(r12)
+    cr12, sr12 = cos(r12), sin(r12)
 
-    sa1 = sin(a1)
-    sa2 = sin(a2)
-    t1 = acos((sa2 - sa1 * cr12) / (sr12 * ca1))
-    t2 = acos((sa1 - sa2 * cr12) / (sr12 * ca2))
+    sa1, sa2 = map1(sin, a1, a2)
+    t1, t2 = map1(acos, (sa2 - sa1 * cr12) / (sr12 * ca1),
+                        (sa1 - sa2 * cr12) / (sr12 * ca2))
     if sin(b2 - b1) > 0:
         t12, t21 = t1, PI2 - t2
     else:
         t12, t21 = PI2 - t1, t2
 
-    t13 = radians(bearing1)
-    t23 = radians(bearing2)
-    x1 = wrapPI(t13 - t12)  # angle 2-1-3
-    x2 = wrapPI(t21 - t23)  # angle 1-2-3
-    sx1 = sin(x1)
-    sx2 = sin(x2)
+    t13, t23 = map1(radians, bearing1, bearing2)
+    x1, x2 = map1(wrapPI, t13 - t12,  # angle 2-1-3
+                          t21 - t23)  # angle 1-2-3
+    sx1, sx2 = map1(sin, x1, x2)
     if sx1 == 0 and sx2 == 0:
         raise ValueError('intersection %s: %r vs %r' % ('infinite', start1, start2))
     sx3 = sx1 * sx2
     if sx3 < 0:
         raise ValueError('intersection %s: %r vs %r' % ('ambiguous', start1, start2))
-    cx1 = cos(x1)
-    cx2 = cos(x2)
+    cx1, cx2 = map1(cos, x1, x2)
 
     x3 = acos(cr12 * sx3 - cx2 * cx1)
     r13 = atan2(sr12 * sx3, cx2 + cx1 * cos(x3))
@@ -526,6 +502,28 @@ def meanOf(points, height=None):
     else:
         h = height
     return LatLon(a, b, height=h)
+
+
+def _haversine3(a2, a1, b21):
+    '''(INTERNAL) Compute the angular distance.
+
+       @param a2: Latitude2 (radians).
+       @param a1: Latitude1 (radians).
+       @param b21: Longitude delta (radians).
+
+       @return: 3-Tuple (angle, cos(a2), cos(a1))
+
+       @see: U{http://www.movable-type.co.uk/scripts/latlong.html}
+
+       @see: U{http://williams.best.vwh.net/avform.htm#Dist}
+    '''
+    ca2, ca1 = map1(cos, a2, a1)
+    h = hsin(a2 - a1) + ca1 * ca2 * hsin(b21)  # haversine
+    try:
+        r = atan2(sqrt(h), sqrt(1 - h)) * 2  # == asin(sqrt(h)) * 2
+    except ValueError:
+        r = 0 if h < 0.5 else PI
+    return r, ca2, ca1
 
 # **) MIT License
 #

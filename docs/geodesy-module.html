@@ -118,8 +118,8 @@
   Python 2.7.10 and 2.7.13 and with <a 
   href="https://pypi.python.org/pypi/flake8" target="_top">Flake8</a> on 
   Python 3.6.0. The tests have been run with 64-bit Python 2.6.9, 2.7.10, 
-  2.7.13, 3.5.2, 3.5.3 and 3.6.0, but only on MacOS 10.10 Yosemite, MacOS 
-  10.11 El Capitan and/or MacOS 10.12.2 and 10.12.3 Sierra.</p>
+  2.7.13, 3.5.2, 3.5.3 and 3.6.0, but only on MacOSX 10.10 Yosemite, MacOSX
+  10.11 El Capitan and/or macOS 10.12.2 and 10.12.3 Sierra.</p>
   <p>The <code>zip</code> and <code>tar</code> files in directory 
   <code>dist</code> each contain the entire <b>PyGeodesy</b> distribution 
   for installation with the enclosed <code>setup.py</code> file.</p>
@@ -154,7 +154,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.03.09
+        17.03.12
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -529,6 +529,25 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="geodesy-module.html#favg" class="summary-sig-name">favg</a>(<span class="summary-sig-arg">v1</span>,
+        <span class="summary-sig-arg">v2</span>,
+        <span class="summary-sig-arg">f</span>=<span class="summary-sig-default">0.5</span>)</span><br />
+      Weighted average of two values.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="geodesy-module.html#fdot" class="summary-sig-name">fdot</a>(<span class="summary-sig-arg">a</span>,
         <span class="summary-sig-arg">*b</span>)</span><br />
       Precision dot product <i class="math">sum(a[i] * b[i] for i in 
@@ -732,6 +751,24 @@
         <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">2</span>)</span><br />
       Converts longitude to string suffixed with E or W.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="geodesy-module.html#map1" class="summary-sig-name">map1</a>(<span class="summary-sig-arg">func</span>,
+        <span class="summary-sig-arg">*args</span>)</span><br />
+      Applies each argument to a single-argument function.</td>
           <td align="right" valign="top">
             
             
@@ -1164,6 +1201,14 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Variables</span></td>
 </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'17.3.12'"><code class="variable-quote">'</code><code class="variable-string">17.3.12</code><code class="variable-quote">'</code></code><br />
+      Normalized PyGeodesy version (string).
+    </td>
+  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -1652,6 +1697,39 @@ Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, \
   </dl>
 </td></tr></table>
 </div>
+<a name="favg"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">favg</span>(<span class="sig-arg">v1</span>,
+        <span class="sig-arg">v2</span>,
+        <span class="sig-arg">f</span>=<span class="sig-default">0.5</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Weighted average of two values.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>v1</code></strong> - One value (scalar).</li>
+        <li><strong class="pname"><code>v2</code></strong> - Other value (saclar).</li>
+        <li><strong class="pname"><code>f</code></strong> - Fraction (scalar).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><i class="math">v1 + f * (v2 - v1)</i> (float).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Fraction out of range.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="fdot"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1679,7 +1757,7 @@ Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, \
         <dd>Dot product (float).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>AssertionError</strong></code> - Unequal len(a) and len(b).</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Unequal len(a) and len(b).</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1714,7 +1792,7 @@ Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, \
         <dd>Dot product (float).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>AssertionError</strong></code> - Unequal len(a), len(b) and/or len(c).</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Unequal len(a), len(b) and/or len(c).</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1955,7 +2033,7 @@ Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, \
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xtor</code></strong> - Generator, iterator, list, tuple, etc.</li>
+        <li><strong class="pname"><code>xtor</code></strong> - Generator, iterator, list, sequence, tuple, etc.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple (number, list) of items (int, list).</dd>
@@ -1994,6 +2072,33 @@ Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, \
         <i>toLon</i>.
       </p>
 </div></td></tr></table>
+</div>
+<a name="map1"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">map1</span>(<span class="sig-arg">func</span>,
+        <span class="sig-arg">*args</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Applies each argument to a single-argument function.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>func</code></strong> - Function to apply (callable).</li>
+        <li><strong class="pname"><code>args</code></strong> - Arguments to apply (any).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Function results (tuple).</dd>
+  </dl>
+</td></tr></table>
 </div>
 <a name="map2"></a>
 <div>
@@ -2862,7 +2967,7 @@ Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, <span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Mar  9 14:55:27 2017
+    Generated by Epydoc 3.0.1 on Sun Mar 12 15:22:39 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -4,18 +4,19 @@
 # Script to run some or all PyGeodesy tests with Python 2 or 3.
 
 # Tested with 64-bit Python 2.6.9, 2.7.13, 3.5.3 and 3.6.0 but only
-# on MacOS 10.10 Mavericks, MacOS 10.11 El Capitan and MacOS 10.12.2
-# and 10.12.3 Sierra.
+# on macOS 10.12.2 and 10.12.3 Sierra.
 
 from glob import glob
 from os import linesep as NL
 from os.path import dirname, join
-from platform import architecture, mac_ver, win32_ver, uname
+from platform import java_ver, mac_ver, win32_ver, uname
 from subprocess import PIPE, STDOUT, Popen
 import sys
 
+import tests  # for .version
+
 __all__ = ('run',)
-__version__ = '17.03.09'
+__version__ = '17.03.12'
 
 _python_O = _python = sys.executable  # path
 if not __debug__:
@@ -48,7 +49,7 @@ _raiser = False
 _results = False
 _verbose = False
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # MCCABE expected
 
     def _write(text):
         if _results:
@@ -77,16 +78,16 @@ if __name__ == '__main__':
     if len(p) > 32:
         p = p[:16] + '...' + p[-16:]
 
-    # get Python version and OS name and release
-    v = 'Python', sys.version.split()[0], architecture()[0]
-    for n, t in (('MacOS',   mac_ver),
+    # get geodesy, Python version, size, OS name and release
+    v = tests.versions
+    for t, x in (('macOS',   mac_ver),
                  ('Windows', win32_ver),
-                 ('Uname',   uname)):
-        t = t()[0]
-        if t:
-            v += n, t
+                 ('Java',    java_ver),
+                 ('uname',   uname)):
+        x = x()[0]
+        if x:
+            v = ' '.join((v, t, x))
             break
-    v = ' '.join(v)
 
     if not args:  # no tests specified, get all test*.py
         # scripts in the same directory as this one

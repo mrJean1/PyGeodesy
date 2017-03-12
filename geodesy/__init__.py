@@ -33,8 +33,8 @@ U{PyCodeStyle<https://pypi.python.org/pypi/pycodestyle>} (formerly Pep8),
 U{McCabe<https://pypi.python.org/pypi/mccabe>} using Python 2.7.10 and 2.7.13
 and with U{Flake8<https://pypi.python.org/pypi/flake8>} on Python 3.6.0.
 The tests have been run with 64-bit Python 2.6.9, 2.7.10, 2.7.13, 3.5.2, 3.5.3
-and 3.6.0, but only on MacOS 10.10 Yosemite, MacOS 10.11 El Capitan and/or
-MacOS 10.12.2 and 10.12.3 Sierra.
+and 3.6.0, but only on MacOSX 10.10 Yosemite, MacOSX 10.11 El Capitan and/or
+macOS 10.12.2 and 10.12.3 Sierra.
 
 The C{zip} and C{tar} files in directory C{dist} each contain the entire
 B{PyGeodesy} distribution for installation with the enclosed C{setup.py} file.
@@ -102,6 +102,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 @var Ellipsoids: Registered ellipsoids (enum).
 @var Transforms: Registered transforms (enum).
 
+@var version: Normalized PyGeodesy version (string).
+
 '''
 
 try:
@@ -128,8 +130,11 @@ VincentyError = ellipsoidalVincenty.VincentyError
 __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',
            'sphericalNvector', 'sphericalTrigonometry',
            'VincentyError',
-           'nvector', 'vector3d')  # extended below
-__version__ = '17.03.09'
+           'nvector', 'vector3d', 'version')  # extended below
+__version__ = '17.03.12'
+
+# see setup.py for similar logic
+version = '.'.join(map(str, map(int, __version__.split('.'))))
 
 # lift all public classes, constants, functions, etc. but
 # only from the following sub-modules ... (see also David

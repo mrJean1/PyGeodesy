@@ -3,17 +3,18 @@
 
 # Module to run all PyGeodesy tests as  python setup.py test
 
-# Tested with 64-bit Python 2.7.13 and 3.6.0 on MacOS 10.12.3 Sierra.
+# Tested with 64-bit Python 2.7.13 and 3.6.0 on macOS 10.12.3 Sierra.
 
-from os.path import dirname, join
-import unittest
 try:
     from run import run
 except ImportError:  # Python 3+ ModuleNotFoundError
     from .run import run  # PYCHOK expected
 
+from os.path import dirname, join
+import unittest
+
 __all__ = ('TestSuite', 'run')
-__version__ = '17.03.04'
+__version__ = '17.03.12'
 
 _tests_dir = dirname(__file__)
 

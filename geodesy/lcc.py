@@ -23,7 +23,7 @@ from math import atan, copysign, cos, hypot, log, sin, sqrt, tan
 # all public constants, classes and functions
 __all__ = ('Conic', 'Conics', 'Lcc',
            'toLcc')  # functions
-__version__ = '17.02.14'
+__version__ = '17.03.10'
 
 
 Conics = _Enum('Conics')  #: Registered conics (L{_Enum}).
@@ -505,7 +505,7 @@ if __name__ == '__main__':
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-# Typical result (on MacOS 10.12.2)
+# Typical result (on macOS 10.12.2)
 
 # % python2.7 geodesy/lcc.py
 #

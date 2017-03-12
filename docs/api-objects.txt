@@ -25,8 +25,10 @@ geodesy.toUtm	geodesy-module.html#toUtm
 geodesy.R_KM	geodesy-module.html#R_KM
 geodesy.fdot3	geodesy-module.html#fdot3
 geodesy.wrap90	geodesy-module.html#wrap90
+geodesy.version	geodesy-module.html#version
 geodesy.PI	geodesy-module.html#PI
 geodesy.S_DEG	geodesy-module.html#S_DEG
+geodesy.favg	geodesy-module.html#favg
 geodesy.compassPoint	geodesy-module.html#compassPoint
 geodesy.R_SM	geodesy-module.html#R_SM
 geodesy.wrap180	geodesy-module.html#wrap180
@@ -66,12 +68,15 @@ geodesy.toMgrs	geodesy-module.html#toMgrs
 geodesy.toOsgr	geodesy-module.html#toOsgr
 geodesy.map2	geodesy-module.html#map2
 geodesy.radiansPI2	geodesy-module.html#radiansPI2
+geodesy.map1	geodesy-module.html#map1
 geodesy.fdot	geodesy-module.html#fdot
 geodesy.bases	geodesy.bases-module.html
+geodesy.bases.map1	geodesy.utils-module.html#map1
 geodesy.bases.latDMS	geodesy.dms-module.html#latDMS
 geodesy.bases.wrap90	geodesy.utils-module.html#wrap90
 geodesy.bases.wrap180	geodesy.utils-module.html#wrap180
 geodesy.bases.fsum	geodesy-module.html#fsum
+geodesy.bases.favg	geodesy.utils-module.html#favg
 geodesy.bases.__package__	geodesy.bases-module.html#__package__
 geodesy.bases.len2	geodesy.utils-module.html#len2
 geodesy.bases.parseDMS	geodesy.dms-module.html#parseDMS
@@ -219,6 +224,7 @@ geodesy.sphericalNvector._Nvll	geodesy.sphericalNvector-module.html#_Nvll
 geodesy.sphericalNvector.trilaterate	geodesy.sphericalNvector-module.html#trilaterate
 geodesy.sphericalTrigonometry	geodesy.sphericalTrigonometry-module.html
 geodesy.sphericalTrigonometry.fsum	geodesy-module.html#fsum
+geodesy.sphericalTrigonometry._haversine3	geodesy.sphericalTrigonometry-module.html#_haversine3
 geodesy.sphericalTrigonometry.degrees90	geodesy.utils-module.html#degrees90
 geodesy.sphericalTrigonometry.meanOf	geodesy.sphericalTrigonometry-module.html#meanOf
 geodesy.sphericalTrigonometry.degrees360	geodesy.utils-module.html#degrees360
@@ -228,8 +234,10 @@ geodesy.sphericalTrigonometry.hsin	geodesy.utils-module.html#hsin
 geodesy.sphericalTrigonometry.degrees180	geodesy.utils-module.html#degrees180
 geodesy.sphericalTrigonometry.sumOf	geodesy.vector3d-module.html#sumOf
 geodesy.sphericalTrigonometry.wrapPI	geodesy.utils-module.html#wrapPI
+geodesy.sphericalTrigonometry.favg	geodesy.utils-module.html#favg
 geodesy.sphericalTrigonometry.intersection	geodesy.sphericalTrigonometry-module.html#intersection
 geodesy.sphericalTrigonometry.radians	geodesy.utils-module.html#radians
+geodesy.sphericalTrigonometry.map1	geodesy.utils-module.html#map1
 geodesy.utils	geodesy.utils-module.html
 geodesy.utils.cbrt	geodesy.utils-module.html#cbrt
 geodesy.utils.radiansPI	geodesy.utils-module.html#radiansPI
@@ -237,7 +245,7 @@ geodesy.utils.fsum	geodesy.utils-module.html#fsum
 geodesy.utils.EPS	geodesy.utils-module.html#EPS
 geodesy.utils.len2	geodesy.utils-module.html#len2
 geodesy.utils.degrees90	geodesy.utils-module.html#degrees90
-geodesy.utils.__package__	geodesy.utils-module.html#__package__
+geodesy.utils.fdot3	geodesy.utils-module.html#fdot3
 geodesy.utils.EPS2	geodesy.utils-module.html#EPS2
 geodesy.utils.EPS1	geodesy.utils-module.html#EPS1
 geodesy.utils.map2	geodesy.utils-module.html#map2
@@ -247,9 +255,10 @@ geodesy.utils.isscalar	geodesy.utils-module.html#isscalar
 geodesy.utils.PI_2	geodesy.utils-module.html#PI_2
 geodesy.utils.wrap180	geodesy.utils-module.html#wrap180
 geodesy.utils._Scalars	geodesy.utils-module.html#_Scalars
-geodesy.utils.fdot3	geodesy.utils-module.html#fdot3
+geodesy.utils.__package__	geodesy.utils-module.html#__package__
 geodesy.utils.wrap90	geodesy.utils-module.html#wrap90
 geodesy.utils.hsin	geodesy.utils-module.html#hsin
+geodesy.utils.map1	geodesy.utils-module.html#map1
 geodesy.utils.degrees	geodesy.utils-module.html#degrees
 geodesy.utils.degrees180	geodesy.utils-module.html#degrees180
 geodesy.utils.wrapPI	geodesy.utils-module.html#wrapPI
@@ -257,6 +266,7 @@ geodesy.utils.isint	geodesy.utils-module.html#isint
 geodesy.utils._3rd	geodesy.utils-module.html#_3rd
 geodesy.utils.wrapPI_2	geodesy.utils-module.html#wrapPI_2
 geodesy.utils._drap	geodesy.utils-module.html#_drap
+geodesy.utils.favg	geodesy.utils-module.html#favg
 geodesy.utils.halfs	geodesy.utils-module.html#halfs
 geodesy.utils.PI2	geodesy.utils-module.html#PI2
 geodesy.utils.wrapPI2	geodesy.utils-module.html#wrapPI2
@@ -320,6 +330,7 @@ geodesy.bases.LatLonHeightBase.__str__	geodesy.bases.LatLonHeightBase-class.html
 geodesy.bases.LatLonHeightBase.height	geodesy.bases.LatLonHeightBase-class.html#height
 geodesy.bases.Base.classname	geodesy.bases.Base-class.html#classname
 geodesy.bases.LatLonHeightBase.__init__	geodesy.bases.LatLonHeightBase-class.html#__init__
+geodesy.bases.LatLonHeightBase.to3llh	geodesy.bases.LatLonHeightBase-class.html#to3llh
 geodesy.bases.LatLonHeightBase.isclockwise	geodesy.bases.LatLonHeightBase-class.html#isclockwise
 geodesy.bases.Base.topsub	geodesy.bases.Base-class.html#topsub
 geodesy.bases.LatLonHeightBase.lon	geodesy.bases.LatLonHeightBase-class.html#lon
@@ -479,6 +490,7 @@ geodesy.bases.LatLonHeightBase.height	geodesy.bases.LatLonHeightBase-class.html#
 geodesy.ellipsoidalBase.LatLonEllipsoidalBase.parse	geodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#parse
 geodesy.ellipsoidalBase.LatLonEllipsoidalBase.toUtm	geodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toUtm
 geodesy.ellipsoidalBase.LatLonEllipsoidalBase.__init__	geodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#__init__
+geodesy.bases.LatLonHeightBase.to3llh	geodesy.bases.LatLonHeightBase-class.html#to3llh
 geodesy.bases.LatLonHeightBase.isclockwise	geodesy.bases.LatLonHeightBase-class.html#isclockwise
 geodesy.ellipsoidalBase.LatLonEllipsoidalBase.copy	geodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#copy
 geodesy.ellipsoidalBase.LatLonEllipsoidalBase.ellipsoid	geodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#ellipsoid
@@ -572,6 +584,7 @@ geodesy.ellipsoidalBase.LatLonEllipsoidalBase.parse	geodesy.ellipsoidalBase.LatL
 geodesy.ellipsoidalBase.LatLonEllipsoidalBase.toUtm	geodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toUtm
 geodesy.ellipsoidalBase.LatLonEllipsoidalBase.toDatum	geodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toDatum
 geodesy.ellipsoidalBase.LatLonEllipsoidalBase.__init__	geodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#__init__
+geodesy.bases.LatLonHeightBase.to3llh	geodesy.bases.LatLonHeightBase-class.html#to3llh
 geodesy.bases.LatLonHeightBase.isclockwise	geodesy.bases.LatLonHeightBase-class.html#isclockwise
 geodesy.bases.Base.topsub	geodesy.bases.Base-class.html#topsub
 geodesy.ellipsoidalBase.LatLonEllipsoidalBase.ellipsoid	geodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#ellipsoid
@@ -736,6 +749,7 @@ geodesy.ellipsoidalBase.LatLonEllipsoidalBase.toUtm	geodesy.ellipsoidalBase.LatL
 geodesy.ellipsoidalBase.LatLonEllipsoidalBase._osgr	geodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_osgr
 geodesy.ellipsoidalVincenty.LatLon._iterations	geodesy.ellipsoidalVincenty.LatLon-class.html#_iterations
 geodesy.ellipsoidalBase.LatLonEllipsoidalBase.__init__	geodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#__init__
+geodesy.bases.LatLonHeightBase.to3llh	geodesy.bases.LatLonHeightBase-class.html#to3llh
 geodesy.bases.LatLonHeightBase.isclockwise	geodesy.bases.LatLonHeightBase-class.html#isclockwise
 geodesy.bases.Base.topsub	geodesy.bases.Base-class.html#topsub
 geodesy.ellipsoidalBase.LatLonEllipsoidalBase.ellipsoid	geodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#ellipsoid
@@ -944,6 +958,7 @@ geodesy.osgr.Osgr.parse	geodesy.osgr.Osgr-class.html#parse
 geodesy.bases.Base.__repr__	geodesy.bases.Base-class.html#__repr__
 geodesy.sphericalBase.LatLonSphericalBase	geodesy.sphericalBase.LatLonSphericalBase-class.html
 geodesy.bases.LatLonHeightBase._update	geodesy.bases.LatLonHeightBase-class.html#_update
+geodesy.bases.LatLonHeightBase.toStr	geodesy.bases.LatLonHeightBase-class.html#toStr
 geodesy.bases.LatLonHeightBase._alter	geodesy.bases.LatLonHeightBase-class.html#_alter
 geodesy.bases.LatLonHeightBase.__str__	geodesy.bases.LatLonHeightBase-class.html#__str__
 geodesy.sphericalBase.LatLonSphericalBase.datum	geodesy.sphericalBase.LatLonSphericalBase-class.html#datum
@@ -951,19 +966,19 @@ geodesy.bases.LatLonHeightBase.height	geodesy.bases.LatLonHeightBase-class.html#
 geodesy.sphericalBase.LatLonSphericalBase.parse	geodesy.sphericalBase.LatLonSphericalBase-class.html#parse
 geodesy.sphericalBase.LatLonSphericalBase.rhumbBearingTo	geodesy.sphericalBase.LatLonSphericalBase-class.html#rhumbBearingTo
 geodesy.bases.LatLonHeightBase.__init__	geodesy.bases.LatLonHeightBase-class.html#__init__
+geodesy.bases.LatLonHeightBase.to3llh	geodesy.bases.LatLonHeightBase-class.html#to3llh
 geodesy.bases.LatLonHeightBase.isclockwise	geodesy.bases.LatLonHeightBase-class.html#isclockwise
 geodesy.bases.Base.topsub	geodesy.bases.Base-class.html#topsub
 geodesy.bases.LatLonHeightBase.lon	geodesy.bases.LatLonHeightBase-class.html#lon
 geodesy.sphericalBase.LatLonSphericalBase.minLat	geodesy.sphericalBase.LatLonSphericalBase-class.html#minLat
-geodesy.bases.LatLonHeightBase._height	geodesy.bases.LatLonHeightBase-class.html#_height
+geodesy.sphericalBase.LatLonSphericalBase.maxLat	geodesy.sphericalBase.LatLonSphericalBase-class.html#maxLat
 geodesy.sphericalBase.LatLonSphericalBase.finalBearingTo	geodesy.sphericalBase.LatLonSphericalBase-class.html#finalBearingTo
 geodesy.bases.LatLonHeightBase.to3xyz	geodesy.bases.LatLonHeightBase-class.html#to3xyz
 geodesy.sphericalBase.LatLonSphericalBase.rhumbMidpointTo	geodesy.sphericalBase.LatLonSphericalBase-class.html#rhumbMidpointTo
 geodesy.bases.LatLonHeightBase.__ne__	geodesy.bases.LatLonHeightBase-class.html#__ne__
 geodesy.bases.LatLonHeightBase.to2ab	geodesy.bases.LatLonHeightBase-class.html#to2ab
-geodesy.bases.LatLonHeightBase.toStr	geodesy.bases.LatLonHeightBase-class.html#toStr
+geodesy.bases.LatLonHeightBase._height	geodesy.bases.LatLonHeightBase-class.html#_height
 geodesy.sphericalBase.LatLonSphericalBase._datum	geodesy.sphericalBase.LatLonSphericalBase-class.html#_datum
-geodesy.sphericalBase.LatLonSphericalBase.maxLat	geodesy.sphericalBase.LatLonSphericalBase-class.html#maxLat
 geodesy.bases.LatLonHeightBase.equals	geodesy.bases.LatLonHeightBase-class.html#equals
 geodesy.bases.Base.toStr2	geodesy.bases.Base-class.html#toStr2
 geodesy.sphericalBase.LatLonSphericalBase._rhumb3	geodesy.sphericalBase.LatLonSphericalBase-class.html#_rhumb3
@@ -989,6 +1004,7 @@ geodesy.sphericalNvector.LatLon.toNvector	geodesy.sphericalNvector.LatLon-class.
 geodesy.sphericalNvector.LatLon._gc3	geodesy.sphericalNvector.LatLon-class.html#_gc3
 geodesy.sphericalBase.LatLonSphericalBase.rhumbBearingTo	geodesy.sphericalBase.LatLonSphericalBase-class.html#rhumbBearingTo
 geodesy.bases.LatLonHeightBase.__init__	geodesy.bases.LatLonHeightBase-class.html#__init__
+geodesy.bases.LatLonHeightBase.to3llh	geodesy.bases.LatLonHeightBase-class.html#to3llh
 geodesy.bases.LatLonHeightBase.isclockwise	geodesy.bases.LatLonHeightBase-class.html#isclockwise
 geodesy.sphericalNvector.LatLon.isEnclosedBy	geodesy.sphericalNvector.LatLon-class.html#isEnclosedBy
 geodesy.bases.LatLonHeightBase.copy	geodesy.bases.LatLonHeightBase-class.html#copy
@@ -1096,6 +1112,7 @@ geodesy.bases.LatLonHeightBase.height	geodesy.bases.LatLonHeightBase-class.html#
 geodesy.sphericalBase.LatLonSphericalBase.parse	geodesy.sphericalBase.LatLonSphericalBase-class.html#parse
 geodesy.sphericalBase.LatLonSphericalBase.rhumbBearingTo	geodesy.sphericalBase.LatLonSphericalBase-class.html#rhumbBearingTo
 geodesy.bases.LatLonHeightBase.__init__	geodesy.bases.LatLonHeightBase-class.html#__init__
+geodesy.bases.LatLonHeightBase.to3llh	geodesy.bases.LatLonHeightBase-class.html#to3llh
 geodesy.bases.LatLonHeightBase.isclockwise	geodesy.bases.LatLonHeightBase-class.html#isclockwise
 geodesy.sphericalTrigonometry.LatLon.isEnclosedBy	geodesy.sphericalTrigonometry.LatLon-class.html#isEnclosedBy
 geodesy.bases.LatLonHeightBase.copy	geodesy.bases.LatLonHeightBase-class.html#copy

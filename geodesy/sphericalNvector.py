@@ -41,7 +41,7 @@ from math import atan2, cos, radians, sin
 __all__ = ('LatLon', 'Nvector',  # classes
            'areaOf', 'intersection', 'isclockwise', 'meanOf',  # functions
            'triangulate', 'trilaterate')
-__version__ = '17.02.27'
+__version__ = '17.03.11'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -75,7 +75,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         '''
         if updated:  # reset caches
             self._Nv = None
-#           LatLonNvectorBase._update(self, updated)
+            LatLonNvectorBase._update(self, updated)
+            LatLonSphericalBase._update(self, updated)
 
     def bearingTo(self, other):
         '''Computes the initial bearing (aka forward azimuth) from this

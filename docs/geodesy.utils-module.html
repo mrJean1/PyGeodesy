@@ -69,7 +69,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.03.07
+        17.03.12
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -208,6 +208,25 @@
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">value</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">false</span>=<span class="summary-sig-default">True</span>)</span><br />
       Converts false east-/northing to non-negative float.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="geodesy.utils-module.html#favg" class="summary-sig-name">favg</a>(<span class="summary-sig-arg">v1</span>,
+        <span class="summary-sig-arg">v2</span>,
+        <span class="summary-sig-arg">f</span>=<span class="summary-sig-default">0.5</span>)</span><br />
+      Weighted average of two values.</td>
           <td align="right" valign="top">
             
             
@@ -393,6 +412,24 @@
           <td><span class="summary-sig"><a href="geodesy.utils-module.html#len2" class="summary-sig-name">len2</a>(<span class="summary-sig-arg">xtor</span>)</span><br />
       Makes built-in <code class="link">len</code>() function work for 
       generators, iterators, etc.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="geodesy.utils-module.html#map1" class="summary-sig-name">map1</a>(<span class="summary-sig-arg">func</span>,
+        <span class="summary-sig-arg">*args</span>)</span><br />
+      Applies each argument to a single-argument function.</td>
           <td align="right" valign="top">
             
             
@@ -796,6 +833,39 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="favg"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">favg</span>(<span class="sig-arg">v1</span>,
+        <span class="sig-arg">v2</span>,
+        <span class="sig-arg">f</span>=<span class="sig-default">0.5</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Weighted average of two values.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>v1</code></strong> - One value (scalar).</li>
+        <li><strong class="pname"><code>v2</code></strong> - Other value (saclar).</li>
+        <li><strong class="pname"><code>f</code></strong> - Fraction (scalar).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><i class="math">v1 + f * (v2 - v1)</i> (float).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Fraction out of range.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="fdot"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -823,7 +893,7 @@
         <dd>Dot product (float).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>AssertionError</strong></code> - Unequal len(a) and len(b).</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Unequal len(a) and len(b).</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -858,7 +928,7 @@
         <dd>Dot product (float).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>AssertionError</strong></code> - Unequal len(a), len(b) and/or len(c).</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Unequal len(a), len(b) and/or len(c).</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1081,10 +1151,37 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xtor</code></strong> - Generator, iterator, list, tuple, etc.</li>
+        <li><strong class="pname"><code>xtor</code></strong> - Generator, iterator, list, sequence, tuple, etc.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple (number, list) of items (int, list).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="map1"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">map1</span>(<span class="sig-arg">func</span>,
+        <span class="sig-arg">*args</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Applies each argument to a single-argument function.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>func</code></strong> - Function to apply (callable).</li>
+        <li><strong class="pname"><code>args</code></strong> - Arguments to apply (any).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Function results (tuple).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1379,7 +1476,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Mar  9 14:55:27 2017
+    Generated by Epydoc 3.0.1 on Sun Mar 12 15:22:39 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

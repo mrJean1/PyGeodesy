@@ -11,14 +11,14 @@ and U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
 '''
 
 from dms   import F_D, F_DMS, latDMS, lonDMS, parseDMS
-from utils import fsum, len2, wrap90, wrap180
+from utils import favg, fsum, len2, map1, wrap90, wrap180
 
 from math import cos, radians, sin
 
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('Base', 'LatLonHeightBase', 'Named', 'VectorBase')
-__version__ = '17.03.07'
+__version__ = '17.03.12'
 
 
 class Base(object):
@@ -145,7 +145,7 @@ class LatLonHeightBase(Base):
 
            @return: Average height (float).
         '''
-        return self.height + f * (other.height - self.height)
+        return favg(self.height, other.height, f=f)
 
     def _update(self, updated):
         '''(INTERNAL) Reset caches if updated.
@@ -231,6 +231,7 @@ class LatLonHeightBase(Base):
             x2, y2 = _2xy(p)
             pa.append((x2 - x1) * (y2 + y1))
             x1, y1 = x2, y2
+
         if pa:  # signed pseudo-area
             pa = fsum(pa)
             if pa > 0:
@@ -302,8 +303,27 @@ class LatLonHeightBase(Base):
            @return: 2-Tuple (lat, lon) in (radians, radians).
         '''
         if not self._ab:
-            self._ab = radians(self.lat), radians(self.lon)
+            self._ab = map1(radians, self.lat, self.lon)
         return self._ab
+
+    def to3llh(self):
+        '''Return this point's lat-, longitude and height.
+
+           @return: 3-Tuple (lat, lon, h) in (degrees, degrees, meter).
+        '''
+        return self.lat, self.lon, self.height
+
+    def to3xyz(self):
+        '''Convert this (geodetic) point to n-vector (normal
+           to the earth's surface) x/y/z components.
+
+           @return: 3-Tuple (x, y, z) in (meter).
+        '''
+        # Kenneth Gade eqn 3, but using right-handed
+        # vector x -> 0°E,0°N, y -> 90°E,0°N, z -> 90°N
+        a, b = self.to2ab()
+        ca = cos(a)
+        return ca * cos(b), ca * sin(b), sin(a)
 
     def toStr(self, form=F_DMS, prec=None, m='m', sep=', '):  # PYCHOK expected
         '''Convert this point to a "lat, lon [+/-height]" string,
@@ -328,18 +348,6 @@ class LatLonHeightBase(Base):
         if self.height:
             t += ['%+.2f%s' % (self.height, m)]
         return sep.join(t)
-
-    def to3xyz(self):
-        '''Convert this (geodetic) point to n-vector (normal
-           to the earth's surface) x/y/z components.
-
-           @return: 3-Tuple (x, y, z) in (meter).
-        '''
-        # Kenneth Gade eqn 3, but using right-handed
-        # vector x -> 0°E,0°N, y -> 90°E,0°N, z -> 90°N
-        a, b = self.to2ab()
-        ca = cos(a)
-        return ca * cos(b), ca * sin(b), sin(a)
 
 
 class Named(object):

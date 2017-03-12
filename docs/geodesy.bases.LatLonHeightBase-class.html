@@ -254,13 +254,8 @@ object --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="geodesy.bases.LatLonHeightBase-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">m</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">m</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>)</span><br />
-      Convert this point to a &quot;lat, lon [+/-height]&quot; string, 
-      formatted in the given form.</td>
+          <td><span class="summary-sig"><a href="geodesy.bases.LatLonHeightBase-class.html#to3llh" class="summary-sig-name">to3llh</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Return this point's lat-, longitude and height.</td>
           <td align="right" valign="top">
             
             
@@ -279,6 +274,28 @@ object --+
           <td><span class="summary-sig"><a href="geodesy.bases.LatLonHeightBase-class.html#to3xyz" class="summary-sig-name">to3xyz</a>(<span class="summary-sig-arg">self</span>)</span><br />
       Convert this (geodetic) point to n-vector (normal to the earth's 
       surface) x/y/z components.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="geodesy.bases.LatLonHeightBase-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">m</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">m</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>)</span><br />
+      Convert this point to a &quot;lat, lon [+/-height]&quot; string, 
+      formatted in the given form.</td>
           <td align="right" valign="top">
             
             
@@ -580,6 +597,49 @@ object --+
   </dl>
 </td></tr></table>
 </div>
+<a name="to3llh"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">to3llh</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return this point's lat-, longitude and height.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>3-Tuple (lat, lon, h) in (degrees, degrees, meter).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="to3xyz"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">to3xyz</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this (geodetic) point to n-vector (normal to the earth's 
+  surface) x/y/z components.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>3-Tuple (x, y, z) in (meter).</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="toStr"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -622,28 +682,6 @@ object --+
 <span class="py-prompt">&gt;&gt;&gt; </span>LatLon(51.4778, -0.0016, 42).toStr()  <span class="py-comment"># 51&#176;28&#8242;40&#8243;N, 000&#176;00&#8242;06&#8243;W, +42.00m</span></pre>
       </p>
 </div></td></tr></table>
-</div>
-<a name="to3xyz"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">to3xyz</span>(<span class="sig-arg">self</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Convert this (geodetic) point to n-vector (normal to the earth's 
-  surface) x/y/z components.</p>
-  <dl class="fields">
-    <dt>Returns:</dt>
-        <dd>3-Tuple (x, y, z) in (meter).</dd>
-  </dl>
-</td></tr></table>
 </div>
 <br />
 <!-- ==================== PROPERTY DETAILS ==================== -->
@@ -747,7 +785,7 @@ object --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Mar  9 14:55:27 2017
+    Generated by Epydoc 3.0.1 on Sun Mar 12 15:22:39 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

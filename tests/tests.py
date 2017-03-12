@@ -8,20 +8,21 @@
 # and <http://www.movable-type.co.uk/scripts/latlong.html>.
 
 from os.path import basename, dirname
-from platform import architecture
 import sys
 try:
     import geodesy as _  # PYCHOK expected
 except ImportError:
     # extend sys.path to ../.. directory
     sys.path.insert(0, dirname(dirname(__file__)))
-from inspect import isclass, isfunction, ismethod, ismodule
-
 from geodesy import R_NM, F_D, F_DM, F_DMS, F_RAD, \
+                    version as geodesy_version, \
                     degrees, normDMS  # PYCHOK expected
 
-__all__ = ('Tests',)
-__version__ = '17.03.09'
+from inspect import isclass, isfunction, ismethod, ismodule
+from platform import architecture
+
+__all__ = ('versions', 'Tests',)
+__version__ = '17.03.12'
 
 try:
     _int = int, long
@@ -29,6 +30,8 @@ try:
 except NameError:  # Python 3+
     _int = int
     _str = str
+
+versions = ' '.join((geodesy_version, 'Python', sys.version.split()[0], architecture()[0]))
 
 
 def _type(obj, attr):
@@ -60,7 +63,7 @@ class Tests(object):
     '''
     _file   = ''
     _name   = ''
-    _prefix = '    '  # '    # '
+    _prefix = '    '
     _tests  = []
 
     failed = 0
@@ -87,7 +90,6 @@ class Tests(object):
         print(nl + self._prefix + (fmt % args))
 
     def results(self, nl=0):
-        v = 'Python %s %s' % (sys.version.split()[0], architecture()[0])
         n = self.failed
         if n:
             p = '' if n == 1 else 's'
@@ -97,7 +99,7 @@ class Tests(object):
             r = '(%.1f%%) FAILED%s' % (100.0 * n / self.total, k)
         else:
             n, p, r = 'all', 's', 'passed'
-        self.printf('%s %s test%s %s (%s)', n, self._name, p, r, v, nl=nl)
+        self.printf('%s %s test%s %s (%s)', n, self._name, p, r, versions, nl=nl)
 
     def test(self, name, value, expect, fmt='%s', known=False):
         self.total += 1  # tests
