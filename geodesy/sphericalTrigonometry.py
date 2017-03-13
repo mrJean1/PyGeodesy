@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 '''Trigonometric spherical geodetic (lat-longitude) class L{LatLon}
-and function L{meanOf}.
+and functions L{intersection} and L{meanOf}.
 
 Python implementation of geodetic (lat-/longitude) methods using
 spherical trigonometry.  Transcribed from JavaScript originals by
@@ -24,7 +24,7 @@ from math import acos, asin, atan2, cos, hypot, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('LatLon',  # classes
            'intersection', 'meanOf')  # functions
-__version__ = '17.03.12'
+__version__ = '17.03.13'
 
 
 class LatLon(LatLonSphericalBase):
@@ -104,10 +104,10 @@ class LatLon(LatLonSphericalBase):
         if abs(z) > h:
             return None  # great circle doesn't reach latitude
 
-        bm = atan2(-y, x) + b1  # longitude at max latitude
-        bi = acos(z / h)  # delta longitude to intersections
+        m = atan2(-y, x) + b1  # longitude at max latitude
+        d = acos(z / h)  # delta longitude to intersections
 
-        return degrees180(bm - bi), degrees180(bm + bi)
+        return degrees180(m - d), degrees180(m + d)
 
     def crossTrackDistanceTo(self, start, end, radius=R_M):
         '''Returns (signed) distance from this point to great circle
@@ -158,18 +158,12 @@ class LatLon(LatLonSphericalBase):
            @JSname: I{destinationPoint}.
         '''
         # see http://williams.best.vwh.net/avform.htm#LL
-        a1, b1 = self.to2ab()
+        a, b = self.to2ab()
 
         r = float(distance) / float(radius)  # angular distance in radians
         t = radians(bearing)
 
-        ca1, cr, ct = map1(cos, a1, r, t)
-        sa1, sr, st = map1(sin, a1, r, t)
-
-        a2 = asin(ct * sr * ca1 + cr * sa1)
-        b2 = atan2(st * sr * ca1, cr - sa1 * sin(a2)) + b1
-
-        return LatLon(degrees90(a2), degrees180(b2), height=self.height)
+        return _destination2(a, b, r, t, h=self.height)
 
     def distanceTo(self, other, radius=R_M):
         '''Computes the distance from this to an other point.
@@ -251,13 +245,13 @@ class LatLon(LatLonSphericalBase):
             a1, b1 = self.to2ab()
             a2, b2 = other.to2ab()
 
-            d, ca2, ca1 = _haversine3(a2, a1, b2 - b1)
-            if d > EPS:
+            r, ca2, ca1 = _haversine3(a2, a1, b2 - b1)
+            if r > EPS:
                 cb1, cb2               = map1(cos, b1, b2)
-                sb1, sb2, sa1, sa2, sd = map1(sin, b1, b2, a1, a2, d)
+                sb1, sb2, sa1, sa2, sr = map1(sin, b1, b2, a1, a2, r)
 
-                a = sin((1 - fraction) * d) / sd
-                b = sin(     fraction  * d) / sd
+                a = sin((1 - fraction) * r) / sr
+                b = sin(     fraction  * r) / sr
 
                 x = a * ca1 * cb1 + b * ca2 * cb2
                 y = a * ca1 * sb1 + b * ca2 * sb2
@@ -380,15 +374,18 @@ class LatLon(LatLonSphericalBase):
         a1, b1 = self.to2ab()
         a2, b2 = other.to2ab()
 
-        d = b2 - b1
-        c = cos(a2)
-        x = c * cos(d) + cos(a1)
-        y = c * sin(d)
+        db = b2 - b1
 
-        a3 = atan2(sin(a1) + sin(a2), hypot(x, y))
-        b3 = atan2(y, x) + b1
+        ca1, ca2, cdb = map1(cos, a1, a2, db)
+        sa1, sa2, sdb = map1(sin, a1, a2, db)
 
-        return LatLon(degrees90(a3), degrees180(b3), height=self._alter(other))
+        x = ca2 * cdb + ca1
+        y = ca2 * sdb
+
+        a = atan2(sa1 + sa2, hypot(x, y))
+        b = atan2(y, x) + b1
+
+        return LatLon(degrees90(a), degrees180(b), height=self._alter(other))
 
 #   def nearestOn(self, point1, point2):
 #       '''Locates the point closest to the segment between two points
@@ -450,11 +447,15 @@ def intersection(start1, bearing1, start2, bearing2):
     r12, ca2, ca1 = _haversine3(a2, a1, b2 - b1)
     if abs(r12) < EPS:
         raise ValueError('intersection %s: %r vs %r' % ('parallel', start1, start2))
-    cr12, sr12 = cos(r12), sin(r12)
 
-    sa1, sa2 = map1(sin, a1, a2)
-    t1, t2 = map1(acos, (sa2 - sa1 * cr12) / (sr12 * ca1),
-                        (sa1 - sa2 * cr12) / (sr12 * ca2))
+    sa1, sa2, sr12 = map1(sin, a1, a2, r12)
+    x1, x2 = (sr12 * ca1), (sr12 * ca2)
+    if min(map1(abs, x1, x2)) <  EPS:
+        raise ValueError('intersection %s: %r vs %r' % ('parallel', start1, start2))
+
+    cr12 = cos(r12)
+    t1, t2 = map1(acos, (sa2 - sa1 * cr12) / x1,
+                        (sa1 - sa2 * cr12) / x2)
     if sin(b2 - b1) > 0:
         t12, t21 = t1, PI2 - t2
     else:
@@ -474,11 +475,7 @@ def intersection(start1, bearing1, start2, bearing2):
     x3 = acos(cr12 * sx3 - cx2 * cx1)
     r13 = atan2(sr12 * sx3, cx2 + cx1 * cos(x3))
 
-    cr13, sr13_ca1 = cos(r13), sin(r13) * ca1
-    a3 = asin(cos(t13) * sr13_ca1 + cr13 * sa1)
-    b3 = atan2(sin(t13) * sr13_ca1, cr13 - sa1 * sin(a3)) + b1
-
-    return LatLon(degrees90(a3), degrees180(b3), height=start1._alter(start2))
+    return _destination2(a1, b1, r13, t13, h=start1._alter(start2))
 
 
 def meanOf(points, height=None):
@@ -502,6 +499,25 @@ def meanOf(points, height=None):
     else:
         h = height
     return LatLon(a, b, height=h)
+
+
+def _destination2(a, b, r, t, h=0):
+    '''(INTERNAL) Compute destination.
+
+       @param a: Latitude (radians).
+       @param b: Longitude (radians).
+       @param r: Angular distance (radians).
+       @param t: Bearing (radians).
+       @param h: Height (meter).
+
+       @return: Destination (L{LatLon}).
+    '''
+    ca, cr, ct = map1(cos, a, r, t)
+    sa, sr, st = map1(sin, a, r, t)
+
+    a  = asin(ct * sr * ca + cr * sa)
+    b += atan2(st * sr * ca, cr - sa * sin(a))
+    return LatLon(degrees90(a), degrees180(b), height=h)
 
 
 def _haversine3(a2, a1, b21):

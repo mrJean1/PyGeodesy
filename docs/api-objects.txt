@@ -238,6 +238,7 @@ geodesy.sphericalTrigonometry.favg	geodesy.utils-module.html#favg
 geodesy.sphericalTrigonometry.intersection	geodesy.sphericalTrigonometry-module.html#intersection
 geodesy.sphericalTrigonometry.radians	geodesy.utils-module.html#radians
 geodesy.sphericalTrigonometry.map1	geodesy.utils-module.html#map1
+geodesy.sphericalTrigonometry._destination2	geodesy.sphericalTrigonometry-module.html#_destination2
 geodesy.utils	geodesy.utils-module.html
 geodesy.utils.cbrt	geodesy.utils-module.html#cbrt
 geodesy.utils.radiansPI	geodesy.utils-module.html#radiansPI

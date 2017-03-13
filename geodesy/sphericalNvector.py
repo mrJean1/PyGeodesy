@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 '''Vector-based spherical geodetic (lat-/longitude) classes L{LatLon}
-and L{Nvector} and functions L{areaOf}, L{intersection}, L{meanOf},
-L{triangulate} and L{trilaterate}.
+and L{Nvector} and functions L{areaOf}, L{intersection}, L{isclockwise},
+L{meanOf}, L{triangulate} and L{trilaterate}.
 
 Python implementation of vector-based spherical geodetic (lat-/longitude)
 methods.  Transcribed from JavaScript originals by I{(C) Chris Veness
@@ -41,7 +41,7 @@ from math import atan2, cos, radians, sin
 __all__ = ('LatLon', 'Nvector',  # classes
            'areaOf', 'intersection', 'isclockwise', 'meanOf',  # functions
            'triangulate', 'trilaterate')
-__version__ = '17.03.11'
+__version__ = '17.03.13'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
