@@ -450,7 +450,7 @@ def intersection(start1, bearing1, start2, bearing2):
 
     sa1, sa2, sr12 = map1(sin, a1, a2, r12)
     x1, x2 = (sr12 * ca1), (sr12 * ca2)
-    if min(map1(abs, x1, x2)) <  EPS:
+    if min(map1(abs, x1, x2)) < EPS:
         raise ValueError('intersection %s: %r vs %r' % ('parallel', start1, start2))
 
     cr12 = cos(r12)
@@ -491,7 +491,7 @@ def meanOf(points, height=None):
        @raise ValueError: If no points.
     '''
     # geographic mean
-    n, points = _Trll.points(points, closes=False)
+    n, points = _Trll.points(points, closed=False)
     m = sumOf(p.Vector3d() for p in points)
     a, b = m.to2ll()
     if height is None:
