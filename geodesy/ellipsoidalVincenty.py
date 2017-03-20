@@ -58,7 +58,7 @@ from math import atan2, cos, hypot, sin, tan
 
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'VincentyError')  # classes
-__version__ = '17.03.08'
+__version__ = '17.03.20'
 
 
 class VincentyError(Exception):
@@ -285,7 +285,7 @@ class LatLon(LatLonEllipsoidalBase):
 
            >>> p = new LatLon(50.06632, -5.71475)
            >>> q = new LatLon(58.64402, -3.07009)
-           >>> f = p1.finalBearingTo(q)  # 11.2972°
+           >>> f = p.finalBearingTo(q)  # 11.2972°
 
            >>> p = LatLon(52.205, 0.119)
            >>> q = LatLon(48.857, 2.351)
@@ -316,11 +316,11 @@ class LatLon(LatLonEllipsoidalBase):
 
            >>> p = LatLon(50.06632, -5.71475)
            >>> q = LatLon(58.64402, -3.07009)
-           >>> b = p.bearingTo(q)  # 9.1419°
+           >>> b = p.initialBearingTo(q)  # 9.141877°
 
            >>> p = LatLon(52.205, 0.119)
            >>> q = LatLon(48.857, 2.351)
-           >>> b = p.bearingTo(q)  # 156.2°
+           >>> b = p.initialBearingTo(q)  # 156.11064°
 
            @JSname: I{bearingTo}.
         '''
@@ -361,7 +361,7 @@ class LatLon(LatLonEllipsoidalBase):
 
         c1, s1, t1 = _r3(self.lat, E.f)
 
-        i = radians(bearing)  # initial bearing, forward azimuth
+        i = radians(bearing)  # initial bearing (forward azimuth)
         ci, si = cos(i), sin(i)
         s12 = atan2(t1, ci) * 2
 
@@ -383,10 +383,10 @@ class LatLon(LatLonEllipsoidalBase):
             raise VincentyError('no convergence %r' % (self,))
 
         t = s1 * ss - c1 * cs * ci
-        # reverse azimuth (final bearing) in [0, 360)
+        # final bearing (reverse azimuth +/- 180)
         r = degrees360(atan2(sa, -t))
         if llr:
-            # destination latitude in [-90, 90)
+            # destination latitude in [-270, 90)
             a = degrees90(atan2(s1 * cs + c1 * ss * ci,
                                 (1 - E.f) * hypot(sa, t)))
             # destination longitude in [-180, 180)
@@ -416,12 +416,11 @@ class LatLon(LatLonEllipsoidalBase):
         c1c2, s1s2 = c1 * c2, s1 * s2
         c1s2, s1c2 = c1 * s2, s1 * c2
 
-        ll = dl = radians(abs(other.lon - self.lon))
+        ll = dl = radians(other.lon - self.lon)
         for _ in range(self._iterations):
             cll, sll, ll_ = cos(ll), sin(ll), ll
 
-            t2 = c2 * sll, c1s2 - s1c2 * cll
-            ss = hypot(*t2)
+            ss = hypot(c2 * sll, c1s2 - s1c2 * cll)
             if ss < EPS:
                 raise VincentyError('%r coincident with %r' % (self, other))
             cs = s1s2 + c1c2 * cll
@@ -451,7 +450,8 @@ class LatLon(LatLonEllipsoidalBase):
         d = b * s
 
         if azis:  # forward and reverse azimuth
-            f = degrees360(atan2(*t2))
+            cll, sll = cos(ll), sin(ll)
+            f = degrees360(atan2(c2 * sll,  c1s2 - s1c2 * cll))
             r = degrees360(atan2(c1 * sll, -s1c2 + c1s2 * cll))
             d = d, f, r
         return d

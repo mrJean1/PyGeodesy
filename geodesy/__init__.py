@@ -131,7 +131,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',
            'sphericalNvector', 'sphericalTrigonometry',
            'VincentyError',
            'nvector', 'vector3d', 'version')  # extended below
-__version__ = '17.03.13'
+__version__ = '17.03.20'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))

@@ -23,7 +23,7 @@ __all__ = ('F_D', 'F_DM', 'F_DMS', 'F_RAD',  # format contants
            'bearingDMS', 'compassDMS', 'compassPoint',  # functions
            'latDMS', 'lonDMS', 'normDMS',
            'parseDMS', 'parse3llh', 'precision', 'toDMS')
-__version__ = '17.02.15'
+__version__ = '17.03.20'
 
 F_D   = 'd'    #: Format degrees as deg° (string).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (string).
@@ -99,7 +99,7 @@ def bearingDMS(bearing, form=F_D, prec=None):
 
        @JSname: I{toBrng}.
     '''
-    return _toDMS(bearing % 360, form, prec, 3)
+    return _toDMS(bearing % 360, form, prec, 1)
 
 
 _COMPASS = ('N', 'NNE', 'NE', 'ENE',
@@ -119,7 +119,7 @@ def compassDMS(bearing, form=F_D, prec=None):
 
        @return: Compass degrees and point per the specified form (string).
     '''
-    t = bearingDMS(bearing, form=form, prec=prec), compassPoint(bearing)
+    t = _toDMS(bearing % 360, form, prec, 1), compassPoint(bearing)
     return S_SEP.join(t)
 
 
@@ -179,16 +179,22 @@ def lonDMS(deg, form=F_DMS, prec=2):
 toLon = lonDMS  # XXX original name
 
 
-def normDMS(strDMS):
+def normDMS(strDMS, norm=''):
     '''Normalizes the degree ˚, minute ' and second " symbols
        in a string to the defaults %s, %s and %s.
 
        @param strDMS: DMS (string).
+       @keyword norm: Replacement, default symbol otherwise (string).
 
        @return: Normalized DMS (string).
     '''
-    for s, S in _S_norm.items():
-        strDMS = strDMS.replace(s, S)
+    if norm:
+        for s in _S_ALL:
+            strDMS = strDMS.replace(s, norm)
+        strDMS = strDMS.rstrip(norm)
+    else:
+        for s, S in _S_norm.items():
+            strDMS = strDMS.replace(s, S)
     return strDMS
 
 

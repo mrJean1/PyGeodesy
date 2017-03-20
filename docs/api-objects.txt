@@ -40,6 +40,7 @@ geodesy.fsum	geodesy-module.html#fsum
 geodesy.toLcc	geodesy-module.html#toLcc
 geodesy.degrees	geodesy-module.html#degrees
 geodesy.wrapPI2	geodesy-module.html#wrapPI2
+geodesy.wrap360	geodesy-module.html#wrap360
 geodesy.wrapPI	geodesy-module.html#wrapPI
 geodesy.precision	geodesy-module.html#precision
 geodesy.toDMS	geodesy-module.html#toDMS
@@ -262,6 +263,7 @@ geodesy.utils.hsin	geodesy.utils-module.html#hsin
 geodesy.utils.map1	geodesy.utils-module.html#map1
 geodesy.utils.degrees	geodesy.utils-module.html#degrees
 geodesy.utils.degrees180	geodesy.utils-module.html#degrees180
+geodesy.utils.wrap360	geodesy.utils-module.html#wrap360
 geodesy.utils.wrapPI	geodesy.utils-module.html#wrapPI
 geodesy.utils.isint	geodesy.utils-module.html#isint
 geodesy.utils._3rd	geodesy.utils-module.html#_3rd

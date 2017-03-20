@@ -22,7 +22,7 @@ from inspect import isclass, isfunction, ismethod, ismodule
 from platform import architecture
 
 __all__ = ('versions', 'Tests',)
-__version__ = '17.03.12'
+__version__ = '17.03.20'
 
 try:
     _int = int, long
@@ -83,7 +83,7 @@ class Tests(object):
         return self.failed - self.known  # new failures
 
     def exit(self, errors=0):
-        sys.exit(min(errors + self.errors(), 7))
+        sys.exit(min(errors + self.errors(), 99))
 
     def printf(self, fmt, *args, **kwds):  # nl=0
         nl = '\n' * kwds.get('nl', 0)

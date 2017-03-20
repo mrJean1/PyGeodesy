@@ -29,8 +29,9 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2',  # constants
            'isint', 'isscalar', 'len2', 'map1', 'map2',
            'radians', 'radiansPI', 'radiansPI2', 'radiansPI_2',
            'tanPI_2_2',
-           'wrap90', 'wrap180', 'wrapPI', 'wrapPI2', 'wrapPI_2')
-__version__ = '17.03.12'
+           'wrap90', 'wrap180', 'wrap360',
+           'wrapPI', 'wrapPI2', 'wrapPI_2')
+__version__ = '17.03.20'
 
 try:
     _Ints = int, long  #: (INTERNAL) Int objects (tuple)
@@ -412,6 +413,16 @@ def wrap180(deg):
        @return: Degrees, wrapped (degrees180).
     '''
     return _drap(deg, 180)
+
+
+def wrap360(deg):
+    '''Wraps degrees to M{0..+360}.
+
+       @param deg: Angle (degrees).
+
+       @return: Degrees, wrapped (degrees360).
+    '''
+    return _drap(deg, 360)
 
 
 def _wrap(rad, wrap):

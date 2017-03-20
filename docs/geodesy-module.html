@@ -154,7 +154,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.03.13
+        17.03.20
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -807,7 +807,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="geodesy-module.html#normDMS" class="summary-sig-name">normDMS</a>(<span class="summary-sig-arg">strDMS</span>)</span><br />
+          <td><span class="summary-sig"><a href="geodesy-module.html#normDMS" class="summary-sig-name">normDMS</a>(<span class="summary-sig-arg">strDMS</span>,
+        <span class="summary-sig-arg">norm</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       Normalizes the degree &#730;, minute ' and second &quot; symbols in a 
       string to the defaults &#176;, &#8242; and &#8243;.</td>
           <td align="right" valign="top">
@@ -1134,6 +1135,23 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="geodesy-module.html#wrap360" class="summary-sig-name">wrap360</a>(<span class="summary-sig-arg">deg</span>)</span><br />
+      Wraps degrees to <i class="math">0..+360</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="geodesy-module.html#wrap90" class="summary-sig-name">wrap90</a>(<span class="summary-sig-arg">deg</span>)</span><br />
       Wraps degrees to <i class="math">-270..+90</i>.</td>
           <td align="right" valign="top">
@@ -1209,7 +1227,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'17.3.13'"><code class="variable-quote">'</code><code class="variable-string">17.3.13</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'17.3.20'"><code class="variable-quote">'</code><code class="variable-string">17.3.20</code><code class="variable-quote">'</code></code><br />
       Normalized PyGeodesy version (string).
     </td>
   </tr>
@@ -2143,7 +2161,8 @@ Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, \
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">normDMS</span>(<span class="sig-arg">strDMS</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">normDMS</span>(<span class="sig-arg">strDMS</span>,
+        <span class="sig-arg">norm</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2156,6 +2175,7 @@ Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, \
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>strDMS</code></strong> - DMS (string).</li>
+        <li><strong class="pname"><code>norm</code></strong> - Replacement, default symbol otherwise (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Normalized DMS (string).</dd>
@@ -2725,6 +2745,31 @@ Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, \
   </dl>
 </td></tr></table>
 </div>
+<a name="wrap360"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">wrap360</span>(<span class="sig-arg">deg</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Wraps degrees to <i class="math">0..+360</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>deg</code></strong> - Angle (degrees).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Degrees, wrapped (degrees360).</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="wrap90"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -2971,7 +3016,7 @@ Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, <span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar 13 16:32:40 2017
+    Generated by Epydoc 3.0.1 on Mon Mar 20 14:13:25 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

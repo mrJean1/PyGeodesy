@@ -32,7 +32,7 @@
 # Created by Brian Lambert on 6/5/16.
 # Copyright © 2016 Softwarenerd.
 
-__version__ = '17.03.08'
+__version__ = '17.03.20'
 
 if __name__ == '__main__':
 
@@ -112,7 +112,7 @@ if __name__ == '__main__':
         # initial bearing between Versailles and Eiffel Tower
         b = Versailles.bearingTo(Eiffel)
         t.test('InitialBearingVersaillesToEiffel', b, ibVersaillesToEiffel, fmtVersaillesToEiffel)
-        t.test('InitialBearingVersaillesToEiffel(DMS)', bearingDMS(b, F_DMS, prec=4), '065°00′11.7142″')
+        t.test('InitialBearingVersaillesToEiffel(DMS)', bearingDMS(b, F_DMS, prec=4), '65°00′11.7142″')
 
         # final bearing between Eiffel Tower and Versailles
         b = Eiffel.finalBearingTo(Versailles)
@@ -122,7 +122,7 @@ if __name__ == '__main__':
         # final bearing between Versailles and Eiffel Tower
         b = Versailles.finalBearingTo(Eiffel)
         t.test('FinalBearingVersaillesToEiffel', b, fbVersaillesToEiffel, fmtVersaillesToEiffel)
-        t.test('FinalBearingVersaillesToEiffel(DMS)', bearingDMS(b, F_DMS, prec=4), '065°08′04.5707″')
+        t.test('FinalBearingVersaillesToEiffel(DMS)', bearingDMS(b, F_DMS, prec=4), '65°08′04.5707″')
 
         # generating a location for Versailles based on bearing and distance
         v = Eiffel.destination(dEiffelToVersailles, ibEiffelToVersailles)
