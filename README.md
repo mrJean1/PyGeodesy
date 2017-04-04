@@ -46,7 +46,7 @@ Documentation tag ```JS name:``` shows the original JavaScript name.
 __
 
 *) Links:
- - PyGeodesy <https://github.com/mrJean1/PyGeodesy/doc.hmtl>
+ - PyGeodesy <https://github.com/mrJean1/PyGeodesy/doc.html>
  - PostProcessor <http://code.activestate.com/recipes/546532/>
  - PyChecker <https://pypi.python.org/pypi/pychecker>
  - PyFlakes <https://pypi.python.org/pypi/pyflakes>
