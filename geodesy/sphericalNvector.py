@@ -821,7 +821,7 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3, radius=
 
 # **) MIT License
 #
-# Copyright (C) 2016-2017 -- mrJean1@Gmail.com
+# Copyright (C) 2016-2017 -- mrJean1 at Gmail dot com
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

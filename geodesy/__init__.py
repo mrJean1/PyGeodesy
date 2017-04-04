@@ -51,7 +51,7 @@ _
 
 **) U{MIT License<https://opensource.org/licenses/MIT>} text follows:
 
-Copyright (C) 2016-2017 -- I{mrJean1@Gmail.com}
+Copyright (C) 2016-2017 -- I{mrJean1 at Gmail dot com}
 
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the "Software"),

@@ -36,7 +36,7 @@ with `PyChecker <https://pypi.python.org/pypi/pychecker>`_,
 and with `Flake8 <https://pypi.python.org/pypi/flake8>`_ on Python 3.6.0.
 The tests were run with 64-bit Python 2.6.9, 2.7.10, 2.7.13, 3.5.2, 3.5.3
 and 3.6.0, but only on MacOSX 10.10 Yosemite, MacOSX 10.11 El Capitan
-and/or macOS 10.12.2 and 10.12.3 Sierra.
+and/or macOS 10.12.2 10.12.3 and 10.12.4 Sierra.
 
 The ``zip`` and ``tar`` files in directory ``dist`` each contain the entire
 **PyGeodesy** distribution for installation with the enclosed ``setup.py`` file.
