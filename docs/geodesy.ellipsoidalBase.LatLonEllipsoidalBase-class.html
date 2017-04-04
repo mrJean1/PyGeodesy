@@ -133,6 +133,24 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="geodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toDatum" class="summary-sig-name">toDatum</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">toDatum</span>)</span><br />
+      Converts this point to a new coordinate system.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="geodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#copy" class="summary-sig-name">copy</a>(<span class="summary-sig-arg">self</span>)</span><br />
       Copy this point.</td>
           <td align="right" valign="top">
@@ -210,24 +228,6 @@
           <td><span class="summary-sig"><a href="geodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#to3xyz" class="summary-sig-name">to3xyz</a>(<span class="summary-sig-arg">self</span>)</span><br />
       Converts this (ellipsoidal geodetic) LatLon point to (ellipsoidal 
       geocentric) cartesian x/y/z components.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="geodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toDatum" class="summary-sig-name">toDatum</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">toDatum</span>)</span><br />
-      Converts this point to a new coordinate system.</td>
           <td align="right" valign="top">
             
             
@@ -425,6 +425,40 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="toDatum"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toDatum</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">toDatum</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Converts this point to a new coordinate system.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>toDatum</code></strong> - Datum to convert to (<a href="geodesy.datum.Datum-class.html" 
+          class="link">Datum</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The converted point (<a 
+          href="geodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html" 
+          class="link">LatLonEllipsoidalBase</a>).</dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>pWGS84 = LatLon(51.4778, -0.0016)  <span class="py-comment"># default Datums.WGS84</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>pOSGB  = pWGS84.convertDatum(Datums.OSGB36)  <span class="py-comment"># 51.477284&#176;N, 000.00002&#176;E</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
 <a name="copy"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -583,40 +617,6 @@
   </dl>
 </td></tr></table>
 </div>
-<a name="toDatum"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toDatum</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">toDatum</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Converts this point to a new coordinate system.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>toDatum</code></strong> - Datum to convert to (<a href="geodesy.datum.Datum-class.html" 
-          class="link">Datum</a>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>The converted point (<a 
-          href="geodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html" 
-          class="link">LatLonEllipsoidalBase</a>).</dd>
-  </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>pWGS84 = LatLon(51.4778, -0.0016)  <span class="py-comment"># default Datums.WGS84</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>pOSGB  = pWGS84.convertDatum(Datums.OSGB36)  <span class="py-comment"># 51.477284&#176;N, 000.00002&#176;E</span></pre>
-      </p>
-</div></td></tr></table>
-</div>
 <a name="toOsgr"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -733,7 +733,7 @@ class="link">Datum</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar 20 14:13:25 2017
+    Generated by Epydoc 3.0.1 on Tue Apr  4 14:57:25 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

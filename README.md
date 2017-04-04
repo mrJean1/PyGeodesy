@@ -46,6 +46,7 @@ Documentation tag ```JS name:``` shows the original JavaScript name.
 __
 
 *) Links:
+ - PyGeodesy <https://github.com/mrJean1/PyGeodesy/doc.hmtl>
  - PostProcessor <http://code.activestate.com/recipes/546532/>
  - PyChecker <https://pypi.python.org/pypi/pychecker>
  - PyFlakes <https://pypi.python.org/pypi/pyflakes>
@@ -57,7 +58,7 @@ __
 **) MIT License <https://opensource.org/licenses/MIT> text follows:
 
 ```
-Copyright (C) 2016-2017 -- mrJean1@Gmail.com
+Copyright (C) 2016-2017 -- mrJean1 at Gmail dot com
 
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the "Software"),
@@ -78,4 +79,4 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 ```
 
-_Last updated: Mar 20, 2017._
+_Last updated: Apr 04, 2017._
