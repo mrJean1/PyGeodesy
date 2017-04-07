@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '17.04.07'
+__version__ = '17.04.08'
 
 
 def _version():
@@ -70,7 +70,7 @@ setup(
 
     zip_safe=False,
     classifiers=[
-        'Development Status ::  5 - Production/Stable',
+        'Development Status :: 5 - Production/Stable',
         'Environment :: Console',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',

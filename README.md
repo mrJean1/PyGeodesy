@@ -30,7 +30,7 @@ Another module offers several functions to simplify or linearize a path,
 including implementations of the original Ramer-Douglas-Peucker (RDP)
 and Visvalingam-Wyatt (VW) algorithms and modified versions of both:
 
-- <https://en.m.wikipedia.org/wiki/Ramer–Douglas–Peucker_algorithm>
+- <https://en.m.wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm>
 - <https://hydra.hull.ac.uk/assets/hull:8338>
 - <https://bost.ocks.org/mike/simplify/>
 
@@ -54,7 +54,7 @@ Documentation tag ```JS name:``` shows the original JavaScript name.
 __
 
 *) Links:
- - PyGeodesy <https://github.com/mrJean1/PyGeodesy/index.html>
+ - PyGeodesy documentation <https://pythonhosted.org/PyGeodesy/>
  - PostProcessor <http://code.activestate.com/recipes/546532/>
  - PyChecker <https://pypi.python.org/pypi/pychecker>
  - PyFlakes <https://pypi.python.org/pypi/pyflakes>
@@ -87,4 +87,4 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 ```
 
-_Last updated: Apr 07, 2017._
+_Last updated: Apr 08, 2017._
