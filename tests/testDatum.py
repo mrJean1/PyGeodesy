@@ -4,12 +4,12 @@
 # Test datums, ellipsoids and transforms.
 
 __all__ = ('Tests',)
-__version__ = '17.03.08'
+__version__ = '17.04.07'
 
 from tests import Tests as _Tests
 
-from geodesy import R_M, Datum, Datums, Ellipsoid, Ellipsoids, \
-                    fStr, Transform, Transforms
+from pygeodesy import R_M, Datum, Datums, Ellipsoid, Ellipsoids, \
+                      fStr, Transform, Transforms
 
 
 class Tests(_Tests):
@@ -45,7 +45,7 @@ class Tests(_Tests):
 
 if __name__ == '__main__':
 
-    from geodesy import datum  # private
+    from pygeodesy import datum  # private
 
     t = Tests(__file__, __version__, datum)
     t.testDatum()

@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-# Tests for various geodesy modules.
+# Tests for various pygeodesy modules.
 
 # After (C) Chris Veness 2011-2015 published under the same MIT Licence,
 # see <http://www.movable-type.co.uk/scripts/latlong-vectors.html>
@@ -10,20 +10,20 @@
 from os.path import basename, dirname
 import sys
 try:
-    import geodesy as _  # PYCHOK expected
+    import pygeodesy as _  # PYCHOK expected
 except ImportError:
     # extend sys.path to ../.. directory
     sys.path.insert(0, dirname(dirname(__file__)))
-from geodesy import R_NM, F_D, F_DM, F_DMS, F_RAD, \
-                    version as geodesy_version, \
-                    degrees, isclockwise, normDMS  # PYCHOK expected
+from pygeodesy import R_NM, F_D, F_DM, F_DMS, F_RAD, \
+                      version as geodesy_version, \
+                      degrees, isclockwise, normDMS  # PYCHOK expected
 
 from inspect import isclass, isfunction, ismethod, ismodule
 from platform import architecture
 from time import time
 
 __all__ = ('versions', 'Tests',)
-__version__ = '17.04.04'
+__version__ = '17.04.07'
 
 try:
     _int = int, long
@@ -310,19 +310,21 @@ class Tests(object):
 
 if __name__ == '__main__':
 
-    from geodesy import datum, dms, lcc, mgrs, osgr, \
-                        ellipsoidalNvector, ellipsoidalVincenty, \
-                        sphericalNvector, sphericalTrigonometry, \
-                        nvector, vector3d, utm, utils  # PYCHOK expected
-    import geodesy  # PYCHOK expected
+    from pygeodesy import datum, dms, \
+                          ellipsoidalNvector, ellipsoidalVincenty, \
+                          lcc, mgrs, nvector, osgr, simplify, \
+                          sphericalNvector, sphericalTrigonometry, \
+                          vector3d, utm, utils  # PYCHOK expected
+    import pygeodesy  # PYCHOK expected
 
     t = Tests(__file__, __version__)
     # check that __all__ names exist in each module
-    t.testModule(geodesy, 'geodesy')
-    for m in (datum, dms, lcc, mgrs, osgr,
+    t.testModule(pygeodesy, 'pygeodesy')
+    for m in (datum, dms,
               ellipsoidalNvector, ellipsoidalVincenty,
+              lcc, mgrs, nvector, osgr, simplify,
               sphericalNvector, sphericalTrigonometry,
-              nvector, vector3d, utm, utils):
+              vector3d, utm, utils):
         t.testModule(m)
     t.testLatLonAttr(ellipsoidalNvector, ellipsoidalVincenty,
                      sphericalNvector, sphericalTrigonometry)

@@ -4,11 +4,11 @@
 # Test MGRS functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.03.08'
+__version__ = '17.04.07'
 
 from tests import Tests as _Tests
 
-from geodesy import mgrs
+from pygeodesy import mgrs
 
 
 class Tests(_Tests):
@@ -48,7 +48,7 @@ class Tests(_Tests):
 
 if __name__ == '__main__':
 
-    from geodesy import ellipsoidalVincenty
+    from pygeodesy import ellipsoidalVincenty
 
     t = Tests(__file__, __version__, mgrs)
     t.testMgrs(ellipsoidalVincenty.LatLon)

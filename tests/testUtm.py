@@ -4,11 +4,11 @@
 # Test UTM functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.03.08'
+__version__ = '17.04.07'
 
 from tests import Tests as _Tests
 
-from geodesy import F_DMS, utm
+from pygeodesy import F_DMS, utm
 
 
 class Tests(_Tests):
@@ -86,7 +86,7 @@ class Tests(_Tests):
 
 if __name__ == '__main__':
 
-    from geodesy import ellipsoidalVincenty
+    from pygeodesy import ellipsoidalVincenty
 
     t = Tests(__file__, __version__, utm)
     t.testUtm(ellipsoidalVincenty.LatLon)

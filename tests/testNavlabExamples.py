@@ -8,15 +8,16 @@ This page illustrates implementations of the examples from
 those used in nvector.readthedocs.org.  Tests marked with
 # +++ are additional, not present in the original examples.
 '''
-__version__ = '17.03.08'
+__all__ = ()
+__version__ = '17.04.07'
 
 if __name__ == '__main__':
 
     from tests import Tests
 
-    from geodesy import Datums, F_D, \
-                        ellipsoidalNvector, ellipsoidalVincenty, \
-                        sphericalNvector, sphericalTrigonometry
+    from pygeodesy import Datums, F_D, \
+                          ellipsoidalNvector, ellipsoidalVincenty, \
+                          sphericalNvector, sphericalTrigonometry
 
     class Examples(Tests):  # overload test()
         def test(self, ex, name, *args, **kwds):

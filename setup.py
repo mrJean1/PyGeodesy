@@ -21,11 +21,12 @@
 
 from setuptools import setup
 
-__version__ = '17.03.10'
+__all__ = ()
+__version__ = '17.04.07'
 
 
 def _version():
-    with open('geodesy/__init__.py') as f:
+    with open('pygeodesy/__init__.py') as f:
         for t in f.readlines():
             if t.startswith('__version__'):
                 v = t.split('=')[-1].strip().strip("'").strip('"')
@@ -42,8 +43,8 @@ def _long_description():
 
 setup(
     name='PyGeodesy',
-    packages=['geodesy'],
-    description='Python geodesy tools',
+    packages=['pygeodesy'],
+    description='Pure Python geodesy tools',
     version=_version(),
 
     author='Jean M. Brouwers',
@@ -52,17 +53,18 @@ setup(
     maintainer_email='mrJean1 at Gmail dot com',
 
     license='MIT',
-    keywords='geodesy datum development earth ellipsoid Lambert MGRS Nvector OSGR Ramer-Douglas-Peucker sphere trigonometry UTM Vincenty Visvalingam-Wyatt',
+    keywords='geodesy datum development earth ellipsoid Lambert MGRS Nvector OSGR PyGeodesy Ramer-Douglas-Peucker sphere trigonometry UTM Vincenty Visvalingam-Wyatt',
     url='https://github.com/mrJean1/PyGeodesy',
 
     long_description=_long_description(),
 
-    package_data={'geodesy': ['LICENSE']},
+    package_data={'pygeodesy': ['LICENSE']},
 
-#   data_files=[('images',      ['tests/testRoute.jpg']),
+#   data_files=[('docs',        ['docs/*.*']),
+#               ('images',      ['tests/testRoute.jpg']),
 #               ('tests',       ['tests/test*.py']),
-#               ('testresults', ['testresults/*.txt']),
-#               ('docs',        ['docs/*.*'])],
+#               ('testresults', ['testresults/*.txt'])],
+#   data_files fails somehow, see file MANIFEST.in
 
     test_suite='tests.TestSuite',
 

@@ -4,11 +4,11 @@
 # Test LCC functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.03.08'
+__version__ = '17.04.07'
 
 from tests import Tests as _Tests
 
-from geodesy import F_D, F_DMS, Conic, Conics, Datums, Lcc, toLcc
+from pygeodesy import F_D, F_DMS, Conic, Conics, Datums, Lcc, toLcc
 
 
 class Tests(_Tests):
@@ -63,9 +63,9 @@ class Tests(_Tests):
 
 if __name__ == '__main__':
 
-    from geodesy import lcc
-    from geodesy.ellipsoidalNvector  import LatLon as nLatLon
-    from geodesy.ellipsoidalVincenty import LatLon as vLatLon
+    from pygeodesy import lcc
+    from pygeodesy.ellipsoidalNvector  import LatLon as nLatLon
+    from pygeodesy.ellipsoidalVincenty import LatLon as vLatLon
 
     # Snyder, pp 297 <https://pubs.er.usgs.gov/djvu/PP/PP_1395.pdf>
     Snyder = Conic(vLatLon(23, -96, datum=Datums.NAD27),

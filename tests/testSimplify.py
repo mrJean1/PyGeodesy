@@ -4,13 +4,13 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '17.04.06'
+__version__ = '17.04.07'
 
 from tests import Tests as _Tests
 
-from geodesy import simplify1, simplify2, \
-                    simplifyRDP, simplifyRDPm, \
-                    simplifyVW, simplifyVWm
+from pygeodesy import simplify1, simplify2, \
+                      simplifyRDP, simplifyRDPm, \
+                      simplifyVW, simplifyVWm
 
 from time import time
 

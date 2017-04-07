@@ -17,7 +17,7 @@ import sys
 import tests  # for .version
 
 __all__ = ('run',)
-__version__ = '17.04.04'
+__version__ = '17.04.07'
 
 _python_O = _python = sys.executable  # path
 if not __debug__:
@@ -79,7 +79,7 @@ if __name__ == '__main__':  # MCCABE expected
     if len(p) > 32:
         p = p[:16] + '...' + p[-16:]
 
-    # get geodesy, Python version, size, OS name and release
+    # get pygeodesy, Python version, size, OS name and release
     v = tests.versions
     for t, x in (('macOS',   mac_ver),
                  ('Windows', win32_ver),

@@ -32,13 +32,14 @@
 # Created by Brian Lambert on 6/5/16.
 # Copyright © 2016 Softwarenerd.
 
-__version__ = '17.03.20'
+__all__ = ()
+__version__ = '17.04.07'
 
 if __name__ == '__main__':
 
     from tests import Tests as _Tests
-    from geodesy import F_D, F_DMS, bearingDMS, \
-                        sphericalNvector, sphericalTrigonometry
+    from pygeodesy import F_D, F_DMS, bearingDMS, \
+                          sphericalNvector, sphericalTrigonometry
 
     class Tests(_Tests):
         # overload test() method

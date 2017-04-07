@@ -4,12 +4,12 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.03.20'
+__version__ = '17.04.07'
 
 from tests import Tests as _Tests
 
-from geodesy import F_D, F_DMS, VincentyError, bearingDMS, \
-                    compassDMS, Datums, fStr, normDMS, wrap360
+from pygeodesy import F_D, F_DMS, VincentyError, bearingDMS, \
+                      compassDMS, Datums, fStr, normDMS, wrap360
 
 
 class Tests(_Tests):
@@ -165,14 +165,14 @@ class Tests(_Tests):
 
 if __name__ == '__main__':
 
-    from geodesy import ellipsoidalNvector as N
+    from pygeodesy import ellipsoidalNvector as N
     t = Tests(__file__, __version__, N)
     t.testLatLon(N.LatLon)
     t.testVectorial(N.LatLon, N.Nvector, N.sumOf)
     t.testEllipsoidal(N.LatLon, N.Nvector, N.Cartesian)
     t.results()
 
-    from geodesy import ellipsoidalVincenty as V
+    from pygeodesy import ellipsoidalVincenty as V
     t = Tests(__file__, __version__, V)
     t.testLatLon(V.LatLon, Sph=False)
     for d in (Datums.WGS84, Datums.NAD83,):  # Datums.Sphere):
