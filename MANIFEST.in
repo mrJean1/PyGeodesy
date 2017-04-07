@@ -1,0 +1,5 @@
+graft docs
+include docs.html
+graft tests
+include tests/testRoute.jpg
+graft testresults

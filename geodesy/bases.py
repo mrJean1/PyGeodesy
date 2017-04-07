@@ -17,8 +17,9 @@ from math import cos, radians, sin
 
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
-__all__ = ('Base', 'LatLonHeightBase', 'Named', 'VectorBase')
-__version__ = '17.03.12'
+__all__ = ('Base', 'LatLonHeightBase', 'Named', 'VectorBase',
+           'isclockwise')
+__version__ = '17.03.21'
 
 
 class Base(object):
@@ -366,6 +367,31 @@ class Named(object):
 
 
 VectorBase = Base  #: (INTERNAL) Used by vector3d.
+
+_LLh = LatLonHeightBase(0, 0)
+
+
+def isclockwise(points):
+    '''Determine direction of a polygon defined by a list,
+       sequence, set or tuple of LatLon points.
+
+       @param points: The points defining the polygon (LatLon[]).
+
+       @return: True if clockwise, False otherwise.
+
+       @raise TypeError: Some points are not LatLon.
+
+       @raise ValueError: Too few points or polygon has zero area.
+
+       @example:
+
+       >>> f = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
+       >>> isclockwise(f)  # False
+
+       >>> t = LatLon(45,1), LatLon(46,1), LatLon(46,2), LatLon(45,1)
+       >>> isclockwise(t)  # True
+    '''
+    return _LLh.isclockwise(points)
 
 # **) MIT License
 #

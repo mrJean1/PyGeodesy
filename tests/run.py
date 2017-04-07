@@ -4,19 +4,20 @@
 # Script to run some or all PyGeodesy tests with Python 2 or 3.
 
 # Tested with 64-bit Python 2.6.9, 2.7.13, 3.5.3 and 3.6.0 but only
-# on macOS 10.12.2 and 10.12.3 Sierra.
+# on macOS 10.12.2, 10.12.3 and 10.12.4 Sierra.
 
 from glob import glob
 from os import linesep as NL
 from os.path import dirname, join
 from platform import java_ver, mac_ver, win32_ver, uname
 from subprocess import PIPE, STDOUT, Popen
+from time import time
 import sys
 
 import tests  # for .version
 
 __all__ = ('run',)
-__version__ = '17.03.12'
+__version__ = '17.04.04'
 
 _python_O = _python = sys.executable  # path
 if not __debug__:
@@ -98,7 +99,7 @@ if __name__ == '__main__':  # MCCABE expected
             _results = open(join('testresults', t), 'wb')  # note, 'b' not 't'!
             _write('%s typical test results (%s)%s' % (argv0, v, NL))
 
-    f = 0
+    f, s = 0, time()
     for arg in args:
 
         t = 'running %s %s' % (p, arg)
@@ -125,7 +126,9 @@ if __name__ == '__main__':  # MCCABE expected
         x = '%d FAILED' % (f,)
     else:
         x = 'all OK'
-    t = '%s %s %s (%s)' % (argv0, p, x, v)
+
+    s = time() - s
+    t = '%s %s %s (%s) %.3f sec' % (argv0, p, x, v, s)
     print(t)
     if _results:
         _write(NL + t + NL)

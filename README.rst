@@ -28,6 +28,13 @@ and positions, transcribed from:
 
 - <https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf> pp 107-109.
 
+Another module offers several functions to simplify or linearize a path,
+including implementations of the original Ramer-Douglas-Peucker (RDP)
+and Visvalingam-Wyatt (VW) algorithms and modified versions of both:
+
+- <https://en.m.wikipedia.org/wiki/Ramer–Douglas–Peucker_algorithm>
+- <https://hydra.hull.ac.uk/assets/hull:8338/content>
+
 The Python code has been statically `checked <http://code.activestate.com/recipes/546532/>`_
 with `PyChecker <https://pypi.python.org/pypi/pychecker>`_,
 `PyFlakes <https://pypi.python.org/pypi/pyflakes>`_,
@@ -36,7 +43,7 @@ with `PyChecker <https://pypi.python.org/pypi/pychecker>`_,
 and with `Flake8 <https://pypi.python.org/pypi/flake8>`_ on Python 3.6.0.
 The tests were run with 64-bit Python 2.6.9, 2.7.10, 2.7.13, 3.5.2, 3.5.3
 and 3.6.0, but only on MacOSX 10.10 Yosemite, MacOSX 10.11 El Capitan
-and/or macOS 10.12.2 10.12.3 and 10.12.4 Sierra.
+and/or macOS 10.12.2, 10.12.3 and 10.12.4 Sierra.
 
 The ``zip`` and ``tar`` files in directory ``dist`` each contain the entire
 **PyGeodesy** distribution for installation with the enclosed ``setup.py`` file.
@@ -72,4 +79,4 @@ Documentation tag **JS name:** shows the original JavaScript name.
  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  OTHER DEALINGS IN THE SOFTWARE.
 
-*Last updated: Apr 04, 2017.*
+*Last updated: Apr 06, 2017.*

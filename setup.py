@@ -42,7 +42,7 @@ def _long_description():
 
 setup(
     name='PyGeodesy',
-    packages=['geodesy', 'tests'],
+    packages=['geodesy'],
     description='Python geodesy tools',
     version=_version(),
 
@@ -52,12 +52,17 @@ setup(
     maintainer_email='mrJean1 at Gmail dot com',
 
     license='MIT',
-    keywords='geodesy datum development earth ellipsoid Lambert MGRS Nvector OSGR sphere trigonometry UTM Vincenty',
+    keywords='geodesy datum development earth ellipsoid Lambert MGRS Nvector OSGR Ramer-Douglas-Peucker sphere trigonometry UTM Vincenty Visvalingam-Wyatt',
     url='https://github.com/mrJean1/PyGeodesy',
 
     long_description=_long_description(),
 
-    package_data={'geodesy': ['LICENSE']},  # data_files=[]
+    package_data={'geodesy': ['LICENSE']},
+
+#   data_files=[('images',      ['tests/testRoute.jpg']),
+#               ('tests',       ['tests/test*.py']),
+#               ('testresults', ['testresults/*.txt']),
+#               ('docs',        ['docs/*.*'])],
 
     test_suite='tests.TestSuite',
 

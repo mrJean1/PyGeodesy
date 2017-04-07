@@ -16,13 +16,14 @@ except ImportError:
     sys.path.insert(0, dirname(dirname(__file__)))
 from geodesy import R_NM, F_D, F_DM, F_DMS, F_RAD, \
                     version as geodesy_version, \
-                    degrees, normDMS  # PYCHOK expected
+                    degrees, isclockwise, normDMS  # PYCHOK expected
 
 from inspect import isclass, isfunction, ismethod, ismodule
 from platform import architecture
+from time import time
 
 __all__ = ('versions', 'Tests',)
-__version__ = '17.03.20'
+__version__ = '17.04.04'
 
 try:
     _int = int, long
@@ -65,6 +66,7 @@ class Tests(object):
     _name   = ''
     _prefix = '    '
     _tests  = []
+    _time   = 0
 
     failed = 0
     known  = 0
@@ -78,6 +80,7 @@ class Tests(object):
         else:
             self._name = basename(file)
             self.title(file, version)
+        self._time = time()
 
     def errors(self):
         return self.failed - self.known  # new failures
@@ -99,7 +102,12 @@ class Tests(object):
             r = '(%.1f%%) FAILED%s' % (100.0 * n / self.total, k)
         else:
             n, p, r = 'all', 's', 'passed'
-        self.printf('%s %s test%s %s (%s)', n, self._name, p, r, versions, nl=nl)
+        m, s = 'sec', time() - self._time
+        if s < 1.0:
+            s *= 1000
+            m  = 'ms'
+        t = '(%s) %.3f %s' % (versions, s, m)
+        self.printf('%s %s test%s %s %s', n, self._name, p, r, t, nl=nl)
 
     def test(self, name, value, expect, fmt='%s', known=False):
         self.total += 1  # tests
@@ -116,7 +124,7 @@ class Tests(object):
     def title(self, module, version):
         self.printf('testing module %s version %s', basename(module), version, nl=1)
 
-    def testLatLon(self, LatLon, Sph=True):
+    def testLatLon(self, LatLon, Sph=True):  # MCCABE expected
         # basic LatLon class tests
         p = LatLon(52.20472, 0.14056)
         self.test('lat/lonDMS', p, '52.20472°N, 000.14056°E')  # 52.20472°N, 000.14056°E
@@ -190,6 +198,16 @@ class Tests(object):
             gc = p.greatCircleTo(q)
             self.test('greatCircleTo', gc, '(-0.79408, 0.12859, 0.59406)')  # PYCHOK false?
 
+        if isclockwise:
+            f = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
+            self.test('isclockwise', isclockwise(f), 'False')
+            t = LatLon(45,1), LatLon(46,1), LatLon(46,2), LatLon(45,1)
+            self.test('isclockwise', isclockwise(t), 'True')
+            try:
+                self.test('isclockwise', isclockwise(t[:2]), ValueError)
+            except ValueError as x:
+                self.test('isclockwise', x, 'too few points: 2')  # PYCHOK false?
+
     def testLatLonAttr(self, *modules):
         self.title('LatLon.attrs', __version__)
         attrs = {}
@@ -220,7 +238,7 @@ class Tests(object):
                 n = '%s (%s)' % (n, o)
             self.test(n, hasattr(m, a), 'True')
 
-    def testVectorial(self, LatLon, Nvector, sumOf, isclockwise=None):
+    def testVectorial(self, LatLon, Nvector, sumOf):
         if hasattr(LatLon, 'crossTrackDistanceTo'):
             p = LatLon(53.2611, -0.7972)
             s = LatLon(53.3206, -1.7297)
@@ -257,16 +275,6 @@ class Tests(object):
 
         c = v.copy()
         self.test('copy', c.equals(v), 'True')
-
-        if isclockwise:
-            f = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
-            self.test('isclockwise', isclockwise(f), 'False')
-            t = LatLon(45,1), LatLon(46,1), LatLon(46,2), LatLon(45,1)
-            self.test('isclockwise', isclockwise(t), 'True')
-            try:
-                self.test('isclockwise', isclockwise(t[:2]), ValueError)
-            except ValueError as x:
-                self.test('isclockwise', x, 'too few points: 2')
 
         if hasattr(LatLon, 'nearestOn'):
             s1 = LatLon(51.0, 1.0)

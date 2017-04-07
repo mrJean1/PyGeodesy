@@ -26,6 +26,13 @@ and positions, transcribed from:
 
  - U{https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf} pp 107-109.
 
+Another module offers several functions to simplify or linearize a path,
+including implementations of the original Ramer-Douglas-Peucker (RDP)
+and Visvalingam-Wyatt (VW) algorithms and modified versions of both:
+
+ - U{https://en.m.wikipedia.org/wiki/Ramer–Douglas–Peucker_algorithm}
+ - U{https://hydra.hull.ac.uk/assets/hull:8338/content}
+
 All modules have been statically checked* with
 U{PyChecker<https://pypi.python.org/pypi/pychecker>},
 U{PyFlakes<https://pypi.python.org/pypi/pyflakes>},
@@ -34,7 +41,7 @@ U{McCabe<https://pypi.python.org/pypi/mccabe>} using Python 2.7.10 and 2.7.13
 and with U{Flake8<https://pypi.python.org/pypi/flake8>} on Python 3.6.0.
 The tests have been run with 64-bit Python 2.6.9, 2.7.10, 2.7.13, 3.5.2, 3.5.3
 and 3.6.0, but only on MacOSX 10.10 Yosemite, MacOSX 10.11 El Capitan and/or
-macOS 10.12.2 and 10.12.3 Sierra.
+macOS 10.12.2, 10.12.3 and 10.12.4 Sierra.
 
 The C{zip} and C{tar} files in directory C{dist} each contain the entire
 B{PyGeodesy} distribution for installation with the enclosed C{setup.py} file.
@@ -130,8 +137,9 @@ VincentyError = ellipsoidalVincenty.VincentyError
 __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',
            'sphericalNvector', 'sphericalTrigonometry',
            'VincentyError',
-           'nvector', 'vector3d', 'version')  # extended below
-__version__ = '17.04.04'
+           'nvector', 'vector3d', 'version',
+           'isclockwise')  # extended below
+__version__ = '17.04.06'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
@@ -139,25 +147,28 @@ version = '.'.join(map(str, map(int, __version__.split('.'))))
 # lift all public classes, constants, functions, etc. but
 # only from the following sub-modules ... (see also David
 # Beazley's <http://dabeaz.com/modulepackage/index.html>)
-from datum import *  # PYCHOK __all__
-from dms   import *  # PYCHOK __all__
-from lcc   import *  # PYCHOK __all__
-from mgrs  import *  # PYCHOK __all__
-from osgr  import *  # PYCHOK __all__
-from utils import *  # PYCHOK __all__
-from utm   import *  # PYCHOK __all__
+from bases    import isclockwise  # PYCHOK expected
+from datum    import *  # PYCHOK __all__
+from dms      import *  # PYCHOK __all__
+from lcc      import *  # PYCHOK __all__
+from mgrs     import *  # PYCHOK __all__
+from osgr     import *  # PYCHOK __all__
+from simplify import *  # PYCHOK __all__
+from utils    import *  # PYCHOK __all__
+from utm      import *  # PYCHOK __all__
 
-import datum  # PYCHOK expected
-import dms    # PYCHOK expected
-import lcc    # PYCHOK expected
-import mgrs   # PYCHOK expected
-import osgr   # PYCHOK expected
-import utils  # PYCHOK expected
-import utm    # PYCHOK expected
+import datum     # PYCHOK expected
+import dms       # PYCHOK expected
+import lcc       # PYCHOK expected
+import mgrs      # PYCHOK expected
+import osgr      # PYCHOK expected
+import simplify  # PYCHOK expected
+import utils     # PYCHOK expected
+import utm       # PYCHOK expected
 
 # concat __all__ with the public classes, constants,
 # functions, etc. from the sub-modules mentioned above
-for m in (datum, dms, lcc, mgrs, osgr, utils, utm):
+for m in (datum, dms, lcc, mgrs, osgr, simplify, utils, utm):
     __all__ += tuple(m.__all__)
 del m
 

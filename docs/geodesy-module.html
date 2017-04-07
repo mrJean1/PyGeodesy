@@ -108,6 +108,22 @@
       107-109.
     </li>
   </ul>
+  <p>Another module offers several functions to simplify or linearize a 
+  path, including implementations of the original Ramer-Douglas-Peucker 
+  (RDP) and Visvalingam-Wyatt (VW) algorithms and modified versions of 
+  both:</p>
+  <ul>
+    <li>
+      <a 
+      href="https://en.m.wikipedia.org/wiki/Ramer&#8211;Douglas&#8211;Peucker_algorithm"
+      
+      target="_top">https://en.m.wikipedia.org/wiki/Ramer&#8211;Douglas&#8211;Peucker_algorithm</a>
+    </li>
+    <li>
+      <a href="https://hydra.hull.ac.uk/assets/hull:8338/content" 
+      target="_top">https://hydra.hull.ac.uk/assets/hull:8338/content</a>
+    </li>
+  </ul>
   <p>All modules have been statically checked* with <a 
   href="https://pypi.python.org/pypi/pychecker" 
   target="_top">PyChecker</a>, <a 
@@ -119,7 +135,7 @@
   href="https://pypi.python.org/pypi/flake8" target="_top">Flake8</a> on 
   Python 3.6.0. The tests have been run with 64-bit Python 2.6.9, 2.7.10, 
   2.7.13, 3.5.2, 3.5.3 and 3.6.0, but only on MacOSX 10.10 Yosemite, MacOSX
-  10.11 El Capitan and/or macOS 10.12.2 and 10.12.3 Sierra.</p>
+  10.11 El Capitan and/or macOS 10.12.2, 10.12.3 and 10.12.4 Sierra.</p>
   <p>The <code>zip</code> and <code>tar</code> files in directory 
   <code>dist</code> each contain the entire <b>PyGeodesy</b> distribution 
   for installation with the enclosed <code>setup.py</code> file.</p>
@@ -154,7 +170,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.04.04
+        17.04.06
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -215,6 +231,8 @@
         functions <a href="geodesy.osgr-module.html#parseOSGR" 
         class="link">parseOSGR</a> and <a 
         href="geodesy.osgr-module.html#toOsgr" class="link">toOsgr</a>.</em>    </li>
+    <li class="private"> <strong class="uidlink"><a href="geodesy.simplify-module.html" onclick="show_private();">geodesy.simplify</a></strong>: <em class="summary">This module offers 6 functions to simplify, linearize a path given 
+        as a list, sequence or tuple of LatLon points.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="geodesy.sphericalBase-module.html" onclick="show_private();">geodesy.sphericalBase</a></strong>: <em class="summary">(INTERNAL) Spherical base classes.</em>    </li>
     <li> <strong class="uidlink"><a href="geodesy.sphericalNvector-module.html">geodesy.sphericalNvector</a></strong>: <em class="summary">Vector-based spherical geodetic (lat-/longitude) classes <a 
         href="geodesy.sphericalNvector.LatLon-class.html" 
@@ -225,8 +243,6 @@
         class="link">areaOf</a>, <a 
         href="geodesy.sphericalNvector-module.html#intersection" 
         class="link">intersection</a>, <a 
-        href="geodesy.sphericalNvector-module.html#isclockwise" 
-        class="link">isclockwise</a>, <a 
         href="geodesy.sphericalNvector-module.html#meanOf" 
         class="link">meanOf</a>, <a 
         href="geodesy.sphericalNvector-module.html#triangulate" 
@@ -345,6 +361,24 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Functions</span></td>
 </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="geodesy-module.html#isclockwise" class="summary-sig-name">isclockwise</a>(<span class="summary-sig-arg">points</span>)</span><br />
+      Determine direction of a polygon defined by a list, sequence, set or 
+      tuple of LatLon points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -1005,6 +1039,140 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="geodesy-module.html#simplify1" class="summary-sig-name">simplify1</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">distance</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77142</span>,
+        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Basic simplification of a path: eliminate any points closer together 
+      than the given distance.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="geodesy-module.html#simplify2" class="summary-sig-name">simplify2</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">band2</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77142</span>,
+        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Pipe simplification of a path: eliminate any points too close 
+      together or within the given band along an edge.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="geodesy-module.html#simplifyRDP" class="summary-sig-name">simplifyRDP</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">distance</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77142</span>,
+        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Ramer-Douglas-Peucker (RDP) simplification of a path: eliminate any 
+      points too close together or within the given distance of an edge.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="geodesy-module.html#simplifyRDPm" class="summary-sig-name">simplifyRDPm</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">distance</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77142</span>,
+        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Modified Ramer-Douglas-Peucker (RDP) simplification of a path: 
+      eliminate any points too close together or within the given distance 
+      of an edge.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="geodesy-module.html#simplifyVW" class="summary-sig-name">simplifyVW</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">area2</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77142</span>,
+        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">attr</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Visvalingam-Wyatt (VW) simplification of a path: eliminate any points
+      too close together or with a triangle area below the given area 
+      tolerance (squared).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="geodesy-module.html#simplifyVWm" class="summary-sig-name">simplifyVWm</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">area2</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77142</span>,
+        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">attr</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Modified Visvalingam-Wyatt (VW) simplification of a path: eliminate 
+      any points too close together or with a triangle area below the given
+      area tolerance (squared).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="geodesy-module.html#tanPI_2_2" class="summary-sig-name">tanPI_2_2</a>(<span class="summary-sig-arg">rad</span>)</span><br />
       Computes tan of half angle, rotated.</td>
           <td align="right" valign="top">
@@ -1227,7 +1395,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'17.4.4'"><code class="variable-quote">'</code><code class="variable-string">17.4.4</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'17.4.6'"><code class="variable-quote">'</code><code class="variable-string">17.4.6</code><code class="variable-quote">'</code></code><br />
       Normalized PyGeodesy version (string).
     </td>
   </tr>
@@ -1449,6 +1617,45 @@ Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, \
     <span class="table-header">Function Details</span></td>
 </tr>
 </table>
+<a name="isclockwise"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isclockwise</span>(<span class="sig-arg">points</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Determine direction of a polygon defined by a list, sequence, set or 
+  tuple of LatLon points.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (LatLon[]).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>True if clockwise, False otherwise.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not LatLon.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Too few points or polygon has zero area.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>f = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
+<span class="py-prompt">&gt;&gt;&gt; </span>isclockwise(f)  <span class="py-comment"># False</span></pre>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>t = LatLon(45,1), LatLon(46,1), LatLon(46,2), LatLon(45,1)
+<span class="py-prompt">&gt;&gt;&gt; </span>isclockwise(t)  <span class="py-comment"># True</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
 <a name="bearingDMS"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -2495,6 +2702,223 @@ Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, \
   </dl>
 </td></tr></table>
 </div>
+<a name="simplify1"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">simplify1</span>(<span class="sig-arg">points</span>,
+        <span class="sig-arg">distance</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77142</span>,
+        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Basic simplification of a path: eliminate any points closer together 
+  than the given distance.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - Path points (LatLons).</li>
+        <li><strong class="pname"><code>distance</code></strong> - Tolerance (meter, same units a radius).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes by cos(latitutes) (bool).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Simplified points (list of LatLons).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="simplify2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">simplify2</span>(<span class="sig-arg">points</span>,
+        <span class="sig-arg">band2</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77142</span>,
+        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Pipe simplification of a path: eliminate any points too close together
+  or within the given band along an edge.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - Path points (LatLons).</li>
+        <li><strong class="pname"><code>band2</code></strong> - Half band width (meter, same units a radius).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes by cos(latitutes) (bool).</li>
+        <li><strong class="pname"><code>shortest</code></strong> - Shortest or perpendicular distance (bool).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Simplified points (list of LatLons).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="simplifyRDP"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">simplifyRDP</span>(<span class="sig-arg">points</span>,
+        <span class="sig-arg">distance</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77142</span>,
+        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Ramer-Douglas-Peucker (RDP) simplification of a path: eliminate any 
+  points too close together or within the given distance of an edge.</p>
+  <p>This RDP method exhaustively searches for the point with the greatest 
+  distance, resulting in worst-case complexity O(n**2) where n is the 
+  number of points.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - Path points (LatLons).</li>
+        <li><strong class="pname"><code>distance</code></strong> - Tolerance (meter, same units a radius).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes by cos(latitutes) (bool).</li>
+        <li><strong class="pname"><code>shortest</code></strong> - Shortest or perpendicular distance (bool).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Simplified points (list of LatLons).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="simplifyRDPm"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">simplifyRDPm</span>(<span class="sig-arg">points</span>,
+        <span class="sig-arg">distance</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77142</span>,
+        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Modified Ramer-Douglas-Peucker (RDP) simplification of a path: 
+  eliminate any points too close together or within the given distance of 
+  an edge.</p>
+  <p>This RDP method stops at the first point farther than the given 
+  distance, reducing the wort-case run time (but producing results which 
+  usually differ from the original RDP method).</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - Path points (LatLons).</li>
+        <li><strong class="pname"><code>distance</code></strong> - Tolerance (meter, same units a radius).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes by cos(latitutes) (bool).</li>
+        <li><strong class="pname"><code>shortest</code></strong> - Shortest or perpendicular distance (bool).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Simplified points (list of LatLons).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="simplifyVW"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">simplifyVW</span>(<span class="sig-arg">points</span>,
+        <span class="sig-arg">area2</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77142</span>,
+        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">attr</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Visvalingam-Wyatt (VW) simplification of a path: eliminate any points 
+  too close together or with a triangle area below the given area tolerance
+  (squared).</p>
+  <p>This VW method exhaustively searches for the point with the smallest 
+  triangle area, resulting in worst-case complexity O(n**2) where n is the 
+  number of points.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - Path points (LatLons).</li>
+        <li><strong class="pname"><code>area2</code></strong> - Tolerance (meter, same units a radius).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes by cos(latitutes) (bool).</li>
+        <li><strong class="pname"><code>attr</code></strong> - Points attribute save area value (string).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Simplified points (list of LatLons).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="simplifyVWm"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">simplifyVWm</span>(<span class="sig-arg">points</span>,
+        <span class="sig-arg">area2</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77142</span>,
+        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">attr</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Modified Visvalingam-Wyatt (VW) simplification of a path: eliminate 
+  any points too close together or with a triangle area below the given 
+  area tolerance (squared).</p>
+  <p>This VW method repeatedly removes all points with a triangle area 
+  below the tolerance, significantly reducing the run time (but producing 
+  results which usually differ from the original VW method).</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - Path points (LatLons).</li>
+        <li><strong class="pname"><code>area2</code></strong> - Tolerance (meter, same units a radius).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes by cos(latitutes) (bool).</li>
+        <li><strong class="pname"><code>attr</code></strong> - Points attribute save area value (string).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Simplified points (list of LatLons).</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="tanPI_2_2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -3016,7 +3440,7 @@ Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, <span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Apr  4 18:49:47 2017
+    Generated by Epydoc 3.0.1 on Thu Apr  6 19:57:58 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

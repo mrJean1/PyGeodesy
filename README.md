@@ -26,6 +26,13 @@ and positions, transcribed from:
 
 - <https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf> pp 107-109.
 
+Another module offers several functions to simplify or linearize a path,
+including implementations of the original Ramer-Douglas-Peucker (RDP)
+and Visvalingam-Wyatt (VW) algorithms and modified versions of both:
+
+- <https://en.m.wikipedia.org/wiki/Ramer–Douglas–Peucker_algorithm>
+- <https://hydra.hull.ac.uk/assets/hull:8338/content>
+
 The Python code has been statically checked* with PyChecker, PyFlakes,
 PyCodeStyle (formerly Pep8), McCabe on Python 2.7.10 and 2.7.13
 and with Flake8 on Python 3.6.0.  The tests were run with 64-bit
@@ -79,4 +86,4 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 ```
 
-_Last updated: Apr 04, 2017._
+_Last updated: Apr 06, 2017._

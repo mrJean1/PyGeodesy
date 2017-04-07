@@ -14,7 +14,7 @@ from os.path import dirname, join
 import unittest
 
 __all__ = ('TestSuite', 'run')
-__version__ = '17.03.12'
+__version__ = '17.04.06'
 
 _tests_dir = dirname(__file__)
 
@@ -56,6 +56,9 @@ class TestSuite(unittest.TestCase):
 
     def test_Osgr(self):
         self._run('testOsgr')
+
+    def test_Simplify(self):
+        self._run('testSimplify')
 
     def test_Spherical(self):
         self._run('testSpherical')
