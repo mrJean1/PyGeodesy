@@ -4,7 +4,7 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '17.04.07'
+__version__ = '17.04.09'
 
 from tests import Tests as _Tests
 
@@ -51,7 +51,8 @@ if __name__ == '__main__':  # PYCHOK internal error?
     t.test2(simplify2, Pts, _ms({320: 2327, 160: 3565, 80: 4895, 40: 6130, 20: 7022, 10: 7598, 1: 8239}), adjust=True, shortest=False)
     t.test2(simplify2, Pts, _ms({320: 2206, 160: 3272, 80: 4581, 40: 5838, 20: 6850, 10: 7548, 1: 8247}), adjust=True, shortest=True)
 
-    t.test2(simplifyVWm, Pts, _ms({320: 2005, 160: 3833, 80: 6596, 40: 9931, 20: 12904, 10: 14868, 1: 16482}), adjust=True)
+    t.test2(simplifyVWm, Pts, _ms({320: 1792, 160: 3552, 80: 6267, 40:  9725, 20: 12776, 10: 14811, 1: 16482}), adjust=True)
+    t.test2(simplifyVWm, Pts, _ms({320: 2318, 160: 4377, 80: 7385, 40: 10827, 20: 13643, 10: 15268, 1: 16488}), adjust=False)
 
     t.test2(simplifyRDPm, Pts, _ms({320: 2512, 160: 4106, 80: 6150, 40: 8620, 20: 11138, 10: 13239, 1: 16196}), adjust=True, shortest=False)
     t.test2(simplifyRDPm, Pts, _ms({320: 2526, 160: 4127, 80: 6179, 40: 8654, 20: 11174, 10: 13266, 1: 16201}), adjust=True, shortest=True)
@@ -61,6 +62,7 @@ if __name__ == '__main__':  # PYCHOK internal error?
     Ptsn = Pts[:n]
 
     t.test2(simplifyVW, Ptsn, _ms({320: 347, 160: 590, 80: 883, 40: 1172, 20: 1392, 10: 1528, 1: 1657}), adjust=True)
+    t.test2(simplifyVW, Ptsn, _ms({320: 409, 160: 670, 80: 981, 40: 1242, 20: 1450, 10: 1562, 1: 1657}), adjust=False)
 
     t.test2(simplifyRDP, Ptsn, _ms({320: 1605, 160: 1616, 80: 1630, 40: 1638, 20: 1647, 10: 1654, 1: 1660}), adjust=True, shortest=False)
     t.test2(simplifyRDP, Ptsn, _ms({320: 1605, 160: 1616, 80: 1631, 40: 1639, 20: 1649, 10: 1655, 1: 1661}), adjust=True, shortest=True)

@@ -19,7 +19,7 @@ from math import cos, radians, sin
 # Epydoc to include class and method documentation
 __all__ = ('Base', 'LatLonHeightBase', 'Named', 'VectorBase',
            'isclockwise')
-__version__ = '17.03.21'
+__version__ = '17.04.09'
 
 
 class Base(object):
@@ -316,7 +316,8 @@ class LatLonHeightBase(Base):
 
     def to3xyz(self):
         '''Convert this (geodetic) point to n-vector (normal
-           to the earth's surface) x/y/z components.
+           to the earth's surface) x/y/z components, ignoring
+           the height.
 
            @return: 3-Tuple (x, y, z) in (meter).
         '''

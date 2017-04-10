@@ -22,7 +22,7 @@ from math import atan2, copysign, cos, hypot, sin, sqrt
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('CartesianBase', 'LatLonEllipsoidalBase')
-__version__ = '17.04.07'
+__version__ = '17.04.09'
 
 
 class CartesianBase(Vector3d):
@@ -50,6 +50,14 @@ class CartesianBase(Vector3d):
            concise form: 'The accuracy of geodetic latitude and
            height equations', B. R. Bowring, Survey Review, Vol
            28, 218, Oct 1985.
+
+           See also 'An Efficient Algorithm for Geocentric to
+           Geodetic Coordinate Conversion', Ralph M. Toms,
+           Lawrence Livermore National Laboratory, Sept 1995,
+           <https://www.osti.gov/scitech/biblio/110235> and 'An
+           Improved Algorithm for Geocentric to Geodetic Coordinate
+           Conversion', Ralph Toms, Apr 1996, <https://www.osti.gov/
+           scitech/servlets/purl/231228>.
 
            @keyword datum: Datum to use (L{Datum}).
 
@@ -262,16 +270,17 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
            @return: 3-Tuple (x, y, z) in (meter).
         '''
         a, b = self.to2ab()
-        ca, sa = cos(a), sin(a)
+        sa = sin(a)
 
         E = self.ellipsoid()
         # radius of curvature in prime vertical
         r = E.a / sqrt(1 - E.e2 * sa * sa)
 
         h = self.height
-        return ((h + r) * ca * cos(b),
-                (h + r) * ca * sin(b),
-                (h + r * (1 - E.e2)) * sa)
+        t = (h + r) * cos(a)
+        return (t * cos(b),
+                t * sin(b),
+               (h + r * E.e12) * sa)
 
     def toOsgr(self):
         '''Convert this lat-/longitude to an OSGR coordinate.

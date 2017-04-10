@@ -59,9 +59,11 @@
 </table>
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module simplify</h1><p class="nomargin-top"></p>
-<p>This module offers 6 functions to simplify, linearize a path given as 
-  a list, sequence or tuple of LatLon points.  Note, each function produces
-  different simplified results for the same path.</p>
+<p>Several functions to simplify or linearize a path given as a list, 
+  sequence or tuple of LatLon points.</p>
+  <p>Each of the simplify functions is based on a different algorithm and 
+  produces different simplified results in (very) different run times for 
+  the same path of LatLon points.</p>
   <p>Function <a href="pygeodesy.simplify-module.html#simplify1" 
   class="link">simplify1</a> eliminates points based on edge length.  
   Function <a href="pygeodesy.simplify-module.html#simplify2" 
@@ -86,21 +88,20 @@
   modified Visvalingam-Wyatt (VW) method using the area of the triangle 
   formed by three neigboring points.  The original <a 
   href="pygeodesy.simplify-module.html#simplifyVW" 
-  class="link">simplifyVW</a> method removes only one point per iteration, 
-  one with the smallest triangle area.  Function <a 
+  class="link">simplifyVW</a> method removes only a single point per 
+  iteration, while the modified <a 
   href="pygeodesy.simplify-module.html#simplifyVWm" 
-  class="link">simplifyVWm</a> removes all points with small triangle area 
-  in every iteration.</p>
+  class="link">simplifyVWm</a> removes all points with areas not exceeding 
+  the tolerance in each iteration.</p>
   <p>Functions <a href="pygeodesy.simplify-module.html#simplify2" 
   class="link">simplify2</a>, <a 
   href="pygeodesy.simplify-module.html#simplifyRDP" 
   class="link">simplifyRDP</a> and <a 
   href="pygeodesy.simplify-module.html#simplifyRDPm" 
-  class="link">simplifyRDPm</a> provide keyword <i>shortest</i> to 
-  determine the computation of the distance between a point and a path 
-  edge.  If True, use the shortest distance to path edge or path end 
-  points, False use the perpendicular distance to the extended path 
-  edge.</p>
+  class="link">simplifyRDPm</a> provide keyword <i>shortest</i> to select 
+  the computation of the distance between a point and a path edge.  If 
+  True, use the shortest distance to path edge or path end points, False 
+  use the perpendicular distance to the extended path edge.</p>
   <p>For all functions, keyword <i>adjust</i> scales the longitudinal 
   distance between two points by the cosine of the mean of the 
   latitudes.</p>
@@ -156,12 +157,12 @@
     </li>
   </ul>
   <p>Tested with 64-bit Python 2.6.9, 2.7.13, 3.5.3 and 3.6.0 on macOS 
-  10.12.3 and 10.12.4 Sierra.  Python 3 runs the tests nearly 2x faster 
-  than Python 2.</p>
+  10.12.3 and 10.12.4 Sierra.  On macOS, Python 3 runs the simplify tests 
+  nearly 2x faster than Python 2.</p>
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.04.07
+        17.04.09
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -439,8 +440,8 @@
   <p>Eliminate any points too close together or closer to an edge then the 
   given distance tolerance.</p>
   <p>This RDP method stops at the first point farther than the given 
-  distance, significantly reducing the run time (but producing results 
-  different from the original RDP method).</p>
+  distance tolerance, significantly reducing the run time (but producing 
+  results different from the original RDP method).</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -515,9 +516,9 @@
   points.</p>
   <p>Eliminate any points too close together or with a triangular area not 
   exceeding the given area tolerance squared.</p>
-  <p>This VW method repeatedly removes all points with a triangular area 
-  below the tolerance, significantly reducing the run time (but producing 
-  results different from the original VW method).</p>
+  <p>This VW method removes all points with a triangular area below the 
+  tolerance per iteration, significantly reducing the run time (but 
+  producing results different from the original VW method).</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -525,7 +526,7 @@
         <li><strong class="pname"><code>area2</code></strong> - Tolerance (meter, same units a radius).</li>
         <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
-        <li><strong class="pname"><code>attr</code></strong> - Points attribute save area value (string).</li>
+        <li><strong class="pname"><code>attr</code></strong> - Attribute to save the area value (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Simplified points (list of LatLons).</dd>
@@ -564,7 +565,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Apr  7 15:24:23 2017
+    Generated by Epydoc 3.0.1 on Sun Apr  9 23:32:16 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -7,7 +7,14 @@ for geodetic (lat-/longitude) and cartesian (x/y/z) coordinates.
 
 Transcribed from JavaScript originals by I{(C) Chris Veness 2005-2016}
 and published under the same U{MIT License<https://opensource.org/licenses/MIT>}**.
-For more information and further details see:
+
+There are two modules for ellipsoidal earth models, I{ellipsoidalVincenty}
+and I{-Nvector} and two for spherical ones, I{sphericalTrigonometry} and
+I{-Nvector}.  Each module provides a I{LatLon} class with methods to
+compute distance, initial and final bearing and conversions among other
+things.  For more information and further details see the
+U{documentation<https://pythonhosted.org/PyGeodesy/>} and some of the
+original descriptions:
 
  - U{https://github.com/chrisveness/geodesy/}
  - U{http://www.movable-type.co.uk/scripts/latlong.html}
@@ -26,9 +33,9 @@ and positions, transcribed from:
 
  - U{https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf} pp 107-109.
 
-Another module offers several functions to simplify or linearize a path,
-including implementations of the original Ramer-Douglas-Peucker (RDP)
-and Visvalingam-Wyatt (VW) algorithms and modified versions of both:
+Another module offers several functions to simplify or linearize a path
+of LatLon points, including implementations of the Ramer-Douglas-Peucker
+and Visvalingam-Wyatt algorithms and modified versions of both:
 
  - U{https://en.m.wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm}
  - U{https://hydra.hull.ac.uk/assets/hull:8338}
@@ -44,41 +51,17 @@ The tests have been run with 64-bit Python 2.6.9, 2.7.10, 2.7.13, 3.5.2, 3.5.3
 and 3.6.0, but only on MacOSX 10.10 Yosemite, MacOSX 10.11 El Capitan and/or
 macOS 10.12.2, 10.12.3 and 10.12.4 Sierra.
 
-The C{zip} and C{tar} files in directory C{dist} each contain the entire
-B{PyGeodesy} distribution for installation with the enclosed C{setup.py} file.
-
-The U{documentation<https://pythonhosted.org/PyGeodesy/>} was generated
+The C{zip} and C{tar} distribution files were created with command line
+C{python setup.py sdist --formats=zip,gztar,bztar}.  In addition to the
+Python code, the distribution files contain test cases, test results and
+the entire U{documentation<https://pythonhosted.org/PyGeodesy/>} generated
 by U{Epydoc<https://pypi.python.org/pypi/epydoc>} using command line:
 C{epydoc --html --no-private --no-source --name=PyGeodesy --url=... -v pygeodesy}.
-
-Several function and method names differ from the JavaScript version.
-Documentation tag B{JS name:} shows the original JavaScript name.
-
+Some function and method names differ from the JavaScript version. In such
+cases documentation tag B{JS name:} shows the original JavaScript name.
 _
 
 *) U{PyChecker postprocessor<http://code.activestate.com/recipes/546532>}
-
-**) U{MIT License<https://opensource.org/licenses/MIT>} text follows:
-
-Copyright (C) 2016-2017 -- I{mrJean1 at Gmail dot com}
-
-Permission is hereby granted, free of charge, to any person obtaining a
-copy of this software and associated documentation files (the "Software"),
-to deal in the Software without restriction, including without limitation
-the rights to use, copy, modify, merge, publish, distribute, sublicense,
-and/or sell copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included
-in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-OTHER DEALINGS IN THE SOFTWARE.
 
 @newfield example: Example, Examples
 @newfield JSname: JS name, JS names
@@ -141,7 +124,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',
            'VincentyError',
            'nvector', 'vector3d', 'version',
            'isclockwise')  # extended below
-__version__ = '17.04.08'
+__version__ = '17.04.09'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))

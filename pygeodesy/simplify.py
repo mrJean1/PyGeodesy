@@ -1,9 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-'''This module offers 6 functions to simplify, linearize a path
-given as a list, sequence or tuple of LatLon points.  Note, each
-function produces different simplified results for the same path.
+'''Several functions to simplify or linearize a path given as a list,
+sequence or tuple of LatLon points.
+
+Each of the simplify functions is based on a different algorithm and
+produces different simplified results in (very) different run times
+for the same path of LatLon points.
 
 Function L{simplify1} eliminates points based on edge length.  Function
 L{simplify2} slides a pipe over each edge, removing subsequent points
@@ -19,15 +22,15 @@ first point exceeding the distance tolerance.
 Functions L{simplifyVW} and L{simplifyVWm} are based on the original,
 respectively modified Visvalingam-Wyatt (VW) method using the area of
 the triangle formed by three neigboring points.  The original L{simplifyVW}
-method removes only one point per iteration, one with the smallest
-triangle area.  Function L{simplifyVWm} removes all points with small
-triangle area in every iteration.
+method removes only a single point per iteration, while the modified
+L{simplifyVWm} removes all points with areas not exceeding the
+tolerance in each iteration.
 
 Functions L{simplify2}, L{simplifyRDP} and L{simplifyRDPm} provide
-keyword I{shortest} to determine the computation of the distance
-between a point and a path edge.  If True, use the shortest distance
-to path edge or path end points, False use the perpendicular distance
-to the extended path edge.
+keyword I{shortest} to select the computation of the distance between
+a point and a path edge.  If True, use the shortest distance to path
+edge or path end points, False use the perpendicular distance to the
+extended path edge.
 
 For all functions, keyword I{adjust} scales the longitudinal distance
 between two points by the cosine of the mean of the latitudes.
@@ -46,8 +49,8 @@ See:
  - U{https://news.ycombinator.com/item?id=4055445}
 
 Tested with 64-bit Python 2.6.9, 2.7.13, 3.5.3 and 3.6.0 on macOS
-10.12.3 and 10.12.4 Sierra.  Python 3 runs the tests nearly 2x faster
-than Python 2.
+10.12.3 and 10.12.4 Sierra.  On macOS, Python 3 runs the simplify
+tests nearly 2x faster than Python 2.
 
 @newfield example: Example, Examples
 '''
@@ -60,7 +63,7 @@ from math  import cos, degrees, radians
 __all__ = ('simplify1', 'simplify2',
            'simplifyRDP', 'simplifyRDPm',
            'simplifyVW', 'simplifyVWm')
-__version__ = '17.04.08'
+__version__ = '17.04.09'
 
 
 # try:
@@ -128,7 +131,7 @@ class _Sy(object):
 
     def d2i1(self, j, n):
         '''Yields perpendicular distance for all points[j..n]
-           to path edge or line thru points[s] to [e].
+           to the path edge or line thru points[s] to [e].
         '''
         d21, x21, y21, s, _ = self.d2xyse
         eps, d2xy = self.eps, self.d2xy
@@ -141,7 +144,7 @@ class _Sy(object):
 
     def d2i2(self, j, n):
         '''Yields shortest distance for all points[j..n]
-           to path edge or line thru points[s] to [e].
+           to the path edge or line thru points[s] to [e].
         '''
         d21, x21, y21, s, e = self.d2xyse
         eps, d2xy = self.eps, self.d2xy
@@ -175,7 +178,9 @@ class _Sy(object):
         return d2, dx, dy
 
     def h2t(self, i1, i0, i2):
-        '''Computes Visvalingam-Wyatt triangular area, doubled.
+        '''Computes the Visvalingam-Wyatt triangular area,
+           points[i1] to [i2] form the base and points[i0]
+           is the top of the triangle.
         '''
         d21, x21, y21 = self.d2xy(i1, i2)
         if d21 > 0:  # self.eps
@@ -192,29 +197,44 @@ class _Sy(object):
         '''
         return [self.pts[i] for i in sorted(r.keys())]
 
-    def rm(self, m, eps):
-        '''Eliminates Visvalingam-Wyatt points, recursively.
+    def rm1(self, m, eps):
+        '''Eliminates one Visvalingam-Wyatt point and recompute
+           the trangular area of each neighboring point, but
+           remove any of those too until its recomputed area
+           exceeds the tolerance.
         '''
-        h2t, r, rm = self.h2t, self.r, self.rm
-        # remove a point and recompute the trangular area of
-        # both neighboring points, recursively removing the
-        # latter if the area doesn't exceeds the tolerance
+        h2t, r = self.h2t, self.r
+
         r.pop(m)
-        for i in (m, m - 1):
-            if 0 < i < (len(r) - 1):
-                h2 = h2t(r[i-1].ix, r[i].ix, r[i+1].ix)
+        for n in (m, m - 1):
+            while 0 < n < (len(r) - 1):
+                h2 = h2t(r[n-1].ix, r[n].ix, r[n+1].ix)
                 if h2 > eps:
-                    r[i].h2 = h2
+                    r[n].h2 = h2
+                    break  # while
                 else:
-                    rm(i, eps)
+                    r.pop(n)
+
+    def rm2(self, eps):
+        '''Eliminates all Visvalingam-Wyatt points with a
+           triangular area not exceeding the tollerance.
+        '''
+        r, rm1 = self.r, self.rm1
+
+        i = len(r) - 1
+        while i > 1:
+            i -= 1
+            if r[i].h2 <= eps:
+                rm1(i, eps)
+                i = min(i, len(r) - 1)
 
     def vw(self):
-        '''Initializes Visvalingam-Wyatt.
+        '''Initializes Visvalingam-Wyatt as list of 2-tuples
+           (ix, h2) where ix is the points[] index and h2
+           twice the triangular area of that points[ix].
         '''
         n, h2t, s2 = self.n, self.h2t, self.s2
-        # make list of 2-tuples (ix, h2) where
-        # ix is the points index and h2 twice
-        # the triangular area of points[ix]
+
         if n > 2:
             s2 *= 2
             r = [_T2(0, s2 + 1)]
@@ -226,14 +246,20 @@ class _Sy(object):
             r = []
 
         self.r, self.s2 = r, s2
-        return n, r
+        return len(r), r
 
     def vwr(self, attr):
-        '''Returns Visvalingam-Wyatt results as dict.
+        '''Returns Visvalingam-Wyatt results as dict,
+           optionally including the triangular area
+           (in meters) for each simplified point.
         '''
-        pts, r, radius = self.pts, self.r, self.radius
+        pts, r, radius, s2 = self.pts, self.r, self.radius, self.s2
+
+        # double check the minimal triangular area
+        assert min(t2.h2 for t2 in r) > s2
 
         if attr:  # return triangular area (double)
+            r[0].h2 = r[-1].h2 = 0
             for t2 in r:  # convert back to meter
                 setattr(pts[t2.ix], attr, radians(t2.h2) * radius)
 
@@ -311,15 +337,15 @@ def simplify2(points, band2, radius=R_M, adjust=True, shortest=False):
 
 
 def simplifyRDP(points, distance, radius=R_M, adjust=True, shortest=False):
-    '''Ramer-Douglas-Peucker (RDP) simplification of a path of LatLon
-       points.
+    '''Ramer-Douglas-Peucker (RDP) simplification of a path of
+       LatLon points.
 
-       Eliminate any points too close together or closer to an edge
-       than the given distance tolerance.
+       Eliminate any points too close together or closer to an
+       edge than the given distance tolerance.
 
-       This RDP method exhaustively searches for the point with the
-       largest distance, resulting in worst-case complexity O(n**2)
-       where n is the number of points.
+       This RDP method exhaustively searches for the point with
+       the largest distance, resulting in worst-case complexity
+       O(n**2) where n is the number of points.
 
        @param points: Path points (LatLons).
        @param distance: Tolerance (meter, same units a radius).
@@ -365,9 +391,9 @@ def simplifyRDPm(points, distance, radius=R_M, adjust=True, shortest=False):
        Eliminate any points too close together or closer to an edge
        then the given distance tolerance.
 
-       This RDP method stops at the first point farther than the given
-       distance, significantly reducing the run time (but producing
-       results different from the original RDP method).
+       This RDP method stops at the first point farther than the
+       given distance tolerance, significantly reducing the run time
+       (but producing results different from the original RDP method).
 
        @param points: Path points (LatLons).
        @param distance: Tolerance (meter, same units a radius).
@@ -426,25 +452,21 @@ def simplifyVW(points, area2, radius=R_M, adjust=True, attr=None):
 
     n, r = S.vw()
     if n > 2:
-        rm, s2 = S.rm, S.s2
-
-        # remove any points too close
-        # together or with zero area
-        for i in range(len(r)-2, 0, -1):
-            if not r[i].h2:
-                rm(i, 0)
+        # remove any points too close or
+        # with a zero triangular area
+        S.rm2(0)
 
         # keep removing the point with the smallest
         # area until latter exceeds the tolerance
         while len(r) > 2:
-            m, m2 = 0, s2 + 1
+            m, m2 = 0, S.s2 + 1
             for i in range(1, len(r)-1):
                 h2 = r[i].h2
                 if h2 < m2:
                     m, m2 = i, h2
-            if m2 > s2:
+            if m2 > S.s2:
                 break
-            rm(m, 0)
+            S.rm1(m, 0)
 
     return S.points(S.vwr(attr))
 
@@ -456,33 +478,26 @@ def simplifyVWm(points, area2, radius=R_M, adjust=True, attr=None):
        Eliminate any points too close together or with a triangular
        area not exceeding the given area tolerance squared.
 
-       This VW method repeatedly removes all points with a triangular
-       area below the tolerance, significantly reducing the run time
-       (but producing results different from the original VW method).
+       This VW method removes all points with a triangular area
+       below the tolerance per iteration, significantly reducing the
+       run time (but producing results different from the original
+       VW method).
 
        @param points: Path points (LatLons).
        @param area2: Tolerance (meter, same units a radius).
        @keyword radius: Earth radius (meter).
        @keyword adjust: Adjust longitudes (bool).
-       @keyword attr: Points attribute save area value (string).
+       @keyword attr: Attribute to save the area value (string).
 
        @return: Simplified points (list of LatLons).
     '''
     S = _Sy(points, area2, radius, adjust, False)
 
-    n, r = S.vw()
+    n, _ = S.vw()
     if n > 2:
-        rm, s2 = S.rm, S.s2
-
-        # keep removing all points with
-        # an area below the tolerance
-        m = n + 1
-        while m > n > 2:
-            m = n = len(r)
-            for i in range(m-2, 0, -1):
-                if i < n and r[i].h2 <= s2:
-                    rm(i, s2)
-                    n = len(r)
+        # remove all points with an area
+        # not exceeding the tolerance
+        S.rm2(S.s2)
 
     return S.points(S.vwr(attr))
 
