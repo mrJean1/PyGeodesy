@@ -10,7 +10,7 @@ and U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
 @newfield example: Example, Examples
 '''
 
-from math import degrees, pi as PI, radians, sin, sqrt, tan
+from math import degrees, pi as PI, radians, sin, sqrt, tan  # pow
 try:
     from math import fsum  # precision sum, Python 2.6+
 except ImportError:
@@ -22,7 +22,7 @@ import sys
 
 # all public contants, classes and functions
 __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2',  # constants
-           'cbrt',
+           'cbrt', 'cbrt2',
            'degrees', 'degrees90', 'degrees180', 'degrees360',
            'false2f', 'favg', 'fdot', 'fdot3', 'fStr', 'fsum',
            'halfs', 'hsin', 'hypot1', 'hypot3',
@@ -31,7 +31,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2',  # constants
            'tanPI_2_2',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI', 'wrapPI2', 'wrapPI_2')
-__version__ = '17.03.20'
+__version__ = '17.04.10'
 
 try:
     _Ints = int, long  #: (INTERNAL) Int objects (tuple)
@@ -50,7 +50,8 @@ EPS2 = sqrt(EPS)  #: M{sqrt(EPS)} (float)
 PI2  = PI * 2  #: Two PI, M{PI * 2} (float)  # PYCHOK expected
 PI_2 = PI / 2  #: Half PI, M{PI / 2} (float)
 
-_3rd = 1.0 / 3.0  #: (INTERNAL) One third (float)
+_1_3rd = 1.0 / 3.0  #: (INTERNAL) One third (float)
+_2_3rd = 2.0 / 3.0  #: (INTERNAL) Two third (float)
 
 
 def cbrt(x):
@@ -63,9 +64,19 @@ def cbrt(x):
     # simpler and more accurate than Ken Turkowski's CubeRoot, see
     # <http://people.freebsd.org/~lstewart/references/apple_tr_kt32_cuberoot.pdf>
     if x < 0:
-        return -(float(-x) ** _3rd)
+        return -pow(-x, _1_3rd)
     else:
-        return float(x) ** _3rd
+        return  pow( x, _1_3rd)
+
+
+def cbrt2(x):
+    '''Computes squared cubic root M{x**(2/3)}.
+
+       @param x: Scalar (float or int).
+
+       @return: Cubic root squared (float).
+    '''
+    return pow(abs(x), _2_3rd)
 
 
 def degrees90(rad):

@@ -4,7 +4,7 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '17.04.09'
+__version__ = '17.04.11'
 
 from tests import Tests as _Tests
 
@@ -25,7 +25,8 @@ class Tests(_Tests):
 
         for m in reversed(sorted(ms.keys())):
             t = time()
-            n = len(simplify(points, m, **kwds))
+            r = simplify(points, m, **kwds)
+            n = len(r)
             t = time() - t
             t = '%s %dm (%.3f sec)' % (s, m, t)
             self.test(t, n, str(ms[m]))
@@ -36,7 +37,7 @@ class Tests(_Tests):
 if __name__ == '__main__':  # PYCHOK internal error?
 
     import sys
-    from testRoutes import Pts
+    from testRoutes import Pts, PtsFFI  # RdpFFI
 
     # number of meter values for each test
     m = 1 if len(sys.argv) < 2 else int(sys.argv[1])
@@ -49,7 +50,7 @@ if __name__ == '__main__':  # PYCHOK internal error?
     t.test2(simplify1, Pts, _ms({320: 4423, 160: 6638, 80: 9362, 40: 12079, 20: 14245, 10: 15621, 1: 16597}), adjust=True)
 
     t.test2(simplify2, Pts, _ms({320: 2327, 160: 3565, 80: 4895, 40: 6130, 20: 7022, 10: 7598, 1: 8239}), adjust=True, shortest=False)
-    t.test2(simplify2, Pts, _ms({320: 2206, 160: 3272, 80: 4581, 40: 5838, 20: 6850, 10: 7548, 1: 8247}), adjust=True, shortest=True)
+    t.test2(simplify2, Pts, _ms({320: 2440, 160: 3753, 80: 5116, 40: 6347, 20: 7188, 10: 7709, 1: 8247}), adjust=True, shortest=True)
 
     t.test2(simplifyVWm, Pts, _ms({320: 1792, 160: 3552, 80: 6267, 40:  9725, 20: 12776, 10: 14811, 1: 16482}), adjust=True)
     t.test2(simplifyVWm, Pts, _ms({320: 2318, 160: 4377, 80: 7385, 40: 10827, 20: 13643, 10: 15268, 1: 16488}), adjust=False)
@@ -66,6 +67,10 @@ if __name__ == '__main__':  # PYCHOK internal error?
 
     t.test2(simplifyRDP, Ptsn, _ms({320: 1605, 160: 1616, 80: 1630, 40: 1638, 20: 1647, 10: 1654, 1: 1660}), adjust=True, shortest=False)
     t.test2(simplifyRDP, Ptsn, _ms({320: 1605, 160: 1616, 80: 1631, 40: 1639, 20: 1649, 10: 1655, 1: 1661}), adjust=True, shortest=True)
+
+    # different points
+    t.test2(simplifyVW,  PtsFFI, _ms({1678:  2, 1000:  3, 100: 18, 10: 63, 1: 69}), adjust=False)
+    t.test2(simplifyRDP, PtsFFI, _ms({1678: 11, 1000: 31, 100: 61, 10: 67, 1: 68}), adjust=False, shortest=False)  # XXX len(RdpFFI) = 7
 
     t.results()
     t.exit()

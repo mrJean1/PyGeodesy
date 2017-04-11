@@ -63,7 +63,7 @@ from math  import cos, degrees, radians
 __all__ = ('simplify1', 'simplify2',
            'simplifyRDP', 'simplifyRDPm',
            'simplifyVW', 'simplifyVWm')
-__version__ = '17.04.09'
+__version__ = '17.04.11'
 
 
 # try:
@@ -92,7 +92,7 @@ class _Sy(object):
     adjust = False
     d2i    = None  # d2i1 or d2i2
     d2xyse = ()
-    eps    = EPS
+    eps    = EPS  # near zero tolerance
     n      = 0
     pts    = []
     radius = R_M
@@ -115,10 +115,7 @@ class _Sy(object):
         # tolerance converted to degrees squared
         s2  = degrees(float(tolerance) / radius)
         s2 *= s2
-        self.s2 = s2
-
-        if s2 > EPS and shortest:
-            self.eps = s2
+        self.s2 = max(s2, EPS)
 
         self.d2i = self.d2i2 if shortest else self.d2i1  # PYCHOK false
 
@@ -183,9 +180,9 @@ class _Sy(object):
            is the top of the triangle.
         '''
         d21, x21, y21 = self.d2xy(i1, i2)
-        if d21 > 0:  # self.eps
+        if d21 > self.eps:
             d01, x01, y01 = self.d2xy(i1, i0)
-            if d01 > 0:  # self.eps
+            if d01 > self.eps:
                 h2 = x01 * y21 + y01 * x21
                 # triangle height h = sqrt(h2 * h2 / d21)
                 # and area = h * sqrt(d21) / 2 == h2 / 2
@@ -197,11 +194,11 @@ class _Sy(object):
         '''
         return [self.pts[i] for i in sorted(r.keys())]
 
-    def rm1(self, m, eps):
-        '''Eliminates one Visvalingam-Wyatt point and recompute
-           the trangular area of each neighboring point, but
-           remove any of those too until its recomputed area
-           exceeds the tolerance.
+    def rm1(self, m, tol):
+        '''Eliminates one Visvalingam-Wyatt point and recomputes
+           the trangular area of both neighboring points, but
+           removes those too until its recomputed area exceeds
+           the tolerance.
         '''
         h2t, r = self.h2t, self.r
 
@@ -209,29 +206,29 @@ class _Sy(object):
         for n in (m, m - 1):
             while 0 < n < (len(r) - 1):
                 h2 = h2t(r[n-1].ix, r[n].ix, r[n+1].ix)
-                if h2 > eps:
+                if h2 > tol:
                     r[n].h2 = h2
                     break  # while
                 else:
                     r.pop(n)
 
-    def rm2(self, eps):
+    def rm2(self, tol):
         '''Eliminates all Visvalingam-Wyatt points with a
-           triangular area not exceeding the tollerance.
+           triangular area not exceeding the tolerance.
         '''
         r, rm1 = self.r, self.rm1
 
         i = len(r) - 1
         while i > 1:
             i -= 1
-            if r[i].h2 <= eps:
-                rm1(i, eps)
+            if r[i].h2 <= tol:
+                rm1(i, tol)
                 i = min(i, len(r) - 1)
 
     def vw(self):
         '''Initializes Visvalingam-Wyatt as list of 2-tuples
            (ix, h2) where ix is the points[] index and h2
-           twice the triangular area of that points[ix].
+           the triangular area (times 2) of that point.
         '''
         n, h2t, s2 = self.n, self.h2t, self.s2
 
@@ -256,7 +253,7 @@ class _Sy(object):
         pts, r, radius, s2 = self.pts, self.r, self.radius, self.s2
 
         # double check the minimal triangular area
-        assert min(t2.h2 for t2 in r) > s2
+        assert min(t2.h2 for t2 in r) > s2 > 0
 
         if attr:  # return triangular area (double)
             r[0].h2 = r[-1].h2 = 0

@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.04.07'
+__version__ = '17.04.11'
 
 from tests import Tests as _Tests
 
@@ -63,6 +63,10 @@ class Tests(_Tests):
                 self.test('ValueError' + n, x, 'other Ellipsoid mistmatch: Ellipsoids.Airy1830 vs Ellipsoids.' + d.ellipsoid.name)
             except Exception as x:
                 self.test('ValueError' + n, x, 'ValueError ...' + d.ellipsoid.name)
+
+        Boston = LatLon(42.3541165, -71.0693514, datum=d)
+        NewYork = LatLon(40.7791472, -73.9680804, datum=d)
+        m = Boston.distanceTo(NewYork)
 
         p = LatLon(-37.95103342, 144.42486789, datum=d)
         q = p.copy()
@@ -132,6 +136,31 @@ class Tests(_Tests):
         f = p.finalBearingTo(q)
         t = bearingDMS(f, prec=4) + ', ' + compassDMS(f, form=F_DMS, prec=2)
         self.test('finalBearingTo' + n, t, '232.8246°, 232°49′28.59″SW')
+
+        # <https://github.com/maurycyp/vincenty> Maurycy Pietrzak
+        Boston = LatLon(42.3541165, -71.0693514, datum=d)
+        NewYork = LatLon(40.7791472, -73.9680804, datum=d)
+        m = Boston.distanceTo(NewYork)
+        self.test('distanceToMP' + n, '%.3f' % m, '298396.057')
+
+        p = LatLon(0, 0, datum=d)
+        q = LatLon(0, 1, datum=d)
+        m = p.distanceTo(q)
+        self.test('distanceToMP' + n, '%.3f' % m, '111319.491')
+
+        q = LatLon(1, 0, datum=d)
+        m = p.distanceTo(q)
+        self.test('distanceToMP' + n, '%.3f' % m, '110574.389')
+
+        # <https://pypi.python.org/pypi/pygc> Kyle Wilcox
+        p = LatLon(0, 50, datum=d)
+        q = LatLon(0, 52, datum=d)
+        m = p.distanceTo(q)
+        self.test('distanceToKW' + n, '%.3f' % m, '222638.982')
+
+        q = LatLon(0, 49, datum=d)
+        m = p.distanceTo(q)
+        self.test('distanceToKW' + n, '%.3f' % m, '111319.491')
 
     def testNOAA(self, LatLon):
         # <https://www.ngs.noaa.gov/PC_PROD/Inv_Fwd/readme.htm>
