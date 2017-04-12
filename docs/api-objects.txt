@@ -407,8 +407,9 @@ pygeodesy.datum.Ellipsoid.Beta6	pygeodesy.datum.Ellipsoid-class.html#Beta6
 pygeodesy.datum.Ellipsoid._Mabcd	pygeodesy.datum.Ellipsoid-class.html#_Mabcd
 pygeodesy.datum.Ellipsoid.e4	pygeodesy.datum.Ellipsoid-class.html#e4
 pygeodesy.datum.Ellipsoid.Rm	pygeodesy.datum.Ellipsoid-class.html#Rm
-pygeodesy.datum.Ellipsoid._Beta6	pygeodesy.datum.Ellipsoid-class.html#_Beta6
+pygeodesy.datum.Ellipsoid.n	pygeodesy.datum.Ellipsoid-class.html#n
 pygeodesy.datum.Ellipsoid.__init__	pygeodesy.datum.Ellipsoid-class.html#__init__
+pygeodesy.datum.Ellipsoid.f_	pygeodesy.datum.Ellipsoid-class.html#f_
 pygeodesy.bases.Base.topsub	pygeodesy.bases.Base-class.html#topsub
 pygeodesy.datum.Ellipsoid.e12	pygeodesy.datum.Ellipsoid-class.html#e12
 pygeodesy.datum.Ellipsoid.isellipsoidal	pygeodesy.datum.Ellipsoid-class.html#isellipsoidal
@@ -432,7 +433,7 @@ pygeodesy.datum.Ellipsoid.e	pygeodesy.datum.Ellipsoid-class.html#e
 pygeodesy.bases.Named.name	pygeodesy.bases.Named-class.html#name
 pygeodesy.datum.Ellipsoid.e22	pygeodesy.datum.Ellipsoid-class.html#e22
 pygeodesy.datum.Ellipsoid.f	pygeodesy.datum.Ellipsoid-class.html#f
-pygeodesy.datum.Ellipsoid.n	pygeodesy.datum.Ellipsoid-class.html#n
+pygeodesy.datum.Ellipsoid._Beta6	pygeodesy.datum.Ellipsoid-class.html#_Beta6
 pygeodesy.datum.Ellipsoid.R	pygeodesy.datum.Ellipsoid-class.html#R
 pygeodesy.bases.Base.__repr__	pygeodesy.bases.Base-class.html#__repr__
 pygeodesy.datum.Ellipsoid._K6	pygeodesy.datum.Ellipsoid-class.html#_K6
