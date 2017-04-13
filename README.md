@@ -31,9 +31,9 @@ and positions, transcribed from:
 
 - <https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf> pp 107-109
 
-Another module offers several functions to simplify or linearize a path
-of LatLon points, including implementations of the Ramer-Douglas-Peucker
-and Visvalingam-Wyatt algorithms and modified versions of both:
+Another module offers functions to simplify or linearize a path of
+_LatLon_ points, including implementations of the Ramer-Douglas-Peucker
+and Visvalingam-Whyatt algorithms and modified versions of both:
 
 - <https://en.m.wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm>
 - <https://hydra.hull.ac.uk/assets/hull:8338>
@@ -65,4 +65,4 @@ __
  - Flake8 <https://pypi.python.org/pypi/flake8>
  - Epydoc <https://pypi.python.org/pypi/epydoc>
 
-_Last updated: Apr 11, 2017._
+_Last updated: Apr 12, 2017._

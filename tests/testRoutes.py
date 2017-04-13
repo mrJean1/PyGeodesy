@@ -3,12 +3,12 @@
 
 # Test the simplify functions.
 
-# <https://github.com/milkbread/Visvalingam-Wyatt>
+# <https://github.com/milkbread/Visvalingam-Wyatt>  not Whyatt!
 # <https://github.com/milkbread/Visvalingam-Wyatt/blob/master/route.json>
 # <https://github.com/milkbread/Visvalingam-Wyatt/blob/master/out.json>
 
 __all__ = ('Pts', 'PtsFFI', 'RdpFFI', 'VwPts')
-__version__ = '17.04.11'
+__version__ = '17.04.12'
 
 
 class _LatLon(object):

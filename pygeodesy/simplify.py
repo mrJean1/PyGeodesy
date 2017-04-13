@@ -20,7 +20,7 @@ point in each iteration, while function L{simplifyRDPm} stops at the
 first point exceeding the distance tolerance.
 
 Functions L{simplifyVW} and L{simplifyVWm} are based on the original,
-respectively modified Visvalingam-Wyatt (VW) method using the area of
+respectively modified Visvalingam-Whyatt (VW) method using the area of
 the triangle formed by three neigboring points.  The original L{simplifyVW}
 method removes only a single point per iteration, while the modified
 L{simplifyVWm} removes all points with areas not exceeding the
@@ -36,17 +36,16 @@ For all functions, keyword I{adjust} scales the longitudinal distance
 between two points by the cosine of the mean of the latitudes.
 
 See:
- - U{https://en.m.wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm}
- - U{https://hydra.hull.ac.uk/assets/hull:8338}
- - U{https://www.cs.ubc.ca/cgi-bin/tr/1992/TR-92-07.pdf}
+ - U{http://en.wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm}
+ - U{http://hydra.hull.ac.uk/resources/hull:8338}
+ - U{http://bost.ocks.org/mike/simplify/}
+ - U{http://www.cs.ubc.ca/cgi-bin/tr/1992/TR-92-07.pdf}
  - U{http://web.cs.sunyit.edu/~poissad/projects/Curve/about_project.php}
  - U{http://www.bdcc.co.uk/Gmaps/GDouglasPeuker.js}
- - U{https://github.com/mourner/simplify-js/}
- - U{https://github.com/omarestrella/simplify.py/}
- - U{https://bost.ocks.org/mike/simplify/}
- - U{https://pypi.python.org/pypi/visvalingam}
- - U{https://pypi.python.org/pypi/simplification/}
- - U{https://news.ycombinator.com/item?id=4055445}
+ - U{http://github.com/mourner/simplify-js/}
+ - U{http://github.com/omarestrella/simplify.py/}
+ - U{http://pypi.python.org/pypi/visvalingam}
+ - U{http://pypi.python.org/pypi/simplification/}
 
 Tested with 64-bit Python 2.6.9, 2.7.13, 3.5.3 and 3.6.0 on macOS
 10.12.3 and 10.12.4 Sierra.  On macOS, Python 3 runs the simplify
@@ -63,7 +62,7 @@ from math  import cos, degrees, radians
 __all__ = ('simplify1', 'simplify2',
            'simplifyRDP', 'simplifyRDPm',
            'simplifyVW', 'simplifyVWm')
-__version__ = '17.04.11'
+__version__ = '17.04.12'
 
 
 # try:
@@ -175,7 +174,7 @@ class _Sy(object):
         return d2, dx, dy
 
     def h2t(self, i1, i0, i2):
-        '''Computes the Visvalingam-Wyatt triangular area,
+        '''Computes the Visvalingam-Whyatt triangular area,
            points[i1] to [i2] form the base and points[i0]
            is the top of the triangle.
         '''
@@ -195,7 +194,7 @@ class _Sy(object):
         return [self.pts[i] for i in sorted(r.keys())]
 
     def rm1(self, m, tol):
-        '''Eliminates one Visvalingam-Wyatt point and recomputes
+        '''Eliminates one Visvalingam-Whyatt point and recomputes
            the trangular area of both neighboring points, but
            removes those too until its recomputed area exceeds
            the tolerance.
@@ -213,7 +212,7 @@ class _Sy(object):
                     r.pop(n)
 
     def rm2(self, tol):
-        '''Eliminates all Visvalingam-Wyatt points with a
+        '''Eliminates all Visvalingam-Whyatt points with a
            triangular area not exceeding the tolerance.
         '''
         r, rm1 = self.r, self.rm1
@@ -226,7 +225,7 @@ class _Sy(object):
                 i = min(i, len(r) - 1)
 
     def vw(self):
-        '''Initializes Visvalingam-Wyatt as list of 2-tuples
+        '''Initializes Visvalingam-Whyatt as list of 2-tuples
            (ix, h2) where ix is the points[] index and h2
            the triangular area (times 2) of that point.
         '''
@@ -246,7 +245,7 @@ class _Sy(object):
         return len(r), r
 
     def vwr(self, attr):
-        '''Returns Visvalingam-Wyatt results as dict,
+        '''Returns Visvalingam-Whyatt results as dict,
            optionally including the triangular area
            (in meters) for each simplified point.
         '''
@@ -427,7 +426,7 @@ def simplifyRDPm(points, distance, radius=R_M, adjust=True, shortest=False):
 
 
 def simplifyVW(points, area2, radius=R_M, adjust=True, attr=None):
-    '''Visvalingam-Wyatt (VW) simplification of a path of LatLon
+    '''Visvalingam-Whyatt (VW) simplification of a path of LatLon
        points.
 
        Eliminate any points too close together or with a triangular
@@ -469,7 +468,7 @@ def simplifyVW(points, area2, radius=R_M, adjust=True, attr=None):
 
 
 def simplifyVWm(points, area2, radius=R_M, adjust=True, attr=None):
-    '''Modified Visvalingam-Wyatt (VW) simplification of a path of
+    '''Modified Visvalingam-Whyatt (VW) simplification of a path of
        LatLon points.
 
        Eliminate any points too close together or with a triangular

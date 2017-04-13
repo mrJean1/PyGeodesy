@@ -1,4 +1,4 @@
-tests/run.py typical test results (17.4.11 Python 3.6.0 64bit macOS 10.12.4)
+tests/run.py typical test results (17.4.12 Python 3.6.0 64bit macOS 10.12.4)
 
 running /usr/local/bin/python3.6 tests/testBases.py
 
@@ -10,7 +10,7 @@ running /usr/local/bin/python3.6 tests/testBases.py
     test 5 toStr: 51.4778°N, 000.0016°W
     test 6 precision: 0
     test 7 toStr: 51°28′40″N, 000°00′06″W, +42.00m
-    all pygeodesy.bases tests passed (17.4.11 Python 3.6.0 64bit) 0.323 ms
+    all pygeodesy.bases tests passed (17.4.12 Python 3.6.0 64bit) 18.560 ms
 
 running /usr/local/bin/python3.6 tests/testDatum.py
 
@@ -24,7 +24,7 @@ running /usr/local/bin/python3.6 tests/testDatum.py
     test 7 WGS84: A=6367449.1458234154, e=0.0818191908, f_=298.2572235630, n=0.0016792204(-3.7914875232e-13)
     test 8 WGS84: Alpha6=(0, 8.377318206245e-04, 7.608527773572e-07, 1.197645503329e-09, 2.429170607201e-12, 5.711757677866e-15, 1.491117731258e-17)
     test 9 WGS84: Beta6=(0, 8.377321640579e-04, 5.905870152220e-08, 1.673482665284e-1, 2.164798040063e-13, 3.787978046169e-16, 7.248748890694e-19)
-    all datum tests passed (17.4.11 Python 3.6.0 64bit) 0.546 ms
+    all datum tests passed (17.4.12 Python 3.6.0 64bit) 0.610 ms
 
 running /usr/local/bin/python3.6 tests/testDms.py
 
@@ -59,7 +59,7 @@ running /usr/local/bin/python3.6 tests/testDms.py
     test 28 compassPoint: W
     test 29 compassPoint: SW
     test 30 compassPoint: WSW
-    all dms tests passed (17.4.11 Python 3.6.0 64bit) 0.624 ms
+    all dms tests passed (17.4.12 Python 3.6.0 64bit) 0.599 ms
 
 running /usr/local/bin/python3.6 tests/testEllipsoidal.py
 
@@ -91,7 +91,7 @@ running /usr/local/bin/python3.6 tests/testEllipsoidal.py
     test 25 toLatLon: 45.0°N, 045.0°E, +0.00m
     test 26 Nvector: (0.5, 0.5, 0.7071)
     test 27 Nvector: (0.5, 0.5, 0.707, +1.00)
-    all ellipsoidalNvector tests passed (17.4.11 Python 3.6.0 64bit) 2.371 ms
+    all ellipsoidalNvector tests passed (17.4.12 Python 3.6.0 64bit) 1.712 ms
 
     testing module ellipsoidalVincenty version 17.04.07
     test 1 lat/lonDMS: 52.20472°N, 000.14056°E
@@ -167,7 +167,7 @@ running /usr/local/bin/python3.6 tests/testEllipsoidal.py
     test 71 NOAAexample2: 182009.1679, 254 42 44.6439, 73 09 21.3315
     test 72 NOAAexample3: 123456.7891, 245 00 34.7001, 64 20 24.6864
     test 73 NOAAexample4: 145239.0603, 114 29 26.9586, 295 21 32.6566
-    all ellipsoidalVincenty tests passed (17.4.11 Python 3.6.0 64bit) 4.358 ms
+    all ellipsoidalVincenty tests passed (17.4.12 Python 3.6.0 64bit) 5.431 ms
 
 running /usr/local/bin/python3.6 tests/testGreatCircle.py
 
@@ -201,7 +201,7 @@ running /usr/local/bin/python3.6 tests/testGreatCircle.py
     test 27 CrossTrackDistance90Degrees200Meters: 200.0
     test 28 CrossTrackDistance270Degrees200Meters: -200.0
     test 29 CrossTrackDistanceThatShouldBeVeryCloseToZero: 0.00000000
-    5 sphericalNvector tests (17.2%) FAILED, incl. 5 KNOWN (17.4.11 Python 3.6.0 64bit) 2.513 ms
+    5 sphericalNvector tests (17.2%) FAILED, incl. 5 KNOWN (17.4.12 Python 3.6.0 64bit) 2.531 ms
 
     testing module sphericalTrigonometry version 17.03.13
     test 1 InitialBearingSameLocations: 0.0
@@ -233,7 +233,7 @@ running /usr/local/bin/python3.6 tests/testGreatCircle.py
     test 27 CrossTrackDistance90Degrees200Meters: 200.0
     test 28 CrossTrackDistance270Degrees200Meters: -200.0
     test 29 CrossTrackDistanceThatShouldBeVeryCloseToZero: 0.00000000
-    5 sphericalTrigonometry tests (17.2%) FAILED, incl. 5 KNOWN (17.4.11 Python 3.6.0 64bit) 1.014 ms
+    5 sphericalTrigonometry tests (17.2%) FAILED, incl. 5 KNOWN (17.4.12 Python 3.6.0 64bit) 1.003 ms
 
 running /usr/local/bin/python3.6 tests/testLcc.py
 
@@ -484,7 +484,7 @@ running /usr/local/bin/python3.6 tests/testLcc.py
     test 244 WRF_Lb: WGS84
     test 245 Snyder1: name='Snyder1', lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27)
     test 246 Snyder2: name='Snyder2', lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27)
-    all lcc tests passed (17.4.11 Python 3.6.0 64bit) 11.887 ms
+    all lcc tests passed (17.4.12 Python 3.6.0 64bit) 19.716 ms
 
 running /usr/local/bin/python3.6 tests/testMgrs.py
 
@@ -505,7 +505,7 @@ running /usr/local/bin/python3.6 tests/testMgrs.py
     test 14 toUtm(76.0°N, 013.0°E).toMgrs: 33X VE 45999 36099
     test 15 toUtm(76.0°N, 025.0°E).toMgrs: 35X ME 45999 36099
     test 16 toUtm(76.0°N, 037.0°E).toMgrs: 37X DE 45999 36099
-    all mgrs tests passed (17.4.11 Python 3.6.0 64bit) 2.094 ms
+    all mgrs tests passed (17.4.12 Python 3.6.0 64bit) 1.790 ms
 
 running /usr/local/bin/python3.6 tests/testNavlabExamples.py
 
@@ -536,7 +536,7 @@ running /usr/local/bin/python3.6 tests/testNavlabExamples.py
     test 24 Example 8 destination(elVincenty): 79.991584°N, 090.017621°W
     test 25 Example 9 intersection: 40.318643°N, 055.901868°E
     test 26 Example 10 crossTrackDistance: 11118
-    1 testNavlabExamples.py test (3.8%) FAILED, incl. 1 KNOWN (17.4.11 Python 3.6.0 64bit) 2.676 ms
+    1 testNavlabExamples.py test (3.8%) FAILED, incl. 1 KNOWN (17.4.12 Python 3.6.0 64bit) 2.317 ms
 
 running /usr/local/bin/python3.6 tests/testOsgr.py
 
@@ -565,40 +565,40 @@ running /usr/local/bin/python3.6 tests/testOsgr.py
     test 22 OSGR5: 651409,313177
     test 23 OSGR5: [OSGR:651409.000,313177.000]
     test 24 OSGR6: 651409,313177
-    6 osgr tests (25.0%) FAILED, incl. 6 KNOWN (17.4.11 Python 3.6.0 64bit) 1.555 ms
+    6 osgr tests (25.0%) FAILED, incl. 6 KNOWN (17.4.12 Python 3.6.0 64bit) 1.867 ms
 
 running /usr/local/bin/python3.6 tests/testRoutes.py
 
 running /usr/local/bin/python3.6 tests/testSimplify.py
 
-    testing module testSimplify.py version 17.04.11
-    test 1 simplify1(16614, adjust=True) 1m (0.055 sec): 16597
+    testing module testSimplify.py version 17.04.12
+    test 1 simplify1(16614, adjust=True) 1m (0.054 sec): 16597
     
-    test 2 simplify2(16614, adjust=True, shortest=False) 1m (0.090 sec): 8239
+    test 2 simplify2(16614, adjust=True, shortest=False) 1m (0.087 sec): 8239
     
-    test 3 simplify2(16614, adjust=True, shortest=True) 1m (0.089 sec): 8247
+    test 3 simplify2(16614, adjust=True, shortest=True) 1m (0.102 sec): 8247
     
-    test 4 simplifyVWm(16614, adjust=True) 1m (0.152 sec): 16482
+    test 4 simplifyVWm(16614, adjust=True) 1m (0.153 sec): 16482
     
-    test 5 simplifyVWm(16614, adjust=False) 1m (0.108 sec): 16488
+    test 5 simplifyVWm(16614, adjust=False) 1m (0.106 sec): 16488
     
-    test 6 simplifyRDPm(16614, adjust=True, shortest=False) 1m (0.182 sec): 16196
+    test 6 simplifyRDPm(16614, adjust=True, shortest=False) 1m (0.178 sec): 16196
     
-    test 7 simplifyRDPm(16614, adjust=True, shortest=True) 1m (0.184 sec): 16201
+    test 7 simplifyRDPm(16614, adjust=True, shortest=True) 1m (0.266 sec): 16201
     
     test 8 simplifyVW(1661, adjust=True) 1m (0.015 sec): 1657
     
     test 9 simplifyVW(1661, adjust=False) 1m (0.011 sec): 1657
     
-    test 10 simplifyRDP(1661, adjust=True, shortest=False) 1m (4.987 sec): 1660
+    test 10 simplifyRDP(1661, adjust=True, shortest=False) 1m (5.146 sec): 1660
     
-    test 11 simplifyRDP(1661, adjust=True, shortest=True) 1m (4.917 sec): 1661
+    test 11 simplifyRDP(1661, adjust=True, shortest=True) 1m (4.938 sec): 1661
     
     test 12 simplifyVW(69, adjust=False) 1m (0.000 sec): 69
     
     test 13 simplifyRDP(69, adjust=False, shortest=False) 1m (0.003 sec): 68
     
-    all testSimplify.py tests passed (17.4.11 Python 3.6.0 64bit) 10.796 sec
+    all testSimplify.py tests passed (17.4.12 Python 3.6.0 64bit) 11.061 sec
 
 running /usr/local/bin/python3.6 tests/testSpherical.py
 
@@ -659,7 +659,7 @@ running /usr/local/bin/python3.6 tests/testSpherical.py
     test 54 BasseC: 47.3038°N, 002.5721°W
     test 55 BasseH: 47.311067°N, 002.528617°W
     test 56 triangulate: 47.323667°N, 002.568501°W
-    all sphericalNvector tests passed (17.4.11 Python 3.6.0 64bit) 3.429 ms
+    all sphericalNvector tests passed (17.4.12 Python 3.6.0 64bit) 3.589 ms
 
     testing module sphericalTrigonometry version 17.03.13
     test 1 lat/lonDMS: 52.20472°N, 000.14056°E
@@ -700,7 +700,7 @@ running /usr/local/bin/python3.6 tests/testSpherical.py
     test 36 rhumbBearingTo: 116.722
     test 37 rhumbDistanceTo: 40307.8
     test 38 rhumbMidpointo: 51.0455°N, 001.595727°E
-    all sphericalTrigonometry tests passed (17.4.11 Python 3.6.0 64bit) 1.135 ms
+    all sphericalTrigonometry tests passed (17.4.12 Python 3.6.0 64bit) 1.152 ms
 
 running /usr/local/bin/python3.6 tests/testUtm.py
 
@@ -748,13 +748,13 @@ running /usr/local/bin/python3.6 tests/testUtm.py
     test 41 toUtm(76.0°N, 025.0°E): 35X N 446000 8436100
     test 42 toUtm(76.0°N, 031.0°E): 35X N 607943 8438843
     test 43 toUtm(76.0°N, 037.0°E): 37X N 446000 8436100
-    all utm tests passed (17.4.11 Python 3.6.0 64bit) 4.250 ms
+    all utm tests passed (17.4.12 Python 3.6.0 64bit) 4.298 ms
 
 running /usr/local/bin/python3.6 tests/tests.py
 
     testing module tests.py version 17.04.07
 
-    testing module __init__.py version 17.04.11
+    testing module __init__.py version 17.04.12
     test 1 pygeodesy.Conic() class (lcc): True
     test 2 pygeodesy.Conics attribute (datum): True
     test 3 pygeodesy.Datum() class (datum): True
@@ -917,7 +917,7 @@ running /usr/local/bin/python3.6 tests/tests.py
     test 144 osgr.parseOSGR() function: True
     test 145 osgr.toOsgr() function: True
 
-    testing module simplify.py version 17.04.11
+    testing module simplify.py version 17.04.12
     test 146 simplify.simplify1() function: True
     test 147 simplify.simplify2() function: True
     test 148 simplify.simplifyRDP() function: True
@@ -1072,6 +1072,6 @@ running /usr/local/bin/python3.6 tests/tests.py
     test 283 sphericalNvector: sphericalNvector.LatLon, nvector.LatLonNvectorBase, sphericalBase.LatLonSphericalBase, bases.LatLonHeightBase, bases.Base
     test 284 sphericalTrigonometry: sphericalTrigonometry.LatLon, sphericalBase.LatLonSphericalBase, bases.LatLonHeightBase, bases.Base
 
-    all tests.py tests passed (17.4.11 Python 3.6.0 64bit) 4.019 ms
+    all tests.py tests passed (17.4.12 Python 3.6.0 64bit) 4.199 ms
 
-tests/run.py /usr/local/bin/python3.6 all OK (17.4.11 Python 3.6.0 64bit macOS 10.12.4) 13.392 sec
+tests/run.py /usr/local/bin/python3.6 all OK (17.4.12 Python 3.6.0 64bit macOS 10.12.4) 13.663 sec

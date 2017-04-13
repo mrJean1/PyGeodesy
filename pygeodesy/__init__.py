@@ -33,9 +33,9 @@ and positions, transcribed from:
 
  - U{https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf} pp 107-109.
 
-Another module offers several functions to simplify or linearize a path
-of LatLon points, including implementations of the Ramer-Douglas-Peucker
-and Visvalingam-Wyatt algorithms and modified versions of both:
+Another module offers functions to simplify or linearize a path of
+I{LatLon} points, including implementations of the Ramer-Douglas-Peucker
+and Visvalingam-Whyatt algorithms and modified versions of both:
 
  - U{https://en.m.wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm}
  - U{https://hydra.hull.ac.uk/assets/hull:8338}
@@ -124,7 +124,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',
            'VincentyError',
            'nvector', 'vector3d', 'version',
            'isclockwise')  # extended below
-__version__ = '17.04.11'
+__version__ = '17.04.12'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))

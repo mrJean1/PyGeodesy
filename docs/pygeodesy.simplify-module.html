@@ -85,7 +85,7 @@
   class="link">simplifyVW</a> and <a 
   href="pygeodesy.simplify-module.html#simplifyVWm" 
   class="link">simplifyVWm</a> are based on the original, respectively 
-  modified Visvalingam-Wyatt (VW) method using the area of the triangle 
+  modified Visvalingam-Whyatt (VW) method using the area of the triangle 
   formed by three neigboring points.  The original <a 
   href="pygeodesy.simplify-module.html#simplifyVW" 
   class="link">simplifyVW</a> method removes only a single point per 
@@ -109,17 +109,20 @@
   <ul>
     <li>
       <a 
-      href="https://en.m.wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm"
-      
-      target="_top">https://en.m.wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm</a>
+      href="http://en.wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm" 
+      target="_top">http://en.wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm</a>
     </li>
     <li>
-      <a href="https://hydra.hull.ac.uk/assets/hull:8338" 
-      target="_top">https://hydra.hull.ac.uk/assets/hull:8338</a>
+      <a href="http://hydra.hull.ac.uk/resources/hull:8338" 
+      target="_top">http://hydra.hull.ac.uk/resources/hull:8338</a>
     </li>
     <li>
-      <a href="https://www.cs.ubc.ca/cgi-bin/tr/1992/TR-92-07.pdf" 
-      target="_top">https://www.cs.ubc.ca/cgi-bin/tr/1992/TR-92-07.pdf</a>
+      <a href="http://bost.ocks.org/mike/simplify/" 
+      target="_top">http://bost.ocks.org/mike/simplify/</a>
+    </li>
+    <li>
+      <a href="http://www.cs.ubc.ca/cgi-bin/tr/1992/TR-92-07.pdf" 
+      target="_top">http://www.cs.ubc.ca/cgi-bin/tr/1992/TR-92-07.pdf</a>
     </li>
     <li>
       <a 
@@ -132,28 +135,20 @@
       target="_top">http://www.bdcc.co.uk/Gmaps/GDouglasPeuker.js</a>
     </li>
     <li>
-      <a href="https://github.com/mourner/simplify-js/" 
-      target="_top">https://github.com/mourner/simplify-js/</a>
+      <a href="http://github.com/mourner/simplify-js/" 
+      target="_top">http://github.com/mourner/simplify-js/</a>
     </li>
     <li>
-      <a href="https://github.com/omarestrella/simplify.py/" 
-      target="_top">https://github.com/omarestrella/simplify.py/</a>
+      <a href="http://github.com/omarestrella/simplify.py/" 
+      target="_top">http://github.com/omarestrella/simplify.py/</a>
     </li>
     <li>
-      <a href="https://bost.ocks.org/mike/simplify/" 
-      target="_top">https://bost.ocks.org/mike/simplify/</a>
+      <a href="http://pypi.python.org/pypi/visvalingam" 
+      target="_top">http://pypi.python.org/pypi/visvalingam</a>
     </li>
     <li>
-      <a href="https://pypi.python.org/pypi/visvalingam" 
-      target="_top">https://pypi.python.org/pypi/visvalingam</a>
-    </li>
-    <li>
-      <a href="https://pypi.python.org/pypi/simplification/" 
-      target="_top">https://pypi.python.org/pypi/simplification/</a>
-    </li>
-    <li>
-      <a href="https://news.ycombinator.com/item?id=4055445" 
-      target="_top">https://news.ycombinator.com/item?id=4055445</a>
+      <a href="http://pypi.python.org/pypi/simplification/" 
+      target="_top">http://pypi.python.org/pypi/simplification/</a>
     </li>
   </ul>
   <p>Tested with 64-bit Python 2.6.9, 2.7.13, 3.5.3 and 3.6.0 on macOS 
@@ -162,7 +157,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.04.11
+        17.04.12
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -268,7 +263,7 @@
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77142</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">attr</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Visvalingam-Wyatt (VW) simplification of a path of LatLon points.</td>
+      Visvalingam-Whyatt (VW) simplification of a path of LatLon points.</td>
           <td align="right" valign="top">
             
             
@@ -289,7 +284,7 @@
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77142</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">attr</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Modified Visvalingam-Wyatt (VW) simplification of a path of LatLon 
+      Modified Visvalingam-Whyatt (VW) simplification of a path of LatLon 
       points.</td>
           <td align="right" valign="top">
             
@@ -474,7 +469,7 @@
     </td>
   </tr></table>
   
-  <p>Visvalingam-Wyatt (VW) simplification of a path of LatLon points.</p>
+  <p>Visvalingam-Whyatt (VW) simplification of a path of LatLon points.</p>
   <p>Eliminate any points too close together or with a triangular area not 
   exceeding the given area tolerance squared.</p>
   <p>This VW method exhaustively searches for the single point with the 
@@ -512,7 +507,7 @@
     </td>
   </tr></table>
   
-  <p>Modified Visvalingam-Wyatt (VW) simplification of a path of LatLon 
+  <p>Modified Visvalingam-Whyatt (VW) simplification of a path of LatLon 
   points.</p>
   <p>Eliminate any points too close together or with a triangular area not 
   exceeding the given area tolerance squared.</p>
@@ -565,7 +560,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Apr 11 22:07:57 2017
+    Generated by Epydoc 3.0.1 on Thu Apr 13 11:28:17 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
