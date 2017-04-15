@@ -65,4 +65,4 @@ __
  - Flake8 <https://pypi.python.org/pypi/flake8>
  - Epydoc <https://pypi.python.org/pypi/epydoc>
 
-_Last updated: Apr 14, 2017._
+_Last updated: Apr 15, 2017._

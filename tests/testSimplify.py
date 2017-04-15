@@ -4,9 +4,9 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '17.04.12'
+__version__ = '17.04.15'
 
-from tests import Tests as _Tests
+from tests import secs2str, Tests as _Tests
 
 from pygeodesy import simplify1, simplify2, \
                       simplifyRDP, simplifyRDPm, \
@@ -14,10 +14,15 @@ from pygeodesy import simplify1, simplify2, \
 
 from time import time
 
+_Simplifys = ()  # simplifyXYZ functions to run
+
 
 class Tests(_Tests):
 
     def test2(self, simplify, points, ms, **kwds):
+
+        if _Simplifys and simplify.__name__[8:] not in _Simplifys:
+            return  # skip this simplify function
 
         n = len(points)
         t = ', '.join('%s=%s' % t for t in sorted(kwds.items()))
@@ -28,7 +33,7 @@ class Tests(_Tests):
             r = simplify(points, m, **kwds)
             n = len(r)
             t = time() - t
-            t = '%s %dm (%.3f sec)' % (s, m, t)
+            t = '%s %dm (%s)' % (s, m, secs2str(t))
             self.test(t, n, str(ms[m]))
 
         self.printf('')
@@ -36,16 +41,21 @@ class Tests(_Tests):
 
 if __name__ == '__main__':  # PYCHOK internal error?
 
+    # usage: python testSimplify [[1-9] [RDP RDPm VW VWm ...]]
+
     import sys
     from testRoutes import Pts, PtsFFI  # RdpFFI
 
+    # simplifyXYZ functions to run, all otherwise
+    _Simplifys = sys.argv[2:]
     # number of meter values for each test
     m = 1 if len(sys.argv) < 2 else int(sys.argv[1])
 
     def _ms(ms):  # reduce the number of tests
         return dict(t for t in list(sorted(ms.items()))[:m])
 
-    t = Tests(__file__, __version__)
+
+    t = Tests(__file__, __version__)  # PYCHOK expected
 
     t.test2(simplify1, Pts, _ms({320: 4423, 160: 6638, 80: 9362, 40: 12079, 20: 14245, 10: 15621, 1: 16597}), adjust=True)
 

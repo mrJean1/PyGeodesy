@@ -61,7 +61,7 @@ from math  import cos, degrees, radians
 __all__ = ('simplify1', 'simplify2',
            'simplifyRDP', 'simplifyRDPm',
            'simplifyVW', 'simplifyVWm')
-__version__ = '17.04.14'
+__version__ = '17.04.15'
 
 
 # try:
@@ -124,42 +124,50 @@ class _Sy(object):
         self.d2xyse = d21, x21, y21, s, e
         return d21 > self.eps
 
-    def d2iP(self, j, n, tol):
-        '''Yields perpendicular distance for each points[j..n]
-           to the path edge or line thru points[s] to -[e], but
-           only those exceeding the tolerance.
+    def d2iP(self, n, m, brk):
+        '''Find the tallest perpendicular distance among all
+           points[n..m] to the path edge or line thru points[s]
+           to -[e] exceeding the tolerance.
         '''
         d21, x21, y21, s, _ = self.d2xyse
         eps, d2xy = self.eps, self.d2xy
-        for i in range(j, n):
+        t2, t = self.s2, 0  # tallest
+        for i in range(n, m):
             d2, x01, y01 = d2xy(s, i)
             if d2 > eps:
                 d2  = x01 * y21 + y01 * x21
                 d2 *= d2 / d21
-                if d2 > tol:
-                    yield d2, i
+                if d2 > t2:
+                    t2, t = d2, i
+                    if brk:
+                        break
+        return t2, t
 
-    def d2iS(self, j, n, tol):
-        '''Yields shortest distance for each points[j..n]
-           to the path edge or line thru points[s] to -[e],
-           but only those exceeding the tolerance.
+    def d2iS(self, n, m, brk):
+        '''Find the tallest shortest distance among all points[n..m]
+           to the path edge or line thru points[s] to -[e] exceeding
+           the tolerance.
         '''
         d21, x21, y21, s, e = self.d2xyse
         eps, d2xy = self.eps, self.d2xy
-        for i in range(j, n):
+        t2, t = self.s2, 0  # tallest
+        for i in range(n, m):
             # distance points[i] to -[s]
             d2, x01, y01 = d2xy(s, i)
             if d2 > eps:
-                t = x01 * x21 - y01 * y21
-                if t > 0:
-                    if (t * t) > d21:
+                x = x01 * x21 - y01 * y21
+                if x > 0:
+                    if (x * x) > d21:
                         # distance points[i] to -[e]
                         d2, _, _ = d2xy(e, i)
                     else:  # perpendicular distance
                         d2  = x01 * y21 + y01 * x21
                         d2 *= d2 / d21
-                if d2 > tol:
-                    yield d2, i
+                if d2 > t2:
+                    t2, t = d2, i
+                    if brk:
+                        break
+        return t2, t
 
     def d2xy(self, i, j):
         '''Returns points[i] to [j] deltas.
@@ -321,11 +329,10 @@ def simplify2(points, band2, radius=R_M, adjust=True, shortest=False):
         s, e = 0, 1
         while s < e < n:
             if d21(s, e):
-                for d2, i in d2i(e+1, n, s2):
-                    if d2 > s2:
-                        r[s] = r[i] = True
-                        s, e = i, i + 1
-                        break  # for loop
+                d2, i = d2i(e+1, n, True)
+                if i > 0 and d2 > s2:
+                    r[s] = r[i] = True
+                    s, e = i, i + 1
                 else:
                     r[s] = True  # r[n-1] = True
                     break  # while loop
@@ -365,14 +372,11 @@ def simplifyRDP(points, distance, radius=R_M, adjust=True, shortest=False):
             s, e = se.pop()
             if (e - s) > 1:
                 if d21(s, e):
-                    h2 = h = -1
-                    for d2, i in d2i(s+1, e, s2):
-                        if d2 > h2:  # farther
-                            h2, h = d2, i
-                    if h2 > s2:  # split at farthest
-                        r[s] = r[h] = True
-                        se.append((h, e))
-                        se.append((s, h))
+                    d2, i = d2i(s+1, e, False)
+                    if i > 0 and d2 > s2:  # split at farthest
+                        r[s] = r[i] = True
+                        se.append((i, e))
+                        se.append((s, i))
                     else:  # all too near
                         r[s] = True
                 else:  # split halfway
@@ -413,12 +417,10 @@ def simplifyRDPm(points, distance, radius=R_M, adjust=True, shortest=False):
             s, e = se.pop()
             if (e - s) > 1:
                 if d21(s, e):
-                    for d2, i in d2i(s+1, e, s2):
-                        if d2 > s2:
-                            r[s] = r[i] = True
-                            se.append((i, e))
-#                           se.append((s, i))
-                            break  # for
+                    d2, i = d2i(s+1, e, True)
+                    if i > 0 and d2 > s2:
+                        r[s] = r[i] = True
+                        se.append((i, e))
                     else:
                         r[s] = True
                 else:  # split halfway

@@ -22,8 +22,9 @@ from inspect import isclass, isfunction, ismethod, ismodule
 from platform import architecture
 from time import time
 
-__all__ = ('versions', 'Tests',)
-__version__ = '17.04.14'
+__all__ = ('versions', 'Tests',
+           'secs2str')
+__version__ = '17.04.15'
 
 try:
     _int = int, long
@@ -34,6 +35,14 @@ except NameError:  # Python 3+
 
 versions = ' '.join(('PyGeodesy', geodesy_version,
                      'Python', sys.version.split()[0], architecture()[0]))
+
+
+def secs2str(secs):
+    unit = ['sec', 'ms', 'us', 'ps']
+    while secs < 1 and len(unit) > 1:
+        secs *= 1000.0
+        unit.pop(0)
+    return '%.3f %s' % (secs, unit[0])
 
 
 def _type(obj, attr):
@@ -103,11 +112,8 @@ class Tests(object):
             r = '(%.1f%%) FAILED%s' % (100.0 * n / self.total, k)
         else:
             n, p, r = 'all', 's', 'passed'
-        m, s = 'sec', time() - self._time
-        if s < 1.0:
-            s *= 1000
-            m  = 'ms'
-        t = '(%s) %.3f %s' % (versions, s, m)
+        s = time() - self._time
+        t = '(%s) %s' % (versions, secs2str(s))
         self.printf('%s %s test%s %s %s', n, self._name, p, r, t, nl=nl)
 
     def test(self, name, value, expect, fmt='%s', known=False):
