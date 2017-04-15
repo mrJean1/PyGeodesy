@@ -23,7 +23,7 @@ from platform import architecture
 from time import time
 
 __all__ = ('versions', 'Tests',)
-__version__ = '17.04.07'
+__version__ = '17.04.14'
 
 try:
     _int = int, long
@@ -32,7 +32,8 @@ except NameError:  # Python 3+
     _int = int
     _str = str
 
-versions = ' '.join((geodesy_version, 'Python', sys.version.split()[0], architecture()[0]))
+versions = ' '.join(('PyGeodesy', geodesy_version,
+                     'Python', sys.version.split()[0], architecture()[0]))
 
 
 def _type(obj, attr):

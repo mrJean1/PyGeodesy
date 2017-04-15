@@ -50,7 +50,7 @@ R_SM = R_KM * 0.62137  #: Mean, spherical earth radius (statute miles).
 __all__ = ('R_KM', 'R_M', 'R_NM', 'R_SM',  # constants
            'Datum',  'Ellipsoid',  'Transform',  # classes
            'Datums', 'Ellipsoids', 'Transforms')  # enum-like
-__version__ = '17.04.11'
+__version__ = '17.04.14'
 
 
 class _Enum(dict, Named):
@@ -496,8 +496,10 @@ Transforms._assert(
                                        sx=   1.477, sy= -0.0736, sz=  -1.458,
                                         s=  -9.82),  # Germany
     ED50           = Transform('ED50', tx=89.5, ty=93.8, tz=123.1,
-                     # <https://geonet.esri.com/thread/36583>
-                                                         sz= -0.156, s=-1.2),
+                     # <https://geonet.esri.com/thread/36583> sz=-0.156
+                     # <https://github.com/chrisveness/geodesy/blob/master/latlon-ellipsoidal.js>
+                     # <https://www.gov.uk/guidance/oil-and-gas-petroleum-operations-notices#pon-4>
+                                                         sz=  0.156, s=-1.2),
     Irl1965        = Transform('Irl1965', tx=-482.530, ty=130.596, tz=-564.557,
                                           sx=   1.042, sy=  0.214, sz=   0.631,
                                            s=  -8.15),
@@ -581,51 +583,51 @@ class Datum(_Based):
 # <http://earth-info.nga.mil/GandG/coordsys/datums/NATO_DT.pdf> and
 # <http://www.fieldenmaps.info/cconv/web/cconv_params.js>.
 Datums._assert(
-    WGS84         = Datum(Ellipsoids.WGS84, Transforms.WGS84),
+    # Germany <https://de.wikipedia.org/wiki/Bessel-Ellipsoid>
+    #         <https://en.wikipedia.org/wiki/Helmert_transformation>
+    DHDN           = Datum(Ellipsoids.Bessel1841, Transforms.DHDN),
 
-    # <http://www.icao.int/safety/pbn/documentation/eurocontrol/eurocontrol wgs 84 implementation manual.pdf>
-    WGS72          = Datum(Ellipsoids.WGS72, Transforms.WGS72),
+    # <http://www.gov.uk/guidance/oil-and-gas-petroleum-operations-notices#pon-4>
+    ED50           = Datum(Ellipsoids.Intl1924, Transforms.ED50),
 
-    # <http://www.geocachingtoolbox.com?page=datumEllipsoidDetails>
-    TokyoJapan     = Datum(Ellipsoids.Bessel1841, Transforms.TokyoJapan),
+    # <http://en.wikipedia.org/wiki/GRS_80>
+    GRS80          = Datum(Ellipsoids.GRS80, Transforms.WGS84, name='GRS80'),
 
-    # XXX psuedo-ellipsoids for spherical LatLon
-    Sphere         = Datum(Ellipsoids.Sphere, Transforms.WGS84, name='Sphere'),
+    # <http://osi.ie/OSI/media/OSI/Content/Publications/transformations_booklet.pdf>
+    Irl1975        = Datum(Ellipsoids.AiryModified, Transforms.Irl1975),
 
-    # <http://www.ordnancesurvey.co.uk/docs/support/guide-coordinate-systems-great-britain.pdf>
-    OSGB36         = Datum(Ellipsoids.Airy1830, Transforms.OSGB36),
+    # Germany <https://en.wikipedia.org/wiki/Helmert_transformation>
+    Krassovsky1940 = Datum(Ellipsoids.Krassovsky1940, Transforms.Krassovsky1940),
 
-    #  Nouvelle Triangulation Francaise (Paris)  XXX verify
-    NTF            = Datum(Ellipsoids.Clarke1880IGN, Transforms.NTF),
+    # Austria <https://de.wikipedia.org/wiki/Datum_Austria>
+    MGI            = Datum(Ellipsoids.Bessel1841, Transforms.MGI),
+
+    # <http://en.wikipedia.org/wiki/Helmert_transformation>
+    NAD27          = Datum(Ellipsoids.Clarke1866, Transforms.NAD27),
 
     # NAD83 (2009) == WGS84 - <http://www.uvm.edu/giv/resources/WGS84_NAD83.pdf>
     # (If you *really* must convert WGS84<->NAD83, you need more than this!)
     NAD83          = Datum(Ellipsoids.GRS80, Transforms.NAD83),
 
-    # <http://en.wikipedia.org/wiki/Helmert_transformation>
-    NAD27          = Datum(Ellipsoids.Clarke1866, Transforms.NAD27),
+    #  Nouvelle Triangulation Francaise (Paris)  XXX verify
+    NTF            = Datum(Ellipsoids.Clarke1880IGN, Transforms.NTF),
 
-    # Austria <https://de.wikipedia.org/wiki/Datum_Austria>
-    MGI            = Datum(Ellipsoids.Bessel1841, Transforms.MGI),
-
-    # Germany <https://en.wikipedia.org/wiki/Helmert_transformation>
-    Krassovsky1940 = Datum(Ellipsoids.Krassovsky1940, Transforms.Krassovsky1940),
-
-    # <http://osi.ie/OSI/media/OSI/Content/Publications/transformations_booklet.pdf>
-    Irl1975        = Datum(Ellipsoids.AiryModified, Transforms.Irl1975),
-
-    # <http://en.wikipedia.org/wiki/GRS_80>
-    GRS80          = Datum(Ellipsoids.GRS80, Transforms.WGS84, name='GRS80'),
-
-    # <http://www.gov.uk/guidance/oil-and-gas-petroleum-operations-notices#pon-4>
-    ED50           = Datum(Ellipsoids.Intl1924, Transforms.ED50),
-
-    # Germany <https://de.wikipedia.org/wiki/Bessel-Ellipsoid>
-    #         <https://en.wikipedia.org/wiki/Helmert_transformation>
-    DHDN           = Datum(Ellipsoids.Bessel1841, Transforms.DHDN),
+    # <http://www.ordnancesurvey.co.uk/docs/support/guide-coordinate-systems-great-britain.pdf>
+    OSGB36         = Datum(Ellipsoids.Airy1830, Transforms.OSGB36),
 
     # Germany <https://en.wikipedia.org/wiki/Helmert_transformation>
-    Bessel1841     = Datum(Ellipsoids.Bessel1841, Transforms.Bessel1841),
+    Potsdam        = Datum(Ellipsoids.Bessel1841, Transforms.Bessel1841, name='Potsdam'),
+
+    # XXX psuedo-ellipsoids for spherical LatLon
+    Sphere         = Datum(Ellipsoids.Sphere, Transforms.WGS84, name='Sphere'),
+
+    # <http://www.geocachingtoolbox.com?page=datumEllipsoidDetails>
+    TokyoJapan     = Datum(Ellipsoids.Bessel1841, Transforms.TokyoJapan),
+
+    # <http://www.icao.int/safety/pbn/documentation/eurocontrol/eurocontrol wgs 84 implementation manual.pdf>
+    WGS72          = Datum(Ellipsoids.WGS72, Transforms.WGS72),
+
+    WGS84          = Datum(Ellipsoids.WGS84, Transforms.WGS84),
 )
 
 
@@ -699,7 +701,7 @@ if __name__ == '__main__':
 # Transforms.Bessel1841: Transform(name='Bessel1841', tx=-582.0, ty=-105.0, tz=-414.0, rx=-0.0, ry=-0.0, rz=0.0, s=-8.3, s1=1.0, sx=-1.04, sy=-0.35, sz=3.08)
 # Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0, tz=-176.0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
 # Transforms.DHDN: Transform(name='DHDN', tx=-591.28, ty=-81.35, tz=-396.39, rx=0.0, ry=-0.0, rz=-0.0, s=-9.82, s1=1.0, sx=1.477, sy=-0.0736, sz=-1.458)
-# Transforms.ED50: Transform(name='ED50', tx=89.5, ty=93.8, tz=123.1, rx=0, ry=0, rz=-0.0, s=-1.2, s1=1.0, sx=0, sy=0, sz=-0.156)
+# Transforms.ED50: Transform(name='ED50', tx=89.5, ty=93.8, tz=123.1, rx=0, ry=0, rz=0.0, s=-1.2, s1=1.0, sx=0, sy=0, sz=0.156)
 # Transforms.Irl1965: Transform(name='Irl1965', tx=-482.53, ty=130.596, tz=-564.557, rx=0.0, ry=0.0, rz=0.0, s=-8.15, s1=1.0, sx=1.042, sy=0.214, sz=0.631)
 # Transforms.Irl1975: Transform(name='Irl1975', tx=-482.53, ty=130.596, tz=-564.557, rx=-0.0, ry=-0.0, rz=-0.0, s=-1.1, s1=1.0, sx=-1.042, sy=-0.214, sz=-0.631)
 # Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, ty=123.0, tz=94.0, rx=-0.0, ry=0.0, rz=0.0, s=-2.423, s1=1.0, sx=-0.02, sy=0.26, sz=0.13)
@@ -712,7 +714,6 @@ if __name__ == '__main__':
 # Transforms.WGS72: Transform(name='WGS72', tx=0, ty=0, tz=-4.5, rx=0, ry=0, rz=0.0, s=-0.22, s1=1.0, sx=0, sy=0, sz=0.554)
 # Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
 
-# Datums.Bessel1841: Datum(name='Bessel1841', ellipsoid=Ellipsoids.Bessel1841, transform=Transforms.Bessel1841)
 # Datums.DHDN: Datum(name='DHDN', ellipsoid=Ellipsoids.Bessel1841, transform=Transforms.DHDN)
 # Datums.ED50: Datum(name='ED50', ellipsoid=Ellipsoids.Intl1924, transform=Transforms.ED50)
 # Datums.GRS80: Datum(name='GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.WGS84)
@@ -723,6 +724,7 @@ if __name__ == '__main__':
 # Datums.NAD83: Datum(name='NAD83', ellipsoid=Ellipsoids.GRS80, transform=Transforms.NAD83)
 # Datums.NTF: Datum(name='NTF', ellipsoid=Ellipsoids.Clarke1880IGN, transform=Transforms.NTF)
 # Datums.OSGB36: Datum(name='OSGB36', ellipsoid=Ellipsoids.Airy1830, transform=Transforms.OSGB36)
+# Datums.Potsdam: Datum(name='Potsdam', ellipsoid=Ellipsoids.Bessel1841, transform=Transforms.Bessel1841)
 # Datums.Sphere: Datum(name='Sphere', ellipsoid=Ellipsoids.Sphere, transform=Transforms.WGS84)
 # Datums.TokyoJapan: Datum(name='TokyoJapan', ellipsoid=Ellipsoids.Bessel1841, transform=Transforms.TokyoJapan)
 # Datums.WGS72: Datum(name='WGS72', ellipsoid=Ellipsoids.WGS72, transform=Transforms.WGS72)

@@ -28,9 +28,9 @@ tolerance in each iteration.
 
 Functions L{simplify2}, L{simplifyRDP} and L{simplifyRDPm} provide
 keyword I{shortest} to select the computation of the distance between
-a point and a path edge.  If True, use the shortest distance to path
-edge or path end points, False use the perpendicular distance to the
-extended path edge.
+a point and a path edge.  If True, use the shortest distance to the
+path edge or path end points, False use the perpendicular distance to
+the extended path edge line.
 
 For all functions, keyword I{adjust} scales the longitudinal distance
 between two points by the cosine of the mean of the latitudes.
@@ -48,8 +48,7 @@ See:
  - U{http://pypi.python.org/pypi/simplification/}
 
 Tested with 64-bit Python 2.6.9, 2.7.13, 3.5.3 and 3.6.0 on macOS
-10.12.3 and 10.12.4 Sierra.  On macOS, Python 3 runs the simplify
-tests nearly 2x faster than Python 2.
+10.12.3 and 10.12.4 Sierra.
 
 @newfield example: Example, Examples
 '''
@@ -62,7 +61,7 @@ from math  import cos, degrees, radians
 __all__ = ('simplify1', 'simplify2',
            'simplifyRDP', 'simplifyRDPm',
            'simplifyVW', 'simplifyVWm')
-__version__ = '17.04.12'
+__version__ = '17.04.14'
 
 
 # try:
@@ -89,9 +88,9 @@ class _Sy(object):
     '''(INTERNAL) Simplify state.
     '''
     adjust = False
-    d2i    = None  # d2i1 or d2i2
+    d2i    = None  # d2iP or d2iS
     d2xyse = ()
-    eps    = EPS  # near zero tolerance
+    eps    = EPS  # system epsilon
     n      = 0
     pts    = []
     radius = R_M
@@ -116,7 +115,7 @@ class _Sy(object):
         s2 *= s2
         self.s2 = max(s2, EPS)
 
-        self.d2i = self.d2i2 if shortest else self.d2i1  # PYCHOK false
+        self.d2i = self.d2iS if shortest else self.d2iP  # PYCHOK false
 
     def d21(self, s, e):
         '''Sets path edge or line thru points[s] to [e].
@@ -125,9 +124,10 @@ class _Sy(object):
         self.d2xyse = d21, x21, y21, s, e
         return d21 > self.eps
 
-    def d2i1(self, j, n):
-        '''Yields perpendicular distance for all points[j..n]
-           to the path edge or line thru points[s] to [e].
+    def d2iP(self, j, n, tol):
+        '''Yields perpendicular distance for each points[j..n]
+           to the path edge or line thru points[s] to -[e], but
+           only those exceeding the tolerance.
         '''
         d21, x21, y21, s, _ = self.d2xyse
         eps, d2xy = self.eps, self.d2xy
@@ -136,27 +136,30 @@ class _Sy(object):
             if d2 > eps:
                 d2  = x01 * y21 + y01 * x21
                 d2 *= d2 / d21
-                yield d2, i
+                if d2 > tol:
+                    yield d2, i
 
-    def d2i2(self, j, n):
-        '''Yields shortest distance for all points[j..n]
-           to the path edge or line thru points[s] to [e].
+    def d2iS(self, j, n, tol):
+        '''Yields shortest distance for each points[j..n]
+           to the path edge or line thru points[s] to -[e],
+           but only those exceeding the tolerance.
         '''
         d21, x21, y21, s, e = self.d2xyse
         eps, d2xy = self.eps, self.d2xy
         for i in range(j, n):
-            # distance points[i] to [s]
+            # distance points[i] to -[s]
             d2, x01, y01 = d2xy(s, i)
             if d2 > eps:
                 t = x01 * x21 - y01 * y21
                 if t > 0:
                     if (t * t) > d21:
-                        # distance points[i] to [e]
+                        # distance points[i] to -[e]
                         d2, _, _ = d2xy(e, i)
                     else:  # perpendicular distance
                         d2  = x01 * y21 + y01 * x21
                         d2 *= d2 / d21
-                yield d2, i
+                if d2 > tol:
+                    yield d2, i
 
     def d2xy(self, i, j):
         '''Returns points[i] to [j] deltas.
@@ -175,17 +178,17 @@ class _Sy(object):
 
     def h2t(self, i1, i0, i2):
         '''Computes the Visvalingam-Whyatt triangular area,
-           points[i1] to [i2] form the base and points[i0]
+           points[i1] to -[i2] form the base and points[i0]
            is the top of the triangle.
         '''
         d21, x21, y21 = self.d2xy(i1, i2)
         if d21 > self.eps:
             d01, x01, y01 = self.d2xy(i1, i0)
             if d01 > self.eps:
-                h2 = x01 * y21 + y01 * x21
-                # triangle height h = sqrt(h2 * h2 / d21)
-                # and area = h * sqrt(d21) / 2 == h2 / 2
-                return abs(h2)
+                h2 = abs(x01 * y21 + y01 * x21)
+                # triangle height h = h2 / sqrt(d21) and
+                # the area = h * sqrt(d21) / 2 == h2 / 2
+                return h2  # triangle area (times 2)
         return 0
 
     def points(self, r):
@@ -225,7 +228,7 @@ class _Sy(object):
                 i = min(i, len(r) - 1)
 
     def vw(self):
-        '''Initializes Visvalingam-Whyatt as list of 2-tuples
+        '''Initializes Visvalingam-Whyatt as list of 2-Tuples
            (ix, h2) where ix is the points[] index and h2
            the triangular area (times 2) of that point.
         '''
@@ -254,7 +257,7 @@ class _Sy(object):
         # double check the minimal triangular area
         assert min(t2.h2 for t2 in r) > s2 > 0
 
-        if attr:  # return triangular area (double)
+        if attr:  # return triangular area (times 2)
             r[0].h2 = r[-1].h2 = 0
             for t2 in r:  # convert back to meter
                 setattr(pts[t2.ix], attr, radians(t2.h2) * radius)
@@ -318,7 +321,7 @@ def simplify2(points, band2, radius=R_M, adjust=True, shortest=False):
         s, e = 0, 1
         while s < e < n:
             if d21(s, e):
-                for d2, i in d2i(e+1, n):
+                for d2, i in d2i(e+1, n, s2):
                     if d2 > s2:
                         r[s] = r[i] = True
                         s, e = i, i + 1
@@ -363,14 +366,14 @@ def simplifyRDP(points, distance, radius=R_M, adjust=True, shortest=False):
             if (e - s) > 1:
                 if d21(s, e):
                     h2 = h = -1
-                    for d2, i in d2i(s+1, e):
-                        if d2 > h2:  # nearest so far
+                    for d2, i in d2i(s+1, e, s2):
+                        if d2 > h2:  # farther
                             h2, h = d2, i
-                    if h2 > s2:  # split at nearest
+                    if h2 > s2:  # split at farthest
                         r[s] = r[h] = True
                         se.append((h, e))
                         se.append((s, h))
-                    else:  # all near
+                    else:  # all too near
                         r[s] = True
                 else:  # split halfway
                     i = (e + s) // 2
@@ -385,7 +388,7 @@ def simplifyRDPm(points, distance, radius=R_M, adjust=True, shortest=False):
        of LatLon points.
 
        Eliminate any points too close together or closer to an edge
-       then the given distance tolerance.
+       than the given distance tolerance.
 
        This RDP method stops at the first point farther than the
        given distance tolerance, significantly reducing the run time
@@ -410,11 +413,12 @@ def simplifyRDPm(points, distance, radius=R_M, adjust=True, shortest=False):
             s, e = se.pop()
             if (e - s) > 1:
                 if d21(s, e):
-                    for d2, i in d2i(s+1, e):
+                    for d2, i in d2i(s+1, e, s2):
                         if d2 > s2:
                             r[s] = r[i] = True
                             se.append((i, e))
-                            break
+#                           se.append((s, i))
+                            break  # for
                     else:
                         r[s] = True
                 else:  # split halfway

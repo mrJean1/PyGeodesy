@@ -35,9 +35,9 @@ Another module offers functions to simplify or linearize a path of
 _LatLon_ points, including implementations of the Ramer-Douglas-Peucker
 and Visvalingam-Whyatt algorithms and modified versions of both:
 
-- <https://en.m.wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm>
-- <https://hydra.hull.ac.uk/assets/hull:8338>
-- <https://bost.ocks.org/mike/simplify/>
+- <http://en.wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm>
+- <http://hydra.hull.ac.uk/resources/hull:8338>
+- <http://bost.ocks.org/mike/simplify/>
 
 All Python code has been statically checked* with PyChecker, PyFlakes,
 PyCodeStyle (formerly Pep8), McCabe on Python 2.7.10 and 2.7.13
@@ -65,4 +65,4 @@ __
  - Flake8 <https://pypi.python.org/pypi/flake8>
  - Epydoc <https://pypi.python.org/pypi/epydoc>
 
-_Last updated: Apr 12, 2017._
+_Last updated: Apr 14, 2017._

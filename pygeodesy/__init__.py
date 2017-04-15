@@ -37,9 +37,9 @@ Another module offers functions to simplify or linearize a path of
 I{LatLon} points, including implementations of the Ramer-Douglas-Peucker
 and Visvalingam-Whyatt algorithms and modified versions of both:
 
- - U{https://en.m.wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm}
- - U{https://hydra.hull.ac.uk/assets/hull:8338}
- - U{https://bost.ocks.org/mike/simplify/}
+ - U{http://en.m.wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm}
+ - U{http://hydra.hull.ac.uk/resources/hull:8338}
+ - U{http://bost.ocks.org/mike/simplify/}
 
 All modules have been statically checked* with
 U{PyChecker<https://pypi.python.org/pypi/pychecker>},
@@ -124,7 +124,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',
            'VincentyError',
            'nvector', 'vector3d', 'version',
            'isclockwise')  # extended below
-__version__ = '17.04.12'
+__version__ = '17.04.14'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
