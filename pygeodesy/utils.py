@@ -21,7 +21,7 @@ from operator import mul
 import sys
 
 # all public contants, classes and functions
-__all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2',  # constants
+__all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'cbrt', 'cbrt2',
            'degrees', 'degrees90', 'degrees180', 'degrees360',
            'false2f', 'favg', 'fdot', 'fdot3', 'fStr', 'fsum',
@@ -31,7 +31,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2',  # constants
            'tanPI_2_2',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI', 'wrapPI2', 'wrapPI_2')
-__version__ = '17.04.10'
+__version__ = '17.04.22'
 
 try:
     _Ints = int, long  #: (INTERNAL) Int objects (tuple)
@@ -49,6 +49,9 @@ EPS2 = sqrt(EPS)  #: M{sqrt(EPS)} (float)
 
 PI2  = PI * 2  #: Two PI, M{PI * 2} (float)  # PYCHOK expected
 PI_2 = PI / 2  #: Half PI, M{PI / 2} (float)
+
+# R_M moved here to avoid circular import for bases and datum
+R_M = 6371008.771415  #: Mean, spherical earth radius (meter).
 
 _1_3rd = 1.0 / 3.0  #: (INTERNAL) One third (float)
 _2_3rd = 2.0 / 3.0  #: (INTERNAL) Two third (float)

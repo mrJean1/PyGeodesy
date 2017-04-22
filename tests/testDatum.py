@@ -4,7 +4,7 @@
 # Test datums, ellipsoids and transforms.
 
 __all__ = ('Tests',)
-__version__ = '17.04.11'
+__version__ = '17.04.22'
 
 from tests import Tests as _Tests
 
@@ -32,7 +32,7 @@ class Tests(_Tests):
         t = E.inverse().inverse("ED50_")
         self.test('ED50.inverse().inverse()', t == E, 'True')
 
-        R, fmt = Ellipsoids.WGS84.R, '%.5f'
+        R, fmt = Ellipsoids.WGS84.R, '%.4f'
         self.test('meanR', R, fmt % (R_M,), fmt=fmt)
 
         E = Datums.WGS84.ellipsoid

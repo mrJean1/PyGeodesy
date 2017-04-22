@@ -26,6 +26,10 @@ Ordinance Survery Grid Reference) grid references, see:
 - <http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html>
 - <http://www.movable-type.co.uk/scripts/latlong-os-gridref.html>
 
+and a module for Geohash encoding and decoding, transcribed from:
+
+- <http://www.movable-type.co.uk/scripts/geohash.html>
+
 An additional module provides Lambert conformal conic projections
 and positions, transcribed from:
 
@@ -65,4 +69,4 @@ __
  - Flake8 <https://pypi.python.org/pypi/flake8>
  - Epydoc <https://pypi.python.org/pypi/epydoc>
 
-_Last updated: Apr 15, 2017._
+_Last updated: Apr 22, 2017._

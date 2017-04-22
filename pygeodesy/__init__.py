@@ -28,6 +28,10 @@ Ordinance Survery Grid Reference) grid references, see:
  - U{http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html}
  - U{http://www.movable-type.co.uk/scripts/latlong-os-gridref.html}
 
+and a module for Geohash en-/decoding, transcribed from:
+
+ - U{http://www.movable-type.co.uk/scripts/geohash.html}
+
 An additional module provides Lambert conformal conic projections
 and positions, transcribed from:
 
@@ -115,16 +119,18 @@ import sphericalNvector  # PYCHOK false
 import sphericalTrigonometry  # PYCHOK false
 import nvector  # PYCHOK false
 import vector3d  # PYCHOK false
+import geohash
 
+Geohash       = geohash.Geohash
 VincentyError = ellipsoidalVincenty.VincentyError
 
 # all public contants, classes and functions
 __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',
            'sphericalNvector', 'sphericalTrigonometry',
-           'VincentyError',
-           'nvector', 'vector3d', 'version',
+           'Geohash', 'VincentyError',
+           'geohash', 'nvector', 'vector3d', 'version',
            'isclockwise')  # extended below
-__version__ = '17.04.15'
+__version__ = '17.04.22'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))

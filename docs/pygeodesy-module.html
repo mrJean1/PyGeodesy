@@ -108,6 +108,13 @@
       target="_top">http://www.movable-type.co.uk/scripts/latlong-os-gridref.html</a>
     </li>
   </ul>
+  <p>and a module for Geohash en-/decoding, transcribed from:</p>
+  <ul>
+    <li>
+      <a href="http://www.movable-type.co.uk/scripts/geohash.html" 
+      target="_top">http://www.movable-type.co.uk/scripts/geohash.html</a>
+    </li>
+  </ul>
   <p>An additional module provides Lambert conformal conic projections and 
   positions, transcribed from:</p>
   <ul>
@@ -165,7 +172,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.04.15
+        17.04.22
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -209,6 +216,7 @@
         class="link">Cartesian</a> and <a 
         href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html" 
         class="link">VincentyError</a>.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.geohash-module.html">pygeodesy.geohash</a></strong>: <em class="summary">Geohash encoding/decoding and associated functions.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.lcc-module.html" onclick="show_private();">pygeodesy.lcc</a></strong>: <em class="summary">Lambert conformal conic projection for 1 or 2 Standard Parallels 
         class <a href="pygeodesy.lcc.Conic-class.html" 
         class="link">Conic</a> and position class <a 
@@ -273,6 +281,14 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Classes</span></td>
 </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geohash.Geohash-class.html" class="summary-name">Geohash</a><br />
+      Geohash class, sub-class of str.
+    </td>
+  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -1054,7 +1070,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#simplify1" class="summary-sig-name">simplify1</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">distance</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77142</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>)</span><br />
       Basic simplification of a path of LatLon points.</td>
           <td align="right" valign="top">
@@ -1074,7 +1090,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#simplify2" class="summary-sig-name">simplify2</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">band2</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77142</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>)</span><br />
       Pipe simplification of a path of LatLon points.</td>
@@ -1095,7 +1111,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#simplifyRDP" class="summary-sig-name">simplifyRDP</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">distance</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77142</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>)</span><br />
       Ramer-Douglas-Peucker (RDP) simplification of a path of LatLon 
@@ -1117,7 +1133,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#simplifyRDPm" class="summary-sig-name">simplifyRDPm</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">distance</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77142</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>)</span><br />
       Modified Ramer-Douglas-Peucker (RDP) simplification of a path of 
@@ -1139,7 +1155,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#simplifyVW" class="summary-sig-name">simplifyVW</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">area2</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77142</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">attr</span>=<span class="summary-sig-default">None</span>)</span><br />
       Visvalingam-Whyatt (VW) simplification of a path of LatLon points.</td>
@@ -1160,7 +1176,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#simplifyVWm" class="summary-sig-name">simplifyVWm</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">area2</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77142</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">attr</span>=<span class="summary-sig-default">None</span>)</span><br />
       Modified Visvalingam-Whyatt (VW) simplification of a path of LatLon 
@@ -1402,7 +1418,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'17.4.15'"><code class="variable-quote">'</code><code class="variable-string">17.4.15</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'17.4.22'"><code class="variable-quote">'</code><code class="variable-string">17.4.22</code><code class="variable-quote">'</code></code><br />
       Normalized PyGeodesy version (string).
     </td>
   </tr>
@@ -1546,7 +1562,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="R_M"></a><span class="summary-name">R_M</span> = <code title="6371008.77142">6371008.77142</code><br />
+        <a name="R_M"></a><span class="summary-name">R_M</span> = <code title="6371008.77141">6371008.77141</code><br />
       Mean, spherical earth radius (meter).
     </td>
   </tr>
@@ -2743,7 +2759,7 @@ sz=-1.458)
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">simplify1</span>(<span class="sig-arg">points</span>,
         <span class="sig-arg">distance</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77142</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
         <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -2776,7 +2792,7 @@ sz=-1.458)
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">simplify2</span>(<span class="sig-arg">points</span>,
         <span class="sig-arg">band2</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77142</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
         <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>)</span>
   </h3>
@@ -2811,7 +2827,7 @@ sz=-1.458)
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">simplifyRDP</span>(<span class="sig-arg">points</span>,
         <span class="sig-arg">distance</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77142</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
         <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>)</span>
   </h3>
@@ -2850,7 +2866,7 @@ sz=-1.458)
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">simplifyRDPm</span>(<span class="sig-arg">points</span>,
         <span class="sig-arg">distance</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77142</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
         <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>)</span>
   </h3>
@@ -2889,7 +2905,7 @@ sz=-1.458)
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">simplifyVW</span>(<span class="sig-arg">points</span>,
         <span class="sig-arg">area2</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77142</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
         <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">attr</span>=<span class="sig-default">None</span>)</span>
   </h3>
@@ -2927,7 +2943,7 @@ sz=-1.458)
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">simplifyVWm</span>(<span class="sig-arg">points</span>,
         <span class="sig-arg">area2</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77142</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
         <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">attr</span>=<span class="sig-default">None</span>)</span>
   </h3>
@@ -3478,7 +3494,7 @@ sz=-1.458)
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Apr 15 15:44:24 2017
+    Generated by Epydoc 3.0.1 on Sat Apr 22 16:51:03 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

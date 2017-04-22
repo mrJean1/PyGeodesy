@@ -9,17 +9,16 @@ and U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
 
 @newfield example: Example, Examples
 '''
-
 from dms   import F_D, F_DMS, latDMS, lonDMS, parseDMS
-from utils import favg, fsum, len2, map1, wrap90, wrap180
+from utils import EPS, R_M, favg, fsum, len2, map1, wrap90, wrap180
 
-from math import cos, radians, sin
+from math import asin, cos, degrees, radians, sin
 
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('Base', 'LatLonHeightBase', 'Named', 'VectorBase',
            'isclockwise')
-__version__ = '17.04.09'
+__version__ = '17.04.22'
 
 
 class Base(object):
@@ -153,6 +152,30 @@ class LatLonHeightBase(Base):
         '''
         if updated:  # reset caches
             self._ab = None
+
+    def bounds(self, wide, high, radius=R_M):
+        '''Returns the SE and NW lat-/longitude of a great circle
+           bounding box centered at this location.
+
+           @param wide: Longitudinal box width (meter, like radius).
+           @param high: Latitudinal box height (meter, like radius).
+           @keyword radius: Optional earth radius (meter).
+
+           @return: 2-Tuple (LatLonSW, LatLonNE) of (LatLons).
+
+           @see: U{http://www.movable-type.co.uk/scripts/latlong-db.html}
+        '''
+        a, _ = self.to2ab()
+        ca = cos(a)
+
+        if ca > EPS:
+            w = abs(degrees(asin(wide * 0.5 / radius) / ca))
+        else:
+            w = 0  # XXX
+        h = abs(degrees(high * 0.5 / radius))
+
+        return self.topsub(self.lat - h, self.lon - w, height=self.height), \
+               self.topsub(self.lat + h, self.lon + w, height=self.height)
 
     def copy(self):
         '''Copy this point.
