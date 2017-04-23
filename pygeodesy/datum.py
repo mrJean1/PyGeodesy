@@ -488,6 +488,11 @@ class Transform(_Based):
 
 # <https://en.wikipedia.org/wiki/Helmert_transformation> from WGS84
 Transforms._assert(
+    BD72           = Transform('BD72', tx=106.868628, ty=-52.297783, tz=103.723893,
+                     # <http://www.ngi.be/FR/FR4-4.shtm> ETRS89 == WG84
+                     # <http://georepository.com/transformation_15929/BD72-to-WGS-84-3.html>
+                                       sx=-0.33657,   sy= -0.456955, sz= -1.84218,
+                                        s= 1.2727),
     Bessel1841     = Transform('Bessel1841', tx=-582.0,  ty=-105.0, tz=-414.0,
                                              sx=  -1.04, sy= -0.35, sz=   3.08,
                                               s=  -8.3),
@@ -583,6 +588,11 @@ class Datum(_Based):
 # <http://earth-info.nga.mil/GandG/coordsys/datums/NATO_DT.pdf> and
 # <http://www.fieldenmaps.info/cconv/web/cconv_params.js>.
 Datums._assert(
+    # Belgian Datum 1972, based on Hayford ellipsoid.
+    # <https://nl.m.wikipedia.org/wiki/Belgian_Datum_1972>
+    # <http://spatialreference.org/ref/sr-org/belge-1972-belgian-
+    #         lambert-72-corrected-transformation-parameters/>
+    BD72           = Datum(Ellipsoids.Intl1924, Transforms.BD72),
     # Germany <https://de.wikipedia.org/wiki/Bessel-Ellipsoid>
     #         <https://en.wikipedia.org/wiki/Helmert_transformation>
     DHDN           = Datum(Ellipsoids.Bessel1841, Transforms.DHDN),
@@ -698,6 +708,7 @@ if __name__ == '__main__':
 # Ellipsoids.WGS72: Ellipsoid(name='WGS72', a=6378135.0, b=6356750.52, f_=298.26, f=0.00335278, e2=0.00669432, e22=0.00673943, R=6371006.84, Rm=6367433.78276368, R2=6371005.24953082, R3=6370998.85874532, Rr=6367447.24861499)
 # Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137.0, b=6356752.31425, f_=298.25722356, f=0.00335281, e2=0.00669438, e22=0.0067395, R=6371008.77141667, Rm=6367435.67971861, R2=6371007.18092088, R3=6371000.79001076, Rr=6367449.14582503)
 
+# Transforms.BD72: Transform(name='BD72', tx=106.8686, ty=-52.2978, tz=103.7239, rx=-0.0, ry=-0.0, rz=-0.0, s=1.2727, s1=1.0, sx=-0.3366, sy=-0.457, sz=-1.8422)
 # Transforms.Bessel1841: Transform(name='Bessel1841', tx=-582.0, ty=-105.0, tz=-414.0, rx=-0.0, ry=-0.0, rz=0.0, s=-8.3, s1=1.0, sx=-1.04, sy=-0.35, sz=3.08)
 # Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0, tz=-176.0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
 # Transforms.DHDN: Transform(name='DHDN', tx=-591.28, ty=-81.35, tz=-396.39, rx=0.0, ry=-0.0, rz=-0.0, s=-9.82, s1=1.0, sx=1.477, sy=-0.0736, sz=-1.458)
@@ -714,6 +725,7 @@ if __name__ == '__main__':
 # Transforms.WGS72: Transform(name='WGS72', tx=0, ty=0, tz=-4.5, rx=0, ry=0, rz=0.0, s=-0.22, s1=1.0, sx=0, sy=0, sz=0.554)
 # Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
 
+# Datums.BD72: Datum(name='BD72', ellipsoid=Ellipsoids.Intl1924, transform=Transforms.BD72)
 # Datums.DHDN: Datum(name='DHDN', ellipsoid=Ellipsoids.Bessel1841, transform=Transforms.DHDN)
 # Datums.ED50: Datum(name='ED50', ellipsoid=Ellipsoids.Intl1924, transform=Transforms.ED50)
 # Datums.GRS80: Datum(name='GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.WGS84)

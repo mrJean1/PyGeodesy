@@ -108,7 +108,7 @@
       target="_top">http://www.movable-type.co.uk/scripts/latlong-os-gridref.html</a>
     </li>
   </ul>
-  <p>and a module for Geohash en-/decoding, transcribed from:</p>
+  <p>and a module for Geohash encoding and decoding, transcribed from:</p>
   <ul>
     <li>
       <a href="http://www.movable-type.co.uk/scripts/geohash.html" 
@@ -1442,15 +1442,15 @@ NAD83)
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy-module.html#Datums" class="summary-name">Datums</a> = <code title="Datums.DHDN: Datum(name='DHDN', ellipsoid=Ellipsoids.Bessel1841, trans\
+        <a href="pygeodesy-module.html#Datums" class="summary-name">Datums</a> = <code title="Datums.BD72: Datum(name='BD72', ellipsoid=Ellipsoids.Intl1924, transfo\
+rm=Transforms.BD72)
+Datums.DHDN: Datum(name='DHDN', ellipsoid=Ellipsoids.Bessel1841, trans\
 form=Transforms.DHDN)
 Datums.ED50: Datum(name='ED50', ellipsoid=Ellipsoids.Intl1924, transfo\
 rm=Transforms.ED50)
 Datums.GRS80: Datum(name='GRS80', ellipsoid=Ellipsoids.GRS80, transfor\
 m=Transforms.WGS84)
-Datums.Irl1975: Datum(name='Irl1975', ellipsoid=Ellipsoids.AiryModifie\
-d, transform=Transforms.Irl1975)
-...">Datums.DHDN: Datum(name='DHDN', ellipsoid=Ellipsoids.<code class="variable-ellipsis">...</code></code><br />
+...">Datums.BD72: Datum(name='BD72', ellipsoid=Ellipsoids.<code class="variable-ellipsis">...</code></code><br />
       Registered datums (enum).
     </td>
   </tr>
@@ -1618,15 +1618,15 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy-module.html#Transforms" class="summary-name">Transforms</a> = <code title="Transforms.Bessel1841: Transform(name='Bessel1841', tx=-582.0, ty=-105\
+        <a href="pygeodesy-module.html#Transforms" class="summary-name">Transforms</a> = <code title="Transforms.BD72: Transform(name='BD72', tx=106.8686, ty=-52.2978, tz=1\
+03.7239, rx=-0.0, ry=-0.0, rz=-0.0, s=1.2727, s1=1.0, sx=-0.3366, sy=-\
+0.457, sz=-1.8422)
+Transforms.Bessel1841: Transform(name='Bessel1841', tx=-582.0, ty=-105\
 .0, tz=-414.0, rx=-0.0, ry=-0.0, rz=0.0, s=-8.3, s1=1.0, sx=-1.04, sy=\
 -0.35, sz=3.08)
 Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
  tz=-176.0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
-Transforms.DHDN: Transform(name='DHDN', tx=-591.28, ty=-81.35, tz=-396\
-.39, rx=0.0, ry=-0.0, rz=-0.0, s=-9.82, s1=1.0, sx=1.477, sy=-0.0736, \
-sz=-1.458)
-...">Transforms.Bessel1841: Transform(name='Bessel1841<code class="variable-ellipsis">...</code></code><br />
+...">Transforms.BD72: Transform(name='BD72', tx=106.86<code class="variable-ellipsis">...</code></code><br />
       Registered transforms (enum).
     </td>
   </tr>
@@ -3396,14 +3396,14 @@ NAD83)
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
+Datums.BD72: Datum(name='BD72', ellipsoid=Ellipsoids.Intl1924, transfo<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+rm=Transforms.BD72)
 Datums.DHDN: Datum(name='DHDN', ellipsoid=Ellipsoids.Bessel1841, trans<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 form=Transforms.DHDN)
 Datums.ED50: Datum(name='ED50', ellipsoid=Ellipsoids.Intl1924, transfo<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 rm=Transforms.ED50)
 Datums.GRS80: Datum(name='GRS80', ellipsoid=Ellipsoids.GRS80, transfor<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 m=Transforms.WGS84)
-Datums.Irl1975: Datum(name='Irl1975', ellipsoid=Ellipsoids.AiryModifie<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-d, transform=Transforms.Irl1975)
 <code class="variable-ellipsis">...</code>
 </pre></td></tr></table>
 </dd>
@@ -3448,14 +3448,14 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,<span clas
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
+Transforms.BD72: Transform(name='BD72', tx=106.8686, ty=-52.2978, tz=1<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+03.7239, rx=-0.0, ry=-0.0, rz=-0.0, s=1.2727, s1=1.0, sx=-0.3366, sy=-<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+0.457, sz=-1.8422)
 Transforms.Bessel1841: Transform(name='Bessel1841', tx=-582.0, ty=-105<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 .0, tz=-414.0, rx=-0.0, ry=-0.0, rz=0.0, s=-8.3, s1=1.0, sx=-1.04, sy=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 -0.35, sz=3.08)
 Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
  tz=-176.0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
-Transforms.DHDN: Transform(name='DHDN', tx=-591.28, ty=-81.35, tz=-396<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-.39, rx=0.0, ry=-0.0, rz=-0.0, s=-9.82, s1=1.0, sx=1.477, sy=-0.0736, <span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-sz=-1.458)
 <code class="variable-ellipsis">...</code>
 </pre></td></tr></table>
 </dd>
@@ -3494,7 +3494,7 @@ sz=-1.458)
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Apr 22 16:51:03 2017
+    Generated by Epydoc 3.0.1 on Sat Apr 22 20:16:31 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

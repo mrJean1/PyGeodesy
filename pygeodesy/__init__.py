@@ -28,7 +28,7 @@ Ordinance Survery Grid Reference) grid references, see:
  - U{http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html}
  - U{http://www.movable-type.co.uk/scripts/latlong-os-gridref.html}
 
-and a module for Geohash en-/decoding, transcribed from:
+and a module for Geohash encoding and decoding, transcribed from:
 
  - U{http://www.movable-type.co.uk/scripts/geohash.html}
 
