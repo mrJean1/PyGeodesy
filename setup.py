@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '17.04.12'
+__version__ = '17.04.23'
 
 
 def _version():
@@ -53,7 +53,7 @@ setup(
     maintainer_email='mrJean1 at Gmail dot com',
 
     license='MIT',
-    keywords='bearing cartesian datum development distance earth ellipsoid geocentric geodesy haversine Lambert latitude longitude MGRS Nvector OSGR PyGeodesy Ramer-Douglas-Peucker rhumb sphere trigonometry UTM Vincenty Visvalingam-Whyatt WGS',
+    keywords='bearing cartesian datum development distance earth ellipsoid geocentric geodesy geohash haversine Lambert latitude longitude MGRS Nvector OSGR PyGeodesy Ramer-Douglas-Peucker rhumb sphere trigonometry UTM Vincenty Visvalingam-Whyatt WGS',
     url='https://github.com/mrJean1/PyGeodesy',
 
     long_description=_long_description(),

@@ -16,14 +16,14 @@ from datum import R_M, Datum, Datums
 from dms   import parse3llh
 from utils import EPS, PI, PI2, \
                   degrees90, degrees180, degrees360, \
-                  radians, radiansPI, tanPI_2_2
+                  favg, radians, tanPI_2_2, wrapPI
 
 from math import acos, atan2, cos, hypot, log, sin
 
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('LatLonSphericalBase',)
-__version__ = '17.02.15'
+__version__ = '17.02.23'
 
 
 class LatLonSphericalBase(LatLonHeightBase):
@@ -142,11 +142,11 @@ class LatLonSphericalBase(LatLonHeightBase):
         '''
         self.others(other)
 
-        a1 = radians(self.lat)
-        a2 = radians(other.lat)
+        a1, b1 = self.to2ab()
+        a2, b2 = other.to2ab()
         # if |db| > 180 take shorter rhumb
         # line across the anti-meridian
-        db = radiansPI(other.lon - self.lon)
+        db = wrapPI(b2 - b1)
         ds = log(tanPI_2_2(a2) / tanPI_2_2(a1))
         return (a2 - a1), db, ds
 
@@ -195,7 +195,8 @@ class LatLonSphericalBase(LatLonHeightBase):
         # conditioned along E-W line (0/0); use an empirical
         # tolerance to avoid it
         if abs(da) < EPS:
-            q = cos(radians(self.lat))
+            a, _ = self.to2ab()
+            q = cos(a)
         else:
             q = da / ds
 
@@ -226,8 +227,8 @@ class LatLonSphericalBase(LatLonHeightBase):
         if abs(b2 - b1) > PI:
             b1 += PI2  # crossing anti-meridian
 
-        a3 = (a1 + a2) * 0.5
-        b3 = (b1 + b2) * 0.5
+        a3 = favg(a1, a2)
+        b3 = favg(b1, b2)
 
         f1 = tanPI_2_2(a1)
         if abs(f1) > EPS:

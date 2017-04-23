@@ -244,13 +244,14 @@ pygeodesy.simplify.simplify1	pygeodesy.simplify-module.html#simplify1
 pygeodesy.simplify.simplifyRDP	pygeodesy.simplify-module.html#simplifyRDP
 pygeodesy.simplify.radiansPI	pygeodesy.utils-module.html#radiansPI
 pygeodesy.sphericalBase	pygeodesy.sphericalBase-module.html
-pygeodesy.sphericalBase.radiansPI	pygeodesy.utils-module.html#radiansPI
 pygeodesy.sphericalBase.tanPI_2_2	pygeodesy.utils-module.html#tanPI_2_2
 pygeodesy.sphericalBase.degrees90	pygeodesy.utils-module.html#degrees90
 pygeodesy.sphericalBase.degrees360	pygeodesy.utils-module.html#degrees360
 pygeodesy.sphericalBase.__package__	pygeodesy.sphericalBase-module.html#__package__
 pygeodesy.sphericalBase.degrees180	pygeodesy.utils-module.html#degrees180
 pygeodesy.sphericalBase.parse3llh	pygeodesy.dms-module.html#parse3llh
+pygeodesy.sphericalBase.wrapPI	pygeodesy.utils-module.html#wrapPI
+pygeodesy.sphericalBase.favg	pygeodesy.utils-module.html#favg
 pygeodesy.sphericalBase.radians	pygeodesy.utils-module.html#radians
 pygeodesy.sphericalNvector	pygeodesy.sphericalNvector-module.html
 pygeodesy.sphericalNvector.triangulate	pygeodesy.sphericalNvector-module.html#triangulate
