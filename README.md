@@ -2,7 +2,7 @@
 
 A pure Python implementation of geodesy tools for various ellipsoidal
 and spherical earth models using trigonometric and vector-based methods
-for geodetic (lat-/longitude) and cartesian (x/y/z) coordinates.
+for geodetic (lat-/longitude) and geocentric cartesian (x/y/z) coordinates.
 
 Transcribed from JavaScript originals by _(C) Chris Veness 2005-2016_
 and published under the same MIT Licence*.
@@ -69,4 +69,4 @@ __
  - Flake8 <https://pypi.python.org/pypi/flake8>
  - Epydoc <https://pypi.python.org/pypi/epydoc>
 
-_Last updated: Apr 23, 2017._
+_Last updated: Apr 24, 2017._

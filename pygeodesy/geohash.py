@@ -8,7 +8,8 @@ Transcribed from JavaScript originals by I{(C) Chris Veness 2011-2015}
 and published under the same MIT Licence**.
 
 More details at U{http://www.movable-type.co.uk/scripts/geohash.html}.
-See also U{https://github.com/vinsci/geohash} and U{https://github.com/davetroy/geohash-js}.
+See also U{https://github.com/vinsci/geohash}, U{https://github.com/davetroy/geohash-js}
+and U{https://pypi.python.org/pypi/pygeohash}.
 
 @newfield example: Example, Examples
 '''
@@ -21,7 +22,7 @@ from math import log10
 # all public contants, classes and functions
 __all__ = ('Geohash',  # classes
            'bounds', 'decode', 'encode', 'neighbors')  # functions
-__version__ = '17.04.22'
+__version__ = '17.04.24'
 
 # Geohash-specific base32 map
 _GeohashBase32 = '0123456789bcdefghjkmnpqrstuvwxyz'
@@ -41,6 +42,22 @@ _Neighbor = dict(
     S=('14365h7k9dcfesgujnmqp0r2twvyx8zb', '238967debc01fg45kmstqrwxuvhjyznp'),
     E=('bc01fg45238967deuvhjyznpkmstqrwx', 'p0r21436x8zb9dcf5h7kjnmqesgutwvy'),
     W=('238967debc01fg45kmstqrwxuvhjyznp', '14365h7k9dcfesgujnmqp0r2twvyx8zb'))
+
+# lat-, longitudinal and radial cell size in meter
+_Sizes = (  # radius = sqrt(latSize * lonSize / PI)
+    (20032e3, 20000e3, 11292815.09636),
+    ( 5003e3,  5000e3,  2821794.075209),
+    (  650e3,  1225e3,   503442.3967783),
+    (  156e3,   156e3,    88013.57503345),
+    (  19500,   39100,    15578.683279431),
+    (   4890,    4890,     2758.8870635485),
+    (    610,    1220,      486.70958208975),
+    (    153,     153,       86.321006282807),
+    (     19.1,    38.2,     15.2395951113347),
+    (      4.77,    4.77,     2.691184313522797),
+    (      0.596,   1.19,     0.4751400884760111),
+    (      0.149,   0.149,    0.08406424794861568),
+    (      0.0186,  0.0372,   0.014840652830933294))
 
 try:
     _Str = str, basestring
@@ -169,6 +186,24 @@ class Geohash(str):
         s, w, n, e = self._bounds
         return LatLon(s, w), LatLon(n, e)
 
+    def distance(self, other):
+        '''Returns the approximate distance between this and an other geohash.
+
+           @param other: The other geohash (Geohash).
+
+           @return: Approximate distance (meter).
+
+           @raise TypeError: The other is not a L{Geohash} or str.
+        '''
+        if not isinstance(other, _Str_Geohash):
+            raise TypeError('%r not %s or str' % (other, Geohash.__name__))
+
+        n, other = 0, other.lower()
+        for n in range(min(len(self), len(other), len(_Sizes))):
+            if self[n] != other[n]:
+                break
+        return float(_Sizes[n][2])
+
     @property
     def latlon(self):
         '''Returns the lat-/longitude of (the approximate center of)
@@ -195,6 +230,13 @@ class Geohash(str):
         '''
         return dict((d, getattr(self, d)) for d in ('N', 'NE', 'E', 'SE',
                                                     'S', 'SW', 'W', 'NW'))
+
+    @property
+    def sizes(self):
+        '''Returns lat-/longitudinal sizes of this cell (2-tuple in meter).
+        '''
+        n = min(len(self), len(_Sizes))
+        return tuple(map(float, _Sizes[n][:2]))
 
     def toLatLon(self, LatLon, **kwds):
         '''Returns (the approximate center of) this geohash cell
@@ -384,6 +426,28 @@ def decode_error(geohash):
     return (n - s) * 0.5, (e - w) * 0.5
 
 
+def distance(geohash1, geohash2):
+    '''Returns the approximate distance between two geohashes.
+
+       @param geohash1: First geohash (Geohash).
+       @param geohash2: Second geohash (Geohash).
+
+       @return: Approximate distance (meter).
+
+       @raise TypeError: A geohash is not a L{Geohash} or str.
+
+       @example:
+
+       >>> geohash.distance('u120fxwsh', 'u120fxws0')  # 15.2395951113347
+    '''
+    if isinstance(geohash1, _Str):
+        geohash1 = Geohash(geohash1)
+    elif not isinstance(geohash1, Geohash):
+        raise TypeError('%r not %s or str' % (geohash1, Geohash.__name__))
+
+    return geohash1.distance(geohash2)
+
+
 def encode(lat, lon, precision=None):
     '''Encodes lat-/longitude to geohash, either to the
        specified or an automatically evaluated precision.
@@ -404,6 +468,8 @@ def encode(lat, lon, precision=None):
        >>> geohash.encode(52.205, 0.1188)      # 'u120fxw'
        >>> geohash.encode(     0, 0)           # 's00000000000'
     '''
+    lat, lon = _2fll(lat, lon)
+
     if precision is None:
         # Infer precision by refining geohash until
         # it matches precision of supplied lat/lon.
@@ -421,8 +487,6 @@ def encode(lat, lon, precision=None):
                 raise ValueError
         except ValueError:
             raise ValueError('%s invalid: %r' % ('precision', precision))
-
-    lat, lon = _2fll(lat, lon)
 
     latS, latN =  -90,  90
     lonW, lonE = -180, 180
@@ -471,10 +535,12 @@ def neighbors(geohash):
 
        @JSname: I{neighbours}.
     '''
-    if not isinstance(geohash, _Str_Geohash):
+    if isinstance(geohash, _Str):
+        geohash = Geohash(geohash)
+    elif not isinstance(geohash, Geohash):
         raise TypeError('%r not %s or str' % (geohash, Geohash.__name__))
 
-    return Geohash(geohash).neighbors
+    return geohash.neighbors
 
 # **) MIT License
 #

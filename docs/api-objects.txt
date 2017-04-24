@@ -165,6 +165,7 @@ pygeodesy.ellipsoidalVincenty._p2	pygeodesy.ellipsoidalVincenty-module.html#_p2
 pygeodesy.ellipsoidalVincenty._r3	pygeodesy.ellipsoidalVincenty-module.html#_r3
 pygeodesy.geohash	pygeodesy.geohash-module.html
 pygeodesy.geohash.neighbors	pygeodesy.geohash-module.html#neighbors
+pygeodesy.geohash._Sizes	pygeodesy.geohash-module.html#_Sizes
 pygeodesy.geohash.decode_error	pygeodesy.geohash-module.html#decode_error
 pygeodesy.geohash._validate	pygeodesy.geohash-module.html#_validate
 pygeodesy.geohash._DecodedBase32	pygeodesy.geohash-module.html#_DecodedBase32
@@ -175,6 +176,7 @@ pygeodesy.geohash.encode	pygeodesy.geohash-module.html#encode
 pygeodesy.geohash._Border	pygeodesy.geohash-module.html#_Border
 pygeodesy.geohash._Neighbor	pygeodesy.geohash-module.html#_Neighbor
 pygeodesy.geohash.favg	pygeodesy.utils-module.html#favg
+pygeodesy.geohash.distance	pygeodesy.geohash-module.html#distance
 pygeodesy.geohash._GeohashBase32	pygeodesy.geohash-module.html#_GeohashBase32
 pygeodesy.geohash._Str	pygeodesy.geohash-module.html#_Str
 pygeodesy.geohash.bounds	pygeodesy.geohash-module.html#bounds
@@ -851,8 +853,8 @@ pygeodesy.geohash.Geohash._W	pygeodesy.geohash.Geohash-class.html#_W
 pygeodesy.geohash.Geohash._S	pygeodesy.geohash.Geohash-class.html#_S
 pygeodesy.geohash.Geohash._N	pygeodesy.geohash.Geohash-class.html#_N
 pygeodesy.geohash.Geohash._E	pygeodesy.geohash.Geohash-class.html#_E
-pygeodesy.geohash.Geohash.SE	pygeodesy.geohash.Geohash-class.html#SE
 pygeodesy.geohash.Geohash.toLatLon	pygeodesy.geohash.Geohash-class.html#toLatLon
+pygeodesy.geohash.Geohash.sizes	pygeodesy.geohash.Geohash-class.html#sizes
 pygeodesy.geohash.Geohash._bounds	pygeodesy.geohash.Geohash-class.html#_bounds
 pygeodesy.geohash.Geohash.latlon	pygeodesy.geohash.Geohash-class.html#latlon
 pygeodesy.geohash.Geohash._NW	pygeodesy.geohash.Geohash-class.html#_NW
@@ -863,8 +865,10 @@ pygeodesy.geohash.Geohash.W	pygeodesy.geohash.Geohash-class.html#W
 pygeodesy.geohash.Geohash.NE	pygeodesy.geohash.Geohash-class.html#NE
 pygeodesy.geohash.Geohash.NW	pygeodesy.geohash.Geohash-class.html#NW
 pygeodesy.geohash.Geohash.N	pygeodesy.geohash.Geohash-class.html#N
+pygeodesy.geohash.Geohash.distance	pygeodesy.geohash.Geohash-class.html#distance
 pygeodesy.geohash.Geohash.SW	pygeodesy.geohash.Geohash-class.html#SW
 pygeodesy.geohash.Geohash.bounds	pygeodesy.geohash.Geohash-class.html#bounds
+pygeodesy.geohash.Geohash.SE	pygeodesy.geohash.Geohash-class.html#SE
 pygeodesy.geohash.Geohash.__new__	pygeodesy.geohash.Geohash-class.html#__new__
 pygeodesy.geohash.Geohash.adjacent	pygeodesy.geohash.Geohash-class.html#adjacent
 pygeodesy.geohash.Geohash.__repr__	pygeodesy.geohash.Geohash-class.html#__repr__

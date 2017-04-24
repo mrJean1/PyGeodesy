@@ -31,7 +31,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'tanPI_2_2',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI', 'wrapPI2', 'wrapPI_2')
-__version__ = '17.04.22'
+__version__ = '17.04.24'
 
 try:
     _Ints = int, long  #: (INTERNAL) Int objects (tuple)
@@ -43,8 +43,8 @@ except NameError:  # Python 3+
 try:
     EPS = sys.float_info.epsilon  #: System's epsilon (float)
 except AttributeError:
-    EPS = 2.2204460492503131e-16  #: Approximate epsilon (float)
-EPS1 = 1.0 - EPS  #: 1.0 - EPS (float)
+    EPS = 2.220446049250313e-16  #: Approximate epsilon (float)
+EPS1 = 1.0 - EPS  #: M{1.0 - EPS} (float), about 0.9999999999999998
 EPS2 = sqrt(EPS)  #: M{sqrt(EPS)} (float)
 
 PI2  = PI * 2  #: Two PI, M{PI * 2} (float)  # PYCHOK expected

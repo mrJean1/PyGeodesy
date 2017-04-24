@@ -23,16 +23,16 @@ __all__ = ('F_D', 'F_DM', 'F_DMS', 'F_RAD',  # format contants
            'bearingDMS', 'compassDMS', 'compassPoint',  # functions
            'latDMS', 'lonDMS', 'normDMS',
            'parseDMS', 'parse3llh', 'precision', 'toDMS')
-__version__ = '17.03.20'
+__version__ = '17.03.24'
 
 F_D   = 'd'    #: Format degrees as deg° (string).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (string).
 F_DMS = 'dms'  #: Format degrees as deg°min′sec″ (string).
 F_RAD = 'rad'  #: Convert degrees to radians and format (string).
 
-S_DEG = '°'  #: Degrees symbol (string).
-S_MIN = '′'  #: Minutes symbol (string).
-S_SEC = '″'  #: Seconds symbol (string).
+S_DEG = '°'  #: Degrees° symbol (string).
+S_MIN = '′'  #: Minutes′ symbol (string).
+S_SEC = '″'  #: Seconds″ symbol (string).
 S_SEP = ''   #: Separator between deg, min and sec (string).
 
 _F_prec = {F_D: 6, F_DM: 4, F_DMS: 2, F_RAD: 5}  #: (INTERNAL) default precs.
@@ -180,7 +180,7 @@ toLon = lonDMS  # XXX original name
 
 
 def normDMS(strDMS, norm=''):
-    '''Normalizes the degree ˚, minute ' and second " symbols
+    '''Normalizes all degrees ˚, minutes ' and seconds " symbols
        in a string to the defaults %s, %s and %s.
 
        @param strDMS: DMS (string).
@@ -242,14 +242,14 @@ def parse3llh(strll, height=0, sep=','):
 
 
 def parseDMS(strDMS, suffix='NSEW'):
-    '''Parse a string representing deg° min' sec" into degrees.
+    '''Parses a string representing deg°min′sec″ to degrees.
 
        This is very flexible on formats, allowing signed decimal
        degrees, degrees and minutes or degrees minutes and seconds
        optionally suffixed by compass direction NSEW.
 
        A variety of symbols, separators and suffixes are accepted,
-       for example 3° 37' 09"W.  Minutes and seconds may be omitted.
+       for example 3° 37′ 09″W.  Minutes and seconds may be omitted.
 
        @param strDMS: Degrees in any of several forms (string).
        @keyword suffix: Optional, valid compass directions (NEWS).

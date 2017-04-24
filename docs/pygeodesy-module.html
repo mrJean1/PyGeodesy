@@ -60,7 +60,8 @@
 <h1 class="epydoc">Package pygeodesy</h1><p class="nomargin-top"></p>
 <p>A pure Python implementation of geodesy tools for various ellipsoidal 
   and spherical earth models using trigonometric and vector-based methods 
-  for geodetic (lat-/longitude) and cartesian (x/y/z) coordinates.</p>
+  for geodetic (lat-/longitude) and geocentric cartesian (x/y/z) 
+  coordinates.</p>
   <p>Transcribed from JavaScript originals by <i>(C) Chris Veness 
   2005-2016</i> and published under the same <a 
   href="https://opensource.org/licenses/MIT" target="_top">MIT 
@@ -166,13 +167,14 @@
   command line: <code>epydoc --html --no-private --no-source 
   --name=PyGeodesy --url=... -v pygeodesy</code>. Some function and method 
   names differ from the JavaScript version. In such cases documentation tag
-  <b>JS name:</b> shows the original JavaScript name. _</p>
+  <b>JS name:</b> shows the original JavaScript name.</p>
+  <p>_</p>
   <p>*) <a href="http://code.activestate.com/recipes/546532" 
   target="_top">PyChecker postprocessor</a></p>
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.04.23
+        17.04.24
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -872,7 +874,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#normDMS" class="summary-sig-name">normDMS</a>(<span class="summary-sig-arg">strDMS</span>,
         <span class="summary-sig-arg">norm</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
-      Normalizes the degree &#730;, minute ' and second &quot; symbols in a 
+      Normalizes all degrees &#730;, minutes ' and seconds &quot; symbols in a 
       string to the defaults &#176;, &#8242; and &#8243;.</td>
           <td align="right" valign="top">
             
@@ -910,7 +912,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#parseDMS" class="summary-sig-name">parseDMS</a>(<span class="summary-sig-arg">strDMS</span>,
         <span class="summary-sig-arg">suffix</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">NSEW</code><code class="variable-quote">'</code></span>)</span><br />
-      Parse a string representing deg&#176; min' sec&quot; into degrees.</td>
+      Parses a string representing deg&#176;min&#8242;sec&#8243; to degrees.</td>
           <td align="right" valign="top">
             
             
@@ -1418,7 +1420,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'17.4.23'"><code class="variable-quote">'</code><code class="variable-string">17.4.23</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'17.4.24'"><code class="variable-quote">'</code><code class="variable-string">17.4.24</code><code class="variable-quote">'</code></code><br />
       Normalized PyGeodesy version (string).
     </td>
   </tr>
@@ -1467,7 +1469,7 @@ m=Transforms.WGS84)
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="EPS1"></a><span class="summary-name">EPS1</span> = <code title="1.0">1.0</code><br />
-      <i class="math">1 - EPS</i> (float)
+      <i class="math">1 - EPS</i> (float), about 0.9999999999999998
     </td>
   </tr>
 <tr>
@@ -1587,7 +1589,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="S_DEG"></a><span class="summary-name">S_DEG</span> = <code title="'\xc2\xb0'"><code class="variable-quote">'</code><code class="variable-string">\xc2\xb0</code><code class="variable-quote">'</code></code><br />
-      Degrees symbol '&#176;' (string).
+      Degrees symbol &#176; (string).
     </td>
   </tr>
 <tr>
@@ -1595,7 +1597,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="S_MIN"></a><span class="summary-name">S_MIN</span> = <code title="'\xe2\x80\xb2'"><code class="variable-quote">'</code><code class="variable-string">\xe2\x80\xb2</code><code class="variable-quote">'</code></code><br />
-      Minutes symbol '&#8242;' (string).
+      Minutes symbol &#8242; (string).
     </td>
   </tr>
 <tr>
@@ -1603,7 +1605,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="S_SEC"></a><span class="summary-name">S_SEC</span> = <code title="'\xe2\x80\xb3'"><code class="variable-quote">'</code><code class="variable-string">\xe2\x80\xb3</code><code class="variable-quote">'</code></code><br />
-      Seconds symbol '&#8243;' (string).
+      Seconds symbol &#8243; (string).
     </td>
   </tr>
 <tr>
@@ -2424,7 +2426,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     </td>
   </tr></table>
   
-  <p>Normalizes the degree &#730;, minute ' and second &quot; symbols in a 
+  <p>Normalizes all degrees &#730;, minutes ' and seconds &quot; symbols in a 
   string to the defaults &#176;, &#8242; and &#8243;.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -2496,12 +2498,12 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     </td>
   </tr></table>
   
-  <p>Parse a string representing deg&#176; min' sec&quot; into degrees.</p>
+  <p>Parses a string representing deg&#176;min&#8242;sec&#8243; to degrees.</p>
   <p>This is very flexible on formats, allowing signed decimal degrees, 
   degrees and minutes or degrees minutes and seconds optionally suffixed by
   compass direction NSEW.</p>
   <p>A variety of symbols, separators and suffixes are accepted, for 
-  example 3&#176; 37' 09&quot;W.  Minutes and seconds may be omitted.</p>
+  example 3&#176; 37&#8242; 09&#8243;W.  Minutes and seconds may be omitted.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -3494,7 +3496,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Apr 23 14:31:56 2017
+    Generated by Epydoc 3.0.1 on Mon Apr 24 15:56:18 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -3,7 +3,7 @@
 
 '''A pure Python implementation of geodesy tools for various ellipsoidal
 and spherical earth models using trigonometric and vector-based methods
-for geodetic (lat-/longitude) and cartesian (x/y/z) coordinates.
+for geodetic (lat-/longitude) and geocentric cartesian (x/y/z) coordinates.
 
 Transcribed from JavaScript originals by I{(C) Chris Veness 2005-2016}
 and published under the same U{MIT License<https://opensource.org/licenses/MIT>}**.
@@ -63,6 +63,7 @@ by U{Epydoc<https://pypi.python.org/pypi/epydoc>} using command line:
 C{epydoc --html --no-private --no-source --name=PyGeodesy --url=... -v pygeodesy}.
 Some function and method names differ from the JavaScript version. In such
 cases documentation tag B{JS name:} shows the original JavaScript name.
+
 _
 
 *) U{PyChecker postprocessor<http://code.activestate.com/recipes/546532>}
@@ -71,7 +72,7 @@ _
 @newfield JSname: JS name, JS names
 
 @var EPS:  System's M{epsilon} (float)
-@var EPS1: M{1 - EPS} (float)
+@var EPS1: M{1 - EPS} (float), about 0.9999999999999998
 @var EPS2: M{sqrt(EPS)} (float)
 
 @var F_D:   Format degrees as deg° (string).
@@ -88,9 +89,9 @@ _
 @var R_NM: Mean, spherical earth radius (nautical miles).
 @var R_SM: Mean, spherical earth radius (statute miles).
 
-@var S_DEG: Degrees symbol '°' (string).
-@var S_MIN: Minutes symbol '′' (string).
-@var S_SEC: Seconds symbol '″' (string).
+@var S_DEG: Degrees symbol ° (string).
+@var S_MIN: Minutes symbol ′ (string).
+@var S_SEC: Seconds symbol ″ (string).
 @var S_SEP: Separator between deg°, min′ and sec″ (string).
 
 @var Conics:     Registered conics (enum).
@@ -130,7 +131,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',
            'Geohash', 'VincentyError',
            'geohash', 'nvector', 'vector3d', 'version',
            'isclockwise')  # extended below
-__version__ = '17.04.23'
+__version__ = '17.04.24'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))

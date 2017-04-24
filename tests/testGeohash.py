@@ -4,7 +4,7 @@
 # Test geohash module.
 
 __all__ = ('Tests',)
-__version__ = '17.04.22'
+__version__ = '17.04.24'
 
 from tests import Tests as _Tests
 
@@ -15,24 +15,35 @@ class Tests(_Tests):
 
     def testGeohash(self):
         # geohash module tests
-        _LL = ellipsoidalVincenty.LatLon
+        LL = ellipsoidalVincenty.LatLon
 
         g = Geohash('geek')
         self.test('Geohash', repr(g), "Geohash('geek')")
         self.test('Geohash', str(g), 'geek')
         self.test('Geohash', Geohash(g), 'geek')
-        self.test('bounds', g.bounds(_LL), '(LatLon(65°23′26.25″N, 017°55′46.88″W), LatLon(65°33′59.06″N, 017°34′41.25″W))')
-        self.test('toLatLon', str(g.toLatLon(_LL)), '65.478516°N, 017.753906°W')
+        self.test('bounds', g.bounds(LL), '(LatLon(65°23′26.25″N, 017°55′46.88″W), LatLon(65°33′59.06″N, 017°34′41.25″W))')
+        self.test('toLatLon', g.toLatLon(LL), '65.478516°N, 017.753906°W')
         self.test('latlon', str(g.latlon), '(65.478515625, -17.75390625)')
 
+        g = Geohash(LL(65.390625, -17.929689), precision=9)
+        self.test('Geohash', str(g), 'geehpbpbp')
+        self.test('latlon', str(g.latlon), '(65.390625, -17.929689)')
+        self.test('toLatLon', g.toLatLon(LL), '65.390625°N, 017.929689°W')
+        self.test('decode', geohash.decode(g), "('65.390646', '-17.929709')")
+        self.test('decode_error', geohash.decode_error(g), '(2.1457672119140625e-05, 2.1457672119140625e-05)')
+        self.test('distance', round(g.distance('geehpb'), 4), '2758.8871')
+
+        for g in ('u120fxw', 'geek', 'fur', 'geehpbpbp', 'u4pruydqqvj8', 'bgr96qxvpd46', '0123456789', 'zzzzzz'):
+            self.test('de-/encode', geohash.encode(*geohash.decode(g)), g)
+
         for p in range(9, 13):
-            g = Geohash(_LL(57.64911, 10.40744), precision=p)  # Jutland, Denamrk
+            g = Geohash(LL(57.64911, 10.40744), precision=p)  # Jutland, Denamrk
             self.test('Geohash', g, 'u4pruydqqvj8'[:p], )
             self.test('N.E.S.W', g.N.E.S.W == g, 'True')
             self.test('E.S.W.N', g.E.S.W.N == g, 'True')
             self.test('S.W.N.E', g.S.W.N.E == g, 'True')
             self.test('W.N.E.S', g.W.N.E.S == g, 'True')
-            self.test('N.E.S.S.W.W.N.N.E.S', g.N.E.S.S.W.W.N.N.E.S == g, 'True')  # PYCHOK expected
+            self.test('N.E.S.S.W.W.N.N.E.S', g.N.E.S.S.W.W.N.N.E.S == g, 'True')  # MCCABE Law of Demeter
 
         self.test('encode', geohash.encode(52.205, 0.1188), 'u120fxw')
         self.test('decode', geohash.decode('u120fxw'), "('52.205', '0.1188')")
