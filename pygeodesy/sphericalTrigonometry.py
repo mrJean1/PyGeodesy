@@ -24,7 +24,7 @@ from math import acos, asin, atan2, cos, hypot, sin
 # all public contants, classes and functions
 __all__ = ('LatLon',  # classes
            'intersection', 'meanOf')  # functions
-__version__ = '17.04.25'
+__version__ = '17.04.26'
 
 
 class LatLon(LatLonSphericalBase):
@@ -43,6 +43,47 @@ class LatLon(LatLonSphericalBase):
         if updated:  # reset caches
             self._v3d = None
             LatLonSphericalBase._update(self, updated)
+
+    def _trackDistanceTo2(self, start, end, radius):
+        '''(INTERNAL) Helper for along-/crossTrackDistanceTo.
+        '''
+        self.others(start, name='start')
+        self.others(end, name='end')
+
+        r = start.distanceTo(self, radius) / float(radius)
+        b = radians(start.bearingTo(self))
+        e = radians(start.bearingTo(end))
+
+        x = asin(sin(r) * sin(b - e))
+        return r, x
+
+    def alongTrackDistanceTo(self, start, end, radius=R_M):
+        '''Returns the distance from the start to the closest
+           point on the great circle path defined by a start and
+           end point.
+
+           @param start: Start point of great circle path (L{LatLon}).
+           @param end: End point of great circle path (L{LatLon}).
+           @keyword radius: Mean earth radius (meter).
+
+           @return: Distance along the great circle path.
+
+           @raise TypeError: The start or end point is not L{LatLon}.
+
+           @example:
+
+           >>> p = LatLon(53.2611, -0.7972)
+
+           >>> s = LatLon(53.3206, -1.7297)
+           >>> e = LatLon(53.1887, 0.1334)
+           >>> d = p.alongTrackDistanceTo(s, e)  # 62331.58
+        '''
+        r, x = self._trackDistanceTo2(start, end, radius)
+        cx = cos(x)
+        if abs(cx) > EPS:
+            return acos(cos(r) / cx) * radius
+        else:
+            return 0.0
 
     def bearingTo(self, other):
         '''Computes the initial bearing (aka forward azimuth) from
@@ -110,8 +151,8 @@ class LatLon(LatLonSphericalBase):
         return degrees180(m - d), degrees180(m + d)
 
     def crossTrackDistanceTo(self, start, end, radius=R_M):
-        '''Returns (signed) distance from this point to great circle
-           defined by a start and end point.
+        '''Returns the (signed) distance from this point to the great
+           circle defined by a start and end point.
 
            @param start: Start point of great circle path (L{LatLon}).
            @param end: End point of great circle path (L{LatLon}).
@@ -130,14 +171,8 @@ class LatLon(LatLonSphericalBase):
            >>> e = LatLon(53.1887, 0.1334)
            >>> d = p.crossTrackDistanceTo(s, e)  # -307.5
         '''
-        self.others(start, name='start')
-        self.others(end, name='end')
-
-        r = start.distanceTo(self, radius) / float(radius)
-        b = radians(start.bearingTo(self))
-        e = radians(start.bearingTo(end))
-
-        return asin(sin(r) * sin(b - e)) * radius
+        _, x = self._trackDistanceTo2(start, end, radius)
+        return x * radius
 
     def destination(self, distance, bearing, radius=R_M):
         '''Locates the destination from this point after having

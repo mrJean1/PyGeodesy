@@ -24,7 +24,7 @@ from time import time
 
 __all__ = ('versions', 'Tests',
            'secs2str')
-__version__ = '17.04.15'
+__version__ = '17.04.26'
 
 try:
     _int = int, long
@@ -181,6 +181,18 @@ class Tests(object):
             d = LAX.destination(100, 66, radius=R_NM) if Sph else LAX.destination(100, 66)
             self.test('destination', d.toStr(F_DM, prec=0), "34°37'N, 116°33'W" if Sph else "33°57'N, 118°24'W")
             self.test('destination', d, '34.613643°N, 116.551171°W' if Sph else '33.950367°N, 118.399012°W')  # PYCHOK false?
+
+        if hasattr(LatLon, 'alongTrackDistanceTo'):
+            p = LatLon(53.2611, -0.7972)
+            s = LatLon(53.3206, -1.7297)
+            try:
+                d = p.alongTrackDistanceTo(s, 96)
+                self.test('alongTrackDistanceTo', d, '-305.67', '%.2f')  # -305.7
+            except TypeError as x:
+                self.test('alongTrackDistanceTo', x, 'type(end) mismatch: int vs sphericalTrigonometry.LatLon')  # PYCHOK false?
+            e = LatLon(53.1887, 0.1334)
+            d = p.alongTrackDistanceTo(s, e)
+            self.test('alongTrackDistanceTo', d, '62331.58', '%.2f')  # PYCHOK false?  # XXX is 62331.58 correct?
 
         if hasattr(LatLon, 'crossTrackDistanceTo'):
             p = LatLon(53.2611, -0.7972)

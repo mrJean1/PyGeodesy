@@ -4,7 +4,7 @@
 # Test geohash module.
 
 __all__ = ('Tests',)
-__version__ = '17.04.25'
+__version__ = '17.04.26'
 
 from tests import Tests as _Tests
 
@@ -31,7 +31,7 @@ class Tests(_Tests):
         self.test('toLatLon', g.toLatLon(LL), '65.390625°N, 017.929689°W')
         self.test('decode', geohash.decode(g), "('65.390646', '-17.929709')")
         self.test('decode_error', geohash.decode_error(g), '(2.1457672119140625e-05, 2.1457672119140625e-05)')
-        self.test('distance1', round(g.distance1('geehpb'), 3),   '0.015')
+        self.test('distance1', round(g.distance1('geehpb'), 3), '2758.887')
         self.test('distance2', round(g.distance2('geehpb'), 3), '676.254')
         self.test('distance3', round(g.distance3('geehpb'), 3), '397.404')
 
@@ -50,7 +50,7 @@ class Tests(_Tests):
         self.test('encode', geohash.encode(52.205, 0.1188), 'u120fxw')
         self.test('decode', geohash.decode('u120fxw'), "('52.205', '0.1188')")
         self.test('decode_error', geohash.decode_error('u120fxw'), '(0.0006866455078125, 0.0006866455078125)')
-        self.test('distance1', round(geohash.distance1('u120fxw', 'u120fxws0'), 3), '0.015')
+        self.test('distance1', round(geohash.distance1('u120fxw', 'u120fxws0'), 3), '486.71')
         self.test('distance2', round(geohash.distance2('u120fxw', 'u120fxws0'), 3), '3.374')
         self.test('distance3', round(geohash.distance3('u120fxw', 'u120fxws0'), 3), '2.798')
 

@@ -24,7 +24,7 @@ __all__ = ('Geohash',  # classes
            'bounds', 'decode', 'decode_error',  # functions
            'distance1', 'distance2', 'distance3',
            'encode', 'neighbors', 'sizes')
-__version__ = '17.04.25'
+__version__ = '17.04.26'
 
 # Geohash-specific base32 map
 _GeohashBase32 = '0123456789bcdefghjkmnpqrstuvwxyz'
@@ -214,12 +214,9 @@ class Geohash(str):
         other = _2Geohash(other)
 
         n = min(len(self), len(other), len(_Sizes))
-        if n > 0:
-            for n in range(n):
-                if self[n] != other[n]:
-                    break
-            else:
-                n = len(_Sizes) - 1
+        for n in range(n):
+            if self[n] != other[n]:
+                break
         return float(_Sizes[n][2])
 
     def distance2(self, other, radius=R_M):
