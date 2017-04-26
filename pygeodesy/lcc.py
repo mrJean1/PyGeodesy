@@ -23,7 +23,7 @@ from math import atan, copysign, cos, hypot, log, sin, sqrt, tan
 # all public constants, classes and functions
 __all__ = ('Conic', 'Conics', 'Lcc',
            'toLcc')  # functions
-__version__ = '17.04.10'
+__version__ = '17.04.25'
 
 
 Conics = _Enum('Conics')  #: Registered conics (L{_Enum}).
@@ -508,22 +508,11 @@ if __name__ == '__main__':
 
 # Typical result (on macOS 10.12.2)
 
-# % python2.7 pygeodesy/lcc.py
-#
-# Conics.Be72Lb: Conic(lat0=90.0, lon0=4.3674867, par1=49.8333339, par2=51.1666672, E0=150000.013, N0=5400088.438, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.GRS80, transform=Transforms.NAD83, name='NAD83'), name='Be72Lb')
-# Conics.Fr93Lb: Conic(lat0=46.5, lon0=3.0, par1=49.0, par2=44.0, E0=700000.0, N0=6600000.0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84, name='WGS84'), name='Fr93Lb')
-# Conics.MaNLb: Conic(lat0=33.3, lon0=-5.4, par1=31.73, par2=34.87, E0=500000.0, N0=300000.0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.Clarke1880IGN, transform=Transforms.NTF, name='NTF'), name='MaNLb')
-# Conics.MxLb: Conic(lat0=12.0, lon0=-102.0, par1=17.5, par2=29.5, E0=2500000.0, N0=0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84, name='WGS84'), name='MxLb')
-# Conics.PyT_Lb: Conic(lat0=46.8, lon0=2.33722917, par1=45.8989389, par2=47.6960144, E0=600000.0, N0=200000.0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.Clarke1880IGN, transform=Transforms.NTF, name='NTF'), name='PyT_Lb')
-# Conics.USA_Lb: Conic(lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84, name='WGS84'), name='USA_Lb')
-# Conics.WRF_Lb: Conic(lat0=40.0, lon0=-97.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84, name='WGS84'), name='WRF_Lb')
-
-# % python3.6 pygeodesy/lcc.py
-#
-# Conics.Be72Lb: Conic(lat0=90.0, lon0=4.3674867, par1=49.8333339, par2=51.1666672, E0=150000.013, N0=5400088.438, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.GRS80, transform=Transforms.NAD83, name='NAD83'), name='Be72Lb')
-# Conics.Fr93Lb: Conic(lat0=46.5, lon0=3.0, par1=49.0, par2=44.0, E0=700000.0, N0=6600000.0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84, name='WGS84'), name='Fr93Lb')
-# Conics.MaNLb: Conic(lat0=33.3, lon0=-5.4, par1=31.73, par2=34.87, E0=500000.0, N0=300000.0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.Clarke1880IGN, transform=Transforms.NTF, name='NTF'), name='MaNLb')
-# Conics.MxLb: Conic(lat0=12.0, lon0=-102.0, par1=17.5, par2=29.5, E0=2500000.0, N0=0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84, name='WGS84'), name='MxLb')
-# Conics.PyT_Lb: Conic(lat0=46.8, lon0=2.33722917, par1=45.8989389, par2=47.6960144, E0=600000.0, N0=200000.0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.Clarke1880IGN, transform=Transforms.NTF, name='NTF'), name='PyT_Lb')
-# Conics.USA_Lb: Conic(lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84, name='WGS84'), name='USA_Lb')
-# Conics.WRF_Lb: Conic(lat0=40.0, lon0=-97.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84, name='WGS84'), name='WRF_Lb')
+# Conics.Be08Lb: Conic(name='Be08Lb', lat0=50.797815, lon0=4.35921583, par1=49.833333, par2=51.166667, E0=649328.0, N0=665262.0, k0=1, SP=2, datum=(name='GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.WGS84)
+# Conics.Be72Lb: Conic(name='Be72Lb', lat0=90.0, lon0=4.3674867, par1=49.8333339, par2=51.1666672, E0=150000.013, N0=5400088.438, k0=1, SP=2, datum=(name='NAD83', ellipsoid=Ellipsoids.GRS80, transform=Transforms.NAD83)
+# Conics.Fr93Lb: Conic(name='Fr93Lb', lat0=46.5, lon0=3.0, par1=49.0, par2=44.0, E0=700000.0, N0=6600000.0, k0=1, SP=2, datum=(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84)
+# Conics.MaNLb: Conic(name='MaNLb', lat0=33.3, lon0=-5.4, par1=31.73, par2=34.87, E0=500000.0, N0=300000.0, k0=1, SP=2, datum=(name='NTF', ellipsoid=Ellipsoids.Clarke1880IGN, transform=Transforms.NTF)
+# Conics.MxLb: Conic(name='MxLb', lat0=12.0, lon0=-102.0, par1=17.5, par2=29.5, E0=2500000.0, N0=0, k0=1, SP=2, datum=(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84)
+# Conics.PyT_Lb: Conic(name='PyT_Lb', lat0=46.8, lon0=2.33722917, par1=45.8989389, par2=47.6960144, E0=600000.0, N0=200000.0, k0=1, SP=2, datum=(name='NTF', ellipsoid=Ellipsoids.Clarke1880IGN, transform=Transforms.NTF)
+# Conics.USA_Lb: Conic(name='USA_Lb', lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84)
+# Conics.WRF_Lb: Conic(name='WRF_Lb', lat0=40.0, lon0=-97.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84)

@@ -14,17 +14,17 @@ see U{http://www.movable-type.co.uk/scripts/latlong.html}.
 
 from datum import R_M
 from sphericalBase import LatLonSphericalBase
-from utils import EPS, EPS1, PI, PI2, PI_2, \
+from utils import EPS, EPS1, PI2, PI_2, \
                   degrees90, degrees180, degrees360, \
-                  favg, fsum, hsin, map1, radians, wrapPI
+                  favg, fsum, hsin3, map1, radians, wrapPI
 from vector3d import Vector3d, sumOf
 
-from math import acos, asin, atan2, cos, hypot, sin, sqrt
+from math import acos, asin, atan2, cos, hypot, sin
 
 # all public contants, classes and functions
 __all__ = ('LatLon',  # classes
            'intersection', 'meanOf')  # functions
-__version__ = '17.03.13'
+__version__ = '17.04.25'
 
 
 class LatLon(LatLonSphericalBase):
@@ -187,7 +187,7 @@ class LatLon(LatLonSphericalBase):
         a1, b1 = self.to2ab()
         a2, b2 = other.to2ab()
 
-        r, _, _ = _haversine3(a2, a1, b2 - b1)
+        r, _, _ = hsin3(a2, a1, b2 - b1)
         return r * float(radius)
 
     def greatCircle(self, bearing):
@@ -245,7 +245,7 @@ class LatLon(LatLonSphericalBase):
             a1, b1 = self.to2ab()
             a2, b2 = other.to2ab()
 
-            r, ca2, ca1 = _haversine3(a2, a1, b2 - b1)
+            r, ca2, ca1 = hsin3(a2, a1, b2 - b1)
             if r > EPS:
                 cb1, cb2               = map1(cos, b1, b2)
                 sb1, sb2, sa1, sa2, sr = map1(sin, b1, b2, a1, a2, r)
@@ -444,7 +444,7 @@ def intersection(start1, bearing1, start2, bearing2):
     a1, b1 = start1.to2ab()
     a2, b2 = start2.to2ab()
 
-    r12, ca2, ca1 = _haversine3(a2, a1, b2 - b1)
+    r12, ca2, ca1 = hsin3(a2, a1, b2 - b1)
     if abs(r12) < EPS:
         raise ValueError('intersection %s: %r vs %r' % ('parallel', start1, start2))
 
@@ -502,7 +502,7 @@ def meanOf(points, height=None):
 
 
 def _destination2(a, b, r, t, h=0):
-    '''(INTERNAL) Compute destination.
+    '''(INTERNAL) Computes destination.
 
        @param a: Latitude (radians).
        @param b: Longitude (radians).
@@ -518,28 +518,6 @@ def _destination2(a, b, r, t, h=0):
     a  = asin(ct * sr * ca + cr * sa)
     b += atan2(st * sr * ca, cr - sa * sin(a))
     return LatLon(degrees90(a), degrees180(b), height=h)
-
-
-def _haversine3(a2, a1, b21):
-    '''(INTERNAL) Compute the angular distance.
-
-       @param a2: Latitude2 (radians).
-       @param a1: Latitude1 (radians).
-       @param b21: Longitude delta (radians).
-
-       @return: 3-Tuple (angle, cos(a2), cos(a1))
-
-       @see: U{http://www.movable-type.co.uk/scripts/latlong.html}
-
-       @see: U{http://williams.best.vwh.net/avform.htm#Dist}
-    '''
-    ca2, ca1 = map1(cos, a2, a1)
-    h = hsin(a2 - a1) + ca1 * ca2 * hsin(b21)  # haversine
-    try:
-        r = atan2(sqrt(h), sqrt(1 - h)) * 2  # == asin(sqrt(h)) * 2
-    except ValueError:
-        r = 0 if h < 0.5 else PI
-    return r, ca2, ca1
 
 # **) MIT License
 #

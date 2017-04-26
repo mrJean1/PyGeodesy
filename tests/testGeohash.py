@@ -4,7 +4,7 @@
 # Test geohash module.
 
 __all__ = ('Tests',)
-__version__ = '17.04.24'
+__version__ = '17.04.25'
 
 from tests import Tests as _Tests
 
@@ -31,12 +31,14 @@ class Tests(_Tests):
         self.test('toLatLon', g.toLatLon(LL), '65.390625°N, 017.929689°W')
         self.test('decode', geohash.decode(g), "('65.390646', '-17.929709')")
         self.test('decode_error', geohash.decode_error(g), '(2.1457672119140625e-05, 2.1457672119140625e-05)')
-        self.test('distance', round(g.distance('geehpb'), 4), '2758.8871')
+        self.test('distance1', round(g.distance1('geehpb'), 3),   '0.015')
+        self.test('distance2', round(g.distance2('geehpb'), 3), '676.254')
+        self.test('distance3', round(g.distance3('geehpb'), 3), '397.404')
 
         for g in ('u120fxw', 'geek', 'fur', 'geehpbpbp', 'u4pruydqqvj8', 'bgr96qxvpd46', '0123456789', 'zzzzzz'):
-            self.test('de-/encode', geohash.encode(*geohash.decode(g)), g)
+            self.test('encode-decode', geohash.encode(*geohash.decode(g)), g)
 
-        for p in range(9, 13):
+        for p in range(8, 13):
             g = Geohash(LL(57.64911, 10.40744), precision=p)  # Jutland, Denamrk
             self.test('Geohash', g, 'u4pruydqqvj8'[:p], )
             self.test('N.E.S.W', g.N.E.S.W == g, 'True')
@@ -48,6 +50,9 @@ class Tests(_Tests):
         self.test('encode', geohash.encode(52.205, 0.1188), 'u120fxw')
         self.test('decode', geohash.decode('u120fxw'), "('52.205', '0.1188')")
         self.test('decode_error', geohash.decode_error('u120fxw'), '(0.0006866455078125, 0.0006866455078125)')
+        self.test('distance1', round(geohash.distance1('u120fxw', 'u120fxws0'), 3), '0.015')
+        self.test('distance2', round(geohash.distance2('u120fxw', 'u120fxws0'), 3), '3.374')
+        self.test('distance3', round(geohash.distance3('u120fxw', 'u120fxws0'), 3), '2.798')
 
         self.test('encode', geohash.encode(69.6, -45.7), 'fur')
         self.test('decode', geohash.decode('fur'), "('69.6', '-45.7')")

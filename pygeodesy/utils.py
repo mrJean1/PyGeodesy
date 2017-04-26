@@ -10,7 +10,7 @@ and U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
 @newfield example: Example, Examples
 '''
 
-from math import degrees, pi as PI, radians, sin, sqrt, tan  # pow
+from math import atan2, cos, degrees, pi as PI, radians, sin, sqrt, tan  # pow
 try:
     from math import fsum  # precision sum, Python 2.6+
 except ImportError:
@@ -25,13 +25,13 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'cbrt', 'cbrt2',
            'degrees', 'degrees90', 'degrees180', 'degrees360',
            'false2f', 'favg', 'fdot', 'fdot3', 'fStr', 'fsum',
-           'halfs', 'hsin', 'hypot1', 'hypot3',
+           'halfs', 'hsin', 'hsin3', 'hypot1', 'hypot3',
            'isint', 'isscalar', 'len2', 'map1', 'map2',
            'radians', 'radiansPI', 'radiansPI2', 'radiansPI_2',
            'tanPI_2_2',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI', 'wrapPI2', 'wrapPI_2')
-__version__ = '17.04.24'
+__version__ = '17.04.25'
 
 try:
     _Ints = int, long  #: (INTERNAL) Int objects (tuple)
@@ -247,7 +247,7 @@ def halfs(str2):
 
 
 def hsin(rad):
-    '''Compute the Haversine value of an angle.
+    '''Computes the Haversine value of an angle.
 
        @param rad: Angle (radians).
 
@@ -257,6 +257,28 @@ def hsin(rad):
     '''
     h = sin(rad * 0.5)
     return h * h
+
+
+def hsin3(a2, a1, b21):
+    '''Computes the angular distance using the Haversine formula.
+
+       @param a2: Latitude2 (radians).
+       @param a1: Latitude1 (radians).
+       @param b21: Longitude delta (radians).
+
+       @return: 3-Tuple (angle, cos(a2), cos(a1))
+
+       @see: U{http://www.movable-type.co.uk/scripts/latlong.html}
+
+       @see: U{http://williams.best.vwh.net/avform.htm#Dist}
+    '''
+    ca2, ca1 = map1(cos, a2, a1)
+    h = hsin(a2 - a1) + ca1 * ca2 * hsin(b21)  # haversine
+    try:
+        r = atan2(sqrt(h), sqrt(1 - h)) * 2  # == asin(sqrt(h)) * 2
+    except ValueError:
+        r = 0 if h < 0.5 else PI
+    return r, ca2, ca1
 
 
 def hypot1(x):
@@ -355,7 +377,7 @@ def map1(func, *args):
 
 
 def map2(func, *args):
-    '''Applies arguments to a function, like built-in L{map}.
+    '''Applies arguments to a function, like Python 2 built-in L{map}.
 
        Python 3+ L{map} returns a L{map} object, an iterator-like
        object which generates the results only once.  Converting

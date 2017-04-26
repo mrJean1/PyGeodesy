@@ -174,7 +174,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.04.24
+        17.04.25
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -218,7 +218,7 @@
         class="link">Cartesian</a> and <a 
         href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html" 
         class="link">VincentyError</a>.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.geohash-module.html">pygeodesy.geohash</a></strong>: <em class="summary">Geohash encoding/decoding and associated functions.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.geohash-module.html">pygeodesy.geohash</a></strong>: <em class="summary">Geohash encoding, decoding and associated functions.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.lcc-module.html" onclick="show_private();">pygeodesy.lcc</a></strong>: <em class="summary">Lambert conformal conic projection for 1 or 2 Standard Parallels 
         class <a href="pygeodesy.lcc.Conic-class.html" 
         class="link">Conic</a> and position class <a 
@@ -692,7 +692,26 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#hsin" class="summary-sig-name">hsin</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Compute the Haversine value of an angle.</td>
+      Computes the Haversine value of an angle.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#hsin3" class="summary-sig-name">hsin3</a>(<span class="summary-sig-arg">a2</span>,
+        <span class="summary-sig-arg">a1</span>,
+        <span class="summary-sig-arg">b21</span>)</span><br />
+      Computes the angular distance using the Haversine formula.</td>
           <td align="right" valign="top">
             
             
@@ -855,7 +874,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#map2" class="summary-sig-name">map2</a>(<span class="summary-sig-arg">func</span>,
         <span class="summary-sig-arg">*args</span>)</span><br />
-      Applies arguments to a function, like built-in <code 
+      Applies arguments to a function, like Python 2 built-in <code 
       class="link">map</code>.</td>
           <td align="right" valign="top">
             
@@ -1420,7 +1439,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'17.4.24'"><code class="variable-quote">'</code><code class="variable-string">17.4.24</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'17.4.25'"><code class="variable-quote">'</code><code class="variable-string">17.4.25</code><code class="variable-quote">'</code></code><br />
       Normalized PyGeodesy version (string).
     </td>
   </tr>
@@ -2139,7 +2158,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     </td>
   </tr></table>
   
-  <p>Compute the Haversine value of an angle.</p>
+  <p>Computes the Haversine value of an angle.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -2152,6 +2171,43 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
         <a href="http://en.wikipedia.org/wiki/Haversine_formula" 
         target="_top">http://en.wikipedia.org/wiki/Haversine_formula</a>.
       </p>
+</div></td></tr></table>
+</div>
+<a name="hsin3"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">hsin3</span>(<span class="sig-arg">a2</span>,
+        <span class="sig-arg">a1</span>,
+        <span class="sig-arg">b21</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Computes the angular distance using the Haversine formula.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a2</code></strong> - Latitude2 (radians).</li>
+        <li><strong class="pname"><code>a1</code></strong> - Latitude1 (radians).</li>
+        <li><strong class="pname"><code>b21</code></strong> - Longitude delta (radians).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>3-Tuple (angle, cos(a2), cos(a1))</dd>
+  </dl>
+<div class="fields">      <dl><dt>See Also:</dt>
+        <dd>
+          <a href="http://www.movable-type.co.uk/scripts/latlong.html" 
+          target="_top">http://www.movable-type.co.uk/scripts/latlong.html</a>,
+          <a href="http://williams.best.vwh.net/avform.htm#Dist" 
+          target="_top">http://williams.best.vwh.net/avform.htm#Dist</a>
+        </dd>
+      </dl>
 </div></td></tr></table>
 </div>
 <a name="hypot1"></a>
@@ -2394,7 +2450,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     </td>
   </tr></table>
   
-  <p>Applies arguments to a function, like built-in <code 
+  <p>Applies arguments to a function, like Python 2 built-in <code 
   class="link">map</code>.</p>
   <p>Python 3+ <code class="link">map</code> returns a <code 
   class="link">map</code> object, an iterator-like object which generates 
@@ -3496,7 +3552,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Apr 24 15:56:18 2017
+    Generated by Epydoc 3.0.1 on Tue Apr 25 22:32:49 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

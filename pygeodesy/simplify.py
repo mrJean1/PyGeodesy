@@ -61,7 +61,7 @@ from math  import cos, degrees, radians
 __all__ = ('simplify1', 'simplify2',
            'simplifyRDP', 'simplifyRDPm',
            'simplifyVW', 'simplifyVWm')
-__version__ = '17.04.15'
+__version__ = '17.04.25'
 
 
 # try:
@@ -174,6 +174,10 @@ class _Sy(object):
         '''
         p1 = self.pts[i]
         p2 = self.pts[j]
+
+        # like the Equirectangular Approximation/Projection at
+        # <http://www.movable-type.co.uk/scripts/latlong.html>
+        # but using degrees as units instead of meter
 
         dx = wrap180(p2.lon - p1.lon)
         dy = wrap180(p2.lat - p1.lat)

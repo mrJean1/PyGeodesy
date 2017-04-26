@@ -131,7 +131,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',
            'Geohash', 'VincentyError',
            'geohash', 'nvector', 'vector3d', 'version',
            'isclockwise')  # extended below
-__version__ = '17.04.24'
+__version__ = '17.04.25'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))

@@ -140,9 +140,50 @@ basestring --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.geohash.Geohash-class.html#distance" class="summary-sig-name">distance</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.geohash.Geohash-class.html#distance1" class="summary-sig-name">distance1</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
-      Returns the approximate distance between this and an other geohash.</td>
+      Estimates the distance between this and an other geohash (from the 
+      cell sizes).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geohash.Geohash-class.html#distance2" class="summary-sig-name">distance2</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
+      Approximates the distance between this and an other geohash (with 
+      Pythagoras' theorem).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geohash.Geohash-class.html#distance3" class="summary-sig-name">distance3</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
+      Computes the great-circle distance between this and an other geohash 
+      (using the Haversine formula).</td>
           <td align="right" valign="top">
             
             
@@ -306,7 +347,8 @@ basestring --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.geohash.Geohash-class.html#sizes" class="summary-name">sizes</a><br />
-      Returns lat-/longitudinal sizes of this cell (2-tuple in meter).
+      Returns lat- and longitudinal size of this cell as a 2-tuple 
+      (latHeight, lonWidth) in meter.
     </td>
   </tr>
 <tr>
@@ -522,14 +564,14 @@ basestring --+
   </dl>
 </td></tr></table>
 </div>
-<a name="distance"></a>
+<a name="distance1"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">distance</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">distance1</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -537,19 +579,90 @@ basestring --+
     </td>
   </tr></table>
   
-  <p>Returns the approximate distance between this and an other 
-  geohash.</p>
+  <p>Estimates the distance between this and an other geohash (from the 
+  cell sizes).</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - The other geohash (Geohash).</li>
+        <li><strong class="pname"><code>other</code></strong> - The other geohash (<a href="pygeodesy.geohash.Geohash-class.html"
+          class="link">Geohash</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Approximate distance (meter).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - The other is not a <a href="pygeodesy.geohash.Geohash-class.html" 
-        class="link">Geohash</a> or str.</li>
+        class="link">Geohash</a>, <i>LatLon</i> or str.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="distance2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">distance2</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Approximates the distance between this and an other geohash (with 
+  Pythagoras' theorem).</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other geohash (<a href="pygeodesy.geohash.Geohash-class.html"
+          class="link">Geohash</a>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional earth radius (meter) or None.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Approximate distance (meter, same units as radius).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other is not a <a href="pygeodesy.geohash.Geohash-class.html" 
+        class="link">Geohash</a>, <i>LatLon</i> or str.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="distance3"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">distance3</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Computes the great-circle distance between this and an other geohash 
+  (using the Haversine formula).</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other geohash (<a href="pygeodesy.geohash.Geohash-class.html"
+          class="link">Geohash</a>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional earth radius (meter).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Great-circle distance (meter, same units as radius).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other is not a <a href="pygeodesy.geohash.Geohash-class.html" 
+        class="link">Geohash</a>, <i>LatLon</i> or str.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -646,11 +759,13 @@ href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>es.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">sizes</h3>
-  <p>Returns lat-/longitudinal sizes of this cell (2-tuple in meter).</p>
+  <p>Returns lat- and longitudinal size of this cell as a 2-tuple 
+  (latHeight, lonWidth) in meter.</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">sizes(<span class="summary-sig-arg">self</span>)</span>
-        - Returns lat-/longitudinal sizes of this cell (2-tuple in meter).
+        - Returns lat- and longitudinal size of this cell as a 2-tuple (latHeight, 
+lonWidth) in meter.
     </dd>
   </dl>
 </td></tr></table>
@@ -831,7 +946,7 @@ href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Apr 24 15:56:19 2017
+    Generated by Epydoc 3.0.1 on Tue Apr 25 22:32:50 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

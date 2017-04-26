@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 '''
-Geohash encoding/decoding and associated functions.
+Geohash encoding, decoding and associated functions.
 
 Transcribed from JavaScript originals by I{(C) Chris Veness 2011-2015}
 and published under the same MIT Licence**.
@@ -15,18 +15,20 @@ and U{https://pypi.python.org/pypi/pygeohash}.
 '''
 
 from dms import parseDMS
-from utils import EPS, favg, fStr, map2
+from utils import EPS, R_M, favg, fStr, hsin3, map2
 
-from math import log10
+from math import cos, hypot, log10, radians
 
 # all public contants, classes and functions
 __all__ = ('Geohash',  # classes
-           'bounds', 'decode', 'encode', 'neighbors')  # functions
-__version__ = '17.04.24'
+           'bounds', 'decode', 'decode_error',  # functions
+           'distance1', 'distance2', 'distance3',
+           'encode', 'neighbors', 'sizes')
+__version__ = '17.04.25'
 
 # Geohash-specific base32 map
 _GeohashBase32 = '0123456789bcdefghjkmnpqrstuvwxyz'
-# and the inverse map
+# ... and the inverse map
 _DecodedBase32 = dict((c, i) for i, c in enumerate(_GeohashBase32))
 c = i = None
 del c, i
@@ -43,26 +45,26 @@ _Neighbor = dict(
     E=('bc01fg45238967deuvhjyznpkmstqrwx', 'p0r21436x8zb9dcf5h7kjnmqesgutwvy'),
     W=('238967debc01fg45kmstqrwxuvhjyznp', '14365h7k9dcfesgujnmqp0r2twvyx8zb'))
 
-# lat-, longitudinal and radial cell size in meter
-_Sizes = (  # radius = sqrt(latSize * lonSize / PI)
-    (20032e3, 20000e3, 11292815.09636),
-    ( 5003e3,  5000e3,  2821794.075209),
-    (  650e3,  1225e3,   503442.3967783),
-    (  156e3,   156e3,    88013.57503345),
-    (  19500,   39100,    15578.683279431),
-    (   4890,    4890,     2758.8870635485),
-    (    610,    1220,      486.70958208975),
-    (    153,     153,       86.321006282807),
-    (     19.1,    38.2,     15.2395951113347),
-    (      4.77,    4.77,     2.691184313522797),
-    (      0.596,   1.19,     0.4751400884760111),
-    (      0.149,   0.149,    0.08406424794861568),
-    (      0.0186,  0.0372,   0.014840652830933294))
+# lat-, longitudinal and radial cell size (in meter)
+_Sizes = (  # radius = sqrt(latHeight * lonWidth / PI)
+    (20032e3, 20000e3, 11292815.096),  # 0
+    ( 5003e3,  5000e3,  2821794.075),  # 1
+    (  650e3,  1225e3,   503442.397),  # 2
+    (  156e3,   156e3,    88013.575),  # 3
+    (  19500,   39100,    15578.683),  # 4
+    (   4890,    4890,     2758.887),  # 5
+    (    610,    1220,      486.710),  # 6
+    (    153,     153,       86.321),  # 7
+    (     19.1,    38.2,     15.239),  # 8
+    (      4.77,    4.77,     2.691),  # 9
+    (      0.596,   1.19,     0.475),  # 10
+    (      0.149,   0.149,    0.084),  # 11
+    (      0.0186,  0.0372,   0.015))  # 12
 
 try:
     _Str = str, basestring
 except NameError:
-    _Str = str,  # tuple!
+    _Str = str
 
 
 def _2fll(lat, lon):
@@ -85,19 +87,32 @@ def _2fll(lat, lon):
     return lat, lon
 
 
-def _validate(geohash):
-    '''(INTERNAL) Check geohash string.
+def _2Geohash(geohash):
+    '''(INTERNAL) Check or create a Geohash instance.
+    '''
+    if not isinstance(geohash, Geohash):
+        try:
+            geohash = Geohash(geohash)
+        except (TypeError, ValueError):
+            raise TypeError('%r not %s, %s or str' % (geohash,
+                             Geohash.__name__, 'LatLon'))
+    return geohash
+
+
+def _2geostr(geohash):
+    '''(INTERNAL) Check a geohash string.
     '''
     try:
         if not 0 < len(geohash) < 13:
             raise ValueError
-        gh = geohash.lower()
-        for c in gh:
+        geostr = geohash.lower()
+        for c in geostr:
             if c not in _DecodedBase32:
                 raise ValueError
-        return gh
     except (AttributeError, ValueError, TypeError):
-        raise ValueError('%s: %r[%s]' % (Geohash.__name__, geohash, len(geohash)))
+        raise ValueError('%s: %r[%s]' % (Geohash.__name__,
+                          geohash, len(geohash)))
+    return geostr
 
 
 class Geohash(str):
@@ -124,10 +139,10 @@ class Geohash(str):
            @return: New L{Geohash}.
         '''
         if isinstance(cll, Geohash):
-            self = str.__new__(cls, _validate('%s' % (cll,)))
+            self = str.__new__(cls, _2geostr('%s' % (cll,)))
 
         elif isinstance(cll, _Str):
-            self = str.__new__(cls, _validate(cll.lower()))
+            self = str.__new__(cls, _2geostr(cll))
 
         else:  # assume LatLon
             try:
@@ -186,23 +201,70 @@ class Geohash(str):
         s, w, n, e = self._bounds
         return LatLon(s, w), LatLon(n, e)
 
-    def distance(self, other):
-        '''Returns the approximate distance between this and an other geohash.
+    def distance1(self, other):
+        '''Estimates the distance between this and an other geohash
+           (from the cell sizes).
 
-           @param other: The other geohash (Geohash).
+           @param other: The other geohash (L{Geohash}).
 
            @return: Approximate distance (meter).
 
-           @raise TypeError: The other is not a L{Geohash} or str.
+           @raise TypeError: The other is not a L{Geohash}, I{LatLon} or str.
         '''
-        if not isinstance(other, _Str_Geohash):
-            raise TypeError('%r not %s or str' % (other, Geohash.__name__))
+        other = _2Geohash(other)
 
-        n, other = 0, other.lower()
-        for n in range(min(len(self), len(other), len(_Sizes))):
-            if self[n] != other[n]:
-                break
+        n = min(len(self), len(other), len(_Sizes))
+        if n > 0:
+            for n in range(n):
+                if self[n] != other[n]:
+                    break
+            else:
+                n = len(_Sizes) - 1
         return float(_Sizes[n][2])
+
+    def distance2(self, other, radius=R_M):
+        '''Approximates the distance between this and an other geohash
+           (with Pythagoras' theorem).
+
+           @param other: The other geohash (L{Geohash}).
+           @keyword radius: Optional earth radius (meter) or None.
+
+           @return: Approximate distance (meter, same units as radius).
+
+           @raise TypeError: The other is not a L{Geohash}, I{LatLon} or str.
+        '''
+        other = _2Geohash(other)
+
+        a1, b1 = self.latlon
+        a2, b2 = other.latlon
+
+        x = radians(a2 - a1) * cos(radians(favg(b2, b1)))
+        y = radians(b2 - b1)
+
+        if radius:
+            d = hypot(x, y) * float(radius)
+        else:
+            d = x * x + y * y
+        return d
+
+    def distance3(self, other, radius=R_M):
+        '''Computes the great-circle distance between this and
+           an other geohash (using the Haversine formula).
+
+           @param other: The other geohash (L{Geohash}).
+           @keyword radius: Optional earth radius (meter).
+
+           @return: Great-circle distance (meter, same units as radius).
+
+           @raise TypeError: The other is not a L{Geohash}, I{LatLon} or str.
+        '''
+        other = _2Geohash(other)
+
+        a1, b1 = self.latlon
+        a2, b2 = other.latlon
+
+        r, _, _ = hsin3(radians(a2), radians(a1), radians(b2 - b1))
+        return r * float(radius)
 
     @property
     def latlon(self):
@@ -233,9 +295,10 @@ class Geohash(str):
 
     @property
     def sizes(self):
-        '''Returns lat-/longitudinal sizes of this cell (2-tuple in meter).
+        '''Returns lat- and longitudinal size of this cell as a 2-tuple
+           (latHeight, lonWidth) in meter.
         '''
-        n = min(len(self), len(_Sizes))
+        n = min(len(self) or 1, len(_Sizes)) - 1
         return tuple(map(float, _Sizes[n][:2]))
 
     def toLatLon(self, LatLon, **kwds):
@@ -321,15 +384,12 @@ class Geohash(str):
         return self._SW
 
 
-_Str_Geohash = _Str + (Geohash,)
-
-
 def bounds(geohash):
     '''Returns SW and NE lat-/longitude bounds of a geohash.
 
        @return: 4-Tuple (latS, lonW, latN, lonE) in (degrees).
 
-       @raise TypeError: The geohash is not a L{Geohash} or str.
+       @raise TypeError: The geohash is not a L{Geohash}, I{LatLon} or str.
 
        @raise ValueError: Invalid or null geohash.
 
@@ -339,17 +399,15 @@ def bounds(geohash):
                                       #  52.20565796, 0.11947632
        >>> geohash.decode('u120fxw')  # '52.205',    '0.1188'
     '''
-    if not isinstance(geohash, _Str_Geohash):
-        raise TypeError('%r not %s or str' % (geohash, Geohash.__name__))
-
-    if not geohash:
+    geohash = _2Geohash(geohash)
+    if len(geohash) < 1:
         raise ValueError('%s invalid: %s' % ('geohash', geohash))
 
     latS, latN =  -90,  90
     lonW, lonE = -180, 180
 
     e = True
-    for c in geohash.lower():
+    for c in geohash:  # .lower():
         try:
             i = _DecodedBase32[c]
         except KeyError:
@@ -381,7 +439,7 @@ def decode(geohash):
 
        @return: 2-Tuple (latStr, lonStr) in (strings).
 
-       @raise TypeError: The geohash is not a L{Geohash} or str.
+       @raise TypeError: The geohash is not a L{Geohash}, I{LatLon} or str.
 
        @raise ValueError: Invalid or null geohash.
 
@@ -411,7 +469,7 @@ def decode_error(geohash):
 
        @return: 2-Tuple (latErr, lonErr) in (degrees).
 
-       @raise TypeError: The geohash is not a L{Geohash} or str.
+       @raise TypeError: The geohash is not a L{Geohash}, I{LatLon} or str.
 
        @raise ValueError: Invalid or null geohash.
 
@@ -426,26 +484,59 @@ def decode_error(geohash):
     return (n - s) * 0.5, (e - w) * 0.5
 
 
-def distance(geohash1, geohash2):
-    '''Returns the approximate distance between two geohashes.
+def distance1(geohash1, geohash2):
+    '''Estimates the distance between two geohash (from the cell sizes).
 
-       @param geohash1: First geohash (Geohash).
-       @param geohash2: Second geohash (Geohash).
+       @param geohash1: First geohash (L{Geohash}).
+       @param geohash2: Second geohash (L{Geohash}).
 
        @return: Approximate distance (meter).
 
-       @raise TypeError: A geohash is not a L{Geohash} or str.
+       @raise TypeError: A geohash is not a L{Geohash}, I{LatLon} or str.
 
        @example:
 
-       >>> geohash.distance('u120fxwsh', 'u120fxws0')  # 15.2395951113347
+       >>> geohash.distance1('u120fxwsh', 'u120fxws0')  # 15.239
     '''
-    if isinstance(geohash1, _Str):
-        geohash1 = Geohash(geohash1)
-    elif not isinstance(geohash1, Geohash):
-        raise TypeError('%r not %s or str' % (geohash1, Geohash.__name__))
+    return _2Geohash(geohash1).distance1(geohash2)
 
-    return geohash1.distance(geohash2)
+
+def distance2(geohash1, geohash2, radius=R_M):
+    '''Approximates the distance between two geohashes (with
+       Pythagoras' theorem).
+
+       @param geohash1: First geohash (L{Geohash}).
+       @param geohash2: Second geohash (L{Geohash}).
+       @keyword radius: Optional earth radius (meter) or None.
+
+       @return: Approximate distance (meter, same units as radius).
+
+       @raise TypeError: A geohash is not a L{Geohash}, I{LatLon} or str.
+
+       @example:
+
+       >>> geohash.distance2('u120fxwsh', 'u120fxws0')  # 19.0879
+    '''
+    return _2Geohash(geohash1).distance2(geohash2, radius=radius)
+
+
+def distance3(geohash1, geohash2, radius=R_M):
+    '''Computes the great-circle distance between two geohashes
+       (using the Haversine formula).
+
+       @param geohash1: First geohash (L{Geohash}).
+       @param geohash2: Second geohash (L{Geohash}).
+       @keyword radius: Optional earth radius (meter).
+
+       @return: Great-circle distance (meter, same units as radius).
+
+       @raise TypeError: A geohash is not a L{Geohash}, I{LatLon} or str.
+
+       @example:
+
+       >>> geohash.distance3('u120fxwsh', 'u120fxws0')  # 11.6978
+    '''
+    return _2Geohash(geohash1).distance3(geohash2, radius=radius)
 
 
 def encode(lat, lon, precision=None):
@@ -529,18 +620,25 @@ def neighbors(geohash):
 
        @return: Neighbors (dict(N=, NE=, E= ..., SW=) of L{Geohash}es).
 
-       @raise TypeError: The geohash is not a L{Geohash} or str.
-
-       @raise ValueError: Invalid geohash.
+       @raise TypeError: The geohash is not a L{Geohash}, I{LatLon} or str.
 
        @JSname: I{neighbours}.
     '''
-    if isinstance(geohash, _Str):
-        geohash = Geohash(geohash)
-    elif not isinstance(geohash, Geohash):
-        raise TypeError('%r not %s or str' % (geohash, Geohash.__name__))
+    return _2Geohash(geohash).neighbors
 
-    return geohash.neighbors
+
+def sizes(geohash):
+    '''Returns the lat- and longitudinal size of this L{Geohash} cell.
+
+       @param geohash: Cell for which size are required (L{Geohash} or str).
+
+       @return: 2-Tuple (latHeight, lonWidth) in (meter).
+
+       @raise TypeError: The geohash is not a L{Geohash}, I{LatLon} or str.
+
+       @JSname: I{neighbours}.
+    '''
+    return _2Geohash(geohash).sizes
 
 # **) MIT License
 #
