@@ -174,7 +174,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.04.26
+        17.04.27
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -854,6 +854,57 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#m2NM" class="summary-sig-name">m2NM</a>(<span class="summary-sig-arg">meter</span>)</span><br />
+      Converts meter to nautical miles (NM).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#m2SM" class="summary-sig-name">m2SM</a>(<span class="summary-sig-arg">meter</span>)</span><br />
+      Converts meter to statute miles (SM).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#m2km" class="summary-sig-name">m2km</a>(<span class="summary-sig-arg">meter</span>)</span><br />
+      Converts meter to kilo meter (km).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#map1" class="summary-sig-name">map1</a>(<span class="summary-sig-arg">func</span>,
         <span class="summary-sig-arg">*args</span>)</span><br />
       Applies each argument to a single-argument function.</td>
@@ -1439,7 +1490,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'17.4.26'"><code class="variable-quote">'</code><code class="variable-string">17.4.26</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'17.4.27'"><code class="variable-quote">'</code><code class="variable-string">17.4.27</code><code class="variable-quote">'</code></code><br />
       Normalized PyGeodesy version (string).
     </td>
   </tr>
@@ -1591,7 +1642,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="R_NM"></a><span class="summary-name">R_NM</span> = <code title="3440.08989621">3440.08989621</code><br />
+        <a name="R_NM"></a><span class="summary-name">R_NM</span> = <code title="3440.06953447">3440.06953447</code><br />
       Mean, spherical earth radius (nautical miles).
     </td>
   </tr>
@@ -1599,7 +1650,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="R_SM"></a><span class="summary-name">R_SM</span> = <code title="3958.75372029">3958.75372029</code><br />
+        <a name="R_SM"></a><span class="summary-name">R_SM</span> = <code title="3958.7613655">3958.7613655</code><br />
       Mean, spherical earth radius (statute miles).
     </td>
   </tr>
@@ -2407,6 +2458,81 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
         <i>toLon</i>.
       </p>
 </div></td></tr></table>
+</div>
+<a name="m2NM"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">m2NM</span>(<span class="sig-arg">meter</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Converts meter to nautical miles (NM).</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>meter</code></strong> - Value in meter (scalar).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Value in NM (float).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="m2SM"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">m2SM</span>(<span class="sig-arg">meter</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Converts meter to statute miles (SM).</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>meter</code></strong> - Value in meter (scalar).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Value in SM (float).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="m2km"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">m2km</span>(<span class="sig-arg">meter</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Converts meter to kilo meter (km).</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>meter</code></strong> - Value in meter (scalar).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Value in km (float).</dd>
+  </dl>
+</td></tr></table>
 </div>
 <a name="map1"></a>
 <div>
@@ -3552,7 +3678,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Apr 26 14:40:10 2017
+    Generated by Epydoc 3.0.1 on Wed Apr 26 21:56:24 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

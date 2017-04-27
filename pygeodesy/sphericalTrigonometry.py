@@ -19,7 +19,7 @@ from utils import EPS, EPS1, PI2, PI_2, \
                   favg, fsum, hsin3, map1, radians, wrapPI
 from vector3d import Vector3d, sumOf
 
-from math import acos, asin, atan2, cos, hypot, sin
+from math import acos, asin, atan2, copysign, cos, hypot, sin
 
 # all public contants, classes and functions
 __all__ = ('LatLon',  # classes
@@ -55,7 +55,7 @@ class LatLon(LatLonSphericalBase):
         e = radians(start.bearingTo(end))
 
         x = asin(sin(r) * sin(b - e))
-        return r, x
+        return r, x, e - b
 
     def alongTrackDistanceTo(self, start, end, radius=R_M):
         '''Returns the distance from the start to the closest
@@ -78,10 +78,10 @@ class LatLon(LatLonSphericalBase):
            >>> e = LatLon(53.1887, 0.1334)
            >>> d = p.alongTrackDistanceTo(s, e)  # 62331.58
         '''
-        r, x = self._trackDistanceTo2(start, end, radius)
+        r, x, b = self._trackDistanceTo2(start, end, radius)
         cx = cos(x)
         if abs(cx) > EPS:
-            return acos(cos(r) / cx) * radius
+            return copysign(acos(cos(r) / cx), cos(b)) * radius
         else:
             return 0.0
 
@@ -171,7 +171,7 @@ class LatLon(LatLonSphericalBase):
            >>> e = LatLon(53.1887, 0.1334)
            >>> d = p.crossTrackDistanceTo(s, e)  # -307.5
         '''
-        _, x = self._trackDistanceTo2(start, end, radius)
+        _, x, _ = self._trackDistanceTo2(start, end, radius)
         return x * radius
 
     def destination(self, distance, bearing, radius=R_M):

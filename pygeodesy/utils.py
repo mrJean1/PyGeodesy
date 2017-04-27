@@ -26,12 +26,13 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'degrees', 'degrees90', 'degrees180', 'degrees360',
            'false2f', 'favg', 'fdot', 'fdot3', 'fStr', 'fsum',
            'halfs', 'hsin', 'hsin3', 'hypot1', 'hypot3',
-           'isint', 'isscalar', 'len2', 'map1', 'map2',
+           'isint', 'isscalar', 'len2',
+           'm2km', 'm2NM', 'm2SM', 'map1', 'map2',
            'radians', 'radiansPI', 'radiansPI2', 'radiansPI_2',
            'tanPI_2_2',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI', 'wrapPI2', 'wrapPI_2')
-__version__ = '17.04.25'
+__version__ = '17.04.27'
 
 try:
     _Ints = int, long  #: (INTERNAL) Int objects (tuple)
@@ -363,6 +364,36 @@ def len2(xtor):
     if not isinstance(xtor, (list, tuple)):
         xtor = list(xtor)
     return len(xtor), xtor
+
+
+def m2km(meter):
+    '''Converts meter to kilo meter (km).
+
+       @param meter: Value in meter (scalar).
+
+       @return: Value in km (float).
+    '''
+    return meter * 1.0e-3
+
+
+def m2NM(meter):
+    '''Converts meter to nautical miles (NM).
+
+       @param meter: Value in meter (scalar).
+
+       @return: Value in NM (float).
+    '''
+    return meter * 5.39956804e-4  # == * 1.0 / 1852.0
+
+
+def m2SM(meter):
+    '''Converts meter to statute miles (SM).
+
+       @param meter: Value in meter (scalar).
+
+       @return: Value in SM (float).
+    '''
+    return meter * 6.213712e-4
 
 
 def map1(func, *args):

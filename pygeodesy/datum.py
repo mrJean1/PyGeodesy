@@ -36,21 +36,24 @@ if not 1/2:  # PYCHOK 1/2 == 0
     raise ImportError('1/2 == %d' % (1/2,))
 
 from bases import Base, Named
-from utils import R_M, cbrt, cbrt2, fdot, fStr, radians
+from utils import R_M, cbrt, cbrt2, fdot, fStr, \
+                  m2km, m2NM, m2SM, radians
 
 from math import atanh, sqrt
 
-R_M  = R_M             #: Mean, spherical earth radius (meter).
-R_KM = R_M  * 1.0e-3   #: Mean, spherical earth radius (kilo meter).
-R_NM = R_KM * 0.53996  #: Mean, spherical earth radius (nautical miles).
-R_SM = R_KM * 0.62137  #: Mean, spherical earth radius (statute miles).
-#R_? = 6372797.560856  # XXX some other earth radius?  # PYCHOK expected
+R_M  = R_M        #: Mean, spherical earth radius (meter).
+R_KM = m2km(R_M)  #: Mean, spherical earth radius (kilo meter).
+R_NM = m2NM(R_M)  #: Mean, spherical earth radius (nautical miles).
+R_SM = m2SM(R_M)  #: Mean, spherical earth radius (statute miles).
+# <http://www.edwilliams.org/avform.htm#XTE>
+# R_AV = 6366707.0194937  #: Aviation earth radius (meter)
+# R_?? = 6372797.560856   #: XXX some other earth radius?
 
 # all public contants, classes and functions
 __all__ = ('R_KM', 'R_M', 'R_NM', 'R_SM',  # constants
            'Datum',  'Ellipsoid',  'Transform',  # classes
            'Datums', 'Ellipsoids', 'Transforms')  # enum-like
-__version__ = '17.04.22'
+__version__ = '17.04.27'
 
 
 class _Enum(dict, Named):

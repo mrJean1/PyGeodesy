@@ -31,9 +31,11 @@ pygeodesy.wrap90	pygeodesy-module.html#wrap90
 pygeodesy.version	pygeodesy-module.html#version
 pygeodesy.bearingDMS	pygeodesy-module.html#bearingDMS
 pygeodesy.PI	pygeodesy-module.html#PI
+pygeodesy.m2km	pygeodesy-module.html#m2km
 pygeodesy.S_DEG	pygeodesy-module.html#S_DEG
 pygeodesy.favg	pygeodesy-module.html#favg
 pygeodesy.compassPoint	pygeodesy-module.html#compassPoint
+pygeodesy.m2SM	pygeodesy-module.html#m2SM
 pygeodesy.R_SM	pygeodesy-module.html#R_SM
 pygeodesy.wrap180	pygeodesy-module.html#wrap180
 pygeodesy.fStr	pygeodesy-module.html#fStr
@@ -68,6 +70,7 @@ pygeodesy.__package__	pygeodesy-module.html#__package__
 pygeodesy.parseOSGR	pygeodesy-module.html#parseOSGR
 pygeodesy.simplify1	pygeodesy-module.html#simplify1
 pygeodesy.parseMGRS	pygeodesy-module.html#parseMGRS
+pygeodesy.m2NM	pygeodesy-module.html#m2NM
 pygeodesy.parseUTM	pygeodesy-module.html#parseUTM
 pygeodesy.isint	pygeodesy-module.html#isint
 pygeodesy.wrapPI_2	pygeodesy-module.html#wrapPI_2
@@ -96,13 +99,16 @@ pygeodesy.bases.map1	pygeodesy.utils-module.html#map1
 pygeodesy.datum	pygeodesy.datum-module.html
 pygeodesy.datum.cbrt	pygeodesy.utils-module.html#cbrt
 pygeodesy.datum.Datums	pygeodesy.datum-module.html#Datums
+pygeodesy.datum.radians	pygeodesy.utils-module.html#radians
 pygeodesy.datum.Ellipsoids	pygeodesy.datum-module.html#Ellipsoids
 pygeodesy.datum.R_KM	pygeodesy.datum-module.html#R_KM
 pygeodesy.datum.__package__	pygeodesy.datum-module.html#__package__
+pygeodesy.datum.m2NM	pygeodesy.utils-module.html#m2NM
 pygeodesy.datum.Transforms	pygeodesy.datum-module.html#Transforms
 pygeodesy.datum.cbrt2	pygeodesy.utils-module.html#cbrt2
 pygeodesy.datum.R_NM	pygeodesy.datum-module.html#R_NM
-pygeodesy.datum.radians	pygeodesy.utils-module.html#radians
+pygeodesy.datum.m2km	pygeodesy.utils-module.html#m2km
+pygeodesy.datum.m2SM	pygeodesy.utils-module.html#m2SM
 pygeodesy.datum.R_SM	pygeodesy.datum-module.html#R_SM
 pygeodesy.datum.fStr	pygeodesy.utils-module.html#fStr
 pygeodesy.datum.R_M	pygeodesy.datum-module.html#R_M
@@ -293,6 +299,7 @@ pygeodesy.utils.cbrt	pygeodesy.utils-module.html#cbrt
 pygeodesy.utils.radiansPI	pygeodesy.utils-module.html#radiansPI
 pygeodesy.utils.fsum	pygeodesy.utils-module.html#fsum
 pygeodesy.utils.EPS	pygeodesy.utils-module.html#EPS
+pygeodesy.utils.radians	pygeodesy.utils-module.html#radians
 pygeodesy.utils.len2	pygeodesy.utils-module.html#len2
 pygeodesy.utils.hsin3	pygeodesy.utils-module.html#hsin3
 pygeodesy.utils.degrees90	pygeodesy.utils-module.html#degrees90
@@ -305,6 +312,7 @@ pygeodesy.utils.hypot3	pygeodesy.utils-module.html#hypot3
 pygeodesy.utils.isscalar	pygeodesy.utils-module.html#isscalar
 pygeodesy.utils.radiansPI2	pygeodesy.utils-module.html#radiansPI2
 pygeodesy.utils.PI_2	pygeodesy.utils-module.html#PI_2
+pygeodesy.utils.wrapPI2	pygeodesy.utils-module.html#wrapPI2
 pygeodesy.utils.wrap180	pygeodesy.utils-module.html#wrap180
 pygeodesy.utils._Scalars	pygeodesy.utils-module.html#_Scalars
 pygeodesy.utils.__package__	pygeodesy.utils-module.html#__package__
@@ -324,10 +332,11 @@ pygeodesy.utils.halfs	pygeodesy.utils-module.html#halfs
 pygeodesy.utils.cbrt2	pygeodesy.utils-module.html#cbrt2
 pygeodesy.utils._2_3rd	pygeodesy.utils-module.html#_2_3rd
 pygeodesy.utils.PI2	pygeodesy.utils-module.html#PI2
-pygeodesy.utils.wrapPI2	pygeodesy.utils-module.html#wrapPI2
+pygeodesy.utils.m2NM	pygeodesy.utils-module.html#m2NM
 pygeodesy.utils._1_3rd	pygeodesy.utils-module.html#_1_3rd
 pygeodesy.utils.PI	pygeodesy.utils-module.html#PI
-pygeodesy.utils.radians	pygeodesy.utils-module.html#radians
+pygeodesy.utils.m2km	pygeodesy.utils-module.html#m2km
+pygeodesy.utils.m2SM	pygeodesy.utils-module.html#m2SM
 pygeodesy.utils._Ints	pygeodesy.utils-module.html#_Ints
 pygeodesy.utils.false2f	pygeodesy.utils-module.html#false2f
 pygeodesy.utils.fStr	pygeodesy.utils-module.html#fStr

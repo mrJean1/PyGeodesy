@@ -16,7 +16,7 @@ except ImportError:
     sys.path.insert(0, dirname(dirname(__file__)))
 from pygeodesy import R_NM, F_D, F_DM, F_DMS, F_RAD, \
                       version as geodesy_version, \
-                      degrees, isclockwise, normDMS  # PYCHOK expected
+                      degrees, isclockwise, m2NM, normDMS  # PYCHOK expected
 
 from inspect import isclass, isfunction, ismethod, ismodule
 from platform import architecture
@@ -24,7 +24,7 @@ from time import time
 
 __all__ = ('versions', 'Tests',
            'secs2str')
-__version__ = '17.04.26'
+__version__ = '17.04.27'
 
 try:
     _int = int, long
@@ -143,8 +143,10 @@ class Tests(object):
         q = LatLon(*map(degrees, p.to2ab()))
         self.test('equals', q.equals(p), 'True')
 
+        # <http://www.edwilliams.org/avform.htm#XTE>
         LAX = LatLon(33.+57./60, -(118.+24./60))
         JFK = LatLon(degrees(0.709186), -degrees(1.287762))
+        Rav = m2NM(6366710)  # av earth radius in NM
 
         p = LatLon(52.205, 0.119)
         q = LatLon(48.857, 2.351)
@@ -180,31 +182,50 @@ class Tests(object):
             self.test('destination', d.toStr(F_DMS, 0), '51°30′49″N, 000°05′54″W' if Sph else '51°30′49″N, 000°05′53″W')
             d = LAX.destination(100, 66, radius=R_NM) if Sph else LAX.destination(100, 66)
             self.test('destination', d.toStr(F_DM, prec=0), "34°37'N, 116°33'W" if Sph else "33°57'N, 118°24'W")
-            self.test('destination', d, '34.613643°N, 116.551171°W' if Sph else '33.950367°N, 118.399012°W')  # PYCHOK false?
+            self.test('destination', d, '34.613647°N, 116.55116°W' if Sph else '33.950367°N, 118.399012°W')  # PYCHOK false?
 
         if hasattr(LatLon, 'alongTrackDistanceTo'):
-            p = LatLon(53.2611, -0.7972)
             s = LatLon(53.3206, -1.7297)
+            e = LatLon(53.1887, 0.1334)
+            p = LatLon(53.2611, -0.7972)
             try:
                 d = p.alongTrackDistanceTo(s, 96)
                 self.test('alongTrackDistanceTo', d, '-305.67', '%.2f')  # -305.7
             except TypeError as x:
                 self.test('alongTrackDistanceTo', x, 'type(end) mismatch: int vs sphericalTrigonometry.LatLon')  # PYCHOK false?
-            e = LatLon(53.1887, 0.1334)
             d = p.alongTrackDistanceTo(s, e)
-            self.test('alongTrackDistanceTo', d, '62331.58', '%.2f')  # PYCHOK false?  # XXX is 62331.58 correct?
+            self.test('alongTrackDistanceTo', d, '62331.58', '%.2f')  # PYCHOK false?
+
+            # <http://www.edwilliams.org/avform.htm#XTE>
+            p = LatLon(34.5, -116.5)  # 34:30N, 116:30W
+            d = p.alongTrackDistanceTo(LAX, JFK, radius=Rav)
+            self.test('alongTrackDistanceTo', d, '99.588', '%.3f')  # NM
+
+            # courtesy of Rimvydas Naktinis
+            p = LatLon(53.36366, -1.83883)
+            d = p.alongTrackDistanceTo(s, e)
+            self.test('alongTrackDistanceTo', d, '-7702.7', '%.1f')
+
+            p = LatLon(53.35423, -1.60881)
+            d = p.alongTrackDistanceTo(s, e)
+            self.test('alongTrackDistanceTo', d, '7587.6', '%.1f')  # PYCHOK false?
 
         if hasattr(LatLon, 'crossTrackDistanceTo'):
-            p = LatLon(53.2611, -0.7972)
             s = LatLon(53.3206, -1.7297)
+            e = LatLon(53.1887, 0.1334)
+            p = LatLon(53.2611, -0.7972)
             try:
                 d = p.crossTrackDistanceTo(s, 96)
                 self.test('crossTrackDistanceTo', d, '-305.67', '%.2f')  # -305.7
             except TypeError as x:
                 self.test('crossTrackDistanceTo', x, 'type(end) mismatch: int vs sphericalTrigonometry.LatLon')  # PYCHOK false?
-            e = LatLon(53.1887, 0.1334)
             d = p.crossTrackDistanceTo(s, e)
             self.test('crossTrackDistanceTo', d, '-307.55', '%.2f')  # PYCHOK false?  # -307.5
+
+            # <http://www.edwilliams.org/avform.htm#XTE>
+            p = LatLon(34.5, -116.5)  # 34:30N, 116:30W
+            d = p.crossTrackDistanceTo(LAX, JFK, radius=Rav)
+            self.test('crossTrackDistanceTo', d, '7.4524', '%.4f')  # PYCHOK false? # XXX 7.4512 NM
 
         if hasattr(LatLon, 'greatCircle'):
             p = LatLon(53.3206, -1.7297)
