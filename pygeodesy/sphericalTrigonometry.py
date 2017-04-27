@@ -24,7 +24,7 @@ from math import acos, asin, atan2, copysign, cos, hypot, sin
 # all public contants, classes and functions
 __all__ = ('LatLon',  # classes
            'intersection', 'meanOf')  # functions
-__version__ = '17.04.26'
+__version__ = '17.04.27'
 
 
 class LatLon(LatLonSphericalBase):
@@ -44,7 +44,7 @@ class LatLon(LatLonSphericalBase):
             self._v3d = None
             LatLonSphericalBase._update(self, updated)
 
-    def _trackDistanceTo2(self, start, end, radius):
+    def _trackDistanceTo3(self, start, end, radius):
         '''(INTERNAL) Helper for along-/crossTrackDistanceTo.
         '''
         self.others(start, name='start')
@@ -58,15 +58,17 @@ class LatLon(LatLonSphericalBase):
         return r, x, e - b
 
     def alongTrackDistanceTo(self, start, end, radius=R_M):
-        '''Returns the distance from the start to the closest
-           point on the great circle path defined by a start and
-           end point.
+        '''Returns the (signed) distance from the start to the closest
+           point on the great circle path defined by a start and end
+           point.
 
            @param start: Start point of great circle path (L{LatLon}).
            @param end: End point of great circle path (L{LatLon}).
            @keyword radius: Mean earth radius (meter).
 
-           @return: Distance along the great circle path.
+           @return: Distance along the great circle path (positive if
+                    after the start toward the end point of the path
+                    or negative if before the start point).
 
            @raise TypeError: The start or end point is not L{LatLon}.
 
@@ -78,7 +80,7 @@ class LatLon(LatLonSphericalBase):
            >>> e = LatLon(53.1887, 0.1334)
            >>> d = p.alongTrackDistanceTo(s, e)  # 62331.58
         '''
-        r, x, b = self._trackDistanceTo2(start, end, radius)
+        r, x, b = self._trackDistanceTo3(start, end, radius)
         cx = cos(x)
         if abs(cx) > EPS:
             return copysign(acos(cos(r) / cx), cos(b)) * radius
@@ -171,7 +173,7 @@ class LatLon(LatLonSphericalBase):
            >>> e = LatLon(53.1887, 0.1334)
            >>> d = p.crossTrackDistanceTo(s, e)  # -307.5
         '''
-        _, x, _ = self._trackDistanceTo2(start, end, radius)
+        _, x, _ = self._trackDistanceTo3(start, end, radius)
         return x * radius
 
     def destination(self, distance, bearing, radius=R_M):

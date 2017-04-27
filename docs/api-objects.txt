@@ -1230,7 +1230,7 @@ pygeodesy.sphericalBase.LatLonSphericalBase.minLat	pygeodesy.sphericalBase.LatLo
 pygeodesy.sphericalTrigonometry.LatLon.bearingTo	pygeodesy.sphericalTrigonometry.LatLon-class.html#bearingTo
 pygeodesy.sphericalTrigonometry.LatLon._v3d	pygeodesy.sphericalTrigonometry.LatLon-class.html#_v3d
 pygeodesy.sphericalBase.LatLonSphericalBase.maxLat	pygeodesy.sphericalBase.LatLonSphericalBase-class.html#maxLat
-pygeodesy.sphericalTrigonometry.LatLon._trackDistanceTo2	pygeodesy.sphericalTrigonometry.LatLon-class.html#_trackDistanceTo2
+pygeodesy.sphericalTrigonometry.LatLon._trackDistanceTo3	pygeodesy.sphericalTrigonometry.LatLon-class.html#_trackDistanceTo3
 pygeodesy.sphericalBase.LatLonSphericalBase.finalBearingTo	pygeodesy.sphericalBase.LatLonSphericalBase-class.html#finalBearingTo
 pygeodesy.bases.LatLonHeightBase.__str__	pygeodesy.bases.LatLonHeightBase-class.html#__str__
 pygeodesy.bases.Base.classname	pygeodesy.bases.Base-class.html#classname
