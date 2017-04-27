@@ -14,7 +14,7 @@ U{http://www.movable-type.co.uk/scripts/latlong.html}.
 from bases import LatLonHeightBase
 from datum import R_M, Datum, Datums
 from dms   import parse3llh
-from utils import EPS, PI, PI2, \
+from utils import EPS, PI, PI2, PI_2, \
                   degrees90, degrees180, degrees360, \
                   favg, radians, tanPI_2_2, wrapPI
 
@@ -23,7 +23,7 @@ from math import acos, atan2, cos, hypot, log, sin
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('LatLonSphericalBase',)
-__version__ = '17.02.23'
+__version__ = '17.04.28'
 
 
 class LatLonSphericalBase(LatLonHeightBase):
@@ -147,11 +147,11 @@ class LatLonSphericalBase(LatLonHeightBase):
         # if |db| > 180 take shorter rhumb
         # line across the anti-meridian
         db = wrapPI(b2 - b1)
-        ds = log(tanPI_2_2(a2) / tanPI_2_2(a1))
-        return (a2 - a1), db, ds
+        dp = log(tanPI_2_2(a2) / tanPI_2_2(a1))
+        return (a2 - a1), db, dp
 
     def rhumbBearingTo(self, other):
-        '''Return the initial bearing (aka forward azimuth) from this
+        '''Return the initial bearing (forward azimuth) from this
            to an other point along a rhumb (loxodrome) line.
 
            @param other: The other point (spherical LatLon).
@@ -166,9 +166,54 @@ class LatLonSphericalBase(LatLonHeightBase):
            >>> q = LatLon(50.964, 1.853)
            >>> b = p.rhumbBearingTo(q)  # 116.7
         '''
-        _, db, ds = self._rhumb3(other)
+        _, db, dp = self._rhumb3(other)
 
-        return degrees360(atan2(db, ds))
+        return degrees360(atan2(db, dp))
+
+    def rhumbDestination(self, distance, bearing, radius=R_M):
+        '''Returns the destination point having travelled along
+           a rhumb (loxodrome) line from this point the given
+           distance on the given bearing.
+
+           @param distance: Distance travelled (same units as radius).
+           @param bearing: Bearing from this point (compass degrees).
+           @keyword radius: Mean earth radius (meter).
+
+           @return: The destination point (spherical LatLon).
+
+           @example:
+
+           >>> p = LatLon(51.127, 1.338)
+           >>> q = p.rhumbDestination(40300, 116.7)  # 50.9642°N, 001.8530°E
+
+           @JSname: I{rhumbDestinationPoint}
+        '''
+        a1, b1 = self.to2ab()
+
+        r = float(distance) / float(radius)  # angular distance in radians
+        t = radians(bearing)
+
+        da = r * cos(t)
+        a2 = a1 + da
+        # normalize latitude if past pole
+        if a2 > PI_2:
+            a2 =  PI - a2
+        elif a2 < -PI_2:
+            a2 = -PI - a2
+
+        dp = log(tanPI_2_2(a2) / tanPI_2_2(a1))
+        # E-W course becomes ill-conditioned with 0/0
+        if abs(dp) > EPS:
+            q = da / dp
+        else:
+            q = cos(a1)
+
+        if abs(q) > EPS:
+            b2 = b1 + r * sin(t) / q
+        else:
+            b2 = b1
+
+        return self.topsub(degrees90(a2), degrees180(b2), height=self.height)
 
     def rhumbDistanceTo(self, other, radius=R_M):
         '''Returns distance from this to an other point along
@@ -188,23 +233,23 @@ class LatLonSphericalBase(LatLonHeightBase):
            >>> d = p.rhumbDistanceTo(q)  # 403100
         '''
         # see http://williams.best.vwh.net/avform.htm#Rhumb
-        da, db, ds = self._rhumb3(other)
+        da, db, dp = self._rhumb3(other)
 
         # on Mercator projection, longitude distances shrink
         # by latitude; the 'stretch factor' q becomes ill-
         # conditioned along E-W line (0/0); use an empirical
         # tolerance to avoid it
-        if abs(da) < EPS:
+        if abs(dp) > EPS:
+            q = da / dp
+        else:
             a, _ = self.to2ab()
             q = cos(a)
-        else:
-            q = da / ds
 
         return float(radius) * hypot(da, q * db)
 
     def rhumbMidpointTo(self, other):
-        '''Return the loxodromic midpoint between this and an
-           other point.
+        '''Return the (loxodromic) midpoint between this and
+           an other point.
 
            @param other: The other point (spherical LatLon).
 

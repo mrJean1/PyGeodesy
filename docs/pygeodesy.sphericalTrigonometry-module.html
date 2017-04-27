@@ -74,7 +74,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.04.27
+        17.04.28
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -107,12 +107,49 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry-module.html#areaOf" class="summary-sig-name">areaOf</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
+      Calculates the area of a spherical polygon where the sides of the 
+      polygon are great circle arcs joining the points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry-module.html#intersection" class="summary-sig-name">intersection</a>(<span class="summary-sig-arg">start1</span>,
         <span class="summary-sig-arg">bearing1</span>,
         <span class="summary-sig-arg">start2</span>,
         <span class="summary-sig-arg">bearing2</span>)</span><br />
       Return the intersection point of two paths each defined by a start 
       point and an initial bearing.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry-module.html#isPoleEnclosedBy" class="summary-sig-name">isPoleEnclosedBy</a>(<span class="summary-sig-arg">points</span>)</span><br />
+      Tests whether a pole is enclosed by a polygon defined by a list, 
+      sequence, set or tuple of points.</td>
           <td align="right" valign="top">
             
             
@@ -150,6 +187,51 @@
     <span class="table-header">Function Details</span></td>
 </tr>
 </table>
+<a name="areaOf"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">areaOf</span>(<span class="sig-arg">points</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Calculates the area of a spherical polygon where the sides of the 
+  polygon are great circle arcs joining the points.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<a 
+          href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
+          class="link">LatLon</a>[]).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (meter).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Polygon area (float, same units as radius squared).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <a 
+        href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Too few polygon points.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>b = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
+<span class="py-prompt">&gt;&gt;&gt; </span>areaOf(b)  <span class="py-comment"># 8666058750.718977</span></pre>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>c = LatLon(0, 0), LatLon(1, 0), LatLon(0, 1)
+<span class="py-prompt">&gt;&gt;&gt; </span>areaOf(c)  <span class="py-comment"># 6.18e9</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
 <a name="intersection"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -201,6 +283,41 @@
 <span class="py-prompt">&gt;&gt;&gt; </span>i = intersection(p, 108.547, s, 32.435)  <span class="py-comment"># '50.9078&#176;N, 004.5084&#176;E'</span></pre>
       </p>
 </div></td></tr></table>
+</div>
+<a name="isPoleEnclosedBy"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isPoleEnclosedBy</span>(<span class="sig-arg">points</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Tests whether a pole is enclosed by a polygon defined by a list, 
+  sequence, set or tuple of points.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<a 
+          href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
+          class="link">LatLon</a>[]).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>True if the polygon encloses this point (bool).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Too few polygon points.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <a 
+        href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
 </div>
 <a name="meanOf"></a>
 <div>
@@ -272,7 +389,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Apr 26 23:00:00 2017
+    Generated by Epydoc 3.0.1 on Thu Apr 27 15:40:28 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

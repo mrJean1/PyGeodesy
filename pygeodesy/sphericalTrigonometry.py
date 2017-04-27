@@ -14,17 +14,19 @@ see U{http://www.movable-type.co.uk/scripts/latlong.html}.
 
 from datum import R_M
 from sphericalBase import LatLonSphericalBase
-from utils import EPS, EPS1, PI2, PI_2, \
+from utils import EPS, PI2, PI_2, \
                   degrees90, degrees180, degrees360, \
                   favg, fsum, hsin3, map1, radians, wrapPI
 from vector3d import Vector3d, sumOf
 
-from math import acos, asin, atan2, copysign, cos, hypot, sin
+from math import acos, asin, atan2, copysign, cos, hypot, sin, tan
 
 # all public contants, classes and functions
 __all__ = ('LatLon',  # classes
-           'intersection', 'meanOf')  # functions
-__version__ = '17.04.27'
+           'areaOf',  # functions
+           'intersection', 'isPoleEnclosedBy',
+           'meanOf')
+__version__ = '17.04.28'
 
 
 class LatLon(LatLonSphericalBase):
@@ -271,39 +273,36 @@ class LatLon(LatLonSphericalBase):
            >>> p1 = LatLon(52.205, 0.119)
            >>> p2 = LatLon(48.857, 2.351)
            >>> p = p1.intermediateTo(p2, 0.25)  # 51.3721°N, 000.7073°E
+
+           @JSname: I{intermediatePointTo}.
         '''
         self.others(other)
 
-        if fraction < EPS:
-            a, b, h = self.to3llh()
-        elif fraction > EPS1:
-            a, b, h = other.to3llh()
-        else:
-            a1, b1 = self.to2ab()
-            a2, b2 = other.to2ab()
+        a1, b1 = self.to2ab()
+        a2, b2 = other.to2ab()
 
-            r, ca2, ca1 = hsin3(a2, a1, b2 - b1)
-            if r > EPS:
-                cb1, cb2               = map1(cos, b1, b2)
-                sb1, sb2, sa1, sa2, sr = map1(sin, b1, b2, a1, a2, r)
+        r, ca2, ca1 = hsin3(a2, a1, b2 - b1)
+        if r > EPS:
+            cb1, cb2               = map1(cos, b1, b2)
+            sb1, sb2, sa1, sa2, sr = map1(sin, b1, b2, a1, a2, r)
 
-                a = sin((1 - fraction) * r) / sr
-                b = sin(     fraction  * r) / sr
+            A = sin((1 - fraction) * r) / sr
+            B = sin(     fraction  * r) / sr
 
-                x = a * ca1 * cb1 + b * ca2 * cb2
-                y = a * ca1 * sb1 + b * ca2 * sb2
-                z = a * sa1       + b * sa2
+            x = A * ca1 * cb1 + B * ca2 * cb2
+            y = A * ca1 * sb1 + B * ca2 * sb2
+            z = A * sa1       + B * sa2
 
-                a = atan2(z, hypot(x, y))
-                b = atan2(y, x)
-            else:  # points too close
-                a = favg(a1, a2, f=fraction)
-                b = favg(b1, b2, f=fraction)
+            a = atan2(z, hypot(x, y))
+            b = atan2(y, x)
 
-            h = self._alter(other, f=fraction)
-            a, b = degrees90(a), degrees180(b)
+        else:  # points too close
+            a = favg(a1, a2, f=fraction)
+            b = favg(b1, b2, f=fraction)
 
-        return LatLon(a, b, height=h)  # XXX self.topsub(a, b, ...)
+        h = self._alter(other, f=fraction)
+
+        return LatLon(degrees90(a), degrees180(b), height=h)  # XXX self.topsub(a, b, ...)
 
     def intersection(self, bearing, start2, bearing2):
         '''Locates the intersection of two paths each defined by
@@ -452,6 +451,69 @@ class LatLon(LatLonSphericalBase):
 _Trll = LatLon(0, 0)  #: (INTERNAL) Reference instance (L{LatLon}).
 
 
+def _destination2(a, b, r, t, h=0):
+    '''(INTERNAL) Computes destination.
+
+       @param a: Latitude (radians).
+       @param b: Longitude (radians).
+       @param r: Angular distance (radians).
+       @param t: Bearing (radians).
+       @param h: Height (meter).
+
+       @return: Destination (L{LatLon}).
+    '''
+    ca, cr, ct = map1(cos, a, r, t)
+    sa, sr, st = map1(sin, a, r, t)
+
+    a  = asin(ct * sr * ca + cr * sa)
+    b += atan2(st * sr * ca, cr - sa * sin(a))
+    return LatLon(degrees90(a), degrees180(b), height=h)
+
+
+def areaOf(points, radius=R_M):
+    '''Calculates the area of a spherical polygon where the sides
+       of the polygon are great circle arcs joining the points.
+
+       @param points: The points defining the polygon (L{LatLon}[]).
+       @keyword radius: Mean earth radius (meter).
+
+       @return: Polygon area (float, same units as radius squared).
+
+       @raise TypeError: Some points are not L{LatLon}.
+
+       @raise ValueError: Too few polygon points.
+
+       @example:
+
+       >>> b = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
+       >>> areaOf(b)  # 8666058750.718977
+
+       >>> c = LatLon(0, 0), LatLon(1, 0), LatLon(0, 1)
+       >>> areaOf(c)  # 6.18e9
+    '''
+    n, points = _Trll.points(points)
+
+    # uses method due to Karney: for each edge of the polygon,
+    # tan(E/2) = tan(Δλ/2)·(tan(φ1/2) + tan(φ2/2)) / (1 + tan(φ1/2)·tan(φ2/2))
+    # where E is the spherical excess of the trapezium obtained by extending
+    # the edge to the equator-circle vector for each edge
+    # <http://osgeo-org.1560.x6.nabble.com/Area-of-a-spherical-polygon-td3841625.html>
+
+    a1, b1 = points[n-1].to2ab()
+    S, ta1 = [], tan(a1 * 0.5)
+    for p in points:
+        a2, b2 = p.to2ab()
+        ta2, tb21 = tan(a2 * 0.5), tan((b2 - b1) * 0.5)
+        S.append(atan2(tb21 * (ta1 + ta2), 1 + ta1 * ta2))
+        ta1, b1 = ta2, b2
+    S = 2 * fsum(S)
+
+    if isPoleEnclosedBy(points):
+        S = abs(S) - PI2
+
+    return abs(S * radius * radius)
+
+
 def intersection(start1, bearing1, start2, bearing2):
     '''Return the intersection point of two paths each defined
        by a start point and an initial bearing.
@@ -515,6 +577,34 @@ def intersection(start1, bearing1, start2, bearing2):
     return _destination2(a1, b1, r13, t13, h=start1._alter(start2))
 
 
+def isPoleEnclosedBy(points):
+    '''Tests whether a pole is enclosed by a polygon defined by a list,
+       sequence, set or tuple of points.
+
+       @param points: The points defining the polygon (L{LatLon}[]).
+
+       @return: True if the polygon encloses this point (bool).
+
+       @raise ValueError: Too few polygon points.
+
+       @raise TypeError: Some points are not L{LatLon}.
+    '''
+    n, points = _Trll.points(points)
+
+    # sum of course deltas around pole is 0° rather than normally ±360°
+    # <http://blog.element84.com/determining-if-a-spherical-polygon-contains-a-pole.html>
+    p1, sd = points[n-1], []
+    b1 = p1.bearingTo(points[0])
+    for p2 in points:
+        b = p1.bearingTo(p2)
+        sd.append((b - b1 + 540) % 360 - 180)
+        b2 = p1.finalBearingTo(p2)
+        sd.append((b2 - b + 540) % 360 - 180)
+        p1, b1 = p2, b2
+    # XXX fix (intermittant) edge crossing pole - eg (85,90), (85,0), (85,-90)
+    return abs(fsum(sd)) < 90  # 0-ish
+
+
 def meanOf(points, height=None):
     '''Computes the geographic mean of the supplied points.
 
@@ -536,25 +626,6 @@ def meanOf(points, height=None):
     else:
         h = height
     return LatLon(a, b, height=h)
-
-
-def _destination2(a, b, r, t, h=0):
-    '''(INTERNAL) Computes destination.
-
-       @param a: Latitude (radians).
-       @param b: Longitude (radians).
-       @param r: Angular distance (radians).
-       @param t: Bearing (radians).
-       @param h: Height (meter).
-
-       @return: Destination (L{LatLon}).
-    '''
-    ca, cr, ct = map1(cos, a, r, t)
-    sa, sr, st = map1(sin, a, r, t)
-
-    a  = asin(ct * sr * ca + cr * sa)
-    b += atan2(st * sr * ca, cr - sa * sin(a))
-    return LatLon(degrees90(a), degrees180(b), height=h)
 
 # **) MIT License
 #

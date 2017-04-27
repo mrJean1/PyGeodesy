@@ -1,6 +1,6 @@
-tests/run.py typical test results (PyGeodesy 17.4.27 Python 3.6.0 64bit macOS 10.12.4)
+tests/run.py typical test results (PyGeodesy 17.4.28 Python 3.5.3 64bit macOS 10.12.4)
 
-running /usr/local/bin/python3.6 tests/testBases.py
+running /usr/local/bin/python3.5 tests/testBases.py
 
     testing module pygeodesy.bases version 17.04.22
     test 1 lat, lon: 50.06632°N, 005.71475°W
@@ -10,9 +10,9 @@ running /usr/local/bin/python3.6 tests/testBases.py
     test 5 toStr: 51.4778°N, 000.0016°W
     test 6 precision: 0
     test 7 toStr: 51°28′40″N, 000°00′06″W, +42.00m
-    all pygeodesy.bases tests passed (PyGeodesy 17.4.27 Python 3.6.0 64bit) 508.308 us
+    all pygeodesy.bases tests passed (PyGeodesy 17.4.28 Python 3.5.3 64bit) 604.153 us
 
-running /usr/local/bin/python3.6 tests/testDatum.py
+running /usr/local/bin/python3.5 tests/testDatum.py
 
     testing module datum version 17.04.27
     test 1 ellipsoid: True
@@ -24,9 +24,9 @@ running /usr/local/bin/python3.6 tests/testDatum.py
     test 7 WGS84: A=6367449.1458234154, e=0.0818191908, f_=298.2572235630, n=0.0016792204(-3.7914875232e-13)
     test 8 WGS84: Alpha6=(0, 8.377318206245e-04, 7.608527773572e-07, 1.197645503329e-09, 2.429170607201e-12, 5.711757677866e-15, 1.491117731258e-17)
     test 9 WGS84: Beta6=(0, 8.377321640579e-04, 5.905870152220e-08, 1.673482665284e-1, 2.164798040063e-13, 3.787978046169e-16, 7.248748890694e-19)
-    all datum tests passed (PyGeodesy 17.4.27 Python 3.6.0 64bit) 1.528 ms
+    all datum tests passed (PyGeodesy 17.4.28 Python 3.5.3 64bit) 869.989 us
 
-running /usr/local/bin/python3.6 tests/testDms.py
+running /usr/local/bin/python3.5 tests/testDms.py
 
     testing module dms version 17.03.24
     test 1 parseDMS: 0.0
@@ -59,9 +59,9 @@ running /usr/local/bin/python3.6 tests/testDms.py
     test 28 compassPoint: W
     test 29 compassPoint: SW
     test 30 compassPoint: WSW
-    all dms tests passed (PyGeodesy 17.4.27 Python 3.6.0 64bit) 610.828 us
+    all dms tests passed (PyGeodesy 17.4.28 Python 3.5.3 64bit) 1.116 ms
 
-running /usr/local/bin/python3.6 tests/testEllipsoidal.py
+running /usr/local/bin/python3.5 tests/testEllipsoidal.py
 
     testing module ellipsoidalNvector version 17.03.11
     test 1 lat/lonDMS: 52.20472°N, 000.14056°E
@@ -91,7 +91,7 @@ running /usr/local/bin/python3.6 tests/testEllipsoidal.py
     test 25 toLatLon: 45.0°N, 045.0°E, +0.00m
     test 26 Nvector: (0.5, 0.5, 0.7071)
     test 27 Nvector: (0.5, 0.5, 0.707, +1.00)
-    all ellipsoidalNvector tests passed (PyGeodesy 17.4.27 Python 3.6.0 64bit) 1.996 ms
+    all ellipsoidalNvector tests passed (PyGeodesy 17.4.28 Python 3.5.3 64bit) 1.459 ms
 
     testing module ellipsoidalVincenty version 17.04.07
     test 1 lat/lonDMS: 52.20472°N, 000.14056°E
@@ -167,9 +167,9 @@ running /usr/local/bin/python3.6 tests/testEllipsoidal.py
     test 71 NOAAexample2: 182009.1679, 254 42 44.6439, 73 09 21.3315
     test 72 NOAAexample3: 123456.7891, 245 00 34.7001, 64 20 24.6864
     test 73 NOAAexample4: 145239.0603, 114 29 26.9586, 295 21 32.6566
-    all ellipsoidalVincenty tests passed (PyGeodesy 17.4.27 Python 3.6.0 64bit) 4.104 ms
+    all ellipsoidalVincenty tests passed (PyGeodesy 17.4.28 Python 3.5.3 64bit) 4.262 ms
 
-running /usr/local/bin/python3.6 tests/testGeohash.py
+running /usr/local/bin/python3.5 tests/testGeohash.py
 
     testing module geohash version 17.04.26
     test 1 Geohash: Geohash('geek')
@@ -237,11 +237,11 @@ running /usr/local/bin/python3.6 tests/testGeohash.py
     test 63 decode_error: (0.703125, 0.703125)
     test 64 decode_error: (2.8125, 5.625)
     test 65 decode_error: (22.5, 22.5)
-    all geohash tests passed (PyGeodesy 17.4.27 Python 3.6.0 64bit) 8.460 ms
+    all geohash tests passed (PyGeodesy 17.4.28 Python 3.5.3 64bit) 9.760 ms
 
-running /usr/local/bin/python3.6 tests/testGreatCircle.py
+running /usr/local/bin/python3.5 tests/testGreatCircle.py
 
-    testing module sphericalNvector version 17.03.21
+    testing module sphericalNvector version 17.04.28
     test 1 InitialBearingSameLocations: 0.0
     test 2 InitialBearingEqualLocations: 0.0
     test 3 FinalBearingSameLocations: 180.0
@@ -271,9 +271,9 @@ running /usr/local/bin/python3.6 tests/testGreatCircle.py
     test 27 CrossTrackDistance90Degrees200Meters: 200.0
     test 28 CrossTrackDistance270Degrees200Meters: -200.0
     test 29 CrossTrackDistanceThatShouldBeVeryCloseToZero: 0.00000000
-    5 sphericalNvector tests (17.2%) FAILED, incl. 5 KNOWN (PyGeodesy 17.4.27 Python 3.6.0 64bit) 2.501 ms
+    5 sphericalNvector tests (17.2%) FAILED, incl. 5 KNOWN (PyGeodesy 17.4.28 Python 3.5.3 64bit) 2.794 ms
 
-    testing module sphericalTrigonometry version 17.04.27
+    testing module sphericalTrigonometry version 17.04.28
     test 1 InitialBearingSameLocations: 0.0
     test 2 InitialBearingEqualLocations: 0.0
     test 3 FinalBearingSameLocations: 180.0
@@ -303,9 +303,9 @@ running /usr/local/bin/python3.6 tests/testGreatCircle.py
     test 27 CrossTrackDistance90Degrees200Meters: 200.0
     test 28 CrossTrackDistance270Degrees200Meters: -200.0
     test 29 CrossTrackDistanceThatShouldBeVeryCloseToZero: 0.00000000
-    5 sphericalTrigonometry tests (17.2%) FAILED, incl. 5 KNOWN (PyGeodesy 17.4.27 Python 3.6.0 64bit) 1.021 ms
+    5 sphericalTrigonometry tests (17.2%) FAILED, incl. 5 KNOWN (PyGeodesy 17.4.28 Python 3.5.3 64bit) 1.460 ms
 
-running /usr/local/bin/python3.6 tests/testLcc.py
+running /usr/local/bin/python3.5 tests/testLcc.py
 
     testing module lcc version 17.04.25
     test 1 lb1: 448251.0 5411932.0001
@@ -554,9 +554,9 @@ running /usr/local/bin/python3.6 tests/testLcc.py
     test 244 WRF_Lb: WGS84
     test 245 Snyder1: name='Snyder1', lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27)
     test 246 Snyder2: name='Snyder2', lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27)
-    all lcc tests passed (PyGeodesy 17.4.27 Python 3.6.0 64bit) 22.975 ms
+    all lcc tests passed (PyGeodesy 17.4.28 Python 3.5.3 64bit) 13.952 ms
 
-running /usr/local/bin/python3.6 tests/testMgrs.py
+running /usr/local/bin/python3.5 tests/testMgrs.py
 
     testing module mgrs version 17.03.07
     test 1 Mgrs1: 31U DQ 48251 11932
@@ -575,9 +575,9 @@ running /usr/local/bin/python3.6 tests/testMgrs.py
     test 14 toUtm(76.0°N, 013.0°E).toMgrs: 33X VE 45999 36099
     test 15 toUtm(76.0°N, 025.0°E).toMgrs: 35X ME 45999 36099
     test 16 toUtm(76.0°N, 037.0°E).toMgrs: 37X DE 45999 36099
-    all mgrs tests passed (PyGeodesy 17.4.27 Python 3.6.0 64bit) 2.957 ms
+    all mgrs tests passed (PyGeodesy 17.4.28 Python 3.5.3 64bit) 1.919 ms
 
-running /usr/local/bin/python3.6 tests/testNavlabExamples.py
+running /usr/local/bin/python3.5 tests/testNavlabExamples.py
 
     testing module testNavlabExamples.py version 17.04.07
     test 1 Example 1 delta: [N:331730.863, E:332998.501, D:17398.304]
@@ -606,9 +606,9 @@ running /usr/local/bin/python3.6 tests/testNavlabExamples.py
     test 24 Example 8 destination(elVincenty): 79.991584°N, 090.017621°W
     test 25 Example 9 intersection: 40.318643°N, 055.901868°E
     test 26 Example 10 crossTrackDistance: 11118
-    1 testNavlabExamples.py test (3.8%) FAILED, incl. 1 KNOWN (PyGeodesy 17.4.27 Python 3.6.0 64bit) 3.566 ms
+    1 testNavlabExamples.py test (3.8%) FAILED, incl. 1 KNOWN (PyGeodesy 17.4.28 Python 3.5.3 64bit) 2.440 ms
 
-running /usr/local/bin/python3.6 tests/testOsgr.py
+running /usr/local/bin/python3.5 tests/testOsgr.py
 
     testing module osgr version 17.04.07
     test 1 WGS84: 51.4778°N, 000.0016°W
@@ -635,44 +635,44 @@ running /usr/local/bin/python3.6 tests/testOsgr.py
     test 22 OSGR5: 651409,313177
     test 23 OSGR5: [OSGR:651409.000,313177.000]
     test 24 OSGR6: 651409,313177
-    6 osgr tests (25.0%) FAILED, incl. 6 KNOWN (PyGeodesy 17.4.27 Python 3.6.0 64bit) 1.503 ms
+    6 osgr tests (25.0%) FAILED, incl. 6 KNOWN (PyGeodesy 17.4.28 Python 3.5.3 64bit) 1.574 ms
 
-running /usr/local/bin/python3.6 tests/testRoutes.py
+running /usr/local/bin/python3.5 tests/testRoutes.py
 
-running /usr/local/bin/python3.6 tests/testSimplify.py
+running /usr/local/bin/python3.5 tests/testSimplify.py
 
     testing module testSimplify.py version 17.04.15
-    test 1 simplify1(16614, adjust=True) 1m (60.082 ms): 16597
+    test 1 simplify1(16614, adjust=True) 1m (81.578 ms): 16597
     
-    test 2 simplify2(16614, adjust=True, shortest=False) 1m (91.792 ms): 8239
+    test 2 simplify2(16614, adjust=True, shortest=False) 1m (127.463 ms): 8239
     
-    test 3 simplify2(16614, adjust=True, shortest=True) 1m (87.494 ms): 8247
+    test 3 simplify2(16614, adjust=True, shortest=True) 1m (84.401 ms): 8247
     
-    test 4 simplifyVWm(16614, adjust=True) 1m (192.406 ms): 16482
+    test 4 simplifyVWm(16614, adjust=True) 1m (154.040 ms): 16482
     
-    test 5 simplifyVWm(16614, adjust=False) 1m (109.672 ms): 16488
+    test 5 simplifyVWm(16614, adjust=False) 1m (116.383 ms): 16488
     
-    test 6 simplifyRDPm(16614, adjust=True, shortest=False) 1m (170.545 ms): 16196
+    test 6 simplifyRDPm(16614, adjust=True, shortest=False) 1m (171.703 ms): 16196
     
-    test 7 simplifyRDPm(16614, adjust=True, shortest=True) 1m (171.956 ms): 16201
+    test 7 simplifyRDPm(16614, adjust=True, shortest=True) 1m (238.939 ms): 16201
     
-    test 8 simplifyVW(1661, adjust=True) 1m (15.565 ms): 1657
+    test 8 simplifyVW(1661, adjust=True) 1m (15.274 ms): 1657
     
-    test 9 simplifyVW(1661, adjust=False) 1m (10.599 ms): 1657
+    test 9 simplifyVW(1661, adjust=False) 1m (13.799 ms): 1657
     
-    test 10 simplifyRDP(1661, adjust=True, shortest=False) 1m (4.843 sec): 1660
+    test 10 simplifyRDP(1661, adjust=True, shortest=False) 1m (4.912 sec): 1660
     
-    test 11 simplifyRDP(1661, adjust=True, shortest=True) 1m (4.888 sec): 1661
+    test 11 simplifyRDP(1661, adjust=True, shortest=True) 1m (5.021 sec): 1661
     
-    test 12 simplifyVW(69, adjust=False) 1m (463.009 us): 69
+    test 12 simplifyVW(69, adjust=False) 1m (522.137 us): 69
     
-    test 13 simplifyRDP(69, adjust=False, shortest=False) 1m (3.284 ms): 68
+    test 13 simplifyRDP(69, adjust=False, shortest=False) 1m (3.572 ms): 68
     
-    all testSimplify.py tests passed (PyGeodesy 17.4.27 Python 3.6.0 64bit) 10.647 sec
+    all testSimplify.py tests passed (PyGeodesy 17.4.28 Python 3.5.3 64bit) 10.942 sec
 
-running /usr/local/bin/python3.6 tests/testSpherical.py
+running /usr/local/bin/python3.5 tests/testSpherical.py
 
-    testing module sphericalNvector version 17.03.21
+    testing module sphericalNvector version 17.04.28
     test 1 lat/lonDMS: 52.20472°N, 000.14056°E
     test 2 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
     test 3 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
@@ -711,28 +711,31 @@ running /usr/local/bin/python3.6 tests/testSpherical.py
     test 36 maxLat1: 89.0
     test 37 maxLat90: 0.0
     test 38 rhumbBearingTo: 116.722
-    test 39 rhumbDistanceTo: 40307.8
-    test 40 rhumbMidpointo: 51.0455°N, 001.595727°E
-    test 41 crossTrackDistanceTo: -305.67
-    test 42 crossTrackDistanceTo: -307.55
-    test 43 toLatLon: 44.995674°N, 045.0°E
-    test 44 toNvector: (0.50004, 0.50004, 0.70705)
-    test 45 equals: False
-    test 46 equals: True
-    test 47 sumOf: (52.70504, 0.61904, 0.70705)
-    test 48 sumOf: Nv
-    test 49 copy: True
-    test 50 nearestOn: 51.0004°N, 001.9°E
-    test 51 distanceTo: 42.712
-    test 52 nearestOn: 51.0°N, 002.0°E
-    test 53 nearestOn: 00.0°N, 000.0°E
-    test 54 nearestOn: 00.0°N, 020.0°E
-    test 55 BasseC: 47.3038°N, 002.5721°W
-    test 56 BasseH: 47.311067°N, 002.528617°W
-    test 57 triangulate: 47.323667°N, 002.568501°W
-    all sphericalNvector tests passed (PyGeodesy 17.4.27 Python 3.6.0 64bit) 3.446 ms
+    test 39 rhumbDestination: 50.964155°N, 001.853°E
+    test 40 rhumbDistanceTo: 40307.8
+    test 41 rhumbMidpointo: 51.0455°N, 001.595727°E
+    test 42 areaOf: 8.6660587507e+09
+    test 43 areaOf: 6.18e+09
+    test 44 crossTrackDistanceTo: -305.67
+    test 45 crossTrackDistanceTo: -307.55
+    test 46 toLatLon: 44.995674°N, 045.0°E
+    test 47 toNvector: (0.50004, 0.50004, 0.70705)
+    test 48 equals: False
+    test 49 equals: True
+    test 50 sumOf: (52.70504, 0.61904, 0.70705)
+    test 51 sumOf: Nv
+    test 52 copy: True
+    test 53 nearestOn: 51.0004°N, 001.9°E
+    test 54 distanceTo: 42.712
+    test 55 nearestOn: 51.0°N, 002.0°E
+    test 56 nearestOn: 00.0°N, 000.0°E
+    test 57 nearestOn: 00.0°N, 020.0°E
+    test 58 BasseC: 47.3038°N, 002.5721°W
+    test 59 BasseH: 47.311067°N, 002.528617°W
+    test 60 triangulate: 47.323667°N, 002.568501°W
+    all sphericalNvector tests passed (PyGeodesy 17.4.28 Python 3.5.3 64bit) 4.138 ms
 
-    testing module sphericalTrigonometry version 17.04.27
+    testing module sphericalTrigonometry version 17.04.28
     test 1 lat/lonDMS: 52.20472°N, 000.14056°E
     test 2 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
     test 3 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
@@ -775,11 +778,14 @@ running /usr/local/bin/python3.6 tests/testSpherical.py
     test 40 maxLat90: 0.0
     test 41 crossingParallels: 009°35′38.65″E, 170°24′21.35″E
     test 42 rhumbBearingTo: 116.722
-    test 43 rhumbDistanceTo: 40307.8
-    test 44 rhumbMidpointo: 51.0455°N, 001.595727°E
-    all sphericalTrigonometry tests passed (PyGeodesy 17.4.27 Python 3.6.0 64bit) 1.356 ms
+    test 43 rhumbDestination: 50.964155°N, 001.853°E
+    test 44 rhumbDistanceTo: 40307.8
+    test 45 rhumbMidpointo: 51.0455°N, 001.595727°E
+    test 46 areaOf: 8.6660587507e+09
+    test 47 areaOf: 6.18e+09
+    all sphericalTrigonometry tests passed (PyGeodesy 17.4.28 Python 3.5.3 64bit) 1.647 ms
 
-running /usr/local/bin/python3.6 tests/testUtm.py
+running /usr/local/bin/python3.5 tests/testUtm.py
 
     testing module utm version 17.04.07
     test 1 Utm1: 03 N 448251.0 5411932.0001
@@ -825,13 +831,13 @@ running /usr/local/bin/python3.6 tests/testUtm.py
     test 41 toUtm(76.0°N, 025.0°E): 35X N 446000 8436100
     test 42 toUtm(76.0°N, 031.0°E): 35X N 607943 8438843
     test 43 toUtm(76.0°N, 037.0°E): 37X N 446000 8436100
-    all utm tests passed (PyGeodesy 17.4.27 Python 3.6.0 64bit) 4.553 ms
+    all utm tests passed (PyGeodesy 17.4.28 Python 3.5.3 64bit) 4.623 ms
 
-running /usr/local/bin/python3.6 tests/tests.py
+running /usr/local/bin/python3.5 tests/tests.py
 
     testing module tests.py version 17.04.27
 
-    testing module __init__.py version 17.04.27
+    testing module __init__.py version 17.04.28
     test 1 pygeodesy.Conic() class (lcc): True
     test 2 pygeodesy.Conics attribute (datum): True
     test 3 pygeodesy.Datum() class (datum): True
@@ -1009,7 +1015,7 @@ running /usr/local/bin/python3.6 tests/tests.py
     test 157 simplify.simplifyVW() function: True
     test 158 simplify.simplifyVWm() function: True
 
-    testing module sphericalNvector.py version 17.03.21
+    testing module sphericalNvector.py version 17.04.28
     test 159 sphericalNvector.LatLon() class: True
     test 160 sphericalNvector.Nvector() class: True
     test 161 sphericalNvector.areaOf() function: True
@@ -1018,152 +1024,155 @@ running /usr/local/bin/python3.6 tests/tests.py
     test 164 sphericalNvector.triangulate() function: True
     test 165 sphericalNvector.trilaterate() function: True
 
-    testing module sphericalTrigonometry.py version 17.04.27
+    testing module sphericalTrigonometry.py version 17.04.28
     test 166 sphericalTrigonometry.LatLon() class: True
-    test 167 sphericalTrigonometry.intersection() function: True
-    test 168 sphericalTrigonometry.meanOf() function: True
+    test 167 sphericalTrigonometry.areaOf() function: True
+    test 168 sphericalTrigonometry.intersection() function: True
+    test 169 sphericalTrigonometry.isPoleEnclosedBy() function: True
+    test 170 sphericalTrigonometry.meanOf() function: True
 
     testing module vector3d.py version 17.02.14
-    test 169 vector3d.Vector3d() class: True
-    test 170 vector3d.sumOf() function: True
+    test 171 vector3d.Vector3d() class: True
+    test 172 vector3d.sumOf() function: True
 
     testing module utm.py version 17.04.07
-    test 171 utm.Utm() class: True
-    test 172 utm.parseUTM() function: True
-    test 173 utm.toUtm() function: True
+    test 173 utm.Utm() class: True
+    test 174 utm.parseUTM() function: True
+    test 175 utm.toUtm() function: True
 
     testing module utils.py version 17.04.27
-    test 174 utils.EPS float: True
-    test 175 utils.EPS1 float: True
-    test 176 utils.EPS2 float: True
-    test 177 utils.PI float: True
-    test 178 utils.PI2 float: True
-    test 179 utils.PI_2 float: True
-    test 180 utils.R_M float: True
-    test 181 utils.cbrt() function: True
-    test 182 utils.cbrt2() function: True
-    test 183 utils.degrees attribute (math): True
-    test 184 utils.degrees180() function: True
-    test 185 utils.degrees360() function: True
-    test 186 utils.degrees90() function: True
-    test 187 utils.fStr() function: True
-    test 188 utils.false2f() function: True
-    test 189 utils.favg() function: True
-    test 190 utils.fdot() function: True
-    test 191 utils.fdot3() function: True
-    test 192 utils.fsum attribute (math): True
-    test 193 utils.halfs() function: True
-    test 194 utils.hsin() function: True
-    test 195 utils.hsin3() function: True
-    test 196 utils.hypot1() function: True
-    test 197 utils.hypot3() function: True
-    test 198 utils.isint() function: True
-    test 199 utils.isscalar() function: True
-    test 200 utils.len2() function: True
-    test 201 utils.m2NM() function: True
-    test 202 utils.m2SM() function: True
-    test 203 utils.m2km() function: True
-    test 204 utils.map1() function: True
-    test 205 utils.map2() function: True
-    test 206 utils.radians attribute (math): True
-    test 207 utils.radiansPI() function: True
-    test 208 utils.radiansPI2() function: True
-    test 209 utils.radiansPI_2() function: True
-    test 210 utils.tanPI_2_2() function: True
-    test 211 utils.wrap180() function: True
-    test 212 utils.wrap360() function: True
-    test 213 utils.wrap90() function: True
-    test 214 utils.wrapPI() function: True
-    test 215 utils.wrapPI2() function: True
-    test 216 utils.wrapPI_2() function: True
+    test 176 utils.EPS float: True
+    test 177 utils.EPS1 float: True
+    test 178 utils.EPS2 float: True
+    test 179 utils.PI float: True
+    test 180 utils.PI2 float: True
+    test 181 utils.PI_2 float: True
+    test 182 utils.R_M float: True
+    test 183 utils.cbrt() function: True
+    test 184 utils.cbrt2() function: True
+    test 185 utils.degrees attribute (math): True
+    test 186 utils.degrees180() function: True
+    test 187 utils.degrees360() function: True
+    test 188 utils.degrees90() function: True
+    test 189 utils.fStr() function: True
+    test 190 utils.false2f() function: True
+    test 191 utils.favg() function: True
+    test 192 utils.fdot() function: True
+    test 193 utils.fdot3() function: True
+    test 194 utils.fsum attribute (math): True
+    test 195 utils.halfs() function: True
+    test 196 utils.hsin() function: True
+    test 197 utils.hsin3() function: True
+    test 198 utils.hypot1() function: True
+    test 199 utils.hypot3() function: True
+    test 200 utils.isint() function: True
+    test 201 utils.isscalar() function: True
+    test 202 utils.len2() function: True
+    test 203 utils.m2NM() function: True
+    test 204 utils.m2SM() function: True
+    test 205 utils.m2km() function: True
+    test 206 utils.map1() function: True
+    test 207 utils.map2() function: True
+    test 208 utils.radians attribute (math): True
+    test 209 utils.radiansPI() function: True
+    test 210 utils.radiansPI2() function: True
+    test 211 utils.radiansPI_2() function: True
+    test 212 utils.tanPI_2_2() function: True
+    test 213 utils.wrap180() function: True
+    test 214 utils.wrap360() function: True
+    test 215 utils.wrap90() function: True
+    test 216 utils.wrapPI() function: True
+    test 217 utils.wrapPI2() function: True
+    test 218 utils.wrapPI_2() function: True
 
     testing module LatLon.attrs version 17.04.27
-    test 217 _Nv attribute: ellipsoidalNvector, sphericalNvector
-    test 218 _ab attribute: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    test 219 _alter() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    test 220 _datum attribute: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    test 221 _direct() function: ellipsoidalVincenty
-    test 222 _epsilon float: ellipsoidalVincenty
-    test 223 _gc3() function: sphericalNvector
-    test 224 _height int: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    test 225 _inverse() function: ellipsoidalVincenty
-    test 226 _iterations int: ellipsoidalVincenty
-    test 227 _lat int: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    test 228 _lon int: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    test 229 _osgr attribute: ellipsoidalNvector, ellipsoidalVincenty
-    test 230 _r3 attribute: ellipsoidalNvector
-    test 231 _rhumb3() function: sphericalNvector, sphericalTrigonometry
-    test 232 _rotation3() function: ellipsoidalNvector
-    test 233 _trackDistanceTo3() function: sphericalTrigonometry
-    test 234 _update() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    test 235 _utm attribute: ellipsoidalNvector, ellipsoidalVincenty
-    test 236 _v3d attribute: sphericalTrigonometry
-    test 237 alongTrackDistanceTo() function: sphericalTrigonometry
-    test 238 bearingTo() function: sphericalNvector, sphericalTrigonometry
-    test 239 bounds() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    test 240 classname() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    test 241 convertDatum() function: ellipsoidalNvector, ellipsoidalVincenty
-    test 242 copy() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    test 243 crossTrackDistanceTo() function: sphericalNvector, sphericalTrigonometry
-    test 244 crossingParallels() function: sphericalTrigonometry
-    test 245 datum property: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    test 246 deltaTo() function: ellipsoidalNvector
-    test 247 destination() function: ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    test 248 destination2() function: ellipsoidalVincenty
-    test 249 destinationNed() function: ellipsoidalNvector
-    test 250 distanceTo() function: ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    test 251 distanceTo3() function: ellipsoidalVincenty
-    test 252 ellipsoid() function: ellipsoidalNvector, ellipsoidalVincenty
-    test 253 ellipsoids() function: ellipsoidalNvector, ellipsoidalVincenty
-    test 254 epsilon property: ellipsoidalVincenty
-    test 255 equals() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    test 256 finalBearingOn() function: ellipsoidalVincenty
-    test 257 finalBearingTo() function: ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    test 258 greatCircle() function: sphericalNvector, sphericalTrigonometry
-    test 259 greatCircleTo() function: sphericalNvector
-    test 260 height property: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    test 261 initialBearingTo() function: ellipsoidalVincenty
-    test 262 intermediateChordTo() function: sphericalNvector
-    test 263 intermediateTo() function: ellipsoidalNvector, sphericalNvector, sphericalTrigonometry
-    test 264 intersection() function: sphericalNvector, sphericalTrigonometry
-    test 265 isEnclosedBy() function: sphericalNvector, sphericalTrigonometry
-    test 266 isWithin() function: sphericalNvector
-    test 267 isclockwise() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    test 268 iterations property: ellipsoidalVincenty
-    test 269 lat property: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    test 270 lon property: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    test 271 maxLat() function: sphericalNvector, sphericalTrigonometry
-    test 272 midpointTo() function: sphericalNvector, sphericalTrigonometry
-    test 273 minLat() function: sphericalNvector, sphericalTrigonometry
-    test 274 nearestOn() function: sphericalNvector
-    test 275 others() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    test 276 parse() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    test 277 points() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    test 278 rhumbBearingTo() function: sphericalNvector, sphericalTrigonometry
-    test 279 rhumbDistanceTo() function: sphericalNvector, sphericalTrigonometry
-    test 280 rhumbMidpointTo() function: sphericalNvector, sphericalTrigonometry
-    test 281 to2ab() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    test 282 to3llh() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    test 283 to3xyz() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    test 284 to4xyzh() function: ellipsoidalNvector, sphericalNvector
-    test 285 toCartesian() function: ellipsoidalNvector, ellipsoidalVincenty
-    test 286 toDatum() function: ellipsoidalNvector, ellipsoidalVincenty
-    test 287 toNvector() function: ellipsoidalNvector, sphericalNvector
-    test 288 toOsgr() function: ellipsoidalNvector, ellipsoidalVincenty
-    test 289 toStr() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    test 290 toStr2() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    test 291 toUtm() function: ellipsoidalNvector, ellipsoidalVincenty
-    test 292 toVector3d() function: sphericalTrigonometry
-    test 293 topsub() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    test 294 triangulate() function: sphericalNvector
-    test 295 trilaterate() function: sphericalNvector
+    test 219 _Nv attribute: ellipsoidalNvector, sphericalNvector
+    test 220 _ab attribute: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 221 _alter() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 222 _datum attribute: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 223 _direct() function: ellipsoidalVincenty
+    test 224 _epsilon float: ellipsoidalVincenty
+    test 225 _gc3() function: sphericalNvector
+    test 226 _height int: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 227 _inverse() function: ellipsoidalVincenty
+    test 228 _iterations int: ellipsoidalVincenty
+    test 229 _lat int: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 230 _lon int: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 231 _osgr attribute: ellipsoidalNvector, ellipsoidalVincenty
+    test 232 _r3 attribute: ellipsoidalNvector
+    test 233 _rhumb3() function: sphericalNvector, sphericalTrigonometry
+    test 234 _rotation3() function: ellipsoidalNvector
+    test 235 _trackDistanceTo3() function: sphericalTrigonometry
+    test 236 _update() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 237 _utm attribute: ellipsoidalNvector, ellipsoidalVincenty
+    test 238 _v3d attribute: sphericalTrigonometry
+    test 239 alongTrackDistanceTo() function: sphericalTrigonometry
+    test 240 bearingTo() function: sphericalNvector, sphericalTrigonometry
+    test 241 bounds() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 242 classname() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 243 convertDatum() function: ellipsoidalNvector, ellipsoidalVincenty
+    test 244 copy() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 245 crossTrackDistanceTo() function: sphericalNvector, sphericalTrigonometry
+    test 246 crossingParallels() function: sphericalTrigonometry
+    test 247 datum property: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 248 deltaTo() function: ellipsoidalNvector
+    test 249 destination() function: ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 250 destination2() function: ellipsoidalVincenty
+    test 251 destinationNed() function: ellipsoidalNvector
+    test 252 distanceTo() function: ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 253 distanceTo3() function: ellipsoidalVincenty
+    test 254 ellipsoid() function: ellipsoidalNvector, ellipsoidalVincenty
+    test 255 ellipsoids() function: ellipsoidalNvector, ellipsoidalVincenty
+    test 256 epsilon property: ellipsoidalVincenty
+    test 257 equals() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 258 finalBearingOn() function: ellipsoidalVincenty
+    test 259 finalBearingTo() function: ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 260 greatCircle() function: sphericalNvector, sphericalTrigonometry
+    test 261 greatCircleTo() function: sphericalNvector
+    test 262 height property: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 263 initialBearingTo() function: ellipsoidalVincenty
+    test 264 intermediateChordTo() function: sphericalNvector
+    test 265 intermediateTo() function: ellipsoidalNvector, sphericalNvector, sphericalTrigonometry
+    test 266 intersection() function: sphericalNvector, sphericalTrigonometry
+    test 267 isEnclosedBy() function: sphericalNvector, sphericalTrigonometry
+    test 268 isWithin() function: sphericalNvector
+    test 269 isclockwise() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 270 iterations property: ellipsoidalVincenty
+    test 271 lat property: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 272 lon property: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 273 maxLat() function: sphericalNvector, sphericalTrigonometry
+    test 274 midpointTo() function: sphericalNvector, sphericalTrigonometry
+    test 275 minLat() function: sphericalNvector, sphericalTrigonometry
+    test 276 nearestOn() function: sphericalNvector
+    test 277 others() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 278 parse() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 279 points() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 280 rhumbBearingTo() function: sphericalNvector, sphericalTrigonometry
+    test 281 rhumbDestination() function: sphericalNvector, sphericalTrigonometry
+    test 282 rhumbDistanceTo() function: sphericalNvector, sphericalTrigonometry
+    test 283 rhumbMidpointTo() function: sphericalNvector, sphericalTrigonometry
+    test 284 to2ab() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 285 to3llh() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 286 to3xyz() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 287 to4xyzh() function: ellipsoidalNvector, sphericalNvector
+    test 288 toCartesian() function: ellipsoidalNvector, ellipsoidalVincenty
+    test 289 toDatum() function: ellipsoidalNvector, ellipsoidalVincenty
+    test 290 toNvector() function: ellipsoidalNvector, sphericalNvector
+    test 291 toOsgr() function: ellipsoidalNvector, ellipsoidalVincenty
+    test 292 toStr() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 293 toStr2() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 294 toUtm() function: ellipsoidalNvector, ellipsoidalVincenty
+    test 295 toVector3d() function: sphericalTrigonometry
+    test 296 topsub() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 297 triangulate() function: sphericalNvector
+    test 298 trilaterate() function: sphericalNvector
 
     testing module LatLon.mro version 17.04.27
-    test 296 ellipsoidalNvector: ellipsoidalNvector.LatLon, nvector.LatLonNvectorBase, ellipsoidalBase.LatLonEllipsoidalBase, bases.LatLonHeightBase, bases.Base
-    test 297 ellipsoidalVincenty: ellipsoidalVincenty.LatLon, ellipsoidalBase.LatLonEllipsoidalBase, bases.LatLonHeightBase, bases.Base
-    test 298 sphericalNvector: sphericalNvector.LatLon, nvector.LatLonNvectorBase, sphericalBase.LatLonSphericalBase, bases.LatLonHeightBase, bases.Base
-    test 299 sphericalTrigonometry: sphericalTrigonometry.LatLon, sphericalBase.LatLonSphericalBase, bases.LatLonHeightBase, bases.Base
+    test 299 ellipsoidalNvector: ellipsoidalNvector.LatLon, nvector.LatLonNvectorBase, ellipsoidalBase.LatLonEllipsoidalBase, bases.LatLonHeightBase, bases.Base
+    test 300 ellipsoidalVincenty: ellipsoidalVincenty.LatLon, ellipsoidalBase.LatLonEllipsoidalBase, bases.LatLonHeightBase, bases.Base
+    test 301 sphericalNvector: sphericalNvector.LatLon, nvector.LatLonNvectorBase, sphericalBase.LatLonSphericalBase, bases.LatLonHeightBase, bases.Base
+    test 302 sphericalTrigonometry: sphericalTrigonometry.LatLon, sphericalBase.LatLonSphericalBase, bases.LatLonHeightBase, bases.Base
 
-    all tests.py tests passed (PyGeodesy 17.4.27 Python 3.6.0 64bit) 4.372 ms
+    all tests.py tests passed (PyGeodesy 17.4.28 Python 3.5.3 64bit) 4.083 ms
 
-tests/run.py /usr/local/bin/python3.6 all OK (PyGeodesy 17.4.27 Python 3.6.0 64bit macOS 10.12.4) 13.595 sec
+tests/run.py /usr/local/bin/python3.5 all OK (PyGeodesy 17.4.28 Python 3.5.3 64bit macOS 10.12.4) 13.520 sec

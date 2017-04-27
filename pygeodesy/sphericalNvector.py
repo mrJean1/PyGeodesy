@@ -12,7 +12,7 @@ See U{http://www.movable-type.co.uk/scripts/latlong-vectors.html} and
 U{http://www.movable-type.co.uk/scripts/geodesy/docs/module-latlon-nvector-spherical.html}.
 
 Tools for working with points and paths on (a spherical model of)
-th Earth’s surface using using n-vectors rather than the more common
+the earth’s surface using using n-vectors rather than the more common
 spherical trigonometry.  N-vectors make many calculations much simpler,
 and easier to follow, compared with the trigonometric equivalents.
 
@@ -23,7 +23,7 @@ U{http://www.navlab.net/Publications/A_Nonsingular_Horizontal_Position_Represent
 Note that the formulations below take x => 0°N,0°E, y => 0°N,90°E and
 z => 90°N while Gade uses x => 90°N, y => 0°N,90°E, z => 0°N,0°E.
 
-Also note that on a spherical model earth, an n-vector is equivalent
+Also note that on a spherical earth model, an n-vector is equivalent
 to a normalised version of an (ECEF) cartesian coordinate.
 
 @newfield example: Example, Examples
@@ -33,7 +33,7 @@ from datum import R_M
 from nvector import NorthPole, LatLonNvectorBase, \
                     Nvector as NvectorBase, sumOf
 from sphericalBase import LatLonSphericalBase
-from utils import EPS, EPS1, PI, PI_2, degrees360, fsum, isscalar
+from utils import PI, PI2, PI_2, degrees360, fsum, isscalar
 
 from math import atan2, cos, radians, sin
 
@@ -41,7 +41,7 @@ from math import atan2, cos, radians, sin
 __all__ = ('LatLon', 'Nvector',  # classes
            'areaOf', 'intersection', 'meanOf',  # functions
            'triangulate', 'trilaterate')
-__version__ = '17.03.21'
+__version__ = '17.04.28'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -173,7 +173,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            >>> p = LatLon(52.205, 0.119)
            >>> q = LatLon(48.857, 2.351);
-           >>> d = p.distanceTo(q)  # 404300
+           >>> d = p.distanceTo(q)  # 404.3 km
         '''
         self.others(other)
 
@@ -252,21 +252,16 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            >>> q = LatLon(48.857, 2.351)
            >>> i = p.intermediateChordTo(q, 0.25)  # 51.3723°N, 000.7072°E
 
-           @JSname: I{intermediatePointDirectlyTo}.
+           @JSname: I{intermediatePointOnChordTo}, I{intermediatePointDirectlyTo}.
         '''
         self.others(other)
 
-        if fraction < EPS:  # EPS2
-            i = self
-        elif fraction > EPS1:
-            i = other
-        else:
-            i = self.toNvector().times(1 - fraction).plus(
-               other.toNvector().times(fraction))
-#           i = other.toNvector() * fraction + \
-#                self.toNvector() * (1 - fraction))
-            i = Nvector(i.x, i.y, i.z).toLatLon()
-        return i
+        i = other.toNvector().times(fraction).plus(
+             self.toNvector().times(1 - fraction))
+#       i = other.toNvector() * fraction + \
+#            self.toNvector() * (1 - fraction))
+
+        return Nvector(i.x, i.y, i.z).toLatLon()
 
     def intermediateTo(self, other, fraction):
         '''Locates the point at a given fraction between this and an
@@ -290,20 +285,16 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         '''
         self.others(other)
 
-        if fraction < EPS:  # EPS2
-            i = self
-        elif fraction > EPS1:
-            i = other
-        else:
-            p = self.toNvector()
-            q = other.toNvector()
-            x = p.cross(q)
-            d = x.unit().cross(p)  # unit(p × q) × p
-            # angular distance tan(a) = |p × q| / p ⋅ q
-            a = atan2(x.length(), p.dot(q)) * fraction  # interpolated
-            i = p.times(cos(a)).plus(d.times(sin(a)))  # p * cosα + d * sinα
-            i = Nvector(i.x, i.y, i.z).toLatLon()
-        return i
+        p = self.toNvector()
+        q = other.toNvector()
+
+        x = p.cross(q)
+        d = x.unit().cross(p)  # unit(p × q) × p
+        # angular distance tan(a) = |p × q| / p ⋅ q
+        a = atan2(x.length(), p.dot(q)) * fraction  # interpolated
+        i = p.times(cos(a)).plus(d.times(sin(a)))  # p * cosα + d * sinα
+
+        return Nvector(i.x, i.y, i.z).toLatLon()
 
     def intersection(self, end1, start2, end2):
         '''Locates the point of intersection of two paths each defined
@@ -356,15 +347,15 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         vs.append(vs[0])
 
         # sum subtended angles of each edge (using v to determine sign)
-
-        # Note, this method uses angle summation test; on a plane, angles
-        # for an enclosed point will sum to 360°, angles for an exterior
-        # point will sum to 0°.  On a sphere, enclosed point angles will
-        # sum to less than 360° (due to spherical excess), exterior point
-        # angles will be small but non-zero.
-
-        # XXX are winding number optimisations applicable to spherical surface?
         s = fsum(vs[i].angleTo(vs[i+1], vSign=v) for i in range(n))
+
+        # Note, this method uses angle summation test; on a plane,
+        # angles for an enclosed point will sum to 360°, angles for
+        # an exterior point will sum to 0°.  On a sphere, enclosed
+        # point angles will sum to less than 360° (due to spherical
+        # excess), exterior point angles will be small but non-zero.
+        # XXX are winding number optimisations applicable to
+        # spherical surface?
         return abs(s) > PI
 
     def isWithin(self, point1, point2):
@@ -383,7 +374,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @raise TypeError: If point1 or point2 is not L{LatLon}.
 
-           @JSname: I{isWithinExtent}.
+           @JSname: I{isBetween}, I{isWithinExtent}.
         '''
         self.others(point1, name='point1')
         self.others(point2, name='point2')
@@ -480,6 +471,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            >>> p = LatLon(45, 45)
            >>> n = p.toNvector()
            >>> n.toStr()  # [0.50000, 0.50000, 0.70710]
+
+           @JSname: I{toVector}.
         '''
         if self._Nv is None:
             x, y, z, h = self.to4xyzh()
@@ -601,7 +594,7 @@ def areaOf(points, radius=R_M):
 
        @example:
 
-       >>> b = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
+       >>> b = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
        >>> areaOf(b)  # 8666058750.718977
     '''
     n, points = _Nvll.points(points)
@@ -614,10 +607,16 @@ def areaOf(points, radius=R_M):
         v1 = v2
     gc.append(gc[0])  # XXX needed?
 
-    # sum interior angles
-    s = fsum(gc[i].angleTo(gc[i + 1]) for i in range(n))
-    # use Girard’s theorem: A = [Σθᵢ − (n−2)·π]·R²
-    return abs(s - (n - 2) * PI) * radius * radius
+    # use vector to 1st point as plane normal for sign of α
+    n0 = points[0].toNvector()
+    # sum interior angles: depending on whether polygon is cw or ccw,
+    # angle between edges is π−α or π+α, where α is angle between
+    # great-circle vectors; so sum α, then take n·π − |Σα| (cannot
+    # use Σ(π−|α|) as concave polygons would fail)
+    s = fsum(gc[i].angleTo(gc[i + 1], vSign=n0) for i in range(n))
+    # using Girard’s theorem: A = [Σθᵢ − (n−2)·π]·R²
+    # (PI2 - abs(s) == (n*PI - abs(s)) - (n-2)*PI)
+    return abs(PI2 - abs(s)) * radius * radius
 
 
 def intersection(start1, end1, start2, end2):

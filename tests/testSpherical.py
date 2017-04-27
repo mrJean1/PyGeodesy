@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.04.07'
+__version__ = '17.04.28'
 
 from tests import Tests as _Tests
 
@@ -13,7 +13,7 @@ from pygeodesy import F_D, F_DMS, lonDMS
 
 class Tests(_Tests):
 
-    def testSpherical(self, LatLon):
+    def testSpherical(self, LatLon, spherical):
         p = LatLon(52.205, 0.119)
         q = LatLon(48.857, 2.351)
         i = p.intermediateTo(q, 0.25)
@@ -50,11 +50,20 @@ class Tests(_Tests):
         b = p.rhumbBearingTo(q)
         self.test('rhumbBearingTo', b, '116.722', '%.3f')  # 116.7
 
+        d = p.rhumbDestination(40300, 116.7)
+        self.test('rhumbDestination', d, '50.964155°N, 001.853°E')  # 50.9642°N, 001.8530°E
+
         d = p.rhumbDistanceTo(q)
-        self.test('rhumbDistanceTo', d, '40307.8', '%.1f')  # 40310 ?
+        self.test('rhumbDistanceTo', d, '40307.8', '%.1f')  # XXX 40310 ?
 
         m = p.rhumbMidpointTo(q)
-        self.test('rhumbMidpointo', m, '51.0455°N, 001.595727°E')  # 51.0455°N, 001.5957°E
+        self.test('rhumbMidpointo', m, '51.0455°N, 001.595727°E')
+
+        b = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
+        self.test('areaOf', spherical.areaOf(b), '8.6660587507e+09', fmt='%.10e')  # 8666058750.718977
+
+        c = LatLon(0, 0), LatLon(1, 0), LatLon(0, 1)
+        self.test('areaOf', spherical.areaOf(c), '6.18e+09', fmt='%.2e')
 
 
 if __name__ == '__main__':
@@ -62,13 +71,13 @@ if __name__ == '__main__':
     from pygeodesy import sphericalNvector as N
     t = Tests(__file__, __version__, N)
     t.testLatLon(N.LatLon)
-    t.testSpherical(N.LatLon)
+    t.testSpherical(N.LatLon, N)
     t.testVectorial(N.LatLon, N.Nvector, N.sumOf)
     t.results()
 
     from pygeodesy import sphericalTrigonometry as T
     t = Tests(__file__, __version__, T)
     t.testLatLon(T.LatLon)
-    t.testSpherical(T.LatLon)
+    t.testSpherical(T.LatLon, T)
     t.results()
     t.exit()

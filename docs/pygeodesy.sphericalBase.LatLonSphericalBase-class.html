@@ -172,8 +172,30 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#rhumbBearingTo" class="summary-sig-name">rhumbBearingTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
-      Return the initial bearing (aka forward azimuth) from this to an 
-      other point along a rhumb (loxodrome) line.</td>
+      Return the initial bearing (forward azimuth) from this to an other 
+      point along a rhumb (loxodrome) line.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#rhumbDestination" class="summary-sig-name">rhumbDestination</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">distance</span>,
+        <span class="summary-sig-arg">bearing</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
+      Returns the destination point having travelled along a rhumb 
+      (loxodrome) line from this point the given distance on the given 
+      bearing.</td>
           <td align="right" valign="top">
             
             
@@ -211,7 +233,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#rhumbMidpointTo" class="summary-sig-name">rhumbMidpointTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
-      Return the loxodromic midpoint between this and an other point.</td>
+      Return the (loxodromic) midpoint between this and an other point.</td>
           <td align="right" valign="top">
             
             
@@ -461,7 +483,7 @@
     </td>
   </tr></table>
   
-  <p>Return the initial bearing (aka forward azimuth) from this to an other
+  <p>Return the initial bearing (forward azimuth) from this to an other 
   point along a rhumb (loxodrome) line.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -480,6 +502,46 @@
 <span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(51.127, 1.338)
 <span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(50.964, 1.853)
 <span class="py-prompt">&gt;&gt;&gt; </span>b = p.rhumbBearingTo(q)  <span class="py-comment"># 116.7</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="rhumbDestination"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">rhumbDestination</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">distance</span>,
+        <span class="sig-arg">bearing</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns the destination point having travelled along a rhumb 
+  (loxodrome) line from this point the given distance on the given 
+  bearing.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>distance</code></strong> - Distance travelled (same units as radius).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Bearing from this point (compass degrees).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (meter).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The destination point (spherical LatLon).</dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(51.127, 1.338)
+<span class="py-prompt">&gt;&gt;&gt; </span>q = p.rhumbDestination(40300, 116.7)  <span class="py-comment"># 50.9642&#176;N, 001.8530&#176;E</span></pre>
+      </p>
+      <p><strong>JS name:</strong>
+        <i>rhumbDestinationPoint</i>
       </p>
 </div></td></tr></table>
 </div>
@@ -537,7 +599,7 @@
     </td>
   </tr></table>
   
-  <p>Return the loxodromic midpoint between this and an other point.</p>
+  <p>Return the (loxodromic) midpoint between this and an other point.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -623,7 +685,7 @@ class="link">Datum</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Apr 26 23:00:01 2017
+    Generated by Epydoc 3.0.1 on Thu Apr 27 15:40:29 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
