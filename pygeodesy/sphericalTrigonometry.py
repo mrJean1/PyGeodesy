@@ -14,9 +14,8 @@ see U{http://www.movable-type.co.uk/scripts/latlong.html}.
 
 from datum import R_M
 from sphericalBase import LatLonSphericalBase
-from utils import EPS, PI2, PI_2, \
-                  degrees90, degrees180, degrees360, \
-                  favg, fsum, hsin3, map1, radians, wrapPI
+from utils import EPS, PI2, PI_2, degrees90, degrees180, degrees360, \
+                  favg, fsum, hsin3, map1, radians, wrap180, wrapPI
 from vector3d import Vector3d, sumOf
 
 from math import acos, asin, atan2, copysign, cos, hypot, sin, tan
@@ -26,7 +25,7 @@ __all__ = ('LatLon',  # classes
            'areaOf',  # functions
            'intersection', 'isPoleEnclosedBy',
            'meanOf')
-__version__ = '17.04.28'
+__version__ = '17.04.29'
 
 
 class LatLon(LatLonSphericalBase):
@@ -593,16 +592,18 @@ def isPoleEnclosedBy(points):
 
     # sum of course deltas around pole is 0° rather than normally ±360°
     # <http://blog.element84.com/determining-if-a-spherical-polygon-contains-a-pole.html>
-    p1, sd = points[n-1], []
-    b1 = p1.bearingTo(points[0])
+    p1 = points[n-1]
+    b1 = p1.bearingTo(points[0])  # XXX p1.finalBearingTo(points[0])?
+    cd = []
     for p2 in points:
         b = p1.bearingTo(p2)
-        sd.append((b - b1 + 540) % 360 - 180)
+        cd.append(wrap180(b - b1))  # XXX (b - b1 + 540) % 360 - 180
         b2 = p1.finalBearingTo(p2)
-        sd.append((b2 - b + 540) % 360 - 180)
+        cd.append(wrap180(b2 - b))  # XXX (b2 - b + 540) % 360 - 180
         p1, b1 = p2, b2
+
     # XXX fix (intermittant) edge crossing pole - eg (85,90), (85,0), (85,-90)
-    return abs(fsum(sd)) < 90  # 0-ish
+    return abs(fsum(cd)) < 90  # "zero-ish"
 
 
 def meanOf(points, height=None):
@@ -619,8 +620,10 @@ def meanOf(points, height=None):
     '''
     # geographic mean
     n, points = _Trll.points(points, closed=False)
+
     m = sumOf(p.Vector3d() for p in points)
     a, b = m.to2ll()
+
     if height is None:
         h = fsum(p.height for p in points) / n
     else:

@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.04.28'
+__version__ = '17.04.29'
 
 from tests import Tests as _Tests
 
@@ -64,6 +64,12 @@ class Tests(_Tests):
 
         c = LatLon(0, 0), LatLon(1, 0), LatLon(0, 1)
         self.test('areaOf', spherical.areaOf(c), '6.18e+09', fmt='%.2e')
+
+        if hasattr(spherical, 'isPoleEnclosedBy'):
+            p = LatLon(85, 90), LatLon(85, 0), LatLon(85, -90), LatLon(85, -180)
+            self.test('isPoleEnclosedBy', spherical.isPoleEnclosedBy(p), 'True')
+            p = LatLon(85, 90), LatLon(85, 0), LatLon(85, -120)
+            self.test('isPoleEnclosedBy', spherical.isPoleEnclosedBy(p), 'False')  # XXX True?
 
 
 if __name__ == '__main__':
