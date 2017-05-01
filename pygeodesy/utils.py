@@ -32,7 +32,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'tanPI_2_2',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI', 'wrapPI2', 'wrapPI_2')
-__version__ = '17.04.30'
+__version__ = '17.05.01'
 
 try:
     _Ints = int, long  #: (INTERNAL) Int objects (tuple)
@@ -148,23 +148,23 @@ def false2f(value, name='value', false=True):
 
 
 def favg(v1, v2, f=0.5):
-    '''Weighted average of two values.
+    '''Returns the weighted average of two values.
 
        @param v1: One value (scalar).
-       @param v2: Other value (saclar).
+       @param v2: Other value (scalar).
        @keyword f: Fraction (scalar).
 
        @return: M{v1 + f * (v2 - v1)} (float).
-
-       @raise ValueError: Fraction out of range.
     '''
+#      @raise ValueError: Fraction out of range.
+#   '''
 #   if not 0 <= f <= 1:  # XXX restrict fraction?
 #       raise ValueError('%s invalid: %r' % ('fraction', f))
     return v1 + f * (v2 - v1)  # v1 * (1 - f) + v2 * f
 
 
 def fdot(a, *b):
-    '''Precision dot product M{sum(a[i] * b[i]
+    '''Returns the precision dot product M{sum(a[i] * b[i]
        for i in range(len(a)))}.
 
        @param a: List, sequence, tuple, etc. (scalars).
@@ -181,12 +181,13 @@ def fdot(a, *b):
 
 
 def fdot3(a, b, c, start=0):
-    '''Precision dot product M{sum(a[i] * b[i] * c[i]
+    '''Returns the precision dot product M{sum(a[i] * b[i] * c[i]
        for i in range(len(a))) + start}.
 
        @param a: List, sequence, tuple, etc. (scalars).
        @param b: List, sequence, tuple, etc. (scalars).
        @param c: List, sequence, tuple, etc. (scalars).
+       @keyword start: Optional bias for the dot product (scalar).
 
        @return: Dot product (float).
 
@@ -271,7 +272,7 @@ def hsin3(a2, a1, b21):
 
        @see: U{http://www.movable-type.co.uk/scripts/latlong.html}
 
-       @see: U{http://williams.best.vwh.net/avform.htm#Dist}
+       @see: U{http://www.edwilliams.org/avform.htm#Dist}
     '''
     ca2, ca1 = map1(cos, a2, a1)
     h = hsin(a2 - a1) + ca1 * ca2 * hsin(b21)  # haversine

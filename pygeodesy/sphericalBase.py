@@ -23,7 +23,7 @@ from math import acos, atan2, cos, hypot, log, sin
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('LatLonSphericalBase',)
-__version__ = '17.04.30'
+__version__ = '17.05.01'
 
 
 class LatLonSphericalBase(LatLonHeightBase):
@@ -235,7 +235,7 @@ class LatLonSphericalBase(LatLonHeightBase):
            >>> q = LatLon(50.964, 1.853)
            >>> d = p.rhumbDistanceTo(q)  # 403100
         '''
-        # see http://williams.best.vwh.net/avform.htm#Rhumb
+        # see <http://www.edwilliams.org/avform.htm#Rhumb>
         da, db, dp = self._rhumb3(other)
 
         # on Mercator projection, longitude distances shrink

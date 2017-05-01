@@ -24,7 +24,7 @@ from time import time
 
 __all__ = ('versions', 'Tests',
            'secs2str')
-__version__ = '17.04.30'
+__version__ = '17.05.01'
 
 try:
     _int = int, long
@@ -70,7 +70,8 @@ def _type(obj, attr):
 
 class Tests(object):
     '''Tests based on @examples from the original JavaScript code
-       and examples in <http://williams.best.vwh.net/avform.htm>
+       and examples in <http://www.edwilliams.org/avform.htm> or
+       elsewhere as indicated.
     '''
     _file   = ''
     _name   = ''

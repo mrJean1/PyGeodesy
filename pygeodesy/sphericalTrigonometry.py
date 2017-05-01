@@ -25,7 +25,7 @@ __all__ = ('LatLon',  # classes
            'areaOf',  # functions
            'intersection', 'isPoleEnclosedBy',
            'meanOf')
-__version__ = '17.04.30'
+__version__ = '17.05.01'
 
 
 class LatLon(LatLonSphericalBase):
@@ -201,7 +201,7 @@ class LatLon(LatLonSphericalBase):
 
            @JSname: I{destinationPoint}.
         '''
-        # see http://williams.best.vwh.net/avform.htm#LL
+        # see <http://www.edwilliams.org/avform.htm#LL>
         a, b = self.to2ab()
 
         r = float(distance) / float(radius)  # angular distance in radians
@@ -562,7 +562,7 @@ def intersection(start1, bearing1, start2, bearing2,
     _Trll.others(start1, name='start1')
     _Trll.others(start2, name='start2')
 
-    # see http://williams.best.vwh.net/avform.htm#Intersection
+    # see <http://www.edwilliams.org/avform.htm#Intersection>
     a1, b1 = start1.to2ab()
     a2, b2 = start2.to2ab()
 
