@@ -120,7 +120,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalNvector.Nvector-class.html#copy" class="summary-sig-name">copy</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Copy this vector.</td>
+      Copies this vector.</td>
           <td align="right" valign="top">
             
             
@@ -136,10 +136,10 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalNvector.Nvector-class.html#toLatLon" class="summary-sig-name">toLatLon</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Converts this n-vector to a <a 
-      href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
-      class="link">LatLon</a> point.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalNvector.Nvector-class.html#toLatLon" class="summary-sig-name">toLatLon</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.ellipsoidalNvector.LatLon'&gt;</span>)</span><br />
+      Converts this n-vector to an (ellipsoidal geodetic) point.</td>
           <td align="right" valign="top">
             
             
@@ -155,10 +155,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalNvector.Nvector-class.html#toCartesian" class="summary-sig-name">toCartesian</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Convert this n-vector to a <a 
-      href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
-      class="link">Cartesian</a>.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalNvector.Nvector-class.html#toCartesian" class="summary-sig-name">toCartesian</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">Cartesian</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.ellipsoidalNvector.Cartesian'&gt;</span>)</span><br />
+      Converts this n-vector to a cartesian point.</td>
           <td align="right" valign="top">
             
             
@@ -175,7 +174,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalNvector.Nvector-class.html#unit" class="summary-sig-name">unit</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Normalize this vector to unit length.</td>
+      Normalizes this vector to unit length.</td>
           <td align="right" valign="top">
             
             
@@ -273,8 +272,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoidalNvector.Nvector-class.html#datum" class="summary-name">datum</a><br />
-      Get this n-vector's datum (<a href="pygeodesy.datum.Datum-class.html"
-      class="link">Datum</a>).
+      Gets this n-vector's datum (<a 
+      href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).
     </td>
   </tr>
   <tr>
@@ -329,7 +328,7 @@
         <li><strong class="pname"><code>x</code></strong> - X component (scalar).</li>
         <li><strong class="pname"><code>y</code></strong> - Y component (scalar).</li>
         <li><strong class="pname"><code>z</code></strong> - Z component (scalar).</li>
-        <li><strong class="pname"><code>h</code></strong> - Height above surface (meter).</li>
+        <li><strong class="pname"><code>h</code></strong> - Height above model surface (meter).</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional datum this n-vector is defined within (<a 
           href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).</li>
     </ul></dd>
@@ -364,7 +363,7 @@
     </td>
   </tr></table>
   
-  <p>Copy this vector.</p>
+  <p>Copies this vector.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>Copy (<a href="pygeodesy.ellipsoidalNvector.Nvector-class.html" 
@@ -382,17 +381,24 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toLatLon</span>(<span class="sig-arg">self</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toLatLon</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.ellipsoidalNvector.LatLon'&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Converts this n-vector to a <a 
-  href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
-  class="link">LatLon</a> point.</p>
+  <p>Converts this n-vector to an (ellipsoidal geodetic) point.</p>
   <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the default height (meter).</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - LatLon class for the point (<a 
+          href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+    </ul></dd>
     <dt>Returns:</dt>
         <dd>Point equivalent to this n-vector (<a 
           href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
@@ -412,17 +418,22 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toCartesian</span>(<span class="sig-arg">self</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toCartesian</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">Cartesian</span>=<span class="sig-default">&lt;class 'pygeodesy.ellipsoidalNvector.Cartesian'&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Convert this n-vector to a <a 
-  href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
-  class="link">Cartesian</a>.</p>
+  <p>Converts this n-vector to a cartesian point.</p>
   <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>Cartesian</code></strong> - Cartesian class for the point (<a 
+          href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
+          class="link">Cartesian</a>).</li>
+    </ul></dd>
     <dt>Returns:</dt>
         <dd>Cartesian equivalent to this n-vector (<a 
           href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
@@ -450,7 +461,7 @@
     </td>
   </tr></table>
   
-  <p>Normalize this vector to unit length.</p>
+  <p>Normalizes this vector to unit length.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>Normalised vector (<a 
@@ -478,12 +489,12 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">datum</h3>
-  <p>Get this n-vector's datum (<a href="pygeodesy.datum.Datum-class.html" 
+  <p>Gets this n-vector's datum (<a href="pygeodesy.datum.Datum-class.html"
   class="link">Datum</a>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">datum(<span class="summary-sig-arg">self</span>)</span>
-        - Get this n-vector's datum (<a href="pygeodesy.datum.Datum-class.html" 
+        - Gets this n-vector's datum (<a href="pygeodesy.datum.Datum-class.html" 
 class="link">Datum</a>).
     </dd>
   </dl>
@@ -521,7 +532,7 @@ class="link">Datum</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Apr 27 15:40:29 2017
+    Generated by Epydoc 3.0.1 on Sun Apr 30 22:03:42 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

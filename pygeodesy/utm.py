@@ -44,7 +44,7 @@ from operator import mul
 # all public contants, classes and functions
 __all__ = ('Utm',  # classes
            'parseUTM', 'toUtm')  # functions
-__version__ = '17.04.07'
+__version__ = '17.04.30'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -107,7 +107,7 @@ class _Ks(object):
 
 
 def _toZBL(zone, band, mgrs=False):  # used by mgrs.Mgrs
-    '''(INTERNAL) Check and return zone, Band and band latitude.
+    '''(INTERNAL) Checks and return zone, Band and band latitude.
 
        @param zone: Zone number or string.
        @param band: Band letter.
@@ -140,7 +140,7 @@ def _toZBL(zone, band, mgrs=False):  # used by mgrs.Mgrs
 
 
 def _toZBll(lat, lon):
-    '''(INTERNAL) Return zone, Band and central lat- and longitude.
+    '''(INTERNAL) Returns zone, Band and central lat- and longitude.
 
        @param lat: Latitude (degrees).
        @param lon: Longitude (degrees).
@@ -240,41 +240,41 @@ class Utm(Base):
 
     @property
     def band(self):
-        '''Get the latitudinal band (C..X or '').
+        '''Gets the latitudinal band (C..X or '').
         '''
         return self._band
 
     @property
     def convergence(self):
-        '''Get the meridian convergence (degrees or None).
+        '''Gets the meridian convergence (degrees or None).
         '''
         return self._converge
 
     @property
     def datum(self):
-        '''Get the datum (L{Datum}).
+        '''Gets the datum (L{Datum}).
         '''
         return self._datum
 
     @property
     def easting(self):
-        '''Get easting (meter).'''
+        '''Gets the easting (meter).'''
         return self._easting
 
     @property
     def hemisphere(self):
-        '''Get the hemisphere (N|S).
+        '''Gets the hemisphere (N|S).
         '''
         return self._hemi
 
     @property
     def northing(self):
-        '''Get northing (meter).
+        '''Gets the northing (meter).
         '''
         return self._northing
 
     def parseUTM(self, strUTM):
-        '''Parse a string to a UTM coordinate.
+        '''Parses a string to a UTM coordinate.
 
            For more details, see function L{parseUTM} in
            this module L{utm}.
@@ -283,18 +283,18 @@ class Utm(Base):
 
     @property
     def scale(self):
-        '''Get the grid scale (scalar or None).
+        '''Gets the grid scale (scalar or None).
         '''
         return self._scale
 
     def toLatLon(self, LatLon):
-        '''Converts this UTM coordinate to an ellipsoidal lat-/longitude.
+        '''Converts this UTM coordinate to an (ellipsoidal) geodetic point.
 
-           @param LatLon: Ellipsoidal LatLon class to use (L{LatLon}).
+           @param LatLon: LatLon class for the point (I{LatLon}).
 
-           @return: Lat-/longitude of this UTM coordinate (L{LatLon}).
+           @return: Point of this UTM coordinate (I{LatLon}).
 
-           @raise TypeError: If LatLon is not ellipsoidal.
+           @raise TypeError: If I{LatLon} is not ellipsoidal.
 
            @example:
 
@@ -358,7 +358,7 @@ class Utm(Base):
         return ll
 
     def toMgrs(self):
-        '''Convert this UTM coordinate to an MGRS grid reference.
+        '''Converts this UTM coordinate to an MGRS grid reference.
 
            See function L{toMgrs} in module L{mgrs} for more details.
 
@@ -427,14 +427,14 @@ class Utm(Base):
 
     @property
     def zone(self):
-        '''Get the longitudinal zone (1..60).
+        '''Gets the longitudinal zone (1..60).
         '''
         return self._zone
 
 
 def parseUTM(strUTM, datum=Datums.WGS84):
-    '''Parse a string representing a UTM coordinate, consisting of
-       zone, hemisphere, easting and northing.
+    '''Parses a string representing a UTM coordinate, consisting
+       of zone, hemisphere, easting and northing.
 
        @param strUTM: A UTM coordinate (string).
        @keyword datum: Datum to use (L{Datum}).
@@ -466,18 +466,19 @@ def parseUTM(strUTM, datum=Datums.WGS84):
     return Utm(z, h.upper(), e, n, datum=datum)
 
 
-def toUtm(latlon, lon=None, datum=None):
-    '''Convert lat-/longitude location to a UTM coordinate.
+def toUtm(latlon, lon=None, datum=None, Utm=Utm):
+    '''Converts lat-/longitude point to a UTM coordinate.
 
        @note: Implements Karney’s method, using 6-th order Krüger
        series, giving results accurate to 5 nm for distances up to
        3900 km from the central meridian.
 
-       @param latlon: Latitude (degrees) or an ellipsoidal LatLon
-                      instance.
+       @param latlon: Latitude (degrees) or an (ellipsoidal)
+                      geodetic I{LatLon} point.
        @keyword lon: Longitude (degrees or None).
        @keyword datum: Datum for this UTM coordinate, overriding
-                       latlon's datum (L{Datum}).
+                       latlon's datum (I{Datum}).
+       @keyword Utm: Utm class for the UTM coordinate (L{Utm}).
 
        @return: The UTM coordinate (L{Utm}).
 
@@ -500,8 +501,8 @@ def toUtm(latlon, lon=None, datum=None):
             raise TypeError('%s not %s: %r' % ('latlon', 'ellipsoidal', latlon))
         d = datum or latlon.datum
     except AttributeError:
-        if lon is None:
-            raise ValueError('%s invalid: %r' % ('latlon', latlon))
+        if lon is None or not isscalar(lon):
+            raise ValueError('%s invalid: %r' % ('lon', lon))
         lat = latlon
         if not isscalar(lat):
             raise ValueError('%s invalid: %r' % ('lat', lat))

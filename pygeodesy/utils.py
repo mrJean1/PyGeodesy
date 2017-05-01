@@ -32,7 +32,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'tanPI_2_2',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI', 'wrapPI2', 'wrapPI_2')
-__version__ = '17.04.27'
+__version__ = '17.04.30'
 
 try:
     _Ints = int, long  #: (INTERNAL) Int objects (tuple)
@@ -158,9 +158,9 @@ def favg(v1, v2, f=0.5):
 
        @raise ValueError: Fraction out of range.
     '''
-    if not 0 <= f <= 1:
-        raise ValueError('%s invalid: %r' % ('fraction', f))
-    return v1 + f * (v2 - v1)
+#   if not 0 <= f <= 1:  # XXX restrict fraction?
+#       raise ValueError('%s invalid: %r' % ('fraction', f))
+    return v1 + f * (v2 - v1)  # v1 * (1 - f) + v2 * f
 
 
 def fdot(a, *b):

@@ -39,7 +39,7 @@ from math import cos, sin, sqrt, tan
 # all public contants, classes and functions
 __all__ = ('Osgr',  # classes
            'parseOSGR', 'toOsgr')  # functions
-__version__ = '17.04.07'
+__version__ = '17.04.30'
 
 _10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (meter)
 _100km   = 100000  #: (INTERNAL) 100 km (int meter)
@@ -88,43 +88,43 @@ class Osgr(Base):
 
     @property
     def datum(self):
-        '''Get the datum (L{Datum}).
+        '''Gets the datum (L{Datum}).
         '''
         return self._datum
 
     @property
     def easting(self):
-        '''Get easting (meter).
+        '''Gets the easting (meter).
         '''
         return self._easting
 
     @property
     def northing(self):
-        '''Get northing (meter).
+        '''Gets the northing (meter).
         '''
         return self._northing
 
     def parse(self, strOSGR):
-        '''Parse a string to an Osgr instance.
+        '''Parses a string to an Osgr instance.
 
            For more details, see function L{parseOSGR} in this module L{osgr}.
         '''
         return parseOSGR(strOSGR)
 
     def toLatLon(self, LatLon, datum=Datums.WGS84):
-        '''Convert this OSGR coordinate to an ellipsoidal lat-/longitude
+        '''Converts this OSGR coordinate to an (ellipsoidal) geodetic
            point.
 
            Note formulation implemented here due to Thomas, Redfearn, etc.
            is as published by OS, but is inferior to Krüger as used by
            e.g. Karney 2011.
 
-           @param LatLon: Ellipsoidal LatLon class to use (L{LatLon}).
-           @param datum: Darum to use (L{Datum}).
+           @param LatLon: LatLon class for the point (I{LatLon}).
+           @param datum: Darum to use (I{Datum}).
 
-           @return: The elliposoidal point (L{LatLon}).
+           @return: The geodetic point (I{LatLon}).
 
-           @raise TypeError: If L{LatLon} is not ellipsoidal.
+           @raise TypeError: If I{LatLon} is not ellipsoidal.
 
            @example:
 
@@ -267,7 +267,7 @@ class Osgr(Base):
 
 
 def parseOSGR(strOSGR):
-    '''Parse an OSGR coordinate string to an Osgr instance.
+    '''Parses an OSGR coordinate string to an Osgr instance.
 
        Accepts standard OS Grid References like 'SU 387 148',
        with or without whitespace separators, from 2- up to
@@ -343,19 +343,20 @@ def parseOSGR(strOSGR):
     return Osgr(e, n)
 
 
-def toOsgr(latlon, lon=None, datum=Datums.WGS84):
-    '''Convert lat-/longitude to a OSGR coordinate.
+def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr):
+    '''Converts lat-/longitude point to na OSGR coordinate.
 
-       @param latlon: Latitude in degrees (scalar) or an
-                      ellipsoidal LatLon location.
+       @param latlon: Latitude (degrees) or an (ellipsoidal)
+                      geodetic I{LatLon} point.
        @keyword lon: Longitude in degrees (scalar or None).
-       @keyword datum: Datum to use (L{Datum}).
+       @keyword datum: Datum to convert (I{Datum}).
+       @keyword Osgr: Osgr class for the OSGR coordinate (L{Osgr}).
 
        @return: The OSGR coordinate (L{Osgr}).
 
        @raise TypeError: If latlon is not ellipsoidal.
 
-       @raise ValueError: If lon is invalid, not None.
+       @raise ValueError: If latlon or lon is invalid.
 
        @example:
 

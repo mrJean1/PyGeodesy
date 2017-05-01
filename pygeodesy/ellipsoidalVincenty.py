@@ -58,7 +58,7 @@ from math import atan2, cos, hypot, sin, tan
 
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'VincentyError')  # classes
-__version__ = '17.04.07'
+__version__ = '17.04.30'
 
 
 class VincentyError(Exception):
@@ -66,22 +66,6 @@ class VincentyError(Exception):
        for coincident points and lack of convergence.
     '''
     pass
-
-
-class Cartesian(CartesianBase):
-    '''Extended to convert geocentric L{Cartesian} points to
-       Vincenty-based ellipsoidal L{LatLon}.
-    '''
-    def toLatLon(self, datum=Datums.WGS84):  # PYCHOK XXX
-        '''Converts this (geocentric) Cartesian (x/y/z) point to
-           an (ellipsoidal geodetic) point on the specified datum.
-
-           @keyword datum: Datum to use (L{Datum}).
-
-           @return: Ellipsoidal geodetic point (L{LatLon}).
-        '''
-        a, b, h = self.to3llh(datum)
-        return LatLon(a, b, height=h, datum=datum)
 
 
 class LatLon(LatLonEllipsoidalBase):
@@ -104,7 +88,7 @@ class LatLon(LatLonEllipsoidalBase):
     _iterations = 50
 
     def copy(self):
-        '''Copy this point.
+        '''Copies this point.
 
            @return: Copy of this point (L{LatLon}).
         '''
@@ -115,14 +99,16 @@ class LatLon(LatLonEllipsoidalBase):
         p.iterations = self.iterations
         return p
 
-    def destination(self, distance, bearing):
-        '''Return the destination point after having travelled
+    def destination(self, distance, bearing, height=None):
+        '''Returns the destination point after having travelled
            for the given distance from this point along a geodesic
            given by an initial bearing, using Vincenty's direct
            method.  See method L{destination2} for more details.
 
            @param distance: Distance in meters (scalar).
            @param bearing: Initial bearing in compass degrees (scalar).
+           @keyword height: Optional height, overriding the default
+                            height (meter).
 
            @return: The destination point (L{LatLon}).
 
@@ -135,10 +121,10 @@ class LatLon(LatLonEllipsoidalBase):
            >>> p = LatLon(-37.95103, 144.42487)
            >>> d = p.destination(54972.271, 306.86816)  # 37.6528°S, 143.9265°E
         '''
-        return self._direct(distance, bearing, True)[0]
+        return self._direct(distance, bearing, True, height=height)[0]
 
-    def destination2(self, distance, bearing):
-        '''Return the destination point and the final bearing (reverse
+    def destination2(self, distance, bearing, height=None):
+        '''Returns the destination point and the final bearing (reverse
            azimuth) after having travelled for the given distance from
            this point along a geodesic given by an initial bearing,
            using Vincenty's direct method.
@@ -155,6 +141,8 @@ class LatLon(LatLonEllipsoidalBase):
 
            @param distance: Distance in meters (scalar).
            @param bearing: Initial bearing in compass degrees (scalar).
+           @keyword height: Optional height, overriding the default
+                            height (meter).
 
            @return: 2-Tuple (destination, final bearing) in (L{LatLon}, degrees360).
 
@@ -168,10 +156,10 @@ class LatLon(LatLonEllipsoidalBase):
            >>> b = 306.86816
            >>> d, f = p.destination2(54972.271, b)  # 37.652818°S, 143.926498°E, 307.1736
         '''
-        return self._direct(distance, bearing, True)
+        return self._direct(distance, bearing, True, height=height)
 
     def distanceTo(self, other):
-        '''Compute the distance between this and an other point
+        '''Computes the distance between this and an other point
            along a geodesic, using Vincenty's inverse method.
            See method L{distanceTo3} for more details.
 
@@ -197,7 +185,7 @@ class LatLon(LatLonEllipsoidalBase):
         return self._inverse(other, False)
 
     def distanceTo3(self, other):
-        '''Compute the distance and the initial and final bearing along
+        '''Computes the distance and the initial and final bearing along
            a geodesic between this and an other point, using Vincenty's
            inverse method.
 
@@ -226,13 +214,13 @@ class LatLon(LatLonEllipsoidalBase):
 
     @property
     def epsilon(self, eps=None):
-        '''Get the convergence epsilon (scalar).
+        '''Gets the convergence epsilon (scalar).
         '''
         return self._epsilon
 
     @epsilon.setter  # PYCHOK setter!
     def epsilon(self, eps):
-        '''Set the convergence epsilon.
+        '''Sets the convergence epsilon.
 
            @param eps: New epsilon (scalar).
         '''
@@ -240,7 +228,7 @@ class LatLon(LatLonEllipsoidalBase):
             self._epsilon = float(eps)
 
     def finalBearingOn(self, distance, bearing):
-        '''Return the final bearing (reverse azimuth) after having
+        '''Returns the final bearing (reverse azimuth) after having
            travelled for the given distance along a geodesic given
            by an initial bearing from this point, using Vincenty's
            direct method.  See method L{destination2} for more details.
@@ -263,7 +251,7 @@ class LatLon(LatLonEllipsoidalBase):
         return self._direct(distance, bearing, False)
 
     def finalBearingTo(self, other):
-        '''Return the final bearing (reverse azimuth) after having
+        '''Returns the final bearing (reverse azimuth) after having
            travelled along a geodesic from this point to an other
            point, using Vincenty's inverse method.  See method
            L{distanceTo3} for more details.
@@ -294,7 +282,7 @@ class LatLon(LatLonEllipsoidalBase):
         return self._inverse(other, True)[2]
 
     def initialBearingTo(self, other):
-        '''Return the initial bearing (forward azimuth) to travel
+        '''Returns the initial bearing (forward azimuth) to travel
            along a geodesic from this point to an other point,
            using Vincenty's inverse method.  See method
            L{distanceTo3} for more details.
@@ -328,13 +316,13 @@ class LatLon(LatLonEllipsoidalBase):
 
     @property
     def iterations(self):
-        '''Get the iteration limit (int).
+        '''Gets the iteration limit (int).
         '''
         return self._iterations
 
     @iterations.setter  # PYCHOK setter!
     def iterations(self, limit):
-        '''Set the iteration limit.
+        '''Sets the iteration limit.
 
            @param limit: New iteration limit (int).
         '''
@@ -342,7 +330,7 @@ class LatLon(LatLonEllipsoidalBase):
             self._iterations = int(limit)
 
     def toCartesian(self):
-        '''Convert this (geodetic) point to (geocentric) x/y/z
+        '''Converts this (geodetic) point to (geocentric) x/y/z
            cartesian coordinates.
 
            @return: Ellipsoidal geocentric cartesian point (L{Cartesian}).
@@ -350,7 +338,7 @@ class LatLon(LatLonEllipsoidalBase):
         x, y, z = self.to3xyz()  # ellipsoidalBase.LatLonEllipsoidalBase
         return Cartesian(x, y, z)  # this ellipsoidalVincenty.Cartesian
 
-    def _direct(self, distance, bearing, llr):
+    def _direct(self, distance, bearing, llr, height=None):
         '''(INTERNAL) Direct Vincenty method.
 
            @raise VincentyError: Vincenty fails to converge for the current
@@ -393,7 +381,8 @@ class LatLon(LatLonEllipsoidalBase):
             b = degrees180(atan2(ss * si, c1 * cs - s1 * ss * ci) -
                           _dl(E.f, c2a, sa, s, cs, ss, c2sm) +
                            radians(self.lon))
-            r = LatLon(a, b, height=self.height, datum=self.datum), r
+            h = self.height if height is None else height
+            r = self.topsub(a, b, height=h, datum=self.datum), r
         return r
 
     def _inverse(self, other, azis):
@@ -446,7 +435,7 @@ class LatLon(LatLonEllipsoidalBase):
 
         b = E.b
 #       if self.height or other.height:
-#           b += self._alter(other)
+#           b += self._havg(other)
         d = b * s
 
         if azis:  # forward and reverse azimuth
@@ -458,7 +447,7 @@ class LatLon(LatLonEllipsoidalBase):
 
 
 def _p2(c2a, ab2):
-    '''(INTERNAL) Compute A, B polynomials.
+    '''(INTERNAL) Computes A, B polynomials.
     '''
     u2 = c2a * ab2  # e'2 WGS84 = 0.00673949674227643
     A = u2 / 16384.0 * (4096 + u2 * (-768 + u2 * (320 - 175 * u2))) + 1
@@ -490,6 +479,24 @@ def _ds(B, cs, ss, c2sm):
     ss2 = (ss * ss * 4 - 3) * (c2sm2 * 2 - 1)
     return B * ss * (c2sm + B / 4.0 * (c2sm2 * cs -
                             B / 6.0 *  c2sm  * ss2))
+
+
+class Cartesian(CartesianBase):
+    '''Extended to convert geocentric L{Cartesian} points to
+       Vincenty-based ellipsoidal L{LatLon}.
+    '''
+    def toLatLon(self, datum=Datums.WGS84, LatLon=LatLon):  # PYCHOK XXX
+        '''Converts this (geocentric) Cartesian (x/y/z) point to
+           an (ellipsoidal) geodetic point on the specified datum.
+
+           @keyword datum: Datum to use (L{Datum}).
+           @keyword LatLon: LatLon class for the point (L{LatLon}).
+
+           @return: The ellipsoidal geodetic point (L{LatLon}).
+        '''
+        a, b, h = self.to3llh(datum)
+        return LatLon(a, b, height=h, datum=datum)
+
 
 # **) MIT License
 #

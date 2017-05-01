@@ -24,7 +24,7 @@ from time import time
 
 __all__ = ('versions', 'Tests',
            'secs2str')
-__version__ = '17.04.27'
+__version__ = '17.04.30'
 
 try:
     _int = int, long
@@ -322,11 +322,14 @@ class Tests(object):
             s = LatLon(51.0, 1.9)
             p = s.nearestOn(s1, s2)  # 51.0004°N, 001.9000°E
             self.test('nearestOn', p.toStr(F_D, prec=4), '51.0004°N, 001.9°E')
+            self.test('nearestOn', isinstance(p, LatLon), 'True')
+
             d = p.distanceTo(s)  # 42.71 m
             self.test('distanceTo', d, '42.712', fmt='%.3f')
             s = LatLon(51.0, 2.1)
             p = s.nearestOn(s1, s2)  # 51.0000°N, 002.0000°E
             self.test('nearestOn', p.toStr(F_D), '51.0°N, 002.0°E')
+            self.test('nearestOn', isinstance(p, LatLon), 'True')
 
             # courtesy AkimboEG on GitHub
             s1 = LatLon(0, 0)
@@ -334,9 +337,11 @@ class Tests(object):
             s = LatLon(1, 0)
             p = s.nearestOn(s1, s2)  # 0.0°N, 0.0°E
             self.test('nearestOn', p, '00.0°N, 000.0°E')
+            self.test('nearestOn', isinstance(p, LatLon), 'True')
 
             p = LatLon(10, -140).nearestOn(LatLon(0, 20), LatLon(0, 40))
             self.test('nearestOn', p, '00.0°N, 020.0°E')
+            self.test('nearestOn', isinstance(p, LatLon), 'True')
 
         if hasattr(LatLon, 'triangulate'):
             # courtesy of pvezid  Feb 10, 2017
@@ -346,6 +351,7 @@ class Tests(object):
             self.test('BasseH', s, '47.311067°N, 002.528617°W')
             t = p.triangulate(7, s, 295)
             self.test('triangulate', t, '47.323667°N, 002.568501°W')
+            self.test('triangulate', isinstance(t, LatLon), 'True')
 
 
 if __name__ == '__main__':

@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.04.29'
+__version__ = '17.04.30'
 
 from tests import Tests as _Tests
 
@@ -18,22 +18,26 @@ class Tests(_Tests):
         q = LatLon(48.857, 2.351)
         i = p.intermediateTo(q, 0.25)
         self.test('intermediateTo', i, '51.372084°N, 000.707337°E')
+        self.test('intermediateTo', isinstance(i, LatLon), 'True')
 
         if hasattr(LatLon, 'intermediateChordTo'):
             i = p.intermediateChordTo(q, 0.25)
             self.test('intermediateChordTo', i, '51.372294°N, 000.707192°E')
+            self.test('intermediateChordTo', isinstance(i, LatLon), 'True')
 
         p = LatLon(51.8853, 0.2545)
         q = LatLon(49.0034, 2.5735)
         i = p.intersection(108.55, q, 32.44)
         self.test('intersection', i.toStr(F_D),  '50.907608°N, 004.508575°E')  # 50.9076°N, 004.5086°E  # Trig
         self.test('intersection', i.toStr(F_DMS), '50°54′27.39″N, 004°30′30.87″E')
+        self.test('intersection', isinstance(i, LatLon), 'True')
 
         REO = LatLon(42.600, -117.866)
         BKE = LatLon(44.840, -117.806)
         i = REO.intersection(51, BKE, 137)
         self.test('intersection', i.toStr(F_D), '43.5719°N, 116.188757°W')  # 43.572°N, 116.189°W
         self.test('intersection', i.toStr(F_DMS), '43°34′18.84″N, 116°11′19.53″W')
+        self.test('intersection', isinstance(i, LatLon), 'True')
 
         p = LatLon(0, 0)
         self.test('maxLat0',  p.maxLat( 0), '90.0')
@@ -52,12 +56,14 @@ class Tests(_Tests):
 
         d = p.rhumbDestination(40300, 116.7)
         self.test('rhumbDestination', d, '50.964155°N, 001.853°E')  # 50.9642°N, 001.8530°E
+        self.test('rhumbDestination', isinstance(d, LatLon), 'True')
 
         d = p.rhumbDistanceTo(q)
         self.test('rhumbDistanceTo', d, '40307.8', '%.1f')  # XXX 40310 ?
 
         m = p.rhumbMidpointTo(q)
         self.test('rhumbMidpointo', m, '51.0455°N, 001.595727°E')
+        self.test('rhumbMidpointo', isinstance(m, LatLon), 'True')
 
         b = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
         self.test('areaOf', spherical.areaOf(b), '8.6660587507e+09', fmt='%.10e')  # 8666058750.718977
@@ -68,8 +74,8 @@ class Tests(_Tests):
         if hasattr(spherical, 'isPoleEnclosedBy'):
             p = LatLon(85, 90), LatLon(85, 0), LatLon(85, -90), LatLon(85, -180)
             self.test('isPoleEnclosedBy', spherical.isPoleEnclosedBy(p), 'True')
-            p = LatLon(85, 90), LatLon(85, 0), LatLon(85, -120)
-            self.test('isPoleEnclosedBy', spherical.isPoleEnclosedBy(p), 'False')  # XXX True?
+            p = LatLon(85, 90), LatLon(85, 0), LatLon(85, -180)
+            self.test('isPoleEnclosedBy', spherical.isPoleEnclosedBy(p), 'True', known=True)
 
 
 if __name__ == '__main__':

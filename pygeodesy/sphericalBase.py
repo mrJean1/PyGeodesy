@@ -23,7 +23,7 @@ from math import acos, atan2, cos, hypot, log, sin
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('LatLonSphericalBase',)
-__version__ = '17.04.28'
+__version__ = '17.04.30'
 
 
 class LatLonSphericalBase(LatLonHeightBase):
@@ -33,13 +33,13 @@ class LatLonSphericalBase(LatLonHeightBase):
 
     @property
     def datum(self):
-        '''Get this point's datum (L{Datum}).
+        '''Gets this point's datum (L{Datum}).
         '''
         return self._datum
 
     @datum.setter  # PYCHOK setter!
     def datum(self, datum):
-        '''Set this point's datum without conversion.
+        '''Sets this point's datum without conversion.
 
            @param datum: New datum (L{Datum}).
 
@@ -56,7 +56,7 @@ class LatLonSphericalBase(LatLonHeightBase):
         self._datum = datum
 
     def finalBearingTo(self, other):
-        '''Return the final bearing (reverse azimuth) from this
+        '''Returns the final bearing (reverse azimuth) from this
            to an other point.
 
            @param other: The other point (spherical LatLon).
@@ -113,7 +113,7 @@ class LatLonSphericalBase(LatLonHeightBase):
         return -self.maxLat(bearing)
 
     def parse(self, strll, height=0, sep=','):
-        '''Parse a string representing lat-/longitude point and
+        '''Parses a string representing lat-/longitude point and
            return a LatLon.
 
            The lat- and longitude must be separated by a sep[arator]
@@ -151,7 +151,7 @@ class LatLonSphericalBase(LatLonHeightBase):
         return (a2 - a1), db, dp
 
     def rhumbBearingTo(self, other):
-        '''Return the initial bearing (forward azimuth) from this
+        '''Returns the initial bearing (forward azimuth) from this
            to an other point along a rhumb (loxodrome) line.
 
            @param other: The other point (spherical LatLon).
@@ -170,7 +170,7 @@ class LatLonSphericalBase(LatLonHeightBase):
 
         return degrees360(atan2(db, dp))
 
-    def rhumbDestination(self, distance, bearing, radius=R_M):
+    def rhumbDestination(self, distance, bearing, radius=R_M, height=None):
         '''Returns the destination point having travelled along
            a rhumb (loxodrome) line from this point the given
            distance on the given bearing.
@@ -178,6 +178,8 @@ class LatLonSphericalBase(LatLonHeightBase):
            @param distance: Distance travelled (same units as radius).
            @param bearing: Bearing from this point (compass degrees).
            @keyword radius: Mean earth radius (meter).
+           @keyword height: Optional height, overriding the default
+                            height (meter or same unit as radius).
 
            @return: The destination point (spherical LatLon).
 
@@ -213,7 +215,8 @@ class LatLonSphericalBase(LatLonHeightBase):
         else:
             b2 = b1
 
-        return self.topsub(degrees90(a2), degrees180(b2), height=self.height)
+        h = self.height if height is None else height
+        return self.topsub(degrees90(a2), degrees180(b2), height=h)
 
     def rhumbDistanceTo(self, other, radius=R_M):
         '''Returns distance from this to an other point along
@@ -247,11 +250,13 @@ class LatLonSphericalBase(LatLonHeightBase):
 
         return float(radius) * hypot(da, q * db)
 
-    def rhumbMidpointTo(self, other):
-        '''Return the (loxodromic) midpoint between this and
+    def rhumbMidpointTo(self, other, height=None):
+        '''Returns the (loxodromic) midpoint between this and
            an other point.
 
            @param other: The other point (spherical LatLon).
+           @keyword height: Optional height, overriding the mean height
+                            (meter or same unit as radius).
 
            @return: The midpoint (spherical LatLon).
 
@@ -286,7 +291,8 @@ class LatLonSphericalBase(LatLonHeightBase):
                     b3 = (b1 * log(f2) -
                           b2 * log(f1) + (b2 - b1) * log(f3)) / f
 
-        return self.topsub(degrees90(a3), degrees180(b3), height=self._alter(other))
+        h = self._havg(other) if height is None else height
+        return self.topsub(degrees90(a3), degrees180(b3), height=h)
 
 # **) MIT License
 #

@@ -19,7 +19,7 @@ from math import atan2, cos, hypot, sin
 # all public contants, classes and functions
 __all__ = ('Vector3d',  # classes
            'sumOf')  # functions
-__version__ = '17.02.14'
+__version__ = '17.04.30'
 
 try:
     _cmp = cmp
@@ -78,13 +78,13 @@ class Vector3d(VectorBase):
         return self.length()
 
     def __cmp__(self, other):  # Python 2-
-        '''Compare this and an other vector?
+        '''Compares this and an other vector?
            @return: -1, 0 or +1 (int).
         '''
         return _cmp(self.length(), other.length())
 
     def __div__(self, scalar):
-        '''Divide this vector by a scalar.
+        '''Divides this vector by a scalar.
            @return: Quotient (L{Vector3d}).
         '''
         return self.dividedBy(scalar)
@@ -96,7 +96,7 @@ class Vector3d(VectorBase):
         return self.length() > other.length()
 
     def __mul__(self, scalar):
-        '''Multiply this vector by a scalar
+        '''Multiplies this vector by a scalar
            @return: Product (L{Vector3d}).
         '''
         return self.times(scalar)
@@ -108,7 +108,7 @@ class Vector3d(VectorBase):
         return self.length() < other.length()
 
     def __neg__(self):
-        '''Negate this vector.
+        '''Negates this vector.
            @return: Opposite (L{Vector3d})
         '''
         return self.negate()
@@ -132,7 +132,7 @@ class Vector3d(VectorBase):
             self._length = self._united = None
 
     def angleTo(self, other, vSign=None):
-        '''Angle between this and an other vector.
+        '''Computes the angle between this and an other vector.
 
            @param other: The other vector (L{Vector3d}).
            @keyword vSign: Vector, if supplied (and out of the plane of
@@ -151,7 +151,7 @@ class Vector3d(VectorBase):
         return atan2(s, self.dot(other))
 
     def copy(self):
-        '''Copy this vector.
+        '''Copies this vector.
 
            @return: New, vector copy (Vector3d).
         '''
@@ -174,7 +174,7 @@ class Vector3d(VectorBase):
                            self.x * other.y - self.y * other.x)
 
     def dividedBy(self, factor):
-        '''Divide this vector by a scalar.
+        '''Divides this vector by a scalar.
 
            @param factor: The divisor (scalar).
 
@@ -198,7 +198,7 @@ class Vector3d(VectorBase):
         return fdot(self.to3xyz(), *other.to3xyz())
 
     def equals(self, other, units=False):
-        '''Check if this and an other vector are equal or equivalent.
+        '''Checks if this and an other vector are equal or equivalent.
 
            @param other: The other vector (L{Vector3d}).
            @keyword units: Use units=True to compare the normalized,
@@ -230,7 +230,7 @@ class Vector3d(VectorBase):
         return self._length
 
     def minus(self, other):
-        '''Subtract an other vector from this vector.
+        '''Subtracts an other vector from this vector.
 
            @param other: The other vector (L{Vector3d}).
 
@@ -264,7 +264,7 @@ class Vector3d(VectorBase):
                 raise
 
     def parse(self, str3d):
-        '''Parse an "x, y, z" string representing a L{Vector3d}.
+        '''Parses an "x, y, z" string representing a L{Vector3d}.
 
            The x, y and z must be separated by a comma.
 
@@ -284,7 +284,7 @@ class Vector3d(VectorBase):
         return self.topsub(*v)
 
     def plus(self, other):
-        '''Add this and an other vector.
+        '''Adds this and an other vector.
 
            @param other: The other vector (L{Vector3d}).
 
@@ -299,7 +299,7 @@ class Vector3d(VectorBase):
     sum = plus  # alternate name
 
     def rotate(self, axis, theta):
-        '''Rotate this vector by a specified angle around an axis.
+        '''Rotates this vector by a specified angle around an axis.
 
            See U{Rotation matrix from axis and angle<http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle/Quaternions_and_spatial_rotation#Quaternion-derived_rotation_matrix/Rodrigues'_rotation_formula...>}
 
@@ -324,7 +324,7 @@ class Vector3d(VectorBase):
     rotateAround = rotate  # alternate name
 
     def times(self, factor):
-        '''Multiply this vector by a scalar.
+        '''Multiplies this vector by a scalar.
 
            @param factor: Scale factor (scalar).
 
@@ -337,7 +337,7 @@ class Vector3d(VectorBase):
                            self.z * factor)
 
     def to2ll(self):
-        '''Convert this vector to (geodetic) lat- and longitude.
+        '''Converts this vector to (geodetic) lat- and longitude.
 
            @return: 2-Tuple (lat, lon) in (degrees90, degrees180).
 
@@ -351,7 +351,7 @@ class Vector3d(VectorBase):
         return degrees90(a), degrees180(b)
 
     def to3xyz(self):
-        '''Return this vector as a 3-tuple.
+        '''Returns this vector as a 3-tuple.
 
            @return: 3-Tuple (x, y, z) as (scalars).
         '''
@@ -369,7 +369,7 @@ class Vector3d(VectorBase):
         return fmt % (fStr(self.to3xyz(), prec=prec, sep=sep),)
 
     def unit(self):
-        '''Normalize this vector to unit length.
+        '''Normalizes this vector to unit length.
 
            @return: Normalised, unit vector (L{Vector3d}).
         '''
@@ -385,28 +385,28 @@ class Vector3d(VectorBase):
 
     @property
     def x(self):
-        '''Get the X component (scalar).
+        '''Gets the X component (scalar).
         '''
         return self._x
 
     @property
     def y(self):
-        '''Get the Y component (scalar).
+        '''Gets the Y component (scalar).
         '''
         return self._y
 
     @property
     def z(self):
-        '''Get the Z component (scalar).
+        '''Gets the Z component (scalar).
         '''
         return self._z
 
 
 def sumOf(vectors, Vector=Vector3d, **kwds):
-    '''Vectorially add a number of vectors.
+    '''Vectorially adds a number of vectors.
 
        @param vectors: Vectors to be added (L{Vector3d}[]).
-       @keyword Vector: Vector class to instantiate (L{Vector3d}).
+       @keyword Vector: Vector class for sum (L{Vector3d}).
        @keyword kwds: Optional, additional Vector keyword argments.
 
        @return: Vectorial sum (Vector).

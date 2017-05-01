@@ -21,7 +21,7 @@ from vector3d import Vector3d, sumOf as _sumOf
 __all__ = ('NorthPole', 'SouthPole',  # constants
            'Nvector',  # classes
            'sumOf')  # functions
-__version__ = '17.04.07'
+__version__ = '17.04.30'
 
 
 class Nvector(Vector3d):  # XXX kept private
@@ -61,13 +61,13 @@ class Nvector(Vector3d):  # XXX kept private
 
     @property
     def h(self):
-        '''Get the height above surface (meter).
+        '''Gets the height above surface (meter).
         '''
         return self._h
 
     @h.setter  # PYCHOK setter!
     def h(self, h):
-        '''Set height above surface.
+        '''Sets height above surface.
 
            @param h: Height (meter).
         '''
@@ -75,7 +75,7 @@ class Nvector(Vector3d):  # XXX kept private
         self._h = h
 
     def to3llh(self):
-        '''Convert this n-vector to (geodetic) lat-, longitude
+        '''Converts this n-vector to (geodetic) lat-, longitude
            and height.
 
            @return: 3-Tuple (lat, lon, height) in (degrees90,
@@ -84,14 +84,14 @@ class Nvector(Vector3d):  # XXX kept private
         return Vector3d.to2ll(self) + (self.h,)
 
     def to4xyzh(self):
-        '''Return this n-vector as a 4-tuple.
+        '''Returns this n-vector as a 4-tuple.
 
            @return: 4-Tuple (x, y, z, h) in (meter).
         '''
         return self.x, self.y, self.z, self.h
 
     def toStr(self, prec=5, fmt='(%s)', sep=', '):  # PYCHOK expected
-        '''Return a string representation of this n-vector.
+        '''Returns a string representation of this n-vector.
 
            Height component is only included if non-zero.
 
@@ -112,7 +112,7 @@ class Nvector(Vector3d):  # XXX kept private
         return fmt % (t,)
 
     def unit(self):
-        '''Normalize this vector to unit length.
+        '''Normalizes this vector to unit length.
 
            @return: Normalised, unit vector (L{Nvector}).
         '''
@@ -134,7 +134,7 @@ class LatLonNvectorBase(LatLonHeightBase):
     '''
 
     def others(self, other, name='other'):
-        '''Refine class comparison.
+        '''Refines class comparison.
 
            @param other: The other point (L{LatLon}).
            @keyword name: Other's name (string).
@@ -148,7 +148,7 @@ class LatLonNvectorBase(LatLonHeightBase):
                 raise
 
     def to4xyzh(self):
-        '''Convert this (geodetic) point to n-vector (normal
+        '''Converts this (geodetic) point to n-vector (normal
            to the earth's surface) x/y/z components and height.
 
            @return: 4-Tuple (x, y, z, h) in (meter).
@@ -161,12 +161,13 @@ class LatLonNvectorBase(LatLonHeightBase):
         return LatLonHeightBase.to3xyz(self) + (self.height,)
 
 
-def sumOf(nvectors, Vector=Nvector, **kwds):
-    '''Return the vectorial sum of any number of n-vectors.
+def sumOf(nvectors, Vector=Nvector, h=None, **kwds):
+    '''Returns the vectorial sum of any number of n-vectors.
 
        @param nvectors: Vectors to be added (L{Nvector}[]).
-       @keyword Vector: Vector class to instantiate (L{Nvector}).
+       @keyword Vector: Vector class for sum (L{Nvector}).
        @keyword kwds: Optional, additional Vector keyword argments.
+       @keyword h: Optional height, overriding the mean height (meter).
 
        @return: Vectorial sum (Vector).
 
@@ -175,9 +176,11 @@ def sumOf(nvectors, Vector=Nvector, **kwds):
     n, nvectors = len2(nvectors)
     if n < 1:
         raise ValueError('no nvectors: %r' & (n,))
-    if 'h' not in kwds:
-        kwds['h'] = fsum(v.h for v in nvectors) / n
-    return _sumOf(nvectors, Vector=Vector, **kwds)
+    if h is None:
+        m = fsum(v.h for v in nvectors) / n
+    else:
+        m = h
+    return _sumOf(nvectors, Vector=Vector, h=m, **kwds)
 
 # **) MIT License
 #

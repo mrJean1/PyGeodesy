@@ -104,7 +104,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#copy" class="summary-sig-name">copy</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Copy this point.</td>
+      Copies this point.</td>
           <td align="right" valign="top">
             
             
@@ -122,8 +122,9 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#destination" class="summary-sig-name">destination</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">distance</span>,
-        <span class="summary-sig-arg">bearing</span>)</span><br />
-      Return the destination point after having travelled for the given 
+        <span class="summary-sig-arg">bearing</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Returns the destination point after having travelled for the given 
       distance from this point along a geodesic given by an initial 
       bearing, using Vincenty's direct method.</td>
           <td align="right" valign="top">
@@ -143,8 +144,9 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#destination2" class="summary-sig-name">destination2</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">distance</span>,
-        <span class="summary-sig-arg">bearing</span>)</span><br />
-      Return the destination point and the final bearing (reverse azimuth) 
+        <span class="summary-sig-arg">bearing</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Returns the destination point and the final bearing (reverse azimuth)
       after having travelled for the given distance from this point along a
       geodesic given by an initial bearing, using Vincenty's direct method.</td>
           <td align="right" valign="top">
@@ -164,7 +166,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#distanceTo" class="summary-sig-name">distanceTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
-      Compute the distance between this and an other point along a 
+      Computes the distance between this and an other point along a 
       geodesic, using Vincenty's inverse method.</td>
           <td align="right" valign="top">
             
@@ -183,7 +185,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#distanceTo3" class="summary-sig-name">distanceTo3</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
-      Compute the distance and the initial and final bearing along a 
+      Computes the distance and the initial and final bearing along a 
       geodesic between this and an other point, using Vincenty's inverse 
       method.</td>
           <td align="right" valign="top">
@@ -204,9 +206,9 @@
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#finalBearingOn" class="summary-sig-name">finalBearingOn</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">distance</span>,
         <span class="summary-sig-arg">bearing</span>)</span><br />
-      Return the final bearing (reverse azimuth) after having travelled for
-      the given distance along a geodesic given by an initial bearing from 
-      this point, using Vincenty's direct method.</td>
+      Returns the final bearing (reverse azimuth) after having travelled 
+      for the given distance along a geodesic given by an initial bearing 
+      from this point, using Vincenty's direct method.</td>
           <td align="right" valign="top">
             
             
@@ -224,7 +226,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#finalBearingTo" class="summary-sig-name">finalBearingTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
-      Return the final bearing (reverse azimuth) after having travelled 
+      Returns the final bearing (reverse azimuth) after having travelled 
       along a geodesic from this point to an other point, using Vincenty's 
       inverse method.</td>
           <td align="right" valign="top">
@@ -244,7 +246,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#initialBearingTo" class="summary-sig-name">initialBearingTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
-      Return the initial bearing (forward azimuth) to travel along a 
+      Returns the initial bearing (forward azimuth) to travel along a 
       geodesic from this point to an other point, using Vincenty's inverse 
       method.</td>
           <td align="right" valign="top">
@@ -263,7 +265,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#toCartesian" class="summary-sig-name">toCartesian</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Convert this (geodetic) point to (geocentric) x/y/z cartesian 
+      Converts this (geodetic) point to (geocentric) x/y/z cartesian 
       coordinates.</td>
           <td align="right" valign="top">
             
@@ -334,7 +336,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#epsilon" class="summary-name">epsilon</a><br />
-      Get the convergence epsilon (scalar).
+      Gets the convergence epsilon (scalar).
     </td>
   </tr>
 <tr>
@@ -342,7 +344,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#iterations" class="summary-name">iterations</a><br />
-      Get the iteration limit (int).
+      Gets the iteration limit (int).
     </td>
   </tr>
   <tr>
@@ -384,7 +386,7 @@
     </td>
   </tr></table>
   
-  <p>Copy this point.</p>
+  <p>Copies this point.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>Copy of this point (<a 
@@ -405,14 +407,15 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">destination</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">distance</span>,
-        <span class="sig-arg">bearing</span>)</span>
+        <span class="sig-arg">bearing</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Return the destination point after having travelled for the given 
+  <p>Returns the destination point after having travelled for the given 
   distance from this point along a geodesic given by an initial bearing, 
   using Vincenty's direct method.  See method <a 
   href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#destination2" 
@@ -422,6 +425,7 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>distance</code></strong> - Distance in meters (scalar).</li>
         <li><strong class="pname"><code>bearing</code></strong> - Initial bearing in compass degrees (scalar).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the default height (meter).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The destination point (<a 
@@ -452,14 +456,15 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">destination2</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">distance</span>,
-        <span class="sig-arg">bearing</span>)</span>
+        <span class="sig-arg">bearing</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Return the destination point and the final bearing (reverse azimuth) 
+  <p>Returns the destination point and the final bearing (reverse azimuth) 
   after having travelled for the given distance from this point along a 
   geodesic given by an initial bearing, using Vincenty's direct method.</p>
   <p>The distance must be in the same units as this point's datum axes, 
@@ -474,6 +479,7 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>distance</code></strong> - Distance in meters (scalar).</li>
         <li><strong class="pname"><code>bearing</code></strong> - Initial bearing in compass degrees (scalar).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the default height (meter).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple (destination, final bearing) in (<a 
@@ -511,8 +517,8 @@
     </td>
   </tr></table>
   
-  <p>Compute the distance between this and an other point along a geodesic,
-  using Vincenty's inverse method. See method <a 
+  <p>Computes the distance between this and an other point along a 
+  geodesic, using Vincenty's inverse method. See method <a 
   href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#distanceTo3" 
   class="link">distanceTo3</a> for more details.</p>
   <dl class="fields">
@@ -563,7 +569,7 @@
     </td>
   </tr></table>
   
-  <p>Compute the distance and the initial and final bearing along a 
+  <p>Computes the distance and the initial and final bearing along a 
   geodesic between this and an other point, using Vincenty's inverse 
   method.</p>
   <p>The distance is in the same units as this point's datum axes, 
@@ -615,7 +621,7 @@
     </td>
   </tr></table>
   
-  <p>Return the final bearing (reverse azimuth) after having travelled for 
+  <p>Returns the final bearing (reverse azimuth) after having travelled for
   the given distance along a geodesic given by an initial bearing from this
   point, using Vincenty's direct method.  See method <a 
   href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#destination2" 
@@ -660,7 +666,7 @@
     </td>
   </tr></table>
   
-  <p>Return the final bearing (reverse azimuth) after having travelled 
+  <p>Returns the final bearing (reverse azimuth) after having travelled 
   along a geodesic from this point to an other point, using Vincenty's 
   inverse method.  See method <a 
   href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#distanceTo3" 
@@ -717,7 +723,7 @@
     </td>
   </tr></table>
   
-  <p>Return the initial bearing (forward azimuth) to travel along a 
+  <p>Returns the initial bearing (forward azimuth) to travel along a 
   geodesic from this point to an other point, using Vincenty's inverse 
   method.  See method <a 
   href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#distanceTo3" 
@@ -776,7 +782,7 @@
     </td>
   </tr></table>
   
-  <p>Convert this (geodetic) point to (geocentric) x/y/z cartesian 
+  <p>Converts this (geodetic) point to (geocentric) x/y/z cartesian 
   coordinates.</p>
   <dl class="fields">
     <dt>Returns:</dt>
@@ -802,17 +808,17 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">epsilon</h3>
-  <p>Get the convergence epsilon (scalar).</p>
+  <p>Gets the convergence epsilon (scalar).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">epsilon(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">None</span>)</span>
-        - Get the convergence epsilon (scalar).
+        - Gets the convergence epsilon (scalar).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">epsilon(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">eps</span>)</span>
-        - Set the convergence epsilon.
+        - Sets the convergence epsilon.
     </dd>
   </dl>
 </td></tr></table>
@@ -823,16 +829,16 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">iterations</h3>
-  <p>Get the iteration limit (int).</p>
+  <p>Gets the iteration limit (int).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">iterations(<span class="summary-sig-arg">self</span>)</span>
-        - Get the iteration limit (int).
+        - Gets the iteration limit (int).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">iterations(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">limit</span>)</span>
-        - Set the iteration limit.
+        - Sets the iteration limit.
     </dd>
   </dl>
 </td></tr></table>
@@ -869,7 +875,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Apr 27 15:40:29 2017
+    Generated by Epydoc 3.0.1 on Sun Apr 30 22:03:43 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

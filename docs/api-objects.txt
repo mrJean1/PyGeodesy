@@ -294,6 +294,7 @@ pygeodesy.sphericalTrigonometry.isPoleEnclosedBy	pygeodesy.sphericalTrigonometry
 pygeodesy.sphericalTrigonometry.areaOf	pygeodesy.sphericalTrigonometry-module.html#areaOf
 pygeodesy.sphericalTrigonometry.intersection	pygeodesy.sphericalTrigonometry-module.html#intersection
 pygeodesy.sphericalTrigonometry.radians	pygeodesy.utils-module.html#radians
+pygeodesy.sphericalTrigonometry.wrap180	pygeodesy.utils-module.html#wrap180
 pygeodesy.sphericalTrigonometry.map1	pygeodesy.utils-module.html#map1
 pygeodesy.sphericalTrigonometry._destination2	pygeodesy.sphericalTrigonometry-module.html#_destination2
 pygeodesy.utils	pygeodesy.utils-module.html
@@ -391,7 +392,7 @@ pygeodesy.bases.Base.__repr__	pygeodesy.bases.Base-class.html#__repr__
 pygeodesy.bases.Base.others	pygeodesy.bases.Base-class.html#others
 pygeodesy.bases.LatLonHeightBase	pygeodesy.bases.LatLonHeightBase-class.html
 pygeodesy.bases.LatLonHeightBase._update	pygeodesy.bases.LatLonHeightBase-class.html#_update
-pygeodesy.bases.LatLonHeightBase._alter	pygeodesy.bases.LatLonHeightBase-class.html#_alter
+pygeodesy.bases.LatLonHeightBase._havg	pygeodesy.bases.LatLonHeightBase-class.html#_havg
 pygeodesy.bases.LatLonHeightBase.__str__	pygeodesy.bases.LatLonHeightBase-class.html#__str__
 pygeodesy.bases.LatLonHeightBase.height	pygeodesy.bases.LatLonHeightBase-class.html#height
 pygeodesy.bases.Base.classname	pygeodesy.bases.Base-class.html#classname
@@ -555,7 +556,7 @@ pygeodesy.vector3d.Vector3d.minus	pygeodesy.vector3d.Vector3d-class.html#minus
 pygeodesy.vector3d.Vector3d.dot	pygeodesy.vector3d.Vector3d-class.html#dot
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._update	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_update
-pygeodesy.bases.LatLonHeightBase._alter	pygeodesy.bases.LatLonHeightBase-class.html#_alter
+pygeodesy.bases.LatLonHeightBase._havg	pygeodesy.bases.LatLonHeightBase-class.html#_havg
 pygeodesy.bases.LatLonHeightBase.__str__	pygeodesy.bases.LatLonHeightBase-class.html#__str__
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.datum	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#datum
 pygeodesy.bases.LatLonHeightBase.height	pygeodesy.bases.LatLonHeightBase-class.html#height
@@ -647,8 +648,7 @@ pygeodesy.vector3d.Vector3d.dot	pygeodesy.vector3d.Vector3d-class.html#dot
 pygeodesy.ellipsoidalNvector.LatLon	pygeodesy.ellipsoidalNvector.LatLon-class.html
 pygeodesy.ellipsoidalNvector.LatLon.toCartesian	pygeodesy.ellipsoidalNvector.LatLon-class.html#toCartesian
 pygeodesy.ellipsoidalNvector.LatLon._update	pygeodesy.ellipsoidalNvector.LatLon-class.html#_update
-pygeodesy.bases.LatLonHeightBase.toStr	pygeodesy.bases.LatLonHeightBase-class.html#toStr
-pygeodesy.bases.LatLonHeightBase._alter	pygeodesy.bases.LatLonHeightBase-class.html#_alter
+pygeodesy.bases.LatLonHeightBase._havg	pygeodesy.bases.LatLonHeightBase-class.html#_havg
 pygeodesy.bases.LatLonHeightBase.__str__	pygeodesy.bases.LatLonHeightBase-class.html#__str__
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.datum	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#datum
 pygeodesy.ellipsoidalNvector.LatLon.deltaTo	pygeodesy.ellipsoidalNvector.LatLon-class.html#deltaTo
@@ -673,6 +673,7 @@ pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._datum	pygeodesy.ellipsoidalBase
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._utm	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_utm
 pygeodesy.ellipsoidalNvector.LatLon.equals	pygeodesy.ellipsoidalNvector.LatLon-class.html#equals
 pygeodesy.bases.Base.toStr2	pygeodesy.bases.Base-class.html#toStr2
+pygeodesy.bases.LatLonHeightBase.toStr	pygeodesy.bases.LatLonHeightBase-class.html#toStr
 pygeodesy.bases.LatLonHeightBase._ab	pygeodesy.bases.LatLonHeightBase-class.html#_ab
 pygeodesy.bases.LatLonHeightBase.lat	pygeodesy.bases.LatLonHeightBase-class.html#lat
 pygeodesy.ellipsoidalNvector.LatLon.intermediateTo	pygeodesy.ellipsoidalNvector.LatLon-class.html#intermediateTo
@@ -812,8 +813,7 @@ pygeodesy.vector3d.Vector3d.dot	pygeodesy.vector3d.Vector3d-class.html#dot
 pygeodesy.ellipsoidalVincenty.LatLon	pygeodesy.ellipsoidalVincenty.LatLon-class.html
 pygeodesy.ellipsoidalVincenty.LatLon.toCartesian	pygeodesy.ellipsoidalVincenty.LatLon-class.html#toCartesian
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._update	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_update
-pygeodesy.bases.LatLonHeightBase.toStr	pygeodesy.bases.LatLonHeightBase-class.html#toStr
-pygeodesy.bases.LatLonHeightBase._alter	pygeodesy.bases.LatLonHeightBase-class.html#_alter
+pygeodesy.bases.LatLonHeightBase._havg	pygeodesy.bases.LatLonHeightBase-class.html#_havg
 pygeodesy.bases.LatLonHeightBase.__str__	pygeodesy.bases.LatLonHeightBase-class.html#__str__
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.datum	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#datum
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toDatum	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toDatum
@@ -846,6 +846,7 @@ pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._datum	pygeodesy.ellipsoidalBase
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._utm	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_utm
 pygeodesy.bases.LatLonHeightBase.equals	pygeodesy.bases.LatLonHeightBase-class.html#equals
 pygeodesy.bases.Base.toStr2	pygeodesy.bases.Base-class.html#toStr2
+pygeodesy.bases.LatLonHeightBase.toStr	pygeodesy.bases.LatLonHeightBase-class.html#toStr
 pygeodesy.bases.LatLonHeightBase._ab	pygeodesy.bases.LatLonHeightBase-class.html#_ab
 pygeodesy.bases.Base.others	pygeodesy.bases.Base-class.html#others
 pygeodesy.bases.LatLonHeightBase.lat	pygeodesy.bases.LatLonHeightBase-class.html#lat
@@ -1063,8 +1064,7 @@ pygeodesy.osgr.Osgr.parse	pygeodesy.osgr.Osgr-class.html#parse
 pygeodesy.bases.Base.__repr__	pygeodesy.bases.Base-class.html#__repr__
 pygeodesy.sphericalBase.LatLonSphericalBase	pygeodesy.sphericalBase.LatLonSphericalBase-class.html
 pygeodesy.bases.LatLonHeightBase._update	pygeodesy.bases.LatLonHeightBase-class.html#_update
-pygeodesy.bases.LatLonHeightBase.toStr	pygeodesy.bases.LatLonHeightBase-class.html#toStr
-pygeodesy.bases.LatLonHeightBase._alter	pygeodesy.bases.LatLonHeightBase-class.html#_alter
+pygeodesy.bases.LatLonHeightBase._havg	pygeodesy.bases.LatLonHeightBase-class.html#_havg
 pygeodesy.bases.LatLonHeightBase.__str__	pygeodesy.bases.LatLonHeightBase-class.html#__str__
 pygeodesy.sphericalBase.LatLonSphericalBase.datum	pygeodesy.sphericalBase.LatLonSphericalBase-class.html#datum
 pygeodesy.bases.LatLonHeightBase.height	pygeodesy.bases.LatLonHeightBase-class.html#height
@@ -1087,6 +1087,7 @@ pygeodesy.bases.LatLonHeightBase._height	pygeodesy.bases.LatLonHeightBase-class.
 pygeodesy.sphericalBase.LatLonSphericalBase._datum	pygeodesy.sphericalBase.LatLonSphericalBase-class.html#_datum
 pygeodesy.bases.LatLonHeightBase.equals	pygeodesy.bases.LatLonHeightBase-class.html#equals
 pygeodesy.bases.Base.toStr2	pygeodesy.bases.Base-class.html#toStr2
+pygeodesy.bases.LatLonHeightBase.toStr	pygeodesy.bases.LatLonHeightBase-class.html#toStr
 pygeodesy.sphericalBase.LatLonSphericalBase._rhumb3	pygeodesy.sphericalBase.LatLonSphericalBase-class.html#_rhumb3
 pygeodesy.bases.Base.others	pygeodesy.bases.Base-class.html#others
 pygeodesy.bases.LatLonHeightBase.lat	pygeodesy.bases.LatLonHeightBase-class.html#lat
@@ -1102,8 +1103,8 @@ pygeodesy.bases.Base.__repr__	pygeodesy.bases.Base-class.html#__repr__
 pygeodesy.bases.LatLonHeightBase._ab	pygeodesy.bases.LatLonHeightBase-class.html#_ab
 pygeodesy.sphericalNvector.LatLon	pygeodesy.sphericalNvector.LatLon-class.html
 pygeodesy.sphericalNvector.LatLon._update	pygeodesy.sphericalNvector.LatLon-class.html#_update
-pygeodesy.bases.LatLonHeightBase.toStr	pygeodesy.bases.LatLonHeightBase-class.html#toStr
-pygeodesy.bases.LatLonHeightBase._alter	pygeodesy.bases.LatLonHeightBase-class.html#_alter
+pygeodesy.bases.LatLonHeightBase._havg	pygeodesy.bases.LatLonHeightBase-class.html#_havg
+pygeodesy.bases.LatLonHeightBase.bounds	pygeodesy.bases.LatLonHeightBase-class.html#bounds
 pygeodesy.sphericalBase.LatLonSphericalBase.rhumbMidpointTo	pygeodesy.sphericalBase.LatLonSphericalBase-class.html#rhumbMidpointTo
 pygeodesy.sphericalNvector.LatLon.intermediateChordTo	pygeodesy.sphericalNvector.LatLon-class.html#intermediateChordTo
 pygeodesy.sphericalBase.LatLonSphericalBase.datum	pygeodesy.sphericalBase.LatLonSphericalBase-class.html#datum
@@ -1127,7 +1128,6 @@ pygeodesy.sphericalBase.LatLonSphericalBase.maxLat	pygeodesy.sphericalBase.LatLo
 pygeodesy.sphericalBase.LatLonSphericalBase.finalBearingTo	pygeodesy.sphericalBase.LatLonSphericalBase-class.html#finalBearingTo
 pygeodesy.bases.LatLonHeightBase.__str__	pygeodesy.bases.LatLonHeightBase-class.html#__str__
 pygeodesy.bases.Base.classname	pygeodesy.bases.Base-class.html#classname
-pygeodesy.bases.Base.__repr__	pygeodesy.bases.Base-class.html#__repr__
 pygeodesy.bases.LatLonHeightBase.__ne__	pygeodesy.bases.LatLonHeightBase-class.html#__ne__
 pygeodesy.bases.LatLonHeightBase.to2ab	pygeodesy.bases.LatLonHeightBase-class.html#to2ab
 pygeodesy.sphericalNvector.LatLon.greatCircle	pygeodesy.sphericalNvector.LatLon-class.html#greatCircle
@@ -1135,6 +1135,7 @@ pygeodesy.sphericalNvector.LatLon._Nv	pygeodesy.sphericalNvector.LatLon-class.ht
 pygeodesy.sphericalBase.LatLonSphericalBase._datum	pygeodesy.sphericalBase.LatLonSphericalBase-class.html#_datum
 pygeodesy.bases.LatLonHeightBase.equals	pygeodesy.bases.LatLonHeightBase-class.html#equals
 pygeodesy.bases.Base.toStr2	pygeodesy.bases.Base-class.html#toStr2
+pygeodesy.bases.LatLonHeightBase.toStr	pygeodesy.bases.LatLonHeightBase-class.html#toStr
 pygeodesy.bases.Base.topsub	pygeodesy.bases.Base-class.html#topsub
 pygeodesy.sphericalBase.LatLonSphericalBase._rhumb3	pygeodesy.sphericalBase.LatLonSphericalBase-class.html#_rhumb3
 pygeodesy.bases.LatLonHeightBase.lat	pygeodesy.bases.LatLonHeightBase-class.html#lat
@@ -1152,7 +1153,7 @@ pygeodesy.bases.LatLonHeightBase.to3xyz	pygeodesy.bases.LatLonHeightBase-class.h
 pygeodesy.bases.LatLonHeightBase.height	pygeodesy.bases.LatLonHeightBase-class.html#height
 pygeodesy.bases.LatLonHeightBase._height	pygeodesy.bases.LatLonHeightBase-class.html#_height
 pygeodesy.bases.LatLonHeightBase.points	pygeodesy.bases.LatLonHeightBase-class.html#points
-pygeodesy.bases.LatLonHeightBase.bounds	pygeodesy.bases.LatLonHeightBase-class.html#bounds
+pygeodesy.bases.Base.__repr__	pygeodesy.bases.Base-class.html#__repr__
 pygeodesy.bases.LatLonHeightBase.__init__	pygeodesy.bases.LatLonHeightBase-class.html#__init__
 pygeodesy.sphericalNvector.LatLon.trilaterate	pygeodesy.sphericalNvector.LatLon-class.html#trilaterate
 pygeodesy.bases.LatLonHeightBase._ab	pygeodesy.bases.LatLonHeightBase-class.html#_ab
@@ -1212,8 +1213,7 @@ pygeodesy.vector3d.Vector3d.minus	pygeodesy.vector3d.Vector3d-class.html#minus
 pygeodesy.vector3d.Vector3d.dot	pygeodesy.vector3d.Vector3d-class.html#dot
 pygeodesy.sphericalTrigonometry.LatLon	pygeodesy.sphericalTrigonometry.LatLon-class.html
 pygeodesy.sphericalTrigonometry.LatLon._update	pygeodesy.sphericalTrigonometry.LatLon-class.html#_update
-pygeodesy.bases.LatLonHeightBase.toStr	pygeodesy.bases.LatLonHeightBase-class.html#toStr
-pygeodesy.bases.LatLonHeightBase._alter	pygeodesy.bases.LatLonHeightBase-class.html#_alter
+pygeodesy.bases.LatLonHeightBase._havg	pygeodesy.bases.LatLonHeightBase-class.html#_havg
 pygeodesy.sphericalBase.LatLonSphericalBase.rhumbMidpointTo	pygeodesy.sphericalBase.LatLonSphericalBase-class.html#rhumbMidpointTo
 pygeodesy.sphericalBase.LatLonSphericalBase.datum	pygeodesy.sphericalBase.LatLonSphericalBase-class.html#datum
 pygeodesy.sphericalTrigonometry.LatLon.crossingParallels	pygeodesy.sphericalTrigonometry.LatLon-class.html#crossingParallels
@@ -1246,6 +1246,7 @@ pygeodesy.bases.LatLonHeightBase._height	pygeodesy.bases.LatLonHeightBase-class.
 pygeodesy.sphericalBase.LatLonSphericalBase._datum	pygeodesy.sphericalBase.LatLonSphericalBase-class.html#_datum
 pygeodesy.bases.LatLonHeightBase.equals	pygeodesy.bases.LatLonHeightBase-class.html#equals
 pygeodesy.bases.Base.toStr2	pygeodesy.bases.Base-class.html#toStr2
+pygeodesy.bases.LatLonHeightBase.toStr	pygeodesy.bases.LatLonHeightBase-class.html#toStr
 pygeodesy.bases.Base.topsub	pygeodesy.bases.Base-class.html#topsub
 pygeodesy.sphericalBase.LatLonSphericalBase._rhumb3	pygeodesy.sphericalBase.LatLonSphericalBase-class.html#_rhumb3
 pygeodesy.bases.Base.others	pygeodesy.bases.Base-class.html#others

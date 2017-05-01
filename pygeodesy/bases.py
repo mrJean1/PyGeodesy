@@ -18,7 +18,7 @@ from math import asin, cos, degrees, radians, sin
 # Epydoc to include class and method documentation
 __all__ = ('Base', 'LatLonHeightBase', 'Named', 'VectorBase',
            'isclockwise')
-__version__ = '17.04.22'
+__version__ = '17.04.30'
 
 
 class Base(object):
@@ -137,13 +137,13 @@ class LatLonHeightBase(Base):
     def __str__(self):
         return self.toStr(form=F_D, prec=6)
 
-    def _alter(self, other, f=0.5):
+    def _havg(self, other, f=0.5):
         '''(INTERNAL) Weighted, average height.
 
            @param other: An other point (LatLon).
-           @keyword f: Optional average (float).
+           @keyword f: Optional fraction (float).
 
-           @return: Average height (float).
+           @return: Average, fractional height (float).
         '''
         return favg(self.height, other.height, f=f)
 
@@ -185,11 +185,12 @@ class LatLonHeightBase(Base):
         return self.topsub(self.lat, self.lon, height=self.height)  # XXX
 
     def equals(self, other, eps=None):
-        '''Compare this to an other point.
+        '''Compares this point with an other point.
 
            @param other: The other point (LatLon).
 
-           @return: True if both points are identical (bool).
+           @return: True if both points are identical,
+                    ignoring height (bool).
 
            @raise TypeError: The other point is not LatLon.
 
@@ -211,7 +212,7 @@ class LatLonHeightBase(Base):
 
     @property
     def height(self):
-        '''Get the height (meter).
+        '''Gets the height (meter).
         '''
         return self._height
 
@@ -267,7 +268,7 @@ class LatLonHeightBase(Base):
 
     @property
     def lat(self):
-        '''Get the latitude (degrees).
+        '''Gets the latitude (degrees).
         '''
         return self._lat
 
@@ -282,7 +283,7 @@ class LatLonHeightBase(Base):
 
     @property
     def lon(self):
-        '''Get the longitude (degrees).
+        '''Gets the longitude (degrees).
         '''
         return self._lon
 
@@ -385,7 +386,7 @@ class Named(object):
 
     @property
     def name(self):
-        '''Get the name (string).
+        '''Gets the name (string).
         '''
         return self._name
 

@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.04.11'
+__version__ = '17.04.30'
 
 from tests import Tests as _Tests
 
@@ -25,15 +25,20 @@ class Tests(_Tests):
             c = Cartesian(3980581, 97, 4966825)
             n = c.toNvector()  # {x: 0.6228, y: 0.0000, z: 0.7824, h: 0.0000}  # XXX height
             self.test('toNVector', n.toStr(4), '(0.6228, 0.0, 0.7824, +0.24)')
+            self.test('toNvector', isinstance(n, Nvector), 'True')
             c = n.toCartesian()
             self.test('toCartesian', c.toStr(0), '[3980581, 97, 4966825]')
+            self.test('toCartesian', isinstance(c, Cartesian), 'True')
 
         if Nvector:
             n = Nvector(0.5, 0.5, 0.7071)
             c = n.toCartesian()  # [3194434, 3194434, 4487327]
             self.test('toCartesian', c, '[3194434.411, 3194434.411, 4487326.82]')
+            self.test('toCartesian', isinstance(c, Cartesian), 'True')
+
             p = c.toLatLon()  # 45.0°N, 45.0°E
             self.test('toLatLon', p.toStr('d', 2), '45.0°N, 045.0°E, +0.00m')  # 45.0°N, 45.0°E
+            self.test('toLatLon', isinstance(p, LatLon), 'True')
 
             self.test('Nvector', n, '(0.5, 0.5, 0.7071)')
             n = Nvector(0.5, 0.5, 0.7071, 1).toStr(3)
@@ -77,10 +82,12 @@ class Tests(_Tests):
         q = p.destination(54972.271, 306.86816)
         t = q.toStr(F_D, prec=4)
         self.test('destination' + n, t, '37.6528°S, 143.9265°E')
+        self.test('destination' + n, isinstance(q, LatLon), 'True')
 
         q, f = p.destination2(54972.271, 306.86816)
         t = q.toStr(F_D) + ', ' + compassDMS(f, prec=4)
         self.test('destination2' + n, t, '37.652821°S, 143.926496°E, 307.1736°NW')
+        self.test('destination2' + n, isinstance(q, LatLon), 'True')
 
         f = p.finalBearingOn(54972.271, 306.86816)
         t = bearingDMS(f, prec=4) + ', ' + compassDMS(f, form=F_DMS, prec=2)

@@ -95,7 +95,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#finalBearingTo" class="summary-sig-name">finalBearingTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
-      Return the final bearing (reverse azimuth) from this to an other 
+      Returns the final bearing (reverse azimuth) from this to an other 
       point.</td>
           <td align="right" valign="top">
             
@@ -154,7 +154,8 @@
         <span class="summary-sig-arg">strll</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">,</code><code class="variable-quote">'</code></span>)</span><br />
-      Parse a string representing lat-/longitude point and return a LatLon.</td>
+      Parses a string representing lat-/longitude point and return a 
+      LatLon.</td>
           <td align="right" valign="top">
             
             
@@ -172,7 +173,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#rhumbBearingTo" class="summary-sig-name">rhumbBearingTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
-      Return the initial bearing (forward azimuth) from this to an other 
+      Returns the initial bearing (forward azimuth) from this to an other 
       point along a rhumb (loxodrome) line.</td>
           <td align="right" valign="top">
             
@@ -192,7 +193,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#rhumbDestination" class="summary-sig-name">rhumbDestination</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">distance</span>,
         <span class="summary-sig-arg">bearing</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
       Returns the destination point having travelled along a rhumb 
       (loxodrome) line from this point the given distance on the given 
       bearing.</td>
@@ -232,8 +234,9 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#rhumbMidpointTo" class="summary-sig-name">rhumbMidpointTo</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span><br />
-      Return the (loxodromic) midpoint between this and an other point.</td>
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Returns the (loxodromic) midpoint between this and an other point.</td>
           <td align="right" valign="top">
             
             
@@ -295,7 +298,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#datum" class="summary-name">datum</a><br />
-      Get this point's datum (<a href="pygeodesy.datum.Datum-class.html" 
+      Gets this point's datum (<a href="pygeodesy.datum.Datum-class.html" 
       class="link">Datum</a>).
     </td>
   </tr>
@@ -336,7 +339,7 @@
     </td>
   </tr></table>
   
-  <p>Return the final bearing (reverse azimuth) from this to an other 
+  <p>Returns the final bearing (reverse azimuth) from this to an other 
   point.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -441,7 +444,7 @@
     </td>
   </tr></table>
   
-  <p>Parse a string representing lat-/longitude point and return a 
+  <p>Parses a string representing lat-/longitude point and return a 
   LatLon.</p>
   <p>The lat- and longitude must be separated by a sep[arator] character.  
   If height is present it must follow and be separated by another 
@@ -483,7 +486,7 @@
     </td>
   </tr></table>
   
-  <p>Return the initial bearing (forward azimuth) from this to an other 
+  <p>Returns the initial bearing (forward azimuth) from this to an other 
   point along a rhumb (loxodrome) line.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -515,7 +518,8 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">rhumbDestination</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">distance</span>,
         <span class="sig-arg">bearing</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>)</span>
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -531,6 +535,8 @@
         <li><strong class="pname"><code>distance</code></strong> - Distance travelled (same units as radius).</li>
         <li><strong class="pname"><code>bearing</code></strong> - Bearing from this point (compass degrees).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (meter).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the default height (meter or same 
+          unit as radius).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The destination point (spherical LatLon).</dd>
@@ -592,18 +598,21 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">rhumbMidpointTo</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">other</span>)</span>
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Return the (loxodromic) midpoint between this and an other point.</p>
+  <p>Returns the (loxodromic) midpoint between this and an other point.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (spherical LatLon).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the mean height (meter or same unit 
+          as radius).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The midpoint (spherical LatLon).</dd>
@@ -637,18 +646,18 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">datum</h3>
-  <p>Get this point's datum (<a href="pygeodesy.datum.Datum-class.html" 
+  <p>Gets this point's datum (<a href="pygeodesy.datum.Datum-class.html" 
   class="link">Datum</a>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">datum(<span class="summary-sig-arg">self</span>)</span>
-        - Get this point's datum (<a href="pygeodesy.datum.Datum-class.html" 
+        - Gets this point's datum (<a href="pygeodesy.datum.Datum-class.html" 
 class="link">Datum</a>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">datum(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">datum</span>)</span>
-        - Set this point's datum without conversion.
+        - Sets this point's datum without conversion.
     </dd>
   </dl>
 </td></tr></table>
@@ -685,7 +694,7 @@ class="link">Datum</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Apr 27 15:40:29 2017
+    Generated by Epydoc 3.0.1 on Sun Apr 30 22:03:43 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

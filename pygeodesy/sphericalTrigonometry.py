@@ -25,7 +25,7 @@ __all__ = ('LatLon',  # classes
            'areaOf',  # functions
            'intersection', 'isPoleEnclosedBy',
            'meanOf')
-__version__ = '17.04.29'
+__version__ = '17.04.30'
 
 
 class LatLon(LatLonSphericalBase):
@@ -60,8 +60,13 @@ class LatLon(LatLonSphericalBase):
 
     def alongTrackDistanceTo(self, start, end, radius=R_M):
         '''Returns the (signed) distance from the start to the closest
-           point on the great circle path defined by a start and end
+           point on the great circle path defined by a start and an end
            point.
+
+           That is, if a perpendicular is drawn from this point to the
+           great circle path, the along-track distance is the distance
+           from the start point to the point where the perpendicular
+           crosses the path.
 
            @param start: Start point of great circle path (L{LatLon}).
            @param end: End point of great circle path (L{LatLon}).
@@ -155,7 +160,7 @@ class LatLon(LatLonSphericalBase):
 
     def crossTrackDistanceTo(self, start, end, radius=R_M):
         '''Returns the (signed) distance from this point to the great
-           circle defined by a start and end point.
+           circle defined by a start and an end point.
 
            @param start: Start point of great circle path (L{LatLon}).
            @param end: End point of great circle path (L{LatLon}).
@@ -177,13 +182,14 @@ class LatLon(LatLonSphericalBase):
         _, x, _ = self._trackDistanceTo3(start, end, radius)
         return x * radius
 
-    def destination(self, distance, bearing, radius=R_M):
+    def destination(self, distance, bearing, radius=R_M, height=None):
         '''Locates the destination from this point after having
            travelled the given distance on the given initial bearing.
 
            @param distance: Distance travelled (same units as radius).
            @param bearing: Bearing from this point (compass degrees).
            @keyword radius: Mean earth radius (meter).
+           @keyword height: Optional height at destination (meter).
 
            @return: Destination point (L{LatLon}).
 
@@ -201,7 +207,9 @@ class LatLon(LatLonSphericalBase):
         r = float(distance) / float(radius)  # angular distance in radians
         t = radians(bearing)
 
-        return _destination2(a, b, r, t, h=self.height)
+        a, b = _destination2(a, b, r, t)
+        h = self.height if height is None else height
+        return self.topsub(a, b, height=h)
 
     def distanceTo(self, other, radius=R_M):
         '''Computes the distance from this to an other point.
@@ -255,13 +263,15 @@ class LatLon(LatLonSphericalBase):
                        -cb * ct - sb * sa * st,
                         ca * st)  # XXX .unit()?
 
-    def intermediateTo(self, other, fraction):
+    def intermediateTo(self, other, fraction, height=None):
         '''Locates the point at given fraction between this and an
            other point.
 
            @param other: The other point (L{LatLon}).
            @param fraction: Fraction between both points (float, 0.0 =
                             this point, 1.0 = the other point).
+           @keyword height: Optional height, overriding the fractional
+                            height (meter).
 
            @return: Intermediate point (L{LatLon}).
 
@@ -299,17 +309,21 @@ class LatLon(LatLonSphericalBase):
             a = favg(a1, a2, f=fraction)
             b = favg(b1, b2, f=fraction)
 
-        h = self._alter(other, f=fraction)
+        if height is None:
+            h = self._havg(other, f=fraction)
+        else:
+            h = height
+        return self.topsub(degrees90(a), degrees180(b), height=h)
 
-        return LatLon(degrees90(a), degrees180(b), height=h)  # XXX self.topsub(a, b, ...)
-
-    def intersection(self, bearing, start2, bearing2):
+    def intersection(self, bearing, start2, bearing2, height=None):
         '''Locates the intersection of two paths each defined by
            a start point and an initial bearing.
 
            @param bearing: Initial bearing from this point (compass degrees).
            @param start2: Start point of second path (L{LatLon}).
            @param bearing2: Initial bearing from start2 (compass degrees).
+           @keyword height: Optional height for intersection point,
+                            overriding the mean height (meter).
 
            @return: Intersection point (L{LatLon}).
 
@@ -324,7 +338,8 @@ class LatLon(LatLonSphericalBase):
            >>> s = LatLon(49.0034, 2.5735)
            >>> i = p.intersection(108.547, s, 32.435)  # '50.9078°N, 004.5084°E'
         '''
-        return intersection(self, bearing, start2, bearing2)
+        return intersection(self, bearing, start2, bearing2,
+                                  height=height, LatLon=self.topsub)
 
     def isEnclosedBy(self, points):
         '''Tests whether this point is enclosed by the polygon
@@ -388,10 +403,12 @@ class LatLon(LatLonSphericalBase):
 #       self.others(point2, name='point2')
 #       raise self.notImplemented('isWithin')
 
-    def midpointTo(self, other):
+    def midpointTo(self, other, height=None):
         '''Finds the midpoint between this and an other point.
 
            @param other: The other point (L{LatLon}).
+           @keyword height: Optional height for midpoint, overriding
+                            the mean height (meter).
 
            @return: Midpoint (L{LatLon}).
 
@@ -420,7 +437,11 @@ class LatLon(LatLonSphericalBase):
         a = atan2(sa1 + sa2, hypot(x, y))
         b = atan2(y, x) + b1
 
-        return LatLon(degrees90(a), degrees180(b), height=self._alter(other))
+        if height is None:
+            h = self._havg(other)
+        else:
+            h = height
+        return self.topsub(degrees90(a), degrees180(b), height=h)
 
 #   def nearestOn(self, point1, point2):
 #       '''Locates the point closest to the segment between two points
@@ -450,23 +471,22 @@ class LatLon(LatLonSphericalBase):
 _Trll = LatLon(0, 0)  #: (INTERNAL) Reference instance (L{LatLon}).
 
 
-def _destination2(a, b, r, t, h=0):
-    '''(INTERNAL) Computes destination.
+def _destination2(a, b, r, t):
+    '''(INTERNAL) Computes destination lat-/longitude.
 
        @param a: Latitude (radians).
        @param b: Longitude (radians).
        @param r: Angular distance (radians).
        @param t: Bearing (radians).
-       @param h: Height (meter).
 
-       @return: Destination (L{LatLon}).
+       @return: 2-Tuple (lat, lon) of (degrees90, degrees180).
     '''
     ca, cr, ct = map1(cos, a, r, t)
     sa, sr, st = map1(sin, a, r, t)
 
     a  = asin(ct * sr * ca + cr * sa)
     b += atan2(st * sr * ca, cr - sa * sin(a))
-    return LatLon(degrees90(a), degrees180(b), height=h)
+    return degrees90(a), degrees180(b)
 
 
 def areaOf(points, radius=R_M):
@@ -513,7 +533,8 @@ def areaOf(points, radius=R_M):
     return abs(S * radius * radius)
 
 
-def intersection(start1, bearing1, start2, bearing2):
+def intersection(start1, bearing1, start2, bearing2,
+                 height=None, LatLon=LatLon):
     '''Return the intersection point of two paths each defined
        by a start point and an initial bearing.
 
@@ -521,6 +542,9 @@ def intersection(start1, bearing1, start2, bearing2):
        @param bearing1: Initial bearing from start1 (compass degrees).
        @param start2: Start point of second path (L{LatLon}).
        @param bearing2: Initial bearing from start2 (compass degrees).
+       @keyword height: Optional height for the intersection point,
+                        overriding the mean height (meter).
+       @keyword LatLon: LatLon class for the intersection point (L{LatLon}).
 
        @return: Intersection point (L{LatLon}).
 
@@ -573,7 +597,12 @@ def intersection(start1, bearing1, start2, bearing2):
     x3 = acos(cr12 * sx3 - cx2 * cx1)
     r13 = atan2(sr12 * sx3, cx2 + cx1 * cos(x3))
 
-    return _destination2(a1, b1, r13, t13, h=start1._alter(start2))
+    a, b = _destination2(a1, b1, r13, t13)
+    if height is None:
+        h = start1._havg(start2)
+    else:
+        h = height
+    return LatLon(a, b, height=h)
 
 
 def isPoleEnclosedBy(points):
@@ -606,11 +635,14 @@ def isPoleEnclosedBy(points):
     return abs(fsum(cd)) < 90  # "zero-ish"
 
 
-def meanOf(points, height=None):
+def meanOf(points, height=None, LatLon=LatLon):
     '''Computes the geographic mean of the supplied points.
 
        @param points: Points to be averaged (L{LatLon}[]).
-       @keyword height: Height to use inlieu of mean (meter).
+       @keyword height: Optional height at mean point overriding
+                        the mean height (meter).
+       @keyword LatLon: LatLon class for the mean point (L{LatLon}).
+
 
        @return: Point at geographic mean and height (L{LatLon}).
 

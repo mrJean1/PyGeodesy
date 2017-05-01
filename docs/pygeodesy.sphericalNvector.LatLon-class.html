@@ -148,7 +148,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector.LatLon-class.html#destination" class="summary-sig-name">destination</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">distance</span>,
         <span class="summary-sig-arg">bearing</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
       Locates the destination from this point after having travelled the 
       given distance on the given bearing.</td>
           <td align="right" valign="top">
@@ -225,7 +226,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector.LatLon-class.html#intermediateChordTo" class="summary-sig-name">intermediateChordTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
-        <span class="summary-sig-arg">fraction</span>)</span><br />
+        <span class="summary-sig-arg">fraction</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
       Locates the point projected from the point at given fraction on a 
       straight line (chord) between this and an other point.</td>
           <td align="right" valign="top">
@@ -245,7 +247,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector.LatLon-class.html#intermediateTo" class="summary-sig-name">intermediateTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
-        <span class="summary-sig-arg">fraction</span>)</span><br />
+        <span class="summary-sig-arg">fraction</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
       Locates the point at a given fraction between this and an other 
       point.</td>
           <td align="right" valign="top">
@@ -266,7 +269,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector.LatLon-class.html#intersection" class="summary-sig-name">intersection</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">end1</span>,
         <span class="summary-sig-arg">start2</span>,
-        <span class="summary-sig-arg">end2</span>)</span><br />
+        <span class="summary-sig-arg">end2</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
       Locates the point of intersection of two paths each defined by two 
       points or a start point and bearing from North.</td>
           <td align="right" valign="top">
@@ -324,7 +328,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector.LatLon-class.html#midpointTo" class="summary-sig-name">midpointTo</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span><br />
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
       Finds the midpoint between this and an other point.</td>
           <td align="right" valign="top">
             
@@ -343,7 +348,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector.LatLon-class.html#nearestOn" class="summary-sig-name">nearestOn</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">point1</span>,
-        <span class="summary-sig-arg">point2</span>)</span><br />
+        <span class="summary-sig-arg">point2</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
       Locates the point closest on great circle segment between two points 
       and this point.</td>
           <td align="right" valign="top">
@@ -382,7 +388,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector.LatLon-class.html#triangulate" class="summary-sig-name">triangulate</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">bearing1</span>,
         <span class="summary-sig-arg">other</span>,
-        <span class="summary-sig-arg">bearing2</span>)</span><br />
+        <span class="summary-sig-arg">bearing2</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
       Locates a point given this and an other point and bearings at this 
       and the other point.</td>
           <td align="right" valign="top">
@@ -406,7 +413,8 @@
         <span class="summary-sig-arg">distance2</span>,
         <span class="summary-sig-arg">point3</span>,
         <span class="summary-sig-arg">distance3</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
       Locates a point at given distances from this and two other points.</td>
           <td align="right" valign="top">
             
@@ -605,7 +613,8 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">destination</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">distance</span>,
         <span class="sig-arg">bearing</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>)</span>
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -620,6 +629,8 @@
         <li><strong class="pname"><code>distance</code></strong> - Distance travelled (same units radius).</li>
         <li><strong class="pname"><code>bearing</code></strong> - Bearing from this point (compass degrees).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (meter).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height at destination, overriding the default height 
+          (meter).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Destination point (<a 
@@ -776,7 +787,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">intermediateChordTo</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
-        <span class="sig-arg">fraction</span>)</span>
+        <span class="sig-arg">fraction</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -793,6 +805,8 @@
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>fraction</code></strong> - Fraction between both points (float, 0.0 = this point, 1.0 = 
           other point).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height at the intermediate point, overriding the 
+          fractional height (meter).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Intermediate point (<a 
@@ -826,7 +840,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">intermediateTo</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
-        <span class="sig-arg">fraction</span>)</span>
+        <span class="sig-arg">fraction</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -843,6 +858,8 @@
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>fraction</code></strong> - Fraction between both points (float, 0.0 = this point, 1.0 = the 
           other point).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height at the intermediate point, overriding the 
+          fractional height (meter).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Intermediate point (<a 
@@ -876,7 +893,8 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">intersection</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">end1</span>,
         <span class="sig-arg">start2</span>,
-        <span class="sig-arg">end2</span>)</span>
+        <span class="sig-arg">end2</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -899,6 +917,8 @@
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>) or the initial bearing at the second 
           point (compass degrees).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height at the intersection point, overriding the mean 
+          height (meter).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Intersection point (<a 
@@ -1017,7 +1037,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">midpointTo</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">other</span>)</span>
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1031,6 +1052,8 @@
         <li><strong class="pname"><code>other</code></strong> - The other point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height at the midpoint, overriding the mean height 
+          (meter).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Midpoint (<a href="pygeodesy.sphericalNvector.LatLon-class.html" 
@@ -1059,7 +1082,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">point1</span>,
-        <span class="sig-arg">point2</span>)</span>
+        <span class="sig-arg">point2</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1080,6 +1104,8 @@
         <li><strong class="pname"><code>point2</code></strong> - End point of the segment (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the mean height for the point if 
+          within segment (meter).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Closest point on segment (<a 
@@ -1153,7 +1179,8 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">triangulate</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">bearing1</span>,
         <span class="sig-arg">other</span>,
-        <span class="sig-arg">bearing2</span>)</span>
+        <span class="sig-arg">bearing2</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1170,6 +1197,8 @@
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>bearing2</code></strong> - Bearing at the other point (compass degrees).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height at the triangulated point, overriding the mean 
+          height (meter).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Triangulated point (<a 
@@ -1203,7 +1232,8 @@
         <span class="sig-arg">distance2</span>,
         <span class="sig-arg">point3</span>,
         <span class="sig-arg">distance3</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>)</span>
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1226,6 +1256,8 @@
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>distance3</code></strong> - Distance to point3 (same units as radius).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (meter).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height at trilaterated point, overriding the mean height
+          (meter or same unit as radius).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Trilaterated point (<a 
@@ -1273,7 +1305,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Apr 27 15:40:29 2017
+    Generated by Epydoc 3.0.1 on Sun Apr 30 22:03:43 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

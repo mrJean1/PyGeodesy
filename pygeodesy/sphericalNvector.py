@@ -41,7 +41,7 @@ from math import atan2, cos, radians, sin
 __all__ = ('LatLon', 'Nvector',  # classes
            'areaOf', 'intersection', 'meanOf',  # functions
            'triangulate', 'trilaterate')
-__version__ = '17.04.28'
+__version__ = '17.04.30'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -129,13 +129,15 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         p = self.toNvector()
         return (gc.angleTo(p) - PI_2) * radius
 
-    def destination(self, distance, bearing, radius=R_M):
+    def destination(self, distance, bearing, radius=R_M, height=None):
         '''Locates the destination from this point after having
            travelled the given distance on the given bearing.
 
            @param distance: Distance travelled (same units radius).
            @param bearing: Bearing from this point (compass degrees).
            @keyword radius: Mean earth radius (meter).
+           @keyword height: Optional height at destination, overriding
+                            the default height (meter).
 
            @return: Destination point (L{LatLon}).
 
@@ -156,7 +158,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
         r = float(distance) / float(radius)  # angular distance in radians
         n = p.times(cos(r)).plus(q.times(sin(r)))
-        return Nvector(n.x, n.y, n.z).toLatLon()
+        return n.toLatLon(height=height, LatLon=self.topsub)  # Nvector(n.x, n.y, n.z).toLatLon(...)
 
     def distanceTo(self, other, radius=R_M):
         '''Computes the distance from this to an other point.
@@ -234,13 +236,15 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         gc, _, _ = self._gc3(self, other, 'other')
         return gc.unit()
 
-    def intermediateChordTo(self, other, fraction):
+    def intermediateChordTo(self, other, fraction, height=None):
         '''Locates the point projected from the point at given fraction
            on a straight line (chord) between this and an other point.
 
            @param other: The other point (L{LatLon}).
            @param fraction: Fraction between both points (float, 0.0 =
                             this point, 1.0 = other point).
+           @keyword height: Optional height at the intermediate point,
+                            overriding the fractional height (meter).
 
            @return: Intermediate point (L{LatLon}).
 
@@ -261,15 +265,17 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 #       i = other.toNvector() * fraction + \
 #            self.toNvector() * (1 - fraction))
 
-        return Nvector(i.x, i.y, i.z).toLatLon()
+        return i.toLatLon(height=height, LatLon=self.topsub)  # Nvector(i.x, i.y, i.z).toLatLon(...)
 
-    def intermediateTo(self, other, fraction):
+    def intermediateTo(self, other, fraction, height=None):
         '''Locates the point at a given fraction between this and an
            other point.
 
            @param other: The other point (L{LatLon}).
            @param fraction: Fraction between both points (float, 0.0 =
                             this point, 1.0 = the other point).
+           @keyword height: Optional height at the intermediate point,
+                            overriding the fractional height (meter).
 
            @return: Intermediate point (L{LatLon}).
 
@@ -294,9 +300,9 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         a = atan2(x.length(), p.dot(q)) * fraction  # interpolated
         i = p.times(cos(a)).plus(d.times(sin(a)))  # p * cosα + d * sinα
 
-        return Nvector(i.x, i.y, i.z).toLatLon()
+        return i.toLatLon(height=height, LatLon=self.topsub)  # Nvector(i.x, i.y, i.z).toLatLon(...)
 
-    def intersection(self, end1, start2, end2):
+    def intersection(self, end1, start2, end2, height=None):
         '''Locates the point of intersection of two paths each defined
            by two points or a start point and bearing from North.
 
@@ -306,6 +312,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @param end2: End point of second path (L{LatLon}) or the
                         initial bearing at the second point (compass
                         degrees).
+           @keyword height: Optional height at the intersection point,
+                            overriding the mean height (meter).
 
            @return: Intersection point (L{LatLon}).
 
@@ -317,7 +325,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            >>> e = LatLon(49.0034, 2.5735)
            >>> i = s.intersection(108.55, e, 32.44)  # 50.9076°N, 004.5086°E
         '''
-        return intersection(self, end1, start2, end2)
+        return intersection(self, end1, start2, end2,
+                            height=height, LatLon=self.topsub)
 
     def isEnclosedBy(self, points):
         '''Tests whether this point is enclosed by a (convex) polygon
@@ -354,7 +363,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         # an exterior point will sum to 0°.  On a sphere, enclosed
         # point angles will sum to less than 360° (due to spherical
         # excess), exterior point angles will be small but non-zero.
-        # XXX are winding number optimisations applicable to
+        # XXX are winding number optimisations equally applicable to
         # spherical surface?
         return abs(s) > PI
 
@@ -394,10 +403,12 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         return n0.minus(n1).dot(n2.minus(n1)) >= 0 and \
                n0.minus(n2).dot(n1.minus(n2)) >= 0
 
-    def midpointTo(self, other):
+    def midpointTo(self, other, height=None):
         '''Finds the midpoint between this and an other point.
 
            @param other: The other point (L{LatLon}).
+           @keyword height: Optional height at the midpoint, overriding
+                            the mean height (meter).
 
            @return: Midpoint (L{LatLon}).
 
@@ -412,9 +423,9 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         self.others(other)
 
         m = self.toNvector().plus(other.toNvector())
-        return Nvector(m.x, m.y, m.z).toLatLon()
+        return m.toLatLon(height=height, LatLon=self.topsub)
 
-    def nearestOn(self, point1, point2):
+    def nearestOn(self, point1, point2, height=None):
         '''Locates the point closest on great circle segment between
            two points and this point.
 
@@ -425,6 +436,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @param point1: Start point of the segment (L{LatLon}).
            @param point2: End point of the segment (L{LatLon}).
+           @keyword height: Optional height, overriding the mean height
+                            for the point if within segment (meter).
 
            @return: Closest point on segment (L{LatLon}).
 
@@ -450,7 +463,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
             # find the closest point on the segment
             gc1 = point1.toNvector().cross(point2.toNvector())
             gc2 = self.toNvector().cross(gc1)
-            p = gc1.cross(gc2).toLatLon()
+            p = gc1.cross(gc2).toLatLon(height=height, LatLon=self.topsub)
 
             # beyond segment extent, take closer endpoint
         elif self.distanceTo(point1) < self.distanceTo(point2):
@@ -479,13 +492,15 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
             self._Nv = Nvector(x, y, z, h)
         return self._Nv
 
-    def triangulate(self, bearing1, other, bearing2):
+    def triangulate(self, bearing1, other, bearing2, height=None):
         '''Locates a point given this and an other point and bearings
            at this and the other point.
 
            @param bearing1: Bearing at this point (compass degrees).
            @param other: The other point (L{LatLon}).
            @param bearing2: Bearing at the other point (compass degrees).
+           @keyword height: Optional height at the triangulated point,
+                            overriding the mean height (meter).
 
            @return: Triangulated point (L{LatLon}).
 
@@ -497,9 +512,11 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            >>> q = LatLon("47°18.664'N","002°31.717'W")  # Basse Hergo
            >>> t = p.triangulate(7, q, 295)  # 47.323667°N, 002.568501°W'
         '''
-        return triangulate(self, bearing1, other, bearing2)
+        return triangulate(self, bearing1, other, bearing2,
+                                 height=height, LatLon=self.topsub)
 
-    def trilaterate(self, distance1, point2, distance2, point3, distance3, radius=R_M):
+    def trilaterate(self, distance1, point2, distance2, point3, distance3,
+                          radius=R_M, height=None):
         '''Locates a point at given distances from this and two other points.
            See also U{Trilateration<http://wikipedia.org/wiki/Trilateration>}.
 
@@ -509,6 +526,9 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @param point3: Third reference point (L{LatLon}).
            @param distance3: Distance to point3 (same units as radius).
            @keyword radius: Mean earth radius (meter).
+           @keyword height: Optional height at trilaterated point,
+                            overriding the mean height (meter or same
+                            unit as radius).
 
            @return: Trilaterated point (L{LatLon}).
 
@@ -517,7 +537,9 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @raise ValueError: Distance(s) exceeds trilateration.
         '''
         return trilaterate(self, distance1, point2, distance2,
-                                            point3, distance3, radius=radius)
+                                            point3, distance3,
+                                 radius=radius, height=height,
+                                 LatLon=self.topsub)
 
 
 class Nvector(NvectorBase):
@@ -535,10 +557,12 @@ class Nvector(NvectorBase):
        Note commonality with L{ellipsoidalNvector.Nvector}.
     '''
 
-    def toLatLon(self, height=None):
-        '''Converts this n-vector to a (sphericalNvector) point.
+    def toLatLon(self, height=None, LatLon=LatLon):
+        '''Converts this n-vector to a (spherical geodetic) point.
 
-           @keyword height: Height above earth radius (meter).
+           @keyword height: Optional height above earth radius,
+                            overriding the default height (meter).
+           @keyword LatLon: LatLon class for the point (L{LatLon}).
 
            @return: Point equivalent to this n-vector (L{LatLon}).
 
@@ -619,7 +643,8 @@ def areaOf(points, radius=R_M):
     return abs(PI2 - abs(s)) * radius * radius
 
 
-def intersection(start1, end1, start2, end2):
+def intersection(start1, end1, start2, end2,
+                 height=None, LatLon=LatLon):
     '''Locates the intersection of two paths each defined by
        two points or by a start point and an initial bearing.
 
@@ -631,6 +656,10 @@ def intersection(start1, end1, start2, end2):
        @param end2: End point of second path (L{LatLon}) or the
                     initial bearing at the second start point
                     (compass degrees).
+       @keyword height: Optional height at the intersection point,
+                        overriding the default height (meter).
+       @keyword LatLon: LatLon class for the intersection point
+                        (L{LatLon}).
 
        @return: Intersection point (L{LatLon}) or None if no
                 unique intersection exists.
@@ -686,14 +715,15 @@ def intersection(start1, end1, start2, end2):
             d = -s1.plus(s2).dot(i1)
 
     i = i1 if d > 0 else i2
-    return Nvector(i.x, i.y, i.z).toLatLon()
+    return i.toLatLon(height=height, LatLon=LatLon)  # Nvector(i.x, i.y, i.z).toLatLon(...)
 
 
-def meanOf(points, height=None):
+def meanOf(points, height=None, LatLon=LatLon):
     '''Computes the geographic mean of the supplied points.
 
        @param points: Array of points to be averaged (L{LatLon}[]).
-       @keyword height: Height to use inlieu of mean height (meter).
+       @keyword height: Optional height, overriding the mean height (meter).
+       @keyword LatLon: LatLon class for the mean point (L{LatLon}).
 
        @return: Point at geographic mean and mean height (L{LatLon}).
 
@@ -703,10 +733,12 @@ def meanOf(points, height=None):
     # geographic mean
     m = sumOf(p.toNvector() for p in points)
     a, b, h = m.to3llh()
+
     return LatLon(a, b, height=h if height is None else height)
 
 
-def triangulate(point1, bearing1, point2, bearing2):
+def triangulate(point1, bearing1, point2, bearing2,
+                height=None, LatLon=LatLon):
     '''Locates a point given two known points and initial bearings from
        those points.
 
@@ -714,6 +746,9 @@ def triangulate(point1, bearing1, point2, bearing2):
        @param bearing1: Bearing at the first point (compass degrees).
        @param point2: Second reference point (L{LatLon}).
        @param bearing2: Bearing at the second point (compass degrees).
+       @keyword height: Optional height at the triangulated point,
+                        overriding the mean height (meter).
+       @keyword LatLon: LatLon class for the triangulated point (L{LatLon}).
 
        @return: Triangulated point (L{LatLon}).
 
@@ -740,12 +775,17 @@ def triangulate(point1, bearing1, point2, bearing2):
     gc1 = _gc(point1, bearing1)  # great circle p1 + b1
     gc2 = _gc(point2, bearing2)  # great circle p2 + b2
 
-    h = point1._alter(point2)
-    i = gc1.cross(gc2)  # n-vector of intersection point
-    return Nvector(i.x, i.y, i.z).toLatLon(height=h)
+    n = gc1.cross(gc2)  # n-vector of intersection point
+
+    if height is None:
+        h = point1._havg(point2)
+    else:
+        h = height
+    return n.toLatLon(height=h, LatLon=LatLon)  # Nvector(n.x, n.y, n.z).toLatLon(...)
 
 
-def trilaterate(point1, distance1, point2, distance2, point3, distance3, radius=R_M):
+def trilaterate(point1, distance1, point2, distance2, point3, distance3,
+                radius=R_M, height=None, LatLon=LatLon):
     '''Locates a point at given distances from three other points.
        See also U{Trilateration<http://wikipedia.org/wiki/Trilateration>}.
 
@@ -756,6 +796,9 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3, radius=
        @param point3: Third point (L{LatLon}).
        @param distance3: Distance to the third point (same units as radius).
        @keyword radius: Mean earth radius (meter).
+       @keyword height: Optional height at the trilaterated point, overriding
+                        the mean height (meter or same unit as radius).
+       @keyword LatLon: LatLon class for the trilaterated point (L{LatLon}).
 
        @return: Trilaterated point (L{LatLon}).
 
@@ -782,18 +825,21 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3, radius=
     x = (d12 - d2 * d2 + d * d) / (2 * d)  # x component of n1 -> intersection
     y = (d12 - d3 * d3 + i * i + j * j) / (2 * j) - x * i / j  # y component of n1 -> intersection
 
+    n = n1.plus(X.times(x)).plus(Y.times(y))
+
     z = x * x + y * y
     if z >= d12:
         raise ValueError('no %s for %r, %r, %r at %r, %r, %r' %
                         ('trilateration', point1, point2, point3,
                           distance1, distance2, distance3))
-#   Z = X.cross(Y)  # unit vec to r perpendicular to plane
+#   Z = X.cross(Y)  # unit vector perpendicular to plane
     # note don't use Z component; assume points at same height
 #   z = sqrt(d12 - z)  # z will be NaN for no intersections
-    h = fsum(p.height for p in (point1, point2, point3)) / 3
-
-    n = n1.plus(X.times(x)).plus(Y.times(y))
-    return Nvector(n.x, n.y, n.z).toLatLon(height=h)
+    if height is None:
+        h = fsum(p.height for p in (point1, point2, point3)) / 3
+    else:
+        h = height
+    return n.toLatLon(height=h, LatLon=LatLon)  # Nvector(n.x, n.y, n.z).toLatLon(...)
 
 # **) MIT License
 #

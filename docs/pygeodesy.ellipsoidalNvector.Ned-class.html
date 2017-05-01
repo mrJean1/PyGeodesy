@@ -142,7 +142,7 @@ object --+
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">3</span>,
         <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">[%s]</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>)</span><br />
-      Return a string representation of this NED vector.</td>
+      Returns a string representation of this NED vector.</td>
           <td align="right" valign="top">
             
             
@@ -162,7 +162,7 @@ object --+
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">[%s]</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>)</span><br />
-      Return a string representation of this NED vector as length, bearing 
+      Returns a string representation of this NED vector as length, bearing
       and elevation.</td>
           <td align="right" valign="top">
             
@@ -180,7 +180,7 @@ object --+
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalNvector.Ned-class.html#toVector3d" class="summary-sig-name">toVector3d</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Return this NED vector as a Vector3d.</td>
+      Returns this NED vector as a Vector3d.</td>
           <td align="right" valign="top">
             
             
@@ -221,7 +221,7 @@ object --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoidalNvector.Ned-class.html#bearing" class="summary-name">bearing</a><br />
-      Get bearing of this NED vector in compass degrees (degrees360).
+      Gets the bearing of this NED vector in compass degrees (degrees360).
     </td>
   </tr>
 <tr>
@@ -229,8 +229,8 @@ object --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoidalNvector.Ned-class.html#elevation" class="summary-name">elevation</a><br />
-      Get elevation, tilt of this NED vector in degrees from horizontal, 
-      i.e.
+      Gets the elevation, tilt of this NED vector in degrees from 
+      horizontal, i.e.
     </td>
   </tr>
 <tr>
@@ -238,7 +238,7 @@ object --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoidalNvector.Ned-class.html#length" class="summary-name">length</a><br />
-      Get length of this NED vector in meter (scalar).
+      Gets the length of this NED vector in meter (scalar).
     </td>
   </tr>
   <tr>
@@ -359,7 +359,7 @@ object --+
     </td>
   </tr></table>
   
-  <p>Return a string representation of this NED vector.</p>
+  <p>Returns a string representation of this NED vector.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -389,7 +389,7 @@ object --+
     </td>
   </tr></table>
   
-  <p>Return a string representation of this NED vector as length, bearing 
+  <p>Returns a string representation of this NED vector as length, bearing 
   and elevation.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -418,7 +418,7 @@ object --+
     </td>
   </tr></table>
   
-  <p>Return this NED vector as a Vector3d.</p>
+  <p>Returns this NED vector as a Vector3d.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>North, east, down vector (<a 
@@ -443,11 +443,12 @@ object --+
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">bearing</h3>
-  <p>Get bearing of this NED vector in compass degrees (degrees360).</p>
+  <p>Gets the bearing of this NED vector in compass degrees 
+  (degrees360).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">bearing(<span class="summary-sig-arg">self</span>)</span>
-        - Get bearing of this NED vector in compass degrees (degrees360).
+        - Gets the bearing of this NED vector in compass degrees (degrees360).
     </dd>
   </dl>
 </td></tr></table>
@@ -458,12 +459,13 @@ object --+
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">elevation</h3>
-  <p>Get elevation, tilt of this NED vector in degrees from horizontal, 
-  i.e. tangent to ellipsoid surface (degrees90).</p>
+  <p>Gets the elevation, tilt of this NED vector in degrees from 
+  horizontal, i.e. tangent to ellipsoid surface (degrees90).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">elevation(<span class="summary-sig-arg">self</span>)</span>
-        - Get elevation, tilt of this NED vector in degrees from horizontal, i.e.
+        - Gets the elevation, tilt of this NED vector in degrees from horizontal, 
+i.e.
     </dd>
   </dl>
 </td></tr></table>
@@ -474,11 +476,11 @@ object --+
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">length</h3>
-  <p>Get length of this NED vector in meter (scalar).</p>
+  <p>Gets the length of this NED vector in meter (scalar).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">length(<span class="summary-sig-arg">self</span>)</span>
-        - Get length of this NED vector in meter (scalar).
+        - Gets the length of this NED vector in meter (scalar).
     </dd>
   </dl>
 </td></tr></table>
@@ -515,7 +517,7 @@ object --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Apr 27 15:40:29 2017
+    Generated by Epydoc 3.0.1 on Sun Apr 30 22:03:42 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -30,7 +30,7 @@ class CartesianBase(Vector3d):
     '''
 
     def _applyHelmert(self, transform, inverse=False):
-        '''(INTERNAL) Return a new (geocentric) Cartesian point
+        '''(INTERNAL) Returns a new (geocentric) Cartesian point
            by applying a Helmert transform to this point.
 
            @param transform: Transform to apply (L{Transform}).
@@ -170,7 +170,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
     toDatum = convertDatum  # alternate name
 
     def copy(self):
-        '''Copy this point.
+        '''Copies this point.
 
            @return: Copy of this point (L{LatLonEllipsoidalBase}).
         '''
@@ -181,13 +181,13 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
 
     @property
     def datum(self):
-        '''Get this point's datum (L{Datum}).
+        '''Gets this point's datum (L{Datum}).
         '''
         return self._datum
 
     @datum.setter  # PYCHOK setter!
     def datum(self, datum):
-        '''Set this point's datum without conversion.
+        '''Sets this point's datum without conversion.
 
            @param datum: New datum (L{Datum}).
 
@@ -204,7 +204,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
         self._datum = datum
 
     def ellipsoid(self, datum=Datums.WGS84):
-        '''Return the ellipsoid of this or the given datum.
+        '''Returns the ellipsoid of this or the given datum.
 
            @keyword datum: Optional datum (L{Datum}).
 
@@ -213,7 +213,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
         return getattr(self, 'datum', datum).ellipsoid
 
     def ellipsoids(self, other):
-        '''Check type and ellipsoid of this and an other datum.
+        '''Checks type and ellipsoid of this and an other datum.
 
            @param other: The other datum (L{Datum}).
 
@@ -240,7 +240,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
         return E
 
     def parse(self, strll, height=0, datum=None, sep=','):
-        '''Parse a string representing lat-/longitude point.
+        '''Parses a string representing lat-/longitude point.
 
            The lat- and longitude must be separated by a sep[arator]
            character.  If height is present it must follow and be
@@ -283,7 +283,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
                (h + r * E.e12) * sa)
 
     def toOsgr(self):
-        '''Convert this lat-/longitude to an OSGR coordinate.
+        '''Converts this lat-/longitude to an OSGR coordinate.
 
            See function L{toOsgr} in module L{osgr} for more details.
 
@@ -296,7 +296,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
         return self._osgr
 
     def toUtm(self):
-        '''Convert this lat-/longitude to a UTM coordinate.
+        '''Converts this lat-/longitude to a UTM coordinate.
 
            See function L{toUtm} in module L{utm} for more details.
 
