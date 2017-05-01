@@ -61,7 +61,7 @@ from math  import cos, degrees, radians
 __all__ = ('simplify1', 'simplify2',
            'simplifyRDP', 'simplifyRDPm',
            'simplifyVW', 'simplifyVWm')
-__version__ = '17.04.25'
+__version__ = '17.05.01'
 
 
 # try:
@@ -125,7 +125,7 @@ class _Sy(object):
         return d21 > self.eps
 
     def d2iP(self, n, m, brk):
-        '''Find the tallest perpendicular distance among all
+        '''Finds the tallest perpendicular distance among all
            points[n..m] to the path edge or line thru points[s]
            to -[e] exceeding the tolerance.
         '''
@@ -144,7 +144,7 @@ class _Sy(object):
         return t2, t
 
     def d2iS(self, n, m, brk):
-        '''Find the tallest shortest distance among all points[n..m]
+        '''Finds the tallest shortest distance among all points[n..m]
            to the path edge or line thru points[s] to -[e] exceeding
            the tolerance.
         '''
@@ -284,7 +284,7 @@ class _Sy(object):
 def simplify1(points, distance, radius=R_M, adjust=True):
     '''Basic simplification of a path of LatLon points.
 
-       Eliminate any points closer together than the given
+       Eliminates any points closer together than the given
        distance tolerance.
 
        @param points: Path points (LatLons).
@@ -313,7 +313,7 @@ def simplify1(points, distance, radius=R_M, adjust=True):
 def simplify2(points, band2, radius=R_M, adjust=True, shortest=False):
     '''Pipe simplification of a path of LatLon points.
 
-       Eliminate any points too close together or within the given
+       Eliminates any points too close together or within the given
        band tolerance along an edge.
 
        @param points: Path points (LatLons).
@@ -350,7 +350,7 @@ def simplifyRDP(points, distance, radius=R_M, adjust=True, shortest=False):
     '''Ramer-Douglas-Peucker (RDP) simplification of a path of
        LatLon points.
 
-       Eliminate any points too close together or closer to an
+       Eliminates any points too close together or closer to an
        edge than the given distance tolerance.
 
        This RDP method exhaustively searches for the point with
@@ -395,7 +395,7 @@ def simplifyRDPm(points, distance, radius=R_M, adjust=True, shortest=False):
     '''Modified Ramer-Douglas-Peucker (RDP) simplification of a path
        of LatLon points.
 
-       Eliminate any points too close together or closer to an edge
+       Eliminates any points too close together or closer to an edge
        than the given distance tolerance.
 
        This RDP method stops at the first point farther than the
@@ -439,7 +439,7 @@ def simplifyVW(points, area2, radius=R_M, adjust=True, attr=None):
     '''Visvalingam-Whyatt (VW) simplification of a path of LatLon
        points.
 
-       Eliminate any points too close together or with a triangular
+       Eliminates any points too close together or with a triangular
        area not exceeding the given area tolerance squared.
 
        This VW method exhaustively searches for the single point
@@ -481,7 +481,7 @@ def simplifyVWm(points, area2, radius=R_M, adjust=True, attr=None):
     '''Modified Visvalingam-Whyatt (VW) simplification of a path of
        LatLon points.
 
-       Eliminate any points too close together or with a triangular
+       Eliminates any points too close together or with a triangular
        area not exceeding the given area tolerance squared.
 
        This VW method removes all points with a triangular area

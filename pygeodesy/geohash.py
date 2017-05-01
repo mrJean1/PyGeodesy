@@ -24,7 +24,7 @@ __all__ = ('Geohash',  # classes
            'bounds', 'decode', 'decode_error',  # functions
            'distance1', 'distance2', 'distance3',
            'encode', 'neighbors', 'sizes')
-__version__ = '17.04.26'
+__version__ = '17.05.01'
 
 # Geohash-specific base32 map
 _GeohashBase32 = '0123456789bcdefghjkmnpqrstuvwxyz'
@@ -265,7 +265,7 @@ class Geohash(str):
 
     @property
     def latlon(self):
-        '''Returns the lat-/longitude of (the approximate center of)
+        '''Gets the lat-/longitude of (the approximate center of)
            this geohash as 2-Tuple (lat, lon) in degrees.
 
            B{Example:}
@@ -282,7 +282,7 @@ class Geohash(str):
 
     @property
     def neighbors(self):
-        '''Returns all 8 adjacent cells as a dict(N=, NE=, E= ..., SW=)
+        '''Gets all 8 adjacent cells as a dict(N=, NE=, E= ..., SW=)
            of L{Geohash}es.
 
            B{JSname:} I{neighbours}.
@@ -292,7 +292,7 @@ class Geohash(str):
 
     @property
     def sizes(self):
-        '''Returns lat- and longitudinal size of this cell as a 2-tuple
+        '''Gets the lat- and longitudinal size of this cell as a 2-tuple
            (latHeight, lonWidth) in meter.
         '''
         n = min(len(self) or 1, len(_Sizes)) - 1
@@ -318,7 +318,7 @@ class Geohash(str):
 
     @property
     def N(self):
-        '''Returns cell North of this (L{Geohash}).
+        '''Gets the cell North of this (L{Geohash}).
         '''
         if self._N is None:
             self._N = self.adjacent('N')
@@ -326,7 +326,7 @@ class Geohash(str):
 
     @property
     def S(self):
-        '''Returns cell South of this (L{Geohash}).
+        '''Gets the cell South of this (L{Geohash}).
         '''
         if self._S is None:
             self._S = self.adjacent('S')
@@ -334,7 +334,7 @@ class Geohash(str):
 
     @property
     def E(self):
-        '''Returns cell East of this (L{Geohash}).
+        '''Gets the cell East of this (L{Geohash}).
         '''
         if self._E is None:
             self._E = self.adjacent('E')
@@ -342,7 +342,7 @@ class Geohash(str):
 
     @property
     def W(self):
-        '''Returns cell West of this (L{Geohash}).
+        '''Gets the cell West of this (L{Geohash}).
         '''
         if self._W is None:
             self._W = self.adjacent('W')
@@ -350,7 +350,7 @@ class Geohash(str):
 
     @property
     def NE(self):
-        '''Returns cell NorthEast of this (L{Geohash}).
+        '''Gets the cell NorthEast of this (L{Geohash}).
         '''
         if self._NE is None:
             self._NE = self.N.E
@@ -358,7 +358,7 @@ class Geohash(str):
 
     @property
     def NW(self):
-        '''Returns cell NorthWest of this (L{Geohash}).
+        '''Gets the cell NorthWest of this (L{Geohash}).
         '''
         if self._NW is None:
             self._NW = self.N.W
@@ -366,7 +366,7 @@ class Geohash(str):
 
     @property
     def SE(self):
-        '''Returns cell SouthEast of this (L{Geohash}).
+        '''Gets the cell SouthEast of this (L{Geohash}).
         '''
         if self._SE is None:
             self._SE = self.S.E
@@ -374,7 +374,7 @@ class Geohash(str):
 
     @property
     def SW(self):
-        '''Returns cell SouthWest of this (L{Geohash}).
+        '''Gets the cell SouthWest of this (L{Geohash}).
         '''
         if self._SW is None:
             self._SW = self.S.W

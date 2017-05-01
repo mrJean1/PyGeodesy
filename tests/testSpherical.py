@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.04.30'
+__version__ = '17.05.01'
 
 from tests import Tests as _Tests
 
@@ -19,6 +19,17 @@ class Tests(_Tests):
         i = p.intermediateTo(q, 0.25)
         self.test('intermediateTo', i, '51.372084°N, 000.707337°E')
         self.test('intermediateTo', isinstance(i, LatLon), 'True')
+
+        d = p.distanceTo(q)
+        self.test('intermediateTo', d, '404279.721', '%.3f')
+
+        i = p.intermediateTo(q, 5)
+        self.test('intermediateTo+5', i, '35.160975°N, 008.989542°E')
+        self.test('intermediateTo+5', p.distanceTo(i) / d, '5.000', '%.3f')
+
+        i = p.intermediateTo(q, -4)
+        self.test('intermediateTo-4', i, '64.911647°N, 013.726301°W')
+        self.test('intermediateTo-4', p.distanceTo(i) / d, '4.000', '%.3f')
 
         if hasattr(LatLon, 'intermediateChordTo'):
             i = p.intermediateChordTo(q, 0.25)

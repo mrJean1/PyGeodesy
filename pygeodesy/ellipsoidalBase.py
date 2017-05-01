@@ -22,7 +22,7 @@ from math import atan2, copysign, cos, hypot, sin, sqrt
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('CartesianBase', 'LatLonEllipsoidalBase')
-__version__ = '17.04.09'
+__version__ = '17.05.01'
 
 
 class CartesianBase(Vector3d):
@@ -43,7 +43,7 @@ class CartesianBase(Vector3d):
 
     def to3llh(self, datum=Datums.WGS84):
         '''Converts this (geocentric) Cartesian (x/y/z) point to
-           (ellipsoidal geodetic) lat-, longitude and height on
+           (ellipsoidal) geodetic lat-, longitude and height on
            the given datum.
 
            Uses Bowring’s (1985) formulation for μm precision in
@@ -264,8 +264,8 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
         return self.topsub(a, b, height=h, datum=datum or self.datum)
 
     def to3xyz(self):  # overloads _LatLonHeightBase.to3xyz
-        '''Converts this (ellipsoidal geodetic) LatLon point to
-           (ellipsoidal geocentric) cartesian x/y/z components.
+        '''Converts this (ellipsoidal) geodetic LatLon point to
+           (ellipsoidal geocentric) Cartesian x/y/z components.
 
            @return: 3-Tuple (x, y, z) in (meter).
         '''

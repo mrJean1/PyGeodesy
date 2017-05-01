@@ -331,9 +331,9 @@ class LatLon(LatLonEllipsoidalBase):
 
     def toCartesian(self):
         '''Converts this (geodetic) point to (geocentric) x/y/z
-           cartesian coordinates.
+           Cartesian coordinates.
 
-           @return: Ellipsoidal geocentric cartesian point (L{Cartesian}).
+           @return: Ellipsoidal (geocentric) Cartesian point (L{Cartesian}).
         '''
         x, y, z = self.to3xyz()  # ellipsoidalBase.LatLonEllipsoidalBase
         return Cartesian(x, y, z)  # this ellipsoidalVincenty.Cartesian
@@ -482,8 +482,8 @@ def _ds(B, cs, ss, c2sm):
 
 
 class Cartesian(CartesianBase):
-    '''Extended to convert geocentric L{Cartesian} points to
-       Vincenty-based ellipsoidal L{LatLon}.
+    '''Extended to convert (geocentric) L{Cartesian} points to
+       Vincenty-based (ellipsoidal) geodetic L{LatLon}.
     '''
     def toLatLon(self, datum=Datums.WGS84, LatLon=LatLon):  # PYCHOK XXX
         '''Converts this (geocentric) Cartesian (x/y/z) point to

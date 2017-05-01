@@ -174,7 +174,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.04.30
+        17.05.01
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -674,6 +674,23 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#ft2m" class="summary-sig-name">ft2m</a>(<span class="summary-sig-arg">feet</span>)</span><br />
+      Converts feet to meter (m).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#halfs" class="summary-sig-name">halfs</a>(<span class="summary-sig-arg">str2</span>)</span><br />
       Splits a string in 2 halfs.</td>
           <td align="right" valign="top">
@@ -873,6 +890,23 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#m2SM" class="summary-sig-name">m2SM</a>(<span class="summary-sig-arg">meter</span>)</span><br />
       Converts meter to statute miles (SM).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#m2ft" class="summary-sig-name">m2ft</a>(<span class="summary-sig-arg">meter</span>)</span><br />
+      Converts meter to feet (ft).</td>
           <td align="right" valign="top">
             
             
@@ -1494,7 +1528,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'17.4.30'"><code class="variable-quote">'</code><code class="variable-string">17.4.30</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'17.5.1'"><code class="variable-quote">'</code><code class="variable-string">17.5.1</code><code class="variable-quote">'</code></code><br />
       Normalized PyGeodesy version (string).
     </td>
   </tr>
@@ -1654,7 +1688,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="R_SM"></a><span class="summary-name">R_SM</span> = <code title="3958.7613655">3958.7613655</code><br />
+        <a name="R_SM"></a><span class="summary-name">R_SM</span> = <code title="3958.75339537">3958.75339537</code><br />
       Mean, spherical earth radius (statute miles).
     </td>
   </tr>
@@ -1806,7 +1840,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Scalar (float or int).</li>
+        <li><strong class="pname"><code>x</code></strong> - Argument (scalar).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Cubic root (float).</dd>
@@ -1831,7 +1865,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Scalar (float or int).</li>
+        <li><strong class="pname"><code>x</code></strong> - Argument (scalar).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Cubic root squared (float).</dd>
@@ -2136,7 +2170,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
         <li><strong class="pname"><code>a</code></strong> - List, sequence, tuple, etc. (scalars).</li>
         <li><strong class="pname"><code>b</code></strong> - List, sequence, tuple, etc. (scalars).</li>
         <li><strong class="pname"><code>c</code></strong> - List, sequence, tuple, etc. (scalars).</li>
-        <li><strong class="pname"><code>start</code></strong> - Optional bias for the dot product (scalar).</li>
+        <li><strong class="pname"><code>start</code></strong> - Optional bias (scalar).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Dot product (float).</dd>
@@ -2164,6 +2198,31 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
   <p>Return an accurate floating point sum of values in the iterable. 
   Assumes IEEE-754 floating point arithmetic.</p>
   <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="ft2m"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">ft2m</span>(<span class="sig-arg">feet</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Converts feet to meter (m).</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>feet</code></strong> - Value in feet (scalar).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Value in m (float).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2507,6 +2566,31 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Value in SM (float).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="m2ft"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">m2ft</span>(<span class="sig-arg">meter</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Converts meter to feet (ft).</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>meter</code></strong> - Value in meter (scalar).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Value in ft (float).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2953,7 +3037,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
   </tr></table>
   
   <p>Basic simplification of a path of LatLon points.</p>
-  <p>Eliminate any points closer together than the given distance 
+  <p>Eliminates any points closer together than the given distance 
   tolerance.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -2987,7 +3071,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
   </tr></table>
   
   <p>Pipe simplification of a path of LatLon points.</p>
-  <p>Eliminate any points too close together or within the given band 
+  <p>Eliminates any points too close together or within the given band 
   tolerance along an edge.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -3023,7 +3107,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
   
   <p>Ramer-Douglas-Peucker (RDP) simplification of a path of LatLon 
   points.</p>
-  <p>Eliminate any points too close together or closer to an edge than the 
+  <p>Eliminates any points too close together or closer to an edge than the
   given distance tolerance.</p>
   <p>This RDP method exhaustively searches for the point with the largest 
   distance, resulting in worst-case complexity O(n**2) where n is the 
@@ -3062,7 +3146,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
   
   <p>Modified Ramer-Douglas-Peucker (RDP) simplification of a path of 
   LatLon points.</p>
-  <p>Eliminate any points too close together or closer to an edge than the 
+  <p>Eliminates any points too close together or closer to an edge than the
   given distance tolerance.</p>
   <p>This RDP method stops at the first point farther than the given 
   distance tolerance, significantly reducing the run time (but producing 
@@ -3100,7 +3184,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
   </tr></table>
   
   <p>Visvalingam-Whyatt (VW) simplification of a path of LatLon points.</p>
-  <p>Eliminate any points too close together or with a triangular area not 
+  <p>Eliminates any points too close together or with a triangular area not
   exceeding the given area tolerance squared.</p>
   <p>This VW method exhaustively searches for the single point with the 
   smallest triangular area, resulting in worst-case complexity O(n**2) 
@@ -3139,7 +3223,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
   
   <p>Modified Visvalingam-Whyatt (VW) simplification of a path of LatLon 
   points.</p>
-  <p>Eliminate any points too close together or with a triangular area not 
+  <p>Eliminates any points too close together or with a triangular area not
   exceeding the given area tolerance squared.</p>
   <p>This VW method removes all points with a triangular area below the 
   tolerance per iteration, significantly reducing the run time (but 
@@ -3694,7 +3778,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Apr 30 22:45:30 2017
+    Generated by Epydoc 3.0.1 on Mon May  1 13:52:25 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

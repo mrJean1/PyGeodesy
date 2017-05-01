@@ -35,7 +35,7 @@ from math import asin, atan2, cos, hypot, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '17.04.30'
+__version__ = '17.05.01'
 
 
 class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
@@ -369,8 +369,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         return i.toLatLon(height=h, LatLon=self.topsub)  # Nvector(i.x, i.y, i.z).toLatLon(...)
 
     def toCartesian(self):
-        '''Convert this (geodetic) point to (geocentric x/y/z) cartesian
-           coordinates.
+        '''Convert this (geodetic) point to (geocentric x/y/z)
+           Cartesian coordinates.
 
            @return: Cartesian instance (L{Cartesian} x/y/z in meter
                     from the earth center).
@@ -414,8 +414,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
 
 class Cartesian(CartesianBase):
-    '''Extended to convert geocentric L{Cartesian} points to
-       to L{Nvector} and n-vector-based ellipsoidal L{LatLon}.
+    '''Extended to convert (geocentric) L{Cartesian} points to
+       (ellipsoidal) L{Nvector} and n-vector-based geodetic L{LatLon}.
     '''
     _Nv = None  #: (INTERNAL) Cache toNvector (L{Nvector}).
 
@@ -428,7 +428,7 @@ class Cartesian(CartesianBase):
 
     def toLatLon(self, datum=Datums.WGS84, LatLon=LatLon):  # PYCHOK XXX
         '''Converts this (geocentric) cartesian (x/y/z) point to
-           an (ellipsoidal geodetic) point on the specified datum.
+           an (ellipsoidal) geodetic point on the specified datum.
 
            @keyword datum: Datum to use (L{Datum}).
            @keyword LatLon: LatLon class for the point (L{LatLon}).
@@ -631,7 +631,7 @@ class Nvector(NvectorBase):
         return self._datum
 
     def toLatLon(self, height=None, LatLon=LatLon):
-        '''Converts this n-vector to an (ellipsoidal geodetic) point.
+        '''Converts this n-vector to an (ellipsoidal) geodetic point.
 
            @keyword height: Optional height, overriding the default
                             height (meter).

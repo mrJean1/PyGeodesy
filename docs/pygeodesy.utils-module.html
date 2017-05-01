@@ -321,6 +321,23 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#ft2m" class="summary-sig-name">ft2m</a>(<span class="summary-sig-arg">feet</span>)</span><br />
+      Converts feet to meter (m).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#halfs" class="summary-sig-name">halfs</a>(<span class="summary-sig-arg">str2</span>)</span><br />
       Splits a string in 2 halfs.</td>
           <td align="right" valign="top">
@@ -448,6 +465,23 @@
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#len2" class="summary-sig-name">len2</a>(<span class="summary-sig-arg">xtor</span>)</span><br />
       Makes built-in <code class="link">len</code>() function work for 
       generators, iterators, etc.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#m2ft" class="summary-sig-name">m2ft</a>(<span class="summary-sig-arg">meter</span>)</span><br />
+      Converts meter to feet (ft).</td>
           <td align="right" valign="top">
             
             
@@ -828,7 +862,7 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Scalar (float or int).</li>
+        <li><strong class="pname"><code>x</code></strong> - Argument (scalar).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Cubic root (float).</dd>
@@ -853,7 +887,7 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Scalar (float or int).</li>
+        <li><strong class="pname"><code>x</code></strong> - Argument (scalar).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Cubic root squared (float).</dd>
@@ -1056,7 +1090,7 @@
         <li><strong class="pname"><code>a</code></strong> - List, sequence, tuple, etc. (scalars).</li>
         <li><strong class="pname"><code>b</code></strong> - List, sequence, tuple, etc. (scalars).</li>
         <li><strong class="pname"><code>c</code></strong> - List, sequence, tuple, etc. (scalars).</li>
-        <li><strong class="pname"><code>start</code></strong> - Optional bias for the dot product (scalar).</li>
+        <li><strong class="pname"><code>start</code></strong> - Optional bias (scalar).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Dot product (float).</dd>
@@ -1099,6 +1133,31 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The floats as 'f, f, ... f' (string).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="ft2m"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">ft2m</span>(<span class="sig-arg">feet</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Converts feet to meter (m).</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>feet</code></strong> - Value in feet (scalar).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Value in m (float).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1326,6 +1385,31 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple (number, list) of items (int, list).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="m2ft"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">m2ft</span>(<span class="sig-arg">meter</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Converts meter to feet (ft).</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>meter</code></strong> - Value in meter (scalar).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Value in ft (float).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1747,7 +1831,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Apr 30 22:45:30 2017
+    Generated by Epydoc 3.0.1 on Mon May  1 13:52:25 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

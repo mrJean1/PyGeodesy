@@ -25,13 +25,15 @@ pygeodesy.Ellipsoids	pygeodesy-module.html#Ellipsoids
 pygeodesy.S_MIN	pygeodesy-module.html#S_MIN
 pygeodesy.toUtm	pygeodesy-module.html#toUtm
 pygeodesy.R_KM	pygeodesy-module.html#R_KM
+pygeodesy.m2ft	pygeodesy-module.html#m2ft
 pygeodesy.simplifyVWm	pygeodesy-module.html#simplifyVWm
 pygeodesy.fdot3	pygeodesy-module.html#fdot3
 pygeodesy.wrap90	pygeodesy-module.html#wrap90
 pygeodesy.version	pygeodesy-module.html#version
 pygeodesy.bearingDMS	pygeodesy-module.html#bearingDMS
 pygeodesy.PI	pygeodesy-module.html#PI
-pygeodesy.m2km	pygeodesy-module.html#m2km
+pygeodesy.hypot1	pygeodesy-module.html#hypot1
+pygeodesy.ft2m	pygeodesy-module.html#ft2m
 pygeodesy.S_DEG	pygeodesy-module.html#S_DEG
 pygeodesy.favg	pygeodesy-module.html#favg
 pygeodesy.compassPoint	pygeodesy-module.html#compassPoint
@@ -54,7 +56,7 @@ pygeodesy.simplifyRDPm	pygeodesy-module.html#simplifyRDPm
 pygeodesy.toDMS	pygeodesy-module.html#toDMS
 pygeodesy.F_DM	pygeodesy-module.html#F_DM
 pygeodesy.false2f	pygeodesy-module.html#false2f
-pygeodesy.hypot1	pygeodesy-module.html#hypot1
+pygeodesy.m2km	pygeodesy-module.html#m2km
 pygeodesy.hypot3	pygeodesy-module.html#hypot3
 pygeodesy.F_DMS	pygeodesy-module.html#F_DMS
 pygeodesy.Conics	pygeodesy-module.html#Conics
@@ -319,6 +321,7 @@ pygeodesy.utils.wrapPI2	pygeodesy.utils-module.html#wrapPI2
 pygeodesy.utils.wrap180	pygeodesy.utils-module.html#wrap180
 pygeodesy.utils._Scalars	pygeodesy.utils-module.html#_Scalars
 pygeodesy.utils.__package__	pygeodesy.utils-module.html#__package__
+pygeodesy.utils.m2ft	pygeodesy.utils-module.html#m2ft
 pygeodesy.utils.wrap90	pygeodesy.utils-module.html#wrap90
 pygeodesy.utils.hsin	pygeodesy.utils-module.html#hsin
 pygeodesy.utils.map1	pygeodesy.utils-module.html#map1
@@ -328,6 +331,7 @@ pygeodesy.utils.wrap360	pygeodesy.utils-module.html#wrap360
 pygeodesy.utils.hypot1	pygeodesy.utils-module.html#hypot1
 pygeodesy.utils.wrapPI	pygeodesy.utils-module.html#wrapPI
 pygeodesy.utils.isint	pygeodesy.utils-module.html#isint
+pygeodesy.utils.ft2m	pygeodesy.utils-module.html#ft2m
 pygeodesy.utils.wrapPI_2	pygeodesy.utils-module.html#wrapPI_2
 pygeodesy.utils._drap	pygeodesy.utils-module.html#_drap
 pygeodesy.utils.favg	pygeodesy.utils-module.html#favg

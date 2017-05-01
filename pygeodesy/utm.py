@@ -44,7 +44,7 @@ from operator import mul
 # all public contants, classes and functions
 __all__ = ('Utm',  # classes
            'parseUTM', 'toUtm')  # functions
-__version__ = '17.04.30'
+__version__ = '17.05.010'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -501,7 +501,7 @@ def toUtm(latlon, lon=None, datum=None, Utm=Utm):
             raise TypeError('%s not %s: %r' % ('latlon', 'ellipsoidal', latlon))
         d = datum or latlon.datum
     except AttributeError:
-        if lon is None or not isscalar(lon):
+        if not isscalar(lon):
             raise ValueError('%s invalid: %r' % ('lon', lon))
         lat = latlon
         if not isscalar(lat):

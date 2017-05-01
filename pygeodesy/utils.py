@@ -24,10 +24,10 @@ import sys
 __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'cbrt', 'cbrt2',
            'degrees', 'degrees90', 'degrees180', 'degrees360',
-           'false2f', 'favg', 'fdot', 'fdot3', 'fStr', 'fsum',
+           'false2f', 'favg', 'fdot', 'fdot3', 'fStr', 'fsum', 'ft2m',
            'halfs', 'hsin', 'hsin3', 'hypot1', 'hypot3',
            'isint', 'isscalar', 'len2',
-           'm2km', 'm2NM', 'm2SM', 'map1', 'map2',
+           'm2ft', 'm2km', 'm2NM', 'm2SM', 'map1', 'map2',
            'radians', 'radiansPI', 'radiansPI2', 'radiansPI_2',
            'tanPI_2_2',
            'wrap90', 'wrap180', 'wrap360',
@@ -61,7 +61,7 @@ _2_3rd = 2.0 / 3.0  #: (INTERNAL) Two third (float)
 def cbrt(x):
     '''Computes the cubic root M{x**(1/3)}.
 
-       @param x: Scalar (float or int).
+       @param x: Argument (scalar).
 
        @return: Cubic root (float).
     '''
@@ -76,7 +76,7 @@ def cbrt(x):
 def cbrt2(x):
     '''Computes squared cubic root M{x**(2/3)}.
 
-       @param x: Scalar (float or int).
+       @param x: Argument (scalar).
 
        @return: Cubic root squared (float).
     '''
@@ -187,7 +187,7 @@ def fdot3(a, b, c, start=0):
        @param a: List, sequence, tuple, etc. (scalars).
        @param b: List, sequence, tuple, etc. (scalars).
        @param c: List, sequence, tuple, etc. (scalars).
-       @keyword start: Optional bias for the dot product (scalar).
+       @keyword start: Optional bias (scalar).
 
        @return: Dot product (float).
 
@@ -231,6 +231,16 @@ def fStr(floats, prec=6, sep=', ', fmt='%.*f', ints=False):
         return _fstr(prec, floats)
     else:
         return sep.join(_fstr(prec, f) for f in floats)
+
+
+def ft2m(feet):
+    '''Converts feet to meter (m).
+
+       @param feet: Value in feet (scalar).
+
+       @return: Value in m (float).
+    '''
+    return feet * 0.3048
 
 
 def halfs(str2):
@@ -367,6 +377,16 @@ def len2(xtor):
     return len(xtor), xtor
 
 
+def m2ft(meter):
+    '''Converts meter to feet (ft).
+
+       @param meter: Value in meter (scalar).
+
+       @return: Value in ft (float).
+    '''
+    return meter * 3.2808399
+
+
 def m2km(meter):
     '''Converts meter to kilo meter (km).
 
@@ -394,7 +414,7 @@ def m2SM(meter):
 
        @return: Value in SM (float).
     '''
-    return meter * 6.213712e-4
+    return meter * 6.21369949e-4  # XXX 6.213712e-4
 
 
 def map1(func, *args):
