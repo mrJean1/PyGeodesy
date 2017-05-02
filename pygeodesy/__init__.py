@@ -11,10 +11,10 @@ and published under the same U{MIT License<https://opensource.org/licenses/MIT>}
 There are two modules for ellipsoidal earth models, I{ellipsoidalVincenty}
 and I{-Nvector} and two for spherical ones, I{sphericalTrigonometry} and
 I{-Nvector}.  Each module provides a I{LatLon} class with methods to
-compute distance, initial and final bearing and conversions among other
-things.  For more information and further details see the
-U{documentation<https://pythonhosted.org/PyGeodesy/>} and some of the
-original descriptions:
+compute distance, initial and final bearing, intermediate points and
+conversions, among other things..  For more information and further
+details see the U{documentation<https://pythonhosted.org/PyGeodesy/>}
+and some of the original descriptions:
 
  - U{https://github.com/chrisveness/geodesy/}
  - U{http://www.movable-type.co.uk/scripts/latlong.html}
@@ -22,7 +22,7 @@ original descriptions:
  - U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}
 
 Also included are conversions to and from UTM (Universal Transverse Mercator)
-coordinates and MGRS (NATO Military Grid Reference System) and OSGR (British
+coordinates, MGRS (NATO Military Grid Reference System) and OSGR (British
 Ordinance Survery Grid Reference) grid references, see:
 
  - U{http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html}
@@ -131,7 +131,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',
            'Geohash', 'VincentyError',
            'geohash', 'nvector', 'vector3d', 'version',
            'isclockwise')  # extended below
-__version__ = '17.05.01'
+__version__ = '17.05.02'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))

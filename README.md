@@ -10,9 +10,9 @@ and published under the same MIT Licence*.
 There are two modules for ellipsoidal earth models, _ellipsoidalVincenty_
 and _-Nvector_ and two for spherical ones, _sphericalTrigonometry_ and
 _-Nvector_.  Each module provides a _LatLon_ class with methods to compute
-distance, initial and final bearing and conversions among other things.
-For more information and further details see the documentation* and some
-of the original descriptions:
+distance, initial and final bearing, intermediate points and conversions,
+among other things.  For more information and further details see the
+documentation* and some of the original descriptions:
 
 - <http://github.com/chrisveness/geodesy/>
 - <http://www.movable-type.co.uk/scripts/latlong.html>
@@ -20,7 +20,7 @@ of the original descriptions:
 - <http://www.movable-type.co.uk/scripts/latlong-vectors.html>
 
 Also included are conversions to and from UTM (Universal Transverse Mercator)
-coordinates and MGRS (NATO Military Grid Reference System) and OSGR (British
+coordinates, MGRS (NATO Military Grid Reference System) and OSGR (British
 Ordinance Survery Grid Reference) grid references, see:
 
 - <http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html>
@@ -69,4 +69,4 @@ __
  - Flake8 <https://pypi.python.org/pypi/flake8>
  - Epydoc <https://pypi.python.org/pypi/epydoc>
 
-_Last updated: May 01, 2017._
+_Last updated: May 02, 2017._

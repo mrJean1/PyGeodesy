@@ -23,7 +23,7 @@ from math import acos, atan2, cos, hypot, log, sin
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('LatLonSphericalBase',)
-__version__ = '17.05.01'
+__version__ = '17.05.02'
 
 
 class LatLonSphericalBase(LatLonHeightBase):
@@ -271,7 +271,7 @@ class LatLonSphericalBase(LatLonHeightBase):
         '''
         self.others(other)
 
-        # see http://mathforum.org/library/drmath/view/51822.html
+        # see <http://mathforum.org/library/drmath/view/51822.html>
         a1, b1 = self.to2ab()
         a2, b2 = other.to2ab()
         if abs(b2 - b1) > PI:

@@ -24,7 +24,7 @@ __all__ = ('Geohash',  # classes
            'bounds', 'decode', 'decode_error',  # functions
            'distance1', 'distance2', 'distance3',
            'encode', 'neighbors', 'sizes')
-__version__ = '17.05.01'
+__version__ = '17.05.02'
 
 # Geohash-specific base32 map
 _GeohashBase32 = '0123456789bcdefghjkmnpqrstuvwxyz'
@@ -167,7 +167,7 @@ class Geohash(str):
 
            @raise ValueError: Invalid direction or geohash.
         '''
-        # based on https://github.com/davetroy/geohash-js
+        # based on <https://github.com/davetroy/geohash-js>
 
         d = direction.upper()
         if d not in _Neighbor:

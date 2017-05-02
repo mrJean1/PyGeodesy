@@ -8,7 +8,7 @@ Pure Python implementation of geodesy tools for ellipsoidal earth models.
 Transcribed from JavaScript originals by I{(C) Chris Veness 2005-2016}
 and published under the same MIT Licence**. For details see
 U{http://www.movable-type.co.uk/scripts/LatLongVincenty.html} and also
-U{http://github.com/geopy>} and U{<http://python.org/pypi/geopy}.
+U{http://github.com/geopy} and U{http://python.org/pypi/geopy}.
 
 Calculate geodesic distance between two points using the U{Vincenty
 <https://en.wikipedia.org/wiki/Vincenty's_formulae>} formulae and
@@ -58,7 +58,7 @@ from math import atan2, cos, hypot, sin, tan
 
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'VincentyError')  # classes
-__version__ = '17.04.30'
+__version__ = '17.05.02'
 
 
 class VincentyError(Exception):

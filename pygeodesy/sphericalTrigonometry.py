@@ -25,7 +25,7 @@ __all__ = ('LatLon',  # classes
            'areaOf',  # functions
            'intersection', 'isPoleEnclosedBy',
            'meanOf')
-__version__ = '17.05.01'
+__version__ = '17.05.02'
 
 
 class LatLon(LatLonSphericalBase):
@@ -119,7 +119,7 @@ class LatLon(LatLonSphericalBase):
         ca1, ca2, cdb = map1(cos, a1, a2, db)
         sa1, sa2, sdb = map1(sin, a1, a2, db)
 
-        # see http://mathforum.org/library/drmath/view/55417.html
+        # see <http://mathforum.org/library/drmath/view/55417.html>
         x = ca1 * sa2 - sa1 * ca2 * cdb
         y = sdb * ca2
 
@@ -422,7 +422,7 @@ class LatLon(LatLonSphericalBase):
         '''
         self.others(other)
 
-        # see http://mathforum.org/library/drmath/view/51822.html
+        # see <http://mathforum.org/library/drmath/view/51822.html>
         a1, b1 = self.to2ab()
         a2, b2 = other.to2ab()
 
