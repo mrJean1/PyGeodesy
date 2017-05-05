@@ -14,7 +14,7 @@ distance, initial and final bearing, intermediate points and conversions,
 among other things.  For more information and further details see the
 documentation* and some of the original descriptions:
 
-- <http://github.com/chrisveness/geodesy/>
+- <http://github.com/chrisveness/geodesy>
 - <http://www.movable-type.co.uk/scripts/latlong.html>
 - <http://www.movable-type.co.uk/scripts/latlong-vincenty.html>
 - <http://www.movable-type.co.uk/scripts/latlong-vectors.html>
@@ -33,7 +33,7 @@ and a module for Geohash encoding and decoding, transcribed from:
 An additional module provides Lambert conformal conic projections
 and positions, transcribed from:
 
-- <https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf> pp 107-109
+- <http://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf> pp 107-109
 
 Another module offers functions to simplify or linearize a path of
 _LatLon_ points, including implementations of the Ramer-Douglas-Peucker
@@ -59,14 +59,14 @@ the original JavaScript name.
 __
 
 *) Links:
- - MIT License <https://opensource.org/licenses/MIT>
- - PyGeodesy documentation <https://pythonhosted.org/PyGeodesy/>
- - PostProcessor <http://code.activestate.com/recipes/546532/>
- - PyChecker <https://pypi.python.org/pypi/pychecker>
- - PyFlakes <https://pypi.python.org/pypi/pyflakes>
- - PyCodeStyle <https://pypi.python.org/pypi/pycodestyle>
- - McCabe <https://pypi.python.org/pypi/mccabe>
- - Flake8 <https://pypi.python.org/pypi/flake8>
- - Epydoc <https://pypi.python.org/pypi/epydoc>
+ - MIT License <http://opensource.org/licenses/MIT>
+ - PyGeodesy documentation <http://pythonhosted.org/PyGeodesy>
+ - PostProcessor <htt://code.activestate.com/recipes/546532/>
+ - PyChecker <http://pypi.python.org/pypi/pychecker>
+ - PyFlakes <http://pypi.python.org/pypi/pyflakes>
+ - PyCodeStyle <http://pypi.python.org/pypi/pycodestyle>
+ - McCabe <http://pypi.python.org/pypi/mccabe>
+ - Flake8 <http://pypi.python.org/pypi/flake8>
+ - Epydoc <http://pypi.python.org/pypi/epydoc>
 
-_Last updated: May 02, 2017._
+_Last updated: May 04, 2017._

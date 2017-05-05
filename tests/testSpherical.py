@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.05.01'
+__version__ = '17.05.04'
 
 from tests import Tests as _Tests
 
@@ -14,27 +14,6 @@ from pygeodesy import F_D, F_DMS, lonDMS
 class Tests(_Tests):
 
     def testSpherical(self, LatLon, spherical):
-        p = LatLon(52.205, 0.119)
-        q = LatLon(48.857, 2.351)
-        i = p.intermediateTo(q, 0.25)
-        self.test('intermediateTo', i, '51.372084°N, 000.707337°E')
-        self.test('intermediateTo', isinstance(i, LatLon), 'True')
-
-        d = p.distanceTo(q)
-        self.test('intermediateTo', d, '404279.721', '%.3f')
-
-        i = p.intermediateTo(q, 5)
-        self.test('intermediateTo+5', i, '35.160975°N, 008.989542°E')
-        self.test('intermediateTo+5', p.distanceTo(i) / d, '5.000', '%.3f')
-
-        i = p.intermediateTo(q, -4)
-        self.test('intermediateTo-4', i, '64.911647°N, 013.726301°W')
-        self.test('intermediateTo-4', p.distanceTo(i) / d, '4.000', '%.3f')
-
-        if hasattr(LatLon, 'intermediateChordTo'):
-            i = p.intermediateChordTo(q, 0.25)
-            self.test('intermediateChordTo', i, '51.372294°N, 000.707192°E')
-            self.test('intermediateChordTo', isinstance(i, LatLon), 'True')
 
         p = LatLon(51.8853, 0.2545)
         q = LatLon(49.0034, 2.5735)
@@ -93,14 +72,14 @@ if __name__ == '__main__':
 
     from pygeodesy import sphericalNvector as N
     t = Tests(__file__, __version__, N)
-    t.testLatLon(N.LatLon)
+    t.testLatLon(N.LatLon, Sph=True)
     t.testSpherical(N.LatLon, N)
     t.testVectorial(N.LatLon, N.Nvector, N.sumOf)
     t.results()
 
     from pygeodesy import sphericalTrigonometry as T
     t = Tests(__file__, __version__, T)
-    t.testLatLon(T.LatLon)
+    t.testLatLon(T.LatLon, Sph=True)
     t.testSpherical(T.LatLon, T)
     t.results()
     t.exit()

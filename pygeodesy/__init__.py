@@ -16,7 +16,7 @@ conversions, among other things..  For more information and further
 details see the U{documentation<https://pythonhosted.org/PyGeodesy/>}
 and some of the original descriptions:
 
- - U{https://github.com/chrisveness/geodesy/}
+ - U{http://github.com/chrisveness/geodesy}
  - U{http://www.movable-type.co.uk/scripts/latlong.html}
  - U{http://www.movable-type.co.uk/scripts/latlong-vincenty.html}
  - U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}
@@ -35,7 +35,7 @@ and a module for Geohash encoding and decoding, transcribed from:
 An additional module provides Lambert conformal conic projections
 and positions, transcribed from:
 
- - U{https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf} pp 107-109.
+ - U{http://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf} pp 107-109.
 
 Another module offers functions to simplify or linearize a path of
 I{LatLon} points, including implementations of the Ramer-Douglas-Peucker
@@ -131,7 +131,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',
            'Geohash', 'VincentyError',
            'geohash', 'nvector', 'vector3d', 'version',
            'isclockwise')  # extended below
-__version__ = '17.05.02'
+__version__ = '17.05.04'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))

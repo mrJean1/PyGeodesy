@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.04.30'
+__version__ = '17.05.04'
 
 from tests import Tests as _Tests
 
@@ -203,7 +203,7 @@ if __name__ == '__main__':
 
     from pygeodesy import ellipsoidalNvector as N
     t = Tests(__file__, __version__, N)
-    t.testLatLon(N.LatLon)
+    t.testLatLon(N.LatLon, Sph=False)
     t.testVectorial(N.LatLon, N.Nvector, N.sumOf)
     t.testEllipsoidal(N.LatLon, N.Nvector, N.Cartesian)
     t.results()

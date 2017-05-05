@@ -35,7 +35,7 @@ from math import asin, atan2, cos, hypot, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '17.05.01'
+__version__ = '17.05.04'
 
 
 class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
@@ -144,7 +144,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
     def deltaTo(self, other):
         '''Calculates NED delta from this point to an other point.
 
-           The delta is returned as a Nrth-East-Down (NED) vector.
+           The delta is returned as a North-East-Down (NED) vector.
 
            Note, this is a linear delta, unrelated to a geodesic
            on the ellipsoid.  The points need not be defined on

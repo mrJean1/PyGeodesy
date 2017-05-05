@@ -32,14 +32,23 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'tanPI_2_2',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI', 'wrapPI2', 'wrapPI_2')
-__version__ = '17.05.01'
+__version__ = '17.05.03'
 
-try:
-    _Ints = int, long  #: (INTERNAL) Int objects (tuple)
-    _Scalars = int, long, float  #: (INTERNAL) Scalar objects (tuple)
-except NameError:  # Python 3+
-    _Ints = int  #: (INTERNAL) Int objects (tuple)
-    _Scalars = int, float  #: (INTERNAL) Scalar objects (tuple)
+try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
+    from numbers import Real as _Scalars  #: (INTERNAL) Scalar objects
+except ImportError:
+    try:
+        _Scalars = int, long, float  #: (INTERNAL) Scalar objects (tuple)
+    except NameError:
+        _Scalars = int, float  #: (INTERNAL) Scalar objects (tuple)
+
+try:  # similarly ...
+    from numbers import Integral as _Ints  #: (INTERNAL) Int objects
+except ImportError:
+    try:
+        _Ints = int, long  #: (INTERNAL) Int objects (tuple)
+    except NameError:  # Python 3+
+        _Ints = int  #: (INTERNAL) Int objects (tuple)
 
 try:
     EPS = sys.float_info.epsilon  #: System's epsilon (float)

@@ -24,7 +24,7 @@ from time import time
 
 __all__ = ('versions', 'Tests',
            'secs2str')
-__version__ = '17.05.01'
+__version__ = '17.05.04'
 
 try:
     _int = int, long
@@ -172,6 +172,33 @@ class Tests(object):
             d = LAX.distanceTo(JFK, radius=R_NM) if Sph else LAX.distanceTo(JFK)
             self.test('distanceTo', d, '2145' if Sph else '3981601', '%.0f')  # PYCHOK false?
 
+        if hasattr(LatLon, 'intermediateTo'):
+            i = p.intermediateTo(q, 0.25)
+            self.test('intermediateTo', i, '51.372084°N, 000.707337°E' if Sph
+                                      else '51.372294°N, 000.707192°E')
+            self.test('intermediateTo', isinstance(i, LatLon), 'True')
+
+            if hasattr(p, 'distanceTo'):
+                d = p.distanceTo(q)
+                self.test('intermediateTo', d, '404279.721', '%.3f')  # PYCHOK false?
+
+            i = p.intermediateTo(q, 5)
+            self.test('intermediateTo+5', i, '35.160975°N, 008.989542°E' if Sph
+                                        else '35.560239°N, 008.833512°E')
+            if hasattr(p, 'distanceTo'):
+                self.test('intermediateTo+5', p.distanceTo(i) / d, '5.000', '%.3f')  # PYCHOK false?
+
+            i = p.intermediateTo(q, -4)
+            self.test('intermediateTo-4', i, '64.911647°N, 013.726301°W' if Sph
+                                        else '64.570387°N, 013.156352°W')
+            if hasattr(p, 'distanceTo'):
+                self.test('intermediateTo-4', p.distanceTo(i) / d, '4.000', '%.3f')  # PYCHOK false?
+
+        if hasattr(LatLon, 'intermediateChordTo'):
+            i = p.intermediateChordTo(q, 0.25)
+            self.test('intermediateChordTo', i, '51.372294°N, 000.707192°E')
+            self.test('intermediateChordTo', isinstance(i, LatLon), 'True')  # PYCHOK false?
+
         if hasattr(LatLon, 'midpointTo'):
             m = p.midpointTo(q)
             self.test('midpointTo', m, '50.536327°N, 001.274614°E')  # PYCHOK false?  # 50.5363°N, 001.2746°E
@@ -179,11 +206,15 @@ class Tests(object):
         if hasattr(LatLon, 'destination'):
             p = LatLon(51.4778, -0.0015)
             d = p.destination(7794, 300.7)
-            self.test('destination', d, '51.513546°N, 000.098345°W' if Sph else '51.513526°N, 000.098038°W')  # 51.5135°N, 0.0983°W ???
-            self.test('destination', d.toStr(F_DMS, 0), '51°30′49″N, 000°05′54″W' if Sph else '51°30′49″N, 000°05′53″W')
+            self.test('destination', d, '51.513546°N, 000.098345°W' if Sph
+                                   else '51.513526°N, 000.098038°W')  # 51.5135°N, 0.0983°W ???
+            self.test('destination', d.toStr(F_DMS, 0), '51°30′49″N, 000°05′54″W' if Sph
+                                                   else '51°30′49″N, 000°05′53″W')
             d = LAX.destination(100, 66, radius=R_NM) if Sph else LAX.destination(100, 66)
-            self.test('destination', d.toStr(F_DM, prec=0), "34°37'N, 116°33'W" if Sph else "33°57'N, 118°24'W")
-            self.test('destination', d, '34.613647°N, 116.55116°W' if Sph else '33.950367°N, 118.399012°W')  # PYCHOK false?
+            self.test('destination', d.toStr(F_DM, prec=0), "34°37′N, 116°33′W" if Sph
+                                                       else "33°57′N, 118°24′W")
+            self.test('destination', d, '34.613647°N, 116.55116°W' if Sph
+                                   else '33.950367°N, 118.399012°W')  # PYCHOK false?
 
         if hasattr(LatLon, 'alongTrackDistanceTo'):
             s = LatLon(53.3206, -1.7297)

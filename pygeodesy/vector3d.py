@@ -19,7 +19,7 @@ from math import atan2, cos, hypot, sin
 # all public contants, classes and functions
 __all__ = ('Vector3d',  # classes
            'sumOf')  # functions
-__version__ = '17.04.30'
+__version__ = '17.05.04'
 
 try:
     _cmp = cmp
@@ -68,62 +68,193 @@ class Vector3d(VectorBase):
 
     def __add__(self, other):
         '''This plus an other vector (L{Vector3d}).
+
+           @return: Vectorial sum (L{Vector3d}).
+
+           @raise TypeError: Incompatible I{type(other)}.
         '''
         return self.plus(other)
+    __iadd__ = __add__
     __radd__ = __add__
 
     def __abs__(self):
         '''Norm of this vector (scalar).
+
+           @return: Norm, unit length (float);
         '''
         return self.length()
 
     def __cmp__(self, other):  # Python 2-
         '''Compares this and an other vector?
+
+           @param other: The other vector (L{Vector3d}).
+
            @return: -1, 0 or +1 (int).
+
+           @raise TypeError: Incompatible I{type(other)}.
         '''
+        self.others(other)
         return _cmp(self.length(), other.length())
 
     def __div__(self, scalar):
         '''Divides this vector by a scalar.
+
+           @param scalar: The divisor (scalar).
+
            @return: Quotient (L{Vector3d}).
+
+           @raise TypeError: If scalar not I{scalar}'
         '''
         return self.dividedBy(scalar)
+    __itruediv__ = __div__
+    __truediv__ = __div__
+
+    def __eq__(self, other):
+        '''Is this vector equal to an other vector?
+
+           @param other: The other vector (L{Vector3d}).
+
+           @return: True if so (bool).
+
+           @raise TypeError: Incompatible I{type(other)}.
+        '''
+        self.others(other)
+        return self.equals(other)
+
+    def __ge__(self, other):
+        '''Is this vector longer than or equal to an other vector?
+
+           @param other: The other vector (L{Vector3d}).
+
+           @return: True if so (bool).
+
+           @raise TypeError: Incompatible I{type(other)}.
+        '''
+        self.others(other)
+        return self.length() >= other.length()
 
     def __gt__(self, other):
-        '''Is this vector longer than other vector?
+        '''Is this vector longer than an other vector?
+
+           @param other: The other vector (L{Vector3d}).
+
            @return: True if so (bool).
+
+           @raise TypeError: Incompatible I{type(other)}.
         '''
+        self.others(other)
         return self.length() > other.length()
+
+    def __le__(self, other):  # Python 3+
+        '''Is this vector shorter than or equal to an other vector?
+
+           @param other: The other vector (L{Vector3d}).
+
+           @return: True if so (bool).
+
+           @raise TypeError: Incompatible I{type(other)}.
+        '''
+        self.others(other)
+        return self.length() <= other.length()
+
+    def __lt__(self, other):  # Python 3+
+        '''Is this vector shorter than an other vector?
+
+           @param other: The other vector (L{Vector3d}).
+
+           @return: True if so (bool).
+
+           @raise TypeError: Incompatible I{type(other)}.
+        '''
+        self.others(other)
+        return self.length() < other.length()
+
+    # Luciano Ramalho, "Fluent Python", page 397, O'Reilly 2016
+    def __matmul__(self, other):  # PYCHOK Python 3.5+ ... c = a @ b
+        '''Cross product of this and another vector.
+
+           @param other: The other vector (L{Vector3d}).
+
+           @return: Cross product (L{Vector3d}).
+
+           @raise TypeError: Incompatible I{type(other)}.
+        '''
+        return self.cross(other)
+    __imatmul__ = __matmul__
 
     def __mul__(self, scalar):
         '''Multiplies this vector by a scalar
+
+           @param scalar: Factor (scalar).
+
            @return: Product (L{Vector3d}).
         '''
         return self.times(scalar)
+    __imul__ = __mul__
+    __rmul__ = __mul__
 
-    def __lt__(self, other):  # Python 3+
-        '''Is this vector shorter than other vector?
+    def __ne__(self, other):
+        '''Is this vector not equal to an other vector?
+
+           @param other: The other vector (L{Vector3d}).
+
            @return: True if so (bool).
+
+           @raise TypeError: Incompatible I{type(other)}.
         '''
-        return self.length() < other.length()
+        self.others(other)
+        return not self.equals(other)
 
     def __neg__(self):
         '''Negates this vector.
-           @return: Opposite (L{Vector3d})
+
+           @return: Negative (L{Vector3d})
         '''
         return self.negate()
 
-    def __sub__(self, other):
-        '''This minus an other vector.
-           @return: Difference (L{Vector3d}).
+    def __pos__(self):
+        '''Copies this vector.
+
+           @return: Positive (L{Vector3d})
         '''
-        return self.minus(other)
+        return self.copy()
+
+    # Luciano Ramalho, "Fluent Python", page 397, O'Reilly 2016
+    def __rmatmul__(self, other):  # PYCHOK Python 3.5+ ... c = a @ b
+        '''Cross product of an other and this vector.
+
+           @param other: The other vector (L{Vector3d}).
+
+           @return: Cross product (L{Vector3d}).
+
+           @raise TypeError: Incompatible I{type(other)}.
+        '''
+        self.others(other)
+        return other.cross(self)
 
     def __rsub__(self, other):
         '''An other minus this vector.
+
+           @param other: The other vector (L{Vector3d}).
+
            @return: Difference (L{Vector3d}).
+
+           @raise TypeError: Incompatible I{type(other)}.
         '''
+        self.others(other)
         return other.minus(self)
+
+    def __sub__(self, other):
+        '''This minus an other vector.
+
+           @param other: The other vector (L{Vector3d}).
+
+           @return: Difference (L{Vector3d}).
+
+           @raise TypeError: Incompatible I{type(other)}.
+        '''
+        return self.minus(other)
+    __isub__ = __sub__
 
     def _update(self, updated):
         '''(INTERNAL) Clear caches.
@@ -142,6 +273,8 @@ class Vector3d(VectorBase):
                            angle is unsigned.
 
            @return: Angle (radians).
+
+           @raise TypeError: If other or vSign not a L{Vector3d}.
         '''
         x = self.cross(other)
         s = x.length()
@@ -166,6 +299,8 @@ class Vector3d(VectorBase):
            @param other: The other vector (L{Vector3d}).
 
            @return: Cross product (L{Vector3d}).
+
+           @raise TypeError: Incompatible I{type(other)}.
         '''
         self.others(other)
 
@@ -180,7 +315,7 @@ class Vector3d(VectorBase):
 
            @return: New, scaled vector (L{Vector3d}).
 
-           @raise TypeError: If L{factor} not scalar'
+           @raise TypeError: If factor not scalar'
         '''
         if not isscalar(factor):
             raise TypeError('%s not scalar: %r' % ('factor', factor))
@@ -192,6 +327,8 @@ class Vector3d(VectorBase):
            @param other: The other vector (L{Vector3d}).
 
            @return: Dot product (float).
+
+           @raise TypeError: Incompatible I{type(other)}.
         '''
         self.others(other)
 
@@ -205,6 +342,8 @@ class Vector3d(VectorBase):
                            unit version of both vectors.
 
            @return: True if vectors are identical (bool).
+
+           @raise TypeError: Incompatible I{type(other)}.
 
            @example:
 
@@ -235,6 +374,8 @@ class Vector3d(VectorBase):
            @param other: The other vector (L{Vector3d}).
 
            @return: New vector difference (L{Vector3d}).
+
+           @raise TypeError: Incompatible I{type(other)}.
         '''
         self.others(other)
 
@@ -255,7 +396,7 @@ class Vector3d(VectorBase):
            @param other: The other vector (L{Vector3d}).
            @keyword name: Other's name (string).
 
-           @raise TypeError: Incompatible type(other).
+           @raise TypeError: Incompatible I{type(other)}.
         '''
         try:
             VectorBase.others(self, other, name=name)
@@ -289,6 +430,8 @@ class Vector3d(VectorBase):
            @param other: The other vector (L{Vector3d}).
 
            @return: New vector sum (L{Vector3d}).
+
+           @raise TypeError: Incompatible I{type(other)}.
         '''
         self.others(other)
 
