@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.05.04'
+__version__ = '17.05.06'
 
 from tests import Tests as _Tests
 
@@ -16,7 +16,13 @@ class Tests(_Tests):
     def testSpherical(self, LatLon, spherical):
 
         p = LatLon(51.8853, 0.2545)
+        self.test('isspherical', p.isspherical, 'True')
+        self.test('isellipsoidal', p.isellipsoidal, 'False')
+
         q = LatLon(49.0034, 2.5735)
+        self.test('isspherical', q.isspherical, 'True')
+        self.test('isellipsoidal', q.isellipsoidal, 'False')
+
         i = p.intersection(108.55, q, 32.44)
         self.test('intersection', i.toStr(F_D),  '50.907608°N, 004.508575°E')  # 50.9076°N, 004.5086°E  # Trig
         self.test('intersection', i.toStr(F_DMS), '50°54′27.39″N, 004°30′30.87″E')

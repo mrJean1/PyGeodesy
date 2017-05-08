@@ -24,7 +24,7 @@ __all__ = ('Geohash',  # classes
            'bounds', 'decode', 'decode_error',  # functions
            'distance1', 'distance2', 'distance3',
            'encode', 'neighbors', 'sizes')
-__version__ = '17.05.02'
+__version__ = '17.05.06'
 
 # Geohash-specific base32 map
 _GeohashBase32 = '0123456789bcdefghjkmnpqrstuvwxyz'
@@ -182,7 +182,7 @@ class Geohash(str):
 
         p = self[:-1]  # hash without last char
         # check for edge-cases which don't share common prefix
-        if p and c in _Border[d][e]:
+        if p and (c in _Border[d][e]):
             p = Geohash(p).adjacent(d)
 
         # append letter for direction to parent

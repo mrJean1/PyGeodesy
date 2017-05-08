@@ -53,7 +53,7 @@ R_SM = m2SM(R_M)  #: Mean, spherical earth radius (statute miles).
 __all__ = ('R_KM', 'R_M', 'R_NM', 'R_SM',  # constants
            'Datum',  'Ellipsoid',  'Transform',  # classes
            'Datums', 'Ellipsoids', 'Transforms')  # enum-like
-__version__ = '17.04.30'
+__version__ = '17.05.08'
 
 
 class _Enum(dict, Named):
@@ -166,7 +166,7 @@ class Ellipsoid(_Based):
             self.b = b = float(b)  # minor half-axis in meter
             if not f_ and a > b:
                 f_ = a / (a - b)
-        if f_ > 0:
+        if f_ > 0 and a > b:
             self.f_ = f_ = float(f_)  # inverse flattening
             self.f  = f  = 1 / f_  # flattening
             self.n  = n  = f / (2 - f)  # 3rd flattening for utm
@@ -273,12 +273,17 @@ class Ellipsoid(_Based):
         '''
         return sqrt(1 - self.e2 * s * s)
 
+    @property
     def isellipsoidal(self):
-        '''Checks for ellipsoidal or spherical model.
-
-           @return: True if ellipsoidal (bool).
+        '''Checks whether this model is ellipsoidal (bool).
         '''
         return self.a > self.R > self.b
+
+    @property
+    def isspherical(self):
+        '''Checks whether this model is spherical (bool).
+        '''
+        return self.a == self.R == self.b
 
     def _K6(self, *fs6):
         '''(INTERNAL) Compute 6th-order Krüger Alpha or Beta series
@@ -538,8 +543,8 @@ Transforms._assert(
 class Datum(_Based):
     '''Ellipsoid and transform parameters for an earth model.
     '''
-    ellipsoid = Ellipsoids.WGS84  #: Default ellipsoid (L{Ellipsoid}).
-    transform = Transforms.WGS84  #: Default transform (L{Transform}).
+    _ellipsoid = Ellipsoids.WGS84  #: (INTERNAL) Default ellipsoid (L{Ellipsoid}).
+    _transform = Transforms.WGS84  #: (INTERNAL) Default transform (L{Transform}).
 
     def __init__(self, ellipsoid, transform=None, name=''):
         '''New datum.
@@ -553,11 +558,11 @@ class Datum(_Based):
            @raise TypeError: If ellipsoid is not an L{Ellipsoid}
                              or transform is not a L{Transform}.
         '''
-        self.ellipsoid = ellipsoid or Datum.ellipsoid
+        self._ellipsoid = ellipsoid or Datum._ellipsoid
         if not isinstance(self.ellipsoid, Ellipsoid):
             raise TypeError('%s not an %s: %r' % ('ellipsoid', Ellipsoid.__name__, self.ellipsoid))
 
-        self.transform = transform or Datum.transform
+        self._transform = transform or Datum._transform
         if not isinstance(self.transform, Transform):
             raise TypeError('%s not a %s: %r' % ('transform', Transform.__name__, self.transform))
 
@@ -574,6 +579,24 @@ class Datum(_Based):
                                  self.ellipsoid == other.ellipsoid and
                                  self.transform == other.transform)
 
+    @property
+    def ellipsoid(self):
+        '''Gets this datum's ellipsoid (L{Ellipsoid}).
+        '''
+        return self._ellipsoid
+
+    @property
+    def isellipsoidal(self):
+        '''Checks whether this datum is ellipsoidal (bool).
+        '''
+        return self._ellipsoid.isellipsoidal
+
+    @property
+    def isspherical(self):
+        '''Checks whether this datum is spherical (bool).
+        '''
+        return self._ellipsoid.isspherical
+
     def toStr(self, **unused):  # PYCHOK expected
         '''Returns this datum as a string.
 
@@ -584,6 +607,12 @@ class Datum(_Based):
             v = getattr(self, a)
             t.append('%s=%ss.%s' % (a, v.__class__.__name__, v.name))
         return ', '.join(['name=%r' % (self.name,)] + t)
+
+    @property
+    def transform(self):
+        '''Gets this datum's transform (L{Transform}).
+        '''
+        return self._transform
 
 
 # Datums with associated ellipsoid and Helmert transform parameters
@@ -748,4 +777,3 @@ if __name__ == '__main__':
 # WGS84: name='WGS84', a=6378137.0, b=6356752.3142499998, f_=298.257223563, f=0.0033528107, e2=0.00669438, e22=0.0067394967, R=6371008.7714166669, Rm=6367435.6797186071, R2=6371007.180920884, R3=6371000.7900107643, Rr=6367449.1458250266,
 #        A=6367449.145823415, e=0.0818191908, f=1/298.2572235630, n=0.0016792204(-3.7914875232e-13),
 #        Alpha6=(0, 0.0008377318206244698, 7.608527773572307e-07, 1.1976455033294527e-09, 2.4291706072013587e-12, 5.711757677865804e-15, 1.4911177312583895e-17),
-#        Beta6=(0, 0.0008377321640579486, 5.905870152220203e-08, 1.6734826652839968e-10, 2.1647980400627059e-13, 3.7879780461686053e-16, 7.2487488906941545e-19)

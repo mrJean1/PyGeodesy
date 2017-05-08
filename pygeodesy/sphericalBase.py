@@ -23,7 +23,7 @@ from math import acos, atan2, cos, hypot, log, sin
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('LatLonSphericalBase',)
-__version__ = '17.05.02'
+__version__ = '17.05.08'
 
 
 class LatLonSphericalBase(LatLonHeightBase):
@@ -49,8 +49,7 @@ class LatLonSphericalBase(LatLonHeightBase):
         '''
         if not isinstance(datum, Datum):
             raise TypeError('%r not a %s: %r' % ('datum', Datum.__name__, datum))
-        E = datum.ellipsoid
-        if E.isellipsoidal():
+        if not datum.isspherical:
             raise ValueError('%r not %s: %r' % ('datum', 'spherical', datum))
         self._update(datum != self._datum)
         self._datum = datum
@@ -78,6 +77,18 @@ class LatLonSphericalBase(LatLonHeightBase):
         if b > 360:
             b -= 360
         return b  # 0..360
+
+    @property
+    def isellipsoidal(self):
+        '''Checks whether this I{LatLon} is ellipsoidal (bool).
+        '''
+        return self.datum.isellipsoidal
+
+    @property
+    def isspherical(self):
+        '''Checks whether this I{LatLon} is spherical (bool).
+        '''
+        return self.datum.isspherical
 
     def maxLat(self, bearing):
         '''Returns maximum latitude reached when travelling

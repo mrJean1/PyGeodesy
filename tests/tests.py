@@ -135,6 +135,9 @@ class Tests(object):
     def testLatLon(self, LatLon, Sph=True):  # MCCABE expected
         # basic LatLon class tests
         p = LatLon(52.20472, 0.14056)
+        self.test('isellipsoidal', p.isellipsoidal, str(not Sph))
+        self.test('isspherical', p.isspherical, str(Sph))
+
         self.test('lat/lonDMS', p, '52.20472°N, 000.14056°E')  # 52.20472°N, 000.14056°E
         self.test('lat/lonDMS F_DM', p.toStr(F_DM, 3),  '''52°12.283'N, 000°08.434'E''')
         self.test('lat/lonDMS F_DM', p.toStr(F_DM, 4),  '''52°12.2832'N, 000°08.4336'E''')

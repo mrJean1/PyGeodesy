@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.05.04'
+__version__ = '17.05.06'
 
 from tests import Tests as _Tests
 
@@ -17,7 +17,13 @@ class Tests(_Tests):
     def testEllipsoidal(self, LatLon, Nvector=None, Cartesian=None):
         # ellipsoidal modules tests
         p = LatLon(51.4778, -0.0016, 0, Datums.WGS84)
+        self.test('isellipsoidal', p.isellipsoidal, 'True')
+        self.test('isspherical', p.isspherical, 'False')
+
         d = p.convertDatum(Datums.OSGB36)
+        self.test('isellipsoidal', d.isellipsoidal, 'True')
+        self.test('isspherical', d.isspherical, 'False')
+
         self.test('convertDatum', d, '51.477284°N, 000.00002°E, -45.91m')  # 51.4773°N, 000.0000°E, -45.91m
         self.test('convertDatum', d.toStr(F_D, prec=4), '51.4773°N, 000.0°E, -45.91m')
 
@@ -74,8 +80,13 @@ class Tests(_Tests):
         m = Boston.distanceTo(NewYork)
 
         p = LatLon(-37.95103342, 144.42486789, datum=d)
+        self.test('isellipsoidal', p.isellipsoidal, 'True')
+        self.test('isspherical', p.isspherical, 'False')
+
         q = p.copy()
         self.test('copy', q.equals(p), 'True')
+        self.test('isellipsoidal', q.isellipsoidal, 'True')
+        self.test('isspherical', q.isspherical, 'False')
 
         self.test('copy', q.toStr(F_DMS, prec=4), '37°57′03.7203″S, 144°25′29.5244″E')
 

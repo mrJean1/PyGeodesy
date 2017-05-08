@@ -23,7 +23,7 @@ from math import atan, copysign, cos, hypot, log, sin, sqrt, tan
 # all public constants, classes and functions
 __all__ = ('Conic', 'Conics', 'Lcc',
            'toLcc')  # functions
-__version__ = '17.05.02'
+__version__ = '17.05.06'
 
 
 Conics = _Enum('Conics')  #: Registered conics (L{_Enum}).
@@ -206,7 +206,7 @@ class Conic(_Based):
            @raise TypeError: If datum is not ellipsoidal.
         '''
         E = datum.ellipsoid
-        if not E.isellipsoidal():
+        if not E.isellipsoidal:
             raise TypeError('%s not %s: %r' % ('datum', 'ellipsoidal', datum))
 
         c = self

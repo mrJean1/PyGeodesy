@@ -18,7 +18,7 @@ from math import asin, cos, degrees, radians, sin
 # Epydoc to include class and method documentation
 __all__ = ('Base', 'LatLonHeightBase', 'Named', 'VectorBase',
            'isclockwise')
-__version__ = '17.04.30'
+__version__ = '17.05.08'
 
 
 class Base(object):

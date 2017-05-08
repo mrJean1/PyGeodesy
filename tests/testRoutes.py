@@ -8,7 +8,7 @@
 # <https://github.com/milkbread/Visvalingam-Wyatt/blob/master/out.json>
 
 __all__ = ('Pts', 'PtsFFI', 'RdpFFI', 'VwPts')
-__version__ = '17.04.12'
+__version__ = '17.05.08'
 
 
 class _LatLon(object):
@@ -16998,3 +16998,12 @@ VwPts = [_LatLon(*ll) for ll in (
     (37.366482, 55.709980, 0.002582013140000326),
     (37.537930, 55.737560, 0.003194690800000177),
     (37.569962, 55.779980))]
+
+
+if __name__ == '__main__':
+
+    from tests import Tests
+
+    t = Tests(__file__, __version__)
+    t.results()
+    t.exit()

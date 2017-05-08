@@ -22,7 +22,7 @@ from math import atan2, copysign, cos, hypot, sin, sqrt
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('CartesianBase', 'LatLonEllipsoidalBase')
-__version__ = '17.05.01'
+__version__ = '17.05.08'
 
 
 class CartesianBase(Vector3d):
@@ -197,8 +197,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
         '''
         if not isinstance(datum, Datum):
             raise TypeError('%r not a %s: %r' % ('datum', Datum.__name__, datum))
-        E = datum.ellipsoid
-        if not E.isellipsoidal():
+        if not datum.isellipsoidal:
             raise ValueError('%r not %s: %r' % ('datum', 'ellipsoidal', datum))
         self._update(datum != self._datum)
         self._datum = datum
@@ -238,6 +237,18 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
             raise ValueError('%s %s mistmatch: %ss.%s vs %ss.%s' %
                              ('other', c, c, e.name, c, E.name))
         return E
+
+    @property
+    def isellipsoidal(self):
+        '''Checks whether this I{LatLon} is ellipsoidal (bool).
+        '''
+        return self.datum.isellipsoidal
+
+    @property
+    def isspherical(self):
+        '''Checks whether this I{LatLon} is spherical (bool).
+        '''
+        return self.datum.isspherical
 
     def parse(self, strll, height=0, datum=None, sep=','):
         '''Parses a string representing lat-/longitude point.
