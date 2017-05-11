@@ -12,7 +12,7 @@ There are two modules for ellipsoidal earth models, I{ellipsoidalVincenty}
 and I{-Nvector} and two for spherical ones, I{sphericalTrigonometry} and
 I{-Nvector}.  Each module provides a I{LatLon} class with methods to
 compute distance, initial and final bearing, intermediate points and
-conversions, among other things..  For more information and further
+conversions, among other things.  For more information and further
 details see the U{documentation<https://pythonhosted.org/PyGeodesy/>}
 and some of the original descriptions:
 
@@ -131,7 +131,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',
            'Geohash', 'VincentyError',
            'geohash', 'nvector', 'vector3d', 'version',
            'isclockwise')  # extended below
-__version__ = '17.05.08'
+__version__ = '17.05.11'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))

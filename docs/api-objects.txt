@@ -1192,7 +1192,7 @@ pygeodesy.bases.LatLonHeightBase._havg	pygeodesy.bases.LatLonHeightBase-class.ht
 pygeodesy.bases.LatLonHeightBase.bounds	pygeodesy.bases.LatLonHeightBase-class.html#bounds
 pygeodesy.sphericalBase.LatLonSphericalBase.rhumbMidpointTo	pygeodesy.sphericalBase.LatLonSphericalBase-class.html#rhumbMidpointTo
 pygeodesy.sphericalNvector.LatLon.intermediateChordTo	pygeodesy.sphericalNvector.LatLon-class.html#intermediateChordTo
-pygeodesy.sphericalBase.LatLonSphericalBase.datum	pygeodesy.sphericalBase.LatLonSphericalBase-class.html#datum
+pygeodesy.sphericalNvector.LatLon._Nv	pygeodesy.sphericalNvector.LatLon-class.html#_Nv
 pygeodesy.sphericalNvector.LatLon.toNvector	pygeodesy.sphericalNvector.LatLon-class.html#toNvector
 pygeodesy.sphericalNvector.LatLon._gc3	pygeodesy.sphericalNvector.LatLon-class.html#_gc3
 pygeodesy.sphericalBase.LatLonSphericalBase.rhumbBearingTo	pygeodesy.sphericalBase.LatLonSphericalBase-class.html#rhumbBearingTo
@@ -1202,6 +1202,7 @@ pygeodesy.bases.LatLonHeightBase.isclockwise	pygeodesy.bases.LatLonHeightBase-cl
 pygeodesy.sphericalNvector.LatLon.isEnclosedBy	pygeodesy.sphericalNvector.LatLon-class.html#isEnclosedBy
 pygeodesy.bases.LatLonHeightBase.copy	pygeodesy.bases.LatLonHeightBase-class.html#copy
 pygeodesy.sphericalNvector.LatLon.distanceTo	pygeodesy.sphericalNvector.LatLon-class.html#distanceTo
+pygeodesy.sphericalNvector.LatLon.alongTrackDistanceTo	pygeodesy.sphericalNvector.LatLon-class.html#alongTrackDistanceTo
 pygeodesy.sphericalNvector.LatLon.destination	pygeodesy.sphericalNvector.LatLon-class.html#destination
 pygeodesy.bases.LatLonHeightBase.lon	pygeodesy.bases.LatLonHeightBase-class.html#lon
 pygeodesy.sphericalNvector.LatLon.midpointTo	pygeodesy.sphericalNvector.LatLon-class.html#midpointTo
@@ -1217,7 +1218,7 @@ pygeodesy.bases.Base.classname	pygeodesy.bases.Base-class.html#classname
 pygeodesy.bases.LatLonHeightBase.__ne__	pygeodesy.bases.LatLonHeightBase-class.html#__ne__
 pygeodesy.bases.LatLonHeightBase.to2ab	pygeodesy.bases.LatLonHeightBase-class.html#to2ab
 pygeodesy.sphericalNvector.LatLon.greatCircle	pygeodesy.sphericalNvector.LatLon-class.html#greatCircle
-pygeodesy.sphericalNvector.LatLon._Nv	pygeodesy.sphericalNvector.LatLon-class.html#_Nv
+pygeodesy.sphericalBase.LatLonSphericalBase.datum	pygeodesy.sphericalBase.LatLonSphericalBase-class.html#datum
 pygeodesy.sphericalBase.LatLonSphericalBase._datum	pygeodesy.sphericalBase.LatLonSphericalBase-class.html#_datum
 pygeodesy.bases.LatLonHeightBase.equals	pygeodesy.bases.LatLonHeightBase-class.html#equals
 pygeodesy.bases.Base.toStr2	pygeodesy.bases.Base-class.html#toStr2

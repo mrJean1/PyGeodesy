@@ -41,7 +41,7 @@ from math import atan2, cos, radians, sin
 __all__ = ('LatLon', 'Nvector',  # classes
            'areaOf', 'intersection', 'meanOf',  # functions
            'triangulate', 'trilaterate')
-__version__ = '17.04.30'
+__version__ = '17.05.11'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -78,6 +78,42 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
             LatLonNvectorBase._update(self, updated)
             LatLonSphericalBase._update(self, updated)
 
+    def alongTrackDistanceTo(self, start, end, radius=R_M):
+        '''Returns the (signed) distance from the start to the closest
+           point on the great circle path defined by a start and an end
+           point.
+
+           That is, if a perpendicular is drawn from this point to the
+           great circle path, the along-track distance is the distance
+           from the start point to the point where the perpendicular
+           crosses the path.
+
+           @param start: Start point of great circle path (L{LatLon}).
+           @param end: End point of great circle path (L{LatLon}) or
+                       initial bearing from start point (compass degrees).
+           @keyword radius: Mean earth radius (meter).
+
+           @return: Distance along the great circle path (positive if
+                    after the start toward the end point of the path
+                    or negative if before the start point).
+
+           @raise TypeError: The start or end point is not L{LatLon}.
+
+           @example:
+
+           >>> p = LatLon(53.2611, -0.7972)
+
+           >>> s = LatLon(53.3206, -1.7297)
+           >>> e = LatLon(53.1887, 0.1334)
+           >>> d = p.alongTrackDistanceTo(s, e)  # 62331.58
+        '''
+        self.others(start, name='start')
+        gc, _, _ = self._gc3(start, end, 'end')
+
+        p = self.toNvector()
+        a = gc.cross(p).cross(gc)  # along-track point gc × p × gc
+        return start.toNvector().angleTo(a, vSign=gc) * radius
+
     def bearingTo(self, other):
         '''Computes the initial bearing (aka forward azimuth) from this
            to an other point.
@@ -105,7 +141,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            defined by a start and end point.
 
            @param start: Start point of great circle path (L{LatLon}).
-           @param end: End point of great circle path (L{LatLon}).
+           @param end: End point of great circle path (L{LatLon}) or
+                       initial bearing from start point (compass degrees).
            @keyword radius: Mean earth radius (meter).
 
            @return: Distance to great circle (negative if to the

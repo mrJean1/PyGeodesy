@@ -24,7 +24,7 @@ from time import time
 
 __all__ = ('versions', 'Tests',
            'secs2str')
-__version__ = '17.05.04'
+__version__ = '17.05.11'
 
 try:
     _int = int, long
@@ -225,7 +225,7 @@ class Tests(object):
             p = LatLon(53.2611, -0.7972)
             try:
                 d = p.alongTrackDistanceTo(s, 96)
-                self.test('alongTrackDistanceTo', d, '-305.67', '%.2f')  # -305.7
+                self.test('alongTrackDistanceTo', d, '62331.59', '%.2f')  # 62331
             except TypeError as x:
                 self.test('alongTrackDistanceTo', x, 'type(end) mismatch: int vs sphericalTrigonometry.LatLon')  # PYCHOK false?
             d = p.alongTrackDistanceTo(s, e)

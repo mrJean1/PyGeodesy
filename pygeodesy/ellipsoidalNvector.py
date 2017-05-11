@@ -35,7 +35,7 @@ from math import asin, atan2, cos, hypot, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '17.05.04'
+__version__ = '17.05.11'
 
 
 class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
@@ -97,7 +97,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #         gc2 = v1.cross(_NP3)  # gc through v1 & North pole
 #
 #         # bearing is (signed) angle between gc1 & gc2
-#         return degrees360(gc1.angleTo(gc2, v1))
+#         return degrees360(gc1.angleTo(gc2, vSign=v1))
 
 #     def crossTrackDistanceTo(self, start, end, radius=R_M):
 #         '''Return (signed) distance from this point to great circle
@@ -134,7 +134,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #
 #         # (signed) angle between point and gc normal vector
 #         v = self.toNvector()
-#         a = gc.angleTo(v, v.cross(gc))
+#         a = gc.angleTo(v, vSign=v.cross(gc))
 #         if a < 0:
 #             a = -PI_2 - a
 #         else:
