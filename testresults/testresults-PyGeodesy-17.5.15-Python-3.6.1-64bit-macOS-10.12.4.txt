@@ -1,6 +1,6 @@
-tests/run.py typical test results (PyGeodesy 17.5.11 Python 3.5.3 64bit macOS 10.12.4)
+tests/run.py typical test results (PyGeodesy 17.5.15 Python 3.6.1 64bit macOS 10.12.4)
 
-running /usr/local/bin/python3.5 tests/testBases.py
+running /usr/local/bin/python3.6 tests/testBases.py
 
     testing module pygeodesy.bases version 17.05.08
     test 1 lat, lon: 50.06632°N, 005.71475°W
@@ -10,9 +10,9 @@ running /usr/local/bin/python3.5 tests/testBases.py
     test 5 toStr: 51.4778°N, 000.0016°W
     test 6 precision: 0
     test 7 toStr: 51°28′40″N, 000°00′06″W, +42.00m
-    all pygeodesy.bases tests passed (PyGeodesy 17.5.11 Python 3.5.3 64bit) 913.858 us
+    all pygeodesy.bases tests passed (PyGeodesy 17.5.15 Python 3.6.1 64bit) 300.884 us
 
-running /usr/local/bin/python3.5 tests/testDatum.py
+running /usr/local/bin/python3.6 tests/testDatum.py
 
     testing module datum version 17.05.08
     test 1 ellipsoid: True
@@ -24,9 +24,9 @@ running /usr/local/bin/python3.5 tests/testDatum.py
     test 7 WGS84: A=6367449.1458234154, e=0.0818191908, f_=298.2572235630, n=0.0016792204(-3.7914875232e-13)
     test 8 WGS84: Alpha6=(0, 8.377318206245e-04, 7.608527773572e-07, 1.197645503329e-09, 2.429170607201e-12, 5.711757677866e-15, 1.491117731258e-17)
     test 9 WGS84: Beta6=(0, 8.377321640579e-04, 5.905870152220e-08, 1.673482665284e-1, 2.164798040063e-13, 3.787978046169e-16, 7.248748890694e-19)
-    all datum tests passed (PyGeodesy 17.5.11 Python 3.5.3 64bit) 894.070 us
+    all datum tests passed (PyGeodesy 17.5.15 Python 3.6.1 64bit) 838.041 us
 
-running /usr/local/bin/python3.5 tests/testDms.py
+running /usr/local/bin/python3.6 tests/testDms.py
 
     testing module dms version 17.03.24
     test 1 parseDMS: 0.0
@@ -59,11 +59,11 @@ running /usr/local/bin/python3.5 tests/testDms.py
     test 28 compassPoint: W
     test 29 compassPoint: SW
     test 30 compassPoint: WSW
-    all dms tests passed (PyGeodesy 17.5.11 Python 3.5.3 64bit) 1.025 ms
+    all dms tests passed (PyGeodesy 17.5.15 Python 3.6.1 64bit) 778.913 us
 
-running /usr/local/bin/python3.5 tests/testEllipsoidal.py
+running /usr/local/bin/python3.6 tests/testEllipsoidal.py
 
-    testing module ellipsoidalNvector version 17.05.11
+    testing module ellipsoidalNvector version 17.05.15
     test 1 isellipsoidal: True
     test 2 isspherical: False
     test 3 lat/lonDMS: 52.20472°N, 000.14056°E
@@ -105,9 +105,9 @@ running /usr/local/bin/python3.5 tests/testEllipsoidal.py
     test 39 toLatLon: True
     test 40 Nvector: (0.5, 0.5, 0.7071)
     test 41 Nvector: (0.5, 0.5, 0.707, +1.00)
-    all ellipsoidalNvector tests passed (PyGeodesy 17.5.11 Python 3.5.3 64bit) 2.089 ms
+    all ellipsoidalNvector tests passed (PyGeodesy 17.5.15 Python 3.6.1 64bit) 1.983 ms
 
-    testing module ellipsoidalVincenty version 17.05.02
+    testing module ellipsoidalVincenty version 17.05.15
     test 1 isellipsoidal: True
     test 2 isspherical: False
     test 3 lat/lonDMS: 52.20472°N, 000.14056°E
@@ -118,86 +118,89 @@ running /usr/local/bin/python3.5 tests/testEllipsoidal.py
     test 8 lat/lonDMS F_RAD: 0.911144N, 0.002453E
     test 9 equals: True
     test 10 equals: False
-    test 11 copy: True
-    test 12 distanceTo: 404607.805988
-    test 13 distanceTo: 404607.805988
-    test 14 distanceTo: 3981601
-    test 15 destination: 51.513526°N, 000.098038°W
-    test 16 destination: 51°30′49″N, 000°05′53″W
-    test 17 destination: 33°57′N, 118°24′W
-    test 18 destination: 33.950367°N, 118.399012°W
-    test 19 isclockwise: False
-    test 20 isclockwise: True
-    test 21 isclockwise: too few points: 2
-    test 22 distanceTo (WGS84): 866455.43292
-    test 23 VincentyError (WGS84): LatLon(41°29′24.29″N, 071°18′46.07″W) coincident with LatLon(41°29′24.29″N, 071°18′46.07″W)
-    test 24 ValueError (WGS84): other Ellipsoid mistmatch: Ellipsoids.Airy1830 vs Ellipsoids.WGS84
-    test 25 isellipsoidal: True
-    test 26 isspherical: False
-    test 27 copy: True
+    test 11 initialBearingTo: 156.1106
+    test 12 finalBearingTo: 157.8345
+    test 13 initialBearingTo: 65.9335
+    test 14 copy: True
+    test 15 distanceTo: 404607.805988
+    test 16 distanceTo: 404607.805988
+    test 17 distanceTo: 3981601
+    test 18 destination: 51.513526°N, 000.098038°W
+    test 19 destination: 51°30′49″N, 000°05′53″W
+    test 20 destination: 33°57′N, 118°24′W
+    test 21 destination: 33.950367°N, 118.399012°W
+    test 22 isclockwise: False
+    test 23 isclockwise: True
+    test 24 isclockwise: too few points: 2
+    test 25 distanceTo (WGS84): 866455.43292
+    test 26 VincentyError (WGS84): LatLon(41°29′24.29″N, 071°18′46.07″W) coincident with LatLon(41°29′24.29″N, 071°18′46.07″W)
+    test 27 ValueError (WGS84): other Ellipsoid mistmatch: Ellipsoids.Airy1830 vs Ellipsoids.WGS84
     test 28 isellipsoidal: True
     test 29 isspherical: False
-    test 30 copy: 37°57′03.7203″S, 144°25′29.5244″E
-    test 31 destination (WGS84): 37.6528°S, 143.9265°E
-    test 32 destination (WGS84): True
-    test 33 destination2 (WGS84): 37.652821°S, 143.926496°E, 307.1736°NW
-    test 34 destination2 (WGS84): True
-    test 35 finalBearingOn (WGS84): 307.1736°, 307°10′25.07″NW
-    test 36 distanceTo (WGS84): 969954.166
-    test 37 distanceTo3 (WGS84): 969954.166314, 9.141877, 11.29722
-    test 38 initialBearingTo (WGS84): 9.1419°, 9°08′30.76″N
-    test 39 finalBearingTo (WGS84): 11.2972°, 11°17′49.99″NNE
-    test 40 distanceTo (WGS84): 404607.806
-    test 41 distanceTo3 (WGS84): 404607.805988, 156.11064, 157.8345
-    test 42 initialBearingTo (WGS84): 156.1106°, 156°06′38.31″SSE
-    test 43 finalBearingTo (WGS84): 157.8345°, 157°50′04.2″SSE
-    test 44 distanceTo (WGS84): 54973.295
-    test 45 distanceTo3 (WGS84): 54973.29527, 233.13008, 232.82461
-    test 46 initialBearingTo (WGS84): 233.1301°, 233°07′48.28″SW
-    test 47 finalBearingTo (WGS84): 232.8246°, 232°49′28.59″SW
-    test 48 distanceToMP (WGS84): 298396.057
-    test 49 distanceToMP (WGS84): 111319.491
-    test 50 distanceToMP (WGS84): 110574.389
-    test 51 distanceToKW (WGS84): 222638.982
-    test 52 distanceToKW (WGS84): 111319.491
-    test 53 distanceTo (NAD83): 866455.43292
-    test 54 VincentyError (NAD83): LatLon(41°29′24.29″N, 071°18′46.07″W) coincident with LatLon(41°29′24.29″N, 071°18′46.07″W)
-    test 55 ValueError (NAD83): other Ellipsoid mistmatch: Ellipsoids.Airy1830 vs Ellipsoids.GRS80
-    test 56 isellipsoidal: True
-    test 57 isspherical: False
-    test 58 copy: True
+    test 30 copy: True
+    test 31 isellipsoidal: True
+    test 32 isspherical: False
+    test 33 copy: 37°57′03.7203″S, 144°25′29.5244″E
+    test 34 destination (WGS84): 37.6528°S, 143.9265°E
+    test 35 destination (WGS84): True
+    test 36 destination2 (WGS84): 37.652821°S, 143.926496°E, 307.1736°NW
+    test 37 destination2 (WGS84): True
+    test 38 finalBearingOn (WGS84): 307.1736°, 307°10′25.07″NW
+    test 39 distanceTo (WGS84): 969954.166
+    test 40 distanceTo3 (WGS84): 969954.166314, 9.141877, 11.29722
+    test 41 initialBearingTo (WGS84): 9.1419°, 9°08′30.76″N
+    test 42 finalBearingTo (WGS84): 11.2972°, 11°17′49.99″NNE
+    test 43 distanceTo (WGS84): 404607.806
+    test 44 distanceTo3 (WGS84): 404607.805988, 156.11064, 157.8345
+    test 45 initialBearingTo (WGS84): 156.1106°, 156°06′38.31″SSE
+    test 46 finalBearingTo (WGS84): 157.8345°, 157°50′04.2″SSE
+    test 47 distanceTo (WGS84): 54973.295
+    test 48 distanceTo3 (WGS84): 54973.29527, 233.13008, 232.82461
+    test 49 initialBearingTo (WGS84): 233.1301°, 233°07′48.28″SW
+    test 50 finalBearingTo (WGS84): 232.8246°, 232°49′28.59″SW
+    test 51 distanceToMP (WGS84): 298396.057
+    test 52 distanceToMP (WGS84): 111319.491
+    test 53 distanceToMP (WGS84): 110574.389
+    test 54 distanceToKW (WGS84): 222638.982
+    test 55 distanceToKW (WGS84): 111319.491
+    test 56 distanceTo (NAD83): 866455.43292
+    test 57 VincentyError (NAD83): LatLon(41°29′24.29″N, 071°18′46.07″W) coincident with LatLon(41°29′24.29″N, 071°18′46.07″W)
+    test 58 ValueError (NAD83): other Ellipsoid mistmatch: Ellipsoids.Airy1830 vs Ellipsoids.GRS80
     test 59 isellipsoidal: True
     test 60 isspherical: False
-    test 61 copy: 37°57′03.7203″S, 144°25′29.5244″E
-    test 62 destination (NAD83): 37.6528°S, 143.9265°E
-    test 63 destination (NAD83): True
-    test 64 destination2 (NAD83): 37.652821°S, 143.926496°E, 307.1736°NW
-    test 65 destination2 (NAD83): True
-    test 66 finalBearingOn (NAD83): 307.1736°, 307°10′25.07″NW
-    test 67 distanceTo (NAD83): 969954.166
-    test 68 distanceTo3 (NAD83): 969954.166314, 9.141877, 11.29722
-    test 69 initialBearingTo (NAD83): 9.1419°, 9°08′30.76″N
-    test 70 finalBearingTo (NAD83): 11.2972°, 11°17′49.99″NNE
-    test 71 distanceTo (NAD83): 404607.806
-    test 72 distanceTo3 (NAD83): 404607.805988, 156.11064, 157.8345
-    test 73 initialBearingTo (NAD83): 156.1106°, 156°06′38.31″SSE
-    test 74 finalBearingTo (NAD83): 157.8345°, 157°50′04.2″SSE
-    test 75 distanceTo (NAD83): 54973.295
-    test 76 distanceTo3 (NAD83): 54973.29527, 233.13008, 232.82461
-    test 77 initialBearingTo (NAD83): 233.1301°, 233°07′48.28″SW
-    test 78 finalBearingTo (NAD83): 232.8246°, 232°49′28.59″SW
-    test 79 distanceToMP (NAD83): 298396.057
-    test 80 distanceToMP (NAD83): 111319.491
-    test 81 distanceToMP (NAD83): 110574.389
-    test 82 distanceToKW (NAD83): 222638.982
-    test 83 distanceToKW (NAD83): 111319.491
-    test 84 NOAAexample1: 191872.1190, 249 03 16.4237, 67 59 11.1619
-    test 85 NOAAexample2: 182009.1679, 254 42 44.6439, 73 09 21.3315
-    test 86 NOAAexample3: 123456.7891, 245 00 34.7001, 64 20 24.6864
-    test 87 NOAAexample4: 145239.0603, 114 29 26.9586, 295 21 32.6566
-    all ellipsoidalVincenty tests passed (PyGeodesy 17.5.11 Python 3.5.3 64bit) 4.504 ms
+    test 61 copy: True
+    test 62 isellipsoidal: True
+    test 63 isspherical: False
+    test 64 copy: 37°57′03.7203″S, 144°25′29.5244″E
+    test 65 destination (NAD83): 37.6528°S, 143.9265°E
+    test 66 destination (NAD83): True
+    test 67 destination2 (NAD83): 37.652821°S, 143.926496°E, 307.1736°NW
+    test 68 destination2 (NAD83): True
+    test 69 finalBearingOn (NAD83): 307.1736°, 307°10′25.07″NW
+    test 70 distanceTo (NAD83): 969954.166
+    test 71 distanceTo3 (NAD83): 969954.166314, 9.141877, 11.29722
+    test 72 initialBearingTo (NAD83): 9.1419°, 9°08′30.76″N
+    test 73 finalBearingTo (NAD83): 11.2972°, 11°17′49.99″NNE
+    test 74 distanceTo (NAD83): 404607.806
+    test 75 distanceTo3 (NAD83): 404607.805988, 156.11064, 157.8345
+    test 76 initialBearingTo (NAD83): 156.1106°, 156°06′38.31″SSE
+    test 77 finalBearingTo (NAD83): 157.8345°, 157°50′04.2″SSE
+    test 78 distanceTo (NAD83): 54973.295
+    test 79 distanceTo3 (NAD83): 54973.29527, 233.13008, 232.82461
+    test 80 initialBearingTo (NAD83): 233.1301°, 233°07′48.28″SW
+    test 81 finalBearingTo (NAD83): 232.8246°, 232°49′28.59″SW
+    test 82 distanceToMP (NAD83): 298396.057
+    test 83 distanceToMP (NAD83): 111319.491
+    test 84 distanceToMP (NAD83): 110574.389
+    test 85 distanceToKW (NAD83): 222638.982
+    test 86 distanceToKW (NAD83): 111319.491
+    test 87 NOAAexample1: 191872.1190, 249 03 16.4237, 67 59 11.1619
+    test 88 NOAAexample2: 182009.1679, 254 42 44.6439, 73 09 21.3315
+    test 89 NOAAexample3: 123456.7891, 245 00 34.7001, 64 20 24.6864
+    test 90 NOAAexample4: 145239.0603, 114 29 26.9586, 295 21 32.6566
+    all ellipsoidalVincenty tests passed (PyGeodesy 17.5.15 Python 3.6.1 64bit) 4.872 ms
 
-running /usr/local/bin/python3.5 tests/testGeohash.py
+running /usr/local/bin/python3.6 tests/testGeohash.py
 
     testing module geohash version 17.05.06
     test 1 Geohash: Geohash('geek')
@@ -265,11 +268,11 @@ running /usr/local/bin/python3.5 tests/testGeohash.py
     test 63 decode_error: (0.703125, 0.703125)
     test 64 decode_error: (2.8125, 5.625)
     test 65 decode_error: (22.5, 22.5)
-    all geohash tests passed (PyGeodesy 17.5.11 Python 3.5.3 64bit) 8.234 ms
+    all geohash tests passed (PyGeodesy 17.5.15 Python 3.6.1 64bit) 8.144 ms
 
-running /usr/local/bin/python3.5 tests/testGreatCircle.py
+running /usr/local/bin/python3.6 tests/testGreatCircle.py
 
-    testing module sphericalNvector version 17.05.11
+    testing module sphericalNvector version 17.05.15
     test 1 InitialBearingSameLocations: 0.0
     test 2 InitialBearingEqualLocations: 0.0
     test 3 FinalBearingSameLocations: 180.0
@@ -299,9 +302,9 @@ running /usr/local/bin/python3.5 tests/testGreatCircle.py
     test 27 CrossTrackDistance90Degrees200Meters: 200.0
     test 28 CrossTrackDistance270Degrees200Meters: -200.0
     test 29 CrossTrackDistanceThatShouldBeVeryCloseToZero: 0.00000000
-    5 sphericalNvector tests (17.2%) FAILED, incl. 5 KNOWN (PyGeodesy 17.5.11 Python 3.5.3 64bit) 3.039 ms
+    5 sphericalNvector tests (17.2%) FAILED, incl. 5 KNOWN (PyGeodesy 17.5.15 Python 3.6.1 64bit) 3.162 ms
 
-    testing module sphericalTrigonometry version 17.05.02
+    testing module sphericalTrigonometry version 17.05.15
     test 1 InitialBearingSameLocations: 0.0
     test 2 InitialBearingEqualLocations: 0.0
     test 3 FinalBearingSameLocations: 180.0
@@ -331,9 +334,9 @@ running /usr/local/bin/python3.5 tests/testGreatCircle.py
     test 27 CrossTrackDistance90Degrees200Meters: 200.0
     test 28 CrossTrackDistance270Degrees200Meters: -200.0
     test 29 CrossTrackDistanceThatShouldBeVeryCloseToZero: 0.00000000
-    5 sphericalTrigonometry tests (17.2%) FAILED, incl. 5 KNOWN (PyGeodesy 17.5.11 Python 3.5.3 64bit) 1.049 ms
+    5 sphericalTrigonometry tests (17.2%) FAILED, incl. 5 KNOWN (PyGeodesy 17.5.15 Python 3.6.1 64bit) 1.021 ms
 
-running /usr/local/bin/python3.5 tests/testLcc.py
+running /usr/local/bin/python3.6 tests/testLcc.py
 
     testing module lcc version 17.05.06
     test 1 lb1: 448251.0 5411932.0001
@@ -582,9 +585,9 @@ running /usr/local/bin/python3.5 tests/testLcc.py
     test 244 WRF_Lb: WGS84
     test 245 Snyder1: name='Snyder1', lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27)
     test 246 Snyder2: name='Snyder2', lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27)
-    all lcc tests passed (PyGeodesy 17.5.11 Python 3.5.3 64bit) 13.082 ms
+    all lcc tests passed (PyGeodesy 17.5.15 Python 3.6.1 64bit) 12.326 ms
 
-running /usr/local/bin/python3.5 tests/testMgrs.py
+running /usr/local/bin/python3.6 tests/testMgrs.py
 
     testing module mgrs version 17.04.30
     test 1 Mgrs1: 31U DQ 48251 11932
@@ -603,9 +606,9 @@ running /usr/local/bin/python3.5 tests/testMgrs.py
     test 14 toUtm(76.0°N, 013.0°E).toMgrs: 33X VE 45999 36099
     test 15 toUtm(76.0°N, 025.0°E).toMgrs: 35X ME 45999 36099
     test 16 toUtm(76.0°N, 037.0°E).toMgrs: 37X DE 45999 36099
-    all mgrs tests passed (PyGeodesy 17.5.11 Python 3.5.3 64bit) 2.415 ms
+    all mgrs tests passed (PyGeodesy 17.5.15 Python 3.6.1 64bit) 2.087 ms
 
-running /usr/local/bin/python3.5 tests/testNavlabExamples.py
+running /usr/local/bin/python3.6 tests/testNavlabExamples.py
 
     testing module testNavlabExamples.py version 17.04.07
     test 1 Example 1 delta: [N:331730.863, E:332998.501, D:17398.304]
@@ -634,9 +637,9 @@ running /usr/local/bin/python3.5 tests/testNavlabExamples.py
     test 24 Example 8 destination(elVincenty): 79.991584°N, 090.017621°W
     test 25 Example 9 intersection: 40.318643°N, 055.901868°E
     test 26 Example 10 crossTrackDistance: 11118
-    1 testNavlabExamples.py test (3.8%) FAILED, incl. 1 KNOWN (PyGeodesy 17.5.11 Python 3.5.3 64bit) 2.816 ms
+    1 testNavlabExamples.py test (3.8%) FAILED, incl. 1 KNOWN (PyGeodesy 17.5.15 Python 3.6.1 64bit) 2.647 ms
 
-running /usr/local/bin/python3.5 tests/testOsgr.py
+running /usr/local/bin/python3.6 tests/testOsgr.py
 
     testing module osgr version 17.04.30
     test 1 WGS84: 51.4778°N, 000.0016°W
@@ -663,47 +666,47 @@ running /usr/local/bin/python3.5 tests/testOsgr.py
     test 22 OSGR5: 651409,313177
     test 23 OSGR5: [OSGR:651409.000,313177.000]
     test 24 OSGR6: 651409,313177
-    6 osgr tests (25.0%) FAILED, incl. 6 KNOWN (PyGeodesy 17.5.11 Python 3.5.3 64bit) 1.799 ms
+    6 osgr tests (25.0%) FAILED, incl. 6 KNOWN (PyGeodesy 17.5.15 Python 3.6.1 64bit) 1.695 ms
 
-running /usr/local/bin/python3.5 tests/testRoutes.py
+running /usr/local/bin/python3.6 tests/testRoutes.py
 
     testing module testRoutes.py version 17.05.08
-    all testRoutes.py tests passed (PyGeodesy 17.5.11 Python 3.5.3 64bit) 11.206 us
+    all testRoutes.py tests passed (PyGeodesy 17.5.15 Python 3.6.1 64bit) 8.345 us
 
-running /usr/local/bin/python3.5 tests/testSimplify.py
+running /usr/local/bin/python3.6 tests/testSimplify.py
 
     testing module testSimplify.py version 17.04.15
-    test 1 simplify1(16614, adjust=True) 1m (56.366 ms): 16597
+    test 1 simplify1(16614, adjust=True) 1m (53.659 ms): 16597
     
-    test 2 simplify2(16614, adjust=True, shortest=False) 1m (103.224 ms): 8239
+    test 2 simplify2(16614, adjust=True, shortest=False) 1m (81.250 ms): 8239
     
-    test 3 simplify2(16614, adjust=True, shortest=True) 1m (150.509 ms): 8247
+    test 3 simplify2(16614, adjust=True, shortest=True) 1m (81.671 ms): 8247
     
-    test 4 simplifyVWm(16614, adjust=True) 1m (163.460 ms): 16482
+    test 4 simplifyVWm(16614, adjust=True) 1m (175.264 ms): 16482
     
-    test 5 simplifyVWm(16614, adjust=False) 1m (120.699 ms): 16488
+    test 5 simplifyVWm(16614, adjust=False) 1m (160.865 ms): 16488
     
-    test 6 simplifyRDPm(16614, adjust=True, shortest=False) 1m (169.457 ms): 16196
+    test 6 simplifyRDPm(16614, adjust=True, shortest=False) 1m (173.448 ms): 16196
     
-    test 7 simplifyRDPm(16614, adjust=True, shortest=True) 1m (174.720 ms): 16201
+    test 7 simplifyRDPm(16614, adjust=True, shortest=True) 1m (174.165 ms): 16201
     
-    test 8 simplifyVW(1661, adjust=True) 1m (15.316 ms): 1657
+    test 8 simplifyVW(1661, adjust=True) 1m (14.785 ms): 1657
     
-    test 9 simplifyVW(1661, adjust=False) 1m (11.537 ms): 1657
+    test 9 simplifyVW(1661, adjust=False) 1m (10.771 ms): 1657
     
-    test 10 simplifyRDP(1661, adjust=True, shortest=False) 1m (4.791 sec): 1660
+    test 10 simplifyRDP(1661, adjust=True, shortest=False) 1m (4.842 sec): 1660
     
-    test 11 simplifyRDP(1661, adjust=True, shortest=True) 1m (4.880 sec): 1661
+    test 11 simplifyRDP(1661, adjust=True, shortest=True) 1m (4.770 sec): 1661
     
-    test 12 simplifyVW(69, adjust=False) 1m (519.991 us): 69
+    test 12 simplifyVW(69, adjust=False) 1m (466.108 us): 69
     
-    test 13 simplifyRDP(69, adjust=False, shortest=False) 1m (3.466 ms): 68
+    test 13 simplifyRDP(69, adjust=False, shortest=False) 1m (3.164 ms): 68
     
-    all testSimplify.py tests passed (PyGeodesy 17.5.11 Python 3.5.3 64bit) 10.642 sec
+    all testSimplify.py tests passed (PyGeodesy 17.5.15 Python 3.6.1 64bit) 10.543 sec
 
-running /usr/local/bin/python3.5 tests/testSpherical.py
+running /usr/local/bin/python3.6 tests/testSpherical.py
 
-    testing module sphericalNvector version 17.05.11
+    testing module sphericalNvector version 17.05.15
     test 1 isellipsoidal: False
     test 2 isspherical: True
     test 3 lat/lonDMS: 52.20472°N, 000.14056°E
@@ -714,9 +717,9 @@ running /usr/local/bin/python3.5 tests/testSpherical.py
     test 8 lat/lonDMS F_RAD: 0.911144N, 0.002453E
     test 9 equals: True
     test 10 equals: False
-    test 11 bearingTo: 156.1666
+    test 11 initialBearingTo: 156.1666
     test 12 finalBearingTo: 157.8904
-    test 13 bearingTo: 65.8921
+    test 13 initialBearingTo: 65.8921
     test 14 copy: True
     test 15 distanceTo: 404279.720589
     test 16 distanceTo: 404279.720589
@@ -791,9 +794,9 @@ running /usr/local/bin/python3.5 tests/testSpherical.py
     test 85 BasseH: 47.311067°N, 002.528617°W
     test 86 triangulate: 47.323667°N, 002.568501°W
     test 87 triangulate: True
-    all sphericalNvector tests passed (PyGeodesy 17.5.11 Python 3.5.3 64bit) 5.259 ms
+    all sphericalNvector tests passed (PyGeodesy 17.5.15 Python 3.6.1 64bit) 5.087 ms
 
-    testing module sphericalTrigonometry version 17.05.02
+    testing module sphericalTrigonometry version 17.05.15
     test 1 isellipsoidal: False
     test 2 isspherical: True
     test 3 lat/lonDMS: 52.20472°N, 000.14056°E
@@ -804,9 +807,9 @@ running /usr/local/bin/python3.5 tests/testSpherical.py
     test 8 lat/lonDMS F_RAD: 0.911144N, 0.002453E
     test 9 equals: True
     test 10 equals: False
-    test 11 bearingTo: 156.1666
+    test 11 initialBearingTo: 156.1666
     test 12 finalBearingTo: 157.8904
-    test 13 bearingTo: 65.8921
+    test 13 initialBearingTo: 65.8921
     test 14 copy: True
     test 15 distanceTo: 404279.720589
     test 16 distanceTo: 404279.720589
@@ -859,9 +862,9 @@ running /usr/local/bin/python3.5 tests/testSpherical.py
     test 63 areaOf: 6.18e+09
     test 64 isPoleEnclosedBy: True
     test 65 isPoleEnclosedBy: False  FAILED, KNOWN, expected True
-    1 sphericalTrigonometry test (1.5%) FAILED, incl. 1 KNOWN (PyGeodesy 17.5.11 Python 3.5.3 64bit) 2.074 ms
+    1 sphericalTrigonometry test (1.5%) FAILED, incl. 1 KNOWN (PyGeodesy 17.5.15 Python 3.6.1 64bit) 2.106 ms
 
-running /usr/local/bin/python3.5 tests/testUtm.py
+running /usr/local/bin/python3.6 tests/testUtm.py
 
     testing module utm version 17.05.010
     test 1 Utm1: 03 N 448251.0 5411932.0001
@@ -907,13 +910,13 @@ running /usr/local/bin/python3.5 tests/testUtm.py
     test 41 toUtm(76.0°N, 025.0°E): 35X N 446000 8436100
     test 42 toUtm(76.0°N, 031.0°E): 35X N 607943 8438843
     test 43 toUtm(76.0°N, 037.0°E): 37X N 446000 8436100
-    all utm tests passed (PyGeodesy 17.5.11 Python 3.5.3 64bit) 5.048 ms
+    all utm tests passed (PyGeodesy 17.5.15 Python 3.6.1 64bit) 5.104 ms
 
-running /usr/local/bin/python3.5 tests/tests.py
+running /usr/local/bin/python3.6 tests/tests.py
 
-    testing module tests.py version 17.05.11
+    testing module tests.py version 17.05.15
 
-    testing module __init__.py version 17.05.11
+    testing module __init__.py version 17.05.15
     test 1 pygeodesy.Conic() class (lcc): True
     test 2 pygeodesy.Conics attribute (datum): True
     test 3 pygeodesy.Datum() class (datum): True
@@ -1050,7 +1053,7 @@ running /usr/local/bin/python3.5 tests/tests.py
     test 130 dms.precision() function: True
     test 131 dms.toDMS() function: True
 
-    testing module ellipsoidalNvector.py version 17.05.11
+    testing module ellipsoidalNvector.py version 17.05.15
     test 132 ellipsoidalNvector.Cartesian() class: True
     test 133 ellipsoidalNvector.LatLon() class: True
     test 134 ellipsoidalNvector.Ned() class: True
@@ -1058,7 +1061,7 @@ running /usr/local/bin/python3.5 tests/tests.py
     test 136 ellipsoidalNvector.meanOf() function: True
     test 137 ellipsoidalNvector.toNed() function: True
 
-    testing module ellipsoidalVincenty.py version 17.05.02
+    testing module ellipsoidalVincenty.py version 17.05.15
     test 138 ellipsoidalVincenty.Cartesian() class: True
     test 139 ellipsoidalVincenty.LatLon() class: True
     test 140 ellipsoidalVincenty.VincentyError() class: True
@@ -1093,7 +1096,7 @@ running /usr/local/bin/python3.5 tests/tests.py
     test 159 simplify.simplifyVW() function: True
     test 160 simplify.simplifyVWm() function: True
 
-    testing module sphericalNvector.py version 17.05.11
+    testing module sphericalNvector.py version 17.05.15
     test 161 sphericalNvector.LatLon() class: True
     test 162 sphericalNvector.Nvector() class: True
     test 163 sphericalNvector.areaOf() function: True
@@ -1102,7 +1105,7 @@ running /usr/local/bin/python3.5 tests/tests.py
     test 166 sphericalNvector.triangulate() function: True
     test 167 sphericalNvector.trilaterate() function: True
 
-    testing module sphericalTrigonometry.py version 17.05.02
+    testing module sphericalTrigonometry.py version 17.05.15
     test 168 sphericalTrigonometry.LatLon() class: True
     test 169 sphericalTrigonometry.areaOf() function: True
     test 170 sphericalTrigonometry.intersection() function: True
@@ -1165,7 +1168,7 @@ running /usr/local/bin/python3.5 tests/tests.py
     test 221 utils.wrapPI2() function: True
     test 222 utils.wrapPI_2() function: True
 
-    testing module LatLon.attrs version 17.05.11
+    testing module LatLon.attrs version 17.05.15
     test 223 _Nv attribute: ellipsoidalNvector, sphericalNvector
     test 224 _ab attribute: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
     test 225 _datum attribute: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
@@ -1187,7 +1190,7 @@ running /usr/local/bin/python3.5 tests/tests.py
     test 241 _utm attribute: ellipsoidalNvector, ellipsoidalVincenty
     test 242 _v3d attribute: sphericalTrigonometry
     test 243 alongTrackDistanceTo() function: sphericalNvector, sphericalTrigonometry
-    test 244 bearingTo() function: sphericalNvector, sphericalTrigonometry
+    test 244 bearingTo() function: ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
     test 245 bounds() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
     test 246 classname() function: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
     test 247 convertDatum() function: ellipsoidalNvector, ellipsoidalVincenty
@@ -1210,7 +1213,7 @@ running /usr/local/bin/python3.5 tests/tests.py
     test 264 greatCircle() function: sphericalNvector, sphericalTrigonometry
     test 265 greatCircleTo() function: sphericalNvector
     test 266 height property: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
-    test 267 initialBearingTo() function: ellipsoidalVincenty
+    test 267 initialBearingTo() function: ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
     test 268 intermediateChordTo() function: sphericalNvector
     test 269 intermediateTo() function: ellipsoidalNvector, sphericalNvector, sphericalTrigonometry
     test 270 intersection() function: sphericalNvector, sphericalTrigonometry
@@ -1249,12 +1252,12 @@ running /usr/local/bin/python3.5 tests/tests.py
     test 303 triangulate() function: sphericalNvector
     test 304 trilaterate() function: sphericalNvector
 
-    testing module LatLon.mro version 17.05.11
+    testing module LatLon.mro version 17.05.15
     test 305 ellipsoidalNvector: ellipsoidalNvector.LatLon, nvector.LatLonNvectorBase, ellipsoidalBase.LatLonEllipsoidalBase, bases.LatLonHeightBase, bases.Base
     test 306 ellipsoidalVincenty: ellipsoidalVincenty.LatLon, ellipsoidalBase.LatLonEllipsoidalBase, bases.LatLonHeightBase, bases.Base
     test 307 sphericalNvector: sphericalNvector.LatLon, nvector.LatLonNvectorBase, sphericalBase.LatLonSphericalBase, bases.LatLonHeightBase, bases.Base
     test 308 sphericalTrigonometry: sphericalTrigonometry.LatLon, sphericalBase.LatLonSphericalBase, bases.LatLonHeightBase, bases.Base
 
-    all tests.py tests passed (PyGeodesy 17.5.11 Python 3.5.3 64bit) 4.395 ms
+    all tests.py tests passed (PyGeodesy 17.5.15 Python 3.6.1 64bit) 4.304 ms
 
-tests/run.py /usr/local/bin/python3.5 all OK (PyGeodesy 17.5.11 Python 3.5.3 64bit macOS 10.12.4) 13.383 sec
+tests/run.py /usr/local/bin/python3.6 all OK (PyGeodesy 17.5.15 Python 3.6.1 64bit macOS 10.12.4) 13.255 sec

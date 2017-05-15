@@ -33,7 +33,7 @@
 # Copyright © 2016 Softwarenerd.
 
 __all__ = ()
-__version__ = '17.04.07'
+__version__ = '17.05.15'
 
 if __name__ == '__main__':
 
@@ -74,11 +74,11 @@ if __name__ == '__main__':
         fmtVersaillesToEiffel = '%.9f'  # '%.15f'
 
         # initial bearing for two locations that are the same
-        b = IndianPond.bearingTo(IndianPond)
+        b = IndianPond.initialBearingTo(IndianPond)
         t.test('InitialBearingSameLocations', b, 0.0, '%.1f')
 
         # initial bearing for two locations that are the equal
-        b = IndianPond.bearingTo(IndianPond.copy())
+        b = IndianPond.initialBearingTo(IndianPond.copy())
         t.test('InitialBearingEqualLocations', b, 0.0, '%.1f')
 
         # final bearing for two locations that are the same
@@ -106,12 +106,12 @@ if __name__ == '__main__':
         t.test('DistanceVersaillesToEiffel', d, dEiffelToVersailles, mEiffelToVersailles, known=True)
 
         # initial bearing between Eiffel Tower and Versailles
-        b = Eiffel.bearingTo(Versailles)
+        b = Eiffel.initialBearingTo(Versailles)
         t.test('InitialBearingEiffelToVersailles', b, ibEiffelToVersailles, fmtEiffelToVersailles)
         t.test('InitialBearingEiffelToVersailles(DMS)', bearingDMS(b, F_DMS, prec=4), '245°08′04.5707″')
 
         # initial bearing between Versailles and Eiffel Tower
-        b = Versailles.bearingTo(Eiffel)
+        b = Versailles.initialBearingTo(Eiffel)
         t.test('InitialBearingVersaillesToEiffel', b, ibVersaillesToEiffel, fmtVersaillesToEiffel)
         t.test('InitialBearingVersaillesToEiffel(DMS)', bearingDMS(b, F_DMS, prec=4), '65°00′11.7142″')
 
@@ -153,21 +153,21 @@ if __name__ == '__main__':
         t.test('MidpointVersaillesToEiffel(m)', a, str(b), known=True)
 
         # intersection.
-        b = StGermain.bearingTo(Orly)
+        b = StGermain.initialBearingTo(Orly)
         i = StGermain.intersection(b, Eiffel, ibEiffelToVersailles)
         t.test('Intersection', i.toStr(F_D, prec=9), '48.83569095°N, 002.221252031°E')  # '48.83569094988361°N, ...
         t.test('Intersection', i.toStr(F_D, prec=13), '48.8356909498836°N, 002.2212520313074°E')  # 002.2212520313073583°E'
 
         # cross-track distance test of a point 90° and 200 meters away
         m = Eiffel.midpointTo(Versailles)
-        b = Eiffel.bearingTo(Versailles)
+        b = Eiffel.initialBearingTo(Versailles)
         p = m.destination(200.0, (b + 90) % 360.0)
         d = p.crossTrackDistanceTo(Eiffel, Versailles)
         t.test('CrossTrackDistance90Degrees200Meters', d, 200.0, '%0.1f')
 
         # cross-track distance test of a point 270° and 200 meters away
         m = Eiffel.midpointTo(Versailles)
-        b = Eiffel.bearingTo(Versailles)
+        b = Eiffel.initialBearingTo(Versailles)
         p = m.destination(200.0, (b + 270) % 360.0)
         d = p.crossTrackDistanceTo(Eiffel, Versailles)
         t.test('CrossTrackDistance270Degrees200Meters', d, -200.0, '%0.1f')

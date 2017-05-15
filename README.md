@@ -45,9 +45,9 @@ and Visvalingam-Whyatt algorithms and modified versions of both:
 
 All Python code has been statically checked* with PyChecker, PyFlakes,
 PyCodeStyle (formerly Pep8), McCabe on Python 2.7.10 and 2.7.13
-and with Flake8 on Python 3.6.0.  The tests were run with 64-bit
-Python 2.6.9, 2.7.10, 2.7.13, 3.5.2, 3.5.3 and 3.6.0, but only on
-MacOSX 10.10 Yosemite, MacOSX 10.11 El Capitan and/or macOS 10.12.2,
+and with Flake8 on Python 3.6.0 or 3.6.1.  The tests were run with 64-bit
+Python 2.6.9, 2.7.10, 2.7.13, 3.5.2, 3.5.3, 3.6.0 and/or 3.6.1, but only
+on MacOSX 10.10 Yosemite, MacOSX 10.11 El Capitan and/or macOS 10.12.2,
 10.12.3 and 10.12.4 Sierra.
 
 In addition to the Python code, the ```zip``` and ```tar``` distribution
@@ -69,4 +69,4 @@ __
  - Flake8 <http://pypi.python.org/pypi/flake8>
  - Epydoc <http://pypi.python.org/pypi/epydoc>
 
-_Last updated: May 11, 2017._
+_Last updated: May 15, 2017._

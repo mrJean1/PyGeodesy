@@ -115,25 +115,6 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry.LatLon-class.html#bearingTo" class="summary-sig-name">bearingTo</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span><br />
-      Computes the initial bearing (aka forward azimuth) from this to an 
-      other point.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry.LatLon-class.html#crossingParallels" class="summary-sig-name">crossingParallels</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">lat</span>)</span><br />
@@ -220,6 +201,44 @@
         <span class="summary-sig-arg">bearing</span>)</span><br />
       Computes vector normal to great circle obtained by heading on the 
       given initial bearing from this point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry.LatLon-class.html#initialBearingTo" class="summary-sig-name">initialBearingTo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>)</span><br />
+      Computes the initial bearing (aka forward azimuth) from this to an 
+      other point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry.LatLon-class.html#bearingTo" class="summary-sig-name">bearingTo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>)</span><br />
+      Computes the initial bearing (aka forward azimuth) from this to an 
+      other point.</td>
           <td align="right" valign="top">
             
             
@@ -464,47 +483,6 @@
       </p>
 </div></td></tr></table>
 </div>
-<a name="bearingTo"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">bearingTo</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">other</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Computes the initial bearing (aka forward azimuth) from this to an 
-  other point.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - The other point (<a 
-          href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
-          class="link">LatLon</a>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Initial bearing (compass degrees).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
-        href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
-        class="link">LatLon</a>.</li>
-    </ul></dd>
-  </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>p1 = LatLon(52.205, 0.119)
-<span class="py-prompt">&gt;&gt;&gt; </span>p2 = LatLon(48.857, 2.351)
-<span class="py-prompt">&gt;&gt;&gt; </span>b = p1.bearingTo(p2)  <span class="py-comment"># 156.2</span></pre>
-      </p>
-</div></td></tr></table>
-</div>
 <a name="crossingParallels"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -708,6 +686,94 @@
 <span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(53.3206, -1.7297)
 <span class="py-prompt">&gt;&gt;&gt; </span>g = p.greatCircle(96.0)
 <span class="py-prompt">&gt;&gt;&gt; </span>g.toStr()  <span class="py-comment"># (-0.794, 0.129, 0.594)</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="initialBearingTo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">initialBearingTo</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Computes the initial bearing (aka forward azimuth) from this to an 
+  other point.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<a 
+          href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Initial bearing (compass degrees).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
+        href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p1 = LatLon(52.205, 0.119)
+<span class="py-prompt">&gt;&gt;&gt; </span>p2 = LatLon(48.857, 2.351)
+<span class="py-prompt">&gt;&gt;&gt; </span>b = p1.bearingTo(p2)  <span class="py-comment"># 156.2</span></pre>
+      </p>
+      <p><strong>JS name:</strong>
+        <i>bearingTo</i>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="bearingTo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">bearingTo</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Computes the initial bearing (aka forward azimuth) from this to an 
+  other point.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<a 
+          href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Initial bearing (compass degrees).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
+        href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p1 = LatLon(52.205, 0.119)
+<span class="py-prompt">&gt;&gt;&gt; </span>p2 = LatLon(48.857, 2.351)
+<span class="py-prompt">&gt;&gt;&gt; </span>b = p1.bearingTo(p2)  <span class="py-comment"># 156.2</span></pre>
+      </p>
+      <p><strong>JS name:</strong>
+        <i>bearingTo</i>.
       </p>
 </div></td></tr></table>
 </div>
@@ -955,7 +1021,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu May 11 04:09:08 2017
+    Generated by Epydoc 3.0.1 on Mon May 15 16:00:20 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

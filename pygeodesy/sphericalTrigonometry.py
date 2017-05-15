@@ -25,7 +25,7 @@ __all__ = ('LatLon',  # classes
            'areaOf',  # functions
            'intersection', 'isPoleEnclosedBy',
            'meanOf')
-__version__ = '17.05.02'
+__version__ = '17.05.15'
 
 
 class LatLon(LatLonSphericalBase):
@@ -92,38 +92,6 @@ class LatLon(LatLonSphericalBase):
             return copysign(acos(cos(r) / cx), cos(b)) * radius
         else:
             return 0.0
-
-    def bearingTo(self, other):
-        '''Computes the initial bearing (aka forward azimuth) from
-           this to an other point.
-
-           @param other: The other point (L{LatLon}).
-
-           @return: Initial bearing (compass degrees).
-
-           @raise TypeError: The other point is not L{LatLon}.
-
-           @example:
-
-           >>> p1 = LatLon(52.205, 0.119)
-           >>> p2 = LatLon(48.857, 2.351)
-           >>> b = p1.bearingTo(p2)  # 156.2
-        '''
-        self.others(other)
-
-        a1, b1 = self.to2ab()
-        a2, b2 = other.to2ab()
-
-        db = b2 - b1
-
-        ca1, ca2, cdb = map1(cos, a1, a2, db)
-        sa1, sa2, sdb = map1(sin, a1, a2, db)
-
-        # see <http://mathforum.org/library/drmath/view/55417.html>
-        x = ca1 * sa2 - sa1 * ca2 * cdb
-        y = sdb * ca2
-
-        return degrees360(atan2(y, x))
 
     def crossingParallels(self, other, lat):
         '''Return the pair of meridians at which a great circle defined
@@ -262,6 +230,42 @@ class LatLon(LatLonSphericalBase):
         return Vector3d(sb * ct - cb * sa * st,
                        -cb * ct - sb * sa * st,
                         ca * st)  # XXX .unit()?
+
+    def initialBearingTo(self, other):
+        '''Computes the initial bearing (aka forward azimuth) from
+           this to an other point.
+
+           @param other: The other point (L{LatLon}).
+
+           @return: Initial bearing (compass degrees).
+
+           @raise TypeError: The other point is not L{LatLon}.
+
+           @example:
+
+           >>> p1 = LatLon(52.205, 0.119)
+           >>> p2 = LatLon(48.857, 2.351)
+           >>> b = p1.bearingTo(p2)  # 156.2
+
+           @JSname: I{bearingTo}.
+        '''
+        self.others(other)
+
+        a1, b1 = self.to2ab()
+        a2, b2 = other.to2ab()
+
+        db = b2 - b1
+
+        ca1, ca2, cdb = map1(cos, a1, a2, db)
+        sa1, sa2, sdb = map1(sin, a1, a2, db)
+
+        # see <http://mathforum.org/library/drmath/view/55417.html>
+        x = ca1 * sa2 - sa1 * ca2 * cdb
+        y = sdb * ca2
+
+        return degrees360(atan2(y, x))
+
+    bearingTo = initialBearingTo  # for backward compatibility
 
     def intermediateTo(self, other, fraction, height=None):
         '''Locates the point at given fraction between this and an

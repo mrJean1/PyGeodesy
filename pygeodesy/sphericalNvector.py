@@ -41,7 +41,7 @@ from math import atan2, cos, radians, sin
 __all__ = ('LatLon', 'Nvector',  # classes
            'areaOf', 'intersection', 'meanOf',  # functions
            'triangulate', 'trilaterate')
-__version__ = '17.05.11'
+__version__ = '17.05.15'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -113,28 +113,6 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         p = self.toNvector()
         a = gc.cross(p).cross(gc)  # along-track point gc × p × gc
         return start.toNvector().angleTo(a, vSign=gc) * radius
-
-    def bearingTo(self, other):
-        '''Computes the initial bearing (aka forward azimuth) from this
-           to an other point.
-
-           @param other: The other point (L{LatLon}).
-
-           @return: Initial bearing (compass degrees).
-
-           @raise TypeError: The other point is not L{LatLon}.
-
-           @example:
-
-           >>> p1 = LatLon(52.205, 0.119)
-           >>> p2 = LatLon(48.857, 2.351)
-           >>> b = p1.bearingTo(p2)  # 156.2
-        '''
-        gc1 = self.greatCircleTo(other)
-        gc2 = self.toNvector().cross(NorthPole)
-#       gc2 = self.greatCircleTo(NorthPole)
-
-        return degrees360(gc1.angleTo(gc2, vSign=self.toNvector()))
 
     def crossTrackDistanceTo(self, start, end, radius=R_M):
         '''Returns (signed) distance from this point to great circle
@@ -272,6 +250,32 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         '''
         gc, _, _ = self._gc3(self, other, 'other')
         return gc.unit()
+
+    def initialBearingTo(self, other):
+        '''Computes the initial bearing (aka forward azimuth) from this
+           to an other point.
+
+           @param other: The other point (L{LatLon}).
+
+           @return: Initial bearing (compass degrees).
+
+           @raise TypeError: The other point is not L{LatLon}.
+
+           @example:
+
+           >>> p1 = LatLon(52.205, 0.119)
+           >>> p2 = LatLon(48.857, 2.351)
+           >>> b = p1.bearingTo(p2)  # 156.2
+
+           @JSname: I{bearingTo}.
+        '''
+        gc1 = self.greatCircleTo(other)
+        gc2 = self.toNvector().cross(NorthPole)
+#       gc2 = self.greatCircleTo(NorthPole)
+
+        return degrees360(gc1.angleTo(gc2, vSign=self.toNvector()))
+
+    bearingTo = initialBearingTo  # for backward compatibility
 
     def intermediateChordTo(self, other, fraction, height=None):
         '''Locates the point projected from the point at given fraction

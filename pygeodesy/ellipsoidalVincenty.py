@@ -58,7 +58,7 @@ from math import atan2, cos, hypot, sin, tan
 
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'VincentyError')  # classes
-__version__ = '17.05.02'
+__version__ = '17.05.15'
 
 
 class VincentyError(Exception):
@@ -313,6 +313,8 @@ class LatLon(LatLonEllipsoidalBase):
            @JSname: I{bearingTo}.
         '''
         return self._inverse(other, True)[1]
+
+    bearingTo = initialBearingTo  # for backward compatibility
 
     @property
     def iterations(self):

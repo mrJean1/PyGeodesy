@@ -24,7 +24,7 @@ from time import time
 
 __all__ = ('versions', 'Tests',
            'secs2str')
-__version__ = '17.05.11'
+__version__ = '17.05.15'
 
 try:
     _int = int, long
@@ -156,13 +156,13 @@ class Tests(object):
         q = LatLon(48.857, 2.351)
         self.test('equals', p.equals(q), 'False')
 
-        if hasattr(LatLon, 'bearingTo'):
-            b = p.bearingTo(q)
-            self.test('bearingTo', b, '156.1666', '%.4f')  # 156.2
+        if hasattr(LatLon, 'initialBearingTo'):
+            b = p.initialBearingTo(q)
+            self.test('initialBearingTo', b, '156.1666' if Sph else '156.1106', '%.4f')  # 156.2
             b = p.finalBearingTo(q)
-            self.test('finalBearingTo', b, '157.8904', '%.4f')
-            b = LAX.bearingTo(JFK)
-            self.test('bearingTo', b, '65.8921', '%.4f')  # 66
+            self.test('finalBearingTo', b, '157.8904' if Sph else '157.8345', '%.4f')
+            b = LAX.initialBearingTo(JFK)
+            self.test('initialBearingTo', b, '65.8921' if Sph else '65.9335', '%.4f')  # PYCHOK false?  66
 
         c = p.copy()
         self.test('copy', p.equals(c), 'True')

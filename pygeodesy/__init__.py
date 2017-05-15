@@ -50,10 +50,10 @@ U{PyChecker<https://pypi.python.org/pypi/pychecker>},
 U{PyFlakes<https://pypi.python.org/pypi/pyflakes>},
 U{PyCodeStyle<https://pypi.python.org/pypi/pycodestyle>} (formerly Pep8),
 U{McCabe<https://pypi.python.org/pypi/mccabe>} using Python 2.7.10 and 2.7.13
-and with U{Flake8<https://pypi.python.org/pypi/flake8>} on Python 3.6.0.
-The tests have been run with 64-bit Python 2.6.9, 2.7.10, 2.7.13, 3.5.2, 3.5.3
-and 3.6.0, but only on MacOSX 10.10 Yosemite, MacOSX 10.11 El Capitan and/or
-macOS 10.12.2, 10.12.3 and 10.12.4 Sierra.
+and with U{Flake8<https://pypi.python.org/pypi/flake8>} on Python 3.6.0 or 3.6.1.
+The tests have been run with 64-bit Python 2.6.9, 2.7.10, 2.7.13, 3.5.2, 3.5.3,
+3.6.0 and/or 3.6.1, but only on MacOSX 10.10 Yosemite, MacOSX 10.11 El Capitan
+and/or macOS 10.12.2, 10.12.3 and 10.12.4 Sierra.
 
 The C{zip} and C{tar} distribution files were created with command line
 C{python setup.py sdist --formats=zip,gztar,bztar}.  In addition to the
@@ -131,7 +131,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',
            'Geohash', 'VincentyError',
            'geohash', 'nvector', 'vector3d', 'version',
            'isclockwise')  # extended below
-__version__ = '17.05.11'
+__version__ = '17.05.15'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))

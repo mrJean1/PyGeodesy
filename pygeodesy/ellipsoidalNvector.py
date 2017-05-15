@@ -35,7 +35,7 @@ from math import asin, atan2, cos, hypot, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '17.05.11'
+__version__ = '17.05.15'
 
 
 class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
@@ -71,33 +71,6 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
             self._Nv = self._r3 = None
             LatLonNvectorBase._update(self, updated)
             LatLonEllipsoidalBase._update(self, updated)
-
-#     def bearingTo(self, other):
-#         '''Return the initial bearing (forward azimuth) from this
-#            to an other point.
-#
-#            @param other: The other point (L{LatLon}).
-#
-#            @return: Initial bearing in compass degrees (degrees360).
-#
-#            @raise TypeError: The other point is not L{LatLon}.
-#
-#            @example:
-#
-#            >>> p1 = LatLon(52.205, 0.119)
-#            >>> p2 = LatLon(48.857, 2.351)
-#            >>> b = p1.bearingTo(p2)  # 156.2
-#         '''
-#         self.others(other)
-#
-#         v1 = self.toNvector()
-#         v2 = other.toNvector()
-#
-#         gc1 = v1.cross(v2)  # gc through v1 & v2
-#         gc2 = v1.cross(_NP3)  # gc through v1 & North pole
-#
-#         # bearing is (signed) angle between gc1 & gc2
-#         return degrees360(gc1.angleTo(gc2, vSign=v1))
 
 #     def crossTrackDistanceTo(self, start, end, radius=R_M):
 #         '''Return (signed) distance from this point to great circle
@@ -334,6 +307,37 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #         return Nvector(sa * cc - ca * sb * sc,
 #                       -ca * cc - sa * sb * sc,
 #                        cb * sc)
+
+#     def initialBearingTo(self, other):
+#         '''Return the initial bearing (forward azimuth) from this
+#            to an other point.
+#
+#            @param other: The other point (L{LatLon}).
+#
+#            @return: Initial bearing in compass degrees (degrees360).
+#
+#            @raise TypeError: The other point is not L{LatLon}.
+#
+#            @example:
+#
+#            >>> p1 = LatLon(52.205, 0.119)
+#            >>> p2 = LatLon(48.857, 2.351)
+#            >>> b = p1.bearingTo(p2)  # 156.2
+#
+#            @JSname: I{bearingTo}.
+#         '''
+#         self.others(other)
+#
+#         v1 = self.toNvector()
+#         v2 = other.toNvector()
+#
+#         gc1 = v1.cross(v2)  # gc through v1 & v2
+#         gc2 = v1.cross(_NP3)  # gc through v1 & North pole
+#
+#         # bearing is (signed) angle between gc1 & gc2
+#         return degrees360(gc1.angleTo(gc2, vSign=v1))
+#
+#     bearingTo = initialBearingTo  # for backward compatibility
 
     def intermediateTo(self, other, fraction, height=None):
         '''Returns the point at given fraction between this and
