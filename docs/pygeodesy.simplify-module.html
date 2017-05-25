@@ -59,11 +59,11 @@
 </table>
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module simplify</h1><p class="nomargin-top"></p>
-<p>Several functions to simplify or linearize a path given as a list, 
-  sequence or tuple of LatLon points.</p>
+<p>Six different functions to <i>simplify</i> or linearize a path given 
+  as a list, sequence or tuple of <i>LatLon</i> points.</p>
   <p>Each of the simplify functions is based on a different algorithm and 
   produces different simplified results in (very) different run times for 
-  the same path of LatLon points.</p>
+  the same path of <i>LatLon</i> points.</p>
   <p>Function <a href="pygeodesy.simplify-module.html#simplify1" 
   class="link">simplify1</a> eliminates points based on edge length.  
   Function <a href="pygeodesy.simplify-module.html#simplify2" 
@@ -152,11 +152,11 @@
     </li>
   </ul>
   <p>Tested with 64-bit Python 2.6.9, 2.7.13, 3.5.3 and 3.6.0 on macOS 
-  10.12.3 and 10.12.4 Sierra.</p>
+  10.12.3, 10.12.4 and 10.12.5 Sierra.</p>
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.05.01
+        17.05.25
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -176,7 +176,7 @@
         <span class="summary-sig-arg">distance</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Basic simplification of a path of LatLon points.</td>
+      Basic simplification of a path of <i>LatLon</i> points.</td>
           <td align="right" valign="top">
             
             
@@ -197,7 +197,7 @@
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Pipe simplification of a path of LatLon points.</td>
+      Pipe simplification of a path of <i>LatLon</i> points.</td>
           <td align="right" valign="top">
             
             
@@ -218,7 +218,7 @@
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Ramer-Douglas-Peucker (RDP) simplification of a path of LatLon 
+      Ramer-Douglas-Peucker (RDP) simplification of a path of <i>LatLon</i>
       points.</td>
           <td align="right" valign="top">
             
@@ -241,7 +241,7 @@
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>)</span><br />
       Modified Ramer-Douglas-Peucker (RDP) simplification of a path of 
-      LatLon points.</td>
+      <i>LatLon</i> points.</td>
           <td align="right" valign="top">
             
             
@@ -262,7 +262,8 @@
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">attr</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Visvalingam-Whyatt (VW) simplification of a path of LatLon points.</td>
+      Visvalingam-Whyatt (VW) simplification of a path of <i>LatLon</i> 
+      points.</td>
           <td align="right" valign="top">
             
             
@@ -283,8 +284,8 @@
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">attr</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Modified Visvalingam-Whyatt (VW) simplification of a path of LatLon 
-      points.</td>
+      Modified Visvalingam-Whyatt (VW) simplification of a path of 
+      <i>LatLon</i> points.</td>
           <td align="right" valign="top">
             
             
@@ -321,19 +322,19 @@
     </td>
   </tr></table>
   
-  <p>Basic simplification of a path of LatLon points.</p>
+  <p>Basic simplification of a path of <i>LatLon</i> points.</p>
   <p>Eliminates any points closer together than the given distance 
   tolerance.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - Path points (LatLons).</li>
-        <li><strong class="pname"><code>distance</code></strong> - Tolerance (meter, same units a radius).</li>
+        <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
+        <li><strong class="pname"><code>distance</code></strong> - Tolerance (meter, same units as radius).</li>
         <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Simplified points (list of LatLons).</dd>
+        <dd>Simplified points (list of <i>LatLon</i>s).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -355,20 +356,20 @@
     </td>
   </tr></table>
   
-  <p>Pipe simplification of a path of LatLon points.</p>
+  <p>Pipe simplification of a path of <i>LatLon</i> points.</p>
   <p>Eliminates any points too close together or within the given band 
   tolerance along an edge.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - Path points (LatLons).</li>
-        <li><strong class="pname"><code>band2</code></strong> - Half band width (meter, same units a radius).</li>
+        <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
+        <li><strong class="pname"><code>band2</code></strong> - Half band width (meter, same units as radius).</li>
         <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
         <li><strong class="pname"><code>shortest</code></strong> - Shortest or perpendicular distance (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Simplified points (list of LatLons).</dd>
+        <dd>Simplified points (list of <i>LatLon</i>s).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -390,7 +391,7 @@
     </td>
   </tr></table>
   
-  <p>Ramer-Douglas-Peucker (RDP) simplification of a path of LatLon 
+  <p>Ramer-Douglas-Peucker (RDP) simplification of a path of <i>LatLon</i> 
   points.</p>
   <p>Eliminates any points too close together or closer to an edge than the
   given distance tolerance.</p>
@@ -400,14 +401,14 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - Path points (LatLons).</li>
-        <li><strong class="pname"><code>distance</code></strong> - Tolerance (meter, same units a radius).</li>
+        <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
+        <li><strong class="pname"><code>distance</code></strong> - Tolerance (meter, same units as radius).</li>
         <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
         <li><strong class="pname"><code>shortest</code></strong> - Shortest or perpendicular distance (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Simplified points (list of LatLons).</dd>
+        <dd>Simplified points (list of <i>LatLon</i>s).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -430,7 +431,7 @@
   </tr></table>
   
   <p>Modified Ramer-Douglas-Peucker (RDP) simplification of a path of 
-  LatLon points.</p>
+  <i>LatLon</i> points.</p>
   <p>Eliminates any points too close together or closer to an edge than the
   given distance tolerance.</p>
   <p>This RDP method stops at the first point farther than the given 
@@ -439,14 +440,14 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - Path points (LatLons).</li>
-        <li><strong class="pname"><code>distance</code></strong> - Tolerance (meter, same units a radius).</li>
+        <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
+        <li><strong class="pname"><code>distance</code></strong> - Tolerance (meter, same units as radius).</li>
         <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
         <li><strong class="pname"><code>shortest</code></strong> - Shortest or perpendicular distance (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Simplified points (list of LatLons).</dd>
+        <dd>Simplified points (list of <i>LatLon</i>s).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -468,7 +469,8 @@
     </td>
   </tr></table>
   
-  <p>Visvalingam-Whyatt (VW) simplification of a path of LatLon points.</p>
+  <p>Visvalingam-Whyatt (VW) simplification of a path of <i>LatLon</i> 
+  points.</p>
   <p>Eliminates any points too close together or with a triangular area not
   exceeding the given area tolerance squared.</p>
   <p>This VW method exhaustively searches for the single point with the 
@@ -477,14 +479,14 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - Path points (LatLons).</li>
-        <li><strong class="pname"><code>area2</code></strong> - Tolerance (meter, same units a radius).</li>
+        <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
+        <li><strong class="pname"><code>area2</code></strong> - Tolerance (meter, same units as radius).</li>
         <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
         <li><strong class="pname"><code>attr</code></strong> - Points attribute save area value (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Simplified points (list of LatLons).</dd>
+        <dd>Simplified points (list of <i>LatLon</i>s).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -506,8 +508,8 @@
     </td>
   </tr></table>
   
-  <p>Modified Visvalingam-Whyatt (VW) simplification of a path of LatLon 
-  points.</p>
+  <p>Modified Visvalingam-Whyatt (VW) simplification of a path of 
+  <i>LatLon</i> points.</p>
   <p>Eliminates any points too close together or with a triangular area not
   exceeding the given area tolerance squared.</p>
   <p>This VW method removes all points with a triangular area below the 
@@ -516,14 +518,14 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - Path points (LatLons).</li>
-        <li><strong class="pname"><code>area2</code></strong> - Tolerance (meter, same units a radius).</li>
+        <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
+        <li><strong class="pname"><code>area2</code></strong> - Tolerance (meter, same units as radius).</li>
         <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
         <li><strong class="pname"><code>attr</code></strong> - Attribute to save the area value (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Simplified points (list of LatLons).</dd>
+        <dd>Simplified points (list of <i>LatLon</i>s).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -559,7 +561,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon May 15 16:00:19 2017
+    Generated by Epydoc 3.0.1 on Thu May 25 15:14:42 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

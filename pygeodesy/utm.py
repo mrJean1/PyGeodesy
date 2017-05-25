@@ -5,8 +5,8 @@
 L{parseUTM} and L{toUtm}.
 
 Pure Python implementation of UTM / WGS-84 conversion functions using
-an ellipsoidal earth model.  Transcribed from JavaScript originals
-by I{(C) Chris Veness 2011-2016} published under the same MIT Licence**,
+an ellipsoidal earth model, transcribed from JavaScript originals by
+I{(C) Chris Veness 2011-2016} published under the same MIT Licence**,
 see U{http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html}
 and U{http://www.movable-type.co.uk/scripts/geodesy/docs/module-utm.html}.
 
@@ -44,7 +44,7 @@ from operator import mul
 # all public contants, classes and functions
 __all__ = ('Utm',  # classes
            'parseUTM', 'toUtm')  # functions
-__version__ = '17.05.010'
+__version__ = '17.05.25'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -85,25 +85,25 @@ class _Ks(object):
 
         assert len(y2) == len(self._cy) == len(self._sy) == n
 
-    def xs(self, x):
+    def xs(self, x0):
         '''(INTERNAL) Eta summations (float).
         '''
-        return fdot3(self._ab, self._cy, self._shx, start=x)
+        return fdot3(self._ab, self._cy, self._shx, start=x0)
 
-    def ys(self, y):
+    def ys(self, y0):
         '''(INTERNAL) Ksi summations (float).
         '''
-        return fdot3(self._ab, self._sy, self._chx, start=y)
+        return fdot3(self._ab, self._sy, self._chx, start=y0)
 
-    def ps(self, p):
+    def ps(self, p0):
         '''(INTERNAL) P summations (float).
         '''
-        return fdot3(self._pq, self._cy, self._chx, start=p)
+        return fdot3(self._pq, self._cy, self._chx, start=p0)
 
-    def qs(self, q):
+    def qs(self, q0):
         '''(INTERNAL) Q summations (float).
         '''
-        return fdot3(self._pq, self._sy, self._shx, start=q)
+        return fdot3(self._pq, self._sy, self._shx, start=q0)
 
 
 def _toZBL(zone, band, mgrs=False):  # used by mgrs.Mgrs
@@ -214,8 +214,8 @@ class Utm(Base):
         '''
         self._zone, B, _ = _toZBL(zone, band)
 
-        h = str(hemisphere)[:1]
-        if h not in 'NnSs':
+        h = str(hemisphere)[:1].upper()
+        if not h or h not in ('N', 'S'):
             raise ValueError('%s invalid: %r' % ('hemisphere', hemisphere))
 
         e, n = float(easting), float(northing)
@@ -226,7 +226,7 @@ class Utm(Base):
         if 0 > n or n > _FalseNorthing:
             raise ValueError('%s invalid: %r' % ('northing', northing))
 
-        self._hemi     = h.upper()
+        self._hemi     = h
         self._easting  = e
         self._northing = n
         if self._band != B:
@@ -454,16 +454,19 @@ def parseUTM(strUTM, datum=Datums.WGS84):
     try:
         if len(u) != 4:
             raise ValueError  # caught below
+
         z, h = u[:2]
         if z.isdigit():
             z = int(z)
         else:
             z = z.upper()
+
         e, n = map(float, u[2:])
+
     except ValueError:
         raise ValueError('%s invalid: %r' % ('strUTM', strUTM))
 
-    return Utm(z, h.upper(), e, n, datum=datum)
+    return Utm(z, h, e, n, datum=datum)
 
 
 def toUtm(latlon, lon=None, datum=None, Utm=Utm):

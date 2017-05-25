@@ -4,8 +4,8 @@
 '''Trigonometric spherical geodetic (lat-longitude) class L{LatLon}
 and functions L{intersection} and L{meanOf}.
 
-Python implementation of geodetic (lat-/longitude) methods using
-spherical trigonometry.  Transcribed from JavaScript originals by
+Pure Python implementation of geodetic (lat-/longitude) methods using
+spherical trigonometry, transcribed from JavaScript originals by
 I{(C) Chris Veness 2011-2016} published under the same MIT Licence**,
 see U{http://www.movable-type.co.uk/scripts/latlong.html}.
 
@@ -25,7 +25,7 @@ __all__ = ('LatLon',  # classes
            'areaOf',  # functions
            'intersection', 'isPoleEnclosedBy',
            'meanOf')
-__version__ = '17.05.15'
+__version__ = '17.05.25'
 
 
 class LatLon(LatLonSphericalBase):
@@ -526,7 +526,7 @@ def areaOf(points, radius=R_M):
     S, ta1 = [], tan(a1 * 0.5)
     for p in points:
         a2, b2 = p.to2ab()
-        ta2, tb21 = tan(a2 * 0.5), tan((b2 - b1) * 0.5)
+        ta2, tb21 = map1(tan, (a2 * 0.5), (b2 - b1) * 0.5)
         S.append(atan2(tb21 * (ta1 + ta2), 1 + ta1 * ta2))
         ta1, b1 = ta2, b2
     S = 2 * fsum(S)

@@ -53,7 +53,7 @@ U{McCabe<https://pypi.python.org/pypi/mccabe>} using Python 2.7.10 and 2.7.13
 and with U{Flake8<https://pypi.python.org/pypi/flake8>} on Python 3.6.0 or 3.6.1.
 The tests have been run with 64-bit Python 2.6.9, 2.7.10, 2.7.13, 3.5.2, 3.5.3,
 3.6.0 and/or 3.6.1, but only on MacOSX 10.10 Yosemite, MacOSX 10.11 El Capitan
-and/or macOS 10.12.2, 10.12.3 and 10.12.4 Sierra.
+and/or macOS 10.12.2, 10.12.3, 10.12.4, 10.12.5 Sierra.
 
 The C{zip} and C{tar} distribution files were created with command line
 C{python setup.py sdist --formats=zip,gztar,bztar}.  In addition to the
@@ -113,7 +113,7 @@ except ImportError:
     sys.path.insert(0, os.path.dirname(__file__))  # XXX __path__[0]
     del os, sys
 
-# keep ellipsoidal and spherical modules as modules
+# keep ellipsoidal, spherical and vector modules as sub-modules
 import ellipsoidalNvector  # PYCHOK false
 import ellipsoidalVincenty  # PYCHOK false
 import sphericalNvector  # PYCHOK false
@@ -125,13 +125,14 @@ import geohash
 Geohash       = geohash.Geohash
 VincentyError = ellipsoidalVincenty.VincentyError
 
-# all public contants, classes and functions
-__all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',
+# all public sub-modules, contants, classes and functions
+__all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',  # modules
            'sphericalNvector', 'sphericalTrigonometry',
-           'Geohash', 'VincentyError',
-           'geohash', 'nvector', 'vector3d', 'version',
-           'isclockwise')  # extended below
-__version__ = '17.05.15'
+           'datum', 'dms', 'geohash', 'lcc', 'mgrs', 'nvector',
+           'osgr', 'simplify', 'utils', 'utm', 'vector3d',
+           'Geohash', 'VincentyError',  # classes
+           'version', 'isclockwise')  # extended below
+__version__ = '17.05.25'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))

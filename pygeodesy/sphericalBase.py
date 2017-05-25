@@ -3,8 +3,8 @@
 
 '''(INTERNAL) Spherical base classes.
 
-Python implementation of geodetic (lat-/longitude) functions.
-Transcribed from JavaScript originals by I{(C) Chris Veness 2011-2016}
+Pure Python implementation of geodetic (lat-/longitude) functions,
+transcribed in part from JavaScript originals by I{(C) Chris Veness 2011-2016}
 and published under the same MIT Licence**, see
 U{http://www.movable-type.co.uk/scripts/latlong.html}.
 
@@ -16,14 +16,14 @@ from datum import R_M, Datum, Datums
 from dms   import parse3llh
 from utils import EPS, PI, PI2, PI_2, \
                   degrees90, degrees180, degrees360, \
-                  favg, radians, tanPI_2_2, wrapPI
+                  favg, hypot, radians, tanPI_2_2, wrapPI
 
-from math import acos, atan2, cos, hypot, log, sin
+from math import acos, atan2, cos, log, sin
 
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('LatLonSphericalBase',)
-__version__ = '17.05.08'
+__version__ = '17.05.25'
 
 
 class LatLonSphericalBase(LatLonHeightBase):

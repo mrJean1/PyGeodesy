@@ -59,16 +59,18 @@
 </table>
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module dms</h1><p class="nomargin-top"></p>
-<p>Functions to parse and format lat-/longitudes in various degree, 
-  minute and second forms.</p>
+<p>Functions to parse and format bearing, lat- and longitudes in various 
+  forms of degrees, minutes and seconds.</p>
   <p>After <i>(C) Chris Veness 2011-2015</i> published under the same MIT 
-  Licence**, see &lt;http://www.movable-type.co.uk/scripts/latlong.html&gt;
-  and 
-  &lt;http://www.movable-type.co.uk/scripts/latlong-vectors.html&gt;</p>
+  Licence**, see <a 
+  href="http://www.movable-type.co.uk/scripts/latlong.html" 
+  target="_top">http://www.movable-type.co.uk/scripts/latlong.html</a> and 
+  <a href="http://www.movable-type.co.uk/scripts/latlong-vectors.html" 
+  target="_top">http://www.movable-type.co.uk/scripts/latlong-vectors.html</a>.</p>
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.03.24
+        17.05.25
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -217,7 +219,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.dms-module.html#parseDMS" class="summary-sig-name">parseDMS</a>(<span class="summary-sig-arg">strDMS</span>,
-        <span class="summary-sig-arg">suffix</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">NSEW</code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">suffix</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">NSEW</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       Parses a string representing deg&#176;min&#8242;sec&#8243; to degrees.</td>
           <td align="right" valign="top">
             
@@ -305,6 +308,14 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a name="F_DEG"></a><span class="summary-name">F_DEG</span> = <code title="'deg'"><code class="variable-quote">'</code><code class="variable-string">deg</code><code class="variable-quote">'</code></code><br />
+      Format degrees as degrees without symbol (string).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a name="F_RAD"></a><span class="summary-name">F_RAD</span> = <code title="'rad'"><code class="variable-quote">'</code><code class="variable-string">rad</code><code class="variable-quote">'</code></code><br />
       Convert degrees to radians and format (string).
     </td>
@@ -314,7 +325,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="S_DEG"></a><span class="summary-name">S_DEG</span> = <code title="'\xc2\xb0'"><code class="variable-quote">'</code><code class="variable-string">\xc2\xb0</code><code class="variable-quote">'</code></code><br />
-      Degrees&#176; symbol (string).
+      Degrees &#176; symbol (string).
     </td>
   </tr>
 <tr>
@@ -322,7 +333,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="S_MIN"></a><span class="summary-name">S_MIN</span> = <code title="'\xe2\x80\xb2'"><code class="variable-quote">'</code><code class="variable-string">\xe2\x80\xb2</code><code class="variable-quote">'</code></code><br />
-      Minutes&#8242; symbol (string).
+      Minutes &#8242; symbol (string).
     </td>
   </tr>
 <tr>
@@ -330,7 +341,15 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="S_SEC"></a><span class="summary-name">S_SEC</span> = <code title="'\xe2\x80\xb3'"><code class="variable-quote">'</code><code class="variable-string">\xe2\x80\xb3</code><code class="variable-quote">'</code></code><br />
-      Seconds&#8243; symbol (string).
+      Seconds &#8243; symbol (string).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="S_RAD"></a><span class="summary-name">S_RAD</span> = <code title="''"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></code><br />
+      Radians symbol (string).
     </td>
   </tr>
 <tr>
@@ -372,8 +391,8 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (compass degrees).</li>
-        <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS or F_RAD for deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243; or
-          radians.</li>
+        <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS, F_DEG or F_RAD for deg&#176;, deg&#176;min&#8242;, 
+          deg&#176;min&#8242;sec&#8243; or degrees or radians.</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -405,8 +424,8 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (compass degrees).</li>
-        <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS or F_RAD for deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243; or
-          radians.</li>
+        <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS, F_DEG or F_RAD for deg&#176;, deg&#176;min&#8242;, 
+          deg&#176;min&#8242;sec&#8243; or degrees or radians.</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -472,8 +491,8 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Latitude to be formatted (degrees).</li>
-        <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS or F_RAD for deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243; or
-          radians.</li>
+        <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS, F_DEG or F_RAD for deg&#176;, deg&#176;min&#8242;, 
+          deg&#176;min&#8242;sec&#8243; or degrees or radians.</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -505,8 +524,8 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Longitude to be formatted (degrees).</li>
-        <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS or F_RAD for deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243; or
-          radians.</li>
+        <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS, F_DEG or F_RAD for deg&#176;, deg&#176;min&#8242;, 
+          deg&#176;min&#8242;sec&#8243; or degrees or radians.</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -597,7 +616,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">parseDMS</span>(<span class="sig-arg">strDMS</span>,
-        <span class="sig-arg">suffix</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">NSEW</code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">suffix</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">NSEW</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -614,7 +634,8 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>strDMS</code></strong> - Degrees in any of several forms (string).</li>
-        <li><strong class="pname"><code>suffix</code></strong> - Optional, valid compass directions (NEWS).</li>
+        <li><strong class="pname"><code>suffix</code></strong> - Optional, valid compass directions (NSEW).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator between deg&#176;, min&#8242; and sec&#8243; ('').</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees (float).</dd>
@@ -644,12 +665,17 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS or F_RAD (string).</li>
+        <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS, F_DEG or F_RAD (string).</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (int) or None to remain 
-          unchanged.</li>
+          unchanged.  Trailing zeros are omitted for positive precision, 
+          but kept for negative precision values.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Previous precision (int).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid precision.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -677,8 +703,8 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Degrees to be formatted (scalar).</li>
-        <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS or F_RAD for deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243; or 
-          radians.</li>
+        <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS, F_DEG or F_RAD for deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;
+          or degrees or radians.</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None).</li>
         <li><strong class="pname"><code>ddd</code></strong> - Optional, number of digits for deg&#176; (2 or 3).</li>
         <li><strong class="pname"><code>neg</code></strong> - Optional, sign for negative degrees ('-').</li>
@@ -721,7 +747,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon May 15 16:00:19 2017
+    Generated by Epydoc 3.0.1 on Thu May 25 15:14:41 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

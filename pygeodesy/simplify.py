@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-'''Several functions to simplify or linearize a path given as a list,
-sequence or tuple of LatLon points.
+'''Six different functions to I{simplify} or linearize a path given as a
+list, sequence or tuple of I{LatLon} points.
 
 Each of the simplify functions is based on a different algorithm and
 produces different simplified results in (very) different run times
-for the same path of LatLon points.
+for the same path of I{LatLon} points.
 
 Function L{simplify1} eliminates points based on edge length.  Function
 L{simplify2} slides a pipe over each edge, removing subsequent points
@@ -48,7 +48,7 @@ See:
  - U{http://pypi.python.org/pypi/simplification/}
 
 Tested with 64-bit Python 2.6.9, 2.7.13, 3.5.3 and 3.6.0 on macOS
-10.12.3 and 10.12.4 Sierra.
+10.12.3, 10.12.4 and 10.12.5 Sierra.
 
 @newfield example: Example, Examples
 '''
@@ -61,7 +61,7 @@ from math  import cos, degrees, radians
 __all__ = ('simplify1', 'simplify2',
            'simplifyRDP', 'simplifyRDPm',
            'simplifyVW', 'simplifyVWm')
-__version__ = '17.05.01'
+__version__ = '17.05.25'
 
 
 # try:
@@ -282,17 +282,17 @@ class _Sy(object):
 
 
 def simplify1(points, distance, radius=R_M, adjust=True):
-    '''Basic simplification of a path of LatLon points.
+    '''Basic simplification of a path of I{LatLon} points.
 
        Eliminates any points closer together than the given
        distance tolerance.
 
-       @param points: Path points (LatLons).
-       @param distance: Tolerance (meter, same units a radius).
+       @param points: Path points (I{LatLon}s).
+       @param distance: Tolerance (meter, same units as radius).
        @keyword radius: Earth radius (meter).
        @keyword adjust: Adjust longitudes (bool).
 
-       @return: Simplified points (list of LatLons).
+       @return: Simplified points (list of I{LatLon}s).
     '''
     S = _Sy(points, distance, radius, adjust, True)
 
@@ -311,18 +311,18 @@ def simplify1(points, distance, radius=R_M, adjust=True):
 
 
 def simplify2(points, band2, radius=R_M, adjust=True, shortest=False):
-    '''Pipe simplification of a path of LatLon points.
+    '''Pipe simplification of a path of I{LatLon} points.
 
        Eliminates any points too close together or within the given
        band tolerance along an edge.
 
-       @param points: Path points (LatLons).
-       @param band2: Half band width (meter, same units a radius).
+       @param points: Path points (I{LatLon}s).
+       @param band2: Half band width (meter, same units as radius).
        @keyword radius: Earth radius (meter).
        @keyword adjust: Adjust longitudes (bool).
        @keyword shortest: Shortest or perpendicular distance (bool).
 
-       @return: Simplified points (list of LatLons).
+       @return: Simplified points (list of I{LatLon}s).
     '''
     S = _Sy(points, band2, radius, adjust, shortest)
 
@@ -348,7 +348,7 @@ def simplify2(points, band2, radius=R_M, adjust=True, shortest=False):
 
 def simplifyRDP(points, distance, radius=R_M, adjust=True, shortest=False):
     '''Ramer-Douglas-Peucker (RDP) simplification of a path of
-       LatLon points.
+       I{LatLon} points.
 
        Eliminates any points too close together or closer to an
        edge than the given distance tolerance.
@@ -357,13 +357,13 @@ def simplifyRDP(points, distance, radius=R_M, adjust=True, shortest=False):
        the largest distance, resulting in worst-case complexity
        O(n**2) where n is the number of points.
 
-       @param points: Path points (LatLons).
-       @param distance: Tolerance (meter, same units a radius).
+       @param points: Path points (I{LatLon}s).
+       @param distance: Tolerance (meter, same units as radius).
        @keyword radius: Earth radius (meter).
        @keyword adjust: Adjust longitudes (bool).
        @keyword shortest: Shortest or perpendicular distance (bool).
 
-       @return: Simplified points (list of LatLons).
+       @return: Simplified points (list of I{LatLon}s).
     '''
     S = _Sy(points, distance, radius, adjust, shortest)
 
@@ -393,7 +393,7 @@ def simplifyRDP(points, distance, radius=R_M, adjust=True, shortest=False):
 
 def simplifyRDPm(points, distance, radius=R_M, adjust=True, shortest=False):
     '''Modified Ramer-Douglas-Peucker (RDP) simplification of a path
-       of LatLon points.
+       of I{LatLon} points.
 
        Eliminates any points too close together or closer to an edge
        than the given distance tolerance.
@@ -402,13 +402,13 @@ def simplifyRDPm(points, distance, radius=R_M, adjust=True, shortest=False):
        given distance tolerance, significantly reducing the run time
        (but producing results different from the original RDP method).
 
-       @param points: Path points (LatLons).
-       @param distance: Tolerance (meter, same units a radius).
+       @param points: Path points (I{LatLon}s).
+       @param distance: Tolerance (meter, same units as radius).
        @keyword radius: Earth radius (meter).
        @keyword adjust: Adjust longitudes (bool).
        @keyword shortest: Shortest or perpendicular distance (bool).
 
-       @return: Simplified points (list of LatLons).
+       @return: Simplified points (list of I{LatLon}s).
     '''
     S = _Sy(points, distance, radius, adjust, shortest)
 
@@ -436,7 +436,7 @@ def simplifyRDPm(points, distance, radius=R_M, adjust=True, shortest=False):
 
 
 def simplifyVW(points, area2, radius=R_M, adjust=True, attr=None):
-    '''Visvalingam-Whyatt (VW) simplification of a path of LatLon
+    '''Visvalingam-Whyatt (VW) simplification of a path of I{LatLon}
        points.
 
        Eliminates any points too close together or with a triangular
@@ -446,13 +446,13 @@ def simplifyVW(points, area2, radius=R_M, adjust=True, attr=None):
        with the smallest triangular area, resulting in worst-case
        complexity O(n**2) where n is the number of points.
 
-       @param points: Path points (LatLons).
-       @param area2: Tolerance (meter, same units a radius).
+       @param points: Path points (I{LatLon}s).
+       @param area2: Tolerance (meter, same units as radius).
        @keyword radius: Earth radius (meter).
        @keyword adjust: Adjust longitudes (bool).
        @keyword attr: Points attribute save area value (string).
 
-       @return: Simplified points (list of LatLons).
+       @return: Simplified points (list of I{LatLon}s).
     '''
     S = _Sy(points, area2, radius, adjust, False)
 
@@ -479,7 +479,7 @@ def simplifyVW(points, area2, radius=R_M, adjust=True, attr=None):
 
 def simplifyVWm(points, area2, radius=R_M, adjust=True, attr=None):
     '''Modified Visvalingam-Whyatt (VW) simplification of a path of
-       LatLon points.
+       I{LatLon} points.
 
        Eliminates any points too close together or with a triangular
        area not exceeding the given area tolerance squared.
@@ -489,13 +489,13 @@ def simplifyVWm(points, area2, radius=R_M, adjust=True, attr=None):
        run time (but producing results different from the original
        VW method).
 
-       @param points: Path points (LatLons).
-       @param area2: Tolerance (meter, same units a radius).
+       @param points: Path points (I{LatLon}s).
+       @param area2: Tolerance (meter, same units as radius).
        @keyword radius: Earth radius (meter).
        @keyword adjust: Adjust longitudes (bool).
        @keyword attr: Attribute to save the area value (string).
 
-       @return: Simplified points (list of LatLons).
+       @return: Simplified points (list of I{LatLon}s).
     '''
     S = _Sy(points, area2, radius, adjust, False)
 

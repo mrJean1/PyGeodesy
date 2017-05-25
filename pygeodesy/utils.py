@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-'''Mathematical and utility functions and constants.
+'''Utility and mathematical functions and constants.
 
 After I{(C) Chris Veness 2011-2015} published under the same MIT Licence**,
 see U{http://www.movable-type.co.uk/scripts/latlong.html}
@@ -10,7 +10,8 @@ and U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
 @newfield example: Example, Examples
 '''
 
-from math import atan2, cos, degrees, pi as PI, radians, sin, sqrt, tan  # pow
+from math import atan2, cos, degrees, hypot, \
+                 pi as PI, radians, sin, sqrt, tan  # pow
 try:
     from math import fsum  # precision sum, Python 2.6+
 except ImportError:
@@ -25,14 +26,14 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'cbrt', 'cbrt2',
            'degrees', 'degrees90', 'degrees180', 'degrees360',
            'false2f', 'favg', 'fdot', 'fdot3', 'fStr', 'fsum', 'ft2m',
-           'halfs', 'hsin', 'hsin3', 'hypot1', 'hypot3',
+           'halfs', 'hsin', 'hsin3', 'hypot', 'hypot1', 'hypot3',
            'isint', 'isscalar', 'len2',
            'm2ft', 'm2km', 'm2NM', 'm2SM', 'map1', 'map2',
            'radians', 'radiansPI', 'radiansPI2', 'radiansPI_2',
            'tanPI_2_2',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI', 'wrapPI2', 'wrapPI_2')
-__version__ = '17.05.03'
+__version__ = '17.05.25'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Real as _Scalars  #: (INTERNAL) Scalar objects
@@ -335,15 +336,20 @@ def hypot3(x, y, z):
         x, y = y, x
     if x < z:
         x, z = z, x
-    x = float(x)
-    if x > EPS:
-        y /= x
-        z /= x
-        h = x * sqrt(1 + y * y + z * z)
-    elif x:
-        h = x  # EPS
+    if y < z:
+        y, z = z, y
+    if z:
+        x = float(x)
+        if x > EPS:
+            y /= x
+            z /= x
+            h = x * sqrt(1 + y * y + z * z)
+        else:
+            h = x
+    elif y:
+        h = hypot(x, y)
     else:
-        h = 0
+        h = float(x)
     return h
 
 

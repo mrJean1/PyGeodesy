@@ -18,7 +18,7 @@ from math import asin, cos, degrees, radians, sin
 # Epydoc to include class and method documentation
 __all__ = ('Base', 'LatLonHeightBase', 'Named', 'VectorBase',
            'isclockwise')
-__version__ = '17.05.08'
+__version__ = '17.05.25'
 
 
 class Base(object):
@@ -99,7 +99,7 @@ class Base(object):
 
 
 class LatLonHeightBase(Base):
-    '''(INTERNAL) Base class for LatLon points on
+    '''(INTERNAL) Base class for I{LatLon} points on
        spherical or ellipsiodal earth models.
     '''
     _ab     = ()  #: (INTERNAL) Cache (lat, lon) radians (2-tuple)
@@ -108,13 +108,13 @@ class LatLonHeightBase(Base):
     _lon    = 0   #: (INTERNAL) Longitude (degrees)
 
     def __init__(self, lat, lon, height=0):
-        '''New LatLon.
+        '''New I{LatLon}.
 
            @param lat: Latitude (degrees or DMS string with N or S suffix).
            @param lon: Longitude (degrees or DMS string with E or W suffix).
            @keyword height: Optional height (meter above or below the earth surface).
 
-           @return: New instance (LatLon).
+           @return: New instance (I{LatLon}).
 
            @raise ValueError: Invalid lat or lon.
 
@@ -140,7 +140,7 @@ class LatLonHeightBase(Base):
     def _havg(self, other, f=0.5):
         '''(INTERNAL) Weighted, average height.
 
-           @param other: An other point (LatLon).
+           @param other: An other point (I{LatLon}).
            @keyword f: Optional fraction (float).
 
            @return: Average, fractional height (float).
@@ -161,7 +161,7 @@ class LatLonHeightBase(Base):
            @param high: Latitudinal box height (meter, like radius).
            @keyword radius: Optional earth radius (meter).
 
-           @return: 2-Tuple (LatLonSW, LatLonNE) of (LatLons).
+           @return: 2-Tuple (LatLonSW, LatLonNE) of (I{LatLon}s).
 
            @see: U{http://www.movable-type.co.uk/scripts/latlong-db.html}
         '''
@@ -180,19 +180,19 @@ class LatLonHeightBase(Base):
     def copy(self):
         '''Copy this point.
 
-           @return: A copy of this point (LatLon).
+           @return: A copy of this point (I{LatLon}).
         '''
         return self.topsub(self.lat, self.lon, height=self.height)  # XXX
 
     def equals(self, other, eps=None):
         '''Compares this point with an other point.
 
-           @param other: The other point (LatLon).
+           @param other: The other point (I{LatLon}).
 
            @return: True if both points are identical,
                     ignoring height (bool).
 
-           @raise TypeError: The other point is not LatLon.
+           @raise TypeError: The other point is not I{LatLon}.
 
            @example:
 
@@ -227,13 +227,13 @@ class LatLonHeightBase(Base):
 
     def isclockwise(self, points):
         '''Determine direction of a polygon defined by a list,
-           sequence, set or tuple of LatLon points.
+           sequence, set or tuple of I{LatLon} points.
 
-           @param points: The points defining the polygon (LatLon[]).
+           @param points: The points defining the polygon (I{LatLon}[]).
 
            @return: True if clockwise, False otherwise.
 
-           @raise TypeError: Some points are not LatLon.
+           @raise TypeError: Some points are not I{LatLon}.
 
            @raise ValueError: Too few points or polygon has zero area.
 
@@ -300,12 +300,12 @@ class LatLonHeightBase(Base):
         '''Check a polygon given as list, sequence, set or tuple
            of points.
 
-           @param points: The points of the polygon (LatLon[])
+           @param points: The points of the polygon (I{LatLon}[])
            @keyword closed: Treat polygon as closed (bool).
 
            @return: 2-Tuple (number, list) of points (int, list).
 
-           @raise TypeError: Some points are not LatLon.
+           @raise TypeError: Some points are not I{LatLon}.
 
            @raise ValueError: Too few points.
         '''
@@ -398,13 +398,13 @@ _LLh = LatLonHeightBase(0, 0)
 
 def isclockwise(points):
     '''Determine direction of a polygon defined by a list,
-       sequence, set or tuple of LatLon points.
+       sequence, set or tuple of I{LatLon} points.
 
-       @param points: The points defining the polygon (LatLon[]).
+       @param points: The points defining the polygon (I{LatLon}[]).
 
        @return: True if clockwise, False otherwise.
 
-       @raise TypeError: Some points are not LatLon.
+       @raise TypeError: Some points are not I{LatLon}.
 
        @raise ValueError: Too few points or polygon has zero area.
 

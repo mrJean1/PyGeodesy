@@ -156,8 +156,8 @@
   href="https://pypi.python.org/pypi/flake8" target="_top">Flake8</a> on 
   Python 3.6.0 or 3.6.1. The tests have been run with 64-bit Python 2.6.9, 
   2.7.10, 2.7.13, 3.5.2, 3.5.3, 3.6.0 and/or 3.6.1, but only on MacOSX 
-  10.10 Yosemite, MacOSX 10.11 El Capitan and/or macOS 10.12.2, 10.12.3 and
-  10.12.4 Sierra.</p>
+  10.10 Yosemite, MacOSX 10.11 El Capitan and/or macOS 10.12.2, 10.12.3, 
+  10.12.4, 10.12.5 Sierra.</p>
   <p>The <code>zip</code> and <code>tar</code> distribution files were 
   created with command line <code>python setup.py sdist 
   --formats=zip,gztar,bztar</code>.  In addition to the Python code, the 
@@ -175,7 +175,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.05.15
+        17.05.25
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -188,14 +188,14 @@
   <tr><td class="summary">
   <ul class="nomargin">
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.bases-module.html" onclick="show_private();">pygeodesy.bases</a></strong>: <em class="summary">(INTERNAL) Common base classes.</em>    </li>
-    <li class="private"> <strong class="uidlink"><a href="pygeodesy.datum-module.html" onclick="show_private();">pygeodesy.datum</a></strong>: <em class="summary">Classes <a href="pygeodesy.datum.Datum-class.html" 
+    <li> <strong class="uidlink"><a href="pygeodesy.datum-module.html">pygeodesy.datum</a></strong>: <em class="summary">Classes <a href="pygeodesy.datum.Datum-class.html" 
         class="link">Datum</a>, <a 
         href="pygeodesy.datum.Ellipsoid-class.html" 
         class="link">Ellipsoid</a> and <a 
         href="pygeodesy.datum.Transform-class.html" 
         class="link">Transform</a> and registries thereof.</em>    </li>
-    <li class="private"> <strong class="uidlink"><a href="pygeodesy.dms-module.html" onclick="show_private();">pygeodesy.dms</a></strong>: <em class="summary">Functions to parse and format lat-/longitudes in various degree, 
-        minute and second forms.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.dms-module.html">pygeodesy.dms</a></strong>: <em class="summary">Functions to parse and format bearing, lat- and longitudes in 
+        various forms of degrees, minutes and seconds.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.ellipsoidalBase-module.html" onclick="show_private();">pygeodesy.ellipsoidalBase</a></strong>: <em class="summary">(INTERNAL) Ellipsoidal base classes.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector-module.html">pygeodesy.ellipsoidalNvector</a></strong>: <em class="summary">Vector-based ellipsoidal geodetic (lat-/longitude) and cartesion 
         (x/y/z) classes <a 
@@ -219,12 +219,15 @@
         class="link">Cartesian</a> and <a 
         href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html" 
         class="link">VincentyError</a>.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.geohash-module.html">pygeodesy.geohash</a></strong>: <em class="summary">Geohash encoding, decoding and associated functions.</em>    </li>
-    <li class="private"> <strong class="uidlink"><a href="pygeodesy.lcc-module.html" onclick="show_private();">pygeodesy.lcc</a></strong>: <em class="summary">Lambert conformal conic projection for 1 or 2 Standard Parallels 
+    <li> <strong class="uidlink"><a href="pygeodesy.geohash-module.html">pygeodesy.geohash</a></strong>: <em class="summary">Pure Python <a href="pygeodesy.geohash.Geohash-class.html" 
+        class="link">Geohash</a> class and several functions to encode, 
+        decode and inspect geohashes.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.lcc-module.html">pygeodesy.lcc</a></strong>: <em class="summary">Lambert conformal conic projection for 1- or 2-Standard Parallels 
         class <a href="pygeodesy.lcc.Conic-class.html" 
-        class="link">Conic</a> and position class <a 
+        class="link">Conic</a>, <a href="pygeodesy.lcc-module.html#Conics" 
+        class="link">Conics</a> registry and position class <a 
         href="pygeodesy.lcc.Lcc-class.html" class="link">Lcc</a>.</em>    </li>
-    <li class="private"> <strong class="uidlink"><a href="pygeodesy.mgrs-module.html" onclick="show_private();">pygeodesy.mgrs</a></strong>: <em class="summary">Military Grid Reference System (MGRS/NATO) class <a 
+    <li> <strong class="uidlink"><a href="pygeodesy.mgrs-module.html">pygeodesy.mgrs</a></strong>: <em class="summary">Military Grid Reference System (MGRS/NATO) class <a 
         href="pygeodesy.mgrs.Mgrs-class.html" class="link">Mgrs</a> and 
         functions <a href="pygeodesy.mgrs-module.html#parseMGRS" 
         class="link">parseMGRS</a> and <a 
@@ -232,13 +235,13 @@
     <li> <strong class="uidlink"><a href="pygeodesy.nvector-module.html">pygeodesy.nvector</a></strong>: <em class="summary">N-vector base class <a href="pygeodesy.nvector.Nvector-class.html" 
         class="link">Nvector</a> and function <a 
         href="pygeodesy.nvector-module.html#sumOf" class="link">sumOf</a>.</em>    </li>
-    <li class="private"> <strong class="uidlink"><a href="pygeodesy.osgr-module.html" onclick="show_private();">pygeodesy.osgr</a></strong>: <em class="summary">Ordinance Survey Grid References (OSGR) class <a 
+    <li> <strong class="uidlink"><a href="pygeodesy.osgr-module.html">pygeodesy.osgr</a></strong>: <em class="summary">Ordinance Survey Grid References (OSGR) class <a 
         href="pygeodesy.osgr.Osgr-class.html" class="link">Osgr</a> and 
         functions <a href="pygeodesy.osgr-module.html#parseOSGR" 
         class="link">parseOSGR</a> and <a 
         href="pygeodesy.osgr-module.html#toOsgr" class="link">toOsgr</a>.</em>    </li>
-    <li class="private"> <strong class="uidlink"><a href="pygeodesy.simplify-module.html" onclick="show_private();">pygeodesy.simplify</a></strong>: <em class="summary">Several functions to simplify or linearize a path given as a list, 
-        sequence or tuple of LatLon points.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.simplify-module.html">pygeodesy.simplify</a></strong>: <em class="summary">Six different functions to <i>simplify</i> or linearize a path 
+        given as a list, sequence or tuple of <i>LatLon</i> points.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.sphericalBase-module.html" onclick="show_private();">pygeodesy.sphericalBase</a></strong>: <em class="summary">(INTERNAL) Spherical base classes.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.sphericalNvector-module.html">pygeodesy.sphericalNvector</a></strong>: <em class="summary">Vector-based spherical geodetic (lat-/longitude) classes <a 
         href="pygeodesy.sphericalNvector.LatLon-class.html" 
@@ -262,8 +265,8 @@
         class="link">intersection</a> and <a 
         href="pygeodesy.sphericalTrigonometry-module.html#meanOf" 
         class="link">meanOf</a>.</em>    </li>
-    <li class="private"> <strong class="uidlink"><a href="pygeodesy.utils-module.html" onclick="show_private();">pygeodesy.utils</a></strong>: <em class="summary">Mathematical and utility functions and constants.</em>    </li>
-    <li class="private"> <strong class="uidlink"><a href="pygeodesy.utm-module.html" onclick="show_private();">pygeodesy.utm</a></strong>: <em class="summary">Universal Transverse Mercator (UTM) class <a 
+    <li> <strong class="uidlink"><a href="pygeodesy.utils-module.html">pygeodesy.utils</a></strong>: <em class="summary">Utility and mathematical functions and constants.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.utm-module.html">pygeodesy.utm</a></strong>: <em class="summary">Universal Transverse Mercator (UTM) class <a 
         href="pygeodesy.utm.Utm-class.html" class="link">Utm</a> and 
         functions <a href="pygeodesy.utm-module.html#parseUTM" 
         class="link">parseUTM</a> and <a 
@@ -384,7 +387,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isclockwise" class="summary-sig-name">isclockwise</a>(<span class="summary-sig-arg">points</span>)</span><br />
       Determine direction of a polygon defined by a list, sequence, set or 
-      tuple of LatLon points.</td>
+      tuple of <i>LatLon</i> points.</td>
           <td align="right" valign="top">
             
             
@@ -745,6 +748,24 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a name="hypot"></a><span class="summary-sig-name">hypot</span>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>)</span><br />
+      Return the Euclidean distance, sqrt(x*x + y*y).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#hypot1" class="summary-sig-name">hypot1</a>(<span class="summary-sig-arg">x</span>)</span><br />
       Computes the norm <i class="math">sqrt(1 + x**2)</i>.</td>
           <td align="right" valign="top">
@@ -1016,7 +1037,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#parseDMS" class="summary-sig-name">parseDMS</a>(<span class="summary-sig-arg">strDMS</span>,
-        <span class="summary-sig-arg">suffix</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">NSEW</code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">suffix</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">NSEW</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       Parses a string representing deg&#176;min&#8242;sec&#8243; to degrees.</td>
           <td align="right" valign="top">
             
@@ -1179,7 +1201,7 @@
         <span class="summary-sig-arg">distance</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Basic simplification of a path of LatLon points.</td>
+      Basic simplification of a path of <i>LatLon</i> points.</td>
           <td align="right" valign="top">
             
             
@@ -1200,7 +1222,7 @@
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Pipe simplification of a path of LatLon points.</td>
+      Pipe simplification of a path of <i>LatLon</i> points.</td>
           <td align="right" valign="top">
             
             
@@ -1221,7 +1243,7 @@
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Ramer-Douglas-Peucker (RDP) simplification of a path of LatLon 
+      Ramer-Douglas-Peucker (RDP) simplification of a path of <i>LatLon</i>
       points.</td>
           <td align="right" valign="top">
             
@@ -1244,7 +1266,7 @@
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>)</span><br />
       Modified Ramer-Douglas-Peucker (RDP) simplification of a path of 
-      LatLon points.</td>
+      <i>LatLon</i> points.</td>
           <td align="right" valign="top">
             
             
@@ -1265,7 +1287,8 @@
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">attr</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Visvalingam-Whyatt (VW) simplification of a path of LatLon points.</td>
+      Visvalingam-Whyatt (VW) simplification of a path of <i>LatLon</i> 
+      points.</td>
           <td align="right" valign="top">
             
             
@@ -1286,8 +1309,8 @@
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">attr</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Modified Visvalingam-Whyatt (VW) simplification of a path of LatLon 
-      points.</td>
+      Modified Visvalingam-Whyatt (VW) simplification of a path of 
+      <i>LatLon</i> points.</td>
           <td align="right" valign="top">
             
             
@@ -1529,7 +1552,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'17.5.15'"><code class="variable-quote">'</code><code class="variable-string">17.5.15</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'17.5.25'"><code class="variable-quote">'</code><code class="variable-string">17.5.25</code><code class="variable-quote">'</code></code><br />
       Normalized PyGeodesy version (string).
     </td>
   </tr>
@@ -1611,6 +1634,13 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
     </td><td class="summary">
         <a name="F_D"></a><span class="summary-name">F_D</span> = <code title="'d'"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></code><br />
       Format degrees as deg&#176; (string).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_DEG"></a><span class="summary-name">F_DEG</span> = <code title="'deg'"><code class="variable-quote">'</code><code class="variable-string">deg</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
@@ -1713,6 +1743,13 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a name="S_RAD"></a><span class="summary-name">S_RAD</span> = <code title="''"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a name="S_SEC"></a><span class="summary-name">S_SEC</span> = <code title="'\xe2\x80\xb3'"><code class="variable-quote">'</code><code class="variable-string">\xe2\x80\xb3</code><code class="variable-quote">'</code></code><br />
       Seconds symbol &#8243; (string).
     </td>
@@ -1766,17 +1803,17 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
   </tr></table>
   
   <p>Determine direction of a polygon defined by a list, sequence, set or 
-  tuple of LatLon points.</p>
+  tuple of <i>LatLon</i> points.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (LatLon[]).</li>
+        <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<i>LatLon</i>[]).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>True if clockwise, False otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not LatLon.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <i>LatLon</i>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Too few points or polygon has zero area.</li>
     </ul></dd>
   </dl>
@@ -1811,8 +1848,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (compass degrees).</li>
-        <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS or F_RAD for deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243; or
-          radians.</li>
+        <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS, F_DEG or F_RAD for deg&#176;, deg&#176;min&#8242;, 
+          deg&#176;min&#8242;sec&#8243; or degrees or radians.</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -1894,8 +1931,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (compass degrees).</li>
-        <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS or F_RAD for deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243; or
-          radians.</li>
+        <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS, F_DEG or F_RAD for deg&#176;, deg&#176;min&#8242;, 
+          deg&#176;min&#8242;sec&#8243; or degrees or radians.</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -2449,8 +2486,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Latitude to be formatted (degrees).</li>
-        <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS or F_RAD for deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243; or
-          radians.</li>
+        <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS, F_DEG or F_RAD for deg&#176;, deg&#176;min&#8242;, 
+          deg&#176;min&#8242;sec&#8243; or degrees or radians.</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -2508,8 +2545,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Longitude to be formatted (degrees).</li>
-        <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS or F_RAD for deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243; or
-          radians.</li>
+        <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS, F_DEG or F_RAD for deg&#176;, deg&#176;min&#8242;, 
+          deg&#176;min&#8242;sec&#8243; or degrees or radians.</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -2759,7 +2796,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">parseDMS</span>(<span class="sig-arg">strDMS</span>,
-        <span class="sig-arg">suffix</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">NSEW</code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">suffix</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">NSEW</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2776,7 +2814,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>strDMS</code></strong> - Degrees in any of several forms (string).</li>
-        <li><strong class="pname"><code>suffix</code></strong> - Optional, valid compass directions (NEWS).</li>
+        <li><strong class="pname"><code>suffix</code></strong> - Optional, valid compass directions (NSEW).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator between deg&#176;, min&#8242; and sec&#8243; ('').</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees (float).</dd>
@@ -2934,12 +2973,17 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS or F_RAD (string).</li>
+        <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS, F_DEG or F_RAD (string).</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (int) or None to remain 
-          unchanged.</li>
+          unchanged.  Trailing zeros are omitted for positive precision, 
+          but kept for negative precision values.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Previous precision (int).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid precision.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -3037,19 +3081,19 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     </td>
   </tr></table>
   
-  <p>Basic simplification of a path of LatLon points.</p>
+  <p>Basic simplification of a path of <i>LatLon</i> points.</p>
   <p>Eliminates any points closer together than the given distance 
   tolerance.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - Path points (LatLons).</li>
-        <li><strong class="pname"><code>distance</code></strong> - Tolerance (meter, same units a radius).</li>
+        <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
+        <li><strong class="pname"><code>distance</code></strong> - Tolerance (meter, same units as radius).</li>
         <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Simplified points (list of LatLons).</dd>
+        <dd>Simplified points (list of <i>LatLon</i>s).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -3071,20 +3115,20 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     </td>
   </tr></table>
   
-  <p>Pipe simplification of a path of LatLon points.</p>
+  <p>Pipe simplification of a path of <i>LatLon</i> points.</p>
   <p>Eliminates any points too close together or within the given band 
   tolerance along an edge.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - Path points (LatLons).</li>
-        <li><strong class="pname"><code>band2</code></strong> - Half band width (meter, same units a radius).</li>
+        <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
+        <li><strong class="pname"><code>band2</code></strong> - Half band width (meter, same units as radius).</li>
         <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
         <li><strong class="pname"><code>shortest</code></strong> - Shortest or perpendicular distance (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Simplified points (list of LatLons).</dd>
+        <dd>Simplified points (list of <i>LatLon</i>s).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -3106,7 +3150,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     </td>
   </tr></table>
   
-  <p>Ramer-Douglas-Peucker (RDP) simplification of a path of LatLon 
+  <p>Ramer-Douglas-Peucker (RDP) simplification of a path of <i>LatLon</i> 
   points.</p>
   <p>Eliminates any points too close together or closer to an edge than the
   given distance tolerance.</p>
@@ -3116,14 +3160,14 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - Path points (LatLons).</li>
-        <li><strong class="pname"><code>distance</code></strong> - Tolerance (meter, same units a radius).</li>
+        <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
+        <li><strong class="pname"><code>distance</code></strong> - Tolerance (meter, same units as radius).</li>
         <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
         <li><strong class="pname"><code>shortest</code></strong> - Shortest or perpendicular distance (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Simplified points (list of LatLons).</dd>
+        <dd>Simplified points (list of <i>LatLon</i>s).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -3146,7 +3190,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
   </tr></table>
   
   <p>Modified Ramer-Douglas-Peucker (RDP) simplification of a path of 
-  LatLon points.</p>
+  <i>LatLon</i> points.</p>
   <p>Eliminates any points too close together or closer to an edge than the
   given distance tolerance.</p>
   <p>This RDP method stops at the first point farther than the given 
@@ -3155,14 +3199,14 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - Path points (LatLons).</li>
-        <li><strong class="pname"><code>distance</code></strong> - Tolerance (meter, same units a radius).</li>
+        <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
+        <li><strong class="pname"><code>distance</code></strong> - Tolerance (meter, same units as radius).</li>
         <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
         <li><strong class="pname"><code>shortest</code></strong> - Shortest or perpendicular distance (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Simplified points (list of LatLons).</dd>
+        <dd>Simplified points (list of <i>LatLon</i>s).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -3184,7 +3228,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     </td>
   </tr></table>
   
-  <p>Visvalingam-Whyatt (VW) simplification of a path of LatLon points.</p>
+  <p>Visvalingam-Whyatt (VW) simplification of a path of <i>LatLon</i> 
+  points.</p>
   <p>Eliminates any points too close together or with a triangular area not
   exceeding the given area tolerance squared.</p>
   <p>This VW method exhaustively searches for the single point with the 
@@ -3193,14 +3238,14 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - Path points (LatLons).</li>
-        <li><strong class="pname"><code>area2</code></strong> - Tolerance (meter, same units a radius).</li>
+        <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
+        <li><strong class="pname"><code>area2</code></strong> - Tolerance (meter, same units as radius).</li>
         <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
         <li><strong class="pname"><code>attr</code></strong> - Points attribute save area value (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Simplified points (list of LatLons).</dd>
+        <dd>Simplified points (list of <i>LatLon</i>s).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -3222,8 +3267,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     </td>
   </tr></table>
   
-  <p>Modified Visvalingam-Whyatt (VW) simplification of a path of LatLon 
-  points.</p>
+  <p>Modified Visvalingam-Whyatt (VW) simplification of a path of 
+  <i>LatLon</i> points.</p>
   <p>Eliminates any points too close together or with a triangular area not
   exceeding the given area tolerance squared.</p>
   <p>This VW method removes all points with a triangular area below the 
@@ -3232,14 +3277,14 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - Path points (LatLons).</li>
-        <li><strong class="pname"><code>area2</code></strong> - Tolerance (meter, same units a radius).</li>
+        <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
+        <li><strong class="pname"><code>area2</code></strong> - Tolerance (meter, same units as radius).</li>
         <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
         <li><strong class="pname"><code>attr</code></strong> - Attribute to save the area value (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Simplified points (list of LatLons).</dd>
+        <dd>Simplified points (list of <i>LatLon</i>s).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -3292,8 +3337,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Degrees to be formatted (scalar).</li>
-        <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS or F_RAD for deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243; or 
-          radians.</li>
+        <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS, F_DEG or F_RAD for deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;
+          or degrees or radians.</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None).</li>
         <li><strong class="pname"><code>ddd</code></strong> - Optional, number of digits for deg&#176; (2 or 3).</li>
         <li><strong class="pname"><code>neg</code></strong> - Optional, sign for negative degrees ('-').</li>
@@ -3779,7 +3824,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon May 15 16:00:19 2017
+    Generated by Epydoc 3.0.1 on Thu May 25 15:14:41 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

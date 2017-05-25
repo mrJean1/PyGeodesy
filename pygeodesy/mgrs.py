@@ -5,8 +5,8 @@
 functions L{parseMGRS} and L{toMgrs}.
 
 Pure Python implementation of MGRS / UTM conversion functions using
-an ellipsoidal earth model.  Transcribed from JavaScript originals
-by I{(C) Chris Veness 2014-2016} published under the same MIT Licence**,
+an ellipsoidal earth model, transcribed from JavaScript originals by
+I{(C) Chris Veness 2014-2016} published under the same MIT Licence**,
 see U{http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html}
 and U{http://www.movable-type.co.uk/scripts/geodesy/docs/module-mgrs.html}.
 
@@ -36,7 +36,7 @@ import re  # PYCHOK warning locale.Error
 # all public contants, classes and functions
 __all__ = ('Mgrs',  # classes
            'parseMGRS', 'toMgrs')  # functions
-__version__ = '17.04.30'
+__version__ = '17.05.25'
 
 _100km  =  100e3  #: (INTERNAL) 100 km in meter.
 _2000km = 2000e3  #: (INTERNAL) 2,000 km in meter.

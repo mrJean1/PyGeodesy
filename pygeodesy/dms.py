@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-'''Functions to parse and format lat-/longitudes in various degree,
-minute and second forms.
+'''Functions to parse and format bearing, lat- and longitudes in various
+forms of degrees, minutes and seconds.
 
 After I{(C) Chris Veness 2011-2015} published under the same MIT Licence**,
-see <http://www.movable-type.co.uk/scripts/latlong.html>
-and <http://www.movable-type.co.uk/scripts/latlong-vectors.html>
+see U{http://www.movable-type.co.uk/scripts/latlong.html}
+and U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
 
 @newfield example: Example, Examples
 '''
@@ -18,24 +18,26 @@ except ImportError:  # Python 3+
     from string import ascii_letters as LETTERS
 
 # all public contants, classes and functions
-__all__ = ('F_D', 'F_DM', 'F_DMS', 'F_RAD',  # format contants
-           'S_DEG', 'S_MIN', 'S_SEC', 'S_SEP',  # symbols
+__all__ = ('F_D', 'F_DM', 'F_DMS', 'F_DEG', 'F_RAD',  # forms
+           'S_DEG', 'S_MIN', 'S_SEC', 'S_RAD', 'S_SEP',  # symbols
            'bearingDMS', 'compassDMS', 'compassPoint',  # functions
            'latDMS', 'lonDMS', 'normDMS',
            'parseDMS', 'parse3llh', 'precision', 'toDMS')
-__version__ = '17.03.24'
+__version__ = '17.05.25'
 
 F_D   = 'd'    #: Format degrees as deg° (string).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (string).
 F_DMS = 'dms'  #: Format degrees as deg°min′sec″ (string).
+F_DEG = 'deg'  #: Format degrees as degrees without symbol (string).
 F_RAD = 'rad'  #: Convert degrees to radians and format (string).
 
-S_DEG = '°'  #: Degrees° symbol (string).
-S_MIN = '′'  #: Minutes′ symbol (string).
-S_SEC = '″'  #: Seconds″ symbol (string).
+S_DEG = '°'  #: Degrees ° symbol (string).
+S_MIN = '′'  #: Minutes ′ symbol (string).
+S_SEC = '″'  #: Seconds ″ symbol (string).
+S_RAD = ''   #: Radians symbol (string).
 S_SEP = ''   #: Separator between deg, min and sec (string).
 
-_F_prec = {F_D: 6, F_DM: 4, F_DMS: 2, F_RAD: 5}  #: (INTERNAL) default precs.
+_F_prec = {F_D: 6, F_DM: 4, F_DMS: 2, F_DEG: 6, F_RAD: 5}  #: (INTERNAL) default precs.
 
 _S_norm = {'^': S_DEG, '˚': S_DEG,  #: (INTERNAL) normalized DMS.
            "'": S_MIN, '’': S_MIN, '′': S_MIN,
@@ -52,20 +54,20 @@ def _toDMS(deg, form, prec, ddd):
         raise ValueError('%s invalid: %r' % ('deg', deg))
 
     if prec is None:
-        z = _F_prec.get(form, 6)
+        z = p = _F_prec.get(form, 6)
     else:
         z = int(prec)
-    p = abs(z)
+        p = abs(z)
     w = p + (1 if p else 0)
 
     f = form.lower()
-    if f in (F_D, 'deg'):
+    if f in (F_D, F_DEG, 'degrees'):  # deg°, degrees
         t = '%0*.*f' % (ddd+w,p,d)
-        s = S_DEG
+        s = S_DEG if f == F_D else ''
 
     elif f in (F_RAD, 'radians'):
         t = '%.*f' % (p, radians(d))
-        s = ''
+        s = S_RAD
 
     elif f in (F_DM, 'deg+min'):
         d, m = divmod(d * 60, 60)
@@ -92,7 +94,8 @@ def bearingDMS(bearing, form=F_D, prec=None):
     '''Converts bearing to string.
 
        @param bearing: Bearing from North (compass degrees).
-       @keyword form: Use F_D, F_DM, F_DMS or F_RAD for deg°, deg°min′, deg°min′sec″ or radians.
+       @keyword form: Use F_D, F_DM, F_DMS, F_DEG or F_RAD for deg°,
+                      deg°min′, deg°min′sec″ or degrees or radians.
        @keyword prec: Optional, number of decimal digits (0..9 or None).
 
        @return: Compass degrees per the specified form (string).
@@ -114,7 +117,8 @@ def compassDMS(bearing, form=F_D, prec=None):
     '''Converts bearing to string suffixed with compass point.
 
        @param bearing: Bearing from North (compass degrees).
-       @keyword form: Use F_D, F_DM, F_DMS or F_RAD for deg°, deg°min′, deg°min′sec″ or radians.
+       @keyword form: Use F_D, F_DM, F_DMS, F_DEG or F_RAD for deg°,
+                      deg°min′, deg°min′sec″ or degrees or radians.
        @keyword prec: Optional, number of decimal digits (0..9 or None).
 
        @return: Compass degrees and point per the specified form (string).
@@ -152,7 +156,8 @@ def latDMS(deg, form=F_DMS, prec=2):
     '''Converts latitude to string suffixed with N or S.
 
        @param deg: Latitude to be formatted (degrees).
-       @keyword form: Use F_D, F_DM, F_DMS or F_RAD for deg°, deg°min′, deg°min′sec″ or radians.
+       @keyword form: Use F_D, F_DM, F_DMS, F_DEG or F_RAD for deg°,
+                      deg°min′, deg°min′sec″ or degrees or radians.
        @keyword prec: Optional, number of decimal digits (0..9 or None).
 
        @return: Degrees per the specified form (string).
@@ -166,7 +171,8 @@ def lonDMS(deg, form=F_DMS, prec=2):
     '''Converts longitude to string suffixed with E or W.
 
        @param deg: Longitude to be formatted (degrees).
-       @keyword form: Use F_D, F_DM, F_DMS or F_RAD for deg°, deg°min′, deg°min′sec″ or radians.
+       @keyword form: Use F_D, F_DM, F_DMS, F_DEG or F_RAD for deg°,
+                      deg°min′, deg°min′sec″ or degrees or radians.
        @keyword prec: Optional, number of decimal digits (0..9 or None).
 
        @return: Degrees per the specified form (string).
@@ -227,12 +233,15 @@ def parse3llh(strll, height=0, sep=','):
 
        >>> t = parse3llh('000°00′05.31″W, 51° 28′ 40.12″ N')  # (51.4778°N, 000.0015°W, 0)
     '''
-    ll = strll.strip().split(sep)
-    if len(ll) > 2:  # XXX interpret height unit
-        h = float(ll.pop(2).strip().rstrip(LETTERS).rstrip())
-    else:
-        h = height
-    if len(ll) != 2:
+    try:
+        ll = strll.strip().split(sep)
+        if len(ll) > 2:  # XXX interpret height unit
+            h = float(ll.pop(2).strip().rstrip(LETTERS).rstrip())
+        else:
+            h = height
+        if len(ll) != 2:
+            raise ValueError
+    except (AttributeError, TypeError, ValueError):
         return ValueError('parsing %r failed' % (strll,))
 
     a, b = [_.strip() for _ in ll]
@@ -241,7 +250,7 @@ def parse3llh(strll, height=0, sep=','):
     return parseDMS(a, suffix='NS'), parseDMS(b, suffix='EW'), h
 
 
-def parseDMS(strDMS, suffix='NSEW'):
+def parseDMS(strDMS, suffix='NSEW', sep=S_SEP):
     '''Parses a string representing deg°min′sec″ to degrees.
 
        This is very flexible on formats, allowing signed decimal
@@ -252,7 +261,8 @@ def parseDMS(strDMS, suffix='NSEW'):
        for example 3° 37′ 09″W.  Minutes and seconds may be omitted.
 
        @param strDMS: Degrees in any of several forms (string).
-       @keyword suffix: Optional, valid compass directions (NEWS).
+       @keyword suffix: Optional, valid compass directions (NSEW).
+       @keyword sep: Optional separator between deg°, min′ and sec″ ('').
 
        @return: Degrees (float).
 
@@ -267,8 +277,8 @@ def parseDMS(strDMS, suffix='NSEW'):
         strDMS = strDMS.strip()
 
         t = strDMS.lstrip('-+').rstrip(suffix.upper())
-        if S_SEP:
-            t = t.replace(S_SEP, ' ')
+        if sep:
+            t = t.replace(sep, ' ')
             for s in _S_ALL:
                 t = t.replace(s, '')
         else:
@@ -288,11 +298,15 @@ def parseDMS(strDMS, suffix='NSEW'):
 def precision(form, prec=None):
     '''Sets the default precison for a given F_ form.
 
-       @param form: F_D, F_DM, F_DMS or F_RAD (string).
+       @param form: F_D, F_DM, F_DMS, F_DEG or F_RAD (string).
        @keyword prec: Optional, number of decimal digits (int)
-                      or None to remain unchanged.
+                      or None to remain unchanged.  Trailing
+                      zeros are omitted for positive precision,
+                      but kept for negative precision values.
 
        @return: Previous precision (int).
+
+       @raise ValueError: Invalid precision.
     '''
     try:
         p  = _F_prec[form]
@@ -310,7 +324,8 @@ def toDMS(deg, form=F_DMS, prec=2, ddd=2, neg='-', pos=''):
     '''Converts signed degrees to string, without suffix.
 
        @param deg: Degrees to be formatted (scalar).
-       @keyword form: F_D, F_DM, F_DMS or F_RAD for deg°, deg°min′, deg°min′sec″ or radians.
+       @keyword form: F_D, F_DM, F_DMS, F_DEG or F_RAD for deg°,
+                      deg°min′, deg°min′sec″ or degrees or radians.
        @keyword prec: Optional, number of decimal digits (0..9 or None).
        @keyword ddd: Optional, number of digits for deg° (2 or 3).
        @keyword neg: Optional, sign for negative degrees ('-').

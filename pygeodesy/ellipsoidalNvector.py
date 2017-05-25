@@ -5,14 +5,14 @@
 (x/y/z) classes L{LatLon}, L{Ned}, L{Nvector} and L{Cartesian} and
 functions L{meanOf} and L{toNed}.
 
-Python implementation of vector-based geodetic (lat-/longitude) methods
-by I{(C) Chris Veness 2011-2016} published under the same MIT Licence**,
-see U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}'
+Pure Python implementation of vector-based geodetic (lat-/longitude)
+methods by I{(C) Chris Veness 2011-2016} published under the same MIT
+Licence**, see U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}'
 
-These classes and functions work with:
-(a) geodesic (polar) lat-/longitude points on the earth's surface and
-(b) 3-D vectors used as n-vectors representing points on the earth's
-surface or vectors normal to the plane of a great circle.
+These classes and functions work with: (a) geodesic (polar) lat-/longitude
+points on the earth's surface and (b) 3-D vectors used as n-vectors
+representing points on the earth's surface or vectors normal to the plane
+of a great circle.
 
 See Kenneth Gade, "A Non-singular Horizontal Position Representation",
 The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.  Also at
@@ -35,7 +35,7 @@ from math import asin, atan2, cos, hypot, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '17.05.15'
+__version__ = '17.05.25'
 
 
 class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):

@@ -4,8 +4,8 @@
 '''Vincenty's ellipsoidal geodetic (lat-/longitude) and cartesian (x/y/z)
 classes L{LatLon}, L{Cartesian} and L{VincentyError}.
 
-Pure Python implementation of geodesy tools for ellipsoidal earth models.
-Transcribed from JavaScript originals by I{(C) Chris Veness 2005-2016}
+Pure Python implementation of geodesy tools for ellipsoidal earth models,
+transcribed from JavaScript originals by I{(C) Chris Veness 2005-2016}
 and published under the same MIT Licence**. For details see
 U{http://www.movable-type.co.uk/scripts/LatLongVincenty.html} and also
 U{http://github.com/geopy} and U{http://python.org/pypi/geopy}.
@@ -58,7 +58,7 @@ from math import atan2, cos, hypot, sin, tan
 
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'VincentyError')  # classes
-__version__ = '17.05.15'
+__version__ = '17.05.25'
 
 
 class VincentyError(Exception):

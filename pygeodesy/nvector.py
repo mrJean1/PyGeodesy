@@ -3,8 +3,8 @@
 
 '''N-vector base class L{Nvector} and function L{sumOf}.
 
-Pure Python implementation of n-vector-based geodesy tools for
-ellipsoidal earth models.  Transcribed from JavaScript originals by
+Pure Python implementation of I{n-vector}-based geodesy tools for
+ellipsoidal earth models, transcribed from JavaScript originals by
 I{(C) Chris Veness 2005-2016} and published under the same MIT Licence**,
 see U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
 
@@ -21,7 +21,7 @@ from vector3d import Vector3d, sumOf as _sumOf
 __all__ = ('NorthPole', 'SouthPole',  # constants
            'Nvector',  # classes
            'sumOf')  # functions
-__version__ = '17.04.30'
+__version__ = '17.05.25'
 
 
 class Nvector(Vector3d):  # XXX kept private
@@ -177,7 +177,7 @@ def sumOf(nvectors, Vector=Nvector, h=None, **kwds):
     if n < 1:
         raise ValueError('no nvectors: %r' & (n,))
     if h is None:
-        m = fsum(v.h for v in nvectors) / n
+        m = fsum(v.h for v in nvectors) / float(n)
     else:
         m = h
     return _sumOf(nvectors, Vector=Vector, h=m, **kwds)

@@ -3,9 +3,8 @@
 
 '''Classes L{Datum}, L{Ellipsoid} and L{Transform} and registries thereof.
 
-Pure Python implementation of geodesy tools for ellipsoidal earth models.
-
-Includes ellipsoid parameters and datums for different geographic coordinate
+Pure Python implementation of geodesy tools for ellipsoidal earth models,
+including datums and ellipsoid parameters for different geographic coordinate
 systems and methods for converting between them and to cartesian coordinates.
 Transcribed from JavaScript originals by I{(C) Chris Veness 2005-2016} and
 published under the same MIT Licence**, see U{http://www.movable-type.co.uk/
@@ -53,7 +52,7 @@ R_SM = m2SM(R_M)  #: Mean, spherical earth radius (statute miles).
 __all__ = ('R_KM', 'R_M', 'R_NM', 'R_SM',  # constants
            'Datum',  'Ellipsoid',  'Transform',  # classes
            'Datums', 'Ellipsoids', 'Transforms')  # enum-like
-__version__ = '17.05.08'
+__version__ = '17.05.25'
 
 
 class _Enum(dict, Named):
@@ -709,7 +708,7 @@ if __name__ == '__main__':
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-# Typical result (on macOS 10.12.4)
+# Typical result (on macOS 10.12.3, 10,12,4 and 10.12.5 Sierra)
 
 # Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, b=6356256.909, f_=299.3249646, f=0.00334085, e2=0.00667054, e22=0.00671533, R=6370461.23366667, Rm=6366901.23988196, R2=6370459.65458944, R3=6370453.30986645, Rr=6366914.60880589)
 # Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189, b=6356034.448, f_=299.3249646, f=0.00334085, e2=0.00667054, e22=0.00671533, R=6370238.27533333, Rm=6366678.40619415, R2=6370236.69636116, R3=6370230.35181066, Rr=6366691.7746498)
@@ -777,3 +776,4 @@ if __name__ == '__main__':
 # WGS84: name='WGS84', a=6378137.0, b=6356752.3142499998, f_=298.257223563, f=0.0033528107, e2=0.00669438, e22=0.0067394967, R=6371008.7714166669, Rm=6367435.6797186071, R2=6371007.180920884, R3=6371000.7900107643, Rr=6367449.1458250266,
 #        A=6367449.145823415, e=0.0818191908, f=1/298.2572235630, n=0.0016792204(-3.7914875232e-13),
 #        Alpha6=(0, 0.0008377318206244698, 7.608527773572307e-07, 1.1976455033294527e-09, 2.4291706072013587e-12, 5.711757677865804e-15, 1.4911177312583895e-17),
+#        Beta6=(0, 0.0008377321640579486, 5.905870152220203e-08, 1.6734826652839968e-10, 2.1647980400627059e-13, 3.7879780461686053e-16, 7.2487488906941545e-19)

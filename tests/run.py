@@ -4,7 +4,7 @@
 # Script to run some or all PyGeodesy tests with Python 2 or 3.
 
 # Tested with 64-bit Python 2.6.9, 2.7.13, 3.5.3 and 3.6.0 but only
-# on macOS 10.12.2, 10.12.3 and 10.12.4 Sierra.
+# on macOS 10.12.2, 10.12.3, 10.12.4 and 10.12.5 Sierra.
 
 from glob import glob
 from os import linesep as NL
@@ -17,7 +17,7 @@ import sys
 import tests  # for .version
 
 __all__ = ('run',)
-__version__ = '17.04.07'
+__version__ = '17.05.25'
 
 _python_O = _python = sys.executable  # path
 if not __debug__:

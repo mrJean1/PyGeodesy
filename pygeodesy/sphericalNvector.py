@@ -5,10 +5,10 @@
 and L{Nvector} and functions L{areaOf}, L{intersection}, L{meanOf},
 L{triangulate} and L{trilaterate}.
 
-Python implementation of vector-based spherical geodetic (lat-/longitude)
-methods.  Transcribed from JavaScript originals by I{(C) Chris Veness
-2011-2016}, published under the same MIT Licence**.
-See U{http://www.movable-type.co.uk/scripts/latlong-vectors.html} and
+Pure Python implementation of vector-based spherical geodetic (lat-/longitude)
+methods, transcribed from JavaScript originals by I{(C) Chris Veness 2011-2016},
+published under the same MIT Licence**.  See
+U{http://www.movable-type.co.uk/scripts/latlong-vectors.html} and
 U{http://www.movable-type.co.uk/scripts/geodesy/docs/module-latlon-nvector-spherical.html}.
 
 Tools for working with points and paths on (a spherical model of)
@@ -41,7 +41,7 @@ from math import atan2, cos, radians, sin
 __all__ = ('LatLon', 'Nvector',  # classes
            'areaOf', 'intersection', 'meanOf',  # functions
            'triangulate', 'trilaterate')
-__version__ = '17.05.15'
+__version__ = '17.05.25'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):

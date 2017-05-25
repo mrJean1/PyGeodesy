@@ -3,8 +3,8 @@
 
 '''(INTERNAL) Ellipsoidal base classes.
 
-Pure Python implementation of geodesy tools for ellipsoidal earth models.
-Transcribed from JavaScript originals by I{(C) Chris Veness 2005-2016}
+Pure Python implementation of geodesy tools for ellipsoidal earth models,
+transcribed in part from JavaScript originals by I{(C) Chris Veness 2005-2016}
 and published under the same MIT Licence**, see for example
 U{http://www.movable-type.co.uk/scripts/geodesy/docs/latlon-ellipsoidal.js.html}.
 
@@ -22,7 +22,7 @@ from math import atan2, copysign, cos, hypot, sin, sqrt
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('CartesianBase', 'LatLonEllipsoidalBase')
-__version__ = '17.05.08'
+__version__ = '17.05.25'
 
 
 class CartesianBase(Vector3d):
@@ -54,10 +54,10 @@ class CartesianBase(Vector3d):
            See also 'An Efficient Algorithm for Geocentric to
            Geodetic Coordinate Conversion', Ralph M. Toms,
            Lawrence Livermore National Laboratory, Sept 1995,
-           <https://www.osti.gov/scitech/biblio/110235> and 'An
+           U{https://www.osti.gov/scitech/biblio/110235} and 'An
            Improved Algorithm for Geocentric to Geodetic Coordinate
-           Conversion', Ralph Toms, Apr 1996, <https://www.osti.gov/
-           scitech/servlets/purl/231228>.
+           Conversion', Ralph Toms, Apr 1996, U{https://www.osti.gov/
+           scitech/servlets/purl/231228}.
 
            @keyword datum: Datum to use (L{Datum}).
 

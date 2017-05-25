@@ -2,13 +2,14 @@
 # -*- coding: utf-8 -*-
 
 '''
-Geohash encoding, decoding and associated functions.
+Pure Python L{Geohash} class and several functions to encode, decode
+and inspect geohashes.
 
 Transcribed from JavaScript originals by I{(C) Chris Veness 2011-2015}
 and published under the same MIT Licence**.
 
-More details at U{http://www.movable-type.co.uk/scripts/geohash.html}.
-See also U{https://github.com/vinsci/geohash}, U{https://github.com/davetroy/geohash-js}
+More details at U{http://www.movable-type.co.uk/scripts/geohash.html}.  See
+also U{https://github.com/vinsci/geohash}, U{https://github.com/davetroy/geohash-js}
 and U{https://pypi.python.org/pypi/pygeohash}.
 
 @newfield example: Example, Examples
@@ -24,14 +25,7 @@ __all__ = ('Geohash',  # classes
            'bounds', 'decode', 'decode_error',  # functions
            'distance1', 'distance2', 'distance3',
            'encode', 'neighbors', 'sizes')
-__version__ = '17.05.06'
-
-# Geohash-specific base32 map
-_GeohashBase32 = '0123456789bcdefghjkmnpqrstuvwxyz'
-# ... and the inverse map
-_DecodedBase32 = dict((c, i) for i, c in enumerate(_GeohashBase32))
-c = i = None
-del c, i
+__version__ = '17.05.25'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -65,6 +59,13 @@ try:
     _Str = str, basestring
 except NameError:
     _Str = str
+
+# Geohash-specific base32 map
+_GeohashBase32 = '0123456789bcdefghjkmnpqrstuvwxyz'
+# ... and the inverse map
+_DecodedBase32 = dict((c, i) for i, c in enumerate(_GeohashBase32))
+c = i = None
+del c, i
 
 
 def _2fll(lat, lon):
@@ -170,7 +171,7 @@ class Geohash(str):
         # based on <https://github.com/davetroy/geohash-js>
 
         d = direction.upper()
-        if d not in _Neighbor:
+        if not d or d not in _Neighbor:
             raise ValueError('%s invalid: %s' % ('direction', direction))
 
         e = len(self) & 1  # % 2
@@ -632,8 +633,6 @@ def sizes(geohash):
        @return: 2-Tuple (latHeight, lonWidth) in (meter).
 
        @raise TypeError: The geohash is not a L{Geohash}, I{LatLon} or str.
-
-       @JSname: I{neighbours}.
     '''
     return _2Geohash(geohash).sizes
 

@@ -4,11 +4,11 @@
 # Test degrees, minutes, seconds functions.
 
 __all__ = ('Tests',)
-__version__ = '17.04.07'
+__version__ = '17.05.24'
 
 from tests import Tests as _Tests
 
-from pygeodesy import F_D, F_DM, F_DMS, \
+from pygeodesy import F_D, F_DM, F_DMS, F_DEG, F_RAD, \
                       compassPoint, parse3llh, parseDMS, toDMS
 
 
@@ -31,9 +31,13 @@ class Tests(_Tests):
                      ((F_D, None),     '45.7626°'),
                      ((F_DM, None),    "45°45.756'"),
                      ((F_DMS, None), '''45°45'45.36"'''),
+                     ((F_DEG, None),   '45.7626'),
+                     ((F_RAD, None),    '0.79871'),
                      ((F_D, 6),     '45.7626°'),
                      ((F_DM, -4),   "45°45.7560'"),
-                     ((F_DMS, 2), '''45°45'45.36"''')):
+                     ((F_DMS, 2), '''45°45'45.36"'''),
+                     ((F_DEG, -6),     '45.762600'),
+                     ((F_RAD, -6),      '0.798708')):
             self.test('toDMS', toDMS(45.76260, *a), x)
 
         for a, x in (((1,),   'N'),

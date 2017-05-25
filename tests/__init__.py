@@ -3,7 +3,8 @@
 
 # Module to run all PyGeodesy tests as  python setup.py test
 
-# Tested with 64-bit Python 2.7.13 and 3.6.0 on macOS 10.12.3 Sierra.
+# Tested with 64-bit Python 2.7.13 and 3.6.0 on macOS 10.12.3,
+# 10.12.4 and 10.12.5 Sierra.
 
 try:
     from run import run
@@ -14,7 +15,7 @@ from os.path import dirname, join
 import unittest
 
 __all__ = ('TestSuite', 'run')
-__version__ = '17.04.22'
+__version__ = '17.05.25'
 
 _tests_dir = dirname(__file__)
 

@@ -4,11 +4,11 @@
 # Test UTM functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.04.07'
+__version__ = '17.05.24'
 
 from tests import Tests as _Tests
 
-from pygeodesy import F_DMS, utm
+from pygeodesy import F_DEG, F_DMS, parseUTM, utm
 
 
 class Tests(_Tests):
@@ -46,6 +46,12 @@ class Tests(_Tests):
 
         m = utm.Utm('31U', 'N', 448251, 5411932).toMgrs()
         self.test('toMgrs2', m, '31U DQ 48251 11932')
+
+        u = parseUTM('18 N 516620 4574500')  # Milford, PA
+        self.test('Utm8', u, '18 N 516620 4574500')
+        ll = u.toLatLon(LatLon)
+        self.test('Utm8.toLatLon', ll, '41.321801°N, 074.801413°W')
+        self.test('Utm8.toLatLon', ll.toStr(F_DEG), '41.321801N, 074.801413W')
 
         for lat, lon, x in (( 61.44,      25.4,    '35V N 414668 6812845'),  # 35V N 414668.257431168 6812844.72764648
                             (-47.04,     -73.48,   '18G S 615472 4789270'),  # 18G S 615471.65815765  4789269.76738578

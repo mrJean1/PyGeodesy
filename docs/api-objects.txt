@@ -15,12 +15,14 @@ pygeodesy.simplifyVW	pygeodesy-module.html#simplifyVW
 pygeodesy.cbrt2	pygeodesy-module.html#cbrt2
 pygeodesy.R_NM	pygeodesy-module.html#R_NM
 pygeodesy.PI2	pygeodesy-module.html#PI2
+pygeodesy.parseUTM	pygeodesy-module.html#parseUTM
 pygeodesy.compassDMS	pygeodesy-module.html#compassDMS
 pygeodesy.radians	pygeodesy-module.html#radians
 pygeodesy.parseDMS	pygeodesy-module.html#parseDMS
 pygeodesy.Transforms	pygeodesy-module.html#Transforms
 pygeodesy.radiansPI_2	pygeodesy-module.html#radiansPI_2
 pygeodesy.Datums	pygeodesy-module.html#Datums
+pygeodesy.hypot	pygeodesy-module.html#hypot
 pygeodesy.Ellipsoids	pygeodesy-module.html#Ellipsoids
 pygeodesy.S_MIN	pygeodesy-module.html#S_MIN
 pygeodesy.toUtm	pygeodesy-module.html#toUtm
@@ -42,6 +44,7 @@ pygeodesy.R_SM	pygeodesy-module.html#R_SM
 pygeodesy.wrap180	pygeodesy-module.html#wrap180
 pygeodesy.fStr	pygeodesy-module.html#fStr
 pygeodesy.R_M	pygeodesy-module.html#R_M
+pygeodesy.F_DEG	pygeodesy-module.html#F_DEG
 pygeodesy.cbrt	pygeodesy-module.html#cbrt
 pygeodesy.radiansPI	pygeodesy-module.html#radiansPI
 pygeodesy.fsum	pygeodesy-module.html#fsum
@@ -52,6 +55,7 @@ pygeodesy.wrapPI2	pygeodesy-module.html#wrapPI2
 pygeodesy.wrap360	pygeodesy-module.html#wrap360
 pygeodesy.wrapPI	pygeodesy-module.html#wrapPI
 pygeodesy.precision	pygeodesy-module.html#precision
+pygeodesy.degrees360	pygeodesy-module.html#degrees360
 pygeodesy.simplifyRDPm	pygeodesy-module.html#simplifyRDPm
 pygeodesy.toDMS	pygeodesy-module.html#toDMS
 pygeodesy.F_DM	pygeodesy-module.html#F_DM
@@ -66,14 +70,13 @@ pygeodesy.tanPI_2_2	pygeodesy-module.html#tanPI_2_2
 pygeodesy.EPS2	pygeodesy-module.html#EPS2
 pygeodesy.EPS1	pygeodesy-module.html#EPS1
 pygeodesy.simplify2	pygeodesy-module.html#simplify2
-pygeodesy.degrees360	pygeodesy-module.html#degrees360
+pygeodesy.S_RAD	pygeodesy-module.html#S_RAD
 pygeodesy.PI_2	pygeodesy-module.html#PI_2
 pygeodesy.__package__	pygeodesy-module.html#__package__
 pygeodesy.parseOSGR	pygeodesy-module.html#parseOSGR
 pygeodesy.simplify1	pygeodesy-module.html#simplify1
 pygeodesy.parseMGRS	pygeodesy-module.html#parseMGRS
 pygeodesy.m2NM	pygeodesy-module.html#m2NM
-pygeodesy.parseUTM	pygeodesy-module.html#parseUTM
 pygeodesy.isint	pygeodesy-module.html#isint
 pygeodesy.wrapPI_2	pygeodesy-module.html#wrapPI_2
 pygeodesy.normDMS	pygeodesy-module.html#normDMS
@@ -116,10 +119,12 @@ pygeodesy.datum.fStr	pygeodesy.utils-module.html#fStr
 pygeodesy.datum.R_M	pygeodesy.datum-module.html#R_M
 pygeodesy.datum.fdot	pygeodesy.utils-module.html#fdot
 pygeodesy.dms	pygeodesy.dms-module.html
+pygeodesy.dms.F_DEG	pygeodesy.dms-module.html#F_DEG
 pygeodesy.dms.lonDMS	pygeodesy.dms-module.html#lonDMS
 pygeodesy.dms.S_MIN	pygeodesy.dms-module.html#S_MIN
 pygeodesy.dms.F_RAD	pygeodesy.dms-module.html#F_RAD
 pygeodesy.dms.F_D	pygeodesy.dms-module.html#F_D
+pygeodesy.dms.S_RAD	pygeodesy.dms-module.html#S_RAD
 pygeodesy.dms._COMPASS	pygeodesy.dms-module.html#_COMPASS
 pygeodesy.dms.S_SEP	pygeodesy.dms-module.html#S_SEP
 pygeodesy.dms.__package__	pygeodesy.dms-module.html#__package__
@@ -259,6 +264,7 @@ pygeodesy.simplify.simplify1	pygeodesy.simplify-module.html#simplify1
 pygeodesy.simplify.simplifyRDP	pygeodesy.simplify-module.html#simplifyRDP
 pygeodesy.simplify.radiansPI	pygeodesy.utils-module.html#radiansPI
 pygeodesy.sphericalBase	pygeodesy.sphericalBase-module.html
+pygeodesy.sphericalBase.hypot	pygeodesy.utils-module.html#hypot
 pygeodesy.sphericalBase.tanPI_2_2	pygeodesy.utils-module.html#tanPI_2_2
 pygeodesy.sphericalBase.degrees90	pygeodesy.utils-module.html#degrees90
 pygeodesy.sphericalBase.degrees360	pygeodesy.utils-module.html#degrees360
@@ -306,6 +312,7 @@ pygeodesy.utils.fsum	pygeodesy.utils-module.html#fsum
 pygeodesy.utils.EPS	pygeodesy.utils-module.html#EPS
 pygeodesy.utils.radians	pygeodesy.utils-module.html#radians
 pygeodesy.utils.len2	pygeodesy.utils-module.html#len2
+pygeodesy.utils.hypot	pygeodesy.utils-module.html#hypot
 pygeodesy.utils.hsin3	pygeodesy.utils-module.html#hsin3
 pygeodesy.utils.degrees90	pygeodesy.utils-module.html#degrees90
 pygeodesy.utils.fdot3	pygeodesy.utils-module.html#fdot3
@@ -379,6 +386,7 @@ pygeodesy.vector3d.isscalar	pygeodesy.utils-module.html#isscalar
 pygeodesy.vector3d.fsum	pygeodesy-module.html#fsum
 pygeodesy.vector3d.__package__	pygeodesy.vector3d-module.html#__package__
 pygeodesy.vector3d.fStr	pygeodesy.utils-module.html#fStr
+pygeodesy.vector3d.hypot	pygeodesy.utils-module.html#hypot
 pygeodesy.vector3d.fdot	pygeodesy.utils-module.html#fdot
 pygeodesy.vector3d.degrees90	pygeodesy.utils-module.html#degrees90
 pygeodesy.vector3d.degrees180	pygeodesy.utils-module.html#degrees180
