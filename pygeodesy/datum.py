@@ -52,7 +52,7 @@ R_SM = m2SM(R_M)  #: Mean, spherical earth radius (statute miles).
 __all__ = ('R_KM', 'R_M', 'R_NM', 'R_SM',  # constants
            'Datum',  'Ellipsoid',  'Transform',  # classes
            'Datums', 'Ellipsoids', 'Transforms')  # enum-like
-__version__ = '17.05.25'
+__version__ = '17.05.26'
 
 
 class _Enum(dict, Named):
@@ -136,7 +136,7 @@ class Ellipsoid(_Based):
     f    = 0  #: Flattening: (a - b) / a (float).
     f_   = 0  #: Inverse flattening: a / (a - b) = 1 /f (float).
     n    = 0  #: 3rd Flattening: f / (2 - f) = (a - b) / (a + b) (float).
-    # radii from <https://en.wikipedia.org/wiki/Earth_radius>
+    # radii from <http://wikipedia.org/wiki/Earth_radius>
     R    = 0  #: Mean radius: (2 * a + b) / 3 per IUGG definition (meter).
     Rm   = 0  #: Mean radius: sqrt(a * b) (meter).
     R2   = 0  #: Authalic radius: sqrt((a**2 + b**2 * atanh(e) / e) / 2) (meter).
@@ -288,7 +288,7 @@ class Ellipsoid(_Based):
         '''(INTERNAL) Compute 6th-order Krüger Alpha or Beta series
            per Karney 2011, 'Transverse Mercator with an accuracy
            of a few nanometers', page 7, equations 35 and 36, see
-           <https://arxiv.org/pdf/1002.1417v3.pdf>.
+           <http://arxiv.org/pdf/1002.1417v3.pdf>.
 
            @param fs6: 6-Tuple of coefficent tuples.
 
@@ -342,8 +342,8 @@ class Ellipsoid(_Based):
                                 'R', 'Rm', 'R2', 'R3', 'Rr')
 
 
-# <https://www.gnu.org/software/gama/manual/html_node/Supported-ellipsoids.html>
-Ellipsoids._assert(  # <https://en.wikipedia.org/wiki/Earth_ellipsoid>
+# <http://www.gnu.org/software/gama/manual/html_node/Supported-ellipsoids.html>
+Ellipsoids._assert(  # <http://wikipedia.org/wiki/Earth_ellipsoid>
     Airy1830       = Ellipsoid(6377563.396, 6356256.909,       299.3249646,   'Airy1830'),
     AiryModified   = Ellipsoid(6377340.189, 6356034.448,       299.3249646,   'AiryModified'),
     Australia1966  = Ellipsoid(6378160.0,   6356774.719,       298.25,        'Australia1966'),
@@ -493,7 +493,7 @@ class Transform(_Based):
                 fdot(xyz, self.tz, -self.ry,  self.rx,      _s1))
 
 
-# <https://en.wikipedia.org/wiki/Helmert_transformation> from WGS84
+# <http://wikipedia.org/wiki/Helmert_transformation> from WGS84
 Transforms._assert(
     BD72           = Transform('BD72', tx=106.868628, ty=-52.297783, tz=103.723893,
                      # <http://www.ngi.be/FR/FR4-4.shtm> ETRS89 == WG84
@@ -508,9 +508,9 @@ Transforms._assert(
                                        sx=   1.477, sy= -0.0736, sz=  -1.458,
                                         s=  -9.82),  # Germany
     ED50           = Transform('ED50', tx=89.5, ty=93.8, tz=123.1,
-                     # <https://geonet.esri.com/thread/36583> sz=-0.156
-                     # <https://github.com/chrisveness/geodesy/blob/master/latlon-ellipsoidal.js>
-                     # <https://www.gov.uk/guidance/oil-and-gas-petroleum-operations-notices#pon-4>
+                     # <http://geonet.esri.com/thread/36583> sz=-0.156
+                     # <http://github.com/chrisveness/geodesy/blob/master/latlon-ellipsoidal.js>
+                     # <http://www.gov.uk/guidance/oil-and-gas-petroleum-operations-notices#pon-4>
                                                          sz=  0.156, s=-1.2),
     Irl1965        = Transform('Irl1965', tx=-482.530, ty=130.596, tz=-564.557,
                                           sx=   1.042, sy=  0.214, sz=   0.631,
@@ -620,30 +620,30 @@ class Datum(_Based):
 # <http://www.fieldenmaps.info/cconv/web/cconv_params.js>.
 Datums._assert(
     # Belgian Datum 1972, based on Hayford ellipsoid.
-    # <https://nl.m.wikipedia.org/wiki/Belgian_Datum_1972>
+    # <http://nl.wikipedia.org/wiki/Belgian_Datum_1972>
     # <http://spatialreference.org/ref/sr-org/belge-1972-belgian-
     #         lambert-72-corrected-transformation-parameters/>
     BD72           = Datum(Ellipsoids.Intl1924, Transforms.BD72),
-    # Germany <https://de.wikipedia.org/wiki/Bessel-Ellipsoid>
-    #         <https://en.wikipedia.org/wiki/Helmert_transformation>
+    # Germany <http://wikipedia.org/wiki/Bessel-Ellipsoid>
+    #         <http://wikipedia.org/wiki/Helmert_transformation>
     DHDN           = Datum(Ellipsoids.Bessel1841, Transforms.DHDN),
 
     # <http://www.gov.uk/guidance/oil-and-gas-petroleum-operations-notices#pon-4>
     ED50           = Datum(Ellipsoids.Intl1924, Transforms.ED50),
 
-    # <http://en.wikipedia.org/wiki/GRS_80>
+    # <http://wikipedia.org/wiki/GRS_80>
     GRS80          = Datum(Ellipsoids.GRS80, Transforms.WGS84, name='GRS80'),
 
     # <http://osi.ie/OSI/media/OSI/Content/Publications/transformations_booklet.pdf>
     Irl1975        = Datum(Ellipsoids.AiryModified, Transforms.Irl1975),
 
-    # Germany <https://en.wikipedia.org/wiki/Helmert_transformation>
+    # Germany <http://wikipedia.org/wiki/Helmert_transformation>
     Krassovsky1940 = Datum(Ellipsoids.Krassovsky1940, Transforms.Krassovsky1940),
 
-    # Austria <https://de.wikipedia.org/wiki/Datum_Austria>
+    # Austria <http://de.wikipedia.org/wiki/Datum_Austria>
     MGI            = Datum(Ellipsoids.Bessel1841, Transforms.MGI),
 
-    # <http://en.wikipedia.org/wiki/Helmert_transformation>
+    # <http://wikipedia.org/wiki/Helmert_transformation>
     NAD27          = Datum(Ellipsoids.Clarke1866, Transforms.NAD27),
 
     # NAD83 (2009) == WGS84 - <http://www.uvm.edu/giv/resources/WGS84_NAD83.pdf>
@@ -656,7 +656,7 @@ Datums._assert(
     # <http://www.ordnancesurvey.co.uk/docs/support/guide-coordinate-systems-great-britain.pdf>
     OSGB36         = Datum(Ellipsoids.Airy1830, Transforms.OSGB36),
 
-    # Germany <https://en.wikipedia.org/wiki/Helmert_transformation>
+    # Germany <http://wikipedia.org/wiki/Helmert_transformation>
     Potsdam        = Datum(Ellipsoids.Bessel1841, Transforms.Bessel1841, name='Potsdam'),
 
     # XXX psuedo-ellipsoids for spherical LatLon
@@ -665,7 +665,7 @@ Datums._assert(
     # <http://www.geocachingtoolbox.com?page=datumEllipsoidDetails>
     TokyoJapan     = Datum(Ellipsoids.Bessel1841, Transforms.TokyoJapan),
 
-    # <http://www.icao.int/safety/pbn/documentation/eurocontrol/eurocontrol wgs 84 implementation manual.pdf>
+    # <http://www.icao.int/safety/pbn/documentation/eurocontrol/eurocontrol%20wgs%2084%20implementation%20manual.pdf>
     WGS72          = Datum(Ellipsoids.WGS72, Transforms.WGS72),
 
     WGS84          = Datum(Ellipsoids.WGS84, Transforms.WGS84),

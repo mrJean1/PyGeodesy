@@ -20,7 +20,7 @@ Depending on requirements, some parts of the reference may be omitted
 (implied), and easting/northing may be given to varying resolution.
 
 Qv U{http://www.fgdc.gov/standards/projects/FGDC-standards-projects/usng/fgdc_std_011_2001_usng.pdf}
-and U{https://en.wikipedia.org/wiki/Military_grid_reference_system}.
+and U{http://wikipedia.org/wiki/Military_grid_reference_system}.
 
 @newfield example: Example, Examples
 '''
@@ -36,7 +36,7 @@ import re  # PYCHOK warning locale.Error
 # all public contants, classes and functions
 __all__ = ('Mgrs',  # classes
            'parseMGRS', 'toMgrs')  # functions
-__version__ = '17.05.25'
+__version__ = '17.05.26'
 
 _100km  =  100e3  #: (INTERNAL) 100 km in meter.
 _2000km = 2000e3  #: (INTERNAL) 2,000 km in meter.

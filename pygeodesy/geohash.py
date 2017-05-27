@@ -2,15 +2,16 @@
 # -*- coding: utf-8 -*-
 
 '''
-Pure Python L{Geohash} class and several functions to encode, decode
-and inspect geohashes.
+Class L{Geohash} and several functions to encode, decode and inspect
+geohashes.
 
 Transcribed from JavaScript originals by I{(C) Chris Veness 2011-2015}
 and published under the same MIT Licence**.
 
-More details at U{http://www.movable-type.co.uk/scripts/geohash.html}.  See
-also U{https://github.com/vinsci/geohash}, U{https://github.com/davetroy/geohash-js}
-and U{https://pypi.python.org/pypi/pygeohash}.
+More details at U{http://www.movable-type.co.uk/scripts/geohash.html}.
+See also U{http://github.com/vinsci/geohash},
+U{http://github.com/davetroy/geohash-js} and
+U{http://pypi.python.org/pypi/pygeohash}.
 
 @newfield example: Example, Examples
 '''
@@ -25,7 +26,7 @@ __all__ = ('Geohash',  # classes
            'bounds', 'decode', 'decode_error',  # functions
            'distance1', 'distance2', 'distance3',
            'encode', 'neighbors', 'sizes')
-__version__ = '17.05.25'
+__version__ = '17.05.27'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -168,7 +169,7 @@ class Geohash(str):
 
            @raise ValueError: Invalid direction or geohash.
         '''
-        # based on <https://github.com/davetroy/geohash-js>
+        # based on <http://github.com/davetroy/geohash-js>
 
         d = direction.upper()
         if not d or d not in _Neighbor:

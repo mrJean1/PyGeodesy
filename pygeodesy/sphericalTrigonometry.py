@@ -468,7 +468,7 @@ class LatLon(LatLonSphericalBase):
         '''
         if self._v3d is None:
             x, y, z = self.to3xyz()
-            self._v3d = Vector3d(x, y, z)  # .unit()
+            self._v3d = Vector3d(x, y, z)  # XXX .unit()
         return self._v3d
 
 

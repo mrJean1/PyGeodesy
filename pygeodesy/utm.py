@@ -21,7 +21,7 @@ This method based on Karney 2011 'Transverse Mercator with an
 accuracy of a few nanometers', building on Krüger 1912 'Konforme
 Abbildung des Erdellipsoids in der Ebene'.
 
-References U{https://arxiv.org/pdf/1002.1417v3.pdf},
+References U{http://arxiv.org/pdf/1002.1417v3.pdf},
 U{http://bib.gfz-potsdam.de/pub/digi/krueger2.pdf},
 U{http://henrik-seidel.gmxhome.de/gausskrueger.pdf} and
 U{http://wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system}.
@@ -44,7 +44,7 @@ from operator import mul
 # all public contants, classes and functions
 __all__ = ('Utm',  # classes
            'parseUTM', 'toUtm')  # functions
-__version__ = '17.05.25'
+__version__ = '17.05.26'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N

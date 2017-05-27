@@ -7,7 +7,7 @@ class L{Conic}, L{Conics} registry and position class L{Lcc}.
 See U{http://wikipedia.org/wiki/Lambert_conformal_conic_projection},
 U{http://www.linz.govt.nz/data/geodetic-system/coordinate-conversion/
 projection-conversions/lambert-conformal-conic-geographic},
-U{Snyder<https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>} pp 107-109 and
+U{Snyder<http://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>} pp 107-109 and
 U{http://mathworld.wolfram.com/LambertConformalConicProjection.html}.
 
 @newfield example: Example, Examples
@@ -23,7 +23,7 @@ from math import atan, copysign, cos, hypot, log, sin, sqrt, tan
 # all public constants, classes and functions
 __all__ = ('Conic', 'Conics', 'Lcc',
            'toLcc')  # functions
-__version__ = '17.05.25'
+__version__ = '17.05.26'
 
 
 Conics = _Enum('Conics')  #: Registered conics (L{_Enum}).

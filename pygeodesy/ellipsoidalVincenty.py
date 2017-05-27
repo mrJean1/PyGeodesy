@@ -11,10 +11,10 @@ U{http://www.movable-type.co.uk/scripts/LatLongVincenty.html} and also
 U{http://github.com/geopy} and U{http://python.org/pypi/geopy}.
 
 Calculate geodesic distance between two points using the U{Vincenty
-<https://en.wikipedia.org/wiki/Vincenty's_formulae>} formulae and
-one of several ellipsoidal earth models.  The default model is WGS-84,
-the most accurate and widely used globally-applicable model for the
-earth ellipsoid.
+<http://wikipedia.org/wiki/Vincenty's_formulae>} formulae and one of
+several ellipsoidal earth models.  The default model is WGS-84, the
+most accurate and widely used globally-applicable model for the earth
+ellipsoid.
 
 Other ellipsoids offering a better fit to the local geoid include
 Airy (1830) in the UK, Clarke (1880) in Africa, International 1924
@@ -58,7 +58,7 @@ from math import atan2, cos, hypot, sin, tan
 
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'VincentyError')  # classes
-__version__ = '17.05.25'
+__version__ = '17.05.26'
 
 
 class VincentyError(Exception):

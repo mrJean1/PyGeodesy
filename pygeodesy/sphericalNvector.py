@@ -1,11 +1,11 @@
 
 # -*- coding: utf-8 -*-
 
-'''Vector-based spherical geodetic (lat-/longitude) classes L{LatLon}
+'''N-vector-based spherical geodetic (lat-/longitude) classes L{LatLon}
 and L{Nvector} and functions L{areaOf}, L{intersection}, L{meanOf},
 L{triangulate} and L{trilaterate}.
 
-Pure Python implementation of vector-based spherical geodetic (lat-/longitude)
+Pure Python implementation of n-vector-based spherical geodetic (lat-/longitude)
 methods, transcribed from JavaScript originals by I{(C) Chris Veness 2011-2016},
 published under the same MIT Licence**.  See
 U{http://www.movable-type.co.uk/scripts/latlong-vectors.html} and
@@ -41,7 +41,7 @@ from math import atan2, cos, radians, sin
 __all__ = ('LatLon', 'Nvector',  # classes
            'areaOf', 'intersection', 'meanOf',  # functions
            'triangulate', 'trilaterate')
-__version__ = '17.05.25'
+__version__ = '17.05.26'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -338,7 +338,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         x = p.cross(q)
         d = x.unit().cross(p)  # unit(p × q) × p
         # angular distance tan(a) = |p × q| / p ⋅ q
-        a = atan2(x.length(), p.dot(q)) * fraction  # interpolated
+        a = atan2(x.length, p.dot(q)) * fraction  # interpolated
         i = p.times(cos(a)).plus(d.times(sin(a)))  # p * cosα + d * sinα
 
         return i.toLatLon(height=height, LatLon=self.topsub)  # Nvector(i.x, i.y, i.z).toLatLon(...)
@@ -636,8 +636,8 @@ class Nvector(NvectorBase):
         e = NorthPole.cross(self)  # easting
         n = self.cross(e)  # northing
 
-        e = e.times(cos(t) / e.length())
-        n = n.times(sin(t) / n.length())
+        e = e.times(cos(t) / e.length)
+        n = n.times(sin(t) / n.length)
         return n.minus(e)
 
 
@@ -859,7 +859,7 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3,
     X = n2.minus(n1).unit()  # unit vector in x direction n1->n2
     i = X.dot(n3.minus(n1))  # signed magnitude of x component of n1->n3
     Y = n3.minus(n1).minus(X.times(i)).unit()  # unit vector in y direction
-    d = n2.minus(n1).length()  # distance n1->n2
+    d = n2.minus(n1).length  # distance n1->n2
     j = Y.dot(n3.minus(n1))  # signed magnitude of y component of n1->n3
 
     d12 = d1 * d1

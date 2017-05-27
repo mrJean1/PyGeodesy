@@ -116,7 +116,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convertDatum" class="summary-sig-name">convertDatum</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">toDatum</span>)</span><br />
+        <span class="summary-sig-arg">datum</span>)</span><br />
       Converts this point to a new coordinate system.</td>
           <td align="right" valign="top">
             
@@ -208,26 +208,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#to3xyz" class="summary-sig-name">to3xyz</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Converts this (ellipsoidal) geodetic LatLon point to (ellipsoidal 
-      geocentric) Cartesian x/y/z components.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toDatum" class="summary-sig-name">toDatum</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">toDatum</span>)</span><br />
-      Converts this point to a new coordinate system.</td>
+      Converts this (ellipsoidal) geodetic <i>LatLon</i> point to 
+      (geocentric) cartesian x/y/z components.</td>
           <td align="right" valign="top">
             
             
@@ -416,7 +398,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">convertDatum</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">toDatum</span>)</span>
+        <span class="sig-arg">datum</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -427,7 +409,7 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>toDatum</code></strong> - Datum to convert to (<a href="pygeodesy.datum.Datum-class.html" 
+        <li><strong class="pname"><code>datum</code></strong> - Datum to convert to (<a href="pygeodesy.datum.Datum-class.html" 
           class="link">Datum</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -553,8 +535,10 @@
   If height is present it must follow and be separated by another 
   sep[arator].  Lat- and longitude may be swapped, provided at least one 
   ends with the proper compass direction.</p>
-  <p>For more details, see functions parse3llh and parseDMS in module 
-  dms.</p>
+  <p>For more details, see functions <a 
+  href="pygeodesy.dms-module.html#parse3llh" class="link">parse3llh</a> and
+  <a href="pygeodesy.dms-module.html#parseDMS" class="link">parseDMS</a> in
+  sub-module <a href="pygeodesy.dms-module.html" class="link">dms</a>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -589,8 +573,8 @@
     </td>
   </tr></table>
   
-  <p>Converts this (ellipsoidal) geodetic LatLon point to (ellipsoidal 
-  geocentric) Cartesian x/y/z components.</p>
+  <p>Converts this (ellipsoidal) geodetic <i>LatLon</i> point to 
+  (geocentric) cartesian x/y/z components.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>3-Tuple (x, y, z) in (meter).</dd>
@@ -599,40 +583,6 @@
     </dt>
   </dl>
 </td></tr></table>
-</div>
-<a name="toDatum"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toDatum</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">toDatum</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Converts this point to a new coordinate system.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>toDatum</code></strong> - Datum to convert to (<a href="pygeodesy.datum.Datum-class.html" 
-          class="link">Datum</a>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>The converted point (<a 
-          href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html"
-          class="link">LatLonEllipsoidalBase</a>).</dd>
-  </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>pWGS84 = LatLon(51.4778, -0.0016)  <span class="py-comment"># default Datums.WGS84</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>pOSGB  = pWGS84.convertDatum(Datums.OSGB36)  <span class="py-comment"># 51.477284&#176;N, 000.00002&#176;E</span></pre>
-      </p>
-</div></td></tr></table>
 </div>
 <a name="toOsgr"></a>
 <div>
@@ -651,8 +601,9 @@
   <p>Converts this lat-/longitude to an OSGR coordinate.</p>
   <p>See function <a 
   href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toOsgr" 
-  class="link">toOsgr</a> in module <a href="pygeodesy.osgr-module.html" 
-  class="link">osgr</a> for more details.</p>
+  class="link">toOsgr</a> in sub-module <a 
+  href="pygeodesy.osgr-module.html" class="link">osgr</a> for more 
+  details.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>The OSGR coordinate (<a href="pygeodesy.osgr.Osgr-class.html" 
@@ -677,7 +628,7 @@
   <p>Converts this lat-/longitude to a UTM coordinate.</p>
   <p>See function <a 
   href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toUtm" 
-  class="link">toUtm</a> in module <a href="pygeodesy.utm-module.html" 
+  class="link">toUtm</a> in sub-module <a href="pygeodesy.utm-module.html" 
   class="link">utm</a> for more details.</p>
   <dl class="fields">
     <dt>Returns:</dt>
@@ -780,7 +731,7 @@ class="link">Datum</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu May 25 15:14:42 2017
+    Generated by Epydoc 3.0.1 on Sat May 27 12:34:36 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -1,6 +1,6 @@
-tests/run.py typical test results (PyGeodesy 17.5.25 Python 2.7.13 64bit macOS 10.12.5)
+tests/run.py typical test results (PyGeodesy 17.5.27 Python 2.6.9 64bit macOS 10.12.5)
 
-running /Library/Framewo...nts/MacOS/Python tests/testBases.py
+running /usr/bin/python2.6 tests/testBases.py
 
     testing module pygeodesy.bases version 17.05.25
     test 1 lat, lon: 50.06632°N, 005.71475°W
@@ -10,11 +10,11 @@ running /Library/Framewo...nts/MacOS/Python tests/testBases.py
     test 5 toStr: 51.4778°N, 000.0016°W
     test 6 precision: 0
     test 7 toStr: 51°28′40″N, 000°00′06″W, +42.00m
-    all pygeodesy.bases tests passed (PyGeodesy 17.5.25 Python 2.7.13 64bit) 439.882 us
+    all pygeodesy.bases tests passed (PyGeodesy 17.5.27 Python 2.6.9 64bit) 277.042 us
 
-running /Library/Framewo...nts/MacOS/Python tests/testDatum.py
+running /usr/bin/python2.6 tests/testDatum.py
 
-    testing module pygeodesy.datum version 17.05.25
+    testing module pygeodesy.datum version 17.05.26
     test 1 ellipsoid: True
     test 2 transform: True
     test 3 datum: True
@@ -24,9 +24,9 @@ running /Library/Framewo...nts/MacOS/Python tests/testDatum.py
     test 7 WGS84: A=6367449.1458234154, e=0.0818191908, f_=298.2572235630, n=0.0016792204(-3.7914875232e-13)
     test 8 WGS84: Alpha6=(0, 8.377318206245e-04, 7.608527773572e-07, 1.197645503329e-09, 2.429170607201e-12, 5.711757677866e-15, 1.491117731258e-17)
     test 9 WGS84: Beta6=(0, 8.377321640579e-04, 5.905870152220e-08, 1.673482665284e-1, 2.164798040063e-13, 3.787978046169e-16, 7.248748890694e-19)
-    all pygeodesy.datum tests passed (PyGeodesy 17.5.25 Python 2.7.13 64bit) 1.281 ms
+    all pygeodesy.datum tests passed (PyGeodesy 17.5.27 Python 2.6.9 64bit) 910.044 us
 
-running /Library/Framewo...nts/MacOS/Python tests/testDms.py
+running /usr/bin/python2.6 tests/testDms.py
 
     testing module pygeodesy.dms version 17.05.25
     test 1 parseDMS: 0.0
@@ -63,11 +63,11 @@ running /Library/Framewo...nts/MacOS/Python tests/testDms.py
     test 32 compassPoint: W
     test 33 compassPoint: SW
     test 34 compassPoint: WSW
-    all pygeodesy.dms tests passed (PyGeodesy 17.5.25 Python 2.7.13 64bit) 575.066 us
+    all pygeodesy.dms tests passed (PyGeodesy 17.5.27 Python 2.6.9 64bit) 986.099 us
 
-running /Library/Framewo...nts/MacOS/Python tests/testEllipsoidal.py
+running /usr/bin/python2.6 tests/testEllipsoidal.py
 
-    testing module pygeodesy.ellipsoidalNvector version 17.05.25
+    testing module pygeodesy.ellipsoidalNvector version 17.05.26
     test 1 isellipsoidal: True
     test 2 isspherical: False
     test 3 lat/lonDMS: 52.20472°N, 000.14056°E
@@ -109,9 +109,9 @@ running /Library/Framewo...nts/MacOS/Python tests/testEllipsoidal.py
     test 39 toLatLon: True
     test 40 Nvector: (0.5, 0.5, 0.7071)
     test 41 Nvector: (0.5, 0.5, 0.707, +1.00)
-    all pygeodesy.ellipsoidalNvector tests passed (PyGeodesy 17.5.25 Python 2.7.13 64bit) 2.359 ms
+    all pygeodesy.ellipsoidalNvector tests passed (PyGeodesy 17.5.27 Python 2.6.9 64bit) 1.897 ms
 
-    testing module pygeodesy.ellipsoidalVincenty version 17.05.25
+    testing module pygeodesy.ellipsoidalVincenty version 17.05.26
     test 1 isellipsoidal: True
     test 2 isspherical: False
     test 3 lat/lonDMS: 52.20472°N, 000.14056°E
@@ -202,11 +202,11 @@ running /Library/Framewo...nts/MacOS/Python tests/testEllipsoidal.py
     test 88 NOAAexample2: 182009.1679, 254 42 44.6439, 73 09 21.3315
     test 89 NOAAexample3: 123456.7891, 245 00 34.7001, 64 20 24.6864
     test 90 NOAAexample4: 145239.0603, 114 29 26.9586, 295 21 32.6566
-    all pygeodesy.ellipsoidalVincenty tests passed (PyGeodesy 17.5.25 Python 2.7.13 64bit) 5.024 ms
+    all pygeodesy.ellipsoidalVincenty tests passed (PyGeodesy 17.5.27 Python 2.6.9 64bit) 4.366 ms
 
-running /Library/Framewo...nts/MacOS/Python tests/testGeohash.py
+running /usr/bin/python2.6 tests/testGeohash.py
 
-    testing module pygeodesy.geohash version 17.05.25
+    testing module pygeodesy.geohash version 17.05.27
     test 1 Geohash: Geohash('geek')
     test 2 Geohash: geek
     test 3 Geohash: geek
@@ -272,11 +272,11 @@ running /Library/Framewo...nts/MacOS/Python tests/testGeohash.py
     test 63 decode_error: (0.703125, 0.703125)
     test 64 decode_error: (2.8125, 5.625)
     test 65 decode_error: (22.5, 22.5)
-    all pygeodesy.geohash tests passed (PyGeodesy 17.5.25 Python 2.7.13 64bit) 8.366 ms
+    all pygeodesy.geohash tests passed (PyGeodesy 17.5.27 Python 2.6.9 64bit) 7.592 ms
 
-running /Library/Framewo...nts/MacOS/Python tests/testGreatCircle.py
+running /usr/bin/python2.6 tests/testGreatCircle.py
 
-    testing module pygeodesy.sphericalNvector version 17.05.25
+    testing module pygeodesy.sphericalNvector version 17.05.26
     test 1 InitialBearingSameLocations: 0.0
     test 2 InitialBearingEqualLocations: 0.0
     test 3 FinalBearingSameLocations: 180.0
@@ -306,7 +306,7 @@ running /Library/Framewo...nts/MacOS/Python tests/testGreatCircle.py
     test 27 CrossTrackDistance90Degrees200Meters: 200.0
     test 28 CrossTrackDistance270Degrees200Meters: -200.0
     test 29 CrossTrackDistanceThatShouldBeVeryCloseToZero: 0.00000000
-    5 pygeodesy.sphericalNvector tests (17.2%) FAILED, incl. 5 KNOWN (PyGeodesy 17.5.25 Python 2.7.13 64bit) 6.523 ms
+    5 pygeodesy.sphericalNvector tests (17.2%) FAILED, incl. 5 KNOWN (PyGeodesy 17.5.27 Python 2.6.9 64bit) 3.085 ms
 
     testing module pygeodesy.sphericalTrigonometry version 17.05.25
     test 1 InitialBearingSameLocations: 0.0
@@ -338,11 +338,11 @@ running /Library/Framewo...nts/MacOS/Python tests/testGreatCircle.py
     test 27 CrossTrackDistance90Degrees200Meters: 200.0
     test 28 CrossTrackDistance270Degrees200Meters: -200.0
     test 29 CrossTrackDistanceThatShouldBeVeryCloseToZero: 0.00000000
-    5 pygeodesy.sphericalTrigonometry tests (17.2%) FAILED, incl. 5 KNOWN (PyGeodesy 17.5.25 Python 2.7.13 64bit) 1.820 ms
+    5 pygeodesy.sphericalTrigonometry tests (17.2%) FAILED, incl. 5 KNOWN (PyGeodesy 17.5.27 Python 2.6.9 64bit) 1.004 ms
 
-running /Library/Framewo...nts/MacOS/Python tests/testLcc.py
+running /usr/bin/python2.6 tests/testLcc.py
 
-    testing module pygeodesy.lcc version 17.05.25
+    testing module pygeodesy.lcc version 17.05.26
     test 1 lb1: 448251.0 5411932.0001
     test 2 lb1: 448251, 5411932
     test 3 lb1: WRF_Lb.WGS84
@@ -589,11 +589,11 @@ running /Library/Framewo...nts/MacOS/Python tests/testLcc.py
     test 244 WRF_Lb: WGS84
     test 245 Snyder1: name='Snyder1', lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27)
     test 246 Snyder2: name='Snyder2', lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27)
-    all pygeodesy.lcc tests passed (PyGeodesy 17.5.25 Python 2.7.13 64bit) 11.655 ms
+    all pygeodesy.lcc tests passed (PyGeodesy 17.5.27 Python 2.6.9 64bit) 13.422 ms
 
-running /Library/Framewo...nts/MacOS/Python tests/testMgrs.py
+running /usr/bin/python2.6 tests/testMgrs.py
 
-    testing module pygeodesy.mgrs version 17.05.25
+    testing module pygeodesy.mgrs version 17.05.26
     test 1 Mgrs1: 31U DQ 48251 11932
     test 2 Mgrs1: [Z:31U, G:DQ, E:48251, N:11932]
     test 3 Mgrs2: 31U DQ 48251 11932
@@ -610,9 +610,9 @@ running /Library/Framewo...nts/MacOS/Python tests/testMgrs.py
     test 14 toUtm(76.0°N, 013.0°E).toMgrs: 33X VE 45999 36099
     test 15 toUtm(76.0°N, 025.0°E).toMgrs: 35X ME 45999 36099
     test 16 toUtm(76.0°N, 037.0°E).toMgrs: 37X DE 45999 36099
-    all pygeodesy.mgrs tests passed (PyGeodesy 17.5.25 Python 2.7.13 64bit) 2.109 ms
+    all pygeodesy.mgrs tests passed (PyGeodesy 17.5.27 Python 2.6.9 64bit) 1.899 ms
 
-running /Library/Framewo...nts/MacOS/Python tests/testNavlabExamples.py
+running /usr/bin/python2.6 tests/testNavlabExamples.py
 
     testing module testNavlabExamples.py version 17.04.07
     test 1 Example 1 delta: [N:331730.863, E:332998.501, D:17398.304]
@@ -641,11 +641,11 @@ running /Library/Framewo...nts/MacOS/Python tests/testNavlabExamples.py
     test 24 Example 8 destination(elVincenty): 79.991584°N, 090.017621°W
     test 25 Example 9 intersection: 40.318643°N, 055.901868°E
     test 26 Example 10 crossTrackDistance: 11118
-    1 testNavlabExamples.py test (3.8%) FAILED, incl. 1 KNOWN (PyGeodesy 17.5.25 Python 2.7.13 64bit) 2.618 ms
+    1 testNavlabExamples.py test (3.8%) FAILED, incl. 1 KNOWN (PyGeodesy 17.5.27 Python 2.6.9 64bit) 3.873 ms
 
-running /Library/Framewo...nts/MacOS/Python tests/testOsgr.py
+running /usr/bin/python2.6 tests/testOsgr.py
 
-    testing module pygeodesy.osgr version 17.05.25
+    testing module pygeodesy.osgr version 17.05.26
     test 1 WGS84: 51.4778°N, 000.0016°W
     test 2 OSGB36: 51.477284°N, 000.00002°E
     test 3 WGS84: 51.4778°N, 000.0016°W
@@ -670,47 +670,47 @@ running /Library/Framewo...nts/MacOS/Python tests/testOsgr.py
     test 22 OSGR5: 651409,313177
     test 23 OSGR5: [OSGR:651409.000,313177.000]
     test 24 OSGR6: 651409,313177
-    6 pygeodesy.osgr tests (25.0%) FAILED, incl. 6 KNOWN (PyGeodesy 17.5.25 Python 2.7.13 64bit) 1.594 ms
+    6 pygeodesy.osgr tests (25.0%) FAILED, incl. 6 KNOWN (PyGeodesy 17.5.27 Python 2.6.9 64bit) 2.360 ms
 
-running /Library/Framewo...nts/MacOS/Python tests/testRoutes.py
+running /usr/bin/python2.6 tests/testRoutes.py
 
-    testing module testRoutes.py version 17.05.08
-    all testRoutes.py tests passed (PyGeodesy 17.5.25 Python 2.7.13 64bit) 8.106 us
+    testing module testRoutes.py version 17.05.26
+    all testRoutes.py tests passed (PyGeodesy 17.5.27 Python 2.6.9 64bit) 4.053 us
 
-running /Library/Framewo...nts/MacOS/Python tests/testSimplify.py
+running /usr/bin/python2.6 tests/testSimplify.py
 
-    testing module testSimplify.py version 17.04.15
-    test 1 simplify1(16614, adjust=True) 1m (53.658 ms): 16597
+    testing module testSimplify.py version 17.05.26
+    test 1 simplify1(16614, adjust=True) 1m (134.425 ms): 16597
     
-    test 2 simplify2(16614, adjust=True, shortest=False) 1m (1.827 sec): 8239
+    test 2 simplify2(16614, adjust=True, shortest=False) 1m (1.898 sec): 8239
     
-    test 3 simplify2(16614, adjust=True, shortest=True) 1m (1.210 sec): 8247
+    test 3 simplify2(16614, adjust=True, shortest=True) 1m (1.387 sec): 8247
     
-    test 4 simplifyVWm(16614, adjust=True) 1m (117.409 ms): 16482
+    test 4 simplifyVWm(16614, adjust=True) 1m (176.329 ms): 16482
     
-    test 5 simplifyVWm(16614, adjust=False) 1m (101.527 ms): 16488
+    test 5 simplifyVWm(16614, adjust=False) 1m (156.703 ms): 16488
     
-    test 6 simplifyRDPm(16614, adjust=True, shortest=False) 1m (1.971 sec): 16196
+    test 6 simplifyRDPm(16614, adjust=True, shortest=False) 1m (2.022 sec): 16196
     
-    test 7 simplifyRDPm(16614, adjust=True, shortest=True) 1m (1.512 sec): 16201
+    test 7 simplifyRDPm(16614, adjust=True, shortest=True) 1m (1.740 sec): 16201
     
-    test 8 simplifyVW(1661, adjust=True) 1m (11.855 ms): 1657
+    test 8 simplifyVW(1661, adjust=True) 1m (15.613 ms): 1657
     
-    test 9 simplifyVW(1661, adjust=False) 1m (9.354 ms): 1657
+    test 9 simplifyVW(1661, adjust=False) 1m (10.871 ms): 1657
     
-    test 10 simplifyRDP(1661, adjust=True, shortest=False) 1m (3.628 sec): 1660
+    test 10 simplifyRDP(1661, adjust=True, shortest=False) 1m (5.004 sec): 1660
     
-    test 11 simplifyRDP(1661, adjust=True, shortest=True) 1m (3.931 sec): 1661
+    test 11 simplifyRDP(1661, adjust=True, shortest=True) 1m (5.509 sec): 1661
     
-    test 12 simplifyVW(69, adjust=False) 1m (400.066 us): 69
+    test 12 simplifyVW(69, adjust=False) 1m (483.990 us): 69
     
-    test 13 simplifyRDP(69, adjust=False, shortest=False) 1m (2.700 ms): 68
+    test 13 simplifyRDP(69, adjust=False, shortest=False) 1m (3.597 ms): 68
     
-    all testSimplify.py tests passed (PyGeodesy 17.5.25 Python 2.7.13 64bit) 14.378 sec
+    all testSimplify.py tests passed (PyGeodesy 17.5.27 Python 2.6.9 64bit) 18.059 sec
 
-running /Library/Framewo...nts/MacOS/Python tests/testSpherical.py
+running /usr/bin/python2.6 tests/testSpherical.py
 
-    testing module pygeodesy.sphericalNvector version 17.05.25
+    testing module pygeodesy.sphericalNvector version 17.05.26
     test 1 isellipsoidal: False
     test 2 isspherical: True
     test 3 lat/lonDMS: 52.20472°N, 000.14056°E
@@ -798,7 +798,7 @@ running /Library/Framewo...nts/MacOS/Python tests/testSpherical.py
     test 85 BasseH: 47.311067°N, 002.528617°W
     test 86 triangulate: 47.323667°N, 002.568501°W
     test 87 triangulate: True
-    all pygeodesy.sphericalNvector tests passed (PyGeodesy 17.5.25 Python 2.7.13 64bit) 4.945 ms
+    all pygeodesy.sphericalNvector tests passed (PyGeodesy 17.5.27 Python 2.6.9 64bit) 5.390 ms
 
     testing module pygeodesy.sphericalTrigonometry version 17.05.25
     test 1 isellipsoidal: False
@@ -866,11 +866,11 @@ running /Library/Framewo...nts/MacOS/Python tests/testSpherical.py
     test 63 areaOf: 6.18e+09
     test 64 isPoleEnclosedBy: True
     test 65 isPoleEnclosedBy: False  FAILED, KNOWN, expected True
-    1 pygeodesy.sphericalTrigonometry test (1.5%) FAILED, incl. 1 KNOWN (PyGeodesy 17.5.25 Python 2.7.13 64bit) 1.803 ms
+    1 pygeodesy.sphericalTrigonometry test (1.5%) FAILED, incl. 1 KNOWN (PyGeodesy 17.5.27 Python 2.6.9 64bit) 1.943 ms
 
-running /Library/Framewo...nts/MacOS/Python tests/testUtm.py
+running /usr/bin/python2.6 tests/testUtm.py
 
-    testing module pygeodesy.utm version 17.05.25
+    testing module pygeodesy.utm version 17.05.26
     test 1 Utm1: 03 N 448251.0 5411932.0001
     test 2 Utm2: 31 N 448252 5411933
     test 3 Utm2: 31 N 448251.795 5411932.678
@@ -917,13 +917,13 @@ running /Library/Framewo...nts/MacOS/Python tests/testUtm.py
     test 44 toUtm(76.0°N, 025.0°E): 35X N 446000 8436100
     test 45 toUtm(76.0°N, 031.0°E): 35X N 607943 8438843
     test 46 toUtm(76.0°N, 037.0°E): 37X N 446000 8436100
-    all pygeodesy.utm tests passed (PyGeodesy 17.5.25 Python 2.7.13 64bit) 4.489 ms
+    all pygeodesy.utm tests passed (PyGeodesy 17.5.27 Python 2.6.9 64bit) 4.658 ms
 
-running /Library/Framewo...nts/MacOS/Python tests/tests.py
+running /usr/bin/python2.6 tests/tests.py
 
     testing module tests.py version 17.05.15
 
-    testing module __init__.pyc version 17.05.25
+    testing module __init__.pyc version 17.05.27
     test 1 pygeodesy.Conic() class (pygeodesy.lcc): True
     test 2 pygeodesy.Conics attribute (pygeodesy.datum): True
     test 3 pygeodesy.Datum() class (pygeodesy.datum): True
@@ -1039,7 +1039,7 @@ running /Library/Framewo...nts/MacOS/Python tests/tests.py
     test 113 pygeodesy.wrapPI2() function (pygeodesy.utils): True
     test 114 pygeodesy.wrapPI_2() function (pygeodesy.utils): True
 
-    testing module datum.pyc version 17.05.25
+    testing module datum.pyc version 17.05.26
     test 115 datum.Datum() class: True
     test 116 datum.Datums attribute: True
     test 117 datum.Ellipsoid() class: True
@@ -1073,7 +1073,7 @@ running /Library/Framewo...nts/MacOS/Python tests/tests.py
     test 143 dms.precision() function: True
     test 144 dms.toDMS() function: True
 
-    testing module ellipsoidalNvector.pyc version 17.05.25
+    testing module ellipsoidalNvector.pyc version 17.05.26
     test 145 ellipsoidalNvector.Cartesian() class: True
     test 146 ellipsoidalNvector.LatLon() class: True
     test 147 ellipsoidalNvector.Ned() class: True
@@ -1081,34 +1081,34 @@ running /Library/Framewo...nts/MacOS/Python tests/tests.py
     test 149 ellipsoidalNvector.meanOf() function: True
     test 150 ellipsoidalNvector.toNed() function: True
 
-    testing module ellipsoidalVincenty.pyc version 17.05.25
+    testing module ellipsoidalVincenty.pyc version 17.05.26
     test 151 ellipsoidalVincenty.Cartesian() class: True
     test 152 ellipsoidalVincenty.LatLon() class: True
     test 153 ellipsoidalVincenty.VincentyError() class: True
 
-    testing module lcc.pyc version 17.05.25
+    testing module lcc.pyc version 17.05.26
     test 154 lcc.Conic() class: True
     test 155 lcc.Conics attribute (pygeodesy.datum): True
     test 156 lcc.Lcc() class: True
     test 157 lcc.toLcc() function: True
 
-    testing module mgrs.pyc version 17.05.25
+    testing module mgrs.pyc version 17.05.26
     test 158 mgrs.Mgrs() class: True
     test 159 mgrs.parseMGRS() function: True
     test 160 mgrs.toMgrs() function: True
 
-    testing module nvector.pyc version 17.05.25
+    testing module nvector.pyc version 17.05.26
     test 161 nvector.NorthPole attribute: True
     test 162 nvector.Nvector() class: True
     test 163 nvector.SouthPole attribute: True
     test 164 nvector.sumOf() function: True
 
-    testing module osgr.pyc version 17.05.25
+    testing module osgr.pyc version 17.05.26
     test 165 osgr.Osgr() class: True
     test 166 osgr.parseOSGR() function: True
     test 167 osgr.toOsgr() function: True
 
-    testing module simplify.pyc version 17.05.25
+    testing module simplify.pyc version 17.05.26
     test 168 simplify.simplify1() function: True
     test 169 simplify.simplify2() function: True
     test 170 simplify.simplifyRDP() function: True
@@ -1116,7 +1116,7 @@ running /Library/Framewo...nts/MacOS/Python tests/tests.py
     test 172 simplify.simplifyVW() function: True
     test 173 simplify.simplifyVWm() function: True
 
-    testing module sphericalNvector.pyc version 17.05.25
+    testing module sphericalNvector.pyc version 17.05.26
     test 174 sphericalNvector.LatLon() class: True
     test 175 sphericalNvector.Nvector() class: True
     test 176 sphericalNvector.areaOf() function: True
@@ -1132,16 +1132,16 @@ running /Library/Framewo...nts/MacOS/Python tests/tests.py
     test 184 sphericalTrigonometry.isPoleEnclosedBy() function: True
     test 185 sphericalTrigonometry.meanOf() function: True
 
-    testing module vector3d.pyc version 17.05.25
+    testing module vector3d.pyc version 17.05.26
     test 186 vector3d.Vector3d() class: True
     test 187 vector3d.sumOf() function: True
 
-    testing module utm.pyc version 17.05.25
+    testing module utm.pyc version 17.05.26
     test 188 utm.Utm() class: True
     test 189 utm.parseUTM() function: True
     test 190 utm.toUtm() function: True
 
-    testing module utils.pyc version 17.05.25
+    testing module utils.pyc version 17.05.26
     test 191 utils.EPS float: True
     test 192 utils.EPS1 float: True
     test 193 utils.EPS2 float: True
@@ -1262,23 +1262,22 @@ running /Library/Framewo...nts/MacOS/Python tests/tests.py
     test 306 to3xyz() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
     test 307 to4xyzh() method: pygeodesy.ellipsoidalNvector, pygeodesy.sphericalNvector
     test 308 toCartesian() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 309 toDatum() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 310 toNvector() method: pygeodesy.ellipsoidalNvector, pygeodesy.sphericalNvector
-    test 311 toOsgr() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 312 toStr() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 313 toStr2() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 314 toUtm() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 315 toVector3d() method: pygeodesy.sphericalTrigonometry
-    test 316 topsub() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 317 triangulate() method: pygeodesy.sphericalNvector
-    test 318 trilaterate() method: pygeodesy.sphericalNvector
+    test 309 toNvector() method: pygeodesy.ellipsoidalNvector, pygeodesy.sphericalNvector
+    test 310 toOsgr() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 311 toStr() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 312 toStr2() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 313 toUtm() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 314 toVector3d() method: pygeodesy.sphericalTrigonometry
+    test 315 topsub() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 316 triangulate() method: pygeodesy.sphericalNvector
+    test 317 trilaterate() method: pygeodesy.sphericalNvector
 
     testing module LatLon.mro version 17.05.15
-    test 319 pygeodesy.ellipsoidalNvector: pygeodesy.ellipsoidalNvector.LatLon, pygeodesy.nvector.LatLonNvectorBase, pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase, pygeodesy.bases.LatLonHeightBase, pygeodesy.bases.Base
-    test 320 pygeodesy.ellipsoidalVincenty: pygeodesy.ellipsoidalVincenty.LatLon, pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase, pygeodesy.bases.LatLonHeightBase, pygeodesy.bases.Base
-    test 321 pygeodesy.sphericalNvector: pygeodesy.sphericalNvector.LatLon, pygeodesy.nvector.LatLonNvectorBase, pygeodesy.sphericalBase.LatLonSphericalBase, pygeodesy.bases.LatLonHeightBase, pygeodesy.bases.Base
-    test 322 pygeodesy.sphericalTrigonometry: pygeodesy.sphericalTrigonometry.LatLon, pygeodesy.sphericalBase.LatLonSphericalBase, pygeodesy.bases.LatLonHeightBase, pygeodesy.bases.Base
+    test 318 pygeodesy.ellipsoidalNvector: pygeodesy.ellipsoidalNvector.LatLon, pygeodesy.nvector.LatLonNvectorBase, pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase, pygeodesy.bases.LatLonHeightBase, pygeodesy.bases.Base
+    test 319 pygeodesy.ellipsoidalVincenty: pygeodesy.ellipsoidalVincenty.LatLon, pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase, pygeodesy.bases.LatLonHeightBase, pygeodesy.bases.Base
+    test 320 pygeodesy.sphericalNvector: pygeodesy.sphericalNvector.LatLon, pygeodesy.nvector.LatLonNvectorBase, pygeodesy.sphericalBase.LatLonSphericalBase, pygeodesy.bases.LatLonHeightBase, pygeodesy.bases.Base
+    test 321 pygeodesy.sphericalTrigonometry: pygeodesy.sphericalTrigonometry.LatLon, pygeodesy.sphericalBase.LatLonSphericalBase, pygeodesy.bases.LatLonHeightBase, pygeodesy.bases.Base
 
-    all tests.py tests passed (PyGeodesy 17.5.25 Python 2.7.13 64bit) 4.094 ms
+    all tests.py tests passed (PyGeodesy 17.5.27 Python 2.6.9 64bit) 4.342 ms
 
-tests/run.py /Library/Framewo...nts/MacOS/Python all OK (PyGeodesy 17.5.25 Python 2.7.13 64bit macOS 10.12.5) 16.217 sec
+tests/run.py /usr/bin/python2.6 all OK (PyGeodesy 17.5.27 Python 2.6.9 64bit macOS 10.12.5) 20.056 sec

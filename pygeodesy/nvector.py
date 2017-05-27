@@ -21,7 +21,7 @@ from vector3d import Vector3d, sumOf as _sumOf
 __all__ = ('NorthPole', 'SouthPole',  # constants
            'Nvector',  # classes
            'sumOf')  # functions
-__version__ = '17.05.25'
+__version__ = '17.05.26'
 
 
 class Nvector(Vector3d):  # XXX kept private
@@ -111,15 +111,16 @@ class Nvector(Vector3d):  # XXX kept private
             t = '%s%s%s%+.2f' % (t, sep, self.H, self.h)
         return fmt % (t,)
 
-    def unit(self):
-        '''Normalizes this vector to unit length.
+    def unit(self, h=0):  # PYCHOK expected
+        '''Normalized this vectors to unit length.
 
-           @return: Normalised, unit vector (L{Nvector}).
+           @keyword h: Optional height (meter).
+
+           @return: Normalized vector (L{Nvector}).
         '''
         if self._united is None:
             u = Vector3d.unit(self).copy()
-            if u.h != self.h:
-                u.h = self.h
+            u.h = h
             self._united = u._united = u
         return self._united
 

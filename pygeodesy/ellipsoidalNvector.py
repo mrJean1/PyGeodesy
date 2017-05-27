@@ -1,11 +1,11 @@
 
 # -*- coding: utf-8 -*-
 
-'''Vector-based ellipsoidal geodetic (lat-/longitude) and cartesion
+'''N-vector-based ellipsoidal geodetic (lat-/longitude) and cartesion
 (x/y/z) classes L{LatLon}, L{Ned}, L{Nvector} and L{Cartesian} and
 functions L{meanOf} and L{toNed}.
 
-Pure Python implementation of vector-based geodetic (lat-/longitude)
+Pure Python implementation of n-vector-based geodetic (lat-/longitude)
 methods by I{(C) Chris Veness 2011-2016} published under the same MIT
 Licence**, see U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}'
 
@@ -27,15 +27,15 @@ from ellipsoidalBase import CartesianBase, LatLonEllipsoidalBase
 from nvector import NorthPole, LatLonNvectorBase, \
                     Nvector as NvectorBase, sumOf
 from utils import EPS, degrees90, degrees360, cbrt, fdot, fStr, \
-                  hypot3, radians
+                  hypot, hypot3, radians
 from vector3d import Vector3d
 
-from math import asin, atan2, cos, hypot, sin, sqrt
+from math import asin, atan2, cos, sin, sqrt
 
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '17.05.25'
+__version__ = '17.05.26'
 
 
 class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
@@ -676,13 +676,15 @@ class Nvector(NvectorBase):
 
         return Cartesian(x * r, y * r, z * (n + h))
 
-    def unit(self):
+    def unit(self, h=0):  # PYCHOK expected
         '''Normalizes this vector to unit length.
+
+           @keyword h: Optional height (meter).
 
            @return: Normalised vector (L{Nvector}).
         '''
         if self._united is None:
-            u = NvectorBase.unit(self)
+            u = NvectorBase.unit(self, h=h)
             if u.datum != self.datum:
                 u._datum = self.datum
 #           self._united = u._united = u

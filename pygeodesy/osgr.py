@@ -14,16 +14,16 @@ OSGR provides geocoordinate references for UK mapping purposes,
 converted 2015 to work with WGS84 datum by default or OSGB36 as option.
 
 See U{http://www.OrdnanceSurvey.co.uk/docs/support/guide-coordinate-systems-great-britain.pdf},
-U{https://www.OrdnanceSurvey.co.uk/blog/2014/09/proposed-changes-to-latitude-and-longitude-representation-on-paper-maps-tell-us-your-thoughts/},
+U{http://www.OrdnanceSurvey.co.uk/blog/2014/09/proposed-changes-to-latitude-and-longitude-representation-on-paper-maps-tell-us-your-thoughts/},
 U{http://www.OrdnanceSurvey.co.uk/blog/2014/12/confirmation-on-changes-to-latitude-and-longitude}
-and U{https://en.wikipedia.org/wiki/Ordnance_Survey_National_Grid}.
+and U{http://wikipedia.org/wiki/Ordnance_Survey_National_Grid}.
 
 See also Karney 2011 "Transverse Mercator with an accuracy of a few
 nanometers" and Krüger 1912 "Konforme Abbildung des Erdellipsoids in
-der Ebene", references U{https://arxiv.org/pdf/1002.1417v3.pdf},
+der Ebene", references U{http://arxiv.org/pdf/1002.1417v3.pdf},
 U{http://bib.gfz-potsdam.de/pub/digi/krueger2.pdf},
 U{http://henrik-seidel.gmxhome.de/gausskrueger.pdf} and
-U{https://en.wikipedia.org/wiki/Transverse_Mercator:_Redfearn_series}.
+U{http://wikipedia.org/wiki/Transverse_Mercator:_Redfearn_series}.
 
 @newfield example: Example, Examples
 '''
@@ -39,7 +39,7 @@ from math import cos, sin, sqrt, tan
 # all public contants, classes and functions
 __all__ = ('Osgr',  # classes
            'parseOSGR', 'toOsgr')  # functions
-__version__ = '17.05.25'
+__version__ = '17.05.26'
 
 _10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (meter)
 _100km   = 100000  #: (INTERNAL) 100 km (int meter)

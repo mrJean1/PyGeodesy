@@ -19,7 +19,7 @@ from math import atan2, cos, sin
 # all public contants, classes and functions
 __all__ = ('Vector3d',  # classes
            'sumOf')  # functions
-__version__ = '17.05.25'
+__version__ = '17.05.26'
 
 try:
     _cmp = cmp
@@ -82,7 +82,7 @@ class Vector3d(VectorBase):
 
            @return: Norm, unit length (float);
         '''
-        return self.length()
+        return self.length
 
     def __cmp__(self, other):  # Python 2-
         '''Compares this and an other vector?
@@ -94,7 +94,7 @@ class Vector3d(VectorBase):
            @raise TypeError: Incompatible I{type(other)}.
         '''
         self.others(other)
-        return _cmp(self.length(), other.length())
+        return _cmp(self.length, other.length)
 
     def __div__(self, scalar):
         '''Divides this vector by a scalar.
@@ -131,7 +131,7 @@ class Vector3d(VectorBase):
            @raise TypeError: Incompatible I{type(other)}.
         '''
         self.others(other)
-        return self.length() >= other.length()
+        return self.length >= other.length
 
     def __gt__(self, other):
         '''Is this vector longer than an other vector?
@@ -143,7 +143,7 @@ class Vector3d(VectorBase):
            @raise TypeError: Incompatible I{type(other)}.
         '''
         self.others(other)
-        return self.length() > other.length()
+        return self.length > other.length
 
     def __le__(self, other):  # Python 3+
         '''Is this vector shorter than or equal to an other vector?
@@ -155,7 +155,7 @@ class Vector3d(VectorBase):
            @raise TypeError: Incompatible I{type(other)}.
         '''
         self.others(other)
-        return self.length() <= other.length()
+        return self.length <= other.length
 
     def __lt__(self, other):  # Python 3+
         '''Is this vector shorter than an other vector?
@@ -167,7 +167,7 @@ class Vector3d(VectorBase):
            @raise TypeError: Incompatible I{type(other)}.
         '''
         self.others(other)
-        return self.length() < other.length()
+        return self.length < other.length
 
     # Luciano Ramalho, "Fluent Python", page 397, O'Reilly 2016
     def __matmul__(self, other):  # PYCHOK Python 3.5+ ... c = a @ b
@@ -277,7 +277,7 @@ class Vector3d(VectorBase):
            @raise TypeError: If other or vSign not a L{Vector3d}.
         '''
         x = self.cross(other)
-        s = x.length()
+        s = x.length
         # use vSign as reference to get sign of s
         if vSign is not None and x.dot(vSign) < 0:
             s = -s
@@ -359,10 +359,9 @@ class Vector3d(VectorBase):
             d = self.minus(other)
         return max(map(abs, d.to3xyz())) < EPS
 
+    @property
     def length(self):
-        '''Length (aka norm or magnitude) of this vector.
-
-           @return: Norm (float).
+        '''Gets the length (norm, magnitude) of this vector (float).
         '''
         if self._length is None:
             self._length = hypot3(self.x, self.y, self.z)
@@ -444,8 +443,8 @@ class Vector3d(VectorBase):
     def rotate(self, axis, theta):
         '''Rotates this vector by a specified angle around an axis.
 
-           See U{Rotation matrix from axis and angle<http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle>}
-           and U{Quaternion-derived rotation matrix<http://https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation#Quaternion-derived_rotation_matrix>}.
+           See U{Rotation matrix from axis and angle<http://wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle>}
+           and U{Quaternion-derived rotation matrix<http://wikipedia.org/wiki/Quaternions_and_spatial_rotation#Quaternion-derived_rotation_matrix>}.
 
            @param axis: The axis being rotated around (L{Vector3d}).
            @param theta: The angle of rotation (radians).
@@ -515,12 +514,12 @@ class Vector3d(VectorBase):
         return fmt % (fStr(self.to3xyz(), prec=prec, sep=sep),)
 
     def unit(self):
-        '''Normalizes this vector to unit length.
+        '''Normalize this vector to unit length.
 
-           @return: Normalised, unit vector (L{Vector3d}).
+           @return: Normalized vector (L{Vector3d}).
         '''
         if self._united is None:
-            n = self.length()
+            n = self.length
             if n > EPS and abs(n - 1) > EPS:
                 u = self.dividedBy(n)
                 u._length = 1

@@ -5,68 +5,85 @@
 and spherical earth models using trigonometric and vector-based methods
 for geodetic (lat-/longitude) and geocentric cartesian (x/y/z) coordinates.
 
-Transcribed from JavaScript originals by I{(C) Chris Veness 2005-2016}
-and published under the same U{MIT License<https://opensource.org/licenses/MIT>}**.
+Transcribed from U{JavaScript originals<http://github.com/chrisveness/geodesy>}
+by I{Chris Veness (C) 2005-2016} and published under the same U{MIT License
+<http://opensource.org/licenses/MIT>}**.
 
 There are two modules for ellipsoidal earth models, I{ellipsoidalVincenty}
 and I{-Nvector} and two for spherical ones, I{sphericalTrigonometry} and
 I{-Nvector}.  Each module provides a I{LatLon} class with methods to
 compute distance, initial and final bearing, intermediate points and
 conversions, among other things.  For more information and further
-details see the U{documentation<https://pythonhosted.org/PyGeodesy/>}
-and some of the original descriptions:
+details see the U{documentation<http://pythonhosted.org/PyGeodesy/>},
+descriptions of U{Latitude/Longitude<http://www.movable-type.co.uk/scripts/latlong.html>},
+U{Vincenty<http://www.movable-type.co.uk/scripts/latlong-vincenty.html>} and
+U{Vector-based<http://www.movable-type.co.uk/scripts/latlong-vectors.html>} geodesy
+and the original U{JavaScript source<http://github.com/chrisveness/geodesy>} or
+U{docs<http://www.movable-type.co.uk/scripts/js/geodesy/docs>}.
 
- - U{http://github.com/chrisveness/geodesy}
- - U{http://www.movable-type.co.uk/scripts/latlong.html}
- - U{http://www.movable-type.co.uk/scripts/latlong-vincenty.html}
- - U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}
+Also included are modules for conversions to and from
+U{UTM<http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html>}
+(Universal Transverse Mercator) coordinates,
+U{MGRS<http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html>}
+(NATO Military Grid Reference System) and
+U{OSGR <http://www.movable-type.co.uk/scripts/latlong-os-gridref.html>}
+(British Ordinance Survery Grid Reference) grid references and a module for
+encoding and decoding U{Geohashes<http://www.movable-type.co.uk/scripts/geohash.html>}.
 
-Also included are conversions to and from UTM (Universal Transverse Mercator)
-coordinates, MGRS (NATO Military Grid Reference System) and OSGR (British
-Ordinance Survery Grid Reference) grid references, see:
+Two other modules provide Lambert conformal conic projections and positions
+(from U{John P. Snyder, I{Map Projections -- A Working Manual}, 1987, pp 107-109
+<http://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}) and several functions to
+U{simplify<http://bost.ocks.org/mike/simplify>} or linearize a path of I{LatLon}
+points, including implementations of the U{Ramer-Douglas-Peucker
+<http://wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm>} and U{Visvalingam-Whyatt
+<http://hydra.hull.ac.uk/resources/hull:8338>} algorithms and modified versions of both.
 
- - U{http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html}
- - U{http://www.movable-type.co.uk/scripts/latlong-os-gridref.html}
+All Python source code has been statically checked* with
+U{PyChecker<http://pypi.python.org/pypi/pychecker>},
+U{PyFlakes<http://pypi.python.org/pypi/pyflakes>},
+U{PyCodeStyle<http://pypi.python.org/pypi/pycodestyle>} (formerly Pep8) and
+U{McCabe<http://pypi.python.org/pypi/mccabe>} using Python 2.7.10 or 2.7.13 and with
+U{Flake8<http://pypi.python.org/pypi/flake8>} on Python 3.6.0 or 3.6.1.
 
-and a module for Geohash encoding and decoding, transcribed from:
+The tests have been run with 64-bit Python 2.6.9, 2.7.13, 3.5.3 and
+3.6.1, but only on MacOSX 10.10 Yosemite, MacOSX 10.11 El Capitan or
+macOS 10.12.2, 10.12.3, 10.12.4 or 10.12.5 Sierra.
 
- - U{http://www.movable-type.co.uk/scripts/geohash.html}
-
-An additional module provides Lambert conformal conic projections
-and positions, transcribed from:
-
- - U{http://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf} pp 107-109.
-
-Another module offers functions to simplify or linearize a path of
-I{LatLon} points, including implementations of the Ramer-Douglas-Peucker
-and Visvalingam-Whyatt algorithms and modified versions of both:
-
- - U{http://en.m.wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm}
- - U{http://hydra.hull.ac.uk/resources/hull:8338}
- - U{http://bost.ocks.org/mike/simplify/}
-
-All modules have been statically checked* with
-U{PyChecker<https://pypi.python.org/pypi/pychecker>},
-U{PyFlakes<https://pypi.python.org/pypi/pyflakes>},
-U{PyCodeStyle<https://pypi.python.org/pypi/pycodestyle>} (formerly Pep8),
-U{McCabe<https://pypi.python.org/pypi/mccabe>} using Python 2.7.10 and 2.7.13
-and with U{Flake8<https://pypi.python.org/pypi/flake8>} on Python 3.6.0 or 3.6.1.
-The tests have been run with 64-bit Python 2.6.9, 2.7.10, 2.7.13, 3.5.2, 3.5.3,
-3.6.0 and/or 3.6.1, but only on MacOSX 10.10 Yosemite, MacOSX 10.11 El Capitan
-and/or macOS 10.12.2, 10.12.3, 10.12.4, 10.12.5 Sierra.
-
+In addition to the U{PyGeodesy<http://pypi.python.org/pypi/PyGeodesy>} package,
+the distribution files contain the tests, the test results and the complete
+U{documentation<http://pythonhosted.org/PyGeodesy/>} (generated by
+U{Epydoc<http://pypi.python.org/pypi/epydoc>} using command line:
+C{epydoc --html --no-private --no-source --name=PyGeodesy --url=... -v pygeodesy}).
 The C{zip} and C{tar} distribution files were created with command line
-C{python setup.py sdist --formats=zip,gztar,bztar}.  In addition to the
-Python code, the distribution files contain test cases, test results and
-the entire U{documentation<https://pythonhosted.org/PyGeodesy/>} generated
-by U{Epydoc<https://pypi.python.org/pypi/epydoc>} using command line:
-C{epydoc --html --no-private --no-source --name=PyGeodesy --url=... -v pygeodesy}.
+C{python setup.py sdist --formats=zip,gztar,bztar}.
+
 Some function and method names differ from the JavaScript version. In such
 cases documentation tag B{JS name:} shows the original JavaScript name.
 
-_
+__
 
 *) U{PyChecker postprocessor<http://code.activestate.com/recipes/546532>}
+
+**) U{Copyright (C) 2016-2017 -- mrJean1 at Gmail dot com
+<http://opensource.org/licenses/MIT>}
+
+C{Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:}
+
+C{The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.}
+
+C{THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.}
 
 @newfield example: Example, Examples
 @newfield JSname: JS name, JS names
@@ -78,7 +95,8 @@ _
 @var F_D:   Format degrees as deg° (string).
 @var F_DM:  Format degrees as deg°min′ (string).
 @var F_DMS: Format degrees as deg°min′sec″ (string).
-@var F_RAD: Converts degrees to radians and format (string).
+@var F_DEG: Format degrees without symbol (string).
+@var F_RAD: Convert degrees to radians and format (string).
 
 @var PI:   Constant M{math.pi} (float)
 @var PI2:  Two PI, M{math.pi * 2} (float)
@@ -92,6 +110,7 @@ _
 @var S_DEG: Degrees symbol ° (string).
 @var S_MIN: Minutes symbol ′ (string).
 @var S_SEC: Seconds symbol ″ (string).
+@var S_RAD: Radians symbol (string).
 @var S_SEP: Separator between deg°, min′ and sec″ (string).
 
 @var Conics:     Registered conics (enum).
@@ -132,7 +151,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',  # modules
            'osgr', 'simplify', 'utils', 'utm', 'vector3d',
            'Geohash', 'VincentyError',  # classes
            'version', 'isclockwise')  # extended below
-__version__ = '17.05.25'
+__version__ = '17.05.27'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
@@ -169,3 +188,25 @@ del m
 #     del bases, ellipsoidalBase, sphericalBase  # PYCHOK expected
 # except NameError:
 #     pass
+
+# **) MIT License
+#
+# Copyright (C) 2016-2017 -- mrJean1 at Gmail dot com
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+# OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+# ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.

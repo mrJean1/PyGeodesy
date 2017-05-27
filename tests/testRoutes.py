@@ -3,12 +3,12 @@
 
 # Test the simplify functions.
 
-# <https://github.com/milkbread/Visvalingam-Wyatt>  not Whyatt!
-# <https://github.com/milkbread/Visvalingam-Wyatt/blob/master/route.json>
-# <https://github.com/milkbread/Visvalingam-Wyatt/blob/master/out.json>
+# <http://github.com/milkbread/Visvalingam-Wyatt>  not Whyatt!
+# <http://github.com/milkbread/Visvalingam-Wyatt/blob/master/route.json>
+# <http://github.com/milkbread/Visvalingam-Wyatt/blob/master/out.json>
 
 __all__ = ('Pts', 'PtsFFI', 'RdpFFI', 'VwPts')
-__version__ = '17.05.08'
+__version__ = '17.05.26'
 
 
 class _LatLon(object):
@@ -25,7 +25,7 @@ class _LatLon(object):
         return '(%f, %f, %f)' % (self.lat, self.lon, self.vw2)
 
 
-# <https://github.com/urschrei/rdp>
+# <http://github.com/urschrei/rdp>
 PtsFFI = [_LatLon(*ll) for ll in (
     (-0.701206, 52.220489),
     (-0.701418, 52.220485),

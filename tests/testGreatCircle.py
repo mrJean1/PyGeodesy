@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Transcribed from Objective-C GreatCircleTests by Brian Lambert (C)
-# 2016 Softwarenerd at <https://github.com/softwarenerd/GreatCircle>
+# 2016 Softwarenerd at <http://github.com/softwarenerd/GreatCircle>
 
 # The MIT License (MIT)
 #
@@ -33,7 +33,7 @@
 # Copyright © 2016 Softwarenerd.
 
 __all__ = ()
-__version__ = '17.05.15'
+__version__ = '17.05.26'
 
 if __name__ == '__main__':
 

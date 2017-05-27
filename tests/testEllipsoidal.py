@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.05.06'
+__version__ = '17.05.26'
 
 from tests import Tests as _Tests
 
@@ -155,7 +155,7 @@ class Tests(_Tests):
         t = bearingDMS(f, prec=4) + ', ' + compassDMS(f, form=F_DMS, prec=2)
         self.test('finalBearingTo' + n, t, '232.8246°, 232°49′28.59″SW')
 
-        # <https://github.com/maurycyp/vincenty> Maurycy Pietrzak
+        # <http://github.com/maurycyp/vincenty> Maurycy Pietrzak
         Boston = LatLon(42.3541165, -71.0693514, datum=d)
         NewYork = LatLon(40.7791472, -73.9680804, datum=d)
         m = Boston.distanceTo(NewYork)
@@ -170,7 +170,7 @@ class Tests(_Tests):
         m = p.distanceTo(q)
         self.test('distanceToMP' + n, '%.3f' % m, '110574.389')
 
-        # <https://pypi.python.org/pypi/pygc> Kyle Wilcox
+        # <http://pypi.python.org/pypi/pygc> Kyle Wilcox
         p = LatLon(0, 50, datum=d)
         q = LatLon(0, 52, datum=d)
         m = p.distanceTo(q)
@@ -181,7 +181,7 @@ class Tests(_Tests):
         self.test('distanceToKW' + n, '%.3f' % m, '111319.491')
 
     def testNOAA(self, LatLon):
-        # <https://www.ngs.noaa.gov/PC_PROD/Inv_Fwd/readme.htm>
+        # <http://www.ngs.noaa.gov/PC_PROD/Inv_Fwd/readme.htm>
 
         def _dfr(d, f, r):
             r = wrap360(r + 180)  # final bearing to back azimuth

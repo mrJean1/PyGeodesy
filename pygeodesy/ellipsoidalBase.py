@@ -14,15 +14,15 @@ U{http://www.movable-type.co.uk/scripts/geodesy/docs/latlon-ellipsoidal.js.html}
 from bases import LatLonHeightBase
 from datum import Datum, Datums
 from dms import parse3llh
-from utils import EPS, degrees90, degrees180, hypot1
+from utils import EPS, EPS1, degrees90, degrees180, hypot, hypot1
 from vector3d import Vector3d
 
-from math import atan2, copysign, cos, hypot, sin, sqrt
+from math import atan2, copysign, cos, sin, sqrt
 
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('CartesianBase', 'LatLonEllipsoidalBase')
-__version__ = '17.05.25'
+__version__ = '17.05.27'
 
 
 class CartesianBase(Vector3d):
@@ -54,9 +54,9 @@ class CartesianBase(Vector3d):
            See also 'An Efficient Algorithm for Geocentric to
            Geodetic Coordinate Conversion', Ralph M. Toms,
            Lawrence Livermore National Laboratory, Sept 1995,
-           U{https://www.osti.gov/scitech/biblio/110235} and 'An
+           U{http://www.osti.gov/scitech/biblio/110235} and 'An
            Improved Algorithm for Geocentric to Geodetic Coordinate
-           Conversion', Ralph Toms, Apr 1996, U{https://www.osti.gov/
+           Conversion', Ralph Toms, Apr 1996, U{http://www.osti.gov/
            scitech/servlets/purl/231228}.
 
            @keyword datum: Datum to use (L{Datum}).
@@ -139,10 +139,10 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
             self._osgr = self._utm = None
             LatLonHeightBase._update(self, updated)
 
-    def convertDatum(self, toDatum):
+    def convertDatum(self, datum):
         '''Converts this point to a new coordinate system.
 
-           @param toDatum: Datum to convert to (L{Datum}).
+           @param datum: Datum to convert to (L{Datum}).
 
            @return: The converted point (L{LatLonEllipsoidalBase}).
 
@@ -151,23 +151,21 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
            >>> pWGS84 = LatLon(51.4778, -0.0016)  # default Datums.WGS84
            >>> pOSGB  = pWGS84.convertDatum(Datums.OSGB36)  # 51.477284°N, 000.00002°E
         '''
-        if self.datum == toDatum:
+        if self.datum == datum:
             return self.copy()
 
         elif self.datum == Datums.WGS84:
             # converting from WGS 84
-            ll, t, i = self, toDatum.transform, False
+            ll, t, i = self, datum.transform, False
 
-        elif toDatum == Datums.WGS84:
+        elif datum == Datums.WGS84:
             # converting to WGS84, use inverse transform
             ll, t, i = self, self.datum.transform, True
 
-        else:  # neither self.datum nor toDatum is WGS84, convert to WGS84 first
-            ll, t, i = self.convertDatum(Datums.WGS84), toDatum.transform, False
+        else:  # neither self.datum nor datum is WGS84, convert to WGS84 first
+            ll, t, i = self.convertDatum(Datums.WGS84), datum.transform, False
 
-        return ll.toCartesian()._applyHelmert(t, i).toLatLon(datum=toDatum)
-
-    toDatum = convertDatum  # alternate name
+        return ll.toCartesian()._applyHelmert(t, i).toLatLon(datum=datum)
 
     def copy(self):
         '''Copies this point.
@@ -259,8 +257,8 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
            may be swapped, provided at least one ends with the
            proper compass direction.
 
-           For more details, see functions parse3llh and parseDMS
-           in module dms.
+           For more details, see functions L{parse3llh} and L{parseDMS}
+           in sub-module L{dms}.
 
            @param strll: Lat, lon [, height] (string).
            @keyword height: Default height (meter or None).
@@ -275,8 +273,8 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
         return self.topsub(a, b, height=h, datum=datum or self.datum)
 
     def to3xyz(self):  # overloads _LatLonHeightBase.to3xyz
-        '''Converts this (ellipsoidal) geodetic LatLon point to
-           (ellipsoidal geocentric) Cartesian x/y/z components.
+        '''Converts this (ellipsoidal) geodetic I{LatLon} point to
+           (geocentric) cartesian x/y/z components.
 
            @return: 3-Tuple (x, y, z) in (meter).
         '''
@@ -285,7 +283,13 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
 
         E = self.ellipsoid()
         # radius of curvature in prime vertical
-        r = E.a / sqrt(1 - E.e2 * sa * sa)
+        t = E.e2 * sa * sa
+        if t < EPS:
+            r = E.a
+        elif t < EPS1:
+            r = E.a / sqrt(1 - t)
+        else:
+            r = 0
 
         h = self.height
         t = (h + r) * cos(a)
@@ -296,7 +300,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
     def toOsgr(self):
         '''Converts this lat-/longitude to an OSGR coordinate.
 
-           See function L{toOsgr} in module L{osgr} for more details.
+           See function L{toOsgr} in sub-module L{osgr} for more details.
 
            @return: The OSGR coordinate (L{Osgr}).
         '''
@@ -309,7 +313,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
     def toUtm(self):
         '''Converts this lat-/longitude to a UTM coordinate.
 
-           See function L{toUtm} in module L{utm} for more details.
+           See function L{toUtm} in sub-module L{utm} for more details.
 
            @return: The UTM coordinate (L{Utm}).
         '''

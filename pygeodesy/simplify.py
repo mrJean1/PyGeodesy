@@ -36,7 +36,7 @@ For all functions, keyword I{adjust} scales the longitudinal distance
 between two points by the cosine of the mean of the latitudes.
 
 See:
- - U{http://en.wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm}
+ - U{http://wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm}
  - U{http://hydra.hull.ac.uk/resources/hull:8338}
  - U{http://bost.ocks.org/mike/simplify/}
  - U{http://www.cs.ubc.ca/cgi-bin/tr/1992/TR-92-07.pdf}
@@ -61,7 +61,7 @@ from math  import cos, degrees, radians
 __all__ = ('simplify1', 'simplify2',
            'simplifyRDP', 'simplifyRDPm',
            'simplifyVW', 'simplifyVWm')
-__version__ = '17.05.25'
+__version__ = '17.05.26'
 
 
 # try:

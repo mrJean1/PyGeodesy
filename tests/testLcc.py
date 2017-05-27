@@ -4,7 +4,7 @@
 # Test LCC functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.05.02'
+__version__ = '17.05.26'
 
 from tests import Tests as _Tests
 
@@ -67,7 +67,7 @@ if __name__ == '__main__':
     from pygeodesy.ellipsoidalNvector  import LatLon as nLatLon
     from pygeodesy.ellipsoidalVincenty import LatLon as vLatLon
 
-    # Snyder, pp 297 <https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>
+    # Snyder, pp 297 <http://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>
     Snyder = Conic(vLatLon(23, -96, datum=Datums.NAD27),
                            33, 45, E0=0, N0=0, name='Snyder')
 

@@ -691,23 +691,6 @@ object --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#length" class="summary-sig-name">length</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Length (aka norm or magnitude) of this vector.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#minus" class="summary-sig-name">minus</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
       Subtracts an other vector from this vector.</td>
@@ -929,7 +912,7 @@ object --+
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#unit" class="summary-sig-name">unit</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Normalizes this vector to unit length.</td>
+      Normalize this vector to unit length.</td>
           <td align="right" valign="top">
             
             
@@ -971,6 +954,14 @@ object --+
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Properties</span></td>
 </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.vector3d.Vector3d-class.html#length" class="summary-name">length</a><br />
+      Gets the length (norm, magnitude) of this vector (float).
+    </td>
+  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -2002,27 +1993,6 @@ object --+
       </p>
 </div></td></tr></table>
 </div>
-<a name="length"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">length</span>(<span class="sig-arg">self</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Length (aka norm or magnitude) of this vector.</p>
-  <dl class="fields">
-    <dt>Returns:</dt>
-        <dd>Norm (float).</dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="minus"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -2200,9 +2170,9 @@ object --+
   
   <p>Rotates this vector by a specified angle around an axis.</p>
   <p>See <a 
-  href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle"
+  href="http://wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle"
   target="_top">Rotation matrix from axis and angle</a> and <a 
-  href="http://https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation#Quaternion-derived_rotation_matrix"
+  href="http://wikipedia.org/wiki/Quaternions_and_spatial_rotation#Quaternion-derived_rotation_matrix"
   target="_top">Quaternion-derived rotation matrix</a>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -2240,9 +2210,9 @@ object --+
   
   <p>Rotates this vector by a specified angle around an axis.</p>
   <p>See <a 
-  href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle"
+  href="http://wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle"
   target="_top">Rotation matrix from axis and angle</a> and <a 
-  href="http://https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation#Quaternion-derived_rotation_matrix"
+  href="http://wikipedia.org/wiki/Quaternions_and_spatial_rotation#Quaternion-derived_rotation_matrix"
   target="_top">Quaternion-derived rotation matrix</a>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -2417,10 +2387,10 @@ object --+
     </td>
   </tr></table>
   
-  <p>Normalizes this vector to unit length.</p>
+  <p>Normalize this vector to unit length.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>Normalised, unit vector (<a 
+        <dd>Normalized vector (<a 
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>).</dd>
   </dl>
@@ -2436,6 +2406,21 @@ object --+
     <span class="table-header">Property Details</span></td>
 </tr>
 </table>
+<a name="length"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">length</h3>
+  <p>Gets the length (norm, magnitude) of this vector (float).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">length(<span class="summary-sig-arg">self</span>)</span>
+        - Gets the length (norm, magnitude) of this vector (float).
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="x"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -2513,7 +2498,7 @@ object --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu May 25 15:14:42 2017
+    Generated by Epydoc 3.0.1 on Sat May 27 12:34:36 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
