@@ -26,19 +26,20 @@ U{UTM<http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html>}
 (Universal Transverse Mercator) coordinates,
 U{MGRS<http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html>}
 (NATO Military Grid Reference System) and
-U{OSGR <http://www.movable-type.co.uk/scripts/latlong-os-gridref.html>}
+U{OSGR<http://www.movable-type.co.uk/scripts/latlong-os-gridref.html>}
 (British Ordinance Survery Grid Reference) grid references and a module for
 encoding and decoding U{Geohashes<http://www.movable-type.co.uk/scripts/geohash.html>}.
 
 Two other modules provide Lambert conformal conic projections and positions
-(from U{John P. Snyder, I{Map Projections -- A Working Manual}, 1987, pp 107-109
+(from U{John P. Snyder, "Map Projections -- A Working Manual", 1987, pp 107-109
 <http://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}) and several functions to
 U{simplify<http://bost.ocks.org/mike/simplify>} or linearize a path of I{LatLon}
 points, including implementations of the U{Ramer-Douglas-Peucker
 <http://wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm>} and U{Visvalingam-Whyatt
 <http://hydra.hull.ac.uk/resources/hull:8338>} algorithms and modified versions of both.
 
-All Python source code has been statically checked* with
+All Python source code has been statically
+U{checked<http://code.activestate.com/recipes/546532>} with
 U{PyChecker<http://pypi.python.org/pypi/pychecker>},
 U{PyFlakes<http://pypi.python.org/pypi/pyflakes>},
 U{PyCodeStyle<http://pypi.python.org/pypi/pycodestyle>} (formerly Pep8) and
@@ -61,8 +62,6 @@ Some function and method names differ from the JavaScript version. In such
 cases documentation tag B{JS name:} shows the original JavaScript name.
 
 __
-
-*) U{PyChecker postprocessor<http://code.activestate.com/recipes/546532>}
 
 **) U{Copyright (C) 2016-2017 -- mrJean1 at Gmail dot com
 <http://opensource.org/licenses/MIT>}
@@ -151,7 +150,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',  # modules
            'osgr', 'simplify', 'utils', 'utm', 'vector3d',
            'Geohash', 'VincentyError',  # classes
            'version', 'isclockwise')  # extended below
-__version__ = '17.05.27'
+__version__ = '17.05.28'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
