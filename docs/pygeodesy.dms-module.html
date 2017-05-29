@@ -70,7 +70,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.05.25
+        17.05.29
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -393,7 +393,9 @@
         <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (compass degrees).</li>
         <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS, F_DEG or F_RAD for deg&#176;, deg&#176;min&#8242;, 
           deg&#176;min&#8242;sec&#8243; or degrees or radians.</li>
-        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None for default).  
+          Trailing zero decimals are stripped for prec values of 1 and 
+          above, but kept for negative prec values.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Compass degrees per the specified form (string).</dd>
@@ -426,7 +428,9 @@
         <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (compass degrees).</li>
         <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS, F_DEG or F_RAD for deg&#176;, deg&#176;min&#8242;, 
           deg&#176;min&#8242;sec&#8243; or degrees or radians.</li>
-        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None for default).  
+          Trailing zero decimals are stripped for prec values of 1 and 
+          above, but kept for negative prec values.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Compass degrees and point per the specified form (string).</dd>
@@ -493,7 +497,9 @@
         <li><strong class="pname"><code>deg</code></strong> - Latitude to be formatted (degrees).</li>
         <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS, F_DEG or F_RAD for deg&#176;, deg&#176;min&#8242;, 
           deg&#176;min&#8242;sec&#8243; or degrees or radians.</li>
-        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None for default).  
+          Trailing zero decimals are stripped for prec values of 1 and 
+          above, but kept for negative prec values.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees per the specified form (string).</dd>
@@ -526,7 +532,9 @@
         <li><strong class="pname"><code>deg</code></strong> - Longitude to be formatted (degrees).</li>
         <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS, F_DEG or F_RAD for deg&#176;, deg&#176;min&#8242;, 
           deg&#176;min&#8242;sec&#8243; or degrees or radians.</li>
-        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None for default).  
+          Trailing zero decimals are stripped for prec values of 1 and 
+          above, but kept for negative prec values.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees per the specified form (string).</dd>
@@ -666,9 +674,9 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS, F_DEG or F_RAD (string).</li>
-        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (int) or None to remain 
-          unchanged.  Trailing zeros are omitted for positive precision, 
-          but kept for negative precision values.</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None for default).  
+          Trailing zero decimals are stripped for prec values of 1 and 
+          above, but kept for negative prec values.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Previous precision (int).</dd>
@@ -705,7 +713,9 @@
         <li><strong class="pname"><code>deg</code></strong> - Degrees to be formatted (scalar).</li>
         <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS, F_DEG or F_RAD for deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;
           or degrees or radians.</li>
-        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None for default).  
+          Trailing zero decimals are stripped for prec values of 1 and 
+          above, but kept for negative prec values.</li>
         <li><strong class="pname"><code>ddd</code></strong> - Optional, number of digits for deg&#176; (2 or 3).</li>
         <li><strong class="pname"><code>neg</code></strong> - Optional, sign for negative degrees ('-').</li>
         <li><strong class="pname"><code>pos</code></strong> - Optional, sign for positive degrees ('').</li>
@@ -747,7 +757,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat May 27 15:28:36 2017
+    Generated by Epydoc 3.0.1 on Mon May 29 14:19:13 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

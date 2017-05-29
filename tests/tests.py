@@ -24,7 +24,7 @@ from time import time
 
 __all__ = ('versions', 'Tests',
            'secs2str')
-__version__ = '17.05.15'
+__version__ = '17.05.29'
 
 try:
     _int = int, long
@@ -340,6 +340,8 @@ class Tests(object):
         self.test('toNvector', c, '(0.50004, 0.50004, 0.70705)')  # 0.500, 0.500, 0.707
         self.test('equals', c.equals(v), 'False')
         self.test('equals', c.equals(v, units=True), 'True')
+        self.test('length', v.length, '0.99992449715')
+        self.test('length', c.length, '1.0')
 
         class Nv(Nvector):
             pass
@@ -347,9 +349,12 @@ class Tests(object):
         s = sumOf((v, c), Vector=Nv, h=0)
         self.test('sumOf', s, '(52.70504, 0.61904, 0.70705)')
         self.test('sumOf', s.__class__.__name__, 'Nv')
+        self.test('length', s.length, '52.7134151513')
 
         c = v.copy()
         self.test('copy', c.equals(v), 'True')
+        self.test('length', v.length, '52.2051356286')
+        self.test('length', c.length, '52.2051356286')
 
         if hasattr(LatLon, 'nearestOn'):
             s1 = LatLon(51.0, 1.0)

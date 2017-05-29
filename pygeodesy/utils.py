@@ -30,7 +30,8 @@ import sys
 __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'cbrt', 'cbrt2',
            'degrees', 'degrees90', 'degrees180', 'degrees360',
-           'false2f', 'favg', 'fdot', 'fdot3', 'fStr', 'fsum', 'ft2m',
+           'false2f', 'favg', 'fdot', 'fdot3', 'fStr', 'fStrzs',
+           'fsum', 'ft2m',
            'halfs', 'hsin', 'hsin3', 'hypot', 'hypot1', 'hypot3',
            'isint', 'isscalar', 'len2',
            'm2ft', 'm2km', 'm2NM', 'm2SM', 'map1', 'map2',
@@ -38,7 +39,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'tanPI_2_2',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI', 'wrapPI2', 'wrapPI_2')
-__version__ = '17.05.26'
+__version__ = '17.05.29'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Real as _Scalars  #: (INTERNAL) Scalar objects
@@ -89,7 +90,7 @@ def cbrt(x):
 
 
 def cbrt2(x):
-    '''Computes squared cubic root M{x**(2/3)}.
+    '''Computes the cubic root squared M{x**(2/3)}.
 
        @param x: Argument (scalar).
 
@@ -221,12 +222,13 @@ def fdot3(a, b, c, start=0):
 
 
 def fStr(floats, prec=6, sep=', ', fmt='%.*f', ints=False):
-    '''Converts floats to string, optionally with trailing
-       zero decimals stripped.
+    '''Converts floats to string, optionally with trailing zero
+       decimals stripped.
 
        @param floats: List, sequence, tuple, etc. (scalars).
-       @keyword prec: Optional, number of decimals, unstripped.  Trailing
-                      zero decimals are not stripped if prec is 2 or negative.
+       @keyword prec: Optional precision, number of decimal digits (0..9).
+                      Trailing zero decimals are stripped for prec values
+                      of 1 and above, but kept for negative prec values.
        @keyword sep: Optional, separator to join (string).
        @keyword fmt: Optional, float format (string).
        @keyword ints: Optionally, remove decimal dot (bool).
@@ -237,15 +239,28 @@ def fStr(floats, prec=6, sep=', ', fmt='%.*f', ints=False):
         t = fmt % (abs(p), float(f))
         if ints and isint(f):
             t = t.split('.')[0]
-        elif p > 1 and t.endswith('0'):
-            z = len(t) - p + 1
-            t = t[:z] + t[z:].rstrip('0')
+        elif p > 1:
+            t = fStrzs(t)
         return t
 
     if isscalar(floats):
         return _fstr(prec, floats)
     else:
         return sep.join(_fstr(prec, f) for f in floats)
+
+
+def fStrzs(fstr):
+    '''Strips trailing zero decimals from a float string.
+
+       @param fstr: Float (string)
+
+       @return: Float (string).
+    '''
+    if fstr.endswith('0'):
+        z = fstr.find('.') + 2  # keep 1st zero decimal
+        if z > 1:
+            fstr = fstr[:z] + fstr[z:].rstrip('0')
+    return fstr
 
 
 def ft2m(feet):
@@ -314,17 +329,7 @@ def hypot1(x):
 
        @return: Norm (float).
     '''
-    h = abs(x)
-    if h > 1:
-        x = 1.0 / h
-        if x > EPS2:
-            # XXX PyChecker does not choke on *=?
-            h *= sqrt(1 + x * x)
-    elif h > EPS:
-        h = sqrt(1 + x * x)
-    else:
-        h = 1.0
-    return h
+    return hypot(1.0, x)
 
 
 def hypot3(x, y, z):
@@ -336,7 +341,7 @@ def hypot3(x, y, z):
 
        @return: Norm (float).
     '''
-    x, y, z = abs(x), abs(y), abs(z)
+    x, y, z = map1(abs, x, y, z)
     if x < y:
         x, y = y, x
     if x < z:
@@ -349,7 +354,9 @@ def hypot3(x, y, z):
             # XXX PyChecker chokes on /= and *=!
             y = y / h
             z = z / h
-            h = h * sqrt(1 + y * y + z * z)
+            t = y * y + z * z
+            if t > EPS:
+                h = h * sqrt(1.0 + t)
     elif y:
         h = hypot(x, y)
     else:

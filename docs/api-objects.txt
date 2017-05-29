@@ -6,6 +6,7 @@ pygeodesy.F_RAD	pygeodesy-module.html#F_RAD
 pygeodesy.F_D	pygeodesy-module.html#F_D
 pygeodesy.isscalar	pygeodesy-module.html#isscalar
 pygeodesy.S_SEP	pygeodesy-module.html#S_SEP
+pygeodesy.fStrzs	pygeodesy-module.html#fStrzs
 pygeodesy.hsin	pygeodesy-module.html#hsin
 pygeodesy.S_SEC	pygeodesy-module.html#S_SEC
 pygeodesy.degrees180	pygeodesy-module.html#degrees180
@@ -127,6 +128,7 @@ pygeodesy.dms.F_D	pygeodesy.dms-module.html#F_D
 pygeodesy.dms.S_RAD	pygeodesy.dms-module.html#S_RAD
 pygeodesy.dms._COMPASS	pygeodesy.dms-module.html#_COMPASS
 pygeodesy.dms.S_SEP	pygeodesy.dms-module.html#S_SEP
+pygeodesy.dms.fStrzs	pygeodesy.utils-module.html#fStrzs
 pygeodesy.dms.__package__	pygeodesy.dms-module.html#__package__
 pygeodesy.dms.S_SEC	pygeodesy.dms-module.html#S_SEC
 pygeodesy.dms._toDMS	pygeodesy.dms-module.html#_toDMS
@@ -325,6 +327,7 @@ pygeodesy.utils.degrees360	pygeodesy.utils-module.html#degrees360
 pygeodesy.utils.hypot3	pygeodesy.utils-module.html#hypot3
 pygeodesy.utils.isscalar	pygeodesy.utils-module.html#isscalar
 pygeodesy.utils.radiansPI2	pygeodesy.utils-module.html#radiansPI2
+pygeodesy.utils.fStrzs	pygeodesy.utils-module.html#fStrzs
 pygeodesy.utils.PI_2	pygeodesy.utils-module.html#PI_2
 pygeodesy.utils.wrapPI2	pygeodesy.utils-module.html#wrapPI2
 pygeodesy.utils.wrap180	pygeodesy.utils-module.html#wrap180

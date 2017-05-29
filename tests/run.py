@@ -17,7 +17,7 @@ import sys
 import tests  # for .version
 
 __all__ = ('run',)
-__version__ = '17.05.25'
+__version__ = '17.05.29'
 
 _python_O = _python = sys.executable  # path
 if not __debug__:
@@ -25,7 +25,7 @@ if not __debug__:
 
 
 def run(test):
-    '''Invoke a test and return the
+    '''Invoke one test and return the
        exit status and console output.
     '''
     c = [_python_O, test]
@@ -89,6 +89,9 @@ if __name__ == '__main__':  # MCCABE expected
         if x:
             v = ' '.join((v, t, x))
             break
+
+#   import pygeodesy
+#   v = ' '.join((v, pygeodesy.__file__))
 
     if not args:  # no tests specified, get all test*.py
         # scripts in the same directory as this one

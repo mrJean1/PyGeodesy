@@ -4,7 +4,7 @@
 # The setuptools script to build, install and test a PyGeodesy distribution.
 
 # Tested with 64-bit Python 2.7.13 and 3.6.0 (using setuptools 28.8.0) but
-# on macOS 10.12.3 Sierra only.
+# on macOS 10.12.3, 10.12.4 and 10.12.5 Sierra only.
 
 # python setup.py sdist --formats=gztar,bztar,zip
 #[python setup.py bdist_wheel --universal  # XXX]
@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '17.05.01'
+__version__ = '17.05.29'
 
 
 def _version():

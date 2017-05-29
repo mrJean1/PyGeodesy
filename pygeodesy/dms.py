@@ -11,6 +11,8 @@ and U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
 @newfield example: Example, Examples
 '''
 
+from utils import fStrzs
+
 from math import radians
 try:
     from string import letters as LETTERS
@@ -23,7 +25,7 @@ __all__ = ('F_D', 'F_DM', 'F_DMS', 'F_DEG', 'F_RAD',  # forms
            'bearingDMS', 'compassDMS', 'compassPoint',  # functions
            'latDMS', 'lonDMS', 'normDMS',
            'parseDMS', 'parse3llh', 'precision', 'toDMS')
-__version__ = '17.05.25'
+__version__ = '17.05.29'
 
 F_D   = 'd'    #: Format degrees as deg° (string).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (string).
@@ -82,11 +84,8 @@ def _toDMS(deg, form, prec, ddd):
                                           w+2,p,s)
         s = S_SEC
 
-    if z > 1 and t.endswith('0'):
-        # strip trailing decimal zeros, except one
-        z = len(t) - z + 1
-        t = t[:z] + t[z:].rstrip('0')
-
+    if z > 1:
+        t = fStrzs(t)
     return t + s
 
 
@@ -96,7 +95,10 @@ def bearingDMS(bearing, form=F_D, prec=None):
        @param bearing: Bearing from North (compass degrees).
        @keyword form: Use F_D, F_DM, F_DMS, F_DEG or F_RAD for deg°,
                       deg°min′, deg°min′sec″ or degrees or radians.
-       @keyword prec: Optional, number of decimal digits (0..9 or None).
+       @keyword prec: Optional, number of decimal digits (0..9 or
+                      None for default).  Trailing zero decimals
+                      are stripped for prec values of 1 and above,
+                      but kept for negative prec values.
 
        @return: Compass degrees per the specified form (string).
 
@@ -119,7 +121,10 @@ def compassDMS(bearing, form=F_D, prec=None):
        @param bearing: Bearing from North (compass degrees).
        @keyword form: Use F_D, F_DM, F_DMS, F_DEG or F_RAD for deg°,
                       deg°min′, deg°min′sec″ or degrees or radians.
-       @keyword prec: Optional, number of decimal digits (0..9 or None).
+       @keyword prec: Optional, number of decimal digits (0..9 or
+                      None for default).  Trailing zero decimals
+                      are stripped for prec values of 1 and above,
+                      but kept for negative prec values.
 
        @return: Compass degrees and point per the specified form (string).
     '''
@@ -158,7 +163,10 @@ def latDMS(deg, form=F_DMS, prec=2):
        @param deg: Latitude to be formatted (degrees).
        @keyword form: Use F_D, F_DM, F_DMS, F_DEG or F_RAD for deg°,
                       deg°min′, deg°min′sec″ or degrees or radians.
-       @keyword prec: Optional, number of decimal digits (0..9 or None).
+       @keyword prec: Optional, number of decimal digits (0..9 or
+                      None for default).  Trailing zero decimals
+                      are stripped for prec values of 1 and above,
+                      but kept for negative prec values.
 
        @return: Degrees per the specified form (string).
 
@@ -173,7 +181,10 @@ def lonDMS(deg, form=F_DMS, prec=2):
        @param deg: Longitude to be formatted (degrees).
        @keyword form: Use F_D, F_DM, F_DMS, F_DEG or F_RAD for deg°,
                       deg°min′, deg°min′sec″ or degrees or radians.
-       @keyword prec: Optional, number of decimal digits (0..9 or None).
+       @keyword prec: Optional, number of decimal digits (0..9 or
+                      None for default).  Trailing zero decimals
+                      are stripped for prec values of 1 and above,
+                      but kept for negative prec values.
 
        @return: Degrees per the specified form (string).
 
@@ -299,10 +310,10 @@ def precision(form, prec=None):
     '''Sets the default precison for a given F_ form.
 
        @param form: F_D, F_DM, F_DMS, F_DEG or F_RAD (string).
-       @keyword prec: Optional, number of decimal digits (int)
-                      or None to remain unchanged.  Trailing
-                      zeros are omitted for positive precision,
-                      but kept for negative precision values.
+       @keyword prec: Optional, number of decimal digits (0..9 or
+                      None for default).  Trailing zero decimals
+                      are stripped for prec values of 1 and above,
+                      but kept for negative prec values.
 
        @return: Previous precision (int).
 
@@ -326,7 +337,10 @@ def toDMS(deg, form=F_DMS, prec=2, ddd=2, neg='-', pos=''):
        @param deg: Degrees to be formatted (scalar).
        @keyword form: F_D, F_DM, F_DMS, F_DEG or F_RAD for deg°,
                       deg°min′, deg°min′sec″ or degrees or radians.
-       @keyword prec: Optional, number of decimal digits (0..9 or None).
+       @keyword prec: Optional, number of decimal digits (0..9 or
+                      None for default).  Trailing zero decimals
+                      are stripped for prec values of 1 and above,
+                      but kept for negative prec values.
        @keyword ddd: Optional, number of digits for deg° (2 or 3).
        @keyword neg: Optional, sign for negative degrees ('-').
        @keyword pos: Optional, sign for positive degrees ('').

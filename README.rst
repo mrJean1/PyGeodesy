@@ -46,7 +46,7 @@ distribution files were created with command line ``python setup.py sdist
 Some function and method names differ from the JavaScript version. In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: May 28, 2017.*
+*Last updated: May 29, 2017.*
 
 .. _checked: http://code.activestate.com/recipes/546532
 .. _docs: http://www.movable-type.co.uk/scripts/js/geodesy/docs

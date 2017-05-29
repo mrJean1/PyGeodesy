@@ -157,7 +157,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.05.28
+        17.05.29
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -422,7 +422,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#cbrt2" class="summary-sig-name">cbrt2</a>(<span class="summary-sig-arg">x</span>)</span><br />
-      Computes squared cubic root <i class="math">x**(2/3)</i>.</td>
+      Computes the cubic root squared <i class="math">x**(2/3)</i>.</td>
           <td align="right" valign="top">
             
             
@@ -550,6 +550,23 @@
         <span class="summary-sig-arg">ints</span>=<span class="summary-sig-default">False</span>)</span><br />
       Converts floats to string, optionally with trailing zero decimals 
       stripped.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#fStrzs" class="summary-sig-name">fStrzs</a>(<span class="summary-sig-arg">fstr</span>)</span><br />
+      Strips trailing zero decimals from a float string.</td>
           <td align="right" valign="top">
             
             
@@ -1534,7 +1551,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'17.5.28'"><code class="variable-quote">'</code><code class="variable-string">17.5.28</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'17.5.29'"><code class="variable-quote">'</code><code class="variable-string">17.5.29</code><code class="variable-quote">'</code></code><br />
       Normalized PyGeodesy version (string).
     </td>
   </tr>
@@ -1834,7 +1851,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
         <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (compass degrees).</li>
         <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS, F_DEG or F_RAD for deg&#176;, deg&#176;min&#8242;, 
           deg&#176;min&#8242;sec&#8243; or degrees or radians.</li>
-        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None for default).  
+          Trailing zero decimals are stripped for prec values of 1 and 
+          above, but kept for negative prec values.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Compass degrees per the specified form (string).</dd>
@@ -1883,7 +1902,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     </td>
   </tr></table>
   
-  <p>Computes squared cubic root <i class="math">x**(2/3)</i>.</p>
+  <p>Computes the cubic root squared <i class="math">x**(2/3)</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -1917,7 +1936,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
         <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (compass degrees).</li>
         <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS, F_DEG or F_RAD for deg&#176;, deg&#176;min&#8242;, 
           deg&#176;min&#8242;sec&#8243; or degrees or radians.</li>
-        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None for default).  
+          Trailing zero decimals are stripped for prec values of 1 and 
+          above, but kept for negative prec values.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Compass degrees and point per the specified form (string).</dd>
@@ -2062,14 +2083,40 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>floats</code></strong> - List, sequence, tuple, etc. (scalars).</li>
-        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimals, unstripped.  Trailing zero decimals
-          are not stripped if prec is 2 or negative.</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional precision, number of decimal digits (0..9). Trailing 
+          zero decimals are stripped for prec values of 1 and above, but 
+          kept for negative prec values.</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional, separator to join (string).</li>
         <li><strong class="pname"><code>fmt</code></strong> - Optional, float format (string).</li>
         <li><strong class="pname"><code>ints</code></strong> - Optionally, remove decimal dot (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The floats as 'f, f, ... f' (string).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="fStrzs"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fStrzs</span>(<span class="sig-arg">fstr</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Strips trailing zero decimals from a float string.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>fstr</code></strong> - Float (string)</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Float (string).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2470,7 +2517,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
         <li><strong class="pname"><code>deg</code></strong> - Latitude to be formatted (degrees).</li>
         <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS, F_DEG or F_RAD for deg&#176;, deg&#176;min&#8242;, 
           deg&#176;min&#8242;sec&#8243; or degrees or radians.</li>
-        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None for default).  
+          Trailing zero decimals are stripped for prec values of 1 and 
+          above, but kept for negative prec values.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees per the specified form (string).</dd>
@@ -2529,7 +2578,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
         <li><strong class="pname"><code>deg</code></strong> - Longitude to be formatted (degrees).</li>
         <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS, F_DEG or F_RAD for deg&#176;, deg&#176;min&#8242;, 
           deg&#176;min&#8242;sec&#8243; or degrees or radians.</li>
-        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None for default).  
+          Trailing zero decimals are stripped for prec values of 1 and 
+          above, but kept for negative prec values.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees per the specified form (string).</dd>
@@ -2957,9 +3008,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS, F_DEG or F_RAD (string).</li>
-        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (int) or None to remain 
-          unchanged.  Trailing zeros are omitted for positive precision, 
-          but kept for negative precision values.</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None for default).  
+          Trailing zero decimals are stripped for prec values of 1 and 
+          above, but kept for negative prec values.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Previous precision (int).</dd>
@@ -3322,7 +3373,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
         <li><strong class="pname"><code>deg</code></strong> - Degrees to be formatted (scalar).</li>
         <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS, F_DEG or F_RAD for deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;
           or degrees or radians.</li>
-        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None for default).  
+          Trailing zero decimals are stripped for prec values of 1 and 
+          above, but kept for negative prec values.</li>
         <li><strong class="pname"><code>ddd</code></strong> - Optional, number of digits for deg&#176; (2 or 3).</li>
         <li><strong class="pname"><code>neg</code></strong> - Optional, sign for negative degrees ('-').</li>
         <li><strong class="pname"><code>pos</code></strong> - Optional, sign for positive degrees ('').</li>
@@ -3807,7 +3860,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat May 27 15:28:36 2017
+    Generated by Epydoc 3.0.1 on Mon May 29 14:19:13 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
