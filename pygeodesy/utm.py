@@ -44,7 +44,7 @@ from operator import mul
 # all public contants, classes and functions
 __all__ = ('Utm',  # classes
            'parseUTM', 'toUtm')  # functions
-__version__ = '17.05.26'
+__version__ = '17.05.30'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -70,20 +70,17 @@ class _Ks(object):
 
         self._ab = AB[1:]  # 0-origin
         self._pq = map2(mul, j2, self._ab)
-
-        assert len(self._ab) == len(self._pq) == n
+#       assert len(self._ab) == len(self._pq) == n
 
         x2 = map2(mul, j2, (x,) * n)
         self._chx = map2(cosh, x2)
         self._shx = map2(sinh, x2)
-
-        assert len(x2) == len(self._chx) == len(self._shx) == n
+#       assert len(x2) == len(self._chx) == len(self._shx) == n
 
         y2 = map2(mul, j2, (y,) * n)
         self._cy = map2(cos, y2)
         self._sy = map2(sin, y2)
-
-        assert len(y2) == len(self._cy) == len(self._sy) == n
+#       assert len(y2) == len(self._cy) == len(self._sy) == n
 
     def xs(self, x0):
         '''(INTERNAL) Eta summations (float).

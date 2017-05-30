@@ -15,14 +15,14 @@ from __future__ import division as _
 if not 1/2:  # PYCHOK 1/2 == 0
     raise ImportError('1/2 == %d' % (1/2,))
 
-from math import atan2, cos, degrees, hypot, \
-                 pi as PI, radians, sin, sqrt, tan  # pow
 try:
     from math import fsum  # precision sum, Python 2.6+
 except ImportError:
     fsum = sum  # use standard, built-in sum (or Kahan's summation
     # <http://wikipedia.org/wiki/Kahan_summation_algorithm> or
     # Hettinger's <http://code.activestate.com/recipes/393090/>)
+from math import atan2, cos, degrees, hypot, \
+                 pi as PI, radians, sin, sqrt, tan  # pow
 from operator import mul
 import sys
 
@@ -39,7 +39,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'tanPI_2_2',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI', 'wrapPI2', 'wrapPI_2')
-__version__ = '17.05.29'
+__version__ = '17.05.30'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Real as _Scalars  #: (INTERNAL) Scalar objects
@@ -191,7 +191,7 @@ def fdot(a, *b):
        @raise ValueError: Unequal len(a) and len(b).
     '''
     if not len(a) == len(b):
-        raise ValueError('unequal len: %s vs %s' % (len(a), len(b)))
+        raise ValueError('%s: %s vs %s' % ('len', len(a), len(b)))
 
     return fsum(map(mul, a, b))
 
@@ -213,7 +213,7 @@ def fdot3(a, b, c, start=0):
         return a * b * c
 
     if not len(a) == len(b) == len(c):
-        raise ValueError('unequal len: %s vs %s vs %s' % (len(a), len(b), len(c)))
+        raise ValueError('%s: %s vs %s vs %s' % ('len', len(a), len(b), len(c)))
 
     m3 = map(_mul3, a, b, c)
     if start:
@@ -342,25 +342,23 @@ def hypot3(x, y, z):
        @return: Norm (float).
     '''
     x, y, z = map1(abs, x, y, z)
-    if x < y:
-        x, y = y, x
     if x < z:
         x, z = z, x
     if y < z:
         y, z = z, y
     if z:
+        if x < y:
+            x, y = y, x
         h = float(x)
         if h > EPS:
-            # XXX PyChecker chokes on /= and *=!
+            # XXX PyChecker chokes on /= and *=
             y = y / h
             z = z / h
             t = y * y + z * z
             if t > EPS:
-                h = h * sqrt(1.0 + t)
-    elif y:
-        h = hypot(x, y)
+                h *= sqrt(1.0 + t)
     else:
-        h = float(x)
+        h = hypot(x, y)
     return h
 
 
