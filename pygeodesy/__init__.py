@@ -149,8 +149,8 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',  # modules
            'datum', 'dms', 'geohash', 'lcc', 'mgrs', 'nvector',
            'osgr', 'simplify', 'utils', 'utm', 'vector3d',
            'Geohash', 'VincentyError',  # classes
-           'version', 'isclockwise')  # extended below
-__version__ = '17.05.30'
+           'version', 'isclockwise', 'isconvex')  # extended below
+__version__ = '17.05.31'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
@@ -158,7 +158,7 @@ version = '.'.join(map(str, map(int, __version__.split('.'))))
 # lift all public classes, constants, functions, etc. but
 # only from the following sub-modules ... (see also David
 # Beazley's <http://dabeaz.com/modulepackage/index.html>)
-from bases    import isclockwise  # PYCHOK expected
+from bases    import isclockwise, isconvex  # PYCHOK expected
 from datum    import *  # PYCHOK __all__
 from dms      import *  # PYCHOK __all__
 from lcc      import *  # PYCHOK __all__

@@ -16,7 +16,8 @@ except ImportError:
     sys.path.insert(0, dirname(dirname(__file__)))
 from pygeodesy import R_NM, F_D, F_DM, F_DMS, F_RAD, \
                       version as geodesy_version, \
-                      degrees, isclockwise, m2NM, normDMS  # PYCHOK expected
+                      degrees, isclockwise, isconvex, \
+                      m2NM, normDMS  # PYCHOK expected
 
 from inspect import isclass, isfunction, ismethod, ismodule
 from platform import architecture
@@ -24,7 +25,7 @@ from time import time
 
 __all__ = ('versions', 'Tests',
            'secs2str')
-__version__ = '17.05.29'
+__version__ = '17.05.31'
 
 try:
     _int = int, long
@@ -282,6 +283,16 @@ class Tests(object):
                 self.test('isclockwise', isclockwise(t[:2]), ValueError)
             except ValueError as x:
                 self.test('isclockwise', x, 'too few points: 2')  # PYCHOK false?
+
+        if isconvex:
+            f = LatLon(45,1), LatLon(46,2), LatLon(45,2), LatLon(46,1)
+            self.test('isconvex', isconvex(f), 'False')
+            t = LatLon(45,1), LatLon(46,1), LatLon(46,2), LatLon(45,1)
+            self.test('isconvex', isconvex(t), 'True')
+            try:
+                self.test('isconvex', isconvex(t[:2]), ValueError)
+            except ValueError as x:
+                self.test('isconvex', x, 'too few points: 2')  # PYCHOK false?
 
     def testLatLonAttr(self, *modules):
         self.title('LatLon.attrs', __version__)

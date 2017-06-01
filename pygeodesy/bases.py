@@ -10,15 +10,16 @@ and U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
 @newfield example: Example, Examples
 '''
 from dms   import F_D, F_DMS, latDMS, lonDMS, parseDMS
-from utils import EPS, R_M, favg, fsum, len2, map1, wrap90, wrap180
+from utils import EPS, R_M, favg, fdot, fsum, \
+                  len2, map1, wrap90, wrap180
 
 from math import asin, cos, degrees, radians, sin
 
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('Base', 'LatLonHeightBase', 'Named', 'VectorBase',
-           'isclockwise')
-__version__ = '17.05.25'
+           'isclockwise', 'isconvex')
+__version__ = '17.05.31'
 
 
 class Base(object):
@@ -225,47 +226,6 @@ class LatLonHeightBase(Base):
         self._update(height != self._height)
         self._height = height
 
-    def isclockwise(self, points):
-        '''Determine direction of a polygon defined by a list,
-           sequence, set or tuple of I{LatLon} points.
-
-           @param points: The points defining the polygon (I{LatLon}[]).
-
-           @return: True if clockwise, False otherwise.
-
-           @raise TypeError: Some points are not I{LatLon}.
-
-           @raise ValueError: Too few points or polygon has zero area.
-
-           @example:
-
-           >>> f = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
-           >>> LatLon(0,0).isclockwise(f)  # False
-
-           >>> t = LatLon(45,1), LatLon(46,1), LatLon(46,2)
-           >>> LatLon(0,0).isclockwise(t)  # True
-        '''
-        def _2xy(p):  # map to flat x-y space
-            return wrap180(p.lon), wrap90(p.lat)
-
-        _, points = self.points(points)
-
-        pa = []
-        x1, y1 = _2xy(points[-1])
-        for p in points:  # pseudo-area of each segment
-            x2, y2 = _2xy(p)
-            pa.append((x2 - x1) * (y2 + y1))
-            x1, y1 = x2, y2
-
-        if pa:  # signed pseudo-area
-            pa = fsum(pa)
-            if pa > 0:
-                return True
-            elif pa < 0:
-                return False
-
-        raise ValueError('zero area: %r' % (points[:3],))
-
     @property
     def lat(self):
         '''Gets the latitude (degrees).
@@ -393,14 +353,36 @@ class Named(object):
 
 VectorBase = Base  #: (INTERNAL) Used by vector3d.
 
-_LLh = LatLonHeightBase(0, 0)
+_LLHB = LatLonHeightBase(0, 0)  #: (INTERNAL) for _Pts
 
 
-def isclockwise(points):
-    '''Determine direction of a polygon defined by a list,
+class _Pts(Base):
+    '''(INTERNAL) Helper for isclockwise and isconvex.
+    '''
+    _deg2m = 1.0  # default, keep degrees
+
+    def __init__(self, points, radius):
+        self._n, self._lls = _LLHB.points(points)
+        if radius:
+            self._deg2m = radius * radians(1)
+
+    def xyi(self, i):  # pseudo x and y in meter
+        ll = self._lls[i]
+        return wrap180(ll.lon) * self._deg2m, \
+               wrap90( ll.lat) * self._deg2m, i
+
+    def xyis(self, i):  # iterat over all points[i:n]
+        while i < self._n:
+            yield self.xyi(i)
+            i += 1
+
+
+def isclockwise(points, radius=None):
+    '''Determines direction of a polygon defined by a list,
        sequence, set or tuple of I{LatLon} points.
 
        @param points: The points defining the polygon (I{LatLon}[]).
+       @keyword radius: Optional, mean earth radius (meter).
 
        @return: True if clockwise, False otherwise.
 
@@ -411,12 +393,75 @@ def isclockwise(points):
        @example:
 
        >>> f = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
-       >>> isclockwise(f)  # False
+       >>> pygeodesy.isclockwise(f)  # False
 
-       >>> t = LatLon(45,1), LatLon(46,1), LatLon(46,2), LatLon(45,1)
-       >>> isclockwise(t)  # True
+       >>> t = LatLon(45,1), LatLon(46,1), LatLon(46,2)
+       >>> pygeodesy.isclockwise(t)  # True
     '''
-    return _LLh.isclockwise(points)
+    pa, pts = [], _Pts(points, radius)
+
+    x1, y1, _ = pts.xyi(-1)
+    for x2, y2, _ in pts.xyis(0):  # pseudo-area of each segment
+        pa.append((x2 - x1) * (y2 + y1))
+        x1, y1 = x2, y2
+
+    if pa:  # signed pseudo-area
+        pa = fsum(pa)
+        if pa > 0:
+            return True
+        elif pa < 0:
+            return False
+
+    raise ValueError('zero area: %r' % (pts._lls[:3],))
+
+
+def isconvex(points, radius=None):
+    '''Determines whether a polygon defined by a list,
+       sequence, set or tuple of I{LatLon} points is convex.
+
+       @param points: The points defining the polygon (I{LatLon}[]).
+       @keyword radius: Optional, mean earth radius (meter).
+
+       @return: True if convex, False otherwise.
+
+       @raise TypeError: Some points are not I{LatLon}.
+
+       @raise ValueError: Too few points or colinear point.
+
+       @example:
+
+       >>> t = LatLon(45,1), LatLon(46,1), LatLon(46,2)
+       >>> pygeodesy.isconvex(t)  # True
+
+       >>> f = LatLon(45,1), LatLon(46,2), LatLon(45,2), LatLon(46,1)
+       >>> pygeodesy.isconvex(f)  # False
+    '''
+    s, pts = None, _Pts(points, radius)
+
+    x1, y1, _ = pts.xyi(-1)
+    x2, y2, _ = pts.xyi(0)
+    for x3, y3, i in pts.xyis(1):
+        # get the sign of the distance from point
+        # x3, y3 to the line from x1, y1 to x2, y2
+        # <http://wikipedia.org/wiki/Distance_from_a_point_to_a_line>
+        s3 = fdot((x3, y3, x1, y1), y2 - y1, x1 - x2, -y2, x2)
+        if s3 > 0:  # x3, y3 on the left
+            if s is None:
+                s = True
+            elif not s:  # different side
+                return False
+        elif s3 < 0:  # x3, y3 on the right
+            if s is None:
+                s = False
+            elif s:  # different side
+                return False
+        elif fdot((x3 - x2, y1 - y2), y3 - y2, x1 - x2) < 0:
+            # colinear u-turn: x3, y3 not on the
+            # opposite side of x2, y2 as x1, y1
+            raise ValueError('colinear: %r' % (pts._lls[i-1],))
+        x1, y1, x2, y2 = x2, y2, x3, y3
+
+    return True  # all points on the same side
 
 # **) MIT License
 #

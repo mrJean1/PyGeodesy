@@ -157,7 +157,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.05.30
+        17.05.31
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -367,9 +367,29 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#isclockwise" class="summary-sig-name">isclockwise</a>(<span class="summary-sig-arg">points</span>)</span><br />
-      Determine direction of a polygon defined by a list, sequence, set or 
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#isclockwise" class="summary-sig-name">isclockwise</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Determines direction of a polygon defined by a list, sequence, set or
       tuple of <i>LatLon</i> points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#isconvex" class="summary-sig-name">isconvex</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Determines whether a polygon defined by a list, sequence, set or 
+      tuple of <i>LatLon</i> points is convex.</td>
           <td align="right" valign="top">
             
             
@@ -1551,7 +1571,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'17.5.30'"><code class="variable-quote">'</code><code class="variable-string">17.5.30</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'17.5.31'"><code class="variable-quote">'</code><code class="variable-string">17.5.31</code><code class="variable-quote">'</code></code><br />
       Normalized PyGeodesy version (string).
     </td>
   </tr>
@@ -1796,19 +1816,21 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">isclockwise</span>(<span class="sig-arg">points</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isclockwise</span>(<span class="sig-arg">points</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Determine direction of a polygon defined by a list, sequence, set or 
+  <p>Determines direction of a polygon defined by a list, sequence, set or 
   tuple of <i>LatLon</i> points.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<i>LatLon</i>[]).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>True if clockwise, False otherwise.</dd>
@@ -1821,10 +1843,51 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
 <span class="py-prompt">&gt;&gt;&gt; </span>f = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
-<span class="py-prompt">&gt;&gt;&gt; </span>isclockwise(f)  <span class="py-comment"># False</span></pre>
+<span class="py-prompt">&gt;&gt;&gt; </span>pygeodesy.isclockwise(f)  <span class="py-comment"># False</span></pre>
 <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>t = LatLon(45,1), LatLon(46,1), LatLon(46,2), LatLon(45,1)
-<span class="py-prompt">&gt;&gt;&gt; </span>isclockwise(t)  <span class="py-comment"># True</span></pre>
+<span class="py-prompt">&gt;&gt;&gt; </span>t = LatLon(45,1), LatLon(46,1), LatLon(46,2)
+<span class="py-prompt">&gt;&gt;&gt; </span>pygeodesy.isclockwise(t)  <span class="py-comment"># True</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="isconvex"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isconvex</span>(<span class="sig-arg">points</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Determines whether a polygon defined by a list, sequence, set or tuple
+  of <i>LatLon</i> points is convex.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<i>LatLon</i>[]).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>True if convex, False otherwise.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <i>LatLon</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Too few points or colinear point.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>t = LatLon(45,1), LatLon(46,1), LatLon(46,2)
+<span class="py-prompt">&gt;&gt;&gt; </span>pygeodesy.isconvex(t)  <span class="py-comment"># True</span></pre>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>f = LatLon(45,1), LatLon(46,2), LatLon(45,2), LatLon(46,1)
+<span class="py-prompt">&gt;&gt;&gt; </span>pygeodesy.isconvex(f)  <span class="py-comment"># False</span></pre>
       </p>
 </div></td></tr></table>
 </div>
@@ -3860,7 +3923,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue May 30 11:06:29 2017
+    Generated by Epydoc 3.0.1 on Wed May 31 20:36:00 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

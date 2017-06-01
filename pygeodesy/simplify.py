@@ -61,7 +61,7 @@ from math  import cos, degrees, radians
 __all__ = ('simplify1', 'simplify2',
            'simplifyRDP', 'simplifyRDPm',
            'simplifyVW', 'simplifyVWm')
-__version__ = '17.05.26'
+__version__ = '17.05.31'
 
 
 # try:
@@ -207,6 +207,36 @@ class _Sy(object):
         '''Returns the list of simplified points.
         '''
         return [self.pts[i] for i in sorted(r.keys())]
+
+    def rdp(self, mod):
+        '''Ramer-Douglas-Peucker (RDP) simplification of a
+           path of I{LatLon} points.
+
+           @param mod: Modified RDP (bool).
+        '''
+        n, r = self.n, self.r
+        if n > 1:
+            s2, d21, d2i = self.s2, self.d21, self.d2i
+
+            se = [(0, n-1)]
+            while se:
+                s, e = se.pop()
+                if (e - s) > 1:
+                    if d21(s, e):
+                        d2, i = d2i(s+1, e, mod)
+                        if i > 0 and d2 > s2:
+                            r[s] = r[i] = True
+                            se.append((i, e))
+                            if not mod:
+                                se.append((s, i))
+                        else:
+                            r[s] = True
+                    else:  # split halfway
+                        i = (e + s) // 2
+                        se.append((i, e))
+                        se.append((s, i))
+
+        return self.points(r)
 
     def rm1(self, m, tol):
         '''Eliminates one Visvalingam-Whyatt point and recomputes
@@ -367,28 +397,7 @@ def simplifyRDP(points, distance, radius=R_M, adjust=True, shortest=False):
     '''
     S = _Sy(points, distance, radius, adjust, shortest)
 
-    n, r = S.n, S.r
-    if n > 1:
-        s2, d21, d2i = S.s2, S.d21, S.d2i
-
-        se = [(0, n-1)]
-        while se:
-            s, e = se.pop()
-            if (e - s) > 1:
-                if d21(s, e):
-                    d2, i = d2i(s+1, e, False)
-                    if i > 0 and d2 > s2:  # split at farthest
-                        r[s] = r[i] = True
-                        se.append((i, e))
-                        se.append((s, i))
-                    else:  # all too near
-                        r[s] = True
-                else:  # split halfway
-                    i = (e + s) // 2
-                    se.append((i, e))
-                    se.append((s, i))
-
-    return S.points(r)
+    return S.rdp(False)
 
 
 def simplifyRDPm(points, distance, radius=R_M, adjust=True, shortest=False):
@@ -412,27 +421,7 @@ def simplifyRDPm(points, distance, radius=R_M, adjust=True, shortest=False):
     '''
     S = _Sy(points, distance, radius, adjust, shortest)
 
-    n, r = S.n, S.r
-    if n > 1:
-        s2, d21, d2i = S.s2, S.d21, S.d2i
-
-        se = [(0, n-1)]
-        while se:
-            s, e = se.pop()
-            if (e - s) > 1:
-                if d21(s, e):
-                    d2, i = d2i(s+1, e, True)
-                    if i > 0 and d2 > s2:
-                        r[s] = r[i] = True
-                        se.append((i, e))
-                    else:
-                        r[s] = True
-                else:  # split halfway
-                    i = (e + s) // 2
-                    se.append((i, e))
-                    se.append((s, i))
-
-    return S.points(r)
+    return S.rdp(True)
 
 
 def simplifyVW(points, area2, radius=R_M, adjust=True, attr=None):
