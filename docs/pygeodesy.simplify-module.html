@@ -155,7 +155,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.05.31
+        17.06.01
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -257,7 +257,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.simplify-module.html#simplifyVW" class="summary-sig-name">simplifyVW</a>(<span class="summary-sig-arg">points</span>,
-        <span class="summary-sig-arg">area2</span>,
+        <span class="summary-sig-arg">area</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">attr</span>=<span class="summary-sig-default">None</span>)</span><br />
@@ -279,7 +279,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.simplify-module.html#simplifyVWm" class="summary-sig-name">simplifyVWm</a>(<span class="summary-sig-arg">points</span>,
-        <span class="summary-sig-arg">area2</span>,
+        <span class="summary-sig-arg">area</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">attr</span>=<span class="summary-sig-default">None</span>)</span><br />
@@ -334,6 +334,10 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Simplified points (list of <i>LatLon</i>s).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Radius or distance tolerance too small.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -369,6 +373,10 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Simplified points (list of <i>LatLon</i>s).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Radius or band tolerance too small.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -408,6 +416,10 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Simplified points (list of <i>LatLon</i>s).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Radius or distance tolerance too small.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -447,6 +459,10 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Simplified points (list of <i>LatLon</i>s).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Radius or distance tolerance too small.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -458,7 +474,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">simplifyVW</span>(<span class="sig-arg">points</span>,
-        <span class="sig-arg">area2</span>,
+        <span class="sig-arg">area</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
         <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">attr</span>=<span class="sig-default">None</span>)</span>
@@ -471,7 +487,7 @@
   <p>Visvalingam-Whyatt (VW) simplification of a path of <i>LatLon</i> 
   points.</p>
   <p>Eliminates any points too close together or with a triangular area not
-  exceeding the given area tolerance squared.</p>
+  exceeding the given area tolerance (** 2 / 2).</p>
   <p>This VW method exhaustively searches for the single point with the 
   smallest triangular area, resulting in worst-case complexity O(n**2) 
   where n is the number of points.</p>
@@ -479,13 +495,17 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
-        <li><strong class="pname"><code>area2</code></strong> - Tolerance (meter, same units as radius).</li>
+        <li><strong class="pname"><code>area</code></strong> - Tolerance (meter, same units as radius).</li>
         <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
         <li><strong class="pname"><code>attr</code></strong> - Points attribute save area value (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Simplified points (list of <i>LatLon</i>s).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Radius or area tolerance too small.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -497,7 +517,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">simplifyVWm</span>(<span class="sig-arg">points</span>,
-        <span class="sig-arg">area2</span>,
+        <span class="sig-arg">area</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
         <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">attr</span>=<span class="sig-default">None</span>)</span>
@@ -510,7 +530,7 @@
   <p>Modified Visvalingam-Whyatt (VW) simplification of a path of 
   <i>LatLon</i> points.</p>
   <p>Eliminates any points too close together or with a triangular area not
-  exceeding the given area tolerance squared.</p>
+  exceeding the given area tolerance (** 2 / 2).</p>
   <p>This VW method removes all points with a triangular area below the 
   tolerance per iteration, significantly reducing the run time (but 
   producing results different from the original VW method).</p>
@@ -518,13 +538,17 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
-        <li><strong class="pname"><code>area2</code></strong> - Tolerance (meter, same units as radius).</li>
+        <li><strong class="pname"><code>area</code></strong> - Tolerance (meter, same units as radius).</li>
         <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
         <li><strong class="pname"><code>attr</code></strong> - Attribute to save the area value (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Simplified points (list of <i>LatLon</i>s).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Radius or area tolerance too small.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -560,7 +584,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May 31 20:36:00 2017
+    Generated by Epydoc 3.0.1 on Thu Jun  1 15:43:55 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

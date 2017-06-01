@@ -263,6 +263,7 @@ pygeodesy.simplify	pygeodesy.simplify-module.html
 pygeodesy.simplify.simplify2	pygeodesy.simplify-module.html#simplify2
 pygeodesy.simplify.simplifyRDPm	pygeodesy.simplify-module.html#simplifyRDPm
 pygeodesy.simplify.simplifyVWm	pygeodesy.simplify-module.html#simplifyVWm
+pygeodesy.simplify.wrap90	pygeodesy.utils-module.html#wrap90
 pygeodesy.simplify.simplifyVW	pygeodesy.simplify-module.html#simplifyVW
 pygeodesy.simplify.__package__	pygeodesy.simplify-module.html#__package__
 pygeodesy.simplify.len2	pygeodesy.utils-module.html#len2

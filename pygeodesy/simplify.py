@@ -54,14 +54,14 @@ Tested with 64-bit Python 2.6.9, 2.7.13, 3.5.3 and 3.6.0 on macOS
 '''
 
 from datum import R_M
-from utils import EPS, len2, radiansPI, wrap180
+from utils import EPS, len2, radiansPI, wrap90, wrap180
 
 from math  import cos, degrees, radians
 
 __all__ = ('simplify1', 'simplify2',
            'simplifyRDP', 'simplifyRDPm',
            'simplifyVW', 'simplifyVWm')
-__version__ = '17.05.31'
+__version__ = '17.06.01'
 
 
 # try:
@@ -90,7 +90,7 @@ class _Sy(object):
     adjust = False
     d2i    = None  # d2iP or d2iS
     d2xyse = ()
-    eps    = EPS  # system epsilon
+    eps    = EPS * 2  # system epsilon
     n      = 0
     pts    = []
     radius = R_M
@@ -108,12 +108,15 @@ class _Sy(object):
         if adjust:
             self.adjust = True
 
-        self.radius = radius
+        if radius:
+            self.radius = radius
+        if self.radius < self.eps:
+            raise ValueError('%s too small: %.6g' % ('radius', radius))
 
         # tolerance converted to degrees squared
-        s2  = degrees(float(tolerance) / radius)
-        s2 *= s2
-        self.s2 = max(s2, EPS)
+        self.s2 = degrees(float(tolerance) / radius) ** 2
+        if self.s2 < self.eps:
+            raise ValueError('%s too small: %.6g' % ('tolerance', tolerance))
 
         self.d2i = self.d2iS if shortest else self.d2iP  # PYCHOK false
 
@@ -135,8 +138,7 @@ class _Sy(object):
         for i in range(n, m):
             d2, x01, y01 = d2xy(s, i)
             if d2 > eps:
-                d2  = x01 * y21 + y01 * x21
-                d2 *= d2 / d21
+                d2 = ((x01 * y21 + y01 * x21) ** 2) / d21
                 if d2 > t2:
                     t2, t = d2, i
                     if brk:
@@ -161,8 +163,7 @@ class _Sy(object):
                         # distance points[i] to -[e]
                         d2, _, _ = d2xy(e, i)
                     else:  # perpendicular distance
-                        d2  = x01 * y21 + y01 * x21
-                        d2 *= d2 / d21
+                        d2 = ((x01 * y21 + y01 * x21) ** 2) / d21
                 if d2 > t2:
                     t2, t = d2, i
                     if brk:
@@ -180,7 +181,7 @@ class _Sy(object):
         # but using degrees as units instead of meter
 
         dx = wrap180(p2.lon - p1.lon)
-        dy = wrap180(p2.lat - p1.lat)
+        dy = wrap90 (p2.lat - p1.lat)
 
         if self.adjust:  # scale lon
             dx *= cos(radiansPI(p1.lat + p2.lat) * 0.5)
@@ -200,7 +201,7 @@ class _Sy(object):
                 h2 = abs(x01 * y21 + y01 * x21)
                 # triangle height h = h2 / sqrt(d21) and
                 # the area = h * sqrt(d21) / 2 == h2 / 2
-                return h2  # triangle area (times 2)
+                return h2 * 0.5  # triangle area
         return 0
 
     def points(self, r):
@@ -241,7 +242,7 @@ class _Sy(object):
     def rm1(self, m, tol):
         '''Eliminates one Visvalingam-Whyatt point and recomputes
            the trangular area of both neighboring points, but
-           removes those too until its recomputed area exceeds
+           removes those too unless the recomputed area exceeds
            the tolerance.
         '''
         h2t, r = self.h2t, self.r
@@ -269,7 +270,7 @@ class _Sy(object):
                 rm1(i, tol)
                 i = min(i, len(r) - 1)
 
-    def vw(self):
+    def vwn(self):
         '''Initializes Visvalingam-Whyatt as list of 2-Tuples
            (ix, h2) where ix is the points[] index and h2
            the triangular area (times 2) of that point.
@@ -277,29 +278,27 @@ class _Sy(object):
         n, h2t, s2 = self.n, self.h2t, self.s2
 
         if n > 2:
-            s2 *= 2
-            r = [_T2(0, s2 + 1)]
-            r.extend(_T2(i, h2t(i-1, i, i+1)) for i in range(1, n-1))
-            r.append(_T2(n-1, s2 + 1))
+            self.r = [_T2(0, s2 + 1)]
+            self.r.extend(_T2(i, h2t(i-1, i, i+1)) for i in range(1, n-1))
+            self.r.append(_T2(n-1, s2 + 1))
         elif n > 0:
-            r = [_T2(i, 0) for i in range(0, n)]
+            self.r = [_T2(i, s2 + 1) for i in range(0, n)]  # PYCHOK false
         else:
-            r = []
+            self.r = []
 
-        self.r, self.s2 = r, s2
-        return len(r), r
+        return len(self.r)
 
     def vwr(self, attr):
-        '''Returns Visvalingam-Whyatt results as dict,
-           optionally including the triangular area
-           (in meters) for each simplified point.
+        '''Returns Visvalingam-Whyatt results, optionally
+           including the triangular area (in meters) as
+           attribute attr to each simplified point.
         '''
-        pts, r, radius, s2 = self.pts, self.r, self.radius, self.s2
+        pts, r, radius = self.pts, self.r, self.radius
 
         # double check the minimal triangular area
-        assert min(t2.h2 for t2 in r) > s2 > 0
+        assert min(t2.h2 for t2 in r) > self.s2 > 0
 
-        if attr:  # return triangular area (times 2)
+        if attr:  # return triangular area
             r[0].h2 = r[-1].h2 = 0
             for t2 in r:  # convert back to meter
                 setattr(pts[t2.ix], attr, radians(t2.h2) * radius)
@@ -308,7 +307,7 @@ class _Sy(object):
         n = len(r)
         r = dict((t2.ix, True) for t2 in r)
         assert len(r) == n
-        return r  # as dict
+        return self.points(r)
 
 
 def simplify1(points, distance, radius=R_M, adjust=True):
@@ -323,6 +322,8 @@ def simplify1(points, distance, radius=R_M, adjust=True):
        @keyword adjust: Adjust longitudes (bool).
 
        @return: Simplified points (list of I{LatLon}s).
+
+       @raise ValueError: Radius or distance tolerance too small.
     '''
     S = _Sy(points, distance, radius, adjust, True)
 
@@ -353,6 +354,8 @@ def simplify2(points, band2, radius=R_M, adjust=True, shortest=False):
        @keyword shortest: Shortest or perpendicular distance (bool).
 
        @return: Simplified points (list of I{LatLon}s).
+
+       @raise ValueError: Radius or band tolerance too small.
     '''
     S = _Sy(points, band2, radius, adjust, shortest)
 
@@ -394,6 +397,8 @@ def simplifyRDP(points, distance, radius=R_M, adjust=True, shortest=False):
        @keyword shortest: Shortest or perpendicular distance (bool).
 
        @return: Simplified points (list of I{LatLon}s).
+
+       @raise ValueError: Radius or distance tolerance too small.
     '''
     S = _Sy(points, distance, radius, adjust, shortest)
 
@@ -418,60 +423,64 @@ def simplifyRDPm(points, distance, radius=R_M, adjust=True, shortest=False):
        @keyword shortest: Shortest or perpendicular distance (bool).
 
        @return: Simplified points (list of I{LatLon}s).
+
+       @raise ValueError: Radius or distance tolerance too small.
     '''
     S = _Sy(points, distance, radius, adjust, shortest)
 
     return S.rdp(True)
 
 
-def simplifyVW(points, area2, radius=R_M, adjust=True, attr=None):
+def simplifyVW(points, area, radius=R_M, adjust=True, attr=None):
     '''Visvalingam-Whyatt (VW) simplification of a path of I{LatLon}
        points.
 
        Eliminates any points too close together or with a triangular
-       area not exceeding the given area tolerance squared.
+       area not exceeding the given area tolerance (** 2 / 2).
 
        This VW method exhaustively searches for the single point
        with the smallest triangular area, resulting in worst-case
        complexity O(n**2) where n is the number of points.
 
        @param points: Path points (I{LatLon}s).
-       @param area2: Tolerance (meter, same units as radius).
+       @param area: Tolerance (meter, same units as radius).
        @keyword radius: Earth radius (meter).
        @keyword adjust: Adjust longitudes (bool).
        @keyword attr: Points attribute save area value (string).
 
        @return: Simplified points (list of I{LatLon}s).
-    '''
-    S = _Sy(points, area2, radius, adjust, False)
 
-    n, r = S.vw()
-    if n > 2:
+       @raise ValueError: Radius or area tolerance too small.
+    '''
+    S = _Sy(points, area, radius, adjust, False)
+
+    if S.vwn() > 2:
         # remove any points too close or
         # with a zero triangular area
         S.rm2(0)
 
+        r, s2 = S.r, S.s2
         # keep removing the point with the smallest
         # area until latter exceeds the tolerance
         while len(r) > 2:
-            m, m2 = 0, S.s2 + 1
-            for i in range(1, len(r)-1):
+            m, m2 = 0, s2 + 1
+            for i in range(1, len(r) - 1):
                 h2 = r[i].h2
                 if h2 < m2:
                     m, m2 = i, h2
-            if m2 > S.s2:
+            if m2 > s2:
                 break
             S.rm1(m, 0)
 
-    return S.points(S.vwr(attr))
+    return S.vwr(attr)
 
 
-def simplifyVWm(points, area2, radius=R_M, adjust=True, attr=None):
+def simplifyVWm(points, area, radius=R_M, adjust=True, attr=None):
     '''Modified Visvalingam-Whyatt (VW) simplification of a path of
        I{LatLon} points.
 
        Eliminates any points too close together or with a triangular
-       area not exceeding the given area tolerance squared.
+       area not exceeding the given area tolerance (** 2 / 2).
 
        This VW method removes all points with a triangular area
        below the tolerance per iteration, significantly reducing the
@@ -479,22 +488,23 @@ def simplifyVWm(points, area2, radius=R_M, adjust=True, attr=None):
        VW method).
 
        @param points: Path points (I{LatLon}s).
-       @param area2: Tolerance (meter, same units as radius).
+       @param area: Tolerance (meter, same units as radius).
        @keyword radius: Earth radius (meter).
        @keyword adjust: Adjust longitudes (bool).
        @keyword attr: Attribute to save the area value (string).
 
        @return: Simplified points (list of I{LatLon}s).
-    '''
-    S = _Sy(points, area2, radius, adjust, False)
 
-    n, _ = S.vw()
-    if n > 2:
+       @raise ValueError: Radius or area tolerance too small.
+    '''
+    S = _Sy(points, area, radius, adjust, False)
+
+    if S.vwn() > 2:
         # remove all points with an area
         # not exceeding the tolerance
         S.rm2(S.s2)
 
-    return S.points(S.vwr(attr))
+    return S.vwr(attr)
 
 # **) MIT License
 #
