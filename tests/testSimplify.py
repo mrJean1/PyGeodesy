@@ -4,7 +4,7 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '17.05.26'
+__version__ = '17.06.02'
 
 from tests import secs2str, Tests as _Tests
 
@@ -62,8 +62,8 @@ if __name__ == '__main__':  # PYCHOK internal error?
     t.test2(simplify2, Pts, _ms({320: 2327, 160: 3565, 80: 4895, 40: 6130, 20: 7022, 10: 7598, 1: 8239}), adjust=True, shortest=False)
     t.test2(simplify2, Pts, _ms({320: 2440, 160: 3753, 80: 5116, 40: 6347, 20: 7188, 10: 7709, 1: 8247}), adjust=True, shortest=True)
 
-    t.test2(simplifyVWm, Pts, _ms({320: 1792, 160: 3552, 80: 6267, 40:  9725, 20: 12776, 10: 14811, 1: 16482}), adjust=True)
-    t.test2(simplifyVWm, Pts, _ms({320: 2318, 160: 4377, 80: 7385, 40: 10827, 20: 13643, 10: 15268, 1: 16488}), adjust=False)
+    t.test2(simplifyVWm, Pts, _ms({320: 2575, 160: 4762, 80: 7924, 40: 11334, 20: 13968, 10: 15452, 1: 16488}), adjust=True)
+    t.test2(simplifyVWm, Pts, _ms({320: 3225, 160: 5787, 80: 9139, 40: 12349, 20: 14559, 10: 15781, 1: 16490}), adjust=False)
 
     t.test2(simplifyRDPm, Pts, _ms({320: 2512, 160: 4106, 80: 6150, 40: 8620, 20: 11138, 10: 13239, 1: 16196}), adjust=True, shortest=False)
     t.test2(simplifyRDPm, Pts, _ms({320: 2526, 160: 4127, 80: 6179, 40: 8654, 20: 11174, 10: 13266, 1: 16201}), adjust=True, shortest=True)
@@ -72,14 +72,14 @@ if __name__ == '__main__':  # PYCHOK internal error?
     n = len(Pts) // 10
     Ptsn = Pts[:n]
 
-    t.test2(simplifyVW, Ptsn, _ms({320: 347, 160: 590, 80: 883, 40: 1172, 20: 1392, 10: 1528, 1: 1657}), adjust=True)
-    t.test2(simplifyVW, Ptsn, _ms({320: 409, 160: 670, 80: 981, 40: 1242, 20: 1450, 10: 1562, 1: 1657}), adjust=False)
+    t.test2(simplifyVW, Ptsn, _ms({320: 447, 160: 728, 80: 1032, 40: 1290, 20: 1478, 10: 1575, 1: 1657}), adjust=True)
+    t.test2(simplifyVW, Ptsn, _ms({320: 518, 160: 837, 80: 1127, 40: 1353, 20: 1510, 10: 1591, 1: 1657}), adjust=False)
 
     t.test2(simplifyRDP, Ptsn, _ms({320: 1605, 160: 1616, 80: 1630, 40: 1638, 20: 1647, 10: 1654, 1: 1660}), adjust=True, shortest=False)
     t.test2(simplifyRDP, Ptsn, _ms({320: 1605, 160: 1616, 80: 1631, 40: 1639, 20: 1649, 10: 1655, 1: 1661}), adjust=True, shortest=True)
 
     # different points
-    t.test2(simplifyVW,  PtsFFI, _ms({1678:  2, 1000:  3, 100: 18, 10: 63, 1: 69}), adjust=False)
+    t.test2(simplifyVW,  PtsFFI, _ms({1678:  3, 1000:  5, 100: 23, 10: 65, 1: 69}), adjust=False)
     t.test2(simplifyRDP, PtsFFI, _ms({1678: 11, 1000: 31, 100: 61, 10: 67, 1: 68}), adjust=False, shortest=False)  # XXX len(RdpFFI) = 7
 
     # <http://georust.github.io/rust-geo/geo/algorithm/simplify/trait.Simplify.html>

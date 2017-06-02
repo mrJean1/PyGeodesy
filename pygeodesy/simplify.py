@@ -36,9 +36,9 @@ For all functions, keyword I{adjust} scales the longitudinal distance
 between two points by the cosine of the mean of the latitudes.
 
 See:
+ - U{http://bost.ocks.org/mike/simplify/}
  - U{http://wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm}
  - U{http://hydra.hull.ac.uk/resources/hull:8338}
- - U{http://bost.ocks.org/mike/simplify/}
  - U{http://www.cs.ubc.ca/cgi-bin/tr/1992/TR-92-07.pdf}
  - U{http://web.cs.sunyit.edu/~poissad/projects/Curve/about_project.php}
  - U{http://www.bdcc.co.uk/Gmaps/GDouglasPeuker.js}
@@ -56,12 +56,12 @@ Tested with 64-bit Python 2.6.9, 2.7.13, 3.5.3 and 3.6.0 on macOS
 from datum import R_M
 from utils import EPS, len2, radiansPI, wrap90, wrap180
 
-from math  import cos, degrees, radians
+from math  import cos, degrees, radians, sqrt
 
 __all__ = ('simplify1', 'simplify2',
            'simplifyRDP', 'simplifyRDPm',
            'simplifyVW', 'simplifyVWm')
-__version__ = '17.06.01'
+__version__ = '17.06.02'
 
 
 # try:
@@ -90,12 +90,13 @@ class _Sy(object):
     adjust = False
     d2i    = None  # d2iP or d2iS
     d2xyse = ()
-    eps    = EPS * 2  # system epsilon
+    eps    = EPS  # system epsilon
     n      = 0
     pts    = []
-    radius = R_M
-    r      = {}  # indices or 2-tuples
-    s2     = EPS
+    radius = R_M  # mean earth radius
+    r      = {}   # RDP indices or VW 2-tuples
+    s2     = EPS  # tolerance squared
+    s2e    = EPS  # sentinel
 
     def __init__(self, points, tolerance, radius, adjust, shortest):
         '''New state.
@@ -109,19 +110,21 @@ class _Sy(object):
             self.adjust = True
 
         if radius:
-            self.radius = radius
+            self.radius = float(radius)
         if self.radius < self.eps:
-            raise ValueError('%s too small: %.6g' % ('radius', radius))
+            raise ValueError('%s too small: %.6e' % ('radius', radius))
 
         # tolerance converted to degrees squared
-        self.s2 = degrees(float(tolerance) / radius) ** 2
-        if self.s2 < self.eps:
-            raise ValueError('%s too small: %.6g' % ('tolerance', tolerance))
+        self.s2 = degrees(tolerance / self.radius) ** 2
+        if min(self.s2, tolerance) < self.eps:
+            raise ValueError('%s too small: %.6e' % ('tolerance', tolerance))
+        self.s2e = self.s2 + 1  # sentinel
 
+        # compute either the shortest or perpendicular distance
         self.d2i = self.d2iS if shortest else self.d2iP  # PYCHOK false
 
     def d21(self, s, e):
-        '''Sets path edge or line thru points[s] to [e].
+        '''Sets path edge or line thru points[s] to -[e].
         '''
         d21, x21, y21 = self.d2xy(s, e)
         self.d2xyse = d21, x21, y21, s, e
@@ -138,6 +141,7 @@ class _Sy(object):
         for i in range(n, m):
             d2, x01, y01 = d2xy(s, i)
             if d2 > eps:
+                # perpendicular distance
                 d2 = ((x01 * y21 + y01 * x21) ** 2) / d21
                 if d2 > t2:
                     t2, t = d2, i
@@ -146,9 +150,9 @@ class _Sy(object):
         return t2, t
 
     def d2iS(self, n, m, brk):
-        '''Finds the tallest shortest distance among all points[n..m]
-           to the path edge or line thru points[s] to -[e] exceeding
-           the tolerance.
+        '''Finds the tallest shortest distance among all
+           points[n..m] to the path edge or line thru
+           points[s] to -[e] exceeding the tolerance.
         '''
         d21, x21, y21, s, e = self.d2xyse
         eps, d2xy = self.eps, self.d2xy
@@ -159,11 +163,11 @@ class _Sy(object):
             if d2 > eps:
                 x = x01 * x21 - y01 * y21
                 if x > 0:
-                    if (x * x) > d21:
-                        # distance points[i] to -[e]
-                        d2, _, _ = d2xy(e, i)
-                    else:  # perpendicular distance
+                    if (x * x) < d21:
+                        # perpendicular distance
                         d2 = ((x01 * y21 + y01 * x21) ** 2) / d21
+                    else:  # distance points[i] to -[e]
+                        d2, _, _ = d2xy(e, i)
                 if d2 > t2:
                     t2, t = d2, i
                     if brk:
@@ -201,7 +205,7 @@ class _Sy(object):
                 h2 = abs(x01 * y21 + y01 * x21)
                 # triangle height h = h2 / sqrt(d21) and
                 # the area = h * sqrt(d21) / 2 == h2 / 2
-                return h2 * 0.5  # triangle area
+                return h2  # double triangle area
         return 0
 
     def points(self, r):
@@ -275,14 +279,14 @@ class _Sy(object):
            (ix, h2) where ix is the points[] index and h2
            the triangular area (times 2) of that point.
         '''
-        n, h2t, s2 = self.n, self.h2t, self.s2
+        n, h2t, s2e = self.n, self.h2t, self.s2e
 
         if n > 2:
-            self.r = [_T2(0, s2 + 1)]
+            self.r = [_T2(0, s2e)]
             self.r.extend(_T2(i, h2t(i-1, i, i+1)) for i in range(1, n-1))
-            self.r.append(_T2(n-1, s2 + 1))
+            self.r.append(_T2(n-1, s2e))
         elif n > 0:
-            self.r = [_T2(i, s2 + 1) for i in range(0, n)]  # PYCHOK false
+            self.r = [_T2(i, s2e) for i in range(0, n)]  # PYCHOK false
         else:
             self.r = []
 
@@ -293,15 +297,18 @@ class _Sy(object):
            including the triangular area (in meters) as
            attribute attr to each simplified point.
         '''
-        pts, r, radius = self.pts, self.r, self.radius
+        pts, r = self.pts, self.r
 
         # double check the minimal triangular area
         assert min(t2.h2 for t2 in r) > self.s2 > 0
 
-        if attr:  # return triangular area
-            r[0].h2 = r[-1].h2 = 0
+        if attr:  # return the trangular area (actually
+            # the sqrt of double the triangular area)
+            # converted back from degrees to meter
+            m = radians(1.0) * self.radius
+            r[0].h2 = r[-1].h2 = 0  # zap sentinels
             for t2 in r:  # convert back to meter
-                setattr(pts[t2.ix], attr, radians(t2.h2) * radius)
+                setattr(pts[t2.ix], attr, sqrt(t2.h2) * m)
 
         # double check for duplicates
         n = len(r)
@@ -341,23 +348,23 @@ def simplify1(points, distance, radius=R_M, adjust=True):
     return S.points(r)
 
 
-def simplify2(points, band2, radius=R_M, adjust=True, shortest=False):
+def simplify2(points, pipe, radius=R_M, adjust=True, shortest=False):
     '''Pipe simplification of a path of I{LatLon} points.
 
        Eliminates any points too close together or within the given
-       band tolerance along an edge.
+       pipe tolerance along an edge.
 
        @param points: Path points (I{LatLon}s).
-       @param band2: Half band width (meter, same units as radius).
+       @param pipe: Half pipe width (meter, same units as radius).
        @keyword radius: Earth radius (meter).
        @keyword adjust: Adjust longitudes (bool).
        @keyword shortest: Shortest or perpendicular distance (bool).
 
        @return: Simplified points (list of I{LatLon}s).
 
-       @raise ValueError: Radius or band tolerance too small.
+       @raise ValueError: Radius or pipe tolerance too small.
     '''
-    S = _Sy(points, band2, radius, adjust, shortest)
+    S = _Sy(points, pipe, radius, adjust, shortest)
 
     n, r = S.n, S.r
     if n > 1:
@@ -436,7 +443,7 @@ def simplifyVW(points, area, radius=R_M, adjust=True, attr=None):
        points.
 
        Eliminates any points too close together or with a triangular
-       area not exceeding the given area tolerance (** 2 / 2).
+       area not exceeding the given area tolerance (squared).
 
        This VW method exhaustively searches for the single point
        with the smallest triangular area, resulting in worst-case
@@ -459,11 +466,11 @@ def simplifyVW(points, area, radius=R_M, adjust=True, attr=None):
         # with a zero triangular area
         S.rm2(0)
 
-        r, s2 = S.r, S.s2
+        r, s2, s2e = S.r, S.s2, S.s2e
         # keep removing the point with the smallest
         # area until latter exceeds the tolerance
         while len(r) > 2:
-            m, m2 = 0, s2 + 1
+            m, m2 = 0, s2e
             for i in range(1, len(r) - 1):
                 h2 = r[i].h2
                 if h2 < m2:
@@ -480,7 +487,7 @@ def simplifyVWm(points, area, radius=R_M, adjust=True, attr=None):
        I{LatLon} points.
 
        Eliminates any points too close together or with a triangular
-       area not exceeding the given area tolerance (** 2 / 2).
+       area not exceeding the given area tolerance (squared).
 
        This VW method removes all points with a triangular area
        below the tolerance per iteration, significantly reducing the

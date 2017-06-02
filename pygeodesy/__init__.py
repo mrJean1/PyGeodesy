@@ -150,7 +150,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',  # modules
            'osgr', 'simplify', 'utils', 'utm', 'vector3d',
            'Geohash', 'VincentyError',  # classes
            'version', 'isclockwise', 'isconvex')  # extended below
-__version__ = '17.06.01'
+__version__ = '17.06.02'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))

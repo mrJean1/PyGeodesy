@@ -157,7 +157,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.06.01
+        17.06.02
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -1237,7 +1237,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#simplify2" class="summary-sig-name">simplify2</a>(<span class="summary-sig-arg">points</span>,
-        <span class="summary-sig-arg">band2</span>,
+        <span class="summary-sig-arg">pipe</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>)</span><br />
@@ -1571,7 +1571,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'17.6.1'"><code class="variable-quote">'</code><code class="variable-string">17.6.1</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'17.6.2'"><code class="variable-quote">'</code><code class="variable-string">17.6.2</code><code class="variable-quote">'</code></code><br />
       Normalized PyGeodesy version (string).
     </td>
   </tr>
@@ -3206,7 +3206,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">simplify2</span>(<span class="sig-arg">points</span>,
-        <span class="sig-arg">band2</span>,
+        <span class="sig-arg">pipe</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
         <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>)</span>
@@ -3217,13 +3217,13 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
   </tr></table>
   
   <p>Pipe simplification of a path of <i>LatLon</i> points.</p>
-  <p>Eliminates any points too close together or within the given band 
+  <p>Eliminates any points too close together or within the given pipe 
   tolerance along an edge.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
-        <li><strong class="pname"><code>band2</code></strong> - Half band width (meter, same units as radius).</li>
+        <li><strong class="pname"><code>pipe</code></strong> - Half pipe width (meter, same units as radius).</li>
         <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
         <li><strong class="pname"><code>shortest</code></strong> - Shortest or perpendicular distance (bool).</li>
@@ -3232,7 +3232,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
         <dd>Simplified points (list of <i>LatLon</i>s).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Radius or band tolerance too small.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Radius or pipe tolerance too small.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -3344,7 +3344,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
   <p>Visvalingam-Whyatt (VW) simplification of a path of <i>LatLon</i> 
   points.</p>
   <p>Eliminates any points too close together or with a triangular area not
-  exceeding the given area tolerance (** 2 / 2).</p>
+  exceeding the given area tolerance (squared).</p>
   <p>This VW method exhaustively searches for the single point with the 
   smallest triangular area, resulting in worst-case complexity O(n**2) 
   where n is the number of points.</p>
@@ -3387,7 +3387,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
   <p>Modified Visvalingam-Whyatt (VW) simplification of a path of 
   <i>LatLon</i> points.</p>
   <p>Eliminates any points too close together or with a triangular area not
-  exceeding the given area tolerance (** 2 / 2).</p>
+  exceeding the given area tolerance (squared).</p>
   <p>This VW method removes all points with a triangular area below the 
   tolerance per iteration, significantly reducing the run time (but 
   producing results different from the original VW method).</p>
@@ -3947,7 +3947,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Jun  1 15:43:55 2017
+    Generated by Epydoc 3.0.1 on Fri Jun  2 12:42:02 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
