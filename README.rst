@@ -3,8 +3,9 @@ PyGeodesy
 =========
 
 A pure Python implementation of geodesy tools for various ellipsoidal and
-spherical earth models using trigonometric and vector-based methods for
-geodetic (lat-/longitude) and geocentric cartesian (x/y/z) coordinates.
+spherical earth models using precision trigonometric and vector-based
+methods for geodetic (lat-/longitude) and geocentric cartesian (x/y/z)
+coordinates.
 
 Transcribed from `JavaScript originals`_ by *Chris Veness (C) 2005-2016*
 and published under the same `MIT License`_.
@@ -18,12 +19,12 @@ documentation_, descriptions of `Latitude/Longitude`_, Vincenty_ and
 `Vector-based`_ geodesy and the original `JavaScript source`_ or docs_.
 
 Also included are modules for conversions to and from UTM_ (Universal
-Transverse Mercator) coordinates, MGRS_ (NATO Military Grid Reference System)
-and OSGR_ (British Ordinance Survery Grid Reference) grid references and
-a module for encoding and decoding Geohashes_.
+Transverse Mercator) coordinates, MGRS_ (NATO Military Grid Reference
+System) and OSGR_ (British Ordinance Survery Grid Reference) grid
+references and a module for encoding and decoding Geohashes_.
 
 Two other modules provide Lambert conformal conic projections and positions
-(from `John P. Snyder`_, *Map Projections -- A Working Manual* , 1987, pp
+(from `John P. Snyder`_, *Map Projections -- A Working Manual*, 1987, pp
 107-109) and several functions to simplify_ or linearize a path of *LatLon*
 points, including implementations of the `Ramer-Douglas-Peucker`_ and
 `Visvalingam-Whyatt`_ algorithms and modified versions of both.
@@ -46,7 +47,7 @@ distribution files were created with command line ``python setup.py sdist
 Some function and method names differ from the JavaScript version. In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: June 02, 2017.*
+*Last updated: June 03, 2017.*
 
 .. _checked: http://code.activestate.com/recipes/546532
 .. _docs: http://www.movable-type.co.uk/scripts/js/geodesy/docs

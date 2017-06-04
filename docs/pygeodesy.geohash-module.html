@@ -110,7 +110,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geohash-module.html#bounds" class="summary-sig-name">bounds</a>(<span class="summary-sig-arg">geohash</span>)</span><br />
-      Returns SW and NE lat-/longitude bounds of a geohash.</td>
+      Return the SW and NE lat-/longitude bounds of a geohash.</td>
           <td align="right" valign="top">
             
             
@@ -127,7 +127,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geohash-module.html#decode" class="summary-sig-name">decode</a>(<span class="summary-sig-arg">geohash</span>)</span><br />
-      Decodes a geohash to lat-/longitude of the (approximate centre of) 
+      Decode a geohash to lat-/longitude of the (approximate centre of) 
       geohash cell, to reasonable precision.</td>
           <td align="right" valign="top">
             
@@ -145,7 +145,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geohash-module.html#decode_error" class="summary-sig-name">decode_error</a>(<span class="summary-sig-arg">geohash</span>)</span><br />
-      Returns relative lat-/longitude decoding errors for this geohash.</td>
+      Return the relative lat-/longitude decoding errors for this geohash.</td>
           <td align="right" valign="top">
             
             
@@ -163,7 +163,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geohash-module.html#distance1" class="summary-sig-name">distance1</a>(<span class="summary-sig-arg">geohash1</span>,
         <span class="summary-sig-arg">geohash2</span>)</span><br />
-      Estimates the distance between two geohash (from the cell sizes).</td>
+      Estimate the distance between two geohash (from the cell sizes).</td>
           <td align="right" valign="top">
             
             
@@ -182,7 +182,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.geohash-module.html#distance2" class="summary-sig-name">distance2</a>(<span class="summary-sig-arg">geohash1</span>,
         <span class="summary-sig-arg">geohash2</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
-      Approximates the distance between two geohashes (with Pythagoras' 
+      Approximate the distance between two geohashes (with Pythagoras' 
       theorem).</td>
           <td align="right" valign="top">
             
@@ -202,7 +202,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.geohash-module.html#distance3" class="summary-sig-name">distance3</a>(<span class="summary-sig-arg">geohash1</span>,
         <span class="summary-sig-arg">geohash2</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
-      Computes the great-circle distance between two geohashes (using the 
+      Compute the great-circle distance between two geohashes (using the 
       Haversine formula).</td>
           <td align="right" valign="top">
             
@@ -222,7 +222,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.geohash-module.html#encode" class="summary-sig-name">encode</a>(<span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">lon</span>,
         <span class="summary-sig-arg">precision</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Encodes lat-/longitude to geohash, either to the specified or an 
+      Encode a lat-/longitude to geohash, either to the specified or an 
       automatically evaluated precision.</td>
           <td align="right" valign="top">
             
@@ -240,7 +240,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geohash-module.html#neighbors" class="summary-sig-name">neighbors</a>(<span class="summary-sig-arg">geohash</span>)</span><br />
-      Returns the <a href="pygeodesy.geohash.Geohash-class.html" 
+      Return the <a href="pygeodesy.geohash.Geohash-class.html" 
       class="link">Geohash</a>es for all 8 adjacent cells.</td>
           <td align="right" valign="top">
             
@@ -258,7 +258,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geohash-module.html#sizes" class="summary-sig-name">sizes</a>(<span class="summary-sig-arg">geohash</span>)</span><br />
-      Returns the lat- and longitudinal size of this <a 
+      Return the lat- and longitudinal size of this <a 
       href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a> 
       cell.</td>
           <td align="right" valign="top">
@@ -294,7 +294,7 @@
     </td>
   </tr></table>
   
-  <p>Returns SW and NE lat-/longitude bounds of a geohash.</p>
+  <p>Return the SW and NE lat-/longitude bounds of a geohash.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>4-Tuple (latS, lonW, latN, lonE) in (degrees).</dd>
@@ -327,7 +327,7 @@
     </td>
   </tr></table>
   
-  <p>Decodes a geohash to lat-/longitude of the (approximate centre of) 
+  <p>Decode a geohash to lat-/longitude of the (approximate centre of) 
   geohash cell, to reasonable precision.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -368,7 +368,8 @@
     </td>
   </tr></table>
   
-  <p>Returns relative lat-/longitude decoding errors for this geohash.</p>
+  <p>Return the relative lat-/longitude decoding errors for this 
+  geohash.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -408,7 +409,7 @@
     </td>
   </tr></table>
   
-  <p>Estimates the distance between two geohash (from the cell sizes).</p>
+  <p>Estimate the distance between two geohash (from the cell sizes).</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -447,7 +448,7 @@
     </td>
   </tr></table>
   
-  <p>Approximates the distance between two geohashes (with Pythagoras' 
+  <p>Approximate the distance between two geohashes (with Pythagoras' 
   theorem).</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -488,7 +489,7 @@
     </td>
   </tr></table>
   
-  <p>Computes the great-circle distance between two geohashes (using the 
+  <p>Compute the great-circle distance between two geohashes (using the 
   Haversine formula).</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -529,7 +530,7 @@
     </td>
   </tr></table>
   
-  <p>Encodes lat-/longitude to geohash, either to the specified or an 
+  <p>Encode a lat-/longitude to geohash, either to the specified or an 
   automatically evaluated precision.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -569,7 +570,7 @@
     </td>
   </tr></table>
   
-  <p>Returns the <a href="pygeodesy.geohash.Geohash-class.html" 
+  <p>Return the <a href="pygeodesy.geohash.Geohash-class.html" 
   class="link">Geohash</a>es for all 8 adjacent cells.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -607,7 +608,7 @@
     </td>
   </tr></table>
   
-  <p>Returns the lat- and longitudinal size of this <a 
+  <p>Return the lat- and longitudinal size of this <a 
   href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a> 
   cell.</p>
   <dl class="fields">
@@ -659,7 +660,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Jun  2 12:42:02 2017
+    Generated by Epydoc 3.0.1 on Sun Jun  4 13:26:23 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

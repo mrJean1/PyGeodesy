@@ -4,11 +4,11 @@
 # Test degrees, minutes, seconds functions.
 
 __all__ = ('Tests',)
-__version__ = '17.05.24'
+__version__ = '17.06.03'
 
 from tests import Tests as _Tests
 
-from pygeodesy import F_D, F_DM, F_DMS, F_DEG, F_RAD, \
+from pygeodesy import F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC, F_RAD, \
                       compassPoint, parse3llh, parseDMS, toDMS
 
 
@@ -28,17 +28,22 @@ class Tests(_Tests):
         self.test('parse3llh', x, '51.477811, -0.001475, 0.000000')
 
         for a, x in (((),            '''45°45'45.36"'''),
-                     ((F_D, None),     '45.7626°'),
-                     ((F_DM, None),    "45°45.756'"),
+                     ((F_D,   None),   '45.7626°'),
+                     ((F_DM,  None),   "45°45.756'"),
                      ((F_DMS, None), '''45°45'45.36"'''),
                      ((F_DEG, None),   '45.7626'),
-                     ((F_RAD, None),    '0.79871'),
-                     ((F_D, 6),     '45.7626°'),
-                     ((F_DM, -4),   "45°45.7560'"),
-                     ((F_DMS, 2), '''45°45'45.36"'''),
-                     ((F_DEG, -6),     '45.762600'),
-                     ((F_RAD, -6),      '0.798708')):
-            self.test('toDMS', toDMS(45.76260, *a), x)
+                     ((F_MIN, None),   '4545.756'),
+                     ((F_SEC, None),   '454545.36'),
+                     ((F_RAD, None),   '0.79871'),
+                     ((F_D,    6),   '45.7626°'),
+                     ((F_DM,  -4),   "45°45.7560'"),
+                     ((F_DMS,  2), '''45°45'45.36"'''),
+                     ((F_DEG, -6),   '45.762600'),
+                     ((F_MIN, -5),   '4545.75600'),
+                     ((F_SEC, -3),   '454545.360'),
+                     ((F_RAD, -6),   '0.798708')):
+            t = 'toDMS(%s)' % (a[:1] or '')
+            self.test(t, toDMS(45.76260, *a), x)
 
         for a, x in (((1,),   'N'),
                      ((0,),   'N'),
@@ -57,6 +62,13 @@ class Tests(_Tests):
                      ((237, 2), 'SW'),
                      ((237, 3), 'WSW')):
             self.test('compassPoint', compassPoint(*a), x)
+
+        for a, x in enumerate(('NbE', 'NEbN', 'NEbE', 'EbN',
+                               'EbS', 'SEbE', 'SEbS', 'SbE',
+                               'SbW', 'SWbS', 'SWbW', 'WbS',
+                               'WbN', 'NWbW', 'NWbN', 'NbW')):
+            a = 11.25 + a * 22.5
+            self.test('compassPoint', compassPoint(a, 4), x)
 
 
 if __name__ == '__main__':

@@ -1,9 +1,10 @@
 
 # -*- coding: utf-8 -*-
 
-'''A pure Python implementation of geodesy tools for various ellipsoidal
-and spherical earth models using trigonometric and vector-based methods
-for geodetic (lat-/longitude) and geocentric cartesian (x/y/z) coordinates.
+u'''A pure Python implementation of geodesy tools for various ellipsoidal
+and spherical earth models using precision trigonometric and vector-based
+methods for geodetic (lat-/longitude) and geocentric cartesian (x/y/z)
+coordinates.
 
 Transcribed from U{JavaScript originals<http://github.com/chrisveness/geodesy>}
 by I{Chris Veness (C) 2005-2016} and published under the same U{MIT License
@@ -94,8 +95,10 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var F_D:   Format degrees as deg° (string).
 @var F_DM:  Format degrees as deg°min′ (string).
 @var F_DMS: Format degrees as deg°min′sec″ (string).
-@var F_DEG: Format degrees without symbol (string).
-@var F_RAD: Convert degrees to radians and format (string).
+@var F_DEG: Format degrees as [D]DD without symbol (string).
+@var F_MIN: Format degrees as [D]DDMM without symbols (string).
+@var F_SEC: Format degrees as [D]DDMMSS without symbols (string).
+@var F_RAD: Convert degrees to radians and format as RR (string).
 
 @var PI:   Constant M{math.pi} (float)
 @var PI2:  Two PI, M{math.pi * 2} (float)
@@ -109,8 +112,8 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var S_DEG: Degrees symbol ° (string).
 @var S_MIN: Minutes symbol ′ (string).
 @var S_SEC: Seconds symbol ″ (string).
-@var S_RAD: Radians symbol (string).
-@var S_SEP: Separator between deg°, min′ and sec″ (string).
+@var S_RAD: Radians symbol  (string).
+@var S_SEP: Separator between deg°, min′ and sec″  (string).
 
 @var Conics:     Registered conics (enum).
 @var Datums:     Registered datums (enum).
@@ -150,7 +153,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',  # modules
            'osgr', 'simplify', 'utils', 'utm', 'vector3d',
            'Geohash', 'VincentyError',  # classes
            'version', 'isclockwise', 'isconvex')  # extended below
-__version__ = '17.06.02'
+__version__ = '17.06.03'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))

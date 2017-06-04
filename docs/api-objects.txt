@@ -67,6 +67,7 @@ pygeodesy.hypot3	pygeodesy-module.html#hypot3
 pygeodesy.F_DMS	pygeodesy-module.html#F_DMS
 pygeodesy.Conics	pygeodesy-module.html#Conics
 pygeodesy.lonDMS	pygeodesy-module.html#lonDMS
+pygeodesy.F_SEC	pygeodesy-module.html#F_SEC
 pygeodesy.len2	pygeodesy-module.html#len2
 pygeodesy.tanPI_2_2	pygeodesy-module.html#tanPI_2_2
 pygeodesy.EPS2	pygeodesy-module.html#EPS2
@@ -74,6 +75,7 @@ pygeodesy.EPS1	pygeodesy-module.html#EPS1
 pygeodesy.simplify2	pygeodesy-module.html#simplify2
 pygeodesy.S_RAD	pygeodesy-module.html#S_RAD
 pygeodesy.PI_2	pygeodesy-module.html#PI_2
+pygeodesy.F_MIN	pygeodesy-module.html#F_MIN
 pygeodesy.__package__	pygeodesy-module.html#__package__
 pygeodesy.parseOSGR	pygeodesy-module.html#parseOSGR
 pygeodesy.simplify1	pygeodesy-module.html#simplify1
@@ -125,6 +127,7 @@ pygeodesy.datum.fdot	pygeodesy.utils-module.html#fdot
 pygeodesy.dms	pygeodesy.dms-module.html
 pygeodesy.dms.F_DEG	pygeodesy.dms-module.html#F_DEG
 pygeodesy.dms.lonDMS	pygeodesy.dms-module.html#lonDMS
+pygeodesy.dms.F_SEC	pygeodesy.dms-module.html#F_SEC
 pygeodesy.dms.S_MIN	pygeodesy.dms-module.html#S_MIN
 pygeodesy.dms.F_RAD	pygeodesy.dms-module.html#F_RAD
 pygeodesy.dms.F_D	pygeodesy.dms-module.html#F_D
@@ -132,18 +135,19 @@ pygeodesy.dms.S_RAD	pygeodesy.dms-module.html#S_RAD
 pygeodesy.dms._COMPASS	pygeodesy.dms-module.html#_COMPASS
 pygeodesy.dms.S_SEP	pygeodesy.dms-module.html#S_SEP
 pygeodesy.dms.fStrzs	pygeodesy.utils-module.html#fStrzs
+pygeodesy.dms.F_MIN	pygeodesy.dms-module.html#F_MIN
 pygeodesy.dms.__package__	pygeodesy.dms-module.html#__package__
 pygeodesy.dms.S_SEC	pygeodesy.dms-module.html#S_SEC
 pygeodesy.dms._toDMS	pygeodesy.dms-module.html#_toDMS
 pygeodesy.dms.parse3llh	pygeodesy.dms-module.html#parse3llh
 pygeodesy.dms.latDMS	pygeodesy.dms-module.html#latDMS
+pygeodesy.dms.isint	pygeodesy.utils-module.html#isint
 pygeodesy.dms._S_ALL	pygeodesy.dms-module.html#_S_ALL
 pygeodesy.dms.normDMS	pygeodesy.dms-module.html#normDMS
 pygeodesy.dms.precision	pygeodesy.dms-module.html#precision
 pygeodesy.dms._M_X	pygeodesy.dms-module.html#_M_X
 pygeodesy.dms._F_prec	pygeodesy.dms-module.html#_F_prec
 pygeodesy.dms.toDMS	pygeodesy.dms-module.html#toDMS
-pygeodesy.dms.toLon	pygeodesy.dms-module.html#toLon
 pygeodesy.dms.compassPoint	pygeodesy.dms-module.html#compassPoint
 pygeodesy.dms.F_DM	pygeodesy.dms-module.html#F_DM
 pygeodesy.dms.compassDMS	pygeodesy.dms-module.html#compassDMS

@@ -59,8 +59,8 @@
 <!-- ==================== PACKAGE DESCRIPTION ==================== -->
 <h1 class="epydoc">Package pygeodesy</h1><p class="nomargin-top"></p>
 <p>A pure Python implementation of geodesy tools for various ellipsoidal 
-  and spherical earth models using trigonometric and vector-based methods 
-  for geodetic (lat-/longitude) and geocentric cartesian (x/y/z) 
+  and spherical earth models using precision trigonometric and vector-based
+  methods for geodetic (lat-/longitude) and geocentric cartesian (x/y/z) 
   coordinates.</p>
   <p>Transcribed from <a href="http://github.com/chrisveness/geodesy" 
   target="_top">JavaScript originals</a> by <i>Chris Veness (C) 
@@ -157,7 +157,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.06.02
+        17.06.03
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -407,7 +407,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#bearingDMS" class="summary-sig-name">bearingDMS</a>(<span class="summary-sig-arg">bearing</span>,
         <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">None</span>)</span><br />
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       Converts bearing to string.</td>
           <td align="right" valign="top">
             
@@ -460,7 +461,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#compassDMS" class="summary-sig-name">compassDMS</a>(<span class="summary-sig-arg">bearing</span>,
         <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">None</span>)</span><br />
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       Converts bearing to string suffixed with compass point.</td>
           <td align="right" valign="top">
             
@@ -858,7 +860,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#latDMS" class="summary-sig-name">latDMS</a>(<span class="summary-sig-arg">deg</span>,
         <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">2</span>)</span><br />
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">2</span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       Converts latitude to string suffixed with N or S.</td>
           <td align="right" valign="top">
             
@@ -895,7 +898,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#lonDMS" class="summary-sig-name">lonDMS</a>(<span class="summary-sig-arg">deg</span>,
         <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">2</span>)</span><br />
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">2</span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       Converts longitude to string suffixed with E or W.</td>
           <td align="right" valign="top">
             
@@ -1365,6 +1369,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#toDMS" class="summary-sig-name">toDMS</a>(<span class="summary-sig-arg">deg</span>,
         <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">2</span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">ddd</span>=<span class="summary-sig-default">2</span>,
         <span class="summary-sig-arg">neg</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">-</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">pos</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
@@ -1571,7 +1576,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'17.6.2'"><code class="variable-quote">'</code><code class="variable-string">17.6.2</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'17.6.3'"><code class="variable-quote">'</code><code class="variable-string">17.6.3</code><code class="variable-quote">'</code></code><br />
       Normalized PyGeodesy version (string).
     </td>
   </tr>
@@ -1660,7 +1665,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_DEG"></a><span class="summary-name">F_DEG</span> = <code title="'deg'"><code class="variable-quote">'</code><code class="variable-string">deg</code><code class="variable-quote">'</code></code><br />
-      Format degrees without symbol (string).
+      Format degrees as [D]DD without symbol (string).
     </td>
   </tr>
 <tr>
@@ -1683,8 +1688,24 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a name="F_MIN"></a><span class="summary-name">F_MIN</span> = <code title="'min'"><code class="variable-quote">'</code><code class="variable-string">min</code><code class="variable-quote">'</code></code><br />
+      Format degrees as [D]DDMM without symbols (string).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a name="F_RAD"></a><span class="summary-name">F_RAD</span> = <code title="'rad'"><code class="variable-quote">'</code><code class="variable-string">rad</code><code class="variable-quote">'</code></code><br />
-      Convert degrees to radians and format (string).
+      Convert degrees to radians and format as RR (string).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_SEC"></a><span class="summary-name">F_SEC</span> = <code title="'sec'"><code class="variable-quote">'</code><code class="variable-string">sec</code><code class="variable-quote">'</code></code><br />
+      Format degrees as [D]DDMMSS without symbols (string).
     </td>
   </tr>
 <tr>
@@ -1764,7 +1785,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="S_RAD"></a><span class="summary-name">S_RAD</span> = <code title="''"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></code><br />
-      Radians symbol (string).
+      Radians symbol  (string).
     </td>
   </tr>
 <tr>
@@ -1780,7 +1801,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="S_SEP"></a><span class="summary-name">S_SEP</span> = <code title="''"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></code><br />
-      Separator between deg&#176;, min&#8242; and sec&#8243; (string).
+      Separator between deg&#176;, min&#8242; and sec&#8243;  (string).
     </td>
   </tr>
 <tr>
@@ -1900,7 +1921,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">bearingDMS</span>(<span class="sig-arg">bearing</span>,
         <span class="sig-arg">form</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">prec</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">prec</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1912,11 +1934,13 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (compass degrees).</li>
-        <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS, F_DEG or F_RAD for deg&#176;, deg&#176;min&#8242;, 
-          deg&#176;min&#8242;sec&#8243; or degrees or radians.</li>
+        <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD for deg&#176;, 
+          deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, [D]DD, [D]DDMM, [D]DDMMSS or radians 
+          (string).</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None for default).  
           Trailing zero decimals are stripped for prec values of 1 and 
           above, but kept for negative prec values.</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional, separator (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Compass degrees per the specified form (string).</dd>
@@ -1985,7 +2009,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">compassDMS</span>(<span class="sig-arg">bearing</span>,
         <span class="sig-arg">form</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">prec</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">prec</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1997,11 +2022,13 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (compass degrees).</li>
-        <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS, F_DEG or F_RAD for deg&#176;, deg&#176;min&#8242;, 
-          deg&#176;min&#8242;sec&#8243; or degrees or radians.</li>
+        <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD for deg&#176;, 
+          deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, [D]DD, [D]DDMM, [D]DDMMSS or radians 
+          (string).</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None for default).  
           Trailing zero decimals are stripped for prec values of 1 and 
           above, but kept for negative prec values.</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional, separator (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Compass degrees and point per the specified form (string).</dd>
@@ -2028,20 +2055,29 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (compass degrees).</li>
-        <li><strong class="pname"><code>prec</code></strong> - Optional precision (1 for cardinal, 2 for intercardinal or 3 for 
-          secondary-intercardinal).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional precision (1 for cardinal or basic winds, 2 for 
+          intercardinal or ordinal or principal winds, 3 for 
+          secondary-intercardinal or half-winds or 4 for quarter-winds).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Compass point (1-, 2- or 3-letter string).</dd>
+        <dd>Compass point (1-, 2-, 3- or 4-letter string).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid prec.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="http://wikipedia.org/wiki/Compass_rose" 
+        target="_top">Compass rose</a>
+      </p>
+      <p><strong>Example:</strong>
         <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>p = compass(24)     <span class="py-comment"># 'NNE'</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>p = compass(24, 1)  <span class="py-comment"># 'N'</span></pre>
+<span class="py-prompt">&gt;&gt;&gt; </span>p = compassPoint(24)     <span class="py-comment"># 'NNE'</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>p = compassPoint(24, 1)  <span class="py-comment"># 'N'</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>p = compassPoint(24, 2)  <span class="py-comment"># 'NE'</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>p = compassPoint(18, 3)  <span class="py-comment"># 'NNE'</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>p = compassPoint(12, 4)  <span class="py-comment"># 'NbE'</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>p = compassPoint(30, 4)  <span class="py-comment"># 'NEbN'</span></pre>
       </p>
 </div></td></tr></table>
 </div>
@@ -2566,7 +2602,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">latDMS</span>(<span class="sig-arg">deg</span>,
         <span class="sig-arg">form</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">prec</span>=<span class="sig-default">2</span>)</span>
+        <span class="sig-arg">prec</span>=<span class="sig-default">2</span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2578,11 +2615,12 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Latitude to be formatted (degrees).</li>
-        <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS, F_DEG or F_RAD for deg&#176;, deg&#176;min&#8242;, 
-          deg&#176;min&#8242;sec&#8243; or degrees or radians.</li>
+        <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD for deg&#176;, 
+          deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, DD, DDMM, DDMMSS or radians (string).</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None for default).  
           Trailing zero decimals are stripped for prec values of 1 and 
           above, but kept for negative prec values.</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional, separator (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees per the specified form (string).</dd>
@@ -2627,7 +2665,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">lonDMS</span>(<span class="sig-arg">deg</span>,
         <span class="sig-arg">form</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">prec</span>=<span class="sig-default">2</span>)</span>
+        <span class="sig-arg">prec</span>=<span class="sig-default">2</span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2639,11 +2678,12 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Longitude to be formatted (degrees).</li>
-        <li><strong class="pname"><code>form</code></strong> - Use F_D, F_DM, F_DMS, F_DEG or F_RAD for deg&#176;, deg&#176;min&#8242;, 
-          deg&#176;min&#8242;sec&#8243; or degrees or radians.</li>
+        <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD for deg&#176;, 
+          deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, DDD, DDDMM, DDDMMSS or radians (string).</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None for default).  
           Trailing zero decimals are stripped for prec values of 1 and 
           above, but kept for negative prec values.</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional, separator (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees per the specified form (string).</dd>
@@ -3070,7 +3110,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS, F_DEG or F_RAD (string).</li>
+        <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD (string).</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None for default).  
           Trailing zero decimals are stripped for prec values of 1 and 
           above, but kept for negative prec values.</li>
@@ -3444,6 +3484,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toDMS</span>(<span class="sig-arg">deg</span>,
         <span class="sig-arg">form</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">2</span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">ddd</span>=<span class="sig-default">2</span>,
         <span class="sig-arg">neg</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">-</code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">pos</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
@@ -3458,11 +3499,13 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Degrees to be formatted (scalar).</li>
-        <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS, F_DEG or F_RAD for deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;
-          or degrees or radians.</li>
+        <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD for deg&#176;, 
+          deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, [D]DD, [D]DDMM, [D]DDMMSS or radians 
+          (string).</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None for default).  
           Trailing zero decimals are stripped for prec values of 1 and 
           above, but kept for negative prec values.</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional, separator (string).</li>
         <li><strong class="pname"><code>ddd</code></strong> - Optional, number of digits for deg&#176; (2 or 3).</li>
         <li><strong class="pname"><code>neg</code></strong> - Optional, sign for negative degrees ('-').</li>
         <li><strong class="pname"><code>pos</code></strong> - Optional, sign for positive degrees ('').</li>
@@ -3947,7 +3990,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Jun  2 12:42:02 2017
+    Generated by Epydoc 3.0.1 on Sun Jun  4 13:26:23 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

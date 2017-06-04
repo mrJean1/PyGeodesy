@@ -11,7 +11,7 @@ and U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
 @newfield example: Example, Examples
 '''
 
-from utils import fStrzs
+from utils import fStrzs, isint
 
 from math import radians
 try:
@@ -20,18 +20,21 @@ except ImportError:  # Python 3+
     from string import ascii_letters as LETTERS
 
 # all public contants, classes and functions
-__all__ = ('F_D', 'F_DM', 'F_DMS', 'F_DEG', 'F_RAD',  # forms
+__all__ = ('F_D', 'F_DM', 'F_DMS',  # forms
+           'F_DEG', 'F_MIN', 'F_SEC', 'F_RAD',
            'S_DEG', 'S_MIN', 'S_SEC', 'S_RAD', 'S_SEP',  # symbols
            'bearingDMS', 'compassDMS', 'compassPoint',  # functions
            'latDMS', 'lonDMS', 'normDMS',
            'parseDMS', 'parse3llh', 'precision', 'toDMS')
-__version__ = '17.05.29'
+__version__ = '17.06.03'
 
 F_D   = 'd'    #: Format degrees as deg° (string).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (string).
 F_DMS = 'dms'  #: Format degrees as deg°min′sec″ (string).
-F_DEG = 'deg'  #: Format degrees as degrees without symbol (string).
-F_RAD = 'rad'  #: Convert degrees to radians and format (string).
+F_DEG = 'deg'  #: Format degrees as [D]DD without symbol (string).
+F_MIN = 'min'  #: Format degrees as [D]DDMM without symbols (string).
+F_SEC = 'sec'  #: Format degrees as [D]DDMMSS without symbols (string).
+F_RAD = 'rad'  #: Convert degrees to radians and format as RR.r (string).
 
 S_DEG = '°'  #: Degrees ° symbol (string).
 S_MIN = '′'  #: Minutes ′ symbol (string).
@@ -39,7 +42,8 @@ S_SEC = '″'  #: Seconds ″ symbol (string).
 S_RAD = ''   #: Radians symbol (string).
 S_SEP = ''   #: Separator between deg, min and sec (string).
 
-_F_prec = {F_D: 6, F_DM: 4, F_DMS: 2, F_DEG: 6, F_RAD: 5}  #: (INTERNAL) default precs.
+_F_prec = {F_D:   6, F_DM:  4, F_DMS: 2,  #: (INTERNAL) default precs.
+           F_DEG: 6, F_MIN: 4, F_SEC: 2, F_RAD: 5}
 
 _S_norm = {'^': S_DEG, '˚': S_DEG,  #: (INTERNAL) normalized DMS.
            "'": S_MIN, '’': S_MIN, '′': S_MIN,
@@ -47,7 +51,7 @@ _S_norm = {'^': S_DEG, '˚': S_DEG,  #: (INTERNAL) normalized DMS.
 _S_ALL  = (S_DEG, S_MIN, S_SEC) + tuple(_S_norm.keys())  #: (INTERNAL) alternates.
 
 
-def _toDMS(deg, form, prec, ddd):
+def _toDMS(deg, form, prec, sep, ddd):
     '''(INTERNAL) Converts degrees to string, without sign or suffix.
     '''
     try:
@@ -63,92 +67,109 @@ def _toDMS(deg, form, prec, ddd):
     w = p + (1 if p else 0)
 
     f = form.lower()
+    if f in (F_DEG, F_MIN, F_SEC):
+        s_deg = s_min = s_sec = ''  # no symbols
+    else:
+        s_deg, s_min, s_sec = S_DEG, S_MIN, S_SEC
+
     if f in (F_D, F_DEG, 'degrees'):  # deg°, degrees
         t = '%0*.*f' % (ddd+w,p,d)
-        s = S_DEG if f == F_D else ''
+        s = s_deg
 
     elif f in (F_RAD, 'radians'):
-        t = '%.*f' % (p, radians(d))
+        t = '%.*f' % (p,radians(d))
         s = S_RAD
 
-    elif f in (F_DM, 'deg+min'):
+    elif f in (F_DM, F_MIN, 'deg+min'):
         d, m = divmod(d * 60, 60)
-        t = "%0*d%s%s%0*.*f" % (ddd,int(d),S_DEG, S_SEP, w+2,p,m)
-        s = S_MIN
+        t = "%0*d%s%s%0*.*f" % (ddd,int(d),s_deg, sep, w+2,p,m)
+        s = s_min
 
-    else:  # F_DMS, 'deg+min+sec'
+    else:  # F_DMS, F_SEC, 'deg+min+sec'
         d, s = divmod(d * 3600, 3600)
         m, s = divmod(s, 60)
-        t = "%0*d%s%s%02d%s%s%0*.*f" % (ddd,int(d),S_DEG, S_SEP,
-                                            int(m),S_MIN, S_SEP,
+        t = "%0*d%s%s%02d%s%s%0*.*f" % (ddd,int(d),s_deg, sep,
+                                            int(m),s_min, sep,
                                           w+2,p,s)
-        s = S_SEC
+        s = s_sec
 
     if z > 1:
         t = fStrzs(t)
     return t + s
 
 
-def bearingDMS(bearing, form=F_D, prec=None):
+def bearingDMS(bearing, form=F_D, prec=None, sep=S_SEP):
     '''Converts bearing to string.
 
        @param bearing: Bearing from North (compass degrees).
-       @keyword form: Use F_D, F_DM, F_DMS, F_DEG or F_RAD for deg°,
-                      deg°min′, deg°min′sec″ or degrees or radians.
+       @keyword form: F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD
+                      for deg°, deg°min′, deg°min′sec″, [D]DD, [D]DDMM,
+                      [D]DDMMSS or radians (string).
        @keyword prec: Optional, number of decimal digits (0..9 or
                       None for default).  Trailing zero decimals
                       are stripped for prec values of 1 and above,
                       but kept for negative prec values.
+       @keyword sep: Optional, separator (string).
 
        @return: Compass degrees per the specified form (string).
 
        @JSname: I{toBrng}.
     '''
-    return _toDMS(bearing % 360, form, prec, 1)
+    return _toDMS(bearing % 360, form, prec, sep, 1)
 
 
-_COMPASS = ('N', 'NNE', 'NE', 'ENE',
-            'E', 'ESE', 'SE', 'SSE',
-            'S', 'SSW', 'SW', 'WSW',
-            'W', 'WNW', 'NW', 'NNW')  #: (INTERNAL) points
-
-_M_X = {1: (4, 4), 2: (8, 2), 3: (16, 1)}  #: (INTERNAL) precs
-
-
-def compassDMS(bearing, form=F_D, prec=None):
+def compassDMS(bearing, form=F_D, prec=None, sep=S_SEP):
     '''Converts bearing to string suffixed with compass point.
 
        @param bearing: Bearing from North (compass degrees).
-       @keyword form: Use F_D, F_DM, F_DMS, F_DEG or F_RAD for deg°,
-                      deg°min′, deg°min′sec″ or degrees or radians.
+       @keyword form: F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD
+                      for deg°, deg°min′, deg°min′sec″, [D]DD, [D]DDMM,
+                      [D]DDMMSS or radians (string).
        @keyword prec: Optional, number of decimal digits (0..9 or
                       None for default).  Trailing zero decimals
                       are stripped for prec values of 1 and above,
                       but kept for negative prec values.
+       @keyword sep: Optional, separator (string).
 
        @return: Compass degrees and point per the specified form (string).
     '''
-    t = _toDMS(bearing % 360, form, prec, 1), compassPoint(bearing)
-    return S_SEP.join(t)
+    t = bearingDMS(bearing, form, prec, sep), compassPoint(bearing)
+    return sep.join(t)
+
+
+_COMPASS = ('N', 'NbE', 'NNE', 'NEbN', 'NE', 'NEbE', 'ENE', 'EbN',
+            'E', 'EbS', 'ESE', 'SEbE', 'SE', 'SEbS', 'SSE', 'SbE',
+            'S', 'SbW', 'SSW', 'SWbS', 'SW', 'SWbW', 'WSW', 'WbS',
+            'W', 'WbN', 'WNW', 'NWbW', 'NW', 'NWbN', 'NNW', 'NbW')  #: (INTERNAL) points
+
+_M_X = {1: (4, 8), 2: (8, 4), 3: (16, 2), 4: (32, 1)}  #: (INTERNAL) precs
 
 
 def compassPoint(bearing, prec=3):
     '''Converts bearing to compass point.
 
        @param bearing: Bearing from North (compass degrees).
-       @keyword prec: Optional precision (1 for cardinal, 2 for
-                      intercardinal or 3 for secondary-intercardinal).
+       @keyword prec: Optional precision (1 for cardinal or basic winds,
+                      2 for intercardinal or ordinal or principal winds,
+                      3 for secondary-intercardinal or half-winds or
+                      4 for quarter-winds).
 
-       @return: Compass point (1-, 2- or 3-letter string).
+       @return: Compass point (1-, 2-, 3- or 4-letter string).
 
        @raise ValueError: Invalid prec.
 
+       @see: U{Compass rose<http://wikipedia.org/wiki/Compass_rose>}
+
        @example:
 
-       >>> p = compass(24)     # 'NNE'
-       >>> p = compass(24, 1)  # 'N'
+       >>> p = compassPoint(24)     # 'NNE'
+       >>> p = compassPoint(24, 1)  # 'N'
+       >>> p = compassPoint(24, 2)  # 'NE'
+       >>> p = compassPoint(18, 3)  # 'NNE'
+       >>> p = compassPoint(12, 4)  # 'NbE'
+       >>> p = compassPoint(30, 4)  # 'NEbN'
     '''
-    try:
+    try:  # m = 2 << prec; q = 32 // m
         m, x = _M_X[prec]
     except KeyError:
         raise ValueError('%s invalid: %r' % ('prec', prec))
@@ -157,43 +178,46 @@ def compassPoint(bearing, prec=3):
     return _COMPASS[q * x]
 
 
-def latDMS(deg, form=F_DMS, prec=2):
+def latDMS(deg, form=F_DMS, prec=2, sep=S_SEP):
     '''Converts latitude to string suffixed with N or S.
 
        @param deg: Latitude to be formatted (degrees).
-       @keyword form: Use F_D, F_DM, F_DMS, F_DEG or F_RAD for deg°,
-                      deg°min′, deg°min′sec″ or degrees or radians.
+       @keyword form: F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD
+                      for deg°, deg°min′, deg°min′sec″, DD, DDMM,
+                      DDMMSS or radians (string).
        @keyword prec: Optional, number of decimal digits (0..9 or
                       None for default).  Trailing zero decimals
                       are stripped for prec values of 1 and above,
                       but kept for negative prec values.
+       @keyword sep: Optional, separator (string).
 
        @return: Degrees per the specified form (string).
 
        @JSname: I{toLat}.
     '''
-    return _toDMS(deg, form, prec, 2) + ('S' if deg < 0 else 'N')
+    t = _toDMS(deg, form, prec, sep, 2), ('S' if deg < 0 else 'N')
+    return sep.join(t)
 
 
-def lonDMS(deg, form=F_DMS, prec=2):
+def lonDMS(deg, form=F_DMS, prec=2, sep=S_SEP):
     '''Converts longitude to string suffixed with E or W.
 
        @param deg: Longitude to be formatted (degrees).
-       @keyword form: Use F_D, F_DM, F_DMS, F_DEG or F_RAD for deg°,
-                      deg°min′, deg°min′sec″ or degrees or radians.
+       @keyword form: F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD
+                      for deg°, deg°min′, deg°min′sec″, DDD, DDDMM,
+                      DDDMMSS or radians (string).
        @keyword prec: Optional, number of decimal digits (0..9 or
                       None for default).  Trailing zero decimals
                       are stripped for prec values of 1 and above,
                       but kept for negative prec values.
+       @keyword sep: Optional, separator (string).
 
        @return: Degrees per the specified form (string).
 
        @JSname: I{toLon}.
     '''
-    return _toDMS(deg, form, prec, 3) + ('W' if deg < 0 else 'E')
-
-
-toLon = lonDMS  # XXX original name
+    t = _toDMS(deg, form, prec, sep, 3), ('W' if deg < 0 else 'E')
+    return sep.join(t)
 
 
 def normDMS(strDMS, norm=''):
@@ -309,7 +333,7 @@ def parseDMS(strDMS, suffix='NSEW', sep=S_SEP):
 def precision(form, prec=None):
     '''Sets the default precison for a given F_ form.
 
-       @param form: F_D, F_DM, F_DMS, F_DEG or F_RAD (string).
+       @param form: F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD (string).
        @keyword prec: Optional, number of decimal digits (0..9 or
                       None for default).  Trailing zero decimals
                       are stripped for prec values of 1 and above,
@@ -324,30 +348,32 @@ def precision(form, prec=None):
     except KeyError:
         raise ValueError('%s invalid: %s' % ('form', form))
     if prec is not None:
-        if -10 < prec < 10:
+        if isint(prec) and -10 < prec < 10:
             _F_prec[form] = prec
         else:
             raise ValueError('%s invalid: %s' % ('prec', prec))
     return p
 
 
-def toDMS(deg, form=F_DMS, prec=2, ddd=2, neg='-', pos=''):
+def toDMS(deg, form=F_DMS, prec=2, sep=S_SEP, ddd=2, neg='-', pos=''):
     '''Converts signed degrees to string, without suffix.
 
        @param deg: Degrees to be formatted (scalar).
-       @keyword form: F_D, F_DM, F_DMS, F_DEG or F_RAD for deg°,
-                      deg°min′, deg°min′sec″ or degrees or radians.
+       @keyword form: F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD
+                      for deg°, deg°min′, deg°min′sec″, [D]DD, [D]DDMM,
+                      [D]DDMMSS or radians (string).
        @keyword prec: Optional, number of decimal digits (0..9 or
                       None for default).  Trailing zero decimals
                       are stripped for prec values of 1 and above,
                       but kept for negative prec values.
+       @keyword sep: Optional, separator (string).
        @keyword ddd: Optional, number of digits for deg° (2 or 3).
        @keyword neg: Optional, sign for negative degrees ('-').
        @keyword pos: Optional, sign for positive degrees ('').
 
        @return: Degrees per the specified form (string).
     '''
-    t = _toDMS(deg, form, prec, ddd)
+    t = _toDMS(deg, form, prec, sep, ddd)
     s = neg if deg < 0 else pos
     return s + t
 
