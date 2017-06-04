@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-'''Military Grid Reference System (MGRS/NATO) class L{Mgrs} and
+u'''Military Grid Reference System (MGRS/NATO) class L{Mgrs} and
 functions L{parseMGRS} and L{toMgrs}.
 
 Pure Python implementation of MGRS / UTM conversion functions using
@@ -36,7 +36,7 @@ import re  # PYCHOK warning locale.Error
 # all public contants, classes and functions
 __all__ = ('Mgrs',  # classes
            'parseMGRS', 'toMgrs')  # functions
-__version__ = '17.05.26'
+__version__ = '17.06.04'
 
 _100km  =  100e3  #: (INTERNAL) 100 km in meter.
 _2000km = 2000e3  #: (INTERNAL) 2,000 km in meter.
@@ -109,25 +109,25 @@ class Mgrs(Base):
 
     @property
     def band(self):
-        '''Gets the latitudinal band A..Z (string).
+        '''Get the latitudinal band A..Z (string).
         '''
         return self._band
 
     @property
     def bandLatitude(self):
-        '''Gets the band latitude (degrees90 or None).
+        '''Get the band latitude (degrees90 or None).
         '''
         return self._bandLat
 
     @property
     def datum(self):
-        '''Gets the datum (L{Datum}).
+        '''Get the datum (L{Datum}).
         '''
         return self._datum
 
     @property
     def en100k(self):
-        '''Gets the 2-character grid EN digraph (string).
+        '''Get the 2-character grid EN digraph (string).
         '''
         return self._en100k
 
@@ -139,12 +139,12 @@ class Mgrs(Base):
 
     @property
     def northing(self):
-        '''Gets the northing (meter).
+        '''Get the northing (meter).
         '''
         return self._northing
 
     def parse(self, strMGRS):
-        '''Parses a string to a MGRS grid reference.
+        '''Parse a string to a MGRS grid reference.
 
            For details, see function L{parseMGRS} in this module L{mgrs}.
 
@@ -155,7 +155,7 @@ class Mgrs(Base):
         return parseMGRS(strMGRS, datum=self.datum)
 
     def toStr(self, prec=10, sep=' '):  # PYCHOK expected
-        '''Returns a string representation of this MGRS grid reference.
+        '''Return a string representation of this MGRS grid reference.
 
            Note that MGRS grid references are truncated, not rounded
            (unlike UTM coordinates).
@@ -181,7 +181,7 @@ class Mgrs(Base):
         return sep.join(t)
 
     def toStr2(self, prec=10, fmt='[%s]', sep=', '):  # PYCHOK expected
-        '''Returns a string representation of this MGRS grid reference.
+        '''Return a string representation of this MGRS grid reference.
 
            @keyword prec: Number of digits, 4:km, 10:m (int).
            @keyword fmt: Enclosing backets format (string).
@@ -193,7 +193,7 @@ class Mgrs(Base):
         return fmt % (sep.join('%s:%s' % t for t in zip('ZGEN', t)),)
 
     def toUtm(self):
-        '''Converts this MGRS grid reference to a UTM coordinate.
+        '''Convert this MGRS grid reference to a UTM coordinate.
 
            @return: The UTM coordinate (L{Utm}).
 
@@ -221,13 +221,13 @@ class Mgrs(Base):
 
     @property
     def zone(self):
-        '''Gets the longitudal zone 1..60 (int).
+        '''Get the longitudal zone 1..60 (int).
         '''
         return self._zone
 
 
 def parseMGRS(strMGRS, datum=Datums.WGS84):
-    '''Parses a string representing a MGRS grid reference,
+    '''Parse a string representing a MGRS grid reference,
        consisting of zoneBand, grid, easting and northing.
 
        @param strMGRS: MGRS grid reference (string).
@@ -277,7 +277,7 @@ def parseMGRS(strMGRS, datum=Datums.WGS84):
 
 
 def toMgrs(utm, Mgrs=Mgrs):
-    '''Converts a UTM coordinate to an MGRS grid reference.
+    '''Convert a UTM coordinate to an MGRS grid reference.
 
        @param utm: A UTM coordinate (L{Utm}).
        @keyword Mgrs: Mgrs class for the MGRS grid reference (L{Mgrs}).

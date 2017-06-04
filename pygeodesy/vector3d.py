@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-'''Generic 3-D vector base class L{Vector3d} and function L{sumOf}.
+u'''Generic 3-D vector base class L{Vector3d} and function L{sumOf}.
 
 Pure Python implementation of vector-based functions by I{(C) Chris
 Veness 2011-2015} published under the same MIT Licence**, see
@@ -19,7 +19,7 @@ from math import atan2, cos, sin
 # all public contants, classes and functions
 __all__ = ('Vector3d',  # classes
            'sumOf')  # functions
-__version__ = '17.05.26'
+__version__ = '17.06.04'
 
 try:
     _cmp = cmp
@@ -67,7 +67,7 @@ class Vector3d(VectorBase):
         self._z = z
 
     def __add__(self, other):
-        '''This plus an other vector (L{Vector3d}).
+        '''Add this to an other vector (L{Vector3d}).
 
            @return: Vectorial sum (L{Vector3d}).
 
@@ -78,14 +78,14 @@ class Vector3d(VectorBase):
     __radd__ = __add__
 
     def __abs__(self):
-        '''Norm of this vector (scalar).
+        '''Return the norm of this vector (scalar).
 
            @return: Norm, unit length (float);
         '''
         return self.length
 
     def __cmp__(self, other):  # Python 2-
-        '''Compares this and an other vector?
+        '''Compare this and an other vector
 
            @param other: The other vector (L{Vector3d}).
 
@@ -97,7 +97,7 @@ class Vector3d(VectorBase):
         return _cmp(self.length, other.length)
 
     def __div__(self, scalar):
-        '''Divides this vector by a scalar.
+        '''Divide this vector by a scalar.
 
            @param scalar: The divisor (scalar).
 
@@ -171,7 +171,7 @@ class Vector3d(VectorBase):
 
     # Luciano Ramalho, "Fluent Python", page 397, O'Reilly 2016
     def __matmul__(self, other):  # PYCHOK Python 3.5+ ... c = a @ b
-        '''Cross product of this and another vector.
+        '''Compute the cross product of this and an other vector.
 
            @param other: The other vector (L{Vector3d}).
 
@@ -183,7 +183,7 @@ class Vector3d(VectorBase):
     __imatmul__ = __matmul__
 
     def __mul__(self, scalar):
-        '''Multiplies this vector by a scalar
+        '''Multiply this vector by a scalar
 
            @param scalar: Factor (scalar).
 
@@ -206,14 +206,14 @@ class Vector3d(VectorBase):
         return not self.equals(other)
 
     def __neg__(self):
-        '''Negates this vector.
+        '''Negate this vector.
 
            @return: Negative (L{Vector3d})
         '''
         return self.negate()
 
     def __pos__(self):
-        '''Copies this vector.
+        '''Copy this vector.
 
            @return: Positive (L{Vector3d})
         '''
@@ -221,7 +221,7 @@ class Vector3d(VectorBase):
 
     # Luciano Ramalho, "Fluent Python", page 397, O'Reilly 2016
     def __rmatmul__(self, other):  # PYCHOK Python 3.5+ ... c = a @ b
-        '''Cross product of an other and this vector.
+        '''Compute the cross product of an other and this vector.
 
            @param other: The other vector (L{Vector3d}).
 
@@ -233,7 +233,7 @@ class Vector3d(VectorBase):
         return other.cross(self)
 
     def __rsub__(self, other):
-        '''An other minus this vector.
+        '''Subtract this vector from an other vector.
 
            @param other: The other vector (L{Vector3d}).
 
@@ -245,7 +245,7 @@ class Vector3d(VectorBase):
         return other.minus(self)
 
     def __sub__(self, other):
-        '''This minus an other vector.
+        '''Subtract an other vector from this vector.
 
            @param other: The other vector (L{Vector3d}).
 
@@ -263,7 +263,7 @@ class Vector3d(VectorBase):
             self._length = self._united = None
 
     def angleTo(self, other, vSign=None):
-        '''Computes the angle between this and an other vector.
+        '''Compute the angle between this and an other vector.
 
            @param other: The other vector (L{Vector3d}).
            @keyword vSign: Vector, if supplied (and out of the plane of
@@ -284,7 +284,7 @@ class Vector3d(VectorBase):
         return atan2(s, self.dot(other))
 
     def copy(self):
-        '''Copies this vector.
+        '''Copy this vector.
 
            @return: New, vector copy (Vector3d).
         '''
@@ -294,7 +294,7 @@ class Vector3d(VectorBase):
         return v
 
     def cross(self, other):
-        '''Cross product of this and an other vector.
+        '''Compute the cross product of this and an other vector.
 
            @param other: The other vector (L{Vector3d}).
 
@@ -309,7 +309,7 @@ class Vector3d(VectorBase):
                            self.x * other.y - self.y * other.x)
 
     def dividedBy(self, factor):
-        '''Divides this vector by a scalar.
+        '''Divide this vector by a scalar.
 
            @param factor: The divisor (scalar).
 
@@ -322,7 +322,7 @@ class Vector3d(VectorBase):
         return self.times(1.0 / factor)
 
     def dot(self, other):
-        '''Dot (scalar) product of this and an other vector.
+        '''Compute the dot (scalar) product of this and an other vector.
 
            @param other: The other vector (L{Vector3d}).
 
@@ -335,7 +335,7 @@ class Vector3d(VectorBase):
         return fdot(self.to3xyz(), *other.to3xyz())
 
     def equals(self, other, units=False):
-        '''Checks if this and an other vector are equal or equivalent.
+        '''Check if this and an other vector are equal or equivalent.
 
            @param other: The other vector (L{Vector3d}).
            @keyword units: Use units=True to compare the normalized,
@@ -361,14 +361,14 @@ class Vector3d(VectorBase):
 
     @property
     def length(self):
-        '''Gets the length (norm, magnitude) of this vector (float).
+        '''Get the length (norm, magnitude) of this vector (float).
         '''
         if self._length is None:
             self._length = hypot3(self.x, self.y, self.z)
         return self._length
 
     def minus(self, other):
-        '''Subtracts an other vector from this vector.
+        '''Subtract an other vector from this vector.
 
            @param other: The other vector (L{Vector3d}).
 
@@ -383,7 +383,7 @@ class Vector3d(VectorBase):
                            self.z - other.z)
 
     def negate(self):
-        '''This vector in opposite direction.
+        '''Return this vector in opposite direction.
 
            @return: New, opposite vector (L{Vector3d}).
         '''
@@ -404,7 +404,7 @@ class Vector3d(VectorBase):
                 raise
 
     def parse(self, str3d):
-        '''Parses an "x, y, z" string representing a L{Vector3d}.
+        '''Parse an "x, y, z" string representing a L{Vector3d}.
 
            The x, y and z must be separated by a comma.
 
@@ -424,7 +424,7 @@ class Vector3d(VectorBase):
         return self.topsub(*v)
 
     def plus(self, other):
-        '''Adds this and an other vector.
+        '''Add this vector and an other vector.
 
            @param other: The other vector (L{Vector3d}).
 
@@ -441,7 +441,7 @@ class Vector3d(VectorBase):
     sum = plus  # alternate name
 
     def rotate(self, axis, theta):
-        '''Rotates this vector by a specified angle around an axis.
+        '''Rotate this vector by a specified angle around an axis.
 
            See U{Rotation matrix from axis and angle<http://wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle>}
            and U{Quaternion-derived rotation matrix<http://wikipedia.org/wiki/Quaternions_and_spatial_rotation#Quaternion-derived_rotation_matrix>}.
@@ -469,7 +469,7 @@ class Vector3d(VectorBase):
     rotateAround = rotate  # alternate name
 
     def times(self, factor):
-        '''Multiplies this vector by a scalar.
+        '''Multiply this vector by a scalar.
 
            @param factor: Scale factor (scalar).
 
@@ -482,7 +482,7 @@ class Vector3d(VectorBase):
                            self.z * factor)
 
     def to2ll(self):
-        '''Converts this vector to (geodetic) lat- and longitude.
+        '''Convert this vector to (geodetic) lat- and longitude.
 
            @return: 2-Tuple (lat, lon) in (degrees90, degrees180).
 
@@ -496,14 +496,14 @@ class Vector3d(VectorBase):
         return degrees90(a), degrees180(b)
 
     def to3xyz(self):
-        '''Returns this vector as a 3-tuple.
+        '''Return this vector as a 3-tuple.
 
            @return: 3-Tuple (x, y, z) as (scalars).
         '''
         return self.x, self.y, self.z
 
     def toStr(self, prec=5, fmt='(%s)', sep=', '):  # PYCHOK expected
-        '''String representation of this vector.
+        '''Return a string representation of this vector.
 
            @keyword prec: Number of decimal places (int).
            @keyword fmt: Enclosing format to use (string).
@@ -530,25 +530,25 @@ class Vector3d(VectorBase):
 
     @property
     def x(self):
-        '''Gets the X component (scalar).
+        '''Get the X component (scalar).
         '''
         return self._x
 
     @property
     def y(self):
-        '''Gets the Y component (scalar).
+        '''Get the Y component (scalar).
         '''
         return self._y
 
     @property
     def z(self):
-        '''Gets the Z component (scalar).
+        '''Get the Z component (scalar).
         '''
         return self._z
 
 
 def sumOf(vectors, Vector=Vector3d, **kwds):
-    '''Vectorially adds a number of vectors.
+    '''Compute the vectorial sum of several vectors.
 
        @param vectors: Vectors to be added (L{Vector3d}[]).
        @keyword Vector: Vector class for sum (L{Vector3d}).

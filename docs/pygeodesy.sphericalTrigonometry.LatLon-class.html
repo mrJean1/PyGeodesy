@@ -98,7 +98,7 @@
         <span class="summary-sig-arg">start</span>,
         <span class="summary-sig-arg">end</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
-      Returns the (signed) distance from the start to the closest point on 
+      Compute the (signed) distance from the start to the closest point on 
       the great circle path defined by a start and an end point.</td>
           <td align="right" valign="top">
             
@@ -139,7 +139,7 @@
         <span class="summary-sig-arg">start</span>,
         <span class="summary-sig-arg">end</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
-      Returns the (signed) distance from this point to the great circle 
+      Compute the (signed) distance from this point to the great circle 
       defined by a start and an end point.</td>
           <td align="right" valign="top">
             
@@ -161,7 +161,7 @@
         <span class="summary-sig-arg">bearing</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Locates the destination from this point after having travelled the 
+      Locate the destination from this point after having travelled the 
       given distance on the given initial bearing.</td>
           <td align="right" valign="top">
             
@@ -181,7 +181,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry.LatLon-class.html#distanceTo" class="summary-sig-name">distanceTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
-      Computes the distance from this to an other point.</td>
+      Compute the distance from this to an other point.</td>
           <td align="right" valign="top">
             
             
@@ -199,7 +199,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry.LatLon-class.html#greatCircle" class="summary-sig-name">greatCircle</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">bearing</span>)</span><br />
-      Computes vector normal to great circle obtained by heading on the 
+      Compute the vector normal to great circle obtained by heading on the 
       given initial bearing from this point.</td>
           <td align="right" valign="top">
             
@@ -218,7 +218,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry.LatLon-class.html#initialBearingTo" class="summary-sig-name">initialBearingTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
-      Computes the initial bearing (aka forward azimuth) from this to an 
+      Compute the initial bearing (aka forward azimuth) from this to an 
       other point.</td>
           <td align="right" valign="top">
             
@@ -237,7 +237,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry.LatLon-class.html#bearingTo" class="summary-sig-name">bearingTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
-      Computes the initial bearing (aka forward azimuth) from this to an 
+      Compute the initial bearing (aka forward azimuth) from this to an 
       other point.</td>
           <td align="right" valign="top">
             
@@ -258,7 +258,7 @@
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">fraction</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Locates the point at given fraction between this and an other point.</td>
+      Locate the point at given fraction between this and an other point.</td>
           <td align="right" valign="top">
             
             
@@ -279,7 +279,7 @@
         <span class="summary-sig-arg">start2</span>,
         <span class="summary-sig-arg">bearing2</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Locates the intersection of two paths each defined by a start point 
+      Locate the intersection of two paths each defined by a start point 
       and an initial bearing.</td>
           <td align="right" valign="top">
             
@@ -298,8 +298,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry.LatLon-class.html#isEnclosedBy" class="summary-sig-name">isEnclosedBy</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">points</span>)</span><br />
-      Tests whether this point is enclosed by the polygon defined by a 
-      list, sequence, set or tuple of points.</td>
+      Test whether this point is enclosed by the polygon defined as a list,
+      sequence, set or tuple of points.</td>
           <td align="right" valign="top">
             
             
@@ -318,7 +318,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry.LatLon-class.html#midpointTo" class="summary-sig-name">midpointTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Finds the midpoint between this and an other point.</td>
+      Find the midpoint between this and an other point.</td>
           <td align="right" valign="top">
             
             
@@ -335,7 +335,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry.LatLon-class.html#toVector3d" class="summary-sig-name">toVector3d</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Converts this point to a vector normal to earth's surface.</td>
+      Convert this point to a vector normal to earth's surface.</td>
           <td align="right" valign="top">
             
             
@@ -445,7 +445,7 @@
     </td>
   </tr></table>
   
-  <p>Returns the (signed) distance from the start to the closest point on 
+  <p>Compute the (signed) distance from the start to the closest point on 
   the great circle path defined by a start and an end point.</p>
   <p>That is, if a perpendicular is drawn from this point to the great 
   circle path, the along-track distance is the distance from the start 
@@ -531,7 +531,7 @@
     </td>
   </tr></table>
   
-  <p>Returns the (signed) distance from this point to the great circle 
+  <p>Compute the (signed) distance from this point to the great circle 
   defined by a start and an end point.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -582,7 +582,7 @@
     </td>
   </tr></table>
   
-  <p>Locates the destination from this point after having travelled the 
+  <p>Locate the destination from this point after having travelled the 
   given distance on the given initial bearing.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -624,7 +624,7 @@
     </td>
   </tr></table>
   
-  <p>Computes the distance from this to an other point.</p>
+  <p>Compute the distance from this to an other point.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -666,7 +666,7 @@
     </td>
   </tr></table>
   
-  <p>Computes vector normal to great circle obtained by heading on the 
+  <p>Compute the vector normal to great circle obtained by heading on the 
   given initial bearing from this point.</p>
   <p>Direction of vector is such that initial bearing vector b = c &#215; n, 
   where n is an n-vector representing this point.</p>
@@ -703,7 +703,7 @@
     </td>
   </tr></table>
   
-  <p>Computes the initial bearing (aka forward azimuth) from this to an 
+  <p>Compute the initial bearing (aka forward azimuth) from this to an 
   other point.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -747,7 +747,7 @@
     </td>
   </tr></table>
   
-  <p>Computes the initial bearing (aka forward azimuth) from this to an 
+  <p>Compute the initial bearing (aka forward azimuth) from this to an 
   other point.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -793,7 +793,7 @@
     </td>
   </tr></table>
   
-  <p>Locates the point at given fraction between this and an other 
+  <p>Locate the point at given fraction between this and an other 
   point.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -845,8 +845,8 @@
     </td>
   </tr></table>
   
-  <p>Locates the intersection of two paths each defined by a start point 
-  and an initial bearing.</p>
+  <p>Locate the intersection of two paths each defined by a start point and
+  an initial bearing.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -894,7 +894,7 @@
     </td>
   </tr></table>
   
-  <p>Tests whether this point is enclosed by the polygon defined by a list,
+  <p>Test whether this point is enclosed by the polygon defined as a list, 
   sequence, set or tuple of points.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -937,7 +937,7 @@
     </td>
   </tr></table>
   
-  <p>Finds the midpoint between this and an other point.</p>
+  <p>Find the midpoint between this and an other point.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -979,7 +979,7 @@
     </td>
   </tr></table>
   
-  <p>Converts this point to a vector normal to earth's surface.</p>
+  <p>Convert this point to a vector normal to earth's surface.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>Vector representing this point (<a 
@@ -1020,7 +1020,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Jun  4 13:26:24 2017
+    Generated by Epydoc 3.0.1 on Sun Jun  4 16:15:54 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

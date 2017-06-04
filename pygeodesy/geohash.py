@@ -1,9 +1,8 @@
 
 # -*- coding: utf-8 -*-
 
-'''
-Class L{Geohash} and several functions to encode, decode and inspect
-geohashes.
+u'''Class L{Geohash} and several functions to encode, decode and
+inspect geohashes.
 
 Transcribed from JavaScript originals by I{(C) Chris Veness 2011-2015}
 and published under the same MIT Licence**.
@@ -26,7 +25,7 @@ __all__ = ('Geohash',  # classes
            'bounds', 'decode', 'decode_error',  # functions
            'distance1', 'distance2', 'distance3',
            'encode', 'neighbors', 'sizes')
-__version__ = '17.05.27'
+__version__ = '17.06.04'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -161,7 +160,7 @@ class Geohash(str):
         return "%s('%s')" % (Geohash.__name__, self)  # str.__str__(self))
 
     def adjacent(self, direction):
-        '''Determines adjacent cell in given compass direction.
+        '''Determine the adjacent cell in given compass direction.
 
            @param direction: Compass direction ('N', 'S', 'E' or 'W').
 
@@ -191,7 +190,7 @@ class Geohash(str):
         return Geohash(p + _GeohashBase32[i])
 
     def bounds(self, LatLon):
-        '''Returns SW/NE lat-/longitude bounds of this geohash cell.
+        '''Return the SW/NE lat-/longitude bounds of this geohash cell.
 
            @param LatLon: LatLon class to use (I{LatLon}).
 
@@ -204,7 +203,7 @@ class Geohash(str):
         return LatLon(s, w), LatLon(n, e)
 
     def distance1(self, other):
-        '''Estimates the distance between this and an other geohash
+        '''Estimate the distance between this and an other geohash
            (from the cell sizes).
 
            @param other: The other geohash (L{Geohash}).
@@ -222,7 +221,7 @@ class Geohash(str):
         return float(_Sizes[n][2])
 
     def distance2(self, other, radius=R_M):
-        '''Approximates the distance between this and an other geohash
+        '''Approximate the distance between this and an other geohash
            (with Pythagoras' theorem).
 
            @param other: The other geohash (L{Geohash}).
@@ -247,7 +246,7 @@ class Geohash(str):
         return d
 
     def distance3(self, other, radius=R_M):
-        '''Computes the great-circle distance between this and
+        '''Compute the great-circle distance between this and
            an other geohash (using the Haversine formula).
 
            @param other: The other geohash (L{Geohash}).
@@ -267,7 +266,7 @@ class Geohash(str):
 
     @property
     def latlon(self):
-        '''Gets the lat-/longitude of (the approximate center of)
+        '''Get the lat-/longitude of (the approximate center of)
            this geohash as 2-Tuple (lat, lon) in degrees.
 
            B{Example:}
@@ -284,7 +283,7 @@ class Geohash(str):
 
     @property
     def neighbors(self):
-        '''Gets all 8 adjacent cells as a dict(N=, NE=, E= ..., SW=)
+        '''Get all 8 adjacent cells as a dict(N=, NE=, E= ..., SW=)
            of L{Geohash}es.
 
            B{JSname:} I{neighbours}.
@@ -294,14 +293,14 @@ class Geohash(str):
 
     @property
     def sizes(self):
-        '''Gets the lat- and longitudinal size of this cell as a 2-tuple
+        '''Get the lat- and longitudinal size of this cell as a 2-tuple
            (latHeight, lonWidth) in meter.
         '''
         n = min(len(self) or 1, len(_Sizes)) - 1
         return tuple(map(float, _Sizes[n][:2]))
 
     def toLatLon(self, LatLon, **kwds):
-        '''Returns (the approximate center of) this geohash cell
+        '''Return (the approximate center of) this geohash cell
            as an instance of the supplied I{LatLon} class.
 
            @param LatLon: Class to use (I{LatLon}).
@@ -320,7 +319,7 @@ class Geohash(str):
 
     @property
     def N(self):
-        '''Gets the cell North of this (L{Geohash}).
+        '''Get the cell North of this (L{Geohash}).
         '''
         if self._N is None:
             self._N = self.adjacent('N')
@@ -328,7 +327,7 @@ class Geohash(str):
 
     @property
     def S(self):
-        '''Gets the cell South of this (L{Geohash}).
+        '''Get the cell South of this (L{Geohash}).
         '''
         if self._S is None:
             self._S = self.adjacent('S')
@@ -336,7 +335,7 @@ class Geohash(str):
 
     @property
     def E(self):
-        '''Gets the cell East of this (L{Geohash}).
+        '''Get the cell East of this (L{Geohash}).
         '''
         if self._E is None:
             self._E = self.adjacent('E')
@@ -344,7 +343,7 @@ class Geohash(str):
 
     @property
     def W(self):
-        '''Gets the cell West of this (L{Geohash}).
+        '''Get the cell West of this (L{Geohash}).
         '''
         if self._W is None:
             self._W = self.adjacent('W')
@@ -352,7 +351,7 @@ class Geohash(str):
 
     @property
     def NE(self):
-        '''Gets the cell NorthEast of this (L{Geohash}).
+        '''Get the cell NorthEast of this (L{Geohash}).
         '''
         if self._NE is None:
             self._NE = self.N.E
@@ -360,7 +359,7 @@ class Geohash(str):
 
     @property
     def NW(self):
-        '''Gets the cell NorthWest of this (L{Geohash}).
+        '''Get the cell NorthWest of this (L{Geohash}).
         '''
         if self._NW is None:
             self._NW = self.N.W
@@ -368,7 +367,7 @@ class Geohash(str):
 
     @property
     def SE(self):
-        '''Gets the cell SouthEast of this (L{Geohash}).
+        '''Get the cell SouthEast of this (L{Geohash}).
         '''
         if self._SE is None:
             self._SE = self.S.E
@@ -376,7 +375,7 @@ class Geohash(str):
 
     @property
     def SW(self):
-        '''Gets the cell SouthWest of this (L{Geohash}).
+        '''Get the cell SouthWest of this (L{Geohash}).
         '''
         if self._SW is None:
             self._SW = self.S.W
@@ -384,7 +383,7 @@ class Geohash(str):
 
 
 def bounds(geohash):
-    '''Returns SW and NE lat-/longitude bounds of a geohash.
+    '''Returns the SW and NE lat-/longitude bounds of a geohash.
 
        @return: 4-Tuple (latS, lonW, latN, lonE) in (degrees).
 
@@ -431,7 +430,7 @@ def bounds(geohash):
 
 
 def decode(geohash):
-    '''Decodes a geohash to lat-/longitude of the (approximate
+    '''Decode a geohash to lat-/longitude of the (approximate
        centre of) geohash cell, to reasonable precision.
 
        @param geohash: To be decoded (L{Geohash}).
@@ -461,7 +460,7 @@ def decode(geohash):
 
 
 def decode_error(geohash):
-    '''Returns relative lat-/longitude decoding errors for
+    '''Return the relative lat-/longitude decoding errors for
        this geohash.
 
        @param geohash: To be decoded (L{Geohash}).
@@ -484,7 +483,7 @@ def decode_error(geohash):
 
 
 def distance1(geohash1, geohash2):
-    '''Estimates the distance between two geohash (from the cell sizes).
+    '''Estimate the distance between two geohash (from the cell sizes).
 
        @param geohash1: First geohash (L{Geohash}).
        @param geohash2: Second geohash (L{Geohash}).
@@ -501,7 +500,7 @@ def distance1(geohash1, geohash2):
 
 
 def distance2(geohash1, geohash2, radius=R_M):
-    '''Approximates the distance between two geohashes (with
+    '''Approximate the distance between two geohashes (with
        Pythagoras' theorem).
 
        @param geohash1: First geohash (L{Geohash}).
@@ -520,7 +519,7 @@ def distance2(geohash1, geohash2, radius=R_M):
 
 
 def distance3(geohash1, geohash2, radius=R_M):
-    '''Computes the great-circle distance between two geohashes
+    '''Compute the great-circle distance between two geohashes
        (using the Haversine formula).
 
        @param geohash1: First geohash (L{Geohash}).
@@ -539,7 +538,7 @@ def distance3(geohash1, geohash2, radius=R_M):
 
 
 def encode(lat, lon, precision=None):
-    '''Encodes lat-/longitude to geohash, either to the
+    '''Encode a lat-/longitude as a geohash, either to the
        specified or an automatically evaluated precision.
 
        @param lat: Latitude in degrees (scalar).
@@ -613,7 +612,7 @@ def encode(lat, lon, precision=None):
 
 
 def neighbors(geohash):
-    '''Returns the L{Geohash}es for all 8 adjacent cells.
+    '''Return the L{Geohash}es for all 8 adjacent cells.
 
        @param geohash: Cell for which neighbors are required (L{Geohash} or str).
 
@@ -627,7 +626,7 @@ def neighbors(geohash):
 
 
 def sizes(geohash):
-    '''Returns the lat- and longitudinal size of this L{Geohash} cell.
+    '''Return the lat- and longitudinal size of this L{Geohash} cell.
 
        @param geohash: Cell for which size are required (L{Geohash} or str).
 

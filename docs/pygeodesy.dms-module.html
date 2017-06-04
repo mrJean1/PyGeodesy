@@ -70,7 +70,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.06.03
+        17.06.04
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -90,7 +90,7 @@
         <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
-      Converts bearing to string.</td>
+      Convert bearing to a string.</td>
           <td align="right" valign="top">
             
             
@@ -110,7 +110,7 @@
         <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
-      Converts bearing to string suffixed with compass point.</td>
+      Convert bearing to a string suffixed with compass point.</td>
           <td align="right" valign="top">
             
             
@@ -128,7 +128,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.dms-module.html#compassPoint" class="summary-sig-name">compassPoint</a>(<span class="summary-sig-arg">bearing</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">3</span>)</span><br />
-      Converts bearing to compass point.</td>
+      Convert bearing to a compass point.</td>
           <td align="right" valign="top">
             
             
@@ -148,7 +148,7 @@
         <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">2</span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
-      Converts latitude to string suffixed with N or S.</td>
+      Convert latitude to a string suffixed with N or S.</td>
           <td align="right" valign="top">
             
             
@@ -168,7 +168,7 @@
         <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">2</span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
-      Converts longitude to string suffixed with E or W.</td>
+      Convert longitude to a string suffixed with E or W.</td>
           <td align="right" valign="top">
             
             
@@ -186,8 +186,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.dms-module.html#normDMS" class="summary-sig-name">normDMS</a>(<span class="summary-sig-arg">strDMS</span>,
         <span class="summary-sig-arg">norm</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
-      Normalizes all degrees &#730;, minutes ' and seconds &quot; symbols in a 
-      string to the defaults &#176;, &#8242; and &#8243;.</td>
+      Normalize all degree &#730;, minute ' and second &quot; symbols in a 
+      string to the default symbols &#176;, &#8242; and &#8243;.</td>
           <td align="right" valign="top">
             
             
@@ -206,7 +206,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.dms-module.html#parse3llh" class="summary-sig-name">parse3llh</a>(<span class="summary-sig-arg">strll</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">,</code><code class="variable-quote">'</code></span>)</span><br />
-      Parses a string representing lat-, longitude and height point.</td>
+      Parse a string representing lat-, longitude and height point.</td>
           <td align="right" valign="top">
             
             
@@ -225,7 +225,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.dms-module.html#parseDMS" class="summary-sig-name">parseDMS</a>(<span class="summary-sig-arg">strDMS</span>,
         <span class="summary-sig-arg">suffix</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">NSEW</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
-      Parses a string representing deg&#176;min&#8242;sec&#8243; to degrees.</td>
+      Parse a string representing deg&#176;min&#8242;sec&#8243; to degrees.</td>
           <td align="right" valign="top">
             
             
@@ -243,7 +243,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.dms-module.html#precision" class="summary-sig-name">precision</a>(<span class="summary-sig-arg">form</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Sets the default precison for a given F_ form.</td>
+      Set the default precison for a given F_ form.</td>
           <td align="right" valign="top">
             
             
@@ -266,7 +266,7 @@
         <span class="summary-sig-arg">ddd</span>=<span class="summary-sig-default">2</span>,
         <span class="summary-sig-arg">neg</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">-</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">pos</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
-      Converts signed degrees to string, without suffix.</td>
+      Convert signed degrees to string, without suffix.</td>
           <td align="right" valign="top">
             
             
@@ -408,7 +408,7 @@
     </td>
   </tr></table>
   
-  <p>Converts bearing to string.</p>
+  <p>Convert bearing to a string.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -446,7 +446,7 @@
     </td>
   </tr></table>
   
-  <p>Converts bearing to string suffixed with compass point.</p>
+  <p>Convert bearing to a string suffixed with compass point.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -479,7 +479,7 @@
     </td>
   </tr></table>
   
-  <p>Converts bearing to compass point.</p>
+  <p>Convert bearing to a compass point.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -527,7 +527,7 @@
     </td>
   </tr></table>
   
-  <p>Converts latitude to string suffixed with N or S.</p>
+  <p>Convert latitude to a string suffixed with N or S.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -564,7 +564,7 @@
     </td>
   </tr></table>
   
-  <p>Converts longitude to string suffixed with E or W.</p>
+  <p>Convert longitude to a string suffixed with E or W.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -599,8 +599,8 @@
     </td>
   </tr></table>
   
-  <p>Normalizes all degrees &#730;, minutes ' and seconds &quot; symbols in a 
-  string to the defaults &#176;, &#8242; and &#8243;.</p>
+  <p>Normalize all degree &#730;, minute ' and second &quot; symbols in a string
+  to the default symbols &#176;, &#8242; and &#8243;.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -628,7 +628,7 @@
     </td>
   </tr></table>
   
-  <p>Parses a string representing lat-, longitude and height point.</p>
+  <p>Parse a string representing lat-, longitude and height point.</p>
   <p>The lat- and longitude value must be separated by a separator 
   character.  If height is present it must follow, separated by another 
   separator.</p>
@@ -672,7 +672,7 @@
     </td>
   </tr></table>
   
-  <p>Parses a string representing deg&#176;min&#8242;sec&#8243; to degrees.</p>
+  <p>Parse a string representing deg&#176;min&#8242;sec&#8243; to degrees.</p>
   <p>This is very flexible on formats, allowing signed decimal degrees, 
   degrees and minutes or degrees minutes and seconds optionally suffixed by
   compass direction NSEW.</p>
@@ -709,7 +709,7 @@
     </td>
   </tr></table>
   
-  <p>Sets the default precison for a given F_ form.</p>
+  <p>Set the default precison for a given F_ form.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -747,7 +747,7 @@
     </td>
   </tr></table>
   
-  <p>Converts signed degrees to string, without suffix.</p>
+  <p>Convert signed degrees to string, without suffix.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -800,7 +800,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Jun  4 13:26:23 2017
+    Generated by Epydoc 3.0.1 on Sun Jun  4 16:15:53 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

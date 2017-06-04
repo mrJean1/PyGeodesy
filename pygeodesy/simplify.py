@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-'''Six different functions to I{simplify} or linearize a path given as a
+u'''Six different functions to I{simplify} or linearize a path given as a
 list, sequence or tuple of I{LatLon} points.
 
 Each of the simplify functions is based on a different algorithm and
@@ -61,7 +61,7 @@ from math  import cos, degrees, radians, sqrt
 __all__ = ('simplify1', 'simplify2',
            'simplifyRDP', 'simplifyRDPm',
            'simplifyVW', 'simplifyVWm')
-__version__ = '17.06.02'
+__version__ = '17.06.04'
 
 
 # try:
@@ -124,14 +124,14 @@ class _Sy(object):
         self.d2i = self.d2iS if shortest else self.d2iP  # PYCHOK false
 
     def d21(self, s, e):
-        '''Sets path edge or line thru points[s] to -[e].
+        '''Set path edge or line thru points[s] to -[e].
         '''
         d21, x21, y21 = self.d2xy(s, e)
         self.d2xyse = d21, x21, y21, s, e
         return d21 > self.eps
 
     def d2iP(self, n, m, brk):
-        '''Finds the tallest perpendicular distance among all
+        '''Find the tallest perpendicular distance among all
            points[n..m] to the path edge or line thru points[s]
            to -[e] exceeding the tolerance.
         '''
@@ -150,7 +150,7 @@ class _Sy(object):
         return t2, t
 
     def d2iS(self, n, m, brk):
-        '''Finds the tallest shortest distance among all
+        '''Find the tallest shortest distance among all
            points[n..m] to the path edge or line thru
            points[s] to -[e] exceeding the tolerance.
         '''
@@ -175,7 +175,7 @@ class _Sy(object):
         return t2, t
 
     def d2xy(self, i, j):
-        '''Returns points[i] to [j] deltas.
+        '''Return points[i] to [j] deltas.
         '''
         p1 = self.pts[i]
         p2 = self.pts[j]
@@ -194,7 +194,7 @@ class _Sy(object):
         return d2, dx, dy
 
     def h2t(self, i1, i0, i2):
-        '''Computes the Visvalingam-Whyatt triangular area,
+        '''Compute the Visvalingam-Whyatt triangular area,
            points[i1] to -[i2] form the base and points[i0]
            is the top of the triangle.
         '''
@@ -209,7 +209,7 @@ class _Sy(object):
         return 0
 
     def points(self, r):
-        '''Returns the list of simplified points.
+        '''Return the list of simplified points.
         '''
         return [self.pts[i] for i in sorted(r.keys())]
 
@@ -244,7 +244,7 @@ class _Sy(object):
         return self.points(r)
 
     def rm1(self, m, tol):
-        '''Eliminates one Visvalingam-Whyatt point and recomputes
+        '''Eliminate one Visvalingam-Whyatt point and recomputes
            the trangular area of both neighboring points, but
            removes those too unless the recomputed area exceeds
            the tolerance.
@@ -262,7 +262,7 @@ class _Sy(object):
                     r.pop(n)
 
     def rm2(self, tol):
-        '''Eliminates all Visvalingam-Whyatt points with a
+        '''Eliminate all Visvalingam-Whyatt points with a
            triangular area not exceeding the tolerance.
         '''
         r, rm1 = self.r, self.rm1
@@ -275,7 +275,7 @@ class _Sy(object):
                 i = min(i, len(r) - 1)
 
     def vwn(self):
-        '''Initializes Visvalingam-Whyatt as list of 2-Tuples
+        '''Initialize Visvalingam-Whyatt as list of 2-Tuples
            (ix, h2) where ix is the points[] index and h2
            the triangular area (times 2) of that point.
         '''
@@ -293,7 +293,7 @@ class _Sy(object):
         return len(self.r)
 
     def vwr(self, attr):
-        '''Returns Visvalingam-Whyatt results, optionally
+        '''Return the Visvalingam-Whyatt results, optionally
            including the triangular area (in meters) as
            attribute attr to each simplified point.
         '''

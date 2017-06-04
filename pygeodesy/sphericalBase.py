@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-'''(INTERNAL) Spherical base classes.
+u'''(INTERNAL) Spherical base classes.
 
 Pure Python implementation of geodetic (lat-/longitude) functions,
 transcribed in part from JavaScript originals by I{(C) Chris Veness 2011-2016}
@@ -23,7 +23,7 @@ from math import acos, atan2, cos, log, sin
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('LatLonSphericalBase',)
-__version__ = '17.05.25'
+__version__ = '17.06.04'
 
 
 class LatLonSphericalBase(LatLonHeightBase):
@@ -33,13 +33,13 @@ class LatLonSphericalBase(LatLonHeightBase):
 
     @property
     def datum(self):
-        '''Gets this point's datum (L{Datum}).
+        '''Get this point's datum (L{Datum}).
         '''
         return self._datum
 
     @datum.setter  # PYCHOK setter!
     def datum(self, datum):
-        '''Sets this point's datum without conversion.
+        '''Set this point's datum without conversion.
 
            @param datum: New datum (L{Datum}).
 
@@ -55,7 +55,7 @@ class LatLonSphericalBase(LatLonHeightBase):
         self._datum = datum
 
     def finalBearingTo(self, other):
-        '''Returns the final bearing (reverse azimuth) from this
+        '''Return the final bearing (reverse azimuth) from this
            to an other point.
 
            @param other: The other point (spherical LatLon).
@@ -80,20 +80,20 @@ class LatLonSphericalBase(LatLonHeightBase):
 
     @property
     def isellipsoidal(self):
-        '''Checks whether this I{LatLon} is ellipsoidal (bool).
+        '''Check whether this I{LatLon} is ellipsoidal (bool).
         '''
         return self.datum.isellipsoidal
 
     @property
     def isspherical(self):
-        '''Checks whether this I{LatLon} is spherical (bool).
+        '''Check whether this I{LatLon} is spherical (bool).
         '''
         return self.datum.isspherical
 
     def maxLat(self, bearing):
-        '''Returns maximum latitude reached when travelling
-           on a great circle on given bearing from this
-           point (based on 'Clairaut's formula').
+        '''Return the maximum latitude reached when travelling
+           on a great circle on given bearing from this point
+           (based on 'Clairaut's formula').
 
            The maximum latitude is independent of longitude,
            it is the same for all points on a given latitude.
@@ -111,9 +111,9 @@ class LatLonSphericalBase(LatLonHeightBase):
         return degrees90(m)
 
     def minLat(self, bearing):
-        '''Returns minimum latitude reached when travelling
-           on a great circle on given bearing from this
-           point.  See method L{maxLat} for more details.
+        '''Return the minimum latitude reached when travelling
+           on a great circle on given bearing from this point.
+           See method L{maxLat} for more details.
 
            @param bearing: Initial bearing (compass degrees).
 
@@ -124,7 +124,7 @@ class LatLonSphericalBase(LatLonHeightBase):
         return -self.maxLat(bearing)
 
     def parse(self, strll, height=0, sep=','):
-        '''Parses a string representing lat-/longitude point and
+        '''Parse a string representing lat-/longitude point and
            return a LatLon.
 
            The lat- and longitude must be separated by a sep[arator]
@@ -162,7 +162,7 @@ class LatLonSphericalBase(LatLonHeightBase):
         return (a2 - a1), db, dp
 
     def rhumbBearingTo(self, other):
-        '''Returns the initial bearing (forward azimuth) from this
+        '''Return the initial bearing (forward azimuth) from this
            to an other point along a rhumb (loxodrome) line.
 
            @param other: The other point (spherical LatLon).
@@ -182,7 +182,7 @@ class LatLonSphericalBase(LatLonHeightBase):
         return degrees360(atan2(db, dp))
 
     def rhumbDestination(self, distance, bearing, radius=R_M, height=None):
-        '''Returns the destination point having travelled along
+        '''Return the destination point having travelled along
            a rhumb (loxodrome) line from this point the given
            distance on the given bearing.
 
@@ -230,7 +230,7 @@ class LatLonSphericalBase(LatLonHeightBase):
         return self.topsub(degrees90(a2), degrees180(b2), height=h)
 
     def rhumbDistanceTo(self, other, radius=R_M):
-        '''Returns distance from this to an other point along
+        '''Return the distance from this to an other point along
            a rhumb (loxodrome) line.
 
            @param other: The other point (spherical LatLon).
@@ -262,7 +262,7 @@ class LatLonSphericalBase(LatLonHeightBase):
         return float(radius) * hypot(da, q * db)
 
     def rhumbMidpointTo(self, other, height=None):
-        '''Returns the (loxodromic) midpoint between this and
+        '''Return the (loxodromic) midpoint between this and
            an other point.
 
            @param other: The other point (spherical LatLon).

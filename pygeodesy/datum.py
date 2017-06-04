@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-'''Classes L{Datum}, L{Ellipsoid} and L{Transform} and registries thereof.
+u'''Classes L{Datum}, L{Ellipsoid} and L{Transform} and registries thereof.
 
 Pure Python implementation of geodesy tools for ellipsoidal earth models,
 including datums and ellipsoid parameters for different geographic coordinate
@@ -52,7 +52,7 @@ R_SM = m2SM(R_M)  #: Mean, spherical earth radius (statute miles).
 __all__ = ('R_KM', 'R_M', 'R_NM', 'R_SM',  # constants
            'Datum',  'Ellipsoid',  'Transform',  # classes
            'Datums', 'Ellipsoids', 'Transforms')  # enum-like
-__version__ = '17.05.26'
+__version__ = '17.06.04'
 
 
 class _Enum(dict, Named):
@@ -93,7 +93,7 @@ class _Based(Base, Named):
     '''(INTERNAL) Base class.
     '''
     def __ne__(self, other):
-        '''Compares this and an other ellipsoid.
+        '''Compare this and an other ellipsoid.
 
            @return: True if different (bool).
         '''
@@ -208,7 +208,7 @@ class Ellipsoid(_Based):
         self._register(Ellipsoids, name)
 
     def __eq__(self, other):
-        '''Compares this and an other ellipsoid.
+        '''Compare this and an other ellipsoid.
 
            @param other: The other ellipsoid (L{Ellipsoid}).
 
@@ -220,7 +220,7 @@ class Ellipsoid(_Based):
 
     @property
     def A(self):
-        '''Gets the meridional radius (meter).
+        '''Get the meridional radius (meter).
         '''
         if self._A is None:
             n = self.n
@@ -233,7 +233,7 @@ class Ellipsoid(_Based):
 
     @property
     def Alpha6(self):
-        '''Gets the 6th-order Krüger Alpha series (7-tuple, 1-origin).
+        '''Get the 6th-order Krüger Alpha series (7-tuple, 1-origin).
         '''
         if self._Alpha6 is None:
             self._Alpha6 = self._K6(
@@ -249,7 +249,7 @@ class Ellipsoid(_Based):
 
     @property
     def Beta6(self):
-        '''Gets the 6th-order Krüger Beta series (7-tuple, 1-origin).
+        '''Get the 6th-order Krüger Beta series (7-tuple, 1-origin).
         '''
         if self._Beta6 is None:
             self._Beta6 = self._K6(
@@ -264,7 +264,7 @@ class Ellipsoid(_Based):
         return self._Beta6
 
     def e2s2(self, s):
-        '''Computes norm sqrt(1 - e2 * s**2).
+        '''Compute the norm sqrt(1 - e2 * s**2).
 
            @param s: S value (scalar).
 
@@ -274,21 +274,21 @@ class Ellipsoid(_Based):
 
     @property
     def isellipsoidal(self):
-        '''Checks whether this model is ellipsoidal (bool).
+        '''Check whether this model is ellipsoidal (bool).
         '''
         return self.a > self.R > self.b
 
     @property
     def isspherical(self):
-        '''Checks whether this model is spherical (bool).
+        '''Check whether this model is spherical (bool).
         '''
         return self.a == self.R == self.b
 
     def _K6(self, *fs6):
-        '''(INTERNAL) Compute 6th-order Krüger Alpha or Beta series
-           per Karney 2011, 'Transverse Mercator with an accuracy
-           of a few nanometers', page 7, equations 35 and 36, see
-           <http://arxiv.org/pdf/1002.1417v3.pdf>.
+        '''(INTERNAL) Compute the 6th-order Krüger Alpha or Beta
+           series per Karney 2011, 'Transverse Mercator with an
+           accuracy of a few nanometers', page 7, equations 35
+           and 36, see <http://arxiv.org/pdf/1002.1417v3.pdf>.
 
            @param fs6: 6-Tuple of coefficent tuples.
 
@@ -307,7 +307,7 @@ class Ellipsoid(_Based):
 
     @property
     def Mabcd(self):
-        '''Gets the OSGR meridional coefficients, Airy130 only (4-tuple).
+        '''Get the OSGR meridional coefficients, Airy130 only (4-tuple).
         '''
         if self._Mabcd is None:
             n = self.n
@@ -321,7 +321,7 @@ class Ellipsoid(_Based):
         return self._Mabcd
 
     def radiusAt(self, lat):
-        '''Approximates the ellipsoid radius at the given
+        '''Approximate the ellipsoid radius at the given
            latitude in degrees by trivial interpolation.
 
            @param lat: Latitude (degrees90).
@@ -332,7 +332,7 @@ class Ellipsoid(_Based):
         return self.a - self._ab_90 * min(abs(lat), 90)
 
     def toStr(self, prec=8):  # PYCHOK expected
-        '''Returns this ellipsoid as a string.
+        '''Return this ellipsoid as a string.
 
            @keyword prec: Number of decimals, unstripped (int).
 
@@ -446,7 +446,7 @@ class Transform(_Based):
                                  self.s  == other.s)
 
     def inverse(self, name=''):
-        '''Returns inverse of this transform.
+        '''Return the inverse of this transform.
 
            @keyword name: Optional, unique name (string).
 
@@ -459,7 +459,7 @@ class Transform(_Based):
                          sx=-self.sx, sy=-self.sy, sz=-self.sz, s=-self.s)
 
     def toStr(self, prec=4):  # PYCHOK expected
-        '''Returns this transform as a string.
+        '''Return this transform as a string.
 
            @keyword prec: Number of decimals, unstripped (int).
 
@@ -470,7 +470,7 @@ class Transform(_Based):
                                 'sx', 'sy', 'sz')
 
     def transform(self, x, y, z, inverse=False):
-        '''Transforms a (geocentric) Cartesian point, forward or inverse.
+        '''Transform a (geocentric) Cartesian point, forward or inverse.
 
            @param x: X coordinate (meter).
            @param y: Y coordinate (meter).
@@ -568,7 +568,7 @@ class Datum(_Based):
         self._register(Datums, name or self.transform.name or self.ellipsoid.name)
 
     def __eq__(self, other):
-        '''Compares this and an other datum.
+        '''Compare this and an other datum.
 
            @param other: The other datum (L{Datum}).
 
@@ -580,24 +580,24 @@ class Datum(_Based):
 
     @property
     def ellipsoid(self):
-        '''Gets this datum's ellipsoid (L{Ellipsoid}).
+        '''Get this datum's ellipsoid (L{Ellipsoid}).
         '''
         return self._ellipsoid
 
     @property
     def isellipsoidal(self):
-        '''Checks whether this datum is ellipsoidal (bool).
+        '''Check whether this datum is ellipsoidal (bool).
         '''
         return self._ellipsoid.isellipsoidal
 
     @property
     def isspherical(self):
-        '''Checks whether this datum is spherical (bool).
+        '''Check whether this datum is spherical (bool).
         '''
         return self._ellipsoid.isspherical
 
     def toStr(self, **unused):  # PYCHOK expected
-        '''Returns this datum as a string.
+        '''Return this datum as a string.
 
            @return: Datum attributes (string).
         '''
@@ -609,7 +609,7 @@ class Datum(_Based):
 
     @property
     def transform(self):
-        '''Gets this datum's transform (L{Transform}).
+        '''Get this datum's transform (L{Transform}).
         '''
         return self._transform
 

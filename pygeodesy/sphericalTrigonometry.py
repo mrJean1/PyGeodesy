@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-'''Trigonometric spherical geodetic (lat-longitude) class L{LatLon}
+u'''Trigonometric spherical geodetic (lat-longitude) class L{LatLon}
 and functions L{intersection} and L{meanOf}.
 
 Pure Python implementation of geodetic (lat-/longitude) methods using
@@ -25,7 +25,7 @@ __all__ = ('LatLon',  # classes
            'areaOf',  # functions
            'intersection', 'isPoleEnclosedBy',
            'meanOf')
-__version__ = '17.05.25'
+__version__ = '17.06.04'
 
 
 class LatLon(LatLonSphericalBase):
@@ -59,9 +59,9 @@ class LatLon(LatLonSphericalBase):
         return r, x, e - b
 
     def alongTrackDistanceTo(self, start, end, radius=R_M):
-        '''Returns the (signed) distance from the start to the closest
-           point on the great circle path defined by a start and an end
-           point.
+        '''Compute the (signed) distance from the start to the closest
+           point on the great circle path defined by a start and an
+           end point.
 
            That is, if a perpendicular is drawn from this point to the
            great circle path, the along-track distance is the distance
@@ -127,7 +127,7 @@ class LatLon(LatLonSphericalBase):
         return degrees180(m - d), degrees180(m + d)
 
     def crossTrackDistanceTo(self, start, end, radius=R_M):
-        '''Returns the (signed) distance from this point to the great
+        '''Compute the (signed) distance from this point to the great
            circle defined by a start and an end point.
 
            @param start: Start point of great circle path (L{LatLon}).
@@ -151,7 +151,7 @@ class LatLon(LatLonSphericalBase):
         return x * radius
 
     def destination(self, distance, bearing, radius=R_M, height=None):
-        '''Locates the destination from this point after having
+        '''Locate the destination from this point after having
            travelled the given distance on the given initial bearing.
 
            @param distance: Distance travelled (same units as radius).
@@ -180,7 +180,7 @@ class LatLon(LatLonSphericalBase):
         return self.topsub(a, b, height=h)
 
     def distanceTo(self, other, radius=R_M):
-        '''Computes the distance from this to an other point.
+        '''Compute the distance from this to an other point.
 
            @param other: The other point (L{LatLon}).
            @keyword radius: Mean earth radius (meter).
@@ -205,7 +205,7 @@ class LatLon(LatLonSphericalBase):
         return r * float(radius)
 
     def greatCircle(self, bearing):
-        '''Computes vector normal to great circle obtained by heading
+        '''Compute the vector normal to great circle obtained by heading
            on the given initial bearing from this point.
 
            Direction of vector is such that initial bearing vector
@@ -232,7 +232,7 @@ class LatLon(LatLonSphericalBase):
                         ca * st)  # XXX .unit()?
 
     def initialBearingTo(self, other):
-        '''Computes the initial bearing (aka forward azimuth) from
+        '''Compute the initial bearing (aka forward azimuth) from
            this to an other point.
 
            @param other: The other point (L{LatLon}).
@@ -268,7 +268,7 @@ class LatLon(LatLonSphericalBase):
     bearingTo = initialBearingTo  # for backward compatibility
 
     def intermediateTo(self, other, fraction, height=None):
-        '''Locates the point at given fraction between this and an
+        '''Locate the point at given fraction between this and an
            other point.
 
            @param other: The other point (L{LatLon}).
@@ -320,7 +320,7 @@ class LatLon(LatLonSphericalBase):
         return self.topsub(degrees90(a), degrees180(b), height=h)
 
     def intersection(self, bearing, start2, bearing2, height=None):
-        '''Locates the intersection of two paths each defined by
+        '''Locate the intersection of two paths each defined by
            a start point and an initial bearing.
 
            @param bearing: Initial bearing from this point (compass degrees).
@@ -346,8 +346,8 @@ class LatLon(LatLonSphericalBase):
                                   height=height, LatLon=self.topsub)
 
     def isEnclosedBy(self, points):
-        '''Tests whether this point is enclosed by the polygon
-           defined by a list, sequence, set or tuple of points.
+        '''Test whether this point is enclosed by the polygon defined
+           as a list, sequence, set or tuple of points.
 
            @param points: The points defining the polygon (L{LatLon}[]).
 
@@ -393,22 +393,8 @@ class LatLon(LatLonSphericalBase):
 
         return True  # inside
 
-#   def isWithin(self, point1, point2):
-#       '''Tests whether this point is within the extent of a
-#          segment joining two other points.
-#
-#          @raise NotImplementedError: Not available.
-#
-#          @raise TypeError: One of the points is not L{LatLon}.
-#
-#          @JSname: I{isWithinExtent}.
-#       '''
-#       self.others(point1, name='point1')
-#       self.others(point2, name='point2')
-#       raise self.notImplemented('isWithin')
-
     def midpointTo(self, other, height=None):
-        '''Finds the midpoint between this and an other point.
+        '''Find the midpoint between this and an other point.
 
            @param other: The other point (L{LatLon}).
            @keyword height: Optional height for midpoint, overriding
@@ -447,22 +433,8 @@ class LatLon(LatLonSphericalBase):
             h = height
         return self.topsub(degrees90(a), degrees180(b), height=h)
 
-#   def nearestOn(self, point1, point2):
-#       '''Locates the point closest to the segment between two points
-#          and this point.
-#
-#          @raise NotImplementedError: Not available.
-#
-#          @raise TypeError: One of the points is not L{LatLon}.
-#
-#          @JSname: I{nearestPointOnSegment}.
-#       '''
-#       self.others(point1, name='point1')
-#       self.others(point2, name='point2')
-#       raise self.notImplemented('nearestOn')
-
     def toVector3d(self):
-        '''Converts this point to a vector normal to earth's surface.
+        '''Convert this point to a vector normal to earth's surface.
 
            @return: Vector representing this point (L{Vector3d}).
         '''
@@ -494,7 +466,7 @@ def _destination2(a, b, r, t):
 
 
 def areaOf(points, radius=R_M):
-    '''Calculates the area of a spherical polygon where the sides
+    '''Calculate the area of a spherical polygon where the sides
        of the polygon are great circle arcs joining the points.
 
        @param points: The points defining the polygon (L{LatLon}[]).
@@ -539,7 +511,7 @@ def areaOf(points, radius=R_M):
 
 def intersection(start1, bearing1, start2, bearing2,
                  height=None, LatLon=LatLon):
-    '''Return the intersection point of two paths each defined
+    '''Compute the intersection point of two paths each defined
        by a start point and an initial bearing.
 
        @param start1: Start point of first path (L{LatLon}).
@@ -610,7 +582,7 @@ def intersection(start1, bearing1, start2, bearing2,
 
 
 def isPoleEnclosedBy(points):
-    '''Tests whether a pole is enclosed by a polygon defined by a list,
+    '''Test whether a pole is enclosed by a polygon defined by a list,
        sequence, set or tuple of points.
 
        @param points: The points defining the polygon (L{LatLon}[]).
@@ -640,13 +612,12 @@ def isPoleEnclosedBy(points):
 
 
 def meanOf(points, height=None, LatLon=LatLon):
-    '''Computes the geographic mean of the supplied points.
+    '''Compute the geographic mean of the supplied points.
 
        @param points: Points to be averaged (L{LatLon}[]).
        @keyword height: Optional height at mean point overriding
                         the mean height (meter).
        @keyword LatLon: LatLon class for the mean point (L{LatLon}).
-
 
        @return: Point at geographic mean and height (L{LatLon}).
 

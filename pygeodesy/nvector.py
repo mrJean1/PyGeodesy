@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-'''N-vector base class L{Nvector} and function L{sumOf}.
+u'''N-vector base class L{Nvector} and function L{sumOf}.
 
 Pure Python implementation of I{n-vector}-based geodesy tools for
 ellipsoidal earth models, transcribed from JavaScript originals by
@@ -21,7 +21,7 @@ from vector3d import Vector3d, sumOf as _sumOf
 __all__ = ('NorthPole', 'SouthPole',  # constants
            'Nvector',  # classes
            'sumOf')  # functions
-__version__ = '17.05.26'
+__version__ = '17.06.04'
 
 
 class Nvector(Vector3d):  # XXX kept private
@@ -61,7 +61,7 @@ class Nvector(Vector3d):  # XXX kept private
 
     @property
     def h(self):
-        '''Gets the height above surface (meter).
+        '''Get the height above surface (meter).
         '''
         return self._h
 
@@ -75,7 +75,7 @@ class Nvector(Vector3d):  # XXX kept private
         self._h = h
 
     def to3llh(self):
-        '''Converts this n-vector to (geodetic) lat-, longitude
+        '''Convert this n-vector to (geodetic) lat-, longitude
            and height.
 
            @return: 3-Tuple (lat, lon, height) in (degrees90,
@@ -84,14 +84,14 @@ class Nvector(Vector3d):  # XXX kept private
         return Vector3d.to2ll(self) + (self.h,)
 
     def to4xyzh(self):
-        '''Returns this n-vector as a 4-tuple.
+        '''Return this n-vector as a 4-tuple.
 
            @return: 4-Tuple (x, y, z, h) in (meter).
         '''
         return self.x, self.y, self.z, self.h
 
     def toStr(self, prec=5, fmt='(%s)', sep=', '):  # PYCHOK expected
-        '''Returns a string representation of this n-vector.
+        '''Return a string representation of this n-vector.
 
            Height component is only included if non-zero.
 
@@ -112,7 +112,7 @@ class Nvector(Vector3d):  # XXX kept private
         return fmt % (t,)
 
     def unit(self, h=0):  # PYCHOK expected
-        '''Normalized this vectors to unit length.
+        '''Normalize this vector to unit length.
 
            @keyword h: Optional height (meter).
 
@@ -135,7 +135,7 @@ class LatLonNvectorBase(LatLonHeightBase):
     '''
 
     def others(self, other, name='other'):
-        '''Refines class comparison.
+        '''Refine the class comparison.
 
            @param other: The other point (L{LatLon}).
            @keyword name: Other's name (string).
@@ -149,7 +149,7 @@ class LatLonNvectorBase(LatLonHeightBase):
                 raise
 
     def to4xyzh(self):
-        '''Converts this (geodetic) point to n-vector (normal
+        '''Convert this (geodetic) point to n-vector (normal
            to the earth's surface) x/y/z components and height.
 
            @return: 4-Tuple (x, y, z, h) in (meter).
@@ -163,7 +163,7 @@ class LatLonNvectorBase(LatLonHeightBase):
 
 
 def sumOf(nvectors, Vector=Nvector, h=None, **kwds):
-    '''Returns the vectorial sum of any number of n-vectors.
+    '''Return the vectorial sum of any number of n-vectors.
 
        @param nvectors: Vectors to be added (L{Nvector}[]).
        @keyword Vector: Vector class for sum (L{Nvector}).

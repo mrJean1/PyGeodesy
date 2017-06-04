@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-'''N-vector-based ellipsoidal geodetic (lat-/longitude) and cartesion
+u'''N-vector-based ellipsoidal geodetic (lat-/longitude) and cartesion
 (x/y/z) classes L{LatLon}, L{Ned}, L{Nvector} and L{Cartesian} and
 functions L{meanOf} and L{toNed}.
 
@@ -35,7 +35,7 @@ from math import asin, atan2, cos, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '17.05.26'
+__version__ = '17.06.04'
 
 
 class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
@@ -51,7 +51,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
     _r3  = None  #: (INTERNAL) Cache _rotation3 (3-Tuple L{Nvector}s).
 
     def _rotation3(self):
-        '''(INTERNAL) Build rotation matrix from n-vector
+        '''(INTERNAL) Build the rotation matrix from n-vector
            coordinate frame axes.
         '''
         if self._r3 is None:
@@ -73,8 +73,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
             LatLonEllipsoidalBase._update(self, updated)
 
 #     def crossTrackDistanceTo(self, start, end, radius=R_M):
-#         '''Return (signed) distance from this point to great circle
-#            defined by a start point and an end point or bearing.
+#         '''Return the (signed) distance from this point to the great
+#            circle defined by a start point and an end point or bearing.
 #
 #            @param start: Start point of great circle path (L{LatLon}).
 #            @param end: End point of great circle path (L{LatLon}) or
@@ -115,7 +115,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #         return a * float(radius)
 
     def deltaTo(self, other):
-        '''Calculates NED delta from this point to an other point.
+        '''Calculate the NED delta from this to an other point.
 
            The delta is returned as a North-East-Down (NED) vector.
 
@@ -181,7 +181,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #         return v2.toLatLon(height=self.height if height is None else height)
 
     def destinationNed(self, delta):
-        '''Calculates destination point using supplied delta from this point.
+        '''Calculate the destination point using the supplied NED delta
+           from this point.
 
            @param delta: Delta from this to the other point in the
                          local tangent plane (LTP) of this point (L{Ned}).
@@ -218,7 +219,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         return v.toLatLon(datum=self.datum, LatLon=self.topsub)  # Cartesian(v.x, v.y, v.z).toLatLon(...)
 
 #     def distanceTo(self, other):
-#         '''Returns distance from this to an other point.
+#         '''Compute the distance from this to an other point.
 #
 #            @param other: The other point (L{LatLon}).
 #
@@ -239,7 +240,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #         return v1.angleTo(v2) * self.datum.ellipsoid.R
 
 #     def distanceTo(self, other, radius=R_M):
-#         '''Returns distance from this to an other point.
+#         '''Compute the distance from this to an other point.
 #
 #            @param other: The other point (L{LatLon}).
 #            @keyword radius: Mean earth radius (meter).
@@ -261,7 +262,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #         return v1.angleTo(v2) * float(radius)
 
     def equals(self, other, eps=None):
-        '''Compares this point with an other point.
+        '''Compare this point with an other point.
 
            @param other: The other point (L{LatLon}).
            @keyword eps: Optional margin (float).
@@ -282,7 +283,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
                             self.datum == other.datum
 
 #     def greatCircle(self, bearing):
-#         '''Great circle heading on the given bearing from this point.
+#         '''Return the great circle heading on the given bearing
+#            from this point.
 #
 #            Direction of vector is such that initial bearing vector
 #            b = c × p, where p is representing this point.
@@ -340,7 +342,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #     bearingTo = initialBearingTo  # for backward compatibility
 
     def intermediateTo(self, other, fraction, height=None):
-        '''Returns the point at given fraction between this and
+        '''Return the point at given fraction between this and
            an other point.
 
            @param other: The other point (L{LatLon}).
@@ -374,7 +376,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
     def toCartesian(self):
         '''Convert this (geodetic) point to (geocentric x/y/z)
-           Cartesian coordinates.
+           cartesian coordinates.
 
            @return: Cartesian instance (L{Cartesian} x/y/z in meter
                     from the earth center).
@@ -400,7 +402,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         return self._Nv
 
 #     def toVector3d(self):
-#         '''Converts this point to a L{Vector3d} normal to the
+#         '''Convert this point to a L{Vector3d} normal to the
 #            earth's surface.
 #
 #            @return: Vector representing this point (L{Vector3d}).
@@ -431,7 +433,7 @@ class Cartesian(CartesianBase):
             CartesianBase._update(self, updated)
 
     def toLatLon(self, datum=Datums.WGS84, LatLon=LatLon):  # PYCHOK XXX
-        '''Converts this (geocentric) cartesian (x/y/z) point to
+        '''Convert this (geocentric) cartesian (x/y/z) point to
            an (ellipsoidal) geodetic point on the specified datum.
 
            @keyword datum: Datum to use (L{Datum}).
@@ -443,7 +445,7 @@ class Cartesian(CartesianBase):
         return LatLon(a, b, height=h, datum=datum)
 
     def toNvector(self, datum=Datums.WGS84):
-        '''Converts this cartesian to an (ellipsoidal) n-vector.
+        '''Convert this cartesian to an (ellipsoidal) n-vector.
 
            @keyword datum: Datum to use (L{Datum}).
 
@@ -513,7 +515,7 @@ class Ned(object):
 
     @property
     def bearing(self):
-        '''Gets the bearing of this NED vector in compass degrees (degrees360).
+        '''Get the bearing of this NED vector in compass degrees (degrees360).
         '''
         if self._bearing is None:
             self._bearing = degrees360(atan2(self.east, self.north))
@@ -521,7 +523,7 @@ class Ned(object):
 
     @property
     def elevation(self):
-        '''Gets the elevation, tilt of this NED vector in degrees from
+        '''Get the elevation, tilt of this NED vector in degrees from
            horizontal, i.e. tangent to ellipsoid surface (degrees90).
         '''
         if self._elevation is None:
@@ -544,7 +546,7 @@ class Ned(object):
         return self.north, self.east, self.down
 
     def toStr(self, prec=3, fmt='[%s]', sep=', '):  # PYCHOK expected
-        '''Returns a string representation of this NED vector.
+        '''Return a string representation of this NED vector.
 
            @keyword prec: Number of decimals, unstripped (int).
            @keyword fmt: Enclosing backets format (string).
@@ -556,7 +558,7 @@ class Ned(object):
         return fmt % (sep.join('%s:%s' % t for t in zip('NED', t3)),)
 
     def toStr2(self, prec=None, fmt='[%s]', sep=', '):  # PYCHOK expected
-        '''Returns a string representation of this NED vector as
+        '''Return a string representation of this NED vector as
            length, bearing and elevation.
 
            @keyword prec: Number of decimals, unstripped (int).
@@ -571,7 +573,7 @@ class Ned(object):
         return fmt % (sep.join('%s:%s' % t for t in zip('LBE', t3)),)
 
     def toVector3d(self):
-        '''Returns this NED vector as a Vector3d.
+        '''Return this NED vector as a Vector3d.
 
            @return: North, east, down vector (L{Vector3d}).
         '''
@@ -619,7 +621,7 @@ class Nvector(NvectorBase):
             self._datum = datum
 
     def copy(self):
-        '''Copies this vector.
+        '''Copy this vector.
 
            @return: Copy (L{Nvector}).
         '''
@@ -630,12 +632,12 @@ class Nvector(NvectorBase):
 
     @property
     def datum(self):
-        '''Gets this n-vector's datum (L{Datum}).
+        '''Get this n-vector's datum (L{Datum}).
         '''
         return self._datum
 
     def toLatLon(self, height=None, LatLon=LatLon):
-        '''Converts this n-vector to an (ellipsoidal) geodetic point.
+        '''Convert this n-vector to an (ellipsoidal) geodetic point.
 
            @keyword height: Optional height, overriding the default
                             height (meter).
@@ -655,7 +657,7 @@ class Nvector(NvectorBase):
         return LatLon(a, b, height=h, datum=self.datum)
 
     def toCartesian(self, Cartesian=Cartesian):
-        '''Converts this n-vector to a cartesian point.
+        '''Convert this n-vector to a cartesian point.
 
            @keyword Cartesian: Cartesian class for the point (L{Cartesian}).
 
@@ -677,7 +679,7 @@ class Nvector(NvectorBase):
         return Cartesian(x * r, y * r, z * (n + h))
 
     def unit(self, h=0):  # PYCHOK expected
-        '''Normalizes this vector to unit length.
+        '''Normalize this vector to unit length.
 
            @keyword h: Optional height (meter).
 
@@ -692,7 +694,7 @@ class Nvector(NvectorBase):
 
 
 def meanOf(points, datum=Datums.WGS84, height=None, LatLon=LatLon):
-    '''Returns the geographic mean of the supplied points.
+    '''Compute the geographic mean of the supplied points.
 
        @param points: Array of points to be averaged (L{LatLon}[]).
        @keyword datum: Optional datum to use (L{Datum}).
@@ -714,7 +716,7 @@ def meanOf(points, datum=Datums.WGS84, height=None, LatLon=LatLon):
 
 
 def toNed(distance, bearing, elevation):
-    '''Creates an NED vector from distance, bearing and elevation
+    '''Create an NED vector from distance, bearing and elevation
        (in local coordinate system).
 
        @param distance: NED vector length in meter (scalar).

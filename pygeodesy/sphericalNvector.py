@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-'''N-vector-based spherical geodetic (lat-/longitude) classes L{LatLon}
+u'''N-vector-based spherical geodetic (lat-/longitude) classes L{LatLon}
 and L{Nvector} and functions L{areaOf}, L{intersection}, L{meanOf},
 L{triangulate} and L{trilaterate}.
 
@@ -41,7 +41,7 @@ from math import atan2, cos, radians, sin
 __all__ = ('LatLon', 'Nvector',  # classes
            'areaOf', 'intersection', 'meanOf',  # functions
            'triangulate', 'trilaterate')
-__version__ = '17.05.26'
+__version__ = '17.06.04'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -79,9 +79,9 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
             LatLonSphericalBase._update(self, updated)
 
     def alongTrackDistanceTo(self, start, end, radius=R_M):
-        '''Returns the (signed) distance from the start to the closest
-           point on the great circle path defined by a start and an end
-           point.
+        '''Compute the (signed) distance from the start to the closest
+           point on the great circle path defined by a start and an
+           end point.
 
            That is, if a perpendicular is drawn from this point to the
            great circle path, the along-track distance is the distance
@@ -115,7 +115,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         return start.toNvector().angleTo(a, vSign=gc) * radius
 
     def crossTrackDistanceTo(self, start, end, radius=R_M):
-        '''Returns (signed) distance from this point to great circle
+        '''Compute the (signed) distance from this point to great circle
            defined by a start and end point.
 
            @param start: Start point of great circle path (L{LatLon}).
@@ -145,7 +145,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         return (gc.angleTo(p) - PI_2) * radius
 
     def destination(self, distance, bearing, radius=R_M, height=None):
-        '''Locates the destination from this point after having
+        '''Locate the destination from this point after having
            travelled the given distance on the given bearing.
 
            @param distance: Distance travelled (same units radius).
@@ -176,7 +176,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         return n.toLatLon(height=height, LatLon=self.topsub)  # Nvector(n.x, n.y, n.z).toLatLon(...)
 
     def distanceTo(self, other, radius=R_M):
-        '''Computes the distance from this to an other point.
+        '''Compute the distance from this to an other point.
 
            @param other: The other point (L{LatLon}).
            @keyword radius: Mean earth radius (meter).
@@ -197,7 +197,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         return self.toNvector().angleTo(other.toNvector()) * radius
 
     def greatCircle(self, bearing):
-        '''Computes the vector normal to great circle obtained by
+        '''Compute the vector normal to great circle obtained by
            heading on the given bearing from this point.
 
            Direction of vector is such that initial bearing vector
@@ -225,7 +225,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
                        ca * st)  # XXX .unit()
 
     def greatCircleTo(self, other):
-        '''Computes the vector normal to great circle obtained by
+        '''Compute the vector normal to great circle obtained by
            heading from this to an other point or on a given bearing.
 
            Direction of vector is such that initial bearing vector
@@ -252,7 +252,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         return gc.unit()
 
     def initialBearingTo(self, other):
-        '''Computes the initial bearing (aka forward azimuth) from this
+        '''Compute the initial bearing (aka forward azimuth) from this
            to an other point.
 
            @param other: The other point (L{LatLon}).
@@ -278,7 +278,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
     bearingTo = initialBearingTo  # for backward compatibility
 
     def intermediateChordTo(self, other, fraction, height=None):
-        '''Locates the point projected from the point at given fraction
+        '''Locate the point projected from the point at given fraction
            on a straight line (chord) between this and an other point.
 
            @param other: The other point (L{LatLon}).
@@ -309,7 +309,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         return i.toLatLon(height=height, LatLon=self.topsub)  # Nvector(i.x, i.y, i.z).toLatLon(...)
 
     def intermediateTo(self, other, fraction, height=None):
-        '''Locates the point at a given fraction between this and an
+        '''Locate the point at a given fraction between this and an
            other point.
 
            @param other: The other point (L{LatLon}).
@@ -370,7 +370,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
                             height=height, LatLon=self.topsub)
 
     def isEnclosedBy(self, points):
-        '''Tests whether this point is enclosed by a (convex) polygon
+        '''Test whether this point is enclosed by a (convex) polygon
            defined by a list, sequence, set or tuple of points.
 
            @param points: The points defining the polygon (L{LatLon}[]).
@@ -409,8 +409,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         return abs(s) > PI
 
     def isWithin(self, point1, point2):
-        '''Tests whether this point is within the extent of a
-           segment joining two other points.
+        '''Test whether this point is within the extent of a segment
+           joining two other points.
 
            If this point is not on the great circle defined by both
            points, return whether it is within the area bound by
@@ -445,11 +445,11 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
                n0.minus(n2).dot(n1.minus(n2)) >= 0
 
     def midpointTo(self, other, height=None):
-        '''Finds the midpoint between this and an other point.
+        '''Find the midpoint between this and an other point.
 
            @param other: The other point (L{LatLon}).
-           @keyword height: Optional height at the midpoint, overriding
-                            the mean height (meter).
+           @keyword height: Optional height at the midpoint,
+                            overriding the mean height (meter).
 
            @return: Midpoint (L{LatLon}).
 
@@ -467,7 +467,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         return m.toLatLon(height=height, LatLon=self.topsub)
 
     def nearestOn(self, point1, point2, height=None):
-        '''Locates the point closest on great circle segment between
+        '''Locate the point closest on great circle segment between
            two points and this point.
 
            If this point is within the extent of the segment between
@@ -515,7 +515,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         return p
 
     def toNvector(self):
-        '''Converts this (geodetic) point to a (spherical) n-vector
+        '''Convert this (geodetic) point to a (spherical) n-vector
            (normal to the earth's surface).
 
            @return: N-vector representing this point (L{Nvector}).
@@ -534,7 +534,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         return self._Nv
 
     def triangulate(self, bearing1, other, bearing2, height=None):
-        '''Locates a point given this and an other point and bearings
+        '''Locate a point given this and an other point and bearings
            at this and the other point.
 
            @param bearing1: Bearing at this point (compass degrees).
@@ -558,7 +558,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
     def trilaterate(self, distance1, point2, distance2, point3, distance3,
                           radius=R_M, height=None):
-        '''Locates a point at given distances from this and two other points.
+        '''Locate a point at given distances from this and two other points.
            See also U{Trilateration<http://wikipedia.org/wiki/Trilateration>}.
 
            @param distance1: Distance to this point (same units as radius).
@@ -599,7 +599,7 @@ class Nvector(NvectorBase):
     '''
 
     def toLatLon(self, height=None, LatLon=LatLon):
-        '''Converts this n-vector to a (spherical geodetic) point.
+        '''Convert this n-vector to a (spherical geodetic) point.
 
            @keyword height: Optional height above earth radius,
                             overriding the default height (meter).
@@ -616,8 +616,9 @@ class Nvector(NvectorBase):
         return LatLon(a, b, height=h if height is None else height)
 
     def greatCircle(self, bearing):
-        '''Computes n-vector normal to great circle obtained by heading
-           on given compass bearing from this point as its n-vector.
+        '''Compute the n-vector normal to great circle obtained by
+           heading on given compass bearing from this point as its
+           n-vector.
 
            Direction of vector is such that initial bearing vector b =
            c × p.
@@ -645,7 +646,7 @@ _Nvll = LatLon(0, 0)  #: (INTERNAL) Reference instance (L{LatLon}).
 
 
 def areaOf(points, radius=R_M):
-    '''Calculates the area of a spherical polygon where the sides
+    '''Calculate the area of a spherical polygon where the sides
        of the polygon are great circle arcs joining the points.
 
        @param points: The points defining the polygon (L{LatLon}[]).
@@ -686,8 +687,8 @@ def areaOf(points, radius=R_M):
 
 def intersection(start1, end1, start2, end2,
                  height=None, LatLon=LatLon):
-    '''Locates the intersection of two paths each defined by
-       two points or by a start point and an initial bearing.
+    '''Locate the intersection of two paths each defined by two
+       points or by a start point and an initial bearing.
 
        @param start1: Start point of the first path (L{LatLon}).
        @param end1: End point of first path (L{LatLon}) or the
@@ -760,7 +761,7 @@ def intersection(start1, end1, start2, end2,
 
 
 def meanOf(points, height=None, LatLon=LatLon):
-    '''Computes the geographic mean of the supplied points.
+    '''Compute the geographic mean of the supplied points.
 
        @param points: Array of points to be averaged (L{LatLon}[]).
        @keyword height: Optional height, overriding the mean height (meter).
@@ -780,8 +781,8 @@ def meanOf(points, height=None, LatLon=LatLon):
 
 def triangulate(point1, bearing1, point2, bearing2,
                 height=None, LatLon=LatLon):
-    '''Locates a point given two known points and initial bearings from
-       those points.
+    '''Locate a point given two known points and initial bearings
+       from those points.
 
        @param point1: First reference point (L{LatLon}).
        @param bearing1: Bearing at the first point (compass degrees).
@@ -827,7 +828,7 @@ def triangulate(point1, bearing1, point2, bearing2,
 
 def trilaterate(point1, distance1, point2, distance2, point3, distance3,
                 radius=R_M, height=None, LatLon=LatLon):
-    '''Locates a point at given distances from three other points.
+    '''Locate a point at given distances from three other points.
        See also U{Trilateration<http://wikipedia.org/wiki/Trilateration>}.
 
        @param point1: First point (L{LatLon}).

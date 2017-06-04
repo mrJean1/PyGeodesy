@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-'''Utility and mathematical functions and constants.
+u'''Utility and mathematical functions and constants.
 
 After I{(C) Chris Veness 2011-2015} published under the same MIT Licence**,
 see U{http://www.movable-type.co.uk/scripts/latlong.html}
@@ -39,7 +39,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'tanPI_2_2',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI', 'wrapPI2', 'wrapPI_2')
-__version__ = '17.05.30'
+__version__ = '17.06.04'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Real as _Scalars  #: (INTERNAL) Scalar objects
@@ -75,7 +75,7 @@ _2_3rd = 2.0 / 3.0  #: (INTERNAL) Two third (float)
 
 
 def cbrt(x):
-    '''Computes the cubic root M{x**(1/3)}.
+    '''Compute the cubic root M{x**(1/3)}.
 
        @param x: Argument (scalar).
 
@@ -90,7 +90,7 @@ def cbrt(x):
 
 
 def cbrt2(x):
-    '''Computes the cubic root squared M{x**(2/3)}.
+    '''Compute the cubic root squared M{x**(2/3)}.
 
        @param x: Argument (scalar).
 
@@ -100,7 +100,7 @@ def cbrt2(x):
 
 
 def degrees90(rad):
-    '''Converts and wraps radians to degrees M{-270..+90}.
+    '''Convert and wrap radians to degrees M{-270..+90}.
 
        @param rad: Angle (radians).
 
@@ -110,7 +110,7 @@ def degrees90(rad):
 
 
 def degrees180(rad):
-    '''Converts and wraps radians to degrees M{-180..+180}.
+    '''Convert and wrap radians to degrees M{-180..+180}.
 
        @param rad: Angle (radians).
 
@@ -120,7 +120,7 @@ def degrees180(rad):
 
 
 def degrees360(rad):
-    '''Converts and wraps radians to degrees M{0..+360}.
+    '''Convert and wrap radians to degrees M{0..+360}.
 
        @param rad: Angle (radians).
 
@@ -144,7 +144,7 @@ def _drap(deg, wrap):
 
 
 def false2f(value, name='value', false=True):
-    '''Converts false east-/northing to non-negative float.
+    '''Convert a false east-/northing to non-negative float.
 
        @param value: Value to convert (scalar).
        @keyword name: Name of the value (string).
@@ -164,7 +164,7 @@ def false2f(value, name='value', false=True):
 
 
 def favg(v1, v2, f=0.5):
-    '''Returns the weighted average of two values.
+    '''Return the weighted average of two values.
 
        @param v1: One value (scalar).
        @param v2: Other value (scalar).
@@ -180,7 +180,7 @@ def favg(v1, v2, f=0.5):
 
 
 def fdot(a, *b):
-    '''Returns the precision dot product M{sum(a[i] * b[i]
+    '''Return the precision dot product M{sum(a[i] * b[i]
        for i in range(len(a)))}.
 
        @param a: List, sequence, tuple, etc. (scalars).
@@ -197,7 +197,7 @@ def fdot(a, *b):
 
 
 def fdot3(a, b, c, start=0):
-    '''Returns the precision dot product M{sum(a[i] * b[i] * c[i]
+    '''Return the precision dot product M{sum(a[i] * b[i] * c[i]
        for i in range(len(a))) + start}.
 
        @param a: List, sequence, tuple, etc. (scalars).
@@ -222,7 +222,7 @@ def fdot3(a, b, c, start=0):
 
 
 def fStr(floats, prec=6, sep=', ', fmt='%.*f', ints=False):
-    '''Converts floats to string, optionally with trailing zero
+    '''Convert floats to string, optionally with trailing zero
        decimals stripped.
 
        @param floats: List, sequence, tuple, etc. (scalars).
@@ -250,7 +250,7 @@ def fStr(floats, prec=6, sep=', ', fmt='%.*f', ints=False):
 
 
 def fStrzs(fstr):
-    '''Strips trailing zero decimals from a float string.
+    '''Strip trailing zero decimals from a float string.
 
        @param fstr: Float (string)
 
@@ -264,7 +264,7 @@ def fStrzs(fstr):
 
 
 def ft2m(feet):
-    '''Converts feet to meter (m).
+    '''Convert feet to meter (m).
 
        @param feet: Value in feet (scalar).
 
@@ -274,7 +274,7 @@ def ft2m(feet):
 
 
 def halfs(str2):
-    '''Splits a string in 2 halfs.
+    '''Split a string in 2 halfs.
 
        @param str2: String to split (string).
 
@@ -289,7 +289,7 @@ def halfs(str2):
 
 
 def hsin(rad):
-    '''Computes the Haversine value of an angle.
+    '''Compute the Haversine value of an angle.
 
        @param rad: Angle (radians).
 
@@ -302,7 +302,7 @@ def hsin(rad):
 
 
 def hsin3(a2, a1, b21):
-    '''Computes the angular distance using the Haversine formula.
+    '''Compute the angular distance using the Haversine formula.
 
        @param a2: Latitude2 (radians).
        @param a1: Latitude1 (radians).
@@ -323,7 +323,7 @@ def hsin3(a2, a1, b21):
 
 
 def hypot1(x):
-    '''Computes the norm M{sqrt(1 + x**2)}.
+    '''Compute the norm M{sqrt(1 + x**2)}.
 
        @param x: Argument (scalar).
 
@@ -333,7 +333,7 @@ def hypot1(x):
 
 
 def hypot3(x, y, z):
-    '''Computes the norm M{sqrt(x**2 + y**2 + z**2)}.
+    '''Compute the norm M{sqrt(x**2 + y**2 + z**2)}.
 
        @param x: X argument (scalar).
        @param y: Y argument (scalar).
@@ -363,7 +363,7 @@ def hypot3(x, y, z):
 
 
 def isint(obj, both=False):
-    '''Checks for integer types and value.
+    '''Check for integer types and value.
 
        @param obj: The object (any type).
        @keyword both: Check both type and value (bool).
@@ -379,7 +379,7 @@ def isint(obj, both=False):
 
 
 def isscalar(obj):
-    '''Checks for scalar types.
+    '''Check for scalar types.
 
        @param obj: The object (any type).
 
@@ -389,7 +389,7 @@ def isscalar(obj):
 
 
 def len2(xtor):
-    '''Makes built-in L{len}() function work for generators,
+    '''Make built-in L{len}() function work for generators,
        iterators, etc. since those can only be started once.
 
        @param xtor: Generator, iterator, list, sequence, tuple, etc.
@@ -402,7 +402,7 @@ def len2(xtor):
 
 
 def m2ft(meter):
-    '''Converts meter to feet (ft).
+    '''Convert meter to feet (ft).
 
        @param meter: Value in meter (scalar).
 
@@ -412,7 +412,7 @@ def m2ft(meter):
 
 
 def m2km(meter):
-    '''Converts meter to kilo meter (km).
+    '''Convert meter to kilo meter (km).
 
        @param meter: Value in meter (scalar).
 
@@ -422,7 +422,7 @@ def m2km(meter):
 
 
 def m2NM(meter):
-    '''Converts meter to nautical miles (NM).
+    '''Convert meter to nautical miles (NM).
 
        @param meter: Value in meter (scalar).
 
@@ -432,7 +432,7 @@ def m2NM(meter):
 
 
 def m2SM(meter):
-    '''Converts meter to statute miles (SM).
+    '''Convert meter to statute miles (SM).
 
        @param meter: Value in meter (scalar).
 
@@ -442,7 +442,7 @@ def m2SM(meter):
 
 
 def map1(func, *args):
-    '''Applies each argument to a single-argument function and
+    '''Apply each argument to a single-argument function and
        returns a tuple of results.
 
        @param func: Function to apply (callable).
@@ -454,7 +454,7 @@ def map1(func, *args):
 
 
 def map2(func, *args):
-    '''Applies arguments to a function and returns a tuple of results.
+    '''Apply arguments to a function and returns a tuple of results.
 
        Unlike Python 2 built-in L{map}, Python 3+ L{map} returns a L{map}
        object, an iterator-like object which generates the results only
@@ -470,7 +470,7 @@ def map2(func, *args):
 
 
 def radiansPI(deg):
-    '''Converts and wraps degrees to radians M{-PI..+PI}.
+    '''Convert and wrap degrees to radians M{-PI..+PI}.
 
        @param deg: Angle (degrees).
 
@@ -480,7 +480,7 @@ def radiansPI(deg):
 
 
 def radiansPI2(deg):
-    '''Converts and wraps degrees to radians M{0..+2PI}.
+    '''Convert and wrap degrees to radians M{0..+2PI}.
 
        @param deg: Angle (degrees).
 
@@ -490,7 +490,7 @@ def radiansPI2(deg):
 
 
 def radiansPI_2(deg):
-    '''Converts and wraps degrees to radians M{-3PI/2..+PI/2}.
+    '''Convert and wrap degrees to radians M{-3PI/2..+PI/2}.
 
        @param deg: Angle (degrees).
 
@@ -500,7 +500,7 @@ def radiansPI_2(deg):
 
 
 def tanPI_2_2(rad):
-    '''Computes tan of half angle, rotated.
+    '''Compute tan of half angle, rotated.
 
        @param rad: Angle (radians).
 
@@ -510,7 +510,7 @@ def tanPI_2_2(rad):
 
 
 def wrap90(deg):
-    '''Wraps degrees to M{-270..+90}.
+    '''Wrap degrees to M{-270..+90}.
 
        @param deg: Angle (degrees).
 
@@ -520,7 +520,7 @@ def wrap90(deg):
 
 
 def wrap180(deg):
-    '''Wraps degrees to M{-180..+180}.
+    '''Wrap degrees to M{-180..+180}.
 
        @param deg: Angle (degrees).
 
@@ -530,7 +530,7 @@ def wrap180(deg):
 
 
 def wrap360(deg):
-    '''Wraps degrees to M{0..+360}.
+    '''Wrap degrees to M{0..+360}.
 
        @param deg: Angle (degrees).
 
@@ -554,7 +554,7 @@ def _wrap(rad, wrap):
 
 
 def wrapPI(rad):
-    '''Wraps radians to M{-PI..+PI}.
+    '''Wrap radians to M{-PI..+PI}.
 
        @param rad: Angle (radians).
 
@@ -564,7 +564,7 @@ def wrapPI(rad):
 
 
 def wrapPI2(rad):
-    '''Wraps radians to M{0..+2PI}.
+    '''Wrap radians to M{0..+2PI}.
 
        @param rad: Angle (radians).
 
@@ -574,7 +574,7 @@ def wrapPI2(rad):
 
 
 def wrapPI_2(rad):
-    '''Wraps radians to M{-3PI/2..+PI/2}.
+    '''Wrap radians to M{-3PI/2..+PI/2}.
 
        @param rad: Angle (radians).
 

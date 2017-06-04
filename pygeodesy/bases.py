@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-'''(INTERNAL) Common base classes.
+u'''(INTERNAL) Common base classes.
 
 After I{(C) Chris Veness 2011-2015} published under the same MIT Licence**,
 see U{http://www.movable-type.co.uk/scripts/latlong.html}
@@ -19,7 +19,7 @@ from math import asin, cos, degrees, radians, sin
 # Epydoc to include class and method documentation
 __all__ = ('Base', 'LatLonHeightBase', 'Named', 'VectorBase',
            'isclockwise', 'isconvex')
-__version__ = '17.05.31'
+__version__ = '17.06.04'
 
 
 class Base(object):
@@ -155,7 +155,7 @@ class LatLonHeightBase(Base):
             self._ab = None
 
     def bounds(self, wide, high, radius=R_M):
-        '''Returns the SE and NW lat-/longitude of a great circle
+        '''Return the SE and NW lat-/longitude of a great circle
            bounding box centered at this location.
 
            @param wide: Longitudinal box width (meter, like radius).
@@ -186,7 +186,7 @@ class LatLonHeightBase(Base):
         return self.topsub(self.lat, self.lon, height=self.height)  # XXX
 
     def equals(self, other, eps=None):
-        '''Compares this point with an other point.
+        '''Compare this point with an other point.
 
            @param other: The other point (I{LatLon}).
 
@@ -213,7 +213,7 @@ class LatLonHeightBase(Base):
 
     @property
     def height(self):
-        '''Gets the height (meter).
+        '''Get the height (meter).
         '''
         return self._height
 
@@ -228,7 +228,7 @@ class LatLonHeightBase(Base):
 
     @property
     def lat(self):
-        '''Gets the latitude (degrees).
+        '''Get the latitude (degrees).
         '''
         return self._lat
 
@@ -243,7 +243,7 @@ class LatLonHeightBase(Base):
 
     @property
     def lon(self):
-        '''Gets the longitude (degrees).
+        '''Get the longitude (degrees).
         '''
         return self._lon
 
@@ -378,7 +378,7 @@ class _Pts(Base):
 
 
 def isclockwise(points, radius=None):
-    '''Determines direction of a polygon defined by a list,
+    '''Determine the direction of a polygon defined by a list,
        sequence, set or tuple of I{LatLon} points.
 
        @param points: The points defining the polygon (I{LatLon}[]).
@@ -388,7 +388,7 @@ def isclockwise(points, radius=None):
 
        @raise TypeError: Some points are not I{LatLon}.
 
-       @raise ValueError: Too few points or polygon has zero area.
+       @raise ValueError: Too few points or zero area polygon.
 
        @example:
 
@@ -416,8 +416,8 @@ def isclockwise(points, radius=None):
 
 
 def isconvex(points, radius=None):
-    '''Determines whether a polygon defined by a list,
-       sequence, set or tuple of I{LatLon} points is convex.
+    '''Determine whether a polygon defined by a list, sequence,
+       set or tuple of I{LatLon} points is convex.
 
        @param points: The points defining the polygon (I{LatLon}[]).
        @keyword radius: Optional, mean earth radius (meter).

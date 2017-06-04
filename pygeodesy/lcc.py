@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-'''Lambert conformal conic projection for 1- or 2-Standard Parallels
+u'''Lambert conformal conic projection for 1- or 2-Standard Parallels
 class L{Conic}, L{Conics} registry and position class L{Lcc}.
 
 See U{http://wikipedia.org/wiki/Lambert_conformal_conic_projection},
@@ -23,7 +23,7 @@ from math import atan, copysign, cos, hypot, log, sin, sqrt, tan
 # all public constants, classes and functions
 __all__ = ('Conic', 'Conics', 'Lcc',
            'toLcc')  # functions
-__version__ = '17.05.26'
+__version__ = '17.06.04'
 
 
 Conics = _Enum('Conics')  #: Registered conics (L{_Enum}).
@@ -105,12 +105,12 @@ class Conic(_Based):
 
     @property
     def auth(self):
-        '''Gets the authentication authority (string).
+        '''Get the authentication authority (string).
         '''
         return self._auth
 
     def copy(self, name=''):
-        '''Copies this conic.
+        '''Copy this conic.
 
            @return: Conic, unregistered (L{Conic}).
         '''
@@ -120,84 +120,84 @@ class Conic(_Based):
 
     @property
     def datum(self):
-        '''Gets the datum (L{Datum}).
+        '''Get the datum (L{Datum}).
         '''
         return self._datum
 
     @property
     def E0(self):
-        '''Gets the false easting (meter).
+        '''Get the false easting (meter).
         '''
         return self._E0
 
     @property
     def k0(self):
-        '''Gets scale factor (scalar).
+        '''Get scale factor (scalar).
         '''
         return self._k0
 
     @property
     def lat0(self):
-        '''Gets the origin latitude (degrees90).
+        '''Get the origin latitude (degrees90).
         '''
         return degrees90(self._lat0)
 
     @property
     def lon0(self):
-        '''Gets the central meridian (degrees180).
+        '''Get the central meridian (degrees180).
         '''
         return degrees180(self._lon0)
 
     @property
     def N0(self):
-        '''Gets the false northing (meter).
+        '''Get the false northing (meter).
         '''
         return self._N0
 
     @property
     def name(self):
-        '''Gets the conic name (string).
+        '''Get the conic name (string).
         '''
         return self._name
 
     @name.setter  # PYCHOK property setter
     def name(self, name):
-        '''Sets the conic name.
+        '''Set the conic name.
         '''
         self._name = name
 
     @property
     def name2(self):
-        '''Gets the conic and datum names as "conic.datum" (string).
+        '''Get the conic and datum names as "conic.datum" (string).
         '''
         return self._name + '.' + self._datum.name
 
     @property
     def par1(self):
-        '''Gets the 1st standard parallel (degrees90).
+        '''Get the 1st standard parallel (degrees90).
         '''
         return degrees90(self._par1)
 
     @property
     def par2(self):
-        '''Gets the 2nd standard parallel (degrees90).
+        '''Get the 2nd standard parallel (degrees90).
         '''
         return degrees90(self._par2)
 
     @property
     def opt3(self):
-        '''Gets the optional meridian (degrees180).
+        '''Get the optional meridian (degrees180).
         '''
         return degrees180(self._opt3)
 
     @property
     def SP(self):
-        '''Gets the number of standard parallels (int).
+        '''Get the number of standard parallels (int).
         '''
         return self._SP
 
     def toDatum(self, datum):
-        '''Converts this conic to the given datum.
+        '''Convert this conic to the given datum.
 
            @param datum: Ellipsoidal datum to use (L{Datum}).
 
@@ -248,7 +248,7 @@ class Conic(_Based):
     convertDatum = toDatum  # alternate name
 
     def toStr(self, prec=8):  # PYCHOK expected
-        '''Returns this conic as a string.
+        '''Return this conic as a string.
 
            @keyword prec: Number of decimals, unstripped (int).
 
@@ -364,30 +364,30 @@ class Lcc(_Based):
 
     @property
     def conic(self):
-        '''Gets the conic projection (L{Conic}).
+        '''Get the conic projection (L{Conic}).
         '''
         return self._conic
 
     @property
     def easting(self):
-        '''Gets the easting (meter).
+        '''Get the easting (meter).
         '''
         return self._easting
 
     @property
     def height(self):
-        '''Gets the height (meter).
+        '''Get the height (meter).
         '''
         return self._height
 
     @property
     def northing(self):
-        '''Gets the northing (meter).
+        '''Get the northing (meter).
         '''
         return self._northing
 
     def toLatLon(self, LatLon, datum=None, height=None):
-        '''Converts this L{Lcc} to an (ellipsoidal) geodetic point.
+        '''Convert this L{Lcc} to an (ellipsoidal) geodetic point.
 
            @param LatLon: LatLon class for the geodetic point.
            @keyword datum: Datum to use, otherwise use this Lcc's
@@ -423,7 +423,7 @@ class Lcc(_Based):
         return LatLon(degrees90(x), degrees180(y), height=h, datum=c.datum)
 
     def toStr(self, prec=0, sep=' ', m='m'):  # PYCHOK expected
-        '''Returns a string representation of this L{Lcc} position.
+        '''Return a string representation of this L{Lcc} position.
 
            @keyword prec: Number of decimal, unstripped (int).
            @keyword sep: Separator to join (string).
@@ -445,7 +445,7 @@ class Lcc(_Based):
         return sep.join(t)
 
     def toStr2(self, prec=0, fmt='[%s]', sep=', ', m='m', C=False):  # PYCHOK expected
-        '''Returns a string representation of this L{Lcc} position.
+        '''Return a string representation of this L{Lcc} position.
 
            @keyword prec: Number of decimals, unstripped (int).
            @keyword fmt: Enclosing backets format (string).
@@ -465,7 +465,7 @@ class Lcc(_Based):
 
 
 def toLcc(latlon, conic=Conics.WRF_Lb, height=None, Lcc=Lcc):
-    '''Converts an (ellipsoidal) geodetic point to a Lambert location.
+    '''Convert an (ellipsoidal) geodetic point to a Lambert location.
 
        @param latlon: Ellipsoidal point (I{LatLon}).
        @keyword conic: Lambert projection to use (L{Conic}).

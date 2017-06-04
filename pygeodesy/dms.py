@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-'''Functions to parse and format bearing, lat- and longitudes in various
+u'''Functions to parse and format bearing, lat- and longitudes in various
 forms of degrees, minutes and seconds.
 
 After I{(C) Chris Veness 2011-2015} published under the same MIT Licence**,
@@ -26,7 +26,7 @@ __all__ = ('F_D', 'F_DM', 'F_DMS',  # forms
            'bearingDMS', 'compassDMS', 'compassPoint',  # functions
            'latDMS', 'lonDMS', 'normDMS',
            'parseDMS', 'parse3llh', 'precision', 'toDMS')
-__version__ = '17.06.03'
+__version__ = '17.06.04'
 
 F_D   = 'd'    #: Format degrees as deg° (string).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (string).
@@ -52,7 +52,7 @@ _S_ALL  = (S_DEG, S_MIN, S_SEC) + tuple(_S_norm.keys())  #: (INTERNAL) alternate
 
 
 def _toDMS(deg, form, prec, sep, ddd):
-    '''(INTERNAL) Converts degrees to string, without sign or suffix.
+    '''(INTERNAL) Convert degrees to string, without sign or suffix.
     '''
     try:
         d = abs(float(deg))
@@ -99,7 +99,7 @@ def _toDMS(deg, form, prec, sep, ddd):
 
 
 def bearingDMS(bearing, form=F_D, prec=None, sep=S_SEP):
-    '''Converts bearing to string.
+    '''Convert bearing to a string.
 
        @param bearing: Bearing from North (compass degrees).
        @keyword form: F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD
@@ -119,7 +119,7 @@ def bearingDMS(bearing, form=F_D, prec=None, sep=S_SEP):
 
 
 def compassDMS(bearing, form=F_D, prec=None, sep=S_SEP):
-    '''Converts bearing to string suffixed with compass point.
+    '''Convert bearing to a string suffixed with compass point.
 
        @param bearing: Bearing from North (compass degrees).
        @keyword form: F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD
@@ -146,7 +146,7 @@ _M_X = {1: (4, 8), 2: (8, 4), 3: (16, 2), 4: (32, 1)}  #: (INTERNAL) precs
 
 
 def compassPoint(bearing, prec=3):
-    '''Converts bearing to compass point.
+    '''Convert bearing to a compass point.
 
        @param bearing: Bearing from North (compass degrees).
        @keyword prec: Optional precision (1 for cardinal or basic winds,
@@ -179,7 +179,7 @@ def compassPoint(bearing, prec=3):
 
 
 def latDMS(deg, form=F_DMS, prec=2, sep=S_SEP):
-    '''Converts latitude to string suffixed with N or S.
+    '''Convert latitude to a string suffixed with N or S.
 
        @param deg: Latitude to be formatted (degrees).
        @keyword form: F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD
@@ -200,7 +200,7 @@ def latDMS(deg, form=F_DMS, prec=2, sep=S_SEP):
 
 
 def lonDMS(deg, form=F_DMS, prec=2, sep=S_SEP):
-    '''Converts longitude to string suffixed with E or W.
+    '''Convert longitude to a string suffixed with E or W.
 
        @param deg: Longitude to be formatted (degrees).
        @keyword form: F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD
@@ -221,8 +221,8 @@ def lonDMS(deg, form=F_DMS, prec=2, sep=S_SEP):
 
 
 def normDMS(strDMS, norm=''):
-    '''Normalizes all degrees ˚, minutes ' and seconds " symbols
-       in a string to the defaults %s, %s and %s.
+    '''Normalize all degree ˚, minute ' and second " symbols in a
+       string to the default symbols %s, %s and %s.
 
        @param strDMS: DMS (string).
        @keyword norm: Replacement, default symbol otherwise (string).
@@ -244,7 +244,7 @@ if __debug__:  # no __doc__ at -O and -OO
 
 
 def parse3llh(strll, height=0, sep=','):
-    '''Parses a string representing lat-, longitude and height point.
+    '''Parse a string representing lat-, longitude and height point.
 
        The lat- and longitude value must be separated by a separator
        character.  If height is present it must follow, separated by
@@ -286,7 +286,7 @@ def parse3llh(strll, height=0, sep=','):
 
 
 def parseDMS(strDMS, suffix='NSEW', sep=S_SEP):
-    '''Parses a string representing deg°min′sec″ to degrees.
+    '''Parse a string representing deg°min′sec″ to degrees.
 
        This is very flexible on formats, allowing signed decimal
        degrees, degrees and minutes or degrees minutes and seconds
@@ -331,7 +331,7 @@ def parseDMS(strDMS, suffix='NSEW', sep=S_SEP):
 
 
 def precision(form, prec=None):
-    '''Sets the default precison for a given F_ form.
+    '''Set the default precison for a given F_ form.
 
        @param form: F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD (string).
        @keyword prec: Optional, number of decimal digits (0..9 or
@@ -356,7 +356,7 @@ def precision(form, prec=None):
 
 
 def toDMS(deg, form=F_DMS, prec=2, sep=S_SEP, ddd=2, neg='-', pos=''):
-    '''Converts signed degrees to string, without suffix.
+    '''Convert signed degrees to string, without suffix.
 
        @param deg: Degrees to be formatted (scalar).
        @keyword form: F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD

@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-'''Ordinance Survey Grid References (OSGR) class L{Osgr} and functions
+u'''Ordinance Survey Grid References (OSGR) class L{Osgr} and functions
 L{parseOSGR} and L{toOsgr}.
 
 Pure Python implementation of OS Grid Reference functions using an
@@ -39,7 +39,7 @@ from math import cos, sin, sqrt, tan
 # all public contants, classes and functions
 __all__ = ('Osgr',  # classes
            'parseOSGR', 'toOsgr')  # functions
-__version__ = '17.05.26'
+__version__ = '17.06.04'
 
 _10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (meter)
 _100km   = 100000  #: (INTERNAL) 100 km (int meter)
@@ -88,31 +88,31 @@ class Osgr(Base):
 
     @property
     def datum(self):
-        '''Gets the datum (L{Datum}).
+        '''Get the datum (L{Datum}).
         '''
         return self._datum
 
     @property
     def easting(self):
-        '''Gets the easting (meter).
+        '''Get the easting (meter).
         '''
         return self._easting
 
     @property
     def northing(self):
-        '''Gets the northing (meter).
+        '''Get the northing (meter).
         '''
         return self._northing
 
     def parse(self, strOSGR):
-        '''Parses a string to an Osgr instance.
+        '''Parse a string to an Osgr instance.
 
            For more details, see function L{parseOSGR} in this module L{osgr}.
         '''
         return parseOSGR(strOSGR)
 
     def toLatLon(self, LatLon, datum=Datums.WGS84):
-        '''Converts this OSGR coordinate to an (ellipsoidal) geodetic
+        '''Convert this OSGR coordinate to an (ellipsoidal) geodetic
            point.
 
            Note formulation implemented here due to Thomas, Redfearn, etc.
@@ -199,7 +199,7 @@ class Osgr(Base):
         return ll
 
     def toStr(self, prec=10, sep=' '):  # PYCHOK expected
-        '''Returns a string representation of this OSGR coordinate.
+        '''Return a string representation of this OSGR coordinate.
 
            Note that OSGR coordinates are truncated, not rounded
            (unlike UTM grid references).
@@ -249,7 +249,7 @@ class Osgr(Base):
         return s.join(t)
 
     def toStr2(self, prec=10, fmt='[%s]', sep=', '):  # PYCHOK expected
-        '''Returns a string representation of this OSGR coordinate.
+        '''Return a string representation of this OSGR coordinate.
 
            @keyword prec: Number of digits (int).
            @keyword fmt: Enclosing backets format (string).
@@ -267,7 +267,7 @@ class Osgr(Base):
 
 
 def parseOSGR(strOSGR):
-    '''Parses an OSGR coordinate string to an Osgr instance.
+    '''Parse an OSGR coordinate string to an Osgr instance.
 
        Accepts standard OS Grid References like 'SU 387 148',
        with or without whitespace separators, from 2- up to
@@ -344,7 +344,7 @@ def parseOSGR(strOSGR):
 
 
 def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr):
-    '''Converts lat-/longitude point to na OSGR coordinate.
+    '''Convert a lat-/longitude point to an OSGR coordinate.
 
        @param latlon: Latitude (degrees) or an (ellipsoidal)
                       geodetic I{LatLon} point.

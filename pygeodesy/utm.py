@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-'''Universal Transverse Mercator (UTM) class L{Utm} and functions
+u'''Universal Transverse Mercator (UTM) class L{Utm} and functions
 L{parseUTM} and L{toUtm}.
 
 Pure Python implementation of UTM / WGS-84 conversion functions using
@@ -44,7 +44,7 @@ from operator import mul
 # all public contants, classes and functions
 __all__ = ('Utm',  # classes
            'parseUTM', 'toUtm')  # functions
-__version__ = '17.05.30'
+__version__ = '17.06.04'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -55,9 +55,11 @@ _K0            = 0.9996   #: (INTERNAL) UTM scale central meridian.
 
 
 class _Ks(object):
-    '''(INTERNAL) Alpha or Beta Krüger series summations for
-       eta, ksi, p and q while caching the cos, sin, cosh and
-       sinh for the given eta and ksi angles (in radians).
+    '''(INTERNAL) Alpha or Beta Krüger series.
+
+       Krüger series summations for eta, ksi, p and q while
+       caching the cos, sin, cosh and sinh values for the
+       given eta and ksi angles (in radians).
     '''
     def __init__(self, AB, x, y):
         '''(INTERNAL) New Alpha or Beta Krüger series
@@ -104,7 +106,7 @@ class _Ks(object):
 
 
 def _toZBL(zone, band, mgrs=False):  # used by mgrs.Mgrs
-    '''(INTERNAL) Checks and return zone, Band and band latitude.
+    '''(INTERNAL) Check and return zone, Band and band latitude.
 
        @param zone: Zone number or string.
        @param band: Band letter.
@@ -137,7 +139,7 @@ def _toZBL(zone, band, mgrs=False):  # used by mgrs.Mgrs
 
 
 def _toZBll(lat, lon):
-    '''(INTERNAL) Returns zone, Band and central lat- and longitude.
+    '''(INTERNAL) Return zone, Band and central lat- and longitude.
 
        @param lat: Latitude (degrees).
        @param lon: Longitude (degrees).
@@ -237,41 +239,41 @@ class Utm(Base):
 
     @property
     def band(self):
-        '''Gets the latitudinal band (C..X or '').
+        '''Get the latitudinal band (C..X or '').
         '''
         return self._band
 
     @property
     def convergence(self):
-        '''Gets the meridian convergence (degrees or None).
+        '''Get the meridian convergence (degrees or None).
         '''
         return self._converge
 
     @property
     def datum(self):
-        '''Gets the datum (L{Datum}).
+        '''Get the datum (L{Datum}).
         '''
         return self._datum
 
     @property
     def easting(self):
-        '''Gets the easting (meter).'''
+        '''Get the easting (meter).'''
         return self._easting
 
     @property
     def hemisphere(self):
-        '''Gets the hemisphere (N|S).
+        '''Get the hemisphere (N|S).
         '''
         return self._hemi
 
     @property
     def northing(self):
-        '''Gets the northing (meter).
+        '''Get the northing (meter).
         '''
         return self._northing
 
     def parseUTM(self, strUTM):
-        '''Parses a string to a UTM coordinate.
+        '''Parse a string to a UTM coordinate.
 
            For more details, see function L{parseUTM} in
            this module L{utm}.
@@ -280,12 +282,12 @@ class Utm(Base):
 
     @property
     def scale(self):
-        '''Gets the grid scale (scalar or None).
+        '''Get the grid scale (scalar or None).
         '''
         return self._scale
 
     def toLatLon(self, LatLon):
-        '''Converts this UTM coordinate to an (ellipsoidal) geodetic point.
+        '''Convert this UTM coordinate to an (ellipsoidal) geodetic point.
 
            @param LatLon: LatLon class for the point (I{LatLon}).
 
@@ -355,7 +357,7 @@ class Utm(Base):
         return ll
 
     def toMgrs(self):
-        '''Converts this UTM coordinate to an MGRS grid reference.
+        '''Convert this UTM coordinate to an MGRS grid reference.
 
            See function L{toMgrs} in module L{mgrs} for more details.
 
@@ -367,7 +369,7 @@ class Utm(Base):
         return self._mgrs
 
     def toStr(self, prec=0, sep=' ', B=False, cs=False):  # PYCHOK expected
-        '''Returns a string representation of this UTM coordinate.
+        '''Return a string representation of this UTM coordinate.
 
            To distinguish from MGRS grid zone designators, a
            space is left between the zone and the hemisphere.
@@ -402,7 +404,7 @@ class Utm(Base):
         return sep.join(t)
 
     def toStr2(self, prec=0, fmt='[%s]', sep=', ', B=False, cs=False):  # PYCHOK expected
-        '''Returns a string representation of this UTM coordinate.
+        '''Return a string representation of this UTM coordinate.
 
            Note that UTM coordinates are rounded, not truncated
            (unlike MGRS grid references).
@@ -424,13 +426,13 @@ class Utm(Base):
 
     @property
     def zone(self):
-        '''Gets the longitudinal zone (1..60).
+        '''Get the longitudinal zone (1..60).
         '''
         return self._zone
 
 
 def parseUTM(strUTM, datum=Datums.WGS84):
-    '''Parses a string representing a UTM coordinate, consisting
+    '''Parse a string representing a UTM coordinate, consisting
        of zone, hemisphere, easting and northing.
 
        @param strUTM: A UTM coordinate (string).
@@ -467,7 +469,7 @@ def parseUTM(strUTM, datum=Datums.WGS84):
 
 
 def toUtm(latlon, lon=None, datum=None, Utm=Utm):
-    '''Converts lat-/longitude point to a UTM coordinate.
+    '''Convert a lat-/longitude point to a UTM coordinate.
 
        @note: Implements Karney’s method, using 6-th order Krüger
        series, giving results accurate to 5 nm for distances up to
