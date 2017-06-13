@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.05.06'
+__version__ = '17.06.12'
 
 from tests import Tests as _Tests
 
@@ -82,10 +82,12 @@ if __name__ == '__main__':
     t.testSpherical(N.LatLon, N)
     t.testVectorial(N.LatLon, N.Nvector, N.sumOf)
     t.results()
+    e = t.errors()
 
     from pygeodesy import sphericalTrigonometry as T
     t = Tests(__file__, __version__, T)
     t.testLatLon(T.LatLon, Sph=True)
     t.testSpherical(T.LatLon, T)
     t.results()
-    t.exit()
+
+    t.exit(errors=e)
