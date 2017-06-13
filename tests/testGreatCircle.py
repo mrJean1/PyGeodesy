@@ -33,7 +33,7 @@
 # Copyright © 2016 Softwarenerd.
 
 __all__ = ()
-__version__ = '17.05.26'
+__version__ = '17.06.13'
 
 if __name__ == '__main__':
 
@@ -182,4 +182,4 @@ if __name__ == '__main__':
 
     e = testGreatCircle(sphericalNvector).errors()
     t = testGreatCircle(sphericalTrigonometry)
-    t.exit(e)
+    t.exit(errors=e)

@@ -20,12 +20,13 @@ from pygeodesy import R_NM, F_D, F_DM, F_DMS, F_RAD, \
                       m2NM, normDMS  # PYCHOK expected
 
 from inspect import isclass, isfunction, ismethod, ismodule
-from platform import architecture
+from platform import architecture, java_ver, mac_ver, win32_ver, uname
 from time import time
 
-__all__ = ('versions', 'Tests',
-           'secs2str')
-__version__ = '17.06.12'
+__all__ = ('isiOS', 'versions',  # constants
+           'Tests',
+           'ios_ver', 'secs2str')
+__version__ = '17.06.13'
 
 try:
     _int = int, long
@@ -34,11 +35,20 @@ except NameError:  # Python 3+
     _int = int
     _str = str
 
-versions = ' '.join(('PyGeodesy', geodesy_version,
-                     'Python', sys.version.split()[0], architecture()[0]))
+
+def ios_ver(rel='', dev=''):
+    '''Return the iOS release and device.
+    '''
+    u = uname()
+    if len(u) > 4 and u[0][:6] == 'Darwin' \
+                  and u[4][:4] in ('iPad', 'iPho'):
+        return u[2], u[4]
+    else:
+        return rel, dev
 
 
 def secs2str(secs):
+    # convert a time value
     unit = ['sec', 'ms', 'us', 'ps']
     while secs < 1 and len(unit) > 1:
         secs *= 1000.0
@@ -67,6 +77,27 @@ def _type(obj, attr):
     else:
         t = ' attribute'
     return t
+
+
+def _versions():
+    # get pygeodesy, Python version, size, OS name and release
+    vs = 'PyGeodesy', geodesy_version, \
+         'Python', sys.version.split()[0], architecture()[0]
+    for t, r in (('macOS',   mac_ver),
+                 ('Windows', win32_ver),
+                 ('Java',    java_ver),
+                 ('iOS',     ios_ver),
+                 ('uname',   uname)):
+        r = r()[0]
+        if r:
+            vs += t, r
+            break
+    return ' '.join(vs)
+
+
+isiOS = True if ios_ver()[0] else False  # public
+
+versions = _versions()  # public
 
 
 class Tests(object):
