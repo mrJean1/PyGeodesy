@@ -16,12 +16,23 @@ import sys
 
 import tests  # for .version
 
-__all__ = ('run',)
-__version__ = '17.05.29'
+__all__ = ('ios_ver', 'run')
+__version__ = '17.06.12'
 
 _python_O = _python = sys.executable  # path
 if not __debug__:
     _python_O += ' -OO'
+
+
+def ios_ver():
+    '''Return the iOS release and device.
+    '''
+    u = uname()
+    if len(u) > 4 and u[0].startswith('Darwin') \
+                  and u[4][:4] in ('iPad', 'iPho'):
+        return u[2], u[4]
+    else:
+        return ()
 
 
 def run(test):
@@ -82,6 +93,7 @@ if __name__ == '__main__':  # MCCABE expected
     # get pygeodesy, Python version, size, OS name and release
     v = tests.versions
     for t, x in (('macOS',   mac_ver),
+                 ('iOS',     ios_ver),
                  ('Windows', win32_ver),
                  ('Java',    java_ver),
                  ('uname',   uname)):
