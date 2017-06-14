@@ -33,7 +33,7 @@
 # Copyright © 2016 Softwarenerd.
 
 __all__ = ()
-__version__ = '17.06.13'
+__version__ = '17.06.14'
 
 if __name__ == '__main__':
 
@@ -175,7 +175,7 @@ if __name__ == '__main__':
         # cross-track distance that should be very close to 0
         m = Eiffel.midpointTo(Versailles)
         d = abs(m.crossTrackDistanceTo(Eiffel, Versailles))
-        t.test('CrossTrackDistanceThatShouldBeVeryCloseToZero', d, '0.00000000', '%.8f')
+        t.test('CrossTrackDistanceThatShouldBeVeryCloseToZero', d, '0.0000000', '%.7f')
 
         t.results()
         return t

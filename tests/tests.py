@@ -13,7 +13,10 @@ try:
     import pygeodesy as _  # PYCHOK expected
 except ImportError:
     # extend sys.path to ../.. directory
-    sys.path.insert(0, dirname(dirname(__file__)))
+    d = dirname(dirname(__file__))
+    if d not in sys.path:
+        sys.path.insert(0, d)
+    del d
 from pygeodesy import R_NM, F_D, F_DM, F_DMS, F_RAD, \
                       version as geodesy_version, \
                       degrees, isclockwise, isconvex, \
@@ -25,8 +28,8 @@ from time import time
 
 __all__ = ('isiOS', 'versions',  # constants
            'Tests',
-           'ios_ver', 'secs2str')
-__version__ = '17.06.13'
+           'secs2str')
+__version__ = '17.06.14'
 
 try:
     _int = int, long
@@ -34,17 +37,6 @@ try:
 except NameError:  # Python 3+
     _int = int
     _str = str
-
-
-def ios_ver(rel='', dev=''):
-    '''Return the iOS release and device.
-    '''
-    u = uname()
-    if len(u) > 4 and u[0][:6] == 'Darwin' \
-                  and u[4][:4] in ('iPad', 'iPho'):
-        return u[2], u[4]
-    else:
-        return rel, dev
 
 
 def secs2str(secs):
@@ -83,10 +75,15 @@ def _versions():
     # get pygeodesy, Python version, size, OS name and release
     vs = 'PyGeodesy', geodesy_version, \
          'Python', sys.version.split()[0], architecture()[0]
-    for t, r in (('macOS',   mac_ver),
+    xOS = 'iOS' if isiOS else 'macOS'
+    # mac_ver() returns ('10.12.5', ..., 'x86_64') on
+    # macOS and ('10.3.2', ..., 'iPad4,2') on iOS and
+    # platform() returns 'Darwin-16.6.0-x86_64-i386-64bit'
+    # on macOS and 'Darwin-16.6.0-iPad4,2-64bit' on iOS
+    # and sys.platform is 'darwin' on macOS and 'ios' on iOS
+    for t, r in ((xOS,       mac_ver),
                  ('Windows', win32_ver),
                  ('Java',    java_ver),
-                 ('iOS',     ios_ver),
                  ('uname',   uname)):
         r = r()[0]
         if r:
@@ -95,7 +92,7 @@ def _versions():
     return ' '.join(vs)
 
 
-isiOS = True if ios_ver()[0] else False  # public
+isiOS = True if sys.platform == 'ios' else False  # public
 
 versions = _versions()  # public
 
