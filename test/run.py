@@ -13,10 +13,10 @@ from subprocess import PIPE, STDOUT, Popen
 from time import time
 import sys
 
-import tests  # for .versions
+from base import versions
 
 __all__ = ('run',)
-__version__ = '17.06.14'
+__version__ = '17.06.16'
 
 _python_O = _python = sys.executable  # path
 if not __debug__:
@@ -52,14 +52,13 @@ _verbose = False
 if __name__ == '__main__':  # MCCABE expected
 
     def _write(text):
-        if _results:
-            _results.write(text.encode('utf-8'))
+        _results.write(text.encode('utf-8'))
 
     argv0, args = sys.argv[0], sys.argv[1:]
     while args and args[0].startswith('-'):
         arg = args.pop(0)
         if '-help'.startswith(arg):
-            print('usage: %s [-failedonly] [-raiser] [-results] [-verbose] [tests/test...py ...]' % (argv0,))
+            print('usage: %s [-failedonly] [-raiser] [-results] [-verbose] [test/test...py ...]' % (argv0,))
             sys.exit(0)
         elif '-failedonly'.startswith(arg):
             _failedonly = True
@@ -79,7 +78,7 @@ if __name__ == '__main__':  # MCCABE expected
         p = p[:16] + '...' + p[-16:]
 
     # get pygeodesy, Python version, size, OS name and release
-    v = tests.versions
+    v = versions()
 
 #   import pygeodesy
 #   v = ' '.join((v, pygeodesy.__file__))
@@ -93,13 +92,14 @@ if __name__ == '__main__':  # MCCABE expected
             _results = open(join('testresults', t), 'wb')  # note, 'b' not 't'!
             _write('%s typical test results (%s)%s' % (argv0, v, NL))
 
-    f, s = 0, time()
+    X, s = 0, time()
     for arg in args:
 
         t = 'running %s %s' % (p, arg)
         print(t)
         x, r = run(arg)
-        f += x  # failures, excl KNOWN ones
+        X += x  # failures, excl KNOWN ones
+
         if _results:
             _write(NL + t + NL)
             _write(r)
@@ -110,14 +110,14 @@ if __name__ == '__main__':  # MCCABE expected
                 break
         elif _failedonly:
             for t in r.split('\n'):
-                if 'FAILED' in t or 'passed' in t:
+                if 'FAILED' in t:
                     print(t.rstrip())
             print('')
         elif _verbose:
             print('%s\n' % (r,))
 
-    if f:
-        x = '%d FAILED' % (f,)
+    if X:
+        x = '%d FAILED' % (X,)
     else:
         x = 'all OK'
 

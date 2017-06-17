@@ -4,14 +4,14 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '17.06.14'
+__version__ = '17.06.16'
 
-from tests import Tests as _Tests
+from base import TestsBase
 
 from pygeodesy import F_D, F_DMS, precision
 
 
-class Tests(_Tests):
+class Tests(TestsBase):
 
     def testBases(self, LatLon):
 

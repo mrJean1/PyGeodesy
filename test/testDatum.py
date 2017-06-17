@@ -6,13 +6,13 @@
 __all__ = ('Tests',)
 __version__ = '17.04.22'
 
-from tests import Tests as _Tests
+from base import TestsBase
 
 from pygeodesy import R_M, Datum, Datums, Ellipsoid, Ellipsoids, \
                       fStr, Transform, Transforms
 
 
-class Tests(_Tests):
+class Tests(TestsBase):
 
     def testDatum(self):
         # datum module tests

@@ -4,14 +4,14 @@
 # Test UTM functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.05.24'
+__version__ = '17.06.16'
 
-from tests import Tests as _Tests
+from base import TestsBase
 
 from pygeodesy import F_DEG, F_DMS, parseUTM, utm
 
 
-class Tests(_Tests):
+class Tests(TestsBase):
 
     def testUtm(self, LatLon):
         u = utm.Utm(3, 'N', 448251, 5411932.0001)

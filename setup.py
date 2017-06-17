@@ -3,7 +3,7 @@
 
 # The setuptools script to build, install and test a PyGeodesy distribution.
 
-# Tested with 64-bit Python 2.7.13 and 3.6.0 (using setuptools 28.8.0) but
+# Tested with 64-bit Python 2.7.13 and 3.6 (using setuptools 28.8.0) but
 # on macOS 10.12.3, 10.12.4 and 10.12.5 Sierra only.
 
 # python setup.py sdist --formats=gztar,bztar,zip
@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '17.05.29'
+__version__ = '17.06.16'
 
 
 def _version():
@@ -61,12 +61,12 @@ setup(
     package_data={'pygeodesy': ['LICENSE']},
 
 #   data_files=[('docs',        ['docs/*.*']),
-#               ('images',      ['tests/testRoute.jpg']),
-#               ('tests',       ['tests/test*.py']),
+#               ('images',      ['test/testRoute.jpg']),
+#               ('test',        ['test/test*.py']),
 #               ('testresults', ['testresults/*.txt'])],
 #   data_files fails somehow, see file MANIFEST.in
 
-    test_suite='tests.TestSuite',
+    test_suite='test.TestSuite',
 
     zip_safe=False,
     classifiers=[

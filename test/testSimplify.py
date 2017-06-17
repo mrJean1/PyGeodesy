@@ -4,36 +4,37 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '17.06.02'
+__version__ = '17.06.16'
 
-from tests import secs2str, Tests as _Tests
+from base import TestsBase, secs2str
 
 from pygeodesy import simplify1, simplify2, \
                       simplifyRDP, simplifyRDPm, \
-                      simplifyVW, simplifyVWm
+                      simplifyVW, simplifyVWm, \
+                      simplify  # module
 
 from time import time
 
 _Simplifys = ()  # simplifyXYZ functions to run
 
 
-class Tests(_Tests):
+class Tests(TestsBase):
 
-    def test2(self, simplify, points, ms, **kwds):
+    def test2(self, function, points, ms, **kwds):
 
-        if _Simplifys and simplify.__name__[8:] not in _Simplifys:
+        if _Simplifys and function.__name__[8:] not in _Simplifys:
             return  # skip this simplify function
 
         n = len(points)
         t = ', '.join('%s=%s' % t for t in sorted(kwds.items()))
-        s = '%s(%s, %s)' % (simplify.__name__, n, t)
+        f = '%s(%s, %s)' % (function.__name__, n, t)
 
         for m in reversed(sorted(ms.keys())):
-            t = time()
-            r = simplify(points, m, **kwds)
+            s = time()
+            r = function(points, m, **kwds)
             n = len(r)
-            t = time() - t
-            t = '%s %dm (%s)' % (s, m, secs2str(t))
+            s = time() - s
+            t = '%s %dm (%s)' % (f, m, secs2str(s))
             self.test(t, n, str(ms[m]))
 
         self.printf('')
@@ -55,7 +56,7 @@ if __name__ == '__main__':  # PYCHOK internal error?
         return dict(t for t in list(sorted(ms.items()))[:m])
 
 
-    t = Tests(__file__, __version__)  # PYCHOK expected
+    t = Tests(__file__, __version__, simplify)  # PYCHOK expected
 
     t.test2(simplify1, Pts, _ms({320: 4423, 160: 6638, 80: 9362, 40: 12079, 20: 14245, 10: 15621, 1: 16597}), adjust=True)
 

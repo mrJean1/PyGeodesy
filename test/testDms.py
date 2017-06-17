@@ -4,15 +4,15 @@
 # Test degrees, minutes, seconds functions.
 
 __all__ = ('Tests',)
-__version__ = '17.06.03'
+__version__ = '17.06.16'
 
-from tests import Tests as _Tests
+from base import TestsBase
 
 from pygeodesy import F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC, F_RAD, \
                       compassPoint, parse3llh, parseDMS, toDMS
 
 
-class Tests(_Tests):
+class Tests(TestsBase):
 
     def testDms(self):
         # dms module tests

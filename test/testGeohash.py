@@ -4,14 +4,14 @@
 # Test geohash module.
 
 __all__ = ('Tests',)
-__version__ = '17.04.26'
+__version__ = '17.06.16'
 
-from tests import Tests as _Tests
+from base import TestsBase
 
 from pygeodesy import geohash, Geohash, ellipsoidalVincenty
 
 
-class Tests(_Tests):
+class Tests(TestsBase):
 
     def testGeohash(self):
         # geohash module tests

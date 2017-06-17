@@ -4,14 +4,14 @@
 # Test OSGR functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.04.07'
+__version__ = '17.06.16'
 
-from tests import Tests as _Tests
+from base import TestsBase
 
 from pygeodesy import F_DMS, Datums, osgr
 
 
-class Tests(_Tests):
+class Tests(TestsBase):
 
     def testOSgr(self, LatLon):
 

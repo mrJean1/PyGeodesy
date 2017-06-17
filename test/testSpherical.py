@@ -4,14 +4,15 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.06.12'
+__version__ = '17.06.16'
 
-from tests import Tests as _Tests
+from testLatLon import Tests as _TestsLL
+from testVectorial import Tests as _TestsV
 
 from pygeodesy import F_D, F_DMS, lonDMS
 
 
-class Tests(_Tests):
+class Tests(_TestsLL, _TestsV):
 
     def testSpherical(self, LatLon, spherical):
 
@@ -76,18 +77,21 @@ class Tests(_Tests):
 
 if __name__ == '__main__':
 
-    from pygeodesy import sphericalNvector as N
-    t = Tests(__file__, __version__, N)
+    from pygeodesy import sphericalNvector as N, \
+                          sphericalTrigonometry as T
+
+    t = Tests(__file__, __version__)
+
     t.testLatLon(N.LatLon, Sph=True)
+    t.printf('')
     t.testSpherical(N.LatLon, N)
+    t.printf('')
     t.testVectorial(N.LatLon, N.Nvector, N.sumOf)
     t.results()
-    e = t.errors()
 
-    from pygeodesy import sphericalTrigonometry as T
-    t = Tests(__file__, __version__, T)
     t.testLatLon(T.LatLon, Sph=True)
+    t.printf('')
     t.testSpherical(T.LatLon, T)
     t.results()
 
-    t.exit(errors=e)
+    t.exit()

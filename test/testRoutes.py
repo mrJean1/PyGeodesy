@@ -8,7 +8,7 @@
 # <http://github.com/milkbread/Visvalingam-Wyatt/blob/master/out.json>
 
 __all__ = ('Pts', 'PtsFFI', 'RdpFFI', 'VwPts')
-__version__ = '17.05.26'
+__version__ = '17.06.16'
 
 
 class _LatLon(object):
@@ -17002,8 +17002,8 @@ VwPts = [_LatLon(*ll) for ll in (
 
 if __name__ == '__main__':
 
-    from tests import Tests
+    from base import TestsBase
 
-    t = Tests(__file__, __version__)
+    t = TestsBase(__file__, __version__)
     t.results()
     t.exit()

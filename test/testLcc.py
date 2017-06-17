@@ -4,14 +4,14 @@
 # Test LCC functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.05.26'
+__version__ = '17.06.16'
 
-from tests import Tests as _Tests
+from base import TestsBase
 
 from pygeodesy import F_D, F_DMS, Conic, Conics, Datums, Lcc, toLcc
 
 
-class Tests(_Tests):
+class Tests(TestsBase):
 
     def testConic(self, LatLon, n=''):
 

@@ -9,20 +9,20 @@ those used in nvector.readthedocs.org.  Tests marked with
 # +++ are additional, not present in the original examples.
 '''
 __all__ = ()
-__version__ = '17.06.13'
+__version__ = '17.06.16'
 
 if __name__ == '__main__':
 
-    from tests import Tests, isiOS
+    from base import TestsBase, isiOS
 
     from pygeodesy import Datums, F_D, \
                           ellipsoidalNvector, ellipsoidalVincenty, \
                           sphericalNvector, sphericalTrigonometry
 
-    class Examples(Tests):  # overload test()
+    class Examples(TestsBase):  # overload test()
         def test(self, ex, name, *args, **kwds):
             name = 'Example %s %s' % (ex, name)
-            Tests.test(self, name, *args, **kwds)
+            TestsBase.test(self, name, *args, **kwds)
 
     t = Examples(__file__, __version__)
 
