@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.06.16'
+__version__ = '17.06.17'
 
 from testLatLon import Tests as _TestsLL
 from testVectorial import Tests as _TestsV
@@ -87,11 +87,11 @@ if __name__ == '__main__':
     t.testSpherical(N.LatLon, N)
     t.printf('')
     t.testVectorial(N.LatLon, N.Nvector, N.sumOf)
-    t.results()
+    t.printf('')
 
     t.testLatLon(T.LatLon, Sph=True)
     t.printf('')
     t.testSpherical(T.LatLon, T)
-    t.results()
 
+    t.results()
     t.exit()

@@ -1,18 +1,19 @@
 
 # -*- coding: utf-8 -*-
 
-# Test the simplify functions.
+# Test data for the simplify functions.
 
 # <http://github.com/milkbread/Visvalingam-Wyatt>  not Whyatt!
 # <http://github.com/milkbread/Visvalingam-Wyatt/blob/master/route.json>
 # <http://github.com/milkbread/Visvalingam-Wyatt/blob/master/out.json>
+# <http://milkbread.github.io/Visvalingam-Wyatt/>
 
 __all__ = ('Pts', 'PtsFFI', 'RdpFFI', 'VwPts')
-__version__ = '17.06.16'
+__version__ = '17.06.17'
 
 
 class _LatLon(object):
-    '''(INYTERNAL) Basic LatLon.
+    '''(INYTERNAL) Most-basic, leanest LatLon class.
     '''
     __slots__ = ('lat', 'lon', 'vw2')
 
@@ -22,12 +23,12 @@ class _LatLon(object):
         self.vw2 = vw2
 
     def __repr__(self):
-        return '(%f, %f, %f)' % (self.lat, self.lon, self.vw2)
+        return '(%.6f, %.6f, %f)' % (self.lat, self.lon, self.vw2)
 
 
 # <http://github.com/urschrei/rdp>
 PtsFFI = [_LatLon(*ll) for ll in (
-    (-0.701206, 52.220489),
+    (-0.701206, 52.220489),  # lon, lat
     (-0.701418, 52.220485),
     (-0.703903, 52.220596),
     (-0.705340, 52.220565),
@@ -98,7 +99,7 @@ PtsFFI = [_LatLon(*ll) for ll in (
     (-0.703726, 52.240756))]
 
 RdpFFI = [_LatLon(*ll) for ll in (
-    (-0.701206, 52.220489),
+    (-0.701206, 52.220489),  # lon, lat
     (-0.705340, 52.220565),
     (-0.705456, 52.222827),
     (-0.713120, 52.228862),
@@ -106,8 +107,10 @@ RdpFFI = [_LatLon(*ll) for ll in (
     (-0.709263, 52.240825),
     (-0.703726, 52.240756))]
 
+# Paris-Berlin-Warsaw-Minsk-Moscow, see
+# <http://milkbread.github.io/Visvalingam-Wyatt/>
 Pts = [_LatLon(*ll) for ll in (
-    (2.329860, 48.860050),
+    (2.329860, 48.860050),  # lon, lat
     (2.330270, 48.860580),
     (2.330650, 48.860691),
     (2.331600, 48.860500),
@@ -16724,7 +16727,7 @@ Pts = [_LatLon(*ll) for ll in (
 
 # "threshold": "0.0005", ...  # lon, lat, area?
 VwPts = [_LatLon(*ll) for ll in (
-    (2.32986, 48.86005),
+    (2.32986, 48.86005),  # lon, lat
     (2.35093, 48.863411, 0.0006764590350000889),
     (2.43115, 48.940418, 0.005275181324999963),
     (2.54246, 48.960732, 0.0013039877850000996),

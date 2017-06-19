@@ -1,5 +1,5 @@
 graft docs
 include docs.html
 graft test
-include test/testRoute.jpg
+include test/testRouteMap.jpg
 graft testresults

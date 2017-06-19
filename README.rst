@@ -49,19 +49,19 @@ distribution files were created with command line ``python setup.py sdist
 Some function and method names differ from the JavaScript version. In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: June 14, 2017.*
+*Last updated: June 17, 2017.*
 
 .. _checked: http://code.activestate.com/recipes/546532
 .. _docs: http://www.movable-type.co.uk/scripts/js/geodesy/docs
 .. _documentation: http://pythonhosted.org/PyGeodesy
 .. _Epydoc: http://pypi.python.org/pypi/epydoc
-.. _Flake8: http://pypi.python.org/pypi/flake8>
+.. _Flake8: http://pypi.python.org/pypi/flake8
 .. _Geohashes: http://www.movable-type.co.uk/scripts/geohash.html
 .. _JavaScript originals: http://github.com/chrisveness/geodesy
 .. _JavaScript source: http://github.com/chrisveness/geodesy
 .. _John P. Snyder: http://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf
 .. _Latitude/Longitude: http://www.movable-type.co.uk/scripts/latlong.html
-.. _McCabe: http://pypi.python.org/pypi/mccabe>
+.. _McCabe: http://pypi.python.org/pypi/mccabe
 .. _MGRS: http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html
 .. _MIT License: http://opensource.org/licenses/MIT
 .. _OSGR: http://www.movable-type.co.uk/scripts/latlong-os-gridref.html

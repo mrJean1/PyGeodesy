@@ -10,14 +10,15 @@
 from os.path import basename, dirname
 import sys
 
+PyGeodesy_dir = dirname(dirname(__file__))
+
 try:
     import pygeodesy as _  # PYCHOK expected
 except ImportError:
-    # extend sys.path to ..... directory
-    _dir_dir = dirname(dirname(__file__))
-    if _dir_dir not in sys.path:
-        sys.path.insert(0, _dir_dir)
-    del _dir_dir
+    # extend sys.path to ../.. directory
+    if PyGeodesy_dir not in sys.path:
+        sys.path.insert(0, PyGeodesy_dir)
+
 from pygeodesy import version as PyGeodesy_version, \
                       normDMS  # PYCHOK expected
 
@@ -25,10 +26,10 @@ from inspect import isclass, isfunction, ismethod, ismodule
 from platform import architecture, java_ver, mac_ver, win32_ver, uname
 from time import time
 
-__all__ = ('isiOS',  # constants
+__all__ = ('isiOS', 'PyGeodesy_dir', 'Python_O',  # constants
            'TestsBase',
-           'secs2str', 'type2str', 'versions')
-__version__ = '17.06.16'
+           'runs', 'secs2str', 'tilda', 'type2str', 'versions')
+__version__ = '17.06.17'
 
 try:
     _int = int, long
@@ -39,6 +40,10 @@ except NameError:  # Python 3+
 
 # isIOS is used by some tests known to fail on iOS only
 isiOS = True if sys.platform == 'ios' else False  # public
+
+Python_O = sys.executable  # python or Pythonsta path
+if not __debug__:
+    Python_O += ' -OO'  # optimized
 
 
 class TestsBase(object):
@@ -180,3 +185,87 @@ def versions():
 
         TestsBase._versions = ' '.join(vs)
     return TestsBase._versions
+
+
+if isiOS:  # MCCABE 14
+
+    from runpy import run_path
+    try:
+        from StringIO import StringIO
+    except ImportError:  # Python 3+
+        from io import StringIO
+    from traceback import format_exception
+
+    def runs(test):
+        '''Invoke one test module and return
+           the exit status and console output.
+        '''
+        # mimick partial behavior of function run
+        # further below because subprocess.Popen
+        # in Pythonista on iOS is not available.
+        x = None  # no exception
+
+        sys3 = sys.argv, sys.stdout, sys.stderr
+        sys.stdout = sys.stderr = std = StringIO()
+        try:
+            sys.argv = [test]
+            run_path(test, run_name='__main__')
+        except:  # PYCHOK must on Pythonista
+            x = sys.exc_info()
+            if x[0] is SystemExit:
+                x = x[1].code  # exit status
+            else:  # append traceback
+                x = [_ for _ in format_exception(*x)  # PYCHOK expected
+                             if 'runpy.py", line' not in _]
+                print(''.join(map(tilda, x)).strip())
+                x = 1
+        sys.argv, sys.stdout, sys.stderr = sys3
+
+        r = std.getvalue()
+        if isinstance(r, bytes):  # Python 3+
+            r = r.decode('utf-8')
+
+        std.close()
+        std = None  # del std
+
+        if x is None:  # no exception or exit,
+            # get the number of failed tests
+            # but exclude any KNOWN failures
+            x = r.count('FAILED, expected')
+        return x, r
+
+    def tilda(path):
+        '''Return a shortened Pythonista path.
+        '''
+        return path.replace(PyGeodesy_dir, '~')
+
+    Python_O = basename(Python_O)
+
+else:  # non-iOS
+
+    from subprocess import PIPE, STDOUT, Popen
+
+    def runs(test):  # PYCHOK expected
+        '''Invoke one test module and return
+           the exit status and console output.
+        '''
+        c = [Python_O, test]
+        p = Popen(c, creationflags=0,
+                     executable   =sys.executable,
+                   # shell        =True,
+                     stdin        =None,
+                     stdout       =PIPE,  # XXX
+                     stderr       =STDOUT)  # XXX
+
+        r = p.communicate()[0]
+        if isinstance(r, bytes):  # Python 3+
+            r = r.decode('utf-8')
+
+        # the exit status reflects the number of
+        # test failures in the tested module
+        return p.returncode, r
+
+    def tilda(path):  # PYCHOK expected
+        '''Return a shortened path.
+        '''
+        return path

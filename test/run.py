@@ -3,58 +3,50 @@
 
 # Script to run some or all PyGeodesy tests with Python 2 or 3.
 
-# Tested with 64-bit Python 2.6.9, 2.7.13, 3.5.3, 3.6.0 and 3.6.1
-# but only on macOS 10.12.2, 10.12.3, 10.12.4 and 10.12.5 Sierra.
+# Tested with 64-bit Python 3.6.1 on macOS 10.12.5 Sierra and
+# with Pythonista 3.1 on iOS 10.3.2.
 
 from glob import glob
 from os import linesep as NL
 from os.path import dirname, join
-from subprocess import PIPE, STDOUT, Popen
 from time import time
 import sys
 
-from base import versions
+_test_dir = dirname(__file__)
 
-__all__ = ('run',)
-__version__ = '17.06.16'
+try:
+    import base as _   # PYCHOK expected
+except ImportError:  # Pythonista
+    if _test_dir not in sys.path:
+        sys.path.insert(0, _test_dir)
+from base import isiOS, PyGeodesy_dir, Python_O, \
+          runs, tilda, versions  # PYCHOK expected
 
-_python_O = _python = sys.executable  # path
-if not __debug__:
-    _python_O += ' -OO'
+__all__ = ()
+__version__ = '17.06.17'
 
-
-def run(test):
-    '''Invoke one test and return the
-       exit status and console output.
-    '''
-    c = [_python_O, test]
-    p = Popen(c, creationflags=0,
-                 executable   =_python,
-               # shell        =True,
-                 stdin        =None,
-                 stdout       =PIPE,  # XXX
-                 stderr       =STDOUT)  # XXX
-
-    r = p.communicate()[0]
-    if isinstance(r, bytes):  # Python 3+
-        r = r.decode('utf-8')
-
-    # the exit status reflects the number of
-    # test failures in the tested module
-    return p.returncode, r
-
-
+# command line options
 _failedonly = False
-_raiser = False
-_results = False
-_verbose = False
+_raiser     = False
+_results    = False
+_verbose    = False
 
-if __name__ == '__main__':  # MCCABE expected
+if __name__ == '__main__':  # MCCABE 25
 
     def _write(text):
         _results.write(text.encode('utf-8'))
 
-    argv0, args = sys.argv[0], sys.argv[1:]
+    argv0, args = tilda(sys.argv[0]), sys.argv[1:]
+
+    if isiOS and not args:
+        # allow this script to be used
+        # with options inside Pythonista
+        try:
+            _input = raw_input  # old name
+        except NameError:  # Python 3+
+            _input = input
+        args = _input('enter %s args: ' % (argv0,)).split()
+
     while args and args[0].startswith('-'):
         arg = args.pop(0)
         if '-help'.startswith(arg):
@@ -72,32 +64,33 @@ if __name__ == '__main__':  # MCCABE expected
             print('%s invalid option: %s' % (argv0, arg))
             sys.exit(1)
 
-    # shorten prompt
-    p = _python_O
-    if len(p) > 32:
-        p = p[:16] + '...' + p[-16:]
+    # shorten Python path [-OO]
+    if len(Python_O) > 32:
+        Python_O = Python_O[:16] + '...' + Python_O[-16:]
 
-    # get pygeodesy, Python version, size, OS name and release
+    # PyGeodesy and Python versions, size, OS name and release
     v = versions()
 
 #   import pygeodesy
-#   v = ' '.join((v, pygeodesy.__file__))
+#   v = ' '.join((v, tilda(pygeodesy.__file__)))
+
+    if _results:  # save all test results
+        t = '-'.join(['testresults'] + v.split()) + '.txt'
+        t = join(PyGeodesy_dir, 'testresults', t)
+        _results = open(t, 'wb')  # note, 'b' not 't'!
+        _write('%s typical test results (%s)%s' % (argv0, v, NL))
 
     if not args:  # no tests specified, get all test*.py
         # scripts in the same directory as this one
-        args = sorted(glob(join(dirname(__file__), 'test*.py')))
-
-        if _results:  # save all test results
-            t = '-'.join(['testresults'] + v.split()) + '.txt'
-            _results = open(join('testresults', t), 'wb')  # note, 'b' not 't'!
-            _write('%s typical test results (%s)%s' % (argv0, v, NL))
+        args = sorted(glob(join(_test_dir, 'test*.py')))
 
     X, s = 0, time()
     for arg in args:
 
-        t = 'running %s %s' % (p, arg)
+        t = tilda('running %s %s' % (Python_O, arg))
         print(t)
-        x, r = run(arg)
+
+        x, r = runs(arg)
         X += x  # failures, excl KNOWN ones
 
         if _results:
@@ -106,13 +99,18 @@ if __name__ == '__main__':  # MCCABE expected
 
         if 'Traceback' in r:
             print('%s\n' % (r,))
+            if not x:  # count as failure
+                X += 1
             if _raiser:
                 break
+
         elif _failedonly:
             for t in r.split('\n'):
-                if 'FAILED' in t:
+                # print failures and totals
+                if 'FAILED' in t or 'passed' in t:
                     print(t.rstrip())
             print('')
+
         elif _verbose:
             print('%s\n' % (r,))
 
@@ -120,9 +118,8 @@ if __name__ == '__main__':  # MCCABE expected
         x = '%d FAILED' % (X,)
     else:
         x = 'all OK'
-
     s = time() - s
-    t = '%s %s %s (%s) %.3f sec' % (argv0, p, x, v, s)
+    t = '%s %s %s (%s) %.3f sec' % (argv0, Python_O, x, v, s)
     print(t)
     if _results:
         _write(NL + t + NL)

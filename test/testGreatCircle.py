@@ -33,7 +33,7 @@
 # Copyright © 2016 Softwarenerd.
 
 __all__ = ()
-__version__ = '17.06.16'
+__version__ = '17.06.17'
 
 from base import TestsBase
 
@@ -70,6 +70,8 @@ class Tests(TestsBase):
         ibVersaillesToEiffel = 65.003253951385318
         fbVersaillesToEiffel = 65.134602968619618
         xbVersaillesToEiffel = '%.9f'  # '%.15f'
+
+        xMidpoint = '%.8f'
 
         # initial bearing for two locations that are the same
         b = IndianPond.initialBearingTo(IndianPond)
@@ -137,8 +139,8 @@ class Tests(TestsBase):
         self.test('MidpointEiffelToVersailles', a, str(b))
         self.test('MidpointEiffelToVersailles(DMS)', a.toStr(F_DMS, prec=4), '48°49′53.3817″N, 002°12′27.1279″E')
         a = Eiffel.distanceTo(a)
-        b = Versailles.distanceTo(b)
-        self.test('MidpointEiffelToVersailles(m)', a, str(b), known=True)
+        m = xMidpoint % (Versailles.distanceTo(b),)
+        self.test('MidpointEiffelToVersailles(m)', a, m, fmt=xMidpoint, known=True)
 
         # midpoint between Versailles and the Eiffel Tower
         a = Versailles.midpointTo(Eiffel)
@@ -147,8 +149,8 @@ class Tests(TestsBase):
         self.test('MidpointVersaillesToEiffel', a, str(b), known=True)
         self.test('MidpointVersaillesToEiffel(DMS)', a.toStr(F_DMS, prec=4), '48°49′53.3817″N, 002°12′27.1279″E')
         a = Versailles.distanceTo(a)
-        b = Eiffel.distanceTo(b)
-        self.test('MidpointVersaillesToEiffel(m)', a, str(b), known=True)
+        m = xMidpoint % (Eiffel.distanceTo(b),)
+        self.test('MidpointVersaillesToEiffel(m)', a, m, fmt=xMidpoint, known=True)
 
         # intersection.
         b = StGermain.initialBearingTo(Orly)
@@ -161,19 +163,19 @@ class Tests(TestsBase):
         b = Eiffel.initialBearingTo(Versailles)
         p = m.destination(200.0, (b + 90) % 360.0)
         d = p.crossTrackDistanceTo(Eiffel, Versailles)
-        self.test('CrossTrackDistance200m+90°', d, 200.0, '%0.1f')
+        self.test('CrossTrackDistance200m+90°', d, 200.0, fmt='%0.1f')
 
         # cross-track distance test of a point 270° and 200 meters away
         m = Eiffel.midpointTo(Versailles)
         b = Eiffel.initialBearingTo(Versailles)
         p = m.destination(200.0, (b + 270) % 360.0)
         d = p.crossTrackDistanceTo(Eiffel, Versailles)
-        self.test('CrossTrackDistance200m+270°', d, -200.0, '%0.1f')
+        self.test('CrossTrackDistance200m+270°', d, -200.0, fmt='%0.1f')
 
         # cross-track distance that should be very close to 0
         m = Eiffel.midpointTo(Versailles)
         d = abs(m.crossTrackDistanceTo(Eiffel, Versailles))
-        self.test('CrossTrackDistanceCloseToZero', d, '0.0000000', '%.7f')
+        self.test('CrossTrackDistanceCloseToZero', d, '0.0000000', fmt='%.7f')
 
 
 if __name__ == '__main__':
