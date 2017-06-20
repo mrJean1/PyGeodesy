@@ -7,29 +7,24 @@
 # see <http://www.movable-type.co.uk/scripts/latlong-vectors.html>
 # and <http://www.movable-type.co.uk/scripts/latlong.html>.
 
-from os.path import basename, dirname
+from inspect import isclass, isfunction, ismethod, ismodule
+from os.path import abspath, basename, dirname
+from platform import architecture, java_ver, mac_ver, win32_ver, uname
 import sys
+from time import time
 
-PyGeodesy_dir = dirname(dirname(__file__))
-
-try:
-    import pygeodesy as _  # PYCHOK expected
-except ImportError:
-    # extend sys.path to ../.. directory
-    if PyGeodesy_dir not in sys.path:
-        sys.path.insert(0, PyGeodesy_dir)
+PyGeodesy_dir = dirname(dirname(abspath(__file__)))
+# extend sys.path to include the ../.. directory
+if PyGeodesy_dir not in sys.path:  # Python 3+ ModuleNotFoundError
+    sys.path.insert(0, PyGeodesy_dir)
 
 from pygeodesy import version as PyGeodesy_version, \
                       normDMS  # PYCHOK expected
 
-from inspect import isclass, isfunction, ismethod, ismodule
-from platform import architecture, java_ver, mac_ver, win32_ver, uname
-from time import time
-
 __all__ = ('isiOS', 'PyGeodesy_dir', 'Python_O',  # constants
            'TestsBase',
            'runs', 'secs2str', 'tilda', 'type2str', 'versions')
-__version__ = '17.06.17'
+__version__ = '17.06.19'
 
 try:
     _int = int, long
@@ -128,12 +123,28 @@ class TestsBase(object):
 
 
 def secs2str(secs):
-    # convert a time value
+    '''Convert a time value to string.
+    '''
     unit = ['sec', 'ms', 'us', 'ps']
     while secs < 1 and len(unit) > 1:
         secs *= 1000.0
         unit.pop(0)
     return '%.3f %s' % (secs, unit[0])
+
+
+if isiOS and PyGeodesy_dir:
+
+    _home_dir = dirname(PyGeodesy_dir) or '~'
+
+    def tilda(path):
+        '''Return a shortened Pythonista path.
+        '''
+        return path.replace(_home_dir, '~')
+else:
+    def tilda(path):  # PYCHOK expected
+        '''Return a shortened path.
+        '''
+        return path
 
 
 def type2str(obj, attr):
@@ -234,11 +245,6 @@ if isiOS:  # MCCABE 14
             x = r.count('FAILED, expected')
         return x, r
 
-    def tilda(path):
-        '''Return a shortened Pythonista path.
-        '''
-        return path.replace(PyGeodesy_dir, '~')
-
     Python_O = basename(Python_O)
 
 else:  # non-iOS
@@ -264,8 +270,3 @@ else:  # non-iOS
         # the exit status reflects the number of
         # test failures in the tested module
         return p.returncode, r
-
-    def tilda(path):  # PYCHOK expected
-        '''Return a shortened path.
-        '''
-        return path

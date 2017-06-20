@@ -8,30 +8,26 @@
 # 2.7.12 and 3.5.1 on iOS 10.3.2.
 
 from glob import glob
-from os.path import dirname, join
+from os.path import abspath, dirname, join
+import sys
 import unittest
 
-_test_dir = dirname(__file__)
+_test_dir = dirname(abspath(__file__))
+# extend sys.path to include the ../.. directory
+if _test_dir not in sys.path:  # Python 3+ ModuleNotFoundError
+    sys.path.insert(0, _test_dir)
 
-try:
-    from base import runs
-except ImportError:  # Python 3+ ModuleNotFoundError
-    import sys
-    if _test_dir not in sys.path:
-        sys.path.insert(0, _test_dir)
-    from base import runs  # PYCHOK expected
+from base import runs
 
 __all__ = ('TestSuite',)
-__version__ = '17.06.17'
+__version__ = '17.06.19'
 
 
 class TestSuite(unittest.TestCase):
     '''Combine all test modules into a test suite/case
        and run each test module as a separate test.
-
-       XXX rewrite the test modules to use the unittest.
     '''
-    _runs = 0
+    _runs = 0  # pseudo global
 
     def _run(self, test):
         TestSuite._runs += 1  # pseudo global
@@ -102,4 +98,4 @@ class TestSuite(unittest.TestCase):
 
 if __name__ == '__main__':
 
-    unittest.main(argv=None, catchbreak=None, failfast=None, verbosity=2)
+    unittest.main(argv=sys.argv)  # catchbreak=None, failfast=None, verbosity=2

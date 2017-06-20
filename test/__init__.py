@@ -7,17 +7,15 @@
 # 10.12.4 and 10.12.5 Sierra and with Pythonista 3.1 using Python
 # 2.7.12 and 3.5.1 on iOS 10.3.2.
 
-try:
-    from unitTestSuite import TestSuite
-except ImportError:  # Python 3+ ModuleNotFoundError
-    from os.path import dirname
-    import sys
+from os.path import abspath, dirname
+import sys
 
-    _test_dir = dirname(__file__)
-    if _test_dir not in sys.path:
-        sys.path.insert(0, _test_dir)
+_test_dir = dirname(abspath(__file__))
+# extend sys.path to include the .. directory
+if _test_dir not in sys.path:  # Python 3+ ModuleNotFoundError
+    sys.path.insert(0, _test_dir)
 
-    from unitTestSuite import TestSuite  # PYCHOK expected
+from unitTestSuite import TestSuite  # for setup.py
 
 __all__ = ('TestSuite',)
-__version__ = '17.06.17'
+__version__ = '17.06.19'

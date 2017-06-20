@@ -8,22 +8,20 @@
 
 from glob import glob
 from os import linesep as NL
-from os.path import dirname, join
+from os.path import abspath, dirname, join
 from time import time
 import sys
 
-_test_dir = dirname(__file__)
+_test_dir = dirname(abspath(__file__))
+# extend sys.path to include the .. directory
+if _test_dir not in sys.path:
+    sys.path.insert(0, _test_dir)
 
-try:
-    import base as _   # PYCHOK expected
-except ImportError:  # Pythonista
-    if _test_dir not in sys.path:
-        sys.path.insert(0, _test_dir)
 from base import isiOS, PyGeodesy_dir, Python_O, \
           runs, tilda, versions  # PYCHOK expected
 
 __all__ = ()
-__version__ = '17.06.17'
+__version__ = '17.06.19'
 
 # command line options
 _failedonly = False
@@ -84,7 +82,7 @@ if __name__ == '__main__':  # MCCABE 25
         # scripts in the same directory as this one
         args = sorted(glob(join(_test_dir, 'test*.py')))
 
-    X, s = 0, time()
+    T, X, s = 0, 0, time()
     for arg in args:
 
         t = tilda('running %s %s' % (Python_O, arg))
@@ -96,6 +94,9 @@ if __name__ == '__main__':  # MCCABE 25
         if _results:
             _write(NL + t + NL)
             _write(r)
+
+        if not X:  # count tests
+            T += r.count('\n    test ')
 
         if 'Traceback' in r:
             print('%s\n' % (r,))
@@ -116,6 +117,8 @@ if __name__ == '__main__':  # MCCABE 25
 
     if X:
         x = '%d FAILED' % (X,)
+    elif T > 0:
+        x = 'all %s tests OK' % (T,)
     else:
         x = 'all OK'
     s = time() - s

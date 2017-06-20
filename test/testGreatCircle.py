@@ -33,7 +33,7 @@
 # Copyright © 2016 Softwarenerd.
 
 __all__ = ()
-__version__ = '17.06.17'
+__version__ = '17.06.18'
 
 from base import TestsBase
 
@@ -139,17 +139,16 @@ class Tests(TestsBase):
         self.test('MidpointEiffelToVersailles', a, str(b))
         self.test('MidpointEiffelToVersailles(DMS)', a.toStr(F_DMS, prec=4), '48°49′53.3817″N, 002°12′27.1279″E')
         a = Eiffel.distanceTo(a)
-        m = xMidpoint % (Versailles.distanceTo(b),)
+        m = Versailles.distanceTo(b)
         self.test('MidpointEiffelToVersailles(m)', a, m, fmt=xMidpoint, known=True)
 
         # midpoint between Versailles and the Eiffel Tower
         a = Versailles.midpointTo(Eiffel)
-        b = Versailles.destination(dEiffelToVersailles / 2.0,
-                                   ibVersaillesToEiffel)
+        b = Versailles.destination(dEiffelToVersailles / 2.0, ibVersaillesToEiffel)
         self.test('MidpointVersaillesToEiffel', a, str(b), known=True)
         self.test('MidpointVersaillesToEiffel(DMS)', a.toStr(F_DMS, prec=4), '48°49′53.3817″N, 002°12′27.1279″E')
         a = Versailles.distanceTo(a)
-        m = xMidpoint % (Eiffel.distanceTo(b),)
+        m = Eiffel.distanceTo(b)
         self.test('MidpointVersaillesToEiffel(m)', a, m, fmt=xMidpoint, known=True)
 
         # intersection.
