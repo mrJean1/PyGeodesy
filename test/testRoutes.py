@@ -9,7 +9,7 @@
 # <http://milkbread.github.io/Visvalingam-Wyatt/>
 
 __all__ = ('Pts', 'PtsFFI', 'RdpFFI', 'VwPts')
-__version__ = '17.06.17'
+__version__ = '17.06.21'
 
 
 class _LatLon(object):
@@ -17008,5 +17008,5 @@ if __name__ == '__main__':
     from base import TestsBase
 
     t = TestsBase(__file__, __version__)
-    t.results()
+    t.results(nl=0)
     t.exit()

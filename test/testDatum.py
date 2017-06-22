@@ -4,7 +4,7 @@
 # Test datums, ellipsoids and transforms.
 
 __all__ = ('Tests',)
-__version__ = '17.04.22'
+__version__ = '17.06.21'
 
 from base import TestsBase
 
@@ -28,9 +28,16 @@ class Tests(TestsBase):
         self.test('datum', D is Datums.TestDatum, 'True')
 #       print(Datum())
 
-        E = Transforms.ED50
-        t = E.inverse().inverse("ED50_")
-        self.test('ED50.inverse().inverse()', t == E, 'True')
+        e = Ellipsoids.unregister('TestEllipsiod')
+        self.test(e.name, e, str(E))
+        t = Transforms.unregister('TestTransform')
+        self.test(t.name, t, str(T))
+        d = Datums.unregister('TestDatum')
+        self.test(d.name, d, str(D))
+
+        T = Transforms.ED50
+        t = T.inverse().inverse("ED50_")
+        self.test('ED50.inverse().inverse()', t == T, 'True')
 
         R, fmt = Ellipsoids.WGS84.R, '%.4f'
         self.test('meanR', R, fmt % (R_M,), fmt=fmt)
@@ -53,5 +60,5 @@ if __name__ == '__main__':
 
     t = Tests(__file__, __version__, datum)
     t.testDatum()
-    t.results()
+    t.results(nl=0)
     t.exit()

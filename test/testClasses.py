@@ -6,15 +6,18 @@
 # classes, like LatLon.
 
 __all__ = ('Tests',)
-__version__ = '17.06.16'
+__version__ = '17.06.21'
 
 from base import TestsBase, type2str
 
 
 class Tests(TestsBase):
 
+    def _subtitle(self, classname, test, unused):
+        self.printf('test%s%s(%s)', classname, test, __version__, nl=1)
+
     def testAttrs(self, classname, modules, *args, **kwds):
-        self.title(classname + ' .attributes', __version__)
+        self._subtitle(classname, 'Attrs', modules)
         attrs = {}
         for m in modules:
             C = getattr(m, classname, None)
@@ -28,7 +31,8 @@ class Tests(TestsBase):
             m = ', '.join(sorted(m))
             self.test(a, m, m)  # passes always
 
-        self.title(classname + ' .mro', __version__)
+    def testMro(self, classname, modules):
+        self._subtitle(classname, 'Mro', modules)
         for m in modules:
             C = getattr(m, classname, None)
             if C:
@@ -37,13 +41,17 @@ class Tests(TestsBase):
 
     def testCartesianAttrs(self, *modules):
         self.testAttrs('Cartesian', modules, 0, 0, 0)
+        self.testMro(  'Cartesian', modules)
 
     def testLatLonAttrs(self, *modules):
         self.testAttrs('LatLon', modules, 0, 0)
+        self.testMro(  'LatLon', modules)
 
     def testVectorAttrs(self, *modules):
         self.testAttrs('Nvector', modules, 0, 0, 0, h=0)
+        self.testMro(  'Nvector', modules)
         self.testAttrs('Vector3d', modules, 0, 0, 0)
+        self.testMro(  'Vector3d', modules)
 
 
 if __name__ == '__main__':
@@ -67,5 +75,5 @@ if __name__ == '__main__':
     t.testVectorAttrs(ellipsoidalNvector, ellipsoidalVincenty,
                       sphericalNvector, sphericalTrigonometry,
                       nvector, vector3d)
-    t.results(nl=1)
+    t.results()
     t.exit()

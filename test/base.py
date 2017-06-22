@@ -23,8 +23,8 @@ from pygeodesy import version as PyGeodesy_version, \
 
 __all__ = ('isiOS', 'PyGeodesy_dir', 'Python_O',  # constants
            'TestsBase',
-           'runs', 'secs2str', 'tilda', 'type2str', 'versions')
-__version__ = '17.06.19'
+           'runs', 'secs2str', 'tilde', 'type2str', 'versions')
+__version__ = '17.06.21'
 
 try:
     _int = int, long
@@ -33,7 +33,9 @@ except NameError:  # Python 3+
     _int = int
     _str = str
 
-# isIOS is used by some tests known to fail on iOS only
+_pseudo_home_dir = dirname(PyGeodesy_dir or '~') or '~'
+
+# isiOS is used by some tests known to fail on iOS only
 isiOS = True if sys.platform == 'ios' else False  # public
 
 Python_O = sys.executable  # python or Pythonsta path
@@ -81,7 +83,7 @@ class TestsBase(object):
         nl = '\n' * kwds.get('nl', 0)
         print(nl + self._prefix + (fmt % args))
 
-    def results(self, nl=0):
+    def results(self, nl=1):
         '''Summarize the test results.
         '''
         s = time() - self._time
@@ -96,6 +98,13 @@ class TestsBase(object):
             n, p, r = 'all','s', 'passed'
         r = '%s (%s) %s' % (r, self._versions, secs2str(s))
         self.printf('%s %s test%s %s', n, self._name, p, r, nl=nl)
+
+    def subtitle(self, module, test='ing', **kwds):
+        '''Print the subtitle of a test suite.
+        '''
+        t = (basename(module.__name__), module.__version__) + \
+            tuple('%s=%s' % t for t in sorted(kwds.items()))
+        self.printf('test%s(%s)', test, ', '.join(t), nl=1)
 
     def test(self, name, value, expect, fmt='%s', known=False):
         '''Compare a test value with the expected one.
@@ -132,19 +141,10 @@ def secs2str(secs):
     return '%.3f %s' % (secs, unit[0])
 
 
-if isiOS and PyGeodesy_dir:
-
-    _home_dir = dirname(PyGeodesy_dir) or '~'
-
-    def tilda(path):
-        '''Return a shortened Pythonista path.
-        '''
-        return path.replace(_home_dir, '~')
-else:
-    def tilda(path):  # PYCHOK expected
-        '''Return a shortened path.
-        '''
-        return path
+def tilde(path):
+    '''Return a shortened path, especially Pythonista.
+    '''
+    return path.replace(_pseudo_home_dir, '~')
 
 
 def type2str(obj, attr):
@@ -228,7 +228,7 @@ if isiOS:  # MCCABE 14
             else:  # append traceback
                 x = [_ for _ in format_exception(*x)  # PYCHOK expected
                              if 'runpy.py", line' not in _]
-                print(''.join(map(tilda, x)).strip())
+                print(''.join(map(tilde, x)).strip())
                 x = 1
         sys.argv, sys.stdout, sys.stderr = sys3
 

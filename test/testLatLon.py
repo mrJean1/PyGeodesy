@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '17.06.16'
+__version__ = '17.06.21'
 
 from base import TestsBase
 
@@ -15,7 +15,12 @@ from pygeodesy import R_NM, F_DM, F_DMS, F_RAD, \
 
 class Tests(TestsBase):
 
-    def testLatLon(self, LatLon, Sph=True):  # MCCABE expected
+    def testLatLon(self, module, Sph=False):  # MCCABE expected
+
+        self.subtitle(module, 'LatLon')
+
+        LatLon = module.LatLon
+
         # basic LatLon class tests
         p = LatLon(52.20472, 0.14056)
         self.test('isellipsoidal', p.isellipsoidal, str(not Sph))
@@ -184,14 +189,11 @@ if __name__ == '__main__':
 
     t = Tests(__file__, __version__)
 
-    t.testLatLon(ellipsoidalNvector.LatLon, Sph=False)
-    t.printf('')
-    t.testLatLon(ellipsoidalVincenty.LatLon, Sph=False)
-    t.printf('')
+    t.testLatLon(ellipsoidalNvector, Sph=False)
+    t.testLatLon(ellipsoidalVincenty, Sph=False)
 
-    t.testLatLon(sphericalNvector.LatLon, Sph=True)
-    t.printf('')
-    t.testLatLon(sphericalTrigonometry.LatLon, Sph=True)
+    t.testLatLon(sphericalNvector, Sph=True)
+    t.testLatLon(sphericalTrigonometry, Sph=True)
 
-    t.results(nl=1)
+    t.results()
     t.exit()

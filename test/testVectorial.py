@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '17.06.16'
+__version__ = '17.06.21'
 
 from base import TestsBase
 
@@ -13,7 +13,12 @@ from pygeodesy import F_D
 
 class Tests(TestsBase):
 
-    def testVectorial(self, LatLon, Nvector, sumOf):
+    def testVectorial(self, module):
+
+        self.subtitle(module, 'Vectorial')
+
+        LatLon, Nvector, sumOf = module.LatLon, module.Nvector, module.sumOf
+
         if hasattr(LatLon, 'crossTrackDistanceTo'):
             p = LatLon(53.2611, -0.7972)
             s = LatLon(53.3206, -1.7297)
@@ -100,13 +105,9 @@ if __name__ == '__main__':
 
     t = Tests(__file__, __version__)
 
-    t.testVectorial(ellipsoidalNvector.LatLon,
-                    ellipsoidalNvector.Nvector,
-                    ellipsoidalNvector.sumOf)
-    t.printf('')
-    t.testVectorial(sphericalNvector.LatLon,
-                    sphericalNvector.Nvector,
-                    sphericalNvector.sumOf)
+    t.testVectorial(ellipsoidalNvector)
 
-    t.results(nl=1)
+    t.testVectorial(sphericalNvector)
+
+    t.results()
     t.exit()

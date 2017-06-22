@@ -4,7 +4,7 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '17.06.16'
+__version__ = '17.06.21'
 
 from base import TestsBase, secs2str
 
@@ -90,7 +90,7 @@ if __name__ == '__main__':  # PYCHOK internal error?
     # <http://georust.github.io/rust-geo/geo/algorithm/simplifyvw/trait.SimplifyVW.html>
 #   t.test2(simplifyVW, [_LatLon(*ll) for ll in ((5.0, 2.0), (3.0, 8.0), (6.0, 20.0), (7.0, 25.0), (10.0, 10.0))],
 #                        _ms({30: 3}), adjust=False)  # (5.0, 2.0), (7.0, 25.0), (10.0, 10.0)
-    t.results()
+    t.results(nl=0)
     t.exit()
 
 #   Compare Vw routes

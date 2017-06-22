@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.06.17'
+__version__ = '17.06.21'
 
 from testLatLon import Tests as _TestsLL
 from testVectorial import Tests as _TestsV
@@ -14,7 +14,11 @@ from pygeodesy import F_D, F_DMS, lonDMS
 
 class Tests(_TestsLL, _TestsV):
 
-    def testSpherical(self, LatLon, spherical):
+    def testSpherical(self, module):
+
+        self.subtitle(module, 'Spherical')
+
+        LatLon = module.LatLon
 
         p = LatLon(51.8853, 0.2545)
         self.test('isspherical', p.isspherical, 'True')
@@ -63,16 +67,16 @@ class Tests(_TestsLL, _TestsV):
         self.test('rhumbMidpointo', isinstance(m, LatLon), 'True')
 
         b = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
-        self.test('areaOf', spherical.areaOf(b), '8.6660587507e+09', fmt='%.10e')  # 8666058750.718977
+        self.test('areaOf', module.areaOf(b), '8.6660587507e+09', fmt='%.10e')  # 8666058750.718977
 
         c = LatLon(0, 0), LatLon(1, 0), LatLon(0, 1)
-        self.test('areaOf', spherical.areaOf(c), '6.18e+09', fmt='%.2e')
+        self.test('areaOf', module.areaOf(c), '6.18e+09', fmt='%.2e')
 
-        if hasattr(spherical, 'isPoleEnclosedBy'):
+        if hasattr(module, 'isPoleEnclosedBy'):
             p = LatLon(85, 90), LatLon(85, 0), LatLon(85, -90), LatLon(85, -180)
-            self.test('isPoleEnclosedBy', spherical.isPoleEnclosedBy(p), 'True')
+            self.test('isPoleEnclosedBy', module.isPoleEnclosedBy(p), 'True')
             p = LatLon(85, 90), LatLon(85, 0), LatLon(85, -180)
-            self.test('isPoleEnclosedBy', spherical.isPoleEnclosedBy(p), 'True', known=True)
+            self.test('isPoleEnclosedBy', module.isPoleEnclosedBy(p), 'True', known=True)
 
 
 if __name__ == '__main__':
@@ -82,16 +86,12 @@ if __name__ == '__main__':
 
     t = Tests(__file__, __version__)
 
-    t.testLatLon(N.LatLon, Sph=True)
-    t.printf('')
-    t.testSpherical(N.LatLon, N)
-    t.printf('')
-    t.testVectorial(N.LatLon, N.Nvector, N.sumOf)
-    t.printf('')
+    t.testLatLon(N, Sph=True)
+    t.testSpherical(N)
+    t.testVectorial(N)
 
-    t.testLatLon(T.LatLon, Sph=True)
-    t.printf('')
-    t.testSpherical(T.LatLon, T)
+    t.testLatLon(T, Sph=True)
+    t.testSpherical(T)
 
     t.results()
     t.exit()

@@ -18,10 +18,10 @@ if _test_dir not in sys.path:
     sys.path.insert(0, _test_dir)
 
 from base import isiOS, PyGeodesy_dir, Python_O, \
-          runs, tilda, versions  # PYCHOK expected
+          runs, tilde, versions  # PYCHOK expected
 
 __all__ = ()
-__version__ = '17.06.19'
+__version__ = '17.06.21'
 
 # command line options
 _failedonly = False
@@ -34,7 +34,7 @@ if __name__ == '__main__':  # MCCABE 25
     def _write(text):
         _results.write(text.encode('utf-8'))
 
-    argv0, args = tilda(sys.argv[0]), sys.argv[1:]
+    argv0, args = tilde(sys.argv[0]), sys.argv[1:]
 
     if isiOS and not args:
         # allow this script to be used
@@ -70,7 +70,7 @@ if __name__ == '__main__':  # MCCABE 25
     v = versions()
 
 #   import pygeodesy
-#   v = ' '.join((v, tilda(pygeodesy.__file__)))
+#   v = ' '.join((v, tilde(pygeodesy.__file__)))
 
     if _results:  # save all test results
         t = '-'.join(['testresults'] + v.split()) + '.txt'
@@ -85,7 +85,7 @@ if __name__ == '__main__':  # MCCABE 25
     T, X, s = 0, 0, time()
     for arg in args:
 
-        t = tilda('running %s %s' % (Python_O, arg))
+        t = 'running %s %s' % (Python_O, tilde(arg))
         print(t)
 
         x, r = runs(arg)

@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.06.16'
+__version__ = '17.06.21'
 
 from testLatLon import Tests as _TestsLL
 from testVectorial import Tests as _TestsV
@@ -15,8 +15,13 @@ from pygeodesy import F_D, F_DMS, VincentyError, bearingDMS, \
 
 class Tests(_TestsLL, _TestsV):
 
-    def testEllipsoidal(self, LatLon, Nvector=None, Cartesian=None):
+    def testEllipsoidal(self, module):
         # ellipsoidal modules tests
+
+        self.subtitle(module)
+
+        LatLon, Nvector, Cartesian = module.LatLon, module.Nvector, module.Cartesian
+
         p = LatLon(51.4778, -0.0016, 0, Datums.WGS84)
         self.test('isellipsoidal', p.isellipsoidal, 'True')
         self.test('isspherical', p.isspherical, 'False')
@@ -51,30 +56,34 @@ class Tests(_TestsLL, _TestsV):
             n = Nvector(0.5, 0.5, 0.7071, 1).toStr(3)
             self.test('Nvector', n, '(0.5, 0.5, 0.707, +1.00)')
 
-    def testVincenty(self, LatLon, datum):
+    def testVincenty(self, module, datum):
+
         d = datum
-        n = ' (%s)' % (d.name,)
+
+        self.subtitle(module, 'Vincenty', datum=d.name)
+
+        LatLon = module.LatLon
 
         Newport_RI = LatLon(41.49008, -71.312796, datum=d)
         Cleveland_OH = LatLon(41.499498, -81.695391, datum=d)
         m = Newport_RI.distanceTo(Cleveland_OH)
-        self.test('distanceTo' + n, '%.5f' % m, '866455.43292')
+        self.test('distanceTo', '%.5f' % m, '866455.43292')
 
         try:
             t = None
             m = Newport_RI.distanceTo(Newport_RI)
         except VincentyError as x:
             t = x  # Python 3+
-        self.test('VincentyError' + n, t, 'LatLon(41°29′24.29″N, 071°18′46.07″W) coincident with LatLon(41°29′24.29″N, 071°18′46.07″W)')
+        self.test('VincentyError', t, 'LatLon(41°29′24.29″N, 071°18′46.07″W) coincident with LatLon(41°29′24.29″N, 071°18′46.07″W)')
 
         if hasattr(LatLon, 'toCartesian'):
             try:
                 m = Newport_RI.distanceTo(Cleveland_OH.convertDatum(Datums.OSGB36))
-                self.test('ValueError' + n, None, 'other Ellipsoid mistmatch: ...' + d.ellipsoid.name)
+                self.test('ValueError', None, 'other Ellipsoid mistmatch: ...' + d.ellipsoid.name)
             except ValueError as x:
-                self.test('ValueError' + n, x, 'other Ellipsoid mistmatch: Ellipsoids.Airy1830 vs Ellipsoids.' + d.ellipsoid.name)
+                self.test('ValueError', x, 'other Ellipsoid mistmatch: Ellipsoids.Airy1830 vs Ellipsoids.' + d.ellipsoid.name)
             except Exception as x:
-                self.test('ValueError' + n, x, 'ValueError ...' + d.ellipsoid.name)
+                self.test('ValueError', x, 'ValueError ...' + d.ellipsoid.name)
 
         Boston = LatLon(42.3541165, -71.0693514, datum=d)
         NewYork = LatLon(40.7791472, -73.9680804, datum=d)
@@ -93,96 +102,100 @@ class Tests(_TestsLL, _TestsV):
 
         q = p.destination(54972.271, 306.86816)
         t = q.toStr(F_D, prec=4)
-        self.test('destination' + n, t, '37.6528°S, 143.9265°E')
-        self.test('destination' + n, isinstance(q, LatLon), 'True')
+        self.test('destination', t, '37.6528°S, 143.9265°E')
+        self.test('destination', isinstance(q, LatLon), 'True')
 
         q, f = p.destination2(54972.271, 306.86816)
         t = q.toStr(F_D) + ', ' + compassDMS(f, prec=4)
-        self.test('destination2' + n, t, '37.652821°S, 143.926496°E, 307.1736°NW')
-        self.test('destination2' + n, isinstance(q, LatLon), 'True')
+        self.test('destination2', t, '37.652821°S, 143.926496°E, 307.1736°NW')
+        self.test('destination2', isinstance(q, LatLon), 'True')
 
         f = p.finalBearingOn(54972.271, 306.86816)
         t = bearingDMS(f, prec=4) + ', ' + compassDMS(f, form=F_DMS, prec=2)
-        self.test('finalBearingOn' + n, t, '307.1736°, 307°10′25.07″NW')
+        self.test('finalBearingOn', t, '307.1736°, 307°10′25.07″NW')
 
         p = LatLon(50.06632, -5.71475, datum=d)
         q = LatLon(58.64402, -3.07009, datum=d)
         m = p.distanceTo(q)
-        self.test('distanceTo' + n, '%.3f' % m, '969954.166')
+        self.test('distanceTo', '%.3f' % m, '969954.166')
 
         t = p.distanceTo3(q)
         t = fStr(t, prec=6)
-        self.test('distanceTo3' + n, t, '969954.166314, 9.141877, 11.29722')
+        self.test('distanceTo3', t, '969954.166314, 9.141877, 11.29722')
 
         b = p.initialBearingTo(q)
         t = bearingDMS(b, prec=4) + ', ' + compassDMS(b, form=F_DMS, prec=2)
-        self.test('initialBearingTo' + n, t, '9.1419°, 9°08′30.76″N')
+        self.test('initialBearingTo', t, '9.1419°, 9°08′30.76″N')
 
         f = p.finalBearingTo(q)
         t = bearingDMS(f, prec=4) + ', ' + compassDMS(f, form=F_DMS, prec=2)
-        self.test('finalBearingTo' + n, t, '11.2972°, 11°17′49.99″NNE')
+        self.test('finalBearingTo', t, '11.2972°, 11°17′49.99″NNE')
 
         p = LatLon(52.205, 0.119)
         q = LatLon(48.857, 2.351)
         m = p.distanceTo(q)
-        self.test('distanceTo' + n, '%.3f' % m, '404607.806')
+        self.test('distanceTo', '%.3f' % m, '404607.806')
 
         t = p.distanceTo3(q)
         t = fStr(t, prec=6)
-        self.test('distanceTo3' + n, t, '404607.805988, 156.11064, 157.8345')
+        self.test('distanceTo3', t, '404607.805988, 156.11064, 157.8345')
 
         b = p.initialBearingTo(q)
         t = bearingDMS(b, prec=4) + ', ' + compassDMS(b, form=F_DMS, prec=2)
-        self.test('initialBearingTo' + n, t, '156.1106°, 156°06′38.31″SSE')
+        self.test('initialBearingTo', t, '156.1106°, 156°06′38.31″SSE')
 
         f = p.finalBearingTo(q)
         t = bearingDMS(f, prec=4) + ', ' + compassDMS(f, form=F_DMS, prec=2)
-        self.test('finalBearingTo' + n, t, '157.8345°, 157°50′04.2″SSE')  # 157.9
+        self.test('finalBearingTo', t, '157.8345°, 157°50′04.2″SSE')  # 157.9
 
         p = LatLon(37.95103, 144.42487, datum=d)
         q = LatLon(37.65280, 143.9265, datum=d)
         m = p.distanceTo(q)
-        self.test('distanceTo' + n, '%.3f' % m, '54973.295')
+        self.test('distanceTo', '%.3f' % m, '54973.295')
 
         t = p.distanceTo3(q)
         t = fStr(t, prec=5)
-        self.test('distanceTo3' + n, t, '54973.29527, 233.13008, 232.82461')
+        self.test('distanceTo3', t, '54973.29527, 233.13008, 232.82461')
 
         b = p.initialBearingTo(q)
         t = bearingDMS(b, prec=4) + ', ' + compassDMS(b, form=F_DMS, prec=2)
-        self.test('initialBearingTo' + n, t, '233.1301°, 233°07′48.28″SW')
+        self.test('initialBearingTo', t, '233.1301°, 233°07′48.28″SW')
 
         f = p.finalBearingTo(q)
         t = bearingDMS(f, prec=4) + ', ' + compassDMS(f, form=F_DMS, prec=2)
-        self.test('finalBearingTo' + n, t, '232.8246°, 232°49′28.59″SW')
+        self.test('finalBearingTo', t, '232.8246°, 232°49′28.59″SW')
 
         # <http://github.com/maurycyp/vincenty> Maurycy Pietrzak
         Boston = LatLon(42.3541165, -71.0693514, datum=d)
         NewYork = LatLon(40.7791472, -73.9680804, datum=d)
         m = Boston.distanceTo(NewYork)
-        self.test('distanceToMP' + n, '%.3f' % m, '298396.057')
+        self.test('distanceToMP', '%.3f' % m, '298396.057')
 
         p = LatLon(0, 0, datum=d)
         q = LatLon(0, 1, datum=d)
         m = p.distanceTo(q)
-        self.test('distanceToMP' + n, '%.3f' % m, '111319.491')
+        self.test('distanceToMP', '%.3f' % m, '111319.491')
 
         q = LatLon(1, 0, datum=d)
         m = p.distanceTo(q)
-        self.test('distanceToMP' + n, '%.3f' % m, '110574.389')
+        self.test('distanceToMP', '%.3f' % m, '110574.389')
 
         # <http://pypi.python.org/pypi/pygc> Kyle Wilcox
         p = LatLon(0, 50, datum=d)
         q = LatLon(0, 52, datum=d)
         m = p.distanceTo(q)
-        self.test('distanceToKW' + n, '%.3f' % m, '222638.982')
+        self.test('distanceToKW', '%.3f' % m, '222638.982')
 
         q = LatLon(0, 49, datum=d)
         m = p.distanceTo(q)
-        self.test('distanceToKW' + n, '%.3f' % m, '111319.491')
+        self.test('distanceToKW', '%.3f' % m, '111319.491')
 
-    def testNOAA(self, LatLon):
+    def testNOAA(self, module):
         # <http://www.ngs.noaa.gov/PC_PROD/Inv_Fwd/readme.htm>
+
+        self.subtitle(module, 'NOAA')
+
+        LatLon= module.LatLon
 
         def _dfr(d, f, r):
             r = wrap360(r + 180)  # final bearing to back azimuth
@@ -218,19 +231,15 @@ if __name__ == '__main__':
 
     t = Tests(__file__, __version__)
 
-    t.testLatLon(N.LatLon, Sph=False)
-    t.printf('')
-    t.testVectorial(N.LatLon, N.Nvector, N.sumOf)
-    t.printf('')
-    t.testEllipsoidal(N.LatLon, N.Nvector, N.Cartesian)
-    t.printf('')
+    t.testEllipsoidal(N)
 
-    t.testLatLon(V.LatLon, Sph=False)
-    t.printf('')
+    t.testLatLon(N, Sph=False)
+    t.testVectorial(N)
+
+    t.testLatLon(V, Sph=False)
     for d in (Datums.WGS84, Datums.NAD83,):  # Datums.Sphere):
-        t.testVincenty(V.LatLon, d)
-        t.printf('')
-    t.testNOAA(V.LatLon)
+        t.testVincenty(V, d)
+    t.testNOAA(V)
 
     t.results()
     t.exit()

@@ -33,7 +33,7 @@
 # Copyright © 2016 Softwarenerd.
 
 __all__ = ()
-__version__ = '17.06.18'
+__version__ = '17.06.21'
 
 from base import TestsBase
 
@@ -48,7 +48,11 @@ class Tests(TestsBase):
             expect = fmt % (expect,)
         TestsBase.test(self, name, value, expect, fmt=fmt, known=known)
 
-    def testGreatCircle(self, LatLon):  # spherical LatLon
+    def testGreatCircle(self, module):  # spherical only
+
+        self.subtitle(module, 'GreatCircle')
+
+        LatLon = module.LatLon
 
         # Indian Pond, in Piermond, NH.  My old Boy Scout Camp
         IndianPond = LatLon(43.930912, -72.053811)
@@ -183,9 +187,9 @@ if __name__ == '__main__':
 
     t = Tests(__file__, __version__)
 
-    t.testGreatCircle(sphericalNvector.LatLon)
-    t.printf('')
-    t.testGreatCircle(sphericalTrigonometry.LatLon)
+    t.testGreatCircle(sphericalNvector)
+
+    t.testGreatCircle(sphericalTrigonometry)
 
     t.results()
     t.exit()

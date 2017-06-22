@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '17.06.16'
+__version__ = '17.06.21'
 
 from base import TestsBase, type2str
 
@@ -13,8 +13,7 @@ class Tests(TestsBase):
 
     def testModule(self, m, name=''):
         # check that __all__ names exist in module m
-        t = m.__name__ + '.__all__'
-        self.title(t, m.__version__)
+        self.subtitle(m, 'Module')
 
         n_ = (name or m.__name__).split('.')[-1] + '.'
         for a in sorted(m.__all__):
@@ -45,5 +44,5 @@ if __name__ == '__main__':
               vector3d, utm, utils):
         t.testModule(m)
 
-    t.results(nl=1)
+    t.results()
     t.exit()

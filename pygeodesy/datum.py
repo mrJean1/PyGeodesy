@@ -52,7 +52,7 @@ R_SM = m2SM(R_M)  #: Mean, spherical earth radius (statute miles).
 __all__ = ('R_KM', 'R_M', 'R_NM', 'R_SM',  # constants
            'Datum',  'Ellipsoid',  'Transform',  # classes
            'Datums', 'Ellipsoids', 'Transforms')  # enum-like
-__version__ = '17.06.04'
+__version__ = '17.06.21'
 
 
 class _Enum(dict, Named):
@@ -82,6 +82,20 @@ class _Enum(dict, Named):
         '''
         for a, v in kwds.items():
             assert getattr(self, a) is v
+
+    def unregister(self, name):
+        '''Remove a registered instance.
+
+           @param name: Name of the instance (string).
+
+           @return: The unregistered instance.
+
+           @raise NameError: No instance with that name.
+        '''
+        try:
+            return dict.pop(self, name)
+        except KeyError:
+            raise NameError('no %s %r' % (self._name, name))
 
 
 Datums     = _Enum('Datums')      #: Registered datums (L{_Enum}).
