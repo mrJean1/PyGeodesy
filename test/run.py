@@ -18,10 +18,10 @@ if _test_dir not in sys.path:
     sys.path.insert(0, _test_dir)
 
 from base import isiOS, PyGeodesy_dir, Python_O, \
-          runs, tilde, versions  # PYCHOK expected
+          runner, secs2str, tilde, versions  # PYCHOK expected
 
 __all__ = ()
-__version__ = '17.06.21'
+__version__ = '17.06.23'
 
 # command line options
 _failedonly = False
@@ -88,32 +88,32 @@ if __name__ == '__main__':  # MCCABE 25
         t = 'running %s %s' % (Python_O, tilde(arg))
         print(t)
 
-        x, r = runs(arg)
+        x, r = runner(arg)
         X += x  # failures, excl KNOWN ones
 
         if _results:
             _write(NL + t + NL)
             _write(r)
 
-        if not X:  # count tests
-            T += r.count('\n    test ')
+        if not X:  # count the tests
+            T += r.count(NL + '    test ')
 
         if 'Traceback' in r:
-            print('%s\n' % (r,))
+            print(r + NL)
             if not x:  # count as failure
                 X += 1
             if _raiser:
                 break
 
         elif _failedonly:
-            for t in r.split('\n'):
+            for t in r.split(NL):
                 # print failures and totals
                 if 'FAILED' in t or 'passed' in t:
                     print(t.rstrip())
             print('')
 
         elif _verbose:
-            print('%s\n' % (r,))
+            print(r + NL)
 
     if X:
         x = '%d FAILED' % (X,)
@@ -121,8 +121,9 @@ if __name__ == '__main__':  # MCCABE 25
         x = 'all %s tests OK' % (T,)
     else:
         x = 'all OK'
-    s = time() - s
-    t = '%s %s %s (%s) %.3f sec' % (argv0, Python_O, x, v, s)
+
+    s = secs2str(time() - s)
+    t = '%s %s %s (%s) %s' % (argv0, Python_O, x, v, s)
     print(t)
     if _results:
         _write(NL + t + NL)

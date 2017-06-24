@@ -4,7 +4,7 @@
 # Test datums, ellipsoids and transforms.
 
 __all__ = ('Tests',)
-__version__ = '17.06.21'
+__version__ = '17.06.23'
 
 from base import TestsBase
 
@@ -17,30 +17,30 @@ class Tests(TestsBase):
     def testDatum(self):
         # datum module tests
         E = Ellipsoid(1000, 1000, 0, name='TestEllipsiod')
-        self.test('ellipsoid', E is Ellipsoids.TestEllipsiod, 'True')
+        self.test('ellipsoid', E is Ellipsoids.TestEllipsiod, True)
 #       print(Ellipsoid())
 
         T = Transform(name='TestTransform')
-        self.test('transform', T is Transforms.TestTransform, 'True')
+        self.test('transform', T is Transforms.TestTransform, True)
 #       print(Transform())
 
         D = Datum(E, T, name='TestDatum')
-        self.test('datum', D is Datums.TestDatum, 'True')
+        self.test('datum', D is Datums.TestDatum, True)
 #       print(Datum())
 
         e = Ellipsoids.unregister('TestEllipsiod')
-        self.test(e.name, e, str(E))
+        self.test(e.name, e, E)
         t = Transforms.unregister('TestTransform')
-        self.test(t.name, t, str(T))
+        self.test(t.name, t, T)
         d = Datums.unregister('TestDatum')
-        self.test(d.name, d, str(D))
+        self.test(d.name, d, D)
 
         T = Transforms.ED50
         t = T.inverse().inverse("ED50_")
-        self.test('ED50.inverse().inverse()', t == T, 'True')
+        self.test('ED50.inverse().inverse()', t == T, True)
 
         R, fmt = Ellipsoids.WGS84.R, '%.4f'
-        self.test('meanR', R, fmt % (R_M,), fmt=fmt)
+        self.test('meanR', R, R_M, fmt=fmt)
 
         E = Datums.WGS84.ellipsoid
         e = (E.a - E.b) / (E.a + E.b) - E.n

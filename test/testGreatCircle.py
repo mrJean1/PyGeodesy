@@ -33,7 +33,7 @@
 # Copyright © 2016 Softwarenerd.
 
 __all__ = ()
-__version__ = '17.06.21'
+__version__ = '17.06.23'
 
 from base import TestsBase
 
@@ -41,12 +41,6 @@ from pygeodesy import F_D, F_DMS, bearingDMS
 
 
 class Tests(TestsBase):
-
-    # overload test() method
-    def test(self, name, value, expect, fmt='%s', known=False):
-        if isinstance(expect, float):
-            expect = fmt % (expect,)
-        TestsBase.test(self, name, value, expect, fmt=fmt, known=known)
 
     def testGreatCircle(self, module):  # spherical only
 

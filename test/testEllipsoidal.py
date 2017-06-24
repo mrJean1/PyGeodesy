@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.06.21'
+__version__ = '17.06.23'
 
 from testLatLon import Tests as _TestsLL
 from testVectorial import Tests as _TestsV
@@ -23,12 +23,12 @@ class Tests(_TestsLL, _TestsV):
         LatLon, Nvector, Cartesian = module.LatLon, module.Nvector, module.Cartesian
 
         p = LatLon(51.4778, -0.0016, 0, Datums.WGS84)
-        self.test('isellipsoidal', p.isellipsoidal, 'True')
-        self.test('isspherical', p.isspherical, 'False')
+        self.test('isellipsoidal', p.isellipsoidal, True)
+        self.test('isspherical', p.isspherical, False)
 
         d = p.convertDatum(Datums.OSGB36)
-        self.test('isellipsoidal', d.isellipsoidal, 'True')
-        self.test('isspherical', d.isspherical, 'False')
+        self.test('isellipsoidal', d.isellipsoidal, True)
+        self.test('isspherical', d.isspherical, False)
 
         self.test('convertDatum', d, '51.477284°N, 000.00002°E, -45.91m')  # 51.4773°N, 000.0000°E, -45.91m
         self.test('convertDatum', d.toStr(F_D, prec=4), '51.4773°N, 000.0°E, -45.91m')
@@ -37,24 +37,25 @@ class Tests(_TestsLL, _TestsV):
             c = Cartesian(3980581, 97, 4966825)
             n = c.toNvector()  # {x: 0.6228, y: 0.0000, z: 0.7824, h: 0.0000}  # XXX height
             self.test('toNVector', n.toStr(4), '(0.6228, 0.0, 0.7824, +0.24)')
-            self.test('toNvector', isinstance(n, Nvector), 'True')
+            self.test('toNvector', isinstance(n, Nvector), True)
             c = n.toCartesian()
             self.test('toCartesian', c.toStr(0), '[3980581, 97, 4966825]')
-            self.test('toCartesian', isinstance(c, Cartesian), 'True')
+            self.test('toCartesian', isinstance(c, Cartesian), True)
 
         if Nvector:
             n = Nvector(0.5, 0.5, 0.7071)
+            self.test('Nvector', n, '(0.5, 0.5, 0.7071)')
+
             c = n.toCartesian()  # [3194434, 3194434, 4487327]
             self.test('toCartesian', c, '[3194434.411, 3194434.411, 4487326.82]')
-            self.test('toCartesian', isinstance(c, Cartesian), 'True')
+            self.test('toCartesian', isinstance(c, Cartesian), True)
 
             p = c.toLatLon()  # 45.0°N, 45.0°E
             self.test('toLatLon', p.toStr('d', 2), '45.0°N, 045.0°E, +0.00m')  # 45.0°N, 45.0°E
-            self.test('toLatLon', isinstance(p, LatLon), 'True')
+            self.test('toLatLon', isinstance(p, LatLon), True)
 
-            self.test('Nvector', n, '(0.5, 0.5, 0.7071)')
-            n = Nvector(0.5, 0.5, 0.7071, 1).toStr(3)
-            self.test('Nvector', n, '(0.5, 0.5, 0.707, +1.00)')
+            n = Nvector(0.51, 0.512, 0.7071, 1).toStr(3)
+            self.test('Nvector', n, '(0.51, 0.512, 0.707, +1.00)')
 
     def testVincenty(self, module, datum):
 
@@ -67,7 +68,7 @@ class Tests(_TestsLL, _TestsV):
         Newport_RI = LatLon(41.49008, -71.312796, datum=d)
         Cleveland_OH = LatLon(41.499498, -81.695391, datum=d)
         m = Newport_RI.distanceTo(Cleveland_OH)
-        self.test('distanceTo', '%.5f' % m, '866455.43292')
+        self.test('distanceTo', m, '866455.43292', fmt='%.5f')
 
         try:
             t = None
@@ -90,25 +91,25 @@ class Tests(_TestsLL, _TestsV):
         m = Boston.distanceTo(NewYork)
 
         p = LatLon(-37.95103342, 144.42486789, datum=d)
-        self.test('isellipsoidal', p.isellipsoidal, 'True')
-        self.test('isspherical', p.isspherical, 'False')
+        self.test('isellipsoidal', p.isellipsoidal, True)
+        self.test('isspherical', p.isspherical, False)
 
         q = p.copy()
-        self.test('copy', q.equals(p), 'True')
-        self.test('isellipsoidal', q.isellipsoidal, 'True')
-        self.test('isspherical', q.isspherical, 'False')
+        self.test('copy', q.equals(p), True)
+        self.test('isellipsoidal', q.isellipsoidal, True)
+        self.test('isspherical', q.isspherical, False)
 
         self.test('copy', q.toStr(F_DMS, prec=4), '37°57′03.7203″S, 144°25′29.5244″E')
 
         q = p.destination(54972.271, 306.86816)
         t = q.toStr(F_D, prec=4)
         self.test('destination', t, '37.6528°S, 143.9265°E')
-        self.test('destination', isinstance(q, LatLon), 'True')
+        self.test('destination', isinstance(q, LatLon), True)
 
         q, f = p.destination2(54972.271, 306.86816)
         t = q.toStr(F_D) + ', ' + compassDMS(f, prec=4)
         self.test('destination2', t, '37.652821°S, 143.926496°E, 307.1736°NW')
-        self.test('destination2', isinstance(q, LatLon), 'True')
+        self.test('destination2', isinstance(q, LatLon), True)
 
         f = p.finalBearingOn(54972.271, 306.86816)
         t = bearingDMS(f, prec=4) + ', ' + compassDMS(f, form=F_DMS, prec=2)
@@ -117,7 +118,7 @@ class Tests(_TestsLL, _TestsV):
         p = LatLon(50.06632, -5.71475, datum=d)
         q = LatLon(58.64402, -3.07009, datum=d)
         m = p.distanceTo(q)
-        self.test('distanceTo', '%.3f' % m, '969954.166')
+        self.test('distanceTo', m, '969954.166', fmt='%.3f')
 
         t = p.distanceTo3(q)
         t = fStr(t, prec=6)
@@ -134,7 +135,7 @@ class Tests(_TestsLL, _TestsV):
         p = LatLon(52.205, 0.119)
         q = LatLon(48.857, 2.351)
         m = p.distanceTo(q)
-        self.test('distanceTo', '%.3f' % m, '404607.806')
+        self.test('distanceTo', m, '404607.806', fmt='%.3f')
 
         t = p.distanceTo3(q)
         t = fStr(t, prec=6)
@@ -151,7 +152,7 @@ class Tests(_TestsLL, _TestsV):
         p = LatLon(37.95103, 144.42487, datum=d)
         q = LatLon(37.65280, 143.9265, datum=d)
         m = p.distanceTo(q)
-        self.test('distanceTo', '%.3f' % m, '54973.295')
+        self.test('distanceTo', m, '54973.295', fmt='%.3f')
 
         t = p.distanceTo3(q)
         t = fStr(t, prec=5)
@@ -169,26 +170,26 @@ class Tests(_TestsLL, _TestsV):
         Boston = LatLon(42.3541165, -71.0693514, datum=d)
         NewYork = LatLon(40.7791472, -73.9680804, datum=d)
         m = Boston.distanceTo(NewYork)
-        self.test('distanceToMP', '%.3f' % m, '298396.057')
+        self.test('distanceToMP', m, '298396.057', fmt='%.3f')
 
         p = LatLon(0, 0, datum=d)
         q = LatLon(0, 1, datum=d)
         m = p.distanceTo(q)
-        self.test('distanceToMP', '%.3f' % m, '111319.491')
+        self.test('distanceToMP', m, '111319.491', fmt='%.3f')
 
         q = LatLon(1, 0, datum=d)
         m = p.distanceTo(q)
-        self.test('distanceToMP', '%.3f' % m, '110574.389')
+        self.test('distanceToMP', m, '110574.389', fmt='%.3f')
 
         # <http://pypi.python.org/pypi/pygc> Kyle Wilcox
         p = LatLon(0, 50, datum=d)
         q = LatLon(0, 52, datum=d)
         m = p.distanceTo(q)
-        self.test('distanceToKW', '%.3f' % m, '222638.982')
+        self.test('distanceToKW', m, '222638.982', fmt='%.3f')
 
         q = LatLon(0, 49, datum=d)
         m = p.distanceTo(q)
-        self.test('distanceToKW', '%.3f' % m, '111319.491')
+        self.test('distanceToKW', m, '111319.491', fmt='%.3f')
 
     def testNOAA(self, module):
         # <http://www.ngs.noaa.gov/PC_PROD/Inv_Fwd/readme.htm>

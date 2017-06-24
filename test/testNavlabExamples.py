@@ -9,7 +9,7 @@ those used in nvector.readthedocs.org.  Tests marked with
 # +++ are additional, not present in the original examples.
 '''
 __all__ = ()
-__version__ = '17.06.21'
+__version__ = '17.06.23'
 
 if __name__ == '__main__':
 
@@ -32,9 +32,9 @@ if __name__ == '__main__':
     delta = a.deltaTo(b)
     t.test(1, 'delta', delta, '[N:331730.863, E:332998.501, D:17398.304]')
     t.test(1, 'delta', delta.toStr2(prec=3), '[L:470357.384, B:45.109°, E:-2.12°]')  # +++
-    t.test(1, 'elevation', delta.elevation, '-2.1198', fmt='%.4f')
-    t.test(1, 'bearing', delta.bearing, '45.109', fmt='%.3f')  # 45.109°
-    t.test(1, 'length', delta.length, '470357.384', fmt='%.3f')  # 470357.384 m
+    t.test(1, 'elevation', delta.elevation, -2.1198, fmt='%.4f')
+    t.test(1, 'bearing', delta.bearing, 45.109, fmt='%.3f')  # 45.109°
+    t.test(1, 'length', delta.length, 470357.384, fmt='%.3f')  # 470357.384 m
 
 # Example 2: B and delta to C*
     n = ellipsoidalNvector.Nvector(1, 2, 3, 400, Datums.WGS72)
@@ -71,7 +71,7 @@ if __name__ == '__main__':
     a = sphericalNvector.LatLon(88, 0)
     b = sphericalNvector.LatLon(89, -170)
     dist = a.distanceTo(b)
-    t.test(5, 'distanceTo', dist, '332457', fmt='%.0f')  # 332,457 m == 332.5 km
+    t.test(5, 'distanceTo', dist, 332457, fmt='%.0f')  # 332,457 m == 332.5 km
 
 # Example 6: Interpolated position
     a = sphericalNvector.LatLon(89, 0)
@@ -122,7 +122,7 @@ if __name__ == '__main__':
     a2 = sphericalNvector.LatLon(10, 0)
     b = sphericalNvector.LatLon(1, 0.1)
     c = b.crossTrackDistanceTo(a1, a2)
-    t.test(10, 'crossTrackDistance', c, '11118', fmt='%.0f')  # 11,118 m == 11.12 km
+    t.test(10, 'crossTrackDistance', c, 11118, fmt='%.0f')  # 11,118 m == 11.12 km
 
     t.results(nl=0)
     t.exit()

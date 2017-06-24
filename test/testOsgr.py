@@ -4,7 +4,7 @@
 # Test OSGR functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.06.21'
+__version__ = '17.06.23'
 
 from base import TestsBase
 
@@ -26,7 +26,7 @@ class Tests(TestsBase):
         self.test('WGS84', r, '51.4778°N, 000.0016°W')
 
         g = osgr.Osgr(651409.903, 313177.270)
-        self.test('OSgr1', str(g), 'TG 51409 13177')
+        self.test('OSgr1', g, 'TG 51409 13177')
         self.test('OSgr1', repr(g), '[G:TG, E:51409, N:13177]')
 
         p = g.toLatLon(LatLon)
@@ -44,25 +44,25 @@ class Tests(TestsBase):
 
         p = LatLon(52.65798, 1.71605)
         r = osgr.toOsgr(p)  # TG 51409 13177
-        self.test('toOsgr3', str(r), 'TG 51409 13177')
+        self.test('toOsgr3', r, 'TG 51409 13177')
 
         r = osgr.toOsgr(52.65757, 1.71791, datum=Datums.OSGB36)
-        self.test('toOsgr4', str(r), 'TG 51409 13177')
+        self.test('toOsgr4', r, 'TG 51409 13177')
 
         g = osgr.parseOSGR('TG 48251 11932')
-        self.test('OSGR1', str(g), 'TG 48251 11932')
+        self.test('OSGR1', g, 'TG 48251 11932')
         self.test('OSGR1', repr(g), '[G:TG, E:48251, N:11932]')
 
         g = osgr.parseOSGR('TG51409 13177')
-        self.test('OSGR2', str(g), 'TG 51409 13177')
+        self.test('OSGR2', g, 'TG 51409 13177')
         self.test('OSGR2', repr(g), '[G:TG, E:51409, N:13177]')
 
         g = osgr.parseOSGR('TG5140913177')
-        self.test('OSGR3', str(g), 'TG 51409 13177')
+        self.test('OSGR3', g, 'TG 51409 13177')
         self.test('OSGR3', repr(g), '[G:TG, E:51409, N:13177]')
 
         g = osgr.parseOSGR('651409,313177')
-        self.test('OSGR4', str(g), 'TG 51409 13177')
+        self.test('OSGR4', g, 'TG 51409 13177')
         self.test('OSGR4', repr(g), '[G:TG, E:51409, N:13177]')
 
         self.test('OSGR5', g.toStr(prec=0), '651409,313177')

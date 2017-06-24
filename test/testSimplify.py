@@ -4,7 +4,7 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '17.06.21'
+__version__ = '17.06.23'
 
 from base import TestsBase, secs2str
 
@@ -35,7 +35,7 @@ class Tests(TestsBase):
             n = len(r)
             s = time() - s
             t = '%s %dm (%s)' % (f, m, secs2str(s))
-            self.test(t, n, str(ms[m]))
+            self.test(t, n, ms[m])
 
         self.printf('')
 

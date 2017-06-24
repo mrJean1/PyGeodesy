@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '17.06.21'
+__version__ = '17.06.23'
 
 from base import TestsBase, type2str
 
@@ -22,7 +22,7 @@ class Tests(TestsBase):
             t = getattr(o, '__module__', None)
             if t and t != m.__name__:
                 n = '%s (%s)' % (n, t)
-            self.test(n, hasattr(m, a), 'True')
+            self.test(n, hasattr(m, a), True)
 
 
 if __name__ == '__main__':

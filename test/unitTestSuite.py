@@ -17,10 +17,10 @@ _test_dir = dirname(abspath(__file__))
 if _test_dir not in sys.path:  # Python 3+ ModuleNotFoundError
     sys.path.insert(0, _test_dir)
 
-from base import runs
+from base import runner
 
 __all__ = ('TestSuite',)
-__version__ = '17.06.19'
+__version__ = '17.06.23'
 
 
 class TestSuite(unittest.TestCase):
@@ -31,7 +31,7 @@ class TestSuite(unittest.TestCase):
 
     def _run(self, test):
         TestSuite._runs += 1  # pseudo global
-        x, _ = runs(join(_test_dir, test + '.py'))
+        x, _ = runner(join(_test_dir, test + '.py'))
         self.assertEqual(x, 0)
 
     def test_Bases(self):

@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '17.06.21'
+__version__ = '17.06.23'
 
 from base import TestsBase
 
@@ -22,14 +22,15 @@ class Tests(TestsBase):
 
         p = LatLon(52.205, 0.119)
         q = LatLon(52.205, 0.119)
-        self.test('equals', p.equals(q), 'True')
+        self.test('equals', p.equals(q), True)
 
-        p = LatLon(51.4778, -0.0016)
         t = precision(F_DMS, 0)
+        p = LatLon(51.4778, -0.0016)
         self.test('toStr', p.toStr(), '''51°28'40"N, 000°00'06"W''')
         self.test('toStr', p.toStr(F_D), '51.4778°N, 000.0016°W')
+
+        self.test('precision', precision(F_DMS), 0)
         p = LatLon(51.4778, -0.0016, 42)
-        self.test('precision', precision(F_DMS), '0')
         self.test('toStr', p.toStr(), '''51°28'40"N, 000°00'06"W, +42.00m''')
         precision(F_DMS, t)  # restore
 
