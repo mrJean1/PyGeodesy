@@ -58,7 +58,7 @@ from math import atan2, cos, hypot, sin, tan
 
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'VincentyError')  # classes
-__version__ = '17.06.04'
+__version__ = '17.06.25'
 
 
 class VincentyError(Exception):
@@ -384,7 +384,7 @@ class LatLon(LatLonEllipsoidalBase):
                           _dl(E.f, c2a, sa, s, cs, ss, c2sm) +
                            radians(self.lon))
             h = self.height if height is None else height
-            r = self.topsub(a, b, height=h, datum=self.datum), r
+            r = self.classof(a, b, height=h, datum=self.datum), r
         return r
 
     def _inverse(self, other, azis):

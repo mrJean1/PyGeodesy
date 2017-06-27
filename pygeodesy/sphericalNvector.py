@@ -41,7 +41,7 @@ from math import atan2, cos, radians, sin
 __all__ = ('LatLon', 'Nvector',  # classes
            'areaOf', 'intersection', 'meanOf',  # functions
            'triangulate', 'trilaterate')
-__version__ = '17.06.04'
+__version__ = '17.06.25'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -173,7 +173,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
         r = float(distance) / float(radius)  # angular distance in radians
         n = p.times(cos(r)).plus(q.times(sin(r)))
-        return n.toLatLon(height=height, LatLon=self.topsub)  # Nvector(n.x, n.y, n.z).toLatLon(...)
+        return n.toLatLon(height=height, LatLon=self.classof)  # Nvector(n.x, n.y, n.z).toLatLon(...)
 
     def distanceTo(self, other, radius=R_M):
         '''Compute the distance from this to an other point.
@@ -306,7 +306,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 #       i = other.toNvector() * fraction + \
 #            self.toNvector() * (1 - fraction))
 
-        return i.toLatLon(height=height, LatLon=self.topsub)  # Nvector(i.x, i.y, i.z).toLatLon(...)
+        return i.toLatLon(height=height, LatLon=self.classof)  # Nvector(i.x, i.y, i.z).toLatLon(...)
 
     def intermediateTo(self, other, fraction, height=None):
         '''Locate the point at a given fraction between this and an
@@ -341,7 +341,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         a = atan2(x.length, p.dot(q)) * fraction  # interpolated
         i = p.times(cos(a)).plus(d.times(sin(a)))  # p * cosα + d * sinα
 
-        return i.toLatLon(height=height, LatLon=self.topsub)  # Nvector(i.x, i.y, i.z).toLatLon(...)
+        return i.toLatLon(height=height, LatLon=self.classof)  # Nvector(i.x, i.y, i.z).toLatLon(...)
 
     def intersection(self, end1, start2, end2, height=None):
         '''Locates the point of intersection of two paths each defined
@@ -367,7 +367,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            >>> i = s.intersection(108.55, e, 32.44)  # 50.9076°N, 004.5086°E
         '''
         return intersection(self, end1, start2, end2,
-                            height=height, LatLon=self.topsub)
+                            height=height, LatLon=self.classof)
 
     def isEnclosedBy(self, points):
         '''Test whether this point is enclosed by a (convex) polygon
@@ -464,7 +464,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         self.others(other)
 
         m = self.toNvector().plus(other.toNvector())
-        return m.toLatLon(height=height, LatLon=self.topsub)
+        return m.toLatLon(height=height, LatLon=self.classof)
 
     def nearestOn(self, point1, point2, height=None):
         '''Locate the point closest on great circle segment between
@@ -504,7 +504,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
             # find the closest point on the segment
             gc1 = point1.toNvector().cross(point2.toNvector())
             gc2 = self.toNvector().cross(gc1)
-            p = gc1.cross(gc2).toLatLon(height=height, LatLon=self.topsub)
+            p = gc1.cross(gc2).toLatLon(height=height, LatLon=self.classof)
 
             # beyond segment extent, take closer endpoint
         elif self.distanceTo(point1) < self.distanceTo(point2):
@@ -516,7 +516,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
     def toNvector(self):
         '''Convert this (geodetic) point to a (spherical) n-vector
-           (normal to the earth's surface).
+           normal to the earth's surface.
 
            @return: N-vector representing this point (L{Nvector}).
 
@@ -524,13 +524,13 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            >>> p = LatLon(45, 45)
            >>> n = p.toNvector()
-           >>> n.toStr()  # [0.50000, 0.50000, 0.70710]
+           >>> n.toStr()  # [0.50, 0.50, 0.70710]
 
            @JSname: I{toVector}.
         '''
         if self._Nv is None:
             x, y, z, h = self.to4xyzh()
-            self._Nv = Nvector(x, y, z, h)
+            self._Nv = Nvector(x, y, z, h=h)
         return self._Nv
 
     def triangulate(self, bearing1, other, bearing2, height=None):
@@ -554,7 +554,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            >>> t = p.triangulate(7, q, 295)  # 47.323667°N, 002.568501°W'
         '''
         return triangulate(self, bearing1, other, bearing2,
-                                 height=height, LatLon=self.topsub)
+                                 height=height, LatLon=self.classof)
 
     def trilaterate(self, distance1, point2, distance2, point3, distance3,
                           radius=R_M, height=None):
@@ -580,7 +580,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         return trilaterate(self, distance1, point2, distance2,
                                             point3, distance3,
                                  radius=radius, height=height,
-                                 LatLon=self.topsub)
+                                 LatLon=self.classof)
 
 
 class Nvector(NvectorBase):
@@ -609,8 +609,8 @@ class Nvector(NvectorBase):
 
            @example:
 
-           >>> v = Nvector(0.5, 0.5, 0.7071)
-           >>> p = v.toLatLon()  # 45.0°N, 45.0°E
+           >>> n = Nvector(0.5, 0.5, 0.7071)
+           >>> p = n.toLatLon()  # 45.0°N, 45.0°E
         '''
         a, b, h = self.to3llh()
         return LatLon(a, b, height=h if height is None else height)

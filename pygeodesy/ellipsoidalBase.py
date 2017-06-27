@@ -22,7 +22,7 @@ from math import atan2, copysign, cos, sin, sqrt
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('CartesianBase', 'LatLonEllipsoidalBase')
-__version__ = '17.06.04'
+__version__ = '17.06.25'
 
 
 class CartesianBase(Vector3d):
@@ -39,7 +39,7 @@ class CartesianBase(Vector3d):
            @return: The transformed point (L{Cartesian}).
         '''
         x, y, z = self.to3xyz()
-        return self.topsub(*transform.transform(x, y, z, inverse))
+        return self.classof(*transform.transform(x, y, z, inverse))
 
     def to3llh(self, datum=Datums.WGS84):
         '''Convert this (geocentric) Cartesian (x/y/z) point to
@@ -195,7 +195,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
         '''
         if not isinstance(datum, Datum):
             raise TypeError('%r not a %s: %r' % ('datum', Datum.__name__, datum))
-        if not datum.isellipsoidal:
+        if not datum.isEllipsoidal:
             raise ValueError('%r not %s: %r' % ('datum', 'ellipsoidal', datum))
         self._update(datum != self._datum)
         self._datum = datum
@@ -237,16 +237,16 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
         return E
 
     @property
-    def isellipsoidal(self):
+    def isEllipsoidal(self):
         '''Check whether this I{LatLon} is ellipsoidal (bool).
         '''
-        return self.datum.isellipsoidal
+        return self.datum.isEllipsoidal
 
     @property
-    def isspherical(self):
+    def isSpherical(self):
         '''Check whether this I{LatLon} is spherical (bool).
         '''
-        return self.datum.isspherical
+        return self.datum.isSpherical
 
     def parse(self, strll, height=0, datum=None, sep=','):
         '''Parse a string representing lat-/longitude point.
@@ -270,7 +270,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
            @raise ValueError: Invalid strll.
         '''
         a, b, h = parse3llh(strll, height=height, sep=sep)
-        return self.topsub(a, b, height=h, datum=datum or self.datum)
+        return self.classof(a, b, height=h, datum=datum or self.datum)
 
     def to3xyz(self):  # overloads _LatLonHeightBase.to3xyz
         '''Convert this (ellipsoidal) geodetic I{LatLon} point to

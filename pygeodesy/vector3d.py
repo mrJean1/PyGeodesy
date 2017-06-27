@@ -19,7 +19,7 @@ from math import atan2, cos, sin
 # all public contants, classes and functions
 __all__ = ('Vector3d',  # classes
            'sumOf')  # functions
-__version__ = '17.06.04'
+__version__ = '17.06.25'
 
 try:
     _cmp = cmp
@@ -288,7 +288,7 @@ class Vector3d(VectorBase):
 
            @return: New, vector copy (Vector3d).
         '''
-        v = self.topsub(self.x, self.y, self.z)
+        v = self.classof(self.x, self.y, self.z)
         v._length = self._length
         v._united = self._united
         return v
@@ -304,9 +304,9 @@ class Vector3d(VectorBase):
         '''
         self.others(other)
 
-        return self.topsub(self.y * other.z - self.z * other.y,
-                           self.z * other.x - self.x * other.z,
-                           self.x * other.y - self.y * other.x)
+        return self.classof(self.y * other.z - self.z * other.y,
+                            self.z * other.x - self.x * other.z,
+                            self.x * other.y - self.y * other.x)
 
     def dividedBy(self, factor):
         '''Divide this vector by a scalar.
@@ -378,16 +378,16 @@ class Vector3d(VectorBase):
         '''
         self.others(other)
 
-        return self.topsub(self.x - other.x,
-                           self.y - other.y,
-                           self.z - other.z)
+        return self.classof(self.x - other.x,
+                            self.y - other.y,
+                            self.z - other.z)
 
     def negate(self):
         '''Return this vector in opposite direction.
 
            @return: New, opposite vector (L{Vector3d}).
         '''
-        return self.topsub(-self.x, -self.y, -self.z)
+        return self.classof(-self.x, -self.y, -self.z)
 
     def others(self, other, name='other'):
         '''Refined class comparison.
@@ -421,7 +421,7 @@ class Vector3d(VectorBase):
         except ValueError:
             raise ValueError('%s invalid: %r' % ('str3d', str3d))
 
-        return self.topsub(*v)
+        return self.classof(*v)
 
     def plus(self, other):
         '''Add this vector and an other vector.
@@ -434,9 +434,9 @@ class Vector3d(VectorBase):
         '''
         self.others(other)
 
-        return self.topsub(self.x + other.x,
-                         self.y + other.y,
-                         self.z + other.z)
+        return self.classof(self.x + other.x,
+                            self.y + other.y,
+                            self.z + other.z)
 
     sum = plus  # alternate name
 
@@ -462,9 +462,9 @@ class Vector3d(VectorBase):
 
         p = self.unit().to3xyz()  # point being rotated
         # multiply p by a quaternion-derived rotation matrix
-        return self.topsub(fdot(p, a.x * b.x + c,   a.x * b.y - s.z, a.x * b.z + s.y),
-                           fdot(p, a.y * b.x + s.z, a.y * b.y + c,   a.y * b.z - s.x),
-                           fdot(p, a.z * b.x - s.y, a.z * b.y + s.x, a.z * b.z + c))
+        return self.classof(fdot(p, a.x * b.x + c,   a.x * b.y - s.z, a.x * b.z + s.y),
+                            fdot(p, a.y * b.x + s.z, a.y * b.y + c,   a.y * b.z - s.x),
+                            fdot(p, a.z * b.x - s.y, a.z * b.y + s.x, a.z * b.z + c))
 
     rotateAround = rotate  # alternate name
 
@@ -477,9 +477,9 @@ class Vector3d(VectorBase):
         '''
         if not isscalar(factor):
             raise TypeError('%s not scalar: %r' % ('factor', factor))
-        return self.topsub(self.x * factor,
-                           self.y * factor,
-                           self.z * factor)
+        return self.classof(self.x * factor,
+                            self.y * factor,
+                            self.z * factor)
 
     def to2ll(self):
         '''Convert this vector to (geodetic) lat- and longitude.

@@ -141,6 +141,25 @@ object --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.bases.Base-class.html#classof" class="summary-sig-name">classof</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">*args</span>,
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
+      Instantiate this very class.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.bases.Base-class.html#others" class="summary-sig-name">others</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">other</code><code class="variable-quote">'</code></span>)</span><br />
@@ -181,25 +200,6 @@ object --+
           <td><span class="summary-sig"><a href="pygeodesy.bases.Base-class.html#toStr2" class="summary-sig-name">toStr2</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">**kwds</span>)</span><br />
       (INTERNAL) To be overloaded.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.bases.Base-class.html#topsub" class="summary-sig-name">topsub</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">*args</span>,
-        <span class="summary-sig-arg">**kwds</span>)</span><br />
-      New instance of this &quot;top- or sub-most&quot; class.</td>
           <td align="right" valign="top">
             
             
@@ -326,6 +326,34 @@ object --+
   </dl>
 </td></tr></table>
 </div>
+<a name="classof"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">classof</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">*args</span>,
+        <span class="sig-arg">**kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Instantiate this very class.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>args</code></strong> - Optional, positional arguments.</li>
+        <li><strong class="pname"><code>kwds</code></strong> - Optional, keyword arguments.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>New instance (<i>self.__class__</i>).</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="others"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -349,6 +377,8 @@ object --+
         <li><strong class="pname"><code>other</code></strong> - The other instance (any).</li>
         <li><strong class="pname"><code>name</code></strong> - Optional, name for other (string).</li>
     </ul></dd>
+    <dt>Returns:</dt>
+        <dd>None.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Mismatch of this and type(other).</li>
@@ -401,32 +431,8 @@ object --+
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>kwds</code></strong> - Optional, keyword arguments.</li>
     </ul></dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="topsub"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">topsub</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">*args</span>,
-        <span class="sig-arg">**kwds</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>New instance of this &quot;top- or sub-most&quot; class.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>args</code></strong> - Optional, positional arguments.</li>
-        <li><strong class="pname"><code>kwds</code></strong> - Optional, keyword arguments.</li>
-    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>toStr() plus keyword arguments (string).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -462,7 +468,7 @@ object --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Jun 24 11:31:28 2017
+    Generated by Epydoc 3.0.1 on Tue Jun 27 17:02:48 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

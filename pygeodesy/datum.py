@@ -52,7 +52,7 @@ R_SM = m2SM(R_M)  #: Mean, spherical earth radius (statute miles).
 __all__ = ('R_KM', 'R_M', 'R_NM', 'R_SM',  # constants
            'Datum',  'Ellipsoid',  'Transform',  # classes
            'Datums', 'Ellipsoids', 'Transforms')  # enum-like
-__version__ = '17.06.21'
+__version__ = '17.06.25'
 
 
 class _Enum(dict, Named):
@@ -141,12 +141,12 @@ class Ellipsoid(_Based):
     b    = 0  #: Semi-minor, polar axis (meter): a * (f - 1) / f.
     # pre-computed, frequently used values
     a2   = 0  #: (1 / a**2) (float).
-    a2b2 = 1  #: (a / b)**2 = 1 / (1 - f)**2 (float).
+    ab   = 1  #: (a / b) = 1 / (1 - f) (float).
     e    = 0  #: 1st Eccentricity: sqrt(1 - (b / a)**2)) (float).
     e2   = 0  #: 1st Eccentricity squared: f * (2 - f) = (a**2 - b**2) / a**2 (float).
     e4   = 0  #: e2**2 (float).
     e12  = 1  #: (1 - e2) (float).
-    e22  = 0  #: 2nd Eccentricity squared: e2 / (1 - e2) = a2b2 - 1 (float).
+    e22  = 0  #: 2nd Eccentricity squared: e2 / (1 - e2) = ab**2 - 1 (float).
     f    = 0  #: Flattening: (a - b) / a (float).
     f_   = 0  #: Inverse flattening: a / (a - b) = 1 /f (float).
     n    = 0  #: 3rd Flattening: f / (2 - f) = (a - b) / (a + b) (float).
@@ -188,7 +188,7 @@ class Ellipsoid(_Based):
             self.e  = sqrt(e2)  # eccentricity for utm
             self.e12 = 1 - e2  # for Nvector.Cartesian.toNvector and utm
             self.e22 = e2 / (1 - e2)  # 2nd eccentricity squared
-            self.a2b2 = (a / b) ** 2  # for Nvector.toCartesian
+            self.ab = a / b  # for Nvector.toCartesian
             self.R = (2 * a + b) / 3  # per IUGG definition for WGS84
             self.Rm = sqrt(a * b)  # mean radius
             self.R2 = sqrt((a * a + b * b * atanh(self.e) / self.e) * 0.5)  # authalic radius
@@ -214,10 +214,10 @@ class Ellipsoid(_Based):
         if abs(n - t) > 1e-8:
             raise AssertionError('%s: %s=%.9e vs %s=%.9e' % (name,
                                  'n', n, '(a-b)/(a+b)', t))
-        t = self.a2b2 - 1
+        t = self.ab ** 2 - 1
         if abs(self.e22 - t) > 1e-8:
             raise AssertionError('%s: %s=%.9e vs %s=%.9e' % (name,
-                                 'e22', self.e22, 'a2b2-1', t))
+                                 'e22', self.e22, 'ab**2-1', t))
 
         self._register(Ellipsoids, name)
 
@@ -287,13 +287,13 @@ class Ellipsoid(_Based):
         return sqrt(1 - self.e2 * s * s)
 
     @property
-    def isellipsoidal(self):
+    def isEllipsoidal(self):
         '''Check whether this model is ellipsoidal (bool).
         '''
         return self.a > self.R > self.b
 
     @property
-    def isspherical(self):
+    def isSpherical(self):
         '''Check whether this model is spherical (bool).
         '''
         return self.a == self.R == self.b
@@ -599,16 +599,16 @@ class Datum(_Based):
         return self._ellipsoid
 
     @property
-    def isellipsoidal(self):
+    def isEllipsoidal(self):
         '''Check whether this datum is ellipsoidal (bool).
         '''
-        return self._ellipsoid.isellipsoidal
+        return self._ellipsoid.isEllipsoidal
 
     @property
-    def isspherical(self):
+    def isSpherical(self):
         '''Check whether this datum is spherical (bool).
         '''
-        return self._ellipsoid.isspherical
+        return self._ellipsoid.isSpherical
 
     def toStr(self, **unused):  # PYCHOK expected
         '''Return this datum as a string.

@@ -6,15 +6,18 @@
 # classes, like LatLon.
 
 __all__ = ('Tests',)
-__version__ = '17.06.21'
+__version__ = '17.06.25'
+
+from os.path import basename
 
 from base import TestsBase, type2str
 
 
 class Tests(TestsBase):
 
-    def _subtitle(self, classname, test, unused):
-        self.printf('test%s%s(%s)', classname, test, __version__, nl=1)
+    def _subtitle(self, classname, testing, unused):
+        # can't overload method TestsBase.subtitle
+        self.printf('test%s%s(%s)', classname, testing, __version__, nl=1)
 
     def testAttrs(self, classname, modules, *args, **kwds):
         self._subtitle(classname, 'Attrs', modules)
@@ -23,10 +26,11 @@ class Tests(TestsBase):
             C = getattr(m, classname, None)
             if C:
                 i = C(*args, **kwds)
+                n = basename(m.__name__)
                 for a in dir(i):
-                    if not a.startswith('__'):
+                    if not a.startswith('_'):
                         a += type2str(C, a)
-                        attrs[a] = attrs.get(a, ()) + (m.__name__,)
+                        attrs[a] = attrs.get(a, ()) + (n,)
         for a, m in sorted(attrs.items()):
             m = ', '.join(sorted(m))
             self.test(a, m, m)  # passes always

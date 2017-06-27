@@ -21,7 +21,7 @@ from base import isiOS, PyGeodesy_dir, Python_O, \
           runner, secs2str, tilde, versions  # PYCHOK expected
 
 __all__ = ()
-__version__ = '17.06.23'
+__version__ = '17.06.25'
 
 # command line options
 _failedonly = False
@@ -29,7 +29,7 @@ _raiser     = False
 _results    = False
 _verbose    = False
 
-if __name__ == '__main__':  # MCCABE 25
+if __name__ == '__main__':  # MCCABE 28
 
     def _write(text):
         _results.write(text.encode('utf-8'))
@@ -89,7 +89,7 @@ if __name__ == '__main__':  # MCCABE 25
         print(t)
 
         x, r = runner(arg)
-        X += x  # failures, excl KNOWN ones
+        X += x  # failures, excluding KNOWN ones
 
         if _results:
             _write(NL + t + NL)
@@ -107,8 +107,8 @@ if __name__ == '__main__':  # MCCABE 25
 
         elif _failedonly:
             for t in r.split(NL):
-                # print failures and totals
-                if 'FAILED' in t or 'passed' in t:
+                # print failures, KNOWN ones and totals
+                if 'FAILED,' in t or 'passed' in t:
                     print(t.rstrip())
             print('')
 

@@ -21,7 +21,7 @@ from vector3d import Vector3d, sumOf as _sumOf
 __all__ = ('NorthPole', 'SouthPole',  # constants
            'Nvector',  # classes
            'sumOf')  # functions
-__version__ = '17.06.04'
+__version__ = '17.06.25'
 
 
 class Nvector(Vector3d):  # XXX kept private
@@ -111,16 +111,24 @@ class Nvector(Vector3d):  # XXX kept private
             t = '%s%s%s%+.2f' % (t, sep, self.H, self.h)
         return fmt % (t,)
 
-    def unit(self, h=0):  # PYCHOK expected
-        '''Normalize this vector to unit length.
+    def toVector3d(self):
+        '''Convert this n-vector to a normalized 3-d vector,
+           ignoring the height.
 
-           @keyword h: Optional height (meter).
+           @return: Normalized vector (L{Vector3d}).
+        '''
+        u = self.unit()
+        return Vector3d(u.x, u.y, u.z)
+
+    def unit(self):
+        '''Normalize this vector to unit length.
 
            @return: Normalized vector (L{Nvector}).
         '''
         if self._united is None:
-            u = Vector3d.unit(self).copy()
-            u.h = h
+            u = Vector3d.unit(self)  # .copy()
+            if u.h != self.h:
+                u.h = self.h
             self._united = u._united = u
         return self._united
 
@@ -159,6 +167,7 @@ class LatLonNvectorBase(LatLonHeightBase):
 #       a, b = self.to2ab()
 #       ca = cos(a)
 #       x, y, z = ca * cos(b), ca * sin(b), sin(a)
+        # XXX don't use self.to3xyz() + ....
         return LatLonHeightBase.to3xyz(self) + (self.height,)
 
 

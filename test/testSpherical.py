@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.06.23'
+__version__ = '17.06.25'
 
 from testLatLon import Tests as _TestsLL
 from testVectorial import Tests as _TestsV
@@ -21,12 +21,12 @@ class Tests(_TestsLL, _TestsV):
         LatLon = module.LatLon
 
         p = LatLon(51.8853, 0.2545)
-        self.test('isspherical', p.isspherical, True)
-        self.test('isellipsoidal', p.isellipsoidal, False)
+        self.test('isSpherical', p.isSpherical, True)
+        self.test('isEllipsoidal', p.isEllipsoidal, False)
 
         q = LatLon(49.0034, 2.5735)
-        self.test('isspherical', q.isspherical, True)
-        self.test('isellipsoidal', q.isellipsoidal, False)
+        self.test('isSpherical', q.isSpherical, True)
+        self.test('isEllipsoidal', q.isEllipsoidal, False)
 
         i = p.intersection(108.55, q, 32.44)
         self.test('intersection', i.toStr(F_D),  '50.907608°N, 004.508575°E')  # 50.9076°N, 004.5086°E  # Trig

@@ -23,7 +23,7 @@ from math import acos, atan2, cos, log, sin
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('LatLonSphericalBase',)
-__version__ = '17.06.04'
+__version__ = '17.06.25'
 
 
 class LatLonSphericalBase(LatLonHeightBase):
@@ -49,7 +49,7 @@ class LatLonSphericalBase(LatLonHeightBase):
         '''
         if not isinstance(datum, Datum):
             raise TypeError('%r not a %s: %r' % ('datum', Datum.__name__, datum))
-        if not datum.isspherical:
+        if not datum.isSpherical:
             raise ValueError('%r not %s: %r' % ('datum', 'spherical', datum))
         self._update(datum != self._datum)
         self._datum = datum
@@ -79,16 +79,16 @@ class LatLonSphericalBase(LatLonHeightBase):
         return b  # 0..360
 
     @property
-    def isellipsoidal(self):
+    def isEllipsoidal(self):
         '''Check whether this I{LatLon} is ellipsoidal (bool).
         '''
-        return self.datum.isellipsoidal
+        return self.datum.isEllipsoidal
 
     @property
-    def isspherical(self):
+    def isSpherical(self):
         '''Check whether this I{LatLon} is spherical (bool).
         '''
-        return self.datum.isspherical
+        return self.datum.isSpherical
 
     def maxLat(self, bearing):
         '''Return the maximum latitude reached when travelling
@@ -144,7 +144,7 @@ class LatLonSphericalBase(LatLonHeightBase):
 
            @raise ValueError: Invalid strll.
         '''
-        return self.topsub(*parse3llh(strll, height=height, sep=sep))
+        return self.classof(*parse3llh(strll, height=height, sep=sep))
 
     def _rhumb3(self, other):
         '''(INTERNAL) Rhumb_ helper function.
@@ -227,7 +227,7 @@ class LatLonSphericalBase(LatLonHeightBase):
             b2 = b1
 
         h = self.height if height is None else height
-        return self.topsub(degrees90(a2), degrees180(b2), height=h)
+        return self.classof(degrees90(a2), degrees180(b2), height=h)
 
     def rhumbDistanceTo(self, other, radius=R_M):
         '''Return the distance from this to an other point along
@@ -303,7 +303,7 @@ class LatLonSphericalBase(LatLonHeightBase):
                           b2 * log(f1) + (b2 - b1) * log(f3)) / f
 
         h = self._havg(other) if height is None else height
-        return self.topsub(degrees90(a3), degrees180(b3), height=h)
+        return self.classof(degrees90(a3), degrees180(b3), height=h)
 
 # **) MIT License
 #

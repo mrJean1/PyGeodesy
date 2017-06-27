@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '17.06.23'
+__version__ = '17.06.25'
 
 from base import TestsBase
 
@@ -23,8 +23,8 @@ class Tests(TestsBase):
 
         # basic LatLon class tests
         p = LatLon(52.20472, 0.14056)
-        self.test('isellipsoidal', p.isellipsoidal, not Sph)
-        self.test('isspherical', p.isspherical, Sph)
+        self.test('isEllipsoidal', p.isEllipsoidal, not Sph)
+        self.test('isSpherical', p.isSpherical, Sph)
 
         self.test('lat/lonDMS', p, '52.20472°N, 000.14056°E')  # 52.20472°N, 000.14056°E
         self.test('lat/lonDMS F_DM', p.toStr(F_DM, 3),  '''52°12.283'N, 000°08.434'E''')

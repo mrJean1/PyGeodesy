@@ -35,7 +35,7 @@ from math import asin, atan2, cos, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '17.06.04'
+__version__ = '17.06.25'
 
 
 class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
@@ -216,7 +216,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         # obtain destination point as cartesian
         v = self.toCartesian().plus(dc)  # the plus() gives a plain vector
 
-        return v.toLatLon(datum=self.datum, LatLon=self.topsub)  # Cartesian(v.x, v.y, v.z).toLatLon(...)
+        return v.toLatLon(datum=self.datum, LatLon=self.classof)  # Cartesian(v.x, v.y, v.z).toLatLon(...)
 
 #     def distanceTo(self, other):
 #         '''Compute the distance from this to an other point.
@@ -372,7 +372,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
             h = self._havg(other, f=fraction)
         else:
             h = height
-        return i.toLatLon(height=h, LatLon=self.topsub)  # Nvector(i.x, i.y, i.z).toLatLon(...)
+        return i.toLatLon(height=h, LatLon=self.classof)  # Nvector(i.x, i.y, i.z).toLatLon(...)
 
     def toCartesian(self):
         '''Convert this (geodetic) point to (geocentric x/y/z)
@@ -394,7 +394,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
            >>> p = LatLon(45, 45)
            >>> n = p.toNvector()
-           >>> n.toStr()  # [0.50000, 0.50000, 0.70710]
+           >>> n.toStr()  # [0.50, 0.50, 0.70710]
         '''
         if self._Nv is None:
             x, y, z, h = self.to4xyzh()  # nvector.LatLonNvectorBase
@@ -573,7 +573,7 @@ class Ned(object):
         return fmt % (sep.join('%s:%s' % t for t in zip('LBE', t3)),)
 
     def toVector3d(self):
-        '''Return this NED vector as a Vector3d.
+        '''Return this NED vector as a 3-d vector3.
 
            @return: North, east, down vector (L{Vector3d}).
         '''
@@ -673,20 +673,18 @@ class Nvector(NvectorBase):
 
         x, y, z, h = self.to4xyzh()
         # Kenneth Gade eqn (22)
-        n = E.b / sqrt(z * z + (x * x + y * y) * E.a2b2)
-        r = E.a2b2 * n + h
+        n = E.b / hypot3(x * E.ab, y * E.ab, z)
+        r = E.ab * E.ab * n + h
 
         return Cartesian(x * r, y * r, z * (n + h))
 
-    def unit(self, h=0):  # PYCHOK expected
+    def unit(self):
         '''Normalize this vector to unit length.
-
-           @keyword h: Optional height (meter).
 
            @return: Normalised vector (L{Nvector}).
         '''
         if self._united is None:
-            u = NvectorBase.unit(self, h=h)
+            u = NvectorBase.unit(self)
             if u.datum != self.datum:
                 u._datum = self.datum
 #           self._united = u._united = u

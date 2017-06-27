@@ -19,7 +19,7 @@ from math import asin, cos, degrees, radians, sin
 # Epydoc to include class and method documentation
 __all__ = ('Base', 'LatLonHeightBase', 'Named', 'VectorBase',
            'isclockwise', 'isconvex')
-__version__ = '17.06.04'
+__version__ = '17.06.25'
 
 
 class Base(object):
@@ -52,6 +52,16 @@ class Base(object):
             pass
         return n
 
+    def classof(self, *args, **kwds):
+        '''Instantiate this very class.
+
+           @param args: Optional, positional arguments.
+           @keyword kwds: Optional, keyword arguments.
+
+           @return: New instance (I{self.__class__}).
+        '''
+        return self.__class__(*args, **kwds)
+
 #   def notImplemented(self, attr):
 #       '''Raise error for a missing method, function or attribute.
 #
@@ -68,20 +78,14 @@ class Base(object):
            @param other: The other instance (any).
            @keyword name: Optional, name for other (string).
 
+           @return: None.
+
            @raise TypeError: Mismatch of this and type(other).
         '''
         if not (isinstance(self, other.__class__) or
                 isinstance(other, self.__class__)):
             raise TypeError('type(%s) mismatch: %s vs %s' % (name,
                              self.classname(other), self.classname()))
-
-    def topsub(self, *args, **kwds):
-        '''New instance of this "top- or sub-most" class.
-
-           @param args: Optional, positional arguments.
-           @keyword kwds: Optional, keyword arguments.
-        '''
-        return self.__class__(*args, **kwds)
 
     def toStr(self, **args):
         '''(INTERNAL) Must be overloaded.
@@ -94,6 +98,8 @@ class Base(object):
         '''(INTERNAL) To be overloaded.
 
            @keyword kwds: Optional, keyword arguments.
+
+           @return: toStr() plus keyword arguments (string).
         '''
         t = self.toStr(**kwds).lstrip('([{').rstrip('}])')
         return '%s(%s)' % (self.__class__.__name__, t)
@@ -175,15 +181,15 @@ class LatLonHeightBase(Base):
             w = 0  # XXX
         h = abs(degrees(high * 0.5 / radius))
 
-        return self.topsub(self.lat - h, self.lon - w, height=self.height), \
-               self.topsub(self.lat + h, self.lon + w, height=self.height)
+        return self.classof(self.lat - h, self.lon - w, height=self.height), \
+               self.classof(self.lat + h, self.lon + w, height=self.height)
 
     def copy(self):
         '''Copy this point.
 
            @return: A copy of this point (I{LatLon}).
         '''
-        return self.topsub(self.lat, self.lon, height=self.height)  # XXX
+        return self.classof(self.lat, self.lon, height=self.height)  # XXX
 
     def equals(self, other, eps=None):
         '''Compare this point with an other point.
@@ -299,11 +305,11 @@ class LatLonHeightBase(Base):
         return self.lat, self.lon, self.height
 
     def to3xyz(self):
-        '''Convert this (geodetic) point to n-vector (normal
+        '''Convert this (geodetic) point to (n-)vector (normal
            to the earth's surface) x/y/z components, ignoring
            the height.
 
-           @return: 3-Tuple (x, y, z) in (meter).
+           @return: 3-Tuple (x, y, z) in (units, NOT meter).
         '''
         # Kenneth Gade eqn 3, but using right-handed
         # vector x -> 0°E,0°N, y -> 90°E,0°N, z -> 90°N

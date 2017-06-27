@@ -25,7 +25,7 @@ __all__ = ('LatLon',  # classes
            'areaOf',  # functions
            'intersection', 'isPoleEnclosedBy',
            'meanOf')
-__version__ = '17.06.04'
+__version__ = '17.06.25'
 
 
 class LatLon(LatLonSphericalBase):
@@ -177,7 +177,7 @@ class LatLon(LatLonSphericalBase):
 
         a, b = _destination2(a, b, r, t)
         h = self.height if height is None else height
-        return self.topsub(a, b, height=h)
+        return self.classof(a, b, height=h)
 
     def distanceTo(self, other, radius=R_M):
         '''Compute the distance from this to an other point.
@@ -317,7 +317,7 @@ class LatLon(LatLonSphericalBase):
             h = self._havg(other, f=fraction)
         else:
             h = height
-        return self.topsub(degrees90(a), degrees180(b), height=h)
+        return self.classof(degrees90(a), degrees180(b), height=h)
 
     def intersection(self, bearing, start2, bearing2, height=None):
         '''Locate the intersection of two paths each defined by
@@ -343,7 +343,7 @@ class LatLon(LatLonSphericalBase):
            >>> i = p.intersection(108.547, s, 32.435)  # '50.9078°N, 004.5084°E'
         '''
         return intersection(self, bearing, start2, bearing2,
-                                  height=height, LatLon=self.topsub)
+                                  height=height, LatLon=self.classof)
 
     def isEnclosedBy(self, points):
         '''Test whether this point is enclosed by the polygon defined
@@ -431,7 +431,7 @@ class LatLon(LatLonSphericalBase):
             h = self._havg(other)
         else:
             h = height
-        return self.topsub(degrees90(a), degrees180(b), height=h)
+        return self.classof(degrees90(a), degrees180(b), height=h)
 
     def toVector3d(self):
         '''Convert this point to a vector normal to earth's surface.
@@ -628,7 +628,7 @@ def meanOf(points, height=None, LatLon=LatLon):
     # geographic mean
     n, points = _Trll.points(points, closed=False)
 
-    m = sumOf(p.Vector3d() for p in points)
+    m = sumOf(p.toVector3d() for p in points)
     a, b = m.to2ll()
 
     if height is None:

@@ -24,7 +24,7 @@ from pygeodesy import version as PyGeodesy_version, \
 __all__ = ('isiOS', 'PyGeodesy_dir', 'Python_O',  # constants
            'TestsBase',
            'runner', 'secs2str', 'tilde', 'type2str', 'versions')
-__version__ = '17.06.23'
+__version__ = '17.06.25'
 
 try:
     _int = int, long
@@ -60,7 +60,7 @@ class TestsBase(object):
 
     def __init__(self, testfile, version, module=None):
         if not self._versions:  # get versions once
-            _ = versions()  # PYCHOK expected
+            TestsBase._versions = versions()
         self._file = testfile
         self._name = basename(testfile)
         self.title(self._name, version, module=module)
@@ -99,12 +99,12 @@ class TestsBase(object):
         r = '%s (%s) %s' % (r, self._versions, secs2str(s))
         self.printf('%s %s test%s %s', n, self._name, p, r, nl=nl)
 
-    def subtitle(self, module, test='ing', **kwds):
+    def subtitle(self, module, testing='ing', **kwds):
         '''Print the subtitle of a test suite.
         '''
         t = (basename(module.__name__), module.__version__) + \
-            tuple('%s=%s' % t for t in sorted(kwds.items()))
-        self.printf('test%s(%s)', test, ', '.join(t), nl=1)
+             tuple('%s=%s' % t for t in sorted(kwds.items()))
+        self.printf('test%s(%s)', testing, ', '.join(t), nl=1)
 
     def test(self, name, value, expect, fmt='%s', known=False):
         '''Compare a test value with the expected one.
@@ -162,7 +162,10 @@ def type2str(obj, attr):
     elif ismethod(t):
         t = '() method'
     elif isfunction(t):
-        t = '() function'
+        if isclass(obj):
+            t = '() method'
+        else:
+            t = '() function'
     elif isinstance(t, _int):
         t = ' int'
     elif ismodule(t):
@@ -177,63 +180,62 @@ def type2str(obj, attr):
 
 
 def versions():
-    '''Get pygeodesy, Python version, size, OS name and release.
+    '''Get pygeodesy, Python versions, size, OS name and release.
     '''
-    if not TestsBase._versions:
-        vs = 'PyGeodesy', PyGeodesy_version, \
-             'Python', sys.version.split()[0], architecture()[0]
+    vs = 'PyGeodesy', PyGeodesy_version, \
+         'Python', sys.version.split()[0], architecture()[0]
 
-        xOS = 'iOS' if isiOS else 'macOS'
-        # mac_ver() returns ('10.12.5', ..., 'x86_64') on
-        # macOS and ('10.3.2', ..., 'iPad4,2') on iOS and
-        # platform() returns 'Darwin-16.6.0-x86_64-i386-64bit'
-        # on macOS and 'Darwin-16.6.0-iPad4,2-64bit' on iOS
-        # and sys.platform is 'darwin' on macOS and 'ios' on iOS
-        for t, r in ((xOS,       mac_ver),
-                     ('Windows', win32_ver),
-                     ('Java',    java_ver),
-                     ('uname',   uname)):
-            r = r()[0]
-            if r:
-                vs += t, r
-                break
+    xOS = 'iOS' if isiOS else 'macOS'
+    # - mac_ver() returns ('10.12.5', ..., 'x86_64') on
+    #   macOS and ('10.3.2', ..., 'iPad4,2') on iOS
+    # - platform() returns 'Darwin-16.6.0-x86_64-i386-64bit'
+    #   on macOS and 'Darwin-16.6.0-iPad4,2-64bit' on iOS
+    # - sys.platform is 'darwin' on macOS and 'ios' on iOS
+    for t, r in ((xOS,       mac_ver),
+                 ('Windows', win32_ver),
+                 ('Java',    java_ver),
+                 ('uname',   uname)):
+        r = r()[0]
+        if r:
+            vs += t, r
+            break
 
-        TestsBase._versions = ' '.join(vs)
-    return TestsBase._versions
+    return ' '.join(vs)
 
 
-if isiOS:  # MCCABE 14
+if isiOS:
 
-    from runpy import run_path
-    try:
+    try:  # prefer StringIO over io
         from StringIO import StringIO
     except ImportError:  # Python 3+
         from io import StringIO
+    from runpy import run_path
     from traceback import format_exception
 
     def runner(test):
         '''Invoke one test module and return
            the exit status and console output.
         '''
-        # mimick partial behavior of function run
-        # further below because subprocess.Popen
-        # in Pythonista on iOS is not available.
-        x = None  # no exception
+        # mimick partial behavior of function runner
+        # further below because subprocess.Popen is
+        # not available on iOS/Pythonista/Python.
+
+        x = None  # no exit, no exception
 
         sys3 = sys.argv, sys.stdout, sys.stderr
         sys.stdout = sys.stderr = std = StringIO()
         try:
             sys.argv = [test]
             run_path(test, run_name='__main__')
-        except:  # PYCHOK must on Pythonista
+        except:  # PYCHOK have to on Pythonista
             x = sys.exc_info()
             if x[0] is SystemExit:
                 x = x[1].code  # exit status
             else:  # append traceback
-                x = [_ for _ in format_exception(*x)  # PYCHOK expected
-                             if 'runpy.py", line' not in _]
-                print(''.join(map(tilde, x)).strip())
-                x = 1
+                x = [t for t in format_exception(*x)
+                             if 'runpy.py", line' not in t]
+                print(''.join(map(tilde, x)).rstrip())
+                x = 1  # count as a failure
         sys.argv, sys.stdout, sys.stderr = sys3
 
         r = std.getvalue()
@@ -243,9 +245,8 @@ if isiOS:  # MCCABE 14
         std.close()
         std = None  # del std
 
-        if x is None:  # no exception or exit,
-            # get the number of failed tests
-            # but exclude any KNOWN failures
+        if x is None:  # no exit or exception, count
+            # failed tests excluding KNOWN ones
             x = r.count('FAILED, expected')
         return x, r
 
