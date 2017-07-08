@@ -1,4 +1,4 @@
-test/run.py typical test results (PyGeodesy 17.6.25 Python 2.6.9 64bit macOS 10.12.5)
+test/run.py typical test results (PyGeodesy 17.7.7 Python 2.6.9 64bit macOS 10.12.5)
 
 running /usr/bin/python2.6 ~/PyGeodesy/test/testBases.py
 
@@ -10,7 +10,7 @@ running /usr/bin/python2.6 ~/PyGeodesy/test/testBases.py
     test 5 toStr: 51.4778°N, 000.0016°W
     test 6 precision: 0
     test 7 toStr: 51°28′40″N, 000°00′06″W, +42.00m
-    all testBases.py tests passed (PyGeodesy 17.6.25 Python 2.6.9 64bit macOS 10.12.5) 385.046 us
+    all testBases.py tests passed (PyGeodesy 17.7.7 Python 2.6.9 64bit macOS 10.12.5) 316.858 us
 
 running /usr/bin/python2.6 ~/PyGeodesy/test/testClasses.py
 
@@ -195,7 +195,7 @@ running /usr/bin/python2.6 ~/PyGeodesy/test/testClasses.py
     test 162 pygeodesy.nvector: pygeodesy.vector3d.Vector3d, pygeodesy.bases.Base
     test 163 pygeodesy.vector3d: pygeodesy.vector3d.Vector3d, pygeodesy.bases.Base
 
-    all testClasses.py tests passed (PyGeodesy 17.6.25 Python 2.6.9 64bit macOS 10.12.5) 5.171 ms
+    all testClasses.py tests passed (PyGeodesy 17.7.7 Python 2.6.9 64bit macOS 10.12.5) 6.753 ms
 
 running /usr/bin/python2.6 ~/PyGeodesy/test/testDatum.py
 
@@ -212,7 +212,7 @@ running /usr/bin/python2.6 ~/PyGeodesy/test/testDatum.py
     test 10 WGS84: A=6367449.1458234154, e=0.0818191908, f_=298.2572235630, n=0.0016792204(-3.7914875232e-13)
     test 11 WGS84: Alpha6=(0, 8.377318206245e-04, 7.608527773572e-07, 1.197645503329e-09, 2.429170607201e-12, 5.711757677866e-15, 1.491117731258e-17)
     test 12 WGS84: Beta6=(0, 8.377321640579e-04, 5.905870152220e-08, 1.673482665284e-1, 2.164798040063e-13, 3.787978046169e-16, 7.248748890694e-19)
-    all testDatum.py tests passed (PyGeodesy 17.6.25 Python 2.6.9 64bit macOS 10.12.5) 1.542 ms
+    all testDatum.py tests passed (PyGeodesy 17.7.7 Python 2.6.9 64bit macOS 10.12.5) 1.457 ms
 
 running /usr/bin/python2.6 ~/PyGeodesy/test/testDms.py
 
@@ -271,7 +271,7 @@ running /usr/bin/python2.6 ~/PyGeodesy/test/testDms.py
     test 52 compassPoint: NWbW
     test 53 compassPoint: NWbN
     test 54 compassPoint: NbW
-    all testDms.py tests passed (PyGeodesy 17.6.25 Python 2.6.9 64bit macOS 10.12.5) 838.995 us
+    all testDms.py tests passed (PyGeodesy 17.7.7 Python 2.6.9 64bit macOS 10.12.5) 864.029 us
 
 running /usr/bin/python2.6 ~/PyGeodesy/test/testEllipsoidal.py
 
@@ -433,77 +433,81 @@ running /usr/bin/python2.6 ~/PyGeodesy/test/testEllipsoidal.py
     test 141 NOAAexample3: 123456.7891, 245 00 34.7001, 64 20 24.6864
     test 142 NOAAexample4: 145239.0603, 114 29 26.9586, 295 21 32.6566
 
-    all testEllipsoidal.py tests passed (PyGeodesy 17.6.25 Python 2.6.9 64bit macOS 10.12.5) 6.634 ms
+    all testEllipsoidal.py tests passed (PyGeodesy 17.7.7 Python 2.6.9 64bit macOS 10.12.5) 12.140 ms
 
 running /usr/bin/python2.6 ~/PyGeodesy/test/testGeohash.py
 
-    testing testGeohash.py 17.06.23 (module pygeodesy.geohash 17.06.04)
+    testing testGeohash.py 17.07.07 (module pygeodesy.geohash 17.07.07)
     test 1 Geohash: Geohash('geek')
     test 2 Geohash: geek
     test 3 Geohash: geek
     test 4 bounds: (LatLon(65°23′26.25″N, 017°55′46.88″W), LatLon(65°33′59.06″N, 017°34′41.25″W))
     test 5 toLatLon: 65.478516°N, 017.753906°W
-    test 6 latlon: (65.478515625, -17.75390625)
-    test 7 Geohash: geehpbpbp
-    test 8 latlon: (65.390625, -17.929689)
+    test 6 latlon: 65.47851562, -17.75390625
+    test 7 ab: 1.14281569, -0.30986412
+    test 8 Geohash: geehpbpbp
     test 9 toLatLon: 65.390625°N, 017.929689°W
-    test 10 decode: ('65.390646', '-17.929709')
-    test 11 decode_error: (2.1457672119140625e-05, 2.1457672119140625e-05)
-    test 12 distance1: 2758.887
-    test 13 distance2: 676.254
-    test 14 distance3: 397.404
-    test 15 encode-decode: u120fxw
-    test 16 encode-decode: geek
-    test 17 encode-decode: fur
-    test 18 encode-decode: geehpbpbp
-    test 19 encode-decode: u4pruydqqvj8
-    test 20 encode-decode: bgr96qxvpd46
-    test 21 encode-decode: 0123456789
-    test 22 encode-decode: zzzzzz
-    test 23 Geohash: u4pruydq
-    test 24 N.E.S.W: True
-    test 25 E.S.W.N: True
-    test 26 S.W.N.E: True
-    test 27 W.N.E.S: True
-    test 28 N.E.S.S.W.W.N.N.E.S: True
-    test 29 Geohash: u4pruydqq
-    test 30 N.E.S.W: True
-    test 31 E.S.W.N: True
-    test 32 S.W.N.E: True
-    test 33 W.N.E.S: True
-    test 34 N.E.S.S.W.W.N.N.E.S: True
-    test 35 Geohash: u4pruydqqv
-    test 36 N.E.S.W: True
-    test 37 E.S.W.N: True
-    test 38 S.W.N.E: True
-    test 39 W.N.E.S: True
-    test 40 N.E.S.S.W.W.N.N.E.S: True
-    test 41 Geohash: u4pruydqqvj
-    test 42 N.E.S.W: True
-    test 43 E.S.W.N: True
-    test 44 S.W.N.E: True
-    test 45 W.N.E.S: True
-    test 46 N.E.S.S.W.W.N.N.E.S: True
-    test 47 Geohash: u4pruydqqvj8
-    test 48 N.E.S.W: True
-    test 49 E.S.W.N: True
-    test 50 S.W.N.E: True
-    test 51 W.N.E.S: True
-    test 52 N.E.S.S.W.W.N.N.E.S: True
-    test 53 encode: u120fxw
-    test 54 decode: ('52.205', '0.1188')
-    test 55 decode_error: (0.0006866455078125, 0.0006866455078125)
-    test 56 distance1: 486.71
-    test 57 distance2: 3.374
-    test 58 distance3: 2.798
-    test 59 encode: fur
-    test 60 decode: ('69.6', '-45.7')
-    test 61 decode: ('70.3', '-51')
-    test 62 decode: ('68', '-68')
-    test 63 decode_error: (0.703125, 0.703125)
-    test 64 decode_error: (2.8125, 5.625)
-    test 65 decode_error: (22.5, 22.5)
-    all testGeohash.py tests passed (PyGeodesy 17.6.25 Python 2.6.9 64bit macOS 10.12.5) 8.587 ms
+    test 10 latlon: 65.390625, -17.929689
+    test 11 ab: 1.14128171, -0.31293211
+    test 12 decode: ('65.390646', '-17.929709')
+    test 13 decode_error: 2.145767e-05, 2.145767e-05
+    test 14 distance1: 2758.887
+    test 15 distance2: 676.254
+    test 16 distance3: 397.404
+    test 17 sizes: (19.100000000000001, 38.200000000000003)  FAILED, expected (19.1, 38.2)
+    test 18 encode-decode: u120fxw
+    test 19 encode-decode: geek
+    test 20 encode-decode: fur
+    test 21 encode-decode: geehpbpbp
+    test 22 encode-decode: u4pruydqqvj8
+    test 23 encode-decode: bgr96qxvpd46
+    test 24 encode-decode: 0123456789
+    test 25 encode-decode: zzzzzz
+    test 26 Geohash: u4pruydq
+    test 27 N.E.S.W: True
+    test 28 E.S.W.N: True
+    test 29 S.W.N.E: True
+    test 30 W.N.E.S: True
+    test 31 N.E.S.S.W.W.N.N.E.S: True
+    test 32 Geohash: u4pruydqq
+    test 33 N.E.S.W: True
+    test 34 E.S.W.N: True
+    test 35 S.W.N.E: True
+    test 36 W.N.E.S: True
+    test 37 N.E.S.S.W.W.N.N.E.S: True
+    test 38 Geohash: u4pruydqqv
+    test 39 N.E.S.W: True
+    test 40 E.S.W.N: True
+    test 41 S.W.N.E: True
+    test 42 W.N.E.S: True
+    test 43 N.E.S.S.W.W.N.N.E.S: True
+    test 44 Geohash: u4pruydqqvj
+    test 45 N.E.S.W: True
+    test 46 E.S.W.N: True
+    test 47 S.W.N.E: True
+    test 48 W.N.E.S: True
+    test 49 N.E.S.S.W.W.N.N.E.S: True
+    test 50 Geohash: u4pruydqqvj8
+    test 51 N.E.S.W: True
+    test 52 E.S.W.N: True
+    test 53 S.W.N.E: True
+    test 54 W.N.E.S: True
+    test 55 N.E.S.S.W.W.N.N.E.S: True
+    test 56 encode: u120fxw
+    test 57 decode: ('52.205', '0.1188')
+    test 58 decode_error: 6.866455e-04, 6.866455e-04
+    test 59 distance1: 486.71
+    test 60 distance2: 3.374
+    test 61 distance3: 2.798
+    test 62 sizes: (610.0, 1220.0)
+    test 63 encode: fur
+    test 64 decode: ('69.6', '-45.7')
+    test 65 decode: ('70.3', '-51')
+    test 66 decode: ('68', '-68')
+    test 67 decode_error: (0.703125, 0.703125)
+    test 68 decode_error: (2.8125, 5.625)
+    test 69 decode_error: (22.5, 22.5)
+    1 testGeohash.py test (1.4%) FAILED (PyGeodesy 17.7.7 Python 2.6.9 64bit macOS 10.12.5) 8.074 ms
 
 running /usr/bin/python2.6 ~/PyGeodesy/test/testGreatCircle.py
 
@@ -571,7 +575,7 @@ running /usr/bin/python2.6 ~/PyGeodesy/test/testGreatCircle.py
     test 57 CrossTrackDistance200m+270°: -200.0
     test 58 CrossTrackDistanceCloseToZero: 0.0000000
 
-    10 testGreatCircle.py tests (17.2%) FAILED, incl. 10 KNOWN (PyGeodesy 17.6.25 Python 2.6.9 64bit macOS 10.12.5) 7.433 ms
+    10 testGreatCircle.py tests (17.2%) FAILED, incl. 10 KNOWN (PyGeodesy 17.7.7 Python 2.6.9 64bit macOS 10.12.5) 3.948 ms
 
 running /usr/bin/python2.6 ~/PyGeodesy/test/testLatLon.py
 
@@ -724,7 +728,7 @@ running /usr/bin/python2.6 ~/PyGeodesy/test/testLatLon.py
     test 138 isconvex: True
     test 139 isconvex: too few points: 2
 
-    all testLatLon.py tests passed (PyGeodesy 17.6.25 Python 2.6.9 64bit macOS 10.12.5) 8.481 ms
+    all testLatLon.py tests passed (PyGeodesy 17.7.7 Python 2.6.9 64bit macOS 10.12.5) 6.127 ms
 
 running /usr/bin/python2.6 ~/PyGeodesy/test/testLcc.py
 
@@ -984,7 +988,7 @@ running /usr/bin/python2.6 ~/PyGeodesy/test/testLcc.py
     testConic(pygeodesy.ellipsoidalVincenty, 17.06.25)
     test 246 SnyderV: name='SnyderV', lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27)
 
-    all testLcc.py tests passed (PyGeodesy 17.6.25 Python 2.6.9 64bit macOS 10.12.5) 13.363 ms
+    all testLcc.py tests passed (PyGeodesy 17.7.7 Python 2.6.9 64bit macOS 10.12.5) 21.802 ms
 
 running /usr/bin/python2.6 ~/PyGeodesy/test/testMgrs.py
 
@@ -1005,13 +1009,13 @@ running /usr/bin/python2.6 ~/PyGeodesy/test/testMgrs.py
     test 14 toUtm(76.0°N, 013.0°E).toMgrs: 33X VE 45999 36099
     test 15 toUtm(76.0°N, 025.0°E).toMgrs: 35X ME 45999 36099
     test 16 toUtm(76.0°N, 037.0°E).toMgrs: 37X DE 45999 36099
-    all testMgrs.py tests passed (PyGeodesy 17.6.25 Python 2.6.9 64bit macOS 10.12.5) 3.131 ms
+    all testMgrs.py tests passed (PyGeodesy 17.7.7 Python 2.6.9 64bit macOS 10.12.5) 2.078 ms
 
 running /usr/bin/python2.6 ~/PyGeodesy/test/testModules.py
 
     testing testModules.py 17.06.23
 
-    testModule(pygeodesy, 17.06.25)
+    testModule(pygeodesy, 17.07.07)
     test 1 pygeodesy.Conic() class (pygeodesy.lcc): True
     test 2 pygeodesy.Conics attribute (pygeodesy.datum): True
     test 3 pygeodesy.Datum() class (pygeodesy.datum): True
@@ -1284,7 +1288,7 @@ running /usr/bin/python2.6 ~/PyGeodesy/test/testModules.py
     test 242 utils.wrapPI2() function: True
     test 243 utils.wrapPI_2() function: True
 
-    all testModules.py tests passed (PyGeodesy 17.6.25 Python 2.6.9 64bit macOS 10.12.5) 3.691 ms
+    all testModules.py tests passed (PyGeodesy 17.7.7 Python 2.6.9 64bit macOS 10.12.5) 2.971 ms
 
 running /usr/bin/python2.6 ~/PyGeodesy/test/testNavlabExamples.py
 
@@ -1315,7 +1319,7 @@ running /usr/bin/python2.6 ~/PyGeodesy/test/testNavlabExamples.py
     test 24 Example 8 destination(elVincenty): 79.991584°N, 090.017621°W
     test 25 Example 9 intersection: 40.318643°N, 055.901868°E
     test 26 Example 10 crossTrackDistance: 11118
-    1 testNavlabExamples.py test (3.8%) FAILED, incl. 1 KNOWN (PyGeodesy 17.6.25 Python 2.6.9 64bit macOS 10.12.5) 4.082 ms
+    1 testNavlabExamples.py test (3.8%) FAILED, incl. 1 KNOWN (PyGeodesy 17.7.7 Python 2.6.9 64bit macOS 10.12.5) 2.656 ms
 
 running /usr/bin/python2.6 ~/PyGeodesy/test/testOsgr.py
 
@@ -1344,43 +1348,43 @@ running /usr/bin/python2.6 ~/PyGeodesy/test/testOsgr.py
     test 22 OSGR5: 651409,313177
     test 23 OSGR5: [OSGR:651409.000,313177.000]
     test 24 OSGR6: 651409,313177
-    6 testOsgr.py tests (25.0%) FAILED, incl. 6 KNOWN (PyGeodesy 17.6.25 Python 2.6.9 64bit macOS 10.12.5) 2.869 ms
+    6 testOsgr.py tests (25.0%) FAILED, incl. 6 KNOWN (PyGeodesy 17.7.7 Python 2.6.9 64bit macOS 10.12.5) 1.553 ms
 
 running /usr/bin/python2.6 ~/PyGeodesy/test/testRoutes.py
 
     testing testRoutes.py 17.06.21
-    all testRoutes.py tests passed (PyGeodesy 17.6.25 Python 2.6.9 64bit macOS 10.12.5) 6.914 us
+    all testRoutes.py tests passed (PyGeodesy 17.7.7 Python 2.6.9 64bit macOS 10.12.5) 5.007 us
 
 running /usr/bin/python2.6 ~/PyGeodesy/test/testSimplify.py
 
     testing testSimplify.py 17.06.23 (module pygeodesy.simplify 17.06.04)
-    test 1 simplify1(16614, adjust=True) 1m (71.649 ms): 16597
+    test 1 simplify1(16614, adjust=True) 1m (65.345 ms): 16597
     
-    test 2 simplify2(16614, adjust=True, shortest=False) 1m (2.079 sec): 8239
+    test 2 simplify2(16614, adjust=True, shortest=False) 1m (1.953 sec): 8239
     
-    test 3 simplify2(16614, adjust=True, shortest=True) 1m (1.252 sec): 8247
+    test 3 simplify2(16614, adjust=True, shortest=True) 1m (1.237 sec): 8247
     
-    test 4 simplifyVWm(16614, adjust=True) 1m (145.804 ms): 16488
+    test 4 simplifyVWm(16614, adjust=True) 1m (215.665 ms): 16488
     
-    test 5 simplifyVWm(16614, adjust=False) 1m (121.604 ms): 16490
+    test 5 simplifyVWm(16614, adjust=False) 1m (136.938 ms): 16490
     
-    test 6 simplifyRDPm(16614, adjust=True, shortest=False) 1m (2.116 sec): 16196
+    test 6 simplifyRDPm(16614, adjust=True, shortest=False) 1m (2.043 sec): 16196
     
-    test 7 simplifyRDPm(16614, adjust=True, shortest=True) 1m (1.714 sec): 16201
+    test 7 simplifyRDPm(16614, adjust=True, shortest=True) 1m (2.314 sec): 16201
     
-    test 8 simplifyVW(1661, adjust=True) 1m (20.618 ms): 1657
+    test 8 simplifyVW(1661, adjust=True) 1m (26.498 ms): 1657
     
-    test 9 simplifyVW(1661, adjust=False) 1m (12.696 ms): 1657
+    test 9 simplifyVW(1661, adjust=False) 1m (20.658 ms): 1657
     
-    test 10 simplifyRDP(1661, adjust=True, shortest=False) 1m (4.860 sec): 1660
+    test 10 simplifyRDP(1661, adjust=True, shortest=False) 1m (5.645 sec): 1660
     
-    test 11 simplifyRDP(1661, adjust=True, shortest=True) 1m (5.185 sec): 1661
+    test 11 simplifyRDP(1661, adjust=True, shortest=True) 1m (5.280 sec): 1661
     
     test 12 simplifyVW(69, adjust=False) 1m (483.990 us): 69
     
-    test 13 simplifyRDP(69, adjust=False, shortest=False) 1m (3.774 ms): 68
+    test 13 simplifyRDP(69, adjust=False, shortest=False) 1m (3.747 ms): 68
     
-    all testSimplify.py tests passed (PyGeodesy 17.6.25 Python 2.6.9 64bit macOS 10.12.5) 17.585 sec
+    all testSimplify.py tests passed (PyGeodesy 17.7.7 Python 2.6.9 64bit macOS 10.12.5) 18.943 sec
 
 running /usr/bin/python2.6 ~/PyGeodesy/test/testSpherical.py
 
@@ -1559,7 +1563,7 @@ running /usr/bin/python2.6 ~/PyGeodesy/test/testSpherical.py
     test 162 isPoleEnclosedBy: True
     test 163 isPoleEnclosedBy: False  FAILED, KNOWN, expected True
 
-    1 testSpherical.py test (0.6%) FAILED, incl. 1 KNOWN (PyGeodesy 17.6.25 Python 2.6.9 64bit macOS 10.12.5) 7.765 ms
+    1 testSpherical.py test (0.6%) FAILED, incl. 1 KNOWN (PyGeodesy 17.7.7 Python 2.6.9 64bit macOS 10.12.5) 7.731 ms
 
 running /usr/bin/python2.6 ~/PyGeodesy/test/testUtm.py
 
@@ -1610,7 +1614,7 @@ running /usr/bin/python2.6 ~/PyGeodesy/test/testUtm.py
     test 44 toUtm(76.0°N, 025.0°E): 35X N 446000 8436100
     test 45 toUtm(76.0°N, 031.0°E): 35X N 607943 8438843
     test 46 toUtm(76.0°N, 037.0°E): 37X N 446000 8436100
-    all testUtm.py tests passed (PyGeodesy 17.6.25 Python 2.6.9 64bit macOS 10.12.5) 4.406 ms
+    all testUtm.py tests passed (PyGeodesy 17.7.7 Python 2.6.9 64bit macOS 10.12.5) 4.412 ms
 
 running /usr/bin/python2.6 ~/PyGeodesy/test/testVectorial.py
 
@@ -1659,6 +1663,6 @@ running /usr/bin/python2.6 ~/PyGeodesy/test/testVectorial.py
     test 38 triangulate: 47.323667°N, 002.568501°W
     test 39 triangulate: True
 
-    all testVectorial.py tests passed (PyGeodesy 17.6.25 Python 2.6.9 64bit macOS 10.12.5) 2.264 ms
+    all testVectorial.py tests passed (PyGeodesy 17.7.7 Python 2.6.9 64bit macOS 10.12.5) 2.245 ms
 
-test/run.py /usr/bin/python2.6 all 1456 tests OK (PyGeodesy 17.6.25 Python 2.6.9 64bit macOS 10.12.5) 20.046 sec
+test/run.py /usr/bin/python2.6 1 FAILED (PyGeodesy 17.7.7 Python 2.6.9 64bit macOS 10.12.5) 21.368 sec

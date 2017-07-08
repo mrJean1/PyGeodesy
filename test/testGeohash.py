@@ -4,11 +4,11 @@
 # Test geohash module.
 
 __all__ = ('Tests',)
-__version__ = '17.06.23'
+__version__ = '17.07.07'
 
 from base import TestsBase
 
-from pygeodesy import geohash, Geohash, ellipsoidalVincenty
+from pygeodesy import fStr, geohash, Geohash, ellipsoidalVincenty
 
 
 class Tests(TestsBase):
@@ -23,17 +23,20 @@ class Tests(TestsBase):
         self.test('Geohash', Geohash(g), 'geek')
         self.test('bounds', g.bounds(LL), '(LatLon(65°23′26.25″N, 017°55′46.88″W), LatLon(65°33′59.06″N, 017°34′41.25″W))')
         self.test('toLatLon', g.toLatLon(LL), '65.478516°N, 017.753906°W')
-        self.test('latlon', g.latlon, '(65.478515625, -17.75390625)')
+        self.test('latlon', fStr(g.latlon, prec=8), '65.47851562, -17.75390625')
+        self.test('ab', fStr(g.ab, prec=8), '1.14281569, -0.30986412')
 
         g = Geohash(LL(65.390625, -17.929689), precision=9)
         self.test('Geohash', g, 'geehpbpbp')
-        self.test('latlon', g.latlon, '(65.390625, -17.929689)')
         self.test('toLatLon', g.toLatLon(LL), '65.390625°N, 017.929689°W')
+        self.test('latlon', fStr(g.latlon, prec=8), '65.390625, -17.929689')
+        self.test('ab', fStr(g.ab, prec=8), '1.14128171, -0.31293211')
         self.test('decode', geohash.decode(g), "('65.390646', '-17.929709')")
-        self.test('decode_error', geohash.decode_error(g), '(2.1457672119140625e-05, 2.1457672119140625e-05)')
+        self.test('decode_error', fStr(geohash.decode_error(g), fmt='%*e'), '2.145767e-05, 2.145767e-05')
         self.test('distance1', round(g.distance1('geehpb'), 3), '2758.887')
         self.test('distance2', round(g.distance2('geehpb'), 3), '676.254')
         self.test('distance3', round(g.distance3('geehpb'), 3), '397.404')
+        self.test('sizes', g.sizes, '(19.1, 38.2)')
 
         for g in ('u120fxw', 'geek', 'fur', 'geehpbpbp', 'u4pruydqqvj8', 'bgr96qxvpd46', '0123456789', 'zzzzzz'):
             self.test('encode-decode', geohash.encode(*geohash.decode(g)), g)
@@ -49,10 +52,11 @@ class Tests(TestsBase):
 
         self.test('encode', geohash.encode(52.205, 0.1188), 'u120fxw')
         self.test('decode', geohash.decode('u120fxw'), "('52.205', '0.1188')")
-        self.test('decode_error', geohash.decode_error('u120fxw'), '(0.0006866455078125, 0.0006866455078125)')
+        self.test('decode_error', fStr(geohash.decode_error('u120fxw'), fmt='%*e'), '6.866455e-04, 6.866455e-04')
         self.test('distance1', round(geohash.distance1('u120fxw', 'u120fxws0'), 3), '486.71')
         self.test('distance2', round(geohash.distance2('u120fxw', 'u120fxws0'), 3), '3.374')
         self.test('distance3', round(geohash.distance3('u120fxw', 'u120fxws0'), 3), '2.798')
+        self.test('sizes', geohash.sizes('u120fxw'), '(610.0, 1220.0)')
 
         self.test('encode', geohash.encode(69.6, -45.7), 'fur')
         self.test('decode', geohash.decode('fur'), "('69.6', '-45.7')")

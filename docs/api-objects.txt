@@ -962,9 +962,7 @@ pygeodesy.geohash.Geohash.toLatLon	pygeodesy.geohash.Geohash-class.html#toLatLon
 pygeodesy.geohash.Geohash.sizes	pygeodesy.geohash.Geohash-class.html#sizes
 pygeodesy.geohash.Geohash._bounds	pygeodesy.geohash.Geohash-class.html#_bounds
 pygeodesy.geohash.Geohash.latlon	pygeodesy.geohash.Geohash-class.html#latlon
-pygeodesy.geohash.Geohash._NW	pygeodesy.geohash.Geohash-class.html#_NW
 pygeodesy.geohash.Geohash._latlon	pygeodesy.geohash.Geohash-class.html#_latlon
-pygeodesy.geohash.Geohash._NE	pygeodesy.geohash.Geohash-class.html#_NE
 pygeodesy.geohash.Geohash.S	pygeodesy.geohash.Geohash-class.html#S
 pygeodesy.geohash.Geohash.W	pygeodesy.geohash.Geohash-class.html#W
 pygeodesy.geohash.Geohash.NE	pygeodesy.geohash.Geohash-class.html#NE
@@ -973,12 +971,11 @@ pygeodesy.geohash.Geohash.N	pygeodesy.geohash.Geohash-class.html#N
 pygeodesy.geohash.Geohash.SW	pygeodesy.geohash.Geohash-class.html#SW
 pygeodesy.geohash.Geohash.bounds	pygeodesy.geohash.Geohash-class.html#bounds
 pygeodesy.geohash.Geohash.SE	pygeodesy.geohash.Geohash-class.html#SE
+pygeodesy.geohash.Geohash.ab	pygeodesy.geohash.Geohash-class.html#ab
 pygeodesy.geohash.Geohash.__new__	pygeodesy.geohash.Geohash-class.html#__new__
 pygeodesy.geohash.Geohash.adjacent	pygeodesy.geohash.Geohash-class.html#adjacent
 pygeodesy.geohash.Geohash.__repr__	pygeodesy.geohash.Geohash-class.html#__repr__
 pygeodesy.geohash.Geohash.E	pygeodesy.geohash.Geohash-class.html#E
-pygeodesy.geohash.Geohash._SE	pygeodesy.geohash.Geohash-class.html#_SE
-pygeodesy.geohash.Geohash._SW	pygeodesy.geohash.Geohash-class.html#_SW
 pygeodesy.lcc.Conic	pygeodesy.lcc.Conic-class.html
 pygeodesy.bases.Base._update	pygeodesy.bases.Base-class.html#_update
 pygeodesy.lcc.Conic._n_	pygeodesy.lcc.Conic-class.html#_n_

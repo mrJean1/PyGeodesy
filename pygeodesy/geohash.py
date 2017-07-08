@@ -25,7 +25,7 @@ __all__ = ('Geohash',  # classes
            'bounds', 'decode', 'decode_error',  # functions
            'distance1', 'distance2', 'distance3',
            'encode', 'neighbors', 'sizes')
-__version__ = '17.06.04'
+__version__ = '17.07.07'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -104,7 +104,7 @@ def _2geostr(geohash):
     '''(INTERNAL) Check a geohash string.
     '''
     try:
-        if not 0 < len(geohash) < 13:
+        if not (0 < len(geohash) < 13):
             raise ValueError
         geostr = geohash.lower()
         for c in geostr:
@@ -119,17 +119,13 @@ def _2geostr(geohash):
 class Geohash(str):
     '''Geohash class, sub-class of str.
     '''
-    _bounds = None
-    _latlon = None
+    _bounds = None  # cached bounds property
+    _latlon = None  # cached latlon property
 
-    _N  = None
-    _E  = None
-    _S  = None
-    _W  = None
-    _NE = None
-    _NW = None
-    _SE = None
-    _SW = None
+    _N = None  # cached neighbors properties
+    _E = None
+    _S = None
+    _W = None
 
     # no str.__init__ in Python 3
     def __new__(cls, cll, precision=None):
@@ -170,8 +166,8 @@ class Geohash(str):
         '''
         # based on <http://github.com/davetroy/geohash-js>
 
-        d = direction.upper()
-        if not d or d not in _Neighbor:
+        d = direction[:1].upper()
+        if d not in _Neighbor:
             raise ValueError('%s invalid: %s' % ('direction', direction))
 
         e = len(self) & 1  # % 2
@@ -189,10 +185,11 @@ class Geohash(str):
         # append letter for direction to parent
         return Geohash(p + _GeohashBase32[i])
 
-    def bounds(self, LatLon):
-        '''Return the SW/NE lat-/longitude bounds of this geohash cell.
+    def bounds(self, LatLon, **kwds):
+        '''Return the SW and NE bounds of this geohash cell.
 
            @param LatLon: LatLon class to use (I{LatLon}).
+           @keyword kwds: Optional keyword arguments for I{LatLon}.
 
            @return: 2-Tuple (LatLonSW, LatLonNE) of I{LatLon}s for
                     the lower-left respectively upper-right corner.
@@ -200,7 +197,7 @@ class Geohash(str):
         if not self._bounds:
             self._bounds = bounds(self)
         s, w, n, e = self._bounds
-        return LatLon(s, w), LatLon(n, e)
+        return LatLon(s, w, **kwds), LatLon(n, e, **kwds)
 
     def distance1(self, other):
         '''Estimate the distance between this and an other geohash
@@ -233,11 +230,11 @@ class Geohash(str):
         '''
         other = _2Geohash(other)
 
-        a1, b1 = self.latlon
-        a2, b2 = other.latlon
+        a1, b1 = self.ab
+        a2, b2 = other.ab
 
-        x = radians(a2 - a1) * cos(radians(favg(b2, b1)))
-        y = radians(b2 - b1)
+        x = (a2 - a1) * cos(favg(b2, b1))
+        y =  b2 - b1
 
         if radius:
             d = hypot(x, y) * float(radius)
@@ -258,16 +255,23 @@ class Geohash(str):
         '''
         other = _2Geohash(other)
 
-        a1, b1 = self.latlon
-        a2, b2 = other.latlon
+        a1, b1 = self.ab
+        a2, b2 = other.ab
 
-        r, _, _ = hsin3(radians(a2), radians(a1), radians(b2 - b1))
+        r, _, _ = hsin3(a2, a1, b2 - b1)
         return r * float(radius)
+
+    @property
+    def ab(self):
+        '''Get the lat-/longitude of (the approximate center of)
+           this geohash as a 2-tuple (lat, lon) in radians.
+        '''
+        return map2(radians, self.latlon)
 
     @property
     def latlon(self):
         '''Get the lat-/longitude of (the approximate center of)
-           this geohash as 2-Tuple (lat, lon) in degrees.
+           this geohash as a 2-tuple (lat, lon) in degrees.
 
            B{Example:}
 
@@ -293,11 +297,11 @@ class Geohash(str):
 
     @property
     def sizes(self):
-        '''Get the lat- and longitudinal size of this cell as a 2-tuple
-           (latHeight, lonWidth) in meter.
+        '''Get the lat- and longitudinal size of this cell as
+           a 2-tuple (latHeight, lonWidth) in meter.
         '''
-        n = min(len(self) or 1, len(_Sizes)) - 1
-        return tuple(map(float, _Sizes[n][:2]))
+        n = min(len(_Sizes), len(self) or 1) - 1
+        return map2(float, _Sizes[n][:2])
 
     def toLatLon(self, LatLon, **kwds):
         '''Return (the approximate center of) this geohash cell
@@ -353,33 +357,25 @@ class Geohash(str):
     def NE(self):
         '''Get the cell NorthEast of this (L{Geohash}).
         '''
-        if self._NE is None:
-            self._NE = self.N.E
-        return self._NE
+        return self.N.E
 
     @property
     def NW(self):
         '''Get the cell NorthWest of this (L{Geohash}).
         '''
-        if self._NW is None:
-            self._NW = self.N.W
-        return self._NW
+        return self.N.W
 
     @property
     def SE(self):
         '''Get the cell SouthEast of this (L{Geohash}).
         '''
-        if self._SE is None:
-            self._SE = self.S.E
-        return self._SE
+        return self.S.E
 
     @property
     def SW(self):
         '''Get the cell SouthWest of this (L{Geohash}).
         '''
-        if self._SW is None:
-            self._SW = self.S.W
-        return self._SW
+        return self.S.W
 
 
 def bounds(geohash):

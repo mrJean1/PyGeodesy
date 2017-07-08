@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '17.06.16'
+__version__ = '17.07.07'
 
 
 def _version():
@@ -48,9 +48,9 @@ setup(
     version=_version(),
 
     author='Jean M. Brouwers',
-    author_email='mrJean1 at Gmail dot com',
+    author_email='mrJean1@Gmail.com',  # 'mrJean1 at Gmail dot com'
     maintainer='Jean M. Brouwers',
-    maintainer_email='mrJean1 at Gmail dot com',
+    maintainer_email='mrJean1@Gmail.com',  # 'mrJean1 at Gmail dot com'
 
     license='MIT',
     keywords='azimuth bearing cartesian datum development distance earth ellipsoid geocentric geodesy geodetic geohash haversine Lambert latitude longitude MGRS Nvector OSGR PyGeodesy Ramer-Douglas-Peucker rhumb sphere trigonometry UTM Vincenty Visvalingam-Whyatt WGS',

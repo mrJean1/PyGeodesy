@@ -12,10 +12,10 @@ by I{Chris Veness (C) 2005-2016} and published under the same U{MIT License
 
 There are two modules for ellipsoidal earth models, I{ellipsoidalVincenty}
 and I{-Nvector} and two for spherical ones, I{sphericalTrigonometry} and
-I{-Nvector}.  Each module provides a I{LatLon} class with methods to
-compute distance, initial and final bearing, intermediate points and
-conversions, among other things.  For more information and further
-details see the U{documentation<http://pythonhosted.org/PyGeodesy/>},
+I{-Nvector}.  Each module provides a I{attributes-LatLon-html} class with methods
+to compute distance, initial and final bearing, intermediate points and
+conversions, among other things.  For more information and further details
+see the U{documentation<http://pythonhosted.org/PyGeodesy/>},
 descriptions of U{Latitude/Longitude<http://www.movable-type.co.uk/scripts/latlong.html>},
 U{Vincenty<http://www.movable-type.co.uk/scripts/latlong-vincenty.html>} and
 U{Vector-based<http://www.movable-type.co.uk/scripts/latlong-vectors.html>} geodesy
@@ -154,7 +154,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',  # modules
            'osgr', 'simplify', 'utils', 'utm', 'vector3d',
            'Geohash', 'VincentyError',  # classes
            'version', 'isclockwise', 'isconvex')  # extended below
-__version__ = '17.06.25'
+__version__ = '17.07.07'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
