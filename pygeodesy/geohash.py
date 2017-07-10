@@ -25,7 +25,7 @@ __all__ = ('Geohash',  # classes
            'bounds', 'decode', 'decode_error',  # functions
            'distance1', 'distance2', 'distance3',
            'encode', 'neighbors', 'sizes')
-__version__ = '17.07.07'
+__version__ = '17.07.09'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -155,6 +155,13 @@ class Geohash(str):
     def __repr__(self):
         return "%s('%s')" % (Geohash.__name__, self)  # str.__str__(self))
 
+    @property
+    def ab(self):
+        '''Get the lat- and longitude of (the approximate center of)
+           this geohash as a 2-tuple (lat, lon) in radians.
+        '''
+        return map2(radians, self.latlon)
+
     def adjacent(self, direction):
         '''Determine the adjacent cell in given compass direction.
 
@@ -262,15 +269,8 @@ class Geohash(str):
         return r * float(radius)
 
     @property
-    def ab(self):
-        '''Get the lat-/longitude of (the approximate center of)
-           this geohash as a 2-tuple (lat, lon) in radians.
-        '''
-        return map2(radians, self.latlon)
-
-    @property
     def latlon(self):
-        '''Get the lat-/longitude of (the approximate center of)
+        '''Get the lat- and longitude of (the approximate center of)
            this geohash as a 2-tuple (lat, lon) in degrees.
 
            B{Example:}
