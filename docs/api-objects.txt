@@ -198,6 +198,7 @@ pygeodesy.geohash.__package__	pygeodesy.geohash-module.html#__package__
 pygeodesy.geohash.decode	pygeodesy.geohash-module.html#decode
 pygeodesy.geohash.encode	pygeodesy.geohash-module.html#encode
 pygeodesy.geohash._GeohashBase32	pygeodesy.geohash-module.html#_GeohashBase32
+pygeodesy.geohash.parse3llh	pygeodesy.dms-module.html#parse3llh
 pygeodesy.geohash.distance2	pygeodesy.geohash-module.html#distance2
 pygeodesy.geohash.distance3	pygeodesy.geohash-module.html#distance3
 pygeodesy.geohash._Border	pygeodesy.geohash-module.html#_Border

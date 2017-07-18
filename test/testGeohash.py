@@ -4,7 +4,7 @@
 # Test geohash module.
 
 __all__ = ('Tests',)
-__version__ = '17.07.09'
+__version__ = '17.07.18'
 
 from base import TestsBase
 
@@ -36,7 +36,7 @@ class Tests(TestsBase):
         self.test('distance1', round(g.distance1('geehpb'), 3), '2758.887')
         self.test('distance2', round(g.distance2('geehpb'), 3), '676.254')
         self.test('distance3', round(g.distance3('geehpb'), 3), '397.404')
-        self.test('sizes', fStr(g.sizes, prec=1), '19.1, 38.2')
+        self.test('sizes', fStr(g.sizes, prec=1), '4.8, 4.8')
 
         for g in ('u120fxw', 'geek', 'fur', 'geehpbpbp', 'u4pruydqqvj8', 'bgr96qxvpd46', '0123456789', 'zzzzzz'):
             self.test('encode-decode', geohash.encode(*geohash.decode(g)), g)
@@ -56,7 +56,14 @@ class Tests(TestsBase):
         self.test('distance1', round(geohash.distance1('u120fxw', 'u120fxws0'), 3), '486.71')
         self.test('distance2', round(geohash.distance2('u120fxw', 'u120fxws0'), 3), '3.374')
         self.test('distance3', round(geohash.distance3('u120fxw', 'u120fxws0'), 3), '2.798')
-        self.test('sizes', fStr(geohash.sizes('u120fxw'), prec=1), '610.0, 1220.0')
+        self.test('sizes', fStr(geohash.sizes('u120fxw'), prec=1), '153.0, 153.0')
+
+        g = Geohash('52.5009, 13.354')
+        self.test('Geohash', g, 'u336xv')
+        e = geohash.encode(52.5009, 13.354)
+        self.test('encode', e, 'u336xv')
+        self.test('equal', g == e, True)
+        self.test('sizes', fStr(geohash.sizes(g), prec=1), '610.0, 1220.0')
 
         self.test('encode', geohash.encode(69.6, -45.7), 'fur')
         self.test('decode', geohash.decode('fur'), "('69.6', '-45.7')")

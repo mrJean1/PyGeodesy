@@ -15,7 +15,7 @@ U{http://pypi.python.org/pypi/pygeohash}.
 @newfield example: Example, Examples
 '''
 
-from dms import parseDMS
+from dms import parse3llh, parseDMS
 from utils import EPS, R_M, favg, fStr, hsin3, map2
 
 from math import cos, hypot, log10, radians
@@ -25,7 +25,7 @@ __all__ = ('Geohash',  # classes
            'bounds', 'decode', 'decode_error',  # functions
            'distance1', 'distance2', 'distance3',
            'encode', 'neighbors', 'sizes')
-__version__ = '17.07.09'
+__version__ = '17.07.18'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -68,7 +68,7 @@ c = i = None
 del c, i
 
 
-def _2fll(lat, lon):
+def _2fll(lat, lon, *unused):
     '''(INTERNAL) Convert lat, lon to 2-tuple of floats.
     '''
     try:
@@ -129,9 +129,12 @@ class Geohash(str):
 
     # no str.__init__ in Python 3
     def __new__(cls, cll, precision=None):
-        '''New Geohash.
+        '''New Geohash from a L{Geohash} instance or str or from
+           a I{LatLon} instance or string.
 
-           @param cll: Cell or location (L{Geohash}, I{LatLon} or string).
+           @param cll: Cell or location (L{Geohash} or str, I{LatLon} or string).
+           @keyword precision: Desired geohash length (integer), see function
+                               L{geohash.encode} for more details.
 
            @return: New L{Geohash}.
         '''
@@ -139,14 +142,20 @@ class Geohash(str):
             self = str.__new__(cls, _2geostr('%s' % (cll,)))
 
         elif isinstance(cll, _Str):
-            self = str.__new__(cls, _2geostr(cll))
+            if ',' in cll:
+                lat, lon = _2fll(*parse3llh(cll))
+                cll = encode(lat, lon, precision=precision)
+                self = str.__new__(cls, cll)
+                self._latlon = lat, lon
+            else:
+                self = str.__new__(cls, _2geostr(cll))
 
         else:  # assume LatLon
             try:
                 lat, lon = _2fll(cll.lat, cll.lon)
             except AttributeError:
                 raise TypeError('%s: %r' % (Geohash.__name__, cll))
-            cll = encode(lat, lon, precision)
+            cll = encode(lat, lon, precision=precision)
             self = str.__new__(cls, cll)
             self._latlon = lat, lon
 
@@ -300,7 +309,7 @@ class Geohash(str):
         '''Get the lat- and longitudinal size of this cell as
            a 2-tuple (latHeight, lonWidth) in meter.
         '''
-        n = min(len(_Sizes), len(self) or 1) - 1
+        n = min(len(_Sizes) - 1, len(self) or 1)
         return map2(float, _Sizes[n][:2])
 
     def toLatLon(self, LatLon, **kwds):
@@ -534,8 +543,8 @@ def distance3(geohash1, geohash2, radius=R_M):
 
 
 def encode(lat, lon, precision=None):
-    '''Encode a lat-/longitude as a geohash, either to the
-       specified or an automatically evaluated precision.
+    '''Encode a lat-/longitude as a geohash, either to the specified
+       or if not given, an automatically evaluated precision.
 
        @param lat: Latitude in degrees (scalar).
        @param lon: Longitude in degrees (scalar).
@@ -555,7 +564,7 @@ def encode(lat, lon, precision=None):
     '''
     lat, lon = _2fll(lat, lon)
 
-    if precision is None:
+    if not precision:
         # Infer precision by refining geohash until
         # it matches precision of supplied lat/lon.
         for prec in range(1, 13):
