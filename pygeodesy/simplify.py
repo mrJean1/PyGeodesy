@@ -8,9 +8,8 @@ Each of the simplify functions is based on a different algorithm and
 produces different simplified results in (very) different run times
 for the same path of I{LatLon} points.
 
-Function L{simplify1} eliminates points based on edge length.  Function
-L{simplify2} slides a pipe over each edge, removing subsequent points
-up to the first point outside the pipe.
+Function L{simplify1} eliminates points based on edge lengths shorter
+than a given tolerance.
 
 The functions L{simplifyRDP} and L{simplifyRDPm} use the original,
 respectively modified Ramer-Douglas-Peucker (RDP) algorithm, recursively
@@ -18,6 +17,10 @@ finding the points farthest from each path edge.  The difference is that
 function L{simplifyRDP} exhaustively searches the single, most distant
 point in each iteration, while function L{simplifyRDPm} stops at the
 first point exceeding the distance tolerance.
+
+Function L{simplifyRW} use the Reumann-Witkam method, sliding a pipe
+over each edge, removing subsequent points up to the first point
+outside the pipe.
 
 Functions L{simplifyVW} and L{simplifyVWm} are based on the original,
 respectively modified Visvalingam-Whyatt (VW) method using the area of
@@ -47,7 +50,7 @@ See:
  - U{http://pypi.python.org/pypi/visvalingam}
  - U{http://pypi.python.org/pypi/simplification/}
 
-Tested with 64-bit Python 2.6.9, 2.7.13, 3.5.3 and 3.6.0 on macOS
+Tested with 64-bit Python 2.6.9, 2.7.13, 3.5.3 and 3.6.2 on macOS
 10.12.3, 10.12.4 and 10.12.5 Sierra.
 
 @newfield example: Example, Examples
@@ -58,10 +61,10 @@ from utils import EPS, len2, radiansPI, wrap90, wrap180
 
 from math  import cos, degrees, radians, sqrt
 
-__all__ = ('simplify1', 'simplify2',
-           'simplifyRDP', 'simplifyRDPm',
+__all__ = ('simplify1', 'simplify2',  # backward compatibility
+           'simplifyRDP', 'simplifyRDPm', 'simplifyRW',
            'simplifyVW', 'simplifyVWm')
-__version__ = '17.06.04'
+__version__ = '17.07.22'
 
 
 # try:
@@ -130,6 +133,21 @@ class _Sy(object):
         self.d2xyse = d21, x21, y21, s, e
         return d21 > self.eps
 
+    def d2ih(self, n, m, brk):
+        '''Find the tallest distance among all points[n..m]
+           to points[s] exceeding the tolerance.
+        '''
+        _, _, _, s, _ = self.d2xyse
+        eps, d2xy = self.eps, self.d2xy
+        t2, t = self.s2, 0  # tallest
+        for i in range(n, m):
+            d2, _, _ = d2xy(s, i)
+            if d2 > t2:
+                t2, t = d2, i
+                if brk and d2 > eps:
+                    break
+        return t2, t
+
     def d2iP(self, n, m, brk):
         '''Find the tallest perpendicular distance among all
            points[n..m] to the path edge or line thru points[s]
@@ -142,7 +160,7 @@ class _Sy(object):
             d2, x01, y01 = d2xy(s, i)
             if d2 > eps:
                 # perpendicular distance
-                d2 = ((x01 * y21 + y01 * x21) ** 2) / d21
+                d2 = ((y01 * x21 - x01 * y21) ** 2) / d21
                 if d2 > t2:
                     t2, t = d2, i
                     if brk:
@@ -154,6 +172,15 @@ class _Sy(object):
            points[n..m] to the path edge or line thru
            points[s] to -[e] exceeding the tolerance.
         '''
+        # clockwise rotation of point (x, y) by angle:
+        #   x' = x * cos(a) + y * sin(a)
+        #   y' = y * cos(a) - x * sin(a)
+        #
+        # distance (d) along and perpendicular (h) to
+        # the line thru point (px, py) and the origin:
+        #   d = (x * px + y * py) / hypot(px, py)
+        #   h = (y * px - x * py) / hypot(px, py)
+
         d21, x21, y21, s, e = self.d2xyse
         eps, d2xy = self.eps, self.d2xy
         t2, t = self.s2, 0  # tallest
@@ -161,11 +188,11 @@ class _Sy(object):
             # distance points[i] to -[s]
             d2, x01, y01 = d2xy(s, i)
             if d2 > eps:
-                x = x01 * x21 - y01 * y21
+                x = x01 * x21 + y01 * y21
                 if x > 0:
                     if (x * x) < d21:
                         # perpendicular distance
-                        d2 = ((x01 * y21 + y01 * x21) ** 2) / d21
+                        d2 = ((y01 * x21 - x01 * y21) ** 2) / d21
                     else:  # distance points[i] to -[e]
                         d2, _, _ = d2xy(e, i)
                 if d2 > t2:
@@ -182,7 +209,7 @@ class _Sy(object):
 
         # like the Equirectangular Approximation/Projection at
         # <http://www.movable-type.co.uk/scripts/latlong.html>
-        # but using degrees as units instead of meter
+        # but using degrees squared as units instead of meter
 
         dx = wrap180(p2.lon - p1.lon)
         dy = wrap90 (p2.lat - p1.lat)
@@ -190,19 +217,19 @@ class _Sy(object):
         if self.adjust:  # scale lon
             dx *= cos(radiansPI(p1.lat + p2.lat) * 0.5)
 
-        d2 = dx * dx + dy * dy  # squared!
+        d2 = dx ** 2 + dy ** 2  # squared!
         return d2, dx, dy
 
     def h2t(self, i1, i0, i2):
         '''Compute the Visvalingam-Whyatt triangular area,
-           points[i1] to -[i2] form the base and points[i0]
-           is the top of the triangle.
+           points[i0] is the top and points[i1] to -[i2]
+           form the base of the triangle.
         '''
         d21, x21, y21 = self.d2xy(i1, i2)
         if d21 > self.eps:
             d01, x01, y01 = self.d2xy(i1, i0)
             if d01 > self.eps:
-                h2 = abs(x01 * y21 + y01 * x21)
+                h2 = abs(y01 * x21 - x01 * y21)
                 # triangle height h = h2 / sqrt(d21) and
                 # the area = h * sqrt(d21) / 2 == h2 / 2
                 return h2  # double triangle area
@@ -213,33 +240,32 @@ class _Sy(object):
         '''
         return [self.pts[i] for i in sorted(r.keys())]
 
-    def rdp(self, mod):
+    def rdp(self, modified):
         '''Ramer-Douglas-Peucker (RDP) simplification of a
            path of I{LatLon} points.
 
-           @param mod: Modified RDP (bool).
+           @param modified: Use modified RDP (bool).
         '''
         n, r = self.n, self.r
         if n > 1:
-            s2, d21, d2i = self.s2, self.d21, self.d2i
+            s2, d21 = self.s2, self.d21
+            d2i, d2ih = self.d2i, self.d2ih
 
             se = [(0, n-1)]
             while se:
                 s, e = se.pop()
-                if (e - s) > 1:
-                    if d21(s, e):
-                        d2, i = d2i(s+1, e, mod)
-                        if i > 0 and d2 > s2:
-                            r[s] = r[i] = True
-                            se.append((i, e))
-                            if not mod:
-                                se.append((s, i))
-                        else:
-                            r[s] = True
-                    else:  # split halfway
-                        i = (e + s) // 2
+                if e > (s + 1):
+                    if d21(s, e):  # points[] to edge [s, e]
+                        d2, i = d2i(s+1, e, modified)
+                    else:  # points[] to point [s]
+                        d2, i = d2ih(s+1, e, modified)
+                    if d2 > s2 and i > 0:
+                        r[s] = r[i] = True
                         se.append((i, e))
-                        se.append((s, i))
+                        if not modified:
+                            se.append((s, i))
+                    else:
+                        r[s] = True
 
         return self.points(r)
 
@@ -348,44 +374,6 @@ def simplify1(points, distance, radius=R_M, adjust=True):
     return S.points(r)
 
 
-def simplify2(points, pipe, radius=R_M, adjust=True, shortest=False):
-    '''Pipe simplification of a path of I{LatLon} points.
-
-       Eliminates any points too close together or within the given
-       pipe tolerance along an edge.
-
-       @param points: Path points (I{LatLon}s).
-       @param pipe: Half pipe width (meter, same units as radius).
-       @keyword radius: Earth radius (meter).
-       @keyword adjust: Adjust longitudes (bool).
-       @keyword shortest: Shortest or perpendicular distance (bool).
-
-       @return: Simplified points (list of I{LatLon}s).
-
-       @raise ValueError: Radius or pipe tolerance too small.
-    '''
-    S = _Sy(points, pipe, radius, adjust, shortest)
-
-    n, r = S.n, S.r
-    if n > 1:
-        s2, d21, d2i = S.s2, S.d21, S.d2i
-
-        s, e = 0, 1
-        while s < e < n:
-            if d21(s, e):
-                d2, i = d2i(e+1, n, True)
-                if i > 0 and d2 > s2:
-                    r[s] = r[i] = True
-                    s, e = i, i + 1
-                else:
-                    r[s] = True  # r[n-1] = True
-                    break  # while loop
-            else:  # drop points[e]
-                e += 1
-
-    return S.points(r)
-
-
 def simplifyRDP(points, distance, radius=R_M, adjust=True, shortest=False):
     '''Ramer-Douglas-Peucker (RDP) simplification of a path of
        I{LatLon} points.
@@ -436,6 +424,47 @@ def simplifyRDPm(points, distance, radius=R_M, adjust=True, shortest=False):
     S = _Sy(points, distance, radius, adjust, shortest)
 
     return S.rdp(True)
+
+
+def simplifyRW(points, pipe, radius=R_M, adjust=True, shortest=False):
+    '''Reumann-Witkam simplification of a path of I{LatLon} points.
+
+       Eliminates any points too close together or within the given
+       pipe tolerance along an edge.
+
+       @param points: Path points (I{LatLon}s).
+       @param pipe: Half pipe width (meter, same units as radius).
+       @keyword radius: Earth radius (meter).
+       @keyword adjust: Adjust longitudes (bool).
+       @keyword shortest: Shortest or perpendicular distance (bool).
+
+       @return: Simplified points (list of I{LatLon}s).
+
+       @raise ValueError: Radius or pipe tolerance too small.
+    '''
+    S = _Sy(points, pipe, radius, adjust, shortest)
+
+    n, r = S.n, S.r
+    if n > 1:
+        s2, d21, d2i = S.s2, S.d21, S.d2i
+
+        s, e = 0, 1
+        while s < e < n:
+            if d21(s, e):
+                d2, i = d2i(e + 1, n, True)
+                if d2 > s2 and i > 0:
+                    r[s] = r[i] = True
+                    s, e = i, i + 1
+                else:
+                    r[s] = True  # r[n-1] = True
+                    break  # while loop
+            else:  # drop points[e]
+                e += 1
+
+    return S.points(r)
+
+
+simplify2 = simplifyRW  # for backward compatibility
 
 
 def simplifyVW(points, area, radius=R_M, adjust=True, attr=None):

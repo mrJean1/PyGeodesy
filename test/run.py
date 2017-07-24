@@ -7,7 +7,7 @@
 # with Pythonista 3.1 on iOS 10.3.2.
 
 from glob import glob
-from os import linesep as NL
+from os import environ, linesep as NL
 from os.path import abspath, dirname, join
 from time import time
 import sys
@@ -21,7 +21,7 @@ from base import isiOS, PyGeodesy_dir, Python_O, \
           runner, secs2str, tilde, versions  # PYCHOK expected
 
 __all__ = ()
-__version__ = '17.06.25'
+__version__ = '17.07.22'
 
 # command line options
 _failedonly = False
@@ -61,6 +61,9 @@ if __name__ == '__main__':  # MCCABE 28
         else:
             print('%s invalid option: %s' % (argv0, arg))
             sys.exit(1)
+
+    # replace home dir with ~
+    Python_O = Python_O.replace(environ.get('HOME', '~'), '~')
 
     # shorten Python path [-OO]
     if len(Python_O) > 32:

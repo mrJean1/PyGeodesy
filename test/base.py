@@ -24,7 +24,7 @@ from pygeodesy import version as PyGeodesy_version, \
 __all__ = ('isiOS', 'PyGeodesy_dir', 'Python_O',  # constants
            'TestsBase',
            'runner', 'secs2str', 'tilde', 'type2str', 'versions')
-__version__ = '17.06.25'
+__version__ = '17.07.22'
 
 try:
     _int = int, long
@@ -182,8 +182,9 @@ def type2str(obj, attr):
 def versions():
     '''Get pygeodesy, Python versions, size, OS name and release.
     '''
-    vs = 'PyGeodesy', PyGeodesy_version, \
-         'Python', sys.version.split()[0], architecture()[0]
+    ip = 'Intel-' if 'intelpython' in Python_O else ''
+    vs = 'PyGeodesy', PyGeodesy_version, (ip +
+         'Python'), sys.version.split()[0], architecture()[0]
 
     xOS = 'iOS' if isiOS else 'macOS'
     # - mac_ver() returns ('10.12.5', ..., 'x86_64') on

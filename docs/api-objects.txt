@@ -1,4 +1,5 @@
 pygeodesy	pygeodesy-module.html
+pygeodesy.simplifyRW	pygeodesy-module.html#simplifyRW
 pygeodesy.EPS	pygeodesy-module.html#EPS
 pygeodesy.hsin3	pygeodesy-module.html#hsin3
 pygeodesy.degrees90	pygeodesy-module.html#degrees90
@@ -275,6 +276,7 @@ pygeodesy.simplify.len2	pygeodesy.utils-module.html#len2
 pygeodesy.simplify.wrap180	pygeodesy.utils-module.html#wrap180
 pygeodesy.simplify.simplify1	pygeodesy.simplify-module.html#simplify1
 pygeodesy.simplify.simplifyRDP	pygeodesy.simplify-module.html#simplifyRDP
+pygeodesy.simplify.simplifyRW	pygeodesy.simplify-module.html#simplifyRW
 pygeodesy.simplify.radiansPI	pygeodesy.utils-module.html#radiansPI
 pygeodesy.sphericalBase	pygeodesy.sphericalBase-module.html
 pygeodesy.sphericalBase.hypot	pygeodesy.utils-module.html#hypot

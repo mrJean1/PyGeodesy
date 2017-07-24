@@ -65,10 +65,8 @@
   produces different simplified results in (very) different run times for 
   the same path of <i>LatLon</i> points.</p>
   <p>Function <a href="pygeodesy.simplify-module.html#simplify1" 
-  class="link">simplify1</a> eliminates points based on edge length.  
-  Function <a href="pygeodesy.simplify-module.html#simplify2" 
-  class="link">simplify2</a> slides a pipe over each edge, removing 
-  subsequent points up to the first point outside the pipe.</p>
+  class="link">simplify1</a> eliminates points based on edge lengths 
+  shorter than a given tolerance.</p>
   <p>The functions <a href="pygeodesy.simplify-module.html#simplifyRDP" 
   class="link">simplifyRDP</a> and <a 
   href="pygeodesy.simplify-module.html#simplifyRDPm" 
@@ -81,6 +79,10 @@
   href="pygeodesy.simplify-module.html#simplifyRDPm" 
   class="link">simplifyRDPm</a> stops at the first point exceeding the 
   distance tolerance.</p>
+  <p>Function <a href="pygeodesy.simplify-module.html#simplifyRW" 
+  class="link">simplifyRW</a> use the Reumann-Witkam method, sliding a pipe
+  over each edge, removing subsequent points up to the first point outside 
+  the pipe.</p>
   <p>Functions <a href="pygeodesy.simplify-module.html#simplifyVW" 
   class="link">simplifyVW</a> and <a 
   href="pygeodesy.simplify-module.html#simplifyVWm" 
@@ -93,7 +95,7 @@
   href="pygeodesy.simplify-module.html#simplifyVWm" 
   class="link">simplifyVWm</a> removes all points with areas not exceeding 
   the tolerance in each iteration.</p>
-  <p>Functions <a href="pygeodesy.simplify-module.html#simplify2" 
+  <p>Functions <a href="pygeodesy.simplify-module.html#simplifyRW" 
   class="link">simplify2</a>, <a 
   href="pygeodesy.simplify-module.html#simplifyRDP" 
   class="link">simplifyRDP</a> and <a 
@@ -150,12 +152,12 @@
       target="_top">http://pypi.python.org/pypi/simplification/</a>
     </li>
   </ul>
-  <p>Tested with 64-bit Python 2.6.9, 2.7.13, 3.5.3 and 3.6.0 on macOS 
+  <p>Tested with 64-bit Python 2.6.9, 2.7.13, 3.5.3 and 3.6.2 on macOS 
   10.12.3, 10.12.4 and 10.12.5 Sierra.</p>
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.06.04
+        17.07.22
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -176,27 +178,6 @@
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>)</span><br />
       Basic simplification of a path of <i>LatLon</i> points.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.simplify-module.html#simplify2" class="summary-sig-name">simplify2</a>(<span class="summary-sig-arg">points</span>,
-        <span class="summary-sig-arg">pipe</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
-        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Pipe simplification of a path of <i>LatLon</i> points.</td>
           <td align="right" valign="top">
             
             
@@ -241,6 +222,48 @@
         <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>)</span><br />
       Modified Ramer-Douglas-Peucker (RDP) simplification of a path of 
       <i>LatLon</i> points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.simplify-module.html#simplifyRW" class="summary-sig-name">simplifyRW</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">pipe</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Reumann-Witkam simplification of a path of <i>LatLon</i> points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.simplify-module.html#simplify2" class="summary-sig-name">simplify2</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">pipe</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Reumann-Witkam simplification of a path of <i>LatLon</i> points.</td>
           <td align="right" valign="top">
             
             
@@ -341,45 +364,6 @@
   </dl>
 </td></tr></table>
 </div>
-<a name="simplify2"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">simplify2</span>(<span class="sig-arg">points</span>,
-        <span class="sig-arg">pipe</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
-        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Pipe simplification of a path of <i>LatLon</i> points.</p>
-  <p>Eliminates any points too close together or within the given pipe 
-  tolerance along an edge.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
-        <li><strong class="pname"><code>pipe</code></strong> - Half pipe width (meter, same units as radius).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
-        <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
-        <li><strong class="pname"><code>shortest</code></strong> - Shortest or perpendicular distance (bool).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Simplified points (list of <i>LatLon</i>s).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Radius or pipe tolerance too small.</li>
-    </ul></dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="simplifyRDP"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -462,6 +446,84 @@
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Radius or distance tolerance too small.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="simplifyRW"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">simplifyRW</span>(<span class="sig-arg">points</span>,
+        <span class="sig-arg">pipe</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Reumann-Witkam simplification of a path of <i>LatLon</i> points.</p>
+  <p>Eliminates any points too close together or within the given pipe 
+  tolerance along an edge.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
+        <li><strong class="pname"><code>pipe</code></strong> - Half pipe width (meter, same units as radius).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
+        <li><strong class="pname"><code>shortest</code></strong> - Shortest or perpendicular distance (bool).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Simplified points (list of <i>LatLon</i>s).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Radius or pipe tolerance too small.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="simplify2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">simplify2</span>(<span class="sig-arg">points</span>,
+        <span class="sig-arg">pipe</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Reumann-Witkam simplification of a path of <i>LatLon</i> points.</p>
+  <p>Eliminates any points too close together or within the given pipe 
+  tolerance along an edge.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
+        <li><strong class="pname"><code>pipe</code></strong> - Half pipe width (meter, same units as radius).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
+        <li><strong class="pname"><code>shortest</code></strong> - Shortest or perpendicular distance (bool).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Simplified points (list of <i>LatLon</i>s).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Radius or pipe tolerance too small.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -584,7 +646,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Jul 18 17:31:22 2017
+    Generated by Epydoc 3.0.1 on Mon Jul 24 15:27:04 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

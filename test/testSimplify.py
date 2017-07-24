@@ -4,15 +4,18 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '17.06.23'
+__version__ = '17.07.22'
 
 from base import TestsBase, secs2str
 
-from pygeodesy import simplify1, simplify2, \
+from pygeodesy import EPS, R_M, \
+                      simplify1, simplifyRW, \
                       simplifyRDP, simplifyRDPm, \
                       simplifyVW, simplifyVWm, \
-                      simplify  # module
+                      simplify, \
+                      wrap90, wrap180
 
+from math import cos, degrees, radians
 from time import time
 
 _Simplifys = ()  # simplifyXYZ functions to run
@@ -40,6 +43,138 @@ class Tests(TestsBase):
         self.printf('')
 
 
+# for comparison, following are 2 other RDP implementations,
+# modified to match signatures and pre-conditions closely.
+
+# <https://github.com/FlorianWilhelm/gps_data_with_python>
+def simplifyRDPfw(points, epsilon, adjust=False, modified=False, radius=R_M):  # MCCABE 13
+    '''Iterative Ramer-Douglas-Peucker algorithm.
+
+       points[] -- Input coordinates as LatLon's in degrees
+       kink -- distance	in metres, kinks above this depth are kept
+       adjust -- adjust lon's delta by cos(average lat's)
+       modified -- stop search at first, deviant point
+       radius -- mean earth radius in metres
+    '''
+    def _d2xy(p1, p2):
+        # get deltas and hypot squared
+        dx = wrap180(p2.lon - p1.lon)
+        if adjust:
+            dx *= cos(radians((p1.lat + p2.lat) * 0.5))
+        dy = wrap90(p2.lat - p1.lat)
+        d2 = dx**2 + dy**2
+        return d2, dx, dy
+
+    if len(points) < 2:
+        raise ValueError('no points: %r' % (points,))
+
+    # convert epsilon meters to degrees
+    ed2 = degrees(epsilon / radius)**2  # use squared distances
+
+    use = [True] * len(points)
+    stk = [(0, len(points)-1)]
+
+    while stk:
+        s, e = stk.pop()
+        if e > (s + 1):
+            t2, t = ed2, 0
+
+            p2, px, py = _d2xy(points[s], points[e])
+            if p2 > EPS:
+                p2 = 1.0 / p2
+            else:  # distance to point
+                p2 = 0
+
+            for i in range(s+1, e):
+                if use[i]:
+                    d2, dx, dy = _d2xy(points[i], points[s])
+                    if p2 and d2 > EPS:  # distance to line
+                        d2 = p2 * (px * dy - py * dx)**2
+                    if d2 > t2:
+                        t2, t = d2, i
+                        if modified:
+                            break
+
+            if t2 > ed2:  # and t > 0:
+                stk.append((t, e))
+                stk.append((s, t))
+            else:
+                for i in range(s+1, e):
+                    use[i] = False
+
+    return [points[i] for i, b in enumerate(use) if b]
+
+
+# <http://www.bdcc.co.uk/Gmaps/GDouglasPeuker.js>
+def simplifyGDP(source, kink, adjust=True, modified=False, radius=R_M):  # MCCABE 13
+    '''Stack-based Douglas Peucker line simplification.
+
+       source[] -- Input coordinates as LatLon's in degrees
+       kink -- distance	in metres, kinks above this depth are kept
+       adjust -- adjust lon's delta by cos(average lat's)
+       modified -- stop search at first, deviant point
+       radius -- mean earth radius in metres
+
+       kink depth is the height of the triangle abc where
+       a-b and b-c are two consecutive line segments
+    '''
+
+    def _d2xy(p1, p2):
+        # get deltas and hypot squared
+        dx = p2.lon - p1.lon
+        if abs(dx) > 180:
+            dx = 360 - abs(dx)
+        if adjust:
+            dx *= cos(radians((p1.lat + p2.lat) * 0.5))
+        dy = p2.lat - p1.lat
+        d2 = dx**2 + dy**2
+        return d2, dx, dy
+
+    n1 = len(source) - 1
+    if n1 < 1:
+        raise ValueError('no source: %r' % (source,))
+
+    k2 = degrees(kink / radius)**2  # kink in degrees squared
+
+    ixs = {0: True, n1: True}
+    stk = [(0, n1)]
+
+    # while the stack is not empty
+    while stk:
+        s, e = stk.pop()
+        if e > (s + 1):
+            d12, x12, y12 = _d2xy(source[s], source[e])
+
+            max2, ix = k2, s
+            for i in range(s + 1, e):
+                d13, x13, y13 = _d2xy(source[s], source[i])
+                d23, x23, y23 = _d2xy(source[e], source[i])
+
+                if d12 < EPS:
+                    d2 = (d13 + d23) * 0.5
+                elif d13 >= (d12 + d23):
+                    d2 = d23
+                elif d23 >= (d12 + d13):
+                    d2 = d13
+                else:  # solve triangle
+                    d2 = (x13 * y12 - y13 * x12)**2 / d12
+
+                if d2 > max2:
+                    max2, ix = d2, i
+                    if modified:
+                        break
+
+            if max2 > k2:
+                stk.append((ix, e))
+                stk.append((s, ix))
+            else:
+                ixs[s] = True
+        else:
+            ixs[s] = True
+
+    return [source[i] for i in sorted(ixs.keys())]
+
+
 if __name__ == '__main__':  # PYCHOK internal error?
 
     # usage: python testSimplify [[1-9] [RDP RDPm VW VWm ...]]
@@ -60,28 +195,40 @@ if __name__ == '__main__':  # PYCHOK internal error?
 
     t.test2(simplify1, Pts, _ms({320: 4423, 160: 6638, 80: 9362, 40: 12079, 20: 14245, 10: 15621, 1: 16597}), adjust=True)
 
-    t.test2(simplify2, Pts, _ms({320: 2327, 160: 3565, 80: 4895, 40: 6130, 20: 7022, 10: 7598, 1: 8239}), adjust=True, shortest=False)
-    t.test2(simplify2, Pts, _ms({320: 2440, 160: 3753, 80: 5116, 40: 6347, 20: 7188, 10: 7709, 1: 8247}), adjust=True, shortest=True)
+    t.test2(simplifyRW, Pts, _ms({320: 785, 160: 1179, 80: 1737, 40: 2322, 20: 3121, 10: 4041, 1: 7095}), adjust=True, shortest=False)
+    t.test2(simplifyRW, Pts, _ms({320: 786, 160: 1178, 80: 1739, 40: 2323, 20: 3121, 10: 4041, 1: 7095}), adjust=True, shortest=True)
 
-    t.test2(simplifyVWm, Pts, _ms({320: 2575, 160: 4762, 80: 7924, 40: 11334, 20: 13968, 10: 15452, 1: 16488}), adjust=True)
-    t.test2(simplifyVWm, Pts, _ms({320: 3225, 160: 5787, 80: 9139, 40: 12349, 20: 14559, 10: 15781, 1: 16490}), adjust=False)
+    t.test2(simplifyVWm, Pts, _ms({320: 690, 160: 1425, 80: 2648, 40: 4701, 20: 7678, 10: 11166, 1: 16328}), adjust=True)
+    t.test2(simplifyVWm, Pts, _ms({320: 903, 160: 1755, 80: 3253, 40: 5590, 20: 8911, 10: 12331, 1: 16373}), adjust=False)
 
-    t.test2(simplifyRDPm, Pts, _ms({320: 2512, 160: 4106, 80: 6150, 40: 8620, 20: 11138, 10: 13239, 1: 16196}), adjust=True, shortest=False)
-    t.test2(simplifyRDPm, Pts, _ms({320: 2526, 160: 4127, 80: 6179, 40: 8654, 20: 11174, 10: 13266, 1: 16201}), adjust=True, shortest=True)
+    t.test2(simplifyRDPm, Pts, _ms({320: 1796, 160: 3099, 80: 4924, 40: 7189, 20: 9663, 10: 11876, 1: 15864}), adjust=True, shortest=False)
+    t.test2(simplifyRDPm, Pts, _ms({320: 1796, 160: 3099, 80: 4926, 40: 7195, 20: 9670, 10: 11884, 1: 15867}), adjust=True, shortest=True)
+
+    t.test2(simplifyRDPm,  Pts, _ms({320: 1844, 160: 3166, 80: 5002, 40: 7259, 20:  9720, 10: 11939, 1: 15869}), adjust=False, shortest=False)
+    t.test2(simplifyRDPfw, Pts, _ms({320: 1949, 160: 3318, 80: 5256, 40: 7617, 20: 10169, 10: 12484, 1: 16244}), modified=True)
 
     # cut number of points (to shorten run time)
     n = len(Pts) // 10
     Ptsn = Pts[:n]
 
-    t.test2(simplifyVW, Ptsn, _ms({320: 447, 160: 728, 80: 1032, 40: 1290, 20: 1478, 10: 1575, 1: 1657}), adjust=True)
-    t.test2(simplifyVW, Ptsn, _ms({320: 518, 160: 837, 80: 1127, 40: 1353, 20: 1510, 10: 1591, 1: 1657}), adjust=False)
+    t.test2(simplifyVW, Ptsn, _ms({320: 162, 160: 277, 80: 430, 40: 694, 20:  981, 10: 1266, 1: 1641}), adjust=True)
+    t.test2(simplifyVW, Ptsn, _ms({320: 201, 160: 314, 80: 495, 40: 793, 20: 1081, 10: 1351, 1: 1646}), adjust=False)
 
-    t.test2(simplifyRDP, Ptsn, _ms({320: 1605, 160: 1616, 80: 1630, 40: 1638, 20: 1647, 10: 1654, 1: 1660}), adjust=True, shortest=False)
-    t.test2(simplifyRDP, Ptsn, _ms({320: 1605, 160: 1616, 80: 1631, 40: 1639, 20: 1649, 10: 1655, 1: 1661}), adjust=True, shortest=True)
+    t.test2(simplifyRDP, Ptsn, _ms({320: 57, 160: 98, 80: 147, 40: 226, 20: 354, 10: 501, 1: 1231}), adjust=True, shortest=False)
+    t.test2(simplifyRDP, Ptsn, _ms({320: 58, 160: 98, 80: 146, 40: 226, 20: 352, 10: 499, 1: 1231}), adjust=True, shortest=True)
+    t.test2(simplifyGDP, Ptsn, _ms({320: 57, 160: 98, 80: 147, 40: 226, 20: 354, 10: 501, 1: 1231}), adjust=True)
+
+    t.test2(simplifyRDP,   Ptsn, _ms({320: 63, 160: 111, 80: 161, 40: 256, 20: 387, 10: 542, 1: 1267}), adjust=False, shortest=False)
+    t.test2(simplifyRDPfw, Ptsn, _ms({320: 63, 160: 111, 80: 161, 40: 256, 20: 387, 10: 542, 1: 1267}), modified=False)
+    t.test2(simplifyGDP,   Ptsn, _ms({320: 63, 160: 111, 80: 161, 40: 256, 20: 387, 10: 542, 1: 1267}), adjust=False)
 
     # different points
-    t.test2(simplifyVW,  PtsFFI, _ms({1678:  3, 1000:  5, 100: 23, 10: 65, 1: 69}), adjust=False)
-    t.test2(simplifyRDP, PtsFFI, _ms({1678: 11, 1000: 31, 100: 61, 10: 67, 1: 68}), adjust=False, shortest=False)  # XXX len(RdpFFI) = 7
+    t.test2(simplifyVW,    PtsFFI, _ms({1000: 3, 100: 12, 10: 48, 1: 69}), adjust=False)
+    t.test2(simplifyRDP,   PtsFFI, _ms({1000: 3, 100:  7, 10: 18, 1: 50}), adjust=False, shortest=False)  # XXX len(RdpFFI) = 7
+    t.test2(simplifyRDPfw, PtsFFI, _ms({1000: 3, 100:  7, 10: 18, 1: 50}), modified=False)
+
+    t.test2(simplifyGDP, PtsFFI, _ms({1000: 2, 100:  7, 10: 15, 1: 45}), adjust=True)
+    t.test2(simplifyGDP, PtsFFI, _ms({1000: 3, 100:  7, 10: 18, 1: 50}), adjust=False)
 
     # <http://georust.github.io/rust-geo/geo/algorithm/simplify/trait.Simplify.html>
 #   t.test2(simplifyRDP, [_LatLon(*ll) for ll in ((0.0, 0.0), (5.0, 4.0), (11.0, 5.5), (17.3, 3.2), (27.8, 0.1))],
