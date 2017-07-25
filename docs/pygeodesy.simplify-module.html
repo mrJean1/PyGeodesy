@@ -71,42 +71,44 @@
   class="link">simplifyRDP</a> and <a 
   href="pygeodesy.simplify-module.html#simplifyRDPm" 
   class="link">simplifyRDPm</a> use the original, respectively modified 
-  Ramer-Douglas-Peucker (RDP) algorithm, recursively finding the points 
+  Ramer-Douglas-Peucker (RDP) algorithm, iteratively finding the point 
   farthest from each path edge.  The difference is that function <a 
   href="pygeodesy.simplify-module.html#simplifyRDP" 
-  class="link">simplifyRDP</a> exhaustively searches the single, most 
-  distant point in each iteration, while function <a 
+  class="link">simplifyRDP</a> exhaustively searches the most distant point
+  in each iteration, while modified <a 
   href="pygeodesy.simplify-module.html#simplifyRDPm" 
   class="link">simplifyRDPm</a> stops at the first point exceeding the 
   distance tolerance.</p>
   <p>Function <a href="pygeodesy.simplify-module.html#simplifyRW" 
-  class="link">simplifyRW</a> use the Reumann-Witkam method, sliding a pipe
-  over each edge, removing subsequent points up to the first point outside 
-  the pipe.</p>
+  class="link">simplifyRW</a> use the Reumann-Witkam method, sliding a 
+  &quot;pipe&quot; over each path edge, removing all subsequent points 
+  closer than the pipe radius up to the first point outside the pipe.</p>
   <p>Functions <a href="pygeodesy.simplify-module.html#simplifyVW" 
   class="link">simplifyVW</a> and <a 
   href="pygeodesy.simplify-module.html#simplifyVWm" 
   class="link">simplifyVWm</a> are based on the original, respectively 
   modified Visvalingam-Whyatt (VW) method using the area of the triangle 
-  formed by three neigboring points.  The original <a 
+  formed by three neigboring points.  Function <a 
   href="pygeodesy.simplify-module.html#simplifyVW" 
-  class="link">simplifyVW</a> method removes only a single point per 
-  iteration, while the modified <a 
-  href="pygeodesy.simplify-module.html#simplifyVWm" 
-  class="link">simplifyVWm</a> removes all points with areas not exceeding 
-  the tolerance in each iteration.</p>
-  <p>Functions <a href="pygeodesy.simplify-module.html#simplifyRW" 
-  class="link">simplify2</a>, <a 
-  href="pygeodesy.simplify-module.html#simplifyRDP" 
-  class="link">simplifyRDP</a> and <a 
+  class="link">simplifyVW</a> removes only a single point per iteration, 
+  while modified <a href="pygeodesy.simplify-module.html#simplifyVWm" 
+  class="link">simplifyVWm</a> eliminates all points with a triangular area
+  not exceeding the tolerance in each iteration.</p>
+  <p>Functions <a href="pygeodesy.simplify-module.html#simplifyRDP" 
+  class="link">simplifyRDP</a>, <a 
   href="pygeodesy.simplify-module.html#simplifyRDPm" 
-  class="link">simplifyRDPm</a> provide keyword <i>shortest</i> to select 
-  the computation of the distance between a point and a path edge.  If 
-  True, use the shortest distance to the path edge or path end points, 
+  class="link">simplifyRDPm</a> and <a 
+  href="pygeodesy.simplify-module.html#simplifyRW" 
+  class="link">simplifyRW</a> provide keyword argument <i>shortest</i> to 
+  select the computation of the distance between a point and a path edge.  
+  If True, use the shortest distance to the path edge or path end points, 
   False use the perpendicular distance to the extended path edge line.</p>
-  <p>For all functions, keyword <i>adjust</i> scales the longitudinal 
-  distance between two points by the cosine of the mean of the 
+  <p>For all functions, keyword argument <i>adjust</i> scales the 
+  longitudinal distance between two points by the cosine of the mean of the
   latitudes.</p>
+  <p>Likewise, keyword argument <i>radius</i> of all fuctions is set to the
+  mean earth radius in meter.  Other units are can be choosen, provided 
+  that the radius and tolerance are always specified in the same units.</p>
   <p>See:</p>
   <ul>
     <li>
@@ -132,6 +134,10 @@
       target="_top">http://web.cs.sunyit.edu/~poissad/projects/Curve/about_project.php</a>
     </li>
     <li>
+      <a href="http://github.com/FlorianWilhelm/gps_data_with_python" 
+      target="_top">http://github.com/FlorianWilhelm/gps_data_with_python</a>
+    </li>
+    <li>
       <a href="http://www.bdcc.co.uk/Gmaps/GDouglasPeuker.js" 
       target="_top">http://www.bdcc.co.uk/Gmaps/GDouglasPeuker.js</a>
     </li>
@@ -153,11 +159,13 @@
     </li>
   </ul>
   <p>Tested with 64-bit Python 2.6.9, 2.7.13, 3.5.3 and 3.6.2 on macOS 
-  10.12.3, 10.12.4 and 10.12.5 Sierra.</p>
+  10.12.5 Sierra, with 64-bit Intel-Python 3.5.3 on macOS 10.12.5 Sierra 
+  and with Pythonista 3.1 using 64-bit Python 2.7.12 and 3.5.1 on iOS 
+  10.3.2.</p>
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.07.22
+        17.07.25
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -646,7 +654,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jul 24 15:27:04 2017
+    Generated by Epydoc 3.0.1 on Tue Jul 25 14:49:58 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

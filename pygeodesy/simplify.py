@@ -1,42 +1,47 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Six different functions to I{simplify} or linearize a path given as a
-list, sequence or tuple of I{LatLon} points.
+'''Six different functions to I{simplify} or linearize a path given as
+a list, sequence or tuple of I{LatLon} points.
 
 Each of the simplify functions is based on a different algorithm and
-produces different simplified results in (very) different run times
-for the same path of I{LatLon} points.
+produces different simplified results in (very) different run times for
+the same path of I{LatLon} points.
 
 Function L{simplify1} eliminates points based on edge lengths shorter
 than a given tolerance.
 
 The functions L{simplifyRDP} and L{simplifyRDPm} use the original,
-respectively modified Ramer-Douglas-Peucker (RDP) algorithm, recursively
-finding the points farthest from each path edge.  The difference is that
-function L{simplifyRDP} exhaustively searches the single, most distant
-point in each iteration, while function L{simplifyRDPm} stops at the
-first point exceeding the distance tolerance.
+respectively modified Ramer-Douglas-Peucker (RDP) algorithm, iteratively
+finding the point farthest from each path edge.  The difference is that
+function L{simplifyRDP} exhaustively searches the most distant point in
+each iteration, while modified L{simplifyRDPm} stops at the first point
+exceeding the distance tolerance.
 
-Function L{simplifyRW} use the Reumann-Witkam method, sliding a pipe
-over each edge, removing subsequent points up to the first point
-outside the pipe.
+Function L{simplifyRW} use the Reumann-Witkam method, sliding a "pipe"
+over each path edge, removing all subsequent points closer than the pipe
+radius up to the first point outside the pipe.
 
 Functions L{simplifyVW} and L{simplifyVWm} are based on the original,
 respectively modified Visvalingam-Whyatt (VW) method using the area of
-the triangle formed by three neigboring points.  The original L{simplifyVW}
-method removes only a single point per iteration, while the modified
-L{simplifyVWm} removes all points with areas not exceeding the
-tolerance in each iteration.
+the triangle formed by three neigboring points.  Function L{simplifyVW}
+removes only a single point per iteration, while modified L{simplifyVWm}
+eliminates all points with a triangular area not exceeding the tolerance
+in each iteration.
 
-Functions L{simplify2}, L{simplifyRDP} and L{simplifyRDPm} provide
-keyword I{shortest} to select the computation of the distance between
-a point and a path edge.  If True, use the shortest distance to the
-path edge or path end points, False use the perpendicular distance to
-the extended path edge line.
+Functions L{simplifyRDP}, L{simplifyRDPm} and L{simplifyRW} provide
+keyword argument I{shortest} to select the computation of the distance
+between a point and a path edge.  If True, use the shortest distance to
+the path edge or path end points, False use the perpendicular distance
+to the extended path edge line.
 
-For all functions, keyword I{adjust} scales the longitudinal distance
-between two points by the cosine of the mean of the latitudes.
+For all functions, keyword argument I{adjust} scales the longitudinal
+distance between two points by the cosine of the mean of the latitudes.
+
+Likewise, keyword argument I{radius} of all fuctions is set to the mean
+earth radius in meter.  Other units are can be choosen, provided that
+the radius and tolerance are always specified in the same units.
+
 
 See:
  - U{http://bost.ocks.org/mike/simplify/}
@@ -44,14 +49,16 @@ See:
  - U{http://hydra.hull.ac.uk/resources/hull:8338}
  - U{http://www.cs.ubc.ca/cgi-bin/tr/1992/TR-92-07.pdf}
  - U{http://web.cs.sunyit.edu/~poissad/projects/Curve/about_project.php}
+ - U{http://github.com/FlorianWilhelm/gps_data_with_python}
  - U{http://www.bdcc.co.uk/Gmaps/GDouglasPeuker.js}
  - U{http://github.com/mourner/simplify-js/}
  - U{http://github.com/omarestrella/simplify.py/}
  - U{http://pypi.python.org/pypi/visvalingam}
  - U{http://pypi.python.org/pypi/simplification/}
 
-Tested with 64-bit Python 2.6.9, 2.7.13, 3.5.3 and 3.6.2 on macOS
-10.12.3, 10.12.4 and 10.12.5 Sierra.
+Tested with 64-bit Python 2.6.9, 2.7.13, 3.5.3 and 3.6.2 on macOS 10.12.5
+Sierra, with 64-bit Intel-Python 3.5.3 on macOS 10.12.5 Sierra and with
+Pythonista 3.1 using 64-bit Python 2.7.12 and 3.5.1 on iOS 10.3.2.
 
 @newfield example: Example, Examples
 '''
@@ -64,7 +71,7 @@ from math  import cos, degrees, radians, sqrt
 __all__ = ('simplify1', 'simplify2',  # backward compatibility
            'simplifyRDP', 'simplifyRDPm', 'simplifyRW',
            'simplifyVW', 'simplifyVWm')
-__version__ = '17.07.22'
+__version__ = '17.07.25'
 
 
 # try:
@@ -160,7 +167,7 @@ class _Sy(object):
             d2, x01, y01 = d2xy(s, i)
             if d2 > eps:
                 # perpendicular distance
-                d2 = ((y01 * x21 - x01 * y21) ** 2) / d21
+                d2 = (y01 * x21 - x01 * y21) ** 2 / d21
                 if d2 > t2:
                     t2, t = d2, i
                     if brk:
@@ -176,9 +183,9 @@ class _Sy(object):
         #   x' = x * cos(a) + y * sin(a)
         #   y' = y * cos(a) - x * sin(a)
         #
-        # distance (d) along and perpendicular (h) to
+        # distance (w) along and perpendicular (h) to
         # the line thru point (px, py) and the origin:
-        #   d = (x * px + y * py) / hypot(px, py)
+        #   w = (x * px + y * py) / hypot(px, py)
         #   h = (y * px - x * py) / hypot(px, py)
 
         d21, x21, y21, s, e = self.d2xyse
@@ -192,7 +199,7 @@ class _Sy(object):
                 if x > 0:
                     if (x * x) < d21:
                         # perpendicular distance
-                        d2 = ((y01 * x21 - x01 * y21) ** 2) / d21
+                        d2 = (y01 * x21 - x01 * y21) ** 2 / d21
                     else:  # distance points[i] to -[e]
                         d2, _, _ = d2xy(e, i)
                 if d2 > t2:
@@ -301,9 +308,9 @@ class _Sy(object):
                 i = min(i, len(r) - 1)
 
     def vwn(self):
-        '''Initialize Visvalingam-Whyatt as list of 2-Tuples
-           (ix, h2) where ix is the points[] index and h2
-           the triangular area (times 2) of that point.
+        '''Initialize Visvalingam-Whyatt as list of 2-tuples
+           _T2(ix, h2) where ix is the points[] index and h2
+           is the triangular area (times 2) of that point.
         '''
         n, h2t, s2e = self.n, self.h2t, self.s2e
 

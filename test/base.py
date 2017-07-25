@@ -24,7 +24,7 @@ from pygeodesy import version as PyGeodesy_version, \
 __all__ = ('isiOS', 'PyGeodesy_dir', 'Python_O',  # constants
            'TestsBase',
            'runner', 'secs2str', 'tilde', 'type2str', 'versions')
-__version__ = '17.07.22'
+__version__ = '17.07.25'
 
 try:
     _int = int, long
@@ -109,10 +109,10 @@ class TestsBase(object):
     def test(self, name, value, expect, fmt='%s', known=False):
         '''Compare a test value with the expected one.
         '''
-        self.total += 1  # tests
         if not isinstance(expect, _str):
             expect = fmt % (expect,)  # expect as str
-        v = fmt % (value,)  # value as str
+
+        f, v = '', fmt % (value,)  # value as str
         if v != expect and v != normDMS(expect):
             self.failed += 1  # failures
             f = '  FAILED'
@@ -120,9 +120,15 @@ class TestsBase(object):
                 self.known += 1
                 f += ', KNOWN'
             f = '%s, expected %s' % (f, expect)
-        else:
-            f = ''  # ' passed'
+
+        self.total += 1  # tests
         self.printf('test %d %s: %s%s', self.total, name, v, f)
+
+    def test__(self, fmt, *args):
+        '''Print subtotal test line.
+        '''
+        t = '-' * len(str(self.total))
+        self.printf('test %s %s', t, (fmt % args))
 
     def title(self, test, version, module=None):
         '''Print the title of the test suite.
