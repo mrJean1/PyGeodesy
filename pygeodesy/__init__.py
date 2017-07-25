@@ -36,8 +36,10 @@ Two other modules provide Lambert conformal conic projections and positions
 <http://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}) and several functions to
 U{simplify<http://bost.ocks.org/mike/simplify>} or linearize a path of I{LatLon}
 points, including implementations of the U{Ramer-Douglas-Peucker
-<http://wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm>} and U{Visvalingam-Whyatt
-<http://hydra.hull.ac.uk/resources/hull:8338>} algorithms and modified versions of both.
+<http://wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm>}, the U{Visvalingam-Whyatt
+<http://hydra.hull.ac.uk/resources/hull:8338>} and the U{Reumann-Witkam
+<http://psimpl.sourceforge.net/reumann-witkam.html>} algorithm and modified
+versions of the former.
 
 All Python source code has been statically
 U{checked<http://code.activestate.com/recipes/546532>} with

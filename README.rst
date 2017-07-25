@@ -27,8 +27,9 @@ references and a module for encoding and decoding Geohashes_.
 Two other modules provide Lambert conformal conic projections and positions
 (from `John P. Snyder`_, *Map Projections -- A Working Manual*, 1987, pp
 107-109) and several functions to simplify_ or linearize a path of *LatLon*
-points, including implementations of the `Ramer-Douglas-Peucker`_ and
-`Visvalingam-Whyatt`_ algorithms and modified versions of both.
+points, including implementations of the `Ramer-Douglas-Peucker`_, the
+`Visvalingam-Whyatt`_ and the `Reumann-Witkam`_ algorithm and modified
+versions of the former.
 
 All Python source code has been statically checked_ with PyChecker_,
 PyFlakes_, PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.10
@@ -67,6 +68,7 @@ cases documentation tag **JS name:** shows the original JavaScript name.
 .. _PyFlakes: http://pypi.python.org/pypi/pyflakes
 .. _PyGeodesy: http://pypi.python.org/pypi/PyGeodesy
 .. _Ramer-Douglas-Peucker: http://wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm
+.. _Reumann-Witkam: http://psimpl.sourceforge.net/reumann-witkam.html
 .. _simplify: http://bost.ocks.org/mike/simplify
 .. _UTM: http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html
 .. _Vector-based: http://www.movable-type.co.uk/scripts/latlong-vectors.html

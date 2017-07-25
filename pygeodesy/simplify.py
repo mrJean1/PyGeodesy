@@ -47,6 +47,7 @@ See:
  - U{http://bost.ocks.org/mike/simplify/}
  - U{http://wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm}
  - U{http://hydra.hull.ac.uk/resources/hull:8338}
+ - U{http://psimpl.sourceforge.net/reumann-witkam.html}
  - U{http://www.cs.ubc.ca/cgi-bin/tr/1992/TR-92-07.pdf}
  - U{http://web.cs.sunyit.edu/~poissad/projects/Curve/about_project.php}
  - U{http://github.com/FlorianWilhelm/gps_data_with_python}
