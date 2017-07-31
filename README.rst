@@ -25,8 +25,8 @@ System) and OSGR_ (British Ordinance Survery Grid Reference) grid
 references and a module for encoding and decoding Geohashes_.
 
 Two other modules provide Lambert conformal conic projections and positions
-(from `John P. Snyder, *Map Projections -- A Working Manual*, 1987, pp
-107-109`_) and several functions to simplify_ or linearize a path of *LatLon*
+(from `John P. Snyder`_, *Map Projections -- A Working Manual*, 1987, pp
+107-109) and several functions to simplify_ or linearize a path of *LatLon*
 points (or a NumPy array), including implementations of the `Ramer-Douglas-Peucker`_,
 the `Visvalingam-Whyatt`_ and the `Reumann-Witkam`_ algorithms and modified
 versions of the former.
