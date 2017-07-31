@@ -52,7 +52,7 @@ R_SM = m2SM(R_M)  #: Mean, spherical earth radius (statute miles).
 __all__ = ('R_KM', 'R_M', 'R_NM', 'R_SM',  # constants
            'Datum',  'Ellipsoid',  'Transform',  # classes
            'Datums', 'Ellipsoids', 'Transforms')  # enum-like
-__version__ = '17.06.25'
+__version__ = '17.07.31'
 
 
 class _Enum(dict, Named):
@@ -148,13 +148,13 @@ class Ellipsoid(_Based):
     e12  = 1  #: (1 - e2) (float).
     e22  = 0  #: 2nd Eccentricity squared: e2 / (1 - e2) = ab**2 - 1 (float).
     f    = 0  #: Flattening: (a - b) / a (float).
-    f_   = 0  #: Inverse flattening: a / (a - b) = 1 /f (float).
+    f_   = 0  #: Inverse flattening: a / (a - b) = 1 / f (float).
     n    = 0  #: 3rd Flattening: f / (2 - f) = (a - b) / (a + b) (float).
-    # radii from <http://wikipedia.org/wiki/Earth_radius>
-    R    = 0  #: Mean radius: (2 * a + b) / 3 per IUGG definition (meter).
-    Rm   = 0  #: Mean radius: sqrt(a * b) (meter).
+    # earth radii from <http://wikipedia.org/wiki/Earth_radius>
+    R    = 0  #: Mean earth radius: (2 * a + b) / 3 per IUGG definition (meter).
+    Rm   = 0  #: Mean earth radius: sqrt(a * b) (meter).
     R2   = 0  #: Authalic radius: sqrt((a**2 + b**2 * atanh(e) / e) / 2) (meter).
-    R3   = 0  #: Volumetric radius: cbrt(a * a * b) (meter).
+    R3   = 0  #: Volumetric radius: (a * a * b)**1/3 (meter).
     Rr   = 0  #: Rectifying radius: ((a**3/2 + b**3/2) / 2)**2/3 (meter).
 
     _A      = None  #: (INTERNAL) meridian radius
@@ -357,35 +357,51 @@ class Ellipsoid(_Based):
 
 
 # <http://www.gnu.org/software/gama/manual/html_node/Supported-ellipsoids.html>
+# <http://w3.energistics.org/archive/Epicentre/Epicentre_v3.0/DataModel/
+#         LogicalDictionary/StandardValues/ellipsoid.html>
+# <http://kb.osu.edu/dspace/handle/1811/77986>
 Ellipsoids._assert(  # <http://wikipedia.org/wiki/Earth_ellipsoid>
     Airy1830       = Ellipsoid(6377563.396, 6356256.909,       299.3249646,   'Airy1830'),
     AiryModified   = Ellipsoid(6377340.189, 6356034.448,       299.3249646,   'AiryModified'),
     Australia1966  = Ellipsoid(6378160.0,   6356774.719,       298.25,        'Australia1966'),
     Bessel1841     = Ellipsoid(6377397.155, 6356078.963,       299.152815351, 'Bessel1841'),  # XXX 299.1528128
     Clarke1866     = Ellipsoid(6378206.4,   6356583.8,         294.978698214, 'Clarke1866'),
+    Clarke1880     = Ellipsoid(6378249.145, 6356514.86954978,  293.465,       'Clarke1880'),
+    Clarke1880Mod  = Ellipsoid(6378249.145, 6356514.96582849,  293.4663,      'Clarke1880Mod'),
     Clarke1880IGN  = Ellipsoid(6378249.2,   6356515.0,         293.466021294, 'Clarke1880IGN'),  # XXX confirm
     CPM1799        = Ellipsoid(6375738.7,   6356671.92557493,  334.39,        'CPM1799'),  # Comm. des Poids et Mesures
     Delambre1810   = Ellipsoid(6376428.0,   6355957.92616372,  311.5,         'Delambre1810'),  # Belgium
     Engelis1985    = Ellipsoid(6378136.05,  6356751.32272154,  298.2566,      'Engelis1985'),
     Everest1969    = Ellipsoid(6377295.664, 6356094.667915,    300.8017,      'Everest1969'),
     Fisher1968     = Ellipsoid(6378150.0,   6356768.33724438,  298.3,         'Fisher1968'),
+    GEM10C         = Ellipsoid(6378137.0,   6356752.31424783,  298.2572236,   'GEM10C'),
     GRS67          = Ellipsoid(6378160.0,   6356774.516,       298.247167427, 'GRS67'),  # Lucerne
     GRS80          = Ellipsoid(6378137.0,   6356752.314140347, 298.257222101, 'GRS80'),  # ITRS, ETRS89
     Helmert1906    = Ellipsoid(6378200.0,   6356818.16962789,  298.3,         'Helmert1906'),
     IERS1989       = Ellipsoid(6378136.0,   6356751.302,       298.257,       'IERS1989'),
+    IERS1992TOPEX  = Ellipsoid(6378136.3,   6356751.61659215,  298.257223563, 'IERS1992TOPEX'),  # IERS/TOPEX/Poseidon/McCarthy
     IERS2003       = Ellipsoid(6378136.6,   6356751.85797165,  298.25642,     'IERS2003'),
     Intl1924       = Ellipsoid(6378388.0,   6356911.946,       297.0,         'Intl1924'),  # aka Hayford
     Intl1967       = Ellipsoid(6378157.5,   6356772.2,         298.24961539,  'Intl1967'),  # New Int'l
-    Krassovsky1940 = Ellipsoid(6378245.0,   6356863.019,       298.3,         'Krassovsky1940'),
+    Krassovski1940 = Ellipsoid(6378245.0,   6356863.01877305,  298.3,         'Krassovski1940'),  # spelling
+    Krassowsky1940 = Ellipsoid(6378245.0,   6356863.01877305,  298.3,         'Krassowsky1940'),  # spelling
     Maupertuis1738 = Ellipsoid(6397300.0,   6363806.28272251,  191.0,         'Maupertuis1738'),  # France
+    Mercury1960    = Ellipsoid(6378166.0,   6356784.28360711,  298.3,         'Mercury1960'),
+    Mercury1968Mod = Ellipsoid(6378150.0,   6356768.33724438,  298.3,         'Mercury1968Mod'),
     NWL1965        = Ellipsoid(6378145.0,   6356759.76948868,  298.25,        'NWL1965'),  # Naval Weapons Lab.
-    Plessis1817    = Ellipsoid(6397523.0,   6355863.0,         153.56512242,  'Plessis1817'),  # France
+    OSU86F         = Ellipsoid(6378136.2,   6356751.51693008,  298.2572236,   'OSU86F'),
+    OSU91A         = Ellipsoid(6378136.3,   6356751.6165948,   298.2572236,   'OSU91A'),
+#   Plessis1817    = Ellipsoid(6397523.0,   6355863.0,         153.56512242,  'Plessis1817'),  # XXX incorrect?
+    Plessis1817    = Ellipsoid(6376523.0,   6355862.93325557,  308.64,        'Plessis1817'),  # XXX IGN France 1972
     SGS85          = Ellipsoid(6378136.0,   6356751.30156878,  298.257,       'SGS85'),  # Soviet Geodetic System
+    SoAmerican1969 = Ellipsoid(6378160.0,   6356774.71919531,  298.25,        'SoAmerican1969'),  # South American
+    Struve1860     = Ellipsoid(6378298.3,   6356657.14266956,  294.73,        'Struve1860'),
     WGS60          = Ellipsoid(6378165.0,   6356783.28695944,  298.3,         'WGS60'),
     WGS66          = Ellipsoid(6378145.0,   6356759.76948868,  298.25,        'WGS66'),
     WGS72          = Ellipsoid(6378135.0,   6356750.52,        298.26,        'WGS72'),
     WGS84          = Ellipsoid(6378137.0,   6356752.31425,     298.257223563, 'WGS84'),  # GPS
     Sphere         = Ellipsoid(R_M,         R_M,                 0.0,         'Sphere'),  # pseudo
+    SphereAuthalic = Ellipsoid(6371000.0,   6371000.0,           0.0,         'SphereAuthalic'),  # pseudo
 )
 
 
@@ -533,9 +549,12 @@ Transforms._assert(
                      # XXX rotation signs may be opposite, to be checked
                                           sx=  -1.042, sy= -0.214, sz=  -0.631,
                                            s=  -1.1),
-    Krassovsky1940 = Transform('Krassovsky1940', tx=-24.0,  ty=123.0,  tz=94.0,
+    Krassovski1940 = Transform('Krassovski1940', tx=-24.0,  ty=123.0,  tz=94.0,
                                                  sx= -0.02, sy=  0.26, sz= 0.13,
-                                                  s= -2.423),
+                                                  s= -2.423),  # spelling
+    Krassowsky1940 = Transform('Krassowsky1940', tx=-24.0,  ty=123.0,  tz=94.0,
+                                                 sx= -0.02, sy=  0.26, sz= 0.13,
+                                                  s= -2.423),  # spelling
     MGI            = Transform('MGI', tx=-577.326, ty=-90.129, tz=-463.920,
                                       sx=   5.137, sy=  1.474, sz=   5.297,
                                        s=  -2.423),  # Austria
@@ -652,7 +671,8 @@ Datums._assert(
     Irl1975        = Datum(Ellipsoids.AiryModified, Transforms.Irl1975),
 
     # Germany <http://wikipedia.org/wiki/Helmert_transformation>
-    Krassovsky1940 = Datum(Ellipsoids.Krassovsky1940, Transforms.Krassovsky1940),
+    Krassovski1940 = Datum(Ellipsoids.Krassovski1940, Transforms.Krassovski1940),  # spelling
+    Krassowsky1940 = Datum(Ellipsoids.Krassowsky1940, Transforms.Krassowsky1940),  # spelling
 
     # Austria <http://de.wikipedia.org/wiki/Datum_Austria>
     MGI            = Datum(Ellipsoids.Bessel1841, Transforms.MGI),
@@ -722,7 +742,7 @@ if __name__ == '__main__':
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-# Typical result (on macOS 10.12.3, 10,12,4 and 10.12.5 Sierra)
+# Typical result (on macOS 10.12.3 thru 10.12.6 Sierra)
 
 # Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, b=6356256.909, f_=299.3249646, f=0.00334085, e2=0.00667054, e22=0.00671533, R=6370461.23366667, Rm=6366901.23988196, R2=6370459.65458944, R3=6370453.30986645, Rr=6366914.60880589)
 # Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189, b=6356034.448, f_=299.3249646, f=0.00334085, e2=0.00667054, e22=0.00671533, R=6370238.27533333, Rm=6366678.40619415, R2=6370236.69636116, R3=6370230.35181066, Rr=6366691.7746498)
@@ -730,24 +750,36 @@ if __name__ == '__main__':
 # Ellipsoids.Bessel1841: Ellipsoid(name='Bessel1841', a=6377397.155, b=6356078.963, f_=299.15281535, f=0.00334277, e2=0.00667437, e22=0.00671922, R=6370291.091, Rm=6366729.13634557, R2=6370289.51018729, R3=6370283.15827603, Rr=6366742.52032409)
 # Ellipsoids.CPM1799: Ellipsoid(name='CPM1799', a=6375738.7, b=6356671.92557493, f_=334.39, f=0.00299052, e2=0.0059721, e22=0.00600798, R=6369383.10852498, Rm=6366198.17466371, R2=6369381.8434158, R3=6369376.76247021, Rr=6366208.88184734)
 # Ellipsoids.Clarke1866: Ellipsoid(name='Clarke1866', a=6378206.4, b=6356583.8, f_=294.97869821, f=0.00339008, e2=0.00676866, e22=0.00681478, R=6370998.86666667, Rm=6367385.92165547, R2=6370997.240633, R3=6370990.70659881, Rr=6367399.68916895)
+# Ellipsoids.Clarke1880: Ellipsoid(name='Clarke1880', a=6378249.145, b=6356514.86954978, f_=293.465, f=0.00340756, e2=0.00680351, e22=0.00685012, R=6371004.38651659, Rm=6367372.73385858, R2=6371002.74366963, R3=6370996.1419165, Rr=6367386.64397966)
 # Ellipsoids.Clarke1880IGN: Ellipsoid(name='Clarke1880IGN', a=6378249.2, b=6356515.0, f_=293.46602129, f=0.00340755, e2=0.00680349, e22=0.00685009, R=6371004.46666667, Rm=6367372.82664821, R2=6371002.82383111, R3=6370996.22212394, Rr=6367386.73667251)
+# Ellipsoids.Clarke1880Mod: Ellipsoid(name='Clarke1880Mod', a=6378249.145, b=6356514.96582849, f_=293.4663, f=0.00340755, e2=0.00680348, e22=0.00685009, R=6371004.4186095, Rm=6367372.78208016, R2=6371002.77577708, R3=6370996.17408252, Rr=6367386.6920779)
 # Ellipsoids.Delambre1810: Ellipsoid(name='Delambre1810', a=6376428.0, b=6355957.92616372, f_=311.5, f=0.00321027, e2=0.00641024, e22=0.0064516, R=6369604.64205457, Rm=6366184.7355549, R2=6369603.18419749, R3=6369597.32739068, Rr=6366197.07684267)
 # Ellipsoids.Engelis1985: Ellipsoid(name='Engelis1985', a=6378136.05, b=6356751.32272154, f_=298.2566, f=0.00335282, e2=0.00669439, e22=0.00673951, R=6371007.80757385, Rm=6367434.70891814, R2=6371006.21707085, R3=6370999.82613572, Rr=6367448.17507892)
 # Ellipsoids.Everest1969: Ellipsoid(name='Everest1969', a=6377295.664, b=6356094.667915, f_=300.8017, f=0.00332445, e2=0.00663785, e22=0.0066822, R=6370228.665305, Rm=6366686.3410779, R2=6370227.10178534, R3=6370220.81951617, Rr=6366699.57839424)
 # Ellipsoids.Fisher1968: Ellipsoid(name='Fisher1968', a=6378150.0, b=6356768.33724438, f_=298.3, f=0.00335233, e2=0.00669342, e22=0.00673853, R=6371022.77908146, Rm=6367450.19377421, R2=6371021.18903735, R3=6371014.79995034, Rr=6367463.65604301)
+# Ellipsoids.GEM10C: Ellipsoid(name='GEM10C', a=6378137.0, b=6356752.31424783, f_=298.2572236, f=0.00335281, e2=0.00669438, e22=0.0067395, R=6371008.77141594, Rm=6367435.67971752, R2=6371007.18091936, R3=6371000.79001004, Rr=6367449.14582394)
 # Ellipsoids.GRS67: Ellipsoid(name='GRS67', a=6378160.0, b=6356774.516, f_=298.24716743, f=0.00335292, e2=0.00669461, e22=0.00673973, R=6371031.50533333, Rm=6367458.27995524, R2=6371029.91470873, R3=6371023.52335984, Rr=6367471.74701921)
 # Ellipsoids.GRS80: Ellipsoid(name='GRS80', a=6378137.0, b=6356752.31414035, f_=298.2572221, f=0.00335281, e2=0.00669438, e22=0.0067395, R=6371008.77138012, Rm=6367435.67966369, R2=6371007.18088351, R3=6371000.78997413, Rr=6367449.14577025)
 # Ellipsoids.Helmert1906: Ellipsoid(name='Helmert1906', a=6378200.0, b=6356818.16962789, f_=298.3, f=0.00335233, e2=0.00669342, e22=0.00673853, R=6371072.7232093, Rm=6367500.10989561, R2=6371071.13315272, R3=6371064.74401563, Rr=6367513.57226994)
 # Ellipsoids.IERS1989: Ellipsoid(name='IERS1989', a=6378136.0, b=6356751.302, f_=298.257, f=0.00335281, e2=0.00669438, e22=0.0067395, R=6371007.76733333, Rm=6367434.6735819, R2=6371006.17690648, R3=6370999.78591702, Rr=6367448.13970588)
+# Ellipsoids.IERS1992TOPEX: Ellipsoid(name='IERS1992TOPEX', a=6378136.3, b=6356751.61659215, f_=298.25722356, f=0.00335281, e2=0.00669438, e22=0.0067395, R=6371008.07219738, Rm=6367434.98089066, R2=6371006.48170097, R3=6371000.09079235, Rr=6367448.44699561)
 # Ellipsoids.IERS2003: Ellipsoid(name='IERS2003', a=6378136.6, b=6356751.85797165, f_=298.25642, f=0.00335282, e2=0.0066944, e22=0.00673951, R=6371008.35265722, Rm=6367435.25153158, R2=6371006.76215217, R3=6371000.37120876, Rr=6367448.71770978)
 # Ellipsoids.Intl1924: Ellipsoid(name='Intl1924', a=6378388.0, b=6356911.946, f_=297.0, f=0.003367, e2=0.00672267, e22=0.00676817, R=6371229.31533333, Rm=6367640.91900784, R2=6371227.71127046, R3=6371221.26583212, Rr=6367654.49999285)
 # Ellipsoids.Intl1967: Ellipsoid(name='Intl1967', a=6378157.5, b=6356772.2, f_=298.24961539, f=0.0033529, e2=0.00669455, e22=0.00673967, R=6371029.06666667, Rm=6367455.87210634, R2=6371027.4760839, R3=6371021.08482752, Rr=6367469.33894366)
-# Ellipsoids.Krassovsky1940: Ellipsoid(name='Krassovsky1940', a=6378245.0, b=6356863.019, f_=298.3, f=0.00335233, e2=0.00669342, e22=0.00673853, R=6371117.673, Rm=6367545.03451854, R2=6371116.08297003, R3=6371109.69375021, Rr=6367558.49698756)
+# Ellipsoids.Krassovski1940: Ellipsoid(name='Krassovski1940', a=6378245.0, b=6356863.01877305, f_=298.3, f=0.00335233, e2=0.00669342, e22=0.00673853, R=6371117.67292435, Rm=6367545.03440487, R2=6371116.08285656, R3=6371109.69367439, Rr=6367558.49687419)
+# Ellipsoids.Krassowsky1940: Ellipsoid(name='Krassowsky1940', a=6378245.0, b=6356863.01877305, f_=298.3, f=0.00335233, e2=0.00669342, e22=0.00673853, R=6371117.67292435, Rm=6367545.03440487, R2=6371116.08285656, R3=6371109.69367439, Rr=6367558.49687419)
 # Ellipsoids.Maupertuis1738: Ellipsoid(name='Maupertuis1738', a=6397300.0, b=6363806.28272251, f_=191.0, f=0.0052356, e2=0.01044379, e22=0.01055402, R=6386135.42757417, Rm=6380531.16381863, R2=6386131.54144846, R3=6386115.88628229, Rr=6380564.13011364)
+# Ellipsoids.Mercury1960: Ellipsoid(name='Mercury1960', a=6378166.0, b=6356784.28360711, f_=298.3, f=0.00335233, e2=0.00669342, e22=0.00673853, R=6371038.76120237, Rm=6367466.16693306, R2=6371037.17115427, R3=6371030.78205124, Rr=6367479.62923563)
+# Ellipsoids.Mercury1968Mod: Ellipsoid(name='Mercury1968Mod', a=6378150.0, b=6356768.33724438, f_=298.3, f=0.00335233, e2=0.00669342, e22=0.00673853, R=6371022.77908146, Rm=6367450.19377421, R2=6371021.18903735, R3=6371014.79995034, Rr=6367463.65604301)
 # Ellipsoids.NWL1965: Ellipsoid(name='NWL1965', a=6378145.0, b=6356759.76948868, f_=298.25, f=0.00335289, e2=0.00669454, e22=0.00673966, R=6371016.58982956, Rm=6367443.40689145, R2=6371014.999254, R3=6371008.60802666, Rr=6367456.87366762)
-# Ellipsoids.Plessis1817: Ellipsoid(name='Plessis1817', a=6397523.0, b=6355863.0, f_=153.56512242, f=0.0065119, e2=0.01298139, e22=0.01315212, R=6383636.33333333, Rm=6376658.97844232, R2=6383630.32549925, R3=6383606.08096947, Rr=6376710.01073346)
+# Ellipsoids.OSU86F: Ellipsoid(name='OSU86F', a=6378136.2, b=6356751.51693008, f_=298.2572236, f=0.00335281, e2=0.00669438, e22=0.0067395, R=6371007.97231003, Rm=6367434.88105977, R2=6371006.38181364, R3=6370999.99090512, Rr=6367448.34716451)
+# Ellipsoids.OSU91A: Ellipsoid(name='OSU91A', a=6378136.3, b=6356751.6165948, f_=298.2572236, f=0.00335281, e2=0.00669438, e22=0.0067395, R=6371008.07219827, Rm=6367434.98089199, R2=6371006.48170186, R3=6371000.09079324, Rr=6367448.44699693)
+# Ellipsoids.Plessis1817: Ellipsoid(name='Plessis1817', a=6376523.0, b=6355862.93325557, f_=308.64, f=0.00324002, e2=0.00646954, e22=0.00651167, R=6369636.31108519, Rm=6366184.58566445, R2=6369634.82608583, R3=6369628.85999667, Rr=6366197.15710669)
 # Ellipsoids.SGS85: Ellipsoid(name='SGS85', a=6378136.0, b=6356751.30156878, f_=298.257, f=0.00335281, e2=0.00669438, e22=0.0067395, R=6371007.76718959, Rm=6367434.67336593, R2=6371006.17669087, R3=6370999.78577296, Rr=6367448.13949045)
+# Ellipsoids.SoAmerican1969: Ellipsoid(name='SoAmerican1969', a=6378160.0, b=6356774.71919531, f_=298.25, f=0.00335289, e2=0.00669454, e22=0.00673966, R=6371031.5730651, Rm=6367458.38172365, R2=6371029.98248581, R3=6371023.59124343, Rr=6367471.84853149)
 # Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=6371008.771415, f_=0, f=0, e2=0, e22=0, R=6371008.771415, Rm=6371008.771415, R2=6371008.771415, R3=6371008.771415, Rr=6371008.771415)
+# Ellipsoids.SphereAuthalic: Ellipsoid(name='SphereAuthalic', a=6371000.0, b=6371000.0, f_=0, f=0, e2=0, e22=0, R=6371000.0, Rm=6371000.0, R2=6371000.0, R3=6371000.0, Rr=6371000.0)
+# Ellipsoids.Struve1860: Ellipsoid(name='Struve1860', a=6378298.3, b=6356657.14266956, f_=294.73, f=0.00339294, e2=0.00677436, e22=0.00682056, R=6371084.58088985, Rm=6367468.52734838, R2=6371082.95208988, R3=6371076.40691418, Rr=6367482.31832466)
 # Ellipsoids.WGS60: Ellipsoid(name='WGS60', a=6378165.0, b=6356783.28695944, f_=298.3, f=0.00335233, e2=0.00669342, e22=0.00673853, R=6371037.76231981, Rm=6367465.16861063, R2=6371036.17227197, R3=6371029.78316993, Rr=6367478.6309111)
 # Ellipsoids.WGS66: Ellipsoid(name='WGS66', a=6378145.0, b=6356759.76948868, f_=298.25, f=0.00335289, e2=0.00669454, e22=0.00673966, R=6371016.58982956, Rm=6367443.40689145, R2=6371014.999254, R3=6371008.60802666, Rr=6367456.87366762)
 # Ellipsoids.WGS72: Ellipsoid(name='WGS72', a=6378135.0, b=6356750.52, f_=298.26, f=0.00335278, e2=0.00669432, e22=0.00673943, R=6371006.84, Rm=6367433.78276368, R2=6371005.24953082, R3=6370998.85874532, Rr=6367447.24861499)
@@ -760,7 +792,8 @@ if __name__ == '__main__':
 # Transforms.ED50: Transform(name='ED50', tx=89.5, ty=93.8, tz=123.1, rx=0, ry=0, rz=0.0, s=-1.2, s1=1.0, sx=0, sy=0, sz=0.156)
 # Transforms.Irl1965: Transform(name='Irl1965', tx=-482.53, ty=130.596, tz=-564.557, rx=0.0, ry=0.0, rz=0.0, s=-8.15, s1=1.0, sx=1.042, sy=0.214, sz=0.631)
 # Transforms.Irl1975: Transform(name='Irl1975', tx=-482.53, ty=130.596, tz=-564.557, rx=-0.0, ry=-0.0, rz=-0.0, s=-1.1, s1=1.0, sx=-1.042, sy=-0.214, sz=-0.631)
-# Transforms.Krassovsky1940: Transform(name='Krassovsky1940', tx=-24.0, ty=123.0, tz=94.0, rx=-0.0, ry=0.0, rz=0.0, s=-2.423, s1=1.0, sx=-0.02, sy=0.26, sz=0.13)
+# Transforms.Krassovski1940: Transform(name='Krassovski1940', tx=-24.0, ty=123.0, tz=94.0, rx=-0.0, ry=0.0, rz=0.0, s=-2.423, s1=1.0, sx=-0.02, sy=0.26, sz=0.13)
+# Transforms.Krassowsky1940: Transform(name='Krassowsky1940', tx=-24.0, ty=123.0, tz=94.0, rx=-0.0, ry=0.0, rz=0.0, s=-2.423, s1=1.0, sx=-0.02, sy=0.26, sz=0.13)
 # Transforms.MGI: Transform(name='MGI', tx=-577.326, ty=-90.129, tz=-463.92, rx=0.0, ry=0.0, rz=0.0, s=-2.423, s1=1.0, sx=5.137, sy=1.474, sz=5.297)
 # Transforms.NAD27: Transform(name='NAD27', tx=8.0, ty=-160.0, tz=-176.0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
 # Transforms.NAD83: Transform(name='NAD83', tx=1.004, ty=-1.91, tz=-0.515, rx=0.0, ry=0.0, rz=0.0, s=-0.0015, s1=1.0, sx=0.0267, sy=0.0003, sz=0.011)
@@ -775,7 +808,8 @@ if __name__ == '__main__':
 # Datums.ED50: Datum(name='ED50', ellipsoid=Ellipsoids.Intl1924, transform=Transforms.ED50)
 # Datums.GRS80: Datum(name='GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.WGS84)
 # Datums.Irl1975: Datum(name='Irl1975', ellipsoid=Ellipsoids.AiryModified, transform=Transforms.Irl1975)
-# Datums.Krassovsky1940: Datum(name='Krassovsky1940', ellipsoid=Ellipsoids.Krassovsky1940, transform=Transforms.Krassovsky1940)
+# Datums.Krassovski1940: Datum(name='Krassovski1940', ellipsoid=Ellipsoids.Krassovski1940, transform=Transforms.Krassovski1940)
+# Datums.Krassowsky1940: Datum(name='Krassowsky1940', ellipsoid=Ellipsoids.Krassowsky1940, transform=Transforms.Krassowsky1940)
 # Datums.MGI: Datum(name='MGI', ellipsoid=Ellipsoids.Bessel1841, transform=Transforms.MGI)
 # Datums.NAD27: Datum(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27)
 # Datums.NAD83: Datum(name='NAD83', ellipsoid=Ellipsoids.GRS80, transform=Transforms.NAD83)

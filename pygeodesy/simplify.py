@@ -1,10 +1,10 @@
 
 # -*- coding: utf-8 -*-
 
-'''Six different functions to I{simplify} or linearize a path given as
+u'''Six different functions to I{simplify} or linearize a path given as
 a list, sequence or tuple of I{LatLon} points.
 
-Each of the simplify functions is based on a different algorithm and
+Each of the I{simplify} functions is based on a different algorithm and
 produces different simplified results in (very) different run times for
 the same path of I{LatLon} points.
 
@@ -42,6 +42,12 @@ Likewise, keyword argument I{radius} of all fuctions is set to the mean
 earth radius in meter.  Other units are can be choosen, provided that
 the radius and tolerance are always specified in the same units.
 
+To process NumPy arrays containing rows of lat-, longitude and possibly
+other values, use the L{Numpy2points} class to wrap a NumPy array into
+I{LatLon}-like points.  Pass the L{Numpy2points} instance to any
+I{simplify} function and the returned result will the simplified subset
+of the original NumPY array.
+
 
 See:
  - U{http://bost.ocks.org/mike/simplify/}
@@ -57,7 +63,7 @@ See:
  - U{http://pypi.python.org/pypi/visvalingam}
  - U{http://pypi.python.org/pypi/simplification/}
 
-Tested with 64-bit Python 2.6.9, 2.7.13, 3.5.3 and 3.6.2 on macOS 10.12.5
+Tested with 64-bit Python 2.6.9, 2.7.13, 3.5.3 and 3.6.2 on macOS 10.12.6
 Sierra, with 64-bit Intel-Python 3.5.3 on macOS 10.12.5 Sierra and with
 Pythonista 3.1 using 64-bit Python 2.7.12 and 3.5.1 on iOS 10.3.2.
 
@@ -69,10 +75,79 @@ from utils import EPS, len2, radiansPI, wrap90, wrap180
 
 from math  import cos, degrees, radians, sqrt
 
-__all__ = ('simplify1', 'simplify2',  # backward compatibility
+__all__ = ('Numpy2points',  # class
+           'simplify1', 'simplify2',  # backward compatibility
            'simplifyRDP', 'simplifyRDPm', 'simplifyRW',
            'simplifyVW', 'simplifyVWm')
-__version__ = '17.07.25'
+__version__ = '17.07.31'
+
+
+class _LL(object):
+    '''(INTRNAL) Helper for Numpy2points'
+    '''
+    __slots__ = ('lat', 'lon')
+
+    def __init__(self, lat, lon, *unused):
+        self.lat = lat
+        self.lon = lon
+
+
+class Numpy2points(object):
+    '''Wrap NumPy arrays to "on-the-fly" LatLon points.
+    '''
+    def __init__(self, array, lat=1, lon=0):
+        '''Handle NumPy array like I{simplify...}-compatible points.
+
+           @param array: NumPy array [n,2+] (I{numpy.array}).
+           @keyword lat: column index containing latitude values (integer).
+           @keyword lon: column index containing longitude values (integer).
+        '''
+        try:  # get shape and check other numpy array attrs
+            s, _, _ = array.shape, array.nbytes, array.ndim  # PYCHOK expected
+        except AttributeError:
+            raise TypeError('%s not NumPy: %s' % ('array', type(array)))
+        if len(s) < 2 or s[1] < 2:
+            raise ValueError('%s shape: %r' % ('array', s))
+        if not 0 <= lat < s[1]:
+            raise ValueError('%s invalid: %s' % ('lat', lat))
+        if not 0 <= lon < s[1]:
+            raise ValueError('%s invalid: %s' % ('lon', lon))
+        if lat == lon:
+            raise ValueError('%s == %s == %s' % ('lat', 'lon', lat))
+        self._array = array
+        self._lat = lat
+        self._lon = lon
+        self._shape = s
+
+    def __getitem__(self, idx):
+        row = self._array[idx]
+        return _LL(row[self._lat], row[self._lon])
+
+    def __len__(self):
+        return self._shape[0]
+
+    @property
+    def lat(self):
+        '''Return latitude column index.
+        '''
+        return self._lat
+
+    @property
+    def lon(self):
+        '''Return longitude column index.
+        '''
+        return self._lon
+
+    @property
+    def shape(self):
+        '''Return a sub-set of the NumPy array.
+        '''
+        return self._shape
+
+    def subset(self, indices):
+        '''Return a sub-set of the NumPy array.
+        '''
+        return self._array[indices]
 
 
 # try:
@@ -112,7 +187,10 @@ class _Sy(object):
     def __init__(self, points, tolerance, radius, adjust, shortest):
         '''New state.
         '''
-        n, self.pts = len2(points)
+        if isinstance(points, Numpy2points):
+            n, self.pts = len(points), points
+        else:
+            n, self.pts = len2(points)
         if n > 0:
             self.n = n
             self.r = {0: True, n-1: True}  # dict to avoid duplicates
@@ -246,7 +324,10 @@ class _Sy(object):
     def points(self, r):
         '''Return the list of simplified points.
         '''
-        return [self.pts[i] for i in sorted(r.keys())]
+        if isinstance(self.pts, Numpy2points):
+            return self.pts.subset(sorted(r.keys()))
+        else:
+            return [self.pts[i] for i in sorted(r.keys())]
 
     def rdp(self, modified):
         '''Ramer-Douglas-Peucker (RDP) simplification of a
@@ -339,6 +420,8 @@ class _Sy(object):
         if attr:  # return the trangular area (actually
             # the sqrt of double the triangular area)
             # converted back from degrees to meter
+            if isinstance(pts, Numpy2points):
+                raise AttributeError('%r invalid' % (attr,))
             m = radians(1.0) * self.radius
             r[0].h2 = r[-1].h2 = 0  # zap sentinels
             for t2 in r:  # convert back to meter

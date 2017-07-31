@@ -4,11 +4,11 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '17.07.25'
+__version__ = '17.07.31'
 
 from base import TestsBase, secs2str
 
-from pygeodesy import EPS, R_M, \
+from pygeodesy import EPS, R_M, Numpy2points, \
                       simplify1, simplifyRW, \
                       simplifyRDP, simplifyRDPm, \
                       simplifyVW, simplifyVWm, \
@@ -18,12 +18,17 @@ from pygeodesy import EPS, R_M, \
 from math import cos, degrees, radians
 from time import time
 
+try:
+    import numpy
+except ImportError:
+    numpy = None
+
 _Simplifys = ()  # simplifyXYZ functions to run
 
 
 class Tests(TestsBase):
 
-    def test2(self, function, points, ms, **kwds):
+    def test2(self, function, points, ms, typ=None, **kwds):
 
         if _Simplifys and function.__name__[8:] not in _Simplifys:
             return  # skip this simplify function
@@ -41,6 +46,8 @@ class Tests(TestsBase):
             t = '%s %dm (%s)' % (f, m, secs2str(s))
             self.test(t, n, ms[m])
             S += s
+            if typ:
+                self.test('numpy.array', type(r) == typ, True)
 
         if S > s:  # sub-total time
             self.test__('%s %s\n', f, secs2str(S))
@@ -187,14 +194,10 @@ def simplifyRDPgr(source, kink, radius=R_M, adjust=True, shortest=True,  # MCCAB
 
             if max2 > k2:
                 stk.append((ix, e))
-                if modified:
-                    ixs[s] = True
-                else:
+                if not modified:
                     stk.append((s, ix))
-            else:
-                ixs[s] = True
-        else:
-            ixs[s] = True
+                    s = 0
+        ixs[s] = True
 
     return [source[i] for i in sorted(ixs.keys())]
 
@@ -275,6 +278,24 @@ if __name__ == '__main__':  # PYCHOK internal error?
     # <http://georust.github.io/rust-geo/geo/algorithm/simplifyvw/trait.SimplifyVW.html>
 #   t.test2(simplifyVW, [_LatLon(*ll) for ll in ((5.0, 2.0), (3.0, 8.0), (6.0, 20.0), (7.0, 25.0), (10.0, 10.0))],
 #                        _ms({30: 3}), adjust=False)  # (5.0, 2.0), (7.0, 25.0), (10.0, 10.0)
+
+    if numpy:
+        t.test('numpy.__version__', numpy.__version__, numpy.__version__)
+
+        npy = numpy.array([(ll.lon, ll.lat) for ll in PtsFFI], dtype=float)
+        pts = Numpy2points(npy, lat=1, lon=0)
+        t.test('Numpy2points.len', len(npy) == len(pts), True)
+        t.test('Numpy2points.shape', npy.shape == pts.shape, True)
+
+        t.test2(simplify1,     pts, _ms({1000: 5, 100: 25, 10: 67}), adjust=False, typ=type(npy))
+        t.test2(simplifyRW,    pts, _ms({1000: 4, 100:  9, 10: 22}), adjust=False, typ=type(npy))
+        t.test2(simplifyRDP,   pts, _ms({1000: 3, 100:  7, 10: 18}), adjust=False, typ=type(npy))
+        t.test2(simplifyRDPm,  pts, _ms({1000: 3, 100: 16, 10: 48}), adjust=False, typ=type(npy))
+        t.test2(simplifyRDPfw, pts, _ms({1000: 3, 100:  7, 10: 18}), adjust=False)
+        t.test2(simplifyRDPgr, pts, _ms({1000: 3, 100:  7, 10: 18}), adjust=False)
+        t.test2(simplifyVW,    pts, _ms({1000: 3, 100: 12, 10: 48}), adjust=False, typ=type(npy))
+        t.test2(simplifyVWm,   pts, _ms({1000: 2, 100:  7, 10: 45}), adjust=False, typ=type(npy))
+
     t.results(nl=0)
     t.exit()
 
