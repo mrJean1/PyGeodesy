@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.lcc</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://github.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        Module&nbsp;lcc
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.lcc-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module lcc</h1><p class="nomargin-top"></p>
+<p>Lambert conformal conic projection for 1- or 2-Standard Parallels 
+  class <a href="pygeodesy.lcc.Conic-class.html" class="link">Conic</a>, <a
+  href="pygeodesy.lcc-module.html#Conics" class="link">Conics</a> registry 
+  and position class <a href="pygeodesy.lcc.Lcc-class.html" 
+  class="link">Lcc</a>.</p>
+  <p>See <a 
+  href="http://wikipedia.org/wiki/Lambert_conformal_conic_projection" 
+  target="_top">http://wikipedia.org/wiki/Lambert_conformal_conic_projection</a>,
+  <a 
+  href="http://www.linz.govt.nz/data/geodetic-system/coordinate-conversion/projection-conversions/lambert-conformal-conic-geographic"
+  
+  target="_top">http://www.linz.govt.nz/data/geodetic-system/coordinate-conversion/
+  projection-conversions/lambert-conformal-conic-geographic</a>, <a 
+  href="http://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf" 
+  target="_top">Snyder</a> pp 107-109 and <a 
+  href="http://mathworld.wolfram.com/LambertConformalConicProjection.html" 
+  target="_top">http://mathworld.wolfram.com/LambertConformalConicProjection.html</a>.</p>
+
+<hr />
+<div class="fields">      <p><strong>Version:</strong>
+        17.06.25
+      </p>
+</div><!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Classes</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.lcc.Conic-class.html" class="summary-name">Conic</a><br />
+      Lambert conformal conic projection (1- or 2-SP).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.lcc.Lcc-class.html" class="summary-name">Lcc</a><br />
+      Lambert conformal conic East-/Northing location.
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTIONS ==================== -->
+<a name="section-Functions"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Functions</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.lcc-module.html#toLcc" class="summary-sig-name">toLcc</a>(<span class="summary-sig-arg">latlon</span>,
+        <span class="summary-sig-arg">conic</span>=<span class="summary-sig-default">Conic(name='WRF_Lb', lat0=40.0, lon0=-97.0, par1=33.0, par2=45<code class="variable-ellipsis">...</code></span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">Lcc</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.lcc.Lcc'&gt;</span>)</span><br />
+      Convert an (ellipsoidal) geodetic point to a Lambert location.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Variables</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.lcc-module.html#Conics" class="summary-name">Conics</a> = <code title="Conics.Be08Lb: Conic(name='Be08Lb', lat0=50.797815, lon0=4.35921583, p\
+ar1=49.833333, par2=51.166667, E0=649328.0, N0=665262.0, k0=1, SP=2, d\
+atum=(name='GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.W\
+GS84)
+Conics.Be72Lb: Conic(name='Be72Lb', lat0=90.0, lon0=4.3674867, par1=49\
+.8333339, par2=51.1666672, E0=150000.013, N0=5400088.438, k0=1, SP=2, \
+datum=(name='NAD83', ellipsoid=Ellipsoids.GRS80, transform=Transforms.\
+NAD83)
+...">Conics.Be08Lb: Conic(name='Be08Lb', lat0=50.797815, l<code class="variable-ellipsis">...</code></code><br />
+      Registered conics (_Enum).
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTION DETAILS ==================== -->
+<a name="section-FunctionDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Function Details</span></td>
+</tr>
+</table>
+<a name="toLcc"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toLcc</span>(<span class="sig-arg">latlon</span>,
+        <span class="sig-arg">conic</span>=<span class="sig-default">Conic(name='WRF_Lb', lat0=40.0, lon0=-97.0, par1=33.0, par2=45<code class="variable-ellipsis">...</code></span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">Lcc</span>=<span class="sig-default">&lt;class 'pygeodesy.lcc.Lcc'&gt;</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert an (ellipsoidal) geodetic point to a Lambert location.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>latlon</code></strong> - Ellipsoidal point (<i>LatLon</i>).</li>
+        <li><strong class="pname"><code>conic</code></strong> - Lambert projection to use (<a 
+          href="pygeodesy.lcc.Conic-class.html" class="link">Conic</a>).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height for the point, overriding the default height 
+          (meter).</li>
+        <li><strong class="pname"><code>Lcc</code></strong> - Lcc class for the Lambert location (<a 
+          href="pygeodesy.lcc.Lcc-class.html" class="link">Lcc</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The Lambert location (<a href="pygeodesy.lcc.Lcc-class.html" 
+          class="link">Lcc</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - If latlon is not ellipsoidal.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== VARIABLES DETAILS ==================== -->
+<a name="section-VariablesDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Variables Details</span></td>
+</tr>
+</table>
+<a name="Conics"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">Conics</h3>
+  <p>Registered conics (_Enum).</p>
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+Conics.Be08Lb: Conic(name='Be08Lb', lat0=50.797815, lon0=4.35921583, p<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ar1=49.833333, par2=51.166667, E0=649328.0, N0=665262.0, k0=1, SP=2, d<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+atum=(name='GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.W<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+GS84)
+Conics.Be72Lb: Conic(name='Be72Lb', lat0=90.0, lon0=4.3674867, par1=49<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+.8333339, par2=51.1666672, E0=150000.013, N0=5400088.438, k0=1, SP=2, <span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+datum=(name='NAD83', ellipsoid=Ellipsoids.GRS80, transform=Transforms.<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+NAD83)
+<code class="variable-ellipsis">...</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://github.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Wed Aug  2 17:19:00 2017
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

@@ -1,0 +1,1004 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.geohash.Geohash</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://github.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        <a href="pygeodesy.geohash-module.html">Module&nbsp;geohash</a> ::
+        Class&nbsp;Geohash
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.geohash.Geohash-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class Geohash</h1><p class="nomargin-top"></p>
+<pre class="base-tree">
+object --+        
+         |        
+basestring --+    
+             |    
+           str --+
+                 |
+                <strong class="uidshort">Geohash</strong>
+</pre>
+
+<hr />
+<p>Geohash class, sub-class of str.</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Instance Methods</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geohash.Geohash-class.html#__repr__" class="summary-sig-name">__repr__</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      repr(x)</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geohash.Geohash-class.html#adjacent" class="summary-sig-name">adjacent</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">direction</span>)</span><br />
+      Determine the adjacent cell in given compass direction.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geohash.Geohash-class.html#bounds" class="summary-sig-name">bounds</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">LatLon</span>,
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
+      Return the SW and NE bounds of this geohash cell.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geohash.Geohash-class.html#distance1" class="summary-sig-name">distance1</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>)</span><br />
+      Estimate the distance between this and an other geohash (from the 
+      cell sizes).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geohash.Geohash-class.html#distance2" class="summary-sig-name">distance2</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
+      Approximate the distance between this and an other geohash (with 
+      Pythagoras' theorem).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geohash.Geohash-class.html#distance3" class="summary-sig-name">distance3</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
+      Compute the great-circle distance between this and an other geohash 
+      (using the Haversine formula).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geohash.Geohash-class.html#toLatLon" class="summary-sig-name">toLatLon</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">LatLon</span>,
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
+      Return (the approximate center of) this geohash cell as an instance 
+      of the supplied <i>LatLon</i> class.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>str</code></b>:
+      <code>__add__</code>,
+      <code>__contains__</code>,
+      <code>__eq__</code>,
+      <code>__format__</code>,
+      <code>__ge__</code>,
+      <code>__getattribute__</code>,
+      <code>__getitem__</code>,
+      <code>__getnewargs__</code>,
+      <code>__getslice__</code>,
+      <code>__gt__</code>,
+      <code>__hash__</code>,
+      <code>__le__</code>,
+      <code>__len__</code>,
+      <code>__lt__</code>,
+      <code>__mod__</code>,
+      <code>__mul__</code>,
+      <code>__ne__</code>,
+      <code>__rmod__</code>,
+      <code>__rmul__</code>,
+      <code>__sizeof__</code>,
+      <code>__str__</code>,
+      <code>capitalize</code>,
+      <code>center</code>,
+      <code>count</code>,
+      <code>decode</code>,
+      <code>encode</code>,
+      <code>endswith</code>,
+      <code>expandtabs</code>,
+      <code>find</code>,
+      <code>format</code>,
+      <code>index</code>,
+      <code>isalnum</code>,
+      <code>isalpha</code>,
+      <code>isdigit</code>,
+      <code>islower</code>,
+      <code>isspace</code>,
+      <code>istitle</code>,
+      <code>isupper</code>,
+      <code>join</code>,
+      <code>ljust</code>,
+      <code>lower</code>,
+      <code>lstrip</code>,
+      <code>partition</code>,
+      <code>replace</code>,
+      <code>rfind</code>,
+      <code>rindex</code>,
+      <code>rjust</code>,
+      <code>rpartition</code>,
+      <code>rsplit</code>,
+      <code>rstrip</code>,
+      <code>split</code>,
+      <code>splitlines</code>,
+      <code>startswith</code>,
+      <code>strip</code>,
+      <code>swapcase</code>,
+      <code>title</code>,
+      <code>translate</code>,
+      <code>upper</code>,
+      <code>zfill</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__init__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__setattr__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== STATIC METHODS ==================== -->
+<a name="section-StaticMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Static Methods</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">a new object with type S, a subtype of T</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geohash.Geohash-class.html#__new__" class="summary-sig-name">__new__</a>(<span class="summary-sig-arg">cls</span>,
+        <span class="summary-sig-arg">cll</span>,
+        <span class="summary-sig-arg">precision</span>=<span class="summary-sig-default">None</span>)</span><br />
+      New Geohash from a <a href="pygeodesy.geohash.Geohash-class.html" 
+      class="link">Geohash</a> instance or str or from a <i>LatLon</i> 
+      instance or string.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Properties</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geohash.Geohash-class.html#ab" class="summary-name">ab</a><br />
+      Get the lat- and longitude of (the approximate center of) this 
+      geohash as a 2-tuple (lat, lon) in radians.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geohash.Geohash-class.html#latlon" class="summary-name">latlon</a><br />
+      Get the lat- and longitude of (the approximate center of) this 
+      geohash as a 2-tuple (lat, lon) in degrees.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geohash.Geohash-class.html#neighbors" class="summary-name">neighbors</a><br />
+      Get all 8 adjacent cells as a dict(N=, NE=, E= ..., SW=) of <a 
+      href="pygeodesy.geohash.Geohash-class.html" 
+      class="link">Geohash</a>es.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geohash.Geohash-class.html#sizes" class="summary-name">sizes</a><br />
+      Get the lat- and longitudinal size of this cell as a 2-tuple 
+      (latHeight, lonWidth) in meter.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geohash.Geohash-class.html#N" class="summary-name">N</a><br />
+      Get the cell North of this (<a 
+      href="pygeodesy.geohash.Geohash-class.html" 
+      class="link">Geohash</a>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geohash.Geohash-class.html#S" class="summary-name">S</a><br />
+      Get the cell South of this (<a 
+      href="pygeodesy.geohash.Geohash-class.html" 
+      class="link">Geohash</a>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geohash.Geohash-class.html#E" class="summary-name">E</a><br />
+      Get the cell East of this (<a 
+      href="pygeodesy.geohash.Geohash-class.html" 
+      class="link">Geohash</a>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geohash.Geohash-class.html#W" class="summary-name">W</a><br />
+      Get the cell West of this (<a 
+      href="pygeodesy.geohash.Geohash-class.html" 
+      class="link">Geohash</a>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geohash.Geohash-class.html#NE" class="summary-name">NE</a><br />
+      Get the cell NorthEast of this (<a 
+      href="pygeodesy.geohash.Geohash-class.html" 
+      class="link">Geohash</a>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geohash.Geohash-class.html#NW" class="summary-name">NW</a><br />
+      Get the cell NorthWest of this (<a 
+      href="pygeodesy.geohash.Geohash-class.html" 
+      class="link">Geohash</a>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geohash.Geohash-class.html#SE" class="summary-name">SE</a><br />
+      Get the cell SouthEast of this (<a 
+      href="pygeodesy.geohash.Geohash-class.html" 
+      class="link">Geohash</a>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geohash.Geohash-class.html#SW" class="summary-name">SW</a><br />
+      Get the cell SouthWest of this (<a 
+      href="pygeodesy.geohash.Geohash-class.html" 
+      class="link">Geohash</a>).
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Method Details</span></td>
+</tr>
+</table>
+<a name="__new__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__new__</span>(<span class="sig-arg">cls</span>,
+        <span class="sig-arg">cll</span>,
+        <span class="sig-arg">precision</span>=<span class="sig-default">None</span>)</span>
+    <br /><em class="fname">Static Method</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>New Geohash from a <a href="pygeodesy.geohash.Geohash-class.html" 
+  class="link">Geohash</a> instance or str or from a <i>LatLon</i> instance
+  or string.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>cll</code></strong> - Cell or location (<a href="pygeodesy.geohash.Geohash-class.html" 
+          class="link">Geohash</a> or str, <i>LatLon</i> or string).</li>
+        <li><strong class="pname"><code>precision</code></strong> - Desired geohash length (integer), see function <a 
+          href="pygeodesy.geohash-module.html#encode" 
+          class="link">geohash.encode</a> for more details.</li>
+    </ul></dd>
+    <dt>Returns: a new object with type S, a subtype of T</dt>
+        <dd>New <a href="pygeodesy.geohash.Geohash-class.html" 
+          class="link">Geohash</a>.</dd>
+    <dt>Overrides:
+        object.__new__
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__repr__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__repr__</span>(<span class="sig-arg">self</span>)</span>
+    <br /><em class="fname">(Representation operator)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>repr(x)</p>
+  <dl class="fields">
+    <dt>Overrides:
+        object.__repr__
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="adjacent"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">adjacent</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">direction</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Determine the adjacent cell in given compass direction.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>direction</code></strong> - Compass direction ('N', 'S', 'E' or 'W').</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Geohash of adjacent cell (<a 
+          href="pygeodesy.geohash.Geohash-class.html" 
+          class="link">Geohash</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid direction or geohash.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="bounds"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">bounds</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">LatLon</span>,
+        <span class="sig-arg">**kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the SW and NE bounds of this geohash cell.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>LatLon</code></strong> - LatLon class to use (<i>LatLon</i>).</li>
+        <li><strong class="pname"><code>kwds</code></strong> - Optional keyword arguments for <i>LatLon</i>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>2-Tuple (LatLonSW, LatLonNE) of <i>LatLon</i>s for the lower-left
+          respectively upper-right corner.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="distance1"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">distance1</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Estimate the distance between this and an other geohash (from the cell
+  sizes).</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other geohash (<a href="pygeodesy.geohash.Geohash-class.html"
+          class="link">Geohash</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Approximate distance (meter).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other is not a <a href="pygeodesy.geohash.Geohash-class.html" 
+        class="link">Geohash</a>, <i>LatLon</i> or str.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="distance2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">distance2</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Approximate the distance between this and an other geohash (with 
+  Pythagoras' theorem).</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other geohash (<a href="pygeodesy.geohash.Geohash-class.html"
+          class="link">Geohash</a>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional earth radius (meter) or None.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Approximate distance (meter, same units as radius).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other is not a <a href="pygeodesy.geohash.Geohash-class.html" 
+        class="link">Geohash</a>, <i>LatLon</i> or str.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="distance3"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">distance3</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the great-circle distance between this and an other geohash 
+  (using the Haversine formula).</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other geohash (<a href="pygeodesy.geohash.Geohash-class.html"
+          class="link">Geohash</a>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional earth radius (meter).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Great-circle distance (meter, same units as radius).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other is not a <a href="pygeodesy.geohash.Geohash-class.html" 
+        class="link">Geohash</a>, <i>LatLon</i> or str.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toLatLon"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toLatLon</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">LatLon</span>,
+        <span class="sig-arg">**kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return (the approximate center of) this geohash cell as an instance of
+  the supplied <i>LatLon</i> class.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>LatLon</code></strong> - Class to use (<i>LatLon</i>).</li>
+        <li><strong class="pname"><code>kwds</code></strong> - Optional keyword arguments for <i>LatLon</i>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>This geohash location (<i>LatLon</i>).</dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-keyword">from</span> sphericalTrigonometry <span class="py-keyword">import</span> LatLon
+<span class="py-prompt">&gt;&gt;&gt; </span>ll = Geohash(<span class="py-string">'u120fxw'</span>).toLatLon(LatLon)
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-keyword">print</span>(repr(ll))  <span class="py-comment"># LatLon(52&#176;12&#8242;17.9&#8243;N, 000&#176;07&#8242;07.64&#8243;E)</span>
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-keyword">print</span>(ll)  <span class="py-comment"># 52.204971&#176;N, 000.11879&#176;E</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<br />
+<!-- ==================== PROPERTY DETAILS ==================== -->
+<a name="section-PropertyDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Property Details</span></td>
+</tr>
+</table>
+<a name="ab"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">ab</h3>
+  <p>Get the lat- and longitude of (the approximate center of) this geohash
+  as a 2-tuple (lat, lon) in radians.</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">ab(<span class="summary-sig-arg">self</span>)</span>
+        - Get the lat- and longitude of (the approximate center of) this geohash as a
+2-tuple (lat, lon) in radians.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="latlon"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">latlon</h3>
+  <p>Get the lat- and longitude of (the approximate center of) this geohash
+  as a 2-tuple (lat, lon) in degrees.</p>
+  <p><b>Example:</b></p>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>geohash.Geohash(<span class="py-string">'geek'</span>).latlon  <span class="py-comment"># 65.478515625, -17.75390625</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>geohash.decode(<span class="py-string">'geek'</span>)  <span class="py-comment"># '65.48', '-17.75'</span></pre>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">latlon(<span class="summary-sig-arg">self</span>)</span>
+        - Get the lat- and longitude of (the approximate center of) this geohash as a
+2-tuple (lat, lon) in degrees.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="neighbors"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">neighbors</h3>
+  <p>Get all 8 adjacent cells as a dict(N=, NE=, E= ..., SW=) of <a 
+  href="pygeodesy.geohash.Geohash-class.html" 
+  class="link">Geohash</a>es.</p>
+  <p><b>JSname:</b> <i>neighbours</i>.</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">neighbors(<span class="summary-sig-arg">self</span>)</span>
+        - Get all 8 adjacent cells as a dict(N=, NE=, E= ..., SW=) of <a 
+href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>es.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="sizes"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">sizes</h3>
+  <p>Get the lat- and longitudinal size of this cell as a 2-tuple 
+  (latHeight, lonWidth) in meter.</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">sizes(<span class="summary-sig-arg">self</span>)</span>
+        - Get the lat- and longitudinal size of this cell as a 2-tuple (latHeight, 
+lonWidth) in meter.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="N"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">N</h3>
+  <p>Get the cell North of this (<a 
+  href="pygeodesy.geohash.Geohash-class.html" 
+  class="link">Geohash</a>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">N(<span class="summary-sig-arg">self</span>)</span>
+        - Get the cell North of this (<a href="pygeodesy.geohash.Geohash-class.html" 
+class="link">Geohash</a>).
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="S"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">S</h3>
+  <p>Get the cell South of this (<a 
+  href="pygeodesy.geohash.Geohash-class.html" 
+  class="link">Geohash</a>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">S(<span class="summary-sig-arg">self</span>)</span>
+        - Get the cell South of this (<a href="pygeodesy.geohash.Geohash-class.html" 
+class="link">Geohash</a>).
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="E"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">E</h3>
+  <p>Get the cell East of this (<a 
+  href="pygeodesy.geohash.Geohash-class.html" 
+  class="link">Geohash</a>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">E(<span class="summary-sig-arg">self</span>)</span>
+        - Get the cell East of this (<a href="pygeodesy.geohash.Geohash-class.html" 
+class="link">Geohash</a>).
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="W"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">W</h3>
+  <p>Get the cell West of this (<a 
+  href="pygeodesy.geohash.Geohash-class.html" 
+  class="link">Geohash</a>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">W(<span class="summary-sig-arg">self</span>)</span>
+        - Get the cell West of this (<a href="pygeodesy.geohash.Geohash-class.html" 
+class="link">Geohash</a>).
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="NE"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">NE</h3>
+  <p>Get the cell NorthEast of this (<a 
+  href="pygeodesy.geohash.Geohash-class.html" 
+  class="link">Geohash</a>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">NE(<span class="summary-sig-arg">self</span>)</span>
+        - Get the cell NorthEast of this (<a 
+href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>).
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="NW"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">NW</h3>
+  <p>Get the cell NorthWest of this (<a 
+  href="pygeodesy.geohash.Geohash-class.html" 
+  class="link">Geohash</a>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">NW(<span class="summary-sig-arg">self</span>)</span>
+        - Get the cell NorthWest of this (<a 
+href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>).
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="SE"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">SE</h3>
+  <p>Get the cell SouthEast of this (<a 
+  href="pygeodesy.geohash.Geohash-class.html" 
+  class="link">Geohash</a>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">SE(<span class="summary-sig-arg">self</span>)</span>
+        - Get the cell SouthEast of this (<a 
+href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>).
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="SW"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">SW</h3>
+  <p>Get the cell SouthWest of this (<a 
+  href="pygeodesy.geohash.Geohash-class.html" 
+  class="link">Geohash</a>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">SW(<span class="summary-sig-arg">self</span>)</span>
+        - Get the cell SouthWest of this (<a 
+href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>).
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://github.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Wed Aug  2 17:19:00 2017
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

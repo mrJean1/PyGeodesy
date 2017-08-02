@@ -1,0 +1,682 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.geohash</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://github.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        Module&nbsp;geohash
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.geohash-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module geohash</h1><p class="nomargin-top"></p>
+<p>Class <a href="pygeodesy.geohash.Geohash-class.html" 
+  class="link">Geohash</a> and several functions to encode, decode and 
+  inspect geohashes.</p>
+  <p>Transcribed from JavaScript originals by <i>(C) Chris Veness 
+  2011-2015</i> and published under the same MIT Licence**.</p>
+  <p>More details at <a 
+  href="http://www.movable-type.co.uk/scripts/geohash.html" 
+  target="_top">http://www.movable-type.co.uk/scripts/geohash.html</a>. See
+  also <a href="http://github.com/vinsci/geohash" 
+  target="_top">http://github.com/vinsci/geohash</a>, <a 
+  href="http://github.com/davetroy/geohash-js" 
+  target="_top">http://github.com/davetroy/geohash-js</a> and <a 
+  href="http://pypi.python.org/pypi/pygeohash" 
+  target="_top">http://pypi.python.org/pypi/pygeohash</a>.</p>
+
+<hr />
+<div class="fields">      <p><strong>Version:</strong>
+        17.07.18
+      </p>
+</div><!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Classes</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geohash.Geohash-class.html" class="summary-name">Geohash</a><br />
+      Geohash class, sub-class of str.
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTIONS ==================== -->
+<a name="section-Functions"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Functions</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geohash-module.html#bounds" class="summary-sig-name">bounds</a>(<span class="summary-sig-arg">geohash</span>)</span><br />
+      Returns the SW and NE lat-/longitude bounds of a geohash.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geohash-module.html#decode" class="summary-sig-name">decode</a>(<span class="summary-sig-arg">geohash</span>)</span><br />
+      Decode a geohash to lat-/longitude of the (approximate centre of) 
+      geohash cell, to reasonable precision.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geohash-module.html#decode_error" class="summary-sig-name">decode_error</a>(<span class="summary-sig-arg">geohash</span>)</span><br />
+      Return the relative lat-/longitude decoding errors for this geohash.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geohash-module.html#distance1" class="summary-sig-name">distance1</a>(<span class="summary-sig-arg">geohash1</span>,
+        <span class="summary-sig-arg">geohash2</span>)</span><br />
+      Estimate the distance between two geohash (from the cell sizes).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geohash-module.html#distance2" class="summary-sig-name">distance2</a>(<span class="summary-sig-arg">geohash1</span>,
+        <span class="summary-sig-arg">geohash2</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
+      Approximate the distance between two geohashes (with Pythagoras' 
+      theorem).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geohash-module.html#distance3" class="summary-sig-name">distance3</a>(<span class="summary-sig-arg">geohash1</span>,
+        <span class="summary-sig-arg">geohash2</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
+      Compute the great-circle distance between two geohashes (using the 
+      Haversine formula).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geohash-module.html#encode" class="summary-sig-name">encode</a>(<span class="summary-sig-arg">lat</span>,
+        <span class="summary-sig-arg">lon</span>,
+        <span class="summary-sig-arg">precision</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Encode a lat-/longitude as a geohash, either to the specified or if 
+      not given, an automatically evaluated precision.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geohash-module.html#neighbors" class="summary-sig-name">neighbors</a>(<span class="summary-sig-arg">geohash</span>)</span><br />
+      Return the <a href="pygeodesy.geohash.Geohash-class.html" 
+      class="link">Geohash</a>es for all 8 adjacent cells.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geohash-module.html#sizes" class="summary-sig-name">sizes</a>(<span class="summary-sig-arg">geohash</span>)</span><br />
+      Return the lat- and longitudinal size of this <a 
+      href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a> 
+      cell.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTION DETAILS ==================== -->
+<a name="section-FunctionDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Function Details</span></td>
+</tr>
+</table>
+<a name="bounds"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">bounds</span>(<span class="sig-arg">geohash</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns the SW and NE lat-/longitude bounds of a geohash.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>4-Tuple (latS, lonW, latN, lonE) in (degrees).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The geohash is not a <a href="pygeodesy.geohash.Geohash-class.html"
+        class="link">Geohash</a>, <i>LatLon</i> or str.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or null geohash.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>geohash.bounds(<span class="py-string">'u120fxw'</span>)  <span class="py-comment">#  52.20428467, 0.11810303,</span>
+<span class="py-output">                               #  52.20565796, 0.11947632</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>geohash.decode(<span class="py-string">'u120fxw'</span>)  <span class="py-comment"># '52.205',    '0.1188'</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="decode"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">decode</span>(<span class="sig-arg">geohash</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Decode a geohash to lat-/longitude of the (approximate centre of) 
+  geohash cell, to reasonable precision.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>geohash</code></strong> - To be decoded (<a href="pygeodesy.geohash.Geohash-class.html" 
+          class="link">Geohash</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>2-Tuple (latStr, lonStr) in (strings).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The geohash is not a <a href="pygeodesy.geohash.Geohash-class.html"
+        class="link">Geohash</a>, <i>LatLon</i> or str.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or null geohash.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>geohash.decode(<span class="py-string">'u120fxw'</span>)  <span class="py-comment"># '52.205', '0.1188'</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>geohash.decode(<span class="py-string">'sunny'</span>)  <span class="py-comment"># '23.708', '42.473'  Saudi Arabia</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>geohash.decode(<span class="py-string">'fur'</span>)  <span class="py-comment"># '69.6', '-45.7'  Greenland</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>geohash.decode(<span class="py-string">'reef'</span>)  <span class="py-comment"># '-24.87', '162.95'  Coral Sea</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>geohash.decode(<span class="py-string">'geek'</span>)  <span class="py-comment"># '65.48', '-17.75'  Iceland</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="decode_error"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">decode_error</span>(<span class="sig-arg">geohash</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the relative lat-/longitude decoding errors for this 
+  geohash.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>geohash</code></strong> - To be decoded (<a href="pygeodesy.geohash.Geohash-class.html" 
+          class="link">Geohash</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>2-Tuple (latErr, lonErr) in (degrees).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The geohash is not a <a href="pygeodesy.geohash.Geohash-class.html"
+        class="link">Geohash</a>, <i>LatLon</i> or str.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or null geohash.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>geohash.decode_error(<span class="py-string">'u120fxw'</span>)  <span class="py-comment"># 0.00068665, 0.00068665</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>geohash.decode_error(<span class="py-string">'fur'</span>)  <span class="py-comment"># 0.703125, 0.703125</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>geohash.decode_error(<span class="py-string">'fu'</span>)  <span class="py-comment"># 2.8125, 5.625</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>geohash.decode_error(<span class="py-string">'f'</span>)  <span class="py-comment"># 22.5, 22.5</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="distance1"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">distance1</span>(<span class="sig-arg">geohash1</span>,
+        <span class="sig-arg">geohash2</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Estimate the distance between two geohash (from the cell sizes).</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>geohash1</code></strong> - First geohash (<a href="pygeodesy.geohash.Geohash-class.html" 
+          class="link">Geohash</a>).</li>
+        <li><strong class="pname"><code>geohash2</code></strong> - Second geohash (<a href="pygeodesy.geohash.Geohash-class.html" 
+          class="link">Geohash</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Approximate distance (meter).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - A geohash is not a <a href="pygeodesy.geohash.Geohash-class.html" 
+        class="link">Geohash</a>, <i>LatLon</i> or str.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>geohash.distance1(<span class="py-string">'u120fxwsh'</span>, <span class="py-string">'u120fxws0'</span>)  <span class="py-comment"># 15.239</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="distance2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">distance2</span>(<span class="sig-arg">geohash1</span>,
+        <span class="sig-arg">geohash2</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Approximate the distance between two geohashes (with Pythagoras' 
+  theorem).</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>geohash1</code></strong> - First geohash (<a href="pygeodesy.geohash.Geohash-class.html" 
+          class="link">Geohash</a>).</li>
+        <li><strong class="pname"><code>geohash2</code></strong> - Second geohash (<a href="pygeodesy.geohash.Geohash-class.html" 
+          class="link">Geohash</a>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional earth radius (meter) or None.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Approximate distance (meter, same units as radius).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - A geohash is not a <a href="pygeodesy.geohash.Geohash-class.html" 
+        class="link">Geohash</a>, <i>LatLon</i> or str.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>geohash.distance2(<span class="py-string">'u120fxwsh'</span>, <span class="py-string">'u120fxws0'</span>)  <span class="py-comment"># 19.0879</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="distance3"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">distance3</span>(<span class="sig-arg">geohash1</span>,
+        <span class="sig-arg">geohash2</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the great-circle distance between two geohashes (using the 
+  Haversine formula).</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>geohash1</code></strong> - First geohash (<a href="pygeodesy.geohash.Geohash-class.html" 
+          class="link">Geohash</a>).</li>
+        <li><strong class="pname"><code>geohash2</code></strong> - Second geohash (<a href="pygeodesy.geohash.Geohash-class.html" 
+          class="link">Geohash</a>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional earth radius (meter).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Great-circle distance (meter, same units as radius).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - A geohash is not a <a href="pygeodesy.geohash.Geohash-class.html" 
+        class="link">Geohash</a>, <i>LatLon</i> or str.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>geohash.distance3(<span class="py-string">'u120fxwsh'</span>, <span class="py-string">'u120fxws0'</span>)  <span class="py-comment"># 11.6978</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="encode"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">encode</span>(<span class="sig-arg">lat</span>,
+        <span class="sig-arg">lon</span>,
+        <span class="sig-arg">precision</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Encode a lat-/longitude as a geohash, either to the specified or if 
+  not given, an automatically evaluated precision.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat</code></strong> - Latitude in degrees (scalar).</li>
+        <li><strong class="pname"><code>lon</code></strong> - Longitude in degrees (scalar).</li>
+        <li><strong class="pname"><code>precision</code></strong> - Desired geohash length (integer).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The geohash (string).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid lat, lon or precision.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>geohash.encode(52.205, 0.119,   7)  <span class="py-comment"># 'u120fxw'</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>geohash.encode(52.205, 0.119,  12)  <span class="py-comment"># 'u120fxwshvkg'</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>geohash.encode(52.205, 0.1188, 12)  <span class="py-comment"># 'u120fxws0jre'</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>geohash.encode(52.205, 0.1188)      <span class="py-comment"># 'u120fxw'</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>geohash.encode(     0, 0)           <span class="py-comment"># 's00000000000'</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="neighbors"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">neighbors</span>(<span class="sig-arg">geohash</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the <a href="pygeodesy.geohash.Geohash-class.html" 
+  class="link">Geohash</a>es for all 8 adjacent cells.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>geohash</code></strong> - Cell for which neighbors are required (<a 
+          href="pygeodesy.geohash.Geohash-class.html" 
+          class="link">Geohash</a> or str).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Neighbors (dict(N=, NE=, E= ..., SW=) of <a 
+          href="pygeodesy.geohash.Geohash-class.html" 
+          class="link">Geohash</a>es).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The geohash is not a <a href="pygeodesy.geohash.Geohash-class.html"
+        class="link">Geohash</a>, <i>LatLon</i> or str.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>JS name:</strong>
+        <i>neighbours</i>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="sizes"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">sizes</span>(<span class="sig-arg">geohash</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the lat- and longitudinal size of this <a 
+  href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a> 
+  cell.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>geohash</code></strong> - Cell for which size are required (<a 
+          href="pygeodesy.geohash.Geohash-class.html" 
+          class="link">Geohash</a> or str).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>2-Tuple (latHeight, lonWidth) in (meter).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The geohash is not a <a href="pygeodesy.geohash.Geohash-class.html"
+        class="link">Geohash</a>, <i>LatLon</i> or str.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://github.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Wed Aug  2 17:19:00 2017
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

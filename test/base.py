@@ -24,7 +24,7 @@ from pygeodesy import version as PyGeodesy_version, \
 __all__ = ('isiOS', 'PyGeodesy_dir', 'Python_O',  # constants
            'TestsBase',
            'runner', 'secs2str', 'tilde', 'type2str', 'versions')
-__version__ = '17.07.25'
+__version__ = '17.08.01'
 
 try:
     _int = int, long
@@ -77,11 +77,12 @@ class TestsBase(object):
         '''
         sys.exit(min(errors + self.errors(), 99))
 
-    def printf(self, fmt, *args, **kwds):  # nl=0
+    def printf(self, fmt, *args, **kwds):  # nl=0, nt=0
         '''Print a formatted line to sys.stdout.
         '''
         nl = '\n' * kwds.get('nl', 0)
-        print(nl + self._prefix + (fmt % args))
+        nt = '\n' * kwds.get('nt', 0)
+        print(''.join((nl, self._prefix, (fmt % args), nt)))
 
     def results(self, nl=1):
         '''Summarize the test results.
@@ -106,7 +107,7 @@ class TestsBase(object):
              tuple('%s=%s' % t for t in sorted(kwds.items()))
         self.printf('test%s(%s)', testing, ', '.join(t), nl=1)
 
-    def test(self, name, value, expect, fmt='%s', known=False):
+    def test(self, name, value, expect, fmt='%s', known=False, nt=0):
         '''Compare a test value with the expected one.
         '''
         if not isinstance(expect, _str):
@@ -122,13 +123,13 @@ class TestsBase(object):
             f = '%s, expected %s' % (f, expect)
 
         self.total += 1  # tests
-        self.printf('test %d %s: %s%s', self.total, name, v, f)
+        self.printf('test %d %s: %s%s', self.total, name, v, f, nt=nt)
 
-    def test__(self, fmt, *args):
+    def test__(self, fmt, *args, **kwds):
         '''Print subtotal test line.
         '''
         t = '-' * len(str(self.total))
-        self.printf('test %s %s', t, (fmt % args))
+        self.printf('test %s %s', t, (fmt % args), **kwds)
 
     def title(self, test, version, module=None):
         '''Print the title of the test suite.

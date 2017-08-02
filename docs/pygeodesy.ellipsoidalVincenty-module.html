@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.ellipsoidalVincenty</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://github.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        Module&nbsp;ellipsoidalVincenty
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.ellipsoidalVincenty-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module ellipsoidalVincenty</h1><p class="nomargin-top"></p>
+<p>Vincenty's ellipsoidal geodetic (lat-/longitude) and cartesian (x/y/z)
+  classes <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+  class="link">LatLon</a>, <a 
+  href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
+  class="link">Cartesian</a> and <a 
+  href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html" 
+  class="link">VincentyError</a>.</p>
+  <p>Pure Python implementation of geodesy tools for ellipsoidal earth 
+  models, transcribed from JavaScript originals by <i>(C) Chris Veness 
+  2005-2016</i> and published under the same MIT Licence**. For details see
+  <a href="http://www.movable-type.co.uk/scripts/LatLongVincenty.html" 
+  target="_top">http://www.movable-type.co.uk/scripts/LatLongVincenty.html</a>
+  and also <a href="http://github.com/geopy" 
+  target="_top">http://github.com/geopy</a> and <a 
+  href="http://python.org/pypi/geopy" 
+  target="_top">http://python.org/pypi/geopy</a>.</p>
+  <p>Calculate geodesic distance between two points using the <a 
+  href="http://wikipedia.org/wiki/Vincenty's_formulae" 
+  target="_top">Vincenty</a> formulae and one of several ellipsoidal earth 
+  models.  The default model is WGS-84, the most accurate and widely used 
+  globally-applicable model for the earth ellipsoid.</p>
+  <p>Other ellipsoids offering a better fit to the local geoid include Airy
+  (1830) in the UK, Clarke (1880) in Africa, International 1924 in much of 
+  Europe, and GRS-67 in South America.  North America (NAD83) and Australia
+  (GDA) use GRS-80, which is equivalent to the WGS-84 model.</p>
+  <p>Great-circle distance uses a spherical model of the earth with the 
+  mean earth radius defined by the International Union of Geodesy and 
+  Geophysics (IUGG) as <i class="math">(2 * a + b) / 3 = 
+  6371008.7714150598</i> meter or approx. 6371009 meter (for WGS-84, 
+  resulting in an error of up to about 0.5%).</p>
+  <p>Here's an example usage of Vincenty:</p>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-keyword">from</span> pygeodesy.ellipsoidalVincenty <span class="py-keyword">import</span> LatLon
+<span class="py-prompt">&gt;&gt;&gt; </span>Newport_RI = LatLon(41.49008, -71.312796)
+<span class="py-prompt">&gt;&gt;&gt; </span>Cleveland_OH = LatLon(41.499498, -81.695391)
+<span class="py-prompt">&gt;&gt;&gt; </span>Newport_RI.distanceTo(Cleveland_OH)
+<span class="py-output">866455.4329158525  # meter</span></pre>
+  <p>You can change the ellipsoid model used by the Vincenty formulae as 
+  follows:</p>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-keyword">from</span> pygeodesy <span class="py-keyword">import</span> Datums
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-keyword">from</span> pygeodesy.ellipsoidalVincenty <span class="py-keyword">import</span> LatLon
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(0, 0, datum=Datums.OSGB36)</pre>
+  <p>or by converting to anothor datum:</p>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = p.convertDatum(Datums.OSGB36)</pre>
+
+<hr />
+<div class="fields">      <p><strong>Version:</strong>
+        17.06.25
+      </p>
+</div><!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Classes</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html" class="summary-name">VincentyError</a><br />
+      Error thrown from Vincenty's direct and inverse methods for 
+        coincident points and lack of convergence.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" class="summary-name">LatLon</a><br />
+      Using the formulae devised by Thaddeus Vincenty (1975) with an 
+        ellipsoidal model of the earth to compute the geodesic distance and
+        bearings between two given points or the destination point given an
+        start point and initial bearing.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" class="summary-name">Cartesian</a><br />
+      Extended to convert (geocentric) <a 
+        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
+        class="link">Cartesian</a> points to Vincenty-based (ellipsoidal) 
+        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+        class="link">LatLon</a>.
+    </td>
+  </tr>
+</table>
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://github.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Wed Aug  2 17:19:00 2017
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

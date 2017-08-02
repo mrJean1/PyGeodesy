@@ -49,11 +49,11 @@ U{PyCodeStyle<http://pypi.python.org/pypi/pycodestyle>} (formerly Pep8) and
 U{McCabe<http://pypi.python.org/pypi/mccabe>} using Python 2.7.10 or 2.7.13 and with
 U{Flake8<http://pypi.python.org/pypi/flake8>} on Python 3.6.0 or 3.6.1.
 
-The tests have been run with 64-bit Python 2.6.9, 2.7.13 (and numpy 1.13.1),
-3.5.3 and 3.6.2, but only on MacOSX 10.10 Yosemite, MacOSX 10.11 El Capitan
-or macOS 10.12.6 Sierra, with 64-bit Intel-Python 3.5.3 (and numpy 1.11.3)
-on macOS 10.12.5 Sierra and with Pythonista 3.1 using 64-bit Python 2.7.12
-and 3.5.1 (both with numpy 1.8.0) on iOS 10.3.2.
+The tests have been run with 64-bit Python 2.6.9 (numpy 1.6.2), 2.7.13
+(numpy 1.13.1), 3.5.3 and 3.6.2, but only on MacOSX 10.10 Yosemite, MacOSX
+10.11 El Capitan or macOS 10.12.6 Sierra, with 64-bit Intel-Python 3.5.3
+(numpy 1.11.3) on macOS 10.12.6 Sierra and with Pythonista 3.1 using 64-bit
+Python 2.7.12 and 3.5.1 (both with numpy 1.8.0) on iOS 10.3.2.
 
 In addition to the U{PyGeodesy<http://pypi.python.org/pypi/PyGeodesy>} package,
 the distribution files contain the tests, the test results and the complete
@@ -155,7 +155,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',  # modules
            'osgr', 'simplify', 'utils', 'utm', 'vector3d',
            'Geohash', 'VincentyError',  # classes
            'version', 'isclockwise', 'isconvex')  # extended below
-__version__ = '17.07.31'
+__version__ = '17.08.01'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))

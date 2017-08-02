@@ -1,0 +1,977 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.ellipsoidalVincenty.LatLon</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://github.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        <a href="pygeodesy.ellipsoidalVincenty-module.html">Module&nbsp;ellipsoidalVincenty</a> ::
+        Class&nbsp;LatLon
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class LatLon</h1><p class="nomargin-top"></p>
+<pre class="base-tree">
+                   object --+            
+                            |            
+                   <a href="pygeodesy.bases.Base-class.html">bases.Base</a> --+        
+                                |        
+           <a href="pygeodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a> --+    
+                                    |    
+<a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html">ellipsoidalBase.LatLonEllipsoidalBase</a> --+
+                                        |
+                                       <strong class="uidshort">LatLon</strong>
+</pre>
+
+<hr />
+<p>Using the formulae devised by Thaddeus Vincenty (1975) with an 
+  ellipsoidal model of the earth to compute the geodesic distance and 
+  bearings between two given points or the destination point given an start
+  point and initial bearing.</p>
+  <p>Set the earth model to be used with the keyword argument datum.  The 
+  default is Datums.WGS84, which is the most globally accurate.  For other 
+  models, see the Datums in module datum.</p>
+  <p>Note: This implementation of the Vincenty methods may not converge for
+  some valid points, raising a VincentyError.  In that case, a result may 
+  be obtained by increasing the epsilon and/or the iteration limit, see 
+  properties <a 
+  href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#epsilon" 
+  class="link">LatLon.epsilon</a> and <a 
+  href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#iterations" 
+  class="link">LatLon.iterations</a>.</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Instance Methods</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#copy" class="summary-sig-name">copy</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Copy this point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#destination" class="summary-sig-name">destination</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">distance</span>,
+        <span class="summary-sig-arg">bearing</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Compute the destination point after having travelled for the given 
+      distance from this point along a geodesic given by an initial 
+      bearing, using Vincenty's direct method.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#destination2" class="summary-sig-name">destination2</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">distance</span>,
+        <span class="summary-sig-arg">bearing</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Compute the destination point and the final bearing (reverse azimuth)
+      after having travelled for the given distance from this point along a
+      geodesic given by an initial bearing, using Vincenty's direct method.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#distanceTo" class="summary-sig-name">distanceTo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>)</span><br />
+      Compute the distance between this and an other point along a 
+      geodesic, using Vincenty's inverse method.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#distanceTo3" class="summary-sig-name">distanceTo3</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>)</span><br />
+      Compute the distance and the initial and final bearing along a 
+      geodesic between this and an other point, using Vincenty's inverse 
+      method.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#finalBearingOn" class="summary-sig-name">finalBearingOn</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">distance</span>,
+        <span class="summary-sig-arg">bearing</span>)</span><br />
+      Compute the final bearing (reverse azimuth) after having travelled 
+      for the given distance along a geodesic given by an initial bearing 
+      from this point, using Vincenty's direct method.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#finalBearingTo" class="summary-sig-name">finalBearingTo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>)</span><br />
+      Compute the final bearing (reverse azimuth) after having travelled 
+      along a geodesic from this point to an other point, using Vincenty's 
+      inverse method.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#initialBearingTo" class="summary-sig-name">initialBearingTo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>)</span><br />
+      Compute the initial bearing (forward azimuth) to travel along a 
+      geodesic from this point to an other point, using Vincenty's inverse 
+      method.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#bearingTo" class="summary-sig-name">bearingTo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>)</span><br />
+      Compute the initial bearing (forward azimuth) to travel along a 
+      geodesic from this point to an other point, using Vincenty's inverse 
+      method.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#toCartesian" class="summary-sig-name">toCartesian</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Convert this (geodetic) point to (geocentric) x/y/z Cartesian 
+      coordinates.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html">ellipsoidalBase.LatLonEllipsoidalBase</a></code></b>:
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#__init__">__init__</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convertDatum">convertDatum</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#ellipsoid">ellipsoid</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#ellipsoids">ellipsoids</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#parse">parse</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#to3xyz">to3xyz</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toOsgr">toOsgr</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toUtm">toUtm</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a></code></b>:
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#__eq__">__eq__</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#__ne__">__ne__</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#__str__">__str__</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#bounds">bounds</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equals">equals</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#points">points</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#to2ab">to2ab</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#to3llh">to3llh</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#toStr">toStr</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases.Base-class.html">bases.Base</a></code></b>:
+      <code><a href="pygeodesy.bases.Base-class.html#__repr__">__repr__</a></code>,
+      <code><a href="pygeodesy.bases.Base-class.html#classname">classname</a></code>,
+      <code><a href="pygeodesy.bases.Base-class.html#classof">classof</a></code>,
+      <code><a href="pygeodesy.bases.Base-class.html#others">others</a></code>,
+      <code><a href="pygeodesy.bases.Base-class.html#toStr2">toStr2</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__new__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Properties</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#epsilon" class="summary-name">epsilon</a><br />
+      Get the convergence epsilon (scalar).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#iterations" class="summary-name">iterations</a><br />
+      Get the iteration limit (int).
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html">ellipsoidalBase.LatLonEllipsoidalBase</a></code></b>:
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#datum">datum</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#isEllipsoidal">isEllipsoidal</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#isSpherical">isSpherical</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a></code></b>:
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#height">height</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#lat">lat</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#lon">lon</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Method Details</span></td>
+</tr>
+</table>
+<a name="copy"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">copy</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Copy this point.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>Copy of this point (<a 
+          href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+          class="link">LatLon</a>).</dd>
+    <dt>Overrides:
+        <a href="pygeodesy.bases.LatLonHeightBase-class.html#copy">bases.LatLonHeightBase.copy</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="destination"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">destination</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">distance</span>,
+        <span class="sig-arg">bearing</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the destination point after having travelled for the given 
+  distance from this point along a geodesic given by an initial bearing, 
+  using Vincenty's direct method.  See method <a 
+  href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#destination2" 
+  class="link">destination2</a> for more details.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>distance</code></strong> - Distance in meters (scalar).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Initial bearing in compass degrees (scalar).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the default height (meter).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The destination point (<a 
+          href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+          class="link">LatLon</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html">VincentyError</a></strong></code> - Vincenty fails to converge for the current <a 
+        href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#epsilon" 
+        class="link">LatLon.epsilon</a> and <a 
+        href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#iterations" 
+        class="link">LatLon.iterations</a> limit.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(-37.95103, 144.42487)
+<span class="py-prompt">&gt;&gt;&gt; </span>d = p.destination(54972.271, 306.86816)  <span class="py-comment"># 37.6528&#176;S, 143.9265&#176;E</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="destination2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">destination2</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">distance</span>,
+        <span class="sig-arg">bearing</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the destination point and the final bearing (reverse azimuth) 
+  after having travelled for the given distance from this point along a 
+  geodesic given by an initial bearing, using Vincenty's direct method.</p>
+  <p>The distance must be in the same units as this point's datum axes, 
+  conventially meter.  The distance is measured on the surface of the 
+  ellipsoid, ignoring this point's height.</p>
+  <p>The initial and final bearing (aka forward and reverse azimuth) are in
+  compass degrees.</p>
+  <p>The destination point's height and datum are set to this point's 
+  height and datum.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>distance</code></strong> - Distance in meters (scalar).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Initial bearing in compass degrees (scalar).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the default height (meter).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>2-Tuple (destination, final bearing) in (<a 
+          href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+          class="link">LatLon</a>, degrees360).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html">VincentyError</a></strong></code> - Vincenty fails to converge for the current <a 
+        href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#epsilon" 
+        class="link">LatLon.epsilon</a> and <a 
+        href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#iterations" 
+        class="link">LatLon.iterations</a> limit.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(-37.95103, 144.42487)
+<span class="py-prompt">&gt;&gt;&gt; </span>b = 306.86816
+<span class="py-prompt">&gt;&gt;&gt; </span>d, f = p.destination2(54972.271, b)  <span class="py-comment"># 37.652818&#176;S, 143.926498&#176;E, 307.1736</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="distanceTo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">distanceTo</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the distance between this and an other point along a geodesic,
+  using Vincenty's inverse method. See method <a 
+  href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#distanceTo3" 
+  class="link">distanceTo3</a> for more details.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<a 
+          href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Distance in meters (scalar).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
+        href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the other point's <a 
+        href="pygeodesy.datum.Datum-class.html" class="link">Datum</a> 
+        ellipsoids are not compatible.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html">VincentyError</a></strong></code> - Vincenty fails to converge for the current <a 
+        href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#epsilon" 
+        class="link">LatLon.epsilon</a> and <a 
+        href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#iterations" 
+        class="link">LatLon.iterations</a> limit or this and the other 
+        point coincide.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(50.06632, -5.71475)
+<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(58.64402, -3.07009)
+<span class="py-prompt">&gt;&gt;&gt; </span>d = p.distanceTo(q)  <span class="py-comment"># 969,954.166 m</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="distanceTo3"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">distanceTo3</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the distance and the initial and final bearing along a 
+  geodesic between this and an other point, using Vincenty's inverse 
+  method.</p>
+  <p>The distance is in the same units as this point's datum axes, 
+  conventially meter.  The distance is measured on the surface of the 
+  ellipsoid, ignoring this point's height.</p>
+  <p>The initial and final bearing (aka forward and reverse azimuth) are in
+  compass degrees from North.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - Destination point (<a 
+          href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>3-Tuple (distance, initial bearing, final bearing) in (meter, 
+          degrees360, degree360).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
+        href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the other point's <a 
+        href="pygeodesy.datum.Datum-class.html" class="link">Datum</a> 
+        ellipsoids are not compatible.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html">VincentyError</a></strong></code> - Vincenty fails to converge for the current <a 
+        href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#epsilon" 
+        class="link">LatLon.epsilon</a> and <a 
+        href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#iterations" 
+        class="link">LatLon.iterations</a> limit or this and the other 
+        point coincide.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="finalBearingOn"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">finalBearingOn</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">distance</span>,
+        <span class="sig-arg">bearing</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the final bearing (reverse azimuth) after having travelled for
+  the given distance along a geodesic given by an initial bearing from this
+  point, using Vincenty's direct method.  See method <a 
+  href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#destination2" 
+  class="link">destination2</a> for more details.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>distance</code></strong> - Distance in meter (scalar).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Initial bearing (compass degrees).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Final bearing from North (degrees360).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html">VincentyError</a></strong></code> - Vincenty fails to converge for the current <a 
+        href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#epsilon" 
+        class="link">LatLon.epsilon</a> and <a 
+        href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#iterations" 
+        class="link">LatLon.iterations</a> limit.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(-37.95103, 144.42487)
+<span class="py-prompt">&gt;&gt;&gt; </span>b = 306.86816
+<span class="py-prompt">&gt;&gt;&gt; </span>f = p.finalBearingOn(54972.271, b)  <span class="py-comment"># 307.1736</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="finalBearingTo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">finalBearingTo</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the final bearing (reverse azimuth) after having travelled 
+  along a geodesic from this point to an other point, using Vincenty's 
+  inverse method.  See method <a 
+  href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#distanceTo3" 
+  class="link">distanceTo3</a> for more details.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<a 
+          href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Final bearing in compass degrees (degrees360).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
+        href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the other point's <a 
+        href="pygeodesy.datum.Datum-class.html" class="link">Datum</a> 
+        ellipsoids are not compatible.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html">VincentyError</a></strong></code> - Vincenty fails to converge for the current <a 
+        href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#epsilon" 
+        class="link">LatLon.epsilon</a> and <a 
+        href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#iterations" 
+        class="link">LatLon.iterations</a> limit or this and the other 
+        point coincide.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = new LatLon(50.06632, -5.71475)
+<span class="py-prompt">&gt;&gt;&gt; </span>q = new LatLon(58.64402, -3.07009)
+<span class="py-prompt">&gt;&gt;&gt; </span>f = p.finalBearingTo(q)  <span class="py-comment"># 11.2972&#176;</span></pre>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(52.205, 0.119)
+<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(48.857, 2.351)
+<span class="py-prompt">&gt;&gt;&gt; </span>f = p.finalBearingTo(q)  <span class="py-comment"># 157.9</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="initialBearingTo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">initialBearingTo</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the initial bearing (forward azimuth) to travel along a 
+  geodesic from this point to an other point, using Vincenty's inverse 
+  method.  See method <a 
+  href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#distanceTo3" 
+  class="link">distanceTo3</a> for more details.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<a 
+          href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Initial bearing in compass degrees (degrees360).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
+        href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the other point's <a 
+        href="pygeodesy.datum.Datum-class.html" class="link">Datum</a> 
+        ellipsoids are not compatible.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html">VincentyError</a></strong></code> - Vincenty fails to converge for the current <a 
+        href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#epsilon" 
+        class="link">LatLon.epsilon</a> and <a 
+        href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#iterations" 
+        class="link">LatLon.iterations</a> limit or this and the other 
+        point coincide.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(50.06632, -5.71475)
+<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(58.64402, -3.07009)
+<span class="py-prompt">&gt;&gt;&gt; </span>b = p.initialBearingTo(q)  <span class="py-comment"># 9.141877&#176;</span></pre>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(52.205, 0.119)
+<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(48.857, 2.351)
+<span class="py-prompt">&gt;&gt;&gt; </span>b = p.initialBearingTo(q)  <span class="py-comment"># 156.11064&#176;</span></pre>
+      </p>
+      <p><strong>JS name:</strong>
+        <i>bearingTo</i>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="bearingTo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">bearingTo</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the initial bearing (forward azimuth) to travel along a 
+  geodesic from this point to an other point, using Vincenty's inverse 
+  method.  See method <a 
+  href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#distanceTo3" 
+  class="link">distanceTo3</a> for more details.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<a 
+          href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Initial bearing in compass degrees (degrees360).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
+        href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the other point's <a 
+        href="pygeodesy.datum.Datum-class.html" class="link">Datum</a> 
+        ellipsoids are not compatible.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html">VincentyError</a></strong></code> - Vincenty fails to converge for the current <a 
+        href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#epsilon" 
+        class="link">LatLon.epsilon</a> and <a 
+        href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#iterations" 
+        class="link">LatLon.iterations</a> limit or this and the other 
+        point coincide.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(50.06632, -5.71475)
+<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(58.64402, -3.07009)
+<span class="py-prompt">&gt;&gt;&gt; </span>b = p.initialBearingTo(q)  <span class="py-comment"># 9.141877&#176;</span></pre>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(52.205, 0.119)
+<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(48.857, 2.351)
+<span class="py-prompt">&gt;&gt;&gt; </span>b = p.initialBearingTo(q)  <span class="py-comment"># 156.11064&#176;</span></pre>
+      </p>
+      <p><strong>JS name:</strong>
+        <i>bearingTo</i>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="toCartesian"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toCartesian</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this (geodetic) point to (geocentric) x/y/z Cartesian 
+  coordinates.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>Ellipsoidal (geocentric) Cartesian point (<a 
+          href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
+          class="link">Cartesian</a>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== PROPERTY DETAILS ==================== -->
+<a name="section-PropertyDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Property Details</span></td>
+</tr>
+</table>
+<a name="epsilon"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">epsilon</h3>
+  <p>Get the convergence epsilon (scalar).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">epsilon(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">None</span>)</span>
+        - Get the convergence epsilon (scalar).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">epsilon(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">eps</span>)</span>
+        - Set the convergence epsilon.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="iterations"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">iterations</h3>
+  <p>Get the iteration limit (int).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">iterations(<span class="summary-sig-arg">self</span>)</span>
+        - Get the iteration limit (int).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">iterations(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">limit</span>)</span>
+        - Set the iteration limit.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://github.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Wed Aug  2 17:19:00 2017
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

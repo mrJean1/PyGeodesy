@@ -1,0 +1,573 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.sphericalNvector</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://github.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        Module&nbsp;sphericalNvector
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.sphericalNvector-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module sphericalNvector</h1><p class="nomargin-top"></p>
+<p>N-vector-based spherical geodetic (lat-/longitude) classes <a 
+  href="pygeodesy.sphericalNvector.LatLon-class.html" 
+  class="link">LatLon</a> and <a 
+  href="pygeodesy.sphericalNvector.Nvector-class.html" 
+  class="link">Nvector</a> and functions <a 
+  href="pygeodesy.sphericalNvector-module.html#areaOf" 
+  class="link">areaOf</a>, <a 
+  href="pygeodesy.sphericalNvector-module.html#intersection" 
+  class="link">intersection</a>, <a 
+  href="pygeodesy.sphericalNvector-module.html#meanOf" 
+  class="link">meanOf</a>, <a 
+  href="pygeodesy.sphericalNvector-module.html#triangulate" 
+  class="link">triangulate</a> and <a 
+  href="pygeodesy.sphericalNvector-module.html#trilaterate" 
+  class="link">trilaterate</a>.</p>
+  <p>Pure Python implementation of n-vector-based spherical geodetic 
+  (lat-/longitude) methods, transcribed from JavaScript originals by <i>(C)
+  Chris Veness 2011-2016</i>, published under the same MIT Licence**.  See 
+  <a href="http://www.movable-type.co.uk/scripts/latlong-vectors.html" 
+  target="_top">http://www.movable-type.co.uk/scripts/latlong-vectors.html</a>
+  and <a 
+  href="http://www.movable-type.co.uk/scripts/geodesy/docs/module-latlon-nvector-spherical.html"
+  
+  target="_top">http://www.movable-type.co.uk/scripts/geodesy/docs/module-latlon-nvector-spherical.html</a>.</p>
+  <p>Tools for working with points and paths on (a spherical model of) the 
+  earth&#8217;s surface using using n-vectors rather than the more common 
+  spherical trigonometry.  N-vectors make many calculations much simpler, 
+  and easier to follow, compared with the trigonometric equivalents.</p>
+  <p>Based on Kenneth Gade&#8217;s &#8216;Non-singular Horizontal Position 
+  Representation&#8217;, The Journal of Navigation (2010), vol 63, nr 3, pp 
+  395-417.  Also at <a 
+  href="http://www.navlab.net/Publications/A_Nonsingular_Horizontal_Position_Representation.pdf"
+  
+  target="_top">http://www.navlab.net/Publications/A_Nonsingular_Horizontal_Position_Representation.pdf</a>.</p>
+  <p>Note that the formulations below take x =&gt; 0&#176;N,0&#176;E, y =&gt; 
+  0&#176;N,90&#176;E and z =&gt; 90&#176;N while Gade uses x =&gt; 90&#176;N, y =&gt; 0&#176;N,90&#176;E,
+  z =&gt; 0&#176;N,0&#176;E.</p>
+  <p>Also note that on a spherical earth model, an n-vector is equivalent 
+  to a normalised version of an (ECEF) cartesian coordinate.</p>
+
+<hr />
+<div class="fields">      <p><strong>Version:</strong>
+        17.06.25
+      </p>
+</div><!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Classes</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.sphericalNvector.LatLon-class.html" class="summary-name">LatLon</a><br />
+      New n-vector based point on spherical earth model.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.sphericalNvector.Nvector-class.html" class="summary-name">Nvector</a><br />
+      An n-vector is a position representation using a (unit) vector 
+        normal to the earth's surface.
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTIONS ==================== -->
+<a name="section-Functions"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Functions</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector-module.html#areaOf" class="summary-sig-name">areaOf</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
+      Calculate the area of a spherical polygon where the sides of the 
+      polygon are great circle arcs joining the points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector-module.html#intersection" class="summary-sig-name">intersection</a>(<span class="summary-sig-arg">start1</span>,
+        <span class="summary-sig-arg">end1</span>,
+        <span class="summary-sig-arg">start2</span>,
+        <span class="summary-sig-arg">end2</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>)</span><br />
+      Locate the intersection of two paths each defined by two points or by
+      a start point and an initial bearing.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector-module.html#meanOf" class="summary-sig-name">meanOf</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>)</span><br />
+      Compute the geographic mean of the supplied points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector-module.html#triangulate" class="summary-sig-name">triangulate</a>(<span class="summary-sig-arg">point1</span>,
+        <span class="summary-sig-arg">bearing1</span>,
+        <span class="summary-sig-arg">point2</span>,
+        <span class="summary-sig-arg">bearing2</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>)</span><br />
+      Locate a point given two known points and initial bearings from those
+      points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector-module.html#trilaterate" class="summary-sig-name">trilaterate</a>(<span class="summary-sig-arg">point1</span>,
+        <span class="summary-sig-arg">distance1</span>,
+        <span class="summary-sig-arg">point2</span>,
+        <span class="summary-sig-arg">distance2</span>,
+        <span class="summary-sig-arg">point3</span>,
+        <span class="summary-sig-arg">distance3</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>)</span><br />
+      Locate a point at given distances from three other points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTION DETAILS ==================== -->
+<a name="section-FunctionDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Function Details</span></td>
+</tr>
+</table>
+<a name="areaOf"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">areaOf</span>(<span class="sig-arg">points</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Calculate the area of a spherical polygon where the sides of the 
+  polygon are great circle arcs joining the points.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<a 
+          href="pygeodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>[]).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (meter).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Polygon area (float, same units as radius squared).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <a 
+        href="pygeodesy.sphericalNvector.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Too few polygon points.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>b = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
+<span class="py-prompt">&gt;&gt;&gt; </span>areaOf(b)  <span class="py-comment"># 8666058750.718977</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="intersection"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">intersection</span>(<span class="sig-arg">start1</span>,
+        <span class="sig-arg">end1</span>,
+        <span class="sig-arg">start2</span>,
+        <span class="sig-arg">end2</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Locate the intersection of two paths each defined by two points or by 
+  a start point and an initial bearing.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>start1</code></strong> - Start point of the first path (<a 
+          href="pygeodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>end1</code></strong> - End point of first path (<a 
+          href="pygeodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>) or the initial bearing at the first 
+          start point (compass degrees).</li>
+        <li><strong class="pname"><code>start2</code></strong> - Start point of the second path (<a 
+          href="pygeodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>end2</code></strong> - End point of second path (<a 
+          href="pygeodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>) or the initial bearing at the second 
+          start point (compass degrees).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height at the intersection point, overriding the default
+          height (meter).</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - LatLon class for the intersection point (<a 
+          href="pygeodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Intersection point (<a 
+          href="pygeodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>) or None if no unique intersection 
+          exists.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Start or end point is not <a 
+        href="pygeodesy.sphericalNvector.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(51.8853, 0.2545)
+<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(49.0034, 2.5735)
+<span class="py-prompt">&gt;&gt;&gt; </span>i = intersection(p, 108.55, q, 32.44)  <span class="py-comment"># 50.9076&#176;N, 004.5086&#176;E</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="meanOf"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">meanOf</span>(<span class="sig-arg">points</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the geographic mean of the supplied points.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - Array of points to be averaged (<a 
+          href="pygeodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>[]).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the mean height (meter).</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - LatLon class for the mean point (<a 
+          href="pygeodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Point at geographic mean and mean height (<a 
+          href="pygeodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Too few points.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="triangulate"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">triangulate</span>(<span class="sig-arg">point1</span>,
+        <span class="sig-arg">bearing1</span>,
+        <span class="sig-arg">point2</span>,
+        <span class="sig-arg">bearing2</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Locate a point given two known points and initial bearings from those 
+  points.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>point1</code></strong> - First reference point (<a 
+          href="pygeodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>bearing1</code></strong> - Bearing at the first point (compass degrees).</li>
+        <li><strong class="pname"><code>point2</code></strong> - Second reference point (<a 
+          href="pygeodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>bearing2</code></strong> - Bearing at the second point (compass degrees).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height at the triangulated point, overriding the mean 
+          height (meter).</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - LatLon class for the triangulated point (<a 
+          href="pygeodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Triangulated point (<a 
+          href="pygeodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - One of the points is not <a 
+        href="pygeodesy.sphericalNvector.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(<span class="py-string">&quot;47&#176;18.228'N&quot;</span>,<span class="py-string">&quot;002&#176;34.326'W&quot;</span>)  <span class="py-comment"># Basse Castouillet</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(<span class="py-string">&quot;47&#176;18.664'N&quot;</span>,<span class="py-string">&quot;002&#176;31.717'W&quot;</span>)  <span class="py-comment"># Basse Hergo</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>t = triangulate(p, 7, q, 295)  <span class="py-comment"># 47.323667&#176;N, 002.568501&#176;W'</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="trilaterate"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">trilaterate</span>(<span class="sig-arg">point1</span>,
+        <span class="sig-arg">distance1</span>,
+        <span class="sig-arg">point2</span>,
+        <span class="sig-arg">distance2</span>,
+        <span class="sig-arg">point3</span>,
+        <span class="sig-arg">distance3</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Locate a point at given distances from three other points. See also <a
+  href="http://wikipedia.org/wiki/Trilateration" 
+  target="_top">Trilateration</a>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>point1</code></strong> - First point (<a 
+          href="pygeodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>distance1</code></strong> - Distance to the first point (same units as radius).</li>
+        <li><strong class="pname"><code>point2</code></strong> - Second point (<a 
+          href="pygeodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>distance2</code></strong> - Distance to the second point (same units as radius).</li>
+        <li><strong class="pname"><code>point3</code></strong> - Third point (<a 
+          href="pygeodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>distance3</code></strong> - Distance to the third point (same units as radius).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (meter).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height at the trilaterated point, overriding the mean 
+          height (meter or same unit as radius).</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - LatLon class for the trilaterated point (<a 
+          href="pygeodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Trilaterated point (<a 
+          href="pygeodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - One of the points is not <a 
+        href="pygeodesy.sphericalNvector.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Distance(s) exceeds trilateration.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://github.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Wed Aug  2 17:19:00 2017
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

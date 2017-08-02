@@ -1,0 +1,4085 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th bgcolor="#70b0f0" class="navbar-select"
+          >&nbsp;&nbsp;&nbsp;Home&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://github.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        Package&nbsp;pygeodesy
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PACKAGE DESCRIPTION ==================== -->
+<h1 class="epydoc">Package pygeodesy</h1><p class="nomargin-top"></p>
+<p>A pure Python implementation of geodesy tools for various ellipsoidal 
+  and spherical earth models using precision trigonometric and vector-based
+  methods for geodetic (lat-/longitude) and geocentric cartesian (x/y/z) 
+  coordinates.</p>
+  <p>Transcribed from <a href="http://github.com/chrisveness/geodesy" 
+  target="_top">JavaScript originals</a> by <i>Chris Veness (C) 
+  2005-2016</i> and published under the same <a 
+  href="http://opensource.org/licenses/MIT" target="_top">MIT 
+  License</a>**.</p>
+  <p>There are two modules for ellipsoidal earth models, 
+  <i>ellipsoidalVincenty</i> and <i>-Nvector</i> and two for spherical 
+  ones, <i>sphericalTrigonometry</i> and <i>-Nvector</i>.  Each module 
+  provides a <a href="attributes-LatLon.html"><i>LatLon</i></a> class with methods to compute 
+  distance, initial and final bearing, intermediate points and conversions,
+  among other things.  For more information and further details see the 
+  documentation, the descriptions of <a 
+  href="http://www.movable-type.co.uk/scripts/latlong.html" 
+  target="_top">Latitude/Longitude</a>, <a 
+  href="http://www.movable-type.co.uk/scripts/latlong-vincenty.html" 
+  target="_top">Vincenty</a> and <a 
+  href="http://www.movable-type.co.uk/scripts/latlong-vectors.html" 
+  target="_top">Vector-based</a> geodesy and the original <a 
+  href="http://github.com/chrisveness/geodesy" target="_top">JavaScript 
+  source</a> or <a 
+  href="http://www.movable-type.co.uk/scripts/js/geodesy/docs" 
+  target="_top">docs</a>.</p>
+  <p>Also included are modules for conversions to and from <a 
+  href="http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html" 
+  target="_top">UTM</a> (Universal Transverse Mercator) coordinates, <a 
+  href="http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html" 
+  target="_top">MGRS</a> (NATO Military Grid Reference System) and <a 
+  href="http://www.movable-type.co.uk/scripts/latlong-os-gridref.html" 
+  target="_top">OSGR</a> (British Ordinance Survery Grid Reference) grid 
+  references and a module for encoding and decoding <a 
+  href="http://www.movable-type.co.uk/scripts/geohash.html" 
+  target="_top">Geohashes</a>.</p>
+  <p>Two other modules provide Lambert conformal conic projections and 
+  positions (from <a href="http://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf" 
+  target="_top">John P. Snyder, &quot;Map Projections -- A Working 
+  Manual&quot;, 1987, pp 107-109</a>) and several functions to <a 
+  href="http://bost.ocks.org/mike/simplify" target="_top">simplify</a> or 
+  linearize a path of <i>LatLon</i> points (or a NumPy array), including 
+  implementations of the <a 
+  href="http://wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm" 
+  target="_top">Ramer-Douglas-Peucker</a>, the <a 
+  href="http://hydra.hull.ac.uk/resources/hull:8338" 
+  target="_top">Visvalingam-Whyatt</a> and the <a 
+  href="http://psimpl.sourceforge.net/reumann-witkam.html" 
+  target="_top">Reumann-Witkam</a> algorithms and modified versions of the 
+  former.</p>
+  <p>All Python source code has been statically <a 
+  href="http://code.activestate.com/recipes/546532" 
+  target="_top">checked</a> with <a 
+  href="http://pypi.python.org/pypi/pychecker" target="_top">PyChecker</a>,
+  <a href="http://pypi.python.org/pypi/pyflakes" 
+  target="_top">PyFlakes</a>, <a 
+  href="http://pypi.python.org/pypi/pycodestyle" 
+  target="_top">PyCodeStyle</a> (formerly Pep8) and <a 
+  href="http://pypi.python.org/pypi/mccabe" target="_top">McCabe</a> using 
+  Python 2.7.10 or 2.7.13 and with <a 
+  href="http://pypi.python.org/pypi/flake8" target="_top">Flake8</a> on 
+  Python 3.6.0 or 3.6.1.</p>
+  <p>The tests have been run with 64-bit Python 2.6.9 (numpy 1.6.2), 2.7.13
+  (numpy 1.13.1), 3.5.3 and 3.6.2, but only on MacOSX 10.10 Yosemite, 
+  MacOSX 10.11 El Capitan or macOS 10.12.6 Sierra, with 64-bit Intel-Python
+  3.5.3 (numpy 1.11.3) on macOS 10.12.6 Sierra and with Pythonista 3.1 
+  using 64-bit Python 2.7.12 and 3.5.1 (both with numpy 1.8.0) on iOS 
+  10.3.2.</p>
+  <p>In addition to the <a href="http://pypi.python.org/pypi/PyGeodesy" 
+  target="_top">PyGeodesy</a> package, the distribution files contain the 
+  tests, the test results and the complete documentation (generated by <a 
+  href="http://pypi.python.org/pypi/epydoc" target="_top">Epydoc</a> using 
+  command line: <code>epydoc --html --no-private --no-source 
+  --name=PyGeodesy --url=... -v pygeodesy</code>).</p>
+  <p>Some function and method names differ from the JavaScript version. In 
+  such cases documentation tag <b>JS name:</b> shows the original 
+  JavaScript name.</p>
+  <p>__</p>
+  <p>**) <a href="http://opensource.org/licenses/MIT" 
+  target="_top">Copyright (C) 2016-2017 -- mrJean1 at Gmail dot com</a></p>
+  <p><code>Permission is hereby granted, free of charge, to any person 
+  obtaining a copy of this software and associated documentation files (the
+  &quot;Software&quot;), to deal in the Software without restriction, 
+  including without limitation the rights to use, copy, modify, merge, 
+  publish, distribute, sublicense, and/or sell copies of the Software, and 
+  to permit persons to whom the Software is furnished to do so, subject to 
+  the following conditions:</code></p>
+  <p><code>The above copyright notice and this permission notice shall be 
+  included in all copies or substantial portions of the 
+  Software.</code></p>
+  <p><code>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF 
+  ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY 
+  CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT
+  OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR 
+  THE USE OR OTHER DEALINGS IN THE SOFTWARE.</code></p>
+
+<hr />
+<div class="fields">      <p><strong>Version:</strong>
+        17.08.01
+      </p>
+</div><!-- ==================== SUBMODULES ==================== -->
+<a name="section-Submodules"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Submodules</span></td>
+</tr>
+  <tr><td class="summary">
+  <ul class="nomargin">
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.bases-module.html" onclick="show_private();">pygeodesy.bases</a></strong>: <em class="summary">(INTERNAL) Common base classes.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.datum-module.html">pygeodesy.datum</a></strong>: <em class="summary">Classes <a href="pygeodesy.datum.Datum-class.html" 
+        class="link">Datum</a>, <a 
+        href="pygeodesy.datum.Ellipsoid-class.html" 
+        class="link">Ellipsoid</a> and <a 
+        href="pygeodesy.datum.Transform-class.html" 
+        class="link">Transform</a> and registries thereof.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.dms-module.html">pygeodesy.dms</a></strong>: <em class="summary">Functions to parse and format bearing, lat- and longitudes in 
+        various forms of degrees, minutes and seconds.</em>    </li>
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.ellipsoidalBase-module.html" onclick="show_private();">pygeodesy.ellipsoidalBase</a></strong>: <em class="summary">(INTERNAL) Ellipsoidal base classes.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector-module.html">pygeodesy.ellipsoidalNvector</a></strong>: <em class="summary">N-vector-based ellipsoidal geodetic (lat-/longitude) and cartesion 
+        (x/y/z) classes <a 
+        href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
+        class="link">LatLon</a>, <a 
+        href="pygeodesy.ellipsoidalNvector.Ned-class.html" 
+        class="link">Ned</a>, <a 
+        href="pygeodesy.ellipsoidalNvector.Nvector-class.html" 
+        class="link">Nvector</a> and <a 
+        href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
+        class="link">Cartesian</a> and functions <a 
+        href="pygeodesy.ellipsoidalNvector-module.html#meanOf" 
+        class="link">meanOf</a> and <a 
+        href="pygeodesy.ellipsoidalNvector-module.html#toNed" 
+        class="link">toNed</a>.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty-module.html">pygeodesy.ellipsoidalVincenty</a></strong>: <em class="summary">Vincenty's ellipsoidal geodetic (lat-/longitude) and cartesian 
+        (x/y/z) classes <a 
+        href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+        class="link">LatLon</a>, <a 
+        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
+        class="link">Cartesian</a> and <a 
+        href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html" 
+        class="link">VincentyError</a>.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.geohash-module.html">pygeodesy.geohash</a></strong>: <em class="summary">Class <a href="pygeodesy.geohash.Geohash-class.html" 
+        class="link">Geohash</a> and several functions to encode, decode 
+        and inspect geohashes.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.lcc-module.html">pygeodesy.lcc</a></strong>: <em class="summary">Lambert conformal conic projection for 1- or 2-Standard Parallels 
+        class <a href="pygeodesy.lcc.Conic-class.html" 
+        class="link">Conic</a>, <a href="pygeodesy.lcc-module.html#Conics" 
+        class="link">Conics</a> registry and position class <a 
+        href="pygeodesy.lcc.Lcc-class.html" class="link">Lcc</a>.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.mgrs-module.html">pygeodesy.mgrs</a></strong>: <em class="summary">Military Grid Reference System (MGRS/NATO) class <a 
+        href="pygeodesy.mgrs.Mgrs-class.html" class="link">Mgrs</a> and 
+        functions <a href="pygeodesy.mgrs-module.html#parseMGRS" 
+        class="link">parseMGRS</a> and <a 
+        href="pygeodesy.mgrs-module.html#toMgrs" class="link">toMgrs</a>.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.nvector-module.html">pygeodesy.nvector</a></strong>: <em class="summary">N-vector base class <a href="pygeodesy.nvector.Nvector-class.html" 
+        class="link">Nvector</a> and function <a 
+        href="pygeodesy.nvector-module.html#sumOf" class="link">sumOf</a>.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.osgr-module.html">pygeodesy.osgr</a></strong>: <em class="summary">Ordinance Survey Grid References (OSGR) class <a 
+        href="pygeodesy.osgr.Osgr-class.html" class="link">Osgr</a> and 
+        functions <a href="pygeodesy.osgr-module.html#parseOSGR" 
+        class="link">parseOSGR</a> and <a 
+        href="pygeodesy.osgr-module.html#toOsgr" class="link">toOsgr</a>.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.simplify-module.html">pygeodesy.simplify</a></strong>: <em class="summary">Six different functions to <i>simplify</i> or linearize a path 
+        given as a list, sequence or tuple of <i>LatLon</i> points.</em>    </li>
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.sphericalBase-module.html" onclick="show_private();">pygeodesy.sphericalBase</a></strong>: <em class="summary">(INTERNAL) Spherical base classes.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.sphericalNvector-module.html">pygeodesy.sphericalNvector</a></strong>: <em class="summary">N-vector-based spherical geodetic (lat-/longitude) classes <a 
+        href="pygeodesy.sphericalNvector.LatLon-class.html" 
+        class="link">LatLon</a> and <a 
+        href="pygeodesy.sphericalNvector.Nvector-class.html" 
+        class="link">Nvector</a> and functions <a 
+        href="pygeodesy.sphericalNvector-module.html#areaOf" 
+        class="link">areaOf</a>, <a 
+        href="pygeodesy.sphericalNvector-module.html#intersection" 
+        class="link">intersection</a>, <a 
+        href="pygeodesy.sphericalNvector-module.html#meanOf" 
+        class="link">meanOf</a>, <a 
+        href="pygeodesy.sphericalNvector-module.html#triangulate" 
+        class="link">triangulate</a> and <a 
+        href="pygeodesy.sphericalNvector-module.html#trilaterate" 
+        class="link">trilaterate</a>.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.sphericalTrigonometry-module.html">pygeodesy.sphericalTrigonometry</a></strong>: <em class="summary">Trigonometric spherical geodetic (lat-longitude) class <a 
+        href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
+        class="link">LatLon</a> and functions <a 
+        href="pygeodesy.sphericalTrigonometry-module.html#intersection" 
+        class="link">intersection</a> and <a 
+        href="pygeodesy.sphericalTrigonometry-module.html#meanOf" 
+        class="link">meanOf</a>.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.utils-module.html">pygeodesy.utils</a></strong>: <em class="summary">Utility and mathematical functions and constants.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.utm-module.html">pygeodesy.utm</a></strong>: <em class="summary">Universal Transverse Mercator (UTM) class <a 
+        href="pygeodesy.utm.Utm-class.html" class="link">Utm</a> and 
+        functions <a href="pygeodesy.utm-module.html#parseUTM" 
+        class="link">parseUTM</a> and <a 
+        href="pygeodesy.utm-module.html#toUtm" class="link">toUtm</a>.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.vector3d-module.html">pygeodesy.vector3d</a></strong>: <em class="summary">Generic 3-D vector base class <a 
+        href="pygeodesy.vector3d.Vector3d-class.html" 
+        class="link">Vector3d</a> and function <a 
+        href="pygeodesy.vector3d-module.html#sumOf" class="link">sumOf</a>.</em>    </li>
+  </ul></td></tr>
+</table>
+
+<br />
+<!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Classes</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geohash.Geohash-class.html" class="summary-name">Geohash</a><br />
+      Geohash class, sub-class of str.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html" class="summary-name">VincentyError</a><br />
+      Error thrown from Vincenty's direct and inverse methods for 
+        coincident points and lack of convergence.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.lcc.Conic-class.html" class="summary-name">Conic</a><br />
+      Lambert conformal conic projection (1- or 2-SP).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.datum.Datum-class.html" class="summary-name">Datum</a><br />
+      Ellipsoid and transform parameters for an earth model.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.datum.Ellipsoid-class.html" class="summary-name">Ellipsoid</a><br />
+      Ellipsoid with semi-major, semi-minor axis, inverse flattening and 
+        a number of other pre-computed, frequently used values.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.lcc.Lcc-class.html" class="summary-name">Lcc</a><br />
+      Lambert conformal conic East-/Northing location.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.mgrs.Mgrs-class.html" class="summary-name">Mgrs</a><br />
+      Military Grid Reference System (MGRS/NATO) references, with method 
+        to convert to UTM coordinates.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.simplify.Numpy2points-class.html" class="summary-name">Numpy2points</a><br />
+      Wrapper for NumPy arrays as &quot;on-the-fly&quot; LatLon points.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.osgr.Osgr-class.html" class="summary-name">Osgr</a><br />
+      OSGR coordinate.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.datum.Transform-class.html" class="summary-name">Transform</a><br />
+      Helmert transformation.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.utm.Utm-class.html" class="summary-name">Utm</a><br />
+      Universal Transverse Mercator (UTM) coordinate.
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTIONS ==================== -->
+<a name="section-Functions"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Functions</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#isclockwise" class="summary-sig-name">isclockwise</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Determine the direction of a polygon defined by a list, sequence, set
+      or tuple of <i>LatLon</i> points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#isconvex" class="summary-sig-name">isconvex</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Determine whether a polygon defined by a list, sequence, set or tuple
+      of <i>LatLon</i> points is convex.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#bearingDMS" class="summary-sig-name">bearingDMS</a>(<span class="summary-sig-arg">bearing</span>,
+        <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+      Convert bearing to a string.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#cbrt" class="summary-sig-name">cbrt</a>(<span class="summary-sig-arg">x</span>)</span><br />
+      Compute the cubic root <i class="math">x**(1/3)</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#cbrt2" class="summary-sig-name">cbrt2</a>(<span class="summary-sig-arg">x</span>)</span><br />
+      Compute the cubic root squared <i class="math">x**(2/3)</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#compassDMS" class="summary-sig-name">compassDMS</a>(<span class="summary-sig-arg">bearing</span>,
+        <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+      Convert bearing to a string suffixed with compass point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#compassPoint" class="summary-sig-name">compassPoint</a>(<span class="summary-sig-arg">bearing</span>,
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">3</span>)</span><br />
+      Convert bearing to a compass point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="degrees"></a><span class="summary-sig-name">degrees</span>(<span class="summary-sig-arg">x</span>)</span><br />
+      Convert angle x from radians to degrees.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#degrees180" class="summary-sig-name">degrees180</a>(<span class="summary-sig-arg">rad</span>)</span><br />
+      Convert and wrap radians to degrees <i class="math">-180..+180</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#degrees360" class="summary-sig-name">degrees360</a>(<span class="summary-sig-arg">rad</span>)</span><br />
+      Convert and wrap radians to degrees <i class="math">0..+360</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#degrees90" class="summary-sig-name">degrees90</a>(<span class="summary-sig-arg">rad</span>)</span><br />
+      Convert and wrap radians to degrees <i class="math">-270..+90</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#fStr" class="summary-sig-name">fStr</a>(<span class="summary-sig-arg">floats</span>,
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">%.*f</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">ints</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Convert floats to string, optionally with trailing zero decimals 
+      stripped.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#fStrzs" class="summary-sig-name">fStrzs</a>(<span class="summary-sig-arg">fstr</span>)</span><br />
+      Strip trailing zero decimals from a float string.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#false2f" class="summary-sig-name">false2f</a>(<span class="summary-sig-arg">value</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">value</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">false</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Convert a false east-/northing to non-negative float.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#favg" class="summary-sig-name">favg</a>(<span class="summary-sig-arg">v1</span>,
+        <span class="summary-sig-arg">v2</span>,
+        <span class="summary-sig-arg">f</span>=<span class="summary-sig-default">0.5</span>)</span><br />
+      Return the weighted average of two values.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#fdot" class="summary-sig-name">fdot</a>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">*b</span>)</span><br />
+      Return the precision dot product <i class="math">sum(a[i] * b[i] for 
+      i in range(len(a)))</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#fdot3" class="summary-sig-name">fdot3</a>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">b</span>,
+        <span class="summary-sig-arg">c</span>,
+        <span class="summary-sig-arg">start</span>=<span class="summary-sig-default">0</span>)</span><br />
+      Return the precision dot product <i class="math">sum(a[i] * b[i] * 
+      c[i] for i in range(len(a))) + start</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#fsum" class="summary-sig-name">fsum</a>(<span class="summary-sig-arg">iterable</span>)</span><br />
+      Return an accurate floating point sum of values in the iterable.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#ft2m" class="summary-sig-name">ft2m</a>(<span class="summary-sig-arg">feet</span>)</span><br />
+      Convert feet to meter (m).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#halfs" class="summary-sig-name">halfs</a>(<span class="summary-sig-arg">str2</span>)</span><br />
+      Split a string in 2 halfs.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#hsin" class="summary-sig-name">hsin</a>(<span class="summary-sig-arg">rad</span>)</span><br />
+      Compute the Haversine value of an angle.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#hsin3" class="summary-sig-name">hsin3</a>(<span class="summary-sig-arg">a2</span>,
+        <span class="summary-sig-arg">a1</span>,
+        <span class="summary-sig-arg">b21</span>)</span><br />
+      Compute the angular distance using the Haversine formula.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="hypot"></a><span class="summary-sig-name">hypot</span>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>)</span><br />
+      Return the Euclidean distance, sqrt(x*x + y*y).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#hypot1" class="summary-sig-name">hypot1</a>(<span class="summary-sig-arg">x</span>)</span><br />
+      Compute the norm <i class="math">sqrt(1 + x**2)</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#hypot3" class="summary-sig-name">hypot3</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>,
+        <span class="summary-sig-arg">z</span>)</span><br />
+      Compute the norm <i class="math">sqrt(x**2 + y**2 + z**2)</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#isint" class="summary-sig-name">isint</a>(<span class="summary-sig-arg">obj</span>,
+        <span class="summary-sig-arg">both</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Check for integer types and value.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#isscalar" class="summary-sig-name">isscalar</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Check for scalar types.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#latDMS" class="summary-sig-name">latDMS</a>(<span class="summary-sig-arg">deg</span>,
+        <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">2</span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+      Convert latitude to a string suffixed with N or S.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#len2" class="summary-sig-name">len2</a>(<span class="summary-sig-arg">xtor</span>)</span><br />
+      Make built-in <code class="link">len</code>() function work for 
+      generators, iterators, etc.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#lonDMS" class="summary-sig-name">lonDMS</a>(<span class="summary-sig-arg">deg</span>,
+        <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">2</span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+      Convert longitude to a string suffixed with E or W.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#m2NM" class="summary-sig-name">m2NM</a>(<span class="summary-sig-arg">meter</span>)</span><br />
+      Convert meter to nautical miles (NM).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#m2SM" class="summary-sig-name">m2SM</a>(<span class="summary-sig-arg">meter</span>)</span><br />
+      Convert meter to statute miles (SM).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#m2ft" class="summary-sig-name">m2ft</a>(<span class="summary-sig-arg">meter</span>)</span><br />
+      Convert meter to feet (ft).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#m2km" class="summary-sig-name">m2km</a>(<span class="summary-sig-arg">meter</span>)</span><br />
+      Convert meter to kilo meter (km).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#map1" class="summary-sig-name">map1</a>(<span class="summary-sig-arg">func</span>,
+        <span class="summary-sig-arg">*args</span>)</span><br />
+      Apply each argument to a single-argument function and returns a tuple
+      of results.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#map2" class="summary-sig-name">map2</a>(<span class="summary-sig-arg">func</span>,
+        <span class="summary-sig-arg">*args</span>)</span><br />
+      Apply arguments to a function and returns a tuple of results.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#normDMS" class="summary-sig-name">normDMS</a>(<span class="summary-sig-arg">strDMS</span>,
+        <span class="summary-sig-arg">norm</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+      Normalize all degree &#730;, minute ' and second &quot; symbols in a 
+      string to the default symbols &#176;, &#8242; and &#8243;.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#parse3llh" class="summary-sig-name">parse3llh</a>(<span class="summary-sig-arg">strll</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">,</code><code class="variable-quote">'</code></span>)</span><br />
+      Parse a string representing lat-, longitude and height point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#parseDMS" class="summary-sig-name">parseDMS</a>(<span class="summary-sig-arg">strDMS</span>,
+        <span class="summary-sig-arg">suffix</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">NSEW</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+      Parse a string representing deg&#176;min&#8242;sec&#8243; to degrees.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#parseMGRS" class="summary-sig-name">parseMGRS</a>(<span class="summary-sig-arg">strMGRS</span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>)</span><br />
+      Parse a string representing a MGRS grid reference, consisting of 
+      zoneBand, grid, easting and northing.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#parseOSGR" class="summary-sig-name">parseOSGR</a>(<span class="summary-sig-arg">strOSGR</span>)</span><br />
+      Parse an OSGR coordinate string to an Osgr instance.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#parseUTM" class="summary-sig-name">parseUTM</a>(<span class="summary-sig-arg">strUTM</span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>)</span><br />
+      Parse a string representing a UTM coordinate, consisting of zone, 
+      hemisphere, easting and northing.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#precision" class="summary-sig-name">precision</a>(<span class="summary-sig-arg">form</span>,
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Set the default precison for a given F_ form.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="radians"></a><span class="summary-sig-name">radians</span>(<span class="summary-sig-arg">x</span>)</span><br />
+      Convert angle x from degrees to radians.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#radiansPI" class="summary-sig-name">radiansPI</a>(<span class="summary-sig-arg">deg</span>)</span><br />
+      Convert and wrap degrees to radians <i class="math">-PI..+PI</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#radiansPI2" class="summary-sig-name">radiansPI2</a>(<span class="summary-sig-arg">deg</span>)</span><br />
+      Convert and wrap degrees to radians <i class="math">0..+2PI</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#radiansPI_2" class="summary-sig-name">radiansPI_2</a>(<span class="summary-sig-arg">deg</span>)</span><br />
+      Convert and wrap degrees to radians <i 
+      class="math">-3PI/2..+PI/2</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#simplify1" class="summary-sig-name">simplify1</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">distance</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Basic simplification of a path of <i>LatLon</i> points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#simplify2" class="summary-sig-name">simplify2</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">pipe</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Reumann-Witkam simplification of a path of <i>LatLon</i> points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#simplifyRDP" class="summary-sig-name">simplifyRDP</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">distance</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Ramer-Douglas-Peucker (RDP) simplification of a path of <i>LatLon</i>
+      points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#simplifyRDPm" class="summary-sig-name">simplifyRDPm</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">distance</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Modified Ramer-Douglas-Peucker (RDP) simplification of a path of 
+      <i>LatLon</i> points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#simplifyRW" class="summary-sig-name">simplifyRW</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">pipe</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Reumann-Witkam simplification of a path of <i>LatLon</i> points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#simplifyVW" class="summary-sig-name">simplifyVW</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">area</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">attr</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Visvalingam-Whyatt (VW) simplification of a path of <i>LatLon</i> 
+      points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#simplifyVWm" class="summary-sig-name">simplifyVWm</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">area</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">attr</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Modified Visvalingam-Whyatt (VW) simplification of a path of 
+      <i>LatLon</i> points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#tanPI_2_2" class="summary-sig-name">tanPI_2_2</a>(<span class="summary-sig-arg">rad</span>)</span><br />
+      Compute tan of half angle, rotated.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#toDMS" class="summary-sig-name">toDMS</a>(<span class="summary-sig-arg">deg</span>,
+        <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">2</span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">ddd</span>=<span class="summary-sig-default">2</span>,
+        <span class="summary-sig-arg">neg</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">-</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">pos</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+      Convert signed degrees to string, without suffix.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#toLcc" class="summary-sig-name">toLcc</a>(<span class="summary-sig-arg">latlon</span>,
+        <span class="summary-sig-arg">conic</span>=<span class="summary-sig-default">Conic(name='WRF_Lb', lat0=40.0, lon0=-97.0, par1=33.0, par2=45<code class="variable-ellipsis">...</code></span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">Lcc</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.lcc.Lcc'&gt;</span>)</span><br />
+      Convert an (ellipsoidal) geodetic point to a Lambert location.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#toMgrs" class="summary-sig-name">toMgrs</a>(<span class="summary-sig-arg">utm</span>,
+        <span class="summary-sig-arg">Mgrs</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.mgrs.Mgrs'&gt;</span>)</span><br />
+      Convert a UTM coordinate to an MGRS grid reference.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#toOsgr" class="summary-sig-name">toOsgr</a>(<span class="summary-sig-arg">latlon</span>,
+        <span class="summary-sig-arg">lon</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="summary-sig-arg">Osgr</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.osgr.Osgr'&gt;</span>)</span><br />
+      Convert a lat-/longitude point to an OSGR coordinate.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#toUtm" class="summary-sig-name">toUtm</a>(<span class="summary-sig-arg">latlon</span>,
+        <span class="summary-sig-arg">lon</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">Utm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>)</span><br />
+      Convert a lat-/longitude point to a UTM coordinate.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#wrap180" class="summary-sig-name">wrap180</a>(<span class="summary-sig-arg">deg</span>)</span><br />
+      Wrap degrees to <i class="math">-180..+180</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#wrap360" class="summary-sig-name">wrap360</a>(<span class="summary-sig-arg">deg</span>)</span><br />
+      Wrap degrees to <i class="math">0..+360</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#wrap90" class="summary-sig-name">wrap90</a>(<span class="summary-sig-arg">deg</span>)</span><br />
+      Wrap degrees to <i class="math">-270..+90</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#wrapPI" class="summary-sig-name">wrapPI</a>(<span class="summary-sig-arg">rad</span>)</span><br />
+      Wrap radians to <i class="math">-PI..+PI</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#wrapPI2" class="summary-sig-name">wrapPI2</a>(<span class="summary-sig-arg">rad</span>)</span><br />
+      Wrap radians to <i class="math">0..+2PI</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#wrapPI_2" class="summary-sig-name">wrapPI_2</a>(<span class="summary-sig-arg">rad</span>)</span><br />
+      Wrap radians to <i class="math">-3PI/2..+PI/2</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Variables</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'17.8.1'"><code class="variable-quote">'</code><code class="variable-string">17.8.1</code><code class="variable-quote">'</code></code><br />
+      Normalized PyGeodesy version (string).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy-module.html#Conics" class="summary-name">Conics</a> = <code title="Conics.Be08Lb: Conic(name='Be08Lb', lat0=50.797815, lon0=4.35921583, p\
+ar1=49.833333, par2=51.166667, E0=649328.0, N0=665262.0, k0=1, SP=2, d\
+atum=(name='GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.W\
+GS84)
+Conics.Be72Lb: Conic(name='Be72Lb', lat0=90.0, lon0=4.3674867, par1=49\
+.8333339, par2=51.1666672, E0=150000.013, N0=5400088.438, k0=1, SP=2, \
+datum=(name='NAD83', ellipsoid=Ellipsoids.GRS80, transform=Transforms.\
+NAD83)
+...">Conics.Be08Lb: Conic(name='Be08Lb', lat0=50.797815, l<code class="variable-ellipsis">...</code></code><br />
+      Registered conics (enum).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy-module.html#Datums" class="summary-name">Datums</a> = <code title="Datums.BD72: Datum(name='BD72', ellipsoid=Ellipsoids.Intl1924, transfo\
+rm=Transforms.BD72)
+Datums.DHDN: Datum(name='DHDN', ellipsoid=Ellipsoids.Bessel1841, trans\
+form=Transforms.DHDN)
+Datums.ED50: Datum(name='ED50', ellipsoid=Ellipsoids.Intl1924, transfo\
+rm=Transforms.ED50)
+Datums.GRS80: Datum(name='GRS80', ellipsoid=Ellipsoids.GRS80, transfor\
+m=Transforms.WGS84)
+...">Datums.BD72: Datum(name='BD72', ellipsoid=Ellipsoids.<code class="variable-ellipsis">...</code></code><br />
+      Registered datums (enum).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="EPS"></a><span class="summary-name">EPS</span> = <code title="2.22044604925e-16">2.22044604925e-16</code><br />
+      System's <i class="math">epsilon</i> (float)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="EPS1"></a><span class="summary-name">EPS1</span> = <code title="1.0">1.0</code><br />
+      <i class="math">1 - EPS</i> (float), about 0.9999999999999998
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="EPS2"></a><span class="summary-name">EPS2</span> = <code title="1.49011611938e-08">1.49011611938e-08</code><br />
+      <i class="math">sqrt(EPS)</i> (float)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy-module.html#Ellipsoids" class="summary-name">Ellipsoids</a> = <code title="Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, b=63562\
+56.909, f_=299.3249646, f=0.00334085, e2=0.00667054, e22=0.00671533, R\
+=6370461.23366667, Rm=6366901.23988196, R2=6370459.65458944, R3=637045\
+3.30986645, Rr=6366914.60880589)
+Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
+ b=6356034.448, f_=299.3249646, f=0.00334085, e2=0.00667054, e22=0.006\
+71533, R=6370238.27533333, Rm=6366678.40619415, R2=6370236.69636116, R\
+3=6370230.35181066, Rr=6366691.7746498)
+...">Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a<code class="variable-ellipsis">...</code></code><br />
+      Registered ellipsoids (enum).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_D"></a><span class="summary-name">F_D</span> = <code title="'d'"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></code><br />
+      Format degrees as deg&#176; (string).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_DEG"></a><span class="summary-name">F_DEG</span> = <code title="'deg'"><code class="variable-quote">'</code><code class="variable-string">deg</code><code class="variable-quote">'</code></code><br />
+      Format degrees as [D]DD without symbol (string).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_DM"></a><span class="summary-name">F_DM</span> = <code title="'dm'"><code class="variable-quote">'</code><code class="variable-string">dm</code><code class="variable-quote">'</code></code><br />
+      Format degrees as deg&#176;min&#8242; (string).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_DMS"></a><span class="summary-name">F_DMS</span> = <code title="'dms'"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></code><br />
+      Format degrees as deg&#176;min&#8242;sec&#8243; (string).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_MIN"></a><span class="summary-name">F_MIN</span> = <code title="'min'"><code class="variable-quote">'</code><code class="variable-string">min</code><code class="variable-quote">'</code></code><br />
+      Format degrees as [D]DDMM without symbols (string).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_RAD"></a><span class="summary-name">F_RAD</span> = <code title="'rad'"><code class="variable-quote">'</code><code class="variable-string">rad</code><code class="variable-quote">'</code></code><br />
+      Convert degrees to radians and format as RR (string).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_SEC"></a><span class="summary-name">F_SEC</span> = <code title="'sec'"><code class="variable-quote">'</code><code class="variable-string">sec</code><code class="variable-quote">'</code></code><br />
+      Format degrees as [D]DDMMSS without symbols (string).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="PI"></a><span class="summary-name">PI</span> = <code title="3.14159265359">3.14159265359</code><br />
+      Constant <i class="math">math.pi</i> (float)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="PI2"></a><span class="summary-name">PI2</span> = <code title="6.28318530718">6.28318530718</code><br />
+      Two PI, <i class="math">math.pi * 2</i> (float)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="PI_2"></a><span class="summary-name">PI_2</span> = <code title="1.57079632679">1.57079632679</code><br />
+      Half PI, <i class="math">math.pi / 2</i> (float)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="R_KM"></a><span class="summary-name">R_KM</span> = <code title="6371.00877142">6371.00877142</code><br />
+      Mean, spherical earth radius (kilo meter).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="R_M"></a><span class="summary-name">R_M</span> = <code title="6371008.77141">6371008.77141</code><br />
+      Mean, spherical earth radius (meter).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="R_NM"></a><span class="summary-name">R_NM</span> = <code title="3440.06953447">3440.06953447</code><br />
+      Mean, spherical earth radius (nautical miles).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="R_SM"></a><span class="summary-name">R_SM</span> = <code title="3958.75339537">3958.75339537</code><br />
+      Mean, spherical earth radius (statute miles).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="S_DEG"></a><span class="summary-name">S_DEG</span> = <code title="'\xc2\xb0'"><code class="variable-quote">'</code><code class="variable-string">\xc2\xb0</code><code class="variable-quote">'</code></code><br />
+      Degrees symbol &#176; (string).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="S_MIN"></a><span class="summary-name">S_MIN</span> = <code title="'\xe2\x80\xb2'"><code class="variable-quote">'</code><code class="variable-string">\xe2\x80\xb2</code><code class="variable-quote">'</code></code><br />
+      Minutes symbol &#8242; (string).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="S_RAD"></a><span class="summary-name">S_RAD</span> = <code title="''"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></code><br />
+      Radians symbol  (string).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="S_SEC"></a><span class="summary-name">S_SEC</span> = <code title="'\xe2\x80\xb3'"><code class="variable-quote">'</code><code class="variable-string">\xe2\x80\xb3</code><code class="variable-quote">'</code></code><br />
+      Seconds symbol &#8243; (string).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="S_SEP"></a><span class="summary-name">S_SEP</span> = <code title="''"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></code><br />
+      Separator between deg&#176;, min&#8242; and sec&#8243;  (string).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy-module.html#Transforms" class="summary-name">Transforms</a> = <code title="Transforms.BD72: Transform(name='BD72', tx=106.8686, ty=-52.2978, tz=1\
+03.7239, rx=-0.0, ry=-0.0, rz=-0.0, s=1.2727, s1=1.0, sx=-0.3366, sy=-\
+0.457, sz=-1.8422)
+Transforms.Bessel1841: Transform(name='Bessel1841', tx=-582.0, ty=-105\
+.0, tz=-414.0, rx=-0.0, ry=-0.0, rz=0.0, s=-8.3, s1=1.0, sx=-1.04, sy=\
+-0.35, sz=3.08)
+Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
+ tz=-176.0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
+...">Transforms.BD72: Transform(name='BD72', tx=106.86<code class="variable-ellipsis">...</code></code><br />
+      Registered transforms (enum).
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTION DETAILS ==================== -->
+<a name="section-FunctionDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Function Details</span></td>
+</tr>
+</table>
+<a name="isclockwise"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isclockwise</span>(<span class="sig-arg">points</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Determine the direction of a polygon defined by a list, sequence, set 
+  or tuple of <i>LatLon</i> points.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<i>LatLon</i>[]).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>True if clockwise, False otherwise.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <i>LatLon</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Too few points or zero area polygon.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>f = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
+<span class="py-prompt">&gt;&gt;&gt; </span>pygeodesy.isclockwise(f)  <span class="py-comment"># False</span></pre>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>t = LatLon(45,1), LatLon(46,1), LatLon(46,2)
+<span class="py-prompt">&gt;&gt;&gt; </span>pygeodesy.isclockwise(t)  <span class="py-comment"># True</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="isconvex"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isconvex</span>(<span class="sig-arg">points</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Determine whether a polygon defined by a list, sequence, set or tuple 
+  of <i>LatLon</i> points is convex.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<i>LatLon</i>[]).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>True if convex, False otherwise.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <i>LatLon</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Too few points or colinear point.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>t = LatLon(45,1), LatLon(46,1), LatLon(46,2)
+<span class="py-prompt">&gt;&gt;&gt; </span>pygeodesy.isconvex(t)  <span class="py-comment"># True</span></pre>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>f = LatLon(45,1), LatLon(46,2), LatLon(45,2), LatLon(46,1)
+<span class="py-prompt">&gt;&gt;&gt; </span>pygeodesy.isconvex(f)  <span class="py-comment"># False</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="bearingDMS"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">bearingDMS</span>(<span class="sig-arg">bearing</span>,
+        <span class="sig-arg">form</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">prec</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert bearing to a string.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (compass degrees).</li>
+        <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD for deg&#176;, 
+          deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, [D]DD, [D]DDMM, [D]DDMMSS or radians 
+          (string).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None for default).  
+          Trailing zero decimals are stripped for prec values of 1 and 
+          above, but kept for negative prec values.</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional, separator (string).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Compass degrees per the specified form (string).</dd>
+  </dl>
+<div class="fields">      <p><strong>JS name:</strong>
+        <i>toBrng</i>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="cbrt"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">cbrt</span>(<span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the cubic root <i class="math">x**(1/3)</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - Argument (scalar).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Cubic root (float).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="cbrt2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">cbrt2</span>(<span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the cubic root squared <i class="math">x**(2/3)</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - Argument (scalar).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Cubic root squared (float).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="compassDMS"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">compassDMS</span>(<span class="sig-arg">bearing</span>,
+        <span class="sig-arg">form</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">prec</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert bearing to a string suffixed with compass point.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (compass degrees).</li>
+        <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD for deg&#176;, 
+          deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, [D]DD, [D]DDMM, [D]DDMMSS or radians 
+          (string).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None for default).  
+          Trailing zero decimals are stripped for prec values of 1 and 
+          above, but kept for negative prec values.</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional, separator (string).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Compass degrees and point per the specified form (string).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="compassPoint"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">compassPoint</span>(<span class="sig-arg">bearing</span>,
+        <span class="sig-arg">prec</span>=<span class="sig-default">3</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert bearing to a compass point.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (compass degrees).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional precision (1 for cardinal or basic winds, 2 for 
+          intercardinal or ordinal or principal winds, 3 for 
+          secondary-intercardinal or half-winds or 4 for quarter-winds).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Compass point (1-, 2-, 3- or 4-letter string).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid prec.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="http://wikipedia.org/wiki/Compass_rose" 
+        target="_top">Compass rose</a>
+      </p>
+      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = compassPoint(24)     <span class="py-comment"># 'NNE'</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>p = compassPoint(24, 1)  <span class="py-comment"># 'N'</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>p = compassPoint(24, 2)  <span class="py-comment"># 'NE'</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>p = compassPoint(18, 3)  <span class="py-comment"># 'NNE'</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>p = compassPoint(12, 4)  <span class="py-comment"># 'NbE'</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>p = compassPoint(30, 4)  <span class="py-comment"># 'NEbN'</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="degrees180"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">degrees180</span>(<span class="sig-arg">rad</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert and wrap radians to degrees <i 
+  class="math">-180..+180</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Degrees, wrapped (degrees180).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="degrees360"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">degrees360</span>(<span class="sig-arg">rad</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert and wrap radians to degrees <i class="math">0..+360</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Degrees, wrapped (degrees360).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="degrees90"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">degrees90</span>(<span class="sig-arg">rad</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert and wrap radians to degrees <i class="math">-270..+90</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Degrees, wrapped (degrees90).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="fStr"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fStr</span>(<span class="sig-arg">floats</span>,
+        <span class="sig-arg">prec</span>=<span class="sig-default">6</span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">fmt</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">%.*f</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">ints</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert floats to string, optionally with trailing zero decimals 
+  stripped.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>floats</code></strong> - List, sequence, tuple, etc. (scalars).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional precision, number of decimal digits (0..9). Trailing 
+          zero decimals are stripped for prec values of 1 and above, but 
+          kept for negative prec values.</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional, separator to join (string).</li>
+        <li><strong class="pname"><code>fmt</code></strong> - Optional, float format (string).</li>
+        <li><strong class="pname"><code>ints</code></strong> - Optionally, remove decimal dot (bool).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The floats as 'f, f, ... f' (string).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="fStrzs"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fStrzs</span>(<span class="sig-arg">fstr</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Strip trailing zero decimals from a float string.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>fstr</code></strong> - Float (string)</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Float (string).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="false2f"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">false2f</span>(<span class="sig-arg">value</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">value</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">false</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert a false east-/northing to non-negative float.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>value</code></strong> - Value to convert (scalar).</li>
+        <li><strong class="pname"><code>name</code></strong> - Name of the value (string).</li>
+        <li><strong class="pname"><code>false</code></strong> - Value must include false origin (bool).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The value (float).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or negative value.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="favg"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">favg</span>(<span class="sig-arg">v1</span>,
+        <span class="sig-arg">v2</span>,
+        <span class="sig-arg">f</span>=<span class="sig-default">0.5</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the weighted average of two values.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>v1</code></strong> - One value (scalar).</li>
+        <li><strong class="pname"><code>v2</code></strong> - Other value (scalar).</li>
+        <li><strong class="pname"><code>f</code></strong> - Fraction (scalar).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><i class="math">v1 + f * (v2 - v1)</i> (float).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="fdot"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fdot</span>(<span class="sig-arg">a</span>,
+        <span class="sig-arg">*b</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the precision dot product <i class="math">sum(a[i] * b[i] for i
+  in range(len(a)))</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a</code></strong> - List, sequence, tuple, etc. (scalars).</li>
+        <li><strong class="pname"><code>b</code></strong> - List, sequence, tuple, etc. (scalars).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Dot product (float).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Unequal len(a) and len(b).</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="fdot3"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fdot3</span>(<span class="sig-arg">a</span>,
+        <span class="sig-arg">b</span>,
+        <span class="sig-arg">c</span>,
+        <span class="sig-arg">start</span>=<span class="sig-default">0</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the precision dot product <i class="math">sum(a[i] * b[i] * 
+  c[i] for i in range(len(a))) + start</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a</code></strong> - List, sequence, tuple, etc. (scalars).</li>
+        <li><strong class="pname"><code>b</code></strong> - List, sequence, tuple, etc. (scalars).</li>
+        <li><strong class="pname"><code>c</code></strong> - List, sequence, tuple, etc. (scalars).</li>
+        <li><strong class="pname"><code>start</code></strong> - Optional bias (scalar).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Dot product (float).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Unequal len(a), len(b) and/or len(c).</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="fsum"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum</span>(<span class="sig-arg">iterable</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return an accurate floating point sum of values in the iterable. 
+  Assumes IEEE-754 floating point arithmetic.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="ft2m"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">ft2m</span>(<span class="sig-arg">feet</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert feet to meter (m).</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>feet</code></strong> - Value in feet (scalar).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Value in m (float).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="halfs"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">halfs</span>(<span class="sig-arg">str2</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Split a string in 2 halfs.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>str2</code></strong> - String to split (string).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>2-Tuple (1st, 2nd) halfs (strings).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Zero or odd len(str2).</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="hsin"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">hsin</span>(<span class="sig-arg">rad</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the Haversine value of an angle.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><i class="math">sin(rad / 2)**2</i> (float).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="http://wikipedia.org/wiki/Haversine_formula" 
+        target="_top">http://wikipedia.org/wiki/Haversine_formula</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="hsin3"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">hsin3</span>(<span class="sig-arg">a2</span>,
+        <span class="sig-arg">a1</span>,
+        <span class="sig-arg">b21</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the angular distance using the Haversine formula.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a2</code></strong> - Latitude2 (radians).</li>
+        <li><strong class="pname"><code>a1</code></strong> - Latitude1 (radians).</li>
+        <li><strong class="pname"><code>b21</code></strong> - Longitude delta (radians).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>3-Tuple (angle, cos(a2), cos(a1))</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="http://www.movable-type.co.uk/scripts/latlong.html" 
+        target="_top">http://www.movable-type.co.uk/scripts/latlong.html</a>
+        and <a href="http://www.edwilliams.org/avform.htm#Dist" 
+        target="_top">http://www.edwilliams.org/avform.htm#Dist</a>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="hypot1"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">hypot1</span>(<span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the norm <i class="math">sqrt(1 + x**2)</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - Argument (scalar).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Norm (float).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="hypot3"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">hypot3</span>(<span class="sig-arg">x</span>,
+        <span class="sig-arg">y</span>,
+        <span class="sig-arg">z</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the norm <i class="math">sqrt(x**2 + y**2 + z**2)</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - X argument (scalar).</li>
+        <li><strong class="pname"><code>y</code></strong> - Y argument (scalar).</li>
+        <li><strong class="pname"><code>z</code></strong> - Z argument (scalar).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Norm (float).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isint"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isint</span>(<span class="sig-arg">obj</span>,
+        <span class="sig-arg">both</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check for integer types and value.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - The object (any type).</li>
+        <li><strong class="pname"><code>both</code></strong> - Check both type and value (bool).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>True if obj is integer (bool).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isscalar"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isscalar</span>(<span class="sig-arg">obj</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check for scalar types.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - The object (any type).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>True if obj is scalar (bool).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="latDMS"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">latDMS</span>(<span class="sig-arg">deg</span>,
+        <span class="sig-arg">form</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">prec</span>=<span class="sig-default">2</span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert latitude to a string suffixed with N or S.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>deg</code></strong> - Latitude to be formatted (degrees).</li>
+        <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD for deg&#176;, 
+          deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, DD, DDMM, DDMMSS or radians (string).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None for default).  
+          Trailing zero decimals are stripped for prec values of 1 and 
+          above, but kept for negative prec values.</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional, separator (string).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Degrees per the specified form (string).</dd>
+  </dl>
+<div class="fields">      <p><strong>JS name:</strong>
+        <i>toLat</i>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="len2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">len2</span>(<span class="sig-arg">xtor</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Make built-in <code class="link">len</code>() function work for 
+  generators, iterators, etc. since those can only be started once.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>xtor</code></strong> - Generator, iterator, list, sequence, tuple, etc.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>2-Tuple (number, list) of items (int, list).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="lonDMS"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">lonDMS</span>(<span class="sig-arg">deg</span>,
+        <span class="sig-arg">form</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">prec</span>=<span class="sig-default">2</span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert longitude to a string suffixed with E or W.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>deg</code></strong> - Longitude to be formatted (degrees).</li>
+        <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD for deg&#176;, 
+          deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, DDD, DDDMM, DDDMMSS or radians (string).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None for default).  
+          Trailing zero decimals are stripped for prec values of 1 and 
+          above, but kept for negative prec values.</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional, separator (string).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Degrees per the specified form (string).</dd>
+  </dl>
+<div class="fields">      <p><strong>JS name:</strong>
+        <i>toLon</i>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="m2NM"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">m2NM</span>(<span class="sig-arg">meter</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert meter to nautical miles (NM).</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>meter</code></strong> - Value in meter (scalar).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Value in NM (float).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="m2SM"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">m2SM</span>(<span class="sig-arg">meter</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert meter to statute miles (SM).</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>meter</code></strong> - Value in meter (scalar).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Value in SM (float).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="m2ft"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">m2ft</span>(<span class="sig-arg">meter</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert meter to feet (ft).</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>meter</code></strong> - Value in meter (scalar).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Value in ft (float).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="m2km"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">m2km</span>(<span class="sig-arg">meter</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert meter to kilo meter (km).</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>meter</code></strong> - Value in meter (scalar).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Value in km (float).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="map1"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">map1</span>(<span class="sig-arg">func</span>,
+        <span class="sig-arg">*args</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Apply each argument to a single-argument function and returns a tuple 
+  of results.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>func</code></strong> - Function to apply (callable).</li>
+        <li><strong class="pname"><code>args</code></strong> - Arguments to apply (any).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Function results (tuple).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="map2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">map2</span>(<span class="sig-arg">func</span>,
+        <span class="sig-arg">*args</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Apply arguments to a function and returns a tuple of results.</p>
+  <p>Unlike Python 2 built-in <code class="link">map</code>, Python 3+ 
+  <code class="link">map</code> returns a <code class="link">map</code> 
+  object, an iterator-like object which generates the results only once.  
+  Converting the <code class="link">map</code> object to a tuple maintains 
+  Python 2 behavior.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>func</code></strong> - Function to apply (callable).</li>
+        <li><strong class="pname"><code>args</code></strong> - Arguments to apply (list, tuple, ...).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Function results (tuple).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="normDMS"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">normDMS</span>(<span class="sig-arg">strDMS</span>,
+        <span class="sig-arg">norm</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Normalize all degree &#730;, minute ' and second &quot; symbols in a string
+  to the default symbols &#176;, &#8242; and &#8243;.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>strDMS</code></strong> - DMS (string).</li>
+        <li><strong class="pname"><code>norm</code></strong> - Replacement, default symbol otherwise (string).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Normalized DMS (string).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="parse3llh"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">parse3llh</span>(<span class="sig-arg">strll</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">,</code><code class="variable-quote">'</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Parse a string representing lat-, longitude and height point.</p>
+  <p>The lat- and longitude value must be separated by a separator 
+  character.  If height is present it must follow, separated by another 
+  separator.</p>
+  <p>The lat- and longitude values may be swapped, provided at least one 
+  ends with the proper compass direction.</p>
+  <p>See function parseDMS for more details on the forms and symbols 
+  accepted.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>strll</code></strong> - Lat, lon[, height] (string).</li>
+        <li><strong class="pname"><code>height</code></strong> - Default for missing height (meter).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional, separator (string).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>3-Tuple (lat, lon, height) as (scalars).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid strll.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>t = parse3llh(<span class="py-string">'000&#176;00&#8242;05.31&#8243;W, 51&#176; 28&#8242; 40.12&#8243; N'</span>)  <span class="py-comment"># (51.4778&#176;N, 000.0015&#176;W, 0)</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="parseDMS"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">parseDMS</span>(<span class="sig-arg">strDMS</span>,
+        <span class="sig-arg">suffix</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">NSEW</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Parse a string representing deg&#176;min&#8242;sec&#8243; to degrees.</p>
+  <p>This is very flexible on formats, allowing signed decimal degrees, 
+  degrees and minutes or degrees minutes and seconds optionally suffixed by
+  compass direction NSEW.</p>
+  <p>A variety of symbols, separators and suffixes are accepted, for 
+  example 3&#176; 37&#8242; 09&#8243;W.  Minutes and seconds may be omitted.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>strDMS</code></strong> - Degrees in any of several forms (string).</li>
+        <li><strong class="pname"><code>suffix</code></strong> - Optional, valid compass directions (NSEW).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator between deg&#176;, min&#8242; and sec&#8243; ('').</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Degrees (float).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid strDMS.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="parseMGRS"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">parseMGRS</span>(<span class="sig-arg">strMGRS</span>,
+        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Parse a string representing a MGRS grid reference, consisting of 
+  zoneBand, grid, easting and northing.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>strMGRS</code></strong> - MGRS grid reference (string).</li>
+        <li><strong class="pname"><code>datum</code></strong> - The datum to use (<a href="pygeodesy.datum.Datum-class.html" 
+          class="link">Datum</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The MGRS grid reference (<a href="pygeodesy.mgrs.Mgrs-class.html"
+          class="link">Mgrs</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid strMGRS.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>m = parseMGRS(<span class="py-string">'31U DQ 48251 11932'</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span>str(m)  <span class="py-comment"># 31U DQ 48251 11932</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>m = parseMGRS(<span class="py-string">'31UDQ4825111932'</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span>repr(m)  <span class="py-comment"># [Z:31U, G:DQ, E:48251, N:11932]</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="parseOSGR"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">parseOSGR</span>(<span class="sig-arg">strOSGR</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Parse an OSGR coordinate string to an Osgr instance.</p>
+  <p>Accepts standard OS Grid References like 'SU 387 148', with or without
+  whitespace separators, from 2- up to 10-digit references (1 m &#215; 1 m 
+  square), or fully numeric, comma-separated references in metres, for 
+  example '438700,114800'.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>strOSGR</code></strong> - An OSGR coordinate (string).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The OSGR coordinate (<a href="pygeodesy.osgr.Osgr-class.html" 
+          class="link">Osgr</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid strOSGR.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>g = parseOSGR(<span class="py-string">'TG 51409 13177'</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span>str(g)  <span class="py-comment"># TG 51409 13177</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>g = parseOSGR(<span class="py-string">'TG5140913177'</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span>str(g)  <span class="py-comment"># TG 51409 13177</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>g = parseOSGR(<span class="py-string">'TG51409 13177'</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span>str(g)  <span class="py-comment"># TG 51409 13177</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>g = parseOSGR(<span class="py-string">'651409,313177'</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span>str(g)  <span class="py-comment"># TG 51409 13177</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>g.toStr(prec=0)  <span class="py-comment"># 651409,313177</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="parseUTM"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">parseUTM</span>(<span class="sig-arg">strUTM</span>,
+        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Parse a string representing a UTM coordinate, consisting of zone, 
+  hemisphere, easting and northing.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>strUTM</code></strong> - A UTM coordinate (string).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Datum to use (<a href="pygeodesy.datum.Datum-class.html" 
+          class="link">Datum</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The UTM coordinate (<a href="pygeodesy.utm.Utm-class.html" 
+          class="link">Utm</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid strUTM.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>u = parseUTM(<span class="py-string">'31 N 448251 5411932'</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span>u.toStr2()  <span class="py-comment"># [Z:31, H:N, E:448251, N:5411932]</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>u = parseUTM(<span class="py-string">'31 N 448251.8 5411932.7'</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span>u.toStr()  <span class="py-comment"># 31 N 448252 5411933</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="precision"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">precision</span>(<span class="sig-arg">form</span>,
+        <span class="sig-arg">prec</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set the default precison for a given F_ form.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD (string).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None for default).  
+          Trailing zero decimals are stripped for prec values of 1 and 
+          above, but kept for negative prec values.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Previous precision (int).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid precision.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="radiansPI"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">radiansPI</span>(<span class="sig-arg">deg</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert and wrap degrees to radians <i class="math">-PI..+PI</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>deg</code></strong> - Angle (degrees).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Radians, wrapped (radiansPI)</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="radiansPI2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">radiansPI2</span>(<span class="sig-arg">deg</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert and wrap degrees to radians <i class="math">0..+2PI</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>deg</code></strong> - Angle (degrees).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Radians, wrapped (radiansPI2)</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="radiansPI_2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">radiansPI_2</span>(<span class="sig-arg">deg</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert and wrap degrees to radians <i 
+  class="math">-3PI/2..+PI/2</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>deg</code></strong> - Angle (degrees).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Radians, wrapped (radiansPI_2)</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="simplify1"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">simplify1</span>(<span class="sig-arg">points</span>,
+        <span class="sig-arg">distance</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Basic simplification of a path of <i>LatLon</i> points.</p>
+  <p>Eliminates any points closer together than the given distance 
+  tolerance.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
+        <li><strong class="pname"><code>distance</code></strong> - Tolerance (meter, same units as radius).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Simplified points (list of <i>LatLon</i>s).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Radius or distance tolerance too small.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="simplify2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">simplify2</span>(<span class="sig-arg">points</span>,
+        <span class="sig-arg">pipe</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Reumann-Witkam simplification of a path of <i>LatLon</i> points.</p>
+  <p>Eliminates any points too close together or within the given pipe 
+  tolerance along an edge.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
+        <li><strong class="pname"><code>pipe</code></strong> - Half pipe width (meter, same units as radius).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
+        <li><strong class="pname"><code>shortest</code></strong> - Shortest or perpendicular distance (bool).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Simplified points (list of <i>LatLon</i>s).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Radius or pipe tolerance too small.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="simplifyRDP"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">simplifyRDP</span>(<span class="sig-arg">points</span>,
+        <span class="sig-arg">distance</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Ramer-Douglas-Peucker (RDP) simplification of a path of <i>LatLon</i> 
+  points.</p>
+  <p>Eliminates any points too close together or closer to an edge than the
+  given distance tolerance.</p>
+  <p>This RDP method exhaustively searches for the point with the largest 
+  distance, resulting in worst-case complexity O(n**2) where n is the 
+  number of points.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
+        <li><strong class="pname"><code>distance</code></strong> - Tolerance (meter, same units as radius).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
+        <li><strong class="pname"><code>shortest</code></strong> - Shortest or perpendicular distance (bool).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Simplified points (list of <i>LatLon</i>s).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Radius or distance tolerance too small.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="simplifyRDPm"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">simplifyRDPm</span>(<span class="sig-arg">points</span>,
+        <span class="sig-arg">distance</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Modified Ramer-Douglas-Peucker (RDP) simplification of a path of 
+  <i>LatLon</i> points.</p>
+  <p>Eliminates any points too close together or closer to an edge than the
+  given distance tolerance.</p>
+  <p>This RDP method stops at the first point farther than the given 
+  distance tolerance, significantly reducing the run time (but producing 
+  results different from the original RDP method).</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
+        <li><strong class="pname"><code>distance</code></strong> - Tolerance (meter, same units as radius).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
+        <li><strong class="pname"><code>shortest</code></strong> - Shortest or perpendicular distance (bool).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Simplified points (list of <i>LatLon</i>s).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Radius or distance tolerance too small.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="simplifyRW"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">simplifyRW</span>(<span class="sig-arg">points</span>,
+        <span class="sig-arg">pipe</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Reumann-Witkam simplification of a path of <i>LatLon</i> points.</p>
+  <p>Eliminates any points too close together or within the given pipe 
+  tolerance along an edge.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
+        <li><strong class="pname"><code>pipe</code></strong> - Half pipe width (meter, same units as radius).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
+        <li><strong class="pname"><code>shortest</code></strong> - Shortest or perpendicular distance (bool).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Simplified points (list of <i>LatLon</i>s).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Radius or pipe tolerance too small.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="simplifyVW"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">simplifyVW</span>(<span class="sig-arg">points</span>,
+        <span class="sig-arg">area</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">attr</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Visvalingam-Whyatt (VW) simplification of a path of <i>LatLon</i> 
+  points.</p>
+  <p>Eliminates any points too close together or with a triangular area not
+  exceeding the given area tolerance (squared).</p>
+  <p>This VW method exhaustively searches for the single point with the 
+  smallest triangular area, resulting in worst-case complexity O(n**2) 
+  where n is the number of points.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
+        <li><strong class="pname"><code>area</code></strong> - Tolerance (meter, same units as radius).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
+        <li><strong class="pname"><code>attr</code></strong> - Points attribute save area value (string).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Simplified points (list of <i>LatLon</i>s).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>AttributeError</strong></code> - If attr is specified for <a 
+        href="pygeodesy.simplify.Numpy2points-class.html" 
+        class="link">Numpy2points</a>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Radius or area tolerance too small.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="simplifyVWm"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">simplifyVWm</span>(<span class="sig-arg">points</span>,
+        <span class="sig-arg">area</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">attr</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Modified Visvalingam-Whyatt (VW) simplification of a path of 
+  <i>LatLon</i> points.</p>
+  <p>Eliminates any points too close together or with a triangular area not
+  exceeding the given area tolerance (squared).</p>
+  <p>This VW method removes all points with a triangular area below the 
+  tolerance per iteration, significantly reducing the run time (but 
+  producing results different from the original VW method).</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
+        <li><strong class="pname"><code>area</code></strong> - Tolerance (meter, same units as radius).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
+        <li><strong class="pname"><code>attr</code></strong> - Attribute to save the area value (string).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Simplified points (list of <i>LatLon</i>s).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>AttributeError</strong></code> - If attr is specified for <a 
+        href="pygeodesy.simplify.Numpy2points-class.html" 
+        class="link">Numpy2points</a>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Radius or area tolerance too small.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="tanPI_2_2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">tanPI_2_2</span>(<span class="sig-arg">rad</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute tan of half angle, rotated.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><i class="math">tan((rad + PI/2) / 2)</i> (float).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toDMS"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toDMS</span>(<span class="sig-arg">deg</span>,
+        <span class="sig-arg">form</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">prec</span>=<span class="sig-default">2</span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">ddd</span>=<span class="sig-default">2</span>,
+        <span class="sig-arg">neg</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">-</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">pos</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert signed degrees to string, without suffix.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>deg</code></strong> - Degrees to be formatted (scalar).</li>
+        <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD for deg&#176;, 
+          deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, [D]DD, [D]DDMM, [D]DDMMSS or radians 
+          (string).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None for default).  
+          Trailing zero decimals are stripped for prec values of 1 and 
+          above, but kept for negative prec values.</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional, separator (string).</li>
+        <li><strong class="pname"><code>ddd</code></strong> - Optional, number of digits for deg&#176; (2 or 3).</li>
+        <li><strong class="pname"><code>neg</code></strong> - Optional, sign for negative degrees ('-').</li>
+        <li><strong class="pname"><code>pos</code></strong> - Optional, sign for positive degrees ('').</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Degrees per the specified form (string).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toLcc"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toLcc</span>(<span class="sig-arg">latlon</span>,
+        <span class="sig-arg">conic</span>=<span class="sig-default">Conic(name='WRF_Lb', lat0=40.0, lon0=-97.0, par1=33.0, par2=45<code class="variable-ellipsis">...</code></span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">Lcc</span>=<span class="sig-default">&lt;class 'pygeodesy.lcc.Lcc'&gt;</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert an (ellipsoidal) geodetic point to a Lambert location.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>latlon</code></strong> - Ellipsoidal point (<i>LatLon</i>).</li>
+        <li><strong class="pname"><code>conic</code></strong> - Lambert projection to use (<a 
+          href="pygeodesy.lcc.Conic-class.html" class="link">Conic</a>).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height for the point, overriding the default height 
+          (meter).</li>
+        <li><strong class="pname"><code>Lcc</code></strong> - Lcc class for the Lambert location (<a 
+          href="pygeodesy.lcc.Lcc-class.html" class="link">Lcc</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The Lambert location (<a href="pygeodesy.lcc.Lcc-class.html" 
+          class="link">Lcc</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - If latlon is not ellipsoidal.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toMgrs"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toMgrs</span>(<span class="sig-arg">utm</span>,
+        <span class="sig-arg">Mgrs</span>=<span class="sig-default">&lt;class 'pygeodesy.mgrs.Mgrs'&gt;</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert a UTM coordinate to an MGRS grid reference.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>utm</code></strong> - A UTM coordinate (<a href="pygeodesy.utm.Utm-class.html" 
+          class="link">Utm</a>).</li>
+        <li><strong class="pname"><code>Mgrs</code></strong> - Mgrs class for the MGRS grid reference (<a 
+          href="pygeodesy.mgrs.Mgrs-class.html" class="link">Mgrs</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The MGRS grid reference (<a href="pygeodesy.mgrs.Mgrs-class.html"
+          class="link">Mgrs</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - If utm is not <a href="pygeodesy.utm.Utm-class.html" 
+        class="link">Utm</a>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid utm.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>u = Utm(31, <span class="py-string">'N'</span>, 448251, 5411932)
+<span class="py-prompt">&gt;&gt;&gt; </span>m = u.toMgrs()  <span class="py-comment"># 31U DQ 48251 11932</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="toOsgr"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toOsgr</span>(<span class="sig-arg">latlon</span>,
+        <span class="sig-arg">lon</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="sig-arg">Osgr</span>=<span class="sig-default">&lt;class 'pygeodesy.osgr.Osgr'&gt;</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert a lat-/longitude point to an OSGR coordinate.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>latlon</code></strong> - Latitude (degrees) or an (ellipsoidal) geodetic <i>LatLon</i> 
+          point.</li>
+        <li><strong class="pname"><code>lon</code></strong> - Longitude in degrees (scalar or None).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Datum to convert (<i>Datum</i>).</li>
+        <li><strong class="pname"><code>Osgr</code></strong> - Osgr class for the OSGR coordinate (<a 
+          href="pygeodesy.osgr.Osgr-class.html" class="link">Osgr</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The OSGR coordinate (<a href="pygeodesy.osgr.Osgr-class.html" 
+          class="link">Osgr</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - If latlon is not ellipsoidal.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - If latlon or lon is invalid.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(52.65798, 1.71605)
+<span class="py-prompt">&gt;&gt;&gt; </span>r = toOsgr(p)  <span class="py-comment"># TG 51409 13177</span>
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-comment"># for conversion of (historical) OSGB36 lat-/longitude:</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>r = toOsgr(52.65757, 1.71791, datum=Datums.OSGB36)</pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="toUtm"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toUtm</span>(<span class="sig-arg">latlon</span>,
+        <span class="sig-arg">lon</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">datum</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">Utm</span>=<span class="sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert a lat-/longitude point to a UTM coordinate.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>latlon</code></strong> - Latitude (degrees) or an (ellipsoidal) geodetic <i>LatLon</i> 
+          point.</li>
+        <li><strong class="pname"><code>lon</code></strong> - Longitude (degrees or None).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Datum for this UTM coordinate, overriding latlon's datum 
+          (<i>Datum</i>).</li>
+        <li><strong class="pname"><code>Utm</code></strong> - Utm class for the UTM coordinate (<a 
+          href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The UTM coordinate (<a href="pygeodesy.utm.Utm-class.html" 
+          class="link">Utm</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - If latlon is not ellipsoidal.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - If lon value is missing, if latlon is not scalar or latlon is 
+        outside the valid UTM bands.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Implements Karney&#8217;s method, using 6-th order Kr&#252;ger series, giving 
+        results accurate to 5 nm for distances up to 3900 km from the 
+        central meridian.
+      </p>
+      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(48.8582, 2.2945)  <span class="py-comment"># 31 N 448251.8 5411932.7</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>u = toUtm(p)  <span class="py-comment"># 31 N 448252 5411933</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(13.4125, 103.8667) <span class="py-comment"># 48 N 377302.4 1483034.8</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>u = toUtm(p)  <span class="py-comment"># 48 N 377302 1483035</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="wrap180"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">wrap180</span>(<span class="sig-arg">deg</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Wrap degrees to <i class="math">-180..+180</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>deg</code></strong> - Angle (degrees).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Degrees, wrapped (degrees180).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="wrap360"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">wrap360</span>(<span class="sig-arg">deg</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Wrap degrees to <i class="math">0..+360</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>deg</code></strong> - Angle (degrees).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Degrees, wrapped (degrees360).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="wrap90"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">wrap90</span>(<span class="sig-arg">deg</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Wrap degrees to <i class="math">-270..+90</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>deg</code></strong> - Angle (degrees).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Degrees, wrapped (degrees90).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="wrapPI"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">wrapPI</span>(<span class="sig-arg">rad</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Wrap radians to <i class="math">-PI..+PI</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Radians, wrapped (radiansPI).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="wrapPI2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">wrapPI2</span>(<span class="sig-arg">rad</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Wrap radians to <i class="math">0..+2PI</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Radians, wrapped (radiansPI2).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="wrapPI_2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">wrapPI_2</span>(<span class="sig-arg">rad</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Wrap radians to <i class="math">-3PI/2..+PI/2</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Radians, wrapped (radiansPI_2).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== VARIABLES DETAILS ==================== -->
+<a name="section-VariablesDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Variables Details</span></td>
+</tr>
+</table>
+<a name="Conics"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">Conics</h3>
+  Registered conics (enum).
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+Conics.Be08Lb: Conic(name='Be08Lb', lat0=50.797815, lon0=4.35921583, p<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ar1=49.833333, par2=51.166667, E0=649328.0, N0=665262.0, k0=1, SP=2, d<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+atum=(name='GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.W<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+GS84)
+Conics.Be72Lb: Conic(name='Be72Lb', lat0=90.0, lon0=4.3674867, par1=49<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+.8333339, par2=51.1666672, E0=150000.013, N0=5400088.438, k0=1, SP=2, <span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+datum=(name='NAD83', ellipsoid=Ellipsoids.GRS80, transform=Transforms.<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+NAD83)
+<code class="variable-ellipsis">...</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="Datums"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">Datums</h3>
+  Registered datums (enum).
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+Datums.BD72: Datum(name='BD72', ellipsoid=Ellipsoids.Intl1924, transfo<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+rm=Transforms.BD72)
+Datums.DHDN: Datum(name='DHDN', ellipsoid=Ellipsoids.Bessel1841, trans<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+form=Transforms.DHDN)
+Datums.ED50: Datum(name='ED50', ellipsoid=Ellipsoids.Intl1924, transfo<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+rm=Transforms.ED50)
+Datums.GRS80: Datum(name='GRS80', ellipsoid=Ellipsoids.GRS80, transfor<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+m=Transforms.WGS84)
+<code class="variable-ellipsis">...</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="Ellipsoids"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">Ellipsoids</h3>
+  Registered ellipsoids (enum).
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, b=63562<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+56.909, f_=299.3249646, f=0.00334085, e2=0.00667054, e22=0.00671533, R<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+=6370461.23366667, Rm=6366901.23988196, R2=6370459.65458944, R3=637045<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+3.30986645, Rr=6366914.60880589)
+Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ b=6356034.448, f_=299.3249646, f=0.00334085, e2=0.00667054, e22=0.006<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+71533, R=6370238.27533333, Rm=6366678.40619415, R2=6370236.69636116, R<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+3=6370230.35181066, Rr=6366691.7746498)
+<code class="variable-ellipsis">...</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="Transforms"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">Transforms</h3>
+  Registered transforms (enum).
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+Transforms.BD72: Transform(name='BD72', tx=106.8686, ty=-52.2978, tz=1<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+03.7239, rx=-0.0, ry=-0.0, rz=-0.0, s=1.2727, s1=1.0, sx=-0.3366, sy=-<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+0.457, sz=-1.8422)
+Transforms.Bessel1841: Transform(name='Bessel1841', tx=-582.0, ty=-105<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+.0, tz=-414.0, rx=-0.0, ry=-0.0, rz=0.0, s=-8.3, s1=1.0, sx=-1.04, sy=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+-0.35, sz=3.08)
+Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ tz=-176.0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
+<code class="variable-ellipsis">...</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th bgcolor="#70b0f0" class="navbar-select"
+          >&nbsp;&nbsp;&nbsp;Home&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://github.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Wed Aug  2 17:19:00 2017
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

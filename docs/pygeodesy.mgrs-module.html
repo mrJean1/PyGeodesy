@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.mgrs</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://github.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        Module&nbsp;mgrs
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.mgrs-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module mgrs</h1><p class="nomargin-top"></p>
+<p>Military Grid Reference System (MGRS/NATO) class <a 
+  href="pygeodesy.mgrs.Mgrs-class.html" class="link">Mgrs</a> and functions
+  <a href="pygeodesy.mgrs-module.html#parseMGRS" class="link">parseMGRS</a>
+  and <a href="pygeodesy.mgrs-module.html#toMgrs" 
+  class="link">toMgrs</a>.</p>
+  <p>Pure Python implementation of MGRS / UTM conversion functions using an
+  ellipsoidal earth model, transcribed from JavaScript originals by <i>(C) 
+  Chris Veness 2014-2016</i> published under the same MIT Licence**, see <a
+  href="http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html" 
+  target="_top">http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html</a>
+  and <a 
+  href="http://www.movable-type.co.uk/scripts/geodesy/docs/module-mgrs.html"
+  
+  target="_top">http://www.movable-type.co.uk/scripts/geodesy/docs/module-mgrs.html</a>.</p>
+  <p>The MGRS/NATO grid references provides geocoordinate references 
+  covering the entire globe, based on UTM projections.</p>
+  <p>MGRS references comprise a grid zone designation, a 100 km square 
+  identification, and an easting and northing (in metres).</p>
+  <p>Depending on requirements, some parts of the reference may be omitted 
+  (implied), and easting/northing may be given to varying resolution.</p>
+  <p>Qv <a 
+  href="http://www.fgdc.gov/standards/projects/FGDC-standards-projects/usng/fgdc_std_011_2001_usng.pdf"
+  
+  target="_top">http://www.fgdc.gov/standards/projects/FGDC-standards-projects/usng/fgdc_std_011_2001_usng.pdf</a>
+  and <a href="http://wikipedia.org/wiki/Military_grid_reference_system" 
+  target="_top">http://wikipedia.org/wiki/Military_grid_reference_system</a>.</p>
+
+<hr />
+<div class="fields">      <p><strong>Version:</strong>
+        17.06.04
+      </p>
+</div><!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Classes</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.mgrs.Mgrs-class.html" class="summary-name">Mgrs</a><br />
+      Military Grid Reference System (MGRS/NATO) references, with method 
+        to convert to UTM coordinates.
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTIONS ==================== -->
+<a name="section-Functions"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Functions</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.mgrs-module.html#parseMGRS" class="summary-sig-name">parseMGRS</a>(<span class="summary-sig-arg">strMGRS</span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>)</span><br />
+      Parse a string representing a MGRS grid reference, consisting of 
+      zoneBand, grid, easting and northing.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.mgrs-module.html#toMgrs" class="summary-sig-name">toMgrs</a>(<span class="summary-sig-arg">utm</span>,
+        <span class="summary-sig-arg">Mgrs</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.mgrs.Mgrs'&gt;</span>)</span><br />
+      Convert a UTM coordinate to an MGRS grid reference.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTION DETAILS ==================== -->
+<a name="section-FunctionDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Function Details</span></td>
+</tr>
+</table>
+<a name="parseMGRS"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">parseMGRS</span>(<span class="sig-arg">strMGRS</span>,
+        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Parse a string representing a MGRS grid reference, consisting of 
+  zoneBand, grid, easting and northing.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>strMGRS</code></strong> - MGRS grid reference (string).</li>
+        <li><strong class="pname"><code>datum</code></strong> - The datum to use (<a href="pygeodesy.datum.Datum-class.html" 
+          class="link">Datum</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The MGRS grid reference (<a href="pygeodesy.mgrs.Mgrs-class.html"
+          class="link">Mgrs</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid strMGRS.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>m = parseMGRS(<span class="py-string">'31U DQ 48251 11932'</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span>str(m)  <span class="py-comment"># 31U DQ 48251 11932</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>m = parseMGRS(<span class="py-string">'31UDQ4825111932'</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span>repr(m)  <span class="py-comment"># [Z:31U, G:DQ, E:48251, N:11932]</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="toMgrs"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toMgrs</span>(<span class="sig-arg">utm</span>,
+        <span class="sig-arg">Mgrs</span>=<span class="sig-default">&lt;class 'pygeodesy.mgrs.Mgrs'&gt;</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert a UTM coordinate to an MGRS grid reference.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>utm</code></strong> - A UTM coordinate (<a href="pygeodesy.utm.Utm-class.html" 
+          class="link">Utm</a>).</li>
+        <li><strong class="pname"><code>Mgrs</code></strong> - Mgrs class for the MGRS grid reference (<a 
+          href="pygeodesy.mgrs.Mgrs-class.html" class="link">Mgrs</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The MGRS grid reference (<a href="pygeodesy.mgrs.Mgrs-class.html"
+          class="link">Mgrs</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - If utm is not <a href="pygeodesy.utm.Utm-class.html" 
+        class="link">Utm</a>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid utm.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>u = Utm(31, <span class="py-string">'N'</span>, 448251, 5411932)
+<span class="py-prompt">&gt;&gt;&gt; </span>m = u.toMgrs()  <span class="py-comment"># 31U DQ 48251 11932</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://github.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Wed Aug  2 17:19:00 2017
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

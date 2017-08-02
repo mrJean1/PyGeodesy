@@ -4,7 +4,7 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '17.07.31'
+__version__ = '17.08.02'
 
 from base import TestsBase, secs2str
 
@@ -47,10 +47,10 @@ class Tests(TestsBase):
             self.test(t, n, ms[m])
             S += s
             if typ:
-                self.test('numpy.array', type(r) == typ, True)
+                self.test('numpy.array', type(r) is typ, True)
 
         if S > s:  # sub-total time
-            self.test__('%s %s\n', f, secs2str(S))
+            self.test__('%s %s', f, secs2str(S), nt=1)
 
 
 # for comparison, following are 2 other RDP implementations,
@@ -207,7 +207,7 @@ if __name__ == '__main__':  # PYCHOK internal error?
     # usage: python testSimplify [[1-9] [RDP RDPm VW VWm ...]]
 
     import sys
-    from testRoutes import Pts, PtsFFI  # RdpFFI
+    from testRoutes import Pts, PtsFFI  # PtsJS, RdpFFI
 
     # simplifyXYZ functions to run, all otherwise
     _Simplifys = sys.argv[2:]
@@ -280,21 +280,43 @@ if __name__ == '__main__':  # PYCHOK internal error?
 #                        _ms({30: 3}), adjust=False)  # (5.0, 2.0), (7.0, 25.0), (10.0, 10.0)
 
     if numpy:
+        if 'numpy' in _Simplifys:
+            _Simplifys.remove('numpy')
+
         t.test('numpy.__version__', numpy.__version__, numpy.__version__)
 
-        npy = numpy.array([(ll.lon, ll.lat) for ll in PtsFFI], dtype=float)
-        pts = Numpy2points(npy, lat=1, lon=0)
-        t.test('Numpy2points.len', len(npy) == len(pts), True)
-        t.test('Numpy2points.shape', npy.shape == pts.shape, True)
+        npy = numpy.array([(ll.lon, 0, ll.lat, 0) for ll in PtsFFI], dtype=float)
+        pts = Numpy2points(npy, lat=2, lon=0)
+        n = len(pts) // 6  # 0 < some number < len(pts)
+        t.test('Numpy2points.len', len(pts), len(npy))
+        t.test('Numpy2points.iter', len(tuple(iter(pts))), len(npy))
+#       for i, p in enumerate(pts):
+#           t.test('Numpy2points.iter' + str(i), p, pts[i])
+        t.test('Numpy2points.shape', npy.shape, pts.shape)
+        t.test('Numpy2points.slice1', len(pts[:n]), n)
+        t.test('Numpy2points.slice2', type(pts[1:n:2]), type(pts))
+        t.test('Numpy2points.slice3', pts[1:n][0], pts[1])
+        t.test('Numpy2points.strepr', str(pts), repr(pts))
+        t.test('Numpy2points.subset', type(pts.subset(range(n))), type(npy),
+                                      nt=1 if m > 1 else 0)
 
-        t.test2(simplify1,     pts, _ms({1000: 5, 100: 25, 10: 67}), adjust=False, typ=type(npy))
-        t.test2(simplifyRW,    pts, _ms({1000: 4, 100:  9, 10: 22}), adjust=False, typ=type(npy))
-        t.test2(simplifyRDP,   pts, _ms({1000: 3, 100:  7, 10: 18}), adjust=False, typ=type(npy))
-        t.test2(simplifyRDPm,  pts, _ms({1000: 3, 100: 16, 10: 48}), adjust=False, typ=type(npy))
-        t.test2(simplifyRDPfw, pts, _ms({1000: 3, 100:  7, 10: 18}), adjust=False)
-        t.test2(simplifyRDPgr, pts, _ms({1000: 3, 100:  7, 10: 18}), adjust=False)
-        t.test2(simplifyVW,    pts, _ms({1000: 3, 100: 12, 10: 48}), adjust=False, typ=type(npy))
-        t.test2(simplifyVWm,   pts, _ms({1000: 2, 100:  7, 10: 45}), adjust=False, typ=type(npy))
+        t.test2(simplify1,     pts, _ms({1000: 5, 100: 25, 10: 67, 1: 69}), adjust=False, typ=type(npy))
+        t.test2(simplifyRW,    pts, _ms({1000: 4, 100:  9, 10: 22, 1: 33}), adjust=False, typ=type(npy))
+        t.test2(simplifyRDP,   pts, _ms({1000: 3, 100:  7, 10: 18, 1: 50}), adjust=False, typ=type(npy))
+        t.test2(simplifyRDPm,  pts, _ms({1000: 3, 100: 16, 10: 48, 1: 67}), adjust=False, typ=type(npy))
+        t.test2(simplifyRDPfw, pts, _ms({1000: 3, 100:  7, 10: 18, 1: 50}), adjust=False)
+        t.test2(simplifyRDPgr, pts, _ms({1000: 3, 100:  7, 10: 18, 1: 50}), adjust=False)
+        t.test2(simplifyVW,    pts, _ms({1000: 3, 100: 12, 10: 48, 1: 69}), adjust=False, typ=type(npy))
+        t.test2(simplifyVWm,   pts, _ms({1000: 2, 100:  7, 10: 45, 1: 69}), adjust=False, typ=type(npy))
+
+        t.test2(simplify1,     pts, _ms({1000: 4, 100: 23, 10: 65, 1: 69}), adjust=True, typ=type(npy))
+        t.test2(simplifyRW,    pts, _ms({1000: 3, 100:  8, 10: 21, 1: 31}), adjust=True, typ=type(npy))
+        t.test2(simplifyRDP,   pts, _ms({1000: 2, 100:  7, 10: 15, 1: 45}), adjust=True, typ=type(npy))
+        t.test2(simplifyRDPm,  pts, _ms({1000: 2, 100: 13, 10: 46, 1: 67}), adjust=True, typ=type(npy))
+        t.test2(simplifyRDPfw, pts, _ms({1000: 2, 100:  7, 10: 15, 1: 45}), adjust=True)
+        t.test2(simplifyRDPgr, pts, _ms({1000: 2, 100:  7, 10: 15, 1: 45}), adjust=True)
+        t.test2(simplifyVW,    pts, _ms({1000: 3, 100: 11, 10: 43, 1: 69}), adjust=True, typ=type(npy))
+        t.test2(simplifyVWm,   pts, _ms({1000: 2, 100:  6, 10: 39, 1: 69}), adjust=True, typ=type(npy))
 
     t.results(nl=0)
     t.exit()
