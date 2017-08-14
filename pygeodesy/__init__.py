@@ -35,7 +35,9 @@ Two other modules provide Lambert conformal conic projections and positions
 (from U{John P. Snyder, "Map Projections -- A Working Manual", 1987, pp 107-109
 <http://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}) and several functions to
 U{simplify<http://bost.ocks.org/mike/simplify>} or linearize a path of I{LatLon}
-points (or a NumPy array), including implementations of the U{Ramer-Douglas-Peucker
+points (or a U{NumPy array
+<https://docs.scipy.org/doc/numpy/reference/generated/numpy.array.html>}),
+including implementations of the U{Ramer-Douglas-Peucker
 <http://wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm>}, the U{Visvalingam-Whyatt
 <http://hydra.hull.ac.uk/resources/hull:8338>} and the U{Reumann-Witkam
 <http://psimpl.sourceforge.net/reumann-witkam.html>} algorithms and modified
@@ -49,11 +51,11 @@ U{PyCodeStyle<http://pypi.python.org/pypi/pycodestyle>} (formerly Pep8) and
 U{McCabe<http://pypi.python.org/pypi/mccabe>} using Python 2.7.10 or 2.7.13 and with
 U{Flake8<http://pypi.python.org/pypi/flake8>} on Python 3.6.0 or 3.6.1.
 
-The tests have been run with 64-bit Python 2.6.9 (numpy 1.6.2), 2.7.13
-(numpy 1.13.1), 3.5.3 and 3.6.2, but only on MacOSX 10.10 Yosemite, MacOSX
-10.11 El Capitan or macOS 10.12.6 Sierra, with 64-bit Intel-Python 3.5.3
-(numpy 1.11.3) on macOS 10.12.6 Sierra and with Pythonista 3.1 using 64-bit
-Python 2.7.12 and 3.5.1 (both with numpy 1.8.0) on iOS 10.3.2.
+The tests have been run with 64-bit Python 2.6.9 (and numpy 1.6.2), 2.7.13
+(and numpy 1.13.1), 3.5.3 and 3.6.2, but only on MacOSX 10.10 Yosemite, MacOSX
+10.11 El Capitan or macOS 10.12.6 Sierra, with 64-bit Intel-Python 3.5.3 (and
+numpy 1.11.3) on macOS 10.12.6 Sierra and with Pythonista 3.1 using 64-bit
+Python 2.7.12 and 3.5.1 (both with numpy 1.8.0) on iOS 10.3.3.
 
 In addition to the U{PyGeodesy<http://pypi.python.org/pypi/PyGeodesy>} package,
 the distribution files contain the tests, the test results and the complete
@@ -139,11 +141,11 @@ except ImportError:
 # keep ellipsoidal, spherical and vector modules as sub-modules
 import ellipsoidalNvector  # PYCHOK false
 import ellipsoidalVincenty  # PYCHOK false
+import geohash
+import nvector  # PYCHOK false
 import sphericalNvector  # PYCHOK false
 import sphericalTrigonometry  # PYCHOK false
-import nvector  # PYCHOK false
 import vector3d  # PYCHOK false
-import geohash
 
 Geohash       = geohash.Geohash
 VincentyError = ellipsoidalVincenty.VincentyError
@@ -152,10 +154,10 @@ VincentyError = ellipsoidalVincenty.VincentyError
 __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',  # modules
            'sphericalNvector', 'sphericalTrigonometry',
            'datum', 'dms', 'geohash', 'lcc', 'mgrs', 'nvector',
-           'osgr', 'simplify', 'utils', 'utm', 'vector3d',
+           'osgr', 'points', 'simplify', 'utils', 'utm', 'vector3d',
            'Geohash', 'VincentyError',  # classes
-           'version', 'isclockwise', 'isconvex')  # extended below
-__version__ = '17.08.01'
+           'version')  # extended below
+__version__ = '17.08.10'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
@@ -163,12 +165,12 @@ version = '.'.join(map(str, map(int, __version__.split('.'))))
 # lift all public classes, constants, functions, etc. but
 # only from the following sub-modules ... (see also David
 # Beazley's <http://dabeaz.com/modulepackage/index.html>)
-from bases    import isclockwise, isconvex  # PYCHOK expected
 from datum    import *  # PYCHOK __all__
 from dms      import *  # PYCHOK __all__
 from lcc      import *  # PYCHOK __all__
 from mgrs     import *  # PYCHOK __all__
 from osgr     import *  # PYCHOK __all__
+from points   import *  # PYCHOK __all__
 from simplify import *  # PYCHOK __all__
 from utils    import *  # PYCHOK __all__
 from utm      import *  # PYCHOK __all__
@@ -178,13 +180,14 @@ import dms       # PYCHOK expected
 import lcc       # PYCHOK expected
 import mgrs      # PYCHOK expected
 import osgr      # PYCHOK expected
+import points    # PYCHOK expected
 import simplify  # PYCHOK expected
 import utils     # PYCHOK expected
 import utm       # PYCHOK expected
 
 # concat __all__ with the public classes, constants,
 # functions, etc. from the sub-modules mentioned above
-for m in (datum, dms, lcc, mgrs, osgr, simplify, utils, utm):
+for m in (datum, dms, lcc, mgrs, osgr, points, simplify, utils, utm):
     __all__ += tuple(m.__all__)
 del m
 

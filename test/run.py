@@ -3,8 +3,9 @@
 
 # Script to run some or all PyGeodesy tests with Python 2 or 3.
 
-# Tested with 64-bit Python 3.6.1 on macOS 10.12.5 Sierra and
-# with Pythonista 3.1 on iOS 10.3.2.
+# Tested with 64-bit Python 2.6.9, 2.7,13, 3.5.3 and 3.6.2 on
+# macOS 10.12.5 and 10.12.6 Sierra and with Pythonista 3.1 on
+# iOS 10.3.2 and 10.3.3.
 
 from glob import glob
 from os import environ, linesep as NL
@@ -21,7 +22,7 @@ from base import isiOS, PyGeodesy_dir, Python_O, \
           runner, secs2str, tilde, versions  # PYCHOK expected
 
 __all__ = ()
-__version__ = '17.07.22'
+__version__ = '17.08.10'
 
 # command line options
 _failedonly = False

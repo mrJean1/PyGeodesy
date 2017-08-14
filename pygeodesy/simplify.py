@@ -43,10 +43,11 @@ earth radius in meter.  Other units are can be choosen, provided that
 the radius and tolerance are always specified in the same units.
 
 To process NumPy arrays containing rows of lat-, longitude and possibly
-other values, use class L{Numpy2points} to wrap the NumPy array into
-I{on-the-fly-LatLon} points.  Pass the L{Numpy2points} instance to any
+other values, use class L{Numpy2LatLon} to wrap the NumPy array into
+I{on-the-fly-LatLon} points.  Pass the L{Numpy2LatLon} instance to any
 I{simplify} function and the returned result will be a NumPy array
-containing the simplified subset of the original NumPy array.
+containing the simplified subset, a partial copy of the original NumPy
+array.
 
 
 See:
@@ -66,149 +67,20 @@ See:
 Tested with 64-bit Python 2.6.9, 2.7.13 (and numpy 1.13.1), 3.5.3 and
 3.6.2 on macOS 10.12.6 Sierra, with 64-bit Intel-Python 3.5.3 (and numpy
 1.11.3) on macOS 10.12.5 Sierra and with Pythonista 3.1 using 64-bit
-Python 2.7.12 and 3.5.1 (both with numpy 1.8.0) on iOS 10.3.2.
+Python 2.7.12 and 3.5.1 (both with numpy 1.8.0) on iOS 10.3.3.
 
 @newfield example: Example, Examples
 '''
 
 from datum import R_M
-from utils import EPS, len2, radiansPI, wrap90, wrap180
+from utils import EPS, isNumpy2, len2, radiansPI, wrap90, wrap180
 
-from math  import cos, degrees, radians, sqrt
+from math import cos, degrees, radians, sqrt
 
-__all__ = ('Numpy2points',  # class
-           'simplify1', 'simplify2',  # backward compatibility
+__all__ = ('simplify1', 'simplify2',  # backward compatibility
            'simplifyRDP', 'simplifyRDPm', 'simplifyRW',
            'simplifyVW', 'simplifyVWm')
-__version__ = '17.08.02'
-
-
-class _LatLon(object):
-    '''(INTERNAL) L{Numpy2points} helper'
-    '''
-    __slots__ = ('lat', 'lon')
-
-    def __init__(self, lat, lon):
-        self.lat = lat
-        self.lon = lon
-
-    def __eq__(self, other):
-        return isinstance(other, _LatLon) and \
-                          other.lat == self.lat and \
-                          other.lon == self.lon
-
-    def __ne__(self, other):
-        return not self.__eq__(other)
-
-    def __repr__(self):
-        t = map(str, (self.lat, self.lon))
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(t))
-
-    __str__ = __repr__
-
-
-class Numpy2points(object):
-    '''Wrapper for NumPy arrays as "on-the-fly" LatLon points.
-    '''
-    def __init__(self, array, lat=1, lon=0):
-        '''Handle a NumPy array as I{simplify...}-compatible LatLon points.
-
-           @param array: NumPy array (I{numpy.array}).
-           @keyword lat: index of the latitudes column (integer).
-           @keyword lon: index of the longitudes column (integer).
-
-           @raise IndexError: If I{array.shape} is not (1+, 2+).
-
-           @raise TypeError: If I{array} is not a NumPy array.
-
-           @raise ValueError: If the I{lat} or I{lon} value(s) are out
-                              of range or the same.
-
-           @example:
-
-           >>> type(array)
-           <type 'numpy.ndarray'>  # <class ...> in Python 3+
-           >>> points = Numpy2points(array, lat=0, lon=1)
-           >>> simply = simplifyRDP(points, ...)
-           >>> type(simply)
-           <type 'numpy.ndarray'>  # <class ...> in Python 3+
-           >>> sliced = points[1:-1]
-           >>> type(sliced)
-           <class '...Numpy2points'>
-        '''
-        try:  # get shape and check other numpy array attrs
-            s, _, _ = array.shape, array.nbytes, array.ndim  # PYCHOK expected
-        except AttributeError:
-            raise TypeError('%s not NumPy: %s' % ('array', type(array)))
-        if len(s) != 2 or s[0] < 1 or s[1] < 2:
-            raise IndexError('%s shape invalid: %r' % ('array', s))
-        if not 0 <= lat < s[1]:
-            raise ValueError('%s invalid: %s' % ('lat', lat))
-        if not 0 <= lon < s[1]:
-            raise ValueError('%s invalid: %s' % ('lon', lon))
-        if lat == lon:
-            raise ValueError('%s == %s == %s' % ('lat', 'lon', lat))
-        self._array = array
-        self._lat = lat
-        self._lon = lon
-        self._shape = s
-
-    def __getitem__(self, index):
-        '''Return row[index] as LatLon or return a L{Numpy2points} slice.
-        '''
-        # Luciano Ramalho, "Fluent Python", page 290+, O'Reilly, 2016
-        if isinstance(index, slice):
-            return self.__class__(self._array[index], lat=self._lat, lon=self._lon)
-        else:
-            row = self._array[index]
-            return _LatLon(row[self._lat], row[self._lon])
-
-    def __iter__(self):
-        '''Iterate thru all rows and yield each as LatLon.
-        '''
-        for row in self._array:
-            yield _LatLon(row[self._lat], row[self._lon])
-
-    def __len__(self):
-        '''Return the number of rows.
-        '''
-        return self._shape[0]
-
-    def __repr__(self):
-        '''Return a string representation.
-        '''
-        # XXX use Python 3+ reprlib.repr
-        t = repr(self._array[:1])
-        t = '%s, ...%s[%s]' % (t[:-1], t[-1:], len(self))
-        t = [' '.join(t.split())]  # collapse spaces
-        for ll in ('lat', 'lon'):
-            t.append('%s=%s' % (ll, getattr(self, ll)))
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(t))
-
-    __str__ = __repr__
-
-    @property
-    def lat(self):
-        '''Get the latitudes column index.
-        '''
-        return self._lat
-
-    @property
-    def lon(self):
-        '''Get the longitudes column index.
-        '''
-        return self._lon
-
-    @property
-    def shape(self):
-        '''Get the shape of the NumPy array.
-        '''
-        return self._shape
-
-    def subset(self, indices):
-        '''Return a sub-set of the NumPy array.
-        '''
-        return self._array[indices]
+__version__ = '17.08.10'
 
 
 # try:
@@ -248,10 +120,7 @@ class _Sy(object):
     def __init__(self, points, tolerance, radius, adjust, shortest):
         '''New state.
         '''
-        if isinstance(points, Numpy2points):
-            n, self.pts = len(points), points
-        else:
-            n, self.pts = len2(points)
+        n, self.pts = len2(points)
         if n > 0:
             self.n = n
             self.r = {0: True, n-1: True}  # dict to avoid duplicates
@@ -385,7 +254,7 @@ class _Sy(object):
     def points(self, r):
         '''Return the list of simplified points.
         '''
-        if isinstance(self.pts, Numpy2points):
+        if isNumpy2(self.pts):
             return self.pts.subset(sorted(r.keys()))
         else:
             return [self.pts[i] for i in sorted(r.keys())]
@@ -481,7 +350,7 @@ class _Sy(object):
         if attr:  # return the trangular area (actually
             # the sqrt of double the triangular area)
             # converted back from degrees to meter
-            if isinstance(pts, Numpy2points):
+            if isNumpy2(pts):
                 raise AttributeError('%r invalid' % (attr,))
             m = radians(1.0) * self.radius
             r[0].h2 = r[-1].h2 = 0  # zap sentinels
@@ -638,7 +507,7 @@ def simplifyVW(points, area, radius=R_M, adjust=True, attr=None):
 
        @return: Simplified points (list of I{LatLon}s).
 
-       @raise AttributeError: If attr is specified for L{Numpy2points}.
+       @raise AttributeError: If attr is specified for I{Numpy2} points.
 
        @raise ValueError: Radius or area tolerance too small.
     '''
@@ -685,7 +554,7 @@ def simplifyVWm(points, area, radius=R_M, adjust=True, attr=None):
 
        @return: Simplified points (list of I{LatLon}s).
 
-       @raise AttributeError: If attr is specified for L{Numpy2points}.
+       @raise AttributeError: If attr is specified for I{Numpy2} points.
 
        @raise ValueError: Radius or area tolerance too small.
     '''

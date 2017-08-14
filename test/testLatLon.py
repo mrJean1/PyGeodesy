@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '17.06.25'
+__version__ = '17.08.10'
 
 from base import TestsBase
 
@@ -163,23 +163,29 @@ class Tests(TestsBase):
 
         if isclockwise:
             f = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
-            self.test('isclockwise', isclockwise(f), False)
+            for _ in self.testiter():
+                self.test('isclockwise', isclockwise(f), False)  # PYCHOK false?
             t = LatLon(45,1), LatLon(46,1), LatLon(46,2), LatLon(45,1)
-            self.test('isclockwise', isclockwise(t), True)
-            try:
-                self.test('isclockwise', isclockwise(t[:2]), ValueError)
-            except ValueError as x:
-                self.test('isclockwise', x, 'too few points: 2')  # PYCHOK false?
+            for _ in self.testiter():
+                self.test('isclockwise', isclockwise(t), True)  # PYCHOK false?
+            for _ in self.testiter():
+                try:
+                    self.test('isclockwise', isclockwise(t[:2]), ValueError)
+                except ValueError as x:
+                    self.test('isclockwise', x, 'too few points: 2')  # PYCHOK false?
 
         if isconvex:
             f = LatLon(45,1), LatLon(46,2), LatLon(45,2), LatLon(46,1)
-            self.test('isconvex', isconvex(f), False)
+            for _ in self.testiter():
+                self.test('isconvex', isconvex(f), False)  # PYCHOK false?
             t = LatLon(45,1), LatLon(46,1), LatLon(46,2), LatLon(45,1)
-            self.test('isconvex', isconvex(t), True)
-            try:
-                self.test('isconvex', isconvex(t[:2]), ValueError)
-            except ValueError as x:
-                self.test('isconvex', x, 'too few points: 2')  # PYCHOK false?
+            for _ in self.testiter():
+                self.test('isconvex', isconvex(t), True)  # PYCHOK false?
+            for _ in self.testiter():
+                try:
+                    self.test('isconvex', isconvex(t[:2]), ValueError)
+                except ValueError as x:
+                    self.test('isconvex', x, 'too few points: 2')  # PYCHOK false?
 
 
 if __name__ == '__main__':

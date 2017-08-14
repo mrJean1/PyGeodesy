@@ -4,11 +4,11 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '17.08.02'
+__version__ = '17.08.06'
 
 from base import TestsBase, secs2str
 
-from pygeodesy import EPS, R_M, Numpy2points, \
+from pygeodesy import EPS, R_M, Numpy2LatLon, \
                       simplify1, simplifyRW, \
                       simplifyRDP, simplifyRDPm, \
                       simplifyVW, simplifyVWm, \
@@ -286,19 +286,7 @@ if __name__ == '__main__':  # PYCHOK internal error?
         t.test('numpy.__version__', numpy.__version__, numpy.__version__)
 
         npy = numpy.array([(ll.lon, 0, ll.lat, 0) for ll in PtsFFI], dtype=float)
-        pts = Numpy2points(npy, lat=2, lon=0)
-        n = len(pts) // 6  # 0 < some number < len(pts)
-        t.test('Numpy2points.len', len(pts), len(npy))
-        t.test('Numpy2points.iter', len(tuple(iter(pts))), len(npy))
-#       for i, p in enumerate(pts):
-#           t.test('Numpy2points.iter' + str(i), p, pts[i])
-        t.test('Numpy2points.shape', npy.shape, pts.shape)
-        t.test('Numpy2points.slice1', len(pts[:n]), n)
-        t.test('Numpy2points.slice2', type(pts[1:n:2]), type(pts))
-        t.test('Numpy2points.slice3', pts[1:n][0], pts[1])
-        t.test('Numpy2points.strepr', str(pts), repr(pts))
-        t.test('Numpy2points.subset', type(pts.subset(range(n))), type(npy),
-                                      nt=1 if m > 1 else 0)
+        pts = Numpy2LatLon(npy, ilat=2, ilon=0)
 
         t.test2(simplify1,     pts, _ms({1000: 5, 100: 25, 10: 67, 1: 69}), adjust=False, typ=type(npy))
         t.test2(simplifyRW,    pts, _ms({1000: 4, 100:  9, 10: 22, 1: 33}), adjust=False, typ=type(npy))
@@ -317,6 +305,9 @@ if __name__ == '__main__':  # PYCHOK internal error?
         t.test2(simplifyRDPgr, pts, _ms({1000: 2, 100:  7, 10: 15, 1: 45}), adjust=True)
         t.test2(simplifyVW,    pts, _ms({1000: 3, 100: 11, 10: 43, 1: 69}), adjust=True, typ=type(npy))
         t.test2(simplifyVWm,   pts, _ms({1000: 2, 100:  6, 10: 39, 1: 69}), adjust=True, typ=type(npy))
+
+    else:
+        t.test('no module', 'numpy', 'numpy')
 
     t.results(nl=0)
     t.exit()

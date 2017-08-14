@@ -3,10 +3,6 @@
 
 # Module to run all PyGeodesy tests as  python setup.py test
 
-# Tested with 64-bit Python 2.7.13 and 3.6.1 on macOS 10.12.3,
-# 10.12.4 and 10.12.5 Sierra and with Pythonista 3.1 using Python
-# 2.7.12 and 3.5.1 on iOS 10.3.2.
-
 from glob import glob
 from os.path import abspath, dirname, join
 import sys
@@ -20,7 +16,7 @@ if _test_dir not in sys.path:  # Python 3+ ModuleNotFoundError
 from base import runner
 
 __all__ = ('TestSuite',)
-__version__ = '17.06.23'
+__version__ = '17.08.10'
 
 
 class TestSuite(unittest.TestCase):
@@ -72,6 +68,9 @@ class TestSuite(unittest.TestCase):
 
     def test_Osgr(self):
         self._run('testOsgr')
+
+    def test_Points(self):
+        self._run('testPoints')
 
     def test_Routes(self):
         self._run('testRoutes')

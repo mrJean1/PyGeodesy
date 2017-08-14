@@ -15,17 +15,18 @@ see U{http://www.movable-type.co.uk/scripts/latlong.html}.
 from datum import R_M
 from sphericalBase import LatLonSphericalBase
 from utils import EPS, PI2, PI_2, degrees90, degrees180, degrees360, \
-                  favg, fsum, hsin3, map1, radians, wrap180, wrapPI
+                  favg, fsum, hsin3, iterNumpy2, map1, radians, \
+                  tan_2, wrap180, wrapPI
 from vector3d import Vector3d, sumOf
 
-from math import acos, asin, atan2, copysign, cos, hypot, sin, tan
+from math import acos, asin, atan2, copysign, cos, hypot, sin
 
 # all public contants, classes and functions
 __all__ = ('LatLon',  # classes
            'areaOf',  # functions
            'intersection', 'isPoleEnclosedBy',
            'meanOf')
-__version__ = '17.06.25'
+__version__ = '17.08.06'
 
 
 class LatLon(LatLonSphericalBase):
@@ -363,33 +364,54 @@ class LatLon(LatLonSphericalBase):
            >>> p = LatLon(45,1, 1.1)
            >>> inside = p.isEnclosedBy(b)  # True
         '''
-        n, points = self.points(points)
+        n, points = self.points(points, closed=True)
 
-        # get great-circle vector for each edge
-        gc, v1 = [], points[n-1].toVector3d()
-        for p in points:
-            v2 = p.toVector3d()
-            gc.append(v1.cross(v2))
-            v1 = v2
+        n0 = self.toVector3d()
 
-        v = self.toVector3d()
-        # check whether this point on same side of all
-        # polygon edges (to the left or right depending
-        # on anti-/clockwise polygon direction)
-        t0 = gc[0].angleTo(v) > PI_2  # True if on the right
-        for i in range(1, n):
-            ti = gc[i].angleTo(v) > PI_2
-            if ti != t0:  # different sides of edge i
-                return False  # outside
+        if iterNumpy2(points):
 
-        # check for convex polygon (otherwise
-        # the test above is not reliable)
-        gc1 = gc[n-1]
-        for gc2 in gc:
-            # angle between gc vectors, signed by direction of v
-            if gc1.angleTo(gc2, vSign=v) < 0:
-                raise ValueError('non-convex: %r' % (points[:3],))
-            gc1 = gc2
+            v1 = points[-1].toVector3d()
+            v2 = points[-2].toVector3d()
+            gc1 = v2.cross(v1)
+            t0 = gc1.angleTo(n0) > PI_2
+            for p in points:
+                v2 = p.toVector3d()
+                gc = v1.cross(v2)
+                v1 = v2
+
+                ti = gc.angleTo(n0) > PI_2
+                if ti != t0:
+                    return False  # outside
+
+                if gc1.angleTo(gc, vSign=n0) < 0:
+                    raise ValueError('non-convex: %r...' % (points[:2],))
+                gc1 = gc
+
+        else:
+            # get great-circle vector for each edge
+            gc, v1 = [], points[n-1].toVector3d()
+            for p in points:
+                v2 = p.toVector3d()
+                gc.append(v1.cross(v2))
+                v1 = v2
+
+            # check whether this point on same side of all
+            # polygon edges (to the left or right depending
+            # on anti-/clockwise polygon direction)
+            t0 = gc[0].angleTo(n0) > PI_2  # True if on the right
+            for i in range(1, n):
+                ti = gc[i].angleTo(n0) > PI_2
+                if ti != t0:  # different sides of edge i
+                    return False  # outside
+
+            # check for convex polygon (otherwise
+            # the test above is not reliable)
+            gc1 = gc[n-1]
+            for gc2 in gc:
+                # angle between gc vectors, signed by direction of n0
+                if gc1.angleTo(gc2, vSign=n0) < 0:
+                    raise ValueError('non-convex: %r...' % (points[:2],))
+                gc1 = gc2
 
         return True  # inside
 
@@ -486,27 +508,42 @@ def areaOf(points, radius=R_M):
        >>> c = LatLon(0, 0), LatLon(1, 0), LatLon(0, 1)
        >>> areaOf(c)  # 6.18e9
     '''
-    n, points = _Trll.points(points)
+    n, points = _Trll.points(points, closed=True)
 
-    # uses method due to Karney: for each edge of the polygon,
-    # tan(E/2) = tan(Δλ/2)·(tan(φ1/2) + tan(φ2/2)) / (1 + tan(φ1/2)·tan(φ2/2))
-    # where E is the spherical excess of the trapezium obtained by extending
-    # the edge to the equator-circle vector for each edge
-    # <http://osgeo-org.1560.x6.nabble.com/Area-of-a-spherical-polygon-td3841625.html>
+    if iterNumpy2(points):
 
-    a1, b1 = points[n-1].to2ab()
-    S, ta1 = [], tan(a1 * 0.5)
-    for p in points:
-        a2, b2 = p.to2ab()
-        ta2, tb21 = map1(tan, (a2 * 0.5), (b2 - b1) * 0.5)
-        S.append(atan2(tb21 * (ta1 + ta2), 1 + ta1 * ta2))
-        ta1, b1 = ta2, b2
-    S = 2 * fsum(S)
+        def _Es(points):  # iterate over spherical edge excess
+            a1, b1 = points[-1].to2ab()
+            ta1 = tan_2(a1)
+            for p in points:
+                a2, b2 = p.to2ab()
+                ta2, tb21 = map1(tan_2, a2, b2 - b1)
+                yield atan2(tb21 * (ta1 + ta2), 1 + ta1 * ta2)
+                ta1, b1 = ta2, b2
+
+        s = 2 * fsum(_Es(points))
+
+    else:
+        # uses method due to Karney: for each edge of the polygon,
+        # tan(E/2) = tan(Δλ/2)·(tan(φ1/2) + tan(φ2/2)) / (1 + tan(φ1/2)·tan(φ2/2))
+        # where E is the spherical excess of the trapezium obtained by extending
+        # the edge to the equator-circle vector for each edge
+        # <http://osgeo-org.1560.x6.nabble.com/Area-of-a-spherical-polygon-td3841625.html>
+
+        a1, b1 = points[n-1].to2ab()
+        s, ta1 = [], tan_2(a1)
+        for p in points:
+            a2, b2 = p.to2ab()
+            ta2, tb21 = map1(tan_2, a2, b2 - b1)
+            s.append(atan2(tb21 * (ta1 + ta2), 1 + ta1 * ta2))
+            ta1, b1 = ta2, b2
+
+        s = 2 * fsum(s)
 
     if isPoleEnclosedBy(points):
-        S = abs(S) - PI2
+        s = abs(s) - PI2
 
-    return abs(S * radius * radius)
+    return abs(s * radius ** 2)
 
 
 def intersection(start1, bearing1, start2, bearing2,
@@ -593,22 +630,38 @@ def isPoleEnclosedBy(points):
 
        @raise TypeError: Some points are not L{LatLon}.
     '''
-    n, points = _Trll.points(points)
+    _, points = _Trll.points(points)
 
-    # sum of course deltas around pole is 0° rather than normally ±360°
-    # <http://blog.element84.com/determining-if-a-spherical-polygon-contains-a-pole.html>
-    p1 = points[n-1]
-    b1 = p1.bearingTo(points[0])  # XXX p1.finalBearingTo(points[0])?
-    cd = []
-    for p2 in points:
-        b = p1.bearingTo(p2)
-        cd.append(wrap180(b - b1))  # XXX (b - b1 + 540) % 360 - 180
-        b2 = p1.finalBearingTo(p2)
-        cd.append(wrap180(b2 - b))  # XXX (b2 - b + 540) % 360 - 180
-        p1, b1 = p2, b2
+    if iterNumpy2(points):
+
+        def _cds(points):  # iterate over course deltas
+            p1 = points[-1]
+            b1 = p1.bearingTo(points[0])  # XXX p1.finalBearingTo(points[0])?
+            for p2 in points:
+                b = p1.bearingTo(p2)
+                yield wrap180(b - b1)  # XXX (b - b1 + 540) % 360 - 180
+                b2 = p1.finalBearingTo(p2)
+                yield wrap180(b2 - b)  # XXX (b2 - b + 540) % 360 - 180
+                p1, b1 = p2, b2
+
+        s = fsum(_cds(points))
+
+    else:
+        # sum of course deltas around pole is 0° rather than normally ±360°
+        # <http://blog.element84.com/determining-if-a-spherical-polygon-contains-a-pole.html>
+        p1 = points[-1]
+        b1 = p1.bearingTo(points[0])  # XXX p1.finalBearingTo(points[0])?
+        cd = []
+        for p2 in points:
+            b = p1.bearingTo(p2)
+            cd.append(wrap180(b - b1))  # XXX (b - b1 + 540) % 360 - 180
+            b2 = p1.finalBearingTo(p2)
+            cd.append(wrap180(b2 - b))  # XXX (b2 - b + 540) % 360 - 180
+            p1, b1 = p2, b2
+        s = fsum(cd)
 
     # XXX fix (intermittant) edge crossing pole - eg (85,90), (85,0), (85,-90)
-    return abs(fsum(cd)) < 90  # "zero-ish"
+    return abs(s) < 90  # "zero-ish"
 
 
 def meanOf(points, height=None, LatLon=LatLon):

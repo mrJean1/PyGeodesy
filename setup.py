@@ -3,8 +3,8 @@
 
 # The setuptools script to build, install and test a PyGeodesy distribution.
 
-# Tested with 64-bit Python 2.7.13 and 3.6 (using setuptools 28.8.0) but
-# on macOS 10.12.3, 10.12.4 and 10.12.5 Sierra only.
+# Tested with 64-bit Python 2.7.13 and 3.6.1 (using setuptools 28.8.0) but
+# only on macOS 10.12.3, 10.12.4 and 10.12.5, 10.12.6 Sierra.
 
 # python setup.py sdist --formats=gztar,bztar,zip
 #[python setup.py bdist_wheel --universal  # XXX]
@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '17.07.25'
+__version__ = '17.08.10'
 
 
 def _version():
@@ -53,7 +53,7 @@ setup(
     maintainer_email='mrJean1@Gmail.com',  # 'mrJean1 at Gmail dot com'
 
     license='MIT',
-    keywords='azimuth bearing cartesian datum development distance earth ellipsoid geocentric geodesy geodetic geohash haversine Lambert latitude longitude MGRS Nvector OSGR PyGeodesy Ramer-Douglas-Peucker Reumann-Witkam rhumb sphere trigonometry UTM Vincenty Visvalingam-Whyatt WGS',
+    keywords='azimuth bearing cartesian datum development distance earth ellipsoid geocentric geodesy geodetic geohash haversine Lambert latitude longitude MGRS Nvector numpy OSGR PyGeodesy Ramer-Douglas-Peucker Reumann-Witkam rhumb sphere trigonometry UTM Vincenty Visvalingam-Whyatt WGS',
     url='https://github.com/mrJean1/PyGeodesy',
 
     long_description=_long_description(),

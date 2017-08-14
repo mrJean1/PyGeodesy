@@ -1,0 +1,1075 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.points.Numpy2LatLon</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://github.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        <a href="pygeodesy.points-module.html">Module&nbsp;points</a> ::
+        Class&nbsp;Numpy2LatLon
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.points.Numpy2LatLon-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class Numpy2LatLon</h1><p class="nomargin-top"></p>
+<pre class="base-tree">
+       object --+            
+                |            
+    _abcoll.Sized --+        
+                    |        
+       object --+   |        
+                |   |        
+ _abcoll.Iterable --+        
+                    |        
+       object --+   |        
+                |   |        
+_abcoll.Container --+        
+                    |        
+     _abcoll.Sequence --+    
+                        |    
+              _Basequence --+
+                            |
+                           <strong class="uidshort">Numpy2LatLon</strong>
+</pre>
+
+<hr />
+<p>Wrapper for NumPy arrays as &quot;on-the-fly&quot; <i>LatLon</i> 
+  points.</p>
+
+<!-- ==================== NESTED CLASSES ==================== -->
+<a name="section-NestedClasses"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Nested Classes</span></td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>_abcoll.Sized</code></b>:
+      <code><a href="abc.ABCMeta-class.html">__metaclass__</a></code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Instance Methods</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.points.Numpy2LatLon-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">array</span>,
+        <span class="summary-sig-arg">ilat</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">ilon</span>=<span class="summary-sig-default">1</span>,
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Handle a NumPy array as <i>simplify...</i>-compatible <i>LatLon</i> 
+      points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.points.Numpy2LatLon-class.html#__contains__" class="summary-sig-name">__contains__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">latlon</span>)</span><br />
+      Check for a specific lat-/longitude.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.points.Numpy2LatLon-class.html#__getitem__" class="summary-sig-name">__getitem__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">index</span>)</span><br />
+      Return row[index] as <i>LatLon</i> or return a <a 
+      href="pygeodesy.points.Numpy2LatLon-class.html" 
+      class="link">Numpy2LatLon</a> slice.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.points.Numpy2LatLon-class.html#__iter__" class="summary-sig-name">__iter__</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Yield rows as <i>LatLon</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.points.Numpy2LatLon-class.html#__len__" class="summary-sig-name">__len__</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Return the number of rows.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.points.Numpy2LatLon-class.html#__repr__" class="summary-sig-name">__repr__</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Return a string representation.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.points.Numpy2LatLon-class.html#__reversed__" class="summary-sig-name">__reversed__</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Yield rows as <i>LatLon</i> in reverse order.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.points.Numpy2LatLon-class.html#__str__" class="summary-sig-name">__str__</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Return a string representation.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">integer</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.points.Numpy2LatLon-class.html#count" class="summary-sig-name">count</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">latlon</span>)</span><br />
+      Count the number of rows with a specific lat-/longitude.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.points.Numpy2LatLon-class.html#find" class="summary-sig-name">find</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">latlon</span>,
+        <span class="summary-sig-arg">*start_end</span>)</span><br />
+      Find the first row with a specific lat-/longitude.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.points.Numpy2LatLon-class.html#findall" class="summary-sig-name">findall</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">latlon</span>,
+        <span class="summary-sig-arg">*start_end</span>)</span><br />
+      Yield indices of all rows with a specific lat-/longitude.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">integer</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.points.Numpy2LatLon-class.html#index" class="summary-sig-name">index</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">latlon</span>,
+        <span class="summary-sig-arg">*start_end</span>)</span><br />
+      Find index of the first row with a specific lat-/longitude.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.points.Numpy2LatLon-class.html#point" class="summary-sig-name">point</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">row</span>)</span><br />
+      Instantiate a point <i>LatLon</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.points.Numpy2LatLon-class.html#rfind" class="summary-sig-name">rfind</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">latlon</span>,
+        <span class="summary-sig-arg">*start_end</span>)</span><br />
+      Find the last row with a specific lat-/longitude.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.points.Numpy2LatLon-class.html#subset" class="summary-sig-name">subset</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">indices</span>)</span><br />
+      Return a subset of the NumPy array.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__new__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS METHODS ==================== -->
+<a name="section-ClassMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Class Methods</span></td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>_abcoll.Sized</code></b>:
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Class Variables</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__abstractmethods__"></a><span class="summary-name">__abstractmethods__</span> = <code title="frozenset([])"><code class="variable-group">frozenset([</code><code class="variable-group">])</code></code>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Properties</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.points.Numpy2LatLon-class.html#ilat" class="summary-name">ilat</a><br />
+      Get the latitudes column index (integer).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.points.Numpy2LatLon-class.html#ilon" class="summary-name">ilon</a><br />
+      Get the longitudes column index (integer).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.points.Numpy2LatLon-class.html#isNumpy2" class="summary-name">isNumpy2</a><br />
+      Is this a Numpy2 wrapper?
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.points.Numpy2LatLon-class.html#shape" class="summary-name">shape</a><br />
+      Get the shape of the NumPy array (2-tuple).
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Method Details</span></td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">array</span>,
+        <span class="sig-arg">ilat</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">ilon</span>=<span class="sig-default">1</span>,
+        <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Handle a NumPy array as <i>simplify...</i>-compatible <i>LatLon</i> 
+  points.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>array</code></strong> - NumPy array (<i>numpy.array</i>).</li>
+        <li><strong class="pname"><code>ilat</code></strong> - index of the latitudes column (integer).</li>
+        <li><strong class="pname"><code>ilon</code></strong> - index of the longitudes column (integer).</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - <i>LatLon</i> class to use (internal).</li>
+    </ul></dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>IndexError</strong></code> - If <i>array.shape</i> is not (1+, 2+).</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <i>array</i> is not a NumPy array or <i>LatLon</i> is not a 
+        class with <i>ilat</i> and <i>ilon</i> attributes.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - If the <i>ilat</i> and/or <i>ilon</i> values are out of range or 
+        the same.</li>
+    </ul></dd>
+    <dt>Overrides:
+        object.__init__
+    </dt>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>type(array)
+<span class="py-output">&lt;type 'numpy.ndarray'&gt;  # &lt;class ...&gt; in Python 3+</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>points = Numpy2LatLon(array, lat=0, lon=1)
+<span class="py-prompt">&gt;&gt;&gt; </span>simply = simplifyRDP(points, ...)
+<span class="py-prompt">&gt;&gt;&gt; </span>type(simply)
+<span class="py-output">&lt;type 'numpy.ndarray'&gt;  # &lt;class ...&gt; in Python 3+</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>sliced = points[1:-1]
+<span class="py-prompt">&gt;&gt;&gt; </span>type(sliced)
+<span class="py-output">&lt;class '...Numpy2LatLon'&gt;</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="__contains__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__contains__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">latlon</span>)</span>
+    <br /><em class="fname">(In operator)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check for a specific lat-/longitude.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>latlon</code></strong> - Point (<i>LatLon</i>) or 2-tuple (lat, lon).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>True if present, False otherwise.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid latlon.</li>
+    </ul></dd>
+    <dt>Overrides:
+        _abcoll.Container.__contains__
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__getitem__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__getitem__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">index</span>)</span>
+    <br /><em class="fname">(Indexing operator)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return row[index] as <i>LatLon</i> or return a <a 
+  href="pygeodesy.points.Numpy2LatLon-class.html" 
+  class="link">Numpy2LatLon</a> slice.</p>
+  <dl class="fields">
+    <dt>Overrides:
+        _abcoll.Sequence.__getitem__
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__iter__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__iter__</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Yield rows as <i>LatLon</i>.</p>
+  <dl class="fields">
+    <dt>Overrides:
+        _abcoll.Iterable.__iter__
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__len__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__len__</span>(<span class="sig-arg">self</span>)</span>
+    <br /><em class="fname">(Length operator)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the number of rows.</p>
+  <dl class="fields">
+    <dt>Overrides:
+        _abcoll.Sized.__len__
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__repr__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__repr__</span>(<span class="sig-arg">self</span>)</span>
+    <br /><em class="fname">(Representation operator)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return a string representation.</p>
+  <dl class="fields">
+    <dt>Overrides:
+        object.__repr__
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__reversed__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__reversed__</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Yield rows as <i>LatLon</i> in reverse order.</p>
+  <dl class="fields">
+    <dt>Overrides:
+        _abcoll.Sequence.__reversed__
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__str__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__str__</span>(<span class="sig-arg">self</span>)</span>
+    <br /><em class="fname">(Informal representation operator)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return a string representation.</p>
+  <dl class="fields">
+    <dt>Overrides:
+        object.__str__
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="count"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">count</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">latlon</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Count the number of rows with a specific lat-/longitude.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>latlon</code></strong> - Point (<i>LatLon</i>) or 2-tuple (lat, lon)</li>
+    </ul></dd>
+    <dt>Returns: integer</dt>
+        <dd>Count (integer).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid latlon.</li>
+    </ul></dd>
+    <dt>Overrides:
+        _abcoll.Sequence.count
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="find"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">find</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">latlon</span>,
+        <span class="sig-arg">*start_end</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Find the first row with a specific lat-/longitude.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>latlon</code></strong> - Point (<i>LatLon</i>) or 2-tuple (lat, lon).</li>
+        <li><strong class="pname"><code>start_end</code></strong> - Optional [start [, end]] index (integers).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Index or -1 if not found (integer).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid latlon.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="findall"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">findall</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">latlon</span>,
+        <span class="sig-arg">*start_end</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Yield indices of all rows with a specific lat-/longitude.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>latlon</code></strong> - Point (<i>LatLon</i>) or 2-tuple (lat, lon).</li>
+        <li><strong class="pname"><code>start_end</code></strong> - Optional [start [, end]] index (integers).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Indices (iterator).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid latlon.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="index"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">index</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">latlon</span>,
+        <span class="sig-arg">*start_end</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Find index of the first row with a specific lat-/longitude.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>latlon</code></strong> - Point (<i>LatLon</i>) or 2-tuple (lat, lon).</li>
+        <li><strong class="pname"><code>start_end</code></strong> - Optional [start [, end]] index (integers).</li>
+    </ul></dd>
+    <dt>Returns: integer</dt>
+        <dd>Index (integer).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>IndexError</strong></code> - Point not found.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid latlon.</li>
+    </ul></dd>
+    <dt>Overrides:
+        _abcoll.Sequence.index
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="point"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">point</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">row</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Instantiate a point <i>LatLon</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>row</code></strong> - Array row (numpy.array).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Point (<i>LatLon</i>).</dd>
+    <dt>Overrides:
+        _Basequence.point
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="rfind"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">rfind</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">latlon</span>,
+        <span class="sig-arg">*start_end</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Find the last row with a specific lat-/longitude.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>latlon</code></strong> - Point (<i>LatLon</i>) or 2-tuple (lat, lon).</li>
+        <li><strong class="pname"><code>start_end</code></strong> - Optional [start [, end]] index (integers).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Index or -1 if not found (integer).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid latlon.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Keyword order, first stop, then start.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="subset"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">subset</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">indices</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return a subset of the NumPy array.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>indices</code></strong> - Row indices (ints).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Sub-array (numpy.array).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - If indices is not a <i>range</i> or <i>list</i> of ints.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Out of range indices value.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        A <i>subset</i> is different from a <i>slice</i> in 2 ways: (a) the
+        <i>subset</i> is typically specified as a list of (un-)ordered 
+        indices and (b) the <i>subset</i> allocates a new, separate NumPy 
+        array while a <i>slice</i> is just an other <i>view</i> of the 
+        original NumPy array.
+      </p>
+</div></td></tr></table>
+</div>
+<br />
+<!-- ==================== PROPERTY DETAILS ==================== -->
+<a name="section-PropertyDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Property Details</span></td>
+</tr>
+</table>
+<a name="ilat"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">ilat</h3>
+  <p>Get the latitudes column index (integer).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">ilat(<span class="summary-sig-arg">self</span>)</span>
+        - Get the latitudes column index (integer).
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="ilon"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">ilon</h3>
+  <p>Get the longitudes column index (integer).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">ilon(<span class="summary-sig-arg">self</span>)</span>
+        - Get the longitudes column index (integer).
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isNumpy2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">isNumpy2</h3>
+  <p>Is this a Numpy2 wrapper?</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">isNumpy2(<span class="summary-sig-arg">self</span>)</span>
+        - Is this a Numpy2 wrapper?
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="shape"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">shape</h3>
+  <p>Get the shape of the NumPy array (2-tuple).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">shape(<span class="summary-sig-arg">self</span>)</span>
+        - Get the shape of the NumPy array (2-tuple).
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://github.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Mon Aug 14 12:44:27 2017
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

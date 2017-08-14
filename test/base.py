@@ -19,12 +19,12 @@ if PyGeodesy_dir not in sys.path:  # Python 3+ ModuleNotFoundError
     sys.path.insert(0, PyGeodesy_dir)
 
 from pygeodesy import version as PyGeodesy_version, \
-                      normDMS  # PYCHOK expected
+                      iterNumpy2over, normDMS  # PYCHOK expected
 
 __all__ = ('isiOS', 'PyGeodesy_dir', 'Python_O',  # constants
            'TestsBase',
            'runner', 'secs2str', 'tilde', 'type2str', 'versions')
-__version__ = '17.08.01'
+__version__ = '17.08.04'
 
 try:
     _int = int, long
@@ -50,6 +50,7 @@ class TestsBase(object):
     '''
     _file     = ''
     _name     = ''
+    _iterisk  = ''
     _prefix   = '    '
     _time     = 0
     _versions = ''  # cached versions() string
@@ -76,6 +77,17 @@ class TestsBase(object):
         '''Exit with the number of test failures as exist status.
         '''
         sys.exit(min(errors + self.errors(), 99))
+
+    def iterNumpy2over(self, n):
+        '''Set the I{iterNumpy2} threshold.
+
+           @keyword n: New threshold value (integer).
+
+           @return: Previous threshold (integer).
+        '''
+        p = iterNumpy2over(n)
+        self.test('iterNumpy2over', iterNumpy2over(), n)
+        return p
 
     def printf(self, fmt, *args, **kwds):  # nl=0, nt=0
         '''Print a formatted line to sys.stdout.
@@ -110,6 +122,9 @@ class TestsBase(object):
     def test(self, name, value, expect, fmt='%s', known=False, nt=0):
         '''Compare a test value with the expected one.
         '''
+        if self._iterisk:
+            name += self._iterisk
+
         if not isinstance(expect, _str):
             expect = fmt % (expect,)  # expect as str
 
@@ -130,6 +145,14 @@ class TestsBase(object):
         '''
         t = '-' * len(str(self.total))
         self.printf('test %s %s', t, (fmt % args), **kwds)
+
+    def testiter(self):
+        '''Test with/-out I{iterNumpy2} threshold.
+        '''
+        yield iterNumpy2over(100000)
+        self._iterisk = '*'
+        yield iterNumpy2over(1)
+        self._iterisk = ''
 
     def title(self, test, version, module=None):
         '''Print the title of the test suite.
@@ -182,7 +205,11 @@ def type2str(obj, attr):
     elif isinstance(t, _str):
         t = ' str'
     else:
-        t = ' attribute'
+        t = str(type(t)).replace("'", '')
+        if t.startswith('<') and t.endswith('>'):
+            t = ' ' + t[1:-1]
+        else:
+            t = ' attribute'
     return t
 
 
@@ -195,7 +222,7 @@ def versions():
 
     xOS = 'iOS' if isiOS else 'macOS'
     # - mac_ver() returns ('10.12.5', ..., 'x86_64') on
-    #   macOS and ('10.3.2', ..., 'iPad4,2') on iOS
+    #   macOS and ('10.3.3', ..., 'iPad4,2') on iOS
     # - platform() returns 'Darwin-16.6.0-x86_64-i386-64bit'
     #   on macOS and 'Darwin-16.6.0-iPad4,2-64bit' on iOS
     # - sys.platform is 'darwin' on macOS and 'ios' on iOS

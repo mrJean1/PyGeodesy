@@ -8,12 +8,16 @@
 # <http://github.com/milkbread/Visvalingam-Wyatt/blob/master/out.json>
 # <http://milkbread.github.io/Visvalingam-Wyatt/>
 
+from base import TestsBase
+
+from pygeodesy import iStr
+
 __all__ = ('Pts', 'PtsFFI', 'RdpFFI', 'PtsJS', 'PtsJS5', 'VwPts')
-__version__ = '17.06.21'
+__version__ = '17.08.10'
 
 
 class _LatLon(object):
-    '''(INYTERNAL) Most-basic, leanest LatLon class.
+    '''(INTERNAL) Most-basic, leanest LatLon class.
     '''
     __slots__ = ('lat', 'lon', 'vw2')
 
@@ -23,7 +27,10 @@ class _LatLon(object):
         self.vw2 = vw2
 
     def __repr__(self):
-        return '(%.6f, %.6f, %f)' % (self.lat, self.lon, self.vw2)
+        if self.vw2:
+            return iStr(self, lat=self.lat, lon=self.lon, vw2=self.vw2)
+        else:
+            return iStr(self, lat=self.lat, lon=self.lon)
 
 
 # <http://github.com/urschrei/rdp>
@@ -17043,8 +17050,6 @@ VwPts = [_LatLon(*ll) for ll in (
 
 
 if __name__ == '__main__':
-
-    from base import TestsBase
 
     t = TestsBase(__file__, __version__)
     t.results(nl=0)

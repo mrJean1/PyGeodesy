@@ -21,27 +21,38 @@ except ImportError:
     fsum = sum  # use standard, built-in sum (or Kahan's summation
     # <http://wikipedia.org/wiki/Kahan_summation_algorithm> or
     # Hettinger's <http://code.activestate.com/recipes/393090/>)
-from math import atan2, cos, degrees, hypot, \
-                 pi as PI, radians, sin, sqrt, tan  # pow
+from math import atan2, cos, degrees, hypot, pi as PI, \
+                 radians, sin, sqrt, tan  # pow
 from operator import mul
 import sys
 
 # all public contants, classes and functions
 __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
-           'cbrt', 'cbrt2',
+           'cbrt', 'cbrt2', 'classname',
            'degrees', 'degrees90', 'degrees180', 'degrees360',
            'false2f', 'favg', 'fdot', 'fdot3', 'fStr', 'fStrzs',
            'fsum', 'ft2m',
            'halfs', 'hsin', 'hsin3', 'hypot', 'hypot1', 'hypot3',
-           'isint', 'isscalar', 'len2',
+           'isint', 'isNumpy2', 'isscalar', 'issequence', 'iStr',
+           'iterNumpy2', 'iterNumpy2over',
+           'len2',
            'm2ft', 'm2km', 'm2NM', 'm2SM', 'map1', 'map2',
-           'radians', 'radiansPI', 'radiansPI2', 'radiansPI_2',
-           'tanPI_2_2',
+           'polygon',
+           'radians', 'radiansPI_2', 'radiansPI', 'radiansPI2',
+           'tan_2', 'tanPI_2_2',
            'wrap90', 'wrap180', 'wrap360',
-           'wrapPI', 'wrapPI2', 'wrapPI_2')
-__version__ = '17.06.04'
+           'wrapPI_2', 'wrapPI', 'wrapPI2')
+__version__ = '17.08.10'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
+    from numbers import Integral as _Ints  #: (INTERNAL) Int objects
+except ImportError:
+    try:
+        _Ints = int, long  #: (INTERNAL) Int objects (tuple)
+    except NameError:  # Python 3+
+        _Ints = int  #: (INTERNAL) Int objects (tuple)
+
+try:  # similarly ...
     from numbers import Real as _Scalars  #: (INTERNAL) Scalar objects
 except ImportError:
     try:
@@ -49,13 +60,10 @@ except ImportError:
     except NameError:
         _Scalars = int, float  #: (INTERNAL) Scalar objects (tuple)
 
-try:  # similarly ...
-    from numbers import Integral as _Ints  #: (INTERNAL) Int objects
+try:
+    from collections import Sequence as _Seqs  #: (INTERNAL) incl MutableSequence
 except ImportError:
-    try:
-        _Ints = int, long  #: (INTERNAL) Int objects (tuple)
-    except NameError:  # Python 3+
-        _Ints = int  #: (INTERNAL) Int objects (tuple)
+    _Seqs = list, tuple, range  # XXX also set?
 
 try:
     EPS = sys.float_info.epsilon  #: System's epsilon (float)
@@ -97,6 +105,22 @@ def cbrt2(x):
        @return: Cubic root squared (float).
     '''
     return pow(abs(x), _2_3rd)
+
+
+def classname(obj):
+    '''Build module.class name of this object.
+
+       @param obj: The object (any type).
+
+       @return: Name of module and class (string).
+    '''
+    n = obj.__class__.__name__
+    try:
+        m = obj.__module__
+        n = '.'.join(m.split('.')[-1:] + [n])
+    except AttributeError:
+        pass
+    return n
 
 
 def degrees90(rad):
@@ -363,42 +387,122 @@ def hypot3(x, y, z):
 
 
 def isint(obj, both=False):
-    '''Check for integer types and value.
+    '''Check for integer types and integer value.
 
-       @param obj: The object (any type).
+       @param obj: The object (any).
        @keyword both: Check both type and value (bool).
 
        @return: True if obj is integer (bool).
     '''
-    if both and isinstance(obj, float):
+    if both and isinstance(obj, float):  # NOT _Scalars!
         try:
             return obj.is_integer()
         except AttributeError:
-            return False
+            return False  # XXX float(int(obj)) == obj?
     return isinstance(obj, _Ints)
+
+
+def isNumpy2(obj):
+    '''Check for Numpy2 wrappers.
+
+       @param obj: The object (any).
+
+       @return: True if obj is Numpy2 (bool).
+    '''
+    # isinstance(self, (Numpy2LatLon, Numpy2Vector))
+    return getattr(obj, 'isNumpy2', False)
 
 
 def isscalar(obj):
     '''Check for scalar types.
 
-       @param obj: The object (any type).
+       @param obj: The object (any).
 
        @return: True if obj is scalar (bool).
     '''
     return isinstance(obj, _Scalars)
 
 
-def len2(xtor):
-    '''Make built-in L{len}() function work for generators,
+def issequence(obj, *excluded):
+    '''Check for sequence types.
+
+       @param obj: The object (any).
+       @param excluded: Optional, exclusions (types).
+
+       @note: Excluding tuple implies namedtuple.
+
+       @return: True if obj is a sequence (bool).
+    '''
+    if excluded:
+        return isinstance(obj, _Seqs) and not \
+               isinstance(obj, excluded)
+    else:
+        return isinstance(obj, _Seqs)
+
+
+def iStr(inst, *args, **kwds):
+    '''Return instance string representation.
+
+       @param inst: The instance (any tupe).
+       @param args: Optional arguments (tuple).
+       @keyword kwds: Optional keyword arguments (dict).
+
+       @return: Representation (string)
+    '''
+    t = tuple('%s=%s' % t for t in sorted(kwds.items()))
+    if args:
+        t = map2(str, args) + t
+    return '%s(%s)' % (classname(inst), ', '.join(t))
+
+
+def iterNumpy2(obj):
+    '''Iterate for Numpy2 and other sequences over the threshold.
+
+       @param obj: Points list, sequence, set, etc. (any).
+
+       @return: True, do iterate (bool).
+    '''
+    try:
+        return isNumpy2(obj) or len(obj) > _iterNumpy2len
+    except TypeError:
+        return False
+
+
+_iterNumpy2len = 1  # for testing purposes
+
+
+def iterNumpy2over(n=None):
+    '''Get the L{iterNumpy2} threshold.
+
+       @keyword n: Optional, new threshold (integer).
+
+       @return: Previous threshold (integer).
+    '''
+    global _iterNumpy2len
+    p = _iterNumpy2len
+    if n is not None:
+        try:
+            i = int(n)
+            if i > 0:
+                _iterNumpy2len = i
+            else:
+                raise ValueError
+        except (TypeError, ValueError):
+            raise ValueError('%s invalid: %r' % ('n', n))
+    return p
+
+
+def len2(seq):
+    '''Make built-in function L{len} work for generators,
        iterators, etc. since those can only be started once.
 
-       @param xtor: Generator, iterator, list, sequence, tuple, etc.
+       @param seq: Generator, iterator, list, range, tuple, etc.
 
        @return: 2-Tuple (number, list) of items (int, list).
     '''
-    if not isinstance(xtor, (list, tuple)):
-        xtor = list(xtor)
-    return len(xtor), xtor
+    if not isinstance(seq, _Seqs):
+        seq = list(seq)
+    return len(seq), seq
 
 
 def m2ft(meter):
@@ -469,6 +573,34 @@ def map2(func, *args):
     return tuple(map(func, *args))
 
 
+def polygon(points, closed=True, base=None):
+    '''Check a polygon given as list, sequence, set or tuple
+       of points.
+
+       @param points: The points of the polygon (I{LatLon}[])
+       @keyword closed: Treat polygon as closed (bool).
+
+       @return: 2-Tuple (number, sequence) of points (int, sequence).
+
+       @raise TypeError: Some points are not I{LatLon}.
+
+       @raise ValueError: Too few points.
+    '''
+    n, points = len2(points)
+    if closed and n > 1 and points[0] == points[-1]:
+        n -= 1  # remove last point
+        points = points[:n]  # XXX numpy.array slice is a view!
+
+    if n < (3 if closed else 1):
+        raise ValueError('too few points: %s' % (n,))
+
+    if base and not isNumpy2(points):
+        for i, p in enumerate(points):
+            base.others(p, name='points[%s]' % (i,))
+
+    return n, points
+
+
 def radiansPI(deg):
     '''Convert and wrap degrees to radians M{-PI..+PI}.
 
@@ -497,6 +629,16 @@ def radiansPI_2(deg):
        @return: Radians, wrapped (radiansPI_2)
     '''
     return _wrap(radians(deg), PI_2)
+
+
+def tan_2(rad):
+    '''Compute tan of half angle.
+
+       @param rad: Angle (radians).
+
+       @return: M{tan(rad / 2)} (float).
+    '''
+    return tan(rad * 0.5)
 
 
 def tanPI_2_2(rad):

@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '17.06.23'
+__version__ = '17.08.10'
 
 from base import TestsBase
 
@@ -60,6 +60,21 @@ class Tests(TestsBase):
         self.test('copy', c.equals(v), True)
         self.test('length', v.length, '52.2051356286',  fmt='%.10f')
         self.test('length', c.length, '52.2051356286',  fmt='%.10f')
+
+        if hasattr(LatLon, 'isEnclosedBy'):
+            p = LatLon(45.1, 1.1)
+
+            b = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
+            for _ in self.testiter():
+                self.test('isEnclosedBy', p.isEnclosedBy(b), True)
+
+            b = LatLon(45, 1), LatLon(45, 3), LatLon(46, 2), LatLon(47, 3), LatLon(47, 1)
+            for _ in self.testiter():
+                try:
+                    self.test('isEnclosedBy', p.isEnclosedBy(b), True)  # Nvector
+                except ValueError as x:
+                    t = ' '.join(str(x).split()[:3] + ['...)'])
+                    self.test('isEnclosedBy', t, 'non-convex: (LatLon(45°00′00.0″N, 001°00′00.0″E), ...)')  # Trig
 
         if hasattr(LatLon, 'nearestOn'):
             s1 = LatLon(51.0, 1.0)
