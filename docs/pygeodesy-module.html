@@ -72,8 +72,9 @@
   ones, <i>sphericalTrigonometry</i> and <i>-Nvector</i>.  Each module 
   provides a <a href="attributes-LatLon.html"><i>LatLon</i></a> class with methods to compute 
   distance, initial and final bearing, intermediate points and conversions,
-  among other things.  For more information and further details see the 
-  documentation, the descriptions of <a 
+  among other things.  For more information and further details see the <a 
+  href="https://mrjean1.github.io/PyGeodesy/" 
+  target="_top">documentation</a>, the descriptions of <a 
   href="http://www.movable-type.co.uk/scripts/latlong.html" 
   target="_top">Latitude/Longitude</a>, <a 
   href="http://www.movable-type.co.uk/scripts/latlong-vincenty.html" 
@@ -159,7 +160,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.08.10
+        17.08.24
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -972,7 +973,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#iterNumpy2" class="summary-sig-name">iterNumpy2</a>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Iterate for Numpy2 and other sequences over the threshold.</td>
+      Iterate for Numpy2 wrappers and for other sequences over the 
+      threshold.</td>
           <td align="right" valign="top">
             
             
@@ -1390,7 +1392,8 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#simplify1" class="summary-sig-name">simplify1</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">distance</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
-        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>)</span><br />
+        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>)</span><br />
       Basic simplification of a path of <i>LatLon</i> points.</td>
           <td align="right" valign="top">
             
@@ -1411,7 +1414,8 @@
         <span class="summary-sig-arg">pipe</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>)</span><br />
       Reumann-Witkam simplification of a path of <i>LatLon</i> points.</td>
           <td align="right" valign="top">
             
@@ -1432,7 +1436,8 @@
         <span class="summary-sig-arg">distance</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>)</span><br />
       Ramer-Douglas-Peucker (RDP) simplification of a path of <i>LatLon</i>
       points.</td>
           <td align="right" valign="top">
@@ -1454,7 +1459,8 @@
         <span class="summary-sig-arg">distance</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>)</span><br />
       Modified Ramer-Douglas-Peucker (RDP) simplification of a path of 
       <i>LatLon</i> points.</td>
           <td align="right" valign="top">
@@ -1476,7 +1482,8 @@
         <span class="summary-sig-arg">pipe</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>)</span><br />
       Reumann-Witkam simplification of a path of <i>LatLon</i> points.</td>
           <td align="right" valign="top">
             
@@ -1497,7 +1504,8 @@
         <span class="summary-sig-arg">area</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">attr</span>=<span class="summary-sig-default">None</span>)</span><br />
+        <span class="summary-sig-arg">attr</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>)</span><br />
       Visvalingam-Whyatt (VW) simplification of a path of <i>LatLon</i> 
       points.</td>
           <td align="right" valign="top">
@@ -1519,7 +1527,8 @@
         <span class="summary-sig-arg">area</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">attr</span>=<span class="summary-sig-default">None</span>)</span><br />
+        <span class="summary-sig-arg">attr</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>)</span><br />
       Modified Visvalingam-Whyatt (VW) simplification of a path of 
       <i>LatLon</i> points.</td>
           <td align="right" valign="top">
@@ -1781,7 +1790,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'17.8.10'"><code class="variable-quote">'</code><code class="variable-string">17.8.10</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'17.8.24'"><code class="variable-quote">'</code><code class="variable-string">17.8.24</code><code class="variable-quote">'</code></code><br />
       Normalized PyGeodesy version (string).
     </td>
   </tr>
@@ -2965,7 +2974,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     </td>
   </tr></table>
   
-  <p>Iterate for Numpy2 and other sequences over the threshold.</p>
+  <p>Iterate for Numpy2 wrappers and for other sequences over the 
+  threshold.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -3652,7 +3662,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">simplify1</span>(<span class="sig-arg">points</span>,
         <span class="sig-arg">distance</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
-        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>)</span>
+        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">indices</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3669,6 +3680,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
         <li><strong class="pname"><code>distance</code></strong> - Tolerance (meter, same units as radius).</li>
         <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
+        <li><strong class="pname"><code>indices</code></strong> - Return points indices, not points (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Simplified points (list of <i>LatLon</i>s).</dd>
@@ -3690,7 +3702,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
         <span class="sig-arg">pipe</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
         <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">indices</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3708,6 +3721,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
         <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
         <li><strong class="pname"><code>shortest</code></strong> - Shortest or perpendicular distance (bool).</li>
+        <li><strong class="pname"><code>indices</code></strong> - Return points indices, not points (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Simplified points (list of <i>LatLon</i>s).</dd>
@@ -3729,7 +3743,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
         <span class="sig-arg">distance</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
         <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">indices</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3751,6 +3766,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
         <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
         <li><strong class="pname"><code>shortest</code></strong> - Shortest or perpendicular distance (bool).</li>
+        <li><strong class="pname"><code>indices</code></strong> - Return points indices, not points (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Simplified points (list of <i>LatLon</i>s).</dd>
@@ -3772,7 +3788,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
         <span class="sig-arg">distance</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
         <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">indices</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3794,6 +3811,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
         <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
         <li><strong class="pname"><code>shortest</code></strong> - Shortest or perpendicular distance (bool).</li>
+        <li><strong class="pname"><code>indices</code></strong> - Return points indices, not points (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Simplified points (list of <i>LatLon</i>s).</dd>
@@ -3815,7 +3833,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
         <span class="sig-arg">pipe</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
         <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">indices</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3833,6 +3852,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
         <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
         <li><strong class="pname"><code>shortest</code></strong> - Shortest or perpendicular distance (bool).</li>
+        <li><strong class="pname"><code>indices</code></strong> - Return points indices, not points (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Simplified points (list of <i>LatLon</i>s).</dd>
@@ -3854,7 +3874,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
         <span class="sig-arg">area</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
         <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">attr</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">attr</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">indices</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3876,6 +3897,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
         <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
         <li><strong class="pname"><code>attr</code></strong> - Points attribute save area value (string).</li>
+        <li><strong class="pname"><code>indices</code></strong> - Return points indices, not points (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Simplified points (list of <i>LatLon</i>s).</dd>
@@ -3898,7 +3920,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
         <span class="sig-arg">area</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
         <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">attr</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">attr</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">indices</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3920,6 +3943,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
         <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
         <li><strong class="pname"><code>attr</code></strong> - Attribute to save the area value (string).</li>
+        <li><strong class="pname"><code>indices</code></strong> - Return points indices, not points (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Simplified points (list of <i>LatLon</i>s).</dd>
@@ -4497,7 +4521,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Aug 14 12:44:27 2017
+    Generated by Epydoc 3.0.1 on Thu Aug 24 14:10:15 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -4,7 +4,7 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '17.08.06'
+__version__ = '17.08.14'
 
 from base import TestsBase, secs2str
 
@@ -47,7 +47,7 @@ class Tests(TestsBase):
             self.test(t, n, ms[m])
             S += s
             if typ:
-                self.test('numpy.array', type(r) is typ, True)
+                self.test(str(type(r)), type(r) is typ, True)
 
         if S > s:  # sub-total time
             self.test__('%s %s', f, secs2str(S), nt=1)
@@ -57,7 +57,7 @@ class Tests(TestsBase):
 # modified to match signatures of simplifyRDP and -RDPm.
 
 def simplifyRDPfw(points, epsilon, radius=R_M, adjust=False, shortest=False,  # MCCABE 17
-                                   modified=False):  # PYCHOK expected
+                                   modified=False, indices=False):  # PYCHOK expected
     '''Iterative Ramer-Douglas-Peucker algorithm.
 
        <http://github.com/FlorianWilhelm/gps_data_with_python>
@@ -68,6 +68,7 @@ def simplifyRDPfw(points, epsilon, radius=R_M, adjust=False, shortest=False,  # 
        adjust -- adjust lon's delta by cos(average lat's)
        shortest -- use shortest or perpendicular distance
        modified -- stop search at the first deviant point
+       indices -- return points indices inlieu of points
     '''
     def _d2xy(p1, p2):
         # get deltas and hypot squared
@@ -122,11 +123,14 @@ def simplifyRDPfw(points, epsilon, radius=R_M, adjust=False, shortest=False,  # 
                 for i in range(s + 1, e):
                     use[i] = False
 
-    return [points[i] for i, b in enumerate(use) if b]
+    if indices:
+        return [i for i, b in enumerate(use) if b]
+    else:
+        return [points[i] for i, b in enumerate(use) if b]
 
 
 def simplifyRDPgr(source, kink, radius=R_M, adjust=True, shortest=True,  # MCCABE 16
-                                modified=False):  # PYCHOK expected
+                                modified=False, indices=False):  # PYCHOK expected
     '''Stack-based Douglas Peucker line simplification.
 
        Transcribed from JavaScript original after code by Dr.
@@ -140,6 +144,7 @@ def simplifyRDPgr(source, kink, radius=R_M, adjust=True, shortest=True,  # MCCAB
        adjust -- adjust lon's delta by cos(average lat's)
        shortest -- use shortest or perpendicular distance
        modified -- stop search at the first deviant point
+       indices -- return source indices inlieu of points
 
        The kink depth is the height of the triangle abc where
        a-b and b-c are two consecutive line segments.
@@ -199,7 +204,10 @@ def simplifyRDPgr(source, kink, radius=R_M, adjust=True, shortest=True,  # MCCAB
                     s = 0
         ixs[s] = True
 
-    return [source[i] for i in sorted(ixs.keys())]
+    if indices:
+        return [i for i in sorted(ixs.keys())]
+    else:
+        return [source[i] for i in sorted(ixs.keys())]
 
 
 if __name__ == '__main__':  # PYCHOK internal error?
@@ -305,6 +313,15 @@ if __name__ == '__main__':  # PYCHOK internal error?
         t.test2(simplifyRDPgr, pts, _ms({1000: 2, 100:  7, 10: 15, 1: 45}), adjust=True)
         t.test2(simplifyVW,    pts, _ms({1000: 3, 100: 11, 10: 43, 1: 69}), adjust=True, typ=type(npy))
         t.test2(simplifyVWm,   pts, _ms({1000: 2, 100:  6, 10: 39, 1: 69}), adjust=True, typ=type(npy))
+
+        t.test2(simplify1,     pts, _ms({1000: 5, 100: 25, 10: 67, 1: 69}), adjust=False, indices=True, typ=list)
+        t.test2(simplifyRW,    pts, _ms({1000: 4, 100:  9, 10: 22, 1: 33}), adjust=False, indices=True, typ=list)
+        t.test2(simplifyRDP,   pts, _ms({1000: 3, 100:  7, 10: 18, 1: 50}), adjust=False, indices=True, typ=list)
+        t.test2(simplifyRDPm,  pts, _ms({1000: 3, 100: 16, 10: 48, 1: 67}), adjust=False, indices=True, typ=list)
+        t.test2(simplifyRDPfw, pts, _ms({1000: 2, 100:  7, 10: 15, 1: 45}), adjust=True, indices=True)
+        t.test2(simplifyRDPgr, pts, _ms({1000: 2, 100:  7, 10: 15, 1: 45}), adjust=True, indices=True)
+        t.test2(simplifyVW,    pts, _ms({1000: 3, 100: 12, 10: 48, 1: 69}), adjust=False, indices=True, typ=list)
+        t.test2(simplifyVWm,   pts, _ms({1000: 2, 100:  7, 10: 45, 1: 69}), adjust=False, indices=True, typ=list)
 
     else:
         t.test('no module', 'numpy', 'numpy')

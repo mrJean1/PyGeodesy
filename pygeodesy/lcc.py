@@ -23,7 +23,7 @@ from math import atan, copysign, cos, hypot, log, sin, sqrt, tan
 # all public constants, classes and functions
 __all__ = ('Conic', 'Conics', 'Lcc',
            'toLcc')  # functions
-__version__ = '17.06.25'
+__version__ = '17.08.14'
 
 
 Conics = _Enum('Conics')  #: Registered conics (L{_Enum}).
@@ -519,7 +519,7 @@ if __name__ == '__main__':
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-# Typical result (on macOS 10.12.2, 10.12.3, 10.12.4 and 10.12.5 Sierra)
+# Typical result (on macOS 10.12.2 thru 10.12.6 Sierra)
 
 # Conics.Be08Lb: Conic(name='Be08Lb', lat0=50.797815, lon0=4.35921583, par1=49.833333, par2=51.166667, E0=649328.0, N0=665262.0, k0=1, SP=2, datum=(name='GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.WGS84)
 # Conics.Be72Lb: Conic(name='Be72Lb', lat0=90.0, lon0=4.3674867, par1=49.8333339, par2=51.1666672, E0=150000.013, N0=5400088.438, k0=1, SP=2, datum=(name='NAD83', ellipsoid=Ellipsoids.GRS80, transform=Transforms.NAD83)

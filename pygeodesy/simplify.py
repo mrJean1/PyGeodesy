@@ -39,16 +39,20 @@ For all functions, keyword argument I{adjust} scales the longitudinal
 distance between two points by the cosine of the mean of the latitudes.
 
 Likewise, keyword argument I{radius} of all fuctions is set to the mean
-earth radius in meter.  Other units are can be choosen, provided that
-the radius and tolerance are always specified in the same units.
+earth radius in meter.  Other units can be choosen, provided that the
+radius and tolerance are always specified in the same units.
+
+Finally, use keyword argument I{indices}=True in any function to return
+a list of simplified points I{indices} instead of the simplified points.
+The first and last index are always the first and last points index.
 
 To process NumPy arrays containing rows of lat-, longitude and possibly
 other values, use class L{Numpy2LatLon} to wrap the NumPy array into
 I{on-the-fly-LatLon} points.  Pass the L{Numpy2LatLon} instance to any
 I{simplify} function and the returned result will be a NumPy array
 containing the simplified subset, a partial copy of the original NumPy
-array.
-
+array.  Use keyword argument I{indices}=True to return a list of array
+row indices inlieu of the simplified array subset.
 
 See:
  - U{http://bost.ocks.org/mike/simplify/}
@@ -61,12 +65,13 @@ See:
  - U{http://www.bdcc.co.uk/Gmaps/GDouglasPeuker.js}
  - U{http://github.com/mourner/simplify-js/}
  - U{http://github.com/omarestrella/simplify.py/}
+ - U{http://pypi.python.org/pypi/rdp/}
  - U{http://pypi.python.org/pypi/visvalingam}
  - U{http://pypi.python.org/pypi/simplification/}
 
 Tested with 64-bit Python 2.6.9, 2.7.13 (and numpy 1.13.1), 3.5.3 and
 3.6.2 on macOS 10.12.6 Sierra, with 64-bit Intel-Python 3.5.3 (and numpy
-1.11.3) on macOS 10.12.5 Sierra and with Pythonista 3.1 using 64-bit
+1.11.3) on macOS 10.12.6 Sierra and with Pythonista 3.1 using 64-bit
 Python 2.7.12 and 3.5.1 (both with numpy 1.8.0) on iOS 10.3.3.
 
 @newfield example: Example, Examples
@@ -80,7 +85,7 @@ from math import cos, degrees, radians, sqrt
 __all__ = ('simplify1', 'simplify2',  # backward compatibility
            'simplifyRDP', 'simplifyRDPm', 'simplifyRW',
            'simplifyVW', 'simplifyVWm')
-__version__ = '17.08.10'
+__version__ = '17.08.14'
 
 
 # try:
@@ -106,18 +111,19 @@ class _T2(object):
 class _Sy(object):
     '''(INTERNAL) Simplify state.
     '''
-    adjust = False
-    d2i    = None  # d2iP or d2iS
-    d2xyse = ()
-    eps    = EPS  # system epsilon
-    n      = 0
-    pts    = []
-    radius = R_M  # mean earth radius
-    r      = {}   # RDP indices or VW 2-tuples
-    s2     = EPS  # tolerance squared
-    s2e    = EPS  # sentinel
+    adjust  = False
+    d2i     = None  # d2iP or d2iS
+    d2xyse  = ()
+    eps     = EPS  # system epsilon
+    indices = False
+    n       = 0
+    pts     = []
+    radius  = R_M  # mean earth radius
+    r       = {}   # RDP indices or VW 2-tuples
+    s2      = EPS  # tolerance squared
+    s2e     = EPS  # sentinel
 
-    def __init__(self, points, tolerance, radius, adjust, shortest):
+    def __init__(self, points, tolerance, radius, adjust, shortest, indices):
         '''New state.
         '''
         n, self.pts = len2(points)
@@ -127,6 +133,9 @@ class _Sy(object):
 
         if adjust:
             self.adjust = True
+
+        if indices:
+            self.indices = True
 
         if radius:
             self.radius = float(radius)
@@ -252,9 +261,11 @@ class _Sy(object):
         return 0
 
     def points(self, r):
-        '''Return the list of simplified points.
+        '''Return the list of simplified points or indices.
         '''
-        if isNumpy2(self.pts):
+        if self.indices:
+            return sorted(r.keys())
+        elif isNumpy2(self.pts):
             return self.pts.subset(sorted(r.keys()))
         else:
             return [self.pts[i] for i in sorted(r.keys())]
@@ -364,7 +375,7 @@ class _Sy(object):
         return self.points(r)
 
 
-def simplify1(points, distance, radius=R_M, adjust=True):
+def simplify1(points, distance, radius=R_M, adjust=True, indices=False):
     '''Basic simplification of a path of I{LatLon} points.
 
        Eliminates any points closer together than the given
@@ -374,12 +385,13 @@ def simplify1(points, distance, radius=R_M, adjust=True):
        @param distance: Tolerance (meter, same units as radius).
        @keyword radius: Earth radius (meter).
        @keyword adjust: Adjust longitudes (bool).
+       @keyword indices: Return points indices, not points (bool).
 
        @return: Simplified points (list of I{LatLon}s).
 
        @raise ValueError: Radius or distance tolerance too small.
     '''
-    S = _Sy(points, distance, radius, adjust, True)
+    S = _Sy(points, distance, radius, adjust, True, indices)
 
     n, r = S.n, S.r
     if n > 1:
@@ -395,7 +407,7 @@ def simplify1(points, distance, radius=R_M, adjust=True):
     return S.points(r)
 
 
-def simplifyRDP(points, distance, radius=R_M, adjust=True, shortest=False):
+def simplifyRDP(points, distance, radius=R_M, adjust=True, shortest=False, indices=False):
     '''Ramer-Douglas-Peucker (RDP) simplification of a path of
        I{LatLon} points.
 
@@ -411,17 +423,18 @@ def simplifyRDP(points, distance, radius=R_M, adjust=True, shortest=False):
        @keyword radius: Earth radius (meter).
        @keyword adjust: Adjust longitudes (bool).
        @keyword shortest: Shortest or perpendicular distance (bool).
+       @keyword indices: Return points indices, not points (bool).
 
        @return: Simplified points (list of I{LatLon}s).
 
        @raise ValueError: Radius or distance tolerance too small.
     '''
-    S = _Sy(points, distance, radius, adjust, shortest)
+    S = _Sy(points, distance, radius, adjust, shortest, indices)
 
     return S.rdp(False)
 
 
-def simplifyRDPm(points, distance, radius=R_M, adjust=True, shortest=False):
+def simplifyRDPm(points, distance, radius=R_M, adjust=True, shortest=False, indices=False):
     '''Modified Ramer-Douglas-Peucker (RDP) simplification of a path
        of I{LatLon} points.
 
@@ -437,17 +450,18 @@ def simplifyRDPm(points, distance, radius=R_M, adjust=True, shortest=False):
        @keyword radius: Earth radius (meter).
        @keyword adjust: Adjust longitudes (bool).
        @keyword shortest: Shortest or perpendicular distance (bool).
+       @keyword indices: Return points indices, not points (bool).
 
        @return: Simplified points (list of I{LatLon}s).
 
        @raise ValueError: Radius or distance tolerance too small.
     '''
-    S = _Sy(points, distance, radius, adjust, shortest)
+    S = _Sy(points, distance, radius, adjust, shortest, indices)
 
     return S.rdp(True)
 
 
-def simplifyRW(points, pipe, radius=R_M, adjust=True, shortest=False):
+def simplifyRW(points, pipe, radius=R_M, adjust=True, shortest=False, indices=False):
     '''Reumann-Witkam simplification of a path of I{LatLon} points.
 
        Eliminates any points too close together or within the given
@@ -458,12 +472,13 @@ def simplifyRW(points, pipe, radius=R_M, adjust=True, shortest=False):
        @keyword radius: Earth radius (meter).
        @keyword adjust: Adjust longitudes (bool).
        @keyword shortest: Shortest or perpendicular distance (bool).
+       @keyword indices: Return points indices, not points (bool).
 
        @return: Simplified points (list of I{LatLon}s).
 
        @raise ValueError: Radius or pipe tolerance too small.
     '''
-    S = _Sy(points, pipe, radius, adjust, shortest)
+    S = _Sy(points, pipe, radius, adjust, shortest, indices)
 
     n, r = S.n, S.r
     if n > 1:
@@ -488,7 +503,7 @@ def simplifyRW(points, pipe, radius=R_M, adjust=True, shortest=False):
 simplify2 = simplifyRW  # for backward compatibility
 
 
-def simplifyVW(points, area, radius=R_M, adjust=True, attr=None):
+def simplifyVW(points, area, radius=R_M, adjust=True, attr=None, indices=False):
     '''Visvalingam-Whyatt (VW) simplification of a path of I{LatLon}
        points.
 
@@ -504,6 +519,7 @@ def simplifyVW(points, area, radius=R_M, adjust=True, attr=None):
        @keyword radius: Earth radius (meter).
        @keyword adjust: Adjust longitudes (bool).
        @keyword attr: Points attribute save area value (string).
+       @keyword indices: Return points indices, not points (bool).
 
        @return: Simplified points (list of I{LatLon}s).
 
@@ -511,7 +527,7 @@ def simplifyVW(points, area, radius=R_M, adjust=True, attr=None):
 
        @raise ValueError: Radius or area tolerance too small.
     '''
-    S = _Sy(points, area, radius, adjust, False)
+    S = _Sy(points, area, radius, adjust, False, indices)
 
     if S.vwn() > 2:
         # remove any points too close or
@@ -534,7 +550,7 @@ def simplifyVW(points, area, radius=R_M, adjust=True, attr=None):
     return S.vwr(attr)
 
 
-def simplifyVWm(points, area, radius=R_M, adjust=True, attr=None):
+def simplifyVWm(points, area, radius=R_M, adjust=True, attr=None, indices=False):
     '''Modified Visvalingam-Whyatt (VW) simplification of a path of
        I{LatLon} points.
 
@@ -551,6 +567,7 @@ def simplifyVWm(points, area, radius=R_M, adjust=True, attr=None):
        @keyword radius: Earth radius (meter).
        @keyword adjust: Adjust longitudes (bool).
        @keyword attr: Attribute to save the area value (string).
+       @keyword indices: Return points indices, not points (bool).
 
        @return: Simplified points (list of I{LatLon}s).
 
@@ -558,7 +575,7 @@ def simplifyVWm(points, area, radius=R_M, adjust=True, attr=None):
 
        @raise ValueError: Radius or area tolerance too small.
     '''
-    S = _Sy(points, area, radius, adjust, False)
+    S = _Sy(points, area, radius, adjust, False, indices)
 
     if S.vwn() > 2:
         # remove all points with an area

@@ -42,7 +42,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'tan_2', 'tanPI_2_2',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '17.08.10'
+__version__ = '17.08.14'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -456,7 +456,7 @@ def iStr(inst, *args, **kwds):
 
 
 def iterNumpy2(obj):
-    '''Iterate for Numpy2 and other sequences over the threshold.
+    '''Iterate for Numpy2 wrappers and for other sequences over the threshold.
 
        @param obj: Points list, sequence, set, etc. (any).
 

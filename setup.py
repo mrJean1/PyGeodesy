@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '17.08.10'
+__version__ = '17.08.14'
 
 
 def _version():
@@ -41,6 +41,15 @@ def _long_description():
         return t
 
 
+_KeyWords=('azimuth', 'bearing', 'cartesian', 'conic',
+           'datum', 'development', 'distance', 'earth', 'ellipsoid',
+           'geocentric', 'geodesy', 'geodetic', 'geohash', 'haversine',
+           'Lambert', 'latitude', 'longitude', 'MGRS',
+           'Nvector', 'numpy', 'OSGR', 'PyGeodesy',
+           'Ramer-Douglas-Peucker', 'Reumann-Witkam', 'rhumb',
+           'simplify', 'sphere', 'trigonometry', 'UTM',
+           'Vincenty', 'Visvalingam-Whyatt', 'WGS')
+
 setup(
     name='PyGeodesy',
     packages=['pygeodesy'],
@@ -53,7 +62,7 @@ setup(
     maintainer_email='mrJean1@Gmail.com',  # 'mrJean1 at Gmail dot com'
 
     license='MIT',
-    keywords='azimuth bearing cartesian datum development distance earth ellipsoid geocentric geodesy geodetic geohash haversine Lambert latitude longitude MGRS Nvector numpy OSGR PyGeodesy Ramer-Douglas-Peucker Reumann-Witkam rhumb sphere trigonometry UTM Vincenty Visvalingam-Whyatt WGS',
+    keywords=' '.join(_KeyWords),
     url='https://github.com/mrJean1/PyGeodesy',
 
     long_description=_long_description(),

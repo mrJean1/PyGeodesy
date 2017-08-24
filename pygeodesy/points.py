@@ -17,7 +17,7 @@ to any L{pygeodesy} function or method as the I{points} argument.
 
 Tested with 64-bit Python 2.6.9 (and numpy 1.6.2), 2.7.13 (and numpy 1.13.1),
 3.5.3 and 3.6.2 on macOS 10.12.6 Sierra, with 64-bit Intel-Python 3.5.3 (and
-numpy 1.11.3) on macOS 10.12.5 Sierra and with Pythonista 3.1 using 64-bit
+numpy 1.11.3) on macOS 10.12.6 Sierra and with Pythonista 3.1 using 64-bit
 Python 2.7.12 and 3.5.1 (both with numpy 1.8.0) on iOS 10.3.3.
 
 @newfield example: Example, Examples
@@ -33,7 +33,7 @@ from math import radians
 
 __all__ = ('LatLon2psxy', 'Numpy2LatLon',  # class
            'bounds', 'isclockwise', 'isconvex')
-__version__ = '17.08.10'
+__version__ = '17.08.14'
 
 
 class _Basequence(_Sequence):  # immutable, on purpose

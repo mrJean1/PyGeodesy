@@ -12,6 +12,10 @@ from os.path import abspath, basename, dirname
 from platform import architecture, java_ver, mac_ver, win32_ver, uname
 import sys
 from time import time
+try:
+    import numpy
+except ImportError:
+    numpy = None
 
 PyGeodesy_dir = dirname(dirname(abspath(__file__)))
 # extend sys.path to include the ../.. directory
@@ -24,7 +28,7 @@ from pygeodesy import version as PyGeodesy_version, \
 __all__ = ('isiOS', 'PyGeodesy_dir', 'Python_O',  # constants
            'TestsBase',
            'runner', 'secs2str', 'tilde', 'type2str', 'versions')
-__version__ = '17.08.04'
+__version__ = '17.08.14'
 
 try:
     _int = int, long
@@ -219,6 +223,8 @@ def versions():
     ip = 'Intel-' if 'intelpython' in Python_O else ''
     vs = 'PyGeodesy', PyGeodesy_version, (ip +
          'Python'), sys.version.split()[0], architecture()[0]
+    if numpy:
+        vs += 'numpy', numpy.__version__
 
     xOS = 'iOS' if isiOS else 'macOS'
     # - mac_ver() returns ('10.12.5', ..., 'x86_64') on
