@@ -15,8 +15,8 @@ and I{-Nvector} and two for spherical ones, I{sphericalTrigonometry} and
 I{-Nvector}.  Each module provides a I{attributes-LatLon-html} class with methods
 to compute distance, initial and final bearing, intermediate points and
 conversions, among other things.  For more information and further details
-see the documentation, the descriptions of U{Latitude/Longitude
-<http://www.movable-type.co.uk/scripts/latlong.html>},
+see the U{documentation<https://mrjean1.github.io/PyGeodesy/>}, the descriptions
+of U{Latitude/Longitude<http://www.movable-type.co.uk/scripts/latlong.html>},
 U{Vincenty<http://www.movable-type.co.uk/scripts/latlong-vincenty.html>} and
 U{Vector-based<http://www.movable-type.co.uk/scripts/latlong-vectors.html>} geodesy
 and the original U{JavaScript source<http://github.com/chrisveness/geodesy>} or
@@ -157,7 +157,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',  # modules
            'osgr', 'points', 'simplify', 'utils', 'utm', 'vector3d',
            'Geohash', 'VincentyError',  # classes
            'version')  # extended below
-__version__ = '17.08.10'
+__version__ = '17.08.24'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))

@@ -16,7 +16,7 @@ and *-Nvector* and two for spherical ones, *sphericalTrigonometry* and
 *-Nvector* . Each module provides a *LatLon* class with methods to compute
 distance, initial and final bearing, intermediate points and conversions,
 among other things. For more information and further details see the
-documentation, the descriptions of `Latitude/Longitude`_, Vincenty_ and
+documentation_, the descriptions of `Latitude/Longitude`_, Vincenty_ and
 `Vector-based`_ geodesy and the original `JavaScript source`_ or docs_.
 
 Also included are modules for conversions to and from UTM_ (Universal
@@ -49,10 +49,11 @@ Epydoc_ using command line: ``epydoc --html --no-private --no-source
 Some function and method names differ from the JavaScript version. In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Aug 10, 2017.*
+*Last updated: Aug 24, 2017.*
 
 .. _checked: http://code.activestate.com/recipes/546532
 .. _docs: http://www.movable-type.co.uk/scripts/js/geodesy/docs
+.. _documentation: http://mrjean1.github.io/PyGeodesy/
 .. _Epydoc: http://pypi.python.org/pypi/epydoc
 .. _Flake8: http://pypi.python.org/pypi/flake8
 .. _Geohashes: http://www.movable-type.co.uk/scripts/geohash.html
