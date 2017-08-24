@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '17.08.14'
+__version__ = '17.08.24'
 
 
 def _version():
@@ -45,7 +45,7 @@ _KeyWords=('azimuth', 'bearing', 'cartesian', 'conic',
            'datum', 'development', 'distance', 'earth', 'ellipsoid',
            'geocentric', 'geodesy', 'geodetic', 'geohash', 'haversine',
            'Lambert', 'latitude', 'longitude', 'MGRS',
-           'Nvector', 'numpy', 'OSGR', 'PyGeodesy',
+           'numpy', 'Nvector', 'OSGR', 'PyGeodesy',
            'Ramer-Douglas-Peucker', 'Reumann-Witkam', 'rhumb',
            'simplify', 'sphere', 'trigonometry', 'UTM',
            'Vincenty', 'Visvalingam-Whyatt', 'WGS')
