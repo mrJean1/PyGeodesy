@@ -53,7 +53,7 @@ cases documentation tag **JS name:** shows the original JavaScript name.
 
 .. _checked: http://code.activestate.com/recipes/546532
 .. _docs: http://www.movable-type.co.uk/scripts/js/geodesy/docs
-.. _documentation: http://mrjean1.github.io/PyGeodesy/
+.. _documentation: https://mrjean1.github.io/PyGeodesy/
 .. _Epydoc: http://pypi.python.org/pypi/epydoc
 .. _Flake8: http://pypi.python.org/pypi/flake8
 .. _Geohashes: http://www.movable-type.co.uk/scripts/geohash.html
