@@ -1,28 +1,29 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Handle 2-d NumPy or other arrays as I{LatLon}s, psuedo-x, -ys.
+u'''Handle 2-d NumPy or other arrays as I{LatLon}s or as pseudo-x/-ys.
 
 NumPy arrays are assumed to contain rows of points with a lat-, a
-longitude -and possibly other- values in different columns.  Iterating
-over the array rows, creates an instance of a given I{LatLon} class
-"on-the-fly" for each row with the row's lat- and longitude.  The
-array is read-accessed only and never duplicated, except to create
-a I{subset}.
+longitude -and possibly other- values in different columns.  While
+iterating over the array rows, create an instance of a given I{LatLon}
+class "on-the-fly" for each row with the row's lat- and longitude.
+
+The original NumPy array is read-accessed only and never duplicated,
+except to create a I{subset} of the original array.
 
 For example, to process a NumPy array, wrap the array by instantiating
-class L{Numpy2LatLon} and specifying the index for the lat- and
-longitude column in each row.  Then, pass the L{Numpy2LatLon} instance
-to any L{pygeodesy} function or method as the I{points} argument.
+class L{Numpy2LatLon} and specifying the column index for the lat- and
+longitude in each row.  Then, pass the L{Numpy2LatLon} instance to any
+L{pygeodesy} function or method accepting a I{points} argument.
 
-Tested with 64-bit Python 2.6.9 (and numpy 1.6.2), 2.7.13 (and numpy 1.13.1),
-3.5.3 and 3.6.2 on macOS 10.12.6 Sierra, with 64-bit Intel-Python 3.5.3 (and
-numpy 1.11.3) on macOS 10.12.6 Sierra and with Pythonista 3.1 using 64-bit
-Python 2.7.12 and 3.5.1 (both with numpy 1.8.0) on iOS 10.3.3.
+Tested with 64-bit Python 2.6.9 (and numpy 1.6.2), 2.7.13 (and numpy
+1.13.1), 3.5.3 and 3.6.2 on macOS 10.12.6 Sierra, with 64-bit Intel-Python
+3.5.3 (and numpy 1.11.3) on macOS 10.12.6 Sierra and with Pythonista 3.1
+using 64-bit Python 2.7.12 and 3.5.1 (both with numpy 1.8.0) on iOS 10.3.3.
 
 @newfield example: Example, Examples
 '''
-from utils import fdot, fsum, isint, issequence, iStr, \
+from utils import fdot, fsum, inStr, isint, issequence, \
                   polygon, wrap90, wrap180
 try:
     from collections import Sequence as _Sequence  # immutable
@@ -33,7 +34,7 @@ from math import radians
 
 __all__ = ('LatLon2psxy', 'Numpy2LatLon',  # class
            'bounds', 'isclockwise', 'isconvex')
-__version__ = '17.08.14'
+__version__ = '17.08.26'
 
 
 class _Basequence(_Sequence):  # immutable, on purpose
@@ -121,7 +122,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
         t = repr(self._array[:1])  # only first row
         t = '%s, ...%s[%s]' % (t[:-1], t[-1:], len(self))
         t = ' '.join(t.split())  # coalesce spaces
-        return iStr(self, t, **self._slicekwds())
+        return inStr(self, t, **self._slicekwds())
 
     def _reversed(self):  # PYCHOK false
         '''(INTERNAL) Yield all points in reverse order.
@@ -343,7 +344,7 @@ class _LatLon(object):
         return not self.__eq__(other)
 
     def __repr__(self):
-        return iStr(self, lat=self.lat, lon=self.lon)
+        return inStr(self, lat=self.lat, lon=self.lon)
 
     __str__ = __repr__
 

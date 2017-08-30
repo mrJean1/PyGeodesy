@@ -69,7 +69,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.08.14
+        17.08.26
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -479,6 +479,25 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#inStr" class="summary-sig-name">inStr</a>(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">*args</span>,
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
+      Return an instance string representation.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#isint" class="summary-sig-name">isint</a>(<span class="summary-sig-arg">obj</span>,
         <span class="summary-sig-arg">both</span>=<span class="summary-sig-default">False</span>)</span><br />
       Check for integer types and integer value.</td>
@@ -498,7 +517,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#isNumpy2" class="summary-sig-name">isNumpy2</a>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Check for Numpy2 wrappers.</td>
+      Check for Numpy2 wrapper.</td>
           <td align="right" valign="top">
             
             
@@ -549,27 +568,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#iStr" class="summary-sig-name">iStr</a>(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">*args</span>,
-        <span class="summary-sig-arg">**kwds</span>)</span><br />
-      Return instance string representation.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#iterNumpy2" class="summary-sig-name">iterNumpy2</a>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Iterate for Numpy2 wrappers and for other sequences over the 
+      Iterate over Numpy2 wrappers or other sequences exceeding the 
       threshold.</td>
           <td align="right" valign="top">
             
@@ -1536,6 +1536,35 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="inStr"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">inStr</span>(<span class="sig-arg">inst</span>,
+        <span class="sig-arg">*args</span>,
+        <span class="sig-arg">**kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return an instance string representation.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>inst</code></strong> - The instance (any tupe).</li>
+        <li><strong class="pname"><code>args</code></strong> - Optional arguments (tuple).</li>
+        <li><strong class="pname"><code>kwds</code></strong> - Optional keyword arguments (dict).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Representation (string)</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="isint"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1577,7 +1606,7 @@
     </td>
   </tr></table>
   
-  <p>Check for Numpy2 wrappers.</p>
+  <p>Check for Numpy2 wrapper.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -1643,35 +1672,6 @@
       </p>
 </div></td></tr></table>
 </div>
-<a name="iStr"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">iStr</span>(<span class="sig-arg">inst</span>,
-        <span class="sig-arg">*args</span>,
-        <span class="sig-arg">**kwds</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Return instance string representation.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>inst</code></strong> - The instance (any tupe).</li>
-        <li><strong class="pname"><code>args</code></strong> - Optional arguments (tuple).</li>
-        <li><strong class="pname"><code>kwds</code></strong> - Optional keyword arguments (dict).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Representation (string)</dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="iterNumpy2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1686,7 +1686,7 @@
     </td>
   </tr></table>
   
-  <p>Iterate for Numpy2 wrappers and for other sequences over the 
+  <p>Iterate over Numpy2 wrappers or other sequences exceeding the 
   threshold.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -2251,7 +2251,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Aug 24 14:10:15 2017
+    Generated by Epydoc 3.0.1 on Wed Aug 30 11:14:56 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

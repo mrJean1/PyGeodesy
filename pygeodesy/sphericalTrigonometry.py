@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Trigonometric spherical geodetic (lat-longitude) class L{LatLon}
+u'''Trigonometric spherical geodetic (lat-/longitude) class L{LatLon}
 and functions L{intersection} and L{meanOf}.
 
 Pure Python implementation of geodetic (lat-/longitude) methods using
@@ -26,7 +26,7 @@ __all__ = ('LatLon',  # classes
            'areaOf',  # functions
            'intersection', 'isPoleEnclosedBy',
            'meanOf')
-__version__ = '17.08.06'
+__version__ = '17.08.26'
 
 
 class LatLon(LatLonSphericalBase):

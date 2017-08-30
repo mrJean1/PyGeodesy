@@ -15,8 +15,8 @@ from __future__ import division as _
 if not 1/2:  # PYCHOK 1/2 == 0
     raise ImportError('1/2 == %d' % (1/2,))
 
-try:
-    from math import fsum  # precision sum, Python 2.6+
+try:  # XXX check float.__getformat__('float')[:4] == 'IEEE'
+    from math import fsum  # precision IEEE-754 sum, Python 2.6+
 except ImportError:
     fsum = sum  # use standard, built-in sum (or Kahan's summation
     # <http://wikipedia.org/wiki/Kahan_summation_algorithm> or
@@ -33,7 +33,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'false2f', 'favg', 'fdot', 'fdot3', 'fStr', 'fStrzs',
            'fsum', 'ft2m',
            'halfs', 'hsin', 'hsin3', 'hypot', 'hypot1', 'hypot3',
-           'isint', 'isNumpy2', 'isscalar', 'issequence', 'iStr',
+           'inStr', 'isint', 'isNumpy2', 'isscalar', 'issequence',
            'iterNumpy2', 'iterNumpy2over',
            'len2',
            'm2ft', 'm2km', 'm2NM', 'm2SM', 'map1', 'map2',
@@ -42,7 +42,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'tan_2', 'tanPI_2_2',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '17.08.14'
+__version__ = '17.08.26'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -386,6 +386,21 @@ def hypot3(x, y, z):
     return h
 
 
+def inStr(inst, *args, **kwds):
+    '''Return an instance string representation.
+
+       @param inst: The instance (any tupe).
+       @param args: Optional arguments (tuple).
+       @keyword kwds: Optional keyword arguments (dict).
+
+       @return: Representation (string)
+    '''
+    t = tuple('%s=%s' % t for t in sorted(kwds.items()))
+    if args:
+        t = map2(str, args) + t
+    return '%s(%s)' % (classname(inst), ', '.join(t))
+
+
 def isint(obj, both=False):
     '''Check for integer types and integer value.
 
@@ -403,13 +418,13 @@ def isint(obj, both=False):
 
 
 def isNumpy2(obj):
-    '''Check for Numpy2 wrappers.
+    '''Check for Numpy2 wrapper.
 
        @param obj: The object (any).
 
        @return: True if obj is Numpy2 (bool).
     '''
-    # isinstance(self, (Numpy2LatLon, Numpy2Vector))
+    # isinstance(self, (Numpy2LatLon, ...))
     return getattr(obj, 'isNumpy2', False)
 
 
@@ -440,23 +455,8 @@ def issequence(obj, *excluded):
         return isinstance(obj, _Seqs)
 
 
-def iStr(inst, *args, **kwds):
-    '''Return instance string representation.
-
-       @param inst: The instance (any tupe).
-       @param args: Optional arguments (tuple).
-       @keyword kwds: Optional keyword arguments (dict).
-
-       @return: Representation (string)
-    '''
-    t = tuple('%s=%s' % t for t in sorted(kwds.items()))
-    if args:
-        t = map2(str, args) + t
-    return '%s(%s)' % (classname(inst), ', '.join(t))
-
-
 def iterNumpy2(obj):
-    '''Iterate for Numpy2 wrappers and for other sequences over the threshold.
+    '''Iterate over Numpy2 wrappers or other sequences exceeding the threshold.
 
        @param obj: Points list, sequence, set, etc. (any).
 

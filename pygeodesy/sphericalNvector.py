@@ -41,7 +41,7 @@ from math import atan2, cos, radians, sin
 __all__ = ('LatLon', 'Nvector',  # classes
            'areaOf', 'intersection', 'meanOf',  # functions
            'triangulate', 'trilaterate')
-__version__ = '17.08.06'
+__version__ = '17.08.30'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -441,7 +441,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @raise TypeError: If point1 or point2 is not L{LatLon}.
 
-           @JSname: I{isBetween}, I{isWithinExtent}.
+           @JSname: I{isBetween}.
         '''
         self.others(point1, name='point1')
         self.others(point2, name='point2')
@@ -449,6 +449,10 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         n0 = self.toNvector()
         n1 = point1.toNvector()
         n2 = point2.toNvector()
+
+        # corner case, null segment
+        if n1.equals(n2):
+            return n0.equals(n1) or n0.equals(n2)
 
         if n0.dot(n1) < 0 or n0.dot(n2) < 0:
             return False  # different hemisphere

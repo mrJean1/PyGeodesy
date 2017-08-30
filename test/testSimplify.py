@@ -4,7 +4,7 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '17.08.14'
+__version__ = '17.08.26'
 
 from base import TestsBase, secs2str
 
@@ -229,9 +229,11 @@ if __name__ == '__main__':  # PYCHOK internal error?
 
     t.test2(simplify1, Pts, _ms({160: 6638, 80: 9362, 40: 12079, 20: 14245, 10: 15621, 1: 16597}), adjust=True)
 
+    t.test2(simplifyRW, Pts, _ms({160: 1179, 80: 1737, 40: 2322, 20: 3121, 10: 4041, 1: 7095}), adjust=True, shortest=False, indices=True)
     t.test2(simplifyRW, Pts, _ms({160: 1179, 80: 1737, 40: 2322, 20: 3121, 10: 4041, 1: 7095}), adjust=True, shortest=False)
     t.test2(simplifyRW, Pts, _ms({160: 1178, 80: 1739, 40: 2323, 20: 3121, 10: 4041, 1: 7095}), adjust=True, shortest=True)
 
+    t.test2(simplifyVWm, Pts, _ms({160: 1425, 80: 2648, 40: 4701, 20: 7678, 10: 11166, 1: 16328}), adjust=True, indices=True)
     t.test2(simplifyVWm, Pts, _ms({160: 1425, 80: 2648, 40: 4701, 20: 7678, 10: 11166, 1: 16328}), adjust=True)
     t.test2(simplifyVWm, Pts, _ms({160: 1755, 80: 3253, 40: 5590, 20: 8911, 10: 12331, 1: 16373}), adjust=False)
 
@@ -245,10 +247,12 @@ if __name__ == '__main__':  # PYCHOK internal error?
     t.test2(simplifyRDPfw, Pts, _ms({160: 3166, 80: 5002, 40: 7259, 20:  9720, 10: 11939, 1: 15869}), adjust=False, shortest=False, modified=True)
 
     # run time may be too long
+    t.test2(simplifyRDP,   Pts, _ms({100: 1199, 10: 4221, 1: 10971}), adjust=True, shortest=True, indices=True)
     t.test2(simplifyRDP,   Pts, _ms({100: 1199, 10: 4221, 1: 10971}), adjust=True, shortest=True)
     # for comparison, the RDPgr results should be less than a few points different
     t.test2(simplifyRDPgr, Pts, _ms({100: 1185, 10: 4209, 1: 10960}), adjust=True, shortest=True, modified=False)
 
+    t.test2(simplifyRDP,   Pts, _ms({100: 1251, 10: 4461, 1: 11248}), adjust=False, shortest=False, indices=True)
     t.test2(simplifyRDP,   Pts, _ms({100: 1251, 10: 4461, 1: 11248}), adjust=False, shortest=False)
     # for comparison, the RDPfw results should be less than a few points different
     t.test2(simplifyRDPfw, Pts, _ms({100: 1251, 10: 4461, 1: 11246}), adjust=False, shortest=False, modified=False)

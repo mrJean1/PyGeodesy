@@ -6,7 +6,7 @@ and spherical earth models using precision trigonometric and vector-based
 methods for geodetic (lat-/longitude) and geocentric cartesian (x/y/z)
 coordinates.
 
-Transcribed from U{JavaScript originals<http://github.com/chrisveness/geodesy>}
+Transcribed from U{JavaScript originals<https://github.com/chrisveness/geodesy>}
 by I{Chris Veness (C) 2005-2016} and published under the same U{MIT License
 <http://opensource.org/licenses/MIT>}**.
 
@@ -19,7 +19,7 @@ see the U{documentation<https://mrjean1.github.io/PyGeodesy/>}, the descriptions
 of U{Latitude/Longitude<http://www.movable-type.co.uk/scripts/latlong.html>},
 U{Vincenty<http://www.movable-type.co.uk/scripts/latlong-vincenty.html>} and
 U{Vector-based<http://www.movable-type.co.uk/scripts/latlong-vectors.html>} geodesy
-and the original U{JavaScript source<http://github.com/chrisveness/geodesy>} or
+and the original U{JavaScript source<https://github.com/chrisveness/geodesy>} or
 U{docs<http://www.movable-type.co.uk/scripts/js/geodesy/docs>}.
 
 Also included are modules for conversions to and from
@@ -34,7 +34,7 @@ encoding and decoding U{Geohashes<http://www.movable-type.co.uk/scripts/geohash.
 Two other modules provide Lambert conformal conic projections and positions
 (from U{John P. Snyder, "Map Projections -- A Working Manual", 1987, pp 107-109
 <http://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}) and several functions to
-U{simplify<http://bost.ocks.org/mike/simplify>} or linearize a path of I{LatLon}
+U{simplify<http://bost.ocks.org/mike/simplify/>} or linearize a path of I{LatLon}
 points (or a U{NumPy array
 <https://docs.scipy.org/doc/numpy/reference/generated/numpy.array.html>}),
 including implementations of the U{Ramer-Douglas-Peucker
@@ -48,8 +48,8 @@ U{checked<http://code.activestate.com/recipes/546532>} with
 U{PyChecker<http://pypi.python.org/pypi/pychecker>},
 U{PyFlakes<http://pypi.python.org/pypi/pyflakes>},
 U{PyCodeStyle<http://pypi.python.org/pypi/pycodestyle>} (formerly Pep8) and
-U{McCabe<http://pypi.python.org/pypi/mccabe>} using Python 2.7.10 or 2.7.13 and with
-U{Flake8<http://pypi.python.org/pypi/flake8>} on Python 3.6.0 or 3.6.1.
+U{McCabe<http://pypi.python.org/pypi/mccabe>} using 64-bit Python 2.7.13 and with
+U{Flake8<http://pypi.python.org/pypi/flake8>} on 64-bit Python 3.6.2.
 
 The tests have been run with 64-bit Python 2.6.9 (and numpy 1.6.2), 2.7.13
 (and numpy 1.13.1), 3.5.3 and 3.6.2, but only on MacOSX 10.10 Yosemite, MacOSX
@@ -157,7 +157,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',  # modules
            'osgr', 'points', 'simplify', 'utils', 'utm', 'vector3d',
            'Geohash', 'VincentyError',  # classes
            'version')  # extended below
-__version__ = '17.08.24'
+__version__ = '17.08.30'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))

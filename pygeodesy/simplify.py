@@ -1,8 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Six different functions to I{simplify} or linearize a path given as
-a list, sequence or tuple of I{LatLon} points.
+u'''Six functions to I{simplify} or linearize a path of I{LatLon} points.
 
 Each of the I{simplify} functions is based on a different algorithm and
 produces different simplified results in (very) different run times for
@@ -43,7 +42,7 @@ earth radius in meter.  Other units can be choosen, provided that the
 radius and tolerance are always specified in the same units.
 
 Finally, use keyword argument I{indices}=True in any function to return
-a list of simplified points I{indices} instead of the simplified points.
+a list of simplified point I{indices} instead of the simplified points.
 The first and last index are always the first and last points index.
 
 To process NumPy arrays containing rows of lat-, longitude and possibly
@@ -85,7 +84,7 @@ from math import cos, degrees, radians, sqrt
 __all__ = ('simplify1', 'simplify2',  # backward compatibility
            'simplifyRDP', 'simplifyRDPm', 'simplifyRW',
            'simplifyVW', 'simplifyVWm')
-__version__ = '17.08.14'
+__version__ = '17.08.26'
 
 
 # try:
@@ -263,12 +262,13 @@ class _Sy(object):
     def points(self, r):
         '''Return the list of simplified points or indices.
         '''
+        r = sorted(r.keys())
         if self.indices:
-            return sorted(r.keys())
+            return list(r)
         elif isNumpy2(self.pts):
-            return self.pts.subset(sorted(r.keys()))
+            return self.pts.subset(r)
         else:
-            return [self.pts[i] for i in sorted(r.keys())]
+            return [self.pts[i] for i in r]
 
     def rdp(self, modified):
         '''Ramer-Douglas-Peucker (RDP) simplification of a

@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '17.08.10'
+__version__ = '17.08.30'
 
 from base import TestsBase
 
@@ -102,6 +102,10 @@ class Tests(TestsBase):
             p = LatLon(10, -140).nearestOn(LatLon(0, 20), LatLon(0, 40))
             self.test('nearestOn', p, '00.0°N, 020.0°E')
             self.test('nearestOn', isinstance(p, LatLon), True)
+
+            # courtesy Paulius Šarka <notifications@github.com>
+            p = LatLon(1, 1).nearestOn(LatLon(2, 2), LatLon(2, 2))
+            self.test('nearestOn', p, '02.0°N, 002.0°E')
 
         if hasattr(LatLon, 'triangulate'):
             # courtesy of pvezid  Feb 10, 2017

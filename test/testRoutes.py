@@ -10,10 +10,10 @@
 
 from base import TestsBase
 
-from pygeodesy import iStr
+from pygeodesy import inStr
 
 __all__ = ('Pts', 'PtsFFI', 'RdpFFI', 'PtsJS', 'PtsJS5', 'VwPts')
-__version__ = '17.08.10'
+__version__ = '17.08.26'
 
 
 class _LatLon(object):
@@ -28,9 +28,9 @@ class _LatLon(object):
 
     def __repr__(self):
         if self.vw2:
-            return iStr(self, lat=self.lat, lon=self.lon, vw2=self.vw2)
+            return inStr(self, lat=self.lat, lon=self.lon, vw2=self.vw2)
         else:
-            return iStr(self, lat=self.lat, lon=self.lon)
+            return inStr(self, lat=self.lat, lon=self.lon)
 
 
 # <http://github.com/urschrei/rdp>

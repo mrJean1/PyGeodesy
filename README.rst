@@ -32,8 +32,8 @@ points (or a `NumPy array`_), including implementations of the
 algorithms and modified versions of the former.
 
 All Python source code has been statically checked_ with PyChecker_,
-PyFlakes_, PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.10
-or 2.7.13 and with Flake8_ on Python 3.6.0 or 3.6.1.
+PyFlakes_, PyCodeStyle_ (formerly Pep8) and McCabe_ using 64-bit Python
+2.7.13 and with Flake8_ on 64-bit Python 3.6.2.
 
 The tests have been run with 64-bit Python 2.6.9 (and numpy 1.6.2), 2.7.13
 (and numpy 1.13.1), 3.5.3 and 3.6.2, but only on MacOSX 10.10 Yosemite, MacOSX
@@ -49,7 +49,7 @@ Epydoc_ using command line: ``epydoc --html --no-private --no-source
 Some function and method names differ from the JavaScript version. In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Aug 24, 2017.*
+*Last updated: Aug 30, 2017.*
 
 .. _checked: http://code.activestate.com/recipes/546532
 .. _docs: http://www.movable-type.co.uk/scripts/js/geodesy/docs
@@ -57,8 +57,8 @@ cases documentation tag **JS name:** shows the original JavaScript name.
 .. _Epydoc: http://pypi.python.org/pypi/epydoc
 .. _Flake8: http://pypi.python.org/pypi/flake8
 .. _Geohashes: http://www.movable-type.co.uk/scripts/geohash.html
-.. _JavaScript originals: http://github.com/chrisveness/geodesy
-.. _JavaScript source: http://github.com/chrisveness/geodesy
+.. _JavaScript originals: https://github.com/chrisveness/geodesy
+.. _JavaScript source: https://github.com/chrisveness/geodesy
 .. _John P. Snyder: http://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf
 .. _Latitude/Longitude: http://www.movable-type.co.uk/scripts/latlong.html
 .. _McCabe: http://pypi.python.org/pypi/mccabe
