@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '17.08.30'
+__version__ = '17.08.31'
 
 from base import TestsBase
 
@@ -76,6 +76,13 @@ class Tests(TestsBase):
                     t = ' '.join(str(x).split()[:3] + ['...)'])
                     self.test('isEnclosedBy', t, 'non-convex: (LatLon(45°00′00.0″N, 001°00′00.0″E), ...)')  # Trig
 
+        if hasattr(LatLon, 'isWithin'):
+            # courtesy of Paulius Šarka  psarka  Aug 30, 2017
+            p = LatLon(1, 1).isWithin(LatLon(2, 2), LatLon(2, 2))
+            self.test('isWithin', p, False)
+            p = LatLon(2, 2).isWithin(LatLon(2, 2), LatLon(2, 2))
+            self.test('isWithin', p, True)
+
         if hasattr(LatLon, 'nearestOn'):
             s1 = LatLon(51.0, 1.0)
             s2 = LatLon(51.0, 2.0)
@@ -103,8 +110,10 @@ class Tests(TestsBase):
             self.test('nearestOn', p, '00.0°N, 020.0°E')
             self.test('nearestOn', isinstance(p, LatLon), True)
 
-            # courtesy Paulius Šarka <notifications@github.com>
+            # courtesy of Paulius Šarka  psarka  Aug 30, 2017
             p = LatLon(1, 1).nearestOn(LatLon(2, 2), LatLon(2, 2))
+            self.test('nearestOn', p, '02.0°N, 002.0°E')
+            p = LatLon(2, 2).nearestOn(LatLon(2, 2), LatLon(2, 2))
             self.test('nearestOn', p, '02.0°N, 002.0°E')
 
         if hasattr(LatLon, 'triangulate'):

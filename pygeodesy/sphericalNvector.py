@@ -33,7 +33,8 @@ from datum import R_M
 from nvector import NorthPole, LatLonNvectorBase, \
                     Nvector as NvectorBase, sumOf
 from sphericalBase import LatLonSphericalBase
-from utils import PI, PI2, PI_2, degrees360, fsum, isscalar, iterNumpy2
+from utils import EPS, PI, PI2, PI_2, \
+                  degrees360, fsum, isscalar, iterNumpy2
 
 from math import atan2, cos, radians, sin
 
@@ -41,7 +42,7 @@ from math import atan2, cos, radians, sin
 __all__ = ('LatLon', 'Nvector',  # classes
            'areaOf', 'intersection', 'meanOf',  # functions
            'triangulate', 'trilaterate')
-__version__ = '17.08.30'
+__version__ = '17.08.31'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -520,14 +521,14 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @JSname: I{nearestPointOnSegment}.
         '''
-        if self.isWithin(point1, point2):
+        if self.isWithin(point1, point2) and not point1.equals(point2, EPS):
             # closer to segment than to its endpoints,
             # find the closest point on the segment
             gc1 = point1.toNvector().cross(point2.toNvector())
             gc2 = self.toNvector().cross(gc1)
             p = gc1.cross(gc2).toLatLon(height=height, LatLon=self.classof)
 
-            # beyond segment extent, take closer endpoint
+        # beyond segment extent, take closer endpoint
         elif self.distanceTo(point1) < self.distanceTo(point2):
             p = point1
         else:

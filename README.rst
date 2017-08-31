@@ -49,7 +49,7 @@ Epydoc_ using command line: ``epydoc --html --no-private --no-source
 Some function and method names differ from the JavaScript version. In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Aug 30, 2017.*
+*Last updated: Aug 31, 2017.*
 
 .. _checked: http://code.activestate.com/recipes/546532
 .. _docs: http://www.movable-type.co.uk/scripts/js/geodesy/docs
