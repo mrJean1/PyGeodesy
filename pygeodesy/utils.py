@@ -28,10 +28,11 @@ import sys
 
 # all public contants, classes and functions
 __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
-           'cbrt', 'cbrt2', 'classname',
+           'CrossError',  # classes
+           'cbrt', 'cbrt2', 'classname', 'crosserrors',
            'degrees', 'degrees90', 'degrees180', 'degrees360',
-           'false2f', 'favg', 'fdot', 'fdot3', 'fStr', 'fStrzs',
-           'fsum', 'ft2m',
+           'false2f', 'favg', 'fdot', 'fdot3', 'fmean',
+           'fStr', 'fStrzs', 'fsum', 'ft2m',
            'halfs', 'hsin', 'hsin3', 'hypot', 'hypot1', 'hypot3',
            'inStr', 'isint', 'isNumpy2', 'isscalar', 'issequence',
            'iterNumpy2', 'iterNumpy2over',
@@ -42,7 +43,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'tan_2', 'tanPI_2_2',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '17.08.26'
+__version__ = '17.09.09'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -80,6 +81,14 @@ R_M = 6371008.771415  #: Mean, spherical earth radius (meter).
 
 _1_3rd = 1.0 / 3.0  #: (INTERNAL) One third (float)
 _2_3rd = 2.0 / 3.0  #: (INTERNAL) Two third (float)
+
+_crosserrors = True
+
+
+class CrossError(ValueError):
+    '''Error for zero, colinear or coincident cross products.
+    '''
+    pass
 
 
 def cbrt(x):
@@ -121,6 +130,20 @@ def classname(obj):
     except AttributeError:
         pass
     return n
+
+
+def crosserrors(raiser=None):
+    '''Get/set cross product exceptions.
+
+       @param raiser: New on or off setting (bool).
+
+       @return: Previous setting (bool).
+    '''
+    global _crosserrors
+    t = _crosserrors
+    if raiser in (True, False):
+        _crosserrors = raiser
+    return t
 
 
 def degrees90(rad):
@@ -245,6 +268,21 @@ def fdot3(a, b, c, start=0):
     return fsum(m3)
 
 
+def fmean(floats):
+    '''Compute the mean of float values.
+
+       @param floats: Values (float).
+
+       @return: Mean value (float).
+
+       @raise ValueError: No floats.
+    '''
+    n, floats = len2(floats)
+    if n > 0:
+        return fsum(floats) / n
+    raise ValueError('%s missing: %r' % ('floats', floats))
+
+
 def fStr(floats, prec=6, sep=', ', fmt='%.*f', ints=False):
     '''Convert floats to string, optionally with trailing zero
        decimals stripped.
@@ -276,7 +314,7 @@ def fStr(floats, prec=6, sep=', ', fmt='%.*f', ints=False):
 def fStrzs(fstr):
     '''Strip trailing zero decimals from a float string.
 
-       @param fstr: Float (string)
+       @param fstr: Float (string).
 
        @return: Float (string).
     '''
@@ -321,8 +359,7 @@ def hsin(rad):
 
        @see: U{http://wikipedia.org/wiki/Haversine_formula}.
     '''
-    h = sin(rad * 0.5)
-    return h * h
+    return sin(rad * 0.5)**2
 
 
 def hsin3(a2, a1, b21):
@@ -332,10 +369,10 @@ def hsin3(a2, a1, b21):
        @param a1: Latitude1 (radians).
        @param b21: Longitude delta (radians).
 
-       @return: 3-Tuple (angle, cos(a2), cos(a1))
+       @return: 3-Tuple (angle, cos(a2), cos(a1)).
 
        @see: U{http://www.movable-type.co.uk/scripts/latlong.html} and
-             U{http://www.edwilliams.org/avform.htm#Dist}
+             U{http://www.edwilliams.org/avform.htm#Dist}.
     '''
     ca2, ca1 = map1(cos, a2, a1)
     h = hsin(a2 - a1) + ca1 * ca2 * hsin(b21)  # haversine
@@ -378,7 +415,7 @@ def hypot3(x, y, z):
             # XXX PyChecker chokes on /= and *=
             y = y / h
             z = z / h
-            t = y * y + z * z
+            t = y**2 + z**2
             if t > EPS:
                 h *= sqrt(1.0 + t)
     else:
@@ -387,13 +424,13 @@ def hypot3(x, y, z):
 
 
 def inStr(inst, *args, **kwds):
-    '''Return an instance string representation.
+    '''Return the string representation of an instance.
 
-       @param inst: The instance (any tupe).
-       @param args: Optional arguments (tuple).
+       @param inst: The instance (any type).
+       @param args: Optional positional arguments (tuple).
        @keyword kwds: Optional keyword arguments (dict).
 
-       @return: Representation (string)
+       @return: Representation (string).
     '''
     t = tuple('%s=%s' % t for t in sorted(kwds.items()))
     if args:
@@ -402,7 +439,7 @@ def inStr(inst, *args, **kwds):
 
 
 def isint(obj, both=False):
-    '''Check for integer types and integer value.
+    '''Check for integer type or integer value.
 
        @param obj: The object (any).
        @keyword both: Check both type and value (bool).
@@ -456,9 +493,10 @@ def issequence(obj, *excluded):
 
 
 def iterNumpy2(obj):
-    '''Iterate over Numpy2 wrappers or other sequences exceeding the threshold.
+    '''Iterate over Numpy2 wrappers or other sequences exceeding
+       the threshold.
 
-       @param obj: Points list, sequence, set, etc. (any).
+       @param obj: Points array, list, sequence, set, etc. (any).
 
        @return: True, do iterate (bool).
     '''
@@ -468,11 +506,11 @@ def iterNumpy2(obj):
         return False
 
 
-_iterNumpy2len = 1  # for testing purposes
+_iterNumpy2len = 1  # adjustable for testing purposes
 
 
 def iterNumpy2over(n=None):
-    '''Get the L{iterNumpy2} threshold.
+    '''Get or set the L{iterNumpy2} threshold.
 
        @keyword n: Optional, new threshold (integer).
 
@@ -547,7 +585,7 @@ def m2SM(meter):
 
 def map1(func, *args):
     '''Apply each argument to a single-argument function and
-       returns a tuple of results.
+       return a tuple of results.
 
        @param func: Function to apply (callable).
        @param args: Arguments to apply (any).
@@ -558,7 +596,7 @@ def map1(func, *args):
 
 
 def map2(func, *args):
-    '''Apply arguments to a function and returns a tuple of results.
+    '''Apply arguments to a function and return a tuple of results.
 
        Unlike Python 2 built-in L{map}, Python 3+ L{map} returns a L{map}
        object, an iterator-like object which generates the results only
@@ -568,17 +606,18 @@ def map2(func, *args):
        @param func: Function to apply (callable).
        @param args: Arguments to apply (list, tuple, ...).
 
-       @return: Function results (tuple).
+       @return: N-Tuple of function results (tuple).
     '''
     return tuple(map(func, *args))
 
 
 def polygon(points, closed=True, base=None):
-    '''Check a polygon given as list, sequence, set or tuple
-       of points.
+    '''Check a polygon given as an array, list, sequence, set or
+       tuple of points.
 
        @param points: The points of the polygon (I{LatLon}[])
-       @keyword closed: Treat polygon as closed (bool).
+       @keyword closed: Treat polygon as closed and remove any
+                        duplicate or closing final points (bool).
 
        @return: 2-Tuple (number, sequence) of points (int, sequence).
 
@@ -587,16 +626,22 @@ def polygon(points, closed=True, base=None):
        @raise ValueError: Too few points.
     '''
     n, points = len2(points)
-    if closed and n > 1 and points[0] == points[-1]:
-        n -= 1  # remove last point
-        points = points[:n]  # XXX numpy.array slice is a view!
+
+    if closed:
+        while n > 1 and (points[n-1] == points[0] or
+                         points[n-1] == points[n-2]):
+            n -= 1  # duplicate or closing final point
+            # XXX following line is unneeded if points
+            # are always indexed as ... i in range(n)
+            points = points[:n]  # XXX numpy.array slice is a view!
 
     if n < (3 if closed else 1):
         raise ValueError('too few points: %s' % (n,))
 
     if base and not isNumpy2(points):
-        for i, p in enumerate(points):
-            base.others(p, name='points[%s]' % (i,))
+        others = base.others
+        for i in range(n):
+            others(points[i], name='points[%s]' % (i,))
 
     return n, points
 
@@ -632,7 +677,7 @@ def radiansPI_2(deg):
 
 
 def tan_2(rad):
-    '''Compute tan of half angle.
+    '''Compute the tangent of half angle.
 
        @param rad: Angle (radians).
 
@@ -642,7 +687,7 @@ def tan_2(rad):
 
 
 def tanPI_2_2(rad):
-    '''Compute tan of half angle, rotated.
+    '''Compute the tangent of half angle, 90 degrees rotated.
 
        @param rad: Angle (radians).
 

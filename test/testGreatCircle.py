@@ -33,11 +33,11 @@
 # Copyright © 2016 Softwarenerd.
 
 __all__ = ()
-__version__ = '17.06.23'
+__version__ = '17.09.09'
 
 from base import TestsBase
 
-from pygeodesy import F_D, F_DMS, bearingDMS
+from pygeodesy import F_D, F_DMS, bearingDMS, CrossError, crosserrors
 
 
 class Tests(TestsBase):
@@ -71,6 +71,8 @@ class Tests(TestsBase):
 
         xMidpoint = '%.8f'
 
+        c = crosserrors(False)  # no CrossErrors
+
         # initial bearing for two locations that are the same
         b = IndianPond.initialBearingTo(IndianPond)
         self.test('InitialBearingSameLocations', b, 0.0, '%.1f')
@@ -86,6 +88,13 @@ class Tests(TestsBase):
         # final bearing for two locations that are the equal
         b = IndianPond.finalBearingTo(IndianPond.copy())
         self.test('FinalBearingEqualLocations', b, 180.0, '%.1f')  # 0.0
+
+        c = crosserrors(c)
+
+        try:  # should raise CrossError
+            b = IndianPond.initialBearingTo(IndianPond)
+        except CrossError as x:
+            self.test('FinalBearingCrossError', str(x), 'coincident points: LatLon(43°55′51.28″N, 072°03′13.72″W)')
 
         # distance for two locations that are the same
         d = IndianPond.distanceTo(IndianPond)

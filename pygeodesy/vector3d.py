@@ -11,15 +11,15 @@ U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
 '''
 
 from bases import VectorBase
-from utils import EPS, degrees90, degrees180, fdot, fStr, fsum, \
-                  hypot, hypot3, isscalar, len2
+from utils import EPS, CrossError, crosserrors, degrees90, degrees180, \
+                  fdot, fStr, fsum, hypot, hypot3, isscalar, len2, map1
 
 from math import atan2, cos, sin
 
 # all public contants, classes and functions
 __all__ = ('Vector3d',  # classes
            'sumOf')  # functions
-__version__ = '17.06.25'
+__version__ = '17.09.09'
 
 try:
     _cmp = cmp
@@ -44,6 +44,7 @@ class Vector3d(VectorBase):
         - etc.
     '''
 
+    _fromll = None  #: (INTERNAL) original ll.
     _length = None  #: (INTERNAL) cached length.
     _united = None  #: (INTERNAL) cached norm, unit.
 
@@ -51,7 +52,7 @@ class Vector3d(VectorBase):
     _y = 0  #: (INTERNAL) Y component.
     _z = 0  #: (INTERNAL) Z component.
 
-    def __init__(self, x, y, z):
+    def __init__(self, x, y, z, ll=None):
         '''New 3-D vector.
 
            The vector may be normalised, or use x/y/z values for
@@ -61,10 +62,13 @@ class Vector3d(VectorBase):
            @param x: X component of vector.
            @param y: Y component of vector.
            @param z: Z component of vector.
+           @keyword ll: Optional, original latlon (I{LatLon}).
         '''
         self._x = x
         self._y = y
         self._z = z
+        if ll:
+            self._fromll = ll
 
     def __add__(self, other):
         '''Add this to an other vector (L{Vector3d}).
@@ -278,8 +282,10 @@ class Vector3d(VectorBase):
         '''
         x = self.cross(other)
         s = x.length
+        if s < EPS:
+            return 0.0
         # use vSign as reference to get sign of s
-        if vSign is not None and x.dot(vSign) < 0:
+        if vSign and x.dot(vSign) < 0:
             s = -s
         return atan2(s, self.dot(other))
 
@@ -293,7 +299,7 @@ class Vector3d(VectorBase):
         v._united = self._united
         return v
 
-    def cross(self, other):
+    def cross(self, other, raiser=None):
         '''Compute the cross product of this and an other vector.
 
            @param other: The other vector (L{Vector3d}).
@@ -301,12 +307,21 @@ class Vector3d(VectorBase):
            @return: Cross product (L{Vector3d}).
 
            @raise TypeError: Incompatible I{type(other)}.
+
+           @raise ValueError: Coincident or colinear to other.
         '''
         self.others(other)
 
-        return self.classof(self.y * other.z - self.z * other.y,
-                            self.z * other.x - self.x * other.z,
-                            self.x * other.y - self.y * other.x)
+        x = self.y * other.z - self.z * other.y
+        y = self.z * other.x - self.x * other.z
+        z = self.x * other.y - self.y * other.x
+
+        if raiser and crosserrors() and max(map1(abs, x, y, z)) < EPS:
+            t = 'coincident' if self.equals(other) else 'colinear'
+            r = getattr(other, '_fromll', None) or other
+            raise CrossError('%s %s: %r' % (t, raiser, r))
+
+        return self.classof(x, y, z)
 
     def dividedBy(self, factor):
         '''Divide this vector by a scalar.
@@ -315,11 +330,16 @@ class Vector3d(VectorBase):
 
            @return: New, scaled vector (L{Vector3d}).
 
-           @raise TypeError: If factor not scalar'
+           @raise TypeError: If factor not scalar.
+
+           @raise ValueError: Invalid or zero factor.
         '''
         if not isscalar(factor):
             raise TypeError('%s not scalar: %r' % ('factor', factor))
-        return self.times(1.0 / factor)
+        try:
+            return self.times(1.0 / factor)
+        except (ValueError, ZeroDivisionError):
+            raise ValueError('%s invalid: %r' % ('factor', factor))
 
     def dot(self, other):
         '''Compute the dot (scalar) product of this and an other vector.
@@ -474,6 +494,8 @@ class Vector3d(VectorBase):
            @param factor: Scale factor (scalar).
 
            @return: New, scaled vector (L{Vector3d}).
+
+           @raise TypeError: If factor not scalar.
         '''
         if not isscalar(factor):
             raise TypeError('%s not scalar: %r' % ('factor', factor))

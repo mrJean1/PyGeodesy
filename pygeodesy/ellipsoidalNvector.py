@@ -35,7 +35,7 @@ from math import asin, atan2, cos, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '17.08.06'
+__version__ = '17.09.09'
 
 
 class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
@@ -58,7 +58,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
             nv = self.toNvector()  # local (n-vector) coordinate frame
 
             d = nv.negate()  # down (opposite to n-vector)
-            e = NorthPole.cross(nv).unit()  # east (pointing perpendicular to the plane)
+            e = NorthPole.cross(nv, raiser='pole').unit()  # east (pointing perpendicular to the plane)
             n = e.cross(d)  # north (by right hand rule)
 
             self._r3 = n, e, d  # matrix rows
@@ -68,7 +68,10 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         '''(INTERNAL) Clear caches if updated.
         '''
         if updated:  # reset caches
-            self._Nv = self._r3 = None
+            if self._Nv:
+                self._Nv._fromll = None
+                self._Nv = None
+            self._r3 = None
             LatLonNvectorBase._update(self, updated)
             LatLonEllipsoidalBase._update(self, updated)
 
@@ -398,7 +401,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         '''
         if self._Nv is None:
             x, y, z, h = self.to4xyzh()  # nvector.LatLonNvectorBase
-            self._Nv = Nvector(x, y, z, h=h, datum=self.datum)
+            self._Nv = Nvector(x, y, z, h=h, datum=self.datum, ll=self)
         return self._Nv
 
 #     def toVector3d(self):
@@ -451,6 +454,8 @@ class Cartesian(CartesianBase):
 
            @return: The ellipsoidal n-vector (L{Nvector}).
 
+           @raise ValueError: Cartesian origin.
+
            @example:
 
            >>> from ellipsoidalNvector import LatLon
@@ -465,7 +470,7 @@ class Cartesian(CartesianBase):
             p = (x * x + y * y) * E.a2
             q = (z * z * E.e12) * E.a2
             r = (p + q - E.e4) / 6
-            s = (p * q * E.e4) / (4 * r ** 3)
+            s = (p * q * E.e4) / (4 * r**3)
             t = cbrt(1 + s + sqrt(s * (2 + s)))
 
             u = r * (1 + t + 1 / t)
@@ -473,10 +478,14 @@ class Cartesian(CartesianBase):
             w = E.e2 * (u + v - q) / (2 * v)
 
             k = sqrt(u + v + w * w) - w
+            if abs(k) < EPS:
+                raise ValueError('%s: %r' % ('origin', self))
             e = k / (k + E.e2)
             d = e * hypot(x, y)
 
             t = hypot(d, z)
+            if t < EPS:
+                raise ValueError('%s: %r' % ('origin', self))
             h = (k + E.e2 - 1) / k * t
 
             s = e / t
@@ -596,7 +605,7 @@ class Nvector(NvectorBase):
     '''
     _datum = Datums.WGS84  #: (INTERNAL) Datum (L{Datum}).
 
-    def __init__(self, x, y, z, h=0, datum=None):
+    def __init__(self, x, y, z, h=0, datum=None, ll=None):
         '''New n-vector normal to the earth's surface.
 
            @param x: X component (scalar).
@@ -605,6 +614,7 @@ class Nvector(NvectorBase):
            @keyword h: Height above model surface (meter).
            @keyword datum: Optional datum this n-vector is defined
                            within (L{Datum}).
+           @keyword ll: Optional, original latlon (I{LatLon}).
 
            @raise TypeError: If datum is not a L{Datum}.
 
@@ -614,7 +624,7 @@ class Nvector(NvectorBase):
            >>> v = Nvector(0.5, 0.5, 0.7071, 1)
            >>> v.toLatLon()  # 45.0°N, 045.0°E, +1.00m
         '''
-        NvectorBase.__init__(self, x, y, z, h=h)
+        NvectorBase.__init__(self, x, y, z, h=h, ll=ll)
         if datum:
             if not isinstance(datum, Datum):
                 raise TypeError('%s invalid: %r' % ('datum', datum))

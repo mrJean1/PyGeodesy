@@ -34,7 +34,7 @@ from math import radians
 
 __all__ = ('LatLon2psxy', 'Numpy2LatLon',  # class
            'bounds', 'isclockwise', 'isconvex')
-__version__ = '17.08.26'
+__version__ = '17.09.09'
 
 
 class _Basequence(_Sequence):  # immutable, on purpose
@@ -147,7 +147,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
 
 
 class LatLon2psxy(_Basequence):
-    '''Wrapper for I{LatLon} points to pseudo-x- and -y-coordinates.
+    '''Wrapper for I{LatLon} points as "on-the-fly" pseudo-x- and -y-coordinates.
     '''
     _closed   = False
     _len      = 0
@@ -594,10 +594,10 @@ class Numpy2LatLon(_Basequence):  # immutable, on purpose
 
            @return: Sub-array (numpy.array).
 
-           @raise TypeError: If indices is not a I{range}
-                             or I{list} of ints.
+           @raise IndexError: Out of range indices value.
 
-           @raise ValueError: Out of range indices value.
+           @raise TypeError: If indices is not a I{range} or a
+                             I{list} of ints.
         '''
         if not issequence(indices, tuple):  # NO tuple, only list
             # and range work properly to get Numpy array sub-sets
@@ -608,7 +608,7 @@ class Numpy2LatLon(_Basequence):  # immutable, on purpose
             if not isint(v):
                 raise TypeError('%s[%s] invalid: %r' % ('indices', i, v))
             elif not 0 <= v < n:
-                raise ValueError('%s[%s] invalid: %r' % ('indices', i, v))
+                raise IndexError('%s[%s] invalid: %r' % ('indices', i, v))
 
         return self._array[indices]
 

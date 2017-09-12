@@ -15,8 +15,8 @@ see U{http://www.movable-type.co.uk/scripts/latlong.html}.
 from datum import R_M
 from sphericalBase import LatLonSphericalBase
 from utils import EPS, PI2, PI_2, degrees90, degrees180, degrees360, \
-                  favg, fsum, hsin3, iterNumpy2, map1, radians, \
-                  tan_2, wrap180, wrapPI
+                  favg, fmean, fsum, hsin3, iterNumpy2, map1, \
+                  radians, tan_2, wrap180, wrapPI
 from vector3d import Vector3d, sumOf
 
 from math import acos, asin, atan2, copysign, cos, hypot, sin
@@ -26,7 +26,7 @@ __all__ = ('LatLon',  # classes
            'areaOf',  # functions
            'intersection', 'isPoleEnclosedBy',
            'meanOf')
-__version__ = '17.08.26'
+__version__ = '17.09.09'
 
 
 class LatLon(LatLonSphericalBase):
@@ -119,7 +119,7 @@ class LatLon(LatLonSphericalBase):
         z = ca1 * ca2 * sa * sdb
 
         h = hypot(x, y)
-        if abs(z) > h:
+        if h < EPS or abs(z) > h:
             return None  # great circle doesn't reach latitude
 
         m = atan2(-y, x) + b1  # longitude at max latitude
@@ -370,12 +370,12 @@ class LatLon(LatLonSphericalBase):
 
         if iterNumpy2(points):
 
-            v1 = points[-1].toVector3d()
-            v2 = points[-2].toVector3d()
+            v1 = points[n-1].toVector3d()
+            v2 = points[n-2].toVector3d()
             gc1 = v2.cross(v1)
             t0 = gc1.angleTo(n0) > PI_2
-            for p in points:
-                v2 = p.toVector3d()
+            for i in range(n):
+                v2 = points[i].toVector3d()
                 gc = v1.cross(v2)
                 v1 = v2
 
@@ -390,8 +390,8 @@ class LatLon(LatLonSphericalBase):
         else:
             # get great-circle vector for each edge
             gc, v1 = [], points[n-1].toVector3d()
-            for p in points:
-                v2 = p.toVector3d()
+            for i in range(n):
+                v2 = points[i].toVector3d()
                 gc.append(v1.cross(v2))
                 v1 = v2
 
@@ -512,16 +512,16 @@ def areaOf(points, radius=R_M):
 
     if iterNumpy2(points):
 
-        def _Es(points):  # iterate over spherical edge excess
-            a1, b1 = points[-1].to2ab()
+        def _exs(n, points):  # iterate over spherical edge excess
+            a1, b1 = points[n-1].to2ab()
             ta1 = tan_2(a1)
-            for p in points:
-                a2, b2 = p.to2ab()
+            for i in range(n):
+                a2, b2 = points[i].to2ab()
                 ta2, tb21 = map1(tan_2, a2, b2 - b1)
                 yield atan2(tb21 * (ta1 + ta2), 1 + ta1 * ta2)
                 ta1, b1 = ta2, b2
 
-        s = 2 * fsum(_Es(points))
+        s = fsum(_exs(n, points)) * 2
 
     else:
         # uses method due to Karney: for each edge of the polygon,
@@ -532,8 +532,8 @@ def areaOf(points, radius=R_M):
 
         a1, b1 = points[n-1].to2ab()
         s, ta1 = [], tan_2(a1)
-        for p in points:
-            a2, b2 = p.to2ab()
+        for i in range(n):
+            a2, b2 = points[i].to2ab()
             ta2, tb21 = map1(tan_2, a2, b2 - b1)
             s.append(atan2(tb21 * (ta1 + ta2), 1 + ta1 * ta2))
             ta1, b1 = ta2, b2
@@ -630,35 +630,23 @@ def isPoleEnclosedBy(points):
 
        @raise TypeError: Some points are not L{LatLon}.
     '''
-    _, points = _Trll.points(points)
+    n, points = _Trll.points(points)
 
-    if iterNumpy2(points):
-
-        def _cds(points):  # iterate over course deltas
-            p1 = points[-1]
-            b1 = p1.bearingTo(points[0])  # XXX p1.finalBearingTo(points[0])?
-            for p2 in points:
+    def _cds(n, points):  # iterate over course deltas
+        p1 = points[n-1]
+        b1 = p1.bearingTo(points[0])  # XXX p1.finalBearingTo(points[0])?
+        for i in range(n):
+            p2 = points[i]
+            if not p2.equals(p1, EPS):
                 b = p1.bearingTo(p2)
                 yield wrap180(b - b1)  # XXX (b - b1 + 540) % 360 - 180
                 b2 = p1.finalBearingTo(p2)
                 yield wrap180(b2 - b)  # XXX (b2 - b + 540) % 360 - 180
                 p1, b1 = p2, b2
 
-        s = fsum(_cds(points))
-
-    else:
-        # sum of course deltas around pole is 0° rather than normally ±360°
-        # <http://blog.element84.com/determining-if-a-spherical-polygon-contains-a-pole.html>
-        p1 = points[-1]
-        b1 = p1.bearingTo(points[0])  # XXX p1.finalBearingTo(points[0])?
-        cd = []
-        for p2 in points:
-            b = p1.bearingTo(p2)
-            cd.append(wrap180(b - b1))  # XXX (b - b1 + 540) % 360 - 180
-            b2 = p1.finalBearingTo(p2)
-            cd.append(wrap180(b2 - b))  # XXX (b2 - b + 540) % 360 - 180
-            p1, b1 = p2, b2
-        s = fsum(cd)
+    # sum of course deltas around pole is 0° rather than normally ±360°
+    # <http://blog.element84.com/determining-if-a-spherical-polygon-contains-a-pole.html>
+    s = fsum(_cds(n, points))
 
     # XXX fix (intermittant) edge crossing pole - eg (85,90), (85,0), (85,-90)
     return abs(s) < 90  # "zero-ish"
@@ -681,11 +669,11 @@ def meanOf(points, height=None, LatLon=LatLon):
     # geographic mean
     n, points = _Trll.points(points, closed=False)
 
-    m = sumOf(p.toVector3d() for p in points)
+    m = sumOf(points[i].toVector3d() for i in range(n))
     a, b = m.to2ll()
 
     if height is None:
-        h = fsum(p.height for p in points) / n
+        h = fmean(points[i].height for i in range(n))
     else:
         h = height
     return LatLon(a, b, height=h)

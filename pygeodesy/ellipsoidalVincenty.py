@@ -58,7 +58,7 @@ from math import atan2, cos, hypot, sin, tan
 
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'VincentyError')  # classes
-__version__ = '17.06.25'
+__version__ = '17.09.09'
 
 
 class VincentyError(Exception):
@@ -213,7 +213,7 @@ class LatLon(LatLonEllipsoidalBase):
         return self._inverse(other, True)
 
     @property
-    def epsilon(self, eps=None):
+    def epsilon(self):
         '''Get the convergence epsilon (scalar).
         '''
         return self._epsilon
@@ -360,7 +360,7 @@ class LatLon(LatLonEllipsoidalBase):
         if c2a < EPS:
             c2a = 0
             A, B = 1, 0
-        else:  # e22 == (a / b) ** 2 - 1
+        else:  # e22 == (a / b)**2 - 1
             A, B = _p2(c2a, E.e22)
 
         s = d = distance / (E.b * A)
@@ -418,7 +418,7 @@ class LatLon(LatLonEllipsoidalBase):
             s = atan2(ss, cs)
 
             sa = c1c2 * sll / ss
-            c2a = 1 - (sa * sa)
+            c2a = 1 - sa**2
             if abs(c2a) < EPS:
                 c2a = 0  # equatorial line
                 ll = dl + E.f * sa * s
@@ -431,7 +431,7 @@ class LatLon(LatLonEllipsoidalBase):
         else:
             raise VincentyError('no convergence %r to %r' % (self, other))
 
-        if c2a:  # e22 == (a / b) ** 2 - 1
+        if c2a:  # e22 == (a / b)**2 - 1
             A, B = _p2(c2a, E.e22)
             s = A * (s - _ds(B, cs, ss, c2sm))
 

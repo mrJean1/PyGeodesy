@@ -34,7 +34,7 @@ from nvector import NorthPole, LatLonNvectorBase, \
                     Nvector as NvectorBase, sumOf
 from sphericalBase import LatLonSphericalBase
 from utils import EPS, PI, PI2, PI_2, \
-                  degrees360, fsum, isscalar, iterNumpy2
+                  degrees360, fmean, fsum, isscalar, iterNumpy2
 
 from math import atan2, cos, radians, sin
 
@@ -42,7 +42,7 @@ from math import atan2, cos, radians, sin
 __all__ = ('LatLon', 'Nvector',  # classes
            'areaOf', 'intersection', 'meanOf',  # functions
            'triangulate', 'trilaterate')
-__version__ = '17.08.31'
+__version__ = '17.09.09'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -68,14 +68,16 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         else:
             self.others(end, name=namend)
             e = end.toNvector()
-            gc = s.cross(e)  # XXX .unit()?
+            gc = s.cross(e, raiser='points')  # XXX .unit()?
         return gc, s, e
 
     def _update(self, updated):
         '''(INTERNAL) Clear caches id updated.
         '''
         if updated:  # reset caches
-            self._Nv = None
+            if self._Nv:
+                self._Nv._fromll = None
+                self._Nv = None
             LatLonNvectorBase._update(self, updated)
             LatLonSphericalBase._update(self, updated)
 
@@ -99,6 +101,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
                     or negative if before the start point).
 
            @raise TypeError: The start or end point is not L{LatLon}.
+
+           @raise Valuerror: Points coincide.
 
            @example:
 
@@ -129,6 +133,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @raise TypeError: The start or end is not L{LatLon}.
 
+           @raise Valuerror: Points coincide.
+
            @example:
 
            >>> p = LatLon(53.2611, -0.7972)
@@ -157,6 +163,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @return: Destination point (L{LatLon}).
 
+           @raise Valuerror: Polar coincidence.
+
            @example:
 
            >>> p = LatLon(51.4778, -0.0015)
@@ -166,7 +174,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @JSname: I{destinationPoint}.
         '''
         p = self.toNvector()
-        e = NorthPole.cross(p).unit()  # east vector at p
+
+        e = NorthPole.cross(p, raiser='pole').unit()  # east vector at p
         n = p.cross(e)  # north vector at p
 
         t = radians(bearing)
@@ -239,6 +248,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @raise TypeError: The other point is not L{LatLon}.
 
+           @raise Valuerror: Points coincide.
+
            @example:
 
            >>> p = LatLon(53.3206, -1.7297)
@@ -262,6 +273,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @raise TypeError: The other point is not L{LatLon}.
 
+           @raise Valuerror: Points or polar coincidence.
+
            @example:
 
            >>> p1 = LatLon(52.205, 0.119)
@@ -271,7 +284,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @JSname: I{bearingTo}.
         '''
         gc1 = self.greatCircleTo(other)
-        gc2 = self.toNvector().cross(NorthPole)
+        gc2 = self.toNvector().cross(NorthPole, raiser='pole')
 #       gc2 = self.greatCircleTo(NorthPole)
 
         return degrees360(gc1.angleTo(gc2, vSign=self.toNvector()))
@@ -323,6 +336,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @raise TypeError: The other point is not L{LatLon}.
 
+           @raise Valuerror: Points coincide.
+
            @example:
 
            >>> p = LatLon(52.205, 0.119)
@@ -336,7 +351,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         p = self.toNvector()
         q = other.toNvector()
 
-        x = p.cross(q)
+        x = p.cross(q, raiser='points')
         d = x.unit().cross(p)  # unit(p × q) × p
         # angular distance tan(a) = |p × q| / p ⋅ q
         a = atan2(x.length, p.dot(q)) * fraction  # interpolated
@@ -361,6 +376,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @raise TypeError: The start2, end1 or end2 is not L{LatLon}.
 
+           @raise Valuerror: Points coincide.
+
            @example:
 
            >>> s = LatLon(51.8853, 0.2545)
@@ -378,9 +395,9 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @return: True if the polygon encloses this point (bool).
 
-           @raise ValueError: Too few points.
-
            @raise TypeError: Some points are not L{LatLon}.
+
+           @raise ValueError: Too few points.
 
            @example:
 
@@ -397,19 +414,19 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
         if iterNumpy2(points):
 
-            def _subtangles(points, n0):  # iterate
-                vs = n0.minus(points[-1].toNvector())
-                for p in points:
-                    vs1 = n0.minus(p.toNvector())
+            def _subtangles(n, points, n0):  # iterate
+                vs = n0.minus(points[n-1].toNvector())
+                for i in range(n):
+                    vs1 = n0.minus(points[i].toNvector())
                     yield vs.angleTo(vs1, vSign=n0)  # PYCHOK false
                     vs = vs1
 
             # sum subtended angles
-            s = fsum(_subtangles(points, n0))
+            s = fsum(_subtangles(n, points, n0))
 
         else:
             # get vectors from this to each point
-            vs = [n0.minus(p.toNvector()) for p in points]
+            vs = [n0.minus(points[i].toNvector()) for i in range(n)]
             # close the polygon
             vs.append(vs[0])
 
@@ -552,7 +569,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         '''
         if self._Nv is None:
             x, y, z, h = self.to4xyzh()
-            self._Nv = Nvector(x, y, z, h=h)
+            self._Nv = Nvector(x, y, z, h=h, ll=self)
         return self._Nv
 
     def triangulate(self, bearing1, other, bearing2, height=None):
@@ -568,6 +585,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @return: Triangulated point (L{LatLon}).
 
            @raise TypeError: The other point is not L{LatLon}.
+
+           @raise Valuerror: Points coincide.
 
            @example:
 
@@ -597,7 +616,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @raise TypeError: One of the points is not L{LatLon}.
 
-           @raise ValueError: Distance(s) exceeds trilateration.
+           @raise ValueError: Distance(s) exceeds trilateration or
+                              some points coincide.
         '''
         return trilaterate(self, distance1, point2, distance2,
                                             point3, distance3,
@@ -642,12 +662,14 @@ class Nvector(NvectorBase):
            heading on given compass bearing from this point as its
            n-vector.
 
-           Direction of vector is such that initial bearing vector b =
-           c × p.
+           Direction of vector is such that initial bearing vector
+           b = c × p.
 
            @param bearing: Initial compass bearing (degrees).
 
            @return: N-vector representing great circle (L{Nvector}).
+
+           @raise Valuerror: Polar coincidence.
 
            @example:
 
@@ -656,8 +678,8 @@ class Nvector(NvectorBase):
         '''
         t = radians(bearing)
 
-        e = NorthPole.cross(self)  # easting
-        n = self.cross(e)  # northing
+        e = NorthPole.cross(self, raiser='pole')  # easting
+        n = self.cross(e, raiser='point')  # northing
 
         e = e.times(cos(t) / e.length)
         n = n.times(sin(t) / n.length)
@@ -692,12 +714,12 @@ def areaOf(points, radius=R_M):
 
     if iterNumpy2(points):
 
-        def _interangles(points, n0):  # iterate
-            v2 = points[-2].toNvector()
-            v1 = points[-1].toNvector()
+        def _interangles(n, points, n0):  # iterate
+            v2 = points[n-2].toNvector()
+            v1 = points[n-1].toNvector()
             gc = v2.cross(v1)
-            for p in points:
-                v2 = p.toNvector()
+            for i in range(n):
+                v2 = points[i].toNvector()
                 gc1 = v1.cross(v2)
                 v1 = v2
 
@@ -705,13 +727,13 @@ def areaOf(points, radius=R_M):
                 gc = gc1
 
         # sum interior angles
-        s = fsum(_interangles(points, n0))
+        s = fsum(_interangles(n, points, n0))
 
     else:
         # get great-circle vector for each edge
         gc, v1 = [], points[n-1].toNvector()
-        for p in points:
-            v2 = p.toNvector()
+        for i in range(n):
+            v2 = points[i].toNvector()
             gc.append(v1.cross(v2))  # PYCHOK false, does have .cross
             v1 = v2
         gc.append(gc[0])  # XXX needed?
@@ -720,11 +742,11 @@ def areaOf(points, radius=R_M):
         # angle between edges is π−α or π+α, where α is angle between
         # great-circle vectors; so sum α, then take n·π − |Σα| (cannot
         # use Σ(π−|α|) as concave polygons would fail)
-        s = fsum(gc[i].angleTo(gc[i + 1], vSign=n0) for i in range(n))
+        s = fsum(gc[i].angleTo(gc[i+1], vSign=n0) for i in range(n))
 
     # using Girard’s theorem: A = [Σθᵢ − (n−2)·π]·R²
     # (PI2 - abs(s) == (n*PI - abs(s)) - (n-2)*PI)
-    return abs(PI2 - abs(s)) * radius ** 2
+    return abs(PI2 - abs(s)) * radius**2
 
 
 def intersection(start1, end1, start2, end2,
@@ -750,6 +772,8 @@ def intersection(start1, end1, start2, end2,
 
        @raise TypeError: Start or end point is not L{LatLon}.
 
+       @raise Valuerror: Paths coincide.
+
        @example:
 
        >>> p = LatLon(51.8853, 0.2545)
@@ -770,8 +794,8 @@ def intersection(start1, end1, start2, end2,
 
     # there are two (antipodal) candidate intersection
     # points ... we have to choose the one to return
-    i1 = gc1.cross(gc2)
-    i2 = gc2.cross(gc1)
+    i1 = gc1.cross(gc2, raiser='paths')
+    i2 = gc2.cross(gc1, raiser='paths')
 
     # selection of intersection point depends on how
     # paths are defined (by bearings or endpoints)
@@ -813,9 +837,9 @@ def meanOf(points, height=None, LatLon=LatLon):
 
        @raise ValueError: Too few points.
     '''
-    _, points = _Nvll.points(points, closed=False)
+    n, points = _Nvll.points(points, closed=False)
     # geographic mean
-    m = sumOf(p.toNvector() for p in points)
+    m = sumOf(points[i].toNvector() for i in range(n))
     a, b, h = m.to3llh()
 
     return LatLon(a, b, height=h if height is None else height)
@@ -838,6 +862,8 @@ def triangulate(point1, bearing1, point2, bearing2,
 
        @raise TypeError: One of the points is not L{LatLon}.
 
+       @raise Valuerror: Points coincide.
+
        @example:
 
        >>> p = LatLon("47°18.228'N","002°34.326'W")  # Basse Castouillet
@@ -847,9 +873,12 @@ def triangulate(point1, bearing1, point2, bearing2,
     _Nvll.others(point1, name='point1')
     _Nvll.others(point2, name='point2')
 
+    if point1.equals(point2, EPS):
+        raise ValueError('%s %s: %r' % ('coincident', 'points', point2))
+
     def _gc(p, b):
         n, t = p.toNvector(), radians(b)
-        de = NorthPole.cross(n).unit()  # east vector @ n
+        de = NorthPole.cross(n, raiser='pole').unit()  # east vector @ n
         dn = n.cross(de)  # north vector @ n
         dest = de.times(sin(t))
         dnct = dn.times(cos(t))
@@ -859,7 +888,7 @@ def triangulate(point1, bearing1, point2, bearing2,
     gc1 = _gc(point1, bearing1)  # great circle p1 + b1
     gc2 = _gc(point2, bearing2)  # great circle p2 + b2
 
-    n = gc1.cross(gc2)  # n-vector of intersection point
+    n = gc1.cross(gc2, raiser='points')  # n-vector of intersection point
 
     if height is None:
         h = point1._havg(point2)
@@ -888,39 +917,51 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3,
 
        @raise TypeError: One of the points is not L{LatLon}.
 
-       @raise ValueError: Distance(s) exceeds trilateration.
+       @raise ValueError: Distance(s) exceeds trilateration
+                          or some points coincide.
     '''
-    _Nvll.others(point1, name='point1')
-    _Nvll.others(point2, name='point2')
-    _Nvll.others(point3, name='point3')
+    def _nd2(p, d, name, *qs):
+        # return Nvector and radial distance squared
+        _Nvll.others(p, name=name)
+        for q in qs:
+            if p.equals(q, EPS):
+                raise ValueError('%s %s: %r' % ('coincident', 'points', p))
+        return p.toNvector(), (float(d) / radius)**2
 
-    n1, d1 = point1.toNvector(), float(distance1) / radius
-    n2, d2 = point2.toNvector(), float(distance2) / radius
-    n3, d3 = point3.toNvector(), float(distance3) / radius
+    n1, d12 = _nd2(point1, distance1, 'point1')
+    n2, d22 = _nd2(point2, distance2, 'point2', point1)
+    n3, d32 = _nd2(point3, distance3, 'point3', point1, point2)
 
     # the following uses x,y coordinate system with origin at n1, x axis n1->n2
-    X = n2.minus(n1).unit()  # unit vector in x direction n1->n2
-    i = X.dot(n3.minus(n1))  # signed magnitude of x component of n1->n3
-    Y = n3.minus(n1).minus(X.times(i)).unit()  # unit vector in y direction
-    d = n2.minus(n1).length  # distance n1->n2
-    j = Y.dot(n3.minus(n1))  # signed magnitude of y component of n1->n3
+    x = n2.minus(n1)
+    y = n3.minus(n1)
+    z = 0
 
-    d12 = d1 * d1
-    x = (d12 - d2 * d2 + d * d) / (2 * d)  # x component of n1 -> intersection
-    y = (d12 - d3 * d3 + i * i + j * j) / (2 * j) - x * i / j  # y component of n1 -> intersection
+    d = x.length  # distance n1->n2
+    d2 = d * 2
+    if d2 > EPS:  # and (y.length * 2) > EPS:
+        X = x.unit()  # unit vector in x direction n1->n2
+        i = X.dot(y)  # signed magnitude of x component of n1->n3
+        Y = y.minus(X.times(i)).unit()  # unit vector in y direction
+        j = Y.dot(y)  # signed magnitude of y component of n1->n3
+        j2 = j * 2
+        if abs(j2) > EPS:
+            x = (d12 - d22 + d**2) / d2  # x component of n1->intersection
+            y = (d12 - d32 + i**2 + j**2) / j2 - (x * i / j)  # y component of n1->intersection
+            z = x**2 + y**2
 
-    n = n1.plus(X.times(x)).plus(Y.times(y))
-
-    z = x * x + y * y
-    if z >= d12:
+    if not 0 < z < d12:
         raise ValueError('no %s for %r, %r, %r at %r, %r, %r' %
-                        ('trilateration', point1, point2, point3,
+                        ('trilaterate', point1, point2, point3,
                           distance1, distance2, distance3))
 #   Z = X.cross(Y)  # unit vector perpendicular to plane
     # note don't use Z component; assume points at same height
 #   z = sqrt(d12 - z)  # z will be NaN for no intersections
+
+    n = n1.plus(X.times(x)).plus(Y.times(y))
+
     if height is None:
-        h = fsum(p.height for p in (point1, point2, point3)) / 3
+        h = fmean((point1.height, point2.height, point3.height))
     else:
         h = height
     return n.toLatLon(height=h, LatLon=LatLon)  # Nvector(n.x, n.y, n.z).toLatLon(...)

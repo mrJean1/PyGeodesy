@@ -21,7 +21,7 @@ from vector3d import Vector3d, sumOf as _sumOf
 __all__ = ('NorthPole', 'SouthPole',  # constants
            'Nvector',  # classes
            'sumOf')  # functions
-__version__ = '17.06.25'
+__version__ = '17.09.09'
 
 
 class Nvector(Vector3d):  # XXX kept private
@@ -31,13 +31,14 @@ class Nvector(Vector3d):  # XXX kept private
 
     H = ''  #: Heigth prefix (string), '↑' in JS version
 
-    def __init__(self, x, y, z, h=0):
+    def __init__(self, x, y, z, h=0, ll=None):
         '''New n-vector normal to the earth's surface.
 
            @param x: X component (scalar).
            @param y: Y component (scalar).
            @param z: Z component (scalar).
            @keyword h: Height above surface (meter).
+           @keyword ll: Optional, original latlon (I{LatLon}).
 
            @example:
 
@@ -45,7 +46,7 @@ class Nvector(Vector3d):  # XXX kept private
            >>> v = Nvector(0.5, 0.5, 0.7071, 1)
            >>> v.toLatLon()  # 45.0°N, 045.0°E, +1.00m
         '''
-        Vector3d.__init__(self, x, y, z)
+        Vector3d.__init__(self, x, y, z, ll=ll)
         if h:
             self._h = float(h)
 
