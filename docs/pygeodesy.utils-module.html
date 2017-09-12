@@ -69,9 +69,26 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.08.26
+        17.09.09
       </p>
-</div><!-- ==================== FUNCTIONS ==================== -->
+</div><!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Classes</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.utils.CrossError-class.html" class="summary-name">CrossError</a><br />
+      Error for zero, colinear or coincident cross products.
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
 <table class="summary" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
@@ -205,6 +222,23 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#crosserrors" class="summary-sig-name">crosserrors</a>(<span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Get/set cross product exceptions.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#degrees90" class="summary-sig-name">degrees90</a>(<span class="summary-sig-arg">rad</span>)</span><br />
       Convert and wrap radians to degrees <i class="math">-270..+90</i>.</td>
           <td align="right" valign="top">
@@ -319,6 +353,23 @@
         <span class="summary-sig-arg">start</span>=<span class="summary-sig-default">0</span>)</span><br />
       Return the precision dot product <i class="math">sum(a[i] * b[i] * 
       c[i] for i in range(len(a))) + start</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#fmean" class="summary-sig-name">fmean</a>(<span class="summary-sig-arg">floats</span>)</span><br />
+      Compute the mean of float values.</td>
           <td align="right" valign="top">
             
             
@@ -482,7 +533,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#inStr" class="summary-sig-name">inStr</a>(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">*args</span>,
         <span class="summary-sig-arg">**kwds</span>)</span><br />
-      Return an instance string representation.</td>
+      Return the string representation of an instance.</td>
           <td align="right" valign="top">
             
             
@@ -500,7 +551,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#isint" class="summary-sig-name">isint</a>(<span class="summary-sig-arg">obj</span>,
         <span class="summary-sig-arg">both</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Check for integer types and integer value.</td>
+      Check for integer type or integer value.</td>
           <td align="right" valign="top">
             
             
@@ -587,7 +638,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#iterNumpy2over" class="summary-sig-name">iterNumpy2over</a>(<span class="summary-sig-arg">n</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Get the <a href="pygeodesy.utils-module.html#iterNumpy2" 
+      Get or set the <a href="pygeodesy.utils-module.html#iterNumpy2" 
       class="link">iterNumpy2</a> threshold.</td>
           <td align="right" valign="top">
             
@@ -692,7 +743,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#map1" class="summary-sig-name">map1</a>(<span class="summary-sig-arg">func</span>,
         <span class="summary-sig-arg">*args</span>)</span><br />
-      Apply each argument to a single-argument function and returns a tuple
+      Apply each argument to a single-argument function and return a tuple 
       of results.</td>
           <td align="right" valign="top">
             
@@ -711,7 +762,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#map2" class="summary-sig-name">map2</a>(<span class="summary-sig-arg">func</span>,
         <span class="summary-sig-arg">*args</span>)</span><br />
-      Apply arguments to a function and returns a tuple of results.</td>
+      Apply arguments to a function and return a tuple of results.</td>
           <td align="right" valign="top">
             
             
@@ -730,7 +781,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#polygon" class="summary-sig-name">polygon</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">base</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Check a polygon given as list, sequence, set or tuple of points.</td>
+      Check a polygon given as an array, list, sequence, set or tuple of 
+      points.</td>
           <td align="right" valign="top">
             
             
@@ -799,7 +851,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#tan_2" class="summary-sig-name">tan_2</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Compute tan of half angle.</td>
+      Compute the tangent of half angle.</td>
           <td align="right" valign="top">
             
             
@@ -816,7 +868,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#tanPI_2_2" class="summary-sig-name">tanPI_2_2</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Compute tan of half angle, rotated.</td>
+      Compute the tangent of half angle, 90 degrees rotated.</td>
           <td align="right" valign="top">
             
             
@@ -1097,6 +1149,31 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="crosserrors"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">crosserrors</span>(<span class="sig-arg">raiser</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get/set cross product exceptions.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>raiser</code></strong> - New on or off setting (bool).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Previous setting (bool).</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="degrees90"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1303,6 +1380,35 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="fmean"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fmean</span>(<span class="sig-arg">floats</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the mean of float values.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>floats</code></strong> - Values (float).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Mean value (float).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - No floats.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="fStr"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1357,7 +1463,7 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>fstr</code></strong> - Float (string)</li>
+        <li><strong class="pname"><code>fstr</code></strong> - Float (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Float (string).</dd>
@@ -1472,13 +1578,13 @@
         <li><strong class="pname"><code>b21</code></strong> - Longitude delta (radians).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>3-Tuple (angle, cos(a2), cos(a1))</dd>
+        <dd>3-Tuple (angle, cos(a2), cos(a1)).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="http://www.movable-type.co.uk/scripts/latlong.html" 
         target="_top">http://www.movable-type.co.uk/scripts/latlong.html</a>
         and <a href="http://www.edwilliams.org/avform.htm#Dist" 
-        target="_top">http://www.edwilliams.org/avform.htm#Dist</a>
+        target="_top">http://www.edwilliams.org/avform.htm#Dist</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -1552,16 +1658,16 @@
     </td>
   </tr></table>
   
-  <p>Return an instance string representation.</p>
+  <p>Return the string representation of an instance.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>inst</code></strong> - The instance (any tupe).</li>
-        <li><strong class="pname"><code>args</code></strong> - Optional arguments (tuple).</li>
+        <li><strong class="pname"><code>inst</code></strong> - The instance (any type).</li>
+        <li><strong class="pname"><code>args</code></strong> - Optional positional arguments (tuple).</li>
         <li><strong class="pname"><code>kwds</code></strong> - Optional keyword arguments (dict).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Representation (string)</dd>
+        <dd>Representation (string).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1580,7 +1686,7 @@
     </td>
   </tr></table>
   
-  <p>Check for integer types and integer value.</p>
+  <p>Check for integer type or integer value.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -1691,7 +1797,7 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>obj</code></strong> - Points list, sequence, set, etc. (any).</li>
+        <li><strong class="pname"><code>obj</code></strong> - Points array, list, sequence, set, etc. (any).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>True, do iterate (bool).</dd>
@@ -1712,7 +1818,7 @@
     </td>
   </tr></table>
   
-  <p>Get the <a href="pygeodesy.utils-module.html#iterNumpy2" 
+  <p>Get or set the <a href="pygeodesy.utils-module.html#iterNumpy2" 
   class="link">iterNumpy2</a> threshold.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -1865,7 +1971,7 @@
     </td>
   </tr></table>
   
-  <p>Apply each argument to a single-argument function and returns a tuple 
+  <p>Apply each argument to a single-argument function and return a tuple 
   of results.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -1893,7 +1999,7 @@
     </td>
   </tr></table>
   
-  <p>Apply arguments to a function and returns a tuple of results.</p>
+  <p>Apply arguments to a function and return a tuple of results.</p>
   <p>Unlike Python 2 built-in <code class="link">map</code>, Python 3+ 
   <code class="link">map</code> returns a <code class="link">map</code> 
   object, an iterator-like object which generates the results only once.  
@@ -1906,7 +2012,7 @@
         <li><strong class="pname"><code>args</code></strong> - Arguments to apply (list, tuple, ...).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Function results (tuple).</dd>
+        <dd>N-Tuple of function results (tuple).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1926,12 +2032,14 @@
     </td>
   </tr></table>
   
-  <p>Check a polygon given as list, sequence, set or tuple of points.</p>
+  <p>Check a polygon given as an array, list, sequence, set or tuple of 
+  points.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The points of the polygon (<i>LatLon</i>[])</li>
-        <li><strong class="pname"><code>closed</code></strong> - Treat polygon as closed (bool).</li>
+        <li><strong class="pname"><code>closed</code></strong> - Treat polygon as closed and remove any duplicate or closing final
+          points (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple (number, sequence) of points (int, sequence).</dd>
@@ -2033,7 +2141,7 @@
     </td>
   </tr></table>
   
-  <p>Compute tan of half angle.</p>
+  <p>Compute the tangent of half angle.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -2058,7 +2166,7 @@
     </td>
   </tr></table>
   
-  <p>Compute tan of half angle, rotated.</p>
+  <p>Compute the tangent of half angle, 90 degrees rotated.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -2251,7 +2359,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Aug 30 20:10:50 2017
+    Generated by Epydoc 3.0.1 on Tue Sep 12 15:02:28 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
