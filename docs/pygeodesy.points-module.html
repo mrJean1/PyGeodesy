@@ -84,7 +84,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.09.09
+        17.09.12
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -129,7 +129,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.points-module.html#bounds" class="summary-sig-name">bounds</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>)</span><br />
       Determine the lower-left and upper-right corners of a polygon defined
       by a list, sequence, set or tuple of <i>LatLon</i> points.</td>
           <td align="right" valign="top">
@@ -150,8 +151,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.points-module.html#isclockwise" class="summary-sig-name">isclockwise</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Determine the direction of a polygon defined by a list, sequence, set
-      or tuple of <i>LatLon</i> points.</td>
+      Determine the direction of a polygon defined by an array, list, 
+      sequence, set or tuple of <i>LatLon</i> points.</td>
           <td align="right" valign="top">
             
             
@@ -170,8 +171,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.points-module.html#isconvex" class="summary-sig-name">isconvex</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Determine whether a polygon defined by a list, sequence, set or tuple
-      of <i>LatLon</i> points is convex.</td>
+      Determine whether a polygon defined by an array, list, sequence, set 
+      or tuple of <i>LatLon</i> points is convex.</td>
           <td align="right" valign="top">
             
             
@@ -200,7 +201,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">bounds</span>(<span class="sig-arg">points</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>)</span>
+        <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -215,9 +217,11 @@
         <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<i>LatLon</i>[]).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Optionally, wrap90(lat) and wrap180(lon) (bool).</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional class to use (<i>LatLon</i>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>4-Tuple (lolat, lolon, hilat, hilon) corners (degrees).</dd>
+        <dd>4-Tuple (lolat, lolon, hilat, hilon) corners (degrees) or 2-tuple
+          (loLatLon, hiLatLon) if (LatLon) given.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <i>LatLon</i>.</li>
@@ -248,8 +252,8 @@
     </td>
   </tr></table>
   
-  <p>Determine the direction of a polygon defined by a list, sequence, set 
-  or tuple of <i>LatLon</i> points.</p>
+  <p>Determine the direction of a polygon defined by an array, list, 
+  sequence, set or tuple of <i>LatLon</i> points.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -291,8 +295,8 @@
     </td>
   </tr></table>
   
-  <p>Determine whether a polygon defined by a list, sequence, set or tuple 
-  of <i>LatLon</i> points is convex.</p>
+  <p>Determine whether a polygon defined by an array, list, sequence, set 
+  or tuple of <i>LatLon</i> points is convex.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -304,8 +308,9 @@
         <dd>True if convex, False otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.utils.CrossError-class.html">CrossError</a></strong></code> - Colinear point.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <i>LatLon</i>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Too few points or a colinear point.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Too few points.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -350,7 +355,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Sep 12 15:02:28 2017
+    Generated by Epydoc 3.0.1 on Thu Sep 14 16:18:38 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

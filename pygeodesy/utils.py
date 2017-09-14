@@ -43,7 +43,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'tan_2', 'tanPI_2_2',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '17.09.09'
+__version__ = '17.09.12'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -628,20 +628,20 @@ def polygon(points, closed=True, base=None):
     n, points = len2(points)
 
     if closed:
+        # remove duplicate or closing final points
         while n > 1 and (points[n-1] == points[0] or
                          points[n-1] == points[n-2]):
-            n -= 1  # duplicate or closing final point
-            # XXX following line is unneeded if points
-            # are always indexed as ... i in range(n)
-            points = points[:n]  # XXX numpy.array slice is a view!
+            n -= 1
+        # XXX following line is unneeded if points
+        # are always indexed as ... i in range(n)
+        points = points[:n]  # XXX numpy.array slice is a view!
 
     if n < (3 if closed else 1):
         raise ValueError('too few points: %s' % (n,))
 
     if base and not isNumpy2(points):
-        others = base.others
         for i in range(n):
-            others(points[i], name='points[%s]' % (i,))
+            base.others(points[i], name='points[%s]' % (i,))
 
     return n, points
 

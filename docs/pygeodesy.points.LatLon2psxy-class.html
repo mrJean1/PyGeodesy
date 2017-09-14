@@ -119,7 +119,7 @@ _abcoll.Container --+
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Handle <i>LatLon</i> points as pseudo-x, -y coordinates.</td>
+      Handle <i>LatLon</i> points as pseudo-x and -y coordinates.</td>
           <td align="right" valign="top">
             
             
@@ -155,7 +155,7 @@ _abcoll.Container --+
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.points.LatLon2psxy-class.html#__getitem__" class="summary-sig-name">__getitem__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">index</span>)</span><br />
-      Return the pseudo-x, -y or return a <a 
+      Return the pseudo-xy or return a <a 
       href="pygeodesy.points.LatLon2psxy-class.html" 
       class="link">LatLon2psxy</a> slice.</td>
           <td align="right" valign="top">
@@ -174,7 +174,7 @@ _abcoll.Container --+
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.points.LatLon2psxy-class.html#__iter__" class="summary-sig-name">__iter__</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Yield all pseudo-x, -y's.</td>
+      Yield all pseudo-xy's.</td>
           <td align="right" valign="top">
             
             
@@ -191,7 +191,7 @@ _abcoll.Container --+
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.points.LatLon2psxy-class.html#__len__" class="summary-sig-name">__len__</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Return the number of pseudo-x and -y's.</td>
+      Return the number of pseudo-xy's.</td>
           <td align="right" valign="top">
             
             
@@ -225,7 +225,7 @@ _abcoll.Container --+
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.points.LatLon2psxy-class.html#__reversed__" class="summary-sig-name">__reversed__</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Yield all pseudo-x, -y's in reverse order.</td>
+      Yield all pseudo-xy's in reverse order.</td>
           <td align="right" valign="top">
             
             
@@ -335,7 +335,7 @@ _abcoll.Container --+
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.points.LatLon2psxy-class.html#point" class="summary-sig-name">point</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">ll</span>)</span><br />
-      Create a pseudo-x and -y.</td>
+      Create a pseudo-xy.</td>
           <td align="right" valign="top">
             
             
@@ -424,6 +424,14 @@ _abcoll.Container --+
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.points.LatLon2psxy-class.html#epsilon" class="summary-name">epsilon</a><br />
+      Get the tolerance for equality tests (float).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.points.LatLon2psxy-class.html#isPoints2" class="summary-name">isPoints2</a><br />
       Is this a Points2 wrapper/converter?
     </td>
@@ -464,12 +472,12 @@ _abcoll.Container --+
     </td>
   </tr></table>
   
-  <p>Handle <i>LatLon</i> points as pseudo-x, -y coordinates.</p>
+  <p>Handle <i>LatLon</i> points as pseudo-x and -y coordinates.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>latlons</code></strong> - Points list, sequence, set, tuple, etc. (LatLon[]).</li>
-        <li><strong class="pname"><code>closed</code></strong> - Points are a closed polygon (bool).</li>
+        <li><strong class="pname"><code>latlons</code></strong> - Points list, sequence, set, tuple, etc. (<i>LatLon[]</i>).</li>
+        <li><strong class="pname"><code>closed</code></strong> - Points form a closed polygon (bool).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Optionally, wrap90(lat) and wrap180(lon) (bool).</li>
     </ul></dd>
@@ -482,7 +490,12 @@ _abcoll.Container --+
         object.__init__
     </dt>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Note:</strong>
+        The <i>LatLon</i>'s latitude is considered the pseudo-y and 
+        longitude the pseudo-x coordinate.  Similarly, 2-tuples (x, y) are 
+        (longitude, latitude).
+      </p>
+</div></td></tr></table>
 </div>
 <a name="__contains__"></a>
 <div>
@@ -504,7 +517,7 @@ _abcoll.Container --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xy</code></strong> - Point (<i>LatLon</i>) or 2-tuple (x, y).</li>
+        <li><strong class="pname"><code>xy</code></strong> - Point (<i>LatLon</i>) or 2-tuple (x, y) in (degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>True if present, False otherwise.</dd>
@@ -534,7 +547,7 @@ _abcoll.Container --+
     </td>
   </tr></table>
   
-  <p>Return the pseudo-x, -y or return a <a 
+  <p>Return the pseudo-xy or return a <a 
   href="pygeodesy.points.LatLon2psxy-class.html" 
   class="link">LatLon2psxy</a> slice.</p>
   <dl class="fields">
@@ -558,7 +571,7 @@ _abcoll.Container --+
     </td>
   </tr></table>
   
-  <p>Yield all pseudo-x, -y's.</p>
+  <p>Yield all pseudo-xy's.</p>
   <dl class="fields">
     <dt>Overrides:
         _abcoll.Iterable.__iter__
@@ -581,7 +594,7 @@ _abcoll.Container --+
     </td>
   </tr></table>
   
-  <p>Return the number of pseudo-x and -y's.</p>
+  <p>Return the number of pseudo-xy's.</p>
   <dl class="fields">
     <dt>Overrides:
         _abcoll.Sized.__len__
@@ -626,7 +639,7 @@ _abcoll.Container --+
     </td>
   </tr></table>
   
-  <p>Yield all pseudo-x, -y's in reverse order.</p>
+  <p>Yield all pseudo-xy's in reverse order.</p>
   <dl class="fields">
     <dt>Overrides:
         _abcoll.Sequence.__reversed__
@@ -676,7 +689,7 @@ _abcoll.Container --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xy</code></strong> - Point (<i>LatLon</i>) or 2-tuple (x, y).</li>
+        <li><strong class="pname"><code>xy</code></strong> - Point (<i>LatLon</i>) or 2-tuple (x, y) in (degrees).</li>
     </ul></dd>
     <dt>Returns: integer</dt>
         <dd>Count (integer).</dd>
@@ -710,7 +723,7 @@ _abcoll.Container --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xy</code></strong> - Point (<i>LatLon</i>) or 2-tuple (x, y).</li>
+        <li><strong class="pname"><code>xy</code></strong> - Point (<i>LatLon</i>) or 2-tuple (x, y) in (degrees).</li>
         <li><strong class="pname"><code>start_end</code></strong> - Optional [start [, end]] index (integers).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -742,7 +755,7 @@ _abcoll.Container --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xy</code></strong> - Point (<i>LatLon</i>) or 2-tuple (x, y).</li>
+        <li><strong class="pname"><code>xy</code></strong> - Point (<i>LatLon</i>) or 2-tuple (x, y) in (degrees).</li>
         <li><strong class="pname"><code>start_end</code></strong> - Optional [start [, end]] index (integers).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -774,15 +787,15 @@ _abcoll.Container --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xy</code></strong> - Point (<i>LatLon</i>) or 2-tuple (x, y).</li>
+        <li><strong class="pname"><code>xy</code></strong> - Point (<i>LatLon</i>) or 2-tuple (x, y) in (degrees).</li>
         <li><strong class="pname"><code>start_end</code></strong> - Optional [start [, end]] index (integers).</li>
     </ul></dd>
     <dt>Returns: integer</dt>
         <dd>Index (integer).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>IndexError</strong></code> - Point not found.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid xy.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Point not found.</li>
     </ul></dd>
     <dt>Overrides:
         _abcoll.Sequence.index
@@ -805,7 +818,7 @@ _abcoll.Container --+
     </td>
   </tr></table>
   
-  <p>Create a pseudo-x and -y.</p>
+  <p>Create a pseudo-xy.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -839,7 +852,7 @@ _abcoll.Container --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xy</code></strong> - Point (<i>LatLon</i>) or 2-tuple (x, y).</li>
+        <li><strong class="pname"><code>xy</code></strong> - Point (<i>LatLon</i>) or 2-tuple (x, y) in (degrees).</li>
         <li><strong class="pname"><code>start_end</code></strong> - Optional [start [, end]] index (integers).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -861,6 +874,26 @@ _abcoll.Container --+
     <span class="table-header">Property Details</span></td>
 </tr>
 </table>
+<a name="epsilon"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">epsilon</h3>
+  <p>Get the tolerance for equality tests (float).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">epsilon(<span class="summary-sig-arg">self</span>)</span>
+        - Get the tolerance for equality tests (float).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">epsilon(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">epsilon</span>)</span>
+        - Set the tolerance for equality tests.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="isPoints2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -908,7 +941,7 @@ _abcoll.Container --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Sep 12 15:02:29 2017
+    Generated by Epydoc 3.0.1 on Thu Sep 14 16:18:39 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

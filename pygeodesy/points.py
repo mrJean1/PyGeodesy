@@ -23,7 +23,8 @@ using 64-bit Python 2.7.12 and 3.5.1 (both with numpy 1.8.0) on iOS 10.3.3.
 
 @newfield example: Example, Examples
 '''
-from utils import fdot, fsum, inStr, isint, issequence, \
+from utils import EPS, CrossError, crosserrors, fdot, fsum, \
+                  inStr, isint, issequence, \
                   polygon, wrap90, wrap180
 try:
     from collections import Sequence as _Sequence  # immutable
@@ -34,13 +35,14 @@ from math import radians
 
 __all__ = ('LatLon2psxy', 'Numpy2LatLon',  # class
            'bounds', 'isclockwise', 'isconvex')
-__version__ = '17.09.09'
+__version__ = '17.09.12'
 
 
 class _Basequence(_Sequence):  # immutable, on purpose
     '''(INTERNAL) Base class.
     '''
-    _array = []
+    _array    = []
+    _epsilon  = EPS
     _itemname = 'point'
 
     def _contains(self, point):
@@ -85,13 +87,13 @@ class _Basequence(_Sequence):  # immutable, on purpose
         '''
         for i in self._findall(point, start_end):
             return i
-        raise IndexError('%s not found: %r' % (self._itemname, point))
+        raise ValueError('%s not found: %r' % (self._itemname, point))
 
     def _iter(self):
         '''(INTERNAL) Yield all points.
         '''
-        for row in self._array:
-            yield self.point(row)
+        for i in range(len(self)):
+            yield self.point(self._array[i])
 
     def point(self, unused):  # PYCHOK unused
         '''Must be overloaded.
@@ -127,16 +129,16 @@ class _Basequence(_Sequence):  # immutable, on purpose
     def _reversed(self):  # PYCHOK false
         '''(INTERNAL) Yield all points in reverse order.
         '''
-        for row in reversed(self._array):
-            yield self.point(row)
+        for i in range(len(self) - 1, -1):
+            yield self.point(self._array[i])
 
     def _rfind(self, point, start_end):
         '''(INTERNAL) Find the last matching point index.
         '''
-        def _rt3(start=None, end=None):
-            return (start, end, -1)
+        def _r3(start=None, end=None, step=-1):
+            return (start, end, step)
 
-        for i in self._findall(point, _rt3(*start_end)):
+        for i in self._findall(point, _r3(*start_end)):
             return i
         return -1
 
@@ -145,21 +147,30 @@ class _Basequence(_Sequence):  # immutable, on purpose
         '''
         return {}
 
+    def _zeros(self, *zeros):
+        '''(INTERNAL) Check for near-zero values.
+        '''
+        return max(map(abs, zeros)) <= self._epsilon
+
 
 class LatLon2psxy(_Basequence):
     '''Wrapper for I{LatLon} points as "on-the-fly" pseudo-x- and -y-coordinates.
     '''
-    _closed   = False
-    _len      = 0
-    _deg2m    = None  # default, keep degrees
-    _radius   = None
-    _wrap     = True
+    _closed = False
+    _len    = 0
+    _deg2m  = None  # default, keep degrees
+    _radius = None
+    _wrap   = True
 
     def __init__(self, latlons, closed=False, radius=None, wrap=True):
-        '''Handle I{LatLon} points as pseudo-x, -y coordinates.
+        '''Handle I{LatLon} points as pseudo-x and -y coordinates.
 
-           @param latlons: Points list, sequence, set, tuple, etc. (LatLon[]).
-           @keyword closed: Points are a closed polygon (bool).
+           @note: The I{LatLon}'s latitude is considered the pseudo-y
+                  and longitude the pseudo-x coordinate.  Similarly,
+                  2-tuples (x, y) are (longitude, latitude).
+
+           @param latlons: Points list, sequence, set, tuple, etc. (I{LatLon[]}).
+           @keyword closed: Points form a closed polygon (bool).
            @keyword radius: Optional, mean earth radius (meter).
            @keyword wrap: Optionally, wrap90(lat) and wrap180(lon) (bool).
 
@@ -179,7 +190,7 @@ class LatLon2psxy(_Basequence):
     def __contains__(self, xy):
         '''Check for a matching point.
 
-           @param xy: Point (I{LatLon}) or 2-tuple (x, y).
+           @param xy: Point (I{LatLon}) or 2-tuple (x, y) in (degrees).
 
            @return: True if present, False otherwise.
 
@@ -188,17 +199,17 @@ class LatLon2psxy(_Basequence):
         return self._contains(xy)
 
     def __getitem__(self, index):
-        '''Return the pseudo-x, -y or return a L{LatLon2psxy} slice.
+        '''Return the pseudo-xy or return a L{LatLon2psxy} slice.
         '''
         return self._getitem(index)
 
     def __iter__(self):
-        '''Yield all pseudo-x, -y's.
+        '''Yield all pseudo-xy's.
         '''
         return self._iter()
 
     def __len__(self):
-        '''Return the number of pseudo-x and -y's.
+        '''Return the number of pseudo-xy's.
         '''
         return self._len
 
@@ -208,7 +219,7 @@ class LatLon2psxy(_Basequence):
         return self._repr()
 
     def __reversed__(self):  # PYCHOK false
-        '''Yield all pseudo-x, -y's in reverse order.
+        '''Yield all pseudo-xy's in reverse order.
         '''
         return self._reversed()
 
@@ -217,7 +228,7 @@ class LatLon2psxy(_Basequence):
     def count(self, xy):
         '''Count the number of matching points.
 
-           @param xy: Point (I{LatLon}) or 2-tuple (x, y).
+           @param xy: Point (I{LatLon}) or 2-tuple (x, y) in (degrees).
 
            @return: Count (integer).
 
@@ -225,10 +236,24 @@ class LatLon2psxy(_Basequence):
         '''
         return self._count(xy)
 
+    @property
+    def epsilon(self):
+        '''Get the tolerance for equality tests (float).
+        '''
+        return self._epsilon
+
+    @epsilon.setter  # PYCHOK setter!
+    def epsilon(self, epsilon):
+        '''Set the tolerance for equality tests.
+
+           @param epsilon: New tolerance (float).
+        '''
+        self._epsilon = max(0, float(epsilon))
+
     def find(self, xy, *start_end):
         '''Find the first matching point.
 
-           @param xy: Point (I{LatLon}) or 2-tuple (x, y).
+           @param xy: Point (I{LatLon}) or 2-tuple (x, y) in (degrees).
            @param start_end: Optional [start [, end]] index (integers).
 
            @return: Index or -1 if not found (integer).
@@ -257,13 +282,13 @@ class LatLon2psxy(_Basequence):
 
         for i in self._range(*start_end):
             xi, yi, _ = _3xyll(self._array[i])
-            if xi == x and yi == y:
+            if self._zeros(xi - x, yi - y):
                 yield i
 
     def findall(self, xy, *start_end):
         '''Yield indices of all matching points.
 
-           @param xy: Point (I{LatLon}) or 2-tuple (x, y).
+           @param xy: Point (I{LatLon}) or 2-tuple (x, y) in (degrees).
            @param start_end: Optional [start [, end]] index (integers).
 
            @return: Indices (iterator).
@@ -275,14 +300,14 @@ class LatLon2psxy(_Basequence):
     def index(self, xy, *start_end):  # PYCHOK Python 2- issue
         '''Find the first matching point.
 
-           @param xy: Point (I{LatLon}) or 2-tuple (x, y).
+           @param xy: Point (I{LatLon}) or 2-tuple (x, y) in (degrees).
            @param start_end: Optional [start [, end]] index (integers).
 
            @return: Index (integer).
 
-           @raise IndexError: Point not found.
-
            @raise TypeError: Invalid xy.
+
+           @raise ValueError: Point not found.
         '''
         return self._index(xy, start_end)
 
@@ -295,7 +320,7 @@ class LatLon2psxy(_Basequence):
 #   next = __iter__
 
     def point(self, ll):
-        '''Create a pseudo-x and -y.
+        '''Create a pseudo-xy.
 
            @param ll: Point (I{LatLon}).
 
@@ -311,7 +336,7 @@ class LatLon2psxy(_Basequence):
     def rfind(self, xy, *start_end):
         '''Find the last matching point.
 
-           @param xy: Point (I{LatLon}) or 2-tuple (x, y).
+           @param xy: Point (I{LatLon}) or 2-tuple (x, y) in (degrees).
            @param start_end: Optional [start [, end]] index (integers).
 
            @return: Index or -1 if not found (integer).
@@ -359,10 +384,10 @@ class _LatLon(object):
 class Numpy2LatLon(_Basequence):  # immutable, on purpose
     '''Wrapper for NumPy arrays as "on-the-fly" I{LatLon} points.
     '''
-    _ilat = 0  # row column index
-    _ilon = 0  # row column index
+    _ilat   = 0  # row column index
+    _ilon   = 0  # row column index
     _LatLon = _LatLon  # default
-    _shape = ()
+    _shape  = ()
 
     def __init__(self, array, ilat=0, ilon=1, LatLon=None):
         '''Handle a NumPy array as I{simplify...}-compatible I{LatLon} points.
@@ -472,6 +497,20 @@ class Numpy2LatLon(_Basequence):  # immutable, on purpose
         '''
         return self._count(latlon)
 
+    @property
+    def epsilon(self):
+        '''Get the tolerance for equality tests (float).
+        '''
+        return self._epsilon
+
+    @epsilon.setter  # PYCHOK setter!
+    def epsilon(self, epsilon):
+        '''Set the tolerance for equality tests.
+
+           @param epsilon: New tolerance (float).
+        '''
+        self._epsilon = max(0, float(epsilon))
+
     def find(self, latlon, *start_end):
         '''Find the first row with a specific lat-/longitude.
 
@@ -497,8 +536,8 @@ class Numpy2LatLon(_Basequence):  # immutable, on purpose
 
         for i in self._range(*start_end):
             row = self._array[i]
-            if row[self._ilat] == lat and \
-               row[self._ilon] == lon:
+            if self._zeros(row[self._ilat] - lat,
+                           row[self._ilon] - lon):
                 yield i
 
     def findall(self, latlon, *start_end):
@@ -521,9 +560,9 @@ class Numpy2LatLon(_Basequence):  # immutable, on purpose
 
            @return: Index (integer).
 
-           @raise IndexError: Point not found.
-
            @raise TypeError: Invalid latlon.
+
+           @raise ValueError: Point not found.
         '''
         return self._index(latlon, start_end)
 
@@ -613,15 +652,17 @@ class Numpy2LatLon(_Basequence):  # immutable, on purpose
         return self._array[indices]
 
 
-def bounds(points, radius=None, wrap=True):
+def bounds(points, radius=None, wrap=True, LatLon=None):
     '''Determine the lower-left and upper-right corners of a polygon
        defined by a list, sequence, set or tuple of I{LatLon} points.
 
        @param points: The points defining the polygon (I{LatLon}[]).
        @keyword radius: Optional, mean earth radius (meter).
        @keyword wrap: Optionally, wrap90(lat) and wrap180(lon) (bool).
+       @keyword LatLon: Optional class to use (I{LatLon}).
 
-       @return: 4-Tuple (lolat, lolon, hilat, hilon) corners (degrees).
+       @return: 4-Tuple (lolat, lolon, hilat, hilon) corners (degrees)
+                or 2-tuple (loLatLon, hiLatLon) if (LatLon) given.
 
        @raise TypeError: Some points are not I{LatLon}.
 
@@ -642,16 +683,20 @@ def bounds(points, radius=None, wrap=True):
             lox = x
         elif hix < x:
             hix = x
+
         if loy > y:
             loy = y
         elif hiy < y:
             hiy = y
 
-    return loy, lox, hiy, hix
+    if LatLon:
+        return LatLon(loy, lox), LatLon(hiy, hix)
+    else:
+        return loy, lox, hiy, hix  # PYCHOK expected
 
 
 def isclockwise(points, radius=None, wrap=True):
-    '''Determine the direction of a polygon defined by a list,
+    '''Determine the direction of a polygon defined by an array, list,
        sequence, set or tuple of I{LatLon} points.
 
        @param points: The points defining the polygon (I{LatLon}[]).
@@ -673,26 +718,27 @@ def isclockwise(points, radius=None, wrap=True):
        >>> isclockwise(t)  # True
     '''
     pts = LatLon2psxy(points, closed=True, radius=radius, wrap=wrap)
+    n = len(pts)
+    if n > 0:
 
-    if len(pts):
-
-        def _sareas(pts):  # iterate
-            x1, y1, _ = pts[-1]
-            for x2, y2, _ in pts:
+        def _areas(n, pts):  # signed pseudo-area
+            x1, y1, _ = pts[n-1]
+            for i in range(n):
+                x2, y2, _ = pts[i]
                 yield (x2 - x1) * (y2 + y1)  # segment pseudo-area
                 x1, y1 = x2, y2
 
-        pa = fsum(_sareas(pts))  # signed pseudo-area
-        if pa > 0:
+        a = fsum(_areas(n, pts))
+        if a > 0:
             return True
-        elif pa < 0:
+        elif a < 0:
             return False
 
     raise ValueError('zero area: %r' % (points[:3],))
 
 
 def isconvex(points, radius=None, wrap=True):
-    '''Determine whether a polygon defined by a list, sequence,
+    '''Determine whether a polygon defined by an array, list, sequence,
        set or tuple of I{LatLon} points is convex.
 
        @param points: The points defining the polygon (I{LatLon}[]).
@@ -701,9 +747,11 @@ def isconvex(points, radius=None, wrap=True):
 
        @return: True if convex, False otherwise.
 
+       @raise CrossError: Colinear point.
+
        @raise TypeError: Some points are not I{LatLon}.
 
-       @raise ValueError: Too few points or a colinear point.
+       @raise ValueError: Too few points.
 
        @example:
 
@@ -714,11 +762,12 @@ def isconvex(points, radius=None, wrap=True):
        >>> isconvex(f)  # False
     '''
     pts = LatLon2psxy(points, closed=True, radius=radius, wrap=wrap)
+    c, n, s = crosserrors(), len(pts), None
 
-    s = None
-    x1, y1, _ = pts[-2]
-    x2, y2, _ = pts[-1]
-    for x3, y3, ll in pts:
+    x1, y1, _ = pts[n-2]
+    x2, y2, _ = pts[n-1]
+    for i in range(n):
+        x3, y3, ll = pts[i]
         # get the sign of the distance from point
         # x3, y3 to the line from x1, y1 to x2, y2
         # <http://wikipedia.org/wiki/Distance_from_a_point_to_a_line>
@@ -728,15 +777,18 @@ def isconvex(points, radius=None, wrap=True):
                 s = True
             elif not s:  # different side
                 return False
+
         elif s3 < 0:  # x3, y3 on the right
             if s is None:
                 s = False
             elif s:  # different side
                 return False
-        elif fdot((x3 - x2, y1 - y2), y3 - y2, x1 - x2) < 0:
+
+        elif c and fdot((x3 - x2, y1 - y2), y3 - y2, x1 - x2) < 0:
             # colinear u-turn: x3, y3 not on the
             # opposite side of x2, y2 as x1, y1
-            raise ValueError('colinear: %r' % (ll,))
+            raise CrossError('%s %s: %r' % ('colinear', 'point', ll))
+
         x1, y1, x2, y2 = x2, y2, x3, y3
 
     return True  # all points on the same side
