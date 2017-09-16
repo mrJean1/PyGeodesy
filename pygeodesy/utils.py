@@ -31,7 +31,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'CrossError',  # classes
            'cbrt', 'cbrt2', 'classname', 'crosserrors',
            'degrees', 'degrees90', 'degrees180', 'degrees360',
-           'false2f', 'favg', 'fdot', 'fdot3', 'fmean',
+           'false2f', 'favg', 'fdot', 'fdot3', 'fmean', 'fpolynomial',
            'fStr', 'fStrzs', 'fsum', 'ft2m',
            'halfs', 'hsin', 'hsin3', 'hypot', 'hypot1', 'hypot3',
            'inStr', 'isint', 'isNumpy2', 'isscalar', 'issequence',
@@ -40,10 +40,11 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'm2ft', 'm2km', 'm2NM', 'm2SM', 'map1', 'map2',
            'polygon',
            'radians', 'radiansPI_2', 'radiansPI', 'radiansPI2',
+           'scalar',
            'tan_2', 'tanPI_2_2',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '17.09.12'
+__version__ = '17.09.14'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -86,7 +87,7 @@ _crosserrors = True
 
 
 class CrossError(ValueError):
-    '''Error for zero, colinear or coincident cross products.
+    '''Error for zero cross product or coincident or colinear points.
     '''
     pass
 
@@ -94,7 +95,7 @@ class CrossError(ValueError):
 def cbrt(x):
     '''Compute the cubic root M{x**(1/3)}.
 
-       @param x: Argument (scalar).
+       @param x: Value (scalar).
 
        @return: Cubic root (float).
     '''
@@ -109,7 +110,7 @@ def cbrt(x):
 def cbrt2(x):
     '''Compute the cubic root squared M{x**(2/3)}.
 
-       @param x: Argument (scalar).
+       @param x: Value (scalar).
 
        @return: Cubic root squared (float).
     '''
@@ -281,6 +282,23 @@ def fmean(floats):
     if n > 0:
         return fsum(floats) / n
     raise ValueError('%s missing: %r' % ('floats', floats))
+
+
+def fpolynomial(x, *cs):
+    '''Evaluate the polynomial M{sum(cs[i] * x**i), i=0..len(cs))}.
+
+       @param x: Polynomial argument (scalar).
+       @param cs: Polynomial coeffients (scalars).
+
+       @return: Polynomial value (float).
+    '''
+    def _terms(x, cs):
+        xp = 1.0
+        for c in cs:
+            yield xp * c
+            xp *= x
+
+    return fsum(_terms(x, cs))
 
 
 def fStr(floats, prec=6, sep=', ', fmt='%.*f', ints=False):
@@ -580,7 +598,7 @@ def m2SM(meter):
 
        @return: Value in SM (float).
     '''
-    return meter * 6.21369949e-4  # XXX 6.213712e-4
+    return meter * 6.21369949e-4  # XXX 6.213712e-4 == 1.0 / 1609.344
 
 
 def map1(func, *args):
@@ -674,6 +692,30 @@ def radiansPI_2(deg):
        @return: Radians, wrapped (radiansPI_2)
     '''
     return _wrap(radians(deg), PI_2)
+
+
+def scalar(value, low=EPS, high=1.0):
+    '''Validate a scalar.
+
+       @param value: The value (scalar).
+       @keyword low: Optional lower bound (scalar).
+       @keyword high: Optional upper bound (scalar).
+
+       @return: New value (type(low)).
+
+       @raise TypeError: Value not scalar.
+
+       @raise ValueError: Value out of bounds.
+    '''
+    if not isscalar(value):
+        raise TypeError('%s invalid: %r' % ('scalar', value))
+    try:
+        v = type(low)(value)
+        if v < low or v > high:
+            raise ValueError
+    except (TypeError, ValueError):
+        raise ValueError('%s invalid: %r' % ('scalar', value))
+    return v
 
 
 def tan_2(rad):

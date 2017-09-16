@@ -4,13 +4,13 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.06.25'
+__version__ = '17.09.14'
 
 from testLatLon import Tests as _TestsLL
 from testVectorial import Tests as _TestsV
 
-from pygeodesy import F_D, F_DMS, VincentyError, bearingDMS, \
-                      compassDMS, Datums, fStr, normDMS, wrap360
+from pygeodesy import EPS, F_D, F_DMS, VincentyError, bearingDMS, \
+                      compassDMS, Datums, fStr, m2SM, normDMS, wrap360
 
 
 class Tests(_TestsLL, _TestsV):
@@ -75,7 +75,7 @@ class Tests(_TestsLL, _TestsV):
             m = Newport_RI.distanceTo(Newport_RI)
         except VincentyError as x:
             t = x  # Python 3+
-        self.test('VincentyError', t, 'LatLon(41°29′24.29″N, 071°18′46.07″W) coincident with LatLon(41°29′24.29″N, 071°18′46.07″W)')
+        self.test('VincentyError', t, 'LatLon(41°29′24.29″N, 071°18′46.07″W) coincides with LatLon(41°29′24.29″N, 071°18′46.07″W)')
 
         if hasattr(LatLon, 'toCartesian'):
             try:
@@ -86,13 +86,12 @@ class Tests(_TestsLL, _TestsV):
             except Exception as x:
                 self.test('ValueError', x, 'ValueError ...' + d.ellipsoid.name)
 
-        Boston = LatLon(42.3541165, -71.0693514, datum=d)
-        NewYork = LatLon(40.7791472, -73.9680804, datum=d)
-        m = Boston.distanceTo(NewYork)
-
         p = LatLon(-37.95103342, 144.42486789, datum=d)
         self.test('isEllipsoidal', p.isEllipsoidal, True)
         self.test('isSpherical', p.isSpherical, False)
+
+        self.test('epsilon', p.epsilon, 1e-12)
+        self.test('iterations', p.iterations, 50)
 
         q = p.copy()
         self.test('copy', q.equals(p), True)
@@ -100,6 +99,10 @@ class Tests(_TestsLL, _TestsV):
         self.test('isSpherical', q.isSpherical, False)
 
         self.test('copy', q.toStr(F_DMS, prec=4), '37°57′03.7203″S, 144°25′29.5244″E')
+
+        q.epsilon, q.iterations = EPS, 200
+        self.test('epsilon', q.epsilon, EPS)
+        self.test('iterations', q.iterations, 200)
 
         q = p.destination(54972.271, 306.86816)
         t = q.toStr(F_D, prec=4)
@@ -171,6 +174,7 @@ class Tests(_TestsLL, _TestsV):
         NewYork = LatLon(40.7791472, -73.9680804, datum=d)
         m = Boston.distanceTo(NewYork)
         self.test('distanceToMP', m, '298396.057', fmt='%.3f')
+        self.test('distanceToSM', m2SM(m), 185.414, fmt='%.3f')
 
         p = LatLon(0, 0, datum=d)
         q = LatLon(0, 1, datum=d)
@@ -190,6 +194,15 @@ class Tests(_TestsLL, _TestsV):
         q = LatLon(0, 49, datum=d)
         m = p.distanceTo(q)
         self.test('distanceToKW', m, '111319.491', fmt='%.3f')
+
+        # <http://www.movable-type.co.uk/scripts/latlong-vincenty.html>
+        # ... Test case (from Geoscience Australia), using WGS-84
+        FindersPeak = LatLon('37°57′03.72030″S', '144°25′29.52440″E')
+        Buninyong = LatLon('37°39′10.15610″S', '143°55′35.38390″E')
+        m, b, f = FindersPeak.distanceTo3(Buninyong)
+        self.test('distanceTo3', m, '54972.271', fmt='%.3f')
+        self.test('distanceTo3', bearingDMS(b, F_DMS), '306°52′05.37″')
+        self.test('distanceTo3', bearingDMS(f, F_DMS), '307°10′25.07″')
 
     def testNOAA(self, module):
         # <http://www.ngs.noaa.gov/PC_PROD/Inv_Fwd/readme.htm>

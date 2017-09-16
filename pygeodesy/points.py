@@ -25,17 +25,17 @@ using 64-bit Python 2.7.12 and 3.5.1 (both with numpy 1.8.0) on iOS 10.3.3.
 '''
 from utils import EPS, CrossError, crosserrors, fdot, fsum, \
                   inStr, isint, issequence, \
-                  polygon, wrap90, wrap180
+                  polygon, scalar, wrap90, wrap180
 try:
     from collections import Sequence as _Sequence  # immutable
 except ImportError:
-    _Sequence = object
+    _Sequence = object  # XXX or tuple
 from inspect import isclass
 from math import radians
 
 __all__ = ('LatLon2psxy', 'Numpy2LatLon',  # class
            'bounds', 'isclockwise', 'isconvex')
-__version__ = '17.09.12'
+__version__ = '17.09.14'
 
 
 class _Basequence(_Sequence):  # immutable, on purpose
@@ -150,11 +150,11 @@ class _Basequence(_Sequence):  # immutable, on purpose
     def _zeros(self, *zeros):
         '''(INTERNAL) Check for near-zero values.
         '''
-        return max(map(abs, zeros)) <= self._epsilon
+        return all(abs(z) <= self._epsilon for z in zeros)
 
 
 class LatLon2psxy(_Basequence):
-    '''Wrapper for I{LatLon} points as "on-the-fly" pseudo-x- and -y-coordinates.
+    '''Wrapper for I{LatLon} points as "on-the-fly" pseudo-xy coordinates.
     '''
     _closed = False
     _len    = 0
@@ -163,7 +163,7 @@ class LatLon2psxy(_Basequence):
     _wrap   = True
 
     def __init__(self, latlons, closed=False, radius=None, wrap=True):
-        '''Handle I{LatLon} points as pseudo-x and -y coordinates.
+        '''Handle I{LatLon} points as pseudo-xy coordinates.
 
            @note: The I{LatLon}'s latitude is considered the pseudo-y
                   and longitude the pseudo-x coordinate.  Similarly,
@@ -243,12 +243,16 @@ class LatLon2psxy(_Basequence):
         return self._epsilon
 
     @epsilon.setter  # PYCHOK setter!
-    def epsilon(self, epsilon):
+    def epsilon(self, eps):
         '''Set the tolerance for equality tests.
 
-           @param epsilon: New tolerance (float).
+           @param eps: New tolerance (scalar).
+
+           @raise TypeError: Tolerance not scalar.
+
+           @raise ValueError: Tolerance out of bounds.
         '''
-        self._epsilon = max(0, float(epsilon))
+        self._epsilon = scalar(eps, 0.0)
 
     def find(self, xy, *start_end):
         '''Find the first matching point.
@@ -390,7 +394,7 @@ class Numpy2LatLon(_Basequence):  # immutable, on purpose
     _shape  = ()
 
     def __init__(self, array, ilat=0, ilon=1, LatLon=None):
-        '''Handle a NumPy array as I{simplify...}-compatible I{LatLon} points.
+        '''Handle a NumPy array as a sequence of I{LatLon} points.
 
            @param array: NumPy array (I{numpy.array}).
            @keyword ilat: index of the latitudes column (integer).
@@ -404,7 +408,7 @@ class Numpy2LatLon(_Basequence):  # immutable, on purpose
                              and I{ilon} attributes.
 
            @raise ValueError: If the I{ilat} and/or I{ilon} values are
-                              out of range or the same.
+                              the same or out of range.
 
            @example:
 
@@ -418,7 +422,7 @@ class Numpy2LatLon(_Basequence):  # immutable, on purpose
            >>> type(sliced)
            <class '...Numpy2LatLon'>
         '''
-        ais = [('ilat', ilat), ('ilon', ilon)]
+        ais = ('ilat', ilat), ('ilon', ilon)
 
         try:  # get shape and check some other numpy.array attrs
             s, _, _ = array.shape, array.nbytes, array.ndim  # PYCHOK expected
@@ -504,12 +508,16 @@ class Numpy2LatLon(_Basequence):  # immutable, on purpose
         return self._epsilon
 
     @epsilon.setter  # PYCHOK setter!
-    def epsilon(self, epsilon):
+    def epsilon(self, eps):
         '''Set the tolerance for equality tests.
 
-           @param epsilon: New tolerance (float).
+           @param eps: New tolerance (scalar).
+
+           @raise TypeError: Tolerance not scalar.
+
+           @raise ValueError: Tolerance out of bounds.
         '''
-        self._epsilon = max(0, float(epsilon))
+        self._epsilon = scalar(eps, 0.0)
 
     def find(self, latlon, *start_end):
         '''Find the first row with a specific lat-/longitude.

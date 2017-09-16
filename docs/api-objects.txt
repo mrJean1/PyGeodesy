@@ -1,6 +1,7 @@
 pygeodesy	pygeodesy-module.html
 pygeodesy.simplifyRW	pygeodesy-module.html#simplifyRW
 pygeodesy.EPS	pygeodesy-module.html#EPS
+pygeodesy.scalar	pygeodesy-module.html#scalar
 pygeodesy.hsin3	pygeodesy-module.html#hsin3
 pygeodesy.degrees90	pygeodesy-module.html#degrees90
 pygeodesy.F_RAD	pygeodesy-module.html#F_RAD
@@ -57,6 +58,7 @@ pygeodesy.cbrt	pygeodesy-module.html#cbrt
 pygeodesy.radiansPI	pygeodesy-module.html#radiansPI
 pygeodesy.fsum	pygeodesy-module.html#fsum
 pygeodesy.classname	pygeodesy-module.html#classname
+pygeodesy.polygon	pygeodesy-module.html#polygon
 pygeodesy.isclockwise	pygeodesy-module.html#isclockwise
 pygeodesy.inStr	pygeodesy-module.html#inStr
 pygeodesy.toLcc	pygeodesy-module.html#toLcc
@@ -94,7 +96,7 @@ pygeodesy.wrapPI_2	pygeodesy-module.html#wrapPI_2
 pygeodesy.degrees360	pygeodesy-module.html#degrees360
 pygeodesy.halfs	pygeodesy-module.html#halfs
 pygeodesy.toMgrs	pygeodesy-module.html#toMgrs
-pygeodesy.polygon	pygeodesy-module.html#polygon
+pygeodesy.fpolynomial	pygeodesy-module.html#fpolynomial
 pygeodesy.isconvex	pygeodesy-module.html#isconvex
 pygeodesy.iterNumpy2over	pygeodesy-module.html#iterNumpy2over
 pygeodesy.toOsgr	pygeodesy-module.html#toOsgr
@@ -186,11 +188,13 @@ pygeodesy.ellipsoidalNvector.fStr	pygeodesy.utils-module.html#fStr
 pygeodesy.ellipsoidalNvector.fdot	pygeodesy.utils-module.html#fdot
 pygeodesy.ellipsoidalVincenty	pygeodesy.ellipsoidalVincenty-module.html
 pygeodesy.ellipsoidalVincenty._dl	pygeodesy.ellipsoidalVincenty-module.html#_dl
+pygeodesy.ellipsoidalVincenty.scalar	pygeodesy.utils-module.html#scalar
 pygeodesy.ellipsoidalVincenty.degrees90	pygeodesy.utils-module.html#degrees90
 pygeodesy.ellipsoidalVincenty._ds	pygeodesy.ellipsoidalVincenty-module.html#_ds
 pygeodesy.ellipsoidalVincenty.degrees360	pygeodesy.utils-module.html#degrees360
 pygeodesy.ellipsoidalVincenty.__package__	pygeodesy.ellipsoidalVincenty-module.html#__package__
 pygeodesy.ellipsoidalVincenty.degrees180	pygeodesy.utils-module.html#degrees180
+pygeodesy.ellipsoidalVincenty.fpolynomial	pygeodesy.utils-module.html#fpolynomial
 pygeodesy.ellipsoidalVincenty.radians	pygeodesy.utils-module.html#radians
 pygeodesy.ellipsoidalVincenty._p2	pygeodesy.ellipsoidalVincenty-module.html#_p2
 pygeodesy.ellipsoidalVincenty._r3	pygeodesy.ellipsoidalVincenty-module.html#_r3
@@ -272,6 +276,7 @@ pygeodesy.osgr.fdot	pygeodesy.utils-module.html#fdot
 pygeodesy.osgr._E0	pygeodesy.osgr-module.html#_E0
 pygeodesy.points	pygeodesy.points-module.html
 pygeodesy.points.fsum	pygeodesy-module.html#fsum
+pygeodesy.points.scalar	pygeodesy.utils-module.html#scalar
 pygeodesy.points.issequence	pygeodesy.utils-module.html#issequence
 pygeodesy.points.isclockwise	pygeodesy.points-module.html#isclockwise
 pygeodesy.points.polygon	pygeodesy.utils-module.html#polygon
@@ -396,6 +401,7 @@ pygeodesy.utils.isscalar	pygeodesy.utils-module.html#isscalar
 pygeodesy.utils.PI2	pygeodesy.utils-module.html#PI2
 pygeodesy.utils.m2NM	pygeodesy.utils-module.html#m2NM
 pygeodesy.utils._1_3rd	pygeodesy.utils-module.html#_1_3rd
+pygeodesy.utils.fpolynomial	pygeodesy.utils-module.html#fpolynomial
 pygeodesy.utils._iterNumpy2len	pygeodesy.utils-module.html#_iterNumpy2len
 pygeodesy.utils.wrap90	pygeodesy.utils-module.html#wrap90
 pygeodesy.utils.iterNumpy2over	pygeodesy.utils-module.html#iterNumpy2over
@@ -405,6 +411,7 @@ pygeodesy.utils.false2f	pygeodesy.utils-module.html#false2f
 pygeodesy.utils.fStr	pygeodesy.utils-module.html#fStr
 pygeodesy.utils.R_M	pygeodesy.utils-module.html#R_M
 pygeodesy.utils.fdot	pygeodesy.utils-module.html#fdot
+pygeodesy.utils.scalar	pygeodesy.utils-module.html#scalar
 pygeodesy.utils.isNumpy2	pygeodesy.utils-module.html#isNumpy2
 pygeodesy.utils._wrap	pygeodesy.utils-module.html#_wrap
 pygeodesy.utils.radiansPI_2	pygeodesy.utils-module.html#radiansPI_2

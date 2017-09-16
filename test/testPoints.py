@@ -4,11 +4,11 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '17.08.10'
+__version__ = '17.09.14'
 
 from base import TestsBase
 
-from pygeodesy import LatLon2psxy, Numpy2LatLon, classname, points
+from pygeodesy import EPS, LatLon2psxy, Numpy2LatLon, classname, points
 
 try:
     from collections import Sequence
@@ -33,6 +33,12 @@ class Tests(TestsBase):
 
         if Sequence:  # check abstact base class conformance
             _test('ABC', isinstance(pts, Sequence), True)
+
+        e = pts.epsilon
+        _test('epsilon', e, EPS)
+        pts.epsilon = 0
+        _test('epsilon', pts.epsilon, 0.0)
+        pts.epsilon = e
 
         n = len(pts) // 6  # 0 < some number < len(pts)
         _test('len',    len(pts), len(npy))

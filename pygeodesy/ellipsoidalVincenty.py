@@ -52,16 +52,17 @@ or by converting to anothor datum:
 
 from datum import Datums
 from ellipsoidalBase import CartesianBase, LatLonEllipsoidalBase
-from utils import EPS, degrees90, degrees180, degrees360, radians
+from utils import EPS, degrees90, degrees180, degrees360, \
+                  fpolynomial, radians, scalar
 
 from math import atan2, cos, hypot, sin, tan
 
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'VincentyError')  # classes
-__version__ = '17.09.09'
+__version__ = '17.09.14'
 
 
-class VincentyError(Exception):
+class VincentyError(ValueError):
     '''Error thrown from Vincenty's direct and inverse methods
        for coincident points and lack of convergence.
     '''
@@ -223,9 +224,12 @@ class LatLon(LatLonEllipsoidalBase):
         '''Set the convergence epsilon.
 
            @param eps: New epsilon (scalar).
+
+           @raise TypeError: New epsilon not scalar.
+
+           @raise ValueError: New epsilon out of bounds.
         '''
-        if 0 < float(eps) < 1:
-            self._epsilon = float(eps)
+        self._epsilon = scalar(eps)
 
     def finalBearingOn(self, distance, bearing):
         '''Compute the final bearing (reverse azimuth) after having
@@ -326,10 +330,13 @@ class LatLon(LatLonEllipsoidalBase):
     def iterations(self, limit):
         '''Set the iteration limit.
 
-           @param limit: New iteration limit (int).
+           @param limit: New iteration limit (scalar).
+
+           @raise TypeError: Limit not scalar.
+
+           @raise ValueError: Limit out of bounds.
         '''
-        if 2 < int(limit) < 200:
-            self._iterations = int(limit)
+        self._iterations = scalar(limit, 4, 200)
 
     def toCartesian(self):
         '''Convert this (geodetic) point to (geocentric) x/y/z
@@ -361,7 +368,7 @@ class LatLon(LatLonEllipsoidalBase):
             c2a = 0
             A, B = 1, 0
         else:  # e22 == (a / b)**2 - 1
-            A, B = _p2(c2a, E.e22)
+            A, B = _p2(c2a * E.e22)
 
         s = d = distance / (E.b * A)
         for _ in range(self._iterations):
@@ -413,7 +420,7 @@ class LatLon(LatLonEllipsoidalBase):
 
             ss = hypot(c2 * sll, c1s2 - s1c2 * cll)
             if ss < EPS:
-                raise VincentyError('%r coincident with %r' % (self, other))
+                raise VincentyError('%r coincides with %r' % (self, other))
             cs = s1s2 + c1c2 * cll
             s = atan2(ss, cs)
 
@@ -432,7 +439,7 @@ class LatLon(LatLonEllipsoidalBase):
             raise VincentyError('no convergence %r to %r' % (self, other))
 
         if c2a:  # e22 == (a / b)**2 - 1
-            A, B = _p2(c2a, E.e22)
+            A, B = _p2(c2a * E.e22)
             s = A * (s - _ds(B, cs, ss, c2sm))
 
         b = E.b
@@ -448,12 +455,11 @@ class LatLon(LatLonEllipsoidalBase):
         return d
 
 
-def _p2(c2a, ab2):
+def _p2(u2):  # e'2 WGS84 = 0.00673949674227643
     '''(INTERNAL) Compute A, B polynomials.
     '''
-    u2 = c2a * ab2  # e'2 WGS84 = 0.00673949674227643
-    A = u2 / 16384.0 * (4096 + u2 * (-768 + u2 * (320 - 175 * u2))) + 1
-    B = u2 /  1024.0 * ( 256 + u2 * (-128 + u2 * ( 74 -  47 * u2)))
+    A = fpolynomial(u2, 16384, 4096, -768, 320, -175) / 16384.0
+    B = fpolynomial(u2,     0,  256, -128,  74,  -47) / 1024.0
     return A, B
 
 
@@ -471,14 +477,14 @@ def _dl(f, c2a, sa, s, cs, ss, c2sm):
     '''
     C = f / 16.0 * c2a * (4 + f * (4 - 3 * c2a))
     return (1 - C) * f * sa * (s + C * ss * (c2sm +
-                     C * cs * (c2sm * c2sm * 2 - 1)))
+                     C * cs * (2 * c2sm**2 - 1)))
 
 
 def _ds(B, cs, ss, c2sm):
     '''(INTERNAL) Ds.
     '''
-    c2sm2 = 2 * c2sm * c2sm - 1
-    ss2 = (ss * ss * 4 - 3) * (c2sm2 * 2 - 1)
+    c2sm2 = 2 * c2sm**2 - 1
+    ss2 = (4 * ss**2 - 3) * (2 * c2sm2 - 1)
     return B * ss * (c2sm + B / 4.0 * (c2sm2 * cs -
                             B / 6.0 *  c2sm  * ss2))
 

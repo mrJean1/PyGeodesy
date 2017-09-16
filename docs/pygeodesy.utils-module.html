@@ -69,7 +69,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.09.12
+        17.09.14
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -84,7 +84,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.utils.CrossError-class.html" class="summary-name">CrossError</a><br />
-      Error for zero, colinear or coincident cross products.
+      Error for zero cross product or coincident or colinear points.
     </td>
   </tr>
 </table>
@@ -370,6 +370,25 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#fmean" class="summary-sig-name">fmean</a>(<span class="summary-sig-arg">floats</span>)</span><br />
       Compute the mean of float values.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#fpolynomial" class="summary-sig-name">fpolynomial</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">*cs</span>)</span><br />
+      Evaluate the polynomial <i class="math">sum(cs[i] * x**i), 
+      i=0..len(cs))</i>.</td>
           <td align="right" valign="top">
             
             
@@ -850,6 +869,25 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#scalar" class="summary-sig-name">scalar</a>(<span class="summary-sig-arg">value</span>,
+        <span class="summary-sig-arg">low</span>=<span class="summary-sig-default">2.22044604925e-16</span>,
+        <span class="summary-sig-arg">high</span>=<span class="summary-sig-default">1.0</span>)</span><br />
+      Validate a scalar.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#tan_2" class="summary-sig-name">tan_2</a>(<span class="summary-sig-arg">rad</span>)</span><br />
       Compute the tangent of half angle.</td>
           <td align="right" valign="top">
@@ -1092,7 +1130,7 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Argument (scalar).</li>
+        <li><strong class="pname"><code>x</code></strong> - Value (scalar).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Cubic root (float).</dd>
@@ -1117,7 +1155,7 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Argument (scalar).</li>
+        <li><strong class="pname"><code>x</code></strong> - Value (scalar).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Cubic root squared (float).</dd>
@@ -1406,6 +1444,34 @@
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - No floats.</li>
     </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="fpolynomial"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fpolynomial</span>(<span class="sig-arg">x</span>,
+        <span class="sig-arg">*cs</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Evaluate the polynomial <i class="math">sum(cs[i] * x**i), 
+  i=0..len(cs))</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - Polynomial argument (scalar).</li>
+        <li><strong class="pname"><code>cs</code></strong> - Polynomial coeffients (scalars).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Polynomial value (float).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2127,6 +2193,40 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="scalar"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">scalar</span>(<span class="sig-arg">value</span>,
+        <span class="sig-arg">low</span>=<span class="sig-default">2.22044604925e-16</span>,
+        <span class="sig-arg">high</span>=<span class="sig-default">1.0</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Validate a scalar.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>value</code></strong> - The value (scalar).</li>
+        <li><strong class="pname"><code>low</code></strong> - Optional lower bound (scalar).</li>
+        <li><strong class="pname"><code>high</code></strong> - Optional upper bound (scalar).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>New value (type(low)).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Value not scalar.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Value out of bounds.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="tan_2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -2359,7 +2459,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Sep 14 16:18:38 2017
+    Generated by Epydoc 3.0.1 on Sat Sep 16 13:05:24 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
