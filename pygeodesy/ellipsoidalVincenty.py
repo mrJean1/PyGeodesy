@@ -59,7 +59,7 @@ from math import atan2, cos, hypot, sin, tan
 
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'VincentyError')  # classes
-__version__ = '17.09.14'
+__version__ = '17.09.16'
 
 
 class VincentyError(ValueError):
@@ -225,11 +225,11 @@ class LatLon(LatLonEllipsoidalBase):
 
            @param eps: New epsilon (scalar).
 
-           @raise TypeError: New epsilon not scalar.
+           @raise TypeError: Epsilon not scalar.
 
-           @raise ValueError: New epsilon out of bounds.
+           @raise ValueError: Epsilon out of bounds.
         '''
-        self._epsilon = scalar(eps)
+        self._epsilon = scalar(eps, name='epsilon')
 
     def finalBearingOn(self, distance, bearing):
         '''Compute the final bearing (reverse azimuth) after having
@@ -336,7 +336,7 @@ class LatLon(LatLonEllipsoidalBase):
 
            @raise ValueError: Limit out of bounds.
         '''
-        self._iterations = scalar(limit, 4, 200)
+        self._iterations = scalar(limit, 4, 200, name='limit')
 
     def toCartesian(self):
         '''Convert this (geodetic) point to (geocentric) x/y/z

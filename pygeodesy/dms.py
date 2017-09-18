@@ -26,7 +26,7 @@ __all__ = ('F_D', 'F_DM', 'F_DMS',  # forms
            'bearingDMS', 'compassDMS', 'compassPoint',  # functions
            'latDMS', 'lonDMS', 'normDMS',
            'parseDMS', 'parse3llh', 'precision', 'toDMS')
-__version__ = '17.06.04'
+__version__ = '17.09.16'
 
 F_D   = 'd'    #: Format degrees as deg° (string).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (string).
@@ -305,7 +305,7 @@ def parseDMS(strDMS, suffix='NSEW', sep=S_SEP):
     '''
     try:  # signed decimal degrees without NSEW
         return float(strDMS)
-    except ValueError:
+    except (TypeError, ValueError):
         pass
 
     try:

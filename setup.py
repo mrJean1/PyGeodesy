@@ -3,11 +3,11 @@
 
 # The setuptools script to build, install and test a PyGeodesy distribution.
 
-# Tested with 64-bit Python 2.7.13 and 3.6.1 (using setuptools 28.8.0) but
-# only on macOS 10.12.3, 10.12.4 and 10.12.5, 10.12.6 Sierra.
+# Tested with 64-bit Python 2.7.13, 2.7.14, 3.6.1 and 3.6.2 (using setuptools
+# 28.8.0) but only on macOS 10.12.3, 10.12.4 and 10.12.5, 10.12.6 Sierra.
 
-# python setup.py sdist --formats=gztar,bztar,zip
-#[python setup.py bdist_wheel --universal  # XXX]
+# python setup.py sdist --formats=gztar,bztar,zip  # ztar,tar
+# python setup.py bdist_wheel --universal  # XXX
 # python setup.py test
 # python setup.py install
 
@@ -23,6 +23,10 @@ from setuptools import setup
 
 __all__ = ()
 __version__ = '17.08.24'
+
+
+def _c2(*names):
+    return ' :: '.join(names)
 
 
 def _version():
@@ -79,18 +83,18 @@ setup(
 
     zip_safe=False,
     classifiers=[
-        'Development Status :: 5 - Production/Stable',
-        'Environment :: Console',
-        'Intended Audience :: Developers',
-        'License :: OSI Approved :: MIT License',
-        'Operating System :: OS Independent',
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 2.6',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
-        'Topic :: Software Development',
-        'Topic :: Scientific/Engineering :: GIS',
+        _c2('Development Status', '5 - Production/Stable'),
+        _c2('Environment', 'Console'),
+        _c2('Intended Audience', 'Developers'),
+        _c2('License', 'OSI Approved', 'MIT License'),
+        _c2('Operating System', 'OS Independent'),
+        _c2('Programming Language', 'Python'),
+        _c2('Programming Language', 'Python', '2.6'),
+        _c2('Programming Language', 'Python', '2.7'),
+        _c2('Programming Language', 'Python', '3.5'),
+        _c2('Programming Language', 'Python', '3.6'),
+        _c2('Topic', 'Software Development'),
+        _c2('Topic', 'Scientific/Engineering', 'GIS'),
     ],
 
 #   download_url='https://github.com/mrJean1/PyGeodesy',

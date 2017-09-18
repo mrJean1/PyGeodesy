@@ -28,7 +28,7 @@ from pygeodesy import version as PyGeodesy_version, \
 __all__ = ('isiOS', 'PyGeodesy_dir', 'Python_O',  # constants
            'TestsBase',
            'runner', 'secs2str', 'tilde', 'type2str', 'versions')
-__version__ = '17.08.14'
+__version__ = '17.09.16'
 
 try:
     _int = int, long
@@ -43,8 +43,6 @@ _pseudo_home_dir = dirname(PyGeodesy_dir or '~') or '~'
 isiOS = True if sys.platform == 'ios' else False  # public
 
 Python_O = sys.executable  # python or Pythonsta path
-if not __debug__:
-    Python_O += ' -OO'  # optimized
 
 
 class TestsBase(object):
@@ -244,7 +242,7 @@ def versions():
     return ' '.join(vs)
 
 
-if isiOS:
+if isiOS:  # MCCABE 13
 
     try:  # prefer StringIO over io
         from StringIO import StringIO
@@ -297,11 +295,14 @@ else:  # non-iOS
 
     from subprocess import PIPE, STDOUT, Popen
 
+    if not __debug__:
+        Python_O += ' -O'  # optimized
+
     def runner(test):  # PYCHOK expected
         '''Invoke one test module and return
            the exit status and console output.
         '''
-        c = [Python_O, test]
+        c = Python_O.split() + [test]
         p = Popen(c, creationflags=0,
                      executable   =sys.executable,
                    # shell        =True,

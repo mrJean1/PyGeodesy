@@ -10,14 +10,14 @@ and U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
 @newfield example: Example, Examples
 '''
 from dms   import F_D, F_DMS, latDMS, lonDMS, parseDMS
-from utils import EPS, R_M, classname, favg, map1, polygon
+from utils import EPS, R_M, classname, favg, map1, polygon, scalar
 
 from math import asin, cos, degrees, radians, sin
 
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('Base', 'LatLonHeightBase', 'Named', 'VectorBase')
-__version__ = '17.08.06'
+__version__ = '17.09.16'
 
 
 class Base(object):
@@ -124,7 +124,7 @@ class LatLonHeightBase(Base):
         self._lat = parseDMS(lat, suffix='NS')
         self._lon = parseDMS(lon, suffix='EW')
         if height:  # elevation
-            self._height = float(height)
+            self._height = scalar(height, None, name='height')
 
     def __eq__(self, other):
         return self.equals(other)
@@ -219,7 +219,12 @@ class LatLonHeightBase(Base):
         '''Set the height.
 
            @param height: New height (meter).
+
+           @raise TypeError: Invalid height.
+
+           @raise ValueError: Invalid height.
         '''
+        height = scalar(height, None, name='height')
         self._update(height != self._height)
         self._height = height
 
@@ -234,7 +239,10 @@ class LatLonHeightBase(Base):
         '''Set the latitude (degrees).
 
            @param lat: New latitude (degrees).
+
+           @raise ValueError: Invalid lat.
         '''
+        lat = parseDMS(lat, suffix='NS')
         self._update(lat != self._lat)
         self._lat = lat
 
@@ -249,7 +257,10 @@ class LatLonHeightBase(Base):
         '''Set the longitude (degrees).
 
            @param lon: New longitude (degrees).
+
+           @raise ValueError: Invalid lon.
         '''
+        lon = parseDMS(lon, suffix='EW')
         self._update(lon != self._lon)
         self._lon = lon
 
@@ -300,7 +311,7 @@ class LatLonHeightBase(Base):
         '''Convert this point to a "lat, lon [+/-height]" string,
            formatted in the given form.
 
-           @keyword form: Use F_D, F_DM, F_DMS for deg°, deg°min', deg°min'sec" (string).
+           @keyword form: Use F_D, F_DM, F_DMS for deg°, deg°min′, deg°min′sec″ (string).
            @keyword prec: Number of decimal digits (0..8 or None).
            @keyword m: Unit of the height (string).
            @keyword sep: Separator to join (string).

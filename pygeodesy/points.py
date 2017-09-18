@@ -16,10 +16,11 @@ class L{Numpy2LatLon} and specifying the column index for the lat- and
 longitude in each row.  Then, pass the L{Numpy2LatLon} instance to any
 L{pygeodesy} function or method accepting a I{points} argument.
 
-Tested with 64-bit Python 2.6.9 (and numpy 1.6.2), 2.7.13 (and numpy
-1.13.1), 3.5.3 and 3.6.2 on macOS 10.12.6 Sierra, with 64-bit Intel-Python
-3.5.3 (and numpy 1.11.3) on macOS 10.12.6 Sierra and with Pythonista 3.1
-using 64-bit Python 2.7.12 and 3.5.1 (both with numpy 1.8.0) on iOS 10.3.3.
+Tested with 64-bit Python 2.6.9 (and numpy 1.6.2), 2.7.13 and 2.7.14
+(both with numpy 1.13.1), 3.5.3 and 3.6.2 on macOS 10.12.6 Sierra, with
+64-bit Intel-Python 3.5.3 (and numpy 1.11.3) on macOS 10.12.6 Sierra
+and with Pythonista 3.1 using 64-bit Python 2.7.12 and 3.5.1 (both with
+numpy 1.8.0) on iOS 10.3.3.
 
 @newfield example: Example, Examples
 '''
@@ -35,7 +36,7 @@ from math import radians
 
 __all__ = ('LatLon2psxy', 'Numpy2LatLon',  # class
            'bounds', 'isclockwise', 'isconvex')
-__version__ = '17.09.14'
+__version__ = '17.09.16'
 
 
 class _Basequence(_Sequence):  # immutable, on purpose
@@ -243,16 +244,16 @@ class LatLon2psxy(_Basequence):
         return self._epsilon
 
     @epsilon.setter  # PYCHOK setter!
-    def epsilon(self, eps):
+    def epsilon(self, tol):
         '''Set the tolerance for equality tests.
 
-           @param eps: New tolerance (scalar).
+           @param tol: New tolerance (scalar).
 
            @raise TypeError: Tolerance not scalar.
 
            @raise ValueError: Tolerance out of bounds.
         '''
-        self._epsilon = scalar(eps, 0.0)
+        self._epsilon = scalar(tol, 0.0, name='tolerance')
 
     def find(self, xy, *start_end):
         '''Find the first matching point.
@@ -508,16 +509,16 @@ class Numpy2LatLon(_Basequence):  # immutable, on purpose
         return self._epsilon
 
     @epsilon.setter  # PYCHOK setter!
-    def epsilon(self, eps):
+    def epsilon(self, tol):
         '''Set the tolerance for equality tests.
 
-           @param eps: New tolerance (scalar).
+           @param tol: New tolerance (scalar).
 
            @raise TypeError: Tolerance not scalar.
 
            @raise ValueError: Tolerance out of bounds.
         '''
-        self._epsilon = scalar(eps, 0.0)
+        self._epsilon = scalar(tol, 0.0, name='tolerance')
 
     def find(self, latlon, *start_end):
         '''Find the first row with a specific lat-/longitude.

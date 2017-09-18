@@ -22,7 +22,7 @@ from math import atan2, copysign, cos, sin, sqrt
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('CartesianBase', 'LatLonEllipsoidalBase')
-__version__ = '17.09.02'
+__version__ = '17.09.15'
 
 
 class CartesianBase(Vector3d):
@@ -117,9 +117,9 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
     _utm   = None  #: (INTERNAL) cache toUtm (L{Utm}).
 
     def __init__(self, lat, lon, height=0, datum=None):
-        '''Create an (ellipsoidal) LatLon point frome the given
-           lat-, longitude and height (elevation, altitude) on
-           a given datum.
+        '''Create an (ellipsoidal) I{LatLon} point frome the given
+           lat-, longitude and height (elevation, altitude) on the
+           given datum.
 
            @param lat: Latitude (degrees or DMS string with N or S suffix).
            @param lon: Longitude (degrees or DMS string with E or W suffix).
@@ -140,7 +140,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
             LatLonHeightBase._update(self, updated)
 
     def convertDatum(self, datum):
-        '''Convert this point to a new coordinate system.
+        '''Convert this I{LatLon} point to a new coordinate system.
 
            @param datum: Datum to convert to (L{Datum}).
 
@@ -168,7 +168,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
         return ll.toCartesian()._applyHelmert(t, i).toLatLon(datum=datum)
 
     def copy(self):
-        '''Copy this point.
+        '''Copy this I{LatLon} point.
 
            @return: Copy of this point (L{LatLonEllipsoidalBase}).
         '''
@@ -179,7 +179,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
 
     @property
     def datum(self):
-        '''Gets this point's datum (L{Datum}).
+        '''Get this point's datum (L{Datum}).
         '''
         return self._datum
 
@@ -201,7 +201,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
         self._datum = datum
 
     def ellipsoid(self, datum=Datums.WGS84):
-        '''Return the ellipsoid of this or the given datum.
+        '''Return the ellipsoid of this point's datum or the given datum.
 
            @keyword datum: Optional datum (L{Datum}).
 
@@ -210,7 +210,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
         return getattr(self, 'datum', datum).ellipsoid
 
     def ellipsoids(self, other):
-        '''Check the type and ellipsoid of this and an other datum.
+        '''Check the type and ellipsoid of this points' datum and an other datum.
 
            @param other: The other datum (L{Datum}).
 
@@ -238,18 +238,18 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
 
     @property
     def isEllipsoidal(self):
-        '''Check whether this I{LatLon} is ellipsoidal (bool).
+        '''Check whether this I{LatLon} point is ellipsoidal (bool).
         '''
         return self.datum.isEllipsoidal
 
     @property
     def isSpherical(self):
-        '''Check whether this I{LatLon} is spherical (bool).
+        '''Check whether this I{LatLon} point is spherical (bool).
         '''
         return self.datum.isSpherical
 
     def parse(self, strll, height=0, datum=None, sep=','):
-        '''Parse a string representing lat-/longitude point.
+        '''Parse a string representing this I{LatLon} point.
 
            The lat- and longitude must be separated by a sep[arator]
            character.  If height is present it must follow and be
@@ -298,9 +298,9 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
                (h + r * E.e12) * sa)
 
     def toOsgr(self):
-        '''Convert this lat-/longitude to an OSGR coordinate.
+        '''Convert this I{LatLon} point to an OSGR coordinate.
 
-           See function L{toOsgr} in sub-module L{osgr} for more details.
+           See function L{toOsgr} in module L{osgr} for more details.
 
            @return: The OSGR coordinate (L{Osgr}).
         '''
@@ -311,9 +311,9 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
         return self._osgr
 
     def toUtm(self):
-        '''Convert this lat-/longitude to a UTM coordinate.
+        '''Convert this I{LatLon} point to a UTM coordinate.
 
-           See function L{toUtm} in sub-module L{utm} for more details.
+           See function L{toUtm} in module L{utm} for more details.
 
            @return: The UTM coordinate (L{Utm}).
         '''

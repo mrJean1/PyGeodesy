@@ -12,7 +12,7 @@ see U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
 '''
 
 from bases import LatLonHeightBase
-from utils import fsum, len2
+from utils import fsum, len2, scalar
 from vector3d import Vector3d, sumOf as _sumOf
 
 # from math import cos, sin
@@ -21,7 +21,7 @@ from vector3d import Vector3d, sumOf as _sumOf
 __all__ = ('NorthPole', 'SouthPole',  # constants
            'Nvector',  # classes
            'sumOf')  # functions
-__version__ = '17.09.09'
+__version__ = '17.09.16'
 
 
 class Nvector(Vector3d):  # XXX kept private
@@ -48,7 +48,7 @@ class Nvector(Vector3d):  # XXX kept private
         '''
         Vector3d.__init__(self, x, y, z, ll=ll)
         if h:
-            self._h = float(h)
+            self._h = scalar(h, None, name='h')
 
     def copy(self):
         '''Copy this vector.
@@ -70,8 +70,13 @@ class Nvector(Vector3d):  # XXX kept private
     def h(self, h):
         '''Sets height above surface.
 
-           @param h: Height (meter).
+           @param h: New height (meter).
+
+           @raise TypeError: Height invalid.
+
+           @raise ValueError: Height invalid.
         '''
+        h = scalar(h, None, name='h')
         self._update(h != self._h)
         self._h = h
 

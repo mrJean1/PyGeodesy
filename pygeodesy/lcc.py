@@ -23,7 +23,7 @@ from math import atan, copysign, cos, hypot, log, sin, sqrt, tan
 # all public constants, classes and functions
 __all__ = ('Conic', 'Conics', 'Lcc',
            'toLcc')  # functions
-__version__ = '17.08.14'
+__version__ = '17.09.16'
 
 
 Conics = _Enum('Conics')  #: Registered conics (L{_Enum}).
@@ -163,8 +163,15 @@ class Conic(_Based):
     @name.setter  # PYCHOK property setter
     def name(self, name):
         '''Set the conic name.
+
+           @param name: New name (string).
+
+           @raise ValueError: Invalid name.
         '''
-        self._name = name
+        if name:
+            self._name = str(name)
+        else:
+            raise ValueError('%s invalid: %r' % ('name', name))
 
     @property
     def name2(self):

@@ -15,12 +15,6 @@ from __future__ import division as _
 if not 1/2:  # PYCHOK 1/2 == 0
     raise ImportError('1/2 == %d' % (1/2,))
 
-try:  # XXX check float.__getformat__('float')[:4] == 'IEEE'
-    from math import fsum  # precision IEEE-754 sum, Python 2.6+
-except ImportError:
-    fsum = sum  # use standard, built-in sum (or Kahan's summation
-    # <http://wikipedia.org/wiki/Kahan_summation_algorithm> or
-    # Hettinger's <http://code.activestate.com/recipes/393090/>)
 from math import atan2, cos, degrees, hypot, pi as PI, \
                  radians, sin, sqrt, tan  # pow
 from operator import mul
@@ -44,7 +38,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'tan_2', 'tanPI_2_2',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '17.09.14'
+__version__ = '17.09.16'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -291,14 +285,24 @@ def fpolynomial(x, *cs):
        @param cs: Polynomial coeffients (scalars).
 
        @return: Polynomial value (float).
+
+       @raise TypeError: Argument not scalar.
+
+       @raise ValueError: No coefficients.
     '''
-    def _terms(x, cs):
-        xp = 1.0
+    if not isscalar(x):
+        raise TypeError('%s invalid: %r' % ('argument', x))
+    if not cs:
+        raise ValueError('%s missing: %r' % ('coefficents', cs))
+
+    def _terms(x, c0, *cs):
+        xp = x
+        yield float(c0)
         for c in cs:
             yield xp * c
             xp *= x
 
-    return fsum(_terms(x, cs))
+    return fsum(_terms(float(x), *cs))
 
 
 def fStr(floats, prec=6, sep=', ', fmt='%.*f', ints=False):
@@ -341,6 +345,41 @@ def fStrzs(fstr):
         if z > 1:
             fstr = fstr[:z] + fstr[z:].rstrip('0')
     return fstr
+
+
+try:  # XXX check float.__getformat__('float')[:4] == 'IEEE'
+    from math import fsum  # precision IEEE-754 sum, Python 2.6+
+
+    # make sure fsum works as expected
+    if fsum((1, 1e101, 1, -1e101)) != 2:
+        raise ImportError  # no, use KBN summation
+
+except ImportError:
+
+    def fsum(iterable):
+        '''Precision Kahan-Babuška-Neumaier summation.
+
+           @param iterable: Sequence, list, tuple, etc. (scalars).
+
+           @return: Precision sum (float).
+
+           @see: U{Kahan<http://wikipedia.org/wiki/Kahan_summation_algorithm>},
+                 U{Klein<http://link.springer.com/article/10.1007/s00607-005-0139-x>}
+                 or U{Hettinger<http://code.activestate.com/recipes/393090/>}.
+        '''
+        def _2sum(a, b):
+            if abs(b) > abs(a):
+                a, b = b, a
+            s = a + b
+            return s, b - (s - a)  # == s, b + (a - s)
+
+        s = cs = ccs = 0.0
+        for v in iterable:
+            s, c = _2sum(s, float(v))
+            cs, c = _2sum(cs, c)
+            ccs += c
+
+        return s + cs + ccs
 
 
 def ft2m(feet):
@@ -694,12 +733,13 @@ def radiansPI_2(deg):
     return _wrap(radians(deg), PI_2)
 
 
-def scalar(value, low=EPS, high=1.0):
+def scalar(value, low=EPS, high=1.0, name='scalar'):
     '''Validate a scalar.
 
        @param value: The value (scalar).
        @keyword low: Optional lower bound (scalar).
        @keyword high: Optional upper bound (scalar).
+       @keyword name: Optional name of value (string).
 
        @return: New value (type(low)).
 
@@ -708,13 +748,16 @@ def scalar(value, low=EPS, high=1.0):
        @raise ValueError: Value out of bounds.
     '''
     if not isscalar(value):
-        raise TypeError('%s invalid: %r' % ('scalar', value))
+        raise TypeError('%s invalid: %r' % (name, value))
     try:
-        v = type(low)(value)
-        if v < low or v > high:
-            raise ValueError
+        if low is None:
+            v = float(value)
+        else:
+            v = type(low)(value)
+            if v < low or v > high:
+                raise ValueError
     except (TypeError, ValueError):
-        raise ValueError('%s invalid: %r' % ('scalar', value))
+        raise ValueError('%s invalid: %r' % (name, value))
     return v
 
 

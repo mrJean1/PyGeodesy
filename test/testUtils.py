@@ -4,11 +4,11 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '17.09.14'
+__version__ = '17.09.16'
 
 from base import TestsBase
 
-from pygeodesy import fpolynomial
+from pygeodesy import fpolynomial, fsum
 
 
 class Tests(TestsBase):
@@ -24,6 +24,14 @@ class Tests(TestsBase):
             p = fpolynomial(x, 0, 256, -128, 74, -47) / 1024.0
             b = x / 1024.0 * (256 + x * (-128 + x * (74 - 47 * x)))
             self.test('fpolynomialB', p, b)
+
+        # U{Neumaier<http://wikipedia.org/wiki/Kahan_summation_algorithm>}
+        t = 1, 1e101, 1, -1e101
+        for _ in range(10):
+            s = float(len(t) / 2)  # number of ones
+            self.test('sum', sum(t), s, known=True)
+            self.test('fsum', fsum(t), s)
+            t += t
 
 
 if __name__ == '__main__':

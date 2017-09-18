@@ -69,7 +69,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.09.14
+        17.09.16
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -96,23 +96,6 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Functions</span></td>
 </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#fsum" class="summary-sig-name">fsum</a>(<span class="summary-sig-arg">iterable</span>)</span><br />
-      Return an accurate floating point sum of values in the iterable.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -428,6 +411,23 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#fStrzs" class="summary-sig-name">fStrzs</a>(<span class="summary-sig-arg">fstr</span>)</span><br />
       Strip trailing zero decimals from a float string.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#fsum" class="summary-sig-name">fsum</a>(<span class="summary-sig-arg">iterable</span>)</span><br />
+      Return an accurate floating point sum of values in the iterable.</td>
           <td align="right" valign="top">
             
             
@@ -871,7 +871,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#scalar" class="summary-sig-name">scalar</a>(<span class="summary-sig-arg">value</span>,
         <span class="summary-sig-arg">low</span>=<span class="summary-sig-default">2.22044604925e-16</span>,
-        <span class="summary-sig-arg">high</span>=<span class="summary-sig-default">1.0</span>)</span><br />
+        <span class="summary-sig-arg">high</span>=<span class="summary-sig-default">1.0</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">scalar</code><code class="variable-quote">'</code></span>)</span><br />
       Validate a scalar.</td>
           <td align="right" valign="top">
             
@@ -1092,26 +1093,6 @@
     <span class="table-header">Function Details</span></td>
 </tr>
 </table>
-<a name="fsum"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum</span>(<span class="sig-arg">iterable</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Return an accurate floating point sum of values in the iterable. 
-  Assumes IEEE-754 floating point arithmetic.</p>
-  <dl class="fields">
-  </dl>
-</td></tr></table>
-</div>
 <a name="cbrt"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1472,6 +1453,11 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Polynomial value (float).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Argument not scalar.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - No coefficients.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1533,6 +1519,26 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Float (string).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="fsum"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum</span>(<span class="sig-arg">iterable</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return an accurate floating point sum of values in the iterable. 
+  Assumes IEEE-754 floating point arithmetic.</p>
+  <dl class="fields">
   </dl>
 </td></tr></table>
 </div>
@@ -2202,7 +2208,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">scalar</span>(<span class="sig-arg">value</span>,
         <span class="sig-arg">low</span>=<span class="sig-default">2.22044604925e-16</span>,
-        <span class="sig-arg">high</span>=<span class="sig-default">1.0</span>)</span>
+        <span class="sig-arg">high</span>=<span class="sig-default">1.0</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">scalar</code><code class="variable-quote">'</code></span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2216,6 +2223,7 @@
         <li><strong class="pname"><code>value</code></strong> - The value (scalar).</li>
         <li><strong class="pname"><code>low</code></strong> - Optional lower bound (scalar).</li>
         <li><strong class="pname"><code>high</code></strong> - Optional upper bound (scalar).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name of value (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>New value (type(low)).</dd>
@@ -2459,7 +2467,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Sep 16 13:05:24 2017
+    Generated by Epydoc 3.0.1 on Mon Sep 18 16:30:16 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -108,6 +108,7 @@ pygeodesy.fdot	pygeodesy-module.html#fdot
 pygeodesy.isNumpy2	pygeodesy-module.html#isNumpy2
 pygeodesy.bases	pygeodesy.bases-module.html
 pygeodesy.bases.classname	pygeodesy.utils-module.html#classname
+pygeodesy.bases.scalar	pygeodesy.utils-module.html#scalar
 pygeodesy.bases.lonDMS	pygeodesy.dms-module.html#lonDMS
 pygeodesy.bases.polygon	pygeodesy.utils-module.html#polygon
 pygeodesy.bases.__package__	pygeodesy.bases-module.html#__package__
@@ -247,10 +248,11 @@ pygeodesy.mgrs.parseMGRS	pygeodesy.mgrs-module.html#parseMGRS
 pygeodesy.mgrs._toZBL	pygeodesy.utm-module.html#_toZBL
 pygeodesy.mgrs.__package__	pygeodesy.mgrs-module.html#__package__
 pygeodesy.nvector	pygeodesy.nvector-module.html
-pygeodesy.nvector.fsum	pygeodesy-module.html#fsum
+pygeodesy.nvector.fsum	pygeodesy.utils-module.html#fsum
 pygeodesy.nvector.NorthPole	pygeodesy.nvector-module.html#NorthPole
 pygeodesy.nvector.__package__	pygeodesy.nvector-module.html#__package__
 pygeodesy.nvector.len2	pygeodesy.utils-module.html#len2
+pygeodesy.nvector.scalar	pygeodesy.utils-module.html#scalar
 pygeodesy.nvector.SouthPole	pygeodesy.nvector-module.html#SouthPole
 pygeodesy.nvector._sumOf	pygeodesy.vector3d-module.html#sumOf
 pygeodesy.nvector.sumOf	pygeodesy.nvector-module.html#sumOf
@@ -275,7 +277,7 @@ pygeodesy.osgr.false2f	pygeodesy.utils-module.html#false2f
 pygeodesy.osgr.fdot	pygeodesy.utils-module.html#fdot
 pygeodesy.osgr._E0	pygeodesy.osgr-module.html#_E0
 pygeodesy.points	pygeodesy.points-module.html
-pygeodesy.points.fsum	pygeodesy-module.html#fsum
+pygeodesy.points.fsum	pygeodesy.utils-module.html#fsum
 pygeodesy.points.scalar	pygeodesy.utils-module.html#scalar
 pygeodesy.points.issequence	pygeodesy.utils-module.html#issequence
 pygeodesy.points.isclockwise	pygeodesy.points-module.html#isclockwise
@@ -321,7 +323,7 @@ pygeodesy.sphericalNvector.degrees360	pygeodesy.utils-module.html#degrees360
 pygeodesy.sphericalNvector.isscalar	pygeodesy.utils-module.html#isscalar
 pygeodesy.sphericalNvector.__package__	pygeodesy.sphericalNvector-module.html#__package__
 pygeodesy.sphericalNvector.sumOf	pygeodesy.nvector-module.html#sumOf
-pygeodesy.sphericalNvector.fsum	pygeodesy-module.html#fsum
+pygeodesy.sphericalNvector.fsum	pygeodesy.utils-module.html#fsum
 pygeodesy.sphericalNvector.areaOf	pygeodesy.sphericalNvector-module.html#areaOf
 pygeodesy.sphericalNvector.intersection	pygeodesy.sphericalNvector-module.html#intersection
 pygeodesy.sphericalNvector.iterNumpy2	pygeodesy.utils-module.html#iterNumpy2
@@ -329,7 +331,7 @@ pygeodesy.sphericalNvector.fmean	pygeodesy.utils-module.html#fmean
 pygeodesy.sphericalNvector._Nvll	pygeodesy.sphericalNvector-module.html#_Nvll
 pygeodesy.sphericalNvector.trilaterate	pygeodesy.sphericalNvector-module.html#trilaterate
 pygeodesy.sphericalTrigonometry	pygeodesy.sphericalTrigonometry-module.html
-pygeodesy.sphericalTrigonometry.fsum	pygeodesy-module.html#fsum
+pygeodesy.sphericalTrigonometry.fsum	pygeodesy.utils-module.html#fsum
 pygeodesy.sphericalTrigonometry.hsin3	pygeodesy.utils-module.html#hsin3
 pygeodesy.sphericalTrigonometry.degrees90	pygeodesy.utils-module.html#degrees90
 pygeodesy.sphericalTrigonometry.meanOf	pygeodesy.sphericalTrigonometry-module.html#meanOf
@@ -440,7 +442,7 @@ pygeodesy.utm.wrap180	pygeodesy.utils-module.html#wrap180
 pygeodesy.utm.fStr	pygeodesy.utils-module.html#fStr
 pygeodesy.utm.hypot1	pygeodesy.utils-module.html#hypot1
 pygeodesy.vector3d	pygeodesy.vector3d-module.html
-pygeodesy.vector3d.fsum	pygeodesy-module.html#fsum
+pygeodesy.vector3d.fsum	pygeodesy.utils-module.html#fsum
 pygeodesy.vector3d.len2	pygeodesy.utils-module.html#len2
 pygeodesy.vector3d.hypot	pygeodesy.utils-module.html#hypot
 pygeodesy.vector3d.degrees90	pygeodesy.utils-module.html#degrees90
