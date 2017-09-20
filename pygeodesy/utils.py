@@ -28,7 +28,8 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'false2f', 'favg', 'fdot', 'fdot3', 'fmean', 'fpolynomial',
            'fStr', 'fStrzs', 'fsum', 'ft2m',
            'halfs', 'hsin', 'hsin3', 'hypot', 'hypot1', 'hypot3',
-           'inStr', 'isint', 'isNumpy2', 'isscalar', 'issequence',
+           'inStr',
+           'isfinite', 'isint', 'isNumpy2', 'isscalar', 'issequence',
            'iterNumpy2', 'iterNumpy2over',
            'len2',
            'm2ft', 'm2km', 'm2NM', 'm2SM', 'map1', 'map2',
@@ -38,7 +39,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'tan_2', 'tanPI_2_2',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '17.09.16'
+__version__ = '17.09.18'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -347,39 +348,68 @@ def fStrzs(fstr):
     return fstr
 
 
-try:  # XXX check float.__getformat__('float')[:4] == 'IEEE'
+try:  # MCCABE 15
     from math import fsum  # precision IEEE-754 sum, Python 2.6+
 
-    # make sure fsum works as expected
+    # make sure fsum works as expected (and check
+    # float.__getformat__('float')[:4] == 'IEEE')
     if fsum((1, 1e101, 1, -1e101)) != 2:
-        raise ImportError  # no, use KBN summation
+        raise ImportError  # no, use fsum below
 
 except ImportError:
 
     def fsum(iterable):
-        '''Precision Kahan-Babuška-Neumaier summation.
+        '''Precision summation similar to I{math.fsum} in Python 2.6+.
 
            @param iterable: Sequence, list, tuple, etc. (scalars).
 
            @return: Precision sum (float).
 
-           @see: U{Kahan<http://wikipedia.org/wiki/Kahan_summation_algorithm>},
+           @raise ValueError: Intermediate sum I{Inf} or I{NaN}.
+
+           @note: This version does not handle I{Inf} and I{NaN} values
+                  exactly like I{math.fsum} in Python 2.6+, see source
+                  file I{Modules/mathmodule.c}.
+
+           @see: U{Hettinger<http://code.activestate.com/recipes/393090/>},
                  U{Klein<http://link.springer.com/article/10.1007/s00607-005-0139-x>}
-                 or U{Hettinger<http://code.activestate.com/recipes/393090/>}.
+                 or U{Kahan<http://wikipedia.org/wiki/Kahan_summation_algorithm>}.
         '''
         def _2sum(a, b):
             if abs(b) > abs(a):
                 a, b = b, a
             s = a + b
-            return s, b - (s - a)  # == s, b + (a - s)
+            if not isfinite(s):
+                raise ValueError('%s not finite: %r' % ('fsum', s))
+            t = s - a
+            return s, b - t
 
-        s = cs = ccs = 0.0
-        for v in iterable:
-            s, c = _2sum(s, float(v))
-            cs, c = _2sum(cs, c)
-            ccs += c
+        ps = []
+        for a in iterable:
+            i, a = 0, float(a)
+            for b in ps:
+                a, p = _2sum(a, b)
+                if p:
+                    ps[i] = p
+                    i += 1
+            ps[i:] = [a]
 
-        return s + cs + ccs
+        if ps:  # sum_exact(ps)
+            s = ps.pop()
+            while ps:
+                s, p = _2sum(s, ps.pop())
+                if p:
+                    break
+
+            if ps:  # half-even round
+                a = ps.pop()
+                if (a > 0 and p > 0) or (a < 0 and p < 0):
+                    a, p = _2sum(s, p * 2.0)
+                    if not p:
+                        s = a
+        else:
+            s = 0.0
+        return s
 
 
 def ft2m(feet):
@@ -470,9 +500,7 @@ def hypot3(x, y, z):
         h = float(x)
         if h > EPS:
             # XXX PyChecker chokes on /= and *=
-            y = y / h
-            z = z / h
-            t = y**2 + z**2
+            t = (y / h)**2 + (z / h)**2
             if t > EPS:
                 h *= sqrt(1.0 + t)
     else:
@@ -493,6 +521,19 @@ def inStr(inst, *args, **kwds):
     if args:
         t = map2(str, args) + t
     return '%s(%s)' % (classname(inst), ', '.join(t))
+
+
+try:
+    from math import isfinite  # new in Python 3+
+except ImportError:
+    from math import isinf, isnan
+
+    def isfinite(x):
+        '''Check for a I{Inf} a I{NaN} value.
+
+           @return: False if I{Inf} or I{NaN}, True otherwise (bool).
+        '''
+        return not (isinf(x) or isnan(x))
 
 
 def isint(obj, both=False):

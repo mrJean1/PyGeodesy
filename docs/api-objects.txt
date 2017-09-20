@@ -26,6 +26,7 @@ pygeodesy.issequence	pygeodesy-module.html#issequence
 pygeodesy.parseDMS	pygeodesy-module.html#parseDMS
 pygeodesy.Transforms	pygeodesy-module.html#Transforms
 pygeodesy.radiansPI_2	pygeodesy-module.html#radiansPI_2
+pygeodesy.isfinite	pygeodesy-module.html#isfinite
 pygeodesy.Datums	pygeodesy-module.html#Datums
 pygeodesy.radians	pygeodesy-module.html#radians
 pygeodesy.hypot	pygeodesy-module.html#hypot
@@ -363,6 +364,7 @@ pygeodesy.utils.len2	pygeodesy.utils-module.html#len2
 pygeodesy.utils.radians	pygeodesy.utils-module.html#radians
 pygeodesy.utils.hypot	pygeodesy.utils-module.html#hypot
 pygeodesy.utils.hsin3	pygeodesy.utils-module.html#hsin3
+pygeodesy.utils.m2km	pygeodesy.utils-module.html#m2km
 pygeodesy.utils.degrees90	pygeodesy.utils-module.html#degrees90
 pygeodesy.utils.fdot3	pygeodesy.utils-module.html#fdot3
 pygeodesy.utils.EPS2	pygeodesy.utils-module.html#EPS2
@@ -406,8 +408,8 @@ pygeodesy.utils._1_3rd	pygeodesy.utils-module.html#_1_3rd
 pygeodesy.utils.fpolynomial	pygeodesy.utils-module.html#fpolynomial
 pygeodesy.utils._iterNumpy2len	pygeodesy.utils-module.html#_iterNumpy2len
 pygeodesy.utils.wrap90	pygeodesy.utils-module.html#wrap90
-pygeodesy.utils.iterNumpy2over	pygeodesy.utils-module.html#iterNumpy2over
 pygeodesy.utils.iterNumpy2	pygeodesy.utils-module.html#iterNumpy2
+pygeodesy.utils.iterNumpy2over	pygeodesy.utils-module.html#iterNumpy2over
 pygeodesy.utils.issequence	pygeodesy.utils-module.html#issequence
 pygeodesy.utils.false2f	pygeodesy.utils-module.html#false2f
 pygeodesy.utils.fStr	pygeodesy.utils-module.html#fStr
@@ -417,7 +419,7 @@ pygeodesy.utils.scalar	pygeodesy.utils-module.html#scalar
 pygeodesy.utils.isNumpy2	pygeodesy.utils-module.html#isNumpy2
 pygeodesy.utils._wrap	pygeodesy.utils-module.html#_wrap
 pygeodesy.utils.radiansPI_2	pygeodesy.utils-module.html#radiansPI_2
-pygeodesy.utils.m2km	pygeodesy.utils-module.html#m2km
+pygeodesy.utils.isfinite	pygeodesy.utils-module.html#isfinite
 pygeodesy.utils.tanPI_2_2	pygeodesy.utils-module.html#tanPI_2_2
 pygeodesy.utm	pygeodesy.utm-module.html
 pygeodesy.utm._Bands	pygeodesy.utm-module.html#_Bands

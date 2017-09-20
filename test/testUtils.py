@@ -4,11 +4,11 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '17.09.16'
+__version__ = '17.09.18'
 
 from base import TestsBase
 
-from pygeodesy import fpolynomial, fsum
+from pygeodesy import fpolynomial, fsum, isfinite
 
 
 class Tests(TestsBase):
@@ -32,6 +32,13 @@ class Tests(TestsBase):
             self.test('sum', sum(t), s, known=True)
             self.test('fsum', fsum(t), s)
             t += t
+
+        self.test('isfinite', isfinite(0), 'True')
+        self.test('isfinite', isfinite(1e300), 'True')
+        self.test('isfinite', isfinite(-1e300), 'True')
+        self.test('isfinite', isfinite(1e1234), 'False')
+        self.test('isfinite', isfinite(float('inf')), 'False')
+        self.test('isfinite', isfinite(float('nan')), 'False')
 
 
 if __name__ == '__main__':
