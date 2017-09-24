@@ -23,7 +23,7 @@ from math import acos, atan2, cos, log, sin
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('LatLonSphericalBase',)
-__version__ = '17.06.25'
+__version__ = '17.09.22'
 
 
 class LatLonSphericalBase(LatLonHeightBase):
@@ -137,8 +137,8 @@ class LatLonSphericalBase(LatLonHeightBase):
            in module L{dms}.
 
            @param strll: Lat, lon [, height] (string).
-           @keyword height: Default height (meter).
-           @keyword sep: Separator (string).
+           @keyword height: Optional , default height (meter).
+           @keyword sep: Optional separator (string).
 
            @return: The point (spherical LatLon).
 
@@ -188,7 +188,7 @@ class LatLonSphericalBase(LatLonHeightBase):
 
            @param distance: Distance travelled (same units as radius).
            @param bearing: Bearing from this point (compass degrees).
-           @keyword radius: Mean earth radius (meter).
+           @keyword radius: Optional, mean earth radius (meter).
            @keyword height: Optional height, overriding the default
                             height (meter or same unit as radius).
 
@@ -234,7 +234,7 @@ class LatLonSphericalBase(LatLonHeightBase):
            a rhumb (loxodrome) line.
 
            @param other: The other point (spherical LatLon).
-           @keyword radius: Mean radius of earth (scalar, default meter).
+           @keyword radius: Optional mean radius of earth (scalar, default meter).
 
            @return: Distance (in the same units as radius).
 

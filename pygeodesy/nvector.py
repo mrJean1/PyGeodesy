@@ -21,7 +21,7 @@ from vector3d import Vector3d, sumOf as _sumOf
 __all__ = ('NorthPole', 'SouthPole',  # constants
            'Nvector',  # classes
            'sumOf')  # functions
-__version__ = '17.09.16'
+__version__ = '17.09.22'
 
 
 class Nvector(Vector3d):  # XXX kept private
@@ -37,7 +37,7 @@ class Nvector(Vector3d):  # XXX kept private
            @param x: X component (scalar).
            @param y: Y component (scalar).
            @param z: Z component (scalar).
-           @keyword h: Height above surface (meter).
+           @keyword h: Optional height above surface (meter).
            @keyword ll: Optional, original latlon (I{LatLon}).
 
            @example:
@@ -101,9 +101,9 @@ class Nvector(Vector3d):  # XXX kept private
 
            Height component is only included if non-zero.
 
-           @keyword prec: Number of decimals, unstripped (int).
-           @keyword fmt: Enclosing backets format (string).
-           @keyword sep: Separator between components (string).
+           @keyword prec: Optional number of decimals, unstripped (int).
+           @keyword fmt: Optional enclosing backets format (string).
+           @keyword sep: Optional separator between components (string).
 
            @return: Comma-separated "x, y, z [, h]" (string).
 
@@ -152,7 +152,7 @@ class LatLonNvectorBase(LatLonHeightBase):
         '''Refine the class comparison.
 
            @param other: The other point (L{LatLon}).
-           @keyword name: Other's name (string).
+           @keyword name: Optional, other's name (string).
 
            @raise TypeError: Incompatible type(other).
         '''
@@ -181,7 +181,7 @@ def sumOf(nvectors, Vector=Nvector, h=None, **kwds):
     '''Return the vectorial sum of any number of n-vectors.
 
        @param nvectors: Vectors to be added (L{Nvector}[]).
-       @keyword Vector: Vector class for sum (L{Nvector}).
+       @keyword Vector: Optional Vector class for sum (L{Nvector}).
        @keyword kwds: Optional, additional Vector keyword argments.
        @keyword h: Optional height, overriding the mean height (meter).
 

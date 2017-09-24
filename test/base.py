@@ -28,7 +28,7 @@ from pygeodesy import version as PyGeodesy_version, \
 __all__ = ('isiOS', 'PyGeodesy_dir', 'Python_O',  # constants
            'TestsBase',
            'runner', 'secs2str', 'tilde', 'type2str', 'versions')
-__version__ = '17.09.16'
+__version__ = '17.09.22'
 
 try:
     _int = int, long
@@ -80,10 +80,10 @@ class TestsBase(object):
         '''
         sys.exit(min(errors + self.errors(), 99))
 
-    def iterNumpy2over(self, n):
+    def iterNumpy2over(self, n=None):
         '''Set the I{iterNumpy2} threshold.
 
-           @keyword n: New threshold value (integer).
+           @keyword n: Optional, new threshold value (integer).
 
            @return: Previous threshold (integer).
         '''

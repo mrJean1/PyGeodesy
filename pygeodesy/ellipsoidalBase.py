@@ -22,7 +22,7 @@ from math import atan2, copysign, cos, sin, sqrt
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('CartesianBase', 'LatLonEllipsoidalBase')
-__version__ = '17.09.15'
+__version__ = '17.09.22'
 
 
 class CartesianBase(Vector3d):
@@ -34,7 +34,8 @@ class CartesianBase(Vector3d):
            by applying a Helmert transform to this point.
 
            @param transform: Transform to apply (L{Transform}).
-           @keyword inverse: Apply inverse Helmert transform (bool).
+           @keyword inverse: Optionally, apply the inverse of
+                             Helmert transform (bool).
 
            @return: The transformed point (L{Cartesian}).
         '''
@@ -59,7 +60,7 @@ class CartesianBase(Vector3d):
            Conversion', Ralph Toms, Apr 1996, U{http://www.osti.gov/
            scitech/servlets/purl/231228}.
 
-           @keyword datum: Datum to use (L{Datum}).
+           @keyword datum: Optional datum to use (L{Datum}).
 
            @return: 3-Tuple (lat, lon, heigth) in (degrees90,
                     degrees180, meter).
@@ -100,9 +101,9 @@ class CartesianBase(Vector3d):
     def toStr(self, prec=3, fmt='[%s]', sep=', '):  # PYCHOK expected
         '''Return the string representation of this cartesian.
 
-           @keyword prec: Number of decimals, unstripped (int).
-           @keyword fmt: Enclosing backets format (string).
-           @keyword sep: Separator to join (string).
+           @keyword prec: Optional number of decimals, unstripped (int).
+           @keyword fmt: Optional enclosing backets format (string).
+           @keyword sep: Optional separator to join (string).
 
            @return: Cartesian represented as "[x, y, z]" (string).
         '''
@@ -123,8 +124,9 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
 
            @param lat: Latitude (degrees or DMS string with N or S suffix).
            @param lon: Longitude (degrees or DMS string with E or W suffix).
-           @keyword height: Elevation (meter or the same units as datum's half-axes).
-           @keyword datum: Datum to use (L{Datum}).
+           @keyword height: Optional elevation (meter or the same units
+                            as the datum's half-axes).
+           @keyword datum: Optional datum to use (L{Datum}).
 
            @example:
 
@@ -261,9 +263,9 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
            in sub-module L{dms}.
 
            @param strll: Lat, lon [, height] (string).
-           @keyword height: Default height (meter or None).
-           @keyword datum: Default datum (L{Datum}).
-           @keyword sep: Separator (string).
+           @keyword height: Optional, default height (meter or None).
+           @keyword datum: Optional, default datum (L{Datum}).
+           @keyword sep: Optional separator (string).
 
            @return: The point (L{LatLonEllipsoidalBase}).
 

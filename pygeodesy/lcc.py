@@ -23,7 +23,7 @@ from math import atan, copysign, cos, hypot, log, sin, sqrt, tan
 # all public constants, classes and functions
 __all__ = ('Conic', 'Conics', 'Lcc',
            'toLcc')  # functions
-__version__ = '17.09.16'
+__version__ = '17.09.22'
 
 
 Conics = _Enum('Conics')  #: Registered conics (L{_Enum}).
@@ -59,13 +59,13 @@ class Conic(_Based):
 
            @param latlon0: Origin including an ellipsoidal datum (I{LatLon}).
            @param par1: First standard parallel (degrees90).
-           @keyword par2: Second standard parallel (degrees90).
-           @keyword E0: False easting in meter (scalar).
-           @keyword N0: False northing in meter (scalar).
-           @keyword k0: Scale factor (scalar).
+           @keyword par2: Optional, second standard parallel (degrees90).
+           @keyword E0: Optional, false easting in meter (scalar).
+           @keyword N0: Optional, false northing in meter (scalar).
+           @keyword k0: Optional scale factor (scalar).
            @keyword opt3: Optional meridian (degrees180).
-           @keyword name: Name of the conic (string).
-           @keyword auth: Authentication authority (string).
+           @keyword name: Optional name of the conic (string).
+           @keyword auth: Optional authentication authority (string).
 
            @return: A Lambert projection (L{Conic}).
 
@@ -257,7 +257,7 @@ class Conic(_Based):
     def toStr(self, prec=8):  # PYCHOK expected
         '''Return this conic as a string.
 
-           @keyword prec: Number of decimals, unstripped (int).
+           @keyword prec: Optional number of decimals, unstripped (int).
 
            @return: Conic attributes (string).
         '''
@@ -348,8 +348,8 @@ class Lcc(_Based):
 
            @param e: Easting in meter (scalar).
            @param n: Northing in meter (scalar).
-           @keyword h: Height in meter (scalar).
-           @keyword conic: The conic projection (L{Conic}).
+           @keyword h: Optional height in meter (scalar).
+           @keyword conic: Optional, the conic projection (L{Conic}).
 
            @return: The Lambert location (L{Lcc}).
 
@@ -397,8 +397,8 @@ class Lcc(_Based):
         '''Convert this L{Lcc} to an (ellipsoidal) geodetic point.
 
            @param LatLon: LatLon class for the geodetic point.
-           @keyword datum: Datum to use, otherwise use this Lcc's
-                           conic.datum (I{Datum}).
+           @keyword datum: Optional datum to use, otherwise use this
+                           I{Lcc}'s conic.datum (I{Datum}).
            @keyword height: Optional height for the point, overriding
                             the default height (meter).
 
@@ -432,9 +432,9 @@ class Lcc(_Based):
     def toStr(self, prec=0, sep=' ', m='m'):  # PYCHOK expected
         '''Return a string representation of this L{Lcc} position.
 
-           @keyword prec: Number of decimal, unstripped (int).
-           @keyword sep: Separator to join (string).
-           @keyword m: Unit of the height, default meter (string).
+           @keyword prec: Optional number of decimal, unstripped (int).
+           @keyword sep: Optional separator to join (string).
+           @keyword m: Optional height units, default meter (string).
 
            @return: This Lcc as string "easting nothing" in meter plus
                     " height" and 'm' if non-zero (string).
@@ -454,11 +454,11 @@ class Lcc(_Based):
     def toStr2(self, prec=0, fmt='[%s]', sep=', ', m='m', C=False):  # PYCHOK expected
         '''Return a string representation of this L{Lcc} position.
 
-           @keyword prec: Number of decimals, unstripped (int).
-           @keyword fmt: Enclosing backets format (string).
-           @keyword sep: Separator between name:values (string).
-           @keyword m: Unit of the height, default meter (string).
-           @keyword C: Include name of conic and datum (bool).
+           @keyword prec: Optional number of decimals, unstripped (int).
+           @keyword fmt: Optional, enclosing backets format (string).
+           @keyword sep: Optional separator between name:values (string).
+           @keyword m: Optional unit of the height, default meter (string).
+           @keyword C: Optionally, include name of conic and datum (bool).
 
            @return: This Lcc as "[E:meter, N:meter, H:m, C:Conic.Datum]"
                    (string).
@@ -475,10 +475,10 @@ def toLcc(latlon, conic=Conics.WRF_Lb, height=None, Lcc=Lcc):
     '''Convert an (ellipsoidal) geodetic point to a Lambert location.
 
        @param latlon: Ellipsoidal point (I{LatLon}).
-       @keyword conic: Lambert projection to use (L{Conic}).
+       @keyword conic: Optional Lambert projection to use (L{Conic}).
        @keyword height: Optional height for the point, overriding
                         the default height (meter).
-       @keyword Lcc: Lcc class for the Lambert location (L{Lcc}).
+       @keyword Lcc: Optional Lcc class for the Lambert location (L{Lcc}).
 
        @return: The Lambert location (L{Lcc}).
 

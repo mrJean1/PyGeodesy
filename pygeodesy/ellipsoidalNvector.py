@@ -35,7 +35,7 @@ from math import asin, atan2, cos, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '17.09.09'
+__version__ = '17.09.22'
 
 
 class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
@@ -83,7 +83,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #            @param end: End point of great circle path (L{LatLon}) or
 #                        initial bearing (in compass degrees) at the
 #                        start point.
-#            @keyword radius: Mean earth radius (meter).
+#            @keyword radius: Optional, mean earth radius (meter).
 #
 #            @return: Distance to great circle, negative if to left or
 #                     positive if to right of path (scalar).
@@ -159,7 +159,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #            @param distance: Distance traveled (same units as the
 #                             given earth radius.
 #            @param bearing: Initial bearing (compass degrees).
-#            @keyword radius: Mean earth radius (meter).
+#            @keyword radius: Optional, mean earth radius (meter).
 #            @keyword height: Optional height at destination point,
 #                             overriding default (meter or same unit
 #                             as radius).
@@ -246,7 +246,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #         '''Compute the distance from this to an other point.
 #
 #            @param other: The other point (L{LatLon}).
-#            @keyword radius: Mean earth radius (meter).
+#            @keyword radius: Optional, mean earth radius (meter).
 #
 #            @return: Distance (meter).
 #
@@ -439,8 +439,8 @@ class Cartesian(CartesianBase):
         '''Convert this (geocentric) cartesian (x/y/z) point to
            an (ellipsoidal) geodetic point on the specified datum.
 
-           @keyword datum: Datum to use (L{Datum}).
-           @keyword LatLon: LatLon class for the point (L{LatLon}).
+           @keyword datum: Optional datum to use (L{Datum}).
+           @keyword LatLon: Optional LatLon class for the point (L{LatLon}).
 
            @return: Ellipsoidal geodetic point (L{LatLon}).
         '''
@@ -450,7 +450,7 @@ class Cartesian(CartesianBase):
     def toNvector(self, datum=Datums.WGS84):
         '''Convert this cartesian to an (ellipsoidal) n-vector.
 
-           @keyword datum: Datum to use (L{Datum}).
+           @keyword datum: Optional datum to use (L{Datum}).
 
            @return: The ellipsoidal n-vector (L{Nvector}).
 
@@ -557,9 +557,9 @@ class Ned(object):
     def toStr(self, prec=3, fmt='[%s]', sep=', '):  # PYCHOK expected
         '''Return a string representation of this NED vector.
 
-           @keyword prec: Number of decimals, unstripped (int).
-           @keyword fmt: Enclosing backets format (string).
-           @keyword sep: Separator between NEDs (string).
+           @keyword prec: Optional number of decimals, unstripped (int).
+           @keyword fmt: Optional enclosing backets format (string).
+           @keyword sep: Optional separator between NEDs (string).
 
            @return: This Ned as "[N:f, E:f, D:f]" (string).
         '''
@@ -570,9 +570,9 @@ class Ned(object):
         '''Return a string representation of this NED vector as
            length, bearing and elevation.
 
-           @keyword prec: Number of decimals, unstripped (int).
-           @keyword fmt: Enclosing backets format (string).
-           @keyword sep: Separator between NEDs (string).
+           @keyword prec: Optional number of decimals, unstripped (int).
+           @keyword fmt: Optional enclosing backets format (string).
+           @keyword sep: Optional separator between NEDs (string).
 
            @return: This Ned as "[L:f, B:degrees360, E:degrees90]" (string).
         '''
@@ -611,7 +611,7 @@ class Nvector(NvectorBase):
            @param x: X component (scalar).
            @param y: Y component (scalar).
            @param z: Z component (scalar).
-           @keyword h: Height above model surface (meter).
+           @keyword h: Optional height above model surface (meter).
            @keyword datum: Optional datum this n-vector is defined
                            within (L{Datum}).
            @keyword ll: Optional, original latlon (I{LatLon}).
@@ -651,7 +651,7 @@ class Nvector(NvectorBase):
 
            @keyword height: Optional height, overriding the default
                             height (meter).
-           @keyword LatLon: LatLon class for the point (L{LatLon}).
+           @keyword LatLon: Optional LatLon class for the point (L{LatLon}).
 
            @return: Point equivalent to this n-vector (L{LatLon}).
 
@@ -669,7 +669,7 @@ class Nvector(NvectorBase):
     def toCartesian(self, Cartesian=Cartesian):
         '''Convert this n-vector to a cartesian point.
 
-           @keyword Cartesian: Cartesian class for the point (L{Cartesian}).
+           @keyword Cartesian: Optional Cartesian class for the point (L{Cartesian}).
 
            @return: Cartesian equivalent to this n-vector (L{Cartesian}).
 
@@ -707,7 +707,7 @@ def meanOf(points, datum=Datums.WGS84, height=None, LatLon=LatLon):
        @param points: Array of points to be averaged (L{LatLon}[]).
        @keyword datum: Optional datum to use (L{Datum}).
        @keyword height: Optional height, overriding the mean height (meter).
-       @keyword LatLon: LatLon class for the mean point (L{LatLon}).
+       @keyword LatLon: Optional LatLon class for the mean point (L{LatLon}).
 
        @return: Point at geographic mean and mean height (L{LatLon}).
 

@@ -59,7 +59,7 @@ from math import atan2, cos, hypot, sin, tan
 
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'VincentyError')  # classes
-__version__ = '17.09.16'
+__version__ = '17.09.22'
 
 
 class VincentyError(ValueError):
@@ -497,8 +497,8 @@ class Cartesian(CartesianBase):
         '''Convert this (geocentric) Cartesian (x/y/z) point to
            an (ellipsoidal) geodetic point on the specified datum.
 
-           @keyword datum: Datum to use (L{Datum}).
-           @keyword LatLon: LatLon class for the point (L{LatLon}).
+           @keyword datum: Optional datum to use (L{Datum}).
+           @keyword LatLon: Optional LatLon class for the point (L{LatLon}).
 
            @return: The ellipsoidal geodetic point (L{LatLon}).
         '''

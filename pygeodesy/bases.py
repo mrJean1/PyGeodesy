@@ -17,7 +17,7 @@ from math import asin, cos, degrees, radians, sin
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('Base', 'LatLonHeightBase', 'Named', 'VectorBase')
-__version__ = '17.09.16'
+__version__ = '17.09.22'
 
 
 class Base(object):
@@ -157,7 +157,7 @@ class LatLonHeightBase(Base):
 
            @param wide: Longitudinal box width (meter, like radius).
            @param high: Latitudinal box height (meter, like radius).
-           @keyword radius: Optional earth radius (meter).
+           @keyword radius: Optional, mean earth radius (meter).
 
            @return: 2-Tuple (LatLonSW, LatLonNE) of (I{LatLon}s).
 
@@ -268,7 +268,7 @@ class LatLonHeightBase(Base):
         '''Check a polygon given as list, set or tuple of points.
 
            @param points: The points of the polygon (I{LatLon}[])
-           @keyword closed: Treat polygon as closed (bool).
+           @keyword closed: Optionally, treat polygon as closed (bool).
 
            @return: 2-Tuple (number, sequence) of points (int, sequence).
 
@@ -311,10 +311,11 @@ class LatLonHeightBase(Base):
         '''Convert this point to a "lat, lon [+/-height]" string,
            formatted in the given form.
 
-           @keyword form: Use F_D, F_DM, F_DMS for deg°, deg°min′, deg°min′sec″ (string).
-           @keyword prec: Number of decimal digits (0..8 or None).
-           @keyword m: Unit of the height (string).
-           @keyword sep: Separator to join (string).
+           @keyword form: Optional format, F_D, F_DM, F_DMS for
+                          deg°, deg°min′, deg°min′sec″ (string).
+           @keyword prec: Optional number of decimal digits (0..8 or None).
+           @keyword m: Optional unit of the height (string).
+           @keyword sep: Optional separator to join (string).
 
            @return: Point in the specified form (string).
 

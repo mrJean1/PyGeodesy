@@ -26,7 +26,7 @@ __all__ = ('LatLon',  # classes
            'areaOf',  # functions
            'intersection', 'isPoleEnclosedBy',
            'meanOf')
-__version__ = '17.09.09'
+__version__ = '17.09.22'
 
 
 class LatLon(LatLonSphericalBase):
@@ -71,7 +71,7 @@ class LatLon(LatLonSphericalBase):
 
            @param start: Start point of great circle path (L{LatLon}).
            @param end: End point of great circle path (L{LatLon}).
-           @keyword radius: Mean earth radius (meter).
+           @keyword radius: Optional, mean earth radius (meter).
 
            @return: Distance along the great circle path (positive if
                     after the start toward the end point of the path
@@ -133,7 +133,7 @@ class LatLon(LatLonSphericalBase):
 
            @param start: Start point of great circle path (L{LatLon}).
            @param end: End point of great circle path (L{LatLon}).
-           @keyword radius: Mean earth radius (meter).
+           @keyword radius: Optional, mean earth radius (meter).
 
            @return: Distance to great circle (negative if to the
                     left or positive if to the right of the path).
@@ -157,7 +157,7 @@ class LatLon(LatLonSphericalBase):
 
            @param distance: Distance travelled (same units as radius).
            @param bearing: Bearing from this point (compass degrees).
-           @keyword radius: Mean earth radius (meter).
+           @keyword radius: Optional, mean earth radius (meter).
            @keyword height: Optional height at destination (meter).
 
            @return: Destination point (L{LatLon}).
@@ -184,7 +184,7 @@ class LatLon(LatLonSphericalBase):
         '''Compute the distance from this to an other point.
 
            @param other: The other point (L{LatLon}).
-           @keyword radius: Mean earth radius (meter).
+           @keyword radius: Optional, mean earth radius (meter).
 
            @return: Distance between this and the other point
                     (in the same units as radius).
@@ -492,7 +492,7 @@ def areaOf(points, radius=R_M):
        of the polygon are great circle arcs joining the points.
 
        @param points: The points defining the polygon (L{LatLon}[]).
-       @keyword radius: Mean earth radius (meter).
+       @keyword radius: Optional, mean earth radius (meter).
 
        @return: Polygon area (float, same units as radius squared).
 
@@ -557,7 +557,8 @@ def intersection(start1, bearing1, start2, bearing2,
        @param bearing2: Initial bearing from start2 (compass degrees).
        @keyword height: Optional height for the intersection point,
                         overriding the mean height (meter).
-       @keyword LatLon: LatLon class for the intersection point (L{LatLon}).
+       @keyword LatLon: Optional LatLon class for the intersection
+                        point (L{LatLon}).
 
        @return: Intersection point (L{LatLon}).
 
@@ -658,7 +659,8 @@ def meanOf(points, height=None, LatLon=LatLon):
        @param points: Points to be averaged (L{LatLon}[]).
        @keyword height: Optional height at mean point overriding
                         the mean height (meter).
-       @keyword LatLon: LatLon class for the mean point (L{LatLon}).
+       @keyword LatLon: Optional LatLon class for the mean point
+                        (L{LatLon}).
 
        @return: Point at geographic mean and height (L{LatLon}).
 

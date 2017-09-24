@@ -25,7 +25,7 @@ __all__ = ('Geohash',  # classes
            'bounds', 'decode', 'decode_error',  # functions
            'distance1', 'distance2', 'distance3',
            'encode', 'neighbors', 'sizes')
-__version__ = '17.07.18'
+__version__ = '17.09.22'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -133,8 +133,8 @@ class Geohash(str):
            a I{LatLon} instance or string.
 
            @param cll: Cell or location (L{Geohash} or str, I{LatLon} or string).
-           @keyword precision: Desired geohash length (integer), see function
-                               L{geohash.encode} for more details.
+           @keyword precision: Optional desired geohash length (integer), see
+                               function L{geohash.encode} for more details.
 
            @return: New L{Geohash}.
         '''
@@ -238,7 +238,7 @@ class Geohash(str):
            (with Pythagoras' theorem).
 
            @param other: The other geohash (L{Geohash}).
-           @keyword radius: Optional earth radius (meter) or None.
+           @keyword radius: Optional, mean earth radius (meter) or None.
 
            @return: Approximate distance (meter, same units as radius).
 
@@ -263,7 +263,7 @@ class Geohash(str):
            an other geohash (using the Haversine formula).
 
            @param other: The other geohash (L{Geohash}).
-           @keyword radius: Optional earth radius (meter).
+           @keyword radius: Optional, mean earth radius (meter).
 
            @return: Great-circle distance (meter, same units as radius).
 
@@ -510,7 +510,7 @@ def distance2(geohash1, geohash2, radius=R_M):
 
        @param geohash1: First geohash (L{Geohash}).
        @param geohash2: Second geohash (L{Geohash}).
-       @keyword radius: Optional earth radius (meter) or None.
+       @keyword radius: Optional, mean earth radius (meter) or None.
 
        @return: Approximate distance (meter, same units as radius).
 
@@ -529,7 +529,7 @@ def distance3(geohash1, geohash2, radius=R_M):
 
        @param geohash1: First geohash (L{Geohash}).
        @param geohash2: Second geohash (L{Geohash}).
-       @keyword radius: Optional earth radius (meter).
+       @keyword radius: Optional, mean earth radius (meter).
 
        @return: Great-circle distance (meter, same units as radius).
 
@@ -548,7 +548,7 @@ def encode(lat, lon, precision=None):
 
        @param lat: Latitude in degrees (scalar).
        @param lon: Longitude in degrees (scalar).
-       @keyword precision: Desired geohash length (integer).
+       @keyword precision: Optional, desired geohash length (integer).
 
        @return: The geohash (string).
 

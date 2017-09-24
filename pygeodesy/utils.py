@@ -39,7 +39,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'tan_2', 'tanPI_2_2',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '17.09.18'
+__version__ = '17.09.22'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -82,7 +82,8 @@ _crosserrors = True
 
 
 class CrossError(ValueError):
-    '''Error for zero cross product or coincident or colinear points.
+    '''Error for zero cross product or coincident or colinear
+       points or paths.
     '''
     pass
 
@@ -190,8 +191,8 @@ def false2f(value, name='value', false=True):
     '''Convert a false east-/northing to non-negative float.
 
        @param value: Value to convert (scalar).
-       @keyword name: Name of the value (string).
-       @keyword false: Value must include false origin (bool).
+       @keyword name: Optional name of the value (string).
+       @keyword false: Optionally, value includes false origin (bool).
 
        @return: The value (float).
 
@@ -211,7 +212,7 @@ def favg(v1, v2, f=0.5):
 
        @param v1: One value (scalar).
        @param v2: Other value (scalar).
-       @keyword f: Fraction (scalar).
+       @keyword f: Optional fraction (scalar).
 
        @return: M{v1 + f * (v2 - v1)} (float).
     '''
@@ -351,42 +352,54 @@ def fStrzs(fstr):
 try:  # MCCABE 15
     from math import fsum  # precision IEEE-754 sum, Python 2.6+
 
-    # make sure fsum works as expected (and check
-    # float.__getformat__('float')[:4] == 'IEEE')
+    # make sure fsum works as expected (XXX check
+    # float.__getformat__('float')[:4] == 'IEEE'?)
     if fsum((1, 1e101, 1, -1e101)) != 2:
         raise ImportError  # no, use fsum below
 
 except ImportError:
 
     def fsum(iterable):
-        '''Precision summation similar to I{math.fsum} in Python 2.6+.
+        '''Precision summation similar to I{math.fsum}.
 
            @param iterable: Sequence, list, tuple, etc. (scalars).
 
            @return: Precision sum (float).
 
-           @raise ValueError: Intermediate sum I{Inf} or I{NaN}.
+           @raise OverflowError: Intermediate sum overflow.
 
-           @note: This version does not handle I{Inf} and I{NaN} values
-                  exactly like I{math.fsum} in Python 2.6+, see source
-                  file I{Modules/mathmodule.c}.
+           @raise ValueError: Iterable not finite or otherwise invalid.
+
+           @note: Exception and non-finite handling differs from I{math.fsum}.
 
            @see: U{Hettinger<http://code.activestate.com/recipes/393090/>},
-                 U{Klein<http://link.springer.com/article/10.1007/s00607-005-0139-x>}
-                 or U{Kahan<http://wikipedia.org/wiki/Kahan_summation_algorithm>}.
+                 U{Klein<http://link.springer.com/article/10.1007/s00607-005-0139-x>},
+                 U{Kahan<http://wikipedia.org/wiki/Kahan_summation_algorithm>},
+                 Python 2.6+ file I{Modules/mathmodule.c} and the issue log
+                 U{Full precision summation<https://bugs.python.org/issue2819>}.
         '''
+        def _signof(x):
+            return +1 if x > 0 else (-1 if x < 0 else 0)
+
         def _2sum(a, b):
             if abs(b) > abs(a):
                 a, b = b, a
             s = a + b
             if not isfinite(s):
-                raise ValueError('%s not finite: %r' % ('fsum', s))
+                raise OverflowError('intermediate %s: %r' % ('fsum', s))
             t = s - a
             return s, b - t
 
         ps = []
         for a in iterable:
-            i, a = 0, float(a)
+            try:
+                a = float(a)
+                if not isfinite(a):
+                    raise ValueError
+            except (TypeError, ValueError):
+                raise ValueError('%s invalid: %r' % ('fsum', a))
+
+            i = 0
             for b in ps:
                 a, p = _2sum(a, b)
                 if p:
@@ -402,9 +415,8 @@ except ImportError:
                     break
 
             if ps:  # half-even round
-                a = ps.pop()
-                if (a > 0 and p > 0) or (a < 0 and p < 0):
-                    a, p = _2sum(s, p * 2.0)
+                if _signof(p) == _signof(ps.pop()):
+                    a, p = _2sum(s, p * 2)
                     if not p:
                         s = a
         else:
@@ -528,19 +540,25 @@ try:
 except ImportError:
     from math import isinf, isnan
 
-    def isfinite(x):
-        '''Check for a I{Inf} a I{NaN} value.
+    def isfinite(obj):
+        '''Check for I{Inf} and I{NaN} values.
+
+           @param obj: Value (scalar).
 
            @return: False if I{Inf} or I{NaN}, True otherwise (bool).
+
+           @raise TypeError: Value not scalar.
         '''
-        return not (isinf(x) or isnan(x))
+        if isscalar(obj):
+            return not (isinf(obj) or isnan(obj))
+        raise TypeError('%s invalid: %r' % ('isfinite', obj))
 
 
 def isint(obj, both=False):
     '''Check for integer type or integer value.
 
        @param obj: The object (any).
-       @keyword both: Check both type and value (bool).
+       @keyword both: Optionally, check both type and value (bool).
 
        @return: True if obj is integer (bool).
     '''
@@ -714,8 +732,9 @@ def polygon(points, closed=True, base=None):
        tuple of points.
 
        @param points: The points of the polygon (I{LatLon}[])
-       @keyword closed: Treat polygon as closed and remove any
-                        duplicate or closing final points (bool).
+       @keyword closed: Optionally, treat polygon as closed and remove
+                        any duplicate or closing final points (bool).
+       @keyword base: Optional points base class (None).
 
        @return: 2-Tuple (number, sequence) of points (int, sequence).
 

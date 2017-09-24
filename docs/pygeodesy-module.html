@@ -160,7 +160,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.09.18
+        17.09.22
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -304,7 +304,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.utils.CrossError-class.html" class="summary-name">CrossError</a><br />
-      Error for zero cross product or coincident or colinear points.
+      Error for zero cross product or coincident or colinear points or 
+        paths.
     </td>
   </tr>
 <tr>
@@ -983,8 +984,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#isfinite" class="summary-sig-name">isfinite</a>(<span class="summary-sig-arg">x</span>)</span><br />
-      Check for a <i>Inf</i> a <i>NaN</i> value.</td>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#isfinite" class="summary-sig-name">isfinite</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Check for <i>Inf</i> and <i>NaN</i> values.</td>
           <td align="right" valign="top">
             
             
@@ -1892,7 +1893,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'17.9.18'"><code class="variable-quote">'</code><code class="variable-string">17.9.18</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'17.9.22'"><code class="variable-quote">'</code><code class="variable-string">17.9.22</code><code class="variable-quote">'</code></code><br />
       Normalized PyGeodesy version (string).
     </td>
   </tr>
@@ -2168,13 +2169,13 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (compass degrees).</li>
-        <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD for deg&#176;, 
-          deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, [D]DD, [D]DDMM, [D]DDMMSS or radians 
-          (string).</li>
-        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None for default).  
+        <li><strong class="pname"><code>form</code></strong> - Optional format, F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD 
+          for deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, [D]DD, [D]DDMM, [D]DDMMSS or 
+          radians (string).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or None for default).  
           Trailing zero decimals are stripped for prec values of 1 and 
           above, but kept for negative prec values.</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional, separator (string).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Compass degrees per the specified form (string).</dd>
@@ -2325,13 +2326,13 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (compass degrees).</li>
-        <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD for deg&#176;, 
-          deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, [D]DD, [D]DDMM, [D]DDMMSS or radians 
-          (string).</li>
-        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None for default).  
+        <li><strong class="pname"><code>form</code></strong> - Optional format, F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD 
+          for deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, [D]DD, [D]DDMM, [D]DDMMSS or 
+          radians (string).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or None for default).  
           Trailing zero decimals are stripped for prec values of 1 and 
           above, but kept for negative prec values.</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional, separator (string).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Compass degrees and point per the specified form (string).</dd>
@@ -2567,8 +2568,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>value</code></strong> - Value to convert (scalar).</li>
-        <li><strong class="pname"><code>name</code></strong> - Name of the value (string).</li>
-        <li><strong class="pname"><code>false</code></strong> - Value must include false origin (bool).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name of the value (string).</li>
+        <li><strong class="pname"><code>false</code></strong> - Optionally, value includes false origin (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The value (float).</dd>
@@ -2601,7 +2602,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>v1</code></strong> - One value (scalar).</li>
         <li><strong class="pname"><code>v2</code></strong> - Other value (scalar).</li>
-        <li><strong class="pname"><code>f</code></strong> - Fraction (scalar).</li>
+        <li><strong class="pname"><code>f</code></strong> - Optional fraction (scalar).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><i class="math">v1 + f * (v2 - v1)</i> (float).</dd>
@@ -3078,17 +3079,25 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">isfinite</span>(<span class="sig-arg">x</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isfinite</span>(<span class="sig-arg">obj</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Check for a <i>Inf</i> a <i>NaN</i> value.</p>
+  <p>Check for <i>Inf</i> and <i>NaN</i> values.</p>
   <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - Value (scalar).</li>
+    </ul></dd>
     <dt>Returns:</dt>
         <dd>False if <i>Inf</i> or <i>NaN</i>, True otherwise (bool).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Value not scalar.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -3112,7 +3121,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>obj</code></strong> - The object (any).</li>
-        <li><strong class="pname"><code>both</code></strong> - Check both type and value (bool).</li>
+        <li><strong class="pname"><code>both</code></strong> - Optionally, check both type and value (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>True if obj is integer (bool).</dd>
@@ -3248,12 +3257,13 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Latitude to be formatted (degrees).</li>
-        <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD for deg&#176;, 
-          deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, DD, DDMM, DDMMSS or radians (string).</li>
-        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None for default).  
+        <li><strong class="pname"><code>form</code></strong> - Optional format, use F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or 
+          F_RAD for deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, DD, DDMM, DDMMSS or 
+          radians (string).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or None for default).  
           Trailing zero decimals are stripped for prec values of 1 and 
           above, but kept for negative prec values.</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional, separator (string).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees per the specified form (string).</dd>
@@ -3311,12 +3321,13 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Longitude to be formatted (degrees).</li>
-        <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD for deg&#176;, 
-          deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, DDD, DDDMM, DDDMMSS or radians (string).</li>
-        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None for default).  
+        <li><strong class="pname"><code>form</code></strong> - Optional format, use F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or 
+          F_RAD for deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, DDD, DDDMM, DDDMMSS or 
+          radians (string).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or None for default).  
           Trailing zero decimals are stripped for prec values of 1 and 
           above, but kept for negative prec values.</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional, separator (string).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees per the specified form (string).</dd>
@@ -3507,7 +3518,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>strDMS</code></strong> - DMS (string).</li>
-        <li><strong class="pname"><code>norm</code></strong> - Replacement, default symbol otherwise (string).</li>
+        <li><strong class="pname"><code>norm</code></strong> - Optional replacement symbol, default symbol otherwise (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Normalized DMS (string).</dd>
@@ -3542,8 +3553,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>strll</code></strong> - Lat, lon[, height] (string).</li>
-        <li><strong class="pname"><code>height</code></strong> - Default for missing height (meter).</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional, separator (string).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional default for missing height (meter).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>3-Tuple (lat, lon, height) as (scalars).</dd>
@@ -3617,7 +3628,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>strMGRS</code></strong> - MGRS grid reference (string).</li>
-        <li><strong class="pname"><code>datum</code></strong> - The datum to use (<a href="pygeodesy.datum.Datum-class.html" 
+        <li><strong class="pname"><code>datum</code></strong> - Optional datum to use (<a href="pygeodesy.datum.Datum-class.html"
           class="link">Datum</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -3704,7 +3715,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>strUTM</code></strong> - A UTM coordinate (string).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Datum to use (<a href="pygeodesy.datum.Datum-class.html" 
+        <li><strong class="pname"><code>datum</code></strong> - Optional datum to use (<a href="pygeodesy.datum.Datum-class.html"
           class="link">Datum</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -3746,8 +3757,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The points of the polygon (<i>LatLon</i>[])</li>
-        <li><strong class="pname"><code>closed</code></strong> - Treat polygon as closed and remove any duplicate or closing final
-          points (bool).</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, treat polygon as closed and remove any duplicate or 
+          closing final points (bool).</li>
+        <li><strong class="pname"><code>base</code></strong> - Optional points base class (None).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple (number, sequence) of points (int, sequence).</dd>
@@ -3778,8 +3790,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD (string).</li>
-        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None for default).  
+        <li><strong class="pname"><code>form</code></strong> - Format name, F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD 
+          (string).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or None for default).  
           Trailing zero decimals are stripped for prec values of 1 and 
           above, but kept for negative prec values.</li>
     </ul></dd>
@@ -3930,9 +3943,10 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
         <li><strong class="pname"><code>distance</code></strong> - Tolerance (meter, same units as radius).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
-        <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
-        <li><strong class="pname"><code>indices</code></strong> - Return points indices, not points (bool).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Optionally adjust longitudes (bool).</li>
+        <li><strong class="pname"><code>indices</code></strong> - Optionally return the simplified point indices instead of the 
+          simplified points (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Simplified points (list of <i>LatLon</i>s).</dd>
@@ -3970,10 +3984,11 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
         <li><strong class="pname"><code>pipe</code></strong> - Half pipe width (meter, same units as radius).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
-        <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
-        <li><strong class="pname"><code>shortest</code></strong> - Shortest or perpendicular distance (bool).</li>
-        <li><strong class="pname"><code>indices</code></strong> - Return points indices, not points (bool).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Optionally adjust longitudes (bool).</li>
+        <li><strong class="pname"><code>shortest</code></strong> - Optional, shortest or perpendicular distance (bool).</li>
+        <li><strong class="pname"><code>indices</code></strong> - Optionally return the simplified point indices instead of the 
+          simplified points (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Simplified points (list of <i>LatLon</i>s).</dd>
@@ -4015,10 +4030,11 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
         <li><strong class="pname"><code>distance</code></strong> - Tolerance (meter, same units as radius).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
-        <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
-        <li><strong class="pname"><code>shortest</code></strong> - Shortest or perpendicular distance (bool).</li>
-        <li><strong class="pname"><code>indices</code></strong> - Return points indices, not points (bool).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Optionally adjust longitudes (bool).</li>
+        <li><strong class="pname"><code>shortest</code></strong> - Optional, shortest or perpendicular distance (bool).</li>
+        <li><strong class="pname"><code>indices</code></strong> - Optionally return the simplified point indices instead of the 
+          simplified points (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Simplified points (list of <i>LatLon</i>s).</dd>
@@ -4060,10 +4076,11 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
         <li><strong class="pname"><code>distance</code></strong> - Tolerance (meter, same units as radius).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
-        <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
-        <li><strong class="pname"><code>shortest</code></strong> - Shortest or perpendicular distance (bool).</li>
-        <li><strong class="pname"><code>indices</code></strong> - Return points indices, not points (bool).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Optionally adjust longitudes (bool).</li>
+        <li><strong class="pname"><code>shortest</code></strong> - Optional, shortest or perpendicular distance (bool).</li>
+        <li><strong class="pname"><code>indices</code></strong> - Optionally return the simplified point indices instead of the 
+          simplified points (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Simplified points (list of <i>LatLon</i>s).</dd>
@@ -4101,10 +4118,11 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
         <li><strong class="pname"><code>pipe</code></strong> - Half pipe width (meter, same units as radius).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
-        <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
-        <li><strong class="pname"><code>shortest</code></strong> - Shortest or perpendicular distance (bool).</li>
-        <li><strong class="pname"><code>indices</code></strong> - Return points indices, not points (bool).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Optionally adjust longitudes (bool).</li>
+        <li><strong class="pname"><code>shortest</code></strong> - Optional, shortest or perpendicular distance (bool).</li>
+        <li><strong class="pname"><code>indices</code></strong> - Optionally return the simplified point indices instead of the 
+          simplified points (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Simplified points (list of <i>LatLon</i>s).</dd>
@@ -4146,10 +4164,11 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
         <li><strong class="pname"><code>area</code></strong> - Tolerance (meter, same units as radius).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
-        <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
-        <li><strong class="pname"><code>attr</code></strong> - Points attribute save area value (string).</li>
-        <li><strong class="pname"><code>indices</code></strong> - Return points indices, not points (bool).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Optionally adjust longitudes (bool).</li>
+        <li><strong class="pname"><code>attr</code></strong> - Optional, points attribute save area value (string).</li>
+        <li><strong class="pname"><code>indices</code></strong> - Optionally return the simplified point indices instead of the 
+          simplified points (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Simplified points (list of <i>LatLon</i>s).</dd>
@@ -4192,10 +4211,11 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
         <li><strong class="pname"><code>area</code></strong> - Tolerance (meter, same units as radius).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Earth radius (meter).</li>
-        <li><strong class="pname"><code>adjust</code></strong> - Adjust longitudes (bool).</li>
-        <li><strong class="pname"><code>attr</code></strong> - Attribute to save the area value (string).</li>
-        <li><strong class="pname"><code>indices</code></strong> - Return points indices, not points (bool).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Optionally adjust longitudes (bool).</li>
+        <li><strong class="pname"><code>attr</code></strong> - Optional attribute to save the area value (string).</li>
+        <li><strong class="pname"><code>indices</code></strong> - Optionally return the simplified point indices instead of the 
+          simplified points (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Simplified points (list of <i>LatLon</i>s).</dd>
@@ -4282,16 +4302,16 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Degrees to be formatted (scalar).</li>
-        <li><strong class="pname"><code>form</code></strong> - F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD for deg&#176;, 
-          deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, [D]DD, [D]DDMM, [D]DDMMSS or radians 
-          (string).</li>
-        <li><strong class="pname"><code>prec</code></strong> - Optional, number of decimal digits (0..9 or None for default).  
+        <li><strong class="pname"><code>form</code></strong> - Optional format, use F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or 
+          F_RAD for deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, [D]DD, [D]DDMM, [D]DDMMSS
+          or radians (string).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or None for default).  
           Trailing zero decimals are stripped for prec values of 1 and 
           above, but kept for negative prec values.</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional, separator (string).</li>
-        <li><strong class="pname"><code>ddd</code></strong> - Optional, number of digits for deg&#176; (2 or 3).</li>
-        <li><strong class="pname"><code>neg</code></strong> - Optional, sign for negative degrees ('-').</li>
-        <li><strong class="pname"><code>pos</code></strong> - Optional, sign for positive degrees ('').</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator (string).</li>
+        <li><strong class="pname"><code>ddd</code></strong> - Optional number of digits for deg&#176; (2 or 3).</li>
+        <li><strong class="pname"><code>neg</code></strong> - Optional sign for negative degrees ('-').</li>
+        <li><strong class="pname"><code>pos</code></strong> - Optional sign for positive degrees ('').</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees per the specified form (string).</dd>
@@ -4320,11 +4340,11 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>latlon</code></strong> - Ellipsoidal point (<i>LatLon</i>).</li>
-        <li><strong class="pname"><code>conic</code></strong> - Lambert projection to use (<a 
+        <li><strong class="pname"><code>conic</code></strong> - Optional Lambert projection to use (<a 
           href="pygeodesy.lcc.Conic-class.html" class="link">Conic</a>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height for the point, overriding the default height 
           (meter).</li>
-        <li><strong class="pname"><code>Lcc</code></strong> - Lcc class for the Lambert location (<a 
+        <li><strong class="pname"><code>Lcc</code></strong> - Optional Lcc class for the Lambert location (<a 
           href="pygeodesy.lcc.Lcc-class.html" class="link">Lcc</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -4358,7 +4378,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>utm</code></strong> - A UTM coordinate (<a href="pygeodesy.utm.Utm-class.html" 
           class="link">Utm</a>).</li>
-        <li><strong class="pname"><code>Mgrs</code></strong> - Mgrs class for the MGRS grid reference (<a 
+        <li><strong class="pname"><code>Mgrs</code></strong> - Optional Mgrs class for the MGRS grid reference (<a 
           href="pygeodesy.mgrs.Mgrs-class.html" class="link">Mgrs</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -4401,9 +4421,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>latlon</code></strong> - Latitude (degrees) or an (ellipsoidal) geodetic <i>LatLon</i> 
           point.</li>
-        <li><strong class="pname"><code>lon</code></strong> - Longitude in degrees (scalar or None).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Datum to convert (<i>Datum</i>).</li>
-        <li><strong class="pname"><code>Osgr</code></strong> - Osgr class for the OSGR coordinate (<a 
+        <li><strong class="pname"><code>lon</code></strong> - Optional longitude in degrees (scalar or None).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Optional datum to convert (<i>Datum</i>).</li>
+        <li><strong class="pname"><code>Osgr</code></strong> - Optional Osgr class for the OSGR coordinate (<a 
           href="pygeodesy.osgr.Osgr-class.html" class="link">Osgr</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -4447,10 +4467,10 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>latlon</code></strong> - Latitude (degrees) or an (ellipsoidal) geodetic <i>LatLon</i> 
           point.</li>
-        <li><strong class="pname"><code>lon</code></strong> - Longitude (degrees or None).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Datum for this UTM coordinate, overriding latlon's datum 
+        <li><strong class="pname"><code>lon</code></strong> - Optional longitude (degrees or None).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Optional datum for this UTM coordinate, overriding latlon's datum
           (<i>Datum</i>).</li>
-        <li><strong class="pname"><code>Utm</code></strong> - Utm class for the UTM coordinate (<a 
+        <li><strong class="pname"><code>Utm</code></strong> - Optional Utm class for the UTM coordinate (<a 
           href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -4773,7 +4793,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Sep 20 16:23:59 2017
+    Generated by Epydoc 3.0.1 on Sun Sep 24 17:32:32 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

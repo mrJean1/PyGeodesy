@@ -36,7 +36,7 @@ from math import radians
 
 __all__ = ('LatLon2psxy', 'Numpy2LatLon',  # class
            'bounds', 'isclockwise', 'isconvex')
-__version__ = '17.09.16'
+__version__ = '17.09.22'
 
 
 class _Basequence(_Sequence):  # immutable, on purpose
@@ -171,7 +171,7 @@ class LatLon2psxy(_Basequence):
                   2-tuples (x, y) are (longitude, latitude).
 
            @param latlons: Points list, sequence, set, tuple, etc. (I{LatLon[]}).
-           @keyword closed: Points form a closed polygon (bool).
+           @keyword closed: Optionally, points form a closed polygon (bool).
            @keyword radius: Optional, mean earth radius (meter).
            @keyword wrap: Optionally, wrap90(lat) and wrap180(lon) (bool).
 
@@ -398,9 +398,9 @@ class Numpy2LatLon(_Basequence):  # immutable, on purpose
         '''Handle a NumPy array as a sequence of I{LatLon} points.
 
            @param array: NumPy array (I{numpy.array}).
-           @keyword ilat: index of the latitudes column (integer).
-           @keyword ilon: index of the longitudes column (integer).
-           @keyword LatLon: I{LatLon} class to use (internal).
+           @keyword ilat: Optional index of the latitudes column (integer).
+           @keyword ilon: Optional index of the longitudes column (integer).
+           @keyword LatLon: Optional I{LatLon} class to use (internal).
 
            @raise IndexError: If I{array.shape} is not (1+, 2+).
 

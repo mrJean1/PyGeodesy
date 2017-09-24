@@ -44,7 +44,7 @@ from operator import mul
 # all public contants, classes and functions
 __all__ = ('Utm',  # classes
            'parseUTM', 'toUtm')  # functions
-__version__ = '17.06.04'
+__version__ = '17.09.22'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -110,7 +110,7 @@ def _toZBL(zone, band, mgrs=False):  # used by mgrs.Mgrs
 
        @param zone: Zone number or string.
        @param band: Band letter.
-       @param mgrs: Raise ValueError (bool).
+       @param mgrs: Optionally, raise ValueError (bool).
 
        @return: 3-Tuple (zone, Band, latitude).
     '''
@@ -197,8 +197,8 @@ class Utm(Base):
                            central meridian (meter).
            @param northing: Northing from equator N or from false
                             northing -10,000km S (meter).
-           @keyword band: Optional latitudinal band (string, C..X).
-           @keyword datum: This coordinate's datum (L{Datum}).
+           @keyword band: Optional, latitudinal band (string, C..X).
+           @keyword datum: Optional, this coordinate's datum (L{Datum}).
            @keyword convergence: Optional meridian convergence, bearing
                                  of grid North, clockwise from true
                                  North (degrees or None).
@@ -377,8 +377,8 @@ class Utm(Base):
            Note that UTM coordinates are rounded, not truncated
            (unlike MGRS grid references).
 
-           @keyword prec: Number of decimals, unstripped (int).
-           @keyword sep: Separator to join (string).
+           @keyword prec: Optional number of decimals, unstripped (int).
+           @keyword sep: Optional separator to join (string).
            @keyword B: Optionally, include latitudinal band (bool).
            @keyword cs: Optionally, include meridian convergence and
                         grid scale factor (bool).
@@ -409,9 +409,9 @@ class Utm(Base):
            Note that UTM coordinates are rounded, not truncated
            (unlike MGRS grid references).
 
-           @keyword prec: Number of decimals, unstripped (int).
-           @keyword fmt: Enclosing backets format (string).
-           @keyword sep: Separator between name:value pairs (string).
+           @keyword prec: Optional number of decimals, unstripped (int).
+           @keyword fmt: Optional, enclosing backets format (string).
+           @keyword sep: Optional separator between name:value pairs (string).
            @keyword B: Optionally, include latitudinal band (bool).
            @keyword cs: Optionally, include meridian convergence and
                         grid scale factor (bool).
@@ -436,7 +436,7 @@ def parseUTM(strUTM, datum=Datums.WGS84):
        of zone, hemisphere, easting and northing.
 
        @param strUTM: A UTM coordinate (string).
-       @keyword datum: Datum to use (L{Datum}).
+       @keyword datum: Optional datum to use (L{Datum}).
 
        @return: The UTM coordinate (L{Utm}).
 
@@ -477,10 +477,10 @@ def toUtm(latlon, lon=None, datum=None, Utm=Utm):
 
        @param latlon: Latitude (degrees) or an (ellipsoidal)
                       geodetic I{LatLon} point.
-       @keyword lon: Longitude (degrees or None).
-       @keyword datum: Datum for this UTM coordinate, overriding
-                       latlon's datum (I{Datum}).
-       @keyword Utm: Utm class for the UTM coordinate (L{Utm}).
+       @keyword lon: Optional longitude (degrees or None).
+       @keyword datum: Optional datum for this UTM coordinate,
+                       overriding latlon's datum (I{Datum}).
+       @keyword Utm: Optional Utm class for the UTM coordinate (L{Utm}).
 
        @return: The UTM coordinate (L{Utm}).
 

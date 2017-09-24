@@ -85,7 +85,7 @@ from math import cos, degrees, radians, sqrt
 __all__ = ('simplify1', 'simplify2',  # backward compatibility
            'simplifyRDP', 'simplifyRDPm', 'simplifyRW',
            'simplifyVW', 'simplifyVWm')
-__version__ = '17.09.16'
+__version__ = '17.09.22'
 
 
 # try:
@@ -384,9 +384,10 @@ def simplify1(points, distance, radius=R_M, adjust=True, indices=False):
 
        @param points: Path points (I{LatLon}s).
        @param distance: Tolerance (meter, same units as radius).
-       @keyword radius: Earth radius (meter).
-       @keyword adjust: Adjust longitudes (bool).
-       @keyword indices: Return points indices, not points (bool).
+       @keyword radius: Optional, mean earth radius (meter).
+       @keyword adjust: Optionally adjust longitudes (bool).
+       @keyword indices: Optionally return the simplified point indices
+                         instead of the simplified points (bool).
 
        @return: Simplified points (list of I{LatLon}s).
 
@@ -421,10 +422,11 @@ def simplifyRDP(points, distance, radius=R_M, adjust=True, shortest=False, indic
 
        @param points: Path points (I{LatLon}s).
        @param distance: Tolerance (meter, same units as radius).
-       @keyword radius: Earth radius (meter).
-       @keyword adjust: Adjust longitudes (bool).
-       @keyword shortest: Shortest or perpendicular distance (bool).
-       @keyword indices: Return points indices, not points (bool).
+       @keyword radius: Optional, mean earth radius (meter).
+       @keyword adjust: Optionally adjust longitudes (bool).
+       @keyword shortest: Optional, shortest or perpendicular distance (bool).
+       @keyword indices: Optionally return the simplified point indices
+                         instead of the simplified points (bool).
 
        @return: Simplified points (list of I{LatLon}s).
 
@@ -448,10 +450,11 @@ def simplifyRDPm(points, distance, radius=R_M, adjust=True, shortest=False, indi
 
        @param points: Path points (I{LatLon}s).
        @param distance: Tolerance (meter, same units as radius).
-       @keyword radius: Earth radius (meter).
-       @keyword adjust: Adjust longitudes (bool).
-       @keyword shortest: Shortest or perpendicular distance (bool).
-       @keyword indices: Return points indices, not points (bool).
+       @keyword radius: Optional, mean earth radius (meter).
+       @keyword adjust: Optionally adjust longitudes (bool).
+       @keyword shortest: Optional, shortest or perpendicular distance (bool).
+       @keyword indices: Optionally return the simplified point indices
+                         instead of the simplified points (bool).
 
        @return: Simplified points (list of I{LatLon}s).
 
@@ -470,10 +473,11 @@ def simplifyRW(points, pipe, radius=R_M, adjust=True, shortest=False, indices=Fa
 
        @param points: Path points (I{LatLon}s).
        @param pipe: Half pipe width (meter, same units as radius).
-       @keyword radius: Earth radius (meter).
-       @keyword adjust: Adjust longitudes (bool).
-       @keyword shortest: Shortest or perpendicular distance (bool).
-       @keyword indices: Return points indices, not points (bool).
+       @keyword radius: Optional, mean earth radius (meter).
+       @keyword adjust: Optionally adjust longitudes (bool).
+       @keyword shortest: Optional, shortest or perpendicular distance (bool).
+       @keyword indices: Optionally return the simplified point indices
+                         instead of the simplified points (bool).
 
        @return: Simplified points (list of I{LatLon}s).
 
@@ -517,10 +521,11 @@ def simplifyVW(points, area, radius=R_M, adjust=True, attr=None, indices=False):
 
        @param points: Path points (I{LatLon}s).
        @param area: Tolerance (meter, same units as radius).
-       @keyword radius: Earth radius (meter).
-       @keyword adjust: Adjust longitudes (bool).
-       @keyword attr: Points attribute save area value (string).
-       @keyword indices: Return points indices, not points (bool).
+       @keyword radius: Optional, mean earth radius (meter).
+       @keyword adjust: Optionally adjust longitudes (bool).
+       @keyword attr: Optional, points attribute save area value (string).
+       @keyword indices: Optionally return the simplified point indices
+                         instead of the simplified points (bool).
 
        @return: Simplified points (list of I{LatLon}s).
 
@@ -565,10 +570,11 @@ def simplifyVWm(points, area, radius=R_M, adjust=True, attr=None, indices=False)
 
        @param points: Path points (I{LatLon}s).
        @param area: Tolerance (meter, same units as radius).
-       @keyword radius: Earth radius (meter).
-       @keyword adjust: Adjust longitudes (bool).
-       @keyword attr: Attribute to save the area value (string).
-       @keyword indices: Return points indices, not points (bool).
+       @keyword radius: Optional, mean earth radius (meter).
+       @keyword adjust: Optionally adjust longitudes (bool).
+       @keyword attr: Optional attribute to save the area value (string).
+       @keyword indices: Optionally return the simplified point indices
+                         instead of the simplified points (bool).
 
        @return: Simplified points (list of I{LatLon}s).
 

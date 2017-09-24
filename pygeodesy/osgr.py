@@ -39,7 +39,7 @@ from math import cos, sin, sqrt, tan
 # all public contants, classes and functions
 __all__ = ('Osgr',  # classes
            'parseOSGR', 'toOsgr')  # functions
-__version__ = '17.06.04'
+__version__ = '17.09.22'
 
 _10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (meter)
 _100km   = 100000  #: (INTERNAL) 100 km (int meter)
@@ -204,8 +204,8 @@ class Osgr(Base):
            Note that OSGR coordinates are truncated, not rounded
            (unlike UTM grid references).
 
-           @keyword prec: Number of digits (int).
-           @keyword sep: Separator to join (string).
+           @keyword prec: Optional number of digits (int).
+           @keyword sep: Optional separator to join (string).
 
            @return: This OSGR as string "EN meter meter" or as
                     "meter,meter' if prec non-positive (string).
@@ -251,9 +251,9 @@ class Osgr(Base):
     def toStr2(self, prec=10, fmt='[%s]', sep=', '):  # PYCHOK expected
         '''Return a string representation of this OSGR coordinate.
 
-           @keyword prec: Number of digits (int).
-           @keyword fmt: Enclosing backets format (string).
-           @keyword sep: Separator to join (string).
+           @keyword prec: Optional number of digits (int).
+           @keyword fmt: Optional enclosing backets format (string).
+           @keyword sep: Optional separator to join (string).
 
            @return: This OSGR as "[G:00B, E:meter, N:meter]" or as
                     "OSGR:meter,meter" if prec non-positive (string).
@@ -348,9 +348,9 @@ def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr):
 
        @param latlon: Latitude (degrees) or an (ellipsoidal)
                       geodetic I{LatLon} point.
-       @keyword lon: Longitude in degrees (scalar or None).
-       @keyword datum: Datum to convert (I{Datum}).
-       @keyword Osgr: Osgr class for the OSGR coordinate (L{Osgr}).
+       @keyword lon: Optional longitude in degrees (scalar or None).
+       @keyword datum: Optional datum to convert (I{Datum}).
+       @keyword Osgr: Optional Osgr class for the OSGR coordinate (L{Osgr}).
 
        @return: The OSGR coordinate (L{Osgr}).
 

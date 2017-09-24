@@ -19,7 +19,7 @@ from math import atan2, cos, sin
 # all public contants, classes and functions
 __all__ = ('Vector3d',  # classes
            'sumOf')  # functions
-__version__ = '17.09.09'
+__version__ = '17.09.22'
 
 try:
     _cmp = cmp
@@ -270,11 +270,11 @@ class Vector3d(VectorBase):
         '''Compute the angle between this and an other vector.
 
            @param other: The other vector (L{Vector3d}).
-           @keyword vSign: Vector, if supplied (and out of the plane of
-                           this and the other), angle is signed positive
-                           if this->other is clockwise looking along vSign
-                           or negative in opposite direction, otherwise
-                           angle is unsigned.
+           @keyword vSign: Optional vector, if supplied (and out of the
+                           plane of this and the other), angle is signed
+                           positive if this->other is clockwise looking
+                           along vSign or negative in opposite direction,
+                           otherwise angle is unsigned.
 
            @return: Angle (radians).
 
@@ -303,6 +303,7 @@ class Vector3d(VectorBase):
         '''Compute the cross product of this and an other vector.
 
            @param other: The other vector (L{Vector3d}).
+           @keyword raiser: Optional, L{CrossError} label to raise (string).
 
            @return: Cross product (L{Vector3d}).
 
@@ -358,7 +359,7 @@ class Vector3d(VectorBase):
         '''Check if this and an other vector are equal or equivalent.
 
            @param other: The other vector (L{Vector3d}).
-           @keyword units: Use units=True to compare the normalized,
+           @keyword units: Optionally, compare the normalized,
                            unit version of both vectors.
 
            @return: True if vectors are identical (bool).
@@ -413,7 +414,7 @@ class Vector3d(VectorBase):
         '''Refined class comparison.
 
            @param other: The other vector (L{Vector3d}).
-           @keyword name: Other's name (string).
+           @keyword name: Optional, other's name (string).
 
            @raise TypeError: Incompatible I{type(other)}.
         '''
@@ -527,9 +528,9 @@ class Vector3d(VectorBase):
     def toStr(self, prec=5, fmt='(%s)', sep=', '):  # PYCHOK expected
         '''Return a string representation of this vector.
 
-           @keyword prec: Number of decimal places (int).
-           @keyword fmt: Enclosing format to use (string).
-           @keyword sep: Separator between components (string).
+           @keyword prec: Optional number of decimal places (int).
+           @keyword fmt: Optional, enclosing format to use (string).
+           @keyword sep: Optional separator between components (string).
 
            @return: Vector as "(x, y, z)" (string).
         '''
@@ -573,7 +574,7 @@ def sumOf(vectors, Vector=Vector3d, **kwds):
     '''Compute the vectorial sum of several vectors.
 
        @param vectors: Vectors to be added (L{Vector3d}[]).
-       @keyword Vector: Vector class for sum (L{Vector3d}).
+       @keyword Vector: Optional Vector class for sum (L{Vector3d}).
        @keyword kwds: Optional, additional Vector keyword argments.
 
        @return: Vectorial sum (Vector).

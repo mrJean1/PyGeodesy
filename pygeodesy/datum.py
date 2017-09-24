@@ -52,7 +52,7 @@ R_SM = m2SM(R_M)  #: Mean, spherical earth radius (statute miles).
 __all__ = ('R_KM', 'R_M', 'R_NM', 'R_SM',  # constants
            'Datum',  'Ellipsoid',  'Transform',  # classes
            'Datums', 'Ellipsoids', 'Transforms')  # enum-like
-__version__ = '17.07.31'
+__version__ = '17.09.22'
 
 
 class _Enum(dict, Named):
@@ -348,7 +348,7 @@ class Ellipsoid(_Based):
     def toStr(self, prec=8):  # PYCHOK expected
         '''Return this ellipsoid as a string.
 
-           @keyword prec: Number of decimals, unstripped (int).
+           @keyword prec: Optional number of decimals, unstripped (int).
 
            @return: Ellipsoid attributes (string).
         '''
@@ -428,13 +428,13 @@ class Transform(_Based):
         '''New transform.
 
            @keyword name: Optional, unique name (string).
-           @keyword tx: X translation (meter).
-           @keyword ty: Y translation (meter).
-           @keyword tz: Z translation (meter).
-           @keyword s: Scale ppm (float).
-           @keyword sx: X rotation (degree seconds).
-           @keyword sy: Y rotation (degree seconds).
-           @keyword sz: Z rotation (degree seconds).
+           @keyword tx: Optional X translation (meter).
+           @keyword ty: Optional Y translation (meter).
+           @keyword tz: Optional Z translation (meter).
+           @keyword s: Optional scale ppm (float).
+           @keyword sx: Optional X rotation (degree seconds).
+           @keyword sy: Optional Y rotation (degree seconds).
+           @keyword sz: Optional Z rotation (degree seconds).
 
            @raise NameError: If transform name already exists.
         '''
@@ -491,7 +491,7 @@ class Transform(_Based):
     def toStr(self, prec=4):  # PYCHOK expected
         '''Return this transform as a string.
 
-           @keyword prec: Number of decimals, unstripped (int).
+           @keyword prec: Optional number of decimals, unstripped (int).
 
            @return: Transform attributes (string).
         '''
@@ -505,7 +505,7 @@ class Transform(_Based):
            @param x: X coordinate (meter).
            @param y: Y coordinate (meter).
            @param z: Z coordinate (meter).
-           @keyword inverse: Direction, forward or inverse (bool).
+           @keyword inverse: Optional direction, forward or inverse (bool).
 
            @return: 3-Tuple (x, y, z) transformed.
         '''
@@ -582,7 +582,7 @@ class Datum(_Based):
         '''New datum.
 
            @param ellipsoid: The ellipsoid (L{Ellipsoid}).
-           @keyword transform: The transform (L{Transform}).
+           @keyword transform: Optional transform (L{Transform}).
            @keyword name: Optional, unique name (string).
 
            @raise NameError: If datum name already exists.
