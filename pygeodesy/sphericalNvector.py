@@ -40,9 +40,12 @@ from math import atan2, cos, radians, sin
 
 # all public contants, classes and functions
 __all__ = ('LatLon', 'Nvector',  # classes
-           'areaOf', 'intersection', 'meanOf',  # functions
+           'areaOf',  # functions
+           'intersection',
+           'meanOf',
+           'nearestOn2',
            'triangulate', 'trilaterate')
-__version__ = '17.09.22'
+__version__ = '17.11.22'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -506,7 +509,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         return m.toLatLon(height=height, LatLon=self.classof)
 
     def nearestOn(self, point1, point2, height=None):
-        '''Locate the point closest on great circle segment between
+        '''Locate the closest point on the great circle segment between
            two points and this point.
 
            If this point is within the extent of the segment between
@@ -552,6 +555,38 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
             p = point2
 
         return p
+
+    def nearestOn2(self, points, radius=R_M, height=None):
+        '''Locate the closest point on the great circle segment between
+           any two consecutive points of a path.
+
+           If this point is within the extent of any segment, the
+           closest point is on the segment.  Otherwise the closest
+           point is the nearest of the segment end points.
+
+           @param points: The points of the path (L{LatLon}[]).
+           @keyword radius: Optional, mean earth radius (meter).
+           @keyword height: Optional height, overriding the mean height
+                            for a point if within segment (meter).
+
+           @return: 2-Tuple (closest, distance) of the closest point
+           (L{LatLon}) on the path and the distance to that point in
+           meter, rather the units of I{radius}.
+
+           @raise TypeError: Some points are not I{LatLon}.
+
+           @raise ValueError: If no points.
+        '''
+        n, points = self.points(points, closed=False)
+
+        c = points[0]
+        d = self.distanceTo(c, radius=radius)
+        for i in range(1, n):
+            p = self.nearestOn(points[i-1], points[i], height=height)
+            t = self.distanceTo(p, radius=radius)
+            if t < d:
+                c, d = p, t
+        return c, d
 
     def toNvector(self):
         '''Convert this (geodetic) point to a (spherical) n-vector
@@ -845,6 +880,35 @@ def meanOf(points, height=None, LatLon=LatLon):
     return LatLon(a, b, height=h if height is None else height)
 
 
+def nearestOn2(point, points, radius=R_M, height=None):
+    '''Locate the closest point on the great circle segment between
+       any two consecutive points of a path.
+
+       If the given point is within the extent of any segment, the
+       closest point is on the segment.  Otherwise the closest point
+       is the nearest of the segment end points.
+
+       @param point: The reference point (L{LatLon}).
+       @param points: The points of the path (L{LatLon}[]).
+       @keyword radius: Optional, mean earth radius (meter).
+       @keyword height: Optional height, overriding the mean height
+                        for a point if within segment (meter).
+
+       @return: 2-Tuple (closest, distance) of the closest point
+                (L{LatLon}) on the path and the distance to that
+                point from the given point in meter, rather the
+                units of I{radius}.
+
+       @raise TypeError: Some points or the point not I{LatLon}.
+
+       @raise ValueError: If no points.
+    '''
+    if not isinstance(point, LatLon):
+        raise TypeError('%s not %r: %r' % ('point', LatLon, point))
+
+    return point.nearestOn2(points, radius=radius, height=height)
+
+
 def triangulate(point1, bearing1, point2, bearing2,
                 height=None, LatLon=LatLon):
     '''Locate a point given two known points and initial bearings
@@ -970,7 +1034,7 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3,
 
 # **) MIT License
 #
-# Copyright (C) 2016-2017 -- mrJean1 at Gmail dot com
+# Copyright (C) 2016-2018 -- mrJean1 at Gmail dot com
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

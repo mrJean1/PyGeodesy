@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.08.10'
+__version__ = '17.11.22'
 
 from testLatLon import Tests as _TestsLL
 from testVectorial import Tests as _TestsV
@@ -14,7 +14,7 @@ from pygeodesy import F_D, F_DMS, lonDMS
 
 class Tests(_TestsLL, _TestsV):
 
-    def testSpherical(self, module):
+    def testSpherical(self, module, Vct=False):
 
         self.subtitle(module, 'Spherical')
 
@@ -87,13 +87,34 @@ class Tests(_TestsLL, _TestsV):
         c = LatLon(0, 0), LatLon(1, 0), LatLon(0, 1)
         self.test('areaOf', module.areaOf(c), '6.18e+09', fmt='%.2e')
 
+        if hasattr(module, 'nearestOn2'):
+            c, d = module.nearestOn2(p, b)
+            self.test('nearestOn2', c, '46.000996°N, 001.353049°E' if Vct else '46.0°N, 001.561895°E')
+            self.test('nearestOn2', d, '569987.49' if Vct else '570097.17', fmt='%.2f')
+            d = p.distanceTo(c)
+            self.test('distanceTo', d, '569987.49' if Vct else '570334.43', fmt='%.2f')
+
+            p = LatLon(47, 3)
+            c, d = module.nearestOn2(p, b)
+            self.test('nearestOn2', c, '46.0°N, 002.0°E' if Vct else '46.0°N, 002.0°E')
+            self.test('nearestOn2', d, '134989.80' if Vct else '134992.48', fmt='%.2f')
+            d = p.distanceTo(c)
+            self.test('distanceTo', d, '134989.80' if Vct else '134989.80', fmt='%.2f')  # PYCHOK XXX?
+
+            p = LatLon(45, 2)
+            c, d = module.nearestOn2(p, (LatLon(45, 1), LatLon(46, 2), LatLon(46, 1)))
+            self.test('nearestOn2', c, '45.333308°N, 001.328416°E' if Vct else '45.405852°N, 001.405852°E')
+            self.test('nearestOn2', d, '64386.74' if Vct else '64386.06', fmt='%.2f')
+            d = p.distanceTo(c)
+            self.test('distanceTo', d, '64386.74' if Vct else '64834.25', fmt='%.2f')  # PYCHOK XXX?
+
         if hasattr(module, 'isPoleEnclosedBy'):
-            b = LatLon(85, 90), LatLon(85, 0), LatLon(85, -90), LatLon(85, -180)
+            p = LatLon(85, 90), LatLon(85, 0), LatLon(85, -90), LatLon(85, -180)
             for _ in self.testiter():
-                self.test('isPoleEnclosedBy', module.isPoleEnclosedBy(b), 'True')
-            b = LatLon(85, 90), LatLon(85, 0), LatLon(85, -180)
+                self.test('isPoleEnclosedBy', module.isPoleEnclosedBy(p), 'True')  # PYCHOK XXX?
+            p = LatLon(85, 90), LatLon(85, 0), LatLon(85, -180)
             for _ in self.testiter():
-                self.test('isPoleEnclosedBy', module.isPoleEnclosedBy(b), 'True', known=True)
+                self.test('isPoleEnclosedBy', module.isPoleEnclosedBy(p), 'True', known=True)  # PYCHOK XXX?
 
 
 if __name__ == '__main__':
@@ -104,11 +125,11 @@ if __name__ == '__main__':
     t = Tests(__file__, __version__)
 
     t.testLatLon(N, Sph=True)
-    t.testSpherical(N)
     t.testVectorial(N)
+    t.testSpherical(N, Vct=True)
 
     t.testLatLon(T, Sph=True)
-    t.testSpherical(T)
+    t.testSpherical(T, Vct=False)
 
     t.results()
     t.exit()

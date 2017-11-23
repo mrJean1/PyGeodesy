@@ -34,7 +34,7 @@
       <th class="navbar" align="right" width="100%">
         <table border="0" cellpadding="0" cellspacing="0">
           <tr><th class="navbar" align="center"
-            ><a class="navbar" target="_top" href="https://github.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+            ><a class="navbar" target="_top" href="http://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
           </tr></table></th>
   </tr>
 </table>
@@ -69,7 +69,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.09.22
+        17.11.22
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -259,6 +259,29 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#degrees360" class="summary-sig-name">degrees360</a>(<span class="summary-sig-arg">rad</span>)</span><br />
       Convert and wrap radians to degrees <i class="math">0..+360</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#equirectangular3" class="summary-sig-name">equirectangular3</a>(<span class="summary-sig-arg">lat1</span>,
+        <span class="summary-sig-arg">lon1</span>,
+        <span class="summary-sig-arg">lat2</span>,
+        <span class="summary-sig-arg">lon2</span>,
+        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Compute the distance between two points using the <a 
+      href="http://www.movable-type.co.uk/scripts/latlong.html" 
+      target="_top">Equirectangular Approximation/Projection</a>.</td>
           <td align="right" valign="top">
             
             
@@ -478,8 +501,14 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#hsin" class="summary-sig-name">hsin</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Compute the Haversine value of an angle.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#haversine" class="summary-sig-name">haversine</a>(<span class="summary-sig-arg">lat1</span>,
+        <span class="summary-sig-arg">lon1</span>,
+        <span class="summary-sig-arg">lat2</span>,
+        <span class="summary-sig-arg">lon2</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
+      Compute the distance between two points using the <a 
+      href="http://www.movable-type.co.uk/scripts/latlong.html" 
+      target="_top">Haversine</a> formula.</td>
           <td align="right" valign="top">
             
             
@@ -495,10 +524,12 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#hsin3" class="summary-sig-name">hsin3</a>(<span class="summary-sig-arg">a2</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#haversine_" class="summary-sig-name">haversine_</a>(<span class="summary-sig-arg">a2</span>,
         <span class="summary-sig-arg">a1</span>,
         <span class="summary-sig-arg">b21</span>)</span><br />
-      Compute the angular distance using the Haversine formula.</td>
+      Compute the <i>angular</i> distance using the <a 
+      href="http://www.movable-type.co.uk/scripts/latlong.html" 
+      target="_top">Haversine</a> formula.</td>
           <td align="right" valign="top">
             
             
@@ -1287,6 +1318,52 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="equirectangular3"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">equirectangular3</span>(<span class="sig-arg">lat1</span>,
+        <span class="sig-arg">lon1</span>,
+        <span class="sig-arg">lat2</span>,
+        <span class="sig-arg">lon2</span>,
+        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the distance between two points using the <a 
+  href="http://www.movable-type.co.uk/scripts/latlong.html" 
+  target="_top">Equirectangular Approximation/Projection</a>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat1</code></strong> - Latitude1 (degrees).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - Longitude1 (degrees).</li>
+        <li><strong class="pname"><code>lat2</code></strong> - Latitude2 (degrees).</li>
+        <li><strong class="pname"><code>lon2</code></strong> - Longitude2 (degrees).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Optionally adjust longitudes by the cosine of the mean of the 
+          latitudes (bool).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>3-Tuple (distance2, delta_lat, delta_lon) with the distance in 
+          degrees squared, the latitude delta lat2-lat1 and the 
+          <i>adjusted</i> longitude delta lon2-lon1.  To convert distance2 
+          to meter, use <i class="math">radians(sqrt(distance2)) * 
+          radius</i> where radius is the mean earth radius in the desired 
+          units, like <a href="pygeodesy.utils-module.html#R_M" 
+          class="link">R_M</a> in meter.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.utils-module.html#haversine" 
+        class="link">haversine</a> for an accurate distance.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="false2f"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1614,43 +1691,55 @@
   </dl>
 </td></tr></table>
 </div>
-<a name="hsin"></a>
+<a name="haversine"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">hsin</span>(<span class="sig-arg">rad</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">haversine</span>(<span class="sig-arg">lat1</span>,
+        <span class="sig-arg">lon1</span>,
+        <span class="sig-arg">lat2</span>,
+        <span class="sig-arg">lon2</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Compute the Haversine value of an angle.</p>
+  <p>Compute the distance between two points using the <a 
+  href="http://www.movable-type.co.uk/scripts/latlong.html" 
+  target="_top">Haversine</a> formula.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
+        <li><strong class="pname"><code>lat1</code></strong> - Latitude1 (degrees).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - Longitude1 (degrees).</li>
+        <li><strong class="pname"><code>lat2</code></strong> - Latitude2 (degrees).</li>
+        <li><strong class="pname"><code>lon2</code></strong> - Longitude2 (degrees).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><i class="math">sin(rad / 2)**2</i> (float).</dd>
+        <dd>Distance (meter, same units as <i>radius</i>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a href="http://wikipedia.org/wiki/Haversine_formula" 
-        target="_top">http://wikipedia.org/wiki/Haversine_formula</a>.
+        <a href="http://www.edwilliams.org/avform.htm#Dist" 
+        target="_top">Distance between two points</a> and function <a 
+        href="pygeodesy.utils-module.html#equirectangular3" 
+        class="link">equirectangular3</a> for an approximation.
       </p>
 </div></td></tr></table>
 </div>
-<a name="hsin3"></a>
+<a name="haversine_"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">hsin3</span>(<span class="sig-arg">a2</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">haversine_</span>(<span class="sig-arg">a2</span>,
         <span class="sig-arg">a1</span>,
         <span class="sig-arg">b21</span>)</span>
   </h3>
@@ -1659,22 +1748,24 @@
     </td>
   </tr></table>
   
-  <p>Compute the angular distance using the Haversine formula.</p>
+  <p>Compute the <i>angular</i> distance using the <a 
+  href="http://www.movable-type.co.uk/scripts/latlong.html" 
+  target="_top">Haversine</a> formula.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>a2</code></strong> - Latitude2 (radians).</li>
         <li><strong class="pname"><code>a1</code></strong> - Latitude1 (radians).</li>
-        <li><strong class="pname"><code>b21</code></strong> - Longitude delta (radians).</li>
+        <li><strong class="pname"><code>b21</code></strong> - Longitudinal delta (radians).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>3-Tuple (angle, cos(a2), cos(a1)).</dd>
+        <dd>Angular distance (radians).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a href="http://www.movable-type.co.uk/scripts/latlong.html" 
-        target="_top">http://www.movable-type.co.uk/scripts/latlong.html</a>
-        and <a href="http://www.edwilliams.org/avform.htm#Dist" 
-        target="_top">http://www.edwilliams.org/avform.htm#Dist</a>.
+        This <a href="http://www.edwilliams.org/avform.htm#Dist" 
+        target="_top">Distance between two points</a>, function <a 
+        href="pygeodesy.utils-module.html#haversine" 
+        class="link">haversine</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -2508,14 +2599,14 @@
       <th class="navbar" align="right" width="100%">
         <table border="0" cellpadding="0" cellspacing="0">
           <tr><th class="navbar" align="center"
-            ><a class="navbar" target="_top" href="https://github.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+            ><a class="navbar" target="_top" href="http://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
           </tr></table></th>
   </tr>
 </table>
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Sep 24 17:32:33 2017
+    Generated by Epydoc 3.0.1 on Wed Nov 22 23:05:29 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

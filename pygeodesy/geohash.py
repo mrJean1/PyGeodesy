@@ -16,7 +16,7 @@ U{http://pypi.python.org/pypi/pygeohash}.
 '''
 
 from dms import parse3llh, parseDMS
-from utils import EPS, R_M, favg, fStr, hsin3, map2
+from utils import EPS, R_M, favg, fStr, haversine_, map2
 
 from math import cos, hypot, log10, radians
 
@@ -25,7 +25,7 @@ __all__ = ('Geohash',  # classes
            'bounds', 'decode', 'decode_error',  # functions
            'distance1', 'distance2', 'distance3',
            'encode', 'neighbors', 'sizes')
-__version__ = '17.09.22'
+__version__ = '17.11.21'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -234,8 +234,9 @@ class Geohash(str):
         return float(_Sizes[n][2])
 
     def distance2(self, other, radius=R_M):
-        '''Approximate the distance between this and an other geohash
-           (with Pythagoras' theorem).
+        '''Compute the distance between this and an other geohash
+           using the U{Equirectangular Approximation/Projection
+           <http://www.movable-type.co.uk/scripts/latlong.html>}.
 
            @param other: The other geohash (L{Geohash}).
            @keyword radius: Optional, mean earth radius (meter) or None.
@@ -265,7 +266,7 @@ class Geohash(str):
            @param other: The other geohash (L{Geohash}).
            @keyword radius: Optional, mean earth radius (meter).
 
-           @return: Great-circle distance (meter, same units as radius).
+           @return: Great-circle distance (meter, same units as I{radius}).
 
            @raise TypeError: The other is not a L{Geohash}, I{LatLon} or str.
         '''
@@ -274,8 +275,7 @@ class Geohash(str):
         a1, b1 = self.ab
         a2, b2 = other.ab
 
-        r, _, _ = hsin3(a2, a1, b2 - b1)
-        return r * float(radius)
+        return haversine_(a2, a1, b2 - b1) * float(radius)
 
     @property
     def latlon(self):
@@ -643,7 +643,7 @@ def sizes(geohash):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2017 -- mrJean1 at Gmail dot com
+# Copyright (C) 2016-2018 -- mrJean1 at Gmail dot com
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

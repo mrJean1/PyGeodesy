@@ -34,7 +34,7 @@
       <th class="navbar" align="right" width="100%">
         <table border="0" cellpadding="0" cellspacing="0">
           <tr><th class="navbar" align="center"
-            ><a class="navbar" target="_top" href="https://github.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+            ><a class="navbar" target="_top" href="http://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
           </tr></table></th>
   </tr>
 </table>
@@ -319,6 +319,47 @@
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
       Find the midpoint between this and an other point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry.LatLon-class.html#nearestOn" class="summary-sig-name">nearestOn</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">point1</span>,
+        <span class="summary-sig-arg">point2</span>,
+        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Locate the closest point between two points and this point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry.LatLon-class.html#nearestOn2" class="summary-sig-name">nearestOn2</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
+      Locate the closest point on any segment between two consecutive 
+      points of a path.</td>
           <td align="right" valign="top">
             
             
@@ -965,6 +1006,103 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="nearestOn"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">point1</span>,
+        <span class="sig-arg">point2</span>,
+        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Locate the closest point between two points and this point.</p>
+  <p>If this point is within the extent of the segment between both end 
+  points, the returned point is on the segment. Otherwise the returned 
+  point is the closest of the segment end points.</p>
+  <p>Distances are approximated by function <a 
+  href="pygeodesy.utils-module.html#equirectangular3" 
+  class="link">equirectangular3</a>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>point1</code></strong> - Start point of the segment (<a 
+          href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>point2</code></strong> - End point of the segment (<a 
+          href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Optionally adjust longitudes by the cosine of the mean of the 
+          latitudes (bool).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Closest point on segment (<a 
+          href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
+          class="link">LatLon</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - If point1 or point2 is not <a 
+        href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="nearestOn2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn2</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">points</span>,
+        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Locate the closest point on any segment between two consecutive points
+  of a path.</p>
+  <p>If this point is within the extent of any segment, the closest point 
+  is on the segment.  Otherwise the closest point is the nearest of the 
+  segment end points.</p>
+  <p>Distances are approximated by function <a 
+  href="pygeodesy.utils-module.html#equirectangular3" 
+  class="link">equirectangular3</a>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - The points of the path (<a 
+          href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
+          class="link">LatLon</a>[]).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Optionally adjust longitudes by the cosine of the mean of the 
+          latitudes (bool).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>2-Tuple (closest, distance) of the closest point (<a 
+          href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
+          class="link">LatLon</a>) on the parh and the distance to that 
+          point in meter, rather the units of <i>radius</i>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <i>LatLon</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - If no points.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="toVector3d"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1013,14 +1151,14 @@
       <th class="navbar" align="right" width="100%">
         <table border="0" cellpadding="0" cellspacing="0">
           <tr><th class="navbar" align="center"
-            ><a class="navbar" target="_top" href="https://github.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+            ><a class="navbar" target="_top" href="http://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
           </tr></table></th>
   </tr>
 </table>
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Sep 24 17:32:33 2017
+    Generated by Epydoc 3.0.1 on Wed Nov 22 23:05:29 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

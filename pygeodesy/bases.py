@@ -17,7 +17,7 @@ from math import asin, cos, degrees, radians, sin
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('Base', 'LatLonHeightBase', 'Named', 'VectorBase')
-__version__ = '17.09.22'
+__version__ = '17.11.22'
 
 
 class Base(object):
@@ -121,8 +121,8 @@ class LatLonHeightBase(Base):
            >>> p = LatLon(50.06632, -5.71475)
            >>> q = LatLon('50°03′59″N', """005°42'53"W""")
         '''
-        self._lat = parseDMS(lat, suffix='NS')
-        self._lon = parseDMS(lon, suffix='EW')
+        self._lat = parseDMS(lat, suffix='NS', clip=90)
+        self._lon = parseDMS(lon, suffix='EW', clip=180)
         if height:  # elevation
             self._height = scalar(height, None, name='height')
 
@@ -242,7 +242,7 @@ class LatLonHeightBase(Base):
 
            @raise ValueError: Invalid lat.
         '''
-        lat = parseDMS(lat, suffix='NS')
+        lat = parseDMS(lat, suffix='NS', clip=90)
         self._update(lat != self._lat)
         self._lat = lat
 
@@ -260,7 +260,7 @@ class LatLonHeightBase(Base):
 
            @raise ValueError: Invalid lon.
         '''
-        lon = parseDMS(lon, suffix='EW')
+        lon = parseDMS(lon, suffix='EW', clip=180)
         self._update(lon != self._lon)
         self._lon = lon
 
@@ -352,7 +352,7 @@ VectorBase = Base  #: (INTERNAL) Used by vector3d.
 
 # **) MIT License
 #
-# Copyright (C) 2016-2017 -- mrJean1 at Gmail dot com
+# Copyright (C) 2016-2018 -- mrJean1 at Gmail dot com
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

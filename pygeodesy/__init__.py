@@ -20,7 +20,7 @@ of U{Latitude/Longitude<http://www.movable-type.co.uk/scripts/latlong.html>},
 U{Vincenty<http://www.movable-type.co.uk/scripts/latlong-vincenty.html>} and
 U{Vector-based<http://www.movable-type.co.uk/scripts/latlong-vectors.html>} geodesy
 and the original U{JavaScript source<https://github.com/chrisveness/geodesy>} or
-U{docs<http://www.movable-type.co.uk/scripts/js/geodesy/docs>}.
+U{docs<http://www.movable-type.co.uk/scripts/geodesy/docs/>}.
 
 Also included are modules for conversions to and from
 U{UTM<http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html>}
@@ -54,8 +54,9 @@ U{Flake8<http://pypi.python.org/pypi/flake8>} on 64-bit Python 3.6.2.
 The tests have been run with 64-bit Python 2.6.9 (and numpy 1.6.2), 2.7.14
 (and numpy 1.13.1), 3.5.3 and 3.6.2, but only on MacOSX 10.10 Yosemite, MacOSX
 10.11 El Capitan or macOS 10.12.6 Sierra, with 64-bit Intel-Python 3.5.3 (and
-numpy 1.11.3) on macOS 10.12.6 Sierra and with Pythonista 3.1 using 64-bit
-Python 2.7.12 and 3.5.1 (both with numpy 1.8.0) on iOS 10.3.3.
+numpy 1.11.3) on macOS 10.12.6 Sierra, with Pythonista 3.1 using 64-bit
+Python 2.7.12 and 3.5.1 (both with numpy 1.8.0) on iOS 10.3.3 and with
+32-bit Pyhon 2.7.14 on Windows 10 Pro for a previous release.
 
 In addition to the U{PyGeodesy<http://pypi.python.org/pypi/PyGeodesy>} package,
 the distribution files contain the tests, the test results and the complete
@@ -68,7 +69,7 @@ cases documentation tag B{JS name:} shows the original JavaScript name.
 
 __
 
-**) U{Copyright (C) 2016-2017 -- mrJean1 at Gmail dot com
+**) U{Copyright (C) 2016-2018 -- mrJean1 at Gmail dot com
 <http://opensource.org/licenses/MIT>}
 
 C{Permission is hereby granted, free of charge, to any person obtaining a
@@ -148,6 +149,7 @@ import sphericalTrigonometry  # PYCHOK false
 import vector3d  # PYCHOK false
 
 Geohash       = geohash.Geohash
+nearestOn2    = sphericalTrigonometry.nearestOn2  # not -Nvector
 VincentyError = ellipsoidalVincenty.VincentyError
 
 # all public sub-modules, contants, classes and functions
@@ -156,8 +158,9 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',  # modules
            'datum', 'dms', 'geohash', 'lcc', 'mgrs', 'nvector',
            'osgr', 'points', 'simplify', 'utils', 'utm', 'vector3d',
            'Geohash', 'VincentyError',  # classes
+           'nearestOn2',  # functions
            'version')  # extended below
-__version__ = '17.09.22'
+__version__ = '17.11.22'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
@@ -188,7 +191,7 @@ import utm       # PYCHOK expected
 # concat __all__ with the public classes, constants,
 # functions, etc. from the sub-modules mentioned above
 for m in (datum, dms, lcc, mgrs, osgr, points, simplify, utils, utm):
-    __all__ += tuple(m.__all__)
+    __all__ += tuple(_ for _ in m.__all__ if _ not in ('nearestOn2',))
 del m
 
 # try:  # remove private, INTERNAL modules
@@ -196,9 +199,16 @@ del m
 # except NameError:
 #     pass
 
+if __name__ == '__main__':
+
+    d = locals()
+    for i, n in enumerate(sorted(__all__)):
+        print('%s %s %r' % (i + 1, n, d[n]))
+    print('--- PyGeodesy %s' % (__version__,))
+
 # **) MIT License
 #
-# Copyright (C) 2016-2017 -- mrJean1 at Gmail dot com
+# Copyright (C) 2016-2018 -- mrJean1 at Gmail dot com
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

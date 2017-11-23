@@ -15,18 +15,19 @@ see U{http://www.movable-type.co.uk/scripts/latlong.html}.
 from datum import R_M
 from sphericalBase import LatLonSphericalBase
 from utils import EPS, PI2, PI_2, degrees90, degrees180, degrees360, \
-                  favg, fmean, fsum, hsin3, iterNumpy2, map1, \
-                  radians, tan_2, wrap180, wrapPI
+                  equirectangular3, favg, fmean, fsum, haversine_, \
+                  iterNumpy2, map1, radians, tan_2, wrap180, wrapPI
 from vector3d import Vector3d, sumOf
 
-from math import acos, asin, atan2, copysign, cos, hypot, sin
+from math import acos, asin, atan2, copysign, cos, hypot, sin, sqrt
 
 # all public contants, classes and functions
 __all__ = ('LatLon',  # classes
            'areaOf',  # functions
            'intersection', 'isPoleEnclosedBy',
-           'meanOf')
-__version__ = '17.09.22'
+           'meanOf',
+           'nearestOn2')
+__version__ = '17.11.22'
 
 
 class LatLon(LatLonSphericalBase):
@@ -202,8 +203,7 @@ class LatLon(LatLonSphericalBase):
         a1, b1 = self.to2ab()
         a2, b2 = other.to2ab()
 
-        r, _, _ = hsin3(a2, a1, b2 - b1)
-        return r * float(radius)
+        return haversine_(a2, a1, b2 - b1) * float(radius)
 
     def greatCircle(self, bearing):
         '''Compute the vector normal to great circle obtained by heading
@@ -295,9 +295,9 @@ class LatLon(LatLonSphericalBase):
         a1, b1 = self.to2ab()
         a2, b2 = other.to2ab()
 
-        r, ca2, ca1 = hsin3(a2, a1, b2 - b1)
+        r = haversine_(a2, a1, b2 - b1)
         if r > EPS:
-            cb1, cb2               = map1(cos, b1, b2)
+            cb1, cb2, ca1, ca2     = map1(cos, b1, b2, a1, a2)
             sb1, sb2, sa1, sa2, sr = map1(sin, b1, b2, a1, a2, r)
 
             A = sin((1 - fraction) * r) / sr
@@ -455,6 +455,53 @@ class LatLon(LatLonSphericalBase):
             h = height
         return self.classof(degrees90(a), degrees180(b), height=h)
 
+    def nearestOn(self, point1, point2, adjust=True):
+        '''Locate the closest point between two points and this point.
+
+           If this point is within the extent of the segment between
+           both end points, the returned point is on the segment.
+           Otherwise the returned point is the closest of the segment
+           end points.
+
+           Distances are approximated by function L{equirectangular3}.
+
+           @param point1: Start point of the segment (L{LatLon}).
+           @param point2: End point of the segment (L{LatLon}).
+           @keyword adjust: Optionally adjust longitudes by the cosine
+                            of the mean of the latitudes (bool).
+
+           @return: Closest point on segment (L{LatLon}).
+
+           @raise TypeError: If point1 or point2 is not L{LatLon}.
+        '''
+        p, _ = nearestOn2(self, [point1, point2], adjust=adjust)
+        return p
+
+    def nearestOn2(self, points, adjust=True, radius=R_M):
+        '''Locate the closest point on any segment between two
+           consecutive points of a path.
+
+           If this point is within the extent of any segment, the
+           closest point is on the segment.  Otherwise the closest
+           point is the nearest of the segment end points.
+
+           Distances are approximated by function L{equirectangular3}.
+
+           @param points: The points of the path (L{LatLon}[]).
+           @keyword adjust: Optionally adjust longitudes by the cosine
+                            of the mean of the latitudes (bool).
+           @keyword radius: Optional, mean earth radius (meter).
+
+           @return: 2-Tuple (closest, distance) of the closest point
+           (L{LatLon}) on the parh and the distance to that point in
+           meter, rather the units of I{radius}.
+
+           @raise TypeError: Some points are not I{LatLon}.
+
+           @raise ValueError: If no points.
+        '''
+        return nearestOn2(self, points, adjust=adjust, radius=radius)
+
     def toVector3d(self):
         '''Convert this point to a vector normal to earth's surface.
 
@@ -580,10 +627,11 @@ def intersection(start1, bearing1, start2, bearing2,
     a1, b1 = start1.to2ab()
     a2, b2 = start2.to2ab()
 
-    r12, ca2, ca1 = hsin3(a2, a1, b2 - b1)
+    r12 = haversine_(a2, a1, b2 - b1)
     if abs(r12) < EPS:
         raise ValueError('intersection %s: %r vs %r' % ('parallel', start1, start2))
 
+    ca1, ca2       = map1(cos, a1, a2)
     sa1, sa2, sr12 = map1(sin, a1, a2, r12)
     x1, x2 = (sr12 * ca1), (sr12 * ca2)
     if min(map1(abs, x1, x2)) < EPS:
@@ -680,9 +728,76 @@ def meanOf(points, height=None, LatLon=LatLon):
         h = height
     return LatLon(a, b, height=h)
 
+
+def nearestOn2(point, points, adjust=True, radius=R_M):
+    '''Locate the closest point on any segment between two consecutive
+       points of a path.
+
+       If the given point is within the extent of any segment, the
+       closest point is on the segment.  Otherwise the closest point
+       is the nearest of the segment end points.
+
+       Distances are approximated by function L{equirectangular3}.
+
+       @param point: The reference point (L{LatLon}).
+       @param points: The points of the path (L{LatLon}[]).
+       @keyword adjust: Optionally adjust longitudes by the cosine
+                        of the mean of the latitudes (bool).
+       @keyword radius: Optional, mean earth radius (meter).
+
+       @return: 2-Tuple (closest, distance) of the closest point
+                (L{LatLon}) on the path and the distance to that
+                point.  The distance is the L{equirectangular3}
+                distance between the given and the closest point
+                in meter, rather the units of I{radius}.
+
+       @raise TypeError: Some points are not I{LatLon}.
+
+       @raise ValueError: If no points.
+    '''
+    def _d2yx(p2, p1):
+        # distance in degrees squared, delta lat, delta lon
+        return equirectangular3(p1.lat, p1.lon,
+                                p2.lat, p2.lon, adjust=adjust)
+
+    n, points = point.points(points, closed=False)
+
+    c = p2 = points[0]
+    d, _, _ = _d2yx(c, point)
+    for i in range(1, n):
+        p1, p2 = p2, points[i]
+        d21, y21, x21 = _d2yx(p2, p1)
+        if d21 > EPS:
+            # distance point to p1
+            d2, y01, x01 = _d2yx(point, p1)
+            if d2 > EPS:
+                x = x01 * x21 + y01 * y21
+                if x > 0:
+                    if (x * x) < d21:
+                        # perpendicular distance
+                        d2 = (y01 * x21 - x01 * y21) ** 2 / d21
+                        if d2 < d:
+                            # closest is between p1 and p2
+                            x = sqrt(x * x / d21)
+                            c = point.classof(favg(p1.lat, p2.lat, x),
+                                              favg(p1.lon, p2.lon, x))
+                            d = d2
+                    else:  # distance point to p2
+                        d2, _, _ = _d2yx(point, p2)
+                        if d2 < d:  # p2 is closer
+                            c, d = p2, d2
+                    continue
+            if d2 < d:  # p1 is closer
+                c, d = p1, d2
+
+    # distance degrees squared to meter
+    d = radians(sqrt(d)) * radius
+    return c, d
+
+
 # **) MIT License
 #
-# Copyright (C) 2016-2017 -- mrJean1 at Gmail dot com
+# Copyright (C) 2016-2018 -- mrJean1 at Gmail dot com
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

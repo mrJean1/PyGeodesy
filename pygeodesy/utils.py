@@ -25,9 +25,12 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'CrossError',  # classes
            'cbrt', 'cbrt2', 'classname', 'crosserrors',
            'degrees', 'degrees90', 'degrees180', 'degrees360',
+           'equirectangular3',
            'false2f', 'favg', 'fdot', 'fdot3', 'fmean', 'fpolynomial',
            'fStr', 'fStrzs', 'fsum', 'ft2m',
-           'halfs', 'hsin', 'hsin3', 'hypot', 'hypot1', 'hypot3',
+           'halfs',
+           'haversine', 'haversine_',  # XXX removed 'hsin', 'hsin3',
+           'hypot', 'hypot1', 'hypot3',
            'inStr',
            'isfinite', 'isint', 'isNumpy2', 'isscalar', 'issequence',
            'iterNumpy2', 'iterNumpy2over',
@@ -39,7 +42,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'tan_2', 'tanPI_2_2',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '17.09.22'
+__version__ = '17.11.22'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -185,6 +188,37 @@ def _drap(deg, wrap):
     if d > wrap:
         d -= 360
     return d
+
+
+def equirectangular3(lat1, lon1, lat2, lon2, adjust=True):
+    '''Compute the distance between two points using
+       the U{Equirectangular Approximation/Projection
+       <http://www.movable-type.co.uk/scripts/latlong.html>}.
+
+       @param lat1: Latitude1 (degrees).
+       @param lon1: Longitude1 (degrees).
+       @param lat2: Latitude2 (degrees).
+       @param lon2: Longitude2 (degrees).
+       @keyword adjust: Optionally adjust longitudes by the cosine
+                        of the mean of the latitudes (bool).
+
+       @return: 3-Tuple (distance2, delta_lat, delta_lon) with
+                the distance in degrees squared, the latitude
+                delta lat2-lat1 and the I{adjusted} longitude
+                delta lon2-lon1.  To convert distance2 to meter,
+                use M{radians(sqrt(distance2)) * radius} where
+                radius is the mean earth radius in the desired
+                units, like L{R_M} in meter.
+
+       @see: Function L{haversine} for an accurate distance.
+    '''
+    d_lat = lat2 - lat1
+    d_lon = lon2 - lon1
+    if adjust:  # scale lon
+        d_lon *= cos(radiansPI(lat1 + lat2) * 0.5)
+
+    d2 = d_lat**2 + d_lon**2  # degrees squared!
+    return d2, d_lat, d_lon
 
 
 def false2f(value, name='value', false=True):
@@ -349,7 +383,7 @@ def fStrzs(fstr):
     return fstr
 
 
-try:  # MCCABE 15
+try:  # MCCABE 21
     from math import fsum  # precision IEEE-754 sum, Python 2.6+
 
     # make sure fsum works as expected (XXX check
@@ -449,37 +483,49 @@ def halfs(str2):
     return str2[:h], str2[h:]
 
 
-def hsin(rad):
-    '''Compute the Haversine value of an angle.
+def haversine(lat1, lon1, lat2, lon2, radius=R_M):
+    '''Compute the distance between two points using the U{Haversine
+       <http://www.movable-type.co.uk/scripts/latlong.html>} formula.
 
-       @param rad: Angle (radians).
+       @param lat1: Latitude1 (degrees).
+       @param lon1: Longitude1 (degrees).
+       @param lat2: Latitude2 (degrees).
+       @param lon2: Longitude2 (degrees).
+       @keyword radius: Optional, mean earth radius (meter).
 
-       @return: M{sin(rad / 2)**2} (float).
+       @return: Distance (meter, same units as I{radius}).
 
-       @see: U{http://wikipedia.org/wiki/Haversine_formula}.
+       @see: U{Distance between two points
+             <http://www.edwilliams.org/avform.htm#Dist>}
+             and function L{equirectangular3} for an approximation.
     '''
-    return sin(rad * 0.5)**2
+    r = haversine_(radians(lat2), radians(lat1), radians(lon2 - lon1))
+    return r * float(radius)
 
 
-def hsin3(a2, a1, b21):
-    '''Compute the angular distance using the Haversine formula.
+def haversine_(a2, a1, b21):
+    '''Compute the I{angular} distance using the U{Haversine
+       <http://www.movable-type.co.uk/scripts/latlong.html>} formula.
 
        @param a2: Latitude2 (radians).
        @param a1: Latitude1 (radians).
-       @param b21: Longitude delta (radians).
+       @param b21: Longitudinal delta (radians).
 
-       @return: 3-Tuple (angle, cos(a2), cos(a1)).
+       @return: Angular distance (radians).
 
-       @see: U{http://www.movable-type.co.uk/scripts/latlong.html} and
-             U{http://www.edwilliams.org/avform.htm#Dist}.
+       @see: This U{Distance between two points
+             <http://www.edwilliams.org/avform.htm#Dist>},
+             function L{haversine}.
     '''
-    ca2, ca1 = map1(cos, a2, a1)
-    h = hsin(a2 - a1) + ca1 * ca2 * hsin(b21)  # haversine
+    def _hsin(rad):
+        return sin(rad / 2)**2
+
+    h = _hsin(a2 - a1) + cos(a1) * cos(a2) * _hsin(b21)  # haversine
     try:
         r = atan2(sqrt(h), sqrt(1 - h)) * 2  # == asin(sqrt(h)) * 2
     except ValueError:
         r = 0 if h < 0.5 else PI
-    return r, ca2, ca1
+    return r
 
 
 def hypot1(x):
@@ -916,7 +962,7 @@ def wrapPI_2(rad):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2017 -- mrJean1 at Gmail dot com
+# Copyright (C) 2016-2018 -- mrJean1 at Gmail dot com
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

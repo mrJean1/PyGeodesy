@@ -26,7 +26,7 @@ __all__ = ('F_D', 'F_DM', 'F_DMS',  # forms
            'bearingDMS', 'compassDMS', 'compassPoint',  # functions
            'latDMS', 'lonDMS', 'normDMS',
            'parseDMS', 'parse3llh', 'precision', 'toDMS')
-__version__ = '17.09.22'
+__version__ = '17.11.22'
 
 F_D   = 'd'    #: Format degrees as deg° (string).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (string).
@@ -283,10 +283,12 @@ def parse3llh(strll, height=0, sep=','):
     a, b = [_.strip() for _ in ll]
     if a[-1:] in 'EW' or b[-1:] in 'NS':
         a, b = b, a
-    return parseDMS(a, suffix='NS'), parseDMS(b, suffix='EW'), h
+    a = parseDMS(a, suffix='NS', clip=90)
+    b = parseDMS(b, suffix='EW', clip=180)
+    return a, b, h
 
 
-def parseDMS(strDMS, suffix='NSEW', sep=S_SEP):
+def parseDMS(strDMS, suffix='NSEW', sep=S_SEP, clip=0):
     '''Parse a string representing deg°min′sec″ to degrees.
 
        This is very flexible on formats, allowing signed decimal
@@ -299,35 +301,37 @@ def parseDMS(strDMS, suffix='NSEW', sep=S_SEP):
        @param strDMS: Degrees in any of several forms (string).
        @keyword suffix: Optional, valid compass directions (NSEW).
        @keyword sep: Optional separator between deg°, min′ and sec″ ('').
+       @keyword clip: Optionally, limit value between -clip..+clip.
 
        @return: Degrees (float).
 
        @raise ValueError: Invalid strDMS.
     '''
     try:  # signed decimal degrees without NSEW
-        return float(strDMS)
+        d = float(strDMS)
+
     except (TypeError, ValueError):
-        pass
+        try:
+            strDMS = strDMS.strip()
 
-    try:
-        strDMS = strDMS.strip()
+            t = strDMS.lstrip('-+').rstrip(suffix.upper())
+            if sep:
+                t = t.replace(sep, ' ')
+                for s in _S_ALL:
+                    t = t.replace(s, '')
+            else:
+                for s in _S_ALL:
+                    t = t.replace(s, ' ')
+            t = list(map(float, t.strip().split())) + [0, 0]
+            d = t[0] + (t[1] + t[2] / 60.0) / 60.0
+            if strDMS[:1] == '-' or strDMS[-1:] in 'SW':
+                d = -d
 
-        t = strDMS.lstrip('-+').rstrip(suffix.upper())
-        if sep:
-            t = t.replace(sep, ' ')
-            for s in _S_ALL:
-                t = t.replace(s, '')
-        else:
-            for s in _S_ALL:
-                t = t.replace(s, ' ')
-        t = list(map(float, t.strip().split())) + [0, 0]
-        d = t[0] + (t[1] + t[2] / 60.0) / 60.0
-        if strDMS[:1] == '-' or strDMS[-1:] in 'SW':
-            d = -d
+        except (IndexError, ValueError):
+            raise ValueError('parsing %r failed' % (strDMS,))
 
-    except (IndexError, ValueError):
-        raise ValueError('parsing %r failed' % (strDMS,))
-
+    if clip and clip > 0:
+        d = min(clip, max(-clip, d))
     return d
 
 
@@ -381,7 +385,7 @@ def toDMS(deg, form=F_DMS, prec=2, sep=S_SEP, ddd=2, neg='-', pos=''):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2017 -- mrJean1 at Gmail dot com
+# Copyright (C) 2016-2018 -- mrJean1 at Gmail dot com
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

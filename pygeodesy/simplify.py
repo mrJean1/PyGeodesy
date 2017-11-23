@@ -78,14 +78,14 @@ numpy 1.8.0) on iOS 10.3.3.
 '''
 
 from datum import R_M
-from utils import EPS, isNumpy2, len2, radiansPI, wrap90, wrap180
+from utils import EPS, isNumpy2, len2, radiansPI
 
 from math import cos, degrees, radians, sqrt
 
 __all__ = ('simplify1', 'simplify2',  # backward compatibility
            'simplifyRDP', 'simplifyRDPm', 'simplifyRW',
            'simplifyVW', 'simplifyVWm')
-__version__ = '17.09.22'
+__version__ = '17.11.22'
 
 
 # try:
@@ -232,13 +232,15 @@ class _Sy(object):
         p1 = self.pts[i]
         p2 = self.pts[j]
 
+        # XXX TO DO: use new function utils.equirectangular3,
+        # but dx and dy are swapped in that returned tuple
+
         # like the Equirectangular Approximation/Projection at
         # <http://www.movable-type.co.uk/scripts/latlong.html>
         # but using degrees squared as units instead of meter
 
-        dx = wrap180(p2.lon - p1.lon)
-        dy = wrap90 (p2.lat - p1.lat)
-
+        dy = p2.lat - p1.lat
+        dx = p2.lon - p1.lon
         if self.adjust:  # scale lon
             dx *= cos(radiansPI(p1.lat + p2.lat) * 0.5)
 
@@ -593,7 +595,7 @@ def simplifyVWm(points, area, radius=R_M, adjust=True, attr=None, indices=False)
 
 # **) MIT License
 #
-# Copyright (C) 2016-2017 -- mrJean1 at Gmail dot com
+# Copyright (C) 2016-2018 -- mrJean1 at Gmail dot com
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
