@@ -49,14 +49,14 @@ U{PyChecker<http://pypi.python.org/pypi/pychecker>},
 U{PyFlakes<http://pypi.python.org/pypi/pyflakes>},
 U{PyCodeStyle<http://pypi.python.org/pypi/pycodestyle>} (formerly Pep8) and
 U{McCabe<http://pypi.python.org/pypi/mccabe>} using 64-bit Python 2.7.14 and with
-U{Flake8<http://pypi.python.org/pypi/flake8>} on 64-bit Python 3.6.2.
+U{Flake8<http://pypi.python.org/pypi/flake8>} on 64-bit Python 3.6.3.
 
 The tests have been run with 64-bit Python 2.6.9 (and numpy 1.6.2), 2.7.14
-(and numpy 1.13.1), 3.5.3 and 3.6.2, but only on MacOSX 10.10 Yosemite, MacOSX
+(and numpy 1.13.1), 3.5.3 and 3.6.3, but only on MacOSX 10.10 Yosemite, MacOSX
 10.11 El Capitan or macOS 10.12.6 Sierra, with 64-bit Intel-Python 3.5.3 (and
 numpy 1.11.3) on macOS 10.12.6 Sierra, with Pythonista 3.1 using 64-bit
-Python 2.7.12 and 3.5.1 (both with numpy 1.8.0) on iOS 10.3.3 and with
-32-bit Pyhon 2.7.14 on Windows 10 Pro for a previous release.
+Python 2.7.12 and 3.5.1 (both with numpy 1.8.0) on iOS 11.0.3 and with
+32-bit Pyhon 2.7.14 on Windows 10 Pro for a previous PyGeodesy release.
 
 In addition to the U{PyGeodesy<http://pypi.python.org/pypi/PyGeodesy>} package,
 the distribution files contain the tests, the test results and the complete
@@ -160,7 +160,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',  # modules
            'Geohash', 'VincentyError',  # classes
            'nearestOn2',  # functions
            'version')  # extended below
-__version__ = '17.11.22'
+__version__ = '17.11.24'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))

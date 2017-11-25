@@ -36,7 +36,7 @@ from math import radians
 
 __all__ = ('LatLon2psxy', 'Numpy2LatLon',  # class
            'bounds', 'isclockwise', 'isconvex')
-__version__ = '17.09.22'
+__version__ = '17.10.22'
 
 
 class _Basequence(_Sequence):  # immutable, on purpose
@@ -357,7 +357,7 @@ class LatLon2psxy(_Basequence):
 
 
 class _LatLon(object):
-    '''(INTERNAL) L{Numpy2LatLon} helper'
+    '''(INTERNAL) Low-overhead L{Numpy2LatLon} helper'
     '''
     __slots__ = ('lat', 'lon')
 
@@ -405,8 +405,8 @@ class Numpy2LatLon(_Basequence):  # immutable, on purpose
            @raise IndexError: If I{array.shape} is not (1+, 2+).
 
            @raise TypeError: If I{array} is not a NumPy array or
-                             I{LatLon} is not a class with I{ilat}
-                             and I{ilon} attributes.
+                             I{LatLon} is not a class with I{lat}
+                             and I{lon} attributes.
 
            @raise ValueError: If the I{ilat} and/or I{ilon} values are
                               the same or out of range.

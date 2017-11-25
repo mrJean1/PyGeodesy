@@ -42,7 +42,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'tan_2', 'tanPI_2_2',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '17.11.22'
+__version__ = '17.11.24'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -190,7 +190,7 @@ def _drap(deg, wrap):
     return d
 
 
-def equirectangular3(lat1, lon1, lat2, lon2, adjust=True):
+def equirectangular3(lat1, lon1, lat2, lon2, adjust=True, wrap=False):
     '''Compute the distance between two points using
        the U{Equirectangular Approximation/Projection
        <http://www.movable-type.co.uk/scripts/latlong.html>}.
@@ -199,23 +199,32 @@ def equirectangular3(lat1, lon1, lat2, lon2, adjust=True):
        @param lon1: Longitude1 (degrees).
        @param lat2: Latitude2 (degrees).
        @param lon2: Longitude2 (degrees).
-       @keyword adjust: Optionally adjust longitudes by the cosine
-                        of the mean of the latitudes (bool).
+       @keyword adjust: Optionally, adjust longitudinal delta by the
+                        cosine of the mean of the latitudes (bool).
+       @keyword wrap: Optionally, keep the longitudinal delta within
+                      the -180..+180 range (bool).
 
        @return: 3-Tuple (distance2, delta_lat, delta_lon) with
-                the distance in degrees squared, the latitude
-                delta lat2-lat1 and the I{adjusted} longitude
-                delta lon2-lon1.  To convert distance2 to meter,
-                use M{radians(sqrt(distance2)) * radius} where
-                radius is the mean earth radius in the desired
-                units, like L{R_M} in meter.
+                the distance in degrees squared, the latitudinal
+                delta lat2-lat1 and the I{adjusted}, I{wrapped}
+                longitudinal delta lon2-lon1.  To convert distance2
+                to meter, use M{radians(sqrt(distance2)) * radius}
+                where radius is the mean earth radius in the desired
+                units, for example L{R_M} in meter.
 
        @see: Function L{haversine} for an accurate distance.
     '''
     d_lat = lat2 - lat1
     d_lon = lon2 - lon1
+
+    if wrap:
+        if d_lon > 180:
+            d_lon -= 360
+        elif d_lon < -180:
+            d_lon += 360
+
     if adjust:  # scale lon
-        d_lon *= cos(radiansPI(lat1 + lat2) * 0.5)
+        d_lon *= cos(radians(lat1 + lat2) * 0.5)
 
     d2 = d_lat**2 + d_lon**2  # degrees squared!
     return d2, d_lat, d_lon

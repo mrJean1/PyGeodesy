@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.11.22'
+__version__ = '17.11.24'
 
 from testLatLon import Tests as _TestsLL
 from testVectorial import Tests as _TestsV
@@ -89,32 +89,45 @@ class Tests(_TestsLL, _TestsV):
 
         if hasattr(module, 'nearestOn2'):
             c, d = module.nearestOn2(p, b)
-            self.test('nearestOn2', c, '46.000996°N, 001.353049°E' if Vct else '46.0°N, 001.561895°E')
-            self.test('nearestOn2', d, '569987.49' if Vct else '570097.17', fmt='%.2f')
+            self.test('nearestOn2', c, '46.000996°N, 001.353049°E' if Vct else '46.0°N, 001.369324°E')
+            self.test('nearestOn2', d, '569987.49' if Vct else '570101.83', fmt='%.2f')
             d = p.distanceTo(c)
-            self.test('distanceTo', d, '569987.49' if Vct else '570334.43', fmt='%.2f')
+            self.test('distanceTo', d, '569987.49' if Vct else '570101.82', fmt='%.2f')
 
             p = LatLon(47, 3)
             c, d = module.nearestOn2(p, b)
             self.test('nearestOn2', c, '46.0°N, 002.0°E' if Vct else '46.0°N, 002.0°E')
             self.test('nearestOn2', d, '134989.80' if Vct else '134992.48', fmt='%.2f')
             d = p.distanceTo(c)
-            self.test('distanceTo', d, '134989.80' if Vct else '134989.80', fmt='%.2f')  # PYCHOK XXX?
+            self.test('distanceTo', d, '134989.80' if Vct else '134989.80', fmt='%.2f')
 
             p = LatLon(45, 2)
-            c, d = module.nearestOn2(p, (LatLon(45, 1), LatLon(46, 2), LatLon(46, 1)))
-            self.test('nearestOn2', c, '45.333308°N, 001.328416°E' if Vct else '45.405852°N, 001.405852°E')
-            self.test('nearestOn2', d, '64386.74' if Vct else '64386.06', fmt='%.2f')
+            b = LatLon(45, 1), LatLon(47, 3)
+            if Vct:
+                c, d = module.nearestOn2(p, b)
+                self.test('nearestOn2', c, '45.330691°N, 001.318551°E')
+                self.test('distanceTo2', d, '64856.28', fmt='%.2f')
+            else:
+                c, d = module.nearestOn2(p, b, adjust=False)
+                self.test('nearestOn2', c, '45.5°N, 001.5°E')
+                self.test('distanceTo2', d, '78626.79', fmt='%.2f')
+                c, d = module.nearestOn2(p, b, adjust=True)
+                self.test('nearestOn2', c, '45.331319°N, 001.331319°E')
+                self.test('distanceTo2', d, '64074.48', fmt='%.2f')
             d = p.distanceTo(c)
-            self.test('distanceTo', d, '64386.74' if Vct else '64834.25', fmt='%.2f')  # PYCHOK XXX?
+            self.test('distanceTo', d, '64856.28' if Vct else '64074.12', fmt='%.2f')
+            # TrigTrue vs Nvector closests
+            p = LatLon(45.330691, 001.318551)
+            d = p.distanceTo(LatLon(45.331319, 001.331319))
+            self.test('difference', d, '1000.53', fmt='%.2f')  # PYCHOK false?
 
         if hasattr(module, 'isPoleEnclosedBy'):
             p = LatLon(85, 90), LatLon(85, 0), LatLon(85, -90), LatLon(85, -180)
             for _ in self.testiter():
-                self.test('isPoleEnclosedBy', module.isPoleEnclosedBy(p), 'True')  # PYCHOK XXX?
+                self.test('isPoleEnclosedBy', module.isPoleEnclosedBy(p), 'True')  # PYCHOK false?
             p = LatLon(85, 90), LatLon(85, 0), LatLon(85, -180)
             for _ in self.testiter():
-                self.test('isPoleEnclosedBy', module.isPoleEnclosedBy(p), 'True', known=True)  # PYCHOK XXX?
+                self.test('isPoleEnclosedBy', module.isPoleEnclosedBy(p), 'True', known=True)  # PYCHOK false?
 
 
 if __name__ == '__main__':

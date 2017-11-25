@@ -78,14 +78,14 @@ numpy 1.8.0) on iOS 10.3.3.
 '''
 
 from datum import R_M
-from utils import EPS, isNumpy2, len2, radiansPI
+from utils import EPS, equirectangular3, isNumpy2, len2
 
-from math import cos, degrees, radians, sqrt
+from math import degrees, radians, sqrt
 
 __all__ = ('simplify1', 'simplify2',  # backward compatibility
            'simplifyRDP', 'simplifyRDPm', 'simplifyRW',
            'simplifyVW', 'simplifyVWm')
-__version__ = '17.11.22'
+__version__ = '17.11.24'
 
 
 # try:
@@ -113,7 +113,7 @@ class _Sy(object):
     '''
     adjust  = False
     d2i     = None  # d2iP or d2iS
-    d2xyse  = ()
+    d2yxse  = ()
     eps     = EPS  # system epsilon
     indices = False
     n       = 0
@@ -143,7 +143,7 @@ class _Sy(object):
             raise ValueError('%s too small: %.6e' % ('radius', radius))
 
         # tolerance converted to degrees squared
-        self.s2 = degrees(tolerance / self.radius) ** 2
+        self.s2 = degrees(tolerance / self.radius)**2
         if min(self.s2, tolerance) < self.eps:
             raise ValueError('%s too small: %.6e' % ('tolerance', tolerance))
         self.s2e = self.s2 + 1  # sentinel
@@ -154,19 +154,19 @@ class _Sy(object):
     def d21(self, s, e):
         '''Set path edge or line thru points[s] to -[e].
         '''
-        d21, x21, y21 = self.d2xy(s, e)
-        self.d2xyse = d21, x21, y21, s, e
+        d21, y21, x21 = self.d2yx(s, e)
+        self.d2yxse = d21, y21, x21, s, e
         return d21 > self.eps
 
     def d2ih(self, n, m, brk):
         '''Find the tallest distance among all points[n..m]
            to points[s] exceeding the tolerance.
         '''
-        _, _, _, s, _ = self.d2xyse
-        eps, d2xy = self.eps, self.d2xy
+        _, _, _, s, _ = self.d2yxse
+        eps, d2yx = self.eps, self.d2yx
         t2, t = self.s2, 0  # tallest
         for i in range(n, m):
-            d2, _, _ = d2xy(s, i)
+            d2, _, _ = d2yx(s, i)
             if d2 > t2:
                 t2, t = d2, i
                 if brk and d2 > eps:
@@ -178,14 +178,14 @@ class _Sy(object):
            points[n..m] to the path edge or line thru points[s]
            to -[e] exceeding the tolerance.
         '''
-        d21, x21, y21, s, _ = self.d2xyse
-        eps, d2xy = self.eps, self.d2xy
+        d21, y21, x21, s, _ = self.d2yxse
+        eps, d2yx = self.eps, self.d2yx
         t2, t = self.s2, 0  # tallest
         for i in range(n, m):
-            d2, x01, y01 = d2xy(s, i)
+            d2, y01, x01 = d2yx(s, i)
             if d2 > eps:
-                # perpendicular distance
-                d2 = (y01 * x21 - x01 * y21) ** 2 / d21
+                # perpendicular distance squared
+                d2 = (y01 * x21 - x01 * y21)**2 / d21
                 if d2 > t2:
                     t2, t = d2, i
                     if brk:
@@ -197,64 +197,51 @@ class _Sy(object):
            points[n..m] to the path edge or line thru
            points[s] to -[e] exceeding the tolerance.
         '''
-        # clockwise rotation of point (x, y) by angle:
-        #   x' = x * cos(a) + y * sin(a)
+        # point (x, y) on axis rotated by angle a ccw:
+        #   x' = y * sin(a) + x * cos(a)
         #   y' = y * cos(a) - x * sin(a)
         #
         # distance (w) along and perpendicular (h) to
-        # the line thru point (px, py) and the origin:
-        #   w = (x * px + y * py) / hypot(px, py)
-        #   h = (y * px - x * py) / hypot(px, py)
+        # a line thru point (dx, dy) and the origin:
+        #   w = (y * dy + x * dx) / hypot(dx, dy)
+        #   h = (y * dx - x * dy) / hypot(dx, dy)
 
-        d21, x21, y21, s, e = self.d2xyse
-        eps, d2xy = self.eps, self.d2xy
+        d21, y21, x21, s, e = self.d2yxse
+        eps, d2yx = self.eps, self.d2yx
         t2, t = self.s2, 0  # tallest
         for i in range(n, m):
             # distance points[i] to -[s]
-            d2, x01, y01 = d2xy(s, i)
+            d2, y01, x01 = d2yx(s, i)
             if d2 > eps:
-                x = x01 * x21 + y01 * y21
+                x = y01 * y21 + x01 * x21
                 if x > 0:
-                    if (x * x) < d21:
-                        # perpendicular distance
-                        d2 = (y01 * x21 - x01 * y21) ** 2 / d21
+                    if x**2 < d21:
+                        # perpendicular distance squared
+                        d2 = (y01 * x21 - x01 * y21)**2 / d21
                     else:  # distance points[i] to -[e]
-                        d2, _, _ = d2xy(e, i)
+                        d2, _, _ = d2yx(e, i)
                 if d2 > t2:
                     t2, t = d2, i
                     if brk:
                         break
         return t2, t
 
-    def d2xy(self, i, j):
-        '''Return points[i] to [j] deltas.
+    def d2yx(self, i, j):
+        '''Return points[i] to [j] deltas and distance squared.
         '''
         p1 = self.pts[i]
         p2 = self.pts[j]
-
-        # XXX TO DO: use new function utils.equirectangular3,
-        # but dx and dy are swapped in that returned tuple
-
-        # like the Equirectangular Approximation/Projection at
-        # <http://www.movable-type.co.uk/scripts/latlong.html>
-        # but using degrees squared as units instead of meter
-
-        dy = p2.lat - p1.lat
-        dx = p2.lon - p1.lon
-        if self.adjust:  # scale lon
-            dx *= cos(radiansPI(p1.lat + p2.lat) * 0.5)
-
-        d2 = dx ** 2 + dy ** 2  # squared!
-        return d2, dx, dy
+        return equirectangular3(p1.lat, p1.lon,
+                                p2.lat, p2.lon, adjust=self.adjust)
 
     def h2t(self, i1, i0, i2):
         '''Compute the Visvalingam-Whyatt triangular area,
            points[i0] is the top and points[i1] to -[i2]
            form the base of the triangle.
         '''
-        d21, x21, y21 = self.d2xy(i1, i2)
+        d21, y21, x21 = self.d2yx(i1, i2)
         if d21 > self.eps:
-            d01, x01, y01 = self.d2xy(i1, i0)
+            d01, y01, x01 = self.d2yx(i1, i0)
             if d01 > self.eps:
                 h2 = abs(y01 * x21 - x01 * y21)
                 # triangle height h = h2 / sqrt(d21) and
@@ -399,11 +386,11 @@ def simplify1(points, distance, radius=R_M, adjust=True, indices=False):
 
     n, r = S.n, S.r
     if n > 1:
-        s2, d2xy = S.s2, S.d2xy
+        s2, d2yx = S.s2, S.d2yx
 
         i = 0
         for j in range(1, n):
-            d2, _, _ = d2xy(i, j)
+            d2, _, _ = d2yx(i, j)
             if d2 > s2:
                 r[j] = True
                 i = j

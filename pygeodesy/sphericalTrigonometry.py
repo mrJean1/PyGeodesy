@@ -27,7 +27,7 @@ __all__ = ('LatLon',  # classes
            'intersection', 'isPoleEnclosedBy',
            'meanOf',
            'nearestOn2')
-__version__ = '17.11.22'
+__version__ = '17.11.24'
 
 
 class LatLon(LatLonSphericalBase):
@@ -455,7 +455,7 @@ class LatLon(LatLonSphericalBase):
             h = height
         return self.classof(degrees90(a), degrees180(b), height=h)
 
-    def nearestOn(self, point1, point2, adjust=True):
+    def nearestOn(self, point1, point2, adjust=True, wrap=False):
         '''Locate the closest point between two points and this point.
 
            If this point is within the extent of the segment between
@@ -467,17 +467,19 @@ class LatLon(LatLonSphericalBase):
 
            @param point1: Start point of the segment (L{LatLon}).
            @param point2: End point of the segment (L{LatLon}).
-           @keyword adjust: Optionally adjust longitudes by the cosine
-                            of the mean of the latitudes (bool).
+           @keyword adjust: Optionally, adjust longitudinal delta by the
+                            cosine of the mean of the latitudes (bool).
+           @keyword wrap: Optionally, keep the longitudinal delta within
+                          the -180..+180 range (bool).
 
            @return: Closest point on segment (L{LatLon}).
 
            @raise TypeError: If point1 or point2 is not L{LatLon}.
         '''
-        p, _ = nearestOn2(self, [point1, point2], adjust=adjust)
+        p, _ = nearestOn2(self, [point1, point2], adjust=adjust, wrap=wrap)
         return p
 
-    def nearestOn2(self, points, adjust=True, radius=R_M):
+    def nearestOn2(self, points, adjust=True, radius=R_M, wrap=False):
         '''Locate the closest point on any segment between two
            consecutive points of a path.
 
@@ -488,9 +490,11 @@ class LatLon(LatLonSphericalBase):
            Distances are approximated by function L{equirectangular3}.
 
            @param points: The points of the path (L{LatLon}[]).
-           @keyword adjust: Optionally adjust longitudes by the cosine
-                            of the mean of the latitudes (bool).
+           @keyword adjust: Optionally, adjust longitudinal delta by the
+                            cosine of the mean of the latitudes (bool).
            @keyword radius: Optional, mean earth radius (meter).
+           @keyword wrap: Optionally, keep the longitudinal delta within
+                          the -180..+180 range (bool).
 
            @return: 2-Tuple (closest, distance) of the closest point
            (L{LatLon}) on the parh and the distance to that point in
@@ -500,7 +504,7 @@ class LatLon(LatLonSphericalBase):
 
            @raise ValueError: If no points.
         '''
-        return nearestOn2(self, points, adjust=adjust, radius=radius)
+        return nearestOn2(self, points, adjust=adjust, radius=radius, wrap=wrap)
 
     def toVector3d(self):
         '''Convert this point to a vector normal to earth's surface.
@@ -729,7 +733,7 @@ def meanOf(points, height=None, LatLon=LatLon):
     return LatLon(a, b, height=h)
 
 
-def nearestOn2(point, points, adjust=True, radius=R_M):
+def nearestOn2(point, points, adjust=True, radius=R_M, wrap=False):
     '''Locate the closest point on any segment between two consecutive
        points of a path.
 
@@ -741,9 +745,11 @@ def nearestOn2(point, points, adjust=True, radius=R_M):
 
        @param point: The reference point (L{LatLon}).
        @param points: The points of the path (L{LatLon}[]).
-       @keyword adjust: Optionally adjust longitudes by the cosine
-                        of the mean of the latitudes (bool).
+       @keyword adjust: Optionally, adjust longitudinal delta by the
+                        cosine of the mean of the latitudes (bool).
        @keyword radius: Optional, mean earth radius (meter).
+       @keyword wrap: Optionally, keep the longitudinal delta within
+                      the -180..+180 range (bool).
 
        @return: 2-Tuple (closest, distance) of the closest point
                 (L{LatLon}) on the path and the distance to that
@@ -758,7 +764,20 @@ def nearestOn2(point, points, adjust=True, radius=R_M):
     def _d2yx(p2, p1):
         # distance in degrees squared, delta lat, delta lon
         return equirectangular3(p1.lat, p1.lon,
-                                p2.lat, p2.lon, adjust=adjust)
+                                p2.lat, p2.lon, adjust=adjust, wrap=wrap)
+
+    # point (x, y) on axis rotated by angle a ccw:
+    #   x' = y * sin(a) + x * cos(a)
+    #   y' = y * cos(a) - x * sin(a)
+    #
+    # distance (w) along and perpendicular (h) to
+    # a line thru point (dx, dy) and the origin:
+    #   w = (y * dy + x * dx) / hypot(dx, dy)
+    #   h = (y * dx - x * dy) / hypot(dx, dy)
+    #
+    # closest point on that line thru (dx, dy):
+    #   xc = w * dx / hypot(dx, dy)
+    #   yc = w * dy / hypot(dx, dy)
 
     n, points = point.points(points, closed=False)
 
@@ -771,27 +790,22 @@ def nearestOn2(point, points, adjust=True, radius=R_M):
             # distance point to p1
             d2, y01, x01 = _d2yx(point, p1)
             if d2 > EPS:
-                x = x01 * x21 + y01 * y21
-                if x > 0:
-                    if (x * x) < d21:
-                        # perpendicular distance
-                        d2 = (y01 * x21 - x01 * y21) ** 2 / d21
-                        if d2 < d:
-                            # closest is between p1 and p2
-                            x = sqrt(x * x / d21)
-                            c = point.classof(favg(p1.lat, p2.lat, x),
-                                              favg(p1.lon, p2.lon, x))
-                            d = d2
-                    else:  # distance point to p2
-                        d2, _, _ = _d2yx(point, p2)
-                        if d2 < d:  # p2 is closer
-                            c, d = p2, d2
-                    continue
+                w = y01 * y21 + x01 * x21
+                if w > 0:
+                    if w**2 < d21:
+                        # closest is between p1 and p2, use the
+                        # original, not the adjusted delta-lon
+                        f = w / d21
+                        p1 = point.classof(favg(p1.lat, p2.lat, f),
+                                           favg(p1.lon, p2.lon, f))
+                    else:  # p2 is closer
+                        p1 = p2
+                    d2, _, _ = _d2yx(point, p1)
             if d2 < d:  # p1 is closer
                 c, d = p1, d2
 
-    # distance degrees squared to meter
-    d = radians(sqrt(d)) * radius
+    # distance in degrees squared to meter
+    d = radians(sqrt(d)) * float(radius)
     return c, d
 
 
