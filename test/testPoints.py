@@ -4,11 +4,12 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '17.09.14'
+__version__ = '17.11.26'
 
 from base import TestsBase
 
-from pygeodesy import EPS, LatLon2psxy, Numpy2LatLon, classname, points
+from pygeodesy import EPS, LatLon2psxy, Numpy2LatLon, Tuple2LatLon, \
+                      classname, points
 
 try:
     from collections import Sequence
@@ -23,7 +24,7 @@ except ImportError:
 
 class Tests(TestsBase):
 
-    def test2(self, pts, npy, psxy=False):
+    def test2(self, pts, npt, psxy=False):
 
         clas_ = classname(pts) + '.'
 
@@ -41,16 +42,16 @@ class Tests(TestsBase):
         pts.epsilon = e
 
         n = len(pts) // 6  # 0 < some number < len(pts)
-        _test('len',    len(pts), len(npy))
-        _test('iter',   len(tuple(iter(pts))), len(npy))
-        if hasattr(npy, 'shape'):
-            _test('shape',  npy.shape, pts.shape)
+        _test('len',    len(pts), len(npt))
+        _test('iter',   len(tuple(iter(pts))), len(npt))
+        if hasattr(npt, 'shape'):
+            _test('shape',  npt.shape, pts.shape)
         _test('slice1', len(pts[:n]), n)
         _test('slice2', type(pts[1:n:2]), type(pts))
         _test('slice3', pts[1:n][0], pts[1])
         _test('strepr', str(pts), repr(pts))
         if hasattr(pts, 'subset'):
-            _test('subset', type(pts.subset(range(n))), type(npy))  # , nt=1)
+            _test('subset', type(pts.subset(range(n))), type(npt))  # , nt=1)
 
         for i, p in ((10, (52.224006, -0.707747)),
                      (20, (52.232688, -0.714608)),
@@ -97,11 +98,14 @@ if __name__ == '__main__':  # PYCHOK internal error?
 
         npy = numpy.array([(ll.lon, 0, ll.lat, 0) for ll in PtsFFI], dtype=float)
         pts = Numpy2LatLon(npy, ilat=2, ilon=0)
-
         t.test2(pts, npy, False)
 
     else:  # check abstact base class conformance
         t.test('no module', 'numpy', 'numpy')
+
+    tup = [(0, ll.lon, 0, ll.lat) for ll in PtsFFI]
+    pts = Tuple2LatLon(tup, ilat=3, ilon=1)
+    t.test2(pts, tup, False)
 
     t.results(nl=0)
     t.exit()

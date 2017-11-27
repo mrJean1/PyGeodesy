@@ -1,7 +1,8 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Handle 2-d NumPy or other arrays as I{LatLon}s or as pseudo-x/-ys.
+u'''Handle 2-d NumPy, tuples or other arrays as I{LatLon}s or as
+pseudo-x/-y pairs.
 
 NumPy arrays are assumed to contain rows of points with a lat-, a
 longitude -and possibly other- values in different columns.  While
@@ -16,15 +17,21 @@ class L{Numpy2LatLon} and specifying the column index for the lat- and
 longitude in each row.  Then, pass the L{Numpy2LatLon} instance to any
 L{pygeodesy} function or method accepting a I{points} argument.
 
+Similarly, class L{Tuple2LatLon} is used to instantiate a I{LatLon}
+for each 2+tuple in a list, tuple or sequence of such 2+tuples from
+the index for the lat- and longitude index in each 2+tuple.
+
 Tested with 64-bit Python 2.6.9 (and numpy 1.6.2), 2.7.13 and 2.7.14
-(both with numpy 1.13.1), 3.5.3 and 3.6.2 on macOS 10.12.6 Sierra, with
+(both with numpy 1.13.1), 3.5.3 and 3.6.3 on macOS 10.12.6 Sierra, with
 64-bit Intel-Python 3.5.3 (and numpy 1.11.3) on macOS 10.12.6 Sierra
 and with Pythonista 3.1 using 64-bit Python 2.7.12 and 3.5.1 (both with
-numpy 1.8.0) on iOS 10.3.3.
+numpy 1.8.0) on iOS 11.0.3.
 
 @newfield example: Example, Examples
 '''
-from utils import EPS, CrossError, crosserrors, fdot, fsum, \
+from bases import Base
+from utils import EPS, CrossError, crosserrors, \
+                  fdot, fStr, fsum, \
                   inStr, isint, issequence, \
                   polygon, scalar, wrap90, wrap180
 try:
@@ -34,9 +41,55 @@ except ImportError:
 from inspect import isclass
 from math import radians
 
-__all__ = ('LatLon2psxy', 'Numpy2LatLon',  # class
-           'bounds', 'isclockwise', 'isconvex')
-__version__ = '17.10.22'
+__all__ = ('LatLon_',  # classes
+           'LatLon2psxy', 'Numpy2LatLon', 'Tuple2LatLon',
+           'bounds', 'isclockwise', 'isconvex')  # functions
+__version__ = '17.11.26'
+
+
+class LatLon_(Base):
+    '''Low-overhead I{LatLon} class for L{Numpy2LatLon} or L{Tuple2LatLon}'
+    '''
+    __slots__ = ('lat', 'lon')
+
+    def __init__(self, lat, lon):
+        '''Creat a new, mininal, low-overhead L{LatLon_} instance,
+           without heigth and datum.
+
+           @param lat: Latitude (degrees).
+           @param lon: Longitude (degrees).
+
+           @note: The lat- and longitude are taken as-given,
+                  un-clipped and un-validated.
+        '''
+        self.lat = float(lat)
+        self.lon = float(lon)
+
+    def __eq__(self, other):
+        return isinstance(other, LatLon_) and \
+                          other.lat == self.lat and \
+                          other.lon == self.lon
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
+    def points(self, points, closed=False, base=None):
+        return polygon(points, closed=closed, base=base)
+
+    points.__doc__ = polygon.__doc__
+
+    def to2ab(self):
+        '''Return the lat- and longitude in radians.
+
+           @return: 2-Tuple (lat, lon) in (radians, radians).
+        '''
+        return radians(self.lat), radians(self.lon)
+
+    def toStr(self, **unused):
+        '''This L{LatLon_} as a string "lat=<degrees>, lon=<degrees>".
+        '''
+        return ', '.join('%s=%s' % (_, fStr(getattr(self, _)))
+                                for _ in self.__slots__)
 
 
 class _Basequence(_Sequence):  # immutable, on purpose
@@ -152,6 +205,270 @@ class _Basequence(_Sequence):  # immutable, on purpose
         '''(INTERNAL) Check for near-zero values.
         '''
         return all(abs(z) <= self._epsilon for z in zeros)
+
+    @property
+    def isNumpy2(self):
+        '''Is this a Numpy2 wrapper?
+        '''
+        return False  # isinstance(self, (Numpy2LatLon, ...))
+
+    @property
+    def isPoints2(self):
+        '''Is this a LatLon2 wrapper/converter?
+        '''
+        return False  # isinstance(self, (LatLon2psxy, ...))
+
+    @property
+    def isTuple2(self):
+        '''Is this a Tuple2 wrapper?
+        '''
+        return False  # isinstance(self, (Tuple2LatLon, ...))
+
+
+class _Array2LatLon(_Basequence):  # immutable, on purpose
+    '''Base class for Numpy2LatLon or Tuple2LatLon.
+    '''
+    _array  = ()
+    _ilat   = 0  # row column index
+    _ilon   = 0  # row column index
+    _LatLon = LatLon_  # default
+    _shape  = ()
+
+    def __init__(self, array, ilat=0, ilon=1, LatLon=None, shape=()):
+        '''Handle a NumPy or Tuple array as a sequence of I{LatLon} points.
+        '''
+        ais = ('ilat', ilat), ('ilon', ilon)
+
+        if len(shape) != 2 or shape[0] < 1 or shape[1] < len(ais):
+            raise IndexError('%s shape invalid: %r' % ('array', shape))
+        self._array = array
+        self._shape = shape
+
+        # check the point class
+        if LatLon is not None:
+            if isclass(LatLon) and all(hasattr(LatLon, a) for a in LatLon_.__slots__):
+                self._LatLon = LatLon
+            else:
+                raise TypeError('%s invalid: %r' % ('LatLon', LatLon))
+
+        # check the attr indices
+        for n, (ai, i) in enumerate(ais):
+            if not isint(i):
+                raise TypeError('%s invalid: %r' % (ai, i))
+            i = int(i)
+            if not 0 <= i < shape[1]:
+                raise ValueError('%s invalid: %s' % (ai, i))
+            for aj, j in ais[:n]:
+                if int(j) == i:
+                    raise ValueError('%s == %s == %s' % (ai, aj, i))
+            setattr(self, '_' + ai, i)
+
+    def __contains__(self, latlon):
+        '''Check for a specific lat-/longitude.
+
+           @param latlon: Point (I{LatLon}) or 2-tuple (lat, lon).
+
+           @return: True if present, False otherwise.
+
+           @raise TypeError: Invalid latlon.
+        '''
+        return self._contains(latlon)
+
+    def __getitem__(self, index):
+        '''Return row[index] as I{LatLon} or return a L{Numpy2LatLon} slice.
+        '''
+        return self._getitem(index)
+
+    def __iter__(self):
+        '''Yield rows as I{LatLon}.
+        '''
+        return self._iter()
+
+    def __len__(self):
+        '''Return the number of rows.
+        '''
+        return self._shape[0]
+
+    def __repr__(self):
+        '''Return a string representation.
+        '''
+        return self._repr()
+
+    def __reversed__(self):  # PYCHOK false
+        '''Yield rows as I{LatLon} in reverse order.
+        '''
+        return self._reversed()
+
+    __str__ = __repr__
+
+    def count(self, latlon):
+        '''Count the number of rows with a specific lat-/longitude.
+
+           @param latlon: Point (I{LatLon}) or 2-tuple (lat, lon)
+
+           @return: Count (integer).
+
+           @raise TypeError: Invalid latlon.
+        '''
+        return self._count(latlon)
+
+    @property
+    def epsilon(self):
+        '''Get the tolerance for equality tests (float).
+        '''
+        return self._epsilon
+
+    @epsilon.setter  # PYCHOK setter!
+    def epsilon(self, tol):
+        '''Set the tolerance for equality tests.
+
+           @param tol: New tolerance (scalar).
+
+           @raise TypeError: Tolerance not scalar.
+
+           @raise ValueError: Tolerance out of bounds.
+        '''
+        self._epsilon = scalar(tol, 0.0, name='tolerance')
+
+    def find(self, latlon, *start_end):
+        '''Find the first row with a specific lat-/longitude.
+
+           @param latlon: Point (I{LatLon}) or 2-tuple (lat, lon).
+           @param start_end: Optional [start [, end]] index (integers).
+
+           @return: Index or -1 if not found (integer).
+
+           @raise TypeError: Invalid latlon.
+        '''
+        return self._find(latlon, start_end)
+
+    def _findall(self, latlon, start_end):
+        '''(INTERNAL) Yield indices of all matching rows.
+        '''
+        try:
+            lat, lon = latlon.lat, latlon.lon
+        except AttributeError:
+            try:
+                lat, lon = latlon
+            except (TypeError, ValueError):
+                raise TypeError('%s invalid: %r' % ('latlon', latlon))
+
+        for i in self._range(*start_end):
+            row = self._array[i]
+            if self._zeros(row[self._ilat] - lat,
+                           row[self._ilon] - lon):
+                yield i
+
+    def findall(self, latlon, *start_end):
+        '''Yield indices of all rows with a specific lat-/longitude.
+
+           @param latlon: Point (I{LatLon}) or 2-tuple (lat, lon).
+           @param start_end: Optional [start [, end]] index (integers).
+
+           @return: Indices (iterator).
+
+           @raise TypeError: Invalid latlon.
+        '''
+        return self._findall(latlon, start_end)
+
+    def index(self, latlon, *start_end):  # PYCHOK Python 2- issue
+        '''Find index of the first row with a specific lat-/longitude.
+
+           @param latlon: Point (I{LatLon}) or 2-tuple (lat, lon).
+           @param start_end: Optional [start [, end]] index (integers).
+
+           @return: Index (integer).
+
+           @raise TypeError: Invalid latlon.
+
+           @raise ValueError: Point not found.
+        '''
+        return self._index(latlon, start_end)
+
+    @property
+    def ilat(self):
+        '''Get the latitudes column index (integer).
+        '''
+        return self._ilat
+
+    @property
+    def ilon(self):
+        '''Get the longitudes column index (integer).
+        '''
+        return self._ilon
+
+#   next = __iter__
+
+    def point(self, row):
+        '''Instantiate a point I{LatLon}.
+
+           @param row: Array row (numpy.array).
+
+           @return: Point (I{LatLon}).
+        '''
+        return self._LatLon(row[self._ilat], row[self._ilon])
+
+    def rfind(self, latlon, *start_end):
+        '''Find the last row with a specific lat-/longitude.
+
+           @param latlon: Point (I{LatLon}) or 2-tuple (lat, lon).
+           @param start_end: Optional [start [, end]] index (integers).
+
+           @note: Keyword order, first stop, then start.
+
+           @return: Index or -1 if not found (integer).
+
+           @raise TypeError: Invalid latlon.
+        '''
+        return self._rfind(latlon, start_end)
+
+    def _slicekwds(self):
+        '''(INTERNAL) Slice kwds.
+        '''
+        return dict(ilat=self._ilat, ilon=self._ilon)
+
+    @property
+    def shape(self):
+        '''Get the shape of the NumPy array or the Tuples, 2-tuple of
+           (number of rows, number of colums).
+        '''
+        return self._shape
+
+    def _subset(self, indices):  # PYCHOK unused
+        '''Must be overloaded.
+        '''
+        raise NotImplementedError('method: %s' % ('_subset',))
+
+    def subset(self, indices):
+        '''Return a subset of the NumPy array.
+
+           @param indices: Row indices (ints).
+
+           @note: A I{subset} is different from a I{slice} in 2 ways:
+                  (a) the I{subset} is typically specified as a list of
+                  (un-)ordered indices and (b) the I{subset} allocates
+                  a new, separate NumPy array while a I{slice} is just
+                  an other I{view} of the original NumPy array.
+
+           @return: Sub-array (numpy.array).
+
+           @raise IndexError: Out of range indices value.
+
+           @raise TypeError: If indices is not a I{range} or a
+                             I{list} of ints.
+        '''
+        if not issequence(indices, tuple):  # NO tuple, only list
+            # and range work properly to get Numpy array sub-sets
+            raise TypeError('%s invalid: %s' % ('indices', type(indices)))
+
+        n = len(self)
+        for i, v in enumerate(indices):
+            if not isint(v):
+                raise TypeError('%s[%s] invalid: %r' % ('indices', i, v))
+            elif not 0 <= v < n:
+                raise IndexError('%s[%s] invalid: %r' % ('indices', i, v))
+
+        return self._subset(indices)
 
 
 class LatLon2psxy(_Basequence):
@@ -318,9 +635,9 @@ class LatLon2psxy(_Basequence):
 
     @property
     def isPoints2(self):
-        '''Is this a Points2 wrapper/converter?
+        '''Is this a LatLon2 wrapper/converter?
         '''
-        return True  # isinstance(self, Points))
+        return True  # isinstance(self, (LatLon2psxy, ...))
 
 #   next = __iter__
 
@@ -356,44 +673,9 @@ class LatLon2psxy(_Basequence):
         return dict(closed=False, radius=self._radius, wrap=self._wrap)
 
 
-class _LatLon(object):
-    '''(INTERNAL) Low-overhead L{Numpy2LatLon} helper'
-    '''
-    __slots__ = ('lat', 'lon')
-
-    def __init__(self, lat, lon):
-        self.lat = lat
-        self.lon = lon
-
-    def __eq__(self, other):
-        return isinstance(other, _LatLon) and \
-                          other.lat == self.lat and \
-                          other.lon == self.lon
-
-    def __ne__(self, other):
-        return not self.__eq__(other)
-
-    def __repr__(self):
-        return inStr(self, lat=self.lat, lon=self.lon)
-
-    __str__ = __repr__
-
-    def to2ab(self):
-        '''Return lat-/longitude in radians.
-
-           @return: 2-Tuple (lat, lon) in (radians, radians).
-        '''
-        return radians(self.lat), radians(self.lon)
-
-
-class Numpy2LatLon(_Basequence):  # immutable, on purpose
+class Numpy2LatLon(_Array2LatLon):  # immutable, on purpose
     '''Wrapper for NumPy arrays as "on-the-fly" I{LatLon} points.
     '''
-    _ilat   = 0  # row column index
-    _ilon   = 0  # row column index
-    _LatLon = _LatLon  # default
-    _shape  = ()
-
     def __init__(self, array, ilat=0, ilon=1, LatLon=None):
         '''Handle a NumPy array as a sequence of I{LatLon} points.
 
@@ -423,169 +705,13 @@ class Numpy2LatLon(_Basequence):  # immutable, on purpose
            >>> type(sliced)
            <class '...Numpy2LatLon'>
         '''
-        ais = ('ilat', ilat), ('ilon', ilon)
-
         try:  # get shape and check some other numpy.array attrs
             s, _, _ = array.shape, array.nbytes, array.ndim  # PYCHOK expected
         except AttributeError:
             raise TypeError('%s not NumPy: %s' % ('array', type(array)))
-        if len(s) != 2 or s[0] < 1 or s[1] < len(ais):
-            raise IndexError('%s shape invalid: %r' % ('array', s))
-        self._array = array
-        self._shape = s
 
-        # check the point class
-        if LatLon is not None:
-            if isclass(LatLon) and all(hasattr(LatLon, a) for a in _LatLon.__slots__):
-                self._LatLon = LatLon
-            else:
-                raise TypeError('%s invalid: %r' % ('LatLon', LatLon))
-
-        # check the attr indices
-        for n, (ai, i) in enumerate(ais):
-            if not isint(i):
-                raise TypeError('%s invalid: %r' % (ai, i))
-            i = int(i)
-            if not 0 <= i < s[1]:
-                raise ValueError('%s invalid: %s' % (ai, i))
-            for aj, j in ais[:n]:
-                if int(j) == i:
-                    raise ValueError('%s == %s == %s' % (ai, aj, i))
-            setattr(self, '_' + ai, i)
-
-    def __contains__(self, latlon):
-        '''Check for a specific lat-/longitude.
-
-           @param latlon: Point (I{LatLon}) or 2-tuple (lat, lon).
-
-           @return: True if present, False otherwise.
-
-           @raise TypeError: Invalid latlon.
-        '''
-        return self._contains(latlon)
-
-    def __getitem__(self, index):
-        '''Return row[index] as I{LatLon} or return a L{Numpy2LatLon} slice.
-        '''
-        return self._getitem(index)
-
-    def __iter__(self):
-        '''Yield rows as I{LatLon}.
-        '''
-        return self._iter()
-
-    def __len__(self):
-        '''Return the number of rows.
-        '''
-        return self._shape[0]
-
-    def __repr__(self):
-        '''Return a string representation.
-        '''
-        return self._repr()
-
-    def __reversed__(self):  # PYCHOK false
-        '''Yield rows as I{LatLon} in reverse order.
-        '''
-        return self._reversed()
-
-    __str__ = __repr__
-
-    def count(self, latlon):
-        '''Count the number of rows with a specific lat-/longitude.
-
-           @param latlon: Point (I{LatLon}) or 2-tuple (lat, lon)
-
-           @return: Count (integer).
-
-           @raise TypeError: Invalid latlon.
-        '''
-        return self._count(latlon)
-
-    @property
-    def epsilon(self):
-        '''Get the tolerance for equality tests (float).
-        '''
-        return self._epsilon
-
-    @epsilon.setter  # PYCHOK setter!
-    def epsilon(self, tol):
-        '''Set the tolerance for equality tests.
-
-           @param tol: New tolerance (scalar).
-
-           @raise TypeError: Tolerance not scalar.
-
-           @raise ValueError: Tolerance out of bounds.
-        '''
-        self._epsilon = scalar(tol, 0.0, name='tolerance')
-
-    def find(self, latlon, *start_end):
-        '''Find the first row with a specific lat-/longitude.
-
-           @param latlon: Point (I{LatLon}) or 2-tuple (lat, lon).
-           @param start_end: Optional [start [, end]] index (integers).
-
-           @return: Index or -1 if not found (integer).
-
-           @raise TypeError: Invalid latlon.
-        '''
-        return self._find(latlon, start_end)
-
-    def _findall(self, latlon, start_end):
-        '''(INTERNAL) Yield indices of all matching rows.
-        '''
-        try:
-            lat, lon = latlon.lat, latlon.lon
-        except AttributeError:
-            try:
-                lat, lon = latlon
-            except (TypeError, ValueError):
-                raise TypeError('%s invalid: %r' % ('latlon', latlon))
-
-        for i in self._range(*start_end):
-            row = self._array[i]
-            if self._zeros(row[self._ilat] - lat,
-                           row[self._ilon] - lon):
-                yield i
-
-    def findall(self, latlon, *start_end):
-        '''Yield indices of all rows with a specific lat-/longitude.
-
-           @param latlon: Point (I{LatLon}) or 2-tuple (lat, lon).
-           @param start_end: Optional [start [, end]] index (integers).
-
-           @return: Indices (iterator).
-
-           @raise TypeError: Invalid latlon.
-        '''
-        return self._findall(latlon, start_end)
-
-    def index(self, latlon, *start_end):  # PYCHOK Python 2- issue
-        '''Find index of the first row with a specific lat-/longitude.
-
-           @param latlon: Point (I{LatLon}) or 2-tuple (lat, lon).
-           @param start_end: Optional [start [, end]] index (integers).
-
-           @return: Index (integer).
-
-           @raise TypeError: Invalid latlon.
-
-           @raise ValueError: Point not found.
-        '''
-        return self._index(latlon, start_end)
-
-    @property
-    def ilat(self):
-        '''Get the latitudes column index (integer).
-        '''
-        return self._ilat
-
-    @property
-    def ilon(self):
-        '''Get the longitudes column index (integer).
-        '''
-        return self._ilon
+        _Array2LatLon.__init__(self, array, ilat=ilat, ilon=ilon,
+                                     LatLon=LatLon, shape=s)
 
     @property
     def isNumpy2(self):
@@ -593,72 +719,72 @@ class Numpy2LatLon(_Basequence):  # immutable, on purpose
         '''
         return True  # isinstance(self, (Numpy2LatLon, ...))
 
-#   next = __iter__
+    def _subset(self, indices):
+        return self._array[indices]  # NumPy special
 
-    def point(self, row):
-        '''Instantiate a point I{LatLon}.
 
-           @param row: Array row (numpy.array).
+class Tuple2LatLon(_Array2LatLon):
+    '''Wrapper for tuple sequences as "on-the-fly" I{LatLon} points.
+    '''
+    def __init__(self, tuples, ilat=0, ilon=1, LatLon=None):
+        '''Handle a list of tuples, each containing a lat- and longitude
+           and perhaps other values as a sequence of I{LatLon} points.
 
-           @return: Point (I{LatLon}).
+           @param tuples: List, tuple or sequence of tuples (I{list}).
+           @keyword ilat: Optional index of the latitudes value (integer).
+           @keyword ilon: Optional index of the longitudes value (integer).
+           @keyword LatLon: Optional I{LatLon} class to use (internal).
+
+           @raise IndexError: If I{(len(tuples), min(len(t) for t in tuples))}
+                              is not (1+, 2+).
+
+           @raise TypeError: If I{tuples} is not a list, tuple or sequence
+                             or if I{LatLon} is not a class with I{lat}
+                             and I{lon} attributes.
+
+           @raise ValueError: If the I{ilat} and/or I{ilon} values are
+                              the same or out of range.
+
+           @example:
+
+           >>> tuples = [(0, 1), (2, 3), (4, 5)]
+           >>> type(tuples)
+           <type 'list'>  # <class ...> in Python 3+
+           >>> points = Tuple2LatLon(tuples, lat=0, lon=1)
+           >>> simply = simplifyRW(points, 0.5, ...)
+           >>> type(simply)
+           <type 'list'>  # <class ...> in Python 3+
+           >>> simply
+           [(0, 1), (4, 5)]
+           >>> sliced = points[1:-1]
+           >>> type(sliced)
+           <class '...Tuple2LatLon'>
+           >>> sliced
+           ...Tuple2LatLon([(2, 3), ...][1], ilat=0, ilon=1)
+
+           >>> closest, _ = nearestOn2(LatLon_(2, 1), points, adjust=False)
+           >>> closest
+           LatLon_(lat=1.0, lon=2.0)
+
+           >>> closest, _ = nearestOn2(LatLon_(3, 2), points)
+           >>> closest
+           LatLon_(lat=2.001162, lon=3.001162)
         '''
-        return self._LatLon(row[self._ilat], row[self._ilon])
-
-    def rfind(self, latlon, *start_end):
-        '''Find the last row with a specific lat-/longitude.
-
-           @param latlon: Point (I{LatLon}) or 2-tuple (lat, lon).
-           @param start_end: Optional [start [, end]] index (integers).
-
-           @note: Keyword order, first stop, then start.
-
-           @return: Index or -1 if not found (integer).
-
-           @raise TypeError: Invalid latlon.
-        '''
-        return self._rfind(latlon, start_end)
-
-    def _slicekwds(self):
-        '''(INTERNAL) Slice kwds.
-        '''
-        return dict(ilat=self._ilat, ilon=self._ilon)
+        if isinstance(tuples, (list, tuple)):
+            s = len(tuples), min(len(_) for _ in tuples)
+        else:
+            TypeError('%s not sequence: %s' % ('tuple', type(tuples)))
+        _Array2LatLon.__init__(self, tuples, ilat=ilat, ilon=ilon,
+                                     LatLon=LatLon, shape=s)
 
     @property
-    def shape(self):
-        '''Get the shape of the NumPy array (2-tuple).
+    def isTuple2(self):
+        '''Is this a Tuple2 wrapper?
         '''
-        return self._shape
+        return True  # isinstance(self, (Tuple2LatLon, ...))
 
-    def subset(self, indices):
-        '''Return a subset of the NumPy array.
-
-           @param indices: Row indices (ints).
-
-           @note: A I{subset} is different from a I{slice} in 2 ways:
-                  (a) the I{subset} is typically specified as a list of
-                  (un-)ordered indices and (b) the I{subset} allocates
-                  a new, separate NumPy array while a I{slice} is just
-                  an other I{view} of the original NumPy array.
-
-           @return: Sub-array (numpy.array).
-
-           @raise IndexError: Out of range indices value.
-
-           @raise TypeError: If indices is not a I{range} or a
-                             I{list} of ints.
-        '''
-        if not issequence(indices, tuple):  # NO tuple, only list
-            # and range work properly to get Numpy array sub-sets
-            raise TypeError('%s invalid: %s' % ('indices', type(indices)))
-
-        n = len(self)
-        for i, v in enumerate(indices):
-            if not isint(v):
-                raise TypeError('%s[%s] invalid: %r' % ('indices', i, v))
-            elif not 0 <= v < n:
-                raise IndexError('%s[%s] invalid: %r' % ('indices', i, v))
-
-        return self._array[indices]
+    def _subset(self, indices):
+        return type(self._array)(self._array[i] for i in indices)
 
 
 def bounds(points, radius=None, wrap=True, LatLon=None):

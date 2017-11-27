@@ -4,7 +4,7 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '17.08.26'
+__version__ = '17.11.26'
 
 from base import TestsBase, secs2str
 
@@ -231,7 +231,7 @@ if __name__ == '__main__':  # PYCHOK internal error?
 
     t.test2(simplifyRW, Pts, _ms({160: 1179, 80: 1737, 40: 2322, 20: 3121, 10: 4041, 1: 7095}), adjust=True, shortest=False, indices=True)
     t.test2(simplifyRW, Pts, _ms({160: 1179, 80: 1737, 40: 2322, 20: 3121, 10: 4041, 1: 7095}), adjust=True, shortest=False)
-    t.test2(simplifyRW, Pts, _ms({160: 1178, 80: 1739, 40: 2323, 20: 3121, 10: 4041, 1: 7095}), adjust=True, shortest=True)
+    t.test2(simplifyRW, Pts, _ms({160: 4350, 80: 5646, 40: 6744, 20: 7535, 10: 7995, 1: 8302}), adjust=True, shortest=True)
 
     t.test2(simplifyVWm, Pts, _ms({160: 1425, 80: 2648, 40: 4701, 20: 7678, 10: 11166, 1: 16328}), adjust=True, indices=True)
     t.test2(simplifyVWm, Pts, _ms({160: 1425, 80: 2648, 40: 4701, 20: 7678, 10: 11166, 1: 16328}), adjust=True)
@@ -247,8 +247,8 @@ if __name__ == '__main__':  # PYCHOK internal error?
     t.test2(simplifyRDPfw, Pts, _ms({160: 3166, 80: 5002, 40: 7259, 20:  9720, 10: 11939, 1: 15869}), adjust=False, shortest=False, modified=True)
 
     # run time may be too long
-    t.test2(simplifyRDP,   Pts, _ms({100: 1199, 10: 4221, 1: 10971}), adjust=True, shortest=True, indices=True)
-    t.test2(simplifyRDP,   Pts, _ms({100: 1199, 10: 4221, 1: 10971}), adjust=True, shortest=True)
+    t.test2(simplifyRDP,   Pts, _ms({100: 1185, 10: 4209, 1: 10960}), adjust=True, shortest=True, indices=True)
+    t.test2(simplifyRDP,   Pts, _ms({100: 1185, 10: 4209, 1: 10960}), adjust=True, shortest=True)
     # for comparison, the RDPgr results should be less than a few points different
     t.test2(simplifyRDPgr, Pts, _ms({100: 1185, 10: 4209, 1: 10960}), adjust=True, shortest=True, modified=False)
 
@@ -265,7 +265,7 @@ if __name__ == '__main__':  # PYCHOK internal error?
     t.test2(simplifyVW, Ptsn, _ms({160: 314, 80: 495, 40: 793, 20: 1081, 10: 1351, 1: 1646}), adjust=False)
 
     t.test2(simplifyRDP,   Ptsn, _ms({160: 98, 80: 147, 40: 226, 20: 354, 10: 501, 1: 1231}), adjust=True, shortest=False)
-    t.test2(simplifyRDP,   Ptsn, _ms({160: 98, 80: 146, 40: 226, 20: 352, 10: 499, 1: 1231}), adjust=True, shortest=True)
+    t.test2(simplifyRDP,   Ptsn, _ms({160: 98, 80: 147, 40: 226, 20: 354, 10: 501, 1: 1231}), adjust=True, shortest=True)
     t.test2(simplifyRDPgr, Ptsn, _ms({160: 98, 80: 147, 40: 226, 20: 354, 10: 501, 1: 1231}), adjust=True, shortest=True)
 
     t.test2(simplifyRDP,   Ptsn, _ms({160: 111, 80: 161, 40: 256, 20: 387, 10: 542, 1: 1267}), adjust=False, shortest=False)

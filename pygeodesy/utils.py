@@ -32,7 +32,8 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'haversine', 'haversine_',  # XXX removed 'hsin', 'hsin3',
            'hypot', 'hypot1', 'hypot3',
            'inStr',
-           'isfinite', 'isint', 'isNumpy2', 'isscalar', 'issequence',
+           'isfinite', 'isint', 'isscalar', 'issequence',
+           'isNumpy2', 'isTuple2',
            'iterNumpy2', 'iterNumpy2over',
            'len2',
            'm2ft', 'm2km', 'm2NM', 'm2SM', 'map1', 'map2',
@@ -42,7 +43,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'tan_2', 'tanPI_2_2',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '17.11.24'
+__version__ = '17.11.26'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -626,7 +627,7 @@ def isint(obj, both=False):
 
 
 def isNumpy2(obj):
-    '''Check for Numpy2 wrapper.
+    '''Check for I{Numpy2LatLon} points wrapper.
 
        @param obj: The object (any).
 
@@ -661,6 +662,17 @@ def issequence(obj, *excluded):
                isinstance(obj, excluded)
     else:
         return isinstance(obj, _Seqs)
+
+
+def isTuple2(obj):
+    '''Check for I{Tuple2LatLon} points wrapper.
+
+       @param obj: The object (any).
+
+       @return: True if obj is Tuple2 (bool).
+    '''
+    # isinstance(self, (Tuple2LatLon, ...))
+    return getattr(obj, 'isTuple2', False)
 
 
 def iterNumpy2(obj):
@@ -811,7 +823,7 @@ def polygon(points, closed=True, base=None):
     if n < (3 if closed else 1):
         raise ValueError('too few points: %s' % (n,))
 
-    if base and not isNumpy2(points):
+    if base and not (isNumpy2(points) or isTuple2(points)):
         for i in range(n):
             base.others(points[i], name='points[%s]' % (i,))
 

@@ -27,7 +27,7 @@ __all__ = ('LatLon',  # classes
            'intersection', 'isPoleEnclosedBy',
            'meanOf',
            'nearestOn2')
-__version__ = '17.11.24'
+__version__ = '17.11.26'
 
 
 class LatLon(LatLonSphericalBase):
@@ -497,8 +497,8 @@ class LatLon(LatLonSphericalBase):
                           the -180..+180 range (bool).
 
            @return: 2-Tuple (closest, distance) of the closest point
-           (L{LatLon}) on the parh and the distance to that point in
-           meter, rather the units of I{radius}.
+           (L{LatLon}) on the path and the distance to that point in
+           meter, rather in the units of I{radius}.
 
            @raise TypeError: Some points are not I{LatLon}.
 
@@ -792,7 +792,7 @@ def nearestOn2(point, points, adjust=True, radius=R_M, wrap=False):
             if d2 > EPS:
                 w = y01 * y21 + x01 * x21
                 if w > 0:
-                    if w**2 < d21:
+                    if w < d21:
                         # closest is between p1 and p2, use the
                         # original, not the adjusted delta-lon
                         f = w / d21

@@ -78,14 +78,14 @@ numpy 1.8.0) on iOS 10.3.3.
 '''
 
 from datum import R_M
-from utils import EPS, equirectangular3, isNumpy2, len2
+from utils import EPS, equirectangular3, isNumpy2, isTuple2, len2
 
 from math import degrees, radians, sqrt
 
 __all__ = ('simplify1', 'simplify2',  # backward compatibility
            'simplifyRDP', 'simplifyRDPm', 'simplifyRW',
            'simplifyVW', 'simplifyVWm')
-__version__ = '17.11.24'
+__version__ = '17.11.26'
 
 
 # try:
@@ -213,9 +213,9 @@ class _Sy(object):
             # distance points[i] to -[s]
             d2, y01, x01 = d2yx(s, i)
             if d2 > eps:
-                x = y01 * y21 + x01 * x21
-                if x > 0:
-                    if x**2 < d21:
+                w = y01 * y21 + x01 * x21
+                if w > 0:
+                    if w < d21:
                         # perpendicular distance squared
                         d2 = (y01 * x21 - x01 * y21)**2 / d21
                     else:  # distance points[i] to -[e]
@@ -255,7 +255,7 @@ class _Sy(object):
         r = sorted(r.keys())
         if self.indices:
             return list(r)
-        elif isNumpy2(self.pts):
+        elif isNumpy2(self.pts) or isTuple2(self.pts):
             return self.pts.subset(r)
         else:
             return [self.pts[i] for i in r]

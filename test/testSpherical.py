@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.11.24'
+__version__ = '17.11.26'
 
 from testLatLon import Tests as _TestsLL
 from testVectorial import Tests as _TestsV
@@ -14,7 +14,7 @@ from pygeodesy import F_D, F_DMS, lonDMS
 
 class Tests(_TestsLL, _TestsV):
 
-    def testSpherical(self, module, Vct=False):
+    def testSpherical(self, module, Vct=False):  # MCCABE 13
 
         self.subtitle(module, 'Spherical')
 
@@ -120,6 +120,16 @@ class Tests(_TestsLL, _TestsV):
             p = LatLon(45.330691, 001.318551)
             d = p.distanceTo(LatLon(45.331319, 001.331319))
             self.test('difference', d, '1000.53', fmt='%.2f')  # PYCHOK false?
+
+            if not Vct:  # check nearestOn2 with closest on the segment
+                b = LatLon(0, 1), LatLon(2, 3), LatLon(4, 5), LatLon(6, 7), LatLon(8, 9)
+                for i in range(8):
+                    p = LatLon(i + 2, i)
+                    c, d = module.nearestOn2(p, b, adjust=False)
+                    p.lat -= 1.5
+                    p.lon += 1.5
+                    self.test('nearestOn2', c.toStr(F_D, prec=6), p.toStr(F_D, prec=6))
+                    self.test('neartesOn2', d, '235880.385', fmt='%.3f')
 
         if hasattr(module, 'isPoleEnclosedBy'):
             p = LatLon(85, 90), LatLon(85, 0), LatLon(85, -90), LatLon(85, -180)
