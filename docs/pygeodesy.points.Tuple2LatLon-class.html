@@ -3,7 +3,7 @@
           "DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>pygeodesy.points.Numpy2LatLon</title>
+  <title>pygeodesy.points.Tuple2LatLon</title>
   <link rel="stylesheet" href="epydoc.css" type="text/css" />
   <script type="text/javascript" src="epydoc.js"></script>
 </head>
@@ -44,7 +44,7 @@
       <span class="breadcrumbs">
         <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
         <a href="pygeodesy.points-module.html">Module&nbsp;points</a> ::
-        Class&nbsp;Numpy2LatLon
+        Class&nbsp;Tuple2LatLon
       </span>
     </td>
     <td>
@@ -52,14 +52,14 @@
         <!-- hide/show private -->
         <tr><td align="right"><span class="options"
             >[<a href="frames.html" target="_top">frames</a
-            >]&nbsp;|&nbsp;<a href="pygeodesy.points.Numpy2LatLon-class.html"
+            >]&nbsp;|&nbsp;<a href="pygeodesy.points.Tuple2LatLon-class.html"
             target="_top">no&nbsp;frames</a>]</span></td></tr>
       </table>
     </td>
   </tr>
 </table>
 <!-- ==================== CLASS DESCRIPTION ==================== -->
-<h1 class="epydoc">Class Numpy2LatLon</h1><p class="nomargin-top"></p>
+<h1 class="epydoc">Class Tuple2LatLon</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
        object --+                
                 |                
@@ -79,11 +79,11 @@ _abcoll.Container --+
                             |    
                 _Array2LatLon --+
                                 |
-                               <strong class="uidshort">Numpy2LatLon</strong>
+                               <strong class="uidshort">Tuple2LatLon</strong>
 </pre>
 
 <hr />
-<p>Wrapper for NumPy arrays as &quot;on-the-fly&quot; <i>LatLon</i> 
+<p>Wrapper for tuple sequences as &quot;on-the-fly&quot; <i>LatLon</i> 
   points.</p>
 
 <!-- ==================== NESTED CLASSES ==================== -->
@@ -116,12 +116,13 @@ _abcoll.Container --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.points.Numpy2LatLon-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">array</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.points.Tuple2LatLon-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">tuples</span>,
         <span class="summary-sig-arg">ilat</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">ilon</span>=<span class="summary-sig-default">1</span>,
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Handle a NumPy array as a sequence of <i>LatLon</i> points.</td>
+      Handle a list of tuples, each containing a lat- and longitude and 
+      perhaps other values as a sequence of <i>LatLon</i> points.</td>
           <td align="right" valign="top">
             
             
@@ -207,8 +208,8 @@ _abcoll.Container --+
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.points.Numpy2LatLon-class.html#isNumpy2" class="summary-name">isNumpy2</a><br />
-      Is this a Numpy2 wrapper?
+        <a href="pygeodesy.points.Tuple2LatLon-class.html#isTuple2" class="summary-name">isTuple2</a><br />
+      Is this a Tuple2 wrapper?
     </td>
   </tr>
   <tr>
@@ -220,8 +221,8 @@ _abcoll.Container --+
       <code>shape</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>_Basequence</code></b>:
-      <code>isPoints2</code>,
-      <code>isTuple2</code>
+      <code>isNumpy2</code>,
+      <code>isPoints2</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
@@ -246,7 +247,7 @@ _abcoll.Container --+
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">array</span>,
+        <span class="sig-arg">tuples</span>,
         <span class="sig-arg">ilat</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">ilon</span>=<span class="sig-default">1</span>,
         <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>)</span>
@@ -257,20 +258,23 @@ _abcoll.Container --+
     </td>
   </tr></table>
   
-  <p>Handle a NumPy array as a sequence of <i>LatLon</i> points.</p>
+  <p>Handle a list of tuples, each containing a lat- and longitude and 
+  perhaps other values as a sequence of <i>LatLon</i> points.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>array</code></strong> - NumPy array (<i>numpy.array</i>).</li>
-        <li><strong class="pname"><code>ilat</code></strong> - Optional index of the latitudes column (integer).</li>
-        <li><strong class="pname"><code>ilon</code></strong> - Optional index of the longitudes column (integer).</li>
+        <li><strong class="pname"><code>tuples</code></strong> - List, tuple or sequence of tuples (<i>list</i>).</li>
+        <li><strong class="pname"><code>ilat</code></strong> - Optional index of the latitudes value (integer).</li>
+        <li><strong class="pname"><code>ilon</code></strong> - Optional index of the longitudes value (integer).</li>
         <li><strong class="pname"><code>LatLon</code></strong> - Optional <i>LatLon</i> class to use (internal).</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>IndexError</strong></code> - If <i>array.shape</i> is not (1+, 2+).</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - If <i>array</i> is not a NumPy array or <i>LatLon</i> is not a 
-        class with <i>lat</i> and <i>lon</i> attributes.</li>
+        <li><code><strong class='fraise'>IndexError</strong></code> - If <i>(len(tuples), min(len(t) for t in tuples))</i> is not (1+, 
+        2+).</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <i>tuples</i> is not a list, tuple or sequence or if 
+        <i>LatLon</i> is not a class with <i>lat</i> and <i>lon</i> 
+        attributes.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - If the <i>ilat</i> and/or <i>ilon</i> values are the same or out of
         range.</li>
     </ul></dd>
@@ -280,15 +284,28 @@ _abcoll.Container --+
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>type(array)
-<span class="py-output">&lt;type 'numpy.ndarray'&gt;  # &lt;class ...&gt; in Python 3+</span>
-<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>points = Numpy2LatLon(array, lat=0, lon=1)
-<span class="py-prompt">&gt;&gt;&gt; </span>simply = simplifyRDP(points, ...)
+<span class="py-prompt">&gt;&gt;&gt; </span>tuples = [(0, 1), (2, 3), (4, 5)]
+<span class="py-prompt">&gt;&gt;&gt; </span>type(tuples)
+<span class="py-output">&lt;type 'list'&gt;  # &lt;class ...&gt; in Python 3+</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>points = Tuple2LatLon(tuples, lat=0, lon=1)
+<span class="py-prompt">&gt;&gt;&gt; </span>simply = simplifyRW(points, 0.5, ...)
 <span class="py-prompt">&gt;&gt;&gt; </span>type(simply)
-<span class="py-output">&lt;type 'numpy.ndarray'&gt;  # &lt;class ...&gt; in Python 3+</span>
+<span class="py-output">&lt;type 'list'&gt;  # &lt;class ...&gt; in Python 3+</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>simply
+<span class="py-output">[(0, 1), (4, 5)]</span>
 <span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>sliced = points[1:-1]
 <span class="py-prompt">&gt;&gt;&gt; </span>type(sliced)
-<span class="py-output">&lt;class '...Numpy2LatLon'&gt;</span></pre>
+<span class="py-output">&lt;class '...Tuple2LatLon'&gt;</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>sliced
+...Tuple2LatLon([(2, 3), ...][1], ilat=0, ilon=1)</pre>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>closest, _ = nearestOn2(LatLon_(2, 1), points, adjust=False)
+<span class="py-prompt">&gt;&gt;&gt; </span>closest
+<span class="py-output">LatLon_(lat=1.0, lon=2.0)</span></pre>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>closest, _ = nearestOn2(LatLon_(3, 2), points)
+<span class="py-prompt">&gt;&gt;&gt; </span>closest
+<span class="py-output">LatLon_(lat=2.001162, lon=3.001162)</span></pre>
       </p>
 </div></td></tr></table>
 </div>
@@ -302,17 +319,17 @@ _abcoll.Container --+
     <span class="table-header">Property Details</span></td>
 </tr>
 </table>
-<a name="isNumpy2"></a>
+<a name="isTuple2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
-  <h3 class="epydoc">isNumpy2</h3>
-  <p>Is this a Numpy2 wrapper?</p>
+  <h3 class="epydoc">isTuple2</h3>
+  <p>Is this a Tuple2 wrapper?</p>
   <dl class="fields">
     <dt>Get Method:</dt>
-    <dd class="value"><span class="summary-sig">isNumpy2(<span class="summary-sig-arg">self</span>)</span>
-        - Is this a Numpy2 wrapper?
+    <dd class="value"><span class="summary-sig">isTuple2(<span class="summary-sig-arg">self</span>)</span>
+        - Is this a Tuple2 wrapper?
     </dd>
   </dl>
 </td></tr></table>

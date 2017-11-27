@@ -3,7 +3,7 @@
           "DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>pygeodesy.points</title>
+  <title>pygeodesy.pointsx</title>
   <link rel="stylesheet" href="epydoc.css" type="text/css" />
   <script type="text/javascript" src="epydoc.js"></script>
 </head>
@@ -43,7 +43,7 @@
     <td width="100%">
       <span class="breadcrumbs">
         <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
-        Module&nbsp;points
+        Module&nbsp;pointsx
       </span>
     </td>
     <td>
@@ -51,16 +51,16 @@
         <!-- hide/show private -->
         <tr><td align="right"><span class="options"
             >[<a href="frames.html" target="_top">frames</a
-            >]&nbsp;|&nbsp;<a href="pygeodesy.points-module.html"
+            >]&nbsp;|&nbsp;<a href="pygeodesy.pointsx-module.html"
             target="_top">no&nbsp;frames</a>]</span></td></tr>
       </table>
     </td>
   </tr>
 </table>
 <!-- ==================== MODULE DESCRIPTION ==================== -->
-<h1 class="epydoc">Module points</h1><p class="nomargin-top"></p>
-<p>Handle 2-d NumPy, tuples or other arrays as <i>LatLon</i>s or as 
-  pseudo-x/-y pairs.</p>
+<h1 class="epydoc">Module pointsx</h1><p class="nomargin-top"></p>
+<p>Handle 2-d NumPy or other arrays as <i>LatLon</i>s or as 
+  pseudo-x/-ys.</p>
   <p>NumPy arrays are assumed to contain rows of points with a lat-, a 
   longitude -and possibly other- values in different columns.  While 
   iterating over the array rows, create an instance of a given 
@@ -69,26 +69,22 @@
   <p>The original NumPy array is read-accessed only and never duplicated, 
   except to create a <i>subset</i> of the original array.</p>
   <p>For example, to process a NumPy array, wrap the array by instantiating
-  class <a href="pygeodesy.points.Numpy2LatLon-class.html" 
+  class <a href="pygeodesy.pointsx.Numpy2LatLon-class.html" 
   class="link">Numpy2LatLon</a> and specifying the column index for the 
   lat- and longitude in each row.  Then, pass the <a 
-  href="pygeodesy.points.Numpy2LatLon-class.html" 
+  href="pygeodesy.pointsx.Numpy2LatLon-class.html" 
   class="link">Numpy2LatLon</a> instance to any <a 
   href="pygeodesy-module.html" class="link">pygeodesy</a> function or 
   method accepting a <i>points</i> argument.</p>
-  <p>Similarly, class <a href="pygeodesy.points.Tuple2LatLon-class.html" 
-  class="link">Tuple2LatLon</a> is used to instantiate a <i>LatLon</i> for 
-  each 2+tuple in a list, tuple or sequence of such 2+tuples from the index
-  for the lat- and longitude index in each 2+tuple.</p>
   <p>Tested with 64-bit Python 2.6.9 (and numpy 1.6.2), 2.7.13 and 2.7.14 
-  (both with numpy 1.13.1), 3.5.3 and 3.6.3 on macOS 10.12.6 Sierra, with 
+  (both with numpy 1.13.1), 3.5.3 and 3.6.2 on macOS 10.12.6 Sierra, with 
   64-bit Intel-Python 3.5.3 (and numpy 1.11.3) on macOS 10.12.6 Sierra and 
   with Pythonista 3.1 using 64-bit Python 2.7.12 and 3.5.1 (both with numpy
-  1.8.0) on iOS 11.0.3.</p>
+  1.8.0) on iOS 10.3.3.</p>
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.11.26
+        17.10.22
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -102,19 +98,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.points.LatLon_-class.html" class="summary-name">LatLon_</a><br />
-      Low-overhead <i>LatLon</i> class for <a 
-        href="pygeodesy.points.Numpy2LatLon-class.html" 
-        class="link">Numpy2LatLon</a> or <a 
-        href="pygeodesy.points.Tuple2LatLon-class.html" 
-        class="link">Tuple2LatLon</a>'
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.points.LatLon2psxy-class.html" class="summary-name">LatLon2psxy</a><br />
+        <a href="pygeodesy.pointsx.LatLon2psxy-class.html" class="summary-name">LatLon2psxy</a><br />
       Wrapper for <i>LatLon</i> points as &quot;on-the-fly&quot; 
         pseudo-xy coordinates.
     </td>
@@ -123,17 +107,8 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.points.Numpy2LatLon-class.html" class="summary-name">Numpy2LatLon</a><br />
+        <a href="pygeodesy.pointsx.Numpy2LatLon-class.html" class="summary-name">Numpy2LatLon</a><br />
       Wrapper for NumPy arrays as &quot;on-the-fly&quot; <i>LatLon</i> 
-        points.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.points.Tuple2LatLon-class.html" class="summary-name">Tuple2LatLon</a><br />
-      Wrapper for tuple sequences as &quot;on-the-fly&quot; <i>LatLon</i>
         points.
     </td>
   </tr>
@@ -152,7 +127,7 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.points-module.html#bounds" class="summary-sig-name">bounds</a>(<span class="summary-sig-arg">points</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.pointsx-module.html#bounds" class="summary-sig-name">bounds</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>)</span><br />
@@ -173,7 +148,7 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.points-module.html#isclockwise" class="summary-sig-name">isclockwise</a>(<span class="summary-sig-arg">points</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.pointsx-module.html#isclockwise" class="summary-sig-name">isclockwise</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
       Determine the direction of a polygon defined by an array, list, 
@@ -193,7 +168,7 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.points-module.html#isconvex" class="summary-sig-name">isconvex</a>(<span class="summary-sig-arg">points</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.pointsx-module.html#isconvex" class="summary-sig-name">isconvex</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
       Determine whether a polygon defined by an array, list, sequence, set 

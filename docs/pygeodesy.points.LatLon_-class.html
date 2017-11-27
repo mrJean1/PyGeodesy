@@ -3,7 +3,7 @@
           "DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>pygeodesy.datum.Datum</title>
+  <title>pygeodesy.points.LatLon_</title>
   <link rel="stylesheet" href="epydoc.css" type="text/css" />
   <script type="text/javascript" src="epydoc.js"></script>
 </head>
@@ -43,8 +43,8 @@
     <td width="100%">
       <span class="breadcrumbs">
         <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
-        <a href="pygeodesy.datum-module.html">Module&nbsp;datum</a> ::
-        Class&nbsp;Datum
+        <a href="pygeodesy.points-module.html">Module&nbsp;points</a> ::
+        Class&nbsp;LatLon_
       </span>
     </td>
     <td>
@@ -52,30 +52,28 @@
         <!-- hide/show private -->
         <tr><td align="right"><span class="options"
             >[<a href="frames.html" target="_top">frames</a
-            >]&nbsp;|&nbsp;<a href="pygeodesy.datum.Datum-class.html"
+            >]&nbsp;|&nbsp;<a href="pygeodesy.points.LatLon_-class.html"
             target="_top">no&nbsp;frames</a>]</span></td></tr>
       </table>
     </td>
   </tr>
 </table>
 <!-- ==================== CLASS DESCRIPTION ==================== -->
-<h1 class="epydoc">Class Datum</h1><p class="nomargin-top"></p>
+<h1 class="epydoc">Class LatLon_</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
- object --+        
-          |        
- <a href="pygeodesy.bases.Base-class.html">bases.Base</a> --+    
-              |    
- object --+   |    
-          |   |    
-<a href="pygeodesy.bases.Named-class.html">bases.Named</a> --+    
-              |    
-         _Based --+
-                  |
-                 <strong class="uidshort">Datum</strong>
+object --+    
+         |    
+<a href="pygeodesy.bases.Base-class.html">bases.Base</a> --+
+             |
+            <strong class="uidshort">LatLon_</strong>
 </pre>
 
 <hr />
-<p>Ellipsoid and transform parameters for an earth model.</p>
+<p>Low-overhead <i>LatLon</i> class for <a 
+  href="pygeodesy.points.Numpy2LatLon-class.html" 
+  class="link">Numpy2LatLon</a> or <a 
+  href="pygeodesy.points.Tuple2LatLon-class.html" 
+  class="link">Tuple2LatLon</a>'</p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -91,11 +89,12 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.datum.Datum-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ellipsoid</span>,
-        <span class="summary-sig-arg">transform</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
-      New datum.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.points.LatLon_-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lat</span>,
+        <span class="summary-sig-arg">lon</span>)</span><br />
+      Creat a new, mininal, low-overhead <a 
+      href="pygeodesy.points.LatLon_-class.html" class="link">LatLon_</a> 
+      instance, without heigth and datum.</td>
           <td align="right" valign="top">
             
             
@@ -111,9 +110,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.datum.Datum-class.html#__eq__" class="summary-sig-name">__eq__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span><br />
-      Compare this and an other datum.</td>
+          <td><span class="summary-sig"><a name="__eq__"></a><span class="summary-sig-name">__eq__</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>)</span></td>
           <td align="right" valign="top">
             
             
@@ -129,9 +127,66 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.datum.Datum-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a name="__ne__"></a><span class="summary-sig-name">__ne__</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>)</span></td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.points.LatLon_-class.html#points" class="summary-sig-name">points</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">base</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Check a polygon given as an array, list, sequence, set or tuple of 
+      points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.points.LatLon_-class.html#to2ab" class="summary-sig-name">to2ab</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Return the lat- and longitude in radians.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.points.LatLon_-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">**unused</span>)</span><br />
-      Return this datum as a string.</td>
+      This <a href="pygeodesy.points.LatLon_-class.html" 
+      class="link">LatLon_</a> as a string &quot;lat=&lt;degrees&gt;, 
+      lon=&lt;degrees&gt;&quot;.</td>
           <td align="right" valign="top">
             
             
@@ -143,9 +198,6 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>_Based</code></b>:
-      <code>__ne__</code>
-      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases.Base-class.html">bases.Base</a></code></b>:
       <code><a href="pygeodesy.bases.Base-class.html#__repr__">__repr__</a></code>,
       <code><a href="pygeodesy.bases.Base-class.html#__str__">__str__</a></code>,
@@ -181,43 +233,18 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.datum.Datum-class.html#ellipsoid" class="summary-name">ellipsoid</a><br />
-      Get this datum's ellipsoid (<a 
-      href="pygeodesy.datum.Ellipsoid-class.html" 
-      class="link">Ellipsoid</a>).
+        <a name="lat"></a><span class="summary-name">lat</span>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.datum.Datum-class.html#isEllipsoidal" class="summary-name">isEllipsoidal</a><br />
-      Check whether this datum is ellipsoidal (bool).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.datum.Datum-class.html#isSpherical" class="summary-name">isSpherical</a><br />
-      Check whether this datum is spherical (bool).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.datum.Datum-class.html#transform" class="summary-name">transform</a><br />
-      Get this datum's transform (<a 
-      href="pygeodesy.datum.Transform-class.html" 
-      class="link">Transform</a>).
+        <a name="lon"></a><span class="summary-name">lon</span>
     </td>
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases.Named-class.html">bases.Named</a></code></b>:
-      <code><a href="pygeodesy.bases.Named-class.html#name">name</a></code>
-      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
       </p>
@@ -241,9 +268,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">ellipsoid</span>,
-        <span class="sig-arg">transform</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">lat</span>,
+        <span class="sig-arg">lon</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -251,57 +277,80 @@
     </td>
   </tr></table>
   
-  <p>New datum.</p>
+  <p>Creat a new, mininal, low-overhead <a 
+  href="pygeodesy.points.LatLon_-class.html" class="link">LatLon_</a> 
+  instance, without heigth and datum.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>ellipsoid</code></strong> - The ellipsoid (<a href="pygeodesy.datum.Ellipsoid-class.html" 
-          class="link">Ellipsoid</a>).</li>
-        <li><strong class="pname"><code>transform</code></strong> - Optional transform (<a 
-          href="pygeodesy.datum.Transform-class.html" 
-          class="link">Transform</a>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional, unique name (string).</li>
-    </ul></dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>NameError</strong></code> - If datum name already exists.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - If ellipsoid is not an <a 
-        href="pygeodesy.datum.Ellipsoid-class.html" 
-        class="link">Ellipsoid</a> or transform is not a <a 
-        href="pygeodesy.datum.Transform-class.html" 
-        class="link">Transform</a>.</li>
+        <li><strong class="pname"><code>lat</code></strong> - Latitude (degrees).</li>
+        <li><strong class="pname"><code>lon</code></strong> - Longitude (degrees).</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
     </dt>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Note:</strong>
+        The lat- and longitude are taken as-given, un-clipped and 
+        un-validated.
+      </p>
+</div></td></tr></table>
 </div>
-<a name="__eq__"></a>
+<a name="points"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__eq__</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">other</span>)</span>
-    <br /><em class="fname">(Equality operator)</em>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">points</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">points</span>,
+        <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">base</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Compare this and an other datum.</p>
+  <p>Check a polygon given as an array, list, sequence, set or tuple of 
+  points.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - The other datum (<a href="pygeodesy.datum.Datum-class.html" 
-          class="link">Datum</a>).</li>
+        <li><strong class="pname"><code>points</code></strong> - The points of the polygon (<i>LatLon</i>[])</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, treat polygon as closed and remove any duplicate or 
+          closing final points (bool).</li>
+        <li><strong class="pname"><code>base</code></strong> - Optional points base class (None).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if equal (bool)</dd>
+        <dd>2-Tuple (number, sequence) of points (int, sequence).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <i>LatLon</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Too few points.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="to2ab"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">to2ab</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the lat- and longitude in radians.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>2-Tuple (lat, lon) in (radians, radians).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -320,93 +369,17 @@
     </td>
   </tr></table>
   
-  <p>Return this datum as a string.</p>
+  <p>This <a href="pygeodesy.points.LatLon_-class.html" 
+  class="link">LatLon_</a> as a string &quot;lat=&lt;degrees&gt;, 
+  lon=&lt;degrees&gt;&quot;.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>args</code></strong> - Optional, positional arguments.</li>
     </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Datum attributes (string).</dd>
     <dt>Overrides:
         <a href="pygeodesy.bases.Base-class.html#toStr">bases.Base.toStr</a>
     </dt>
-  </dl>
-</td></tr></table>
-</div>
-<br />
-<!-- ==================== PROPERTY DETAILS ==================== -->
-<a name="section-PropertyDetails"></a>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td align="left" colspan="2" class="table-header">
-    <span class="table-header">Property Details</span></td>
-</tr>
-</table>
-<a name="ellipsoid"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">ellipsoid</h3>
-  <p>Get this datum's ellipsoid (<a 
-  href="pygeodesy.datum.Ellipsoid-class.html" 
-  class="link">Ellipsoid</a>).</p>
-  <dl class="fields">
-    <dt>Get Method:</dt>
-    <dd class="value"><span class="summary-sig">ellipsoid(<span class="summary-sig-arg">self</span>)</span>
-        - Get this datum's ellipsoid (<a href="pygeodesy.datum.Ellipsoid-class.html" 
-class="link">Ellipsoid</a>).
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="isEllipsoidal"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">isEllipsoidal</h3>
-  <p>Check whether this datum is ellipsoidal (bool).</p>
-  <dl class="fields">
-    <dt>Get Method:</dt>
-    <dd class="value"><span class="summary-sig">isEllipsoidal(<span class="summary-sig-arg">self</span>)</span>
-        - Check whether this datum is ellipsoidal (bool).
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="isSpherical"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">isSpherical</h3>
-  <p>Check whether this datum is spherical (bool).</p>
-  <dl class="fields">
-    <dt>Get Method:</dt>
-    <dd class="value"><span class="summary-sig">isSpherical(<span class="summary-sig-arg">self</span>)</span>
-        - Check whether this datum is spherical (bool).
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="transform"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">transform</h3>
-  <p>Get this datum's transform (<a 
-  href="pygeodesy.datum.Transform-class.html" 
-  class="link">Transform</a>).</p>
-  <dl class="fields">
-    <dt>Get Method:</dt>
-    <dd class="value"><span class="summary-sig">transform(<span class="summary-sig-arg">self</span>)</span>
-        - Get this datum's transform (<a href="pygeodesy.datum.Transform-class.html" 
-class="link">Transform</a>).
-    </dd>
   </dl>
 </td></tr></table>
 </div>

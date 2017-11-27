@@ -3,7 +3,7 @@
           "DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>pygeodesy.points.LatLon2psxy</title>
+  <title>pygeodesy.pointsx.Numpy2LatLon</title>
   <link rel="stylesheet" href="epydoc.css" type="text/css" />
   <script type="text/javascript" src="epydoc.js"></script>
 </head>
@@ -43,8 +43,8 @@
     <td width="100%">
       <span class="breadcrumbs">
         <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
-        <a href="pygeodesy.points-module.html">Module&nbsp;points</a> ::
-        Class&nbsp;LatLon2psxy
+        <a href="pygeodesy.pointsx-module.html">Module&nbsp;pointsx</a> ::
+        Class&nbsp;Numpy2LatLon
       </span>
     </td>
     <td>
@@ -52,14 +52,14 @@
         <!-- hide/show private -->
         <tr><td align="right"><span class="options"
             >[<a href="frames.html" target="_top">frames</a
-            >]&nbsp;|&nbsp;<a href="pygeodesy.points.LatLon2psxy-class.html"
+            >]&nbsp;|&nbsp;<a href="pygeodesy.pointsx.Numpy2LatLon-class.html"
             target="_top">no&nbsp;frames</a>]</span></td></tr>
       </table>
     </td>
   </tr>
 </table>
 <!-- ==================== CLASS DESCRIPTION ==================== -->
-<h1 class="epydoc">Class LatLon2psxy</h1><p class="nomargin-top"></p>
+<h1 class="epydoc">Class Numpy2LatLon</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
        object --+            
                 |            
@@ -77,12 +77,12 @@ _abcoll.Container --+
                         |    
               _Basequence --+
                             |
-                           <strong class="uidshort">LatLon2psxy</strong>
+                           <strong class="uidshort">Numpy2LatLon</strong>
 </pre>
 
 <hr />
-<p>Wrapper for <i>LatLon</i> points as &quot;on-the-fly&quot; pseudo-xy 
-  coordinates.</p>
+<p>Wrapper for NumPy arrays as &quot;on-the-fly&quot; <i>LatLon</i> 
+  points.</p>
 
 <!-- ==================== NESTED CLASSES ==================== -->
 <a name="section-NestedClasses"></a>
@@ -114,12 +114,12 @@ _abcoll.Container --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.points.LatLon2psxy-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">latlons</span>,
-        <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Handle <i>LatLon</i> points as pseudo-xy coordinates.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.pointsx.Numpy2LatLon-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">array</span>,
+        <span class="summary-sig-arg">ilat</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">ilon</span>=<span class="summary-sig-default">1</span>,
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Handle a NumPy array as a sequence of <i>LatLon</i> points.</td>
           <td align="right" valign="top">
             
             
@@ -135,9 +135,9 @@ _abcoll.Container --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.points.LatLon2psxy-class.html#__contains__" class="summary-sig-name">__contains__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">xy</span>)</span><br />
-      Check for a matching point.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.pointsx.Numpy2LatLon-class.html#__contains__" class="summary-sig-name">__contains__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">latlon</span>)</span><br />
+      Check for a specific lat-/longitude.</td>
           <td align="right" valign="top">
             
             
@@ -153,11 +153,11 @@ _abcoll.Container --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.points.LatLon2psxy-class.html#__getitem__" class="summary-sig-name">__getitem__</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.pointsx.Numpy2LatLon-class.html#__getitem__" class="summary-sig-name">__getitem__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">index</span>)</span><br />
-      Return the pseudo-xy or return a <a 
-      href="pygeodesy.points.LatLon2psxy-class.html" 
-      class="link">LatLon2psxy</a> slice.</td>
+      Return row[index] as <i>LatLon</i> or return a <a 
+      href="pygeodesy.pointsx.Numpy2LatLon-class.html" 
+      class="link">Numpy2LatLon</a> slice.</td>
           <td align="right" valign="top">
             
             
@@ -173,8 +173,8 @@ _abcoll.Container --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.points.LatLon2psxy-class.html#__iter__" class="summary-sig-name">__iter__</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Yield all pseudo-xy's.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.pointsx.Numpy2LatLon-class.html#__iter__" class="summary-sig-name">__iter__</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Yield rows as <i>LatLon</i>.</td>
           <td align="right" valign="top">
             
             
@@ -190,8 +190,8 @@ _abcoll.Container --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.points.LatLon2psxy-class.html#__len__" class="summary-sig-name">__len__</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Return the number of pseudo-xy's.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.pointsx.Numpy2LatLon-class.html#__len__" class="summary-sig-name">__len__</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Return the number of rows.</td>
           <td align="right" valign="top">
             
             
@@ -207,7 +207,7 @@ _abcoll.Container --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.points.LatLon2psxy-class.html#__repr__" class="summary-sig-name">__repr__</a>(<span class="summary-sig-arg">self</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy.pointsx.Numpy2LatLon-class.html#__repr__" class="summary-sig-name">__repr__</a>(<span class="summary-sig-arg">self</span>)</span><br />
       Return a string representation.</td>
           <td align="right" valign="top">
             
@@ -224,8 +224,8 @@ _abcoll.Container --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.points.LatLon2psxy-class.html#__reversed__" class="summary-sig-name">__reversed__</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Yield all pseudo-xy's in reverse order.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.pointsx.Numpy2LatLon-class.html#__reversed__" class="summary-sig-name">__reversed__</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Yield rows as <i>LatLon</i> in reverse order.</td>
           <td align="right" valign="top">
             
             
@@ -241,7 +241,7 @@ _abcoll.Container --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.points.LatLon2psxy-class.html#__str__" class="summary-sig-name">__str__</a>(<span class="summary-sig-arg">self</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy.pointsx.Numpy2LatLon-class.html#__str__" class="summary-sig-name">__str__</a>(<span class="summary-sig-arg">self</span>)</span><br />
       Return a string representation.</td>
           <td align="right" valign="top">
             
@@ -258,9 +258,9 @@ _abcoll.Container --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.points.LatLon2psxy-class.html#count" class="summary-sig-name">count</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">xy</span>)</span><br />
-      Count the number of matching points.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.pointsx.Numpy2LatLon-class.html#count" class="summary-sig-name">count</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">latlon</span>)</span><br />
+      Count the number of rows with a specific lat-/longitude.</td>
           <td align="right" valign="top">
             
             
@@ -276,10 +276,10 @@ _abcoll.Container --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.points.LatLon2psxy-class.html#find" class="summary-sig-name">find</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">xy</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.pointsx.Numpy2LatLon-class.html#find" class="summary-sig-name">find</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">latlon</span>,
         <span class="summary-sig-arg">*start_end</span>)</span><br />
-      Find the first matching point.</td>
+      Find the first row with a specific lat-/longitude.</td>
           <td align="right" valign="top">
             
             
@@ -295,10 +295,10 @@ _abcoll.Container --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.points.LatLon2psxy-class.html#findall" class="summary-sig-name">findall</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">xy</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.pointsx.Numpy2LatLon-class.html#findall" class="summary-sig-name">findall</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">latlon</span>,
         <span class="summary-sig-arg">*start_end</span>)</span><br />
-      Yield indices of all matching points.</td>
+      Yield indices of all rows with a specific lat-/longitude.</td>
           <td align="right" valign="top">
             
             
@@ -314,10 +314,10 @@ _abcoll.Container --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.points.LatLon2psxy-class.html#index" class="summary-sig-name">index</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">xy</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.pointsx.Numpy2LatLon-class.html#index" class="summary-sig-name">index</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">latlon</span>,
         <span class="summary-sig-arg">*start_end</span>)</span><br />
-      Find the first matching point.</td>
+      Find index of the first row with a specific lat-/longitude.</td>
           <td align="right" valign="top">
             
             
@@ -333,9 +333,9 @@ _abcoll.Container --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.points.LatLon2psxy-class.html#point" class="summary-sig-name">point</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ll</span>)</span><br />
-      Create a pseudo-xy.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.pointsx.Numpy2LatLon-class.html#point" class="summary-sig-name">point</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">row</span>)</span><br />
+      Instantiate a point <i>LatLon</i>.</td>
           <td align="right" valign="top">
             
             
@@ -351,10 +351,28 @@ _abcoll.Container --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.points.LatLon2psxy-class.html#rfind" class="summary-sig-name">rfind</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">xy</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.pointsx.Numpy2LatLon-class.html#rfind" class="summary-sig-name">rfind</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">latlon</span>,
         <span class="summary-sig-arg">*start_end</span>)</span><br />
-      Find the last matching point.</td>
+      Find the last row with a specific lat-/longitude.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.pointsx.Numpy2LatLon-class.html#subset" class="summary-sig-name">subset</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">indices</span>)</span><br />
+      Return a subset of the NumPy array.</td>
           <td align="right" valign="top">
             
             
@@ -424,7 +442,7 @@ _abcoll.Container --+
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.points.LatLon2psxy-class.html#epsilon" class="summary-name">epsilon</a><br />
+        <a href="pygeodesy.pointsx.Numpy2LatLon-class.html#epsilon" class="summary-name">epsilon</a><br />
       Get the tolerance for equality tests (float).
     </td>
   </tr>
@@ -432,16 +450,36 @@ _abcoll.Container --+
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.points.LatLon2psxy-class.html#isPoints2" class="summary-name">isPoints2</a><br />
-      Is this a LatLon2 wrapper/converter?
+        <a href="pygeodesy.pointsx.Numpy2LatLon-class.html#ilat" class="summary-name">ilat</a><br />
+      Get the latitudes column index (integer).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.pointsx.Numpy2LatLon-class.html#ilon" class="summary-name">ilon</a><br />
+      Get the longitudes column index (integer).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.pointsx.Numpy2LatLon-class.html#isNumpy2" class="summary-name">isNumpy2</a><br />
+      Is this a Numpy2 wrapper?
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.pointsx.Numpy2LatLon-class.html#shape" class="summary-name">shape</a><br />
+      Get the shape of the NumPy array (2-tuple).
     </td>
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>_Basequence</code></b>:
-      <code>isNumpy2</code>,
-      <code>isTuple2</code>
-      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
       </p>
@@ -465,10 +503,10 @@ _abcoll.Container --+
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">latlons</span>,
-        <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>)</span>
+        <span class="sig-arg">array</span>,
+        <span class="sig-arg">ilat</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">ilon</span>=<span class="sig-default">1</span>,
+        <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -476,28 +514,38 @@ _abcoll.Container --+
     </td>
   </tr></table>
   
-  <p>Handle <i>LatLon</i> points as pseudo-xy coordinates.</p>
+  <p>Handle a NumPy array as a sequence of <i>LatLon</i> points.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>latlons</code></strong> - Points list, sequence, set, tuple, etc. (<i>LatLon[]</i>).</li>
-        <li><strong class="pname"><code>closed</code></strong> - Optionally, points form a closed polygon (bool).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Optionally, wrap90(lat) and wrap180(lon) (bool).</li>
+        <li><strong class="pname"><code>array</code></strong> - NumPy array (<i>numpy.array</i>).</li>
+        <li><strong class="pname"><code>ilat</code></strong> - Optional index of the latitudes column (integer).</li>
+        <li><strong class="pname"><code>ilon</code></strong> - Optional index of the longitudes column (integer).</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional <i>LatLon</i> class to use (internal).</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <i>LatLon</i>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Too few points.</li>
+        <li><code><strong class='fraise'>IndexError</strong></code> - If <i>array.shape</i> is not (1+, 2+).</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <i>array</i> is not a NumPy array or <i>LatLon</i> is not a 
+        class with <i>lat</i> and <i>lon</i> attributes.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - If the <i>ilat</i> and/or <i>ilon</i> values are the same or out of
+        range.</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
     </dt>
   </dl>
-<div class="fields">      <p><strong>Note:</strong>
-        The <i>LatLon</i>'s latitude is considered the pseudo-y and 
-        longitude the pseudo-x coordinate.  Similarly, 2-tuples (x, y) are 
-        (longitude, latitude).
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>type(array)
+<span class="py-output">&lt;type 'numpy.ndarray'&gt;  # &lt;class ...&gt; in Python 3+</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>points = Numpy2LatLon(array, lat=0, lon=1)
+<span class="py-prompt">&gt;&gt;&gt; </span>simply = simplifyRDP(points, ...)
+<span class="py-prompt">&gt;&gt;&gt; </span>type(simply)
+<span class="py-output">&lt;type 'numpy.ndarray'&gt;  # &lt;class ...&gt; in Python 3+</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>sliced = points[1:-1]
+<span class="py-prompt">&gt;&gt;&gt; </span>type(sliced)
+<span class="py-output">&lt;class '...Numpy2LatLon'&gt;</span></pre>
       </p>
 </div></td></tr></table>
 </div>
@@ -509,7 +557,7 @@ _abcoll.Container --+
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__contains__</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">xy</span>)</span>
+        <span class="sig-arg">latlon</span>)</span>
     <br /><em class="fname">(In operator)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -517,17 +565,17 @@ _abcoll.Container --+
     </td>
   </tr></table>
   
-  <p>Check for a matching point.</p>
+  <p>Check for a specific lat-/longitude.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xy</code></strong> - Point (<i>LatLon</i>) or 2-tuple (x, y) in (degrees).</li>
+        <li><strong class="pname"><code>latlon</code></strong> - Point (<i>LatLon</i>) or 2-tuple (lat, lon).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>True if present, False otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid xy.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid latlon.</li>
     </ul></dd>
     <dt>Overrides:
         _abcoll.Container.__contains__
@@ -551,9 +599,9 @@ _abcoll.Container --+
     </td>
   </tr></table>
   
-  <p>Return the pseudo-xy or return a <a 
-  href="pygeodesy.points.LatLon2psxy-class.html" 
-  class="link">LatLon2psxy</a> slice.</p>
+  <p>Return row[index] as <i>LatLon</i> or return a <a 
+  href="pygeodesy.pointsx.Numpy2LatLon-class.html" 
+  class="link">Numpy2LatLon</a> slice.</p>
   <dl class="fields">
     <dt>Overrides:
         _abcoll.Sequence.__getitem__
@@ -575,7 +623,7 @@ _abcoll.Container --+
     </td>
   </tr></table>
   
-  <p>Yield all pseudo-xy's.</p>
+  <p>Yield rows as <i>LatLon</i>.</p>
   <dl class="fields">
     <dt>Overrides:
         _abcoll.Iterable.__iter__
@@ -598,7 +646,7 @@ _abcoll.Container --+
     </td>
   </tr></table>
   
-  <p>Return the number of pseudo-xy's.</p>
+  <p>Return the number of rows.</p>
   <dl class="fields">
     <dt>Overrides:
         _abcoll.Sized.__len__
@@ -643,7 +691,7 @@ _abcoll.Container --+
     </td>
   </tr></table>
   
-  <p>Yield all pseudo-xy's in reverse order.</p>
+  <p>Yield rows as <i>LatLon</i> in reverse order.</p>
   <dl class="fields">
     <dt>Overrides:
         _abcoll.Sequence.__reversed__
@@ -682,24 +730,24 @@ _abcoll.Container --+
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">count</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">xy</span>)</span>
+        <span class="sig-arg">latlon</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Count the number of matching points.</p>
+  <p>Count the number of rows with a specific lat-/longitude.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xy</code></strong> - Point (<i>LatLon</i>) or 2-tuple (x, y) in (degrees).</li>
+        <li><strong class="pname"><code>latlon</code></strong> - Point (<i>LatLon</i>) or 2-tuple (lat, lon)</li>
     </ul></dd>
     <dt>Returns: integer</dt>
         <dd>Count (integer).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid xy.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid latlon.</li>
     </ul></dd>
     <dt>Overrides:
         _abcoll.Sequence.count
@@ -715,7 +763,7 @@ _abcoll.Container --+
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">find</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">xy</span>,
+        <span class="sig-arg">latlon</span>,
         <span class="sig-arg">*start_end</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -723,18 +771,18 @@ _abcoll.Container --+
     </td>
   </tr></table>
   
-  <p>Find the first matching point.</p>
+  <p>Find the first row with a specific lat-/longitude.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xy</code></strong> - Point (<i>LatLon</i>) or 2-tuple (x, y) in (degrees).</li>
+        <li><strong class="pname"><code>latlon</code></strong> - Point (<i>LatLon</i>) or 2-tuple (lat, lon).</li>
         <li><strong class="pname"><code>start_end</code></strong> - Optional [start [, end]] index (integers).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Index or -1 if not found (integer).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid xy.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid latlon.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -747,7 +795,7 @@ _abcoll.Container --+
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">findall</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">xy</span>,
+        <span class="sig-arg">latlon</span>,
         <span class="sig-arg">*start_end</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -755,18 +803,18 @@ _abcoll.Container --+
     </td>
   </tr></table>
   
-  <p>Yield indices of all matching points.</p>
+  <p>Yield indices of all rows with a specific lat-/longitude.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xy</code></strong> - Point (<i>LatLon</i>) or 2-tuple (x, y) in (degrees).</li>
+        <li><strong class="pname"><code>latlon</code></strong> - Point (<i>LatLon</i>) or 2-tuple (lat, lon).</li>
         <li><strong class="pname"><code>start_end</code></strong> - Optional [start [, end]] index (integers).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Indices (iterator).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid xy.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid latlon.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -779,7 +827,7 @@ _abcoll.Container --+
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">index</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">xy</span>,
+        <span class="sig-arg">latlon</span>,
         <span class="sig-arg">*start_end</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -787,18 +835,18 @@ _abcoll.Container --+
     </td>
   </tr></table>
   
-  <p>Find the first matching point.</p>
+  <p>Find index of the first row with a specific lat-/longitude.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xy</code></strong> - Point (<i>LatLon</i>) or 2-tuple (x, y) in (degrees).</li>
+        <li><strong class="pname"><code>latlon</code></strong> - Point (<i>LatLon</i>) or 2-tuple (lat, lon).</li>
         <li><strong class="pname"><code>start_end</code></strong> - Optional [start [, end]] index (integers).</li>
     </ul></dd>
     <dt>Returns: integer</dt>
         <dd>Index (integer).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid xy.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid latlon.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Point not found.</li>
     </ul></dd>
     <dt>Overrides:
@@ -815,21 +863,21 @@ _abcoll.Container --+
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">point</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">ll</span>)</span>
+        <span class="sig-arg">row</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Create a pseudo-xy.</p>
+  <p>Instantiate a point <i>LatLon</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>ll</code></strong> - Point (<i>LatLon</i>).</li>
+        <li><strong class="pname"><code>row</code></strong> - Array row (numpy.array).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>3-Tuple (x, y, ll) of (float, float, <i>ll</i>).</dd>
+        <dd>Point (<i>LatLon</i>).</dd>
     <dt>Overrides:
         _Basequence.point
     </dt>
@@ -844,7 +892,7 @@ _abcoll.Container --+
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">rfind</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">xy</span>,
+        <span class="sig-arg">latlon</span>,
         <span class="sig-arg">*start_end</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -852,21 +900,62 @@ _abcoll.Container --+
     </td>
   </tr></table>
   
-  <p>Find the last matching point.</p>
+  <p>Find the last row with a specific lat-/longitude.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xy</code></strong> - Point (<i>LatLon</i>) or 2-tuple (x, y) in (degrees).</li>
+        <li><strong class="pname"><code>latlon</code></strong> - Point (<i>LatLon</i>) or 2-tuple (lat, lon).</li>
         <li><strong class="pname"><code>start_end</code></strong> - Optional [start [, end]] index (integers).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Index or -1 if not found (integer).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid xy.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid latlon.</li>
     </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Note:</strong>
+        Keyword order, first stop, then start.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="subset"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">subset</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">indices</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return a subset of the NumPy array.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>indices</code></strong> - Row indices (ints).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Sub-array (numpy.array).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>IndexError</strong></code> - Out of range indices value.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - If indices is not a <i>range</i> or a <i>list</i> of ints.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        A <i>subset</i> is different from a <i>slice</i> in 2 ways: (a) the
+        <i>subset</i> is typically specified as a list of (un-)ordered 
+        indices and (b) the <i>subset</i> allocates a new, separate NumPy 
+        array while a <i>slice</i> is just an other <i>view</i> of the 
+        original NumPy array.
+      </p>
+</div></td></tr></table>
 </div>
 <br />
 <!-- ==================== PROPERTY DETAILS ==================== -->
@@ -898,17 +987,62 @@ _abcoll.Container --+
   </dl>
 </td></tr></table>
 </div>
-<a name="isPoints2"></a>
+<a name="ilat"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
-  <h3 class="epydoc">isPoints2</h3>
-  <p>Is this a LatLon2 wrapper/converter?</p>
+  <h3 class="epydoc">ilat</h3>
+  <p>Get the latitudes column index (integer).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
-    <dd class="value"><span class="summary-sig">isPoints2(<span class="summary-sig-arg">self</span>)</span>
-        - Is this a LatLon2 wrapper/converter?
+    <dd class="value"><span class="summary-sig">ilat(<span class="summary-sig-arg">self</span>)</span>
+        - Get the latitudes column index (integer).
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="ilon"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">ilon</h3>
+  <p>Get the longitudes column index (integer).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">ilon(<span class="summary-sig-arg">self</span>)</span>
+        - Get the longitudes column index (integer).
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isNumpy2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">isNumpy2</h3>
+  <p>Is this a Numpy2 wrapper?</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">isNumpy2(<span class="summary-sig-arg">self</span>)</span>
+        - Is this a Numpy2 wrapper?
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="shape"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">shape</h3>
+  <p>Get the shape of the NumPy array (2-tuple).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">shape(<span class="summary-sig-arg">self</span>)</span>
+        - Get the shape of the NumPy array (2-tuple).
     </dd>
   </dl>
 </td></tr></table>
