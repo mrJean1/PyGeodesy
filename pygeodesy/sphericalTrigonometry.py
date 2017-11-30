@@ -27,7 +27,7 @@ __all__ = ('LatLon',  # classes
            'intersection', 'isPoleEnclosedBy',
            'meanOf',
            'nearestOn2')
-__version__ = '17.11.26'
+__version__ = '17.11.30'
 
 
 class LatLon(LatLonSphericalBase):
@@ -455,7 +455,7 @@ class LatLon(LatLonSphericalBase):
             h = height
         return self.classof(degrees90(a), degrees180(b), height=h)
 
-    def nearestOn(self, point1, point2, adjust=True, wrap=False):
+    def nearestOn(self, point1, point2, **options):
         '''Locate the closest point between two points and this point.
 
            If this point is within the extent of the segment between
@@ -463,23 +463,24 @@ class LatLon(LatLonSphericalBase):
            Otherwise the returned point is the closest of the segment
            end points.
 
-           Distances are approximated by function L{equirectangular3}.
+           Distances are approximated by function L{equirectangular3},
+           subject to the supplied I{options}.
 
            @param point1: Start point of the segment (L{LatLon}).
            @param point2: End point of the segment (L{LatLon}).
-           @keyword adjust: Optionally, adjust longitudinal delta by the
-                            cosine of the mean of the latitudes (bool).
-           @keyword wrap: Optionally, keep the longitudinal delta within
-                          the -180..+180 range (bool).
+           @keyword options: Optional keyword argument for function
+                             L{equirectangular3}.
 
            @return: Closest point on segment (L{LatLon}).
 
-           @raise TypeError: If point1 or point2 is not L{LatLon}.
+           @raise TypeError: If point1 or point2 is not L{LatLon} or
+                             if delta limit exceeded, see function
+                             L{equirectangular3}.
         '''
-        p, _ = nearestOn2(self, [point1, point2], adjust=adjust, wrap=wrap)
+        p, _ = nearestOn2(self, [point1, point2], **options)
         return p
 
-    def nearestOn2(self, points, adjust=True, radius=R_M, wrap=False):
+    def nearestOn2(self, points, radius=R_M, **options):
         '''Locate the closest point on any segment between two
            consecutive points of a path.
 
@@ -487,14 +488,13 @@ class LatLon(LatLonSphericalBase):
            closest point is on the segment.  Otherwise the closest
            point is the nearest of the segment end points.
 
-           Distances are approximated by function L{equirectangular3}.
+           Distances are approximated by function L{equirectangular3},
+           subject to the supplied I{options}.
 
            @param points: The points of the path (L{LatLon}[]).
-           @keyword adjust: Optionally, adjust longitudinal delta by the
-                            cosine of the mean of the latitudes (bool).
            @keyword radius: Optional, mean earth radius (meter).
-           @keyword wrap: Optionally, keep the longitudinal delta within
-                          the -180..+180 range (bool).
+           @keyword options: Optional keyword argument for function
+                             L{equirectangular3}.
 
            @return: 2-Tuple (closest, distance) of the closest point
            (L{LatLon}) on the path and the distance to that point in
@@ -502,9 +502,10 @@ class LatLon(LatLonSphericalBase):
 
            @raise TypeError: Some points are not I{LatLon}.
 
-           @raise ValueError: If no points.
+           @raise ValueError: If no points or if delta limit exceeded,
+                              see function L{equirectangular3}.
         '''
-        return nearestOn2(self, points, adjust=adjust, radius=radius, wrap=wrap)
+        return nearestOn2(self, points, radius=radius, **options)
 
     def toVector3d(self):
         '''Convert this point to a vector normal to earth's surface.
@@ -733,7 +734,7 @@ def meanOf(points, height=None, LatLon=LatLon):
     return LatLon(a, b, height=h)
 
 
-def nearestOn2(point, points, adjust=True, radius=R_M, wrap=False):
+def nearestOn2(point, points, radius=R_M, **options):
     '''Locate the closest point on any segment between two consecutive
        points of a path.
 
@@ -741,15 +742,14 @@ def nearestOn2(point, points, adjust=True, radius=R_M, wrap=False):
        closest point is on the segment.  Otherwise the closest point
        is the nearest of the segment end points.
 
-       Distances are approximated by function L{equirectangular3}.
+       Distances are approximated by function L{equirectangular3},
+       subject to the supplied I{options}.
 
        @param point: The reference point (L{LatLon}).
        @param points: The points of the path (L{LatLon}[]).
-       @keyword adjust: Optionally, adjust longitudinal delta by the
-                        cosine of the mean of the latitudes (bool).
        @keyword radius: Optional, mean earth radius (meter).
-       @keyword wrap: Optionally, keep the longitudinal delta within
-                      the -180..+180 range (bool).
+       @keyword options: Optional keyword arguments for function
+                         L{equirectangular3}.
 
        @return: 2-Tuple (closest, distance) of the closest point
                 (L{LatLon}) on the path and the distance to that
@@ -759,12 +759,13 @@ def nearestOn2(point, points, adjust=True, radius=R_M, wrap=False):
 
        @raise TypeError: Some points are not I{LatLon}.
 
-       @raise ValueError: If no points.
+       @raise ValueError: If no points or if delta limit exceeded,
+                          see function L{equirectangular3}.
     '''
     def _d2yx(p2, p1):
         # distance in degrees squared, delta lat, delta lon
         return equirectangular3(p1.lat, p1.lon,
-                                p2.lat, p2.lon, adjust=adjust, wrap=wrap)
+                                p2.lat, p2.lon, **options)
 
     # point (x, y) on axis rotated by angle a ccw:
     #   x' = y * sin(a) + x * cos(a)

@@ -13,7 +13,7 @@ and U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
 
 from utils import fStrzs, isint
 
-from math import radians
+from math import atan2, degrees, radians
 try:
     from string import letters as LETTERS
 except ImportError:  # Python 3+
@@ -23,10 +23,11 @@ except ImportError:  # Python 3+
 __all__ = ('F_D', 'F_DM', 'F_DMS',  # forms
            'F_DEG', 'F_MIN', 'F_SEC', 'F_RAD',
            'S_DEG', 'S_MIN', 'S_SEC', 'S_RAD', 'S_SEP',  # symbols
-           'bearingDMS', 'compassDMS', 'compassPoint',  # functions
+           'bearingDMS',  # functions
+           'compassAngle', 'compassDMS', 'compassPoint',
            'latDMS', 'lonDMS', 'normDMS',
            'parseDMS', 'parse3llh', 'precision', 'toDMS')
-__version__ = '17.11.22'
+__version__ = '17.11.28'
 
 F_D   = 'd'    #: Format degrees as deg° (string).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (string).
@@ -116,6 +117,22 @@ def bearingDMS(bearing, form=F_D, prec=None, sep=S_SEP):
        @JSname: I{toBrng}.
     '''
     return _toDMS(bearing % 360, form, prec, sep, 1)
+
+
+def compassAngle(lat0, lon0, lat1, lon1):
+    '''Return the angle from North for the direction vector
+       M{(lon1 - lon0, lat1 - lat0)} between two points.
+
+       @param lat0: From latitude (degrees).
+       @param lon0: From longitude (degrees).
+       @param lat1: To latitude (degrees).
+       @param lon1: To longitude (degrees).
+
+       @return: Angle from North (degrees360).
+
+       @note: Courtesy Martin Schultz.
+    '''
+    return degrees(atan2(lon1 - lon0, lat1 - lat0)) % 360
 
 
 def compassDMS(bearing, form=F_D, prec=None, sep=S_SEP):

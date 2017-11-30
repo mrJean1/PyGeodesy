@@ -337,8 +337,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry.LatLon-class.html#nearestOn" class="summary-sig-name">nearestOn</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">point1</span>,
         <span class="summary-sig-arg">point2</span>,
-        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">**options</span>)</span><br />
       Locate the closest point between two points and this point.</td>
           <td align="right" valign="top">
             
@@ -357,9 +356,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry.LatLon-class.html#nearestOn2" class="summary-sig-name">nearestOn2</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">points</span>,
-        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">**options</span>)</span><br />
       Locate the closest point on any segment between two consecutive 
       points of a path.</td>
           <td align="right" valign="top">
@@ -1018,8 +1016,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">point1</span>,
         <span class="sig-arg">point2</span>,
-        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">**options</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1032,7 +1029,8 @@
   point is the closest of the segment end points.</p>
   <p>Distances are approximated by function <a 
   href="pygeodesy.utils-module.html#equirectangular3" 
-  class="link">equirectangular3</a>.</p>
+  class="link">equirectangular3</a>, subject to the supplied 
+  <i>options</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -1042,10 +1040,9 @@
         <li><strong class="pname"><code>point2</code></strong> - End point of the segment (<a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>adjust</code></strong> - Optionally, adjust longitudinal delta by the cosine of the mean 
-          of the latitudes (bool).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Optionally, keep the longitudinal delta within the -180..+180 
-          range (bool).</li>
+        <li><strong class="pname"><code>options</code></strong> - Optional keyword argument for function <a 
+          href="pygeodesy.utils-module.html#equirectangular3" 
+          class="link">equirectangular3</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Closest point on segment (<a 
@@ -1055,7 +1052,9 @@
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - If point1 or point2 is not <a 
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
-        class="link">LatLon</a>.</li>
+        class="link">LatLon</a> or if delta limit exceeded, see function <a
+        href="pygeodesy.utils-module.html#equirectangular3" 
+        class="link">equirectangular3</a>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1069,9 +1068,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn2</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">points</span>,
-        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">**options</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1085,18 +1083,18 @@
   segment end points.</p>
   <p>Distances are approximated by function <a 
   href="pygeodesy.utils-module.html#equirectangular3" 
-  class="link">equirectangular3</a>.</p>
+  class="link">equirectangular3</a>, subject to the supplied 
+  <i>options</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The points of the path (<a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>[]).</li>
-        <li><strong class="pname"><code>adjust</code></strong> - Optionally, adjust longitudinal delta by the cosine of the mean 
-          of the latitudes (bool).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Optionally, keep the longitudinal delta within the -180..+180 
-          range (bool).</li>
+        <li><strong class="pname"><code>options</code></strong> - Optional keyword argument for function <a 
+          href="pygeodesy.utils-module.html#equirectangular3" 
+          class="link">equirectangular3</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple (closest, distance) of the closest point (<a 
@@ -1106,7 +1104,9 @@
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <i>LatLon</i>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - If no points.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - If no points or if delta limit exceeded, see function <a 
+        href="pygeodesy.utils-module.html#equirectangular3" 
+        class="link">equirectangular3</a>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1166,7 +1166,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Nov 27 18:10:24 2017
+    Generated by Epydoc 3.0.1 on Thu Nov 30 15:15:39 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

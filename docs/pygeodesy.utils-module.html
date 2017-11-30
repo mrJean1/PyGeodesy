@@ -69,7 +69,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.11.26
+        17.11.30
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -274,11 +274,36 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#equirectangular" class="summary-sig-name">equirectangular</a>(<span class="summary-sig-arg">lat1</span>,
+        <span class="summary-sig-arg">lon1</span>,
+        <span class="summary-sig-arg">lat2</span>,
+        <span class="summary-sig-arg">lon2</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">**options</span>)</span><br />
+      Compute the distance between two points using the <a 
+      href="http://www.movable-type.co.uk/scripts/latlong.html" 
+      target="_top">Equirectangular Approximation/Projection</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#equirectangular3" class="summary-sig-name">equirectangular3</a>(<span class="summary-sig-arg">lat1</span>,
         <span class="summary-sig-arg">lon1</span>,
         <span class="summary-sig-arg">lat2</span>,
         <span class="summary-sig-arg">lon2</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">limit</span>=<span class="summary-sig-default">45</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the distance between two points using the <a 
       href="http://www.movable-type.co.uk/scripts/latlong.html" 
@@ -1336,6 +1361,57 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="equirectangular"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">equirectangular</span>(<span class="sig-arg">lat1</span>,
+        <span class="sig-arg">lon1</span>,
+        <span class="sig-arg">lat2</span>,
+        <span class="sig-arg">lon2</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">**options</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the distance between two points using the <a 
+  href="http://www.movable-type.co.uk/scripts/latlong.html" 
+  target="_top">Equirectangular Approximation/Projection</a>.</p>
+  <p>See function <a href="pygeodesy.utils-module.html#equirectangular3" 
+  class="link">equirectangular3</a> for details and <i>options</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat1</code></strong> - Latitude1 (degrees).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - Longitude1 (degrees).</li>
+        <li><strong class="pname"><code>lat2</code></strong> - Latitude2 (degrees).</li>
+        <li><strong class="pname"><code>lon2</code></strong> - Longitude2 (degrees).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
+        <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments for function <a 
+          href="pygeodesy.utils-module.html#equirectangular3" 
+          class="link">equirectangular3</a>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Distance (meter), rather the units of <i>radius</i>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - If delta limit exceeded, see function <a 
+        href="pygeodesy.utils-module.html#equirectangular3" 
+        class="link">equirectangular3</a>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.utils-module.html#haversine" 
+        class="link">haversine</a> for more accurate or larger distances.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="equirectangular3"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1348,6 +1424,7 @@
         <span class="sig-arg">lat2</span>,
         <span class="sig-arg">lon2</span>,
         <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">limit</span>=<span class="sig-default">45</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1358,6 +1435,8 @@
   <p>Compute the distance between two points using the <a 
   href="http://www.movable-type.co.uk/scripts/latlong.html" 
   target="_top">Equirectangular Approximation/Projection</a>.</p>
+  <p>This approximation is valid for smaller distance of several hundred Km
+  or Miles, see the <i>limit</i> keyword argument and the ValueError.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -1367,6 +1446,7 @@
         <li><strong class="pname"><code>lon2</code></strong> - Longitude2 (degrees).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Optionally, adjust longitudinal delta by the cosine of the mean 
           of the latitudes (bool).</li>
+        <li><strong class="pname"><code>limit</code></strong> - Optional limit for the deltas (degrees) or 0 for unlimited.</li>
         <li><strong class="pname"><code>wrap</code></strong> - Optionally, keep the longitudinal delta within the -180..+180 
           range (bool).</li>
     </ul></dd>
@@ -1379,10 +1459,17 @@
           is the mean earth radius in the desired units, for example <a 
           href="pygeodesy.utils-module.html#R_M" class="link">R_M</a> in 
           meter.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - The lat- and/or longitudinal delta exceeds the <i>limit</i>.  Use 
+        <i>limit=0</i> to avoid the delta check and ValueError.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.utils-module.html#haversine" 
-        class="link">haversine</a> for an accurate distance.
+        Function <a href="pygeodesy.utils-module.html#equirectangular" 
+        class="link">equirectangular</a> for distance only and function <a 
+        href="pygeodesy.utils-module.html#haversine" 
+        class="link">haversine</a> for more accurate or larger distances.
       </p>
 </div></td></tr></table>
 </div>
@@ -2653,7 +2740,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Nov 27 18:10:23 2017
+    Generated by Epydoc 3.0.1 on Thu Nov 30 15:15:38 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

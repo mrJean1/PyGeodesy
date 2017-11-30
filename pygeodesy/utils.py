@@ -25,7 +25,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'CrossError',  # classes
            'cbrt', 'cbrt2', 'classname', 'crosserrors',
            'degrees', 'degrees90', 'degrees180', 'degrees360',
-           'equirectangular3',
+           'equirectangular', 'equirectangular3',
            'false2f', 'favg', 'fdot', 'fdot3', 'fmean', 'fpolynomial',
            'fStr', 'fStrzs', 'fsum', 'ft2m',
            'halfs',
@@ -43,7 +43,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'tan_2', 'tanPI_2_2',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '17.11.26'
+__version__ = '17.11.30'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -191,10 +191,41 @@ def _drap(deg, wrap):
     return d
 
 
-def equirectangular3(lat1, lon1, lat2, lon2, adjust=True, wrap=False):
+def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **options):
     '''Compute the distance between two points using
        the U{Equirectangular Approximation/Projection
        <http://www.movable-type.co.uk/scripts/latlong.html>}.
+
+       See function L{equirectangular3} for details and I{options}.
+
+       @param lat1: Latitude1 (degrees).
+       @param lon1: Longitude1 (degrees).
+       @param lat2: Latitude2 (degrees).
+       @param lon2: Longitude2 (degrees).
+       @keyword radius: Optional, mean earth radius (meter).
+       @keyword options: Optional keyword arguments for function
+                         L{equirectangular3}.
+
+       @return: Distance (meter), rather the units of I{radius}.
+
+       @raise ValueError: If delta limit exceeded, see function
+                          L{equirectangular3}.
+
+       @see: Function L{haversine} for more accurate or larger distances.
+    '''
+    d2 = equirectangular3(lat1, lon1, lat2, lon2, **options)[0]
+    return radians(sqrt(d2)) * radius
+
+
+def equirectangular3(lat1, lon1, lat2, lon2,
+                     adjust=True, limit=45, wrap=False):
+    '''Compute the distance between two points using
+       the U{Equirectangular Approximation/Projection
+       <http://www.movable-type.co.uk/scripts/latlong.html>}.
+
+       This approximation is valid for smaller distance of several
+       hundred Km or Miles, see the I{limit} keyword argument and
+       the ValueError.
 
        @param lat1: Latitude1 (degrees).
        @param lon1: Longitude1 (degrees).
@@ -202,6 +233,8 @@ def equirectangular3(lat1, lon1, lat2, lon2, adjust=True, wrap=False):
        @param lon2: Longitude2 (degrees).
        @keyword adjust: Optionally, adjust longitudinal delta by the
                         cosine of the mean of the latitudes (bool).
+       @keyword limit: Optional limit for the deltas (degrees) or
+                       0 for unlimited.
        @keyword wrap: Optionally, keep the longitudinal delta within
                       the -180..+180 range (bool).
 
@@ -213,7 +246,12 @@ def equirectangular3(lat1, lon1, lat2, lon2, adjust=True, wrap=False):
                 where radius is the mean earth radius in the desired
                 units, for example L{R_M} in meter.
 
-       @see: Function L{haversine} for an accurate distance.
+       @raise ValueError: The lat- and/or longitudinal delta exceeds
+                          the I{limit}.  Use I{limit=0} to avoid the
+                          delta check and ValueError.
+
+       @see: Function L{equirectangular} for distance only and function
+             L{haversine} for more accurate or larger distances.
     '''
     d_lat = lat2 - lat1
     d_lon = lon2 - lon1
@@ -223,6 +261,11 @@ def equirectangular3(lat1, lon1, lat2, lon2, adjust=True, wrap=False):
             d_lon -= 360
         elif d_lon < -180:
             d_lon += 360
+
+    if limit > 0 and max(abs(d_lat), abs(d_lon)) > limit:
+        t = fStr((lat1, lon1, lat2, lon2), prec=4)
+        raise ValueError('%s(%s) exceeds the %s limit' %
+                        ('equirectangular3', t, fStr(limit, prec=2)))
 
     if adjust:  # scale lon
         d_lon *= cos(radians(lat1 + lat2) * 0.5)

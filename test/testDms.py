@@ -4,12 +4,17 @@
 # Test degrees, minutes, seconds functions.
 
 __all__ = ('Tests',)
-__version__ = '17.06.21'
+__version__ = '17.11.30'
 
 from base import TestsBase
 
 from pygeodesy import F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC, F_RAD, \
-                      compassPoint, parse3llh, parseDMS, toDMS
+                      compassAngle, compassPoint, equirectangular, \
+                      m2km, parse3llh, parseDMS, toDMS
+
+from pygeodesy.sphericalTrigonometry import LatLon
+_LHR = LatLon(51.47,   0.4543)
+_FRA = LatLon(50.0379, 8.5622)
 
 
 class Tests(TestsBase):
@@ -45,6 +50,15 @@ class Tests(TestsBase):
             t = 'toDMS(%s)' % (a[:1] or '')
             self.test(t, toDMS(45.76260, *a), x)
 
+        self.test('compassAngle0', compassAngle(0, 0,  0,  0),   0.0)
+        self.test('compassAngle1', compassAngle(0, 0, 10, 10),  45.0)
+        self.test('compassAngle2', compassAngle(0, 0,  0, 10),  90.0)
+        self.test('compassAngle3', compassAngle(0, 0, -1,  0), 180.0)
+        self.test('compassAngle4', compassAngle(0, 0, -1, -1), 225.0)
+        self.test('compassAngle5', compassAngle(0, 0,  0, -1), 270.0)
+        self.test('compassAngle6', compassAngle(0, 0,  1, -1), 315.0)
+        self.test('compassAngle7', compassAngle(0, 0, 99, -1), 359.4, fmt='%.1f')
+
         for a, x in (((1,),   'N'),
                      ((0,),   'N'),
                      ((-1,),  'N'),
@@ -69,6 +83,15 @@ class Tests(TestsBase):
                                'WbN', 'NWbW', 'NWbN', 'NbW')):
             a = 11.25 + a * 22.5
             self.test('compassPoint', compassPoint(a, 4), x)
+
+        a = compassAngle(_LHR.lat, _LHR.lon, _FRA.lat, _FRA.lon)
+        self.test('compassAngle', a, 100.016848, fmt='%.6f')
+        b = _LHR.initialBearingTo(_FRA)
+        self.test('initialBearingTo', b, 102.432182, fmt='%.6f')
+        d = equirectangular(_LHR.lat, _LHR.lon, _FRA.lat, _FRA.lon)
+        self.test('equirectangular', m2km(d), 592.185, fmt='%.3f')
+        d = _LHR.distanceTo(_FRA)
+        self.test('distanceTo', m2km(d), 591.831, fmt='%.3f')
 
 
 if __name__ == '__main__':
