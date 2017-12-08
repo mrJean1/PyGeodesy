@@ -4,11 +4,12 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '17.11.26'
+__version__ = '17.12.06'
 
 from base import TestsBase
 
-from pygeodesy import EPS, LatLon2psxy, Numpy2LatLon, Tuple2LatLon, \
+from pygeodesy import EPS, LatLon_, \
+                      LatLon2psxy, Numpy2LatLon, Tuple2LatLon, \
                       classname, points
 
 try:
@@ -89,6 +90,11 @@ if __name__ == '__main__':  # PYCHOK internal error?
     from testRoutes import PtsFFI
 
     t = Tests(__file__, __version__, points)
+
+    try:
+        t.test('LatLon_', LatLon_(0, 0).__dict__, 'AttributeError')
+    except AttributeError as x:
+        t.test('LatLon_', x, "'LatLon_' object has no attribute '__dict__'")
 
     pts = LatLon2psxy(PtsFFI, wrap=False)
     t.test2(pts, PtsFFI, True)

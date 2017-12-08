@@ -61,11 +61,9 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class LatLon_</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-object --+    
-         |    
-<a href="pygeodesy.bases.Base-class.html">bases.Base</a> --+
-             |
-            <strong class="uidshort">LatLon_</strong>
+object --+
+         |
+        <strong class="uidshort">LatLon_</strong>
 </pre>
 
 <hr />
@@ -144,6 +142,59 @@ object --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.points.LatLon_-class.html#__repr__" class="summary-sig-name">__repr__</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      repr(x)</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.points.LatLon_-class.html#__str__" class="summary-sig-name">__str__</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      str(x)</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.points.LatLon_-class.html#others" class="summary-sig-name">others</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">other</code><code class="variable-quote">'</code></span>)</span><br />
+      Check this and an other instance for type compatiblility.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.points.LatLon_-class.html#points" class="summary-sig-name">points</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
@@ -183,7 +234,7 @@ object --+
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.points.LatLon_-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">**unused</span>)</span><br />
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
       This <a href="pygeodesy.points.LatLon_-class.html" 
       class="link">LatLon_</a> as a string &quot;lat=&lt;degrees&gt;, 
       lon=&lt;degrees&gt;&quot;.</td>
@@ -196,16 +247,28 @@ object --+
       
     </td>
   </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.points.LatLon_-class.html#toStr2" class="summary-sig-name">toStr2</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
+      This <a href="pygeodesy.points.LatLon_-class.html" 
+      class="link">LatLon_</a> as a string &quot;class(lat=&lt;degrees&gt;,
+      ...)&quot;.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases.Base-class.html">bases.Base</a></code></b>:
-      <code><a href="pygeodesy.bases.Base-class.html#__repr__">__repr__</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#__str__">__str__</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#classname">classname</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#others">others</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#toStr2">toStr2</a></code>
-      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
       <code>__format__</code>,
@@ -296,6 +359,86 @@ object --+
       </p>
 </div></td></tr></table>
 </div>
+<a name="__repr__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__repr__</span>(<span class="sig-arg">self</span>)</span>
+    <br /><em class="fname">(Representation operator)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>repr(x)</p>
+  <dl class="fields">
+    <dt>Overrides:
+        object.__repr__
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__str__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__str__</span>(<span class="sig-arg">self</span>)</span>
+    <br /><em class="fname">(Informal representation operator)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>str(x)</p>
+  <dl class="fields">
+    <dt>Overrides:
+        object.__str__
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="others"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">others</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">other</code><code class="variable-quote">'</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check this and an other instance for type compatiblility.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other instance (any).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional, name for other (string).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>None.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Mismatch of this and type(other).</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="points"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -362,7 +505,7 @@ object --+
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">**unused</span>)</span>
+        <span class="sig-arg">**kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -375,11 +518,38 @@ object --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>args</code></strong> - Optional, positional arguments.</li>
+        <li><strong class="pname"><code>kwds</code></strong> - Optional, keyword arguments.</li>
     </ul></dd>
-    <dt>Overrides:
-        <a href="pygeodesy.bases.Base-class.html#toStr">bases.Base.toStr</a>
-    </dt>
+    <dt>Returns:</dt>
+        <dd>Instance (string).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toStr2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr2</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">**kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>This <a href="pygeodesy.points.LatLon_-class.html" 
+  class="link">LatLon_</a> as a string &quot;class(lat=&lt;degrees&gt;, 
+  ...)&quot;.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>kwds</code></strong> - Optional, keyword arguments.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Class instance (string).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -415,7 +585,7 @@ object --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Nov 30 15:15:38 2017
+    Generated by Epydoc 3.0.1 on Thu Dec  7 19:14:09 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

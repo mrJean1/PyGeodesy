@@ -162,7 +162,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',  # modules
            'Geohash', 'VincentyError',  # classes
            'nearestOn2',  # functions
            'version')  # extended below
-__version__ = '17.11.30'
+__version__ = '17.12.06'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))

@@ -11,7 +11,7 @@ and U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
 @newfield example: Example, Examples
 '''
 
-from utils import fStrzs, isint
+from utils import fStr, fStrzs, isint
 
 from math import atan2, degrees, radians
 try:
@@ -26,8 +26,9 @@ __all__ = ('F_D', 'F_DM', 'F_DMS',  # forms
            'bearingDMS',  # functions
            'compassAngle', 'compassDMS', 'compassPoint',
            'latDMS', 'lonDMS', 'normDMS',
-           'parseDMS', 'parse3llh', 'precision', 'toDMS')
-__version__ = '17.11.28'
+           'parseDMS', 'parse3llh', 'precision',
+           'rangerror', 'toDMS')
+__version__ = '17.12.02'
 
 F_D   = 'd'    #: Format degrees as deg° (string).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (string).
@@ -122,6 +123,10 @@ def bearingDMS(bearing, form=F_D, prec=None, sep=S_SEP):
 def compassAngle(lat0, lon0, lat1, lon1):
     '''Return the angle from North for the direction vector
        M{(lon1 - lon0, lat1 - lat0)} between two points.
+
+       Suitable only for short vectors up to a few hundred Km
+       or Miles.  Use I{initialBearingTo} or I{forward azimuth}
+       LatLon methods for larger distances.
 
        @param lat0: From latitude (degrees).
        @param lon0: From longitude (degrees).
@@ -284,7 +289,8 @@ def parse3llh(strll, height=0, sep=','):
 
        @example:
 
-       >>> t = parse3llh('000°00′05.31″W, 51° 28′ 40.12″ N')  # (51.4778°N, 000.0015°W, 0)
+       >>> parse3llh('000°00′05.31″W, 51° 28′ 40.12″ N')
+       (51.4778°N, 000.0015°W, 0)
     '''
     try:
         ll = strll.strip().split(sep)
@@ -348,7 +354,11 @@ def parseDMS(strDMS, suffix='NSEW', sep=S_SEP, clip=0):
             raise ValueError('parsing %r failed' % (strDMS,))
 
     if clip and clip > 0:
-        d = min(clip, max(-clip, d))
+        c = min(clip, max(-clip, d))
+        if _rangerror and d != c:
+            raise ValueError('%s beyond %s degrees' % (fStr(d, prec=6),
+                             fStr(c, prec=2, ints=True)))
+        d = c
     return d
 
 
@@ -367,7 +377,7 @@ def precision(form, prec=None):
        @raise ValueError: Invalid precision.
     '''
     try:
-        p  = _F_prec[form]
+        p = _F_prec[form]
     except KeyError:
         raise ValueError('%s invalid: %s' % ('form', form))
     if prec is not None:
@@ -376,6 +386,33 @@ def precision(form, prec=None):
         else:
             raise ValueError('%s invalid: %s' % ('prec', prec))
     return p
+
+
+_rangerror = True
+
+
+def rangerror(error=None):
+    '''Raise an error for out-of-range lat- or longitudes.
+
+       @keyword error: Choose True to raise or False to not raise
+                       a ValueError for an out-of-range lat- or
+                       longitude value.  Use None to leave the
+                       setting unchanged.
+
+       @return: Previous setting (True, False).
+
+       @raise ValueError: If I{error} not True, False or None.
+
+       @note: Out-of-range lat- and longitudes are always clipped
+              to the nearest range limit.
+    '''
+    global _rangerror
+    r = _rangerror
+    if error in (True, False):
+        _rangerror = error
+    elif error is not None:
+        raise ValueError('%s invalid: %r' % ('rangerror', error))
+    return r
 
 
 def toDMS(deg, form=F_DMS, prec=2, sep=S_SEP, ddd=2, neg='-', pos=''):

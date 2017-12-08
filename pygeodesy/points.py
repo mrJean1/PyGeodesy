@@ -29,8 +29,7 @@ numpy 1.8.0) on iOS 11.0.3.
 
 @newfield example: Example, Examples
 '''
-from bases import Base
-from utils import EPS, CrossError, crosserrors, \
+from utils import EPS, classname, CrossError, crosserrors, \
                   fdot, fStr, fsum, \
                   inStr, isint, issequence, \
                   polygon, scalar, wrap90, wrap180
@@ -44,12 +43,15 @@ from math import radians
 __all__ = ('LatLon_',  # classes
            'LatLon2psxy', 'Numpy2LatLon', 'Tuple2LatLon',
            'bounds', 'isclockwise', 'isconvex')  # functions
-__version__ = '17.11.26'
+__version__ = '17.12.06'
 
 
-class LatLon_(Base):
+class LatLon_(object):
     '''Low-overhead I{LatLon} class for L{Numpy2LatLon} or L{Tuple2LatLon}'
     '''
+    # __slots__ efficiency is voided if the __slots__ class attribute
+    # is used in a subclass of a class with the traditional __dict__,
+    # see <https://docs.python.org/2/reference/datamodel.html#slots>
     __slots__ = ('lat', 'lon')
 
     def __init__(self, lat, lon):
@@ -73,6 +75,27 @@ class LatLon_(Base):
     def __ne__(self, other):
         return not self.__eq__(other)
 
+    def __repr__(self):
+        return self.toStr2()
+
+    def __str__(self):
+        return self.toStr()
+
+    def others(self, other, name='other'):
+        '''Check this and an other instance for type compatiblility.
+
+           @param other: The other instance (any).
+           @keyword name: Optional, name for other (string).
+
+           @return: None.
+
+           @raise TypeError: Mismatch of this and type(other).
+        '''
+        if not (isinstance(other, self.__class__) or
+                (hasattr(other, 'lat') and hasattr(other, 'lon'))):
+            raise TypeError('type(%s) mismatch: %s vs %s' % (name,
+                             classname(other), classname(self)))
+
     def points(self, points, closed=False, base=None):
         return polygon(points, closed=closed, base=base)
 
@@ -85,11 +108,26 @@ class LatLon_(Base):
         '''
         return radians(self.lat), radians(self.lon)
 
-    def toStr(self, **unused):
+    def toStr(self, **kwds):
         '''This L{LatLon_} as a string "lat=<degrees>, lon=<degrees>".
+
+           @keyword kwds: Optional, keyword arguments.
+
+           @return: Instance (string).
         '''
-        return ', '.join('%s=%s' % (_, fStr(getattr(self, _)))
-                                for _ in self.__slots__)
+        t = tuple((_, fStr(getattr(self, _))) for _ in self.__slots__)
+        if kwds:
+            t += tuple(sorted(kwds.items()))
+        return ', '.join('%s=%s' % _ for _ in t)
+
+    def toStr2(self, **kwds):
+        '''This L{LatLon_} as a string "class(lat=<degrees>, ...)".
+
+           @keyword kwds: Optional, keyword arguments.
+
+           @return: Class instance (string).
+        '''
+        return '%s(%s)' % (classname(self), self.toStr(**kwds))
 
 
 class _Basequence(_Sequence):  # immutable, on purpose

@@ -10,31 +10,13 @@
 
 from base import TestsBase
 
-from pygeodesy import inStr
+from pygeodesy import LatLon_
 
 __all__ = ('Pts', 'PtsFFI', 'RdpFFI', 'PtsJS', 'PtsJS5', 'VwPts')
-__version__ = '17.08.26'
-
-
-class _LatLon(object):
-    '''(INTERNAL) Most-basic, leanest LatLon class.
-    '''
-    __slots__ = ('lat', 'lon', 'vw2')
-
-    def __init__(self, lon, lat, vw2=0):  # note lon, lat!
-        self.lat = lat
-        self.lon = lon
-        self.vw2 = vw2
-
-    def __repr__(self):
-        if self.vw2:
-            return inStr(self, lat=self.lat, lon=self.lon, vw2=self.vw2)
-        else:
-            return inStr(self, lat=self.lat, lon=self.lon)
-
+__version__ = '17.12.06'
 
 # <http://github.com/urschrei/rdp>
-PtsFFI = [_LatLon(*ll) for ll in (
+PtsFFI = [LatLon_(_lat, _lon) for _lon, _lat in (
     (-0.701206, 52.220489),  # lon, lat
     (-0.701418, 52.220485),
     (-0.703903, 52.220596),
@@ -105,7 +87,7 @@ PtsFFI = [_LatLon(*ll) for ll in (
     (-0.704327, 52.240795),
     (-0.703726, 52.240756))]
 
-RdpFFI = [_LatLon(*ll) for ll in (
+RdpFFI = [LatLon_(_lat, _lon) for _lon, _lat in (
     (-0.701206, 52.220489),  # lon, lat
     (-0.705340, 52.220565),
     (-0.705456, 52.222827),
@@ -115,7 +97,7 @@ RdpFFI = [_LatLon(*ll) for ll in (
     (-0.703726, 52.240756))]
 
 # <https://github.com/mourner/simplify-js/tree/master/test>
-PtsJS = [_LatLon(y, x) for x, y in (
+PtsJS = [LatLon_(_y, _x) for _x, _y in (
     (224.55, 250.15), (226.91, 244.19), (233.31, 241.45), (234.98, 236.06),
     (244.21, 232.76), (262.59, 215.31), (267.76, 213.81), (273.57, 201.84),
     (273.12, 192.16), (277.62, 189.03), (280.36, 181.41), (286.51, 177.74),
@@ -142,7 +124,7 @@ PtsJS = [_LatLon(y, x) for x, y in (
     (844.09, 419.88), (839.51, 432.76), (841.33, 441.04), (847.62, 449.22),
     (847.16, 458.44), (851.38, 462.79), (853.97, 471.15), (866.36, 480.77))]
 
-PtsJS5 = [_LatLon(y, x) for x, y in (
+PtsJS5 = [LatLon_(_y, _x) for _x, _y in (
     (224.55, 250.15), (267.76, 213.81), (296.91, 155.64), (330.33, 137.57),
     (409.52, 141.14), (439.60, 119.74), (486.51, 106.75), (529.57, 127.86),
     (539.27, 147.24), (617.74, 159.86), (629.55, 194.60), (671.55, 222.55),
@@ -155,7 +137,7 @@ PtsJS5 = [_LatLon(y, x) for x, y in (
 
 # Paris-Berlin-Warsaw-Minsk-Moscow, see
 # <http://milkbread.github.io/Visvalingam-Wyatt/>
-Pts = [_LatLon(*ll) for ll in (
+Pts = [LatLon_(_lat, _lon) for _lon, _lat in (
     (2.329860, 48.860050),  # lon, lat
     (2.330270, 48.860580),
     (2.330650, 48.860691),
@@ -16772,8 +16754,8 @@ Pts = [_LatLon(*ll) for ll in (
     (37.576080, 55.078442))]
 
 # "threshold": "0.0005", ...  # lon, lat, area?
-VwPts = [_LatLon(*ll) for ll in (
-    (2.32986, 48.86005),  # lon, lat
+VwPts = [LatLon_(_lat, _lon) for _lon, _lat, _a2 in (
+    (2.32986, 48.86005,  0),  # lon, lat
     (2.35093, 48.863411, 0.0006764590350000889),
     (2.43115, 48.940418, 0.005275181324999963),
     (2.54246, 48.960732, 0.0013039877850000996),
@@ -17046,8 +17028,9 @@ VwPts = [_LatLon(*ll) for ll in (
     (37.297470, 55.657600, 0.0015273776339998135),
     (37.366482, 55.709980, 0.002582013140000326),
     (37.537930, 55.737560, 0.003194690800000177),
-    (37.569962, 55.779980))]
+    (37.569962, 55.779980, 0))]
 
+# del _lat, _lon
 
 if __name__ == '__main__':
 

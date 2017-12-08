@@ -4,7 +4,7 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '17.11.26'
+__version__ = '17.12.06'
 
 from base import TestsBase, secs2str
 
@@ -12,8 +12,7 @@ from pygeodesy import EPS, R_M, Numpy2LatLon, \
                       simplify1, simplifyRW, \
                       simplifyRDP, simplifyRDPm, \
                       simplifyVW, simplifyVWm, \
-                      simplify, \
-                      wrap90, wrap180
+                      simplify
 
 from math import cos, degrees, radians
 from time import time
@@ -72,11 +71,15 @@ def simplifyRDPfw(points, epsilon, radius=R_M, adjust=False, shortest=False,  # 
     '''
     def _d2xy(p1, p2):
         # get deltas and hypot squared
-        dx = wrap180(p2.lon - p1.lon)
+        dx = p2.lon - p1.lon
+        if dx > 180:
+            dx -= 360
+        elif dx < -180:
+            dx += 360
         if adjust:
             dx *= cos(radians((p1.lat + p2.lat) * 0.5))
-        dy = wrap90(p2.lat - p1.lat)
-        d2 = dx ** 2 + dy ** 2
+        dy = p2.lat - p1.lat
+        d2 = dx**2 + dy**2
         return d2, dx, dy
 
     if shortest:
@@ -86,7 +89,7 @@ def simplifyRDPfw(points, epsilon, radius=R_M, adjust=False, shortest=False,  # 
         return points
 
     # convert epsilon meters to degrees
-    ed2 = degrees(epsilon / radius) ** 2  # use squared distances
+    ed2 = degrees(epsilon / radius)**2  # use squared distances
 
     use = [True] * len(points)
     stk = [(0, len(points) - 1)]
@@ -106,7 +109,7 @@ def simplifyRDPfw(points, epsilon, radius=R_M, adjust=False, shortest=False,  # 
                 if use[i]:
                     d2, dx, dy = _d2xy(points[i], points[s])
                     if p2 and d2 > EPS:  # distance to line
-                        d2 = p2 * (px * dy - py * dx) ** 2
+                        d2 = p2 * (px * dy - py * dx)**2
                     if d2 > t2:
                         t2, t = d2, i
                         if modified:
@@ -158,7 +161,7 @@ def simplifyRDPgr(source, kink, radius=R_M, adjust=True, shortest=True,  # MCCAB
         if adjust:
             dx *= cos(radians((p1.lat + p2.lat) * 0.5))
         dy = p2.lat - p1.lat
-        d2 = dx ** 2 + dy ** 2
+        d2 = dx**2 + dy**2
         return d2, dx, dy
 
     if not shortest:
@@ -188,7 +191,7 @@ def simplifyRDPgr(source, kink, radius=R_M, adjust=True, shortest=True,  # MCCAB
                 elif d23 >= (d12 + d13):
                     d2 = d13
                 elif d12 > EPS:  # perpendicular distance squared
-                    d2 = (x13 * y12 - y13 * x12) ** 2 / d12
+                    d2 = (x13 * y12 - y13 * x12)**2 / d12
                 else:  # null edge
                     d2 = (d13 + d23) * 0.5
 
@@ -255,7 +258,7 @@ if __name__ == '__main__':  # PYCHOK internal error?
     t.test2(simplifyRDP,   Pts, _ms({100: 1251, 10: 4461, 1: 11248}), adjust=False, shortest=False, indices=True)
     t.test2(simplifyRDP,   Pts, _ms({100: 1251, 10: 4461, 1: 11248}), adjust=False, shortest=False)
     # for comparison, the RDPfw results should be less than a few points different
-    t.test2(simplifyRDPfw, Pts, _ms({100: 1251, 10: 4461, 1: 11246}), adjust=False, shortest=False, modified=False)
+    t.test2(simplifyRDPfw, Pts, _ms({100: 1251, 10: 4461, 1: 11248}), adjust=False, shortest=False, modified=False)
 
     # cut number of points (to shorten run time)
     n = len(Pts) // 10

@@ -162,7 +162,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.11.30
+        17.12.06
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -1612,6 +1612,23 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#rangerror" class="summary-sig-name">rangerror</a>(<span class="summary-sig-arg">error</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Raise an error for out-of-range lat- or longitudes.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#scalar" class="summary-sig-name">scalar</a>(<span class="summary-sig-arg">value</span>,
         <span class="summary-sig-arg">low</span>=<span class="summary-sig-default">2.22044604925e-16</span>,
         <span class="summary-sig-arg">high</span>=<span class="summary-sig-default">1.0</span>,
@@ -2033,7 +2050,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'17.11.30'"><code class="variable-quote">'</code><code class="variable-string">17.11.30</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'17.12.6'"><code class="variable-quote">'</code><code class="variable-string">17.12.6</code><code class="variable-quote">'</code></code><br />
       Normalized PyGeodesy version (string).
     </td>
   </tr>
@@ -2521,6 +2538,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
   
   <p>Return the angle from North for the direction vector <i 
   class="math">(lon1 - lon0, lat1 - lat0)</i> between two points.</p>
+  <p>Suitable only for short vectors up to a few hundred Km or Miles.  Use 
+  <i>initialBearingTo</i> or <i>forward azimuth</i> LatLon methods for 
+  larger distances.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -3949,7 +3969,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>t = parse3llh(<span class="py-string">'000&#176;00&#8242;05.31&#8243;W, 51&#176; 28&#8242; 40.12&#8243; N'</span>)  <span class="py-comment"># (51.4778&#176;N, 000.0015&#176;W, 0)</span></pre>
+<span class="py-prompt">&gt;&gt;&gt; </span>parse3llh(<span class="py-string">'000&#176;00&#8242;05.31&#8243;W, 51&#176; 28&#8242; 40.12&#8243; N'</span>)
+<span class="py-output">(51.4778&#176;N, 000.0015&#176;W, 0)</span></pre>
       </p>
 </div></td></tr></table>
 </div>
@@ -4266,6 +4287,41 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
         <dd>Radians, wrapped (radiansPI_2)</dd>
   </dl>
 </td></tr></table>
+</div>
+<a name="rangerror"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">rangerror</span>(<span class="sig-arg">error</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Raise an error for out-of-range lat- or longitudes.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>error</code></strong> - Choose True to raise or False to not raise a ValueError for an 
+          out-of-range lat- or longitude value.  Use None to leave the 
+          setting unchanged.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Previous setting (True, False).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - If <i>error</i> not True, False or None.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Out-of-range lat- and longitudes are always clipped to the nearest 
+        range limit.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="scalar"></a>
 <div>
@@ -5179,7 +5235,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Nov 30 15:15:37 2017
+    Generated by Epydoc 3.0.1 on Thu Dec  7 19:14:08 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
