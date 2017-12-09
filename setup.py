@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '17.08.24'
+__version__ = '17.12.08'
 
 
 def _c2(*names):
@@ -46,10 +46,12 @@ def _long_description():
 
 
 _KeyWords=('azimuth', 'bearing', 'cartesian', 'conic',
-           'datum', 'development', 'distance', 'earth', 'ellipsoid',
-           'geocentric', 'geodesy', 'geodetic', 'geohash', 'haversine',
+           'datum', 'development', 'distance',
+           'earth', 'ellipsoid', 'equirectangular',
+           'geocentric', 'geodesy', 'geodetic', 'geohash',
+           'haversine',
            'Lambert', 'latitude', 'longitude', 'MGRS',
-           'numpy', 'Nvector', 'OSGR', 'PyGeodesy',
+           'numpy', 'n-vector', 'Nvector', 'OSGR', 'PyGeodesy',
            'Ramer-Douglas-Peucker', 'Reumann-Witkam', 'rhumb',
            'simplify', 'sphere', 'trigonometry', 'UTM',
            'Vincenty', 'Visvalingam-Whyatt', 'WGS')

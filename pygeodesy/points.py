@@ -43,7 +43,7 @@ from math import radians
 __all__ = ('LatLon_',  # classes
            'LatLon2psxy', 'Numpy2LatLon', 'Tuple2LatLon',
            'bounds', 'isclockwise', 'isconvex')  # functions
-__version__ = '17.12.06'
+__version__ = '17.12.08'
 
 
 class LatLon_(object):
@@ -109,19 +109,19 @@ class LatLon_(object):
         return radians(self.lat), radians(self.lon)
 
     def toStr(self, **kwds):
-        '''This L{LatLon_} as a string "lat=<degrees>, lon=<degrees>".
+        '''This L{LatLon_} as a string "<degrees>, <degrees>".
 
            @keyword kwds: Optional, keyword arguments.
 
            @return: Instance (string).
         '''
-        t = tuple((_, fStr(getattr(self, _))) for _ in self.__slots__)
+        t = [fStr(getattr(self, _)) for _ in self.__slots__]
         if kwds:
-            t += tuple(sorted(kwds.items()))
-        return ', '.join('%s=%s' % _ for _ in t)
+            t += ['%s=%s' % _ for _ in sorted(kwds.items())]
+        return ', '.join(t)
 
     def toStr2(self, **kwds):
-        '''This L{LatLon_} as a string "class(lat=<degrees>, ...)".
+        '''This L{LatLon_} as a string "class(<degrees>, ...)".
 
            @keyword kwds: Optional, keyword arguments.
 

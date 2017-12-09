@@ -19,7 +19,7 @@ from math import atan2, cos, sin
 # all public contants, classes and functions
 __all__ = ('Vector3d',  # classes
            'sumOf')  # functions
-__version__ = '17.09.22'
+__version__ = '17.12.08'
 
 try:
     _cmp = cmp
@@ -574,10 +574,10 @@ def sumOf(vectors, Vector=Vector3d, **kwds):
     '''Compute the vectorial sum of several vectors.
 
        @param vectors: Vectors to be added (L{Vector3d}[]).
-       @keyword Vector: Optional Vector class for sum (L{Vector3d}).
-       @keyword kwds: Optional, additional Vector keyword argments.
+       @keyword Vector: Optional class for the vectorial sum (L{Vector3d}).
+       @keyword kwds: Optional, additional I{Vector} keyword argments.
 
-       @return: Vectorial sum (Vector).
+       @return: Vectorial sum (I{Vector}).
 
        @raise ValueError: No vectors.
     '''

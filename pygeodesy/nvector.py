@@ -21,7 +21,7 @@ from vector3d import Vector3d, sumOf as _sumOf
 __all__ = ('NorthPole', 'SouthPole',  # constants
            'Nvector',  # classes
            'sumOf')  # functions
-__version__ = '17.09.22'
+__version__ = '17.12.08'
 
 
 class Nvector(Vector3d):  # XXX kept private
@@ -181,11 +181,11 @@ def sumOf(nvectors, Vector=Nvector, h=None, **kwds):
     '''Return the vectorial sum of any number of n-vectors.
 
        @param nvectors: Vectors to be added (L{Nvector}[]).
-       @keyword Vector: Optional Vector class for sum (L{Nvector}).
-       @keyword kwds: Optional, additional Vector keyword argments.
+       @keyword Vector: Optional class for the vectorial sum (L{Nvector}).
+       @keyword kwds: Optional, additional I{Vector} keyword argments.
        @keyword h: Optional height, overriding the mean height (meter).
 
-       @return: Vectorial sum (Vector).
+       @return: Vectorial sum (I{Vector}).
 
        @raise ValueError: No nvectors.
     '''

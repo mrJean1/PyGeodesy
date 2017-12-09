@@ -57,8 +57,9 @@ numpy 1.11.3), all on macOS 10.12.6 Sierra and with Pythonista 3.1 using
 64-bit Python 2.7.12 and 3.5.1 (both with numpy 1.8.0) on iOS 11.1.2.
 
 Previously, the tests were run with 64-bit Python 2.7.13 and 3.6.2 on
-MacOSX 10.10 Yosemite and MacOSX 10.11 El Capitan, with Pythonista 3.1
-on iOS 10.3.3 and 11.0.3 and with 32-bit Python 2.7.14 on Window 10 Pro.
+MacOSX 10.10 Yosemite, MacOSX 10.11 El Capitan and macOS 10.13.1 High
+Sierra, with Pythonista 3.1 on iOS 10.3.3 and 11.0.3 and with 32-bit
+Python 2.7.14 on Window 10 Pro.
 
 In addition to the U{PyGeodesy<http://pypi.python.org/pypi/PyGeodesy>} package,
 the distribution files contain the tests, the test results and the complete
@@ -162,7 +163,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',  # modules
            'Geohash', 'VincentyError',  # classes
            'nearestOn2',  # functions
            'version')  # extended below
-__version__ = '17.12.06'
+__version__ = '17.12.08'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
