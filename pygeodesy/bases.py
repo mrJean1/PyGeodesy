@@ -17,7 +17,7 @@ from math import asin, cos, degrees, radians, sin
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('Base', 'LatLonHeightBase', 'Named', 'VectorBase')
-__version__ = '17.11.22'
+__version__ = '17.12.12'
 
 
 class Base(object):
@@ -192,6 +192,8 @@ class LatLonHeightBase(Base):
 
            @raise TypeError: The other point is not I{LatLon}.
 
+           @see: Method L{equals3}.
+
            @example:
 
            >>> p = LatLon(52.205, 0.119)
@@ -205,8 +207,27 @@ class LatLonHeightBase(Base):
                        abs(self.lon - other.lon)) < eps
         else:
             return self.lat == other.lat and \
-                   self.lon == other.lon  # and \
-#                  self.height == other.height
+                   self.lon == other.lon
+
+    def equals3(self, other, eps=None):
+        '''Compare this point with an other point.
+
+           @param other: The other point (I{LatLon}).
+
+           @return: True if both points are identical,
+                    I{including} height (bool).
+
+           @raise TypeError: The other point is not I{LatLon}.
+
+           @see: Method L{equals}.
+
+           @example:
+
+           >>> p = LatLon(52.205, 0.119, 42)
+           >>> q = LatLon(52.205, 0.119)
+           >>> e = p.equals3(q)  # False
+        '''
+        return self.equals(other, eps=eps) and self.height == other.height
 
     @property
     def height(self):
@@ -220,13 +241,13 @@ class LatLonHeightBase(Base):
 
            @param height: New height (meter).
 
-           @raise TypeError: Invalid height.
+           @raise TypeError: Invalid I{height}.
 
-           @raise ValueError: Invalid height.
+           @raise ValueError: Invalid I{height}.
         '''
-        height = scalar(height, None, name='height')
-        self._update(height != self._height)
-        self._height = height
+        h = scalar(height, None, name='height')
+        self._update(h != self._height)
+        self._height = h
 
     @property
     def lat(self):
@@ -236,15 +257,52 @@ class LatLonHeightBase(Base):
 
     @lat.setter  # PYCHOK setter!
     def lat(self, lat):
-        '''Set the latitude (degrees).
+        '''Set the latitude.
 
            @param lat: New latitude (degrees).
 
-           @raise ValueError: Invalid lat.
+           @raise ValueError: Invalid I{lat}.
         '''
         lat = parseDMS(lat, suffix='NS', clip=90)
         self._update(lat != self._lat)
         self._lat = lat
+
+    @property
+    def latlon(self):
+        '''Get the latitude and longitude (2-tuple of degrees).
+        '''
+        return self._lat, self._lon
+
+    @latlon.setter  # PYCHOK setter!
+    def latlon(self, latlonh):
+        '''Set the lat- and longitude and optionally the height.
+
+           @param latlonh: New lat-, longitude and height (2- or
+                           3-tuple of degrees and meter).
+
+           @raise TypeError: Height of I{latlonh} not scalar or
+                             I{latlonh} not tuple or list.
+
+           @raise ValueError: Invalid I{latlonh} or I{len(latlonh)}.
+
+           @see: Function L{parse3llh} to parse a I{latlonh} string
+                 into a 3-tuple (lat, lon, h).
+        '''
+        if not isinstance(latlonh, (list, tuple)):
+            raise TypeError('%s invalid: %r' % ('latlonh', latlonh))
+
+        if len(latlonh) == 3:
+            h = scalar(latlonh[2], None, name='latlonh')
+        elif len(latlonh) != 2:
+            raise ValueError('%s invalid: %r' % ('latlonh', latlonh))
+        else:
+            h = self._height
+
+        lat = parseDMS(latlonh[0], suffix='NS', clip=90)
+        lon = parseDMS(latlonh[1], suffix='EW', clip=180)
+        self._update(lat != self._lat or
+                     lon != self._lon or h != self._height)
+        self._lat, self._lon, self._height = lat, lon, h
 
     @property
     def lon(self):
@@ -254,11 +312,11 @@ class LatLonHeightBase(Base):
 
     @lon.setter  # PYCHOK setter!
     def lon(self, lon):
-        '''Set the longitude (degrees).
+        '''Set the longitude.
 
            @param lon: New longitude (degrees).
 
-           @raise ValueError: Invalid lon.
+           @raise ValueError: Invalid I{lon}.
         '''
         lon = parseDMS(lon, suffix='EW', clip=180)
         self._update(lon != self._lon)

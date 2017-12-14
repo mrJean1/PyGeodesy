@@ -4,7 +4,7 @@
 # Test geohash module.
 
 __all__ = ('Tests',)
-__version__ = '17.07.18'
+__version__ = '17.12.12'
 
 from base import TestsBase
 
@@ -23,14 +23,14 @@ class Tests(TestsBase):
         self.test('Geohash', Geohash(g), 'geek')
         self.test('bounds', g.bounds(LL), '(LatLon(65°23′26.25″N, 017°55′46.88″W), LatLon(65°33′59.06″N, 017°34′41.25″W))')
         self.test('toLatLon', g.toLatLon(LL), '65.478516°N, 017.753906°W')
-        self.test('latlon', fStr(g.latlon, prec=8), '65.47851562, -17.75390625')
-        self.test('ab', fStr(g.ab, prec=8), '1.14281569, -0.30986412')
+        self.test('latlon', fStr(g.latlon, prec=7), '65.4785156, -17.7539062')
+        self.test('ab', fStr(g.ab, prec=7), '1.1428157, -0.3098641')
 
         g = Geohash(LL(65.390625, -17.929689), precision=9)
         self.test('Geohash', g, 'geehpbpbp')
         self.test('toLatLon', g.toLatLon(LL), '65.390625°N, 017.929689°W')
         self.test('latlon', fStr(g.latlon, prec=8), '65.390625, -17.929689')
-        self.test('ab', fStr(g.ab, prec=8), '1.14128171, -0.31293211')
+        self.test('ab', fStr(g.ab, prec=7), '1.1412817, -0.3129321')
         self.test('decode', geohash.decode(g), "('65.390646', '-17.929709')")
         self.test('decode_error', fStr(geohash.decode_error(g), fmt='%*e'), '2.145767e-05, 2.145767e-05')
         self.test('distance1', round(g.distance1('geehpb'), 3), '2758.887')

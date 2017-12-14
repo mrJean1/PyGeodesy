@@ -28,7 +28,7 @@ __all__ = ('F_D', 'F_DM', 'F_DMS',  # forms
            'latDMS', 'lonDMS', 'normDMS',
            'parseDMS', 'parse3llh', 'precision',
            'rangerror', 'toDMS')
-__version__ = '17.12.02'
+__version__ = '17.12.12'
 
 F_D   = 'd'    #: Format degrees as deg° (string).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (string).
@@ -178,7 +178,7 @@ def compassPoint(bearing, prec=3):
 
        @return: Compass point (1-, 2-, 3- or 4-letter string).
 
-       @raise ValueError: Invalid prec.
+       @raise ValueError: Invalid I{prec}.
 
        @see: U{Compass rose<http://wikipedia.org/wiki/Compass_rose>}
 
@@ -276,16 +276,16 @@ def parse3llh(strll, height=0, sep=','):
        The lat- and longitude values may be swapped, provided at least
        one ends with the proper compass direction.
 
-       See function parseDMS for more details on the forms and
-       symbols accepted.
-
        @param strll: Lat, lon[, height] (string).
        @keyword height: Optional default for missing height (meter).
        @keyword sep: Optional separator (string).
 
        @return: 3-Tuple (lat, lon, height) as (scalars).
 
-       @raise ValueError: Invalid strll.
+       @raise ValueError: Invalid I{strll}.
+
+       @see: Function L{parseDMS} for more details on the forms and
+       symbols accepted.
 
        @example:
 
@@ -328,7 +328,10 @@ def parseDMS(strDMS, suffix='NSEW', sep=S_SEP, clip=0):
 
        @return: Degrees (float).
 
-       @raise ValueError: Invalid strDMS.
+       @raise ValueError: Invalid I{strDMS}.
+
+       @see: Function L{parse3llh} to parse a string with lat-,
+             longitude and height values.
     '''
     try:  # signed decimal degrees without NSEW
         d = float(strDMS)
@@ -374,7 +377,7 @@ def precision(form, prec=None):
 
        @return: Previous precision (int).
 
-       @raise ValueError: Invalid precision.
+       @raise ValueError: Invalid I{prec}.
     '''
     try:
         p = _F_prec[form]
@@ -403,8 +406,8 @@ def rangerror(error=None):
 
        @raise ValueError: If I{error} not True, False or None.
 
-       @note: Out-of-range lat- and longitudes are always clipped
-              to the nearest range limit.
+       @note: Out-of-range lat- and longitude values are always
+              clipped to the nearest range limit.
     '''
     global _rangerror
     r = _rangerror
