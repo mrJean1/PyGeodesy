@@ -16,7 +16,7 @@ if _test_dir not in sys.path:  # Python 3+ ModuleNotFoundError
 from base import runner
 
 __all__ = ('TestSuite',)
-__version__ = '17.09.14'
+__version__ = '17.12.16'
 
 
 class TestSuite(unittest.TestCase):
@@ -89,6 +89,9 @@ class TestSuite(unittest.TestCase):
 
     def test_Vectorial(self):
         self._run('testVectorial')
+
+    def test_WebMercator(self):
+        self._run('testWebMercator')
 
     def test_Ztotal(self):
         # final test to make sure all tests were run

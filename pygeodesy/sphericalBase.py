@@ -12,7 +12,7 @@ U{http://www.movable-type.co.uk/scripts/latlong.html}.
 '''
 
 from bases import LatLonHeightBase
-from datum import R_M, Datum, Datums
+from datum import R_EQ, R_M, Datum, Datums
 from dms   import parse3llh
 from utils import EPS, PI, PI2, PI_2, \
                   degrees90, degrees180, degrees360, \
@@ -23,7 +23,7 @@ from math import acos, atan2, cos, log, sin
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('LatLonSphericalBase',)
-__version__ = '17.09.22'
+__version__ = '17.12.18'
 
 
 class LatLonSphericalBase(LatLonHeightBase):
@@ -304,6 +304,18 @@ class LatLonSphericalBase(LatLonHeightBase):
 
         h = self._havg(other) if height is None else height
         return self.classof(degrees90(a3), degrees180(b3), height=h)
+
+    def toWm(self, radius=R_EQ):
+        '''Convert this I{LatLon} point to a WM coordinate.
+
+           See function L{toWm} in module L{webmercator} for details.
+
+           @keyword radius: Optional earth radius (meter).
+
+           @return: The WM coordinate (L{Wm}).
+        '''
+        from webmercator import toWm  # PYCHOK recursive import
+        return toWm(self, radius=radius)
 
 # **) MIT License
 #

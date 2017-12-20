@@ -9,7 +9,7 @@ and U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
 
 @newfield example: Example, Examples
 '''
-from dms   import F_D, F_DMS, latDMS, lonDMS, parseDMS
+from dms   import F_D, F_DMS, latDMS, lonDMS, parseDMS, parseDMS2
 from utils import EPS, R_M, classname, favg, map1, polygon, scalar
 
 from math import asin, cos, degrees, radians, sin
@@ -17,7 +17,7 @@ from math import asin, cos, degrees, radians, sin
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('Base', 'LatLonHeightBase', 'Named', 'VectorBase')
-__version__ = '17.12.12'
+__version__ = '17.12.16'
 
 
 class Base(object):
@@ -100,10 +100,10 @@ class LatLonHeightBase(Base):
     '''(INTERNAL) Base class for I{LatLon} points on
        spherical or ellipsiodal earth models.
     '''
-    _ab     = ()  #: (INTERNAL) Cache (lat, lon) radians (2-tuple)
-    _height = 0   #: (INTERNAL) Height (meter)
-    _lat    = 0   #: (INTERNAL) Latitude (degrees)
-    _lon    = 0   #: (INTERNAL) Longitude (degrees)
+    _ab     = ()    #: (INTERNAL) Cache (lat, lon) radians (2-tuple)
+    _height = 0     #: (INTERNAL) Height (meter)
+    _lat    = 0     #: (INTERNAL) Latitude (degrees)
+    _lon    = 0     #: (INTERNAL) Longitude (degrees)
 
     def __init__(self, lat, lon, height=0):
         '''New I{LatLon}.
@@ -121,8 +121,7 @@ class LatLonHeightBase(Base):
            >>> p = LatLon(50.06632, -5.71475)
            >>> q = LatLon('50°03′59″N', """005°42'53"W""")
         '''
-        self._lat = parseDMS(lat, suffix='NS', clip=90)
-        self._lon = parseDMS(lon, suffix='EW', clip=180)
+        self._lat, self._lon = parseDMS2(lat, lon)
         if height:  # elevation
             self._height = scalar(height, None, name='height')
 
@@ -149,7 +148,7 @@ class LatLonHeightBase(Base):
         '''(INTERNAL) Reset caches if updated.
         '''
         if updated:  # reset caches
-            self._ab = None
+            self._ab = self._wm = None
 
     def bounds(self, wide, high, radius=R_M):
         '''Return the SE and NW lat-/longitude of a great circle
@@ -298,8 +297,7 @@ class LatLonHeightBase(Base):
         else:
             h = self._height
 
-        lat = parseDMS(latlonh[0], suffix='NS', clip=90)
-        lon = parseDMS(latlonh[1], suffix='EW', clip=180)
+        lat, lon = parseDMS2(latlonh[0], latlonh[1])
         self._update(lat != self._lat or
                      lon != self._lon or h != self._height)
         self._lat, self._lon, self._height = lat, lon, h

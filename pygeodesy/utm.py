@@ -31,7 +31,7 @@ U{http://wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system}.
 
 from bases import Base
 from datum import Datums
-from dms import S_DEG
+from dms import S_DEG, parseDMS2
 from ellipsoidalBase import LatLonEllipsoidalBase
 from utils import EPS, degrees, degrees90, degrees180, \
                   fdot3, fStr, hypot1, isscalar, len2, map2, \
@@ -44,7 +44,7 @@ from operator import mul
 # all public contants, classes and functions
 __all__ = ('Utm',  # classes
            'parseUTM', 'toUtm')  # functions
-__version__ = '17.09.22'
+__version__ = '17.12.16'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -204,12 +204,12 @@ class Utm(Base):
                                  North (degrees or None).
            @keyword scale: Optional grid scale factor (scalar or None).
 
-           @raise ValueError: Invalid easting or northing.
+           @raise ValueError: Invalid I{easting} or I{northing}.
 
            @example:
 
            >>> import pygeodesy
-           >>> g = pygeodesy.Utm(31, 'N', 448251, 5411932)
+           >>> u = pygeodesy.Utm(31, 'N', 448251, 5411932)
         '''
         self._zone, B, _ = _toZBL(zone, band)
 
@@ -297,9 +297,9 @@ class Utm(Base):
 
            @example:
 
-           >>> g = Utm(31, 'N', 448251.795, 5411932.678)
+           >>> u = Utm(31, 'N', 448251.795, 5411932.678)
            >>> from pygeodesy import ellipsoidalVincenty as eV
-           >>> ll = g.toLatLon(eV.LatLon)  # 48°51′29.52″N, 002°17′40.20″E
+           >>> ll = u.toLatLon(eV.LatLon)  # 48°51′29.52″N, 002°17′40.20″E
         '''
         if self._latlon and self._latlon.__class__ is LatLon \
                         and self._latlon.datum == self._datum:
@@ -384,7 +384,7 @@ class Utm(Base):
                         grid scale factor (bool).
 
            @return: This UTM as string "00 N|S meter meter" plus
-                    "degrees float" if cs is True (string).
+                    "degrees float" if I{cs} is True (string).
 
            @example:
 
@@ -417,7 +417,7 @@ class Utm(Base):
                         grid scale factor (bool).
 
            @return: This UTM as "[Z:00, H:N|S, E:meter, N:meter]"
-                    string plus "C:degrees, S:float" if cs is True
+                    string plus "C:degrees, S:float" if I{cs} is True
                     (string).
         '''
         t = self.toStr(prec=prec, sep=' ', B=B, cs=cs).split()
@@ -440,7 +440,7 @@ def parseUTM(strUTM, datum=Datums.WGS84):
 
        @return: The UTM coordinate (L{Utm}).
 
-       @raise ValueError: Invalid strUTM.
+       @raise ValueError: Invalid I{strUTM}.
 
        @example:
 
@@ -484,10 +484,10 @@ def toUtm(latlon, lon=None, datum=None, Utm=Utm):
 
        @return: The UTM coordinate (L{Utm}).
 
-       @raise TypeError: If latlon is not ellipsoidal.
+       @raise TypeError: If I{latlon} is not ellipsoidal.
 
-       @raise ValueError: If lon value is missing, if latlon
-                          is not scalar or latlon is outside
+       @raise ValueError: If I{lon} value is missing, if I{latlon}
+                          is not scalar or I{latlon} is outside
                           the valid UTM bands.
 
        @example:
@@ -503,11 +503,7 @@ def toUtm(latlon, lon=None, datum=None, Utm=Utm):
             raise TypeError('%s not %s: %r' % ('latlon', 'ellipsoidal', latlon))
         d = datum or latlon.datum
     except AttributeError:
-        if not isscalar(lon):
-            raise ValueError('%s invalid: %r' % ('lon', lon))
-        lat = latlon
-        if not isscalar(lat):
-            raise ValueError('%s invalid: %r' % ('lat', lat))
+        lat, lon = parseDMS2(latlon, lon)
         d = datum or Datums.WGS84
 
     E = d.ellipsoid

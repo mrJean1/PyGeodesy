@@ -13,7 +13,7 @@ and U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
 
 from utils import fStr, fStrzs, isint
 
-from math import atan2, degrees, radians
+from math import atan2, copysign, degrees, radians
 try:
     from string import letters as LETTERS
 except ImportError:  # Python 3+
@@ -24,11 +24,11 @@ __all__ = ('F_D', 'F_DM', 'F_DMS',  # forms
            'F_DEG', 'F_MIN', 'F_SEC', 'F_RAD',
            'S_DEG', 'S_MIN', 'S_SEC', 'S_RAD', 'S_SEP',  # symbols
            'bearingDMS',  # functions
-           'compassAngle', 'compassDMS', 'compassPoint',
+           'clipDMS', 'compassAngle', 'compassDMS', 'compassPoint',
            'latDMS', 'lonDMS', 'normDMS',
-           'parseDMS', 'parse3llh', 'precision',
+           'parseDMS', 'parseDMS2', 'parse3llh', 'precision',
            'rangerror', 'toDMS')
-__version__ = '17.12.12'
+__version__ = '17.12.16'
 
 F_D   = 'd'    #: Format degrees as deg° (string).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (string).
@@ -118,6 +118,26 @@ def bearingDMS(bearing, form=F_D, prec=None, sep=S_SEP):
        @JSname: I{toBrng}.
     '''
     return _toDMS(bearing % 360, form, prec, sep, 1)
+
+
+def clipDMS(deg, limit):
+    '''Clip a lat- or longitude to the given range.
+
+       @param deg: Lat- or lingitude (degrees).
+       @keyword limit: Optional, range -limit..+limit (degrees).
+
+       @return: Clipped value (degrees).
+
+       @raise ValueError: If I{deg} beyond I{limit} and L{rangerror}
+                          set to True.
+    '''
+    if limit > 0:
+        c = min(limit, max(-limit, deg))
+        if _rangerror and deg != c:
+            raise ValueError('%s beyond %s degrees' % (fStr(deg, prec=6),
+                             fStr(copysign(limit, deg), prec=3, ints=True)))
+        deg = c
+    return deg
 
 
 def compassAngle(lat0, lon0, lat1, lon1):
@@ -306,8 +326,7 @@ def parse3llh(strll, height=0, sep=','):
     a, b = [_.strip() for _ in ll]
     if a[-1:] in 'EW' or b[-1:] in 'NS':
         a, b = b, a
-    a = parseDMS(a, suffix='NS', clip=90)
-    b = parseDMS(b, suffix='EW', clip=180)
+    a, b = parseDMS2(a, b)
     return a, b, h
 
 
@@ -321,10 +340,10 @@ def parseDMS(strDMS, suffix='NSEW', sep=S_SEP, clip=0):
        A variety of symbols, separators and suffixes are accepted,
        for example 3° 37′ 09″W.  Minutes and seconds may be omitted.
 
-       @param strDMS: Degrees in any of several forms (string).
+       @param strDMS: Degrees in any of several forms (string or scalar).
        @keyword suffix: Optional, valid compass directions (NSEW).
        @keyword sep: Optional separator between deg°, min′ and sec″ ('').
-       @keyword clip: Optionally, limit value between -clip..+clip.
+       @keyword clip: Optionally, limit value to -clip..+clip (degrees).
 
        @return: Degrees (float).
 
@@ -356,13 +375,27 @@ def parseDMS(strDMS, suffix='NSEW', sep=S_SEP, clip=0):
         except (IndexError, ValueError):
             raise ValueError('parsing %r failed' % (strDMS,))
 
-    if clip and clip > 0:
-        c = min(clip, max(-clip, d))
-        if _rangerror and d != c:
-            raise ValueError('%s beyond %s degrees' % (fStr(d, prec=6),
-                             fStr(c, prec=2, ints=True)))
-        d = c
-    return d
+    return clipDMS(d, clip)
+
+
+def parseDMS2(strLat, strLon, sep=S_SEP, latLimit=90):
+    '''Parse lat- and longitude representions.
+
+       @param strLat: Latitude in any of several forms (string or scalar).
+       @param strLon: Longitude in any of several forms (string or scalar).
+       @keyword sep: Optional separator between deg°, min′ and sec″ ('').
+       @keyword latLimit: Limit latitude to -latLimit..+latLimit (degrees).
+
+       @return: 2-Tuple (lat, lon) in (degrees, degrees).
+
+       @raise ValueError: Invalid I{strLat} or I{strLon}.
+
+       @see: Function L{parse3llh} to parse a string with lat-,
+             longitude and height values and function L{parseDMS}
+             to parse individual lat- or longitudes.
+    '''
+    return (parseDMS(strLat, suffix='NS', sep=sep, clip=latLimit),
+            parseDMS(strLon, suffix='EW', sep=sep, clip=180))
 
 
 def precision(form, prec=None):

@@ -70,7 +70,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.12.12
+        17.12.16
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -91,6 +91,24 @@
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       Convert bearing to a string.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.dms-module.html#clipDMS" class="summary-sig-name">clipDMS</a>(<span class="summary-sig-arg">deg</span>,
+        <span class="summary-sig-arg">limit</span>)</span><br />
+      Clip a lat- or longitude to the given range.</td>
           <td align="right" valign="top">
             
             
@@ -248,6 +266,26 @@
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">clip</span>=<span class="summary-sig-default">0</span>)</span><br />
       Parse a string representing deg&#176;min&#8242;sec&#8243; to degrees.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.dms-module.html#parseDMS2" class="summary-sig-name">parseDMS2</a>(<span class="summary-sig-arg">strLat</span>,
+        <span class="summary-sig-arg">strLon</span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">latLimit</span>=<span class="summary-sig-default">90</span>)</span><br />
+      Parse lat- and longitude representions.</td>
           <td align="right" valign="top">
             
             
@@ -467,6 +505,39 @@
         <i>toBrng</i>.
       </p>
 </div></td></tr></table>
+</div>
+<a name="clipDMS"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">clipDMS</span>(<span class="sig-arg">deg</span>,
+        <span class="sig-arg">limit</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Clip a lat- or longitude to the given range.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>deg</code></strong> - Lat- or lingitude (degrees).</li>
+        <li><strong class="pname"><code>limit</code></strong> - Optional, range -limit..+limit (degrees).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Clipped value (degrees).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - If <i>deg</i> beyond <i>limit</i> and <a 
+        href="pygeodesy.dms-module.html#rangerror" 
+        class="link">rangerror</a> set to True.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
 </div>
 <a name="compassAngle"></a>
 <div>
@@ -765,10 +836,10 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>strDMS</code></strong> - Degrees in any of several forms (string).</li>
+        <li><strong class="pname"><code>strDMS</code></strong> - Degrees in any of several forms (string or scalar).</li>
         <li><strong class="pname"><code>suffix</code></strong> - Optional, valid compass directions (NSEW).</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional separator between deg&#176;, min&#8242; and sec&#8243; ('').</li>
-        <li><strong class="pname"><code>clip</code></strong> - Optionally, limit value between -clip..+clip.</li>
+        <li><strong class="pname"><code>clip</code></strong> - Optionally, limit value to -clip..+clip (degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees (float).</dd>
@@ -781,6 +852,48 @@
         Function <a href="pygeodesy.dms-module.html#parse3llh" 
         class="link">parse3llh</a> to parse a string with lat-, longitude 
         and height values.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="parseDMS2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">parseDMS2</span>(<span class="sig-arg">strLat</span>,
+        <span class="sig-arg">strLon</span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">latLimit</span>=<span class="sig-default">90</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Parse lat- and longitude representions.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>strLat</code></strong> - Latitude in any of several forms (string or scalar).</li>
+        <li><strong class="pname"><code>strLon</code></strong> - Longitude in any of several forms (string or scalar).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator between deg&#176;, min&#8242; and sec&#8243; ('').</li>
+        <li><strong class="pname"><code>latLimit</code></strong> - Limit latitude to -latLimit..+latLimit (degrees).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>2-Tuple (lat, lon) in (degrees, degrees).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>strLat</i> or <i>strLon</i>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.dms-module.html#parse3llh" 
+        class="link">parse3llh</a> to parse a string with lat-, longitude 
+        and height values and function <a 
+        href="pygeodesy.dms-module.html#parseDMS" class="link">parseDMS</a>
+        to parse individual lat- or longitudes.
       </p>
 </div></td></tr></table>
 </div>
@@ -926,7 +1039,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Dec 14 12:30:53 2017
+    Generated by Epydoc 3.0.1 on Tue Dec 19 22:54:07 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

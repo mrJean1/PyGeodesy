@@ -24,7 +24,8 @@ U{docs<http://www.movable-type.co.uk/scripts/geodesy/docs/>}.
 
 Also included are modules for conversions to and from
 U{UTM<http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html>}
-(Universal Transverse Mercator) coordinates,
+(Universal Transverse Mercator) and U{Web Mercator
+<http://wikipedia.org/wiki/Web_Mercator>} (Pseudo-Mercator) coordinates,
 U{MGRS<http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html>}
 (NATO Military Grid Reference System) and
 U{OSGR<http://www.movable-type.co.uk/scripts/latlong-os-gridref.html>}
@@ -52,13 +53,13 @@ U{McCabe<http://pypi.python.org/pypi/mccabe>} using 64-bit Python 2.7.14 and wit
 U{Flake8<http://pypi.python.org/pypi/flake8>} on 64-bit Python 3.6.3.
 
 The tests have been run with 64-bit Python 2.6.9 (and numpy 1.6.2), 2.7.14
-(and numpy 1.13.1), 3.5.3 and 3.6.3, with 64-bit Intel-Python 3.5.3 (and
+(and numpy 1.13.1), 3.5.3 and 3.6.4, with 64-bit Intel-Python 3.5.3 (and
 numpy 1.11.3), all on macOS 10.12.6 Sierra and with Pythonista 3.1 using
 64-bit Python 2.7.12 and 3.5.1 (both with numpy 1.8.0) on iOS 11.1.2.
 
-Previously, the tests were run with 64-bit Python 2.7.13 and 3.6.2 on
-MacOS X 10.10 Yosemite and MacOS X 10.11 El Capitan, with 64-bit Python
-2.7.10 (and numpy 1.8.0rc1) and 64-bit Python 3.6.3 on macOS 10.13.2 High
+Previously, the tests were run with 64-bit Python 2.7.13 and 3.6.2 on MacOS
+X 10.10 Yosemite and MacOS X 10.11 El Capitan, with 64-bit Python 2.7.10
+(and numpy 1.8.0rc1) and 64-bit Python 3.6.3 and -.4 on macOS 10.13.2 High
 Sierra, with Pythonista 3.1 on iOS 10.3.3 and 11.0.3, with 32-bit Python
 2.6.6 on Windows XP SP3 and with 32-bit Python 2.7.14 on Window 10 Pro.
 
@@ -113,6 +114,7 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var PI2:  Two PI, M{math.pi * 2} (float)
 @var PI_2: Half PI, M{math.pi / 2} (float)
 
+@var R_EQ: Spherical earth radius at equator (meter).
 @var R_KM: Mean, spherical earth radius (kilo meter).
 @var R_M:  Mean, spherical earth radius (meter).
 @var R_NM: Mean, spherical earth radius (nautical miles).
@@ -160,11 +162,12 @@ VincentyError = ellipsoidalVincenty.VincentyError
 __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',  # modules
            'sphericalNvector', 'sphericalTrigonometry',
            'datum', 'dms', 'geohash', 'lcc', 'mgrs', 'nvector',
-           'osgr', 'points', 'simplify', 'utils', 'utm', 'vector3d',
+           'osgr', 'points', 'simplify', 'utils', 'utm',
+           'vector3d', 'webmercator',
            'Geohash', 'VincentyError',  # classes
            'nearestOn2',  # functions
            'version')  # extended below
-__version__ = '17.12.12'
+__version__ = '17.12.18'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
@@ -172,29 +175,32 @@ version = '.'.join(map(str, map(int, __version__.split('.'))))
 # lift all public classes, constants, functions, etc. but
 # only from the following sub-modules ... (see also David
 # Beazley's <http://dabeaz.com/modulepackage/index.html>)
-from datum    import *  # PYCHOK __all__
-from dms      import *  # PYCHOK __all__
-from lcc      import *  # PYCHOK __all__
-from mgrs     import *  # PYCHOK __all__
-from osgr     import *  # PYCHOK __all__
-from points   import *  # PYCHOK __all__
-from simplify import *  # PYCHOK __all__
-from utils    import *  # PYCHOK __all__
-from utm      import *  # PYCHOK __all__
+from datum       import *  # PYCHOK __all__
+from dms         import *  # PYCHOK __all__
+from lcc         import *  # PYCHOK __all__
+from mgrs        import *  # PYCHOK __all__
+from osgr        import *  # PYCHOK __all__
+from points      import *  # PYCHOK __all__
+from simplify    import *  # PYCHOK __all__
+from utils       import *  # PYCHOK __all__
+from utm         import *  # PYCHOK __all__
+from webmercator import *  # PYCHOK __all__
 
-import datum     # PYCHOK expected
-import dms       # PYCHOK expected
-import lcc       # PYCHOK expected
-import mgrs      # PYCHOK expected
-import osgr      # PYCHOK expected
-import points    # PYCHOK expected
-import simplify  # PYCHOK expected
-import utils     # PYCHOK expected
-import utm       # PYCHOK expected
+import datum        # PYCHOK expected
+import dms          # PYCHOK expected
+import lcc          # PYCHOK expected
+import mgrs         # PYCHOK expected
+import osgr         # PYCHOK expected
+import points       # PYCHOK expected
+import simplify     # PYCHOK expected
+import utils        # PYCHOK expected
+import utm          # PYCHOK expected
+import webmercator  # PYCHOK expected
 
 # concat __all__ with the public classes, constants,
 # functions, etc. from the sub-modules mentioned above
-for m in (datum, dms, lcc, mgrs, osgr, points, simplify, utils, utm):
+for m in (datum, dms, lcc, mgrs, osgr, points,
+          simplify, utils, utm, webmercator):
     __all__ += tuple(_ for _ in m.__all__ if _ not in ('nearestOn2',))
 del m
 

@@ -93,7 +93,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.09.22
+        17.12.16
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -149,6 +149,14 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a name="R_EQ"></a><span class="summary-name">R_EQ</span> = <code title="6378137.0">6378137.0</code><br />
+      Spherical earth radius at equator (meter) EPSG:3785.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a name="R_KM"></a><span class="summary-name">R_KM</span> = <code title="6371.00877142">6371.00877142</code><br />
       Mean, spherical earth radius (kilo meter).
     </td>
@@ -190,13 +198,13 @@ m=Transforms.WGS84)
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.datum-module.html#Ellipsoids" class="summary-name">Ellipsoids</a> = <code title="Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, b=63562\
-56.909, f_=299.3249646, f=0.00334085, e2=0.00667054, e22=0.00671533, R\
-=6370461.23366667, Rm=6366901.23988196, R2=6370459.65458944, R3=637045\
-3.30986645, Rr=6366914.60880589)
+56.909, f_=299.3249646, f=0.00334085, e=0.08167337, e2=0.00667054, e22\
+=0.00671533, R=6370461.23366667, Rm=6366901.23988196, R2=6370459.65458\
+944, R3=6370453.30986645, Rr=6366914.60880589)
 Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
- b=6356034.448, f_=299.3249646, f=0.00334085, e2=0.00667054, e22=0.006\
-71533, R=6370238.27533333, Rm=6366678.40619415, R2=6370236.69636116, R\
-3=6370230.35181066, Rr=6366691.7746498)
+ b=6356034.448, f_=299.3249646, f=0.00334085, e=0.08167337, e2=0.00667\
+054, e22=0.00671533, R=6370238.27533333, Rm=6366678.40619415, R2=63702\
+36.69636116, R3=6370230.35181066, Rr=6366691.7746498)
 ...">Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a<code class="variable-ellipsis">...</code></code><br />
       Registered ellipsoids (_Enum).
     </td>
@@ -208,11 +216,11 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
         <a href="pygeodesy.datum-module.html#Transforms" class="summary-name">Transforms</a> = <code title="Transforms.BD72: Transform(name='BD72', tx=106.8686, ty=-52.2978, tz=1\
 03.7239, rx=-0.0, ry=-0.0, rz=-0.0, s=1.2727, s1=1.0, sx=-0.3366, sy=-\
 0.457, sz=-1.8422)
-Transforms.Bessel1841: Transform(name='Bessel1841', tx=-582.0, ty=-105\
-.0, tz=-414.0, rx=-0.0, ry=-0.0, rz=0.0, s=-8.3, s1=1.0, sx=-1.04, sy=\
--0.35, sz=3.08)
-Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,\
- tz=-176.0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
+Transforms.Bessel1841: Transform(name='Bessel1841', tx=-582, ty=-105, \
+tz=-414, rx=-0.0, ry=-0.0, rz=0.0, s=-8.3, s1=1.0, sx=-1.04, sy=-0.35,\
+ sz=3.08)
+Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
+-176, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
 ...">Transforms.BD72: Transform(name='BD72', tx=106.86<code class="variable-ellipsis">...</code></code><br />
       Registered transforms (_Enum).
     </td>
@@ -266,13 +274,13 @@ m=Transforms.WGS84)
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
 Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, b=63562<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-56.909, f_=299.3249646, f=0.00334085, e2=0.00667054, e22=0.00671533, R<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-=6370461.23366667, Rm=6366901.23988196, R2=6370459.65458944, R3=637045<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-3.30986645, Rr=6366914.60880589)
+56.909, f_=299.3249646, f=0.00334085, e=0.08167337, e2=0.00667054, e22<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+=0.00671533, R=6370461.23366667, Rm=6366901.23988196, R2=6370459.65458<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+944, R3=6370453.30986645, Rr=6366914.60880589)
 Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
- b=6356034.448, f_=299.3249646, f=0.00334085, e2=0.00667054, e22=0.006<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-71533, R=6370238.27533333, Rm=6366678.40619415, R2=6370236.69636116, R<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-3=6370230.35181066, Rr=6366691.7746498)
+ b=6356034.448, f_=299.3249646, f=0.00334085, e=0.08167337, e2=0.00667<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+054, e22=0.00671533, R=6370238.27533333, Rm=6366678.40619415, R2=63702<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+36.69636116, R3=6370230.35181066, Rr=6366691.7746498)
 <code class="variable-ellipsis">...</code>
 </pre></td></tr></table>
 </dd>
@@ -294,11 +302,11 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,<span clas
 Transforms.BD72: Transform(name='BD72', tx=106.8686, ty=-52.2978, tz=1<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 03.7239, rx=-0.0, ry=-0.0, rz=-0.0, s=1.2727, s1=1.0, sx=-0.3366, sy=-<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 0.457, sz=-1.8422)
-Transforms.Bessel1841: Transform(name='Bessel1841', tx=-582.0, ty=-105<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-.0, tz=-414.0, rx=-0.0, ry=-0.0, rz=0.0, s=-8.3, s1=1.0, sx=-1.04, sy=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
--0.35, sz=3.08)
-Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
- tz=-176.0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
+Transforms.Bessel1841: Transform(name='Bessel1841', tx=-582, ty=-105, <span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+tz=-414, rx=-0.0, ry=-0.0, rz=0.0, s=-8.3, s1=1.0, sx=-1.04, sy=-0.35,<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ sz=3.08)
+Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+-176, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
 <code class="variable-ellipsis">...</code>
 </pre></td></tr></table>
 </dd>
@@ -337,7 +345,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160.0,<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Dec 14 12:30:53 2017
+    Generated by Epydoc 3.0.1 on Tue Dec 19 22:54:07 2017
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

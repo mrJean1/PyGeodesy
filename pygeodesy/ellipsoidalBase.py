@@ -22,7 +22,7 @@ from math import atan2, copysign, cos, sin, sqrt
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('CartesianBase', 'LatLonEllipsoidalBase')
-__version__ = '17.09.22'
+__version__ = '17.12.18'
 
 
 class CartesianBase(Vector3d):
@@ -116,6 +116,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
     _datum = Datums.WGS84  #: (INTERNAL) Datum (L{Datum}).
     _osgr  = None  #: (INTERNAL) cache toOsgr ({Osgr}).
     _utm   = None  #: (INTERNAL) cache toUtm (L{Utm}).
+    _wm    = None  #: (INTERNAL) cache toWm (webmercator.Wm instance).
 
     def __init__(self, lat, lon, height=0, datum=None):
         '''Create an (ellipsoidal) I{LatLon} point frome the given
@@ -138,7 +139,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
 
     def _update(self, updated):
         if updated:  # reset caches
-            self._osgr = self._utm = None
+            self._osgr = self._utm = self._wm = None
             LatLonHeightBase._update(self, updated)
 
     def convertDatum(self, datum):
@@ -302,7 +303,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
     def toOsgr(self):
         '''Convert this I{LatLon} point to an OSGR coordinate.
 
-           See function L{toOsgr} in module L{osgr} for more details.
+           See function L{toOsgr} in module L{osgr} for details.
 
            @return: The OSGR coordinate (L{Osgr}).
         '''
@@ -315,7 +316,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
     def toUtm(self):
         '''Convert this I{LatLon} point to a UTM coordinate.
 
-           See function L{toUtm} in module L{utm} for more details.
+           See function L{toUtm} in module L{utm} for details.
 
            @return: The UTM coordinate (L{Utm}).
         '''
@@ -324,6 +325,18 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
             self._utm = toUtm(self, datum=self.datum)
             self._utm._latlon = self
         return self._utm
+
+    def toWm(self):
+        '''Convert this I{LatLon} point to a WM coordinate.
+
+           See function L{toWm} in module L{webmercator} for details.
+
+           @return: The WM coordinate (L{Wm}).
+        '''
+        if self._wm is None:
+            from webmercator import toWm  # PYCHOK recursive import
+            self._wm = toWm(self)
+        return self._wm
 
 # **) MIT License
 #

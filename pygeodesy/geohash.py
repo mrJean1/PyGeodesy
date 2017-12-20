@@ -15,7 +15,7 @@ U{http://pypi.python.org/pypi/pygeohash}.
 @newfield example: Example, Examples
 '''
 
-from dms import parse3llh, parseDMS
+from dms import parse3llh, parseDMS2
 from utils import EPS, R_M, favg, fStr, haversine_, map2
 
 from math import cos, hypot, log10, radians
@@ -25,7 +25,7 @@ __all__ = ('Geohash',  # classes
            'bounds', 'decode', 'decode_error',  # functions
            'distance1', 'distance2', 'distance3',
            'encode', 'neighbors', 'sizes')
-__version__ = '17.11.21'
+__version__ = '17.12.16'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -71,21 +71,7 @@ del c, i
 def _2fll(lat, lon, *unused):
     '''(INTERNAL) Convert lat, lon to 2-tuple of floats.
     '''
-    try:
-        lat = parseDMS(lat, 'NS')
-        if abs(lat) > 90:
-            raise ValueError
-    except ValueError:
-        raise ValueError('%s invalid: %r' % ('lat', lat))
-
-    try:
-        lon = parseDMS(lon, 'EW')
-        if abs(lon) > 180:
-            raise ValueError
-    except ValueError:
-        raise ValueError('%s invalid: %r' % ('lon', lon))
-
-    return lat, lon
+    return parseDMS2(lat, lon)
 
 
 def _2Geohash(geohash):

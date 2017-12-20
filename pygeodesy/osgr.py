@@ -30,16 +30,16 @@ U{http://wikipedia.org/wiki/Transverse_Mercator:_Redfearn_series}.
 
 from bases import Base
 from datum import Datums
+from dms import parseDMS2
 from ellipsoidalBase import LatLonEllipsoidalBase
-from utils import degrees90, degrees180, false2f, fdot, \
-                  halfs, isscalar, radians
+from utils import degrees90, degrees180, false2f, fdot, halfs
 
-from math import cos, sin, sqrt, tan
+from math import cos, radians, sin, sqrt, tan
 
 # all public contants, classes and functions
 __all__ = ('Osgr',  # classes
            'parseOSGR', 'toOsgr')  # functions
-__version__ = '17.09.22'
+__version__ = '17.12.16'
 
 _10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (meter)
 _100km   = 100000  #: (INTERNAL) 100 km (int meter)
@@ -62,7 +62,7 @@ def _M(Mabcd, a):
 
 
 class Osgr(Base):
-    '''OSGR coordinate.
+    '''Ordinance Survey Grid References (OSGR) coordinate.
     '''
     _datum    = _OSGB36  #: (INTERNAL) Datum (L{Datum})
     _easting  = 0        #: (INTERNAL) Easting (meter).
@@ -365,11 +365,10 @@ def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr):
        >>> # for conversion of (historical) OSGB36 lat-/longitude:
        >>> r = toOsgr(52.65757, 1.71791, datum=Datums.OSGB36)
     '''
-    if isscalar(latlon) and isscalar(lon):
+    if not isinstance(latlon, LatLonEllipsoidalBase):
+        latlon = parseDMS2(latlon, lon)
         # XXX any ellipsoidal LatLon with .convertDatum
-        latlon = LatLonEllipsoidalBase(latlon, lon, datum=datum)
-    elif not hasattr(latlon, 'convertDatum'):
-        raise TypeError('%s not ellipsoidal: %r' % ('latlon', latlon))
+        latlon = LatLonEllipsoidalBase(*latlon, datum=datum)
     elif lon is not None:
         raise ValueError('%s not %s: %r' % ('lon', None, lon))
 

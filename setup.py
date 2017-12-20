@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '17.12.08'
+__version__ = '17.12.16'
 
 
 def _c2(*names):
@@ -51,10 +51,11 @@ _KeyWords=('azimuth', 'bearing', 'cartesian', 'conic',
            'geocentric', 'geodesy', 'geodetic', 'geohash',
            'haversine',
            'Lambert', 'latitude', 'longitude', 'MGRS',
-           'numpy', 'n-vector', 'Nvector', 'OSGR', 'PyGeodesy',
+           'numpy', 'n-vector', 'Nvector', 'OSGR',
+           'Pseudo-Mercator', 'PyGeodesy',
            'Ramer-Douglas-Peucker', 'Reumann-Witkam', 'rhumb',
            'simplify', 'sphere', 'trigonometry', 'UTM',
-           'Vincenty', 'Visvalingam-Whyatt', 'WGS')
+           'Vincenty', 'Visvalingam-Whyatt', 'Web-Mercator', 'WGS')
 
 setup(
     name='PyGeodesy',

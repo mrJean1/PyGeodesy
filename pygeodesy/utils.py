@@ -43,7 +43,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'tan_2', 'tanPI_2_2',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '17.11.30'
+__version__ = '17.12.16'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -410,7 +410,7 @@ def fStr(floats, prec=6, sep=', ', fmt='%.*f', ints=False):
     '''
     def _fstr(p, f):
         t = fmt % (abs(p), float(f))
-        if ints and isint(f):
+        if ints and isint(f, both=True):
             t = t.split('.')[0]
         elif p > 1:
             t = fStrzs(t)

@@ -4,7 +4,7 @@
 # Test LCC functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.06.16'
+__version__ = '17.12.16'
 
 from base import TestsBase
 
@@ -22,7 +22,7 @@ class Tests(TestsBase):
         n = 'Snyder' + str(n)
         # Snyder, pp 297 <http://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>
         c = Conic(LatLon(23, -96, datum=Datums.NAD27), 33, 45, E0=0, N0=0, name=n)
-        self.test(n, c, "name='%s', lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27)" % (n,))
+        self.test(n, c, "name='%s', lat0=23, lon0=-96, par1=33, par2=45, E0=0, N0=0, k0=1, SP=2, datum=(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27)" % (n,))
 
     def testLcc(self, module):
 

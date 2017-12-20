@@ -20,9 +20,10 @@ documentation_, the descriptions of `Latitude/Longitude`_, Vincenty_ and
 `Vector-based`_ geodesy and the original `JavaScript source`_ or docs_.
 
 Also included are modules for conversions to and from UTM_ (Universal
-Transverse Mercator) coordinates, MGRS_ (NATO Military Grid Reference
-System) and OSGR_ (British Ordinance Survery Grid Reference) grid
-references and a module for encoding and decoding Geohashes_.
+Transverse Mercator) and `Web Mercator`_ (Pseudo-Mercator) coordinates,
+MGRS_ (NATO Military Grid Reference System) and OSGR_ (British Ordinance
+Survery Grid Reference) grid references and a module for encoding and
+decoding Geohashes_.
 
 Two other modules provide Lambert conformal conic projections and positions
 (from `John P. Snyder`_, *Map Projections -- A Working Manual*, 1987, pp
@@ -36,13 +37,13 @@ PyFlakes_, PyCodeStyle_ (formerly Pep8) and McCabe_ using 64-bit Python
 2.7.14 and with Flake8_ on 64-bit Python 3.6.3.
 
 The tests have been run with 64-bit Python 2.6.9 (and numpy 1.6.2), 2.7.14
-(and numpy 1.13.1), 3.5.3 and 3.6.3, with 64-bit Intel-Python 3.5.3 (and
+(and numpy 1.13.1), 3.5.3 and 3.6.4, with 64-bit Intel-Python 3.5.3 (and
 numpy 1.11.3), all on macOS 10.12.6 Sierra and with Pythonista 3.1 using
 64-bit Python 2.7.12 and 3.5.1 (both with numpy 1.8.0) on iOS 11.1.2.
 
-Previously, the tests were run with 64-bit Python 2.7.13 and 3.6.2 on
-MacOS X 10.10 Yosemite and MacOS X 10.11 El Capitan, with 64-bit Python
-2.7.10 (and numpy 1.8.0rc1) and 64-bit Python 3.6.3 on macOS 10.13.2 High
+Previously, the tests were run with 64-bit Python 2.7.13 and 3.6.2 on MacOS
+X 10.10 Yosemite and MacOS X 10.11 El Capitan, with 64-bit Python 2.7.10
+(and numpy 1.8.0rc1) and 64-bit Python 3.6.3 and -.4 on macOS 10.13.2 High
 Sierra, with Pythonista 3.1 on iOS 10.3.3 and 11.0.3, with 32-bit Python
 2.6.6 on Windows XP SP3 and with 32-bit Python 2.7.14 on Window 10 Pro.
 
@@ -54,7 +55,7 @@ Epydoc_ using command line: ``epydoc --html --no-private --no-source
 Some function and method names differ from the JavaScript version. In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Dec 12, 2017.*
+*Last updated: Dec 18, 2017.*
 
 .. _checked: http://code.activestate.com/recipes/546532
 .. _docs: http://www.movable-type.co.uk/scripts/geodesy/docs/
@@ -82,7 +83,7 @@ cases documentation tag **JS name:** shows the original JavaScript name.
 .. _Vector-based: http://www.movable-type.co.uk/scripts/latlong-vectors.html
 .. _Vincenty: http://www.movable-type.co.uk/scripts/latlong-vincenty.html
 .. _Visvalingam-Whyatt: http://hydra.hull.ac.uk/resources/hull:8338
-
+.. _Web Mercator: http://wikipedia.org/wiki/Web_Mercator
 
 ``Copyright (C) 2016-2018 -- mrJean1 at Gmail dot com``
 
