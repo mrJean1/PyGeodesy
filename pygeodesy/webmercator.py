@@ -1,18 +1,17 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Web Mercator class L{Wm} and functions L{parseWM} and L{toWm}.
+u'''Web Mercator (WM) class L{Wm} and functions L{parseWM} and L{toWm}.
 
-Pure Python implementation of U{Web Mercator (aka Pseudo-Mercator)
-<http://wikipedia.org/wiki/Web_Mercator>} conversion functions for
-a near-spherical earth model.
+Pure Python implementation of a U{Web Mercator<http://wikipedia.org/wiki/Web_Mercator>}
+(aka Pseudo-Mercator) class and conversion functions for spherical and
+near-spherical earth models.
 
-References U{Implementation Practice Web Mercator Map Projection
-<http://earth-info.nga.mil/GandG/wgs84/web_mercator/%28U%29%20NGA_SIG_0011_1.0.0_WEBMERC.pdf>},
-U{Geomatics Guidance Note 7, part 2 Coordinate Conversions & Transformations
-including Formulas<http://www.epsg.org/Portals/0/373-07-2.pdf>},
-U{The Google Maps / Bing Maps Spherical Mercator Projection
-<https://alastaira.wordpress.com/2011/01/23/the-google-maps-bing-maps-spherical-mercator-projection>}.
+References U{The Google Maps / Bing Maps Spherical Mercator Projection
+<https://alastaira.wordpress.com/2011/01/23/the-google-maps-bing-maps-spherical-mercator-projection>},
+U{Geomatics Guidance Note 7, part 2<http://www.epsg.org/Portals/0/373-07-2.pdf>} and
+U{Implementation Practice Web Mercator Map Projection
+<http://earth-info.nga.mil/GandG/wgs84/web_mercator/%28U%29%20NGA_SIG_0011_1.0.0_WEBMERC.pdf>}.
 
 @newfield example: Example, Examples
 '''
@@ -21,7 +20,6 @@ from bases import Base
 from datum import R_EQ
 from dms import clipDMS, parseDMS2
 from ellipsoidalBase import LatLonEllipsoidalBase
-from sphericalBase import LatLonSphericalBase
 from utils import EPS, PI_2, degrees90, degrees180, fStr, \
                   isscalar, map1, radians
 
@@ -30,7 +28,7 @@ from math import atan, atanh, exp, sin, tanh
 # all public contants, classes and functions
 __all__ = ('Wm',  # classes
            'parseWM', 'toWm')  # functions
-__version__ = '17.12.18'
+__version__ = '17.12.20'
 
 # _FalseEasting  = 0   #: (INTERNAL) False Easting (meter).
 # _FalseNorthing = 0   #: (INTERNAL) False Northing (meter).
@@ -46,7 +44,7 @@ class Wm(Base):
     _y      = 0  #: (INTERNAL) northing (meter).
 
     def __init__(self, x, y, radius=R_EQ):
-        '''New Web Mercator coordinate.
+        '''New Web Mercator (WM) coordinate.
 
            @param x: Easting from central meridian (meter).
            @param y: Northing from equator (meter).
@@ -107,12 +105,12 @@ class Wm(Base):
         if datum:
             # <http://earth-info.nga.mil/GandG/wgs84/web_mercator/
             #         %28U%29%20NGA_SIG_0011_1.0.0_WEBMERC.pdf>
-            a = datum.ellipsoid.a
-            x = x * a / r
             y = y / r
             e = datum.ellipsoid.e
             if e:
                 y -= e * atanh(e * tanh(y))
+            a = datum.ellipsoid.a
+            x *= a / r
             return LatLon(degrees90(a * y), degrees180(x), datum=datum)
         else:
             return LatLon(degrees90(y), degrees180(x))
@@ -211,9 +209,6 @@ def toWm(latlon, lon=None, radius=R_EQ, Wm=Wm):
 
        @return: The WM coordinate (L{Wm}).
 
-       @raise TypeError: If I{latlon} is not ellipsoidal nor
-                         spherical.
-
        @raise ValueError: If I{lon} value is missing, if I{latlon}
                           is not scalar or I{latlon} is beyond the
                           valid WM range.
@@ -231,14 +226,12 @@ def toWm(latlon, lon=None, radius=R_EQ, Wm=Wm):
         if isinstance(latlon, LatLonEllipsoidalBase):
             r = latlon.datum.ellipsoid.a
             e = latlon.datum.ellipsoid.e
-        elif not isinstance(latlon, LatLonSphericalBase):
-            raise TypeError('%s invalid: %r' % ('latlon', latlon))
         lat = clipDMS(lat, _LatLimit)
     except AttributeError:
         lat, lon = parseDMS2(latlon, lon, latLimit=_LatLimit)
 
     s = sin(radians(lat))
-    y = atanh(s)  # == log(tan(radians(45 + lat / 2)))
+    y = atanh(s)  # == log(tan(radians((90 + lat) * 0.5)))
     if e:
         y -= e * atanh(e * s)
     return Wm(r * radians(lon), r * y, radius=r)

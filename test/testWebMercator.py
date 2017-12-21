@@ -4,19 +4,25 @@
 # Test Web Mercator classes functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.12.18'
+__version__ = '17.12.20'
 
+from math import log, radians, tan
 from base import TestsBase
 
-from pygeodesy import F_D, F_DMS, Datums, LatLon_, \
+from pygeodesy import F_D, F_DMS, R_EQ, Datums, LatLon_, \
                       toWm, webmercator, Wm
 
 
 class Tests(TestsBase):
 
     def testWebMercator(self, LatLon, LatLonE):
-        w = Wm(448251, 5411932.0001)
-        self.test('Wm1', w.toStr(prec=4), '448251.0 5411932.0001')
+        # <https://alastaira.wordpress.com/2011/01/23/
+        #          the-google-maps-bing-maps-spherical-mercator-projection/>
+        lat = 52.4827802220782
+        w = toWm(lat, -5.625)
+        self.test('toWm1', w.toStr(prec=8), '-626172.13571216 6887893.4928338')
+        y = R_EQ * log(tan(radians((90 + lat) * 0.5)))
+        self.test('Wm1.y', y, '6887893.49283380', fmt='%.8f')
 
         w = Wm(448251.795, 5411932.678)
         self.test('Wm2', w, '448251.795 5411932.678')
