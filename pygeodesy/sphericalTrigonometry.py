@@ -27,7 +27,7 @@ __all__ = ('LatLon',  # classes
            'intersection', 'isPoleEnclosedBy',
            'meanOf',
            'nearestOn2')
-__version__ = '17.11.30'
+__version__ = '17.12.28'
 
 
 class LatLon(LatLonSphericalBase):
@@ -171,7 +171,6 @@ class LatLon(LatLonSphericalBase):
 
            @JSname: I{destinationPoint}.
         '''
-        # see <http://www.edwilliams.org/avform.htm#LL>
         a, b = self.to2ab()
 
         r = float(distance) / float(radius)  # angular distance in radians
@@ -531,6 +530,7 @@ def _destination2(a, b, r, t):
 
        @return: 2-Tuple (lat, lon) of (degrees90, degrees180).
     '''
+    # see <http://www.edwilliams.org/avform.htm#LL>
     ca, cr, ct = map1(cos, a, r, t)
     sa, sr, st = map1(sin, a, r, t)
 
@@ -665,10 +665,7 @@ def intersection(start1, bearing1, start2, bearing2,
     r13 = atan2(sr12 * sx3, cx2 + cx1 * cos(x3))
 
     a, b = _destination2(a1, b1, r13, t13)
-    if height is None:
-        h = start1._havg(start2)
-    else:
-        h = height
+    h = start1._havg(start2) if height is None else height
     return LatLon(a, b, height=h)
 
 

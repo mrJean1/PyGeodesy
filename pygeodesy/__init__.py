@@ -119,6 +119,7 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var R_M:  Mean, spherical earth radius (meter).
 @var R_NM: Mean, spherical earth radius (nautical miles).
 @var R_SM: Mean, spherical earth radius (statute miles).
+@var R_VM: Navigation/Aviation earth radius (meter).
 
 @var S_DEG: Degrees symbol ° (string).
 @var S_MIN: Minutes symbol ′ (string).
@@ -167,7 +168,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',  # modules
            'Geohash', 'VincentyError',  # classes
            'nearestOn2',  # functions
            'version')  # extended below
-__version__ = '17.12.20'
+__version__ = '18.01.02'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))

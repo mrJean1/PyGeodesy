@@ -4,11 +4,11 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '17.09.18'
+__version__ = '18.01.02'
 
 from base import TestsBase
 
-from pygeodesy import fpolynomial, fsum, isfinite
+from pygeodesy import R_M, fpolynomial, fsum, heightof, horizon, isfinite
 
 
 class Tests(TestsBase):
@@ -32,6 +32,16 @@ class Tests(TestsBase):
             self.test('sum', sum(t), s, known=True)
             self.test('fsum', fsum(t), s)
             t += t
+
+        self.test('heightof0', heightof(0, R_M), 2638958.23912, fmt='%.5f')
+        self.test('heightof45', heightof(45, R_M), 5401080.43931, fmt='%.5f')
+        self.test('heightof90', heightof(90, R_M), R_M)
+        self.test('heightof135', heightof(135, R_M), 5401080.43931, fmt='%.5f')
+
+        self.test('horizon0', horizon(0), 0.0)
+        self.test('horizon10Km',  horizon(10000), '357099.672', fmt='%.3f')
+        self.test('horizon30Kft', horizon(10000, refraction=True), '392310.704', fmt='%.3f')
+        self.test('horizon10Kft', horizon( 3000, refraction=True), '214877.422', fmt='%.3f')
 
         self.test('isfinite', isfinite(0), 'True')
         self.test('isfinite', isfinite(1e300), 'True')

@@ -4,7 +4,7 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '17.12.06'
+__version__ = '17.12.28'
 
 from base import TestsBase
 

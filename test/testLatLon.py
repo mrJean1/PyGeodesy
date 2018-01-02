@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '17.08.10'
+__version__ = '17.12.28'
 
 from base import TestsBase
 
@@ -101,11 +101,14 @@ class Tests(TestsBase):
                                    else '51.513526°N, 000.098038°W')  # 51.5135°N, 0.0983°W ???
             self.test('destination', d.toStr(F_DMS, 0), '51°30′49″N, 000°05′54″W' if Sph
                                                    else '51°30′49″N, 000°05′53″W')
+            # <http://edwilliams.org/avform.htm#LL>
             d = LAX.destination(100, 66, radius=R_NM) if Sph else LAX.destination(100, 66)
             self.test('destination', d.toStr(F_DM, prec=0), "34°37′N, 116°33′W" if Sph
                                                        else "33°57′N, 118°24′W")
             self.test('destination', d, '34.613647°N, 116.55116°W' if Sph
                                    else '33.950367°N, 118.399012°W')  # PYCHOK false?
+            self.test('destination', d.toStr(F_RAD, prec=6), '0.604122N, 2.034201W' if Sph
+                                                        else '0.592546N, 2.066453W')  # PYCHOK false?
 
         if hasattr(LatLon, 'alongTrackDistanceTo'):
             s = LatLon(53.3206, -1.7297)

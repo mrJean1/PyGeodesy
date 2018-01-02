@@ -43,7 +43,7 @@ from math import radians
 __all__ = ('LatLon_',  # classes
            'LatLon2psxy', 'Numpy2LatLon', 'Tuple2LatLon',
            'bounds', 'isclockwise', 'isconvex')  # functions
-__version__ = '17.12.08'
+__version__ = '17.12.22'
 
 
 class LatLon_(object):

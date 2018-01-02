@@ -167,7 +167,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.12.20
+        18.01.02
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -998,6 +998,46 @@
       Compute the <i>angular</i> distance using the <a 
       href="http://www.movable-type.co.uk/scripts/latlong.html" 
       target="_top">Haversine</a> formula.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#heightof" class="summary-sig-name">heightof</a>(<span class="summary-sig-arg">angle</span>,
+        <span class="summary-sig-arg">distance</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
+      Determine the height above the (spherical) earth after traveling 
+      along a straight line at a given tilt.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#horizon" class="summary-sig-name">horizon</a>(<span class="summary-sig-arg">height</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">refraction</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Determine the distance to the horizon from a given altitude above the
+      (spherical) earth.</td>
           <td align="right" valign="top">
             
             
@@ -2146,7 +2186,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'17.12.20'"><code class="variable-quote">'</code><code class="variable-string">17.12.20</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'18.1.2'"><code class="variable-quote">'</code><code class="variable-string">18.1.2</code><code class="variable-quote">'</code></code><br />
       Normalized PyGeodesy version (string).
     </td>
   </tr>
@@ -2340,6 +2380,14 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
     </td><td class="summary">
         <a name="R_SM"></a><span class="summary-name">R_SM</span> = <code title="3958.75339537">3958.75339537</code><br />
       Mean, spherical earth radius (statute miles).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="R_VM"></a><span class="summary-name">R_VM</span><br />
+      Navigation/Aviation earth radius (meter).
     </td>
   </tr>
 <tr>
@@ -3390,6 +3438,87 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         target="_top">Distance between two points</a>, function <a 
         href="pygeodesy.utils-module.html#haversine" 
         class="link">haversine</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="heightof"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">heightof</span>(<span class="sig-arg">angle</span>,
+        <span class="sig-arg">distance</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Determine the height above the (spherical) earth after traveling along
+  a straight line at a given tilt.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>angle</code></strong> - Tilt angle above horizontal (degrees).</li>
+        <li><strong class="pname"><code>distance</code></strong> - Distance along the line (meter or same units as <i>radius</i>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional mean earth radius (meter).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Height (meter, same units as <i>distance</i> and <i>radius</i>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid angle, distance or radius.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="http://github.com/nasa/MultiDop" 
+        target="_top">MultiDop</a>, <a 
+        href="http://journals.ametsoc.org/doi/abs/10.1175/2009JTECHA1256.1"
+        target="_top">Shapiro et al. 2009, JTECH</a> and <a 
+        href="http://journals.ametsoc.org/doi/abs/10.1175/JTECH-D-11-00019.1"
+        target="_top">Potvin et al. 2012, JTECH</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="horizon"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">horizon</span>(<span class="sig-arg">height</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">refraction</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Determine the distance to the horizon from a given altitude above the 
+  (spherical) earth.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>height</code></strong> - Altitude (meter or same units as <i>radius</i>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional mean earth radius (meter).</li>
+        <li><strong class="pname"><code>refraction</code></strong> - Consider atmospheric refraction (bool).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Distance (meter, same units as <i>distance</i> and 
+          <i>radius</i>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid height or radius.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="http://www.edwilliams.org/avform.htm#Horizon" 
+        target="_top">Distance to horizon</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -5506,7 +5635,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Dec 21 16:39:32 2017
+    Generated by Epydoc 3.0.1 on Tue Jan  2 10:56:15 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

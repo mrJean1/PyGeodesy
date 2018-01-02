@@ -30,7 +30,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'fStr', 'fStrzs', 'fsum', 'ft2m',
            'halfs',
            'haversine', 'haversine_',  # XXX removed 'hsin', 'hsin3',
-           'hypot', 'hypot1', 'hypot3',
+           'heightof', 'horizon', 'hypot', 'hypot1', 'hypot3',
            'inStr',
            'isfinite', 'isint', 'isscalar', 'issequence',
            'isNumpy2', 'isTuple2',
@@ -43,7 +43,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'tan_2', 'tanPI_2_2',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '17.12.16'
+__version__ = '18.01.02'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -579,6 +579,62 @@ def haversine_(a2, a1, b21):
     except ValueError:
         r = 0 if h < 0.5 else PI
     return r
+
+
+def heightof(angle, distance, radius=R_M):
+    '''Determine the height above the (spherical) earth after
+       traveling along a straight line at a given tilt.
+
+       @param angle: Tilt angle above horizontal (degrees).
+       @param distance: Distance along the line (meter or same units as I{radius}).
+       @keyword radius: Optional mean earth radius (meter).
+
+       @return: Height (meter, same units as I{distance} and I{radius}).
+
+       @raise ValueError: Invalid angle, distance or radius.
+
+       @see: U{MultiDop<http://github.com/nasa/MultiDop>},
+             U{Shapiro et al. 2009, JTECH
+             <http://journals.ametsoc.org/doi/abs/10.1175/2009JTECHA1256.1>}
+             and U{Potvin et al. 2012, JTECH
+             <http://journals.ametsoc.org/doi/abs/10.1175/JTECH-D-11-00019.1>}.
+    '''
+    d, r = distance, radius
+    if d > r:
+        d, r = r, d
+
+    if d > EPS:
+        d = d / float(r)
+        s = sin(radians(angle))
+        s = 1 + d * (s + s + d)
+        if s > 0:
+            return r * sqrt(s) - float(radius)
+
+    raise ValueError('%s%r' % ('height', (angle, distance, radius)))
+
+
+def horizon(height, radius=R_M, refraction=False):
+    '''Determine the distance to the horizon from a given altitude
+       above the (spherical) earth.
+
+       @param height: Altitude (meter or same units as I{radius}).
+       @keyword radius: Optional mean earth radius (meter).
+       @keyword refraction: Consider atmospheric refraction (bool).
+
+       @return: Distance (meter, same units as I{distance} and I{radius}).
+
+       @raise ValueError: Invalid height or radius.
+
+       @see: U{Distance to horizon<http://www.edwilliams.org/avform.htm#Horizon>}.
+    '''
+    if min(height, radius) < 0:
+        raise ValueError('%s%r' % ('horizon', (height, radius)))
+
+    if refraction:
+        d2 = 2.415750694528 * height * radius  # 2.0 / 0.8279
+    else:
+        d2 = height * (radius + radius + height)
+    return sqrt(d2)
 
 
 def hypot1(x):

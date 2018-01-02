@@ -41,19 +41,22 @@ from utils import R_M, cbrt, cbrt2, fdot, fStr, \
 from math import atanh, sqrt
 
 R_M  = R_M        #: Mean, spherical earth radius (meter).
-R_EQ = 6378137.0  #: Spherical earth radius at equator (meter) EPSG:3785.
+R_EQ = 6378137.0  #: Equatorial radius (meter) EPSG:3785.
 R_KM = m2km(R_M)  #: Mean, spherical earth radius (kilo meter).
 R_NM = m2NM(R_M)  #: Mean, spherical earth radius (nautical miles).
 R_SM = m2SM(R_M)  #: Mean, spherical earth radius (statute miles).
-# <http://www.edwilliams.org/avform.htm#XTE>
-# R_AV = 6366707.0194937  #: Aviation earth radius (meter)
+# See <http://www.edwilliams.org/avform.htm>,
+# <http://www.dtic.mil/dtic/tr/fulltext/u2/a216843.pdf> and
+# <http://github.com/nasa/MultiDop/blob/master/src/share/man/man3/geog_lib.3>
+# based on International Standard Nautical Mile of 1,852 meter (1' latitude)
+R_VM = 6366707.0194937  #: Navigation/Aviation earth radius (meter)
 # R_?? = 6372797.560856   #: XXX some other earth radius?
 
 # all public contants, classes and functions
 __all__ = ('R_EQ', 'R_KM', 'R_M', 'R_NM', 'R_SM',  # constants
            'Datum',  'Ellipsoid',  'Transform',  # classes
            'Datums', 'Ellipsoids', 'Transforms')  # enum-like
-__version__ = '17.12.16'
+__version__ = '17.12.22'
 
 
 class _Enum(dict, Named):
@@ -141,24 +144,24 @@ class Ellipsoid(_Based):
     a    = 0  #: Semi-major, equatorial axis (meter).
     b    = 0  #: Semi-minor, polar axis (meter): a * (f - 1) / f.
     # pre-computed, frequently used values
-    a2   = 0  #: (1 / a**2) (float).
-    ab   = 1  #: (a / b) = 1 / (1 - f) (float).
-    e    = 0  #: 1st Eccentricity: sqrt(1 - (b / a)**2)) (float).
-    e2   = 0  #: 1st Eccentricity squared: f * (2 - f) = (a**2 - b**2) / a**2 (float).
-    e4   = 0  #: e2**2 (float).
-    e12  = 1  #: (1 - e2) (float).
-    e22  = 0  #: 2nd Eccentricity squared: e2 / (1 - e2) = ab**2 - 1 (float).
-    f    = 0  #: Flattening: (a - b) / a (float).
-    f_   = 0  #: Inverse flattening: a / (a - b) = 1 / f (float).
-    n    = 0  #: 3rd Flattening: f / (2 - f) = (a - b) / (a + b) (float).
+    a2   = 0  #: (1 / a**2)
+    ab   = 1  #: (a / b) = 1 / (1 - f)
+    e    = 0  #: 1st Eccentricity: sqrt(1 - (b / a)**2))
+    e2   = 0  #: 1st Eccentricity squared: f * (2 - f) = 1 - (b / a)**2
+    e4   = 0  #: e2**2
+    e12  = 1  #: 1 - e2
+    e22  = 0  #: 2nd Eccentricity squared: e2 / (1 - e2) = ab**2 - 1
+    f    = 0  #: Flattening: (a - b) / a
+    f_   = 0  #: Inverse flattening: a / (a - b) = 1 / f
+    n    = 0  #: 3rd Flattening: f / (2 - f) = (a - b) / (a + b)
     # earth radii from <http://wikipedia.org/wiki/Earth_radius>
-    R    = 0  #: Mean earth radius: (2 * a + b) / 3 per IUGG definition (meter).
-    Rm   = 0  #: Mean earth radius: sqrt(a * b) (meter).
-    R2   = 0  #: Authalic radius: sqrt((a**2 + b**2 * atanh(e) / e) / 2) (meter).
-    R3   = 0  #: Volumetric radius: (a * a * b)**1/3 (meter).
-    Rr   = 0  #: Rectifying radius: ((a**3/2 + b**3/2) / 2)**2/3 (meter).
+    R    = 0  #: Mean earth radius: (2 * a + b) / 3 per IUGG definition (meter)
+    Rm   = 0  #: Mean earth radius: sqrt(a * b) (meter)
+    R2   = 0  #: Authalic radius: sqrt((a**2 + b**2 * atanh(e) / e) / 2) (meter)
+    R3   = 0  #: Volumetric radius: (a * a * b)**1/3 (meter)
+    Rr   = 0  #: Rectifying radius: ((a**3/2 + b**3/2) / 2)**2/3 (meter)
 
-    _A      = None  #: (INTERNAL) meridian radius
+    _A      = None  #: (INTERNAL) meridional radius
     _Alpha6 = None  #: (INTERNAL) 6th-order Krüger Alpha series
     _Beta6  = None  #: (INTERNAL) 6th-order Krüger Beta series
     _Mabcd  = None  #: (INTERNAL) OSGB meridional coefficients
@@ -241,9 +244,10 @@ class Ellipsoid(_Based):
             n = self.n
             n2_4 = n * n / 4
             n4_64 = n2_4 * n2_4 / 4
+            n6_256 = n2_4 * n4_64
             # A = a / (1 + n) * (1 + n**2 / 4 + n**4 / 64 + n**6 / 256 +
             #                   n**8 * 25 / 16384 + n**10 * 49 / 65536)
-            self._A = self.a / (1 + n) * (1 + n2_4) * (1 + n4_64)
+            self._A = self.a / (1 + n) * (1 + n2_4 + n4_64 + n6_256)
         return self._A
 
     @property
@@ -714,7 +718,7 @@ if __name__ == '__main__':
     for e in (Ellipsoids, Transforms, Datums):
         print('\n%r' % (e,))
 
-    for E in (Datums.WGS84.ellipsoid, Datums.Sphere.ellipsoid):
+    for E in (Datums.WGS84.ellipsoid, Ellipsoids.Sphere, Ellipsoids.SpherePopular):
         e = (E.a - E.b) / (E.a + E.b) - E.n
         if E.f:
             f = 'f=1/%.10f' % (1 / E.f,)
@@ -835,5 +839,10 @@ if __name__ == '__main__':
 
 # Ellipsoid.Sphere: name='Sphere', a=6371008.7714149999, b=6371008.7714149999, f_=0, f=0, e=0, e2=0, e22=0, R=6371008.7714149999, Rm=6371008.7714149999, R2=6371008.7714149999, R3=6371008.7714149999, Rr=6371008.7714149999,
 #        A=6371008.771415, e=0.0000000000000e+00, f=N/A, n=0.0000000000(0.0000000000e+00),
+#        Alpha6=(0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
+#        Beta6=(0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
+
+# Ellipsoid.SpherePopular: name='SpherePopular', a=6378137, b=6378137, f_=0, f=0, e=0, e2=0, e22=0, R=6378137, Rm=6378137, R2=6378137, R3=6378137, Rr=6378137,
+#        A=6378137.0, e=0.0000000000000e+00, f=N/A, n=0.0000000000(0.0000000000e+00),
 #        Alpha6=(0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
 #        Beta6=(0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
