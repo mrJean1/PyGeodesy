@@ -17,6 +17,7 @@ pygeodesy.parse3llh	pygeodesy-module.html#parse3llh
 pygeodesy.equirectangular3	pygeodesy-module.html#equirectangular3
 pygeodesy.simplifyVW	pygeodesy-module.html#simplifyVW
 pygeodesy.cbrt2	pygeodesy-module.html#cbrt2
+pygeodesy.heightOf	pygeodesy-module.html#heightOf
 pygeodesy.R_NM	pygeodesy-module.html#R_NM
 pygeodesy.PI2	pygeodesy-module.html#PI2
 pygeodesy.parseUTM	pygeodesy-module.html#parseUTM
@@ -55,7 +56,7 @@ pygeodesy.rangerror	pygeodesy-module.html#rangerror
 pygeodesy.iterNumpy2	pygeodesy-module.html#iterNumpy2
 pygeodesy.m2SM	pygeodesy-module.html#m2SM
 pygeodesy.R_SM	pygeodesy-module.html#R_SM
-pygeodesy.heightof	pygeodesy-module.html#heightof
+pygeodesy.wrap180	pygeodesy-module.html#wrap180
 pygeodesy.fStr	pygeodesy-module.html#fStr
 pygeodesy.R_M	pygeodesy-module.html#R_M
 pygeodesy.horizon	pygeodesy-module.html#horizon
@@ -97,7 +98,6 @@ pygeodesy.EPS2	pygeodesy-module.html#EPS2
 pygeodesy.EPS1	pygeodesy-module.html#EPS1
 pygeodesy.map2	pygeodesy-module.html#map2
 pygeodesy.S_RAD	pygeodesy-module.html#S_RAD
-pygeodesy.wrap180	pygeodesy-module.html#wrap180
 pygeodesy.F_MIN	pygeodesy-module.html#F_MIN
 pygeodesy.__package__	pygeodesy-module.html#__package__
 pygeodesy.parseOSGR	pygeodesy-module.html#parseOSGR
@@ -391,6 +391,7 @@ pygeodesy.utils.crosserrors	pygeodesy.utils-module.html#crosserrors
 pygeodesy.utils.degrees180	pygeodesy.utils-module.html#degrees180
 pygeodesy.utils.equirectangular3	pygeodesy.utils-module.html#equirectangular3
 pygeodesy.utils.cbrt2	pygeodesy.utils-module.html#cbrt2
+pygeodesy.utils.heightOf	pygeodesy.utils-module.html#heightOf
 pygeodesy.utils.PI2	pygeodesy.utils-module.html#PI2
 pygeodesy.utils._iterNumpy2len	pygeodesy.utils-module.html#_iterNumpy2len
 pygeodesy.utils.radians	pygeodesy.utils-module.html#radians
@@ -409,7 +410,7 @@ pygeodesy.utils.favg	pygeodesy.utils-module.html#favg
 pygeodesy.utils._2_3rd	pygeodesy.utils-module.html#_2_3rd
 pygeodesy.utils.iterNumpy2	pygeodesy.utils-module.html#iterNumpy2
 pygeodesy.utils.m2SM	pygeodesy.utils-module.html#m2SM
-pygeodesy.utils.heightof	pygeodesy.utils-module.html#heightof
+pygeodesy.utils.wrap180	pygeodesy.utils-module.html#wrap180
 pygeodesy.utils.fStr	pygeodesy.utils-module.html#fStr
 pygeodesy.utils.R_M	pygeodesy.utils-module.html#R_M
 pygeodesy.utils.horizon	pygeodesy.utils-module.html#horizon
@@ -435,7 +436,6 @@ pygeodesy.utils.map2	pygeodesy.utils-module.html#map2
 pygeodesy.utils.degrees360	pygeodesy.utils-module.html#degrees360
 pygeodesy.utils.polygon	pygeodesy.utils-module.html#polygon
 pygeodesy.utils.PI_2	pygeodesy.utils-module.html#PI_2
-pygeodesy.utils.wrap180	pygeodesy.utils-module.html#wrap180
 pygeodesy.utils.__package__	pygeodesy.utils-module.html#__package__
 pygeodesy.utils.m2NM	pygeodesy.utils-module.html#m2NM
 pygeodesy.utils.isint	pygeodesy.utils-module.html#isint

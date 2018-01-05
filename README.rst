@@ -38,8 +38,8 @@ PyFlakes_, PyCodeStyle_ (formerly Pep8) and McCabe_ using 64-bit Python
 
 The tests have been run with 64-bit Python 2.6.9 (and numpy 1.6.2), 2.7.14
 (and numpy 1.13.1), 3.5.3, 3.6.4 and with 64-bit Intel-Python 3.5.3 (and
-numpy 1.11.3), all on macOS 10.12.6 Sierra and with Pythonista 3.1 using
-64-bit Python 2.7.12 and 3.5.1 (both with numpy 1.8.0) on iOS 11.2.1.
+numpy 1.11.3), all on macOS 10.12.6 Sierra and with Pythonista 3.2 using
+64-bit Python 2.7.12 and 3.6.1 (both with numpy 1.8.0) on iOS 11.2.1.
 
 Previously, the tests were run with 64-bit Python 2.7.13 and 3.6.2 on MacOS
 X 10.10 Yosemite and MacOS X 10.11 El Capitan, with 64-bit Python 2.7.10
@@ -55,7 +55,7 @@ Epydoc_ using command line: ``epydoc --html --no-private --no-source
 Some function and method names differ from the JavaScript version. In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Jan 02, 2018.*
+*Last updated: Jan 04, 2018.*
 
 .. _checked: http://code.activestate.com/recipes/546532
 .. _docs: http://www.movable-type.co.uk/scripts/geodesy/docs/

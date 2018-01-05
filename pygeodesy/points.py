@@ -43,7 +43,7 @@ from math import radians
 __all__ = ('LatLon_',  # classes
            'LatLon2psxy', 'Numpy2LatLon', 'Tuple2LatLon',
            'bounds', 'isclockwise', 'isconvex')  # functions
-__version__ = '17.12.22'
+__version__ = '18.01.02'
 
 
 class LatLon_(object):
@@ -894,14 +894,14 @@ def isclockwise(points, radius=None, wrap=True):
     n = len(pts)
     if n > 0:
 
-        def _areas(n, pts):  # signed pseudo-area
+        def _psarea(n, pts):  # signed pseudo-area
             x1, y1, _ = pts[n-1]
             for i in range(n):
                 x2, y2, _ = pts[i]
                 yield (x2 - x1) * (y2 + y1)  # segment pseudo-area
                 x1, y1 = x2, y2
 
-        a = fsum(_areas(n, pts))
+        a = fsum(_psarea(n, pts)) or 0
         if a > 0:
             return True
         elif a < 0:

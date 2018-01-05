@@ -30,7 +30,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'fStr', 'fStrzs', 'fsum', 'ft2m',
            'halfs',
            'haversine', 'haversine_',  # XXX removed 'hsin', 'hsin3',
-           'heightof', 'horizon', 'hypot', 'hypot1', 'hypot3',
+           'heightOf', 'horizon', 'hypot', 'hypot1', 'hypot3',
            'inStr',
            'isfinite', 'isint', 'isscalar', 'issequence',
            'isNumpy2', 'isTuple2',
@@ -43,7 +43,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'tan_2', 'tanPI_2_2',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '18.01.02'
+__version__ = '18.01.04'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -581,7 +581,7 @@ def haversine_(a2, a1, b21):
     return r
 
 
-def heightof(angle, distance, radius=R_M):
+def heightOf(angle, distance, radius=R_M):
     '''Determine the height above the (spherical) earth after
        traveling along a straight line at a given tilt.
 
