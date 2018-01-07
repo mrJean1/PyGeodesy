@@ -13,7 +13,7 @@ from base import TestsBase
 from pygeodesy import LatLon_
 
 __all__ = ('Pts', 'PtsFFI', 'RdpFFI', 'PtsJS', 'PtsJS5', 'VwPts')
-__version__ = '17.12.06'
+__version__ = '18.01.06'
 
 # <http://github.com/urschrei/rdp>
 PtsFFI = [LatLon_(_lat, _lon) for _lon, _lat in (
@@ -96,7 +96,7 @@ RdpFFI = [LatLon_(_lat, _lon) for _lon, _lat in (
     (-0.709263, 52.240825),
     (-0.703726, 52.240756))]
 
-# <https://github.com/mourner/simplify-js/tree/master/test>
+# <http://github.com/mourner/simplify-js/tree/master/test>
 PtsJS = [LatLon_(_y, _x) for _x, _y in (
     (224.55, 250.15), (226.91, 244.19), (233.31, 241.45), (234.98, 236.06),
     (244.21, 232.76), (262.59, 215.31), (267.76, 213.81), (273.57, 201.84),

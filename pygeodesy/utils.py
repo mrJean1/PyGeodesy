@@ -43,7 +43,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'tan_2', 'tanPI_2_2',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '18.01.04'
+__version__ = '18.01.06'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -463,7 +463,7 @@ except ImportError:
                  U{Klein<http://link.springer.com/article/10.1007/s00607-005-0139-x>},
                  U{Kahan<http://wikipedia.org/wiki/Kahan_summation_algorithm>},
                  Python 2.6+ file I{Modules/mathmodule.c} and the issue log
-                 U{Full precision summation<https://bugs.python.org/issue2819>}.
+                 U{Full precision summation<http://bugs.python.org/issue2819>}.
         '''
         def _signof(x):
             return +1 if x > 0 else (-1 if x < 0 else 0)

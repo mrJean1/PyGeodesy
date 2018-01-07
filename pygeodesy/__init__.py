@@ -6,7 +6,7 @@ and spherical earth models using precision trigonometric and vector-based
 methods for geodetic (lat-/longitude) and geocentric cartesian (x/y/z)
 coordinates.
 
-Transcribed from U{JavaScript originals<https://github.com/chrisveness/geodesy>}
+Transcribed from U{JavaScript originals<http://github.com/chrisveness/geodesy>}
 by I{Chris Veness (C) 2005-2016} and published under the same U{MIT License
 <http://opensource.org/licenses/MIT>}**.
 
@@ -15,11 +15,11 @@ and I{-Nvector} and two for spherical ones, I{sphericalTrigonometry} and
 I{-Nvector}.  Each module provides a I{attributes-LatLon-html} class with methods
 to compute distance, initial and final bearing, intermediate points and
 conversions, among other things.  For more information and further details
-see the U{documentation<https://mrjean1.github.io/PyGeodesy/>}, the descriptions
+see the U{documentation<http://mrjean1.github.io/PyGeodesy/>}, the descriptions
 of U{Latitude/Longitude<http://www.movable-type.co.uk/scripts/latlong.html>},
 U{Vincenty<http://www.movable-type.co.uk/scripts/latlong-vincenty.html>} and
 U{Vector-based<http://www.movable-type.co.uk/scripts/latlong-vectors.html>} geodesy
-and the original U{JavaScript source<https://github.com/chrisveness/geodesy>} or
+and the original U{JavaScript source<http://github.com/chrisveness/geodesy>} or
 U{docs<http://www.movable-type.co.uk/scripts/geodesy/docs/>}.
 
 Also included are modules for conversions to and from
@@ -37,7 +37,7 @@ Two other modules provide Lambert conformal conic projections and positions
 <http://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}) and several functions to
 U{simplify<http://bost.ocks.org/mike/simplify/>} or linearize a path of
 I{LatLon} points (or a U{NumPy array
-<https://docs.scipy.org/doc/numpy/reference/generated/numpy.array.html>}),
+<http://docs.scipy.org/doc/numpy/reference/generated/numpy.array.html>}),
 including implementations of the U{Ramer-Douglas-Peucker
 <http://wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm>}, the
 U{Visvalingam-Whyatt<http://hydra.hull.ac.uk/resources/hull:8338>} and the
@@ -52,16 +52,16 @@ U{PyCodeStyle<http://pypi.python.org/pypi/pycodestyle>} (formerly Pep8) and
 U{McCabe<http://pypi.python.org/pypi/mccabe>} using 64-bit Python 2.7.14 and with
 U{Flake8<http://pypi.python.org/pypi/flake8>} on 64-bit Python 3.6.4.
 
-The tests have been run with 64-bit Python 2.6.9 (and numpy 1.6.2), 2.7.14
-(and numpy 1.13.1), 3.5.3, 3.6.4 and with 64-bit Intel-Python 3.5.3 (and
-numpy 1.11.3), all on macOS 10.12.6 Sierra and with Pythonista 3.2 using
-64-bit Python 2.7.12 and 3.6.1 (both with numpy 1.8.0) on iOS 11.2.1.
+The tests have been run with 64-bit Python 2.7.14 (and numpy 1.13.1) and
+3.6.4 and with 64-bit Intel-Python 3.5.3 (and numpy 1.11.3), all on macOS
+10.13.2 High Sierra and with Pythonista 3.2 using 64-bit Python 2.7.12
+and 3.6.1 (both with numpy 1.8.0) on iOS 11.2.1.
 
-Previously, the tests were run with 64-bit Python 2.7.13 and 3.6.2 on MacOS
-X 10.10 Yosemite and MacOS X 10.11 El Capitan, with 64-bit Python 2.7.10
-(and numpy 1.8.0rc1) and 64-bit Python 3.6.3 and 3.6.4 on macOS 10.13.2 High
-Sierra, with Pythonista 3.1 on iOS 10.3.3, 11.0.3 and 11.1.2, with 32-bit
-Python 2.6.6 on Windows XP SP3 and with 32-bit Python 2.7.14 on Window 10 Pro.
+Previously, the tests were run with 64-bit Python 2.6.9 (and numpy 1.6.2),
+2.7.10 (and numpy 1.8.0rc1), 2.7.13, 3.5.3, 3.6.2 and 3.6.3 on MacOS X
+10.10 Yosemite, MacOS X 10.11 El Capitan and/or macOS 10.12 Sierra, with
+Pythonista 3.1 on iOS 10.3.3, 11.0.3 and 11.1.2, with 32-bit Python 2.6.6
+on Windows XP SP3 and with 32-bit Python 2.7.14 on Window 10 Pro.
 
 In addition to the U{PyGeodesy<http://pypi.python.org/pypi/PyGeodesy>} package,
 the distribution files contain the tests, the test results and the complete
@@ -168,7 +168,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',  # modules
            'Geohash', 'VincentyError',  # classes
            'nearestOn2',  # functions
            'version')  # extended below
-__version__ = '18.01.04'
+__version__ = '18.01.06'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))

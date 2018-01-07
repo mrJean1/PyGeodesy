@@ -21,12 +21,6 @@ Similarly, class L{Tuple2LatLon} is used to instantiate a I{LatLon}
 for each 2+tuple in a list, tuple or sequence of such 2+tuples from
 the index for the lat- and longitude index in each 2+tuple.
 
-Tested with 64-bit Python 2.6.9 (and numpy 1.6.2), 2.7.13 and 2.7.14
-(both with numpy 1.13.1), 3.5.3 and 3.6.3 on macOS 10.12.6 Sierra, with
-64-bit Intel-Python 3.5.3 (and numpy 1.11.3) on macOS 10.12.6 Sierra
-and with Pythonista 3.1 using 64-bit Python 2.7.12 and 3.5.1 (both with
-numpy 1.8.0) on iOS 11.0.3.
-
 @newfield example: Example, Examples
 '''
 from utils import EPS, classname, CrossError, crosserrors, \
@@ -38,12 +32,13 @@ try:
 except ImportError:
     _Sequence = object  # XXX or tuple
 from inspect import isclass
-from math import radians
+from math import radians, sin
 
 __all__ = ('LatLon_',  # classes
            'LatLon2psxy', 'Numpy2LatLon', 'Tuple2LatLon',
-           'bounds', 'isclockwise', 'isconvex')  # functions
-__version__ = '18.01.02'
+           'bounds',  # functions
+           'isclockwise', 'isconvex', 'isenclosedby')
+__version__ = '18.01.06'
 
 
 class LatLon_(object):
@@ -51,7 +46,7 @@ class LatLon_(object):
     '''
     # __slots__ efficiency is voided if the __slots__ class attribute
     # is used in a subclass of a class with the traditional __dict__,
-    # see <https://docs.python.org/2/reference/datamodel.html#slots>
+    # see <http://docs.python.org/2/reference/datamodel.html#slots>
     __slots__ = ('lat', 'lon')
 
     def __init__(self, lat, lon):
@@ -965,6 +960,78 @@ def isconvex(points, radius=None, wrap=True):
         x1, y1, x2, y2 = x2, y2, x3, y3
 
     return True  # all points on the same side
+
+
+def isenclosedby(latlon, points, wrap=True):  # MCCABE 14
+    '''Determine whether a point is enclosed by a polygon defined by
+       an array, list, sequence, set or tuple of I{LatLon} points.
+
+       @param latlon: The point (I{LatLon} or 2-tuple (lat, lon)).
+       @param points: The points defining the polygon (I{LatLon}[]).
+       @keyword wrap: Optionally, wrap90(lat) and wrap180(lon) (bool).
+
+       @return: True if point is enclosed, False otherwise.
+
+       @raise TypeError: Some points are not I{LatLon}.
+
+       @raise ValueError: Too few points or invalid I{latlon} point.
+
+       @see: L{sphericalNvector.LatLon.isEnclosedBy},
+             L{sphericalTrigonometry.LatLon.isEnclosedBy},
+             U{MultiDop<http://github.com/nasa/MultiDop>} and U{MultiDop/src
+             <http://github.com/nasa/MultiDop/blob/master/src/geog_lib.c>}.
+    '''
+    pts = LatLon2psxy(points, closed=True, wrap=wrap)
+
+    def _xy(i):
+        x, y, _ = pts[i]
+        if not wrap:
+            x %= 360.0
+        if x < (x0 - 180):
+            x += 180
+        elif x >= (x0 + 180):
+            x -= 180
+        return x, y
+
+    try:
+        y0, x0 = latlon.lat, latlon.lon
+    except AttributeError:
+        try:
+            y0, x0 = latlon[:2]
+        except (IndexError, TypeError, ValueError):
+            raise ValueError('%s invalid: %r' % ('latlon', latlon))
+
+    if wrap:
+        x0, y0 = wrap180(x0), wrap90(y0)
+    else:
+        x0 %= 360.0
+
+    n = len(pts)
+    e = m = False
+    z = 0
+
+    x1, y1 = _xy(n-1)
+    for i in range(n):
+        x2, y2 = _xy(i)
+        # determine if polygon edge (x1, y1)-(x2, y2) straddles
+        # point (lat, lon) or is on boundary, but do not count
+        # edges on boundary as more than one crossing
+        dx = x2 - x1
+        if 0 < abs(dx) < 180 and (x1 < x0 <= x2 or x2 < x0 <= x1):
+            m = not m
+            if (y1 + (x0 - x1) * (y2 - y1) / dx) > y0:
+                e = not e
+
+        x1, y1 = x2, y2
+        z += sin(radians(y2))
+
+    # an odd number of meridian crossings means polygon contains
+    # a pole, assume that is the hemisphere containing the polygon
+    # mean.  If polygon contains North Pole, flip the result.
+    if m and z > 0:
+        e = not e
+
+    return e
 
 # **) MIT License
 #

@@ -20,6 +20,7 @@ pygeodesy.cbrt2	pygeodesy-module.html#cbrt2
 pygeodesy.heightOf	pygeodesy-module.html#heightOf
 pygeodesy.R_NM	pygeodesy-module.html#R_NM
 pygeodesy.PI2	pygeodesy-module.html#PI2
+pygeodesy.isenclosedby	pygeodesy-module.html#isenclosedby
 pygeodesy.parseUTM	pygeodesy-module.html#parseUTM
 pygeodesy.compassDMS	pygeodesy-module.html#compassDMS
 pygeodesy.issequence	pygeodesy-module.html#issequence
@@ -310,6 +311,7 @@ pygeodesy.points.wrap90	pygeodesy.utils-module.html#wrap90
 pygeodesy.points.crosserrors	pygeodesy.utils-module.html#crosserrors
 pygeodesy.points.isint	pygeodesy.utils-module.html#isint
 pygeodesy.points.isconvex	pygeodesy.points-module.html#isconvex
+pygeodesy.points.isenclosedby	pygeodesy.points-module.html#isenclosedby
 pygeodesy.points.inStr	pygeodesy.utils-module.html#inStr
 pygeodesy.points.bounds	pygeodesy.points-module.html#bounds
 pygeodesy.points.wrap180	pygeodesy.utils-module.html#wrap180

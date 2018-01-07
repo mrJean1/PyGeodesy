@@ -68,12 +68,6 @@ See:
  - U{http://pypi.python.org/pypi/visvalingam}
  - U{http://pypi.python.org/pypi/simplification/}
 
-Tested with 64-bit Python 2.6.9 (and numpy 1.6.2), 2.7.13 and 2.7.14
-(both with numpy 1.13.1), 3.5.3 and 3.6.2 on macOS 10.12.6 Sierra, with
-64-bit Intel-Python 3.5.3 (and numpy 1.11.3) on macOS 10.12.6 Sierra
-and with Pythonista 3.1 using 64-bit Python 2.7.12 and 3.5.1 (both with
-numpy 1.8.0) on iOS 10.3.3.
-
 @newfield example: Example, Examples
 '''
 
@@ -85,7 +79,7 @@ from math import degrees, radians, sqrt
 __all__ = ('simplify1', 'simplify2',  # backward compatibility
            'simplifyRDP', 'simplifyRDPm', 'simplifyRW',
            'simplifyVW', 'simplifyVWm')
-__version__ = '17.11.26'
+__version__ = '18.01.06'
 
 
 # try:

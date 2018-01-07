@@ -4,12 +4,12 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '17.12.28'
+__version__ = '18.01.06'
 
 from base import TestsBase
 
 from pygeodesy import R_NM, F_DM, F_DMS, F_RAD, \
-                      degrees, isclockwise, isconvex, \
+                      degrees, isclockwise, isconvex, isenclosedby, \
                       m2NM  # PYCHOK expected
 
 
@@ -101,7 +101,7 @@ class Tests(TestsBase):
                                    else '51.513526°N, 000.098038°W')  # 51.5135°N, 0.0983°W ???
             self.test('destination', d.toStr(F_DMS, 0), '51°30′49″N, 000°05′54″W' if Sph
                                                    else '51°30′49″N, 000°05′53″W')
-            # <http://edwilliams.org/avform.htm#LL>
+            # <http://www.edwilliams.org/avform.htm#LL>
             d = LAX.destination(100, 66, radius=R_NM) if Sph else LAX.destination(100, 66)
             self.test('destination', d.toStr(F_DM, prec=0), "34°37′N, 116°33′W" if Sph
                                                        else "33°57′N, 118°24′W")
@@ -189,6 +189,12 @@ class Tests(TestsBase):
                     self.test('isconvex', isconvex(t[:2]), ValueError)
                 except ValueError as x:
                     self.test('isconvex', x, 'too few points: 2')  # PYCHOK false?
+
+        if isenclosedby:
+            p = LatLon(45.5, 1.5)
+            b = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
+            for _ in self.testiter():
+                self.test('isenclosedby', isenclosedby(p, b), True)  # PYCHOK false?
 
 
 if __name__ == '__main__':
