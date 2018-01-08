@@ -38,7 +38,7 @@ __all__ = ('LatLon_',  # classes
            'LatLon2psxy', 'Numpy2LatLon', 'Tuple2LatLon',
            'bounds',  # functions
            'isclockwise', 'isconvex', 'isenclosedby')
-__version__ = '18.01.06'
+__version__ = '18.01.08'
 
 
 class LatLon_(object):
@@ -962,7 +962,7 @@ def isconvex(points, radius=None, wrap=True):
     return True  # all points on the same side
 
 
-def isenclosedby(latlon, points, wrap=True):  # MCCABE 14
+def isenclosedby(latlon, points, wrap=False):  # MCCABE 14
     '''Determine whether a point is enclosed by a polygon defined by
        an array, list, sequence, set or tuple of I{LatLon} points.
 
@@ -970,7 +970,7 @@ def isenclosedby(latlon, points, wrap=True):  # MCCABE 14
        @param points: The points defining the polygon (I{LatLon}[]).
        @keyword wrap: Optionally, wrap90(lat) and wrap180(lon) (bool).
 
-       @return: True if point is enclosed, False otherwise.
+       @return: True if point is inside the polygon, False otherwise.
 
        @raise TypeError: Some points are not I{LatLon}.
 
@@ -987,10 +987,10 @@ def isenclosedby(latlon, points, wrap=True):  # MCCABE 14
         x, y, _ = pts[i]
         if not wrap:
             x %= 360.0
-        if x < (x0 - 180):
-            x += 180
-        elif x >= (x0 + 180):
-            x -= 180
+            if x < (x0 - 180):
+                x += 360
+            elif x >= (x0 + 180):
+                x -= 360
         return x, y
 
     try:
@@ -1017,9 +1017,10 @@ def isenclosedby(latlon, points, wrap=True):  # MCCABE 14
         # point (lat, lon) or is on boundary, but do not count
         # edges on boundary as more than one crossing
         dx = x2 - x1
-        if 0 < abs(dx) < 180 and (x1 < x0 <= x2 or x2 < x0 <= x1):
+        if abs(dx) < 180 and (x1 < x0 <= x2 or x2 < x0 <= x1):
             m = not m
-            if (y1 + (x0 - x1) * (y2 - y1) / dx) > y0:
+            dy = (x0 - x1) * (y2 - y1) - (y0 - y1) * dx
+            if (dy > 0 and dx >= 0) or (dy < 0 and dx <= 0):
                 e = not e
 
         x1, y1 = x2, y2
@@ -1027,7 +1028,7 @@ def isenclosedby(latlon, points, wrap=True):  # MCCABE 14
 
     # an odd number of meridian crossings means polygon contains
     # a pole, assume that is the hemisphere containing the polygon
-    # mean.  If polygon contains North Pole, flip the result.
+    # mean and if polygon contains North Pole, flip the result
     if m and z > 0:
         e = not e
 
