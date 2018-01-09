@@ -11,18 +11,18 @@
 # python setup.py test
 # python setup.py install
 
-# <https://packaging.python.org/key_projects/#setuptools>
-# <https://packaging.python.org/distributing/>
-# <https://docs.python.org/2/distutils/sourcedist.html>
-# <https://docs.python.org/3.6/distutils/sourcedist.html>
-# <https://setuptools.readthedocs.io/en/latest/setuptools.html#developer-s-guide>
-# <https://setuptools.readthedocs.io/en/latest/setuptools.html#test-build-package-and-run-a-unittest-suite>
+# <http://packaging.python.org/key_projects/#setuptools>
+# <http://packaging.python.org/distributing/>
+# <http://docs.python.org/2/distutils/sourcedist.html>
+# <http://docs.python.org/3.6/distutils/sourcedist.html>
+# <http://setuptools.readthedocs.io/en/latest/setuptools.html#developer-s-guide>
+# <http://setuptools.readthedocs.io/en/latest/setuptools.html#test-build-package-and-run-a-unittest-suite>
 # <http://zetcode.com/articles/packageinpython/>
 
 from setuptools import setup
 
 __all__ = ()
-__version__ = '17.12.16'
+__version__ = '18.01.09'
 
 
 def _c2(*names):
@@ -49,10 +49,10 @@ _KeyWords=('azimuth', 'bearing', 'cartesian', 'conic',
            'datum', 'development', 'distance',
            'earth', 'ellipsoid', 'equirectangular',
            'geocentric', 'geodesy', 'geodetic', 'geohash',
-           'haversine',
+           'haversine', 'IntelPython',
            'Lambert', 'latitude', 'longitude', 'MGRS',
            'numpy', 'n-vector', 'Nvector', 'OSGR',
-           'Pseudo-Mercator', 'PyGeodesy',
+           'Pseudo-Mercator', 'PyGeodesy', 'PyPy',
            'Ramer-Douglas-Peucker', 'Reumann-Witkam', 'rhumb',
            'simplify', 'sphere', 'trigonometry', 'UTM',
            'Vincenty', 'Visvalingam-Whyatt', 'Web-Mercator', 'WGS')
@@ -70,7 +70,7 @@ setup(
 
     license='MIT',
     keywords=' '.join(_KeyWords),
-    url='https://github.com/mrJean1/PyGeodesy',
+    url='http://github.com/mrJean1/PyGeodesy',
 
     long_description=_long_description(),
 
@@ -85,6 +85,8 @@ setup(
     test_suite='test.TestSuite',
 
     zip_safe=False,
+
+    # <http://pypi.python.org/pypi?%3Aaction=list_classifiers>
     classifiers=[
         _c2('Development Status', '5 - Production/Stable'),
         _c2('Environment', 'Console'),
@@ -92,7 +94,6 @@ setup(
         _c2('License', 'OSI Approved', 'MIT License'),
         _c2('Operating System', 'OS Independent'),
         _c2('Programming Language', 'Python'),
-        _c2('Programming Language', 'Python', '2.6'),
         _c2('Programming Language', 'Python', '2.7'),
         _c2('Programming Language', 'Python', '3.5'),
         _c2('Programming Language', 'Python', '3.6'),
@@ -100,7 +101,7 @@ setup(
         _c2('Topic', 'Scientific/Engineering', 'GIS'),
     ],
 
-#   download_url='https://github.com/mrJean1/PyGeodesy',
+#   download_url='http://github.com/mrJean1/PyGeodesy',
 #   entry_points={},
 #   include_package_data=False,
 #   install_requires=[],

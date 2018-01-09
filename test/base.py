@@ -25,10 +25,11 @@ if PyGeodesy_dir not in sys.path:  # Python 3+ ModuleNotFoundError
 from pygeodesy import version as PyGeodesy_version, \
                       iterNumpy2over, normDMS  # PYCHOK expected
 
-__all__ = ('isiOS', 'PyGeodesy_dir', 'Python_O',  # constants
+__all__ = ('isIntelPython', 'isiOS', 'isPyPy',  # constants
+           'PyGeodesy_dir', 'Python_O',
            'TestsBase',
            'runner', 'secs2str', 'tilde', 'type2str', 'versions')
-__version__ = '17.09.22'
+__version__ = '18.01.09'
 
 try:
     _int = int, long
@@ -39,10 +40,12 @@ except NameError:  # Python 3+
 
 _pseudo_home_dir = dirname(PyGeodesy_dir or '~') or '~'
 
-# isiOS is used by some tests known to fail on iOS only
-isiOS = True if sys.platform == 'ios' else False  # public
+Python_O = sys.executable  # python or Pythonista path
 
-Python_O = sys.executable  # python or Pythonsta path
+isIntelPython = 'intelpython' in Python_O
+# isiOS is used by some tests known to fail on iOS only
+isiOS = sys.platform == 'ios'  # public
+isPyPy = 'PyPy ' in sys.version  # public
 
 
 class TestsBase(object):
@@ -218,8 +221,8 @@ def type2str(obj, attr):
 def versions():
     '''Get pygeodesy, Python versions, size, OS name and release.
     '''
-    ip = 'Intel-' if 'intelpython' in Python_O else ''
-    vs = 'PyGeodesy', PyGeodesy_version, (ip +
+    t = 'Intel-' if isIntelPython else 'PyPy-' if isPyPy else ''
+    vs = 'PyGeodesy', PyGeodesy_version, (t +
          'Python'), sys.version.split()[0], architecture()[0]
     if numpy:
         vs += 'numpy', numpy.__version__

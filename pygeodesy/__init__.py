@@ -49,13 +49,14 @@ U{checked<http://code.activestate.com/recipes/546532>} with
 U{PyChecker<http://pypi.python.org/pypi/pychecker>},
 U{PyFlakes<http://pypi.python.org/pypi/pyflakes>},
 U{PyCodeStyle<http://pypi.python.org/pypi/pycodestyle>} (formerly Pep8) and
-U{McCabe<http://pypi.python.org/pypi/mccabe>} using 64-bit Python 2.7.14 and with
-U{Flake8<http://pypi.python.org/pypi/flake8>} on 64-bit Python 3.6.4.
+U{McCabe<http://pypi.python.org/pypi/mccabe>} using Python 2.7.14 and with
+U{Flake8<http://pypi.python.org/pypi/flake8>} on Python 3.6.4, both in
+64-bit.
 
-The tests have been run with 64-bit Python 2.7.14 (and numpy 1.13.1) and
-3.6.4 and with 64-bit Intel-Python 3.5.3 (and numpy 1.11.3), all on macOS
-10.13.2 High Sierra and with Pythonista 3.2 using 64-bit Python 2.7.12
-and 3.6.1 (both with numpy 1.8.0) on iOS 11.2.1.
+The tests have been run in 64-bit only with PyPy-Python 2.7.13, Python
+2.7.14 (and numpy 1.13.1), Intel-Python 3.5.3 (and numpy 1.11.3) and
+Python 3.6.4, all on macOS 10.13.2 High Sierra and with Pythonista 3.2
+Python 2.7.12 and 3.6.1 (both with numpy 1.8.0) on iOS 11.2.1.
 
 Previously, the tests were run with 64-bit Python 2.6.9 (and numpy 1.6.2),
 2.7.10 (and numpy 1.8.0rc1), 2.7.13, 3.5.3, 3.6.2 and 3.6.3 on MacOS X
@@ -168,7 +169,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',  # modules
            'Geohash', 'VincentyError',  # classes
            'nearestOn2',  # functions
            'version')  # extended below
-__version__ = '18.01.08'
+__version__ = '18.01.09'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))

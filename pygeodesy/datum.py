@@ -656,7 +656,7 @@ class Datum(_Based):
 # Datums with associated ellipsoid and Helmert transform parameters
 # to convert from WGS84 into the given datum.  More are available at
 # <http://earth-info.nga.mil/GandG/coordsys/datums/NATO_DT.pdf> and
-# <http://www.fieldenmaps.info/cconv/web/cconv_params.js>.
+# <XXX://www.fieldenmaps.info/cconv/web/cconv_params.js>.
 Datums._assert(
     # Belgian Datum 1972, based on Hayford ellipsoid.
     # <http://nl.wikipedia.org/wiki/Belgian_Datum_1972>
