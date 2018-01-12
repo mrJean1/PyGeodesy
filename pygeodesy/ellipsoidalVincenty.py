@@ -53,13 +53,14 @@ or by converting to anothor datum:
 from datum import Datums
 from ellipsoidalBase import CartesianBase, LatLonEllipsoidalBase
 from utils import EPS, degrees90, degrees180, degrees360, \
-                  fpolynomial, radians, scalar
+                  fpolynomial, polygon, radians, scalar
 
 from math import atan2, cos, hypot, sin, tan
 
 # all public contants, classes and functions
-__all__ = ('Cartesian', 'LatLon', 'VincentyError')  # classes
-__version__ = '17.09.22'
+__all__ = ('Cartesian', 'LatLon', 'VincentyError',  # classes
+           'areaOf', 'perimeterOf')  # functions
+__version__ = '18.01.11'
 
 
 class VincentyError(ValueError):
@@ -505,6 +506,73 @@ class Cartesian(CartesianBase):
         a, b, h = self.to3llh(datum)
         return LatLon(a, b, height=h, datum=datum)
 
+
+def _Geodesic3(points, datum, line=False, closed=False):
+    # Compute the area and perimeter of a polygon/-line
+    # using the GeographicLib package, iff installed
+    try:
+        from geographiclib.geodesic import Geodesic
+    except ImportError:
+        raise ImportError('no %s' % ('geographiclib',))
+
+    E = datum.ellipsoid
+    g = Geodesic(E.a, E.f).Polygon(line)
+
+    for p in points:
+        g.AddPoint(p.lat, p.lon)
+    if line and closed:
+        p = points[0]
+        g.AddPoint(p.lat, p.lon)
+
+    # g.Compute returns (number_of_points, perimeter, signed area)
+    return g.Compute(False, True)
+
+
+def areaOf(points, datum=Datums.WGS84):
+    '''Compute the area of a polygon defined by an array, list, sequence,
+       set or tuple of points on the given datum.
+
+       @param points: The points defining the polygon (L{LatLon}[]).
+       @keyword datum: Optional datum (L{Datum}).
+
+       @return: Area (meter squared).
+
+       @raise ImportError: Package U{GeographicLib
+              <http://pypi.python.org/pypi/geographiclib>} missing.
+
+       @raise TypeError: Some points are not L{LatLon}.
+
+       @raise ValueError: Too few points.
+
+       @note: This function requires the U{GeographicLib
+       <http://pypi.python.org/pypi/geographiclib>} package to be installede.
+    '''
+    _, points = polygon(points, closed=True)  # base=LatLonEllipsoidalBase(0, 0)
+    return abs(_Geodesic3(points, datum)[2])
+
+
+def perimeterOf(points, closed=False, datum=Datums.WGS84):
+    '''Compute the perimeter of a polygon/-line defined by an array,
+       list, sequence, set or tuple of points.
+
+       @param points: The points defining the polygon (L{LatLon}[]).
+       @keyword closed: Optionally, close the polygon/-line (bool).
+       @keyword datum: Optional datum (L{Datum}).
+
+       @return: Perimeter (meter).
+
+       @raise ImportError: Package U{GeographicLib
+              <http://pypi.python.org/pypi/geographiclib>} missing.
+
+       @raise TypeError: Some points are not L{LatLon}.
+
+       @raise ValueError: Too few points.
+
+       @note: This function requires the U{GeographicLib
+       <http://pypi.python.org/pypi/geographiclib>} package to be installede.
+    '''
+    _, points = polygon(points, closed=closed)  # base=LatLonEllipsoidalBase(0, 0)
+    return _Geodesic3(points, datum, line=True, closed=closed)[1]
 
 # **) MIT License
 #

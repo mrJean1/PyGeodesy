@@ -4,13 +4,13 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '17.12.28'
+__version__ = '18.01.11'
 
 from base import TestsBase
 
-from pygeodesy import EPS, LatLon_, \
+from pygeodesy import EPS, R_EQ, LatLon_, \
                       LatLon2psxy, Numpy2LatLon, Tuple2LatLon, \
-                      classname, points
+                      areaof, classname, points
 
 try:
     from collections import Sequence
@@ -84,6 +84,12 @@ class Tests(TestsBase):
             i -= 1
             _test('reversed[%s]' % (i,), p, pts[i])
 
+        p = LatLon_(45, 1), LatLon_(45, 2), LatLon_(46, 2), LatLon_(46, 1)
+        self.test('areaof', areaof(p, radius=R_EQ), '8.811228e+09', fmt='%.6e')
+
+        p = LatLon_(0, 0), LatLon_(1, 0), LatLon_(0, 1)
+        self.test('areaof', areaof(p, radius=R_EQ), '7.09e+09', fmt='%.2e')
+
 
 if __name__ == '__main__':  # PYCHOK internal error?
 
@@ -107,7 +113,7 @@ if __name__ == '__main__':  # PYCHOK internal error?
         t.test2(pts, npy, False)
 
     else:  # check abstact base class conformance
-        t.test('no module', 'numpy', 'numpy')
+        t.test('no', 'numpy', 'numpy')
 
     tup = [(0, ll.lon, 0, ll.lat) for ll in PtsFFI]
     pts = Tuple2LatLon(tup, ilat=3, ilon=1)

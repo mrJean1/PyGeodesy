@@ -10,6 +10,7 @@ pygeodesy.isscalar	pygeodesy-module.html#isscalar
 pygeodesy.S_SEP	pygeodesy-module.html#S_SEP
 pygeodesy.fStrzs	pygeodesy-module.html#fStrzs
 pygeodesy.R_EQ	pygeodesy-module.html#R_EQ
+pygeodesy.areaof	pygeodesy-module.html#areaof
 pygeodesy.S_SEC	pygeodesy-module.html#S_SEC
 pygeodesy.crosserrors	pygeodesy-module.html#crosserrors
 pygeodesy.degrees180	pygeodesy-module.html#degrees180
@@ -19,6 +20,7 @@ pygeodesy.simplifyVW	pygeodesy-module.html#simplifyVW
 pygeodesy.cbrt2	pygeodesy-module.html#cbrt2
 pygeodesy.heightOf	pygeodesy-module.html#heightOf
 pygeodesy.R_NM	pygeodesy-module.html#R_NM
+pygeodesy.wrap90	pygeodesy-module.html#wrap90
 pygeodesy.PI2	pygeodesy-module.html#PI2
 pygeodesy.isenclosedby	pygeodesy-module.html#isenclosedby
 pygeodesy.parseUTM	pygeodesy-module.html#parseUTM
@@ -38,7 +40,7 @@ pygeodesy.R_KM	pygeodesy-module.html#R_KM
 pygeodesy.m2ft	pygeodesy-module.html#m2ft
 pygeodesy.simplifyVWm	pygeodesy-module.html#simplifyVWm
 pygeodesy.fdot3	pygeodesy-module.html#fdot3
-pygeodesy.wrap90	pygeodesy-module.html#wrap90
+pygeodesy.perimeterof	pygeodesy-module.html#perimeterof
 pygeodesy.parseWM	pygeodesy-module.html#parseWM
 pygeodesy.version	pygeodesy-module.html#version
 pygeodesy.clipDMS	pygeodesy-module.html#clipDMS
@@ -47,7 +49,7 @@ pygeodesy.PI	pygeodesy-module.html#PI
 pygeodesy.m2km	pygeodesy-module.html#m2km
 pygeodesy.tan_2	pygeodesy-module.html#tan_2
 pygeodesy.ft2m	pygeodesy-module.html#ft2m
-pygeodesy.S_DEG	pygeodesy-module.html#S_DEG
+pygeodesy.hypot3	pygeodesy-module.html#hypot3
 pygeodesy.favg	pygeodesy-module.html#favg
 pygeodesy.normDMS	pygeodesy-module.html#normDMS
 pygeodesy.nearestOn2	pygeodesy-module.html#nearestOn2
@@ -86,7 +88,7 @@ pygeodesy.isTuple2	pygeodesy-module.html#isTuple2
 pygeodesy.bounds	pygeodesy-module.html#bounds
 pygeodesy.false2f	pygeodesy-module.html#false2f
 pygeodesy.hypot1	pygeodesy-module.html#hypot1
-pygeodesy.hypot3	pygeodesy-module.html#hypot3
+pygeodesy.S_DEG	pygeodesy-module.html#S_DEG
 pygeodesy.F_DMS	pygeodesy-module.html#F_DMS
 pygeodesy.Conics	pygeodesy-module.html#Conics
 pygeodesy.lonDMS	pygeodesy-module.html#lonDMS
@@ -213,12 +215,16 @@ pygeodesy.ellipsoidalNvector.fStr	pygeodesy.utils-module.html#fStr
 pygeodesy.ellipsoidalNvector.fdot	pygeodesy.utils-module.html#fdot
 pygeodesy.ellipsoidalVincenty	pygeodesy.ellipsoidalVincenty-module.html
 pygeodesy.ellipsoidalVincenty._dl	pygeodesy.ellipsoidalVincenty-module.html#_dl
+pygeodesy.ellipsoidalVincenty.perimeterOf	pygeodesy.ellipsoidalVincenty-module.html#perimeterOf
 pygeodesy.ellipsoidalVincenty.scalar	pygeodesy.utils-module.html#scalar
 pygeodesy.ellipsoidalVincenty.degrees90	pygeodesy.utils-module.html#degrees90
 pygeodesy.ellipsoidalVincenty._ds	pygeodesy.ellipsoidalVincenty-module.html#_ds
 pygeodesy.ellipsoidalVincenty.degrees360	pygeodesy.utils-module.html#degrees360
+pygeodesy.ellipsoidalVincenty.polygon	pygeodesy.utils-module.html#polygon
 pygeodesy.ellipsoidalVincenty.__package__	pygeodesy.ellipsoidalVincenty-module.html#__package__
+pygeodesy.ellipsoidalVincenty._Geodesic3	pygeodesy.ellipsoidalVincenty-module.html#_Geodesic3
 pygeodesy.ellipsoidalVincenty.degrees180	pygeodesy.utils-module.html#degrees180
+pygeodesy.ellipsoidalVincenty.areaOf	pygeodesy.ellipsoidalVincenty-module.html#areaOf
 pygeodesy.ellipsoidalVincenty.fpolynomial	pygeodesy.utils-module.html#fpolynomial
 pygeodesy.ellipsoidalVincenty.radians	pygeodesy.utils-module.html#radians
 pygeodesy.ellipsoidalVincenty._p2	pygeodesy.ellipsoidalVincenty-module.html#_p2
@@ -307,11 +313,15 @@ pygeodesy.points.scalar	pygeodesy.utils-module.html#scalar
 pygeodesy.points.isclockwise	pygeodesy.points-module.html#isclockwise
 pygeodesy.points.polygon	pygeodesy.utils-module.html#polygon
 pygeodesy.points.__package__	pygeodesy.points-module.html#__package__
-pygeodesy.points.wrap90	pygeodesy.utils-module.html#wrap90
+pygeodesy.points.perimeterof	pygeodesy.points-module.html#perimeterof
+pygeodesy.points.areaof	pygeodesy.points-module.html#areaof
 pygeodesy.points.crosserrors	pygeodesy.utils-module.html#crosserrors
+pygeodesy.points._area2	pygeodesy.points-module.html#_area2
+pygeodesy.points.equirectangular3	pygeodesy.utils-module.html#equirectangular3
 pygeodesy.points.isint	pygeodesy.utils-module.html#isint
-pygeodesy.points.isconvex	pygeodesy.points-module.html#isconvex
 pygeodesy.points.isenclosedby	pygeodesy.points-module.html#isenclosedby
+pygeodesy.points.wrap90	pygeodesy.utils-module.html#wrap90
+pygeodesy.points.isconvex	pygeodesy.points-module.html#isconvex
 pygeodesy.points.inStr	pygeodesy.utils-module.html#inStr
 pygeodesy.points.bounds	pygeodesy.points-module.html#bounds
 pygeodesy.points.wrap180	pygeodesy.utils-module.html#wrap180
@@ -360,6 +370,7 @@ pygeodesy.sphericalTrigonometry	pygeodesy.sphericalTrigonometry-module.html
 pygeodesy.sphericalTrigonometry.haversine_	pygeodesy.utils-module.html#haversine_
 pygeodesy.sphericalTrigonometry.wrapPI	pygeodesy.utils-module.html#wrapPI
 pygeodesy.sphericalTrigonometry.fsum	pygeodesy.utils-module.html#fsum
+pygeodesy.sphericalTrigonometry.perimeterOf	pygeodesy.sphericalTrigonometry-module.html#perimeterOf
 pygeodesy.sphericalTrigonometry.degrees90	pygeodesy.utils-module.html#degrees90
 pygeodesy.sphericalTrigonometry.meanOf	pygeodesy.sphericalTrigonometry-module.html#meanOf
 pygeodesy.sphericalTrigonometry.degrees360	pygeodesy.utils-module.html#degrees360

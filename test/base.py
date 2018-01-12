@@ -13,6 +13,10 @@ from platform import architecture, java_ver, mac_ver, win32_ver, uname
 import sys
 from time import time
 try:
+    import geographiclib
+except ImportError:
+    geographiclib = None
+try:
     import numpy
 except ImportError:
     numpy = None
@@ -29,7 +33,7 @@ __all__ = ('isIntelPython', 'isiOS', 'isPyPy',  # constants
            'PyGeodesy_dir', 'Python_O',
            'TestsBase',
            'runner', 'secs2str', 'tilde', 'type2str', 'versions')
-__version__ = '18.01.09'
+__version__ = '18.01.11'
 
 try:
     _int = int, long
@@ -224,6 +228,8 @@ def versions():
     t = 'Intel-' if isIntelPython else 'PyPy-' if isPyPy else ''
     vs = 'PyGeodesy', PyGeodesy_version, (t +
          'Python'), sys.version.split()[0], architecture()[0]
+    if geographiclib:
+        vs += 'geographiclib', geographiclib.__version__
     if numpy:
         vs += 'numpy', numpy.__version__
 

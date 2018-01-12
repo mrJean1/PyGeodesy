@@ -26,8 +26,9 @@ __all__ = ('LatLon',  # classes
            'areaOf',  # functions
            'intersection', 'isPoleEnclosedBy',
            'meanOf',
-           'nearestOn2')
-__version__ = '17.12.28'
+           'nearestOn2',
+           'perimeterOf')
+__version__ = '18.01.11'
 
 
 class LatLon(LatLonSphericalBase):
@@ -550,7 +551,7 @@ def areaOf(points, radius=R_M):
 
        @raise TypeError: Some points are not L{LatLon}.
 
-       @raise ValueError: Too few polygon points.
+       @raise ValueError: Too few points.
 
        @example:
 
@@ -561,6 +562,17 @@ def areaOf(points, radius=R_M):
        >>> areaOf(c)  # 6.18e9
     '''
     n, points = _Trll.points(points, closed=True)
+
+    # uses area method due to Karney: for each edge of the polygon,
+    #
+    #                tan(Δλ/2) · (tan(φ1/2) + tan(φ2/2))
+    #     tan(E/2) = ------------------------------------
+    #                     1 + tan(φ1/2) · tan(φ2/2)
+    #
+    # where E is the spherical excess of the trapezium obtained by
+    # extending the edge to the equator-circle vector for each edge
+    #
+    # <http://osgeo-org.1560.x6.nabble.com/Area-of-a-spherical-polygon-td3841625.html>
 
     if iterNumpy2(points):
 
@@ -576,12 +588,6 @@ def areaOf(points, radius=R_M):
         s = fsum(_exs(n, points)) * 2
 
     else:
-        # uses method due to Karney: for each edge of the polygon,
-        # tan(E/2) = tan(Δλ/2)·(tan(φ1/2) + tan(φ2/2)) / (1 + tan(φ1/2)·tan(φ2/2))
-        # where E is the spherical excess of the trapezium obtained by extending
-        # the edge to the equator-circle vector for each edge
-        # <http://osgeo-org.1560.x6.nabble.com/Area-of-a-spherical-polygon-td3841625.html>
-
         a1, b1 = points[n-1].to2ab()
         s, ta1 = [], tan_2(a1)
         for i in range(n):
@@ -590,12 +596,12 @@ def areaOf(points, radius=R_M):
             s.append(atan2(tb21 * (ta1 + ta2), 1 + ta1 * ta2))
             ta1, b1 = ta2, b2
 
-        s = 2 * fsum(s)
+        s = fsum(s) * 2
 
     if isPoleEnclosedBy(points):
         s = abs(s) - PI2
 
-    return abs(s * radius ** 2)
+    return abs(s * radius**2)
 
 
 def intersection(start1, bearing1, start2, bearing2,
@@ -805,6 +811,39 @@ def nearestOn2(point, points, radius=R_M, **options):
     # distance in degrees squared to meter
     d = radians(sqrt(d)) * float(radius)
     return c, d
+
+
+def perimeterOf(points, closed=False, radius=R_M):
+    '''Compute the perimeter of a polygon/-line defined by an array,
+       list, sequence, set or tuple of points.
+
+       @param points: The points defining the polygon (L{LatLon}[]).
+       @keyword radius: Optional, mean earth radius (meter).
+       @keyword closed: Optionally, close the polygon/-line (bool).
+
+       @return: Approximate perimeter (meter).
+
+       @raise TypeError: Some points are not L{LatLon}.
+
+       @raise ValueError: Too few points.
+
+       @note: This perimeter is based on the L{haversine} formula.
+    '''
+    n, points = _Trll.points(points, closed=closed)
+
+    def _rads(n, points, closed):  # angular edge lengths in radians
+        if closed:
+            j, i = 0, n-1
+        else:
+            j, i = 1, 0
+        a1, b1 = points[i].to2ab()
+        for i in range(j, n):
+            a2, b2 = points[i].to2ab()
+            yield haversine_(a2, a1, b2 - b1)
+            a1, b1 = a2, b2
+
+    r = fsum(_rads(n, points, closed))
+    return r * float(radius)
 
 
 # **) MIT License

@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Six functions to I{simplify} or linearize a path of I{LatLon} points.
+u'''Seven functions to I{simplify} or linearize a path of I{LatLon} points.
 
 Each of the I{simplify} functions is based on a different algorithm and
 produces different simplified results in (very) different run times for
@@ -79,7 +79,7 @@ from math import degrees, radians, sqrt
 __all__ = ('simplify1', 'simplify2',  # backward compatibility
            'simplifyRDP', 'simplifyRDPm', 'simplifyRW',
            'simplifyVW', 'simplifyVWm')
-__version__ = '18.01.06'
+__version__ = '18.01.11'
 
 
 # try:

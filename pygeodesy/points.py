@@ -23,8 +23,8 @@ the index for the lat- and longitude index in each 2+tuple.
 
 @newfield example: Example, Examples
 '''
-from utils import EPS, classname, CrossError, crosserrors, \
-                  fdot, fStr, fsum, \
+from utils import EPS, R_M, classname, CrossError, crosserrors, \
+                  equirectangular3, fdot, fStr, fsum, \
                   inStr, isint, issequence, \
                   polygon, scalar, wrap90, wrap180
 try:
@@ -32,13 +32,14 @@ try:
 except ImportError:
     _Sequence = object  # XXX or tuple
 from inspect import isclass
-from math import radians, sin
+from math import cos, radians, sin, sqrt
 
 __all__ = ('LatLon_',  # classes
            'LatLon2psxy', 'Numpy2LatLon', 'Tuple2LatLon',
-           'bounds',  # functions
-           'isclockwise', 'isconvex', 'isenclosedby')
-__version__ = '18.01.08'
+           'areaof', 'bounds',  # functions
+           'isclockwise', 'isconvex', 'isenclosedby',
+           'perimeterof')
+__version__ = '18.01.11'
 
 
 class LatLon_(object):
@@ -820,9 +821,52 @@ class Tuple2LatLon(_Array2LatLon):
         return type(self._array)(self._array[i] for i in indices)
 
 
+def _area2(points, wrap):
+    # return double the signed area in radians squared
+
+    # setting radius=1 converts degrees to radians
+    pts = LatLon2psxy(points, closed=True, radius=1, wrap=wrap)
+
+    def _rads2(n, pts):  # trapezoidal areas in rads**2
+        x1, y1, _ = pts[n-1]
+        for i in range(n):
+            x2, y2, _ = pts[i]
+            # approximate trapezoid by a rectangle, adjusting
+            # the top width by the cosine of the latitudinal
+            # average and bottom width by some fudge factor
+            h = (y2 + y1) * 0.5
+            w = (x2 - x1) * (cos(h) + 1.2876)  # * 0.5
+            yield h * w  # signed, double trapezoidal area
+
+            x1, y1 = x2, y2
+
+    return fsum(_rads2(len(pts), pts))  # * 0.5
+
+
+def areaof(points, radius=R_M, wrap=True):
+    '''Approximate the area of a polygon defined by an array, list,
+       sequence, set or tuple of points.
+
+       @param points: The points defining the polygon (I{LatLon}[]).
+       @keyword radius: Optional, mean earth radius (meter).
+       @keyword wrap: Optionally, wrap90(lat) and wrap180(lon) (bool).
+
+       @return: Approximate area (meter squared).
+
+       @raise TypeError: Some points are not I{LatLon}.
+
+       @raise ValueError: Too few points.
+
+       @note: This is an area approximation with limited accuracy,
+       ill-suited for regions larger than several hundred Km or
+       Miles or with latitudes near the poles.
+    '''
+    return abs(_area2(points, wrap) * 0.5) * float(radius)**2
+
+
 def bounds(points, radius=None, wrap=True, LatLon=None):
     '''Determine the lower-left and upper-right corners of a polygon
-       defined by a list, sequence, set or tuple of I{LatLon} points.
+       defined by a list, sequence, set or tuple of points.
 
        @param points: The points defining the polygon (I{LatLon}[]).
        @keyword radius: Optional, mean earth radius (meter).
@@ -863,12 +907,11 @@ def bounds(points, radius=None, wrap=True, LatLon=None):
         return loy, lox, hiy, hix  # PYCHOK expected
 
 
-def isclockwise(points, radius=None, wrap=True):
+def isclockwise(points, wrap=True):
     '''Determine the direction of a polygon defined by an array, list,
-       sequence, set or tuple of I{LatLon} points.
+       sequence, set or tuple of points.
 
        @param points: The points defining the polygon (I{LatLon}[]).
-       @keyword radius: Optional, mean earth radius (meter).
        @keyword wrap: Optionally, wrap90(lat) and wrap180(lon) (bool).
 
        @return: True if clockwise, False otherwise.
@@ -885,29 +928,18 @@ def isclockwise(points, radius=None, wrap=True):
        >>> t = LatLon(45,1), LatLon(46,1), LatLon(46,2)
        >>> isclockwise(t)  # True
     '''
-    pts = LatLon2psxy(points, closed=True, radius=radius, wrap=wrap)
-    n = len(pts)
-    if n > 0:
-
-        def _psarea(n, pts):  # signed pseudo-area
-            x1, y1, _ = pts[n-1]
-            for i in range(n):
-                x2, y2, _ = pts[i]
-                yield (x2 - x1) * (y2 + y1)  # segment pseudo-area
-                x1, y1 = x2, y2
-
-        a = fsum(_psarea(n, pts)) or 0
-        if a > 0:
-            return True
-        elif a < 0:
-            return False
+    a = _area2(points, wrap) or 0
+    if a > 0:
+        return True
+    elif a < 0:
+        return False
 
     raise ValueError('zero area: %r' % (points[:3],))
 
 
 def isconvex(points, radius=None, wrap=True):
     '''Determine whether a polygon defined by an array, list, sequence,
-       set or tuple of I{LatLon} points is convex.
+       set or tuple of points is convex.
 
        @param points: The points defining the polygon (I{LatLon}[]).
        @keyword radius: Optional, mean earth radius (meter).
@@ -964,7 +996,7 @@ def isconvex(points, radius=None, wrap=True):
 
 def isenclosedby(latlon, points, wrap=False):  # MCCABE 14
     '''Determine whether a point is enclosed by a polygon defined by
-       an array, list, sequence, set or tuple of I{LatLon} points.
+       an array, list, sequence, set or tuple of points.
 
        @param latlon: The point (I{LatLon} or 2-tuple (lat, lon)).
        @param points: The points defining the polygon (I{LatLon}[]).
@@ -1033,6 +1065,46 @@ def isenclosedby(latlon, points, wrap=False):  # MCCABE 14
         e = not e
 
     return e
+
+
+def perimeterof(points, closed=False, radius=R_M, wrap=True):
+    '''Approximate the perimeter of a polygon/-line defined by an array,
+       list, sequence, set or tuple of points.
+
+       @param points: The points defining the polygon (I{LatLon}[]).
+       @keyword closed: Optionally, close the polygon/-line (bool).
+       @keyword radius: Optional, mean earth radius (meter).
+       @keyword wrap: Optionally, wrap90(lat) and wrap180(lon) (bool).
+
+       @return: Approximate perimeter (meter).
+
+       @raise TypeError: Some points are not I{LatLon}.
+
+       @raise ValueError: Too few points.
+
+       @note: This perimeter is the based on the L{equirectangular3}
+       distance and is ill-suited for regions larger than several
+       hundred Km or Miles or with latitudes near the poles.
+    '''
+    pts = LatLon2psxy(points, closed=closed, radius=None, wrap=wrap)
+
+    def _degs(n, pts, closed):  # angular edge lengths in degrees
+        if closed:
+            j, i = 0, n-1
+        else:
+            j, i = 1, 0
+        x1, y1, _ = pts[i]
+        for i in range(j, n):
+            x2, y2, _ = pts[i]
+            d2, _, _ = equirectangular3(y1, x1, y2, x2, adjust=True,
+                                                        limit=0,
+                                                        wrap=False)
+            yield sqrt(d2)
+            x1, y1 = x2, y2
+
+    d = fsum(_degs(len(pts), pts, closed))
+    return radians(d) * float(radius)
+
 
 # **) MIT License
 #

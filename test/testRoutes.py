@@ -10,10 +10,11 @@
 
 from base import TestsBase
 
-from pygeodesy import LatLon_
+from pygeodesy import LatLon_, R_KM, R_M, areaof, perimeterof, \
+                      ellipsoidalVincenty, sphericalTrigonometry
 
 __all__ = ('Pts', 'PtsFFI', 'RdpFFI', 'PtsJS', 'PtsJS5', 'VwPts')
-__version__ = '18.01.06'
+__version__ = '18.01.11'
 
 # <http://github.com/urschrei/rdp>
 PtsFFI = [LatLon_(_lat, _lon) for _lon, _lat in (
@@ -17032,8 +17033,63 @@ VwPts = [LatLon_(_lat, _lon) for _lon, _lat, _a2 in (
 
 # del _lat, _lon
 
+
+def _2LL(pts, LL):
+    # map LatLon_ instances to LL
+    for p in pts:
+        yield LL(p.lat, p.lon)
+
+
+class Tests(TestsBase):
+
+    def test4(self, fun, exps, fmt='%.3f', LL=None, **kwds):
+        n = fun.__name__
+        if n.endswith('Of'):
+            n = '.'.join(fun.__module__.split('.')[-1:] + [n])
+
+        for pts, exp in zip((PtsFFI, RdpFFI, Pts, VwPts), exps):
+            if LL:
+                pts = _2LL(pts, LL)
+            self.test(n, fun(pts, **kwds), exp, fmt=fmt)
+
+    def testAreas(self):
+        self.test4(areaof, (1.288, 1.241, 131184.240, 140310.144),
+                   radius=R_KM)
+        # spherical areaOf requires spherical LatLon
+        self.test4(sphericalTrigonometry.areaOf,
+                   (1.338, 1.289, 125942.444, 118897.757),
+                   LL=sphericalTrigonometry.LatLon, radius=R_KM)
+        try:  # no LatLon restrictions for ellipsoidal areaOf
+            self.test4(ellipsoidalVincenty.areaOf,
+                       (1.343272e+06, 1.294375e+06, 1.271286e+11, 1.200540e+11),
+                        fmt='%.6e')
+            self.test4(ellipsoidalVincenty.areaOf,
+                       (1.343272e+06, 1.294375e+06, 1.271286e+11, 1.200540e+11),
+                        fmt='%.6e', LL=ellipsoidalVincenty.LatLon)
+        except ImportError as x:
+            self.test('ellipsoidalVincenty.areaOf', x, x)
+
+    def testPerimeters(self):
+        self.test4(perimeterof, (3224.123, 3185.467, 2762313.129, 2672557.850),
+                   radius=R_M)
+        # spherical areaOf requires spherical LatLon
+        self.test4(sphericalTrigonometry.perimeterOf,
+                   (3224.123, 3185.467, 2762313.116, 2672556.441),
+                   LL=sphericalTrigonometry.LatLon, radius=R_M)
+        try:  # no LatLon restrictions for ellipsoidal areaOf
+            self.test4(ellipsoidalVincenty.perimeterOf,
+                       (3229.337, 3190.602, 2769709.679, 2679915.858))
+            self.test4(ellipsoidalVincenty.perimeterOf,
+                       (3229.337, 3190.602, 2769709.679, 2679915.858),
+                        LL=ellipsoidalVincenty.LatLon)
+        except ImportError as x:
+            self.test('ellipsoidalVincenty.perimeterOf', x, x)
+
+
 if __name__ == '__main__':
 
-    t = TestsBase(__file__, __version__)
-    t.results(nl=0)
+    t = Tests(__file__, __version__)
+    t.testAreas()
+    t.testPerimeters()
+    t.results()
     t.exit()

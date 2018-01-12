@@ -48,7 +48,7 @@ def _long_description():
 _KeyWords=('azimuth', 'bearing', 'cartesian', 'conic',
            'datum', 'development', 'distance',
            'earth', 'ellipsoid', 'equirectangular',
-           'geocentric', 'geodesy', 'geodetic', 'geohash',
+           'geocentric', 'geodesy', 'geodetic', 'geographiclib', 'geohash',
            'haversine', 'IntelPython',
            'Lambert', 'latitude', 'longitude', 'MGRS',
            'numpy', 'n-vector', 'Nvector', 'OSGR',
