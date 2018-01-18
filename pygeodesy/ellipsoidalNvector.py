@@ -35,7 +35,7 @@ from math import asin, atan2, cos, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '17.09.22'
+__version__ = '18.01.14'
 
 
 class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
@@ -248,7 +248,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #            @param other: The other point (L{LatLon}).
 #            @keyword radius: Optional, mean earth radius (meter).
 #
-#            @return: Distance (meter).
+#            @return: Distance (meter, same units as I{radius}).
 #
 #            @raise TypeError: The other point is not L{LatLon}.
 #
@@ -711,7 +711,7 @@ def meanOf(points, datum=Datums.WGS84, height=None, LatLon=LatLon):
 
        @return: Point at geographic mean and mean height (L{LatLon}).
 
-       @raise ValueError: Too few points.
+       @raise ValueError: Insufficient number of points.
     '''
     _, points = _Nvll.points(points, closed=False)
     # geographic mean

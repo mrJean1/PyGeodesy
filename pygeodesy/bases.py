@@ -17,7 +17,7 @@ from math import asin, cos, degrees, radians, sin
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('Base', 'LatLonHeightBase', 'Named', 'VectorBase')
-__version__ = '17.12.16'
+__version__ = '18.01.12'
 
 
 class Base(object):
@@ -330,7 +330,7 @@ class LatLonHeightBase(Base):
 
            @raise TypeError: Some points are not I{LatLon}.
 
-           @raise ValueError: Too few points.
+           @raise ValueError: Insufficient number of points.
         '''
         return polygon(points, closed=closed, base=self)
 

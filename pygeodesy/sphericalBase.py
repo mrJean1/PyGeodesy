@@ -12,7 +12,7 @@ U{http://www.movable-type.co.uk/scripts/latlong.html}.
 '''
 
 from bases import LatLonHeightBase
-from datum import R_EQ, R_M, Datum, Datums
+from datum import R_M, R_MA, Datum, Datums
 from dms   import parse3llh
 from utils import EPS, PI, PI2, PI_2, \
                   degrees90, degrees180, degrees360, \
@@ -23,7 +23,7 @@ from math import acos, atan2, cos, log, sin
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('LatLonSphericalBase',)
-__version__ = '17.12.18'
+__version__ = '18.01.14'
 
 
 class LatLonSphericalBase(LatLonHeightBase):
@@ -54,11 +54,13 @@ class LatLonSphericalBase(LatLonHeightBase):
         self._update(datum != self._datum)
         self._datum = datum
 
-    def finalBearingTo(self, other):
+    def finalBearingTo(self, other, wrap=False):
         '''Return the final bearing (reverse azimuth) from this
            to an other point.
 
            @param other: The other point (spherical LatLon).
+           @keyword wrap: Optionally, unroll the longitudinal delta
+                          within the M{-180..+180} range (bool).
 
            @return: Final bearing (compass degrees).
 
@@ -72,8 +74,8 @@ class LatLonSphericalBase(LatLonHeightBase):
         '''
         self.others(other)
 
-        # final bearing is reverse
-        b = other.bearingTo(self) + 180
+        # final bearing is the reverse of initial one
+        b = other.initialBearingTo(self, wrap=wrap) + 180
         if b > 360:
             b -= 360
         return b  # 0..360
@@ -305,7 +307,7 @@ class LatLonSphericalBase(LatLonHeightBase):
         h = self._havg(other) if height is None else height
         return self.classof(degrees90(a3), degrees180(b3), height=h)
 
-    def toWm(self, radius=R_EQ):
+    def toWm(self, radius=R_MA):
         '''Convert this I{LatLon} point to a WM coordinate.
 
            See function L{toWm} in module L{webmercator} for details.

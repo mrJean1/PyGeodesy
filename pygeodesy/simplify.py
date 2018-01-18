@@ -72,14 +72,14 @@ See:
 '''
 
 from datum import R_M
-from utils import EPS, equirectangular3, isNumpy2, isTuple2, len2
+from utils import EPS, equirectangular_, isNumpy2, isTuple2, len2
 
 from math import degrees, radians, sqrt
 
 __all__ = ('simplify1', 'simplify2',  # backward compatibility
            'simplifyRDP', 'simplifyRDPm', 'simplifyRW',
            'simplifyVW', 'simplifyVWm')
-__version__ = '18.01.11'
+__version__ = '18.01.16'
 
 
 # try:
@@ -148,7 +148,7 @@ class _Sy(object):
     def d21(self, s, e):
         '''Set path edge or line thru points[s] to -[e].
         '''
-        d21, y21, x21 = self.d2yx(s, e)
+        d21, y21, x21, _ = self.d2yx(s, e)
         self.d2yxse = d21, y21, x21, s, e
         return d21 > self.eps
 
@@ -160,7 +160,7 @@ class _Sy(object):
         eps, d2yx = self.eps, self.d2yx
         t2, t = self.s2, 0  # tallest
         for i in range(n, m):
-            d2, _, _ = d2yx(s, i)
+            d2, _, _, _ = d2yx(s, i)
             if d2 > t2:
                 t2, t = d2, i
                 if brk and d2 > eps:
@@ -176,7 +176,7 @@ class _Sy(object):
         eps, d2yx = self.eps, self.d2yx
         t2, t = self.s2, 0  # tallest
         for i in range(n, m):
-            d2, y01, x01 = d2yx(s, i)
+            d2, y01, x01, _ = d2yx(s, i)
             if d2 > eps:
                 # perpendicular distance squared
                 d2 = (y01 * x21 - x01 * y21)**2 / d21
@@ -205,7 +205,7 @@ class _Sy(object):
         t2, t = self.s2, 0  # tallest
         for i in range(n, m):
             # distance points[i] to -[s]
-            d2, y01, x01 = d2yx(s, i)
+            d2, y01, x01, _ = d2yx(s, i)
             if d2 > eps:
                 w = y01 * y21 + x01 * x21
                 if w > 0:
@@ -213,7 +213,7 @@ class _Sy(object):
                         # perpendicular distance squared
                         d2 = (y01 * x21 - x01 * y21)**2 / d21
                     else:  # distance points[i] to -[e]
-                        d2, _, _ = d2yx(e, i)
+                        d2, _, _, _ = d2yx(e, i)
                 if d2 > t2:
                     t2, t = d2, i
                     if brk:
@@ -225,17 +225,19 @@ class _Sy(object):
         '''
         p1 = self.pts[i]
         p2 = self.pts[j]
-        return equirectangular3(p1.lat, p1.lon,
-                                p2.lat, p2.lon, adjust=self.adjust)
+        return equirectangular_(p1.lat, p1.lon,
+                                p2.lat, p2.lon, adjust=self.adjust,
+                                          # XXX limit=45,
+                                                wrap=False)
 
     def h2t(self, i1, i0, i2):
         '''Compute the Visvalingam-Whyatt triangular area,
            points[i0] is the top and points[i1] to -[i2]
            form the base of the triangle.
         '''
-        d21, y21, x21 = self.d2yx(i1, i2)
+        d21, y21, x21 , _= self.d2yx(i1, i2)
         if d21 > self.eps:
-            d01, y01, x01 = self.d2yx(i1, i0)
+            d01, y01, x01, _ = self.d2yx(i1, i0)
             if d01 > self.eps:
                 h2 = abs(y01 * x21 - x01 * y21)
                 # triangle height h = h2 / sqrt(d21) and
@@ -384,7 +386,7 @@ def simplify1(points, distance, radius=R_M, adjust=True, indices=False):
 
         i = 0
         for j in range(1, n):
-            d2, _, _ = d2yx(i, j)
+            d2, _, _, _= d2yx(i, j)
             if d2 > s2:
                 r[j] = True
                 i = j

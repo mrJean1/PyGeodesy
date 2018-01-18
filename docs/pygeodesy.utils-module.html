@@ -69,7 +69,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.01.06
+        18.01.16
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -224,7 +224,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#degrees90" class="summary-sig-name">degrees90</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Convert and wrap radians to degrees <i class="math">-270..+90</i>.</td>
+      Convert and wrap radians to degrees <i class="math">(-270..+90]</i>.</td>
           <td align="right" valign="top">
             
             
@@ -241,7 +241,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#degrees180" class="summary-sig-name">degrees180</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Convert and wrap radians to degrees <i class="math">-180..+180</i>.</td>
+      Convert and wrap radians to degrees <i class="math">(-180..+180]</i>.</td>
           <td align="right" valign="top">
             
             
@@ -258,7 +258,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#degrees360" class="summary-sig-name">degrees360</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Convert and wrap radians to degrees <i class="math">0..+360</i>.</td>
+      Convert and wrap radians to degrees <i class="math">(0..+360]</i>.</td>
           <td align="right" valign="top">
             
             
@@ -298,7 +298,7 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#equirectangular3" class="summary-sig-name">equirectangular3</a>(<span class="summary-sig-arg">lat1</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#equirectangular_" class="summary-sig-name">equirectangular_</a>(<span class="summary-sig-arg">lat1</span>,
         <span class="summary-sig-arg">lon1</span>,
         <span class="summary-sig-arg">lat2</span>,
         <span class="summary-sig-arg">lon2</span>,
@@ -308,6 +308,29 @@
       Compute the distance between two points using the <a 
       href="http://www.movable-type.co.uk/scripts/latlong.html" 
       target="_top">Equirectangular Approximation/Projection</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#equirectangular3" class="summary-sig-name">equirectangular3</a>(<span class="summary-sig-arg">lat1</span>,
+        <span class="summary-sig-arg">lon1</span>,
+        <span class="summary-sig-arg">lat2</span>,
+        <span class="summary-sig-arg">lon2</span>,
+        <span class="summary-sig-arg">**options</span>)</span><br />
+      For backward compatibility only, obsolete, replaced by function <a 
+      href="pygeodesy.utils-module.html#equirectangular_" 
+      class="link">equirectangular_</a>.</td>
           <td align="right" valign="top">
             
             
@@ -531,7 +554,8 @@
         <span class="summary-sig-arg">lon1</span>,
         <span class="summary-sig-arg">lat2</span>,
         <span class="summary-sig-arg">lon2</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the distance between two points using the <a 
       href="http://www.movable-type.co.uk/scripts/latlong.html" 
       target="_top">Haversine</a> formula.</td>
@@ -553,7 +577,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#haversine_" class="summary-sig-name">haversine_</a>(<span class="summary-sig-arg">a2</span>,
         <span class="summary-sig-arg">a1</span>,
         <span class="summary-sig-arg">b21</span>)</span><br />
-      Compute the <i>angular</i> distance using the <a 
+      Compute the <i>angular</i> distance between two points using the <a 
       href="http://www.movable-type.co.uk/scripts/latlong.html" 
       target="_top">Haversine</a> formula.</td>
           <td align="right" valign="top">
@@ -950,7 +974,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#radiansPI" class="summary-sig-name">radiansPI</a>(<span class="summary-sig-arg">deg</span>)</span><br />
-      Convert and wrap degrees to radians <i class="math">-PI..+PI</i>.</td>
+      Convert and wrap degrees to radians <i class="math">(-PI..+PI]</i>.</td>
           <td align="right" valign="top">
             
             
@@ -967,7 +991,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#radiansPI2" class="summary-sig-name">radiansPI2</a>(<span class="summary-sig-arg">deg</span>)</span><br />
-      Convert and wrap degrees to radians <i class="math">0..+2PI</i>.</td>
+      Convert and wrap degrees to radians <i class="math">(0..+2PI]</i>.</td>
           <td align="right" valign="top">
             
             
@@ -985,7 +1009,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#radiansPI_2" class="summary-sig-name">radiansPI_2</a>(<span class="summary-sig-arg">deg</span>)</span><br />
       Convert and wrap degrees to radians <i 
-      class="math">-3PI/2..+PI/2</i>.</td>
+      class="math">(-3PI/2..+PI/2]</i>.</td>
           <td align="right" valign="top">
             
             
@@ -1055,8 +1079,65 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#unroll180" class="summary-sig-name">unroll180</a>(<span class="summary-sig-arg">lon1</span>,
+        <span class="summary-sig-arg">lon2</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Unroll longitudinal delta and wrap longitude in degrees.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#unrollPI" class="summary-sig-name">unrollPI</a>(<span class="summary-sig-arg">rad1</span>,
+        <span class="summary-sig-arg">rad2</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Unroll longitudinal delta and wrap longitude in radians.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#unStr" class="summary-sig-name">unStr</a>(<span class="summary-sig-arg">name</span>,
+        <span class="summary-sig-arg">*args</span>,
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
+      Return the string representation of an invokation.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#wrap90" class="summary-sig-name">wrap90</a>(<span class="summary-sig-arg">deg</span>)</span><br />
-      Wrap degrees to <i class="math">-270..+90</i>.</td>
+      Wrap degrees to <i class="math">(-270..+90]</i>.</td>
           <td align="right" valign="top">
             
             
@@ -1073,7 +1154,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#wrap180" class="summary-sig-name">wrap180</a>(<span class="summary-sig-arg">deg</span>)</span><br />
-      Wrap degrees to <i class="math">-180..+180</i>.</td>
+      Wrap degrees to <i class="math">(-180..+180]</i>.</td>
           <td align="right" valign="top">
             
             
@@ -1090,7 +1171,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#wrap360" class="summary-sig-name">wrap360</a>(<span class="summary-sig-arg">deg</span>)</span><br />
-      Wrap degrees to <i class="math">0..+360</i>.</td>
+      Wrap degrees to <i class="math">(0..+360]</i>.</td>
           <td align="right" valign="top">
             
             
@@ -1107,7 +1188,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#wrapPI" class="summary-sig-name">wrapPI</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Wrap radians to <i class="math">-PI..+PI</i>.</td>
+      Wrap radians to <i class="math">(-PI..+PI]</i>.</td>
           <td align="right" valign="top">
             
             
@@ -1124,7 +1205,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#wrapPI2" class="summary-sig-name">wrapPI2</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Wrap radians to <i class="math">0..+2PI</i>.</td>
+      Wrap radians to <i class="math">(0..+2PI]</i>.</td>
           <td align="right" valign="top">
             
             
@@ -1141,7 +1222,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#wrapPI_2" class="summary-sig-name">wrapPI_2</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Wrap radians to <i class="math">-3PI/2..+PI/2</i>.</td>
+      Wrap radians to <i class="math">(-3PI/2..+PI/2]</i>.</td>
           <td align="right" valign="top">
             
             
@@ -1339,7 +1420,8 @@
     </td>
   </tr></table>
   
-  <p>Convert and wrap radians to degrees <i class="math">-270..+90</i>.</p>
+  <p>Convert and wrap radians to degrees <i 
+  class="math">(-270..+90]</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -1365,7 +1447,7 @@
   </tr></table>
   
   <p>Convert and wrap radians to degrees <i 
-  class="math">-180..+180</i>.</p>
+  class="math">(-180..+180]</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -1390,7 +1472,7 @@
     </td>
   </tr></table>
   
-  <p>Convert and wrap radians to degrees <i class="math">0..+360</i>.</p>
+  <p>Convert and wrap radians to degrees <i class="math">(0..+360]</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -1423,27 +1505,28 @@
   <p>Compute the distance between two points using the <a 
   href="http://www.movable-type.co.uk/scripts/latlong.html" 
   target="_top">Equirectangular Approximation/Projection</a>.</p>
-  <p>See function <a href="pygeodesy.utils-module.html#equirectangular3" 
-  class="link">equirectangular3</a> for details and <i>options</i>.</p>
+  <p>See function <a href="pygeodesy.utils-module.html#equirectangular_" 
+  class="link">equirectangular_</a> for more details and the available 
+  <i>options</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lat1</code></strong> - Latitude1 (degrees).</li>
-        <li><strong class="pname"><code>lon1</code></strong> - Longitude1 (degrees).</li>
-        <li><strong class="pname"><code>lat2</code></strong> - Latitude2 (degrees).</li>
-        <li><strong class="pname"><code>lon2</code></strong> - Longitude2 (degrees).</li>
+        <li><strong class="pname"><code>lat1</code></strong> - Start latitude (degrees).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - Start longitude (degrees).</li>
+        <li><strong class="pname"><code>lat2</code></strong> - End latitude (degrees).</li>
+        <li><strong class="pname"><code>lon2</code></strong> - End longitude (degrees).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments for function <a 
-          href="pygeodesy.utils-module.html#equirectangular3" 
-          class="link">equirectangular3</a>.</li>
+          href="pygeodesy.utils-module.html#equirectangular_" 
+          class="link">equirectangular_</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Distance (meter), rather the units of <i>radius</i>.</dd>
+        <dd>Distance (meter, same units as <i>radius</i>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - If delta limit exceeded, see function <a 
-        href="pygeodesy.utils-module.html#equirectangular3" 
-        class="link">equirectangular3</a>.</li>
+        href="pygeodesy.utils-module.html#equirectangular_" 
+        class="link">equirectangular_</a>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -1452,14 +1535,14 @@
       </p>
 </div></td></tr></table>
 </div>
-<a name="equirectangular3"></a>
+<a name="equirectangular_"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">equirectangular3</span>(<span class="sig-arg">lat1</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">equirectangular_</span>(<span class="sig-arg">lat1</span>,
         <span class="sig-arg">lon1</span>,
         <span class="sig-arg">lat2</span>,
         <span class="sig-arg">lon2</span>,
@@ -1480,29 +1563,32 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lat1</code></strong> - Latitude1 (degrees).</li>
-        <li><strong class="pname"><code>lon1</code></strong> - Longitude1 (degrees).</li>
-        <li><strong class="pname"><code>lat2</code></strong> - Latitude2 (degrees).</li>
-        <li><strong class="pname"><code>lon2</code></strong> - Longitude2 (degrees).</li>
-        <li><strong class="pname"><code>adjust</code></strong> - Optionally, adjust longitudinal delta by the cosine of the mean 
-          of the latitudes (bool).</li>
-        <li><strong class="pname"><code>limit</code></strong> - Optional limit for the deltas (degrees) or 0 for unlimited.</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Optionally, keep the longitudinal delta within the -180..+180 
-          range (bool).</li>
+        <li><strong class="pname"><code>lat1</code></strong> - Start latitude (degrees).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - Start longitude (degrees).</li>
+        <li><strong class="pname"><code>lat2</code></strong> - End latitude (degrees).</li>
+        <li><strong class="pname"><code>lon2</code></strong> - End longitude (degrees).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
+          the mean latitude (bool).</li>
+        <li><strong class="pname"><code>limit</code></strong> - Optional limit for the lat- and longitudinal deltas (degrees) or 
+          None or 0 for unlimited.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utils-module.html#unroll180" 
+          class="link">unroll180</a> longitudes (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>3-Tuple (distance2, delta_lat, delta_lon) with the distance in 
-          degrees squared, the latitudinal delta lat2-lat1 and the 
-          <i>adjusted</i>, <i>wrapped</i> longitudinal delta lon2-lon1.  To
-          convert distance2 to meter, use <i 
-          class="math">radians(sqrt(distance2)) * radius</i> where radius 
-          is the mean earth radius in the desired units, for example <a 
-          href="pygeodesy.utils-module.html#R_M" class="link">R_M</a> in 
-          meter.</dd>
+        <dd>4-Tuple (distance2, delta_lat, delta_lon, lon2_unroll) with the 
+          distance in degrees squared, the latitudinal delta 
+          <i>lat2</i>-<i>lat1</i>, the wrapped, unrolled, and adjusted 
+          longitudinal delta <i>lon2</i>-<i>lon1</i> and the unrollment for
+          <i>lon2</i>.  To convert <i>distance2</i> to meter, use <i 
+          class="math">radians(sqrt(distance2)) * radius</i> where 
+          <i>radius</i> is the mean earth radius in the desired units, for 
+          example <a href="pygeodesy.utils-module.html#R_M" 
+          class="link">R_M</a> meter.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - The lat- and/or longitudinal delta exceeds the <i>limit</i>.  Use 
-        <i>limit=0</i> to avoid the delta check and ValueError.</li>
+        <i>limit=None</i> or <i>limit=0</i> to avoid the limit check and 
+        <i>ValueError</i>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -1512,6 +1598,36 @@
         class="link">haversine</a> for more accurate or larger distances.
       </p>
 </div></td></tr></table>
+</div>
+<a name="equirectangular3"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">equirectangular3</span>(<span class="sig-arg">lat1</span>,
+        <span class="sig-arg">lon1</span>,
+        <span class="sig-arg">lat2</span>,
+        <span class="sig-arg">lon2</span>,
+        <span class="sig-arg">**options</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>For backward compatibility only, obsolete, replaced by function <a 
+  href="pygeodesy.utils-module.html#equirectangular_" 
+  class="link">equirectangular_</a>.</p>
+  <p>See function <a href="pygeodesy.utils-module.html#equirectangular_" 
+  class="link">equirectangular_</a> for more details and the available 
+  <i>options</i>.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>3-Tuple (distance2, delta_lat, delta_lon).</dd>
+  </dl>
+</td></tr></table>
 </div>
 <a name="false2f"></a>
 <div>
@@ -1832,10 +1948,10 @@
         <li><strong class="pname"><code>str2</code></strong> - String to split (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (1st, 2nd) halfs (strings).</dd>
+        <dd>2-Tuple (1st, 2nd) half (strings).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Zero or odd len(str2).</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Zero or odd <i>len(str2)</i>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1851,7 +1967,8 @@
         <span class="sig-arg">lon1</span>,
         <span class="sig-arg">lat2</span>,
         <span class="sig-arg">lon2</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>)</span>
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1864,11 +1981,13 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lat1</code></strong> - Latitude1 (degrees).</li>
-        <li><strong class="pname"><code>lon1</code></strong> - Longitude1 (degrees).</li>
-        <li><strong class="pname"><code>lat2</code></strong> - Latitude2 (degrees).</li>
-        <li><strong class="pname"><code>lon2</code></strong> - Longitude2 (degrees).</li>
+        <li><strong class="pname"><code>lat1</code></strong> - Start latitude (degrees).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - Start longitude (degrees).</li>
+        <li><strong class="pname"><code>lat2</code></strong> - End latitude (degrees).</li>
+        <li><strong class="pname"><code>lon2</code></strong> - End longitude (degrees).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utils-module.html#unrollPI" 
+          class="link">unrollPI</a> longitudes (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (meter, same units as <i>radius</i>).</dd>
@@ -1876,8 +1995,8 @@
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="http://www.edwilliams.org/avform.htm#Dist" 
         target="_top">Distance between two points</a> and function <a 
-        href="pygeodesy.utils-module.html#equirectangular3" 
-        class="link">equirectangular3</a> for an approximation.
+        href="pygeodesy.utils-module.html#equirectangular" 
+        class="link">equirectangular</a> for an approximation.
       </p>
 </div></td></tr></table>
 </div>
@@ -1897,23 +2016,21 @@
     </td>
   </tr></table>
   
-  <p>Compute the <i>angular</i> distance using the <a 
+  <p>Compute the <i>angular</i> distance between two points using the <a 
   href="http://www.movable-type.co.uk/scripts/latlong.html" 
   target="_top">Haversine</a> formula.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>a2</code></strong> - Latitude2 (radians).</li>
-        <li><strong class="pname"><code>a1</code></strong> - Latitude1 (radians).</li>
-        <li><strong class="pname"><code>b21</code></strong> - Longitudinal delta (radians).</li>
+        <li><strong class="pname"><code>a2</code></strong> - End latitude (radians).</li>
+        <li><strong class="pname"><code>a1</code></strong> - Start latitude (radians).</li>
+        <li><strong class="pname"><code>b21</code></strong> - Longitudinal delta, <i class="math">end-start</i> (radians).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Angular distance (radians).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        This <a href="http://www.edwilliams.org/avform.htm#Dist" 
-        target="_top">Distance between two points</a>, function <a 
-        href="pygeodesy.utils-module.html#haversine" 
+        Function <a href="pygeodesy.utils-module.html#haversine" 
         class="link">haversine</a>.
       </p>
 </div></td></tr></table>
@@ -1947,7 +2064,7 @@
         <dd>Height (meter, same units as <i>distance</i> and <i>radius</i>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid angle, distance or radius.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>angle</i>, <i>distance</i> or <i>radius</i>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -1986,11 +2103,10 @@
         <li><strong class="pname"><code>refraction</code></strong> - Consider atmospheric refraction (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Distance (meter, same units as <i>distance</i> and 
-          <i>radius</i>).</dd>
+        <dd>Distance (meter, same units as <i>height</i> and <i>radius</i>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid height or radius.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>height</i> or <i>radius</i>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -2512,7 +2628,7 @@
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <i>LatLon</i>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Too few points.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of points.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -2531,7 +2647,8 @@
     </td>
   </tr></table>
   
-  <p>Convert and wrap degrees to radians <i class="math">-PI..+PI</i>.</p>
+  <p>Convert and wrap degrees to radians <i 
+  class="math">(-PI..+PI]</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -2556,7 +2673,7 @@
     </td>
   </tr></table>
   
-  <p>Convert and wrap degrees to radians <i class="math">0..+2PI</i>.</p>
+  <p>Convert and wrap degrees to radians <i class="math">(0..+2PI]</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -2582,7 +2699,7 @@
   </tr></table>
   
   <p>Convert and wrap degrees to radians <i 
-  class="math">-3PI/2..+PI/2</i>.</p>
+  class="math">(-3PI/2..+PI/2]</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -2679,6 +2796,107 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="unroll180"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">unroll180</span>(<span class="sig-arg">lon1</span>,
+        <span class="sig-arg">lon2</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Unroll longitudinal delta and wrap longitude in degrees.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lon1</code></strong> - Start longitude (degrees).</li>
+        <li><strong class="pname"><code>lon2</code></strong> - End longitude (degrees).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll to the <i class="math">(-180..+180]</i> range 
+          (bool).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>2-Tuple (delta <i>lon2</i>-<i>lon1</i>, <i>lon2</i>) unrolled 
+          (degrees, degrees).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Capability <i>LONG_UNROLL</i> in <a 
+        href="http://geographiclib.sourceforge.io/html/python/interface.html#outmask"
+        target="_top">GeographicLib</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="unrollPI"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">unrollPI</span>(<span class="sig-arg">rad1</span>,
+        <span class="sig-arg">rad2</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Unroll longitudinal delta and wrap longitude in radians.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>rad1</code></strong> - Start longitude (radians).</li>
+        <li><strong class="pname"><code>rad2</code></strong> - End longitude (radians).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll to the <i class="math">(-PI..+PI]</i> range 
+          (bool).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>2-Tuple (delta <i>rad2</i>-<i>rad1</i>, <i>rad2</i>) unrolled 
+          (radians, radians).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Capability <i>LONG_UNROLL</i> in <a 
+        href="http://geographiclib.sourceforge.io/html/python/interface.html#outmask"
+        target="_top">GeographicLib</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="unStr"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">unStr</span>(<span class="sig-arg">name</span>,
+        <span class="sig-arg">*args</span>,
+        <span class="sig-arg">**kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the string representation of an invokation.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>name</code></strong> - Function, method or class name (string).</li>
+        <li><strong class="pname"><code>args</code></strong> - Optional positional arguments (tuple).</li>
+        <li><strong class="pname"><code>kwds</code></strong> - Optional keyword arguments (dict).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Representation (string).</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="wrap90"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -2693,7 +2911,7 @@
     </td>
   </tr></table>
   
-  <p>Wrap degrees to <i class="math">-270..+90</i>.</p>
+  <p>Wrap degrees to <i class="math">(-270..+90]</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -2718,7 +2936,7 @@
     </td>
   </tr></table>
   
-  <p>Wrap degrees to <i class="math">-180..+180</i>.</p>
+  <p>Wrap degrees to <i class="math">(-180..+180]</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -2743,7 +2961,7 @@
     </td>
   </tr></table>
   
-  <p>Wrap degrees to <i class="math">0..+360</i>.</p>
+  <p>Wrap degrees to <i class="math">(0..+360]</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -2768,7 +2986,7 @@
     </td>
   </tr></table>
   
-  <p>Wrap radians to <i class="math">-PI..+PI</i>.</p>
+  <p>Wrap radians to <i class="math">(-PI..+PI]</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -2793,7 +3011,7 @@
     </td>
   </tr></table>
   
-  <p>Wrap radians to <i class="math">0..+2PI</i>.</p>
+  <p>Wrap radians to <i class="math">(0..+2PI]</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -2818,7 +3036,7 @@
     </td>
   </tr></table>
   
-  <p>Wrap radians to <i class="math">-3PI/2..+PI/2</i>.</p>
+  <p>Wrap radians to <i class="math">(-3PI/2..+PI/2]</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -2861,7 +3079,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Jan 11 20:43:49 2018
+    Generated by Epydoc 3.0.1 on Thu Jan 18 16:08:16 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

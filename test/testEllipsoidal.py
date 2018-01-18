@@ -247,7 +247,7 @@ if __name__ == '__main__':
 
     t.testEllipsoidal(N)
 
-    t.testLatLon(N, Sph=False)
+    t.testLatLon(N, Sph=False, Nv=True)
     t.testVectorial(N)
 
     t.testLatLon(V, Sph=False)

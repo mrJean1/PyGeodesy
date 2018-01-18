@@ -83,7 +83,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.01.11
+        18.01.18
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -148,6 +148,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.points-module.html#areaof" class="summary-sig-name">areaof</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
       Approximate the area of a polygon defined by an array, list, 
@@ -168,11 +169,10 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.points-module.html#bounds" class="summary-sig-name">bounds</a>(<span class="summary-sig-arg">points</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Determine the lower-left and upper-right corners of a polygon defined
-      by a list, sequence, set or tuple of points.</td>
+      Determine the lower-left and upper-right corners of a polygon/-line 
+      defined by a list, sequence, set or tuple of points.</td>
           <td align="right" valign="top">
             
             
@@ -189,6 +189,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.points-module.html#isclockwise" class="summary-sig-name">isclockwise</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
       Determine the direction of a polygon defined by an array, list, 
       sequence, set or tuple of points.</td>
@@ -208,7 +209,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.points-module.html#isconvex" class="summary-sig-name">isconvex</a>(<span class="summary-sig-arg">points</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
       Determine whether a polygon defined by an array, list, sequence, set 
       or tuple of points is convex.</td>
@@ -249,6 +250,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.points-module.html#perimeterof" class="summary-sig-name">perimeterof</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
       Approximate the perimeter of a polygon/-line defined by an array, 
@@ -280,6 +282,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">areaof</span>(<span class="sig-arg">points</span>,
+        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>)</span>
   </h3>
@@ -294,21 +297,23 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<i>LatLon</i>[]).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
+          the mean latitude (bool).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Optionally, wrap90(lat) and wrap180(lon) (bool).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Approximate area (meter squared).</dd>
+        <dd>Approximate area (meter, same units as <i>radius</i>, squared).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <i>LatLon</i>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Too few points.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of points.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         This is an area approximation with limited accuracy, ill-suited for
-        regions larger than several hundred Km or Miles or with latitudes 
-        near the poles.
+        regions exceeding several hundred Km or Miles or with near-polar 
+        latitudes.
       </p>
 </div></td></tr></table>
 </div>
@@ -320,7 +325,6 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">bounds</span>(<span class="sig-arg">points</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>)</span>
   </h3>
@@ -329,23 +333,23 @@
     </td>
   </tr></table>
   
-  <p>Determine the lower-left and upper-right corners of a polygon defined 
-  by a list, sequence, set or tuple of points.</p>
+  <p>Determine the lower-left and upper-right corners of a polygon/-line 
+  defined by a list, sequence, set or tuple of points.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<i>LatLon</i>[]).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Optionally, wrap90(lat) and wrap180(lon) (bool).</li>
-        <li><strong class="pname"><code>LatLon</code></strong> - Optional class to use (<i>LatLon</i>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap lat- and longitudes (bool).</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return <i>bounds</i> (<i>LatLon</i>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>4-Tuple (lolat, lolon, hilat, hilon) corners (degrees) or 2-tuple
-          (loLatLon, hiLatLon) if (LatLon) given.</dd>
+        <dd>2-tuple (loLatLon, hiLatLon) of <i>LatLon</i>s for the lower-left
+          respectively upper-right corners or 4-Tuple (lolat, lolon, hilat,
+          hilon) of bounds (degrees) if <i>LatLon</i> is None.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <i>LatLon</i>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Too few points.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of points.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -364,6 +368,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">isclockwise</span>(<span class="sig-arg">points</span>,
+        <span class="sig-arg">adjust</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -377,14 +382,16 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<i>LatLon</i>[]).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Optionally, wrap90(lat) and wrap180(lon) (bool).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
+          the mean latitude (bool).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>True if clockwise, False otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <i>LatLon</i>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Too few points or zero area polygon.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of points or zero area polygon.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -405,7 +412,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">isconvex</span>(<span class="sig-arg">points</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">adjust</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -419,8 +426,9 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<i>LatLon</i>[]).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Optionally, wrap90(lat) and wrap180(lon) (bool).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
+          the mean latitude (bool).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>True if convex, False otherwise.</dd>
@@ -428,7 +436,7 @@
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.utils.CrossError-class.html">CrossError</a></strong></code> - Colinear point.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <i>LatLon</i>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Too few points.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of points.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -464,14 +472,14 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>latlon</code></strong> - The point (<i>LatLon</i> or 2-tuple (lat, lon)).</li>
         <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<i>LatLon</i>[]).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Optionally, wrap90(lat) and wrap180(lon) (bool).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>True if point is inside the polygon, False otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <i>LatLon</i>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Too few points or invalid <i>latlon</i> point.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of points or invalid <i>latlon</i> point.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -495,6 +503,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">perimeterof</span>(<span class="sig-arg">points</span>,
         <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>)</span>
   </h3>
@@ -510,23 +519,25 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<i>LatLon</i>[]).</li>
         <li><strong class="pname"><code>closed</code></strong> - Optionally, close the polygon/-line (bool).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
+          the mean latitude (bool).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Optionally, wrap90(lat) and wrap180(lon) (bool).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Approximate perimeter (meter).</dd>
+        <dd>Approximate perimeter (meter, same units as <i>radius</i>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <i>LatLon</i>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Too few points.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of points.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        This perimeter is the based on the <a 
-        href="pygeodesy.utils-module.html#equirectangular3" 
-        class="link">equirectangular3</a> distance and is ill-suited for 
-        regions larger than several hundred Km or Miles or with latitudes 
-        near the poles.
+        This perimeter is based on the <a 
+        href="pygeodesy.utils-module.html#equirectangular_" 
+        class="link">equirectangular_</a> distance approximation and is 
+        ill-suited for regions exceeding several hundred Km or Miles or 
+        with near-polar latitudes.
       </p>
 </div></td></tr></table>
 </div>
@@ -562,7 +573,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Jan 11 20:43:48 2018
+    Generated by Epydoc 3.0.1 on Thu Jan 18 16:08:15 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

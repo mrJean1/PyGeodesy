@@ -15,8 +15,9 @@ see U{http://www.movable-type.co.uk/scripts/latlong.html}.
 from datum import R_M
 from sphericalBase import LatLonSphericalBase
 from utils import EPS, PI2, PI_2, degrees90, degrees180, degrees360, \
-                  equirectangular3, favg, fmean, fsum, haversine_, \
-                  iterNumpy2, map1, radians, tan_2, wrap180, wrapPI
+                  equirectangular_, favg, fmean, fsum, haversine_, \
+                  iterNumpy2, map1, radians, tan_2, unrollPI, \
+                  wrap180, wrapPI
 from vector3d import Vector3d, sumOf
 
 from math import acos, asin, atan2, copysign, cos, hypot, sin, sqrt
@@ -28,7 +29,7 @@ __all__ = ('LatLon',  # classes
            'meanOf',
            'nearestOn2',
            'perimeterOf')
-__version__ = '18.01.11'
+__version__ = '18.01.16'
 
 
 class LatLon(LatLonSphericalBase):
@@ -48,20 +49,24 @@ class LatLon(LatLonSphericalBase):
             self._v3d = None
             LatLonSphericalBase._update(self, updated)
 
-    def _trackDistanceTo3(self, start, end, radius):
+    def _trackDistanceTo3(self, start, end, radius, wrap):
         '''(INTERNAL) Helper for along-/crossTrackDistanceTo.
         '''
         self.others(start, name='start')
         self.others(end, name='end')
 
-        r = start.distanceTo(self, radius) / float(radius)
-        b = radians(start.bearingTo(self))
-        e = radians(start.bearingTo(end))
+        r = float(radius)
+        if r < EPS:
+            raise ValueError('%s invalid: %r' % ('radius', radius))
+
+        r = start.distanceTo(self, r, wrap=wrap) / r
+        b = radians(start.initialBearingTo(self, wrap=wrap))
+        e = radians(start.initialBearingTo(end, wrap=wrap))
 
         x = asin(sin(r) * sin(b - e))
         return r, x, e - b
 
-    def alongTrackDistanceTo(self, start, end, radius=R_M):
+    def alongTrackDistanceTo(self, start, end, radius=R_M, wrap=False):
         '''Compute the (signed) distance from the start to the closest
            point on the great circle path defined by a start and an
            end point.
@@ -74,6 +79,7 @@ class LatLon(LatLonSphericalBase):
            @param start: Start point of great circle path (L{LatLon}).
            @param end: End point of great circle path (L{LatLon}).
            @keyword radius: Optional, mean earth radius (meter).
+           @keyword wrap: Wrap and unroll longitudes (bool).
 
            @return: Distance along the great circle path (positive if
                     after the start toward the end point of the path
@@ -89,19 +95,20 @@ class LatLon(LatLonSphericalBase):
            >>> e = LatLon(53.1887, 0.1334)
            >>> d = p.alongTrackDistanceTo(s, e)  # 62331.58
         '''
-        r, x, b = self._trackDistanceTo3(start, end, radius)
+        r, x, b = self._trackDistanceTo3(start, end, radius, wrap)
         cx = cos(x)
         if abs(cx) > EPS:
             return copysign(acos(cos(r) / cx), cos(b)) * radius
         else:
             return 0.0
 
-    def crossingParallels(self, other, lat):
+    def crossingParallels(self, other, lat, wrap=False):
         '''Return the pair of meridians at which a great circle defined
            by this and an other point crosses the given latitude.
 
            @param other: The other point defining great circle (L{LatLon}).
            @param lat: Latitude at the crossing (degrees).
+           @keyword wrap: Wrap and unroll longitudes (bool).
 
            @return: 2-Tuple (lon1, lon2) in (degrees180) or None if the
                     great circle doesn't reach the given latitude.
@@ -111,7 +118,8 @@ class LatLon(LatLonSphericalBase):
         a1, b1 = self.to2ab()
         a2, b2 = other.to2ab()
 
-        a, db = radians(lat), (b2 - b1)
+        a = radians(lat)
+        db, b2 = unrollPI(b1, b2, wrap=wrap)
 
         ca, ca1, ca2, cdb = map1(cos, a, a1, a2, db)
         sa, sa1, sa2, sdb = map1(sin, a, a1, a2, db)
@@ -129,13 +137,14 @@ class LatLon(LatLonSphericalBase):
 
         return degrees180(m - d), degrees180(m + d)
 
-    def crossTrackDistanceTo(self, start, end, radius=R_M):
+    def crossTrackDistanceTo(self, start, end, radius=R_M, wrap=False):
         '''Compute the (signed) distance from this point to the great
            circle defined by a start and an end point.
 
            @param start: Start point of great circle path (L{LatLon}).
            @param end: End point of great circle path (L{LatLon}).
            @keyword radius: Optional, mean earth radius (meter).
+           @keyword wrap: Wrap and unroll longitudes (bool).
 
            @return: Distance to great circle (negative if to the
                     left or positive if to the right of the path).
@@ -150,7 +159,7 @@ class LatLon(LatLonSphericalBase):
            >>> e = LatLon(53.1887, 0.1334)
            >>> d = p.crossTrackDistanceTo(s, e)  # -307.5
         '''
-        _, x, _ = self._trackDistanceTo3(start, end, radius)
+        _, x, _ = self._trackDistanceTo3(start, end, radius, wrap)
         return x * radius
 
     def destination(self, distance, bearing, radius=R_M, height=None):
@@ -181,11 +190,12 @@ class LatLon(LatLonSphericalBase):
         h = self.height if height is None else height
         return self.classof(a, b, height=h)
 
-    def distanceTo(self, other, radius=R_M):
+    def distanceTo(self, other, radius=R_M, wrap=False):
         '''Compute the distance from this to an other point.
 
            @param other: The other point (L{LatLon}).
            @keyword radius: Optional, mean earth radius (meter).
+           @keyword wrap: Wrap and unroll longitudes (bool).
 
            @return: Distance between this and the other point
                     (in the same units as radius).
@@ -203,7 +213,9 @@ class LatLon(LatLonSphericalBase):
         a1, b1 = self.to2ab()
         a2, b2 = other.to2ab()
 
-        return haversine_(a2, a1, b2 - b1) * float(radius)
+        db, b2 = unrollPI(b1, b2, wrap=wrap)
+        r = haversine_(a2, a1, db)
+        return r * float(radius)
 
     def greatCircle(self, bearing):
         '''Compute the vector normal to great circle obtained by heading
@@ -232,11 +244,12 @@ class LatLon(LatLonSphericalBase):
                        -cb * ct - sb * sa * st,
                         ca * st)  # XXX .unit()?
 
-    def initialBearingTo(self, other):
+    def initialBearingTo(self, other, wrap=False):
         '''Compute the initial bearing (aka forward azimuth) from
            this to an other point.
 
            @param other: The other point (L{LatLon}).
+           @keyword wrap: Wrap and unroll longitudes (bool).
 
            @return: Initial bearing (compass degrees).
 
@@ -246,7 +259,7 @@ class LatLon(LatLonSphericalBase):
 
            >>> p1 = LatLon(52.205, 0.119)
            >>> p2 = LatLon(48.857, 2.351)
-           >>> b = p1.bearingTo(p2)  # 156.2
+           >>> b = p1.initialBearingTo(p2)  # 156.2
 
            @JSname: I{bearingTo}.
         '''
@@ -255,8 +268,7 @@ class LatLon(LatLonSphericalBase):
         a1, b1 = self.to2ab()
         a2, b2 = other.to2ab()
 
-        db = b2 - b1
-
+        db, b2 = unrollPI(b1, b2, wrap=wrap)
         ca1, ca2, cdb = map1(cos, a1, a2, db)
         sa1, sa2, sdb = map1(sin, a1, a2, db)
 
@@ -268,7 +280,7 @@ class LatLon(LatLonSphericalBase):
 
     bearingTo = initialBearingTo  # for backward compatibility
 
-    def intermediateTo(self, other, fraction, height=None):
+    def intermediateTo(self, other, fraction, height=None, wrap=False):
         '''Locate the point at given fraction between this and an
            other point.
 
@@ -277,6 +289,7 @@ class LatLon(LatLonSphericalBase):
                             this point, 1.0 = the other point).
            @keyword height: Optional height, overriding the fractional
                             height (meter).
+           @keyword wrap: Wrap and unroll longitudes (bool).
 
            @return: Intermediate point (L{LatLon}).
 
@@ -295,7 +308,8 @@ class LatLon(LatLonSphericalBase):
         a1, b1 = self.to2ab()
         a2, b2 = other.to2ab()
 
-        r = haversine_(a2, a1, b2 - b1)
+        db, b2 = unrollPI(b1, b2, wrap=wrap)
+        r = haversine_(a2, a1, db)
         if r > EPS:
             cb1, cb2, ca1, ca2     = map1(cos, b1, b2, a1, a2)
             sb1, sb2, sa1, sa2, sr = map1(sin, b1, b2, a1, a2, r)
@@ -320,7 +334,8 @@ class LatLon(LatLonSphericalBase):
             h = height
         return self.classof(degrees90(a), degrees180(b), height=h)
 
-    def intersection(self, bearing, start2, bearing2, height=None):
+    def intersection(self, bearing, start2, bearing2,
+                           height=None, wrap=False):
         '''Locate the intersection of two paths each defined by
            a start point and an initial bearing.
 
@@ -329,6 +344,7 @@ class LatLon(LatLonSphericalBase):
            @param bearing2: Initial bearing from start2 (compass degrees).
            @keyword height: Optional height for intersection point,
                             overriding the mean height (meter).
+           @keyword wrap: Wrap and unroll longitudes (bool).
 
            @return: Intersection point (L{LatLon}).
 
@@ -344,7 +360,8 @@ class LatLon(LatLonSphericalBase):
            >>> i = p.intersection(108.547, s, 32.435)  # '50.9078°N, 004.5084°E'
         '''
         return intersection(self, bearing, start2, bearing2,
-                                  height=height, LatLon=self.classof)
+                                  height=height, wrap=wrap,
+                                  LatLon=self.classof)
 
     def isEnclosedBy(self, points):
         '''Test whether this point is enclosed by the polygon defined
@@ -354,7 +371,8 @@ class LatLon(LatLonSphericalBase):
 
            @return: True if the polygon encloses this point (bool).
 
-           @raise ValueError: Too few points or non-convex polygon.
+           @raise ValueError: Insufficient number of points or
+                              non-convex polygon.
 
            @raise TypeError: Some points are not L{LatLon}.
 
@@ -415,12 +433,13 @@ class LatLon(LatLonSphericalBase):
 
         return True  # inside
 
-    def midpointTo(self, other, height=None):
+    def midpointTo(self, other, height=None, wrap=False):
         '''Find the midpoint between this and an other point.
 
            @param other: The other point (L{LatLon}).
            @keyword height: Optional height for midpoint, overriding
                             the mean height (meter).
+           @keyword wrap: Wrap and unroll longitudes (bool).
 
            @return: Midpoint (L{LatLon}).
 
@@ -438,7 +457,7 @@ class LatLon(LatLonSphericalBase):
         a1, b1 = self.to2ab()
         a2, b2 = other.to2ab()
 
-        db = b2 - b1
+        db, b2 = unrollPI(b1, b2, wrap=wrap)
 
         ca1, ca2, cdb = map1(cos, a1, a2, db)
         sa1, sa2, sdb = map1(sin, a1, a2, db)
@@ -463,19 +482,19 @@ class LatLon(LatLonSphericalBase):
            Otherwise the returned point is the closest of the segment
            end points.
 
-           Distances are approximated by function L{equirectangular3},
+           Distances are approximated by function L{equirectangular_},
            subject to the supplied I{options}.
 
            @param point1: Start point of the segment (L{LatLon}).
            @param point2: End point of the segment (L{LatLon}).
            @keyword options: Optional keyword argument for function
-                             L{equirectangular3}.
+                             L{equirectangular_}.
 
            @return: Closest point on segment (L{LatLon}).
 
            @raise TypeError: If point1 or point2 is not L{LatLon} or
-                             if delta limit exceeded, see function
-                             L{equirectangular3}.
+                             if I{limit} exceeded, see function
+                             L{equirectangular_}.
         '''
         p, _ = nearestOn2(self, [point1, point2], **options)
         return p
@@ -488,13 +507,13 @@ class LatLon(LatLonSphericalBase):
            closest point is on the segment.  Otherwise the closest
            point is the nearest of the segment end points.
 
-           Distances are approximated by function L{equirectangular3},
+           Distances are approximated by function L{equirectangular_},
            subject to the supplied I{options}.
 
            @param points: The points of the path (L{LatLon}[]).
            @keyword radius: Optional, mean earth radius (meter).
            @keyword options: Optional keyword argument for function
-                             L{equirectangular3}.
+                             L{equirectangular_}.
 
            @return: 2-Tuple (closest, distance) of the closest point
            (L{LatLon}) on the path and the distance to that point in
@@ -502,8 +521,8 @@ class LatLon(LatLonSphericalBase):
 
            @raise TypeError: Some points are not I{LatLon}.
 
-           @raise ValueError: If no points or if delta limit exceeded,
-                              see function L{equirectangular3}.
+           @raise ValueError: If no points or if I{limit} exceeded,
+                              see function L{equirectangular_}.
         '''
         return nearestOn2(self, points, radius=radius, **options)
 
@@ -540,18 +559,19 @@ def _destination2(a, b, r, t):
     return degrees90(a), degrees180(b)
 
 
-def areaOf(points, radius=R_M):
+def areaOf(points, radius=R_M, wrap=True):
     '''Calculate the area of a spherical polygon where the sides
        of the polygon are great circle arcs joining the points.
 
        @param points: The points defining the polygon (L{LatLon}[]).
        @keyword radius: Optional, mean earth radius (meter).
+       @keyword wrap: Wrap and unroll longitudes (bool).
 
        @return: Polygon area (float, same units as radius squared).
 
        @raise TypeError: Some points are not L{LatLon}.
 
-       @raise ValueError: Too few points.
+       @raise ValueError: Insufficient number of points.
 
        @example:
 
@@ -581,8 +601,9 @@ def areaOf(points, radius=R_M):
             ta1 = tan_2(a1)
             for i in range(n):
                 a2, b2 = points[i].to2ab()
-                ta2, tb21 = map1(tan_2, a2, b2 - b1)
-                yield atan2(tb21 * (ta1 + ta2), 1 + ta1 * ta2)
+                db, b2 = unrollPI(b1, b2, wrap=wrap)
+                ta2, tdb = map1(tan_2, a2, db)
+                yield atan2(tdb * (ta1 + ta2), 1 + ta1 * ta2)
                 ta1, b1 = ta2, b2
 
         s = fsum(_exs(n, points)) * 2
@@ -592,8 +613,9 @@ def areaOf(points, radius=R_M):
         s, ta1 = [], tan_2(a1)
         for i in range(n):
             a2, b2 = points[i].to2ab()
-            ta2, tb21 = map1(tan_2, a2, b2 - b1)
-            s.append(atan2(tb21 * (ta1 + ta2), 1 + ta1 * ta2))
+            db, b2 = unrollPI(b1, b2, wrap=wrap)
+            ta2, tdb = map1(tan_2, a2, db)
+            s.append(atan2(tdb * (ta1 + ta2), 1 + ta1 * ta2))
             ta1, b1 = ta2, b2
 
         s = fsum(s) * 2
@@ -605,7 +627,7 @@ def areaOf(points, radius=R_M):
 
 
 def intersection(start1, bearing1, start2, bearing2,
-                 height=None, LatLon=LatLon):
+                 height=None, wrap=False, LatLon=LatLon):
     '''Compute the intersection point of two paths each defined
        by a start point and an initial bearing.
 
@@ -615,10 +637,12 @@ def intersection(start1, bearing1, start2, bearing2,
        @param bearing2: Initial bearing from start2 (compass degrees).
        @keyword height: Optional height for the intersection point,
                         overriding the mean height (meter).
+       @keyword wrap: Wrap and unroll longitudes (bool).
        @keyword LatLon: Optional LatLon class for the intersection
-                        point (L{LatLon}).
+                        point (L{LatLon}) or None.
 
-       @return: Intersection point (L{LatLon}).
+       @return: Intersection point (L{LatLon}) or 3-tuple
+                (lat, lon, height)).
 
        @raise TypeError: Point start1 or start2 is not L{LatLon}.
 
@@ -638,20 +662,21 @@ def intersection(start1, bearing1, start2, bearing2,
     a1, b1 = start1.to2ab()
     a2, b2 = start2.to2ab()
 
-    r12 = haversine_(a2, a1, b2 - b1)
+    db, b2 = unrollPI(b1, b2, wrap=wrap)
+    r12 = haversine_(a2, a1, db)
     if abs(r12) < EPS:
         raise ValueError('intersection %s: %r vs %r' % ('parallel', start1, start2))
 
     ca1, ca2       = map1(cos, a1, a2)
     sa1, sa2, sr12 = map1(sin, a1, a2, r12)
     x1, x2 = (sr12 * ca1), (sr12 * ca2)
-    if min(map1(abs, x1, x2)) < EPS:
+    if min(abs(x1), abs(x2)) < EPS:
         raise ValueError('intersection %s: %r vs %r' % ('parallel', start1, start2))
 
     cr12 = cos(r12)
     t1, t2 = map1(acos, (sa2 - sa1 * cr12) / x1,
                         (sa1 - sa2 * cr12) / x2)
-    if sin(b2 - b1) > 0:
+    if sin(db) > 0:
         t12, t21 = t1, PI2 - t2
     else:
         t12, t21 = PI2 - t1, t2
@@ -659,6 +684,7 @@ def intersection(start1, bearing1, start2, bearing2,
     t13, t23 = map1(radians, bearing1, bearing2)
     x1, x2 = map1(wrapPI, t13 - t12,  # angle 2-1-3
                           t21 - t23)  # angle 1-2-3
+
     sx1, sx2 = map1(sin, x1, x2)
     if sx1 == 0 and sx2 == 0:
         raise ValueError('intersection %s: %r vs %r' % ('infinite', start1, start2))
@@ -672,18 +698,22 @@ def intersection(start1, bearing1, start2, bearing2,
 
     a, b = _destination2(a1, b1, r13, t13)
     h = start1._havg(start2) if height is None else height
-    return LatLon(a, b, height=h)
+    if LatLon:
+        return LatLon(a, b, height=h)
+    else:
+        return a, b, h
 
 
-def isPoleEnclosedBy(points):
+def isPoleEnclosedBy(points, wrap=False):
     '''Test whether a pole is enclosed by a polygon defined by a list,
        sequence, set or tuple of points.
 
        @param points: The points defining the polygon (L{LatLon}[]).
+       @keyword wrap: Wrap and unroll longitudes (bool).
 
-       @return: True if the polygon encloses this point (bool).
+       @return: True if the polygon encloses a pole (bool).
 
-       @raise ValueError: Too few polygon points.
+       @raise ValueError: Insufficient number of points.
 
        @raise TypeError: Some points are not L{LatLon}.
     '''
@@ -691,14 +721,14 @@ def isPoleEnclosedBy(points):
 
     def _cds(n, points):  # iterate over course deltas
         p1 = points[n-1]
-        b1 = p1.bearingTo(points[0])  # XXX p1.finalBearingTo(points[0])?
+        b1 = p1.initialBearingTo(points[0], wrap=wrap)  # XXX p1.finalBearingTo(points[0])?
         for i in range(n):
             p2 = points[i]
             if not p2.equals(p1, EPS):
-                b = p1.bearingTo(p2)
-                yield wrap180(b - b1)  # XXX (b - b1 + 540) % 360 - 180
-                b2 = p1.finalBearingTo(p2)
-                yield wrap180(b2 - b)  # XXX (b2 - b + 540) % 360 - 180
+                b = p1.initialBearingTo(p2, wrap=wrap)
+                yield wrap180(b - b1)  # (b - b1 + 540) % 360 - 180
+                b2 = p1.finalBearingTo(p2, wrap=wrap)
+                yield wrap180(b2 - b)  # (b2 - b + 540) % 360 - 180
                 p1, b1 = p2, b2
 
     # sum of course deltas around pole is 0° rather than normally ±360°
@@ -715,10 +745,11 @@ def meanOf(points, height=None, LatLon=LatLon):
        @param points: Points to be averaged (L{LatLon}[]).
        @keyword height: Optional height at mean point overriding
                         the mean height (meter).
-       @keyword LatLon: Optional LatLon class for the mean point
+       @keyword LatLon: Optional LatLon class to return mean point
                         (L{LatLon}).
 
-       @return: Point at geographic mean and height (L{LatLon}).
+       @return: Point at geographic mean and height (L{LatLon}) or
+                3-tuple (mean_lat, mean_lon, height).
 
        @raise TypeError: Some points are not L{LatLon}.
 
@@ -734,7 +765,10 @@ def meanOf(points, height=None, LatLon=LatLon):
         h = fmean(points[i].height for i in range(n))
     else:
         h = height
-    return LatLon(a, b, height=h)
+    if LatLon:
+        return LatLon(a, b, height=h)
+    else:
+        return a, b, h
 
 
 def nearestOn2(point, points, radius=R_M, **options):
@@ -745,29 +779,32 @@ def nearestOn2(point, points, radius=R_M, **options):
        closest point is on the segment.  Otherwise the closest point
        is the nearest of the segment end points.
 
-       Distances are approximated by function L{equirectangular3},
+       Distances are approximated by function L{equirectangular_},
        subject to the supplied I{options}.
 
        @param point: The reference point (L{LatLon}).
        @param points: The points of the path (L{LatLon}[]).
        @keyword radius: Optional, mean earth radius (meter).
        @keyword options: Optional keyword arguments for function
-                         L{equirectangular3}.
+                         L{equirectangular_}.
 
        @return: 2-Tuple (closest, distance) of the closest point
                 (L{LatLon}) on the path and the distance to that
-                point.  The distance is the L{equirectangular3}
+                point.  The distance is the L{equirectangular_}
                 distance between the given and the closest point
                 in meter, rather the units of I{radius}.
 
        @raise TypeError: Some points are not I{LatLon}.
 
-       @raise ValueError: If no points or if delta limit exceeded,
-                          see function L{equirectangular3}.
+       @raise ValueError: If no points or if I{limit} exceeded, see
+                          function L{equirectangular_}.
     '''
-    def _d2yx(p2, p1):
-        # distance in degrees squared, delta lat, delta lon
-        return equirectangular3(p1.lat, p1.lon,
+    def _d2yx(p2, p1, u):
+        # equirectangular_ returns a 4-tuple (distance in
+        # degrees squared, delta lat, delta lon, p2.lon
+        # unroll/wrap); the previous p2.lon unroll/wrap
+        # is also applied to the next edge's p1.lon
+        return equirectangular_(p1.lat, p1.lon + u,
                                 p2.lat, p2.lon, **options)
 
     # point (x, y) on axis rotated by angle a ccw:
@@ -785,26 +822,30 @@ def nearestOn2(point, points, radius=R_M, **options):
 
     n, points = point.points(points, closed=False)
 
+    u = 0
     c = p2 = points[0]
-    d, _, _ = _d2yx(c, point)
+    d, _, _, _ = _d2yx(p2, point, 0)
     for i in range(1, n):
         p1, p2 = p2, points[i]
-        d21, y21, x21 = _d2yx(p2, p1)
+        # iff wrapped, unroll lon1 (actually previous
+        # lon2) like function unroll180/-PI would've
+        d21, y21, x21, u = _d2yx(p2, p1, u)
         if d21 > EPS:
             # distance point to p1
-            d2, y01, x01 = _d2yx(point, p1)
+            d2, y01, x01, _ = _d2yx(point, p1, 0)
             if d2 > EPS:
                 w = y01 * y21 + x01 * x21
                 if w > 0:
                     if w < d21:
-                        # closest is between p1 and p2, use the
-                        # original, not the adjusted delta-lon
+                        # closest is between p1 and p2, use
+                        # original delta's, not y21 and x21
                         f = w / d21
-                        p1 = point.classof(favg(p1.lat, p2.lat, f),
-                                           favg(p1.lon, p2.lon, f))
+                        p1 = point.classof(favg(p1.lat, p2.lat, f=f),
+                                           favg(p1.lon, p2.lon + u, f=f))
+                        d2, _, _, _ = _d2yx(point, p1, 0)
                     else:  # p2 is closer
-                        p1 = p2
-                    d2, _, _ = _d2yx(point, p1)
+                        d2, _, _, _ = _d2yx(point, p2, u)
+                        p1 = p2  # in case d2 < d
             if d2 < d:  # p1 is closer
                 c, d = p1, d2
 
@@ -813,19 +854,20 @@ def nearestOn2(point, points, radius=R_M, **options):
     return c, d
 
 
-def perimeterOf(points, closed=False, radius=R_M):
+def perimeterOf(points, closed=False, radius=R_M, wrap=True):
     '''Compute the perimeter of a polygon/-line defined by an array,
        list, sequence, set or tuple of points.
 
        @param points: The points defining the polygon (L{LatLon}[]).
-       @keyword radius: Optional, mean earth radius (meter).
        @keyword closed: Optionally, close the polygon/-line (bool).
+       @keyword radius: Optional, mean earth radius (meter).
+       @keyword wrap: Wrap and unroll longitudes (bool).
 
-       @return: Approximate perimeter (meter).
+       @return: Polygon perimeter (float, same units as radius).
 
        @raise TypeError: Some points are not L{LatLon}.
 
-       @raise ValueError: Too few points.
+       @raise ValueError: Insufficient number of points.
 
        @note: This perimeter is based on the L{haversine} formula.
     '''
@@ -839,12 +881,12 @@ def perimeterOf(points, closed=False, radius=R_M):
         a1, b1 = points[i].to2ab()
         for i in range(j, n):
             a2, b2 = points[i].to2ab()
-            yield haversine_(a2, a1, b2 - b1)
+            db, b2 = unrollPI(b1, b2, wrap=wrap)
+            yield haversine_(a2, a1, db)
             a1, b1 = a2, b2
 
     r = fsum(_rads(n, points, closed))
     return r * float(radius)
-
 
 # **) MIT License
 #

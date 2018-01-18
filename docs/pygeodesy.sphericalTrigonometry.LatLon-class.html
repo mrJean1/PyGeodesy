@@ -97,7 +97,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry.LatLon-class.html#alongTrackDistanceTo" class="summary-sig-name">alongTrackDistanceTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">start</span>,
         <span class="summary-sig-arg">end</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the (signed) distance from the start to the closest point on 
       the great circle path defined by a start and an end point.</td>
           <td align="right" valign="top">
@@ -117,7 +118,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry.LatLon-class.html#crossingParallels" class="summary-sig-name">crossingParallels</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
-        <span class="summary-sig-arg">lat</span>)</span><br />
+        <span class="summary-sig-arg">lat</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Return the pair of meridians at which a great circle defined by this 
       and an other point crosses the given latitude.</td>
           <td align="right" valign="top">
@@ -138,7 +140,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry.LatLon-class.html#crossTrackDistanceTo" class="summary-sig-name">crossTrackDistanceTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">start</span>,
         <span class="summary-sig-arg">end</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the (signed) distance from this point to the great circle 
       defined by a start and an end point.</td>
           <td align="right" valign="top">
@@ -180,7 +183,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry.LatLon-class.html#distanceTo" class="summary-sig-name">distanceTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the distance from this to an other point.</td>
           <td align="right" valign="top">
             
@@ -217,7 +221,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry.LatLon-class.html#initialBearingTo" class="summary-sig-name">initialBearingTo</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span><br />
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the initial bearing (aka forward azimuth) from this to an 
       other point.</td>
           <td align="right" valign="top">
@@ -236,7 +241,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry.LatLon-class.html#bearingTo" class="summary-sig-name">bearingTo</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span><br />
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the initial bearing (aka forward azimuth) from this to an 
       other point.</td>
           <td align="right" valign="top">
@@ -257,7 +263,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry.LatLon-class.html#intermediateTo" class="summary-sig-name">intermediateTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">fraction</span>,
-        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Locate the point at given fraction between this and an other point.</td>
           <td align="right" valign="top">
             
@@ -278,7 +285,8 @@
         <span class="summary-sig-arg">bearing</span>,
         <span class="summary-sig-arg">start2</span>,
         <span class="summary-sig-arg">bearing2</span>,
-        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Locate the intersection of two paths each defined by a start point 
       and an initial bearing.</td>
           <td align="right" valign="top">
@@ -317,7 +325,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry.LatLon-class.html#midpointTo" class="summary-sig-name">midpointTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
-        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Find the midpoint between this and an other point.</td>
           <td align="right" valign="top">
             
@@ -482,7 +491,8 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">alongTrackDistanceTo</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">start</span>,
         <span class="sig-arg">end</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>)</span>
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -504,6 +514,7 @@
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance along the great circle path (positive if after the start
@@ -535,7 +546,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">crossingParallels</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
-        <span class="sig-arg">lat</span>)</span>
+        <span class="sig-arg">lat</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -551,6 +563,7 @@
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>lat</code></strong> - Latitude at the crossing (degrees).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple (lon1, lon2) in (degrees180) or None if the great circle 
@@ -568,7 +581,8 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">crossTrackDistanceTo</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">start</span>,
         <span class="sig-arg">end</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>)</span>
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -587,6 +601,7 @@
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance to great circle (negative if to the left or positive if 
@@ -661,7 +676,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">distanceTo</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>)</span>
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -676,6 +692,7 @@
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance between this and the other point (in the same units as 
@@ -740,7 +757,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">initialBearingTo</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">other</span>)</span>
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -755,6 +773,7 @@
         <li><strong class="pname"><code>other</code></strong> - The other point (<a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Initial bearing (compass degrees).</dd>
@@ -769,7 +788,7 @@
         <pre class="py-doctest">
 <span class="py-prompt">&gt;&gt;&gt; </span>p1 = LatLon(52.205, 0.119)
 <span class="py-prompt">&gt;&gt;&gt; </span>p2 = LatLon(48.857, 2.351)
-<span class="py-prompt">&gt;&gt;&gt; </span>b = p1.bearingTo(p2)  <span class="py-comment"># 156.2</span></pre>
+<span class="py-prompt">&gt;&gt;&gt; </span>b = p1.initialBearingTo(p2)  <span class="py-comment"># 156.2</span></pre>
       </p>
       <p><strong>JS name:</strong>
         <i>bearingTo</i>.
@@ -784,7 +803,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">bearingTo</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">other</span>)</span>
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -799,6 +819,7 @@
         <li><strong class="pname"><code>other</code></strong> - The other point (<a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Initial bearing (compass degrees).</dd>
@@ -813,7 +834,7 @@
         <pre class="py-doctest">
 <span class="py-prompt">&gt;&gt;&gt; </span>p1 = LatLon(52.205, 0.119)
 <span class="py-prompt">&gt;&gt;&gt; </span>p2 = LatLon(48.857, 2.351)
-<span class="py-prompt">&gt;&gt;&gt; </span>b = p1.bearingTo(p2)  <span class="py-comment"># 156.2</span></pre>
+<span class="py-prompt">&gt;&gt;&gt; </span>b = p1.initialBearingTo(p2)  <span class="py-comment"># 156.2</span></pre>
       </p>
       <p><strong>JS name:</strong>
         <i>bearingTo</i>.
@@ -830,7 +851,8 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">intermediateTo</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
         <span class="sig-arg">fraction</span>,
-        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -848,6 +870,7 @@
         <li><strong class="pname"><code>fraction</code></strong> - Fraction between both points (float, 0.0 = this point, 1.0 = the 
           other point).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the fractional height (meter).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Intermediate point (<a 
@@ -882,7 +905,8 @@
         <span class="sig-arg">bearing</span>,
         <span class="sig-arg">start2</span>,
         <span class="sig-arg">bearing2</span>,
-        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -901,6 +925,7 @@
         <li><strong class="pname"><code>bearing2</code></strong> - Initial bearing from start2 (compass degrees).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height for intersection point, overriding the mean 
           height (meter).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Intersection point (<a 
@@ -951,7 +976,7 @@
         <dd>True if the polygon encloses this point (bool).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Too few points or non-convex polygon.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of points or non-convex polygon.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <a 
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
@@ -974,7 +999,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">midpointTo</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
-        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -989,6 +1015,7 @@
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height for midpoint, overriding the mean height (meter).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Midpoint (<a 
@@ -1031,8 +1058,8 @@
   points, the returned point is on the segment. Otherwise the returned 
   point is the closest of the segment end points.</p>
   <p>Distances are approximated by function <a 
-  href="pygeodesy.utils-module.html#equirectangular3" 
-  class="link">equirectangular3</a>, subject to the supplied 
+  href="pygeodesy.utils-module.html#equirectangular_" 
+  class="link">equirectangular_</a>, subject to the supplied 
   <i>options</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -1044,8 +1071,8 @@
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword argument for function <a 
-          href="pygeodesy.utils-module.html#equirectangular3" 
-          class="link">equirectangular3</a>.</li>
+          href="pygeodesy.utils-module.html#equirectangular_" 
+          class="link">equirectangular_</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Closest point on segment (<a 
@@ -1055,9 +1082,9 @@
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - If point1 or point2 is not <a 
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
-        class="link">LatLon</a> or if delta limit exceeded, see function <a
-        href="pygeodesy.utils-module.html#equirectangular3" 
-        class="link">equirectangular3</a>.</li>
+        class="link">LatLon</a> or if <i>limit</i> exceeded, see function 
+        <a href="pygeodesy.utils-module.html#equirectangular_" 
+        class="link">equirectangular_</a>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1085,8 +1112,8 @@
   is on the segment.  Otherwise the closest point is the nearest of the 
   segment end points.</p>
   <p>Distances are approximated by function <a 
-  href="pygeodesy.utils-module.html#equirectangular3" 
-  class="link">equirectangular3</a>, subject to the supplied 
+  href="pygeodesy.utils-module.html#equirectangular_" 
+  class="link">equirectangular_</a>, subject to the supplied 
   <i>options</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -1096,8 +1123,8 @@
           class="link">LatLon</a>[]).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword argument for function <a 
-          href="pygeodesy.utils-module.html#equirectangular3" 
-          class="link">equirectangular3</a>.</li>
+          href="pygeodesy.utils-module.html#equirectangular_" 
+          class="link">equirectangular_</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple (closest, distance) of the closest point (<a 
@@ -1107,9 +1134,9 @@
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <i>LatLon</i>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - If no points or if delta limit exceeded, see function <a 
-        href="pygeodesy.utils-module.html#equirectangular3" 
-        class="link">equirectangular3</a>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - If no points or if <i>limit</i> exceeded, see function <a 
+        href="pygeodesy.utils-module.html#equirectangular_" 
+        class="link">equirectangular_</a>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1169,7 +1196,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Jan 11 20:43:49 2018
+    Generated by Epydoc 3.0.1 on Thu Jan 18 16:08:16 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.11.26'
+__version__ = '18.01.12'
 
 from testLatLon import Tests as _TestsLL
 from testVectorial import Tests as _TestsV

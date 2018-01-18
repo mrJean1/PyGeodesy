@@ -16,7 +16,7 @@ U{http://pypi.python.org/pypi/pygeohash}.
 '''
 
 from dms import parse3llh, parseDMS2
-from utils import EPS, R_M, favg, fStr, haversine_, map2
+from utils import EPS, R_M, favg, fStr, haversine_, map2, unrollPI
 
 from math import cos, hypot, log10, radians
 
@@ -25,7 +25,7 @@ __all__ = ('Geohash',  # classes
            'bounds', 'decode', 'decode_error',  # functions
            'distance1', 'distance2', 'distance3',
            'encode', 'neighbors', 'sizes')
-__version__ = '17.12.16'
+__version__ = '18.01.16'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -190,16 +190,22 @@ class Geohash(str):
     def bounds(self, LatLon, **kwds):
         '''Return the SW and NE bounds of this geohash cell.
 
-           @param LatLon: LatLon class to use (I{LatLon}).
+           @param LatLon: LatLon class to return result (I{LatLon})
+                          or None.
            @keyword kwds: Optional keyword arguments for I{LatLon}.
 
            @return: 2-Tuple (LatLonSW, LatLonNE) of I{LatLon}s for
-                    the lower-left respectively upper-right corner.
+                    the lower-left respectively upper-right corner
+                    or 4-tuple (latS, lonW, latN, lonE) of bounds
+                    (degrees) if I{LatLon} is None.
         '''
         if not self._bounds:
             self._bounds = bounds(self)
         s, w, n, e = self._bounds
-        return LatLon(s, w, **kwds), LatLon(n, e, **kwds)
+        if LatLon:
+            return LatLon(s, w, **kwds), LatLon(n, e, **kwds)
+        else:
+            return s, w, n, e  # PYCHOK exprected
 
     def distance1(self, other):
         '''Estimate the distance between this and an other geohash
@@ -219,17 +225,21 @@ class Geohash(str):
                 break
         return float(_Sizes[n][2])
 
-    def distance2(self, other, radius=R_M):
+    def distance2(self, other, radius=R_M, wrap=False):
         '''Compute the distance between this and an other geohash
            using the U{Equirectangular Approximation/Projection
            <http://www.movable-type.co.uk/scripts/latlong.html>}.
 
            @param other: The other geohash (L{Geohash}).
            @keyword radius: Optional, mean earth radius (meter) or None.
+           @keyword wrap: Wrap and unroll longitudes (bool).
 
-           @return: Approximate distance (meter, same units as radius).
+           @return: Approximate distance (meter, same units as I{radius})
+                    or distance squared (radians squared) if I{radius}
+                    is None or 0.
 
-           @raise TypeError: The other is not a L{Geohash}, I{LatLon} or str.
+           @raise TypeError: The I{other} is not a L{Geohash}, I{LatLon}
+                             or str.
         '''
         other = _2Geohash(other)
 
@@ -237,31 +247,35 @@ class Geohash(str):
         a2, b2 = other.ab
 
         x = (a2 - a1) * cos(favg(b2, b1))
-        y =  b2 - b1
+        y, b2 = unrollPI(b1, b2, wrap=wrap)
 
         if radius:
             d = hypot(x, y) * float(radius)
         else:
-            d = x * x + y * y
+            d = x**2 + y**2
         return d
 
-    def distance3(self, other, radius=R_M):
-        '''Compute the great-circle distance between this and
-           an other geohash (using the Haversine formula).
+    def distance3(self, other, radius=R_M, wrap=False):
+        '''Compute the great-circle distance between this and an other
+           geohash using the U{Haversine
+           <http://www.movable-type.co.uk/scripts/latlong.html>} formula.
 
            @param other: The other geohash (L{Geohash}).
            @keyword radius: Optional, mean earth radius (meter).
+           @keyword wrap: Wrap and unroll longitudes (bool).
 
            @return: Great-circle distance (meter, same units as I{radius}).
 
-           @raise TypeError: The other is not a L{Geohash}, I{LatLon} or str.
+           @raise TypeError: The I{other} is not a L{Geohash}, I{LatLon}
+                             or str.
         '''
         other = _2Geohash(other)
 
         a1, b1 = self.ab
         a2, b2 = other.ab
 
-        return haversine_(a2, a1, b2 - b1) * float(radius)
+        db, b2 = unrollPI(b1, b2, wrap=wrap)
+        return haversine_(a2, a1, db) * float(radius)
 
     @property
     def latlon(self):
@@ -305,7 +319,8 @@ class Geohash(str):
            @param LatLon: Class to use (I{LatLon}).
            @keyword kwds: Optional keyword arguments for I{LatLon}.
 
-           @return: This geohash location (I{LatLon}).
+           @return: This geohash location (I{LatLon}) or 2-tuple
+                    (lat, lon) if I{LatLon} is None.
 
            @example:
 
@@ -314,7 +329,11 @@ class Geohash(str):
            >>> print(repr(ll))  # LatLon(52°12′17.9″N, 000°07′07.64″E)
            >>> print(ll)  # 52.204971°N, 000.11879°E
         '''
-        return LatLon(*self.latlon, **kwds)
+        ll = self.latlon
+        if LatLon:
+            return LatLon(*ll, **kwds)
+        else:
+            return ll
 
     @property
     def N(self):
@@ -376,7 +395,7 @@ class Geohash(str):
 def bounds(geohash):
     '''Returns the SW and NE lat-/longitude bounds of a geohash.
 
-       @return: 4-Tuple (latS, lonW, latN, lonE) in (degrees).
+       @return: 4-Tuple (latS, lonW, latN, lonE) of bounds in (degrees).
 
        @raise TypeError: The geohash is not a L{Geohash}, I{LatLon} or str.
 
@@ -498,7 +517,7 @@ def distance2(geohash1, geohash2, radius=R_M):
        @param geohash2: Second geohash (L{Geohash}).
        @keyword radius: Optional, mean earth radius (meter) or None.
 
-       @return: Approximate distance (meter, same units as radius).
+       @return: Approximate distance (meter, same units as I{radius}).
 
        @raise TypeError: A geohash is not a L{Geohash}, I{LatLon} or str.
 
@@ -517,7 +536,7 @@ def distance3(geohash1, geohash2, radius=R_M):
        @param geohash2: Second geohash (L{Geohash}).
        @keyword radius: Optional, mean earth radius (meter).
 
-       @return: Great-circle distance (meter, same units as radius).
+       @return: Great-circle distance (meter, same units as I{radius}).
 
        @raise TypeError: A geohash is not a L{Geohash}, I{LatLon} or str.
 

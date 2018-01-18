@@ -69,7 +69,7 @@ class Conic(_Based):
 
            @return: A Lambert projection (L{Conic}).
 
-           @raise TypeError: If latlon is not ellipsoidal.
+           @raise TypeError: If I{latlon0} is not ellipsoidal.
 
            @example:
 

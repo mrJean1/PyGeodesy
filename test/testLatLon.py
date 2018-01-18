@@ -4,18 +4,18 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '18.01.08'
+__version__ = '18.01.16'
 
 from base import TestsBase
 
-from pygeodesy import R_NM, F_DM, F_DMS, F_RAD, \
+from pygeodesy import R_NM, F_D, F_DM, F_DMS, F_RAD, \
                       degrees, isclockwise, isconvex, isenclosedby, \
                       m2NM  # PYCHOK expected
 
 
 class Tests(TestsBase):
 
-    def testLatLon(self, module, Sph=False):  # MCCABE expected
+    def testLatLon(self, module, Sph=False, Nv=True):  # MCCABE 39
 
         self.subtitle(module, 'LatLon')
 
@@ -39,6 +39,11 @@ class Tests(TestsBase):
         LAX = LatLon(33.+57./60, -(118.+24./60))
         JFK = LatLon(degrees(0.709186), -degrees(1.287762))
         Rav = m2NM(6366710)  # av earth radius in NM
+        # <http://geographiclib.sourceforge.io/html/python/examples.html>
+        WNZ = LatLon(-41.32, 174.81)  # Wellington, NZ
+        SAL = LatLon(40.96, 5.50)  # Salamanca, Spain
+        BJS = LatLon(40.1, 116.6)  # Beijing Airport
+        SFO = LatLon(37.6, -122.4)  # San Francisco
 
         p = LatLon(52.205, 0.119)
         q = LatLon(48.857, 2.351)
@@ -62,6 +67,16 @@ class Tests(TestsBase):
             self.test('distanceTo', d, '404279.720589' if Sph else '404607.805988', fmt='%.6f')  # 404300
             d = LAX.distanceTo(JFK, radius=R_NM) if Sph else LAX.distanceTo(JFK)
             self.test('distanceTo', d, 2145 if Sph else 3981601, fmt='%.0f')  # PYCHOK false?
+            if not Nv:  # <http://geographiclib.sourceforge.io/html/python/examples.html>
+                d = WNZ.distanceTo(SAL, wrap=False)
+                self.test('distanceTo dateline', d, 19119590.551 if Sph else 19959679.267, fmt='%.3f', known=True)  # PYCHOK false?
+                d = WNZ.distanceTo(SAL, wrap=True)
+                self.test('distanceTo unroll', d, 19119590.551 if Sph else 19959679.267, fmt='%.3f', known=True)  # PYCHOK false?
+
+                d = BJS.distanceTo(SFO, wrap=False)
+                self.test('distanceTo dateline', d, 9491735 if Sph else 9513998, fmt='%.0f')  # PYCHOK false?
+                d = BJS.distanceTo(SFO, wrap=True)
+                self.test('distanceTo unroll', d, 9491735 if Sph else 9513998, fmt='%.0f')  # PYCHOK false?
 
         if hasattr(LatLon, 'intermediateTo'):
             i = p.intermediateTo(q, 0.25)
@@ -106,9 +121,13 @@ class Tests(TestsBase):
             self.test('destination', d.toStr(F_DM, prec=0), "34°37′N, 116°33′W" if Sph
                                                        else "33°57′N, 118°24′W")
             self.test('destination', d, '34.613647°N, 116.55116°W' if Sph
-                                   else '33.950367°N, 118.399012°W')  # PYCHOK false?
+                                   else '33.950367°N, 118.399012°W')
             self.test('destination', d.toStr(F_RAD, prec=6), '0.604122N, 2.034201W' if Sph
-                                                        else '0.592546N, 2.066453W')  # PYCHOK false?
+                                                        else '0.592546N, 2.066453W')  # PYCHOK expected
+            # <http://geographiclib.sourceforge.io/html/python/examples.html>
+            d = LatLon(-32.06, -115.74).destination(20e6, 225).toStr(F_D, prec=8)
+            self.test('destination', d, '31.96383509°N, 064.37329146°E' if Sph
+                                   else '32.11195529°N, 063.95925278°E', known=True)  # PYCHOK false?
 
         if hasattr(LatLon, 'alongTrackDistanceTo'):
             s = LatLon(53.3206, -1.7297)
@@ -120,7 +139,7 @@ class Tests(TestsBase):
             except TypeError as x:
                 self.test('alongTrackDistanceTo', x, 'type(end) mismatch: int vs sphericalTrigonometry.LatLon')  # PYCHOK false?
             d = p.alongTrackDistanceTo(s, e)
-            self.test('alongTrackDistanceTo', d, 62331.58, fmt='%.2f')  # PYCHOK false?
+            self.test('alongTrackDistanceTo', d, 62331.58, fmt='%.2f')
 
             # <http://www.edwilliams.org/avform.htm#XTE>
             p = LatLon(34.5, -116.5)  # 34:30N, 116:30W
@@ -146,7 +165,7 @@ class Tests(TestsBase):
             except TypeError as x:
                 self.test('crossTrackDistanceTo', x, 'type(end) mismatch: int vs sphericalTrigonometry.LatLon')  # PYCHOK false?
             d = p.crossTrackDistanceTo(s, e)
-            self.test('crossTrackDistanceTo', d, -307.55, fmt='%.2f')  # PYCHOK false?  # -307.5
+            self.test('crossTrackDistanceTo', d, -307.55, fmt='%.2f')  # -307.5
 
             # <http://www.edwilliams.org/avform.htm#XTE>
             p = LatLon(34.5, -116.5)  # 34:30N, 116:30W
@@ -217,11 +236,11 @@ if __name__ == '__main__':
 
     t = Tests(__file__, __version__)
 
-    t.testLatLon(ellipsoidalNvector, Sph=False)
-    t.testLatLon(ellipsoidalVincenty, Sph=False)
+    t.testLatLon(ellipsoidalNvector, Sph=False, Nv=True)
+    t.testLatLon(ellipsoidalVincenty, Sph=False, Nv=False)
 
-    t.testLatLon(sphericalNvector, Sph=True)
-    t.testLatLon(sphericalTrigonometry, Sph=True)
+    t.testLatLon(sphericalNvector, Sph=True, Nv=True)
+    t.testLatLon(sphericalTrigonometry, Sph=True, Nv=False)
 
     t.results()
     t.exit()

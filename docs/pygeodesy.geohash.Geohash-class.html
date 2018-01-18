@@ -162,7 +162,8 @@ basestring --+
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geohash.Geohash-class.html#distance2" class="summary-sig-name">distance2</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the distance between this and an other geohash using the <a 
       href="http://www.movable-type.co.uk/scripts/latlong.html" 
       target="_top">Equirectangular Approximation/Projection</a>.</td>
@@ -183,9 +184,12 @@ basestring --+
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geohash.Geohash-class.html#distance3" class="summary-sig-name">distance3</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the great-circle distance between this and an other geohash 
-      (using the Haversine formula).</td>
+      using the <a 
+      href="http://www.movable-type.co.uk/scripts/latlong.html" 
+      target="_top">Haversine</a> formula.</td>
           <td align="right" valign="top">
             
             
@@ -575,12 +579,13 @@ basestring --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>LatLon</code></strong> - LatLon class to use (<i>LatLon</i>).</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - LatLon class to return result (<i>LatLon</i>) or None.</li>
         <li><strong class="pname"><code>kwds</code></strong> - Optional keyword arguments for <i>LatLon</i>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple (LatLonSW, LatLonNE) of <i>LatLon</i>s for the lower-left
-          respectively upper-right corner.</dd>
+          respectively upper-right corner or 4-tuple (latS, lonW, latN, 
+          lonE) of bounds (degrees) if <i>LatLon</i> is None.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -626,7 +631,8 @@ basestring --+
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">distance2</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>)</span>
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -642,12 +648,15 @@ basestring --+
         <li><strong class="pname"><code>other</code></strong> - The other geohash (<a href="pygeodesy.geohash.Geohash-class.html"
           class="link">Geohash</a>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter) or None.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Approximate distance (meter, same units as radius).</dd>
+        <dd>Approximate distance (meter, same units as <i>radius</i>) or 
+          distance squared (radians squared) if <i>radius</i> is None or 0.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The other is not a <a href="pygeodesy.geohash.Geohash-class.html" 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> is not a <a 
+        href="pygeodesy.geohash.Geohash-class.html" 
         class="link">Geohash</a>, <i>LatLon</i> or str.</li>
     </ul></dd>
   </dl>
@@ -662,7 +671,8 @@ basestring --+
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">distance3</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>)</span>
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -670,19 +680,22 @@ basestring --+
   </tr></table>
   
   <p>Compute the great-circle distance between this and an other geohash 
-  (using the Haversine formula).</p>
+  using the <a href="http://www.movable-type.co.uk/scripts/latlong.html" 
+  target="_top">Haversine</a> formula.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other geohash (<a href="pygeodesy.geohash.Geohash-class.html"
           class="link">Geohash</a>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Great-circle distance (meter, same units as <i>radius</i>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The other is not a <a href="pygeodesy.geohash.Geohash-class.html" 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> is not a <a 
+        href="pygeodesy.geohash.Geohash-class.html" 
         class="link">Geohash</a>, <i>LatLon</i> or str.</li>
     </ul></dd>
   </dl>
@@ -713,7 +726,8 @@ basestring --+
         <li><strong class="pname"><code>kwds</code></strong> - Optional keyword arguments for <i>LatLon</i>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>This geohash location (<i>LatLon</i>).</dd>
+        <dd>This geohash location (<i>LatLon</i>) or 2-tuple (lat, lon) if 
+          <i>LatLon</i> is None.</dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -984,7 +998,7 @@ href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Jan 11 20:43:49 2018
+    Generated by Epydoc 3.0.1 on Thu Jan 18 16:08:16 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

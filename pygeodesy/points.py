@@ -24,9 +24,9 @@ the index for the lat- and longitude index in each 2+tuple.
 @newfield example: Example, Examples
 '''
 from utils import EPS, R_M, classname, CrossError, crosserrors, \
-                  equirectangular3, fdot, fStr, fsum, \
-                  inStr, isint, issequence, \
-                  polygon, scalar, wrap90, wrap180
+                  equirectangular_, fdot, fStr, fsum, \
+                  inStr, isint, issequence, polygon, scalar, \
+                  unroll180, unrollPI, wrap90, wrap180
 try:
     from collections import Sequence as _Sequence  # immutable
 except ImportError:
@@ -39,7 +39,7 @@ __all__ = ('LatLon_',  # classes
            'areaof', 'bounds',  # functions
            'isclockwise', 'isconvex', 'isenclosedby',
            'perimeterof')
-__version__ = '18.01.11'
+__version__ = '18.01.18'
 
 
 class LatLon_(object):
@@ -524,20 +524,18 @@ class LatLon2psxy(_Basequence):
            @param latlons: Points list, sequence, set, tuple, etc. (I{LatLon[]}).
            @keyword closed: Optionally, points form a closed polygon (bool).
            @keyword radius: Optional, mean earth radius (meter).
-           @keyword wrap: Optionally, wrap90(lat) and wrap180(lon) (bool).
+           @keyword wrap: Wrap lat- and longitudes (bool).
 
            @raise TypeError: Some points are not I{LatLon}.
 
-           @raise ValueError: Too few points.
+           @raise ValueError: Insufficient number of points.
         '''
-        if closed:
-            self._closed = True
+        self._closed = closed
         self._len, self._array = polygon(latlons, closed=closed)
         if radius:
             self._radius = radius
             self._deg2m = radius * radians(1.0)
-        if not wrap:
-            self._wrap = False
+        self._wrap = wrap
 
     def __contains__(self, xy):
         '''Check for a matching point.
@@ -704,7 +702,7 @@ class LatLon2psxy(_Basequence):
     def _slicekwds(self):
         '''(INTERNAL) Slice kwds.
         '''
-        return dict(closed=False, radius=self._radius, wrap=self._wrap)
+        return dict(closed=self._closed, radius=self._radius, wrap=self._wrap)
 
 
 class Numpy2LatLon(_Array2LatLon):  # immutable, on purpose
@@ -821,8 +819,8 @@ class Tuple2LatLon(_Array2LatLon):
         return type(self._array)(self._array[i] for i in indices)
 
 
-def _area2(points, wrap):
-    # return double the signed area in radians squared
+def _areaof(points, adjust, wrap):
+    # return the signed area in radians squared
 
     # setting radius=1 converts degrees to radians
     pts = LatLon2psxy(points, closed=True, radius=1, wrap=wrap)
@@ -831,54 +829,59 @@ def _area2(points, wrap):
         x1, y1, _ = pts[n-1]
         for i in range(n):
             x2, y2, _ = pts[i]
+            w, x2 = unrollPI(x1, x2, wrap=wrap)
             # approximate trapezoid by a rectangle, adjusting
             # the top width by the cosine of the latitudinal
             # average and bottom width by some fudge factor
             h = (y2 + y1) * 0.5
-            w = (x2 - x1) * (cos(h) + 1.2876)  # * 0.5
-            yield h * w  # signed, double trapezoidal area
+            if adjust:
+                w *= (cos(h) + 1.2876) * 0.5
+            yield h * w  # signed trapezoidal area
 
             x1, y1 = x2, y2
 
-    return fsum(_rads2(len(pts), pts))  # * 0.5
+    return fsum(_rads2(len(pts), pts))
 
 
-def areaof(points, radius=R_M, wrap=True):
+def areaof(points, adjust=True, radius=R_M, wrap=True):
     '''Approximate the area of a polygon defined by an array, list,
        sequence, set or tuple of points.
 
        @param points: The points defining the polygon (I{LatLon}[]).
+       @keyword adjust: Adjust the wrapped, unrolled longitudinal delta
+                        by the cosine of the mean latitude (bool).
        @keyword radius: Optional, mean earth radius (meter).
-       @keyword wrap: Optionally, wrap90(lat) and wrap180(lon) (bool).
+       @keyword wrap: Wrap lat-, wrap and unroll longitudes (bool).
 
-       @return: Approximate area (meter squared).
+       @return: Approximate area (meter, same units as I{radius}, squared).
 
        @raise TypeError: Some points are not I{LatLon}.
 
-       @raise ValueError: Too few points.
+       @raise ValueError: Insufficient number of points.
 
        @note: This is an area approximation with limited accuracy,
-       ill-suited for regions larger than several hundred Km or
-       Miles or with latitudes near the poles.
+       ill-suited for regions exceeding several hundred Km or Miles
+       or with near-polar latitudes.
     '''
-    return abs(_area2(points, wrap) * 0.5) * float(radius)**2
+    return abs(_areaof(points, adjust, wrap)) * float(radius)**2
 
 
-def bounds(points, radius=None, wrap=True, LatLon=None):
-    '''Determine the lower-left and upper-right corners of a polygon
+def bounds(points, wrap=True, LatLon=None):
+    '''Determine the lower-left and upper-right corners of a polygon/-line
        defined by a list, sequence, set or tuple of points.
 
        @param points: The points defining the polygon (I{LatLon}[]).
-       @keyword radius: Optional, mean earth radius (meter).
-       @keyword wrap: Optionally, wrap90(lat) and wrap180(lon) (bool).
-       @keyword LatLon: Optional class to use (I{LatLon}).
+       @keyword wrap: Wrap lat- and longitudes (bool).
+       @keyword LatLon: Optional class to return I{bounds} (I{LatLon}).
 
-       @return: 4-Tuple (lolat, lolon, hilat, hilon) corners (degrees)
-                or 2-tuple (loLatLon, hiLatLon) if (LatLon) given.
+       @return: 2-tuple (loLatLon, hiLatLon) of I{LatLon}s for the
+                lower-left respectively upper-right corners or 4-Tuple
+                (lolat, lolon, hilat, hilon) of bounds (degrees) if
+                I{LatLon} is None.
 
        @raise TypeError: Some points are not I{LatLon}.
 
-       @raise ValueError: Too few points.
+       @raise ValueError: Insufficient number of points.
 
        @example:
 
@@ -886,7 +889,7 @@ def bounds(points, radius=None, wrap=True, LatLon=None):
        >>> bounds(b)  # False
        >>> 45.0, 1.0, 46.0, 2.0
     '''
-    pts = LatLon2psxy(points, closed=False, radius=radius, wrap=wrap)
+    pts = LatLon2psxy(points, closed=False, radius=None, wrap=wrap)
 
     lox, loy, _ = hix, hiy, _ = pts[0]
 
@@ -907,18 +910,20 @@ def bounds(points, radius=None, wrap=True, LatLon=None):
         return loy, lox, hiy, hix  # PYCHOK expected
 
 
-def isclockwise(points, wrap=True):
+def isclockwise(points, adjust=False, wrap=True):
     '''Determine the direction of a polygon defined by an array, list,
        sequence, set or tuple of points.
 
        @param points: The points defining the polygon (I{LatLon}[]).
-       @keyword wrap: Optionally, wrap90(lat) and wrap180(lon) (bool).
+       @keyword adjust: Adjust the wrapped, unrolled longitudinal delta
+                        by the cosine of the mean latitude (bool).
+       @keyword wrap: Wrap lat-, wrap and unroll longitudes (bool).
 
        @return: True if clockwise, False otherwise.
 
        @raise TypeError: Some points are not I{LatLon}.
 
-       @raise ValueError: Too few points or zero area polygon.
+       @raise ValueError: Insufficient number of points or zero area polygon.
 
        @example:
 
@@ -928,7 +933,7 @@ def isclockwise(points, wrap=True):
        >>> t = LatLon(45,1), LatLon(46,1), LatLon(46,2)
        >>> isclockwise(t)  # True
     '''
-    a = _area2(points, wrap) or 0
+    a = _areaof(points, adjust, wrap) or 0
     if a > 0:
         return True
     elif a < 0:
@@ -937,13 +942,14 @@ def isclockwise(points, wrap=True):
     raise ValueError('zero area: %r' % (points[:3],))
 
 
-def isconvex(points, radius=None, wrap=True):
+def isconvex(points, adjust=False, wrap=True):
     '''Determine whether a polygon defined by an array, list, sequence,
        set or tuple of points is convex.
 
        @param points: The points defining the polygon (I{LatLon}[]).
-       @keyword radius: Optional, mean earth radius (meter).
-       @keyword wrap: Optionally, wrap90(lat) and wrap180(lon) (bool).
+       @keyword adjust: Adjust the wrapped, unrolled longitudinal delta
+                        by the cosine of the mean latitude (bool).
+       @keyword wrap: Wrap lat-, wrap and unroll longitudes (bool).
 
        @return: True if convex, False otherwise.
 
@@ -951,7 +957,7 @@ def isconvex(points, radius=None, wrap=True):
 
        @raise TypeError: Some points are not I{LatLon}.
 
-       @raise ValueError: Too few points.
+       @raise ValueError: Insufficient number of points.
 
        @example:
 
@@ -961,17 +967,27 @@ def isconvex(points, radius=None, wrap=True):
        >>> f = LatLon(45,1), LatLon(46,2), LatLon(45,2), LatLon(46,1)
        >>> isconvex(f)  # False
     '''
-    pts = LatLon2psxy(points, closed=True, radius=radius, wrap=wrap)
+    def _unroll_adjust(x1, y1, x2, y2):
+        x21, x2 = unroll180(x1, x2, wrap=wrap)
+        if adjust:
+            x21 *= cos(radians(y1 + y2) * 0.5)
+        return x21, x2
+
+    pts = LatLon2psxy(points, closed=True, radius=None, wrap=wrap)
     c, n, s = crosserrors(), len(pts), None
 
     x1, y1, _ = pts[n-2]
     x2, y2, _ = pts[n-1]
+    x21, x2 = _unroll_adjust(x1, y1, x2, y2)
+
     for i in range(n):
         x3, y3, ll = pts[i]
+        x32, x3 = _unroll_adjust(x2, y2, x3, y3)
+
         # get the sign of the distance from point
         # x3, y3 to the line from x1, y1 to x2, y2
         # <http://wikipedia.org/wiki/Distance_from_a_point_to_a_line>
-        s3 = fdot((x3, y3, x1, y1), y2 - y1, x1 - x2, -y2, x2)
+        s3 = fdot((x3, y3, x1, y1), y2 - y1, -x21, -y2, x2)
         if s3 > 0:  # x3, y3 on the left
             if s is None:
                 s = True
@@ -984,12 +1000,12 @@ def isconvex(points, radius=None, wrap=True):
             elif s:  # different side
                 return False
 
-        elif c and fdot((x3 - x2, y1 - y2), y3 - y2, x1 - x2) < 0:
+        elif c and fdot((x32, y1 - y2), y3 - y2, -x21) < 0:
             # colinear u-turn: x3, y3 not on the
             # opposite side of x2, y2 as x1, y1
             raise CrossError('%s %s: %r' % ('colinear', 'point', ll))
 
-        x1, y1, x2, y2 = x2, y2, x3, y3
+        x1, y1, x2, y2, x21 = x2, y2, x3, y3, x32
 
     return True  # all points on the same side
 
@@ -1000,20 +1016,20 @@ def isenclosedby(latlon, points, wrap=False):  # MCCABE 14
 
        @param latlon: The point (I{LatLon} or 2-tuple (lat, lon)).
        @param points: The points defining the polygon (I{LatLon}[]).
-       @keyword wrap: Optionally, wrap90(lat) and wrap180(lon) (bool).
+       @keyword wrap: Wrap lat-, wrap and unroll longitudes (bool).
 
        @return: True if point is inside the polygon, False otherwise.
 
        @raise TypeError: Some points are not I{LatLon}.
 
-       @raise ValueError: Too few points or invalid I{latlon} point.
+       @raise ValueError: Insufficient number of points or invalid I{latlon} point.
 
        @see: L{sphericalNvector.LatLon.isEnclosedBy},
              L{sphericalTrigonometry.LatLon.isEnclosedBy},
              U{MultiDop<http://github.com/nasa/MultiDop>} and U{MultiDop/src
              <http://github.com/nasa/MultiDop/blob/master/src/geog_lib.c>}.
     '''
-    pts = LatLon2psxy(points, closed=True, wrap=wrap)
+    pts = LatLon2psxy(points, closed=True, radius=None, wrap=wrap)
 
     def _xy(i):
         x, y, _ = pts[i]
@@ -1045,10 +1061,10 @@ def isenclosedby(latlon, points, wrap=False):  # MCCABE 14
     x1, y1 = _xy(n-1)
     for i in range(n):
         x2, y2 = _xy(i)
-        # determine if polygon edge (x1, y1)-(x2, y2) straddles
+        dx, x2 = unroll180(x1, x2, wrap=wrap)
+        # determine if polygon edge (x1, y1)..(x2, y2) straddles
         # point (lat, lon) or is on boundary, but do not count
         # edges on boundary as more than one crossing
-        dx = x2 - x1
         if abs(dx) < 180 and (x1 < x0 <= x2 or x2 < x0 <= x1):
             m = not m
             dy = (x0 - x1) * (y2 - y1) - (y0 - y1) * dx
@@ -1067,28 +1083,31 @@ def isenclosedby(latlon, points, wrap=False):  # MCCABE 14
     return e
 
 
-def perimeterof(points, closed=False, radius=R_M, wrap=True):
+def perimeterof(points, closed=False, adjust=True, radius=R_M, wrap=True):
     '''Approximate the perimeter of a polygon/-line defined by an array,
        list, sequence, set or tuple of points.
 
        @param points: The points defining the polygon (I{LatLon}[]).
        @keyword closed: Optionally, close the polygon/-line (bool).
+       @keyword adjust: Adjust the wrapped, unrolled longitudinal delta
+                        by the cosine of the mean latitude (bool).
        @keyword radius: Optional, mean earth radius (meter).
-       @keyword wrap: Optionally, wrap90(lat) and wrap180(lon) (bool).
+       @keyword wrap: Wrap lat-, wrap and unroll longitudes (bool).
 
-       @return: Approximate perimeter (meter).
+       @return: Approximate perimeter (meter, same units as I{radius}).
 
        @raise TypeError: Some points are not I{LatLon}.
 
-       @raise ValueError: Too few points.
+       @raise ValueError: Insufficient number of points.
 
-       @note: This perimeter is the based on the L{equirectangular3}
-       distance and is ill-suited for regions larger than several
-       hundred Km or Miles or with latitudes near the poles.
+       @note: This perimeter is based on the L{equirectangular_}
+       distance approximation and is ill-suited for regions exceeding
+       several hundred Km or Miles or with near-polar latitudes.
     '''
-    pts = LatLon2psxy(points, closed=closed, radius=None, wrap=wrap)
+    pts = LatLon2psxy(points, closed=closed, radius=None, wrap=False)
 
     def _degs(n, pts, closed):  # angular edge lengths in degrees
+        u = 0  # previous x2's unroll/wrap
         if closed:
             j, i = 0, n-1
         else:
@@ -1096,9 +1115,11 @@ def perimeterof(points, closed=False, radius=R_M, wrap=True):
         x1, y1, _ = pts[i]
         for i in range(j, n):
             x2, y2, _ = pts[i]
-            d2, _, _ = equirectangular3(y1, x1, y2, x2, adjust=True,
-                                                        limit=0,
-                                                        wrap=False)
+            # apply previous x2's unroll/wrap to new x1
+            d2, _, _, u = equirectangular_(y1, x1 + u, y2, x2,
+                                           adjust=adjust,
+                                           limit=None,
+                                           wrap=wrap)
             yield sqrt(d2)
             x1, y1 = x2, y2
 

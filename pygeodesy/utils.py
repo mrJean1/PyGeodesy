@@ -10,10 +10,8 @@ and U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
 @newfield example: Example, Examples
 '''
 
-# force int division to yield float quotient
-from __future__ import division as _
-if not 1/2:  # PYCHOK 1/2 == 0
-    raise ImportError('1/2 == %d' % (1/2,))
+# make sure int division yields float quotient
+from __future__ import division
 
 from math import atan2, cos, degrees, hypot, pi as PI, \
                  radians, sin, sqrt, tan  # pow
@@ -25,7 +23,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'CrossError',  # classes
            'cbrt', 'cbrt2', 'classname', 'crosserrors',
            'degrees', 'degrees90', 'degrees180', 'degrees360',
-           'equirectangular', 'equirectangular3',
+           'equirectangular', 'equirectangular_', 'equirectangular3',
            'false2f', 'favg', 'fdot', 'fdot3', 'fmean', 'fpolynomial',
            'fStr', 'fStrzs', 'fsum', 'ft2m',
            'halfs',
@@ -41,9 +39,15 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'radians', 'radiansPI_2', 'radiansPI', 'radiansPI2',
            'scalar',
            'tan_2', 'tanPI_2_2',
+           'unroll180', 'unrollPI', 'unStr',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '18.01.06'
+__version__ = '18.01.16'
+
+division = 1 / 2  # double check int division, see datum.py
+if not division:
+    raise ImportError('%s 1/2 == %d' % ('division', division))
+del division
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -148,7 +152,7 @@ def crosserrors(raiser=None):
 
 
 def degrees90(rad):
-    '''Convert and wrap radians to degrees M{-270..+90}.
+    '''Convert and wrap radians to degrees M{(-270..+90]}.
 
        @param rad: Angle (radians).
 
@@ -158,7 +162,7 @@ def degrees90(rad):
 
 
 def degrees180(rad):
-    '''Convert and wrap radians to degrees M{-180..+180}.
+    '''Convert and wrap radians to degrees M{(-180..+180]}.
 
        @param rad: Angle (radians).
 
@@ -168,7 +172,7 @@ def degrees180(rad):
 
 
 def degrees360(rad):
-    '''Convert and wrap radians to degrees M{0..+360}.
+    '''Convert and wrap radians to degrees M{(0..+360]}.
 
        @param rad: Angle (radians).
 
@@ -178,17 +182,19 @@ def degrees360(rad):
 
 
 def _drap(deg, wrap):
-    '''(INTERNAL) Degree wrapper M{(wrap-360)..+wrap}.
+    '''(INTERNAL) Degree wrapper M{((wrap-360)..+wrap]}.
 
        @param deg: Angle (degrees).
        @param wrap: Limit (degrees).
 
        @return: Degrees, wrapped (degrees).
     '''
-    d = deg % 360  # -1.5 % 360 == 358.5
-    if d > wrap:
-        d -= 360
-    return d
+    if not wrap >= deg > (wrap - 360):
+        # math.fmod(-1.5, 360) == -1.5, but ...
+        deg %= 360  # -1.5 % 360 == 358.5
+        if deg > wrap:
+            deg -= 360
+    return deg
 
 
 def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **options):
@@ -196,28 +202,29 @@ def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **options):
        the U{Equirectangular Approximation/Projection
        <http://www.movable-type.co.uk/scripts/latlong.html>}.
 
-       See function L{equirectangular3} for details and I{options}.
+       See function L{equirectangular_} for more details and the
+       available I{options}.
 
-       @param lat1: Latitude1 (degrees).
-       @param lon1: Longitude1 (degrees).
-       @param lat2: Latitude2 (degrees).
-       @param lon2: Longitude2 (degrees).
+       @param lat1: Start latitude (degrees).
+       @param lon1: Start longitude (degrees).
+       @param lat2: End latitude (degrees).
+       @param lon2: End longitude (degrees).
        @keyword radius: Optional, mean earth radius (meter).
        @keyword options: Optional keyword arguments for function
-                         L{equirectangular3}.
+                         L{equirectangular_}.
 
-       @return: Distance (meter), rather the units of I{radius}.
+       @return: Distance (meter, same units as I{radius}).
 
        @raise ValueError: If delta limit exceeded, see function
-                          L{equirectangular3}.
+                          L{equirectangular_}.
 
        @see: Function L{haversine} for more accurate or larger distances.
     '''
-    d2 = equirectangular3(lat1, lon1, lat2, lon2, **options)[0]
+    d2, _, _, _ = equirectangular_(lat1, lon1, lat2, lon2, **options)
     return radians(sqrt(d2)) * radius
 
 
-def equirectangular3(lat1, lon1, lat2, lon2,
+def equirectangular_(lat1, lon1, lat2, lon2,
                      adjust=True, limit=45, wrap=False):
     '''Compute the distance between two points using
        the U{Equirectangular Approximation/Projection
@@ -227,51 +234,57 @@ def equirectangular3(lat1, lon1, lat2, lon2,
        hundred Km or Miles, see the I{limit} keyword argument and
        the ValueError.
 
-       @param lat1: Latitude1 (degrees).
-       @param lon1: Longitude1 (degrees).
-       @param lat2: Latitude2 (degrees).
-       @param lon2: Longitude2 (degrees).
-       @keyword adjust: Optionally, adjust longitudinal delta by the
-                        cosine of the mean of the latitudes (bool).
-       @keyword limit: Optional limit for the deltas (degrees) or
-                       0 for unlimited.
-       @keyword wrap: Optionally, keep the longitudinal delta within
-                      the -180..+180 range (bool).
+       @param lat1: Start latitude (degrees).
+       @param lon1: Start longitude (degrees).
+       @param lat2: End latitude (degrees).
+       @param lon2: End longitude (degrees).
+       @keyword adjust: Adjust the wrapped, unrolled longitudinal
+                        delta by the cosine of the mean latitude (bool).
+       @keyword limit: Optional limit for the lat- and longitudinal
+                       deltas (degrees) or None or 0 for unlimited.
+       @keyword wrap: Wrap and L{unroll180} longitudes (bool).
 
-       @return: 3-Tuple (distance2, delta_lat, delta_lon) with
-                the distance in degrees squared, the latitudinal
-                delta lat2-lat1 and the I{adjusted}, I{wrapped}
-                longitudinal delta lon2-lon1.  To convert distance2
-                to meter, use M{radians(sqrt(distance2)) * radius}
-                where radius is the mean earth radius in the desired
-                units, for example L{R_M} in meter.
+       @return: 4-Tuple (distance2, delta_lat, delta_lon, lon2_unroll)
+                with the distance in degrees squared, the latitudinal
+                delta I{lat2}-I{lat1}, the wrapped, unrolled, and
+                adjusted longitudinal delta I{lon2}-I{lon1} and the
+                unrollment for I{lon2}.  To convert I{distance2} to
+                meter, use M{radians(sqrt(distance2)) * radius} where
+                I{radius} is the mean earth radius in the desired units,
+                for example L{R_M} meter.
 
        @raise ValueError: The lat- and/or longitudinal delta exceeds
-                          the I{limit}.  Use I{limit=0} to avoid the
-                          delta check and ValueError.
+                          the I{limit}.  Use I{limit=None} or I{limit=0}
+                          to avoid the limit check and I{ValueError}.
 
        @see: Function L{equirectangular} for distance only and function
              L{haversine} for more accurate or larger distances.
     '''
     d_lat = lat2 - lat1
-    d_lon = lon2 - lon1
+    d_lon, ulon2 = unroll180(lon1, lon2, wrap=wrap)
 
-    if wrap:
-        if d_lon > 180:
-            d_lon -= 360
-        elif d_lon < -180:
-            d_lon += 360
-
-    if limit > 0 and max(abs(d_lat), abs(d_lon)) > limit:
+    if limit and max(abs(d_lat), abs(d_lon)) > limit > 0:
         t = fStr((lat1, lon1, lat2, lon2), prec=4)
         raise ValueError('%s(%s) exceeds the %s limit' %
-                        ('equirectangular3', t, fStr(limit, prec=2)))
+                        ('equirectangular_', t, fStr(limit, prec=2)))
 
-    if adjust:  # scale lon
+    if adjust:  # scale delta lon
         d_lon *= cos(radians(lat1 + lat2) * 0.5)
 
     d2 = d_lat**2 + d_lon**2  # degrees squared!
-    return d2, d_lat, d_lon
+    return d2, d_lat, d_lon, ulon2 - lon2
+
+
+def equirectangular3(lat1, lon1, lat2, lon2, **options):
+    '''For backward compatibility only, obsolete, replaced by
+       function L{equirectangular_}.
+
+       See function L{equirectangular_} for more details and the
+       available I{options}.
+
+       @return: 3-Tuple (distance2, delta_lat, delta_lon).
+    '''
+    return equirectangular_(lat1, lon1, lat2, lon2, **options)[:3]
 
 
 def false2f(value, name='value', false=True):
@@ -410,7 +423,9 @@ def fStr(floats, prec=6, sep=', ', fmt='%.*f', ints=False):
     '''
     def _fstr(p, f):
         t = fmt % (abs(p), float(f))
-        if ints and isint(f, both=True):
+        if ints and (isint(f, both=True) or  # for ...
+                     # corner case testLcc lon0=-96.0
+                     t.rstrip('0').endswith('.')):
             t = t.split('.')[0]
         elif p > 1:
             t = fStrzs(t)
@@ -526,9 +541,9 @@ def halfs(str2):
 
        @param str2: String to split (string).
 
-       @return: 2-Tuple (1st, 2nd) halfs (strings).
+       @return: 2-Tuple (1st, 2nd) half (strings).
 
-       @raise ValueError: Zero or odd len(str2).
+       @raise ValueError: Zero or odd I{len(str2)}.
     '''
     h, r = divmod(len(str2), 2)
     if r or not h:
@@ -536,42 +551,43 @@ def halfs(str2):
     return str2[:h], str2[h:]
 
 
-def haversine(lat1, lon1, lat2, lon2, radius=R_M):
+def haversine(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
     '''Compute the distance between two points using the U{Haversine
        <http://www.movable-type.co.uk/scripts/latlong.html>} formula.
 
-       @param lat1: Latitude1 (degrees).
-       @param lon1: Longitude1 (degrees).
-       @param lat2: Latitude2 (degrees).
-       @param lon2: Longitude2 (degrees).
+       @param lat1: Start latitude (degrees).
+       @param lon1: Start longitude (degrees).
+       @param lat2: End latitude (degrees).
+       @param lon2: End longitude (degrees).
        @keyword radius: Optional, mean earth radius (meter).
+       @keyword wrap: Wrap and L{unrollPI} longitudes (bool).
 
        @return: Distance (meter, same units as I{radius}).
 
        @see: U{Distance between two points
              <http://www.edwilliams.org/avform.htm#Dist>}
-             and function L{equirectangular3} for an approximation.
+             and function L{equirectangular} for an approximation.
     '''
-    r = haversine_(radians(lat2), radians(lat1), radians(lon2 - lon1))
+    d, lon2 = unroll180(lon1, lon2, wrap=wrap)
+    r = haversine_(radians(lat2), radians(lat1), radians(d))
     return r * float(radius)
 
 
 def haversine_(a2, a1, b21):
-    '''Compute the I{angular} distance using the U{Haversine
-       <http://www.movable-type.co.uk/scripts/latlong.html>} formula.
+    '''Compute the I{angular} distance between two points using the
+       U{Haversine<http://www.movable-type.co.uk/scripts/latlong.html>}
+       formula.
 
-       @param a2: Latitude2 (radians).
-       @param a1: Latitude1 (radians).
-       @param b21: Longitudinal delta (radians).
+       @param a2: End latitude (radians).
+       @param a1: Start latitude (radians).
+       @param b21: Longitudinal delta, M{end-start} (radians).
 
        @return: Angular distance (radians).
 
-       @see: This U{Distance between two points
-             <http://www.edwilliams.org/avform.htm#Dist>},
-             function L{haversine}.
+       @see: Function L{haversine}.
     '''
     def _hsin(rad):
-        return sin(rad / 2)**2
+        return sin(rad * 0.5)**2
 
     h = _hsin(a2 - a1) + cos(a1) * cos(a2) * _hsin(b21)  # haversine
     try:
@@ -591,7 +607,7 @@ def heightOf(angle, distance, radius=R_M):
 
        @return: Height (meter, same units as I{distance} and I{radius}).
 
-       @raise ValueError: Invalid angle, distance or radius.
+       @raise ValueError: Invalid I{angle}, I{distance} or I{radius}.
 
        @see: U{MultiDop<http://github.com/nasa/MultiDop>},
              U{Shapiro et al. 2009, JTECH
@@ -621,9 +637,9 @@ def horizon(height, radius=R_M, refraction=False):
        @keyword radius: Optional mean earth radius (meter).
        @keyword refraction: Consider atmospheric refraction (bool).
 
-       @return: Distance (meter, same units as I{distance} and I{radius}).
+       @return: Distance (meter, same units as I{height} and I{radius}).
 
-       @raise ValueError: Invalid height or radius.
+       @raise ValueError: Invalid I{height} or I{radius}.
 
        @see: U{Distance to horizon<http://www.edwilliams.org/avform.htm#Horizon>}.
     '''
@@ -684,10 +700,7 @@ def inStr(inst, *args, **kwds):
 
        @return: Representation (string).
     '''
-    t = tuple('%s=%s' % t for t in sorted(kwds.items()))
-    if args:
-        t = map2(str, args) + t
-    return '%s(%s)' % (classname(inst), ', '.join(t))
+    return unStr(classname(inst), *args, **kwds)
 
 
 try:
@@ -880,10 +893,10 @@ def map1(func, *args):
 def map2(func, *args):
     '''Apply arguments to a function and return a tuple of results.
 
-       Unlike Python 2 built-in L{map}, Python 3+ L{map} returns a L{map}
-       object, an iterator-like object which generates the results only
-       once.  Converting the L{map} object to a tuple maintains Python 2
-       behavior.
+       Unlike Python 2 built-in L{map}, Python 3+ L{map} returns a
+       L{map} object, an iterator-like object which generates the
+       results only once.  Converting the L{map} object to a tuple
+       maintains Python 2 behavior.
 
        @param func: Function to apply (callable).
        @param args: Arguments to apply (list, tuple, ...).
@@ -906,7 +919,7 @@ def polygon(points, closed=True, base=None):
 
        @raise TypeError: Some points are not I{LatLon}.
 
-       @raise ValueError: Too few points.
+       @raise ValueError: Insufficient number of points.
     '''
     n, points = len2(points)
 
@@ -930,7 +943,7 @@ def polygon(points, closed=True, base=None):
 
 
 def radiansPI(deg):
-    '''Convert and wrap degrees to radians M{-PI..+PI}.
+    '''Convert and wrap degrees to radians M{(-PI..+PI]}.
 
        @param deg: Angle (degrees).
 
@@ -940,7 +953,7 @@ def radiansPI(deg):
 
 
 def radiansPI2(deg):
-    '''Convert and wrap degrees to radians M{0..+2PI}.
+    '''Convert and wrap degrees to radians M{(0..+2PI]}.
 
        @param deg: Angle (degrees).
 
@@ -950,7 +963,7 @@ def radiansPI2(deg):
 
 
 def radiansPI_2(deg):
-    '''Convert and wrap degrees to radians M{-3PI/2..+PI/2}.
+    '''Convert and wrap degrees to radians M{(-3PI/2..+PI/2]}.
 
        @param deg: Angle (degrees).
 
@@ -1007,8 +1020,65 @@ def tanPI_2_2(rad):
     return tan((rad + PI_2) * 0.5)
 
 
+def unroll180(lon1, lon2, wrap=True):
+    '''Unroll longitudinal delta and wrap longitude in degrees.
+
+       @param lon1: Start longitude (degrees).
+       @param lon2: End longitude (degrees).
+       @keyword wrap: Wrap and unroll to the M{(-180..+180]} range (bool).
+
+       @return: 2-Tuple (delta I{lon2}-I{lon1}, I{lon2}) unrolled
+                (degrees, degrees).
+
+       @see: Capability I{LONG_UNROLL} in U{GeographicLib
+       <http://geographiclib.sourceforge.io/html/python/interface.html#outmask>}.
+    '''
+    d = lon2 - lon1
+    if wrap and abs(d) > 180:
+        u = _drap(d, 180)
+        if u != d:
+            return u, lon1 + u
+    return d, lon2
+
+
+def unrollPI(rad1, rad2, wrap=True):
+    '''Unroll longitudinal delta and wrap longitude in radians.
+
+       @param rad1: Start longitude (radians).
+       @param rad2: End longitude (radians).
+       @keyword wrap: Wrap and unroll to the M{(-PI..+PI]} range (bool).
+
+       @return: 2-Tuple (delta I{rad2}-I{rad1}, I{rad2}) unrolled
+                (radians, radians).
+
+       @see: Capability I{LONG_UNROLL} in U{GeographicLib
+       <http://geographiclib.sourceforge.io/html/python/interface.html#outmask>}.
+    '''
+    r = rad2 - rad1
+    if wrap and abs(r) > PI:
+        u = _wrap(r, PI)
+        if u != r:
+            return u, rad1 + u
+    return r, rad2
+
+
+def unStr(name, *args, **kwds):
+    '''Return the string representation of an invokation.
+
+       @param name: Function, method or class name (string).
+       @param args: Optional positional arguments (tuple).
+       @keyword kwds: Optional keyword arguments (dict).
+
+       @return: Representation (string).
+    '''
+    t = tuple('%s=%s' % t for t in sorted(kwds.items()))
+    if args:
+        t = map2(str, args) + t
+    return '%s(%s)' % (name, ', '.join(t))
+
+
 def wrap90(deg):
-    '''Wrap degrees to M{-270..+90}.
+    '''Wrap degrees to M{(-270..+90]}.
 
        @param deg: Angle (degrees).
 
@@ -1018,7 +1088,7 @@ def wrap90(deg):
 
 
 def wrap180(deg):
-    '''Wrap degrees to M{-180..+180}.
+    '''Wrap degrees to M{(-180..+180]}.
 
        @param deg: Angle (degrees).
 
@@ -1028,7 +1098,7 @@ def wrap180(deg):
 
 
 def wrap360(deg):
-    '''Wrap degrees to M{0..+360}.
+    '''Wrap degrees to M{(0..+360]}.
 
        @param deg: Angle (degrees).
 
@@ -1038,21 +1108,23 @@ def wrap360(deg):
 
 
 def _wrap(rad, wrap):
-    '''(INTERNAL) Radians wrapper M{(wrap-2PI)..+wrap}.
+    '''(INTERNAL) Radians wrapper M{((wrap-2PI)..+wrap]}.
 
        @param rad: Angle (radians).
-       @param wrap: Limit (radians).
+       @param wrap: Range (radians).
 
        @return: Radians, wrapped (radians).
     '''
-    r = rad % PI2  # -1.5 % 3.14 == 1.64
-    if r > wrap:
-        r -= PI2
-    return r
+    if not wrap >= rad > (wrap - PI2):
+        # math.fmod(-1.5, 3.14) == -1.5, but ...
+        rad %= PI2  # ... -1.5 % 3.14 == 1.64
+        if rad > wrap:
+            rad -= PI2
+    return rad
 
 
 def wrapPI(rad):
-    '''Wrap radians to M{-PI..+PI}.
+    '''Wrap radians to M{(-PI..+PI]}.
 
        @param rad: Angle (radians).
 
@@ -1062,7 +1134,7 @@ def wrapPI(rad):
 
 
 def wrapPI2(rad):
-    '''Wrap radians to M{0..+2PI}.
+    '''Wrap radians to M{(0..+2PI]}.
 
        @param rad: Angle (radians).
 
@@ -1072,7 +1144,7 @@ def wrapPI2(rad):
 
 
 def wrapPI_2(rad):
-    '''Wrap radians to M{-3PI/2..+PI/2}.
+    '''Wrap radians to M{(-3PI/2..+PI/2]}.
 
        @param rad: Angle (radians).
 

@@ -14,8 +14,8 @@ There are two modules for ellipsoidal earth models, I{ellipsoidalVincenty}
 and I{-Nvector} and two for spherical ones, I{sphericalTrigonometry} and
 I{-Nvector}.  Each module provides a I{attributes-LatLon-html} class with
 methods to compute distance, initial and final bearing, intermediate and
-nearest points, area, perimeter and conversions, among other things.  For
-more information and further details see the U{documentation
+nearest points, area, perimeter, conversions and unrolling, among other
+things.  For more information and further details see the U{documentation
 <http://mrjean1.github.io/PyGeodesy/>}, the descriptions
 of U{Latitude/Longitude<http://www.movable-type.co.uk/scripts/latlong.html>},
 U{Vincenty<http://www.movable-type.co.uk/scripts/latlong-vincenty.html>} and
@@ -45,18 +45,18 @@ U{Visvalingam-Whyatt<http://hydra.hull.ac.uk/resources/hull:8338>} and the
 U{Reumann-Witkam<http://psimpl.sourceforge.net/reumann-witkam.html>}
 algorithms and modified versions of the former.
 
-All Python source code has been statically
-U{checked<http://code.activestate.com/recipes/546532>} with
-U{PyChecker<http://pypi.python.org/pypi/pychecker>},
+All Python source code has been statically U{checked
+<http://github.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor>}
+with U{PyChecker<http://pypi.python.org/pypi/pychecker>},
 U{PyFlakes<http://pypi.python.org/pypi/pyflakes>},
 U{PyCodeStyle<http://pypi.python.org/pypi/pycodestyle>} (formerly Pep8) and
 U{McCabe<http://pypi.python.org/pypi/mccabe>} using Python 2.7.14 and with
 U{Flake8<http://pypi.python.org/pypi/flake8>} on Python 3.6.4, both in
-64-bit.
+64-bit on macOS 10.13.2 High Sierra.
 
-The tests have been run in 64-bit only with U{PyPy-Python<http://pypy.org>}
-2.7.13, Python 2.7.14 (with U{geographiclib 1.49
-<http://pypi.python.org/pypi/geographiclib/1.49>} and U{numpy
+The tests have been run in 64-bit with U{PyPy-Python<http://pypy.org>}
+2.7.13, Python 2.7.14 (with U{geographiclib
+<http://pypi.python.org/pypi/geographiclib>} 1.49 and U{numpy
 <http://pypi.python.org/pypi/numpy>} 1.14.0), U{Intel-Python
 <http://software.intel.com/en-us/distribution-for-python>} 3.5.3 (and
 U{numpy<http://pypi.python.org/pypi/numpy>} 1.11.3) and Python 3.6.4,
@@ -80,10 +80,9 @@ C{epydoc --html --no-private --no-source --name=PyGeodesy --url=... -v pygeodesy
 Some function and method names differ from the JavaScript version. In such
 cases documentation tag B{JS name:} shows the original JavaScript name.
 
-Installation of U{numpy<http://pypi.python.org/pypi/numpy>} and
-U{geographiclib<http://pypi.python.org/pypi/geographiclib>} is optional,
-but the latter is required for two I{ellipsoidalVincenty} functions,
-I{areaOf} and I{perimeterOf}.
+Installation of U{NumPy<http://www.NumPy.org>} and U{GeographicLib
+<http://GeographicLib.sourceforge.io>} is optional, but the latter is
+required for two I{ellipsoidalVincenty} functions, I{areaOf} and I{perimeterOf}.
 
 __
 
@@ -127,12 +126,14 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var PI2:  Two PI, M{math.pi * 2} (float)
 @var PI_2: Half PI, M{math.pi / 2} (float)
 
-@var R_EQ: Spherical earth radius at equator (meter).
 @var R_M:  Mean, spherical earth radius (meter).
+@var R_MA: Equatorial earth radius (meter) WGS84, EPSG:3785.
+@var R_MB: Polar earth radius (meter) WGS84, EPSG:3785.
 @var R_KM: Mean, spherical earth radius (kilo meter).
 @var R_NM: Mean, spherical earth radius (nautical miles).
 @var R_SM: Mean, spherical earth radius (statute miles).
-@var R_VM: Navigation/Aviation earth radius (meter).
+@var R_FM: Former FAI Sphere earth radius (meter).
+@var R_VM: Aviation/Navigation earth radius (meter).
 
 @var S_DEG: Degrees symbol ° (string).
 @var S_MIN: Minutes symbol ′ (string).
@@ -181,7 +182,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',  # modules
            'Geohash', 'VincentyError',  # classes
            'nearestOn2',  # functions
            'version')  # extended below
-__version__ = '18.01.11'
+__version__ = '18.01.18'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
@@ -227,7 +228,9 @@ if __name__ == '__main__':
 
     d = locals()
     for i, n in enumerate(sorted(__all__)):
-        print('%s %s %r' % (i + 1, n, d[n]))
+        r = repr(d[n]).replace(' ' + n + ' ', ' ') \
+                      .replace(" '" + n + "' ", ' ')
+        print('%s %s %s' % (i + 1, n, r))
     print('--- PyGeodesy %s' % (__version__,))
 
 # **) MIT License

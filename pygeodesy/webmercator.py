@@ -17,7 +17,7 @@ U{Implementation Practice Web Mercator Map Projection
 '''
 
 from bases import Base
-from datum import R_EQ
+from datum import R_MA
 from dms import clipDMS, parseDMS2
 from ellipsoidalBase import LatLonEllipsoidalBase
 from utils import EPS, PI_2, degrees90, degrees180, fStr, \
@@ -28,7 +28,7 @@ from math import atan, atanh, exp, sin, tanh
 # all public contants, classes and functions
 __all__ = ('Wm',  # classes
            'parseWM', 'toWm')  # functions
-__version__ = '18.01.06'
+__version__ = '18.01.14'
 
 # _FalseEasting  = 0   #: (INTERNAL) False Easting (meter).
 # _FalseNorthing = 0   #: (INTERNAL) False Northing (meter).
@@ -43,7 +43,7 @@ class Wm(Base):
     _x      = 0  #: (INTERNAL) easting (meter).
     _y      = 0  #: (INTERNAL) northing (meter).
 
-    def __init__(self, x, y, radius=R_EQ):
+    def __init__(self, x, y, radius=R_MA):
         '''New Web Mercator (WM) coordinate.
 
            @param x: Easting from central meridian (meter).
@@ -85,7 +85,8 @@ class Wm(Base):
            @keyword datum: Optional datum for ellipsoidal I{LatLon}
                            or None for spherical I{LatLon} (I{Datum}).
 
-           @return: Point of this WM coordinate (I{LatLon}).
+           @return: Point of this WM coordinate (I{LatLon}) or 2-tuple
+                    (lat, lon) in (degrees) if I{LatLon} is None.
 
            @raise TypeError: I{LatLon} and I{datum} not compatible.
 
@@ -95,25 +96,28 @@ class Wm(Base):
            >>> from pygeodesy import sphericalTrigonometry as sT
            >>> ll = w.toLatLon(sT.LatLon)  # 43°39′11.58″N, 004°01′36.17″E
         '''
-        e = issubclass(LatLon, LatLonEllipsoidalBase)
-        if (e and not datum) or (datum and not e):
-            raise TypeError('%r and %s %r' % (LatLon, 'datum', datum))
-
         r = self._radius
         x = self._x / r
         y = 2 * atan(exp(self._y / r)) - PI_2
         if datum:
+            E = datum.ellipsoid
             # <http://earth-info.nga.mil/GandG/wgs84/web_mercator/
             #         %28U%29%20NGA_SIG_0011_1.0.0_WEBMERC.pdf>
             y = y / r
-            e = datum.ellipsoid.e
-            if e:
-                y -= e * atanh(e * tanh(y))
-            a = datum.ellipsoid.a
-            x *= a / r
-            return LatLon(degrees90(a * y), degrees180(x), datum=datum)
-        else:
-            return LatLon(degrees90(y), degrees180(x))
+            if E.e:
+                y -= E.e * atanh(E.e * tanh(y))
+            y *= E.a
+            x *= E.a / r
+        x, y = degrees180(x), degrees90(y)
+        if not LatLon:
+            return y, x
+
+        if issubclass(LatLon, LatLonEllipsoidalBase):
+            if datum:
+                return LatLon(y, x, datum=datum)
+        elif not datum:
+            return LatLon(y, x)
+        raise TypeError('%r and %s %r' % (LatLon, 'datum', datum))
 
     def toStr(self, prec=3, sep=' ', radius=False):  # PYCHOK expected
         '''Return a string representation of this WM coordinate.
@@ -168,7 +172,7 @@ class Wm(Base):
         return self._y
 
 
-def parseWM(strWM, radius=R_EQ):
+def parseWM(strWM, radius=R_MA):
     '''Parse a string representing a WM coordinate, consisting
        of easting, northing and an optional radius.
 
@@ -198,7 +202,7 @@ def parseWM(strWM, radius=R_EQ):
     return Wm(x, y, radius=r)
 
 
-def toWm(latlon, lon=None, radius=R_EQ, Wm=Wm):
+def toWm(latlon, lon=None, radius=R_MA, Wm=Wm):
     '''Convert a lat-/longitude point to a WM coordinate.
 
        @param latlon: Latitude (degrees) or an (ellipsoidal or

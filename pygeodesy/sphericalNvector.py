@@ -45,7 +45,7 @@ __all__ = ('LatLon', 'Nvector',  # classes
            'meanOf',
            'nearestOn2',
            'triangulate', 'trilaterate')
-__version__ = '17.11.22'
+__version__ = '18.01.14'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -266,11 +266,12 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         gc, _, _ = self._gc3(self, other, 'other')
         return gc.unit()
 
-    def initialBearingTo(self, other):
+    def initialBearingTo(self, other, **unused):
         '''Compute the initial bearing (aka forward azimuth) from this
            to an other point.
 
            @param other: The other point (L{LatLon}).
+           @param unused: Optional keyword argument I{wrap} ignored.
 
            @return: Initial bearing (compass degrees).
 
@@ -400,7 +401,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @raise TypeError: Some points are not L{LatLon}.
 
-           @raise ValueError: Too few points.
+           @raise ValueError: Insufficient number of points.
 
            @example:
 
@@ -735,7 +736,7 @@ def areaOf(points, radius=R_M):
 
        @raise TypeError: Some points are not L{LatLon}.
 
-       @raise ValueError: Too few polygon points.
+       @raise ValueError: Insufficient number of points.
 
        @example:
 
@@ -870,7 +871,7 @@ def meanOf(points, height=None, LatLon=LatLon):
 
        @return: Point at geographic mean and mean height (L{LatLon}).
 
-       @raise ValueError: Too few points.
+       @raise ValueError: Insufficient number of points.
     '''
     n, points = _Nvll.points(points, closed=False)
     # geographic mean

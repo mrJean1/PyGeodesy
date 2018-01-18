@@ -165,7 +165,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#distanceTo" class="summary-sig-name">distanceTo</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span><br />
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the distance between this and an other point along a 
       geodesic, using Vincenty's inverse method.</td>
           <td align="right" valign="top">
@@ -184,10 +185,10 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#distanceTo3" class="summary-sig-name">distanceTo3</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span><br />
-      Compute the distance and the initial and final bearing along a 
-      geodesic between this and an other point, using Vincenty's inverse 
-      method.</td>
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Compute the distance, the initial and final bearing along a geodesic 
+      between this and an other point, using Vincenty's inverse method.</td>
           <td align="right" valign="top">
             
             
@@ -225,7 +226,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#finalBearingTo" class="summary-sig-name">finalBearingTo</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span><br />
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the final bearing (reverse azimuth) after having travelled 
       along a geodesic from this point to an other point, using Vincenty's 
       inverse method.</td>
@@ -245,7 +247,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#initialBearingTo" class="summary-sig-name">initialBearingTo</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span><br />
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the initial bearing (forward azimuth) to travel along a 
       geodesic from this point to an other point, using Vincenty's inverse 
       method.</td>
@@ -265,7 +268,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#bearingTo" class="summary-sig-name">bearingTo</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span><br />
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the initial bearing (forward azimuth) to travel along a 
       geodesic from this point to an other point, using Vincenty's inverse 
       method.</td>
@@ -533,7 +537,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">distanceTo</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">other</span>)</span>
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -550,6 +555,7 @@
         <li><strong class="pname"><code>other</code></strong> - The other point (<a 
           href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
           class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance in meters (scalar).</dd>
@@ -585,16 +591,16 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">distanceTo3</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">other</span>)</span>
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Compute the distance and the initial and final bearing along a 
-  geodesic between this and an other point, using Vincenty's inverse 
-  method.</p>
+  <p>Compute the distance, the initial and final bearing along a geodesic 
+  between this and an other point, using Vincenty's inverse method.</p>
   <p>The distance is in the same units as this point's datum axes, 
   conventially meter.  The distance is measured on the surface of the 
   ellipsoid, ignoring this point's height.</p>
@@ -606,6 +612,7 @@
         <li><strong class="pname"><code>other</code></strong> - Destination point (<a 
           href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
           class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>3-Tuple (distance, initial bearing, final bearing) in (meter, 
@@ -682,7 +689,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">finalBearingTo</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">other</span>)</span>
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -700,6 +708,7 @@
         <li><strong class="pname"><code>other</code></strong> - The other point (<a 
           href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
           class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Final bearing in compass degrees (degrees360).</dd>
@@ -739,7 +748,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">initialBearingTo</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">other</span>)</span>
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -757,6 +767,7 @@
         <li><strong class="pname"><code>other</code></strong> - The other point (<a 
           href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
           class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Initial bearing in compass degrees (degrees360).</dd>
@@ -799,7 +810,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">bearingTo</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">other</span>)</span>
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -817,6 +829,7 @@
         <li><strong class="pname"><code>other</code></strong> - The other point (<a 
           href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
           class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Initial bearing in compass degrees (degrees360).</dd>
@@ -957,7 +970,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Jan 11 20:43:49 2018
+    Generated by Epydoc 3.0.1 on Thu Jan 18 16:08:16 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

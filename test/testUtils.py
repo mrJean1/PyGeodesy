@@ -4,11 +4,12 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '18.01.04'
+__version__ = '18.01.16'
 
 from base import TestsBase
 
-from pygeodesy import R_M, fpolynomial, fsum, heightOf, horizon, isfinite
+from pygeodesy import R_M, fpolynomial, fStr, fsum, heightOf, horizon, \
+                           isfinite, unroll180
 
 
 class Tests(TestsBase):
@@ -49,6 +50,18 @@ class Tests(TestsBase):
         self.test('isfinite', isfinite(1e1234), 'False')
         self.test('isfinite', isfinite(float('inf')), 'False')
         self.test('isfinite', isfinite(float('nan')), 'False')
+
+        self.test('unroll180', fStr(unroll180(-90, 110, wrap=True)), '-160.0, -250.0')
+        self.test('unroll180', fStr(unroll180(-90, 110, wrap=False)), '200.0, 110.0')
+
+        self.test('unroll180', fStr(unroll180(-90, 830, wrap=True)), '-160.0, -250.0')
+        self.test('unroll180', fStr(unroll180(-90, 830, wrap=False)), '920.0, 830.0')
+
+        self.test('unroll180', fStr(unroll180(-110, 90, wrap=True)), '-160.0, -270.0')
+        self.test('unroll180', fStr(unroll180(-110, 90, wrap=False)), '200.0, 90.0')
+
+        self.test('unroll180', fStr(unroll180(-830, 90, wrap=True)), '-160.0, -990.0')
+        self.test('unroll180', fStr(unroll180(-830, 90, wrap=False)), '920.0, 90.0')
 
 
 if __name__ == '__main__':

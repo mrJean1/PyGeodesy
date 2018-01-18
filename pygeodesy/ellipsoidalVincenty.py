@@ -53,14 +53,14 @@ or by converting to anothor datum:
 from datum import Datums
 from ellipsoidalBase import CartesianBase, LatLonEllipsoidalBase
 from utils import EPS, degrees90, degrees180, degrees360, \
-                  fpolynomial, polygon, radians, scalar
+                  fpolynomial, polygon, radians, scalar, unroll180
 
 from math import atan2, cos, hypot, sin, tan
 
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'VincentyError',  # classes
            'areaOf', 'perimeterOf')  # functions
-__version__ = '18.01.11'
+__version__ = '18.01.16'
 
 
 class VincentyError(ValueError):
@@ -160,12 +160,13 @@ class LatLon(LatLonEllipsoidalBase):
         '''
         return self._direct(distance, bearing, True, height=height)
 
-    def distanceTo(self, other):
+    def distanceTo(self, other, wrap=False):
         '''Compute the distance between this and an other point
            along a geodesic, using Vincenty's inverse method.
            See method L{distanceTo3} for more details.
 
            @param other: The other point (L{LatLon}).
+           @keyword wrap: Wrap and unroll longitudes (bool).
 
            @return: Distance in meters (scalar).
 
@@ -184,11 +185,11 @@ class LatLon(LatLonEllipsoidalBase):
            >>> q = LatLon(58.64402, -3.07009)
            >>> d = p.distanceTo(q)  # 969,954.166 m
         '''
-        return self._inverse(other, False)
+        return self._inverse(other, False, wrap)
 
-    def distanceTo3(self, other):
-        '''Compute the distance and the initial and final bearing along
-           a geodesic between this and an other point, using Vincenty's
+    def distanceTo3(self, other, wrap=False):
+        '''Compute the distance, the initial and final bearing along a
+           geodesic between this and an other point, using Vincenty's
            inverse method.
 
            The distance is in the same units as this point's datum axes,
@@ -199,9 +200,10 @@ class LatLon(LatLonEllipsoidalBase):
            are in compass degrees from North.
 
            @param other: Destination point (L{LatLon}).
+           @keyword wrap: Wrap and unroll longitudes (bool).
 
            @return: 3-Tuple (distance, initial bearing, final bearing)
-           in (meter, degrees360, degree360).
+                    in (meter, degrees360, degree360).
 
            @raise TypeError: The other point is not L{LatLon}.
 
@@ -212,7 +214,7 @@ class LatLon(LatLonEllipsoidalBase):
                                  L{LatLon.epsilon} and L{LatLon.iterations}
                                  limit or this and the other point coincide.
         '''
-        return self._inverse(other, True)
+        return self._inverse(other, True, wrap)
 
     @property
     def epsilon(self):
@@ -255,13 +257,14 @@ class LatLon(LatLonEllipsoidalBase):
         '''
         return self._direct(distance, bearing, False)
 
-    def finalBearingTo(self, other):
+    def finalBearingTo(self, other, wrap=False):
         '''Compute the final bearing (reverse azimuth) after having
            travelled along a geodesic from this point to an other
            point, using Vincenty's inverse method.  See method
            L{distanceTo3} for more details.
 
            @param other: The other point (L{LatLon}).
+           @keyword wrap: Wrap and unroll longitudes (bool).
 
            @return: Final bearing in compass degrees (degrees360).
 
@@ -284,15 +287,16 @@ class LatLon(LatLonEllipsoidalBase):
            >>> q = LatLon(48.857, 2.351)
            >>> f = p.finalBearingTo(q)  # 157.9
         '''
-        return self._inverse(other, True)[2]
+        return self._inverse(other, True, wrap)[2]
 
-    def initialBearingTo(self, other):
+    def initialBearingTo(self, other, wrap=False):
         '''Compute the initial bearing (forward azimuth) to travel
            along a geodesic from this point to an other point,
            using Vincenty's inverse method.  See method
            L{distanceTo3} for more details.
 
            @param other: The other point (L{LatLon}).
+           @keyword wrap: Wrap and unroll longitudes (bool).
 
            @return: Initial bearing in compass degrees (degrees360).
 
@@ -317,7 +321,7 @@ class LatLon(LatLonEllipsoidalBase):
 
            @JSname: I{bearingTo}.
         '''
-        return self._inverse(other, True)[1]
+        return self._inverse(other, True, wrap)[1]
 
     bearingTo = initialBearingTo  # for backward compatibility
 
@@ -395,7 +399,7 @@ class LatLon(LatLonEllipsoidalBase):
             r = self.classof(a, b, height=h, datum=self.datum), r
         return r
 
-    def _inverse(self, other, azis):
+    def _inverse(self, other, azis, wrap):
         '''(INTERNAL) Inverse Vincenty method.
 
            @raise TypeError: The other point is not L{LatLon}.
@@ -415,7 +419,8 @@ class LatLon(LatLonEllipsoidalBase):
         c1c2, s1s2 = c1 * c2, s1 * s2
         c1s2, s1c2 = c1 * s2, s1 * c2
 
-        ll = dl = radians(other.lon - self.lon)
+        dl, _ = unroll180(self.lon, other.lon, wrap=wrap)
+        ll = dl = radians(dl)
         for _ in range(self._iterations):
             cll, sll, ll_ = cos(ll), sin(ll), ll
 
@@ -507,17 +512,21 @@ class Cartesian(CartesianBase):
         return LatLon(a, b, height=h, datum=datum)
 
 
-def _Geodesic3(points, datum, line=False, closed=False):
-    # Compute the area and perimeter of a polygon/-line
+def _Geodesic(points, closed, datum, line, wrap):
+    # Compute the area or perimeter of a polygon/-line
     # using the GeographicLib package, iff installed
     try:
         from geographiclib.geodesic import Geodesic
     except ImportError:
         raise ImportError('no %s' % ('geographiclib',))
 
+    if not wrap:  # capability LONG_UNROLL always set
+        raise ValueError('%s invalid: %s' % ('wrap', wrap))
+
     E = datum.ellipsoid
     g = Geodesic(E.a, E.f).Polygon(line)
 
+    # note, lon deltas are unrolled, by default
     for p in points:
         g.AddPoint(p.lat, p.lon)
     if line and closed:
@@ -525,15 +534,16 @@ def _Geodesic3(points, datum, line=False, closed=False):
         g.AddPoint(p.lat, p.lon)
 
     # g.Compute returns (number_of_points, perimeter, signed area)
-    return g.Compute(False, True)
+    return g.Compute(False, True)[1 if line else 2]
 
 
-def areaOf(points, datum=Datums.WGS84):
+def areaOf(points, datum=Datums.WGS84, wrap=True):
     '''Compute the area of a polygon defined by an array, list, sequence,
        set or tuple of points on the given datum.
 
        @param points: The points defining the polygon (L{LatLon}[]).
        @keyword datum: Optional datum (L{Datum}).
+       @keyword wrap: Wrap and unroll longitudes (bool).
 
        @return: Area (meter squared).
 
@@ -542,22 +552,24 @@ def areaOf(points, datum=Datums.WGS84):
 
        @raise TypeError: Some points are not L{LatLon}.
 
-       @raise ValueError: Too few points.
+       @raise ValueError: Insufficient number of points or not
+                          wrapped, unrolled.
 
        @note: This function requires the U{GeographicLib
-       <http://pypi.python.org/pypi/geographiclib>} package to be installede.
+       <http://pypi.python.org/pypi/geographiclib>} package to be installed.
     '''
     _, points = polygon(points, closed=True)  # base=LatLonEllipsoidalBase(0, 0)
-    return abs(_Geodesic3(points, datum)[2])
+    return abs(_Geodesic(points, True, datum, False, wrap))
 
 
-def perimeterOf(points, closed=False, datum=Datums.WGS84):
+def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):
     '''Compute the perimeter of a polygon/-line defined by an array,
        list, sequence, set or tuple of points.
 
        @param points: The points defining the polygon (L{LatLon}[]).
        @keyword closed: Optionally, close the polygon/-line (bool).
        @keyword datum: Optional datum (L{Datum}).
+       @keyword wrap: Wrap and unroll longitudes (bool).
 
        @return: Perimeter (meter).
 
@@ -566,13 +578,14 @@ def perimeterOf(points, closed=False, datum=Datums.WGS84):
 
        @raise TypeError: Some points are not L{LatLon}.
 
-       @raise ValueError: Too few points.
+       @raise ValueError: Insufficient number of points or not
+                          wrapped, unrolled.
 
        @note: This function requires the U{GeographicLib
-       <http://pypi.python.org/pypi/geographiclib>} package to be installede.
+       <http://pypi.python.org/pypi/geographiclib>} package to be installed.
     '''
     _, points = polygon(points, closed=closed)  # base=LatLonEllipsoidalBase(0, 0)
-    return _Geodesic3(points, datum, line=True, closed=closed)[1]
+    return _Geodesic(points, closed, datum, True, wrap)
 
 # **) MIT License
 #

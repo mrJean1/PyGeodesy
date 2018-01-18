@@ -10,11 +10,37 @@
 
 from base import TestsBase
 
-from pygeodesy import LatLon_, R_KM, R_M, areaof, perimeterof, \
+from pygeodesy import LatLon_, R_KM, R_M, areaof, perimeterof, unStr, \
                       ellipsoidalVincenty, sphericalTrigonometry
+try:
+    from geographiclib.geodesic import Geodesic
+except ImportError:
+    Geodesic = None
 
-__all__ = ('Pts', 'PtsFFI', 'RdpFFI', 'PtsJS', 'PtsJS5', 'VwPts')
-__version__ = '18.01.11'
+__all__ = ('Antarctica', 'Pts', 'PtsFFI', 'RdpFFI',
+           'PtsJS', 'PtsJS5', 'VwPts')
+__version__ = '18.01.18'
+
+# <http://geographiclib.sourceforge.io/html/python/examples.html>
+Antarctica = [LatLon_(_lat, _lon) for _lat, _lon in (
+    (-63.1, -58),
+    (-72.9, -74),
+    (-71.9,-102),
+    (-74.9,-102),
+    (-74.3,-131),
+    (-77.5,-163),
+    (-77.4, 163),
+    (-71.7, 172),
+    (-65.9, 140),
+    (-65.7, 113),
+    (-66.6,  88),
+    (-66.9,  59),
+    (-69.8,  25),
+    (-70.0,  -4),
+    (-71.0, -14),
+    (-77.3, -33),
+    (-77.9, -46),
+    (-74.7, -61))]  # open
 
 # <http://github.com/urschrei/rdp>
 PtsFFI = [LatLon_(_lat, _lon) for _lon, _lat in (
@@ -17031,6 +17057,19 @@ VwPts = [LatLon_(_lat, _lon) for _lon, _lat, _a2 in (
     (37.537930, 55.737560, 0.003194690800000177),
     (37.569962, 55.779980, 0))]
 
+# <http://geographiclib.sourceforge.io/html/python/examples.html>
+_JFK_LHR1 = [LatLon_(_lat, _lon) for _lat, _lon in (
+    ( 0,   73.8),  # equator
+    (40.6, 73.8),  # JFK
+    (51.6,  0.5),  # LHR
+    ( 0,    0.5))]
+
+_JFK_LHR2 = [LatLon_(_lat, _lon) for _lat, _lon in (
+    (-40.6, 73.8),  # double the area
+    ( 40.6, 73.8),  # JFK
+    ( 51.6,  0.5),  # LHR
+    (-51.6,  0.5))]
+
 # del _lat, _lon
 
 
@@ -17042,48 +17081,126 @@ def _2LL(pts, LL):
 
 class Tests(TestsBase):
 
-    def test4(self, fun, exps, fmt='%.3f', LL=None, **kwds):
-        n = fun.__name__
+    def test7(self, f, xs, fmt='%.3f', LL=None, known=False, **kwds):
+        n = f.__name__
         if n.endswith('Of'):
-            n = '.'.join(fun.__module__.split('.')[-1:] + [n])
+            n = '.'.join(f.__module__.split('.')[-1:] + [n])
 
-        for pts, exp in zip((PtsFFI, RdpFFI, Pts, VwPts), exps):
+        g = globals()
+        for x, p in zip(xs, ('Antarctica',
+                             'PtsFFI', 'RdpFFI', 'Pts', 'VwPts',
+                             '_JFK_LHR1', '_JFK_LHR2')):
+            pts = g[p]
             if LL:
                 pts = _2LL(pts, LL)
-            self.test(n, fun(pts, **kwds), exp, fmt=fmt)
+            t = unStr(n, p, wrap=True, **kwds)
+            # wrap since GeographicLib LONG_UNROLL is always set
+            r = f(pts, wrap=True, **kwds)
+            self.test(t, r, x, fmt=fmt, known=known)
 
     def testAreas(self):
-        self.test4(areaof, (1.288, 1.241, 131184.240, 140310.144),
-                   radius=R_KM)
+        self.test7(areaof, (13552524.8,
+                   1.288, 1.241, 131184.240, 140310.144,
+                   4.00413688487425e7, 2*4.00413688487425e7),
+                   known=True, radius=R_KM, adjust=True)
+        self.test7(areaof, (13552524.8,
+                   1.288, 1.241, 131184.240, 140310.144,
+                   4.00413688487425e7, 2*4.00413688487425e7),
+                   known=True, radius=R_KM, adjust=False)
         # spherical areaOf requires spherical LatLon
-        self.test4(sphericalTrigonometry.areaOf,
-                   (1.338, 1.289, 125942.444, 118897.757),
+        self.test7(sphericalTrigonometry.areaOf, (13552524.810,  # 13552524.8096748
+                   1.338, 1.289, 125942.444, 118897.757,
+                   40105639.197, 80211278.393),  # 2*40105639.197 == .394
                    LL=sphericalTrigonometry.LatLon, radius=R_KM)
         try:  # no LatLon restrictions for ellipsoidal areaOf
-            self.test4(ellipsoidalVincenty.areaOf,
-                       (1.343272e+06, 1.294375e+06, 1.271286e+11, 1.200540e+11),
-                        fmt='%.6e')
-            self.test4(ellipsoidalVincenty.areaOf,
-                       (1.343272e+06, 1.294375e+06, 1.271286e+11, 1.200540e+11),
-                        fmt='%.6e', LL=ellipsoidalVincenty.LatLon)
+            self.test7(ellipsoidalVincenty.areaOf, (1.366270e+13,  # 13662703680020.1
+                       1.343272e+06, 1.294375e+06, 1.271286e+11, 1.200540e+11,
+                       4.00413688487425e13, 2*4.00413688487425e13),
+                       fmt='%.6e')
+            self.test7(ellipsoidalVincenty.areaOf, (1.366270e+13,  # 13662703680020.1
+                       1.343272e+06, 1.294375e+06, 1.271286e+11, 1.200540e+11,
+                       4.00413688487425e13, 2*4.00413688487425e13),
+                       fmt='%.6e', LL=ellipsoidalVincenty.LatLon)
         except ImportError as x:
             self.test('ellipsoidalVincenty.areaOf', x, x)
 
     def testPerimeters(self):
-        self.test4(perimeterof, (3224.123, 3185.467, 2762313.129, 2672557.850),
-                   radius=R_M)
-        # spherical areaOf requires spherical LatLon
-        self.test4(sphericalTrigonometry.perimeterOf,
-                   (3224.123, 3185.467, 2762313.116, 2672556.441),
-                   LL=sphericalTrigonometry.LatLon, radius=R_M)
-        try:  # no LatLon restrictions for ellipsoidal areaOf
-            self.test4(ellipsoidalVincenty.perimeterOf,
-                       (3229.337, 3190.602, 2769709.679, 2679915.858))
-            self.test4(ellipsoidalVincenty.perimeterOf,
-                       (3229.337, 3190.602, 2769709.679, 2679915.858),
-                        LL=ellipsoidalVincenty.LatLon)
+        self.test7(perimeterof, (16765661.499,
+                   3224.123, 3185.467, 2762313.129, 2672557.850,
+                   15766750.804, 25981742.208),
+                   known=True, radius=R_M, closed=False)
+        # spherical perimeterOf requires spherical LatLon
+        self.test7(sphericalTrigonometry.perimeterOf, (15470624.834,  # 16765661.499 closed
+                   3224.123, 3185.467, 2762313.116, 2672556.441,
+                   15789078.314, 26041264.665),  # 15766750.804, 25981742.208
+                   LL=sphericalTrigonometry.LatLon, radius=R_M, closed=False)
+        try:  # no LatLon restrictions for ellipsoidal perimeterOf
+            self.test7(ellipsoidalVincenty.perimeterOf, (15531947.149,
+                       3229.337, 3190.602, 2769709.679, 2679915.858,
+                       15766750.804, 25981742.208),  # assumed
+                       LL=ellipsoidalVincenty.LatLon, closed=False)
+            self.test7(ellipsoidalVincenty.perimeterOf, (16831067.893,
+                       5491.045, 5452.310, 5259077.510, 5171947.931,
+                       23926469.479, 31533501.608), closed=True)  # assumed
         except ImportError as x:
             self.test('ellipsoidalVincenty.perimeterOf', x, x)
+
+    def testGeodesic(self):
+        # <http://geographiclib.sourceforge.io/html/python/examples.html>
+        def _s(n, m='(Sphere)'):
+            return 'geographiclib.' + n + m
+
+        def _w(n, m='(WGS84)'):
+            return 'geographiclib.' + n + m
+
+        if Geodesic:
+            wgs = Geodesic.WGS84
+            sph = Geodesic(R_M, 0)
+
+            w = wgs.Inverse(-41.32, 174.81, 40.96, -5.50, Geodesic.DISTANCE | Geodesic.LONG_UNROLL)
+            self.test(_w('WNZ-SAL'), w['s12'], 19959679.267, fmt='%.3f')
+            self.test(_w('WNZ-SAL'), w['lon2'], 354.50, fmt='%.2f')
+            s = sph.Inverse(-41.32, 174.81, 40.96, -5.50, Geodesic.DISTANCE | Geodesic.LONG_UNROLL)
+            self.test(_s('WNZ-SAL'), s['s12'], 19967403.498, fmt='%.3f')
+            self.test(_s('WNZ-SAL'), s['lon2'], 354.50, fmt='%.2f')
+
+            w = wgs.Inverse(40.1, 116.6, 37.6, -122.4, Geodesic.DISTANCE | Geodesic.LONG_UNROLL)
+            self.test(_w('BJS-SFO'), w['s12'], 9513998.0, fmt='%.1f')
+            self.test(_w('BJS-SFO'), w['lon2'], 237.6, fmt='%.1f')
+            s = sph.Inverse(40.1, 116.6, 37.6, -122.4, Geodesic.DISTANCE | Geodesic.LONG_UNROLL)
+            self.test(_s('BJS-SFO'), s['s12'], 9491734.6, fmt='%.1f')
+            self.test(_s('BJS-SFO'), s['lon2'], 237.6, fmt='%.1f')
+
+            w = wgs.Direct(-32.06, 115.74, 225, 20000e3)
+            self.test(_w('SW-Perth'), w['lat2'],  32.11195529, fmt='%.8f')
+            self.test(_w('SW-Perth'), w['lon2'], -63.95925278, fmt='%.8f')
+            s = sph.Direct(-32.06, 115.74, 225, 20000e3)
+            self.test(_s('SW-Perth'), s['lat2'],  31.96383509, fmt='%.8f')
+            self.test(_s('SW-Perth'), s['lon2'], -64.14670854, fmt='%.8f')
+
+            w = wgs.Inverse(40.6, -73.8, 51.6, -0.5, Geodesic.DISTANCE | Geodesic.AREA | Geodesic.LONG_UNROLL)
+            self.test(_w('JFK-LHR'), w['S12'], 40041368848742.5, fmt='%.1f')
+            self.test(_w('JFK-LHR'), w['s12'], 5551759.4, fmt='%.1f')
+            s = sph.Inverse(40.6, -73.8, 51.6, -0.5, Geodesic.DISTANCE | Geodesic.AREA | Geodesic.LONG_UNROLL)
+            self.test(_s('JFK-LHR'), s['S12'], 40105639196534.8, fmt='%.1f')
+            self.test(_s('JFK-LHR'), s['s12'], 5536892.0, fmt='%.1f')
+
+            p = wgs.Polygon()
+            for ll in Antarctica:
+                p.AddPoint(ll.lat, ll.lon)
+            _, p, a = p.Compute()
+            self.test(_w('Antarctica Peri'), p, 16831067.893, fmt='%.3f')
+            self.test(_w('Antarctica Area'), a, 13662703680020.1, fmt='%.1f')
+
+            p = sph.Polygon()
+            for ll in Antarctica:
+                p.AddPoint(ll.lat, ll.lon)
+            _, p, a = p.Compute()
+            self.test(_s('Antarctica Peri'), p, 16765661.499, fmt='%.3f')
+            self.test(_s('Antarctica Area'), a, 13552524809674.8, fmt='%.1f')
+
+        else:
+            self.test('no module', _s('Geodesic', ''), _s('Geodesic', ''))
 
 
 if __name__ == '__main__':
@@ -17091,5 +17208,6 @@ if __name__ == '__main__':
     t = Tests(__file__, __version__)
     t.testAreas()
     t.testPerimeters()
+    t.testGeodesic()
     t.results()
     t.exit()
