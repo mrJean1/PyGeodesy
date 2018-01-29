@@ -62,7 +62,7 @@ cases documentation tag **JS name:** shows the original JavaScript name.
 Installation of `NumPy`_ and `GeographicLib`_ is optional, but the latter is
 required for two *ellipsoidalVincenty* functions, *areaOf* and *perimeterOf*.
 
-*Last updated: Jan 18, 2018.*
+*Last updated: Jan 28, 2018.*
 
 .. _checked: http://github.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor
 .. _docs: http://www.movable-type.co.uk/scripts/geodesy/docs/

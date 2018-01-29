@@ -60,7 +60,7 @@ from math import atan2, cos, hypot, sin, tan
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'VincentyError',  # classes
            'areaOf', 'perimeterOf')  # functions
-__version__ = '18.01.16'
+__version__ = '18.01.28'
 
 
 class VincentyError(ValueError):
@@ -132,7 +132,7 @@ class LatLon(LatLonEllipsoidalBase):
            using Vincenty's direct method.
 
            The distance must be in the same units as this point's datum
-           axes, conventially meter.  The distance is measured on the
+           axes, conventionally meter.  The distance is measured on the
            surface of the ellipsoid, ignoring this point's height.
 
            The initial and final bearing (aka forward and reverse azimuth)
@@ -368,7 +368,7 @@ class LatLon(LatLonEllipsoidalBase):
         s12 = atan2(t1, ci) * 2
 
         sa = c1 * si
-        c2a = 1 - (sa * sa)
+        c2a = 1 - sa**2
         if c2a < EPS:
             c2a = 0
             A, B = 1, 0
@@ -416,8 +416,8 @@ class LatLon(LatLonEllipsoidalBase):
         c1, s1, _ = _r3(self.lat, E.f)
         c2, s2, _ = _r3(other.lat, E.f)
 
-        c1c2, s1s2 = c1 * c2, s1 * s2
-        c1s2, s1c2 = c1 * s2, s1 * c2
+        c1c2, s1c2 = c1 * c2, s1 * c2
+        c1s2, s1s2 = c1 * s2, s1 * s2
 
         dl, _ = unroll180(self.lon, other.lon, wrap=wrap)
         ll = dl = radians(dl)

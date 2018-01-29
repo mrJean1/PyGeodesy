@@ -242,7 +242,8 @@ def equirectangular_(lat1, lon1, lat2, lon2,
                         delta by the cosine of the mean latitude (bool).
        @keyword limit: Optional limit for the lat- and longitudinal
                        deltas (degrees) or None or 0 for unlimited.
-       @keyword wrap: Wrap and L{unroll180} longitudes (bool).
+       @keyword wrap: Wrap and L{unroll180} longitudes and longitudinal
+                      delta (bool).
 
        @return: 4-Tuple (distance2, delta_lat, delta_lon, lon2_unroll)
                 with the distance in degrees squared, the latitudinal

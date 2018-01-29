@@ -103,16 +103,18 @@
   select the computation of the distance between a point and a path edge.  
   If True, use the shortest distance to the path edge or path end points, 
   False use the perpendicular distance to the extended path edge line.</p>
-  <p>For all functions, keyword argument <i>adjust</i> scales the 
-  longitudinal distance between two points by the cosine of the mean of the
-  latitudes.</p>
-  <p>Likewise, keyword argument <i>radius</i> of all fuctions is set to the
-  mean earth radius in meter.  Other units can be choosen, provided that 
-  the radius and tolerance are always specified in the same units.</p>
-  <p>Finally, use keyword argument <i>indices</i>=True in any function to 
-  return a list of simplified point <i>indices</i> instead of the 
-  simplified points. The first and last index are always the first and last
-  points index.</p>
+  <p>Keyword argument <i>radius</i> of all fuctions is set to the mean 
+  earth radius in meter.  Other units can be choosen, provided that the 
+  radius and tolerance are always specified in the same units.</p>
+  <p>Use keyword argument <i>indices</i>=True in any function to return a 
+  list of simplified point <i>indices</i> instead of the simplified points.
+  The first and last index are always the first and last original 
+  index.</p>
+  <p>Finally, any additional keyword arguments <i>options</i> to all 
+  functions are passed thru to function <a 
+  href="pygeodesy.utils-module.html#equirectangular_" 
+  class="link">equirectangular_</a> to specify the distance 
+  approximation.</p>
   <p>To process NumPy arrays containing rows of lat-, longitude and 
   possibly other values, use class <a 
   href="pygeodesy.points.Numpy2LatLon-class.html" 
@@ -184,7 +186,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.01.16
+        18.01.28
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -203,8 +205,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.simplify-module.html#simplify1" class="summary-sig-name">simplify1</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">distance</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
-        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">**options</span>)</span><br />
       Basic simplification of a path of <i>LatLon</i> points.</td>
           <td align="right" valign="top">
             
@@ -224,9 +226,9 @@
           <td><span class="summary-sig"><a href="pygeodesy.simplify-module.html#simplifyRDP" class="summary-sig-name">simplifyRDP</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">distance</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
-        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">**options</span>)</span><br />
       Ramer-Douglas-Peucker (RDP) simplification of a path of <i>LatLon</i>
       points.</td>
           <td align="right" valign="top">
@@ -247,9 +249,9 @@
           <td><span class="summary-sig"><a href="pygeodesy.simplify-module.html#simplifyRDPm" class="summary-sig-name">simplifyRDPm</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">distance</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
-        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">**options</span>)</span><br />
       Modified Ramer-Douglas-Peucker (RDP) simplification of a path of 
       <i>LatLon</i> points.</td>
           <td align="right" valign="top">
@@ -270,9 +272,9 @@
           <td><span class="summary-sig"><a href="pygeodesy.simplify-module.html#simplifyRW" class="summary-sig-name">simplifyRW</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">pipe</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
-        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">**options</span>)</span><br />
       Reumann-Witkam simplification of a path of <i>LatLon</i> points.</td>
           <td align="right" valign="top">
             
@@ -292,9 +294,9 @@
           <td><span class="summary-sig"><a href="pygeodesy.simplify-module.html#simplify2" class="summary-sig-name">simplify2</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">pipe</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
-        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">**options</span>)</span><br />
       Reumann-Witkam simplification of a path of <i>LatLon</i> points.</td>
           <td align="right" valign="top">
             
@@ -314,9 +316,9 @@
           <td><span class="summary-sig"><a href="pygeodesy.simplify-module.html#simplifyVW" class="summary-sig-name">simplifyVW</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">area</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
-        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">attr</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">**options</span>)</span><br />
       Visvalingam-Whyatt (VW) simplification of a path of <i>LatLon</i> 
       points.</td>
           <td align="right" valign="top">
@@ -337,9 +339,9 @@
           <td><span class="summary-sig"><a href="pygeodesy.simplify-module.html#simplifyVWm" class="summary-sig-name">simplifyVWm</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">area</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
-        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">attr</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">**options</span>)</span><br />
       Modified Visvalingam-Whyatt (VW) simplification of a path of 
       <i>LatLon</i> points.</td>
           <td align="right" valign="top">
@@ -371,8 +373,8 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">simplify1</span>(<span class="sig-arg">points</span>,
         <span class="sig-arg">distance</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
-        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">indices</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">indices</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">**options</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -388,9 +390,11 @@
         <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
         <li><strong class="pname"><code>distance</code></strong> - Tolerance (meter, same units as radius).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
-        <li><strong class="pname"><code>adjust</code></strong> - Optionally adjust longitudes (bool).</li>
         <li><strong class="pname"><code>indices</code></strong> - Optionally return the simplified point indices instead of the 
           simplified points (bool).</li>
+        <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
+          href="pygeodesy.utils-module.html#equirectangular_" 
+          class="link">equirectangular_</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Simplified points (list of <i>LatLon</i>s).</dd>
@@ -411,9 +415,9 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">simplifyRDP</span>(<span class="sig-arg">points</span>,
         <span class="sig-arg">distance</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
-        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">indices</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">indices</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">**options</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -433,10 +437,12 @@
         <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
         <li><strong class="pname"><code>distance</code></strong> - Tolerance (meter, same units as radius).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
-        <li><strong class="pname"><code>adjust</code></strong> - Optionally adjust longitudes (bool).</li>
         <li><strong class="pname"><code>shortest</code></strong> - Optional, shortest or perpendicular distance (bool).</li>
         <li><strong class="pname"><code>indices</code></strong> - Optionally return the simplified point indices instead of the 
           simplified points (bool).</li>
+        <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
+          href="pygeodesy.utils-module.html#equirectangular_" 
+          class="link">equirectangular_</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Simplified points (list of <i>LatLon</i>s).</dd>
@@ -457,9 +463,9 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">simplifyRDPm</span>(<span class="sig-arg">points</span>,
         <span class="sig-arg">distance</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
-        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">indices</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">indices</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">**options</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -479,10 +485,12 @@
         <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
         <li><strong class="pname"><code>distance</code></strong> - Tolerance (meter, same units as radius).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
-        <li><strong class="pname"><code>adjust</code></strong> - Optionally adjust longitudes (bool).</li>
         <li><strong class="pname"><code>shortest</code></strong> - Optional, shortest or perpendicular distance (bool).</li>
         <li><strong class="pname"><code>indices</code></strong> - Optionally return the simplified point indices instead of the 
           simplified points (bool).</li>
+        <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
+          href="pygeodesy.utils-module.html#equirectangular_" 
+          class="link">equirectangular_</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Simplified points (list of <i>LatLon</i>s).</dd>
@@ -503,9 +511,9 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">simplifyRW</span>(<span class="sig-arg">points</span>,
         <span class="sig-arg">pipe</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
-        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">indices</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">indices</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">**options</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -521,10 +529,12 @@
         <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
         <li><strong class="pname"><code>pipe</code></strong> - Half pipe width (meter, same units as radius).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
-        <li><strong class="pname"><code>adjust</code></strong> - Optionally adjust longitudes (bool).</li>
         <li><strong class="pname"><code>shortest</code></strong> - Optional, shortest or perpendicular distance (bool).</li>
         <li><strong class="pname"><code>indices</code></strong> - Optionally return the simplified point indices instead of the 
           simplified points (bool).</li>
+        <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
+          href="pygeodesy.utils-module.html#equirectangular_" 
+          class="link">equirectangular_</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Simplified points (list of <i>LatLon</i>s).</dd>
@@ -545,9 +555,9 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">simplify2</span>(<span class="sig-arg">points</span>,
         <span class="sig-arg">pipe</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
-        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">indices</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">indices</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">**options</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -563,10 +573,12 @@
         <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
         <li><strong class="pname"><code>pipe</code></strong> - Half pipe width (meter, same units as radius).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
-        <li><strong class="pname"><code>adjust</code></strong> - Optionally adjust longitudes (bool).</li>
         <li><strong class="pname"><code>shortest</code></strong> - Optional, shortest or perpendicular distance (bool).</li>
         <li><strong class="pname"><code>indices</code></strong> - Optionally return the simplified point indices instead of the 
           simplified points (bool).</li>
+        <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
+          href="pygeodesy.utils-module.html#equirectangular_" 
+          class="link">equirectangular_</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Simplified points (list of <i>LatLon</i>s).</dd>
@@ -587,9 +599,9 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">simplifyVW</span>(<span class="sig-arg">points</span>,
         <span class="sig-arg">area</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
-        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">attr</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">indices</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">indices</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">**options</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -609,10 +621,12 @@
         <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
         <li><strong class="pname"><code>area</code></strong> - Tolerance (meter, same units as radius).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
-        <li><strong class="pname"><code>adjust</code></strong> - Optionally adjust longitudes (bool).</li>
         <li><strong class="pname"><code>attr</code></strong> - Optional, points attribute save area value (string).</li>
         <li><strong class="pname"><code>indices</code></strong> - Optionally return the simplified point indices instead of the 
           simplified points (bool).</li>
+        <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
+          href="pygeodesy.utils-module.html#equirectangular_" 
+          class="link">equirectangular_</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Simplified points (list of <i>LatLon</i>s).</dd>
@@ -634,9 +648,9 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">simplifyVWm</span>(<span class="sig-arg">points</span>,
         <span class="sig-arg">area</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
-        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">attr</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">indices</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">indices</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">**options</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -656,10 +670,12 @@
         <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
         <li><strong class="pname"><code>area</code></strong> - Tolerance (meter, same units as radius).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
-        <li><strong class="pname"><code>adjust</code></strong> - Optionally adjust longitudes (bool).</li>
         <li><strong class="pname"><code>attr</code></strong> - Optional attribute to save the area value (string).</li>
         <li><strong class="pname"><code>indices</code></strong> - Optionally return the simplified point indices instead of the 
           simplified points (bool).</li>
+        <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments  passed thru to function <a 
+          href="pygeodesy.utils-module.html#equirectangular_" 
+          class="link">equirectangular_</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Simplified points (list of <i>LatLon</i>s).</dd>
@@ -703,7 +719,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Jan 18 16:08:15 2018
+    Generated by Epydoc 3.0.1 on Sun Jan 28 21:29:09 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
