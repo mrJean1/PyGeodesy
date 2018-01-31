@@ -70,9 +70,33 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        17.12.16
+        18.01.31
       </p>
-</div><!-- ==================== FUNCTIONS ==================== -->
+</div><!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Classes</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.dms.RangeError-class.html" class="summary-name">RangeError</a><br />
+      Error raised for lat- or longitude values outside the <i>clip</i>, 
+        <i>clipLat</i>, <i>clipLon</i> or <i>limit</i> range in function <a
+        href="pygeodesy.dms-module.html#clipDMS" class="link">clipDMS</a>, 
+        <a href="pygeodesy.dms-module.html#parse3llh" 
+        class="link">parse3llh</a>, <a 
+        href="pygeodesy.dms-module.html#parseDMS" class="link">parseDMS</a>
+        or <a href="pygeodesy.dms-module.html#parseDMS2" 
+        class="link">parseDMS2</a>.
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
 <table class="summary" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
@@ -244,7 +268,9 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.dms-module.html#parse3llh" class="summary-sig-name">parse3llh</a>(<span class="summary-sig-arg">strll</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">0</span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">,</code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">,</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">clipLat</span>=<span class="summary-sig-default">90</span>,
+        <span class="summary-sig-arg">clipLon</span>=<span class="summary-sig-default">180</span>)</span><br />
       Parse a string representing lat-, longitude and height point.</td>
           <td align="right" valign="top">
             
@@ -284,7 +310,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.dms-module.html#parseDMS2" class="summary-sig-name">parseDMS2</a>(<span class="summary-sig-arg">strLat</span>,
         <span class="summary-sig-arg">strLon</span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">latLimit</span>=<span class="summary-sig-default">90</span>)</span><br />
+        <span class="summary-sig-arg">clipLat</span>=<span class="summary-sig-default">90</span>,
+        <span class="summary-sig-arg">clipLon</span>=<span class="summary-sig-default">180</span>)</span><br />
       Parse lat- and longitude representions.</td>
           <td align="right" valign="top">
             
@@ -319,8 +346,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.dms-module.html#rangerror" class="summary-sig-name">rangerror</a>(<span class="summary-sig-arg">error</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Raise an error for out-of-range lat- or longitudes.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.dms-module.html#rangerrors" class="summary-sig-name">rangerrors</a>(<span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Gert/set raising of range errors.</td>
           <td align="right" valign="top">
             
             
@@ -525,16 +552,16 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>deg</code></strong> - Lat- or lingitude (degrees).</li>
-        <li><strong class="pname"><code>limit</code></strong> - Optional, range -limit..+limit (degrees).</li>
+        <li><strong class="pname"><code>deg</code></strong> - Unclipped lat- or longitude (degrees).</li>
+        <li><strong class="pname"><code>limit</code></strong> - Valid <i>-limit..+limit</i> range (degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Clipped value (degrees).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - If <i>deg</i> beyond <i>limit</i> and <a 
-        href="pygeodesy.dms-module.html#rangerror" 
-        class="link">rangerror</a> set to True.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - If <i>deg</i> beyond <i>limit</i> and <a 
+        href="pygeodesy.dms-module.html#rangerrors" 
+        class="link">rangerrors</a> set to True.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -771,7 +798,9 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">parse3llh</span>(<span class="sig-arg">strll</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">0</span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">,</code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">,</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">clipLat</span>=<span class="sig-default">90</span>,
+        <span class="sig-arg">clipLon</span>=<span class="sig-default">180</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -783,25 +812,31 @@
   character.  If height is present it must follow, separated by another 
   separator.</p>
   <p>The lat- and longitude values may be swapped, provided at least one 
-  ends with the proper compass direction.</p>
+  ends with the proper compass point.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>strll</code></strong> - Lat, lon[, height] (string).</li>
-        <li><strong class="pname"><code>height</code></strong> - Optional default for missing height (meter).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional, default for missing height (meter).</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional separator (string).</li>
+        <li><strong class="pname"><code>clipLat</code></strong> - Keep latitude in <i>-clipLat..+clipLat</i> (degrees).</li>
+        <li><strong class="pname"><code>clipLon</code></strong> - Keep longitude in <i>-clipLon..+clipLon</i> range (degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>3-Tuple (lat, lon, height) as (scalars).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - Lat- or longitude value of <i>strll</i> outside valid range and 
+        <i>rangerrrors</i> set to True.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>strll</i>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.dms-module.html#parseDMS" 
-        class="link">parseDMS</a> for more details on the forms and symbols
-        accepted.
+        Functions <a href="pygeodesy.dms-module.html#parseDMS" 
+        class="link">parseDMS</a> and <a 
+        href="pygeodesy.dms-module.html#parseDMS2" 
+        class="link">parseDMS2</a> for more details on the forms and 
+        symbols accepted.
       </p>
       <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -845,6 +880,8 @@
         <dd>Degrees (float).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - Value of <i>strDMS</i> outside the valid range and 
+        <i>rangerrrors</i> set to True.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>strDMS</i>.</li>
     </ul></dd>
   </dl>
@@ -865,7 +902,8 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">parseDMS2</span>(<span class="sig-arg">strLat</span>,
         <span class="sig-arg">strLon</span>,
         <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">latLimit</span>=<span class="sig-default">90</span>)</span>
+        <span class="sig-arg">clipLat</span>=<span class="sig-default">90</span>,
+        <span class="sig-arg">clipLon</span>=<span class="sig-default">180</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -879,12 +917,15 @@
         <li><strong class="pname"><code>strLat</code></strong> - Latitude in any of several forms (string or scalar).</li>
         <li><strong class="pname"><code>strLon</code></strong> - Longitude in any of several forms (string or scalar).</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional separator between deg&#176;, min&#8242; and sec&#8243; ('').</li>
-        <li><strong class="pname"><code>latLimit</code></strong> - Limit latitude to -latLimit..+latLimit (degrees).</li>
+        <li><strong class="pname"><code>clipLat</code></strong> - Keep latitude in <i>-clipLat..+clipLat</i> range (degrees).</li>
+        <li><strong class="pname"><code>clipLon</code></strong> - Keep longitude in <i>-clipLon..+clipLon</i> range (degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple (lat, lon) in (degrees, degrees).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - Value of <i>strLat</i> or <i>strLon</i> outside the valid range and
+        <i>rangerrrors</i> set to True.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>strLat</i> or <i>strLon</i>.</li>
     </ul></dd>
   </dl>
@@ -919,46 +960,43 @@
         <li><strong class="pname"><code>form</code></strong> - Format name, F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD 
           (string).</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or None for default).  
-          Trailing zero decimals are stripped for prec values of 1 and 
-          above, but kept for negative prec values.</li>
+          Trailing zero decimals are stripped for <i>prec</i> values of 1 
+          and above, but kept for negative <i>prec</i> values.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Previous precision (int).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>prec</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>form</i> or <i>prec</i>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
 </div>
-<a name="rangerror"></a>
+<a name="rangerrors"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">rangerror</span>(<span class="sig-arg">error</span>=<span class="sig-default">None</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">rangerrors</span>(<span class="sig-arg">raiser</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Raise an error for out-of-range lat- or longitudes.</p>
+  <p>Gert/set raising of range errors.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>error</code></strong> - Choose True to raise or False to not raise a ValueError for an 
-          out-of-range lat- or longitude value.  Use None to leave the 
+        <li><strong class="pname"><code>raiser</code></strong> - Choose True to raise or False to not raise <a 
+          href="pygeodesy.dms.RangeError-class.html" 
+          class="link">RangeError</a> exceptions.  Use None to leave the 
           setting unchanged.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Previous setting (True, False).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - If <i>error</i> not True, False or None.</li>
-    </ul></dd>
+        <dd>Previous setting (bool).</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         Out-of-range lat- and longitude values are always clipped to the 
@@ -1039,7 +1077,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Jan 28 21:29:09 2018
+    Generated by Epydoc 3.0.1 on Wed Jan 31 15:06:49 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

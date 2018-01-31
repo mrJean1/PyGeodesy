@@ -69,7 +69,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.01.16
+        18.01.31
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -84,8 +84,21 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.utils.CrossError-class.html" class="summary-name">CrossError</a><br />
-      Error for zero cross product or coincident or colinear points or 
-        paths.
+      Error raised for zero or near-zero cross products or for coincident
+        or colinear points or paths.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.utils.LimitError-class.html" class="summary-name">LimitError</a><br />
+      Error raised for lat- and/or longitudinal deltas exceeding the 
+        <i>limit</i> in functions <a 
+        href="pygeodesy.utils-module.html#equirectangular" 
+        class="link">equirectangular</a> and <a 
+        href="pygeodesy.utils-module.html#equirectangular_" 
+        class="link">equirectangular_</a>.
     </td>
   </tr>
 </table>
@@ -207,7 +220,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#crosserrors" class="summary-sig-name">crosserrors</a>(<span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Get/set cross product exceptions.</td>
+      Get/set raising of cross product errors.</td>
           <td align="right" valign="top">
             
             
@@ -848,6 +861,23 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#limiterrors" class="summary-sig-name">limiterrors</a>(<span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Get/set the raising of limit errors.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#m2ft" class="summary-sig-name">m2ft</a>(<span class="summary-sig-arg">meter</span>)</span><br />
       Convert meter to feet (ft).</td>
           <td align="right" valign="top">
@@ -1395,11 +1425,14 @@
     </td>
   </tr></table>
   
-  <p>Get/set cross product exceptions.</p>
+  <p>Get/set raising of cross product errors.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>raiser</code></strong> - New on or off setting (bool).</li>
+        <li><strong class="pname"><code>raiser</code></strong> - Choose True to raise or False to not raise <a 
+          href="pygeodesy.utils.CrossError-class.html" 
+          class="link">CrossError</a> exceptions.  Use None to leave the 
+          setting unchanged.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Previous setting (bool).</dd>
@@ -1506,8 +1539,8 @@
   href="http://www.movable-type.co.uk/scripts/latlong.html" 
   target="_top">Equirectangular Approximation/Projection</a>.</p>
   <p>See function <a href="pygeodesy.utils-module.html#equirectangular_" 
-  class="link">equirectangular_</a> for more details and the available 
-  <i>options</i>.</p>
+  class="link">equirectangular_</a> for more details, the available 
+  <i>options</i> and errors raised.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -1522,12 +1555,6 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (meter, same units as <i>radius</i>).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - If delta limit exceeded, see function <a 
-        href="pygeodesy.utils-module.html#equirectangular_" 
-        class="link">equirectangular_</a>.</li>
-    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.utils-module.html#haversine" 
@@ -1559,7 +1586,9 @@
   href="http://www.movable-type.co.uk/scripts/latlong.html" 
   target="_top">Equirectangular Approximation/Projection</a>.</p>
   <p>This approximation is valid for smaller distance of several hundred Km
-  or Miles, see the <i>limit</i> keyword argument and the ValueError.</p>
+  or Miles, see the <i>limit</i> keyword argument and the <a 
+  href="pygeodesy.utils.LimitError-class.html" 
+  class="link">LimitError</a>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -1587,16 +1616,15 @@
           class="link">R_M</a> meter.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - The lat- and/or longitudinal delta exceeds the <i>limit</i>.  Use 
-        <i>limit=None</i> or <i>limit=0</i> to avoid the limit check and 
-        <i>ValueError</i>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.utils.LimitError-class.html">LimitError</a></strong></code> - If the lat- and/or longitudinal delta exceeds the 
+        <i>-limit..+limit</i> range and <i>limiterrors</i> set to True.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.utils-module.html#equirectangular" 
         class="link">equirectangular</a> for distance only and function <a 
         href="pygeodesy.utils-module.html#haversine" 
-        class="link">haversine</a> for more accurate or larger distances.
+        class="link">haversine</a> for accurate and/or larger distances.
       </p>
 </div></td></tr></table>
 </div>
@@ -1622,8 +1650,8 @@
   href="pygeodesy.utils-module.html#equirectangular_" 
   class="link">equirectangular_</a>.</p>
   <p>See function <a href="pygeodesy.utils-module.html#equirectangular_" 
-  class="link">equirectangular_</a> for more details and the available 
-  <i>options</i>.</p>
+  class="link">equirectangular_</a> for more details, the available 
+  <i>options</i> and errors raised.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>3-Tuple (distance2, delta_lat, delta_lon).</dd>
@@ -2438,6 +2466,34 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="limiterrors"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">limiterrors</span>(<span class="sig-arg">raiser</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get/set the raising of limit errors.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>raiser</code></strong> - Choose True to raise or False to not raise <a 
+          href="pygeodesy.utils.LimitError-class.html" 
+          class="link">LimitError</a> exceptions.  Use None to leave the 
+          setting unchanged.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Previous setting (bool).</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="m2ft"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -3080,7 +3136,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Jan 28 21:29:09 2018
+    Generated by Epydoc 3.0.1 on Wed Jan 31 15:06:50 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -20,7 +20,7 @@ import sys
 
 # all public contants, classes and functions
 __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
-           'CrossError',  # classes
+           'CrossError',  'LimitError',  # classes
            'cbrt', 'cbrt2', 'classname', 'crosserrors',
            'degrees', 'degrees90', 'degrees180', 'degrees360',
            'equirectangular', 'equirectangular_', 'equirectangular3',
@@ -33,7 +33,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'isfinite', 'isint', 'isscalar', 'issequence',
            'isNumpy2', 'isTuple2',
            'iterNumpy2', 'iterNumpy2over',
-           'len2',
+           'len2', 'limiterrors',
            'm2ft', 'm2km', 'm2NM', 'm2SM', 'map1', 'map2',
            'polygon',
            'radians', 'radiansPI_2', 'radiansPI', 'radiansPI2',
@@ -42,7 +42,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
            'unroll180', 'unrollPI', 'unStr',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '18.01.16'
+__version__ = '18.01.31'
 
 division = 1 / 2  # double check int division, see datum.py
 if not division:
@@ -87,11 +87,20 @@ _1_3rd = 1.0 / 3.0  #: (INTERNAL) One third (float)
 _2_3rd = 2.0 / 3.0  #: (INTERNAL) Two third (float)
 
 _crosserrors = True
+_limiterrors = True
 
 
 class CrossError(ValueError):
-    '''Error for zero cross product or coincident or colinear
-       points or paths.
+    '''Error raised for zero or near-zero cross products or for
+       coincident or colinear points or paths.
+    '''
+    pass
+
+
+class LimitError(ValueError):
+    '''Error raised for lat- and/or longitudinal deltas exceeding
+       the I{limit} in functions L{equirectangular} and
+       L{equirectangular_}.
     '''
     pass
 
@@ -138,9 +147,11 @@ def classname(obj):
 
 
 def crosserrors(raiser=None):
-    '''Get/set cross product exceptions.
+    '''Get/set raising of cross product errors.
 
-       @param raiser: New on or off setting (bool).
+       @keyword raiser: Choose True to raise or False to not raise
+                        L{CrossError} exceptions.  Use None to
+                        leave the setting unchanged.
 
        @return: Previous setting (bool).
     '''
@@ -202,8 +213,8 @@ def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **options):
        the U{Equirectangular Approximation/Projection
        <http://www.movable-type.co.uk/scripts/latlong.html>}.
 
-       See function L{equirectangular_} for more details and the
-       available I{options}.
+       See function L{equirectangular_} for more details, the
+       available I{options} and errors raised.
 
        @param lat1: Start latitude (degrees).
        @param lon1: Start longitude (degrees).
@@ -214,9 +225,6 @@ def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **options):
                          L{equirectangular_}.
 
        @return: Distance (meter, same units as I{radius}).
-
-       @raise ValueError: If delta limit exceeded, see function
-                          L{equirectangular_}.
 
        @see: Function L{haversine} for more accurate or larger distances.
     '''
@@ -232,7 +240,7 @@ def equirectangular_(lat1, lon1, lat2, lon2,
 
        This approximation is valid for smaller distance of several
        hundred Km or Miles, see the I{limit} keyword argument and
-       the ValueError.
+       the L{LimitError}.
 
        @param lat1: Start latitude (degrees).
        @param lon1: Start longitude (degrees).
@@ -254,19 +262,20 @@ def equirectangular_(lat1, lon1, lat2, lon2,
                 I{radius} is the mean earth radius in the desired units,
                 for example L{R_M} meter.
 
-       @raise ValueError: The lat- and/or longitudinal delta exceeds
-                          the I{limit}.  Use I{limit=None} or I{limit=0}
-                          to avoid the limit check and I{ValueError}.
+       @raise LimitError: If the lat- and/or longitudinal delta exceeds
+                          the I{-limit..+limit} range and I{limiterrors}
+                          set to True.
 
        @see: Function L{equirectangular} for distance only and function
-             L{haversine} for more accurate or larger distances.
+             L{haversine} for accurate and/or larger distances.
     '''
     d_lat = lat2 - lat1
     d_lon, ulon2 = unroll180(lon1, lon2, wrap=wrap)
 
-    if limit and max(abs(d_lat), abs(d_lon)) > limit > 0:
+    if limit and _limiterrors \
+             and max(abs(d_lat), abs(d_lon)) > limit > 0:
         t = fStr((lat1, lon1, lat2, lon2), prec=4)
-        raise ValueError('%s(%s) exceeds the %s limit' %
+        raise LimitError('%s(%s, limit=%s) delta exceeds limit' %
                         ('equirectangular_', t, fStr(limit, prec=2)))
 
     if adjust:  # scale delta lon
@@ -280,8 +289,8 @@ def equirectangular3(lat1, lon1, lat2, lon2, **options):
     '''For backward compatibility only, obsolete, replaced by
        function L{equirectangular_}.
 
-       See function L{equirectangular_} for more details and the
-       available I{options}.
+       See function L{equirectangular_} for more details, the
+       available I{options} and errors raised.
 
        @return: 3-Tuple (distance2, delta_lat, delta_lon).
     '''
@@ -566,8 +575,8 @@ def haversine(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
        @return: Distance (meter, same units as I{radius}).
 
        @see: U{Distance between two points
-             <http://www.edwilliams.org/avform.htm#Dist>}
-             and function L{equirectangular} for an approximation.
+             <http://www.edwilliams.org/avform.htm#Dist>} and
+             function L{equirectangular} for an approximation.
     '''
     d, lon2 = unroll180(lon1, lon2, wrap=wrap)
     r = haversine_(radians(lat2), radians(lat1), radians(d))
@@ -837,6 +846,22 @@ def len2(seq):
     if not isinstance(seq, _Seqs):
         seq = list(seq)
     return len(seq), seq
+
+
+def limiterrors(raiser=None):
+    '''Get/set the raising of limit errors.
+
+       @keyword raiser: Choose True to raise or False to not raise
+                        L{LimitError} exceptions.  Use None to leave
+                        the setting unchanged.
+
+       @return: Previous setting (bool).
+    '''
+    global _limiterrors
+    t = _limiterrors
+    if raiser in (True, False):
+        _limiterrors = raiser
+    return t
 
 
 def m2ft(meter):

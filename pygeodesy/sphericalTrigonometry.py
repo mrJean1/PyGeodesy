@@ -29,7 +29,7 @@ __all__ = ('LatLon',  # classes
            'meanOf',
            'nearestOn2',
            'perimeterOf')
-__version__ = '18.01.16'
+__version__ = '18.01.30'
 
 
 class LatLon(LatLonSphericalBase):
@@ -492,9 +492,10 @@ class LatLon(LatLonSphericalBase):
 
            @return: Closest point on segment (L{LatLon}).
 
-           @raise TypeError: If point1 or point2 is not L{LatLon} or
-                             if I{limit} exceeded, see function
-                             L{equirectangular_}.
+           @raise LimitError: Lat- and/or longitudinal delta exceeds
+                              I{limit}, see function L{equirectangular_}.
+
+           @raise TypeError: If point1 or point2 is not L{LatLon}.
         '''
         p, _ = nearestOn2(self, [point1, point2], **options)
         return p
@@ -519,10 +520,12 @@ class LatLon(LatLonSphericalBase):
            (L{LatLon}) on the path and the distance to that point in
            meter, rather in the units of I{radius}.
 
+           @raise LimitError: Lat- and/or longitudinal delta exceeds
+                              I{limit}, see function L{equirectangular_}.
+
            @raise TypeError: Some points are not I{LatLon}.
 
-           @raise ValueError: If no points or if I{limit} exceeded,
-                              see function L{equirectangular_}.
+           @raise ValueError: Insufficient number of points.
         '''
         return nearestOn2(self, points, radius=radius, **options)
 
@@ -794,10 +797,12 @@ def nearestOn2(point, points, radius=R_M, **options):
                 distance between the given and the closest point
                 in meter, rather the units of I{radius}.
 
+       @raise LimitError: Lat- and/or longitudinal delta exceeds
+                          I{limit}, see function L{equirectangular_}.
+
        @raise TypeError: Some points are not I{LatLon}.
 
-       @raise ValueError: If no points or if I{limit} exceeded, see
-                          function L{equirectangular_}.
+       @raise ValueError: Insufficient number of points.
     '''
     def _d2yx(p2, p1, u):
         # equirectangular_ returns a 4-tuple (distance in

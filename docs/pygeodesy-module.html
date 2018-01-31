@@ -59,9 +59,9 @@
 <!-- ==================== PACKAGE DESCRIPTION ==================== -->
 <h1 class="epydoc">Package pygeodesy</h1><p class="nomargin-top"></p>
 <p>A pure Python implementation of geodesy tools for various ellipsoidal 
-  and spherical earth models using precision trigonometric and vector-based
-  methods for geodetic (lat-/longitude) and geocentric cartesian (x/y/z) 
-  coordinates.</p>
+  and spherical earth models using precision trigonometric, vector-based 
+  and approximate methods for geodetic (lat-/longitude) and geocentric 
+  cartesian (x/y/z) coordinates.</p>
   <p>Transcribed from <a href="http://github.com/chrisveness/geodesy" 
   target="_top">JavaScript originals</a> by <i>Chris Veness (C) 
   2005-2016</i> and published under the same <a 
@@ -70,10 +70,10 @@
   <p>There are two modules for ellipsoidal earth models, 
   <i>ellipsoidalVincenty</i> and <i>-Nvector</i> and two for spherical 
   ones, <i>sphericalTrigonometry</i> and <i>-Nvector</i>.  Each module 
-  provides a <a href="attributes-LatLon.html"><i>LatLon</i></a> class with methods to compute 
-  distance, initial and final bearing, intermediate and nearest points, 
-  area, perimeter, conversions and unrolling, among other things.  For more
-  information and further details see the <a 
+  provides a <a href="attributes-LatLon.html"><i>LatLon</i></a> class with methods and functions
+  to compute distance, initial and final bearing, intermediate and nearest 
+  points, area, perimeter, conversions and unrolling, among other things.  
+  For more information and further details see the <a 
   href="http://mrjean1.github.io/PyGeodesy/" 
   target="_top">documentation</a>, the descriptions of <a 
   href="http://www.movable-type.co.uk/scripts/latlong.html" 
@@ -123,7 +123,7 @@
   target="_top">PyCodeStyle</a> (formerly Pep8) and <a 
   href="http://pypi.python.org/pypi/mccabe" target="_top">McCabe</a> using 
   Python 2.7.14 and with <a href="http://pypi.python.org/pypi/flake8" 
-  target="_top">Flake8</a> on Python 3.6.4, both in 64-bit on macOS 10.13.2
+  target="_top">Flake8</a> on Python 3.6.4, both in 64-bit on macOS 10.13.3
   High Sierra.</p>
   <p>The tests have been run in 64-bit with <a href="http://pypy.org" 
   target="_top">PyPy-Python</a> 2.7.13, Python 2.7.14 (with <a 
@@ -133,7 +133,7 @@
   <a href="http://software.intel.com/en-us/distribution-for-python" 
   target="_top">Intel-Python</a> 3.5.3 (and <a 
   href="http://pypi.python.org/pypi/numpy" target="_top">numpy</a> 1.11.3) 
-  and Python 3.6.4, all on macOS 10.13.2 High Sierra and with <a 
+  and Python 3.6.4, all on macOS 10.13.3 High Sierra and with <a 
   href="http://omz-software.com/pythonista/" target="_top">Pythonista 
   3.2</a> Python 2.7.12 and 3.6.1 (both with <a 
   href="http://pypi.python.org/pypi/numpy" target="_top">numpy</a> 1.8.0) 
@@ -181,7 +181,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.01.28
+        18.01.31
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -314,7 +314,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html" class="summary-name">VincentyError</a><br />
-      Error thrown from Vincenty's direct and inverse methods for 
+      Error raised from Vincenty's direct and inverse methods for 
         coincident points and lack of convergence.
     </td>
   </tr>
@@ -331,8 +331,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.utils.CrossError-class.html" class="summary-name">CrossError</a><br />
-      Error for zero cross product or coincident or colinear points or 
-        paths.
+      Error raised for zero or near-zero cross products or for coincident
+        or colinear points or paths.
     </td>
   </tr>
 <tr>
@@ -385,6 +385,19 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.utils.LimitError-class.html" class="summary-name">LimitError</a><br />
+      Error raised for lat- and/or longitudinal deltas exceeding the 
+        <i>limit</i> in functions <a 
+        href="pygeodesy.utils-module.html#equirectangular" 
+        class="link">equirectangular</a> and <a 
+        href="pygeodesy.utils-module.html#equirectangular_" 
+        class="link">equirectangular_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.mgrs.Mgrs-class.html" class="summary-name">Mgrs</a><br />
       Military Grid Reference System (MGRS/NATO) references, with method 
         to convert to UTM coordinates.
@@ -405,6 +418,21 @@
     </td><td class="summary">
         <a href="pygeodesy.osgr.Osgr-class.html" class="summary-name">Osgr</a><br />
       Ordinance Survey Grid References (OSGR) coordinate.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.dms.RangeError-class.html" class="summary-name">RangeError</a><br />
+      Error raised for lat- or longitude values outside the <i>clip</i>, 
+        <i>clipLat</i>, <i>clipLon</i> or <i>limit</i> range in function <a
+        href="pygeodesy.dms-module.html#clipDMS" class="link">clipDMS</a>, 
+        <a href="pygeodesy.dms-module.html#parse3llh" 
+        class="link">parse3llh</a>, <a 
+        href="pygeodesy.dms-module.html#parseDMS" class="link">parseDMS</a>
+        or <a href="pygeodesy.dms-module.html#parseDMS2" 
+        class="link">parseDMS2</a>.
     </td>
   </tr>
 <tr>
@@ -666,7 +694,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#crosserrors" class="summary-sig-name">crosserrors</a>(<span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Get/set cross product exceptions.</td>
+      Get/set raising of cross product errors.</td>
           <td align="right" valign="top">
             
             
@@ -1422,6 +1450,23 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#limiterrors" class="summary-sig-name">limiterrors</a>(<span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Get/set the raising of limit errors.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#lonDMS" class="summary-sig-name">lonDMS</a>(<span class="summary-sig-arg">deg</span>,
         <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">2</span>,
@@ -1568,7 +1613,9 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#parse3llh" class="summary-sig-name">parse3llh</a>(<span class="summary-sig-arg">strll</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">0</span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">,</code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">,</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">clipLat</span>=<span class="summary-sig-default">90</span>,
+        <span class="summary-sig-arg">clipLon</span>=<span class="summary-sig-default">180</span>)</span><br />
       Parse a string representing lat-, longitude and height point.</td>
           <td align="right" valign="top">
             
@@ -1608,7 +1655,8 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#parseDMS2" class="summary-sig-name">parseDMS2</a>(<span class="summary-sig-arg">strLat</span>,
         <span class="summary-sig-arg">strLon</span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">latLimit</span>=<span class="summary-sig-default">90</span>)</span><br />
+        <span class="summary-sig-arg">clipLat</span>=<span class="summary-sig-default">90</span>,
+        <span class="summary-sig-arg">clipLon</span>=<span class="summary-sig-default">180</span>)</span><br />
       Parse lat- and longitude representions.</td>
           <td align="right" valign="top">
             
@@ -1828,8 +1876,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#rangerror" class="summary-sig-name">rangerror</a>(<span class="summary-sig-arg">error</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Raise an error for out-of-range lat- or longitudes.</td>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#rangerrors" class="summary-sig-name">rangerrors</a>(<span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Gert/set raising of range errors.</td>
           <td align="right" valign="top">
             
             
@@ -2343,7 +2391,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'18.1.28'"><code class="variable-quote">'</code><code class="variable-string">18.1.28</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'18.1.31'"><code class="variable-quote">'</code><code class="variable-string">18.1.31</code><code class="variable-quote">'</code></code><br />
       Normalized PyGeodesy version (string).
     </td>
   </tr>
@@ -2679,10 +2727,11 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           the closest point in meter, rather the units of <i>radius</i>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <i>LatLon</i>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - If no points or if <i>limit</i> exceeded, see function <a 
-        href="pygeodesy.utils-module.html#equirectangular_" 
+        <li><code><strong class='fraise'><a href="pygeodesy.utils.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
+        <a href="pygeodesy.utils-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <i>LatLon</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of points.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -2905,16 +2954,16 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>deg</code></strong> - Lat- or lingitude (degrees).</li>
-        <li><strong class="pname"><code>limit</code></strong> - Optional, range -limit..+limit (degrees).</li>
+        <li><strong class="pname"><code>deg</code></strong> - Unclipped lat- or longitude (degrees).</li>
+        <li><strong class="pname"><code>limit</code></strong> - Valid <i>-limit..+limit</i> range (degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Clipped value (degrees).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - If <i>deg</i> beyond <i>limit</i> and <a 
-        href="pygeodesy.dms-module.html#rangerror" 
-        class="link">rangerror</a> set to True.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - If <i>deg</i> beyond <i>limit</i> and <a 
+        href="pygeodesy.dms-module.html#rangerrors" 
+        class="link">rangerrors</a> set to True.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -3052,11 +3101,14 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Get/set cross product exceptions.</p>
+  <p>Get/set raising of cross product errors.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>raiser</code></strong> - New on or off setting (bool).</li>
+        <li><strong class="pname"><code>raiser</code></strong> - Choose True to raise or False to not raise <a 
+          href="pygeodesy.utils.CrossError-class.html" 
+          class="link">CrossError</a> exceptions.  Use None to leave the 
+          setting unchanged.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Previous setting (bool).</dd>
@@ -3163,8 +3215,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   href="http://www.movable-type.co.uk/scripts/latlong.html" 
   target="_top">Equirectangular Approximation/Projection</a>.</p>
   <p>See function <a href="pygeodesy.utils-module.html#equirectangular_" 
-  class="link">equirectangular_</a> for more details and the available 
-  <i>options</i>.</p>
+  class="link">equirectangular_</a> for more details, the available 
+  <i>options</i> and errors raised.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -3179,12 +3231,6 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (meter, same units as <i>radius</i>).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - If delta limit exceeded, see function <a 
-        href="pygeodesy.utils-module.html#equirectangular_" 
-        class="link">equirectangular_</a>.</li>
-    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.utils-module.html#haversine" 
@@ -3214,8 +3260,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   href="pygeodesy.utils-module.html#equirectangular_" 
   class="link">equirectangular_</a>.</p>
   <p>See function <a href="pygeodesy.utils-module.html#equirectangular_" 
-  class="link">equirectangular_</a> for more details and the available 
-  <i>options</i>.</p>
+  class="link">equirectangular_</a> for more details, the available 
+  <i>options</i> and errors raised.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>3-Tuple (distance2, delta_lat, delta_lon).</dd>
@@ -3246,7 +3292,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   href="http://www.movable-type.co.uk/scripts/latlong.html" 
   target="_top">Equirectangular Approximation/Projection</a>.</p>
   <p>This approximation is valid for smaller distance of several hundred Km
-  or Miles, see the <i>limit</i> keyword argument and the ValueError.</p>
+  or Miles, see the <i>limit</i> keyword argument and the <a 
+  href="pygeodesy.utils.LimitError-class.html" 
+  class="link">LimitError</a>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -3274,16 +3322,15 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           class="link">R_M</a> meter.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - The lat- and/or longitudinal delta exceeds the <i>limit</i>.  Use 
-        <i>limit=None</i> or <i>limit=0</i> to avoid the limit check and 
-        <i>ValueError</i>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.utils.LimitError-class.html">LimitError</a></strong></code> - If the lat- and/or longitudinal delta exceeds the 
+        <i>-limit..+limit</i> range and <i>limiterrors</i> set to True.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.utils-module.html#equirectangular" 
         class="link">equirectangular</a> for distance only and function <a 
         href="pygeodesy.utils-module.html#haversine" 
-        class="link">haversine</a> for more accurate or larger distances.
+        class="link">haversine</a> for accurate and/or larger distances.
       </p>
 </div></td></tr></table>
 </div>
@@ -4267,6 +4314,34 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 </td></tr></table>
 </div>
+<a name="limiterrors"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">limiterrors</span>(<span class="sig-arg">raiser</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get/set the raising of limit errors.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>raiser</code></strong> - Choose True to raise or False to not raise <a 
+          href="pygeodesy.utils.LimitError-class.html" 
+          class="link">LimitError</a> exceptions.  Use None to leave the 
+          setting unchanged.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Previous setting (bool).</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="lonDMS"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -4502,7 +4577,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">parse3llh</span>(<span class="sig-arg">strll</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">0</span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">,</code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">,</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">clipLat</span>=<span class="sig-default">90</span>,
+        <span class="sig-arg">clipLon</span>=<span class="sig-default">180</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -4514,25 +4591,31 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   character.  If height is present it must follow, separated by another 
   separator.</p>
   <p>The lat- and longitude values may be swapped, provided at least one 
-  ends with the proper compass direction.</p>
+  ends with the proper compass point.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>strll</code></strong> - Lat, lon[, height] (string).</li>
-        <li><strong class="pname"><code>height</code></strong> - Optional default for missing height (meter).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional, default for missing height (meter).</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional separator (string).</li>
+        <li><strong class="pname"><code>clipLat</code></strong> - Keep latitude in <i>-clipLat..+clipLat</i> (degrees).</li>
+        <li><strong class="pname"><code>clipLon</code></strong> - Keep longitude in <i>-clipLon..+clipLon</i> range (degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>3-Tuple (lat, lon, height) as (scalars).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - Lat- or longitude value of <i>strll</i> outside valid range and 
+        <i>rangerrrors</i> set to True.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>strll</i>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.dms-module.html#parseDMS" 
-        class="link">parseDMS</a> for more details on the forms and symbols
-        accepted.
+        Functions <a href="pygeodesy.dms-module.html#parseDMS" 
+        class="link">parseDMS</a> and <a 
+        href="pygeodesy.dms-module.html#parseDMS2" 
+        class="link">parseDMS2</a> for more details on the forms and 
+        symbols accepted.
       </p>
       <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -4576,6 +4659,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <dd>Degrees (float).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - Value of <i>strDMS</i> outside the valid range and 
+        <i>rangerrrors</i> set to True.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>strDMS</i>.</li>
     </ul></dd>
   </dl>
@@ -4596,7 +4681,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">parseDMS2</span>(<span class="sig-arg">strLat</span>,
         <span class="sig-arg">strLon</span>,
         <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">latLimit</span>=<span class="sig-default">90</span>)</span>
+        <span class="sig-arg">clipLat</span>=<span class="sig-default">90</span>,
+        <span class="sig-arg">clipLon</span>=<span class="sig-default">180</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -4610,12 +4696,15 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>strLat</code></strong> - Latitude in any of several forms (string or scalar).</li>
         <li><strong class="pname"><code>strLon</code></strong> - Longitude in any of several forms (string or scalar).</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional separator between deg&#176;, min&#8242; and sec&#8243; ('').</li>
-        <li><strong class="pname"><code>latLimit</code></strong> - Limit latitude to -latLimit..+latLimit (degrees).</li>
+        <li><strong class="pname"><code>clipLat</code></strong> - Keep latitude in <i>-clipLat..+clipLat</i> range (degrees).</li>
+        <li><strong class="pname"><code>clipLon</code></strong> - Keep longitude in <i>-clipLon..+clipLon</i> range (degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple (lat, lon) in (degrees, degrees).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - Value of <i>strLat</i> or <i>strLon</i> outside the valid range and
+        <i>rangerrrors</i> set to True.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>strLat</i> or <i>strLon</i>.</li>
     </ul></dd>
   </dl>
@@ -4817,7 +4906,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<i>LatLon</i>[]).</li>
+        <li><strong class="pname"><code>points</code></strong> - The points defining the polygon/-line (<i>LatLon</i>[]).</li>
         <li><strong class="pname"><code>closed</code></strong> - Optionally, close the polygon/-line (bool).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
           the mean latitude (bool).</li>
@@ -4899,14 +4988,14 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>form</code></strong> - Format name, F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD 
           (string).</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or None for default).  
-          Trailing zero decimals are stripped for prec values of 1 and 
-          above, but kept for negative prec values.</li>
+          Trailing zero decimals are stripped for <i>prec</i> values of 1 
+          and above, but kept for negative <i>prec</i> values.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Previous precision (int).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>prec</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>form</i> or <i>prec</i>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -4988,34 +5077,31 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 </td></tr></table>
 </div>
-<a name="rangerror"></a>
+<a name="rangerrors"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">rangerror</span>(<span class="sig-arg">error</span>=<span class="sig-default">None</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">rangerrors</span>(<span class="sig-arg">raiser</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Raise an error for out-of-range lat- or longitudes.</p>
+  <p>Gert/set raising of range errors.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>error</code></strong> - Choose True to raise or False to not raise a ValueError for an 
-          out-of-range lat- or longitude value.  Use None to leave the 
+        <li><strong class="pname"><code>raiser</code></strong> - Choose True to raise or False to not raise <a 
+          href="pygeodesy.dms.RangeError-class.html" 
+          class="link">RangeError</a> exceptions.  Use None to leave the 
           setting unchanged.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Previous setting (True, False).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - If <i>error</i> not True, False or None.</li>
-    </ul></dd>
+        <dd>Previous setting (bool).</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         Out-of-range lat- and longitude values are always clipped to the 
@@ -5096,6 +5182,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <dd>Simplified points (list of <i>LatLon</i>s).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.utils.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
+        <a href="pygeodesy.utils-module.html#equirectangular_" 
+        class="link">equirectangular_</a>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Radius or distance tolerance too small.</li>
     </ul></dd>
   </dl>
@@ -5140,6 +5229,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <dd>Simplified points (list of <i>LatLon</i>s).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.utils.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
+        <a href="pygeodesy.utils-module.html#equirectangular_" 
+        class="link">equirectangular_</a>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Radius or pipe tolerance too small.</li>
     </ul></dd>
   </dl>
@@ -5188,6 +5280,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <dd>Simplified points (list of <i>LatLon</i>s).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.utils.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
+        <a href="pygeodesy.utils-module.html#equirectangular_" 
+        class="link">equirectangular_</a>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Radius or distance tolerance too small.</li>
     </ul></dd>
   </dl>
@@ -5236,6 +5331,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <dd>Simplified points (list of <i>LatLon</i>s).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.utils.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
+        <a href="pygeodesy.utils-module.html#equirectangular_" 
+        class="link">equirectangular_</a>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Radius or distance tolerance too small.</li>
     </ul></dd>
   </dl>
@@ -5280,6 +5378,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <dd>Simplified points (list of <i>LatLon</i>s).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.utils.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
+        <a href="pygeodesy.utils-module.html#equirectangular_" 
+        class="link">equirectangular_</a>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Radius or pipe tolerance too small.</li>
     </ul></dd>
   </dl>
@@ -5329,6 +5430,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>AttributeError</strong></code> - If attr is specified for <i>Numpy2</i> points.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.utils.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
+        <a href="pygeodesy.utils-module.html#equirectangular_" 
+        class="link">equirectangular_</a>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Radius or area tolerance too small.</li>
     </ul></dd>
   </dl>
@@ -5378,6 +5482,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>AttributeError</strong></code> - If attr is specified for <i>Numpy2</i> points.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.utils.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
+        <a href="pygeodesy.utils-module.html#equirectangular_" 
+        class="link">equirectangular_</a>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Radius or area tolerance too small.</li>
     </ul></dd>
   </dl>
@@ -5687,7 +5794,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - If <i>lon</i> value is missing, if <i>latlon</i> is not scalar or 
-        <i>latlon</i> is beyond the valid WM range.</li>
+        if <i>latlon</i> is beyond the valid WM range and <a 
+        href="pygeodesy.dms-module.html#rangerrors" 
+        class="link">rangerrors</a> is set to True.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -6096,7 +6205,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Jan 28 21:29:09 2018
+    Generated by Epydoc 3.0.1 on Wed Jan 31 15:06:49 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -64,7 +64,7 @@ __version__ = '18.01.28'
 
 
 class VincentyError(ValueError):
-    '''Error thrown from Vincenty's direct and inverse methods
+    '''Error raised from Vincenty's direct and inverse methods
        for coincident points and lack of convergence.
     '''
     pass

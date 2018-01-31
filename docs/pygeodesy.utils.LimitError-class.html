@@ -3,7 +3,7 @@
           "DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>pygeodesy.utils.CrossError</title>
+  <title>pygeodesy.utils.LimitError</title>
   <link rel="stylesheet" href="epydoc.css" type="text/css" />
   <script type="text/javascript" src="epydoc.js"></script>
 </head>
@@ -44,7 +44,7 @@
       <span class="breadcrumbs">
         <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
         <a href="pygeodesy.utils-module.html">Module&nbsp;utils</a> ::
-        Class&nbsp;CrossError
+        Class&nbsp;LimitError
       </span>
     </td>
     <td>
@@ -52,14 +52,14 @@
         <!-- hide/show private -->
         <tr><td align="right"><span class="options"
             >[<a href="frames.html" target="_top">frames</a
-            >]&nbsp;|&nbsp;<a href="pygeodesy.utils.CrossError-class.html"
+            >]&nbsp;|&nbsp;<a href="pygeodesy.utils.LimitError-class.html"
             target="_top">no&nbsp;frames</a>]</span></td></tr>
       </table>
     </td>
   </tr>
 </table>
 <!-- ==================== CLASS DESCRIPTION ==================== -->
-<h1 class="epydoc">Class CrossError</h1><p class="nomargin-top"></p>
+<h1 class="epydoc">Class LimitError</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
               object --+                
                        |                
@@ -71,12 +71,16 @@ exceptions.BaseException --+
                                    |    
                exceptions.ValueError --+
                                        |
-                                      <strong class="uidshort">CrossError</strong>
+                                      <strong class="uidshort">LimitError</strong>
 </pre>
 
 <hr />
-<p>Error raised for zero or near-zero cross products or for coincident or
-  colinear points or paths.</p>
+<p>Error raised for lat- and/or longitudinal deltas exceeding the 
+  <i>limit</i> in functions <a 
+  href="pygeodesy.utils-module.html#equirectangular" 
+  class="link">equirectangular</a> and <a 
+  href="pygeodesy.utils-module.html#equirectangular_" 
+  class="link">equirectangular_</a>.</p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>

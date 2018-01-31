@@ -23,12 +23,13 @@ except ImportError:  # Python 3+
 __all__ = ('F_D', 'F_DM', 'F_DMS',  # forms
            'F_DEG', 'F_MIN', 'F_SEC', 'F_RAD',
            'S_DEG', 'S_MIN', 'S_SEC', 'S_RAD', 'S_SEP',  # symbols
+           'RangeError',  # classes
            'bearingDMS',  # functions
            'clipDMS', 'compassAngle', 'compassDMS', 'compassPoint',
            'latDMS', 'lonDMS', 'normDMS',
            'parseDMS', 'parseDMS2', 'parse3llh', 'precision',
-           'rangerror', 'toDMS')
-__version__ = '17.12.16'
+           'rangerrors', 'toDMS')
+__version__ = '18.01.31'
 
 F_D   = 'd'    #: Format degrees as deg° (string).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (string).
@@ -51,6 +52,16 @@ _S_norm = {'^': S_DEG, '˚': S_DEG,  #: (INTERNAL) normalized DMS.
            "'": S_MIN, '’': S_MIN, '′': S_MIN,
            '"': S_SEC, '″': S_SEC, '”': S_SEC}
 _S_ALL  = (S_DEG, S_MIN, S_SEC) + tuple(_S_norm.keys())  #: (INTERNAL) alternates.
+
+_rangerrors = True
+
+
+class RangeError(ValueError):
+    '''Error raised for lat- or longitude values outside the I{clip},
+       I{clipLat}, I{clipLon} or I{limit} range in function L{clipDMS},
+       L{parse3llh}, L{parseDMS} or L{parseDMS2}.
+    '''
+    pass
 
 
 def _toDMS(deg, form, prec, sep, ddd):
@@ -123,18 +134,18 @@ def bearingDMS(bearing, form=F_D, prec=None, sep=S_SEP):
 def clipDMS(deg, limit):
     '''Clip a lat- or longitude to the given range.
 
-       @param deg: Lat- or lingitude (degrees).
-       @keyword limit: Optional, range -limit..+limit (degrees).
+       @param deg: Unclipped lat- or longitude (degrees).
+       @param limit: Valid I{-limit..+limit} range (degrees).
 
        @return: Clipped value (degrees).
 
-       @raise ValueError: If I{deg} beyond I{limit} and L{rangerror}
+       @raise RangeError: If I{deg} beyond I{limit} and L{rangerrors}
                           set to True.
     '''
     if limit > 0:
         c = min(limit, max(-limit, deg))
-        if _rangerror and deg != c:
-            raise ValueError('%s beyond %s degrees' % (fStr(deg, prec=6),
+        if _rangerrors and deg != c:
+            raise RangeError('%s beyond %s degrees' % (fStr(deg, prec=6),
                              fStr(copysign(limit, deg), prec=3, ints=True)))
         deg = c
     return deg
@@ -286,7 +297,7 @@ if __debug__:  # no __doc__ at -O and -OO
     normDMS.__doc__  %= (S_DEG, S_MIN, S_SEC)
 
 
-def parse3llh(strll, height=0, sep=','):
+def parse3llh(strll, height=0, sep=',', clipLat=90, clipLon=180):
     '''Parse a string representing lat-, longitude and height point.
 
        The lat- and longitude value must be separated by a separator
@@ -294,18 +305,23 @@ def parse3llh(strll, height=0, sep=','):
        another separator.
 
        The lat- and longitude values may be swapped, provided at least
-       one ends with the proper compass direction.
+       one ends with the proper compass point.
 
        @param strll: Lat, lon[, height] (string).
-       @keyword height: Optional default for missing height (meter).
+       @keyword height: Optional, default for missing height (meter).
        @keyword sep: Optional separator (string).
+       @keyword clipLat: Keep latitude in I{-clipLat..+clipLat} (degrees).
+       @keyword clipLon: Keep longitude in I{-clipLon..+clipLon} range (degrees).
 
        @return: 3-Tuple (lat, lon, height) as (scalars).
 
+       @raise RangeError: Lat- or longitude value of I{strll} outside
+                          valid range and I{rangerrrors} set to True.
+
        @raise ValueError: Invalid I{strll}.
 
-       @see: Function L{parseDMS} for more details on the forms and
-       symbols accepted.
+       @see: Functions L{parseDMS} and L{parseDMS2} for more details
+             on the forms and symbols accepted.
 
        @example:
 
@@ -326,7 +342,7 @@ def parse3llh(strll, height=0, sep=','):
     a, b = [_.strip() for _ in ll]
     if a[-1:] in 'EW' or b[-1:] in 'NS':
         a, b = b, a
-    a, b = parseDMS2(a, b)
+    a, b = parseDMS2(a, b, clipLat=clipLat, clipLon=clipLon)
     return a, b, h
 
 
@@ -346,6 +362,9 @@ def parseDMS(strDMS, suffix='NSEW', sep=S_SEP, clip=0):
        @keyword clip: Optionally, limit value to -clip..+clip (degrees).
 
        @return: Degrees (float).
+
+       @raise RangeError: Value of I{strDMS} outside the valid range
+                          and I{rangerrrors} set to True.
 
        @raise ValueError: Invalid I{strDMS}.
 
@@ -378,15 +397,19 @@ def parseDMS(strDMS, suffix='NSEW', sep=S_SEP, clip=0):
     return clipDMS(d, clip)
 
 
-def parseDMS2(strLat, strLon, sep=S_SEP, latLimit=90):
+def parseDMS2(strLat, strLon, sep=S_SEP, clipLat=90, clipLon=180):
     '''Parse lat- and longitude representions.
 
        @param strLat: Latitude in any of several forms (string or scalar).
        @param strLon: Longitude in any of several forms (string or scalar).
        @keyword sep: Optional separator between deg°, min′ and sec″ ('').
-       @keyword latLimit: Limit latitude to -latLimit..+latLimit (degrees).
+       @keyword clipLat: Keep latitude in I{-clipLat..+clipLat} range (degrees).
+       @keyword clipLon: Keep longitude in I{-clipLon..+clipLon} range (degrees).
 
        @return: 2-Tuple (lat, lon) in (degrees, degrees).
+
+       @raise RangeError: Value of I{strLat} or I{strLon} outside the
+                          valid range and I{rangerrrors} set to True.
 
        @raise ValueError: Invalid I{strLat} or I{strLon}.
 
@@ -394,8 +417,8 @@ def parseDMS2(strLat, strLon, sep=S_SEP, latLimit=90):
              longitude and height values and function L{parseDMS}
              to parse individual lat- or longitudes.
     '''
-    return (parseDMS(strLat, suffix='NS', sep=sep, clip=latLimit),
-            parseDMS(strLon, suffix='EW', sep=sep, clip=180))
+    return (parseDMS(strLat, suffix='NS', sep=sep, clip=clipLat),
+            parseDMS(strLon, suffix='EW', sep=sep, clip=clipLon))
 
 
 def precision(form, prec=None):
@@ -405,50 +428,41 @@ def precision(form, prec=None):
                     F_SEC or F_RAD (string).
        @keyword prec: Optional number of decimal digits (0..9 or
                       None for default).  Trailing zero decimals
-                      are stripped for prec values of 1 and above,
-                      but kept for negative prec values.
+                      are stripped for I{prec} values of 1 and
+                      above, but kept for negative I{prec} values.
 
        @return: Previous precision (int).
 
-       @raise ValueError: Invalid I{prec}.
+       @raise ValueError: Invalid I{form} or I{prec}.
     '''
     try:
         p = _F_prec[form]
     except KeyError:
         raise ValueError('%s invalid: %s' % ('form', form))
-    if prec is not None:
-        if isint(prec) and -10 < prec < 10:
-            _F_prec[form] = prec
-        else:
+    if isint(prec):
+        if not -10 < prec < 10:
             raise ValueError('%s invalid: %s' % ('prec', prec))
+        _F_prec[form] = prec
     return p
 
 
-_rangerror = True
+def rangerrors(raiser=None):
+    '''Gert/set raising of range errors.
 
+       @keyword raiser: Choose True to raise or False to not raise
+                        L{RangeError} exceptions.  Use None to leave
+                        the setting unchanged.
 
-def rangerror(error=None):
-    '''Raise an error for out-of-range lat- or longitudes.
-
-       @keyword error: Choose True to raise or False to not raise
-                       a ValueError for an out-of-range lat- or
-                       longitude value.  Use None to leave the
-                       setting unchanged.
-
-       @return: Previous setting (True, False).
-
-       @raise ValueError: If I{error} not True, False or None.
+       @return: Previous setting (bool).
 
        @note: Out-of-range lat- and longitude values are always
               clipped to the nearest range limit.
     '''
-    global _rangerror
-    r = _rangerror
-    if error in (True, False):
-        _rangerror = error
-    elif error is not None:
-        raise ValueError('%s invalid: %r' % ('rangerror', error))
-    return r
+    global _rangerrors
+    t = _rangerrors
+    if raiser in (True, False):
+        _rangerrors = raiser
+    return t
 
 
 def toDMS(deg, form=F_DMS, prec=2, sep=S_SEP, ddd=2, neg='-', pos=''):

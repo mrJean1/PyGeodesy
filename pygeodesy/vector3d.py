@@ -19,7 +19,7 @@ from math import atan2, cos, sin
 # all public contants, classes and functions
 __all__ = ('Vector3d',  # classes
            'sumOf')  # functions
-__version__ = '17.12.08'
+__version__ = '18.01.31'
 
 try:
     _cmp = cmp
@@ -306,6 +306,9 @@ class Vector3d(VectorBase):
            @keyword raiser: Optional, L{CrossError} label to raise (string).
 
            @return: Cross product (L{Vector3d}).
+
+           @raise CrossError: Near-zero cross product and I{raiser}
+                              and L{crosserrors} set to True.
 
            @raise TypeError: Incompatible I{type(other)}.
 

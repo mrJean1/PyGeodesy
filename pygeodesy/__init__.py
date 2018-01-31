@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 
 u'''A pure Python implementation of geodesy tools for various ellipsoidal
-and spherical earth models using precision trigonometric and vector-based
-methods for geodetic (lat-/longitude) and geocentric cartesian (x/y/z)
-coordinates.
+and spherical earth models using precision trigonometric, vector-based
+and approximate methods for geodetic (lat-/longitude) and geocentric
+cartesian (x/y/z) coordinates.
 
 Transcribed from U{JavaScript originals<http://github.com/chrisveness/geodesy>}
 by I{Chris Veness (C) 2005-2016} and published under the same U{MIT License
@@ -13,10 +13,10 @@ by I{Chris Veness (C) 2005-2016} and published under the same U{MIT License
 There are two modules for ellipsoidal earth models, I{ellipsoidalVincenty}
 and I{-Nvector} and two for spherical ones, I{sphericalTrigonometry} and
 I{-Nvector}.  Each module provides a I{attributes-LatLon-html} class with
-methods to compute distance, initial and final bearing, intermediate and
-nearest points, area, perimeter, conversions and unrolling, among other
-things.  For more information and further details see the U{documentation
-<http://mrjean1.github.io/PyGeodesy/>}, the descriptions
+methods and functions to compute distance, initial and final bearing,
+intermediate and nearest points, area, perimeter, conversions and unrolling,
+among other things.  For more information and further details see the
+U{documentation<http://mrjean1.github.io/PyGeodesy/>}, the descriptions
 of U{Latitude/Longitude<http://www.movable-type.co.uk/scripts/latlong.html>},
 U{Vincenty<http://www.movable-type.co.uk/scripts/latlong-vincenty.html>} and
 U{Vector-based<http://www.movable-type.co.uk/scripts/latlong-vectors.html>}
@@ -52,7 +52,7 @@ U{PyFlakes<http://pypi.python.org/pypi/pyflakes>},
 U{PyCodeStyle<http://pypi.python.org/pypi/pycodestyle>} (formerly Pep8) and
 U{McCabe<http://pypi.python.org/pypi/mccabe>} using Python 2.7.14 and with
 U{Flake8<http://pypi.python.org/pypi/flake8>} on Python 3.6.4, both in
-64-bit on macOS 10.13.2 High Sierra.
+64-bit on macOS 10.13.3 High Sierra.
 
 The tests have been run in 64-bit with U{PyPy-Python<http://pypy.org>}
 2.7.13, Python 2.7.14 (with U{geographiclib
@@ -60,7 +60,7 @@ The tests have been run in 64-bit with U{PyPy-Python<http://pypy.org>}
 <http://pypi.python.org/pypi/numpy>} 1.14.0), U{Intel-Python
 <http://software.intel.com/en-us/distribution-for-python>} 3.5.3 (and
 U{numpy<http://pypi.python.org/pypi/numpy>} 1.11.3) and Python 3.6.4,
-all on macOS 10.13.2 High Sierra and with U{Pythonista 3.2
+all on macOS 10.13.3 High Sierra and with U{Pythonista 3.2
 <http://omz-software.com/pythonista/>} Python 2.7.12 and 3.6.1 (both
 with U{numpy<http://pypi.python.org/pypi/numpy>} 1.8.0) on iOS 11.2.1.
 
@@ -182,7 +182,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',  # modules
            'Geohash', 'VincentyError',  # classes
            'nearestOn2',  # functions
            'version')  # extended below
-__version__ = '18.01.28'
+__version__ = '18.01.31'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))

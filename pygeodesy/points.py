@@ -39,7 +39,7 @@ __all__ = ('LatLon_',  # classes
            'areaof', 'bounds',  # functions
            'isclockwise', 'isconvex', 'isenclosedby',
            'perimeterof')
-__version__ = '18.01.18'
+__version__ = '18.01.30'
 
 
 class LatLon_(object):
@@ -1022,7 +1022,8 @@ def isenclosedby(latlon, points, wrap=False):  # MCCABE 14
 
        @raise TypeError: Some points are not I{LatLon}.
 
-       @raise ValueError: Insufficient number of points or invalid I{latlon} point.
+       @raise ValueError: Insufficient number of points or invalid
+                          I{latlon} point.
 
        @see: L{sphericalNvector.LatLon.isEnclosedBy},
              L{sphericalTrigonometry.LatLon.isEnclosedBy},
@@ -1087,7 +1088,7 @@ def perimeterof(points, closed=False, adjust=True, radius=R_M, wrap=True):
     '''Approximate the perimeter of a polygon/-line defined by an array,
        list, sequence, set or tuple of points.
 
-       @param points: The points defining the polygon (I{LatLon}[]).
+       @param points: The points defining the polygon/-line (I{LatLon}[]).
        @keyword closed: Optionally, close the polygon/-line (bool).
        @keyword adjust: Adjust the wrapped, unrolled longitudinal delta
                         by the cosine of the mean latitude (bool).
@@ -1125,7 +1126,6 @@ def perimeterof(points, closed=False, adjust=True, radius=R_M, wrap=True):
 
     d = fsum(_degs(len(pts), pts, closed))
     return radians(d) * float(radius)
-
 
 # **) MIT License
 #

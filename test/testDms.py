@@ -4,13 +4,13 @@
 # Test degrees, minutes, seconds functions.
 
 __all__ = ('Tests',)
-__version__ = '17.12.02'
+__version__ = '18.01.31'
 
 from base import TestsBase
 
 from pygeodesy import F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC, F_RAD, \
                       compassAngle, compassPoint, equirectangular, \
-                      m2km, parse3llh, parseDMS, rangerror, toDMS
+                      m2km, parse3llh, parseDMS, rangerrors, toDMS
 
 from pygeodesy.sphericalTrigonometry import LatLon
 _LHR = LatLon(51.47,   0.4543)
@@ -28,17 +28,17 @@ class Tests(TestsBase):
         self.test('parseDMS', parseDMS('''000° 00'00"'''),    '0.0')
         self.test('parseDMS', parseDMS('''000°00 ' 00.0"'''), '0.0')
 
-        r = rangerror(True)
+        r = rangerrors(True)
         try:
             self.test('parseDMS', parseDMS(181, clip=180), 'ValueError')
         except ValueError as x:
             self.test('parseDMS', str(x), '181.0 beyond 180 degrees')
-        rangerror(False)
+        rangerrors(False)
         try:
             self.test('parseDMS', parseDMS(-91, clip=90), -90)
         except ValueError as x:
             self.test('parseDMS', str(x), '-90')
-        rangerror(r)
+        rangerrors(r)
 
         x = parse3llh('000° 00′ 05.31″W, 51° 28′ 40.12″ N')
         x = ', '.join('%.6f' % a for a in x)  # XXX fStr

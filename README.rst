@@ -4,21 +4,21 @@ PyGeodesy
 =========
 
 A pure Python implementation of geodesy tools for various ellipsoidal and
-spherical earth models using precision trigonometric and vector-based
-methods for geodetic (lat-/longitude) and geocentric cartesian (x/y/z)
-coordinates.
+spherical earth models using precision trigonometric, vector-based and
+approximate methods for geodetic (lat-/longitude) and geocentric cartesian
+(x/y/z) coordinates.
 
 Transcribed from `JavaScript originals`_ by *Chris Veness (C) 2005-2016*
 and published under the same `MIT License`_.
 
 There are two modules for ellipsoidal earth models, *ellipsoidalVincenty*
 and *-Nvector* and two for spherical ones, *sphericalTrigonometry* and
-*-Nvector* . Each module provides a *LatLon* class with methods to compute
-distance, initial and final bearing, intermediate and nearest points, area,
-perimeter, conversions and unrolling, among other things.  For more
-information and further details see the documentation_, the descriptions
-of `Latitude/Longitude`_, Vincenty_ and `Vector-based`_ geodesy and the
-original `JavaScript source`_ or docs_.
+*-Nvector*.  Each module provides a *LatLon* class with methods and
+functions to compute distance, initial and final bearing, intermediate
+and nearest points, area, perimeter, conversions and unrolling, among
+other things.  For more information and further details see the
+documentation_, the descriptions of `Latitude/Longitude`_, Vincenty_ and
+`Vector-based`_ geodesy and the original `JavaScript source`_ or docs_.
 
 Also included are modules for conversions to and from UTM_ (Universal
 Transverse Mercator) and `Web Mercator`_ (Pseudo-Mercator) coordinates,
@@ -35,12 +35,12 @@ algorithms and modified versions of the former.
 
 All Python source code has been statically checked_ with PyChecker_,
 PyFlakes_, PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.14
-and with Flake8_ on Python 3.6.4, both in 64-bit on macOS 10.13.2 High
+and with Flake8_ on Python 3.6.4, both in 64-bit on macOS 10.13.3 High
 Sierra.
 
 The tests have been run in 64-bit with `PyPy-Python`_ 2.7.13, Python
 2.7.14 (with geographiclib_ 1.49 and numpy_ 1.14.0), `Intel-Python`_
-3.5.3 (and numpy_ 1.11.3) and Python 3.6.4, all on macOS 10.13.2 High
+3.5.3 (and numpy_ 1.11.3) and Python 3.6.4, all on macOS 10.13.3 High
 Sierra and with `Pythonista 3.2`_ Python 2.7.12 and 3.6.1 (both with
 numpy_ 1.8.0) on iOS 11.2.1.
 
@@ -62,7 +62,7 @@ cases documentation tag **JS name:** shows the original JavaScript name.
 Installation of `NumPy`_ and `GeographicLib`_ is optional, but the latter is
 required for two *ellipsoidalVincenty* functions, *areaOf* and *perimeterOf*.
 
-*Last updated: Jan 28, 2018.*
+*Last updated: Jan 31, 2018.*
 
 .. _checked: http://github.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor
 .. _docs: http://www.movable-type.co.uk/scripts/geodesy/docs/

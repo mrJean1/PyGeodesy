@@ -28,7 +28,7 @@ from math import atan, atanh, exp, sin, tanh
 # all public contants, classes and functions
 __all__ = ('Wm',  # classes
            'parseWM', 'toWm')  # functions
-__version__ = '18.01.14'
+__version__ = '18.01.31'
 
 # _FalseEasting  = 0   #: (INTERNAL) False Easting (meter).
 # _FalseNorthing = 0   #: (INTERNAL) False Northing (meter).
@@ -214,8 +214,9 @@ def toWm(latlon, lon=None, radius=R_MA, Wm=Wm):
        @return: The WM coordinate (L{Wm}).
 
        @raise ValueError: If I{lon} value is missing, if I{latlon}
-                          is not scalar or I{latlon} is beyond the
-                          valid WM range.
+                          is not scalar or if I{latlon} is beyond
+                          the valid WM range and L{rangerrors} is
+                          set to True.
 
        @example:
 
@@ -232,7 +233,7 @@ def toWm(latlon, lon=None, radius=R_MA, Wm=Wm):
             e = latlon.datum.ellipsoid.e
         lat = clipDMS(lat, _LatLimit)
     except AttributeError:
-        lat, lon = parseDMS2(latlon, lon, latLimit=_LatLimit)
+        lat, lon = parseDMS2(latlon, lon, clipLat=_LatLimit)
 
     s = sin(radians(lat))
     y = atanh(s)  # == log(tan(radians((90 + lat) * 0.5)))

@@ -59,7 +59,7 @@ pygeodesy.parseDMS2	pygeodesy-module.html#parseDMS2
 pygeodesy.isscalar	pygeodesy-module.html#isscalar
 pygeodesy.compassPoint	pygeodesy-module.html#compassPoint
 pygeodesy.unrollPI	pygeodesy-module.html#unrollPI
-pygeodesy.rangerror	pygeodesy-module.html#rangerror
+pygeodesy.latDMS	pygeodesy-module.html#latDMS
 pygeodesy.iterNumpy2	pygeodesy-module.html#iterNumpy2
 pygeodesy.S_SEP	pygeodesy-module.html#S_SEP
 pygeodesy.m2SM	pygeodesy-module.html#m2SM
@@ -100,7 +100,6 @@ pygeodesy.Conics	pygeodesy-module.html#Conics
 pygeodesy.lonDMS	pygeodesy-module.html#lonDMS
 pygeodesy.F_SEC	pygeodesy-module.html#F_SEC
 pygeodesy.len2	pygeodesy-module.html#len2
-pygeodesy.latDMS	pygeodesy-module.html#latDMS
 pygeodesy.tanPI_2_2	pygeodesy-module.html#tanPI_2_2
 pygeodesy.haversine	pygeodesy-module.html#haversine
 pygeodesy.EPS2	pygeodesy-module.html#EPS2
@@ -112,6 +111,7 @@ pygeodesy.__package__	pygeodesy-module.html#__package__
 pygeodesy.parseOSGR	pygeodesy-module.html#parseOSGR
 pygeodesy.parseMGRS	pygeodesy-module.html#parseMGRS
 pygeodesy.m2NM	pygeodesy-module.html#m2NM
+pygeodesy.rangerrors	pygeodesy-module.html#rangerrors
 pygeodesy.simplify2	pygeodesy-module.html#simplify2
 pygeodesy.isint	pygeodesy-module.html#isint
 pygeodesy.wrapPI_2	pygeodesy-module.html#wrapPI_2
@@ -120,6 +120,7 @@ pygeodesy.halfs	pygeodesy-module.html#halfs
 pygeodesy.toMgrs	pygeodesy-module.html#toMgrs
 pygeodesy.fpolynomial	pygeodesy-module.html#fpolynomial
 pygeodesy.isconvex	pygeodesy-module.html#isconvex
+pygeodesy.limiterrors	pygeodesy-module.html#limiterrors
 pygeodesy.iterNumpy2over	pygeodesy-module.html#iterNumpy2over
 pygeodesy.toOsgr	pygeodesy-module.html#toOsgr
 pygeodesy.unStr	pygeodesy-module.html#unStr
@@ -183,16 +184,16 @@ pygeodesy.dms.parse3llh	pygeodesy.dms-module.html#parse3llh
 pygeodesy.dms.latDMS	pygeodesy.dms-module.html#latDMS
 pygeodesy.dms.isint	pygeodesy.utils-module.html#isint
 pygeodesy.dms._S_ALL	pygeodesy.dms-module.html#_S_ALL
+pygeodesy.dms._rangerrors	pygeodesy.dms-module.html#_rangerrors
 pygeodesy.dms.normDMS	pygeodesy.dms-module.html#normDMS
 pygeodesy.dms.parseDMS2	pygeodesy.dms-module.html#parseDMS2
 pygeodesy.dms.precision	pygeodesy.dms-module.html#precision
 pygeodesy.dms._M_X	pygeodesy.dms-module.html#_M_X
 pygeodesy.dms._F_prec	pygeodesy.dms-module.html#_F_prec
 pygeodesy.dms.toDMS	pygeodesy.dms-module.html#toDMS
-pygeodesy.dms._rangerror	pygeodesy.dms-module.html#_rangerror
+pygeodesy.dms.rangerrors	pygeodesy.dms-module.html#rangerrors
 pygeodesy.dms.compassPoint	pygeodesy.dms-module.html#compassPoint
 pygeodesy.dms.F_DM	pygeodesy.dms-module.html#F_DM
-pygeodesy.dms.rangerror	pygeodesy.dms-module.html#rangerror
 pygeodesy.dms.compassDMS	pygeodesy.dms-module.html#compassDMS
 pygeodesy.dms.parseDMS	pygeodesy.dms-module.html#parseDMS
 pygeodesy.dms.fStr	pygeodesy.utils-module.html#fStr
@@ -422,7 +423,7 @@ pygeodesy.utils.equirectangular3	pygeodesy.utils-module.html#equirectangular3
 pygeodesy.utils.cbrt2	pygeodesy.utils-module.html#cbrt2
 pygeodesy.utils.heightOf	pygeodesy.utils-module.html#heightOf
 pygeodesy.utils.PI2	pygeodesy.utils-module.html#PI2
-pygeodesy.utils._iterNumpy2len	pygeodesy.utils-module.html#_iterNumpy2len
+pygeodesy.utils.PI	pygeodesy.utils-module.html#PI
 pygeodesy.utils.radians	pygeodesy.utils-module.html#radians
 pygeodesy.utils.radiansPI_2	pygeodesy.utils-module.html#radiansPI_2
 pygeodesy.utils.isfinite	pygeodesy.utils-module.html#isfinite
@@ -431,7 +432,7 @@ pygeodesy.utils.hypot	pygeodesy.utils-module.html#hypot
 pygeodesy.utils._crosserrors	pygeodesy.utils-module.html#_crosserrors
 pygeodesy.utils.fdot3	pygeodesy.utils-module.html#fdot3
 pygeodesy.utils.wrap90	pygeodesy.utils-module.html#wrap90
-pygeodesy.utils.PI	pygeodesy.utils-module.html#PI
+pygeodesy.utils._iterNumpy2len	pygeodesy.utils-module.html#_iterNumpy2len
 pygeodesy.utils.hypot1	pygeodesy.utils-module.html#hypot1
 pygeodesy.utils.ft2m	pygeodesy.utils-module.html#ft2m
 pygeodesy.utils.tan_2	pygeodesy.utils-module.html#tan_2
@@ -449,6 +450,7 @@ pygeodesy.utils.radiansPI	pygeodesy.utils-module.html#radiansPI
 pygeodesy.utils.fsum	pygeodesy.utils-module.html#fsum
 pygeodesy.utils.classname	pygeodesy.utils-module.html#classname
 pygeodesy.utils.equirectangular_	pygeodesy.utils-module.html#equirectangular_
+pygeodesy.utils._limiterrors	pygeodesy.utils-module.html#_limiterrors
 pygeodesy.utils.inStr	pygeodesy.utils-module.html#inStr
 pygeodesy.utils.haversine_	pygeodesy.utils-module.html#haversine_
 pygeodesy.utils.wrapPI2	pygeodesy.utils-module.html#wrapPI2
@@ -475,6 +477,7 @@ pygeodesy.utils._drap	pygeodesy.utils-module.html#_drap
 pygeodesy.utils.halfs	pygeodesy.utils-module.html#halfs
 pygeodesy.utils._1_3rd	pygeodesy.utils-module.html#_1_3rd
 pygeodesy.utils.fpolynomial	pygeodesy.utils-module.html#fpolynomial
+pygeodesy.utils.limiterrors	pygeodesy.utils-module.html#limiterrors
 pygeodesy.utils.iterNumpy2over	pygeodesy.utils-module.html#iterNumpy2over
 pygeodesy.utils.unStr	pygeodesy.utils-module.html#unStr
 pygeodesy.utils.fmean	pygeodesy.utils-module.html#fmean
@@ -669,6 +672,7 @@ pygeodesy.bases.Named.name	pygeodesy.bases.Named-class.html#name
 pygeodesy.bases.Named._name	pygeodesy.bases.Named-class.html#_name
 pygeodesy.datum.Transform.s	pygeodesy.datum.Transform-class.html#s
 pygeodesy.bases.Base.__repr__	pygeodesy.bases.Base-class.html#__repr__
+pygeodesy.dms.RangeError	pygeodesy.dms.RangeError-class.html
 pygeodesy.ellipsoidalBase.CartesianBase	pygeodesy.ellipsoidalBase.CartesianBase-class.html
 pygeodesy.vector3d.Vector3d._update	pygeodesy.vector3d.Vector3d-class.html#_update
 pygeodesy.vector3d.Vector3d._fromll	pygeodesy.vector3d.Vector3d-class.html#_fromll
@@ -1601,6 +1605,7 @@ pygeodesy.bases.Base.__repr__	pygeodesy.bases.Base-class.html#__repr__
 pygeodesy.bases.Base.classof	pygeodesy.bases.Base-class.html#classof
 pygeodesy.bases.LatLonHeightBase._ab	pygeodesy.bases.LatLonHeightBase-class.html#_ab
 pygeodesy.utils.CrossError	pygeodesy.utils.CrossError-class.html
+pygeodesy.utils.LimitError	pygeodesy.utils.LimitError-class.html
 pygeodesy.utm.Utm	pygeodesy.utm.Utm-class.html
 pygeodesy.bases.Base._update	pygeodesy.bases.Base-class.html#_update
 pygeodesy.utm.Utm._scale	pygeodesy.utm.Utm-class.html#_scale

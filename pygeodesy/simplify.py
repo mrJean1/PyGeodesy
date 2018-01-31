@@ -80,7 +80,7 @@ from math import degrees, radians, sqrt
 __all__ = ('simplify1', 'simplify2',  # backward compatibility
            'simplifyRDP', 'simplifyRDPm', 'simplifyRW',
            'simplifyVW', 'simplifyVWm')
-__version__ = '18.01.28'
+__version__ = '18.01.30'
 
 
 # try:
@@ -377,6 +377,9 @@ def simplify1(points, distance, radius=R_M, indices=False, **options):
 
        @return: Simplified points (list of I{LatLon}s).
 
+       @raise LimitError: Lat- and/or longitudinal delta exceeds I{limit},
+                          see function L{equirectangular_}.
+
        @raise ValueError: Radius or distance tolerance too small.
     '''
     S = _Sy(points, distance, radius, True, indices, **options)
@@ -418,6 +421,9 @@ def simplifyRDP(points, distance, radius=R_M, shortest=False,
 
        @return: Simplified points (list of I{LatLon}s).
 
+       @raise LimitError: Lat- and/or longitudinal delta exceeds I{limit},
+                          see function L{equirectangular_}.
+
        @raise ValueError: Radius or distance tolerance too small.
     '''
     S = _Sy(points, distance, radius, shortest, indices, **options)
@@ -448,6 +454,9 @@ def simplifyRDPm(points, distance, radius=R_M, shortest=False,
 
        @return: Simplified points (list of I{LatLon}s).
 
+       @raise LimitError: Lat- and/or longitudinal delta exceeds I{limit},
+                          see function L{equirectangular_}.
+
        @raise ValueError: Radius or distance tolerance too small.
     '''
     S = _Sy(points, distance, radius, shortest, indices, **options)
@@ -472,6 +481,9 @@ def simplifyRW(points, pipe, radius=R_M, shortest=False,
                          function L{equirectangular_}.
 
        @return: Simplified points (list of I{LatLon}s).
+
+       @raise LimitError: Lat- and/or longitudinal delta exceeds I{limit},
+                          see function L{equirectangular_}.
 
        @raise ValueError: Radius or pipe tolerance too small.
     '''
@@ -525,6 +537,9 @@ def simplifyVW(points, area, radius=R_M, attr=None,
 
        @raise AttributeError: If attr is specified for I{Numpy2} points.
 
+       @raise LimitError: Lat- and/or longitudinal delta exceeds I{limit},
+                          see function L{equirectangular_}.
+
        @raise ValueError: Radius or area tolerance too small.
     '''
     S = _Sy(points, area, radius, False, indices, **options)
@@ -575,6 +590,9 @@ def simplifyVWm(points, area, radius=R_M, attr=None,
        @return: Simplified points (list of I{LatLon}s).
 
        @raise AttributeError: If attr is specified for I{Numpy2} points.
+
+       @raise LimitError: Lat- and/or longitudinal delta exceeds I{limit},
+                          see function L{equirectangular_}.
 
        @raise ValueError: Radius or area tolerance too small.
     '''
