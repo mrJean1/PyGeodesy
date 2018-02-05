@@ -73,14 +73,15 @@ See:
 '''
 
 from datum import R_M
-from utils import EPS, equirectangular_, isNumpy2, isTuple2, len2
+from fmath import EPS, len2
+from utils import equirectangular_, isNumpy2, isTuple2
 
 from math import degrees, radians, sqrt
 
 __all__ = ('simplify1', 'simplify2',  # backward compatibility
            'simplifyRDP', 'simplifyRDPm', 'simplifyRW',
            'simplifyVW', 'simplifyVWm')
-__version__ = '18.01.30'
+__version__ = '18.02.02'
 
 
 # try:

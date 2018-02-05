@@ -12,7 +12,7 @@ see U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
 '''
 
 from bases import LatLonHeightBase
-from utils import fsum, len2, scalar
+from fmath import fsum, len2, scalar
 from vector3d import Vector3d, sumOf as _sumOf
 
 # from math import cos, sin
@@ -21,7 +21,7 @@ from vector3d import Vector3d, sumOf as _sumOf
 __all__ = ('NorthPole', 'SouthPole',  # constants
            'Nvector',  # classes
            'sumOf')  # functions
-__version__ = '17.12.08'
+__version__ = '18.02.02'
 
 
 class Nvector(Vector3d):  # XXX kept private
@@ -72,9 +72,9 @@ class Nvector(Vector3d):  # XXX kept private
 
            @param h: New height (meter).
 
-           @raise TypeError: Height invalid.
+           @raise TypeError: If I{h} invalid.
 
-           @raise ValueError: Height invalid.
+           @raise ValueError: If I{h} invalid.
         '''
         h = scalar(h, None, name='h')
         self._update(h != self._h)
@@ -154,7 +154,7 @@ class LatLonNvectorBase(LatLonHeightBase):
            @param other: The other point (L{LatLon}).
            @keyword name: Optional, other's name (string).
 
-           @raise TypeError: Incompatible type(other).
+           @raise TypeError: This and type(I{other}) incompatible.
         '''
         try:
             LatLonHeightBase.others(self, other, name=name)
@@ -187,7 +187,7 @@ def sumOf(nvectors, Vector=Nvector, h=None, **kwds):
 
        @return: Vectorial sum (I{Vector}).
 
-       @raise ValueError: No nvectors.
+       @raise ValueError: No I{nvectors}.
     '''
     n, nvectors = len2(nvectors)
     if n < 1:

@@ -11,7 +11,7 @@ and U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
 @newfield example: Example, Examples
 '''
 
-from utils import fStr, fStrzs, isint
+from fmath import fStr, fStrzs, isint
 
 from math import atan2, copysign, degrees, radians
 try:
@@ -29,7 +29,7 @@ __all__ = ('F_D', 'F_DM', 'F_DMS',  # forms
            'latDMS', 'lonDMS', 'normDMS',
            'parseDMS', 'parseDMS2', 'parse3llh', 'precision',
            'rangerrors', 'toDMS')
-__version__ = '18.01.31'
+__version__ = '18.02.02'
 
 F_D   = 'd'    #: Format degrees as deg° (string).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (string).
@@ -184,7 +184,7 @@ def compassDMS(bearing, form=F_D, prec=None, sep=S_SEP):
                       but kept for negative prec values.
        @keyword sep: Optional separator (string).
 
-       @return: Compass degrees and point per the specified form (string).
+       @return: Compass degrees and point in the specified form (string).
     '''
     t = bearingDMS(bearing, form, prec, sep), compassPoint(bearing)
     return sep.join(t)
@@ -244,7 +244,7 @@ def latDMS(deg, form=F_DMS, prec=2, sep=S_SEP):
                       but kept for negative prec values.
        @keyword sep: Optional separator (string).
 
-       @return: Degrees per the specified form (string).
+       @return: Degrees in the specified form (string).
 
        @JSname: I{toLat}.
     '''
@@ -265,7 +265,7 @@ def lonDMS(deg, form=F_DMS, prec=2, sep=S_SEP):
                       but kept for negative prec values.
        @keyword sep: Optional separator (string).
 
-       @return: Degrees per the specified form (string).
+       @return: Degrees in the specified form (string).
 
        @JSname: I{toLon}.
     '''
@@ -433,7 +433,7 @@ def precision(form, prec=None):
 
        @return: Previous precision (int).
 
-       @raise ValueError: Invalid I{form} or I{prec}.
+       @raise ValueError: If I{form} or I{prec} or beyond valid range.
     '''
     try:
         p = _F_prec[form]
@@ -481,7 +481,7 @@ def toDMS(deg, form=F_DMS, prec=2, sep=S_SEP, ddd=2, neg='-', pos=''):
        @keyword neg: Optional sign for negative degrees ('-').
        @keyword pos: Optional sign for positive degrees ('').
 
-       @return: Degrees per the specified form (string).
+       @return: Degrees in the specified form (string).
     '''
     t = _toDMS(deg, form, prec, sep, ddd)
     s = neg if deg < 0 else pos

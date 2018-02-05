@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.09.14'
+__version__ = '18.02.04'
 
 from testLatLon import Tests as _TestsLL
 from testVectorial import Tests as _TestsV
@@ -15,12 +15,12 @@ from pygeodesy import EPS, F_D, F_DMS, VincentyError, bearingDMS, \
 
 class Tests(_TestsLL, _TestsV):
 
-    def testEllipsoidal(self, module):
+    def testEllipsoidal(self, module, Cartesian, Nvector):
         # ellipsoidal modules tests
 
         self.subtitle(module, 'Ellipsoidal')
 
-        LatLon, Nvector, Cartesian = module.LatLon, module.Nvector, module.Cartesian
+        LatLon = module.LatLon
 
         p = LatLon(51.4778, -0.0016, 0, Datums.WGS84)
         self.test('isEllipsoidal', p.isEllipsoidal, True)
@@ -33,7 +33,7 @@ class Tests(_TestsLL, _TestsV):
         self.test('convertDatum', d, '51.477284°N, 000.00002°E, -45.91m')  # 51.4773°N, 000.0000°E, -45.91m
         self.test('convertDatum', d.toStr(F_D, prec=4), '51.4773°N, 000.0°E, -45.91m')
 
-        if Cartesian:
+        if Cartesian and Nvector:
             c = Cartesian(3980581, 97, 4966825)
             n = c.toNvector()  # {x: 0.6228, y: 0.0000, z: 0.7824, h: 0.0000}  # XXX height
             self.test('toNVector', n.toStr(4), '(0.6228, 0.0, 0.7824, +0.24)')
@@ -42,7 +42,6 @@ class Tests(_TestsLL, _TestsV):
             self.test('toCartesian', c.toStr(0), '[3980581, 97, 4966825]')
             self.test('toCartesian', isinstance(c, Cartesian), True)
 
-        if Nvector:
             n = Nvector(0.5, 0.5, 0.7071)
             self.test('Nvector', n, '(0.5, 0.5, 0.7071)')
 
@@ -245,11 +244,11 @@ if __name__ == '__main__':
 
     t = Tests(__file__, __version__)
 
-    t.testEllipsoidal(N)
-
+    t.testEllipsoidal(N, N.Cartesian, N.Nvector)
     t.testLatLon(N, Sph=False, Nv=True)
     t.testVectorial(N)
 
+    t.testEllipsoidal(V, None, None)
     t.testLatLon(V, Sph=False)
     for d in (Datums.WGS84, Datums.NAD83,):  # Datums.Sphere):
         t.testVincenty(V, d)

@@ -170,19 +170,18 @@ import sphericalTrigonometry  # PYCHOK false
 import vector3d  # PYCHOK false
 
 Geohash       = geohash.Geohash
-nearestOn2    = sphericalTrigonometry.nearestOn2  # not -Nvector
 VincentyError = ellipsoidalVincenty.VincentyError
 
 # all public sub-modules, contants, classes and functions
 __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',  # modules
            'sphericalNvector', 'sphericalTrigonometry',
-           'datum', 'dms', 'geohash', 'lcc', 'mgrs', 'nvector',
-           'osgr', 'points', 'simplify', 'utils', 'utm',
-           'vector3d', 'webmercator',
+           'datum', 'dms', 'fmath', 'geohash', 'lcc', 'mgrs',
+           'nvector', 'osgr', 'points', 'simplify',
+           'utils', 'utm', 'vector3d', 'webmercator',
            'Geohash', 'VincentyError',  # classes
-           'nearestOn2',  # functions
+           'R_M',  # to avoid duplicates from datum and utils
            'version')  # extended below
-__version__ = '18.01.31'
+__version__ = '18.02.04'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
@@ -192,6 +191,7 @@ version = '.'.join(map(str, map(int, __version__.split('.'))))
 # Beazley's <http://dabeaz.com/modulepackage/index.html>)
 from datum       import *  # PYCHOK __all__
 from dms         import *  # PYCHOK __all__
+from fmath       import *  # PYCHOK __all__
 from lcc         import *  # PYCHOK __all__
 from mgrs        import *  # PYCHOK __all__
 from osgr        import *  # PYCHOK __all__
@@ -203,6 +203,7 @@ from webmercator import *  # PYCHOK __all__
 
 import datum        # PYCHOK expected
 import dms          # PYCHOK expected
+import fmath        # PYCHOK expected
 import lcc          # PYCHOK expected
 import mgrs         # PYCHOK expected
 import osgr         # PYCHOK expected
@@ -214,9 +215,9 @@ import webmercator  # PYCHOK expected
 
 # concat __all__ with the public classes, constants,
 # functions, etc. from the sub-modules mentioned above
-for m in (datum, dms, lcc, mgrs, osgr, points,
+for m in (datum, dms, fmath, lcc, mgrs, osgr, points,
           simplify, utils, utm, webmercator):
-    __all__ += tuple(_ for _ in m.__all__ if _ not in ('nearestOn2',))
+    __all__ += tuple(_ for _ in m.__all__ if _ not in ('R_M',))
 del m
 
 # try:  # remove private, INTERNAL modules
@@ -226,12 +227,19 @@ del m
 
 if __name__ == '__main__':
 
-    d = locals()
+    d, e, p = locals(), 0, ''
     for i, n in enumerate(sorted(__all__)):
         r = repr(d[n]).replace(' ' + n + ' ', ' ') \
                       .replace(" '" + n + "' ", ' ')
-        print('%s %s %s' % (i + 1, n, r))
-    print('--- PyGeodesy %s' % (__version__,))
+        if n == p:
+            e += 1
+            s = '***'
+        else:
+            s = ''
+            p = n
+        print('%s %s%s %s' % (i + 1, n, s, r))
+
+    print('--- PyGeodesy %s (%s duplicates)' % (__version__, e or 'no'))
 
 # **) MIT License
 #

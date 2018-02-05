@@ -23,9 +23,9 @@ the index for the lat- and longitude index in each 2+tuple.
 
 @newfield example: Example, Examples
 '''
-from utils import EPS, R_M, classname, CrossError, crosserrors, \
-                  equirectangular_, fdot, fStr, fsum, \
-                  inStr, isint, issequence, polygon, scalar, \
+from fmath import EPS, fdot, fStr, fsum, isint, scalar
+from utils import R_M, classname, CrossError, crosserrors, \
+                  equirectangular_, inStr, issequence, polygon, \
                   unroll180, unrollPI, wrap90, wrap180
 try:
     from collections import Sequence as _Sequence  # immutable
@@ -39,7 +39,7 @@ __all__ = ('LatLon_',  # classes
            'areaof', 'bounds',  # functions
            'isclockwise', 'isconvex', 'isenclosedby',
            'perimeterof')
-__version__ = '18.01.30'
+__version__ = '18.02.02'
 
 
 class LatLon_(object):
@@ -872,11 +872,12 @@ def bounds(points, wrap=True, LatLon=None):
 
        @param points: The points defining the polygon (I{LatLon}[]).
        @keyword wrap: Wrap lat- and longitudes (bool).
-       @keyword LatLon: Optional class to return I{bounds} (I{LatLon}).
+       @keyword LatLon: Optional class to use to return I{bounds}
+                        (I{LatLon}).
 
        @return: 2-tuple (loLatLon, hiLatLon) of I{LatLon}s for the
                 lower-left respectively upper-right corners or 4-Tuple
-                (lolat, lolon, hilat, hilon) of bounds (degrees) if
+                (loLat, loLon, hiLat, hiLon) of bounds (degrees) if
                 I{LatLon} is None.
 
        @raise TypeError: Some points are not I{LatLon}.
@@ -904,10 +905,11 @@ def bounds(points, wrap=True, LatLon=None):
         elif hiy < y:
             hiy = y
 
-    if LatLon:
-        return LatLon(loy, lox), LatLon(hiy, hix)
+    if LatLon is None:
+        b = loy, lox, hiy, hix
     else:
-        return loy, lox, hiy, hix  # PYCHOK expected
+        b = LatLon(loy, lox), LatLon(hiy, hix)
+    return b
 
 
 def isclockwise(points, adjust=False, wrap=True):

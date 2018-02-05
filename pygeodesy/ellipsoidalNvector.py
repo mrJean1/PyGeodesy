@@ -24,10 +24,10 @@ U{http://www.navlab.net/Publications/A_Nonsingular_Horizontal_Position_Represent
 from datum import Datum, Datums
 from dms import F_D, toDMS
 from ellipsoidalBase import CartesianBase, LatLonEllipsoidalBase
+from fmath import EPS, cbrt, fdot, fStr, fsum_, hypot, hypot3
 from nvector import NorthPole, LatLonNvectorBase, \
                     Nvector as NvectorBase, sumOf
-from utils import EPS, degrees90, degrees360, cbrt, fdot, fStr, \
-                  hypot, hypot3, radians
+from utils import degrees90, degrees360, radians
 from vector3d import Vector3d
 
 from math import asin, atan2, cos, sin, sqrt
@@ -35,7 +35,7 @@ from math import asin, atan2, cos, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '18.01.14'
+__version__ = '18.02.02'
 
 
 class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
@@ -88,7 +88,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #            @return: Distance to great circle, negative if to left or
 #                     positive if to right of path (scalar).
 #
-#            @raise TypeError: The start or end point is not L{LatLon}.
+#            @raise TypeError: If I{start} or I{end} point is not L{LatLon}.
 #
 #            @example:
 #
@@ -130,7 +130,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
            @return: Delta of this point (L{Ned}).
 
-           @raise TypeError: The other point is not L{LatLon}.
+           @raise TypeError: The I{other} point is not L{LatLon}.
 
            @raise ValueError: If ellipsoids are incompatible.
 
@@ -192,7 +192,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
            @return: Destination point (L{Cartesian}).
 
-           @raise TypeError: The delta is not L{Ned}.
+           @raise TypeError: If {delta} is not L{Ned}.
 
            @example:
 
@@ -228,7 +228,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #
 #            @return: Distance (meter).
 #
-#            @raise TypeError: The other point is not L{LatLon}.
+#            @raise TypeError: The I{other} point is not L{LatLon}.
 #
 #            @example:
 #
@@ -250,7 +250,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #
 #            @return: Distance (meter, same units as I{radius}).
 #
-#            @raise TypeError: The other point is not L{LatLon}.
+#            @raise TypeError: The I{other} point is not L{LatLon}.
 #
 #            @example:
 #
@@ -273,7 +273,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
            @return: True if points are identical, including
                     datum and height (bool).
 
-           @raise TypeError: The other point is not L{LatLon}.
+           @raise TypeError: The I{other} point is not L{LatLon}.
 
            @example:
 
@@ -321,7 +321,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #
 #            @return: Initial bearing in compass degrees (degrees360).
 #
-#            @raise TypeError: The other point is not L{LatLon}.
+#            @raise TypeError: The I{other} point is not L{LatLon}.
 #
 #            @example:
 #
@@ -356,7 +356,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
            @return: Intermediate point (L{LatLon}).
 
-           @raise TypeError: The other point is not L{LatLon}.
+           @raise TypeError: The I{other} point is not L{LatLon}.
 
            @example:
 
@@ -454,7 +454,7 @@ class Cartesian(CartesianBase):
 
            @return: The ellipsoidal n-vector (L{Nvector}).
 
-           @raise ValueError: Cartesian origin.
+           @raise ValueError: Cartesian at origin.
 
            @example:
 
@@ -467,17 +467,17 @@ class Cartesian(CartesianBase):
             x, y, z = self.to3xyz()
 
             # Kenneth Gade eqn 23
-            p = (x * x + y * y) * E.a2
-            q = (z * z * E.e12) * E.a2
-            r = (p + q - E.e4) / 6
+            p = (x**2 + y**2) * E.a2
+            q = (z**2 * E.e12) * E.a2
+            r = fsum_(p, q, -E.e4) / 6
             s = (p * q * E.e4) / (4 * r**3)
-            t = cbrt(1 + s + sqrt(s * (2 + s)))
+            t = cbrt(fsum_(1, s, sqrt(s * (2 + s))))
 
-            u = r * (1 + t + 1 / t)
-            v = sqrt(u * u + E.e4 * q)
-            w = E.e2 * (u + v - q) / (2 * v)
+            u = r * fsum_(1, t, 1 / t)
+            v = sqrt(u**2 + E.e4 * q)
+            w = E.e2 * fsum_(u, v, -q) / (2 * v)
 
-            k = sqrt(u + v + w * w) - w
+            k = sqrt(fsum_(u, v, w**2)) - w
             if abs(k) < EPS:
                 raise ValueError('%s: %r' % ('origin', self))
             e = k / (k + E.e2)
@@ -486,7 +486,7 @@ class Cartesian(CartesianBase):
             t = hypot(d, z)
             if t < EPS:
                 raise ValueError('%s: %r' % ('origin', self))
-            h = (k + E.e2 - 1) / k * t
+            h = fsum_(k, E.e2, -1) / k * t
 
             s = e / t
             self._Nv = Nvector(x * s, y * s, z / t, h=h, datum=datum)
@@ -616,7 +616,7 @@ class Nvector(NvectorBase):
                            within (L{Datum}).
            @keyword ll: Optional, original latlon (I{LatLon}).
 
-           @raise TypeError: If datum is not a L{Datum}.
+           @raise TypeError: If I{datum} is not a L{Datum}.
 
            @example:
 
@@ -651,7 +651,8 @@ class Nvector(NvectorBase):
 
            @keyword height: Optional height, overriding the default
                             height (meter).
-           @keyword LatLon: Optional LatLon class for the point (L{LatLon}).
+           @keyword LatLon: Optional (ellipsoidal) LatLon class to use
+                            for the point (L{LatLon}).
 
            @return: Point equivalent to this n-vector (L{LatLon}).
 
@@ -669,7 +670,8 @@ class Nvector(NvectorBase):
     def toCartesian(self, Cartesian=Cartesian):
         '''Convert this n-vector to a cartesian point.
 
-           @keyword Cartesian: Optional Cartesian class for the point (L{Cartesian}).
+           @keyword Cartesian: Optional Cartesian class to use for
+                               the point (L{Cartesian}).
 
            @return: Cartesian equivalent to this n-vector (L{Cartesian}).
 
@@ -684,7 +686,7 @@ class Nvector(NvectorBase):
         x, y, z, h = self.to4xyzh()
         # Kenneth Gade eqn (22)
         n = E.b / hypot3(x * E.ab, y * E.ab, z)
-        r = E.ab * E.ab * n + h
+        r = h + n * E.ab**2
 
         return Cartesian(x * r, y * r, z * (n + h))
 
@@ -711,7 +713,7 @@ def meanOf(points, datum=Datums.WGS84, height=None, LatLon=LatLon):
 
        @return: Point at geographic mean and mean height (L{LatLon}).
 
-       @raise ValueError: Insufficient number of points.
+       @raise ValueError: Insufficient number of I{points}.
     '''
     _, points = _Nvll.points(points, closed=False)
     # geographic mean

@@ -374,9 +374,11 @@
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html">ellipsoidalBase.LatLonEllipsoidalBase</a></code></b>:
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convergence">convergence</a></code>,
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#datum">datum</a></code>,
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#isEllipsoidal">isEllipsoidal</a></code>,
-      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#isSpherical">isSpherical</a></code>
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#isSpherical">isSpherical</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#scale">scale</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a></code></b>:
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#height">height</a></code>,
@@ -561,18 +563,18 @@
         <dd>Distance in meters (scalar).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <a 
         href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the other point's <a 
+        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <i>other</i> point's <a 
         href="pygeodesy.datum.Datum-class.html" class="link">Datum</a> 
         ellipsoids are not compatible.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html">VincentyError</a></strong></code> - Vincenty fails to converge for the current <a 
         href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#epsilon" 
         class="link">LatLon.epsilon</a> and <a 
         href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#iterations" 
-        class="link">LatLon.iterations</a> limit or this and the other 
-        point coincide.</li>
+        class="link">LatLon.iterations</a> limit or this and the 
+        <i>other</i> point coincide.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -619,18 +621,18 @@
           degrees360, degree360).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <a 
         href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the other point's <a 
+        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <i>other</i> point's <a 
         href="pygeodesy.datum.Datum-class.html" class="link">Datum</a> 
         ellipsoids are not compatible.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html">VincentyError</a></strong></code> - Vincenty fails to converge for the current <a 
         href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#epsilon" 
         class="link">LatLon.epsilon</a> and <a 
         href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#iterations" 
-        class="link">LatLon.iterations</a> limit or this and the other 
-        point coincide.</li>
+        class="link">LatLon.iterations</a> limit or this and the 
+        <i>other</i> point coincide.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -714,18 +716,18 @@
         <dd>Final bearing in compass degrees (degrees360).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <a 
         href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the other point's <a 
+        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <i>other</i> point's <a 
         href="pygeodesy.datum.Datum-class.html" class="link">Datum</a> 
         ellipsoids are not compatible.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html">VincentyError</a></strong></code> - Vincenty fails to converge for the current <a 
         href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#epsilon" 
         class="link">LatLon.epsilon</a> and <a 
         href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#iterations" 
-        class="link">LatLon.iterations</a> limit or this and the other 
-        point coincide.</li>
+        class="link">LatLon.iterations</a> limit or this and the 
+        <i>other</i> point coincide.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -773,18 +775,18 @@
         <dd>Initial bearing in compass degrees (degrees360).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <a 
         href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the other point's <a 
+        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <i>other</i> point's <a 
         href="pygeodesy.datum.Datum-class.html" class="link">Datum</a> 
         ellipsoids are not compatible.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html">VincentyError</a></strong></code> - Vincenty fails to converge for the current <a 
         href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#epsilon" 
         class="link">LatLon.epsilon</a> and <a 
         href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#iterations" 
-        class="link">LatLon.iterations</a> limit or this and the other 
-        point coincide.</li>
+        class="link">LatLon.iterations</a> limit or this and the 
+        <i>other</i> point coincide.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -835,18 +837,18 @@
         <dd>Initial bearing in compass degrees (degrees360).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <a 
         href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the other point's <a 
+        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <i>other</i> point's <a 
         href="pygeodesy.datum.Datum-class.html" class="link">Datum</a> 
         ellipsoids are not compatible.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html">VincentyError</a></strong></code> - Vincenty fails to converge for the current <a 
         href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#epsilon" 
         class="link">LatLon.epsilon</a> and <a 
         href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#iterations" 
-        class="link">LatLon.iterations</a> limit or this and the other 
-        point coincide.</li>
+        class="link">LatLon.iterations</a> limit or this and the 
+        <i>other</i> point coincide.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -970,7 +972,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Jan 31 15:06:50 2018
+    Generated by Epydoc 3.0.1 on Sun Feb  4 23:12:52 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

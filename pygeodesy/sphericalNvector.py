@@ -30,11 +30,11 @@ to a normalised version of an (ECEF) cartesian coordinate.
 '''
 
 from datum import R_M
+from fmath import EPS, fmean, fsum, fsum_, isscalar
 from nvector import NorthPole, LatLonNvectorBase, \
                     Nvector as NvectorBase, sumOf
 from sphericalBase import LatLonSphericalBase
-from utils import EPS, PI, PI2, PI_2, \
-                  degrees360, fmean, fsum, isscalar, iterNumpy2
+from utils import PI, PI2, PI_2, degrees360, iterNumpy2
 
 from math import atan2, cos, radians, sin
 
@@ -45,7 +45,7 @@ __all__ = ('LatLon', 'Nvector',  # classes
            'meanOf',
            'nearestOn2',
            'triangulate', 'trilaterate')
-__version__ = '18.01.14'
+__version__ = '18.02.02'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -681,7 +681,8 @@ class Nvector(NvectorBase):
 
            @keyword height: Optional height above earth radius,
                             overriding the default height (meter).
-           @keyword LatLon: Optional LatLon class for the point (L{LatLon}).
+           @keyword LatLon: Optional (spherical) LatLon class for
+                            the point (L{LatLon}).
 
            @return: Point equivalent to this n-vector (L{LatLon}).
 
@@ -1013,8 +1014,8 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3,
         j = Y.dot(y)  # signed magnitude of y component of n1->n3
         j2 = j * 2
         if abs(j2) > EPS:
-            x = (d12 - d22 + d**2) / d2  # x component of n1->intersection
-            y = (d12 - d32 + i**2 + j**2) / j2 - (x * i / j)  # y component of n1->intersection
+            x = fsum_(d12, -d22, d**2) / d2  # n1->intersection x- and ...
+            y = fsum_(d12, -d32, i**2, j**2, -2 * x * i) / j2  # ... y-component
             z = x**2 + y**2
 
     if not 0 < z < d12:

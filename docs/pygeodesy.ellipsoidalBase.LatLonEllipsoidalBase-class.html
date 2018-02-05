@@ -319,6 +319,16 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convergence" class="summary-name">convergence</a><br />
+      Get this point's UTM meridian convergence (degrees) or None if not 
+      converted from <a href="pygeodesy.utm.Utm-class.html" 
+      class="link">Utm</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#datum" class="summary-name">datum</a><br />
       Get this point's datum (<a href="pygeodesy.datum.Datum-class.html" 
       class="link">Datum</a>).
@@ -338,6 +348,16 @@
     </td><td class="summary">
         <a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#isSpherical" class="summary-name">isSpherical</a><br />
       Check whether this <i>LatLon</i> point is spherical (bool).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#scale" class="summary-name">scale</a><br />
+      Get this point's UTM grid scale factor (float) or None if not 
+      converted from <a href="pygeodesy.utm.Utm-class.html" 
+      class="link">Utm</a>.
     </td>
   </tr>
   <tr>
@@ -398,7 +418,7 @@
         <dd>New instance (<i>LatLon</i>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid lat or lon.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>lat</i> or <i>lon</i>.</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
@@ -433,9 +453,7 @@
           class="link">Datum</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The converted point (<a 
-          href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html"
-          class="link">LatLonEllipsoidalBase</a>).</dd>
+        <dd>The converted point (ellipsoidal <i>LatLon</i>).</dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -527,7 +545,7 @@
           class="link">Ellipsoid</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not LatLon.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not LatLon.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - If datum ellipsoids are incompatible.</li>
     </ul></dd>
   </dl>
@@ -575,7 +593,7 @@
           class="link">LatLonEllipsoidalBase</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid strll.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>strll</i>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -694,6 +712,24 @@
     <span class="table-header">Property Details</span></td>
 </tr>
 </table>
+<a name="convergence"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">convergence</h3>
+  <p>Get this point's UTM meridian convergence (degrees) or None if not 
+  converted from <a href="pygeodesy.utm.Utm-class.html" 
+  class="link">Utm</a>.</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">convergence(<span class="summary-sig-arg">self</span>)</span>
+        - Get this point's UTM meridian convergence (degrees) or None if not 
+converted from <a href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="datum"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -746,6 +782,24 @@ class="link">Datum</a>).
   </dl>
 </td></tr></table>
 </div>
+<a name="scale"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">scale</h3>
+  <p>Get this point's UTM grid scale factor (float) or None if not 
+  converted from <a href="pygeodesy.utm.Utm-class.html" 
+  class="link">Utm</a>.</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">scale(<span class="summary-sig-arg">self</span>)</span>
+        - Get this point's UTM grid scale factor (float) or None if not converted 
+from <a href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
@@ -778,7 +832,7 @@ class="link">Datum</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Jan 31 15:06:50 2018
+    Generated by Epydoc 3.0.1 on Sun Feb  4 23:12:52 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

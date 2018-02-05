@@ -10,14 +10,15 @@ and U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
 @newfield example: Example, Examples
 '''
 from dms   import F_D, F_DMS, latDMS, lonDMS, parseDMS, parseDMS2
-from utils import EPS, R_M, classname, favg, map1, polygon, scalar
+from fmath import EPS, favg, map1, scalar
+from utils import R_M, classname, polygon
 
 from math import asin, cos, degrees, radians, sin
 
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('Base', 'LatLonHeightBase', 'Named', 'VectorBase')
-__version__ = '18.01.12'
+__version__ = '18.02.02'
 
 
 class Base(object):
@@ -71,7 +72,7 @@ class Base(object):
 
            @return: None.
 
-           @raise TypeError: Mismatch of this and type(other).
+           @raise TypeError: Mismatch of this and type(I{other}).
         '''
         if not (isinstance(self, other.__class__) or
                 isinstance(other, self.__class__)):
@@ -114,7 +115,7 @@ class LatLonHeightBase(Base):
 
            @return: New instance (I{LatLon}).
 
-           @raise ValueError: Invalid lat or lon.
+           @raise ValueError: Invalid I{lat} or I{lon}.
 
            @example:
 
@@ -189,7 +190,7 @@ class LatLonHeightBase(Base):
            @return: True if both points are identical,
                     ignoring height (bool).
 
-           @raise TypeError: The other point is not I{LatLon}.
+           @raise TypeError: The I{other} point is not I{LatLon}.
 
            @see: Method L{equals3}.
 
@@ -216,7 +217,7 @@ class LatLonHeightBase(Base):
            @return: True if both points are identical,
                     I{including} height (bool).
 
-           @raise TypeError: The other point is not I{LatLon}.
+           @raise TypeError: The I{other} point is not I{LatLon}.
 
            @see: Method L{equals}.
 
@@ -282,7 +283,7 @@ class LatLonHeightBase(Base):
            @raise TypeError: Height of I{latlonh} not scalar or
                              I{latlonh} not tuple or list.
 
-           @raise ValueError: Invalid I{latlonh} or I{len(latlonh)}.
+           @raise ValueError: Invalid I{latlonh} or M{len(latlonh)}.
 
            @see: Function L{parse3llh} to parse a I{latlonh} string
                  into a 3-tuple (lat, lon, h).
@@ -328,9 +329,9 @@ class LatLonHeightBase(Base):
 
            @return: 2-Tuple (number, sequence) of points (int, sequence).
 
-           @raise TypeError: Some points are not I{LatLon}.
+           @raise TypeError: Some I{points} are not I{LatLon}.
 
-           @raise ValueError: Insufficient number of points.
+           @raise ValueError: Insufficient number of I{points}.
         '''
         return polygon(points, closed=closed, base=self)
 

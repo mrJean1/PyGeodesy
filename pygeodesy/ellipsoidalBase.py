@@ -14,7 +14,8 @@ U{http://www.movable-type.co.uk/scripts/geodesy/docs/latlon-ellipsoidal.js.html}
 from bases import LatLonHeightBase
 from datum import Datum, Datums
 from dms import parse3llh
-from utils import EPS, EPS1, degrees90, degrees180, hypot, hypot1
+from fmath import EPS, EPS1, fsum_, hypot, hypot1
+from utils import degrees90, degrees180
 from vector3d import Vector3d
 
 from math import atan2, copysign, cos, sin, sqrt
@@ -22,7 +23,7 @@ from math import atan2, copysign, cos, sin, sqrt
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('CartesianBase', 'LatLonEllipsoidalBase')
-__version__ = '17.12.18'
+__version__ = '18.02.04'
 
 
 class CartesianBase(Vector3d):
@@ -84,9 +85,9 @@ class CartesianBase(Vector3d):
 
             # height above ellipsoid (Bowring eqn 7)
             ca, sa = cos(a), sin(a)
-#           r = E.a / E.e2s2(sa)  # length of normal terminated by minor axis
+#           r = E.a / E.e2s(sa)  # length of normal terminated by minor axis
 #           h = p * ca + z * sa - (E.a * E.a / r)
-            h = p * ca + z * sa - (E.a * E.e2s2(sa))
+            h = fsum_(p * ca, z * sa, -E.a * E.e2s(sa))
 
             a, b = degrees90(a), degrees180(b)
 
@@ -113,10 +114,12 @@ class CartesianBase(Vector3d):
 class LatLonEllipsoidalBase(LatLonHeightBase):
     '''(INTERNAL) Base class for ellipsoidal LatLons.
     '''
-    _datum = Datums.WGS84  #: (INTERNAL) Datum (L{Datum}).
-    _osgr  = None  #: (INTERNAL) cache toOsgr ({Osgr}).
-    _utm   = None  #: (INTERNAL) cache toUtm (L{Utm}).
-    _wm    = None  #: (INTERNAL) cache toWm (webmercator.Wm instance).
+    _convergence = None  #: (INTERNAL) UTM meridian convergence (degrees).
+    _datum       = Datums.WGS84  #: (INTERNAL) Datum (L{Datum}).
+    _osgr        = None  #: (INTERNAL) cache toOsgr ({Osgr}).
+    _scale       = None  #: (INTERNAL) UTM grid scale factor (float).
+    _utm         = None  #: (INTERNAL) cache toUtm (L{Utm}).
+    _wm          = None  #: (INTERNAL) cache toWm (webmercator.Wm instance).
 
     def __init__(self, lat, lon, height=0, datum=None):
         '''Create an (ellipsoidal) I{LatLon} point frome the given
@@ -142,12 +145,19 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
             self._osgr = self._utm = self._wm = None
             LatLonHeightBase._update(self, updated)
 
+    @property
+    def convergence(self):
+        '''Get this point's UTM meridian convergence (degrees) or
+           None if not converted from L{Utm}.
+        '''
+        return self._convergence
+
     def convertDatum(self, datum):
         '''Convert this I{LatLon} point to a new coordinate system.
 
            @param datum: Datum to convert to (L{Datum}).
 
-           @return: The converted point (L{LatLonEllipsoidalBase}).
+           @return: The converted point (ellipsoidal I{LatLon}).
 
            @example:
 
@@ -192,9 +202,9 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
 
            @param datum: New datum (L{Datum}).
 
-           @raise TypeError: The datum is not a L{Datum}.
+           @raise TypeError: The I{datum} is not a L{Datum}.
 
-           @raise ValueError: The datum is not ellipsoidal.
+           @raise ValueError: The I{datum} is not ellipsoidal.
         '''
         if not isinstance(datum, Datum):
             raise TypeError('%r not a %s: %r' % ('datum', Datum.__name__, datum))
@@ -219,7 +229,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
 
            @return: This datum's ellipsoid (L{Ellipsoid}).
 
-           @raise TypeError: The other point is not LatLon.
+           @raise TypeError: The I{other} point is not LatLon.
 
            @raise ValueError: If datum ellipsoids are incompatible.
         '''
@@ -270,10 +280,17 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
 
            @return: The point (L{LatLonEllipsoidalBase}).
 
-           @raise ValueError: Invalid strll.
+           @raise ValueError: Invalid I{strll}.
         '''
         a, b, h = parse3llh(strll, height=height, sep=sep)
         return self.classof(a, b, height=h, datum=datum or self.datum)
+
+    @property
+    def scale(self):
+        '''Get this point's UTM grid scale factor (float) or None
+           if not converted from L{Utm}.
+        '''
+        return self._scale
 
     def to3xyz(self):  # overloads _LatLonHeightBase.to3xyz
         '''Convert this (ellipsoidal) geodetic I{LatLon} point to
@@ -286,11 +303,11 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
 
         E = self.ellipsoid()
         # radius of curvature in prime vertical
-        t = E.e2 * sa * sa
-        if t < EPS:
+        t = E.e2s2(sa)
+        if t > EPS1:
             r = E.a
-        elif t < EPS1:
-            r = E.a / sqrt(1 - t)
+        elif t > EPS:
+            r = E.a / sqrt(t)
         else:
             r = 0
 

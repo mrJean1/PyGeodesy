@@ -6,9 +6,10 @@ classes L{LatLon}, L{Cartesian} and L{VincentyError}.
 
 Pure Python implementation of geodesy tools for ellipsoidal earth models,
 transcribed from JavaScript originals by I{(C) Chris Veness 2005-2016}
-and published under the same MIT Licence**. For details see
-U{http://www.movable-type.co.uk/scripts/LatLongVincenty.html} and also
-U{http://github.com/geopy} and U{http://python.org/pypi/geopy}.
+and published under the same MIT Licence**.  For details see U{LatLongVincenty
+<http://www.movable-type.co.uk/scripts/LatLongVincenty.html>},
+U{GeographicLib<http://pypi.python.org/pypi/geographiclib>} and
+U{GeoPy<http://python.org/pypi/geopy>}.
 
 Calculate geodesic distance between two points using the U{Vincenty
 <http://wikipedia.org/wiki/Vincenty's_formulae>} formulae and one of
@@ -50,17 +51,26 @@ or by converting to anothor datum:
 @newfield example: Example, Examples
 '''
 
+# make sure int division yields float quotient
+from __future__ import division
+
 from datum import Datums
 from ellipsoidalBase import CartesianBase, LatLonEllipsoidalBase
-from utils import EPS, degrees90, degrees180, degrees360, \
-                  fpolynomial, polygon, radians, scalar, unroll180
+from fmath import EPS, fpolynomial, hypot, scalar
+from utils import degrees90, degrees180, degrees360, \
+                  polygon, radians, unroll180
 
-from math import atan2, cos, hypot, sin, tan
+from math import atan2, cos, sin, tan
 
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'VincentyError',  # classes
            'areaOf', 'perimeterOf')  # functions
-__version__ = '18.01.28'
+__version__ = '18.02.04'
+
+division = 1 / 2  # double check int division, see utils.py
+if not division:
+    raise ImportError('%s 1/2 == %d' % ('division', division))
+del division
 
 
 class VincentyError(ValueError):
@@ -170,14 +180,14 @@ class LatLon(LatLonEllipsoidalBase):
 
            @return: Distance in meters (scalar).
 
-           @raise TypeError: The other point is not L{LatLon}.
+           @raise TypeError: The I{other} point is not L{LatLon}.
 
-           @raise ValueError: If this and the other point's L{Datum}
+           @raise ValueError: If this and the I{other} point's L{Datum}
                               ellipsoids are not compatible.
 
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limit or this and the other point coincide.
+                                 limit or this and the I{other} point coincide.
 
            @example:
 
@@ -205,14 +215,14 @@ class LatLon(LatLonEllipsoidalBase):
            @return: 3-Tuple (distance, initial bearing, final bearing)
                     in (meter, degrees360, degree360).
 
-           @raise TypeError: The other point is not L{LatLon}.
+           @raise TypeError: The I{other} point is not L{LatLon}.
 
-           @raise ValueError: If this and the other point's L{Datum}
+           @raise ValueError: If this and the I{other} point's L{Datum}
                               ellipsoids are not compatible.
 
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limit or this and the other point coincide.
+                                 limit or this and the I{other} point coincide.
         '''
         return self._inverse(other, True, wrap)
 
@@ -228,9 +238,9 @@ class LatLon(LatLonEllipsoidalBase):
 
            @param eps: New epsilon (scalar).
 
-           @raise TypeError: Epsilon not scalar.
+           @raise TypeError: If I{eps} is not scalar.
 
-           @raise ValueError: Epsilon out of bounds.
+           @raise ValueError: If I{eps} is out of bounds.
         '''
         self._epsilon = scalar(eps, name='epsilon')
 
@@ -268,14 +278,14 @@ class LatLon(LatLonEllipsoidalBase):
 
            @return: Final bearing in compass degrees (degrees360).
 
-           @raise TypeError: The other point is not L{LatLon}.
+           @raise TypeError: The I{other} point is not L{LatLon}.
 
-           @raise ValueError: If this and the other point's L{Datum}
+           @raise ValueError: If this and the I{other} point's L{Datum}
                               ellipsoids are not compatible.
 
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limit or this and the other point coincide.
+                                 limit or this and the I{other} point coincide.
 
            @example:
 
@@ -300,14 +310,14 @@ class LatLon(LatLonEllipsoidalBase):
 
            @return: Initial bearing in compass degrees (degrees360).
 
-           @raise TypeError: The other point is not L{LatLon}.
+           @raise TypeError: The I{other} point is not L{LatLon}.
 
-           @raise ValueError: If this and the other point's L{Datum}
+           @raise ValueError: If this and the I{other} point's L{Datum}
                               ellipsoids are not compatible.
 
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limit or this and the other point coincide.
+                                 limit or this and the I{other} point coincide.
 
            @example:
 
@@ -404,12 +414,12 @@ class LatLon(LatLonEllipsoidalBase):
 
            @raise TypeError: The other point is not L{LatLon}.
 
-           @raise ValueError: If this and the other point's L{Datum}
+           @raise ValueError: If this and the I{other} point's L{Datum}
                               ellipsoids are not compatible.
 
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limit or this and the other point coincide.
+                                 limit or this and the I{other} point coincide.
         '''
         E = self.ellipsoids(other)
 
@@ -461,23 +471,6 @@ class LatLon(LatLonEllipsoidalBase):
         return d
 
 
-def _p2(u2):  # e'2 WGS84 = 0.00673949674227643
-    '''(INTERNAL) Compute A, B polynomials.
-    '''
-    A = fpolynomial(u2, 16384, 4096, -768, 320, -175) / 16384.0
-    B = fpolynomial(u2,     0,  256, -128,  74,  -47) / 1024.0
-    return A, B
-
-
-def _r3(a, f):
-    '''(INTERNAL) Reduced cos, sin, tan.
-    '''
-    t = (1 - f) * tan(radians(a))
-    c = 1 / hypot(1, t)
-    s = t * c
-    return c, s, t
-
-
 def _dl(f, c2a, sa, s, cs, ss, c2sm):
     '''(INTERNAL) Dl.
     '''
@@ -495,6 +488,23 @@ def _ds(B, cs, ss, c2sm):
                             B / 6.0 *  c2sm  * ss2))
 
 
+def _p2(u2):  # e'2 WGS84 = 0.00673949674227643
+    '''(INTERNAL) Compute A, B polynomials.
+    '''
+    A = fpolynomial(u2, 16384, 4096, -768, 320, -175) / 16384
+    B = fpolynomial(u2,     0,  256, -128,  74,  -47) / 1024
+    return A, B
+
+
+def _r3(a, f):
+    '''(INTERNAL) Reduced cos, sin, tan.
+    '''
+    t = (1 - f) * tan(radians(a))
+    c = 1 / hypot(1, t)
+    s = t * c
+    return c, s, t
+
+
 class Cartesian(CartesianBase):
     '''Extended to convert (geocentric) L{Cartesian} points to
        Vincenty-based (ellipsoidal) geodetic L{LatLon}.
@@ -504,7 +514,8 @@ class Cartesian(CartesianBase):
            an (ellipsoidal) geodetic point on the specified datum.
 
            @keyword datum: Optional datum to use (L{Datum}).
-           @keyword LatLon: Optional LatLon class for the point (L{LatLon}).
+           @keyword LatLon: Optional (ellipsoidal) LatLon class to
+                            use for the point (L{LatLon}).
 
            @return: The ellipsoidal geodetic point (L{LatLon}).
         '''
@@ -550,9 +561,9 @@ def areaOf(points, datum=Datums.WGS84, wrap=True):
        @raise ImportError: Package U{GeographicLib
               <http://pypi.python.org/pypi/geographiclib>} missing.
 
-       @raise TypeError: Some points are not L{LatLon}.
+       @raise TypeError: Some I{points} are not L{LatLon}.
 
-       @raise ValueError: Insufficient number of points or not
+       @raise ValueError: Insufficient number of I{points} or not
                           wrapped, unrolled.
 
        @note: This function requires the U{GeographicLib
@@ -576,9 +587,9 @@ def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):
        @raise ImportError: Package U{GeographicLib
               <http://pypi.python.org/pypi/geographiclib>} missing.
 
-       @raise TypeError: Some points are not L{LatLon}.
+       @raise TypeError: Some I{points} are not L{LatLon}.
 
-       @raise ValueError: Insufficient number of points or not
+       @raise ValueError: Insufficient number of I{points} or not
                           wrapped, unrolled.
 
        @note: This function requires the U{GeographicLib

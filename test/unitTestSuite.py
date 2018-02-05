@@ -16,7 +16,7 @@ if _test_dir not in sys.path:  # Python 3+ ModuleNotFoundError
 from base import runner
 
 __all__ = ('TestSuite',)
-__version__ = '17.12.16'
+__version__ = '18.02.02'
 
 
 class TestSuite(unittest.TestCase):
@@ -44,6 +44,9 @@ class TestSuite(unittest.TestCase):
 
     def test_Ellipsoidal(self):
         self._run('testEllipsoidal')
+
+    def test_Fmath(self):
+        self._run('testFmath')
 
     def test_Geohash(self):
         self._run('testGeohash')

@@ -32,19 +32,20 @@ U{http://wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system}.
 from bases import Base
 from datum import Datums
 from dms import S_DEG, parseDMS2
-from ellipsoidalBase import LatLonEllipsoidalBase
-from utils import EPS, degrees, degrees90, degrees180, \
-                  fdot3, fStr, hypot1, isscalar, len2, map2, \
+from ellipsoidalBase import LatLonEllipsoidalBase as _eLLb
+from fmath import EPS, fdot3, fStr, fsum, hypot, hypot1, \
+                  isscalar, len2, map2
+from utils import degrees, degrees90, degrees180, \
                   radians, wrap90, wrap180
 
-from math import asinh, atan, atanh, atan2, cos, cosh, \
-                 hypot, sin, sinh, tan, tanh
+from math import asinh, atan, atanh, atan2, \
+                 cos, cosh, sin, sinh, tan, tanh
 from operator import mul
 
 # all public contants, classes and functions
 __all__ = ('Utm',  # classes
            'parseUTM', 'toUtm')  # functions
-__version__ = '17.12.16'
+__version__ = '18.02.02'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -228,14 +229,10 @@ class Utm(Base):
         self._hemi     = h
         self._easting  = e
         self._northing = n
-        if self._band != B:
-            self._band = B
-        if self._datum != datum:
-            self._datum = datum
-        if self._converge != convergence:
-            self._converge = convergence
-        if self._scale != scale:
-            self._scale = scale
+        self._band     = B
+        self._datum    = datum
+        self._converge = convergence
+        self._scale    = scale
 
     @property
     def band(self):
@@ -289,7 +286,7 @@ class Utm(Base):
     def toLatLon(self, LatLon):
         '''Convert this UTM coordinate to an (ellipsoidal) geodetic point.
 
-           @param LatLon: LatLon class for the point (I{LatLon}).
+           @param LatLon: The I{LatLon} class for the point (I{LatLon}).
 
            @return: Point of this UTM coordinate (I{LatLon}).
 
@@ -301,12 +298,8 @@ class Utm(Base):
            >>> from pygeodesy import ellipsoidalVincenty as eV
            >>> ll = u.toLatLon(eV.LatLon)  # 48°51′29.52″N, 002°17′40.20″E
         '''
-        if self._latlon and self._latlon.__class__ is LatLon \
-                        and self._latlon.datum == self._datum:
-            return self._latlon  # set below
-
-        if not issubclass(LatLon, LatLonEllipsoidalBase):
-            raise TypeError('%s not ellipsoidal: %r' % ('LatLon', LatLon))
+        if self._latlon:
+            return self._latlon5(LatLon)
 
         E = self._datum.ellipsoid  # XXX vs LatLon.datum.ellipsoid
 
@@ -329,32 +322,47 @@ class Utm(Base):
 
         H = hypot(shx, cy)
 
-        T = t0 = sy / H
+        t0 = sy / H
+        ds = [t0]
         q = 1.0 / E.e12
         d = 1
         # note, a relatively large convergence test as d
         # toggles on +/-1.12e-16 eg. 31 N 400000 5000000
         while abs(d) > EPS:  # 1e-12
+            T = fsum(ds)
             h = hypot1(T)
             s = sinh(E.e * atanh(E.e * T / h))
             t = T * hypot1(s) - s * h
-            d = (t0 - t) / hypot1(t) * (q + T * T) / h
-            T += d
+            d = (t0 - t) / hypot1(t) * (q + T**2) / h
+            ds.append(d)
 
         a = atan(T)  # lat
         b = atan2(shx, cy) + radians(self._zone * 6 - 183)  # lon of central meridian
-        ll = LatLon(degrees90(a), degrees180(b), datum=self._datum)
+        ll = _eLLb(degrees90(a), degrees180(b), datum=self._datum)
 
         # convergence: Karney 2011 Eq 26, 27
         p = -B6.ps(-1)
         q =  B6.qs(0)
-        ll.convergence = degrees(atan(tan(y) * tanh(x)) + atan2(q, p))
+        ll._convergence = degrees(atan(tan(y) * tanh(x)) + atan2(q, p))
 
         # scale: Karney 2011 Eq 28
-        ll.scale = E.e2s2(sin(a)) * hypot1(T) * H * (A0 / E.a / hypot(p, q))
+        ll._scale = E.e2s(sin(a)) * hypot1(T) * H * (A0 / E.a / hypot(p, q))
 
         self._latlon = ll
-        return ll
+        return self._latlon5(LatLon)
+
+    def _latlon5(self, LatLon):
+        '''(INTERNAL) Convert cached LatLon
+        '''
+        ll = self._latlon
+        if LatLon is None:
+            return ll.lat, ll.lon, ll.datum, ll.convergence, ll.scale
+        elif issubclass(LatLon, _eLLb):
+            ll = LatLon(ll.lat, ll.lon, datum=ll.datum)
+            ll._convergence = self._latlon.convergence
+            ll._scale = self._latlon.scale
+            return ll
+        raise TypeError('%s not ellipsoidal: %r' % ('LatLon', LatLon))
 
     def toMgrs(self):
         '''Convert this UTM coordinate to an MGRS grid reference.
@@ -417,8 +425,7 @@ class Utm(Base):
                         grid scale factor (bool).
 
            @return: This UTM as "[Z:00, H:N|S, E:meter, N:meter]"
-                    string plus "C:degrees, S:float" if I{cs} is True
-                    (string).
+                    (string) plus "C:degrees, S:float" if I{cs} is True.
         '''
         t = self.toStr(prec=prec, sep=' ', B=B, cs=cs).split()
         k = 'ZHENCS' if cs else 'ZHEN'
@@ -431,14 +438,17 @@ class Utm(Base):
         return self._zone
 
 
-def parseUTM(strUTM, datum=Datums.WGS84):
+def parseUTM(strUTM, datum=Datums.WGS84, Utm=Utm):
     '''Parse a string representing a UTM coordinate, consisting
        of zone, hemisphere, easting and northing.
 
        @param strUTM: A UTM coordinate (string).
        @keyword datum: Optional datum to use (L{Datum}).
+       @keyword Utm: Optional I{Utm} class to use for the UTM
+                     coordinate (L{Utm}) or None.
 
-       @return: The UTM coordinate (L{Utm}).
+       @return: The UTM coordinate (L{Utm}) or 4-tuple (zone,
+                hemisphere, easting, northing) if I{Utm} is None.
 
        @raise ValueError: Invalid I{strUTM}.
 
@@ -465,7 +475,7 @@ def parseUTM(strUTM, datum=Datums.WGS84):
     except ValueError:
         raise ValueError('%s invalid: %r' % ('strUTM', strUTM))
 
-    return Utm(z, h, e, n, datum=datum)
+    return (z, h, e, n) if Utm is None else Utm(z, h, e, n, datum=datum)
 
 
 def toUtm(latlon, lon=None, datum=None, Utm=Utm):
@@ -480,7 +490,8 @@ def toUtm(latlon, lon=None, datum=None, Utm=Utm):
        @keyword lon: Optional longitude (degrees or None).
        @keyword datum: Optional datum for this UTM coordinate,
                        overriding latlon's datum (I{Datum}).
-       @keyword Utm: Optional Utm class for the UTM coordinate (L{Utm}).
+       @keyword Utm: Optional I{Utm} class to usefor the UTM
+                     coordinate (L{Utm}).
 
        @return: The UTM coordinate (L{Utm}).
 
@@ -499,7 +510,7 @@ def toUtm(latlon, lon=None, datum=None, Utm=Utm):
     '''
     try:
         lat, lon = latlon.lat, latlon.lon
-        if not isinstance(latlon, LatLonEllipsoidalBase):
+        if not isinstance(latlon, _eLLb):
             raise TypeError('%s not %s: %r' % ('latlon', 'ellipsoidal', latlon))
         d = datum or latlon.datum
     except AttributeError:
@@ -540,7 +551,7 @@ def toUtm(latlon, lon=None, datum=None, Utm=Utm):
     c = degrees(atan(T_ / hypot1(T_) * tb) + atan2(q_, p_))
 
     # scale: Karney 2011 Eq 25
-    k = E.e2s2(sin(a)) * T12 / H * (A0 / E.a * hypot(p_, q_))
+    k = E.e2s(sin(a)) * T12 / H * (A0 / E.a * hypot(p_, q_))
 
     return Utm(z, h, x, y, band=B, datum=d, convergence=c, scale=k)
 

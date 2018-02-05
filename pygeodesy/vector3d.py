@@ -11,15 +11,16 @@ U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
 '''
 
 from bases import VectorBase
-from utils import EPS, CrossError, crosserrors, degrees90, degrees180, \
-                  fdot, fStr, fsum, hypot, hypot3, isscalar, len2, map1
+from fmath import EPS, fdot, fStr, fsum, hypot, hypot3, \
+                  isscalar, len2, map1
+from utils import CrossError, crosserrors, degrees90, degrees180
 
 from math import atan2, cos, sin
 
 # all public contants, classes and functions
 __all__ = ('Vector3d',  # classes
            'sumOf')  # functions
-__version__ = '18.01.31'
+__version__ = '18.02.02'
 
 try:
     _cmp = cmp
@@ -307,8 +308,8 @@ class Vector3d(VectorBase):
 
            @return: Cross product (L{Vector3d}).
 
-           @raise CrossError: Near-zero cross product and I{raiser}
-                              and L{crosserrors} set to True.
+           @raise CrossError: Zero or near-zero cross product and both
+                              I{raiser} and L{crosserrors} set.
 
            @raise TypeError: Incompatible I{type(other)}.
 
@@ -485,6 +486,7 @@ class Vector3d(VectorBase):
         s = a.times(sin(theta))
 
         p = self.unit().to3xyz()  # point being rotated
+
         # multiply p by a quaternion-derived rotation matrix
         return self.classof(fdot(p, a.x * b.x + c,   a.x * b.y - s.z, a.x * b.z + s.y),
                             fdot(p, a.y * b.x + s.z, a.y * b.y + c,   a.y * b.z - s.x),

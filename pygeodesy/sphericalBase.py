@@ -14,16 +14,16 @@ U{http://www.movable-type.co.uk/scripts/latlong.html}.
 from bases import LatLonHeightBase
 from datum import R_M, R_MA, Datum, Datums
 from dms   import parse3llh
-from utils import EPS, PI, PI2, PI_2, \
-                  degrees90, degrees180, degrees360, \
-                  favg, hypot, radians, tanPI_2_2, wrapPI
+from fmath import EPS, favg, fsum_, hypot
+from utils import PI, PI2, PI_2, degrees90, degrees180, degrees360, \
+                  radians, tanPI_2_2, wrapPI
 
 from math import acos, atan2, cos, log, sin
 
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('LatLonSphericalBase',)
-__version__ = '18.01.14'
+__version__ = '18.02.02'
 
 
 class LatLonSphericalBase(LatLonHeightBase):
@@ -301,8 +301,8 @@ class LatLonSphericalBase(LatLonHeightBase):
                 f = log(f)
                 if abs(f) > EPS:
                     f3 = tanPI_2_2(a3)
-                    b3 = (b1 * log(f2) -
-                          b2 * log(f1) + (b2 - b1) * log(f3)) / f
+                    b3 = fsum_(b1 * log(f2),
+                              -b2 * log(f1), (b2 - b1) * log(f3)) / f
 
         h = self._havg(other) if height is None else height
         return self.classof(degrees90(a3), degrees180(b3), height=h)

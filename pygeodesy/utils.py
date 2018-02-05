@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Utility and mathematical functions and constants.
+u'''Utility and geometric functions and constants.
 
 After I{(C) Chris Veness 2011-2015} published under the same MIT Licence**,
 see U{http://www.movable-type.co.uk/scripts/latlong.html}
@@ -13,69 +13,38 @@ and U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
 # make sure int division yields float quotient
 from __future__ import division
 
-from math import atan2, cos, degrees, hypot, pi as PI, \
+from fmath import _Seqs, EPS, fStr, len2, map2
+
+from math import atan2, cos, degrees, pi as PI, \
                  radians, sin, sqrt, tan  # pow
-from operator import mul
-import sys
 
 # all public contants, classes and functions
-__all__ = ('EPS', 'EPS1', 'EPS2', 'PI', 'PI2', 'PI_2', 'R_M',  # constants
+__all__ = ('PI', 'PI2', 'PI_2', 'R_M',  # constants
            'CrossError',  'LimitError',  # classes
-           'cbrt', 'cbrt2', 'classname', 'crosserrors',
+           'classname', 'crosserrors',
            'degrees', 'degrees90', 'degrees180', 'degrees360',
+           'enStr2',
            'equirectangular', 'equirectangular_', 'equirectangular3',
-           'false2f', 'favg', 'fdot', 'fdot3', 'fmean', 'fpolynomial',
-           'fStr', 'fStrzs', 'fsum', 'ft2m',
+           'false2f', 'ft2m',
            'halfs',
            'haversine', 'haversine_',  # XXX removed 'hsin', 'hsin3',
-           'heightOf', 'horizon', 'hypot', 'hypot1', 'hypot3',
-           'inStr',
-           'isfinite', 'isint', 'isscalar', 'issequence',
-           'isNumpy2', 'isTuple2',
+           'heightOf', 'horizon',
+           'inStr', 'issequence', 'isNumpy2', 'isTuple2',
            'iterNumpy2', 'iterNumpy2over',
-           'len2', 'limiterrors',
-           'm2ft', 'm2km', 'm2NM', 'm2SM', 'map1', 'map2',
+           'limiterrors',
+           'm2ft', 'm2km', 'm2NM', 'm2SM',
            'polygon',
            'radians', 'radiansPI_2', 'radiansPI', 'radiansPI2',
-           'scalar',
            'tan_2', 'tanPI_2_2',
            'unroll180', 'unrollPI', 'unStr',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '18.01.31'
+__version__ = '18.02.02'
 
 division = 1 / 2  # double check int division, see datum.py
 if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
-
-try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
-    from numbers import Integral as _Ints  #: (INTERNAL) Int objects
-except ImportError:
-    try:
-        _Ints = int, long  #: (INTERNAL) Int objects (tuple)
-    except NameError:  # Python 3+
-        _Ints = int  #: (INTERNAL) Int objects (tuple)
-
-try:  # similarly ...
-    from numbers import Real as _Scalars  #: (INTERNAL) Scalar objects
-except ImportError:
-    try:
-        _Scalars = int, long, float  #: (INTERNAL) Scalar objects (tuple)
-    except NameError:
-        _Scalars = int, float  #: (INTERNAL) Scalar objects (tuple)
-
-try:
-    from collections import Sequence as _Seqs  #: (INTERNAL) incl MutableSequence
-except ImportError:
-    _Seqs = list, tuple, range  # XXX also set?
-
-try:
-    EPS = sys.float_info.epsilon  #: System's epsilon (float)
-except AttributeError:
-    EPS = 2.220446049250313e-16  #: Approximate epsilon (float)
-EPS1 = 1.0 - EPS  #: M{1.0 - EPS} (float), about 0.9999999999999998
-EPS2 = sqrt(EPS)  #: M{sqrt(EPS)} (float)
 
 PI2  = PI * 2  #: Two PI, M{PI * 2} (float)  # PYCHOK expected
 PI_2 = PI / 2  #: Half PI, M{PI / 2} (float)
@@ -83,11 +52,9 @@ PI_2 = PI / 2  #: Half PI, M{PI / 2} (float)
 # R_M moved here to avoid circular import for bases and datum
 R_M = 6371008.771415  #: Mean, spherical earth radius (meter).
 
-_1_3rd = 1.0 / 3.0  #: (INTERNAL) One third (float)
-_2_3rd = 2.0 / 3.0  #: (INTERNAL) Two third (float)
-
-_crosserrors = True
-_limiterrors = True
+_crosserrors   = True
+_iterNumpy2len = 1  # adjustable for testing purposes
+_limiterrors   = True
 
 
 class CrossError(ValueError):
@@ -103,31 +70,6 @@ class LimitError(ValueError):
        L{equirectangular_}.
     '''
     pass
-
-
-def cbrt(x):
-    '''Compute the cubic root M{x**(1/3)}.
-
-       @param x: Value (scalar).
-
-       @return: Cubic root (float).
-    '''
-    # simpler and more accurate than Ken Turkowski's CubeRoot, see
-    # <http://people.freebsd.org/~lstewart/references/apple_tr_kt32_cuberoot.pdf>
-    if x < 0:
-        return -pow(-x, _1_3rd)
-    else:
-        return  pow( x, _1_3rd)
-
-
-def cbrt2(x):
-    '''Compute the cubic root squared M{x**(2/3)}.
-
-       @param x: Value (scalar).
-
-       @return: Cubic root squared (float).
-    '''
-    return pow(abs(x), _2_3rd)
 
 
 def classname(obj):
@@ -206,6 +148,27 @@ def _drap(deg, wrap):
         if deg > wrap:
             deg -= 360
     return deg
+
+
+def enStr2(easting, northing, prec, *extras):
+    '''Return easting, northing string representations.
+
+       @param easting: Easting from false easting (meter).
+       @param northing: Northing from from false northing (meter).
+       @param prec: Precision in number of digits (int).
+       @param extras: Optional leading items (strings).
+
+       @return: I{extras} + 2-Tuple (eastingStr, northingStr).
+
+       @raise ValueError: Invalid I{prec}.
+    '''
+    w = prec // 2
+    try:
+        p10 = (1e-4, 1e-3, 1e-2, 1e-1, 1)[w - 1]  # 10**(5 - w)
+    except IndexError:
+        raise ValueError('%s invalid: %r' % ('prec', prec))
+    return extras + ('%0*d' % (w, int(easting * p10)),
+                     '%0*d' % (w, int(northing * p10)))
 
 
 def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **options):
@@ -315,225 +278,6 @@ def false2f(value, name='value', false=True):
     except (TypeError, ValueError):
         raise ValueError('%s invalid: %r' % (name, value))
     return f
-
-
-def favg(v1, v2, f=0.5):
-    '''Return the weighted average of two values.
-
-       @param v1: One value (scalar).
-       @param v2: Other value (scalar).
-       @keyword f: Optional fraction (scalar).
-
-       @return: M{v1 + f * (v2 - v1)} (float).
-    '''
-#      @raise ValueError: Fraction out of range.
-#   '''
-#   if not 0 <= f <= 1:  # XXX restrict fraction?
-#       raise ValueError('%s invalid: %r' % ('fraction', f))
-    return v1 + f * (v2 - v1)  # v1 * (1 - f) + v2 * f
-
-
-def fdot(a, *b):
-    '''Return the precision dot product M{sum(a[i] * b[i]
-       for i in range(len(a)))}.
-
-       @param a: List, sequence, tuple, etc. (scalars).
-       @param b: List, sequence, tuple, etc. (scalars).
-
-       @return: Dot product (float).
-
-       @raise ValueError: Unequal len(a) and len(b).
-    '''
-    if not len(a) == len(b):
-        raise ValueError('%s: %s vs %s' % ('len', len(a), len(b)))
-
-    return fsum(map(mul, a, b))
-
-
-def fdot3(a, b, c, start=0):
-    '''Return the precision dot product M{sum(a[i] * b[i] * c[i]
-       for i in range(len(a))) + start}.
-
-       @param a: List, sequence, tuple, etc. (scalars).
-       @param b: List, sequence, tuple, etc. (scalars).
-       @param c: List, sequence, tuple, etc. (scalars).
-       @keyword start: Optional bias (scalar).
-
-       @return: Dot product (float).
-
-       @raise ValueError: Unequal len(a), len(b) and/or len(c).
-    '''
-    def _mul3(a, b, c):  # map function
-        return a * b * c
-
-    if not len(a) == len(b) == len(c):
-        raise ValueError('%s: %s vs %s vs %s' % ('len', len(a), len(b), len(c)))
-
-    m3 = map(_mul3, a, b, c)
-    if start:
-        m3 = (start,) + tuple(m3)
-    return fsum(m3)
-
-
-def fmean(floats):
-    '''Compute the mean of float values.
-
-       @param floats: Values (float).
-
-       @return: Mean value (float).
-
-       @raise ValueError: No floats.
-    '''
-    n, floats = len2(floats)
-    if n > 0:
-        return fsum(floats) / n
-    raise ValueError('%s missing: %r' % ('floats', floats))
-
-
-def fpolynomial(x, *cs):
-    '''Evaluate the polynomial M{sum(cs[i] * x**i), i=0..len(cs))}.
-
-       @param x: Polynomial argument (scalar).
-       @param cs: Polynomial coeffients (scalars).
-
-       @return: Polynomial value (float).
-
-       @raise TypeError: Argument not scalar.
-
-       @raise ValueError: No coefficients.
-    '''
-    if not isscalar(x):
-        raise TypeError('%s invalid: %r' % ('argument', x))
-    if not cs:
-        raise ValueError('%s missing: %r' % ('coefficents', cs))
-
-    def _terms(x, c0, *cs):
-        xp = x
-        yield float(c0)
-        for c in cs:
-            yield xp * c
-            xp *= x
-
-    return fsum(_terms(float(x), *cs))
-
-
-def fStr(floats, prec=6, sep=', ', fmt='%.*f', ints=False):
-    '''Convert floats to string, optionally with trailing zero
-       decimals stripped.
-
-       @param floats: List, sequence, tuple, etc. (scalars).
-       @keyword prec: Optional precision, number of decimal digits (0..9).
-                      Trailing zero decimals are stripped for prec values
-                      of 1 and above, but kept for negative prec values.
-       @keyword sep: Optional, separator to join (string).
-       @keyword fmt: Optional, float format (string).
-       @keyword ints: Optionally, remove decimal dot (bool).
-
-       @return: The floats as 'f, f, ... f' (string).
-    '''
-    def _fstr(p, f):
-        t = fmt % (abs(p), float(f))
-        if ints and (isint(f, both=True) or  # for ...
-                     # corner case testLcc lon0=-96.0
-                     t.rstrip('0').endswith('.')):
-            t = t.split('.')[0]
-        elif p > 1:
-            t = fStrzs(t)
-        return t
-
-    if isscalar(floats):
-        return _fstr(prec, floats)
-    else:
-        return sep.join(_fstr(prec, f) for f in floats)
-
-
-def fStrzs(fstr):
-    '''Strip trailing zero decimals from a float string.
-
-       @param fstr: Float (string).
-
-       @return: Float (string).
-    '''
-    if fstr.endswith('0'):
-        z = fstr.find('.') + 2  # keep 1st zero decimal
-        if z > 1:
-            fstr = fstr[:z] + fstr[z:].rstrip('0')
-    return fstr
-
-
-try:  # MCCABE 21
-    from math import fsum  # precision IEEE-754 sum, Python 2.6+
-
-    # make sure fsum works as expected (XXX check
-    # float.__getformat__('float')[:4] == 'IEEE'?)
-    if fsum((1, 1e101, 1, -1e101)) != 2:
-        raise ImportError  # no, use fsum below
-
-except ImportError:
-
-    def fsum(iterable):
-        '''Precision summation similar to I{math.fsum}.
-
-           @param iterable: Sequence, list, tuple, etc. (scalars).
-
-           @return: Precision sum (float).
-
-           @raise OverflowError: Intermediate sum overflow.
-
-           @raise ValueError: Iterable not finite or otherwise invalid.
-
-           @note: Exception and non-finite handling differs from I{math.fsum}.
-
-           @see: U{Hettinger<http://code.activestate.com/recipes/393090/>},
-                 U{Klein<http://link.springer.com/article/10.1007/s00607-005-0139-x>},
-                 U{Kahan<http://wikipedia.org/wiki/Kahan_summation_algorithm>},
-                 Python 2.6+ file I{Modules/mathmodule.c} and the issue log
-                 U{Full precision summation<http://bugs.python.org/issue2819>}.
-        '''
-        def _signof(x):
-            return +1 if x > 0 else (-1 if x < 0 else 0)
-
-        def _2sum(a, b):
-            if abs(b) > abs(a):
-                a, b = b, a
-            s = a + b
-            if not isfinite(s):
-                raise OverflowError('intermediate %s: %r' % ('fsum', s))
-            t = s - a
-            return s, b - t
-
-        ps = []
-        for a in iterable:
-            try:
-                a = float(a)
-                if not isfinite(a):
-                    raise ValueError
-            except (TypeError, ValueError):
-                raise ValueError('%s invalid: %r' % ('fsum', a))
-
-            i = 0
-            for b in ps:
-                a, p = _2sum(a, b)
-                if p:
-                    ps[i] = p
-                    i += 1
-            ps[i:] = [a]
-
-        if ps:  # sum_exact(ps)
-            s = ps.pop()
-            while ps:
-                s, p = _2sum(s, ps.pop())
-                if p:
-                    break
-
-            if ps:  # half-even round
-                if _signof(p) == _signof(ps.pop()):
-                    a, p = _2sum(s, p * 2)
-                    if not p:
-                        s = a
-        else:
-            s = 0.0
-        return s
 
 
 def ft2m(feet):
@@ -663,44 +407,6 @@ def horizon(height, radius=R_M, refraction=False):
     return sqrt(d2)
 
 
-def hypot1(x):
-    '''Compute the norm M{sqrt(1 + x**2)}.
-
-       @param x: Argument (scalar).
-
-       @return: Norm (float).
-    '''
-    return hypot(1.0, x)
-
-
-def hypot3(x, y, z):
-    '''Compute the norm M{sqrt(x**2 + y**2 + z**2)}.
-
-       @param x: X argument (scalar).
-       @param y: Y argument (scalar).
-       @param z: Z argument (scalar).
-
-       @return: Norm (float).
-    '''
-    x, y, z = map1(abs, x, y, z)
-    if x < z:
-        x, z = z, x
-    if y < z:
-        y, z = z, y
-    if z:
-        if x < y:
-            x, y = y, x
-        h = float(x)
-        if h > EPS:
-            # XXX PyChecker chokes on /= and *=
-            t = (y / h)**2 + (z / h)**2
-            if t > EPS:
-                h *= sqrt(1.0 + t)
-    else:
-        h = hypot(x, y)
-    return h
-
-
 def inStr(inst, *args, **kwds):
     '''Return the string representation of an instance.
 
@@ -713,41 +419,6 @@ def inStr(inst, *args, **kwds):
     return unStr(classname(inst), *args, **kwds)
 
 
-try:
-    from math import isfinite  # new in Python 3+
-except ImportError:
-    from math import isinf, isnan
-
-    def isfinite(obj):
-        '''Check for I{Inf} and I{NaN} values.
-
-           @param obj: Value (scalar).
-
-           @return: False if I{Inf} or I{NaN}, True otherwise (bool).
-
-           @raise TypeError: Value not scalar.
-        '''
-        if isscalar(obj):
-            return not (isinf(obj) or isnan(obj))
-        raise TypeError('%s invalid: %r' % ('isfinite', obj))
-
-
-def isint(obj, both=False):
-    '''Check for integer type or integer value.
-
-       @param obj: The object (any).
-       @keyword both: Optionally, check both type and value (bool).
-
-       @return: True if obj is integer (bool).
-    '''
-    if both and isinstance(obj, float):  # NOT _Scalars!
-        try:
-            return obj.is_integer()
-        except AttributeError:
-            return False  # XXX float(int(obj)) == obj?
-    return isinstance(obj, _Ints)
-
-
 def isNumpy2(obj):
     '''Check for I{Numpy2LatLon} points wrapper.
 
@@ -757,16 +428,6 @@ def isNumpy2(obj):
     '''
     # isinstance(self, (Numpy2LatLon, ...))
     return getattr(obj, 'isNumpy2', False)
-
-
-def isscalar(obj):
-    '''Check for scalar types.
-
-       @param obj: The object (any).
-
-       @return: True if obj is scalar (bool).
-    '''
-    return isinstance(obj, _Scalars)
 
 
 def issequence(obj, *excluded):
@@ -811,9 +472,6 @@ def iterNumpy2(obj):
         return False
 
 
-_iterNumpy2len = 1  # adjustable for testing purposes
-
-
 def iterNumpy2over(n=None):
     '''Get or set the L{iterNumpy2} threshold.
 
@@ -833,19 +491,6 @@ def iterNumpy2over(n=None):
         except (TypeError, ValueError):
             raise ValueError('%s invalid: %r' % ('n', n))
     return p
-
-
-def len2(seq):
-    '''Make built-in function L{len} work for generators,
-       iterators, etc. since those can only be started once.
-
-       @param seq: Generator, iterator, list, range, tuple, etc.
-
-       @return: 2-Tuple (number, list) of items (int, list).
-    '''
-    if not isinstance(seq, _Seqs):
-        seq = list(seq)
-    return len(seq), seq
 
 
 def limiterrors(raiser=None):
@@ -902,34 +547,6 @@ def m2SM(meter):
        @return: Value in SM (float).
     '''
     return meter * 6.21369949e-4  # XXX 6.213712e-4 == 1.0 / 1609.344
-
-
-def map1(func, *args):
-    '''Apply each argument to a single-argument function and
-       return a tuple of results.
-
-       @param func: Function to apply (callable).
-       @param args: Arguments to apply (any).
-
-       @return: Function results (tuple).
-    '''
-    return tuple(map(func, args))
-
-
-def map2(func, *args):
-    '''Apply arguments to a function and return a tuple of results.
-
-       Unlike Python 2 built-in L{map}, Python 3+ L{map} returns a
-       L{map} object, an iterator-like object which generates the
-       results only once.  Converting the L{map} object to a tuple
-       maintains Python 2 behavior.
-
-       @param func: Function to apply (callable).
-       @param args: Arguments to apply (list, tuple, ...).
-
-       @return: N-Tuple of function results (tuple).
-    '''
-    return tuple(map(func, *args))
 
 
 def polygon(points, closed=True, base=None):
@@ -996,34 +613,6 @@ def radiansPI_2(deg):
        @return: Radians, wrapped (radiansPI_2)
     '''
     return _wrap(radians(deg), PI_2)
-
-
-def scalar(value, low=EPS, high=1.0, name='scalar'):
-    '''Validate a scalar.
-
-       @param value: The value (scalar).
-       @keyword low: Optional lower bound (scalar).
-       @keyword high: Optional upper bound (scalar).
-       @keyword name: Optional name of value (string).
-
-       @return: New value (type(low)).
-
-       @raise TypeError: Value not scalar.
-
-       @raise ValueError: Value out of bounds.
-    '''
-    if not isscalar(value):
-        raise TypeError('%s invalid: %r' % (name, value))
-    try:
-        if low is None:
-            v = float(value)
-        else:
-            v = type(low)(value)
-            if v < low or v > high:
-                raise ValueError
-    except (TypeError, ValueError):
-        raise ValueError('%s invalid: %r' % (name, value))
-    return v
 
 
 def tan_2(rad):

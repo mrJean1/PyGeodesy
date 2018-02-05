@@ -13,11 +13,11 @@ see U{http://www.movable-type.co.uk/scripts/latlong.html}.
 '''
 
 from datum import R_M
+from fmath import EPS, favg, fmean, fsum, map1
 from sphericalBase import LatLonSphericalBase
-from utils import EPS, PI2, PI_2, degrees90, degrees180, degrees360, \
-                  equirectangular_, favg, fmean, fsum, haversine_, \
-                  iterNumpy2, map1, radians, tan_2, unrollPI, \
-                  wrap180, wrapPI
+from utils import PI2, PI_2, degrees90, degrees180, degrees360, \
+                  equirectangular_, haversine_, iterNumpy2, \
+                  radians, tan_2, unrollPI, wrap180, wrapPI
 from vector3d import Vector3d, sumOf
 
 from math import acos, asin, atan2, copysign, cos, hypot, sin, sqrt
@@ -29,7 +29,7 @@ __all__ = ('LatLon',  # classes
            'meanOf',
            'nearestOn2',
            'perimeterOf')
-__version__ = '18.01.30'
+__version__ = '18.02.02'
 
 
 class LatLon(LatLonSphericalBase):

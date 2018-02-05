@@ -31,15 +31,16 @@ U{http://wikipedia.org/wiki/Transverse_Mercator:_Redfearn_series}.
 from bases import Base
 from datum import Datums
 from dms import parseDMS2
-from ellipsoidalBase import LatLonEllipsoidalBase
-from utils import degrees90, degrees180, false2f, fdot, halfs
+from ellipsoidalBase import LatLonEllipsoidalBase as _eLLb
+from fmath import fdot, fpowers, fsum, map1
+from utils import degrees90, degrees180, enStr2, false2f, halfs
 
 from math import cos, radians, sin, sqrt, tan
 
 # all public contants, classes and functions
 __all__ = ('Osgr',  # classes
            'parseOSGR', 'toOsgr')  # functions
-__version__ = '17.12.16'
+__version__ = '18.02.04'
 
 _10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (meter)
 _100km   = 100000  #: (INTERNAL) 100 km (int meter)
@@ -51,14 +52,25 @@ _F0      = 0.9996012717   #: (INTERNAL) NatGrid scale of central meridian
 _OSGB36  = Datums.OSGB36  #: (INTERNAL) Airy130 ellipsoid
 
 
+def _ll2datum(ll, datum, name):
+    '''(INTERNAL) Convert datum if needed.
+    '''
+    if ll.datum != datum:
+        try:
+            ll = ll.convertDatum(datum)
+        except AttributeError:
+            raise TypeError('no %s.convertDatum: %r' % (name, ll))
+    return ll
+
+
 def _M(Mabcd, a):
     '''(INTERNAL) Compute meridional arc.
     '''
     a_ = a - _A0
     _a = a + _A0
-    return _F0 * fdot(Mabcd, a_, -sin(a_)     * cos(_a),
-                                  sin(a_ * 2) * cos(_a * 2),
-                                 -sin(a_ * 3) * cos(_a * 3))
+    return fdot(Mabcd, a_, -sin(a_)     * cos(_a),
+                            sin(a_ * 2) * cos(_a * 2),
+                           -sin(a_ * 3) * cos(_a * 3))
 
 
 class Osgr(Base):
@@ -76,7 +88,7 @@ class Osgr(Base):
            @param easting: Easting from OS false easting (meter).
            @param northing: Northing from from OS false northing (meter).
 
-           @raise ValueError: Invalid OSGR grid reference.
+           @raise ValueError: Invalid I{easting} or I{northing}.
 
            @example:
 
@@ -111,92 +123,95 @@ class Osgr(Base):
         '''
         return parseOSGR(strOSGR)
 
-    def toLatLon(self, LatLon, datum=Datums.WGS84):
+    def toLatLon(self, LatLon=None, datum=Datums.WGS84):
         '''Convert this OSGR coordinate to an (ellipsoidal) geodetic
            point.
 
-           Note formulation implemented here due to Thomas, Redfearn, etc.
-           is as published by OS, but is inferior to Krüger as used by
-           e.g. Karney 2011.
+           {Note formulation implemented here due to Thomas, Redfearn,
+           etc. is as published by OS, but is inferior to Krüger as
+           used by e.g. Karney 2011.}
 
-           @param LatLon: LatLon class for the point (I{LatLon}).
-           @param datum: Darum to use (I{Datum}).
+           @keyword LatLon: Optional ellipsoidal LatLon class to use
+                            for the point (I{LatLon}).
+           @keyword datum: Optional datum to use (I{Datum}).
 
-           @return: The geodetic point (I{LatLon}).
+           @return: The geodetic point (I{LatLon}) or 3-tuple (lat,
+                    lon, datum) if I{LatLon} is None.
 
-           @raise TypeError: If I{LatLon} is not ellipsoidal.
+           @raise TypeError: If I{LatLon} is not ellipsoidal or if
+                             I{datum} conversion failed.
 
            @example:
 
            >>> from pygeodesy import ellipsoidalVincenty as eV
            >>> g = Osgr(651409.903, 313177.270)
-           >>> p = g.toLatLon(ev.LatLon)  # 52°39′28.723″N, 001°42′57.787″E
+           >>> p = g.toLatLon(eV.LatLon)  # 52°39′28.723″N, 001°42′57.787″E
            >>> # to obtain (historical) OSGB36 lat-/longitude point
-           >>> p = g.toLatLon(ev.LatLon, datum=Datums.OSGB36)  # 52°39′27.253″N, 001°43′04.518″E
+           >>> p = g.toLatLon(eV.LatLon, datum=Datums.OSGB36)  # 52°39′27.253″N, 001°43′04.518″E
         '''
-        if self._latlon and self._latlon.__class__ is LatLon \
-                        and self._latlon.datum == datum:
-            return self._latlon  # set below
-
-        if not issubclass(LatLon, LatLonEllipsoidalBase):
-            raise TypeError('%s not %s: %r' % ('LatLon', 'ellipsoidal', LatLon))
+        if self._latlon:
+            return self._latlon3(LatLon, datum)
 
         E = _OSGB36.ellipsoid  # Airy130
-        Mabcd = E.Mabcd
+        a_F0 = E.a * _F0
+        b_F0 = E.b * _F0
 
         e, n = self._easting, self._northing
 
-        a, M = _A0, 0
+        a = _A0
+        s, M = [a], 0
         while True:
             t = n - _N0 - M
             if t < _10um:
                 break
-            a += t / (E.a * _F0)
-            M = E.b * _M(Mabcd, a)
+            s.append(t / a_F0)
+            a = fsum(s)
+            M = b_F0 * _M(E.Mabcd, a)
 
         ca, sa, ta = cos(a), sin(a), tan(a)
 
-        s = 1 - E.e2 * sa * sa
-        v = E.a * _F0 / sqrt(s)
-        r = v * E.e12 / s
+        s = E.e2s2(sa)
+        v = a_F0 / sqrt(s)  # nu
+        r = v * E.e12 / s  # rho
 
-        x2 = v / r - 1  # η
+        x2 = v / r - 1  # η2
 
-        v3 = v * v * v
-        v5 = v * v * v3
-        v7 = v * v * v5
+        v3, v5, v7 = fpowers(v, 7, 3)  # PYCHOK false!
+        ta2, ta4, ta6 = fpowers(ta**2, 3)  # PYCHOK false!
 
-        ta2 = ta  * ta
-        ta4 = ta2 * ta2
-        ta6 = ta4 * ta2
-
+        tar = ta / r
         V4 = (a,
-              ta / (  2 * r * v),
-              ta / ( 24 * r * v3) * fdot((5, 3, 1, -9), 1, ta2, x2, x2 * ta2),
-              ta / (720 * r * v5) * fdot((61, 90, 45), 1, ta2, ta4))
+              tar / (  2 * v),
+              tar / ( 24 * v3) * fdot((1, 3, -9), 5 + x2, ta2, ta2 * x2),
+              tar / (720 * v5) * fdot((61, 90, 45), 1, ta2, ta4))
 
-        sca = 1 / ca
+        csa = 1.0 / ca
         X5 = (_B0,
-              sca / v,
-              sca / (   6 * v3) * (v / r + 2 * ta),
-              sca / ( 120 * v5) * fdot((5, 28, 24), 1, ta2, ta4),
-              sca / (5040 * v7) * fdot((61, 662, 1320, 720), ta, ta2, ta4, ta6))
+              csa / v,
+              csa / (   6 * v3) * fsum((v / r, ta, ta)),
+              csa / ( 120 * v5) * fdot((5, 28, 24), 1, ta2, ta4),
+              csa / (5040 * v7) * fdot((61, 662, 1320, 720), ta, ta2, ta4, ta6))
 
-        d  = e - _E0
-        d2 = d  * d
-        d4 = d2 * d2
-        d6 = d2 * d4
+        d, d2, d3, d4, d5, d6, d7 = fpowers(e - _E0, 7)  # PYCHOK false!
 
-        a = fdot(V4, 1,    -d2,     d4,     -d6)
-        b = fdot(X5, 1, d, -d2 * d, d4 * d, -d6 * d)
+        a = fdot(V4, 1,    -d2, d4, -d6)
+        b = fdot(X5, 1, d, -d3, d5, -d7)
 
-        ll = LatLon(degrees90(a), degrees180(b), datum=_OSGB36)
-        if datum != _OSGB36:
-            ll = ll.convertDatum(datum)
-            ll = LatLon(ll.lat, ll.lon, datum=datum)
+        self._latlon = _eLLb(degrees90(a), degrees180(b), datum=_OSGB36)
+        return self._latlon3(LatLon, datum)
 
-        self._latlon = ll
-        return ll
+    def _latlon3(self, LatLon, datum):
+        '''(INTERNAL) Convert cached LatLon
+        '''
+        ll = self._latlon
+        if LatLon is None:
+            if datum != ll.datum:
+                raise TypeError('no %s.convertDatum: %r' % (LatLon, ll))
+            return ll.lat, ll.lon, ll.datum
+        elif issubclass(LatLon, _eLLb):
+            ll = LatLon(ll.lat, ll.lon, datum=ll.datum)
+            return _ll2datum(ll, datum, 'LatLon')
+        raise TypeError('%s not ellipsoidal: %r' % ('LatLon', LatLon))
 
     def toStr(self, prec=10, sep=' '):  # PYCHOK expected
         '''Return a string representation of this OSGR coordinate.
@@ -207,8 +222,10 @@ class Osgr(Base):
            @keyword prec: Optional number of digits (int).
            @keyword sep: Optional separator to join (string).
 
-           @return: This OSGR as string "EN meter meter" or as
-                    "meter,meter' if prec non-positive (string).
+           @return: This OSGR as "EN easting northing" (string) or
+                    as "easting,northing" if I{prec} is non-positive.
+
+           @raise ValueError: Invalid I{prec}.
 
            @example:
 
@@ -223,22 +240,17 @@ class Osgr(Base):
 
         e, n, s = self._easting, self._northing, ','
         if prec > 0:
-            w = prec // 2
-            if 0 > w or w > 5:
-                raise ValueError('%s invalid: %r' % ('prec', prec))
-            p = (0, 1e-4, 1e-3, 1e-2, 1e-1, 1)[w]  # 10 ** (5 - w)
-
             E, e = divmod(e, _100km)
             N, n = divmod(n, _100km)
             E, N = int(E), int(N)
-            if 0 > E or E > 6 or 0 > N or N > 12:
+            if 0 > E or E > 6 or \
+               0 > N or N > 12:
                 return ''
             N = 19 - N
             EN = _i2c( N - (N % 5) + (E + 10) // 5) + \
                  _i2c((N * 5) % 25 + (E % 5))
 
-            t = [EN, '%0*d' % (w, int(e * p)),
-                     '%0*d' % (w, int(n * p))]
+            t = enStr2(e, n, prec, EN)
             s = sep
 
         elif -6 < prec < 0:
@@ -256,7 +268,7 @@ class Osgr(Base):
            @keyword sep: Optional separator to join (string).
 
            @return: This OSGR as "[G:00B, E:meter, N:meter]" or as
-                    "OSGR:meter,meter" if prec non-positive (string).
+                    "OSGR:meter,meter" if I{prec} is non-positive (string).
         '''
         t = self.toStr(prec=prec, sep=' ')
         if prec > 0:
@@ -266,7 +278,7 @@ class Osgr(Base):
         return fmt % (t,)
 
 
-def parseOSGR(strOSGR):
+def parseOSGR(strOSGR, Osgr=Osgr):
     '''Parse an OSGR coordinate string to an Osgr instance.
 
        Accepts standard OS Grid References like 'SU 387 148',
@@ -276,10 +288,13 @@ def parseOSGR(strOSGR):
        example '438700,114800'.
 
        @param strOSGR: An OSGR coordinate (string).
+       @keyword Osgr: Optional Osgr class to use for the OSGR
+                      coordinate (L{Osgr}) or None.
 
-       @return: The OSGR coordinate (L{Osgr}).
+       @return: The OSGR coordinate (L{Osgr}) or the 2-tuple
+                (easting, northing) if I{Osgr} is None.
 
-       @raise ValueError: Invalid strOSGR.
+       @raise ValueError: Invalid I{strOSGR}.
 
        @example:
 
@@ -340,7 +355,7 @@ def parseOSGR(strOSGR):
     except ValueError:
         raise ValueError('%s invalid: %r' % ('strOSGR', strOSGR))
 
-    return Osgr(e, n)
+    return (e, n) if Osgr is None else Osgr(e, n)
 
 
 def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr):
@@ -350,13 +365,15 @@ def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr):
                       geodetic I{LatLon} point.
        @keyword lon: Optional longitude in degrees (scalar or None).
        @keyword datum: Optional datum to convert (I{Datum}).
-       @keyword Osgr: Optional Osgr class for the OSGR coordinate (L{Osgr}).
+       @keyword Osgr: Optional Osgr class to use for the
+                      OSGR coordinate (L{Osgr}).
 
        @return: The OSGR coordinate (L{Osgr}).
 
-       @raise TypeError: If latlon is not ellipsoidal.
+       @raise TypeError: If I{latlon} is not ellipsoidal or if
+                         I{datum} conversion failed.
 
-       @raise ValueError: If latlon or lon is invalid.
+       @raise ValueError: Invalid I{latlon} or I{lon}.
 
        @example:
 
@@ -365,51 +382,43 @@ def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr):
        >>> # for conversion of (historical) OSGB36 lat-/longitude:
        >>> r = toOsgr(52.65757, 1.71791, datum=Datums.OSGB36)
     '''
-    if not isinstance(latlon, LatLonEllipsoidalBase):
-        latlon = parseDMS2(latlon, lon)
-        # XXX any ellipsoidal LatLon with .convertDatum
-        latlon = LatLonEllipsoidalBase(*latlon, datum=datum)
+    if not isinstance(latlon, _eLLb):
+        # XXX fix failing _eLLb.convertDatum()
+        latlon = _eLLb(*parseDMS2(latlon, lon), datum=datum)
     elif lon is not None:
         raise ValueError('%s not %s: %r' % ('lon', None, lon))
 
-    if latlon.datum != _OSGB36:
-        latlon = latlon.convertDatum(_OSGB36)
-
     E = _OSGB36.ellipsoid
 
-    a, b = radians(latlon.lat), radians(latlon.lon)
+    ll = _ll2datum(latlon, _OSGB36, 'latlon')
+    a, b = map1(radians, ll.lat, ll.lon)
 
     ca, sa, ta = cos(a), sin(a), tan(a)
 
-    s = 1 - E.e2 * sa * sa
-    v = E.a * _F0 / sqrt(s)
-    r = s / E.e12  # = v / r = v / (v * E.e12 / s)
+    s = E.e2s2(sa)
+    v = E.a * _F0 / sqrt(s)  # nu
+    r = s / E.e12  # nu / rho == v / (v * E.e12 / s)
 
-    ca3 = ca * ca * ca
-    ca5 = ca * ca * ca3
+    x2 = r - 1  # η2
 
-    ta2 = ta  * ta
-    ta4 = ta2 * ta2
+    ca3, ca5 = fpowers(ca, 5, 3)  # PYCHOK false!
+    ta2, ta4 = fpowers(ta**2, 2)  # PYCHOK false!
 
-    x2 = r - 1  # η
-
-    I4 = (E.b * _M(E.Mabcd, a) + _N0,
-         (v /   2) * sa * ca,
-         (v /  24) * sa * ca3 * (5 - ta2 + 9 * x2),
-         (v / 720) * sa * ca5 * (61 - 58 * ta2 + ta4))
+    vsa = v * sa
+    I4 = (E.b * _F0 * _M(E.Mabcd, a) + _N0,
+         (vsa /   2) * ca,
+         (vsa /  24) * ca3 * fsum((5, -ta2, 9 * x2)),
+         (vsa / 720) * ca5 * fsum((61, ta4, -58 * ta2)))
 
     V4 = (_E0,
-          v * ca,
+         (v        * ca),
          (v /   6) * ca3 * (r - ta2),
-         (v / 120) * ca5 * (5 - 18 * ta2 + ta4 + 14 * x2 - 58 * ta2 * x2))
+         (v / 120) * ca5 * fdot((-18, 1, 14, -58), ta2, 5 + ta4, x2, ta2 * x2))
 
-    d = b - _B0
-    d2 = d  * d
-    d3 = d2 * d
-    d5 = d2 * d3
+    d, d2, d3, d4, d5, d6 = fpowers(b - _B0, 6)  # PYCHOK false!
 
-    n = fdot(I4, 1, d2, d3 * d, d5 * d)
-    e = fdot(V4, 1, d,  d3,     d5)
+    n = fdot(I4, 1, d2, d4, d6)
+    e = fdot(V4, 1, d,  d3, d5)
 
     return Osgr(e, n)
 

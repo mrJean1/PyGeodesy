@@ -13,17 +13,18 @@ U{http://mathworld.wolfram.com/LambertConformalConicProjection.html}.
 @newfield example: Example, Examples
 '''
 
-from ellipsoidalBase import LatLonEllipsoidalBase as _LL
+from ellipsoidalBase import LatLonEllipsoidalBase as _eLLb
 from datum import _Based, Datums, _Enum
-from utils import EPS, PI_2, \
-                  degrees90, degrees180, false2f, fStr, radians
+from fmath import EPS, fStr, hypot
+from utils import PI_2, degrees90, degrees180, false2f, \
+                  radians, tanPI_2_2
 
-from math import atan, copysign, cos, hypot, log, sin, sqrt, tan
+from math import atan, copysign, cos, log, sin, sqrt
 
 # all public constants, classes and functions
 __all__ = ('Conic', 'Conics', 'Lcc',
            'toLcc')  # functions
-__version__ = '17.09.22'
+__version__ = '18.02.02'
 
 
 Conics = _Enum('Conics')  #: Registered conics (L{_Enum}).
@@ -78,7 +79,7 @@ class Conic(_Based):
            >>> Snyder = Conic(ll0, 33, 45, E0=0, N0=0, name='Snyder')
         '''
         if latlon0 is not None:
-            if not isinstance(latlon0, _LL):
+            if not isinstance(latlon0, _eLLb):
                 raise TypeError('%s not %s: %r' % ('latlon0', 'ellipsoidal', latlon0))
 
             self._lat0, self._lon0 = latlon0.to2ab()
@@ -210,7 +211,7 @@ class Conic(_Based):
 
            @return: Converted conic, unregistered (L{Conic}).
 
-           @raise TypeError: If datum is not ellipsoidal.
+           @raise TypeError: If I{datum} is not ellipsoidal.
         '''
         E = datum.ellipsoid
         if not E.isEllipsoidal:
@@ -298,7 +299,7 @@ class Conic(_Based):
         '''(INTERNAL) Compute m(lat).
         '''
         s = self._e * sin(lat)
-        return cos(lat) / sqrt(1 - s * s)
+        return cos(lat) / sqrt(1 - s**2)
 
     def _pdef(self, lat):
         '''(INTERNAL) Compute p(lat).
@@ -314,7 +315,7 @@ class Conic(_Based):
     def _tdef(self, lat):
         '''(INTERNAL) Compute t(lat).
         '''
-        return max(0, tan((PI_2 - lat) / 2) / self._pdef(lat))
+        return max(0, tanPI_2_2(-lat) / self._pdef(lat))
 
     def _xdef(self, t_x):
         '''(INTERNAL) Compute x(t_x).
@@ -323,15 +324,15 @@ class Conic(_Based):
 
 
 Conics._assert(  # <http://spatialreference.org/ref/sr-org/...>
-#   AsLb   = Conic(_LL(-14.2666667, 170, datum=Datums.NAD27), 0, 0, E0=500000, N0=0, name='AsLb', auth='EPSG:2155'),  # American Samoa ... SP=1 !
-    Be08Lb = Conic(_LL(50.7978150, 4.359215833, datum=Datums.GRS80), 49.833333, 51.166667, E0=649328.0, N0=665262.0, name='Be08Lb', auth='EPSG:9802'),  # Belgium
-    Be72Lb = Conic(_LL(90, 4.3674867, datum=Datums.NAD83), 49.8333339, 51.1666672, E0=150000.013, N0=5400088.438, name='Be72Lb', auth='EPSG:31370'),  # Belgium
-    Fr93Lb = Conic(_LL(46.5, 3, datum=Datums.WGS84), 49, 44, E0=700000, N0=6600000, name='Fr93Lb', auth='EPSG:2154'),  # RFG93, France
-    MaNLb  = Conic(_LL(33.3, -5.4, datum=Datums.NTF), 31.73, 34.87, E0=500000, N0=300000, name='MaNLb'),  # Marocco
-    MxLb   = Conic(_LL(12, -102, datum=Datums.WGS84), 17.5, 29.5, E0=2500000, N0=0, name='MxLb', auth='EPSG:2155'),  # Mexico
-    PyT_Lb = Conic(_LL(46.8, 2.33722917, datum=Datums.NTF), 45.89893890000052, 47.69601440000037, E0=600000, N0=200000, name='PyT_Lb', auth='Test'),  # France?
-    USA_Lb = Conic(_LL(23, -96, datum=Datums.WGS84), 33, 45, E0=0, N0=0, name='USA_Lb'),  # Conterminous, contiguous USA?
-    WRF_Lb = Conic(_LL(40, -97, datum=Datums.WGS84), 33, 45, E0=0, N0=0, name='WRF_Lb', auth='EPSG:4326')  # World
+#   AsLb   = Conic(_eLLb(-14.2666667, 170, datum=Datums.NAD27), 0, 0, E0=500000, N0=0, name='AsLb', auth='EPSG:2155'),  # American Samoa ... SP=1 !
+    Be08Lb = Conic(_eLLb(50.7978150, 4.359215833, datum=Datums.GRS80), 49.833333, 51.166667, E0=649328.0, N0=665262.0, name='Be08Lb', auth='EPSG:9802'),  # Belgium
+    Be72Lb = Conic(_eLLb(90, 4.3674867, datum=Datums.NAD83), 49.8333339, 51.1666672, E0=150000.013, N0=5400088.438, name='Be72Lb', auth='EPSG:31370'),  # Belgium
+    Fr93Lb = Conic(_eLLb(46.5, 3, datum=Datums.WGS84), 49, 44, E0=700000, N0=6600000, name='Fr93Lb', auth='EPSG:2154'),  # RFG93, France
+    MaNLb  = Conic(_eLLb(33.3, -5.4, datum=Datums.NTF), 31.73, 34.87, E0=500000, N0=300000, name='MaNLb'),  # Marocco
+    MxLb   = Conic(_eLLb(12, -102, datum=Datums.WGS84), 17.5, 29.5, E0=2500000, N0=0, name='MxLb', auth='EPSG:2155'),  # Mexico
+    PyT_Lb = Conic(_eLLb(46.8, 2.33722917, datum=Datums.NTF), 45.89893890000052, 47.69601440000037, E0=600000, N0=200000, name='PyT_Lb', auth='Test'),  # France?
+    USA_Lb = Conic(_eLLb(23, -96, datum=Datums.WGS84), 33, 45, E0=0, N0=0, name='USA_Lb'),  # Conterminous, contiguous USA?
+    WRF_Lb = Conic(_eLLb(40, -97, datum=Datums.WGS84), 33, 45, E0=0, N0=0, name='WRF_Lb', auth='EPSG:4326')  # World
 )
 
 
@@ -353,9 +354,9 @@ class Lcc(_Based):
 
            @return: The Lambert location (L{Lcc}).
 
-           @raise TypeError: If conic is not L{Conic}.
+           @raise TypeError: If I{conic} is not L{Conic}.
 
-           @raise ValueError: If e or n is invalid or negative.
+           @raise ValueError: If I{e} or I{n} is invalid or negative.
 
            @example:
 
@@ -393,22 +394,17 @@ class Lcc(_Based):
         '''
         return self._northing
 
-    def toLatLon(self, LatLon, datum=None, height=None):
-        '''Convert this L{Lcc} to an (ellipsoidal) geodetic point.
+    def to3lld(self, datum=None):
+        '''Convert this L{Lcc} to a geodetic lat- and longitude.
 
-           @param LatLon: LatLon class for the geodetic point.
            @keyword datum: Optional datum to use, otherwise use this
                            I{Lcc}'s conic.datum (I{Datum}).
-           @keyword height: Optional height for the point, overriding
-                            the default height (meter).
 
-           @return: The point (I{LatLon}).
+           @return: 3-Tuple (lat, lon, datum) in (degrees90,
+                    degrees180, datum).
 
-           @raise TypeError: If I{LatLon} is not ellipsoidal.
+           @raise TypeError: If I{datum} is not ellipsoidal.
         '''
-        if not issubclass(LatLon, _LL):
-            raise TypeError('%s not %s: %r' % ('LatLon', 'ellipsoidal', LatLon))
-
         c = self.conic
         if datum:
             c = c.toDatum(datum)
@@ -426,8 +422,29 @@ class Lcc(_Based):
                 break
         y = (atan(e / n) + c._opt3) * c._n_ + c._lon0
 
+        return degrees90(x), degrees180(y), c.datum
+
+    def toLatLon(self, LatLon, datum=None, height=None):
+        '''Convert this L{Lcc} to an (ellipsoidal) geodetic point.
+
+           @param LatLon: Ellipsoidal LatLon class to use for the
+                          geodetic point.
+           @keyword datum: Optional datum to use, otherwise use this
+                           I{Lcc}'s conic.datum (I{Datum}).
+           @keyword height: Optional height for the point, overriding
+                            the default height (meter).
+
+           @return: The point (I{LatLon}).
+
+           @raise TypeError: If I{LatLon} or I{datum} is not ellipsoidal.
+        '''
+        if not issubclass(LatLon, _eLLb):
+            raise TypeError('%s not %s: %r' % ('LatLon', 'ellipsoidal', LatLon))
+
+        a, b, d = self.to3lld(datum=datum)
+
         h = self.height if height is None else height
-        return LatLon(degrees90(x), degrees180(y), height=h, datum=c.datum)
+        return LatLon(a, b, height=h, datum=d)
 
     def toStr(self, prec=0, sep=' ', m='m'):  # PYCHOK expected
         '''Return a string representation of this L{Lcc} position.
@@ -437,7 +454,7 @@ class Lcc(_Based):
            @keyword m: Optional height units, default meter (string).
 
            @return: This Lcc as string "easting nothing" in meter plus
-                    " height" and 'm' if non-zero (string).
+                    " height" and 'm' if heigth is non-zero (string).
 
            @example:
 
@@ -478,13 +495,14 @@ def toLcc(latlon, conic=Conics.WRF_Lb, height=None, Lcc=Lcc):
        @keyword conic: Optional Lambert projection to use (L{Conic}).
        @keyword height: Optional height for the point, overriding
                         the default height (meter).
-       @keyword Lcc: Optional Lcc class for the Lambert location (L{Lcc}).
+       @keyword Lcc: Optional Lcc class to use for the Lambert
+                     location (L{Lcc}).
 
        @return: The Lambert location (L{Lcc}).
 
-       @raise TypeError: If latlon is not ellipsoidal.
+       @raise TypeError: If I{latlon} is not ellipsoidal.
     '''
-    if not isinstance(latlon, _LL):
+    if not isinstance(latlon, _eLLb):
         raise TypeError('%s not %s: %r' % ('latlon', 'ellipsoidal', latlon))
 
     c = conic.toDatum(latlon.datum)
@@ -493,16 +511,19 @@ def toLcc(latlon, conic=Conics.WRF_Lb, height=None, Lcc=Lcc):
     r = c._rdef(c._tdef(lat))
     t = c._n * (lon - c._lon0) - c._opt3
 
+    e = c._E0         + r * sin(t)
+    n = c._N0 + c._r0 - r * cos(t)
+
     h = latlon.height if height is None else height
-    return Lcc(c._E0         + r * sin(t),
-               c._N0 + c._r0 - r * cos(t), h=h, conic=c)
+    return Lcc(e, n, h=h, conic=c)
 
 
 if __name__ == '__main__':
 
     # print all
     for c in (Conics,):
-        print('\n%r' % (c,))
+        c = '\n' + repr(c)
+        print('\n# '.join(c.split('\n')))
 
 # **) MIT License
 #
@@ -526,13 +547,11 @@ if __name__ == '__main__':
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-# Typical result (on macOS 10.12.2 thru 10.12.6 Sierra)
-
-# Conics.Be08Lb: Conic(name='Be08Lb', lat0=50.797815, lon0=4.35921583, par1=49.833333, par2=51.166667, E0=649328.0, N0=665262.0, k0=1, SP=2, datum=(name='GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.WGS84)
-# Conics.Be72Lb: Conic(name='Be72Lb', lat0=90.0, lon0=4.3674867, par1=49.8333339, par2=51.1666672, E0=150000.013, N0=5400088.438, k0=1, SP=2, datum=(name='NAD83', ellipsoid=Ellipsoids.GRS80, transform=Transforms.NAD83)
-# Conics.Fr93Lb: Conic(name='Fr93Lb', lat0=46.5, lon0=3.0, par1=49.0, par2=44.0, E0=700000.0, N0=6600000.0, k0=1, SP=2, datum=(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84)
-# Conics.MaNLb: Conic(name='MaNLb', lat0=33.3, lon0=-5.4, par1=31.73, par2=34.87, E0=500000.0, N0=300000.0, k0=1, SP=2, datum=(name='NTF', ellipsoid=Ellipsoids.Clarke1880IGN, transform=Transforms.NTF)
-# Conics.MxLb: Conic(name='MxLb', lat0=12.0, lon0=-102.0, par1=17.5, par2=29.5, E0=2500000.0, N0=0, k0=1, SP=2, datum=(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84)
-# Conics.PyT_Lb: Conic(name='PyT_Lb', lat0=46.8, lon0=2.33722917, par1=45.8989389, par2=47.6960144, E0=600000.0, N0=200000.0, k0=1, SP=2, datum=(name='NTF', ellipsoid=Ellipsoids.Clarke1880IGN, transform=Transforms.NTF)
-# Conics.USA_Lb: Conic(name='USA_Lb', lat0=23.0, lon0=-96.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84)
-# Conics.WRF_Lb: Conic(name='WRF_Lb', lat0=40.0, lon0=-97.0, par1=33.0, par2=45.0, E0=0, N0=0, k0=1, SP=2, datum=(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84)
+# Conics.Be08Lb: Conic(name='Be08Lb', lat0=50.797815, lon0=4.35921583, par1=49.833333, par2=51.166667, E0=649328, N0=665262, k0=1, SP=2, datum=(name='GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.WGS84)
+# Conics.Be72Lb: Conic(name='Be72Lb', lat0=90, lon0=4.3674867, par1=49.8333339, par2=51.1666672, E0=150000.013, N0=5400088.438, k0=1, SP=2, datum=(name='NAD83', ellipsoid=Ellipsoids.GRS80, transform=Transforms.NAD83)
+# Conics.Fr93Lb: Conic(name='Fr93Lb', lat0=46.5, lon0=3, par1=49, par2=44, E0=700000, N0=6600000, k0=1, SP=2, datum=(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84)
+# Conics.MaNLb: Conic(name='MaNLb', lat0=33.3, lon0=-5.4, par1=31.73, par2=34.87, E0=500000, N0=300000, k0=1, SP=2, datum=(name='NTF', ellipsoid=Ellipsoids.Clarke1880IGN, transform=Transforms.NTF)
+# Conics.MxLb: Conic(name='MxLb', lat0=12, lon0=-102, par1=17.5, par2=29.5, E0=2500000, N0=0, k0=1, SP=2, datum=(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84)
+# Conics.PyT_Lb: Conic(name='PyT_Lb', lat0=46.8, lon0=2.33722917, par1=45.8989389, par2=47.6960144, E0=600000, N0=200000, k0=1, SP=2, datum=(name='NTF', ellipsoid=Ellipsoids.Clarke1880IGN, transform=Transforms.NTF)
+# Conics.USA_Lb: Conic(name='USA_Lb', lat0=23, lon0=-96, par1=33, par2=45, E0=0, N0=0, k0=1, SP=2, datum=(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84)
+# Conics.WRF_Lb: Conic(name='WRF_Lb', lat0=40, lon0=-97, par1=33, par2=45, E0=0, N0=0, k0=1, SP=2, datum=(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84)
