@@ -6,7 +6,7 @@ u'''(INTERNAL) Spherical base classes.
 Pure Python implementation of geodetic (lat-/longitude) functions,
 transcribed in part from JavaScript originals by I{(C) Chris Veness 2011-2016}
 and published under the same MIT Licence**, see
-U{http://www.movable-type.co.uk/scripts/latlong.html}.
+U{Latitude/Longitude<http://www.movable-type.co.uk/scripts/latlong.html>}.
 
 @newfield example: Example, Examples
 '''
@@ -23,7 +23,7 @@ from math import acos, atan2, cos, log, sin
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('LatLonSphericalBase',)
-__version__ = '18.02.02'
+__version__ = '18.02.05'
 
 
 class LatLonSphericalBase(LatLonHeightBase):

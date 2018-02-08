@@ -5,8 +5,8 @@ u'''(INTERNAL) Ellipsoidal base classes.
 
 Pure Python implementation of geodesy tools for ellipsoidal earth models,
 transcribed in part from JavaScript originals by I{(C) Chris Veness 2005-2016}
-and published under the same MIT Licence**, see for example
-U{http://www.movable-type.co.uk/scripts/geodesy/docs/latlon-ellipsoidal.js.html}.
+and published under the same MIT Licence**, see for example U{latlon-ellipsoidal
+<http://www.movable-type.co.uk/scripts/geodesy/docs/latlon-ellipsoidal.js.html>}.
 
 @newfield example: Example, Examples
 '''
@@ -23,7 +23,7 @@ from math import atan2, copysign, cos, sin, sqrt
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('CartesianBase', 'LatLonEllipsoidalBase')
-__version__ = '18.02.04'
+__version__ = '18.02.05'
 
 
 class CartesianBase(Vector3d):
@@ -48,18 +48,18 @@ class CartesianBase(Vector3d):
            (ellipsoidal) geodetic lat-, longitude and height on
            the given datum.
 
-           Uses Bowring’s (1985) formulation for μm precision in
-           concise form: 'The accuracy of geodetic latitude and
-           height equations', B. R. Bowring, Survey Review, Vol
-           28, 218, Oct 1985.
+           Uses Bowring’s (1985) formulation for μm precision in concise
+           form: U{'The accuracy of geodetic latitude and height equations'
+           <http://www.researchgate.net/publication/
+           233668213_The_Accuracy_of_Geodetic_Latitude_and_Height_Equations>},
+           B. R. Bowring, Survey Review, Vol 28, 218, Oct 1985.
 
-           See also 'An Efficient Algorithm for Geocentric to
-           Geodetic Coordinate Conversion', Ralph M. Toms,
-           Lawrence Livermore National Laboratory, Sept 1995,
-           U{http://www.osti.gov/scitech/biblio/110235} and 'An
-           Improved Algorithm for Geocentric to Geodetic Coordinate
-           Conversion', Ralph Toms, Apr 1996, U{http://www.osti.gov/
-           scitech/servlets/purl/231228}.
+           See also Ralph M. Toms U{'An Efficient Algorithm for Geocentric
+           to Geodetic Coordinate Conversion'
+           <http://www.osti.gov/scitech/biblio/110235>}, Sept 1995 and
+           U{'An Improved Algorithm for Geocentric to Geodetic Coordinate
+           Conversion'<http://www.osti.gov/scitech/servlets/purl/231228>},
+           Apr 1996, from Lawrence Livermore National Laboratory.
 
            @keyword datum: Optional datum to use (L{Datum}).
 

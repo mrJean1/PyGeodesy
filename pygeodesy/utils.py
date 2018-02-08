@@ -1,11 +1,11 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Utility and geometric functions and constants.
+u'''Utility, geodetic/geometric functions and constants.
 
-After I{(C) Chris Veness 2011-2015} published under the same MIT Licence**,
-see U{http://www.movable-type.co.uk/scripts/latlong.html}
-and U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
+After I{(C) Chris Veness 2011-2015} published under the same MIT Licence**, see
+U{Latitude/Longitude<http://www.movable-type.co.uk/scripts/latlong.html>} and
+U{Vector-based geodesy<http://www.movable-type.co.uk/scripts/latlong-vectors.html>}.
 
 @newfield example: Example, Examples
 '''
@@ -13,7 +13,7 @@ and U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
 # make sure int division yields float quotient
 from __future__ import division
 
-from fmath import _Seqs, EPS, fStr, len2, map2
+from fmath import _Seqs, EPS, fStr, fsum_, hypot, len2, map2
 
 from math import atan2, cos, degrees, pi as PI, \
                  radians, sin, sqrt, tan  # pow
@@ -24,7 +24,7 @@ __all__ = ('PI', 'PI2', 'PI_2', 'R_M',  # constants
            'classname', 'crosserrors',
            'degrees', 'degrees90', 'degrees180', 'degrees360',
            'enStr2',
-           'equirectangular', 'equirectangular_', 'equirectangular3',
+           'equirectangular', 'equirectangular_',
            'false2f', 'ft2m',
            'halfs',
            'haversine', 'haversine_',  # XXX removed 'hsin', 'hsin3',
@@ -39,7 +39,7 @@ __all__ = ('PI', 'PI2', 'PI_2', 'R_M',  # constants
            'unroll180', 'unrollPI', 'unStr',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '18.02.02'
+__version__ = '18.02.06'
 
 division = 1 / 2  # double check int division, see datum.py
 if not division:
@@ -173,7 +173,7 @@ def enStr2(easting, northing, prec, *extras):
 
 def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **options):
     '''Compute the distance between two points using
-       the U{Equirectangular Approximation/Projection
+       the U{Equirectangular Approximation / Projection
        <http://www.movable-type.co.uk/scripts/latlong.html>}.
 
        See function L{equirectangular_} for more details, the
@@ -191,14 +191,14 @@ def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **options):
 
        @see: Function L{haversine} for more accurate or larger distances.
     '''
-    d2, _, _, _ = equirectangular_(lat1, lon1, lat2, lon2, **options)
-    return radians(sqrt(d2)) * radius
+    _, dy, dx, _ = equirectangular_(lat1, lon1, lat2, lon2, **options)
+    return radians(hypot(dx, dy)) * radius
 
 
 def equirectangular_(lat1, lon1, lat2, lon2,
                      adjust=True, limit=45, wrap=False):
     '''Compute the distance between two points using
-       the U{Equirectangular Approximation/Projection
+       the U{Equirectangular Approximation / Projection
        <http://www.movable-type.co.uk/scripts/latlong.html>}.
 
        This approximation is valid for smaller distance of several
@@ -246,18 +246,6 @@ def equirectangular_(lat1, lon1, lat2, lon2,
 
     d2 = d_lat**2 + d_lon**2  # degrees squared!
     return d2, d_lat, d_lon, ulon2 - lon2
-
-
-def equirectangular3(lat1, lon1, lat2, lon2, **options):
-    '''For backward compatibility only, obsolete, replaced by
-       function L{equirectangular_}.
-
-       See function L{equirectangular_} for more details, the
-       available I{options} and errors raised.
-
-       @return: 3-Tuple (distance2, delta_lat, delta_lon).
-    '''
-    return equirectangular_(lat1, lon1, lat2, lon2, **options)[:3]
 
 
 def false2f(value, name='value', false=True):
@@ -363,11 +351,11 @@ def heightOf(angle, distance, radius=R_M):
 
        @raise ValueError: Invalid I{angle}, I{distance} or I{radius}.
 
-       @see: U{MultiDop<http://github.com/nasa/MultiDop>},
-             U{Shapiro et al. 2009, JTECH
+       @see: U{MultiDop GeogBeamHt<http://github.com/nasa/MultiDop/>}
+             (U{Shapiro et al. 2009, JTECH
              <http://journals.ametsoc.org/doi/abs/10.1175/2009JTECHA1256.1>}
              and U{Potvin et al. 2012, JTECH
-             <http://journals.ametsoc.org/doi/abs/10.1175/JTECH-D-11-00019.1>}.
+             <http://journals.ametsoc.org/doi/abs/10.1175/JTECH-D-11-00019.1>}).
     '''
     d, r = distance, radius
     if d > r:
@@ -376,11 +364,11 @@ def heightOf(angle, distance, radius=R_M):
     if d > EPS:
         d = d / float(r)
         s = sin(radians(angle))
-        s = 1 + d * (s + s + d)
+        s = fsum_(1, 2 * s * d, d**2)
         if s > 0:
             return r * sqrt(s) - float(radius)
 
-    raise ValueError('%s%r' % ('height', (angle, distance, radius)))
+    raise ValueError('%s%r' % ('heightOf', (angle, distance, radius)))
 
 
 def horizon(height, radius=R_M, refraction=False):
@@ -403,7 +391,7 @@ def horizon(height, radius=R_M, refraction=False):
     if refraction:
         d2 = 2.415750694528 * height * radius  # 2.0 / 0.8279
     else:
-        d2 = height * (radius + radius + height)
+        d2 = height * fsum_(radius, radius, height)
     return sqrt(d2)
 
 
@@ -555,14 +543,14 @@ def polygon(points, closed=True, base=None):
 
        @param points: The points of the polygon (I{LatLon}[])
        @keyword closed: Optionally, treat polygon as closed and remove
-                        any duplicate or closing final points (bool).
-       @keyword base: Optional points base class (None).
+                        any duplicate or closing final I{points} (bool).
+       @keyword base: Optional I{points} base class (None).
 
        @return: 2-Tuple (number, sequence) of points (int, sequence).
 
-       @raise TypeError: Some points are not I{LatLon}.
+       @raise TypeError: Some I{points} are not I{LatLon}.
 
-       @raise ValueError: Insufficient number of points.
+       @raise ValueError: Insufficient number of I{points}.
     '''
     n, points = len2(points)
 

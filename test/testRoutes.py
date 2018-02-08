@@ -10,8 +10,9 @@
 
 from base import TestsBase
 
-from pygeodesy import LatLon_, R_KM, R_M, areaof, perimeterof, unStr, \
-                      ellipsoidalVincenty, sphericalTrigonometry
+from pygeodesy import LatLon_, R_KM, R_M, \
+                      ellipsoidalVincenty, sphericalTrigonometry, \
+                      areaOf, isclockwise, perimeterOf, unStr
 try:
     from geographiclib.geodesic import Geodesic
 except ImportError:
@@ -19,7 +20,7 @@ except ImportError:
 
 __all__ = ('Antarctica', 'Pts', 'PtsFFI', 'RdpFFI',
            'PtsJS', 'PtsJS5', 'VwPts')
-__version__ = '18.01.18'
+__version__ = '18.02.05'
 
 # <http://geographiclib.sourceforge.io/html/python/examples.html>
 Antarctica = [LatLon_(_lat, _lon) for _lat, _lon in (
@@ -17099,11 +17100,11 @@ class Tests(TestsBase):
             self.test(t, r, x, fmt=fmt, known=known)
 
     def testAreas(self):
-        self.test7(areaof, (13552524.8,
+        self.test7(areaOf, (13552524.8,
                    1.288, 1.241, 131184.240, 140310.144,
                    4.00413688487425e7, 2*4.00413688487425e7),
                    known=True, radius=R_KM, adjust=True)
-        self.test7(areaof, (13552524.8,
+        self.test7(areaOf, (13552524.8,
                    1.288, 1.241, 131184.240, 140310.144,
                    4.00413688487425e7, 2*4.00413688487425e7),
                    known=True, radius=R_KM, adjust=False)
@@ -17124,8 +17125,14 @@ class Tests(TestsBase):
         except ImportError as x:
             self.test('ellipsoidalVincenty.areaOf', x, x)
 
+    def testClockwise(self):
+        self.test7(isclockwise, (True,
+                   True, True, True, True,
+                   False, False),
+                   adjust=False)
+
     def testPerimeters(self):
-        self.test7(perimeterof, (16765661.499,
+        self.test7(perimeterOf, (16765661.499,
                    3224.123, 3185.467, 2762313.129, 2672557.850,
                    15766750.804, 25981742.208),
                    known=True, radius=R_M, closed=False)
@@ -17209,5 +17216,6 @@ if __name__ == '__main__':
     t.testAreas()
     t.testPerimeters()
     t.testGeodesic()
+    t.testClockwise()
     t.results()
     t.exit()

@@ -4,10 +4,10 @@
 u'''Web Mercator (WM) class L{Wm} and functions L{parseWM} and L{toWm}.
 
 Pure Python implementation of a U{Web Mercator<http://wikipedia.org/wiki/Web_Mercator>}
-(aka Pseudo-Mercator) class and conversion functions for spherical and
+(aka I{Pseudo-Mercator}) class and conversion functions for spherical and
 near-spherical earth models.
 
-References U{The Google Maps / Bing Maps Spherical Mercator Projection
+References U{Google Maps / Bing Maps Spherical Mercator Projection
 <http://alastaira.wordpress.com/2011/01/23/the-google-maps-bing-maps-spherical-mercator-projection>},
 U{Geomatics Guidance Note 7, part 2<http://www.epsg.org/Portals/0/373-07-2.pdf>} and
 U{Implementation Practice Web Mercator Map Projection
@@ -236,7 +236,7 @@ def toWm(latlon, lon=None, radius=R_MA, Wm=Wm):
        @return: The WM coordinate (L{Wm}).
 
        @raise ValueError: If I{lon} value is missing, if I{latlon}
-                          is not scalar or if I{latlon} is beyond
+                          is not scalar, if I{latlon} is beyond
                           the valid WM range and L{rangerrors} is
                           set to True or if I{radius} is invalid.
 
@@ -258,7 +258,7 @@ def toWm(latlon, lon=None, radius=R_MA, Wm=Wm):
         lat, lon = parseDMS2(latlon, lon, clipLat=_LatLimit)
 
     s = sin(radians(lat))
-    y = atanh(s)  # == log(tan(radians((90 + lat) * 0.5)))
+    y = atanh(s)  # == log(tan((90 + lat) / 2)) == log(tanPI_2_2(radians(lat)))
     if e:
         y -= e * atanh(e * s)
     return Wm(r * radians(lon), r * y, radius=r)

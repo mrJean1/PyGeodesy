@@ -522,7 +522,7 @@
           point).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The start or end point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>start</i> or <i>end</i> point is not <a 
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -567,7 +567,7 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple (lon1, lon2) in (degrees180) or None if the great circle 
-          doesn't reach the given latitude.</dd>
+          doesn't reach the given <i>lat</i>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -608,7 +608,7 @@
           to the right of the path).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The start or end point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>start</i> or <i>end</i> point is not <a 
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -695,11 +695,11 @@
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Distance between this and the other point (in the same units as 
-          radius).</dd>
+        <dd>Distance between this and the <i>other</i> point (in the same 
+          units as radius).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <a 
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -779,7 +779,7 @@
         <dd>Initial bearing (compass degrees).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <a 
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -825,7 +825,7 @@
         <dd>Initial bearing (compass degrees).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <a 
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -878,7 +878,7 @@
           class="link">LatLon</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <a 
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -933,7 +933,7 @@
           class="link">LatLon</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Point start2 is not a <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - Point <i>start2</i> is not a <a 
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Intersection is ambiguous or infinite or the paths are parallel or 
@@ -976,8 +976,8 @@
         <dd>True if the polygon encloses this point (bool).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of points or non-convex polygon.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <a 
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i> or non-convex polygon.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <a 
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -1023,7 +1023,7 @@
           class="link">LatLon</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <a 
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -1083,7 +1083,7 @@
         <li><code><strong class='fraise'><a href="pygeodesy.utils.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
         <a href="pygeodesy.utils-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - If point1 or point2 is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <i>point1</i> or <i>point2</i> is not <a 
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -1137,8 +1137,8 @@
         <li><code><strong class='fraise'><a href="pygeodesy.utils.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
         <a href="pygeodesy.utils-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <i>LatLon</i>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of points.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <i>LatLon</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1198,7 +1198,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Feb  4 23:12:52 2018
+    Generated by Epydoc 3.0.1 on Thu Feb  8 13:24:34 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

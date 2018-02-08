@@ -4,13 +4,13 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '18.01.14'
+__version__ = '18.02.05'
 
 from base import TestsBase
 
 from pygeodesy import EPS, R_MA, LatLon_, \
                       LatLon2psxy, Numpy2LatLon, Tuple2LatLon, \
-                      areaof, classname, points
+                      areaOf, isclockwise, classname, points
 
 try:
     from collections import Sequence
@@ -85,10 +85,12 @@ class Tests(TestsBase):
             _test('reversed[%s]' % (i,), p, pts[i])
 
         p = LatLon_(45, 1), LatLon_(45, 2), LatLon_(46, 2), LatLon_(46, 1)
-        self.test('areaof', areaof(p, radius=R_MA), '8.811228e+09', fmt='%.6e')
+        self.test('areaOf', areaOf(p, radius=R_MA), '8.811228e+09', fmt='%.6e')
+        self.test('isclockwise', isclockwise(p), False)
 
         p = LatLon_(0, 0), LatLon_(1, 0), LatLon_(0, 1)
-        self.test('areaof', areaof(p, radius=R_MA), '7.09e+09', fmt='%.2e')
+        self.test('areaOf', areaOf(p, radius=R_MA), '7.09e+09', fmt='%.2e')
+        self.test('isclockwise', isclockwise(p), True)
 
 
 if __name__ == '__main__':  # PYCHOK internal error?

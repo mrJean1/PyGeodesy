@@ -59,18 +59,18 @@
 </table>
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module dms</h1><p class="nomargin-top"></p>
-<p>Functions to parse and format bearing, lat- and longitudes in various 
-  forms of degrees, minutes and seconds.</p>
+<p>Functions to parse and format bearing, compass, lat- and longitudes in
+  various forms of degrees, minutes and seconds.</p>
   <p>After <i>(C) Chris Veness 2011-2015</i> published under the same MIT 
   Licence**, see <a 
   href="http://www.movable-type.co.uk/scripts/latlong.html" 
-  target="_top">http://www.movable-type.co.uk/scripts/latlong.html</a> and 
-  <a href="http://www.movable-type.co.uk/scripts/latlong-vectors.html" 
-  target="_top">http://www.movable-type.co.uk/scripts/latlong-vectors.html</a>.</p>
+  target="_top">Latitude/Longitude</a> and <a 
+  href="http://www.movable-type.co.uk/scripts/latlong-vectors.html" 
+  target="_top">Vector-based geodesy</a>.</p>
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.02.02
+        18.02.05
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -517,8 +517,15 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (compass degrees).</li>
-        <li><strong class="pname"><code>form</code></strong> - Optional format, F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD 
-          for deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, [D]DD, [D]DDMM, [D]DDMMSS or 
+        <li><strong class="pname"><code>form</code></strong> - Optional format, <a href="pygeodesy.dms-module.html#F_D" 
+          class="link">F_D</a>, <a href="pygeodesy.dms-module.html#F_DM" 
+          class="link">F_DM</a>, <a href="pygeodesy.dms-module.html#F_DMS" 
+          class="link">F_DMS</a>, <a href="pygeodesy.dms-module.html#F_DEG"
+          class="link">F_DEG</a>, <a href="pygeodesy.dms-module.html#F_MIN"
+          class="link">F_MIN</a>, <a href="pygeodesy.dms-module.html#F_SEC"
+          class="link">F_SEC</a> or <a 
+          href="pygeodesy.dms-module.html#F_RAD" class="link">F_RAD</a> for
+          deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, [D]DD, [D]DDMM, [D]DDMMSS or 
           radians (string).</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or None for default).  
           Trailing zero decimals are stripped for prec values of 1 and 
@@ -586,7 +593,7 @@
   <p>Return the angle from North for the direction vector <i 
   class="math">(lon1 - lon0, lat1 - lat0)</i> between two points.</p>
   <p>Suitable only for short vectors up to a few hundred Km or Miles.  Use 
-  <i>initialBearingTo</i> or <i>forward azimuth</i> LatLon methods for 
+  {LatLon} methods <i>initialBearingTo</i> or <i>forward azimuth</i> for 
   larger distances.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -626,8 +633,15 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (compass degrees).</li>
-        <li><strong class="pname"><code>form</code></strong> - Optional format, F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD 
-          for deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, [D]DD, [D]DDMM, [D]DDMMSS or 
+        <li><strong class="pname"><code>form</code></strong> - Optional format, <a href="pygeodesy.dms-module.html#F_D" 
+          class="link">F_D</a>, <a href="pygeodesy.dms-module.html#F_DM" 
+          class="link">F_DM</a>, <a href="pygeodesy.dms-module.html#F_DMS" 
+          class="link">F_DMS</a>, <a href="pygeodesy.dms-module.html#F_DEG"
+          class="link">F_DEG</a>, <a href="pygeodesy.dms-module.html#F_MIN"
+          class="link">F_MIN</a>, <a href="pygeodesy.dms-module.html#F_SEC"
+          class="link">F_SEC</a> or <a 
+          href="pygeodesy.dms-module.html#F_RAD" class="link">F_RAD</a> for
+          deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, [D]DD, [D]DDMM, [D]DDMMSS or 
           radians (string).</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or None for default).  
           Trailing zero decimals are stripped for prec values of 1 and 
@@ -707,9 +721,16 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Latitude to be formatted (degrees).</li>
-        <li><strong class="pname"><code>form</code></strong> - Optional format, use F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or 
-          F_RAD for deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, DD, DDMM, DDMMSS or 
-          radians (string).</li>
+        <li><strong class="pname"><code>form</code></strong> - Optional format, <a href="pygeodesy.dms-module.html#F_D" 
+          class="link">F_D</a>, <a href="pygeodesy.dms-module.html#F_DM" 
+          class="link">F_DM</a>, <a href="pygeodesy.dms-module.html#F_DMS" 
+          class="link">F_DMS</a>, <a href="pygeodesy.dms-module.html#F_DEG"
+          class="link">F_DEG</a>, <a href="pygeodesy.dms-module.html#F_MIN"
+          class="link">F_MIN</a>, <a href="pygeodesy.dms-module.html#F_SEC"
+          class="link">F_SEC</a> or <a 
+          href="pygeodesy.dms-module.html#F_RAD" class="link">F_RAD</a> for
+          deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, DD, DDMM, DDMMSS or radians 
+          (string).</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or None for default).  
           Trailing zero decimals are stripped for prec values of 1 and 
           above, but kept for negative prec values.</li>
@@ -745,9 +766,16 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Longitude to be formatted (degrees).</li>
-        <li><strong class="pname"><code>form</code></strong> - Optional format, use F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or 
-          F_RAD for deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, DDD, DDDMM, DDDMMSS or 
-          radians (string).</li>
+        <li><strong class="pname"><code>form</code></strong> - Optional format, <a href="pygeodesy.dms-module.html#F_D" 
+          class="link">F_D</a>, <a href="pygeodesy.dms-module.html#F_DM" 
+          class="link">F_DM</a>, <a href="pygeodesy.dms-module.html#F_DMS" 
+          class="link">F_DMS</a>, <a href="pygeodesy.dms-module.html#F_DEG"
+          class="link">F_DEG</a>, <a href="pygeodesy.dms-module.html#F_MIN"
+          class="link">F_MIN</a>, <a href="pygeodesy.dms-module.html#F_SEC"
+          class="link">F_SEC</a> or <a 
+          href="pygeodesy.dms-module.html#F_RAD" class="link">F_RAD</a> for
+          deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, DDD, DDDMM, DDDMMSS or radians 
+          (string).</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or None for default).  
           Trailing zero decimals are stripped for prec values of 1 and 
           above, but kept for negative prec values.</li>
@@ -816,7 +844,7 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>strll</code></strong> - Lat, lon[, height] (string).</li>
+        <li><strong class="pname"><code>strll</code></strong> - Latitude, longitude[, height] (string).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional, default for missing height (meter).</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional separator (string).</li>
         <li><strong class="pname"><code>clipLat</code></strong> - Keep latitude in <i>-clipLat..+clipLat</i> (degrees).</li>
@@ -957,7 +985,13 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>form</code></strong> - Format name, F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or F_RAD 
+        <li><strong class="pname"><code>form</code></strong> - <a href="pygeodesy.dms-module.html#F_D" class="link">F_D</a>, <a 
+          href="pygeodesy.dms-module.html#F_DM" class="link">F_DM</a>, <a 
+          href="pygeodesy.dms-module.html#F_DMS" class="link">F_DMS</a>, <a
+          href="pygeodesy.dms-module.html#F_DEG" class="link">F_DEG</a>, <a
+          href="pygeodesy.dms-module.html#F_MIN" class="link">F_MIN</a>, <a
+          href="pygeodesy.dms-module.html#F_SEC" class="link">F_SEC</a> or 
+          <a href="pygeodesy.dms-module.html#F_RAD" class="link">F_RAD</a> 
           (string).</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or None for default).  
           Trailing zero decimals are stripped for <i>prec</i> values of 1 
@@ -1029,9 +1063,16 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Degrees to be formatted (scalar).</li>
-        <li><strong class="pname"><code>form</code></strong> - Optional format, use F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC or 
-          F_RAD for deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, [D]DD, [D]DDMM, [D]DDMMSS
-          or radians (string).</li>
+        <li><strong class="pname"><code>form</code></strong> - Optional format, <a href="pygeodesy.dms-module.html#F_D" 
+          class="link">F_D</a>, <a href="pygeodesy.dms-module.html#F_DM" 
+          class="link">F_DM</a>, <a href="pygeodesy.dms-module.html#F_DMS" 
+          class="link">F_DMS</a>, <a href="pygeodesy.dms-module.html#F_DEG"
+          class="link">F_DEG</a>, <a href="pygeodesy.dms-module.html#F_MIN"
+          class="link">F_MIN</a>, <a href="pygeodesy.dms-module.html#F_SEC"
+          class="link">F_SEC</a> or <a 
+          href="pygeodesy.dms-module.html#F_RAD" class="link">F_RAD</a> for
+          deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, [D]DD, [D]DDMM, [D]DDMMSS or 
+          radians (string).</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or None for default).  
           Trailing zero decimals are stripped for prec values of 1 and 
           above, but kept for negative prec values.</li>
@@ -1077,7 +1118,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Feb  4 23:12:51 2018
+    Generated by Epydoc 3.0.1 on Thu Feb  8 13:24:32 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Functions to parse and format bearing, lat- and longitudes in various
-forms of degrees, minutes and seconds.
+u'''Functions to parse and format bearing, compass, lat- and longitudes
+in various forms of degrees, minutes and seconds.
 
-After I{(C) Chris Veness 2011-2015} published under the same MIT Licence**,
-see U{http://www.movable-type.co.uk/scripts/latlong.html}
-and U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
+After I{(C) Chris Veness 2011-2015} published under the same MIT Licence**, see
+U{Latitude/Longitude<http://www.movable-type.co.uk/scripts/latlong.html>} and
+U{Vector-based geodesy<http://www.movable-type.co.uk/scripts/latlong-vectors.html>}.
 
 @newfield example: Example, Examples
 '''
@@ -29,7 +29,7 @@ __all__ = ('F_D', 'F_DM', 'F_DMS',  # forms
            'latDMS', 'lonDMS', 'normDMS',
            'parseDMS', 'parseDMS2', 'parse3llh', 'precision',
            'rangerrors', 'toDMS')
-__version__ = '18.02.02'
+__version__ = '18.02.05'
 
 F_D   = 'd'    #: Format degrees as deg° (string).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (string).
@@ -115,9 +115,10 @@ def bearingDMS(bearing, form=F_D, prec=None, sep=S_SEP):
     '''Convert bearing to a string.
 
        @param bearing: Bearing from North (compass degrees).
-       @keyword form: Optional format, F_D, F_DM, F_DMS, F_DEG, F_MIN,
-                      F_SEC or F_RAD for deg°, deg°min′, deg°min′sec″,
-                      [D]DD, [D]DDMM, [D]DDMMSS or radians (string).
+       @keyword form: Optional format, L{F_D}, L{F_DM}, L{F_DMS},
+                      L{F_DEG}, L{F_MIN}, L{F_SEC} or L{F_RAD} for
+                      deg°, deg°min′, deg°min′sec″, [D]DD, [D]DDMM,
+                      [D]DDMMSS or radians (string).
        @keyword prec: Optional number of decimal digits (0..9 or
                       None for default).  Trailing zero decimals
                       are stripped for prec values of 1 and above,
@@ -156,8 +157,8 @@ def compassAngle(lat0, lon0, lat1, lon1):
        M{(lon1 - lon0, lat1 - lat0)} between two points.
 
        Suitable only for short vectors up to a few hundred Km
-       or Miles.  Use I{initialBearingTo} or I{forward azimuth}
-       LatLon methods for larger distances.
+       or Miles.  Use {LatLon} methods I{initialBearingTo} or
+       I{forward azimuth} for larger distances.
 
        @param lat0: From latitude (degrees).
        @param lon0: From longitude (degrees).
@@ -175,9 +176,10 @@ def compassDMS(bearing, form=F_D, prec=None, sep=S_SEP):
     '''Convert bearing to a string suffixed with compass point.
 
        @param bearing: Bearing from North (compass degrees).
-       @keyword form: Optional format, F_D, F_DM, F_DMS, F_DEG, F_MIN,
-                      F_SEC or F_RAD for deg°, deg°min′, deg°min′sec″,
-                      [D]DD, [D]DDMM, [D]DDMMSS or radians (string).
+       @keyword form: Optional format, L{F_D}, L{F_DM}, L{F_DMS},
+                      L{F_DEG}, L{F_MIN}, L{F_SEC} or L{F_RAD} for
+                      deg°, deg°min′, deg°min′sec″, [D]DD, [D]DDMM,
+                      [D]DDMMSS or radians (string).
        @keyword prec: Optional number of decimal digits (0..9 or
                       None for default).  Trailing zero decimals
                       are stripped for prec values of 1 and above,
@@ -235,9 +237,10 @@ def latDMS(deg, form=F_DMS, prec=2, sep=S_SEP):
     '''Convert latitude to a string suffixed with N or S.
 
        @param deg: Latitude to be formatted (degrees).
-       @keyword form: Optional format, use F_D, F_DM, F_DMS, F_DEG, F_MIN,
-                      F_SEC or F_RAD for deg°, deg°min′, deg°min′sec″,
-                      DD, DDMM, DDMMSS or radians (string).
+       @keyword form: Optional format, L{F_D}, L{F_DM}, L{F_DMS},
+                      L{F_DEG}, L{F_MIN}, L{F_SEC} or L{F_RAD} for
+                      deg°, deg°min′, deg°min′sec″, DD, DDMM, DDMMSS
+                      or radians (string).
        @keyword prec: Optional number of decimal digits (0..9 or
                       None for default).  Trailing zero decimals
                       are stripped for prec values of 1 and above,
@@ -256,9 +259,10 @@ def lonDMS(deg, form=F_DMS, prec=2, sep=S_SEP):
     '''Convert longitude to a string suffixed with E or W.
 
        @param deg: Longitude to be formatted (degrees).
-       @keyword form: Optional format, use F_D, F_DM, F_DMS, F_DEG, F_MIN,
-                      F_SEC or F_RAD for deg°, deg°min′, deg°min′sec″,
-                      DDD, DDDMM, DDDMMSS or radians (string).
+       @keyword form: Optional format, L{F_D}, L{F_DM}, L{F_DMS},
+                      L{F_DEG}, L{F_MIN}, L{F_SEC} or L{F_RAD} for
+                      deg°, deg°min′, deg°min′sec″, DDD, DDDMM,
+                      DDDMMSS or radians (string).
        @keyword prec: Optional number of decimal digits (0..9 or
                       None for default).  Trailing zero decimals
                       are stripped for prec values of 1 and above,
@@ -307,7 +311,7 @@ def parse3llh(strll, height=0, sep=',', clipLat=90, clipLon=180):
        The lat- and longitude values may be swapped, provided at least
        one ends with the proper compass point.
 
-       @param strll: Lat, lon[, height] (string).
+       @param strll: Latitude, longitude[, height] (string).
        @keyword height: Optional, default for missing height (meter).
        @keyword sep: Optional separator (string).
        @keyword clipLat: Keep latitude in I{-clipLat..+clipLat} (degrees).
@@ -424,8 +428,8 @@ def parseDMS2(strLat, strLon, sep=S_SEP, clipLat=90, clipLon=180):
 def precision(form, prec=None):
     '''Set the default precison for a given F_ form.
 
-       @param form: Format name, F_D, F_DM, F_DMS, F_DEG, F_MIN,
-                    F_SEC or F_RAD (string).
+       @param form: L{F_D}, L{F_DM}, L{F_DMS}, L{F_DEG}, L{F_MIN},
+                    L{F_SEC} or L{F_RAD} (string).
        @keyword prec: Optional number of decimal digits (0..9 or
                       None for default).  Trailing zero decimals
                       are stripped for I{prec} values of 1 and
@@ -469,9 +473,10 @@ def toDMS(deg, form=F_DMS, prec=2, sep=S_SEP, ddd=2, neg='-', pos=''):
     '''Convert signed degrees to string, without suffix.
 
        @param deg: Degrees to be formatted (scalar).
-       @keyword form: Optional format, use F_D, F_DM, F_DMS, F_DEG, F_MIN,
-                      F_SEC or F_RAD for deg°, deg°min′, deg°min′sec″,
-                      [D]DD, [D]DDMM, [D]DDMMSS or radians (string).
+       @keyword form: Optional format, L{F_D}, L{F_DM}, L{F_DMS},
+                      L{F_DEG}, L{F_MIN}, L{F_SEC} or L{F_RAD} for
+                      deg°, deg°min′, deg°min′sec″, [D]DD, [D]DDMM,
+                      [D]DDMMSS or radians (string).
        @keyword prec: Optional number of decimal digits (0..9 or
                       None for default).  Trailing zero decimals
                       are stripped for prec values of 1 and above,

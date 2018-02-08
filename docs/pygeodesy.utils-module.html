@@ -59,17 +59,17 @@
 </table>
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module utils</h1><p class="nomargin-top"></p>
-<p>Utility and geometric functions and constants.</p>
+<p>Utility, geodetic/geometric functions and constants.</p>
   <p>After <i>(C) Chris Veness 2011-2015</i> published under the same MIT 
   Licence**, see <a 
   href="http://www.movable-type.co.uk/scripts/latlong.html" 
-  target="_top">http://www.movable-type.co.uk/scripts/latlong.html</a> and 
-  <a href="http://www.movable-type.co.uk/scripts/latlong-vectors.html" 
-  target="_top">http://www.movable-type.co.uk/scripts/latlong-vectors.html</a>.</p>
+  target="_top">Latitude/Longitude</a> and <a 
+  href="http://www.movable-type.co.uk/scripts/latlong-vectors.html" 
+  target="_top">Vector-based geodesy</a>.</p>
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.02.02
+        18.02.06
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -263,7 +263,7 @@
         <span class="summary-sig-arg">**options</span>)</span><br />
       Compute the distance between two points using the <a 
       href="http://www.movable-type.co.uk/scripts/latlong.html" 
-      target="_top">Equirectangular Approximation/Projection</a>.</td>
+      target="_top">Equirectangular Approximation / Projection</a>.</td>
           <td align="right" valign="top">
             
             
@@ -288,30 +288,7 @@
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the distance between two points using the <a 
       href="http://www.movable-type.co.uk/scripts/latlong.html" 
-      target="_top">Equirectangular Approximation/Projection</a>.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#equirectangular3" class="summary-sig-name">equirectangular3</a>(<span class="summary-sig-arg">lat1</span>,
-        <span class="summary-sig-arg">lon1</span>,
-        <span class="summary-sig-arg">lat2</span>,
-        <span class="summary-sig-arg">lon2</span>,
-        <span class="summary-sig-arg">**options</span>)</span><br />
-      For backward compatibility only, obsolete, replaced by function <a 
-      href="pygeodesy.utils-module.html#equirectangular_" 
-      class="link">equirectangular_</a>.</td>
+      target="_top">Equirectangular Approximation / Projection</a>.</td>
           <td align="right" valign="top">
             
             
@@ -1152,7 +1129,7 @@
   
   <p>Compute the distance between two points using the <a 
   href="http://www.movable-type.co.uk/scripts/latlong.html" 
-  target="_top">Equirectangular Approximation/Projection</a>.</p>
+  target="_top">Equirectangular Approximation / Projection</a>.</p>
   <p>See function <a href="pygeodesy.utils-module.html#equirectangular_" 
   class="link">equirectangular_</a> for more details, the available 
   <i>options</i> and errors raised.</p>
@@ -1199,7 +1176,7 @@
   
   <p>Compute the distance between two points using the <a 
   href="http://www.movable-type.co.uk/scripts/latlong.html" 
-  target="_top">Equirectangular Approximation/Projection</a>.</p>
+  target="_top">Equirectangular Approximation / Projection</a>.</p>
   <p>This approximation is valid for smaller distance of several hundred Km
   or Miles, see the <i>limit</i> keyword argument and the <a 
   href="pygeodesy.utils.LimitError-class.html" 
@@ -1242,36 +1219,6 @@
         class="link">haversine</a> for accurate and/or larger distances.
       </p>
 </div></td></tr></table>
-</div>
-<a name="equirectangular3"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">equirectangular3</span>(<span class="sig-arg">lat1</span>,
-        <span class="sig-arg">lon1</span>,
-        <span class="sig-arg">lat2</span>,
-        <span class="sig-arg">lon2</span>,
-        <span class="sig-arg">**options</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>For backward compatibility only, obsolete, replaced by function <a 
-  href="pygeodesy.utils-module.html#equirectangular_" 
-  class="link">equirectangular_</a>.</p>
-  <p>See function <a href="pygeodesy.utils-module.html#equirectangular_" 
-  class="link">equirectangular_</a> for more details, the available 
-  <i>options</i> and errors raised.</p>
-  <dl class="fields">
-    <dt>Returns:</dt>
-        <dd>3-Tuple (distance2, delta_lat, delta_lon).</dd>
-  </dl>
-</td></tr></table>
 </div>
 <a name="false2f"></a>
 <div>
@@ -1472,12 +1419,12 @@
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a href="http://github.com/nasa/MultiDop" 
-        target="_top">MultiDop</a>, <a 
+        <a href="http://github.com/nasa/MultiDop/" target="_top">MultiDop 
+        GeogBeamHt</a> (<a 
         href="http://journals.ametsoc.org/doi/abs/10.1175/2009JTECHA1256.1"
         target="_top">Shapiro et al. 2009, JTECH</a> and <a 
         href="http://journals.ametsoc.org/doi/abs/10.1175/JTECH-D-11-00019.1"
-        target="_top">Potvin et al. 2012, JTECH</a>.
+        target="_top">Potvin et al. 2012, JTECH</a>).
       </p>
 </div></td></tr></table>
 </div>
@@ -1831,15 +1778,15 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The points of the polygon (<i>LatLon</i>[])</li>
         <li><strong class="pname"><code>closed</code></strong> - Optionally, treat polygon as closed and remove any duplicate or 
-          closing final points (bool).</li>
-        <li><strong class="pname"><code>base</code></strong> - Optional points base class (None).</li>
+          closing final <i>points</i> (bool).</li>
+        <li><strong class="pname"><code>base</code></strong> - Optional <i>points</i> base class (None).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple (number, sequence) of points (int, sequence).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <i>LatLon</i>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of points.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <i>LatLon</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -2254,7 +2201,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Feb  4 23:12:51 2018
+    Generated by Epydoc 3.0.1 on Thu Feb  8 13:24:32 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -6,9 +6,9 @@ functions L{parseMGRS} and L{toMgrs}.
 
 Pure Python implementation of MGRS / UTM conversion functions using
 an ellipsoidal earth model, transcribed from JavaScript originals by
-I{(C) Chris Veness 2014-2016} published under the same MIT Licence**,
-see U{http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html}
-and U{http://www.movable-type.co.uk/scripts/geodesy/docs/module-mgrs.html}.
+I{(C) Chris Veness 2014-2016} published under the same MIT Licence**, see
+U{MGRS<http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html>} and
+U{Module mgrs<http://www.movable-type.co.uk/scripts/geodesy/docs/module-mgrs.html>}.
 
 The MGRS/NATO grid references provides geocoordinate references
 covering the entire globe, based on UTM projections.
@@ -19,8 +19,9 @@ identification, and an easting and northing (in metres).
 Depending on requirements, some parts of the reference may be omitted
 (implied), and easting/northing may be given to varying resolution.
 
-Qv U{http://www.fgdc.gov/standards/projects/FGDC-standards-projects/usng/fgdc_std_011_2001_usng.pdf}
-and U{http://wikipedia.org/wiki/Military_grid_reference_system}.
+See also U{United States National Grid
+<http://www.fgdc.gov/standards/projects/FGDC-standards-projects/usng/fgdc_std_011_2001_usng.pdf>}
+and U{Military Grid Reference System<http://wikipedia.org/wiki/Military_grid_reference_system>}.
 
 @newfield example: Example, Examples
 '''
@@ -36,7 +37,7 @@ import re  # PYCHOK warning locale.Error
 # all public contants, classes and functions
 __all__ = ('Mgrs',  # classes
            'parseMGRS', 'toMgrs')  # functions
-__version__ = '18.02.02'
+__version__ = '18.02.05'
 
 _100km  =  100e3  #: (INTERNAL) 100 km in meter.
 _2000km = 2000e3  #: (INTERNAL) 2,000 km in meter.

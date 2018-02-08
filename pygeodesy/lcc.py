@@ -4,11 +4,14 @@
 u'''Lambert conformal conic projection for 1- or 2-Standard Parallels
 class L{Conic}, L{Conics} registry and position class L{Lcc}.
 
-See U{http://wikipedia.org/wiki/Lambert_conformal_conic_projection},
-U{http://www.linz.govt.nz/data/geodetic-system/coordinate-conversion/
-projection-conversions/lambert-conformal-conic-geographic},
-U{Snyder<http://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>} pp 107-109 and
-U{http://mathworld.wolfram.com/LambertConformalConicProjection.html}.
+See U{LCC<http://wikipedia.org/wiki/Lambert_conformal_conic_projection>},
+U{Lambert Conformal Conic to Geographic Transformation Formulae
+<http://www.linz.govt.nz/data/geodetic-system/coordinate-conversion/
+projection-conversions/lambert-conformal-conic-geographic>},
+U{Lambert Conformal Conic Projection
+<http://mathworld.wolfram.com/LambertConformalConicProjection.html>}
+and John P. Snyder U{'Map Projections - A Working Manual'
+<http://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}, 1987, pp 107-109.
 
 @newfield example: Example, Examples
 '''
@@ -24,7 +27,7 @@ from math import atan, copysign, cos, log, sin, sqrt
 # all public constants, classes and functions
 __all__ = ('Conic', 'Conics', 'Lcc',
            'toLcc')  # functions
-__version__ = '18.02.02'
+__version__ = '18.02.06'
 
 
 Conics = _Enum('Conics')  #: Registered conics (L{_Enum}).
@@ -428,7 +431,7 @@ class Lcc(_Based):
         '''Convert this L{Lcc} to an (ellipsoidal) geodetic point.
 
            @param LatLon: Ellipsoidal LatLon class to use for the
-                          geodetic point.
+                          geodetic point (I{LatLon}).
            @keyword datum: Optional datum to use, otherwise use this
                            I{Lcc}'s conic.datum (I{Datum}).
            @keyword height: Optional height for the point, overriding

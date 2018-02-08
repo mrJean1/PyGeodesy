@@ -59,8 +59,9 @@
 </table>
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module points</h1><p class="nomargin-top"></p>
-<p>Handle 2-d NumPy, tuples or other arrays as <i>LatLon</i>s or as 
-  pseudo-x/-y pairs.</p>
+<p>Handle 2-d <a href="http://www.NumPy.org" target="_top">NumPy</a>, 
+  <i>arrays</i> or tuples as <i>LatLon</i>s or as <i>pseudo-x/-y</i> 
+  pairs.</p>
   <p>NumPy arrays are assumed to contain rows of points with a lat-, a 
   longitude -and possibly other- values in different columns.  While 
   iterating over the array rows, create an instance of a given 
@@ -83,7 +84,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.02.02
+        18.02.06
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -147,7 +148,7 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.points-module.html#areaof" class="summary-sig-name">areaof</a>(<span class="summary-sig-arg">points</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.points-module.html#areaOf" class="summary-sig-name">areaOf</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
@@ -248,7 +249,7 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.points-module.html#perimeterof" class="summary-sig-name">perimeterof</a>(<span class="summary-sig-arg">points</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.points-module.html#perimeterOf" class="summary-sig-name">perimeterOf</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
@@ -274,14 +275,14 @@
     <span class="table-header">Function Details</span></td>
 </tr>
 </table>
-<a name="areaof"></a>
+<a name="areaOf"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">areaof</span>(<span class="sig-arg">points</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">areaOf</span>(<span class="sig-arg">points</span>,
         <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>)</span>
@@ -306,14 +307,22 @@
         <dd>Approximate area (meter, same units as <i>radius</i>, squared).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <i>LatLon</i>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of points.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <i>LatLon</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         This is an area approximation with limited accuracy, ill-suited for
         regions exceeding several hundred Km or Miles or with near-polar 
         latitudes.
+      </p>
+      <p><strong>See Also:</strong>
+        <a href="pygeodesy.sphericalNvector-module.html#areaOf" 
+        class="link">sphericalNvector.areaOf</a>, <a 
+        href="pygeodesy.sphericalTrigonometry-module.html#areaOf" 
+        class="link">sphericalTrigonometry.areaOf</a> and <a 
+        href="pygeodesy.ellipsoidalVincenty-module.html#areaOf" 
+        class="link">ellipsoidalVincenty.areaOf</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -348,8 +357,8 @@
           hiLon) of bounds (degrees) if <i>LatLon</i> is None.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <i>LatLon</i>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of points.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <i>LatLon</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -390,8 +399,8 @@
         <dd>True if clockwise, False otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <i>LatLon</i>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of points or zero area polygon.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <i>LatLon</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i> or zero area polygon.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -435,8 +444,8 @@
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.utils.CrossError-class.html">CrossError</a></strong></code> - Colinear point.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <i>LatLon</i>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of points.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <i>LatLon</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -475,33 +484,35 @@
         <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if point is inside the polygon, False otherwise.</dd>
+        <dd>True if <i>latlon</i> is inside the polygon, False otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <i>LatLon</i>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of points or invalid <i>latlon</i> point.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <i>LatLon</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i> or invalid <i>latlon</i>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="pygeodesy.sphericalNvector.LatLon-class.html#isEnclosedBy"
         class="link">sphericalNvector.LatLon.isEnclosedBy</a>, <a 
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html#isEnclosedBy"
-        class="link">sphericalTrigonometry.LatLon.isEnclosedBy</a>, <a 
-        href="http://github.com/nasa/MultiDop" target="_top">MultiDop</a> 
-        and <a 
-        href="http://github.com/nasa/MultiDop/blob/master/src/geog_lib.c" 
-        target="_top">MultiDop/src</a>.
+        class="link">sphericalTrigonometry.LatLon.isEnclosedBy</a> and <a 
+        href="http://github.com/nasa/MultiDop" target="_top">MultiDop 
+        GeogContainPt</a> (<a 
+        href="http://journals.ametsoc.org/doi/abs/10.1175/2009JTECHA1256.1"
+        target="_top">Shapiro et al. 2009, JTECH</a> and <a 
+        href="http://journals.ametsoc.org/doi/abs/10.1175/JTECH-D-11-00019.1"
+        target="_top">Potvin et al. 2012, JTECH</a>).
       </p>
 </div></td></tr></table>
 </div>
-<a name="perimeterof"></a>
+<a name="perimeterOf"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">perimeterof</span>(<span class="sig-arg">points</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">perimeterOf</span>(<span class="sig-arg">points</span>,
         <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
@@ -528,8 +539,8 @@
         <dd>Approximate perimeter (meter, same units as <i>radius</i>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <i>LatLon</i>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of points.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <i>LatLon</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -538,6 +549,12 @@
         class="link">equirectangular_</a> distance approximation and is 
         ill-suited for regions exceeding several hundred Km or Miles or 
         with near-polar latitudes.
+      </p>
+      <p><strong>See Also:</strong>
+        <a href="pygeodesy.sphericalTrigonometry-module.html#perimeterOf" 
+        class="link">sphericalTrigonometry.perimeterOf</a> and <a 
+        href="pygeodesy.ellipsoidalVincenty-module.html#perimeterOf" 
+        class="link">ellipsoidalVincenty.perimeterOf</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -573,7 +590,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Feb  4 23:12:51 2018
+    Generated by Epydoc 3.0.1 on Thu Feb  8 13:24:32 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

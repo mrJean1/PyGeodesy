@@ -5,7 +5,8 @@ u'''Generic 3-D vector base class L{Vector3d} and function L{sumOf}.
 
 Pure Python implementation of vector-based functions by I{(C) Chris
 Veness 2011-2015} published under the same MIT Licence**, see
-U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
+U{Vector-based geodesy
+<http://www.movable-type.co.uk/scripts/latlong-vectors.html>}.
 
 @newfield example: Example, Examples
 '''
@@ -20,7 +21,7 @@ from math import atan2, cos, sin
 # all public contants, classes and functions
 __all__ = ('Vector3d',  # classes
            'sumOf')  # functions
-__version__ = '18.02.02'
+__version__ = '18.02.05'
 
 try:
     _cmp = cmp
@@ -468,8 +469,10 @@ class Vector3d(VectorBase):
     def rotate(self, axis, theta):
         '''Rotate this vector by a specified angle around an axis.
 
-           See U{Rotation matrix from axis and angle<http://wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle>}
-           and U{Quaternion-derived rotation matrix<http://wikipedia.org/wiki/Quaternions_and_spatial_rotation#Quaternion-derived_rotation_matrix>}.
+           See U{Rotation matrix from axis and angle
+           <http://wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle>}
+           and U{Quaternion-derived rotation matrix
+           <http://wikipedia.org/wiki/Quaternions_and_spatial_rotation#Quaternion-derived_rotation_matrix>}.
 
            @param axis: The axis being rotated around (L{Vector3d}).
            @param theta: The angle of rotation (radians).

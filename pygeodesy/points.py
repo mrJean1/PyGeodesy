@@ -1,8 +1,8 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Handle 2-d NumPy, tuples or other arrays as I{LatLon}s or as
-pseudo-x/-y pairs.
+u'''Handle 2-d U{NumPy<http://www.NumPy.org>}, I{arrays} or tuples
+as I{LatLon}s or as I{pseudo-x/-y} pairs.
 
 NumPy arrays are assumed to contain rows of points with a lat-, a
 longitude -and possibly other- values in different columns.  While
@@ -36,10 +36,11 @@ from math import cos, radians, sin, sqrt
 
 __all__ = ('LatLon_',  # classes
            'LatLon2psxy', 'Numpy2LatLon', 'Tuple2LatLon',
-           'areaof', 'bounds',  # functions
+           'areaOf',  # functions
+           'bounds',
            'isclockwise', 'isconvex', 'isenclosedby',
-           'perimeterof')
-__version__ = '18.02.02'
+           'perimeterOf')
+__version__ = '18.02.06'
 
 
 class LatLon_(object):
@@ -526,9 +527,9 @@ class LatLon2psxy(_Basequence):
            @keyword radius: Optional, mean earth radius (meter).
            @keyword wrap: Wrap lat- and longitudes (bool).
 
-           @raise TypeError: Some points are not I{LatLon}.
+           @raise TypeError: Some I{points} are not I{LatLon}.
 
-           @raise ValueError: Insufficient number of points.
+           @raise ValueError: Insufficient number of I{points}.
         '''
         self._closed = closed
         self._len, self._array = polygon(latlons, closed=closed)
@@ -819,7 +820,7 @@ class Tuple2LatLon(_Array2LatLon):
         return type(self._array)(self._array[i] for i in indices)
 
 
-def _areaof(points, adjust, wrap):
+def _areaOf(points, adjust, wrap):
     # return the signed area in radians squared
 
     # setting radius=1 converts degrees to radians
@@ -843,7 +844,7 @@ def _areaof(points, adjust, wrap):
     return fsum(_rads2(len(pts), pts))
 
 
-def areaof(points, adjust=True, radius=R_M, wrap=True):
+def areaOf(points, adjust=True, radius=R_M, wrap=True):
     '''Approximate the area of a polygon defined by an array, list,
        sequence, set or tuple of points.
 
@@ -855,15 +856,18 @@ def areaof(points, adjust=True, radius=R_M, wrap=True):
 
        @return: Approximate area (meter, same units as I{radius}, squared).
 
-       @raise TypeError: Some points are not I{LatLon}.
+       @raise TypeError: Some I{points} are not I{LatLon}.
 
-       @raise ValueError: Insufficient number of points.
+       @raise ValueError: Insufficient number of I{points}.
 
        @note: This is an area approximation with limited accuracy,
        ill-suited for regions exceeding several hundred Km or Miles
        or with near-polar latitudes.
+
+       @see: L{sphericalNvector.areaOf}, L{sphericalTrigonometry.areaOf}
+             and L{ellipsoidalVincenty.areaOf}.
     '''
-    return abs(_areaof(points, adjust, wrap)) * float(radius)**2
+    return abs(_areaOf(points, adjust, wrap)) * float(radius)**2
 
 
 def bounds(points, wrap=True, LatLon=None):
@@ -880,9 +884,9 @@ def bounds(points, wrap=True, LatLon=None):
                 (loLat, loLon, hiLat, hiLon) of bounds (degrees) if
                 I{LatLon} is None.
 
-       @raise TypeError: Some points are not I{LatLon}.
+       @raise TypeError: Some I{points} are not I{LatLon}.
 
-       @raise ValueError: Insufficient number of points.
+       @raise ValueError: Insufficient number of I{points}.
 
        @example:
 
@@ -923,9 +927,9 @@ def isclockwise(points, adjust=False, wrap=True):
 
        @return: True if clockwise, False otherwise.
 
-       @raise TypeError: Some points are not I{LatLon}.
+       @raise TypeError: Some I{points} are not I{LatLon}.
 
-       @raise ValueError: Insufficient number of points or zero area polygon.
+       @raise ValueError: Insufficient number of I{points} or zero area polygon.
 
        @example:
 
@@ -935,7 +939,7 @@ def isclockwise(points, adjust=False, wrap=True):
        >>> t = LatLon(45,1), LatLon(46,1), LatLon(46,2)
        >>> isclockwise(t)  # True
     '''
-    a = _areaof(points, adjust, wrap) or 0
+    a = _areaOf(points, adjust, wrap) or 0
     if a > 0:
         return True
     elif a < 0:
@@ -957,9 +961,9 @@ def isconvex(points, adjust=False, wrap=True):
 
        @raise CrossError: Colinear point.
 
-       @raise TypeError: Some points are not I{LatLon}.
+       @raise TypeError: Some I{points} are not I{LatLon}.
 
-       @raise ValueError: Insufficient number of points.
+       @raise ValueError: Insufficient number of I{points}.
 
        @example:
 
@@ -1020,17 +1024,20 @@ def isenclosedby(latlon, points, wrap=False):  # MCCABE 14
        @param points: The points defining the polygon (I{LatLon}[]).
        @keyword wrap: Wrap lat-, wrap and unroll longitudes (bool).
 
-       @return: True if point is inside the polygon, False otherwise.
+       @return: True if I{latlon} is inside the polygon, False otherwise.
 
-       @raise TypeError: Some points are not I{LatLon}.
+       @raise TypeError: Some I{points} are not I{LatLon}.
 
-       @raise ValueError: Insufficient number of points or invalid
-                          I{latlon} point.
+       @raise ValueError: Insufficient number of I{points} or invalid
+                          I{latlon}.
 
        @see: L{sphericalNvector.LatLon.isEnclosedBy},
-             L{sphericalTrigonometry.LatLon.isEnclosedBy},
-             U{MultiDop<http://github.com/nasa/MultiDop>} and U{MultiDop/src
-             <http://github.com/nasa/MultiDop/blob/master/src/geog_lib.c>}.
+             L{sphericalTrigonometry.LatLon.isEnclosedBy} and
+             U{MultiDop GeogContainPt<http://github.com/nasa/MultiDop>}
+             (U{Shapiro et al. 2009, JTECH
+             <http://journals.ametsoc.org/doi/abs/10.1175/2009JTECHA1256.1>}
+             and U{Potvin et al. 2012, JTECH
+             <http://journals.ametsoc.org/doi/abs/10.1175/JTECH-D-11-00019.1>}).
     '''
     pts = LatLon2psxy(points, closed=True, radius=None, wrap=wrap)
 
@@ -1086,7 +1093,7 @@ def isenclosedby(latlon, points, wrap=False):  # MCCABE 14
     return e
 
 
-def perimeterof(points, closed=False, adjust=True, radius=R_M, wrap=True):
+def perimeterOf(points, closed=False, adjust=True, radius=R_M, wrap=True):
     '''Approximate the perimeter of a polygon/-line defined by an array,
        list, sequence, set or tuple of points.
 
@@ -1099,13 +1106,16 @@ def perimeterof(points, closed=False, adjust=True, radius=R_M, wrap=True):
 
        @return: Approximate perimeter (meter, same units as I{radius}).
 
-       @raise TypeError: Some points are not I{LatLon}.
+       @raise TypeError: Some I{points} are not I{LatLon}.
 
-       @raise ValueError: Insufficient number of points.
+       @raise ValueError: Insufficient number of I{points}.
 
        @note: This perimeter is based on the L{equirectangular_}
        distance approximation and is ill-suited for regions exceeding
        several hundred Km or Miles or with near-polar latitudes.
+
+       @see: L{sphericalTrigonometry.perimeterOf} and
+             L{ellipsoidalVincenty.perimeterOf}.
     '''
     pts = LatLon2psxy(points, closed=closed, radius=None, wrap=False)
 

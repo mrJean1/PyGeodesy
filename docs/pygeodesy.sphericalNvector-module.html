@@ -70,6 +70,8 @@
   class="link">intersection</a>, <a 
   href="pygeodesy.sphericalNvector-module.html#meanOf" 
   class="link">meanOf</a>, <a 
+  href="pygeodesy.sphericalNvector-module.html#nearestOn2" 
+  class="link">nearestOn2</a>, <a 
   href="pygeodesy.sphericalNvector-module.html#triangulate" 
   class="link">triangulate</a> and <a 
   href="pygeodesy.sphericalNvector-module.html#trilaterate" 
@@ -78,21 +80,17 @@
   (lat-/longitude) methods, transcribed from JavaScript originals by <i>(C)
   Chris Veness 2011-2016</i>, published under the same MIT Licence**.  See 
   <a href="http://www.movable-type.co.uk/scripts/latlong-vectors.html" 
-  target="_top">http://www.movable-type.co.uk/scripts/latlong-vectors.html</a>
-  and <a 
+  target="_top">Vector-based geodesy</a> and <a 
   href="http://www.movable-type.co.uk/scripts/geodesy/docs/module-latlon-nvector-spherical.html"
-  
-  target="_top">http://www.movable-type.co.uk/scripts/geodesy/docs/module-latlon-nvector-spherical.html</a>.</p>
+  target="_top">Module latlon-nvector-spherical</a>.</p>
   <p>Tools for working with points and paths on (a spherical model of) the 
   earth&#8217;s surface using using n-vectors rather than the more common 
   spherical trigonometry.  N-vectors make many calculations much simpler, 
   and easier to follow, compared with the trigonometric equivalents.</p>
-  <p>Based on Kenneth Gade&#8217;s &#8216;Non-singular Horizontal Position 
-  Representation&#8217;, The Journal of Navigation (2010), vol 63, nr 3, pp 
-  395-417.  Also at <a 
+  <p>Based on Kenneth Gade&#8217;s <a 
   href="http://www.navlab.net/Publications/A_Nonsingular_Horizontal_Position_Representation.pdf"
-  
-  target="_top">http://www.navlab.net/Publications/A_Nonsingular_Horizontal_Position_Representation.pdf</a>.</p>
+  target="_top">&#8216;Non-singular Horizontal Position Representation&#8217;</a>, The 
+  Journal of Navigation (2010), vol 63, nr 3, pp 395-417.</p>
   <p>Note that the formulations below take x =&gt; 0&#176;N,0&#176;E, y =&gt; 
   0&#176;N,90&#176;E and z =&gt; 90&#176;N while Gade uses x =&gt; 90&#176;N, y =&gt; 0&#176;N,90&#176;E,
   z =&gt; 0&#176;N,0&#176;E.</p>
@@ -101,7 +99,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.02.02
+        18.02.06
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -306,13 +304,21 @@
         <dd>Polygon area (float, same units as radius squared).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <a 
         href="pygeodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of points.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="pygeodesy.points-module.html#areaOf" 
+        class="link">pygeodesy.areaOf</a>, <a 
+        href="pygeodesy.sphericalTrigonometry-module.html#areaOf" 
+        class="link">sphericalTrigonometry.areaOf</a> and <a 
+        href="pygeodesy.ellipsoidalVincenty-module.html#areaOf" 
+        class="link">ellipsoidalVincenty.areaOf</a>.
+      </p>
+      <p><strong>Example:</strong>
         <pre class="py-doctest">
 <span class="py-prompt">&gt;&gt;&gt; </span>b = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
 <span class="py-prompt">&gt;&gt;&gt; </span>areaOf(b)  <span class="py-comment"># 8666058750.718977</span></pre>
@@ -370,7 +376,7 @@
           exists.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Start or end point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - Start or end point(s) not <a 
         href="pygeodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
         <li><code><strong class='fraise'>Valuerror</strong></code> - Paths coincide.</li>
@@ -418,7 +424,7 @@
           class="link">LatLon</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of points.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -466,8 +472,8 @@
           <i>radius</i>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some points or the point not <i>LatLon</i>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - If no points.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> or the point not <i>LatLon</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - No <i>points</i>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -516,7 +522,7 @@
           class="link">LatLon</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - One of the points is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - One of the <i>points</i> is not <a 
         href="pygeodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
         <li><code><strong class='fraise'>Valuerror</strong></code> - Points coincide.</li>
@@ -583,10 +589,11 @@
           class="link">LatLon</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - One of the points is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - One of the <i>points</i> is not <a 
         href="pygeodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Distance(s) exceeds trilateration or some points coincide.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>radius</i>, some <i>distances</i> exceed trilateration 
+        or some <i>points</i> coincide.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -623,7 +630,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Feb  4 23:12:51 2018
+    Generated by Epydoc 3.0.1 on Thu Feb  8 13:24:32 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

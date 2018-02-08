@@ -6,24 +6,27 @@ L{parseOSGR} and L{toOsgr}.
 
 Pure Python implementation of OS Grid Reference functions using an
 ellipsoidal earth model, transcribed from JavaScript originals by
-I{(C) Chris Veness 2005-2016} published under the same MIT Licence**,
-see U{http://www.movable-type.co.uk/scripts/latlong-os-gridref.html}
-and U{http://www.movable-type.co.uk/scripts/geodesy/docs/module-osgridref.html}.
+I{(C) Chris Veness 2005-2016} published under the same MIT Licence**, see
+U{OS National Grid<http://www.movable-type.co.uk/scripts/latlong-os-gridref.html>}
+and U{Module osgridref
+<http://www.movable-type.co.uk/scripts/geodesy/docs/module-osgridref.html>}.
 
-OSGR provides geocoordinate references for UK mapping purposes,
-converted 2015 to work with WGS84 datum by default or OSGB36 as option.
+OSGR provides geocoordinate references for UK mapping purposes, converted
+in 2015 to work with WGS84 datum by default or OSGB36 as option.
 
-See U{http://www.OrdnanceSurvey.co.uk/docs/support/guide-coordinate-systems-great-britain.pdf},
-U{http://www.OrdnanceSurvey.co.uk/blog/2014/09/proposed-changes-to-latitude-and-longitude-representation-on-paper-maps-tell-us-your-thoughts/},
-U{http://www.OrdnanceSurvey.co.uk/blog/2014/12/confirmation-on-changes-to-latitude-and-longitude}
-and U{http://wikipedia.org/wiki/Ordnance_Survey_National_Grid}.
+See U{Guide<http://www.OrdnanceSurvey.co.uk/docs/support/guide-coordinate-systems-great-britain.pdf>},
+U{Proposed Changes<http://www.OrdnanceSurvey.co.uk/blog/2014/09/proposed-changes-to-latitude-and-longitude-representation-on-paper-maps-tell-us-your-thoughts/>},
+U{Confirmation<http://www.OrdnanceSurvey.co.uk/blog/2014/12/confirmation-on-changes-to-latitude-and-longitude>}
+and U{Ordnance Survey National Grid<http://wikipedia.org/wiki/Ordnance_Survey_National_Grid>}.
 
-See also Karney 2011 "Transverse Mercator with an accuracy of a few
-nanometers" and Krüger 1912 "Konforme Abbildung des Erdellipsoids in
-der Ebene", references U{http://arxiv.org/pdf/1002.1417v3.pdf},
-U{http://bib.gfz-potsdam.de/pub/digi/krueger2.pdf},
-U{http://henrik-seidel.gmxhome.de/gausskrueger.pdf} and
-U{http://wikipedia.org/wiki/Transverse_Mercator:_Redfearn_series}.
+See also Karney U{'Transverse Mercator with an accuracy of a few
+nanometers'<http://arxiv.org/pdf/1002.1417v3.pdf>}, 2011 (building
+on Krüger U{'Konforme Abbildung des Erdellipsoids in der Ebene'
+<http://bib.gfz-potsdam.de/pub/digi/krueger2.pdf>}, 1912), Seidel
+U{'Die Mathematik der Gauß-Krueger-Abbildung'
+<http://henrik-seidel.gmxhome.de/gausskrueger.pdf>}, 2006 and
+U{Transverse Mercator: Redfearn series
+<http://wikipedia.org/wiki/Transverse_Mercator:_Redfearn_series>}.
 
 @newfield example: Example, Examples
 '''
@@ -32,7 +35,7 @@ from bases import Base
 from datum import Datums
 from dms import parseDMS2
 from ellipsoidalBase import LatLonEllipsoidalBase as _eLLb
-from fmath import fdot, fpowers, fsum, map1
+from fmath import fdot, fpowers, Fsum, fsum_, map1
 from utils import degrees90, degrees180, enStr2, false2f, halfs
 
 from math import cos, radians, sin, sqrt, tan
@@ -40,7 +43,7 @@ from math import cos, radians, sin, sqrt, tan
 # all public contants, classes and functions
 __all__ = ('Osgr',  # classes
            'parseOSGR', 'toOsgr')  # functions
-__version__ = '18.02.04'
+__version__ = '18.02.08'
 
 _10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (meter)
 _100km   = 100000  #: (INTERNAL) 100 km (int meter)
@@ -127,7 +130,7 @@ class Osgr(Base):
         '''Convert this OSGR coordinate to an (ellipsoidal) geodetic
            point.
 
-           {Note formulation implemented here due to Thomas, Redfearn,
+           I{Note formulation implemented here due to Thomas, Redfearn,
            etc. is as published by OS, but is inferior to Krüger as
            used by e.g. Karney 2011.}
 
@@ -157,15 +160,16 @@ class Osgr(Base):
         b_F0 = E.b * _F0
 
         e, n = self._easting, self._northing
+        n_N0 = n - _N0
 
-        a = _A0
-        s, M = [a], 0
+        a, M = _A0, 0
+        sa = Fsum(a)
         while True:
-            t = n - _N0 - M
+            t = n_N0 - M
             if t < _10um:
                 break
-            s.append(t / a_F0)
-            a = fsum(s)
+            sa.fadd(t / a_F0)
+            a = sa.fsum()
             M = b_F0 * _M(E.Mabcd, a)
 
         ca, sa, ta = cos(a), sin(a), tan(a)
@@ -188,7 +192,7 @@ class Osgr(Base):
         csa = 1.0 / ca
         X5 = (_B0,
               csa / v,
-              csa / (   6 * v3) * fsum((v / r, ta, ta)),
+              csa / (   6 * v3) * fsum_(v / r, ta, ta),
               csa / ( 120 * v5) * fdot((5, 28, 24), 1, ta2, ta4),
               csa / (5040 * v7) * fdot((61, 662, 1320, 720), ta, ta2, ta4, ta6))
 
@@ -402,13 +406,13 @@ def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr):
     x2 = r - 1  # η2
 
     ca3, ca5 = fpowers(ca, 5, 3)  # PYCHOK false!
-    ta2, ta4 = fpowers(ta**2, 2)  # PYCHOK false!
+    ta2, ta4 = fpowers(ta, 4, 2)  # PYCHOK false!
 
     vsa = v * sa
     I4 = (E.b * _F0 * _M(E.Mabcd, a) + _N0,
          (vsa /   2) * ca,
-         (vsa /  24) * ca3 * fsum((5, -ta2, 9 * x2)),
-         (vsa / 720) * ca5 * fsum((61, ta4, -58 * ta2)))
+         (vsa /  24) * ca3 * fsum_(5, -ta2, 9 * x2),
+         (vsa / 720) * ca5 * fsum_(61, ta4, -58 * ta2))
 
     V4 = (_E0,
          (v        * ca),
@@ -416,7 +420,6 @@ def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr):
          (v / 120) * ca5 * fdot((-18, 1, 14, -58), ta2, 5 + ta4, x2, ta2 * x2))
 
     d, d2, d3, d4, d5, d6 = fpowers(b - _B0, 6)  # PYCHOK false!
-
     n = fdot(I4, 1, d2, d4, d6)
     e = fdot(V4, 1, d,  d3, d5)
 

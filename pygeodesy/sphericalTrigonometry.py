@@ -2,12 +2,13 @@
 # -*- coding: utf-8 -*-
 
 u'''Trigonometric spherical geodetic (lat-/longitude) class L{LatLon}
-and functions L{intersection} and L{meanOf}.
+and functions L{areaOf}, L{intersection}, L{isPoleEnclosedBy},
+L{meanOf}, L{nearestOn2} and L{perimeterOf}.
 
 Pure Python implementation of geodetic (lat-/longitude) methods using
 spherical trigonometry, transcribed from JavaScript originals by
-I{(C) Chris Veness 2011-2016} published under the same MIT Licence**,
-see U{http://www.movable-type.co.uk/scripts/latlong.html}.
+I{(C) Chris Veness 2011-2016} published under the same MIT Licence**, see
+U{Latitude/Longitude<http://www.movable-type.co.uk/scripts/latlong.html>}.
 
 @newfield example: Example, Examples
 '''
@@ -29,7 +30,7 @@ __all__ = ('LatLon',  # classes
            'meanOf',
            'nearestOn2',
            'perimeterOf')
-__version__ = '18.02.02'
+__version__ = '18.02.06'
 
 
 class LatLon(LatLonSphericalBase):
@@ -85,7 +86,7 @@ class LatLon(LatLonSphericalBase):
                     after the start toward the end point of the path
                     or negative if before the start point).
 
-           @raise TypeError: The start or end point is not L{LatLon}.
+           @raise TypeError: The I{start} or I{end} point is not L{LatLon}.
 
            @example:
 
@@ -111,7 +112,7 @@ class LatLon(LatLonSphericalBase):
            @keyword wrap: Wrap and unroll longitudes (bool).
 
            @return: 2-Tuple (lon1, lon2) in (degrees180) or None if the
-                    great circle doesn't reach the given latitude.
+                    great circle doesn't reach the given I{lat}.
         '''
         self.others(other)
 
@@ -149,7 +150,7 @@ class LatLon(LatLonSphericalBase):
            @return: Distance to great circle (negative if to the
                     left or positive if to the right of the path).
 
-           @raise TypeError: The start or end point is not L{LatLon}.
+           @raise TypeError: The I{start} or I{end} point is not L{LatLon}.
 
            @example:
 
@@ -197,10 +198,10 @@ class LatLon(LatLonSphericalBase):
            @keyword radius: Optional, mean earth radius (meter).
            @keyword wrap: Wrap and unroll longitudes (bool).
 
-           @return: Distance between this and the other point
+           @return: Distance between this and the I{other} point
                     (in the same units as radius).
 
-           @raise TypeError: The other point is not L{LatLon}.
+           @raise TypeError: The I{other} point is not L{LatLon}.
 
            @example:
 
@@ -253,7 +254,7 @@ class LatLon(LatLonSphericalBase):
 
            @return: Initial bearing (compass degrees).
 
-           @raise TypeError: The other point is not L{LatLon}.
+           @raise TypeError: The I{other} point is not L{LatLon}.
 
            @example:
 
@@ -293,7 +294,7 @@ class LatLon(LatLonSphericalBase):
 
            @return: Intermediate point (L{LatLon}).
 
-           @raise TypeError: The other point is not L{LatLon}.
+           @raise TypeError: The I{other} point is not L{LatLon}.
 
            @example:
 
@@ -348,7 +349,7 @@ class LatLon(LatLonSphericalBase):
 
            @return: Intersection point (L{LatLon}).
 
-           @raise TypeError: Point start2 is not a L{LatLon}.
+           @raise TypeError: Point I{start2} is not a L{LatLon}.
 
            @raise ValueError: Intersection is ambiguous or infinite
                               or the paths are parallel or coincide.
@@ -371,10 +372,10 @@ class LatLon(LatLonSphericalBase):
 
            @return: True if the polygon encloses this point (bool).
 
-           @raise ValueError: Insufficient number of points or
+           @raise ValueError: Insufficient number of I{points} or
                               non-convex polygon.
 
-           @raise TypeError: Some points are not L{LatLon}.
+           @raise TypeError: Some I{points} are not L{LatLon}.
 
            @example:
 
@@ -443,7 +444,7 @@ class LatLon(LatLonSphericalBase):
 
            @return: Midpoint (L{LatLon}).
 
-           @raise TypeError: The other point is not L{LatLon}.
+           @raise TypeError: The I{other} point is not L{LatLon}.
 
            @example:
 
@@ -495,7 +496,7 @@ class LatLon(LatLonSphericalBase):
            @raise LimitError: Lat- and/or longitudinal delta exceeds
                               I{limit}, see function L{equirectangular_}.
 
-           @raise TypeError: If point1 or point2 is not L{LatLon}.
+           @raise TypeError: If I{point1} or I{point2} is not L{LatLon}.
         '''
         p, _ = nearestOn2(self, [point1, point2], **options)
         return p
@@ -523,9 +524,9 @@ class LatLon(LatLonSphericalBase):
            @raise LimitError: Lat- and/or longitudinal delta exceeds
                               I{limit}, see function L{equirectangular_}.
 
-           @raise TypeError: Some points are not I{LatLon}.
+           @raise TypeError: Some I{points} are not I{LatLon}.
 
-           @raise ValueError: Insufficient number of points.
+           @raise ValueError: Insufficient number of I{points}.
         '''
         return nearestOn2(self, points, radius=radius, **options)
 
@@ -572,9 +573,15 @@ def areaOf(points, radius=R_M, wrap=True):
 
        @return: Polygon area (float, same units as radius squared).
 
-       @raise TypeError: Some points are not L{LatLon}.
+       @raise TypeError: Some I{points} are not L{LatLon}.
 
-       @raise ValueError: Insufficient number of points.
+       @raise ValueError: Insufficient number of I{points}.
+
+       @note: The area is based on Karney U{'Area of a spherical polygon'
+              <http://osgeo-org.1560.x6.nabble.com/Area-of-a-spherical-polygon-td3841625.html>}.
+
+       @see: L{pygeodesy.areaOf}, L{sphericalNvector.areaOf} and
+             L{ellipsoidalVincenty.areaOf}.
 
        @example:
 
@@ -586,7 +593,7 @@ def areaOf(points, radius=R_M, wrap=True):
     '''
     n, points = _Trll.points(points, closed=True)
 
-    # uses area method due to Karney: for each edge of the polygon,
+    # Area method due to Karney: for each edge of the polygon,
     #
     #                tan(Δλ/2) · (tan(φ1/2) + tan(φ2/2))
     #     tan(E/2) = ------------------------------------
@@ -594,8 +601,6 @@ def areaOf(points, radius=R_M, wrap=True):
     #
     # where E is the spherical excess of the trapezium obtained by
     # extending the edge to the equator-circle vector for each edge
-    #
-    # <http://osgeo-org.1560.x6.nabble.com/Area-of-a-spherical-polygon-td3841625.html>
 
     if iterNumpy2(points):
 
@@ -645,9 +650,9 @@ def intersection(start1, bearing1, start2, bearing2,
                         point (L{LatLon}) or None.
 
        @return: Intersection point (L{LatLon}) or 3-tuple
-                (lat, lon, height)).
+                (lat, lon, height) if I{LatLon} is None.
 
-       @raise TypeError: Point start1 or start2 is not L{LatLon}.
+       @raise TypeError: Point I{start1} or I{start2} is not L{LatLon}.
 
        @raise ValueError: Intersection is ambiguous or infinite
                           or the paths are parallel or coincide.
@@ -701,10 +706,7 @@ def intersection(start1, bearing1, start2, bearing2,
 
     a, b = _destination2(a1, b1, r13, t13)
     h = start1._havg(start2) if height is None else height
-    if LatLon:
-        return LatLon(a, b, height=h)
-    else:
-        return a, b, h
+    return (a, b, h) if LatLon is None else LatLon(a, b, height=h)
 
 
 def isPoleEnclosedBy(points, wrap=False):
@@ -716,9 +718,9 @@ def isPoleEnclosedBy(points, wrap=False):
 
        @return: True if the polygon encloses a pole (bool).
 
-       @raise ValueError: Insufficient number of points.
+       @raise ValueError: Insufficient number of I{points}.
 
-       @raise TypeError: Some points are not L{LatLon}.
+       @raise TypeError: Some I{points} are not L{LatLon}.
     '''
     n, points = _Trll.points(points)
 
@@ -749,14 +751,15 @@ def meanOf(points, height=None, LatLon=LatLon):
        @keyword height: Optional height at mean point overriding
                         the mean height (meter).
        @keyword LatLon: Optional LatLon class to return mean point
-                        (L{LatLon}).
+                        (L{LatLon}) or None.
 
        @return: Point at geographic mean and height (L{LatLon}) or
-                3-tuple (mean_lat, mean_lon, height).
+                3-tuple (mean_lat, mean_lon, height) if I{LatLon}
+                is None.
 
-       @raise TypeError: Some points are not L{LatLon}.
+       @raise TypeError: Some I{points} are not L{LatLon}.
 
-       @raise ValueError: If no points.
+       @raise ValueError: No I{points}.
     '''
     # geographic mean
     n, points = _Trll.points(points, closed=False)
@@ -768,10 +771,7 @@ def meanOf(points, height=None, LatLon=LatLon):
         h = fmean(points[i].height for i in range(n))
     else:
         h = height
-    if LatLon:
-        return LatLon(a, b, height=h)
-    else:
-        return a, b, h
+    return (a, b, h) if LatLon is None else LatLon(a, b, height=h)
 
 
 def nearestOn2(point, points, radius=R_M, **options):
@@ -800,9 +800,9 @@ def nearestOn2(point, points, radius=R_M, **options):
        @raise LimitError: Lat- and/or longitudinal delta exceeds
                           I{limit}, see function L{equirectangular_}.
 
-       @raise TypeError: Some points are not I{LatLon}.
+       @raise TypeError: Some I{points} are not I{LatLon}.
 
-       @raise ValueError: Insufficient number of points.
+       @raise ValueError: Insufficient number of I{points}.
     '''
     def _d2yx(p2, p1, u):
         # equirectangular_ returns a 4-tuple (distance in
@@ -870,11 +870,13 @@ def perimeterOf(points, closed=False, radius=R_M, wrap=True):
 
        @return: Polygon perimeter (float, same units as radius).
 
-       @raise TypeError: Some points are not L{LatLon}.
+       @raise TypeError: Some I{points} are not L{LatLon}.
 
-       @raise ValueError: Insufficient number of points.
+       @raise ValueError: Insufficient number of I{points}.
 
        @note: This perimeter is based on the L{haversine} formula.
+
+       @see: L{pygeodesy.perimeterOf} and L{ellipsoidalVincenty.perimeterOf}.
     '''
     n, points = _Trll.points(points, closed=closed)
 

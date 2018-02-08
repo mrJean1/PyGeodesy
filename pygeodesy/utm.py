@@ -6,9 +6,9 @@ L{parseUTM} and L{toUtm}.
 
 Pure Python implementation of UTM / WGS-84 conversion functions using
 an ellipsoidal earth model, transcribed from JavaScript originals by
-I{(C) Chris Veness 2011-2016} published under the same MIT Licence**,
-see U{http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html}
-and U{http://www.movable-type.co.uk/scripts/geodesy/docs/module-utm.html}.
+I{(C) Chris Veness 2011-2016} published under the same MIT Licence**, see
+U{UTM<http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html>} and
+U{Module utm<http://www.movable-type.co.uk/scripts/geodesy/docs/module-utm.html>}.
 
 The UTM system is a 2-dimensional cartesian coordinate system providing
 locations on the surface of the earth.
@@ -17,14 +17,16 @@ UTM is a set of 60 transverse Mercator projections, normally based on
 the WGS-84 ellipsoid.  Within each zone, coordinates are represented
 as eastings and northings, measured in metres.
 
-This method based on Karney 2011 'Transverse Mercator with an
-accuracy of a few nanometers', building on Krüger 1912 'Konforme
-Abbildung des Erdellipsoids in der Ebene'.
+This method based on Karney U{'Transverse Mercator with an accuracy of
+a few nanometers'<http://arxiv.org/pdf/1002.1417v3.pdf>}, 2011 (building
+on Krüger U{'Konforme Abbildung des Erdellipsoids in der Ebene'
+<http://bib.gfz-potsdam.de/pub/digi/krueger2.pdf>}, 1912).
 
-References U{http://arxiv.org/pdf/1002.1417v3.pdf},
-U{http://bib.gfz-potsdam.de/pub/digi/krueger2.pdf},
-U{http://henrik-seidel.gmxhome.de/gausskrueger.pdf} and
-U{http://wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system}.
+Other references Seidel U{'Die Mathematik der Gauß-Krueger-Abbildung'
+<http://henrik-seidel.gmxhome.de/gausskrueger.pdf>}, 2006,
+U{Transverse Mercator Projection<http://geographiclib.sourceforge.io/tm.html>},
+and U{Universal Transverse Mercator coordinate system
+<http://wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system>}.
 
 @newfield example: Example, Examples
 '''
@@ -33,7 +35,7 @@ from bases import Base
 from datum import Datums
 from dms import S_DEG, parseDMS2
 from ellipsoidalBase import LatLonEllipsoidalBase as _eLLb
-from fmath import EPS, fdot3, fStr, fsum, hypot, hypot1, \
+from fmath import EPS, fdot3, fStr, Fsum, hypot, hypot1, \
                   isscalar, len2, map2
 from utils import degrees, degrees90, degrees180, \
                   radians, wrap90, wrap180
@@ -45,7 +47,7 @@ from operator import mul
 # all public contants, classes and functions
 __all__ = ('Utm',  # classes
            'parseUTM', 'toUtm')  # functions
-__version__ = '18.02.02'
+__version__ = '18.02.08'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -55,12 +57,12 @@ _FalseNorthing = 10000e3  #: (INTERNAL) False (meter).
 _K0            = 0.9996   #: (INTERNAL) UTM scale central meridian.
 
 
-class _Ks(object):
+class _K6(object):
     '''(INTERNAL) Alpha or Beta Krüger series.
 
-       Krüger series summations for eta, ksi, p and q while
-       caching the cos, sin, cosh and sinh values for the
-       given eta and ksi angles (in radians).
+       Krüger series summations for I{eta}, I{ksi}, I{p} and I{q}
+       while caching the cos, sin, cosh and sinh values for the
+       given I{eta} and I{ksi} angles (in radians).
     '''
     def __init__(self, AB, x, y):
         '''(INTERNAL) New Alpha or Beta Krüger series
@@ -174,17 +176,17 @@ def _toZBll(lat, lon):
 class Utm(Base):
     '''Universal Transverse Mercator (UTM) coordinate.
     '''
-    _band     = ''    #: (INTERNAL) Latitude band letter ('C..X').
-    _converge = None  #: (INTERNAL) Meridian conversion (degrees).
-    _datum    = Datums.WGS84  #: (INTERNAL) L{Datum}.
-    _easting  = 0     #: (INTERNAL) Easting from false easting (meter).
-    _hemi     = ''    #: (INTERNAL) Hemisphere ('N' or 'S')
+    _band        = ''    #: (INTERNAL) Latitude band letter ('C..X').
+    _convergence = None  #: (INTERNAL) Meridian conversion (degrees).
+    _datum       = Datums.WGS84  #: (INTERNAL) L{Datum}.
+    _easting     = 0     #: (INTERNAL) Easting from false easting (meter).
+    _hemi        = ''    #: (INTERNAL) Hemisphere ('N' or 'S')
     # _latlon also set by ellipsoidalBase.LatLonEllipsoidalBase.toUtm
-    _latlon   = None  #: (INTERNAL) toLatLon cache.
-    _mgrs     = None  #: (INTERNAL) toMgrs cache.
-    _northing = 0     #: (INTERNAL) Northing from false northing (meter).
-    _scale    = None  #: (INTERNAL) Grid scale factor (scalar or None).
-    _zone     = 0     #: (INTERNAL) Longitudinal zone (1..60).
+    _latlon      = None  #: (INTERNAL) toLatLon cache.
+    _mgrs        = None  #: (INTERNAL) toMgrs cache.
+    _northing    = 0     #: (INTERNAL) Northing from false northing (meter).
+    _scale       = None  #: (INTERNAL) Grid scale factor (scalar or None).
+    _zone        = 0     #: (INTERNAL) Longitudinal zone (1..60).
 
     def __init__(self, zone, hemisphere, easting, northing, band='',
                        datum=Datums.WGS84, convergence=None, scale=None):
@@ -226,13 +228,13 @@ class Utm(Base):
         if 0 > n or n > _FalseNorthing:
             raise ValueError('%s invalid: %r' % ('northing', northing))
 
-        self._hemi     = h
-        self._easting  = e
-        self._northing = n
-        self._band     = B
-        self._datum    = datum
-        self._converge = convergence
-        self._scale    = scale
+        self._hemi        = h
+        self._easting     = e
+        self._northing    = n
+        self._band        = B
+        self._datum       = datum
+        self._convergence = convergence
+        self._scale       = scale
 
     @property
     def band(self):
@@ -244,7 +246,7 @@ class Utm(Base):
     def convergence(self):
         '''Get the meridian convergence (degrees or None).
         '''
-        return self._converge
+        return self._convergence
 
     @property
     def datum(self):
@@ -286,11 +288,16 @@ class Utm(Base):
     def toLatLon(self, LatLon):
         '''Convert this UTM coordinate to an (ellipsoidal) geodetic point.
 
-           @param LatLon: The I{LatLon} class for the point (I{LatLon}).
+           @param LatLon: The I{LatLon} class to use for the point
+                          (I{LatLon}) or None.
 
-           @return: Point of this UTM coordinate (I{LatLon}).
+           @return: Point of this UTM coordinate (I{LatLon}) or 5-tuple
+                    (lat, lon, datum, convergence, scale) if I{LatLon}
+                    is None.
 
            @raise TypeError: If I{LatLon} is not ellipsoidal.
+
+           @raise ValueError: Invalid meridional radius or H-value.
 
            @example:
 
@@ -310,10 +317,12 @@ class Utm(Base):
 
         # from Karney 2011 Eq 15-22, 36
         A0 = _K0 * E.A
+        if A0 < EPS:
+            raise ValueError('%s invalid: %r' % ('meridional', E.A))
         x /= A0  # η eta
         y /= A0  # ξ ksi
 
-        B6 = _Ks(E.Beta6, x, y)  # 6th-order Krüger series, 1-origin
+        B6 = _K6(E.Beta6, x, y)  # 6th-order Krüger series, 1-origin
         y = -B6.ys(-y)  # ξ'
         x = -B6.xs(-x)  # η'
 
@@ -321,20 +330,21 @@ class Utm(Base):
         cy, sy = cos(y), sin(y)
 
         H = hypot(shx, cy)
+        if H < EPS:
+            raise ValueError('%s invalid: %r' % ('H', H))
 
-        t0 = sy / H
-        ds = [t0]
+        T = t0 = sy / H  # τʹ
         q = 1.0 / E.e12
         d = 1
-        # note, a relatively large convergence test as d
+        sd = Fsum(T)
         # toggles on +/-1.12e-16 eg. 31 N 400000 5000000
         while abs(d) > EPS:  # 1e-12
-            T = fsum(ds)
             h = hypot1(T)
             s = sinh(E.e * atanh(E.e * T / h))
             t = T * hypot1(s) - s * h
             d = (t0 - t) / hypot1(t) * (q + T**2) / h
-            ds.append(d)
+            sd.fadd(d)
+            T = sd.fsum()  # τi
 
         a = atan(T)  # lat
         b = atan2(shx, cy) + radians(self._zone * 6 - 183)  # lon of central meridian
@@ -405,8 +415,8 @@ class Utm(Base):
              fStr(self._easting, prec=prec),
              fStr(self._northing, prec=prec)]
         if cs:
-            t += ['n/a' if self._converge is None else
-                      fStr(self._converge, prec=8, fmt='%+013.*f') + S_DEG,
+            t += ['n/a' if self._convergence is None else
+                      fStr(self._convergence, prec=8, fmt='%+013.*f') + S_DEG,
                   'n/a' if self._scale is None else
                       fStr(self._scale, prec=8)]
         return sep.join(t)
@@ -537,7 +547,7 @@ def toUtm(latlon, lon=None, datum=None, Utm=Utm):
 
     A0 = _K0 * E.A
 
-    A6 = _Ks(E.Alpha6, x, y)  # 6th-order Krüger series, 1-origin
+    A6 = _K6(E.Alpha6, x, y)  # 6th-order Krüger series, 1-origin
     y = A6.ys(y) * A0  # ξ
     x = A6.xs(x) * A0  # η
 
@@ -551,9 +561,9 @@ def toUtm(latlon, lon=None, datum=None, Utm=Utm):
     c = degrees(atan(T_ / hypot1(T_) * tb) + atan2(q_, p_))
 
     # scale: Karney 2011 Eq 25
-    k = E.e2s(sin(a)) * T12 / H * (A0 / E.a * hypot(p_, q_))
+    s = E.e2s(sin(a)) * T12 / H * (A0 / E.a * hypot(p_, q_))
 
-    return Utm(z, h, x, y, band=B, datum=d, convergence=c, scale=k)
+    return Utm(z, h, x, y, band=B, datum=d, convergence=c, scale=s)
 
 # **) MIT License
 #

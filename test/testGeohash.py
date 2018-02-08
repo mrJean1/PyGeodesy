@@ -4,7 +4,7 @@
 # Test geohash module.
 
 __all__ = ('Tests',)
-__version__ = '17.12.12'
+__version__ = '18.02.05'
 
 from base import TestsBase
 
@@ -33,9 +33,9 @@ class Tests(TestsBase):
         self.test('ab', fStr(g.ab, prec=7), '1.1412817, -0.3129321')
         self.test('decode', geohash.decode(g), "('65.390646', '-17.929709')")
         self.test('decode_error', fStr(geohash.decode_error(g), fmt='%*e'), '2.145767e-05, 2.145767e-05')
-        self.test('distance1', round(g.distance1('geehpb'), 3), '2758.887')
-        self.test('distance2', round(g.distance2('geehpb'), 3), '676.254')
-        self.test('distance3', round(g.distance3('geehpb'), 3), '397.404')
+        self.test('distance1', g.distance1('geehpb'), '2758.887', fmt='%.3f')
+        self.test('distance2', g.distance2('geehpb'),  '682.760', fmt='%.3f')
+        self.test('distance3', g.distance3('geehpb'),  '397.404', fmt='%.3f')
         self.test('sizes', fStr(g.sizes, prec=1), '4.8, 4.8')
 
         for g in ('u120fxw', 'geek', 'fur', 'geehpbpbp', 'u4pruydqqvj8', 'bgr96qxvpd46', '0123456789', 'zzzzzz'):
@@ -53,9 +53,9 @@ class Tests(TestsBase):
         self.test('encode', geohash.encode(52.205, 0.1188), 'u120fxw')
         self.test('decode', geohash.decode('u120fxw'), "('52.205', '0.1188')")
         self.test('decode_error', fStr(geohash.decode_error('u120fxw'), fmt='%*e'), '6.866455e-04, 6.866455e-04')
-        self.test('distance1', round(geohash.distance1('u120fxw', 'u120fxws0'), 3), '486.71')
-        self.test('distance2', round(geohash.distance2('u120fxw', 'u120fxws0'), 3), '3.374')
-        self.test('distance3', round(geohash.distance3('u120fxw', 'u120fxws0'), 3), '2.798')
+        self.test('distance1', geohash.distance1('u120fxw', 'u120fxws0'), '486.710', fmt='%.3f')
+        self.test('distance2', geohash.distance2('u120fxw', 'u120fxws0'),   '3.374', fmt='%.3f')
+        self.test('distance3', geohash.distance3('u120fxw', 'u120fxws0'),   '2.798', fmt='%.3f')
         self.test('sizes', fStr(geohash.sizes('u120fxw'), prec=1), '153.0, 153.0')
 
         g = Geohash('52.5009, 13.354')

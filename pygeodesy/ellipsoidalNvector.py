@@ -7,16 +7,17 @@ functions L{meanOf} and L{toNed}.
 
 Pure Python implementation of n-vector-based geodetic (lat-/longitude)
 methods by I{(C) Chris Veness 2011-2016} published under the same MIT
-Licence**, see U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}'
+Licence**, see U{Vector-based geodesy
+<http://www.movable-type.co.uk/scripts/latlong-vectors.html>}.
 
 These classes and functions work with: (a) geodesic (polar) lat-/longitude
 points on the earth's surface and (b) 3-D vectors used as n-vectors
 representing points on the earth's surface or vectors normal to the plane
 of a great circle.
 
-See Kenneth Gade, "A Non-singular Horizontal Position Representation",
-The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.  Also at
-U{http://www.navlab.net/Publications/A_Nonsingular_Horizontal_Position_Representation.pdf}.
+See also Kenneth Gade U{'A Non-singular Horizontal Position Representation'
+<http://www.navlab.net/Publications/A_Nonsingular_Horizontal_Position_Representation.pdf>},
+The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.
 
 @newfield example: Example, Examples
 '''
@@ -35,7 +36,7 @@ from math import asin, atan2, cos, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '18.02.02'
+__version__ = '18.02.06'
 
 
 class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
@@ -271,9 +272,11 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
            @keyword eps: Optional margin (float).
 
            @return: True if points are identical, including
-                    datum and height (bool).
+                    datum, I{ignoring height} (bool).
 
            @raise TypeError: The I{other} point is not L{LatLon}.
+
+           @see: Use method L{equals3} to include height.
 
            @example:
 
@@ -281,9 +284,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
            >>> q = LatLon(52.205, 0.119)
            >>> e = p.equals(q)  # True
         '''
-        return LatLonEllipsoidalBase.equals(self, other, eps=eps) and \
-                            abs(self.height - other.height) < EPS and \
-                            self.datum == other.datum
+        return LatLonEllipsoidalBase.equals(self, other, eps=eps) \
+                                and self.datum == other.datum
 
 #     def greatCircle(self, bearing):
 #         '''Return the great circle heading on the given bearing

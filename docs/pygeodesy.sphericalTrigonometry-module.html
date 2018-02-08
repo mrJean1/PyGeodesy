@@ -62,19 +62,27 @@
 <p>Trigonometric spherical geodetic (lat-/longitude) class <a 
   href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
   class="link">LatLon</a> and functions <a 
+  href="pygeodesy.sphericalTrigonometry-module.html#areaOf" 
+  class="link">areaOf</a>, <a 
   href="pygeodesy.sphericalTrigonometry-module.html#intersection" 
-  class="link">intersection</a> and <a 
+  class="link">intersection</a>, <a 
+  href="pygeodesy.sphericalTrigonometry-module.html#isPoleEnclosedBy" 
+  class="link">isPoleEnclosedBy</a>, <a 
   href="pygeodesy.sphericalTrigonometry-module.html#meanOf" 
-  class="link">meanOf</a>.</p>
+  class="link">meanOf</a>, <a 
+  href="pygeodesy.sphericalTrigonometry-module.html#nearestOn2" 
+  class="link">nearestOn2</a> and <a 
+  href="pygeodesy.sphericalTrigonometry-module.html#perimeterOf" 
+  class="link">perimeterOf</a>.</p>
   <p>Pure Python implementation of geodetic (lat-/longitude) methods using 
   spherical trigonometry, transcribed from JavaScript originals by <i>(C) 
   Chris Veness 2011-2016</i> published under the same MIT Licence**, see <a
   href="http://www.movable-type.co.uk/scripts/latlong.html" 
-  target="_top">http://www.movable-type.co.uk/scripts/latlong.html</a>.</p>
+  target="_top">Latitude/Longitude</a>.</p>
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.02.02
+        18.02.06
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -266,13 +274,26 @@
         <dd>Polygon area (float, same units as radius squared).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <a 
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of points.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
+<div class="fields">      <p><strong>Note:</strong>
+        The area is based on Karney <a 
+        href="http://osgeo-org.1560.x6.nabble.com/Area-of-a-spherical-polygon-td3841625.html"
+        target="_top">'Area of a spherical polygon'</a>.
+      </p>
+      <p><strong>See Also:</strong>
+        <a href="pygeodesy.points-module.html#areaOf" 
+        class="link">pygeodesy.areaOf</a>, <a 
+        href="pygeodesy.sphericalNvector-module.html#areaOf" 
+        class="link">sphericalNvector.areaOf</a> and <a 
+        href="pygeodesy.ellipsoidalVincenty-module.html#areaOf" 
+        class="link">ellipsoidalVincenty.areaOf</a>.
+      </p>
+      <p><strong>Example:</strong>
         <pre class="py-doctest">
 <span class="py-prompt">&gt;&gt;&gt; </span>b = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
 <span class="py-prompt">&gt;&gt;&gt; </span>areaOf(b)  <span class="py-comment"># 8666058750.718977</span></pre>
@@ -325,10 +346,11 @@
     <dt>Returns:</dt>
         <dd>Intersection point (<a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
-          class="link">LatLon</a>) or 3-tuple (lat, lon, height)).</dd>
+          class="link">LatLon</a>) or 3-tuple (lat, lon, height) if 
+          <i>LatLon</i> is None.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Point start1 or start2 is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - Point <i>start1</i> or <i>start2</i> is not <a 
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Intersection is ambiguous or infinite or the paths are parallel or 
@@ -372,8 +394,8 @@
         <dd>True if the polygon encloses a pole (bool).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of points.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <a 
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <a 
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -406,18 +428,19 @@
         <li><strong class="pname"><code>height</code></strong> - Optional height at mean point overriding the mean height (meter).</li>
         <li><strong class="pname"><code>LatLon</code></strong> - Optional LatLon class to return mean point (<a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
-          class="link">LatLon</a>).</li>
+          class="link">LatLon</a>) or None.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Point at geographic mean and height (<a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
-          class="link">LatLon</a>) or 3-tuple (mean_lat, mean_lon, height).</dd>
+          class="link">LatLon</a>) or 3-tuple (mean_lat, mean_lon, height) 
+          if <i>LatLon</i> is None.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <a 
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - If no points.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - No <i>points</i>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -475,8 +498,8 @@
         <li><code><strong class='fraise'><a href="pygeodesy.utils.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
         <a href="pygeodesy.utils-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <i>LatLon</i>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of points.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <i>LatLon</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -514,16 +537,22 @@
         <dd>Polygon perimeter (float, same units as radius).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some points are not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <a 
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of points.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         This perimeter is based on the <a 
         href="pygeodesy.utils-module.html#haversine" 
         class="link">haversine</a> formula.
+      </p>
+      <p><strong>See Also:</strong>
+        <a href="pygeodesy.points-module.html#perimeterOf" 
+        class="link">pygeodesy.perimeterOf</a> and <a 
+        href="pygeodesy.ellipsoidalVincenty-module.html#perimeterOf" 
+        class="link">ellipsoidalVincenty.perimeterOf</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -559,7 +588,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Feb  4 23:12:51 2018
+    Generated by Epydoc 3.0.1 on Thu Feb  8 13:24:32 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

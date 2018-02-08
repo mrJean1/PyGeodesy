@@ -2,31 +2,33 @@
 # -*- coding: utf-8 -*-
 
 u'''Class L{Geohash} and several functions to encode, decode and
-inspect geohashes.
+inspect I{geohashes}.
 
 Transcribed from JavaScript originals by I{(C) Chris Veness 2011-2015}
-and published under the same MIT Licence**.
+and published under the same MIT Licence**, see U{Geohashes
+<http://www.movable-type.co.uk/scripts/geohash.html>}.
 
-More details at U{http://www.movable-type.co.uk/scripts/geohash.html}.
-See also U{http://github.com/vinsci/geohash},
-U{http://github.com/davetroy/geohash-js} and
-U{http://pypi.python.org/pypi/pygeohash}.
+See also U{Geohash<http://en.wikipedia.org/wiki/Geohash>},
+U{Geohash<http://github.com/vinsci/geohash>},
+U{PyGeohash<http://pypi.python.org/pypi/pygeohash>} and
+U{Geohash-Javascript<http://github.com/davetroy/geohash-js>}.
 
 @newfield example: Example, Examples
 '''
 
 from dms import parse3llh, parseDMS2
-from fmath import EPS, favg, fStr, hypot, map2
-from utils import R_M, haversine_, unrollPI
+from fmath import EPS, favg, fStr, map2
+from utils import R_M, equirectangular, equirectangular_, \
+                  haversine_, unrollPI
 
-from math import cos, log10, radians
+from math import log10, radians
 
 # all public contants, classes and functions
 __all__ = ('Geohash',  # classes
            'bounds', 'decode', 'decode_error',  # functions
            'distance1', 'distance2', 'distance3',
            'encode', 'neighbors', 'sizes')
-__version__ = '18.02.02'
+__version__ = '18.02.05'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -223,17 +225,19 @@ class Geohash(str):
                 break
         return float(_Sizes[n][2])
 
-    def distance2(self, other, radius=R_M, wrap=False):
+    def distance2(self, other, radius=R_M, adjust=False, wrap=False):
         '''Compute the distance between this and an other geohash
-           using the U{Equirectangular Approximation/Projection
+           using the U{Equirectangular Approximation / Projection
            <http://www.movable-type.co.uk/scripts/latlong.html>}.
 
            @param other: The other geohash (L{Geohash}).
            @keyword radius: Optional, mean earth radius (meter) or None.
+           @keyword adjust: Adjust the wrapped, unrolled longitudinal
+                            delta by the cosine of the mean latitude (bool).
            @keyword wrap: Wrap and unroll longitudes (bool).
 
            @return: Approximate distance (meter, same units as I{radius})
-                    or distance squared (radians squared) if I{radius}
+                    or distance squared (degrees squared) if I{radius}
                     is None or 0.
 
            @raise TypeError: The I{other} is not a L{Geohash}, I{LatLon}
@@ -241,17 +245,14 @@ class Geohash(str):
         '''
         other = _2Geohash(other)
 
-        a1, b1 = self.ab
-        a2, b2 = other.ab
-
-        x = (a2 - a1) * cos(favg(b2, b1))
-        y, b2 = unrollPI(b1, b2, wrap=wrap)
-
+        a1, b1 = self.latlon
+        a2, b2 = other.latlon
         if radius:
-            d = hypot(x, y) * float(radius)
+            return equirectangular(a1, b1, a2, b2, radius=radius,
+                                   adjust=adjust, limit=None, wrap=wrap)
         else:
-            d = x**2 + y**2
-        return d
+            return equirectangular_(a1, b1, a2, b2,
+                                   adjust=adjust, limit=None, wrap=wrap)[0]
 
     def distance3(self, other, radius=R_M, wrap=False):
         '''Compute the great-circle distance between this and an other

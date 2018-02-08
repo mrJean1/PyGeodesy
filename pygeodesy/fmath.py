@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Precision mathematical functions and constants.
+u'''Precision mathematical functions, utilities and constants.
 
 @newfield example: Example, Examples
 '''
@@ -12,6 +12,7 @@ import sys
 
 # all public contants, classes and functions
 __all__ = ('EPS', 'EPS1', 'EPS2',  # constants
+           'Fsum',  # classes
            'cbrt', 'cbrt2',  # functions
            'favg', 'fdot', 'fdot3', 'fmean', 'fpolynomial', 'fpowers',
            'fStr', 'fStrzs', 'fsum', 'fsum_',
@@ -20,7 +21,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2',  # constants
            'len2',
            'map1', 'map2',
            'scalar')
-__version__ = '18.02.04'
+__version__ = '18.02.08'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -52,6 +53,118 @@ EPS2 = sqrt(EPS)  #: M{sqrt(EPS)} (float)
 
 _1_3rd = 1.0 / 3.0  #: (INTERNAL) One third (float)
 _2_3rd = 2.0 / 3.0  #: (INTERNAL) Two third (float)
+
+
+def _2sum(a, b):
+    '''(INTERNAL) Precision I{2sum} of M{a + b}.
+    '''
+    if abs(b) > abs(a):
+        a, b = b, a
+    s = a + b
+    if not isfinite(s):
+        raise OverflowError('partial %s: %r' % ('2sum', s))
+    return s, b - (s - a)
+
+
+def _signof(x):
+    '''(INTERNAL) Return M{copysign(1, x)}.
+    '''
+    return +1 if x > 0 else (-1 if x < 0 else 0)
+
+
+class Fsum(object):
+    '''Precision floating point summation similar to standard
+       Python function I{math.fsum}.
+
+       Unlike I{math.fsum}, this class accumulates the values to
+       be added incrementally and provides intermediate, precision
+       summations.  Accumulation can continue after intermediate
+       summations.
+
+       Exception and I{non-finite} handling differs from I{math.fsum}.
+
+       @see: U{Hettinger<http://code.activestate.com/recipes/393090/>},
+             U{Klein<http://link.springer.com/article/10.1007/s00607-005-0139-x>},
+             U{Kahan<http://wikipedia.org/wiki/Kahan_summation_algorithm>},
+             Python 2.6+ file I{Modules/mathmodule.c} and the issue log
+             U{Full precision summation<http://bugs.python.org/issue2819>}.
+    '''
+    def __init__(self, start=0):
+        '''Initialize a new accumulator.
+        '''
+        self._n = 0
+        self._ps = [self._arg(start)] if start else []
+
+    def __len__(self):
+        '''Return the number of accumulated values.
+        '''
+        return self._n
+
+    def _arg(self, arg):
+        try:
+            a = float(arg)
+            if isfinite(a):
+                self._n += 1
+                return a
+        except (TypeError, ValueError):
+            pass
+        raise ValueError('%s invalid: %r' % ('Fsum', arg))
+
+    def fadd(self, arg):
+        '''Accumulate another value.
+
+           @param arg: Value to add (scalar).
+
+           @raise OverflowError: Partial I{2sum} overflow.
+
+           @raise ValueError: Invalid or infinite I{arg}.
+        '''
+        a = self._arg(arg)
+        i = 0
+        for p in self._ps:
+            a, p = _2sum(a, p)
+            if p:
+                self._ps[i] = p
+                i += 1
+        self._ps[i:] = [a]
+
+    def fadd2(self, iterable):
+        '''Accumulate multiple values.
+
+           @param iterable: Sequence, list, tuple, etc. (scalars).
+
+           @raise OverflowError: Partial I{2sum} overflow.
+
+           @raise ValueError: Invalid or infinite I{iterable} value.
+        '''
+        for a in iterable:
+            self.fadd(a)
+
+    def fsum(self):
+        '''Summation of the values accumulated so far.
+
+           @return: Precision sum (float).
+
+           @raise OverflowError: Partial I{2sum} overflow.
+
+           @note: Accumulation can continue after summation.
+        '''
+        s = p = 0
+        i = len(self._ps)
+        if i > 0:
+            i -= 1
+            s = self._ps[i]
+            while i > 0:
+                i -= 1
+                s, p = _2sum(s, self._ps[i])
+                if p:
+                    break
+
+        if i > 0 and _signof(p) == _signof(self._ps[i - 1]):
+            r, p = _2sum(s, p * 2)  # half-even round
+            if not p:
+                s = r
+        return s
 
 
 def cbrt(x):
@@ -131,10 +244,12 @@ def fdot3(a, b, c, start=0):
     if not len(a) == len(b) == len(c):
         raise ValueError('%s: %s vs %s vs %s' % ('len', len(a), len(b), len(c)))
 
-    m3 = map(_mul3, a, b, c)
     if start:
-        m3 = (start,) + tuple(m3)
-    return fsum(m3)
+        f = Fsum(start)
+        f.fadd2(map(_mul3, a, b, c))
+        return f.fsum()
+    else:
+        return fsum(map(_mul3, a, b, c))
 
 
 def fmean(xs):
@@ -194,8 +309,10 @@ def fpowers(x, n, alts=0):
     xs = [x]
     for _ in range(1, n):
         xs.append(xs[-1] * x)
-    if alts > 0:  # x**3, x**5, ...
+
+    if alts > 0:  # x**2, x**4, ...
         xs = xs[alts-1::2]
+
     # XXX PyChecker falsely claims result is None
     return xs
 
@@ -245,7 +362,7 @@ def fStrzs(fstr):
 
 
 def fsum_(*args):
-    '''Precision floating point summation of the arguments.
+    '''Precision floating point summation of the positional arguments.
 
        @param args: Values to be added (scalars).
 
@@ -254,7 +371,7 @@ def fsum_(*args):
     return fsum(args)
 
 
-try:  # MCCABE 21
+try:
     from math import fsum  # precision IEEE-754 sum, Python 2.6+
 
     # make sure fsum works as expected (XXX check
@@ -266,68 +383,24 @@ try:  # MCCABE 21
 except ImportError:
 
     def fsum(iterable):
-        '''Precision floating point summation similar to I{math.fsum}.
+        '''Precision floating point summation similar to standard
+           Python function I{math.fsum}.
+
+           Exception and I{non-finite} handling differs from I{math.fsum}.
 
            @param iterable: Sequence, list, tuple, etc. (scalars).
 
            @return: Precision sum (float).
 
-           @raise OverflowError: Intermediate sum overflow.
+           @raise OverflowError: Partial I{2sum} overflow.
 
-           @raise ValueError: Invalid or infinite I{iterable}.
+           @raise ValueError: Invalid or infinite I{iterable} value.
 
-           @note: Exception and non-finite handling differs from I{math.fsum}.
-
-           @see: U{Hettinger<http://code.activestate.com/recipes/393090/>},
-                 U{Klein<http://link.springer.com/article/10.1007/s00607-005-0139-x>},
-                 U{Kahan<http://wikipedia.org/wiki/Kahan_summation_algorithm>},
-                 Python 2.6+ file I{Modules/mathmodule.c} and the issue log
-                 U{Full precision summation<http://bugs.python.org/issue2819>}.
+           @see: Class L{Fsum}.
         '''
-        def _signof(x):
-            return +1 if x > 0 else (-1 if x < 0 else 0)
-
-        def _2sum(a, b):
-            if abs(b) > abs(a):
-                a, b = b, a
-            s = a + b
-            if not isfinite(s):
-                raise OverflowError('intermediate %s: %r' % ('fsum', s))
-            t = s - a
-            return s, b - t
-
-        ps = []
-        for a in iterable:
-            try:
-                a = float(a)
-                if not isfinite(a):
-                    raise ValueError
-            except (TypeError, ValueError):
-                raise ValueError('%s invalid: %r' % ('fsum', a))
-
-            i = 0
-            for b in ps:
-                a, p = _2sum(a, b)
-                if p:
-                    ps[i] = p
-                    i += 1
-            ps[i:] = [a]
-
-        if ps:  # sum_exact(ps)
-            s = ps.pop()
-            while ps:
-                s, p = _2sum(s, ps.pop())
-                if p:
-                    break
-
-            if ps:  # half-even round
-                if _signof(p) == _signof(ps.pop()):
-                    a, p = _2sum(s, p * 2)
-                    if not p:
-                        s = a
-        else:
-            s = 0.0
-        return s
+        f = Fsum()
+        f.fadd2(iterable)
+        return f.fsum()
 
 
 def hypot1(x):

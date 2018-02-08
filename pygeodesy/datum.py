@@ -7,8 +7,8 @@ Pure Python implementation of geodesy tools for ellipsoidal earth models,
 including datums and ellipsoid parameters for different geographic coordinate
 systems and methods for converting between them and to cartesian coordinates.
 Transcribed from JavaScript originals by I{(C) Chris Veness 2005-2016} and
-published under the same MIT Licence**, see U{http://www.movable-type.co.uk/
-scripts/geodesy/docs/latlon-ellipsoidal.js.html}.
+published under the same MIT Licence**, see U{latlon-ellipsoidal.js
+<http://www.movable-type.co.uk/scripts/geodesy/docs/latlon-ellipsoidal.js.html>}.
 
 Historical geodetic datums: a latitude/longitude point defines a geographic
 location on or above/below the earth’s surface, measured in degrees from
@@ -20,11 +20,10 @@ Modern geodesy is generally based on the WGS84 datum (as used for instance
 by GPS systems), but previously various reference ellipsoids and datum
 references were used.
 
-The UK Ordnance Survey National Grid References are still based on the
-otherwise historical OSGB36 datum, q.v. Ordnance Survey 'A guide to
-coordinate systems in Great Britain' U{Section 6<http://www.ordnancesurvey
-.co.uk/docs/support/guide-coordinate-systems-great-britain.pdf>} and also
-U{this blog<http://www.ordnancesurvey.co.uk/blog/2014/12/2>}.
+The UK Ordnance Survey National Grid References are still based on the otherwise
+historical OSGB36 datum, q.v. U{Ordnance Survey 'A guide to coordinate systems
+in Great Britain', Section 6
+<http://www.ordnancesurvey.co.uk/docs/support/guide-coordinate-systems-great-britain.pdf>}.
 
 @newfield example: Example, Examples
 
@@ -113,7 +112,7 @@ from __future__ import division
 
 from bases import Base, Named
 from fmath import cbrt, cbrt2, fdot, fpowers, fStr, fsum_
-from utils import R_M, m2km, m2NM, m2SM, radians
+from utils import R_M, inStr, m2km, m2NM, m2SM, radians
 
 from math import atanh, sqrt
 
@@ -135,7 +134,7 @@ R_VM = 6366707.0194937  #: Aviation/Navigation earth radius (meter).
 __all__ = ('R_MA', 'R_MB', 'R_KM', 'R_M', 'R_NM', 'R_SM', 'R_FM', 'R_VM',  # constants
            'Datum',  'Ellipsoid',  'Transform',  # classes
            'Datums', 'Ellipsoids', 'Transforms')  # enum-like
-__version__ = '18.02.04'
+__version__ = '18.02.06'
 
 division = 1 / 2  # double check int division, see utils.py
 if not division:
@@ -288,7 +287,7 @@ class Ellipsoid(_Based):
             self.b = b = float(b)  # minor half-axis in meter
             if not f_ and a > b:
                 f_ = a / (a - b)
-        if f_ > 0 and a > b:
+        if f_ > 0 and a > b > 0:
             self.f_ = f_ = float(f_)  # inverse flattening
             self.f  = f  = 1 / f_  # flattening
             self.n  = n  = f / (2 - f)  # 3rd flattening for utm
@@ -303,9 +302,12 @@ class Ellipsoid(_Based):
             self.R2 = sqrt((a**2 + b**2 * atanh(e) / e) * 0.5)  # authalic radius
             self.R3 = cbrt(a**2 * b)  # volumetric radius
             self.Rr = cbrt2((pow(a, 1.5) + pow(b, 1.5)) * 0.5)  # rectifying radius
-        else:
+        elif a > 0:
             self.R = self.Rm = self.R2 = self.R3 = self.Rr = self.b = b = a
             f_ = f = n = 0
+        else:
+            raise ValueError('%s invalid: %s' % ('ellipsoid',
+                             inStr(self, a, b, f_, name=name)))
         self.a2 = 1 / a**2  # for Nvector.Cartesian.toNvector
 
         d = a - b

@@ -2,12 +2,13 @@
 # -*- coding: utf-8 -*-
 
 u'''Vincenty's ellipsoidal geodetic (lat-/longitude) and cartesian (x/y/z)
-classes L{LatLon}, L{Cartesian} and L{VincentyError}.
+classes L{LatLon}, L{Cartesian} and L{VincentyError} anf functions
+L{areaOf} and L{perimeterOf}.
 
 Pure Python implementation of geodesy tools for ellipsoidal earth models,
 transcribed from JavaScript originals by I{(C) Chris Veness 2005-2016}
-and published under the same MIT Licence**.  For details see U{LatLongVincenty
-<http://www.movable-type.co.uk/scripts/LatLongVincenty.html>},
+and published under the same MIT Licence**, see U{Vincenty geodesics
+<http://www.movable-type.co.uk/scripts/LatLongVincenty.html>}.  More at
 U{GeographicLib<http://pypi.python.org/pypi/geographiclib>} and
 U{GeoPy<http://python.org/pypi/geopy>}.
 
@@ -65,7 +66,7 @@ from math import atan2, cos, sin, tan
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'VincentyError',  # classes
            'areaOf', 'perimeterOf')  # functions
-__version__ = '18.02.04'
+__version__ = '18.02.06'
 
 division = 1 / 2  # double check int division, see utils.py
 if not division:
@@ -568,6 +569,9 @@ def areaOf(points, datum=Datums.WGS84, wrap=True):
 
        @note: This function requires the U{GeographicLib
        <http://pypi.python.org/pypi/geographiclib>} package to be installed.
+
+       @see: L{pygeodesy.areaOf}, L{sphericalNvector.areaOf} and
+             L{sphericalTrigonometry.areaOf}.
     '''
     _, points = polygon(points, closed=True)  # base=LatLonEllipsoidalBase(0, 0)
     return abs(_Geodesic(points, True, datum, False, wrap))
@@ -594,6 +598,8 @@ def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):
 
        @note: This function requires the U{GeographicLib
        <http://pypi.python.org/pypi/geographiclib>} package to be installed.
+
+       @see: L{pygeodesy.perimeterOf} and L{sphericalTrigonometry.perimeterOf}.
     '''
     _, points = polygon(points, closed=closed)  # base=LatLonEllipsoidalBase(0, 0)
     return _Geodesic(points, closed, datum, True, wrap)
