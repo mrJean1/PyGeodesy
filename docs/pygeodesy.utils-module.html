@@ -69,7 +69,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.02.06
+        18.02.27
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -135,6 +135,25 @@
         <tr>
           <td><span class="summary-sig"><a name="radians"></a><span class="summary-sig-name">radians</span>(<span class="summary-sig-arg">x</span>)</span><br />
       Convert angle x from degrees to radians.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#antipode" class="summary-sig-name">antipode</a>(<span class="summary-sig-arg">lat</span>,
+        <span class="summary-sig-arg">lon</span>)</span><br />
+      Return the antipode, the point diametrically opposite to the given 
+      lat-/longitude.</td>
           <td align="right" valign="top">
             
             
@@ -446,6 +465,27 @@
         <span class="summary-sig-arg">*args</span>,
         <span class="summary-sig-arg">**kwds</span>)</span><br />
       Return the string representation of an instance.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#isantipode" class="summary-sig-name">isantipode</a>(<span class="summary-sig-arg">lat1</span>,
+        <span class="summary-sig-arg">lon1</span>,
+        <span class="summary-sig-arg">lat2</span>,
+        <span class="summary-sig-arg">lon2</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>)</span><br />
+      Check whether two points are anitpodal, diametrically opposite.</td>
           <td align="right" valign="top">
             
             
@@ -943,6 +983,39 @@
     <span class="table-header">Function Details</span></td>
 </tr>
 </table>
+<a name="antipode"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">antipode</span>(<span class="sig-arg">lat</span>,
+        <span class="sig-arg">lon</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the antipode, the point diametrically opposite to the given 
+  lat-/longitude.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat</code></strong> - Latitude (degrees).</li>
+        <li><strong class="pname"><code>lon</code></strong> - Longitude (degrees).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>2-Tuple (lat, lon) of the antipodal points in degrees.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="http://cran.r-project.org/web/packages/geosphere/geosphere.pdf"
+        target="_top">Geosphere</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="classname"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1494,6 +1567,45 @@
         <dd>Representation (string).</dd>
   </dl>
 </td></tr></table>
+</div>
+<a name="isantipode"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isantipode</span>(<span class="sig-arg">lat1</span>,
+        <span class="sig-arg">lon1</span>,
+        <span class="sig-arg">lat2</span>,
+        <span class="sig-arg">lon2</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">2.22044604925e-16</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check whether two points are anitpodal, diametrically opposite.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat1</code></strong> - Latitude of one point (degrees).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - Longitude of one point (degrees).</li>
+        <li><strong class="pname"><code>lat2</code></strong> - Latitude of the other point (degrees).</li>
+        <li><strong class="pname"><code>lon2</code></strong> - Longitude of the other point (degrees).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance for equality (degrees).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>True if points are antipodes within the given tolerance, False 
+          otherwise.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="http://cran.r-project.org/web/packages/geosphere/geosphere.pdf"
+        target="_top">Geosphere</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="isNumpy2"></a>
 <div>
@@ -2201,7 +2313,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Feb  8 13:24:32 2018
+    Generated by Epydoc 3.0.1 on Tue Feb 27 20:07:22 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

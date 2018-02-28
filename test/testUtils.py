@@ -4,16 +4,24 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '18.02.02'
+__version__ = '18.02.27'
 
 from base import TestsBase
 
-from pygeodesy import R_M, fStr, heightOf, horizon, unroll180
+from pygeodesy import R_M, antipode, fStr, heightOf, horizon, \
+                         isantipode, unroll180
 
 
 class Tests(TestsBase):
 
     def testUtils(self):
+
+        self.test('antipode1', antipode( 89,  179), (-89, -1))
+        self.test('antipode2', antipode(-89, -179),  (89,  1))
+
+        self.test('isantipode1', isantipode( 89,  179, -89, -1), True)
+        self.test('isantipode2', isantipode(-89, -179,  89,  1), True)
+        self.test('isantipode3', isantipode(-89, -179, -89, -1), False)
 
         self.test('heightof0',   heightOf(0,   R_M), 2638958.23912, fmt='%.5f')
         self.test('heightof45',  heightOf(45,  R_M), 5401080.43931, fmt='%.5f')

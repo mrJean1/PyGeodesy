@@ -23,7 +23,7 @@ from math import atan2, copysign, cos, sin, sqrt
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('CartesianBase', 'LatLonEllipsoidalBase')
-__version__ = '18.02.05'
+__version__ = '18.02.27'
 
 
 class CartesianBase(Vector3d):
@@ -144,6 +144,20 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
         if updated:  # reset caches
             self._osgr = self._utm = self._wm = None
             LatLonHeightBase._update(self, updated)
+
+    def antipode(self, height=None):
+        '''Return the antipode, the point diametrically opposite
+           to this point.
+
+           @keyword height: Optional height of the antipode, height
+                            of this point otherwise (meter).
+
+           @return: The antipodal point (I{LatLon}).
+        '''
+        lla = LatLonHeightBase.antipode(self, height=height)
+        if lla.datum != self.datum:
+            lla.datum = self.datum
+        return lla
 
     @property
     def convergence(self):

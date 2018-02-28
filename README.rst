@@ -65,10 +65,10 @@ tests, type ``python setup.py test`` before installation.
 Installation of `NumPy`_ and `GeographicLib`_ is optional, but the latter is
 required for two *ellipsoidalVincenty* functions, *areaOf* and *perimeterOf*.
 
-Some function and method names differ from the JavaScript version. In such
+Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Feb 08, 2018.*
+*Last updated: Feb 28, 2018.*
 
 .. _checked: http://github.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor
 .. _docs: http://www.movable-type.co.uk/scripts/geodesy/docs/

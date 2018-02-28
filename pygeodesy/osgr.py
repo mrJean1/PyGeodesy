@@ -43,7 +43,7 @@ from math import cos, radians, sin, sqrt, tan
 # all public contants, classes and functions
 __all__ = ('Osgr',  # classes
            'parseOSGR', 'toOsgr')  # functions
-__version__ = '18.02.08'
+__version__ = '18.02.09'
 
 _10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (meter)
 _100km   = 100000  #: (INTERNAL) 100 km (int meter)
@@ -58,7 +58,7 @@ _OSGB36  = Datums.OSGB36  #: (INTERNAL) Airy130 ellipsoid
 def _ll2datum(ll, datum, name):
     '''(INTERNAL) Convert datum if needed.
     '''
-    if ll.datum != datum:
+    if datum and ll.datum != datum:
         try:
             ll = ll.convertDatum(datum)
         except AttributeError:
@@ -178,7 +178,8 @@ class Osgr(Base):
         v = a_F0 / sqrt(s)  # nu
         r = v * E.e12 / s  # rho
 
-        x2 = v / r - 1  # η2
+        vr = v / r  # == s / E.e12
+        x2 = vr - 1  # η2
 
         v3, v5, v7 = fpowers(v, 7, 3)  # PYCHOK false!
         ta2, ta4, ta6 = fpowers(ta**2, 3)  # PYCHOK false!
@@ -192,12 +193,11 @@ class Osgr(Base):
         csa = 1.0 / ca
         X5 = (_B0,
               csa / v,
-              csa / (   6 * v3) * fsum_(v / r, ta, ta),
+              csa / (   6 * v3) * fsum_(vr, ta, ta),
               csa / ( 120 * v5) * fdot((5, 28, 24), 1, ta2, ta4),
               csa / (5040 * v7) * fdot((61, 662, 1320, 720), ta, ta2, ta4, ta6))
 
         d, d2, d3, d4, d5, d6, d7 = fpowers(e - _E0, 7)  # PYCHOK false!
-
         a = fdot(V4, 1,    -d2, d4, -d6)
         b = fdot(X5, 1, d, -d3, d5, -d7)
 
@@ -209,7 +209,7 @@ class Osgr(Base):
         '''
         ll = self._latlon
         if LatLon is None:
-            if datum != ll.datum:
+            if datum and datum != ll.datum:
                 raise TypeError('no %s.convertDatum: %r' % (LatLon, ll))
             return ll.lat, ll.lon, ll.datum
         elif issubclass(LatLon, _eLLb):

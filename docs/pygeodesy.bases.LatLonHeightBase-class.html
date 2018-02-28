@@ -163,6 +163,24 @@ object --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#antipode" class="summary-sig-name">antipode</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Return the antipode, the point diametrically opposite to this point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#bounds" class="summary-sig-name">bounds</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">wide</span>,
         <span class="summary-sig-arg">high</span>,
@@ -224,6 +242,26 @@ object --+
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">None</span>)</span><br />
       Compare this point with an other point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#isantipode" class="summary-sig-name">isantipode</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>)</span><br />
+      Check whether this and an other points are antipodes, diametrically 
+      opposite.</td>
           <td align="right" valign="top">
             
             
@@ -474,6 +512,34 @@ object --+
   </dl>
 </td></tr></table>
 </div>
+<a name="antipode"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">antipode</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the antipode, the point diametrically opposite to this 
+  point.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>height</code></strong> - Optional height of the antipode, height of this point otherwise 
+          (meter).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The antipodal point (<i>LatLon</i>).</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="bounds"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -551,6 +617,7 @@ object --+
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<i>LatLon</i>).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance for equality (degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>True if both points are identical, ignoring height (bool).</dd>
@@ -593,6 +660,7 @@ object --+
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<i>LatLon</i>).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance for equality (degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>True if both points are identical, <i>including</i> height 
@@ -613,6 +681,36 @@ object --+
 <span class="py-prompt">&gt;&gt;&gt; </span>e = p.equals3(q)  <span class="py-comment"># False</span></pre>
       </p>
 </div></td></tr></table>
+</div>
+<a name="isantipode"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isantipode</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">2.22044604925e-16</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check whether this and an other points are antipodes, diametrically 
+  opposite.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<i>LatLon</i>).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance for equality (degrees).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>True if points are antipodes within the given tolerance, False 
+          otherwise.</dd>
+  </dl>
+</td></tr></table>
 </div>
 <a name="points"></a>
 <div>
@@ -876,7 +974,7 @@ object --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Feb  8 13:24:33 2018
+    Generated by Epydoc 3.0.1 on Tue Feb 27 20:07:23 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

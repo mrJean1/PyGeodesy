@@ -21,6 +21,7 @@ from math import atan2, cos, degrees, pi as PI, \
 # all public contants, classes and functions
 __all__ = ('PI', 'PI2', 'PI_2', 'R_M',  # constants
            'CrossError',  'LimitError',  # classes
+           'antipode',
            'classname', 'crosserrors',
            'degrees', 'degrees90', 'degrees180', 'degrees360',
            'enStr2',
@@ -29,7 +30,8 @@ __all__ = ('PI', 'PI2', 'PI_2', 'R_M',  # constants
            'halfs',
            'haversine', 'haversine_',  # XXX removed 'hsin', 'hsin3',
            'heightOf', 'horizon',
-           'inStr', 'issequence', 'isNumpy2', 'isTuple2',
+           'inStr', 'isantipode', 'issequence',
+           'isNumpy2', 'isTuple2',
            'iterNumpy2', 'iterNumpy2over',
            'limiterrors',
            'm2ft', 'm2km', 'm2NM', 'm2SM',
@@ -39,7 +41,7 @@ __all__ = ('PI', 'PI2', 'PI_2', 'R_M',  # constants
            'unroll180', 'unrollPI', 'unStr',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '18.02.06'
+__version__ = '18.02.27'
 
 division = 1 / 2  # double check int division, see datum.py
 if not division:
@@ -70,6 +72,20 @@ class LimitError(ValueError):
        L{equirectangular_}.
     '''
     pass
+
+
+def antipode(lat, lon):
+    '''Return the antipode, the point diametrically opposite to the
+       given lat-/longitude.
+
+       @param lat: Latitude (degrees).
+       @param lon: Longitude (degrees).
+
+       @return: 2-Tuple (lat, lon) of the antipodal points in degrees.
+
+       @see: U{Geosphere<http://cran.r-project.org/web/packages/geosphere/geosphere.pdf>}.
+    '''
+    return -lat, _drap(lon + 180, 180)
 
 
 def classname(obj):
@@ -405,6 +421,24 @@ def inStr(inst, *args, **kwds):
        @return: Representation (string).
     '''
     return unStr(classname(inst), *args, **kwds)
+
+
+def isantipode(lat1, lon1, lat2, lon2, eps=EPS):
+    '''Check whether two points are anitpodal, diametrically opposite.
+
+       @param lat1: Latitude of one point (degrees).
+       @param lon1: Longitude of one point (degrees).
+       @param lat2: Latitude of the other point (degrees).
+       @param lon2: Longitude of the other point (degrees).
+       @keyword eps: Tolerance for equality (degrees).
+
+       @return: True if points are antipodes within the given
+                tolerance, False otherwise.
+
+       @see: U{Geosphere<http://cran.r-project.org/web/packages/geosphere/geosphere.pdf>}.
+    '''
+    return abs( lat1 + lat2) < eps and \
+           abs((lon1 - lon2) % 360 - 180) < eps
 
 
 def isNumpy2(obj):

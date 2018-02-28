@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '18.01.16'
+__version__ = '18.02.27'
 
 from base import TestsBase
 
@@ -48,6 +48,14 @@ class Tests(TestsBase):
         p = LatLon(52.205, 0.119)
         q = LatLon(48.857, 2.351)
         self.test('equals', p.equals(q), False)
+
+        a = p.antipode()
+        self.test('antipode1', a, '52.205°S, 179.881°W')
+        self.test('antipode2', a.isantipode(p), True)
+        b = a.antipode()
+        self.test('antipode3', b, '52.205°N, 000.119°E')
+        self.test('antipode4', a.isantipode(b), True)
+        self.test('antipode5', b, p)
 
         if hasattr(LatLon, 'initialBearingTo'):
             b = p.initialBearingTo(q)

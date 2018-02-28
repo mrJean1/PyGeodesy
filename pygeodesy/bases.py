@@ -11,14 +11,14 @@ and U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
 '''
 from dms   import F_D, F_DMS, latDMS, lonDMS, parseDMS, parseDMS2
 from fmath import EPS, favg, map1, scalar
-from utils import R_M, classname, polygon
+from utils import R_M, antipode, classname, isantipode, polygon
 
 from math import asin, cos, degrees, radians, sin
 
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('Base', 'LatLonHeightBase', 'Named', 'VectorBase')
-__version__ = '18.02.02'
+__version__ = '18.02.27'
 
 
 class Base(object):
@@ -151,6 +151,19 @@ class LatLonHeightBase(Base):
         if updated:  # reset caches
             self._ab = self._wm = None
 
+    def antipode(self, height=None):
+        '''Return the antipode, the point diametrically opposite
+           to this point.
+
+           @keyword height: Optional height of the antipode, height
+                            of this point otherwise (meter).
+
+           @return: The antipodal point (I{LatLon}).
+        '''
+        a, b = antipode(self.lat, self.lon)
+        h = self.height if height is None else height
+        return self.classof(a, b, height=h)
+
     def bounds(self, wide, high, radius=R_M):
         '''Return the SE and NW lat-/longitude of a great circle
            bounding box centered at this location.
@@ -186,6 +199,7 @@ class LatLonHeightBase(Base):
         '''Compare this point with an other point.
 
            @param other: The other point (I{LatLon}).
+           @keyword eps: Tolerance for equality (degrees).
 
            @return: True if both points are identical,
                     ignoring height (bool).
@@ -203,8 +217,8 @@ class LatLonHeightBase(Base):
         self.others(other)
 
         if eps and eps > 0:
-            return max(abs(self.lat - other.lat),
-                       abs(self.lon - other.lon)) < eps
+            return abs(self.lat - other.lat) < eps and \
+                   abs(self.lon - other.lon) < eps
         else:
             return self.lat == other.lat and \
                    self.lon == other.lon
@@ -213,6 +227,7 @@ class LatLonHeightBase(Base):
         '''Compare this point with an other point.
 
            @param other: The other point (I{LatLon}).
+           @keyword eps: Tolerance for equality (degrees).
 
            @return: True if both points are identical,
                     I{including} height (bool).
@@ -248,6 +263,19 @@ class LatLonHeightBase(Base):
         h = scalar(height, None, name='height')
         self._update(h != self._height)
         self._height = h
+
+    def isantipode(self, other, eps=EPS):
+        '''Check whether this and an other points are antipodes,
+           diametrically opposite.
+
+           @param other: The other point (I{LatLon}).
+           @keyword eps: Tolerance for equality (degrees).
+
+           @return: True if points are antipodes within the given
+                    tolerance, False otherwise.
+        '''
+        return isantipode(self.lat,  self.lon,
+                         other.lat, other.lon, eps=eps)
 
     @property
     def lat(self):

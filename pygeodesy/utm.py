@@ -47,7 +47,7 @@ from operator import mul
 # all public contants, classes and functions
 __all__ = ('Utm',  # classes
            'parseUTM', 'toUtm')  # functions
-__version__ = '18.02.08'
+__version__ = '18.02.09'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -106,6 +106,12 @@ class _K6(object):
         '''(INTERNAL) Q summations (float).
         '''
         return fdot3(self._pq, self._sy, self._shx, start=q0)
+
+
+def _cml(zone):
+    '''(INTERNAL) Central meridian longitude (degrees180).
+    '''
+    return (zone * 6) - 183
 
 
 def _toZBL(zone, band, mgrs=False):  # used by mgrs.Mgrs
@@ -168,7 +174,7 @@ def _toZBll(lat, lon):
     elif B == 'V' and z == 31 and lon >=3:
         z += 1  # southern Norway
 
-    b = radians(lon - (z * 6) + 183)  # lon off central meridian
+    b = radians(lon - _cml(z))  # lon off central meridian
     a = radians(lat)  # lat off equator
     return z, B, a, b
 
@@ -347,7 +353,7 @@ class Utm(Base):
             T = sd.fsum()  # τi
 
         a = atan(T)  # lat
-        b = atan2(shx, cy) + radians(self._zone * 6 - 183)  # lon of central meridian
+        b = atan2(shx, cy) + radians(_cml(self._zone))
         ll = _eLLb(degrees90(a), degrees180(b), datum=self._datum)
 
         # convergence: Karney 2011 Eq 26, 27

@@ -21,7 +21,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2',  # constants
            'len2',
            'map1', 'map2',
            'scalar')
-__version__ = '18.02.08'
+__version__ = '18.02.09'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -64,12 +64,6 @@ def _2sum(a, b):
     if not isfinite(s):
         raise OverflowError('partial %s: %r' % ('2sum', s))
     return s, b - (s - a)
-
-
-def _signof(x):
-    '''(INTERNAL) Return M{copysign(1, x)}.
-    '''
-    return +1 if x > 0 else (-1 if x < 0 else 0)
 
 
 class Fsum(object):
@@ -149,7 +143,7 @@ class Fsum(object):
 
            @note: Accumulation can continue after summation.
         '''
-        s = p = 0
+        s = 0.0
         i = len(self._ps)
         if i > 0:
             i -= 1
@@ -158,12 +152,14 @@ class Fsum(object):
                 i -= 1
                 s, p = _2sum(s, self._ps[i])
                 if p:
+                    if i > 0:  # half-even round if signs match
+                        r = self._ps[i - 1]
+                        if (r > 0 and p > 0) or \
+                           (r < 0 and p < 0):
+                            r, p = _2sum(s, p * 2)
+                            if not p:
+                                s = r
                     break
-
-        if i > 0 and _signof(p) == _signof(self._ps[i - 1]):
-            r, p = _2sum(s, p * 2)  # half-even round
-            if not p:
-                s = r
         return s
 
 
@@ -311,7 +307,7 @@ def fpowers(x, n, alts=0):
         xs.append(xs[-1] * x)
 
     if alts > 0:  # x**2, x**4, ...
-        xs = xs[alts-1::2]
+        xs = xs[alts-1: :2]
 
     # XXX PyChecker falsely claims result is None
     return xs
