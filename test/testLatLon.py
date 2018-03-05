@@ -4,12 +4,12 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '18.02.27'
+__version__ = '18.03.02'
 
 from base import TestsBase
 
-from pygeodesy import R_NM, F_D, F_DM, F_DMS, F_RAD, \
-                      degrees, isclockwise, isconvex, isenclosedby, \
+from pygeodesy import R_NM, F_D, F_DM, F_DMS, F_RAD, degrees, \
+                      fStr, isclockwise, isconvex, isenclosedby, \
                       m2NM  # PYCHOK expected
 
 
@@ -76,15 +76,24 @@ class Tests(TestsBase):
             d = LAX.distanceTo(JFK, radius=R_NM) if Sph else LAX.distanceTo(JFK)
             self.test('distanceTo', d, 2145 if Sph else 3981601, fmt='%.0f')  # PYCHOK false?
             if not Nv:  # <http://geographiclib.sourceforge.io/html/python/examples.html>
+                self.test('antipodal', WNZ.isantipode(SAL, eps=0.1), False)
                 d = WNZ.distanceTo(SAL, wrap=False)
                 self.test('distanceTo dateline', d, 19119590.551 if Sph else 19959679.267, fmt='%.3f', known=True)  # PYCHOK false?
                 d = WNZ.distanceTo(SAL, wrap=True)
-                self.test('distanceTo unroll', d, 19119590.551 if Sph else 19959679.267, fmt='%.3f', known=True)  # PYCHOK false?
+                self.test('distanceTo unrolled', d, 19119590.551 if Sph else 19959679.267, fmt='%.3f', known=True)  # PYCHOK false?
 
+                self.test('antipodal', BJS.isantipode(SFO, eps=0.1), False)
                 d = BJS.distanceTo(SFO, wrap=False)
                 self.test('distanceTo dateline', d, 9491735 if Sph else 9513998, fmt='%.0f')  # PYCHOK false?
                 d = BJS.distanceTo(SFO, wrap=True)
-                self.test('distanceTo unroll', d, 9491735 if Sph else 9513998, fmt='%.0f')  # PYCHOK false?
+                self.test('distanceTo unrolled', d, 9491735 if Sph else 9513998, fmt='%.0f')  # PYCHOK false?
+
+        if hasattr(LatLon, 'distanceTo3') and not Sph:
+            for w in (False, True):
+                d = WNZ.distanceTo3(SAL, wrap=w)  # XXX expected values?
+                self.test('distanceTo3 dateline', fStr(d, prec=4), '19125097.7012, 270.7159, 276.0288')  # PYCHOK false?
+                d = BJS.distanceTo3(SFO, wrap=w)
+                self.test('distanceTo3 dateline', fStr(d, prec=4), '9513997.9901, 42.9164, 138.8903')  # PYCHOK false?
 
         if hasattr(LatLon, 'intermediateTo'):
             i = p.intermediateTo(q, 0.25)

@@ -45,47 +45,47 @@ in Great Britain', Section 6
 @var Datums.WGS72: Datum(name='WGS72', ellipsoid=Ellipsoids.WGS72, transform=Transforms.WGS72)
 @var Datums.WGS84: Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84)
 
-@var Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, b=6356256.909, f_=299.3249646, f=0.003340851, e=0.081673374, e2=0.00667054, e22=0.006715335, n=0.00167322, R=6370461.233666666, Rm=6366901.239881964, R2=6370459.654589442, R3=6370453.309866445, Rr=6366914.608805893)
-@var Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189, b=6356034.448, f_=299.3249646, f=0.003340851, e=0.081673374, e2=0.00667054, e22=0.006715335, n=0.00167322, R=6370238.275333334, Rm=6366678.406194146, R2=6370236.696361165, R3=6370230.351810658, Rr=6366691.774649803)
-@var Ellipsoids.Australia1966: Ellipsoid(name='Australia1966', a=6378160, b=6356774.719, f_=298.25, f=0.003352892, e=0.08182018, e2=0.006694542, e22=0.006739661, n=0.001679261, R=6371031.573, Rm=6367458.38162583, R2=6371029.982388151, R3=6371023.591178183, Rr=6367471.848433915)
-@var Ellipsoids.Bessel1841: Ellipsoid(name='Bessel1841', a=6377397.155, b=6356078.963, f_=299.152815351, f=0.003342773, e=0.081696831, e2=0.006674372, e22=0.006719219, n=0.001674185, R=6370291.091000001, Rm=6366729.136345566, R2=6370289.510187287, R3=6370283.158276026, Rr=6366742.520324086)
-@var Ellipsoids.CPM1799: Ellipsoid(name='CPM1799', a=6375738.7, b=6356671.92557493, f_=334.39, f=0.00299052, e=0.077279343, e2=0.005972097, e22=0.006007977, n=0.001497499, R=6369383.108524977, Rm=6366198.174663714, R2=6369381.8434158, R3=6369376.762470212, Rr=6366208.881847335)
-@var Ellipsoids.Clarke1866: Ellipsoid(name='Clarke1866', a=6378206.4, b=6356583.8, f_=294.978698214, f=0.003390075, e=0.082271854, e2=0.006768658, e22=0.006814785, n=0.001697916, R=6370998.866666667, Rm=6367385.921655473, R2=6370997.240632997, R3=6370990.706598808, Rr=6367399.689168951)
-@var Ellipsoids.Clarke1880: Ellipsoid(name='Clarke1880', a=6378249.145, b=6356514.86954978, f_=293.465, f=0.003407561, e=0.0824834, e2=0.006803511, e22=0.006850116, n=0.001706689, R=6371004.386516593, Rm=6367372.733858579, R2=6371002.743669633, R3=6370996.141916499, Rr=6367386.643979664)
-@var Ellipsoids.Clarke1880IGN: Ellipsoid(name='Clarke1880IGN', a=6378249.2, b=6356515, f_=293.466021294, f=0.00340755, e=0.082483257, e2=0.006803488, e22=0.006850092, n=0.001706683, R=6371004.466666666, Rm=6367372.826648208, R2=6371002.823831111, R3=6370996.22212394, Rr=6367386.736672513)
-@var Ellipsoids.Clarke1880Mod: Ellipsoid(name='Clarke1880Mod', a=6378249.145, b=6356514.96582849, f_=293.4663, f=0.003407546, e=0.082483218, e2=0.006803481, e22=0.006850086, n=0.001706681, R=6371004.418609496, Rm=6367372.782080163, R2=6371002.775777077, R3=6370996.174082516, Rr=6367386.692077904)
-@var Ellipsoids.Delambre1810: Ellipsoid(name='Delambre1810', a=6376428, b=6355957.92616372, f_=311.5, f=0.003210273, e=0.080063974, e2=0.00641024, e22=0.006451596, n=0.001607717, R=6369604.642054573, Rm=6366184.735554905, R2=6369603.184197493, R3=6369597.327390675, Rr=6366197.076842674)
-@var Ellipsoids.Engelis1985: Ellipsoid(name='Engelis1985', a=6378136.05, b=6356751.32272154, f_=298.2566, f=0.003352818, e=0.081819276, e2=0.006694394, e22=0.006739511, n=0.001679224, R=6371007.807573847, Rm=6367434.70891814, R2=6371006.217070852, R3=6370999.826135725, Rr=6367448.175078915)
-@var Ellipsoids.Everest1969: Ellipsoid(name='Everest1969', a=6377295.664, b=6356094.667915, f_=300.8017, f=0.003324449, e=0.081472981, e2=0.006637847, e22=0.006682202, n=0.001664992, R=6370228.665305, Rm=6366686.341077896, R2=6370227.101785341, R3=6370220.819516171, Rr=6366699.578394239)
-@var Ellipsoids.Fisher1968: Ellipsoid(name='Fisher1968', a=6378150, b=6356768.33724438, f_=298.3, f=0.00335233, e=0.081813334, e2=0.006693422, e22=0.006738525, n=0.001678979, R=6371022.77908146, Rm=6367450.193774211, R2=6371021.189037351, R3=6371014.799950343, Rr=6367463.656043012)
-@var Ellipsoids.GEM10C: Ellipsoid(name='GEM10C', a=6378137, b=6356752.31424783, f_=298.2572236, f=0.003352811, e=0.081819191, e2=0.00669438, e22=0.006739497, n=0.00167922, R=6371008.771415944, Rm=6367435.679717519, R2=6371007.180919358, R3=6371000.790010039, Rr=6367449.145823942)
-@var Ellipsoids.GRS67: Ellipsoid(name='GRS67', a=6378160, b=6356774.516, f_=298.247167427, f=0.003352924, e=0.081820568, e2=0.006694605, e22=0.006739725, n=0.001679277, R=6371031.505333333, Rm=6367458.279955242, R2=6371029.914708731, R3=6371023.523359839, Rr=6367471.747019209)
-@var Ellipsoids.GRS80: Ellipsoid(name='GRS80', a=6378137, b=6356752.314140347, f_=298.257222101, f=0.003352811, e=0.081819191, e2=0.00669438, e22=0.006739497, n=0.00167922, R=6371008.771380115, Rm=6367435.679663688, R2=6371007.180883513, R3=6371000.789974131, Rr=6367449.145770246)
-@var Ellipsoids.Helmert1906: Ellipsoid(name='Helmert1906', a=6378200, b=6356818.16962789, f_=298.3, f=0.00335233, e=0.081813334, e2=0.006693422, e22=0.006738525, n=0.001678979, R=6371072.723209296, Rm=6367500.10989561, R2=6371071.133152724, R3=6371064.744015628, Rr=6367513.572269944)
-@var Ellipsoids.IERS1989: Ellipsoid(name='IERS1989', a=6378136, b=6356751.302, f_=298.257, f=0.003352813, e=0.081819221, e2=0.006694385, e22=0.006739502, n=0.001679222, R=6371007.767333333, Rm=6367434.673581903, R2=6371006.176906484, R3=6370999.785917024, Rr=6367448.139705879)
-@var Ellipsoids.IERS1992TOPEX: Ellipsoid(name='IERS1992TOPEX', a=6378136.3, b=6356751.61659215, f_=298.257223563, f=0.003352811, e=0.081819191, e2=0.00669438, e22=0.006739497, n=0.00167922, R=6371008.072197382, Rm=6367434.980890662, R2=6371006.481700973, R3=6371000.090792353, Rr=6367448.446995611)
-@var Ellipsoids.IERS2003: Ellipsoid(name='IERS2003', a=6378136.6, b=6356751.85797165, f_=298.25642, f=0.00335282, e=0.081819301, e2=0.006694398, e22=0.006739515, n=0.001679225, R=6371008.352657217, Rm=6367435.251531576, R2=6371006.762152168, R3=6371000.371208764, Rr=6367448.71770978)
-@var Ellipsoids.Intl1924: Ellipsoid(name='Intl1924', a=6378388, b=6356911.946, f_=297, f=0.003367003, e=0.08199189, e2=0.00672267, e22=0.00676817, n=0.001686341, R=6371229.315333334, Rm=6367640.919007843, R2=6371227.711270464, R3=6371221.265832124, Rr=6367654.499992855)
-@var Ellipsoids.Intl1967: Ellipsoid(name='Intl1967', a=6378157.5, b=6356772.2, f_=298.24961539, f=0.003352896, e=0.081820233, e2=0.00669455, e22=0.00673967, n=0.001679263, R=6371029.066666666, Rm=6367455.872106339, R2=6371027.476083895, R3=6371021.084827519, Rr=6367469.33894366)
-@var Ellipsoids.Krassovski1940: Ellipsoid(name='Krassovski1940', a=6378245, b=6356863.01877305, f_=298.3, f=0.00335233, e=0.081813334, e2=0.006693422, e22=0.006738525, n=0.001678979, R=6371117.67292435, Rm=6367545.034404869, R2=6371116.08285656, R3=6371109.693674386, Rr=6367558.496874185)
-@var Ellipsoids.Krassowsky1940: Ellipsoid(name='Krassowsky1940', a=6378245, b=6356863.01877305, f_=298.3, f=0.00335233, e=0.081813334, e2=0.006693422, e22=0.006738525, n=0.001678979, R=6371117.67292435, Rm=6367545.034404869, R2=6371116.08285656, R3=6371109.693674386, Rr=6367558.496874185)
-@var Ellipsoids.Maupertuis1738: Ellipsoid(name='Maupertuis1738', a=6397300, b=6363806.28272251, f_=191, f=0.005235602, e=0.102194876, e2=0.010443793, e22=0.010554017, n=0.002624672, R=6386135.42757417, Rm=6380531.163818629, R2=6386131.541448465, R3=6386115.886282292, Rr=6380564.130113637)
-@var Ellipsoids.Mercury1960: Ellipsoid(name='Mercury1960', a=6378166, b=6356784.28360711, f_=298.3, f=0.00335233, e=0.081813334, e2=0.006693422, e22=0.006738525, n=0.001678979, R=6371038.76120237, Rm=6367466.166933062, R2=6371037.171154275, R3=6371030.782051236, Rr=6367479.629235634)
-@var Ellipsoids.Mercury1968Mod: Ellipsoid(name='Mercury1968Mod', a=6378150, b=6356768.33724438, f_=298.3, f=0.00335233, e=0.081813334, e2=0.006693422, e22=0.006738525, n=0.001678979, R=6371022.77908146, Rm=6367450.193774211, R2=6371021.189037351, R3=6371014.799950343, Rr=6367463.656043012)
-@var Ellipsoids.NWL1965: Ellipsoid(name='NWL1965', a=6378145, b=6356759.76948868, f_=298.25, f=0.003352892, e=0.08182018, e2=0.006694542, e22=0.006739661, n=0.001679261, R=6371016.58982956, Rm=6367443.406891448, R2=6371014.999254003, R3=6371008.60802666, Rr=6367456.873667615)
-@var Ellipsoids.OSU86F: Ellipsoid(name='OSU86F', a=6378136.2, b=6356751.51693008, f_=298.2572236, f=0.003352811, e=0.081819191, e2=0.00669438, e22=0.006739497, n=0.00167922, R=6371007.972310026, Rm=6367434.88105977, R2=6371006.381813641, R3=6370999.990905124, Rr=6367448.347164505)
-@var Ellipsoids.OSU91A: Ellipsoid(name='OSU91A', a=6378136.3, b=6356751.6165948, f_=298.2572236, f=0.003352811, e=0.081819191, e2=0.00669438, e22=0.006739497, n=0.00167922, R=6371008.072198267, Rm=6367434.98089199, R2=6371006.481701856, R3=6371000.090793238, Rr=6367448.446996935)
-@var Ellipsoids.Plessis1817: Ellipsoid(name='Plessis1817', a=6376523, b=6355862.93325557, f_=308.64, f=0.003240021, e=0.080433474, e2=0.006469544, e22=0.006511671, n=0.001622639, R=6369636.31108519, Rm=6366184.585664447, R2=6369634.826085826, R3=6369628.859996674, Rr=6366197.15710669)
-@var Ellipsoids.SGS85: Ellipsoid(name='SGS85', a=6378136, b=6356751.30156878, f_=298.257, f=0.003352813, e=0.081819221, e2=0.006694385, e22=0.006739502, n=0.001679222, R=6371007.767189593, Rm=6367434.673365931, R2=6371006.176690875, R3=6370999.785772962, Rr=6367448.13949045)
-@var Ellipsoids.SoAmerican1969: Ellipsoid(name='SoAmerican1969', a=6378160, b=6356774.71919531, f_=298.25, f=0.003352892, e=0.08182018, e2=0.006694542, e22=0.006739661, n=0.001679261, R=6371031.573065103, Rm=6367458.38172365, R2=6371029.982485807, R3=6371023.591243432, Rr=6367471.848531487)
-@var Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=6371008.771415, f_=0, f=0, e=0, e2=0, e22=0, n=0, R=6371008.771415, Rm=6371008.771415, R2=6371008.771415, R3=6371008.771415, Rr=6371008.771415)
-@var Ellipsoids.SphereAuthalic: Ellipsoid(name='SphereAuthalic', a=6371000, b=6371000, f_=0, f=0, e=0, e2=0, e22=0, n=0, R=6371000, Rm=6371000, R2=6371000, R3=6371000, Rr=6371000)
-@var Ellipsoids.SpherePopular: Ellipsoid(name='SpherePopular', a=6378137, b=6378137, f_=0, f=0, e=0, e2=0, e22=0, n=0, R=6378137, Rm=6378137, R2=6378137, R3=6378137, Rr=6378137)
-@var Ellipsoids.Struve1860: Ellipsoid(name='Struve1860', a=6378298.3, b=6356657.14266956, f_=294.73, f=0.003392936, e=0.082306499, e2=0.00677436, e22=0.006820565, n=0.001699351, R=6371084.580889854, Rm=6367468.527348378, R2=6371082.952089875, R3=6371076.406914177, Rr=6367482.318324657)
-@var Ellipsoids.WGS60: Ellipsoid(name='WGS60', a=6378165, b=6356783.28695944, f_=298.3, f=0.00335233, e=0.081813334, e2=0.006693422, e22=0.006738525, n=0.001678979, R=6371037.762319813, Rm=6367465.168610634, R2=6371036.172271968, R3=6371029.783169931, Rr=6367478.630911095)
-@var Ellipsoids.WGS66: Ellipsoid(name='WGS66', a=6378145, b=6356759.76948868, f_=298.25, f=0.003352892, e=0.08182018, e2=0.006694542, e22=0.006739661, n=0.001679261, R=6371016.58982956, Rm=6367443.406891448, R2=6371014.999254003, R3=6371008.60802666, Rr=6367456.873667615)
-@var Ellipsoids.WGS72: Ellipsoid(name='WGS72', a=6378135, b=6356750.52, f_=298.26, f=0.003352779, e=0.081818811, e2=0.006694318, e22=0.006739434, n=0.001679205, R=6371006.84, Rm=6367433.78276368, R2=6371005.249530816, R3=6370998.858745317, Rr=6367447.24861499)
-@var Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.31425, f_=298.257223563, f=0.003352811, e=0.081819191, e2=0.00669438, e22=0.006739497, n=0.00167922, R=6371008.771416667, Rm=6367435.679718607, R2=6371007.180920884, R3=6371000.790010764, Rr=6367449.145825027)
+@var Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, b=6356256.909, f_=299.3249646, f=0.003340851, e=0.081673374, e2=0.00667054, e22=0.006715335, n=0.00167322, R1=6370461.233666666, R2=6370459.654589442, R3=6370453.309866445, Rr=6366914.608805893, Rs=6366901.239881964)
+@var Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189, b=6356034.448, f_=299.3249646, f=0.003340851, e=0.081673374, e2=0.00667054, e22=0.006715335, n=0.00167322, R1=6370238.275333334, R2=6370236.696361165, R3=6370230.351810658, Rr=6366691.774649803, Rs=6366678.406194146)
+@var Ellipsoids.Australia1966: Ellipsoid(name='Australia1966', a=6378160, b=6356774.719, f_=298.25, f=0.003352892, e=0.08182018, e2=0.006694542, e22=0.006739661, n=0.001679261, R1=6371031.573, R2=6371029.982388151, R3=6371023.591178183, Rr=6367471.848433915, Rs=6367458.38162583)
+@var Ellipsoids.Bessel1841: Ellipsoid(name='Bessel1841', a=6377397.155, b=6356078.962818, f_=299.1528128, f=0.003342773, e=0.081696831, e2=0.006674372, e22=0.006719219, n=0.001674185, R1=6370291.090939333, R2=6370289.510126558, R3=6370283.158215224, Rr=6366742.520233163, Rs=6366729.136254413)
+@var Ellipsoids.CPM1799: Ellipsoid(name='CPM1799', a=6375738.7, b=6356671.92557493, f_=334.39, f=0.00299052, e=0.077279343, e2=0.005972097, e22=0.006007977, n=0.001497499, R1=6369383.108524977, R2=6369381.8434158, R3=6369376.762470212, Rr=6366208.881847335, Rs=6366198.174663714)
+@var Ellipsoids.Clarke1866: Ellipsoid(name='Clarke1866', a=6378206.4, b=6356583.8, f_=294.978698214, f=0.003390075, e=0.082271854, e2=0.006768658, e22=0.006814785, n=0.001697916, R1=6370998.866666667, R2=6370997.240632997, R3=6370990.706598808, Rr=6367399.689168951, Rs=6367385.921655473)
+@var Ellipsoids.Clarke1880: Ellipsoid(name='Clarke1880', a=6378249.145, b=6356514.86954978, f_=293.465, f=0.003407561, e=0.0824834, e2=0.006803511, e22=0.006850116, n=0.001706689, R1=6371004.386516593, R2=6371002.743669633, R3=6370996.141916499, Rr=6367386.643979664, Rs=6367372.733858579)
+@var Ellipsoids.Clarke1880IGN: Ellipsoid(name='Clarke1880IGN', a=6378249.2, b=6356515, f_=293.466021294, f=0.00340755, e=0.082483257, e2=0.006803488, e22=0.006850092, n=0.001706683, R1=6371004.466666666, R2=6371002.823831111, R3=6370996.22212394, Rr=6367386.736672513, Rs=6367372.826648208)
+@var Ellipsoids.Clarke1880Mod: Ellipsoid(name='Clarke1880Mod', a=6378249.145, b=6356514.96582849, f_=293.4663, f=0.003407546, e=0.082483218, e2=0.006803481, e22=0.006850086, n=0.001706681, R1=6371004.418609496, R2=6371002.775777077, R3=6370996.174082516, Rr=6367386.692077904, Rs=6367372.782080163)
+@var Ellipsoids.Delambre1810: Ellipsoid(name='Delambre1810', a=6376428, b=6355957.92616372, f_=311.5, f=0.003210273, e=0.080063974, e2=0.00641024, e22=0.006451596, n=0.001607717, R1=6369604.642054573, R2=6369603.184197493, R3=6369597.327390675, Rr=6366197.076842674, Rs=6366184.735554905)
+@var Ellipsoids.Engelis1985: Ellipsoid(name='Engelis1985', a=6378136.05, b=6356751.32272154, f_=298.2566, f=0.003352818, e=0.081819276, e2=0.006694394, e22=0.006739511, n=0.001679224, R1=6371007.807573847, R2=6371006.217070852, R3=6370999.826135725, Rr=6367448.175078915, Rs=6367434.70891814)
+@var Ellipsoids.Everest1969: Ellipsoid(name='Everest1969', a=6377295.664, b=6356094.667915, f_=300.8017, f=0.003324449, e=0.081472981, e2=0.006637847, e22=0.006682202, n=0.001664992, R1=6370228.665305, R2=6370227.101785341, R3=6370220.819516171, Rr=6366699.578394239, Rs=6366686.341077896)
+@var Ellipsoids.Fisher1968: Ellipsoid(name='Fisher1968', a=6378150, b=6356768.33724438, f_=298.3, f=0.00335233, e=0.081813334, e2=0.006693422, e22=0.006738525, n=0.001678979, R1=6371022.77908146, R2=6371021.189037351, R3=6371014.799950343, Rr=6367463.656043012, Rs=6367450.193774211)
+@var Ellipsoids.GEM10C: Ellipsoid(name='GEM10C', a=6378137, b=6356752.31424783, f_=298.2572236, f=0.003352811, e=0.081819191, e2=0.00669438, e22=0.006739497, n=0.00167922, R1=6371008.771415944, R2=6371007.180919358, R3=6371000.790010039, Rr=6367449.145823942, Rs=6367435.679717519)
+@var Ellipsoids.GRS67: Ellipsoid(name='GRS67', a=6378160, b=6356774.516, f_=298.247167427, f=0.003352924, e=0.081820568, e2=0.006694605, e22=0.006739725, n=0.001679277, R1=6371031.505333333, R2=6371029.914708731, R3=6371023.523359839, Rr=6367471.747019209, Rs=6367458.279955242)
+@var Ellipsoids.GRS80: Ellipsoid(name='GRS80', a=6378137, b=6356752.314140347, f_=298.257222101, f=0.003352811, e=0.081819191, e2=0.00669438, e22=0.006739497, n=0.00167922, R1=6371008.771380115, R2=6371007.180883513, R3=6371000.789974131, Rr=6367449.145770246, Rs=6367435.679663688)
+@var Ellipsoids.Helmert1906: Ellipsoid(name='Helmert1906', a=6378200, b=6356818.16962789, f_=298.3, f=0.00335233, e=0.081813334, e2=0.006693422, e22=0.006738525, n=0.001678979, R1=6371072.723209296, R2=6371071.133152724, R3=6371064.744015628, Rr=6367513.572269944, Rs=6367500.10989561)
+@var Ellipsoids.IERS1989: Ellipsoid(name='IERS1989', a=6378136, b=6356751.302, f_=298.257, f=0.003352813, e=0.081819221, e2=0.006694385, e22=0.006739502, n=0.001679222, R1=6371007.767333333, R2=6371006.176906484, R3=6370999.785917024, Rr=6367448.139705879, Rs=6367434.673581903)
+@var Ellipsoids.IERS1992TOPEX: Ellipsoid(name='IERS1992TOPEX', a=6378136.3, b=6356751.61659215, f_=298.257223563, f=0.003352811, e=0.081819191, e2=0.00669438, e22=0.006739497, n=0.00167922, R1=6371008.072197382, R2=6371006.481700973, R3=6371000.090792353, Rr=6367448.446995611, Rs=6367434.980890662)
+@var Ellipsoids.IERS2003: Ellipsoid(name='IERS2003', a=6378136.6, b=6356751.85797165, f_=298.25642, f=0.00335282, e=0.081819301, e2=0.006694398, e22=0.006739515, n=0.001679225, R1=6371008.352657217, R2=6371006.762152168, R3=6371000.371208764, Rr=6367448.71770978, Rs=6367435.251531576)
+@var Ellipsoids.Intl1924: Ellipsoid(name='Intl1924', a=6378388, b=6356911.946, f_=297, f=0.003367003, e=0.08199189, e2=0.00672267, e22=0.00676817, n=0.001686341, R1=6371229.315333334, R2=6371227.711270464, R3=6371221.265832124, Rr=6367654.499992855, Rs=6367640.919007843)
+@var Ellipsoids.Intl1967: Ellipsoid(name='Intl1967', a=6378157.5, b=6356772.2, f_=298.24961539, f=0.003352896, e=0.081820233, e2=0.00669455, e22=0.00673967, n=0.001679263, R1=6371029.066666666, R2=6371027.476083895, R3=6371021.084827519, Rr=6367469.33894366, Rs=6367455.872106339)
+@var Ellipsoids.Krassovski1940: Ellipsoid(name='Krassovski1940', a=6378245, b=6356863.01877305, f_=298.3, f=0.00335233, e=0.081813334, e2=0.006693422, e22=0.006738525, n=0.001678979, R1=6371117.67292435, R2=6371116.08285656, R3=6371109.693674386, Rr=6367558.496874185, Rs=6367545.034404869)
+@var Ellipsoids.Krassowsky1940: Ellipsoid(name='Krassowsky1940', a=6378245, b=6356863.01877305, f_=298.3, f=0.00335233, e=0.081813334, e2=0.006693422, e22=0.006738525, n=0.001678979, R1=6371117.67292435, R2=6371116.08285656, R3=6371109.693674386, Rr=6367558.496874185, Rs=6367545.034404869)
+@var Ellipsoids.Maupertuis1738: Ellipsoid(name='Maupertuis1738', a=6397300, b=6363806.28272251, f_=191, f=0.005235602, e=0.102194876, e2=0.010443793, e22=0.010554017, n=0.002624672, R1=6386135.42757417, R2=6386131.541448465, R3=6386115.886282292, Rr=6380564.130113637, Rs=6380531.163818629)
+@var Ellipsoids.Mercury1960: Ellipsoid(name='Mercury1960', a=6378166, b=6356784.28360711, f_=298.3, f=0.00335233, e=0.081813334, e2=0.006693422, e22=0.006738525, n=0.001678979, R1=6371038.76120237, R2=6371037.171154275, R3=6371030.782051236, Rr=6367479.629235634, Rs=6367466.166933062)
+@var Ellipsoids.Mercury1968Mod: Ellipsoid(name='Mercury1968Mod', a=6378150, b=6356768.33724438, f_=298.3, f=0.00335233, e=0.081813334, e2=0.006693422, e22=0.006738525, n=0.001678979, R1=6371022.77908146, R2=6371021.189037351, R3=6371014.799950343, Rr=6367463.656043012, Rs=6367450.193774211)
+@var Ellipsoids.NWL1965: Ellipsoid(name='NWL1965', a=6378145, b=6356759.76948868, f_=298.25, f=0.003352892, e=0.08182018, e2=0.006694542, e22=0.006739661, n=0.001679261, R1=6371016.58982956, R2=6371014.999254003, R3=6371008.60802666, Rr=6367456.873667615, Rs=6367443.406891448)
+@var Ellipsoids.OSU86F: Ellipsoid(name='OSU86F', a=6378136.2, b=6356751.51693008, f_=298.2572236, f=0.003352811, e=0.081819191, e2=0.00669438, e22=0.006739497, n=0.00167922, R1=6371007.972310026, R2=6371006.381813641, R3=6370999.990905124, Rr=6367448.347164505, Rs=6367434.88105977)
+@var Ellipsoids.OSU91A: Ellipsoid(name='OSU91A', a=6378136.3, b=6356751.6165948, f_=298.2572236, f=0.003352811, e=0.081819191, e2=0.00669438, e22=0.006739497, n=0.00167922, R1=6371008.072198267, R2=6371006.481701856, R3=6371000.090793238, Rr=6367448.446996935, Rs=6367434.98089199)
+@var Ellipsoids.Plessis1817: Ellipsoid(name='Plessis1817', a=6376523, b=6355862.93325557, f_=308.64, f=0.003240021, e=0.080433474, e2=0.006469544, e22=0.006511671, n=0.001622639, R1=6369636.31108519, R2=6369634.826085826, R3=6369628.859996674, Rr=6366197.15710669, Rs=6366184.585664447)
+@var Ellipsoids.SGS85: Ellipsoid(name='SGS85', a=6378136, b=6356751.30156878, f_=298.257, f=0.003352813, e=0.081819221, e2=0.006694385, e22=0.006739502, n=0.001679222, R1=6371007.767189593, R2=6371006.176690875, R3=6370999.785772962, Rr=6367448.13949045, Rs=6367434.673365931)
+@var Ellipsoids.SoAmerican1969: Ellipsoid(name='SoAmerican1969', a=6378160, b=6356774.71919531, f_=298.25, f=0.003352892, e=0.08182018, e2=0.006694542, e22=0.006739661, n=0.001679261, R1=6371031.573065103, R2=6371029.982485807, R3=6371023.591243432, Rr=6367471.848531487, Rs=6367458.38172365)
+@var Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=6371008.771415, f_=0, f=0, e=0, e2=0, e22=0, n=0, R1=6371008.771415, R2=6371008.771415, R3=6371008.771415, Rr=6371008.771415, Rs=6371008.771415)
+@var Ellipsoids.SphereAuthalic: Ellipsoid(name='SphereAuthalic', a=6371000, b=6371000, f_=0, f=0, e=0, e2=0, e22=0, n=0, R1=6371000, R2=6371000, R3=6371000, Rr=6371000, Rs=6371000)
+@var Ellipsoids.SpherePopular: Ellipsoid(name='SpherePopular', a=6378137, b=6378137, f_=0, f=0, e=0, e2=0, e22=0, n=0, R1=6378137, R2=6378137, R3=6378137, Rr=6378137, Rs=6378137)
+@var Ellipsoids.Struve1860: Ellipsoid(name='Struve1860', a=6378298.3, b=6356657.14266956, f_=294.73, f=0.003392936, e=0.082306499, e2=0.00677436, e22=0.006820565, n=0.001699351, R1=6371084.580889854, R2=6371082.952089875, R3=6371076.406914177, Rr=6367482.318324657, Rs=6367468.527348378)
+@var Ellipsoids.WGS60: Ellipsoid(name='WGS60', a=6378165, b=6356783.28695944, f_=298.3, f=0.00335233, e=0.081813334, e2=0.006693422, e22=0.006738525, n=0.001678979, R1=6371037.762319813, R2=6371036.172271968, R3=6371029.783169931, Rr=6367478.630911095, Rs=6367465.168610634)
+@var Ellipsoids.WGS66: Ellipsoid(name='WGS66', a=6378145, b=6356759.76948868, f_=298.25, f=0.003352892, e=0.08182018, e2=0.006694542, e22=0.006739661, n=0.001679261, R1=6371016.58982956, R2=6371014.999254003, R3=6371008.60802666, Rr=6367456.873667615, Rs=6367443.406891448)
+@var Ellipsoids.WGS72: Ellipsoid(name='WGS72', a=6378135, b=6356750.52, f_=298.26, f=0.003352779, e=0.081818811, e2=0.006694318, e22=0.006739434, n=0.001679205, R1=6371006.84, R2=6371005.249530816, R3=6370998.858745317, Rr=6367447.24861499, Rs=6367433.78276368)
+@var Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.31425, f_=298.257223563, f=0.003352811, e=0.081819191, e2=0.00669438, e22=0.006739497, n=0.00167922, R1=6371008.771416667, R2=6371007.180920884, R3=6371000.790010764, Rr=6367449.145825027, Rs=6367435.679718607)
 
 @var Transforms.BD72: Transform(name='BD72', tx=106.86863, ty=-52.29778, tz=103.72389, rx=-0, ry=-0, rz=-0.00001, s=1.2727, s1=1, sx=-0.33657, sy=-0.45696, sz=-1.84218)
 @var Transforms.Bessel1841: Transform(name='Bessel1841', tx=-582, ty=-105, tz=-414, rx=-0.00001, ry=-0, rz=0.00001, s=-8.3, s1=0.99999, sx=-1.04, sy=-0.35, sz=3.08)
@@ -111,10 +111,10 @@ in Great Britain', Section 6
 from __future__ import division
 
 from bases import Base, Named
-from fmath import cbrt, cbrt2, fdot, fpowers, fStr, fsum_
-from utils import R_M, inStr, m2km, m2NM, m2SM, radians
+from fmath import EPS, EPS1, cbrt, cbrt2, fdot, fpowers, fStr, fsum_
+from utils import R_M, degrees360, inStr, m2km, m2NM, m2SM, radians
 
-from math import atanh, sqrt
+from math import atan2, atanh, cos, hypot, sin, sqrt
 
 R_M  = R_M        #: Mean, spherical earth radius (meter).
 R_MA = 6378137.0  #: Equatorial earth radius (meter) WGS84, EPSG:3785.
@@ -134,7 +134,7 @@ R_VM = 6366707.0194937  #: Aviation/Navigation earth radius (meter).
 __all__ = ('R_MA', 'R_MB', 'R_KM', 'R_M', 'R_NM', 'R_SM', 'R_FM', 'R_VM',  # constants
            'Datum',  'Ellipsoid',  'Transform',  # classes
            'Datums', 'Ellipsoids', 'Transforms')  # enum-like
-__version__ = '18.02.06'
+__version__ = '18.03.04'
 
 division = 1 / 2  # double check int division, see utils.py
 if not division:
@@ -245,27 +245,35 @@ class Ellipsoid(_Based):
     '''Ellipsoid with semi-major, semi-minor axis, inverse flattening
        and a number of other pre-computed, frequently used values.
     '''
-    a    = 0  #: Semi-major, equatorial axis (meter).
-    b    = 0  #: Semi-minor, polar axis (meter): a * (f - 1) / f.
+    a   = 0  #: Semi-major, equatorial axis (meter).
+    b   = 0  #: Semi-minor, polar axis (meter): a * (f - 1) / f.
     # pre-computed, frequently used values
-    a2   = 0  #: (1 / a**2)
-    ab   = 1  #: (a / b) = 1 / (1 - f)
-    e    = 0  #: 1st Eccentricity: sqrt(1 - (b / a)**2))
-    e2   = 0  #: 1st Eccentricity squared: f * (2 - f) = 1 - (b / a)**2
-    e4   = 0  #: e2**2
-    e12  = 1  #: 1 - e2
-    e22  = 0  #: 2nd Eccentricity squared: e2 / (1 - e2) = ab**2 - 1
-    f    = 0  #: Flattening: (a - b) / a
-    f_   = 0  #: Inverse flattening: a / (a - b) = 1 / f
-    n    = 0  #: 3rd Flattening: f / (2 - f) = (a - b) / (a + b)
-    # earth radii from <http://wikipedia.org/wiki/Earth_radius>
-    R    = 0  #: Mean earth radius: (2 * a + b) / 3 per IUGG definition (meter)
-    Rm   = 0  #: Mean earth radius: sqrt(a * b) (meter)
-    R2   = 0  #: Authalic radius: sqrt((a**2 + b**2 * atanh(e) / e) / 2) (meter)
-    R3   = 0  #: Volumetric radius: (a * a * b)**1/3 (meter)
-    Rr   = 0  #: Rectifying radius: ((a**3/2 + b**3/2) / 2)**2/3 (meter)
+    a_2 = 0  #: (1 / a**2)
+    a_b = 1  #: (a / b) = 1 / (1 - f)
+    e   = 0  #: 1st Eccentricity: sqrt(1 - (b / a)**2))
+    e2  = 0  #: 1st Eccentricity squared: f * (2 - f) = 1 - (b / a)**2
+    e4  = 0  #: e2**2
+    e12 = 1  #: 1 - e2
+    e22 = 0  #: 2nd Eccentricity squared: e2 / (1 - e2) = ab**2 - 1
+    f   = 0  #: Flattening: (a - b) / a
+    f_  = 0  #: Inverse flattening: a / (a - b) = 1 / f
+    n   = 0  #: 3rd Flattening: f / (2 - f) = (a - b) / (a + b)
 
-    _A      = None  #: (INTERNAL) meridional radius
+    _a2 = 0  #: (INTERNAL) a**2
+    _b2 = 0  #: (INTERNAL) b**2
+
+    # curvatures <http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature>
+    _a2b = None  #: (INTERNAL) Meridional radius of curvature at poles: a**2 / b (meter)
+    _b2a = None  #: (INTERNAL) Meridional radius of curvature at equator: b**2 / a (meter)
+
+    # fixed earth radii from <http://wikipedia.org/wiki/Earth_radius>
+    _R1 = None  #: (INTERNAL) Mean earth radius: (2 * a + b) / 3 per IUGG definition (meter)
+    _R2 = None  #: (INTERNAL) Authalic radius: sqrt((a**2 + b**2 * atanh(e) / e) / 2) (meter)
+    _R3 = None  #: (INTERNAL) Volumetric radius: (a * a * b)**1/3 (meter)
+    _Rr = None  #: (INTERNAL) Rectifying radius: ((a**3/2 + b**3/2) / 2)**2/3 (meter)
+    _Rs = None  #: (INTERNAL) Mean earth radius: sqrt(a * b) (meter)
+
+    _A      = None  #: (INTERNAL) Meridional radius
     _Alpha6 = None  #: (INTERNAL) 6th-order Krüger Alpha series
     _Beta6  = None  #: (INTERNAL) 6th-order Krüger Beta series
     _Mabcd  = None  #: (INTERNAL) OSGB meridional coefficients
@@ -292,23 +300,22 @@ class Ellipsoid(_Based):
             self.f  = f  = 1 / f_  # flattening
             self.n  = n  = f / (2 - f)  # 3rd flattening for utm
             self.e2 = e2 = f * (2 - f)  # 1st eccentricity squared
-            self.e4 = e2**2  # for Nvector.Cartesian.toNvector
-            self.e  = e = sqrt(e2)  # eccentricity for utm
-            self.e12 = 1 - e2  # for Nvector.Cartesian.toNvector and utm
+            self.e4 = e2**2  # for ellipsoidalNvector.Cartesian.toNvector
+            self.e  = sqrt(e2)  # eccentricity for utm
+            self.e12 = 1 - e2  # for ellipsoidalNvector.Cartesian.toNvector and utm
             self.e22 = e2 / (1 - e2)  # 2nd eccentricity squared
-            self.ab = a / b  # for Nvector.toCartesian
-            self.R = (2 * a + b) / 3  # per IUGG definition for WGS84
-            self.Rm = sqrt(a * b)  # mean radius
-            self.R2 = sqrt((a**2 + b**2 * atanh(e) / e) * 0.5)  # authalic radius
-            self.R3 = cbrt(a**2 * b)  # volumetric radius
-            self.Rr = cbrt2((pow(a, 1.5) + pow(b, 1.5)) * 0.5)  # rectifying radius
+            self.a_b = a / b  # for ellipsoidalNvector.Nvector.toCartesian
         elif a > 0:
-            self.R = self.Rm = self.R2 = self.R3 = self.Rr = self.b = b = a
+            self.b = b = self._a2b = self._b2a = a
+            self._R = self._Rm = self._R2 = self._R3 = self._Rr = a
             f_ = f = n = 0
         else:
             raise ValueError('%s invalid: %s' % ('ellipsoid',
                              inStr(self, a, b, f_, name=name)))
-        self.a2 = 1 / a**2  # for Nvector.Cartesian.toNvector
+        self.a_2 = 1 / a**2  # for ellipsiodalNvector.Cartesian.toNvector
+
+        self._a2 = a**2
+        self._b2 = b**2
 
         d = a - b
         self._ab_90 = d / 90  # for radiusAt below
@@ -325,7 +332,7 @@ class Ellipsoid(_Based):
         if abs(n - t) > 1e-8:
             raise AssertionError('%s: %s=%.9e vs %s=%.9e' % (name,
                                  'n', n, '(a-b)/(a+b)', t))
-        t = self.ab ** 2 - 1
+        t = self.a_b**2 - 1
         if abs(self.e22 - t) > 1e-8:
             raise AssertionError('%s: %s=%.9e vs %s=%.9e' % (name,
                                  'e22', self.e22, 'ab**2-1', t))
@@ -342,6 +349,28 @@ class Ellipsoid(_Based):
         return self is other or (isinstance(other, Ellipsoid) and
                                  self.a == other.a and
                                  self.b == other.b)
+
+    @property
+    def a2b(self):
+        '''Get the meridional radius of curvature at poles: a**2 / b (meter).
+
+           @see: U{Radii of Curvature
+                 <http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature>}.
+        '''
+        if not self._a2b:
+            self._a2b = self._a2 / self.b
+        return self._a2b
+
+    @property
+    def b2a(self):
+        '''Get the meridional radius of curvature at equator: b**2 / a (meter).
+
+           @see: U{Radii of Curvature
+                 <http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature>}.
+        '''
+        if not self._b2a:
+            self._b2a = self._b2 / self.a
+        return self._b2a
 
     @property
     def A(self):
@@ -391,6 +420,27 @@ class Ellipsoid(_Based):
                                                           (20648693/638668800,))  # PYCHOK expected
         return self._Beta6
 
+    def distance2(self, lat0, lon0, lat1, lon1):
+        '''Approximate the distance and bearing between two points
+           based on the radii of curvature.
+
+           Suitable only for short distances up to a few hundred Km
+           or Miles and only between non-near-polar points.
+
+           @param lat0: From latitude (degrees).
+           @param lon0: From longitude (degrees).
+           @param lat1: To latitude (degrees).
+           @param lon1: To longitude (degrees).
+
+           @return: 2-Tuple (distance, bearing) in (meter, degrees360).
+
+           @see: U{Local, Flat Earth<http://www.edwilliams.org/avform.htm#flat>}.
+        '''
+        m, n = self.roc2(lat0)
+        m *= radians(lat1 - lat0)
+        n *= radians(lon1 - lon0) * cos(radians(lat0))
+        return hypot(m, n), degrees360(atan2(n, m))
+
     def e2s(self, s):
         '''Compute norm M{sqrt(1 - e2 * s**2)}.
 
@@ -405,21 +455,21 @@ class Ellipsoid(_Based):
 
            @param s: S value (scalar).
 
-           @return: Radius (float).
+           @return: Result (float).
         '''
-        return 1 - self.e2 * s**2
+        return 1 - s**2 * self.e2
 
     @property
     def isEllipsoidal(self):
         '''Check whether this model is ellipsoidal (bool).
         '''
-        return self.a > self.R > self.b
+        return self.a > self.R1 > self.b
 
     @property
     def isSpherical(self):
         '''Check whether this model is spherical (bool).
         '''
-        return self.a == self.R == self.b
+        return self.a == self.R1 == self.b
 
     @property
     def Mabcd(self):
@@ -434,16 +484,150 @@ class Ellipsoid(_Based):
                                    35/24 * n3)
         return self._Mabcd
 
-    def radiusAt(self, lat):
-        '''Approximate the ellipsoid radius at the given
-           latitude in degrees by trivial interpolation.
+    def Rgeocentric(self, lat):
+        '''Compute the geocentric earth radius at the given latitude.
 
            @param lat: Latitude (degrees90).
 
-           @return: Radius at that latitude (meter).
+           @return: Geocentric earth radius (meter).
+
+           @see: U{Radii of Curvature
+                 <http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature>}
+        '''
+        a2 = self._a2
+        b2 = self._b2
+        c2 = cos(radians(lat))**2
+        s2 = 1 - c2
+        return sqrt((a2**2 * c2 + b2**2 * s2) / (a2 * c2 + b2 * s2))
+
+    def Rlat(self, lat):
+        '''Approximate the earth radius at the given latitude.
+
+           @param lat: Latitude (degrees90).
+
+           @return: Approximate earth radius (meter).
         '''
         # r = major - (major - minor) * |lat| / 90
         return self.a - self._ab_90 * min(abs(lat), 90)
+
+    @property
+    def R1(self):
+        '''Get the mean earth radius per IUGG: (2 * a + b) / 3 (meter).
+
+           @see: U{Earth radius<http://wikipedia.org/wiki/Earth_radius>}.
+        '''
+        if not self._R1:
+            self._R1 = (self.a * 2 + self.b) / 3
+        return self._R1
+
+    @property
+    def R2(self):
+        '''Get the earth' authalic radius: sqrt((a**2 + b**2 * atanh(e) / e) / 2) (meter).
+
+           @see: U{Earth radius<http://wikipedia.org/wiki/Earth_radius>}.
+        '''
+        if not self._R2:
+            self._R2 = sqrt((self._a2 + self._b2 * atanh(self.e) / self.e) * 0.5)
+        return self._R2
+
+    @property
+    def R3(self):
+        '''Get the earth' volumetric radius: (a * a * b)**1/3 (meter).
+
+           @see: U{Earth radius<http://wikipedia.org/wiki/Earth_radius>}.
+        '''
+        if not self._R3:
+            self._R3 = cbrt(self._a2 * self.b)
+        return self._R3
+
+    @property
+    def Rr(self):
+        '''Get the earth' rectifying radius: ((a**3/2 + b**3/2) / 2)**2/3 (meter).
+
+           @see: U{Earth radius<http://wikipedia.org/wiki/Earth_radius>}.
+        '''
+        if not self._Rr:
+            self._Rr = cbrt2((pow(self.a, 1.5) + pow(self.b, 1.5)) * 0.5)
+        return self._Rr
+
+    @property
+    def Rs(self):
+        '''Get another mean earth radius: sqrt(a * b) (meter).
+        '''
+        if not self._Rs:
+            self._Rs = sqrt(self.a * self.b)
+        return self._Rs
+
+    def roc2(self, lat):
+        '''Compute both radii of curvature at the given latitude.
+
+           @param lat: Latitude (degrees90).
+
+           @return: 2-Tuple (meridional, prime-vertical) with the
+                    radii of curvature (meter, meter).
+
+           @see: U{Local, Flat Earth<http://www.edwilliams.org/avform.htm#flat>}
+                 and U{Radii of Curvature
+                 <http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature>}.
+        '''
+        r = self.e2s2(sin(radians(lat)))
+        if r < EPS:
+            m = n = 0
+        elif r < EPS1:
+            n = self.a / sqrt(r)
+            m = n * self.e12 / r
+        else:
+            n = self.a
+            m = n * self.e12
+        return m, n
+
+    def rocBearing(self, lat, bearing):
+        '''Compute the directional radius of curvature at the
+           given latitude and compass direction.
+
+           @param lat: Latitude (degrees90).
+           @param bearing: Direction (compass degrees).
+
+           @return: Directional radius of curvature (meter).
+
+           @see: U{Radii of Curvature
+                 <http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature>}
+        '''
+        c2 = cos(radians(bearing))**2
+        s2 = 1 - c2
+        m, n = self.roc2(lat)
+        if n < m:  # == n / (c2 * n / m + s2)
+            c2 *= n / m
+        else:  # == m / (c2 + s2 * m / n)
+            s2 *= m / n
+            n = m
+        return n / (c2 + s2)  # == 1 / (c2 / m + s2 / n)
+
+    def rocGauss(self, lat):
+        '''Compute the Gaussian radius of curvature at the given latitude.
+
+           @param lat: Latitude (degrees90).
+
+           @return: Gaussian radius of curvature (meter).
+
+           @see: U{Radii of Curvature
+                 <http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature>}
+        '''
+        m, n = self.roc2(lat)
+        return sqrt(m * n)
+
+    def rocMean(self, lat):
+        '''Compute the mean radius of curvature at the given latitude.
+
+           @param lat: Latitude (degrees90).
+
+           @return: Mean radius of curvature (meter).
+
+           @see: U{Radii of Curvature
+                 <http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature>}
+        '''
+        m, n = self.roc2(lat)
+        return 2 * m * n / (m + n)  # == 2 / (1 / m + 1 / n)
 
     def toStr(self, prec=9):  # PYCHOK expected
         '''Return this ellipsoid as a string.
@@ -453,7 +637,7 @@ class Ellipsoid(_Based):
            @return: Ellipsoid attributes (string).
         '''
         return self._fStr(prec, 'a', 'b', 'f_', 'f', 'e', 'e2', 'e22',
-                                'n', 'R', 'Rm', 'R2', 'R3', 'Rr')
+                                'n', 'R1', 'R2', 'R3', 'Rr', 'Rs')
 
 
 # <http://www.gnu.org/software/gama/manual/html_node/Supported-ellipsoids.html>
@@ -464,11 +648,12 @@ Ellipsoids._assert(  # <http://wikipedia.org/wiki/Earth_ellipsoid>
     Airy1830       = Ellipsoid(6377563.396, 6356256.909,       299.3249646,   'Airy1830'),
     AiryModified   = Ellipsoid(6377340.189, 6356034.448,       299.3249646,   'AiryModified'),
     Australia1966  = Ellipsoid(6378160.0,   6356774.719,       298.25,        'Australia1966'),
-    Bessel1841     = Ellipsoid(6377397.155, 6356078.963,       299.152815351, 'Bessel1841'),  # XXX 299.1528128
+#   Bessel1841     = Ellipsoid(6377397.155, 6356078.963,       299.152815351, 'Bessel1841'),
+    Bessel1841     = Ellipsoid(6377397.155, 6356078.962818,    299.1528128,   'Bessel1841'),
     Clarke1866     = Ellipsoid(6378206.4,   6356583.8,         294.978698214, 'Clarke1866'),
     Clarke1880     = Ellipsoid(6378249.145, 6356514.86954978,  293.465,       'Clarke1880'),
+    Clarke1880IGN  = Ellipsoid(6378249.2,   6356515.0,         293.466021294, 'Clarke1880IGN'),
     Clarke1880Mod  = Ellipsoid(6378249.145, 6356514.96582849,  293.4663,      'Clarke1880Mod'),
-    Clarke1880IGN  = Ellipsoid(6378249.2,   6356515.0,         293.466021294, 'Clarke1880IGN'),  # XXX confirm
     CPM1799        = Ellipsoid(6375738.7,   6356671.92557493,  334.39,        'CPM1799'),  # Comm. des Poids et Mesures
     Delambre1810   = Ellipsoid(6376428.0,   6355957.92616372,  311.5,         'Delambre1810'),  # Belgium
     Engelis1985    = Ellipsoid(6378136.05,  6356751.32272154,  298.2566,      'Engelis1985'),
@@ -848,17 +1033,17 @@ if __name__ == '__main__':
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-# Ellipsoid.WGS84: name='WGS84', a=6378137, b=6356752.3142499998, f_=298.257223563, f=0.0033528107, e=0.0818191908, e2=0.00669438, e22=0.0067394967, n=0.0016792204, R=6371008.7714166669, Rm=6367435.6797186071, R2=6371007.180920884, R3=6371000.7900107643, Rr=6367449.1458250266,
+# Ellipsoid.WGS84: name='WGS84', a=6378137, b=6356752.3142499998, f_=298.257223563, f=0.0033528107, e=0.0818191908, e2=0.00669438, e22=0.0067394967, n=0.0016792204, R1=6371008.7714166669, R2=6371007.180920884, R3=6371000.7900107643, Rr=6367449.1458250266, Rs=6367435.6797186071,
 #     A=6367449.145823414, e=8.1819190842621e-02, f=1/298.2572235630, n=0.0016792204(-3.7914875232e-13),
 #     Alpha6=(0, 0.0008377318206244698, 7.608527773572307e-07, 1.1976455033294527e-09, 2.4291706072013587e-12, 5.711757677865804e-15, 1.4911177312583895e-17),
 #     Beta6=(0, 0.0008377321640579486, 5.905870152220203e-08, 1.6734826652839968e-10, 2.1647980400627059e-13, 3.7879780461686053e-16, 7.2487488906941545e-19)
 
-# Ellipsoid.Sphere: name='Sphere', a=6371008.7714149999, b=6371008.7714149999, f_=0, f=0, e=0, e2=0, e22=0, n=0, R=6371008.7714149999, Rm=6371008.7714149999, R2=6371008.7714149999, R3=6371008.7714149999, Rr=6371008.7714149999,
+# Ellipsoid.Sphere: name='Sphere', a=6371008.7714149999, b=6371008.7714149999, f_=0, f=0, e=0, e2=0, e22=0, n=0, R1=6371008.7714149999, R2=6371008.7714149999, R3=6371008.7714149999, Rr=6371008.7714149999, Rs=6371008.7714149999,
 #     A=6371008.771415, e=0.0000000000000e+00, f=N/A, n=0.0000000000(0.0000000000e+00),
 #     Alpha6=(0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
 #     Beta6=(0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
 
-# Ellipsoid.SpherePopular: name='SpherePopular', a=6378137, b=6378137, f_=0, f=0, e=0, e2=0, e22=0, n=0, R=6378137, Rm=6378137, R2=6378137, R3=6378137, Rr=6378137,
+# Ellipsoid.SpherePopular: name='SpherePopular', a=6378137, b=6378137, f_=0, f=0, e=0, e2=0, e22=0, n=0, R1=6378137, R2=6378137, R3=6378137, Rr=6378137, Rs=6378137,
 #     A=6378137.0, e=0.0000000000000e+00, f=N/A, n=0.0000000000(0.0000000000e+00),
 #     Alpha6=(0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
 #     Beta6=(0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)

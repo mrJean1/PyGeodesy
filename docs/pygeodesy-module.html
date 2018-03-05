@@ -190,7 +190,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.02.28
+        18.03.04
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -1279,7 +1279,24 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isNumpy2" class="summary-sig-name">isNumpy2</a>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Check for <i>Numpy2LatLon</i> points wrapper.</td>
+      Check for an <i>Numpy2LatLon</i> points wrapper.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#isPoints2" class="summary-sig-name">isPoints2</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Check for an <i>LatLon2psxy</i> points wrapper.</td>
           <td align="right" valign="top">
             
             
@@ -1296,7 +1313,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isTuple2" class="summary-sig-name">isTuple2</a>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Check for <i>Tuple2LatLon</i> points wrapper.</td>
+      Check for an <i>Tuple2LatLon</i> points wrapper.</td>
           <td align="right" valign="top">
             
             
@@ -1317,7 +1334,8 @@
         <span class="summary-sig-arg">lat2</span>,
         <span class="summary-sig-arg">lon2</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>)</span><br />
-      Check whether two points are anitpodal, diametrically opposite.</td>
+      Check whether two points are anitpodal, on diametrically opposite 
+      sides of the earth.</td>
           <td align="right" valign="top">
             
             
@@ -2482,7 +2500,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'18.2.28'"><code class="variable-quote">'</code><code class="variable-string">18.2.28</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'18.3.4'"><code class="variable-quote">'</code><code class="variable-string">18.3.4</code><code class="variable-quote">'</code></code><br />
       Normalized PyGeodesy version (string).
     </td>
   </tr>
@@ -2548,12 +2566,12 @@ m=Transforms.WGS84)
     </td><td class="summary">
         <a href="pygeodesy-module.html#Ellipsoids" class="summary-name">Ellipsoids</a> = <code title="Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, b=63562\
 56.909, f_=299.3249646, f=0.003340851, e=0.081673374, e2=0.00667054, e\
-22=0.006715335, n=0.00167322, R=6370461.233666666, Rm=6366901.23988196\
-4, R2=6370459.654589442, R3=6370453.309866445, Rr=6366914.608805893)
+22=0.006715335, n=0.00167322, R1=6370461.233666666, R2=6370459.6545894\
+42, R3=6370453.309866445, Rr=6366914.608805893, Rs=6366901.239881964)
 Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
  b=6356034.448, f_=299.3249646, f=0.003340851, e=0.081673374, e2=0.006\
-67054, e22=0.006715335, n=0.00167322, R=6370238.275333334, Rm=6366678.\
-406194146, R2=6370236.696361165, R3=6370230.351810658, Rr=6366691.7746\
+67054, e22=0.006715335, n=0.00167322, R1=6370238.275333334, R2=6370236\
+.696361165, R3=6370230.351810658, Rr=6366691.774649803, Rs=6366678.406\
 ...">Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a<code class="variable-ellipsis">...</code></code><br />
       Registered ellipsoids (enum).
     </td>
@@ -3067,9 +3085,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   
   <p>Return the angle from North for the direction vector <i 
   class="math">(lon1 - lon0, lat1 - lat0)</i> between two points.</p>
-  <p>Suitable only for short vectors up to a few hundred Km or Miles.  Use 
-  {LatLon} methods <i>initialBearingTo</i> or <i>forward azimuth</i> for 
-  larger distances.</p>
+  <p>Suitable only for short, non-near-polar vectors up to a few hundred Km
+  or Miles.  Use <i>LatLon</i> methods <i>initialBearingTo</i> or 
+  <i>forward azimuth</i> for larger distances.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -3083,6 +3101,10 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         Courtesy Martin Schultz.
+      </p>
+      <p><strong>See Also:</strong>
+        <a href="http://www.edwilliams.org/avform.htm#flat" 
+        target="_top">Local, Flat Earth</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -3355,8 +3377,13 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <dd>Distance (meter, same units as <i>radius</i>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.utils-module.html#haversine" 
-        class="link">haversine</a> for more accurate or larger distances.
+        <a href="http://www.edwilliams.org/avform.htm#flat" 
+        target="_top">Local, Flat Earth</a>, method <a 
+        href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
+        class="link">Ellipsoid.distance2</a> or function <a 
+        href="pygeodesy.utils-module.html#haversine" 
+        class="link">haversine</a> for more accurate and/or larger 
+        distances.
       </p>
 </div></td></tr></table>
 </div>
@@ -3419,7 +3446,11 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.utils-module.html#equirectangular" 
+        <a href="http://www.edwilliams.org/avform.htm#flat" 
+        target="_top">Local, Flat Earth</a>, method <a 
+        href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
+        class="link">Ellipsoid.distance2</a> or function <a 
+        href="pygeodesy.utils-module.html#equirectangular" 
         class="link">equirectangular</a> for distance only and function <a 
         href="pygeodesy.utils-module.html#haversine" 
         class="link">haversine</a> for accurate and/or larger distances.
@@ -4065,14 +4096,41 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Check for <i>Numpy2LatLon</i> points wrapper.</p>
+  <p>Check for an <i>Numpy2LatLon</i> points wrapper.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>obj</code></strong> - The object (any).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if obj is Numpy2 (bool).</dd>
+        <dd>True if obj is an <i>Numpy2LatLon</i> instance, False otherwise 
+          (bool).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isPoints2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isPoints2</span>(<span class="sig-arg">obj</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check for an <i>LatLon2psxy</i> points wrapper.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - The object (any).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>True if obj is an <i>LatLon2psxy</i> instance, False otherwise 
+          (bool).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -4090,14 +4148,15 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Check for <i>Tuple2LatLon</i> points wrapper.</p>
+  <p>Check for an <i>Tuple2LatLon</i> points wrapper.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>obj</code></strong> - The object (any).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if obj is Tuple2 (bool).</dd>
+        <dd>True if obj is an <i>Tuple2LatLon</i> instance, False otherwise 
+          (bool).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -4119,7 +4178,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Check whether two points are anitpodal, diametrically opposite.</p>
+  <p>Check whether two points are anitpodal, on diametrically opposite 
+  sides of the earth.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -4127,10 +4187,10 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>lon1</code></strong> - Longitude of one point (degrees).</li>
         <li><strong class="pname"><code>lat2</code></strong> - Latitude of the other point (degrees).</li>
         <li><strong class="pname"><code>lon2</code></strong> - Longitude of the other point (degrees).</li>
-        <li><strong class="pname"><code>eps</code></strong> - Tolerance for equality (degrees).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance for near-equality (degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if points are antipodes within the given tolerance, False 
+        <dd>True if points are antipodal within the given tolerance, False 
           otherwise.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -6379,12 +6439,12 @@ m=Transforms.WGS84)
       <dd><table><tr><td><pre class="variable">
 Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, b=63562<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 56.909, f_=299.3249646, f=0.003340851, e=0.081673374, e2=0.00667054, e<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-22=0.006715335, n=0.00167322, R=6370461.233666666, Rm=6366901.23988196<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-4, R2=6370459.654589442, R3=6370453.309866445, Rr=6366914.608805893)
+22=0.006715335, n=0.00167322, R1=6370461.233666666, R2=6370459.6545894<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+42, R3=6370453.309866445, Rr=6366914.608805893, Rs=6366901.239881964)
 Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
  b=6356034.448, f_=299.3249646, f=0.003340851, e=0.081673374, e2=0.006<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-67054, e22=0.006715335, n=0.00167322, R=6370238.275333334, Rm=6366678.<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-406194146, R2=6370236.696361165, R3=6370230.351810658, Rr=6366691.7746<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+67054, e22=0.006715335, n=0.00167322, R1=6370238.275333334, R2=6370236<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+.696361165, R3=6370230.351810658, Rr=6366691.774649803, Rs=6366678.406<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 <code class="variable-ellipsis">...</code>
 </pre></td></tr></table>
 </dd>
@@ -6449,7 +6509,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Feb 27 20:07:22 2018
+    Generated by Epydoc 3.0.1 on Mon Mar  5 16:16:48 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

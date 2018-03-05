@@ -31,7 +31,7 @@ __all__ = ('PI', 'PI2', 'PI_2', 'R_M',  # constants
            'haversine', 'haversine_',  # XXX removed 'hsin', 'hsin3',
            'heightOf', 'horizon',
            'inStr', 'isantipode', 'issequence',
-           'isNumpy2', 'isTuple2',
+           'isNumpy2', 'isPoints2', 'isTuple2',
            'iterNumpy2', 'iterNumpy2over',
            'limiterrors',
            'm2ft', 'm2km', 'm2NM', 'm2SM',
@@ -41,7 +41,7 @@ __all__ = ('PI', 'PI2', 'PI_2', 'R_M',  # constants
            'unroll180', 'unrollPI', 'unStr',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '18.02.27'
+__version__ = '18.03.04'
 
 division = 1 / 2  # double check int division, see datum.py
 if not division:
@@ -205,7 +205,9 @@ def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **options):
 
        @return: Distance (meter, same units as I{radius}).
 
-       @see: Function L{haversine} for more accurate or larger distances.
+       @see: U{Local, Flat Earth<http://www.edwilliams.org/avform.htm#flat>},
+             method L{Ellipsoid.distance2} or function L{haversine} for
+             more accurate and/or larger distances.
     '''
     _, dy, dx, _ = equirectangular_(lat1, lon1, lat2, lon2, **options)
     return radians(hypot(dx, dy)) * radius
@@ -245,8 +247,10 @@ def equirectangular_(lat1, lon1, lat2, lon2,
                           the I{-limit..+limit} range and I{limiterrors}
                           set to True.
 
-       @see: Function L{equirectangular} for distance only and function
-             L{haversine} for accurate and/or larger distances.
+       @see: U{Local, Flat Earth<http://www.edwilliams.org/avform.htm#flat>},
+             method L{Ellipsoid.distance2} or function L{equirectangular}
+             for distance only and function L{haversine} for accurate
+             and/or larger distances.
     '''
     d_lat = lat2 - lat1
     d_lon, ulon2 = unroll180(lon1, lon2, wrap=wrap)
@@ -424,15 +428,16 @@ def inStr(inst, *args, **kwds):
 
 
 def isantipode(lat1, lon1, lat2, lon2, eps=EPS):
-    '''Check whether two points are anitpodal, diametrically opposite.
+    '''Check whether two points are anitpodal, on diametrically
+       opposite sides of the earth.
 
        @param lat1: Latitude of one point (degrees).
        @param lon1: Longitude of one point (degrees).
        @param lat2: Latitude of the other point (degrees).
        @param lon2: Longitude of the other point (degrees).
-       @keyword eps: Tolerance for equality (degrees).
+       @keyword eps: Tolerance for near-equality (degrees).
 
-       @return: True if points are antipodes within the given
+       @return: True if points are antipodal within the given
                 tolerance, False otherwise.
 
        @see: U{Geosphere<http://cran.r-project.org/web/packages/geosphere/geosphere.pdf>}.
@@ -442,14 +447,27 @@ def isantipode(lat1, lon1, lat2, lon2, eps=EPS):
 
 
 def isNumpy2(obj):
-    '''Check for I{Numpy2LatLon} points wrapper.
+    '''Check for an I{Numpy2LatLon} points wrapper.
 
        @param obj: The object (any).
 
-       @return: True if obj is Numpy2 (bool).
+       @return: True if obj is an I{Numpy2LatLon}
+                instance, False otherwise (bool).
     '''
     # isinstance(self, (Numpy2LatLon, ...))
     return getattr(obj, 'isNumpy2', False)
+
+
+def isPoints2(obj):
+    '''Check for an I{LatLon2psxy} points wrapper.
+
+       @param obj: The object (any).
+
+       @return: True if obj is an I{LatLon2psxy}
+                instance, False otherwise (bool).
+    '''
+    # isinstance(self, (LatLon2psxy, ...))
+    return getattr(obj, 'isPoints2', False)
 
 
 def issequence(obj, *excluded):
@@ -470,11 +488,12 @@ def issequence(obj, *excluded):
 
 
 def isTuple2(obj):
-    '''Check for I{Tuple2LatLon} points wrapper.
+    '''Check for an I{Tuple2LatLon} points wrapper.
 
        @param obj: The object (any).
 
-       @return: True if obj is Tuple2 (bool).
+       @return: True if obj is an I{Tuple2LatLon}
+                instance, False otherwise (bool).
     '''
     # isinstance(self, (Tuple2LatLon, ...))
     return getattr(obj, 'isTuple2', False)

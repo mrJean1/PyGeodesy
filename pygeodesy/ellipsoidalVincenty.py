@@ -66,7 +66,7 @@ from math import atan2, cos, sin, tan
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'VincentyError',  # classes
            'areaOf', 'perimeterOf')  # functions
-__version__ = '18.02.06'
+__version__ = '18.03.02'
 
 division = 1 / 2  # double check int division, see utils.py
 if not division:
@@ -188,7 +188,8 @@ class LatLon(LatLonEllipsoidalBase):
 
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limit or this and the I{other} point coincide.
+                                 limit and/or if this and the I{other} point
+                                 are near-antipodal or coincide.
 
            @example:
 
@@ -223,7 +224,8 @@ class LatLon(LatLonEllipsoidalBase):
 
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limit or this and the I{other} point coincide.
+                                 limit and/or if this and the I{other} point
+                                 are near-antipodal or coincide.
         '''
         return self._inverse(other, True, wrap)
 
@@ -286,7 +288,8 @@ class LatLon(LatLonEllipsoidalBase):
 
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limit or this and the I{other} point coincide.
+                                 limit and/or if this and the I{other} point
+                                 are near-antipodal or coincide.
 
            @example:
 
@@ -318,7 +321,8 @@ class LatLon(LatLonEllipsoidalBase):
 
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limit or this and the I{other} point coincide.
+                                 limit and/or if this and the I{other} point
+                                 are near-antipodal or coincide.
 
            @example:
 
@@ -420,7 +424,8 @@ class LatLon(LatLonEllipsoidalBase):
 
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limit or this and the I{other} point coincide.
+                                 limit and/or if this and the I{other} point
+                                 are near-antipodal or coincide.
         '''
         E = self.ellipsoids(other)
 
@@ -452,8 +457,14 @@ class LatLon(LatLonEllipsoidalBase):
 
             if abs(ll - ll_) < self._epsilon:
                 break
+            # <http://github.com/chrisveness/geodesy/blob/master/latlon-vincenty.js>
+            # omitted and applied only after failure to converge, see footnote under
+            # Inverse at <http://en.wikipedia.org/wiki/Vincenty's_formulae>
+#           elif abs(ll) > PI and self.isantipode(other, eps=self._epsilon):
+#              raise VincentyError('%r antipodal to %r' % (self, other))
         else:
-            raise VincentyError('no convergence %r to %r' % (self, other))
+            t = 'antipodal ' if self.isantipode(other, eps=self._epsilon) else ''
+            raise VincentyError('no convergence, %r %sto %r' % (self, t, other))
 
         if c2a:  # e22 == (a / b)**2 - 1
             A, B = _p2(c2a * E.e22)

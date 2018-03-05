@@ -168,6 +168,25 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#distanceTo2" class="summary-sig-name">distanceTo2</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>)</span><br />
+      Approximate the distance and bearing between this and an other 
+      (ellipsoidal) point based on the radii of curvature.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#ellipsoid" class="summary-sig-name">ellipsoid</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>)</span><br />
       Return the ellipsoid of this point's datum or the given datum.</td>
@@ -188,8 +207,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#ellipsoids" class="summary-sig-name">ellipsoids</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
-      Check the type and ellipsoid of this points' datum and an other 
-      datum.</td>
+      Check the type and ellipsoid of this and an other point's datum.</td>
           <td align="right" valign="top">
             
             
@@ -538,6 +556,46 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="distanceTo2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">distanceTo2</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Approximate the distance and bearing between this and an other 
+  (ellipsoidal) point based on the radii of curvature.</p>
+  <p>Suitable only for short distances up to a few hundred Km or Miles and 
+  only between non-near-polar points.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<i>LatLon</i>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>2-Tuple (distance, bearing) in (meter, degrees360).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <i>LatLon</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Incompatible datum ellipsoids.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
+        class="link">Ellipsoid.distance2</a> and <a 
+        href="http://www.edwilliams.org/avform.htm#flat" 
+        target="_top">Local, Flat Earth</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="ellipsoid"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -581,22 +639,20 @@
     </td>
   </tr></table>
   
-  <p>Check the type and ellipsoid of this points' datum and an other 
-  datum.</p>
+  <p>Check the type and ellipsoid of this and an other point's datum.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - The other datum (<a href="pygeodesy.datum.Datum-class.html" 
-          class="link">Datum</a>).</li>
+        <li><strong class="pname"><code>other</code></strong> - The other point (<i>LatLon</i>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>This datum's ellipsoid (<a 
+        <dd>This point's datum ellipsoid (<a 
           href="pygeodesy.datum.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not LatLon.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - If datum ellipsoids are incompatible.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <i>LatLon</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Incompatible datum ellipsoids.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -882,7 +938,7 @@ from <a href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Feb 27 20:07:23 2018
+    Generated by Epydoc 3.0.1 on Mon Mar  5 16:16:49 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

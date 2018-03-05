@@ -23,7 +23,7 @@ from math import atan2, copysign, cos, sin, sqrt
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('CartesianBase', 'LatLonEllipsoidalBase')
-__version__ = '18.02.27'
+__version__ = '18.03.04'
 
 
 class CartesianBase(Vector3d):
@@ -227,6 +227,27 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
         self._update(datum != self._datum)
         self._datum = datum
 
+    def distanceTo2(self, other):
+        '''Approximate the distance and bearing between this and an
+           other (ellipsoidal) point based on the radii of curvature.
+
+           Suitable only for short distances up to a few hundred Km
+           or Miles and only between non-near-polar points.
+
+           @param other: The other point (I{LatLon}).
+
+           @return: 2-Tuple (distance, bearing) in (meter, degrees360).
+
+           @raise TypeError: The I{other} point is not I{LatLon}.
+
+           @raise ValueError: Incompatible datum ellipsoids.
+
+           @see: Method L{Ellipsoid.distance2} and U{Local, Flat Earth
+                 <http://www.edwilliams.org/avform.htm#flat>}.
+        '''
+        return self.ellipsoids(other).distance2(self.lat,  self.lon,
+                                               other.lat, other.lon)
+
     def ellipsoid(self, datum=Datums.WGS84):
         '''Return the ellipsoid of this point's datum or the given datum.
 
@@ -237,15 +258,15 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
         return getattr(self, 'datum', datum).ellipsoid
 
     def ellipsoids(self, other):
-        '''Check the type and ellipsoid of this points' datum and an other datum.
+        '''Check the type and ellipsoid of this and an other point's datum.
 
-           @param other: The other datum (L{Datum}).
+           @param other: The other point (I{LatLon}).
 
-           @return: This datum's ellipsoid (L{Ellipsoid}).
+           @return: This point's datum ellipsoid (L{Ellipsoid}).
 
-           @raise TypeError: The I{other} point is not LatLon.
+           @raise TypeError: The I{other} point is not I{LatLon}.
 
-           @raise ValueError: If datum ellipsoids are incompatible.
+           @raise ValueError: Incompatible datum ellipsoids.
         '''
         self.others(other)
 

@@ -30,7 +30,7 @@ __all__ = ('LatLon',  # classes
            'meanOf',
            'nearestOn2',
            'perimeterOf')
-__version__ = '18.02.06'
+__version__ = '18.03.02'
 
 
 class LatLon(LatLonSphericalBase):
@@ -550,7 +550,7 @@ def _destination2(a, b, r, t):
        @param a: Latitude (radians).
        @param b: Longitude (radians).
        @param r: Angular distance (radians).
-       @param t: Bearing (radians).
+       @param t: Bearing (compass radians).
 
        @return: 2-Tuple (lat, lon) of (degrees90, degrees180).
     '''
@@ -558,9 +558,11 @@ def _destination2(a, b, r, t):
     ca, cr, ct = map1(cos, a, r, t)
     sa, sr, st = map1(sin, a, r, t)
 
-    a  = asin(ct * sr * ca + cr * sa)
-    b += atan2(st * sr * ca, cr - sa * sin(a))
-    return degrees90(a), degrees180(b)
+    a = asin(ct * sr * ca + cr * sa)
+    d = atan2(st * sr * ca, cr - sa * sin(a))
+    # note, use addition, not subtraction of d (since
+    # in EdWilliams.org/avform.htm W is + and E is -)
+    return degrees90(a), degrees180(b + d)
 
 
 def areaOf(points, radius=R_M, wrap=True):
@@ -882,11 +884,11 @@ def perimeterOf(points, closed=False, radius=R_M, wrap=True):
 
     def _rads(n, points, closed):  # angular edge lengths in radians
         if closed:
-            j, i = 0, n-1
+            m, i = 0, n - 1
         else:
-            j, i = 1, 0
+            m, i = 1, 0
         a1, b1 = points[i].to2ab()
-        for i in range(j, n):
+        for i in range(m, n):
             a2, b2 = points[i].to2ab()
             db, b2 = unrollPI(b1, b2, wrap=wrap)
             yield haversine_(a2, a1, db)

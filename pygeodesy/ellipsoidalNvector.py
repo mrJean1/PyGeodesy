@@ -36,7 +36,7 @@ from math import asin, atan2, cos, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '18.02.06'
+__version__ = '18.03.04'
 
 
 class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
@@ -469,8 +469,8 @@ class Cartesian(CartesianBase):
             x, y, z = self.to3xyz()
 
             # Kenneth Gade eqn 23
-            p = (x**2 + y**2) * E.a2
-            q = (z**2 * E.e12) * E.a2
+            p = (x**2 + y**2) * E.a_2
+            q = (z**2 * E.e12) * E.a_2
             r = fsum_(p, q, -E.e4) / 6
             s = (p * q * E.e4) / (4 * r**3)
             t = cbrt(fsum_(1, s, sqrt(s * (2 + s))))
@@ -687,8 +687,8 @@ class Nvector(NvectorBase):
 
         x, y, z, h = self.to4xyzh()
         # Kenneth Gade eqn (22)
-        n = E.b / hypot3(x * E.ab, y * E.ab, z)
-        r = h + n * E.ab**2
+        n = E.b / hypot3(x * E.a_b, y * E.a_b, z)
+        r = h + n * E.a_b**2
 
         return Cartesian(x * r, y * r, z * (n + h))
 

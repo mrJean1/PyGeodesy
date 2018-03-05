@@ -18,7 +18,7 @@ from math import asin, cos, degrees, radians, sin
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('Base', 'LatLonHeightBase', 'Named', 'VectorBase')
-__version__ = '18.02.27'
+__version__ = '18.03.01'
 
 
 class Base(object):
@@ -265,13 +265,13 @@ class LatLonHeightBase(Base):
         self._height = h
 
     def isantipode(self, other, eps=EPS):
-        '''Check whether this and an other points are antipodes,
-           diametrically opposite.
+        '''Check whether this and an other point are antipodal,
+           on diametrically opposite sides of the earth.
 
            @param other: The other point (I{LatLon}).
-           @keyword eps: Tolerance for equality (degrees).
+           @keyword eps: Tolerance for near-equality (degrees).
 
-           @return: True if points are antipodes within the given
+           @return: True if points are antipodal within the given
                     tolerance, False otherwise.
         '''
         return isantipode(self.lat,  self.lon,

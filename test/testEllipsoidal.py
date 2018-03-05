@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '18.02.04'
+__version__ = '18.03.04'
 
 from testLatLon import Tests as _TestsLL
 from testVectorial import Tests as _TestsV
@@ -126,6 +126,10 @@ class Tests(_TestsLL, _TestsV):
         t = fStr(t, prec=6)
         self.test('distanceTo3', t, '969954.166314, 9.141877, 11.29722')
 
+        t = p.distanceTo2(q)
+        t = fStr(t, prec=5)
+        self.test('distanceTo2', t, '972708.16174, 11.22502')
+
         b = p.initialBearingTo(q)
         t = bearingDMS(b, prec=4) + ', ' + compassDMS(b, form=F_DMS, prec=2)
         self.test('initialBearingTo', t, '9.1419°, 9°08′30.76″N')
@@ -143,6 +147,10 @@ class Tests(_TestsLL, _TestsV):
         t = fStr(t, prec=6)
         self.test('distanceTo3', t, '404607.805988, 156.11064, 157.8345')
 
+        t = p.distanceTo2(q)
+        t = fStr(t, prec=6)
+        self.test('distanceTo2', t, '402574.597287, 157.726344')
+
         b = p.initialBearingTo(q)
         t = bearingDMS(b, prec=4) + ', ' + compassDMS(b, form=F_DMS, prec=2)
         self.test('initialBearingTo', t, '156.1106°, 156°06′38.31″SSE')
@@ -159,6 +167,10 @@ class Tests(_TestsLL, _TestsV):
         t = p.distanceTo3(q)
         t = fStr(t, prec=5)
         self.test('distanceTo3', t, '54973.29527, 233.13008, 232.82461')
+
+        t = p.distanceTo2(q)
+        t = fStr(t, prec=5)
+        self.test('distanceTo2', t, '54903.41209, 232.9209')
 
         b = p.initialBearingTo(q)
         t = bearingDMS(b, prec=4) + ', ' + compassDMS(b, form=F_DMS, prec=2)
@@ -202,6 +214,9 @@ class Tests(_TestsLL, _TestsV):
         self.test('distanceTo3', m, '54972.271', fmt='%.3f')
         self.test('distanceTo3', bearingDMS(b, F_DMS), '306°52′05.37″')
         self.test('distanceTo3', bearingDMS(f, F_DMS), '307°10′25.07″')
+        m, b = FindersPeak.distanceTo2(Buninyong)
+        self.test('distanceTo2', m, '54902.390', fmt='%.3f')
+        self.test('distanceTo2', bearingDMS(b, F_DMS), '307°04′38.41″')
 
     def testNOAA(self, module):
         # <http://www.ngs.noaa.gov/PC_PROD/Inv_Fwd/readme.htm>

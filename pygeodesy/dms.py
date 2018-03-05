@@ -12,8 +12,9 @@ U{Vector-based geodesy<http://www.movable-type.co.uk/scripts/latlong-vectors.htm
 '''
 
 from fmath import fStr, fStrzs, isint
+from utils import degrees360
 
-from math import atan2, copysign, degrees, radians
+from math import atan2, copysign, radians
 try:
     from string import letters as LETTERS
 except ImportError:  # Python 3+
@@ -29,7 +30,7 @@ __all__ = ('F_D', 'F_DM', 'F_DMS',  # forms
            'latDMS', 'lonDMS', 'normDMS',
            'parseDMS', 'parseDMS2', 'parse3llh', 'precision',
            'rangerrors', 'toDMS')
-__version__ = '18.02.05'
+__version__ = '18.03.04'
 
 F_D   = 'd'    #: Format degrees as deg° (string).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (string).
@@ -156,9 +157,9 @@ def compassAngle(lat0, lon0, lat1, lon1):
     '''Return the angle from North for the direction vector
        M{(lon1 - lon0, lat1 - lat0)} between two points.
 
-       Suitable only for short vectors up to a few hundred Km
-       or Miles.  Use {LatLon} methods I{initialBearingTo} or
-       I{forward azimuth} for larger distances.
+       Suitable only for short, non-near-polar vectors up to a few
+       hundred Km or Miles.  Use I{LatLon} methods I{initialBearingTo}
+       or I{forward azimuth} for larger distances.
 
        @param lat0: From latitude (degrees).
        @param lon0: From longitude (degrees).
@@ -168,8 +169,10 @@ def compassAngle(lat0, lon0, lat1, lon1):
        @return: Angle from North (degrees360).
 
        @note: Courtesy Martin Schultz.
+
+       @see: U{Local, Flat Earth<http://www.edwilliams.org/avform.htm#flat>}.
     '''
-    return degrees(atan2(lon1 - lon0, lat1 - lat0)) % 360
+    return degrees360(atan2(lon1 - lon0, lat1 - lat0))
 
 
 def compassDMS(bearing, form=F_D, prec=None, sep=S_SEP):

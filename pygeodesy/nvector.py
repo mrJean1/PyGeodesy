@@ -22,7 +22,7 @@ from vector3d import Vector3d, sumOf as _sumOf
 __all__ = ('NorthPole', 'SouthPole',  # constants
            'Nvector',  # classes
            'sumOf')  # functions
-__version__ = '18.02.05'
+__version__ = '18.03.04'
 
 
 class Nvector(Vector3d):  # XXX kept private

@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '18.01.14'
+__version__ = '18.03.04'
 
 
 def _c2(*names):
@@ -45,15 +45,16 @@ def _long_description():
         return t
 
 
-_KeyWords=('area', 'azimuth', 'bearing', 'cartesian', 'conic',
+_KeyWords=('antipode', 'area', 'azimuth', 'bearing',
+           'cartesian', 'conic', 'curvature',
            'datum', 'development', 'distance',
            'earth', 'ellipsoid', 'equirectangular',
            'geocentric', 'geodesy', 'geodetic', 'GeographicLib', 'geohash',
            'haversine', 'IntelPython',
-           'Lambert', 'latitude', 'longitude', 'MGRS',
+           'Lambert', 'latitude', 'linearize', 'longitude', 'MGRS',
            'numpy', 'n-vector', 'Nvector', 'OSGR',
            'perimeter', 'Pseudo-Mercator', 'PyGeodesy', 'PyPy',
-           'Ramer-Douglas-Peucker', 'Reumann-Witkam', 'rhumb',
+           'radius', 'radii', 'Ramer-Douglas-Peucker', 'Reumann-Witkam', 'rhumb',
            'simplify', 'sphere', 'trigonometry', 'unroll', 'UTM',
            'Vincenty', 'Visvalingam-Whyatt', 'Web-Mercator', 'WGS')
 

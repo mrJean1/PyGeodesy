@@ -131,6 +131,28 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.datum.Ellipsoid-class.html#distance2" class="summary-sig-name">distance2</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lat0</span>,
+        <span class="summary-sig-arg">lon0</span>,
+        <span class="summary-sig-arg">lat1</span>,
+        <span class="summary-sig-arg">lon1</span>)</span><br />
+      Approximate the distance and bearing between two points based on the 
+      radii of curvature.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.datum.Ellipsoid-class.html#e2s" class="summary-sig-name">e2s</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">s</span>)</span><br />
       Compute norm <i class="math">sqrt(1 - e2 * s**2)</i>.</td>
@@ -167,10 +189,101 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.datum.Ellipsoid-class.html#radiusAt" class="summary-sig-name">radiusAt</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.datum.Ellipsoid-class.html#Rgeocentric" class="summary-sig-name">Rgeocentric</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat</span>)</span><br />
-      Approximate the ellipsoid radius at the given latitude in degrees by 
-      trivial interpolation.</td>
+      Compute the geocentric earth radius at the given latitude.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.datum.Ellipsoid-class.html#Rlat" class="summary-sig-name">Rlat</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lat</span>)</span><br />
+      Approximate the earth radius at the given latitude.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.datum.Ellipsoid-class.html#roc2" class="summary-sig-name">roc2</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lat</span>)</span><br />
+      Compute both radii of curvature at the given latitude.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.datum.Ellipsoid-class.html#rocBearing" class="summary-sig-name">rocBearing</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lat</span>,
+        <span class="summary-sig-arg">bearing</span>)</span><br />
+      Compute the directional radius of curvature at the given latitude and
+      compass direction.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.datum.Ellipsoid-class.html#rocGauss" class="summary-sig-name">rocGauss</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lat</span>)</span><br />
+      Compute the Gaussian radius of curvature at the given latitude.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.datum.Ellipsoid-class.html#rocMean" class="summary-sig-name">rocMean</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lat</span>)</span><br />
+      Compute the mean radius of curvature at the given latitude.</td>
           <td align="right" valign="top">
             
             
@@ -254,7 +367,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="a2"></a><span class="summary-name">a2</span> = <code title="0">0</code><br />
+        <a name="a_2"></a><span class="summary-name">a_2</span> = <code title="0">0</code><br />
       (1 / a**2)
     </td>
   </tr>
@@ -262,7 +375,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="ab"></a><span class="summary-name">ab</span> = <code title="1">1</code><br />
+        <a name="a_b"></a><span class="summary-name">a_b</span> = <code title="1">1</code><br />
       (a / b) = 1 / (1 - f)
     </td>
   </tr>
@@ -330,46 +443,6 @@
       3rd Flattening: f / (2 - f) = (a - b) / (a + b)
     </td>
   </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="R"></a><span class="summary-name">R</span> = <code title="0">0</code><br />
-      Mean earth radius: (2 * a + b) / 3 per IUGG definition (meter)
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="Rm"></a><span class="summary-name">Rm</span> = <code title="0">0</code><br />
-      Mean earth radius: sqrt(a * b) (meter)
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="R2"></a><span class="summary-name">R2</span> = <code title="0">0</code><br />
-      Authalic radius: sqrt((a**2 + b**2 * atanh(e) / e) / 2) (meter)
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="R3"></a><span class="summary-name">R3</span> = <code title="0">0</code><br />
-      Volumetric radius: (a * a * b)**1/3 (meter)
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="Rr"></a><span class="summary-name">Rr</span> = <code title="0">0</code><br />
-      Rectifying radius: ((a**3/2 + b**3/2) / 2)**2/3 (meter)
-    </td>
-  </tr>
 </table>
 <!-- ==================== PROPERTIES ==================== -->
 <a name="section-Properties"></a>
@@ -379,6 +452,22 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Properties</span></td>
 </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.datum.Ellipsoid-class.html#a2b" class="summary-name">a2b</a><br />
+      Get the meridional radius of curvature at poles: a**2 / b (meter).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.datum.Ellipsoid-class.html#b2a" class="summary-name">b2a</a><br />
+      Get the meridional radius of curvature at equator: b**2 / a (meter).
+    </td>
+  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -425,6 +514,48 @@
     </td><td class="summary">
         <a href="pygeodesy.datum.Ellipsoid-class.html#Mabcd" class="summary-name">Mabcd</a><br />
       Get the OSGR meridional coefficients, Airy130 only (4-tuple).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.datum.Ellipsoid-class.html#R1" class="summary-name">R1</a><br />
+      Get the mean earth radius per IUGG: (2 * a + b) / 3 (meter).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.datum.Ellipsoid-class.html#R2" class="summary-name">R2</a><br />
+      Get the earth' authalic radius: sqrt((a**2 + b**2 * atanh(e) / e) / 
+      2) (meter).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.datum.Ellipsoid-class.html#R3" class="summary-name">R3</a><br />
+      Get the earth' volumetric radius: (a * a * b)**1/3 (meter).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.datum.Ellipsoid-class.html#Rr" class="summary-name">Rr</a><br />
+      Get the earth' rectifying radius: ((a**3/2 + b**3/2) / 2)**2/3 
+      (meter).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.datum.Ellipsoid-class.html#Rs" class="summary-name">Rs</a><br />
+      Get another mean earth radius: sqrt(a * b) (meter).
     </td>
   </tr>
   <tr>
@@ -514,6 +645,45 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="distance2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">distance2</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">lat0</span>,
+        <span class="sig-arg">lon0</span>,
+        <span class="sig-arg">lat1</span>,
+        <span class="sig-arg">lon1</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Approximate the distance and bearing between two points based on the 
+  radii of curvature.</p>
+  <p>Suitable only for short distances up to a few hundred Km or Miles and 
+  only between non-near-polar points.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat0</code></strong> - From latitude (degrees).</li>
+        <li><strong class="pname"><code>lon0</code></strong> - From longitude (degrees).</li>
+        <li><strong class="pname"><code>lat1</code></strong> - To latitude (degrees).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - To longitude (degrees).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>2-Tuple (distance, bearing) in (meter, degrees360).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="http://www.edwilliams.org/avform.htm#flat" 
+        target="_top">Local, Flat Earth</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="e2s"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -562,18 +732,18 @@
         <li><strong class="pname"><code>s</code></strong> - S value (scalar).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Radius (float).</dd>
+        <dd>Result (float).</dd>
   </dl>
 </td></tr></table>
 </div>
-<a name="radiusAt"></a>
+<a name="Rgeocentric"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">radiusAt</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">Rgeocentric</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">lat</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -581,17 +751,176 @@
     </td>
   </tr></table>
   
-  <p>Approximate the ellipsoid radius at the given latitude in degrees by 
-  trivial interpolation.</p>
+  <p>Compute the geocentric earth radius at the given latitude.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lat</code></strong> - Latitude (degrees90).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Radius at that latitude (meter).</dd>
+        <dd>Geocentric earth radius (meter).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature"
+        target="_top">Radii of Curvature</a>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="Rlat"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">Rlat</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">lat</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Approximate the earth radius at the given latitude.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat</code></strong> - Latitude (degrees90).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Approximate earth radius (meter).</dd>
   </dl>
 </td></tr></table>
+</div>
+<a name="roc2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">roc2</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">lat</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute both radii of curvature at the given latitude.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat</code></strong> - Latitude (degrees90).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>2-Tuple (meridional, prime-vertical) with the radii of curvature 
+          (meter, meter).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="http://www.edwilliams.org/avform.htm#flat" 
+        target="_top">Local, Flat Earth</a> and <a 
+        href="http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature"
+        target="_top">Radii of Curvature</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="rocBearing"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">rocBearing</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">lat</span>,
+        <span class="sig-arg">bearing</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the directional radius of curvature at the given latitude and 
+  compass direction.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat</code></strong> - Latitude (degrees90).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Direction (compass degrees).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Directional radius of curvature (meter).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature"
+        target="_top">Radii of Curvature</a>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="rocGauss"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">rocGauss</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">lat</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the Gaussian radius of curvature at the given latitude.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat</code></strong> - Latitude (degrees90).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Gaussian radius of curvature (meter).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature"
+        target="_top">Radii of Curvature</a>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="rocMean"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">rocMean</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">lat</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the mean radius of curvature at the given latitude.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat</code></strong> - Latitude (degrees90).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Mean radius of curvature (meter).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature"
+        target="_top">Radii of Curvature</a>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="toStr"></a>
 <div>
@@ -632,6 +961,47 @@
     <span class="table-header">Property Details</span></td>
 </tr>
 </table>
+<a name="a2b"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">a2b</h3>
+  <p>Get the meridional radius of curvature at poles: a**2 / b (meter).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">a2b(<span class="summary-sig-arg">self</span>)</span>
+        - Get the meridional radius of curvature at poles: a**2 / b (meter).
+    </dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature"
+        target="_top">Radii of Curvature</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="b2a"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">b2a</h3>
+  <p>Get the meridional radius of curvature at equator: b**2 / a 
+  (meter).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">b2a(<span class="summary-sig-arg">self</span>)</span>
+        - Get the meridional radius of curvature at equator: b**2 / a (meter).
+    </dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature"
+        target="_top">Radii of Curvature</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="A"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -722,6 +1092,100 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="R1"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">R1</h3>
+  <p>Get the mean earth radius per IUGG: (2 * a + b) / 3 (meter).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">R1(<span class="summary-sig-arg">self</span>)</span>
+        - Get the mean earth radius per IUGG: (2 * a + b) / 3 (meter).
+    </dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="http://wikipedia.org/wiki/Earth_radius" 
+        target="_top">Earth radius</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="R2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">R2</h3>
+  <p>Get the earth' authalic radius: sqrt((a**2 + b**2 * atanh(e) / e) / 2)
+  (meter).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">R2(<span class="summary-sig-arg">self</span>)</span>
+        - Get the earth' authalic radius: sqrt((a**2 + b**2 * atanh(e) / e) / 2) 
+(meter).
+    </dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="http://wikipedia.org/wiki/Earth_radius" 
+        target="_top">Earth radius</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="R3"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">R3</h3>
+  <p>Get the earth' volumetric radius: (a * a * b)**1/3 (meter).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">R3(<span class="summary-sig-arg">self</span>)</span>
+        - Get the earth' volumetric radius: (a * a * b)**1/3 (meter).
+    </dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="http://wikipedia.org/wiki/Earth_radius" 
+        target="_top">Earth radius</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="Rr"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">Rr</h3>
+  <p>Get the earth' rectifying radius: ((a**3/2 + b**3/2) / 2)**2/3 
+  (meter).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">Rr(<span class="summary-sig-arg">self</span>)</span>
+        - Get the earth' rectifying radius: ((a**3/2 + b**3/2) / 2)**2/3 (meter).
+    </dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="http://wikipedia.org/wiki/Earth_radius" 
+        target="_top">Earth radius</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="Rs"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">Rs</h3>
+  <p>Get another mean earth radius: sqrt(a * b) (meter).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">Rs(<span class="summary-sig-arg">self</span>)</span>
+        - Get another mean earth radius: sqrt(a * b) (meter).
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
@@ -754,7 +1218,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Feb 27 20:07:23 2018
+    Generated by Epydoc 3.0.1 on Mon Mar  5 16:16:49 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

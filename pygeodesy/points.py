@@ -23,7 +23,7 @@ the index for the lat- and longitude index in each 2+tuple.
 
 @newfield example: Example, Examples
 '''
-from fmath import EPS, fdot, fStr, fsum, isint, scalar
+from fmath import EPS, fdot, fStr, Fsum, fsum, isint, scalar
 from utils import R_M, classname, CrossError, crosserrors, \
                   equirectangular_, inStr, issequence, polygon, \
                   unroll180, unrollPI, wrap90, wrap180
@@ -40,7 +40,7 @@ __all__ = ('LatLon_',  # classes
            'bounds',
            'isclockwise', 'isconvex', 'isenclosedby',
            'perimeterOf')
-__version__ = '18.02.06'
+__version__ = '18.03.02'
 
 
 class LatLon_(object):
@@ -1066,7 +1066,7 @@ def isenclosedby(latlon, points, wrap=False):  # MCCABE 14
 
     n = len(pts)
     e = m = False
-    z = 0
+    s = Fsum()
 
     x1, y1 = _xy(n-1)
     for i in range(n):
@@ -1081,13 +1081,13 @@ def isenclosedby(latlon, points, wrap=False):  # MCCABE 14
             if (dy > 0 and dx >= 0) or (dy < 0 and dx <= 0):
                 e = not e
 
+        s.fadd(sin(radians(y2)))
         x1, y1 = x2, y2
-        z += sin(radians(y2))
 
     # an odd number of meridian crossings means polygon contains
     # a pole, assume that is the hemisphere containing the polygon
     # mean and if polygon contains North Pole, flip the result
-    if m and z > 0:
+    if m and s.fsum() > 0:
         e = not e
 
     return e

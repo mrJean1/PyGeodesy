@@ -69,7 +69,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.02.27
+        18.03.04
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -485,7 +485,8 @@
         <span class="summary-sig-arg">lat2</span>,
         <span class="summary-sig-arg">lon2</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>)</span><br />
-      Check whether two points are anitpodal, diametrically opposite.</td>
+      Check whether two points are anitpodal, on diametrically opposite 
+      sides of the earth.</td>
           <td align="right" valign="top">
             
             
@@ -502,7 +503,24 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#isNumpy2" class="summary-sig-name">isNumpy2</a>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Check for <i>Numpy2LatLon</i> points wrapper.</td>
+      Check for an <i>Numpy2LatLon</i> points wrapper.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#isPoints2" class="summary-sig-name">isPoints2</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Check for an <i>LatLon2psxy</i> points wrapper.</td>
           <td align="right" valign="top">
             
             
@@ -537,7 +555,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#isTuple2" class="summary-sig-name">isTuple2</a>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Check for <i>Tuple2LatLon</i> points wrapper.</td>
+      Check for an <i>Tuple2LatLon</i> points wrapper.</td>
           <td align="right" valign="top">
             
             
@@ -1222,8 +1240,13 @@
         <dd>Distance (meter, same units as <i>radius</i>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.utils-module.html#haversine" 
-        class="link">haversine</a> for more accurate or larger distances.
+        <a href="http://www.edwilliams.org/avform.htm#flat" 
+        target="_top">Local, Flat Earth</a>, method <a 
+        href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
+        class="link">Ellipsoid.distance2</a> or function <a 
+        href="pygeodesy.utils-module.html#haversine" 
+        class="link">haversine</a> for more accurate and/or larger 
+        distances.
       </p>
 </div></td></tr></table>
 </div>
@@ -1286,7 +1309,11 @@
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.utils-module.html#equirectangular" 
+        <a href="http://www.edwilliams.org/avform.htm#flat" 
+        target="_top">Local, Flat Earth</a>, method <a 
+        href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
+        class="link">Ellipsoid.distance2</a> or function <a 
+        href="pygeodesy.utils-module.html#equirectangular" 
         class="link">equirectangular</a> for distance only and function <a 
         href="pygeodesy.utils-module.html#haversine" 
         class="link">haversine</a> for accurate and/or larger distances.
@@ -1586,7 +1613,8 @@
     </td>
   </tr></table>
   
-  <p>Check whether two points are anitpodal, diametrically opposite.</p>
+  <p>Check whether two points are anitpodal, on diametrically opposite 
+  sides of the earth.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -1594,10 +1622,10 @@
         <li><strong class="pname"><code>lon1</code></strong> - Longitude of one point (degrees).</li>
         <li><strong class="pname"><code>lat2</code></strong> - Latitude of the other point (degrees).</li>
         <li><strong class="pname"><code>lon2</code></strong> - Longitude of the other point (degrees).</li>
-        <li><strong class="pname"><code>eps</code></strong> - Tolerance for equality (degrees).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance for near-equality (degrees).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if points are antipodes within the given tolerance, False 
+        <dd>True if points are antipodal within the given tolerance, False 
           otherwise.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -1621,14 +1649,41 @@
     </td>
   </tr></table>
   
-  <p>Check for <i>Numpy2LatLon</i> points wrapper.</p>
+  <p>Check for an <i>Numpy2LatLon</i> points wrapper.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>obj</code></strong> - The object (any).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if obj is Numpy2 (bool).</dd>
+        <dd>True if obj is an <i>Numpy2LatLon</i> instance, False otherwise 
+          (bool).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isPoints2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isPoints2</span>(<span class="sig-arg">obj</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check for an <i>LatLon2psxy</i> points wrapper.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - The object (any).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>True if obj is an <i>LatLon2psxy</i> instance, False otherwise 
+          (bool).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1676,14 +1731,15 @@
     </td>
   </tr></table>
   
-  <p>Check for <i>Tuple2LatLon</i> points wrapper.</p>
+  <p>Check for an <i>Tuple2LatLon</i> points wrapper.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>obj</code></strong> - The object (any).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if obj is Tuple2 (bool).</dd>
+        <dd>True if obj is an <i>Tuple2LatLon</i> instance, False otherwise 
+          (bool).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2313,7 +2369,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Feb 27 20:07:22 2018
+    Generated by Epydoc 3.0.1 on Mon Mar  5 16:16:49 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
