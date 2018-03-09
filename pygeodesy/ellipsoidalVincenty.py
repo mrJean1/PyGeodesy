@@ -66,7 +66,7 @@ from math import atan2, cos, sin, tan
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'VincentyError',  # classes
            'areaOf', 'perimeterOf')  # functions
-__version__ = '18.03.02'
+__version__ = '18.03.06'
 
 division = 1 / 2  # double check int division, see utils.py
 if not division:
@@ -546,6 +546,8 @@ def _Geodesic(points, closed, datum, line, wrap):
     if not wrap:  # capability LONG_UNROLL always set
         raise ValueError('%s invalid: %s' % ('wrap', wrap))
 
+    _, points = polygon(points, closed=closed)  # base=LatLonEllipsoidalBase(0, 0)
+
     E = datum.ellipsoid
     g = Geodesic(E.a, E.f).Polygon(line)
 
@@ -575,8 +577,8 @@ def areaOf(points, datum=Datums.WGS84, wrap=True):
 
        @raise TypeError: Some I{points} are not L{LatLon}.
 
-       @raise ValueError: Insufficient number of I{points} or not
-                          wrapped, unrolled.
+       @raise ValueError: Insufficient number of I{points} or longitudes
+                          not wrapped, unrolled.
 
        @note: This function requires the U{GeographicLib
        <http://pypi.python.org/pypi/geographiclib>} package to be installed.
@@ -584,13 +586,12 @@ def areaOf(points, datum=Datums.WGS84, wrap=True):
        @see: L{pygeodesy.areaOf}, L{sphericalNvector.areaOf} and
              L{sphericalTrigonometry.areaOf}.
     '''
-    _, points = polygon(points, closed=True)  # base=LatLonEllipsoidalBase(0, 0)
     return abs(_Geodesic(points, True, datum, False, wrap))
 
 
 def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):
     '''Compute the perimeter of a polygon/-line defined by an array,
-       list, sequence, set or tuple of points.
+       list, sequence, set or tuple of points on the given datum.
 
        @param points: The points defining the polygon (L{LatLon}[]).
        @keyword closed: Optionally, close the polygon/-line (bool).
@@ -604,15 +605,14 @@ def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):
 
        @raise TypeError: Some I{points} are not L{LatLon}.
 
-       @raise ValueError: Insufficient number of I{points} or not
-                          wrapped, unrolled.
+       @raise ValueError: Insufficient number of I{points} or longitudes
+                          not wrapped, unrolled.
 
        @note: This function requires the U{GeographicLib
        <http://pypi.python.org/pypi/geographiclib>} package to be installed.
 
        @see: L{pygeodesy.perimeterOf} and L{sphericalTrigonometry.perimeterOf}.
     '''
-    _, points = polygon(points, closed=closed)  # base=LatLonEllipsoidalBase(0, 0)
     return _Geodesic(points, closed, datum, True, wrap)
 
 # **) MIT License

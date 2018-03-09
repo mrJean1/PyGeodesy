@@ -107,7 +107,7 @@ in Great Britain', Section 6
 
 '''
 
-# make sure int division yields float quotient
+# make sure int/int division yields float quotient
 from __future__ import division
 
 from bases import Base, Named
@@ -134,7 +134,7 @@ R_VM = 6366707.0194937  #: Aviation/Navigation earth radius (meter).
 __all__ = ('R_MA', 'R_MB', 'R_KM', 'R_M', 'R_NM', 'R_SM', 'R_FM', 'R_VM',  # constants
            'Datum',  'Ellipsoid',  'Transform',  # classes
            'Datums', 'Ellipsoids', 'Transforms')  # enum-like
-__version__ = '18.03.04'
+__version__ = '18.03.06'
 
 division = 1 / 2  # double check int division, see utils.py
 if not division:
@@ -220,16 +220,16 @@ class _Based(Base, Named):
                 enum[name] = self
 
 
-def _Krueger6(n, *fs6):
-    '''(INTERNAL) Compute the 6th-order Krüger Alpha or Beta
-       series per Karney 2011, 'Transverse Mercator with an
-       accuracy of a few nanometers', U{page 7, equations 35
-       and 36<http://arxiv.org/pdf/1002.1417v3.pdf>}.
+def _K6c(n, *fs6):
+    '''(INTERNAL) Compute the 6th-order Krüger Alpha or Beta series
+       coefficients per Karney 2011, 'Transverse Mercator with an
+       accuracy of a few nanometers', U{page 7, equations 35 and
+       36<http://arxiv.org/pdf/1002.1417v3.pdf>}.
 
        @param n: 3rd flattening (float).
        @param fs6: 6-Tuple of coefficent tuples.
 
-       @return: 6th-Order Krüger (7-tuple, 1-origin).
+       @return: 6th-Order Krüger series coefficients (7-tuple, 1-origin).
     '''
     ns = fpowers(n, len(fs6))  # PYCHOK false!
 
@@ -248,7 +248,7 @@ class Ellipsoid(_Based):
     a   = 0  #: Semi-major, equatorial axis (meter).
     b   = 0  #: Semi-minor, polar axis (meter): a * (f - 1) / f.
     # pre-computed, frequently used values
-    a_2 = 0  #: (1 / a**2)
+    a2_ = 0  #: (1 / a**2)
     a_b = 1  #: (a / b) = 1 / (1 - f)
     e   = 0  #: 1st Eccentricity: sqrt(1 - (b / a)**2))
     e2  = 0  #: 1st Eccentricity squared: f * (2 - f) = 1 - (b / a)**2
@@ -263,8 +263,8 @@ class Ellipsoid(_Based):
     _b2 = 0  #: (INTERNAL) b**2
 
     # curvatures <http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature>
-    _a2b = None  #: (INTERNAL) Meridional radius of curvature at poles: a**2 / b (meter)
-    _b2a = None  #: (INTERNAL) Meridional radius of curvature at equator: b**2 / a (meter)
+    _a2_b = None  #: (INTERNAL) Meridional radius of curvature at poles: a**2 / b (meter)
+    _b2_a = None  #: (INTERNAL) Meridional radius of curvature at equator: b**2 / a (meter)
 
     # fixed earth radii from <http://wikipedia.org/wiki/Earth_radius>
     _R1 = None  #: (INTERNAL) Mean earth radius: (2 * a + b) / 3 per IUGG definition (meter)
@@ -295,6 +295,7 @@ class Ellipsoid(_Based):
             self.b = b = float(b)  # minor half-axis in meter
             if not f_ and a > b:
                 f_ = a / (a - b)
+
         if f_ > 0 and a > b > 0:
             self.f_ = f_ = float(f_)  # inverse flattening
             self.f  = f  = 1 / f_  # flattening
@@ -312,13 +313,13 @@ class Ellipsoid(_Based):
         else:
             raise ValueError('%s invalid: %s' % ('ellipsoid',
                              inStr(self, a, b, f_, name=name)))
-        self.a_2 = 1 / a**2  # for ellipsiodalNvector.Cartesian.toNvector
+        self.a2_ = 1 / a**2  # for ellipsiodalNvector.Cartesian.toNvector
 
         self._a2 = a**2
         self._b2 = b**2
 
         d = a - b
-        self._ab_90 = d / 90  # for radiusAt below
+        self._ab_90 = d / 90  # for Rlat below
 
         # some sanity checks to catch mistakes
         if d < 0 or min(a, b) < 1:
@@ -348,33 +349,12 @@ class Ellipsoid(_Based):
         '''
         return self is other or (isinstance(other, Ellipsoid) and
                                  self.a == other.a and
-                                 self.b == other.b)
-
-    @property
-    def a2b(self):
-        '''Get the meridional radius of curvature at poles: a**2 / b (meter).
-
-           @see: U{Radii of Curvature
-                 <http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature>}.
-        '''
-        if not self._a2b:
-            self._a2b = self._a2 / self.b
-        return self._a2b
-
-    @property
-    def b2a(self):
-        '''Get the meridional radius of curvature at equator: b**2 / a (meter).
-
-           @see: U{Radii of Curvature
-                 <http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature>}.
-        '''
-        if not self._b2a:
-            self._b2a = self._b2 / self.a
-        return self._b2a
+                                (self.b == other.b or
+                                 self.f == other.f))
 
     @property
     def A(self):
-        '''Get the meridional radius (meter).
+        '''Get the I{UTM} meridional radius (meter).
         '''
         if self._A is None:
             n = self.n
@@ -389,11 +369,22 @@ class Ellipsoid(_Based):
         return self._A
 
     @property
+    def a2_b(self):
+        '''Get the polar meridional radius of curvature: M{a**2 / b} (meter).
+
+           @see: U{Radii of Curvature
+                 <http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature>}.
+        '''
+        if self._a2_b is None:
+            self._a2_b = self._a2 / self.b
+        return self._a2_b
+
+    @property
     def Alpha6(self):
-        '''Get the 6th-order Krüger Alpha series (7-tuple, 1-origin).
+        '''Get the 6th-order Krüger Alpha series coefficients (7-tuple, 1-origin).
         '''
         if self._Alpha6 is None:
-            self._Alpha6 = _Krueger6(self.n,
+            self._Alpha6 = _K6c(self.n,
                 # XXX i/i quotients require  from __future__ import division
                 # n    n**2   n**3      n**4         n**5            n**6
                 (1/2, -2/3,   5/16,    41/180,    -127/288,       7891/37800),
@@ -405,11 +396,22 @@ class Ellipsoid(_Based):
         return self._Alpha6
 
     @property
+    def b2_a(self):
+        '''Get the equatorial meridional radius of curvature: M{b**2 / a} (meter).
+
+           @see: U{Radii of Curvature
+                 <http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature>}.
+        '''
+        if self._b2_a is None:
+            self._b2_a = self._b2 / self.a
+        return self._b2_a
+
+    @property
     def Beta6(self):
-        '''Get the 6th-order Krüger Beta series (7-tuple, 1-origin).
+        '''Get the 6th-order Krüger Beta series coefficients (7-tuple, 1-origin).
         '''
         if self._Beta6 is None:
-            self._Beta6 = _Krueger6(self.n,
+            self._Beta6 = _K6c(self.n,
                 # XXX i/i quotients require  from __future__ import division
                 # n    n**2  n**3     n**4        n**5            n**6
                 (1/2, -2/3, 37/96,   -1/360,    -81/512,      96199/604800),
@@ -447,8 +449,13 @@ class Ellipsoid(_Based):
            @param s: S value (scalar).
 
            @return: Norm (float).
+
+           @raise ValueError: Invalid I{s}.
         '''
-        return sqrt(1 - self.e2 * s**2)
+        try:
+            return sqrt(self.e2s2(s))
+        except (TypeError, ValueError):
+            raise ValueError('%s invalid: %r' % ('e2s', s))
 
     def e2s2(self, s):
         '''Compute M{1 - e2 * s**2}.
@@ -456,8 +463,13 @@ class Ellipsoid(_Based):
            @param s: S value (scalar).
 
            @return: Result (float).
+
+           @raise ValueError: Invalid I{s}.
         '''
-        return 1 - s**2 * self.e2
+        try:
+            return 1 - s**2 * self.e2
+        except (TypeError, ValueError):
+            raise ValueError('%s invalid: %r' % ('e2s2', s))
 
     @property
     def isEllipsoidal(self):
@@ -484,6 +496,57 @@ class Ellipsoid(_Based):
                                    35/24 * n3)
         return self._Mabcd
 
+    @property
+    def R1(self):
+        '''Get the mean earth radius per IUGG: M{(2 * a + b) / 3} (meter).
+
+           @see: U{Earth radius<http://wikipedia.org/wiki/Earth_radius>}.
+        '''
+        if self._R1 is None:
+            self._R1 = (self.a * 2 + self.b) / 3
+        return self._R1
+
+    @property
+    def R2(self):
+        '''Get the authalic earth radius: M{sqrt((a**2 + b**2 * atanh(e) / e) / 2)} (meter).
+
+           @see: U{Earth radius<http://wikipedia.org/wiki/Earth_radius>}.
+        '''
+        if self._R2 is None:
+            self._R2 = sqrt((self._a2 + self._b2 * atanh(self.e) / self.e) * 0.5)
+        return self._R2
+
+    @property
+    def R3(self):
+        '''Get the volumetric earth radius: M{(a * a * b)**1/3} (meter).
+
+           @see: U{Earth radius<http://wikipedia.org/wiki/Earth_radius>}.
+        '''
+        if self._R3 is None:
+            self._R3 = cbrt(self._a2 * self.b)
+        return self._R3
+
+    @property
+    def Rr(self):
+        '''Get the rectifying earth radius: M{((a**3/2 + b**3/2) / 2)**2/3} (meter).
+
+           @see: U{Earth radius<http://wikipedia.org/wiki/Earth_radius>}.
+        '''
+        if self._Rr is None:
+            def _3_2(x):
+                return pow(x, 1.5)  # == sqrt(x)**3 == sqrt(x**3)
+
+            self._Rr = cbrt2((_3_2(self.a) + _3_2(self.b)) * 0.5)
+        return self._Rr
+
+    @property
+    def Rs(self):
+        '''Get another mean earth radius: M{sqrt(a * b)} (meter).
+        '''
+        if self._Rs is None:
+            self._Rs = sqrt(self.a * self.b)
+        return self._Rs
+
     def Rgeocentric(self, lat):
         '''Compute the geocentric earth radius at the given latitude.
 
@@ -491,8 +554,8 @@ class Ellipsoid(_Based):
 
            @return: Geocentric earth radius (meter).
 
-           @see: U{Radii of Curvature
-                 <http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature>}
+           @see: U{Geocentric Radius
+                 <http://en.wikipedia.org/wiki/Earth_radius#Geocentric_radius>}
         '''
         a2 = self._a2
         b2 = self._b2
@@ -509,54 +572,6 @@ class Ellipsoid(_Based):
         '''
         # r = major - (major - minor) * |lat| / 90
         return self.a - self._ab_90 * min(abs(lat), 90)
-
-    @property
-    def R1(self):
-        '''Get the mean earth radius per IUGG: (2 * a + b) / 3 (meter).
-
-           @see: U{Earth radius<http://wikipedia.org/wiki/Earth_radius>}.
-        '''
-        if not self._R1:
-            self._R1 = (self.a * 2 + self.b) / 3
-        return self._R1
-
-    @property
-    def R2(self):
-        '''Get the earth' authalic radius: sqrt((a**2 + b**2 * atanh(e) / e) / 2) (meter).
-
-           @see: U{Earth radius<http://wikipedia.org/wiki/Earth_radius>}.
-        '''
-        if not self._R2:
-            self._R2 = sqrt((self._a2 + self._b2 * atanh(self.e) / self.e) * 0.5)
-        return self._R2
-
-    @property
-    def R3(self):
-        '''Get the earth' volumetric radius: (a * a * b)**1/3 (meter).
-
-           @see: U{Earth radius<http://wikipedia.org/wiki/Earth_radius>}.
-        '''
-        if not self._R3:
-            self._R3 = cbrt(self._a2 * self.b)
-        return self._R3
-
-    @property
-    def Rr(self):
-        '''Get the earth' rectifying radius: ((a**3/2 + b**3/2) / 2)**2/3 (meter).
-
-           @see: U{Earth radius<http://wikipedia.org/wiki/Earth_radius>}.
-        '''
-        if not self._Rr:
-            self._Rr = cbrt2((pow(self.a, 1.5) + pow(self.b, 1.5)) * 0.5)
-        return self._Rr
-
-    @property
-    def Rs(self):
-        '''Get another mean earth radius: sqrt(a * b) (meter).
-        '''
-        if not self._Rs:
-            self._Rs = sqrt(self.a * self.b)
-        return self._Rs
 
     def roc2(self, lat):
         '''Compute both radii of curvature at the given latitude.
@@ -596,12 +611,12 @@ class Ellipsoid(_Based):
         c2 = cos(radians(bearing))**2
         s2 = 1 - c2
         m, n = self.roc2(lat)
-        if n < m:  # == n / (c2 * n / m + s2)
+        if n < m:  # n / (c2 * n / m + s2)
             c2 *= n / m
-        else:  # == m / (c2 + s2 * m / n)
+        elif m < n:  # m / (c2 + s2 * m / n)
             s2 *= m / n
             n = m
-        return n / (c2 + s2)  # == 1 / (c2 / m + s2 / n)
+        return n / (c2 + s2)  # 1 / (c2 / m + s2 / n)
 
     def rocGauss(self, lat):
         '''Compute the Gaussian radius of curvature at the given latitude.

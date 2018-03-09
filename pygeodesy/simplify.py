@@ -81,7 +81,7 @@ from math import degrees, radians, sqrt
 __all__ = ('simplify1', 'simplify2',  # backward compatibility
            'simplifyRDP', 'simplifyRDPm', 'simplifyRW',
            'simplifyVW', 'simplifyVWm')
-__version__ = '18.02.02'
+__version__ = '18.03.06'
 
 
 # try:
@@ -151,7 +151,7 @@ class _Sy(object):
     def d21(self, s, e):
         '''Set path edge or line thru points[s] to -[e].
         '''
-        d21, y21, x21, _ = self.d2yx(s, e)
+        d21, y21, x21, _ = self.d2yxu(s, e)
         self.d2yxse = d21, y21, x21, s, e
         return d21 > self.eps
 
@@ -160,10 +160,10 @@ class _Sy(object):
            to points[s] exceeding the tolerance.
         '''
         _, _, _, s, _ = self.d2yxse
-        eps, d2yx = self.eps, self.d2yx
+        eps, d2yxu = self.eps, self.d2yxu
         t2, t = self.s2, 0  # tallest
         for i in range(n, m):
-            d2, _, _, _ = d2yx(s, i)
+            d2, _, _, _ = d2yxu(s, i)
             if d2 > t2:
                 t2, t = d2, i
                 if brk and d2 > eps:
@@ -176,10 +176,10 @@ class _Sy(object):
            to -[e] exceeding the tolerance.
         '''
         d21, y21, x21, s, _ = self.d2yxse
-        eps, d2yx = self.eps, self.d2yx
+        eps, d2yxu = self.eps, self.d2yxu
         t2, t = self.s2, 0  # tallest
         for i in range(n, m):
-            d2, y01, x01, _ = d2yx(s, i)
+            d2, y01, x01, _ = d2yxu(s, i)
             if d2 > eps:
                 # perpendicular distance squared
                 d2 = (y01 * x21 - x01 * y21)**2 / d21
@@ -204,11 +204,11 @@ class _Sy(object):
         #   h = (y * dx - x * dy) / hypot(dx, dy)
 
         d21, y21, x21, s, e = self.d2yxse
-        eps, d2yx = self.eps, self.d2yx
+        eps, d2yxu = self.eps, self.d2yxu
         t2, t = self.s2, 0  # tallest
         for i in range(n, m):
             # distance points[i] to -[s]
-            d2, y01, x01, _ = d2yx(s, i)
+            d2, y01, x01, _ = d2yxu(s, i)
             if d2 > eps:
                 w = y01 * y21 + x01 * x21
                 if w > 0:
@@ -216,15 +216,16 @@ class _Sy(object):
                         # perpendicular distance squared
                         d2 = (y01 * x21 - x01 * y21)**2 / d21
                     else:  # distance points[i] to -[e]
-                        d2, _, _, _ = d2yx(e, i)
+                        d2, _, _, _ = d2yxu(e, i)
                 if d2 > t2:
                     t2, t = d2, i
                     if brk:
                         break
         return t2, t
 
-    def d2yx(self, i, j):
-        '''Return points[i] to [j] deltas and distance squared.
+    def d2yxu(self, i, j):
+        '''Return distance squared, points[i] to -[j] deltas and
+           longitudinal unrollment.
         '''
         p1 = self.pts[i]
         p2 = self.pts[j]
@@ -236,9 +237,9 @@ class _Sy(object):
            points[i0] is the top and points[i1] to -[i2]
            form the base of the triangle.
         '''
-        d21, y21, x21 , _= self.d2yx(i1, i2)
+        d21, y21, x21 , _= self.d2yxu(i1, i2)
         if d21 > self.eps:
-            d01, y01, x01, _ = self.d2yx(i1, i0)
+            d01, y01, x01, _ = self.d2yxu(i1, i0)
             if d01 > self.eps:
                 h2 = abs(y01 * x21 - x01 * y21)
                 # triangle height h = h2 / sqrt(d21) and
@@ -387,11 +388,11 @@ def simplify1(points, distance, radius=R_M, indices=False, **options):
 
     n, r = S.n, S.r
     if n > 1:
-        s2, d2yx = S.s2, S.d2yx
+        s2, d2yxu = S.s2, S.d2yxu
 
         i = 0
         for j in range(1, n):
-            d2, _, _, _= d2yx(i, j)
+            d2, _, _, _= d2yxu(i, j)
             if d2 > s2:
                 r[j] = True
                 i = j

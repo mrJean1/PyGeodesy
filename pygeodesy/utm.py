@@ -47,7 +47,7 @@ from operator import mul
 # all public contants, classes and functions
 __all__ = ('Utm',  # classes
            'parseUTM', 'toUtm')  # functions
-__version__ = '18.02.09'
+__version__ = '18.03.08'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -57,7 +57,7 @@ _FalseNorthing = 10000e3  #: (INTERNAL) False (meter).
 _K0            = 0.9996   #: (INTERNAL) UTM scale central meridian.
 
 
-class _K6(object):
+class _K6s(object):
     '''(INTERNAL) Alpha or Beta Krüger series.
 
        Krüger series summations for I{eta}, I{ksi}, I{p} and I{q}
@@ -67,7 +67,8 @@ class _K6(object):
     def __init__(self, AB, x, y):
         '''(INTERNAL) New Alpha or Beta Krüger series
 
-           @param AB: 6th-order Krüger Alpha or Beta series (1-origin).
+           @param AB: 6th-order Krüger Alpha or Beta series
+                      coefficients (7-tuple, 1-origin).
            @param x: Eta angle (radians).
            @param y: Ksi angle (radians).
         '''
@@ -88,27 +89,27 @@ class _K6(object):
 #       assert len(y2) == len(self._cy) == len(self._sy) == n
 
     def xs(self, x0):
-        '''(INTERNAL) Eta summations (float).
+        '''(INTERNAL) Eta summation (float).
         '''
         return fdot3(self._ab, self._cy, self._shx, start=x0)
 
     def ys(self, y0):
-        '''(INTERNAL) Ksi summations (float).
+        '''(INTERNAL) Ksi summation (float).
         '''
         return fdot3(self._ab, self._sy, self._chx, start=y0)
 
     def ps(self, p0):
-        '''(INTERNAL) P summations (float).
+        '''(INTERNAL) P summation (float).
         '''
         return fdot3(self._pq, self._cy, self._chx, start=p0)
 
     def qs(self, q0):
-        '''(INTERNAL) Q summations (float).
+        '''(INTERNAL) Q summation (float).
         '''
         return fdot3(self._pq, self._sy, self._shx, start=q0)
 
 
-def _cml(zone):
+def _cmlon(zone):
     '''(INTERNAL) Central meridian longitude (degrees180).
     '''
     return (zone * 6) - 183
@@ -174,7 +175,7 @@ def _toZBll(lat, lon):
     elif B == 'V' and z == 31 and lon >=3:
         z += 1  # southern Norway
 
-    b = radians(lon - _cml(z))  # lon off central meridian
+    b = radians(lon - _cmlon(z))  # lon off central meridian
     a = radians(lat)  # lat off equator
     return z, B, a, b
 
@@ -328,7 +329,7 @@ class Utm(Base):
         x /= A0  # η eta
         y /= A0  # ξ ksi
 
-        B6 = _K6(E.Beta6, x, y)  # 6th-order Krüger series, 1-origin
+        B6 = _K6s(E.Beta6, x, y)  # 6th-order Krüger series, 1-origin
         y = -B6.ys(-y)  # ξ'
         x = -B6.xs(-x)  # η'
 
@@ -353,7 +354,7 @@ class Utm(Base):
             T = sd.fsum()  # τi
 
         a = atan(T)  # lat
-        b = atan2(shx, cy) + radians(_cml(self._zone))
+        b = atan2(shx, cy) + radians(_cmlon(self._zone))
         ll = _eLLb(degrees90(a), degrees180(b), datum=self._datum)
 
         # convergence: Karney 2011 Eq 26, 27
@@ -553,7 +554,7 @@ def toUtm(latlon, lon=None, datum=None, Utm=Utm):
 
     A0 = _K0 * E.A
 
-    A6 = _K6(E.Alpha6, x, y)  # 6th-order Krüger series, 1-origin
+    A6 = _K6s(E.Alpha6, x, y)  # 6th-order Krüger series, 1-origin
     y = A6.ys(y) * A0  # ξ
     x = A6.xs(x) * A0  # η
 

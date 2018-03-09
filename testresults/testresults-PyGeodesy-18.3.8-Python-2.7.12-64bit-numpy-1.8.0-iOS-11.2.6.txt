@@ -1,6 +1,6 @@
-~/PyGeodesy-18.3.4/test/run.py typical test results (PyGeodesy 18.3.4 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6)
+~/PyGeodesy-18.3.8/test/run.py typical test results (PyGeodesy 18.3.8 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6)
 
-running Pythonista3 ~/PyGeodesy-18.3.4/test/testBases.py
+running Pythonista3 ~/PyGeodesy-18.3.8/test/testBases.py
 
     testing testBases.py 18.02.06
     test 1 lat, lon: 50.06632°N, 005.71475°W
@@ -43,9 +43,9 @@ running Pythonista3 ~/PyGeodesy-18.3.4/test/testBases.py
     test 38 equals: True
     test 39 equals3: False
     test 40 equals3: True
-    all testBases.py tests passed (PyGeodesy 18.3.4 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 5.268 ms
+    all testBases.py tests passed (PyGeodesy 18.3.8 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 4.019 ms
 
-running Pythonista3 ~/PyGeodesy-18.3.4/test/testClasses.py
+running Pythonista3 ~/PyGeodesy-18.3.8/test/testClasses.py
 
     testing testClasses.py 17.06.25
 
@@ -237,11 +237,11 @@ running Pythonista3 ~/PyGeodesy-18.3.4/test/testClasses.py
     test 171 pygeodesy.nvector: pygeodesy.vector3d.Vector3d, pygeodesy.bases.Base
     test 172 pygeodesy.vector3d: pygeodesy.vector3d.Vector3d, pygeodesy.bases.Base
 
-    all testClasses.py tests passed (PyGeodesy 18.3.4 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 9.587 ms
+    all testClasses.py tests passed (PyGeodesy 18.3.8 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 10.201 ms
 
-running Pythonista3 ~/PyGeodesy-18.3.4/test/testDatum.py
+running Pythonista3 ~/PyGeodesy-18.3.8/test/testDatum.py
 
-    testing testDatum.py 18.03.04 (module pygeodesy.datum 18.03.04)
+    testing testDatum.py 18.03.04 (module pygeodesy.datum 18.03.06)
     test 1 ellipsoid: True
     test 2 transform: True
     test 3 datum: True
@@ -280,9 +280,9 @@ running Pythonista3 ~/PyGeodesy-18.3.4/test/testDatum.py
     test 36 WGS84: A=6367449.1458234144, e=0.0818191908, f_=298.2572235630, n=0.0016792204(-3.7914875232e-13)
     test 37 WGS84: Alpha6=(0, 8.377318206245e-04, 7.608527773572e-07, 1.197645503329e-09, 2.429170607201e-12, 5.711757677866e-15, 1.491117731258e-17)
     test 38 WGS84: Beta6=(0, 8.377321640579e-04, 5.905870152220e-08, 1.673482665284e-1, 2.164798040063e-13, 3.787978046169e-16, 7.248748890694e-19)
-    all testDatum.py tests passed (PyGeodesy 18.3.4 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 3.872 ms
+    all testDatum.py tests passed (PyGeodesy 18.3.8 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 4.644 ms
 
-running Pythonista3 ~/PyGeodesy-18.3.4/test/testDms.py
+running Pythonista3 ~/PyGeodesy-18.3.8/test/testDms.py
 
     testing testDms.py 18.01.31 (module pygeodesy.dms 18.03.04)
     test 1 parseDMS: 0.0
@@ -353,13 +353,13 @@ running Pythonista3 ~/PyGeodesy-18.3.4/test/testDms.py
     test 66 initialBearingTo: 102.432182
     test 67 equirectangular: 592.185
     test 68 distanceTo: 591.831
-    all testDms.py tests passed (PyGeodesy 18.3.4 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 2.799 ms
+    all testDms.py tests passed (PyGeodesy 18.3.8 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 2.965 ms
 
-running Pythonista3 ~/PyGeodesy-18.3.4/test/testEllipsoidal.py
+running Pythonista3 ~/PyGeodesy-18.3.8/test/testEllipsoidal.py
 
     testing testEllipsoidal.py 18.03.04
 
-    testEllipsoidal(pygeodesy.ellipsoidalNvector, 18.03.04)
+    testEllipsoidal(pygeodesy.ellipsoidalNvector, 18.03.06)
     test 1 isEllipsoidal: True
     test 2 isSpherical: False
     test 3 isEllipsoidal: True
@@ -377,7 +377,7 @@ running Pythonista3 ~/PyGeodesy-18.3.4/test/testEllipsoidal.py
     test 15 toLatLon: True
     test 16 Nvector: (0.51, 0.512, 0.707, +1.00)
 
-    testLatLon(pygeodesy.ellipsoidalNvector, 18.03.04)
+    testLatLon(pygeodesy.ellipsoidalNvector, 18.03.06)
     test 17 isEllipsoidal: True
     test 18 isSpherical: False
     test 19 lat/lonDMS: 52.20472°N, 000.14056°E
@@ -425,7 +425,7 @@ running Pythonista3 ~/PyGeodesy-18.3.4/test/testEllipsoidal.py
     test 61 isenclosedby7: True
     test 62 isenclosedby7*: True
 
-    testVectorial(pygeodesy.ellipsoidalNvector, 18.03.04)
+    testVectorial(pygeodesy.ellipsoidalNvector, 18.03.06)
     test 63 toLatLon: 44.995674°N, 045.0°E
     test 64 toNvector: (0.50004, 0.50004, 0.70705)
     test 65 equals: False
@@ -439,7 +439,7 @@ running Pythonista3 ~/PyGeodesy-18.3.4/test/testEllipsoidal.py
     test 73 length: 52.2051356286
     test 74 length: 52.2051356286
 
-    testEllipsoidal(pygeodesy.ellipsoidalVincenty, 18.03.02)
+    testEllipsoidal(pygeodesy.ellipsoidalVincenty, 18.03.06)
     test 75 isEllipsoidal: True
     test 76 isSpherical: False
     test 77 isEllipsoidal: True
@@ -447,7 +447,7 @@ running Pythonista3 ~/PyGeodesy-18.3.4/test/testEllipsoidal.py
     test 79 convertDatum: 51.477284°N, 000.00002°E, -45.91m
     test 80 convertDatum: 51.4773°N, 000.0°E, -45.91m
 
-    testLatLon(pygeodesy.ellipsoidalVincenty, 18.03.02)
+    testLatLon(pygeodesy.ellipsoidalVincenty, 18.03.06)
     test 81 isEllipsoidal: True
     test 82 isSpherical: False
     test 83 lat/lonDMS: 52.20472°N, 000.14056°E
@@ -507,7 +507,7 @@ running Pythonista3 ~/PyGeodesy-18.3.4/test/testEllipsoidal.py
     test 137 isenclosedby7: True
     test 138 isenclosedby7*: True
 
-    testVincenty(pygeodesy.ellipsoidalVincenty, 18.03.02, datum=WGS84)
+    testVincenty(pygeodesy.ellipsoidalVincenty, 18.03.06, datum=WGS84)
     test 139 distanceTo: 866455.43292
     test 140 VincentyError: LatLon(41°29′24.29″N, 071°18′46.07″W) coincides with LatLon(41°29′24.29″N, 071°18′46.07″W)
     test 141 ValueError: other Ellipsoid mistmatch: Ellipsoids.Airy1830 vs Ellipsoids.WGS84
@@ -553,7 +553,7 @@ running Pythonista3 ~/PyGeodesy-18.3.4/test/testEllipsoidal.py
     test 181 distanceTo2: 54902.390
     test 182 distanceTo2: 307°04′38.41″
 
-    testVincenty(pygeodesy.ellipsoidalVincenty, 18.03.02, datum=NAD83)
+    testVincenty(pygeodesy.ellipsoidalVincenty, 18.03.06, datum=NAD83)
     test 183 distanceTo: 866455.43292
     test 184 VincentyError: LatLon(41°29′24.29″N, 071°18′46.07″W) coincides with LatLon(41°29′24.29″N, 071°18′46.07″W)
     test 185 ValueError: other Ellipsoid mistmatch: Ellipsoids.Airy1830 vs Ellipsoids.GRS80
@@ -599,17 +599,17 @@ running Pythonista3 ~/PyGeodesy-18.3.4/test/testEllipsoidal.py
     test 225 distanceTo2: 54902.390
     test 226 distanceTo2: 307°04′38.41″
 
-    testNOAA(pygeodesy.ellipsoidalVincenty, 18.03.02)
+    testNOAA(pygeodesy.ellipsoidalVincenty, 18.03.06)
     test 227 NOAAexample1: 191872.1190, 249 03 16.4237, 67 59 11.1619
     test 228 NOAAexample2: 182009.1679, 254 42 44.6439, 73 09 21.3315
     test 229 NOAAexample3: 123456.7891, 245 00 34.7001, 64 20 24.6864
     test 230 NOAAexample4: 145239.0603, 114 29 26.9586, 295 21 32.6566
 
-    1 testEllipsoidal.py test (0.4%) FAILED, incl. 1 KNOWN (PyGeodesy 18.3.4 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 29.073 ms
+    1 testEllipsoidal.py test (0.4%) FAILED, incl. 1 KNOWN (PyGeodesy 18.3.8 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 29.156 ms
 
-running Pythonista3 ~/PyGeodesy-18.3.4/test/testFmath.py
+running Pythonista3 ~/PyGeodesy-18.3.8/test/testFmath.py
 
-    testing testFmath.py 18.02.09 (module pygeodesy.fmath 18.02.09)
+    testing testFmath.py 18.02.09 (module pygeodesy.fmath 18.03.08)
     test 1 fpolynomialA: 1.00002499953
     test 2 fpolynomialB: 2.49987500723e-05
     test 3 fpolynomialA: 1.00024995314
@@ -671,9 +671,9 @@ running Pythonista3 ~/PyGeodesy-18.3.4/test/testFmath.py
     test 59 isfinite: False
     test 60 isfinite: False
     test 61 isfinite: False
-    10 testFmath.py tests (16.4%) FAILED, incl. 10 KNOWN (PyGeodesy 18.3.4 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 77.448 ms
+    10 testFmath.py tests (16.4%) FAILED, incl. 10 KNOWN (PyGeodesy 18.3.8 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 84.095 ms
 
-running Pythonista3 ~/PyGeodesy-18.3.4/test/testGeohash.py
+running Pythonista3 ~/PyGeodesy-18.3.8/test/testGeohash.py
 
     testing testGeohash.py 18.02.05 (module pygeodesy.geohash 18.02.05)
     test 1 Geohash: Geohash('geek')
@@ -749,9 +749,9 @@ running Pythonista3 ~/PyGeodesy-18.3.4/test/testGeohash.py
     test 71 decode_error: (0.703125, 0.703125)
     test 72 decode_error: (2.8125, 5.625)
     test 73 decode_error: (22.5, 22.5)
-    all testGeohash.py tests passed (PyGeodesy 18.3.4 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 19.672 ms
+    all testGeohash.py tests passed (PyGeodesy 18.3.8 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 19.258 ms
 
-running Pythonista3 ~/PyGeodesy-18.3.4/test/testGreatCircle.py
+running Pythonista3 ~/PyGeodesy-18.3.8/test/testGreatCircle.py
 
     testing testGreatCircle.py 17.09.09
 
@@ -818,13 +818,13 @@ running Pythonista3 ~/PyGeodesy-18.3.4/test/testGreatCircle.py
     test 58 CrossTrackDistance200m+270°: -200.0
     test 59 CrossTrackDistanceCloseToZero: 0.0000000
 
-    10 testGreatCircle.py tests (16.9%) FAILED, incl. 10 KNOWN (PyGeodesy 18.3.4 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 9.775 ms
+    10 testGreatCircle.py tests (16.9%) FAILED, incl. 10 KNOWN (PyGeodesy 18.3.8 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 9.599 ms
 
-running Pythonista3 ~/PyGeodesy-18.3.4/test/testLatLon.py
+running Pythonista3 ~/PyGeodesy-18.3.8/test/testLatLon.py
 
     testing testLatLon.py 18.03.02
 
-    testLatLon(pygeodesy.ellipsoidalNvector, 18.03.04)
+    testLatLon(pygeodesy.ellipsoidalNvector, 18.03.06)
     test 1 isEllipsoidal: True
     test 2 isSpherical: False
     test 3 lat/lonDMS: 52.20472°N, 000.14056°E
@@ -872,7 +872,7 @@ running Pythonista3 ~/PyGeodesy-18.3.4/test/testLatLon.py
     test 45 isenclosedby7: True
     test 46 isenclosedby7*: True
 
-    testLatLon(pygeodesy.ellipsoidalVincenty, 18.03.02)
+    testLatLon(pygeodesy.ellipsoidalVincenty, 18.03.06)
     test 47 isEllipsoidal: True
     test 48 isSpherical: False
     test 49 lat/lonDMS: 52.20472°N, 000.14056°E
@@ -1093,13 +1093,13 @@ running Pythonista3 ~/PyGeodesy-18.3.4/test/testLatLon.py
     test 260 isenclosedby7: True
     test 261 isenclosedby7*: True
 
-    3 testLatLon.py tests (1.1%) FAILED, incl. 3 KNOWN (PyGeodesy 18.3.4 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 34.395 ms
+    3 testLatLon.py tests (1.1%) FAILED, incl. 3 KNOWN (PyGeodesy 18.3.8 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 33.618 ms
 
-running Pythonista3 ~/PyGeodesy-18.3.4/test/testLcc.py
+running Pythonista3 ~/PyGeodesy-18.3.8/test/testLcc.py
 
     testing testLcc.py 17.12.16 (module pygeodesy.lcc 18.02.06)
 
-    testLcc(pygeodesy.ellipsoidalNvector, 18.03.04)
+    testLcc(pygeodesy.ellipsoidalNvector, 18.03.06)
     test 1 lb1: 448251.0 5411932.0001
     test 2 lb1: 448251, 5411932
     test 3 lb1: WRF_Lb.WGS84
@@ -1223,7 +1223,7 @@ running Pythonista3 ~/PyGeodesy-18.3.4/test/testLcc.py
     test 121 WRF_Lb: 45.0°N, 085.0°W
     test 122 WRF_Lb: WGS84
 
-    testLcc(pygeodesy.ellipsoidalVincenty, 18.03.02)
+    testLcc(pygeodesy.ellipsoidalVincenty, 18.03.06)
     test 123 lb1: 448251.0 5411932.0001
     test 124 lb1: 448251, 5411932
     test 125 lb1: WRF_Lb.WGS84
@@ -1347,15 +1347,15 @@ running Pythonista3 ~/PyGeodesy-18.3.4/test/testLcc.py
     test 243 WRF_Lb: 45.0°N, 085.0°W
     test 244 WRF_Lb: WGS84
 
-    testConic(pygeodesy.ellipsoidalNvector, 18.03.04)
+    testConic(pygeodesy.ellipsoidalNvector, 18.03.06)
     test 245 SnyderN: name='SnyderN', lat0=23, lon0=-96, par1=33, par2=45, E0=0, N0=0, k0=1, SP=2, datum=(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27)
 
-    testConic(pygeodesy.ellipsoidalVincenty, 18.03.02)
+    testConic(pygeodesy.ellipsoidalVincenty, 18.03.06)
     test 246 SnyderV: name='SnyderV', lat0=23, lon0=-96, par1=33, par2=45, E0=0, N0=0, k0=1, SP=2, datum=(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27)
 
-    all testLcc.py tests passed (PyGeodesy 18.3.4 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 31.055 ms
+    all testLcc.py tests passed (PyGeodesy 18.3.8 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 30.345 ms
 
-running Pythonista3 ~/PyGeodesy-18.3.4/test/testMgrs.py
+running Pythonista3 ~/PyGeodesy-18.3.8/test/testMgrs.py
 
     testing testMgrs.py 17.06.21 (module pygeodesy.mgrs 18.02.05)
     test 1 Mgrs1: 31U DQ 48251 11932
@@ -1374,13 +1374,13 @@ running Pythonista3 ~/PyGeodesy-18.3.4/test/testMgrs.py
     test 14 toUtm(76.0°N, 013.0°E).toMgrs: 33X VE 45999 36099
     test 15 toUtm(76.0°N, 025.0°E).toMgrs: 35X ME 45999 36099
     test 16 toUtm(76.0°N, 037.0°E).toMgrs: 37X DE 45999 36099
-    all testMgrs.py tests passed (PyGeodesy 18.3.4 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 7.935 ms
+    all testMgrs.py tests passed (PyGeodesy 18.3.8 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 8.255 ms
 
-running Pythonista3 ~/PyGeodesy-18.3.4/test/testModules.py
+running Pythonista3 ~/PyGeodesy-18.3.8/test/testModules.py
 
     testing testModules.py 17.08.04
 
-    testModule(pygeodesy, 18.03.04)
+    testModule(pygeodesy, 18.03.08)
     test 1 pygeodesy.Conic() class (pygeodesy.lcc): True
     test 2 pygeodesy.Conics class pygeodesy.datum._Enum (pygeodesy.datum): True
     test 3 pygeodesy.CrossError() class (pygeodesy.utils): True
@@ -1554,7 +1554,7 @@ running Pythonista3 ~/PyGeodesy-18.3.4/test/testModules.py
     test 171 pygeodesy.wrapPI2() function (pygeodesy.utils): True
     test 172 pygeodesy.wrapPI_2() function (pygeodesy.utils): True
 
-    testModule(pygeodesy.datum, 18.03.04)
+    testModule(pygeodesy.datum, 18.03.06)
     test 173 datum.Datum() class: True
     test 174 datum.Datums class pygeodesy.datum._Enum: True
     test 175 datum.Ellipsoid() class: True
@@ -1599,7 +1599,7 @@ running Pythonista3 ~/PyGeodesy-18.3.4/test/testModules.py
     test 212 dms.rangerrors() function: True
     test 213 dms.toDMS() function: True
 
-    testModule(pygeodesy.ellipsoidalNvector, 18.03.04)
+    testModule(pygeodesy.ellipsoidalNvector, 18.03.06)
     test 214 ellipsoidalNvector.Cartesian() class: True
     test 215 ellipsoidalNvector.LatLon() class: True
     test 216 ellipsoidalNvector.Ned() class: True
@@ -1607,14 +1607,14 @@ running Pythonista3 ~/PyGeodesy-18.3.4/test/testModules.py
     test 218 ellipsoidalNvector.meanOf() function: True
     test 219 ellipsoidalNvector.toNed() function: True
 
-    testModule(pygeodesy.ellipsoidalVincenty, 18.03.02)
+    testModule(pygeodesy.ellipsoidalVincenty, 18.03.06)
     test 220 ellipsoidalVincenty.Cartesian() class: True
     test 221 ellipsoidalVincenty.LatLon() class: True
     test 222 ellipsoidalVincenty.VincentyError() class: True
     test 223 ellipsoidalVincenty.areaOf() function: True
     test 224 ellipsoidalVincenty.perimeterOf() function: True
 
-    testModule(pygeodesy.fmath, 18.02.09)
+    testModule(pygeodesy.fmath, 18.03.08)
     test 225 fmath.EPS float: True
     test 226 fmath.EPS1 float: True
     test 227 fmath.EPS2 float: True
@@ -1688,7 +1688,7 @@ running Pythonista3 ~/PyGeodesy-18.3.4/test/testModules.py
     test 283 points.isenclosedby() function: True
     test 284 points.perimeterOf() function: True
 
-    testModule(pygeodesy.simplify, 18.02.02)
+    testModule(pygeodesy.simplify, 18.03.06)
     test 285 simplify.simplify1() function: True
     test 286 simplify.simplify2() function: True
     test 287 simplify.simplifyRDP() function: True
@@ -1716,7 +1716,7 @@ running Pythonista3 ~/PyGeodesy-18.3.4/test/testModules.py
     test 305 sphericalTrigonometry.nearestOn2() function: True
     test 306 sphericalTrigonometry.perimeterOf() function: True
 
-    testModule(pygeodesy.utils, 18.03.04)
+    testModule(pygeodesy.utils, 18.03.06)
     test 307 utils.CrossError() class: True
     test 308 utils.LimitError() class: True
     test 309 utils.PI float: True
@@ -1770,7 +1770,7 @@ running Pythonista3 ~/PyGeodesy-18.3.4/test/testModules.py
     test 357 utils.wrapPI2() function: True
     test 358 utils.wrapPI_2() function: True
 
-    testModule(pygeodesy.utm, 18.02.09)
+    testModule(pygeodesy.utm, 18.03.06)
     test 359 utm.Utm() class: True
     test 360 utm.parseUTM() function: True
     test 361 utm.toUtm() function: True
@@ -1784,7 +1784,7 @@ running Pythonista3 ~/PyGeodesy-18.3.4/test/testModules.py
     test 365 webmercator.parseWM() function: True
     test 366 webmercator.toWm() function: True
 
-    testPublic(pygeodesy, 18.03.04)
+    testPublic(pygeodesy, 18.03.08)
     test 367 Conic() class: True
     test 368 Conics class pygeodesy.datum._Enum: True
     test 369 CrossError() class: True
@@ -1909,11 +1909,11 @@ running Pythonista3 ~/PyGeodesy-18.3.4/test/testModules.py
     test 488 wrapPI2() function: True
     test 489 wrapPI_2() function: True
 
-    all testModules.py tests passed (PyGeodesy 18.3.4 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 19.969 ms
+    all testModules.py tests passed (PyGeodesy 18.3.8 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 21.210 ms
 
-running Pythonista3 ~/PyGeodesy-18.3.4/test/testNavlabExamples.py
+running Pythonista3 ~/PyGeodesy-18.3.8/test/testNavlabExamples.py
 
-    testing testNavlabExamples.py 17.06.23
+    testing testNavlabExamples.py 18.03.08
     test 1 Example 1 delta: [N:331730.863, E:332998.501, D:17398.304]
     test 2 Example 1 delta: [L:470357.384, B:45.109°, E:-2.12°]
     test 3 Example 1 elevation: -2.1198
@@ -1940,9 +1940,9 @@ running Pythonista3 ~/PyGeodesy-18.3.4/test/testNavlabExamples.py
     test 24 Example 8 destination(elVincenty): 79.991584°N, 090.017621°W
     test 25 Example 9 intersection: 40.318643°N, 055.901868°E
     test 26 Example 10 crossTrackDistance: 11118
-    2 testNavlabExamples.py tests (7.7%) FAILED, incl. 2 KNOWN (PyGeodesy 18.3.4 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 6.746 ms
+    2 testNavlabExamples.py tests (7.7%) FAILED, incl. 2 KNOWN (PyGeodesy 18.3.8 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 5.338 ms
 
-running Pythonista3 ~/PyGeodesy-18.3.4/test/testOsgr.py
+running Pythonista3 ~/PyGeodesy-18.3.8/test/testOsgr.py
 
     testing testOsgr.py 17.06.23 (module pygeodesy.osgr 18.02.09)
     test 1 WGS84: 51.4778°N, 000.0016°W
@@ -1969,9 +1969,9 @@ running Pythonista3 ~/PyGeodesy-18.3.4/test/testOsgr.py
     test 22 OSGR5: 651409,313177
     test 23 OSGR5: [OSGR:651409.000,313177.000]
     test 24 OSGR6: 651409,313177
-    6 testOsgr.py tests (25.0%) FAILED, incl. 6 KNOWN (PyGeodesy 18.3.4 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 6.634 ms
+    6 testOsgr.py tests (25.0%) FAILED, incl. 6 KNOWN (PyGeodesy 18.3.8 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 3.742 ms
 
-running Pythonista3 ~/PyGeodesy-18.3.4/test/testPoints.py
+running Pythonista3 ~/PyGeodesy-18.3.8/test/testPoints.py
 
     testing testPoints.py 18.02.05 (module pygeodesy.points 18.03.02)
     test 1 LatLon_: 'LatLon_' object has no attribute '__dict__'
@@ -2198,9 +2198,9 @@ running Pythonista3 ~/PyGeodesy-18.3.4/test/testPoints.py
     test 222 isclockwise: False
     test 223 areaOf: 7.09e+09
     test 224 isclockwise: True
-    all testPoints.py tests passed (PyGeodesy 18.3.4 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 105.100 ms
+    all testPoints.py tests passed (PyGeodesy 18.3.8 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 105.894 ms
 
-running Pythonista3 ~/PyGeodesy-18.3.4/test/testRoutes.py
+running Pythonista3 ~/PyGeodesy-18.3.8/test/testRoutes.py
 
     testing testRoutes.py 18.02.05
     test 1 points.areaOf(Antarctica, adjust=True, radius=6371.00877142, wrap=True): 254398498.504  FAILED, KNOWN, expected 13552524.800
@@ -2249,88 +2249,88 @@ running Pythonista3 ~/PyGeodesy-18.3.4/test/testRoutes.py
     test 44 isclockwise(_JFK_LHR1, adjust=False, wrap=True): 0.000
     test 45 isclockwise(_JFK_LHR2, adjust=False, wrap=True): 0.000
 
-    13 testRoutes.py tests (28.9%) FAILED, incl. 13 KNOWN (PyGeodesy 18.3.4 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 2.213 sec
+    13 testRoutes.py tests (28.9%) FAILED, incl. 13 KNOWN (PyGeodesy 18.3.8 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 2.215 sec
 
-running Pythonista3 ~/PyGeodesy-18.3.4/test/testSimplify.py
+running Pythonista3 ~/PyGeodesy-18.3.8/test/testSimplify.py
 
-    testing testSimplify.py 17.12.06 (module pygeodesy.simplify 18.02.02)
-    test 1 simplify1(16614, adjust=True) 1m (126.023 ms): 16597
-    test 2 simplifyRW(16614, adjust=True, indices=True, shortest=False) 1m (2.060 sec): 7095
-    test 3 simplifyRW(16614, adjust=True, shortest=False) 1m (2.070 sec): 7095
-    test 4 simplifyRW(16614, adjust=True, shortest=True) 1m (2.240 sec): 8302
-    test 5 simplifyVWm(16614, adjust=True, indices=True) 1m (288.001 ms): 16328
-    test 6 simplifyVWm(16614, adjust=True) 1m (291.295 ms): 16328
-    test 7 simplifyVWm(16614, adjust=False) 1m (299.477 ms): 16373
-    test 8 simplifyRDPm(16614, adjust=True, shortest=False) 1m (5.558 sec): 15864
-    test 9 simplifyRDPm(16614, adjust=True, shortest=True) 1m (4.279 sec): 15867
-    test 10 simplifyRDPgr(16614, adjust=True, modified=True, shortest=True) 1m (4.546 sec): 15867
-    test 11 simplifyRDPm(16614, adjust=False, shortest=False) 1m (5.075 sec): 15869
-    test 12 simplifyRDPfw(16614, adjust=False, modified=True, shortest=False) 1m (3.926 sec): 15869
-    test 13 simplifyRDP(16614, adjust=True, indices=True, shortest=True) 1m (2.005 sec): 10960
-    test 14 simplifyRDP(16614, adjust=True, shortest=True) 1m (2.011 sec): 10960
-    test 15 simplifyRDPgr(16614, adjust=True, modified=False, shortest=True) 1m (1.771 sec): 10960
-    test 16 simplifyRDP(16614, adjust=False, indices=True, shortest=False) 1m (1.711 sec): 11248
-    test 17 simplifyRDP(16614, adjust=False, shortest=False) 1m (1.717 sec): 11248
-    test 18 simplifyRDPfw(16614, adjust=False, modified=False, shortest=False) 1m (819.793 ms): 11248
-    test 19 simplifyVW(1661, adjust=True) 1m (38.461 ms): 1641
-    test 20 simplifyVW(1661, adjust=False) 1m (30.129 ms): 1646
-    test 21 simplifyRDP(1661, adjust=True, shortest=False) 1m (147.519 ms): 1231
-    test 22 simplifyRDP(1661, adjust=True, shortest=True) 1m (155.037 ms): 1231
-    test 23 simplifyRDPgr(1661, adjust=True, shortest=True) 1m (138.918 ms): 1231
-    test 24 simplifyRDP(1661, adjust=False, shortest=False) 1m (135.523 ms): 1267
-    test 25 simplifyRDPfw(1661, adjust=False, shortest=False) 1m (64.732 ms): 1267
-    test 26 simplifyRDPgr(1661, adjust=False, shortest=True) 1m (107.819 ms): 1267
-    test 27 simplifyVW(69, adjust=False) 1m (1.164 ms): 69
-    test 28 simplifyRDP(69, adjust=False, shortest=False) 1m (3.209 ms): 50
-    test 29 simplifyRDPfw(69, adjust=False, shortest=False) 1m (1.603 ms): 50
-    test 30 simplifyRDPgr(69, adjust=False, shortest=True) 1m (2.413 ms): 50
-    test 31 simplifyRDPgr(69, adjust=True, shortest=True) 1m (3.186 ms): 45
+    testing testSimplify.py 17.12.06 (module pygeodesy.simplify 18.03.06)
+    test 1 simplify1(16614, adjust=True) 1m (121.869 ms): 16597
+    test 2 simplifyRW(16614, adjust=True, indices=True, shortest=False) 1m (2.355 sec): 7095
+    test 3 simplifyRW(16614, adjust=True, shortest=False) 1m (2.611 sec): 7095
+    test 4 simplifyRW(16614, adjust=True, shortest=True) 1m (2.339 sec): 8302
+    test 5 simplifyVWm(16614, adjust=True, indices=True) 1m (301.023 ms): 16328
+    test 6 simplifyVWm(16614, adjust=True) 1m (294.748 ms): 16328
+    test 7 simplifyVWm(16614, adjust=False) 1m (300.772 ms): 16373
+    test 8 simplifyRDPm(16614, adjust=True, shortest=False) 1m (6.080 sec): 15864
+    test 9 simplifyRDPm(16614, adjust=True, shortest=True) 1m (4.445 sec): 15867
+    test 10 simplifyRDPgr(16614, adjust=True, modified=True, shortest=True) 1m (4.907 sec): 15867
+    test 11 simplifyRDPm(16614, adjust=False, shortest=False) 1m (5.384 sec): 15869
+    test 12 simplifyRDPfw(16614, adjust=False, modified=True, shortest=False) 1m (4.099 sec): 15869
+    test 13 simplifyRDP(16614, adjust=True, indices=True, shortest=True) 1m (2.043 sec): 10960
+    test 14 simplifyRDP(16614, adjust=True, shortest=True) 1m (2.013 sec): 10960
+    test 15 simplifyRDPgr(16614, adjust=True, modified=False, shortest=True) 1m (1.804 sec): 10960
+    test 16 simplifyRDP(16614, adjust=False, indices=True, shortest=False) 1m (1.707 sec): 11248
+    test 17 simplifyRDP(16614, adjust=False, shortest=False) 1m (1.711 sec): 11248
+    test 18 simplifyRDPfw(16614, adjust=False, modified=False, shortest=False) 1m (848.114 ms): 11248
+    test 19 simplifyVW(1661, adjust=True) 1m (40.313 ms): 1641
+    test 20 simplifyVW(1661, adjust=False) 1m (30.320 ms): 1646
+    test 21 simplifyRDP(1661, adjust=True, shortest=False) 1m (150.487 ms): 1231
+    test 22 simplifyRDP(1661, adjust=True, shortest=True) 1m (154.351 ms): 1231
+    test 23 simplifyRDPgr(1661, adjust=True, shortest=True) 1m (137.194 ms): 1231
+    test 24 simplifyRDP(1661, adjust=False, shortest=False) 1m (134.917 ms): 1267
+    test 25 simplifyRDPfw(1661, adjust=False, shortest=False) 1m (66.749 ms): 1267
+    test 26 simplifyRDPgr(1661, adjust=False, shortest=True) 1m (110.208 ms): 1267
+    test 27 simplifyVW(69, adjust=False) 1m (1.178 ms): 69
+    test 28 simplifyRDP(69, adjust=False, shortest=False) 1m (3.151 ms): 50
+    test 29 simplifyRDPfw(69, adjust=False, shortest=False) 1m (1.725 ms): 50
+    test 30 simplifyRDPgr(69, adjust=False, shortest=True) 1m (2.511 ms): 50
+    test 31 simplifyRDPgr(69, adjust=True, shortest=True) 1m (3.113 ms): 45
     test 32 numpy.__version__: 1.8.0
-    test 33 simplify1(69, adjust=False) 1m (2.265 ms): 69
+    test 33 simplify1(69, adjust=False) 1m (2.279 ms): 69
     test 34 <type 'numpy.ndarray'>: True
-    test 35 simplifyRW(69, adjust=False) 1m (2.670 ms): 33
+    test 35 simplifyRW(69, adjust=False) 1m (2.373 ms): 33
     test 36 <type 'numpy.ndarray'>: True
-    test 37 simplifyRDP(69, adjust=False) 1m (13.078 ms): 50
+    test 37 simplifyRDP(69, adjust=False) 1m (13.279 ms): 50
     test 38 <type 'numpy.ndarray'>: True
-    test 39 simplifyRDPm(69, adjust=False) 1m (4.845 ms): 67
+    test 39 simplifyRDPm(69, adjust=False) 1m (5.134 ms): 67
     test 40 <type 'numpy.ndarray'>: True
-    test 41 simplifyRDPfw(69, adjust=False) 1m (11.598 ms): 50
-    test 42 simplifyRDPgr(69, adjust=False) 1m (21.129 ms): 50
-    test 43 simplifyVW(69, adjust=False) 1m (4.217 ms): 69
+    test 41 simplifyRDPfw(69, adjust=False) 1m (11.943 ms): 50
+    test 42 simplifyRDPgr(69, adjust=False) 1m (21.037 ms): 50
+    test 43 simplifyVW(69, adjust=False) 1m (4.563 ms): 69
     test 44 <type 'numpy.ndarray'>: True
-    test 45 simplifyVWm(69, adjust=False) 1m (4.191 ms): 69
+    test 45 simplifyVWm(69, adjust=False) 1m (4.486 ms): 69
     test 46 <type 'numpy.ndarray'>: True
-    test 47 simplify1(69, adjust=True) 1m (2.365 ms): 69
+    test 47 simplify1(69, adjust=True) 1m (2.301 ms): 69
     test 48 <type 'numpy.ndarray'>: True
-    test 49 simplifyRW(69, adjust=True) 1m (2.437 ms): 31
+    test 49 simplifyRW(69, adjust=True) 1m (2.417 ms): 31
     test 50 <type 'numpy.ndarray'>: True
-    test 51 simplifyRDP(69, adjust=True) 1m (13.786 ms): 45
+    test 51 simplifyRDP(69, adjust=True) 1m (13.705 ms): 45
     test 52 <type 'numpy.ndarray'>: True
-    test 53 simplifyRDPm(69, adjust=True) 1m (4.708 ms): 67
+    test 53 simplifyRDPm(69, adjust=True) 1m (4.749 ms): 67
     test 54 <type 'numpy.ndarray'>: True
-    test 55 simplifyRDPfw(69, adjust=True) 1m (12.100 ms): 45
-    test 56 simplifyRDPgr(69, adjust=True) 1m (21.794 ms): 45
-    test 57 simplifyVW(69, adjust=True) 1m (4.380 ms): 69
+    test 55 simplifyRDPfw(69, adjust=True) 1m (12.748 ms): 45
+    test 56 simplifyRDPgr(69, adjust=True) 1m (21.979 ms): 45
+    test 57 simplifyVW(69, adjust=True) 1m (4.488 ms): 69
     test 58 <type 'numpy.ndarray'>: True
-    test 59 simplifyVWm(69, adjust=True) 1m (4.299 ms): 69
+    test 59 simplifyVWm(69, adjust=True) 1m (4.398 ms): 69
     test 60 <type 'numpy.ndarray'>: True
-    test 61 simplify1(69, adjust=False, indices=True) 1m (1.902 ms): 69
+    test 61 simplify1(69, adjust=False, indices=True) 1m (1.915 ms): 69
     test 62 <type 'list'>: True
-    test 63 simplifyRW(69, adjust=False, indices=True) 1m (2.144 ms): 33
+    test 63 simplifyRW(69, adjust=False, indices=True) 1m (2.404 ms): 33
     test 64 <type 'list'>: True
-    test 65 simplifyRDP(69, adjust=False, indices=True) 1m (12.882 ms): 50
+    test 65 simplifyRDP(69, adjust=False, indices=True) 1m (13.324 ms): 50
     test 66 <type 'list'>: True
-    test 67 simplifyRDPm(69, adjust=False, indices=True) 1m (4.467 ms): 67
+    test 67 simplifyRDPm(69, adjust=False, indices=True) 1m (4.260 ms): 67
     test 68 <type 'list'>: True
-    test 69 simplifyRDPfw(69, adjust=True, indices=True) 1m (11.811 ms): 45
-    test 70 simplifyRDPgr(69, adjust=True, indices=True) 1m (20.874 ms): 45
-    test 71 simplifyVW(69, adjust=False, indices=True) 1m (4.428 ms): 69
+    test 69 simplifyRDPfw(69, adjust=True, indices=True) 1m (11.959 ms): 45
+    test 70 simplifyRDPgr(69, adjust=True, indices=True) 1m (21.843 ms): 45
+    test 71 simplifyVW(69, adjust=False, indices=True) 1m (4.827 ms): 69
     test 72 <type 'list'>: True
-    test 73 simplifyVWm(69, adjust=False, indices=True) 1m (4.100 ms): 69
+    test 73 simplifyVWm(69, adjust=False, indices=True) 1m (3.920 ms): 69
     test 74 <type 'list'>: True
-    all testSimplify.py tests passed (PyGeodesy 18.3.4 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 41.830 sec
+    all testSimplify.py tests passed (PyGeodesy 18.3.8 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 44.411 sec
 
-running Pythonista3 ~/PyGeodesy-18.3.4/test/testSpherical.py
+running Pythonista3 ~/PyGeodesy-18.3.8/test/testSpherical.py
 
     testing testSpherical.py 18.01.12
 
@@ -2617,11 +2617,11 @@ running Pythonista3 ~/PyGeodesy-18.3.4/test/testSpherical.py
     test 272 isPoleEnclosedBy: False  FAILED, KNOWN, expected True
     test 273 isPoleEnclosedBy*: False  FAILED, KNOWN, expected True
 
-    2 testSpherical.py tests (0.7%) FAILED, incl. 2 KNOWN (PyGeodesy 18.3.4 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 44.409 ms
+    2 testSpherical.py tests (0.7%) FAILED, incl. 2 KNOWN (PyGeodesy 18.3.8 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 42.594 ms
 
-running Pythonista3 ~/PyGeodesy-18.3.4/test/testUtils.py
+running Pythonista3 ~/PyGeodesy-18.3.8/test/testUtils.py
 
-    testing testUtils.py 18.02.27 (module pygeodesy.utils 18.03.04)
+    testing testUtils.py 18.02.27 (module pygeodesy.utils 18.03.06)
     test 1 antipode1: (-89, -1)
     test 2 antipode2: (89, 1)
     test 3 isantipode1: True
@@ -2643,11 +2643,11 @@ running Pythonista3 ~/PyGeodesy-18.3.4/test/testUtils.py
     test 19 unroll180: 200.0, 90.0
     test 20 unroll180: -160.0, -990.0
     test 21 unroll180: 920.0, 90.0
-    all testUtils.py tests passed (PyGeodesy 18.3.4 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 1.850 ms
+    all testUtils.py tests passed (PyGeodesy 18.3.8 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 1.291 ms
 
-running Pythonista3 ~/PyGeodesy-18.3.4/test/testUtm.py
+running Pythonista3 ~/PyGeodesy-18.3.8/test/testUtm.py
 
-    testing testUtm.py 17.06.21 (module pygeodesy.utm 18.02.09)
+    testing testUtm.py 17.06.21 (module pygeodesy.utm 18.03.06)
     test 1 Utm1: 03 N 448251.0 5411932.0001
     test 2 Utm2: 31 N 448252 5411933
     test 3 Utm2: 31 N 448251.795 5411932.678
@@ -2694,13 +2694,13 @@ running Pythonista3 ~/PyGeodesy-18.3.4/test/testUtm.py
     test 44 toUtm(76.0°N, 025.0°E): 35X N 446000 8436100
     test 45 toUtm(76.0°N, 031.0°E): 35X N 607943 8438843
     test 46 toUtm(76.0°N, 037.0°E): 37X N 446000 8436100
-    all testUtm.py tests passed (PyGeodesy 18.3.4 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 22.739 ms
+    all testUtm.py tests passed (PyGeodesy 18.3.8 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 23.234 ms
 
-running Pythonista3 ~/PyGeodesy-18.3.4/test/testVectorial.py
+running Pythonista3 ~/PyGeodesy-18.3.8/test/testVectorial.py
 
     testing testVectorial.py 17.08.31
 
-    testVectorial(pygeodesy.ellipsoidalNvector, 18.03.04)
+    testVectorial(pygeodesy.ellipsoidalNvector, 18.03.06)
     test 1 toLatLon: 44.995674°N, 045.0°E
     test 2 toNvector: (0.50004, 0.50004, 0.70705)
     test 3 equals: False
@@ -2751,9 +2751,9 @@ running Pythonista3 ~/PyGeodesy-18.3.4/test/testVectorial.py
     test 46 triangulate: 47.323667°N, 002.568501°W
     test 47 triangulate: True
 
-    all testVectorial.py tests passed (PyGeodesy 18.3.4 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 7.174 ms
+    all testVectorial.py tests passed (PyGeodesy 18.3.8 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 9.527 ms
 
-running Pythonista3 ~/PyGeodesy-18.3.4/test/testWebMercator.py
+running Pythonista3 ~/PyGeodesy-18.3.8/test/testWebMercator.py
 
     testing testWebMercator.py 18.02.06 (module pygeodesy.webmercator 18.02.02)
     test 1 toWm1: -626172.13571216 6887893.4928338
@@ -2813,6 +2813,6 @@ running Pythonista3 ~/PyGeodesy-18.3.4/test/testWebMercator.py
     test 55 toWm(LatLonE(40.0003, 0)).y: 4838511.61
     test 56 toWm(LatLonE(50.0003, 0)).y: 6413572.57
     test 57 toWm(LatLonE(60.0003, 0)).y: 8362760.29
-    all testWebMercator.py tests passed (PyGeodesy 18.3.4 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 4.906 ms
+    all testWebMercator.py tests passed (PyGeodesy 18.3.8 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 4.930 ms
 
-~/PyGeodesy-18.3.4/test/run.py Pythonista3 all 2590 tests OK (PyGeodesy 18.3.4 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 45.472 sec
+~/PyGeodesy-18.3.8/test/run.py Pythonista3 all 2590 tests OK (PyGeodesy 18.3.8 Python 2.7.12 64bit numpy 1.8.0 iOS 11.2.6) 48.126 sec

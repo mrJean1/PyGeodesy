@@ -29,11 +29,11 @@ if PyGeodesy_dir not in sys.path:  # Python 3+ ModuleNotFoundError
 from pygeodesy import version as PyGeodesy_version, \
                       iterNumpy2over, normDMS  # PYCHOK expected
 
-__all__ = ('isIntelPython', 'isiOS', 'isPyPy',  # constants
+__all__ = ('isIntelPython', 'isiOS', 'isPyPy', 'isWindows',  # constants
            'PyGeodesy_dir', 'Python_O',
            'TestsBase',
            'runner', 'secs2str', 'tilde', 'type2str', 'versions')
-__version__ = '18.01.11'
+__version__ = '18.03.08'
 
 try:
     _int = int, long
@@ -50,6 +50,7 @@ isIntelPython = 'intelpython' in Python_O
 # isiOS is used by some tests known to fail on iOS only
 isiOS = sys.platform == 'ios'  # public
 isPyPy = 'PyPy ' in sys.version  # public
+isWindows = sys.platform.startswith('win')
 
 
 class TestsBase(object):
@@ -236,9 +237,11 @@ def versions():
     xOS = 'iOS' if isiOS else 'macOS'
     # - mac_ver() returns ('10.12.5', ..., 'x86_64') on
     #   macOS and ('10.3.3', ..., 'iPad4,2') on iOS
+    # - win32_ver is ('XP', ..., 'SP3', ...) on Windows XP SP3
     # - platform() returns 'Darwin-16.6.0-x86_64-i386-64bit'
     #   on macOS and 'Darwin-16.6.0-iPad4,2-64bit' on iOS
-    # - sys.platform is 'darwin' on macOS and 'ios' on iOS
+    # - sys.platform is 'darwin' on macOS, 'ios' on iOS,
+    #   'win32' on Windows and 'cygwin' on Windows/Gygwin
     for t, r in ((xOS,       mac_ver),
                  ('Windows', win32_ver),
                  ('Java',    java_ver),

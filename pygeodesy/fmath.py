@@ -21,7 +21,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2',  # constants
            'len2',
            'map1', 'map2',
            'scalar')
-__version__ = '18.02.09'
+__version__ = '18.03.08'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -363,6 +363,10 @@ def fsum_(*args):
        @param args: Values to be added (scalars).
 
        @return: Precision L{fsum} (float).
+
+       @raise OverflowError: Partial I{2sum} overflow.
+
+       @raise ValueError: Invalid or infinite I{args} value.
     '''
     return fsum(args)
 

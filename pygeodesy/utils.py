@@ -41,7 +41,7 @@ __all__ = ('PI', 'PI2', 'PI_2', 'R_M',  # constants
            'unroll180', 'unrollPI', 'unStr',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '18.03.04'
+__version__ = '18.03.06'
 
 division = 1 / 2  # double check int division, see datum.py
 if not division:
@@ -248,7 +248,7 @@ def equirectangular_(lat1, lon1, lat2, lon2,
                           set to True.
 
        @see: U{Local, Flat Earth<http://www.edwilliams.org/avform.htm#flat>},
-             method L{Ellipsoid.distance2} or function L{equirectangular}
+             method L{Ellipsoid.distance2}, function L{equirectangular}
              for distance only and function L{haversine} for accurate
              and/or larger distances.
     '''
@@ -326,9 +326,10 @@ def haversine(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
 
        @return: Distance (meter, same units as I{radius}).
 
-       @see: U{Distance between two points
-             <http://www.edwilliams.org/avform.htm#Dist>} and
-             function L{equirectangular} for an approximation.
+       @see: U{Distance between two (spherical) points
+             <http://www.edwilliams.org/avform.htm#Dist>} and function
+             L{equirectangular} or method L{Ellipsoid.distance2}
+             for distance approximations.
     '''
     d, lon2 = unroll180(lon1, lon2, wrap=wrap)
     r = haversine_(radians(lat2), radians(lat1), radians(d))

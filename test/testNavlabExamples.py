@@ -9,11 +9,11 @@ those used in nvector.readthedocs.org.  Tests marked with
 # +++ are additional, not present in the original examples.
 '''
 __all__ = ()
-__version__ = '17.06.23'
+__version__ = '18.03.08'
 
 if __name__ == '__main__':
 
-    from base import TestsBase, isiOS
+    from base import TestsBase, isiOS, isWindows
 
     from pygeodesy import Datums, F_D, \
                           ellipsoidalNvector, ellipsoidalVincenty, \
@@ -54,7 +54,7 @@ if __name__ == '__main__':
     t.test(2, 'delta', delta.toStr(prec=0), '[N:-86126, E:-78900, D:1069]')  # ++
     t.test(2, 'delta', delta.toStr2(prec=3), '[L:116807.681, B:222.493°, E:-0.524°]')  # +++
     c = a.destinationNed(delta)  # JSname: destinationPoint
-    t.test(2, 'destinationNed', c.toStr(F_D), '48.88667°N, 002.37472°E', known=isiOS)
+    t.test(2, 'destinationNed', c.toStr(F_D), '48.88667°N, 002.37472°E', known=isiOS or isWindows)
 
 # Example 3: ECEF-vector to geodetic latitude
     c = ellipsoidalNvector.Cartesian(0.9*6371e3, -1.0*6371e3, 1.1*6371e3)

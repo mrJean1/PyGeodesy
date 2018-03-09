@@ -367,7 +367,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="a_2"></a><span class="summary-name">a_2</span> = <code title="0">0</code><br />
+        <a name="a2_"></a><span class="summary-name">a2_</span> = <code title="0">0</code><br />
       (1 / a**2)
     </td>
   </tr>
@@ -456,24 +456,17 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.datum.Ellipsoid-class.html#a2b" class="summary-name">a2b</a><br />
-      Get the meridional radius of curvature at poles: a**2 / b (meter).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.datum.Ellipsoid-class.html#b2a" class="summary-name">b2a</a><br />
-      Get the meridional radius of curvature at equator: b**2 / a (meter).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a href="pygeodesy.datum.Ellipsoid-class.html#A" class="summary-name">A</a><br />
-      Get the meridional radius (meter).
+      Get the <i>UTM</i> meridional radius (meter).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.datum.Ellipsoid-class.html#a2_b" class="summary-name">a2_b</a><br />
+      Get the polar meridional radius of curvature: <i class="math">a**2 / 
+      b</i> (meter).
     </td>
   </tr>
 <tr>
@@ -481,7 +474,17 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.datum.Ellipsoid-class.html#Alpha6" class="summary-name">Alpha6</a><br />
-      Get the 6th-order Kr&#252;ger Alpha series (7-tuple, 1-origin).
+      Get the 6th-order Kr&#252;ger Alpha series coefficients (7-tuple, 
+      1-origin).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.datum.Ellipsoid-class.html#b2_a" class="summary-name">b2_a</a><br />
+      Get the equatorial meridional radius of curvature: <i 
+      class="math">b**2 / a</i> (meter).
     </td>
   </tr>
 <tr>
@@ -489,7 +492,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.datum.Ellipsoid-class.html#Beta6" class="summary-name">Beta6</a><br />
-      Get the 6th-order Kr&#252;ger Beta series (7-tuple, 1-origin).
+      Get the 6th-order Kr&#252;ger Beta series coefficients (7-tuple, 
+      1-origin).
     </td>
   </tr>
 <tr>
@@ -521,7 +525,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.datum.Ellipsoid-class.html#R1" class="summary-name">R1</a><br />
-      Get the mean earth radius per IUGG: (2 * a + b) / 3 (meter).
+      Get the mean earth radius per IUGG: <i class="math">(2 * a + b) / 
+      3</i> (meter).
     </td>
   </tr>
 <tr>
@@ -529,8 +534,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.datum.Ellipsoid-class.html#R2" class="summary-name">R2</a><br />
-      Get the earth' authalic radius: sqrt((a**2 + b**2 * atanh(e) / e) / 
-      2) (meter).
+      Get the authalic earth radius: <i class="math">sqrt((a**2 + b**2 * 
+      atanh(e) / e) / 2)</i> (meter).
     </td>
   </tr>
 <tr>
@@ -538,15 +543,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.datum.Ellipsoid-class.html#R3" class="summary-name">R3</a><br />
-      Get the earth' volumetric radius: (a * a * b)**1/3 (meter).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.datum.Ellipsoid-class.html#Rr" class="summary-name">Rr</a><br />
-      Get the earth' rectifying radius: ((a**3/2 + b**3/2) / 2)**2/3 
+      Get the volumetric earth radius: <i class="math">(a * a * b)**1/3</i>
       (meter).
     </td>
   </tr>
@@ -554,8 +551,18 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.datum.Ellipsoid-class.html#Rr" class="summary-name">Rr</a><br />
+      Get the rectifying earth radius: <i class="math">((a**3/2 + b**3/2) /
+      2)**2/3</i> (meter).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.datum.Ellipsoid-class.html#Rs" class="summary-name">Rs</a><br />
-      Get another mean earth radius: sqrt(a * b) (meter).
+      Get another mean earth radius: <i class="math">sqrt(a * b)</i> 
+      (meter).
     </td>
   </tr>
   <tr>
@@ -707,6 +714,10 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Norm (float).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>s</i>.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -733,6 +744,10 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Result (float).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>s</i>.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -762,8 +777,8 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a 
-        href="http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature"
-        target="_top">Radii of Curvature</a>
+        href="http://en.wikipedia.org/wiki/Earth_radius#Geocentric_radius" 
+        target="_top">Geocentric Radius</a>
       </p>
 </div></td></tr></table>
 </div>
@@ -961,61 +976,42 @@
     <span class="table-header">Property Details</span></td>
 </tr>
 </table>
-<a name="a2b"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">a2b</h3>
-  <p>Get the meridional radius of curvature at poles: a**2 / b (meter).</p>
-  <dl class="fields">
-    <dt>Get Method:</dt>
-    <dd class="value"><span class="summary-sig">a2b(<span class="summary-sig-arg">self</span>)</span>
-        - Get the meridional radius of curvature at poles: a**2 / b (meter).
-    </dd>
-  </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <a 
-        href="http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature"
-        target="_top">Radii of Curvature</a>.
-      </p>
-</div></td></tr></table>
-</div>
-<a name="b2a"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">b2a</h3>
-  <p>Get the meridional radius of curvature at equator: b**2 / a 
-  (meter).</p>
-  <dl class="fields">
-    <dt>Get Method:</dt>
-    <dd class="value"><span class="summary-sig">b2a(<span class="summary-sig-arg">self</span>)</span>
-        - Get the meridional radius of curvature at equator: b**2 / a (meter).
-    </dd>
-  </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <a 
-        href="http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature"
-        target="_top">Radii of Curvature</a>.
-      </p>
-</div></td></tr></table>
-</div>
 <a name="A"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">A</h3>
-  <p>Get the meridional radius (meter).</p>
+  <p>Get the <i>UTM</i> meridional radius (meter).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">A(<span class="summary-sig-arg">self</span>)</span>
-        - Get the meridional radius (meter).
+        - Get the <i>UTM</i> meridional radius (meter).
     </dd>
   </dl>
 </td></tr></table>
+</div>
+<a name="a2_b"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">a2_b</h3>
+  <p>Get the polar meridional radius of curvature: <i class="math">a**2 / 
+  b</i> (meter).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">a2_b(<span class="summary-sig-arg">self</span>)</span>
+        - Get the polar meridional radius of curvature: <i class="math">a**2 / b</i> 
+(meter).
+    </dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature"
+        target="_top">Radii of Curvature</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="Alpha6"></a>
 <div>
@@ -1023,14 +1019,37 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">Alpha6</h3>
-  <p>Get the 6th-order Kr&#252;ger Alpha series (7-tuple, 1-origin).</p>
+  <p>Get the 6th-order Kr&#252;ger Alpha series coefficients (7-tuple, 
+  1-origin).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">Alpha6(<span class="summary-sig-arg">self</span>)</span>
-        - Get the 6th-order Kr&#252;ger Alpha series (7-tuple, 1-origin).
+        - Get the 6th-order Kr&#252;ger Alpha series coefficients (7-tuple, 1-origin).
     </dd>
   </dl>
 </td></tr></table>
+</div>
+<a name="b2_a"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">b2_a</h3>
+  <p>Get the equatorial meridional radius of curvature: <i 
+  class="math">b**2 / a</i> (meter).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">b2_a(<span class="summary-sig-arg">self</span>)</span>
+        - Get the equatorial meridional radius of curvature: <i class="math">b**2 / 
+a</i> (meter).
+    </dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature"
+        target="_top">Radii of Curvature</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="Beta6"></a>
 <div>
@@ -1038,11 +1057,12 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">Beta6</h3>
-  <p>Get the 6th-order Kr&#252;ger Beta series (7-tuple, 1-origin).</p>
+  <p>Get the 6th-order Kr&#252;ger Beta series coefficients (7-tuple, 
+  1-origin).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">Beta6(<span class="summary-sig-arg">self</span>)</span>
-        - Get the 6th-order Kr&#252;ger Beta series (7-tuple, 1-origin).
+        - Get the 6th-order Kr&#252;ger Beta series coefficients (7-tuple, 1-origin).
     </dd>
   </dl>
 </td></tr></table>
@@ -1098,11 +1118,13 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">R1</h3>
-  <p>Get the mean earth radius per IUGG: (2 * a + b) / 3 (meter).</p>
+  <p>Get the mean earth radius per IUGG: <i class="math">(2 * a + b) / 
+  3</i> (meter).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">R1(<span class="summary-sig-arg">self</span>)</span>
-        - Get the mean earth radius per IUGG: (2 * a + b) / 3 (meter).
+        - Get the mean earth radius per IUGG: <i class="math">(2 * a + b) / 3</i> 
+(meter).
     </dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -1117,13 +1139,13 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">R2</h3>
-  <p>Get the earth' authalic radius: sqrt((a**2 + b**2 * atanh(e) / e) / 2)
-  (meter).</p>
+  <p>Get the authalic earth radius: <i class="math">sqrt((a**2 + b**2 * 
+  atanh(e) / e) / 2)</i> (meter).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">R2(<span class="summary-sig-arg">self</span>)</span>
-        - Get the earth' authalic radius: sqrt((a**2 + b**2 * atanh(e) / e) / 2) 
-(meter).
+        - Get the authalic earth radius: <i class="math">sqrt((a**2 + b**2 * atanh(e)
+/ e) / 2)</i> (meter).
     </dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -1138,11 +1160,13 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">R3</h3>
-  <p>Get the earth' volumetric radius: (a * a * b)**1/3 (meter).</p>
+  <p>Get the volumetric earth radius: <i class="math">(a * a * b)**1/3</i> 
+  (meter).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">R3(<span class="summary-sig-arg">self</span>)</span>
-        - Get the earth' volumetric radius: (a * a * b)**1/3 (meter).
+        - Get the volumetric earth radius: <i class="math">(a * a * b)**1/3</i> 
+(meter).
     </dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -1157,12 +1181,13 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">Rr</h3>
-  <p>Get the earth' rectifying radius: ((a**3/2 + b**3/2) / 2)**2/3 
-  (meter).</p>
+  <p>Get the rectifying earth radius: <i class="math">((a**3/2 + b**3/2) / 
+  2)**2/3</i> (meter).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">Rr(<span class="summary-sig-arg">self</span>)</span>
-        - Get the earth' rectifying radius: ((a**3/2 + b**3/2) / 2)**2/3 (meter).
+        - Get the rectifying earth radius: <i class="math">((a**3/2 + b**3/2) / 
+2)**2/3</i> (meter).
     </dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -1177,11 +1202,12 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">Rs</h3>
-  <p>Get another mean earth radius: sqrt(a * b) (meter).</p>
+  <p>Get another mean earth radius: <i class="math">sqrt(a * b)</i> 
+  (meter).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">Rs(<span class="summary-sig-arg">self</span>)</span>
-        - Get another mean earth radius: sqrt(a * b) (meter).
+        - Get another mean earth radius: <i class="math">sqrt(a * b)</i> (meter).
     </dd>
   </dl>
 </td></tr></table>
@@ -1218,7 +1244,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar  5 16:16:49 2018
+    Generated by Epydoc 3.0.1 on Fri Mar  9 12:25:57 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
