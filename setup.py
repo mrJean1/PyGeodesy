@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '18.03.04'
+__version__ = '18.05.10'
 
 
 def _c2(*names):
@@ -33,7 +33,7 @@ def _version():
     with open('pygeodesy/__init__.py') as f:
         for t in f.readlines():
             if t.startswith('__version__'):
-                v = t.split('=')[-1].strip().strip("'").strip('"')
+                v = t.split('=')[-1].strip().strip('\'"')
                 return '.'.join(map(str, map(int, v.split('.'))))
 
 

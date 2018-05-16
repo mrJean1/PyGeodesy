@@ -35,14 +35,14 @@ algorithms and modified versions of the former.
 
 All Python source code has been statically checked_ with PyChecker_,
 PyFlakes_, PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.14
-and with Flake8_ on Python 3.6.4, both in 64-bit on macOS 10.13.3 High
+and with Flake8_ on Python 3.6.4, both in 64-bit on macOS 10.13.4 High
 Sierra.
 
 The tests have been run in 64-bit with `PyPy-Python`_ 2.7.13, Python
 2.7.14 (with geographiclib_ 1.49 and numpy_ 1.14.0), `Intel-Python`_
-3.5.3 (and numpy_ 1.11.3) and Python 3.6.4, all on macOS 10.13.3 High
+3.5.3 (and numpy_ 1.11.3) and Python 3.6.4, all on macOS 10.13.4 High
 Sierra and with `Pythonista 3.2`_ Python 2.7.12 and 3.6.1 (both with
-numpy_ 1.8.0) on iOS 11.2.1.
+numpy_ 1.8.0) on iOS 11.3.
 
 Previously, the tests were run with 64-bit Python 2.6.9 (and numpy 1.6.2),
 2.7.10 (and numpy 1.8.0rc1), 2.7.13, 2.7.14 (and numpy 1.13.1), 3.5.3,
@@ -68,7 +68,7 @@ required for two *ellipsoidalVincenty* functions, *areaOf* and *perimeterOf*.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Mar 08, 2018.*
+*Last updated: May 16, 2018.*
 
 .. _checked: http://github.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor
 .. _docs: http://www.movable-type.co.uk/scripts/geodesy/docs/

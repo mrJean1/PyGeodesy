@@ -52,7 +52,7 @@ U{PyFlakes<http://pypi.python.org/pypi/pyflakes>},
 U{PyCodeStyle<http://pypi.python.org/pypi/pycodestyle>} (formerly Pep8) and
 U{McCabe<http://pypi.python.org/pypi/mccabe>} using Python 2.7.14 and with
 U{Flake8<http://pypi.python.org/pypi/flake8>} on Python 3.6.4, both in
-64-bit on macOS 10.13.3 High Sierra.
+64-bit on macOS 10.13.4 High Sierra.
 
 The tests have been run in 64-bit with U{PyPy-Python<http://pypy.org>}
 2.7.13, Python 2.7.14 (with U{geographiclib
@@ -60,9 +60,9 @@ The tests have been run in 64-bit with U{PyPy-Python<http://pypy.org>}
 <http://pypi.python.org/pypi/numpy>} 1.14.0), U{Intel-Python
 <http://software.intel.com/en-us/distribution-for-python>} 3.5.3 (and
 U{numpy<http://pypi.python.org/pypi/numpy>} 1.11.3) and Python 3.6.4,
-all on macOS 10.13.3 High Sierra and with U{Pythonista 3.2
+all on macOS 10.13.4 High Sierra and with U{Pythonista 3.2
 <http://omz-software.com/pythonista/>} Python 2.7.12 and 3.6.1 (both
-with U{numpy<http://pypi.python.org/pypi/numpy>} 1.8.0) on iOS 11.2.1.
+with U{numpy<http://pypi.python.org/pypi/numpy>} 1.8.0) on iOS 11.3.
 
 Previously, the tests were run with 64-bit Python 2.6.9 (and numpy 1.6.2),
 2.7.10 (and numpy 1.8.0rc1), 2.7.13, 2.7.14 (and numpy 1.13.1), 3.5.3,
@@ -189,7 +189,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',  # modules
            'Geohash', 'VincentyError',  # classes
            'R_M',  # to avoid duplicates from datum and utils
            'version')  # extended below
-__version__ = '18.03.08'
+__version__ = '18.05.16'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
