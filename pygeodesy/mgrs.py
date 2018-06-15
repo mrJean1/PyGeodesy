@@ -37,7 +37,7 @@ import re  # PYCHOK warning locale.Error
 # all public contants, classes and functions
 __all__ = ('Mgrs',  # classes
            'parseMGRS', 'toMgrs')  # functions
-__version__ = '18.02.05'
+__version__ = '18.05.16'
 
 _100km  =  100e3  #: (INTERNAL) 100 km in meter.
 _2000km = 2000e3  #: (INTERNAL) 2,000 km in meter.
@@ -48,8 +48,8 @@ _Le100k = 'ABCDEFGH', 'JKLMNPQR', 'STUVWXYZ'  #: (INTERNAL) Grid E colums.
 _Ln100k = 'ABCDEFGHJKLMNPQRSTUV', 'FGHJKLMNPQRSTUVABCDE'  #: (INTERNAL) Grid N rows.
 
 # split an MGRS string "12ABC1235..." into 3 parts
-_MGRSre = re.compile('(\d{1,2}[C-X]{1})([A-Z]{2})(\d+)', re.IGNORECASE)  #: (INTERNAL) Regex.
-_GZDre  = re.compile('(\d{1,2}[C-X]{1})', re.IGNORECASE)  #: (INTERNAL) Regex.
+_MGRSre = re.compile('([0-9]{1,2}[C-X]{1})([A-Z]{2})([0-9]+)', re.IGNORECASE)  #: (INTERNAL) Regex.
+_GZDre  = re.compile('([0-9]{1,2}[C-X]{1})', re.IGNORECASE)  #: (INTERNAL) Regex.
 
 
 class Mgrs(Base):

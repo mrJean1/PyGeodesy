@@ -50,26 +50,26 @@ All Python source code has been statically U{checked
 with U{PyChecker<http://pypi.python.org/pypi/pychecker>},
 U{PyFlakes<http://pypi.python.org/pypi/pyflakes>},
 U{PyCodeStyle<http://pypi.python.org/pypi/pycodestyle>} (formerly Pep8) and
-U{McCabe<http://pypi.python.org/pypi/mccabe>} using Python 2.7.14 and with
-U{Flake8<http://pypi.python.org/pypi/flake8>} on Python 3.6.4, both in
-64-bit on macOS 10.13.4 High Sierra.
+U{McCabe<http://pypi.python.org/pypi/mccabe>} using Python 2.7.15 and with
+U{Flake8<http://pypi.python.org/pypi/flake8>} on Python 3.6.5, both in
+64-bit on macOS 10.13.5 High Sierra.
 
 The tests have been run in 64-bit with U{PyPy-Python<http://pypy.org>}
-2.7.13, Python 2.7.14 (with U{geographiclib
+2.7.13, Python 2.7.15 (with U{geographiclib
 <http://pypi.python.org/pypi/geographiclib>} 1.49 and U{numpy
 <http://pypi.python.org/pypi/numpy>} 1.14.0), U{Intel-Python
 <http://software.intel.com/en-us/distribution-for-python>} 3.5.3 (and
-U{numpy<http://pypi.python.org/pypi/numpy>} 1.11.3) and Python 3.6.4,
-all on macOS 10.13.4 High Sierra and with U{Pythonista 3.2
+U{numpy<http://pypi.python.org/pypi/numpy>} 1.11.3) and Python 3.6.5,
+all on macOS 10.13.5 High Sierra and with U{Pythonista 3.2
 <http://omz-software.com/pythonista/>} Python 2.7.12 and 3.6.1 (both
-with U{numpy<http://pypi.python.org/pypi/numpy>} 1.8.0) on iOS 11.3.
+with U{numpy<http://pypi.python.org/pypi/numpy>} 1.8.0) on iOS 11.4.
 
 Previously, the tests were run with 64-bit Python 2.6.9 (and numpy 1.6.2),
 2.7.10 (and numpy 1.8.0rc1), 2.7.13, 2.7.14 (and numpy 1.13.1), 3.5.3,
-3.6.2 and 3.6.3 on MacOS X 10.10 Yosemite, MacOS X 10.11 El Capitan and/or
-macOS 10.12 Sierra, with Pythonista 3.1 on iOS 10.3.3, 11.0.3 and 11.1.2,
-with 32-bit Python 2.6.6 on Windows XP SP3 and with 32-bit Python 2.7.14
-on Window 10 Pro.
+3.6.2, 3.6.3 and 3.6.4 on MacOS X 10.10 Yosemite, MacOS X 10.11 El Capitan,
+macOS 10.12 Sierra and/or macOS 10.13.4 High Sierra, with Pythonista 3.1
+on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3, with 32-bit Python 2.6.6 on
+Windows XP SP3 and with 32-bit Python 2.7.14 on Window 10 Pro.
 
 In addition to the U{PyGeodesy<http://pypi.python.org/pypi/PyGeodesy>} package,
 the distribution files contain the tests, the test results and the complete
@@ -189,7 +189,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',  # modules
            'Geohash', 'VincentyError',  # classes
            'R_M',  # to avoid duplicates from datum and utils
            'version')  # extended below
-__version__ = '18.05.16'
+__version__ = '18.06.15'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
