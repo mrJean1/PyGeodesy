@@ -1,4 +1,6 @@
 group: travis_latest
+dist: xenial  # required for Python 3.7
+sudo: true    # required for Python 3.7
 language: python
 cache: pip
 os:
@@ -6,7 +8,7 @@ os:
   - osx
 python:
   - 2.7
-  - 3.6
+  - 3.7
   - pypy
   - pypy3
   - nightly
