@@ -164,7 +164,8 @@ except ImportError:
     # extend sys.path to include this very directory
     # such that all public and private sub-modules can
     # be imported (and checked by PyChecker, etc.)
-    import os, sys  # PYCHOK expected noqa
+    import os
+    import sys
     sys.path.insert(0, os.path.dirname(__file__))  # XXX __path__[0]
     del os, sys
 
