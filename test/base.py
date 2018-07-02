@@ -278,7 +278,7 @@ if isiOS:  # MCCABE 13
         try:
             sys.argv = [test]
             run_path(test, run_name='__main__')
-        except:  # PYCHOK have to on Pythonista
+        except Exception:
             x = sys.exc_info()
             if x[0] is SystemExit:
                 x = x[1].code  # exit status
