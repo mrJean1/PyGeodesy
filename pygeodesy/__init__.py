@@ -158,13 +158,13 @@ OTHER DEALINGS IN THE SOFTWARE.}
 '''
 
 try:
-    import bases as _ # PYCHOK expected
+    import bases as _  # PYCHOK expected
     del _  # hide private, internal modules
 except ImportError:
     # extend sys.path to include this very directory
     # such that all public and private sub-modules can
     # be imported (and checked by PyChecker, etc.)
-    import os, sys  # PYCHOK expected
+    import os, sys  # PYCHOK expected noqa
     sys.path.insert(0, os.path.dirname(__file__))  # XXX __path__[0]
     del os, sys
 
