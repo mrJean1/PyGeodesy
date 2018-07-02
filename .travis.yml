@@ -1,0 +1,23 @@
+group: travis_latest
+language: python
+cache: pip
+os:
+  - linux
+  - osx
+python:
+  - 2.7
+  - 3.6
+  - pypy
+  - pypy3
+  - nightly
+matrix:
+  allow_failures:
+    - python: nightly
+install:
+  - pip install flake8  # pytest  # add another testing frameworks later
+script:
+  - flake8 . --count --max-complexity=10 --show-source --statistics
+  - python setup.py test
+notifications:
+  on_success: change
+  on_failure: change  # `always` will be the setting once code changes slow down
