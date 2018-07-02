@@ -9,8 +9,10 @@ cache: pip
 python:
   #- 2.7
   - 3.7
+  - pypy
+  - pypy2
   - pypy2.7
-  - pypy3.5
+  #- pypy3.5
   #- nightly
 matrix:
   allow_failures:
@@ -18,8 +20,8 @@ matrix:
 install:
   - pip install flake8  # pytest  # add another testing frameworks later
 script:
-  - IGNORE=E115,E122,E127,E128,E131,E201,E2,E401,E402,E501,E722,F403,F841
-  - flake8 . --count --ignore=$IGNORE --max-complexity=10 --max-line-length=127 --show-source --statistics
+  - IGNORE=E115,E122,E126,E127,E128,E131,E2,E401,E402,E501,E722,F403,F841
+  - flake8 . --count --ignore=$IGNORE --max-complexity=41 --max-line-length=127 --show-source --statistics
   - python setup.py test
 notifications:
   on_success: change
