@@ -7,13 +7,16 @@ cache: pip
 #  - linux
 #  - osx
 python:
-  #- 2.7
+  - 2.7
+  #- 3.4
+  #- 3.5
+  #- 3.6
   - 3.7
-  - pypy
-  - pypy2
-  - pypy2.7
-  #- pypy3.5
-  #- nightly
+  #- pypy
+  #- pypy2
+  #- pypy2.7  # Can't find the right incantation for PyPy 2.7
+  - pypy3.5
+  - nightly
 matrix:
   allow_failures:
     - python: nightly
