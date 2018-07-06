@@ -4,7 +4,7 @@
 # Test Web Mercator classes functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '18.02.06'
+__version__ = '18.07.03'
 
 from math import log, radians, tan
 from base import TestsBase
@@ -83,7 +83,7 @@ class Tests(TestsBase):
         w = toWm(51.4085960537841, -0.304339270784791)
         self.test('Wm8.toWm', w.toStr2(), '[x:-33878.893, y:6693890.382]')
         ll = w.toLatLon(LatLon)
-        self.test('Wm8.toLatLon', ll.toStr(form=F_D, prec=14), '51.4085960537841°N, 000.30433927078479°W')
+        self.test('Wm8.toLatLon', ll.toStr(form=F_D, prec=12), '51.408596053784°N, 000.304339270785°W')
         self.test('Wm8.toLatLon', ll.toStr(form=F_DMS, prec=6), '51°24′30.945794″N, 000°18′15.621375″W')
 
         for LL, datum in ((LatLonE, None),

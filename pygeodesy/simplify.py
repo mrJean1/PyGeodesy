@@ -81,7 +81,7 @@ from math import degrees, radians, sqrt
 __all__ = ('simplify1', 'simplify2',  # backward compatibility
            'simplifyRDP', 'simplifyRDPm', 'simplifyRW',
            'simplifyVW', 'simplifyVWm')
-__version__ = '18.03.06'
+__version__ = '18.07.03'
 
 
 # try:
@@ -97,7 +97,7 @@ __version__ = '18.03.06'
 class _T2(object):
     '''(INTERNAL) VW 2-tuple (index, area).
     '''
-    __slots__ = 'ix', 'h2'
+    __slots__ = ('ix', 'h2')
 
     def __init__(self, ix, h2):
         self.ix = ix

@@ -22,19 +22,11 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '18.05.10'
+__version__ = '18.07.03'
 
 
 def _c2(*names):
     return ' :: '.join(names)
-
-
-def _version():
-    with open('pygeodesy/__init__.py') as f:
-        for t in f.readlines():
-            if t.startswith('__version__'):
-                v = t.split('=')[-1].strip().strip('\'"')
-                return '.'.join(map(str, map(int, v.split('.'))))
 
 
 def _long_description():
@@ -43,6 +35,14 @@ def _long_description():
         if isinstance(t, bytes):
             t = t.decode('utf-8')
         return t
+
+
+def _version():
+    with open('pygeodesy/__init__.py') as f:
+        for t in f.readlines():
+            if t.startswith('__version__'):
+                v = t.split('=')[-1].strip().strip('\'"')
+                return '.'.join(map(str, map(int, v.split('.'))))
 
 
 _KeyWords=('antipode', 'area', 'azimuth', 'bearing',
@@ -98,6 +98,7 @@ setup(
         _c2('Programming Language', 'Python', '2.7'),
         _c2('Programming Language', 'Python', '3.5'),
         _c2('Programming Language', 'Python', '3.6'),
+        _c2('Programming Language', 'Python', '3.7'),
         _c2('Topic', 'Software Development'),
         _c2('Topic', 'Scientific/Engineering', 'GIS'),
     ],

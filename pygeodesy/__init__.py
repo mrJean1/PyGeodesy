@@ -94,7 +94,7 @@ cases documentation tag B{JS name:} shows the original JavaScript name.
 __
 
 **) U{Copyright (C) 2016-2018 -- mrJean1 at Gmail dot com
-<http://opensource.org/licenses/MIT>}
+<http://OpenSource.org/licenses/MIT>}
 
 C{Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the "Software"),
@@ -189,7 +189,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',  # modules
            'Geohash', 'VincentyError',  # classes
            'R_M',  # to avoid duplicates from datum and utils
            'version')  # extended below
-__version__ = '18.06.27'
+__version__ = '18.07.03'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))

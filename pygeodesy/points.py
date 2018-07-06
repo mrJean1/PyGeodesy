@@ -40,7 +40,7 @@ __all__ = ('LatLon_',  # classes
            'bounds',
            'isclockwise', 'isconvex', 'isenclosedby',
            'perimeterOf')
-__version__ = '18.03.02'
+__version__ = '18.07.03'
 
 
 class LatLon_(object):
@@ -49,6 +49,11 @@ class LatLon_(object):
     # __slots__ efficiency is voided if the __slots__ class attribute
     # is used in a subclass of a class with the traditional __dict__,
     # see <http://docs.python.org/2/reference/datamodel.html#slots>
+    # and __slots__ must be repeated in sub-classes, see "Problems
+    # with __slots__" in Luciano Ramalho, "Fluent Python", page
+    # 276+, O'Reilly, 2016, also at <http://Books.Google.ie/
+    #   books?id=bIZHCgAAQBAJ&lpg=PP1&dq=fluent%20python&pg=
+    #   PT364#v=onepage&q=“Problems%20with%20__slots__”&f=false>
     __slots__ = ('lat', 'lon')
 
     def __init__(self, lat, lon):
