@@ -7,5 +7,6 @@ test_task:
     # fingerprint_script: cat requirements.txt
     # populate_script: pip install -r requirements.txt
   test_script:
+    - python -c 'import platform; print(platform.linux_distribution())'
     - python test/run.py -result
     - cat testresults/testresults-PyGeodesy-18.7.3-Python-3.7.0-64bit-uname-Linux.txt

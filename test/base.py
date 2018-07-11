@@ -246,7 +246,8 @@ def versions():
     for t, r in ((xOS,       mac_ver),
                  ('Windows', win32_ver),
                  ('Java',    java_ver),
-                 ('uname',   uname)):
+                 linux_distribution()[:2],
+                 ('uname',   uname, 1)):
         r = r()[0]
         if r:
             vs += t, r
