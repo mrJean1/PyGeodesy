@@ -172,10 +172,7 @@ def cbrt(x):
     '''
     # simpler and more accurate than Ken Turkowski's CubeRoot, see
     # <http://people.freebsd.org/~lstewart/references/apple_tr_kt32_cuberoot.pdf>
-    if x < 0:
-        return -pow(-x, _1_3rd)
-    else:
-        return  pow( x, _1_3rd)
+    return -pow(-x, _1_3rd) if x < 0 else pow(x, _1_3rd)
 
 
 def cbrt2(x):
