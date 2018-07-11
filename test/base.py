@@ -9,7 +9,8 @@
 
 from inspect import isclass, isfunction, ismethod, ismodule
 from os.path import abspath, basename, dirname
-from platform import architecture, java_ver, mac_ver, win32_ver, uname
+from platform import architecture, java_ver, linux_distribution, \
+                     mac_ver, win32_ver, uname
 import sys
 from time import time
 try:
@@ -33,7 +34,7 @@ __all__ = ('isIntelPython', 'isiOS', 'isPyPy', 'isWindows',  # constants
            'PyGeodesy_dir', 'Python_O',
            'TestsBase',
            'runner', 'secs2str', 'tilde', 'type2str', 'versions')
-__version__ = '18.03.08'
+__version__ = '18.07.10'
 
 try:
     _int = int, long
