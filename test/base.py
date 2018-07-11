@@ -9,10 +9,16 @@
 
 from inspect import isclass, isfunction, ismethod, ismodule
 from os.path import abspath, basename, dirname
-from platform import architecture, java_ver, linux_distribution, \
-                     mac_ver, win32_ver, uname
+from platform import architecture, java_ver, mac_ver, win32_ver, uname
 import sys
 from time import time
+try:  # <http://GitHub.com/nir0s/distro>
+    from distro import name as nix, version as nix_ver
+except ImportError:
+    def nix():
+        return ''
+    def nix_ver():
+        return ('',)
 try:
     import geographiclib
 except ImportError:
@@ -246,7 +252,7 @@ def versions():
     for t, r in ((xOS,       mac_ver),
                  ('Windows', win32_ver),
                  ('Java',    java_ver),
-                 linux_distribution()[:2],
+                 (nix(),     nix_ver),
                  ('uname',   uname, 1)):
         r = r()[0]
         if r:

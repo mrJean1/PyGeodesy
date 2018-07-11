@@ -2,11 +2,12 @@ container:
   image: python:latest
 
 test_task:
-  # pip_cache:
+  pip_cache:
     # folder: ~/.cache/pip
     # fingerprint_script: cat requirements.txt
     # populate_script: pip install -r requirements.txt
+    populate_script: pip install distro
   test_script:
-    - python -c 'import platform; print(platform.linux_distribution())'
+    - python -c 'import distro; print(distro.id(), distro.name(), distro.version())'
     - python test/run.py -result
     - cat testresults/testresults-PyGeodesy-18.7.3-Python-3.7.0-64bit-uname-Linux.txt
