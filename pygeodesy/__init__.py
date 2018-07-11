@@ -69,7 +69,8 @@ Previously, the tests were run with 64-bit Python 2.6.9 (and numpy 1.6.2),
 3.6.2, 3.6.3, 3.6.4 and 3.6.5 on MacOS X 10.10 Yosemite, MacOS X 10.11 El
 Capitan, macOS 10.12 Sierra and/or macOS 10.13.4 High Sierra, with
 Pythonista 3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3, with 32-bit Python
-2.6.6 on Windows XP SP3 and with 32-bit Python 2.7.14 on Window 10 Pro.
+2.6.6 on Windows XP SP3, with 32-bit Python 2.7.14 on Window 10 Pro and
+with 64-bit Python 3.7.0 on Debian GNU/Linux 9.
 
 In addition to the U{PyGeodesy<http://pypi.python.org/pypi/PyGeodesy>} package,
 the distribution files contain the tests, the test results and the complete
@@ -158,13 +159,14 @@ OTHER DEALINGS IN THE SOFTWARE.}
 '''
 
 try:
-    import bases as _ # PYCHOK expected
+    import bases as _  # PYCHOK expected
     del _  # hide private, internal modules
 except ImportError:
     # extend sys.path to include this very directory
     # such that all public and private sub-modules can
     # be imported (and checked by PyChecker, etc.)
-    import os, sys  # PYCHOK expected
+    import os
+    import sys
     sys.path.insert(0, os.path.dirname(__file__))  # XXX __path__[0]
     del os, sys
 
@@ -189,7 +191,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',  # modules
            'Geohash', 'VincentyError',  # classes
            'R_M',  # to avoid duplicates from datum and utils
            'version')  # extended below
-__version__ = '18.07.03'
+__version__ = '18.07.11'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
