@@ -1,4 +1,4 @@
-test/run.py typical test results (PyGeodesy 18.7.3 Python 3.7.0 64bit uname Linux)
+test/run.py typical test results (PyGeodesy 18.7.3 Python 3.7.0 64bit Debian GNU/Linux 9)
 
 running /usr/local/bin/python ~/cirrus-ci-build/test/testBases.py
 
@@ -43,7 +43,7 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testBases.py
     test 38 equals: True
     test 39 equals3: False
     test 40 equals3: True
-    all testBases.py tests passed (PyGeodesy 18.7.3 Python 3.7.0 64bit uname Linux) 1.311 ms
+    all testBases.py tests passed (PyGeodesy 18.7.3 Python 3.7.0 64bit Debian GNU/Linux 9) 1.311 ms
 
 running /usr/local/bin/python ~/cirrus-ci-build/test/testClasses.py
 
@@ -237,7 +237,7 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testClasses.py
     test 171 nvector: vector3d.Vector3d, bases.Base
     test 172 vector3d: vector3d.Vector3d, bases.Base
 
-    all testClasses.py tests passed (PyGeodesy 18.7.3 Python 3.7.0 64bit uname Linux) 3.144 ms
+    all testClasses.py tests passed (PyGeodesy 18.7.3 Python 3.7.0 64bit Debian GNU/Linux 9) 3.144 ms
 
 running /usr/local/bin/python ~/cirrus-ci-build/test/testDatum.py
 
@@ -280,7 +280,7 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testDatum.py
     test 36 WGS84: A=6367449.1458234144, e=0.0818191908, f_=298.2572235630, n=0.0016792204(-3.7914875232e-13)
     test 37 WGS84: Alpha6=(0, 8.377318206245e-04, 7.608527773572e-07, 1.197645503329e-09, 2.429170607201e-12, 5.711757677866e-15, 1.491117731258e-17)
     test 38 WGS84: Beta6=(0, 8.377321640579e-04, 5.905870152220e-08, 1.673482665284e-1, 2.164798040063e-13, 3.787978046169e-16, 7.248748890694e-19)
-    all testDatum.py tests passed (PyGeodesy 18.7.3 Python 3.7.0 64bit uname Linux) 1.280 ms
+    all testDatum.py tests passed (PyGeodesy 18.7.3 Python 3.7.0 64bit Debian GNU/Linux 9) 1.280 ms
 
 running /usr/local/bin/python ~/cirrus-ci-build/test/testDms.py
 
@@ -353,7 +353,7 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testDms.py
     test 66 initialBearingTo: 102.432182
     test 67 equirectangular: 592.185
     test 68 distanceTo: 591.831
-    all testDms.py tests passed (PyGeodesy 18.7.3 Python 3.7.0 64bit uname Linux) 1.043 ms
+    all testDms.py tests passed (PyGeodesy 18.7.3 Python 3.7.0 64bit Debian GNU/Linux 9) 1.043 ms
 
 running /usr/local/bin/python ~/cirrus-ci-build/test/testEllipsoidal.py
 
@@ -605,7 +605,7 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testEllipsoidal.py
     test 229 NOAAexample3: 123456.7891, 245 00 34.7001, 64 20 24.6864
     test 230 NOAAexample4: 145239.0603, 114 29 26.9586, 295 21 32.6566
 
-    1 testEllipsoidal.py test (0.4%) FAILED, incl. 1 KNOWN (PyGeodesy 18.7.3 Python 3.7.0 64bit uname Linux) 8.710 ms
+    1 testEllipsoidal.py test (0.4%) FAILED, incl. 1 KNOWN (PyGeodesy 18.7.3 Python 3.7.0 64bit Debian GNU/Linux 9) 8.710 ms
 
 running /usr/local/bin/python ~/cirrus-ci-build/test/testFmath.py
 
@@ -671,7 +671,7 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testFmath.py
     test 59 isfinite: False
     test 60 isfinite: False
     test 61 isfinite: False
-    10 testFmath.py tests (16.4%) FAILED, incl. 10 KNOWN (PyGeodesy 18.7.3 Python 3.7.0 64bit uname Linux) 8.913 ms
+    10 testFmath.py tests (16.4%) FAILED, incl. 10 KNOWN (PyGeodesy 18.7.3 Python 3.7.0 64bit Debian GNU/Linux 9) 8.913 ms
 
 running /usr/local/bin/python ~/cirrus-ci-build/test/testGeohash.py
 
@@ -749,7 +749,7 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testGeohash.py
     test 71 decode_error: (0.703125, 0.703125)
     test 72 decode_error: (2.8125, 5.625)
     test 73 decode_error: (22.5, 22.5)
-    all testGeohash.py tests passed (PyGeodesy 18.7.3 Python 3.7.0 64bit uname Linux) 5.826 ms
+    all testGeohash.py tests passed (PyGeodesy 18.7.3 Python 3.7.0 64bit Debian GNU/Linux 9) 5.826 ms
 
 running /usr/local/bin/python ~/cirrus-ci-build/test/testGreatCircle.py
 
@@ -818,7 +818,7 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testGreatCircle.py
     test 58 CrossTrackDistance200m+270°: -200.0
     test 59 CrossTrackDistanceCloseToZero: 0.0000000
 
-    10 testGreatCircle.py tests (16.9%) FAILED, incl. 10 KNOWN (PyGeodesy 18.7.3 Python 3.7.0 64bit uname Linux) 3.063 ms
+    10 testGreatCircle.py tests (16.9%) FAILED, incl. 10 KNOWN (PyGeodesy 18.7.3 Python 3.7.0 64bit Debian GNU/Linux 9) 3.063 ms
 
 running /usr/local/bin/python ~/cirrus-ci-build/test/testLatLon.py
 
@@ -1093,7 +1093,7 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testLatLon.py
     test 260 isenclosedby7: True
     test 261 isenclosedby7*: True
 
-    3 testLatLon.py tests (1.1%) FAILED, incl. 3 KNOWN (PyGeodesy 18.7.3 Python 3.7.0 64bit uname Linux) 9.031 ms
+    3 testLatLon.py tests (1.1%) FAILED, incl. 3 KNOWN (PyGeodesy 18.7.3 Python 3.7.0 64bit Debian GNU/Linux 9) 9.031 ms
 
 running /usr/local/bin/python ~/cirrus-ci-build/test/testLcc.py
 
@@ -1353,7 +1353,7 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testLcc.py
     testConic(ellipsoidalVincenty, 18.03.06)
     test 246 SnyderV: name='SnyderV', lat0=23, lon0=-96, par1=33, par2=45, E0=0, N0=0, k0=1, SP=2, datum=(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27)
 
-    all testLcc.py tests passed (PyGeodesy 18.7.3 Python 3.7.0 64bit uname Linux) 8.513 ms
+    all testLcc.py tests passed (PyGeodesy 18.7.3 Python 3.7.0 64bit Debian GNU/Linux 9) 8.513 ms
 
 running /usr/local/bin/python ~/cirrus-ci-build/test/testMgrs.py
 
@@ -1374,7 +1374,7 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testMgrs.py
     test 14 toUtm(76.0°N, 013.0°E).toMgrs: 33X VE 45999 36099
     test 15 toUtm(76.0°N, 025.0°E).toMgrs: 35X ME 45999 36099
     test 16 toUtm(76.0°N, 037.0°E).toMgrs: 37X DE 45999 36099
-    all testMgrs.py tests passed (PyGeodesy 18.7.3 Python 3.7.0 64bit uname Linux) 2.056 ms
+    all testMgrs.py tests passed (PyGeodesy 18.7.3 Python 3.7.0 64bit Debian GNU/Linux 9) 2.056 ms
 
 running /usr/local/bin/python ~/cirrus-ci-build/test/testModules.py
 
@@ -1908,7 +1908,7 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testModules.py
     test 487 wrapPI2() function: True
     test 488 wrapPI_2() function: True
 
-    all testModules.py tests passed (PyGeodesy 18.7.3 Python 3.7.0 64bit uname Linux) 4.108 ms
+    all testModules.py tests passed (PyGeodesy 18.7.3 Python 3.7.0 64bit Debian GNU/Linux 9) 4.108 ms
 
 running /usr/local/bin/python ~/cirrus-ci-build/test/testNavlabExamples.py
 
@@ -1939,7 +1939,7 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testNavlabExamples.py
     test 24 Example 8 destination(elVincenty): 79.991584°N, 090.017621°W
     test 25 Example 9 intersection: 40.318643°N, 055.901868°E
     test 26 Example 10 crossTrackDistance: 11118
-    1 testNavlabExamples.py test (3.8%) FAILED, incl. 1 KNOWN (PyGeodesy 18.7.3 Python 3.7.0 64bit uname Linux) 2.705 ms
+    1 testNavlabExamples.py test (3.8%) FAILED, incl. 1 KNOWN (PyGeodesy 18.7.3 Python 3.7.0 64bit Debian GNU/Linux 9) 2.705 ms
 
 running /usr/local/bin/python ~/cirrus-ci-build/test/testOsgr.py
 
@@ -1968,7 +1968,7 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testOsgr.py
     test 22 OSGR5: 651409,313177
     test 23 OSGR5: [OSGR:651409.000,313177.000]
     test 24 OSGR6: 651409,313177
-    6 testOsgr.py tests (25.0%) FAILED, incl. 6 KNOWN (PyGeodesy 18.7.3 Python 3.7.0 64bit uname Linux) 1.708 ms
+    6 testOsgr.py tests (25.0%) FAILED, incl. 6 KNOWN (PyGeodesy 18.7.3 Python 3.7.0 64bit Debian GNU/Linux 9) 1.708 ms
 
 running /usr/local/bin/python ~/cirrus-ci-build/test/testPoints.py
 
@@ -2122,7 +2122,7 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testPoints.py
     test 147 isclockwise: False
     test 148 areaOf: 7.09e+09
     test 149 isclockwise: True
-    all testPoints.py tests passed (PyGeodesy 18.7.3 Python 3.7.0 64bit uname Linux) 9.783 ms
+    all testPoints.py tests passed (PyGeodesy 18.7.3 Python 3.7.0 64bit Debian GNU/Linux 9) 9.783 ms
 
 running /usr/local/bin/python ~/cirrus-ci-build/test/testRoutes.py
 
@@ -2173,7 +2173,7 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testRoutes.py
     test 44 isclockwise(_JFK_LHR1, adjust=False, wrap=True): 0.000
     test 45 isclockwise(_JFK_LHR2, adjust=False, wrap=True): 0.000
 
-    13 testRoutes.py tests (28.9%) FAILED, incl. 13 KNOWN (PyGeodesy 18.7.3 Python 3.7.0 64bit uname Linux) 600.208 ms
+    13 testRoutes.py tests (28.9%) FAILED, incl. 13 KNOWN (PyGeodesy 18.7.3 Python 3.7.0 64bit Debian GNU/Linux 9) 600.208 ms
 
 running /usr/local/bin/python ~/cirrus-ci-build/test/testSimplify.py
 
@@ -2210,7 +2210,7 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testSimplify.py
     test 30 simplifyRDPgr(69, adjust=False, shortest=True) 1m (745.296 us): 50
     test 31 simplifyRDPgr(69, adjust=True, shortest=True) 1m (1.019 ms): 45
     test 32 no module: numpy
-    all testSimplify.py tests passed (PyGeodesy 18.7.3 Python 3.7.0 64bit uname Linux) 4.210 sec
+    all testSimplify.py tests passed (PyGeodesy 18.7.3 Python 3.7.0 64bit Debian GNU/Linux 9) 4.210 sec
 
 running /usr/local/bin/python ~/cirrus-ci-build/test/testSpherical.py
 
@@ -2499,7 +2499,7 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testSpherical.py
     test 272 isPoleEnclosedBy: False  FAILED, KNOWN, expected True
     test 273 isPoleEnclosedBy*: False  FAILED, KNOWN, expected True
 
-    2 testSpherical.py tests (0.7%) FAILED, incl. 2 KNOWN (PyGeodesy 18.7.3 Python 3.7.0 64bit uname Linux) 12.016 ms
+    2 testSpherical.py tests (0.7%) FAILED, incl. 2 KNOWN (PyGeodesy 18.7.3 Python 3.7.0 64bit Debian GNU/Linux 9) 12.016 ms
 
 running /usr/local/bin/python ~/cirrus-ci-build/test/testUtils.py
 
@@ -2525,7 +2525,7 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testUtils.py
     test 19 unroll180: 200.0, 90.0
     test 20 unroll180: -160.0, -990.0
     test 21 unroll180: 920.0, 90.0
-    all testUtils.py tests passed (PyGeodesy 18.7.3 Python 3.7.0 64bit uname Linux) 443.935 us
+    all testUtils.py tests passed (PyGeodesy 18.7.3 Python 3.7.0 64bit Debian GNU/Linux 9) 443.935 us
 
 running /usr/local/bin/python ~/cirrus-ci-build/test/testUtm.py
 
@@ -2576,7 +2576,7 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testUtm.py
     test 44 toUtm(76.0°N, 025.0°E): 35X N 446000 8436100
     test 45 toUtm(76.0°N, 031.0°E): 35X N 607943 8438843
     test 46 toUtm(76.0°N, 037.0°E): 37X N 446000 8436100
-    all testUtm.py tests passed (PyGeodesy 18.7.3 Python 3.7.0 64bit uname Linux) 4.982 ms
+    all testUtm.py tests passed (PyGeodesy 18.7.3 Python 3.7.0 64bit Debian GNU/Linux 9) 4.982 ms
 
 running /usr/local/bin/python ~/cirrus-ci-build/test/testVectorial.py
 
@@ -2633,7 +2633,7 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testVectorial.py
     test 46 triangulate: 47.323667°N, 002.568501°W
     test 47 triangulate: True
 
-    all testVectorial.py tests passed (PyGeodesy 18.7.3 Python 3.7.0 64bit uname Linux) 2.935 ms
+    all testVectorial.py tests passed (PyGeodesy 18.7.3 Python 3.7.0 64bit Debian GNU/Linux 9) 2.935 ms
 
 running /usr/local/bin/python ~/cirrus-ci-build/test/testWebMercator.py
 
@@ -2695,6 +2695,6 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testWebMercator.py
     test 55 toWm(LatLonE(40.0003, 0)).y: 4838511.61
     test 56 toWm(LatLonE(50.0003, 0)).y: 6413572.57
     test 57 toWm(LatLonE(60.0003, 0)).y: 8362760.29
-    all testWebMercator.py tests passed (PyGeodesy 18.7.3 Python 3.7.0 64bit uname Linux) 1.567 ms
+    all testWebMercator.py tests passed (PyGeodesy 18.7.3 Python 3.7.0 64bit Debian GNU/Linux 9) 1.567 ms
 
-test/run.py /usr/local/bin/python all 2472 tests OK (PyGeodesy 18.7.3 Python 3.7.0 64bit uname Linux) 6.909 sec
+test/run.py /usr/local/bin/python all 2472 tests OK (PyGeodesy 18.7.3 Python 3.7.0 64bit Debian GNU/Linux 9) 6.909 sec

@@ -12,13 +12,6 @@ from os.path import abspath, basename, dirname
 from platform import architecture, java_ver, mac_ver, win32_ver, uname
 import sys
 from time import time
-try:  # <http://GitHub.com/nir0s/distro>
-    from distro import name as nix, version as nix_ver
-except ImportError:
-    def nix():
-        return ''
-    def nix_ver():
-        return ('',)
 try:
     import geographiclib
 except ImportError:
@@ -45,9 +38,38 @@ __version__ = '18.07.10'
 try:
     _int = int, long
     _str = basestring
+
+    def _2str(ustr):
+        if isinstance(ustr, unicode):
+            return ustr.decode('utf-8')
+        else:
+            return ustr
+
 except NameError:  # Python 3+
     _int = int
     _str = str
+
+    def _2str(ustr):
+        return ustr
+
+try:
+    import distro  # <http://GitHub.com/nir0s/distro>
+
+    # linux distro and version
+    _Nix = _2str(distro.name())  # .id()?
+
+    def nix_ver():  # mimick dot-separated version
+        v = d = _2str(distro.version())
+        for c in iter(d):
+            if not c.isalnum():
+                v = v.replace(c, ' ')
+        return '.'.join(v.split())
+
+except ImportError:
+    _Nix = ''  # not linux?
+
+    def nix_ver():  # PYCHOK expected
+        return ('',)
 
 _pseudo_home_dir = dirname(PyGeodesy_dir or '~') or '~'
 
@@ -251,15 +273,15 @@ def versions():
     #   'win32' on Windows and 'cygwin' on Windows/Gygwin
     for t, r in ((xOS,       mac_ver),
                  ('Windows', win32_ver),
+                 (_Nix,      nix_ver),
                  ('Java',    java_ver),
-                 (nix(),     nix_ver),
-                 ('uname',   uname, 1)):
+                 ('uname',   uname)):
         r = r()[0]
         if r:
             vs += t, r
             break
 
-    return ' '.join(vs).replace('/', '')
+    return ' '.join(vs)
 
 
 if isiOS:  # MCCABE 13

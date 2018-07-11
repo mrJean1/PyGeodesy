@@ -9,5 +9,6 @@ test_task:
     populate_script: pip install distro
   test_script:
     - python -c 'import distro; print(distro.id(), distro.name(), distro.version())'
+    - python -c 'import platform; print(platform.uname())'
     - python test/run.py -result
-    - cat testresults/testresults-PyGeodesy-18.7.3-Python-3.7.0-64bit-uname-Linux.txt
+    # - cat testresults/testresults-PyGeodesy-18.7.3-Python-3.7.0-64bit-uname-Linux.txt
