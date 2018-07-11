@@ -56,7 +56,7 @@ try:
         for c in iter(d):
             if not c.isalnum():
                 v = v.replace(c, ' ')
-        return '.'.join(v.split())
+        return ('.'.join(v.split()),)
 
 except ImportError:
     _Nix = ''  # not linux?
