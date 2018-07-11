@@ -259,7 +259,7 @@ def versions():
             vs += t, r
             break
 
-    return ' '.join(vs)
+    return ' '.join(vs).replace('/', '')
 
 
 if isiOS:  # MCCABE 13
