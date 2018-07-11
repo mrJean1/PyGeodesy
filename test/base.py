@@ -52,11 +52,11 @@ try:
     def nix_ver():
         # mimick dot-separated version, replacing
         # slashes, etc. invalid for file names
-        v = d = str(distro.version())
+        v = d = str(distro.version()).strip()
         for c in iter(d):
             if not c.isalnum():
                 v = v.replace(c, ' ')
-        return ('.'.join(v.split()),)
+        return ('.'.join(v.split()), architecture()[0])
 
 except ImportError:
     _Nix = ''  # not linux?
