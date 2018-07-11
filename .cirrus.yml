@@ -11,5 +11,7 @@ test_task:
     - pip install distro
     - python -c 'import distro, platform; print(distro.id(), repr(distro.name()), distro.version(), platform.uname())'
     - ls -al testresults/*
+    - rm -f testresult/testresults*.txt
     - python test/run.py -result
-    # - cat testresults/testresults-PyGeodesy-18.7.3-Python-3.7.0-64bit-uname-Linux.txt
+    - ls -al testresults/*
+    - cat testresults/testresults*.txt
