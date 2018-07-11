@@ -42,29 +42,7 @@ except NameError:  # Python 3+
     _int = int
     _str = str
 
-try:
-    # note, distro returns macOS as Darwin, not just Linux
-    import distro  # <http://GitHub.com/nir0s/distro>
-
-    def _2str(ustr):
-        s = u = str(ustr).strip()
-        for c in u:
-            if not c.isalnum():
-                s = s.replace(c, ' ')
-        return '_'.join(s.strip().split())
-
-    # linux distro name and version
-    _Nix = _2str(distro.id()).capitalize()  # .name()?
-
-    def nix_ver():  #
-        return _2str(distro.version()), architecture()[0]
-
-except ImportError:
-    _Nix = ''  # not linux?
-
-    def nix_ver():  # PYCHOK expected
-        return '', architecture()[0]
-
+_os_bitstr = architecture()[0]
 _pseudo_home_dir = dirname(PyGeodesy_dir or '~') or '~'
 
 Python_O = sys.executable  # python or Pythonista path
@@ -74,6 +52,31 @@ isIntelPython = 'intelpython' in Python_O
 isiOS = sys.platform == 'ios'  # public
 isPyPy = 'PyPy ' in sys.version  # public
 isWindows = sys.platform.startswith('win')
+
+try:
+    # use distro only for Linux, not macOS, etc.
+    if uname()[0] not in ('Linux', 'linux'):
+        raise ImportError
+
+    import distro  # <http://GitHub.com/nir0s/distro>
+
+    def _2str(ustr):
+        s = u = str(ustr).strip()
+        for c in u:
+            if not c.isalnum():
+                s = s.replace(c, ' ')
+        return '_'.join(s.strip().split())
+
+    _Nix = _2str(distro.id()).capitalize()  # .name()?
+
+    def nix_ver():
+        return _2str(distro.version()), _os_bitstr
+
+except ImportError:
+    _Nix = ''  # not linux?
+
+    def nix_ver():  # PYCHOK expected
+        return '', _os_bitstr
 
 
 class TestsBase(object):
@@ -251,7 +254,7 @@ def versions():
     '''
     t = 'Intel-' if isIntelPython else 'PyPy-' if isPyPy else ''
     vs = 'PyGeodesy', PyGeodesy_version, (t +
-         'Python'), sys.version.split()[0], architecture()[0]
+         'Python'), sys.version.split()[0], _os_bitstr
     if geographiclib:
         vs += 'geographiclib', geographiclib.__version__
     if numpy:
