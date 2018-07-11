@@ -8,6 +8,7 @@ test_task:
     # populate_script: pip install -r requirements.txt
     populate_script: pip install distro
   test_script:
+    - pip install distro
     - python -c 'import distro; print(distro.id(), distro.name(), distro.version())'
     - python -c 'import platform; print(platform.uname())'
     - python test/run.py -result
