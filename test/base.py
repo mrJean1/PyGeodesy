@@ -50,7 +50,7 @@ try:
         s = u = str(ustr).strip()
         for c in u:
             if not c.isalnum():
-                s = s.replace(c, ' '):
+                s = s.replace(c, ' ')
         return '_'.join(s.strip().split())
 
     # linux distro name and version
