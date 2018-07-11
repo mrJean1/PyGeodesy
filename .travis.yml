@@ -1,0 +1,32 @@
+group: travis_latest
+#dist: xenial  # required for Python 3.7
+#sudo: true    # required for Python 3.7
+language: python
+cache: pip
+#os:  # disable osx for now
+#  - linux
+#  - osx
+python:
+  - 2.7
+  #- 3.4
+  #- 3.5
+  - 3.6
+  #- 3.7
+  #- pypy
+  #- pypy2
+  #- pypy2.7  # Can't find the right incantation for PyPy 2.7
+  - pypy3.5
+  - nightly
+matrix:
+  allow_failures:
+    - python: nightly
+install:
+  - pip install flake8  # pytest  # add another testing frameworks later
+script:
+  - python -c "import platform ; print(platform.platform(), platform.architecture(), platform.uname())"
+  - IGNORE=E115,E122,E126,E127,E128,E131,E2,E401,E402,E501,E722,F403,F841
+  - flake8 . --count --ignore=$IGNORE --max-complexity=41 --max-line-length=127 --show-source --statistics
+  - python test/run.py -results
+notifications:
+  on_success: change
+  on_failure: change  # `always` will be the setting once code changes slow down
