@@ -46,23 +46,24 @@ try:
     # note, distro returns macOS as Darwin, not just Linux
     import distro  # <http://GitHub.com/nir0s/distro>
 
-    # linux distro and version
-    _Nix = str(distro.name())  # .id()?
-
-    def nix_ver():
-        # mimick dot-separated version, replacing
-        # slashes, etc. invalid for file names
-        v = d = str(distro.version()).strip()
-        for c in iter(d):
+    def _2str(ustr):
+        s = u = str(ustr).strip()
+        for c in u:
             if not c.isalnum():
-                v = v.replace(c, ' ')
-        return ('.'.join(v.split()), architecture()[0])
+                s = s.replace(c, ' '):
+        return '_'.join(s.strip().split())
+
+    # linux distro name and version
+    _Nix = _2str(distro.id()).capitalize()  # .name()?
+
+    def nix_ver():  #
+        return _2str(distro.version()), architecture()[0]
 
 except ImportError:
     _Nix = ''  # not linux?
 
     def nix_ver():  # PYCHOK expected
-        return ('',)
+        return '', architecture()[0]
 
 _pseudo_home_dir = dirname(PyGeodesy_dir or '~') or '~'
 
