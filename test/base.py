@@ -38,28 +38,21 @@ __version__ = '18.07.10'
 try:
     _int = int, long
     _str = basestring
-
-    def _2str(ustr):
-        if isinstance(ustr, unicode):
-            return ustr.decode('utf-8')
-        else:
-            return ustr
-
 except NameError:  # Python 3+
     _int = int
     _str = str
 
-    def _2str(ustr):
-        return ustr
-
 try:
+    # note, distro returns macOS as Darwin, not just Linux
     import distro  # <http://GitHub.com/nir0s/distro>
 
     # linux distro and version
-    _Nix = _2str(distro.name())  # .id()?
+    _Nix = str(distro.name())  # .id()?
 
-    def nix_ver():  # mimick dot-separated version
-        v = d = _2str(distro.version())
+    def nix_ver():
+        # mimick dot-separated version, replacing
+        # slashes, etc. invalid for file names
+        v = d = str(distro.version())
         for c in iter(d):
             if not c.isalnum():
                 v = v.replace(c, ' ')
