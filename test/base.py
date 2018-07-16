@@ -33,7 +33,7 @@ __all__ = ('isIntelPython', 'isiOS', 'isPyPy', 'isWindows',  # constants
            'PyGeodesy_dir', 'Python_O',
            'TestsBase',
            'runner', 'secs2str', 'tilde', 'type2str', 'versions')
-__version__ = '18.07.11'
+__version__ = '18.07.16'
 
 try:
     _int = int, long
@@ -63,7 +63,7 @@ try:
     def _2str(ustr):
         s = u = str(ustr).strip()
         for c in u:
-            if not c.isalnum():
+            if not (c.isalnum() or c in '._-'):
                 s = s.replace(c, ' ')
         return '_'.join(s.strip().split())
 
@@ -81,7 +81,7 @@ except ImportError:
 
 class TestsBase(object):
     '''Tests based on @examples from the original JavaScript code
-       and examples in <http://www.edwilliams.org/avform.htm> or
+       and examples in <http://www.EdWilliams.org/avform.htm> or
        elsewhere as indicated.
     '''
     _file     = ''
