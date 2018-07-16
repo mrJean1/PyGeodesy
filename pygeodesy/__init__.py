@@ -191,7 +191,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',  # modules
            'Geohash', 'VincentyError',  # classes
            'R_M',  # to avoid duplicates from datum and utils
            'version')  # extended below
-__version__ = '18.07.16'
+__version__ = '18.07.11'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
@@ -249,17 +249,20 @@ def equirectangular3(lat1, lon1, lat2, lon2, **options):
 
 if __name__ == '__main__':
 
+    __all__ += 'areaof***', 'equirectangular3***', 'perimeterof***'
+
     d, e, p = locals(), 0, ''
-    for i, n in enumerate(sorted(__all__)):
+    for i, a in enumerate(sorted(__all__)):
+        n = a.rstrip('*')
         r = repr(d[n]).replace(' ' + n + ' ', ' ') \
                       .replace(" '" + n + "' ", ' ')
-        if n == p:  # duplicate
+        if n == p:
             e += 1
             s = '***'
         else:
             s = ''
             p = n
-        print('%s %s%s %s' % (i + 1, n, s, r))
+        print('%s %s%s %s' % (i + 1, a, s, r))
 
     print('--- PyGeodesy %s (%s duplicates)' % (__version__, e or 'no'))
 
