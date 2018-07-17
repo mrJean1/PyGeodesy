@@ -60,7 +60,6 @@ See:
  - U{http://hydra.hull.ac.uk/resources/hull:8338}
  - U{http://psimpl.sourceforge.net/reumann-witkam.html}
  - U{http://www.cs.ubc.ca/cgi-bin/tr/1992/TR-92-07.pdf}
- - U{http://web.cs.sunyit.edu/~poissad/projects/Curve/about_project.php}
  - U{http://github.com/FlorianWilhelm/gps_data_with_python}
  - U{http://www.bdcc.co.uk/Gmaps/GDouglasPeuker.js}
  - U{http://github.com/mourner/simplify-js/}
@@ -81,7 +80,7 @@ from math import degrees, radians, sqrt
 __all__ = ('simplify1', 'simplify2',  # backward compatibility
            'simplifyRDP', 'simplifyRDPm', 'simplifyRW',
            'simplifyVW', 'simplifyVWm')
-__version__ = '18.07.03'
+__version__ = '18.07.17'
 
 
 # try:
