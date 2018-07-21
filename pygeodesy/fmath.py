@@ -6,7 +6,7 @@ u'''Precision mathematical functions, utilities and constants.
 @newfield example: Example, Examples
 '''
 
-from math import hypot, sqrt  # pow
+from math import copysign, hypot, sqrt  # pow
 from operator import mul
 import sys
 
@@ -21,7 +21,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2',  # constants
            'len2',
            'map1', 'map2',
            'scalar')
-__version__ = '18.03.08'
+__version__ = '18.07.21'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -55,14 +55,25 @@ _1_3rd = 1.0 / 3.0  #: (INTERNAL) One third (float)
 _2_3rd = 2.0 / 3.0  #: (INTERNAL) Two third (float)
 
 
+def _2even(p, r, s):
+    '''(INTERNAL) Half-even rounding.
+    '''
+    if (r > 0 and p > 0) or \
+       (r < 0 and p < 0):  # signs match
+        r, p = _2sum(s, p * 2)
+        if not p:
+            s = r
+    return s
+
+
 def _2sum(a, b):
     '''(INTERNAL) Precision I{2sum} of M{a + b}.
     '''
-    if abs(b) > abs(a):
-        a, b = b, a
     s = a + b
     if not isfinite(s):
         raise OverflowError('partial %s: %r' % ('2sum', s))
+    if abs(b) > abs(a):
+        a, b = b, a
     return s, b - (s - a)
 
 
@@ -143,22 +154,17 @@ class Fsum(object):
 
            @note: Accumulation can continue after summation.
         '''
-        s = 0.0
-        i = len(self._ps)
-        if i > 0:
-            i -= 1
+        i = len(self._ps) - 1
+        if i < 0:
+            s = 0.0
+        else:
             s = self._ps[i]
             while i > 0:
                 i -= 1
                 s, p = _2sum(s, self._ps[i])
                 if p:
                     if i > 0:  # half-even round if signs match
-                        r = self._ps[i - 1]
-                        if (r > 0 and p > 0) or \
-                           (r < 0 and p < 0):
-                            r, p = _2sum(s, p * 2)
-                            if not p:
-                                s = r
+                        s = _2even(p, self._ps[i-1], s)
                     break
         return s
 
@@ -172,10 +178,7 @@ def cbrt(x):
     '''
     # simpler and more accurate than Ken Turkowski's CubeRoot, see
     # <http://people.freebsd.org/~lstewart/references/apple_tr_kt32_cuberoot.pdf>
-    if x < 0:
-        return -pow(-x, _1_3rd)
-    else:
-        return  pow( x, _1_3rd)
+    return copysign(pow(abs(x), _1_3rd), x)
 
 
 def cbrt2(x):
@@ -278,16 +281,16 @@ def fpolynomial(x, *cs):
        @raise ValueError: No I{cs} coefficients.
     '''
     if not isscalar(x):
-        raise TypeError('%s invalid: %r' % ('argument', x))
+        raise TypeError('%s invalid: %r' % ('x', x))
     if not cs:
         raise ValueError('%s missing: %r' % ('coefficents', cs))
 
     def _terms(x, c0, *cs):
-        xp = x
+        xp = 1
         yield float(c0)
         for c in cs:
-            yield xp * c
             xp *= x
+            yield xp * c
 
     return fsum(_terms(float(x), *cs))
 
@@ -301,7 +304,19 @@ def fpowers(x, n, alts=0):
                       with this exponent (int).
 
        @return: Powers of I{x} (list of floats).
+
+       @raise TypeError: Argument I{x} not scalar or
+                         I{n} not positive.
+
+       @raise ValueError: Argument I{n} not positive.
     '''
+    if not isscalar(x):
+        raise TypeError('%s invalid: %r' % ('x', x))
+    if not isinstance(n, _Ints):
+        raise TypeError('%s invalid: %r' % ('n', n))
+    if n < 1:
+        raise ValueError('%s invalid: %r' % ('n', n))
+
     xs = [x]
     for _ in range(1, n):
         xs.append(xs[-1] * x)

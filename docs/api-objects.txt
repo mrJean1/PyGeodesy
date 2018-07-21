@@ -257,7 +257,7 @@ pygeodesy.ellipsoidalVincenty.radians	pygeodesy.utils-module.html#radians
 pygeodesy.ellipsoidalVincenty._p2	pygeodesy.ellipsoidalVincenty-module.html#_p2
 pygeodesy.ellipsoidalVincenty._r3	pygeodesy.ellipsoidalVincenty-module.html#_r3
 pygeodesy.fmath	pygeodesy.fmath-module.html
-pygeodesy.fmath._2sum	pygeodesy.fmath-module.html#_2sum
+pygeodesy.fmath._2even	pygeodesy.fmath-module.html#_2even
 pygeodesy.fmath.cbrt	pygeodesy.fmath-module.html#cbrt
 pygeodesy.fmath.fsum	pygeodesy.fmath-module.html#fsum
 pygeodesy.fmath.EPS	pygeodesy.fmath-module.html#EPS
@@ -266,7 +266,7 @@ pygeodesy.fmath.scalar	pygeodesy.fmath-module.html#scalar
 pygeodesy.fmath.hypot	pygeodesy.fmath-module.html#hypot
 pygeodesy.fmath.fdot3	pygeodesy.fmath-module.html#fdot3
 pygeodesy.fmath.EPS2	pygeodesy.fmath-module.html#EPS2
-pygeodesy.fmath.EPS1	pygeodesy.fmath-module.html#EPS1
+pygeodesy.fmath._2sum	pygeodesy.fmath-module.html#_2sum
 pygeodesy.fmath.fmean	pygeodesy.fmath-module.html#fmean
 pygeodesy.fmath.isscalar	pygeodesy.fmath-module.html#isscalar
 pygeodesy.fmath.fpowers	pygeodesy.fmath-module.html#fpowers
@@ -283,6 +283,7 @@ pygeodesy.fmath._2_3rd	pygeodesy.fmath-module.html#_2_3rd
 pygeodesy.fmath._1_3rd	pygeodesy.fmath-module.html#_1_3rd
 pygeodesy.fmath.fpolynomial	pygeodesy.fmath-module.html#fpolynomial
 pygeodesy.fmath.fStr	pygeodesy.fmath-module.html#fStr
+pygeodesy.fmath.EPS1	pygeodesy.fmath-module.html#EPS1
 pygeodesy.fmath.hypot1	pygeodesy.fmath-module.html#hypot1
 pygeodesy.fmath.fdot	pygeodesy.fmath-module.html#fdot
 pygeodesy.fmath.isfinite	pygeodesy.fmath-module.html#isfinite

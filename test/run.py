@@ -3,9 +3,9 @@
 
 # Script to run some or all PyGeodesy tests with Python 2 or 3.
 
-# Tested with 64-bit Python 2.6.9, 2.7,13, 3.5.3 and 3.6.4 on
-# macOS 10.12.5 and 10.12.6 Sierra and with Pythonista 3.1 and
-# 3.2 on iOS 10.3.2, 10.3.3, 11.0.3, 11.1.2 and 11.2.1.
+# Tested with 64-bit Python 2.6.9, 2.7,13, 3.5.3, 3.6.4, 3.6.5 and
+# 3.7.0 on macOS 10.12 Sierra and 10.13 High Sierra and with
+# Pythonista 3.1 and 3.2 on iOS 10.3, 11.0, 11.1, 11.3 and 11.4.
 
 from glob import glob
 from os import environ, linesep as NL
@@ -22,7 +22,7 @@ from base import isiOS, PyGeodesy_dir, Python_O, \
           runner, secs2str, tilde, versions  # PYCHOK expected
 
 __all__ = ()
-__version__ = '18.01.04'
+__version__ = '18.07.21'
 
 # command line options
 _failedonly = False
@@ -99,8 +99,8 @@ if __name__ == '__main__':  # MCCABE 28
             _write(NL + t + NL)
             _write(r)
 
-        if not X:  # count the tests
-            T += r.count(NL + '    test ')
+        # if not X:  # number of tests
+        T += r.count(NL + '    test ')
 
         if 'Traceback' in r:
             print(r + NL)
@@ -121,7 +121,7 @@ if __name__ == '__main__':  # MCCABE 28
 
         elif x:
             for t in r.split(NL):
-                # print failures, KNOWN ones and totals
+                # print failures, without KNOWN ones
                 if 'FAILED,' in t and 'KNOWN' not in t:
                     print(t.rstrip())
 

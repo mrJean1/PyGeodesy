@@ -191,7 +191,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',  # modules
            'Geohash', 'VincentyError',  # classes
            'R_M',  # to avoid duplicates from datum and utils
            'version')  # extended below
-__version__ = '18.07.17'
+__version__ = '18.07.21'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))

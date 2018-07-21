@@ -4,9 +4,10 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '18.02.09'
+__version__ = '18.07.21'
 
 from base import TestsBase
+from random import random, gauss, shuffle
 
 from pygeodesy import fpolynomial, fpowers, Fsum, fsum, isfinite
 
@@ -35,6 +36,31 @@ class Tests(TestsBase):
             f.fadd2(t)
             self.test('Fsum', f.fsum(), s)
             t += t
+
+        # <http://code.activestate.com/recipes/393090>
+        t = 1.00, 0.00500, 0.00000000000100
+        s = 1.00500000000100
+        self.test('sum', sum(t), s, known=True)
+        self.test('fsum', fsum(t), s)
+        f = Fsum()
+        f.fadd2(t)
+        self.test('Fsum', f.fsum(), s)
+
+        # <http://github.com/ActiveState/code/blob/master/recipes/Python/
+        #       393090_Binary_floating_point_summatiaccurate_full/recipe-393090.py>
+        for _ in range(100):
+            t = [7, 1e100, -7, -1e100, -9e-20, 8e-20] * 10
+            s = 0
+            for _ in range(20):
+                v = gauss(0, random())**7 - s
+                s += v
+                t.append(v)
+            shuffle(t)
+            s = fsum(t)
+            # self.test('fsum', s, s)
+            f = Fsum()
+            f.fadd2(t)
+            self.test('Fsum', f.fsum(), s)
 
         p = fpowers(2, 10)  # PYCHOK false!
         self.test('fpowers', len(p), 10)

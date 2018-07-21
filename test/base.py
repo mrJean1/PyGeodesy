@@ -29,11 +29,11 @@ if PyGeodesy_dir not in sys.path:  # Python 3+ ModuleNotFoundError
 from pygeodesy import version as PyGeodesy_version, \
                       iterNumpy2over, normDMS  # PYCHOK expected
 
-__all__ = ('isIntelPython', 'isiOS', 'isPyPy', 'isWindows',  # constants
+__all__ = ('isIntelPython', 'isiOS', 'isNix', 'isPyPy', 'isWindows',  # constants
            'PyGeodesy_dir', 'Python_O',
            'TestsBase',
            'runner', 'secs2str', 'tilde', 'type2str', 'versions')
-__version__ = '18.07.16'
+__version__ = '18.07.21'
 
 try:
     _int = int, long
@@ -49,16 +49,17 @@ Python_O = sys.executable  # python or Pythonista path
 
 isIntelPython = 'intelpython' in Python_O
 # isiOS is used by some tests known to fail on iOS only
-isiOS = sys.platform == 'ios'  # public
-isPyPy = 'PyPy ' in sys.version  # public
-isWindows = sys.platform.startswith('win')
+isiOS         = sys.platform == 'ios'  # public
+isNix         = uname()[0] in ('Linux', 'linux')
+isPyPy        = 'PyPy ' in sys.version  # public
+isWindows     = sys.platform.startswith('win')
 
 try:
     # use distro only for Linux, not macOS, etc.
-    if uname()[0] not in ('Linux', 'linux'):
+    if not isNix:
         raise ImportError
 
-    import distro  # <http://GitHub.com/nir0s/distro>
+    import distro  # <http://pypi.org/project/distro/>
 
     def _2str(ustr):
         s = u = str(ustr).strip()
@@ -69,19 +70,19 @@ try:
 
     _Nix = _2str(distro.id()).capitalize()  # .name()?
 
-    def nix_ver():
+    def nix_ver():  # *nix release
         return _2str(distro.version()), _os_bitstr
 
 except ImportError:
     _Nix = ''  # not linux?
 
     def nix_ver():  # PYCHOK expected
-        return '', _os_bitstr
+        return _Nix, _os_bitstr
 
 
 class TestsBase(object):
     '''Tests based on @examples from the original JavaScript code
-       and examples in <http://www.EdWilliams.org/avform.htm> or
+       and examples in <http://www.edwilliams.org/avform.htm> or
        elsewhere as indicated.
     '''
     _file     = ''
@@ -260,7 +261,7 @@ def versions():
     if numpy:
         vs += 'numpy', numpy.__version__
 
-    xOS = 'iOS' if isiOS else 'macOS'
+    _xOS = 'iOS' if isiOS else 'macOS'
     # - mac_ver() returns ('10.12.5', ..., 'x86_64') on
     #   macOS and ('10.3.3', ..., 'iPad4,2') on iOS
     # - win32_ver is ('XP', ..., 'SP3', ...) on Windows XP SP3
@@ -268,7 +269,8 @@ def versions():
     #   on macOS and 'Darwin-16.6.0-iPad4,2-64bit' on iOS
     # - sys.platform is 'darwin' on macOS, 'ios' on iOS,
     #   'win32' on Windows and 'cygwin' on Windows/Gygwin
-    for t, r in ((xOS,       mac_ver),
+    # - distro.id() and .name() return 'Darwin' on macOS
+    for t, r in ((_xOS,      mac_ver),
                  ('Windows', win32_ver),
                  (_Nix,      nix_ver),
                  ('Java',    java_ver),
