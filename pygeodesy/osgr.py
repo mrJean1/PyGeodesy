@@ -14,9 +14,9 @@ and U{Module osgridref
 OSGR provides geocoordinate references for UK mapping purposes, converted
 in 2015 to work with WGS84 datum by default or OSGB36 as option.
 
-See U{Guide<http://www.OrdnanceSurvey.co.uk/docs/support/guide-coordinate-systems-great-britain.pdf>},
-U{Proposed Changes<http://www.OrdnanceSurvey.co.uk/blog/2014/09/proposed-changes-to-latitude-and-longitude-representation-on-paper-maps-tell-us-your-thoughts/>},
-U{Confirmation<http://www.OrdnanceSurvey.co.uk/blog/2014/12/confirmation-on-changes-to-latitude-and-longitude>}
+See U{Guide<http://www.ordnancesurvey.co.uk/docs/support/guide-coordinate-systems-great-britain.pdf>},
+U{Proposed Changes<http://www.ordnancesurvey.co.uk/blog/2014/09/proposed-changes-to-latitude-and-longitude-representation-on-paper-maps-tell-us-your-thoughts/>},
+U{Confirmation<http://www.ordnancesurvey.co.uk/blog/2014/12/confirmation-on-changes-to-latitude-and-longitude>}
 and U{Ordnance Survey National Grid<http://wikipedia.org/wiki/Ordnance_Survey_National_Grid>}.
 
 See also Karney U{'Transverse Mercator with an accuracy of a few
@@ -43,7 +43,7 @@ from math import cos, radians, sin, sqrt, tan
 # all public contants, classes and functions
 __all__ = ('Osgr',  # classes
            'parseOSGR', 'toOsgr')  # functions
-__version__ = '18.02.09'
+__version__ = '18.07.21'
 
 _10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (meter)
 _100km   = 100000  #: (INTERNAL) 100 km (int meter)

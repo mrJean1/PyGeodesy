@@ -86,7 +86,7 @@ C{cd} to directory C{Pygeodesy-} and type C{python setup.py install}.  To
 run all PyGeodesy tests, type C{python setup.py test} before installation.
 
 Installation of U{NumPy<http://www.NumPy.org>} and U{GeographicLib
-<http://GeographicLib.sourceforge.io>} is optional, but the latter is
+<http://geographiclib.sourceforge.io>} is optional, but the latter is
 required for two I{ellipsoidalVincenty} functions, I{areaOf} and I{perimeterOf}.
 
 Some function and method names differ from the JavaScript version. In such

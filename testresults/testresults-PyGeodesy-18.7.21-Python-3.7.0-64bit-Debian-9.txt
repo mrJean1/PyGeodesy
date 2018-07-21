@@ -1,0 +1,2803 @@
+test/run.py typical test results (PyGeodesy 18.7.21 Python 3.7.0 64bit Debian 9)
+
+running /usr/local/bin/python ~/cirrus-ci-build/test/testBases.py
+
+    testing testBases.py 18.02.06
+    test 1 lat, lon: 50.06632°N, 005.71475°W
+    test 2 lat, lon: 50.066389°N, 005.714722°W
+    test 3 equals: True
+    test 4 toStr: 51°28′40″N, 000°00′06″W
+    test 5 toStr: 51.4778°N, 000.0016°W
+    test 6 precision: 0
+    test 7 toStr: 51°28′40″N, 000°00′06″W, +42.00m
+    test 8 equals: True
+    test 9 equals3: False
+    test 10 equals3: True
+    test 11 lat, lon: 50.06632°N, 005.71475°W
+    test 12 lat, lon: 50.066389°N, 005.714722°W
+    test 13 equals: True
+    test 14 toStr: 51°28′40″N, 000°00′06″W
+    test 15 toStr: 51.4778°N, 000.0016°W
+    test 16 precision: 0
+    test 17 toStr: 51°28′40″N, 000°00′06″W, +42.00m
+    test 18 equals: True
+    test 19 equals3: False
+    test 20 equals3: True
+    test 21 lat, lon: 50.06632°N, 005.71475°W
+    test 22 lat, lon: 50.066389°N, 005.714722°W
+    test 23 equals: True
+    test 24 toStr: 51°28′40″N, 000°00′06″W
+    test 25 toStr: 51.4778°N, 000.0016°W
+    test 26 precision: 0
+    test 27 toStr: 51°28′40″N, 000°00′06″W, +42.00m
+    test 28 equals: True
+    test 29 equals3: False
+    test 30 equals3: True
+    test 31 lat, lon: 50.06632°N, 005.71475°W
+    test 32 lat, lon: 50.066389°N, 005.714722°W
+    test 33 equals: True
+    test 34 toStr: 51°28′40″N, 000°00′06″W
+    test 35 toStr: 51.4778°N, 000.0016°W
+    test 36 precision: 0
+    test 37 toStr: 51°28′40″N, 000°00′06″W, +42.00m
+    test 38 equals: True
+    test 39 equals3: False
+    test 40 equals3: True
+    all testBases.py tests passed (PyGeodesy 18.7.21 Python 3.7.0 64bit Debian 9) 1.198 ms
+
+running /usr/local/bin/python ~/cirrus-ci-build/test/testClasses.py
+
+    testing testClasses.py 17.06.25
+
+    testCartesianAttrs(17.06.25)
+    test 1 angleTo() method: ellipsoidalNvector, ellipsoidalVincenty
+    test 2 classname() method: ellipsoidalNvector, ellipsoidalVincenty
+    test 3 classof() method: ellipsoidalNvector, ellipsoidalVincenty
+    test 4 copy() method: ellipsoidalNvector, ellipsoidalVincenty
+    test 5 cross() method: ellipsoidalNvector, ellipsoidalVincenty
+    test 6 dividedBy() method: ellipsoidalNvector, ellipsoidalVincenty
+    test 7 dot() method: ellipsoidalNvector, ellipsoidalVincenty
+    test 8 equals() method: ellipsoidalNvector, ellipsoidalVincenty
+    test 9 length property: ellipsoidalNvector, ellipsoidalVincenty
+    test 10 minus() method: ellipsoidalNvector, ellipsoidalVincenty
+    test 11 negate() method: ellipsoidalNvector, ellipsoidalVincenty
+    test 12 others() method: ellipsoidalNvector, ellipsoidalVincenty
+    test 13 parse() method: ellipsoidalNvector, ellipsoidalVincenty
+    test 14 plus() method: ellipsoidalNvector, ellipsoidalVincenty
+    test 15 rotate() method: ellipsoidalNvector, ellipsoidalVincenty
+    test 16 rotateAround() method: ellipsoidalNvector, ellipsoidalVincenty
+    test 17 sum() method: ellipsoidalNvector, ellipsoidalVincenty
+    test 18 times() method: ellipsoidalNvector, ellipsoidalVincenty
+    test 19 to2ll() method: ellipsoidalNvector, ellipsoidalVincenty
+    test 20 to3llh() method: ellipsoidalNvector, ellipsoidalVincenty
+    test 21 to3xyz() method: ellipsoidalNvector, ellipsoidalVincenty
+    test 22 toLatLon() method: ellipsoidalNvector, ellipsoidalVincenty
+    test 23 toNvector() method: ellipsoidalNvector
+    test 24 toStr() method: ellipsoidalNvector, ellipsoidalVincenty
+    test 25 toStr2() method: ellipsoidalNvector, ellipsoidalVincenty
+    test 26 unit() method: ellipsoidalNvector, ellipsoidalVincenty
+    test 27 x property: ellipsoidalNvector, ellipsoidalVincenty
+    test 28 y property: ellipsoidalNvector, ellipsoidalVincenty
+    test 29 z property: ellipsoidalNvector, ellipsoidalVincenty
+
+    testCartesianMro(17.06.25)
+    test 30 ellipsoidalNvector: ellipsoidalNvector.Cartesian, ellipsoidalBase.CartesianBase, vector3d.Vector3d, bases.Base
+    test 31 ellipsoidalVincenty: ellipsoidalVincenty.Cartesian, ellipsoidalBase.CartesianBase, vector3d.Vector3d, bases.Base
+
+    testLatLonAttrs(17.06.25)
+    test 32 alongTrackDistanceTo() method: sphericalNvector, sphericalTrigonometry
+    test 33 antipode() method: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 34 bearingTo() method: ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 35 bounds() method: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 36 classname() method: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 37 classof() method: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 38 convergence property: ellipsoidalNvector, ellipsoidalVincenty
+    test 39 convertDatum() method: ellipsoidalNvector, ellipsoidalVincenty
+    test 40 copy() method: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 41 crossTrackDistanceTo() method: sphericalNvector, sphericalTrigonometry
+    test 42 crossingParallels() method: sphericalTrigonometry
+    test 43 datum property: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 44 deltaTo() method: ellipsoidalNvector
+    test 45 destination() method: ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 46 destination2() method: ellipsoidalVincenty
+    test 47 destinationNed() method: ellipsoidalNvector
+    test 48 distanceTo() method: ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 49 distanceTo2() method: ellipsoidalNvector, ellipsoidalVincenty
+    test 50 distanceTo3() method: ellipsoidalVincenty
+    test 51 ellipsoid() method: ellipsoidalNvector, ellipsoidalVincenty
+    test 52 ellipsoids() method: ellipsoidalNvector, ellipsoidalVincenty
+    test 53 epsilon property: ellipsoidalVincenty
+    test 54 equals() method: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 55 equals3() method: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 56 finalBearingOn() method: ellipsoidalVincenty
+    test 57 finalBearingTo() method: ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 58 greatCircle() method: sphericalNvector, sphericalTrigonometry
+    test 59 greatCircleTo() method: sphericalNvector
+    test 60 height property: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 61 initialBearingTo() method: ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 62 intermediateChordTo() method: sphericalNvector
+    test 63 intermediateTo() method: ellipsoidalNvector, sphericalNvector, sphericalTrigonometry
+    test 64 intersection() method: sphericalNvector, sphericalTrigonometry
+    test 65 isEllipsoidal property: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 66 isEnclosedBy() method: sphericalNvector, sphericalTrigonometry
+    test 67 isSpherical property: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 68 isWithin() method: sphericalNvector
+    test 69 isantipode() method: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 70 iterations property: ellipsoidalVincenty
+    test 71 lat property: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 72 latlon property: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 73 lon property: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 74 maxLat() method: sphericalNvector, sphericalTrigonometry
+    test 75 midpointTo() method: sphericalNvector, sphericalTrigonometry
+    test 76 minLat() method: sphericalNvector, sphericalTrigonometry
+    test 77 nearestOn() method: sphericalNvector, sphericalTrigonometry
+    test 78 nearestOn2() method: sphericalNvector, sphericalTrigonometry
+    test 79 others() method: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 80 parse() method: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 81 points() method: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 82 rhumbBearingTo() method: sphericalNvector, sphericalTrigonometry
+    test 83 rhumbDestination() method: sphericalNvector, sphericalTrigonometry
+    test 84 rhumbDistanceTo() method: sphericalNvector, sphericalTrigonometry
+    test 85 rhumbMidpointTo() method: sphericalNvector, sphericalTrigonometry
+    test 86 scale property: ellipsoidalNvector, ellipsoidalVincenty
+    test 87 to2ab() method: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 88 to3llh() method: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 89 to3xyz() method: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 90 to4xyzh() method: ellipsoidalNvector, sphericalNvector
+    test 91 toCartesian() method: ellipsoidalNvector, ellipsoidalVincenty
+    test 92 toNvector() method: ellipsoidalNvector, sphericalNvector
+    test 93 toOsgr() method: ellipsoidalNvector, ellipsoidalVincenty
+    test 94 toStr() method: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 95 toStr2() method: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 96 toUtm() method: ellipsoidalNvector, ellipsoidalVincenty
+    test 97 toVector3d() method: sphericalTrigonometry
+    test 98 toWm() method: ellipsoidalNvector, ellipsoidalVincenty, sphericalNvector, sphericalTrigonometry
+    test 99 triangulate() method: sphericalNvector
+    test 100 trilaterate() method: sphericalNvector
+
+    testLatLonMro(17.06.25)
+    test 101 ellipsoidalNvector: ellipsoidalNvector.LatLon, nvector.LatLonNvectorBase, ellipsoidalBase.LatLonEllipsoidalBase, bases.LatLonHeightBase, bases.Base
+    test 102 ellipsoidalVincenty: ellipsoidalVincenty.LatLon, ellipsoidalBase.LatLonEllipsoidalBase, bases.LatLonHeightBase, bases.Base
+    test 103 sphericalNvector: sphericalNvector.LatLon, nvector.LatLonNvectorBase, sphericalBase.LatLonSphericalBase, bases.LatLonHeightBase, bases.Base
+    test 104 sphericalTrigonometry: sphericalTrigonometry.LatLon, sphericalBase.LatLonSphericalBase, bases.LatLonHeightBase, bases.Base
+
+    testNvectorAttrs(17.06.25)
+    test 105 H str: ellipsoidalNvector, nvector, sphericalNvector
+    test 106 angleTo() method: ellipsoidalNvector, nvector, sphericalNvector
+    test 107 classname() method: ellipsoidalNvector, nvector, sphericalNvector
+    test 108 classof() method: ellipsoidalNvector, nvector, sphericalNvector
+    test 109 copy() method: ellipsoidalNvector, nvector, sphericalNvector
+    test 110 cross() method: ellipsoidalNvector, nvector, sphericalNvector
+    test 111 datum property: ellipsoidalNvector
+    test 112 dividedBy() method: ellipsoidalNvector, nvector, sphericalNvector
+    test 113 dot() method: ellipsoidalNvector, nvector, sphericalNvector
+    test 114 equals() method: ellipsoidalNvector, nvector, sphericalNvector
+    test 115 greatCircle() method: sphericalNvector
+    test 116 h property: ellipsoidalNvector, nvector, sphericalNvector
+    test 117 length property: ellipsoidalNvector, nvector, sphericalNvector
+    test 118 minus() method: ellipsoidalNvector, nvector, sphericalNvector
+    test 119 negate() method: ellipsoidalNvector, nvector, sphericalNvector
+    test 120 others() method: ellipsoidalNvector, nvector, sphericalNvector
+    test 121 parse() method: ellipsoidalNvector, nvector, sphericalNvector
+    test 122 plus() method: ellipsoidalNvector, nvector, sphericalNvector
+    test 123 rotate() method: ellipsoidalNvector, nvector, sphericalNvector
+    test 124 rotateAround() method: ellipsoidalNvector, nvector, sphericalNvector
+    test 125 sum() method: ellipsoidalNvector, nvector, sphericalNvector
+    test 126 times() method: ellipsoidalNvector, nvector, sphericalNvector
+    test 127 to2ll() method: ellipsoidalNvector, nvector, sphericalNvector
+    test 128 to3llh() method: ellipsoidalNvector, nvector, sphericalNvector
+    test 129 to3xyz() method: ellipsoidalNvector, nvector, sphericalNvector
+    test 130 to4xyzh() method: ellipsoidalNvector, nvector, sphericalNvector
+    test 131 toCartesian() method: ellipsoidalNvector
+    test 132 toLatLon() method: ellipsoidalNvector, sphericalNvector
+    test 133 toStr() method: ellipsoidalNvector, nvector, sphericalNvector
+    test 134 toStr2() method: ellipsoidalNvector, nvector, sphericalNvector
+    test 135 toVector3d() method: ellipsoidalNvector, nvector, sphericalNvector
+    test 136 unit() method: ellipsoidalNvector, nvector, sphericalNvector
+    test 137 x property: ellipsoidalNvector, nvector, sphericalNvector
+    test 138 y property: ellipsoidalNvector, nvector, sphericalNvector
+    test 139 z property: ellipsoidalNvector, nvector, sphericalNvector
+
+    testNvectorMro(17.06.25)
+    test 140 ellipsoidalNvector: ellipsoidalNvector.Nvector, nvector.Nvector, vector3d.Vector3d, bases.Base
+    test 141 sphericalNvector: sphericalNvector.Nvector, nvector.Nvector, vector3d.Vector3d, bases.Base
+    test 142 nvector: nvector.Nvector, vector3d.Vector3d, bases.Base
+
+    testVector3dAttrs(17.06.25)
+    test 143 angleTo() method: ellipsoidalNvector, nvector, sphericalTrigonometry, vector3d
+    test 144 classname() method: ellipsoidalNvector, nvector, sphericalTrigonometry, vector3d
+    test 145 classof() method: ellipsoidalNvector, nvector, sphericalTrigonometry, vector3d
+    test 146 copy() method: ellipsoidalNvector, nvector, sphericalTrigonometry, vector3d
+    test 147 cross() method: ellipsoidalNvector, nvector, sphericalTrigonometry, vector3d
+    test 148 dividedBy() method: ellipsoidalNvector, nvector, sphericalTrigonometry, vector3d
+    test 149 dot() method: ellipsoidalNvector, nvector, sphericalTrigonometry, vector3d
+    test 150 equals() method: ellipsoidalNvector, nvector, sphericalTrigonometry, vector3d
+    test 151 length property: ellipsoidalNvector, nvector, sphericalTrigonometry, vector3d
+    test 152 minus() method: ellipsoidalNvector, nvector, sphericalTrigonometry, vector3d
+    test 153 negate() method: ellipsoidalNvector, nvector, sphericalTrigonometry, vector3d
+    test 154 others() method: ellipsoidalNvector, nvector, sphericalTrigonometry, vector3d
+    test 155 parse() method: ellipsoidalNvector, nvector, sphericalTrigonometry, vector3d
+    test 156 plus() method: ellipsoidalNvector, nvector, sphericalTrigonometry, vector3d
+    test 157 rotate() method: ellipsoidalNvector, nvector, sphericalTrigonometry, vector3d
+    test 158 rotateAround() method: ellipsoidalNvector, nvector, sphericalTrigonometry, vector3d
+    test 159 sum() method: ellipsoidalNvector, nvector, sphericalTrigonometry, vector3d
+    test 160 times() method: ellipsoidalNvector, nvector, sphericalTrigonometry, vector3d
+    test 161 to2ll() method: ellipsoidalNvector, nvector, sphericalTrigonometry, vector3d
+    test 162 to3xyz() method: ellipsoidalNvector, nvector, sphericalTrigonometry, vector3d
+    test 163 toStr() method: ellipsoidalNvector, nvector, sphericalTrigonometry, vector3d
+    test 164 toStr2() method: ellipsoidalNvector, nvector, sphericalTrigonometry, vector3d
+    test 165 unit() method: ellipsoidalNvector, nvector, sphericalTrigonometry, vector3d
+    test 166 x property: ellipsoidalNvector, nvector, sphericalTrigonometry, vector3d
+    test 167 y property: ellipsoidalNvector, nvector, sphericalTrigonometry, vector3d
+    test 168 z property: ellipsoidalNvector, nvector, sphericalTrigonometry, vector3d
+
+    testVector3dMro(17.06.25)
+    test 169 ellipsoidalNvector: vector3d.Vector3d, bases.Base
+    test 170 sphericalTrigonometry: vector3d.Vector3d, bases.Base
+    test 171 nvector: vector3d.Vector3d, bases.Base
+    test 172 vector3d: vector3d.Vector3d, bases.Base
+
+    all testClasses.py tests passed (PyGeodesy 18.7.21 Python 3.7.0 64bit Debian 9) 3.002 ms
+
+running /usr/local/bin/python ~/cirrus-ci-build/test/testDatum.py
+
+    testing testDatum.py 18.03.04 (module datum 18.03.06)
+    test 1 ellipsoid: True
+    test 2 transform: True
+    test 3 datum: True
+    test 4 TestEllipsiod: name='TestEllipsiod', a=1000, b=1000, f_=0, f=0, e=0, e2=0, e22=0, n=0, R1=1000, R2=1000, R3=1000, Rr=1000, Rs=1000
+    test 5 TestTransform: name='TestTransform', tx=0, ty=0, tz=0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0
+    test 6 TestDatum: name='TestDatum', ellipsoid=Ellipsoids.TestEllipsiod, transform=Transforms.TestTransform
+    test 7 ED50.inverse().inverse(): True
+    test 8 R1: 6371008.7714
+    test 9 R2: 6371007.2
+    test 10 R3: 6371000.8
+    test 11 Rr: 6367449.1
+    test 12 Rs: 6367435.7
+    test 13 Rgeocentric: 6378137.000
+    test 14 Rgeocentric: 6367489.544
+    test 15 Rgeocentric: 6356752.314
+    test 16 Rlat: 6378137.000
+    test 17 Rlat: 6367444.657
+    test 18 Rlat: 6356752.314
+    test 19 distance2: 156903.472, 45.192
+    test 20 distance2: 1569034.719, 45.192
+    test 21 distance2: 1400742.676, 37.563
+    test 22 distance2: 1179164.848, 18.896
+    test 23 roc2: 6335439.327, 6378137.0
+    test 24 roc2: 6367381.816, 6388838.29
+    test 25 roc2: 6399593.626, 6399593.626
+    test 26 rocBearing: 6335439.327
+    test 27 rocBearing: 6378092.008
+    test 28 rocBearing: 6399593.626
+    test 29 rocGauss: 6356752.314
+    test 30 rocGauss: 6378101.030
+    test 31 rocGauss: 6399593.626
+    test 32 rocMean: 6356716.465
+    test 33 rocMean: 6378092.008
+    test 34 rocMean: 6399593.626
+    test 35 WGS84: name='WGS84', a=6378137, b=6356752.3142499998, f_=298.257223563, f=0.0033528107, e=0.0818191908, e2=0.00669438, e22=0.0067394967, n=0.0016792204, R1=6371008.7714166669, R2=6371007.180920884, R3=6371000.7900107643, Rr=6367449.1458250266, Rs=6367435.6797186071
+    test 36 WGS84: A=6367449.1458234144, e=0.0818191908, f_=298.2572235630, n=0.0016792204(-3.7914875232e-13)
+    test 37 WGS84: Alpha6=(0, 8.377318206245e-04, 7.608527773572e-07, 1.197645503329e-09, 2.429170607201e-12, 5.711757677866e-15, 1.491117731258e-17)
+    test 38 WGS84: Beta6=(0, 8.377321640579e-04, 5.905870152220e-08, 1.673482665284e-1, 2.164798040063e-13, 3.787978046169e-16, 7.248748890694e-19)
+    all testDatum.py tests passed (PyGeodesy 18.7.21 Python 3.7.0 64bit Debian 9) 1.250 ms
+
+running /usr/local/bin/python ~/cirrus-ci-build/test/testDms.py
+
+    testing testDms.py 18.01.31 (module dms 18.03.04)
+    test 1 parseDMS: 0.0
+    test 2 parseDMS: 0.0
+    test 3 parseDMS: 0.0
+    test 4 parseDMS: 0.0
+    test 5 parseDMS: 0.0
+    test 6 parseDMS: 0.0
+    test 7 parseDMS: 181.0 beyond 180 degrees
+    test 8 parseDMS: -90
+    test 9 parse3llh: 51.477811, -0.001475, 0.000000
+    test 10 toDMS(): 45°45′45.36″
+    test 11 toDMS(d): 45.7626°
+    test 12 toDMS(dm): 45°45.756′
+    test 13 toDMS(dms): 45°45′45.36″
+    test 14 toDMS(deg): 45.7626
+    test 15 toDMS(min): 4545.756
+    test 16 toDMS(sec): 454545.36
+    test 17 toDMS(rad): 0.79871
+    test 18 toDMS(d): 45.7626°
+    test 19 toDMS(dm): 45°45.7560′
+    test 20 toDMS(dms): 45°45′45.36″
+    test 21 toDMS(deg): 45.762600
+    test 22 toDMS(min): 4545.75600
+    test 23 toDMS(sec): 454545.360
+    test 24 toDMS(rad): 0.798708
+    test 25 compassAngle0: 0.0
+    test 26 compassAngle1: 45.0
+    test 27 compassAngle2: 90.0
+    test 28 compassAngle3: 180.0
+    test 29 compassAngle4: 225.0
+    test 30 compassAngle5: 270.0
+    test 31 compassAngle6: 315.0
+    test 32 compassAngle7: 359.4
+    test 33 compassPoint: N
+    test 34 compassPoint: N
+    test 35 compassPoint: N
+    test 36 compassPoint: N
+    test 37 compassPoint: NNE
+    test 38 compassPoint: N
+    test 39 compassPoint: NE
+    test 40 compassPoint: NNE
+    test 41 compassPoint: SW
+    test 42 compassPoint: W
+    test 43 compassPoint: SW
+    test 44 compassPoint: SW
+    test 45 compassPoint: WSW
+    test 46 compassPoint: W
+    test 47 compassPoint: SW
+    test 48 compassPoint: WSW
+    test 49 compassPoint: NbE
+    test 50 compassPoint: NEbN
+    test 51 compassPoint: NEbE
+    test 52 compassPoint: EbN
+    test 53 compassPoint: EbS
+    test 54 compassPoint: SEbE
+    test 55 compassPoint: SEbS
+    test 56 compassPoint: SbE
+    test 57 compassPoint: SbW
+    test 58 compassPoint: SWbS
+    test 59 compassPoint: SWbW
+    test 60 compassPoint: WbS
+    test 61 compassPoint: WbN
+    test 62 compassPoint: NWbW
+    test 63 compassPoint: NWbN
+    test 64 compassPoint: NbW
+    test 65 compassAngle: 100.016848
+    test 66 initialBearingTo: 102.432182
+    test 67 equirectangular: 592.185
+    test 68 distanceTo: 591.831
+    all testDms.py tests passed (PyGeodesy 18.7.21 Python 3.7.0 64bit Debian 9) 904.560 us
+
+running /usr/local/bin/python ~/cirrus-ci-build/test/testEllipsoidal.py
+
+    testing testEllipsoidal.py 18.03.04
+
+    testEllipsoidal(ellipsoidalNvector, 18.03.06)
+    test 1 isEllipsoidal: True
+    test 2 isSpherical: False
+    test 3 isEllipsoidal: True
+    test 4 isSpherical: False
+    test 5 convertDatum: 51.477284°N, 000.00002°E, -45.91m
+    test 6 convertDatum: 51.4773°N, 000.0°E, -45.91m
+    test 7 toNVector: (0.6228, 0.0, 0.7824, +0.24)
+    test 8 toNvector: True
+    test 9 toCartesian: [3980581, 97, 4966825]
+    test 10 toCartesian: True
+    test 11 Nvector: (0.5, 0.5, 0.7071)
+    test 12 toCartesian: [3194434.411, 3194434.411, 4487326.82]
+    test 13 toCartesian: True
+    test 14 toLatLon: 45.0°N, 045.0°E, +0.00m
+    test 15 toLatLon: True
+    test 16 Nvector: (0.51, 0.512, 0.707, +1.00)
+
+    testLatLon(ellipsoidalNvector, 18.03.06)
+    test 17 isEllipsoidal: True
+    test 18 isSpherical: False
+    test 19 lat/lonDMS: 52.20472°N, 000.14056°E
+    test 20 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
+    test 21 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
+    test 22 lat/lonDMS F_DMS: 52°12′17″N, 000°08′26″E
+    test 23 lat/lonDMS F_DMS: 52°12′17.0″N, 000°08′26.0″E
+    test 24 lat/lonDMS F_RAD: 0.911144N, 0.002453E
+    test 25 equals: True
+    test 26 equals: False
+    test 27 antipode1: 52.205°S, 179.881°W
+    test 28 antipode2: True
+    test 29 antipode3: 52.205°N, 000.119°E
+    test 30 antipode4: True
+    test 31 antipode5: 52.205°N, 000.119°E
+    test 32 copy: True
+    test 33 intermediateTo: 51.372294°N, 000.707192°E
+    test 34 intermediateTo: True
+    test 35 intermediateTo+5: 35.560239°N, 008.833512°E
+    test 36 intermediateTo-4: 64.570387°N, 013.156352°W
+    test 37 isclockwise: False
+    test 38 isclockwise*: False
+    test 39 isclockwise: True
+    test 40 isclockwise*: True
+    test 41 isclockwise: too few points: 2
+    test 42 isclockwise*: too few points: 2
+    test 43 isconvex: False
+    test 44 isconvex*: False
+    test 45 isconvex: True
+    test 46 isconvex*: True
+    test 47 isconvex: too few points: 2
+    test 48 isconvex*: too few points: 2
+    test 49 isenclosedby1: True
+    test 50 isenclosedby1*: True
+    test 51 isenclosedby2: False
+    test 52 isenclosedby2*: False
+    test 53 isenclosedby3: False
+    test 54 isenclosedby3*: False
+    test 55 isenclosedby4: False
+    test 56 isenclosedby4*: False
+    test 57 isenclosedby5: False
+    test 58 isenclosedby5*: False
+    test 59 isenclosedby6: True
+    test 60 isenclosedby6*: True
+    test 61 isenclosedby7: True
+    test 62 isenclosedby7*: True
+
+    testVectorial(ellipsoidalNvector, 18.03.06)
+    test 63 toLatLon: 44.995674°N, 045.0°E
+    test 64 toNvector: (0.50004, 0.50004, 0.70705)
+    test 65 equals: False
+    test 66 equals: True
+    test 67 length: 0.99992449715
+    test 68 length: 1.0
+    test 69 sumOf: (52.70504, 0.61904, 0.70705)
+    test 70 sumOf: Nv
+    test 71 length: 52.7134151513
+    test 72 copy: True
+    test 73 length: 52.2051356286
+    test 74 length: 52.2051356286
+
+    testEllipsoidal(ellipsoidalVincenty, 18.03.06)
+    test 75 isEllipsoidal: True
+    test 76 isSpherical: False
+    test 77 isEllipsoidal: True
+    test 78 isSpherical: False
+    test 79 convertDatum: 51.477284°N, 000.00002°E, -45.91m
+    test 80 convertDatum: 51.4773°N, 000.0°E, -45.91m
+
+    testLatLon(ellipsoidalVincenty, 18.03.06)
+    test 81 isEllipsoidal: True
+    test 82 isSpherical: False
+    test 83 lat/lonDMS: 52.20472°N, 000.14056°E
+    test 84 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
+    test 85 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
+    test 86 lat/lonDMS F_DMS: 52°12′17″N, 000°08′26″E
+    test 87 lat/lonDMS F_DMS: 52°12′17.0″N, 000°08′26.0″E
+    test 88 lat/lonDMS F_RAD: 0.911144N, 0.002453E
+    test 89 equals: True
+    test 90 equals: False
+    test 91 antipode1: 52.205°S, 179.881°W
+    test 92 antipode2: True
+    test 93 antipode3: 52.205°N, 000.119°E
+    test 94 antipode4: True
+    test 95 antipode5: 52.205°N, 000.119°E
+    test 96 initialBearingTo: 156.1106
+    test 97 finalBearingTo: 157.8345
+    test 98 initialBearingTo: 65.9335
+    test 99 copy: True
+    test 100 distanceTo: 404607.805988
+    test 101 distanceTo: 404607.805988
+    test 102 distanceTo: 3981601
+    test 103 distanceTo3 dateline: 19125097.7012, 270.7159, 276.0288
+    test 104 distanceTo3 dateline: 9513997.9901, 42.9164, 138.8903
+    test 105 distanceTo3 dateline: 19125097.7012, 270.7159, 276.0288
+    test 106 distanceTo3 dateline: 9513997.9901, 42.9164, 138.8903
+    test 107 destination: 51.513526°N, 000.098038°W
+    test 108 destination: 51°30′49″N, 000°05′53″W
+    test 109 destination: 33°57′N, 118°24′W
+    test 110 destination: 33.950367°N, 118.399012°W
+    test 111 destination: 0.592546N, 2.066453W
+    test 112 destination: 32.11195529°N, 064.56074722°E  FAILED, KNOWN, expected 32.11195529°N, 063.95925278°E
+    test 113 isclockwise: False
+    test 114 isclockwise*: False
+    test 115 isclockwise: True
+    test 116 isclockwise*: True
+    test 117 isclockwise: too few points: 2
+    test 118 isclockwise*: too few points: 2
+    test 119 isconvex: False
+    test 120 isconvex*: False
+    test 121 isconvex: True
+    test 122 isconvex*: True
+    test 123 isconvex: too few points: 2
+    test 124 isconvex*: too few points: 2
+    test 125 isenclosedby1: True
+    test 126 isenclosedby1*: True
+    test 127 isenclosedby2: False
+    test 128 isenclosedby2*: False
+    test 129 isenclosedby3: False
+    test 130 isenclosedby3*: False
+    test 131 isenclosedby4: False
+    test 132 isenclosedby4*: False
+    test 133 isenclosedby5: False
+    test 134 isenclosedby5*: False
+    test 135 isenclosedby6: True
+    test 136 isenclosedby6*: True
+    test 137 isenclosedby7: True
+    test 138 isenclosedby7*: True
+
+    testVincenty(ellipsoidalVincenty, 18.03.06, datum=WGS84)
+    test 139 distanceTo: 866455.43292
+    test 140 VincentyError: LatLon(41°29′24.29″N, 071°18′46.07″W) coincides with LatLon(41°29′24.29″N, 071°18′46.07″W)
+    test 141 ValueError: other Ellipsoid mistmatch: Ellipsoids.Airy1830 vs Ellipsoids.WGS84
+    test 142 isEllipsoidal: True
+    test 143 isSpherical: False
+    test 144 epsilon: 1e-12
+    test 145 iterations: 50
+    test 146 copy: True
+    test 147 isEllipsoidal: True
+    test 148 isSpherical: False
+    test 149 copy: 37°57′03.7203″S, 144°25′29.5244″E
+    test 150 epsilon: 2.220446049250313e-16
+    test 151 iterations: 200
+    test 152 destination: 37.6528°S, 143.9265°E
+    test 153 destination: True
+    test 154 destination2: 37.652821°S, 143.926496°E, 307.1736°NW
+    test 155 destination2: True
+    test 156 finalBearingOn: 307.1736°, 307°10′25.07″NW
+    test 157 distanceTo: 969954.166
+    test 158 distanceTo3: 969954.166314, 9.141877, 11.29722
+    test 159 distanceTo2: 972708.16174, 11.22502
+    test 160 initialBearingTo: 9.1419°, 9°08′30.76″N
+    test 161 finalBearingTo: 11.2972°, 11°17′49.99″NNE
+    test 162 distanceTo: 404607.806
+    test 163 distanceTo3: 404607.805988, 156.11064, 157.8345
+    test 164 distanceTo2: 402574.597287, 157.726344
+    test 165 initialBearingTo: 156.1106°, 156°06′38.31″SSE
+    test 166 finalBearingTo: 157.8345°, 157°50′04.2″SSE
+    test 167 distanceTo: 54973.295
+    test 168 distanceTo3: 54973.29527, 233.13008, 232.82461
+    test 169 distanceTo2: 54903.41209, 232.9209
+    test 170 initialBearingTo: 233.1301°, 233°07′48.28″SW
+    test 171 finalBearingTo: 232.8246°, 232°49′28.59″SW
+    test 172 distanceToMP: 298396.057
+    test 173 distanceToSM: 185.414
+    test 174 distanceToMP: 111319.491
+    test 175 distanceToMP: 110574.389
+    test 176 distanceToKW: 222638.982
+    test 177 distanceToKW: 111319.491
+    test 178 distanceTo3: 54972.271
+    test 179 distanceTo3: 306°52′05.37″
+    test 180 distanceTo3: 307°10′25.07″
+    test 181 distanceTo2: 54902.390
+    test 182 distanceTo2: 307°04′38.41″
+
+    testVincenty(ellipsoidalVincenty, 18.03.06, datum=NAD83)
+    test 183 distanceTo: 866455.43292
+    test 184 VincentyError: LatLon(41°29′24.29″N, 071°18′46.07″W) coincides with LatLon(41°29′24.29″N, 071°18′46.07″W)
+    test 185 ValueError: other Ellipsoid mistmatch: Ellipsoids.Airy1830 vs Ellipsoids.GRS80
+    test 186 isEllipsoidal: True
+    test 187 isSpherical: False
+    test 188 epsilon: 1e-12
+    test 189 iterations: 50
+    test 190 copy: True
+    test 191 isEllipsoidal: True
+    test 192 isSpherical: False
+    test 193 copy: 37°57′03.7203″S, 144°25′29.5244″E
+    test 194 epsilon: 2.220446049250313e-16
+    test 195 iterations: 200
+    test 196 destination: 37.6528°S, 143.9265°E
+    test 197 destination: True
+    test 198 destination2: 37.652821°S, 143.926496°E, 307.1736°NW
+    test 199 destination2: True
+    test 200 finalBearingOn: 307.1736°, 307°10′25.07″NW
+    test 201 distanceTo: 969954.166
+    test 202 distanceTo3: 969954.166314, 9.141877, 11.29722
+    test 203 distanceTo2: 972708.16174, 11.22502
+    test 204 initialBearingTo: 9.1419°, 9°08′30.76″N
+    test 205 finalBearingTo: 11.2972°, 11°17′49.99″NNE
+    test 206 distanceTo: 404607.806
+    test 207 distanceTo3: 404607.805988, 156.11064, 157.8345
+    test 208 distanceTo2: 402574.597287, 157.726344
+    test 209 initialBearingTo: 156.1106°, 156°06′38.31″SSE
+    test 210 finalBearingTo: 157.8345°, 157°50′04.2″SSE
+    test 211 distanceTo: 54973.295
+    test 212 distanceTo3: 54973.29527, 233.13008, 232.82461
+    test 213 distanceTo2: 54903.41209, 232.9209
+    test 214 initialBearingTo: 233.1301°, 233°07′48.28″SW
+    test 215 finalBearingTo: 232.8246°, 232°49′28.59″SW
+    test 216 distanceToMP: 298396.057
+    test 217 distanceToSM: 185.414
+    test 218 distanceToMP: 111319.491
+    test 219 distanceToMP: 110574.389
+    test 220 distanceToKW: 222638.982
+    test 221 distanceToKW: 111319.491
+    test 222 distanceTo3: 54972.271
+    test 223 distanceTo3: 306°52′05.37″
+    test 224 distanceTo3: 307°10′25.07″
+    test 225 distanceTo2: 54902.390
+    test 226 distanceTo2: 307°04′38.41″
+
+    testNOAA(ellipsoidalVincenty, 18.03.06)
+    test 227 NOAAexample1: 191872.1190, 249 03 16.4237, 67 59 11.1619
+    test 228 NOAAexample2: 182009.1679, 254 42 44.6439, 73 09 21.3315
+    test 229 NOAAexample3: 123456.7891, 245 00 34.7001, 64 20 24.6864
+    test 230 NOAAexample4: 145239.0603, 114 29 26.9586, 295 21 32.6566
+
+    1 testEllipsoidal.py test (0.4%) FAILED, incl. 1 KNOWN (PyGeodesy 18.7.21 Python 3.7.0 64bit Debian 9) 9.150 ms
+
+running /usr/local/bin/python ~/cirrus-ci-build/test/testFmath.py
+
+    testing testFmath.py 18.07.21 (module fmath 18.07.21)
+    test 1 fpolynomialA: 1.0000249995312696
+    test 2 fpolynomialB: 2.4998750072261036e-05
+    test 3 fpolynomialA: 1.0002499531445206
+    test 4 fpolynomialB: 0.00024987507221972655
+    test 5 fpolynomialA: 1.0024953319244385
+    test 6 fpolynomialB: 0.002487571806640625
+    test 7 fpolynomialA: 1.0245497131347656
+    test 8 fpolynomialB: 0.023817675781250002
+    test 9 fpolynomialA: 1.21197509765625
+    test 10 fpolynomialB: 0.1513671875
+    test 11 fpolynomialA: -88.4677734375
+    test 12 fpolynomialB: -396.71875
+    test 13 fpolynomialA: -1049026.734375
+    test 14 fpolynomialB: -4518803.125
+    test 15 fpolynomialA: -10661667717.75
+    test 16 fpolynomialB: -45826296625.0
+    test 17 sum: 0.0  FAILED, KNOWN, expected 2.0
+    test 18 fsum: 2.0
+    test 19 Fsum: 2.0
+    test 20 sum: 0.0  FAILED, KNOWN, expected 4.0
+    test 21 fsum: 4.0
+    test 22 Fsum: 4.0
+    test 23 sum: 0.0  FAILED, KNOWN, expected 8.0
+    test 24 fsum: 8.0
+    test 25 Fsum: 8.0
+    test 26 sum: 0.0  FAILED, KNOWN, expected 16.0
+    test 27 fsum: 16.0
+    test 28 Fsum: 16.0
+    test 29 sum: 0.0  FAILED, KNOWN, expected 32.0
+    test 30 fsum: 32.0
+    test 31 Fsum: 32.0
+    test 32 sum: 0.0  FAILED, KNOWN, expected 64.0
+    test 33 fsum: 64.0
+    test 34 Fsum: 64.0
+    test 35 sum: 0.0  FAILED, KNOWN, expected 128.0
+    test 36 fsum: 128.0
+    test 37 Fsum: 128.0
+    test 38 sum: 0.0  FAILED, KNOWN, expected 256.0
+    test 39 fsum: 256.0
+    test 40 Fsum: 256.0
+    test 41 sum: 0.0  FAILED, KNOWN, expected 512.0
+    test 42 fsum: 512.0
+    test 43 Fsum: 512.0
+    test 44 sum: 0.0  FAILED, KNOWN, expected 1024.0
+    test 45 fsum: 1024.0
+    test 46 Fsum: 1024.0
+    test 47 sum: 1.005000000001
+    test 48 fsum: 1.005000000001
+    test 49 Fsum: 1.005000000001
+    test 50 Fsum: -0.00015828147922710383
+    test 51 Fsum: 1.3727493962798793e-07
+    test 52 Fsum: -0.015080942623778027
+    test 53 Fsum: 1.456351015074319e-08
+    test 54 Fsum: 2.0736879818096684e-08
+    test 55 Fsum: 1.1326878572901734e-06
+    test 56 Fsum: 0.6200479292417669
+    test 57 Fsum: -8.998046812800718e-12
+    test 58 Fsum: 0.3568847335976849
+    test 59 Fsum: -1.7213849248402185e-09
+    test 60 Fsum: -0.7555229763421856
+    test 61 Fsum: -0.010086718447025035
+    test 62 Fsum: 2.6309449584305626e-08
+    test 63 Fsum: 1.8551513841214811e-06
+    test 64 Fsum: -1.4522123994203683e-08
+    test 65 Fsum: 5.9974245197917904e-05
+    test 66 Fsum: -5.413475413078472e-06
+    test 67 Fsum: -9.7925479529056e-15
+    test 68 Fsum: 1.105474132982781e-05
+    test 69 Fsum: -0.08877985016683385
+    test 70 Fsum: 0.00021285618125609795
+    test 71 Fsum: -7.4665710288537e-05
+    test 72 Fsum: 2.380076476418112e-07
+    test 73 Fsum: 3.418131401983243e-05
+    test 74 Fsum: -0.0002140196126983278
+    test 75 Fsum: 0.003249123797521751
+    test 76 Fsum: -0.022780525743392847
+    test 77 Fsum: -7.82718048470414e-12
+    test 78 Fsum: -2.899397281424487e-10
+    test 79 Fsum: -5.941610961668524e-05
+    test 80 Fsum: 0.0009333804514658614
+    test 81 Fsum: 0.000493279037071055
+    test 82 Fsum: 0.007537374657866508
+    test 83 Fsum: -0.0024069101429786137
+    test 84 Fsum: -3.064124810898041e-09
+    test 85 Fsum: -1.1030755446047874e-14
+    test 86 Fsum: 0.0002915596340472978
+    test 87 Fsum: -2.5250444703246513e-06
+    test 88 Fsum: 2.2674070866819886e-05
+    test 89 Fsum: 6.298131372598845e-05
+    test 90 Fsum: -1.1144911958485862e-05
+    test 91 Fsum: -0.388920606210524
+    test 92 Fsum: 2.1785526843643567e-07
+    test 93 Fsum: -1.6458934990011131
+    test 94 Fsum: -7.626115947462349e-09
+    test 95 Fsum: -6.283459169784836e-07
+    test 96 Fsum: 0.0001271063467260794
+    test 97 Fsum: -41.358974547576175
+    test 98 Fsum: 3.2903143551950065e-05
+    test 99 Fsum: -5.400534022934407e-08
+    test 100 Fsum: 0.0006097668878124302
+    test 101 Fsum: 4.1483850412943756e-11
+    test 102 Fsum: -42.15149530573458
+    test 103 Fsum: -3.4163211525934405e-13
+    test 104 Fsum: 0.3801123870146882
+    test 105 Fsum: 7.616569964223321e-10
+    test 106 Fsum: 0.05875270821993742
+    test 107 Fsum: 1.3735099141454072e-07
+    test 108 Fsum: 5.442187734699603e-13
+    test 109 Fsum: -1.1005431608364257e-06
+    test 110 Fsum: 0.3692819975445156
+    test 111 Fsum: 0.11504397858257942
+    test 112 Fsum: 0.013396635607481305
+    test 113 Fsum: 0.0623231985607158
+    test 114 Fsum: 1.3657290406910052
+    test 115 Fsum: 4.9860814937896544e-05
+    test 116 Fsum: -9.036321239766517e-13
+    test 117 Fsum: 2.55712887162012e-07
+    test 118 Fsum: 5.901357101478195e-09
+    test 119 Fsum: -6.16832396566801e-07
+    test 120 Fsum: -1.0261803078948273e-08
+    test 121 Fsum: 6.799899685306064e-11
+    test 122 Fsum: 0.02608260942718048
+    test 123 Fsum: -3.256257173880086e-09
+    test 124 Fsum: -4.106061566737412e-05
+    test 125 Fsum: 3.432857184278208
+    test 126 Fsum: -0.00526888530156032
+    test 127 Fsum: -0.0005428134752452755
+    test 128 Fsum: 0.054386595837118946
+    test 129 Fsum: 1.88809840765419e-12
+    test 130 Fsum: -5.6374814060503e-05
+    test 131 Fsum: -0.6966534284421254
+    test 132 Fsum: 2.4593976358798452e-08
+    test 133 Fsum: 0.021448946243354354
+    test 134 Fsum: -1.977193084249959e-11
+    test 135 Fsum: 0.3374707176165281
+    test 136 Fsum: -8.74284983053768e-06
+    test 137 Fsum: -9.824092622256905e-15
+    test 138 Fsum: -12.822302331754534
+    test 139 Fsum: 0.005239605196324818
+    test 140 Fsum: 1.9884167372344886e-07
+    test 141 Fsum: -7.538473103178543e-06
+    test 142 Fsum: 0.001018644506671236
+    test 143 Fsum: -1.5504019391438314e-05
+    test 144 Fsum: -1.6784691683418895e-05
+    test 145 Fsum: 0.0022515119380576974
+    test 146 Fsum: 0.0319268095109109
+    test 147 Fsum: -0.00013313712842690973
+    test 148 Fsum: 0.05937824040435128
+    test 149 Fsum: -6.008682589723691e-05
+    test 150 fpowers: 10
+    test 151 fpowers: 2
+    test 152 fpowers: 1024
+    test 153 fpowers: 4
+    test 154 fpowers: 16
+    test 155 fpowers: 1024
+    test 156 fpowers: 4
+    test 157 fpowers: 8
+    test 158 fpowers: 512
+    test 159 isfinite: True
+    test 160 isfinite: True
+    test 161 isfinite: True
+    test 162 isfinite: False
+    test 163 isfinite: False
+    test 164 isfinite: False
+    10 testFmath.py tests (6.1%) FAILED, incl. 10 KNOWN (PyGeodesy 18.7.21 Python 3.7.0 64bit Debian 9) 49.937 ms
+
+running /usr/local/bin/python ~/cirrus-ci-build/test/testGeohash.py
+
+    testing testGeohash.py 18.02.05 (module geohash 18.02.05)
+    test 1 Geohash: Geohash('geek')
+    test 2 Geohash: geek
+    test 3 Geohash: geek
+    test 4 bounds: (LatLon(65°23′26.25″N, 017°55′46.88″W), LatLon(65°33′59.06″N, 017°34′41.25″W))
+    test 5 toLatLon: 65.478516°N, 017.753906°W
+    test 6 latlon: 65.4785156, -17.7539062
+    test 7 ab: 1.1428157, -0.3098641
+    test 8 Geohash: geehpbpbp
+    test 9 toLatLon: 65.390625°N, 017.929689°W
+    test 10 latlon: 65.390625, -17.929689
+    test 11 ab: 1.1412817, -0.3129321
+    test 12 decode: ('65.390646', '-17.929709')
+    test 13 decode_error: 2.145767e-05, 2.145767e-05
+    test 14 distance1: 2758.887
+    test 15 distance2: 682.760
+    test 16 distance3: 397.404
+    test 17 sizes: 4.8, 4.8
+    test 18 encode-decode: u120fxw
+    test 19 encode-decode: geek
+    test 20 encode-decode: fur
+    test 21 encode-decode: geehpbpbp
+    test 22 encode-decode: u4pruydqqvj8
+    test 23 encode-decode: bgr96qxvpd46
+    test 24 encode-decode: 0123456789
+    test 25 encode-decode: zzzzzz
+    test 26 Geohash: u4pruydq
+    test 27 N.E.S.W: True
+    test 28 E.S.W.N: True
+    test 29 S.W.N.E: True
+    test 30 W.N.E.S: True
+    test 31 N.E.S.S.W.W.N.N.E.S: True
+    test 32 Geohash: u4pruydqq
+    test 33 N.E.S.W: True
+    test 34 E.S.W.N: True
+    test 35 S.W.N.E: True
+    test 36 W.N.E.S: True
+    test 37 N.E.S.S.W.W.N.N.E.S: True
+    test 38 Geohash: u4pruydqqv
+    test 39 N.E.S.W: True
+    test 40 E.S.W.N: True
+    test 41 S.W.N.E: True
+    test 42 W.N.E.S: True
+    test 43 N.E.S.S.W.W.N.N.E.S: True
+    test 44 Geohash: u4pruydqqvj
+    test 45 N.E.S.W: True
+    test 46 E.S.W.N: True
+    test 47 S.W.N.E: True
+    test 48 W.N.E.S: True
+    test 49 N.E.S.S.W.W.N.N.E.S: True
+    test 50 Geohash: u4pruydqqvj8
+    test 51 N.E.S.W: True
+    test 52 E.S.W.N: True
+    test 53 S.W.N.E: True
+    test 54 W.N.E.S: True
+    test 55 N.E.S.S.W.W.N.N.E.S: True
+    test 56 encode: u120fxw
+    test 57 decode: ('52.205', '0.1188')
+    test 58 decode_error: 6.866455e-04, 6.866455e-04
+    test 59 distance1: 486.710
+    test 60 distance2: 3.374
+    test 61 distance3: 2.798
+    test 62 sizes: 153.0, 153.0
+    test 63 Geohash: u336xv
+    test 64 encode: u336xv
+    test 65 equal: True
+    test 66 sizes: 610.0, 1220.0
+    test 67 encode: fur
+    test 68 decode: ('69.6', '-45.7')
+    test 69 decode: ('70.3', '-51')
+    test 70 decode: ('68', '-68')
+    test 71 decode_error: (0.703125, 0.703125)
+    test 72 decode_error: (2.8125, 5.625)
+    test 73 decode_error: (22.5, 22.5)
+    all testGeohash.py tests passed (PyGeodesy 18.7.21 Python 3.7.0 64bit Debian 9) 5.789 ms
+
+running /usr/local/bin/python ~/cirrus-ci-build/test/testGreatCircle.py
+
+    testing testGreatCircle.py 17.09.09
+
+    testGreatCircle(sphericalNvector, 18.02.06)
+    test 1 InitialBearingSameLocations: 0.0
+    test 2 InitialBearingEqualLocations: 0.0
+    test 3 FinalBearingSameLocations: 180.0
+    test 4 FinalBearingEqualLocations: 180.0
+    test 5 FinalBearingCrossError: coincident points: LatLon(43°55′51.28″N, 072°03′13.72″W)
+    test 6 DistanceSameLocations: 0.0
+    test 7 DistanceEqualLocations: 0.0
+    test 8 DistanceEiffelToVersailles: 14084.300096  FAILED, KNOWN, expected 14084.280705
+    test 9 DistanceVersaillesToEiffel: 14084.300096  FAILED, KNOWN, expected 14084.280705
+    test 10 InitialBearingEiffelToVersailles: 245.13460297
+    test 11 InitialBearingEiffelToVersailles(DMS): 245°08′04.5707″
+    test 12 InitialBearingVersaillesToEiffel: 65.003253951
+    test 13 InitialBearingVersaillesToEiffel(DMS): 65°00′11.7142″
+    test 14 FinalBearingEiffelToVersailles: 245.00325395
+    test 15 FinalBearingEiffelToVersailles(DMS): 245°00′11.7142″
+    test 16 FinalBearingVersaillesToEiffel: 65.134602969
+    test 17 FinalBearingVersaillesToEiffel(DMS): 65°08′04.5707″
+    test 18 GenerateLocationVersailles: 48.804766°N, 002.120339°E
+    test 19 GenerateLocationEiffel: 48.858158°N, 002.294825°E
+    test 20 MidpointEiffelToVersailles: 48.831495°N, 002.207536°E
+    test 21 MidpointEiffelToVersailles(DMS): 48°49′53.3817″N, 002°12′27.1279″E
+    test 22 MidpointEiffelToVersailles(m): 7042.15004788  FAILED, KNOWN, expected 7042.15974330
+    test 23 MidpointVersaillesToEiffel: 48.831495°N, 002.207536°E  FAILED, KNOWN, expected 48.831495°N, 002.207535°E
+    test 24 MidpointVersaillesToEiffel(DMS): 48°49′53.3817″N, 002°12′27.1279″E
+    test 25 MidpointVersaillesToEiffel(m): 7042.15004788  FAILED, KNOWN, expected 7042.15974330
+    test 26 Intersection: 48.83569095°N, 002.221252031°E
+    test 27 Intersection: 48.8356909498836°N, 002.2212520313074°E
+    test 28 CrossTrackDistance200m+90°: 200.0
+    test 29 CrossTrackDistance200m+270°: -200.0
+    test 30 CrossTrackDistanceCloseToZero: 0.0000000
+
+    testGreatCircle(sphericalTrigonometry, 18.03.02)
+    test 31 InitialBearingSameLocations: 0.0
+    test 32 InitialBearingEqualLocations: 0.0
+    test 33 FinalBearingSameLocations: 180.0
+    test 34 FinalBearingEqualLocations: 180.0
+    test 35 DistanceSameLocations: 0.0
+    test 36 DistanceEqualLocations: 0.0
+    test 37 DistanceEiffelToVersailles: 14084.300096  FAILED, KNOWN, expected 14084.280705
+    test 38 DistanceVersaillesToEiffel: 14084.300096  FAILED, KNOWN, expected 14084.280705
+    test 39 InitialBearingEiffelToVersailles: 245.13460297
+    test 40 InitialBearingEiffelToVersailles(DMS): 245°08′04.5707″
+    test 41 InitialBearingVersaillesToEiffel: 65.003253951
+    test 42 InitialBearingVersaillesToEiffel(DMS): 65°00′11.7142″
+    test 43 FinalBearingEiffelToVersailles: 245.00325395
+    test 44 FinalBearingEiffelToVersailles(DMS): 245°00′11.7142″
+    test 45 FinalBearingVersaillesToEiffel: 65.134602969
+    test 46 FinalBearingVersaillesToEiffel(DMS): 65°08′04.5707″
+    test 47 GenerateLocationVersailles: 48.804766°N, 002.120339°E
+    test 48 GenerateLocationEiffel: 48.858158°N, 002.294825°E
+    test 49 MidpointEiffelToVersailles: 48.831495°N, 002.207536°E
+    test 50 MidpointEiffelToVersailles(DMS): 48°49′53.3817″N, 002°12′27.1279″E
+    test 51 MidpointEiffelToVersailles(m): 7042.15004788  FAILED, KNOWN, expected 7042.15974330
+    test 52 MidpointVersaillesToEiffel: 48.831495°N, 002.207536°E  FAILED, KNOWN, expected 48.831495°N, 002.207535°E
+    test 53 MidpointVersaillesToEiffel(DMS): 48°49′53.3817″N, 002°12′27.1279″E
+    test 54 MidpointVersaillesToEiffel(m): 7042.15004788  FAILED, KNOWN, expected 7042.15974330
+    test 55 Intersection: 48.83569095°N, 002.221252031°E
+    test 56 Intersection: 48.8356909498836°N, 002.2212520313074°E
+    test 57 CrossTrackDistance200m+90°: 200.0
+    test 58 CrossTrackDistance200m+270°: -200.0
+    test 59 CrossTrackDistanceCloseToZero: 0.0000000
+
+    10 testGreatCircle.py tests (16.9%) FAILED, incl. 10 KNOWN (PyGeodesy 18.7.21 Python 3.7.0 64bit Debian 9) 3.461 ms
+
+running /usr/local/bin/python ~/cirrus-ci-build/test/testLatLon.py
+
+    testing testLatLon.py 18.03.02
+
+    testLatLon(ellipsoidalNvector, 18.03.06)
+    test 1 isEllipsoidal: True
+    test 2 isSpherical: False
+    test 3 lat/lonDMS: 52.20472°N, 000.14056°E
+    test 4 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
+    test 5 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
+    test 6 lat/lonDMS F_DMS: 52°12′17″N, 000°08′26″E
+    test 7 lat/lonDMS F_DMS: 52°12′17.0″N, 000°08′26.0″E
+    test 8 lat/lonDMS F_RAD: 0.911144N, 0.002453E
+    test 9 equals: True
+    test 10 equals: False
+    test 11 antipode1: 52.205°S, 179.881°W
+    test 12 antipode2: True
+    test 13 antipode3: 52.205°N, 000.119°E
+    test 14 antipode4: True
+    test 15 antipode5: 52.205°N, 000.119°E
+    test 16 copy: True
+    test 17 intermediateTo: 51.372294°N, 000.707192°E
+    test 18 intermediateTo: True
+    test 19 intermediateTo+5: 35.560239°N, 008.833512°E
+    test 20 intermediateTo-4: 64.570387°N, 013.156352°W
+    test 21 isclockwise: False
+    test 22 isclockwise*: False
+    test 23 isclockwise: True
+    test 24 isclockwise*: True
+    test 25 isclockwise: too few points: 2
+    test 26 isclockwise*: too few points: 2
+    test 27 isconvex: False
+    test 28 isconvex*: False
+    test 29 isconvex: True
+    test 30 isconvex*: True
+    test 31 isconvex: too few points: 2
+    test 32 isconvex*: too few points: 2
+    test 33 isenclosedby1: True
+    test 34 isenclosedby1*: True
+    test 35 isenclosedby2: False
+    test 36 isenclosedby2*: False
+    test 37 isenclosedby3: False
+    test 38 isenclosedby3*: False
+    test 39 isenclosedby4: False
+    test 40 isenclosedby4*: False
+    test 41 isenclosedby5: False
+    test 42 isenclosedby5*: False
+    test 43 isenclosedby6: True
+    test 44 isenclosedby6*: True
+    test 45 isenclosedby7: True
+    test 46 isenclosedby7*: True
+
+    testLatLon(ellipsoidalVincenty, 18.03.06)
+    test 47 isEllipsoidal: True
+    test 48 isSpherical: False
+    test 49 lat/lonDMS: 52.20472°N, 000.14056°E
+    test 50 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
+    test 51 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
+    test 52 lat/lonDMS F_DMS: 52°12′17″N, 000°08′26″E
+    test 53 lat/lonDMS F_DMS: 52°12′17.0″N, 000°08′26.0″E
+    test 54 lat/lonDMS F_RAD: 0.911144N, 0.002453E
+    test 55 equals: True
+    test 56 equals: False
+    test 57 antipode1: 52.205°S, 179.881°W
+    test 58 antipode2: True
+    test 59 antipode3: 52.205°N, 000.119°E
+    test 60 antipode4: True
+    test 61 antipode5: 52.205°N, 000.119°E
+    test 62 initialBearingTo: 156.1106
+    test 63 finalBearingTo: 157.8345
+    test 64 initialBearingTo: 65.9335
+    test 65 copy: True
+    test 66 distanceTo: 404607.805988
+    test 67 distanceTo: 404607.805988
+    test 68 distanceTo: 3981601
+    test 69 antipodal: False
+    test 70 distanceTo dateline: 19125097.701  FAILED, KNOWN, expected 19959679.267
+    test 71 distanceTo unrolled: 19125097.701  FAILED, KNOWN, expected 19959679.267
+    test 72 antipodal: False
+    test 73 distanceTo dateline: 9513998
+    test 74 distanceTo unrolled: 9513998
+    test 75 distanceTo3 dateline: 19125097.7012, 270.7159, 276.0288
+    test 76 distanceTo3 dateline: 9513997.9901, 42.9164, 138.8903
+    test 77 distanceTo3 dateline: 19125097.7012, 270.7159, 276.0288
+    test 78 distanceTo3 dateline: 9513997.9901, 42.9164, 138.8903
+    test 79 destination: 51.513526°N, 000.098038°W
+    test 80 destination: 51°30′49″N, 000°05′53″W
+    test 81 destination: 33°57′N, 118°24′W
+    test 82 destination: 33.950367°N, 118.399012°W
+    test 83 destination: 0.592546N, 2.066453W
+    test 84 destination: 32.11195529°N, 064.56074722°E  FAILED, KNOWN, expected 32.11195529°N, 063.95925278°E
+    test 85 isclockwise: False
+    test 86 isclockwise*: False
+    test 87 isclockwise: True
+    test 88 isclockwise*: True
+    test 89 isclockwise: too few points: 2
+    test 90 isclockwise*: too few points: 2
+    test 91 isconvex: False
+    test 92 isconvex*: False
+    test 93 isconvex: True
+    test 94 isconvex*: True
+    test 95 isconvex: too few points: 2
+    test 96 isconvex*: too few points: 2
+    test 97 isenclosedby1: True
+    test 98 isenclosedby1*: True
+    test 99 isenclosedby2: False
+    test 100 isenclosedby2*: False
+    test 101 isenclosedby3: False
+    test 102 isenclosedby3*: False
+    test 103 isenclosedby4: False
+    test 104 isenclosedby4*: False
+    test 105 isenclosedby5: False
+    test 106 isenclosedby5*: False
+    test 107 isenclosedby6: True
+    test 108 isenclosedby6*: True
+    test 109 isenclosedby7: True
+    test 110 isenclosedby7*: True
+
+    testLatLon(sphericalNvector, 18.02.06)
+    test 111 isEllipsoidal: False
+    test 112 isSpherical: True
+    test 113 lat/lonDMS: 52.20472°N, 000.14056°E
+    test 114 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
+    test 115 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
+    test 116 lat/lonDMS F_DMS: 52°12′17″N, 000°08′26″E
+    test 117 lat/lonDMS F_DMS: 52°12′17.0″N, 000°08′26.0″E
+    test 118 lat/lonDMS F_RAD: 0.911144N, 0.002453E
+    test 119 equals: True
+    test 120 equals: False
+    test 121 antipode1: 52.205°S, 179.881°W
+    test 122 antipode2: True
+    test 123 antipode3: 52.205°N, 000.119°E
+    test 124 antipode4: True
+    test 125 antipode5: 52.205°N, 000.119°E
+    test 126 initialBearingTo: 156.1666
+    test 127 finalBearingTo: 157.8904
+    test 128 initialBearingTo: 65.8921
+    test 129 copy: True
+    test 130 distanceTo: 404279.720589
+    test 131 distanceTo: 404279.720589
+    test 132 distanceTo: 2145
+    test 133 intermediateTo: 51.372084°N, 000.707337°E
+    test 134 intermediateTo: True
+    test 135 intermediateTo: 404279.721
+    test 136 intermediateTo+5: 35.160975°N, 008.989542°E
+    test 137 intermediateTo+5: 5.000
+    test 138 intermediateTo-4: 64.911647°N, 013.726301°W
+    test 139 intermediateTo-4: 4.000
+    test 140 intermediateChordTo: 51.372294°N, 000.707192°E
+    test 141 intermediateChordTo: True
+    test 142 midpointTo: 50.536327°N, 001.274614°E
+    test 143 destination: 51.513546°N, 000.098345°W
+    test 144 destination: 51°30′49″N, 000°05′54″W
+    test 145 destination: 34°37′N, 116°33′W
+    test 146 destination: 34.613647°N, 116.55116°W
+    test 147 destination: 0.604122N, 2.034201W
+    test 148 destination: 31.96383509°N, 064.37329146°E
+    test 149 alongTrackDistanceTo: 62331.59
+    test 150 alongTrackDistanceTo: 62331.58
+    test 151 alongTrackDistanceTo: 99.588
+    test 152 alongTrackDistanceTo: -7702.7
+    test 153 alongTrackDistanceTo: 7587.6
+    test 154 crossTrackDistanceTo: -305.67
+    test 155 crossTrackDistanceTo: -307.55
+    test 156 crossTrackDistanceTo: 7.4524
+    test 157 greatCircle: (-0.79408, 0.12856, 0.59406)
+    test 158 greatCircleTo: (-0.79408, 0.12859, 0.59406)
+    test 159 isclockwise: False
+    test 160 isclockwise*: False
+    test 161 isclockwise: True
+    test 162 isclockwise*: True
+    test 163 isclockwise: too few points: 2
+    test 164 isclockwise*: too few points: 2
+    test 165 isconvex: False
+    test 166 isconvex*: False
+    test 167 isconvex: True
+    test 168 isconvex*: True
+    test 169 isconvex: too few points: 2
+    test 170 isconvex*: too few points: 2
+    test 171 isenclosedby1: True
+    test 172 isenclosedby1*: True
+    test 173 isenclosedby2: False
+    test 174 isenclosedby2*: False
+    test 175 isenclosedby3: False
+    test 176 isenclosedby3*: False
+    test 177 isenclosedby4: False
+    test 178 isenclosedby4*: False
+    test 179 isenclosedby5: False
+    test 180 isenclosedby5*: False
+    test 181 isenclosedby6: True
+    test 182 isenclosedby6*: True
+    test 183 isenclosedby7: True
+    test 184 isenclosedby7*: True
+
+    testLatLon(sphericalTrigonometry, 18.03.02)
+    test 185 isEllipsoidal: False
+    test 186 isSpherical: True
+    test 187 lat/lonDMS: 52.20472°N, 000.14056°E
+    test 188 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
+    test 189 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
+    test 190 lat/lonDMS F_DMS: 52°12′17″N, 000°08′26″E
+    test 191 lat/lonDMS F_DMS: 52°12′17.0″N, 000°08′26.0″E
+    test 192 lat/lonDMS F_RAD: 0.911144N, 0.002453E
+    test 193 equals: True
+    test 194 equals: False
+    test 195 antipode1: 52.205°S, 179.881°W
+    test 196 antipode2: True
+    test 197 antipode3: 52.205°N, 000.119°E
+    test 198 antipode4: True
+    test 199 antipode5: 52.205°N, 000.119°E
+    test 200 initialBearingTo: 156.1666
+    test 201 finalBearingTo: 157.8904
+    test 202 initialBearingTo: 65.8921
+    test 203 copy: True
+    test 204 distanceTo: 404279.720589
+    test 205 distanceTo: 404279.720589
+    test 206 distanceTo: 2145
+    test 207 antipodal: False
+    test 208 distanceTo dateline: 19119590.551
+    test 209 distanceTo unrolled: 19119590.551
+    test 210 antipodal: False
+    test 211 distanceTo dateline: 9491735
+    test 212 distanceTo unrolled: 9491735
+    test 213 intermediateTo: 51.372084°N, 000.707337°E
+    test 214 intermediateTo: True
+    test 215 intermediateTo: 404279.721
+    test 216 intermediateTo+5: 35.160975°N, 008.989542°E
+    test 217 intermediateTo+5: 5.000
+    test 218 intermediateTo-4: 64.911647°N, 013.726301°W
+    test 219 intermediateTo-4: 4.000
+    test 220 midpointTo: 50.536327°N, 001.274614°E
+    test 221 destination: 51.513546°N, 000.098345°W
+    test 222 destination: 51°30′49″N, 000°05′54″W
+    test 223 destination: 34°37′N, 116°33′W
+    test 224 destination: 34.613647°N, 116.55116°W
+    test 225 destination: 0.604122N, 2.034201W
+    test 226 destination: 31.96383509°N, 064.37329146°E
+    test 227 alongTrackDistanceTo: type(end) mismatch: int vs sphericalTrigonometry.LatLon
+    test 228 alongTrackDistanceTo: 62331.58
+    test 229 alongTrackDistanceTo: 99.588
+    test 230 alongTrackDistanceTo: -7702.7
+    test 231 alongTrackDistanceTo: 7587.6
+    test 232 crossTrackDistanceTo: type(end) mismatch: int vs sphericalTrigonometry.LatLon
+    test 233 crossTrackDistanceTo: -307.55
+    test 234 crossTrackDistanceTo: 7.4524
+    test 235 greatCircle: (-0.79408, 0.12856, 0.59406)
+    test 236 isclockwise: False
+    test 237 isclockwise*: False
+    test 238 isclockwise: True
+    test 239 isclockwise*: True
+    test 240 isclockwise: too few points: 2
+    test 241 isclockwise*: too few points: 2
+    test 242 isconvex: False
+    test 243 isconvex*: False
+    test 244 isconvex: True
+    test 245 isconvex*: True
+    test 246 isconvex: too few points: 2
+    test 247 isconvex*: too few points: 2
+    test 248 isenclosedby1: True
+    test 249 isenclosedby1*: True
+    test 250 isenclosedby2: False
+    test 251 isenclosedby2*: False
+    test 252 isenclosedby3: False
+    test 253 isenclosedby3*: False
+    test 254 isenclosedby4: False
+    test 255 isenclosedby4*: False
+    test 256 isenclosedby5: False
+    test 257 isenclosedby5*: False
+    test 258 isenclosedby6: True
+    test 259 isenclosedby6*: True
+    test 260 isenclosedby7: True
+    test 261 isenclosedby7*: True
+
+    3 testLatLon.py tests (1.1%) FAILED, incl. 3 KNOWN (PyGeodesy 18.7.21 Python 3.7.0 64bit Debian 9) 9.711 ms
+
+running /usr/local/bin/python ~/cirrus-ci-build/test/testLcc.py
+
+    testing testLcc.py 17.12.16 (module lcc 18.02.06)
+
+    testLcc(ellipsoidalNvector, 18.03.06)
+    test 1 lb1: 448251.0 5411932.0001
+    test 2 lb1: 448251, 5411932
+    test 3 lb1: WRF_Lb.WGS84
+    test 4 LatLon: 46.5°N, 003.0°E
+    test 5 LatLon: 46°30′00.0″N, 003°00′00.0″E
+    test 6 toLcc1: 700000 6600000
+    test 7 toLcc1: 46.5°N, 003.0°E
+    test 8 lb2: 1894411 1564650
+    test 9 lb2: Clarke1866
+    test 10 toLatLon2: 35.0°N, 075.0°W
+    test 11 toLatLon2: 35°00′00.0007″N, 074°59′59.9997″W
+    test 12 toLatLon2: NAD27
+    test 13 toLcc2: 1894410.9 1564649.5
+    test 14 toLcc2: Snyder.NAD27
+    test 15 Be08Lb: 49.833333°N, 003.025882°E
+    test 16 Be08Lb: GRS80
+    test 17 Be08Lb: 49.833333°N, 004.359216°E
+    test 18 Be08Lb: GRS80
+    test 19 Be08Lb: 49.833333°N, 005.69255°E
+    test 20 Be08Lb: GRS80
+    test 21 Be08Lb: 51.166667°N, 003.025882°E
+    test 22 Be08Lb: GRS80
+    test 23 Be08Lb: 51.166667°N, 004.359216°E
+    test 24 Be08Lb: GRS80
+    test 25 Be08Lb: 51.166667°N, 005.69255°E
+    test 26 Be08Lb: GRS80
+    test 27 Be72Lb: 49.833334°N, 003.034153°E
+    test 28 Be72Lb: NAD83
+    test 29 Be72Lb: 49.833334°N, 004.367487°E
+    test 30 Be72Lb: NAD83
+    test 31 Be72Lb: 49.833334°N, 005.70082°E
+    test 32 Be72Lb: NAD83
+    test 33 Be72Lb: 51.166667°N, 003.034153°E
+    test 34 Be72Lb: NAD83
+    test 35 Be72Lb: 51.166667°N, 004.367487°E
+    test 36 Be72Lb: NAD83
+    test 37 Be72Lb: 51.166667°N, 005.70082°E
+    test 38 Be72Lb: NAD83
+    test 39 Fr93Lb: 49.0°N, 002.0°W
+    test 40 Fr93Lb: WGS84
+    test 41 Fr93Lb: 49.0°N, 003.0°E
+    test 42 Fr93Lb: WGS84
+    test 43 Fr93Lb: 49.0°N, 008.0°E
+    test 44 Fr93Lb: WGS84
+    test 45 Fr93Lb: 44.0°N, 002.0°W
+    test 46 Fr93Lb: WGS84
+    test 47 Fr93Lb: 44.0°N, 003.0°E
+    test 48 Fr93Lb: WGS84
+    test 49 Fr93Lb: 44.0°N, 008.0°E
+    test 50 Fr93Lb: WGS84
+    test 51 MaNLb: 31.73°N, 008.54°W
+    test 52 MaNLb: NTF
+    test 53 MaNLb: 31.73°N, 005.4°W
+    test 54 MaNLb: NTF
+    test 55 MaNLb: 31.73°N, 002.26°W
+    test 56 MaNLb: NTF
+    test 57 MaNLb: 34.87°N, 008.54°W
+    test 58 MaNLb: NTF
+    test 59 MaNLb: 34.87°N, 005.4°W
+    test 60 MaNLb: NTF
+    test 61 MaNLb: 34.87°N, 002.26°W
+    test 62 MaNLb: NTF
+    test 63 MxLb: 17.5°N, 114.0°W
+    test 64 MxLb: WGS84
+    test 65 MxLb: 17.5°N, 102.0°W
+    test 66 MxLb: WGS84
+    test 67 MxLb: 17.5°N, 090.0°W
+    test 68 MxLb: WGS84
+    test 69 MxLb: 29.5°N, 114.0°W
+    test 70 MxLb: WGS84
+    test 71 MxLb: 29.5°N, 102.0°W
+    test 72 MxLb: WGS84
+    test 73 MxLb: 29.5°N, 090.0°W
+    test 74 MxLb: WGS84
+    test 75 PyT_Lb: 45.898939°N, 000.540154°E
+    test 76 PyT_Lb: NTF
+    test 77 PyT_Lb: 45.898939°N, 002.337229°E
+    test 78 PyT_Lb: NTF
+    test 79 PyT_Lb: 45.898939°N, 004.134305°E
+    test 80 PyT_Lb: NTF
+    test 81 PyT_Lb: 47.696014°N, 000.540154°E
+    test 82 PyT_Lb: NTF
+    test 83 PyT_Lb: 47.696014°N, 002.337229°E
+    test 84 PyT_Lb: NTF
+    test 85 PyT_Lb: 47.696014°N, 004.134305°E
+    test 86 PyT_Lb: NTF
+    test 87 Snyder: 33.0°N, 108.0°W
+    test 88 Snyder: NAD27
+    test 89 Snyder: 33.0°N, 096.0°W
+    test 90 Snyder: NAD27
+    test 91 Snyder: 33.0°N, 084.0°W
+    test 92 Snyder: NAD27
+    test 93 Snyder: 45.0°N, 108.0°W
+    test 94 Snyder: NAD27
+    test 95 Snyder: 45.0°N, 096.0°W
+    test 96 Snyder: NAD27
+    test 97 Snyder: 45.0°N, 084.0°W
+    test 98 Snyder: NAD27
+    test 99 USA_Lb: 33.0°N, 108.0°W
+    test 100 USA_Lb: WGS84
+    test 101 USA_Lb: 33.0°N, 096.0°W
+    test 102 USA_Lb: WGS84
+    test 103 USA_Lb: 33.0°N, 084.0°W
+    test 104 USA_Lb: WGS84
+    test 105 USA_Lb: 45.0°N, 108.0°W
+    test 106 USA_Lb: WGS84
+    test 107 USA_Lb: 45.0°N, 096.0°W
+    test 108 USA_Lb: WGS84
+    test 109 USA_Lb: 45.0°N, 084.0°W
+    test 110 USA_Lb: WGS84
+    test 111 WRF_Lb: 33.0°N, 109.0°W
+    test 112 WRF_Lb: WGS84
+    test 113 WRF_Lb: 33.0°N, 097.0°W
+    test 114 WRF_Lb: WGS84
+    test 115 WRF_Lb: 33.0°N, 085.0°W
+    test 116 WRF_Lb: WGS84
+    test 117 WRF_Lb: 45.0°N, 109.0°W
+    test 118 WRF_Lb: WGS84
+    test 119 WRF_Lb: 45.0°N, 097.0°W
+    test 120 WRF_Lb: WGS84
+    test 121 WRF_Lb: 45.0°N, 085.0°W
+    test 122 WRF_Lb: WGS84
+
+    testLcc(ellipsoidalVincenty, 18.03.06)
+    test 123 lb1: 448251.0 5411932.0001
+    test 124 lb1: 448251, 5411932
+    test 125 lb1: WRF_Lb.WGS84
+    test 126 LatLon: 46.5°N, 003.0°E
+    test 127 LatLon: 46°30′00.0″N, 003°00′00.0″E
+    test 128 toLcc1: 700000 6600000
+    test 129 toLcc1: 46.5°N, 003.0°E
+    test 130 lb2: 1894411 1564650
+    test 131 lb2: Clarke1866
+    test 132 toLatLon2: 35.0°N, 075.0°W
+    test 133 toLatLon2: 35°00′00.0007″N, 074°59′59.9997″W
+    test 134 toLatLon2: NAD27
+    test 135 toLcc2: 1894410.9 1564649.5
+    test 136 toLcc2: Snyder.NAD27
+    test 137 Be08Lb: 49.833333°N, 003.025882°E
+    test 138 Be08Lb: GRS80
+    test 139 Be08Lb: 49.833333°N, 004.359216°E
+    test 140 Be08Lb: GRS80
+    test 141 Be08Lb: 49.833333°N, 005.69255°E
+    test 142 Be08Lb: GRS80
+    test 143 Be08Lb: 51.166667°N, 003.025882°E
+    test 144 Be08Lb: GRS80
+    test 145 Be08Lb: 51.166667°N, 004.359216°E
+    test 146 Be08Lb: GRS80
+    test 147 Be08Lb: 51.166667°N, 005.69255°E
+    test 148 Be08Lb: GRS80
+    test 149 Be72Lb: 49.833334°N, 003.034153°E
+    test 150 Be72Lb: NAD83
+    test 151 Be72Lb: 49.833334°N, 004.367487°E
+    test 152 Be72Lb: NAD83
+    test 153 Be72Lb: 49.833334°N, 005.70082°E
+    test 154 Be72Lb: NAD83
+    test 155 Be72Lb: 51.166667°N, 003.034153°E
+    test 156 Be72Lb: NAD83
+    test 157 Be72Lb: 51.166667°N, 004.367487°E
+    test 158 Be72Lb: NAD83
+    test 159 Be72Lb: 51.166667°N, 005.70082°E
+    test 160 Be72Lb: NAD83
+    test 161 Fr93Lb: 49.0°N, 002.0°W
+    test 162 Fr93Lb: WGS84
+    test 163 Fr93Lb: 49.0°N, 003.0°E
+    test 164 Fr93Lb: WGS84
+    test 165 Fr93Lb: 49.0°N, 008.0°E
+    test 166 Fr93Lb: WGS84
+    test 167 Fr93Lb: 44.0°N, 002.0°W
+    test 168 Fr93Lb: WGS84
+    test 169 Fr93Lb: 44.0°N, 003.0°E
+    test 170 Fr93Lb: WGS84
+    test 171 Fr93Lb: 44.0°N, 008.0°E
+    test 172 Fr93Lb: WGS84
+    test 173 MaNLb: 31.73°N, 008.54°W
+    test 174 MaNLb: NTF
+    test 175 MaNLb: 31.73°N, 005.4°W
+    test 176 MaNLb: NTF
+    test 177 MaNLb: 31.73°N, 002.26°W
+    test 178 MaNLb: NTF
+    test 179 MaNLb: 34.87°N, 008.54°W
+    test 180 MaNLb: NTF
+    test 181 MaNLb: 34.87°N, 005.4°W
+    test 182 MaNLb: NTF
+    test 183 MaNLb: 34.87°N, 002.26°W
+    test 184 MaNLb: NTF
+    test 185 MxLb: 17.5°N, 114.0°W
+    test 186 MxLb: WGS84
+    test 187 MxLb: 17.5°N, 102.0°W
+    test 188 MxLb: WGS84
+    test 189 MxLb: 17.5°N, 090.0°W
+    test 190 MxLb: WGS84
+    test 191 MxLb: 29.5°N, 114.0°W
+    test 192 MxLb: WGS84
+    test 193 MxLb: 29.5°N, 102.0°W
+    test 194 MxLb: WGS84
+    test 195 MxLb: 29.5°N, 090.0°W
+    test 196 MxLb: WGS84
+    test 197 PyT_Lb: 45.898939°N, 000.540154°E
+    test 198 PyT_Lb: NTF
+    test 199 PyT_Lb: 45.898939°N, 002.337229°E
+    test 200 PyT_Lb: NTF
+    test 201 PyT_Lb: 45.898939°N, 004.134305°E
+    test 202 PyT_Lb: NTF
+    test 203 PyT_Lb: 47.696014°N, 000.540154°E
+    test 204 PyT_Lb: NTF
+    test 205 PyT_Lb: 47.696014°N, 002.337229°E
+    test 206 PyT_Lb: NTF
+    test 207 PyT_Lb: 47.696014°N, 004.134305°E
+    test 208 PyT_Lb: NTF
+    test 209 Snyder: 33.0°N, 108.0°W
+    test 210 Snyder: NAD27
+    test 211 Snyder: 33.0°N, 096.0°W
+    test 212 Snyder: NAD27
+    test 213 Snyder: 33.0°N, 084.0°W
+    test 214 Snyder: NAD27
+    test 215 Snyder: 45.0°N, 108.0°W
+    test 216 Snyder: NAD27
+    test 217 Snyder: 45.0°N, 096.0°W
+    test 218 Snyder: NAD27
+    test 219 Snyder: 45.0°N, 084.0°W
+    test 220 Snyder: NAD27
+    test 221 USA_Lb: 33.0°N, 108.0°W
+    test 222 USA_Lb: WGS84
+    test 223 USA_Lb: 33.0°N, 096.0°W
+    test 224 USA_Lb: WGS84
+    test 225 USA_Lb: 33.0°N, 084.0°W
+    test 226 USA_Lb: WGS84
+    test 227 USA_Lb: 45.0°N, 108.0°W
+    test 228 USA_Lb: WGS84
+    test 229 USA_Lb: 45.0°N, 096.0°W
+    test 230 USA_Lb: WGS84
+    test 231 USA_Lb: 45.0°N, 084.0°W
+    test 232 USA_Lb: WGS84
+    test 233 WRF_Lb: 33.0°N, 109.0°W
+    test 234 WRF_Lb: WGS84
+    test 235 WRF_Lb: 33.0°N, 097.0°W
+    test 236 WRF_Lb: WGS84
+    test 237 WRF_Lb: 33.0°N, 085.0°W
+    test 238 WRF_Lb: WGS84
+    test 239 WRF_Lb: 45.0°N, 109.0°W
+    test 240 WRF_Lb: WGS84
+    test 241 WRF_Lb: 45.0°N, 097.0°W
+    test 242 WRF_Lb: WGS84
+    test 243 WRF_Lb: 45.0°N, 085.0°W
+    test 244 WRF_Lb: WGS84
+
+    testConic(ellipsoidalNvector, 18.03.06)
+    test 245 SnyderN: name='SnyderN', lat0=23, lon0=-96, par1=33, par2=45, E0=0, N0=0, k0=1, SP=2, datum=(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27)
+
+    testConic(ellipsoidalVincenty, 18.03.06)
+    test 246 SnyderV: name='SnyderV', lat0=23, lon0=-96, par1=33, par2=45, E0=0, N0=0, k0=1, SP=2, datum=(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27)
+
+    all testLcc.py tests passed (PyGeodesy 18.7.21 Python 3.7.0 64bit Debian 9) 9.355 ms
+
+running /usr/local/bin/python ~/cirrus-ci-build/test/testMgrs.py
+
+    testing testMgrs.py 17.06.21 (module mgrs 18.05.16)
+    test 1 Mgrs1: 31U DQ 48251 11932
+    test 2 Mgrs1: [Z:31U, G:DQ, E:48251, N:11932]
+    test 3 Mgrs2: 31U DQ 48251 11932
+    test 4 Mgrs2: [Z:31U, G:DQ, E:48251, N:11932]
+    test 5 Mgrs3: 31U DQ 48251 11932
+    test 6 Mgrs3: [Z:31U, G:DQ, E:48251, N:11932]
+    test 7 toUtm1: 31 N 448251 5411932
+    test 8 toUtm1: [Z:31, H:N, E:448251, N:5411932]
+    test 9 toMgrs: 31U DQ 48251 11932
+    test 10 toUtm(60.0°N, 001.0°E).toMgrs: 31V CG 88455 53097
+    test 11 toUtm(60.0°N, 003.0°E).toMgrs: 32V JM 65640 66593
+    test 12 toUtm(60.0°N, 009.0°E).toMgrs: 32V NM 00000 51411
+    test 13 toUtm(76.0°N, 001.0°E).toMgrs: 31X DE 45999 36099
+    test 14 toUtm(76.0°N, 013.0°E).toMgrs: 33X VE 45999 36099
+    test 15 toUtm(76.0°N, 025.0°E).toMgrs: 35X ME 45999 36099
+    test 16 toUtm(76.0°N, 037.0°E).toMgrs: 37X DE 45999 36099
+    all testMgrs.py tests passed (PyGeodesy 18.7.21 Python 3.7.0 64bit Debian 9) 1.949 ms
+
+running /usr/local/bin/python ~/cirrus-ci-build/test/testModules.py
+
+    testing testModules.py 17.08.04
+
+    testModule(pygeodesy, 18.07.21)
+    test 1 pygeodesy.Conic() class (lcc): True
+    test 2 pygeodesy.Conics class datum._Enum (datum): True
+    test 3 pygeodesy.CrossError() class (utils): True
+    test 4 pygeodesy.Datum() class (datum): True
+    test 5 pygeodesy.Datums class datum._Enum (datum): True
+    test 6 pygeodesy.EPS float: True
+    test 7 pygeodesy.EPS1 float: True
+    test 8 pygeodesy.EPS2 float: True
+    test 9 pygeodesy.Ellipsoid() class (datum): True
+    test 10 pygeodesy.Ellipsoids class datum._Enum (datum): True
+    test 11 pygeodesy.F_D str: True
+    test 12 pygeodesy.F_DEG str: True
+    test 13 pygeodesy.F_DM str: True
+    test 14 pygeodesy.F_DMS str: True
+    test 15 pygeodesy.F_MIN str: True
+    test 16 pygeodesy.F_RAD str: True
+    test 17 pygeodesy.F_SEC str: True
+    test 18 pygeodesy.Fsum() class (fmath): True
+    test 19 pygeodesy.Geohash() class (geohash): True
+    test 20 pygeodesy.LatLon2psxy() class (points): True
+    test 21 pygeodesy.LatLon_() class (points): True
+    test 22 pygeodesy.Lcc() class (lcc): True
+    test 23 pygeodesy.LimitError() class (utils): True
+    test 24 pygeodesy.Mgrs() class (mgrs): True
+    test 25 pygeodesy.Numpy2LatLon() class (points): True
+    test 26 pygeodesy.Osgr() class (osgr): True
+    test 27 pygeodesy.PI float: True
+    test 28 pygeodesy.PI2 float: True
+    test 29 pygeodesy.PI_2 float: True
+    test 30 pygeodesy.R_FM float: True
+    test 31 pygeodesy.R_KM float: True
+    test 32 pygeodesy.R_M float: True
+    test 33 pygeodesy.R_MA float: True
+    test 34 pygeodesy.R_MB float: True
+    test 35 pygeodesy.R_NM float: True
+    test 36 pygeodesy.R_SM float: True
+    test 37 pygeodesy.R_VM float: True
+    test 38 pygeodesy.RangeError() class (dms): True
+    test 39 pygeodesy.S_DEG str: True
+    test 40 pygeodesy.S_MIN str: True
+    test 41 pygeodesy.S_RAD str: True
+    test 42 pygeodesy.S_SEC str: True
+    test 43 pygeodesy.S_SEP str: True
+    test 44 pygeodesy.Transform() class (datum): True
+    test 45 pygeodesy.Transforms class datum._Enum (datum): True
+    test 46 pygeodesy.Tuple2LatLon() class (points): True
+    test 47 pygeodesy.Utm() class (utm): True
+    test 48 pygeodesy.VincentyError() class (ellipsoidalVincenty): True
+    test 49 pygeodesy.Wm() class (webmercator): True
+    test 50 pygeodesy.antipode() function (utils): True
+    test 51 pygeodesy.areaOf() function (points): True
+    test 52 pygeodesy.bearingDMS() function (dms): True
+    test 53 pygeodesy.bounds() function (points): True
+    test 54 pygeodesy.cbrt() function (fmath): True
+    test 55 pygeodesy.cbrt2() function (fmath): True
+    test 56 pygeodesy.classname() function (utils): True
+    test 57 pygeodesy.clipDMS() function (dms): True
+    test 58 pygeodesy.compassAngle() function (dms): True
+    test 59 pygeodesy.compassDMS() function (dms): True
+    test 60 pygeodesy.compassPoint() function (dms): True
+    test 61 pygeodesy.crosserrors() function (utils): True
+    test 62 pygeodesy.datum module: True
+    test 63 pygeodesy.degrees class builtin_function_or_method (math): True
+    test 64 pygeodesy.degrees180() function (utils): True
+    test 65 pygeodesy.degrees360() function (utils): True
+    test 66 pygeodesy.degrees90() function (utils): True
+    test 67 pygeodesy.dms module: True
+    test 68 pygeodesy.ellipsoidalNvector module: True
+    test 69 pygeodesy.ellipsoidalVincenty module: True
+    test 70 pygeodesy.enStr2() function (utils): True
+    test 71 pygeodesy.equirectangular() function (utils): True
+    test 72 pygeodesy.equirectangular_() function (utils): True
+    test 73 pygeodesy.fStr() function (fmath): True
+    test 74 pygeodesy.fStrzs() function (fmath): True
+    test 75 pygeodesy.false2f() function (utils): True
+    test 76 pygeodesy.favg() function (fmath): True
+    test 77 pygeodesy.fdot() function (fmath): True
+    test 78 pygeodesy.fdot3() function (fmath): True
+    test 79 pygeodesy.fmath module: True
+    test 80 pygeodesy.fmean() function (fmath): True
+    test 81 pygeodesy.fpolynomial() function (fmath): True
+    test 82 pygeodesy.fpowers() function (fmath): True
+    test 83 pygeodesy.fsum class builtin_function_or_method (math): True
+    test 84 pygeodesy.fsum_() function (fmath): True
+    test 85 pygeodesy.ft2m() function (utils): True
+    test 86 pygeodesy.geohash module: True
+    test 87 pygeodesy.halfs() function (utils): True
+    test 88 pygeodesy.haversine() function (utils): True
+    test 89 pygeodesy.haversine_() function (utils): True
+    test 90 pygeodesy.heightOf() function (utils): True
+    test 91 pygeodesy.horizon() function (utils): True
+    test 92 pygeodesy.hypot class builtin_function_or_method (math): True
+    test 93 pygeodesy.hypot1() function (fmath): True
+    test 94 pygeodesy.hypot3() function (fmath): True
+    test 95 pygeodesy.inStr() function (utils): True
+    test 96 pygeodesy.isNumpy2() function (utils): True
+    test 97 pygeodesy.isPoints2() function (utils): True
+    test 98 pygeodesy.isTuple2() function (utils): True
+    test 99 pygeodesy.isantipode() function (utils): True
+    test 100 pygeodesy.isclockwise() function (points): True
+    test 101 pygeodesy.isconvex() function (points): True
+    test 102 pygeodesy.isenclosedby() function (points): True
+    test 103 pygeodesy.isfinite class builtin_function_or_method (math): True
+    test 104 pygeodesy.isint() function (fmath): True
+    test 105 pygeodesy.isscalar() function (fmath): True
+    test 106 pygeodesy.issequence() function (utils): True
+    test 107 pygeodesy.iterNumpy2() function (utils): True
+    test 108 pygeodesy.iterNumpy2over() function (utils): True
+    test 109 pygeodesy.latDMS() function (dms): True
+    test 110 pygeodesy.lcc module: True
+    test 111 pygeodesy.len2() function (fmath): True
+    test 112 pygeodesy.limiterrors() function (utils): True
+    test 113 pygeodesy.lonDMS() function (dms): True
+    test 114 pygeodesy.m2NM() function (utils): True
+    test 115 pygeodesy.m2SM() function (utils): True
+    test 116 pygeodesy.m2ft() function (utils): True
+    test 117 pygeodesy.m2km() function (utils): True
+    test 118 pygeodesy.map1() function (fmath): True
+    test 119 pygeodesy.map2() function (fmath): True
+    test 120 pygeodesy.mgrs module: True
+    test 121 pygeodesy.normDMS() function (dms): True
+    test 122 pygeodesy.nvector module: True
+    test 123 pygeodesy.osgr module: True
+    test 124 pygeodesy.parse3llh() function (dms): True
+    test 125 pygeodesy.parseDMS() function (dms): True
+    test 126 pygeodesy.parseDMS2() function (dms): True
+    test 127 pygeodesy.parseMGRS() function (mgrs): True
+    test 128 pygeodesy.parseOSGR() function (osgr): True
+    test 129 pygeodesy.parseUTM() function (utm): True
+    test 130 pygeodesy.parseWM() function (webmercator): True
+    test 131 pygeodesy.perimeterOf() function (points): True
+    test 132 pygeodesy.points module: True
+    test 133 pygeodesy.polygon() function (utils): True
+    test 134 pygeodesy.precision() function (dms): True
+    test 135 pygeodesy.radians class builtin_function_or_method (math): True
+    test 136 pygeodesy.radiansPI() function (utils): True
+    test 137 pygeodesy.radiansPI2() function (utils): True
+    test 138 pygeodesy.radiansPI_2() function (utils): True
+    test 139 pygeodesy.rangerrors() function (dms): True
+    test 140 pygeodesy.scalar() function (fmath): True
+    test 141 pygeodesy.simplify module: True
+    test 142 pygeodesy.simplify1() function (simplify): True
+    test 143 pygeodesy.simplify2() function (simplify): True
+    test 144 pygeodesy.simplifyRDP() function (simplify): True
+    test 145 pygeodesy.simplifyRDPm() function (simplify): True
+    test 146 pygeodesy.simplifyRW() function (simplify): True
+    test 147 pygeodesy.simplifyVW() function (simplify): True
+    test 148 pygeodesy.simplifyVWm() function (simplify): True
+    test 149 pygeodesy.sphericalNvector module: True
+    test 150 pygeodesy.sphericalTrigonometry module: True
+    test 151 pygeodesy.tanPI_2_2() function (utils): True
+    test 152 pygeodesy.tan_2() function (utils): True
+    test 153 pygeodesy.toDMS() function (dms): True
+    test 154 pygeodesy.toLcc() function (lcc): True
+    test 155 pygeodesy.toMgrs() function (mgrs): True
+    test 156 pygeodesy.toOsgr() function (osgr): True
+    test 157 pygeodesy.toUtm() function (utm): True
+    test 158 pygeodesy.toWm() function (webmercator): True
+    test 159 pygeodesy.unStr() function (utils): True
+    test 160 pygeodesy.unroll180() function (utils): True
+    test 161 pygeodesy.unrollPI() function (utils): True
+    test 162 pygeodesy.utils module: True
+    test 163 pygeodesy.utm module: True
+    test 164 pygeodesy.vector3d module: True
+    test 165 pygeodesy.version str: True
+    test 166 pygeodesy.webmercator module: True
+    test 167 pygeodesy.wrap180() function (utils): True
+    test 168 pygeodesy.wrap360() function (utils): True
+    test 169 pygeodesy.wrap90() function (utils): True
+    test 170 pygeodesy.wrapPI() function (utils): True
+    test 171 pygeodesy.wrapPI2() function (utils): True
+    test 172 pygeodesy.wrapPI_2() function (utils): True
+
+    testModule(datum, 18.03.06)
+    test 173 datum.Datum() class: True
+    test 174 datum.Datums class datum._Enum: True
+    test 175 datum.Ellipsoid() class: True
+    test 176 datum.Ellipsoids class datum._Enum: True
+    test 177 datum.R_FM float: True
+    test 178 datum.R_KM float: True
+    test 179 datum.R_M float: True
+    test 180 datum.R_MA float: True
+    test 181 datum.R_MB float: True
+    test 182 datum.R_NM float: True
+    test 183 datum.R_SM float: True
+    test 184 datum.R_VM float: True
+    test 185 datum.Transform() class: True
+    test 186 datum.Transforms class datum._Enum: True
+
+    testModule(dms, 18.03.04)
+    test 187 dms.F_D str: True
+    test 188 dms.F_DEG str: True
+    test 189 dms.F_DM str: True
+    test 190 dms.F_DMS str: True
+    test 191 dms.F_MIN str: True
+    test 192 dms.F_RAD str: True
+    test 193 dms.F_SEC str: True
+    test 194 dms.RangeError() class: True
+    test 195 dms.S_DEG str: True
+    test 196 dms.S_MIN str: True
+    test 197 dms.S_RAD str: True
+    test 198 dms.S_SEC str: True
+    test 199 dms.S_SEP str: True
+    test 200 dms.bearingDMS() function: True
+    test 201 dms.clipDMS() function: True
+    test 202 dms.compassAngle() function: True
+    test 203 dms.compassDMS() function: True
+    test 204 dms.compassPoint() function: True
+    test 205 dms.latDMS() function: True
+    test 206 dms.lonDMS() function: True
+    test 207 dms.normDMS() function: True
+    test 208 dms.parse3llh() function: True
+    test 209 dms.parseDMS() function: True
+    test 210 dms.parseDMS2() function: True
+    test 211 dms.precision() function: True
+    test 212 dms.rangerrors() function: True
+    test 213 dms.toDMS() function: True
+
+    testModule(ellipsoidalNvector, 18.03.06)
+    test 214 ellipsoidalNvector.Cartesian() class: True
+    test 215 ellipsoidalNvector.LatLon() class: True
+    test 216 ellipsoidalNvector.Ned() class: True
+    test 217 ellipsoidalNvector.Nvector() class: True
+    test 218 ellipsoidalNvector.meanOf() function: True
+    test 219 ellipsoidalNvector.toNed() function: True
+
+    testModule(ellipsoidalVincenty, 18.03.06)
+    test 220 ellipsoidalVincenty.Cartesian() class: True
+    test 221 ellipsoidalVincenty.LatLon() class: True
+    test 222 ellipsoidalVincenty.VincentyError() class: True
+    test 223 ellipsoidalVincenty.areaOf() function: True
+    test 224 ellipsoidalVincenty.perimeterOf() function: True
+
+    testModule(fmath, 18.07.21)
+    test 225 fmath.EPS float: True
+    test 226 fmath.EPS1 float: True
+    test 227 fmath.EPS2 float: True
+    test 228 fmath.Fsum() class: True
+    test 229 fmath.cbrt() function: True
+    test 230 fmath.cbrt2() function: True
+    test 231 fmath.fStr() function: True
+    test 232 fmath.fStrzs() function: True
+    test 233 fmath.favg() function: True
+    test 234 fmath.fdot() function: True
+    test 235 fmath.fdot3() function: True
+    test 236 fmath.fmean() function: True
+    test 237 fmath.fpolynomial() function: True
+    test 238 fmath.fpowers() function: True
+    test 239 fmath.fsum class builtin_function_or_method (math): True
+    test 240 fmath.fsum_() function: True
+    test 241 fmath.hypot class builtin_function_or_method (math): True
+    test 242 fmath.hypot1() function: True
+    test 243 fmath.hypot3() function: True
+    test 244 fmath.isfinite class builtin_function_or_method (math): True
+    test 245 fmath.isint() function: True
+    test 246 fmath.isscalar() function: True
+    test 247 fmath.len2() function: True
+    test 248 fmath.map1() function: True
+    test 249 fmath.map2() function: True
+    test 250 fmath.scalar() function: True
+
+    testModule(geohash, 18.02.05)
+    test 251 geohash.Geohash() class: True
+    test 252 geohash.bounds() function: True
+    test 253 geohash.decode() function: True
+    test 254 geohash.decode_error() function: True
+    test 255 geohash.distance1() function: True
+    test 256 geohash.distance2() function: True
+    test 257 geohash.distance3() function: True
+    test 258 geohash.encode() function: True
+    test 259 geohash.neighbors() function: True
+    test 260 geohash.sizes() function: True
+
+    testModule(lcc, 18.02.06)
+    test 261 lcc.Conic() class: True
+    test 262 lcc.Conics class datum._Enum (datum): True
+    test 263 lcc.Lcc() class: True
+    test 264 lcc.toLcc() function: True
+
+    testModule(mgrs, 18.05.16)
+    test 265 mgrs.Mgrs() class: True
+    test 266 mgrs.parseMGRS() function: True
+    test 267 mgrs.toMgrs() function: True
+
+    testModule(nvector, 18.03.04)
+    test 268 nvector.NorthPole class nvector.Nvector: True
+    test 269 nvector.Nvector() class: True
+    test 270 nvector.SouthPole class nvector.Nvector: True
+    test 271 nvector.sumOf() function: True
+
+    testModule(osgr, 18.02.09)
+    test 272 osgr.Osgr() class: True
+    test 273 osgr.parseOSGR() function: True
+    test 274 osgr.toOsgr() function: True
+
+    testModule(points, 18.07.03)
+    test 275 points.LatLon2psxy() class: True
+    test 276 points.LatLon_() class: True
+    test 277 points.Numpy2LatLon() class: True
+    test 278 points.Tuple2LatLon() class: True
+    test 279 points.areaOf() function: True
+    test 280 points.bounds() function: True
+    test 281 points.isclockwise() function: True
+    test 282 points.isconvex() function: True
+    test 283 points.isenclosedby() function: True
+    test 284 points.perimeterOf() function: True
+
+    testModule(simplify, 18.07.17)
+    test 285 simplify.simplify1() function: True
+    test 286 simplify.simplify2() function: True
+    test 287 simplify.simplifyRDP() function: True
+    test 288 simplify.simplifyRDPm() function: True
+    test 289 simplify.simplifyRW() function: True
+    test 290 simplify.simplifyVW() function: True
+    test 291 simplify.simplifyVWm() function: True
+
+    testModule(sphericalNvector, 18.02.06)
+    test 292 sphericalNvector.LatLon() class: True
+    test 293 sphericalNvector.Nvector() class: True
+    test 294 sphericalNvector.areaOf() function: True
+    test 295 sphericalNvector.intersection() function: True
+    test 296 sphericalNvector.meanOf() function: True
+    test 297 sphericalNvector.nearestOn2() function: True
+    test 298 sphericalNvector.triangulate() function: True
+    test 299 sphericalNvector.trilaterate() function: True
+
+    testModule(sphericalTrigonometry, 18.03.02)
+    test 300 sphericalTrigonometry.LatLon() class: True
+    test 301 sphericalTrigonometry.areaOf() function: True
+    test 302 sphericalTrigonometry.intersection() function: True
+    test 303 sphericalTrigonometry.isPoleEnclosedBy() function: True
+    test 304 sphericalTrigonometry.meanOf() function: True
+    test 305 sphericalTrigonometry.nearestOn2() function: True
+    test 306 sphericalTrigonometry.perimeterOf() function: True
+
+    testModule(utils, 18.03.06)
+    test 307 utils.CrossError() class: True
+    test 308 utils.LimitError() class: True
+    test 309 utils.PI float: True
+    test 310 utils.PI2 float: True
+    test 311 utils.PI_2 float: True
+    test 312 utils.R_M float: True
+    test 313 utils.antipode() function: True
+    test 314 utils.classname() function: True
+    test 315 utils.crosserrors() function: True
+    test 316 utils.degrees class builtin_function_or_method (math): True
+    test 317 utils.degrees180() function: True
+    test 318 utils.degrees360() function: True
+    test 319 utils.degrees90() function: True
+    test 320 utils.enStr2() function: True
+    test 321 utils.equirectangular() function: True
+    test 322 utils.equirectangular_() function: True
+    test 323 utils.false2f() function: True
+    test 324 utils.ft2m() function: True
+    test 325 utils.halfs() function: True
+    test 326 utils.haversine() function: True
+    test 327 utils.haversine_() function: True
+    test 328 utils.heightOf() function: True
+    test 329 utils.horizon() function: True
+    test 330 utils.inStr() function: True
+    test 331 utils.isNumpy2() function: True
+    test 332 utils.isPoints2() function: True
+    test 333 utils.isTuple2() function: True
+    test 334 utils.isantipode() function: True
+    test 335 utils.issequence() function: True
+    test 336 utils.iterNumpy2() function: True
+    test 337 utils.iterNumpy2over() function: True
+    test 338 utils.limiterrors() function: True
+    test 339 utils.m2NM() function: True
+    test 340 utils.m2SM() function: True
+    test 341 utils.m2ft() function: True
+    test 342 utils.m2km() function: True
+    test 343 utils.polygon() function: True
+    test 344 utils.radians class builtin_function_or_method (math): True
+    test 345 utils.radiansPI() function: True
+    test 346 utils.radiansPI2() function: True
+    test 347 utils.radiansPI_2() function: True
+    test 348 utils.tanPI_2_2() function: True
+    test 349 utils.tan_2() function: True
+    test 350 utils.unStr() function: True
+    test 351 utils.unroll180() function: True
+    test 352 utils.unrollPI() function: True
+    test 353 utils.wrap180() function: True
+    test 354 utils.wrap360() function: True
+    test 355 utils.wrap90() function: True
+    test 356 utils.wrapPI() function: True
+    test 357 utils.wrapPI2() function: True
+    test 358 utils.wrapPI_2() function: True
+
+    testModule(utm, 18.03.08)
+    test 359 utm.Utm() class: True
+    test 360 utm.parseUTM() function: True
+    test 361 utm.toUtm() function: True
+
+    testModule(vector3d, 18.02.05)
+    test 362 vector3d.Vector3d() class: True
+    test 363 vector3d.sumOf() function: True
+
+    testModule(webmercator, 18.02.02)
+    test 364 webmercator.Wm() class: True
+    test 365 webmercator.parseWM() function: True
+    test 366 webmercator.toWm() function: True
+
+    testPublic(pygeodesy, 18.07.21)
+    test 367 Conic() class: True
+    test 368 Conics class datum._Enum: True
+    test 369 CrossError() class: True
+    test 370 Datum() class: True
+    test 371 Datums class datum._Enum: True
+    test 372 Ellipsoid() class: True
+    test 373 Ellipsoids class datum._Enum: True
+    test 374 Fsum() class: True
+    test 375 Geohash() class: True
+    test 376 LatLon2psxy() class: True
+    test 377 LatLon_() class: True
+    test 378 Lcc() class: True
+    test 379 LimitError() class: True
+    test 380 Mgrs() class: True
+    test 381 Numpy2LatLon() class: True
+    test 382 Osgr() class: True
+    test 383 RangeError() class: True
+    test 384 Transform() class: True
+    test 385 Transforms class datum._Enum: True
+    test 386 Tuple2LatLon() class: True
+    test 387 Utm() class: True
+    test 388 VincentyError() class: True
+    test 389 Wm() class: True
+    test 390 antipode() function: True
+    test 391 areaOf() function: True
+    test 392 bearingDMS() function: True
+    test 393 bounds() function: True
+    test 394 cbrt() function: True
+    test 395 cbrt2() function: True
+    test 396 classname() function: True
+    test 397 clipDMS() function: True
+    test 398 compassAngle() function: True
+    test 399 compassDMS() function: True
+    test 400 compassPoint() function: True
+    test 401 crosserrors() function: True
+    test 402 degrees180() function: True
+    test 403 degrees360() function: True
+    test 404 degrees90() function: True
+    test 405 enStr2() function: True
+    test 406 equirectangular() function: True
+    test 407 equirectangular_() function: True
+    test 408 fStr() function: True
+    test 409 fStrzs() function: True
+    test 410 false2f() function: True
+    test 411 favg() function: True
+    test 412 fdot() function: True
+    test 413 fdot3() function: True
+    test 414 fmean() function: True
+    test 415 fpolynomial() function: True
+    test 416 fpowers() function: True
+    test 417 fsum_() function: True
+    test 418 ft2m() function: True
+    test 419 halfs() function: True
+    test 420 haversine() function: True
+    test 421 haversine_() function: True
+    test 422 heightOf() function: True
+    test 423 horizon() function: True
+    test 424 hypot1() function: True
+    test 425 hypot3() function: True
+    test 426 inStr() function: True
+    test 427 isNumpy2() function: True
+    test 428 isPoints2() function: True
+    test 429 isTuple2() function: True
+    test 430 isantipode() function: True
+    test 431 isclockwise() function: True
+    test 432 isconvex() function: True
+    test 433 isenclosedby() function: True
+    test 434 isint() function: True
+    test 435 isscalar() function: True
+    test 436 issequence() function: True
+    test 437 iterNumpy2() function: True
+    test 438 iterNumpy2over() function: True
+    test 439 latDMS() function: True
+    test 440 len2() function: True
+    test 441 limiterrors() function: True
+    test 442 lonDMS() function: True
+    test 443 m2NM() function: True
+    test 444 m2SM() function: True
+    test 445 m2ft() function: True
+    test 446 m2km() function: True
+    test 447 map1() function: True
+    test 448 map2() function: True
+    test 449 normDMS() function: True
+    test 450 parse3llh() function: True
+    test 451 parseDMS() function: True
+    test 452 parseDMS2() function: True
+    test 453 parseMGRS() function: True
+    test 454 parseOSGR() function: True
+    test 455 parseUTM() function: True
+    test 456 parseWM() function: True
+    test 457 perimeterOf() function: True
+    test 458 polygon() function: True
+    test 459 precision() function: True
+    test 460 radiansPI() function: True
+    test 461 radiansPI2() function: True
+    test 462 radiansPI_2() function: True
+    test 463 rangerrors() function: True
+    test 464 scalar() function: True
+    test 465 simplify1() function: True
+    test 466 simplify2() function: True
+    test 467 simplifyRDP() function: True
+    test 468 simplifyRDPm() function: True
+    test 469 simplifyRW() function: True
+    test 470 simplifyVW() function: True
+    test 471 simplifyVWm() function: True
+    test 472 tanPI_2_2() function: True
+    test 473 tan_2() function: True
+    test 474 toDMS() function: True
+    test 475 toLcc() function: True
+    test 476 toMgrs() function: True
+    test 477 toOsgr() function: True
+    test 478 toUtm() function: True
+    test 479 toWm() function: True
+    test 480 unStr() function: True
+    test 481 unroll180() function: True
+    test 482 unrollPI() function: True
+    test 483 wrap180() function: True
+    test 484 wrap360() function: True
+    test 485 wrap90() function: True
+    test 486 wrapPI() function: True
+    test 487 wrapPI2() function: True
+    test 488 wrapPI_2() function: True
+
+    all testModules.py tests passed (PyGeodesy 18.7.21 Python 3.7.0 64bit Debian 9) 3.944 ms
+
+running /usr/local/bin/python ~/cirrus-ci-build/test/testNavlabExamples.py
+
+    testing testNavlabExamples.py 18.03.08
+    test 1 Example 1 delta: [N:331730.863, E:332998.501, D:17398.304]
+    test 2 Example 1 delta: [L:470357.384, B:45.109°, E:-2.12°]
+    test 3 Example 1 elevation: -2.1198
+    test 4 Example 1 bearing: 45.109
+    test 5 Example 1 length: 470357.384
+    test 6 Example 2 LatLon: 53.301°N, 063.435°E, +400.00m
+    test 7 Example 2 toNvector: (0.267, 0.535, 0.802, +400.00)
+    test 8 Example 2 delta: [N:3000.0, E:2000.0, D:100.0]
+    test 9 Example 2 delta: [L:3606.938, B:33.69°, E:-1.589°]
+    test 10 Example 2 destinationNed: 53.327726°N, 063.464965°E, +301.02m  FAILED, KNOWN, expected 53.327726°N, 063.464965°E, +299.138m
+    test 11 Example 2 delta: [N:-86126, E:-78900, D:1069]
+    test 12 Example 2 delta: [L:116807.681, B:222.493°, E:-0.524°]
+    test 13 Example 2 destinationNed: 48.88667°N, 002.37472°E
+    test 14 Example 3 toLatLon: 39.379°N, 048.013°W, +4702059.83m
+    test 15 Example 4 toCartesian: [6373290.277, 222560.201, 110568.827]
+    test 16 Example 5 distanceTo: 332457
+    test 17 Example 6 intermediateChordTo: 89.799981°N, 180.0°E
+    test 18 Example 6 intermediateTo: 89.8°N, 180.0°E
+    test 19 Example 6 intermediateChordTo: 51.372294°N, 000.707192°E
+    test 20 Example 6 intermediateTo: 51.372084°N, 000.707337°E
+    test 21 Example 7 meanOf: 67.2362°N, 006.9175°W
+    test 22 Example 8 destination(sphNv): 79.991549°N, 090.017698°W
+    test 23 Example 8 destination(sphTy): 79.991549°N, 090.017698°W
+    test 24 Example 8 destination(elVincenty): 79.991584°N, 090.017621°W
+    test 25 Example 9 intersection: 40.318643°N, 055.901868°E
+    test 26 Example 10 crossTrackDistance: 11118
+    1 testNavlabExamples.py test (3.8%) FAILED, incl. 1 KNOWN (PyGeodesy 18.7.21 Python 3.7.0 64bit Debian 9) 2.887 ms
+
+running /usr/local/bin/python ~/cirrus-ci-build/test/testOsgr.py
+
+    testing testOsgr.py 17.06.23 (module osgr 18.02.09)
+    test 1 WGS84: 51.4778°N, 000.0016°W
+    test 2 OSGB36: 51.477284°N, 000.00002°E
+    test 3 WGS84: 51.4778°N, 000.0016°W
+    test 4 OSgr1: TG 51409 13177
+    test 5 OSgr1: [G:TG, E:51409, N:13177]
+    test 6 toLatLon1: 52°39′28.72″N, 001°43′00.63″E  FAILED, KNOWN, expected 52°39′28.72″N, 001°42′57.74″E
+    test 7 toLatLon1: 52.657979°N, 001.716843°E  FAILED, KNOWN, expected 52.657977°N, 001.716038°E
+    test 8 toOsgr1: 651463,313180  FAILED, KNOWN, expected 651409.903, 313177.270
+    test 9 toLatLon2: 52°39′27.25″N, 001°43′07.37″E  FAILED, KNOWN, expected 52°39′27.25″N, 001°43′04.47″E
+    test 10 toLatLon2: 52.65757°N, 001.718713°E  FAILED, KNOWN, expected 52.657568°N, 001.717908°E
+    test 11 toOsgr2: 651463,313180  FAILED, KNOWN, expected 651409,313177
+    test 12 toOsgr3: TG 51409 13177
+    test 13 toOsgr4: TG 51409 13177
+    test 14 OSGR1: TG 48251 11932
+    test 15 OSGR1: [G:TG, E:48251, N:11932]
+    test 16 OSGR2: TG 51409 13177
+    test 17 OSGR2: [G:TG, E:51409, N:13177]
+    test 18 OSGR3: TG 51409 13177
+    test 19 OSGR3: [G:TG, E:51409, N:13177]
+    test 20 OSGR4: TG 51409 13177
+    test 21 OSGR4: [G:TG, E:51409, N:13177]
+    test 22 OSGR5: 651409,313177
+    test 23 OSGR5: [OSGR:651409.000,313177.000]
+    test 24 OSGR6: 651409,313177
+    6 testOsgr.py tests (25.0%) FAILED, incl. 6 KNOWN (PyGeodesy 18.7.21 Python 3.7.0 64bit Debian 9) 1.645 ms
+
+running /usr/local/bin/python ~/cirrus-ci-build/test/testPoints.py
+
+    testing testPoints.py 18.02.05 (module points 18.07.03)
+    test 1 LatLon_: 'LatLon_' object has no attribute '__dict__'
+    test 2 points.LatLon2psxy.ABC: True
+    test 3 points.LatLon2psxy.epsilon: 2.220446049250313e-16
+    test 4 points.LatLon2psxy.epsilon: 0.0
+    test 5 points.LatLon2psxy.len: 69
+    test 6 points.LatLon2psxy.iter: 69
+    test 7 points.LatLon2psxy.slice1: 11
+    test 8 points.LatLon2psxy.slice2: <class 'points.LatLon2psxy'>
+    test 9 points.LatLon2psxy.slice3: (-0.701418, 52.220485, points.LatLon_(52.220485, -0.701418))
+    test 10 points.LatLon2psxy.strepr: points.LatLon2psxy([points.LatLon_(52.220489, -0.701206), ...][69], closed=False, radius=None, wrap=False)
+    test 11 points.LatLon2psxy.count: 1
+    test 12 points.LatLon2psxy.index: 10
+    test 13 points.LatLon2psxy.rfind: 10
+    test 14 points.LatLon2psxy.in: True
+    test 15 points.LatLon2psxy.count: 0
+    test 16 points.LatLon2psxy.find: -1
+    test 17 points.LatLon2psxy.rfind: -1
+    test 18 points.LatLon2psxy.not in: True
+    test 19 points.LatLon2psxy.count: 1
+    test 20 points.LatLon2psxy.index: 20
+    test 21 points.LatLon2psxy.rfind: 20
+    test 22 points.LatLon2psxy.in: True
+    test 23 points.LatLon2psxy.count: 0
+    test 24 points.LatLon2psxy.find: -1
+    test 25 points.LatLon2psxy.rfind: -1
+    test 26 points.LatLon2psxy.not in: True
+    test 27 points.LatLon2psxy.count: 1
+    test 28 points.LatLon2psxy.index: 30
+    test 29 points.LatLon2psxy.rfind: 30
+    test 30 points.LatLon2psxy.in: True
+    test 31 points.LatLon2psxy.count: 0
+    test 32 points.LatLon2psxy.find: -1
+    test 33 points.LatLon2psxy.rfind: -1
+    test 34 points.LatLon2psxy.not in: True
+    test 35 points.LatLon2psxy.count: 1
+    test 36 points.LatLon2psxy.index: 40
+    test 37 points.LatLon2psxy.rfind: 40
+    test 38 points.LatLon2psxy.in: True
+    test 39 points.LatLon2psxy.count: 0
+    test 40 points.LatLon2psxy.find: -1
+    test 41 points.LatLon2psxy.rfind: -1
+    test 42 points.LatLon2psxy.not in: True
+    test 43 points.LatLon2psxy.count: 1
+    test 44 points.LatLon2psxy.index: 50
+    test 45 points.LatLon2psxy.rfind: 50
+    test 46 points.LatLon2psxy.in: True
+    test 47 points.LatLon2psxy.count: 0
+    test 48 points.LatLon2psxy.find: -1
+    test 49 points.LatLon2psxy.rfind: -1
+    test 50 points.LatLon2psxy.not in: True
+    test 51 points.LatLon2psxy.count: 1
+    test 52 points.LatLon2psxy.index: 60
+    test 53 points.LatLon2psxy.rfind: 60
+    test 54 points.LatLon2psxy.in: True
+    test 55 points.LatLon2psxy.count: 0
+    test 56 points.LatLon2psxy.find: -1
+    test 57 points.LatLon2psxy.rfind: -1
+    test 58 points.LatLon2psxy.not in: True
+    test 59 points.LatLon2psxy.enumerate[0]: (-0.701206, 52.220489, points.LatLon_(52.220489, -0.701206))
+    test 60 points.LatLon2psxy.enumerate[1]: (-0.705456, 52.221916, points.LatLon_(52.221916, -0.705456))
+    test 61 points.LatLon2psxy.enumerate[2]: (-0.71, 52.225944, points.LatLon_(52.225944, -0.71))
+    test 62 points.LatLon2psxy.enumerate[3]: (-0.71446, 52.232448, points.LatLon_(52.232448, -0.71446))
+    test 63 points.LatLon2psxy.enumerate[4]: (-0.71486, 52.233013, points.LatLon_(52.233013, -0.71486))
+    test 64 points.LatLon2psxy.enumerate[5]: (-0.714348, 52.234375, points.LatLon_(52.234375, -0.714348))
+    test 65 points.LatLon2psxy.enumerate[6]: (-0.713572, 52.235607, points.LatLon_(52.235607, -0.713572))
+    test 66 points.LatLon2psxy.enumerate[7]: (-0.71233, 52.237495, points.LatLon_(52.237495, -0.71233))
+    test 67 points.LatLon2psxy.enumerate[8]: (-0.710784, 52.239315, points.LatLon_(52.239315, -0.710784))
+    test 68 points.LatLon2psxy.enumerate[9]: (-0.708684, 52.240627, points.LatLon_(52.240627, -0.708684))
+    test 69 points.LatLon2psxy.enumerate[10]: (-0.707042, 52.240745, points.LatLon_(52.240745, -0.707042))
+    test 70 points.LatLon2psxy.enumerate[11]: (-0.704945, 52.240863, points.LatLon_(52.240863, -0.704945))
+    test 71 areaOf: 8.811228e+09
+    test 72 isclockwise: False
+    test 73 areaOf: 7.09e+09
+    test 74 isclockwise: True
+    test 75 no: numpy
+    test 76 points.Tuple2LatLon.ABC: True
+    test 77 points.Tuple2LatLon.epsilon: 2.220446049250313e-16
+    test 78 points.Tuple2LatLon.epsilon: 0.0
+    test 79 points.Tuple2LatLon.len: 69
+    test 80 points.Tuple2LatLon.iter: 69
+    test 81 points.Tuple2LatLon.slice1: 11
+    test 82 points.Tuple2LatLon.slice2: <class 'points.Tuple2LatLon'>
+    test 83 points.Tuple2LatLon.slice3: 52.220485, -0.701418
+    test 84 points.Tuple2LatLon.strepr: points.Tuple2LatLon([(0, -0.701206, 0, 52.220489), ...][69], ilat=3, ilon=1)
+    test 85 points.Tuple2LatLon.subset: <class 'list'>
+    test 86 points.Tuple2LatLon.count: 1
+    test 87 points.Tuple2LatLon.index: 10
+    test 88 points.Tuple2LatLon.rfind: 10
+    test 89 points.Tuple2LatLon.in: True
+    test 90 points.Tuple2LatLon.count: 0
+    test 91 points.Tuple2LatLon.find: -1
+    test 92 points.Tuple2LatLon.rfind: -1
+    test 93 points.Tuple2LatLon.not in: True
+    test 94 points.Tuple2LatLon.count: 1
+    test 95 points.Tuple2LatLon.index: 20
+    test 96 points.Tuple2LatLon.rfind: 20
+    test 97 points.Tuple2LatLon.in: True
+    test 98 points.Tuple2LatLon.count: 0
+    test 99 points.Tuple2LatLon.find: -1
+    test 100 points.Tuple2LatLon.rfind: -1
+    test 101 points.Tuple2LatLon.not in: True
+    test 102 points.Tuple2LatLon.count: 1
+    test 103 points.Tuple2LatLon.index: 30
+    test 104 points.Tuple2LatLon.rfind: 30
+    test 105 points.Tuple2LatLon.in: True
+    test 106 points.Tuple2LatLon.count: 0
+    test 107 points.Tuple2LatLon.find: -1
+    test 108 points.Tuple2LatLon.rfind: -1
+    test 109 points.Tuple2LatLon.not in: True
+    test 110 points.Tuple2LatLon.count: 1
+    test 111 points.Tuple2LatLon.index: 40
+    test 112 points.Tuple2LatLon.rfind: 40
+    test 113 points.Tuple2LatLon.in: True
+    test 114 points.Tuple2LatLon.count: 0
+    test 115 points.Tuple2LatLon.find: -1
+    test 116 points.Tuple2LatLon.rfind: -1
+    test 117 points.Tuple2LatLon.not in: True
+    test 118 points.Tuple2LatLon.count: 1
+    test 119 points.Tuple2LatLon.index: 50
+    test 120 points.Tuple2LatLon.rfind: 50
+    test 121 points.Tuple2LatLon.in: True
+    test 122 points.Tuple2LatLon.count: 0
+    test 123 points.Tuple2LatLon.find: -1
+    test 124 points.Tuple2LatLon.rfind: -1
+    test 125 points.Tuple2LatLon.not in: True
+    test 126 points.Tuple2LatLon.count: 1
+    test 127 points.Tuple2LatLon.index: 60
+    test 128 points.Tuple2LatLon.rfind: 60
+    test 129 points.Tuple2LatLon.in: True
+    test 130 points.Tuple2LatLon.count: 0
+    test 131 points.Tuple2LatLon.find: -1
+    test 132 points.Tuple2LatLon.rfind: -1
+    test 133 points.Tuple2LatLon.not in: True
+    test 134 points.Tuple2LatLon.enumerate[0]: 52.220489, -0.701206
+    test 135 points.Tuple2LatLon.enumerate[1]: 52.221916, -0.705456
+    test 136 points.Tuple2LatLon.enumerate[2]: 52.225944, -0.71
+    test 137 points.Tuple2LatLon.enumerate[3]: 52.232448, -0.71446
+    test 138 points.Tuple2LatLon.enumerate[4]: 52.233013, -0.71486
+    test 139 points.Tuple2LatLon.enumerate[5]: 52.234375, -0.714348
+    test 140 points.Tuple2LatLon.enumerate[6]: 52.235607, -0.713572
+    test 141 points.Tuple2LatLon.enumerate[7]: 52.237495, -0.71233
+    test 142 points.Tuple2LatLon.enumerate[8]: 52.239315, -0.710784
+    test 143 points.Tuple2LatLon.enumerate[9]: 52.240627, -0.708684
+    test 144 points.Tuple2LatLon.enumerate[10]: 52.240745, -0.707042
+    test 145 points.Tuple2LatLon.enumerate[11]: 52.240863, -0.704945
+    test 146 areaOf: 8.811228e+09
+    test 147 isclockwise: False
+    test 148 areaOf: 7.09e+09
+    test 149 isclockwise: True
+    all testPoints.py tests passed (PyGeodesy 18.7.21 Python 3.7.0 64bit Debian 9) 9.884 ms
+
+running /usr/local/bin/python ~/cirrus-ci-build/test/testRoutes.py
+
+    testing testRoutes.py 18.02.05
+    test 1 points.areaOf(Antarctica, adjust=True, radius=6371.008771415, wrap=True): 254398498.504  FAILED, KNOWN, expected 13552524.800
+    test 2 points.areaOf(PtsFFI, adjust=True, radius=6371.008771415, wrap=True): 1.288
+    test 3 points.areaOf(RdpFFI, adjust=True, radius=6371.008771415, wrap=True): 1.241
+    test 4 points.areaOf(Pts, adjust=True, radius=6371.008771415, wrap=True): 131184.240
+    test 5 points.areaOf(VwPts, adjust=True, radius=6371.008771415, wrap=True): 140310.144
+    test 6 points.areaOf(_JFK_LHR1, adjust=True, radius=6371.008771415, wrap=True): 41383852.921  FAILED, KNOWN, expected 40041368.849
+    test 7 points.areaOf(_JFK_LHR2, adjust=True, radius=6371.008771415, wrap=True): 82767705.842  FAILED, KNOWN, expected 80082737.697
+    test 8 points.areaOf(Antarctica, adjust=False, radius=6371.008771415, wrap=True): 317131867.892  FAILED, KNOWN, expected 13552524.800
+    test 9 points.areaOf(PtsFFI, adjust=False, radius=6371.008771415, wrap=True): 2.185  FAILED, KNOWN, expected 1.288
+    test 10 points.areaOf(RdpFFI, adjust=False, radius=6371.008771415, wrap=True): 2.105  FAILED, KNOWN, expected 1.241
+    test 11 points.areaOf(Pts, adjust=False, radius=6371.008771415, wrap=True): 233595.011  FAILED, KNOWN, expected 131184.240
+    test 12 points.areaOf(VwPts, adjust=False, radius=6371.008771415, wrap=True): 258465.911  FAILED, KNOWN, expected 140310.144
+    test 13 points.areaOf(_JFK_LHR1, adjust=False, radius=6371.008771415, wrap=True): 41780731.678  FAILED, KNOWN, expected 40041368.849
+    test 14 points.areaOf(_JFK_LHR2, adjust=False, radius=6371.008771415, wrap=True): 83561463.357  FAILED, KNOWN, expected 80082737.697
+    test 15 sphericalTrigonometry.areaOf(Antarctica, radius=6371.008771415, wrap=True): 13552524.810
+    test 16 sphericalTrigonometry.areaOf(PtsFFI, radius=6371.008771415, wrap=True): 1.338
+    test 17 sphericalTrigonometry.areaOf(RdpFFI, radius=6371.008771415, wrap=True): 1.289
+    test 18 sphericalTrigonometry.areaOf(Pts, radius=6371.008771415, wrap=True): 125942.444
+    test 19 sphericalTrigonometry.areaOf(VwPts, radius=6371.008771415, wrap=True): 118897.757
+    test 20 sphericalTrigonometry.areaOf(_JFK_LHR1, radius=6371.008771415, wrap=True): 40105639.197
+    test 21 sphericalTrigonometry.areaOf(_JFK_LHR2, radius=6371.008771415, wrap=True): 80211278.393
+    test 22 ellipsoidalVincenty.areaOf: no geographiclib
+    test 23 points.perimeterOf(Antarctica, closed=False, radius=6371008.771415, wrap=True): 15620294.792  FAILED, KNOWN, expected 16765661.499
+    test 24 points.perimeterOf(PtsFFI, closed=False, radius=6371008.771415, wrap=True): 3224.123
+    test 25 points.perimeterOf(RdpFFI, closed=False, radius=6371008.771415, wrap=True): 3185.467
+    test 26 points.perimeterOf(Pts, closed=False, radius=6371008.771415, wrap=True): 2762313.129
+    test 27 points.perimeterOf(VwPts, closed=False, radius=6371008.771415, wrap=True): 2672557.850
+    test 28 points.perimeterOf(_JFK_LHR1, closed=False, radius=6371008.771415, wrap=True): 16034670.768  FAILED, KNOWN, expected 15766750.804
+    test 29 points.perimeterOf(_JFK_LHR2, closed=False, radius=6371008.771415, wrap=True): 26286857.120  FAILED, KNOWN, expected 25981742.208
+    test 30 sphericalTrigonometry.perimeterOf(Antarctica, closed=False, radius=6371008.771415, wrap=True): 15470624.834
+    test 31 sphericalTrigonometry.perimeterOf(PtsFFI, closed=False, radius=6371008.771415, wrap=True): 3224.123
+    test 32 sphericalTrigonometry.perimeterOf(RdpFFI, closed=False, radius=6371008.771415, wrap=True): 3185.467
+    test 33 sphericalTrigonometry.perimeterOf(Pts, closed=False, radius=6371008.771415, wrap=True): 2762313.116
+    test 34 sphericalTrigonometry.perimeterOf(VwPts, closed=False, radius=6371008.771415, wrap=True): 2672556.441
+    test 35 sphericalTrigonometry.perimeterOf(_JFK_LHR1, closed=False, radius=6371008.771415, wrap=True): 15789078.314
+    test 36 sphericalTrigonometry.perimeterOf(_JFK_LHR2, closed=False, radius=6371008.771415, wrap=True): 26041264.665
+    test 37 ellipsoidalVincenty.perimeterOf: no geographiclib
+    test 38 no module: geographiclib.Geodesic
+    test 39 isclockwise(Antarctica, adjust=False, wrap=True): 1.000
+    test 40 isclockwise(PtsFFI, adjust=False, wrap=True): 1.000
+    test 41 isclockwise(RdpFFI, adjust=False, wrap=True): 1.000
+    test 42 isclockwise(Pts, adjust=False, wrap=True): 1.000
+    test 43 isclockwise(VwPts, adjust=False, wrap=True): 1.000
+    test 44 isclockwise(_JFK_LHR1, adjust=False, wrap=True): 0.000
+    test 45 isclockwise(_JFK_LHR2, adjust=False, wrap=True): 0.000
+
+    13 testRoutes.py tests (28.9%) FAILED, incl. 13 KNOWN (PyGeodesy 18.7.21 Python 3.7.0 64bit Debian 9) 631.082 ms
+
+running /usr/local/bin/python ~/cirrus-ci-build/test/testSimplify.py
+
+    testing testSimplify.py 18.07.17 (module simplify 18.07.17)
+    test 1 simplify1(16614, adjust=True) 1m (38.447 ms): 16597
+    test 2 simplifyRW(16614, adjust=True, indices=True, shortest=False) 1m (48.306 ms): 7095
+    test 3 simplifyRW(16614, adjust=True, shortest=False) 1m (47.081 ms): 7095
+    test 4 simplifyRW(16614, adjust=True, shortest=True) 1m (64.622 ms): 8302
+    test 5 simplifyVWm(16614, adjust=True, indices=True) 1m (96.253 ms): 16328
+    test 6 simplifyVWm(16614, adjust=True) 1m (116.755 ms): 16328
+    test 7 simplifyVWm(16614, adjust=False) 1m (97.535 ms): 16373
+    test 8 simplifyRDPm(16614, adjust=True, shortest=False) 1m (98.342 ms): 15864
+    test 9 simplifyRDPm(16614, adjust=True, shortest=True) 1m (97.915 ms): 15867
+    test 10 simplifyRDPgr(16614, adjust=True, modified=True, shortest=True) 1m (73.441 ms): 15867
+    test 11 simplifyRDPm(16614, adjust=False, shortest=False) 1m (85.327 ms): 15869
+    test 12 simplifyRDPfw(16614, adjust=False, modified=True, shortest=False) 1m (50.061 ms): 15869
+    test 13 simplifyRDP(16614, adjust=True, indices=True, shortest=True) 1m (643.231 ms): 10960
+    test 14 simplifyRDP(16614, adjust=True, shortest=True) 1m (634.212 ms): 10960
+    test 15 simplifyRDPgr(16614, adjust=True, modified=False, shortest=True) 1m (639.091 ms): 10960
+    test 16 simplifyRDP(16614, adjust=False, indices=True, shortest=False) 1m (510.056 ms): 11248
+    test 17 simplifyRDP(16614, adjust=False, shortest=False) 1m (514.540 ms): 11248
+    test 18 simplifyRDPfw(16614, adjust=False, modified=False, shortest=False) 1m (274.814 ms): 11248
+    test 19 simplifyVW(1661, adjust=True) 1m (13.363 ms): 1641
+    test 20 simplifyVW(1661, adjust=False) 1m (9.778 ms): 1646
+    test 21 simplifyRDP(1661, adjust=True, shortest=False) 1m (45.777 ms): 1231
+    test 22 simplifyRDP(1661, adjust=True, shortest=True) 1m (48.555 ms): 1231
+    test 23 simplifyRDPgr(1661, adjust=True, shortest=True) 1m (48.363 ms): 1231
+    test 24 simplifyRDP(1661, adjust=False, shortest=False) 1m (41.779 ms): 1267
+    test 25 simplifyRDPfw(1661, adjust=False, shortest=False) 1m (20.550 ms): 1267
+    test 26 simplifyRDPgr(1661, adjust=False, shortest=True) 1m (35.439 ms): 1267
+    test 27 simplifyVW(69, adjust=False) 1m (415.802 us): 69
+    test 28 simplifyRDP(69, adjust=False, shortest=False) 1m (916.004 us): 50
+    test 29 simplifyRDPfw(69, adjust=False, shortest=False) 1m (484.943 us): 50
+    test 30 simplifyRDPgr(69, adjust=False, shortest=True) 1m (756.502 us): 50
+    test 31 simplifyRDPgr(69, adjust=True, shortest=True) 1m (1.053 ms): 45
+    test 32 no module: numpy
+    all testSimplify.py tests passed (PyGeodesy 18.7.21 Python 3.7.0 64bit Debian 9) 4.402 sec
+
+running /usr/local/bin/python ~/cirrus-ci-build/test/testSpherical.py
+
+    testing testSpherical.py 18.01.12
+
+    testLatLon(sphericalNvector, 18.02.06)
+    test 1 isEllipsoidal: False
+    test 2 isSpherical: True
+    test 3 lat/lonDMS: 52.20472°N, 000.14056°E
+    test 4 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
+    test 5 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
+    test 6 lat/lonDMS F_DMS: 52°12′17″N, 000°08′26″E
+    test 7 lat/lonDMS F_DMS: 52°12′17.0″N, 000°08′26.0″E
+    test 8 lat/lonDMS F_RAD: 0.911144N, 0.002453E
+    test 9 equals: True
+    test 10 equals: False
+    test 11 antipode1: 52.205°S, 179.881°W
+    test 12 antipode2: True
+    test 13 antipode3: 52.205°N, 000.119°E
+    test 14 antipode4: True
+    test 15 antipode5: 52.205°N, 000.119°E
+    test 16 initialBearingTo: 156.1666
+    test 17 finalBearingTo: 157.8904
+    test 18 initialBearingTo: 65.8921
+    test 19 copy: True
+    test 20 distanceTo: 404279.720589
+    test 21 distanceTo: 404279.720589
+    test 22 distanceTo: 2145
+    test 23 intermediateTo: 51.372084°N, 000.707337°E
+    test 24 intermediateTo: True
+    test 25 intermediateTo: 404279.721
+    test 26 intermediateTo+5: 35.160975°N, 008.989542°E
+    test 27 intermediateTo+5: 5.000
+    test 28 intermediateTo-4: 64.911647°N, 013.726301°W
+    test 29 intermediateTo-4: 4.000
+    test 30 intermediateChordTo: 51.372294°N, 000.707192°E
+    test 31 intermediateChordTo: True
+    test 32 midpointTo: 50.536327°N, 001.274614°E
+    test 33 destination: 51.513546°N, 000.098345°W
+    test 34 destination: 51°30′49″N, 000°05′54″W
+    test 35 destination: 34°37′N, 116°33′W
+    test 36 destination: 34.613647°N, 116.55116°W
+    test 37 destination: 0.604122N, 2.034201W
+    test 38 destination: 31.96383509°N, 064.37329146°E
+    test 39 alongTrackDistanceTo: 62331.59
+    test 40 alongTrackDistanceTo: 62331.58
+    test 41 alongTrackDistanceTo: 99.588
+    test 42 alongTrackDistanceTo: -7702.7
+    test 43 alongTrackDistanceTo: 7587.6
+    test 44 crossTrackDistanceTo: -305.67
+    test 45 crossTrackDistanceTo: -307.55
+    test 46 crossTrackDistanceTo: 7.4524
+    test 47 greatCircle: (-0.79408, 0.12856, 0.59406)
+    test 48 greatCircleTo: (-0.79408, 0.12859, 0.59406)
+    test 49 isclockwise: False
+    test 50 isclockwise*: False
+    test 51 isclockwise: True
+    test 52 isclockwise*: True
+    test 53 isclockwise: too few points: 2
+    test 54 isclockwise*: too few points: 2
+    test 55 isconvex: False
+    test 56 isconvex*: False
+    test 57 isconvex: True
+    test 58 isconvex*: True
+    test 59 isconvex: too few points: 2
+    test 60 isconvex*: too few points: 2
+    test 61 isenclosedby1: True
+    test 62 isenclosedby1*: True
+    test 63 isenclosedby2: False
+    test 64 isenclosedby2*: False
+    test 65 isenclosedby3: False
+    test 66 isenclosedby3*: False
+    test 67 isenclosedby4: False
+    test 68 isenclosedby4*: False
+    test 69 isenclosedby5: False
+    test 70 isenclosedby5*: False
+    test 71 isenclosedby6: True
+    test 72 isenclosedby6*: True
+    test 73 isenclosedby7: True
+    test 74 isenclosedby7*: True
+
+    testVectorial(sphericalNvector, 18.02.06)
+    test 75 crossTrackDistanceTo: -305.67
+    test 76 crossTrackDistanceTo: -307.55
+    test 77 toLatLon: 44.995674°N, 045.0°E
+    test 78 toNvector: (0.50004, 0.50004, 0.70705)
+    test 79 equals: False
+    test 80 equals: True
+    test 81 length: 0.99992449715
+    test 82 length: 1.0
+    test 83 sumOf: (52.70504, 0.61904, 0.70705)
+    test 84 sumOf: Nv
+    test 85 length: 52.7134151513
+    test 86 copy: True
+    test 87 length: 52.2051356286
+    test 88 length: 52.2051356286
+    test 89 isEnclosedBy: True
+    test 90 isEnclosedBy*: True
+    test 91 isEnclosedBy: True
+    test 92 isEnclosedBy*: True
+    test 93 isWithin: False
+    test 94 isWithin: True
+    test 95 nearestOn: 51.0004°N, 001.9°E
+    test 96 nearestOn: True
+    test 97 distanceTo: 42.712
+    test 98 nearestOn: 51.0°N, 002.0°E
+    test 99 nearestOn: True
+    test 100 nearestOn: 00.0°N, 000.0°E
+    test 101 nearestOn: True
+    test 102 nearestOn: 00.0°N, 020.0°E
+    test 103 nearestOn: True
+    test 104 nearestOn: 02.0°N, 002.0°E
+    test 105 nearestOn: 02.0°N, 002.0°E
+    test 106 BasseC: 47.3038°N, 002.5721°W
+    test 107 BasseH: 47.311067°N, 002.528617°W
+    test 108 triangulate: 47.323667°N, 002.568501°W
+    test 109 triangulate: True
+
+    testSpherical(sphericalNvector, 18.02.06)
+    test 110 isSpherical: True
+    test 111 isEllipsoidal: False
+    test 112 isSpherical: True
+    test 113 isEllipsoidal: False
+    test 114 intersection: 50.907608°N, 004.508575°E
+    test 115 intersection: 50°54′27.39″N, 004°30′30.87″E
+    test 116 intersection: True
+    test 117 intersection: 43.5719°N, 116.188757°W
+    test 118 intersection: 43°34′18.84″N, 116°11′19.53″W
+    test 119 intersection: True
+    test 120 maxLat0: 90.0
+    test 121 maxLat1: 89.0
+    test 122 maxLat90: 0.0
+    test 123 isEnclosedBy: True
+    test 124 isEnclosedBy*: True
+    test 125 isEnclosedBy: True
+    test 126 isEnclosedBy*: True
+    test 127 rhumbBearingTo: 116.722
+    test 128 rhumbDestination: 50.964155°N, 001.853°E
+    test 129 rhumbDestination: True
+    test 130 rhumbDistanceTo: 40307.8
+    test 131 rhumbMidpointo: 51.0455°N, 001.595727°E
+    test 132 rhumbMidpointo: True
+    test 133 areaOf: 8.6660587507e+09
+    test 134 areaOf: 6.18e+09
+    test 135 nearestOn2: 46.000996°N, 001.353049°E
+    test 136 nearestOn2: 569987.49
+    test 137 distanceTo: 569987.49
+    test 138 nearestOn2: 46.0°N, 002.0°E
+    test 139 nearestOn2: 134989.80
+    test 140 distanceTo: 134989.80
+    test 141 nearestOn2: 45.330691°N, 001.318551°E
+    test 142 distanceTo2: 64856.28
+    test 143 distanceTo: 64856.28
+    test 144 difference: 1000.53
+
+    testLatLon(sphericalTrigonometry, 18.03.02)
+    test 145 isEllipsoidal: False
+    test 146 isSpherical: True
+    test 147 lat/lonDMS: 52.20472°N, 000.14056°E
+    test 148 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
+    test 149 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
+    test 150 lat/lonDMS F_DMS: 52°12′17″N, 000°08′26″E
+    test 151 lat/lonDMS F_DMS: 52°12′17.0″N, 000°08′26.0″E
+    test 152 lat/lonDMS F_RAD: 0.911144N, 0.002453E
+    test 153 equals: True
+    test 154 equals: False
+    test 155 antipode1: 52.205°S, 179.881°W
+    test 156 antipode2: True
+    test 157 antipode3: 52.205°N, 000.119°E
+    test 158 antipode4: True
+    test 159 antipode5: 52.205°N, 000.119°E
+    test 160 initialBearingTo: 156.1666
+    test 161 finalBearingTo: 157.8904
+    test 162 initialBearingTo: 65.8921
+    test 163 copy: True
+    test 164 distanceTo: 404279.720589
+    test 165 distanceTo: 404279.720589
+    test 166 distanceTo: 2145
+    test 167 intermediateTo: 51.372084°N, 000.707337°E
+    test 168 intermediateTo: True
+    test 169 intermediateTo: 404279.721
+    test 170 intermediateTo+5: 35.160975°N, 008.989542°E
+    test 171 intermediateTo+5: 5.000
+    test 172 intermediateTo-4: 64.911647°N, 013.726301°W
+    test 173 intermediateTo-4: 4.000
+    test 174 midpointTo: 50.536327°N, 001.274614°E
+    test 175 destination: 51.513546°N, 000.098345°W
+    test 176 destination: 51°30′49″N, 000°05′54″W
+    test 177 destination: 34°37′N, 116°33′W
+    test 178 destination: 34.613647°N, 116.55116°W
+    test 179 destination: 0.604122N, 2.034201W
+    test 180 destination: 31.96383509°N, 064.37329146°E
+    test 181 alongTrackDistanceTo: type(end) mismatch: int vs sphericalTrigonometry.LatLon
+    test 182 alongTrackDistanceTo: 62331.58
+    test 183 alongTrackDistanceTo: 99.588
+    test 184 alongTrackDistanceTo: -7702.7
+    test 185 alongTrackDistanceTo: 7587.6
+    test 186 crossTrackDistanceTo: type(end) mismatch: int vs sphericalTrigonometry.LatLon
+    test 187 crossTrackDistanceTo: -307.55
+    test 188 crossTrackDistanceTo: 7.4524
+    test 189 greatCircle: (-0.79408, 0.12856, 0.59406)
+    test 190 isclockwise: False
+    test 191 isclockwise*: False
+    test 192 isclockwise: True
+    test 193 isclockwise*: True
+    test 194 isclockwise: too few points: 2
+    test 195 isclockwise*: too few points: 2
+    test 196 isconvex: False
+    test 197 isconvex*: False
+    test 198 isconvex: True
+    test 199 isconvex*: True
+    test 200 isconvex: too few points: 2
+    test 201 isconvex*: too few points: 2
+    test 202 isenclosedby1: True
+    test 203 isenclosedby1*: True
+    test 204 isenclosedby2: False
+    test 205 isenclosedby2*: False
+    test 206 isenclosedby3: False
+    test 207 isenclosedby3*: False
+    test 208 isenclosedby4: False
+    test 209 isenclosedby4*: False
+    test 210 isenclosedby5: False
+    test 211 isenclosedby5*: False
+    test 212 isenclosedby6: True
+    test 213 isenclosedby6*: True
+    test 214 isenclosedby7: True
+    test 215 isenclosedby7*: True
+
+    testSpherical(sphericalTrigonometry, 18.03.02)
+    test 216 isSpherical: True
+    test 217 isEllipsoidal: False
+    test 218 isSpherical: True
+    test 219 isEllipsoidal: False
+    test 220 intersection: 50.907608°N, 004.508575°E
+    test 221 intersection: 50°54′27.39″N, 004°30′30.87″E
+    test 222 intersection: True
+    test 223 intersection: 43.5719°N, 116.188757°W
+    test 224 intersection: 43°34′18.84″N, 116°11′19.53″W
+    test 225 intersection: True
+    test 226 maxLat0: 90.0
+    test 227 maxLat1: 89.0
+    test 228 maxLat90: 0.0
+    test 229 crossingParallels: 009°35′38.65″E, 170°24′21.35″E
+    test 230 isEnclosedBy: True
+    test 231 isEnclosedBy*: True
+    test 232 isEnclosedBy: non-convex: (LatLon(45°00′00.0″N, 001°00′00.0″E), ...)
+    test 233 isEnclosedBy*: non-convex: (LatLon(45°00′00.0″N, 001°00′00.0″E), ...)
+    test 234 rhumbBearingTo: 116.722
+    test 235 rhumbDestination: 50.964155°N, 001.853°E
+    test 236 rhumbDestination: True
+    test 237 rhumbDistanceTo: 40307.8
+    test 238 rhumbMidpointo: 51.0455°N, 001.595727°E
+    test 239 rhumbMidpointo: True
+    test 240 areaOf: 8.6660587507e+09
+    test 241 areaOf: 6.18e+09
+    test 242 nearestOn2: 46.0°N, 001.369324°E
+    test 243 nearestOn2: 570101.83
+    test 244 distanceTo: 570101.82
+    test 245 nearestOn2: 46.0°N, 002.0°E
+    test 246 nearestOn2: 134992.48
+    test 247 distanceTo: 134989.80
+    test 248 nearestOn2: 45.5°N, 001.5°E
+    test 249 distanceTo2: 78626.79
+    test 250 nearestOn2: 45.331319°N, 001.331319°E
+    test 251 distanceTo2: 64074.48
+    test 252 distanceTo: 64074.12
+    test 253 difference: 1000.53
+    test 254 nearestOn2: 00.5°N, 001.5°E
+    test 255 neartesOn2: 235880.385
+    test 256 nearestOn2: 01.5°N, 002.5°E
+    test 257 neartesOn2: 235880.385
+    test 258 nearestOn2: 02.5°N, 003.5°E
+    test 259 neartesOn2: 235880.385
+    test 260 nearestOn2: 03.5°N, 004.5°E
+    test 261 neartesOn2: 235880.385
+    test 262 nearestOn2: 04.5°N, 005.5°E
+    test 263 neartesOn2: 235880.385
+    test 264 nearestOn2: 05.5°N, 006.5°E
+    test 265 neartesOn2: 235880.385
+    test 266 nearestOn2: 06.5°N, 007.5°E
+    test 267 neartesOn2: 235880.385
+    test 268 nearestOn2: 07.5°N, 008.5°E
+    test 269 neartesOn2: 235880.385
+    test 270 isPoleEnclosedBy: True
+    test 271 isPoleEnclosedBy*: True
+    test 272 isPoleEnclosedBy: False  FAILED, KNOWN, expected True
+    test 273 isPoleEnclosedBy*: False  FAILED, KNOWN, expected True
+
+    2 testSpherical.py tests (0.7%) FAILED, incl. 2 KNOWN (PyGeodesy 18.7.21 Python 3.7.0 64bit Debian 9) 14.197 ms
+
+running /usr/local/bin/python ~/cirrus-ci-build/test/testUtils.py
+
+    testing testUtils.py 18.02.27 (module utils 18.03.06)
+    test 1 antipode1: (-89, -1)
+    test 2 antipode2: (89, 1)
+    test 3 isantipode1: True
+    test 4 isantipode2: True
+    test 5 isantipode3: False
+    test 6 heightof0: 2638958.23912
+    test 7 heightof45: 5401080.43931
+    test 8 heightof90: 6371008.771415
+    test 9 heightof135: 5401080.43931
+    test 10 horizon0: 0.0
+    test 11 horizon10Km: 357099.672
+    test 12 horizon30Kft: 392310.704
+    test 13 horizon10Kft: 214877.422
+    test 14 unroll180: -160.0, -250.0
+    test 15 unroll180: 200.0, 110.0
+    test 16 unroll180: -160.0, -250.0
+    test 17 unroll180: 920.0, 830.0
+    test 18 unroll180: -160.0, -270.0
+    test 19 unroll180: 200.0, 90.0
+    test 20 unroll180: -160.0, -990.0
+    test 21 unroll180: 920.0, 90.0
+    all testUtils.py tests passed (PyGeodesy 18.7.21 Python 3.7.0 64bit Debian 9) 450.134 us
+
+running /usr/local/bin/python ~/cirrus-ci-build/test/testUtm.py
+
+    testing testUtm.py 17.06.21 (module utm 18.03.08)
+    test 1 Utm1: 03 N 448251.0 5411932.0001
+    test 2 Utm2: 31 N 448252 5411933
+    test 3 Utm2: 31 N 448251.795 5411932.678
+    test 4 Utm2: 31 N 448251.8 5411932.7 n/a n/a
+    test 5 Utm.toLatLon1: 48.8582°N, 002.2945°E
+    test 6 Utm.toLatLon1: 48°51′29.52″N, 002°17′40.2″E
+    test 7 toUtm1: 31 N 448252 5411933
+    test 8 toUtm1: 31 N 448251.795 5411932.678
+    test 9 toUtm2: [Z:31, H:N, E:448252, N:5411933, C:-000.53131221°, S:0.9996329]
+    test 10 toUtm4: 48 N 377302 1483035
+    test 11 toUtm5: 48P N 377302.354183 1483034.777084 -000.26291348° 0.99978623
+    test 12 toUtm6: 13 S 622698 8516965
+    test 13 toUtm7: 13L S 622697.645817 8516965.222916 -000.26291348° 0.99978623
+    test 14 toMgrs1: 13L FF 22697 16965
+    test 15 toMgrs2: 31U DQ 48251 11932
+    test 16 Utm8: 18 N 516620 4574500
+    test 17 Utm8.toLatLon: 41.321801°N, 074.801413°W
+    test 18 Utm8.toLatLon: 41.321801N, 074.801413W
+    test 19 toUtm(61.44°N, 025.4°E): 35V N 414668 6812845
+    test 20 toUtm(47.04°S, 073.48°W): 18G S 615472 4789270
+    test 21 toUtm(40.4°N, 074.7°W): 18T N 525458 4472198
+    test 22 toUtm(44.5°N, 088.5°W): 16T N 380753 4928503
+    test 23 toUtm(50.8694°N, 115.6508°W): 11U N 594937 5636169
+    test 24 toUtm(00.0°N, 000.0°E): 31N N 166021 0
+    test 25 toUtm(00.13°N, 000.2324°W): 30N N 808084 14386
+    test 26 toUtm(45.6456°S, 023.3545°E): 34G S 683474 4942631
+    test 27 toUtm(12.765°S, 033.8765°W): 25L S 404859 8588691
+    test 28 toUtm(80.5434°S, 170.654°W): lat outside UTM: -80.5434
+    test 29 toUtm(90.0°N, 177.0°E): lat outside UTM: 90
+    test 30 toUtm(90.0°S, 177.0°W): lat outside UTM: -90
+    test 31 toUtm(90.0°N, 003.0°E): lat outside UTM: 90
+    test 32 toUtm(23.4578°N, 135.4545°W): 08Q N 453580 2594273
+    test 33 toUtm(77.345°N, 156.9876°E): 57X N 450794 8586116
+    test 34 toUtm(89.3454°S, 048.9306°W): lat outside UTM: -89.3454
+    test 35 toUtm(60.0°N, 001.0°E): 31V N 388456 6653097
+    test 36 toUtm(60.0°N, 003.0°E): 32V N 165640 6666594
+    test 37 toUtm(60.0°N, 006.0°E): 32V N 332705 6655205
+    test 38 toUtm(60.0°N, 009.0°E): 32V N 500000 6651411
+    test 39 toUtm(60.0°N, 012.0°E): 33V N 332705 6655205
+    test 40 toUtm(76.0°N, 001.0°E): 31X N 446000 8436100
+    test 41 toUtm(76.0°N, 007.0°E): 31X N 607943 8438843
+    test 42 toUtm(76.0°N, 013.0°E): 33X N 446000 8436100
+    test 43 toUtm(76.0°N, 019.0°E): 33X N 607943 8438843
+    test 44 toUtm(76.0°N, 025.0°E): 35X N 446000 8436100
+    test 45 toUtm(76.0°N, 031.0°E): 35X N 607943 8438843
+    test 46 toUtm(76.0°N, 037.0°E): 37X N 446000 8436100
+    all testUtm.py tests passed (PyGeodesy 18.7.21 Python 3.7.0 64bit Debian 9) 5.364 ms
+
+running /usr/local/bin/python ~/cirrus-ci-build/test/testVectorial.py
+
+    testing testVectorial.py 17.08.31
+
+    testVectorial(ellipsoidalNvector, 18.03.06)
+    test 1 toLatLon: 44.995674°N, 045.0°E
+    test 2 toNvector: (0.50004, 0.50004, 0.70705)
+    test 3 equals: False
+    test 4 equals: True
+    test 5 length: 0.99992449715
+    test 6 length: 1.0
+    test 7 sumOf: (52.70504, 0.61904, 0.70705)
+    test 8 sumOf: Nv
+    test 9 length: 52.7134151513
+    test 10 copy: True
+    test 11 length: 52.2051356286
+    test 12 length: 52.2051356286
+
+    testVectorial(sphericalNvector, 18.02.06)
+    test 13 crossTrackDistanceTo: -305.67
+    test 14 crossTrackDistanceTo: -307.55
+    test 15 toLatLon: 44.995674°N, 045.0°E
+    test 16 toNvector: (0.50004, 0.50004, 0.70705)
+    test 17 equals: False
+    test 18 equals: True
+    test 19 length: 0.99992449715
+    test 20 length: 1.0
+    test 21 sumOf: (52.70504, 0.61904, 0.70705)
+    test 22 sumOf: Nv
+    test 23 length: 52.7134151513
+    test 24 copy: True
+    test 25 length: 52.2051356286
+    test 26 length: 52.2051356286
+    test 27 isEnclosedBy: True
+    test 28 isEnclosedBy*: True
+    test 29 isEnclosedBy: True
+    test 30 isEnclosedBy*: True
+    test 31 isWithin: False
+    test 32 isWithin: True
+    test 33 nearestOn: 51.0004°N, 001.9°E
+    test 34 nearestOn: True
+    test 35 distanceTo: 42.712
+    test 36 nearestOn: 51.0°N, 002.0°E
+    test 37 nearestOn: True
+    test 38 nearestOn: 00.0°N, 000.0°E
+    test 39 nearestOn: True
+    test 40 nearestOn: 00.0°N, 020.0°E
+    test 41 nearestOn: True
+    test 42 nearestOn: 02.0°N, 002.0°E
+    test 43 nearestOn: 02.0°N, 002.0°E
+    test 44 BasseC: 47.3038°N, 002.5721°W
+    test 45 BasseH: 47.311067°N, 002.528617°W
+    test 46 triangulate: 47.323667°N, 002.568501°W
+    test 47 triangulate: True
+
+    all testVectorial.py tests passed (PyGeodesy 18.7.21 Python 3.7.0 64bit Debian 9) 3.033 ms
+
+running /usr/local/bin/python ~/cirrus-ci-build/test/testWebMercator.py
+
+    testing testWebMercator.py 18.07.03 (module webmercator 18.02.02)
+    test 1 toWm1: -626172.13571216 6887893.4928338
+    test 2 Wm1.y: 6887893.49283380
+    test 3 Wm2: 448251.795 5411932.678
+    test 4 Wm2: 448252 5411933
+    test 5 Wm2: 448251.8 5411932.7
+    test 6 Wm2.to2ll: 43.65321741, 4.02671439
+    test 7 Wm2.toLatLon: 43.653217°N, 004.026714°E
+    test 8 Wm2.toLatLon: 43°39′11.58″N, 004°01′36.17″E
+    test 9 toWm1: 448251.795 5411932.678
+    test 10 toWm2: 448252 5411933
+    test 11 toWm3: [x:448252, y:5411933, radius:6378137]
+    test 12 toWm4: 11562388 1506899
+    test 13 toWm4: 11562388.154378 1506899.04498
+    test 14 toWm4E: 11562388 1496994
+    test 15 toWm4E: 11562388.154378 1496993.698095
+    test 16 toWm5: -11169056 2800000
+    test 17 toWm5: -11169055.576258 2800000.003136
+    test 18 toWm5E: -11169056 2782367
+    test 19 toWm5E: -11169055.576258 2782367.05923
+    test 20 Wm6.toLatLon: 24.46358°N, 100.333333°W
+    test 21 Wm6.toLatLon: 24°27′48.89″N, 100°20′00.0″W
+    test 22 Wm6.toLatLonE: 24.299812°N, 100.333333°W
+    test 23 Wm6.toLatLonE: 24°17′59.32″N, 100°20′00.0″W
+    test 24 Wm7.toLatLon: 24.381787°N, 100.333333°W
+    test 25 Wm7.toLatLon: 24°22′54.43″N, 100°20′00.0″W
+    test 26 Wm7.toLatLonE: 24.218566°N, 100.333333°W
+    test 27 Wm7.toLatLonE: 24°13′06.84″N, 100°20′00.0″W
+    test 28 Wm8.toWm: [x:-33878.893, y:6693890.382]
+    test 29 Wm8.toLatLon: 51.408596053784°N, 000.304339270785°W
+    test 30 Wm8.toLatLon: 51°24′30.945794″N, 000°18′15.621375″W
+    test 31 Wm9.toLatLon: TypeError
+    test 32 Wm9.toLatLon: TypeError
+    test 33 Wm9.toLatLon: TypeError
+    test 34 toWm(LatLon(10.0000, 0)).y: 1118889.97
+    test 35 toWm(LatLon(20.0000, 0)).y: 2273030.93
+    test 36 toWm(LatLon(30.0000, 0)).y: 3503549.84
+    test 37 toWm(LatLon(40.0000, 0)).y: 4865942.28
+    test 38 toWm(LatLon(50.0000, 0)).y: 6446275.84
+    test 39 toWm(LatLon(60.0000, 0)).y: 8399737.89
+    test 40 toWm(LatLon(10.0003, 0)).y: 1118921.37
+    test 41 toWm(LatLon(20.0003, 0)).y: 2273063.83
+    test 42 toWm(LatLon(30.0003, 0)).y: 3503585.55
+    test 43 toWm(LatLon(40.0003, 0)).y: 4865982.65
+    test 44 toWm(LatLon(50.0003, 0)).y: 6446323.95
+    test 45 toWm(LatLon(60.0003, 0)).y: 8399799.73
+    test 46 toWm(LatLonE(10.0000, 0)).y: 1111475.10
+    test 47 toWm(LatLonE(20.0000, 0)).y: 2258423.65
+    test 48 toWm(LatLonE(30.0000, 0)).y: 3482189.09
+    test 49 toWm(LatLonE(40.0000, 0)).y: 4838471.40
+    test 50 toWm(LatLonE(50.0000, 0)).y: 6413524.59
+    test 51 toWm(LatLonE(60.0000, 0)).y: 8362698.55
+    test 52 toWm(LatLonE(10.0003, 0)).y: 1111506.30
+    test 53 toWm(LatLonE(20.0003, 0)).y: 2258456.36
+    test 54 toWm(LatLonE(30.0003, 0)).y: 3482224.61
+    test 55 toWm(LatLonE(40.0003, 0)).y: 4838511.61
+    test 56 toWm(LatLonE(50.0003, 0)).y: 6413572.57
+    test 57 toWm(LatLonE(60.0003, 0)).y: 8362760.29
+    all testWebMercator.py tests passed (PyGeodesy 18.7.21 Python 3.7.0 64bit Debian 9) 1.492 ms
+
+test/run.py /usr/local/bin/python all 2575 tests OK (PyGeodesy 18.7.21 Python 3.7.0 64bit Debian 9) 7.601 sec
