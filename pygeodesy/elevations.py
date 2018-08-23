@@ -167,7 +167,7 @@ def geoidHeight2(lat, lon, model=0, timeout=2.0):
        @note: The returned height is C{None} if I{lat} or I{lon} was
               invalid or outside the C{Conterminous US (CONUS)}, if
               the I{model} was invalid, if the query timed out or if
-              conversion failed.  The Error is an HTTO_, IO-, SSL-,
+              conversion failed.  The Error is an HTTP-, IO-, SSL-,
               Type-, URL- or ValueError.
 
        @see: U{NOAA National Geodetic Survery
