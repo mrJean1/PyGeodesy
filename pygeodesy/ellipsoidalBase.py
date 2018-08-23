@@ -14,6 +14,7 @@ and published under the same MIT Licence**, see for example U{latlon-ellipsoidal
 from bases import LatLonHeightBase
 from datum import Datum, Datums
 from dms import parse3llh
+from elevations import elevation2, geoidHeight2
 from fmath import EPS, EPS1, fsum_, hypot, hypot1
 from utils import degrees90, degrees180
 from vector3d import Vector3d
@@ -23,7 +24,7 @@ from math import atan2, copysign, cos, sin, sqrt
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('CartesianBase', 'LatLonEllipsoidalBase')
-__version__ = '18.03.04'
+__version__ = '18.08.21'
 
 
 class CartesianBase(Vector3d):
@@ -50,15 +51,15 @@ class CartesianBase(Vector3d):
 
            Uses Bowring’s (1985) formulation for μm precision in concise
            form: U{'The accuracy of geodetic latitude and height equations'
-           <http://www.researchgate.net/publication/
+           <http://www.ResearchGate.net/publication/
            233668213_The_Accuracy_of_Geodetic_Latitude_and_Height_Equations>},
            B. R. Bowring, Survey Review, Vol 28, 218, Oct 1985.
 
            See also Ralph M. Toms U{'An Efficient Algorithm for Geocentric
            to Geodetic Coordinate Conversion'
-           <http://www.osti.gov/scitech/biblio/110235>}, Sept 1995 and
+           <http://www.OSTI.gov/scitech/biblio/110235>}, Sept 1995 and
            U{'An Improved Algorithm for Geocentric to Geodetic Coordinate
-           Conversion'<http://www.osti.gov/scitech/servlets/purl/231228>},
+           Conversion'<http://www.OSTI.gov/scitech/servlets/purl/231228>},
            Apr 1996, from Lawrence Livermore National Laboratory.
 
            @keyword datum: Optional datum to use (L{Datum}).
@@ -114,12 +115,14 @@ class CartesianBase(Vector3d):
 class LatLonEllipsoidalBase(LatLonHeightBase):
     '''(INTERNAL) Base class for ellipsoidal LatLons.
     '''
-    _convergence = None  #: (INTERNAL) UTM meridian convergence (degrees).
-    _datum       = Datums.WGS84  #: (INTERNAL) Datum (L{Datum}).
-    _osgr        = None  #: (INTERNAL) cache toOsgr ({Osgr}).
-    _scale       = None  #: (INTERNAL) UTM grid scale factor (float).
-    _utm         = None  #: (INTERNAL) cache toUtm (L{Utm}).
-    _wm          = None  #: (INTERNAL) cache toWm (webmercator.Wm instance).
+    _convergence  = None  #: (INTERNAL) UTM meridian convergence (degrees).
+    _datum        = Datums.WGS84  #: (INTERNAL) Datum (L{Datum}).
+    _elevation2   = ()    #: (INTERNAL) cached C{elevation2} result.
+    _geoidHeight2 = ()    #: (INTERNAL) cached C{geoidHeight2} result.
+    _osgr         = None  #: (INTERNAL) cache toOsgr (C{Osgr}).
+    _scale        = None  #: (INTERNAL) UTM grid scale factor (float).
+    _utm          = None  #: (INTERNAL) cache toUtm (L{Utm}).
+    _wm           = None  #: (INTERNAL) cache toWm (webmercator.Wm instance).
 
     def __init__(self, lat, lon, height=0, datum=None):
         '''Create an (ellipsoidal) I{LatLon} point frome the given
@@ -140,9 +143,22 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
         if datum:  # check datum
             self.datum = datum
 
+    def _Radjust2(self, adjust, datum, meter, xtra):
+        # adjust elevation or geoidHeight with diference in
+        # Gaussian radii of curvature of given datum and NAD83
+        # (this an arbitrary, likely incorrect adjustment)
+        if adjust and isinstance(meter, float):
+            n = Datums.NAD83.ellipsoid.rocGauss(self.lat)
+            # datum and NAD83 may differ in units
+            if min(abs(meter), n) > EPS:
+                e = self.ellipsoid(datum).rocGauss(self.lat)
+                meter *= e / n
+        return meter, xtra
+
     def _update(self, updated):
         if updated:  # reset caches
             self._osgr = self._utm = self._wm = None
+            self._elevation2 = self._geoidHeight2 = ()
             LatLonHeightBase._update(self, updated)
 
     def antipode(self, height=None):
@@ -248,6 +264,33 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
         return self.ellipsoids(other).distance2(self.lat,  self.lon,
                                                other.lat, other.lon)
 
+    def elevation2(self, adjust=True, datum=Datums.WGS84, timeout=2):
+        '''Return elevation of this point for its or the given datum.
+
+           @keyword adjust: Adjust the elevation for I{datum}s other than
+                            C{NAD83}.
+           @keyword datum: Optional datum (L{Datum}).
+           @keyword timeout: Optional query timeout (seconds).
+
+           @return: 2-Tuple (elevation, data_source) in (meter, string)
+                    or in case of errors (None, <error>).
+
+           @note: The adjustment applied the is difference in geocentric
+                  earth radius for the I{datum} used and C{NAV83} upon
+                  which L{elevation2} is based.
+
+           @note: NED elevation is only available for locations in the
+                  U{Conterminous US (CONUS)
+                  <http://WikiPedia.org/wiki/Contiguous_United_States>}.
+
+           @see: Function L{elevation2} and method
+                 L{Ellipsoid.Rgeocentric} for further details.
+        '''
+        if not self._elevation2:  # get elevation and data source
+            self._elevation2 = elevation2(self.lat, self.lon,
+                                          timeout=timeout)
+        return self._Radjust2(adjust, datum, *self._elevation2)
+
     def ellipsoid(self, datum=Datums.WGS84):
         '''Return the ellipsoid of this point's datum or the given datum.
 
@@ -283,6 +326,33 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
             raise ValueError('%s %s mistmatch: %ss.%s vs %ss.%s' %
                              ('other', c, c, e.name, c, E.name))
         return E
+
+    def geoidHeight2(self, adjust=False, datum=Datums.WGS84, timeout=2):
+        '''Return geoid height of this point for its or the given datum.
+
+           @keyword adjust: Adjust the geoid height for I{datum}s other
+                            than C{NAD83/NADV88}.
+           @keyword datum: Optional datum (L{Datum}).
+           @keyword timeout: Optional query timeout (seconds).
+
+           @return: 2-Tuple (height, model_name) in (meter, string)
+                    or in case of errors (None, <error>).
+
+           @note: The adjustment applied the is difference in geocentric
+                  earth radius for the I{datum} used and C{NAV83/NADV88}
+                  upon which L{geoidHeight2} is based.
+
+           @note: NGS geoid height is only available for locations in
+                  the U{Conterminous US (CONUS)
+                  <http://WikiPedia.org/wiki/Contiguous_United_States>}.
+
+           @see: Function L{geoidHeight2} and method
+                 L{Ellipsoid.Rgeocentric} for further details.
+        '''
+        if not self._geoidHeight2:  # get elevation and data source
+            self._geoidHeight2 = geoidHeight2(self.lat, self.lon,
+                                              model=0, timeout=timeout)
+        return self._Radjust2(adjust, datum, *self._geoidHeight2)
 
     @property
     def isEllipsoidal(self):

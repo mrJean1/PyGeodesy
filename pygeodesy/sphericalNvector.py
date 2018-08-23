@@ -18,7 +18,7 @@ spherical trigonometry.  N-vectors make many calculations much simpler,
 and easier to follow, compared with the trigonometric equivalents.
 
 Based on Kenneth Gade’s U{‘Non-singular Horizontal Position Representation’
-<http://www.navlab.net/Publications/A_Nonsingular_Horizontal_Position_Representation.pdf>},
+<http://www.NavLab.net/Publications/A_Nonsingular_Horizontal_Position_Representation.pdf>},
 The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.
 
 Note that the formulations below take x => 0°N,0°E, y => 0°N,90°E and

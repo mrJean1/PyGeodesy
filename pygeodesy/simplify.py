@@ -585,7 +585,7 @@ def simplifyVWm(points, area, radius=R_M, attr=None,
        @keyword attr: Optional attribute to save the area value (string).
        @keyword indices: Optionally return the simplified point indices
                          instead of the simplified points (bool).
-       @keyword options: Optional keyword arguments  passed thru to
+       @keyword options: Optional keyword arguments passed thru to
                          function L{equirectangular_}.
 
        @return: Simplified points (list of I{LatLon}s).

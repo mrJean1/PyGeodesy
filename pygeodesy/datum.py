@@ -104,7 +104,6 @@ in Great Britain', Section 6
 @var Transforms.TokyoJapan: Transform(name='TokyoJapan', tx=148, ty=-507, tz=-685, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
 @var Transforms.WGS72: Transform(name='WGS72', tx=0, ty=0, tz=-4.5, rx=0, ry=0, rz=0, s=-0.22, s1=1, sx=0, sy=0, sz=0.554)
 @var Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
-
 '''
 
 # make sure int/int division yields float quotient
@@ -134,7 +133,7 @@ R_VM = 6366707.0194937  #: Aviation/Navigation earth radius (meter).
 __all__ = ('R_MA', 'R_MB', 'R_KM', 'R_M', 'R_NM', 'R_SM', 'R_FM', 'R_VM',  # constants
            'Datum',  'Ellipsoid',  'Transform',  # classes
            'Datums', 'Ellipsoids', 'Transforms')  # enum-like
-__version__ = '18.03.06'
+__version__ = '18.08.21'
 
 division = 1 / 2  # double check int division, see utils.py
 if not division:
@@ -262,7 +261,7 @@ class Ellipsoid(_Based):
     _a2 = 0  #: (INTERNAL) a**2
     _b2 = 0  #: (INTERNAL) b**2
 
-    # curvatures <http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature>
+    # curvatures <http://wikipedia.org/wiki/Earth_radius#Radii_of_curvature>
     _a2_b = None  #: (INTERNAL) Meridional radius of curvature at poles: a**2 / b (meter)
     _b2_a = None  #: (INTERNAL) Meridional radius of curvature at equator: b**2 / a (meter)
 
@@ -373,7 +372,7 @@ class Ellipsoid(_Based):
         '''Get the polar meridional radius of curvature: M{a**2 / b} (meter).
 
            @see: U{Radii of Curvature
-                 <http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature>}.
+                 <http://wikipedia.org/wiki/Earth_radius#Radii_of_curvature>}.
         '''
         if self._a2_b is None:
             self._a2_b = self._a2 / self.b
@@ -400,7 +399,7 @@ class Ellipsoid(_Based):
         '''Get the equatorial meridional radius of curvature: M{b**2 / a} (meter).
 
            @see: U{Radii of Curvature
-                 <http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature>}.
+                 <http://wikipedia.org/wiki/Earth_radius#Radii_of_curvature>}.
         '''
         if self._b2_a is None:
             self._b2_a = self._b2 / self.a
@@ -467,9 +466,12 @@ class Ellipsoid(_Based):
            @raise ValueError: Invalid I{s}.
         '''
         try:
-            return 1 - s**2 * self.e2
+            s2 = s**2
+            if s2 <= 1:
+                return 1 - s2 * self.e2
         except (TypeError, ValueError):
-            raise ValueError('%s invalid: %r' % ('e2s2', s))
+            pass
+        raise ValueError('%s invalid: %r' % ('e2s2', s))
 
     @property
     def isEllipsoidal(self):
@@ -526,6 +528,22 @@ class Ellipsoid(_Based):
             self._R3 = cbrt(self._a2 * self.b)
         return self._R3
 
+    def Rgeocentric(self, lat):
+        '''Compute the geocentric earth radius at the given latitude.
+
+           @param lat: Latitude (degrees90).
+
+           @return: Geocentric earth radius (meter).
+
+           @see: U{Geocentric Radius
+                 <http://wikipedia.org/wiki/Earth_radius#Geocentric_radius>}
+        '''
+        a2 = self._a2
+        b2 = self._b2
+        c2 = cos(radians(lat))**2
+        s2 = 1 - c2
+        return sqrt((a2**2 * c2 + b2**2 * s2) / (a2 * c2 + b2 * s2))
+
     @property
     def Rr(self):
         '''Get the rectifying earth radius: M{((a**3/2 + b**3/2) / 2)**2/3} (meter).
@@ -547,22 +565,6 @@ class Ellipsoid(_Based):
             self._Rs = sqrt(self.a * self.b)
         return self._Rs
 
-    def Rgeocentric(self, lat):
-        '''Compute the geocentric earth radius at the given latitude.
-
-           @param lat: Latitude (degrees90).
-
-           @return: Geocentric earth radius (meter).
-
-           @see: U{Geocentric Radius
-                 <http://en.wikipedia.org/wiki/Earth_radius#Geocentric_radius>}
-        '''
-        a2 = self._a2
-        b2 = self._b2
-        c2 = cos(radians(lat))**2
-        s2 = 1 - c2
-        return sqrt((a2**2 * c2 + b2**2 * s2) / (a2 * c2 + b2 * s2))
-
     def Rlat(self, lat):
         '''Approximate the earth radius at the given latitude.
 
@@ -574,7 +576,7 @@ class Ellipsoid(_Based):
         return self.a - self._ab_90 * min(abs(lat), 90)
 
     def roc2(self, lat):
-        '''Compute both radii of curvature at the given latitude.
+        '''Compute the meridional and prime-vertical radii of curvature at the given latitude.
 
            @param lat: Latitude (degrees90).
 
@@ -583,7 +585,7 @@ class Ellipsoid(_Based):
 
            @see: U{Local, Flat Earth<http://www.edwilliams.org/avform.htm#flat>}
                  and U{Radii of Curvature
-                 <http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature>}.
+                 <http://wikipedia.org/wiki/Earth_radius#Radii_of_curvature>}.
         '''
         r = self.e2s2(sin(radians(lat)))
         if r < EPS:
@@ -606,7 +608,7 @@ class Ellipsoid(_Based):
            @return: Directional radius of curvature (meter).
 
            @see: U{Radii of Curvature
-                 <http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature>}
+                 <http://wikipedia.org/wiki/Earth_radius#Radii_of_curvature>}
         '''
         c2 = cos(radians(bearing))**2
         s2 = 1 - c2
@@ -626,10 +628,14 @@ class Ellipsoid(_Based):
            @return: Gaussian radius of curvature (meter).
 
            @see: U{Radii of Curvature
-                 <http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature>}
+                 <http://wikipedia.org/wiki/Earth_radius#Radii_of_curvature>}
         '''
-        m, n = self.roc2(lat)
-        return sqrt(m * n)
+        # using ...
+        #    m, n = self.roc2(lat)
+        #    return sqrt(m * n)
+        # ... requires 1 or 2 sqrt
+        a2, c2 = self._a2, cos(radians(lat))**2
+        return a2 * self.b / (a2 * c2 + self._b2 * (1 - c2))
 
     def rocMean(self, lat):
         '''Compute the mean radius of curvature at the given latitude.
@@ -639,10 +645,38 @@ class Ellipsoid(_Based):
            @return: Mean radius of curvature (meter).
 
            @see: U{Radii of Curvature
-                 <http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature>}
+                 <http://wikipedia.org/wiki/Earth_radius#Radii_of_curvature>}
         '''
         m, n = self.roc2(lat)
         return 2 * m * n / (m + n)  # == 2 / (1 / m + 1 / n)
+
+    def rocMeridional(self, lat):
+        '''Compute the meridional radius of curvature at the given latitude.
+
+           @param lat: Latitude (degrees90).
+
+           @return: Meridional radius of curvature (meter).
+
+           @see: U{Local, Flat Earth<http://www.edwilliams.org/avform.htm#flat>}
+                 and U{Radii of Curvature
+                 <http://wikipedia.org/wiki/Earth_radius#Radii_of_curvature>}.
+        '''
+        m, _ = self.roc2(lat)
+        return m
+
+    def rocPrimeVertical(self, lat):
+        '''Compute the prime-vertical radius of curvature at the given latitude.
+
+           @param lat: Latitude (degrees90).
+
+           @return: Prime-vertical radis of curvature (meter).
+
+           @see: U{Local, Flat Earth<http://www.edwilliams.org/avform.htm#flat>}
+                 and U{Radii of Curvature
+                 <http://wikipedia.org/wiki/Earth_radius#Radii_of_curvature>}.
+        '''
+        _, n = self.roc2(lat)
+        return n
 
     def toStr(self, prec=9):  # PYCHOK expected
         '''Return this ellipsoid as a string.

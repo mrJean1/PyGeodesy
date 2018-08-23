@@ -22,7 +22,7 @@ from base import isiOS, PyGeodesy_dir, Python_O, \
           runner, secs2str, tilde, versions  # PYCHOK expected
 
 __all__ = ()
-__version__ = '18.07.21'
+__version__ = '18.08.21'
 
 # command line options
 _failedonly = False
@@ -84,7 +84,7 @@ if __name__ == '__main__':  # MCCABE 28
 
     if not args:  # no tests specified, get all test*.py
         # scripts in the same directory as this one
-        args = sorted(glob(join(_test_dir, 'test*.py')))
+        args = sorted(glob(join(_test_dir, 'test[A-Z]*.py')))
 
     T, X, s = 0, 0, time()
     for arg in args:

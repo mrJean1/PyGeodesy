@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '18.03.04'
+__version__ = '18.08.21'
 
 from testLatLon import Tests as _TestsLL
 from testVectorial import Tests as _TestsV
@@ -219,7 +219,7 @@ class Tests(_TestsLL, _TestsV):
         self.test('distanceTo2', bearingDMS(b, F_DMS), '307°04′38.41″')
 
     def testNOAA(self, module):
-        # <http://www.ngs.noaa.gov/PC_PROD/Inv_Fwd/readme.htm>
+        # <http://www.NGS.NOAA.gov/PC_PROD/Inv_Fwd/readme.htm>
 
         self.subtitle(module, 'NOAA')
 

@@ -133,7 +133,7 @@ class TestsBase(object):
         nt = '\n' * kwds.get('nt', 0)
         print(''.join((nl, self._prefix, (fmt % args), nt)))
 
-    def results(self, nl=1):
+    def results(self, passed='passed', nl=1):
         '''Summarize the test results.
         '''
         s = time() - self._time
@@ -145,7 +145,7 @@ class TestsBase(object):
                 k = ', incl. %s KNOWN' % (k,)
             r = '(%.1f%%) FAILED%s' % (100.0 * n / self.total, k)
         else:
-            n, p, r = 'all','s', 'passed'
+            n, p, r = 'all','s', passed
         r = '%s (%s) %s' % (r, self._versions, secs2str(s))
         self.printf('%s %s test%s %s', n, self._name, p, r, nl=nl)
 

@@ -4,7 +4,7 @@
 '''NavLab examples
 
 This page illustrates implementations of the examples from
-<http://www.navlab.net/nvector>.  Values are chosen to match
+<http://www.NavLab.net/nvector>.  Values are chosen to match
 those used in nvector.readthedocs.org.  Tests marked with
 # +++ are additional, not present in the original examples.
 '''

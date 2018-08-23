@@ -16,7 +16,7 @@ representing points on the earth's surface or vectors normal to the plane
 of a great circle.
 
 See also Kenneth Gade U{'A Non-singular Horizontal Position Representation'
-<http://www.navlab.net/Publications/A_Nonsingular_Horizontal_Position_Representation.pdf>},
+<http://www.NavLab.net/Publications/A_Nonsingular_Horizontal_Position_Representation.pdf>},
 The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.
 
 @newfield example: Example, Examples

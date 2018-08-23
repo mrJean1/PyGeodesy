@@ -41,7 +41,7 @@ __all__ = ('PI', 'PI2', 'PI_2', 'R_M',  # constants
            'unroll180', 'unrollPI', 'unStr',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '18.03.06'
+__version__ = '18.08.21'
 
 division = 1 / 2  # double check int division, see datum.py
 if not division:
@@ -289,13 +289,13 @@ def false2f(value, name='value', false=True):
 
 
 def ft2m(feet):
-    '''Convert feet to meter (m).
+    '''Convert I{International} feet to meter (m).
 
        @param feet: Value in feet (scalar).
 
        @return: Value in m (float).
     '''
-    return feet * 0.3048
+    return feet * 0.3048  # US Survey 1200./3937. == 0.3048006096012192
 
 
 def halfs(str2):
@@ -552,13 +552,13 @@ def limiterrors(raiser=None):
 
 
 def m2ft(meter):
-    '''Convert meter to feet (ft).
+    '''Convert meter to I{International} feet (ft).
 
        @param meter: Value in meter (scalar).
 
        @return: Value in ft (float).
     '''
-    return meter * 3.2808399
+    return meter * 3.2808399  # US Survey == 3937./1200. = 3.2808333333333333
 
 
 def m2km(meter):

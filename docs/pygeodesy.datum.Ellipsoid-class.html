@@ -227,7 +227,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.datum.Ellipsoid-class.html#roc2" class="summary-sig-name">roc2</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat</span>)</span><br />
-      Compute both radii of curvature at the given latitude.</td>
+      Compute the meridional and prime-vertical radii of curvature at the 
+      given latitude.</td>
           <td align="right" valign="top">
             
             
@@ -284,6 +285,42 @@
           <td><span class="summary-sig"><a href="pygeodesy.datum.Ellipsoid-class.html#rocMean" class="summary-sig-name">rocMean</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat</span>)</span><br />
       Compute the mean radius of curvature at the given latitude.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.datum.Ellipsoid-class.html#rocMeridional" class="summary-sig-name">rocMeridional</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lat</span>)</span><br />
+      Compute the meridional radius of curvature at the given latitude.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.datum.Ellipsoid-class.html#rocPrimeVertical" class="summary-sig-name">rocPrimeVertical</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lat</span>)</span><br />
+      Compute the prime-vertical radius of curvature at the given latitude.</td>
           <td align="right" valign="top">
             
             
@@ -776,8 +813,7 @@
         <dd>Geocentric earth radius (meter).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a 
-        href="http://en.wikipedia.org/wiki/Earth_radius#Geocentric_radius" 
+        <a href="http://wikipedia.org/wiki/Earth_radius#Geocentric_radius" 
         target="_top">Geocentric Radius</a>
       </p>
 </div></td></tr></table>
@@ -823,7 +859,8 @@
     </td>
   </tr></table>
   
-  <p>Compute both radii of curvature at the given latitude.</p>
+  <p>Compute the meridional and prime-vertical radii of curvature at the 
+  given latitude.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -836,7 +873,7 @@
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="http://www.edwilliams.org/avform.htm#flat" 
         target="_top">Local, Flat Earth</a> and <a 
-        href="http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature"
+        href="http://wikipedia.org/wiki/Earth_radius#Radii_of_curvature" 
         target="_top">Radii of Curvature</a>.
       </p>
 </div></td></tr></table>
@@ -869,8 +906,7 @@
         <dd>Directional radius of curvature (meter).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a 
-        href="http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature"
+        <a href="http://wikipedia.org/wiki/Earth_radius#Radii_of_curvature"
         target="_top">Radii of Curvature</a>
       </p>
 </div></td></tr></table>
@@ -900,8 +936,7 @@
         <dd>Gaussian radius of curvature (meter).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a 
-        href="http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature"
+        <a href="http://wikipedia.org/wiki/Earth_radius#Radii_of_curvature"
         target="_top">Radii of Curvature</a>
       </p>
 </div></td></tr></table>
@@ -931,9 +966,73 @@
         <dd>Mean radius of curvature (meter).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a 
-        href="http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature"
+        <a href="http://wikipedia.org/wiki/Earth_radius#Radii_of_curvature"
         target="_top">Radii of Curvature</a>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="rocMeridional"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">rocMeridional</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">lat</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the meridional radius of curvature at the given latitude.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat</code></strong> - Latitude (degrees90).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Meridional radius of curvature (meter).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="http://www.edwilliams.org/avform.htm#flat" 
+        target="_top">Local, Flat Earth</a> and <a 
+        href="http://wikipedia.org/wiki/Earth_radius#Radii_of_curvature" 
+        target="_top">Radii of Curvature</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="rocPrimeVertical"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">rocPrimeVertical</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">lat</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the prime-vertical radius of curvature at the given 
+  latitude.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat</code></strong> - Latitude (degrees90).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Prime-vertical radis of curvature (meter).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="http://www.edwilliams.org/avform.htm#flat" 
+        target="_top">Local, Flat Earth</a> and <a 
+        href="http://wikipedia.org/wiki/Earth_radius#Radii_of_curvature" 
+        target="_top">Radii of Curvature</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -1007,8 +1106,7 @@
     </dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a 
-        href="http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature"
+        <a href="http://wikipedia.org/wiki/Earth_radius#Radii_of_curvature"
         target="_top">Radii of Curvature</a>.
       </p>
 </div></td></tr></table>
@@ -1045,8 +1143,7 @@ a</i> (meter).
     </dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a 
-        href="http://en.wikipedia.org/wiki/Earth_radius#Radii_of_curvature"
+        <a href="http://wikipedia.org/wiki/Earth_radius#Radii_of_curvature"
         target="_top">Radii of Curvature</a>.
       </p>
 </div></td></tr></table>
@@ -1244,7 +1341,7 @@ a</i> (meter).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Jul 21 14:37:09 2018
+    Generated by Epydoc 3.0.1 on Thu Aug 23 15:43:38 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

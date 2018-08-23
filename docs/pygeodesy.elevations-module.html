@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.elevations</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        Module&nbsp;elevations
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.elevations-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module elevations</h1><p class="nomargin-top"></p>
+<p>Functions to obtain elevations and geoid heights thru web services, 
+  for (lat, lon) locations limited to the <a 
+  href="http://wikipedia.org/wiki/Contiguous_United_States" 
+  target="_top">Conterminous US (CONUS)</a>.</p>
+  <p><b>macOS</b>: If an <code>SSLCertVerificationError</code> occurs, 
+  especially this <i>&quot;[SSL: CERTIFICATE_VERIFY_FAILED] certificate 
+  verify failed: self &quot;signed certificate in certificate chain 
+  ...&quot;</i>, review <a 
+  href="http://StackOverflow.com/questions/27835619/urllib-and-ssl-certificate-verify-failed-error"
+  target="_top">this post</a> for a remedy.  From a Terminal window run: 
+  <code>&quot;/Applications/Python X.Y/Install 
+  Certificates.command&quot;</code></p>
+
+<hr />
+<div class="fields">      <p><strong>Version:</strong>
+        18.08.21
+      </p>
+</div><!-- ==================== FUNCTIONS ==================== -->
+<a name="section-Functions"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Functions</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.elevations-module.html#elevation2" class="summary-sig-name">elevation2</a>(<span class="summary-sig-arg">lat</span>,
+        <span class="summary-sig-arg">lon</span>,
+        <span class="summary-sig-arg">timeout</span>=<span class="summary-sig-default">2.0</span>)</span><br />
+      Get the geoid elevation at an <code>NAD83</code> to 
+      <code>NAVD88</code> location.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.elevations-module.html#geoidHeight2" class="summary-sig-name">geoidHeight2</a>(<span class="summary-sig-arg">lat</span>,
+        <span class="summary-sig-arg">lon</span>,
+        <span class="summary-sig-arg">model</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">timeout</span>=<span class="summary-sig-default">2.0</span>)</span><br />
+      Get the <code>NAVD88</code> geoid height at an <code>NAD83</code> 
+      location.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTION DETAILS ==================== -->
+<a name="section-FunctionDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Function Details</span></td>
+</tr>
+</table>
+<a name="elevation2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">elevation2</span>(<span class="sig-arg">lat</span>,
+        <span class="sig-arg">lon</span>,
+        <span class="sig-arg">timeout</span>=<span class="sig-default">2.0</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get the geoid elevation at an <code>NAD83</code> to 
+  <code>NAVD88</code> location.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat</code></strong> - Latitude (degrees).</li>
+        <li><strong class="pname"><code>lon</code></strong> - Longitude (degrees).</li>
+        <li><strong class="pname"><code>timeout</code></strong> - Optional, query timeout (seconds).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>2-Tuple (elevation, data_source) in (meter, string) or (None, 
+          Error).</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The returned height is <code>None</code> if <i>lat</i> or 
+        <i>lon</i> was invalid or outside the <code>Conterminous US 
+        (CONUS)</code>, if the query timed out or if conversion failed.  
+        The Error is an HTTP-, IO-, SSL-, Type-, URL- or ValueError.
+      </p>
+      <p><strong>See Also:</strong>
+        <a href="http://NationalMap.gov/epqs/" target="_top">USGS National 
+        Map</a>, the <a 
+        href="http://www.USGS.gov/faqs/what-are-projection-horizontal-and-vertical-datum-units-and-resolution-3dep-standard-dems"
+        target="_top">FAQ</a> and <a 
+        href="http://gist.GitHub.com/pyRobShrk?page=2" 
+        target="_top">USGS10mElev.py</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="geoidHeight2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">geoidHeight2</span>(<span class="sig-arg">lat</span>,
+        <span class="sig-arg">lon</span>,
+        <span class="sig-arg">model</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">timeout</span>=<span class="sig-default">2.0</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get the <code>NAVD88</code> geoid height at an <code>NAD83</code> 
+  location.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat</code></strong> - Latitude (degrees).</li>
+        <li><strong class="pname"><code>lon</code></strong> - Longitude (degrees).</li>
+        <li><strong class="pname"><code>model</code></strong> - Optional, geoid model ID (int).</li>
+        <li><strong class="pname"><code>timeout</code></strong> - Optional, query timeout (seconds).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>2-Tuple (height, model_name) in (meter, string) or (None, Error).</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The returned height is <code>None</code> if <i>lat</i> or 
+        <i>lon</i> was invalid or outside the <code>Conterminous US 
+        (CONUS)</code>, if the <i>model</i> was invalid, if the query timed
+        out or if conversion failed.  The Error is an HTTO_, IO-, SSL-, 
+        Type-, URL- or ValueError.
+      </p>
+      <p><strong>See Also:</strong>
+        <a href="http://www.NGS.NOAA.gov/INFO/geodesy.shtml" 
+        target="_top">NOAA National Geodetic Survery</a> and <a 
+        href="http://www.NGS.NOAA.gov/web_services/geoid.shtml" 
+        target="_top">Geoid</a>
+      </p>
+</div></td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Aug 23 15:43:38 2018
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

@@ -21,7 +21,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2',  # constants
            'len2',
            'map1', 'map2',
            'scalar')
-__version__ = '18.07.21'
+__version__ = '18.07.24'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -55,7 +55,7 @@ _1_3rd = 1.0 / 3.0  #: (INTERNAL) One third (float)
 _2_3rd = 2.0 / 3.0  #: (INTERNAL) Two third (float)
 
 
-def _2even(p, r, s):
+def _2even(s, r, p):
     '''(INTERNAL) Half-even rounding.
     '''
     if (r > 0 and p > 0) or \
@@ -72,9 +72,10 @@ def _2sum(a, b):
     s = a + b
     if not isfinite(s):
         raise OverflowError('partial %s: %r' % ('2sum', s))
-    if abs(b) > abs(a):
-        a, b = b, a
-    return s, b - (s - a)
+    if abs(a) < abs(b):
+        return s, a - (s - b)
+    else:
+        return s, b - (s - a)
 
 
 class Fsum(object):
@@ -125,13 +126,14 @@ class Fsum(object):
            @raise ValueError: Invalid or infinite I{arg}.
         '''
         a = self._arg(arg)
-        i = 0
-        for p in self._ps:
-            a, p = _2sum(a, p)
-            if p:
-                self._ps[i] = p
-                i += 1
-        self._ps[i:] = [a]
+        if a:
+            i = 0
+            for p in self._ps:
+                a, p = _2sum(a, p)
+                if p:
+                    self._ps[i] = p
+                    i += 1
+            self._ps[i:] = [a] if a else []
 
     def fadd2(self, iterable):
         '''Accumulate multiple values.
@@ -162,9 +164,9 @@ class Fsum(object):
             while i > 0:
                 i -= 1
                 s, p = _2sum(s, self._ps[i])
-                if p:
+                if p:  # sum(ps) became inexaxt
                     if i > 0:  # half-even round if signs match
-                        s = _2even(p, self._ps[i-1], s)
+                        s = _2even(s, self._ps[i-1], p)
                     break
         return s
 
@@ -306,7 +308,7 @@ def fpowers(x, n, alts=0):
        @return: Powers of I{x} (list of floats).
 
        @raise TypeError: Argument I{x} not scalar or
-                         I{n} not positive.
+                         I{n} not int.
 
        @raise ValueError: Argument I{n} not positive.
     '''
@@ -314,7 +316,7 @@ def fpowers(x, n, alts=0):
         raise TypeError('%s invalid: %r' % ('x', x))
     if not isinstance(n, _Ints):
         raise TypeError('%s invalid: %r' % ('n', n))
-    if n < 1:
+    elif n < 1:
         raise ValueError('%s invalid: %r' % ('n', n))
 
     xs = [x]

@@ -51,8 +51,8 @@ with U{PyChecker<http://pypi.python.org/pypi/pychecker>},
 U{PyFlakes<http://pypi.python.org/pypi/pyflakes>},
 U{PyCodeStyle<http://pypi.python.org/pypi/pycodestyle>} (formerly Pep8) and
 U{McCabe<http://pypi.python.org/pypi/mccabe>} using Python 2.7.15 and with
-U{Flake8<http://pypi.python.org/pypi/flake8>} on Python 3.7.0, both in
-64-bit on macOS 10.13.5 High Sierra.
+U{Flake8<http://pypi.python.org/pypi/flake8>} using Python 3.7.0, both in
+64-bit on macOS 10.13.6 High Sierra.
 
 The tests have been run in 64-bit with U{PyPy-Python<http://pypy.org>}
 2.7.13, Python 2.7.15 (with U{geographiclib
@@ -60,16 +60,16 @@ The tests have been run in 64-bit with U{PyPy-Python<http://pypy.org>}
 <http://pypi.python.org/pypi/numpy>} 1.14.0), U{Intel-Python
 <http://software.intel.com/en-us/distribution-for-python>} 3.5.3 (and
 U{numpy<http://pypi.python.org/pypi/numpy>} 1.11.3) and Python 3.7.0,
-all on macOS 10.13.5 High Sierra and with U{Pythonista 3.2
+all on macOS 10.13.6 High Sierra and with U{Pythonista 3.2
 <http://omz-software.com/pythonista/>} Python 2.7.12 and 3.6.1 (both with
-U{numpy<http://pypi.python.org/pypi/numpy>} 1.8.0) on iOS 11.4.
+U{numpy<http://pypi.python.org/pypi/numpy>} 1.8.0) on iOS 11.4.1.
 
 Previously, the tests were run with 64-bit Python 2.6.9 (and numpy 1.6.2),
 2.7.10 (and numpy 1.8.0rc1), 2.7.13, 2.7.14 (and numpy 1.13.1), 3.5.3,
 3.6.2, 3.6.3, 3.6.4 and 3.6.5 on MacOS X 10.10 Yosemite, MacOS X 10.11 El
-Capitan, macOS 10.12 Sierra and/or macOS 10.13.4 High Sierra, with
+Capitan, macOS 10.12 Sierra, macOS 10.13.4 and/or 10.13.5 High Sierra, with
 Pythonista 3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3, with 32-bit Python
-2.6.6 on Windows XP SP3, with 32-bit Python 2.7.14 on Window 10 Pro and
+2.6.6 on Windows XP SP3, with 32-bit Python 2.7.14 on Windows 10 Pro and
 with 64-bit Python 3.7.0 on Debian GNU/Linux 9.
 
 In addition to the U{PyGeodesy<http://pypi.python.org/pypi/PyGeodesy>} package,
@@ -185,13 +185,13 @@ VincentyError = ellipsoidalVincenty.VincentyError
 # all public sub-modules, contants, classes and functions
 __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',  # modules
            'sphericalNvector', 'sphericalTrigonometry',
-           'datum', 'dms', 'fmath', 'geohash', 'lcc', 'mgrs',
-           'nvector', 'osgr', 'points', 'simplify',
+           'datum', 'dms', 'elevations', 'fmath', 'geohash',
+           'lcc', 'mgrs', 'nvector', 'osgr', 'points', 'simplify',
            'utils', 'utm', 'vector3d', 'webmercator',
            'Geohash', 'VincentyError',  # classes
            'R_M',  # to avoid duplicates from datum and utils
            'version')  # extended below
-__version__ = '18.07.21'
+__version__ = '18.08.21'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
@@ -201,6 +201,7 @@ version = '.'.join(map(str, map(int, __version__.split('.'))))
 # Beazley's <http://dabeaz.com/modulepackage/index.html>)
 from datum       import *  # PYCHOK __all__
 from dms         import *  # PYCHOK __all__
+from elevations  import *  # PYCHOK __all__
 from fmath       import *  # PYCHOK __all__
 from lcc         import *  # PYCHOK __all__
 from mgrs        import *  # PYCHOK __all__
@@ -213,6 +214,7 @@ from webmercator import *  # PYCHOK __all__
 
 import datum        # PYCHOK expected
 import dms          # PYCHOK expected
+import elevations   # PYCHOK expected
 import fmath        # PYCHOK expected
 import lcc          # PYCHOK expected
 import mgrs         # PYCHOK expected
@@ -225,8 +227,8 @@ import webmercator  # PYCHOK expected
 
 # concat __all__ with the public classes, constants,
 # functions, etc. from the sub-modules mentioned above
-for m in (datum, dms, fmath, lcc, mgrs, osgr, points,
-          simplify, utils, utm, webmercator):
+for m in (datum, dms, elevations, fmath, lcc, mgrs, osgr,
+          points, simplify, utils, utm, webmercator):
     __all__ += tuple(_ for _ in m.__all__ if _ not in ('R_M',))
 del m
 
