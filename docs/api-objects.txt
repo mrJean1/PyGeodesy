@@ -217,7 +217,7 @@ pygeodesy.dms._S_norm	pygeodesy.dms-module.html#_S_norm
 pygeodesy.dms.F_DMS	pygeodesy.dms-module.html#F_DMS
 pygeodesy.dms.compassAngle	pygeodesy.dms-module.html#compassAngle
 pygeodesy.elevations	pygeodesy.elevations-module.html
-pygeodesy.elevations._Error	pygeodesy.elevations-module.html#_Error
+pygeodesy.elevations._error	pygeodesy.elevations-module.html#_error
 pygeodesy.elevations._qURL	pygeodesy.elevations-module.html#_qURL
 pygeodesy.elevations.geoidHeight2	pygeodesy.elevations-module.html#geoidHeight2
 pygeodesy.elevations._xml	pygeodesy.elevations-module.html#_xml

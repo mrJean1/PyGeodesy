@@ -16,7 +16,7 @@ C{"/Applications/Python X.Y/Install Certificates.command"}
 '''
 
 __all__ = 'elevation2', 'geoidHeight2'
-__version__ = '18.08.21'
+__version__ = '18.08.22'
 
 from fmath import fStr
 
@@ -64,10 +64,10 @@ except ImportError:
         return d
 
 
-def _Error(fun, lat, lon, e):
-    '''(INTERNAL) Foramt a conversion error'
+def _error(fun, lat, lon, e):
+    '''(INTERNAL) Format an error'
     '''
-    return ValueError('%s(%s): %s' % (fun.__name__, fStr((lat, lon)), e))
+    return '%s(%s): %r' % (fun.__name__, fStr((lat, lon)), e)
 
 
 def _qURL(url, *params, **timeout):
@@ -97,14 +97,14 @@ def _xml(tag, xml):
     #   <USGS_Elevation_Point_Query_Service>
     #    <Elevation_Query x="-121.914200" y="37.881600">
     #     <Data_Source>3DEP 1/3 arc-second</Data_Source>
-    #      <Elevation>3851.03</Elevation>
-    #       <Units>Feet</Units>
-    #      </Elevation_Query>
+    #     <Elevation>3851.03</Elevation>
+    #     <Units>Feet</Units>
+    #    </Elevation_Query>
     #   </USGS_Elevation_Point_Query_Service>'
     i = xml.find('<%s>' % (tag,))
     if i > 0:
         i += len(tag) + 2
-        j = xml.find('</%s>' % (tag,), i) - 1
+        j = xml.find('</%s>' % (tag,), i)
         if j > i:
             return xml[i:j].strip()
     return 'no <%s>' % (tag,)
@@ -118,12 +118,13 @@ def elevation2(lat, lon, timeout=2.0):
        @keyword timeout: Optional, query timeout (seconds).
 
        @return: 2-Tuple (elevation, data_source) in (meter, string)
-                or (None, Error).
+                or (None, <error>).
 
-       @note: The returned height is C{None} if I{lat} or I{lon} was
-              invalid or outside the C{Conterminous US (CONUS)}, if
-              the query timed out or if conversion failed.  The Error
-              is an HTTP-, IO-, SSL-, Type-, URL- or ValueError.
+       @note: The returned elevation is C{None} if I{lat} or I{lon}
+              was invalid or outside the C{Conterminous US (CONUS)},
+              if the query timed out or if conversion failed.  The
+              <error> is the HTTP-, IO-, SSL-, Type-, URL- or
+              ValueError as string.
 
        @see: U{USGS National Map<http://NationalMap.gov/epqs/>},
              the U{FAQ<http://www.USGS.gov/faqs/what-are-projection-
@@ -143,14 +144,13 @@ def elevation2(lat, lon, timeout=2.0):
             e = float(e)
             if -100000 < e < 1000000:
                 return e, _xml('Data_Source', x)
-
             e = 'non-CONUS'
         except ValueError:
             pass
 
-        return None, _Error(elevation2, lat, lon, e)
+        raise ValueError(e)
     except (IOError, TypeError, ValueError) as x:
-        return None, x
+        return None, _error(elevation2, lat, lon, x)
 
 
 def geoidHeight2(lat, lon, model=0, timeout=2.0):
@@ -162,13 +162,13 @@ def geoidHeight2(lat, lon, model=0, timeout=2.0):
        @keyword timeout: Optional, query timeout (seconds).
 
        @return: 2-Tuple (height, model_name) in (meter, string) or
-                (None, Error).
+                (None, <error>).
 
        @note: The returned height is C{None} if I{lat} or I{lon} was
               invalid or outside the C{Conterminous US (CONUS)}, if
               the I{model} was invalid, if the query timed out or if
-              conversion failed.  The Error is an HTTP-, IO-, SSL-,
-              Type-, URL- or ValueError.
+              conversion failed.  The <error> is the HTTP-, IO-, SSL-,
+              Type-, URL- or ValueError as string.
 
        @see: U{NOAA National Geodetic Survery
              <http://www.NGS.NOAA.gov/INFO/geodesy.shtml>} and
@@ -187,15 +187,15 @@ def geoidHeight2(lat, lon, model=0, timeout=2.0):
             if h is not None:
                 return h, d.get('geoidModel', 'N/A')
 
-        return None, _Error(geoidHeight2, lat, lon, e)
+        raise ValueError(e)
     except (IOError, TypeError, ValueError) as x:
-        return None, x
+        return None, _error(geoidHeight2, lat, lon, x)
 
 
 if __name__ == '__main__':
 
     # <http://WikiPedia.org/wiki/Mount_Diablo>
-    for f in (elevation2,     # (1173.7, '3DEP 1/3 arc-secon')
+    for f in (elevation2,     # (1173.79, '3DEP 1/3 arc-second')
               geoidHeight2):  # (-31.703, 'GEOID12B')
         t = f(37.8816, -121.9142)
         print('%s: %s' % (f.__name__, t))

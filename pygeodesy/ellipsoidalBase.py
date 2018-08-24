@@ -24,7 +24,7 @@ from math import atan2, copysign, cos, sin, sqrt
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('CartesianBase', 'LatLonEllipsoidalBase')
-__version__ = '18.08.21'
+__version__ = '18.08.22'
 
 
 class CartesianBase(Vector3d):
@@ -149,7 +149,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
         # (this an arbitrary, likely incorrect adjustment)
         if adjust and isinstance(meter, float):
             n = Datums.NAD83.ellipsoid.rocGauss(self.lat)
-            # datum and NAD83 may differ in units
+            # use ratio, if case datum and NAD83 units differ
             if min(abs(meter), n) > EPS:
                 e = self.ellipsoid(datum).rocGauss(self.lat)
                 meter *= e / n
