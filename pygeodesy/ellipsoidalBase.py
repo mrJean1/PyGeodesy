@@ -143,17 +143,18 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
         if datum:  # check datum
             self.datum = datum
 
-    def _Radjust2(self, adjust, datum, meter, xtra):
+    def _Radjust2(self, adjust, datum, meter, model):
         # adjust elevation or geoidHeight with diference in
         # Gaussian radii of curvature of given datum and NAD83
         # (this an arbitrary, likely incorrect adjustment)
         if adjust and isinstance(meter, float):
             n = Datums.NAD83.ellipsoid.rocGauss(self.lat)
-            # use ratio, if case datum and NAD83 units differ
             if min(abs(meter), n) > EPS:
+                # use ratio, datum and NAD83 units may differ
                 e = self.ellipsoid(datum).rocGauss(self.lat)
-                meter *= e / n
-        return meter, xtra
+                if min(abs(e - n), e) > EPS:
+                    meter *= e / n
+        return meter, model
 
     def _update(self, updated):
         if updated:  # reset caches

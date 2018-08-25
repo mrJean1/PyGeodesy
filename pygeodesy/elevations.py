@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 u'''Functions to obtain elevations and geoid heights thru web services,
-for (lat, lon) locations limited to the U{Conterminous US (CONUS)
+for (lat, lon) locations, currently limited to the U{Conterminous US (CONUS)
 <http://wikipedia.org/wiki/Contiguous_United_States>}.
 
 B{macOS}: If an C{SSLCertVerificationError} occurs, especially this
@@ -16,7 +16,7 @@ C{"/Applications/Python X.Y/Install Certificates.command"}
 '''
 
 __all__ = 'elevation2', 'geoidHeight2'
-__version__ = '18.08.22'
+__version__ = '18.08.24'
 
 from fmath import fStr
 

@@ -69,7 +69,7 @@ required for two *ellipsoidalVincenty* functions, *areaOf* and *perimeterOf*.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Aug 22, 2018.*
+*Last updated: Aug 24, 2018.*
 
 .. _checked: http://github.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor
 .. _docs: http://www.movable-type.co.uk/scripts/geodesy/docs/

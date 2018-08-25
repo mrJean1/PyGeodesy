@@ -4,9 +4,9 @@
 # Test elevations functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '18.08.22'
+__version__ = '18.08.24'
 
-from base import TestsBase
+from base import isPython2, isPython3, TestsBase
 
 from pygeodesy import elevation2, Datums, geoidHeight2
 
@@ -38,19 +38,21 @@ class Tests(TestsBase):
             self.test('geodHeight2', m, h, fmt='%s' if m is None else '%.3f')  # PYCHOK invoked
 
         m, x = elevation2(0, 0, timeout=timeout)
-        self.test('elevation2', m, None)
-        self.test('elevation2', x, "elevation2(0.0, 0.0): ValueError('non-CONUS',)")
+        self.testError('elevation2', m, x, "ValueError('non-CONUS')")
         m, x = geoidHeight2(0, 0, timeout=timeout)
-        self.test('geoidHeight2', m, None)
-        self.test('geoidHeight2', x, x)  # 'HTTP Error 403: Forbidden ...'
+        self.testError('geoidHeight2', m, x, "<HTTPError 403: 'Forbidden'>" if isPython3
+                                        else ('HTTPError()' if isPython2 else 'isPython?'))
 
-        non_CONUS = LatLon(51.4778, 0.0016)
+        non_CONUS = LatLon(51.4, 0.1)
         m, x = non_CONUS.elevation2(datum=datum, timeout=0.01)  # force timeout
-        self.test('elevation2', m, None)
-        self.test('elevation2', x, x)
+        self.testError('elevation2', m, x, "URLError(timeout('timed out'))")
         m, x = non_CONUS.geoidHeight2(datum=datum, timeout=0.01)  # force timeout
-        self.test('geodHeight2', m, None)
-        self.test('geoidHeight2', x, x)  # 'HTTP Error 403: Forbidden ...'
+        self.testError('geodHeight2', m, x, "URLError(timeout('timed out'))")
+
+    def testError(self, name, m, x, error):
+        # check an error test result
+        x = x.replace(',)', ')').split('): ')[-1]
+        self.test(name, (m, x), (None, error))
 
 
 if __name__ == '__main__':
@@ -78,10 +80,8 @@ if __name__ == '__main__':
 
 
 # Typical test results (for 2 second timeout).
-#
-# python test/testElevations.py 2
-#
-#   testing testElevations.py 18.08.22
+
+# python2 test/testElevations.py  2
 #   test 1 elevation2: 1173.79
 #   test 2 geoidHeight2: -31.703
 #   test 3 elevation2: 1173.790
@@ -94,33 +94,63 @@ if __name__ == '__main__':
 #   test 10 geodHeight2: -30.009
 #   test 11 elevation2: 32.790
 #   test 12 geodHeight2: -31.668
-#   test 13 elevation2: None
-#   test 14 elevation2: elevation2(0.0, 0.0): ValueError('non-CONUS',)
-#   test 15 geoidHeight2: None
-#   test 16 geoidHeight2: geoidHeight2(0.0, 0.0): <HTTPError 403: 'Forbidden'>
-#   test 17 elevation2: None
-#   test 18 elevation2: elevation2(51.4778, 0.0016): URLError(timeout('timed out',),)
-#   test 19 geodHeight2: None
-#   test 20 geoidHeight2: geoidHeight2(51.4778, 0.0016): URLError(timeout('timed out',),)
-#   test 21 elevation2: 1173.79
-#   test 22 geoidHeight2: -31.703
-#   test 23 elevation2: 1173.790
-#   test 24 geodHeight2: -31.703
-#   test 25 elevation2: 2.030
-#   test 26 geodHeight2: -27.765
-#   test 27 elevation2: 199.180
-#   test 28 geodHeight2: -34.366
-#   test 29 elevation2: 8.520
-#   test 30 geodHeight2: -30.009
-#   test 31 elevation2: 32.790
-#   test 32 geodHeight2: -31.668
-#   test 33 elevation2: None
-#   test 34 elevation2: elevation2(0.0, 0.0): ValueError('non-CONUS',)
-#   test 35 geoidHeight2: None
-#   test 36 geoidHeight2: geoidHeight2(0.0, 0.0): <HTTPError 403: 'Forbidden'>
-#   test 37 elevation2: None
-#   test 38 elevation2: elevation2(51.4778, 0.0016): URLError(timeout('timed out',),)
-#   test 39 geodHeight2: None
-#   test 40 geoidHeight2: geoidHeight2(51.4778, 0.0016): URLError(timeout('timed out',),)
-#
-#   all testElevations.py tests passed (PyGeodesy 18.8.22 Python 3.6.1 64bit numpy 1.8.0 iOS 11.4.1) 9.439 sec
+#   test 13 elevation2: (None, "ValueError('non-CONUS')")
+#   test 14 geoidHeight2: (None, 'HTTPError()')
+#   test 15 elevation2: (None, "URLError(timeout('timed out'))")
+#   test 16 geodHeight2: (None, "URLError(timeout('timed out'))")
+#   test 17 elevation2: 1173.79
+#   test 18 geoidHeight2: -31.703
+#   test 19 elevation2: 1173.790
+#   test 20 geodHeight2: -31.703
+#   test 21 elevation2: 2.030
+#   test 22 geodHeight2: -27.765
+#   test 23 elevation2: 199.180
+#   test 24 geodHeight2: -34.366
+#   test 25 elevation2: 8.520
+#   test 26 geodHeight2: -30.009
+#   test 27 elevation2: 32.790
+#   test 28 geodHeight2: -31.668
+#   test 29 elevation2: (None, "ValueError('non-CONUS')")
+#   test 30 geoidHeight2: (None, 'HTTPError()')
+#   test 31 elevation2: (None, "URLError(timeout('timed out'))")
+#   test 32 geodHeight2: (None, "URLError(timeout('timed out'))")
+
+#   all testElevations.py tests passed (PyGeodesy 18.8.24 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 5.757 sec
+
+
+# python3 test/testElevations.py  2
+#   testing testElevations.py 18.08.24
+#   test 1 elevation2: 1173.79
+#   test 2 geoidHeight2: -31.703
+#   test 3 elevation2: 1173.790
+#   test 4 geodHeight2: -31.703
+#   test 5 elevation2: 2.030
+#   test 6 geodHeight2: -27.765
+#   test 7 elevation2: 199.180
+#   test 8 geodHeight2: -34.366
+#   test 9 elevation2: 8.520
+#   test 10 geodHeight2: -30.009
+#   test 11 elevation2: 32.790
+#   test 12 geodHeight2: -31.668
+#   test 13 elevation2: (None, "ValueError('non-CONUS')")
+#   test 14 geoidHeight2: (None, "<HTTPError 403: 'Forbidden'>")
+#   test 15 elevation2: (None, "URLError(timeout('timed out'))")
+#   test 16 geodHeight2: (None, "URLError(timeout('timed out'))")
+#   test 17 elevation2: 1173.79
+#   test 18 geoidHeight2: -31.703
+#   test 19 elevation2: 1173.790
+#   test 20 geodHeight2: -31.703
+#   test 21 elevation2: 2.030
+#   test 22 geodHeight2: -27.765
+#   test 23 elevation2: 199.180
+#   test 24 geodHeight2: -34.366
+#   test 25 elevation2: 8.520
+#   test 26 geodHeight2: -30.009
+#   test 27 elevation2: 32.790
+#   test 28 geodHeight2: -31.668
+#   test 29 elevation2: (None, "ValueError('non-CONUS')")
+#   test 30 geoidHeight2: (None, "<HTTPError 403: 'Forbidden'>")
+#   test 31 elevation2: (None, "URLError(timeout('timed out'))")
+#   test 32 geodHeight2: (None, "URLError(timeout('timed out'))")
+
+#   all testElevations.py tests passed (PyGeodesy 18.8.24 Python 3.7.0 64bit macOS 10.13.6) 5.675 sec

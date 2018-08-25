@@ -15,13 +15,13 @@ from __future__ import division
 
 from fmath import _Seqs, EPS, fStr, fsum_, hypot, len2, map2
 
-from math import atan2, cos, degrees, pi as PI, \
+from math import acos, atan2, cos, degrees, pi as PI, \
                  radians, sin, sqrt, tan  # pow
 
 # all public contants, classes and functions
 __all__ = ('PI', 'PI2', 'PI_2', 'R_M',  # constants
            'CrossError',  'LimitError',  # classes
-           'antipode',
+           'acos1', 'antipode',
            'classname', 'crosserrors',
            'degrees', 'degrees90', 'degrees180', 'degrees360',
            'enStr2',
@@ -41,7 +41,7 @@ __all__ = ('PI', 'PI2', 'PI_2', 'R_M',  # constants
            'unroll180', 'unrollPI', 'unStr',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '18.08.21'
+__version__ = '18.08.24'
 
 division = 1 / 2  # double check int division, see datum.py
 if not division:
@@ -72,6 +72,12 @@ class LimitError(ValueError):
        L{equirectangular_}.
     '''
     pass
+
+
+def acos1(x):
+    '''Return M{math.acos(max(-1, min(1, x)))}.
+    '''
+    return acos(max(-1.0, min(1.0, x)))
 
 
 def antipode(lat, lon):

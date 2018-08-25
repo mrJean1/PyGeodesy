@@ -14,14 +14,15 @@ import sys
 __all__ = ('EPS', 'EPS1', 'EPS2',  # constants
            'Fsum',  # classes
            'cbrt', 'cbrt2',  # functions
-           'favg', 'fdot', 'fdot3', 'fmean', 'fpolynomial', 'fpowers',
+           'favg', 'fdot', 'fdot3',
+           'fmean', 'fpolynomial', 'fpowers',
            'fStr', 'fStrzs', 'fsum', 'fsum_',
            'hypot', 'hypot1', 'hypot3',
            'isfinite', 'isint', 'isscalar',
            'len2',
            'map1', 'map2',
            'scalar')
-__version__ = '18.07.24'
+__version__ = '18.08.24'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -214,7 +215,7 @@ def fdot(a, *b):
        i=0..len(a)}.
 
        @param a: List, sequence, tuple, etc. (scalars).
-       @param b: List, sequence, tuple, etc. (scalars).
+       @param b: All positional arguments (scalars).
 
        @return: Dot product (float).
 

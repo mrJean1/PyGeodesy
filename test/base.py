@@ -30,10 +30,11 @@ from pygeodesy import version as PyGeodesy_version, \
                       iterNumpy2over, normDMS  # PYCHOK expected
 
 __all__ = ('isIntelPython', 'isiOS', 'isNix', 'isPyPy', 'isWindows',  # constants
+           'isPython2', 'isPython3',
            'PyGeodesy_dir', 'Python_O',
            'TestsBase',
            'runner', 'secs2str', 'tilde', 'type2str', 'versions')
-__version__ = '18.07.21'
+__version__ = '18.08.24'
 
 try:
     _int = int, long
@@ -52,6 +53,8 @@ isIntelPython = 'intelpython' in Python_O
 isiOS         = sys.platform == 'ios'  # public
 isNix         = uname()[0] in ('Linux', 'linux')
 isPyPy        = 'PyPy ' in sys.version  # public
+isPython2     = sys.version_info[0] == 2
+isPython3     = sys.version_info[0] == 3
 isWindows     = sys.platform.startswith('win')
 
 try:

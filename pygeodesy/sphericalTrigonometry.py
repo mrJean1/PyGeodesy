@@ -16,12 +16,12 @@ U{Latitude/Longitude<http://www.movable-type.co.uk/scripts/latlong.html>}.
 from datum import R_M
 from fmath import EPS, favg, fmean, fsum, map1
 from sphericalBase import LatLonSphericalBase
-from utils import PI2, PI_2, degrees90, degrees180, degrees360, \
-                  equirectangular_, haversine_, iterNumpy2, \
-                  radians, tan_2, unrollPI, wrap180, wrapPI
+from utils import PI2, PI_2, acos1, degrees90, degrees180, degrees360, \
+                  equirectangular_, haversine_, iterNumpy2, radians, \
+                  tan_2, unrollPI, wrap180, wrapPI
 from vector3d import Vector3d, sumOf
 
-from math import acos, asin, atan2, copysign, cos, hypot, sin, sqrt
+from math import asin, atan2, copysign, cos, hypot, sin, sqrt
 
 # all public contants, classes and functions
 __all__ = ('LatLon',  # classes
@@ -30,7 +30,7 @@ __all__ = ('LatLon',  # classes
            'meanOf',
            'nearestOn2',
            'perimeterOf')
-__version__ = '18.03.02'
+__version__ = '18.08.24'
 
 
 class LatLon(LatLonSphericalBase):
@@ -99,7 +99,7 @@ class LatLon(LatLonSphericalBase):
         r, x, b = self._trackDistanceTo3(start, end, radius, wrap)
         cx = cos(x)
         if abs(cx) > EPS:
-            return copysign(acos(cos(r) / cx), cos(b)) * radius
+            return copysign(acos1(cos(r) / cx), cos(b)) * radius
         else:
             return 0.0
 
@@ -134,7 +134,7 @@ class LatLon(LatLonSphericalBase):
             return None  # great circle doesn't reach latitude
 
         m = atan2(-y, x) + b1  # longitude at max latitude
-        d = acos(z / h)  # delta longitude to intersections
+        d = acos1(z / h)  # delta longitude to intersections
 
         return degrees180(m - d), degrees180(m + d)
 
@@ -684,8 +684,9 @@ def intersection(start1, bearing1, start2, bearing2,
         raise ValueError('intersection %s: %r vs %r' % ('parallel', start1, start2))
 
     cr12 = cos(r12)
-    t1, t2 = map1(acos, (sa2 - sa1 * cr12) / x1,
-                        (sa1 - sa2 * cr12) / x2)
+    # handle domain error for equivalent latitudes
+    t1, t2 = map1(acos1, (sa2 - sa1 * cr12) / x1,
+                         (sa1 - sa2 * cr12) / x2)
     if sin(db) > 0:
         t12, t21 = t1, PI2 - t2
     else:
@@ -703,7 +704,7 @@ def intersection(start1, bearing1, start2, bearing2,
         raise ValueError('intersection %s: %r vs %r' % ('ambiguous', start1, start2))
     cx1, cx2 = map1(cos, x1, x2)
 
-    x3 = acos(cr12 * sx3 - cx2 * cx1)
+    x3 = acos1(cr12 * sx3 - cx2 * cx1)
     r13 = atan2(sr12 * sx3, cx2 + cx1 * cos(x3))
 
     a, b = _destination2(a1, b1, r13, t13)
