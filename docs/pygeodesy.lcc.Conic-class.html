@@ -61,17 +61,15 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Conic</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
- object --+        
-          |        
- <a href="pygeodesy.bases.Base-class.html">bases.Base</a> --+    
-              |    
- object --+   |    
-          |   |    
-<a href="pygeodesy.bases.Named-class.html">bases.Named</a> --+    
-              |    
-   datum._Based --+
-                  |
-                 <strong class="uidshort">Conic</strong>
+ object --+            
+          |            
+bases.Named --+        
+              |        
+    bases.Based --+    
+                  |    
+       datum._Based --+
+                      |
+                     <strong class="uidshort">Conic</strong>
 </pre>
 
 <hr />
@@ -117,8 +115,7 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.lcc.Conic-class.html#copy" class="summary-sig-name">copy</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy.lcc.Conic-class.html#copy" class="summary-sig-name">copy</a>(<span class="summary-sig-arg">self</span>)</span><br />
       Copy this conic.</td>
           <td align="right" valign="top">
             
@@ -188,13 +185,12 @@
     <p class="indent-wrapped-lines"><b>Inherited from <code>datum._Based</code></b>:
       <code>__ne__</code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases.Base-class.html">bases.Base</a></code></b>:
-      <code><a href="pygeodesy.bases.Base-class.html#__repr__">__repr__</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#__str__">__str__</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#classname">classname</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#others">others</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#toStr2">toStr2</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>bases.Based</code></b>:
+      <code>__repr__</code>,
+      <code>__str__</code>,
+      <code>classof</code>,
+      <code>others</code>,
+      <code>toStr2</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -297,14 +293,6 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.lcc.Conic-class.html#name" class="summary-name">name</a><br />
-      Get the conic name (string).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a href="pygeodesy.lcc.Conic-class.html#name2" class="summary-name">name2</a><br />
       Get the conic and datum names as &quot;conic.datum&quot; (string).
     </td>
@@ -343,6 +331,13 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>datum._Based</code></b>:
+      <code>name</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>bases.Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>
+      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
       </p>
@@ -422,8 +417,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">copy</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">copy</span>(<span class="sig-arg">self</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -433,8 +427,11 @@
   <p>Copy this conic.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>Conic, unregistered (<a href="pygeodesy.lcc.Conic-class.html" 
-          class="link">Conic</a>).</dd>
+        <dd>The copy, unregistered (<a href="pygeodesy.lcc.Conic-class.html" 
+          class="link">Conic</a> or subclass thereof).</dd>
+    <dt>Overrides:
+        bases.Named.copy
+    </dt>
   </dl>
 </td></tr></table>
 </div>
@@ -526,7 +523,7 @@
     <dt>Returns:</dt>
         <dd>Conic attributes (string).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.bases.Base-class.html#toStr">bases.Base.toStr</a>
+        bases.Based.toStr
     </dt>
   </dl>
 </td></tr></table>
@@ -553,6 +550,11 @@
     <dd class="value"><span class="summary-sig">auth(<span class="summary-sig-arg">self</span>)</span>
         - Get the authentication authority (string).
     </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
   </dl>
 </td></tr></table>
 </div>
@@ -570,6 +572,11 @@
         - Get the datum (<a href="pygeodesy.datum.Datum-class.html" 
 class="link">Datum</a>).
     </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
   </dl>
 </td></tr></table>
 </div>
@@ -584,6 +591,11 @@ class="link">Datum</a>).
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">E0(<span class="summary-sig-arg">self</span>)</span>
         - Get the false easting (meter).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
 </td></tr></table>
@@ -600,6 +612,11 @@ class="link">Datum</a>).
     <dd class="value"><span class="summary-sig">k0(<span class="summary-sig-arg">self</span>)</span>
         - Get scale factor (scalar).
     </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
   </dl>
 </td></tr></table>
 </div>
@@ -614,6 +631,11 @@ class="link">Datum</a>).
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">lat0(<span class="summary-sig-arg">self</span>)</span>
         - Get the origin latitude (degrees90).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
 </td></tr></table>
@@ -630,6 +652,11 @@ class="link">Datum</a>).
     <dd class="value"><span class="summary-sig">lon0(<span class="summary-sig-arg">self</span>)</span>
         - Get the central meridian (degrees180).
     </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
   </dl>
 </td></tr></table>
 </div>
@@ -645,25 +672,10 @@ class="link">Datum</a>).
     <dd class="value"><span class="summary-sig">N0(<span class="summary-sig-arg">self</span>)</span>
         - Get the false northing (meter).
     </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="name"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">name</h3>
-  <p>Get the conic name (string).</p>
-  <dl class="fields">
-    <dt>Get Method:</dt>
-    <dd class="value"><span class="summary-sig">name(<span class="summary-sig-arg">self</span>)</span>
-        - Get the conic name (string).
-    </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">name(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">name</span>)</span>
-        - Set the conic name.
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
 </td></tr></table>
@@ -680,6 +692,11 @@ class="link">Datum</a>).
     <dd class="value"><span class="summary-sig">name2(<span class="summary-sig-arg">self</span>)</span>
         - Get the conic and datum names as &quot;conic.datum&quot; (string).
     </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
   </dl>
 </td></tr></table>
 </div>
@@ -694,6 +711,11 @@ class="link">Datum</a>).
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">par1(<span class="summary-sig-arg">self</span>)</span>
         - Get the 1st standard parallel (degrees90).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
 </td></tr></table>
@@ -710,6 +732,11 @@ class="link">Datum</a>).
     <dd class="value"><span class="summary-sig">par2(<span class="summary-sig-arg">self</span>)</span>
         - Get the 2nd standard parallel (degrees90).
     </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
   </dl>
 </td></tr></table>
 </div>
@@ -725,6 +752,11 @@ class="link">Datum</a>).
     <dd class="value"><span class="summary-sig">opt3(<span class="summary-sig-arg">self</span>)</span>
         - Get the optional meridian (degrees180).
     </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
   </dl>
 </td></tr></table>
 </div>
@@ -739,6 +771,11 @@ class="link">Datum</a>).
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">SP(<span class="summary-sig-arg">self</span>)</span>
         - Get the number of standard parallels (int).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
 </td></tr></table>
@@ -775,7 +812,7 @@ class="link">Datum</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Aug 25 14:09:03 2018
+    Generated by Epydoc 3.0.1 on Fri Aug 31 13:44:18 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

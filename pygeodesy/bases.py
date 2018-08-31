@@ -11,19 +11,77 @@ and U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
 '''
 from dms   import F_D, F_DMS, latDMS, lonDMS, parseDMS, parseDMS2
 from fmath import EPS, favg, map1, scalar
-from utils import R_M, antipode, classname, isantipode, polygon
+from utils import R_M, antipode, isantipode, polygon, property_RO, unStr
 
 from math import asin, cos, degrees, radians, sin
 
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
-__all__ = ('Base', 'LatLonHeightBase', 'Named', 'VectorBase')
-__version__ = '18.03.01'
+__all__ = (  # 'Based', 'LatLonHeightBase', 'Named', 'VectorBased',
+           'classname', 'classnaming',
+           'inStr')
+__version__ = '18.08.28'
+
+__X = object()  # unique instance
 
 
-class Base(object):
-    '''(INTERNAL) Base class.
+class Named(object):
+    '''(INTERNAL) Base class for object with a name.
     '''
+    _name   = ''  #: (INTERNAL) name (string)
+    _classnaming = False  # set by function naming above
+
+    def _xcopy(self, *attrs):
+        '''(INTERNAL) Must be overloaded.
+        '''
+        raise AssertionError(unStr(self.classname + '._xcopy', *attrs))
+
+    @property_RO
+    def classname(self):
+        '''Get this object's C{[module.]class} name (string), see C{.classnaming}.
+        '''
+        return classname(self, prefixed=self._classnaming)
+
+    @property
+    def classnaming(self):
+        '''Get the class naming (bool).
+        '''
+        return self._classnaming
+
+    @classnaming.setter  # PYCHOK setter!
+    def classnaming(self, prefixed):
+        '''Set the class naming for C{[module.].class} names.
+
+           @param prefixed: Include the module name (bool).
+        '''
+        self._classnaming = bool(prefixed)
+
+    def copy(self):
+        '''Make a copy of this instance.
+
+           @return: The copy (C{This class} or subclass thereof).
+        '''
+        return self._xcopy()
+
+    @property
+    def name(self):
+        '''Get the name (string).
+        '''
+        return self._name
+
+    @name.setter  # PYCHOK setter!
+    def name(self, name):
+        '''Set the name.
+
+           @param name: New name (string).
+        '''
+        self._name = str(name)
+
+
+class Based(Named):
+    '''(INTERNAL) Base class with name.
+    '''
+
     def __repr__(self):
         return self.toStr2()
 
@@ -35,15 +93,6 @@ class Base(object):
         '''
         pass
 
-    def classname(self, *other):
-        '''Build module.class name of this object.
-
-           @param other: Optional object other than self (any).
-
-           @return: Name of module and class (string).
-        '''
-        return classname(self if not other else other[0])
-
     def classof(self, *args, **kwds):
         '''Instantiate this very class.
 
@@ -52,7 +101,7 @@ class Base(object):
 
            @return: New instance (I{self.__class__}).
         '''
-        return self.__class__(*args, **kwds)
+        return _xnamed(self.__class__(*args, **kwds), self.name)
 
 #   def notImplemented(self, attr):
 #       '''Raise error for a missing method, function or attribute.
@@ -77,27 +126,27 @@ class Base(object):
         if not (isinstance(self, other.__class__) or
                 isinstance(other, self.__class__)):
             raise TypeError('type(%s) mismatch: %s vs %s' % (name,
-                             self.classname(other), self.classname()))
+                             classname(other), self.classname))
 
-    def toStr(self, **args):
+    def toStr(self, **kwds):
         '''(INTERNAL) Must be overloaded.
 
-           @param args: Optional, positional arguments.
+           @param kwds: Optional, keyword arguments.
         '''
-        raise AssertionError('%s.toStr%r' % (self.__class__.__name__, args))
+        raise AssertionError(unStr(self.classname + '.toStr', **kwds))
 
     def toStr2(self, **kwds):
         '''(INTERNAL) To be overloaded.
 
            @keyword kwds: Optional, keyword arguments.
 
-           @return: toStr() plus keyword arguments (string).
+           @return: L{toStr}() plus keyword arguments (string).
         '''
         t = self.toStr(**kwds).lstrip('([{').rstrip('}])')
-        return '%s(%s)' % (self.__class__.__name__, t)
+        return '%s(%s)' % (self.classname, t)
 
 
-class LatLonHeightBase(Base):
+class LatLonHeightBase(Based):
     '''(INTERNAL) Base class for I{LatLon} points on
        spherical or ellipsiodal earth models.
     '''
@@ -105,15 +154,20 @@ class LatLonHeightBase(Base):
     _height = 0     #: (INTERNAL) Height (meter)
     _lat    = 0     #: (INTERNAL) Latitude (degrees)
     _lon    = 0     #: (INTERNAL) Longitude (degrees)
+    _name   = ''    #: (INTERNAL) name (string)
 
-    def __init__(self, lat, lon, height=0):
+    def __init__(self, lat, lon, height=0, name=''):
         '''New I{LatLon}.
 
            @param lat: Latitude (degrees or DMS string with N or S suffix).
            @param lon: Longitude (degrees or DMS string with E or W suffix).
            @keyword height: Optional height (meter above or below the earth surface).
+           @keyword name: Optional name (string).
 
            @return: New instance (I{LatLon}).
+
+           @raise RangeError: Value of I{lat} or I{lon} outside the valid
+                              range and I{rangerrrors} set to True.
 
            @raise ValueError: Invalid I{lat} or I{lon}.
 
@@ -125,6 +179,8 @@ class LatLonHeightBase(Base):
         self._lat, self._lon = parseDMS2(lat, lon)
         if height:  # elevation
             self._height = scalar(height, None, name='height')
+        if name:
+            self.name = name
 
     def __eq__(self, other):
         return self.equals(other)
@@ -150,6 +206,12 @@ class LatLonHeightBase(Base):
         '''
         if updated:  # reset caches
             self._ab = self._wm = None
+
+    def _xcopy(self, *attrs):
+        '''(INTERNAL) Make copy with add'l, subclass attributes.
+        '''
+        return _xattrs(self.classof(self.lat, self.lon),
+                       self, '_height', *attrs)
 
     def antipode(self, height=None):
         '''Return the antipode, the point diametrically opposite
@@ -191,9 +253,9 @@ class LatLonHeightBase(Base):
     def copy(self):
         '''Copy this point.
 
-           @return: A copy of this point (I{LatLon}).
+           @return: The copy (C{LatLon} or subclass thereof).
         '''
-        return self.classof(self.lat, self.lon, height=self.height)  # XXX
+        return self._xcopy()
 
     def equals(self, other, eps=None):
         '''Compare this point with an other point.
@@ -418,22 +480,108 @@ class LatLonHeightBase(Base):
         return sep.join(t)
 
 
-class Named(object):
-    '''(INTERNAL) Named base class.
+class VectorBased(Based):
+    '''(INTERNAL) Base class for I{Vector3d}s.
     '''
-    _name = ''  #: (INTERNAL) name (string)
-
-    def __init__(self, name):
-        self._name = name
-
-    @property
-    def name(self):
-        '''Gets the name (string).
-        '''
-        return self._name
+    def __init__(self, name='', **unused):
+        if name:
+            self.name = name
 
 
-VectorBase = Base  #: (INTERNAL) Used by vector3d.
+def _nameof(inst):
+    '''(INTERNAL) Get the instance' name or C{''}.
+    '''
+    try:
+        return inst.name
+    except AttributeError:
+        return ''
+
+
+def _xattrs(inst, other, *attrs):
+    '''(INTERNAL) Copy attribute values from I{other} to I{inst}.
+
+       @param inst: Instance to copy atrribute values to.
+       @param other: Instance to copy atrribute values from.
+       @param attrs: Attribute names (string)s.
+
+       @return: The I{inst}, updated.
+
+       @raise AttributeError: If attribute doesn't exist or is not settable.
+    '''
+    for a in attrs:
+        g = getattr(inst, a, __X)
+        if g is __X:
+            raise AttributeError('invalid %r.%s' % (inst, a))
+        s = getattr(other, a, __X)
+        if s is __X:
+            raise AttributeError('invalid %r.%s' % (other, a))
+        elif s != g:
+            setattr(inst, a, s)  # not settable?
+    return inst
+
+
+def _xnamed(inst, name):
+    '''(INTERNAL) Set the instance' C{.name = }C{name}.
+
+       @param name: The name (string).
+
+       @return: The I{inst}, named if unnamed before.
+    '''
+    if name and isinstance(inst, Named):
+        try:
+            if not inst.name:
+                inst.name = name
+        except AttributeError:
+            pass
+    return inst
+
+
+def classname(inst, prefixed=None):
+    '''Return an instance' module and class name.
+
+       @param inst: The object (any type).
+       @keyword prefixed: Prefix the module name (bool), see
+                          function L{classnaming}.
+
+       @return: The I{inst}'s C{[module.]class} name (string).
+    '''
+    try:
+        n = inst.__class__.__name__
+    except AttributeError:
+        n = 'Nn'
+    if prefixed or (getattr(inst, 'classnaming', Named._classnaming)
+                    if prefixed is None else False):
+        try:
+            m = inst.__module__
+            n = '.'.join(m.split('.')[-1:] + [n])
+        except AttributeError:
+            pass
+    return n
+
+
+def classnaming(prefixed=None):
+    '''Set the default class naming for C{[module.].class} names.
+
+       @keyword prefixed: Include the module name (bool).
+
+       @return: Previous class naming setting (bool).
+    '''
+    t = Named._classnaming
+    if prefixed in (True, False):
+        Named._classnaming = bool(prefixed)
+    return t
+
+
+def inStr(inst, *args, **kwds):
+    '''Return the string representation of an instance.
+
+       @param inst: The instance (any type).
+       @param args: Optional positional arguments (tuple).
+       @keyword kwds: Optional keyword arguments (dict).
+
+       @return: The I{inst}'s representation (string).
+    '''
+    return unStr(classname(inst), *args, **kwds)
 
 # **) MIT License
 #

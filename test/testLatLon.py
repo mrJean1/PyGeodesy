@@ -4,13 +4,12 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '18.03.02'
+__version__ = '18.08.28'
 
 from base import TestsBase
 
-from pygeodesy import R_NM, F_D, F_DM, F_DMS, F_RAD, degrees, \
-                      fStr, isclockwise, isconvex, isenclosedby, \
-                      m2NM  # PYCHOK expected
+from pygeodesy import R_NM, F_D, F_DM, F_DMS, F_RAD, classname, degrees, \
+                      fStr, isclockwise, isconvex, isenclosedby, m2NM  # PYCHOK expected
 
 
 class Tests(TestsBase):
@@ -154,7 +153,7 @@ class Tests(TestsBase):
                 d = p.alongTrackDistanceTo(s, 96)
                 self.test('alongTrackDistanceTo', d, 62331.59, fmt='%.2f')  # 62331
             except TypeError as x:
-                self.test('alongTrackDistanceTo', x, 'type(end) mismatch: int vs sphericalTrigonometry.LatLon')  # PYCHOK false?
+                self.test('alongTrackDistanceTo', x, 'type(end) mismatch: int vs ' + classname(p))  # PYCHOK false?
             d = p.alongTrackDistanceTo(s, e)
             self.test('alongTrackDistanceTo', d, 62331.58, fmt='%.2f')
 
@@ -180,7 +179,7 @@ class Tests(TestsBase):
                 d = p.crossTrackDistanceTo(s, 96)
                 self.test('crossTrackDistanceTo', d, -305.67, fmt='%.2f')  # -305.7
             except TypeError as x:
-                self.test('crossTrackDistanceTo', x, 'type(end) mismatch: int vs sphericalTrigonometry.LatLon')  # PYCHOK false?
+                self.test('crossTrackDistanceTo', x, 'type(end) mismatch: int vs ' + classname(p))  # PYCHOK false?
             d = p.crossTrackDistanceTo(s, e)
             self.test('crossTrackDistanceTo', d, -307.55, fmt='%.2f')  # -307.5
 

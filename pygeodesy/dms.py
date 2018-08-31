@@ -61,6 +61,8 @@ class RangeError(ValueError):
     '''Error raised for lat- or longitude values outside the I{clip},
        I{clipLat}, I{clipLon} or I{limit} range in function L{clipDMS},
        L{parse3llh}, L{parseDMS} or L{parseDMS2}.
+
+       @see: Function L{rangerrors}.
     '''
     pass
 
@@ -456,7 +458,7 @@ def precision(form, prec=None):
 def rangerrors(raiser=None):
     '''Gert/set raising of range errors.
 
-       @keyword raiser: Choose True to raise or False to not raise
+       @keyword raiser: Choose True to raise or False to ignore
                         L{RangeError} exceptions.  Use None to leave
                         the setting unchanged.
 

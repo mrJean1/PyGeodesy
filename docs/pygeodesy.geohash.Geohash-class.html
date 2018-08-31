@@ -67,6 +67,10 @@ basestring --+
              |    
            str --+
                  |
+    object --+   |
+             |   |
+   bases.Named --+
+                 |
                 <strong class="uidshort">Geohash</strong>
 </pre>
 
@@ -283,6 +287,9 @@ basestring --+
       <code>upper</code>,
       <code>zfill</code>
       </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>bases.Named</code></b>:
+      <code>copy</code>
+      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
       <code>__init__</code>,
@@ -310,7 +317,8 @@ basestring --+
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geohash.Geohash-class.html#__new__" class="summary-sig-name">__new__</a>(<span class="summary-sig-arg">cls</span>,
         <span class="summary-sig-arg">cll</span>,
-        <span class="summary-sig-arg">precision</span>=<span class="summary-sig-default">None</span>)</span><br />
+        <span class="summary-sig-arg">precision</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       New Geohash from a <a href="pygeodesy.geohash.Geohash-class.html" 
       class="link">Geohash</a> instance or str or from a <i>LatLon</i> 
       instance or string.</td>
@@ -451,6 +459,11 @@ basestring --+
   </tr>
   <tr>
     <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>bases.Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>,
+      <code>name</code>
+      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
       </p>
@@ -475,7 +488,8 @@ basestring --+
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__new__</span>(<span class="sig-arg">cls</span>,
         <span class="sig-arg">cll</span>,
-        <span class="sig-arg">precision</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">precision</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
     <br /><em class="fname">Static Method</em>
   </h3>
   </td><td align="right" valign="top"
@@ -494,6 +508,7 @@ basestring --+
         <li><strong class="pname"><code>precision</code></strong> - Optional, desired geohash length (integer), see function <a 
           href="pygeodesy.geohash-module.html#encode" 
           class="link">geohash.encode</a> for more details.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (string).</li>
     </ul></dd>
     <dt>Returns: a new object with type S, a subtype of T</dt>
         <dd>New <a href="pygeodesy.geohash.Geohash-class.html" 
@@ -765,6 +780,11 @@ basestring --+
         - Get the lat- and longitude of (the approximate center of) this geohash as a
 2-tuple (lat, lon) in radians.
     </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
   </dl>
 </td></tr></table>
 </div>
@@ -786,6 +806,11 @@ basestring --+
         - Get the lat- and longitude of (the approximate center of) this geohash as a
 2-tuple (lat, lon) in degrees.
     </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
   </dl>
 </td></tr></table>
 </div>
@@ -805,6 +830,11 @@ basestring --+
         - Get all 8 adjacent cells as a dict(N=, NE=, E= ..., SW=) of <a 
 href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>es.
     </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
   </dl>
 </td></tr></table>
 </div>
@@ -821,6 +851,11 @@ href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>es.
     <dd class="value"><span class="summary-sig">sizes(<span class="summary-sig-arg">self</span>)</span>
         - Get the lat- and longitudinal size of this cell as a 2-tuple (latHeight, 
 lonWidth) in meter.
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
 </td></tr></table>
@@ -840,6 +875,11 @@ lonWidth) in meter.
         - Get the cell North of this (<a href="pygeodesy.geohash.Geohash-class.html" 
 class="link">Geohash</a>).
     </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
   </dl>
 </td></tr></table>
 </div>
@@ -857,6 +897,11 @@ class="link">Geohash</a>).
     <dd class="value"><span class="summary-sig">S(<span class="summary-sig-arg">self</span>)</span>
         - Get the cell South of this (<a href="pygeodesy.geohash.Geohash-class.html" 
 class="link">Geohash</a>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
 </td></tr></table>
@@ -876,6 +921,11 @@ class="link">Geohash</a>).
         - Get the cell East of this (<a href="pygeodesy.geohash.Geohash-class.html" 
 class="link">Geohash</a>).
     </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
   </dl>
 </td></tr></table>
 </div>
@@ -893,6 +943,11 @@ class="link">Geohash</a>).
     <dd class="value"><span class="summary-sig">W(<span class="summary-sig-arg">self</span>)</span>
         - Get the cell West of this (<a href="pygeodesy.geohash.Geohash-class.html" 
 class="link">Geohash</a>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
 </td></tr></table>
@@ -912,6 +967,11 @@ class="link">Geohash</a>).
         - Get the cell NorthEast of this (<a 
 href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>).
     </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
   </dl>
 </td></tr></table>
 </div>
@@ -929,6 +989,11 @@ href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>).
     <dd class="value"><span class="summary-sig">NW(<span class="summary-sig-arg">self</span>)</span>
         - Get the cell NorthWest of this (<a 
 href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
 </td></tr></table>
@@ -948,6 +1013,11 @@ href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>).
         - Get the cell SouthEast of this (<a 
 href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>).
     </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
   </dl>
 </td></tr></table>
 </div>
@@ -965,6 +1035,11 @@ href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>).
     <dd class="value"><span class="summary-sig">SW(<span class="summary-sig-arg">self</span>)</span>
         - Get the cell SouthWest of this (<a 
 href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
 </td></tr></table>
@@ -1001,7 +1076,7 @@ href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Aug 25 14:09:03 2018
+    Generated by Epydoc 3.0.1 on Fri Aug 31 13:44:18 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

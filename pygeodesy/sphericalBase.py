@@ -16,14 +16,14 @@ from datum import R_M, R_MA, Datum, Datums
 from dms   import parse3llh
 from fmath import EPS, favg, fsum_, hypot
 from utils import PI, PI2, PI_2, degrees90, degrees180, degrees360, \
-                  radians, tanPI_2_2, wrapPI
+                  property_RO, radians, tanPI_2_2, wrapPI
 
 from math import acos, atan2, cos, log, sin
 
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('LatLonSphericalBase',)
-__version__ = '18.02.05'
+__version__ = '18.08.26'
 
 
 class LatLonSphericalBase(LatLonHeightBase):
@@ -80,13 +80,13 @@ class LatLonSphericalBase(LatLonHeightBase):
             b -= 360
         return b  # 0..360
 
-    @property
+    @property_RO
     def isEllipsoidal(self):
         '''Check whether this I{LatLon} is ellipsoidal (bool).
         '''
         return self.datum.isEllipsoidal
 
-    @property
+    @property_RO
     def isSpherical(self):
         '''Check whether this I{LatLon} is spherical (bool).
         '''

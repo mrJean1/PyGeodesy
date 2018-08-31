@@ -46,7 +46,7 @@ __all__ = ('LatLon', 'Nvector',  # classes
            'meanOf',
            'nearestOn2',
            'triangulate', 'trilaterate')
-__version__ = '18.02.06'
+__version__ = '18.08.26'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -122,6 +122,13 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         p = self.toNvector()
         a = gc.cross(p).cross(gc)  # along-track point gc × p × gc
         return start.toNvector().angleTo(a, vSign=gc) * radius
+
+    def copy(self):
+        '''Copy this point.
+
+           @return: The copy (L{LatLon} or subclass thereof).
+        '''
+        return LatLonNvectorBase.copy(self)
 
     def crossTrackDistanceTo(self, start, end, radius=R_M):
         '''Compute the (signed) distance from this point to great circle
@@ -236,7 +243,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
         return Nvector(sb * ct - sa * cb * st,
                       -cb * ct - sa * sb * st,
-                       ca * st)  # XXX .unit()
+                       ca * st, name=self.name)  # XXX .unit()
 
     def greatCircleTo(self, other):
         '''Compute the vector normal to great circle obtained by
@@ -573,8 +580,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
                             for a point if within segment (meter).
 
            @return: 2-Tuple (closest, distance) of the closest point
-           (L{LatLon}) on the path and the distance to that point in
-           meter, rather the units of I{radius}.
+                    (L{LatLon}) on the path and the distance to that
+                    point in meter, rather the units of I{radius}.
 
            @raise TypeError: Some I{points} are not I{LatLon}.
 
@@ -607,7 +614,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         '''
         if self._Nv is None:
             x, y, z, h = self.to4xyzh()
-            self._Nv = Nvector(x, y, z, h=h, ll=self)
+            self._Nv = Nvector(x, y, z, h=h, ll=self, name=self.name)
         return self._Nv
 
     def triangulate(self, bearing1, other, bearing2, height=None):
@@ -679,22 +686,23 @@ class Nvector(NvectorBase):
     '''
 
     def toLatLon(self, height=None, LatLon=LatLon):
-        '''Convert this n-vector to a (spherical geodetic) point.
+        '''Convert this n-vector to a (spherical) geodetic point.
 
            @keyword height: Optional height above earth radius,
                             overriding the default height (meter).
-           @keyword LatLon: Optional (spherical) LatLon class for
-                            the point (L{LatLon}).
+           @keyword LatLon: Optional (spherical) LatLon (sub-) class
+                            to use for the point (L{LatLon}) or None.
 
-           @return: Point equivalent to this n-vector (L{LatLon}).
+           @return: Point equivalent to this n-vector (L{LatLon}) or
+                    3-tuple (degrees90, degrees180, height) if
+                    I{LatLon} is None.
 
            @example:
 
            >>> n = Nvector(0.5, 0.5, 0.7071)
            >>> p = n.toLatLon()  # 45.0°N, 45.0°E
         '''
-        a, b, h = self.to3llh()
-        return LatLon(a, b, height=h if height is None else height)
+        return self._toLLh(LatLon, height)
 
     def greatCircle(self, bearing):
         '''Compute the n-vector normal to great circle obtained by
@@ -725,7 +733,7 @@ class Nvector(NvectorBase):
         return n.minus(e)
 
 
-_Nvll = LatLon(0, 0)  #: (INTERNAL) Reference instance (L{LatLon}).
+_Nvll = LatLon(0, 0, name='Nv00')  #: (INTERNAL) Reference instance (L{LatLon}).
 
 
 def areaOf(points, radius=R_M):

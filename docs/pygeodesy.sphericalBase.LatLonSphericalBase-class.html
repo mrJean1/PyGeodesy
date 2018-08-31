@@ -61,11 +61,13 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class LatLonSphericalBase</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-        object --+        
+    object --+            
+             |            
+   bases.Named --+        
                  |        
-        <a href="pygeodesy.bases.Base-class.html">bases.Base</a> --+    
+       bases.Based --+    
                      |    
-<a href="pygeodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a> --+
+bases.LatLonHeightBase --+
                          |
                         <strong class="uidshort">LatLonSphericalBase</strong>
 </pre>
@@ -266,29 +268,28 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a></code></b>:
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#__eq__">__eq__</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#__init__">__init__</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#__ne__">__ne__</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#__str__">__str__</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#antipode">antipode</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#bounds">bounds</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#copy">copy</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equals">equals</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equals3">equals3</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#isantipode">isantipode</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#points">points</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#to2ab">to2ab</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#to3llh">to3llh</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#to3xyz">to3xyz</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#toStr">toStr</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>bases.LatLonHeightBase</code></b>:
+      <code>__eq__</code>,
+      <code>__init__</code>,
+      <code>__ne__</code>,
+      <code>__str__</code>,
+      <code>antipode</code>,
+      <code>bounds</code>,
+      <code>copy</code>,
+      <code>equals</code>,
+      <code>equals3</code>,
+      <code>isantipode</code>,
+      <code>points</code>,
+      <code>to2ab</code>,
+      <code>to3llh</code>,
+      <code>to3xyz</code>,
+      <code>toStr</code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases.Base-class.html">bases.Base</a></code></b>:
-      <code><a href="pygeodesy.bases.Base-class.html#__repr__">__repr__</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#classname">classname</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#others">others</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#toStr2">toStr2</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>bases.Based</code></b>:
+      <code>__repr__</code>,
+      <code>classof</code>,
+      <code>others</code>,
+      <code>toStr2</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -340,11 +341,16 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a></code></b>:
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#height">height</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#lat">lat</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#latlon">latlon</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#lon">lon</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>bases.LatLonHeightBase</code></b>:
+      <code>height</code>,
+      <code>lat</code>,
+      <code>latlon</code>,
+      <code>lon</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>bases.Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>,
+      <code>name</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
@@ -745,6 +751,11 @@ class="link">Datum</a>).
     <dd class="value"><span class="summary-sig">isEllipsoidal(<span class="summary-sig-arg">self</span>)</span>
         - Check whether this <i>LatLon</i> is ellipsoidal (bool).
     </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
   </dl>
 </td></tr></table>
 </div>
@@ -759,6 +770,11 @@ class="link">Datum</a>).
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">isSpherical(<span class="summary-sig-arg">self</span>)</span>
         - Check whether this <i>LatLon</i> is spherical (bool).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
 </td></tr></table>
@@ -795,7 +811,7 @@ class="link">Datum</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Aug 25 14:09:03 2018
+    Generated by Epydoc 3.0.1 on Fri Aug 31 13:44:18 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -93,6 +93,9 @@ class TestSuite(unittest.TestCase):
     def test_Utm(self):
         self._run('testUtm')
 
+    def test_UtmTMcoords(self):
+        self._run('testUtmTMcoords')
+
     def test_Vectorial(self):
         self._run('testVectorial')
 

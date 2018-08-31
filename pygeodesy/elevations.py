@@ -16,7 +16,7 @@ C{"/Applications/Python X.Y/Install Certificates.command"}
 '''
 
 __all__ = 'elevation2', 'geoidHeight2'
-__version__ = '18.08.24'
+__version__ = '18.08.26'
 
 from fmath import fStr
 
@@ -120,8 +120,8 @@ def elevation2(lat, lon, timeout=2.0):
        @return: 2-Tuple (elevation, data_source) in (meter, string)
                 or (None, <error>).
 
-       @note: The returned elevation is C{None} if I{lat} or I{lon}
-              was invalid or outside the C{Conterminous US (CONUS)},
+       @note: The returned elevation is None if I{lat} or I{lon}
+              is invalid or outside the C{Conterminous US (CONUS)},
               if the query timed out or if conversion failed.  The
               <error> is the HTTP-, IO-, SSL-, Type-, URL- or
               ValueError as string.
@@ -164,7 +164,7 @@ def geoidHeight2(lat, lon, model=0, timeout=2.0):
        @return: 2-Tuple (height, model_name) in (meter, string) or
                 (None, <error>).
 
-       @note: The returned height is C{None} if I{lat} or I{lon} was
+       @note: The returned height is CNone if I{lat} or I{lon} is
               invalid or outside the C{Conterminous US (CONUS)}, if
               the I{model} was invalid, if the query timed out or if
               conversion failed.  The <error> is the HTTP-, IO-, SSL-,

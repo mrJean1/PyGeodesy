@@ -31,13 +31,13 @@ and U{Universal Transverse Mercator coordinate system
 @newfield example: Example, Examples
 '''
 
-from bases import Base
+from bases import Based, _nameof, _xattrs, _xnamed
 from datum import Datums
-from dms import S_DEG, parseDMS2
-from ellipsoidalBase import LatLonEllipsoidalBase as _eLLb
+from dms import S_DEG, parseDMS2, RangeError
+from ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from fmath import EPS, fdot3, fStr, Fsum, hypot, hypot1, \
                   isscalar, len2, map2
-from utils import degrees, degrees90, degrees180, \
+from utils import degrees, degrees90, degrees180, property_RO, \
                   radians, wrap90, wrap180
 
 from math import asinh, atan, atanh, atan2, \
@@ -45,9 +45,9 @@ from math import asinh, atan, atanh, atan2, \
 from operator import mul
 
 # all public contants, classes and functions
-__all__ = ('Utm',  # classes
-           'parseUTM', 'toUtm')  # functions
-__version__ = '18.03.08'
+__all__ = ('Utm', 'UTMError',  # classes
+           'parseUTM', 'toUtm', 'utmZoneBand2')  # functions
+__version__ = '18.08.28'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -57,7 +57,13 @@ _FalseNorthing = 10000e3  #: (INTERNAL) False (meter).
 _K0            = 0.9996   #: (INTERNAL) UTM scale central meridian.
 
 
-class _K6s(object):
+class UTMError(ValueError):
+    '''UTM parse or other error.
+    '''
+    pass
+
+
+class _Kseries(object):
     '''(INTERNAL) Alpha or Beta Krüger series.
 
        Krüger series summations for I{eta}, I{ksi}, I{p} and I{q}
@@ -67,14 +73,14 @@ class _K6s(object):
     def __init__(self, AB, x, y):
         '''(INTERNAL) New Alpha or Beta Krüger series
 
-           @param AB: 6th-order Krüger Alpha or Beta series
-                      coefficients (7-tuple, 1-origin).
+           @param AB: 8th-order Krüger Alpha or Beta series coefficients
+                      (9-tuple, 1-origin).
            @param x: Eta angle (radians).
            @param y: Ksi angle (radians).
         '''
         n, j2 = len2(range(2, len(AB) * 2, 2))
 
-        self._ab = AB[1:]  # 0-origin
+        self._ab = AB[1:]  # 1- to 0-origin
         self._pq = map2(mul, j2, self._ab)
 #       assert len(self._ab) == len(self._pq) == n
 
@@ -115,12 +121,43 @@ def _cmlon(zone):
     return (zone * 6) - 183
 
 
-def _toZBL(zone, band, mgrs=False):  # used by mgrs.Mgrs
+def _toZBab4(lat, lon, cmoff=True):
+    '''(INTERNAL) Return zone, Band and central lat- and longitude in radians.
+
+       @param lat: Latitude (degrees).
+       @param lon: Longitude (degrees).
+       @keyword cmoff: Offset i{lon} from zone's central meridian.
+
+       @return: 4-Tuple (zone, Band, a, b).
+    '''
+    # return zone, Band and central
+    # lat- and longitude (in radians)
+    lat = wrap90(lat)
+    if -80 > lat or lat > 84:
+        raise RangeError('%s outside UTM: %s' % ('lat', lat))
+    B = _Bands[int(lat + 80) >> 3]
+
+    lon = wrap180(lon)
+    z = int((lon + 180) / 6) + 1  # longitudinal zone
+    if B == 'X':
+        x = {32: 9, 34: 21, 36: 33}.get(z, None)
+        if x:  # Svalbard
+            z += 1 if lon >= x else -1
+    elif B == 'V' and z == 31 and lon >= 3:
+        z += 1  # southern Norway
+
+    a = radians(lat)  # lat off equator
+    if cmoff:  # lon off central meridian
+        lon -= _cmlon(z)
+    return z, B, a, radians(lon)
+
+
+def _toZBlat3(zone, band, mgrs=False):  # used by mgrs.Mgrs
     '''(INTERNAL) Check and return zone, Band and band latitude.
 
        @param zone: Zone number or string.
        @param band: Band letter.
-       @param mgrs: Optionally, raise ValueError (bool).
+       @param mgrs: Optionally, raise UTMError (bool).
 
        @return: 3-Tuple (zone, Band, latitude).
     '''
@@ -134,53 +171,21 @@ def _toZBL(zone, band, mgrs=False):  # used by mgrs.Mgrs
             raise ValueError
 
     except (AttributeError, TypeError, ValueError):
-        raise ValueError('%s invalid: %r' % ('zone', zone))
+        raise UTMError('%s invalid: %r' % ('zone', zone))
 
     b = None
     if B:
         b = _Bands.find(B)
         if b < 0:
-            raise ValueError('%s invalid: %r' % ('band', x))
+            raise UTMError('%s invalid: %r' % ('band', x))
         b = (b << 3) - 80
     elif mgrs:
-        raise ValueError('%s missing' % ('band',))
+        raise UTMError('%s missing' % ('band',))
 
     return z, B, b
 
 
-def _toZBll(lat, lon):
-    '''(INTERNAL) Return zone, Band and central lat- and longitude.
-
-       @param lat: Latitude (degrees).
-       @param lon: Longitude (degrees).
-
-       @return: 4-Tuple (zone, Band, lat, lon).
-    '''
-    # return zone, Band and central
-    # lat- and longitude (in radians)
-    lat = wrap90(lat)
-    if -80 > lat or lat > 84:
-        raise ValueError('%s outside UTM: %s' % ('lat', lat))
-    B = _Bands[int(lat + 80) >> 3]
-
-    lon = wrap180(lon)
-    z = int((lon + 180) / 6) + 1  # longitudinal zone
-    if B == 'X':
-        x = {32: 9, 34: 21, 36: 33}.get(z, None)
-        if x:  # Svalbard
-            if lon >= x:
-                z += 1
-            else:
-                z -= 1
-    elif B == 'V' and z == 31 and lon >=3:
-        z += 1  # southern Norway
-
-    b = radians(lon - _cmlon(z))  # lon off central meridian
-    a = radians(lat)  # lat off equator
-    return z, B, a, b
-
-
-class Utm(Base):
+class Utm(Based):
     '''Universal Transverse Mercator (UTM) coordinate.
     '''
     _band        = ''    #: (INTERNAL) Latitude band letter ('C..X').
@@ -196,7 +201,8 @@ class Utm(Base):
     _zone        = 0     #: (INTERNAL) Longitudinal zone (1..60).
 
     def __init__(self, zone, hemisphere, easting, northing, band='',
-                       datum=Datums.WGS84, convergence=None, scale=None):
+                             datum=Datums.WGS84, convergence=None,
+                             scale=None, name=''):
         '''New UTM coordinate.
 
            @param zone: UTM 6° longitudinal zone (int 1..60 covering 180°W.
@@ -213,27 +219,34 @@ class Utm(Base):
                                  of grid North, clockwise from true
                                  North (degrees or None).
            @keyword scale: Optional grid scale factor (scalar or None).
+           @keyword name: Optional name (string).
 
-           @raise ValueError: Invalid I{easting} or I{northing}.
+           @raise RangeError: If I{easting} or I{northing} is outside
+                              the valid UTM range.
+
+           @raise UTMError: Invalid I{band}, I{hemishere} or I{zone}.
 
            @example:
 
            >>> import pygeodesy
            >>> u = pygeodesy.Utm(31, 'N', 448251, 5411932)
         '''
-        self._zone, B, _ = _toZBL(zone, band)
+        if name:
+            self.name = name
+
+        self._zone, B, _ = _toZBlat3(zone, band)
 
         h = str(hemisphere)[:1].upper()
         if not h or h not in ('N', 'S'):
-            raise ValueError('%s invalid: %r' % ('hemisphere', hemisphere))
+            raise UTMError('%s invalid: %r' % ('hemisphere', hemisphere))
 
         e, n = float(easting), float(northing)
         # check easting/northing (with 40km overlap
         # between zones) - is this worthwhile?
         if 120e3 > e or e > 880e3:
-            raise ValueError('%s invalid: %r' % ('easting', easting))
+            raise RangeError('%s invalid: %r' % ('easting', easting))
         if 0 > n or n > _FalseNorthing:
-            raise ValueError('%s invalid: %r' % ('northing', northing))
+            raise RangeError('%s invalid: %r' % ('northing', northing))
 
         self._hemi        = h
         self._easting     = e
@@ -243,36 +256,51 @@ class Utm(Base):
         self._convergence = convergence
         self._scale       = scale
 
-    @property
+    def _xcopy(self, *attrs):
+        '''(INTERNAL) Make copy with add'l, subclass attributes.
+        '''
+        return _xattrs(self.classof(self.zone, self.hemisphere,
+                                    self.easting, self.northing,
+                                    band=self.band, datum=self.datum),
+                       self, *attrs)
+
+    @property_RO
     def band(self):
         '''Get the latitudinal band (C..X or '').
         '''
         return self._band
 
-    @property
+    @property_RO
     def convergence(self):
         '''Get the meridian convergence (degrees or None).
         '''
         return self._convergence
 
-    @property
+    def copy(self):
+        '''Copy this UTM coordinate.
+
+           @return: The copy (L{Utm} or subclass thereof).
+        '''
+        return self._xcopy()
+
+    @property_RO
     def datum(self):
         '''Get the datum (L{Datum}).
         '''
         return self._datum
 
-    @property
+    @property_RO
     def easting(self):
         '''Get the easting (meter).'''
         return self._easting
 
-    @property
+    @property_RO
     def hemisphere(self):
         '''Get the hemisphere (N|S).
         '''
         return self._hemi
 
-    @property
+    @property_RO
     def northing(self):
         '''Get the northing (meter).
         '''
@@ -286,17 +314,17 @@ class Utm(Base):
         '''
         return parseUTM(strUTM, datum=self.datum)
 
-    @property
+    @property_RO
     def scale(self):
         '''Get the grid scale (scalar or None).
         '''
         return self._scale
 
-    def toLatLon(self, LatLon):
+    def toLatLon(self, LatLon=None):
         '''Convert this UTM coordinate to an (ellipsoidal) geodetic point.
 
-           @param LatLon: The I{LatLon} class to use for the point
-                          (I{LatLon}) or None.
+           @keyword LatLon: The I{LatLon} class to use for the point
+                            (I{LatLon}) or None.
 
            @return: Point of this UTM coordinate (I{LatLon}) or 5-tuple
                     (lat, lon, datum, convergence, scale) if I{LatLon}
@@ -304,7 +332,7 @@ class Utm(Base):
 
            @raise TypeError: If I{LatLon} is not ellipsoidal.
 
-           @raise ValueError: Invalid meridional radius or H-value.
+           @raise UTMError: Invalid meridional radius or H-value.
 
            @example:
 
@@ -325,20 +353,20 @@ class Utm(Base):
         # from Karney 2011 Eq 15-22, 36
         A0 = _K0 * E.A
         if A0 < EPS:
-            raise ValueError('%s invalid: %r' % ('meridional', E.A))
+            raise UTMError('%s invalid: %r' % ('meridional', E.A))
         x /= A0  # η eta
         y /= A0  # ξ ksi
 
-        B6 = _K6s(E.Beta6, x, y)  # 6th-order Krüger series, 1-origin
-        y = -B6.ys(-y)  # ξ'
-        x = -B6.xs(-x)  # η'
+        Ks = _Kseries(E.BetaKs, x, y)  # Krüger series, 1-origin
+        y = -Ks.ys(-y)  # ξ'
+        x = -Ks.xs(-x)  # η'
 
         shx = sinh(x)
         cy, sy = cos(y), sin(y)
 
         H = hypot(shx, cy)
         if H < EPS:
-            raise ValueError('%s invalid: %r' % ('H', H))
+            raise UTMError('%s invalid: %r' % ('H', H))
 
         T = t0 = sy / H  # τʹ
         q = 1.0 / E.e12
@@ -355,11 +383,11 @@ class Utm(Base):
 
         a = atan(T)  # lat
         b = atan2(shx, cy) + radians(_cmlon(self._zone))
-        ll = _eLLb(degrees90(a), degrees180(b), datum=self._datum)
+        ll = _LLEB(degrees90(a), degrees180(b), datum=self._datum, name=self.name)
 
         # convergence: Karney 2011 Eq 26, 27
-        p = -B6.ps(-1)
-        q =  B6.qs(0)
+        p = -Ks.ps(-1)
+        q =  Ks.qs(0)
         ll._convergence = degrees(atan(tan(y) * tanh(x)) + atan2(q, p))
 
         # scale: Karney 2011 Eq 28
@@ -374,11 +402,9 @@ class Utm(Base):
         ll = self._latlon
         if LatLon is None:
             return ll.lat, ll.lon, ll.datum, ll.convergence, ll.scale
-        elif issubclass(LatLon, _eLLb):
-            ll = LatLon(ll.lat, ll.lon, datum=ll.datum)
-            ll._convergence = self._latlon.convergence
-            ll._scale = self._latlon.scale
-            return ll
+        elif issubclass(LatLon, _LLEB):
+            return _xnamed(_xattrs(LatLon(ll.lat, ll.lon, datum=ll.datum),
+                                   ll, '_convergence', '_scale'), ll.name)
         raise TypeError('%s not ellipsoidal: %r' % ('LatLon', LatLon))
 
     def toMgrs(self):
@@ -390,7 +416,7 @@ class Utm(Base):
         '''
         if self._mgrs is None:
             from mgrs import toMgrs  # PYCHOK recursive import
-            self._mgrs = toMgrs(self)
+            self._mgrs = toMgrs(self, name=self.name)
         return self._mgrs
 
     def toStr(self, prec=0, sep=' ', B=False, cs=False):  # PYCHOK expected
@@ -448,14 +474,14 @@ class Utm(Base):
         k = 'ZHENCS' if cs else 'ZHEN'
         return fmt % (sep.join('%s:%s' % t for t in zip(k, t)),)
 
-    @property
+    @property_RO
     def zone(self):
         '''Get the longitudinal zone (1..60).
         '''
         return self._zone
 
 
-def parseUTM(strUTM, datum=Datums.WGS84, Utm=Utm):
+def parseUTM(strUTM, datum=Datums.WGS84, Utm=Utm, name=''):
     '''Parse a string representing a UTM coordinate, consisting
        of zone, hemisphere, easting and northing.
 
@@ -463,11 +489,12 @@ def parseUTM(strUTM, datum=Datums.WGS84, Utm=Utm):
        @keyword datum: Optional datum to use (L{Datum}).
        @keyword Utm: Optional I{Utm} class to use for the UTM
                      coordinate (L{Utm}) or None.
+       @keyword name: Optional I{Utm} name (string).
 
        @return: The UTM coordinate (L{Utm}) or 4-tuple (zone,
                 hemisphere, easting, northing) if I{Utm} is None.
 
-       @raise ValueError: Invalid I{strUTM}.
+       @raise UTMError: Invalid I{strUTM}.
 
        @example:
 
@@ -490,17 +517,14 @@ def parseUTM(strUTM, datum=Datums.WGS84, Utm=Utm):
         e, n = map(float, u[2:])
 
     except ValueError:
-        raise ValueError('%s invalid: %r' % ('strUTM', strUTM))
+        raise UTMError('%s invalid: %r' % ('strUTM', strUTM))
 
-    return (z, h, e, n) if Utm is None else Utm(z, h, e, n, datum=datum)
+    return (z, h, e, n) if Utm is None else _xnamed(Utm(
+            z, h, e, n, datum=datum), name)
 
 
-def toUtm(latlon, lon=None, datum=None, Utm=Utm):
+def toUtm(latlon, lon=None, datum=None, Utm=Utm, name='', cmoff=True):
     '''Convert a lat-/longitude point to a UTM coordinate.
-
-       @note: Implements Karney’s method, using 6-th order Krüger
-       series, giving results accurate to 5 nm for distances up to
-       3900 km from the central meridian.
 
        @param latlon: Latitude (degrees) or an (ellipsoidal)
                       geodetic I{LatLon} point.
@@ -508,15 +532,26 @@ def toUtm(latlon, lon=None, datum=None, Utm=Utm):
        @keyword datum: Optional datum for this UTM coordinate,
                        overriding latlon's datum (I{Datum}).
        @keyword Utm: Optional I{Utm} class to usefor the UTM
-                     coordinate (L{Utm}).
+                     coordinate (L{Utm}) or None.
+       @keyword name: Optional I{Utm} name (string).
+       @keyword cmoff: Offset longitude from zone's central meridian.
 
-       @return: The UTM coordinate (L{Utm}).
+       @return: The UTM coordinate (L{Utm}) or a 6-tuple (zone, easting,
+                northing, band, convergence, scale) if I{Utm} is None
+                or I{cmoff} is False.
 
        @raise TypeError: If I{latlon} is not ellipsoidal.
 
-       @raise ValueError: If I{lon} value is missing, if I{latlon}
-                          is not scalar or I{latlon} is outside
-                          the valid UTM bands.
+       @raise RangeError: If I{lat} is outside the valid UTM bands or if
+                          I{lat} or I{lon} outside the valid range and
+                          I{rangerrrors} set to True.
+
+       @raise ValueError: If I{lon} value is missing or if I{latlon}
+                          is not scalar.
+
+       @note: Implements Karney’s method, using 8-th order Krüger series,
+              giving results accurate to 5 nm (or better) for distances
+              up to 3900 km from the central meridian.
 
        @example:
 
@@ -527,8 +562,10 @@ def toUtm(latlon, lon=None, datum=None, Utm=Utm):
     '''
     try:
         lat, lon = latlon.lat, latlon.lon
-        if not isinstance(latlon, _eLLb):
+        if not isinstance(latlon, _LLEB):
             raise TypeError('%s not %s: %r' % ('latlon', 'ellipsoidal', latlon))
+        if not name:  # use latlon.name
+            name = _nameof(latlon) or name  # PYCHOK no effect
         d = datum or latlon.datum
     except AttributeError:
         lat, lon = parseDMS2(latlon, lon)
@@ -536,8 +573,7 @@ def toUtm(latlon, lon=None, datum=None, Utm=Utm):
 
     E = d.ellipsoid
 
-    z, B, a, b = _toZBll(lat, lon)
-    h = 'S' if a < 0 else 'N'  # hemisphere
+    z, B, a, b = _toZBab4(lat, lon, cmoff)
 
     # easting, northing: Karney 2011 Eq 7-14, 29, 35
     cb, sb, tb = cos(b), sin(b), tan(b)
@@ -554,23 +590,47 @@ def toUtm(latlon, lon=None, datum=None, Utm=Utm):
 
     A0 = _K0 * E.A
 
-    A6 = _K6s(E.Alpha6, x, y)  # 6th-order Krüger series, 1-origin
-    y = A6.ys(y) * A0  # ξ
-    x = A6.xs(x) * A0  # η
+    Ks = _Kseries(E.AlphaKs, x, y)  # Krüger series, 1-origin
+    y = Ks.ys(y) * A0  # ξ
+    x = Ks.xs(x) * A0  # η
 
-    x += _FalseEasting  # make x relative to false easting
+    if cmoff:
+        x += _FalseEasting  # make x relative to false easting
     if y < 0:
         y += _FalseNorthing  # y relative to false northing in S
 
     # convergence: Karney 2011 Eq 23, 24
-    p_ = A6.ps(1)
-    q_ = A6.qs(0)
+    p_ = Ks.ps(1)
+    q_ = Ks.qs(0)
     c = degrees(atan(T_ / hypot1(T_) * tb) + atan2(q_, p_))
 
     # scale: Karney 2011 Eq 25
     s = E.e2s(sin(a)) * T12 / H * (A0 / E.a * hypot(p_, q_))
 
-    return Utm(z, h, x, y, band=B, datum=d, convergence=c, scale=s)
+    if cmoff and Utm is not None:
+        h = 'S' if a < 0 else 'N'  # hemisphere
+        return _xnamed(Utm(z, h, x, y, band=B, datum=d,
+                                       convergence=c, scale=s), name)
+    else:  # zone, easting, northing, band, convergence and scale
+        return z, x, y, B, c, s
+
+
+def utmZoneBand2(lat, lon):
+    '''Return the UTM zone number and UTM Band letter for a location.
+
+       @param lat: Latitude (degrees) or string.
+       @param lon: Longitude (degrees) or string.
+
+       @return: 2-Tuple (zone, Band) as (int, string).
+
+       @raise RangeError: If I{lat} is outside the valid UTM bands or if
+                          I{lat} or I{lon} outside the valid range and
+                          I{rangerrrors} set to True.
+
+       @raise ValueError: Invalid I{lat} or I{lon}.
+    '''
+    return _toZBab4(*parseDMS2(lat, lon))[:2]
+
 
 # **) MIT License
 #

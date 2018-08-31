@@ -61,11 +61,13 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Wm</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-object --+    
-         |    
-<a href="pygeodesy.bases.Base-class.html">bases.Base</a> --+
-             |
-            <strong class="uidshort">Wm</strong>
+ object --+        
+          |        
+bases.Named --+    
+              |    
+    bases.Based --+
+                  |
+                 <strong class="uidshort">Wm</strong>
 </pre>
 
 <hr />
@@ -88,7 +90,8 @@ object --+
           <td><span class="summary-sig"><a href="pygeodesy.webmercator.Wm-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">y</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6378137.0</span>)</span><br />
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6378137.0</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       New Web Mercator (WM) coordinate.</td>
           <td align="right" valign="top">
             
@@ -105,8 +108,26 @@ object --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.webmercator.Wm-class.html#copy" class="summary-sig-name">copy</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Copy this Web Marcator coordinate.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.webmercator.Wm-class.html#parseWM" class="summary-sig-name">parseWM</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">strWM</span>)</span><br />
+        <span class="summary-sig-arg">strWM</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       Parse a string to a WM coordinate.</td>
           <td align="right" valign="top">
             
@@ -197,12 +218,11 @@ object --+
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases.Base-class.html">bases.Base</a></code></b>:
-      <code><a href="pygeodesy.bases.Base-class.html#__repr__">__repr__</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#__str__">__str__</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#classname">classname</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#others">others</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>bases.Based</code></b>:
+      <code>__repr__</code>,
+      <code>__str__</code>,
+      <code>classof</code>,
+      <code>others</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -253,6 +273,11 @@ object --+
   </tr>
   <tr>
     <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>bases.Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>,
+      <code>name</code>
+      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
       </p>
@@ -278,7 +303,8 @@ object --+
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">x</span>,
         <span class="sig-arg">y</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6378137.0</span>)</span>
+        <span class="sig-arg">radius</span>=<span class="sig-default">6378137.0</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -293,6 +319,7 @@ object --+
         <li><strong class="pname"><code>x</code></strong> - Easting from central meridian (meter).</li>
         <li><strong class="pname"><code>y</code></strong> - Northing from equator (meter).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional earth radius (meter).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (string).</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -309,6 +336,31 @@ object --+
       </p>
 </div></td></tr></table>
 </div>
+<a name="copy"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">copy</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Copy this Web Marcator coordinate.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>The copy (<a href="pygeodesy.webmercator.Wm-class.html" 
+          class="link">Wm</a> or subclass thereof).</dd>
+    <dt>Overrides:
+        bases.Named.copy
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
 <a name="parseWM"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -317,7 +369,8 @@ object --+
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">parseWM</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">strWM</span>)</span>
+        <span class="sig-arg">strWM</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -432,14 +485,14 @@ object --+
         <li><strong class="pname"><code>radius</code></strong> - Optionally, include radius (bool or scalar).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>This WM as string &quot;meter meter&quot; plus &quot; 
-          radius&quot; if <i>radius</i> is True or scalar (string).</dd>
+        <dd>This WM as string &quot;meter meter&quot; plus &quot; radiuss if 
+          <i>radius</i> is True or scalar (string).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>radius</i>.</li>
     </ul></dd>
     <dt>Overrides:
-        <a href="pygeodesy.bases.Base-class.html#toStr">bases.Base.toStr</a>
+        bases.Based.toStr
     </dt>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -481,7 +534,7 @@ object --+
         <dd>This WM as &quot;[x:meter, y:meter]&quot; string plus &quot;, 
           radius:meter]&quot; if <i>radius</i> is True or scalar (string).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.bases.Base-class.html#toStr2">bases.Base.toStr2</a>
+        bases.Based.toStr2
     </dt>
   </dl>
 </td></tr></table>
@@ -508,6 +561,11 @@ object --+
     <dd class="value"><span class="summary-sig">radius(<span class="summary-sig-arg">self</span>)</span>
         - Get the earth radius (meter).
     </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
   </dl>
 </td></tr></table>
 </div>
@@ -523,6 +581,11 @@ object --+
     <dd class="value"><span class="summary-sig">x(<span class="summary-sig-arg">self</span>)</span>
         - Get the easting (meter).
     </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
   </dl>
 </td></tr></table>
 </div>
@@ -537,6 +600,11 @@ object --+
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">y(<span class="summary-sig-arg">self</span>)</span>
         - Get the northing (meter).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
 </td></tr></table>
@@ -573,7 +641,7 @@ object --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Aug 25 14:09:04 2018
+    Generated by Epydoc 3.0.1 on Fri Aug 31 13:44:19 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

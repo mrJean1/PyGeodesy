@@ -66,7 +66,7 @@ from math import atan2, cos, sin, tan
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'VincentyError',  # classes
            'areaOf', 'perimeterOf')  # functions
-__version__ = '18.03.06'
+__version__ = '18.08.28'
 
 division = 1 / 2  # double check int division, see utils.py
 if not division:
@@ -100,17 +100,10 @@ class LatLon(LatLonEllipsoidalBase):
     _epsilon    = 1.0e-12  # about 0.006 mm
     _iterations = 50
 
-    def copy(self):
-        '''Copy this point.
-
-           @return: Copy of this point (L{LatLon}).
+    def _xcopy(self, *attrs):
+        '''(INTERNAL) Make copy with add'l, subclass attributes.
         '''
-        p = LatLonEllipsoidalBase.copy(self)
-        assert hasattr(p, 'epsilon')
-        p.epsilon = self.epsilon
-        assert hasattr(p, 'iterations')
-        p.iterations = self.iterations
-        return p
+        return LatLonEllipsoidalBase._xcopy(self, '_epsilon', '_iterations', *attrs)
 
     def destination(self, distance, bearing, height=None):
         '''Compute the destination point after having travelled
@@ -521,18 +514,19 @@ class Cartesian(CartesianBase):
     '''Extended to convert (geocentric) L{Cartesian} points to
        Vincenty-based (ellipsoidal) geodetic L{LatLon}.
     '''
+
     def toLatLon(self, datum=Datums.WGS84, LatLon=LatLon):  # PYCHOK XXX
         '''Convert this (geocentric) Cartesian (x/y/z) point to
            an (ellipsoidal) geodetic point on the specified datum.
 
            @keyword datum: Optional datum to use (L{Datum}).
-           @keyword LatLon: Optional (ellipsoidal) LatLon class to
-                            use for the point (L{LatLon}).
+           @keyword LatLon: Optional (ellipsoidal) LatLon (sub-)class
+                            to use for the point (L{LatLon}) or None.
 
-           @return: The ellipsoidal geodetic point (L{LatLon}).
+           @return: The ellipsoidal geodetic point (L{LatLon}) or 3-tuple
+                    (degrees90, degrees180, height) if I{LatLon} is None.
         '''
-        a, b, h = self.to3llh(datum)
-        return LatLon(a, b, height=h, datum=datum)
+        return CartesianBase._toLLhd(self, LatLon, datum)
 
 
 def _Geodesic(points, closed, datum, line, wrap):

@@ -34,7 +34,7 @@ __all__ = ('isIntelPython', 'isiOS', 'isNix', 'isPyPy', 'isWindows',  # constant
            'PyGeodesy_dir', 'Python_O',
            'TestsBase',
            'runner', 'secs2str', 'tilde', 'type2str', 'versions')
-__version__ = '18.08.24'
+__version__ = '18.08.28'
 
 try:
     _int = int, long
@@ -93,19 +93,21 @@ class TestsBase(object):
     _iterisk  = ''
     _prefix   = '    '
     _time     = 0
+    _verbose  = True  # print all tests, otherwise failures only
     _versions = ''  # cached versions() string
 
     failed = 0
     known  = 0
     total  = 0
 
-    def __init__(self, testfile, version, module=None):
+    def __init__(self, testfile, version, module=None, verbose=True):
         if not self._versions:  # get versions once
             TestsBase._versions = versions()
         self._file = testfile
         self._name = basename(testfile)
         self.title(self._name, version, module=module)
         self._time = time()
+        self._verbose = verbose
 
     def errors(self):
         '''Return the number of tests failures,
@@ -178,7 +180,8 @@ class TestsBase(object):
             f = '%s, expected %s' % (f, expect)
 
         self.total += 1  # tests
-        self.printf('test %d %s: %s%s', self.total, name, v, f, nt=nt)
+        if f or self._verbose:
+            self.printf('test %d %s: %s%s', self.total, name, v, f, nt=nt)
 
     def test__(self, fmt, *args, **kwds):
         '''Print subtotal test line.

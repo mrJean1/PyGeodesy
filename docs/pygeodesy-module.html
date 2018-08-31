@@ -191,7 +191,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.08.24
+        18.08.28
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -203,7 +203,7 @@
 </tr>
   <tr><td class="summary">
   <ul class="nomargin">
-    <li class="private"> <strong class="uidlink"><a href="pygeodesy.bases-module.html" onclick="show_private();">pygeodesy.bases</a></strong>: <em class="summary">(INTERNAL) Common base classes.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.bases-module.html">pygeodesy.bases</a></strong>: <em class="summary">(INTERNAL) Common base classes.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.datum-module.html">pygeodesy.datum</a></strong>: <em class="summary">Classes <a href="pygeodesy.datum.Datum-class.html" 
         class="link">Datum</a>, <a 
         href="pygeodesy.datum.Ellipsoid-class.html" 
@@ -335,6 +335,15 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.vector3d.CrossError-class.html" class="summary-name">CrossError</a><br />
+      Error raised for zero or near-zero vectorial cross products, 
+        occurring for coincident or colinear points, paths or bearings.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.geohash.Geohash-class.html" class="summary-name">Geohash</a><br />
       Geohash class, sub-class of str.
     </td>
@@ -354,15 +363,6 @@
     </td><td class="summary">
         <a href="pygeodesy.lcc.Conic-class.html" class="summary-name">Conic</a><br />
       Lambert conformal conic projection (1- or 2-SP).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.utils.CrossError-class.html" class="summary-name">CrossError</a><br />
-      Error raised for zero or near-zero cross products or for coincident
-        or colinear points or paths.
     </td>
   </tr>
 <tr>
@@ -495,6 +495,14 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.utm.UTMError-class.html" class="summary-name">UTMError</a><br />
+      UTM parse or other error.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.utm.Utm-class.html" class="summary-name">Utm</a><br />
       Universal Transverse Mercator (UTM) coordinate.
     </td>
@@ -516,6 +524,23 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Functions</span></td>
 </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#crosserrors" class="summary-sig-name">crosserrors</a>(<span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Get/set raising of vectorial cross product errors.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -653,8 +678,26 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#classname" class="summary-sig-name">classname</a>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Build module.class name of this object.</td>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#classname" class="summary-sig-name">classname</a>(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">prefixed</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Return an instance' module and class name.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#classnaming" class="summary-sig-name">classnaming</a>(<span class="summary-sig-arg">prefixed</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Set the default class naming for <code>[module.].class</code> names.</td>
           <td align="right" valign="top">
             
             
@@ -732,23 +775,6 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#compassPoint" class="summary-sig-name">compassPoint</a>(<span class="summary-sig-arg">bearing</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">3</span>)</span><br />
       Convert bearing to a compass point.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#crosserrors" class="summary-sig-name">crosserrors</a>(<span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Get/set raising of cross product errors.</td>
           <td align="right" valign="top">
             
             
@@ -1843,7 +1869,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#parseMGRS" class="summary-sig-name">parseMGRS</a>(<span class="summary-sig-arg">strMGRS</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
-        <span class="summary-sig-arg">Mgrs</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.mgrs.Mgrs'&gt;</span>)</span><br />
+        <span class="summary-sig-arg">Mgrs</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.mgrs.Mgrs'&gt;</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       Parse a string representing a MGRS grid reference, consisting of 
       zoneBand, grid, easting and northing.</td>
           <td align="right" valign="top">
@@ -1862,7 +1889,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#parseOSGR" class="summary-sig-name">parseOSGR</a>(<span class="summary-sig-arg">strOSGR</span>,
-        <span class="summary-sig-arg">Osgr</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.osgr.Osgr'&gt;</span>)</span><br />
+        <span class="summary-sig-arg">Osgr</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.osgr.Osgr'&gt;</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       Parse an OSGR coordinate string to an Osgr instance.</td>
           <td align="right" valign="top">
             
@@ -1881,7 +1909,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#parseUTM" class="summary-sig-name">parseUTM</a>(<span class="summary-sig-arg">strUTM</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
-        <span class="summary-sig-arg">Utm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>)</span><br />
+        <span class="summary-sig-arg">Utm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       Parse a string representing a UTM coordinate, consisting of zone, 
       hemisphere, easting and northing.</td>
           <td align="right" valign="top">
@@ -1901,7 +1930,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#parseWM" class="summary-sig-name">parseWM</a>(<span class="summary-sig-arg">strWM</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6378137.0</span>,
-        <span class="summary-sig-arg">Wm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.webmercator.Wm'&gt;</span>)</span><br />
+        <span class="summary-sig-arg">Wm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.webmercator.Wm'&gt;</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       Parse a string representing a WM coordinate, consisting of easting, 
       northing and an optional radius.</td>
           <td align="right" valign="top">
@@ -1964,6 +1994,23 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#precision" class="summary-sig-name">precision</a>(<span class="summary-sig-arg">form</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">None</span>)</span><br />
       Set the default precison for a given F_ form.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#property_RO" class="summary-sig-name">property_RO</a>(<span class="summary-sig-arg">method</span>)</span><br />
+      Decorator for <code>Read_Only</code> property.</td>
           <td align="right" valign="top">
             
             
@@ -2302,7 +2349,8 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#toLcc" class="summary-sig-name">toLcc</a>(<span class="summary-sig-arg">latlon</span>,
         <span class="summary-sig-arg">conic</span>=<span class="summary-sig-default">Conic(name='WRF_Lb', lat0=40, lon0=-97, par1=33, par2=45, E0=0<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">Lcc</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.lcc.Lcc'&gt;</span>)</span><br />
+        <span class="summary-sig-arg">Lcc</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.lcc.Lcc'&gt;</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       Convert an (ellipsoidal) geodetic point to a Lambert location.</td>
           <td align="right" valign="top">
             
@@ -2320,7 +2368,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#toMgrs" class="summary-sig-name">toMgrs</a>(<span class="summary-sig-arg">utm</span>,
-        <span class="summary-sig-arg">Mgrs</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.mgrs.Mgrs'&gt;</span>)</span><br />
+        <span class="summary-sig-arg">Mgrs</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.mgrs.Mgrs'&gt;</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       Convert a UTM coordinate to an MGRS grid reference.</td>
           <td align="right" valign="top">
             
@@ -2340,7 +2389,8 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#toOsgr" class="summary-sig-name">toOsgr</a>(<span class="summary-sig-arg">latlon</span>,
         <span class="summary-sig-arg">lon</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
-        <span class="summary-sig-arg">Osgr</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.osgr.Osgr'&gt;</span>)</span><br />
+        <span class="summary-sig-arg">Osgr</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.osgr.Osgr'&gt;</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       Convert a lat-/longitude point to an OSGR coordinate.</td>
           <td align="right" valign="top">
             
@@ -2360,7 +2410,9 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#toUtm" class="summary-sig-name">toUtm</a>(<span class="summary-sig-arg">latlon</span>,
         <span class="summary-sig-arg">lon</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">Utm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>)</span><br />
+        <span class="summary-sig-arg">Utm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">cmoff</span>=<span class="summary-sig-default">True</span>)</span><br />
       Convert a lat-/longitude point to a UTM coordinate.</td>
           <td align="right" valign="top">
             
@@ -2380,7 +2432,8 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#toWm" class="summary-sig-name">toWm</a>(<span class="summary-sig-arg">latlon</span>,
         <span class="summary-sig-arg">lon</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6378137.0</span>,
-        <span class="summary-sig-arg">Wm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.webmercator.Wm'&gt;</span>)</span><br />
+        <span class="summary-sig-arg">Wm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.webmercator.Wm'&gt;</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       Convert a lat-/longitude point to a WM coordinate.</td>
           <td align="right" valign="top">
             
@@ -2439,6 +2492,24 @@
         <span class="summary-sig-arg">rad2</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
       Unroll longitudinal delta and wrap longitude in radians.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#utmZoneBand2" class="summary-sig-name">utmZoneBand2</a>(<span class="summary-sig-arg">lat</span>,
+        <span class="summary-sig-arg">lon</span>)</span><br />
+      Return the UTM zone number and UTM Band letter for a location.</td>
           <td align="right" valign="top">
             
             
@@ -2563,8 +2634,8 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'18.8.24'"><code class="variable-quote">'</code><code class="variable-string">18.8.24</code><code class="variable-quote">'</code></code><br />
-      Normalized PyGeodesy version (string).
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'18.8.28'"><code class="variable-quote">'</code><code class="variable-string">18.8.28</code><code class="variable-quote">'</code></code><br />
+      Normalized <code>PyGeodesy</code> version (string).
     </td>
   </tr>
 <tr>
@@ -2574,11 +2645,11 @@
         <a href="pygeodesy-module.html#Conics" class="summary-name">Conics</a> = <code title="Conics.Be08Lb: Conic(name='Be08Lb', lat0=50.797815, lon0=4.35921583, p\
 ar1=49.833333, par2=51.166667, E0=649328, N0=665262, k0=1, SP=2, datum\
 =(name='GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.WGS84\
-)
+),
 Conics.Be72Lb: Conic(name='Be72Lb', lat0=90, lon0=4.3674867, par1=49.8\
 333339, par2=51.1666672, E0=150000.013, N0=5400088.438, k0=1, SP=2, da\
 tum=(name='NAD83', ellipsoid=Ellipsoids.GRS80, transform=Transforms.NA\
-D83)
+D83),
 ...">Conics.Be08Lb: Conic(name='Be08Lb', lat0=50.797815, l<code class="variable-ellipsis">...</code></code><br />
       Registered conics (enum).
     </td>
@@ -2588,13 +2659,13 @@ D83)
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy-module.html#Datums" class="summary-name">Datums</a> = <code title="Datums.BD72: Datum(name='BD72', ellipsoid=Ellipsoids.Intl1924, transfo\
-rm=Transforms.BD72)
+rm=Transforms.BD72),
 Datums.DHDN: Datum(name='DHDN', ellipsoid=Ellipsoids.Bessel1841, trans\
-form=Transforms.DHDN)
+form=Transforms.DHDN),
 Datums.ED50: Datum(name='ED50', ellipsoid=Ellipsoids.Intl1924, transfo\
-rm=Transforms.ED50)
+rm=Transforms.ED50),
 Datums.GRS80: Datum(name='GRS80', ellipsoid=Ellipsoids.GRS80, transfor\
-m=Transforms.WGS84)
+m=Transforms.WGS84),
 ...">Datums.BD72: Datum(name='BD72', ellipsoid=Ellipsoids.<code class="variable-ellipsis">...</code></code><br />
       Registered datums (enum).
     </td>
@@ -2630,7 +2701,7 @@ m=Transforms.WGS84)
         <a href="pygeodesy-module.html#Ellipsoids" class="summary-name">Ellipsoids</a> = <code title="Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, b=63562\
 56.909, f_=299.3249646, f=0.003340851, e=0.081673374, e2=0.00667054, e\
 22=0.006715335, n=0.00167322, R1=6370461.233666666, R2=6370459.6545894\
-42, R3=6370453.309866445, Rr=6366914.608805893, Rs=6366901.239881964)
+42, R3=6370453.309866445, Rr=6366914.608805893, Rs=6366901.239881964),
 Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
  b=6356034.448, f_=299.3249646, f=0.003340851, e=0.081673374, e2=0.006\
 67054, e22=0.006715335, n=0.00167322, R1=6370238.275333334, R2=6370236\
@@ -2829,12 +2900,12 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
     </td><td class="summary">
         <a href="pygeodesy-module.html#Transforms" class="summary-name">Transforms</a> = <code title="Transforms.BD72: Transform(name='BD72', tx=106.86863, ty=-52.29778, tz\
 =103.72389, rx=-0, ry=-0, rz=-0.00001, s=1.2727, s1=1, sx=-0.33657, sy\
-=-0.45696, sz=-1.84218)
+=-0.45696, sz=-1.84218),
 Transforms.Bessel1841: Transform(name='Bessel1841', tx=-582, ty=-105, \
 tz=-414, rx=-0.00001, ry=-0, rz=0.00001, s=-8.3, s1=0.99999, sx=-1.04,\
- sy=-0.35, sz=3.08)
+ sy=-0.35, sz=3.08),
 Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
--176, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
+-176, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0),
 ...">Transforms.BD72: Transform(name='BD72', tx=106.86<code class="variable-ellipsis">...</code></code><br />
       Registered transforms (enum).
     </td>
@@ -2849,6 +2920,33 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <span class="table-header">Function Details</span></td>
 </tr>
 </table>
+<a name="crosserrors"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">crosserrors</span>(<span class="sig-arg">raiser</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get/set raising of vectorial cross product errors.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>raiser</code></strong> - Use <code>True</code> to raise or <code>False</code> to ignore <a
+          href="pygeodesy.vector3d.CrossError-class.html" 
+          class="link">CrossError</a> exceptions.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Previous setting (bool).</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="antipode"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -3078,21 +3176,51 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">classname</span>(<span class="sig-arg">obj</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">classname</span>(<span class="sig-arg">inst</span>,
+        <span class="sig-arg">prefixed</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Build module.class name of this object.</p>
+  <p>Return an instance' module and class name.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>obj</code></strong> - The object (any type).</li>
+        <li><strong class="pname"><code>inst</code></strong> - The object (any type).</li>
+        <li><strong class="pname"><code>prefixed</code></strong> - Prefix the module name (bool), see function <a 
+          href="pygeodesy.bases-module.html#classnaming" 
+          class="link">classnaming</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Name of module and class (string).</dd>
+        <dd>The <i>inst</i>'s <code>[module.]class</code> name (string).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="classnaming"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">classnaming</span>(<span class="sig-arg">prefixed</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set the default class naming for <code>[module.].class</code> 
+  names.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>prefixed</code></strong> - Include the module name (bool).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Previous class naming setting (bool).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -3259,34 +3387,6 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
       </p>
 </div></td></tr></table>
 </div>
-<a name="crosserrors"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">crosserrors</span>(<span class="sig-arg">raiser</span>=<span class="sig-default">None</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Get/set raising of cross product errors.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>raiser</code></strong> - Choose True to raise or False to not raise <a 
-          href="pygeodesy.utils.CrossError-class.html" 
-          class="link">CrossError</a> exceptions.  Use None to leave the 
-          setting unchanged.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Previous setting (bool).</dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="degrees180"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -3309,7 +3409,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Degrees, wrapped (degrees180).</dd>
+        <dd>Angle in degrees, wrapped (degrees180).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -3334,7 +3434,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Degrees, wrapped (degrees360).</dd>
+        <dd>Angle in degrees, wrapped (degrees360).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -3360,7 +3460,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Degrees, wrapped (degrees90).</dd>
+        <dd>Angle in degrees, wrapped (degrees90).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -3394,11 +3494,10 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           &lt;error&gt;).</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        The returned elevation is <code>None</code> if <i>lat</i> or 
-        <i>lon</i> was invalid or outside the <code>Conterminous US 
-        (CONUS)</code>, if the query timed out or if conversion failed.  
-        The &lt;error&gt; is the HTTP-, IO-, SSL-, Type-, URL- or 
-        ValueError as string.
+        The returned elevation is None if <i>lat</i> or <i>lon</i> is 
+        invalid or outside the <code>Conterminous US (CONUS)</code>, if the
+        query timed out or if conversion failed.  The &lt;error&gt; is the 
+        HTTP-, IO-, SSL-, Type-, URL- or ValueError as string.
       </p>
       <p><strong>See Also:</strong>
         <a href="http://NationalMap.gov/epqs/" target="_top">USGS National 
@@ -3962,11 +4061,11 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           &lt;error&gt;).</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        The returned height is <code>None</code> if <i>lat</i> or 
-        <i>lon</i> was invalid or outside the <code>Conterminous US 
-        (CONUS)</code>, if the <i>model</i> was invalid, if the query timed
-        out or if conversion failed.  The &lt;error&gt; is the HTTP-, IO-, 
-        SSL-, Type-, URL- or ValueError as string.
+        The returned height is CNone if <i>lat</i> or <i>lon</i> is invalid
+        or outside the <code>Conterminous US (CONUS)</code>, if the 
+        <i>model</i> was invalid, if the query timed out or if conversion 
+        failed.  The &lt;error&gt; is the HTTP-, IO-, SSL-, Type-, URL- or 
+        ValueError as string.
       </p>
       <p><strong>See Also:</strong>
         <a href="http://www.NGS.NOAA.gov/INFO/geodesy.shtml" 
@@ -4245,7 +4344,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>kwds</code></strong> - Optional keyword arguments (dict).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Representation (string).</dd>
+        <dd>The <i>inst</i>'s representation (string).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -4441,7 +4540,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <dd>True if convex, False otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.utils.CrossError-class.html">CrossError</a></strong></code> - Colinear point.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.vector3d.CrossError-class.html">CrossError</a></strong></code> - Colinear point.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <i>LatLon</i>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
     </ul></dd>
@@ -4931,7 +5030,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>func</code></strong> - Function to apply (callable).</li>
-        <li><strong class="pname"><code>args</code></strong> - Arguments to apply (any).</li>
+        <li><strong class="pname"><code>args</code></strong> - Arguments to apply (any positional).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Function results (tuple).</dd>
@@ -4954,7 +5053,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </tr></table>
   
   <p>Apply arguments to a function and return a tuple of results.</p>
-  <p>Unlike Python 2 built-in <code class="link">map</code>, Python 3+ 
+  <p>Unlike Python 2's built-in <code class="link">map</code>, Python 3+ 
   <code class="link">map</code> returns a <code class="link">map</code> 
   object, an iterator-like object which generates the results only once.  
   Converting the <code class="link">map</code> object to a tuple maintains 
@@ -5156,7 +5255,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">parseMGRS</span>(<span class="sig-arg">strMGRS</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
-        <span class="sig-arg">Mgrs</span>=<span class="sig-default">&lt;class 'pygeodesy.mgrs.Mgrs'&gt;</span>)</span>
+        <span class="sig-arg">Mgrs</span>=<span class="sig-default">&lt;class 'pygeodesy.mgrs.Mgrs'&gt;</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -5171,9 +5271,10 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>strMGRS</code></strong> - MGRS grid reference (string).</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional datum to use (<a href="pygeodesy.datum.Datum-class.html"
           class="link">Datum</a>).</li>
-        <li><strong class="pname"><code>Mgrs</code></strong> - Optional Mgrs class to use for the MGRS grid reference (<a 
+        <li><strong class="pname"><code>Mgrs</code></strong> - Optional Mgrs (sub-)class to use for the MGRS grid reference (<a 
           href="pygeodesy.mgrs.Mgrs-class.html" class="link">Mgrs</a>) or 
           None.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <i>Mgrs</i> name (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The MGRS grid reference (<a href="pygeodesy.mgrs.Mgrs-class.html"
@@ -5201,7 +5302,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">parseOSGR</span>(<span class="sig-arg">strOSGR</span>,
-        <span class="sig-arg">Osgr</span>=<span class="sig-default">&lt;class 'pygeodesy.osgr.Osgr'&gt;</span>)</span>
+        <span class="sig-arg">Osgr</span>=<span class="sig-default">&lt;class 'pygeodesy.osgr.Osgr'&gt;</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -5220,6 +5322,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>Osgr</code></strong> - Optional Osgr class to use for the OSGR coordinate (<a 
           href="pygeodesy.osgr.Osgr-class.html" class="link">Osgr</a>) or 
           None.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <i>Osgr</i> name (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The OSGR coordinate (<a href="pygeodesy.osgr.Osgr-class.html" 
@@ -5253,7 +5356,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">parseUTM</span>(<span class="sig-arg">strUTM</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
-        <span class="sig-arg">Utm</span>=<span class="sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>)</span>
+        <span class="sig-arg">Utm</span>=<span class="sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -5271,6 +5375,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>Utm</code></strong> - Optional <i>Utm</i> class to use for the UTM coordinate (<a 
           href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>) or 
           None.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <i>Utm</i> name (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The UTM coordinate (<a href="pygeodesy.utm.Utm-class.html" 
@@ -5278,7 +5383,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           northing) if <i>Utm</i> is None.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>strUTM</i>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.utm.UTMError-class.html">UTMError</a></strong></code> - Invalid <i>strUTM</i>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -5299,7 +5404,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">parseWM</span>(<span class="sig-arg">strWM</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6378137.0</span>,
-        <span class="sig-arg">Wm</span>=<span class="sig-default">&lt;class 'pygeodesy.webmercator.Wm'&gt;</span>)</span>
+        <span class="sig-arg">Wm</span>=<span class="sig-default">&lt;class 'pygeodesy.webmercator.Wm'&gt;</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -5316,6 +5422,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>Wm</code></strong> - Optional Wm class to use (<a 
           href="pygeodesy.webmercator.Wm-class.html" class="link">Wm</a>) 
           or None.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The WM coordinate (<a href="pygeodesy.webmercator.Wm-class.html" 
@@ -5462,6 +5569,34 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 </td></tr></table>
 </div>
+<a name="property_RO"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">property_RO</span>(<span class="sig-arg">method</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Decorator for <code>Read_Only</code> property.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>method</code></strong> - The callable to be decorated as <code>property.getter</code>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Like standard Python <code>property</code> without a 
+        <code>property.setter</code> with a more descriptive error message 
+        when set.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="radiansPI"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -5557,7 +5692,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>raiser</code></strong> - Choose True to raise or False to not raise <a 
+        <li><strong class="pname"><code>raiser</code></strong> - Choose True to raise or False to ignore <a 
           href="pygeodesy.dms.RangeError-class.html" 
           class="link">RangeError</a> exceptions.  Use None to leave the 
           setting unchanged.</li>
@@ -6060,7 +6195,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toLcc</span>(<span class="sig-arg">latlon</span>,
         <span class="sig-arg">conic</span>=<span class="sig-default">Conic(name='WRF_Lb', lat0=40, lon0=-97, par1=33, par2=45, E0=0<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">Lcc</span>=<span class="sig-default">&lt;class 'pygeodesy.lcc.Lcc'&gt;</span>)</span>
+        <span class="sig-arg">Lcc</span>=<span class="sig-default">&lt;class 'pygeodesy.lcc.Lcc'&gt;</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -6076,12 +6212,14 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           href="pygeodesy.lcc.Conic-class.html" class="link">Conic</a>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height for the point, overriding the default height 
           (meter).</li>
-        <li><strong class="pname"><code>Lcc</code></strong> - Optional Lcc class to use for the Lambert location (<a 
+        <li><strong class="pname"><code>Lcc</code></strong> - Optional Lcc (sub-)class to use for the Lambert location (<a 
           href="pygeodesy.lcc.Lcc-class.html" class="link">Lcc</a>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <i>Lcc</i> name (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The Lambert location (<a href="pygeodesy.lcc.Lcc-class.html" 
-          class="link">Lcc</a>).</dd>
+          class="link">Lcc</a>) or 3-tuple (easting, northing, height) if 
+          <i>Lcc</i> is None.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - If <i>latlon</i> is not ellipsoidal.</li>
@@ -6097,7 +6235,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toMgrs</span>(<span class="sig-arg">utm</span>,
-        <span class="sig-arg">Mgrs</span>=<span class="sig-default">&lt;class 'pygeodesy.mgrs.Mgrs'&gt;</span>)</span>
+        <span class="sig-arg">Mgrs</span>=<span class="sig-default">&lt;class 'pygeodesy.mgrs.Mgrs'&gt;</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -6112,6 +6251,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           class="link">Utm</a>).</li>
         <li><strong class="pname"><code>Mgrs</code></strong> - Optional Mgrs class to use for the MGRS grid reference (<a 
           href="pygeodesy.mgrs.Mgrs-class.html" class="link">Mgrs</a>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <i>Mgrs</i> name (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The MGRS grid reference (<a href="pygeodesy.mgrs.Mgrs-class.html"
@@ -6140,7 +6280,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toOsgr</span>(<span class="sig-arg">latlon</span>,
         <span class="sig-arg">lon</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
-        <span class="sig-arg">Osgr</span>=<span class="sig-default">&lt;class 'pygeodesy.osgr.Osgr'&gt;</span>)</span>
+        <span class="sig-arg">Osgr</span>=<span class="sig-default">&lt;class 'pygeodesy.osgr.Osgr'&gt;</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -6155,12 +6296,14 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           point.</li>
         <li><strong class="pname"><code>lon</code></strong> - Optional longitude in degrees (scalar or None).</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional datum to convert (<i>Datum</i>).</li>
-        <li><strong class="pname"><code>Osgr</code></strong> - Optional Osgr class to use for the OSGR coordinate (<a 
+        <li><strong class="pname"><code>Osgr</code></strong> - Optional Osgr (sub-)class to use for the OSGR coordinate (<a 
           href="pygeodesy.osgr.Osgr-class.html" class="link">Osgr</a>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <i>Osgr</i> name (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The OSGR coordinate (<a href="pygeodesy.osgr.Osgr-class.html" 
-          class="link">Osgr</a>).</dd>
+          class="link">Osgr</a>) or 2-tuple (easting, northing) if 
+          <i>Osgr</i> is None.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - If <i>latlon</i> is not ellipsoidal or if <i>datum</i> conversion 
@@ -6187,7 +6330,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toUtm</span>(<span class="sig-arg">latlon</span>,
         <span class="sig-arg">lon</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">Utm</span>=<span class="sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>)</span>
+        <span class="sig-arg">Utm</span>=<span class="sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">cmoff</span>=<span class="sig-default">True</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -6204,22 +6349,29 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>datum</code></strong> - Optional datum for this UTM coordinate, overriding latlon's datum
           (<i>Datum</i>).</li>
         <li><strong class="pname"><code>Utm</code></strong> - Optional <i>Utm</i> class to usefor the UTM coordinate (<a 
-          href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>).</li>
+          href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>) or 
+          None.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <i>Utm</i> name (string).</li>
+        <li><strong class="pname"><code>cmoff</code></strong> - Offset longitude from zone's central meridian.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The UTM coordinate (<a href="pygeodesy.utm.Utm-class.html" 
-          class="link">Utm</a>).</dd>
+          class="link">Utm</a>) or a 6-tuple (zone, easting, northing, 
+          band, convergence, scale) if <i>Utm</i> is None or <i>cmoff</i> 
+          is False.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - If <i>latlon</i> is not ellipsoidal.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - If <i>lon</i> value is missing, if <i>latlon</i> is not scalar or 
-        <i>latlon</i> is outside the valid UTM bands.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - If <i>lat</i> is outside the valid UTM bands or if <i>lat</i> or 
+        <i>lon</i> outside the valid range and <i>rangerrrors</i> set to 
+        True.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - If <i>lon</i> value is missing or if <i>latlon</i> is not scalar.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        Implements Karney&#8217;s method, using 6-th order Kr&#252;ger series, giving 
-        results accurate to 5 nm for distances up to 3900 km from the 
-        central meridian.
+        Implements Karney&#8217;s method, using 8-th order Kr&#252;ger series, giving 
+        results accurate to 5 nm (or better) for distances up to 3900 km 
+        from the central meridian.
       </p>
       <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -6240,7 +6392,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toWm</span>(<span class="sig-arg">latlon</span>,
         <span class="sig-arg">lon</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6378137.0</span>,
-        <span class="sig-arg">Wm</span>=<span class="sig-default">&lt;class 'pygeodesy.webmercator.Wm'&gt;</span>)</span>
+        <span class="sig-arg">Wm</span>=<span class="sig-default">&lt;class 'pygeodesy.webmercator.Wm'&gt;</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -6256,11 +6409,14 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>lon</code></strong> - Optional longitude (degrees or None).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional earth radius (meter).</li>
         <li><strong class="pname"><code>Wm</code></strong> - Optional Wm class for the WM coordinate (<a 
-          href="pygeodesy.webmercator.Wm-class.html" class="link">Wm</a>).</li>
+          href="pygeodesy.webmercator.Wm-class.html" class="link">Wm</a>) 
+          or None.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The WM coordinate (<a href="pygeodesy.webmercator.Wm-class.html" 
-          class="link">Wm</a>).</dd>
+          class="link">Wm</a>) or 3-tuple (easting, northing, radius) id 
+          <i>Wm</i> is None.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - If <i>lon</i> value is missing, if <i>latlon</i> is not scalar, if 
@@ -6379,6 +6535,40 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         target="_top">GeographicLib</a>.
       </p>
 </div></td></tr></table>
+</div>
+<a name="utmZoneBand2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">utmZoneBand2</span>(<span class="sig-arg">lat</span>,
+        <span class="sig-arg">lon</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the UTM zone number and UTM Band letter for a location.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat</code></strong> - Latitude (degrees) or string.</li>
+        <li><strong class="pname"><code>lon</code></strong> - Longitude (degrees) or string.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>2-Tuple (zone, Band) as (int, string).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - If <i>lat</i> is outside the valid UTM bands or if <i>lat</i> or 
+        <i>lon</i> outside the valid range and <i>rangerrrors</i> set to 
+        True.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>lat</i> or <i>lon</i>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
 </div>
 <a name="wrap180"></a>
 <div>
@@ -6555,11 +6745,11 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
 Conics.Be08Lb: Conic(name='Be08Lb', lat0=50.797815, lon0=4.35921583, p<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 ar1=49.833333, par2=51.166667, E0=649328, N0=665262, k0=1, SP=2, datum<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 =(name='GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.WGS84<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-)
+),
 Conics.Be72Lb: Conic(name='Be72Lb', lat0=90, lon0=4.3674867, par1=49.8<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 333339, par2=51.1666672, E0=150000.013, N0=5400088.438, k0=1, SP=2, da<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 tum=(name='NAD83', ellipsoid=Ellipsoids.GRS80, transform=Transforms.NA<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-D83)
+D83),
 <code class="variable-ellipsis">...</code>
 </pre></td></tr></table>
 </dd>
@@ -6579,13 +6769,13 @@ D83)
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
 Datums.BD72: Datum(name='BD72', ellipsoid=Ellipsoids.Intl1924, transfo<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-rm=Transforms.BD72)
+rm=Transforms.BD72),
 Datums.DHDN: Datum(name='DHDN', ellipsoid=Ellipsoids.Bessel1841, trans<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-form=Transforms.DHDN)
+form=Transforms.DHDN),
 Datums.ED50: Datum(name='ED50', ellipsoid=Ellipsoids.Intl1924, transfo<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-rm=Transforms.ED50)
+rm=Transforms.ED50),
 Datums.GRS80: Datum(name='GRS80', ellipsoid=Ellipsoids.GRS80, transfor<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-m=Transforms.WGS84)
+m=Transforms.WGS84),
 <code class="variable-ellipsis">...</code>
 </pre></td></tr></table>
 </dd>
@@ -6607,7 +6797,7 @@ m=Transforms.WGS84)
 Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, b=63562<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 56.909, f_=299.3249646, f=0.003340851, e=0.081673374, e2=0.00667054, e<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 22=0.006715335, n=0.00167322, R1=6370461.233666666, R2=6370459.6545894<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-42, R3=6370453.309866445, Rr=6366914.608805893, Rs=6366901.239881964)
+42, R3=6370453.309866445, Rr=6366914.608805893, Rs=6366901.239881964),
 Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
  b=6356034.448, f_=299.3249646, f=0.003340851, e=0.081673374, e2=0.006<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 67054, e22=0.006715335, n=0.00167322, R1=6370238.275333334, R2=6370236<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
@@ -6632,12 +6822,12 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,<span clas
       <dd><table><tr><td><pre class="variable">
 Transforms.BD72: Transform(name='BD72', tx=106.86863, ty=-52.29778, tz<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 =103.72389, rx=-0, ry=-0, rz=-0.00001, s=1.2727, s1=1, sx=-0.33657, sy<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-=-0.45696, sz=-1.84218)
+=-0.45696, sz=-1.84218),
 Transforms.Bessel1841: Transform(name='Bessel1841', tx=-582, ty=-105, <span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 tz=-414, rx=-0.00001, ry=-0, rz=0.00001, s=-8.3, s1=0.99999, sx=-1.04,<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
- sy=-0.35, sz=3.08)
+ sy=-0.35, sz=3.08),
 Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
--176, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
+-176, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0),
 <code class="variable-ellipsis">...</code>
 </pre></td></tr></table>
 </dd>
@@ -6676,7 +6866,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Aug 25 14:09:03 2018
+    Generated by Epydoc 3.0.1 on Fri Aug 31 13:44:17 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

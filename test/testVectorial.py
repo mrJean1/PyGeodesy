@@ -51,9 +51,10 @@ class Tests(TestsBase):
         class Nv(Nvector):
             pass
         v = Nvector(52.205, 0.119, 0.0)
-        s = sumOf((v, c), Vector=Nv, h=0)
+        s = sumOf((v, c), Vector=Nv, h=0, name='sumOf')
         self.test('sumOf', s, '(52.70504, 0.61904, 0.70705)')
         self.test('sumOf', s.__class__.__name__, 'Nv')
+        self.test('sumOf', s._name, 'sumOf')
         self.test('length', s.length, '52.7134151513',  fmt='%.10f')
 
         c = v.copy()

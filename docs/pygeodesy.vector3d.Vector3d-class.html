@@ -61,11 +61,15 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Vector3d</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-object --+    
-         |    
-<a href="pygeodesy.bases.Base-class.html">bases.Base</a> --+
-             |
-            <strong class="uidshort">Vector3d</strong>
+ object --+            
+          |            
+bases.Named --+        
+              |        
+    bases.Based --+    
+                  |    
+  bases.VectorBased --+
+                      |
+                     <strong class="uidshort">Vector3d</strong>
 </pre>
 
 <dl><dt>Known Subclasses:</dt>
@@ -296,7 +300,8 @@ object --+
         <span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">y</span>,
         <span class="summary-sig-arg">z</span>,
-        <span class="summary-sig-arg">ll</span>=<span class="summary-sig-default">None</span>)</span><br />
+        <span class="summary-sig-arg">ll</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       New 3-D vector.</td>
           <td align="right" valign="top">
             
@@ -926,12 +931,11 @@ object --+
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases.Base-class.html">bases.Base</a></code></b>:
-      <code><a href="pygeodesy.bases.Base-class.html#__repr__">__repr__</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#__str__">__str__</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#classname">classname</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#toStr2">toStr2</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>bases.Based</code></b>:
+      <code>__repr__</code>,
+      <code>__str__</code>,
+      <code>classof</code>,
+      <code>toStr2</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -956,6 +960,15 @@ object --+
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Properties</span></td>
 </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.vector3d.Vector3d-class.html#crosserrors" class="summary-name">crosserrors</a><br />
+      Get <a href="pygeodesy.vector3d.CrossError-class.html" 
+      class="link">CrossError</a>s (bool).
+    </td>
+  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -990,6 +1003,11 @@ object --+
   </tr>
   <tr>
     <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>bases.Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>,
+      <code>name</code>
+      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
       </p>
@@ -1319,7 +1337,8 @@ object --+
         <span class="sig-arg">x</span>,
         <span class="sig-arg">y</span>,
         <span class="sig-arg">z</span>,
-        <span class="sig-arg">ll</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">ll</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -1338,6 +1357,7 @@ object --+
         <li><strong class="pname"><code>y</code></strong> - Y component of vector.</li>
         <li><strong class="pname"><code>z</code></strong> - Z component of vector.</li>
         <li><strong class="pname"><code>ll</code></strong> - Optional, original latlon (<i>LatLon</i>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (string).</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
@@ -1855,7 +1875,11 @@ object --+
   <p>Copy this vector.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>New, vector copy (Vector3d).</dd>
+        <dd>The copy (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a> or subclass thereof).</dd>
+    <dt>Overrides:
+        bases.Named.copy
+    </dt>
   </dl>
 </td></tr></table>
 </div>
@@ -1882,16 +1906,16 @@ object --+
         <li><strong class="pname"><code>other</code></strong> - The other vector (<a 
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>).</li>
-        <li><strong class="pname"><code>raiser</code></strong> - Optional, <a href="pygeodesy.utils.CrossError-class.html" 
-          class="link">CrossError</a> label to raise (string).</li>
+        <li><strong class="pname"><code>raiser</code></strong> - Optional, <a href="pygeodesy.vector3d.CrossError-class.html" 
+          class="link">CrossError</a> label if raised (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Cross product (<a href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.utils.CrossError-class.html">CrossError</a></strong></code> - Zero or near-zero cross product and both <i>raiser</i> and <a 
-        href="pygeodesy.utils-module.html#crosserrors" 
+        <li><code><strong class='fraise'><a href="pygeodesy.vector3d.CrossError-class.html">CrossError</a></strong></code> - Zero or near-zero cross product and both <i>raiser</i> and <a 
+        href="pygeodesy.vector3d.Vector3d-class.html#crosserrors" 
         class="link">crosserrors</a> set.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>type(other)</i>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Coincident or colinear to other.</li>
@@ -2093,7 +2117,7 @@ object --+
         <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>type(other)</i>.</li>
     </ul></dd>
     <dt>Overrides:
-        <a href="pygeodesy.bases.Base-class.html#others">bases.Base.others</a>
+        bases.Based.others
     </dt>
   </dl>
 </td></tr></table>
@@ -2385,7 +2409,7 @@ object --+
     <dt>Returns:</dt>
         <dd>Vector as &quot;(x, y, z)&quot; (string).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.bases.Base-class.html#toStr">bases.Base.toStr</a>
+        bases.Based.toStr
     </dt>
   </dl>
 </td></tr></table>
@@ -2423,6 +2447,29 @@ object --+
     <span class="table-header">Property Details</span></td>
 </tr>
 </table>
+<a name="crosserrors"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">crosserrors</h3>
+  <p>Get <a href="pygeodesy.vector3d.CrossError-class.html" 
+  class="link">CrossError</a>s (bool).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">crosserrors(<span class="summary-sig-arg">self</span>)</span>
+        - Get <a href="pygeodesy.vector3d.CrossError-class.html" 
+class="link">CrossError</a>s (bool).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">crosserrors(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">raiser</span>)</span>
+        - Set the raising of <a href="pygeodesy.vector3d.CrossError-class.html" 
+class="link">CrossError</a>s (bool).
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="length"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -2434,6 +2481,11 @@ object --+
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">length(<span class="summary-sig-arg">self</span>)</span>
         - Get the length (norm, magnitude) of this vector (float).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
 </td></tr></table>
@@ -2450,6 +2502,11 @@ object --+
     <dd class="value"><span class="summary-sig">x(<span class="summary-sig-arg">self</span>)</span>
         - Get the X component (scalar).
     </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2465,6 +2522,11 @@ object --+
     <dd class="value"><span class="summary-sig">y(<span class="summary-sig-arg">self</span>)</span>
         - Get the Y component (scalar).
     </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2479,6 +2541,11 @@ object --+
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">z(<span class="summary-sig-arg">self</span>)</span>
         - Get the Z component (scalar).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
 </td></tr></table>
@@ -2515,7 +2582,7 @@ object --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Aug 25 14:09:04 2018
+    Generated by Epydoc 3.0.1 on Fri Aug 31 13:44:19 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

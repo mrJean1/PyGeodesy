@@ -79,7 +79,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.02.02
+        18.08.28
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -114,7 +114,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.webmercator-module.html#parseWM" class="summary-sig-name">parseWM</a>(<span class="summary-sig-arg">strWM</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6378137.0</span>,
-        <span class="summary-sig-arg">Wm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.webmercator.Wm'&gt;</span>)</span><br />
+        <span class="summary-sig-arg">Wm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.webmercator.Wm'&gt;</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       Parse a string representing a WM coordinate, consisting of easting, 
       northing and an optional radius.</td>
           <td align="right" valign="top">
@@ -135,7 +136,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.webmercator-module.html#toWm" class="summary-sig-name">toWm</a>(<span class="summary-sig-arg">latlon</span>,
         <span class="summary-sig-arg">lon</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6378137.0</span>,
-        <span class="summary-sig-arg">Wm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.webmercator.Wm'&gt;</span>)</span><br />
+        <span class="summary-sig-arg">Wm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.webmercator.Wm'&gt;</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       Convert a lat-/longitude point to a WM coordinate.</td>
           <td align="right" valign="top">
             
@@ -165,7 +167,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">parseWM</span>(<span class="sig-arg">strWM</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6378137.0</span>,
-        <span class="sig-arg">Wm</span>=<span class="sig-default">&lt;class 'pygeodesy.webmercator.Wm'&gt;</span>)</span>
+        <span class="sig-arg">Wm</span>=<span class="sig-default">&lt;class 'pygeodesy.webmercator.Wm'&gt;</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -182,6 +185,7 @@
         <li><strong class="pname"><code>Wm</code></strong> - Optional Wm class to use (<a 
           href="pygeodesy.webmercator.Wm-class.html" class="link">Wm</a>) 
           or None.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The WM coordinate (<a href="pygeodesy.webmercator.Wm-class.html" 
@@ -209,7 +213,8 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toWm</span>(<span class="sig-arg">latlon</span>,
         <span class="sig-arg">lon</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6378137.0</span>,
-        <span class="sig-arg">Wm</span>=<span class="sig-default">&lt;class 'pygeodesy.webmercator.Wm'&gt;</span>)</span>
+        <span class="sig-arg">Wm</span>=<span class="sig-default">&lt;class 'pygeodesy.webmercator.Wm'&gt;</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -225,11 +230,14 @@
         <li><strong class="pname"><code>lon</code></strong> - Optional longitude (degrees or None).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional earth radius (meter).</li>
         <li><strong class="pname"><code>Wm</code></strong> - Optional Wm class for the WM coordinate (<a 
-          href="pygeodesy.webmercator.Wm-class.html" class="link">Wm</a>).</li>
+          href="pygeodesy.webmercator.Wm-class.html" class="link">Wm</a>) 
+          or None.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The WM coordinate (<a href="pygeodesy.webmercator.Wm-class.html" 
-          class="link">Wm</a>).</dd>
+          class="link">Wm</a>) or 3-tuple (easting, northing, radius) id 
+          <i>Wm</i> is None.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - If <i>lon</i> value is missing, if <i>latlon</i> is not scalar, if 
@@ -280,7 +288,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Aug 25 14:09:03 2018
+    Generated by Epydoc 3.0.1 on Fri Aug 31 13:44:18 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

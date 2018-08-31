@@ -61,17 +61,15 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Ellipsoid</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
- object --+        
-          |        
- <a href="pygeodesy.bases.Base-class.html">bases.Base</a> --+    
-              |    
- object --+   |    
-          |   |    
-<a href="pygeodesy.bases.Named-class.html">bases.Named</a> --+    
-              |    
-         _Based --+
-                  |
-                 <strong class="uidshort">Ellipsoid</strong>
+ object --+            
+          |            
+bases.Named --+        
+              |        
+    bases.Based --+    
+                  |    
+             _Based --+
+                      |
+                     <strong class="uidshort">Ellipsoid</strong>
 </pre>
 
 <hr />
@@ -116,6 +114,23 @@
           <td><span class="summary-sig"><a href="pygeodesy.datum.Ellipsoid-class.html#__eq__" class="summary-sig-name">__eq__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
       Compare this and an other ellipsoid.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.datum.Ellipsoid-class.html#copy" class="summary-sig-name">copy</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Copy this ellipsoid.</td>
           <td align="right" valign="top">
             
             
@@ -353,13 +368,12 @@
     <p class="indent-wrapped-lines"><b>Inherited from <code>_Based</code></b>:
       <code>__ne__</code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases.Base-class.html">bases.Base</a></code></b>:
-      <code><a href="pygeodesy.bases.Base-class.html#__repr__">__repr__</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#__str__">__str__</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#classname">classname</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#others">others</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#toStr2">toStr2</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>bases.Based</code></b>:
+      <code>__repr__</code>,
+      <code>__str__</code>,
+      <code>classof</code>,
+      <code>others</code>,
+      <code>toStr2</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -493,26 +507,9 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.datum.Ellipsoid-class.html#A" class="summary-name">A</a><br />
-      Get the <i>UTM</i> meridional radius (meter).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a href="pygeodesy.datum.Ellipsoid-class.html#a2_b" class="summary-name">a2_b</a><br />
       Get the polar meridional radius of curvature: <i class="math">a**2 / 
       b</i> (meter).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.datum.Ellipsoid-class.html#Alpha6" class="summary-name">Alpha6</a><br />
-      Get the 6th-order Kr&#252;ger Alpha series coefficients (7-tuple, 
-      1-origin).
     </td>
   </tr>
 <tr>
@@ -528,8 +525,29 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.datum.Ellipsoid-class.html#Beta6" class="summary-name">Beta6</a><br />
-      Get the 6th-order Kr&#252;ger Beta series coefficients (7-tuple, 
+        <a href="pygeodesy.datum.Ellipsoid-class.html#A" class="summary-name">A</a><br />
+      Get the <i>UTM</i> meridional radius (meter).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.datum.Ellipsoid-class.html#AlphaKs" class="summary-name">AlphaKs</a><br />
+      Get the 8th-order <a 
+      href="http://geographiclib.sourceforge.io/html/tmseries30.html" 
+      target="_top">Kr&#252;ger Alpha series coefficients</a> (9-tuple, 
+      1-origin).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.datum.Ellipsoid-class.html#BetaKs" class="summary-name">BetaKs</a><br />
+      Get the 8th-order <a 
+      href="http://geographiclib.sourceforge.io/html/tmseries30.html" 
+      target="_top">Kr&#252;ger Beta series coefficients</a> (9-tuple, 
       1-origin).
     </td>
   </tr>
@@ -604,8 +622,12 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases.Named-class.html">bases.Named</a></code></b>:
-      <code><a href="pygeodesy.bases.Named-class.html#name">name</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>_Based</code></b>:
+      <code>name</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>bases.Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
@@ -689,6 +711,32 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="copy"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">copy</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Copy this ellipsoid.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>The copy, unregistered (<a 
+          href="pygeodesy.datum.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a> or subclass thereof).</dd>
+    <dt>Overrides:
+        bases.Named.copy
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
 <a name="distance2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -710,7 +758,7 @@
   <p>Approximate the distance and bearing between two points based on the 
   radii of curvature.</p>
   <p>Suitable only for short distances up to a few hundred Km or Miles and 
-  only between non-near-polar points.</p>
+  only between points not near-polar.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -1060,7 +1108,7 @@
     <dt>Returns:</dt>
         <dd>Ellipsoid attributes (string).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.bases.Base-class.html#toStr">bases.Base.toStr</a>
+        bases.Based.toStr
     </dt>
   </dl>
 </td></tr></table>
@@ -1075,21 +1123,6 @@
     <span class="table-header">Property Details</span></td>
 </tr>
 </table>
-<a name="A"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">A</h3>
-  <p>Get the <i>UTM</i> meridional radius (meter).</p>
-  <dl class="fields">
-    <dt>Get Method:</dt>
-    <dd class="value"><span class="summary-sig">A(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>UTM</i> meridional radius (meter).
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="a2_b"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1104,28 +1137,17 @@
         - Get the polar meridional radius of curvature: <i class="math">a**2 / b</i> 
 (meter).
     </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="http://wikipedia.org/wiki/Earth_radius#Radii_of_curvature"
         target="_top">Radii of Curvature</a>.
       </p>
 </div></td></tr></table>
-</div>
-<a name="Alpha6"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">Alpha6</h3>
-  <p>Get the 6th-order Kr&#252;ger Alpha series coefficients (7-tuple, 
-  1-origin).</p>
-  <dl class="fields">
-    <dt>Get Method:</dt>
-    <dd class="value"><span class="summary-sig">Alpha6(<span class="summary-sig-arg">self</span>)</span>
-        - Get the 6th-order Kr&#252;ger Alpha series coefficients (7-tuple, 1-origin).
-    </dd>
-  </dl>
-</td></tr></table>
 </div>
 <a name="b2_a"></a>
 <div>
@@ -1141,6 +1163,11 @@
         - Get the equatorial meridional radius of curvature: <i class="math">b**2 / 
 a</i> (meter).
     </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="http://wikipedia.org/wiki/Earth_radius#Radii_of_curvature"
@@ -1148,18 +1175,72 @@ a</i> (meter).
       </p>
 </div></td></tr></table>
 </div>
-<a name="Beta6"></a>
+<a name="A"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
-  <h3 class="epydoc">Beta6</h3>
-  <p>Get the 6th-order Kr&#252;ger Beta series coefficients (7-tuple, 
+  <h3 class="epydoc">A</h3>
+  <p>Get the <i>UTM</i> meridional radius (meter).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">A(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <i>UTM</i> meridional radius (meter).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="AlphaKs"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">AlphaKs</h3>
+  <p>Get the 8th-order <a 
+  href="http://geographiclib.sourceforge.io/html/tmseries30.html" 
+  target="_top">Kr&#252;ger Alpha series coefficients</a> (9-tuple, 
   1-origin).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
-    <dd class="value"><span class="summary-sig">Beta6(<span class="summary-sig-arg">self</span>)</span>
-        - Get the 6th-order Kr&#252;ger Beta series coefficients (7-tuple, 1-origin).
+    <dd class="value"><span class="summary-sig">AlphaKs(<span class="summary-sig-arg">self</span>)</span>
+        - Get the 8th-order <a 
+href="http://geographiclib.sourceforge.io/html/tmseries30.html" 
+target="_top">Kr&#252;ger Alpha series coefficients</a> (9-tuple, 1-origin).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="BetaKs"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">BetaKs</h3>
+  <p>Get the 8th-order <a 
+  href="http://geographiclib.sourceforge.io/html/tmseries30.html" 
+  target="_top">Kr&#252;ger Beta series coefficients</a> (9-tuple, 
+  1-origin).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">BetaKs(<span class="summary-sig-arg">self</span>)</span>
+        - Get the 8th-order <a 
+href="http://geographiclib.sourceforge.io/html/tmseries30.html" 
+target="_top">Kr&#252;ger Beta series coefficients</a> (9-tuple, 1-origin).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
 </td></tr></table>
@@ -1176,6 +1257,11 @@ a</i> (meter).
     <dd class="value"><span class="summary-sig">isEllipsoidal(<span class="summary-sig-arg">self</span>)</span>
         - Check whether this model is ellipsoidal (bool).
     </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1191,6 +1277,11 @@ a</i> (meter).
     <dd class="value"><span class="summary-sig">isSpherical(<span class="summary-sig-arg">self</span>)</span>
         - Check whether this model is spherical (bool).
     </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1205,6 +1296,11 @@ a</i> (meter).
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">Mabcd(<span class="summary-sig-arg">self</span>)</span>
         - Get the OSGR meridional coefficients, Airy130 only (4-tuple).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
 </td></tr></table>
@@ -1222,6 +1318,11 @@ a</i> (meter).
     <dd class="value"><span class="summary-sig">R1(<span class="summary-sig-arg">self</span>)</span>
         - Get the mean earth radius per IUGG: <i class="math">(2 * a + b) / 3</i> 
 (meter).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -1244,6 +1345,11 @@ a</i> (meter).
         - Get the authalic earth radius: <i class="math">sqrt((a**2 + b**2 * atanh(e)
 / e) / 2)</i> (meter).
     </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="http://wikipedia.org/wiki/Earth_radius" 
@@ -1264,6 +1370,11 @@ a</i> (meter).
     <dd class="value"><span class="summary-sig">R3(<span class="summary-sig-arg">self</span>)</span>
         - Get the volumetric earth radius: <i class="math">(a * a * b)**1/3</i> 
 (meter).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -1286,6 +1397,11 @@ a</i> (meter).
         - Get the rectifying earth radius: <i class="math">((a**3/2 + b**3/2) / 
 2)**2/3</i> (meter).
     </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="http://wikipedia.org/wiki/Earth_radius" 
@@ -1305,6 +1421,11 @@ a</i> (meter).
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">Rs(<span class="summary-sig-arg">self</span>)</span>
         - Get another mean earth radius: <i class="math">sqrt(a * b)</i> (meter).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
 </td></tr></table>
@@ -1341,7 +1462,7 @@ a</i> (meter).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Aug 25 14:09:03 2018
+    Generated by Epydoc 3.0.1 on Fri Aug 31 13:44:18 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

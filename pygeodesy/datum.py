@@ -109,9 +109,9 @@ in Great Britain', Section 6
 # make sure int/int division yields float quotient
 from __future__ import division
 
-from bases import Base, Named
+from bases import Based, inStr, Named, _xattrs
 from fmath import EPS, EPS1, cbrt, cbrt2, fdot, fpowers, fStr, fsum_
-from utils import R_M, degrees360, inStr, m2km, m2NM, m2SM, radians
+from utils import R_M, degrees360, m2km, m2NM, m2SM, property_RO, radians
 
 from math import atan2, atanh, cos, hypot, sin, sqrt
 
@@ -127,13 +127,13 @@ R_SM = m2SM(R_M)  #: Mean, spherical earth radius (statute miles).
 # based on International Standard Nautical Mile of 1,852 meter (1' latitude)
 R_FM = 6371000.0  #: Former FAI Sphere earth radius (meter).
 R_VM = 6366707.0194937  #: Aviation/Navigation earth radius (meter).
-# R_?? = 6372797.560856   #: XXX some other earth radius?
+# R_ = 6372797.560856   #: XXX some other earth radius???
 
 # all public contants, classes and functions
 __all__ = ('R_MA', 'R_MB', 'R_KM', 'R_M', 'R_NM', 'R_SM', 'R_FM', 'R_VM',  # constants
            'Datum',  'Ellipsoid',  'Transform',  # classes
            'Datums', 'Ellipsoids', 'Transforms')  # enum-like
-__version__ = '18.08.21'
+__version__ = '18.08.28'
 
 division = 1 / 2  # double check int division, see utils.py
 if not division:
@@ -149,19 +149,20 @@ class _Enum(dict, Named):
 
            @param name: Name (string).
         '''
-        self._name = name
+        if name:
+            self.name = name
 
     def __getattr__(self, attr):
         try:
             return self[attr]
         except KeyError:
-            raise AttributeError("%s.%s doesn't exist" % (self._name, attr))
+            raise AttributeError("%s.%s doesn't exist" % (self.name, attr))
 
     def __repr__(self):
-        return '\n'.join('%s.%s: %r' % (self._name, n, v) for n, v in sorted(self.items()))
+        return '\n'.join('%s.%s: %r,' % (self.name, n, v) for n, v in sorted(self.items()))
 
     def __str__(self):
-        return self._name + ', '.join(sorted('.' + n for n in self.keys()))
+        return self.name + ', '.join(sorted('.' + n for n in self.keys()))
 
     def _assert(self, **kwds):
         '''(INTERNAL) Check names against given names.
@@ -179,9 +180,11 @@ class _Enum(dict, Named):
            @raise NameError: No instance with that I{name}.
         '''
         try:
-            return dict.pop(self, name)
+            inst = dict.pop(self, name)
         except KeyError:
-            raise NameError('no %s %r' % (self._name, name))
+            raise NameError('no %s %r' % (self.name, name))
+        inst._enum = None
+        return inst
 
 
 Datums     = _Enum('Datums')      #: Registered datums (L{_Enum}).
@@ -189,9 +192,11 @@ Ellipsoids = _Enum('Ellipsoids')  #: Registered ellipsoids (L{_Enum}).
 Transforms = _Enum('Transforms')  #: Registered transforms (L{_Enum}).
 
 
-class _Based(Base, Named):
+class _Based(Based):
     '''(INTERNAL) Base class.
     '''
+    _enum = None
+
     def __ne__(self, other):
         '''Compare this and an other ellipsoid.
 
@@ -209,7 +214,7 @@ class _Based(Base, Named):
         return ', '.join(['name=%r' % (self.name,)] + t)
 
     def _register(self, enum, name):
-        '''(INTERNAL) Add this as enum.name.
+        '''(INTERNAL) Add this as I{enum.name}.
         '''
         if name:
             self._name = name
@@ -217,27 +222,44 @@ class _Based(Base, Named):
                 if name in enum:
                     raise NameError('%s.%s exists' % (enum.name, name))
                 enum[name] = self
+                self._enum = enum
+
+    @property
+    def name(self):
+        '''Get the I{registered, immutable} name (string).
+        '''
+        return self._name
+
+    @name.setter  # PYCHOK setter!
+    def name(self, name):
+        '''Set the name.
+
+           @param name: New name (string).
+        '''
+        if self._enum:
+            raise ValueError('%s, %s: %r' % ('registered', 'immutable', self))
+        self._name = str(name)
 
 
-def _K6c(n, *fs6):
-    '''(INTERNAL) Compute the 6th-order Krüger Alpha or Beta series
+def _Kseries(n, *kscs):
+    '''(INTERNAL) Compute the N-th order Krüger Alpha or Beta series
        coefficients per Karney 2011, 'Transverse Mercator with an
        accuracy of a few nanometers', U{page 7, equations 35 and
        36<http://arxiv.org/pdf/1002.1417v3.pdf>}.
 
        @param n: 3rd flattening (float).
-       @param fs6: 6-Tuple of coefficent tuples.
+       @param kscs: N-Tuple of coefficent tuples.
 
-       @return: 6th-Order Krüger series coefficients (7-tuple, 1-origin).
+       @return: N-th Order Krüger series coefficients (N+1-tuple, 1-origin).
+
+       @see: The 30-th order U{TMseries30
+             <http://geographiclib.sourceforge.io/html/tmseries30.html>}.
     '''
-    ns = fpowers(n, len(fs6))  # PYCHOK false!
-
-    k6 = [0]  # 1-origin
-    for fs in fs6:
-        i = len(ns) - len(fs)
-        k6.append(fdot(fs, *ns[i:]))
-
-    return tuple(k6)
+    ns = fpowers(n, len(kscs))  # PYCHOK incorrect!
+    ks = [0]  # 1-origin
+    for i, ksc in enumerate(kscs):
+        ks.append(fdot(ksc, *ns[i:]))
+    return tuple(ks)
 
 
 class Ellipsoid(_Based):
@@ -272,10 +294,10 @@ class Ellipsoid(_Based):
     _Rr = None  #: (INTERNAL) Rectifying radius: ((a**3/2 + b**3/2) / 2)**2/3 (meter)
     _Rs = None  #: (INTERNAL) Mean earth radius: sqrt(a * b) (meter)
 
-    _A      = None  #: (INTERNAL) Meridional radius
-    _Alpha6 = None  #: (INTERNAL) 6th-order Krüger Alpha series
-    _Beta6  = None  #: (INTERNAL) 6th-order Krüger Beta series
-    _Mabcd  = None  #: (INTERNAL) OSGB meridional coefficients
+    _A       = None  #: (INTERNAL) Meridional radius
+    _AlphaKs = None  #: (INTERNAL) 8th-order Krüger Alpha series
+    _BetaKs  = None  #: (INTERNAL) 8th-order Krüger Beta series
+    _Mabcd   = None  #: (INTERNAL) OSGB meridional coefficients
 
     def __init__(self, a, b, f_, name=''):
         '''New ellipsoid.
@@ -351,23 +373,13 @@ class Ellipsoid(_Based):
                                 (self.b == other.b or
                                  self.f == other.f))
 
-    @property
-    def A(self):
-        '''Get the I{UTM} meridional radius (meter).
+    def _xcopy(self, *attrs):
+        '''(INTERNAL) Make copy with add'l, subclass attributes.
         '''
-        if self._A is None:
-            n = self.n
-            n2_4 = n**2 / 4
-            n4_64 = n2_4 * n2_4 / 4
-            n6_256 = n2_4 * n4_64
-            # n8_16384 = n2_4 * n6_256 / 16
-            # n10_65536 = n2_4 * n8_16384
-            # A = a / (1 + n) * (1 + n**2 / 4 + n**4 / 64 + n**6 / 256 +
-            #                   n**8 * 25 / 16384 + n**10 * 49 / 65536)
-            self._A = self.a / (1 + n) * fsum_(1, n2_4, n4_64, n6_256)
-        return self._A
+        return _xattrs(self.classof(self.a, self.b, self.f_),
+                       self, *attrs)
 
-    @property
+    @property_RO
     def a2_b(self):
         '''Get the polar meridional radius of curvature: M{a**2 / b} (meter).
 
@@ -378,23 +390,7 @@ class Ellipsoid(_Based):
             self._a2_b = self._a2 / self.b
         return self._a2_b
 
-    @property
-    def Alpha6(self):
-        '''Get the 6th-order Krüger Alpha series coefficients (7-tuple, 1-origin).
-        '''
-        if self._Alpha6 is None:
-            self._Alpha6 = _K6c(self.n,
-                # XXX i/i quotients require  from __future__ import division
-                # n    n**2   n**3      n**4         n**5            n**6
-                (1/2, -2/3,   5/16,    41/180,    -127/288,       7891/37800),
-                     (13/48, -3/5,    557/1440,    281/630,   -1983433/1935360),  # PYCHOK expected
-                            (61/240, -103/140,   15061/26880,   167603/181440),  # PYCHOK expected
-                                   (49561/161280, -179/168,    6601661/7257600),  # PYCHOK expected
-                                                (34729/80640, -3418889/1995840),  # PYCHOK expected
-                                                            (212378941/319334400,))  # PYCHOK expected
-        return self._Alpha6
-
-    @property
+    @property_RO
     def b2_a(self):
         '''Get the equatorial meridional radius of curvature: M{b**2 / a} (meter).
 
@@ -405,28 +401,74 @@ class Ellipsoid(_Based):
             self._b2_a = self._b2 / self.a
         return self._b2_a
 
-    @property
-    def Beta6(self):
-        '''Get the 6th-order Krüger Beta series coefficients (7-tuple, 1-origin).
+    @property_RO
+    def A(self):
+        '''Get the I{UTM} meridional radius (meter).
         '''
-        if self._Beta6 is None:
-            self._Beta6 = _K6c(self.n,
-                # XXX i/i quotients require  from __future__ import division
-                # n    n**2  n**3     n**4        n**5            n**6
-                (1/2, -2/3, 37/96,   -1/360,    -81/512,      96199/604800),
-                      (1/48, 1/15, -437/1440,    46/105,   -1118711/3870720),  # PYCHOK expected
-                           (17/480, -37/840,   -209/4480,      5569/90720),  # PYCHOK expected
-                                  (4397/161280, -11/504,    -830251/7257600),  # PYCHOK expected
-                                              (4583/161280, -108847/3991680),  # PYCHOK expected
-                                                          (20648693/638668800,))  # PYCHOK expected
-        return self._Beta6
+        if self._A is None:
+            n = self.n
+            # <http://geographiclib.sourceforge.io/html/transversemercator.html>
+            self._A = self.a / (1 + n) * fsum_(1, n**2  / 4,
+                                                  n**4  / 64,
+                                                  n**6  / 256,
+                                             25 * n**8  / 16384)
+                                    # PYCHOK 49 * n**10 / 65536)
+            # n2 = n**2  # <http://www.mygeodesy.id.au/documents/Karney-Krueger%20equations.pdf>
+            # self._A = self._a / (1 + n) * (n2 * (n2 * (n2 * (25 * n2 + 64) + 256) + 4096) + 16384) /16384
+        return self._A
+
+    @property_RO
+    def AlphaKs(self):
+        '''Get the 8th-order U{Krüger Alpha series coefficients<http://geographiclib.sourceforge.io/html/tmseries30.html>} (9-tuple, 1-origin).
+
+        '''
+        if self._AlphaKs is None:
+            self._AlphaKs = _Kseries(self.n,  # XXX int/int quotients may require  from __future__ import division
+                # n    n**2   n**3      n**4         n**5            n**6                 n**7                     n**8
+                (1/2, -2/3,   5/16,    41/180,    -127/288,       7891/37800,         72161/387072,        -18975107/50803200),
+                     (13/48, -3/5,    557/1440,    281/630,   -1983433/1935360,       13769/28800,         148003883/174182400),      # PYCHOK unaligned
+                            (61/240, -103/140,   15061/26880,   167603/181440,    -67102379/29030400,       79682431/79833600),       # PYCHOK unaligned
+                                   (49561/161280, -179/168,    6601661/7257600,       97445/49896,      -40176129013/7664025600),     # PYCHOK unaligned
+                                                (34729/80640, -3418889/1995840,    14644087/9123840,      2605413599/622702080),      # PYCHOK unaligned
+                                                            (212378941/319334400, -30705481/10378368,   175214326799/58118860800),    # PYCHOK unaligned
+                                                                                (1522256789/1383782400, -16759934899/3113510400),     # PYCHOK unaligned
+                                                                                                      (1424729850961/743921418240,))  # PYCHOK unaligned
+        # for WGS84 AlphaKs=(0, 8.377318206245e-04, 7.608527773572e-07, 1.197645503242e-09, 2.429170680397e-12, 5.711818370428e-15, 1.479997931380e-17, 4.107624109371e-2, 1.210785038923e-22)  FAILED, expected
+        # used to be Alpha6=(0, 8.377318206245e-04, 7.608527773572e-07, 1.197645503329e-09, 2.429170607201e-12, 5.711757677866e-15, 1.491117731258e-17)
+        return self._AlphaKs
+
+    @property_RO
+    def BetaKs(self):
+        '''Get the 8th-order U{Krüger Beta series coefficients<http://geographiclib.sourceforge.io/html/tmseries30.html>} (9-tuple, 1-origin).
+        '''
+        if self._BetaKs is None:
+            self._BetaKs = _Kseries(self.n,  # XXX int/int quotients may require  from __future__ import division
+                # n    n**2  n**3     n**4        n**5            n**6                 n**7                   n**8
+                (1/2, -2/3, 37/96,   -1/360,    -81/512,      96199/604800,      -406467/38707200,      7944359/67737600),
+                      (1/48, 1/15, -437/1440,    46/105,   -1118711/3870720,       51841/1209600,      24749483/348364800),       # PYCHOK unaligned
+                           (17/480, -37/840,   -209/4480,      5569/90720,       9261899/58060800,     -6457463/17740800),        # PYCHOK unaligned
+                                  (4397/161280, -11/504,    -830251/7257600,      466511/2494800,     324154477/7664025600),      # PYCHOK unaligned
+                                              (4583/161280, -108847/3991680,    -8005831/63866880,     22894433/124540416),       # PYCHOK unaligned
+                                                          (20648693/638668800, -16363163/518918400, -2204645983/12915302400),     # PYCHOK unaligned
+                                                                              (219941297/5535129600, -497323811/12454041600),     # PYCHOK unaligned
+                                                                                                  (191773887257/3719607091200,))  # PYCHOK unaligned
+        # for WGS84 BetaKs=(0, 8.377321640579e-04, 5.905870152220e-08, 1.673482665344e-1, 2.164798110491e-13, 3.787930968626e-16, 7.236769021816e-19, 1.493479824778e-21, 3.259522545838e-24)  FAILED, expected
+        # used to be Beta6=(0, 8.377321640579e-04, 5.905870152220e-08, 1.673482665284e-1, 2.164798040063e-13, 3.787978046169e-16, 7.248748890694e-19)
+        return self._BetaKs
+
+    def copy(self):
+        '''Copy this ellipsoid.
+
+           @return: The copy, unregistered (L{Ellipsoid} or subclass thereof).
+        '''
+        return self._xcopy()
 
     def distance2(self, lat0, lon0, lat1, lon1):
         '''Approximate the distance and bearing between two points
            based on the radii of curvature.
 
            Suitable only for short distances up to a few hundred Km
-           or Miles and only between non-near-polar points.
+           or Miles and only between points not near-polar.
 
            @param lat0: From latitude (degrees).
            @param lon0: From longitude (degrees).
@@ -473,19 +515,19 @@ class Ellipsoid(_Based):
             pass
         raise ValueError('%s invalid: %r' % ('e2s2', s))
 
-    @property
+    @property_RO
     def isEllipsoidal(self):
         '''Check whether this model is ellipsoidal (bool).
         '''
         return self.a > self.R1 > self.b
 
-    @property
+    @property_RO
     def isSpherical(self):
         '''Check whether this model is spherical (bool).
         '''
         return self.a == self.R1 == self.b
 
-    @property
+    @property_RO
     def Mabcd(self):
         '''Get the OSGR meridional coefficients, Airy130 only (4-tuple).
         '''
@@ -498,7 +540,7 @@ class Ellipsoid(_Based):
                                    35/24 * n3)
         return self._Mabcd
 
-    @property
+    @property_RO
     def R1(self):
         '''Get the mean earth radius per IUGG: M{(2 * a + b) / 3} (meter).
 
@@ -508,7 +550,7 @@ class Ellipsoid(_Based):
             self._R1 = (self.a * 2 + self.b) / 3
         return self._R1
 
-    @property
+    @property_RO
     def R2(self):
         '''Get the authalic earth radius: M{sqrt((a**2 + b**2 * atanh(e) / e) / 2)} (meter).
 
@@ -518,7 +560,7 @@ class Ellipsoid(_Based):
             self._R2 = sqrt((self._a2 + self._b2 * atanh(self.e) / self.e) * 0.5)
         return self._R2
 
-    @property
+    @property_RO
     def R3(self):
         '''Get the volumetric earth radius: M{(a * a * b)**1/3} (meter).
 
@@ -544,7 +586,7 @@ class Ellipsoid(_Based):
         s2 = 1 - c2
         return sqrt((a2**2 * c2 + b2**2 * s2) / (a2 * c2 + b2 * s2))
 
-    @property
+    @property_RO
     def Rr(self):
         '''Get the rectifying earth radius: M{((a**3/2 + b**3/2) / 2)**2/3} (meter).
 
@@ -557,7 +599,7 @@ class Ellipsoid(_Based):
             self._Rr = cbrt2((_3_2(self.a) + _3_2(self.b)) * 0.5)
         return self._Rr
 
-    @property
+    @property_RO
     def Rs(self):
         '''Get another mean earth radius: M{sqrt(a * b)} (meter).
         '''
@@ -794,6 +836,14 @@ class Transform(_Based):
 
         self._register(Transforms, name)
 
+    def _xcopy(self, *attrs):
+        '''(INTERNAL) Make copy with add'l, subclass attributes.
+        '''
+        return _xattrs(self.classof(tx=self.tx, ty=self.ty, tz=self.tz,
+                                    sx=self.sx, sy=self.sy, sz=self.sz,
+                                    s=self.s),
+                       self, *attrs)
+
     def __eq__(self, other):
         '''Compare this and an other transform.
 
@@ -809,6 +859,13 @@ class Transform(_Based):
                                  self.ry == other.ry and
                                  self.rz == other.rz and
                                  self.s  == other.s)
+
+    def copy(self):
+        '''Copy this transform.
+
+           @return: The copy, unregistered (L{Transform} or subclass thereof).
+        '''
+        return self._xcopy()
 
     def inverse(self, name=''):
         '''Return the inverse of this transform.
@@ -946,19 +1003,32 @@ class Datum(_Based):
                                  self.ellipsoid == other.ellipsoid and
                                  self.transform == other.transform)
 
-    @property
+    def _xcopy(self, *attrs):
+        '''(INTERNAL) Make copy with add'l, subclass attributes.
+        '''
+        return _xattrs(self.classof(self.ellipsoid, self.transform),
+                       self, *attrs)
+
+    def copy(self):
+        '''Copy this datum.
+
+           @return: The copy, unregistered (L{Datum} or subclass thereof).
+        '''
+        return self._xcopy()
+
+    @property_RO
     def ellipsoid(self):
         '''Get this datum's ellipsoid (L{Ellipsoid}).
         '''
         return self._ellipsoid
 
-    @property
+    @property_RO
     def isEllipsoidal(self):
         '''Check whether this datum is ellipsoidal (bool).
         '''
         return self._ellipsoid.isEllipsoidal
 
-    @property
+    @property_RO
     def isSpherical(self):
         '''Check whether this datum is spherical (bool).
         '''
@@ -975,7 +1045,7 @@ class Datum(_Based):
             t.append('%s=%ss.%s' % (a, v.__class__.__name__, v.name))
         return ', '.join(['name=%r' % (self.name,)] + t)
 
-    @property
+    @property_RO
     def transform(self):
         '''Get this datum's transform (L{Transform}).
         '''
@@ -1051,14 +1121,14 @@ if __name__ == '__main__':
             f = 'f=N/A'
         t = (E.toStr(prec=10),
             'A=%r, e=%.13e, %s, n=%.10f(%.10e)' % (E.A, E.e, f, E.n, e),
-            'Alpha6=%r' % (E.Alpha6,),
-            'Beta6=%r' % (E.Beta6,))
+            'AlphaKs=%r' % (E.AlphaKs,),
+            'BetaKs=%r' % (E.BetaKs,))
         print('\nEllipsoid.%s: %s' % (E.name, ',\n    '.join(t)))
 
     # __doc__ of this file
     for e in (Datums, Ellipsoids, Transforms):
-        e = [''] + repr(e).split('\n')
-        print('\n@var '.join(e))
+        t = [''] + repr(e).split('\n')
+        print('\n@var '.join(i.strip(',') for i in t))
 
 # **) MIT License
 #
@@ -1082,17 +1152,18 @@ if __name__ == '__main__':
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
+
 # Ellipsoid.WGS84: name='WGS84', a=6378137, b=6356752.3142499998, f_=298.257223563, f=0.0033528107, e=0.0818191908, e2=0.00669438, e22=0.0067394967, n=0.0016792204, R1=6371008.7714166669, R2=6371007.180920884, R3=6371000.7900107643, Rr=6367449.1458250266, Rs=6367435.6797186071,
 #     A=6367449.145823414, e=8.1819190842621e-02, f=1/298.2572235630, n=0.0016792204(-3.7914875232e-13),
-#     Alpha6=(0, 0.0008377318206244698, 7.608527773572307e-07, 1.1976455033294527e-09, 2.4291706072013587e-12, 5.711757677865804e-15, 1.4911177312583895e-17),
-#     Beta6=(0, 0.0008377321640579486, 5.905870152220203e-08, 1.6734826652839968e-10, 2.1647980400627059e-13, 3.7879780461686053e-16, 7.2487488906941545e-19)
+#     AlphaKs=(0, 0.0008377318206244698, 7.608527773572489e-07, 1.1976455032424919e-09, 2.4291706803970904e-12, 5.711818370428019e-15, 1.4799979313796632e-17, 4.1076241093707195e-20, 1.2107850389225785e-22),
+#     BetaKs=(0, 0.0008377321640579486, 5.905870152220365e-08, 1.6734826653438247e-10, 2.164798110490642e-13, 3.78793096862602e-16, 7.236769021815623e-19, 1.4934798247781072e-21, 3.2595225458381582e-24)
 
 # Ellipsoid.Sphere: name='Sphere', a=6371008.7714149999, b=6371008.7714149999, f_=0, f=0, e=0, e2=0, e22=0, n=0, R1=6371008.7714149999, R2=6371008.7714149999, R3=6371008.7714149999, Rr=6371008.7714149999, Rs=6371008.7714149999,
 #     A=6371008.771415, e=0.0000000000000e+00, f=N/A, n=0.0000000000(0.0000000000e+00),
-#     Alpha6=(0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
-#     Beta6=(0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
+#     AlphaKs=(0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
+#     BetaKs=(0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
 
 # Ellipsoid.SpherePopular: name='SpherePopular', a=6378137, b=6378137, f_=0, f=0, e=0, e2=0, e22=0, n=0, R1=6378137, R2=6378137, R3=6378137, Rr=6378137, Rs=6378137,
 #     A=6378137.0, e=0.0000000000000e+00, f=N/A, n=0.0000000000(0.0000000000e+00),
-#     Alpha6=(0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
-#     Beta6=(0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
+#     AlphaKs=(0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
+#     BetaKs=(0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)

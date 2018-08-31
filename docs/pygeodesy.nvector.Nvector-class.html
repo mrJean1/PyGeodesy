@@ -61,13 +61,17 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Nvector</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-   object --+        
-            |        
-   <a href="pygeodesy.bases.Base-class.html">bases.Base</a> --+    
-                |    
-<a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a> --+
-                    |
-                   <strong class="uidshort">Nvector</strong>
+ object --+                
+          |                
+bases.Named --+            
+              |            
+    bases.Based --+        
+                  |        
+  bases.VectorBased --+    
+                      |    
+      <a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a> --+
+                          |
+                         <strong class="uidshort">Nvector</strong>
 </pre>
 
 <dl><dt>Known Subclasses:</dt>
@@ -99,7 +103,8 @@
         <span class="summary-sig-arg">y</span>,
         <span class="summary-sig-arg">z</span>,
         <span class="summary-sig-arg">h</span>=<span class="summary-sig-default">0</span>,
-        <span class="summary-sig-arg">ll</span>=<span class="summary-sig-default">None</span>)</span><br />
+        <span class="summary-sig-arg">ll</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       New n-vector normal to the earth's surface.</td>
           <td align="right" valign="top">
             
@@ -261,12 +266,11 @@
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#to2ll">to2ll</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#to3xyz">to3xyz</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases.Base-class.html">bases.Base</a></code></b>:
-      <code><a href="pygeodesy.bases.Base-class.html#__repr__">__repr__</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#__str__">__str__</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#classname">classname</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#toStr2">toStr2</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>bases.Based</code></b>:
+      <code>__repr__</code>,
+      <code>__str__</code>,
+      <code>classof</code>,
+      <code>toStr2</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -319,10 +323,16 @@
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a></code></b>:
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#crosserrors">crosserrors</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#length">length</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#x">x</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#y">y</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#z">z</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>bases.Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>,
+      <code>name</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
@@ -351,7 +361,8 @@
         <span class="sig-arg">y</span>,
         <span class="sig-arg">z</span>,
         <span class="sig-arg">h</span>=<span class="sig-default">0</span>,
-        <span class="sig-arg">ll</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">ll</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -368,6 +379,7 @@
         <li><strong class="pname"><code>z</code></strong> - Z component (scalar).</li>
         <li><strong class="pname"><code>h</code></strong> - Optional height above surface (meter).</li>
         <li><strong class="pname"><code>ll</code></strong> - Optional, original latlon (<i>LatLon</i>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (string).</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
@@ -398,10 +410,10 @@
   <p>Copy this vector.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>Copy (<a href="pygeodesy.nvector.Nvector-class.html" 
-          class="link">Nvector</a>).</dd>
+        <dd>The copy (<a href="pygeodesy.nvector.Nvector-class.html" 
+          class="link">Nvector</a> or subclass thereof).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.vector3d.Vector3d-class.html#copy">vector3d.Vector3d.copy</a>
+        bases.Named.copy
     </dt>
   </dl>
 </td></tr></table>
@@ -477,7 +489,7 @@
     <dt>Returns:</dt>
         <dd>Comma-separated &quot;x, y, z [, h]&quot; (string).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.bases.Base-class.html#toStr">bases.Base.toStr</a>
+        bases.Based.toStr
     </dt>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -598,7 +610,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Aug 25 14:09:03 2018
+    Generated by Epydoc 3.0.1 on Fri Aug 31 13:44:18 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

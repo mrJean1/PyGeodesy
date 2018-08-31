@@ -61,19 +61,23 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class LatLon</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-                   object --+            
+               object --+                
+                        |                
+              bases.Named --+            
                             |            
-                   <a href="pygeodesy.bases.Base-class.html">bases.Base</a> --+        
+                  bases.Based --+        
                                 |        
-           <a href="pygeodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a> --+    
+           bases.LatLonHeightBase --+    
                                     |    
             nvector.LatLonNvectorBase --+
                                         |
-                   object --+           |
+               object --+               |
+                        |               |
+              bases.Named --+           |
                             |           |
-                   <a href="pygeodesy.bases.Base-class.html">bases.Base</a> --+       |
+                  bases.Based --+       |
                                 |       |
-           <a href="pygeodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a> --+   |
+           bases.LatLonHeightBase --+   |
                                     |   |
 <a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html">ellipsoidalBase.LatLonEllipsoidalBase</a> --+
                                         |
@@ -99,6 +103,23 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Instance Methods</span></td>
 </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalNvector.LatLon-class.html#copy" class="summary-sig-name">copy</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Copy this point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -222,7 +243,6 @@
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#__init__">__init__</a></code>,
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#antipode">antipode</a></code>,
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convertDatum">convertDatum</a></code>,
-      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#copy">copy</a></code>,
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#distanceTo2">distanceTo2</a></code>,
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#elevation2">elevation2</a></code>,
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#ellipsoid">ellipsoid</a></code>,
@@ -234,23 +254,22 @@
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toUtm">toUtm</a></code>,
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toWm">toWm</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a></code></b>:
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#__eq__">__eq__</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#__ne__">__ne__</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#__str__">__str__</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#bounds">bounds</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equals3">equals3</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#isantipode">isantipode</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#points">points</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#to2ab">to2ab</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#to3llh">to3llh</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#toStr">toStr</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>bases.LatLonHeightBase</code></b>:
+      <code>__eq__</code>,
+      <code>__ne__</code>,
+      <code>__str__</code>,
+      <code>bounds</code>,
+      <code>equals3</code>,
+      <code>isantipode</code>,
+      <code>points</code>,
+      <code>to2ab</code>,
+      <code>to3llh</code>,
+      <code>toStr</code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases.Base-class.html">bases.Base</a></code></b>:
-      <code><a href="pygeodesy.bases.Base-class.html#__repr__">__repr__</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#classname">classname</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#toStr2">toStr2</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>bases.Based</code></b>:
+      <code>__repr__</code>,
+      <code>classof</code>,
+      <code>toStr2</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -284,11 +303,16 @@
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#isSpherical">isSpherical</a></code>,
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#scale">scale</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a></code></b>:
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#height">height</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#lat">lat</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#latlon">latlon</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#lon">lon</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>bases.LatLonHeightBase</code></b>:
+      <code>height</code>,
+      <code>lat</code>,
+      <code>latlon</code>,
+      <code>lon</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>bases.Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>,
+      <code>name</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
@@ -305,6 +329,32 @@
     <span class="table-header">Method Details</span></td>
 </tr>
 </table>
+<a name="copy"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">copy</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Copy this point.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>The copy (<a 
+          href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
+          class="link">LatLon</a> or subclass thereof).</dd>
+    <dt>Overrides:
+        bases.Named.copy
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
 <a name="deltaTo"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -436,13 +486,11 @@
         class="link">LatLon</a>.</li>
     </ul></dd>
     <dt>Overrides:
-        <a href="pygeodesy.bases.LatLonHeightBase-class.html#equals">bases.LatLonHeightBase.equals</a>
+        bases.LatLonHeightBase.equals
     </dt>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Use method <a 
-        href="pygeodesy.bases.LatLonHeightBase-class.html#equals3" 
-        class="link">equals3</a> to include height.
+        Use method equals3 to include height.
       </p>
       <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -590,7 +638,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Aug 25 14:09:03 2018
+    Generated by Epydoc 3.0.1 on Fri Aug 31 13:44:18 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

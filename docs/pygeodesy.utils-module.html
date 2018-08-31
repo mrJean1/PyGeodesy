@@ -69,7 +69,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.08.24
+        18.08.28
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -79,15 +79,6 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Classes</span></td>
 </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.utils.CrossError-class.html" class="summary-name">CrossError</a><br />
-      Error raised for zero or near-zero cross products or for coincident
-        or colinear points or paths.
-    </td>
-  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -171,40 +162,6 @@
         <span class="summary-sig-arg">lon</span>)</span><br />
       Return the antipode, the point diametrically opposite to the given 
       lat-/longitude.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#classname" class="summary-sig-name">classname</a>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Build module.class name of this object.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#crosserrors" class="summary-sig-name">crosserrors</a>(<span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Get/set raising of cross product errors.</td>
           <td align="right" valign="top">
             
             
@@ -478,25 +435,6 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#inStr" class="summary-sig-name">inStr</a>(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">*args</span>,
-        <span class="summary-sig-arg">**kwds</span>)</span><br />
-      Return the string representation of an instance.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#isantipode" class="summary-sig-name">isantipode</a>(<span class="summary-sig-arg">lat1</span>,
         <span class="summary-sig-arg">lon1</span>,
         <span class="summary-sig-arg">lat2</span>,
@@ -714,6 +652,23 @@
         <span class="summary-sig-arg">base</span>=<span class="summary-sig-default">None</span>)</span><br />
       Check a polygon given as an array, list, sequence, set or tuple of 
       points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utils-module.html#property_RO" class="summary-sig-name">property_RO</a>(<span class="summary-sig-arg">method</span>)</span><br />
+      Decorator for <code>Read_Only</code> property.</td>
           <td align="right" valign="top">
             
             
@@ -1051,59 +1006,6 @@
       </p>
 </div></td></tr></table>
 </div>
-<a name="classname"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">classname</span>(<span class="sig-arg">obj</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Build module.class name of this object.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>obj</code></strong> - The object (any type).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Name of module and class (string).</dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="crosserrors"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">crosserrors</span>(<span class="sig-arg">raiser</span>=<span class="sig-default">None</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Get/set raising of cross product errors.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>raiser</code></strong> - Choose True to raise or False to not raise <a 
-          href="pygeodesy.utils.CrossError-class.html" 
-          class="link">CrossError</a> exceptions.  Use None to leave the 
-          setting unchanged.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Previous setting (bool).</dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="degrees90"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1126,7 +1028,7 @@
         <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Degrees, wrapped (degrees90).</dd>
+        <dd>Angle in degrees, wrapped (degrees90).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1152,7 +1054,7 @@
         <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Degrees, wrapped (degrees180).</dd>
+        <dd>Angle in degrees, wrapped (degrees180).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1177,7 +1079,7 @@
         <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Degrees, wrapped (degrees360).</dd>
+        <dd>Angle in degrees, wrapped (degrees360).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1585,35 +1487,6 @@
       </p>
 </div></td></tr></table>
 </div>
-<a name="inStr"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">inStr</span>(<span class="sig-arg">inst</span>,
-        <span class="sig-arg">*args</span>,
-        <span class="sig-arg">**kwds</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Return the string representation of an instance.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>inst</code></strong> - The instance (any type).</li>
-        <li><strong class="pname"><code>args</code></strong> - Optional positional arguments (tuple).</li>
-        <li><strong class="pname"><code>kwds</code></strong> - Optional keyword arguments (dict).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Representation (string).</dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="isantipode"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1977,6 +1850,34 @@
     </ul></dd>
   </dl>
 </td></tr></table>
+</div>
+<a name="property_RO"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">property_RO</span>(<span class="sig-arg">method</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Decorator for <code>Read_Only</code> property.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>method</code></strong> - The callable to be decorated as <code>property.getter</code>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Like standard Python <code>property</code> without a 
+        <code>property.setter</code> with a more descriptive error message 
+        when set.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="radiansPI"></a>
 <div>
@@ -2388,7 +2289,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Aug 25 14:09:03 2018
+    Generated by Epydoc 3.0.1 on Fri Aug 31 13:44:18 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

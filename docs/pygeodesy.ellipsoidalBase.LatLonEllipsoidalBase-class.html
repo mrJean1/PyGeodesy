@@ -61,11 +61,13 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class LatLonEllipsoidalBase</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-        object --+        
+    object --+            
+             |            
+   bases.Named --+        
                  |        
-        <a href="pygeodesy.bases.Base-class.html">bases.Base</a> --+    
+       bases.Based --+    
                      |    
-<a href="pygeodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a> --+
+bases.LatLonHeightBase --+
                          |
                         <strong class="uidshort">LatLonEllipsoidalBase</strong>
 </pre>
@@ -97,7 +99,8 @@
         <span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">lon</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">0</span>,
-        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>)</span><br />
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       Create an (ellipsoidal) <i>LatLon</i> point frome the given lat-, 
       longitude and height (elevation, altitude) on the given datum.</td>
           <td align="right" valign="top">
@@ -136,23 +139,6 @@
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convertDatum" class="summary-sig-name">convertDatum</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">datum</span>)</span><br />
       Convert this <i>LatLon</i> point to a new coordinate system.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#copy" class="summary-sig-name">copy</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Copy this <i>LatLon</i> point.</td>
           <td align="right" valign="top">
             
             
@@ -349,25 +335,25 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a></code></b>:
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#__eq__">__eq__</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#__ne__">__ne__</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#__str__">__str__</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#bounds">bounds</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equals">equals</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equals3">equals3</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#isantipode">isantipode</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#points">points</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#to2ab">to2ab</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#to3llh">to3llh</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#toStr">toStr</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>bases.LatLonHeightBase</code></b>:
+      <code>__eq__</code>,
+      <code>__ne__</code>,
+      <code>__str__</code>,
+      <code>bounds</code>,
+      <code>copy</code>,
+      <code>equals</code>,
+      <code>equals3</code>,
+      <code>isantipode</code>,
+      <code>points</code>,
+      <code>to2ab</code>,
+      <code>to3llh</code>,
+      <code>toStr</code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases.Base-class.html">bases.Base</a></code></b>:
-      <code><a href="pygeodesy.bases.Base-class.html#__repr__">__repr__</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#classname">classname</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#others">others</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#toStr2">toStr2</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>bases.Based</code></b>:
+      <code>__repr__</code>,
+      <code>classof</code>,
+      <code>others</code>,
+      <code>toStr2</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -439,11 +425,16 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a></code></b>:
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#height">height</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#lat">lat</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#latlon">latlon</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#lon">lon</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>bases.LatLonHeightBase</code></b>:
+      <code>height</code>,
+      <code>lat</code>,
+      <code>latlon</code>,
+      <code>lon</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>bases.Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>,
+      <code>name</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
@@ -471,7 +462,8 @@
         <span class="sig-arg">lat</span>,
         <span class="sig-arg">lon</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">0</span>,
-        <span class="sig-arg">datum</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">datum</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -490,11 +482,14 @@
           half-axes).</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional datum to use (<a href="pygeodesy.datum.Datum-class.html"
           class="link">Datum</a>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>New instance (<i>LatLon</i>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - Value of <i>lat</i> or <i>lon</i> outside the valid range and 
+        <i>rangerrrors</i> set to True.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>lat</i> or <i>lon</i>.</li>
     </ul></dd>
     <dt>Overrides:
@@ -533,7 +528,7 @@
     <dt>Returns:</dt>
         <dd>The antipodal point (<i>LatLon</i>).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.bases.LatLonHeightBase-class.html#antipode">bases.LatLonHeightBase.antipode</a>
+        bases.LatLonHeightBase.antipode
     </dt>
   </dl>
 </td></tr></table>
@@ -569,32 +564,6 @@
 <span class="py-prompt">&gt;&gt;&gt; </span>pOSGB  = pWGS84.convertDatum(Datums.OSGB36)  <span class="py-comment"># 51.477284&#176;N, 000.00002&#176;E</span></pre>
       </p>
 </div></td></tr></table>
-</div>
-<a name="copy"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">copy</span>(<span class="sig-arg">self</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Copy this <i>LatLon</i> point.</p>
-  <dl class="fields">
-    <dt>Returns:</dt>
-        <dd>Copy of this point (<a 
-          href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html"
-          class="link">LatLonEllipsoidalBase</a>).</dd>
-    <dt>Overrides:
-        <a href="pygeodesy.bases.LatLonHeightBase-class.html#copy">bases.LatLonHeightBase.copy</a>
-    </dt>
-  </dl>
-</td></tr></table>
 </div>
 <a name="distanceTo2"></a>
 <div>
@@ -873,7 +842,7 @@
     <dt>Returns:</dt>
         <dd>3-Tuple (x, y, z) in (meter).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.bases.LatLonHeightBase-class.html#to3xyz">bases.LatLonHeightBase.to3xyz</a>
+        bases.LatLonHeightBase.to3xyz
     </dt>
   </dl>
 </td></tr></table>
@@ -982,6 +951,11 @@
         - Get this point's UTM meridian convergence (degrees) or None if not 
 converted from <a href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>.
     </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1019,6 +993,11 @@ class="link">Datum</a>).
     <dd class="value"><span class="summary-sig">isEllipsoidal(<span class="summary-sig-arg">self</span>)</span>
         - Check whether this <i>LatLon</i> point is ellipsoidal (bool).
     </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1033,6 +1012,11 @@ class="link">Datum</a>).
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">isSpherical(<span class="summary-sig-arg">self</span>)</span>
         - Check whether this <i>LatLon</i> point is spherical (bool).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
 </td></tr></table>
@@ -1051,6 +1035,11 @@ class="link">Datum</a>).
     <dd class="value"><span class="summary-sig">scale(<span class="summary-sig-arg">self</span>)</span>
         - Get this point's UTM grid scale factor (float) or None if not converted 
 from <a href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>.
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
 </td></tr></table>
@@ -1087,7 +1076,7 @@ from <a href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Aug 25 14:09:03 2018
+    Generated by Epydoc 3.0.1 on Fri Aug 31 13:44:18 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

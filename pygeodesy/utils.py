@@ -20,9 +20,8 @@ from math import acos, atan2, cos, degrees, pi as PI, \
 
 # all public contants, classes and functions
 __all__ = ('PI', 'PI2', 'PI_2', 'R_M',  # constants
-           'CrossError',  'LimitError',  # classes
+           'LimitError',  # classes
            'acos1', 'antipode',
-           'classname', 'crosserrors',
            'degrees', 'degrees90', 'degrees180', 'degrees360',
            'enStr2',
            'equirectangular', 'equirectangular_',
@@ -30,18 +29,18 @@ __all__ = ('PI', 'PI2', 'PI_2', 'R_M',  # constants
            'halfs',
            'haversine', 'haversine_',  # XXX removed 'hsin', 'hsin3',
            'heightOf', 'horizon',
-           'inStr', 'isantipode', 'issequence',
+           'isantipode', 'issequence',
            'isNumpy2', 'isPoints2', 'isTuple2',
            'iterNumpy2', 'iterNumpy2over',
            'limiterrors',
            'm2ft', 'm2km', 'm2NM', 'm2SM',
-           'polygon',
+           'polygon', 'property_RO',
            'radians', 'radiansPI_2', 'radiansPI', 'radiansPI2',
            'tan_2', 'tanPI_2_2',
            'unroll180', 'unrollPI', 'unStr',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '18.08.24'
+__version__ = '18.08.28'
 
 division = 1 / 2  # double check int division, see datum.py
 if not division:
@@ -54,16 +53,8 @@ PI_2 = PI / 2  #: Half PI, M{PI / 2} (float)
 # R_M moved here to avoid circular import for bases and datum
 R_M = 6371008.771415  #: Mean, spherical earth radius (meter).
 
-_crosserrors   = True
 _iterNumpy2len = 1  # adjustable for testing purposes
 _limiterrors   = True
-
-
-class CrossError(ValueError):
-    '''Error raised for zero or near-zero cross products or for
-       coincident or colinear points or paths.
-    '''
-    pass
 
 
 class LimitError(ValueError):
@@ -91,39 +82,7 @@ def antipode(lat, lon):
 
        @see: U{Geosphere<http://cran.r-project.org/web/packages/geosphere/geosphere.pdf>}.
     '''
-    return -lat, _drap(lon + 180, 180)
-
-
-def classname(obj):
-    '''Build module.class name of this object.
-
-       @param obj: The object (any type).
-
-       @return: Name of module and class (string).
-    '''
-    n = obj.__class__.__name__
-    try:
-        m = obj.__module__
-        n = '.'.join(m.split('.')[-1:] + [n])
-    except AttributeError:
-        pass
-    return n
-
-
-def crosserrors(raiser=None):
-    '''Get/set raising of cross product errors.
-
-       @keyword raiser: Choose True to raise or False to not raise
-                        L{CrossError} exceptions.  Use None to
-                        leave the setting unchanged.
-
-       @return: Previous setting (bool).
-    '''
-    global _crosserrors
-    t = _crosserrors
-    if raiser in (True, False):
-        _crosserrors = raiser
-    return t
+    return -lat, _wrap(lon + 180, 180, 360)
 
 
 def degrees90(rad):
@@ -131,9 +90,9 @@ def degrees90(rad):
 
        @param rad: Angle (radians).
 
-       @return: Degrees, wrapped (degrees90).
+       @return: Angle in degrees, wrapped (degrees90).
     '''
-    return _drap(degrees(rad), 90)
+    return _wrap(degrees(rad), 90, 360)
 
 
 def degrees180(rad):
@@ -141,9 +100,9 @@ def degrees180(rad):
 
        @param rad: Angle (radians).
 
-       @return: Degrees, wrapped (degrees180).
+       @return: Angle in degrees, wrapped (degrees180).
     '''
-    return _drap(degrees(rad), 180)
+    return _wrap(degrees(rad), 180, 360)
 
 
 def degrees360(rad):
@@ -151,25 +110,9 @@ def degrees360(rad):
 
        @param rad: Angle (radians).
 
-       @return: Degrees, wrapped (degrees360).
+       @return: Angle in degrees, wrapped (degrees360).
     '''
-    return _drap(degrees(rad), 360)
-
-
-def _drap(deg, wrap):
-    '''(INTERNAL) Degree wrapper M{((wrap-360)..+wrap]}.
-
-       @param deg: Angle (degrees).
-       @param wrap: Limit (degrees).
-
-       @return: Degrees, wrapped (degrees).
-    '''
-    if not wrap >= deg > (wrap - 360):
-        # math.fmod(-1.5, 360) == -1.5, but ...
-        deg %= 360  # -1.5 % 360 == 358.5
-        if deg > wrap:
-            deg -= 360
-    return deg
+    return _wrap(degrees(rad), 360, 360)
 
 
 def enStr2(easting, northing, prec, *extras):
@@ -422,18 +365,6 @@ def horizon(height, radius=R_M, refraction=False):
     return sqrt(d2)
 
 
-def inStr(inst, *args, **kwds):
-    '''Return the string representation of an instance.
-
-       @param inst: The instance (any type).
-       @param args: Optional positional arguments (tuple).
-       @keyword kwds: Optional keyword arguments (dict).
-
-       @return: Representation (string).
-    '''
-    return unStr(classname(inst), *args, **kwds)
-
-
 def isantipode(lat1, lon1, lat2, lon2, eps=EPS):
     '''Check whether two points are anitpodal, on diametrically
        opposite sides of the earth.
@@ -633,6 +564,23 @@ def polygon(points, closed=True, base=None):
     return n, points
 
 
+def property_RO(method):
+    '''Decorator for C{Read_Only} property.
+
+       @param method: The callable to be decorated as C{property.getter}.
+
+       @note: Like standard Python C{property} without a C{property.setter}
+              with a more descriptive error message when set.
+    '''
+    def Read_Only(self, ignored):
+        '''Throws an C{AttributeError}, always.
+        '''
+        raise AttributeError('Read_Only property: %r.%s = %r' %
+                             (self, method.__name__, ignored))
+
+    return property(method, Read_Only, None, method.__doc__ or 'N/A')
+
+
 def radiansPI(deg):
     '''Convert and wrap degrees to radians M{(-PI..+PI]}.
 
@@ -640,7 +588,7 @@ def radiansPI(deg):
 
        @return: Radians, wrapped (radiansPI)
     '''
-    return _wrap(radians(deg), PI)
+    return _wrap(radians(deg), PI, PI2)
 
 
 def radiansPI2(deg):
@@ -650,7 +598,7 @@ def radiansPI2(deg):
 
        @return: Radians, wrapped (radiansPI2)
     '''
-    return _wrap(radians(deg), PI2)
+    return _wrap(radians(deg), PI2, PI2)
 
 
 def radiansPI_2(deg):
@@ -660,7 +608,7 @@ def radiansPI_2(deg):
 
        @return: Radians, wrapped (radiansPI_2)
     '''
-    return _wrap(radians(deg), PI_2)
+    return _wrap(radians(deg), PI_2, PI2)
 
 
 def tan_2(rad):
@@ -698,7 +646,7 @@ def unroll180(lon1, lon2, wrap=True):
     '''
     d = lon2 - lon1
     if wrap and abs(d) > 180:
-        u = _drap(d, 180)
+        u = _wrap(d, 180, 360)
         if u != d:
             return u, lon1 + u
     return d, lon2
@@ -719,7 +667,7 @@ def unrollPI(rad1, rad2, wrap=True):
     '''
     r = rad2 - rad1
     if wrap and abs(r) > PI:
-        u = _wrap(r, PI)
+        u = _wrap(r, PI, PI2)
         if u != r:
             return u, rad1 + u
     return r, rad2
@@ -740,6 +688,24 @@ def unStr(name, *args, **kwds):
     return '%s(%s)' % (name, ', '.join(t))
 
 
+def _wrap(angle, wrap, limit):
+    '''(INTERNAL) Angle wrapper M{((wrap-limit)..+wrap]}.
+
+       @param angle: Angle (radians or degrees).
+       @param wrap: Range (radians or degrees).
+       @param limit: Upper limit (PI2 radians or 360 degrees).
+
+       @return: The I{angle}, wrapped (radians or degrees).
+    '''
+    if not wrap >= angle > (wrap - limit):
+        # math.fmod(-1.5, 3.14) == -1.5, but -1.5 % 3.14 == 1.64
+        # math.fmod(-1.5, 360) == -1.5, but -1.5 % 360 == 358.5
+        angle %= limit
+        if angle > wrap:
+            angle -= limit
+    return angle
+
+
 def wrap90(deg):
     '''Wrap degrees to M{(-270..+90]}.
 
@@ -747,7 +713,7 @@ def wrap90(deg):
 
        @return: Degrees, wrapped (degrees90).
     '''
-    return _drap(deg, 90)
+    return _wrap(deg, 90, 360)
 
 
 def wrap180(deg):
@@ -757,7 +723,7 @@ def wrap180(deg):
 
        @return: Degrees, wrapped (degrees180).
     '''
-    return _drap(deg, 180)
+    return _wrap(deg, 180, 360)
 
 
 def wrap360(deg):
@@ -767,23 +733,7 @@ def wrap360(deg):
 
        @return: Degrees, wrapped (degrees360).
     '''
-    return _drap(deg, 360)
-
-
-def _wrap(rad, wrap):
-    '''(INTERNAL) Radians wrapper M{((wrap-2PI)..+wrap]}.
-
-       @param rad: Angle (radians).
-       @param wrap: Range (radians).
-
-       @return: Radians, wrapped (radians).
-    '''
-    if not wrap >= rad > (wrap - PI2):
-        # math.fmod(-1.5, 3.14) == -1.5, but ...
-        rad %= PI2  # ... -1.5 % 3.14 == 1.64
-        if rad > wrap:
-            rad -= PI2
-    return rad
+    return _wrap(deg, 360, 360)
 
 
 def wrapPI(rad):
@@ -793,7 +743,7 @@ def wrapPI(rad):
 
        @return: Radians, wrapped (radiansPI).
     '''
-    return _wrap(rad, PI)
+    return _wrap(rad, PI, PI2)
 
 
 def wrapPI2(rad):
@@ -803,7 +753,7 @@ def wrapPI2(rad):
 
        @return: Radians, wrapped (radiansPI2).
     '''
-    return _wrap(rad, PI2)
+    return _wrap(rad, PI2, PI2)
 
 
 def wrapPI_2(rad):
@@ -813,7 +763,7 @@ def wrapPI_2(rad):
 
        @return: Radians, wrapped (radiansPI_2).
     '''
-    return _wrap(rad, PI_2)
+    return _wrap(rad, PI_2, PI2)
 
 # **) MIT License
 #

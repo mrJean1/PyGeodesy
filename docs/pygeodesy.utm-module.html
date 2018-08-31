@@ -91,7 +91,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.03.08
+        18.08.28
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -101,6 +101,14 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Classes</span></td>
 </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.utm.UTMError-class.html" class="summary-name">UTMError</a><br />
+      UTM parse or other error.
+    </td>
+  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -126,7 +134,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utm-module.html#parseUTM" class="summary-sig-name">parseUTM</a>(<span class="summary-sig-arg">strUTM</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
-        <span class="summary-sig-arg">Utm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>)</span><br />
+        <span class="summary-sig-arg">Utm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       Parse a string representing a UTM coordinate, consisting of zone, 
       hemisphere, easting and northing.</td>
           <td align="right" valign="top">
@@ -147,8 +156,28 @@
           <td><span class="summary-sig"><a href="pygeodesy.utm-module.html#toUtm" class="summary-sig-name">toUtm</a>(<span class="summary-sig-arg">latlon</span>,
         <span class="summary-sig-arg">lon</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">Utm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>)</span><br />
+        <span class="summary-sig-arg">Utm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">cmoff</span>=<span class="summary-sig-default">True</span>)</span><br />
       Convert a lat-/longitude point to a UTM coordinate.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utm-module.html#utmZoneBand2" class="summary-sig-name">utmZoneBand2</a>(<span class="summary-sig-arg">lat</span>,
+        <span class="summary-sig-arg">lon</span>)</span><br />
+      Return the UTM zone number and UTM Band letter for a location.</td>
           <td align="right" valign="top">
             
             
@@ -177,7 +206,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">parseUTM</span>(<span class="sig-arg">strUTM</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
-        <span class="sig-arg">Utm</span>=<span class="sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>)</span>
+        <span class="sig-arg">Utm</span>=<span class="sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -195,6 +225,7 @@
         <li><strong class="pname"><code>Utm</code></strong> - Optional <i>Utm</i> class to use for the UTM coordinate (<a 
           href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>) or 
           None.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <i>Utm</i> name (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The UTM coordinate (<a href="pygeodesy.utm.Utm-class.html" 
@@ -202,7 +233,7 @@
           northing) if <i>Utm</i> is None.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>strUTM</i>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.utm.UTMError-class.html">UTMError</a></strong></code> - Invalid <i>strUTM</i>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -224,7 +255,9 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toUtm</span>(<span class="sig-arg">latlon</span>,
         <span class="sig-arg">lon</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">Utm</span>=<span class="sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>)</span>
+        <span class="sig-arg">Utm</span>=<span class="sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">cmoff</span>=<span class="sig-default">True</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -241,22 +274,29 @@
         <li><strong class="pname"><code>datum</code></strong> - Optional datum for this UTM coordinate, overriding latlon's datum
           (<i>Datum</i>).</li>
         <li><strong class="pname"><code>Utm</code></strong> - Optional <i>Utm</i> class to usefor the UTM coordinate (<a 
-          href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>).</li>
+          href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>) or 
+          None.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <i>Utm</i> name (string).</li>
+        <li><strong class="pname"><code>cmoff</code></strong> - Offset longitude from zone's central meridian.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The UTM coordinate (<a href="pygeodesy.utm.Utm-class.html" 
-          class="link">Utm</a>).</dd>
+          class="link">Utm</a>) or a 6-tuple (zone, easting, northing, 
+          band, convergence, scale) if <i>Utm</i> is None or <i>cmoff</i> 
+          is False.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - If <i>latlon</i> is not ellipsoidal.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - If <i>lon</i> value is missing, if <i>latlon</i> is not scalar or 
-        <i>latlon</i> is outside the valid UTM bands.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - If <i>lat</i> is outside the valid UTM bands or if <i>lat</i> or 
+        <i>lon</i> outside the valid range and <i>rangerrrors</i> set to 
+        True.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - If <i>lon</i> value is missing or if <i>latlon</i> is not scalar.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        Implements Karney&#8217;s method, using 6-th order Kr&#252;ger series, giving 
-        results accurate to 5 nm for distances up to 3900 km from the 
-        central meridian.
+        Implements Karney&#8217;s method, using 8-th order Kr&#252;ger series, giving 
+        results accurate to 5 nm (or better) for distances up to 3900 km 
+        from the central meridian.
       </p>
       <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -266,6 +306,40 @@
 <span class="py-prompt">&gt;&gt;&gt; </span>u = toUtm(p)  <span class="py-comment"># 48 N 377302 1483035</span></pre>
       </p>
 </div></td></tr></table>
+</div>
+<a name="utmZoneBand2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">utmZoneBand2</span>(<span class="sig-arg">lat</span>,
+        <span class="sig-arg">lon</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the UTM zone number and UTM Band letter for a location.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat</code></strong> - Latitude (degrees) or string.</li>
+        <li><strong class="pname"><code>lon</code></strong> - Longitude (degrees) or string.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>2-Tuple (zone, Band) as (int, string).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - If <i>lat</i> is outside the valid UTM bands or if <i>lat</i> or 
+        <i>lon</i> outside the valid range and <i>rangerrrors</i> set to 
+        True.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>lat</i> or <i>lon</i>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
 </div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
@@ -299,7 +373,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Aug 25 14:09:03 2018
+    Generated by Epydoc 3.0.1 on Fri Aug 31 13:44:18 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -11,12 +11,12 @@ and published under the same MIT Licence**, see for example U{latlon-ellipsoidal
 @newfield example: Example, Examples
 '''
 
-from bases import LatLonHeightBase
+from bases import LatLonHeightBase, _xnamed
 from datum import Datum, Datums
 from dms import parse3llh
 from elevations import elevation2, geoidHeight2
 from fmath import EPS, EPS1, fsum_, hypot, hypot1
-from utils import degrees90, degrees180
+from utils import degrees90, degrees180, property_RO
 from vector3d import Vector3d
 
 from math import atan2, copysign, cos, sin, sqrt
@@ -24,7 +24,7 @@ from math import atan2, copysign, cos, sin, sqrt
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('CartesianBase', 'LatLonEllipsoidalBase')
-__version__ = '18.08.22'
+__version__ = '18.08.28'
 
 
 class CartesianBase(Vector3d):
@@ -100,6 +100,13 @@ class CartesianBase(Vector3d):
 
         return a, b, h
 
+    def _toLLhd(self, LL, datum):
+        '''(INTERNAL) Helper for I{subclass.toLatLon}.
+        '''
+        a, b, h = self.to3llh(datum)
+        return (a, b, h) if LL is None else _xnamed(LL(
+                a, b, height=h, datum=datum), self.name)
+
     def toStr(self, prec=3, fmt='[%s]', sep=', '):  # PYCHOK expected
         '''Return the string representation of this cartesian.
 
@@ -124,7 +131,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
     _utm          = None  #: (INTERNAL) cache toUtm (L{Utm}).
     _wm           = None  #: (INTERNAL) cache toWm (webmercator.Wm instance).
 
-    def __init__(self, lat, lon, height=0, datum=None):
+    def __init__(self, lat, lon, height=0, datum=None, name=''):
         '''Create an (ellipsoidal) I{LatLon} point frome the given
            lat-, longitude and height (elevation, altitude) on the
            given datum.
@@ -134,12 +141,13 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
            @keyword height: Optional elevation (meter or the same units
                             as the datum's half-axes).
            @keyword datum: Optional datum to use (L{Datum}).
+           @keyword name: Optional name (string).
 
            @example:
 
            >>> p = LatLon(51.4778, -0.0016)  # height=0, datum=Datums.WGS84
         '''
-        LatLonHeightBase.__init__(self, lat, lon, height=height)
+        LatLonHeightBase.__init__(self, lat, lon, height=height, name=name)
         if datum:  # check datum
             self.datum = datum
 
@@ -162,6 +170,11 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
             self._elevation2 = self._geoidHeight2 = ()
             LatLonHeightBase._update(self, updated)
 
+    def _xcopy(self, *attrs):
+        '''(INTERNAL) Make copy with add'l, subclass attributes.
+        '''
+        return LatLonHeightBase._xcopy(self, '_datum', *attrs)
+
     def antipode(self, height=None):
         '''Return the antipode, the point diametrically opposite
            to this point.
@@ -176,7 +189,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
             lla.datum = self.datum
         return lla
 
-    @property
+    @property_RO
     def convergence(self):
         '''Get this point's UTM meridian convergence (degrees) or
            None if not converted from L{Utm}.
@@ -211,17 +224,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
 
         return ll.toCartesian()._applyHelmert(t, i).toLatLon(datum=datum)
 
-    def copy(self):
-        '''Copy this I{LatLon} point.
-
-           @return: Copy of this point (L{LatLonEllipsoidalBase}).
-        '''
-        p = LatLonHeightBase.copy(self)
-        assert hasattr(p, 'datum')
-        p.datum = self.datum
-        return p
-
-    @property
+    @property_RO
     def datum(self):
         '''Get this point's datum (L{Datum}).
         '''
@@ -355,13 +358,13 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
                                               model=0, timeout=timeout)
         return self._Radjust2(adjust, datum, *self._geoidHeight2)
 
-    @property
+    @property_RO
     def isEllipsoidal(self):
         '''Check whether this I{LatLon} point is ellipsoidal (bool).
         '''
         return self.datum.isEllipsoidal
 
-    @property
+    @property_RO
     def isSpherical(self):
         '''Check whether this I{LatLon} point is spherical (bool).
         '''
@@ -391,7 +394,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
         a, b, h = parse3llh(strll, height=height, sep=sep)
         return self.classof(a, b, height=h, datum=datum or self.datum)
 
-    @property
+    @property_RO
     def scale(self):
         '''Get this point's UTM grid scale factor (float) or None
            if not converted from L{Utm}.

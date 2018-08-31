@@ -4,11 +4,11 @@
 # Test geohash module.
 
 __all__ = ('Tests',)
-__version__ = '18.02.05'
+__version__ = '18.08.28'
 
 from base import TestsBase
 
-from pygeodesy import fStr, geohash, Geohash, ellipsoidalVincenty
+from pygeodesy import classname, fStr, geohash, Geohash, ellipsoidalVincenty
 
 
 class Tests(TestsBase):
@@ -16,12 +16,13 @@ class Tests(TestsBase):
     def testGeohash(self):
         # geohash module tests
         LL = ellipsoidalVincenty.LatLon
+        cn = classname(LL(0, 0))
 
         g = Geohash('geek')
         self.test('Geohash', repr(g), "Geohash('geek')")
         self.test('Geohash', g, 'geek')
         self.test('Geohash', Geohash(g), 'geek')
-        self.test('bounds', g.bounds(LL), '(LatLon(65°23′26.25″N, 017°55′46.88″W), LatLon(65°33′59.06″N, 017°34′41.25″W))')
+        self.test('bounds', g.bounds(LL), '(%s(65°23′26.25″N, 017°55′46.88″W), %s(65°33′59.06″N, 017°34′41.25″W))' % (cn, cn))
         self.test('toLatLon', g.toLatLon(LL), '65.478516°N, 017.753906°W')
         self.test('latlon', fStr(g.latlon, prec=7), '65.4785156, -17.7539062')
         self.test('ab', fStr(g.ab, prec=7), '1.1428157, -0.3098641')

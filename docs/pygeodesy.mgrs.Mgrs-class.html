@@ -61,11 +61,13 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Mgrs</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-object --+    
-         |    
-<a href="pygeodesy.bases.Base-class.html">bases.Base</a> --+
-             |
-            <strong class="uidshort">Mgrs</strong>
+ object --+        
+          |        
+bases.Named --+    
+              |    
+    bases.Based --+
+                  |
+                 <strong class="uidshort">Mgrs</strong>
 </pre>
 
 <hr />
@@ -92,8 +94,26 @@ object --+
         <span class="summary-sig-arg">easting</span>,
         <span class="summary-sig-arg">northing</span>,
         <span class="summary-sig-arg">band</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>)</span><br />
-      New Mgrs grid reference.</td>
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+      New MGRS grid reference.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.mgrs.Mgrs-class.html#copy" class="summary-sig-name">copy</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Copy this MGRS reference.</td>
           <td align="right" valign="top">
             
             
@@ -180,12 +200,11 @@ object --+
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases.Base-class.html">bases.Base</a></code></b>:
-      <code><a href="pygeodesy.bases.Base-class.html#__repr__">__repr__</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#__str__">__str__</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#classname">classname</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#others">others</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>bases.Based</code></b>:
+      <code>__repr__</code>,
+      <code>__str__</code>,
+      <code>classof</code>,
+      <code>others</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -269,6 +288,11 @@ object --+
   </tr>
   <tr>
     <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>bases.Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>,
+      <code>name</code>
+      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
       </p>
@@ -297,7 +321,8 @@ object --+
         <span class="sig-arg">easting</span>,
         <span class="sig-arg">northing</span>,
         <span class="sig-arg">band</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>)</span>
+        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -305,7 +330,7 @@ object --+
     </td>
   </tr></table>
   
-  <p>New Mgrs grid reference.</p>
+  <p>New MGRS grid reference.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -316,6 +341,7 @@ object --+
         <li><strong class="pname"><code>band</code></strong> - Optional 8&#176; latitudinal band, C..X covering 80&#176;S..84&#176;N (string).</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional this reference's datum (<a 
           href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (string).</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -332,6 +358,31 @@ object --+
 <span class="py-prompt">&gt;&gt;&gt; </span>m = Mgrs(<span class="py-string">'31U'</span>, <span class="py-string">'DQ'</span>, 48251, 11932)  <span class="py-comment"># 31U DQ 48251 11932</span></pre>
       </p>
 </div></td></tr></table>
+</div>
+<a name="copy"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">copy</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Copy this MGRS reference.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>The copy (<a href="pygeodesy.mgrs.Mgrs-class.html" 
+          class="link">Mgrs</a> or subclass thereof).</dd>
+    <dt>Overrides:
+        bases.Named.copy
+    </dt>
+  </dl>
+</td></tr></table>
 </div>
 <a name="parse"></a>
 <div>
@@ -401,7 +452,7 @@ object --+
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>prec</i>.</li>
     </ul></dd>
     <dt>Overrides:
-        <a href="pygeodesy.bases.Base-class.html#toStr">bases.Base.toStr</a>
+        bases.Based.toStr
     </dt>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -440,7 +491,7 @@ object --+
         <dd>This Mgrs as &quot;[Z:00B, G:EN, E:meter, N:meter]&quot; 
           (string).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.bases.Base-class.html#toStr2">bases.Base.toStr2</a>
+        bases.Based.toStr2
     </dt>
   </dl>
 </td></tr></table>
@@ -502,6 +553,11 @@ object --+
     <dd class="value"><span class="summary-sig">band(<span class="summary-sig-arg">self</span>)</span>
         - Get the latitudinal band A..Z (string).
     </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
   </dl>
 </td></tr></table>
 </div>
@@ -516,6 +572,11 @@ object --+
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">bandLatitude(<span class="summary-sig-arg">self</span>)</span>
         - Get the band latitude (degrees90 or None).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
 </td></tr></table>
@@ -534,6 +595,11 @@ object --+
         - Get the datum (<a href="pygeodesy.datum.Datum-class.html" 
 class="link">Datum</a>).
     </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
   </dl>
 </td></tr></table>
 </div>
@@ -548,6 +614,11 @@ class="link">Datum</a>).
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">en100k(<span class="summary-sig-arg">self</span>)</span>
         - Get the 2-character grid EN digraph (string).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
 </td></tr></table>
@@ -564,6 +635,11 @@ class="link">Datum</a>).
     <dd class="value"><span class="summary-sig">easting(<span class="summary-sig-arg">self</span>)</span>
         - Gets the easting (meter).
     </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
   </dl>
 </td></tr></table>
 </div>
@@ -579,6 +655,11 @@ class="link">Datum</a>).
     <dd class="value"><span class="summary-sig">northing(<span class="summary-sig-arg">self</span>)</span>
         - Get the northing (meter).
     </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
   </dl>
 </td></tr></table>
 </div>
@@ -593,6 +674,11 @@ class="link">Datum</a>).
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">zone(<span class="summary-sig-arg">self</span>)</span>
         - Get the longitudal zone 1..60 (int).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
 </td></tr></table>
@@ -629,7 +715,7 @@ class="link">Datum</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Aug 25 14:09:03 2018
+    Generated by Epydoc 3.0.1 on Fri Aug 31 13:44:18 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

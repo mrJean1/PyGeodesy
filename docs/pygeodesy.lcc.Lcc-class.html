@@ -63,13 +63,9 @@
 <pre class="base-tree">
  object --+        
           |        
- <a href="pygeodesy.bases.Base-class.html">bases.Base</a> --+    
+bases.Named --+    
               |    
- object --+   |    
-          |   |    
-<a href="pygeodesy.bases.Named-class.html">bases.Named</a> --+    
-              |    
-   datum._Based --+
+    bases.Based --+
                   |
                  <strong class="uidshort">Lcc</strong>
 </pre>
@@ -95,9 +91,27 @@
         <span class="summary-sig-arg">e</span>,
         <span class="summary-sig-arg">n</span>,
         <span class="summary-sig-arg">h</span>=<span class="summary-sig-default">0</span>,
-        <span class="summary-sig-arg">conic</span>=<span class="summary-sig-default">Conic(name='WRF_Lb', lat0=40, lon0=-97, par1=33, par2=45, E0=0<code class="variable-ellipsis">...</code></span>)</span><br />
+        <span class="summary-sig-arg">conic</span>=<span class="summary-sig-default">Conic(name='WRF_Lb', lat0=40, lon0=-97, par1=33, par2=45, E0=0<code class="variable-ellipsis">...</code></span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       New <a href="pygeodesy.lcc.Lcc-class.html" class="link">Lcc</a> 
       position.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.lcc.Lcc-class.html#copy" class="summary-sig-name">copy</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Copy this LCC location.</td>
           <td align="right" valign="top">
             
             
@@ -133,7 +147,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.lcc.Lcc-class.html#toLatLon" class="summary-sig-name">toLatLon</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">LatLon</span>,
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
       Convert this <a href="pygeodesy.lcc.Lcc-class.html" 
@@ -193,15 +207,11 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>datum._Based</code></b>:
-      <code>__ne__</code>
-      </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases.Base-class.html">bases.Base</a></code></b>:
-      <code><a href="pygeodesy.bases.Base-class.html#__repr__">__repr__</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#__str__">__str__</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#classname">classname</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#others">others</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>bases.Based</code></b>:
+      <code>__repr__</code>,
+      <code>__str__</code>,
+      <code>classof</code>,
+      <code>others</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -261,8 +271,10 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases.Named-class.html">bases.Named</a></code></b>:
-      <code><a href="pygeodesy.bases.Named-class.html#name">name</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>bases.Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>,
+      <code>name</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
@@ -290,7 +302,8 @@
         <span class="sig-arg">e</span>,
         <span class="sig-arg">n</span>,
         <span class="sig-arg">h</span>=<span class="sig-default">0</span>,
-        <span class="sig-arg">conic</span>=<span class="sig-default">Conic(name='WRF_Lb', lat0=40, lon0=-97, par1=33, par2=45, E0=0<code class="variable-ellipsis">...</code></span>)</span>
+        <span class="sig-arg">conic</span>=<span class="sig-default">Conic(name='WRF_Lb', lat0=40, lon0=-97, par1=33, par2=45, E0=0<code class="variable-ellipsis">...</code></span>,
+        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -308,6 +321,7 @@
         <li><strong class="pname"><code>h</code></strong> - Optional height in meter (scalar).</li>
         <li><strong class="pname"><code>conic</code></strong> - Optional, the conic projection (<a 
           href="pygeodesy.lcc.Conic-class.html" class="link">Conic</a>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The Lambert location (<a href="pygeodesy.lcc.Lcc-class.html" 
@@ -327,6 +341,31 @@
 <span class="py-prompt">&gt;&gt;&gt; </span>lb = Lcc(448251, 5411932.0001)</pre>
       </p>
 </div></td></tr></table>
+</div>
+<a name="copy"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">copy</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Copy this LCC location.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>The copy (<a href="pygeodesy.lcc.Lcc-class.html" 
+          class="link">Lcc</a> or subclass thereof).</dd>
+    <dt>Overrides:
+        bases.Named.copy
+    </dt>
+  </dl>
+</td></tr></table>
 </div>
 <a name="to3lld"></a>
 <div>
@@ -368,7 +407,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toLatLon</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">LatLon</span>,
+        <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
   </h3>
@@ -383,14 +422,15 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>LatLon</code></strong> - Ellipsoidal LatLon class to use for the geodetic point 
-          (<i>LatLon</i>).</li>
+          (<i>LatLon</i>) or None.</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional datum to use, otherwise use this <i>Lcc</i>'s 
           conic.datum (<i>Datum</i>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height for the point, overriding the default height 
           (meter).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The point (<i>LatLon</i>).</dd>
+        <dd>The point (<i>LatLon</i>) or 4-tuple (degrees90, degrees180, 
+          height, datum) if <i>LatLon</i> is None.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - If <i>LatLon</i> or <i>datum</i> is not ellipsoidal.</li>
@@ -428,7 +468,7 @@
         <dd>This Lcc as string &quot;easting nothing&quot; in meter plus 
           &quot; height&quot; and 'm' if heigth is non-zero (string).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.bases.Base-class.html#toStr">bases.Base.toStr</a>
+        bases.Based.toStr
     </dt>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -473,7 +513,7 @@
         <dd>This Lcc as &quot;[E:meter, N:meter, H:m, C:Conic.Datum]&quot; 
           (string).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.bases.Base-class.html#toStr2">bases.Base.toStr2</a>
+        bases.Based.toStr2
     </dt>
   </dl>
 </td></tr></table>
@@ -502,6 +542,11 @@
         - Get the conic projection (<a href="pygeodesy.lcc.Conic-class.html" 
 class="link">Conic</a>).
     </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
   </dl>
 </td></tr></table>
 </div>
@@ -516,6 +561,11 @@ class="link">Conic</a>).
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">easting(<span class="summary-sig-arg">self</span>)</span>
         - Get the easting (meter).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
 </td></tr></table>
@@ -532,6 +582,11 @@ class="link">Conic</a>).
     <dd class="value"><span class="summary-sig">height(<span class="summary-sig-arg">self</span>)</span>
         - Get the height (meter).
     </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
   </dl>
 </td></tr></table>
 </div>
@@ -546,6 +601,11 @@ class="link">Conic</a>).
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">northing(<span class="summary-sig-arg">self</span>)</span>
         - Get the northing (meter).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
 </td></tr></table>
@@ -582,7 +642,7 @@ class="link">Conic</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Aug 25 14:09:03 2018
+    Generated by Epydoc 3.0.1 on Fri Aug 31 13:44:18 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

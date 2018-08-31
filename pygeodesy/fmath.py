@@ -522,7 +522,7 @@ def map1(func, *args):
        return a tuple of results.
 
        @param func: Function to apply (callable).
-       @param args: Arguments to apply (any).
+       @param args: Arguments to apply (any positional).
 
        @return: Function results (tuple).
     '''
@@ -532,7 +532,7 @@ def map1(func, *args):
 def map2(func, *args):
     '''Apply arguments to a function and return a tuple of results.
 
-       Unlike Python 2 built-in L{map}, Python 3+ L{map} returns a
+       Unlike Python 2's built-in L{map}, Python 3+ L{map} returns a
        L{map} object, an iterator-like object which generates the
        results only once.  Converting the L{map} object to a tuple
        maintains Python 2 behavior.

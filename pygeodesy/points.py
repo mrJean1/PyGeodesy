@@ -23,10 +23,13 @@ the index for the lat- and longitude index in each 2+tuple.
 
 @newfield example: Example, Examples
 '''
+
+from bases import classname, inStr
 from fmath import EPS, fdot, fStr, Fsum, fsum, isint, scalar
-from utils import R_M, classname, CrossError, crosserrors, \
-                  equirectangular_, inStr, issequence, polygon, \
-                  unroll180, unrollPI, wrap90, wrap180
+from utils import R_M, equirectangular_, issequence, polygon, \
+                  property_RO, unroll180, unrollPI, wrap90, wrap180
+from vector3d import CrossError, crosserrors
+
 try:
     from collections import Sequence as _Sequence  # immutable
 except ImportError:
@@ -40,7 +43,7 @@ __all__ = ('LatLon_',  # classes
            'bounds',
            'isclockwise', 'isconvex', 'isenclosedby',
            'perimeterOf')
-__version__ = '18.07.03'
+__version__ = '18.08.28'
 
 
 class LatLon_(object):
@@ -54,20 +57,22 @@ class LatLon_(object):
     # 276+, O'Reilly, 2016, also at <http://Books.Google.ie/
     #   books?id=bIZHCgAAQBAJ&lpg=PP1&dq=fluent%20python&pg=
     #   PT364#v=onepage&q=“Problems%20with%20__slots__”&f=false>
-    __slots__ = ('lat', 'lon')
+    __slots__ = ('lat', 'lon', 'name')
 
-    def __init__(self, lat, lon):
+    def __init__(self, lat, lon, name=''):
         '''Creat a new, mininal, low-overhead L{LatLon_} instance,
            without heigth and datum.
 
            @param lat: Latitude (degrees).
            @param lon: Longitude (degrees).
+           @keyword name: Optional name (string).
 
            @note: The lat- and longitude are taken as-given,
                   un-clipped and un-validated.
         '''
         self.lat = float(lat)
         self.lon = float(lon)
+        self.name = str(name)
 
     def __eq__(self, other):
         return isinstance(other, LatLon_) and \
@@ -246,19 +251,19 @@ class _Basequence(_Sequence):  # immutable, on purpose
         '''
         return all(abs(z) <= self._epsilon for z in zeros)
 
-    @property
+    @property_RO
     def isNumpy2(self):
         '''Is this a Numpy2 wrapper?
         '''
         return False  # isinstance(self, (Numpy2LatLon, ...))
 
-    @property
+    @property_RO
     def isPoints2(self):
         '''Is this a LatLon2 wrapper/converter?
         '''
         return False  # isinstance(self, (LatLon2psxy, ...))
 
-    @property
+    @property_RO
     def isTuple2(self):
         '''Is this a Tuple2 wrapper?
         '''
@@ -425,13 +430,13 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
         '''
         return self._index(latlon, start_end)
 
-    @property
+    @property_RO
     def ilat(self):
         '''Get the latitudes column index (integer).
         '''
         return self._ilat
 
-    @property
+    @property_RO
     def ilon(self):
         '''Get the longitudes column index (integer).
         '''
@@ -467,7 +472,7 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
         '''
         return dict(ilat=self._ilat, ilon=self._ilon)
 
-    @property
+    @property_RO
     def shape(self):
         '''Get the shape of the NumPy array or the Tuples, 2-tuple of
            (number of rows, number of colums).
@@ -671,7 +676,7 @@ class LatLon2psxy(_Basequence):
         '''
         return self._index(xy, start_end)
 
-    @property
+    @property_RO
     def isPoints2(self):
         '''Is this a LatLon2 wrapper/converter?
         '''
@@ -751,7 +756,7 @@ class Numpy2LatLon(_Array2LatLon):  # immutable, on purpose
         _Array2LatLon.__init__(self, array, ilat=ilat, ilon=ilon,
                                      LatLon=LatLon, shape=s)
 
-    @property
+    @property_RO
     def isNumpy2(self):
         '''Is this a Numpy2 wrapper?
         '''
@@ -815,7 +820,7 @@ class Tuple2LatLon(_Array2LatLon):
         _Array2LatLon.__init__(self, tuples, ilat=ilat, ilon=ilon,
                                      LatLon=LatLon, shape=s)
 
-    @property
+    @property_RO
     def isTuple2(self):
         '''Is this a Tuple2 wrapper?
         '''

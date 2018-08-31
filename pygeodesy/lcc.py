@@ -16,18 +16,19 @@ and John P. Snyder U{'Map Projections - A Working Manual'
 @newfield example: Example, Examples
 '''
 
-from ellipsoidalBase import LatLonEllipsoidalBase as _eLLb
+from bases import Based, _nameof, _xattrs, _xnamed
+from ellipsoidalBase import LatLonEllipsoidalBase as _ELLB
 from datum import _Based, Datums, _Enum
 from fmath import EPS, fStr, hypot
 from utils import PI_2, degrees90, degrees180, false2f, \
-                  radians, tanPI_2_2
+                  property_RO, radians, tanPI_2_2
 
 from math import atan, copysign, cos, log, sin, sqrt
 
 # all public constants, classes and functions
 __all__ = ('Conic', 'Conics', 'Lcc',
            'toLcc')  # functions
-__version__ = '18.02.06'
+__version__ = '18.08.28'
 
 
 Conics = _Enum('Conics')  #: Registered conics (L{_Enum}).
@@ -82,7 +83,7 @@ class Conic(_Based):
            >>> Snyder = Conic(ll0, 33, 45, E0=0, N0=0, name='Snyder')
         '''
         if latlon0 is not None:
-            if not isinstance(latlon0, _eLLb):
+            if not isinstance(latlon0, _ELLB):
                 raise TypeError('%s not %s: %r' % ('latlon0', 'ellipsoidal', latlon0))
 
             self._lat0, self._lon0 = latlon0.to2ab()
@@ -107,101 +108,87 @@ class Conic(_Based):
         if auth:
             self._auth = auth
 
-    @property
+    def _xcopy(self, *attrs):
+        '''(INTERNAL) Make copy with add'l, subclass attributes.
+        '''
+        c = Conic(None, 0, name=self._name)
+        self._dup2(c)
+        return _xattrs(c, self, *attrs)
+
+    @property_RO
     def auth(self):
         '''Get the authentication authority (string).
         '''
         return self._auth
 
-    def copy(self, name=''):
+    def copy(self):
         '''Copy this conic.
 
-           @return: Conic, unregistered (L{Conic}).
+           @return: The copy, unregistered (L{Conic} or subclass thereof).
         '''
-        c = Conic(None, 0, name=name or self._name)
-        self._dup2(c)
-        return c
+        return self._xcopy()
 
-    @property
+    @property_RO
     def datum(self):
         '''Get the datum (L{Datum}).
         '''
         return self._datum
 
-    @property
+    @property_RO
     def E0(self):
         '''Get the false easting (meter).
         '''
         return self._E0
 
-    @property
+    @property_RO
     def k0(self):
         '''Get scale factor (scalar).
         '''
         return self._k0
 
-    @property
+    @property_RO
     def lat0(self):
         '''Get the origin latitude (degrees90).
         '''
         return degrees90(self._lat0)
 
-    @property
+    @property_RO
     def lon0(self):
         '''Get the central meridian (degrees180).
         '''
         return degrees180(self._lon0)
 
-    @property
+    @property_RO
     def N0(self):
         '''Get the false northing (meter).
         '''
         return self._N0
 
-    @property
-    def name(self):
-        '''Get the conic name (string).
-        '''
-        return self._name
-
-    @name.setter  # PYCHOK property setter
-    def name(self, name):
-        '''Set the conic name.
-
-           @param name: New name (string).
-
-           @raise ValueError: Invalid name.
-        '''
-        if name:
-            self._name = str(name)
-        else:
-            raise ValueError('%s invalid: %r' % ('name', name))
-
-    @property
+    @property_RO
     def name2(self):
         '''Get the conic and datum names as "conic.datum" (string).
         '''
-        return self._name + '.' + self._datum.name
+        return self.name + '.' + self.datum.name
 
-    @property
+    @property_RO
     def par1(self):
         '''Get the 1st standard parallel (degrees90).
         '''
         return degrees90(self._par1)
 
-    @property
+    @property_RO
     def par2(self):
         '''Get the 2nd standard parallel (degrees90).
         '''
         return degrees90(self._par2)
 
-    @property
+    @property_RO
     def opt3(self):
         '''Get the optional meridian (degrees180).
         '''
         return degrees180(self._opt3)
 
-    @property
+    @property_RO
     def SP(self):
         '''Get the number of standard parallels (int).
         '''
@@ -327,19 +314,19 @@ class Conic(_Based):
 
 
 Conics._assert(  # <http://spatialreference.org/ref/sr-org/...>
-#   AsLb   = Conic(_eLLb(-14.2666667, 170, datum=Datums.NAD27), 0, 0, E0=500000, N0=0, name='AsLb', auth='EPSG:2155'),  # American Samoa ... SP=1 !
-    Be08Lb = Conic(_eLLb(50.7978150, 4.359215833, datum=Datums.GRS80), 49.833333, 51.166667, E0=649328.0, N0=665262.0, name='Be08Lb', auth='EPSG:9802'),  # Belgium
-    Be72Lb = Conic(_eLLb(90, 4.3674867, datum=Datums.NAD83), 49.8333339, 51.1666672, E0=150000.013, N0=5400088.438, name='Be72Lb', auth='EPSG:31370'),  # Belgium
-    Fr93Lb = Conic(_eLLb(46.5, 3, datum=Datums.WGS84), 49, 44, E0=700000, N0=6600000, name='Fr93Lb', auth='EPSG:2154'),  # RFG93, France
-    MaNLb  = Conic(_eLLb(33.3, -5.4, datum=Datums.NTF), 31.73, 34.87, E0=500000, N0=300000, name='MaNLb'),  # Marocco
-    MxLb   = Conic(_eLLb(12, -102, datum=Datums.WGS84), 17.5, 29.5, E0=2500000, N0=0, name='MxLb', auth='EPSG:2155'),  # Mexico
-    PyT_Lb = Conic(_eLLb(46.8, 2.33722917, datum=Datums.NTF), 45.89893890000052, 47.69601440000037, E0=600000, N0=200000, name='PyT_Lb', auth='Test'),  # France?
-    USA_Lb = Conic(_eLLb(23, -96, datum=Datums.WGS84), 33, 45, E0=0, N0=0, name='USA_Lb'),  # Conterminous, contiguous USA?
-    WRF_Lb = Conic(_eLLb(40, -97, datum=Datums.WGS84), 33, 45, E0=0, N0=0, name='WRF_Lb', auth='EPSG:4326')  # World
+#   AsLb   = Conic(_ELLB(-14.2666667, 170, datum=Datums.NAD27), 0, 0, E0=500000, N0=0, name='AsLb', auth='EPSG:2155'),  # American Samoa ... SP=1 !
+    Be08Lb = Conic(_ELLB(50.7978150, 4.359215833, datum=Datums.GRS80), 49.833333, 51.166667, E0=649328.0, N0=665262.0, name='Be08Lb', auth='EPSG:9802'),  # Belgium
+    Be72Lb = Conic(_ELLB(90, 4.3674867, datum=Datums.NAD83), 49.8333339, 51.1666672, E0=150000.013, N0=5400088.438, name='Be72Lb', auth='EPSG:31370'),  # Belgium
+    Fr93Lb = Conic(_ELLB(46.5, 3, datum=Datums.WGS84), 49, 44, E0=700000, N0=6600000, name='Fr93Lb', auth='EPSG:2154'),  # RFG93, France
+    MaNLb  = Conic(_ELLB(33.3, -5.4, datum=Datums.NTF), 31.73, 34.87, E0=500000, N0=300000, name='MaNLb'),  # Marocco
+    MxLb   = Conic(_ELLB(12, -102, datum=Datums.WGS84), 17.5, 29.5, E0=2500000, N0=0, name='MxLb', auth='EPSG:2155'),  # Mexico
+    PyT_Lb = Conic(_ELLB(46.8, 2.33722917, datum=Datums.NTF), 45.89893890000052, 47.69601440000037, E0=600000, N0=200000, name='PyT_Lb', auth='Test'),  # France?
+    USA_Lb = Conic(_ELLB(23, -96, datum=Datums.WGS84), 33, 45, E0=0, N0=0, name='USA_Lb'),  # Conterminous, contiguous USA?
+    WRF_Lb = Conic(_ELLB(40, -97, datum=Datums.WGS84), 33, 45, E0=0, N0=0, name='WRF_Lb', auth='EPSG:4326')  # World
 )
 
 
-class Lcc(_Based):
+class Lcc(Based):
     '''Lambert conformal conic East-/Northing location.
     '''
     _easting  = 0  #: (INTERNAL) Easting (float).
@@ -347,13 +334,14 @@ class Lcc(_Based):
     _northing = 0  #: (INTERNAL) Northing (float).
     _conic = None  #: (INTERNAL) Lamber projection (L{Conic}).
 
-    def __init__(self, e, n, h=0, conic=Conics.WRF_Lb):
+    def __init__(self, e, n, h=0, conic=Conics.WRF_Lb, name=''):
         '''New L{Lcc} position.
 
            @param e: Easting in meter (scalar).
            @param n: Northing in meter (scalar).
            @keyword h: Optional height in meter (scalar).
            @keyword conic: Optional, the conic projection (L{Conic}).
+           @keyword name: Optional name (string).
 
            @return: The Lambert location (L{Lcc}).
 
@@ -372,26 +360,42 @@ class Lcc(_Based):
         self._northing = false2f(n, 'northing', false=conic.N0 > 0)
         if h:
             self._height = float(h)
+        if name:
+            self.name = name
 
-    @property
+    def _xcopy(self, *attrs):
+        '''(INTERNAL) Make copy with add'l, subclass attributes.
+        '''
+        return _xattrs(self.classof(self.easting, self.northing,
+                                    h=self.height, conic=self.conic),
+                       self, *attrs)
+
+    @property_RO
     def conic(self):
         '''Get the conic projection (L{Conic}).
         '''
         return self._conic
 
-    @property
+    def copy(self):
+        '''Copy this LCC location.
+
+           @return: The copy (L{Lcc} or subclass thereof).
+        '''
+        return self._xcopy()
+
+    @property_RO
     def easting(self):
         '''Get the easting (meter).
         '''
         return self._easting
 
-    @property
+    @property_RO
     def height(self):
         '''Get the height (meter).
         '''
         return self._height
 
-    @property
+    @property_RO
     def northing(self):
         '''Get the northing (meter).
         '''
@@ -423,31 +427,35 @@ class Lcc(_Based):
             p, x = x, c._xdef(t_ * c._pdef(x))
             if abs(x - p) < 1e-9:  # XXX EPS too small?
                 break
-        y = (atan(e / n) + c._opt3) * c._n_ + c._lon0
+        # x, y == lon, lat
+        a = degrees90(x)
+        b = degrees180((atan(e / n) + c._opt3) * c._n_ + c._lon0)
 
-        return degrees90(x), degrees180(y), c.datum
+        return a, b, c.datum
 
-    def toLatLon(self, LatLon, datum=None, height=None):
+    def toLatLon(self, LatLon=None, datum=None, height=None):
         '''Convert this L{Lcc} to an (ellipsoidal) geodetic point.
 
-           @param LatLon: Ellipsoidal LatLon class to use for the
-                          geodetic point (I{LatLon}).
+           @keyword LatLon: Ellipsoidal LatLon class to use for the
+                            geodetic point (I{LatLon}) or None.
            @keyword datum: Optional datum to use, otherwise use this
                            I{Lcc}'s conic.datum (I{Datum}).
            @keyword height: Optional height for the point, overriding
                             the default height (meter).
 
-           @return: The point (I{LatLon}).
+           @return: The point (I{LatLon}) or 4-tuple (degrees90,
+                    degrees180, height, datum) if I{LatLon} is None.
 
            @raise TypeError: If I{LatLon} or I{datum} is not ellipsoidal.
         '''
-        if not issubclass(LatLon, _eLLb):
+        if LatLon and not issubclass(LatLon, _ELLB):
             raise TypeError('%s not %s: %r' % ('LatLon', 'ellipsoidal', LatLon))
 
         a, b, d = self.to3lld(datum=datum)
-
         h = self.height if height is None else height
-        return LatLon(a, b, height=h, datum=d)
+
+        return (a, b, h, d) if LatLon is None else _xnamed(LatLon(
+                a, b, height=h, datum=d), self.name)
 
     def toStr(self, prec=0, sep=' ', m='m'):  # PYCHOK expected
         '''Return a string representation of this L{Lcc} position.
@@ -491,21 +499,23 @@ class Lcc(_Based):
         return fmt % (sep.join('%s:%s' % t for t in zip(k, t)),)
 
 
-def toLcc(latlon, conic=Conics.WRF_Lb, height=None, Lcc=Lcc):
+def toLcc(latlon, conic=Conics.WRF_Lb, height=None, Lcc=Lcc, name=''):
     '''Convert an (ellipsoidal) geodetic point to a Lambert location.
 
        @param latlon: Ellipsoidal point (I{LatLon}).
        @keyword conic: Optional Lambert projection to use (L{Conic}).
        @keyword height: Optional height for the point, overriding
                         the default height (meter).
-       @keyword Lcc: Optional Lcc class to use for the Lambert
+       @keyword Lcc: Optional Lcc (sub-)class to use for the Lambert
                      location (L{Lcc}).
+       @keyword name: Optional I{Lcc} name (string).
 
-       @return: The Lambert location (L{Lcc}).
+       @return: The Lambert location (L{Lcc}) or 3-tuple (easting,
+                northing, height) if I{Lcc} is None.
 
        @raise TypeError: If I{latlon} is not ellipsoidal.
     '''
-    if not isinstance(latlon, _eLLb):
+    if not isinstance(latlon, _ELLB):
         raise TypeError('%s not %s: %r' % ('latlon', 'ellipsoidal', latlon))
 
     c = conic.toDatum(latlon.datum)
@@ -518,7 +528,8 @@ def toLcc(latlon, conic=Conics.WRF_Lb, height=None, Lcc=Lcc):
     n = c._N0 + c._r0 - r * cos(t)
 
     h = latlon.height if height is None else height
-    return Lcc(e, n, h=h, conic=c)
+    return (e, n, h) if Lcc is None else _xnamed(Lcc(
+            e, n, h=h, conic=c), name or _nameof(latlon))
 
 
 if __name__ == '__main__':

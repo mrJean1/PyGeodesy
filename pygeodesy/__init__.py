@@ -154,7 +154,7 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var Ellipsoids: Registered ellipsoids (enum).
 @var Transforms: Registered transforms (enum).
 
-@var version: Normalized PyGeodesy version (string).
+@var version: Normalized C{PyGeodesy} version (string).
 
 '''
 
@@ -179,19 +179,22 @@ import sphericalNvector  # PYCHOK false
 import sphericalTrigonometry  # PYCHOK false
 import vector3d  # PYCHOK false
 
+CrossError    = vector3d.CrossError
+crosserrors   = vector3d.crosserrors
 Geohash       = geohash.Geohash
 VincentyError = ellipsoidalVincenty.VincentyError
 
 # all public sub-modules, contants, classes and functions
 __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',  # modules
            'sphericalNvector', 'sphericalTrigonometry',
-           'datum', 'dms', 'elevations', 'fmath', 'geohash',
+           'bases', 'datum', 'dms', 'elevations', 'fmath', 'geohash',
            'lcc', 'mgrs', 'nvector', 'osgr', 'points', 'simplify',
            'utils', 'utm', 'vector3d', 'webmercator',
-           'Geohash', 'VincentyError',  # classes
+           'CrossError', 'Geohash', 'VincentyError',  # classes
            'R_M',  # to avoid duplicates from datum and utils
-           'version')  # extended below
-__version__ = '18.08.24'
+           'version',
+           'crosserrors')  # extended below
+__version__ = '18.08.28'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
@@ -199,6 +202,7 @@ version = '.'.join(map(str, map(int, __version__.split('.'))))
 # lift all public classes, constants, functions, etc. but
 # only from the following sub-modules ... (see also David
 # Beazley's <http://dabeaz.com/modulepackage/index.html>)
+from bases       import *  # PYCHOK __all__
 from datum       import *  # PYCHOK __all__
 from dms         import *  # PYCHOK __all__
 from elevations  import *  # PYCHOK __all__
@@ -212,6 +216,7 @@ from utils       import *  # PYCHOK __all__
 from utm         import *  # PYCHOK __all__
 from webmercator import *  # PYCHOK __all__
 
+import bases        # PYCHOK expected
 import datum        # PYCHOK expected
 import dms          # PYCHOK expected
 import elevations   # PYCHOK expected
@@ -227,7 +232,7 @@ import webmercator  # PYCHOK expected
 
 # concat __all__ with the public classes, constants,
 # functions, etc. from the sub-modules mentioned above
-for m in (datum, dms, elevations, fmath, lcc, mgrs, osgr,
+for m in (bases, datum, dms, elevations, fmath, lcc, mgrs, osgr,
           points, simplify, utils, utm, webmercator):
     __all__ += tuple(_ for _ in m.__all__ if _ not in ('R_M',))
 del m
@@ -251,17 +256,23 @@ def equirectangular3(lat1, lon1, lat2, lon2, **options):
 
 if __name__ == '__main__':
 
+    import os  # PYCHOK expected
+
+    # to shorten module names
+    m = os.path.abspath(__file__)
+    m = m[:-len(os.path.basename(m))]
+
     d, e, p = locals(), 0, ''
-    for i, n in enumerate(sorted(__all__)):
-        r = repr(d[n]).replace(' ' + n + ' ', ' ') \
-                      .replace(" '" + n + "' ", ' ')
+    for i, n in enumerate(sorted(__all__, key=str.lower)):
+        r = repr(d[n]).replace(m, '').replace(' ' + n + ' ', ' ') \
+                                     .replace(" '" + n + "' ", ' ')
         if n == p:  # duplicate
             e += 1
             s = '***'
         else:
             s = ''
             p = n
-        print('%s %s%s %s' % (i + 1, n, s, r))
+        print('%3d %s%s %s' % (i + 1, n, s, r))
 
     print('--- PyGeodesy %s (%s duplicates)' % (__version__, e or 'no'))
 

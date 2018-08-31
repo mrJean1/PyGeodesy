@@ -11,17 +11,18 @@ U{Vector-based geodesy
 @newfield example: Example, Examples
 '''
 
-from bases import VectorBase
+from bases import VectorBased, _xattrs
 from fmath import EPS, fdot, fStr, fsum, hypot, hypot3, \
                   isscalar, len2, map1
-from utils import CrossError, crosserrors, degrees90, degrees180
+from utils import degrees90, degrees180, property_RO
 
 from math import atan2, cos, sin
 
 # all public contants, classes and functions
-__all__ = ('Vector3d',  # classes
+__all__ = ('CrossError', 'Vector3d',  # classes
+           'crosserrors',
            'sumOf')  # functions
-__version__ = '18.02.05'
+__version__ = '18.08.28'
 
 try:
     _cmp = cmp
@@ -35,7 +36,28 @@ except NameError:  # Python 3+
             return 0
 
 
-class Vector3d(VectorBase):
+class CrossError(ValueError):
+    '''Error raised for zero or near-zero vectorial cross products,
+       occurring for coincident or colinear points, paths or bearings.
+    '''
+    pass
+
+
+def crosserrors(raiser=None):
+    '''Get/set raising of vectorial cross product errors.
+
+       @keyword raiser: Use C{True} to raise or C{False} to ignore
+                        L{CrossError} exceptions.
+
+       @return: Previous setting (bool).
+    '''
+    t = Vector3d._crosserrors
+    if raiser in (True, False):
+        Vector3d._crosserrors = raiser
+    return t
+
+
+class Vector3d(VectorBased):
     '''Generic 3-D vector manipulation.
 
        In a geodesy context, these may be used to represent:
@@ -45,6 +67,7 @@ class Vector3d(VectorBase):
         - motion vector on earth's surface
         - etc.
     '''
+    _crosserrors = True  # set by function crosserrors above
 
     _fromll = None  #: (INTERNAL) original ll.
     _length = None  #: (INTERNAL) cached length.
@@ -54,7 +77,7 @@ class Vector3d(VectorBase):
     _y = 0  #: (INTERNAL) Y component.
     _z = 0  #: (INTERNAL) Z component.
 
-    def __init__(self, x, y, z, ll=None):
+    def __init__(self, x, y, z, ll=None, name=''):
         '''New 3-D vector.
 
            The vector may be normalised, or use x/y/z values for
@@ -65,7 +88,10 @@ class Vector3d(VectorBase):
            @param y: Y component of vector.
            @param z: Z component of vector.
            @keyword ll: Optional, original latlon (I{LatLon}).
+           @keyword name: Optional name (string).
         '''
+        VectorBased.__init__(self, name=name)
+
         self._x = x
         self._y = y
         self._z = z
@@ -268,6 +294,12 @@ class Vector3d(VectorBase):
         if updated:  # reset caches
             self._length = self._united = None
 
+    def _xcopy(self, *attrs):
+        '''(INTERNAL) Make copy with add'l, subclass attributes.
+        '''
+        return _xattrs(self.classof(self.x, self.y, self.z),
+                       self, '_length', '_united', *attrs)  # _crosserrors
+
     def angleTo(self, other, vSign=None):
         '''Compute the angle between this and an other vector.
 
@@ -294,18 +326,15 @@ class Vector3d(VectorBase):
     def copy(self):
         '''Copy this vector.
 
-           @return: New, vector copy (Vector3d).
+           @return: The copy (L{Vector3d} or subclass thereof).
         '''
-        v = self.classof(self.x, self.y, self.z)
-        v._length = self._length
-        v._united = self._united
-        return v
+        return self._xcopy()
 
     def cross(self, other, raiser=None):
         '''Compute the cross product of this and an other vector.
 
            @param other: The other vector (L{Vector3d}).
-           @keyword raiser: Optional, L{CrossError} label to raise (string).
+           @keyword raiser: Optional, L{CrossError} label if raised (string).
 
            @return: Cross product (L{Vector3d}).
 
@@ -322,12 +351,24 @@ class Vector3d(VectorBase):
         y = self.z * other.x - self.x * other.z
         z = self.x * other.y - self.y * other.x
 
-        if raiser and crosserrors() and max(map1(abs, x, y, z)) < EPS:
+        if raiser and self.crosserrors and max(map1(abs, x, y, z)) < EPS:
             t = 'coincident' if self.equals(other) else 'colinear'
             r = getattr(other, '_fromll', None) or other
             raise CrossError('%s %s: %r' % (t, raiser, r))
 
         return self.classof(x, y, z)
+
+    @property
+    def crosserrors(self):
+        '''Get L{CrossError}s (bool).
+        '''
+        return self._crosserrors
+
+    @crosserrors.setter  # PYCHOK setter!
+    def crosserrors(self, raiser):
+        '''Set the raising of L{CrossError}s (bool).
+        '''
+        self._crosserrors = bool(raiser)
 
     def dividedBy(self, factor):
         '''Divide this vector by a scalar.
@@ -385,7 +426,7 @@ class Vector3d(VectorBase):
             d = self.minus(other)
         return max(map(abs, d.to3xyz())) < EPS
 
-    @property
+    @property_RO
     def length(self):
         '''Get the length (norm, magnitude) of this vector (float).
         '''
@@ -424,7 +465,7 @@ class Vector3d(VectorBase):
            @raise TypeError: Incompatible I{type(other)}.
         '''
         try:
-            VectorBase.others(self, other, name=name)
+            VectorBased.others(self, other, name=name)
         except TypeError:
             if not isinstance(other, Vector3d):
                 raise
@@ -559,19 +600,19 @@ class Vector3d(VectorBase):
             self._united = u._united = u
         return self._united
 
-    @property
+    @property_RO
     def x(self):
         '''Get the X component (scalar).
         '''
         return self._x
 
-    @property
+    @property_RO
     def y(self):
         '''Get the Y component (scalar).
         '''
         return self._y
 
-    @property
+    @property_RO
     def z(self):
         '''Get the Z component (scalar).
         '''

@@ -19,7 +19,7 @@ from sphericalBase import LatLonSphericalBase
 from utils import PI2, PI_2, acos1, degrees90, degrees180, degrees360, \
                   equirectangular_, haversine_, iterNumpy2, radians, \
                   tan_2, unrollPI, wrap180, wrapPI
-from vector3d import Vector3d, sumOf
+from vector3d import CrossError, crosserrors, Vector3d, sumOf
 
 from math import asin, atan2, copysign, cos, hypot, sin, sqrt
 
@@ -30,7 +30,7 @@ __all__ = ('LatLon',  # classes
            'meanOf',
            'nearestOn2',
            'perimeterOf')
-__version__ = '18.08.24'
+__version__ = '18.08.28'
 
 
 class LatLon(LatLonSphericalBase):
@@ -245,14 +245,18 @@ class LatLon(LatLonSphericalBase):
                        -cb * ct - sb * sa * st,
                         ca * st)  # XXX .unit()?
 
-    def initialBearingTo(self, other, wrap=False):
+    def initialBearingTo(self, other, wrap=False, raiser=False):
         '''Compute the initial bearing (aka forward azimuth) from
            this to an other point.
 
            @param other: The other point (L{LatLon}).
            @keyword wrap: Wrap and unroll longitudes (bool).
+           @keyword raiser: Optionally, raise L{CrossError} (bool).
 
            @return: Initial bearing (compass degrees).
+
+           @raise CrossError: I this and the I{other} point coincide,
+                              provided I{raiser} is True.
 
            @raise TypeError: The I{other} point is not L{LatLon}.
 
@@ -270,6 +274,10 @@ class LatLon(LatLonSphericalBase):
         a2, b2 = other.to2ab()
 
         db, b2 = unrollPI(b1, b2, wrap=wrap)
+        # XXX behavior like sphericalNvector.LatLon.initialBearingTo
+        if raiser and crosserrors() and max(map1(abs, a1 - a2, db)) < EPS:
+            raise CrossError('%s %s: %r' % ('coincident', 'points', other))
+
         ca1, ca2, cdb = map1(cos, a1, a2, db)
         sa1, sa2, sdb = map1(sin, a1, a2, db)
 
@@ -651,8 +659,8 @@ def intersection(start1, bearing1, start2, bearing2,
        @keyword LatLon: Optional LatLon class for the intersection
                         point (L{LatLon}) or None.
 
-       @return: Intersection point (L{LatLon}) or 3-tuple
-                (lat, lon, height) if I{LatLon} is None.
+       @return: Intersection point (L{LatLon}) or 3-tuple (degrees90,
+                degrees180, height) if I{LatLon} is None.
 
        @raise TypeError: Point I{start1} or I{start2} is not L{LatLon}.
 
@@ -757,7 +765,7 @@ def meanOf(points, height=None, LatLon=LatLon):
                         (L{LatLon}) or None.
 
        @return: Point at geographic mean and height (L{LatLon}) or
-                3-tuple (mean_lat, mean_lon, height) if I{LatLon}
+                3-tuple (degrees90, degrees180, height) if I{LatLon}
                 is None.
 
        @raise TypeError: Some I{points} are not L{LatLon}.

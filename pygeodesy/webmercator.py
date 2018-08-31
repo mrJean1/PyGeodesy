@@ -16,19 +16,19 @@ U{Implementation Practice Web Mercator Map Projection
 @newfield example: Example, Examples
 '''
 
-from bases import Base
+from bases import Based, classname, _nameof, _xnamed
 from datum import R_MA
 from dms import clipDMS, parseDMS2
-from ellipsoidalBase import LatLonEllipsoidalBase as _eLLb
+from ellipsoidalBase import LatLonEllipsoidalBase as _ELLB
 from fmath import EPS, fStr, isscalar, map1
-from utils import PI_2, classname, degrees90, degrees180, radians
+from utils import PI_2, degrees90, degrees180, property_RO, radians
 
 from math import atan, atanh, exp, sin, tanh
 
 # all public contants, classes and functions
 __all__ = ('Wm',  # classes
            'parseWM', 'toWm')  # functions
-__version__ = '18.02.02'
+__version__ = '18.08.28'
 
 # _FalseEasting  = 0   #: (INTERNAL) False Easting (meter).
 # _FalseNorthing = 0   #: (INTERNAL) False Northing (meter).
@@ -36,19 +36,20 @@ _LatLimit = 85.051129  #: (INTERNAL) Latitudinal limit (degrees).
 # _LonOrigin     = 0   #: (INTERNAL) Longitude of natural origin (degrees).
 
 
-class Wm(Base):
+class Wm(Based):
     '''Web Mercator (WM) coordinate.
     '''
     _radius = 0  #: (INTERNAL) earth radius (meter).
     _x      = 0  #: (INTERNAL) easting (meter).
     _y      = 0  #: (INTERNAL) northing (meter).
 
-    def __init__(self, x, y, radius=R_MA):
+    def __init__(self, x, y, radius=R_MA, name=''):
         '''New Web Mercator (WM) coordinate.
 
            @param x: Easting from central meridian (meter).
            @param y: Northing from equator (meter).
            @keyword radius: Optional earth radius (meter).
+           @keyword name: Optional name (string).
 
            @raise ValueError: Invalid I{x}, I{y} or I{radius}.
 
@@ -57,29 +58,39 @@ class Wm(Base):
            >>> import pygeodesy
            >>> w = pygeodesy.Wm(448251, 5411932)
         '''
+        if name:
+            self.name = name
+
         try:
-            self._x, self._y, self._radius = map1(float, x, y, radius)
+            self._x, self._y, r = map1(float, x, y, radius)
         except (TypeError, ValueError):
             raise ValueError('%s invalid: %r' % (Wm.__name__, (x, y, radius)))
-        _ = self.radius  # PYCHOK check radius
 
-    def parseWM(self, strWM):
+        if r < EPS:  # check radius
+            t = '%s.%s' % (classname(self), 'radius')
+            raise ValueError('%s invalid: %r' % (t, r))
+        self._radius = r
+
+    def copy(self):
+        '''Copy this Web Marcator coordinate.
+
+           @return: The copy (L{Wm} or subclass thereof).
+        '''
+        return self.classof(self.x, self.y, radius=self.radius)
+
+    def parseWM(self, strWM, name=''):
         '''Parse a string to a WM coordinate.
 
            For more details, see function L{parseWM} in
            this module L{webmercator}.
         '''
-        return parseWM(strWM, radius=self.radius)
+        return parseWM(strWM, radius=self.radius, Wm=self.classof, name=name)
 
-    @property
+    @property_RO
     def radius(self):
         '''Get the earth radius (meter).
         '''
-        r = self._radius
-        if r < EPS:
-            t = '%s.%s' % (classname(self), 'radius')
-            raise ValueError('%s invalid: %r' % (t, r))
-        return r
+        return self._radius
 
     def to2ll(self, datum=None):
         '''Convert this WM coordinate to a geodetic lat- and longitude.
@@ -128,11 +139,12 @@ class Wm(Base):
            >>> from pygeodesy import sphericalTrigonometry as sT
            >>> ll = w.toLatLon(sT.LatLon)  # 43°39′11.58″N, 004°01′36.17″E
         '''
-        if issubclass(LatLon, _eLLb):
+        if issubclass(LatLon, _ELLB):
             if datum:
-                return LatLon(*self.to2ll(datum=datum), datum=datum)
+                return _xnamed(LatLon(*self.to2ll(datum=datum), datum=datum),
+                               self.name)
         elif datum is None:
-            return LatLon(*self.to2ll(datum=datum))
+            return _xnamed(LatLon(*self.to2ll(datum=datum)), self.name)
         raise TypeError('%r and %s %r' % (LatLon, 'datum', datum))
 
     def toStr(self, prec=3, sep=' ', radius=False):  # PYCHOK expected
@@ -142,7 +154,7 @@ class Wm(Base):
            @keyword sep: Optional separator to join (string).
            @keyword radius: Optionally, include radius (bool or scalar).
 
-           @return: This WM as string "meter meter" plus " radius"
+           @return: This WM as string "meter meter" plus " radiuss
                     if I{radius} is True or scalar (string).
 
            @raise ValueError: Invalid I{radius}.
@@ -180,25 +192,26 @@ class Wm(Base):
         k = 'x', 'y', 'radius'
         return fmt % (sep.join('%s:%s' % t for t in zip(k, t)),)
 
-    @property
+    @property_RO
     def x(self):
         '''Get the easting (meter).'''
         return self._x
 
-    @property
+    @property_RO
     def y(self):
         '''Get the northing (meter).
         '''
         return self._y
 
 
-def parseWM(strWM, radius=R_MA, Wm=Wm):
+def parseWM(strWM, radius=R_MA, Wm=Wm, name=''):
     '''Parse a string representing a WM coordinate, consisting
        of easting, northing and an optional radius.
 
        @param strWM: A WM coordinate (string).
        @keyword radius: Optional earth radius (meter).
        @keyword Wm: Optional Wm class to use (L{Wm}) or None.
+       @keyword name: Optional name (string).
 
        @return: The WM coordinate (L{Wm}) or 3-tuple (easting,
                 northing, radius) if I{Wm} is None.
@@ -221,19 +234,23 @@ def parseWM(strWM, radius=R_MA, Wm=Wm):
     except (TypeError, ValueError):
         raise ValueError('%s invalid: %r' % ('strWM', strWM))
 
-    return (x, y, r) if Wm is None else Wm(x, y, radius=r)
+    return (x, y, r) if Wm is None else _xnamed(Wm(
+            x, y, radius=r), name)
 
 
-def toWm(latlon, lon=None, radius=R_MA, Wm=Wm):
+def toWm(latlon, lon=None, radius=R_MA, Wm=Wm, name=''):
     '''Convert a lat-/longitude point to a WM coordinate.
 
        @param latlon: Latitude (degrees) or an (ellipsoidal or
                       spherical) geodetic I{LatLon} point.
        @keyword lon: Optional longitude (degrees or None).
        @keyword radius: Optional earth radius (meter).
-       @keyword Wm: Optional Wm class for the WM coordinate (L{Wm}).
+       @keyword Wm: Optional Wm class for the WM coordinate (L{Wm})
+                    or None.
+       @keyword name: Optional name (string).
 
-       @return: The WM coordinate (L{Wm}).
+       @return: The WM coordinate (L{Wm}) or 3-tuple (easting, northing,
+                radius) id I{Wm} is None.
 
        @raise ValueError: If I{lon} value is missing, if I{latlon}
                           is not scalar, if I{latlon} is beyond
@@ -250,9 +267,11 @@ def toWm(latlon, lon=None, radius=R_MA, Wm=Wm):
     r, e = radius, None
     try:
         lat, lon = latlon.lat, latlon.lon
-        if isinstance(latlon, _eLLb):
+        if isinstance(latlon, _ELLB):
             r = latlon.datum.ellipsoid.a
             e = latlon.datum.ellipsoid.e
+            if not name:  # use latlon.name
+                name = _nameof(latlon) or name  # PYCHOK no effect
         lat = clipDMS(lat, _LatLimit)
     except AttributeError:
         lat, lon = parseDMS2(latlon, lon, clipLat=_LatLimit)
@@ -261,7 +280,10 @@ def toWm(latlon, lon=None, radius=R_MA, Wm=Wm):
     y = atanh(s)  # == log(tan((90 + lat) / 2)) == log(tanPI_2_2(radians(lat)))
     if e:
         y -= e * atanh(e * s)
-    return Wm(r * radians(lon), r * y, radius=r)
+
+    e, n = r * radians(lon), r * y
+    return (e, n, r) if Wm is None else _xnamed(Wm(
+            e, n, radius=r), name)
 
 # **) MIT License
 #

@@ -12,7 +12,7 @@ see U{Vector-based geodesy
 @newfield example: Example, Examples
 '''
 
-from bases import LatLonHeightBase
+from bases import LatLonHeightBase, _xattrs, _xnamed
 from fmath import fsum, len2, scalar
 from vector3d import Vector3d, sumOf as _sumOf
 
@@ -22,7 +22,7 @@ from vector3d import Vector3d, sumOf as _sumOf
 __all__ = ('NorthPole', 'SouthPole',  # constants
            'Nvector',  # classes
            'sumOf')  # functions
-__version__ = '18.03.04'
+__version__ = '18.08.28'
 
 
 class Nvector(Vector3d):  # XXX kept private
@@ -32,7 +32,7 @@ class Nvector(Vector3d):  # XXX kept private
 
     H = ''  #: Heigth prefix (string), '↑' in JS version
 
-    def __init__(self, x, y, z, h=0, ll=None):
+    def __init__(self, x, y, z, h=0, ll=None, name=''):
         '''New n-vector normal to the earth's surface.
 
            @param x: X component (scalar).
@@ -40,6 +40,7 @@ class Nvector(Vector3d):  # XXX kept private
            @param z: Z component (scalar).
            @keyword h: Optional height above surface (meter).
            @keyword ll: Optional, original latlon (I{LatLon}).
+           @keyword name: Optional name (string).
 
            @example:
 
@@ -47,19 +48,21 @@ class Nvector(Vector3d):  # XXX kept private
            >>> v = Nvector(0.5, 0.5, 0.7071, 1)
            >>> v.toLatLon()  # 45.0°N, 045.0°E, +1.00m
         '''
-        Vector3d.__init__(self, x, y, z, ll=ll)
+        Vector3d.__init__(self, x, y, z, ll=ll, name=name)
         if h:
             self._h = scalar(h, None, name='h')
+
+    def _xcopy(self, *attrs):
+        '''(INTERNAL) Make copy with add'l, subclass attributes.
+        '''
+        return Vector3d._xcopy(self, '_h', *attrs)
 
     def copy(self):
         '''Copy this vector.
 
-           @return: Copy (L{Nvector}).
+           @return: The copy (L{Nvector} or subclass thereof).
         '''
-        n = Vector3d.copy(self)
-        if n.h != self.h:
-            n.h = self.h
-        return n
+        return self._xcopy()
 
     @property
     def h(self):
@@ -89,6 +92,15 @@ class Nvector(Vector3d):  # XXX kept private
                     degrees180, meter).
         '''
         return Vector3d.to2ll(self) + (self.h,)
+
+    def _toLLh(self, LL, height, **kwds):
+        '''(INTERNAL) Helper for I{subclass.toLatLon}.
+        '''
+        a, b, h = self.to3llh()
+        if height is not None:
+            h = height
+        return (a, b, h) if LL is None else _xnamed(LL(
+                a, b, height=h, **kwds), self.name)
 
     def to4xyzh(self):
         '''Return this n-vector as a 4-tuple.
@@ -125,7 +137,7 @@ class Nvector(Vector3d):  # XXX kept private
            @return: Normalized vector (L{Vector3d}).
         '''
         u = self.unit()
-        return Vector3d(u.x, u.y, u.z)
+        return Vector3d(u.x, u.y, u.z, name=self.name)
 
     def unit(self):
         '''Normalize this vector to unit length.
@@ -134,19 +146,17 @@ class Nvector(Vector3d):  # XXX kept private
         '''
         if self._united is None:
             u = Vector3d.unit(self)  # .copy()
-            if u.h != self.h:
-                u.h = self.h
-            self._united = u._united = u
+            self._united = u._united = _xattrs(u, self, '_h')
         return self._united
 
 
-NorthPole = Nvector(0, 0, +1)  #: North pole (L{Nvector}).
-SouthPole = Nvector(0, 0, -1)  #: South pole (L{Nvector}).
+NorthPole = Nvector(0, 0, +1, name='NorthPole')  #: North pole (L{Nvector}).
+SouthPole = Nvector(0, 0, -1, name='SouthPole')  #: South pole (L{Nvector}).
 
 
 class LatLonNvectorBase(LatLonHeightBase):
     '''(INTERNAL) Base class for n-vector-based ellipsoidal
-        and spherical LatLon.
+        and spherical C{LatLon} classes.
     '''
 
     def others(self, other, name='other'):
@@ -193,11 +203,10 @@ def sumOf(nvectors, Vector=Nvector, h=None, **kwds):
     n, nvectors = len2(nvectors)
     if n < 1:
         raise ValueError('no nvectors: %r' & (n,))
+
     if h is None:
-        m = fsum(v.h for v in nvectors) / float(n)
-    else:
-        m = h
-    return _sumOf(nvectors, Vector=Vector, h=m, **kwds)
+        h = fsum(v.h for v in nvectors) / float(n)
+    return _sumOf(nvectors, Vector=Vector, h=h, **kwds)
 
 # **) MIT License
 #

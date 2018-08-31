@@ -4,13 +4,14 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '18.08.21'
+__version__ = '18.08.28'
 
 from testLatLon import Tests as _TestsLL
 from testVectorial import Tests as _TestsV
 
 from pygeodesy import EPS, F_D, F_DMS, VincentyError, bearingDMS, \
-                      compassDMS, Datums, fStr, m2SM, normDMS, wrap360
+                      classname, compassDMS, Datums, fStr, m2SM, \
+                      normDMS, wrap360
 
 
 class Tests(_TestsLL, _TestsV):
@@ -65,6 +66,8 @@ class Tests(_TestsLL, _TestsV):
         LatLon = module.LatLon
 
         Newport_RI = LatLon(41.49008, -71.312796, datum=d)
+        cn = classname(Newport_RI)
+
         Cleveland_OH = LatLon(41.499498, -81.695391, datum=d)
         m = Newport_RI.distanceTo(Cleveland_OH)
         self.test('distanceTo', m, '866455.43292', fmt='%.5f')
@@ -74,7 +77,7 @@ class Tests(_TestsLL, _TestsV):
             m = Newport_RI.distanceTo(Newport_RI)
         except VincentyError as x:
             t = x  # Python 3+
-        self.test('VincentyError', t, 'LatLon(41°29′24.29″N, 071°18′46.07″W) coincides with LatLon(41°29′24.29″N, 071°18′46.07″W)')
+        self.test('VincentyError', t, '%s(41°29′24.29″N, 071°18′46.07″W) coincides with %s(41°29′24.29″N, 071°18′46.07″W)' % (cn, cn))
 
         if hasattr(LatLon, 'toCartesian'):
             try:

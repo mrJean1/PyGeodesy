@@ -61,15 +61,19 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Nvector</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-   object --+            
-            |            
-   <a href="pygeodesy.bases.Base-class.html">bases.Base</a> --+        
-                |        
-<a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a> --+    
-                    |    
-      <a href="pygeodesy.nvector.Nvector-class.html">nvector.Nvector</a> --+
-                        |
-                       <strong class="uidshort">Nvector</strong>
+ object --+                    
+          |                    
+bases.Named --+                
+              |                
+    bases.Based --+            
+                  |            
+  bases.VectorBased --+        
+                      |        
+      <a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a> --+    
+                          |    
+            <a href="pygeodesy.nvector.Nvector-class.html">nvector.Nvector</a> --+
+                              |
+                             <strong class="uidshort">Nvector</strong>
 </pre>
 
 <hr />
@@ -102,7 +106,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector.Nvector-class.html#toLatLon" class="summary-sig-name">toLatLon</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>)</span><br />
-      Convert this n-vector to a (spherical geodetic) point.</td>
+      Convert this n-vector to a (spherical) geodetic point.</td>
           <td align="right" valign="top">
             
             
@@ -185,12 +189,11 @@
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#to2ll">to2ll</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#to3xyz">to3xyz</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases.Base-class.html">bases.Base</a></code></b>:
-      <code><a href="pygeodesy.bases.Base-class.html#__repr__">__repr__</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#__str__">__str__</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#classname">classname</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.bases.Base-class.html#toStr2">toStr2</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>bases.Based</code></b>:
+      <code>__repr__</code>,
+      <code>__str__</code>,
+      <code>classof</code>,
+      <code>toStr2</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -237,10 +240,16 @@
       <code><a href="pygeodesy.nvector.Nvector-class.html#h">h</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a></code></b>:
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#crosserrors">crosserrors</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#length">length</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#x">x</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#y">y</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#z">z</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>bases.Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>,
+      <code>name</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
@@ -273,20 +282,21 @@
     </td>
   </tr></table>
   
-  <p>Convert this n-vector to a (spherical geodetic) point.</p>
+  <p>Convert this n-vector to a (spherical) geodetic point.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>height</code></strong> - Optional height above earth radius, overriding the default height
           (meter).</li>
-        <li><strong class="pname"><code>LatLon</code></strong> - Optional (spherical) LatLon class for the point (<a 
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional (spherical) LatLon (sub-) class to use for the point (<a
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>).</li>
+          class="link">LatLon</a>) or None.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Point equivalent to this n-vector (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>).</dd>
+          class="link">LatLon</a>) or 3-tuple (degrees90, degrees180, 
+          height) if <i>LatLon</i> is None.</dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -366,7 +376,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Aug 25 14:09:04 2018
+    Generated by Epydoc 3.0.1 on Fri Aug 31 13:44:18 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

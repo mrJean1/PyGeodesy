@@ -4,7 +4,7 @@
 # Test LCC functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.12.16'
+__version__ = '18.08.26'
 
 from base import TestsBase
 
@@ -30,10 +30,11 @@ class Tests(TestsBase):
 
         LatLon = module.LatLon
 
-        lb = Lcc(448251, 5411932.0001)
+        lb = Lcc(448251, 5411932.0001, name='lb1')
         self.test('lb1', lb.toStr(4), '448251.0 5411932.0001')
         self.test('lb1', lb.toStr(sep=', '), '448251, 5411932')
         self.test('lb1', lb.conic.name2, 'WRF_Lb.WGS84')
+        self.test('lb1', lb.name, 'lb1')
 
         ll = LatLon(46.5, 3)
         self.test('LatLon', ll, '46.5°N, 003.0°E')
@@ -42,9 +43,10 @@ class Tests(TestsBase):
         self.test('toLcc1', str(lb), '700000 6600000')
         self.test('toLcc1', lb.toLatLon(LatLon), '46.5°N, 003.0°E')
 
-        lb = Lcc(1894410.9, 1564649.5, conic=Conics.Snyder)
+        lb = Lcc(1894410.9, 1564649.5, conic=Conics.Snyder, name='lb2')
         self.test('lb2', lb, '1894411 1564650')
         self.test('lb2', lb.conic.datum.ellipsoid.name, 'Clarke1866')
+        self.test('lb2', lb.name, 'lb2')
         ll = lb.toLatLon(LatLon)  # Clark1866
         self.test('toLatLon2', ll.toStr(prec=6, form=F_D), '35.0°N, 075.0°W')
         self.test('toLatLon2', ll.toStr(prec=4, form=F_DMS), '35°00′00.0007″N, 074°59′59.9997″W')

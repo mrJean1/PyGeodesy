@@ -16,10 +16,11 @@ U{Geohash-Javascript<http://github.com/davetroy/geohash-js>}.
 @newfield example: Example, Examples
 '''
 
+from bases import Named, _xnamed
 from dms import parse3llh, parseDMS2
 from fmath import EPS, favg, fStr, map2
 from utils import R_M, equirectangular, equirectangular_, \
-                  haversine_, unrollPI
+                  haversine_, property_RO, unrollPI
 
 from math import log10, radians
 
@@ -28,7 +29,7 @@ __all__ = ('Geohash',  # classes
            'bounds', 'decode', 'decode_error',  # functions
            'distance1', 'distance2', 'distance3',
            'encode', 'neighbors', 'sizes')
-__version__ = '18.02.05'
+__version__ = '18.08.26'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -105,7 +106,7 @@ def _2geostr(geohash):
     return geostr
 
 
-class Geohash(str):
+class Geohash(str, Named):
     '''Geohash class, sub-class of str.
     '''
     _bounds = None  # cached bounds property
@@ -117,7 +118,7 @@ class Geohash(str):
     _W = None
 
     # no str.__init__ in Python 3
-    def __new__(cls, cll, precision=None):
+    def __new__(cls, cll, precision=None, name=''):
         '''New Geohash from a L{Geohash} instance or str or from
            a I{LatLon} instance or string.
 
@@ -126,6 +127,7 @@ class Geohash(str):
            @keyword precision: Optional, desired geohash length (integer),
                                see function L{geohash.encode} for more
                                details.
+           @keyword name: Optional name (string).
 
            @return: New L{Geohash}.
         '''
@@ -150,12 +152,14 @@ class Geohash(str):
             self = str.__new__(cls, cll)
             self._latlon = lat, lon
 
+        if name:
+            self.name = name
         return self
 
     def __repr__(self):
         return "%s('%s')" % (Geohash.__name__, self)  # str.__str__(self))
 
-    @property
+    @property_RO
     def ab(self):
         '''Get the lat- and longitude of (the approximate center of)
            this geohash as a 2-tuple (lat, lon) in radians.
@@ -276,7 +280,7 @@ class Geohash(str):
         db, b2 = unrollPI(b1, b2, wrap=wrap)
         return haversine_(a2, a1, db) * float(radius)
 
-    @property
+    @property_RO
     def latlon(self):
         '''Get the lat- and longitude of (the approximate center of)
            this geohash as a 2-tuple (lat, lon) in degrees.
@@ -293,7 +297,7 @@ class Geohash(str):
             self._latlon = favg(n, s), favg(e, w)
         return self._latlon
 
-    @property
+    @property_RO
     def neighbors(self):
         '''Get all 8 adjacent cells as a dict(N=, NE=, E= ..., SW=)
            of L{Geohash}es.
@@ -303,7 +307,7 @@ class Geohash(str):
         return dict((d, getattr(self, d)) for d in ('N', 'NE', 'E', 'SE',
                                                     'S', 'SW', 'W', 'NW'))
 
-    @property
+    @property_RO
     def sizes(self):
         '''Get the lat- and longitudinal size of this cell as
            a 2-tuple (latHeight, lonWidth) in meter.
@@ -327,9 +331,12 @@ class Geohash(str):
            >>> print(repr(ll))  # LatLon(52°12′17.9″N, 000°07′07.64″E)
            >>> print(ll)  # 52.204971°N, 000.11879°E
         '''
-        return LatLon(*self.latlon, **kwds)
+        if LatLon is None:
+            raise ValueError('%s invalid: %r' % ('LatLon', LatLon))
 
-    @property
+        return _xnamed(LatLon(*self.latlon, **kwds), self.name)
+
+    @property_RO
     def N(self):
         '''Get the cell North of this (L{Geohash}).
         '''
@@ -337,7 +344,7 @@ class Geohash(str):
             self._N = self.adjacent('N')
         return self._N
 
-    @property
+    @property_RO
     def S(self):
         '''Get the cell South of this (L{Geohash}).
         '''
@@ -345,7 +352,7 @@ class Geohash(str):
             self._S = self.adjacent('S')
         return self._S
 
-    @property
+    @property_RO
     def E(self):
         '''Get the cell East of this (L{Geohash}).
         '''
@@ -353,7 +360,7 @@ class Geohash(str):
             self._E = self.adjacent('E')
         return self._E
 
-    @property
+    @property_RO
     def W(self):
         '''Get the cell West of this (L{Geohash}).
         '''
@@ -361,25 +368,25 @@ class Geohash(str):
             self._W = self.adjacent('W')
         return self._W
 
-    @property
+    @property_RO
     def NE(self):
         '''Get the cell NorthEast of this (L{Geohash}).
         '''
         return self.N.E
 
-    @property
+    @property_RO
     def NW(self):
         '''Get the cell NorthWest of this (L{Geohash}).
         '''
         return self.N.W
 
-    @property
+    @property_RO
     def SE(self):
         '''Get the cell SouthEast of this (L{Geohash}).
         '''
         return self.S.E
 
-    @property
+    @property_RO
     def SW(self):
         '''Get the cell SouthWest of this (L{Geohash}).
         '''

@@ -4,12 +4,12 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '18.08.24'
+__version__ = '18.08.28'
 
 from testLatLon import Tests as _TestsLL
 from testVectorial import Tests as _TestsV
 
-from pygeodesy import F_D, F_DMS, lonDMS
+from pygeodesy import F_D, F_DMS, classname, lonDMS
 
 
 class Tests(_TestsLL, _TestsV):
@@ -69,7 +69,7 @@ class Tests(_TestsLL, _TestsV):
                     self.test('isEnclosedBy', p.isEnclosedBy(b), True)  # Nvector
                 except ValueError as x:
                     t = ' '.join(str(x).split()[:3] + ['...)'])
-                    self.test('isEnclosedBy', t, 'non-convex: (LatLon(45°00′00.0″N, 001°00′00.0″E), ...)')  # Trig
+                    self.test('isEnclosedBy', t, 'non-convex: (%s(45°00′00.0″N, 001°00′00.0″E), ...)' % (classname(p),))
 
         p = LatLon(51.127, 1.338)
         q = LatLon(50.964, 1.853)

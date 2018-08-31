@@ -26,10 +26,10 @@ and U{Military Grid Reference System<http://wikipedia.org/wiki/Military_grid_ref
 @newfield example: Example, Examples
 '''
 
-from bases import Base
+from bases import Based, _xattrs, _xnamed
 from datum import Datums
-from utils import enStr2, halfs
-from utm   import toUtm, Utm, _toZBL
+from utils import enStr2, halfs, property_RO
+from utm   import toUtm, Utm, _toZBlat3
 
 from math import log10
 import re  # PYCHOK warning locale.Error
@@ -37,7 +37,7 @@ import re  # PYCHOK warning locale.Error
 # all public contants, classes and functions
 __all__ = ('Mgrs',  # classes
            'parseMGRS', 'toMgrs')  # functions
-__version__ = '18.05.16'
+__version__ = '18.08.28'
 
 _100km  =  100e3  #: (INTERNAL) 100 km in meter.
 _2000km = 2000e3  #: (INTERNAL) 2,000 km in meter.
@@ -52,7 +52,7 @@ _MGRSre = re.compile('([0-9]{1,2}[C-X]{1})([A-Z]{2})([0-9]+)', re.IGNORECASE)  #
 _GZDre  = re.compile('([0-9]{1,2}[C-X]{1})', re.IGNORECASE)  #: (INTERNAL) Regex.
 
 
-class Mgrs(Base):
+class Mgrs(Based):
     '''Military Grid Reference System (MGRS/NATO) references,
        with method to convert to UTM coordinates.
     '''
@@ -65,8 +65,8 @@ class Mgrs(Base):
     _zone     = 0   #: (INTERNAL) Longitudinal zone (1..60)
 
     def __init__(self, zone, en100k, easting, northing,
-                             band='', datum=Datums.WGS84):
-        '''New Mgrs grid reference.
+                             band='', datum=Datums.WGS84, name=''):
+        '''New MGRS grid reference.
 
            @param zone: 6° longitudinal zone, 1..60 covering 180°W..180°E (int).
            @param en100k: Two-letter EN digraph, 100 km grid square (string).
@@ -74,6 +74,7 @@ class Mgrs(Base):
            @param northing: Northing in meter within 100 km grid square (scalar).
            @keyword band: Optional 8° latitudinal band, C..X covering 80°S..84°N (string).
            @keyword datum: Optional this reference's datum (L{Datum}).
+           @keyword name: Optional name (string).
 
            @raise ValueError: Invalid MGRS grid reference, I{zone},
                               I{en100k} or I{band}.
@@ -83,7 +84,10 @@ class Mgrs(Base):
            >>> from mgrs import Mgrs
            >>> m = Mgrs('31U', 'DQ', 48251, 11932)  # 31U DQ 48251 11932
         '''
-        self._zone, self._band, self._bandLat = _toZBL(zone, band, True)
+        if name:
+            self.name = name
+
+        self._zone, self._band, self._bandLat = _toZBlat3(zone, band, True)
 
         try:
             en = str(en100k).upper()
@@ -109,37 +113,52 @@ class Mgrs(Base):
         n = float(_Ln100k[z % 2].index(self._en100k[1])) * _100km  # metres
         return e, n
 
-    @property
+    def _xcopy(self, *attrs):
+        '''(INTERNAL) Make copy with add'l, subclass attributes.
+        '''
+        return _xattrs(self.classof(self.zone, self.en100k,
+                                    self.easting, self.northing,
+                                    band=self.band, datum=self.datum),
+                       self, *attrs)
+
+    @property_RO
     def band(self):
         '''Get the latitudinal band A..Z (string).
         '''
         return self._band
 
-    @property
+    @property_RO
     def bandLatitude(self):
         '''Get the band latitude (degrees90 or None).
         '''
         return self._bandLat
 
-    @property
+    def copy(self):
+        '''Copy this MGRS reference.
+
+           @return: The copy (L{Mgrs} or subclass thereof).
+        '''
+        return self._xcopy()
+
+    @property_RO
     def datum(self):
         '''Get the datum (L{Datum}).
         '''
         return self._datum
 
-    @property
+    @property_RO
     def en100k(self):
         '''Get the 2-character grid EN digraph (string).
         '''
         return self._en100k
 
-    @property
+    @property_RO
     def easting(self):
         '''Gets the easting (meter).
         '''
         return self._easting
 
-    @property
+    @property_RO
     def northing(self):
         '''Get the northing (meter).
         '''
@@ -220,31 +239,29 @@ class Mgrs(Base):
             n += _2000km
 
         h = 'S' if self._bandLat < 0 else 'N'  # if self._band < 'N'
-        if Utm is None:
-            u = self._zone, h, e, n
-        else:
-            u = Utm(self._zone, h, e, n, band=self._band, datum=self._datum)
-        return u
 
-    @property
+        return (self.zone, h, e, n) if Utm is None else _xnamed(Utm(
+                self.zone, h, e, n, band=self.band, datum=self.datum), self.name)
+
+    @property_RO
     def zone(self):
         '''Get the longitudal zone 1..60 (int).
         '''
         return self._zone
 
 
-def parseMGRS(strMGRS, datum=Datums.WGS84, Mgrs=Mgrs):  # MCCABE 13
+def parseMGRS(strMGRS, datum=Datums.WGS84, Mgrs=Mgrs, name=''):
     '''Parse a string representing a MGRS grid reference,
        consisting of zoneBand, grid, easting and northing.
 
        @param strMGRS: MGRS grid reference (string).
        @keyword datum: Optional datum to use (L{Datum}).
-       @keyword Mgrs: Optional Mgrs class to use for the MGRS
-                      grid reference (L{Mgrs}) or None.
+       @keyword Mgrs: Optional Mgrs (sub-)class to use for the
+                      MGRS grid reference (L{Mgrs}) or None.
+       @keyword name: Optional I{Mgrs} name (string).
 
-       @return: The MGRS grid reference (L{Mgrs}) or 4-tuple
-                (zone, ENdigraph, easting, northing) if I{Mgrs}
-                is None.
+       @return: The MGRS grid reference (L{Mgrs}) or 4-tuple (zone,
+                ENdigraph, easting, northing) if I{Mgrs} is None.
 
        @raise ValueError: Invalid I{strMGRS}.
 
@@ -284,14 +301,12 @@ def parseMGRS(strMGRS, datum=Datums.WGS84, Mgrs=Mgrs):  # MCCABE 13
     except ValueError:
         raise ValueError('%s invalid: %r' % ('strMGRS', strMGRS))
 
-    if Mgrs is None:
-        m = m[0], m[1].upper(), e, n
-    else:
-        m = Mgrs(m[0], m[1].upper(), e, n, datum=datum)
-    return m
+    z, EN = m[0], m[1].upper()
+    return (z, EN, e, n) if Mgrs is None else _xnamed(Mgrs(
+            z, EN, e, n, datum=datum), name)
 
 
-def toMgrs(utm, Mgrs=Mgrs):
+def toMgrs(utm, Mgrs=Mgrs, name=''):
     '''Convert a UTM coordinate to an MGRS grid reference.
 
        @param utm: A UTM coordinate (L{Utm}).
@@ -299,6 +314,7 @@ def toMgrs(utm, Mgrs=Mgrs):
                       grid reference (L{Mgrs}).
 
        @return: The MGRS grid reference (L{Mgrs}).
+       @keyword name: Optional I{Mgrs} name (string).
 
        @raise TypeError: If I{utm} is not L{Utm}.
 
@@ -325,7 +341,8 @@ def toMgrs(utm, Mgrs=Mgrs):
           # rows in even zones are A-V, in odd zones are F-E
           _Ln100k[z % 2][int(N) % len(_Ln100k[0])])
 
-    return Mgrs(utm.zone, en, e, n, band=utm.band, datum=utm.datum)
+    return _xnamed(Mgrs(utm.zone, en, e, n, band=utm.band, datum=utm.datum),
+                   name or utm.name)
 
 # **) MIT License
 #
