@@ -10,6 +10,7 @@ test_task:
   test_script:
     - pip install distro
     - python -c 'import distro, platform; print(distro.id(), repr(distro.name()), distro.version(), platform.uname())'
+    - rm -f testresults/testresults*Debian*.txt
     - python test/run.py -result
     - ls -al testresults/*
     - cat testresults/testresults*Debian*.txt
