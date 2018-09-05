@@ -63,7 +63,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.08.24
+        18.09.03
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -170,8 +170,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fdot" class="summary-sig-name">fdot</a>(<span class="summary-sig-arg">a</span>,
         <span class="summary-sig-arg">*b</span>)</span><br />
-      Return the precision dot product <i class="math">sum(a[i] * b[i]), 
-      i=0..len(a)</i>.</td>
+      Return the precision dot product <i class="math">sum(a[i] * b[i] for 
+      i=0..len(a))</i>.</td>
           <td align="right" valign="top">
             
             
@@ -192,7 +192,26 @@
         <span class="summary-sig-arg">c</span>,
         <span class="summary-sig-arg">start</span>=<span class="summary-sig-default">0</span>)</span><br />
       Return the precision dot product <i class="math">start + sum(a[i] * 
-      b[i] * c[i]), i=0..len(a)</i>.</td>
+      b[i] * c[i] for i=0..len(a))</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fhorner" class="summary-sig-name">fhorner</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">*cs</span>)</span><br />
+      Evaluate the polynomial <i class="math">sum(cs[i] * x**i for 
+      i=0..len(cs))</i> using the Horner form.</td>
           <td align="right" valign="top">
             
             
@@ -209,8 +228,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fmean" class="summary-sig-name">fmean</a>(<span class="summary-sig-arg">xs</span>)</span><br />
-      Compute the accurate mean <i class="math">sum(xs[i]), i=0..len(xs) / 
-      len(xs)</i>.</td>
+      Compute the accurate mean <i class="math">sum(xs[i] for i=0..len(xs))
+      / len(xs)</i>.</td>
           <td align="right" valign="top">
             
             
@@ -228,7 +247,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fpolynomial" class="summary-sig-name">fpolynomial</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">*cs</span>)</span><br />
-      Accuately evaluate the polynomial <i class="math">sum(cs[i] * x**i), 
+      Evaluate the polynomial <i class="math">sum(cs[i] * x**i for 
       i=0..len(cs))</i>.</td>
           <td align="right" valign="top">
             
@@ -248,7 +267,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fpowers" class="summary-sig-name">fpowers</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">n</span>,
         <span class="summary-sig-arg">alts</span>=<span class="summary-sig-default">0</span>)</span><br />
-      Return a series of powers <i class="math">x**i for i=1..n</i>.</td>
+      Return a series of powers <i class="math">[x**i for i=1..n]</i>.</td>
           <td align="right" valign="top">
             
             
@@ -494,6 +513,24 @@
       
     </td>
   </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#sqrt3" class="summary-sig-name">sqrt3</a>(<span class="summary-sig-arg">x</span>)</span><br />
+      Compute the square root cubed <i class="math">sqrt(x)**3</i> or <i 
+      class="math">sqrt(x**3)</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
 </table>
 <!-- ==================== VARIABLES ==================== -->
 <a name="section-Variables"></a>
@@ -585,7 +622,11 @@
     <dt>Returns:</dt>
         <dd>Cubic root squared (float).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.fmath-module.html#sqrt3" 
+        class="link">sqrt3</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="favg"></a>
 <div>
@@ -631,8 +672,8 @@
     </td>
   </tr></table>
   
-  <p>Return the precision dot product <i class="math">sum(a[i] * b[i]), 
-  i=0..len(a)</i>.</p>
+  <p>Return the precision dot product <i class="math">sum(a[i] * b[i] for 
+  i=0..len(a))</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -666,7 +707,7 @@
   </tr></table>
   
   <p>Return the precision dot product <i class="math">start + sum(a[i] * 
-  b[i] * c[i]), i=0..len(a)</i>.</p>
+  b[i] * c[i] for i=0..len(a))</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -680,6 +721,39 @@
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Unequal len(a), len(b) and/or len(c).</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="fhorner"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fhorner</span>(<span class="sig-arg">x</span>,
+        <span class="sig-arg">*cs</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Evaluate the polynomial <i class="math">sum(cs[i] * x**i for 
+  i=0..len(cs))</i> using the Horner form.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - Polynomial argument (scalar).</li>
+        <li><strong class="pname"><code>cs</code></strong> - Polynomial coeffients (scalars).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Horner value (float).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Argument <i>x</i> not scalar.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - No <i>cs</i> coefficients.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -698,8 +772,8 @@
     </td>
   </tr></table>
   
-  <p>Compute the accurate mean <i class="math">sum(xs[i]), i=0..len(xs) / 
-  len(xs)</i>.</p>
+  <p>Compute the accurate mean <i class="math">sum(xs[i] for i=0..len(xs)) 
+  / len(xs)</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -729,7 +803,7 @@
     </td>
   </tr></table>
   
-  <p>Accuately evaluate the polynomial <i class="math">sum(cs[i] * x**i), 
+  <p>Evaluate the polynomial <i class="math">sum(cs[i] * x**i for 
   i=0..len(cs))</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -763,7 +837,7 @@
     </td>
   </tr></table>
   
-  <p>Return a series of powers <i class="math">x**i for i=1..n</i>.</p>
+  <p>Return a series of powers <i class="math">[x**i for i=1..n]</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -1150,6 +1224,40 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="sqrt3"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">sqrt3</span>(<span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the square root cubed <i class="math">sqrt(x)**3</i> or <i 
+  class="math">sqrt(x**3)</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - Value (scalar).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Cubid square root (float).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Negative <i>x</i>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.fmath-module.html#cbrt2" 
+        class="link">cbrt2</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
@@ -1182,7 +1290,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Aug 31 13:44:17 2018
+    Generated by Epydoc 3.0.1 on Wed Sep  5 12:15:09 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

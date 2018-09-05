@@ -22,6 +22,7 @@ pygeodesy.R_VM	pygeodesy-module.html#R_VM
 pygeodesy.cbrt2	pygeodesy-module.html#cbrt2
 pygeodesy.heightOf	pygeodesy-module.html#heightOf
 pygeodesy.antipode	pygeodesy-module.html#antipode
+pygeodesy.m2degrees	pygeodesy-module.html#m2degrees
 pygeodesy.wrap90	pygeodesy-module.html#wrap90
 pygeodesy.PI2	pygeodesy-module.html#PI2
 pygeodesy.isenclosedby	pygeodesy-module.html#isenclosedby
@@ -83,6 +84,7 @@ pygeodesy.simplify1	pygeodesy-module.html#simplify1
 pygeodesy.polygon	pygeodesy-module.html#polygon
 pygeodesy.equirectangular	pygeodesy-module.html#equirectangular
 pygeodesy.isclockwise	pygeodesy-module.html#isclockwise
+pygeodesy.fhorner	pygeodesy-module.html#fhorner
 pygeodesy.toWm	pygeodesy-module.html#toWm
 pygeodesy.fpowers	pygeodesy-module.html#fpowers
 pygeodesy.haversine_	pygeodesy-module.html#haversine_
@@ -92,6 +94,7 @@ pygeodesy.wrapPI2	pygeodesy-module.html#wrapPI2
 pygeodesy.wrap360	pygeodesy-module.html#wrap360
 pygeodesy.wrapPI	pygeodesy-module.html#wrapPI
 pygeodesy.property_RO	pygeodesy-module.html#property_RO
+pygeodesy.sqrt3	pygeodesy-module.html#sqrt3
 pygeodesy.precision	pygeodesy-module.html#precision
 pygeodesy.simplifyRDPm	pygeodesy-module.html#simplifyRDPm
 pygeodesy.toDMS	pygeodesy-module.html#toDMS
@@ -177,6 +180,7 @@ pygeodesy.datum.Datums	pygeodesy.datum-module.html#Datums
 pygeodesy.datum.Ellipsoids	pygeodesy.datum-module.html#Ellipsoids
 pygeodesy.datum.R_KM	pygeodesy.datum-module.html#R_KM
 pygeodesy.datum.fsum_	pygeodesy.fmath-module.html#fsum_
+pygeodesy.datum.m2degrees	pygeodesy.utils-module.html#m2degrees
 pygeodesy.datum.fpowers	pygeodesy.fmath-module.html#fpowers
 pygeodesy.datum.m2SM	pygeodesy.utils-module.html#m2SM
 pygeodesy.datum.R_SM	pygeodesy.datum-module.html#R_SM
@@ -185,6 +189,7 @@ pygeodesy.datum.R_M	pygeodesy.datum-module.html#R_M
 pygeodesy.datum.cbrt	pygeodesy.fmath-module.html#cbrt
 pygeodesy.datum.inStr	pygeodesy.bases-module.html#inStr
 pygeodesy.datum.property_RO	pygeodesy.utils-module.html#property_RO
+pygeodesy.datum.sqrt3	pygeodesy.fmath-module.html#sqrt3
 pygeodesy.datum.m2km	pygeodesy.utils-module.html#m2km
 pygeodesy.datum.degrees360	pygeodesy.utils-module.html#degrees360
 pygeodesy.datum.__package__	pygeodesy.datum-module.html#__package__
@@ -299,6 +304,7 @@ pygeodesy.fmath.fdot3	pygeodesy.fmath-module.html#fdot3
 pygeodesy.fmath.EPS2	pygeodesy.fmath-module.html#EPS2
 pygeodesy.fmath._2sum	pygeodesy.fmath-module.html#_2sum
 pygeodesy.fmath.fmean	pygeodesy.fmath-module.html#fmean
+pygeodesy.fmath.fhorner	pygeodesy.fmath-module.html#fhorner
 pygeodesy.fmath.isscalar	pygeodesy.fmath-module.html#isscalar
 pygeodesy.fmath.fpowers	pygeodesy.fmath-module.html#fpowers
 pygeodesy.fmath.fStrzs	pygeodesy.fmath-module.html#fStrzs
@@ -307,6 +313,7 @@ pygeodesy.fmath.map1	pygeodesy.fmath-module.html#map1
 pygeodesy.fmath.map2	pygeodesy.fmath-module.html#map2
 pygeodesy.fmath.fsum_	pygeodesy.fmath-module.html#fsum_
 pygeodesy.fmath.isint	pygeodesy.fmath-module.html#isint
+pygeodesy.fmath.sqrt3	pygeodesy.fmath-module.html#sqrt3
 pygeodesy.fmath.hypot3	pygeodesy.fmath-module.html#hypot3
 pygeodesy.fmath.favg	pygeodesy.fmath-module.html#favg
 pygeodesy.fmath.cbrt2	pygeodesy.fmath-module.html#cbrt2
@@ -317,6 +324,7 @@ pygeodesy.fmath.fStr	pygeodesy.fmath-module.html#fStr
 pygeodesy.fmath.EPS1	pygeodesy.fmath-module.html#EPS1
 pygeodesy.fmath.hypot1	pygeodesy.fmath-module.html#hypot1
 pygeodesy.fmath.fdot	pygeodesy.fmath-module.html#fdot
+pygeodesy.fmath._3_2nd	pygeodesy.fmath-module.html#_3_2nd
 pygeodesy.fmath.isfinite	pygeodesy.fmath-module.html#isfinite
 pygeodesy.geohash	pygeodesy.geohash-module.html
 pygeodesy.geohash.neighbors	pygeodesy.geohash-module.html#neighbors
@@ -539,6 +547,7 @@ pygeodesy.utils.__package__	pygeodesy.utils-module.html#__package__
 pygeodesy.utils.wrap90	pygeodesy.utils-module.html#wrap90
 pygeodesy.utils.degrees	pygeodesy.utils-module.html#degrees
 pygeodesy.utils.fsum_	pygeodesy.fmath-module.html#fsum_
+pygeodesy.utils.m2degrees	pygeodesy.utils-module.html#m2degrees
 pygeodesy.utils.degrees180	pygeodesy.utils-module.html#degrees180
 pygeodesy.utils._iterNumpy2len	pygeodesy.utils-module.html#_iterNumpy2len
 pygeodesy.utils.isantipode	pygeodesy.utils-module.html#isantipode
@@ -682,6 +691,7 @@ pygeodesy.datum.Ellipsoid.roc2	pygeodesy.datum.Ellipsoid-class.html#roc2
 pygeodesy.datum.Ellipsoid._b2_a	pygeodesy.datum.Ellipsoid-class.html#_b2_a
 pygeodesy.datum.Ellipsoid.__init__	pygeodesy.datum.Ellipsoid-class.html#__init__
 pygeodesy.datum.Ellipsoid.AlphaKs	pygeodesy.datum.Ellipsoid-class.html#AlphaKs
+pygeodesy.datum.Ellipsoid.m2degrees	pygeodesy.datum.Ellipsoid-class.html#m2degrees
 pygeodesy.datum.Ellipsoid.e2	pygeodesy.datum.Ellipsoid-class.html#e2
 pygeodesy.datum.Ellipsoid.Rlat	pygeodesy.datum.Ellipsoid-class.html#Rlat
 pygeodesy.datum.Ellipsoid.distance2	pygeodesy.datum.Ellipsoid-class.html#distance2

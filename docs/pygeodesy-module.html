@@ -191,7 +191,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.08.28
+        18.09.03
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -1026,8 +1026,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#fdot" class="summary-sig-name">fdot</a>(<span class="summary-sig-arg">a</span>,
         <span class="summary-sig-arg">*b</span>)</span><br />
-      Return the precision dot product <i class="math">sum(a[i] * b[i]), 
-      i=0..len(a)</i>.</td>
+      Return the precision dot product <i class="math">sum(a[i] * b[i] for 
+      i=0..len(a))</i>.</td>
           <td align="right" valign="top">
             
             
@@ -1048,7 +1048,26 @@
         <span class="summary-sig-arg">c</span>,
         <span class="summary-sig-arg">start</span>=<span class="summary-sig-default">0</span>)</span><br />
       Return the precision dot product <i class="math">start + sum(a[i] * 
-      b[i] * c[i]), i=0..len(a)</i>.</td>
+      b[i] * c[i] for i=0..len(a))</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#fhorner" class="summary-sig-name">fhorner</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">*cs</span>)</span><br />
+      Evaluate the polynomial <i class="math">sum(cs[i] * x**i for 
+      i=0..len(cs))</i> using the Horner form.</td>
           <td align="right" valign="top">
             
             
@@ -1065,8 +1084,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#fmean" class="summary-sig-name">fmean</a>(<span class="summary-sig-arg">xs</span>)</span><br />
-      Compute the accurate mean <i class="math">sum(xs[i]), i=0..len(xs) / 
-      len(xs)</i>.</td>
+      Compute the accurate mean <i class="math">sum(xs[i] for i=0..len(xs))
+      / len(xs)</i>.</td>
           <td align="right" valign="top">
             
             
@@ -1084,7 +1103,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#fpolynomial" class="summary-sig-name">fpolynomial</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">*cs</span>)</span><br />
-      Accuately evaluate the polynomial <i class="math">sum(cs[i] * x**i), 
+      Evaluate the polynomial <i class="math">sum(cs[i] * x**i for 
       i=0..len(cs))</i>.</td>
           <td align="right" valign="top">
             
@@ -1104,7 +1123,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#fpowers" class="summary-sig-name">fpowers</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">n</span>,
         <span class="summary-sig-arg">alts</span>=<span class="summary-sig-default">0</span>)</span><br />
-      Return a series of powers <i class="math">x**i for i=1..n</i>.</td>
+      Return a series of powers <i class="math">[x**i for i=1..n]</i>.</td>
           <td align="right" valign="top">
             
             
@@ -1715,6 +1734,24 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#m2degrees" class="summary-sig-name">m2degrees</a>(<span class="summary-sig-arg">meter</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
+      Convert distance to angle along equator.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#m2ft" class="summary-sig-name">m2ft</a>(<span class="summary-sig-arg">meter</span>)</span><br />
       Convert meter to <i>International</i> feet (ft).</td>
           <td align="right" valign="top">
@@ -2289,6 +2326,24 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#sqrt3" class="summary-sig-name">sqrt3</a>(<span class="summary-sig-arg">x</span>)</span><br />
+      Compute the square root cubed <i class="math">sqrt(x)**3</i> or <i 
+      class="math">sqrt(x**3)</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#tanPI_2_2" class="summary-sig-name">tanPI_2_2</a>(<span class="summary-sig-arg">rad</span>)</span><br />
       Compute the tangent of half angle, 90 degrees rotated.</td>
           <td align="right" valign="top">
@@ -2634,7 +2689,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'18.8.28'"><code class="variable-quote">'</code><code class="variable-string">18.8.28</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'18.9.3'"><code class="variable-quote">'</code><code class="variable-string">18.9.3</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (string).
     </td>
   </tr>
@@ -3167,7 +3222,11 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Returns:</dt>
         <dd>Cubic root squared (float).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.fmath-module.html#sqrt3" 
+        class="link">sqrt3</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="classname"></a>
 <div>
@@ -3803,8 +3862,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Return the precision dot product <i class="math">sum(a[i] * b[i]), 
-  i=0..len(a)</i>.</p>
+  <p>Return the precision dot product <i class="math">sum(a[i] * b[i] for 
+  i=0..len(a))</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -3838,7 +3897,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </tr></table>
   
   <p>Return the precision dot product <i class="math">start + sum(a[i] * 
-  b[i] * c[i]), i=0..len(a)</i>.</p>
+  b[i] * c[i] for i=0..len(a))</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -3852,6 +3911,39 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Unequal len(a), len(b) and/or len(c).</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="fhorner"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fhorner</span>(<span class="sig-arg">x</span>,
+        <span class="sig-arg">*cs</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Evaluate the polynomial <i class="math">sum(cs[i] * x**i for 
+  i=0..len(cs))</i> using the Horner form.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - Polynomial argument (scalar).</li>
+        <li><strong class="pname"><code>cs</code></strong> - Polynomial coeffients (scalars).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Horner value (float).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Argument <i>x</i> not scalar.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - No <i>cs</i> coefficients.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -3870,8 +3962,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Compute the accurate mean <i class="math">sum(xs[i]), i=0..len(xs) / 
-  len(xs)</i>.</p>
+  <p>Compute the accurate mean <i class="math">sum(xs[i] for i=0..len(xs)) 
+  / len(xs)</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -3901,7 +3993,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Accuately evaluate the polynomial <i class="math">sum(cs[i] * x**i), 
+  <p>Evaluate the polynomial <i class="math">sum(cs[i] * x**i for 
   i=0..len(cs))</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -3935,7 +4027,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Return a series of powers <i class="math">x**i for i=1..n</i>.</p>
+  <p>Return a series of powers <i class="math">[x**i for i=1..n]</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -4762,6 +4854,10 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Previous threshold (integer).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>n</i>.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -4956,6 +5052,36 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Value in SM (float).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="m2degrees"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">m2degrees</span>(<span class="sig-arg">meter</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert distance to angle along equator.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>meter</code></strong> - Value in meter (scalar).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Value in degrees (float).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>radius</i>.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -6087,6 +6213,40 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 </td></tr></table>
 </div>
+<a name="sqrt3"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">sqrt3</span>(<span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the square root cubed <i class="math">sqrt(x)**3</i> or <i 
+  class="math">sqrt(x**3)</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - Value (scalar).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Cubid square root (float).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Negative <i>x</i>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.fmath-module.html#cbrt2" 
+        class="link">cbrt2</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="tanPI_2_2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -6352,7 +6512,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>) or 
           None.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional <i>Utm</i> name (string).</li>
-        <li><strong class="pname"><code>cmoff</code></strong> - Offset longitude from zone's central meridian.</li>
+        <li><strong class="pname"><code>cmoff</code></strong> - Offset longitude from zone's central meridian, apply false 
+          easting and false northing (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The UTM coordinate (<a href="pygeodesy.utm.Utm-class.html" 
@@ -6866,7 +7027,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Aug 31 13:44:17 2018
+    Generated by Epydoc 3.0.1 on Wed Sep  5 12:15:09 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

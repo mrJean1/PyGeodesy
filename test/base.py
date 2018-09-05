@@ -34,7 +34,7 @@ __all__ = ('isIntelPython', 'isiOS', 'isNix', 'isPyPy', 'isWindows',  # constant
            'PyGeodesy_dir', 'Python_O',
            'TestsBase',
            'runner', 'secs2str', 'tilde', 'type2str', 'versions')
-__version__ = '18.08.28'
+__version__ = '18.08.31'
 
 try:
     _int = int, long
@@ -96,9 +96,10 @@ class TestsBase(object):
     _verbose  = True  # print all tests, otherwise failures only
     _versions = ''  # cached versions() string
 
-    failed = 0
-    known  = 0
-    total  = 0
+    failed  = 0
+    known   = 0
+    skipped = 0
+    total   = 0
 
     def __init__(self, testfile, version, module=None, verbose=True):
         if not self._versions:  # get versions once
@@ -142,17 +143,32 @@ class TestsBase(object):
         '''Summarize the test results.
         '''
         s = time() - self._time
+        r = passed
+        t = self.total
         n = self.failed
         if n:
-            p = '' if n == 1 else 's'
             k = self.known or ''
             if k:
-                k = ', incl. %s KNOWN' % (k,)
-            r = '(%.1f%%) FAILED%s' % (100.0 * n / self.total, k)
+                k = ', ALL KNOWN' if k == n else (
+                    ', incl. %s KNOWN' % (k,))
+            r = '(%.1f%%) FAILED%s' % (100.0 * n / t, k)
+            n = '%s of %d' % (n, t)
+        elif t:
+            n = 'all %d' % (t,)
         else:
-            n, p, r = 'all','s', passed
-        r = '%s (%s) %s' % (r, self._versions, secs2str(s))
-        self.printf('%s %s test%s %s', n, self._name, p, r, nl=nl)
+            n = 'all'
+        k = self.skipped or ''
+        if k:
+            k = ', %d skipped' % (k,)
+        r = '%s%s (%s) %s' % (r, k, self._versions, secs2str(s))
+        self.printf('%s %s tests %s', n, self._name, r, nl=nl)
+
+    def skip(self, text=''):
+        '''Skip this test, leave a message.
+        '''
+        self.skipped += 1
+        if text and self._verbose:
+            self.printf('test skipped (%d): %s', self.skipped, text)
 
     def subtitle(self, module, testing='ing', **kwds):
         '''Print the subtitle of a test suite.

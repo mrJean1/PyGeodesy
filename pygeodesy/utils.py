@@ -33,14 +33,14 @@ __all__ = ('PI', 'PI2', 'PI_2', 'R_M',  # constants
            'isNumpy2', 'isPoints2', 'isTuple2',
            'iterNumpy2', 'iterNumpy2over',
            'limiterrors',
-           'm2ft', 'm2km', 'm2NM', 'm2SM',
+           'm2degrees', 'm2ft', 'm2km', 'm2NM', 'm2SM',
            'polygon', 'property_RO',
            'radians', 'radiansPI_2', 'radiansPI', 'radiansPI2',
            'tan_2', 'tanPI_2_2',
            'unroll180', 'unrollPI', 'unStr',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '18.08.28'
+__version__ = '18.09.01'
 
 division = 1 / 2  # double check int division, see datum.py
 if not division:
@@ -457,6 +457,8 @@ def iterNumpy2over(n=None):
        @keyword n: Optional, new threshold (integer).
 
        @return: Previous threshold (integer).
+
+       @raise ValueError: Invalid I{n}.
     '''
     global _iterNumpy2len
     p = _iterNumpy2len
@@ -486,6 +488,20 @@ def limiterrors(raiser=None):
     if raiser in (True, False):
         _limiterrors = raiser
     return t
+
+
+def m2degrees(meter, radius=R_M):
+    '''Convert distance to angle along equator.
+
+       @param meter: Value in meter (scalar).
+
+       @return: Value in degrees (float).
+
+       @raise ValueError: Invalid I{radius}.
+    '''
+    if radius < EPS:
+        raise ValueError('%s invalid: %r' % ('radius', radius))
+    return degrees(meter / radius)
 
 
 def m2ft(meter):

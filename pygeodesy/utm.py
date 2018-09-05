@@ -534,7 +534,8 @@ def toUtm(latlon, lon=None, datum=None, Utm=Utm, name='', cmoff=True):
        @keyword Utm: Optional I{Utm} class to usefor the UTM
                      coordinate (L{Utm}) or None.
        @keyword name: Optional I{Utm} name (string).
-       @keyword cmoff: Offset longitude from zone's central meridian.
+       @keyword cmoff: Offset longitude from zone's central meridian,
+                       apply false easting and false northing (bool).
 
        @return: The UTM coordinate (L{Utm}) or a 6-tuple (zone, easting,
                 northing, band, convergence, scale) if I{Utm} is None
@@ -595,9 +596,12 @@ def toUtm(latlon, lon=None, datum=None, Utm=Utm, name='', cmoff=True):
     x = Ks.xs(x) * A0  # η
 
     if cmoff:
+        # C.F.F. Karney, "Test data for the transverse Mercator projection (2009)",
+        # <http://Geographiclib.SourceForge.io/html/transversemercator.html> and
+        # <http://Zenodo.org/record/32470#.W4LEJS2ZON8>
         x += _FalseEasting  # make x relative to false easting
-    if y < 0:
-        y += _FalseNorthing  # y relative to false northing in S
+        if y < 0:
+            y += _FalseNorthing  # y relative to false northing in S
 
     # convergence: Karney 2011 Eq 23, 24
     p_ = Ks.ps(1)

@@ -110,8 +110,10 @@ in Great Britain', Section 6
 from __future__ import division
 
 from bases import Based, inStr, Named, _xattrs
-from fmath import EPS, EPS1, cbrt, cbrt2, fdot, fpowers, fStr, fsum_
-from utils import R_M, degrees360, m2km, m2NM, m2SM, property_RO, radians
+from fmath import EPS, EPS1, cbrt, cbrt2, fdot, fpowers, fStr, \
+                  fsum_, sqrt3
+from utils import R_M, degrees360, m2degrees, m2km, m2NM, m2SM, \
+                  property_RO, radians
 
 from math import atan2, atanh, cos, hypot, sin, sqrt
 
@@ -133,7 +135,7 @@ R_VM = 6366707.0194937  #: Aviation/Navigation earth radius (meter).
 __all__ = ('R_MA', 'R_MB', 'R_KM', 'R_M', 'R_NM', 'R_SM', 'R_FM', 'R_VM',  # constants
            'Datum',  'Ellipsoid',  'Transform',  # classes
            'Datums', 'Ellipsoids', 'Transforms')  # enum-like
-__version__ = '18.08.28'
+__version__ = '18.09.03'
 
 division = 1 / 2  # double check int division, see utils.py
 if not division:
@@ -408,13 +410,13 @@ class Ellipsoid(_Based):
         if self._A is None:
             n = self.n
             # <http://geographiclib.sourceforge.io/html/transversemercator.html>
-            self._A = self.a / (1 + n) * fsum_(1, n**2  / 4,
-                                                  n**4  / 64,
-                                                  n**6  / 256,
-                                             25 * n**8  / 16384)
-                                    # PYCHOK 49 * n**10 / 65536)
-            # n2 = n**2  # <http://www.mygeodesy.id.au/documents/Karney-Krueger%20equations.pdf>
-            # self._A = self._a / (1 + n) * (n2 * (n2 * (n2 * (25 * n2 + 64) + 256) + 4096) + 16384) /16384
+            self._A = self.a / (1 + n) * (fsum_(65536, 16384 * n**2,
+                                                        1024 * n**4,
+                                                         256 * n**6,
+                                                         100 * n**8,
+                                                          49 * n**10) / 65536)
+            # <http://www.mygeodesy.id.au/documents/Karney-Krueger%20equations.pdf>
+            # self._A = self.a / (1 + n) * (fhorner(n**2, 16384, 4096, 256, 64, 25) / 16384)
         return self._A
 
     @property_RO
@@ -533,12 +535,20 @@ class Ellipsoid(_Based):
         '''
         if self._Mabcd is None:
             n, n2, n3 = fpowers(self.n, 3)  # PYCHOK false!
-            # XXX i/i quotients require  from __future__ import division
-            self._Mabcd = (fdot((1, n, n2, n3), 1, 1,  5/4, 5/4),
-                           fdot(   (n, n2, n3), 3, 3, 21/8),
-                           fdot(      (n2, n3), 15/8, 15/8),
-                                   35/24 * n3)
+            self._Mabcd = (fdot((1, n, n2, n3), 4, 4, 5, 5) / 4,
+                           fdot(   (n, n2, n3), 24, 24, 21) / 8,
+                           fdot(      (n2, n3), 15, 15) / 8,
+                                      35 * n3 / 24)
         return self._Mabcd
+
+    def m2degrees(self, meter):
+        '''Convert distance to angle along equator.
+
+           @param meter: Distance (meter).
+
+           @return: Angle (degrees).
+        '''
+        return m2degrees(meter, self.a)
 
     @property_RO
     def R1(self):
@@ -593,10 +603,7 @@ class Ellipsoid(_Based):
            @see: U{Earth radius<http://wikipedia.org/wiki/Earth_radius>}.
         '''
         if self._Rr is None:
-            def _3_2(x):
-                return pow(x, 1.5)  # == sqrt(x)**3 == sqrt(x**3)
-
-            self._Rr = cbrt2((_3_2(self.a) + _3_2(self.b)) * 0.5)
+            self._Rr = cbrt2((sqrt3(self.a) + sqrt3(self.b)) * 0.5)
         return self._Rr
 
     @property_RO
@@ -618,7 +625,8 @@ class Ellipsoid(_Based):
         return self.a - self._ab_90 * min(abs(lat), 90)
 
     def roc2(self, lat):
-        '''Compute the meridional and prime-vertical radii of curvature at the given latitude.
+        '''Compute the meridional and prime-vertical radii of curvature
+           at the given latitude.
 
            @param lat: Latitude (degrees90).
 
@@ -655,12 +663,12 @@ class Ellipsoid(_Based):
         c2 = cos(radians(bearing))**2
         s2 = 1 - c2
         m, n = self.roc2(lat)
-        if n < m:  # n / (c2 * n / m + s2)
+        if n < m:  # == n / (c2 * n / m + s2)
             c2 *= n / m
-        elif m < n:  # m / (c2 + s2 * m / n)
+        elif m < n:  # == m / (c2 + s2 * m / n)
             s2 *= m / n
             n = m
-        return n / (c2 + s2)  # 1 / (c2 / m + s2 / n)
+        return n / (c2 + s2)  # == 1 / (c2 / m + s2 / n)
 
     def rocGauss(self, lat):
         '''Compute the Gaussian radius of curvature at the given latitude.
@@ -1116,13 +1124,14 @@ if __name__ == '__main__':
     for E in (Datums.WGS84.ellipsoid, Ellipsoids.Sphere, Ellipsoids.SpherePopular):
         e = (E.a - E.b) / (E.a + E.b) - E.n
         if E.f:
-            f = 'f=1/%.10f' % (1 / E.f,)
+            f_ = 'f_=1/%.10f' % (1 / E.f,)
         else:
-            f = 'f=N/A'
+            f_ = 'f_=N/A'
         t = (E.toStr(prec=10),
-            'A=%r, e=%.13e, %s, n=%.10f(%.10e)' % (E.A, E.e, f, E.n, e),
+            'A=%r, e=%.13e, %s, n=%.10f(%.10e)' % (E.A, E.e, f_, E.n, e),
             'AlphaKs=%r' % (E.AlphaKs,),
-            'BetaKs=%r' % (E.BetaKs,))
+            'BetaKs=%r' % (E.BetaKs,),
+            'Mabcd=%r' % (E.Mabcd,))
         print('\nEllipsoid.%s: %s' % (E.name, ',\n    '.join(t)))
 
     # __doc__ of this file
@@ -1152,18 +1161,20 @@ if __name__ == '__main__':
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-
 # Ellipsoid.WGS84: name='WGS84', a=6378137, b=6356752.3142499998, f_=298.257223563, f=0.0033528107, e=0.0818191908, e2=0.00669438, e22=0.0067394967, n=0.0016792204, R1=6371008.7714166669, R2=6371007.180920884, R3=6371000.7900107643, Rr=6367449.1458250266, Rs=6367435.6797186071,
-#     A=6367449.145823414, e=8.1819190842621e-02, f=1/298.2572235630, n=0.0016792204(-3.7914875232e-13),
+#     A=6367449.145823414, e=8.1819190842621e-02, f_=1/298.2572235630, n=0.0016792204(-3.7914875232e-13),
 #     AlphaKs=(0, 0.0008377318206244698, 7.608527773572489e-07, 1.1976455032424919e-09, 2.4291706803970904e-12, 5.711818370428019e-15, 1.4799979313796632e-17, 4.1076241093707195e-20, 1.2107850389225785e-22),
-#     BetaKs=(0, 0.0008377321640579486, 5.905870152220365e-08, 1.6734826653438247e-10, 2.164798110490642e-13, 3.78793096862602e-16, 7.236769021815623e-19, 1.4934798247781072e-21, 3.2595225458381582e-24)
+#     BetaKs=(0, 0.0008377321640579486, 5.905870152220365e-08, 1.6734826653438247e-10, 2.164798110490642e-13, 3.78793096862602e-16, 7.236769021815623e-19, 1.4934798247781072e-21, 3.2595225458381582e-24),
+#     Mabcd=(1.0016827510315587, 0.005046132931933289, 5.2959677624344715e-06, 6.90525779768578e-09)
 
 # Ellipsoid.Sphere: name='Sphere', a=6371008.7714149999, b=6371008.7714149999, f_=0, f=0, e=0, e2=0, e22=0, n=0, R1=6371008.7714149999, R2=6371008.7714149999, R3=6371008.7714149999, Rr=6371008.7714149999, Rs=6371008.7714149999,
-#     A=6371008.771415, e=0.0000000000000e+00, f=N/A, n=0.0000000000(0.0000000000e+00),
+#     A=6371008.771415, e=0.0000000000000e+00, f_=N/A, n=0.0000000000(0.0000000000e+00),
 #     AlphaKs=(0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
-#     BetaKs=(0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
+#     BetaKs=(0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
+#     Mabcd=(1.0, 0.0, 0.0, 0.0)
 
 # Ellipsoid.SpherePopular: name='SpherePopular', a=6378137, b=6378137, f_=0, f=0, e=0, e2=0, e22=0, n=0, R1=6378137, R2=6378137, R3=6378137, Rr=6378137, Rs=6378137,
-#     A=6378137.0, e=0.0000000000000e+00, f=N/A, n=0.0000000000(0.0000000000e+00),
+#     A=6378137.0, e=0.0000000000000e+00, f_=N/A, n=0.0000000000(0.0000000000e+00),
 #     AlphaKs=(0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
-#     BetaKs=(0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
+#     BetaKs=(0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
+#     Mabcd=(1.0, 0.0, 0.0, 0.0)

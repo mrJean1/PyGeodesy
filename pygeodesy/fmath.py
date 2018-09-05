@@ -14,15 +14,15 @@ import sys
 __all__ = ('EPS', 'EPS1', 'EPS2',  # constants
            'Fsum',  # classes
            'cbrt', 'cbrt2',  # functions
-           'favg', 'fdot', 'fdot3',
-           'fmean', 'fpolynomial', 'fpowers',
+           'favg', 'fdot', 'fdot3', 'fmean',
+           'fhorner', 'fpolynomial', 'fpowers',
            'fStr', 'fStrzs', 'fsum', 'fsum_',
            'hypot', 'hypot1', 'hypot3',
            'isfinite', 'isint', 'isscalar',
            'len2',
            'map1', 'map2',
-           'scalar')
-__version__ = '18.08.24'
+           'scalar', 'sqrt3')
+__version__ = '18.09.03'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -54,6 +54,7 @@ EPS2 = sqrt(EPS)  #: M{sqrt(EPS)} (float)
 
 _1_3rd = 1.0 / 3.0  #: (INTERNAL) One third (float)
 _2_3rd = 2.0 / 3.0  #: (INTERNAL) Two third (float)
+_3_2nd = 3.0 / 2.0  #: (INTERNAL) Three halfs (float)
 
 
 def _2even(s, r, p):
@@ -134,7 +135,7 @@ class Fsum(object):
                 if p:
                     self._ps[i] = p
                     i += 1
-            self._ps[i:] = [a] if a else []
+            self._ps[i:] = [a]  # if a else []
 
     def fadd2(self, iterable):
         '''Accumulate multiple values.
@@ -190,6 +191,8 @@ def cbrt2(x):
        @param x: Value (scalar).
 
        @return: Cubic root squared (float).
+
+       @see: Function L{sqrt3}.
     '''
     return pow(abs(x), _2_3rd)
 
@@ -211,8 +214,8 @@ def favg(v1, v2, f=0.5):
 
 
 def fdot(a, *b):
-    '''Return the precision dot product M{sum(a[i] * b[i]),
-       i=0..len(a)}.
+    '''Return the precision dot product M{sum(a[i] * b[i] for
+       i=0..len(a))}.
 
        @param a: List, sequence, tuple, etc. (scalars).
        @param b: All positional arguments (scalars).
@@ -229,7 +232,7 @@ def fdot(a, *b):
 
 def fdot3(a, b, c, start=0):
     '''Return the precision dot product M{start +
-       sum(a[i] * b[i] * c[i]), i=0..len(a)}.
+       sum(a[i] * b[i] * c[i] for i=0..len(a))}.
 
        @param a: List, sequence, tuple, etc. (scalars).
        @param b: List, sequence, tuple, etc. (scalars).
@@ -254,9 +257,44 @@ def fdot3(a, b, c, start=0):
         return fsum(map(_mul3, a, b, c))
 
 
+def fhorner(x, *cs):
+    '''Evaluate the polynomial M{sum(cs[i] * x**i for
+       i=0..len(cs))} using the Horner form.
+
+       @param x: Polynomial argument (scalar).
+       @param cs: Polynomial coeffients (scalars).
+
+       @return: Horner value (float).
+
+       @raise TypeError: Argument I{x} not scalar.
+
+       @raise ValueError: No I{cs} coefficients.
+    '''
+    if not isscalar(x):
+        raise TypeError('%s invalid: %r' % ('x', x))
+    if not cs:
+        raise ValueError('%s missing: %r' % ('coefficents', cs))
+
+    x, cs = float(x), list(cs)
+
+    h, p = cs.pop(), 0
+    while cs:
+        h *= x
+        p *= x
+        c = cs.pop()
+        if c:
+            h, q = _2sum(h, c)
+            if abs(p) < abs(q):
+                p, q = q, p
+            if abs(h) < abs(p):
+                h, p = p, h
+            h, p = _2sum(h, p + q)
+    return h + p
+
+
 def fmean(xs):
-    '''Compute the accurate mean M{sum(xs[i]), i=0..len(xs) /
-       len(xs)}.
+    '''Compute the accurate mean M{sum(xs[i] for
+       i=0..len(xs)) / len(xs)}.
 
        @param xs: Values (scalars).
 
@@ -271,7 +309,7 @@ def fmean(xs):
 
 
 def fpolynomial(x, *cs):
-    '''Accuately evaluate the polynomial M{sum(cs[i] * x**i),
+    '''Evaluate the polynomial M{sum(cs[i] * x**i for
        i=0..len(cs))}.
 
        @param x: Polynomial argument (scalar).
@@ -299,7 +337,7 @@ def fpolynomial(x, *cs):
 
 
 def fpowers(x, n, alts=0):
-    '''Return a series of powers M{x**i for i=1..n}.
+    '''Return a series of powers M{[x**i for i=1..n]}.
 
        @param x: Value (scalar).
        @param n: Highest exponent (int).
@@ -571,6 +609,22 @@ def scalar(value, low=EPS, high=1.0, name='scalar'):
     except (TypeError, ValueError):
         raise ValueError('%s invalid: %r' % (name, value))
     return v
+
+
+def sqrt3(x):
+    '''Compute the square root cubed M{sqrt(x)**3} or M{sqrt(x**3)}.
+
+       @param x: Value (scalar).
+
+       @return: Cubid square root (float).
+
+       @raise ValueError: Negative I{x}.
+
+       @see: Function L{cbrt2}.
+    '''
+    if x < 0:
+        raise ValueError('%s(%r)' % ('sqrt3', x))
+    return pow(x, _3_2nd)
 
 # **) MIT License
 #

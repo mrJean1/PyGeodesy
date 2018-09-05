@@ -9,7 +9,7 @@ near-spherical earth models.
 
 References U{Google Maps / Bing Maps Spherical Mercator Projection
 <http://alastaira.wordpress.com/2011/01/23/the-google-maps-bing-maps-spherical-mercator-projection>},
-U{Geomatics Guidance Note 7, part 2<http://www.epsg.org/Portals/0/373-07-2.pdf>} and
+U{Geomatics Guidance Note 7, part 2<http://www.epsg.org/Portals/0/373-07-02.pdf>} and
 U{Implementation Practice Web Mercator Map Projection
 <http://earth-info.nga.mil/GandG/wgs84/web_mercator/%28U%29%20NGA_SIG_0011_1.0.0_WEBMERC.pdf>}.
 
@@ -28,7 +28,7 @@ from math import atan, atanh, exp, sin, tanh
 # all public contants, classes and functions
 __all__ = ('Wm',  # classes
            'parseWM', 'toWm')  # functions
-__version__ = '18.08.28'
+__version__ = '18.09.03'
 
 # _FalseEasting  = 0   #: (INTERNAL) False Easting (meter).
 # _FalseNorthing = 0   #: (INTERNAL) False Northing (meter).

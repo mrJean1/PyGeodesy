@@ -4,12 +4,12 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '18.07.21'
+__version__ = '18.09.03'
 
 from base import TestsBase
 from random import random, gauss, shuffle
 
-from pygeodesy import fpolynomial, fpowers, Fsum, fsum, isfinite
+from pygeodesy import Ellipsoids, fhorner, fpolynomial, fpowers, Fsum, fsum, isfinite
 
 
 class Tests(TestsBase):
@@ -21,10 +21,14 @@ class Tests(TestsBase):
             p = fpolynomial(x, 16384, 4096, -768, 320, -175) / 16384.0
             a = x / 16384.0 * (4096 + x * (-768 + x * (320 - 175 * x))) + 1
             self.test('fpolynomialA', p, a)
+            h = fhorner(x, 16384, 4096, -768, 320, -175) / 16384.0
+            self.test('fhornerA', h, p)
 
             p = fpolynomial(x, 0, 256, -128, 74, -47) / 1024.0
             b = x / 1024.0 * (256 + x * (-128 + x * (74 - 47 * x)))
             self.test('fpolynomialB', p, b)
+            h = fhorner(x, 0, 256, -128, 74, -47) / 1024.0
+            self.test('fhornerB', h, p)
 
         # U{Neumaier<http://wikipedia.org/wiki/Kahan_summation_algorithm>}
         t = 1, 1e101, 1, -1e101
@@ -81,6 +85,17 @@ class Tests(TestsBase):
         self.test('isfinite', isfinite(1e1234), 'False')
         self.test('isfinite', isfinite(float('inf')), 'False')
         self.test('isfinite', isfinite(float('nan')), 'False')
+
+        for _, E in sorted(Ellipsoids.items()):
+            Ah = E.a / (1 + E.n) * fhorner(E.n**2, 1., 1./4, 1./64, 1./256, 25./16384)
+            self.test(E.name, Ah, E.A, fmt='%.8f')
+            Ah = E.a / (1 + E.n) * (fhorner(E.n**2, 16384, 4096, 256, 64, 25) / 16384)
+            self.test(E.name, Ah, E.A, fmt='%.8f')
+
+            Ah = E.a / (1 + E.n) * fhorner(E.n**2, 1., 1./4, 1./64, 1./256, 25./16384, 49./65536)
+            self.test(E.name, Ah, E.A, fmt='%.10f')
+            Ah = E.a / (1 + E.n) * (fhorner(E.n**2, 65536, 16384, 1024, 256, 100, 49) / 65536)
+            self.test(E.name, Ah, E.A, fmt='%.10f')
 
 
 if __name__ == '__main__':
