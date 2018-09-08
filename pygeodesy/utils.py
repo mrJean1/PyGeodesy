@@ -40,12 +40,17 @@ __all__ = ('PI', 'PI2', 'PI_2', 'R_M',  # constants
            'unroll180', 'unrollPI', 'unStr',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '18.09.01'
+__version__ = '18.09.06'
 
 division = 1 / 2  # double check int division, see datum.py
 if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
+
+try:
+    _Strs = basestring, str  # PYCHOK datum.py, geohash.py
+except NameError:
+    _Strs = str,
 
 PI2  = PI * 2  #: Two PI, M{PI * 2} (float)  # PYCHOK expected
 PI_2 = PI / 2  #: Half PI, M{PI / 2} (float)

@@ -8,11 +8,11 @@ also available U{here<http://zenodo.org/record/32470>}, file C{TMcoords.dat}.
 '''
 
 __all__ = ('Tests',)
-__version__ = '18.09.01'
+__version__ = '18.09.06'
 
 from base import TestsBase
 
-from pygeodesy import RangeError, toUtm, utm
+from pygeodesy import Datums, RangeError, toUtm, utm
 
 
 class Tests(TestsBase):
@@ -312,6 +312,9 @@ if __name__ == '__main__':
 '''.strip())
 
     t = Tests(__file__, __version__, utm, verbose=v)
+
+    # XXX Pythonista run_path doesn't reload any modules
+    t.test('E.KsOrder', Datums.WGS84.ellipsoid.KsOrder, 8)
 
     for n, coord in enumerate(coords.readlines()):
         t.testUtmTMcoord(coord.rstrip(), 'line %d ' % (n + 1,))

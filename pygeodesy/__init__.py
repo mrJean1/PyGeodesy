@@ -194,7 +194,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',  # modules
            'R_M',  # to avoid duplicates from datum and utils
            'version',
            'crosserrors')  # extended below
-__version__ = '18.09.03'
+__version__ = '18.09.06'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))

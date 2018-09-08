@@ -20,7 +20,7 @@ from bases import Named, _xnamed
 from dms import parse3llh, parseDMS2
 from fmath import EPS, favg, fStr, map2
 from utils import R_M, equirectangular, equirectangular_, \
-                  haversine_, property_RO, unrollPI
+                  haversine_, property_RO, _Strs, unrollPI
 
 from math import log10, radians
 
@@ -29,7 +29,7 @@ __all__ = ('Geohash',  # classes
            'bounds', 'decode', 'decode_error',  # functions
            'distance1', 'distance2', 'distance3',
            'encode', 'neighbors', 'sizes')
-__version__ = '18.08.26'
+__version__ = '18.09.06'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -58,11 +58,6 @@ _Sizes = (  # radius = sqrt(latHeight * lonWidth / PI)
     (      0.596,   1.19,     0.475),  # 10
     (      0.149,   0.149,    0.084),  # 11
     (      0.0186,  0.0372,   0.015))  # 12
-
-try:
-    _Str = str, basestring
-except NameError:
-    _Str = str
 
 # Geohash-specific base32 map
 _GeohashBase32 = '0123456789bcdefghjkmnpqrstuvwxyz'
@@ -134,7 +129,7 @@ class Geohash(str, Named):
         if isinstance(cll, Geohash):
             self = str.__new__(cls, _2geostr('%s' % (cll,)))
 
-        elif isinstance(cll, _Str):
+        elif isinstance(cll, _Strs):
             if ',' in cll:
                 lat, lon = _2fll(*parse3llh(cll))
                 cll = encode(lat, lon, precision=precision)

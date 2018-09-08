@@ -22,7 +22,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2',  # constants
            'len2',
            'map1', 'map2',
            'scalar', 'sqrt3')
-__version__ = '18.09.03'
+__version__ = '18.09.06'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -408,7 +408,7 @@ def fStrzs(fstr):
     '''
     if fstr.endswith('0'):
         z = fstr.find('.') + 2  # keep 1st zero decimal
-        if z > 1:
+        if z > 1 and fstr[z:].isdigit():  # don't strip 'e+0..'
             fstr = fstr[:z] + fstr[z:].rstrip('0')
     return fstr
 

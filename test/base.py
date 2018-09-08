@@ -34,7 +34,7 @@ __all__ = ('isIntelPython', 'isiOS', 'isNix', 'isPyPy', 'isWindows',  # constant
            'PyGeodesy_dir', 'Python_O',
            'TestsBase',
            'runner', 'secs2str', 'tilde', 'type2str', 'versions')
-__version__ = '18.08.31'
+__version__ = '18.09.06'
 
 try:
     _int = int, long
@@ -189,11 +189,10 @@ class TestsBase(object):
         f, v = '', fmt % (value,)  # value as str
         if v != expect and v != normDMS(expect):
             self.failed += 1  # failures
-            f = '  FAILED'
             if known:  # failed before
                 self.known += 1
-                f += ', KNOWN'
-            f = '%s, expected %s' % (f, expect)
+                f = ', KNOWN'
+            f = '  FAILED%s, expected %s' % (f, expect)
 
         self.total += 1  # tests
         if f or self._verbose:

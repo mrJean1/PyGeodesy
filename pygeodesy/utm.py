@@ -73,14 +73,14 @@ class _Kseries(object):
     def __init__(self, AB, x, y):
         '''(INTERNAL) New Alpha or Beta Krüger series
 
-           @param AB: 8th-order Krüger Alpha or Beta series coefficients
-                      (9-tuple, 1-origin).
+           @param AB: Krüger Alpha or Beta series coefficients (4-,
+                      6- or 8-tuple).
            @param x: Eta angle (radians).
            @param y: Ksi angle (radians).
         '''
-        n, j2 = len2(range(2, len(AB) * 2, 2))
+        n, j2 = len2(range(2, len(AB) * 2 + 1, 2))
 
-        self._ab = AB[1:]  # 1- to 0-origin
+        self._ab = AB
         self._pq = map2(mul, j2, self._ab)
 #       assert len(self._ab) == len(self._pq) == n
 
@@ -357,7 +357,7 @@ class Utm(Based):
         x /= A0  # η eta
         y /= A0  # ξ ksi
 
-        Ks = _Kseries(E.BetaKs, x, y)  # Krüger series, 1-origin
+        Ks = _Kseries(E.BetaKs, x, y)  # Krüger series
         y = -Ks.ys(-y)  # ξ'
         x = -Ks.xs(-x)  # η'
 
@@ -591,7 +591,7 @@ def toUtm(latlon, lon=None, datum=None, Utm=Utm, name='', cmoff=True):
 
     A0 = _K0 * E.A
 
-    Ks = _Kseries(E.AlphaKs, x, y)  # Krüger series, 1-origin
+    Ks = _Kseries(E.AlphaKs, x, y)  # Krüger series
     y = Ks.ys(y) * A0  # ξ
     x = Ks.xs(x) * A0  # η
 

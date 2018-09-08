@@ -170,7 +170,6 @@ pygeodesy.datum	pygeodesy.datum-module.html
 pygeodesy.datum._xattrs	pygeodesy.bases-module.html#_xattrs
 pygeodesy.datum.R_MB	pygeodesy.datum-module.html#R_MB
 pygeodesy.datum.R_MA	pygeodesy.datum-module.html#R_MA
-pygeodesy.datum.R_VM	pygeodesy.datum-module.html#R_VM
 pygeodesy.datum.cbrt2	pygeodesy.fmath-module.html#cbrt2
 pygeodesy.datum.R_NM	pygeodesy.datum-module.html#R_NM
 pygeodesy.datum.radians	pygeodesy.utils-module.html#radians
@@ -193,8 +192,8 @@ pygeodesy.datum.sqrt3	pygeodesy.fmath-module.html#sqrt3
 pygeodesy.datum.m2km	pygeodesy.utils-module.html#m2km
 pygeodesy.datum.degrees360	pygeodesy.utils-module.html#degrees360
 pygeodesy.datum.__package__	pygeodesy.datum-module.html#__package__
-pygeodesy.datum._Kseries	pygeodesy.datum-module.html#_Kseries
 pygeodesy.datum.m2NM	pygeodesy.utils-module.html#m2NM
+pygeodesy.datum.R_VM	pygeodesy.datum-module.html#R_VM
 pygeodesy.datum.fdot	pygeodesy.fmath-module.html#fdot
 pygeodesy.dms	pygeodesy.dms-module.html
 pygeodesy.dms.F_DEG	pygeodesy.dms-module.html#F_DEG
@@ -350,7 +349,6 @@ pygeodesy.geohash.favg	pygeodesy.fmath-module.html#favg
 pygeodesy.geohash.parseDMS2	pygeodesy.dms-module.html#parseDMS2
 pygeodesy.geohash._2Geohash	pygeodesy.geohash-module.html#_2Geohash
 pygeodesy.geohash.sizes	pygeodesy.geohash-module.html#sizes
-pygeodesy.geohash._Str	pygeodesy.geohash-module.html#_Str
 pygeodesy.geohash.bounds	pygeodesy.geohash-module.html#bounds
 pygeodesy.geohash._2fll	pygeodesy.geohash-module.html#_2fll
 pygeodesy.geohash.map2	pygeodesy.fmath-module.html#map2
@@ -561,7 +559,7 @@ pygeodesy.utils.acos1	pygeodesy.utils-module.html#acos1
 pygeodesy.utils.halfs	pygeodesy.utils-module.html#halfs
 pygeodesy.utils.heightOf	pygeodesy.utils-module.html#heightOf
 pygeodesy.utils.limiterrors	pygeodesy.utils-module.html#limiterrors
-pygeodesy.utils.wrapPI	pygeodesy.utils-module.html#wrapPI
+pygeodesy.utils._Strs	pygeodesy.utils-module.html#_Strs
 pygeodesy.utils.antipode	pygeodesy.utils-module.html#antipode
 pygeodesy.utils.isNumpy2	pygeodesy.utils-module.html#isNumpy2
 pygeodesy.utils.PI2	pygeodesy.utils-module.html#PI2
@@ -582,6 +580,7 @@ pygeodesy.utils.iterNumpy2	pygeodesy.utils-module.html#iterNumpy2
 pygeodesy.utils.equirectangular_	pygeodesy.utils-module.html#equirectangular_
 pygeodesy.utils._wrap	pygeodesy.utils-module.html#_wrap
 pygeodesy.utils.radiansPI_2	pygeodesy.utils-module.html#radiansPI_2
+pygeodesy.utils.wrapPI	pygeodesy.utils-module.html#wrapPI
 pygeodesy.utils.m2NM	pygeodesy.utils-module.html#m2NM
 pygeodesy.utm	pygeodesy.utm-module.html
 pygeodesy.utm._Bands	pygeodesy.utm-module.html#_Bands
@@ -688,6 +687,7 @@ pygeodesy.datum.Ellipsoid.e2s	pygeodesy.datum.Ellipsoid-class.html#e2s
 pygeodesy.datum.Ellipsoid.__eq__	pygeodesy.datum.Ellipsoid-class.html#__eq__
 pygeodesy.datum.Ellipsoid.e12	pygeodesy.datum.Ellipsoid-class.html#e12
 pygeodesy.datum.Ellipsoid.roc2	pygeodesy.datum.Ellipsoid-class.html#roc2
+pygeodesy.datum.Ellipsoid._Kseries	pygeodesy.datum.Ellipsoid-class.html#_Kseries
 pygeodesy.datum.Ellipsoid._b2_a	pygeodesy.datum.Ellipsoid-class.html#_b2_a
 pygeodesy.datum.Ellipsoid.__init__	pygeodesy.datum.Ellipsoid-class.html#__init__
 pygeodesy.datum.Ellipsoid.AlphaKs	pygeodesy.datum.Ellipsoid-class.html#AlphaKs
@@ -702,6 +702,8 @@ pygeodesy.datum.Ellipsoid.R3	pygeodesy.datum.Ellipsoid-class.html#R3
 pygeodesy.datum.Ellipsoid._BetaKs	pygeodesy.datum.Ellipsoid-class.html#_BetaKs
 pygeodesy.datum.Ellipsoid.toStr	pygeodesy.datum.Ellipsoid-class.html#toStr
 pygeodesy.datum.Ellipsoid._b2	pygeodesy.datum.Ellipsoid-class.html#_b2
+pygeodesy.datum.Ellipsoid.KsOrder	pygeodesy.datum.Ellipsoid-class.html#KsOrder
+pygeodesy.datum.Ellipsoid._KsOrder	pygeodesy.datum.Ellipsoid-class.html#_KsOrder
 pygeodesy.datum.Ellipsoid.Rgeocentric	pygeodesy.datum.Ellipsoid-class.html#Rgeocentric
 pygeodesy.datum.Ellipsoid.a_b	pygeodesy.datum.Ellipsoid-class.html#a_b
 pygeodesy.datum.Ellipsoid.e4	pygeodesy.datum.Ellipsoid-class.html#e4
