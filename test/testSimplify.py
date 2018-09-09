@@ -4,7 +4,7 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '18.07.17'
+__version__ = '18.09.08'
 
 from base import TestsBase, secs2str
 
@@ -333,7 +333,7 @@ if __name__ == '__main__':  # PYCHOK internal error?
     else:
         t.test('no module', 'numpy', 'numpy')
 
-    t.results(nl=0)
+    t.results()
     t.exit()
 
 #   Compare Vw routes

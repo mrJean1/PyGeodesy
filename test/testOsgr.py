@@ -4,7 +4,7 @@
 # Test OSGR functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.06.23'
+__version__ = '17.09.08'
 
 from base import TestsBase
 
@@ -78,5 +78,5 @@ if __name__ == '__main__':
 
     t = Tests(__file__, __version__, osgr)
     t.testOSgr(ellipsoidalNvector.LatLon)
-    t.results(nl=0)
+    t.results()
     t.exit()

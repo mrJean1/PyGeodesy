@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '18.09.03'
+__version__ = '18.09.08'
 
 from base import TestsBase
 from random import random, gauss, shuffle
@@ -104,5 +104,5 @@ if __name__ == '__main__':
 
     t = Tests(__file__, __version__, fmath)
     t.testFmath()
-    t.results(nl=0)
+    t.results()
     t.exit()

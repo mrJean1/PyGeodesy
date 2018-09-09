@@ -62,7 +62,8 @@ The tests have been run in 64-bit with U{PyPy-Python<http://pypy.org>}
 U{numpy<http://pypi.python.org/pypi/numpy>} 1.11.3) and Python 3.7.0,
 all on macOS 10.13.6 High Sierra and with U{Pythonista 3.2
 <http://omz-software.com/pythonista/>} Python 2.7.12 and 3.6.1 (both with
-U{numpy<http://pypi.python.org/pypi/numpy>} 1.8.0) on iOS 11.4.1.
+U{numpy<http://pypi.python.org/pypi/numpy>} 1.8.0) on iOS 11.4.1 (iPad
+and iPhone X).
 
 Previously, the tests were run with 64-bit Python 2.6.9 (and numpy 1.6.2),
 2.7.10 (and numpy 1.8.0rc1), 2.7.13, 2.7.14 (and numpy 1.13.1), 3.5.3,
@@ -194,7 +195,7 @@ __all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',  # modules
            'R_M',  # to avoid duplicates from datum and utils
            'version',
            'crosserrors')  # extended below
-__version__ = '18.09.06'
+__version__ = '18.09.08'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))

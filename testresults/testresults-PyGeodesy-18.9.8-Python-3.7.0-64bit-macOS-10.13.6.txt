@@ -1,8 +1,8 @@
-test/run.py typical test results (PyGeodesy 18.9.6 Python 3.7.0 64bit Debian 9)
+test/run.py typical test results (PyGeodesy 18.9.8 Python 3.7.0 64bit macOS 10.13.6)
 
-running /usr/local/bin/python ~/cirrus-ci-build/test/testBases.py
+running /usr/local/bin/python3 ~/PyGeodesy/test/testBases.py
 
-    testing testBases.py 18.02.06
+    testing testBases.py 18.09.08
     test 1 lat, lon: 50.06632°N, 005.71475°W
     test 2 lat, lon: 50.066389°N, 005.714722°W
     test 3 equals: True
@@ -43,9 +43,10 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testBases.py
     test 38 equals: True
     test 39 equals3: False
     test 40 equals3: True
-    all 40 testBases.py tests passed (PyGeodesy 18.9.6 Python 3.7.0 64bit Debian 9) 1.371 ms
 
-running /usr/local/bin/python ~/cirrus-ci-build/test/testClasses.py
+    all 40 testBases.py tests passed (PyGeodesy 18.9.8 Python 3.7.0 64bit macOS 10.13.6) 1.678 ms
+
+running /usr/local/bin/python3 ~/PyGeodesy/test/testClasses.py
 
     testing testClasses.py 17.06.25
 
@@ -250,11 +251,11 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testClasses.py
     test 184 nvector: vector3d.Vector3d, bases.VectorBased, bases.Based, bases.Named
     test 185 vector3d: vector3d.Vector3d, bases.VectorBased, bases.Based, bases.Named
 
-    all 185 testClasses.py tests passed (PyGeodesy 18.9.6 Python 3.7.0 64bit Debian 9) 3.633 ms
+    all 185 testClasses.py tests passed (PyGeodesy 18.9.8 Python 3.7.0 64bit macOS 10.13.6) 4.342 ms
 
-running /usr/local/bin/python ~/cirrus-ci-build/test/testDatum.py
+running /usr/local/bin/python3 ~/PyGeodesy/test/testDatum.py
 
-    testing testDatum.py 18.09.06 (module datum 18.09.06)
+    testing testDatum.py 18.09.08 (module datum 18.09.06)
     test 1 ellipsoid: True
     test 2 transform: True
     test 3 datum: True
@@ -339,11 +340,12 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testDatum.py
     test 82 WGS84.BetaKs : 8.377321640579e-04, 5.905870152220e-08, 1.673482665284e-10, 2.164798040063e-13, 3.787978046169e-16, 7.248748890694e-19
     test 83 WGS84.AlphaKs: 8.377318206304e-04, 7.608527714249e-07, 1.197638001561e-09, 2.443376194522e-12
     test 84 WGS84.BetaKs : 8.377321640601e-04, 5.905869567934e-08, 1.673488880355e-10, 2.167737763022e-13
-    all 84 testDatum.py tests passed (PyGeodesy 18.9.6 Python 3.7.0 64bit Debian 9) 1.867 ms
 
-running /usr/local/bin/python ~/cirrus-ci-build/test/testDms.py
+    all 84 testDatum.py tests passed (PyGeodesy 18.9.8 Python 3.7.0 64bit macOS 10.13.6) 4.191 ms
 
-    testing testDms.py 18.01.31 (module dms 18.03.04)
+running /usr/local/bin/python3 ~/PyGeodesy/test/testDms.py
+
+    testing testDms.py 18.09.08 (module dms 18.03.04)
     test 1 parseDMS: 0.0
     test 2 parseDMS: 0.0
     test 3 parseDMS: 0.0
@@ -412,14 +414,15 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testDms.py
     test 66 initialBearingTo: 102.432182
     test 67 equirectangular: 592.185
     test 68 distanceTo: 591.831
-    all 68 testDms.py tests passed (PyGeodesy 18.9.6 Python 3.7.0 64bit Debian 9) 933.886 us
 
-running /usr/local/bin/python ~/cirrus-ci-build/test/testElevations.py
+    all 68 testDms.py tests passed (PyGeodesy 18.9.8 Python 3.7.0 64bit macOS 10.13.6) 1.226 ms
+
+running /usr/local/bin/python3 ~/PyGeodesy/test/testElevations.py
 
     testing testElevations.py 18.08.25
-    all testElevations.py tests SKIPPED (PyGeodesy 18.9.6 Python 3.7.0 64bit Debian 9) 20.027 us
+    all testElevations.py tests SKIPPED (PyGeodesy 18.9.8 Python 3.7.0 64bit macOS 10.13.6) 10.014 us
 
-running /usr/local/bin/python ~/cirrus-ci-build/test/testEllipsoidal.py
+running /usr/local/bin/python3 ~/PyGeodesy/test/testEllipsoidal.py
 
     testing testEllipsoidal.py 18.08.28
 
@@ -670,11 +673,11 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testEllipsoidal.py
     test 230 NOAAexample3: 123456.7891, 245 00 34.7001, 64 20 24.6864
     test 231 NOAAexample4: 145239.0603, 114 29 26.9586, 295 21 32.6566
 
-    1 of 231 testEllipsoidal.py tests (0.4%) FAILED, ALL KNOWN (PyGeodesy 18.9.6 Python 3.7.0 64bit Debian 9) 9.114 ms
+    1 of 231 testEllipsoidal.py tests (0.4%) FAILED, ALL KNOWN (PyGeodesy 18.9.8 Python 3.7.0 64bit macOS 10.13.6) 19.625 ms
 
-running /usr/local/bin/python ~/cirrus-ci-build/test/testFmath.py
+running /usr/local/bin/python3 ~/PyGeodesy/test/testFmath.py
 
-    testing testFmath.py 18.09.03 (module fmath 18.09.06)
+    testing testFmath.py 18.09.08 (module fmath 18.09.06)
     test 1 fpolynomialA: 1.0000249995312696
     test 2 fhornerA: 1.0000249995312696
     test 3 fpolynomialB: 2.4998750072261036e-05
@@ -740,106 +743,106 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testFmath.py
     test 63 sum: 1.005000000001
     test 64 fsum: 1.005000000001
     test 65 Fsum: 1.005000000001
-    test 66 Fsum: -4.005809950617466e-05
-    test 67 Fsum: -15.926570267394034
-    test 68 Fsum: -0.0010229221030626271
-    test 69 Fsum: 3.3436033762313113e-10
-    test 70 Fsum: 2.9217977801203933e-09
-    test 71 Fsum: -5.8859161796622e-05
-    test 72 Fsum: 0.0298005510768735
-    test 73 Fsum: 2.1621552660208005e-05
-    test 74 Fsum: -7.653000799247124e-08
-    test 75 Fsum: 0.031530928341258216
-    test 76 Fsum: -1.2610477858318628e-07
-    test 77 Fsum: 1.8192201089116529e-07
-    test 78 Fsum: -0.0005721389390891972
-    test 79 Fsum: -1.570306528001998e-05
-    test 80 Fsum: 1.0985262772594386e-10
-    test 81 Fsum: -0.0017743905536023877
-    test 82 Fsum: -1.230620055473914
-    test 83 Fsum: 4.5470354717228995e-05
-    test 84 Fsum: 4.907381597797302e-06
-    test 85 Fsum: 0.009674402343518152
-    test 86 Fsum: -0.07830277874660407
-    test 87 Fsum: -5.784754312314581e-06
-    test 88 Fsum: 0.5618280177559626
-    test 89 Fsum: 1.016867572756975e-06
-    test 90 Fsum: -0.02281526688021196
-    test 91 Fsum: 0.0009885982469056503
-    test 92 Fsum: -4.7332246460940897e-07
-    test 93 Fsum: 2.493102010733467e-07
-    test 94 Fsum: -0.05909359669518427
-    test 95 Fsum: 2.7785086335776696e-08
-    test 96 Fsum: -0.0022915683921809916
-    test 97 Fsum: -0.02005385315211815
-    test 98 Fsum: 0.4143433563898019
-    test 99 Fsum: -3.588026206075042e-06
-    test 100 Fsum: -0.0018539373957196345
-    test 101 Fsum: 0.0030654985684232996
-    test 102 Fsum: -0.20922839094822582
-    test 103 Fsum: 4.178341572311615e-08
-    test 104 Fsum: 95.244889584343
-    test 105 Fsum: -0.009551765213866716
-    test 106 Fsum: -3.184147490806335e-13
-    test 107 Fsum: 2.971429337547191e-11
-    test 108 Fsum: -1.89219935593461e-12
-    test 109 Fsum: 0.18124228086856198
-    test 110 Fsum: -0.03816366550107987
-    test 111 Fsum: 2.4675664203555055e-14
-    test 112 Fsum: 0.0001954592776015429
-    test 113 Fsum: -5.705587925569668e-06
-    test 114 Fsum: 10.673255786052467
-    test 115 Fsum: -0.02821962834631076
-    test 116 Fsum: -1.1840810692180332
-    test 117 Fsum: 0.0038218501173399835
-    test 118 Fsum: -0.08615371477161851
-    test 119 Fsum: 3.1572990830640403e-05
-    test 120 Fsum: 0.04520986719460621
-    test 121 Fsum: -2.4655431746926626e-12
-    test 122 Fsum: -8.62451522279379e-08
-    test 123 Fsum: -0.6478603366423766
-    test 124 Fsum: -5.971506855652381e-10
-    test 125 Fsum: -2.7036778223726945e-07
-    test 126 Fsum: -3.235824036911083e-12
-    test 127 Fsum: 1.406645265988984e-11
-    test 128 Fsum: -7.339495556561938e-05
-    test 129 Fsum: 0.07382956144734948
-    test 130 Fsum: -0.01307270957367638
-    test 131 Fsum: -1.5369034717432848e-13
-    test 132 Fsum: 1.740398769554619e-06
-    test 133 Fsum: -0.06850779864594513
-    test 134 Fsum: 7.32740984028107e-05
-    test 135 Fsum: 2.1343023307259048e-10
-    test 136 Fsum: 0.0003473430906585557
-    test 137 Fsum: 0.0003607347648001697
-    test 138 Fsum: -0.018258815757875878
-    test 139 Fsum: -0.0002719166874067867
-    test 140 Fsum: 3.643218265959552e-09
-    test 141 Fsum: -4.052885619314103e-17
-    test 142 Fsum: 1.813668643377122e-08
-    test 143 Fsum: 0.017742100752310253
-    test 144 Fsum: -9.289978850049838
-    test 145 Fsum: -0.00030261638910060527
-    test 146 Fsum: 0.00010606770795021272
-    test 147 Fsum: -1.753443839864623e-13
-    test 148 Fsum: -1.3992308865429404
-    test 149 Fsum: 3.2583199618936592e-06
-    test 150 Fsum: -0.8464488024385147
-    test 151 Fsum: 0.5496110048776226
-    test 152 Fsum: -4.708748043147601e-06
-    test 153 Fsum: -0.20077544062501948
-    test 154 Fsum: 0.1038312520277851
-    test 155 Fsum: 1.7623833899368164e-10
-    test 156 Fsum: -5.7731462664816484e-18
-    test 157 Fsum: 1.0777899726461157e-10
-    test 158 Fsum: 5.2218946158523075e-15
-    test 159 Fsum: -9.55214726923495e-09
-    test 160 Fsum: 2.8634145419041857e-11
-    test 161 Fsum: -0.004281906806606301
-    test 162 Fsum: 4.8226635554967455e-05
-    test 163 Fsum: -0.005518191919112349
-    test 164 Fsum: 4.046194958758793e-07
-    test 165 Fsum: 3.8749591593397156e-07
+    test 66 Fsum: 0.002951016849244423
+    test 67 Fsum: 0.6744791452809369
+    test 68 Fsum: -0.0005836042796717222
+    test 69 Fsum: 4.250604784183353e-05
+    test 70 Fsum: 3.955107967437324e-09
+    test 71 Fsum: -1.9987705651115477e-07
+    test 72 Fsum: 2.8282877950336782e-11
+    test 73 Fsum: -1.2855738512039835e-07
+    test 74 Fsum: -64.43245885629827
+    test 75 Fsum: 1.7569970337636395e-07
+    test 76 Fsum: 0.0006690059508171805
+    test 77 Fsum: -3.858764727436228
+    test 78 Fsum: -610.1388111607147
+    test 79 Fsum: 3.128980095759647e-11
+    test 80 Fsum: -0.11113083624351505
+    test 81 Fsum: -2.714952787111805e-06
+    test 82 Fsum: 1.6194155616633055e-06
+    test 83 Fsum: -0.09474739971949915
+    test 84 Fsum: 4.008497430172182e-06
+    test 85 Fsum: -9.449230502034579e-05
+    test 86 Fsum: 0.0026716203449039548
+    test 87 Fsum: 6.673211202833e-07
+    test 88 Fsum: -2.2703299420267943e-06
+    test 89 Fsum: -0.0005507198525296093
+    test 90 Fsum: 4.88269164798946e-06
+    test 91 Fsum: 0.00919736901344618
+    test 92 Fsum: 0.0198515058806965
+    test 93 Fsum: 0.0034247081967689955
+    test 94 Fsum: -0.03535966456845286
+    test 95 Fsum: -2.4536196065502668e-06
+    test 96 Fsum: 8.161489534177025e-06
+    test 97 Fsum: -1.835625960234353
+    test 98 Fsum: 8.715734003313594e-07
+    test 99 Fsum: -0.06167550717429133
+    test 100 Fsum: -0.021858947218844325
+    test 101 Fsum: -3.263540672180479e-18
+    test 102 Fsum: -5.189928462118956e-10
+    test 103 Fsum: 2.2313332031763545e-05
+    test 104 Fsum: -1.1586532836465382e-06
+    test 105 Fsum: -0.0013349290772676527
+    test 106 Fsum: 3.720667966171613e-05
+    test 107 Fsum: -1.0592214875135286e-05
+    test 108 Fsum: 9.642724224703498e-06
+    test 109 Fsum: 0.0001775639081295722
+    test 110 Fsum: -9.798310825717658e-16
+    test 111 Fsum: 0.017806888589974437
+    test 112 Fsum: -9.452672590651736e-08
+    test 113 Fsum: 4.536332093501448e-16
+    test 114 Fsum: 3.3847275895905785e-15
+    test 115 Fsum: -3.607165412042759e-06
+    test 116 Fsum: -0.3989283955351553
+    test 117 Fsum: 1.7113926667399166
+    test 118 Fsum: -1.0862283507265758e-10
+    test 119 Fsum: -0.003616409659885163
+    test 120 Fsum: 6.195689040370487e-05
+    test 121 Fsum: -0.3400824353185825
+    test 122 Fsum: 0.014099594186462075
+    test 123 Fsum: 8.081411677106155
+    test 124 Fsum: 15.647283755315428
+    test 125 Fsum: 4.144721477456981e-12
+    test 126 Fsum: -0.7437935970273793
+    test 127 Fsum: 1.132096218048705e-06
+    test 128 Fsum: 1.7072274864847998e-06
+    test 129 Fsum: 1.1569208681334664e-11
+    test 130 Fsum: -0.00013441589499759755
+    test 131 Fsum: 0.0011316730061347354
+    test 132 Fsum: -15.295889695970892
+    test 133 Fsum: -9.864155766115056e-07
+    test 134 Fsum: -5.659904557237714e-05
+    test 135 Fsum: 49.51013974045411
+    test 136 Fsum: -2.940795091918466e-13
+    test 137 Fsum: 0.00651724273969629
+    test 138 Fsum: 7.011122611778002e-07
+    test 139 Fsum: 6.904724052333719e-16
+    test 140 Fsum: -1.7382348930610715e-08
+    test 141 Fsum: -0.005308563796953008
+    test 142 Fsum: -0.047451077964713595
+    test 143 Fsum: 1.3377885503232005e-11
+    test 144 Fsum: -1.3777561339434021e-07
+    test 145 Fsum: 0.18937939148291283
+    test 146 Fsum: -0.008549782969598919
+    test 147 Fsum: -4.137349977488776e-15
+    test 148 Fsum: -6.924601987821432e-16
+    test 149 Fsum: -0.04359583610734709
+    test 150 Fsum: 0.15897950766437224
+    test 151 Fsum: 0.0014068286179537497
+    test 152 Fsum: -3.137146096512015e-05
+    test 153 Fsum: -6.048744532020173e-06
+    test 154 Fsum: 0.0013872172845446585
+    test 155 Fsum: -7.827909743325963e-11
+    test 156 Fsum: -0.0017815461189528347
+    test 157 Fsum: 5.313640460042837e-11
+    test 158 Fsum: 1.9303167809247883e-05
+    test 159 Fsum: -4.6466917212189786e-10
+    test 160 Fsum: 0.0210406318129028
+    test 161 Fsum: 0.0012676940057690653
+    test 162 Fsum: 0.006376621106331847
+    test 163 Fsum: -0.00782022055650771
+    test 164 Fsum: -14.312657667794598
+    test 165 Fsum: -0.027561584441528397
     test 166 fpowers: 10
     test 167 fpowers: 2
     test 168 fpowers: 1024
@@ -1019,11 +1022,12 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testFmath.py
     test 342 WGS84: 6367449.14582341
     test 343 WGS84: 6367449.1458234144
     test 344 WGS84: 6367449.1458234144
-    10 of 344 testFmath.py tests (2.9%) FAILED, ALL KNOWN (PyGeodesy 18.9.6 Python 3.7.0 64bit Debian 9) 51.542 ms
 
-running /usr/local/bin/python ~/cirrus-ci-build/test/testGeohash.py
+    10 of 344 testFmath.py tests (2.9%) FAILED, ALL KNOWN (PyGeodesy 18.9.8 Python 3.7.0 64bit macOS 10.13.6) 77.416 ms
 
-    testing testGeohash.py 18.08.28 (module geohash 18.09.06)
+running /usr/local/bin/python3 ~/PyGeodesy/test/testGeohash.py
+
+    testing testGeohash.py 18.09.08 (module geohash 18.09.06)
     test 1 Geohash: Geohash('geek')
     test 2 Geohash: geek
     test 3 Geohash: geek
@@ -1097,9 +1101,10 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testGeohash.py
     test 71 decode_error: (0.703125, 0.703125)
     test 72 decode_error: (2.8125, 5.625)
     test 73 decode_error: (22.5, 22.5)
-    all 73 testGeohash.py tests passed (PyGeodesy 18.9.6 Python 3.7.0 64bit Debian 9) 6.289 ms
 
-running /usr/local/bin/python ~/cirrus-ci-build/test/testGreatCircle.py
+    all 73 testGeohash.py tests passed (PyGeodesy 18.9.8 Python 3.7.0 64bit macOS 10.13.6) 8.840 ms
+
+running /usr/local/bin/python3 ~/PyGeodesy/test/testGreatCircle.py
 
     testing testGreatCircle.py 18.08.28
 
@@ -1167,9 +1172,9 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testGreatCircle.py
     test 59 CrossTrackDistance200m+270°: -200.0
     test 60 CrossTrackDistanceCloseToZero: 0.0000000
 
-    10 of 60 testGreatCircle.py tests (16.7%) FAILED, ALL KNOWN (PyGeodesy 18.9.6 Python 3.7.0 64bit Debian 9) 3.816 ms
+    10 of 60 testGreatCircle.py tests (16.7%) FAILED, ALL KNOWN (PyGeodesy 18.9.8 Python 3.7.0 64bit macOS 10.13.6) 4.753 ms
 
-running /usr/local/bin/python ~/cirrus-ci-build/test/testLatLon.py
+running /usr/local/bin/python3 ~/PyGeodesy/test/testLatLon.py
 
     testing testLatLon.py 18.08.28
 
@@ -1442,9 +1447,9 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testLatLon.py
     test 260 isenclosedby7: True
     test 261 isenclosedby7*: True
 
-    3 of 261 testLatLon.py tests (1.1%) FAILED, ALL KNOWN (PyGeodesy 18.9.6 Python 3.7.0 64bit Debian 9) 9.939 ms
+    3 of 261 testLatLon.py tests (1.1%) FAILED, ALL KNOWN (PyGeodesy 18.9.8 Python 3.7.0 64bit macOS 10.13.6) 17.774 ms
 
-running /usr/local/bin/python ~/cirrus-ci-build/test/testLcc.py
+running /usr/local/bin/python3 ~/PyGeodesy/test/testLcc.py
 
     testing testLcc.py 18.08.26 (module lcc 18.08.28)
 
@@ -1706,11 +1711,11 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testLcc.py
     testConic(ellipsoidalVincenty, 18.08.28)
     test 250 SnyderV: name='SnyderV', lat0=23, lon0=-96, par1=33, par2=45, E0=0, N0=0, k0=1, SP=2, datum=(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27)
 
-    all 250 testLcc.py tests passed (PyGeodesy 18.9.6 Python 3.7.0 64bit Debian 9) 9.978 ms
+    all 250 testLcc.py tests passed (PyGeodesy 18.9.8 Python 3.7.0 64bit macOS 10.13.6) 13.964 ms
 
-running /usr/local/bin/python ~/cirrus-ci-build/test/testMgrs.py
+running /usr/local/bin/python3 ~/PyGeodesy/test/testMgrs.py
 
-    testing testMgrs.py 17.06.21 (module mgrs 18.08.28)
+    testing testMgrs.py 18.09.08 (module mgrs 18.08.28)
     test 1 Mgrs1: 31U DQ 48251 11932
     test 2 Mgrs1: [Z:31U, G:DQ, E:48251, N:11932]
     test 3 Mgrs2: 31U DQ 48251 11932
@@ -1727,13 +1732,14 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testMgrs.py
     test 14 toUtm(76.0°N, 013.0°E).toMgrs: 33X VE 45999 36099
     test 15 toUtm(76.0°N, 025.0°E).toMgrs: 35X ME 45999 36099
     test 16 toUtm(76.0°N, 037.0°E).toMgrs: 37X DE 45999 36099
-    all 16 testMgrs.py tests passed (PyGeodesy 18.9.6 Python 3.7.0 64bit Debian 9) 2.313 ms
 
-running /usr/local/bin/python ~/cirrus-ci-build/test/testModules.py
+    all 16 testMgrs.py tests passed (PyGeodesy 18.9.8 Python 3.7.0 64bit macOS 10.13.6) 2.921 ms
+
+running /usr/local/bin/python3 ~/PyGeodesy/test/testModules.py
 
     testing testModules.py 17.08.04
 
-    testModule(pygeodesy, 18.09.06)
+    testModule(pygeodesy, 18.09.08)
     test 1 pygeodesy.Conic() class (lcc): True
     test 2 pygeodesy.Conics class datum._Enum (datum): True
     test 3 pygeodesy.CrossError() class (vector3d): True
@@ -2163,7 +2169,7 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testModules.py
     test 387 webmercator.parseWM() function: True
     test 388 webmercator.toWm() function: True
 
-    testPublic(pygeodesy, 18.09.06)
+    testPublic(pygeodesy, 18.09.08)
     test 389 Conic() class: True
     test 390 Conics class datum._Enum: True
     test 391 CrossError() class: True
@@ -2294,11 +2300,11 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testModules.py
     test 516 wrapPI2() function: True
     test 517 wrapPI_2() function: True
 
-    all 517 testModules.py tests passed (PyGeodesy 18.9.6 Python 3.7.0 64bit Debian 9) 4.442 ms
+    all 517 testModules.py tests passed (PyGeodesy 18.9.8 Python 3.7.0 64bit macOS 10.13.6) 6.532 ms
 
-running /usr/local/bin/python ~/cirrus-ci-build/test/testNavlabExamples.py
+running /usr/local/bin/python3 ~/PyGeodesy/test/testNavlabExamples.py
 
-    testing testNavlabExamples.py 18.03.08
+    testing testNavlabExamples.py 18.09.08
     test 1 Example 1 delta: [N:331730.863, E:332998.501, D:17398.304]
     test 2 Example 1 delta: [L:470357.384, B:45.109°, E:-2.12°]
     test 3 Example 1 elevation: -2.1198
@@ -2325,11 +2331,12 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testNavlabExamples.py
     test 24 Example 8 destination(elVincenty): 79.991584°N, 090.017621°W
     test 25 Example 9 intersection: 40.318643°N, 055.901868°E
     test 26 Example 10 crossTrackDistance: 11118
-    1 of 26 testNavlabExamples.py tests (3.8%) FAILED, ALL KNOWN (PyGeodesy 18.9.6 Python 3.7.0 64bit Debian 9) 4.649 ms
 
-running /usr/local/bin/python ~/cirrus-ci-build/test/testOsgr.py
+    1 of 26 testNavlabExamples.py tests (3.8%) FAILED, ALL KNOWN (PyGeodesy 18.9.8 Python 3.7.0 64bit macOS 10.13.6) 3.127 ms
 
-    testing testOsgr.py 17.06.23 (module osgr 18.08.28)
+running /usr/local/bin/python3 ~/PyGeodesy/test/testOsgr.py
+
+    testing testOsgr.py 17.09.08 (module osgr 18.08.28)
     test 1 WGS84: 51.4778°N, 000.0016°W
     test 2 OSGB36: 51.477284°N, 000.00002°E
     test 3 WGS84: 51.4778°N, 000.0016°W
@@ -2354,11 +2361,12 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testOsgr.py
     test 22 OSGR5: 651409,313177
     test 23 OSGR5: [OSGR:651409.000,313177.000]
     test 24 OSGR6: 651409,313177
-    6 of 24 testOsgr.py tests (25.0%) FAILED, ALL KNOWN (PyGeodesy 18.9.6 Python 3.7.0 64bit Debian 9) 1.769 ms
 
-running /usr/local/bin/python ~/cirrus-ci-build/test/testPoints.py
+    6 of 24 testOsgr.py tests (25.0%) FAILED, ALL KNOWN (PyGeodesy 18.9.8 Python 3.7.0 64bit macOS 10.13.6) 2.031 ms
 
-    testing testPoints.py 18.02.05 (module points 18.08.28)
+running /usr/local/bin/python3 ~/PyGeodesy/test/testPoints.py
+
+    testing testPoints.py 18.09.08 (module points 18.08.28)
     test 1 LatLon_: 'LatLon_' object has no attribute '__dict__'
     test 2 LatLon2psxy.ABC: True
     test 3 LatLon2psxy.epsilon: 2.220446049250313e-16
@@ -2441,7 +2449,7 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testPoints.py
     test 80 Tuple2LatLon.iter: 69
     test 81 Tuple2LatLon.slice1: 11
     test 82 Tuple2LatLon.slice2: <class 'points.Tuple2LatLon'>
-    test 83 Tuple2LatLon.slice3: 52.220485, -0.701418,
+    test 83 Tuple2LatLon.slice3: 52.220485, -0.701418, 
     test 84 Tuple2LatLon.strepr: Tuple2LatLon([(0, -0.701206, 0, 52.220489), ...][69], ilat=3, ilon=1)
     test 85 Tuple2LatLon.subset: <class 'list'>
     test 86 Tuple2LatLon.count: 1
@@ -2492,25 +2500,26 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testPoints.py
     test 131 Tuple2LatLon.find: -1
     test 132 Tuple2LatLon.rfind: -1
     test 133 Tuple2LatLon.not in: True
-    test 134 Tuple2LatLon.enumerate[0]: 52.220489, -0.701206,
-    test 135 Tuple2LatLon.enumerate[1]: 52.221916, -0.705456,
-    test 136 Tuple2LatLon.enumerate[2]: 52.225944, -0.71,
-    test 137 Tuple2LatLon.enumerate[3]: 52.232448, -0.71446,
-    test 138 Tuple2LatLon.enumerate[4]: 52.233013, -0.71486,
-    test 139 Tuple2LatLon.enumerate[5]: 52.234375, -0.714348,
-    test 140 Tuple2LatLon.enumerate[6]: 52.235607, -0.713572,
-    test 141 Tuple2LatLon.enumerate[7]: 52.237495, -0.71233,
-    test 142 Tuple2LatLon.enumerate[8]: 52.239315, -0.710784,
-    test 143 Tuple2LatLon.enumerate[9]: 52.240627, -0.708684,
-    test 144 Tuple2LatLon.enumerate[10]: 52.240745, -0.707042,
-    test 145 Tuple2LatLon.enumerate[11]: 52.240863, -0.704945,
+    test 134 Tuple2LatLon.enumerate[0]: 52.220489, -0.701206, 
+    test 135 Tuple2LatLon.enumerate[1]: 52.221916, -0.705456, 
+    test 136 Tuple2LatLon.enumerate[2]: 52.225944, -0.71, 
+    test 137 Tuple2LatLon.enumerate[3]: 52.232448, -0.71446, 
+    test 138 Tuple2LatLon.enumerate[4]: 52.233013, -0.71486, 
+    test 139 Tuple2LatLon.enumerate[5]: 52.234375, -0.714348, 
+    test 140 Tuple2LatLon.enumerate[6]: 52.235607, -0.713572, 
+    test 141 Tuple2LatLon.enumerate[7]: 52.237495, -0.71233, 
+    test 142 Tuple2LatLon.enumerate[8]: 52.239315, -0.710784, 
+    test 143 Tuple2LatLon.enumerate[9]: 52.240627, -0.708684, 
+    test 144 Tuple2LatLon.enumerate[10]: 52.240745, -0.707042, 
+    test 145 Tuple2LatLon.enumerate[11]: 52.240863, -0.704945, 
     test 146 areaOf: 8.811228e+09
     test 147 isclockwise: False
     test 148 areaOf: 7.09e+09
     test 149 isclockwise: True
-    all 149 testPoints.py tests passed (PyGeodesy 18.9.6 Python 3.7.0 64bit Debian 9) 19.180 ms
 
-running /usr/local/bin/python ~/cirrus-ci-build/test/testRoutes.py
+    all 149 testPoints.py tests passed (PyGeodesy 18.9.8 Python 3.7.0 64bit macOS 10.13.6) 15.074 ms
+
+running /usr/local/bin/python3 ~/PyGeodesy/test/testRoutes.py
 
     testing testRoutes.py 18.02.05
     test 1 points.areaOf(Antarctica, adjust=True, radius=6371.008771415, wrap=True): 254398498.504  FAILED, KNOWN, expected 13552524.800
@@ -2559,46 +2568,47 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testRoutes.py
     test 44 isclockwise(_JFK_LHR1, adjust=False, wrap=True): 0.000
     test 45 isclockwise(_JFK_LHR2, adjust=False, wrap=True): 0.000
 
-    13 of 45 testRoutes.py tests (28.9%) FAILED, ALL KNOWN (PyGeodesy 18.9.6 Python 3.7.0 64bit Debian 9) 627.783 ms
+    13 of 45 testRoutes.py tests (28.9%) FAILED, ALL KNOWN (PyGeodesy 18.9.8 Python 3.7.0 64bit macOS 10.13.6) 1.045 sec
 
-running /usr/local/bin/python ~/cirrus-ci-build/test/testSimplify.py
+running /usr/local/bin/python3 ~/PyGeodesy/test/testSimplify.py
 
-    testing testSimplify.py 18.07.17 (module simplify 18.07.17)
-    test 1 simplify1(16614, adjust=True) 1m (37.768 ms): 16597
-    test 2 simplifyRW(16614, adjust=True, indices=True, shortest=False) 1m (55.494 ms): 7095
-    test 3 simplifyRW(16614, adjust=True, shortest=False) 1m (45.612 ms): 7095
-    test 4 simplifyRW(16614, adjust=True, shortest=True) 1m (65.838 ms): 8302
-    test 5 simplifyVWm(16614, adjust=True, indices=True) 1m (95.155 ms): 16328
-    test 6 simplifyVWm(16614, adjust=True) 1m (111.035 ms): 16328
-    test 7 simplifyVWm(16614, adjust=False) 1m (83.881 ms): 16373
-    test 8 simplifyRDPm(16614, adjust=True, shortest=False) 1m (104.547 ms): 15864
-    test 9 simplifyRDPm(16614, adjust=True, shortest=True) 1m (117.391 ms): 15867
-    test 10 simplifyRDPgr(16614, adjust=True, modified=True, shortest=True) 1m (84.761 ms): 15867
-    test 11 simplifyRDPm(16614, adjust=False, shortest=False) 1m (94.725 ms): 15869
-    test 12 simplifyRDPfw(16614, adjust=False, modified=True, shortest=False) 1m (55.084 ms): 15869
-    test 13 simplifyRDP(16614, adjust=True, indices=True, shortest=True) 1m (712.254 ms): 10960
-    test 14 simplifyRDP(16614, adjust=True, shortest=True) 1m (692.189 ms): 10960
-    test 15 simplifyRDPgr(16614, adjust=True, modified=False, shortest=True) 1m (649.446 ms): 10960
-    test 16 simplifyRDP(16614, adjust=False, indices=True, shortest=False) 1m (535.355 ms): 11248
-    test 17 simplifyRDP(16614, adjust=False, shortest=False) 1m (534.120 ms): 11248
-    test 18 simplifyRDPfw(16614, adjust=False, modified=False, shortest=False) 1m (280.244 ms): 11248
-    test 19 simplifyVW(1661, adjust=True) 1m (13.830 ms): 1641
-    test 20 simplifyVW(1661, adjust=False) 1m (9.797 ms): 1646
-    test 21 simplifyRDP(1661, adjust=True, shortest=False) 1m (45.457 ms): 1231
-    test 22 simplifyRDP(1661, adjust=True, shortest=True) 1m (63.722 ms): 1231
-    test 23 simplifyRDPgr(1661, adjust=True, shortest=True) 1m (56.379 ms): 1231
-    test 24 simplifyRDP(1661, adjust=False, shortest=False) 1m (40.718 ms): 1267
-    test 25 simplifyRDPfw(1661, adjust=False, shortest=False) 1m (20.068 ms): 1267
-    test 26 simplifyRDPgr(1661, adjust=False, shortest=True) 1m (38.706 ms): 1267
-    test 27 simplifyVW(69, adjust=False) 1m (578.403 us): 69
-    test 28 simplifyRDP(69, adjust=False, shortest=False) 1m (1.333 ms): 50
-    test 29 simplifyRDPfw(69, adjust=False, shortest=False) 1m (889.301 us): 50
-    test 30 simplifyRDPgr(69, adjust=False, shortest=True) 1m (1.403 ms): 50
-    test 31 simplifyRDPgr(69, adjust=True, shortest=True) 1m (1.832 ms): 45
+    testing testSimplify.py 18.09.08 (module simplify 18.07.17)
+    test 1 simplify1(16614, adjust=True) 1m (58.440 ms): 16597
+    test 2 simplifyRW(16614, adjust=True, indices=True, shortest=False) 1m (79.856 ms): 7095
+    test 3 simplifyRW(16614, adjust=True, shortest=False) 1m (80.147 ms): 7095
+    test 4 simplifyRW(16614, adjust=True, shortest=True) 1m (110.020 ms): 8302
+    test 5 simplifyVWm(16614, adjust=True, indices=True) 1m (160.754 ms): 16328
+    test 6 simplifyVWm(16614, adjust=True) 1m (165.068 ms): 16328
+    test 7 simplifyVWm(16614, adjust=False) 1m (131.332 ms): 16373
+    test 8 simplifyRDPm(16614, adjust=True, shortest=False) 1m (169.720 ms): 15864
+    test 9 simplifyRDPm(16614, adjust=True, shortest=True) 1m (236.944 ms): 15867
+    test 10 simplifyRDPgr(16614, adjust=True, modified=True, shortest=True) 1m (128.083 ms): 15867
+    test 11 simplifyRDPm(16614, adjust=False, shortest=False) 1m (146.027 ms): 15869
+    test 12 simplifyRDPfw(16614, adjust=False, modified=True, shortest=False) 1m (83.894 ms): 15869
+    test 13 simplifyRDP(16614, adjust=True, indices=True, shortest=True) 1m (1.078 sec): 10960
+    test 14 simplifyRDP(16614, adjust=True, shortest=True) 1m (1.046 sec): 10960
+    test 15 simplifyRDPgr(16614, adjust=True, modified=False, shortest=True) 1m (962.778 ms): 10960
+    test 16 simplifyRDP(16614, adjust=False, indices=True, shortest=False) 1m (806.471 ms): 11248
+    test 17 simplifyRDP(16614, adjust=False, shortest=False) 1m (804.694 ms): 11248
+    test 18 simplifyRDPfw(16614, adjust=False, modified=False, shortest=False) 1m (414.375 ms): 11248
+    test 19 simplifyVW(1661, adjust=True) 1m (19.619 ms): 1641
+    test 20 simplifyVW(1661, adjust=False) 1m (14.981 ms): 1646
+    test 21 simplifyRDP(1661, adjust=True, shortest=False) 1m (74.847 ms): 1231
+    test 22 simplifyRDP(1661, adjust=True, shortest=True) 1m (80.917 ms): 1231
+    test 23 simplifyRDPgr(1661, adjust=True, shortest=True) 1m (73.166 ms): 1231
+    test 24 simplifyRDP(1661, adjust=False, shortest=False) 1m (62.558 ms): 1267
+    test 25 simplifyRDPfw(1661, adjust=False, shortest=False) 1m (32.530 ms): 1267
+    test 26 simplifyRDPgr(1661, adjust=False, shortest=True) 1m (52.506 ms): 1267
+    test 27 simplifyVW(69, adjust=False) 1m (543.118 us): 69
+    test 28 simplifyRDP(69, adjust=False, shortest=False) 1m (1.506 ms): 50
+    test 29 simplifyRDPfw(69, adjust=False, shortest=False) 1m (761.032 us): 50
+    test 30 simplifyRDPgr(69, adjust=False, shortest=True) 1m (1.174 ms): 50
+    test 31 simplifyRDPgr(69, adjust=True, shortest=True) 1m (1.584 ms): 45
     test 32 no module: numpy
-    all 32 testSimplify.py tests passed (PyGeodesy 18.9.6 Python 3.7.0 64bit Debian 9) 4.655 sec
 
-running /usr/local/bin/python ~/cirrus-ci-build/test/testSpherical.py
+    all 32 testSimplify.py tests passed (PyGeodesy 18.9.8 Python 3.7.0 64bit macOS 10.13.6) 7.082 sec
+
+running /usr/local/bin/python3 ~/PyGeodesy/test/testSpherical.py
 
     testing testSpherical.py 18.08.28
 
@@ -2888,11 +2898,11 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testSpherical.py
     test 275 isPoleEnclosedBy: False  FAILED, KNOWN, expected True
     test 276 isPoleEnclosedBy*: False  FAILED, KNOWN, expected True
 
-    2 of 276 testSpherical.py tests (0.7%) FAILED, ALL KNOWN (PyGeodesy 18.9.6 Python 3.7.0 64bit Debian 9) 13.761 ms
+    2 of 276 testSpherical.py tests (0.7%) FAILED, ALL KNOWN (PyGeodesy 18.9.8 Python 3.7.0 64bit macOS 10.13.6) 18.664 ms
 
-running /usr/local/bin/python ~/cirrus-ci-build/test/testUtils.py
+running /usr/local/bin/python3 ~/PyGeodesy/test/testUtils.py
 
-    testing testUtils.py 18.02.27 (module utils 18.09.06)
+    testing testUtils.py 18.09.08 (module utils 18.09.06)
     test 1 antipode1: (-89, -1)
     test 2 antipode2: (89, 1)
     test 3 isantipode1: True
@@ -2914,11 +2924,12 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testUtils.py
     test 19 unroll180: 200.0, 90.0
     test 20 unroll180: -160.0, -990.0
     test 21 unroll180: 920.0, 90.0
-    all 21 testUtils.py tests passed (PyGeodesy 18.9.6 Python 3.7.0 64bit Debian 9) 427.246 us
 
-running /usr/local/bin/python ~/cirrus-ci-build/test/testUtm.py
+    all 21 testUtils.py tests passed (PyGeodesy 18.9.8 Python 3.7.0 64bit macOS 10.13.6) 451.088 us
 
-    testing testUtm.py 17.06.21 (module utm 18.08.28)
+running /usr/local/bin/python3 ~/PyGeodesy/test/testUtm.py
+
+    testing testUtm.py 17.09.08 (module utm 18.08.28)
     test 1 Utm1: 03 N 448251.0 5411932.0001
     test 2 Utm2: 31 N 448252 5411933
     test 3 Utm2: 31 N 448251.795 5411932.678
@@ -2965,9 +2976,10 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testUtm.py
     test 44 toUtm(76.0°N, 025.0°E): 35X N 446000 8436100
     test 45 toUtm(76.0°N, 031.0°E): 35X N 607943 8438843
     test 46 toUtm(76.0°N, 037.0°E): 37X N 446000 8436100
-    all 46 testUtm.py tests passed (PyGeodesy 18.9.6 Python 3.7.0 64bit Debian 9) 7.601 ms
 
-running /usr/local/bin/python ~/cirrus-ci-build/test/testUtmTMcoords.py
+    all 46 testUtm.py tests passed (PyGeodesy 18.9.8 Python 3.7.0 64bit macOS 10.13.6) 8.256 ms
+
+running /usr/local/bin/python3 ~/PyGeodesy/test/testUtmTMcoords.py
 
     testing testUtmTMcoords.py 18.09.06 (module utm 18.08.28)
     test 1 E.KsOrder: 8
@@ -3788,9 +3800,9 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testUtmTMcoords.py
     test 745 line 258 convergence: 27.4096
     test 746 line 258 scale: 1.6615
 
-    1 of 746 testUtmTMcoords.py tests (0.1%) FAILED, ALL KNOWN, 71 skipped (PyGeodesy 18.9.6 Python 3.7.0 64bit Debian 9) 49.465 ms
+    1 of 746 testUtmTMcoords.py tests (0.1%) FAILED, ALL KNOWN, 71 skipped (PyGeodesy 18.9.8 Python 3.7.0 64bit macOS 10.13.6) 41.121 ms
 
-running /usr/local/bin/python ~/cirrus-ci-build/test/testVectorial.py
+running /usr/local/bin/python3 ~/PyGeodesy/test/testVectorial.py
 
     testing testVectorial.py 17.08.31
 
@@ -3847,11 +3859,11 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testVectorial.py
     test 48 triangulate: 47.323667°N, 002.568501°W
     test 49 triangulate: True
 
-    all 49 testVectorial.py tests passed (PyGeodesy 18.9.6 Python 3.7.0 64bit Debian 9) 5.542 ms
+    all 49 testVectorial.py tests passed (PyGeodesy 18.9.8 Python 3.7.0 64bit macOS 10.13.6) 3.952 ms
 
-running /usr/local/bin/python ~/cirrus-ci-build/test/testWebMercator.py
+running /usr/local/bin/python3 ~/PyGeodesy/test/testWebMercator.py
 
-    testing testWebMercator.py 18.09.03 (module webmercator 18.09.03)
+    testing testWebMercator.py 18.09.08 (module webmercator 18.09.03)
     test 1 toWm1: -626172.13571216 6887893.4928338
     test 2 Wm1.y: 6887893.49283380
     test 3 Wm2: 448251.795 5411932.678
@@ -3909,6 +3921,7 @@ running /usr/local/bin/python ~/cirrus-ci-build/test/testWebMercator.py
     test 55 toWm(LatLonE(40.0003, 0)).y: 4838511.61
     test 56 toWm(LatLonE(50.0003, 0)).y: 6413572.57
     test 57 toWm(LatLonE(60.0003, 0)).y: 8362760.29
-    all 57 testWebMercator.py tests passed (PyGeodesy 18.9.6 Python 3.7.0 64bit Debian 9) 1.759 ms
 
-test/run.py /usr/local/bin/python all 3671 tests OK (PyGeodesy 18.9.6 Python 3.7.0 64bit Debian 9) 9.537 sec
+    all 57 testWebMercator.py tests passed (PyGeodesy 18.9.8 Python 3.7.0 64bit macOS 10.13.6) 2.065 ms
+
+test/run.py /usr/local/bin/python3 all 3671 tests OK (PyGeodesy 18.9.8 Python 3.7.0 64bit macOS 10.13.6) 14.192 sec

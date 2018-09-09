@@ -29,12 +29,13 @@ if PyGeodesy_dir not in sys.path:  # Python 3+ ModuleNotFoundError
 from pygeodesy import version as PyGeodesy_version, \
                       iterNumpy2over, normDMS  # PYCHOK expected
 
-__all__ = ('isIntelPython', 'isiOS', 'isNix', 'isPyPy', 'isWindows',  # constants
-           'isPython2', 'isPython3',
+__all__ = ('isIntelPython', 'isiOS', 'isNix', 'isPyPy',  # constants
+           'isPython2', 'isPython3', 'isWindows',
            'PyGeodesy_dir', 'Python_O',
            'TestsBase',
-           'runner', 'secs2str', 'tilde', 'type2str', 'versions')
-__version__ = '18.09.06'
+           'ios_ver', 'runner', 'secs2str',
+           'tilde', 'type2str', 'versions')
+__version__ = '18.09.08'
 
 try:
     _int = int, long
@@ -223,6 +224,98 @@ class TestsBase(object):
         self.printf('testing %s %s%s', test, version, m, nl=1)
 
 
+if isiOS:  # MCCABE 13
+
+    def ios_ver(**unused):
+        '''Get the iOS version information.
+        '''
+        t = mac_ver()
+        # append 'machine' iPad, iPhone to 'release'
+        r = t[0] + ' ' + t[2].split(',')[0]
+        return (r,) + t[1:]
+
+    try:  # prefer StringIO over io
+        from StringIO import StringIO
+    except ImportError:  # Python 3+
+        from io import StringIO
+    from runpy import run_path
+    from traceback import format_exception
+
+    def runner(test):
+        '''Invoke one test module and return
+           the exit status and console output.
+        '''
+        # Mimick partial behavior of function runner
+        # further below because subprocess.Popen is
+        # not available on iOS/Pythonista/Python.
+        # One issue however, the test script is
+        # imported and run in the same process.
+
+        x = None  # no exit, no exception
+
+        sys3 = sys.argv, sys.stdout, sys.stderr
+        sys.stdout = sys.stderr = std = StringIO()
+        try:
+            sys.argv = [test]
+            run_path(test, run_name='__main__')
+        except:  # PYCHOK have to on Pythonista
+            x = sys.exc_info()
+            if x[0] is SystemExit:
+                x = x[1].code  # exit status
+            else:  # append traceback
+                x = [t for t in format_exception(*x)
+                             if 'runpy.py", line' not in t]
+                print(''.join(map(tilde, x)).rstrip())
+                x = 1  # count as a failure
+        sys.argv, sys.stdout, sys.stderr = sys3
+
+        r = std.getvalue()
+        if isinstance(r, bytes):  # Python 3+
+            r = r.decode('utf-8')
+
+        std.close()
+        std = None  # del std
+
+        if x is None:  # no exit status or exception:
+            # count failed tests excluding KNOWN ones
+            x = r.count('FAILED, expected')
+        return x, r
+
+    Python_O = basename(Python_O)
+
+else:  # non-iOS
+
+    def ios_ver(**unused):  # PYCHOK expected
+        '''Get the iOS version information.
+        '''
+        return ('', ('', '', ''), '')
+
+    from subprocess import PIPE, STDOUT, Popen
+
+    if not __debug__:
+        Python_O += ' -O'  # optimized
+
+    def runner(test):  # PYCHOK expected
+        '''Invoke one test module and return
+           the exit status and console output.
+        '''
+        c = Python_O.split() + [test]
+        p = Popen(c, creationflags=0,
+                     executable   =sys.executable,
+                   # shell        =True,
+                     stdin        =None,
+                     stdout       =PIPE,  # XXX
+                     stderr       =STDOUT)  # XXX
+
+        r = p.communicate()[0]
+        if isinstance(r, bytes):  # Python 3+
+            r = r.decode('utf-8')
+
+        # the exit status reflects the number of
+        # test failures in the tested module
+        return p.returncode, r
+
+
 def secs2str(secs):
     '''Convert a time value to string.
     '''
@@ -282,7 +375,6 @@ def versions():
     if numpy:
         vs += 'numpy', numpy.__version__
 
-    _xOS = 'iOS' if isiOS else 'macOS'
     # - mac_ver() returns ('10.12.5', ..., 'x86_64') on
     #   macOS and ('10.3.3', ..., 'iPad4,2') on iOS
     # - win32_ver is ('XP', ..., 'SP3', ...) on Windows XP SP3
@@ -291,7 +383,8 @@ def versions():
     # - sys.platform is 'darwin' on macOS, 'ios' on iOS,
     #   'win32' on Windows and 'cygwin' on Windows/Gygwin
     # - distro.id() and .name() return 'Darwin' on macOS
-    for t, r in ((_xOS,      mac_ver),
+    for t, r in (('iOS',     ios_ver),
+                 ('macOS',   mac_ver),
                  ('Windows', win32_ver),
                  (_Nix,      nix_ver),
                  ('Java',    java_ver),
@@ -302,80 +395,3 @@ def versions():
             break
 
     return ' '.join(vs)
-
-
-if isiOS:  # MCCABE 13
-
-    try:  # prefer StringIO over io
-        from StringIO import StringIO
-    except ImportError:  # Python 3+
-        from io import StringIO
-    from runpy import run_path
-    from traceback import format_exception
-
-    def runner(test):
-        '''Invoke one test module and return
-           the exit status and console output.
-        '''
-        # mimick partial behavior of function runner
-        # further below because subprocess.Popen is
-        # not available on iOS/Pythonista/Python.
-
-        x = None  # no exit, no exception
-
-        sys3 = sys.argv, sys.stdout, sys.stderr
-        sys.stdout = sys.stderr = std = StringIO()
-        try:
-            sys.argv = [test]
-            run_path(test, run_name='__main__')
-        except:  # PYCHOK have to on Pythonista
-            x = sys.exc_info()
-            if x[0] is SystemExit:
-                x = x[1].code  # exit status
-            else:  # append traceback
-                x = [t for t in format_exception(*x)
-                             if 'runpy.py", line' not in t]
-                print(''.join(map(tilde, x)).rstrip())
-                x = 1  # count as a failure
-        sys.argv, sys.stdout, sys.stderr = sys3
-
-        r = std.getvalue()
-        if isinstance(r, bytes):  # Python 3+
-            r = r.decode('utf-8')
-
-        std.close()
-        std = None  # del std
-
-        if x is None:  # no exit or exception, count
-            # failed tests excluding KNOWN ones
-            x = r.count('FAILED, expected')
-        return x, r
-
-    Python_O = basename(Python_O)
-
-else:  # non-iOS
-
-    from subprocess import PIPE, STDOUT, Popen
-
-    if not __debug__:
-        Python_O += ' -O'  # optimized
-
-    def runner(test):  # PYCHOK expected
-        '''Invoke one test module and return
-           the exit status and console output.
-        '''
-        c = Python_O.split() + [test]
-        p = Popen(c, creationflags=0,
-                     executable   =sys.executable,
-                   # shell        =True,
-                     stdin        =None,
-                     stdout       =PIPE,  # XXX
-                     stderr       =STDOUT)  # XXX
-
-        r = p.communicate()[0]
-        if isinstance(r, bytes):  # Python 3+
-            r = r.decode('utf-8')
-
-        # the exit status reflects the number of
-        # test failures in the tested module
-        return p.returncode, r

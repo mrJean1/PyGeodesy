@@ -4,7 +4,7 @@
 # Test Web Mercator classes functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '18.09.03'
+__version__ = '18.09.08'
 
 from math import log, radians, tan
 from base import TestsBase
@@ -125,5 +125,5 @@ if __name__ == '__main__':
     t = Tests(__file__, __version__, webmercator)
     t.testWebMercator(sphericalTrigonometry.LatLon,
                       ellipsoidalVincenty.LatLon)
-    t.results(nl=0)
+    t.results()
     t.exit()

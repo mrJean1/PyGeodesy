@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '18.02.27'
+__version__ = '18.09.08'
 
 from base import TestsBase
 
@@ -52,5 +52,5 @@ if __name__ == '__main__':
 
     t = Tests(__file__, __version__, utils)
     t.testUtils()
-    t.results(nl=0)
+    t.results()
     t.exit()

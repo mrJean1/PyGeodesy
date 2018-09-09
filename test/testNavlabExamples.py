@@ -9,7 +9,7 @@ those used in nvector.readthedocs.org.  Tests marked with
 # +++ are additional, not present in the original examples.
 '''
 __all__ = ()
-__version__ = '18.03.08'
+__version__ = '18.09.08'
 
 if __name__ == '__main__':
 
@@ -124,5 +124,5 @@ if __name__ == '__main__':
     c = b.crossTrackDistanceTo(a1, a2)
     t.test(10, 'crossTrackDistance', c, 11118, fmt='%.0f')  # 11,118 m == 11.12 km
 
-    t.results(nl=0)
+    t.results()
     t.exit()

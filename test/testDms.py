@@ -4,7 +4,7 @@
 # Test degrees, minutes, seconds functions.
 
 __all__ = ('Tests',)
-__version__ = '18.01.31'
+__version__ = '18.09.08'
 
 from base import TestsBase
 
@@ -112,5 +112,5 @@ if __name__ == '__main__':
 
     t = Tests(__file__, __version__, dms)
     t.testDms()
-    t.results(nl=0)
+    t.results()
     t.exit()

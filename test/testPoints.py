@@ -4,7 +4,7 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '18.02.05'
+__version__ = '18.09.08'
 
 from base import TestsBase
 
@@ -121,5 +121,5 @@ if __name__ == '__main__':  # PYCHOK internal error?
     pts = Tuple2LatLon(tup, ilat=3, ilon=1)
     t.test2(pts, tup, False)
 
-    t.results(nl=0)
+    t.results()
     t.exit()

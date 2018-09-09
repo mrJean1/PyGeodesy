@@ -78,12 +78,12 @@ def acos1(x):
 
 def antipode(lat, lon):
     '''Return the antipode, the point diametrically opposite to the
-       given lat-/longitude.
+       given lat- and longitude.
 
        @param lat: Latitude (degrees).
        @param lon: Longitude (degrees).
 
-       @return: 2-Tuple (lat, lon) of the antipodal points in degrees.
+       @return: 2-Tuple (lat, lon) of the antipodal point (degrees, degrees180).
 
        @see: U{Geosphere<http://cran.r-project.org/web/packages/geosphere/geosphere.pdf>}.
     '''
