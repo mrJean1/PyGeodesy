@@ -30,7 +30,7 @@ __all__ = ('LatLon',  # classes
            'meanOf',
            'nearestOn2',
            'perimeterOf')
-__version__ = '18.08.28'
+__version__ = '18.09.09'
 
 
 class LatLon(LatLonSphericalBase):
@@ -591,7 +591,7 @@ def areaOf(points, radius=R_M, wrap=True):
               <http://osgeo-org.1560.x6.nabble.com/Area-of-a-spherical-polygon-td3841625.html>}.
 
        @see: L{pygeodesy.areaOf}, L{sphericalNvector.areaOf} and
-             L{ellipsoidalVincenty.areaOf}.
+             L{ellipsoidalKarney.areaOf}.
 
        @example:
 
@@ -887,7 +887,7 @@ def perimeterOf(points, closed=False, radius=R_M, wrap=True):
 
        @note: This perimeter is based on the L{haversine} formula.
 
-       @see: L{pygeodesy.perimeterOf} and L{ellipsoidalVincenty.perimeterOf}.
+       @see: L{pygeodesy.perimeterOf} and L{ellipsoidalKarney.perimeterOf}.
     '''
     n, points = _Trll.points(points, closed=closed)
 

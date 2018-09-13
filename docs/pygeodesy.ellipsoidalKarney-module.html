@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.ellipsoidalKarney</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        Module&nbsp;ellipsoidalKarney
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.ellipsoidalKarney-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module ellipsoidalKarney</h1><p class="nomargin-top"></p>
+<p>Ellipsoidal geodetic (lat-/longitude) and cartesian (x/y/z) classes <a
+  href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+  class="link">LatLon</a> and <a 
+  href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
+  class="link">Cartesian</a> and functions <a 
+  href="pygeodesy.ellipsoidalKarney-module.html#areaOf" 
+  class="link">areaOf</a> and <a 
+  href="pygeodesy.ellipsoidalKarney-module.html#perimeterOf" 
+  class="link">perimeterOf</a> based on the pure Python implementation of 
+  <i>Charles F. F. Karney's</i> <a 
+  href="http://pypi.python.org/pypi/geographiclib" 
+  target="_top">GeographicLib</a>.</p>
+  <p>Here's an example usage of <code>ellipsoidalKarney</code>:</p>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-keyword">from</span> pygeodesy.ellipsoidalKarney <span class="py-keyword">import</span> LatLon
+<span class="py-prompt">&gt;&gt;&gt; </span>Newport_RI = LatLon(41.49008, -71.312796)
+<span class="py-prompt">&gt;&gt;&gt; </span>Cleveland_OH = LatLon(41.499498, -81.695391)
+<span class="py-prompt">&gt;&gt;&gt; </span>Newport_RI.distanceTo(Cleveland_OH)
+<span class="py-output">866,455.4329098687  # meter</span></pre>
+  <p>You can change the ellipsoid model used by the Karney formulae as 
+  follows:</p>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-keyword">from</span> pygeodesy <span class="py-keyword">import</span> Datums
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-keyword">from</span> pygeodesy.ellipsoidalKarney <span class="py-keyword">import</span> LatLon
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(0, 0, datum=Datums.OSGB36)</pre>
+  <p>or by converting to anothor datum:</p>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = p.convertDatum(Datums.OSGB36)</pre>
+
+<hr />
+<div class="fields">      <p><strong>Version:</strong>
+        18.09.09
+      </p>
+</div><!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Classes</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoidalKarney.LatLon-class.html" class="summary-name">LatLon</a><br />
+      An ellipsoidal <a 
+        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+        class="link">LatLon</a> similar to <a 
+        href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+        class="link">ellipsoidalVincenty.LatLon</a> but using <i>Charles F.
+        F. Karney's</i> <a href="http://pypi.python.org/pypi/geographiclib"
+        target="_top">Python GeographicLib</a> to compute the geodesic 
+        distance, initial and final bearing (azimuths) between two given 
+        points or the destination point given a start point and an initial 
+        bearing.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" class="summary-name">Cartesian</a><br />
+      Extended to convert (geocentric) <a 
+        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
+        class="link">Cartesian</a> points to Karney-based (ellipsoidal) 
+        geodetic <a href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+        class="link">LatLon</a>.
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTIONS ==================== -->
+<a name="section-Functions"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Functions</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalKarney-module.html#areaOf" class="summary-sig-name">areaOf</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Compute the area of a polygon defined by an array, list, sequence, 
+      set or tuple of points on the given datum.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalKarney-module.html#perimeterOf" class="summary-sig-name">perimeterOf</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Compute the perimeter of a polygon/-line defined by an array, list, 
+      sequence, set or tuple of points on the given datum.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTION DETAILS ==================== -->
+<a name="section-FunctionDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Function Details</span></td>
+</tr>
+</table>
+<a name="areaOf"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">areaOf</span>(<span class="sig-arg">points</span>,
+        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the area of a polygon defined by an array, list, sequence, set
+  or tuple of points on the given datum.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<a 
+          href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+          class="link">LatLon</a>[]).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Optional datum (<a href="pygeodesy.datum.Datum-class.html" 
+          class="link">Datum</a>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (bool).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Area (meter squared).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ImportError</strong></code> - Package <a href="http://pypi.python.org/pypi/geographiclib" 
+        target="_top">GeographicLib</a> missing.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <a 
+        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i> or longitudes not wrapped, 
+        unrolled.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        This function requires the <a 
+        href="http://pypi.python.org/pypi/geographiclib" 
+        target="_top">GeographicLib</a> package to be installed.
+      </p>
+      <p><strong>See Also:</strong>
+        <a href="pygeodesy.points-module.html#areaOf" 
+        class="link">pygeodesy.areaOf</a>, <a 
+        href="pygeodesy.sphericalNvector-module.html#areaOf" 
+        class="link">sphericalNvector.areaOf</a> and <a 
+        href="pygeodesy.sphericalTrigonometry-module.html#areaOf" 
+        class="link">sphericalTrigonometry.areaOf</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="perimeterOf"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">perimeterOf</span>(<span class="sig-arg">points</span>,
+        <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the perimeter of a polygon/-line defined by an array, list, 
+  sequence, set or tuple of points on the given datum.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<a 
+          href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+          class="link">LatLon</a>[]).</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the polygon/-line (bool).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Optional datum (<a href="pygeodesy.datum.Datum-class.html" 
+          class="link">Datum</a>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (bool).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Perimeter (meter).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ImportError</strong></code> - Package <a href="http://pypi.python.org/pypi/geographiclib" 
+        target="_top">GeographicLib</a> missing.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <a 
+        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i> or longitudes not wrapped, 
+        unrolled.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        This function requires the <a 
+        href="http://pypi.python.org/pypi/geographiclib" 
+        target="_top">GeographicLib</a> package to be installed.
+      </p>
+      <p><strong>See Also:</strong>
+        <a href="pygeodesy.points-module.html#perimeterOf" 
+        class="link">pygeodesy.perimeterOf</a> and <a 
+        href="pygeodesy.sphericalTrigonometry-module.html#perimeterOf" 
+        class="link">sphericalTrigonometry.perimeterOf</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Sep 13 11:25:03 2018
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

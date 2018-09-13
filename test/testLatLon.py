@@ -90,7 +90,7 @@ class Tests(TestsBase):
         if hasattr(LatLon, 'distanceTo3') and not Sph:
             for w in (False, True):
                 d = WNZ.distanceTo3(SAL, wrap=w)  # XXX expected values?
-                self.test('distanceTo3 dateline', fStr(d, prec=4), '19125097.7012, 270.7159, 276.0288')  # PYCHOK false?
+                self.test('distanceTo3 dateline', fStr(d, prec=4), '19125097.7012, 270.7159, 276.0288', known=True)  # PYCHOK false?
                 d = BJS.distanceTo3(SFO, wrap=w)
                 self.test('distanceTo3 dateline', fStr(d, prec=4), '9513997.9901, 42.9164, 138.8903')  # PYCHOK false?
 

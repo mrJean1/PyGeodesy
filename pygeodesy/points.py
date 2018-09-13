@@ -43,7 +43,7 @@ __all__ = ('LatLon_',  # classes
            'bounds',
            'isclockwise', 'isconvex', 'isenclosedby',
            'perimeterOf')
-__version__ = '18.08.28'
+__version__ = '18.09.09'
 
 
 class LatLon_(object):
@@ -875,7 +875,7 @@ def areaOf(points, adjust=True, radius=R_M, wrap=True):
        or with near-polar latitudes.
 
        @see: L{sphericalNvector.areaOf}, L{sphericalTrigonometry.areaOf}
-             and L{ellipsoidalVincenty.areaOf}.
+             and L{ellipsoidalKarney.areaOf}.
     '''
     return abs(_areaOf(points, adjust, wrap)) * float(radius)**2
 
@@ -1125,7 +1125,7 @@ def perimeterOf(points, closed=False, adjust=True, radius=R_M, wrap=True):
        several hundred Km or Miles or with near-polar latitudes.
 
        @see: L{sphericalTrigonometry.perimeterOf} and
-             L{ellipsoidalVincenty.perimeterOf}.
+             L{ellipsoidalKarney.perimeterOf}.
     '''
     pts = LatLon2psxy(points, closed=closed, radius=None, wrap=False)
 

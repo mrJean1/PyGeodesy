@@ -10,18 +10,19 @@ Transcribed from U{JavaScript originals<http://github.com/chrisveness/geodesy>}
 by I{Chris Veness (C) 2005-2016} and published under the same U{MIT License
 <http://opensource.org/licenses/MIT>}**.
 
-There are two modules for ellipsoidal earth models, I{ellipsoidalVincenty}
-and I{-Nvector} and two for spherical ones, I{sphericalTrigonometry} and
-I{-Nvector}.  Each module provides a I{attributes-LatLon-html} class with
-methods and functions to compute distance, initial and final bearing,
+There are three modules for ellipsoidal earth models, I{ellipsoidalKarney},
+I{-Vincenty} and I{-Nvector} and two for spherical ones, I{sphericalTrigonometry}
+and I{-Nvector}.  Each module provides a I{attributes-LatLon-html} class
+with methods and functions to compute distance, initial and final bearing,
 intermediate and nearest points, area, perimeter, conversions and unrolling,
 among other things.  For more information and further details see the
-U{documentation<http://mrjean1.github.io/PyGeodesy/>}, the descriptions
-of U{Latitude/Longitude<http://www.movable-type.co.uk/scripts/latlong.html>},
+U{documentation<http://mrjean1.github.io/PyGeodesy/>}, the descriptions of
+U{Latitude/Longitude<http://www.movable-type.co.uk/scripts/latlong.html>},
 U{Vincenty<http://www.movable-type.co.uk/scripts/latlong-vincenty.html>} and
 U{Vector-based<http://www.movable-type.co.uk/scripts/latlong-vectors.html>}
-geodesy and the original U{JavaScript source<http://github.com/chrisveness/geodesy>} or
-U{docs<http://www.movable-type.co.uk/scripts/geodesy/docs/>}.
+geodesy, the original U{JavaScript source<http://github.com/chrisveness/geodesy>} or
+U{docs<http://www.movable-type.co.uk/scripts/geodesy/docs/>} and U{GeographicLib
+Python <http://geographiclib.sourceforge.io/1.49/python>}.
 
 Also included are modules for conversions to and from
 U{UTM<http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html>}
@@ -59,19 +60,19 @@ The tests have been run in 64-bit with U{PyPy-Python<http://pypy.org>}
 <http://pypi.python.org/pypi/geographiclib>} 1.49 and U{numpy
 <http://pypi.python.org/pypi/numpy>} 1.14.0), U{Intel-Python
 <http://software.intel.com/en-us/distribution-for-python>} 3.5.3 (and
-U{numpy<http://pypi.python.org/pypi/numpy>} 1.11.3) and Python 3.7.0,
-all on macOS 10.13.6 High Sierra and with U{Pythonista 3.2
-<http://omz-software.com/pythonista/>} Python 2.7.12 and 3.6.1 (both with
-U{numpy<http://pypi.python.org/pypi/numpy>} 1.8.0) on iOS 11.4.1 (iPad
-and iPhone X).
+U{numpy<http://pypi.python.org/pypi/numpy>} 1.11.3) and Python 3.7.0
+(with U{geographiclib<http://pypi.python.org/pypi/geographiclib>} 1.49),
+all on macOS 10.13.6 High Sierra, with 64-bit Python 3.7.0 on Debian
+GNU/Linux 9 and with U{Pythonista 3.2 <http://omz-software.com/pythonista/>}
+Python 2.7.12 and 3.6.1 (both with U{numpy<http://pypi.python.org/pypi/numpy>}
+1.8.0) on iOS 11.4.1 (iPad and iPhone X).
 
 Previously, the tests were run with 64-bit Python 2.6.9 (and numpy 1.6.2),
 2.7.10 (and numpy 1.8.0rc1), 2.7.13, 2.7.14 (and numpy 1.13.1), 3.5.3,
 3.6.2, 3.6.3, 3.6.4 and 3.6.5 on MacOS X 10.10 Yosemite, MacOS X 10.11 El
 Capitan, macOS 10.12 Sierra, macOS 10.13.4 and/or 10.13.5 High Sierra, with
 Pythonista 3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3, with 32-bit Python
-2.6.6 on Windows XP SP3, with 32-bit Python 2.7.14 on Windows 10 Pro and
-with 64-bit Python 3.7.0 on Debian GNU/Linux 9.
+2.6.6 on Windows XP SP3, with 32-bit Python 2.7.14 on Windows 10 Pro.
 
 In addition to the U{PyGeodesy<http://pypi.python.org/pypi/PyGeodesy>} package,
 the distribution files contain the tests, the test results and the complete
@@ -87,8 +88,9 @@ C{cd} to directory C{Pygeodesy-} and type C{python setup.py install}.  To
 run all PyGeodesy tests, type C{python setup.py test} before installation.
 
 Installation of U{NumPy<http://www.NumPy.org>} and U{GeographicLib
-<http://geographiclib.sourceforge.io>} is optional, but the latter is
-required for two I{ellipsoidalVincenty} functions, I{areaOf} and I{perimeterOf}.
+<http://pypi.python.org/pypi/geographiclib>} is optional.  However, the latter
+is required for module I{ellipsoidalKarney} classes I{LatLon} and I{Cartesian}
+and the functions I{areaOf} and I{perimeterOf}.
 
 Some function and method names differ from the JavaScript version. In such
 cases documentation tag B{JS name:} shows the original JavaScript name.
@@ -172,6 +174,7 @@ except ImportError:
     del os, sys
 
 # keep ellipsoidal, spherical and vector modules as sub-modules
+import ellipsoidalKarney  # PYCHOK false
 import ellipsoidalNvector  # PYCHOK false
 import ellipsoidalVincenty  # PYCHOK false
 import geohash
@@ -186,16 +189,16 @@ Geohash       = geohash.Geohash
 VincentyError = ellipsoidalVincenty.VincentyError
 
 # all public sub-modules, contants, classes and functions
-__all__ = ('ellipsoidalNvector', 'ellipsoidalVincenty',  # modules
-           'sphericalNvector', 'sphericalTrigonometry',
-           'bases', 'datum', 'dms', 'elevations', 'fmath', 'geohash',
-           'lcc', 'mgrs', 'nvector', 'osgr', 'points', 'simplify',
+__all__ = ('bases', 'datum', 'dms', 'elevations',  # modules
+           'ellipsoidalKarney', 'ellipsoidalNvector', 'ellipsoidalVincenty',
+           'fmath', 'geohash', 'lcc', 'mgrs', 'nvector', 'osgr', 'points',
+           'simplify', 'sphericalNvector', 'sphericalTrigonometry',
            'utils', 'utm', 'vector3d', 'webmercator',
            'CrossError', 'Geohash', 'VincentyError',  # classes
            'R_M',  # to avoid duplicates from datum and utils
            'version',
            'crosserrors')  # extended below
-__version__ = '18.09.08'
+__version__ = '18.09.09'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
@@ -241,6 +244,9 @@ del m
 # for backward compatibility with old names
 areaof      = points.areaOf
 perimeterof = points.perimeterOf
+
+ellipsoidalVincenty.areaOf      = ellipsoidalKarney.areaOf
+ellipsoidalVincenty.perimeterOf = ellipsoidalKarney.perimeterOf
 
 
 def equirectangular3(lat1, lon1, lat2, lon2, **options):

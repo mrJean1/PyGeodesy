@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 u'''Vincenty's ellipsoidal geodetic (lat-/longitude) and cartesian (x/y/z)
-classes L{LatLon}, L{Cartesian} and L{VincentyError} anf functions
+classes L{LatLon}, L{Cartesian} and L{VincentyError} and functions
 L{areaOf} and L{perimeterOf}.
 
 Pure Python implementation of geodesy tools for ellipsoidal earth models,
@@ -30,13 +30,13 @@ Geophysics (IUGG) as M{(2 * a + b) / 3 = 6371008.7714150598} meter or
 approx. 6371009 meter (for WGS-84, resulting in an error of up to
 about 0.5%).
 
-Here's an example usage of Vincenty:
+Here's an example usage of C{ellipsoidalVincenty}:
 
     >>> from pygeodesy.ellipsoidalVincenty import LatLon
     >>> Newport_RI = LatLon(41.49008, -71.312796)
     >>> Cleveland_OH = LatLon(41.499498, -81.695391)
     >>> Newport_RI.distanceTo(Cleveland_OH)
-    866455.4329158525  # meter
+    866,455.4329158525  # meter
 
 You can change the ellipsoid model used by the Vincenty formulae
 as follows:
@@ -59,14 +59,13 @@ from datum import Datums
 from ellipsoidalBase import CartesianBase, LatLonEllipsoidalBase
 from fmath import EPS, fpolynomial, hypot, scalar
 from utils import degrees90, degrees180, degrees360, \
-                  polygon, radians, unroll180
+                  radians, unroll180
 
 from math import atan2, cos, sin, tan
 
 # all public contants, classes and functions
-__all__ = ('Cartesian', 'LatLon', 'VincentyError',  # classes
-           'areaOf', 'perimeterOf')  # functions
-__version__ = '18.08.28'
+__all__ = ('Cartesian', 'LatLon', 'VincentyError')  # classes
+__version__ = '18.09.09'
 
 division = 1 / 2  # double check int division, see utils.py
 if not division:
@@ -527,87 +526,6 @@ class Cartesian(CartesianBase):
                     (degrees90, degrees180, height) if I{LatLon} is None.
         '''
         return CartesianBase._toLLhd(self, LatLon, datum)
-
-
-def _Geodesic(points, closed, datum, line, wrap):
-    # Compute the area or perimeter of a polygon/-line
-    # using the GeographicLib package, iff installed
-    try:
-        from geographiclib.geodesic import Geodesic
-    except ImportError:
-        raise ImportError('no %s' % ('geographiclib',))
-
-    if not wrap:  # capability LONG_UNROLL always set
-        raise ValueError('%s invalid: %s' % ('wrap', wrap))
-
-    _, points = polygon(points, closed=closed)  # base=LatLonEllipsoidalBase(0, 0)
-
-    E = datum.ellipsoid
-    g = Geodesic(E.a, E.f).Polygon(line)
-
-    # note, lon deltas are unrolled, by default
-    for p in points:
-        g.AddPoint(p.lat, p.lon)
-    if line and closed:
-        p = points[0]
-        g.AddPoint(p.lat, p.lon)
-
-    # g.Compute returns (number_of_points, perimeter, signed area)
-    return g.Compute(False, True)[1 if line else 2]
-
-
-def areaOf(points, datum=Datums.WGS84, wrap=True):
-    '''Compute the area of a polygon defined by an array, list, sequence,
-       set or tuple of points on the given datum.
-
-       @param points: The points defining the polygon (L{LatLon}[]).
-       @keyword datum: Optional datum (L{Datum}).
-       @keyword wrap: Wrap and unroll longitudes (bool).
-
-       @return: Area (meter squared).
-
-       @raise ImportError: Package U{GeographicLib
-              <http://pypi.python.org/pypi/geographiclib>} missing.
-
-       @raise TypeError: Some I{points} are not L{LatLon}.
-
-       @raise ValueError: Insufficient number of I{points} or longitudes
-                          not wrapped, unrolled.
-
-       @note: This function requires the U{GeographicLib
-       <http://pypi.python.org/pypi/geographiclib>} package to be installed.
-
-       @see: L{pygeodesy.areaOf}, L{sphericalNvector.areaOf} and
-             L{sphericalTrigonometry.areaOf}.
-    '''
-    return abs(_Geodesic(points, True, datum, False, wrap))
-
-
-def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):
-    '''Compute the perimeter of a polygon/-line defined by an array,
-       list, sequence, set or tuple of points on the given datum.
-
-       @param points: The points defining the polygon (L{LatLon}[]).
-       @keyword closed: Optionally, close the polygon/-line (bool).
-       @keyword datum: Optional datum (L{Datum}).
-       @keyword wrap: Wrap and unroll longitudes (bool).
-
-       @return: Perimeter (meter).
-
-       @raise ImportError: Package U{GeographicLib
-              <http://pypi.python.org/pypi/geographiclib>} missing.
-
-       @raise TypeError: Some I{points} are not L{LatLon}.
-
-       @raise ValueError: Insufficient number of I{points} or longitudes
-                          not wrapped, unrolled.
-
-       @note: This function requires the U{GeographicLib
-       <http://pypi.python.org/pypi/geographiclib>} package to be installed.
-
-       @see: L{pygeodesy.perimeterOf} and L{sphericalTrigonometry.perimeterOf}.
-    '''
-    return _Geodesic(points, closed, datum, True, wrap)
 
 # **) MIT License
 #

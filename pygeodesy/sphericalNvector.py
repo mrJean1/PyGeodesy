@@ -46,7 +46,7 @@ __all__ = ('LatLon', 'Nvector',  # classes
            'meanOf',
            'nearestOn2',
            'triangulate', 'trilaterate')
-__version__ = '18.08.26'
+__version__ = '18.09.09'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -750,7 +750,7 @@ def areaOf(points, radius=R_M):
        @raise ValueError: Insufficient number of I{points}.
 
        @see: L{pygeodesy.areaOf}, L{sphericalTrigonometry.areaOf} and
-             L{ellipsoidalVincenty.areaOf}.
+             L{ellipsoidalKarney.areaOf}.
 
        @example:
 

@@ -4,8 +4,9 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '18.08.28'
+__version__ = '18.09.09'
 
+from base import geographiclib
 from testLatLon import Tests as _TestsLL
 from testVectorial import Tests as _TestsV
 
@@ -57,12 +58,46 @@ class Tests(_TestsLL, _TestsV):
             n = Nvector(0.51, 0.512, 0.7071, 1).toStr(3)
             self.test('Nvector', n, '(0.51, 0.512, 0.707, +1.00)')
 
+    def testKarney(self, module, datum):
+
+        d = datum
+        self.subtitle(module, 'Karney', datum=d.name)
+        LatLon = module.LatLon
+
+        Newport_RI = LatLon(41.49008, -71.312796, datum=d)
+
+        Cleveland_OH = LatLon(41.499498, -81.695391, datum=d)
+        m = Newport_RI.distanceTo(Cleveland_OH)
+        self.test('distanceTo', m, '866455.4329', fmt='%.4f')
+
+        m = Newport_RI.distanceTo(Newport_RI)
+        self.test('coincident', m, 0.0)
+
+        if hasattr(LatLon, 'toCartesian'):
+            try:
+                m = Newport_RI.distanceTo(Cleveland_OH.convertDatum(Datums.OSGB36))
+                self.test('ValueError', None, 'other Ellipsoid mistmatch: ...' + d.ellipsoid.name)
+            except ValueError as x:
+                self.test('ValueError', x, 'other Ellipsoid mistmatch: Ellipsoids.Airy1830 vs Ellipsoids.' + d.ellipsoid.name)
+            except Exception as x:
+                self.test('ValueError', x, 'ValueError ...' + d.ellipsoid.name)
+
+        p = LatLon(-37.95103342, 144.42486789, datum=d)
+        self.test('isEllipsoidal', p.isEllipsoidal, True)
+
+        q = p.copy()
+        self.test('copy', q.equals(p), True)
+        self.test('isEllipsoidal', q.isEllipsoidal, True)
+        self.test('isSpherical', q.isSpherical, False)
+
+        self.test('copy', q.toStr(F_DMS, prec=4), '37°57′03.7203″S, 144°25′29.5244″E')
+
+        self.testKarneyVincenty(LatLon, d)
+
     def testVincenty(self, module, datum):
 
         d = datum
-
         self.subtitle(module, 'Vincenty', datum=d.name)
-
         LatLon = module.LatLon
 
         Newport_RI = LatLon(41.49008, -71.312796, datum=d)
@@ -106,6 +141,11 @@ class Tests(_TestsLL, _TestsV):
         self.test('epsilon', q.epsilon, EPS)
         self.test('iterations', q.iterations, 200)
 
+        self.testKarneyVincenty(LatLon, d)
+
+    def testKarneyVincenty(self, LatLon, d):
+
+        p = LatLon(-37.95103342, 144.42486789, datum=d)
         q = p.destination(54972.271, 306.86816)
         t = q.toStr(F_D, prec=4)
         self.test('destination', t, '37.6528°S, 143.9265°E')
@@ -257,7 +297,8 @@ class Tests(_TestsLL, _TestsV):
 
 if __name__ == '__main__':
 
-    from pygeodesy import ellipsoidalNvector as N, \
+    from pygeodesy import ellipsoidalKarney as K, \
+                          ellipsoidalNvector as N, \
                           ellipsoidalVincenty as V
 
     t = Tests(__file__, __version__)
@@ -268,9 +309,16 @@ if __name__ == '__main__':
 
     t.testEllipsoidal(V, None, None)
     t.testLatLon(V, Sph=False)
+    t.testNOAA(V)
     for d in (Datums.WGS84, Datums.NAD83,):  # Datums.Sphere):
         t.testVincenty(V, d)
-    t.testNOAA(V)
+
+    if geographiclib:
+        t.testEllipsoidal(K, None, None)
+        t.testLatLon(K, Sph=False)
+        t.testNOAA(K)
+        for d in (Datums.WGS84, Datums.NAD83,):  # Datums.Sphere):
+            t.testKarney(K, d)
 
     t.results()
     t.exit()

@@ -65,10 +65,10 @@
   href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
   class="link">Cartesian</a> and <a 
   href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html" 
-  class="link">VincentyError</a> anf functions <a 
-  href="pygeodesy.ellipsoidalVincenty-module.html#areaOf" 
+  class="link">VincentyError</a> and functions <a 
+  href="pygeodesy.ellipsoidalKarney-module.html#areaOf" 
   class="link">areaOf</a> and <a 
-  href="pygeodesy.ellipsoidalVincenty-module.html#perimeterOf" 
+  href="pygeodesy.ellipsoidalKarney-module.html#perimeterOf" 
   class="link">perimeterOf</a>.</p>
   <p>Pure Python implementation of geodesy tools for ellipsoidal earth 
   models, transcribed from JavaScript originals by <i>(C) Chris Veness 
@@ -92,13 +92,13 @@
   Geophysics (IUGG) as <i class="math">(2 * a + b) / 3 = 
   6371008.7714150598</i> meter or approx. 6371009 meter (for WGS-84, 
   resulting in an error of up to about 0.5%).</p>
-  <p>Here's an example usage of Vincenty:</p>
+  <p>Here's an example usage of <code>ellipsoidalVincenty</code>:</p>
 <pre class="py-doctest">
 <span class="py-prompt">&gt;&gt;&gt; </span><span class="py-keyword">from</span> pygeodesy.ellipsoidalVincenty <span class="py-keyword">import</span> LatLon
 <span class="py-prompt">&gt;&gt;&gt; </span>Newport_RI = LatLon(41.49008, -71.312796)
 <span class="py-prompt">&gt;&gt;&gt; </span>Cleveland_OH = LatLon(41.499498, -81.695391)
 <span class="py-prompt">&gt;&gt;&gt; </span>Newport_RI.distanceTo(Cleveland_OH)
-<span class="py-output">866455.4329158525  # meter</span></pre>
+<span class="py-output">866,455.4329158525  # meter</span></pre>
   <p>You can change the ellipsoid model used by the Vincenty formulae as 
   follows:</p>
 <pre class="py-doctest">
@@ -111,7 +111,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.08.28
+        18.09.09
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -154,178 +154,6 @@
     </td>
   </tr>
 </table>
-<!-- ==================== FUNCTIONS ==================== -->
-<a name="section-Functions"></a>
-<table class="summary" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td align="left" colspan="2" class="table-header">
-    <span class="table-header">Functions</span></td>
-</tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalVincenty-module.html#areaOf" class="summary-sig-name">areaOf</a>(<span class="summary-sig-arg">points</span>,
-        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Compute the area of a polygon defined by an array, list, sequence, 
-      set or tuple of points on the given datum.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalVincenty-module.html#perimeterOf" class="summary-sig-name">perimeterOf</a>(<span class="summary-sig-arg">points</span>,
-        <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Compute the perimeter of a polygon/-line defined by an array, list, 
-      sequence, set or tuple of points on the given datum.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-</table>
-<!-- ==================== FUNCTION DETAILS ==================== -->
-<a name="section-FunctionDetails"></a>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td align="left" colspan="2" class="table-header">
-    <span class="table-header">Function Details</span></td>
-</tr>
-</table>
-<a name="areaOf"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">areaOf</span>(<span class="sig-arg">points</span>,
-        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Compute the area of a polygon defined by an array, list, sequence, set
-  or tuple of points on the given datum.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<a 
-          href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
-          class="link">LatLon</a>[]).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Optional datum (<a href="pygeodesy.datum.Datum-class.html" 
-          class="link">Datum</a>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (bool).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Area (meter squared).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ImportError</strong></code> - Package <a href="http://pypi.python.org/pypi/geographiclib" 
-        target="_top">GeographicLib</a> missing.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <a 
-        href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
-        class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i> or longitudes not wrapped, 
-        unrolled.</li>
-    </ul></dd>
-  </dl>
-<div class="fields">      <p><strong>Note:</strong>
-        This function requires the <a 
-        href="http://pypi.python.org/pypi/geographiclib" 
-        target="_top">GeographicLib</a> package to be installed.
-      </p>
-      <p><strong>See Also:</strong>
-        <a href="pygeodesy.points-module.html#areaOf" 
-        class="link">pygeodesy.areaOf</a>, <a 
-        href="pygeodesy.sphericalNvector-module.html#areaOf" 
-        class="link">sphericalNvector.areaOf</a> and <a 
-        href="pygeodesy.sphericalTrigonometry-module.html#areaOf" 
-        class="link">sphericalTrigonometry.areaOf</a>.
-      </p>
-</div></td></tr></table>
-</div>
-<a name="perimeterOf"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">perimeterOf</span>(<span class="sig-arg">points</span>,
-        <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Compute the perimeter of a polygon/-line defined by an array, list, 
-  sequence, set or tuple of points on the given datum.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<a 
-          href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
-          class="link">LatLon</a>[]).</li>
-        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the polygon/-line (bool).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Optional datum (<a href="pygeodesy.datum.Datum-class.html" 
-          class="link">Datum</a>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (bool).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Perimeter (meter).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ImportError</strong></code> - Package <a href="http://pypi.python.org/pypi/geographiclib" 
-        target="_top">GeographicLib</a> missing.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <a 
-        href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
-        class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i> or longitudes not wrapped, 
-        unrolled.</li>
-    </ul></dd>
-  </dl>
-<div class="fields">      <p><strong>Note:</strong>
-        This function requires the <a 
-        href="http://pypi.python.org/pypi/geographiclib" 
-        target="_top">GeographicLib</a> package to be installed.
-      </p>
-      <p><strong>See Also:</strong>
-        <a href="pygeodesy.points-module.html#perimeterOf" 
-        class="link">pygeodesy.perimeterOf</a> and <a 
-        href="pygeodesy.sphericalTrigonometry-module.html#perimeterOf" 
-        class="link">sphericalTrigonometry.perimeterOf</a>.
-      </p>
-</div></td></tr></table>
-</div>
-<br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
        bgcolor="#a0c0ff" cellspacing="0">
@@ -357,7 +185,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Sep  9 14:53:24 2018
+    Generated by Epydoc 3.0.1 on Thu Sep 13 11:25:03 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

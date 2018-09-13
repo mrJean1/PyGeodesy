@@ -135,7 +135,7 @@ R_VM = 6366707.0194937  #: Aviation/Navigation earth radius (meter).
 __all__ = ('R_MA', 'R_MB', 'R_KM', 'R_M', 'R_NM', 'R_SM', 'R_FM', 'R_VM',  # constants
            'Datum',  'Ellipsoid',  'Transform',  # classes
            'Datums', 'Ellipsoids', 'Transforms')  # enum-like
-__version__ = '18.09.06'
+__version__ = '18.09.09'
 
 division = 1 / 2  # double check int division, see utils.py
 if not division:
@@ -312,6 +312,8 @@ class Ellipsoid(_Based):
     _BetaKs  = None  #: (INTERNAL) Up to 8th-order Krüger Beta series
     _KsOrder = 8     #: (INTERNAL) Krüger series order (4, 6 or 8)
     _Mabcd   = None  #: (INTERNAL) OSGB meridional coefficients
+
+    _geodesic = None  #: (INTERNAL) geographiclib.geodesic.Geodesic
 
     def __init__(self, a, b, f_, name=''):
         '''New ellipsoid.
@@ -545,6 +547,21 @@ class Ellipsoid(_Based):
         raise ValueError('invalid %s.%s: %r' % (self.name, 'e2s2', s))
 
     @property_RO
+    def geodesic(self):
+        '''Get this ellipsoid's U{Karney Geodesic
+           <http://geographiclib.sourceforge.io/html/python/code.html>},
+           provided the U{GeographicLib
+           <http://pypi.python.org/pypi/geographiclib>} package is installed.
+        '''
+        if self._geodesic is None:
+            try:
+                from geographiclib.geodesic import Geodesic
+                self._geodesic = Geodesic(self.a, self.f)
+            except ImportError:
+                raise ImportError('no %s' % ('geographiclib',))
+        return self._geodesic
+
+    @property_RO
     def isEllipsoidal(self):
         '''Check whether this model is ellipsoidal (bool).
         '''
@@ -563,17 +580,17 @@ class Ellipsoid(_Based):
         return self._KsOrder
 
     @KsOrder.setter  # PYCHOK setter!
-    def KsOrder(self, Kth):
+    def KsOrder(self, order):
         '''Set the Krüger series order.
 
-           @param Kth: New Krüger series order (4, 6 or 8).
+           @param order: New Krüger series order (4, 6 or 8).
 
-           @raise ValueError: Invalid I{Kth}.
+           @raise ValueError: Invalid I{order}.
         '''
-        if Kth not in (4, 6, 8):
-            raise ValueError('invalid %s.%s: %r' % (self.name, 'KsOrder', Kth))
-        if Kth != self._KsOrder:
-            self._KsOrder = Kth
+        if order not in (4, 6, 8):
+            raise ValueError('invalid %s.%s: %r' % (self.name, 'order', order))
+        if order != self._KsOrder:
+            self._KsOrder = order
             self._AlphaKs = self._BetaKs = None
 
     @property_RO

@@ -8,11 +8,11 @@ also available U{here<http://zenodo.org/record/32470>}, file C{TMcoords.dat}.
 '''
 
 __all__ = ('Tests',)
-__version__ = '18.09.06'
+__version__ = '18.09.09'
 
 from base import TestsBase
 
-from pygeodesy import Datums, RangeError, toUtm, utm
+from pygeodesy import Ellipsoids, RangeError, toUtm, utm
 
 
 class Tests(TestsBase):
@@ -49,7 +49,7 @@ if __name__ == '__main__':
             from io import StringIO
         v = True
 
-        # first 258 of 258,000 lines in file <TMcoords.dat>
+        # first 258 of 258,000 lines in file "TMcoords.dat"
         coords = StringIO('''
 70.579277094557 45.599419731762 1548706.7916191491794 8451449.1987722350778 43.922790121040067192 1.02906022837807180952
 10.018893710119 23.313323816796 2624150.74092867098 1204434.0416046227631 4.292619330037266837 1.08605124643084949596
@@ -313,11 +313,12 @@ if __name__ == '__main__':
 
     t = Tests(__file__, __version__, utm, verbose=v)
 
-    # XXX Pythonista run_path doesn't reload any modules
-    t.test('E.KsOrder', Datums.WGS84.ellipsoid.KsOrder, 8)
-
     for n, coord in enumerate(coords.readlines()):
         t.testUtmTMcoord(coord.rstrip(), 'line %d ' % (n + 1,))
+
+    # XXX Pythonista run_path doesn't reload modules
+    E = Ellipsoids.WGS84
+    t.test(E.name + '.KsOrder', E.KsOrder, 8)
 
     coords.close()
 
