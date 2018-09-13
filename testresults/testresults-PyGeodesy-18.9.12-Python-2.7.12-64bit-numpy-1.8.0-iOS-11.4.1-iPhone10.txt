@@ -1,6 +1,6 @@
-~/PyGeodesy-18.9.9/test/run.py typical test results (PyGeodesy 18.9.9 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10)
+~/PyGeodesy-18.9.12/test/run.py typical test results (PyGeodesy 18.9.12 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10)
 
-running Pythonista3 ~/PyGeodesy-18.9.9/test/testBases.py
+running Pythonista3 ~/PyGeodesy-18.9.12/test/testBases.py
 
     testing testBases.py 18.09.08
     test 1 lat, lon: 50.06632°N, 005.71475°W
@@ -44,216 +44,219 @@ running Pythonista3 ~/PyGeodesy-18.9.9/test/testBases.py
     test 39 equals3: False
     test 40 equals3: True
 
-    all 40 testBases.py tests passed (PyGeodesy 18.9.9 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 863.075 us
+    all 40 testBases.py tests passed (PyGeodesy 18.9.12 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 776.052 us
 
-running Pythonista3 ~/PyGeodesy-18.9.9/test/testClasses.py
+running Pythonista3 ~/PyGeodesy-18.9.12/test/testClasses.py
 
-    testing testClasses.py 17.06.25
+    testing testClasses.py 18.09.12
 
-    testCartesianAttrs(17.06.25)
-    test 1 angleTo() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 2 classname property: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 3 classnaming property: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 4 classof() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 5 copy() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 6 cross() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 7 crosserrors property: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 8 dividedBy() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 9 dot() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 10 equals() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 11 length property: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 12 minus() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 13 name property: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 14 negate() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 15 others() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 16 parse() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 17 plus() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 18 rotate() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 19 rotateAround() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 20 sum() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 21 times() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 22 to2ll() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 23 to3llh() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 24 to3xyz() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 25 toLatLon() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    testCartesianAttrs(18.09.12)
+    test 1 angleTo() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 2 classname property: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 3 classnaming property: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 4 classof() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 5 copy() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 6 cross() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 7 crosserrors property: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 8 dividedBy() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 9 dot() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 10 equals() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 11 length property: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 12 minus() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 13 name property: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 14 negate() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 15 others() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 16 parse() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 17 plus() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 18 rotate() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 19 rotateAround() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 20 sum() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 21 times() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 22 to2ll() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 23 to3llh() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 24 to3xyz() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 25 toLatLon() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
     test 26 toNvector() method: pygeodesy.ellipsoidalNvector
-    test 27 toStr() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 28 toStr2() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 29 unit() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 30 x property: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 31 y property: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 32 z property: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 27 toStr() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 28 toStr2() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 29 unit() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 30 x property: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 31 y property: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 32 z property: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
 
-    testCartesianMro(17.06.25)
-    test 33 pygeodesy.ellipsoidalNvector: pygeodesy.ellipsoidalNvector.Cartesian, pygeodesy.ellipsoidalBase.CartesianBase, pygeodesy.vector3d.Vector3d, pygeodesy.bases.VectorBased, pygeodesy.bases.Based, pygeodesy.bases.Named
-    test 34 pygeodesy.ellipsoidalVincenty: pygeodesy.ellipsoidalVincenty.Cartesian, pygeodesy.ellipsoidalBase.CartesianBase, pygeodesy.vector3d.Vector3d, pygeodesy.bases.VectorBased, pygeodesy.bases.Based, pygeodesy.bases.Named
+    testCartesianMro(18.09.12)
+    test 33 pygeodesy.ellipsoidalKarney: pygeodesy.ellipsoidalKarney.Cartesian, pygeodesy.ellipsoidalBase.CartesianBase, pygeodesy.vector3d.Vector3d, pygeodesy.bases.VectorBased, pygeodesy.bases.Based, pygeodesy.bases.Named
+    test 34 pygeodesy.ellipsoidalNvector: pygeodesy.ellipsoidalNvector.Cartesian, pygeodesy.ellipsoidalBase.CartesianBase, pygeodesy.vector3d.Vector3d, pygeodesy.bases.VectorBased, pygeodesy.bases.Based, pygeodesy.bases.Named
+    test 35 pygeodesy.ellipsoidalVincenty: pygeodesy.ellipsoidalVincenty.Cartesian, pygeodesy.ellipsoidalBase.CartesianBase, pygeodesy.vector3d.Vector3d, pygeodesy.bases.VectorBased, pygeodesy.bases.Based, pygeodesy.bases.Named
 
-    testLatLonAttrs(17.06.25)
-    test 35 alongTrackDistanceTo() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 36 antipode() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 37 bearingTo() method: pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 38 bounds() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 39 classname property: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 40 classnaming property: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 41 classof() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 42 convergence property: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 43 convertDatum() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 44 copy() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 45 crossTrackDistanceTo() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 46 crossingParallels() method: pygeodesy.sphericalTrigonometry
-    test 47 datum property: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 48 deltaTo() method: pygeodesy.ellipsoidalNvector
-    test 49 destination() method: pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 50 destination2() method: pygeodesy.ellipsoidalVincenty
-    test 51 destinationNed() method: pygeodesy.ellipsoidalNvector
-    test 52 distanceTo() method: pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 53 distanceTo2() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 54 distanceTo3() method: pygeodesy.ellipsoidalVincenty
-    test 55 elevation2() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 56 ellipsoid() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 57 ellipsoids() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 58 epsilon property: pygeodesy.ellipsoidalVincenty
-    test 59 equals() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 60 equals3() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 61 finalBearingOn() method: pygeodesy.ellipsoidalVincenty
-    test 62 finalBearingTo() method: pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 63 geoidHeight2() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 64 greatCircle() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 65 greatCircleTo() method: pygeodesy.sphericalNvector
-    test 66 height property: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 67 initialBearingTo() method: pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 68 intermediateChordTo() method: pygeodesy.sphericalNvector
-    test 69 intermediateTo() method: pygeodesy.ellipsoidalNvector, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 70 intersection() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 71 isEllipsoidal property: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 72 isEnclosedBy() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 73 isSpherical property: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 74 isWithin() method: pygeodesy.sphericalNvector
-    test 75 isantipode() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 76 iterations property: pygeodesy.ellipsoidalVincenty
-    test 77 lat property: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 78 latlon property: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 79 lon property: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 80 maxLat() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 81 midpointTo() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 82 minLat() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 83 name property: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 84 nearestOn() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 85 nearestOn2() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 86 others() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 87 parse() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 88 points() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 89 rhumbBearingTo() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 90 rhumbDestination() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 91 rhumbDistanceTo() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 92 rhumbMidpointTo() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 93 scale property: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 94 to2ab() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 95 to3llh() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 96 to3xyz() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 97 to4xyzh() method: pygeodesy.ellipsoidalNvector, pygeodesy.sphericalNvector
-    test 98 toCartesian() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 99 toNvector() method: pygeodesy.ellipsoidalNvector, pygeodesy.sphericalNvector
-    test 100 toOsgr() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 101 toStr() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 102 toStr2() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 103 toUtm() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 104 toVector3d() method: pygeodesy.sphericalTrigonometry
-    test 105 toWm() method: pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 106 triangulate() method: pygeodesy.sphericalNvector
-    test 107 trilaterate() method: pygeodesy.sphericalNvector
+    testLatLonAttrs(18.09.12)
+    test 36 alongTrackDistanceTo() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 37 antipode() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 38 bearingTo() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 39 bounds() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 40 classname property: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 41 classnaming property: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 42 classof() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 43 convergence property: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 44 convertDatum() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 45 copy() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 46 crossTrackDistanceTo() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 47 crossingParallels() method: pygeodesy.sphericalTrigonometry
+    test 48 datum property: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 49 deltaTo() method: pygeodesy.ellipsoidalNvector
+    test 50 destination() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 51 destination2() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalVincenty
+    test 52 destinationNed() method: pygeodesy.ellipsoidalNvector
+    test 53 distanceTo() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 54 distanceTo2() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 55 distanceTo3() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalVincenty
+    test 56 elevation2() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 57 ellipsoid() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 58 ellipsoids() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 59 epsilon property: pygeodesy.ellipsoidalVincenty
+    test 60 equals() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 61 equals3() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 62 finalBearingOn() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalVincenty
+    test 63 finalBearingTo() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 64 geodesic property: pygeodesy.ellipsoidalKarney
+    test 65 geoidHeight2() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 66 greatCircle() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 67 greatCircleTo() method: pygeodesy.sphericalNvector
+    test 68 height property: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 69 initialBearingTo() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 70 intermediateChordTo() method: pygeodesy.sphericalNvector
+    test 71 intermediateTo() method: pygeodesy.ellipsoidalNvector, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 72 intersection() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 73 isEllipsoidal property: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 74 isEnclosedBy() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 75 isSpherical property: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 76 isWithin() method: pygeodesy.sphericalNvector
+    test 77 isantipode() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 78 iterations property: pygeodesy.ellipsoidalVincenty
+    test 79 lat property: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 80 latlon property: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 81 lon property: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 82 maxLat() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 83 midpointTo() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 84 minLat() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 85 name property: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 86 nearestOn() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 87 nearestOn2() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 88 others() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 89 parse() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 90 points() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 91 rhumbBearingTo() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 92 rhumbDestination() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 93 rhumbDistanceTo() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 94 rhumbMidpointTo() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 95 scale property: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 96 to2ab() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 97 to3llh() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 98 to3xyz() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 99 to4xyzh() method: pygeodesy.ellipsoidalNvector, pygeodesy.sphericalNvector
+    test 100 toCartesian() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 101 toNvector() method: pygeodesy.ellipsoidalNvector, pygeodesy.sphericalNvector
+    test 102 toOsgr() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 103 toStr() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 104 toStr2() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 105 toUtm() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 106 toVector3d() method: pygeodesy.sphericalTrigonometry
+    test 107 toWm() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 108 triangulate() method: pygeodesy.sphericalNvector
+    test 109 trilaterate() method: pygeodesy.sphericalNvector
 
-    testLatLonMro(17.06.25)
-    test 108 pygeodesy.ellipsoidalNvector: pygeodesy.ellipsoidalNvector.LatLon, pygeodesy.nvector.LatLonNvectorBase, pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase, pygeodesy.bases.LatLonHeightBase, pygeodesy.bases.Based, pygeodesy.bases.Named
-    test 109 pygeodesy.ellipsoidalVincenty: pygeodesy.ellipsoidalVincenty.LatLon, pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase, pygeodesy.bases.LatLonHeightBase, pygeodesy.bases.Based, pygeodesy.bases.Named
-    test 110 pygeodesy.sphericalNvector: pygeodesy.sphericalNvector.LatLon, pygeodesy.nvector.LatLonNvectorBase, pygeodesy.sphericalBase.LatLonSphericalBase, pygeodesy.bases.LatLonHeightBase, pygeodesy.bases.Based, pygeodesy.bases.Named
-    test 111 pygeodesy.sphericalTrigonometry: pygeodesy.sphericalTrigonometry.LatLon, pygeodesy.sphericalBase.LatLonSphericalBase, pygeodesy.bases.LatLonHeightBase, pygeodesy.bases.Based, pygeodesy.bases.Named
+    testLatLonMro(18.09.12)
+    test 110 pygeodesy.ellipsoidalKarney: pygeodesy.ellipsoidalKarney.LatLon, pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase, pygeodesy.bases.LatLonHeightBase, pygeodesy.bases.Based, pygeodesy.bases.Named
+    test 111 pygeodesy.ellipsoidalNvector: pygeodesy.ellipsoidalNvector.LatLon, pygeodesy.nvector.LatLonNvectorBase, pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase, pygeodesy.bases.LatLonHeightBase, pygeodesy.bases.Based, pygeodesy.bases.Named
+    test 112 pygeodesy.ellipsoidalVincenty: pygeodesy.ellipsoidalVincenty.LatLon, pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase, pygeodesy.bases.LatLonHeightBase, pygeodesy.bases.Based, pygeodesy.bases.Named
+    test 113 pygeodesy.sphericalNvector: pygeodesy.sphericalNvector.LatLon, pygeodesy.nvector.LatLonNvectorBase, pygeodesy.sphericalBase.LatLonSphericalBase, pygeodesy.bases.LatLonHeightBase, pygeodesy.bases.Based, pygeodesy.bases.Named
+    test 114 pygeodesy.sphericalTrigonometry: pygeodesy.sphericalTrigonometry.LatLon, pygeodesy.sphericalBase.LatLonSphericalBase, pygeodesy.bases.LatLonHeightBase, pygeodesy.bases.Based, pygeodesy.bases.Named
 
-    testNvectorAttrs(17.06.25)
-    test 112 H str: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 113 angleTo() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 114 classname property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 115 classnaming property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 116 classof() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 117 copy() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 118 cross() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 119 crosserrors property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 120 datum property: pygeodesy.ellipsoidalNvector
-    test 121 dividedBy() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 122 dot() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 123 equals() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 124 greatCircle() method: pygeodesy.sphericalNvector
-    test 125 h property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 126 length property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 127 minus() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 128 name property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 129 negate() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 130 others() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 131 parse() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 132 plus() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 133 rotate() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 134 rotateAround() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 135 sum() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 136 times() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 137 to2ll() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 138 to3llh() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 139 to3xyz() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 140 to4xyzh() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 141 toCartesian() method: pygeodesy.ellipsoidalNvector
-    test 142 toLatLon() method: pygeodesy.ellipsoidalNvector, pygeodesy.sphericalNvector
-    test 143 toStr() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 144 toStr2() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 145 toVector3d() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 146 unit() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 147 x property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 148 y property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 149 z property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    testNvectorAttrs(18.09.12)
+    test 115 H str: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 116 angleTo() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 117 classname property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 118 classnaming property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 119 classof() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 120 copy() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 121 cross() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 122 crosserrors property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 123 datum property: pygeodesy.ellipsoidalNvector
+    test 124 dividedBy() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 125 dot() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 126 equals() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 127 greatCircle() method: pygeodesy.sphericalNvector
+    test 128 h property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 129 length property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 130 minus() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 131 name property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 132 negate() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 133 others() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 134 parse() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 135 plus() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 136 rotate() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 137 rotateAround() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 138 sum() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 139 times() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 140 to2ll() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 141 to3llh() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 142 to3xyz() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 143 to4xyzh() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 144 toCartesian() method: pygeodesy.ellipsoidalNvector
+    test 145 toLatLon() method: pygeodesy.ellipsoidalNvector, pygeodesy.sphericalNvector
+    test 146 toStr() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 147 toStr2() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 148 toVector3d() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 149 unit() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 150 x property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 151 y property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 152 z property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
 
-    testNvectorMro(17.06.25)
-    test 150 pygeodesy.ellipsoidalNvector: pygeodesy.ellipsoidalNvector.Nvector, pygeodesy.nvector.Nvector, pygeodesy.vector3d.Vector3d, pygeodesy.bases.VectorBased, pygeodesy.bases.Based, pygeodesy.bases.Named
-    test 151 pygeodesy.sphericalNvector: pygeodesy.sphericalNvector.Nvector, pygeodesy.nvector.Nvector, pygeodesy.vector3d.Vector3d, pygeodesy.bases.VectorBased, pygeodesy.bases.Based, pygeodesy.bases.Named
-    test 152 pygeodesy.nvector: pygeodesy.nvector.Nvector, pygeodesy.vector3d.Vector3d, pygeodesy.bases.VectorBased, pygeodesy.bases.Based, pygeodesy.bases.Named
+    testNvectorMro(18.09.12)
+    test 153 pygeodesy.ellipsoidalNvector: pygeodesy.ellipsoidalNvector.Nvector, pygeodesy.nvector.Nvector, pygeodesy.vector3d.Vector3d, pygeodesy.bases.VectorBased, pygeodesy.bases.Based, pygeodesy.bases.Named
+    test 154 pygeodesy.sphericalNvector: pygeodesy.sphericalNvector.Nvector, pygeodesy.nvector.Nvector, pygeodesy.vector3d.Vector3d, pygeodesy.bases.VectorBased, pygeodesy.bases.Based, pygeodesy.bases.Named
+    test 155 pygeodesy.nvector: pygeodesy.nvector.Nvector, pygeodesy.vector3d.Vector3d, pygeodesy.bases.VectorBased, pygeodesy.bases.Based, pygeodesy.bases.Named
 
-    testVector3dAttrs(17.06.25)
-    test 153 angleTo() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 154 classname property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 155 classnaming property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 156 classof() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 157 copy() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 158 cross() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 159 crosserrors property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 160 dividedBy() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 161 dot() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 162 equals() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 163 length property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 164 minus() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 165 name property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 166 negate() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 167 others() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 168 parse() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 169 plus() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 170 rotate() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 171 rotateAround() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 172 sum() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 173 times() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 174 to2ll() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 175 to3xyz() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 176 toStr() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 177 toStr2() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 178 unit() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 179 x property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 180 y property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 181 z property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    testVector3dAttrs(18.09.12)
+    test 156 angleTo() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 157 classname property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 158 classnaming property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 159 classof() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 160 copy() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 161 cross() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 162 crosserrors property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 163 dividedBy() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 164 dot() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 165 equals() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 166 length property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 167 minus() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 168 name property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 169 negate() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 170 others() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 171 parse() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 172 plus() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 173 rotate() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 174 rotateAround() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 175 sum() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 176 times() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 177 to2ll() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 178 to3xyz() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 179 toStr() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 180 toStr2() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 181 unit() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 182 x property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 183 y property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 184 z property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
 
-    testVector3dMro(17.06.25)
-    test 182 pygeodesy.ellipsoidalNvector: pygeodesy.vector3d.Vector3d, pygeodesy.bases.VectorBased, pygeodesy.bases.Based, pygeodesy.bases.Named
-    test 183 pygeodesy.sphericalTrigonometry: pygeodesy.vector3d.Vector3d, pygeodesy.bases.VectorBased, pygeodesy.bases.Based, pygeodesy.bases.Named
-    test 184 pygeodesy.nvector: pygeodesy.vector3d.Vector3d, pygeodesy.bases.VectorBased, pygeodesy.bases.Based, pygeodesy.bases.Named
-    test 185 pygeodesy.vector3d: pygeodesy.vector3d.Vector3d, pygeodesy.bases.VectorBased, pygeodesy.bases.Based, pygeodesy.bases.Named
+    testVector3dMro(18.09.12)
+    test 185 pygeodesy.ellipsoidalNvector: pygeodesy.vector3d.Vector3d, pygeodesy.bases.VectorBased, pygeodesy.bases.Based, pygeodesy.bases.Named
+    test 186 pygeodesy.sphericalTrigonometry: pygeodesy.vector3d.Vector3d, pygeodesy.bases.VectorBased, pygeodesy.bases.Based, pygeodesy.bases.Named
+    test 187 pygeodesy.nvector: pygeodesy.vector3d.Vector3d, pygeodesy.bases.VectorBased, pygeodesy.bases.Based, pygeodesy.bases.Named
+    test 188 pygeodesy.vector3d: pygeodesy.vector3d.Vector3d, pygeodesy.bases.VectorBased, pygeodesy.bases.Based, pygeodesy.bases.Named
 
-    all 185 testClasses.py tests passed (PyGeodesy 18.9.9 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 3.205 ms
+    all 188 testClasses.py tests passed (PyGeodesy 18.9.12 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 3.324 ms
 
-running Pythonista3 ~/PyGeodesy-18.9.9/test/testDatum.py
+running Pythonista3 ~/PyGeodesy-18.9.12/test/testDatum.py
 
     testing testDatum.py 18.09.08 (module pygeodesy.datum 18.09.09)
     test 1 ellipsoid: True
@@ -341,9 +344,9 @@ running Pythonista3 ~/PyGeodesy-18.9.9/test/testDatum.py
     test 83 WGS84.AlphaKs: 8.377318206304e-04, 7.608527714249e-07, 1.197638001561e-09, 2.443376194522e-12
     test 84 WGS84.BetaKs : 8.377321640601e-04, 5.905869567934e-08, 1.673488880355e-10, 2.167737763022e-13
 
-    all 84 testDatum.py tests passed (PyGeodesy 18.9.9 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 1.344 ms
+    all 84 testDatum.py tests passed (PyGeodesy 18.9.12 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 1.203 ms
 
-running Pythonista3 ~/PyGeodesy-18.9.9/test/testDms.py
+running Pythonista3 ~/PyGeodesy-18.9.12/test/testDms.py
 
     testing testDms.py 18.09.08 (module pygeodesy.dms 18.03.04)
     test 1 parseDMS: 0.0
@@ -415,14 +418,14 @@ running Pythonista3 ~/PyGeodesy-18.9.9/test/testDms.py
     test 67 equirectangular: 592.185
     test 68 distanceTo: 591.831
 
-    all 68 testDms.py tests passed (PyGeodesy 18.9.9 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 644.207 us
+    all 68 testDms.py tests passed (PyGeodesy 18.9.12 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 613.928 us
 
-running Pythonista3 ~/PyGeodesy-18.9.9/test/testElevations.py
+running Pythonista3 ~/PyGeodesy-18.9.12/test/testElevations.py
 
     testing testElevations.py 18.08.25
-    all testElevations.py tests SKIPPED (PyGeodesy 18.9.9 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 953.674 ps
+    all testElevations.py tests SKIPPED (PyGeodesy 18.9.12 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 1.907 us
 
-running Pythonista3 ~/PyGeodesy-18.9.9/test/testEllipsoidal.py
+running Pythonista3 ~/PyGeodesy-18.9.12/test/testEllipsoidal.py
 
     testing testEllipsoidal.py 18.09.09
 
@@ -673,9 +676,9 @@ running Pythonista3 ~/PyGeodesy-18.9.9/test/testEllipsoidal.py
     test 230 distanceTo2: 54902.390
     test 231 distanceTo2: 307°04′38.41″
 
-    1 of 231 testEllipsoidal.py tests (0.4%) FAILED, ALL KNOWN (PyGeodesy 18.9.9 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 6.882 ms
+    1 of 231 testEllipsoidal.py tests (0.4%) FAILED, KNOWN (PyGeodesy 18.9.12 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 6.027 ms
 
-running Pythonista3 ~/PyGeodesy-18.9.9/test/testEllipsoidalGeodTest.py
+running Pythonista3 ~/PyGeodesy-18.9.12/test/testEllipsoidalGeodTest.py
 
     testing testEllipsoidalGeodTest.py 18.09.09 (module pygeodesy.ellipsoidalVincenty 18.09.09)
     test 1 line 1 lat: -48.164271
@@ -2180,9 +2183,9 @@ running Pythonista3 ~/PyGeodesy-18.9.9/test/testEllipsoidalGeodTest.py
     test 1500 line 500 fb: 130.988277
     test 1501 WGS84.KsOrder: 8
 
-    all 1501 testEllipsoidalGeodTest.py tests passed (PyGeodesy 18.9.9 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 26.959 ms
+    all 1501 testEllipsoidalGeodTest.py tests passed (PyGeodesy 18.9.12 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 23.568 ms
 
-running Pythonista3 ~/PyGeodesy-18.9.9/test/testFmath.py
+running Pythonista3 ~/PyGeodesy-18.9.12/test/testFmath.py
 
     testing testFmath.py 18.09.08 (module pygeodesy.fmath 18.09.06)
     test 1 fpolynomialA: 1.00002499953
@@ -2250,106 +2253,106 @@ running Pythonista3 ~/PyGeodesy-18.9.9/test/testFmath.py
     test 63 sum: 1.005
     test 64 fsum: 1.005
     test 65 Fsum: 1.005
-    test 66 Fsum: -0.0871354708537
-    test 67 Fsum: 1.00559210967e-08
-    test 68 Fsum: 1.62126052992e-10
-    test 69 Fsum: 0.000385597740644
-    test 70 Fsum: 2.06901066039e-15
-    test 71 Fsum: -1.39164731257e-09
-    test 72 Fsum: 2.54703408974e-12
-    test 73 Fsum: -3.47746347973
-    test 74 Fsum: 3.67825190625e-13
-    test 75 Fsum: -4.37350103769e-05
-    test 76 Fsum: -44.5050335612
-    test 77 Fsum: 30.2672388047
-    test 78 Fsum: 1.17030370259e-11
-    test 79 Fsum: -0.000274783734701
-    test 80 Fsum: -249.553626276
-    test 81 Fsum: 5.86394744942e-05
-    test 82 Fsum: 1.90476952392e-06
-    test 83 Fsum: -3.67532446108e-13
-    test 84 Fsum: 3.75932900237e-05
-    test 85 Fsum: 0.22466950285
-    test 86 Fsum: 0.0153492736232
-    test 87 Fsum: -1.16189327556e-14
-    test 88 Fsum: -3.16933909039e-05
-    test 89 Fsum: 3.7337885689e-13
-    test 90 Fsum: -9.51225580016e-07
-    test 91 Fsum: -9.88742346905e-11
-    test 92 Fsum: 1.18651688792e-12
-    test 93 Fsum: -5.47472411327e-09
-    test 94 Fsum: -0.000783888956971
-    test 95 Fsum: 0.0111461316146
-    test 96 Fsum: -5.64678400942
-    test 97 Fsum: 0.000179527932524
-    test 98 Fsum: 1.2263985929e-06
-    test 99 Fsum: 8.11358993319e-10
-    test 100 Fsum: 0.00131380318631
-    test 101 Fsum: 0.103634385761
-    test 102 Fsum: 6.70039185842e-10
-    test 103 Fsum: -0.000856731543848
-    test 104 Fsum: 1.33193191946e-16
-    test 105 Fsum: -0.00492460423607
-    test 106 Fsum: 6.74288083721
-    test 107 Fsum: -3.01256988643e-11
-    test 108 Fsum: 7.92744338333e-07
-    test 109 Fsum: -8.8292186806e-05
-    test 110 Fsum: 0.000120505711642
-    test 111 Fsum: 0.000321648913753
-    test 112 Fsum: -0.00342508591929
-    test 113 Fsum: 3.63597297861e-11
-    test 114 Fsum: -1.65943452015e-06
-    test 115 Fsum: -53.1036878165
-    test 116 Fsum: -1.00618574866e-09
-    test 117 Fsum: 5.76182728499
-    test 118 Fsum: -8.19419302645e-15
-    test 119 Fsum: 2.62536838947e-08
-    test 120 Fsum: -9.12059362622e-13
-    test 121 Fsum: -0.978375515615
-    test 122 Fsum: -0.456226492008
-    test 123 Fsum: 0.00326603712303
-    test 124 Fsum: 0.108182035466
-    test 125 Fsum: -0.957649717791
-    test 126 Fsum: 6.15190329123e-05
-    test 127 Fsum: -1.01104010933e-10
-    test 128 Fsum: 63.2525473444
-    test 129 Fsum: 2.15934185617e-08
-    test 130 Fsum: -1.0204335899e-08
-    test 131 Fsum: -1.79892938186e-08
-    test 132 Fsum: -6.16051417298e-16
-    test 133 Fsum: 0.000518647032325
-    test 134 Fsum: 2.9654394222e-07
-    test 135 Fsum: 0.00650070429049
-    test 136 Fsum: -0.0249748694334
-    test 137 Fsum: 5.14558888855e-05
-    test 138 Fsum: -1.44061586928e-06
-    test 139 Fsum: 8.96129641842e-08
-    test 140 Fsum: 0.0694629532458
-    test 141 Fsum: 1.89578275145e-08
-    test 142 Fsum: -0.00525314571227
-    test 143 Fsum: 0.00906673522051
-    test 144 Fsum: -0.101754202054
-    test 145 Fsum: -6.12190636131e-05
-    test 146 Fsum: -0.000381357606489
-    test 147 Fsum: 2.51795719903e-06
-    test 148 Fsum: 4.43241750086e-09
-    test 149 Fsum: 0.886356603864
-    test 150 Fsum: 1.11918515225e-14
-    test 151 Fsum: -4.0621302507e-11
-    test 152 Fsum: -8.3537324382
-    test 153 Fsum: 4.74899488914
-    test 154 Fsum: -1.91349185262e-06
-    test 155 Fsum: -0.000784384264754
-    test 156 Fsum: -0.434309421106
-    test 157 Fsum: -3.6063457621e-06
-    test 158 Fsum: 0.00104284890716
-    test 159 Fsum: -7.08663746609e-07
-    test 160 Fsum: -0.0037499871687
-    test 161 Fsum: -3.95434560116e-05
-    test 162 Fsum: -4.2686738969e-08
-    test 163 Fsum: -0.00495825474513
-    test 164 Fsum: -173.111586721
-    test 165 Fsum: -3.90679573056e-10
+    test 66 Fsum: -0.0430406228312
+    test 67 Fsum: 0.0604609596581
+    test 68 Fsum: 0.00631804925445
+    test 69 Fsum: -7.72397457386e-07
+    test 70 Fsum: 117.665114811
+    test 71 Fsum: -3.76138564951e-09
+    test 72 Fsum: -1.22461552161e-10
+    test 73 Fsum: 3.85960386273e-12
+    test 74 Fsum: 0.0511170097889
+    test 75 Fsum: 3.88314547414e-06
+    test 76 Fsum: 1.34723948348e-08
+    test 77 Fsum: -1.33082366861e-12
+    test 78 Fsum: 0.0578828415556
+    test 79 Fsum: 6.42143603365e-05
+    test 80 Fsum: 0.0272403232681
+    test 81 Fsum: 4.66616742808
+    test 82 Fsum: -8.39269713096e-15
+    test 83 Fsum: 2.56517518851e-05
+    test 84 Fsum: 5.53629154543e-16
+    test 85 Fsum: 5.0853418406e-10
+    test 86 Fsum: 8.561886626e-11
+    test 87 Fsum: 0.788558084811
+    test 88 Fsum: 9.38839999647e-06
+    test 89 Fsum: 0.59766700972
+    test 90 Fsum: 3.0358793277e-05
+    test 91 Fsum: -2.1623033628
+    test 92 Fsum: -0.000442492293988
+    test 93 Fsum: -3.18887555196
+    test 94 Fsum: 0.00365924915961
+    test 95 Fsum: 0.000473721733822
+    test 96 Fsum: -4.46957116833e-10
+    test 97 Fsum: 0.00486593711045
+    test 98 Fsum: -6.1828688901e-10
+    test 99 Fsum: -0.0148733117482
+    test 100 Fsum: -3.12509294294e-14
+    test 101 Fsum: 0.000130847615513
+    test 102 Fsum: -2.17422072861e-07
+    test 103 Fsum: -1.10279073329e-06
+    test 104 Fsum: -1.45743093774e-05
+    test 105 Fsum: 5.73444626338e-08
+    test 106 Fsum: 9.3717901671
+    test 107 Fsum: -0.0915133766942
+    test 108 Fsum: 1.15197289129e-09
+    test 109 Fsum: -4.04569465872e-17
+    test 110 Fsum: 0.0180785159414
+    test 111 Fsum: -0.0422767533196
+    test 112 Fsum: 0.0365971523509
+    test 113 Fsum: 6.37697209845e-07
+    test 114 Fsum: 5.5491770207e-14
+    test 115 Fsum: -1.35684602027e-08
+    test 116 Fsum: 1.45881328009e-10
+    test 117 Fsum: -2.58002027021
+    test 118 Fsum: -0.100747879551
+    test 119 Fsum: -3.68548391536e-10
+    test 120 Fsum: 0.00587900533664
+    test 121 Fsum: 1.30857786106e-07
+    test 122 Fsum: 4.99198129275e-11
+    test 123 Fsum: -3.62706895795e-06
+    test 124 Fsum: -1.83403443101e-08
+    test 125 Fsum: 0.11070278975
+    test 126 Fsum: -0.0250091483658
+    test 127 Fsum: 0.00731279843238
+    test 128 Fsum: -4.05839865348e-12
+    test 129 Fsum: 1991.85704137
+    test 130 Fsum: 2.61186500025e-09
+    test 131 Fsum: -5.636911114e-15
+    test 132 Fsum: 1.88154764356e-14
+    test 133 Fsum: -3.87695044446e-11
+    test 134 Fsum: -0.000711003514888
+    test 135 Fsum: 2.08581502104e-11
+    test 136 Fsum: -0.000128499442684
+    test 137 Fsum: 0.0233460393624
+    test 138 Fsum: 0.0173590169878
+    test 139 Fsum: 11.5370649345
+    test 140 Fsum: 2.08211640352e-09
+    test 141 Fsum: 9.59902005886e-07
+    test 142 Fsum: -6.89788494708e-06
+    test 143 Fsum: 1.43250077518e-11
+    test 144 Fsum: 7.97406502371e-05
+    test 145 Fsum: -0.000391884210323
+    test 146 Fsum: -15.8774130561
+    test 147 Fsum: 2.52056627025e-05
+    test 148 Fsum: -1.02717889594
+    test 149 Fsum: 0.0330101193242
+    test 150 Fsum: 1.64906496201e-10
+    test 151 Fsum: -2.38111523344e-07
+    test 152 Fsum: -0.0168409617175
+    test 153 Fsum: -0.0456184500769
+    test 154 Fsum: -0.00739011025113
+    test 155 Fsum: -0.00272910037978
+    test 156 Fsum: 1.90597813229e-05
+    test 157 Fsum: 0.00018864692248
+    test 158 Fsum: 0.00577040240356
+    test 159 Fsum: -2.53576575127e-06
+    test 160 Fsum: 3.29067303515e-09
+    test 161 Fsum: -0.718520207804
+    test 162 Fsum: 5.37784916024e-05
+    test 163 Fsum: 0.00289469815542
+    test 164 Fsum: -2.46097721429
+    test 165 Fsum: 7.74576083856e-05
     test 166 fpowers: 10
     test 167 fpowers: 2
     test 168 fpowers: 1024
@@ -2530,9 +2533,9 @@ running Pythonista3 ~/PyGeodesy-18.9.9/test/testFmath.py
     test 343 WGS84: 6367449.1458234144
     test 344 WGS84: 6367449.1458234144
 
-    10 of 344 testFmath.py tests (2.9%) FAILED, ALL KNOWN (PyGeodesy 18.9.9 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 81.254 ms
+    10 of 344 testFmath.py tests (2.9%) FAILED, ALL KNOWN (PyGeodesy 18.9.12 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 80.486 ms
 
-running Pythonista3 ~/PyGeodesy-18.9.9/test/testGeohash.py
+running Pythonista3 ~/PyGeodesy-18.9.12/test/testGeohash.py
 
     testing testGeohash.py 18.09.08 (module pygeodesy.geohash 18.09.06)
     test 1 Geohash: Geohash('geek')
@@ -2609,9 +2612,9 @@ running Pythonista3 ~/PyGeodesy-18.9.9/test/testGeohash.py
     test 72 decode_error: (2.8125, 5.625)
     test 73 decode_error: (22.5, 22.5)
 
-    all 73 testGeohash.py tests passed (PyGeodesy 18.9.9 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 3.940 ms
+    all 73 testGeohash.py tests passed (PyGeodesy 18.9.12 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 4.064 ms
 
-running Pythonista3 ~/PyGeodesy-18.9.9/test/testGreatCircle.py
+running Pythonista3 ~/PyGeodesy-18.9.12/test/testGreatCircle.py
 
     testing testGreatCircle.py 18.08.28
 
@@ -2679,11 +2682,11 @@ running Pythonista3 ~/PyGeodesy-18.9.9/test/testGreatCircle.py
     test 59 CrossTrackDistance200m+270°: -200.0
     test 60 CrossTrackDistanceCloseToZero: 0.0000000
 
-    10 of 60 testGreatCircle.py tests (16.7%) FAILED, ALL KNOWN (PyGeodesy 18.9.9 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 2.115 ms
+    10 of 60 testGreatCircle.py tests (16.7%) FAILED, ALL KNOWN (PyGeodesy 18.9.12 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 2.240 ms
 
-running Pythonista3 ~/PyGeodesy-18.9.9/test/testLatLon.py
+running Pythonista3 ~/PyGeodesy-18.9.12/test/testLatLon.py
 
-    testing testLatLon.py 18.08.28
+    testing testLatLon.py 18.09.12
 
     testLatLon(pygeodesy.ellipsoidalNvector, 18.08.28)
     test 1 isEllipsoidal: True
@@ -2954,9 +2957,9 @@ running Pythonista3 ~/PyGeodesy-18.9.9/test/testLatLon.py
     test 260 isenclosedby7: True
     test 261 isenclosedby7*: True
 
-    3 of 261 testLatLon.py tests (1.1%) FAILED, ALL KNOWN (PyGeodesy 18.9.9 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 6.764 ms
+    3 of 261 testLatLon.py tests (1.1%) FAILED, ALL KNOWN (PyGeodesy 18.9.12 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 6.704 ms
 
-running Pythonista3 ~/PyGeodesy-18.9.9/test/testLcc.py
+running Pythonista3 ~/PyGeodesy-18.9.12/test/testLcc.py
 
     testing testLcc.py 18.08.26 (module pygeodesy.lcc 18.08.28)
 
@@ -3218,9 +3221,9 @@ running Pythonista3 ~/PyGeodesy-18.9.9/test/testLcc.py
     testConic(pygeodesy.ellipsoidalVincenty, 18.09.09)
     test 250 SnyderV: name='SnyderV', lat0=23, lon0=-96, par1=33, par2=45, E0=0, N0=0, k0=1, SP=2, datum=(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27)
 
-    all 250 testLcc.py tests passed (PyGeodesy 18.9.9 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 6.075 ms
+    all 250 testLcc.py tests passed (PyGeodesy 18.9.12 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 6.217 ms
 
-running Pythonista3 ~/PyGeodesy-18.9.9/test/testMgrs.py
+running Pythonista3 ~/PyGeodesy-18.9.12/test/testMgrs.py
 
     testing testMgrs.py 18.09.08 (module pygeodesy.mgrs 18.08.28)
     test 1 Mgrs1: 31U DQ 48251 11932
@@ -3240,13 +3243,13 @@ running Pythonista3 ~/PyGeodesy-18.9.9/test/testMgrs.py
     test 15 toUtm(76.0°N, 025.0°E).toMgrs: 35X ME 45999 36099
     test 16 toUtm(76.0°N, 037.0°E).toMgrs: 37X DE 45999 36099
 
-    all 16 testMgrs.py tests passed (PyGeodesy 18.9.9 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 1.795 ms
+    all 16 testMgrs.py tests passed (PyGeodesy 18.9.12 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 1.990 ms
 
-running Pythonista3 ~/PyGeodesy-18.9.9/test/testModules.py
+running Pythonista3 ~/PyGeodesy-18.9.12/test/testModules.py
 
     testing testModules.py 17.08.04
 
-    testModule(pygeodesy, 18.09.09)
+    testModule(pygeodesy, 18.09.12)
     test 1 pygeodesy.Conic() class (pygeodesy.lcc): True
     test 2 pygeodesy.Conics class pygeodesy.datum._Enum (pygeodesy.datum): True
     test 3 pygeodesy.CrossError() class (pygeodesy.vector3d): True
@@ -3681,7 +3684,7 @@ running Pythonista3 ~/PyGeodesy-18.9.9/test/testModules.py
     test 390 webmercator.parseWM() function: True
     test 391 webmercator.toWm() function: True
 
-    testPublic(pygeodesy, 18.09.09)
+    testPublic(pygeodesy, 18.09.12)
     test 392 Conic() class: True
     test 393 Conics class pygeodesy.datum._Enum: True
     test 394 CrossError() class: True
@@ -3813,11 +3816,11 @@ running Pythonista3 ~/PyGeodesy-18.9.9/test/testModules.py
     test 520 wrapPI2() function: True
     test 521 wrapPI_2() function: True
 
-    all 521 testModules.py tests passed (PyGeodesy 18.9.9 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 4.469 ms
+    all 521 testModules.py tests passed (PyGeodesy 18.9.12 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 4.282 ms
 
-running Pythonista3 ~/PyGeodesy-18.9.9/test/testNavlabExamples.py
+running Pythonista3 ~/PyGeodesy-18.9.12/test/testNavlabExamples.py
 
-    testing testNavlabExamples.py 18.09.08
+    testing testNavlabExamples.py 18.09.12
     test 1 Example 1 delta: [N:331730.863, E:332998.501, D:17398.304]
     test 2 Example 1 delta: [L:470357.384, B:45.109°, E:-2.12°]
     test 3 Example 1 elevation: -2.1198
@@ -3841,13 +3844,13 @@ running Pythonista3 ~/PyGeodesy-18.9.9/test/testNavlabExamples.py
     test 21 Example 7 meanOf: 67.2362°N, 006.9175°W
     test 22 Example 8 destination(sphNv): 79.991549°N, 090.017698°W
     test 23 Example 8 destination(sphTy): 79.991549°N, 090.017698°W
-    test 24 Example 8 destination(elVincenty): 79.991584°N, 090.017621°W
+    test 24 Example 8 destination(ellVincenty): 79.991584°N, 090.017621°W
     test 25 Example 9 intersection: 40.318643°N, 055.901868°E
     test 26 Example 10 crossTrackDistance: 11118
 
-    2 of 26 testNavlabExamples.py tests (7.7%) FAILED, ALL KNOWN (PyGeodesy 18.9.9 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 1.313 ms
+    2 of 26 testNavlabExamples.py tests (7.7%) FAILED, BOTH KNOWN (PyGeodesy 18.9.12 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 1.326 ms
 
-running Pythonista3 ~/PyGeodesy-18.9.9/test/testOsgr.py
+running Pythonista3 ~/PyGeodesy-18.9.12/test/testOsgr.py
 
     testing testOsgr.py 17.09.08 (module pygeodesy.osgr 18.08.28)
     test 1 WGS84: 51.4778°N, 000.0016°W
@@ -3875,9 +3878,9 @@ running Pythonista3 ~/PyGeodesy-18.9.9/test/testOsgr.py
     test 23 OSGR5: [OSGR:651409.000,313177.000]
     test 24 OSGR6: 651409,313177
 
-    6 of 24 testOsgr.py tests (25.0%) FAILED, ALL KNOWN (PyGeodesy 18.9.9 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 761.986 us
+    6 of 24 testOsgr.py tests (25.0%) FAILED, ALL KNOWN (PyGeodesy 18.9.12 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 953.913 us
 
-running Pythonista3 ~/PyGeodesy-18.9.9/test/testPoints.py
+running Pythonista3 ~/PyGeodesy-18.9.12/test/testPoints.py
 
     testing testPoints.py 18.09.08 (module pygeodesy.points 18.09.09)
     test 1 LatLon_: 'LatLon_' object has no attribute '__dict__'
@@ -4105,11 +4108,11 @@ running Pythonista3 ~/PyGeodesy-18.9.9/test/testPoints.py
     test 223 areaOf: 7.09e+09
     test 224 isclockwise: True
 
-    all 224 testPoints.py tests passed (PyGeodesy 18.9.9 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 45.162 ms
+    all 224 testPoints.py tests passed (PyGeodesy 18.9.12 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 15.220 ms
 
-running Pythonista3 ~/PyGeodesy-18.9.9/test/testRoutes.py
+running Pythonista3 ~/PyGeodesy-18.9.12/test/testRoutes.py
 
-    testing testRoutes.py 18.02.05
+    testing testRoutes.py 18.09.12
     test 1 points.areaOf(Antarctica, adjust=True, radius=6371.00877142, wrap=True): 254398498.504  FAILED, KNOWN, expected 13552524.800
     test 2 points.areaOf(PtsFFI, adjust=True, radius=6371.00877142, wrap=True): 1.288
     test 3 points.areaOf(RdpFFI, adjust=True, radius=6371.00877142, wrap=True): 1.241
@@ -4156,89 +4159,89 @@ running Pythonista3 ~/PyGeodesy-18.9.9/test/testRoutes.py
     test 44 isclockwise(_JFK_LHR1, adjust=False, wrap=True): 0.000
     test 45 isclockwise(_JFK_LHR2, adjust=False, wrap=True): 0.000
 
-    13 of 45 testRoutes.py tests (28.9%) FAILED, ALL KNOWN (PyGeodesy 18.9.9 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 432.383 ms
+    13 of 45 testRoutes.py tests (28.9%) FAILED, ALL KNOWN (PyGeodesy 18.9.12 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 429.898 ms
 
-running Pythonista3 ~/PyGeodesy-18.9.9/test/testSimplify.py
+running Pythonista3 ~/PyGeodesy-18.9.12/test/testSimplify.py
 
     testing testSimplify.py 18.09.08 (module pygeodesy.simplify 18.07.17)
-    test 1 simplify1(16614, adjust=True) 1m (23.627 ms): 16597
-    test 2 simplifyRW(16614, adjust=True, indices=True, shortest=False) 1m (575.656 ms): 7095
-    test 3 simplifyRW(16614, adjust=True, shortest=False) 1m (577.267 ms): 7095
-    test 4 simplifyRW(16614, adjust=True, shortest=True) 1m (679.317 ms): 8302
-    test 5 simplifyVWm(16614, adjust=True, indices=True) 1m (64.631 ms): 16328
-    test 6 simplifyVWm(16614, adjust=True) 1m (72.966 ms): 16328
-    test 7 simplifyVWm(16614, adjust=False) 1m (58.480 ms): 16373
-    test 8 simplifyRDPm(16614, adjust=True, shortest=False) 1m (1.284 sec): 15864
-    test 9 simplifyRDPm(16614, adjust=True, shortest=True) 1m (1.283 sec): 15867
+    test 1 simplify1(16614, adjust=True) 1m (23.224 ms): 16597
+    test 2 simplifyRW(16614, adjust=True, indices=True, shortest=False) 1m (579.263 ms): 7095
+    test 3 simplifyRW(16614, adjust=True, shortest=False) 1m (576.366 ms): 7095
+    test 4 simplifyRW(16614, adjust=True, shortest=True) 1m (684.188 ms): 8302
+    test 5 simplifyVWm(16614, adjust=True, indices=True) 1m (64.532 ms): 16328
+    test 6 simplifyVWm(16614, adjust=True) 1m (73.431 ms): 16328
+    test 7 simplifyVWm(16614, adjust=False) 1m (58.922 ms): 16373
+    test 8 simplifyRDPm(16614, adjust=True, shortest=False) 1m (1.285 sec): 15864
+    test 9 simplifyRDPm(16614, adjust=True, shortest=True) 1m (1.277 sec): 15867
     test 10 simplifyRDPgr(16614, adjust=True, modified=True, shortest=True) 1m (1.423 sec): 15867
-    test 11 simplifyRDPm(16614, adjust=False, shortest=False) 1m (1.713 sec): 15869
-    test 12 simplifyRDPfw(16614, adjust=False, modified=True, shortest=False) 1m (1.237 sec): 15869
-    test 13 simplifyRDP(16614, adjust=True, indices=True, shortest=True) 1m (428.286 ms): 10960
-    test 14 simplifyRDP(16614, adjust=True, shortest=True) 1m (429.355 ms): 10960
-    test 15 simplifyRDPgr(16614, adjust=True, modified=False, shortest=True) 1m (442.542 ms): 10960
-    test 16 simplifyRDP(16614, adjust=False, indices=True, shortest=False) 1m (355.819 ms): 11248
-    test 17 simplifyRDP(16614, adjust=False, shortest=False) 1m (355.567 ms): 11248
-    test 18 simplifyRDPfw(16614, adjust=False, modified=False, shortest=False) 1m (202.701 ms): 11248
-    test 19 simplifyVW(1661, adjust=True) 1m (9.086 ms): 1641
-    test 20 simplifyVW(1661, adjust=False) 1m (6.714 ms): 1646
-    test 21 simplifyRDP(1661, adjust=True, shortest=False) 1m (31.029 ms): 1231
-    test 22 simplifyRDP(1661, adjust=True, shortest=True) 1m (33.384 ms): 1231
-    test 23 simplifyRDPgr(1661, adjust=True, shortest=True) 1m (33.846 ms): 1231
-    test 24 simplifyRDP(1661, adjust=False, shortest=False) 1m (27.847 ms): 1267
-    test 25 simplifyRDPfw(1661, adjust=False, shortest=False) 1m (15.977 ms): 1267
-    test 26 simplifyRDPgr(1661, adjust=False, shortest=True) 1m (26.205 ms): 1267
-    test 27 simplifyVW(69, adjust=False) 1m (247.002 us): 69
-    test 28 simplifyRDP(69, adjust=False, shortest=False) 1m (665.188 us): 50
-    test 29 simplifyRDPfw(69, adjust=False, shortest=False) 1m (376.940 us): 50
-    test 30 simplifyRDPgr(69, adjust=False, shortest=True) 1m (582.933 us): 50
-    test 31 simplifyRDPgr(69, adjust=True, shortest=True) 1m (741.959 us): 45
+    test 11 simplifyRDPm(16614, adjust=False, shortest=False) 1m (1.706 sec): 15869
+    test 12 simplifyRDPfw(16614, adjust=False, modified=True, shortest=False) 1m (1.249 sec): 15869
+    test 13 simplifyRDP(16614, adjust=True, indices=True, shortest=True) 1m (427.501 ms): 10960
+    test 14 simplifyRDP(16614, adjust=True, shortest=True) 1m (428.369 ms): 10960
+    test 15 simplifyRDPgr(16614, adjust=True, modified=False, shortest=True) 1m (443.580 ms): 10960
+    test 16 simplifyRDP(16614, adjust=False, indices=True, shortest=False) 1m (356.868 ms): 11248
+    test 17 simplifyRDP(16614, adjust=False, shortest=False) 1m (356.786 ms): 11248
+    test 18 simplifyRDPfw(16614, adjust=False, modified=False, shortest=False) 1m (203.078 ms): 11248
+    test 19 simplifyVW(1661, adjust=True) 1m (9.161 ms): 1641
+    test 20 simplifyVW(1661, adjust=False) 1m (6.756 ms): 1646
+    test 21 simplifyRDP(1661, adjust=True, shortest=False) 1m (30.877 ms): 1231
+    test 22 simplifyRDP(1661, adjust=True, shortest=True) 1m (33.250 ms): 1231
+    test 23 simplifyRDPgr(1661, adjust=True, shortest=True) 1m (34.020 ms): 1231
+    test 24 simplifyRDP(1661, adjust=False, shortest=False) 1m (28.033 ms): 1267
+    test 25 simplifyRDPfw(1661, adjust=False, shortest=False) 1m (15.878 ms): 1267
+    test 26 simplifyRDPgr(1661, adjust=False, shortest=True) 1m (26.299 ms): 1267
+    test 27 simplifyVW(69, adjust=False) 1m (266.075 us): 69
+    test 28 simplifyRDP(69, adjust=False, shortest=False) 1m (680.208 us): 50
+    test 29 simplifyRDPfw(69, adjust=False, shortest=False) 1m (377.893 us): 50
+    test 30 simplifyRDPgr(69, adjust=False, shortest=True) 1m (586.033 us): 50
+    test 31 simplifyRDPgr(69, adjust=True, shortest=True) 1m (742.912 us): 45
     test 32 numpy.__version__: 1.8.0
-    test 33 simplify1(69, adjust=False) 1m (493.050 us): 69
+    test 33 simplify1(69, adjust=False) 1m (489.950 us): 69
     test 34 <type 'numpy.ndarray'>: True
-    test 35 simplifyRW(69, adjust=False) 1m (477.076 us): 33
+    test 35 simplifyRW(69, adjust=False) 1m (483.990 us): 33
     test 36 <type 'numpy.ndarray'>: True
-    test 37 simplifyRDP(69, adjust=False) 1m (2.599 ms): 50
+    test 37 simplifyRDP(69, adjust=False) 1m (2.574 ms): 50
     test 38 <type 'numpy.ndarray'>: True
-    test 39 simplifyRDPm(69, adjust=False) 1m (921.965 us): 67
+    test 39 simplifyRDPm(69, adjust=False) 1m (915.051 us): 67
     test 40 <type 'numpy.ndarray'>: True
-    test 41 simplifyRDPfw(69, adjust=False) 1m (2.215 ms): 50
-    test 42 simplifyRDPgr(69, adjust=False) 1m (3.873 ms): 50
-    test 43 simplifyVW(69, adjust=False) 1m (884.056 us): 69
+    test 41 simplifyRDPfw(69, adjust=False) 1m (2.211 ms): 50
+    test 42 simplifyRDPgr(69, adjust=False) 1m (3.872 ms): 50
+    test 43 simplifyVW(69, adjust=False) 1m (864.983 us): 69
     test 44 <type 'numpy.ndarray'>: True
-    test 45 simplifyVWm(69, adjust=False) 1m (885.010 us): 69
+    test 45 simplifyVWm(69, adjust=False) 1m (849.009 us): 69
     test 46 <type 'numpy.ndarray'>: True
-    test 47 simplify1(69, adjust=True) 1m (469.923 us): 69
+    test 47 simplify1(69, adjust=True) 1m (477.076 us): 69
     test 48 <type 'numpy.ndarray'>: True
-    test 49 simplifyRW(69, adjust=True) 1m (483.036 us): 31
+    test 49 simplifyRW(69, adjust=True) 1m (488.043 us): 31
     test 50 <type 'numpy.ndarray'>: True
-    test 51 simplifyRDP(69, adjust=True) 1m (2.672 ms): 45
+    test 51 simplifyRDP(69, adjust=True) 1m (2.670 ms): 45
     test 52 <type 'numpy.ndarray'>: True
-    test 53 simplifyRDPm(69, adjust=True) 1m (952.005 us): 67
+    test 53 simplifyRDPm(69, adjust=True) 1m (946.999 us): 67
     test 54 <type 'numpy.ndarray'>: True
-    test 55 simplifyRDPfw(69, adjust=True) 1m (2.311 ms): 45
-    test 56 simplifyRDPgr(69, adjust=True) 1m (4.050 ms): 45
-    test 57 simplifyVW(69, adjust=True) 1m (892.162 us): 69
+    test 55 simplifyRDPfw(69, adjust=True) 1m (2.301 ms): 45
+    test 56 simplifyRDPgr(69, adjust=True) 1m (4.071 ms): 45
+    test 57 simplifyVW(69, adjust=True) 1m (895.023 us): 69
     test 58 <type 'numpy.ndarray'>: True
-    test 59 simplifyVWm(69, adjust=True) 1m (894.070 us): 69
+    test 59 simplifyVWm(69, adjust=True) 1m (890.970 us): 69
     test 60 <type 'numpy.ndarray'>: True
-    test 61 simplify1(69, adjust=False, indices=True) 1m (373.125 us): 69
+    test 61 simplify1(69, adjust=False, indices=True) 1m (374.079 us): 69
     test 62 <type 'list'>: True
-    test 63 simplifyRW(69, adjust=False, indices=True) 1m (432.968 us): 33
+    test 63 simplifyRW(69, adjust=False, indices=True) 1m (429.153 us): 33
     test 64 <type 'list'>: True
-    test 65 simplifyRDP(69, adjust=False, indices=True) 1m (2.549 ms): 50
+    test 65 simplifyRDP(69, adjust=False, indices=True) 1m (2.518 ms): 50
     test 66 <type 'list'>: True
-    test 67 simplifyRDPm(69, adjust=False, indices=True) 1m (846.148 us): 67
+    test 67 simplifyRDPm(69, adjust=False, indices=True) 1m (833.035 us): 67
     test 68 <type 'list'>: True
-    test 69 simplifyRDPfw(69, adjust=True, indices=True) 1m (2.240 ms): 45
-    test 70 simplifyRDPgr(69, adjust=True, indices=True) 1m (3.992 ms): 45
-    test 71 simplifyVW(69, adjust=False, indices=True) 1m (876.904 us): 69
+    test 69 simplifyRDPfw(69, adjust=True, indices=True) 1m (2.219 ms): 45
+    test 70 simplifyRDPgr(69, adjust=True, indices=True) 1m (3.966 ms): 45
+    test 71 simplifyVW(69, adjust=False, indices=True) 1m (885.963 us): 69
     test 72 <type 'list'>: True
-    test 73 simplifyVWm(69, adjust=False, indices=True) 1m (788.927 us): 69
+    test 73 simplifyVWm(69, adjust=False, indices=True) 1m (776.052 us): 69
     test 74 <type 'list'>: True
 
-    all 74 testSimplify.py tests passed (PyGeodesy 18.9.9 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 11.432 sec
+    all 74 testSimplify.py tests passed (PyGeodesy 18.9.12 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 11.442 sec
 
-running Pythonista3 ~/PyGeodesy-18.9.9/test/testSpherical.py
+running Pythonista3 ~/PyGeodesy-18.9.12/test/testSpherical.py
 
     testing testSpherical.py 18.08.28
 
@@ -4528,9 +4531,9 @@ running Pythonista3 ~/PyGeodesy-18.9.9/test/testSpherical.py
     test 275 isPoleEnclosedBy: False  FAILED, KNOWN, expected True
     test 276 isPoleEnclosedBy*: False  FAILED, KNOWN, expected True
 
-    2 of 276 testSpherical.py tests (0.7%) FAILED, ALL KNOWN (PyGeodesy 18.9.9 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 9.223 ms
+    2 of 276 testSpherical.py tests (0.7%) FAILED, BOTH KNOWN (PyGeodesy 18.9.12 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 9.274 ms
 
-running Pythonista3 ~/PyGeodesy-18.9.9/test/testUtils.py
+running Pythonista3 ~/PyGeodesy-18.9.12/test/testUtils.py
 
     testing testUtils.py 18.09.08 (module pygeodesy.utils 18.09.06)
     test 1 antipode1: (-89, -1)
@@ -4555,9 +4558,9 @@ running Pythonista3 ~/PyGeodesy-18.9.9/test/testUtils.py
     test 20 unroll180: -160.0, -990.0
     test 21 unroll180: 920.0, 90.0
 
-    all 21 testUtils.py tests passed (PyGeodesy 18.9.9 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 694.036 us
+    all 21 testUtils.py tests passed (PyGeodesy 18.9.12 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 533.104 us
 
-running Pythonista3 ~/PyGeodesy-18.9.9/test/testUtm.py
+running Pythonista3 ~/PyGeodesy-18.9.12/test/testUtm.py
 
     testing testUtm.py 17.09.08 (module pygeodesy.utm 18.08.28)
     test 1 Utm1: 03 N 448251.0 5411932.0001
@@ -4607,9 +4610,9 @@ running Pythonista3 ~/PyGeodesy-18.9.9/test/testUtm.py
     test 45 toUtm(76.0°N, 031.0°E): 35X N 607943 8438843
     test 46 toUtm(76.0°N, 037.0°E): 37X N 446000 8436100
 
-    all 46 testUtm.py tests passed (PyGeodesy 18.9.9 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 5.290 ms
+    all 46 testUtm.py tests passed (PyGeodesy 18.9.12 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 5.594 ms
 
-running Pythonista3 ~/PyGeodesy-18.9.9/test/testUtmTMcoords.py
+running Pythonista3 ~/PyGeodesy-18.9.12/test/testUtmTMcoords.py
 
     testing testUtmTMcoords.py 18.09.09 (module pygeodesy.utm 18.08.28)
     test 1 line 1 easting: 1548706.7916
@@ -5430,9 +5433,9 @@ running Pythonista3 ~/PyGeodesy-18.9.9/test/testUtmTMcoords.py
     test 745 line 258 scale: 1.6615
     test 746 WGS84.KsOrder: 8
 
-    1 of 746 testUtmTMcoords.py tests (0.1%) FAILED, ALL KNOWN, 71 skipped (PyGeodesy 18.9.9 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 30.761 ms
+    1 of 746 testUtmTMcoords.py tests (0.1%) FAILED, KNOWN, 71 skipped (PyGeodesy 18.9.12 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 31.472 ms
 
-running Pythonista3 ~/PyGeodesy-18.9.9/test/testVectorial.py
+running Pythonista3 ~/PyGeodesy-18.9.12/test/testVectorial.py
 
     testing testVectorial.py 17.08.31
 
@@ -5489,9 +5492,9 @@ running Pythonista3 ~/PyGeodesy-18.9.9/test/testVectorial.py
     test 48 triangulate: 47.323667°N, 002.568501°W
     test 49 triangulate: True
 
-    all 49 testVectorial.py tests passed (PyGeodesy 18.9.9 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 1.916 ms
+    all 49 testVectorial.py tests passed (PyGeodesy 18.9.12 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 1.910 ms
 
-running Pythonista3 ~/PyGeodesy-18.9.9/test/testWebMercator.py
+running Pythonista3 ~/PyGeodesy-18.9.12/test/testWebMercator.py
 
     testing testWebMercator.py 18.09.08 (module pygeodesy.webmercator 18.09.03)
     test 1 toWm1: -626172.13571216 6887893.4928338
@@ -5552,6 +5555,6 @@ running Pythonista3 ~/PyGeodesy-18.9.9/test/testWebMercator.py
     test 56 toWm(LatLonE(50.0003, 0)).y: 6413572.57
     test 57 toWm(LatLonE(60.0003, 0)).y: 8362760.29
 
-    all 57 testWebMercator.py tests passed (PyGeodesy 18.9.9 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 896.931 us
+    all 57 testWebMercator.py tests passed (PyGeodesy 18.9.12 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 875.950 us
 
-~/PyGeodesy-18.9.9/test/run.py Pythonista3 all 5293 tests OK (PyGeodesy 18.9.9 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 12.367 sec
+~/PyGeodesy-18.9.12/test/run.py Pythonista3 all 5296 tests OK (PyGeodesy 18.9.12 Python 2.7.12 64bit numpy 1.8.0 iOS 11.4.1 iPhone10) 12.314 sec

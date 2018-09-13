@@ -9,13 +9,13 @@ those used in nvector.readthedocs.org.  Tests marked with
 # +++ are additional, not present in the original examples.
 '''
 __all__ = ()
-__version__ = '18.09.08'
+__version__ = '18.09.12'
 
 if __name__ == '__main__':
 
-    from base import TestsBase, isiOS, isWindows
+    from base import geographiclib, TestsBase, isiOS, isWindows
 
-    from pygeodesy import Datums, F_D, \
+    from pygeodesy import Datums, F_D, ellipsoidalKarney, \
                           ellipsoidalNvector, ellipsoidalVincenty, \
                           sphericalNvector, sphericalTrigonometry
 
@@ -105,9 +105,14 @@ if __name__ == '__main__':
     b = a.destination(1000, 200)  # JSname: destinationPoint
     t.test(8, 'destination(sphTy)', b.toStr(F_D), '79.991549°N, 090.017698°W')
 
+    if geographiclib:
+        a = ellipsoidalKarney.LatLon(80, -90)  # +++
+        b = a.destination(1000, 200)
+        t.test(8, 'destination(ellKarney)  ', b.toStr(F_D), '79.991584°N, 090.017621°W')
+
     a = ellipsoidalVincenty.LatLon(80, -90)  # +++
     b = a.destination(1000, 200)
-    t.test(8, 'destination(elVincenty)', b.toStr(F_D), '79.991584°N, 090.017621°W')
+    t.test(8, 'destination(ellVincenty)', b.toStr(F_D), '79.991584°N, 090.017621°W')
 
 # Example 9: Intersection of two paths
     a1 = sphericalNvector.LatLon(10, 20)

@@ -6,7 +6,7 @@
 # classes, like LatLon.
 
 __all__ = ('Tests',)
-__version__ = '17.06.25'
+__version__ = '18.09.12'
 
 from os.path import basename
 
@@ -60,7 +60,7 @@ class Tests(TestsBase):
 
 if __name__ == '__main__':
 
-    from pygeodesy import ellipsoidalNvector, ellipsoidalVincenty, \
+    from pygeodesy import ellipsoidalKarney, ellipsoidalNvector, ellipsoidalVincenty, \
                           nvector, \
                           sphericalNvector, sphericalTrigonometry, \
                           vector3d  # PYCHOK expected
@@ -68,15 +68,15 @@ if __name__ == '__main__':
     t = Tests(__file__, __version__)
 
     # check Cartesian attributes and mro's
-    t.testCartesianAttrs(ellipsoidalNvector, ellipsoidalVincenty,
+    t.testCartesianAttrs(ellipsoidalKarney, ellipsoidalNvector, ellipsoidalVincenty,
                          sphericalNvector, sphericalTrigonometry)
 
     # check LatLon attributes and mro's
-    t.testLatLonAttrs(ellipsoidalNvector, ellipsoidalVincenty,
+    t.testLatLonAttrs(ellipsoidalKarney, ellipsoidalNvector, ellipsoidalVincenty,
                       sphericalNvector, sphericalTrigonometry)
 
     # check vector attributes and mro's
-    t.testVectorAttrs(ellipsoidalNvector, ellipsoidalVincenty,
+    t.testVectorAttrs(ellipsoidalKarney, ellipsoidalNvector, ellipsoidalVincenty,
                       sphericalNvector, sphericalTrigonometry,
                       nvector, vector3d)
     t.results()

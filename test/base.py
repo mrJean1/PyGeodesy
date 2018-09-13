@@ -12,6 +12,7 @@ from os.path import abspath, basename, dirname
 from platform import architecture, java_ver, mac_ver, win32_ver, uname
 import sys
 from time import time
+
 try:
     import geographiclib
 except ImportError:
@@ -29,20 +30,21 @@ if PyGeodesy_dir not in sys.path:  # Python 3+ ModuleNotFoundError
 from pygeodesy import version as PyGeodesy_version, \
                       iterNumpy2over, normDMS  # PYCHOK expected
 
-__all__ = ('isIntelPython', 'isiOS', 'isNix', 'isPyPy',  # constants
+__all__ = ('geographiclib', 'numpy',  # constants
+           'isIntelPython', 'isiOS', 'isNix', 'isPyPy',
            'isPython2', 'isPython3', 'isWindows',
            'PyGeodesy_dir', 'Python_O',
-           'TestsBase',
-           'ios_ver', 'runner', 'secs2str',
+           'TestsBase',  # classes
+           'ios_ver', 'runner', 'secs2str',  # functions
            'tilde', 'type2str', 'versions')
-__version__ = '18.09.08'
+__version__ = '18.09.12'
 
 try:
-    _int = int, long
-    _str = basestring
+    _Ints = int, long
+    _Strs = basestring
 except NameError:  # Python 3+
-    _int = int
-    _str = str
+    _Ints = int
+    _Strs = str
 
 _os_bitstr = architecture()[0]
 _pseudo_home_dir = dirname(PyGeodesy_dir or '~') or '~'
@@ -60,10 +62,10 @@ isWindows     = sys.platform.startswith('win')
 
 try:
     # use distro only for Linux, not macOS, etc.
-    if not isNix:
+    if isNix:
+        import distro  # <http://pypi.org/project/distro/>
+    else:
         raise ImportError
-
-    import distro  # <http://pypi.org/project/distro/>
 
     def _2str(ustr):
         s = u = str(ustr).strip()
@@ -150,8 +152,12 @@ class TestsBase(object):
         if n:
             k = self.known or ''
             if k:
-                k = ', ALL KNOWN' if k == n else (
-                    ', incl. %s KNOWN' % (k,))
+                if k == n:
+                    k = ', KNOWN' if k == 1 else (
+                        ', BOTH KNOWN' if k == 2 else
+                        ', ALL KNOWN')
+                else:
+                    k = ', incl. %s KNOWN' % (k,)
             r = '(%.1f%%) FAILED%s' % (100.0 * n / t, k)
             n = '%s of %d' % (n, t)
         elif t:
@@ -184,7 +190,7 @@ class TestsBase(object):
         if self._iterisk:
             name += self._iterisk
 
-        if not isinstance(expect, _str):
+        if not isinstance(expect, _Strs):
             expect = fmt % (expect,)  # expect as str
 
         f, v = '', fmt % (value,)  # value as str
@@ -347,13 +353,13 @@ def type2str(obj, attr):
             t = '() method'
         else:
             t = '() function'
-    elif isinstance(t, _int):
+    elif isinstance(t, _Ints):
         t = ' int'
     elif ismodule(t):
         t = ' module'
     elif type(t) is property:
         t = ' property'
-    elif isinstance(t, _str):
+    elif isinstance(t, _Strs):
         t = ' str'
     else:
         t = str(type(t)).replace("'", '')

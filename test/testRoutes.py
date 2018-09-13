@@ -20,7 +20,7 @@ except ImportError:
 
 __all__ = ('Antarctica', 'Pts', 'PtsFFI', 'RdpFFI',
            'PtsJS', 'PtsJS5', 'VwPts')
-__version__ = '18.02.05'
+__version__ = '18.09.12'
 
 # <http://geographiclib.sourceforge.io/html/python/examples.html>
 Antarctica = [LatLon_(_lat, _lon) for _lat, _lon in (
@@ -17114,6 +17114,7 @@ class Tests(TestsBase):
                    40105639.197, 80211278.393),  # 2*40105639.197 == .394
                    LL=sphericalTrigonometry.LatLon, radius=R_KM)
         try:  # no LatLon restrictions for ellipsoidal areaOf
+            # XXX keep ellipsoidalVincenty for backward compatibility
             self.test7(ellipsoidalVincenty.areaOf, (1.366270e+13,  # 13662703680020.1
                        1.343272e+06, 1.294375e+06, 1.271286e+11, 1.200540e+11,
                        4.00413688487425e13, 2*4.00413688487425e13),
@@ -17123,6 +17124,7 @@ class Tests(TestsBase):
                        4.00413688487425e13, 2*4.00413688487425e13),
                        fmt='%.6e', LL=ellipsoidalVincenty.LatLon)
         except ImportError as x:
+            # XXX keep ellipsoidalVincenty for backward compatibility
             self.test('ellipsoidalVincenty.areaOf', x, x)
 
     def testClockwise(self):
@@ -17142,6 +17144,7 @@ class Tests(TestsBase):
                    15789078.314, 26041264.665),  # 15766750.804, 25981742.208
                    LL=sphericalTrigonometry.LatLon, radius=R_M, closed=False)
         try:  # no LatLon restrictions for ellipsoidal perimeterOf
+            # XXX keep ellipsoidalVincenty for backward compatibility
             self.test7(ellipsoidalVincenty.perimeterOf, (15531947.149,
                        3229.337, 3190.602, 2769709.679, 2679915.858,
                        15766750.804, 25981742.208),  # assumed
@@ -17150,6 +17153,7 @@ class Tests(TestsBase):
                        5491.045, 5452.310, 5259077.510, 5171947.931,
                        23926469.479, 31533501.608), closed=True)  # assumed
         except ImportError as x:
+            # XXX keep ellipsoidalVincenty for backward compatibility
             self.test('ellipsoidalVincenty.perimeterOf', x, x)
 
     def testGeodesic(self):

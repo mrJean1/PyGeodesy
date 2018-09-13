@@ -4,9 +4,9 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '18.08.28'
+__version__ = '18.09.12'
 
-from base import TestsBase
+from base import geographiclib, TestsBase
 
 from pygeodesy import R_NM, F_D, F_DM, F_DMS, F_RAD, classname, degrees, \
                       fStr, isclockwise, isconvex, isenclosedby, m2NM  # PYCHOK expected
@@ -251,6 +251,10 @@ if __name__ == '__main__':
                           sphericalNvector, sphericalTrigonometry
 
     t = Tests(__file__, __version__)
+
+    if geographiclib:
+        from pygeodesy import ellipsoidalKarney
+        t.testLatLon(ellipsoidalKarney, Sph=False, Nv=False)
 
     t.testLatLon(ellipsoidalNvector, Sph=False, Nv=True)
     t.testLatLon(ellipsoidalVincenty, Sph=False, Nv=False)
