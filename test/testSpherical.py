@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '18.08.28'
+__version__ = '18.09.14'
 
 from testLatLon import Tests as _TestsLL
 from testVectorial import Tests as _TestsV
@@ -40,7 +40,7 @@ class Tests(_TestsLL, _TestsV):
         self.test('intersection', i.toStr(F_DMS), '43°34′18.84″N, 116°11′19.53″W')
         self.test('intersection', isinstance(i, LatLon), True)
 
-        # <http://github.com/chrisveness/geodesy/issues/46>
+        # <http://GitHub.com/ChrisVeness/geodesy/issues/46>
         p = LatLon(51.8853, 0.2545)
         q = LatLon(51.8763, 0.2545)  # identical lon
         i = p.intersection(110.8878, q, 54.4525)

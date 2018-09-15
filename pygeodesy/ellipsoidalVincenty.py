@@ -8,12 +8,12 @@ L{areaOf} and L{perimeterOf}.
 Pure Python implementation of geodesy tools for ellipsoidal earth models,
 transcribed from JavaScript originals by I{(C) Chris Veness 2005-2016}
 and published under the same MIT Licence**, see U{Vincenty geodesics
-<http://www.movable-type.co.uk/scripts/LatLongVincenty.html>}.  More at
-U{GeographicLib<http://pypi.python.org/pypi/geographiclib>} and
-U{GeoPy<http://python.org/pypi/geopy>}.
+<http://www.Movable-Type.co.UK/scripts/LatLongVincenty.html>}.  More at
+U{GeographicLib<http://PyPI.org/project/geographiclib>} and
+U{GeoPy<http://PyPI.org/project/geopy>}.
 
 Calculate geodesic distance between two points using the U{Vincenty
-<http://wikipedia.org/wiki/Vincenty's_formulae>} formulae and one of
+<http://WikiPedia.org/wiki/Vincenty's_formulae>} formulae and one of
 several ellipsoidal earth models.  The default model is WGS-84, the
 most accurate and widely used globally-applicable model for the earth
 ellipsoid.
@@ -65,7 +65,7 @@ from math import atan2, cos, sin, tan
 
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'VincentyError')  # classes
-__version__ = '18.09.09'
+__version__ = '18.09.14'
 
 division = 1 / 2  # double check int division, see utils.py
 if not division:
@@ -181,7 +181,7 @@ class LatLon(LatLonEllipsoidalBase):
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
                                  limit and/or if this and the I{other} point
-                                 are near-antipodal or coincide.
+                                 are near-antipodal.
 
            @example:
 
@@ -217,7 +217,7 @@ class LatLon(LatLonEllipsoidalBase):
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
                                  limit and/or if this and the I{other} point
-                                 are near-antipodal or coincide.
+                                 are near-antipodal.
         '''
         return self._inverse(other, True, wrap)
 
@@ -281,7 +281,7 @@ class LatLon(LatLonEllipsoidalBase):
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
                                  limit and/or if this and the I{other} point
-                                 are near-antipodal or coincide.
+                                 are near-antipodal.
 
            @example:
 
@@ -314,7 +314,7 @@ class LatLon(LatLonEllipsoidalBase):
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
                                  limit and/or if this and the I{other} point
-                                 are near-antipodal or coincide.
+                                 are near-antipodal.
 
            @example:
 
@@ -433,8 +433,12 @@ class LatLon(LatLonEllipsoidalBase):
             cll, sll, ll_ = cos(ll), sin(ll), ll
 
             ss = hypot(c2 * sll, c1s2 - s1c2 * cll)
-            if ss < EPS:
-                raise VincentyError('%r coincides with %r' % (self, other))
+            if ss < EPS:  # coincident, ...
+                d = 0.0  # like Karney, ...
+                if azis:  # return zeros
+                    d = d, 0, 0
+                return d
+
             cs = s1s2 + c1c2 * cll
             s = atan2(ss, cs)
 
@@ -449,9 +453,9 @@ class LatLon(LatLonEllipsoidalBase):
 
             if abs(ll - ll_) < self._epsilon:
                 break
-            # <http://github.com/chrisveness/geodesy/blob/master/latlon-vincenty.js>
+            # <http://GitHub.com/ChrisVeness/geodesy/blob/master/latlon-vincenty.js>
             # omitted and applied only after failure to converge, see footnote under
-            # Inverse at <http://en.wikipedia.org/wiki/Vincenty's_formulae>
+            # Inverse at <http://WikiPedia.org/wiki/Vincenty's_formulae>
 #           elif abs(ll) > PI and self.isantipode(other, eps=self._epsilon):
 #              raise VincentyError('%r antipodal to %r' % (self, other))
         else:

@@ -4,12 +4,12 @@
 u'''Lambert conformal conic projection for 1- or 2-Standard Parallels
 class L{Conic}, L{Conics} registry and position class L{Lcc}.
 
-See U{LCC<http://wikipedia.org/wiki/Lambert_conformal_conic_projection>},
+See U{LCC<http://WikiPedia.org/wiki/Lambert_conformal_conic_projection>},
 U{Lambert Conformal Conic to Geographic Transformation Formulae
-<http://www.linz.govt.nz/data/geodetic-system/coordinate-conversion/
+<http://www.Linz.govt.NZ/data/geodetic-system/coordinate-conversion/
 projection-conversions/lambert-conformal-conic-geographic>},
 U{Lambert Conformal Conic Projection
-<http://mathworld.wolfram.com/LambertConformalConicProjection.html>}
+<http://MathWorld.Wolfram.com/LambertConformalConicProjection.html>}
 and John P. Snyder U{'Map Projections - A Working Manual'
 <http://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}, 1987, pp 107-109.
 
@@ -28,7 +28,7 @@ from math import atan, copysign, cos, log, sin, sqrt
 # all public constants, classes and functions
 __all__ = ('Conic', 'Conics', 'Lcc',
            'toLcc')  # functions
-__version__ = '18.08.28'
+__version__ = '18.09.14'
 
 
 Conics = _Enum('Conics')  #: Registered conics (L{_Enum}).
@@ -313,7 +313,7 @@ class Conic(_Based):
         return PI_2 - 2 * atan(t_x)  # XXX + self._lat0
 
 
-Conics._assert(  # <http://spatialreference.org/ref/sr-org/...>
+Conics._assert(  # <http://SpatialReference.org/ref/sr-org/...>
 #   AsLb   = Conic(_ELLB(-14.2666667, 170, datum=Datums.NAD27), 0, 0, E0=500000, N0=0, name='AsLb', auth='EPSG:2155'),  # American Samoa ... SP=1 !
     Be08Lb = Conic(_ELLB(50.7978150, 4.359215833, datum=Datums.GRS80), 49.833333, 51.166667, E0=649328.0, N0=665262.0, name='Be08Lb', auth='EPSG:9802'),  # Belgium
     Be72Lb = Conic(_ELLB(90, 4.3674867, datum=Datums.NAD83), 49.8333339, 51.1666672, E0=150000.013, N0=5400088.438, name='Be72Lb', auth='EPSG:31370'),  # Belgium

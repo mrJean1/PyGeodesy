@@ -8,7 +8,7 @@ L{meanOf}, L{nearestOn2} and L{perimeterOf}.
 Pure Python implementation of geodetic (lat-/longitude) methods using
 spherical trigonometry, transcribed from JavaScript originals by
 I{(C) Chris Veness 2011-2016} published under the same MIT Licence**, see
-U{Latitude/Longitude<http://www.movable-type.co.uk/scripts/latlong.html>}.
+U{Latitude/Longitude<http://www.Movable-Type.co.UK/scripts/latlong.html>}.
 
 @newfield example: Example, Examples
 '''
@@ -30,7 +30,7 @@ __all__ = ('LatLon',  # classes
            'meanOf',
            'nearestOn2',
            'perimeterOf')
-__version__ = '18.09.09'
+__version__ = '18.09.14'
 
 
 class LatLon(LatLonSphericalBase):
@@ -281,7 +281,7 @@ class LatLon(LatLonSphericalBase):
         ca1, ca2, cdb = map1(cos, a1, a2, db)
         sa1, sa2, sdb = map1(sin, a1, a2, db)
 
-        # see <http://mathforum.org/library/drmath/view/55417.html>
+        # see <http://MathForum.org/library/drmath/view/55417.html>
         x = ca1 * sa2 - sa1 * ca2 * cdb
         y = sdb * ca2
 
@@ -462,7 +462,7 @@ class LatLon(LatLonSphericalBase):
         '''
         self.others(other)
 
-        # see <http://mathforum.org/library/drmath/view/51822.html>
+        # see <http://MathForum.org/library/drmath/view/51822.html>
         a1, b1 = self.to2ab()
         a2, b2 = other.to2ab()
 
@@ -562,7 +562,7 @@ def _destination2(a, b, r, t):
 
        @return: 2-Tuple (lat, lon) of (degrees90, degrees180).
     '''
-    # see <http://www.edwilliams.org/avform.htm#LL>
+    # see <http://www.EdWilliams.org/avform.htm#LL>
     ca, cr, ct = map1(cos, a, r, t)
     sa, sr, st = map1(sin, a, r, t)
 
@@ -676,7 +676,7 @@ def intersection(start1, bearing1, start2, bearing2,
     _Trll.others(start1, name='start1')
     _Trll.others(start2, name='start2')
 
-    # see <http://www.edwilliams.org/avform.htm#Intersection>
+    # see <http://www.EdWilliams.org/avform.htm#Intersection>
     a1, b1 = start1.to2ab()
     a2, b2 = start2.to2ab()
 
@@ -748,7 +748,7 @@ def isPoleEnclosedBy(points, wrap=False):
                 p1, b1 = p2, b2
 
     # sum of course deltas around pole is 0° rather than normally ±360°
-    # <http://blog.element84.com/determining-if-a-spherical-polygon-contains-a-pole.html>
+    # <http://blog.Element84.com/determining-if-a-spherical-polygon-contains-a-pole.html>
     s = fsum(_cds(n, points))
 
     # XXX fix (intermittant) edge crossing pole - eg (85,90), (85,0), (85,-90)

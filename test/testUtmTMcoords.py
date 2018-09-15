@@ -3,12 +3,12 @@
 
 u'''Test UTM function with the C(TMcoords.dat} from
 U{C.F.F. Karney, "Test data for the transverse Mercator projection (2009)"
-<http://geographiclib.sourceforge.io/html/transversemercator.html>},
-also available U{here<http://zenodo.org/record/32470>}, file C{TMcoords.dat}.
+<http://GeographicLib.SourceForge.io/html/transversemercator.html>},
+also available U{here<http://Zenodo.org/record/32470>}, file C{TMcoords.dat}.
 '''
 
 __all__ = ('Tests',)
-__version__ = '18.09.09'
+__version__ = '18.09.14'
 
 from base import TestsBase
 

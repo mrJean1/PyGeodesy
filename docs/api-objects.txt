@@ -306,7 +306,7 @@ pygeodesy.fmath.EPS	pygeodesy.fmath-module.html#EPS
 pygeodesy.fmath.len2	pygeodesy.fmath-module.html#len2
 pygeodesy.fmath.scalar	pygeodesy.fmath-module.html#scalar
 pygeodesy.fmath.hypot	pygeodesy.fmath-module.html#hypot
-pygeodesy.fmath.fdot3	pygeodesy.fmath-module.html#fdot3
+pygeodesy.fmath.__package__	pygeodesy.fmath-module.html#__package__
 pygeodesy.fmath.EPS2	pygeodesy.fmath-module.html#EPS2
 pygeodesy.fmath._2sum	pygeodesy.fmath-module.html#_2sum
 pygeodesy.fmath.fmean	pygeodesy.fmath-module.html#fmean
@@ -314,10 +314,11 @@ pygeodesy.fmath.fhorner	pygeodesy.fmath-module.html#fhorner
 pygeodesy.fmath.isscalar	pygeodesy.fmath-module.html#isscalar
 pygeodesy.fmath.fpowers	pygeodesy.fmath-module.html#fpowers
 pygeodesy.fmath.fStrzs	pygeodesy.fmath-module.html#fStrzs
-pygeodesy.fmath.__package__	pygeodesy.fmath-module.html#__package__
+pygeodesy.fmath._1EPS	pygeodesy.fmath-module.html#_1EPS
 pygeodesy.fmath.map1	pygeodesy.fmath-module.html#map1
 pygeodesy.fmath.map2	pygeodesy.fmath-module.html#map2
 pygeodesy.fmath.fsum_	pygeodesy.fmath-module.html#fsum_
+pygeodesy.fmath.fdot3	pygeodesy.fmath-module.html#fdot3
 pygeodesy.fmath.isint	pygeodesy.fmath-module.html#isint
 pygeodesy.fmath.sqrt3	pygeodesy.fmath-module.html#sqrt3
 pygeodesy.fmath.hypot3	pygeodesy.fmath-module.html#hypot3

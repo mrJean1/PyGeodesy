@@ -2,14 +2,14 @@
 # -*- coding: utf-8 -*-
 
 u'''Test ellipsoidal function with the C(GeodTest.dat} from
-U{C.F.F. Karney, GeographicLib<http://geographiclib.sourceforge.io>},
-also available U{here<http://zenodo.org/record/32156>}, file C{GeodTest.dat}.
+U{C.F.F. Karney, GeographicLib<http://GeographicLib.SourceForge.io>},
+also available U{here<http://Zenodo.org/record/32156>}, file C{GeodTest.dat}.
 See also U{Geodesic calculations for an ellipsoid done right
-<http://geographiclib.sourceforge.io/scripts/geod-calc.html>}.
+<http://GeographicLib.SourceForge.io/scripts/geod-calc.html>}.
 '''
 
 __all__ = ('Tests',)
-__version__ = '18.09.09'
+__version__ = '18.09.14'
 
 from base import geographiclib, TestsBase
 

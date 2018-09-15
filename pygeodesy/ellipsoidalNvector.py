@@ -8,7 +8,7 @@ functions L{meanOf} and L{toNed}.
 Pure Python implementation of n-vector-based geodetic (lat-/longitude)
 methods by I{(C) Chris Veness 2011-2016} published under the same MIT
 Licence**, see U{Vector-based geodesy
-<http://www.movable-type.co.uk/scripts/latlong-vectors.html>}.
+<http://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
 
 These classes and functions work with: (a) geodesic (polar) lat-/longitude
 points on the earth's surface and (b) 3-D vectors used as n-vectors
@@ -37,7 +37,7 @@ from math import asin, atan2, cos, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '18.08.28'
+__version__ = '18.09.14'
 
 
 class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):

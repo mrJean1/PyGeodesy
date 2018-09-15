@@ -6,9 +6,9 @@ and spherical earth models using precision trigonometric, vector-based
 and approximate methods for geodetic (lat-/longitude) and geocentric
 cartesian (x/y/z) coordinates.
 
-Transcribed from U{JavaScript originals<http://github.com/chrisveness/geodesy>}
+Transcribed from U{JavaScript originals<http://GitHub.com/ChrisVeness/geodesy>}
 by I{Chris Veness (C) 2005-2016} and published under the same U{MIT License
-<http://opensource.org/licenses/MIT>}**.
+<http://OpenSource.org/licenses/MIT>}**.
 
 There are three modules for ellipsoidal earth models, I{ellipsoidalKarney},
 I{-Vincenty} and I{-Nvector} and two for spherical ones, I{sphericalTrigonometry}
@@ -16,57 +16,58 @@ and I{-Nvector}.  Each module provides a I{attributes-LatLon-html} class
 with methods and functions to compute distance, initial and final bearing,
 intermediate and nearest points, area, perimeter, conversions and unrolling,
 among other things.  For more information and further details see the
-U{documentation<http://mrjean1.github.io/PyGeodesy/>}, the descriptions of
-U{Latitude/Longitude<http://www.movable-type.co.uk/scripts/latlong.html>},
-U{Vincenty<http://www.movable-type.co.uk/scripts/latlong-vincenty.html>} and
-U{Vector-based<http://www.movable-type.co.uk/scripts/latlong-vectors.html>}
-geodesy, the original U{JavaScript source<http://github.com/chrisveness/geodesy>} or
-U{docs<http://www.movable-type.co.uk/scripts/geodesy/docs/>} and U{GeographicLib
-Python <http://geographiclib.sourceforge.io/1.49/python>}.
+U{documentation<http://mrJean1.GitHub.io/PyGeodesy>}, the descriptions of
+U{Latitude/Longitude<http://www.Movable-Type.co.UK/scripts/latlong.html>},
+U{Vincenty<http://www.Movable-Type.co.UK/scripts/latlong-vincenty.html>} and
+U{Vector-based<http://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}
+geodesy, the original U{JavaScript source<http://GitHub.com/ChrisVeness/geodesy>} or
+U{docs<http://www.Movable-Type.co.UK/scripts/geodesy/docs>} and the Python
+U{GeographicLib<http://PyPI.org/project/geographiclib>}.
 
 Also included are modules for conversions to and from
-U{UTM<http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html>}
+U{UTM<http://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>}
 (Universal Transverse Mercator) and U{Web Mercator
-<http://wikipedia.org/wiki/Web_Mercator>} (Pseudo-Mercator) coordinates,
-U{MGRS<http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html>}
+<http://WikiPedia.org/wiki/Web_Mercator>} (Pseudo-Mercator) coordinates,
+U{MGRS<http://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>}
 (NATO Military Grid Reference System) and
-U{OSGR<http://www.movable-type.co.uk/scripts/latlong-os-gridref.html>}
+U{OSGR<http://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html>}
 (British Ordinance Survery Grid Reference) grid references and a module for
-encoding and decoding U{Geohashes<http://www.movable-type.co.uk/scripts/geohash.html>}.
+encoding and decoding U{Geohashes<http://www.Movable-Type.co.UK/scripts/geohash.html>}.
 
 Two other modules provide Lambert conformal conic projections and positions
 (from U{John P. Snyder, "Map Projections -- A Working Manual", 1987, pp 107-109
 <http://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}) and several functions to
-U{simplify<http://bost.ocks.org/mike/simplify/>} or linearize a path of
+U{simplify<http://Bost.Ocks.org/mike/simplify>} or linearize a path of
 I{LatLon} points (or a U{NumPy array
-<http://docs.scipy.org/doc/numpy/reference/generated/numpy.array.html>}),
+<http://docs.SciPy.org/doc/numpy/reference/generated/numpy.array.html>}),
 including implementations of the U{Ramer-Douglas-Peucker
-<http://wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm>}, the
-U{Visvalingam-Whyatt<http://hydra.hull.ac.uk/resources/hull:8338>} and the
-U{Reumann-Witkam<http://psimpl.sourceforge.net/reumann-witkam.html>}
+<http://WikiPedia.org/wiki/Ramer-Douglas-Peucker_algorithm>}, the
+U{Visvalingam-Whyatt<http://hydra.Hull.ac.UK/resources/hull:8338>} and the
+U{Reumann-Witkam<http://psimpl.SourceForge.net/reumann-witkam.html>}
 algorithms and modified versions of the former.
 
 All Python source code has been statically U{checked
-<http://github.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor>}
-with U{PyChecker<http://pypi.python.org/pypi/pychecker>},
-U{PyFlakes<http://pypi.python.org/pypi/pyflakes>},
-U{PyCodeStyle<http://pypi.python.org/pypi/pycodestyle>} (formerly Pep8) and
-U{McCabe<http://pypi.python.org/pypi/mccabe>} using Python 2.7.15 and with
-U{Flake8<http://pypi.python.org/pypi/flake8>} using Python 3.7.0, both in
+<http://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor>}
+with U{PyChecker<http://PyPI.org/project/pychecker>},
+U{PyFlakes<http://PyPI.org/project/pyflakes>},
+U{PyCodeStyle<http://PyPI.org/project/pycodestyle>} (formerly Pep8) and
+U{McCabe<http://PyPI.org/project/mccabe>} using Python 2.7.15 and with
+U{Flake8<http://PyPI.org/project/flake8>} using Python 3.7.0, both in
 64-bit on macOS 10.13.6 High Sierra.
 
-The tests have been run in 64-bit with U{PyPy-Python<http://pypy.org>}
+The tests have been run in 64-bit with U{PyPy-Python<http://PyPy.org>}
 2.7.13, Python 2.7.15 (with U{geographiclib
-<http://pypi.python.org/pypi/geographiclib>} 1.49 and U{numpy
-<http://pypi.python.org/pypi/numpy>} 1.14.0), U{Intel-Python
-<http://software.intel.com/en-us/distribution-for-python>} 3.5.3 (and
-U{numpy<http://pypi.python.org/pypi/numpy>} 1.11.3) and Python 3.7.0
-(with U{geographiclib<http://pypi.python.org/pypi/geographiclib>} 1.49),
+<http://PyPI.org/project/geographiclib>} 1.49 and U{numpy
+<http://PyPI.org/project/numpy>} 1.14.0), U{Intel-Python
+<http://software.Intel.com/en-us/distribution-for-python>} 3.5.3 (and
+U{numpy<http://PyPI.org/project/numpy>} 1.11.3) and Python 3.7.0
+(with U{geographiclib<http://PyPI.org/project/geographiclib>} 1.49),
 all on macOS 10.13.6 High Sierra, with 64-bit Python 3.7.0 (with
-U{geographiclib<http://pypi.python.org/pypi/geographiclib>} 1.49) on Debian
-GNU/Linux 9 and with U{Pythonista 3.2 <http://omz-software.com/pythonista/>}
-Python 2.7.12 and 3.6.1 (both with U{numpy<http://pypi.python.org/pypi/numpy>}
-1.8.0) on iOS 11.4.1 (iPad and iPhone X).
+U{geographiclib<http://PyPI.org/project/geographiclib>} 1.49) on Debian
+GNU/Linux 9 and with U{Pythonista 3.2 <http://OMZ-Software.com/pythonista>}
+Python 2.7.12 and 3.6.1 (both with U{numpy<http://PyPI.org/project/numpy>}
+1.8.0) on iOS 11.4.1 iPad and (with U{geographiclib
+<http://PyPI.org/project/geographiclib>} 1.49) iPhone X.
 
 Previously, the tests were run with 64-bit Python 2.6.9 (and numpy 1.6.2),
 2.7.10 (and numpy 1.8.0rc1), 2.7.13, 2.7.14 (and numpy 1.13.1), 3.5.3,
@@ -75,22 +76,22 @@ Capitan, macOS 10.12 Sierra, macOS 10.13.4 and/or 10.13.5 High Sierra, with
 Pythonista 3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3, with 32-bit Python
 2.6.6 on Windows XP SP3, with 32-bit Python 2.7.14 on Windows 10 Pro.
 
-In addition to the U{PyGeodesy<http://pypi.python.org/pypi/PyGeodesy>}
+In addition to the U{PyGeodesy<http://PyPI.org/project/PyGeodesy>}
 package, the distribution files contain the tests, the test results and
 the complete documentation (generated by U{Epydoc
-<http://pypi.python.org/pypi/epydoc>} using command line: C{epydoc --html
+<http://PyPI.org/project/epydoc>} using command line: C{epydoc --html
 --no-private --no-source --name=PyGeodesy --url=... -v pygeodesy}).
 
 To install PyGeodesy, type C{pip install PyGeodesy} or C{easy_install
 PyGeodesy} in a terminal or command window.  Alternatively, download
-C{PyGeodesy-yy.m.d} from U{PyPI<http://pypi.python.org/pypi/PyGeodesy/>}
-or U{GitHub<http://github.com/mrJean1/PyGeodesy>}, C{unzip} the downloaded
+C{PyGeodesy-yy.m.d} from U{PyPI<http://PyPI.org/project/PyGeodesy>}
+or U{GitHub<http://GitHub.com/mrJean1/PyGeodesy>}, C{unzip} the downloaded
 file, C{cd} to directory C{Pygeodesy-yy.m.d} and type C{python setup.py
 install}.  To run all PyGeodesy tests, type C{python setup.py test}
 before installation.
 
 Installation of U{NumPy<http://www.NumPy.org>} and U{GeographicLib
-<http://pypi.python.org/pypi/geographiclib>} is optional.  However, the
+<http://PyPI.org/project/geographiclib>} is optional.  However, the
 latter is required for module I{ellipsoidalKarney} classes I{LatLon} and
 I{Cartesian} and the functions I{areaOf} and I{perimeterOf}.
 
@@ -200,14 +201,14 @@ __all__ = ('bases', 'datum', 'dms', 'elevations',  # modules
            'R_M',  # to avoid duplicates from datum and utils
            'version',
            'crosserrors')  # extended below
-__version__ = '18.09.12'
+__version__ = '18.09.14'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 
 # lift all public classes, constants, functions, etc. but
 # only from the following sub-modules ... (see also David
-# Beazley's <http://dabeaz.com/modulepackage/index.html>)
+# Beazley's <http://DaBeaz.com/modulepackage/index.html>)
 from bases       import *  # PYCHOK __all__
 from datum       import *  # PYCHOK __all__
 from dms         import *  # PYCHOK __all__

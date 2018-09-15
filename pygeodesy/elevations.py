@@ -3,7 +3,7 @@
 
 u'''Functions to obtain elevations and geoid heights thru web services,
 for (lat, lon) locations, currently limited to the U{Conterminous US (CONUS)
-<http://wikipedia.org/wiki/Contiguous_United_States>}.
+<http://WikiPedia.org/wiki/Contiguous_United_States>}.
 
 B{macOS}: If an C{SSLCertVerificationError} occurs, especially this
 I{"[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self
@@ -16,7 +16,7 @@ C{"/Applications/Python X.Y/Install Certificates.command"}
 '''
 
 __all__ = 'elevation2', 'geoidHeight2'
-__version__ = '18.08.26'
+__version__ = '18.09.14'
 
 from fmath import fStr
 
@@ -126,7 +126,7 @@ def elevation2(lat, lon, timeout=2.0):
               <error> is the HTTP-, IO-, SSL-, Type-, URL- or
               ValueError as string.
 
-       @see: U{USGS National Map<http://NationalMap.gov/epqs/>},
+       @see: U{USGS National Map<http://NationalMap.gov/epqs>},
              the U{FAQ<http://www.USGS.gov/faqs/what-are-projection-
              horizontal-and-vertical-datum-units-and-resolution-3dep-standard-dems>}
              and U{USGS10mElev.py<http://gist.GitHub.com/pyRobShrk?page=2>}.

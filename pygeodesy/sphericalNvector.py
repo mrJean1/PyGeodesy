@@ -8,9 +8,9 @@ L{nearestOn2}, L{triangulate} and L{trilaterate}.
 Pure Python implementation of n-vector-based spherical geodetic (lat-/longitude)
 methods, transcribed from JavaScript originals by I{(C) Chris Veness 2011-2016},
 published under the same MIT Licence**.  See U{Vector-based geodesy
-<http://www.movable-type.co.uk/scripts/latlong-vectors.html>} and
+<http://www.Movable-Type.co.UK/scripts/latlong-vectors.html>} and
 U{Module latlon-nvector-spherical
-<http://www.movable-type.co.uk/scripts/geodesy/docs/module-latlon-nvector-spherical.html>}.
+<http://www.Movable-Type.co.UK/scripts/geodesy/docs/module-latlon-nvector-spherical.html>}.
 
 Tools for working with points and paths on (a spherical model of) the
 earth’s surface using using n-vectors rather than the more common
@@ -46,7 +46,7 @@ __all__ = ('LatLon', 'Nvector',  # classes
            'meanOf',
            'nearestOn2',
            'triangulate', 'trilaterate')
-__version__ = '18.09.09'
+__version__ = '18.09.14'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -645,7 +645,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
     def trilaterate(self, distance1, point2, distance2, point3, distance3,
                           radius=R_M, height=None):
         '''Locate a point at given distances from this and two other points.
-           See also U{Trilateration<http://wikipedia.org/wiki/Trilateration>}.
+           See also U{Trilateration<http://WikiPedia.org/wiki/Trilateration>}.
 
            @param distance1: Distance to this point (same units as radius).
            @param point2: Second reference point (L{LatLon}).
@@ -980,7 +980,7 @@ def triangulate(point1, bearing1, point2, bearing2,
 def trilaterate(point1, distance1, point2, distance2, point3, distance3,
                 radius=R_M, height=None, LatLon=LatLon):
     '''Locate a point at given distances from three other points.
-       See also U{Trilateration<http://wikipedia.org/wiki/Trilateration>}.
+       See also U{Trilateration<http://WikiPedia.org/wiki/Trilateration>}.
 
        @param point1: First point (L{LatLon}).
        @param distance1: Distance to the first point (same units as radius).

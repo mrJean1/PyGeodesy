@@ -4,8 +4,8 @@
 u'''(INTERNAL) Common base classes.
 
 After I{(C) Chris Veness 2011-2015} published under the same MIT Licence**,
-see U{http://www.movable-type.co.uk/scripts/latlong.html}
-and U{http://www.movable-type.co.uk/scripts/latlong-vectors.html}.
+see U{http://www.Movable-Type.co.UK/scripts/latlong.html}
+and U{http://www.Movable-Type.co.UK/scripts/latlong-vectors.html}.
 
 @newfield example: Example, Examples
 '''
@@ -20,7 +20,7 @@ from math import asin, cos, degrees, radians, sin
 __all__ = (  # 'Based', 'LatLonHeightBase', 'Named', 'VectorBased',
            'classname', 'classnaming',
            'inStr')
-__version__ = '18.08.28'
+__version__ = '18.09.14'
 
 __X = object()  # unique instance
 
@@ -236,7 +236,7 @@ class LatLonHeightBase(Based):
 
            @return: 2-Tuple (LatLonSW, LatLonNE) of (I{LatLon}s).
 
-           @see: U{http://www.movable-type.co.uk/scripts/latlong-db.html}
+           @see: U{http://www.Movable-Type.co.UK/scripts/latlong-db.html}
         '''
         a, _ = self.to2ab()
         ca = cos(a)

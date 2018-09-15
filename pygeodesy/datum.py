@@ -8,7 +8,7 @@ including datums and ellipsoid parameters for different geographic coordinate
 systems and methods for converting between them and to cartesian coordinates.
 Transcribed from JavaScript originals by I{(C) Chris Veness 2005-2016} and
 published under the same MIT Licence**, see U{latlon-ellipsoidal.js
-<http://www.movable-type.co.uk/scripts/geodesy/docs/latlon-ellipsoidal.js.html>}.
+<http://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html>}.
 
 Historical geodetic datums: a latitude/longitude point defines a geographic
 location on or above/below the earth’s surface, measured in degrees from
@@ -23,7 +23,7 @@ references were used.
 The UK Ordnance Survey National Grid References are still based on the otherwise
 historical OSGB36 datum, q.v. U{Ordnance Survey 'A guide to coordinate systems
 in Great Britain', Section 6
-<http://www.ordnancesurvey.co.uk/docs/support/guide-coordinate-systems-great-britain.pdf>}.
+<http://www.OrdnanceSurvey.co.UK/docs/support/guide-coordinate-systems-great-britain.pdf>}.
 
 @newfield example: Example, Examples
 
@@ -123,9 +123,9 @@ R_MB = 6356752.0  #: Polar earth radius (meter) WGS84, EPSG:3785.
 R_KM = m2km(R_M)  #: Mean, spherical earth radius (kilo meter).
 R_NM = m2NM(R_M)  #: Mean, spherical earth radius (nautical miles).
 R_SM = m2SM(R_M)  #: Mean, spherical earth radius (statute miles).
-# See <http://www.edwilliams.org/avform.htm>,
+# See <http://www.EdWilliams.org/avform.htm>,
 # <http://www.dtic.mil/dtic/tr/fulltext/u2/a216843.pdf> and
-# <http://github.com/nasa/MultiDop/blob/master/src/share/man/man3/geog_lib.3>
+# <http://GitHub.com/NASA/MultiDop/blob/master/src/share/man/man3/geog_lib.3>
 # based on International Standard Nautical Mile of 1,852 meter (1' latitude)
 R_FM = 6371000.0  #: Former FAI Sphere earth radius (meter).
 R_VM = 6366707.0194937  #: Aviation/Navigation earth radius (meter).
@@ -135,7 +135,7 @@ R_VM = 6366707.0194937  #: Aviation/Navigation earth radius (meter).
 __all__ = ('R_MA', 'R_MB', 'R_KM', 'R_M', 'R_NM', 'R_SM', 'R_FM', 'R_VM',  # constants
            'Datum',  'Ellipsoid',  'Transform',  # classes
            'Datums', 'Ellipsoids', 'Transforms')  # enum-like
-__version__ = '18.09.09'
+__version__ = '18.09.14'
 
 division = 1 / 2  # double check int division, see utils.py
 if not division:
@@ -296,11 +296,11 @@ class Ellipsoid(_Based):
     _a2 = 0  #: (INTERNAL) a**2
     _b2 = 0  #: (INTERNAL) b**2
 
-    # curvatures <http://wikipedia.org/wiki/Earth_radius#Radii_of_curvature>
+    # curvatures <http://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>
     _a2_b = None  #: (INTERNAL) Meridional radius of curvature at poles: a**2 / b (meter)
     _b2_a = None  #: (INTERNAL) Meridional radius of curvature at equator: b**2 / a (meter)
 
-    # fixed earth radii from <http://wikipedia.org/wiki/Earth_radius>
+    # fixed earth radii from <http://WikiPedia.org/wiki/Earth_radius>
     _R1 = None  #: (INTERNAL) Mean earth radius: (2 * a + b) / 3 per IUGG definition (meter)
     _R2 = None  #: (INTERNAL) Authalic radius: sqrt((a**2 + b**2 * atanh(e) / e) / 2) (meter)
     _R3 = None  #: (INTERNAL) Volumetric radius: (a * a * b)**1/3 (meter)
@@ -393,7 +393,7 @@ class Ellipsoid(_Based):
         '''(INTERNAL) Compute the 4-, 6- or 8-th order Krüger Alpha or
            Beta series coefficients per Karney 2011, 'Transverse Mercator
            with an accuracy of a few nanometers', U{page 7, equations 35
-           and 36<http://arxiv.org/pdf/1002.1417v3.pdf>}.
+           and 36<http://Arxiv.org/pdf/1002.1417v3.pdf>}.
 
            @param AB8Ks: 8-Tuple of 8-th order Krüger Alpha or Beta
                          series coefficent tuples.
@@ -401,7 +401,7 @@ class Ellipsoid(_Based):
            @return: Krüger series coefficients (I{.KsOrder}-tuple).
 
            @see: The 30-th order U{TMseries30
-                 <http://geographiclib.sourceforge.io/html/tmseries30.html>}.
+                 <http://GeographicLib.SourceForge.io/html/tmseries30.html>}.
         '''
         KsOrder = self.KsOrder
         ns = fpowers(self.n, KsOrder)  # PYCHOK incorrect!
@@ -420,13 +420,13 @@ class Ellipsoid(_Based):
         '''
         if self._A is None:
             n = self.n
-            # <http://geographiclib.sourceforge.io/html/transversemercator.html>
+            # <http://GeographicLib.SourceForge.io/html/transversemercator.html>
             self._A = self.a / (1 + n) * (fsum_(65536, 16384 * n**2,
                                                         1024 * n**4,
                                                          256 * n**6,
                                                          100 * n**8,
                                                           49 * n**10) / 65536)
-            # <http://www.mygeodesy.id.au/documents/Karney-Krueger%20equations.pdf>
+            # <http://www.MyGeodesy.id.AU/documents/Karney-Krueger%20equations.pdf>
             # self._A = self.a / (1 + n) * (fhorner(n**2, 16384, 4096, 256, 64, 25) / 16384)
         return self._A
 
@@ -435,7 +435,7 @@ class Ellipsoid(_Based):
         '''Get the polar meridional radius of curvature: M{a**2 / b} (meter).
 
            @see: U{Radii of Curvature
-                 <http://wikipedia.org/wiki/Earth_radius#Radii_of_curvature>}.
+                 <http://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
         '''
         if self._a2_b is None:
             self._a2_b = self._a2 / self.b
@@ -446,7 +446,7 @@ class Ellipsoid(_Based):
         '''Get the equatorial meridional radius of curvature: M{b**2 / a} (meter).
 
            @see: U{Radii of Curvature
-                 <http://wikipedia.org/wiki/Earth_radius#Radii_of_curvature>}.
+                 <http://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
         '''
         if self._b2_a is None:
             self._b2_a = self._b2 / self.a
@@ -454,7 +454,7 @@ class Ellipsoid(_Based):
 
     @property_RO
     def AlphaKs(self):
-        '''Get the U{Krüger Alpha series coefficients<http://geographiclib.sourceforge.io/html/tmseries30.html>} (KsOrder-tuple).
+        '''Get the U{Krüger Alpha series coefficients<http://GeographicLib.SourceForge.io/html/tmseries30.html>} (KsOrder-tuple).
 
         '''
         if self._AlphaKs is None:
@@ -472,7 +472,7 @@ class Ellipsoid(_Based):
 
     @property_RO
     def BetaKs(self):
-        '''Get the U{Krüger Beta series coefficients<http://geographiclib.sourceforge.io/html/tmseries30.html>} (KsOrder-tuple).
+        '''Get the U{Krüger Beta series coefficients<http://GeographicLib.SourceForge.io/html/tmseries30.html>} (KsOrder-tuple).
         '''
         if self._BetaKs is None:
             self._BetaKs = self._Kseries(  # XXX int/int quotients may require  from __future__ import division
@@ -508,7 +508,7 @@ class Ellipsoid(_Based):
 
            @return: 2-Tuple (distance, bearing) in (meter, degrees360).
 
-           @see: U{Local, Flat Earth<http://www.edwilliams.org/avform.htm#flat>}.
+           @see: U{Local, Flat Earth<http://www.EdWilliams.org/avform.htm#flat>}.
         '''
         m, n = self.roc2(lat0)
         m *= radians(lat1 - lat0)
@@ -549,9 +549,9 @@ class Ellipsoid(_Based):
     @property_RO
     def geodesic(self):
         '''Get this ellipsoid's U{Karney Geodesic
-           <http://geographiclib.sourceforge.io/html/python/code.html>},
+           <http://GeographicLib.SourceForge.io/html/python/code.html>},
            provided the U{GeographicLib
-           <http://pypi.python.org/pypi/geographiclib>} package is installed.
+           <http://PyPI.org/project/geographiclib>} package is installed.
         '''
         if self._geodesic is None:
             try:
@@ -618,7 +618,7 @@ class Ellipsoid(_Based):
     def R1(self):
         '''Get the mean earth radius per IUGG: M{(2 * a + b) / 3} (meter).
 
-           @see: U{Earth radius<http://wikipedia.org/wiki/Earth_radius>}.
+           @see: U{Earth radius<http://WikiPedia.org/wiki/Earth_radius>}.
         '''
         if self._R1 is None:
             self._R1 = (self.a * 2 + self.b) / 3
@@ -628,7 +628,7 @@ class Ellipsoid(_Based):
     def R2(self):
         '''Get the authalic earth radius: M{sqrt((a**2 + b**2 * atanh(e) / e) / 2)} (meter).
 
-           @see: U{Earth radius<http://wikipedia.org/wiki/Earth_radius>}.
+           @see: U{Earth radius<http://WikiPedia.org/wiki/Earth_radius>}.
         '''
         if self._R2 is None:
             self._R2 = sqrt((self._a2 + self._b2 * atanh(self.e) / self.e) * 0.5)
@@ -638,7 +638,7 @@ class Ellipsoid(_Based):
     def R3(self):
         '''Get the volumetric earth radius: M{(a * a * b)**1/3} (meter).
 
-           @see: U{Earth radius<http://wikipedia.org/wiki/Earth_radius>}.
+           @see: U{Earth radius<http://WikiPedia.org/wiki/Earth_radius>}.
         '''
         if self._R3 is None:
             self._R3 = cbrt(self._a2 * self.b)
@@ -652,7 +652,7 @@ class Ellipsoid(_Based):
            @return: Geocentric earth radius (meter).
 
            @see: U{Geocentric Radius
-                 <http://wikipedia.org/wiki/Earth_radius#Geocentric_radius>}
+                 <http://WikiPedia.org/wiki/Earth_radius#Geocentric_radius>}
         '''
         a2 = self._a2
         b2 = self._b2
@@ -664,7 +664,7 @@ class Ellipsoid(_Based):
     def Rr(self):
         '''Get the rectifying earth radius: M{((a**3/2 + b**3/2) / 2)**2/3} (meter).
 
-           @see: U{Earth radius<http://wikipedia.org/wiki/Earth_radius>}.
+           @see: U{Earth radius<http://WikiPedia.org/wiki/Earth_radius>}.
         '''
         if self._Rr is None:
             self._Rr = cbrt2((sqrt3(self.a) + sqrt3(self.b)) * 0.5)
@@ -697,9 +697,9 @@ class Ellipsoid(_Based):
            @return: 2-Tuple (meridional, prime-vertical) with the
                     radii of curvature (meter, meter).
 
-           @see: U{Local, Flat Earth<http://www.edwilliams.org/avform.htm#flat>}
+           @see: U{Local, Flat Earth<http://www.EdWilliams.org/avform.htm#flat>}
                  and U{Radii of Curvature
-                 <http://wikipedia.org/wiki/Earth_radius#Radii_of_curvature>}.
+                 <http://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
         '''
         r = self.e2s2(sin(radians(lat)))
         if r < EPS:
@@ -722,7 +722,7 @@ class Ellipsoid(_Based):
            @return: Directional radius of curvature (meter).
 
            @see: U{Radii of Curvature
-                 <http://wikipedia.org/wiki/Earth_radius#Radii_of_curvature>}
+                 <http://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}
         '''
         c2 = cos(radians(bearing))**2
         s2 = 1 - c2
@@ -742,7 +742,7 @@ class Ellipsoid(_Based):
            @return: Gaussian radius of curvature (meter).
 
            @see: U{Radii of Curvature
-                 <http://wikipedia.org/wiki/Earth_radius#Radii_of_curvature>}
+                 <http://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}
         '''
         # using ...
         #    m, n = self.roc2(lat)
@@ -759,7 +759,7 @@ class Ellipsoid(_Based):
            @return: Mean radius of curvature (meter).
 
            @see: U{Radii of Curvature
-                 <http://wikipedia.org/wiki/Earth_radius#Radii_of_curvature>}
+                 <http://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}
         '''
         m, n = self.roc2(lat)
         return 2 * m * n / (m + n)  # == 2 / (1 / m + 1 / n)
@@ -771,9 +771,9 @@ class Ellipsoid(_Based):
 
            @return: Meridional radius of curvature (meter).
 
-           @see: U{Local, Flat Earth<http://www.edwilliams.org/avform.htm#flat>}
+           @see: U{Local, Flat Earth<http://www.EdWilliams.org/avform.htm#flat>}
                  and U{Radii of Curvature
-                 <http://wikipedia.org/wiki/Earth_radius#Radii_of_curvature>}.
+                 <http://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
         '''
         m, _ = self.roc2(lat)
         return m
@@ -785,9 +785,9 @@ class Ellipsoid(_Based):
 
            @return: Prime-vertical radis of curvature (meter).
 
-           @see: U{Local, Flat Earth<http://www.edwilliams.org/avform.htm#flat>}
+           @see: U{Local, Flat Earth<http://www.EdWilliams.org/avform.htm#flat>}
                  and U{Radii of Curvature
-                 <http://wikipedia.org/wiki/Earth_radius#Radii_of_curvature>}.
+                 <http://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
         '''
         _, n = self.roc2(lat)
         return n
@@ -803,11 +803,11 @@ class Ellipsoid(_Based):
                                 'n', 'R1', 'R2', 'R3', 'Rr', 'Rs')
 
 
-# <http://www.gnu.org/software/gama/manual/html_node/Supported-ellipsoids.html>
-# <http://w3.energistics.org/archive/Epicentre/Epicentre_v3.0/DataModel/
+# <http://www.GNU.org/software/gama/manual/html_node/Supported-ellipsoids.html>
+# <http://w3.Energistics.org/archive/Epicentre/Epicentre_v3.0/DataModel/
 #         LogicalDictionary/StandardValues/ellipsoid.html>
-# <http://kb.osu.edu/dspace/handle/1811/77986>
-Ellipsoids._assert(  # <http://wikipedia.org/wiki/Earth_ellipsoid>
+# <http://kb.OSU.edu/dspace/handle/1811/77986>
+Ellipsoids._assert(  # <http://WikiPedia.org/wiki/Earth_ellipsoid>
     Airy1830       = Ellipsoid(6377563.396, 6356256.909,       299.3249646,   'Airy1830'),
     AiryModified   = Ellipsoid(6377340.189, 6356034.448,       299.3249646,   'AiryModified'),
     Australia1966  = Ellipsoid(6378160.0,   6356774.719,       298.25,        'Australia1966'),
@@ -987,11 +987,11 @@ class Transform(_Based):
                 fdot(xyz, self.tz, -self.ry,  self.rx,      _s1))
 
 
-# <http://wikipedia.org/wiki/Helmert_transformation> from WGS84
+# <http://WikiPedia.org/wiki/Helmert_transformation> from WGS84
 Transforms._assert(
     BD72           = Transform('BD72', tx=106.868628, ty=-52.297783, tz=103.723893,
-                     # <http://www.ngi.be/FR/FR4-4.shtm> ETRS89 == WG84
-                     # <http://georepository.com/transformation_15929/BD72-to-WGS-84-3.html>
+                     # <http://www.NGI.BE/FR/FR4-4.shtm> ETRS89 == WG84
+                     # <http://GeoRepository.com/transformation_15929/BD72-to-WGS-84-3.html>
                                        sx=-0.33657,   sy= -0.456955, sz= -1.84218,
                                         s= 1.2727),
     Bessel1841     = Transform('Bessel1841', tx=-582.0,  ty=-105.0, tz=-414.0,
@@ -1002,9 +1002,9 @@ Transforms._assert(
                                        sx=   1.477, sy= -0.0736, sz=  -1.458,
                                         s=  -9.82),  # Germany
     ED50           = Transform('ED50', tx=89.5, ty=93.8, tz=123.1,
-                     # <http://geonet.esri.com/thread/36583> sz=-0.156
-                     # <http://github.com/chrisveness/geodesy/blob/master/latlon-ellipsoidal.js>
-                     # <http://www.gov.uk/guidance/oil-and-gas-petroleum-operations-notices#pon-4>
+                     # <http://GeoNet.ESRI.com/thread/36583> sz=-0.156
+                     # <http://GitHub.com/ChrisVeness/geodesy/blob/master/latlon-ellipsoidal.js>
+                     # <http://www.Gov.UK/guidance/oil-and-gas-petroleum-operations-notices#pon-4>
                                                          sz=  0.156, s=-1.2),
     Irl1965        = Transform('Irl1965', tx=-482.530, ty=130.596, tz=-564.557,
                                           sx=   1.042, sy=  0.214, sz=   0.631,
@@ -1126,57 +1126,56 @@ class Datum(_Based):
 
 # Datums with associated ellipsoid and Helmert transform parameters
 # to convert from WGS84 into the given datum.  More are available at
-# <http://earth-info.nga.mil/GandG/coordsys/datums/NATO_DT.pdf> and
-# <XXX://www.fieldenmaps.info/cconv/web/cconv_params.js>.
+# <http://Earth-Info.NGA.mil/GandG/coordsys/datums/NATO_DT.pdf> and
+# <XXX://www.FieldenMaps.info/cconv/web/cconv_params.js>.
 Datums._assert(
     # Belgian Datum 1972, based on Hayford ellipsoid.
-    # <http://nl.wikipedia.org/wiki/Belgian_Datum_1972>
-    # <http://spatialreference.org/ref/sr-org/belge-1972-belgian-
-    #         lambert-72-corrected-transformation-parameters/>
+    # <http://NL.WikiPedia.org/wiki/Belgian_Datum_1972>
+    # <http://SpatialReference.org/ref/sr-org/7718/html/>
     BD72           = Datum(Ellipsoids.Intl1924, Transforms.BD72),
-    # Germany <http://wikipedia.org/wiki/Bessel-Ellipsoid>
-    #         <http://wikipedia.org/wiki/Helmert_transformation>
+    # Germany <http://WikiPedia.org/wiki/Bessel-Ellipsoid>
+    #         <http://WikiPedia.org/wiki/Helmert_transformation>
     DHDN           = Datum(Ellipsoids.Bessel1841, Transforms.DHDN),
 
-    # <http://www.gov.uk/guidance/oil-and-gas-petroleum-operations-notices#pon-4>
+    # <http://www.Gov.UK/guidance/oil-and-gas-petroleum-operations-notices#pon-4>
     ED50           = Datum(Ellipsoids.Intl1924, Transforms.ED50),
 
-    # <http://wikipedia.org/wiki/GRS_80>
+    # <http://WikiPedia.org/wiki/GRS_80>
     GRS80          = Datum(Ellipsoids.GRS80, Transforms.WGS84, name='GRS80'),
 
-    # <http://osi.ie/OSI/media/OSI/Content/Publications/transformations_booklet.pdf>
+    # <http://OSI.IE/OSI/media/OSI/Content/Publications/transformations_booklet.pdf>
     Irl1975        = Datum(Ellipsoids.AiryModified, Transforms.Irl1975),
 
-    # Germany <http://wikipedia.org/wiki/Helmert_transformation>
+    # Germany <http://WikiPedia.org/wiki/Helmert_transformation>
     Krassovski1940 = Datum(Ellipsoids.Krassovski1940, Transforms.Krassovski1940),  # spelling
     Krassowsky1940 = Datum(Ellipsoids.Krassowsky1940, Transforms.Krassowsky1940),  # spelling
 
-    # Austria <http://de.wikipedia.org/wiki/Datum_Austria>
+    # Austria <http://DE.WikiPedia.org/wiki/Datum_Austria>
     MGI            = Datum(Ellipsoids.Bessel1841, Transforms.MGI),
 
-    # <http://wikipedia.org/wiki/Helmert_transformation>
+    # <http://WikiPedia.org/wiki/Helmert_transformation>
     NAD27          = Datum(Ellipsoids.Clarke1866, Transforms.NAD27),
 
-    # NAD83 (2009) == WGS84 - <http://www.uvm.edu/giv/resources/WGS84_NAD83.pdf>
+    # NAD83 (2009) == WGS84 - <http://www.UVM.edu/giv/resources/WGS84_NAD83.pdf>
     # (If you *really* must convert WGS84<->NAD83, you need more than this!)
     NAD83          = Datum(Ellipsoids.GRS80, Transforms.NAD83),
 
     #  Nouvelle Triangulation Francaise (Paris)  XXX verify
     NTF            = Datum(Ellipsoids.Clarke1880IGN, Transforms.NTF),
 
-    # <http://www.ordnancesurvey.co.uk/docs/support/guide-coordinate-systems-great-britain.pdf>
+    # <http://www.OrdnanceSurvey.co.UK/docs/support/guide-coordinate-systems-great-britain.pdf>
     OSGB36         = Datum(Ellipsoids.Airy1830, Transforms.OSGB36),
 
-    # Germany <http://wikipedia.org/wiki/Helmert_transformation>
+    # Germany <http://WikiPedia.org/wiki/Helmert_transformation>
     Potsdam        = Datum(Ellipsoids.Bessel1841, Transforms.Bessel1841, name='Potsdam'),
 
     # XXX psuedo-ellipsoids for spherical LatLon
     Sphere         = Datum(Ellipsoids.Sphere, Transforms.WGS84, name='Sphere'),
 
-    # <http://www.geocachingtoolbox.com?page=datumEllipsoidDetails>
+    # <http://www.GeoCachingToolbox.com?page=datumEllipsoidDetails>
     TokyoJapan     = Datum(Ellipsoids.Bessel1841, Transforms.TokyoJapan),
 
-    # <http://www.icao.int/safety/pbn/documentation/eurocontrol/eurocontrol%20wgs%2084%20implementation%20manual.pdf>
+    # <http://www.ICAO.int/safety/pbn/documentation/eurocontrol/eurocontrol%20wgs%2084%20implementation%20manual.pdf>
     WGS72          = Datum(Ellipsoids.WGS72, Transforms.WGS72),
 
     WGS84          = Datum(Ellipsoids.WGS84, Transforms.WGS84),

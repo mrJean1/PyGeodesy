@@ -3,15 +3,15 @@
 
 u'''Web Mercator (WM) class L{Wm} and functions L{parseWM} and L{toWm}.
 
-Pure Python implementation of a U{Web Mercator<http://wikipedia.org/wiki/Web_Mercator>}
+Pure Python implementation of a U{Web Mercator<http://WikiPedia.org/wiki/Web_Mercator>}
 (aka I{Pseudo-Mercator}) class and conversion functions for spherical and
 near-spherical earth models.
 
 References U{Google Maps / Bing Maps Spherical Mercator Projection
-<http://alastaira.wordpress.com/2011/01/23/the-google-maps-bing-maps-spherical-mercator-projection>},
-U{Geomatics Guidance Note 7, part 2<http://www.epsg.org/Portals/0/373-07-02.pdf>} and
+<http://alastaira.WordPress.com/2011/01/23/the-google-maps-bing-maps-spherical-mercator-projection>},
+U{Geomatics Guidance Note 7, part 2<http://www.EPSG.org/Portals/0/373-07-02.pdf>} and
 U{Implementation Practice Web Mercator Map Projection
-<http://earth-info.nga.mil/GandG/wgs84/web_mercator/%28U%29%20NGA_SIG_0011_1.0.0_WEBMERC.pdf>}.
+<http://Earth-Info.NGA.mil/GandG/wgs84/web_mercator/%28U%29%20NGA_SIG_0011_1.0.0_WEBMERC.pdf>}.
 
 @newfield example: Example, Examples
 '''
@@ -28,7 +28,7 @@ from math import atan, atanh, exp, sin, tanh
 # all public contants, classes and functions
 __all__ = ('Wm',  # classes
            'parseWM', 'toWm')  # functions
-__version__ = '18.09.03'
+__version__ = '18.09.14'
 
 # _FalseEasting  = 0   #: (INTERNAL) False Easting (meter).
 # _FalseNorthing = 0   #: (INTERNAL) False Northing (meter).
@@ -110,8 +110,8 @@ class Wm(Based):
             E = datum.ellipsoid
             if not E.isEllipsoidal:
                 raise TypeError('%s not %s: %r' % ('datum', 'ellipsoidal', datum))
-            # <http://earth-info.nga.mil/GandG/wgs84/web_mercator/
-            #         %28U%29%20NGA_SIG_0011_1.0.0_WEBMERC.pdf>
+            # <http://Earth-Info.NGA.mil/GandG/wgs84/web_mercator/
+            #       %28U%29%20NGA_SIG_0011_1.0.0_WEBMERC.pdf>
             y = y / r
             if E.e:
                 y -= E.e * atanh(E.e * tanh(y))

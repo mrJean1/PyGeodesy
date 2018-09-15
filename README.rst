@@ -19,7 +19,7 @@ and nearest points, area, perimeter, conversions and unrolling, among
 other things.  For more information and further details see the
 documentation_, the descriptions of `Latitude/Longitude`_, Vincenty_ and
 `Vector-based`_ geodesy, the original `JavaScript source`_ or docs_ and
-`GeographicLib Python`_.
+the Python `GeographicLib`_.
 
 Also included are modules for conversions to and from UTM_ (Universal
 Transverse Mercator) and `Web Mercator`_ (Pseudo-Mercator) coordinates,
@@ -44,8 +44,8 @@ The tests have been run in 64-bit with `PyPy-Python`_ 2.7.13, Python
 3.5.3 (and numpy_ 1.11.3) and Python 3.7.0 (with geographiclib_ 1.49),
 all on macOS 10.13.6 High Sierra, with 64-bit Python 3.7.0 (with
 geographiclib_ 1.49) on Debian GNU/Linux 9 and with `Pythonista 3.2`_
-Python 2.7.12 and 3.6.1 (both with numpy_ 1.8.0) on iOS 11.4.1 (iPad
-and iPhone X).
+Python 2.7.12 and 3.6.1 (both with numpy_ 1.8.0) on iOS 11.4.1 iPad
+and (with geographiclib_ 1.49) iPhone X.
 
 Previously, the tests were run with 64-bit Python 2.6.9 (and numpy 1.6.2),
 2.7.10 (and numpy 1.8.0rc1), 2.7.13, 2.7.14 (and numpy 1.13.1), 3.5.3,
@@ -72,43 +72,42 @@ latter is required for module *ellipsoidalKarney* classes *LatLon* and
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Sep 12, 2018.*
+*Last updated: Sep 14, 2018.*
 
-.. _checked: http://github.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor
-.. _docs: http://www.movable-type.co.uk/scripts/geodesy/docs/
-.. _documentation: http://mrjean1.github.io/PyGeodesy/
-.. _Epydoc: http://pypi.python.org/pypi/epydoc
-.. _Flake8: http://pypi.python.org/pypi/flake8
-.. _geographiclib: http://pypi.python.org/pypi/geographiclib
-.. _GeographicLib Python: http://geographiclib.sourceforge.io/1.49/python
-.. _Geohashes: http://www.movable-type.co.uk/scripts/geohash.html
-.. _GitHub: http://github.com/mrJean1/PyGeodesy
-.. _Intel-Python: http://software.intel.com/en-us/distribution-for-python
-.. _JavaScript originals: http://github.com/chrisveness/geodesy
-.. _JavaScript source: http://github.com/chrisveness/geodesy
+.. _checked: http://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor
+.. _docs: http://www.Movable-Type.co.UK/scripts/geodesy/docs
+.. _documentation: http://mrJean1.GitHub.io/PyGeodesy
+.. _Epydoc: http://PyPI.org/project/epydoc
+.. _Flake8: http://PyPI.org/project/flake8
+.. _geographiclib: http://PyPI.org/project/geographiclib
+.. _Geohashes: http://www.Movable-Type.co.UK/scripts/geohash.html
+.. _GitHub: http://GitHub.com/mrJean1/PyGeodesy
+.. _Intel-Python: http://software.Intel.com/en-us/distribution-for-python
+.. _JavaScript originals: http://GitHub.com/ChrisVeness/geodesy
+.. _JavaScript source: http://GitHub.com/ChrisVeness/geodesy
 .. _John P. Snyder: http://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf
-.. _Latitude/Longitude: http://www.movable-type.co.uk/scripts/latlong.html
-.. _McCabe: http://pypi.python.org/pypi/mccabe
-.. _MGRS: http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html
-.. _MIT License: http://opensource.org/licenses/MIT
-.. _numpy: http://pypi.python.org/pypi/numpy
-.. _NumPy array: http://docs.scipy.org/doc/numpy/reference/generated/numpy.array.html
-.. _OSGR: http://www.movable-type.co.uk/scripts/latlong-os-gridref.html
-.. _PyPI: http://pypi.python.org/pypi/PyGeodesy/
-.. _PyChecker: http://pypi.python.org/pypi/pychecker
-.. _PyCodeStyle: http://pypi.python.org/pypi/pycodestyle
-.. _PyFlakes: http://pypi.python.org/pypi/pyflakes
-.. _PyGeodesy: http://pypi.python.org/pypi/PyGeodesy
-.. _PyPy-Python: http://pypy.org
-.. _Pythonista 3.2: http://omz-software.com/pythonista
-.. _Ramer-Douglas-Peucker: http://wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm
-.. _Reumann-Witkam: http://psimpl.sourceforge.net/reumann-witkam.html
-.. _simplify: http://bost.ocks.org/mike/simplify
-.. _UTM: http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html
-.. _Vector-based: http://www.movable-type.co.uk/scripts/latlong-vectors.html
-.. _Vincenty: http://www.movable-type.co.uk/scripts/latlong-vincenty.html
-.. _Visvalingam-Whyatt: http://hydra.hull.ac.uk/resources/hull:8338
-.. _Web Mercator: http://wikipedia.org/wiki/Web_Mercator
+.. _Latitude/Longitude: http://www.Movable-Type.co.UK/scripts/latlong.html
+.. _McCabe: http://PyPI.org/project/mccabe
+.. _MGRS: http://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html
+.. _MIT License: http://OpenSource.org/licenses/MIT
+.. _numpy: http://PyPI.org/project/numpy
+.. _NumPy array: http://docs.SciPy.org/doc/numpy/reference/generated/numpy.array.html
+.. _OSGR: http://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html
+.. _PyPI: http://PyPI.org/project/PyGeodesy
+.. _PyChecker: http://PyPI.org/project/pychecker
+.. _PyCodeStyle: http://PyPI.org/project/pycodestyle
+.. _PyFlakes: http://PyPI.org/project/pyflakes
+.. _PyGeodesy: http://PyPI.org/project/PyGeodesy
+.. _PyPy-Python: http://PyPy.org
+.. _Pythonista 3.2: http://OMZ-Software.com/pythonista
+.. _Ramer-Douglas-Peucker: http://WikiPedia.org/wiki/Ramer-Douglas-Peucker_algorithm
+.. _Reumann-Witkam: http://psimpl.SourceForge.net/reumann-witkam.html
+.. _simplify: http://Bost.Ocks.org/mike/simplify
+.. _UTM: http://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html
+.. _Vector-based: http://www.Movable-Type.co.UK/scripts/latlong-vectors.html
+.. _Vincenty: http://www.Movable-Type.co.UK/scripts/latlong-vincenty.html
+.. _Visvalingam-Whyatt: http://hydra.Hull.ac.UK/resources/hull:8338
+.. _Web Mercator: http://WikiPedia.org/wiki/Web_Mercator
 
 ``Copyright (C) 2016-2018 -- mrJean1 at Gmail dot com``
 

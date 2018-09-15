@@ -3,10 +3,10 @@
 
 # Test data for the simplify functions.
 
-# <http://github.com/milkbread/Visvalingam-Wyatt>  not Whyatt!
-# <http://github.com/milkbread/Visvalingam-Wyatt/blob/master/route.json>
-# <http://github.com/milkbread/Visvalingam-Wyatt/blob/master/out.json>
-# <http://milkbread.github.io/Visvalingam-Wyatt/>
+# <http://GitHub.com/milkbread/Visvalingam-Wyatt>  not Whyatt!
+# <http://GitHub.com/milkbread/Visvalingam-Wyatt/blob/master/route.json>
+# <http://GitHub.com/milkbread/Visvalingam-Wyatt/blob/master/out.json>
+# <http://milkbread.GitHub.io/Visvalingam-Wyatt>
 
 from base import TestsBase
 
@@ -20,9 +20,9 @@ except ImportError:
 
 __all__ = ('Antarctica', 'Pts', 'PtsFFI', 'RdpFFI',
            'PtsJS', 'PtsJS5', 'VwPts')
-__version__ = '18.09.12'
+__version__ = '18.09.14'
 
-# <http://geographiclib.sourceforge.io/html/python/examples.html>
+# <http://GeographicLib.SourceForge.io/html/python/examples.html>
 Antarctica = [LatLon_(_lat, _lon) for _lat, _lon in (
     (-63.1, -58),
     (-72.9, -74),
@@ -43,7 +43,7 @@ Antarctica = [LatLon_(_lat, _lon) for _lat, _lon in (
     (-77.9, -46),
     (-74.7, -61))]  # open
 
-# <http://github.com/urschrei/rdp>
+# <http://GitHub.com/urschrei/rdp>
 PtsFFI = [LatLon_(_lat, _lon) for _lon, _lat in (
     (-0.701206, 52.220489),  # lon, lat
     (-0.701418, 52.220485),
@@ -124,7 +124,7 @@ RdpFFI = [LatLon_(_lat, _lon) for _lon, _lat in (
     (-0.709263, 52.240825),
     (-0.703726, 52.240756))]
 
-# <http://github.com/mourner/simplify-js/tree/master/test>
+# <http://GitHub.com/mourner/simplify-js/tree/master/test>
 PtsJS = [LatLon_(_y, _x) for _x, _y in (
     (224.55, 250.15), (226.91, 244.19), (233.31, 241.45), (234.98, 236.06),
     (244.21, 232.76), (262.59, 215.31), (267.76, 213.81), (273.57, 201.84),
@@ -164,7 +164,7 @@ PtsJS5 = [LatLon_(_y, _x) for _x, _y in (
     (866.36, 480.77))]
 
 # Paris-Berlin-Warsaw-Minsk-Moscow, see
-# <http://milkbread.github.io/Visvalingam-Wyatt/>
+# <http://milkbread.GitHub.io/Visvalingam-Wyatt>
 Pts = [LatLon_(_lat, _lon) for _lon, _lat in (
     (2.329860, 48.860050),  # lon, lat
     (2.330270, 48.860580),
@@ -17058,7 +17058,7 @@ VwPts = [LatLon_(_lat, _lon) for _lon, _lat, _a2 in (
     (37.537930, 55.737560, 0.003194690800000177),
     (37.569962, 55.779980, 0))]
 
-# <http://geographiclib.sourceforge.io/html/python/examples.html>
+# <http://GeographicLib.SourceForge.io/html/python/examples.html>
 _JFK_LHR1 = [LatLon_(_lat, _lon) for _lat, _lon in (
     ( 0,   73.8),  # equator
     (40.6, 73.8),  # JFK
@@ -17157,7 +17157,7 @@ class Tests(TestsBase):
             self.test('ellipsoidalVincenty.perimeterOf', x, x)
 
     def testGeodesic(self):
-        # <http://geographiclib.sourceforge.io/html/python/examples.html>
+        # <http://GeographicLib.SourceForge.io/html/python/examples.html>
         def _s(n, m='(Sphere)'):
             return 'geographiclib.' + n + m
 

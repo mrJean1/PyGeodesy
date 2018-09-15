@@ -4,8 +4,8 @@
 u'''Utility, geodetic/geometric functions and constants.
 
 After I{(C) Chris Veness 2011-2015} published under the same MIT Licence**, see
-U{Latitude/Longitude<http://www.movable-type.co.uk/scripts/latlong.html>} and
-U{Vector-based geodesy<http://www.movable-type.co.uk/scripts/latlong-vectors.html>}.
+U{Latitude/Longitude<http://www.Movable-Type.co.UK/scripts/latlong.html>} and
+U{Vector-based geodesy<http://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
 
 @newfield example: Example, Examples
 '''
@@ -40,7 +40,7 @@ __all__ = ('PI', 'PI2', 'PI_2', 'R_M',  # constants
            'unroll180', 'unrollPI', 'unStr',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '18.09.06'
+__version__ = '18.09.14'
 
 division = 1 / 2  # double check int division, see datum.py
 if not division:
@@ -85,7 +85,7 @@ def antipode(lat, lon):
 
        @return: 2-Tuple (lat, lon) of the antipodal point (degrees, degrees180).
 
-       @see: U{Geosphere<http://cran.r-project.org/web/packages/geosphere/geosphere.pdf>}.
+       @see: U{Geosphere<http://CRAN.R-Project.org/web/packages/geosphere/geosphere.pdf>}.
     '''
     return -lat, _wrap(lon + 180, 180, 360)
 
@@ -144,7 +144,7 @@ def enStr2(easting, northing, prec, *extras):
 def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **options):
     '''Compute the distance between two points using
        the U{Equirectangular Approximation / Projection
-       <http://www.movable-type.co.uk/scripts/latlong.html>}.
+       <http://www.Movable-Type.co.UK/scripts/latlong.html>}.
 
        See function L{equirectangular_} for more details, the
        available I{options} and errors raised.
@@ -159,7 +159,7 @@ def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **options):
 
        @return: Distance (meter, same units as I{radius}).
 
-       @see: U{Local, Flat Earth<http://www.edwilliams.org/avform.htm#flat>},
+       @see: U{Local, Flat Earth<http://www.EdWilliams.org/avform.htm#flat>},
              method L{Ellipsoid.distance2} or function L{haversine} for
              more accurate and/or larger distances.
     '''
@@ -171,7 +171,7 @@ def equirectangular_(lat1, lon1, lat2, lon2,
                      adjust=True, limit=45, wrap=False):
     '''Compute the distance between two points using
        the U{Equirectangular Approximation / Projection
-       <http://www.movable-type.co.uk/scripts/latlong.html>}.
+       <http://www.Movable-Type.co.UK/scripts/latlong.html>}.
 
        This approximation is valid for smaller distance of several
        hundred Km or Miles, see the I{limit} keyword argument and
@@ -201,7 +201,7 @@ def equirectangular_(lat1, lon1, lat2, lon2,
                           the I{-limit..+limit} range and I{limiterrors}
                           set to True.
 
-       @see: U{Local, Flat Earth<http://www.edwilliams.org/avform.htm#flat>},
+       @see: U{Local, Flat Earth<http://www.EdWilliams.org/avform.htm#flat>},
              method L{Ellipsoid.distance2}, function L{equirectangular}
              for distance only and function L{haversine} for accurate
              and/or larger distances.
@@ -269,7 +269,7 @@ def halfs(str2):
 
 def haversine(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
     '''Compute the distance between two points using the U{Haversine
-       <http://www.movable-type.co.uk/scripts/latlong.html>} formula.
+       <http://www.Movable-Type.co.UK/scripts/latlong.html>} formula.
 
        @param lat1: Start latitude (degrees).
        @param lon1: Start longitude (degrees).
@@ -281,7 +281,7 @@ def haversine(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
        @return: Distance (meter, same units as I{radius}).
 
        @see: U{Distance between two (spherical) points
-             <http://www.edwilliams.org/avform.htm#Dist>} and function
+             <http://www.EdWilliams.org/avform.htm#Dist>} and function
              L{equirectangular} or method L{Ellipsoid.distance2}
              for distance approximations.
     '''
@@ -292,7 +292,7 @@ def haversine(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
 
 def haversine_(a2, a1, b21):
     '''Compute the I{angular} distance between two points using the
-       U{Haversine<http://www.movable-type.co.uk/scripts/latlong.html>}
+       U{Haversine<http://www.Movable-Type.co.UK/scripts/latlong.html>}
        formula.
 
        @param a2: End latitude (radians).
@@ -326,11 +326,11 @@ def heightOf(angle, distance, radius=R_M):
 
        @raise ValueError: Invalid I{angle}, I{distance} or I{radius}.
 
-       @see: U{MultiDop GeogBeamHt<http://github.com/nasa/MultiDop/>}
+       @see: U{MultiDop GeogBeamHt<http://GitHub.com/NASA/MultiDop>}
              (U{Shapiro et al. 2009, JTECH
-             <http://journals.ametsoc.org/doi/abs/10.1175/2009JTECHA1256.1>}
+             <http://journals.AMetSoc.org/doi/abs/10.1175/2009JTECHA1256.1>}
              and U{Potvin et al. 2012, JTECH
-             <http://journals.ametsoc.org/doi/abs/10.1175/JTECH-D-11-00019.1>}).
+             <http://journals.AMetSoc.org/doi/abs/10.1175/JTECH-D-11-00019.1>}).
     '''
     d, r = distance, radius
     if d > r:
@@ -358,7 +358,7 @@ def horizon(height, radius=R_M, refraction=False):
 
        @raise ValueError: Invalid I{height} or I{radius}.
 
-       @see: U{Distance to horizon<http://www.edwilliams.org/avform.htm#Horizon>}.
+       @see: U{Distance to horizon<http://www.EdWilliams.org/avform.htm#Horizon>}.
     '''
     if min(height, radius) < 0:
         raise ValueError('%s%r' % ('horizon', (height, radius)))
@@ -383,7 +383,7 @@ def isantipode(lat1, lon1, lat2, lon2, eps=EPS):
        @return: True if points are antipodal within the given
                 tolerance, False otherwise.
 
-       @see: U{Geosphere<http://cran.r-project.org/web/packages/geosphere/geosphere.pdf>}.
+       @see: U{Geosphere<http://CRAN.R-Project.org/web/packages/geosphere/geosphere.pdf>}.
     '''
     return abs( lat1 + lat2) < eps and \
            abs((lon1 - lon2) % 360 - 180) < eps
@@ -663,7 +663,7 @@ def unroll180(lon1, lon2, wrap=True):
                 (degrees, degrees).
 
        @see: Capability I{LONG_UNROLL} in U{GeographicLib
-       <http://geographiclib.sourceforge.io/html/python/interface.html#outmask>}.
+       <http://GeographicLib.SourceForge.io/html/python/interface.html#outmask>}.
     '''
     d = lon2 - lon1
     if wrap and abs(d) > 180:
@@ -684,7 +684,7 @@ def unrollPI(rad1, rad2, wrap=True):
                 (radians, radians).
 
        @see: Capability I{LONG_UNROLL} in U{GeographicLib
-       <http://geographiclib.sourceforge.io/html/python/interface.html#outmask>}.
+       <http://GeographicLib.SourceForge.io/html/python/interface.html#outmask>}.
     '''
     r = rad2 - rad1
     if wrap and abs(r) > PI:

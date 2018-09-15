@@ -4,7 +4,7 @@
 # Test elevations functions.
 
 __all__ = ('Tests',)
-__version__ = '18.08.25'
+__version__ = '18.09.14'
 
 from base import isPython2, isPython3, TestsBase
 
@@ -25,7 +25,7 @@ class Tests(TestsBase):
         NewYork = LatLon(40.7791472, -73.9680804)
         Newport_RI = LatLon(41.49008, -71.312796)
         Cleveland_OH = LatLon(41.499498, -81.695391)
-        # <http://github.com/maurycyp/vincenty> Maurycy Pietrzak
+        # <http://GitHub.com/maurycyp/vincenty> Maurycy Pietrzak
         Boston = LatLon(42.3541165, -71.0693514)
         for p, e, h in ((MtDiablo,    1173.79, -31.703),
                         (Boston,         2.03, -27.765),

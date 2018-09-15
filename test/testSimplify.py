@@ -4,7 +4,7 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '18.09.08'
+__version__ = '18.09.14'
 
 from base import TestsBase, secs2str
 
@@ -59,7 +59,7 @@ def simplifyRDPfw(points, epsilon, radius=R_M, adjust=False, shortest=False,  # 
                                    modified=False, indices=False):  # PYCHOK expected
     '''Iterative Ramer-Douglas-Peucker algorithm.
 
-       <http://github.com/FlorianWilhelm/gps_data_with_python>
+       <http://GitHub.com/FlorianWilhelm/gps_data_with_python>
 
        points[] -- Input coordinates as LatLon's in degrees
        epsilon -- distance tolerance in meter
@@ -136,10 +136,10 @@ def simplifyRDPgr(source, kink, radius=R_M, adjust=True, shortest=True,  # MCCAB
                                 modified=False, indices=False):  # PYCHOK expected
     '''Stack-based Douglas Peucker line simplification.
 
-       Transcribed from JavaScript original after code by Dr.
-       Gary J. Robinson, Environmental Systems Science Centre,
-       University of Reading, Reading, UK.
-       <http://www.bdcc.co.uk/Gmaps/GDouglasPeuker.js>
+       Transcribed from JavaScript original after code by U{Dr. Gary J.
+       Robinson<http://www.BDCC.co.UK/Gmaps/GDouglasPeuker.js>},
+       Environmental Systems Science Centre, University of Reading,
+       Reading, UK.
 
        source[] -- Input coordinates as LatLon's in degrees
        kink -- distance in metres, kinks above this depth are kept

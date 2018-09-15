@@ -7,26 +7,26 @@ L{parseOSGR} and L{toOsgr}.
 Pure Python implementation of OS Grid Reference functions using an
 ellipsoidal earth model, transcribed from JavaScript originals by
 I{(C) Chris Veness 2005-2016} published under the same MIT Licence**, see
-U{OS National Grid<http://www.movable-type.co.uk/scripts/latlong-os-gridref.html>}
+U{OS National Grid<http://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html>}
 and U{Module osgridref
-<http://www.movable-type.co.uk/scripts/geodesy/docs/module-osgridref.html>}.
+<http://www.Movable-Type.co.UK/scripts/geodesy/docs/module-osgridref.html>}.
 
 OSGR provides geocoordinate references for UK mapping purposes, converted
 in 2015 to work with WGS84 datum by default or OSGB36 as option.
 
-See U{Guide<http://www.ordnancesurvey.co.uk/docs/support/guide-coordinate-systems-great-britain.pdf>},
-U{Proposed Changes<http://www.ordnancesurvey.co.uk/blog/2014/09/proposed-changes-to-latitude-and-longitude-representation-on-paper-maps-tell-us-your-thoughts/>},
-U{Confirmation<http://www.ordnancesurvey.co.uk/blog/2014/12/confirmation-on-changes-to-latitude-and-longitude>}
-and U{Ordnance Survey National Grid<http://wikipedia.org/wiki/Ordnance_Survey_National_Grid>}.
+See U{Guide<http://www.OrdnanceSurvey.co.UK/docs/support/guide-coordinate-systems-great-britain.pdf>},
+U{Proposed Changes<http://www.OrdnanceSurvey.co.UK/blog/2014/09/proposed-changes-to-latitude-and-longitude-representation-on-paper-maps-tell-us-your-thoughts>},
+U{Confirmation<http://www.OrdnanceSurvey.co.UK/blog/2014/12/confirmation-on-changes-to-latitude-and-longitude>}
+and U{Ordnance Survey National Grid<http://WikiPedia.org/wiki/Ordnance_Survey_National_Grid>}.
 
-See also Karney U{'Transverse Mercator with an accuracy of a few
-nanometers'<http://arxiv.org/pdf/1002.1417v3.pdf>}, 2011 (building
-on Krüger U{'Konforme Abbildung des Erdellipsoids in der Ebene'
-<http://bib.gfz-potsdam.de/pub/digi/krueger2.pdf>}, 1912), Seidel
+See also Karney U{'Transverse Mercator with an accuracy of a few nanometers'
+<http://Arxiv.org/pdf/1002.1417v3.pdf>}, 2011 (building on Krüger
+U{'Konforme Abbildung des Erdellipsoids in der Ebene'
+<http://bib.GFZ-Potsdam.DE/pub/digi/krueger2.pdf>}, 1912), Seidel
 U{'Die Mathematik der Gauß-Krueger-Abbildung'
-<http://henrik-seidel.gmxhome.de/gausskrueger.pdf>}, 2006 and
+<http://Henrik-Seidel.GMXhome.DE/gausskrueger.pdf>}, 2006 and
 U{Transverse Mercator: Redfearn series
-<http://wikipedia.org/wiki/Transverse_Mercator:_Redfearn_series>}.
+<http://WikiPedia.org/wiki/Transverse_Mercator:_Redfearn_series>}.
 
 @newfield example: Example, Examples
 '''
@@ -44,7 +44,7 @@ from math import cos, radians, sin, sqrt, tan
 # all public contants, classes and functions
 __all__ = ('Osgr',  # classes
            'parseOSGR', 'toOsgr')  # functions
-__version__ = '18.08.28'
+__version__ = '18.09.14'
 
 _10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (meter)
 _100km   = 100000  #: (INTERNAL) 100 km (int meter)

@@ -11,18 +11,18 @@
 # python setup.py test
 # python setup.py install
 
-# <http://packaging.python.org/key_projects/#setuptools>
-# <http://packaging.python.org/distributing/>
-# <http://docs.python.org/2/distutils/sourcedist.html>
-# <http://docs.python.org/3.6/distutils/sourcedist.html>
-# <http://setuptools.readthedocs.io/en/latest/setuptools.html#developer-s-guide>
-# <http://setuptools.readthedocs.io/en/latest/setuptools.html#test-build-package-and-run-a-unittest-suite>
-# <http://zetcode.com/articles/packageinpython/>
+# <http://packaging.Python.org/key_projects/#setuptools>
+# <http://packaging.Python.org/distributing>
+# <http://docs.Python.org/2/distutils/sourcedist.html>
+# <http://docs.Python.org/3.6/distutils/sourcedist.html>
+# <http://setuptools.ReadTheDocs.io/en/latest/setuptools.html#developer-s-guide>
+# <http://setuptools.ReadTheDocs.io/en/latest/setuptools.html#test-build-package-and-run-a-unittest-suite>
+# <http://ZetCode.com/articles/packageinpython>
 
 from setuptools import setup
 
 __all__ = ()
-__version__ = '18.09.09'
+__version__ = '18.09.14'
 
 
 def _c2(*names):
@@ -72,7 +72,7 @@ setup(
 
     license='MIT',
     keywords=' '.join(_KeyWords),
-    url='http://github.com/mrJean1/PyGeodesy',
+    url='http://GitHub.com/mrJean1/PyGeodesy',
 
     long_description=_long_description(),
 
@@ -88,7 +88,7 @@ setup(
 
     zip_safe=False,
 
-    # <http://pypi.python.org/pypi?%3Aaction=list_classifiers>
+    # <http://PyPI.org/project?%3Aaction=list_classifiers>
     classifiers=[
         _c2('Development Status', '5 - Production/Stable'),
         _c2('Environment', 'Console'),
@@ -104,7 +104,7 @@ setup(
         _c2('Topic', 'Scientific/Engineering', 'GIS'),
     ],
 
-#   download_url='http://github.com/mrJean1/PyGeodesy',
+#   download_url='http://GitHub.com/mrJean1/PyGeodesy',
 #   entry_points={},
 #   include_package_data=False,
 #   install_requires=[],

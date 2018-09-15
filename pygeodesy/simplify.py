@@ -55,18 +55,18 @@ array.  Use keyword argument I{indices}=True to return a list of array
 row indices inlieu of the simplified array subset.
 
 See:
- - U{http://bost.ocks.org/mike/simplify/}
- - U{http://wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm}
- - U{http://hydra.hull.ac.uk/resources/hull:8338}
- - U{http://psimpl.sourceforge.net/reumann-witkam.html}
- - U{http://www.cs.ubc.ca/cgi-bin/tr/1992/TR-92-07.pdf}
- - U{http://github.com/FlorianWilhelm/gps_data_with_python}
- - U{http://www.bdcc.co.uk/Gmaps/GDouglasPeuker.js}
- - U{http://github.com/mourner/simplify-js/}
- - U{http://github.com/omarestrella/simplify.py/}
- - U{http://pypi.python.org/pypi/rdp/}
- - U{http://pypi.python.org/pypi/visvalingam}
- - U{http://pypi.python.org/pypi/simplification/}
+ - U{http://Bost.Ocks.org/mike/simplify}
+ - U{http://WikiPedia.org/wiki/Ramer-Douglas-Peucker_algorithm}
+ - U{http://hydra.Hull.ac.UK/resources/hull:8338}
+ - U{http://psimpl.SourceForge.net/reumann-witkam.html}
+ - U{http://www.CS.UBC.CA/cgi-bin/tr/1992/TR-92-07.pdf}
+ - U{http://GitHub.com/FlorianWilhelm/gps_data_with_python}
+ - U{http://www.BDCC.co.UK/Gmaps/GDouglasPeuker.js}
+ - U{http://GitHub.com/mourner/simplify-js}
+ - U{http://GitHub.com/OmarEstrella/simplify.py}
+ - U{http://PyPI.org/project/rdp}
+ - U{http://PyPI.org/project/visvalingam}
+ - U{http://PyPI.org/project/simplification}
 
 @newfield example: Example, Examples
 '''
@@ -80,7 +80,7 @@ from math import degrees, radians, sqrt
 __all__ = ('simplify1', 'simplify2',  # backward compatibility
            'simplifyRDP', 'simplifyRDPm', 'simplifyRW',
            'simplifyVW', 'simplifyVWm')
-__version__ = '18.07.17'
+__version__ = '18.09.14'
 
 
 # try:

@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '18.09.08'
+__version__ = '18.09.14'
 
 from base import TestsBase
 from random import random, gauss, shuffle
@@ -30,7 +30,7 @@ class Tests(TestsBase):
             h = fhorner(x, 0, 256, -128, 74, -47) / 1024.0
             self.test('fhornerB', h, p)
 
-        # U{Neumaier<http://wikipedia.org/wiki/Kahan_summation_algorithm>}
+        # U{Neumaier<http://WikiPedia.org/wiki/Kahan_summation_algorithm>}
         t = 1, 1e101, 1, -1e101
         for _ in range(10):
             s = float(len(t) / 2)  # number of ones
@@ -41,7 +41,7 @@ class Tests(TestsBase):
             self.test('Fsum', f.fsum(), s)
             t += t
 
-        # <http://code.activestate.com/recipes/393090>
+        # <http://code.ActiveState.com/recipes/393090>
         t = 1.00, 0.00500, 0.00000000000100
         s = 1.00500000000100
         self.test('sum', sum(t), s, known=True)
@@ -50,7 +50,7 @@ class Tests(TestsBase):
         f.fadd2(t)
         self.test('Fsum', f.fsum(), s)
 
-        # <http://github.com/ActiveState/code/blob/master/recipes/Python/
+        # <http://GitHub.com/ActiveState/code/blob/master/recipes/Python/
         #       393090_Binary_floating_point_summatiaccurate_full/recipe-393090.py>
         for _ in range(100):
             t = [7, 1e100, -7, -1e100, -9e-20, 8e-20] * 10

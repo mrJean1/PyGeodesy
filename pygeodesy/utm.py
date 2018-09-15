@@ -7,8 +7,8 @@ L{parseUTM} and L{toUtm}.
 Pure Python implementation of UTM / WGS-84 conversion functions using
 an ellipsoidal earth model, transcribed from JavaScript originals by
 I{(C) Chris Veness 2011-2016} published under the same MIT Licence**, see
-U{UTM<http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html>} and
-U{Module utm<http://www.movable-type.co.uk/scripts/geodesy/docs/module-utm.html>}.
+U{UTM<http://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>} and
+U{Module utm<http://www.Movable-Type.co.UK/scripts/geodesy/docs/module-utm.html>}.
 
 The UTM system is a 2-dimensional cartesian coordinate system providing
 locations on the surface of the earth.
@@ -18,15 +18,15 @@ the WGS-84 ellipsoid.  Within each zone, coordinates are represented
 as eastings and northings, measured in metres.
 
 This method based on Karney U{'Transverse Mercator with an accuracy of
-a few nanometers'<http://arxiv.org/pdf/1002.1417v3.pdf>}, 2011 (building
+a few nanometers'<http://Arxiv.org/pdf/1002.1417v3.pdf>}, 2011 (building
 on Krüger U{'Konforme Abbildung des Erdellipsoids in der Ebene'
-<http://bib.gfz-potsdam.de/pub/digi/krueger2.pdf>}, 1912).
+<http://bib.GFZ-Potsdam.DE/pub/digi/krueger2.pdf>}, 1912).
 
 Other references Seidel U{'Die Mathematik der Gauß-Krueger-Abbildung'
-<http://henrik-seidel.gmxhome.de/gausskrueger.pdf>}, 2006,
-U{Transverse Mercator Projection<http://geographiclib.sourceforge.io/tm.html>},
+<http://Henrik-Seidel.GMXhome.DE/gausskrueger.pdf>}, 2006,
+U{Transverse Mercator Projection<http://GeographicLib.SourceForge.io/tm.html>},
 and U{Universal Transverse Mercator coordinate system
-<http://wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system>}.
+<http://WikiPedia.org/wiki/Universal_Transverse_Mercator_coordinate_system>}.
 
 @newfield example: Example, Examples
 '''
@@ -47,7 +47,7 @@ from operator import mul
 # all public contants, classes and functions
 __all__ = ('Utm', 'UTMError',  # classes
            'parseUTM', 'toUtm', 'utmZoneBand2')  # functions
-__version__ = '18.08.28'
+__version__ = '18.09.14'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -597,7 +597,7 @@ def toUtm(latlon, lon=None, datum=None, Utm=Utm, name='', cmoff=True):
 
     if cmoff:
         # C.F.F. Karney, "Test data for the transverse Mercator projection (2009)",
-        # <http://Geographiclib.SourceForge.io/html/transversemercator.html> and
+        # <http://GeographicLib.SourceForge.io/html/transversemercator.html> and
         # <http://Zenodo.org/record/32470#.W4LEJS2ZON8>
         x += _FalseEasting  # make x relative to false easting
         if y < 0:

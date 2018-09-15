@@ -3,8 +3,8 @@
 
 u'''Ellipsoidal geodetic (lat-/longitude) and cartesian (x/y/z) classes
 L{LatLon} and L{Cartesian} and functions L{areaOf} and L{perimeterOf}
-based on the pure Python implementation of I{Charles F. F. Karney's}
-U{GeographicLib<http://pypi.python.org/pypi/geographiclib>}.
+based on the Python implementation of I{Charles F. F. Karney's}
+U{GeographicLib<http://PyPI.org/project/geographiclib>}.
 
 Here's an example usage of C{ellipsoidalKarney}:
 
@@ -36,25 +36,25 @@ from utils import polygon, property_RO, unroll180, \
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon',  # classes
            'areaOf', 'perimeterOf')  # functions
-__version__ = '18.09.09'
+__version__ = '18.09.14'
 
 
 class LatLon(LatLonEllipsoidalBase):
     '''An ellipsoidal L{LatLon} similar to L{ellipsoidalVincenty.LatLon}
-       but using I{Charles F. F. Karney's} U{Python GeographicLib
-       <http://pypi.python.org/pypi/geographiclib>} to compute the
-       geodesic distance, initial and final bearing (azimuths) between
-       two given points or the destination point given a start point
-       and an initial bearing.
+       but using I{Charles F. F. Karney's} Python U{GeographicLib
+       <http://PyPI.org/project/geographiclib>} to compute the geodesic
+       distance, initial and final bearing (azimuths) between two given
+       points or the destination point given a start point and an initial
+       bearing.
 
        @note: This L{LatLon}'s methods require the U{GeographicLib
-       <http://pypi.python.org/pypi/geographiclib>} package to be installed.
+       <http://PyPI.org/project/geographiclib>} package to be installed.
     '''
 
     def destination(self, distance, bearing, height=None):
         '''Compute the destination point after having travelled
            for the given distance from this point along a geodesic
-           given by an initial bearing, using Karney's direct
+           given by an initial bearing, using Karney's Direct
            method.  See method L{destination2} for more details.
 
            @param distance: Distance in meters (scalar).
@@ -65,7 +65,7 @@ class LatLon(LatLonEllipsoidalBase):
            @return: The destination point (L{LatLon}).
 
            @raise ImportError: Package U{GeographicLib
-                  <http://pypi.python.org/pypi/geographiclib>} missing.
+                  <http://PyPI.org/project/geographiclib>} missing.
 
            @example:
 
@@ -80,7 +80,7 @@ class LatLon(LatLonEllipsoidalBase):
         '''Compute the destination point and the final bearing (reverse
            azimuth) after having travelled for the given distance from
            this point along a geodesic given by an initial bearing,
-           using Karney's direct method.
+           using Karney's Direct method.
 
            The distance must be in the same units as this point's datum
            axes, conventionally meter.  The distance is measured on the
@@ -100,7 +100,7 @@ class LatLon(LatLonEllipsoidalBase):
            @return: 2-Tuple (destination, final bearing) in (L{LatLon}, degrees360).
 
            @raise ImportError: Package U{GeographicLib
-                  <http://pypi.python.org/pypi/geographiclib>} missing.
+                  <http://PyPI.org/project/geographiclib>} missing.
 
            @example:
 
@@ -115,7 +115,7 @@ class LatLon(LatLonEllipsoidalBase):
 
     def distanceTo(self, other, wrap=False):
         '''Compute the distance between this and an other point
-           along a geodesic, using Karney's inverse method.
+           along a geodesic, using Karney's Inverse method.
            See method L{distanceTo3} for more details.
 
            @param other: The other point (L{LatLon}).
@@ -129,7 +129,7 @@ class LatLon(LatLonEllipsoidalBase):
                               ellipsoids are not compatible.
 
            @raise ImportError: Package U{GeographicLib
-                  <http://pypi.python.org/pypi/geographiclib>} missing.
+                  <http://PyPI.org/project/geographiclib>} missing.
 
            @example:
 
@@ -142,7 +142,7 @@ class LatLon(LatLonEllipsoidalBase):
     def distanceTo3(self, other, wrap=False):
         '''Compute the distance, the initial and final bearing along a
            geodesic between this and an other point, using Karney's
-           inverse method.
+           Inverse method.
 
            The distance is in the same units as this point's datum axes,
            conventially meter.  The distance is measured on the surface
@@ -168,7 +168,7 @@ class LatLon(LatLonEllipsoidalBase):
         '''Compute the final bearing (reverse azimuth) after having
            travelled for the given distance along a geodesic given
            by an initial bearing from this point, using Karney's
-           direct method.  See method L{destination2} for more details.
+           Direct method.  See method L{destination2} for more details.
 
            @param distance: Distance in meter (scalar).
            @param bearing: Initial bearing (compass degrees).
@@ -176,7 +176,7 @@ class LatLon(LatLonEllipsoidalBase):
            @return: Final bearing from North (degrees360).
 
            @raise ImportError: Package U{GeographicLib
-                  <http://pypi.python.org/pypi/geographiclib>} missing.
+                  <http://PyPI.org/project/geographiclib>} missing.
 
            @example:
 
@@ -189,7 +189,7 @@ class LatLon(LatLonEllipsoidalBase):
     def finalBearingTo(self, other, wrap=False):
         '''Compute the final bearing (reverse azimuth) after having
            travelled along a geodesic from this point to an other
-           point, using Karney's inverse method.  See method
+           point, using Karney's Inverse method.  See method
            L{distanceTo3} for more details.
 
            @param other: The other point (L{LatLon}).
@@ -198,7 +198,7 @@ class LatLon(LatLonEllipsoidalBase):
            @return: Final bearing in compass degrees (degrees360).
 
            @raise ImportError: Package U{GeographicLib
-                  <http://pypi.python.org/pypi/geographiclib>} missing.
+                  <http://PyPI.org/project/geographiclib>} missing.
 
            @raise TypeError: The I{other} point is not L{LatLon}.
 
@@ -220,14 +220,16 @@ class LatLon(LatLonEllipsoidalBase):
     @property_RO
     def geodesic(self):
         '''Get this C{LatLon}'s U{Geodesic
-           <http://geographiclib.sourceforge.io/html/python/code.html>}.
+           <http://GeographicLib.SourceForge.io/html/python/code.html>},
+           provided U{GeographicLib
+           <http://PyPI.org/project/geographiclib>} is installed.
         '''
         return self.datum.ellipsoid.geodesic
 
     def initialBearingTo(self, other, wrap=False):
         '''Compute the initial bearing (forward azimuth) to travel
            along a geodesic from this point to an other point,
-           using Karney's inverse method.  See method
+           using Karney's Inverse method.  See method
            L{distanceTo3} for more details.
 
            @param other: The other point (L{LatLon}).
@@ -236,7 +238,7 @@ class LatLon(LatLonEllipsoidalBase):
            @return: Initial bearing in compass degrees (degrees360).
 
            @raise ImportError: Package U{GeographicLib
-                  <http://pypi.python.org/pypi/geographiclib>} missing.
+                  <http://PyPI.org/project/geographiclib>} missing.
 
            @raise TypeError: The I{other} point is not L{LatLon}.
 
@@ -356,7 +358,7 @@ def areaOf(points, datum=Datums.WGS84, wrap=True):
        @return: Area (meter squared).
 
        @raise ImportError: Package U{GeographicLib
-              <http://pypi.python.org/pypi/geographiclib>} missing.
+              <http://PyPI.org/project/geographiclib>} missing.
 
        @raise TypeError: Some I{points} are not L{LatLon}.
 
@@ -364,7 +366,7 @@ def areaOf(points, datum=Datums.WGS84, wrap=True):
                           not wrapped, unrolled.
 
        @note: This function requires the U{GeographicLib
-       <http://pypi.python.org/pypi/geographiclib>} package to be installed.
+       <http://PyPI.org/project/geographiclib>} package to be installed.
 
        @see: L{pygeodesy.areaOf}, L{sphericalNvector.areaOf} and
              L{sphericalTrigonometry.areaOf}.
@@ -384,7 +386,7 @@ def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):
        @return: Perimeter (meter).
 
        @raise ImportError: Package U{GeographicLib
-              <http://pypi.python.org/pypi/geographiclib>} missing.
+              <http://PyPI.org/project/geographiclib>} missing.
 
        @raise TypeError: Some I{points} are not L{LatLon}.
 
@@ -392,21 +394,11 @@ def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):
                           not wrapped, unrolled.
 
        @note: This function requires the U{GeographicLib
-       <http://pypi.python.org/pypi/geographiclib>} package to be installed.
+       <http://PyPI.org/project/geographiclib>} package to be installed.
 
        @see: L{pygeodesy.perimeterOf} and L{sphericalTrigonometry.perimeterOf}.
     '''
     return _geodesic(datum, points, closed, True, wrap)
-
-
-if __name__ == '__main__':
-
-    ll = LatLon(0, 0)
-    if ll.geodesic:  # <http://geographiclib.sourceforge.io/1.49/python/>
-        for k, v in sorted(ll.geodesic.Inverse(-41.32, 174.81, 40.96, -5.50).items()):
-            print('%s: %.12f' % (k, v))
-        ll = LatLon(-41.32, 174.81)
-        print(ll.distanceTo3(LatLon(40.96, -5.50)))
 
 # **) MIT License
 #

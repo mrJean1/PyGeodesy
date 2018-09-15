@@ -7,7 +7,7 @@ Pure Python implementation of I{n-vector}-based geodesy tools for
 ellipsoidal earth models, transcribed from JavaScript originals by
 I{(C) Chris Veness 2005-2016} and published under the same MIT Licence**,
 see U{Vector-based geodesy
-<http://www.movable-type.co.uk/scripts/latlong-vectors.html>}.
+<http://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
 
 @newfield example: Example, Examples
 '''
@@ -22,7 +22,7 @@ from vector3d import Vector3d, sumOf as _sumOf
 __all__ = ('NorthPole', 'SouthPole',  # constants
            'Nvector',  # classes
            'sumOf')  # functions
-__version__ = '18.08.28'
+__version__ = '18.09.14'
 
 
 class Nvector(Vector3d):  # XXX kept private

@@ -4,8 +4,8 @@
 # Base class and functions for PyGeodesy tests.
 
 # After (C) Chris Veness 2011-2015 published under the same MIT Licence,
-# see <http://www.movable-type.co.uk/scripts/latlong-vectors.html>
-# and <http://www.movable-type.co.uk/scripts/latlong.html>.
+# see <http://www.Movable-Type.co.UK/scripts/latlong-vectors.html>
+# and <http://www.Movable-Type.co.UK/scripts/latlong.html>.
 
 from inspect import isclass, isfunction, ismethod, ismodule
 from os.path import abspath, basename, dirname
@@ -37,7 +37,7 @@ __all__ = ('geographiclib', 'numpy',  # constants
            'TestsBase',  # classes
            'ios_ver', 'runner', 'secs2str',  # functions
            'tilde', 'type2str', 'versions')
-__version__ = '18.09.12'
+__version__ = '18.09.14'
 
 try:
     _Ints = int, long
@@ -63,7 +63,7 @@ isWindows     = sys.platform.startswith('win')
 try:
     # use distro only for Linux, not macOS, etc.
     if isNix:
-        import distro  # <http://pypi.org/project/distro/>
+        import distro  # <http://PyPI.org/project/distro>
     else:
         raise ImportError
 
@@ -88,7 +88,7 @@ except ImportError:
 
 class TestsBase(object):
     '''Tests based on @examples from the original JavaScript code
-       and examples in <http://www.edwilliams.org/avform.htm> or
+       and examples in <http://www.EdWilliams.org/avform.htm> or
        elsewhere as indicated.
     '''
     _file     = ''

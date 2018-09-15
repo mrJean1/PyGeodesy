@@ -5,8 +5,8 @@ u'''Functions to parse and format bearing, compass, lat- and longitudes
 in various forms of degrees, minutes and seconds.
 
 After I{(C) Chris Veness 2011-2015} published under the same MIT Licence**, see
-U{Latitude/Longitude<http://www.movable-type.co.uk/scripts/latlong.html>} and
-U{Vector-based geodesy<http://www.movable-type.co.uk/scripts/latlong-vectors.html>}.
+U{Latitude/Longitude<http://www.Movable-Type.co.UK/scripts/latlong.html>} and
+U{Vector-based geodesy<http://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
 
 @newfield example: Example, Examples
 '''
@@ -30,7 +30,7 @@ __all__ = ('F_D', 'F_DM', 'F_DMS',  # forms
            'latDMS', 'lonDMS', 'normDMS',
            'parseDMS', 'parseDMS2', 'parse3llh', 'precision',
            'rangerrors', 'toDMS')
-__version__ = '18.03.04'
+__version__ = '18.09.14'
 
 F_D   = 'd'    #: Format degrees as deg° (string).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (string).
@@ -172,7 +172,7 @@ def compassAngle(lat0, lon0, lat1, lon1):
 
        @note: Courtesy Martin Schultz.
 
-       @see: U{Local, Flat Earth<http://www.edwilliams.org/avform.htm#flat>}.
+       @see: U{Local, Flat Earth<http://www.EdWilliams.org/avform.htm#flat>}.
     '''
     return degrees360(atan2(lon1 - lon0, lat1 - lat0))
 
@@ -218,7 +218,7 @@ def compassPoint(bearing, prec=3):
 
        @raise ValueError: Invalid I{prec}.
 
-       @see: U{Compass rose<http://wikipedia.org/wiki/Compass_rose>}
+       @see: U{Compass rose<http://WikiPedia.org/wiki/Compass_rose>}
 
        @example:
 

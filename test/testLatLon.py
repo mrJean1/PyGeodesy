@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '18.09.12'
+__version__ = '18.09.14'
 
 from base import geographiclib, TestsBase
 
@@ -34,11 +34,11 @@ class Tests(TestsBase):
         q = LatLon(*map(degrees, p.to2ab()))
         self.test('equals', q.equals(p), True)
 
-        # <http://www.edwilliams.org/avform.htm#XTE>
+        # <http://www.EdWilliams.org/avform.htm#XTE>
         LAX = LatLon(33.+57./60, -(118.+24./60))
         JFK = LatLon(degrees(0.709186), -degrees(1.287762))
         Rav = m2NM(6366710)  # av earth radius in NM
-        # <http://geographiclib.sourceforge.io/html/python/examples.html>
+        # <http://GeographicLib.SourceForge.io/html/python/examples.html>
         WNZ = LatLon(-41.32, 174.81)  # Wellington, NZ
         SAL = LatLon(40.96, 5.50)  # Salamanca, Spain
         BJS = LatLon(40.1, 116.6)  # Beijing Airport
@@ -74,7 +74,7 @@ class Tests(TestsBase):
             self.test('distanceTo', d, '404279.720589' if Sph else '404607.805988', fmt='%.6f')  # 404300
             d = LAX.distanceTo(JFK, radius=R_NM) if Sph else LAX.distanceTo(JFK)
             self.test('distanceTo', d, 2145 if Sph else 3981601, fmt='%.0f')  # PYCHOK false?
-            if not Nv:  # <http://geographiclib.sourceforge.io/html/python/examples.html>
+            if not Nv:  # <http://GeographicLib.SourceForge.io/html/python/examples.html>
                 self.test('antipodal', WNZ.isantipode(SAL, eps=0.1), False)
                 d = WNZ.distanceTo(SAL, wrap=False)
                 self.test('distanceTo dateline', d, 19119590.551 if Sph else 19959679.267, fmt='%.3f', known=True)  # PYCHOK false?
@@ -132,7 +132,7 @@ class Tests(TestsBase):
                                    else '51.513526°N, 000.098038°W')  # 51.5135°N, 0.0983°W ???
             self.test('destination', d.toStr(F_DMS, 0), '51°30′49″N, 000°05′54″W' if Sph
                                                    else '51°30′49″N, 000°05′53″W')
-            # <http://www.edwilliams.org/avform.htm#LL>
+            # <http://www.EdWilliams.org/avform.htm#LL>
             d = LAX.destination(100, 66, radius=R_NM) if Sph else LAX.destination(100, 66)
             self.test('destination', d.toStr(F_DM, prec=0), "34°37′N, 116°33′W" if Sph
                                                        else "33°57′N, 118°24′W")
@@ -140,7 +140,7 @@ class Tests(TestsBase):
                                    else '33.950367°N, 118.399012°W')
             self.test('destination', d.toStr(F_RAD, prec=6), '0.604122N, 2.034201W' if Sph
                                                         else '0.592546N, 2.066453W')  # PYCHOK expected
-            # <http://geographiclib.sourceforge.io/html/python/examples.html>
+            # <http://GeographicLib.SourceForge.io/html/python/examples.html>
             d = LatLon(-32.06, -115.74).destination(20e6, 225).toStr(F_D, prec=8)
             self.test('destination', d, '31.96383509°N, 064.37329146°E' if Sph
                                    else '32.11195529°N, 063.95925278°E', known=True)  # PYCHOK false?
@@ -157,7 +157,7 @@ class Tests(TestsBase):
             d = p.alongTrackDistanceTo(s, e)
             self.test('alongTrackDistanceTo', d, 62331.58, fmt='%.2f')
 
-            # <http://www.edwilliams.org/avform.htm#XTE>
+            # <http://www.EdWilliams.org/avform.htm#XTE>
             p = LatLon(34.5, -116.5)  # 34:30N, 116:30W
             d = p.alongTrackDistanceTo(LAX, JFK, radius=Rav)
             self.test('alongTrackDistanceTo', d, 99.588, fmt='%.3f')  # NM
@@ -183,7 +183,7 @@ class Tests(TestsBase):
             d = p.crossTrackDistanceTo(s, e)
             self.test('crossTrackDistanceTo', d, -307.55, fmt='%.2f')  # -307.5
 
-            # <http://www.edwilliams.org/avform.htm#XTE>
+            # <http://www.EdWilliams.org/avform.htm#XTE>
             p = LatLon(34.5, -116.5)  # 34:30N, 116:30W
             d = p.crossTrackDistanceTo(LAX, JFK, radius=Rav)
             self.test('crossTrackDistanceTo', d, 7.4524, fmt='%.4f')  # PYCHOK false? # XXX 7.4512 NM

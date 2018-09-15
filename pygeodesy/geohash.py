@@ -6,12 +6,12 @@ inspect I{geohashes}.
 
 Transcribed from JavaScript originals by I{(C) Chris Veness 2011-2015}
 and published under the same MIT Licence**, see U{Geohashes
-<http://www.movable-type.co.uk/scripts/geohash.html>}.
+<http://www.Movable-Type.co.UK/scripts/geohash.html>}.
 
-See also U{Geohash<http://en.wikipedia.org/wiki/Geohash>},
-U{Geohash<http://github.com/vinsci/geohash>},
-U{PyGeohash<http://pypi.python.org/pypi/pygeohash>} and
-U{Geohash-Javascript<http://github.com/davetroy/geohash-js>}.
+See also U{Geohash<http://WikiPedia.org/wiki/Geohash>},
+U{Geohash<http://GitHub.com/vinsci/geohash>},
+U{PyGeohash<http://PyPI.org/project/pygeohash>} and
+U{Geohash-Javascript<http://GitHub.com/DaveTroy/geohash-js>}.
 
 @newfield example: Example, Examples
 '''
@@ -29,7 +29,7 @@ __all__ = ('Geohash',  # classes
            'bounds', 'decode', 'decode_error',  # functions
            'distance1', 'distance2', 'distance3',
            'encode', 'neighbors', 'sizes')
-__version__ = '18.09.06'
+__version__ = '18.09.14'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -170,7 +170,7 @@ class Geohash(str, Named):
 
            @raise ValueError: If this geohash or I{direction} invalid.
         '''
-        # based on <http://github.com/davetroy/geohash-js>
+        # based on <http://GitHub.com/DaveTroy/geohash-js>
 
         d = direction[:1].upper()
         if d not in _Neighbor:
@@ -227,7 +227,7 @@ class Geohash(str, Named):
     def distance2(self, other, radius=R_M, adjust=False, wrap=False):
         '''Compute the distance between this and an other geohash
            using the U{Equirectangular Approximation / Projection
-           <http://www.movable-type.co.uk/scripts/latlong.html>}.
+           <http://www.Movable-Type.co.UK/scripts/latlong.html>}.
 
            @param other: The other geohash (L{Geohash}).
            @keyword radius: Optional, mean earth radius (meter) or None.
@@ -256,7 +256,7 @@ class Geohash(str, Named):
     def distance3(self, other, radius=R_M, wrap=False):
         '''Compute the great-circle distance between this and an other
            geohash using the U{Haversine
-           <http://www.movable-type.co.uk/scripts/latlong.html>} formula.
+           <http://www.Movable-Type.co.UK/scripts/latlong.html>} formula.
 
            @param other: The other geohash (L{Geohash}).
            @keyword radius: Optional, mean earth radius (meter).

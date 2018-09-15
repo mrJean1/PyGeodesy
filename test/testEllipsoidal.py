@@ -4,15 +4,14 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '18.09.09'
+__version__ = '18.09.14'
 
 from base import geographiclib
 from testLatLon import Tests as _TestsLL
 from testVectorial import Tests as _TestsV
 
-from pygeodesy import EPS, F_D, F_DMS, VincentyError, bearingDMS, \
-                      classname, compassDMS, Datums, fStr, m2SM, \
-                      normDMS, wrap360
+from pygeodesy import EPS, F_D, F_DMS, bearingDMS, compassDMS, \
+                      Datums, fStr, m2SM, normDMS, wrap360
 
 
 class Tests(_TestsLL, _TestsV):
@@ -94,6 +93,26 @@ class Tests(_TestsLL, _TestsV):
 
         self.testKarneyVincenty(LatLon, d)
 
+    def testKarneyPython(self, module):
+
+        self.subtitle(module, 'KarneyPython')
+
+        ll1 = module.LatLon(-41.32, 174.81)
+        # <http://GeographicLib.SourceForge.io/1.49/python>
+        d = ll1.geodesic.Inverse(-41.32, 174.81, 40.96, -5.50)
+        self.test('lat1', d['lat1'], -41.320, fmt='%.3f')
+        self.test('lon1', d['lon1'], 174.810, fmt='%.3f')
+        self.test('azi1', d['azi1'], 161.067669986160, fmt='%.12f')
+        self.test('lat2', d['lat2'],  40.960, fmt='%.3f')
+        self.test('lon2', d['lon2'],  -5.500, fmt='%.3f')
+        self.test('azi2', d['azi2'],  18.825195123247, fmt='%.12f')
+        self.test('s12',  d['s12'], 19959679.267353821546, fmt='%.12f')
+
+        d3 = ll1.distanceTo3(module.LatLon(40.96, -5.50))
+        self.test('distanceTo3', fStr(d3, prec=12), '19959679.267353821546, 161.06766998616, 18.825195123247')
+        ll2, d2 = ll1.destination2(19959679.26735382, 161.067669986160)
+        self.test('destination2', fStr((ll2.lat, ll2.lon, d2), prec=12), '40.96, -5.5, 18.825195123247')
+
     def testVincenty(self, module, datum):
 
         d = datum
@@ -101,18 +120,9 @@ class Tests(_TestsLL, _TestsV):
         LatLon = module.LatLon
 
         Newport_RI = LatLon(41.49008, -71.312796, datum=d)
-        cn = classname(Newport_RI)
-
         Cleveland_OH = LatLon(41.499498, -81.695391, datum=d)
         m = Newport_RI.distanceTo(Cleveland_OH)
         self.test('distanceTo', m, '866455.43292', fmt='%.5f')
-
-        try:
-            t = None
-            m = Newport_RI.distanceTo(Newport_RI)
-        except VincentyError as x:
-            t = x  # Python 3+
-        self.test('VincentyError', t, '%s(41°29′24.29″N, 071°18′46.07″W) coincides with %s(41°29′24.29″N, 071°18′46.07″W)' % (cn, cn))
 
         if hasattr(LatLon, 'toCartesian'):
             try:
@@ -146,6 +156,11 @@ class Tests(_TestsLL, _TestsV):
     def testKarneyVincenty(self, LatLon, d):
 
         p = LatLon(-37.95103342, 144.42486789, datum=d)
+        t = p.distanceTo(p)
+        self.test('coincident', t, '0.0')
+        t = p.distanceTo3(p)
+        self.test('coincident', fStr(t), '0.0, 0.0, 0.0')
+
         q = p.destination(54972.271, 306.86816)
         t = q.toStr(F_D, prec=4)
         self.test('destination', t, '37.6528°S, 143.9265°E')
@@ -223,7 +238,7 @@ class Tests(_TestsLL, _TestsV):
         t = bearingDMS(f, prec=4) + ', ' + compassDMS(f, form=F_DMS, prec=2)
         self.test('finalBearingTo', t, '232.8246°, 232°49′28.59″SW')
 
-        # <http://github.com/maurycyp/vincenty> Maurycy Pietrzak
+        # <http://GitHub.com/maurycyp/vincenty> Maurycy Pietrzak
         Boston = LatLon(42.3541165, -71.0693514, datum=d)
         NewYork = LatLon(40.7791472, -73.9680804, datum=d)
         m = Boston.distanceTo(NewYork)
@@ -239,7 +254,7 @@ class Tests(_TestsLL, _TestsV):
         m = p.distanceTo(q)
         self.test('distanceToMP', m, '110574.389', fmt='%.3f')
 
-        # <http://pypi.python.org/pypi/pygc> Kyle Wilcox
+        # <http://PyPI.org/project/pygc> Kyle Wilcox
         p = LatLon(0, 50, datum=d)
         q = LatLon(0, 52, datum=d)
         m = p.distanceTo(q)
@@ -249,7 +264,7 @@ class Tests(_TestsLL, _TestsV):
         m = p.distanceTo(q)
         self.test('distanceToKW', m, '111319.491', fmt='%.3f')
 
-        # <http://www.movable-type.co.uk/scripts/latlong-vincenty.html>
+        # <http://www.Movable-Type.co.UK/scripts/latlong-vincenty.html>
         # ... Test case (from Geoscience Australia), using WGS-84
         FindersPeak = LatLon('37°57′03.72030″S', '144°25′29.52440″E')
         Buninyong = LatLon('37°39′10.15610″S', '143°55′35.38390″E')
@@ -319,6 +334,7 @@ if __name__ == '__main__':
         t.testNOAA(K)
         for d in (Datums.WGS84, Datums.NAD83,):  # Datums.Sphere):
             t.testKarney(K, d)
+        t.testKarneyPython(K)
 
     t.results()
     t.exit()

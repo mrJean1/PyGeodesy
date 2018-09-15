@@ -43,7 +43,7 @@ __all__ = ('LatLon_',  # classes
            'bounds',
            'isclockwise', 'isconvex', 'isenclosedby',
            'perimeterOf')
-__version__ = '18.09.09'
+__version__ = '18.09.14'
 
 
 class LatLon_(object):
@@ -51,7 +51,7 @@ class LatLon_(object):
     '''
     # __slots__ efficiency is voided if the __slots__ class attribute
     # is used in a subclass of a class with the traditional __dict__,
-    # see <http://docs.python.org/2/reference/datamodel.html#slots>
+    # see <http://docs.Python.org/2/reference/datamodel.html#slots>
     # and __slots__ must be repeated in sub-classes, see "Problems
     # with __slots__" in Luciano Ramalho, "Fluent Python", page
     # 276+, O'Reilly, 2016, also at <http://Books.Google.ie/
@@ -1002,7 +1002,7 @@ def isconvex(points, adjust=False, wrap=True):
 
         # get the sign of the distance from point
         # x3, y3 to the line from x1, y1 to x2, y2
-        # <http://wikipedia.org/wiki/Distance_from_a_point_to_a_line>
+        # <http://WikiPedia.org/wiki/Distance_from_a_point_to_a_line>
         s3 = fdot((x3, y3, x1, y1), y2 - y1, -x21, -y2, x2)
         if s3 > 0:  # x3, y3 on the left
             if s is None:
@@ -1043,11 +1043,11 @@ def isenclosedby(latlon, points, wrap=False):  # MCCABE 14
 
        @see: L{sphericalNvector.LatLon.isEnclosedBy},
              L{sphericalTrigonometry.LatLon.isEnclosedBy} and
-             U{MultiDop GeogContainPt<http://github.com/nasa/MultiDop>}
+             U{MultiDop GeogContainPt<http://GitHub.com/NASA/MultiDop>}
              (U{Shapiro et al. 2009, JTECH
-             <http://journals.ametsoc.org/doi/abs/10.1175/2009JTECHA1256.1>}
+             <http://journals.AMetSoc.org/doi/abs/10.1175/2009JTECHA1256.1>}
              and U{Potvin et al. 2012, JTECH
-             <http://journals.ametsoc.org/doi/abs/10.1175/JTECH-D-11-00019.1>}).
+             <http://journals.AMetSoc.org/doi/abs/10.1175/JTECH-D-11-00019.1>}).
     '''
     pts = LatLon2psxy(points, closed=True, radius=None, wrap=wrap)
 

@@ -62,10 +62,10 @@
   and spherical earth models using precision trigonometric, vector-based 
   and approximate methods for geodetic (lat-/longitude) and geocentric 
   cartesian (x/y/z) coordinates.</p>
-  <p>Transcribed from <a href="http://github.com/chrisveness/geodesy" 
+  <p>Transcribed from <a href="http://GitHub.com/ChrisVeness/geodesy" 
   target="_top">JavaScript originals</a> by <i>Chris Veness (C) 
   2005-2016</i> and published under the same <a 
-  href="http://opensource.org/licenses/MIT" target="_top">MIT 
+  href="http://OpenSource.org/licenses/MIT" target="_top">MIT 
   License</a>**.</p>
   <p>There are three modules for ellipsoidal earth models, 
   <i>ellipsoidalKarney</i>, <i>-Vincenty</i> and <i>-Nvector</i> and two 
@@ -74,77 +74,75 @@
   and functions to compute distance, initial and final bearing, 
   intermediate and nearest points, area, perimeter, conversions and 
   unrolling, among other things.  For more information and further details 
-  see the <a href="http://mrjean1.github.io/PyGeodesy/" 
+  see the <a href="http://mrJean1.GitHub.io/PyGeodesy" 
   target="_top">documentation</a>, the descriptions of <a 
-  href="http://www.movable-type.co.uk/scripts/latlong.html" 
+  href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
   target="_top">Latitude/Longitude</a>, <a 
-  href="http://www.movable-type.co.uk/scripts/latlong-vincenty.html" 
+  href="http://www.Movable-Type.co.UK/scripts/latlong-vincenty.html" 
   target="_top">Vincenty</a> and <a 
-  href="http://www.movable-type.co.uk/scripts/latlong-vectors.html" 
+  href="http://www.Movable-Type.co.UK/scripts/latlong-vectors.html" 
   target="_top">Vector-based</a> geodesy, the original <a 
-  href="http://github.com/chrisveness/geodesy" target="_top">JavaScript 
+  href="http://GitHub.com/ChrisVeness/geodesy" target="_top">JavaScript 
   source</a> or <a 
-  href="http://www.movable-type.co.uk/scripts/geodesy/docs/" 
-  target="_top">docs</a> and <a 
-  href="http://geographiclib.sourceforge.io/1.49/python" 
-  target="_top">GeographicLib Python</a>.</p>
+  href="http://www.Movable-Type.co.UK/scripts/geodesy/docs" 
+  target="_top">docs</a> and the Python <a 
+  href="http://PyPI.org/project/geographiclib" 
+  target="_top">GeographicLib</a>.</p>
   <p>Also included are modules for conversions to and from <a 
-  href="http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html" 
+  href="http://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html" 
   target="_top">UTM</a> (Universal Transverse Mercator) and <a 
-  href="http://wikipedia.org/wiki/Web_Mercator" target="_top">Web 
+  href="http://WikiPedia.org/wiki/Web_Mercator" target="_top">Web 
   Mercator</a> (Pseudo-Mercator) coordinates, <a 
-  href="http://www.movable-type.co.uk/scripts/latlong-utm-mgrs.html" 
+  href="http://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html" 
   target="_top">MGRS</a> (NATO Military Grid Reference System) and <a 
-  href="http://www.movable-type.co.uk/scripts/latlong-os-gridref.html" 
+  href="http://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html" 
   target="_top">OSGR</a> (British Ordinance Survery Grid Reference) grid 
   references and a module for encoding and decoding <a 
-  href="http://www.movable-type.co.uk/scripts/geohash.html" 
+  href="http://www.Movable-Type.co.UK/scripts/geohash.html" 
   target="_top">Geohashes</a>.</p>
   <p>Two other modules provide Lambert conformal conic projections and 
   positions (from <a href="http://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf" 
   target="_top">John P. Snyder, &quot;Map Projections -- A Working 
   Manual&quot;, 1987, pp 107-109</a>) and several functions to <a 
-  href="http://bost.ocks.org/mike/simplify/" target="_top">simplify</a> or 
+  href="http://Bost.Ocks.org/mike/simplify" target="_top">simplify</a> or 
   linearize a path of <i>LatLon</i> points (or a <a 
-  href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.array.html"
+  href="http://docs.SciPy.org/doc/numpy/reference/generated/numpy.array.html"
   target="_top">NumPy array</a>), including implementations of the <a 
-  href="http://wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm" 
+  href="http://WikiPedia.org/wiki/Ramer-Douglas-Peucker_algorithm" 
   target="_top">Ramer-Douglas-Peucker</a>, the <a 
-  href="http://hydra.hull.ac.uk/resources/hull:8338" 
+  href="http://hydra.Hull.ac.UK/resources/hull:8338" 
   target="_top">Visvalingam-Whyatt</a> and the <a 
-  href="http://psimpl.sourceforge.net/reumann-witkam.html" 
+  href="http://psimpl.SourceForge.net/reumann-witkam.html" 
   target="_top">Reumann-Witkam</a> algorithms and modified versions of the 
   former.</p>
   <p>All Python source code has been statically <a 
-  href="http://github.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor"
+  href="http://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor"
   target="_top">checked</a> with <a 
-  href="http://pypi.python.org/pypi/pychecker" target="_top">PyChecker</a>,
-  <a href="http://pypi.python.org/pypi/pyflakes" 
-  target="_top">PyFlakes</a>, <a 
-  href="http://pypi.python.org/pypi/pycodestyle" 
-  target="_top">PyCodeStyle</a> (formerly Pep8) and <a 
-  href="http://pypi.python.org/pypi/mccabe" target="_top">McCabe</a> using 
-  Python 2.7.15 and with <a href="http://pypi.python.org/pypi/flake8" 
-  target="_top">Flake8</a> using Python 3.7.0, both in 64-bit on macOS 
-  10.13.6 High Sierra.</p>
-  <p>The tests have been run in 64-bit with <a href="http://pypy.org" 
+  href="http://PyPI.org/project/pychecker" target="_top">PyChecker</a>, <a 
+  href="http://PyPI.org/project/pyflakes" target="_top">PyFlakes</a>, <a 
+  href="http://PyPI.org/project/pycodestyle" target="_top">PyCodeStyle</a> 
+  (formerly Pep8) and <a href="http://PyPI.org/project/mccabe" 
+  target="_top">McCabe</a> using Python 2.7.15 and with <a 
+  href="http://PyPI.org/project/flake8" target="_top">Flake8</a> using 
+  Python 3.7.0, both in 64-bit on macOS 10.13.6 High Sierra.</p>
+  <p>The tests have been run in 64-bit with <a href="http://PyPy.org" 
   target="_top">PyPy-Python</a> 2.7.13, Python 2.7.15 (with <a 
-  href="http://pypi.python.org/pypi/geographiclib" 
+  href="http://PyPI.org/project/geographiclib" 
   target="_top">geographiclib</a> 1.49 and <a 
-  href="http://pypi.python.org/pypi/numpy" target="_top">numpy</a> 1.14.0),
-  <a href="http://software.intel.com/en-us/distribution-for-python" 
+  href="http://PyPI.org/project/numpy" target="_top">numpy</a> 1.14.0), <a 
+  href="http://software.Intel.com/en-us/distribution-for-python" 
   target="_top">Intel-Python</a> 3.5.3 (and <a 
-  href="http://pypi.python.org/pypi/numpy" target="_top">numpy</a> 1.11.3) 
-  and Python 3.7.0 (with <a 
-  href="http://pypi.python.org/pypi/geographiclib" 
+  href="http://PyPI.org/project/numpy" target="_top">numpy</a> 1.11.3) and 
+  Python 3.7.0 (with <a href="http://PyPI.org/project/geographiclib" 
   target="_top">geographiclib</a> 1.49), all on macOS 10.13.6 High Sierra, 
   with 64-bit Python 3.7.0 (with <a 
-  href="http://pypi.python.org/pypi/geographiclib" 
+  href="http://PyPI.org/project/geographiclib" 
   target="_top">geographiclib</a> 1.49) on Debian GNU/Linux 9 and with <a 
-  href="http://omz-software.com/pythonista/" target="_top">Pythonista 
+  href="http://OMZ-Software.com/pythonista" target="_top">Pythonista 
   3.2</a> Python 2.7.12 and 3.6.1 (both with <a 
-  href="http://pypi.python.org/pypi/numpy" target="_top">numpy</a> 1.8.0) 
-  on iOS 11.4.1 (iPad and iPhone X).</p>
+  href="http://PyPI.org/project/numpy" target="_top">numpy</a> 1.8.0) on 
+  iOS 11.4.1 iPad and (with <a href="http://PyPI.org/project/geographiclib"
+  target="_top">geographiclib</a> 1.49) iPhone X.</p>
   <p>Previously, the tests were run with 64-bit Python 2.6.9 (and numpy 
   1.6.2), 2.7.10 (and numpy 1.8.0rc1), 2.7.13, 2.7.14 (and numpy 1.13.1), 
   3.5.3, 3.6.2, 3.6.3, 3.6.4 and 3.6.5 on MacOS X 10.10 Yosemite, MacOS X 
@@ -152,23 +150,23 @@
   Sierra, with Pythonista 3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3, with 
   32-bit Python 2.6.6 on Windows XP SP3, with 32-bit Python 2.7.14 on 
   Windows 10 Pro.</p>
-  <p>In addition to the <a href="http://pypi.python.org/pypi/PyGeodesy" 
+  <p>In addition to the <a href="http://PyPI.org/project/PyGeodesy" 
   target="_top">PyGeodesy</a> package, the distribution files contain the 
   tests, the test results and the complete documentation (generated by <a 
-  href="http://pypi.python.org/pypi/epydoc" target="_top">Epydoc</a> using 
+  href="http://PyPI.org/project/epydoc" target="_top">Epydoc</a> using 
   command line: <code>epydoc --html --no-private --no-source 
   --name=PyGeodesy --url=... -v pygeodesy</code>).</p>
   <p>To install PyGeodesy, type <code>pip install PyGeodesy</code> or 
   <code>easy_install PyGeodesy</code> in a terminal or command window.  
   Alternatively, download <code>PyGeodesy-yy.m.d</code> from <a 
-  href="http://pypi.python.org/pypi/PyGeodesy/" target="_top">PyPI</a> or 
-  <a href="http://github.com/mrJean1/PyGeodesy" target="_top">GitHub</a>, 
+  href="http://PyPI.org/project/PyGeodesy" target="_top">PyPI</a> or <a 
+  href="http://GitHub.com/mrJean1/PyGeodesy" target="_top">GitHub</a>, 
   <code>unzip</code> the downloaded file, <code>cd</code> to directory 
   <code>Pygeodesy-yy.m.d</code> and type <code>python setup.py 
   install</code>.  To run all PyGeodesy tests, type <code>python setup.py 
   test</code> before installation.</p>
   <p>Installation of <a href="http://www.NumPy.org" target="_top">NumPy</a>
-  and <a href="http://pypi.python.org/pypi/geographiclib" 
+  and <a href="http://PyPI.org/project/geographiclib" 
   target="_top">GeographicLib</a> is optional.  However, the latter is 
   required for module <i>ellipsoidalKarney</i> classes <i>LatLon</i> and 
   <i>Cartesian</i> and the functions <i>areaOf</i> and 
@@ -199,7 +197,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.09.12
+        18.09.14
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -222,7 +220,7 @@
         in various forms of degrees, minutes and seconds.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.elevations-module.html">pygeodesy.elevations</a></strong>: <em class="summary">Functions to obtain elevations and geoid heights thru web services,
         for (lat, lon) locations, currently limited to the <a 
-        href="http://wikipedia.org/wiki/Contiguous_United_States" 
+        href="http://WikiPedia.org/wiki/Contiguous_United_States" 
         target="_top">Conterminous US (CONUS)</a>.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.ellipsoidalBase-module.html" onclick="show_private();">pygeodesy.ellipsoidalBase</a></strong>: <em class="summary">(INTERNAL) Ellipsoidal base classes.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney-module.html">pygeodesy.ellipsoidalKarney</a></strong>: <em class="summary">Ellipsoidal geodetic (lat-/longitude) and cartesian (x/y/z) classes
@@ -233,9 +231,9 @@
         href="pygeodesy.ellipsoidalKarney-module.html#areaOf" 
         class="link">areaOf</a> and <a 
         href="pygeodesy.ellipsoidalKarney-module.html#perimeterOf" 
-        class="link">perimeterOf</a> based on the pure Python 
-        implementation of <i>Charles F. F. Karney's</i> <a 
-        href="http://pypi.python.org/pypi/geographiclib" 
+        class="link">perimeterOf</a> based on the Python implementation of 
+        <i>Charles F. F. Karney's</i> <a 
+        href="http://PyPI.org/project/geographiclib" 
         target="_top">GeographicLib</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector-module.html">pygeodesy.ellipsoidalNvector</a></strong>: <em class="summary">N-vector-based ellipsoidal geodetic (lat-/longitude) and cartesion 
         (x/y/z) classes <a 
@@ -925,7 +923,7 @@
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
       Compute the distance between two points using the <a 
-      href="http://www.movable-type.co.uk/scripts/latlong.html" 
+      href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
       target="_top">Equirectangular Approximation / Projection</a>.</td>
           <td align="right" valign="top">
             
@@ -950,7 +948,7 @@
         <span class="summary-sig-arg">limit</span>=<span class="summary-sig-default">45</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the distance between two points using the <a 
-      href="http://www.movable-type.co.uk/scripts/latlong.html" 
+      href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
       target="_top">Equirectangular Approximation / Projection</a>.</td>
           <td align="right" valign="top">
             
@@ -1255,7 +1253,7 @@
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the distance between two points using the <a 
-      href="http://www.movable-type.co.uk/scripts/latlong.html" 
+      href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
       target="_top">Haversine</a> formula.</td>
           <td align="right" valign="top">
             
@@ -1276,7 +1274,7 @@
         <span class="summary-sig-arg">a1</span>,
         <span class="summary-sig-arg">b21</span>)</span><br />
       Compute the <i>angular</i> distance between two points using the <a 
-      href="http://www.movable-type.co.uk/scripts/latlong.html" 
+      href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
       target="_top">Haversine</a> formula.</td>
           <td align="right" valign="top">
             
@@ -2709,7 +2707,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'18.9.12'"><code class="variable-quote">'</code><code class="variable-string">18.9.12</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'18.9.14'"><code class="variable-quote">'</code><code class="variable-string">18.9.14</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (string).
     </td>
   </tr>
@@ -3050,7 +3048,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a 
-        href="http://cran.r-project.org/web/packages/geosphere/geosphere.pdf"
+        href="http://CRAN.R-Project.org/web/packages/geosphere/geosphere.pdf"
         target="_top">Geosphere</a>.
       </p>
 </div></td></tr></table>
@@ -3373,7 +3371,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         Courtesy Martin Schultz.
       </p>
       <p><strong>See Also:</strong>
-        <a href="http://www.edwilliams.org/avform.htm#flat" 
+        <a href="http://www.EdWilliams.org/avform.htm#flat" 
         target="_top">Local, Flat Earth</a>.
       </p>
 </div></td></tr></table>
@@ -3452,7 +3450,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a href="http://wikipedia.org/wiki/Compass_rose" 
+        <a href="http://WikiPedia.org/wiki/Compass_rose" 
         target="_top">Compass rose</a>
       </p>
       <p><strong>Example:</strong>
@@ -3579,7 +3577,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         HTTP-, IO-, SSL-, Type-, URL- or ValueError as string.
       </p>
       <p><strong>See Also:</strong>
-        <a href="http://NationalMap.gov/epqs/" target="_top">USGS National 
+        <a href="http://NationalMap.gov/epqs" target="_top">USGS National 
         Map</a>, the <a 
         href="http://www.USGS.gov/faqs/what-are-projection-horizontal-and-vertical-datum-units-and-resolution-3dep-standard-dems"
         target="_top">FAQ</a> and <a 
@@ -3643,7 +3641,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </tr></table>
   
   <p>Compute the distance between two points using the <a 
-  href="http://www.movable-type.co.uk/scripts/latlong.html" 
+  href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
   target="_top">Equirectangular Approximation / Projection</a>.</p>
   <p>See function <a href="pygeodesy.utils-module.html#equirectangular_" 
   class="link">equirectangular_</a> for more details, the available 
@@ -3664,7 +3662,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <dd>Distance (meter, same units as <i>radius</i>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a href="http://www.edwilliams.org/avform.htm#flat" 
+        <a href="http://www.EdWilliams.org/avform.htm#flat" 
         target="_top">Local, Flat Earth</a>, method <a 
         href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
         class="link">Ellipsoid.distance2</a> or function <a 
@@ -3695,7 +3693,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </tr></table>
   
   <p>Compute the distance between two points using the <a 
-  href="http://www.movable-type.co.uk/scripts/latlong.html" 
+  href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
   target="_top">Equirectangular Approximation / Projection</a>.</p>
   <p>This approximation is valid for smaller distance of several hundred Km
   or Miles, see the <i>limit</i> keyword argument and the <a 
@@ -3733,7 +3731,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a href="http://www.edwilliams.org/avform.htm#flat" 
+        <a href="http://www.EdWilliams.org/avform.htm#flat" 
         target="_top">Local, Flat Earth</a>, method <a 
         href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
         class="link">Ellipsoid.distance2</a>, function <a 
@@ -4236,7 +4234,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </tr></table>
   
   <p>Compute the distance between two points using the <a 
-  href="http://www.movable-type.co.uk/scripts/latlong.html" 
+  href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
   target="_top">Haversine</a> formula.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -4253,7 +4251,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <dd>Distance (meter, same units as <i>radius</i>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a href="http://www.edwilliams.org/avform.htm#Dist" 
+        <a href="http://www.EdWilliams.org/avform.htm#Dist" 
         target="_top">Distance between two (spherical) points</a> and 
         function <a href="pygeodesy.utils-module.html#equirectangular" 
         class="link">equirectangular</a> or method <a 
@@ -4279,7 +4277,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </tr></table>
   
   <p>Compute the <i>angular</i> distance between two points using the <a 
-  href="http://www.movable-type.co.uk/scripts/latlong.html" 
+  href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
   target="_top">Haversine</a> formula.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -4330,11 +4328,11 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a href="http://github.com/nasa/MultiDop/" target="_top">MultiDop 
+        <a href="http://GitHub.com/NASA/MultiDop" target="_top">MultiDop 
         GeogBeamHt</a> (<a 
-        href="http://journals.ametsoc.org/doi/abs/10.1175/2009JTECHA1256.1"
+        href="http://journals.AMetSoc.org/doi/abs/10.1175/2009JTECHA1256.1"
         target="_top">Shapiro et al. 2009, JTECH</a> and <a 
-        href="http://journals.ametsoc.org/doi/abs/10.1175/JTECH-D-11-00019.1"
+        href="http://journals.AMetSoc.org/doi/abs/10.1175/JTECH-D-11-00019.1"
         target="_top">Potvin et al. 2012, JTECH</a>).
       </p>
 </div></td></tr></table>
@@ -4372,7 +4370,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a href="http://www.edwilliams.org/avform.htm#Horizon" 
+        <a href="http://www.EdWilliams.org/avform.htm#Horizon" 
         target="_top">Distance to horizon</a>.
       </p>
 </div></td></tr></table>
@@ -4573,7 +4571,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a 
-        href="http://cran.r-project.org/web/packages/geosphere/geosphere.pdf"
+        href="http://CRAN.R-Project.org/web/packages/geosphere/geosphere.pdf"
         target="_top">Geosphere</a>.
       </p>
 </div></td></tr></table>
@@ -4705,11 +4703,11 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         class="link">sphericalNvector.LatLon.isEnclosedBy</a>, <a 
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html#isEnclosedBy"
         class="link">sphericalTrigonometry.LatLon.isEnclosedBy</a> and <a 
-        href="http://github.com/nasa/MultiDop" target="_top">MultiDop 
+        href="http://GitHub.com/NASA/MultiDop" target="_top">MultiDop 
         GeogContainPt</a> (<a 
-        href="http://journals.ametsoc.org/doi/abs/10.1175/2009JTECHA1256.1"
+        href="http://journals.AMetSoc.org/doi/abs/10.1175/2009JTECHA1256.1"
         target="_top">Shapiro et al. 2009, JTECH</a> and <a 
-        href="http://journals.ametsoc.org/doi/abs/10.1175/JTECH-D-11-00019.1"
+        href="http://journals.AMetSoc.org/doi/abs/10.1175/JTECH-D-11-00019.1"
         target="_top">Potvin et al. 2012, JTECH</a>).
       </p>
 </div></td></tr></table>
@@ -6676,7 +6674,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Capability <i>LONG_UNROLL</i> in <a 
-        href="http://geographiclib.sourceforge.io/html/python/interface.html#outmask"
+        href="http://GeographicLib.SourceForge.io/html/python/interface.html#outmask"
         target="_top">GeographicLib</a>.
       </p>
 </div></td></tr></table>
@@ -6712,7 +6710,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Capability <i>LONG_UNROLL</i> in <a 
-        href="http://geographiclib.sourceforge.io/html/python/interface.html#outmask"
+        href="http://GeographicLib.SourceForge.io/html/python/interface.html#outmask"
         target="_top">GeographicLib</a>.
       </p>
 </div></td></tr></table>
@@ -7047,7 +7045,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Sep 13 14:08:46 2018
+    Generated by Epydoc 3.0.1 on Sat Sep 15 16:04:03 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

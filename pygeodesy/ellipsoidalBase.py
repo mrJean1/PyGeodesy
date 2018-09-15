@@ -6,7 +6,7 @@ u'''(INTERNAL) Ellipsoidal base classes.
 Pure Python implementation of geodesy tools for ellipsoidal earth models,
 transcribed in part from JavaScript originals by I{(C) Chris Veness 2005-2016}
 and published under the same MIT Licence**, see for example U{latlon-ellipsoidal
-<http://www.movable-type.co.uk/scripts/geodesy/docs/latlon-ellipsoidal.js.html>}.
+<http://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html>}.
 
 @newfield example: Example, Examples
 '''
@@ -24,7 +24,7 @@ from math import atan2, copysign, cos, sin, sqrt
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('CartesianBase', 'LatLonEllipsoidalBase')
-__version__ = '18.08.28'
+__version__ = '18.09.14'
 
 
 class CartesianBase(Vector3d):
@@ -92,7 +92,7 @@ class CartesianBase(Vector3d):
 
             a, b = degrees90(a), degrees180(b)
 
-        # see <http://GIS.StackExchange.com/questions/28446/>
+        # see <http://GIS.StackExchange.com/questions/28446>
         elif p > EPS:  # latitude arbitrarily zero
             a, b, h = 0.0, degrees180(atan2(y, x)), p - E.a
         else:  # polar latitude, longitude arbitrarily zero
@@ -263,7 +263,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
            @raise ValueError: Incompatible datum ellipsoids.
 
            @see: Method L{Ellipsoid.distance2} and U{Local, Flat Earth
-                 <http://www.edwilliams.org/avform.htm#flat>}.
+                 <http://www.EdWilliams.org/avform.htm#flat>}.
         '''
         return self.ellipsoids(other).distance2(self.lat,  self.lon,
                                                other.lat, other.lon)

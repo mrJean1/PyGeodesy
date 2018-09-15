@@ -22,7 +22,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2',  # constants
            'len2',
            'map1', 'map2',
            'scalar', 'sqrt3')
-__version__ = '18.09.06'
+__version__ = '18.09.14'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -49,8 +49,9 @@ try:
     EPS = sys.float_info.epsilon  #: System's epsilon (float)
 except AttributeError:
     EPS = 2.220446049250313e-16  #: Approximate epsilon (float)
-EPS1 = 1.0 - EPS  #: M{1.0 - EPS} (float), about 0.9999999999999998
-EPS2 = sqrt(EPS)  #: M{sqrt(EPS)} (float)
+EPS1  = 1.0 - EPS  #: M{1 - EPS} (float), about 0.9999999999999998
+_1EPS = 1.0 + EPS  #: M{1 + EPS} (float)
+EPS2  = sqrt(EPS)  #: M{sqrt(EPS)} (float)
 
 _1_3rd = 1.0 / 3.0  #: (INTERNAL) One third (float)
 _2_3rd = 2.0 / 3.0  #: (INTERNAL) Two third (float)
@@ -86,16 +87,16 @@ class Fsum(object):
 
        Unlike I{math.fsum}, this class accumulates the values to
        be added incrementally and provides intermediate, precision
-       summations.  Accumulation can continue after intermediate
+       summations.  Accumulation may continue after intermediate
        summations.
 
-       Exception and I{non-finite} handling differs from I{math.fsum}.
+       @note: Exception and I{non-finite} handling differ from I{math.fsum}.
 
-       @see: U{Hettinger<http://code.activestate.com/recipes/393090/>},
-             U{Klein<http://link.springer.com/article/10.1007/s00607-005-0139-x>},
-             U{Kahan<http://wikipedia.org/wiki/Kahan_summation_algorithm>},
+       @see: U{Hettinger<http://code.ActiveState.com/recipes/393090>},
+             U{Klein<http://link.Springer.com/article/10.1007/s00607-005-0139-x>},
+             U{Kahan<http://WikiPedia.org/wiki/Kahan_summation_algorithm>},
              Python 2.6+ file I{Modules/mathmodule.c} and the issue log
-             U{Full precision summation<http://bugs.python.org/issue2819>}.
+             U{Full precision summation<http://bugs.Python.org/issue2819>}.
     '''
     def __init__(self, start=0):
         '''Initialize a new accumulator.
@@ -158,17 +159,20 @@ class Fsum(object):
 
            @note: Accumulation can continue after summation.
         '''
-        i = len(self._ps) - 1
+        ps = self._ps
+        i = len(ps) - 1
         if i < 0:
             s = 0.0
         else:
-            s = self._ps[i]
+            s = ps[i]
             while i > 0:
                 i -= 1
-                s, p = _2sum(s, self._ps[i])
+                s, p = _2sum(s, ps[i])
+                # XXX ps[i:] = [s]
                 if p:  # sum(ps) became inexaxt
+                    # XXX ps.insert(i, p)
                     if i > 0:  # half-even round if signs match
-                        s = _2even(s, self._ps[i-1], p)
+                        s = _2even(s, ps[i-1], p)
                     break
         return s
 
@@ -181,7 +185,7 @@ def cbrt(x):
        @return: Cubic root (float).
     '''
     # simpler and more accurate than Ken Turkowski's CubeRoot, see
-    # <http://people.freebsd.org/~lstewart/references/apple_tr_kt32_cuberoot.pdf>
+    # <http://People.FreeBSD.org/~lstewart/references/apple_tr_kt32_cuberoot.pdf>
     return copysign(pow(abs(x), _1_3rd), x)
 
 
@@ -363,7 +367,8 @@ def fpowers(x, n, alts=0):
         xs.append(xs[-1] * x)
 
     if alts > 0:  # x**2, x**4, ...
-        xs = xs[alts-1: :2]
+        # XXX PyChecker chokes on xs[alts-1::2]
+        xs = xs[slice(alts-1, None, 2)]
 
     # XXX PyChecker falsely claims result is None
     return xs
@@ -488,10 +493,10 @@ def hypot3(x, y, z):
             x, y = y, x
         h = float(x)
         if h > EPS:
-            # XXX PyChecker chokes on some /= and *=
-            t = (y / h)**2 + (z / h)**2
-            if t > EPS:
-                h *= sqrt(1.0 + t)
+            # XXX PyChecker chokes on /= and *=
+            t = fsum_(1.0, (y / h)**2, (z / h)**2)
+            if t > _1EPS:
+                h *= sqrt(t)
     else:
         h = hypot(x, y)
     return h

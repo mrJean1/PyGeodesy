@@ -6,7 +6,7 @@ u'''(INTERNAL) Spherical base classes.
 Pure Python implementation of geodetic (lat-/longitude) functions,
 transcribed in part from JavaScript originals by I{(C) Chris Veness 2011-2016}
 and published under the same MIT Licence**, see
-U{Latitude/Longitude<http://www.movable-type.co.uk/scripts/latlong.html>}.
+U{Latitude/Longitude<http://www.Movable-Type.co.UK/scripts/latlong.html>}.
 
 @newfield example: Example, Examples
 '''
@@ -23,7 +23,7 @@ from math import acos, atan2, cos, log, sin
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('LatLonSphericalBase',)
-__version__ = '18.08.26'
+__version__ = '18.09.14'
 
 
 class LatLonSphericalBase(LatLonHeightBase):
@@ -248,7 +248,7 @@ class LatLonSphericalBase(LatLonHeightBase):
            >>> q = LatLon(50.964, 1.853)
            >>> d = p.rhumbDistanceTo(q)  # 403100
         '''
-        # see <http://www.edwilliams.org/avform.htm#Rhumb>
+        # see <http://www.EdWilliams.org/avform.htm#Rhumb>
         da, db, dp = self._rhumb3(other)
 
         # on Mercator projection, longitude distances shrink
@@ -284,7 +284,7 @@ class LatLonSphericalBase(LatLonHeightBase):
         '''
         self.others(other)
 
-        # see <http://mathforum.org/library/drmath/view/51822.html>
+        # see <http://MathForum.org/library/drmath/view/51822.html>
         a1, b1 = self.to2ab()
         a2, b2 = other.to2ab()
         if abs(b2 - b1) > PI:
