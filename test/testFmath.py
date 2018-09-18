@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '18.09.14'
+__version__ = '18.09.16'
 
 from base import TestsBase
 from random import random, gauss, shuffle
@@ -36,9 +36,8 @@ class Tests(TestsBase):
             s = float(len(t) / 2)  # number of ones
             self.test('sum', sum(t), s, known=True)
             self.test('fsum', fsum(t), s)
-            f = Fsum()
-            f.fadd2(t)
-            self.test('Fsum', f.fsum(), s)
+            self.test('Fsum', Fsum().fsum(t), s)
+            self.test('FsumR', Fsum().fsum(reversed(t)), s)
             t += t
 
         # <http://code.ActiveState.com/recipes/393090>
@@ -46,9 +45,8 @@ class Tests(TestsBase):
         s = 1.00500000000100
         self.test('sum', sum(t), s, known=True)
         self.test('fsum', fsum(t), s)
-        f = Fsum()
-        f.fadd2(t)
-        self.test('Fsum', f.fsum(), s)
+        self.test('Fsum', Fsum().fsum(t), s)
+        self.test('FsumR', Fsum().fsum(reversed(t)), s)
 
         # <http://GitHub.com/ActiveState/code/blob/master/recipes/Python/
         #       393090_Binary_floating_point_summatiaccurate_full/recipe-393090.py>
@@ -62,9 +60,8 @@ class Tests(TestsBase):
             shuffle(t)
             s = fsum(t)
             # self.test('fsum', s, s)
-            f = Fsum()
-            f.fadd2(t)
-            self.test('Fsum', f.fsum(), s)
+            self.test('Fsum', Fsum().fsum(t), s)
+            self.test('FsumR', Fsum().fsum(reversed(t)), s)
 
         p = fpowers(2, 10)  # PYCHOK false!
         self.test('fpowers', len(p), 10)

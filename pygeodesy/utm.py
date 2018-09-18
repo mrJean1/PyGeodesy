@@ -47,7 +47,7 @@ from operator import mul
 # all public contants, classes and functions
 __all__ = ('Utm', 'UTMError',  # classes
            'parseUTM', 'toUtm', 'utmZoneBand2')  # functions
-__version__ = '18.09.14'
+__version__ = '18.09.16'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -378,8 +378,7 @@ class Utm(Based):
             s = sinh(E.e * atanh(E.e * T / h))
             t = T * hypot1(s) - s * h
             d = (t0 - t) / hypot1(t) * (q + T**2) / h
-            sd.fadd(d)
-            T = sd.fsum()  # τi
+            T = sd.fsum_(d)  # τi
 
         a = atan(T)  # lat
         b = atan2(shx, cy) + radians(_cmlon(self._zone))

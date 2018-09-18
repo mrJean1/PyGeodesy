@@ -13,10 +13,10 @@ _test_dir = dirname(abspath(__file__))
 if _test_dir not in sys.path:  # Python 3+ ModuleNotFoundError
     sys.path.insert(0, _test_dir)
 
-from base import runner
+from run import runner  # PYCHOK expected
 
 __all__ = ('TestSuite',)
-__version__ = '18.09.09'
+__version__ = '18.09.16'
 
 
 class TestSuite(unittest.TestCase):

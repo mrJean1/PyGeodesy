@@ -58,9 +58,7 @@ U{Flake8<http://PyPI.org/project/flake8>} using Python 3.7.0, both in
 The tests have been run in 64-bit with U{PyPy-Python<http://PyPy.org>}
 2.7.13, Python 2.7.15 (with U{geographiclib
 <http://PyPI.org/project/geographiclib>} 1.49 and U{numpy
-<http://PyPI.org/project/numpy>} 1.14.0), U{Intel-Python
-<http://software.Intel.com/en-us/distribution-for-python>} 3.5.3 (and
-U{numpy<http://PyPI.org/project/numpy>} 1.11.3) and Python 3.7.0
+<http://PyPI.org/project/numpy>} 1.14.0) and Python 3.7.0
 (with U{geographiclib<http://PyPI.org/project/geographiclib>} 1.49),
 all on macOS 10.13.6 High Sierra, with 64-bit Python 3.7.0 (with
 U{geographiclib<http://PyPI.org/project/geographiclib>} 1.49) on Debian
@@ -71,10 +69,13 @@ Python 2.7.12 and 3.6.1 (both with U{numpy<http://PyPI.org/project/numpy>}
 
 Previously, the tests were run with 64-bit Python 2.6.9 (and numpy 1.6.2),
 2.7.10 (and numpy 1.8.0rc1), 2.7.13, 2.7.14 (and numpy 1.13.1), 3.5.3,
-3.6.2, 3.6.3, 3.6.4 and 3.6.5 on MacOS X 10.10 Yosemite, MacOS X 10.11 El
-Capitan, macOS 10.12 Sierra, macOS 10.13.4 and/or 10.13.5 High Sierra, with
-Pythonista 3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3, with 32-bit Python
-2.6.6 on Windows XP SP3, with 32-bit Python 2.7.14 on Windows 10 Pro.
+3.6.2, 3.6.3, 3.6.4, 3.6.5 and U{Intel-Python
+<http://software.Intel.com/en-us/distribution-for-python>} 3.5.3 (and
+U{numpy<http://PyPI.org/project/numpy>} 1.11.3) on MacOS X 10.10 Yosemite,
+MacOS X 10.11 El Capitan, macOS 10.12 Sierra, macOS 10.13.4 and/or 10.13.5
+High Sierra, with Pythonista 3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3,
+with 32-bit Python 2.6.6 on Windows XP SP3, with 32-bit Python 2.7.14 on
+Windows 10 Pro.
 
 In addition to the U{PyGeodesy<http://PyPI.org/project/PyGeodesy>}
 package, the distribution files contain the tests, the test results and
@@ -201,7 +202,7 @@ __all__ = ('bases', 'datum', 'dms', 'elevations',  # modules
            'R_M',  # to avoid duplicates from datum and utils
            'version',
            'crosserrors')  # extended below
-__version__ = '18.09.14'
+__version__ = '18.09.16'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))

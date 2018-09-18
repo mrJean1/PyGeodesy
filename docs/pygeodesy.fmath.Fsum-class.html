@@ -138,27 +138,27 @@ object --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath.Fsum-class.html#fadd_" class="summary-sig-name">fadd_</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">*args</span>)</span><br />
+      Accumulate more values from positional arguments.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fmath.Fsum-class.html#fadd" class="summary-sig-name">fadd</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">arg</span>)</span><br />
-      Accumulate another value.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.fmath.Fsum-class.html#fadd2" class="summary-sig-name">fadd2</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">iterable</span>)</span><br />
-      Accumulate multiple values.</td>
+      Accumulate more values from the iterable.</td>
           <td align="right" valign="top">
             
             
@@ -174,8 +174,27 @@ object --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.fmath.Fsum-class.html#fsum" class="summary-sig-name">fsum</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Summation of the values accumulated so far.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath.Fsum-class.html#fsum_" class="summary-sig-name">fsum_</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">*args</span>)</span><br />
+      Accumulated more values from positional arguments and sum all.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath.Fsum-class.html#fsum" class="summary-sig-name">fsum</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">iterable</span>=<span class="summary-sig-default"><code class="variable-group">(</code><code class="variable-group">)</code></span>)</span><br />
+      Accumulated more values from the iterable and sum all.</td>
           <td align="right" valign="top">
             
             
@@ -253,26 +272,26 @@ object --+
   </dl>
 </td></tr></table>
 </div>
-<a name="fadd"></a>
+<a name="fadd_"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">fadd</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">arg</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fadd_</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">*args</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Accumulate another value.</p>
+  <p>Accumulate more values from positional arguments.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>arg</code></strong> - Value to add (scalar).</li>
+        <li><strong class="pname"><code>args</code></strong> - Values to add (scalars), all positional.</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -282,14 +301,14 @@ object --+
   </dl>
 </td></tr></table>
 </div>
-<a name="fadd2"></a>
+<a name="fadd"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">fadd2</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fadd</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">iterable</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -297,7 +316,7 @@ object --+
     </td>
   </tr></table>
   
-  <p>Accumulate multiple values.</p>
+  <p>Accumulate more values from the iterable.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -311,6 +330,40 @@ object --+
   </dl>
 </td></tr></table>
 </div>
+<a name="fsum_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum_</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">*args</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Accumulated more values from positional arguments and sum all.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>args</code></strong> - Values to add (scalars), all positional.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Accurate, running sum (float).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <i>2sum</i> overflow.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or infinite <i>arg</i> value.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Accumulation can continue after summation.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="fsum"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -318,20 +371,26 @@ object --+
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum</span>(<span class="sig-arg">self</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">iterable</span>=<span class="sig-default"><code class="variable-group">(</code><code class="variable-group">)</code></span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Summation of the values accumulated so far.</p>
+  <p>Accumulated more values from the iterable and sum all.</p>
   <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>iterable</code></strong> - Sequence, list, tuple, etc. (scalars), optional.</li>
+    </ul></dd>
     <dt>Returns:</dt>
-        <dd>Precision sum (float).</dd>
+        <dd>Accurate, running sum (float).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <i>2sum</i> overflow.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or infinite <i>iterable</i> value.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -371,7 +430,7 @@ object --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Sep 15 16:04:04 2018
+    Generated by Epydoc 3.0.1 on Tue Sep 18 14:12:04 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

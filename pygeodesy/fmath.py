@@ -22,7 +22,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2',  # constants
            'len2',
            'map1', 'map2',
            'scalar', 'sqrt3')
-__version__ = '18.09.14'
+__version__ = '18.09.16'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -119,27 +119,19 @@ class Fsum(object):
             pass
         raise ValueError('%s invalid: %r' % ('Fsum', arg))
 
-    def fadd(self, arg):
-        '''Accumulate another value.
+    def fadd_(self, *args):
+        '''Accumulate more values.
 
-           @param arg: Value to add (scalar).
+           @param args: Values to add (scalars), all positional.
 
            @raise OverflowError: Partial I{2sum} overflow.
 
            @raise ValueError: Invalid or infinite I{arg}.
         '''
-        a = self._arg(arg)
-        if a:
-            i = 0
-            for p in self._ps:
-                a, p = _2sum(a, p)
-                if p:
-                    self._ps[i] = p
-                    i += 1
-            self._ps[i:] = [a]  # if a else []
+        self.fadd(args)
 
-    def fadd2(self, iterable):
-        '''Accumulate multiple values.
+    def fadd(self, iterable):
+        '''Accumulate more values.
 
            @param iterable: Sequence, list, tuple, etc. (scalars).
 
@@ -148,17 +140,47 @@ class Fsum(object):
            @raise ValueError: Invalid or infinite I{iterable} value.
         '''
         for a in iterable:
-            self.fadd(a)
+            a = self._arg(a)
+            if a:
+                i = 0
+                for p in self._ps:
+                    a, p = _2sum(a, p)
+                    if p:
+                        self._ps[i] = p
+                        i += 1
+                self._ps[i:] = [a]
 
-    def fsum(self):
-        '''Summation of the values accumulated so far.
+    def fsum_(self, *args):
+        '''Accumulated more values and sum all.
 
-           @return: Precision sum (float).
+           @param args: Values to add (scalars), all positional.
+
+           @return: Current, running sum (float).
 
            @raise OverflowError: Partial I{2sum} overflow.
 
+           @raise ValueError: Invalid or infinite I{arg} value.
+
            @note: Accumulation can continue after summation.
         '''
+        return self.fsum(args)
+
+    def fsum(self, iterable=()):
+        '''Accumulated more values and sum all.
+
+           @param iterable: Sequence, list, tuple, etc. (scalars).
+
+           @return: Current, running sum (float).
+
+           @raise OverflowError: Partial I{2sum} overflow.
+
+           @raise ValueError: Invalid or infinite I{iterable} value.
+
+           @note: Accumulation can continue after summation.
+        '''
+        if iterable:
+            self.fadd(iterable)
+
         ps = self._ps
         i = len(ps) - 1
         if i < 0:
@@ -168,12 +190,13 @@ class Fsum(object):
             while i > 0:
                 i -= 1
                 s, p = _2sum(s, ps[i])
-                # XXX ps[i:] = [s]
+                # ps[i:] = [s]
                 if p:  # sum(ps) became inexaxt
-                    # XXX ps.insert(i, p)
+                    # ps.insert(i, p)
                     if i > 0:  # half-even round if signs match
                         s = _2even(s, ps[i-1], p)
                     break
+            # self._ps = ps
         return s
 
 
@@ -255,8 +278,7 @@ def fdot3(a, b, c, start=0):
 
     if start:
         f = Fsum(start)
-        f.fadd2(map(_mul3, a, b, c))
-        return f.fsum()
+        return f.fsum(map(_mul3, a, b, c))
     else:
         return fsum(map(_mul3, a, b, c))
 
@@ -460,8 +482,7 @@ except ImportError:
            @see: Class L{Fsum}.
         '''
         f = Fsum()
-        f.fadd2(iterable)
-        return f.fsum()
+        return f.fsum(iterable)
 
 
 def hypot1(x):

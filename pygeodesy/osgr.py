@@ -44,7 +44,7 @@ from math import cos, radians, sin, sqrt, tan
 # all public contants, classes and functions
 __all__ = ('Osgr',  # classes
            'parseOSGR', 'toOsgr')  # functions
-__version__ = '18.09.14'
+__version__ = '18.09.16'
 
 _10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (meter)
 _100km   = 100000  #: (INTERNAL) 100 km (int meter)
@@ -186,8 +186,7 @@ class Osgr(Based):
             t = n_N0 - M
             if t < _10um:
                 break
-            sa.fadd(t / a_F0)
-            a = sa.fsum()
+            a = sa.fsum_(t / a_F0)
             M = b_F0 * _M(E.Mabcd, a)
 
         ca, sa, ta = cos(a), sin(a), tan(a)

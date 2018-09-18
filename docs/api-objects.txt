@@ -1253,12 +1253,13 @@ pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.convertDatum	pygeodesy.ellipsoid
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._Radjust2	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_Radjust2
 pygeodesy.ellipsoidalVincenty.VincentyError	pygeodesy.ellipsoidalVincenty.VincentyError-class.html
 pygeodesy.fmath.Fsum	pygeodesy.fmath.Fsum-class.html
-pygeodesy.fmath.Fsum.fsum	pygeodesy.fmath.Fsum-class.html#fsum
-pygeodesy.fmath.Fsum.fadd2	pygeodesy.fmath.Fsum-class.html#fadd2
-pygeodesy.fmath.Fsum._arg	pygeodesy.fmath.Fsum-class.html#_arg
-pygeodesy.fmath.Fsum.__len__	pygeodesy.fmath.Fsum-class.html#__len__
+pygeodesy.fmath.Fsum.fadd_	pygeodesy.fmath.Fsum-class.html#fadd_
 pygeodesy.fmath.Fsum.fadd	pygeodesy.fmath.Fsum-class.html#fadd
+pygeodesy.fmath.Fsum.fsum	pygeodesy.fmath.Fsum-class.html#fsum
+pygeodesy.fmath.Fsum._arg	pygeodesy.fmath.Fsum-class.html#_arg
 pygeodesy.fmath.Fsum.__init__	pygeodesy.fmath.Fsum-class.html#__init__
+pygeodesy.fmath.Fsum.fsum_	pygeodesy.fmath.Fsum-class.html#fsum_
+pygeodesy.fmath.Fsum.__len__	pygeodesy.fmath.Fsum-class.html#__len__
 pygeodesy.geohash.Geohash	pygeodesy.geohash.Geohash-class.html
 pygeodesy.geohash.Geohash.neighbors	pygeodesy.geohash.Geohash-class.html#neighbors
 pygeodesy.geohash.Geohash._W	pygeodesy.geohash.Geohash-class.html#_W
