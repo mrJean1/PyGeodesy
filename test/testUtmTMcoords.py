@@ -8,7 +8,7 @@ also available U{here<http://Zenodo.org/record/32470>}, file C{TMcoords.dat}.
 '''
 
 __all__ = ('Tests',)
-__version__ = '18.09.14'
+__version__ = '18.09.16'
 
 from base import TestsBase
 
@@ -17,7 +17,7 @@ from pygeodesy import Ellipsoids, RangeError, toUtm, utm
 
 class Tests(TestsBase):
 
-    def testUtmTMcoord(self, coord, line, fmt='%.4f'):
+    def testUtmTMcoord(self, coord, line, fmt='%.4f', eps=1.5e-4):
         # format: lat lon easting northing convergence scale
         lat, lon, e1, n1, c1, s1 = map(float, coord.split())
         # skip tests with "out of range" lon
@@ -26,8 +26,8 @@ class Tests(TestsBase):
         else:
             try:
                 _, e2, n2, _, c2, s2 = toUtm(lat, lon, cmoff=False)
-                self.test(line + 'easting',     e2, e1, fmt=fmt)
-                self.test(line + 'northing',    n2, n1, fmt=fmt)
+                self.test(line + 'easting',     e2, e1, fmt=fmt, known=abs(e2 - e1) < eps)
+                self.test(line + 'northing',    n2, n1, fmt=fmt, known=abs(e2 - e1) < eps)
                 self.test(line + 'convergence', c2, c1, fmt=fmt)
                 self.test(line + 'scale',       s2, s1, fmt=fmt)
             except RangeError as x:

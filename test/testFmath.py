@@ -37,7 +37,6 @@ class Tests(TestsBase):
             self.test('sum', sum(t), s, known=True)
             self.test('fsum', fsum(t), s)
             self.test('Fsum', Fsum().fsum(t), s)
-            self.test('FsumR', Fsum().fsum(reversed(t)), s)
             t += t
 
         # <http://code.ActiveState.com/recipes/393090>
@@ -46,7 +45,6 @@ class Tests(TestsBase):
         self.test('sum', sum(t), s, known=True)
         self.test('fsum', fsum(t), s)
         self.test('Fsum', Fsum().fsum(t), s)
-        self.test('FsumR', Fsum().fsum(reversed(t)), s)
 
         # <http://GitHub.com/ActiveState/code/blob/master/recipes/Python/
         #       393090_Binary_floating_point_summatiaccurate_full/recipe-393090.py>
@@ -59,9 +57,15 @@ class Tests(TestsBase):
                 t.append(v)
             shuffle(t)
             s = fsum(t)
-            # self.test('fsum', s, s)
-            self.test('Fsum', Fsum().fsum(t), s)
-            self.test('FsumR', Fsum().fsum(reversed(t)), s)
+            self.test('sum', sum(t), s, known=True)
+            self.test('fsum', s, s)
+            n = len(t) // 2
+            f = Fsum()
+            f.fsum(t[:n])  # test ps
+            self.test('Fsum', f.fsum(t[n:]), s)
+            f = Fsum()
+            f.fsum(t[n:])  # test ps
+            self.test('Fsum', f.fsum(t[:n]), s)
 
         p = fpowers(2, 10)  # PYCHOK false!
         self.test('fpowers', len(p), 10)

@@ -21,7 +21,7 @@ if _test_dir not in sys.path:
 from base import isiOS, PyGeodesy_dir, Python_O, \
           secs2str, tilde, versions  # PYCHOK expected
 
-__all__ = ('runner',)
+__all__ = ('run2',)
 __version__ = '18.09.16'
 
 if isiOS:
@@ -33,7 +33,7 @@ if isiOS:
     from runpy import run_path
     from traceback import format_exception
 
-    def runner(test):
+    def run2(test):
         '''Invoke one test module and return
            the exit status and console output.
         '''
@@ -77,7 +77,7 @@ else:  # non-iOS
 
     from subprocess import PIPE, STDOUT, Popen
 
-    def runner(test):  # PYCHOK expected
+    def run2(test):  # PYCHOK expected
         '''Invoke one test module and return
            the exit status and console output.
         '''
@@ -115,23 +115,31 @@ _T = 0  # total tests
 _X = 0  # failed tests
 
 
+def _exit(last, text, exit):
+    '''(INTERNAL) Close and exit.
+    '''
+    print(last)
+    if _results:
+        _write(NL + text + NL)
+        _results.close()
+    sys.exit(exit)
+
+
 def _run(test):
-    '''(INTERNAL) Run a test script.
+    '''(INTERNAL) Run a test script and parse the result.
     '''
     global _T, _X
 
     t = 'running %s %s' % (Python_O, tilde(test))
     print(t)
 
-    x, r = runner(test)
-    _X += x  # failures, excluding KNOWN ones
-
+    x, r = run2(test)
     if _results:
         _write(NL + t + NL)
         _write(r)
 
-    # if not X:  # number of tests
-    _T += r.count(NL + '    test ')
+    _T += r.count(NL + '    test ')  # number of tests
+    _X += x  # failures, excluding KNOWN ones
 
     if 'Traceback' in r:
         print(r + NL)
@@ -163,7 +171,7 @@ def _write(text):
     _results.write(text.encode('utf-8'))
 
 
-if __name__ == '__main__':  # MCCABE 17
+if __name__ == '__main__':  # MCCABE 16
 
     argv0, args = tilde(sys.argv[0]), sys.argv[1:]
 
@@ -184,6 +192,10 @@ if __name__ == '__main__':  # MCCABE 17
             print('%s invalid option: %s' % (argv0, arg))
             sys.exit(1)
 
+    if not args:  # no tests specified, get all test*.py
+        # scripts in the same directory as this one
+        args = sorted(glob(join(_test_dir, 'test[A-Z]*.py')))
+
     # PyGeodesy and Python versions, size, OS name and release
     v = versions()
 
@@ -193,17 +205,12 @@ if __name__ == '__main__':  # MCCABE 17
         _results = open(t, 'wb')  # note, 'b' not 't'!
         _write('%s typical test results (%s)%s' % (argv0, v, NL))
 
-    if not args:  # no tests specified, get all test*.py
-        # scripts in the same directory as this one
-        args = sorted(glob(join(_test_dir, 'test[A-Z]*.py')))
-
     s = time()
     try:
         for arg in args:
             _run(arg)
     except KeyboardInterrupt:
-        print('')
-        sys.exit(9)
+        _exit('', '^C', 9)
     except SystemExit:
         pass
     s = secs2str(time() - s)
@@ -216,7 +223,4 @@ if __name__ == '__main__':  # MCCABE 17
         x = 'all OK'
 
     t = '%s %s %s (%s) %s' % (argv0, Python_O, x, v, s)
-    print(t)
-    if _results:
-        _write(NL + t + NL)
-        _results.close()
+    _exit(t, t, 0)

@@ -120,7 +120,7 @@ class Fsum(object):
         raise ValueError('%s invalid: %r' % ('Fsum', arg))
 
     def fadd_(self, *args):
-        '''Accumulate more values.
+        '''Accumulate more values from positional arguments.
 
            @param args: Values to add (scalars), all positional.
 
@@ -131,7 +131,7 @@ class Fsum(object):
         self.fadd(args)
 
     def fadd(self, iterable):
-        '''Accumulate more values.
+        '''Accumulate more values from the iterable.
 
            @param iterable: Sequence, list, tuple, etc. (scalars).
 
@@ -139,23 +139,25 @@ class Fsum(object):
 
            @raise ValueError: Invalid or infinite I{iterable} value.
         '''
+        ps = self._ps
         for a in iterable:
             a = self._arg(a)
             if a:
                 i = 0
-                for p in self._ps:
+                for p in ps:
                     a, p = _2sum(a, p)
                     if p:
-                        self._ps[i] = p
+                        ps[i] = p
                         i += 1
-                self._ps[i:] = [a]
+                ps[i:] = [a]
+        # self._ps = ps
 
     def fsum_(self, *args):
-        '''Accumulated more values and sum all.
+        '''Accumulated more values from positional arguments and sum all.
 
            @param args: Values to add (scalars), all positional.
 
-           @return: Current, running sum (float).
+           @return: Accurate, running sum (float).
 
            @raise OverflowError: Partial I{2sum} overflow.
 
@@ -166,11 +168,11 @@ class Fsum(object):
         return self.fsum(args)
 
     def fsum(self, iterable=()):
-        '''Accumulated more values and sum all.
+        '''Accumulated more values from the iterable and sum all.
 
-           @param iterable: Sequence, list, tuple, etc. (scalars).
+           @param iterable: Sequence, list, tuple, etc. (scalars), optional.
 
-           @return: Current, running sum (float).
+           @return: Accurate, running sum (float).
 
            @raise OverflowError: Partial I{2sum} overflow.
 
@@ -190,9 +192,9 @@ class Fsum(object):
             while i > 0:
                 i -= 1
                 s, p = _2sum(s, ps[i])
-                # ps[i:] = [s]
+                ps[i:] = [s]
                 if p:  # sum(ps) became inexaxt
-                    # ps.insert(i, p)
+                    ps.insert(i, p)
                     if i > 0:  # half-even round if signs match
                         s = _2even(s, ps[i-1], p)
                     break
