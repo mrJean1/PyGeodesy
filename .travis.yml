@@ -13,7 +13,7 @@ install:
   - pip install geographiclib
 
 script:
-  - python -c 'import distro, platform; print(distro.id(), repr(distro.name()), distro.version(), platform.uname())'
+  - python -c 'import distro, platform; print(distro.id(), repr(distro.name()), platform.uname())'
   - python -c 'import geographiclib; print("geographiclib " + geographiclib.__version__)'
   - python test/run.py -result -failedonly
   - ls -al testresults/*
