@@ -79,7 +79,7 @@ try:
     def nix_ver():  # *nix release
         try:
             v = distro.version()
-        except AttibuteError:  # XXX Python 2.6.9?
+        except AttributeError:  # XXX Python 2.6.9?
             v = 'X'
         return _2str(v), _os_bitstr
 
