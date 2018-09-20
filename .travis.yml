@@ -4,6 +4,7 @@ python:
   - "2.6"
   - "2.7"
   - "3.6"
+  - "3.5"
 # - "3.7"
 
 cache: pip
@@ -13,7 +14,8 @@ install:
   - pip install geographiclib
 
 script:
-  - python -c 'import distro, platform; print(distro.id(), repr(distro.name()), platform.uname())'
+  - python -c 'import distro; print(distro.id(), repr(distro.name()))'
+  - python -c 'import platform; print(platform.uname(), platform.dist())'
   - python -c 'import geographiclib; print("geographiclib " + geographiclib.__version__)'
-  - python test/run.py -result -failedonly
-  - ls -al testresults/*
+  - python test/run.py -failedonly
+# - ls -al testresults/*
