@@ -70,19 +70,11 @@ try:
     _Nix = anStr(distro.id()).capitalize()  # .name()?
 
     def nix_ver():  # *nix release
-<<<<<<< HEAD
         try:  # no subprocess.check_output ...
             v = distro.version()
         except AttributeError:  # ... Python 2.6
             v = ''
         return anStr(v), _os_bitstr
-=======
-        try:
-            v = distro.version()
-        except AttributeError:  # XXX Python 2.6.9?
-            v = 'X'
-        return _2str(v), _os_bitstr
->>>>>>> 79f83a1c177e1ac6bb4da30f07b6865a9ced11e5
 
 except ImportError:
     _Nix = ''  # not linux?
