@@ -104,8 +104,8 @@ object --+
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fmath.Fsum-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">start</span>=<span class="summary-sig-default">0</span>)</span><br />
-      Initialize a new accumulator.</td>
+        <span class="summary-sig-arg">*starts</span>)</span><br />
+      Initialize a new accumulator with one or more start values.</td>
           <td align="right" valign="top">
             
             
@@ -138,7 +138,7 @@ object --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.fmath.Fsum-class.html#fadd_" class="summary-sig-name">fadd_</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.fmath.Fsum-class.html#fadd" class="summary-sig-name">fadd</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">*args</span>)</span><br />
       Accumulate more values from positional arguments.</td>
           <td align="right" valign="top">
@@ -156,9 +156,9 @@ object --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.fmath.Fsum-class.html#fadd" class="summary-sig-name">fadd</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">iterable</span>)</span><br />
-      Accumulate more values from the iterable.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath.Fsum-class.html#fmul" class="summary-sig-name">fmul</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">factor</span>)</span><br />
+      Multiple the current, partial sum by a factor.</td>
           <td align="right" valign="top">
             
             
@@ -256,7 +256,7 @@ object --+
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">start</span>=<span class="sig-default">0</span>)</span>
+        <span class="sig-arg">*starts</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -264,22 +264,32 @@ object --+
     </td>
   </tr></table>
   
-  <p>Initialize a new accumulator.</p>
+  <p>Initialize a new accumulator with one or more start values.</p>
   <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>starts</code></strong> - SNo, one or more start values (scalars).</li>
+    </ul></dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <i>2sum</i> overflow.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - A <i>starts</i> value not a scalar number.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or infinite <i>starts</i> value.</li>
+    </ul></dd>
     <dt>Overrides:
         object.__init__
     </dt>
   </dl>
 </td></tr></table>
 </div>
-<a name="fadd_"></a>
+<a name="fadd"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">fadd_</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fadd</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">*args</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -296,36 +306,37 @@ object --+
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <i>2sum</i> overflow.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - An <i>arg</i> not a scalar number.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or infinite <i>arg</i>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
 </div>
-<a name="fadd"></a>
+<a name="fmul"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">fadd</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">iterable</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fmul</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">factor</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Accumulate more values from the iterable.</p>
+  <p>Multiple the current, partial sum by a factor.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>iterable</code></strong> - Sequence, list, tuple, etc. (scalars).</li>
+        <li><strong class="pname"><code>factor</code></strong> - The multiplier (scalar).</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <i>2sum</i> overflow.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or infinite <i>iterable</i> value.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - An <i>factor</i> value not a scalar number.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or infinite <i>factor</i>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -356,7 +367,8 @@ object --+
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <i>2sum</i> overflow.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or infinite <i>arg</i> value.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - An <i>arg</i> not a scalar number.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or infinite <i>arg</i>s value.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -390,6 +402,7 @@ object --+
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <i>2sum</i> overflow.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - An <i>iterable</i> value not a scalar number.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or infinite <i>iterable</i> value.</li>
     </ul></dd>
   </dl>
@@ -430,7 +443,7 @@ object --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Sep 18 14:12:04 2018
+    Generated by Epydoc 3.0.1 on Mon Sep 24 11:49:25 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '18.09.16'
+__version__ = '18.09.18'
 
 
 def _c2(*names):
@@ -96,6 +96,7 @@ setup(
         _c2('License', 'OSI Approved', 'MIT License'),
         _c2('Operating System', 'OS Independent'),
         _c2('Programming Language', 'Python'),
+        _c2('Programming Language', 'Python', '2.6'),
         _c2('Programming Language', 'Python', '2.7'),
         _c2('Programming Language', 'Python', '3.5'),
         _c2('Programming Language', 'Python', '3.6'),

@@ -9,9 +9,8 @@ test_task:
     populate_script: pip install distro
   test_script:
     - pip install distro
-    - python -c 'import distro, platform; print(distro.id(), repr(distro.name()), distro.version(), platform.uname())'
     - pip install geographiclib
-    - rm -f testresults/testresults*Debian*.txt
-    - python test/run.py -result
-    - ls -al testresults/*
-    - cat testresults/testresults*Debian*.txt
+    - python -c 'import distro; print(distro.id(), repr(distro.name()), distro.version())'
+    - python -c 'import platform; print(platform.uname(), platform.dist())'
+    - python -c 'import geographiclib; print("geographiclib " + geographiclib.__version__)'
+    - python test/run.py -failedonly

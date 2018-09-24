@@ -4,7 +4,7 @@
 # Test degrees, minutes, seconds functions.
 
 __all__ = ('Tests',)
-__version__ = '18.09.08'
+__version__ = '18.09.18'
 
 from base import TestsBase
 
@@ -71,6 +71,7 @@ class Tests(TestsBase):
         self.test('compassAngle6', compassAngle(0, 0,  1, -1), 315.0)
         self.test('compassAngle7', compassAngle(0, 0, 99, -1), 359.4, fmt='%.1f')
 
+        # <http://GitHub.com/chrisveness/geodesy/blob/master/test/dms-tests.js>
         for a, x in (((1,),   'N'),
                      ((0,),   'N'),
                      ((-1,),  'N'),

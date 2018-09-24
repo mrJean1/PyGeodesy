@@ -27,8 +27,8 @@ PyGeodesy_dir = dirname(dirname(abspath(__file__)))
 if PyGeodesy_dir not in sys.path:  # Python 3+ ModuleNotFoundError
     sys.path.insert(0, PyGeodesy_dir)
 
-from pygeodesy import version as PyGeodesy_version, \
-                      iterNumpy2over, normDMS  # PYCHOK expected
+from pygeodesy import anStr, iterNumpy2over, normDMS, \
+                      version as PyGeodesy_version  # PYCHOK expected
 
 __all__ = ('geographiclib', 'numpy',  # constants
            'isIntelPython', 'isiOS', 'isNix', 'isPyPy',
@@ -46,7 +46,7 @@ except NameError:  # Python 3+
     _Ints = int
     _Strs = str
 
-_os_bitstr = architecture()[0]
+_os_bitstr = architecture()[0]  # XXX sys.maxsize
 _pseudo_home_dir = dirname(PyGeodesy_dir or '~') or '~'
 
 Python_O = sys.executable  # python or Pythonista path
@@ -67,17 +67,22 @@ try:
     else:
         raise ImportError
 
-    def _2str(ustr):
-        s = u = str(ustr).strip()
-        for c in u:
-            if not (c.isalnum() or c in '._-'):
-                s = s.replace(c, ' ')
-        return '_'.join(s.strip().split())
-
-    _Nix = _2str(distro.id()).capitalize()  # .name()?
+    _Nix = anStr(distro.id()).capitalize()  # .name()?
 
     def nix_ver():  # *nix release
-        return _2str(distro.version()), _os_bitstr
+<<<<<<< HEAD
+        try:  # no subprocess.check_output ...
+            v = distro.version()
+        except AttributeError:  # ... Python 2.6
+            v = ''
+        return anStr(v), _os_bitstr
+=======
+        try:
+            v = distro.version()
+        except AttributeError:  # XXX Python 2.6.9?
+            v = 'X'
+        return _2str(v), _os_bitstr
+>>>>>>> 79f83a1c177e1ac6bb4da30f07b6865a9ced11e5
 
 except ImportError:
     _Nix = ''  # not linux?
@@ -120,7 +125,7 @@ class TestsBase(object):
         return self.failed - self.known  # new failures
 
     def exit(self, errors=0):
-        '''Exit with the number of test failures as exist status.
+        '''Exit with the number of test failures as exit status.
         '''
         sys.exit(min(errors + self.errors(), 99))
 
@@ -146,20 +151,20 @@ class TestsBase(object):
         '''Summarize the test results.
         '''
         s = time() - self._time
-        r = passed
+        r = passed  # or 'skipped'
         t = self.total
-        n = self.failed
-        if n:
+        f = self.failed
+        if f:
             k = self.known or ''
             if k:
-                if k == n:
+                if k == f:
                     k = ', KNOWN' if k == 1 else (
                         ', BOTH KNOWN' if k == 2 else
                         ', ALL KNOWN')
                 else:
                     k = ', incl. %s KNOWN' % (k,)
-            r = '(%.1f%%) FAILED%s' % (100.0 * n / t, k)
-            n = '%s of %d' % (n, t)
+            r = '(%.1f%%) FAILED%s' % (100.0 * f / t, k)
+            n = '%s of %d' % (f, t)
         elif t:
             n = 'all %d' % (t,)
         else:

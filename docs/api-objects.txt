@@ -131,6 +131,7 @@ pygeodesy.halfs	pygeodesy-module.html#halfs
 pygeodesy.acos1	pygeodesy-module.html#acos1
 pygeodesy.utmZoneBand2	pygeodesy-module.html#utmZoneBand2
 pygeodesy.classnaming	pygeodesy-module.html#classnaming
+pygeodesy.anStr	pygeodesy-module.html#anStr
 pygeodesy.toMgrs	pygeodesy-module.html#toMgrs
 pygeodesy.fpolynomial	pygeodesy-module.html#fpolynomial
 pygeodesy.isconvex	pygeodesy-module.html#isconvex
@@ -564,13 +565,14 @@ pygeodesy.utils.ft2m	pygeodesy.utils-module.html#ft2m
 pygeodesy.utils.wrapPI_2	pygeodesy.utils-module.html#wrapPI_2
 pygeodesy.utils.tan_2	pygeodesy.utils-module.html#tan_2
 pygeodesy.utils.acos1	pygeodesy.utils-module.html#acos1
-pygeodesy.utils.halfs	pygeodesy.utils-module.html#halfs
+pygeodesy.utils.anStr	pygeodesy.utils-module.html#anStr
 pygeodesy.utils.heightOf	pygeodesy.utils-module.html#heightOf
 pygeodesy.utils.limiterrors	pygeodesy.utils-module.html#limiterrors
 pygeodesy.utils._Strs	pygeodesy.utils-module.html#_Strs
 pygeodesy.utils.antipode	pygeodesy.utils-module.html#antipode
 pygeodesy.utils.isNumpy2	pygeodesy.utils-module.html#isNumpy2
 pygeodesy.utils.PI2	pygeodesy.utils-module.html#PI2
+pygeodesy.utils.halfs	pygeodesy.utils-module.html#halfs
 pygeodesy.utils.isPoints2	pygeodesy.utils-module.html#isPoints2
 pygeodesy.utils.unrollPI	pygeodesy.utils-module.html#unrollPI
 pygeodesy.utils.polygon	pygeodesy.utils-module.html#polygon
@@ -1253,10 +1255,10 @@ pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.convertDatum	pygeodesy.ellipsoid
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._Radjust2	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_Radjust2
 pygeodesy.ellipsoidalVincenty.VincentyError	pygeodesy.ellipsoidalVincenty.VincentyError-class.html
 pygeodesy.fmath.Fsum	pygeodesy.fmath.Fsum-class.html
-pygeodesy.fmath.Fsum.fadd_	pygeodesy.fmath.Fsum-class.html#fadd_
+pygeodesy.fmath.Fsum.fmul	pygeodesy.fmath.Fsum-class.html#fmul
 pygeodesy.fmath.Fsum.fadd	pygeodesy.fmath.Fsum-class.html#fadd
 pygeodesy.fmath.Fsum.fsum	pygeodesy.fmath.Fsum-class.html#fsum
-pygeodesy.fmath.Fsum._arg	pygeodesy.fmath.Fsum-class.html#_arg
+pygeodesy.fmath.Fsum._add	pygeodesy.fmath.Fsum-class.html#_add
 pygeodesy.fmath.Fsum.__init__	pygeodesy.fmath.Fsum-class.html#__init__
 pygeodesy.fmath.Fsum.fsum_	pygeodesy.fmath.Fsum-class.html#fsum_
 pygeodesy.fmath.Fsum.__len__	pygeodesy.fmath.Fsum-class.html#__len__

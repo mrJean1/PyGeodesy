@@ -22,7 +22,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2',  # constants
            'len2',
            'map1', 'map2',
            'scalar', 'sqrt3')
-__version__ = '18.09.16'
+__version__ = '18.09.18'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -63,9 +63,9 @@ def _2even(s, r, p):
     '''
     if (r > 0 and p > 0) or \
        (r < 0 and p < 0):  # signs match
-        r, p = _2sum(s, p * 2)
+        t, p = _2sum(s, p * 2)
         if not p:
-            s = r
+            s = t
     return s
 
 
@@ -74,7 +74,7 @@ def _2sum(a, b):
     '''
     s = a + b
     if not isfinite(s):
-        raise OverflowError('partial %s: %r' % ('2sum', s))
+        raise OverflowError('%s: %r' % ('2sum', s))
     if abs(a) < abs(b):
         return s, a - (s - b)
     else:
@@ -98,50 +98,42 @@ class Fsum(object):
              Python 2.6+ file I{Modules/mathmodule.c} and the issue log
              U{Full precision summation<http://bugs.Python.org/issue2819>}.
     '''
-    def __init__(self, start=0):
-        '''Initialize a new accumulator.
+    def __init__(self, *starts):
+        '''Initialize a new accumulator with one or more start values.
+
+           @param starts: SNo, one or more start values (scalars).
+
+           @raise OverflowError: Partial I{2sum} overflow.
+
+           @raise TypeError: A I{starts} value not a scalar number.
+
+           @raise ValueError: Invalid or infinite I{starts} value.
         '''
         self._n = 0
-        self._ps = [self._arg(start)] if start else []
+        self._ps = []
+        if starts:
+            self._add(starts)
 
     def __len__(self):
         '''Return the number of accumulated values.
         '''
         return self._n
 
-    def _arg(self, arg):
-        try:
-            a = float(arg)
-            if isfinite(a):
-                self._n += 1
-                return a
-        except (TypeError, ValueError):
-            pass
-        raise ValueError('%s invalid: %r' % ('Fsum', arg))
-
-    def fadd_(self, *args):
-        '''Accumulate more values from positional arguments.
-
-           @param args: Values to add (scalars), all positional.
-
-           @raise OverflowError: Partial I{2sum} overflow.
-
-           @raise ValueError: Invalid or infinite I{arg}.
-        '''
-        self.fadd(args)
-
-    def fadd(self, iterable):
-        '''Accumulate more values from the iterable.
+    def _add(self, iterable):
+        '''(INTERNAL) Accumulate more values.
 
            @param iterable: Sequence, list, tuple, etc. (scalars).
 
            @raise OverflowError: Partial I{2sum} overflow.
 
+           @raise TypeError: An I{iterable} value not a scalar number.
+
            @raise ValueError: Invalid or infinite I{iterable} value.
         '''
         ps = self._ps
         for a in iterable:
-            a = self._arg(a)
+            if not isfinite(a):
+                raise ValueError('not %s: %r' %('finite', a))
             if a:
                 i = 0
                 for p in ps:
@@ -150,7 +142,34 @@ class Fsum(object):
                         ps[i] = p
                         i += 1
                 ps[i:] = [a]
+            self._n += 1
         # self._ps = ps
+
+    def fadd(self, *args):
+        '''Accumulate more values from positional arguments.
+
+           @param args: Values to add (scalars), all positional.
+
+           @raise OverflowError: Partial I{2sum} overflow.
+
+           @raise TypeError: An I{arg} not a scalar number.
+
+           @raise ValueError: Invalid or infinite I{arg}.
+        '''
+        self._add(args)
+
+    def fmul(self, factor):
+        '''Multiple the current, partial sum by a factor.
+
+           @param factor: The multiplier (scalar).
+
+           @raise TypeError: An I{factor} value not a scalar number.
+
+           @raise ValueError: Invalid or infinite I{factor}.
+        '''
+        if not isfinite(factor):
+            raise ValueError('not %s: %r' %('finite', factor))
+        self._ps[:] = [p * factor for p in self._ps]
 
     def fsum_(self, *args):
         '''Accumulated more values from positional arguments and sum all.
@@ -161,7 +180,9 @@ class Fsum(object):
 
            @raise OverflowError: Partial I{2sum} overflow.
 
-           @raise ValueError: Invalid or infinite I{arg} value.
+           @raise TypeError: An I{arg} not a scalar number.
+
+           @raise ValueError: Invalid or infinite I{arg}s value.
 
            @note: Accumulation can continue after summation.
         '''
@@ -176,12 +197,14 @@ class Fsum(object):
 
            @raise OverflowError: Partial I{2sum} overflow.
 
+           @raise TypeError: An I{iterable} value not a scalar number.
+
            @raise ValueError: Invalid or infinite I{iterable} value.
 
            @note: Accumulation can continue after summation.
         '''
         if iterable:
-            self.fadd(iterable)
+            self._add(iterable)
 
         ps = self._ps
         i = len(ps) - 1
@@ -194,7 +217,7 @@ class Fsum(object):
                 s, p = _2sum(s, ps[i])
                 ps[i:] = [s]
                 if p:  # sum(ps) became inexaxt
-                    ps.insert(i, p)
+                    ps.append(p)
                     if i > 0:  # half-even round if signs match
                         s = _2even(s, ps[i-1], p)
                     break
@@ -294,30 +317,22 @@ def fhorner(x, *cs):
 
        @return: Horner value (float).
 
-       @raise TypeError: Argument I{x} not scalar.
+       @raise TypeError: Argument I{x} not a scalar number.
 
-       @raise ValueError: No I{cs} coefficients.
+       @raise ValueError: No I{cs} coefficients or I{x} not finite.
     '''
-    if not isscalar(x):
-        raise TypeError('%s invalid: %r' % ('x', x))
+    if not isfinite(x):
+        raise ValueError('not %s: %r' %('finite', x))
     if not cs:
-        raise ValueError('%s missing: %r' % ('coefficents', cs))
+        raise ValueError('no %s: %r' % ('coefficents', cs))
 
     x, cs = float(x), list(cs)
 
-    h, p = cs.pop(), 0
+    h = Fsum(cs.pop())
     while cs:
-        h *= x
-        p *= x
-        c = cs.pop()
-        if c:
-            h, q = _2sum(h, c)
-            if abs(p) < abs(q):
-                p, q = q, p
-            if abs(h) < abs(p):
-                h, p = p, h
-            h, p = _2sum(h, p + q)
-    return h + p
+        h.fmul(x)
+        h.fadd(cs.pop())
+    return h.fsum()
 
 
 def fmean(xs):
@@ -333,7 +348,7 @@ def fmean(xs):
     n, xs = len2(xs)
     if n > 0:
         return fsum(xs) / n
-    raise ValueError('%s missing: %r' % ('xs', xs))
+    raise ValueError('no %s: %r' % ('xs', xs))
 
 
 def fpolynomial(x, *cs):
@@ -345,14 +360,14 @@ def fpolynomial(x, *cs):
 
        @return: Polynomial value (float).
 
-       @raise TypeError: Argument I{x} not scalar.
+       @raise TypeError: Argument I{x} not a scalar number.
 
-       @raise ValueError: No I{cs} coefficients.
+       @raise ValueError: No I{cs} coefficients or I{x} not finite.
     '''
-    if not isscalar(x):
-        raise TypeError('%s invalid: %r' % ('x', x))
+    if not isfinite(x):
+        raise ValueError('not %s: %r' %('finite', x))
     if not cs:
-        raise ValueError('%s missing: %r' % ('coefficents', cs))
+        raise ValueError('no %s: %r' % ('coefficents', cs))
 
     def _terms(x, c0, *cs):
         xp = 1
@@ -374,13 +389,12 @@ def fpowers(x, n, alts=0):
 
        @return: Powers of I{x} (list of floats).
 
-       @raise TypeError: Argument I{x} not scalar or
-                         I{n} not int.
+       @raise TypeError: Argument I{x} not scalar or I{n} not int.
 
-       @raise ValueError: Argument I{n} not positive.
+       @raise ValueError: Argument I{n} not positive or I{x} not finite.
     '''
-    if not isscalar(x):
-        raise TypeError('%s invalid: %r' % ('x', x))
+    if not isfinite(x):
+        raise ValueError('not %s: %r' %('finite', x))
     if not isinstance(n, _Ints):
         raise TypeError('%s invalid: %r' % ('n', n))
     elif n < 1:
@@ -394,7 +408,7 @@ def fpowers(x, n, alts=0):
         # XXX PyChecker chokes on xs[alts-1::2]
         xs = xs[slice(alts-1, None, 2)]
 
-    # XXX PyChecker falsely claims result is None
+    # XXX PyChecker claims result is None
     return xs
 
 
@@ -447,11 +461,13 @@ def fsum_(*args):
 
        @param args: Values to be added (scalars).
 
-       @return: Precision L{fsum} (float).
+       @return: Accurate L{fsum} (float).
 
        @raise OverflowError: Partial I{2sum} overflow.
 
-       @raise ValueError: Invalid or infinite I{args} value.
+       @raise TypeError: An I{arg} not a scalar number.
+
+       @raise ValueError: Invalid or infinite I{arg}s value.
     '''
     return fsum(args)
 
@@ -475,9 +491,11 @@ except ImportError:
 
            @param iterable: Sequence, list, tuple, etc. (scalars).
 
-           @return: Precision sum (float).
+           @return: Accurate sum (float).
 
            @raise OverflowError: Partial I{2sum} overflow.
+
+           @raise TypeError: An I{iterable} value not a scalar number.
 
            @raise ValueError: Invalid or infinite I{iterable} value.
 
@@ -537,11 +555,11 @@ except ImportError:
 
            @return: False if I{Inf} or I{NaN}, True otherwise (bool).
 
-           @raise TypeError: If I{obj} value is not scalar.
+           @raise TypeError: If I{obj} value is not scalar number.
         '''
         if isscalar(obj):
             return not (isinf(obj) or isnan(obj))
-        raise TypeError('%s invalid: %r' % ('isfinite', obj))
+        raise TypeError('not %s: %r' % ('scalar', obj))
 
 
 def isint(obj, both=False):
@@ -621,7 +639,7 @@ def scalar(value, low=EPS, high=1.0, name='scalar'):
 
        @return: New value (type(low)).
 
-       @raise TypeError: The I{value} is not scalar.
+       @raise TypeError: The I{value} is not a scalar number.
 
        @raise ValueError: The I{value} is out of bounds.
     '''

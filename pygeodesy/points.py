@@ -43,7 +43,7 @@ __all__ = ('LatLon_',  # classes
            'bounds',
            'isclockwise', 'isconvex', 'isenclosedby',
            'perimeterOf')
-__version__ = '18.09.16'
+__version__ = '18.09.18'
 
 
 class LatLon_(object):
@@ -1091,7 +1091,7 @@ def isenclosedby(latlon, points, wrap=False):  # MCCABE 14
             if (dy > 0 and dx >= 0) or (dy < 0 and dx <= 0):
                 e = not e
 
-        s.fadd_(sin(radians(y2)))
+        s.fadd(sin(radians(y2)))
         x1, y1 = x2, y2
 
     # an odd number of meridian crossings means polygon contains

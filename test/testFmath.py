@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '18.09.16'
+__version__ = '18.09.18'
 
 from base import TestsBase
 from random import random, gauss, shuffle
@@ -17,7 +17,9 @@ class Tests(TestsBase):
     def testFmath(self):
 
         # see function _p2 in ellipsoidalVincenty.py
-        for x in (0.0001, 0.001, 0.01, 0.1, 1, 10, 100, 1000):
+        for i in range(-16, 17):
+            x = pow(1.0, i)
+
             p = fpolynomial(x, 16384, 4096, -768, 320, -175) / 16384.0
             a = x / 16384.0 * (4096 + x * (-768 + x * (320 - 175 * x))) + 1
             self.test('fpolynomialA', p, a)
