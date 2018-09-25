@@ -12,7 +12,7 @@ U{Vector-based geodesy<http://www.Movable-Type.co.UK/scripts/latlong-vectors.htm
 '''
 
 from fmath import fStr, fStrzs, isint
-from utils import degrees360
+from utily import degrees360
 
 from math import atan2, copysign, radians
 try:
@@ -30,7 +30,7 @@ __all__ = ('F_D', 'F_DM', 'F_DMS',  # forms
            'latDMS', 'lonDMS', 'normDMS',
            'parseDMS', 'parseDMS2', 'parse3llh', 'precision',
            'rangerrors', 'toDMS')
-__version__ = '18.09.14'
+__version__ = '18.09.23'
 
 F_D   = 'd'    #: Format degrees as deg° (string).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (string).

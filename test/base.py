@@ -37,7 +37,7 @@ __all__ = ('geographiclib', 'numpy',  # constants
            'TestsBase',  # classes
            'ios_ver', 'secs2str',  # functions
            'tilde', 'type2str', 'versions')
-__version__ = '18.09.16'
+__version__ = '18.09.23'
 
 try:
     _Ints = int, long
@@ -55,7 +55,7 @@ isIntelPython = 'intelpython' in Python_O
 # isiOS is used by some tests known to fail on iOS only
 isiOS         = sys.platform == 'ios'  # public
 isNix         = uname()[0] in ('Linux', 'linux')
-isPyPy        = 'PyPy ' in sys.version  # public
+isPyPy        = '[PyPy ' in sys.version  # platform.python_implementatio() == 'PyPy'
 isPython2     = sys.version_info[0] == 2
 isPython3     = sys.version_info[0] == 3
 isWindows     = sys.platform.startswith('win')
@@ -302,9 +302,10 @@ def type2str(obj, attr):
 def versions():
     '''Get pygeodesy, Python versions, size, OS name and release.
     '''
-    t = 'Intel-' if isIntelPython else 'PyPy-' if isPyPy else ''
-    vs = 'PyGeodesy', PyGeodesy_version, (t +
-         'Python'), sys.version.split()[0], _os_bitstr
+    vs = 'PyGeodesy', PyGeodesy_version
+    if isPyPy:
+        vs += 'PyPy', sys.version.split('[PyPy ')[1].split()[0]
+    vs += 'Python', sys.version.split()[0], _os_bitstr
     if geographiclib:
         vs += 'geographiclib', geographiclib.__version__
     if numpy:

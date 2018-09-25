@@ -35,7 +35,7 @@ from fmath import EPS, fmean, fsum, fsum_, isscalar
 from nvector import NorthPole, LatLonNvectorBase, \
                     Nvector as NvectorBase, sumOf
 from sphericalBase import LatLonSphericalBase
-from utils import PI, PI2, PI_2, degrees360, iterNumpy2
+from utily import PI, PI2, PI_2, degrees360, iterNumpy2
 
 from math import atan2, cos, radians, sin
 
@@ -46,7 +46,7 @@ __all__ = ('LatLon', 'Nvector',  # classes
            'meanOf',
            'nearestOn2',
            'triangulate', 'trilaterate')
-__version__ = '18.09.14'
+__version__ = '18.09.23'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):

@@ -37,7 +37,7 @@ from dms import S_DEG, parseDMS2, RangeError
 from ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from fmath import EPS, fdot3, fStr, Fsum, hypot, hypot1, \
                   isscalar, len2, map2
-from utils import degrees, degrees90, degrees180, property_RO, \
+from utily import degrees, degrees90, degrees180, property_RO, \
                   radians, wrap90, wrap180
 
 from math import asinh, atan, atanh, atan2, \
@@ -47,7 +47,7 @@ from operator import mul
 # all public contants, classes and functions
 __all__ = ('Utm', 'UTMError',  # classes
            'parseUTM', 'toUtm', 'utmZoneBand2')  # functions
-__version__ = '18.09.16'
+__version__ = '18.09.23'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N

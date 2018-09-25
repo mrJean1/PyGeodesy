@@ -15,7 +15,7 @@ from bases import LatLonHeightBase
 from datum import R_M, R_MA, Datum, Datums
 from dms   import parse3llh
 from fmath import EPS, favg, fsum_, hypot
-from utils import PI, PI2, PI_2, degrees90, degrees180, degrees360, \
+from utily import PI, PI2, PI_2, degrees90, degrees180, degrees360, \
                   property_RO, radians, tanPI_2_2, wrapPI
 
 from math import acos, atan2, cos, log, sin
@@ -23,7 +23,7 @@ from math import acos, atan2, cos, log, sin
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('LatLonSphericalBase',)
-__version__ = '18.09.14'
+__version__ = '18.09.23'
 
 
 class LatLonSphericalBase(LatLonHeightBase):

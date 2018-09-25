@@ -22,7 +22,7 @@ from vector3d import Vector3d, sumOf as _sumOf
 __all__ = ('NorthPole', 'SouthPole',  # constants
            'Nvector',  # classes
            'sumOf')  # functions
-__version__ = '18.09.14'
+__version__ = '18.09.23'
 
 
 class Nvector(Vector3d):  # XXX kept private
@@ -84,6 +84,15 @@ class Nvector(Vector3d):  # XXX kept private
         self._update(h != self._h)
         self._h = h
 
+    def to3abh(self):
+        '''Convert this n-vector to (geodetic) lat-, longitude
+           and height.
+
+           @return: 3-Tuple (lat, lon, height) in (radians,
+                    radians, meter).
+        '''
+        return Vector3d.to2ab(self) + (self.h,)
+
     def to3llh(self):
         '''Convert this n-vector to (geodetic) lat-, longitude
            and height.
@@ -96,9 +105,8 @@ class Nvector(Vector3d):  # XXX kept private
     def _toLLh(self, LL, height, **kwds):
         '''(INTERNAL) Helper for I{subclass.toLatLon}.
         '''
-        a, b, h = self.to3llh()
-        if height is not None:
-            h = height
+        a, b = Vector3d.to2ll(self)
+        h = self.h if height is None else height
         return (a, b, h) if LL is None else _xnamed(LL(
                 a, b, height=h, **kwds), self.name)
 

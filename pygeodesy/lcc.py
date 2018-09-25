@@ -20,7 +20,7 @@ from bases import Based, _nameof, _xattrs, _xnamed
 from ellipsoidalBase import LatLonEllipsoidalBase as _ELLB
 from datum import _Based, Datums, _Enum
 from fmath import EPS, fStr, hypot
-from utils import PI_2, degrees90, degrees180, false2f, \
+from utily import PI_2, degrees90, degrees180, false2f, \
                   property_RO, radians, tanPI_2_2
 
 from math import atan, copysign, cos, log, sin, sqrt
@@ -28,7 +28,7 @@ from math import atan, copysign, cos, log, sin, sqrt
 # all public constants, classes and functions
 __all__ = ('Conic', 'Conics', 'Lcc',
            'toLcc')  # functions
-__version__ = '18.09.14'
+__version__ = '18.09.23'
 
 
 Conics = _Enum('Conics')  #: Registered conics (L{_Enum}).

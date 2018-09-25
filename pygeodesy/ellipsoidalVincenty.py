@@ -58,16 +58,16 @@ from __future__ import division
 from datum import Datums
 from ellipsoidalBase import CartesianBase, LatLonEllipsoidalBase
 from fmath import EPS, fpolynomial, hypot, scalar
-from utils import degrees90, degrees180, degrees360, \
+from utily import degrees90, degrees180, degrees360, \
                   radians, unroll180
 
 from math import atan2, cos, sin, tan
 
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'VincentyError')  # classes
-__version__ = '18.09.14'
+__version__ = '18.09.23'
 
-division = 1 / 2  # double check int division, see utils.py
+division = 1 / 2  # double check int division, see .datum.py
 if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division

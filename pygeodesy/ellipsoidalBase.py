@@ -16,7 +16,7 @@ from datum import Datum, Datums
 from dms import parse3llh
 from elevations import elevation2, geoidHeight2
 from fmath import EPS, EPS1, fsum_, hypot, hypot1
-from utils import degrees90, degrees180, property_RO
+from utily import degrees90, degrees180, property_RO
 from vector3d import Vector3d
 
 from math import atan2, copysign, cos, sin, sqrt
@@ -24,7 +24,7 @@ from math import atan2, copysign, cos, sin, sqrt
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('CartesianBase', 'LatLonEllipsoidalBase')
-__version__ = '18.09.14'
+__version__ = '18.09.23'
 
 
 class CartesianBase(Vector3d):

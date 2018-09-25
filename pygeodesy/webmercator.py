@@ -21,14 +21,14 @@ from datum import R_MA
 from dms import clipDMS, parseDMS2
 from ellipsoidalBase import LatLonEllipsoidalBase as _ELLB
 from fmath import EPS, fStr, isscalar, map1
-from utils import PI_2, degrees90, degrees180, property_RO, radians
+from utily import PI_2, degrees90, degrees180, property_RO, radians
 
 from math import atan, atanh, exp, sin, tanh
 
 # all public contants, classes and functions
 __all__ = ('Wm',  # classes
            'parseWM', 'toWm')  # functions
-__version__ = '18.09.14'
+__version__ = '18.09.23'
 
 # _FalseEasting  = 0   #: (INTERNAL) False Easting (meter).
 # _FalseNorthing = 0   #: (INTERNAL) False Northing (meter).

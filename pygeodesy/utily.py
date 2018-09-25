@@ -42,13 +42,13 @@ __all__ = ('PI', 'PI2', 'PI_2', 'R_M',  # constants
            'wrapPI_2', 'wrapPI', 'wrapPI2')
 __version__ = '18.09.16'
 
-division = 1 / 2  # double check int division, see datum.py
+division = 1 / 2  # double check int division, see .datum.py
 if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
 
 try:
-    _Strs = basestring, str  # PYCHOK datum.py, geohash.py
+    _Strs = basestring, str  # PYCHOK .datum.py, .geohash.py
 except NameError:
     _Strs = str,
 

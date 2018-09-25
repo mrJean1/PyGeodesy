@@ -16,7 +16,7 @@ if _test_dir not in sys.path:  # Python 3+ ModuleNotFoundError
 from run import run2  # PYCHOK expected
 
 __all__ = ('TestSuite',)
-__version__ = '18.09.16'
+__version__ = '18.09.23'
 
 
 class TestSuite(unittest.TestCase):
@@ -90,8 +90,8 @@ class TestSuite(unittest.TestCase):
     def test_Spherical(self):
         self._run('testSpherical')
 
-    def test_Utils(self):
-        self._run('testUtils')
+    def test_Utily(self):
+        self._run('testUtily')
 
     def test_Utm(self):
         self._run('testUtm')

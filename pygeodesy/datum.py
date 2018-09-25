@@ -112,7 +112,7 @@ from __future__ import division
 from bases import Based, inStr, Named, _xattrs
 from fmath import EPS, EPS1, cbrt, cbrt2, fdot, fpowers, fStr, \
                   fsum_, sqrt3
-from utils import R_M, degrees360, m2degrees, m2km, m2NM, m2SM, \
+from utily import R_M, degrees360, m2degrees, m2km, m2NM, m2SM, \
                   property_RO, radians, _Strs
 
 from math import atan2, atanh, cos, hypot, sin, sqrt
@@ -135,9 +135,9 @@ R_VM = 6366707.0194937  #: Aviation/Navigation earth radius (meter).
 __all__ = ('R_MA', 'R_MB', 'R_KM', 'R_M', 'R_NM', 'R_SM', 'R_FM', 'R_VM',  # constants
            'Datum',  'Ellipsoid',  'Transform',  # classes
            'Datums', 'Ellipsoids', 'Transforms')  # enum-like
-__version__ = '18.09.14'
+__version__ = '18.09.23'
 
-division = 1 / 2  # double check int division, see utils.py
+division = 1 / 2  # double check int division, see .fmath.py, .utily.py
 if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division

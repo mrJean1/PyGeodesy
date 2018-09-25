@@ -19,7 +19,7 @@ U{Geohash-Javascript<http://GitHub.com/DaveTroy/geohash-js>}.
 from bases import Named, _xnamed
 from dms import parse3llh, parseDMS2
 from fmath import EPS, favg, fStr, map2
-from utils import R_M, equirectangular, equirectangular_, \
+from utily import R_M, equirectangular, equirectangular_, \
                   haversine_, property_RO, _Strs, unrollPI
 
 from math import log10, radians
@@ -29,7 +29,7 @@ __all__ = ('Geohash',  # classes
            'bounds', 'decode', 'decode_error',  # functions
            'distance1', 'distance2', 'distance3',
            'encode', 'neighbors', 'sizes')
-__version__ = '18.09.14'
+__version__ = '18.09.23'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),

@@ -16,12 +16,12 @@ U{Latitude/Longitude<http://www.Movable-Type.co.UK/scripts/latlong.html>}.
 from datum import R_M
 from fmath import EPS, favg, fmean, fsum, map1
 from sphericalBase import LatLonSphericalBase
-from utils import PI2, PI_2, acos1, degrees90, degrees180, degrees360, \
+from utily import PI2, PI_2, acos1, degrees90, degrees180, degrees360, \
                   equirectangular_, haversine_, iterNumpy2, radians, \
-                  tan_2, unrollPI, wrap180, wrapPI
+                  radiansPI2, tan_2, unrollPI, wrap180, wrapPI
 from vector3d import CrossError, crosserrors, Vector3d, sumOf
 
-from math import asin, atan2, copysign, cos, hypot, sin, sqrt
+from math import asin, atan2, copysign, cos, degrees, hypot, sin, sqrt
 
 # all public contants, classes and functions
 __all__ = ('LatLon',  # classes
@@ -30,7 +30,7 @@ __all__ = ('LatLon',  # classes
            'meanOf',
            'nearestOn2',
            'perimeterOf')
-__version__ = '18.09.14'
+__version__ = '18.09.23'
 
 
 class LatLon(LatLonSphericalBase):
@@ -664,8 +664,8 @@ def intersection(start1, bearing1, start2, bearing2,
 
        @raise TypeError: Point I{start1} or I{start2} is not L{LatLon}.
 
-       @raise ValueError: Intersection is ambiguous or infinite
-                          or the paths are parallel or coincide.
+       @raise ValueError: Intersection is ambiguous or infinite or
+                          the paths are parallel or coincident.
 
        @example:
 
@@ -682,40 +682,43 @@ def intersection(start1, bearing1, start2, bearing2,
 
     db, b2 = unrollPI(b1, b2, wrap=wrap)
     r12 = haversine_(a2, a1, db)
-    if abs(r12) < EPS:
-        raise ValueError('intersection %s: %r vs %r' % ('parallel', start1, start2))
+    if abs(r12) < EPS:  # [nearly] coincident points
+        a, b = map1(degrees, favg(a1, a2), favg(b1, b2))
 
-    ca1, ca2       = map1(cos, a1, a2)
-    sa1, sa2, sr12 = map1(sin, a1, a2, r12)
-    x1, x2 = (sr12 * ca1), (sr12 * ca2)
-    if min(abs(x1), abs(x2)) < EPS:
-        raise ValueError('intersection %s: %r vs %r' % ('parallel', start1, start2))
-
-    cr12 = cos(r12)
-    # handle domain error for equivalent latitudes
-    t1, t2 = map1(acos1, (sa2 - sa1 * cr12) / x1,
-                         (sa1 - sa2 * cr12) / x2)
-    if sin(db) > 0:
-        t12, t21 = t1, PI2 - t2
     else:
-        t12, t21 = PI2 - t1, t2
+        ca1, ca2, cr12 = map1(cos, a1, a2, r12)
+        sa1, sa2, sr12 = map1(sin, a1, a2, r12)
+        x1, x2 = (sr12 * ca1), (sr12 * ca2)
+        if abs(x1) < EPS or abs(x2) < EPS:
+            raise ValueError('intersection %s: %r vs %r' % ('parallel', start1, start2))
 
-    t13, t23 = map1(radians, bearing1, bearing2)
-    x1, x2 = map1(wrapPI, t13 - t12,  # angle 2-1-3
-                          t21 - t23)  # angle 1-2-3
+        # handle domain error for equivalent longitudes,
+        # see also functions asin_safe and acos_safe at
+        # <http://www.EdWilliams.org/avform.htm#Math>
+        t1, t2 = map1(acos1, (sa2 - sa1 * cr12) / x1,
+                             (sa1 - sa2 * cr12) / x2)
+        if sin(db) > 0:
+            t12, t21 = t1, PI2 - t2
+        else:
+            t12, t21 = PI2 - t1, t2
 
-    sx1, sx2 = map1(sin, x1, x2)
-    if sx1 == 0 and sx2 == 0:
-        raise ValueError('intersection %s: %r vs %r' % ('infinite', start1, start2))
-    sx3 = sx1 * sx2
-    if sx3 < 0:
-        raise ValueError('intersection %s: %r vs %r' % ('ambiguous', start1, start2))
-    cx1, cx2 = map1(cos, x1, x2)
+        t13, t23 = map1(radiansPI2, bearing1, bearing2)
+        x1, x2 = map1(wrapPI, t13 - t12,  # angle 2-1-3
+                              t21 - t23)  # angle 1-2-3
 
-    x3 = acos1(cr12 * sx3 - cx2 * cx1)
-    r13 = atan2(sr12 * sx3, cx2 + cx1 * cos(x3))
+        sx1, sx2 = map1(sin, x1, x2)
+        if sx1 == 0 and sx2 == 0:
+            raise ValueError('intersection %s: %r vs %r' % ('infinite', start1, start2))
+        sx3 = sx1 * sx2
+        if sx3 < 0:
+            raise ValueError('intersection %s: %r vs %r' % ('ambiguous', start1, start2))
+        cx1, cx2 = map1(cos, x1, x2)
 
-    a, b = _destination2(a1, b1, r13, t13)
+        x3 = acos1(cr12 * sx3 - cx2 * cx1)
+        r13 = atan2(sr12 * sx3, cx2 + cx1 * cos(x3))
+
+        a, b = _destination2(a1, b1, r13, t13)
+
     h = start1._havg(start2) if height is None else height
     return (a, b, h) if LatLon is None else LatLon(a, b, height=h)
 

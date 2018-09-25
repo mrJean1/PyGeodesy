@@ -30,13 +30,13 @@ or by converting to anothor datum:
 
 from datum import Datums
 from ellipsoidalBase import CartesianBase, LatLonEllipsoidalBase
-from utils import polygon, property_RO, unroll180, \
+from utily import polygon, property_RO, unroll180, \
                   wrap90, wrap180, wrap360
 
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon',  # classes
            'areaOf', 'perimeterOf')  # functions
-__version__ = '18.09.14'
+__version__ = '18.09.23'
 
 
 class LatLon(LatLonEllipsoidalBase):

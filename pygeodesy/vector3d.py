@@ -14,7 +14,7 @@ U{Vector-based geodesy
 from bases import VectorBased, _xattrs
 from fmath import EPS, fdot, fStr, fsum, hypot, hypot3, \
                   isscalar, len2, map1
-from utils import degrees90, degrees180, property_RO
+from utily import degrees90, degrees180, property_RO
 
 from math import atan2, cos, sin
 
@@ -22,18 +22,14 @@ from math import atan2, cos, sin
 __all__ = ('CrossError', 'Vector3d',  # classes
            'crosserrors',
            'sumOf')  # functions
-__version__ = '18.09.14'
+__version__ = '18.09.23'
 
 try:
     _cmp = cmp
 except NameError:  # Python 3+
     def _cmp(a, b):
-        if a < b:
-            return -1
-        elif a > b:
-            return +1
-        else:
-            return 0
+        return +1 if a > b else (
+               -1 if a < b else 0)
 
 
 class CrossError(ValueError):
@@ -343,7 +339,7 @@ class Vector3d(VectorBased):
 
            @raise TypeError: Incompatible I{type(other)}.
 
-           @raise ValueError: Coincident or colinear to other.
+           @raise ValueError: Coincident or colinear to I{other}.
         '''
         self.others(other)
 
@@ -553,6 +549,20 @@ class Vector3d(VectorBased):
                             self.y * factor,
                             self.z * factor)
 
+    def to2ab(self):
+        '''Convert this vector to (geodetic) lat- and longitude.
+
+           @return: 2-Tuple (lat, lon) in (radians, radians).
+
+           @example:
+
+           >>> v = Vector3d(0.500, 0.500, 0.707)
+           >>> a, b = v.to2ab()  # 0.785323, 0.785398
+        '''
+        a = atan2(self.z, hypot(self.x, self.y))
+        b = atan2(self.y, self.x)
+        return a, b
+
     def to2ll(self):
         '''Convert this vector to (geodetic) lat- and longitude.
 
@@ -561,10 +571,9 @@ class Vector3d(VectorBased):
            @example:
 
            >>> v = Vector3d(0.500, 0.500, 0.707)
-           >>> a, b = v.to2ll()  # 45.0, 45.0
+           >>> a, b = v.to2ll()  # 44.99567, 45.0
         '''
-        a = atan2(self.z, hypot(self.x, self.y))
-        b = atan2(self.y, self.x)
+        a, b = self.to2ab()
         return degrees90(a), degrees180(b)
 
     def to3xyz(self):

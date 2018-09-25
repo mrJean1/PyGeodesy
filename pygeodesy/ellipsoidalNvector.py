@@ -29,7 +29,7 @@ from ellipsoidalBase import CartesianBase, LatLonEllipsoidalBase
 from fmath import EPS, cbrt, fdot, fStr, fsum_, hypot, hypot3
 from nvector import NorthPole, LatLonNvectorBase, \
                     Nvector as NvectorBase, sumOf
-from utils import degrees90, degrees360, property_RO, radians
+from utily import degrees90, degrees360, property_RO, radians
 from vector3d import Vector3d
 
 from math import asin, atan2, cos, sin, sqrt
@@ -37,7 +37,7 @@ from math import asin, atan2, cos, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '18.09.14'
+__version__ = '18.09.23'
 
 
 class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):

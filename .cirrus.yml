@@ -11,6 +11,6 @@ test_task:
     - pip install distro
     - pip install geographiclib
     - python -c 'import distro; print(distro.id(), repr(distro.name()), distro.version())'
-    - python -c 'import platform; print(platform.uname(), platform.dist())'
+    - python -c 'import platform; print(platform.uname())'
     - python -c 'import geographiclib; print("geographiclib " + geographiclib.__version__)'
     - python test/run.py -failedonly

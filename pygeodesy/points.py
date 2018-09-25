@@ -26,7 +26,7 @@ the index for the lat- and longitude index in each 2+tuple.
 
 from bases import classname, inStr
 from fmath import EPS, fdot, fStr, Fsum, fsum, isint, scalar
-from utils import R_M, equirectangular_, issequence, polygon, \
+from utily import R_M, equirectangular_, issequence, polygon, \
                   property_RO, unroll180, unrollPI, wrap90, wrap180
 from vector3d import CrossError, crosserrors
 
@@ -43,7 +43,7 @@ __all__ = ('LatLon_',  # classes
            'bounds',
            'isclockwise', 'isconvex', 'isenclosedby',
            'perimeterOf')
-__version__ = '18.09.18'
+__version__ = '18.09.23'
 
 
 class LatLon_(object):

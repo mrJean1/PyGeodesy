@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '18.09.08'
+__version__ = '18.09.23'
 
 from base import TestsBase
 
@@ -14,7 +14,7 @@ from pygeodesy import R_M, antipode, fStr, heightOf, horizon, \
 
 class Tests(TestsBase):
 
-    def testUtils(self):
+    def testUtily(self):
 
         self.test('antipode1', antipode( 89,  179), (-89, -1))
         self.test('antipode2', antipode(-89, -179),  (89,  1))
@@ -48,9 +48,9 @@ class Tests(TestsBase):
 
 if __name__ == '__main__':
 
-    from pygeodesy import utils  # private
+    from pygeodesy import utily  # private
 
-    t = Tests(__file__, __version__, utils)
-    t.testUtils()
+    t = Tests(__file__, __version__, utily)
+    t.testUtily()
     t.results()
     t.exit()

@@ -36,7 +36,7 @@ from datum import Datums
 from dms import parseDMS2
 from ellipsoidalBase import LatLonEllipsoidalBase as _ELLB
 from fmath import fdot, fpowers, Fsum, fsum_, map1
-from utils import degrees90, degrees180, enStr2, false2f, \
+from utily import degrees90, degrees180, enStr2, false2f, \
                   halfs, property_RO
 
 from math import cos, radians, sin, sqrt, tan
@@ -44,7 +44,7 @@ from math import cos, radians, sin, sqrt, tan
 # all public contants, classes and functions
 __all__ = ('Osgr',  # classes
            'parseOSGR', 'toOsgr')  # functions
-__version__ = '18.09.16'
+__version__ = '18.09.23'
 
 _10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (meter)
 _100km   = 100000  #: (INTERNAL) 100 km (int meter)

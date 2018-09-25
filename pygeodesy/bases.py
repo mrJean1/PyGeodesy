@@ -11,7 +11,7 @@ and U{http://www.Movable-Type.co.UK/scripts/latlong-vectors.html}.
 '''
 from dms   import F_D, F_DMS, latDMS, lonDMS, parseDMS, parseDMS2
 from fmath import EPS, favg, map1, scalar
-from utils import R_M, antipode, isantipode, polygon, property_RO, unStr
+from utily import R_M, antipode, isantipode, polygon, property_RO, unStr
 
 from math import asin, cos, degrees, radians, sin
 
@@ -20,7 +20,7 @@ from math import asin, cos, degrees, radians, sin
 __all__ = (  # 'Based', 'LatLonHeightBase', 'Named', 'VectorBased',
            'classname', 'classnaming',
            'inStr')
-__version__ = '18.09.14'
+__version__ = '18.09.23'
 
 __X = object()  # unique instance
 

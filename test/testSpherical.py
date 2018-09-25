@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '18.09.14'
+__version__ = '18.09.23'
 
 from testLatLon import Tests as _TestsLL
 from testVectorial import Tests as _TestsV
@@ -36,15 +36,25 @@ class Tests(_TestsLL, _TestsV):
         REO = LatLon(42.600, -117.866)
         BKE = LatLon(44.840, -117.806)
         i = REO.intersection(51, BKE, 137)
+        self.test('intersection', isinstance(i, LatLon), True)
         self.test('intersection', i.toStr(F_D), '43.5719°N, 116.188757°W')  # 43.572°N, 116.189°W
         self.test('intersection', i.toStr(F_DMS), '43°34′18.84″N, 116°11′19.53″W')
-        self.test('intersection', isinstance(i, LatLon), True)
 
         # <http://GitHub.com/ChrisVeness/geodesy/issues/46>
         p = LatLon(51.8853, 0.2545)
         q = LatLon(51.8763, 0.2545)  # identical lon
         i = p.intersection(110.8878, q, 54.4525)
         self.test('intersection', i, '51.882166°N, 000.267801°E')  # 51°52′55.8″N, 000°16′04.08″E?
+
+        p = LatLon(+30, 0)
+        q = LatLon(-30, 0)  # indential, zero lon
+        i = p.intersection(135, q, 45)
+        self.test('intersection', i, '00.0°N, 026.565051°E')
+
+        p = LatLon(0, -30)
+        q = LatLon(0, +30)  # identical, zero lat
+        i = p.intersection(45, q, 315)
+        self.test('intersection', i, '26.565051°N, 000.0°W')
 
         p = LatLon(0, 0)
         self.test('maxLat0',  p.maxLat( 0), '90.0')
