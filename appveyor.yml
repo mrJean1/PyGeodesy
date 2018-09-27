@@ -22,8 +22,7 @@ build: off
 #  - '%LOCALAPPDATA%\pip\Cache'
 
 test_script:
-  - "cd C:\\projects\\pygeodesy"
-  - "dir"
-  - "python test/run.py"
+  - "python C:\\projects\\pygeodesy\\test\\testBases.py"
+  - "python C:\\projects\\pygeodesy\\test\\run.py"
 
-version: '{build}'
+# version: '{build}'
