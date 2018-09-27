@@ -23,7 +23,7 @@ build: off
 
 test_script:
   - "cd C:\\projects\\pygeodesy"
-  - "cd"
+  - "dir"
   - "python test/run.py"
 
 version: '{build}'
