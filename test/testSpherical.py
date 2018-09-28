@@ -50,12 +50,12 @@ class Tests(_TestsLL, _TestsV):
         p = LatLon(+30, 0)
         q = LatLon(-30, 0)  # indential, zero lon
         i = p.intersection(135, q, 45)
-        self.test('intersection', i, '00.0°S, 026.565051°E' if isWindows else '00.0°N, 026.565051°E')
+        self.test('intersection', i, '00.0°N, 026.565051°E', known=isWindows)
 
         p = LatLon(0, -30)
         q = LatLon(0, +30)  # identical, zero lat
         i = p.intersection(45, q, 315)
-        self.test('intersection', i, '26.565051°N, 000.0°E' if isWindows else '26.565051°N, 000.0°W')
+        self.test('intersection', i, '26.565051°N, 000.0°W', known=isWindows)
 
         p = LatLon(0, 0)
         self.test('maxLat0',  p.maxLat( 0), '90.0')
