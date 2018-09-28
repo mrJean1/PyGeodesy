@@ -3,20 +3,15 @@
 
 # Module to run all PyGeodesy tests as  python setup.py test
 
+from base import test_dir
+from run import run2
+
 from glob import glob
-from os.path import abspath, dirname, join
-import sys
+from os.path import join
 import unittest
 
-_test_dir = dirname(abspath(__file__))
-# extend sys.path to include the ../.. directory
-if _test_dir not in sys.path:  # Python 3+ ModuleNotFoundError
-    sys.path.insert(0, _test_dir)
-
-from run import run2  # PYCHOK expected
-
 __all__ = ('TestSuite',)
-__version__ = '18.09.23'
+__version__ = '18.09.25'
 
 
 class TestSuite(unittest.TestCase):
@@ -27,7 +22,7 @@ class TestSuite(unittest.TestCase):
 
     def _run(self, test):
         TestSuite._runs += 1  # pseudo global
-        x, _ = run2(join(_test_dir, test + '.py'))
+        x, _ = run2(join(test_dir, test + '.py'))
         self.assertEqual(x, 0)
 
     def test_Bases(self):
@@ -107,12 +102,12 @@ class TestSuite(unittest.TestCase):
 
     def test_Ztotal(self):
         # final test to make sure all tests were run
-        t = len(glob(join(_test_dir, 'test[A-Z]*.py')))
+        t = len(glob(join(test_dir, 'test[A-Z]*.py')))
         self.assertEqual(TestSuite._runs, t)
-#       t = sum(1 for t in dir(TestSuite) if t.startswith('test_'))
-#       self.assertEqual(TestSuite._runs, t)
 
 
 if __name__ == '__main__':
+
+    import sys
 
     unittest.main(argv=sys.argv)  # catchbreak=None, failfast=None, verbosity=2

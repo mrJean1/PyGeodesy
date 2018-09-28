@@ -30,7 +30,7 @@ __all__ = ('F_D', 'F_DM', 'F_DMS',  # forms
            'latDMS', 'lonDMS', 'normDMS',
            'parseDMS', 'parseDMS2', 'parse3llh', 'precision',
            'rangerrors', 'toDMS')
-__version__ = '18.09.23'
+__version__ = '18.09.27'
 
 F_D   = 'd'    #: Format degrees as deg° (string).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (string).
@@ -256,7 +256,9 @@ def latDMS(deg, form=F_DMS, prec=2, sep=S_SEP):
 
        @JSname: I{toLat}.
     '''
-    t = _toDMS(deg, form, prec, sep, 2), ('S' if deg < 0 else 'N')
+    # XXX handle -0.0 on Windows
+    s = 'S' if (deg < 0 and abs(deg)) else 'N'
+    t = _toDMS(deg, form, prec, sep, 2), s
     return sep.join(t)
 
 
@@ -278,7 +280,9 @@ def lonDMS(deg, form=F_DMS, prec=2, sep=S_SEP):
 
        @JSname: I{toLon}.
     '''
-    t = _toDMS(deg, form, prec, sep, 3), ('W' if deg < 0 else 'E')
+    # XXX handle -0.0 on Windows
+    s = 'W' if (deg < 0 and abs(deg)) else 'E'
+    t = _toDMS(deg, form, prec, sep, 3), s
     return sep.join(t)
 
 

@@ -7,29 +7,22 @@
 # 3.7.0 on macOS 10.12 Sierra and 10.13 High Sierra and with
 # Pythonista 3.1 and 3.2 on iOS 10.3, 11.0, 11.1, 11.3 and 11.4.
 
-from glob import glob
+from base import isiOS, PyGeodesy_dir, PythonX, \
+          secs2str, test_dir, tilde, versions  # PYCHOK expected
+
 from os import environ, linesep as NL
-from os.path import abspath, basename, dirname, join
-from time import time
 import sys
 
-_test_dir = dirname(abspath(__file__))
-# extend sys.path to include the .. directory
-if _test_dir not in sys.path:
-    sys.path.insert(0, _test_dir)
-
-from base import isiOS, PyGeodesy_dir, PythonX, \
-          secs2str, tilde, versions  # PYCHOK expected
-
 __all__ = ('run2',)
-__version__ = '18.09.25'
+__version__ = '18.09.27'
 
-if isiOS:
+if isiOS:  # MCCABE 14
 
     try:  # prefer StringIO over io
         from StringIO import StringIO
     except ImportError:  # Python 3+
         from io import StringIO
+    from os.path import basename
     from runpy import run_path
     from traceback import format_exception
 
@@ -40,8 +33,8 @@ if isiOS:
         # Mimick partial behavior of function runner
         # further below because subprocess.Popen is
         # not available on iOS/Pythonista/Python.
-        # One issue however, the test script is
-        # imported and run in the same process.
+        # One issue however, test scripts are all
+        # imported and run in this same process.
 
         x = None  # no exit, no exception
 
@@ -73,7 +66,7 @@ if isiOS:
             x = r.count('FAILED, expected')
         return x, r
 
-    Python_O = basename(PythonX)
+    PythonX_O = basename(PythonX)
 
 else:  # non-iOS
 
@@ -103,13 +96,13 @@ else:  # non-iOS
         return p.returncode, r
 
     # replace home dir with ~
-    Python_O = PythonX.replace(environ.get('HOME', '~'), '~')
+    PythonX_O = PythonX.replace(environ.get('HOME', '~'), '~')
+    if not __debug__:
+        PythonX_O += ' -O'
 
-if not __debug__:
-    Python_O += ' -O'
 # shorten Python path [-OO]
-if len(Python_O) > 32:
-    Python_O = Python_O[:16] + '...' + Python_O[-16:]
+if len(PythonX_O) > 32:
+    PythonX_O = PythonX_O[:16] + '...' + PythonX_O[-16:]
 
 # command line options
 _failedonly = False
@@ -136,7 +129,7 @@ def _run(test):
     '''
     global _T, _X
 
-    t = 'running %s %s' % (Python_O, tilde(test))
+    t = 'running %s %s' % (PythonX_O, tilde(test))
     print(t)
 
     x, r = run2(test)
@@ -179,6 +172,10 @@ def _write(text):
 
 if __name__ == '__main__':  # MCCABE 16
 
+    from glob import glob
+    from os.path import join
+    from time import time
+
     argv0, args = tilde(sys.argv[0]), sys.argv[1:]
 
     while args and args[0].startswith('-'):
@@ -200,7 +197,7 @@ if __name__ == '__main__':  # MCCABE 16
 
     if not args:  # no tests specified, get all test*.py
         # scripts in the same directory as this one
-        args = sorted(glob(join(_test_dir, 'test[A-Z]*.py')))
+        args = sorted(glob(join(test_dir, 'test[A-Z]*.py')))
 
     # PyGeodesy and Python versions, size, OS name and release
     v = versions()
@@ -228,5 +225,5 @@ if __name__ == '__main__':  # MCCABE 16
     else:
         x = 'all OK'
 
-    t = '%s %s %s (%s) %s' % (argv0, Python_O, x, v, s)
+    t = '%s %s %s (%s) %s' % (argv0, PythonX_O, x, v, s)
     _exit(t, t, 0)

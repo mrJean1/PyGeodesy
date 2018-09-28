@@ -11,7 +11,7 @@ from operator import mul
 import sys
 
 # all public contants, classes and functions
-__all__ = ('EPS', 'EPS1', 'EPS2',  # constants
+__all__ = ('EPS', 'EPS1',  # constants
            'Fsum',  # classes
            'cbrt', 'cbrt2',  # functions
            'favg', 'fdot', 'fdot3', 'fmean',
@@ -22,7 +22,7 @@ __all__ = ('EPS', 'EPS1', 'EPS2',  # constants
            'len2',
            'map1', 'map2',
            'scalar', 'sqrt3')
-__version__ = '18.09.18'
+__version__ = '18.09.25'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -51,7 +51,6 @@ except AttributeError:
     EPS = 2.220446049250313e-16  #: Approximate epsilon (float)
 EPS1  = 1.0 - EPS  #: M{1 - EPS} (float), about 0.9999999999999998
 _1EPS = 1.0 + EPS  #: M{1 + EPS} (float)
-EPS2  = sqrt(EPS)  #: M{sqrt(EPS)} (float)
 
 _1_3rd = 1.0 / 3.0  #: (INTERNAL) One third (float)
 _2_3rd = 2.0 / 3.0  #: (INTERNAL) Two third (float)

@@ -22,8 +22,10 @@ try:
 except ImportError:
     numpy = None
 
-PyGeodesy_dir = dirname(dirname(abspath(__file__)))
-# extend sys.path to include the ../.. directory
+test_dir = dirname(abspath(__file__))
+PyGeodesy_dir = dirname(test_dir)
+# extend sys.path to include the ../.. directory,
+# required for module .run.py to work
 if PyGeodesy_dir not in sys.path:  # Python 3+ ModuleNotFoundError
     sys.path.insert(0, PyGeodesy_dir)
 
@@ -36,8 +38,8 @@ __all__ = ('geographiclib', 'numpy',  # constants
            'PyGeodesy_dir', 'PythonX',
            'TestsBase',  # classes
            'ios_ver', 'secs2str',  # functions
-           'tilde', 'type2str', 'versions')
-__version__ = '18.09.25'
+           'test_dir', 'tilde', 'type2str', 'versions')
+__version__ = '18.09.27'
 
 try:
     _Ints = int, long

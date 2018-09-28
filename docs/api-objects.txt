@@ -72,6 +72,7 @@ pygeodesy.wrap180	pygeodesy-module.html#wrap180
 pygeodesy.fStr	pygeodesy-module.html#fStr
 pygeodesy.R_M	pygeodesy-module.html#R_M
 pygeodesy.horizon	pygeodesy-module.html#horizon
+pygeodesy.pygeodesy_dirname	pygeodesy-module.html#pygeodesy_dirname
 pygeodesy.unroll180	pygeodesy-module.html#unroll180
 pygeodesy.F_DEG	pygeodesy-module.html#F_DEG
 pygeodesy.cbrt	pygeodesy-module.html#cbrt
@@ -112,7 +113,6 @@ pygeodesy.F_SEC	pygeodesy-module.html#F_SEC
 pygeodesy.fpowers	pygeodesy-module.html#fpowers
 pygeodesy.tanPI_2_2	pygeodesy-module.html#tanPI_2_2
 pygeodesy.haversine	pygeodesy-module.html#haversine
-pygeodesy.EPS2	pygeodesy-module.html#EPS2
 pygeodesy.EPS1	pygeodesy-module.html#EPS1
 pygeodesy.map2	pygeodesy-module.html#map2
 pygeodesy.S_RAD	pygeodesy-module.html#S_RAD
@@ -308,7 +308,6 @@ pygeodesy.fmath.len2	pygeodesy.fmath-module.html#len2
 pygeodesy.fmath.scalar	pygeodesy.fmath-module.html#scalar
 pygeodesy.fmath.hypot	pygeodesy.fmath-module.html#hypot
 pygeodesy.fmath.__package__	pygeodesy.fmath-module.html#__package__
-pygeodesy.fmath.EPS2	pygeodesy.fmath-module.html#EPS2
 pygeodesy.fmath._2sum	pygeodesy.fmath-module.html#_2sum
 pygeodesy.fmath.fmean	pygeodesy.fmath-module.html#fmean
 pygeodesy.fmath.fhorner	pygeodesy.fmath-module.html#fhorner

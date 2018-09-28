@@ -43,8 +43,9 @@ The tests have been run with Python 2.7.15 (with geographiclib_ 1.49 and
 numpy_ 1.14.0), with Python 3.7.0 (with geographiclib_ 1.49) and with
 `PyPy 6.0.0`_ Python 2.7.13 and 3.5.3 on macOS 10.13.6 High Sierra, with
 Python 2.6.9, 2.7.14, 3.5.6 and 3.6.3 (and geographiclib_ 1.49) on
-`Debian 8`_ and with Python 3.7.0 (and geographiclib_ 1.49) on
-`Debian 9`_, all in 64-bit only.
+`Debian 8`_, with Python 3.7.0 (and geographiclib_ 1.49) on `Debian 9`_,
+and with Python 2.7.15 and 3.6.6 (both with geographiclib_ 1.49) on
+`Windows Server 2012R2`_, all in 64-bit only.
 
 Previously, the tests were run with 64-bit Python 2.6.9 (and numpy 1.6.2),
 2.7.10 (and numpy 1.8.0rc1), 2.7.13, 2.7.14 (and numpy 1.13.1), 3.5.3,
@@ -73,7 +74,7 @@ latter is required for module *ellipsoidalKarney* classes *LatLon* and
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Sep 23, 2018.*
+*Last updated: Sep 27, 2018.*
 
 .. _checked: http://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor
 .. _Debian 8: http://Travis-CI.org/mrJean1/PyGeodesy
@@ -96,11 +97,11 @@ cases documentation tag **JS name:** shows the original JavaScript name.
 .. _numpy: http://PyPI.org/project/numpy
 .. _NumPy array: http://docs.SciPy.org/doc/numpy/reference/generated/numpy.array.html
 .. _OSGR: http://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html
-.. _PyPI: http://PyPI.org/project/PyGeodesy
 .. _PyChecker: http://PyPI.org/project/pychecker
 .. _PyCodeStyle: http://PyPI.org/project/pycodestyle
 .. _PyFlakes: http://PyPI.org/project/pyflakes
 .. _PyGeodesy: http://PyPI.org/project/PyGeodesy
+.. _PyPI: http://PyPI.org/project/PyGeodesy
 .. _PyPy 6.0.0: http://PyPy.org
 .. _Pythonista: http://OMZ-Software.com/pythonista
 .. _Ramer-Douglas-Peucker: http://WikiPedia.org/wiki/Ramer-Douglas-Peucker_algorithm
@@ -111,6 +112,7 @@ cases documentation tag **JS name:** shows the original JavaScript name.
 .. _Vincenty: http://www.Movable-Type.co.UK/scripts/latlong-vincenty.html
 .. _Visvalingam-Whyatt: http://hydra.Hull.ac.UK/resources/hull:8338
 .. _Web Mercator: http://WikiPedia.org/wiki/Web_Mercator
+.. _Windows Server 2012R2: http://CI.AppVeyor.com/project/mrJean1/pygeodesy
 
 ``Copyright (C) 2016-2018 -- mrJean1 at Gmail dot com``
 

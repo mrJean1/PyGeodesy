@@ -63,9 +63,11 @@ U{PyPy 6.0.0<http://PyPy.org>} Python 2.7.13 and 3.5.3 on macOS 10.13.6
 High Sierra, with Python 2.6.9, 2.7.14, 3.5.6 and 3.6.3 (and
 U{geographiclib<http://PyPI.org/project/geographiclib>} 1.49) on U{Debian
 8<http://Travis-CI.org/mrJean1/PyGeodesy>}, with Python 3.7.0 (and
-U{geographiclib <http://PyPI.org/project/geographiclib>} 1.49) on
-U{Debian 9<http://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>}, all
-in 64-bit only.
+U{geographiclib<http://PyPI.org/project/geographiclib>} 1.49) on
+U{Debian 9<http://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>} and
+with Python 2.7.15 and 3.6.6 (both with U{geographiclib
+<http://PyPI.org/project/geographiclib>} 1.49) on U{Windows Server 2012R2
+<http://CI.AppVeyor.com/project/mrJean1/pygeodesy>}, all in 64-bit only.
 
 Previously, the tests were run with 64-bit Python 2.6.9 (and numpy 1.6.2),
 2.7.10 (and numpy 1.8.0rc1), 2.7.13, 2.7.14 (and numpy 1.13.1), 3.5.3,
@@ -128,7 +130,6 @@ OTHER DEALINGS IN THE SOFTWARE.}
 
 @var EPS:  System's M{epsilon} (float)
 @var EPS1: M{1 - EPS} (float), about 0.9999999999999998
-@var EPS2: M{sqrt(EPS)} (float)
 
 @var F_D:   Format degrees as deg° (string).
 @var F_DM:  Format degrees as deg°min′ (string).
@@ -162,23 +163,28 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var Ellipsoids: Registered ellipsoids (enum).
 @var Transforms: Registered transforms (enum).
 
+@var pygeodesy_dirname: Fully qualified pygeodesy directory name
+
 @var version: Normalized C{PyGeodesy} version (string).
 
 '''
 
-import os.path as os_path
-_pygeodesy_path = os_path.abspath(__file__)
-_pygeodesy_dir  = os_path.dirname(_pygeodesy_path)
+from os.path import abspath, basename, dirname, splitext
 
-try:
+_init_abspath     = abspath(__file__)
+pygeodesy_dirname = dirname(_init_abspath)
+
+# setting __path__ should make ...
+__path__ = [pygeodesy_dirname]
+try:  # ... this import work, ...
     import bases as _  # PYCHOK expected
-    del _  # hide private, internal modules
-except ImportError:
-    # extend sys.path to include this very directory
-    # such that all public and private sub-modules can
+    del _
+except ImportError:  # ... if it doesn't, extend
+    # sys.path to include this very directory such
+    # that all public and private sub-modules can
     # be imported (and checked by PyChecker, etc.)
     import sys
-    sys.path.insert(0, _pygeodesy_dir)  # XXX __path__[0]
+    sys.path.insert(0, pygeodesy_dirname)  # XXX __path__[0]
     del sys
 
 # keep ellipsoidal, spherical and vector modules as sub-modules
@@ -204,9 +210,10 @@ __all__ = ('bases', 'datum', 'dms', 'elevations',  # modules
            'utily', 'utm', 'vector3d', 'webmercator',
            'CrossError', 'Geohash', 'VincentyError',  # classes
            'R_M',  # to avoid duplicates from .datum.py and .utily.py
+           'pygeodesy_dirname',
            'version',
            'crosserrors')  # extended below
-__version__ = '18.09.23'
+__version__ = '18.09.27'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
@@ -262,35 +269,40 @@ def equirectangular3(lat1, lon1, lat2, lon2, **options):
     return utily.equirectangular_(lat1, lon1, lat2, lon2, **options)[:3]
 
 
-def _pygeodesy_module(m):
-    p = os_path.abspath(m.__file__)  # PYCHOK undefined?
-    if os_path.dirname(p) != _pygeodesy_dir:  # PYCHOK undefined?
+def _ismodule(m):
+    p = abspath(m.__file__)  # PYCHOK undefined?
+    if dirname(p) != pygeodesy_dirname:  # PYCHOK undefined?
         raise ImportError('foreign module %r from %r' % (m.__name__, p))
 
 
 # check that all modules are from this very package, pygeodesy
 for m in (ellipsoidalKarney, ellipsoidalNvector, ellipsoidalVincenty,
           geohash, nvector,
-          sphericalNvector, sphericalTrigonometry, vector3d):
-    _pygeodesy_module(m)
+          sphericalNvector, sphericalTrigonometry,
+          vector3d):
+    _ismodule(m)
 
 # concat __all__ with the public classes, constants,
 # functions, etc. from the sub-modules mentioned above
 for m in (bases, datum, dms, elevations, fmath, lcc, mgrs, osgr,
           points, simplify, utily, utm, webmercator):
-    __all__ += tuple(_ for _ in m.__all__ if _ not in ('R_M',))
-    _pygeodesy_module(m)
+    __all__ += m.__all__
+    _ismodule(m)
 
+# remove any duplicates, only R_M?
+__all__ = tuple(set(__all__))
 
 if __name__ == '__main__':
 
     # to shorten module names
-    m = _pygeodesy_path[:-len(os_path.basename(_pygeodesy_path))]
+    b = basename(pygeodesy_dirname)
+    m = _init_abspath[:-len(basename(_init_abspath))]
 
     d, e, p = locals(), 0, ''
     for i, n in enumerate(sorted(__all__, key=str.lower)):
         r = repr(d[n]).replace(m, '').replace(' ' + n + ' ', ' ') \
-                                     .replace(" '" + n + "' ", ' ')
+                                     .replace(" '" + n + "' ", ' ') \
+                                     .replace('__main__', b)
         if n == p:  # duplicate
             e += 1
             s = '***'
@@ -301,7 +313,7 @@ if __name__ == '__main__':
 
     print('--- PyGeodesy %s (%s duplicates)' % (__version__, e or 'no'))
 
-del m, os_path, _pygeodesy_dir, _pygeodesy_module, _pygeodesy_path
+del abspath, basename, dirname, _init_abspath, _ismodule, m, splitext
 
 # **) MIT License
 #

@@ -40,7 +40,7 @@ __all__ = ('PI', 'PI2', 'PI_2', 'R_M',  # constants
            'unroll180', 'unrollPI', 'unStr',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '18.09.16'
+__version__ = '18.09.25'
 
 division = 1 / 2  # double check int division, see .datum.py
 if not division:
