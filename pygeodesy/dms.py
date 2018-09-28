@@ -256,9 +256,7 @@ def latDMS(deg, form=F_DMS, prec=2, sep=S_SEP):
 
        @JSname: I{toLat}.
     '''
-    # XXX handle -0.0 on Windows
-    s = 'S' if (deg < 0 and abs(deg)) else 'N'
-    t = _toDMS(deg, form, prec, sep, 2), s
+    t = _toDMS(deg, form, prec, sep, 2), ('S' if deg < 0 else 'N')
     return sep.join(t)
 
 
@@ -280,9 +278,7 @@ def lonDMS(deg, form=F_DMS, prec=2, sep=S_SEP):
 
        @JSname: I{toLon}.
     '''
-    # XXX handle -0.0 on Windows
-    s = 'W' if (deg < 0 and abs(deg)) else 'E'
-    t = _toDMS(deg, form, prec, sep, 3), s
+    t = _toDMS(deg, form, prec, sep, 3), ('W' if deg < 0 else 'E')
     return sep.join(t)
 
 
