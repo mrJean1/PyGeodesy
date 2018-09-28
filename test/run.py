@@ -103,7 +103,7 @@ else:  # non-iOS
         return p.returncode, r
 
     # replace home dir with ~
-    Python_O = PythonX.join(.replace(environ.get('HOME', '~'), '~')
+    Python_O = PythonX.replace(environ.get('HOME', '~'), '~')
 
 if not debug__:
     Python_O += ' -O'
