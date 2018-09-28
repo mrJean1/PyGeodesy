@@ -15,7 +15,7 @@ install:
   - "mklink /d \"C:\\Program Files\\Python\" %PYTHON%"
   - "SET PYTHON=\"C:\\Program Files\\Python\""
   - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
-  - "pip install win_unicode_console"
+  # "pip install win_unicode_console"
 
 build: off
 
@@ -23,7 +23,8 @@ build: off
 #  - '%LOCALAPPDATA%\pip\Cache'
 
 test_script:
-  - "python -m run C:\\projects\\pygeodesy\\test\\testBases.py"
-  - "python -m run C:\\projects\\pygeodesy\\test\\run.py -results"
+  - "python C:\\projects\\pygeodesy\\test\\testBases.py"
+  - "python C:\\projects\\pygeodesy\\test\\run.py -results"
+  - "dir C:\\projects\\pygeodesy\\testresults"
 
 # version: '{build}'
