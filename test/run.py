@@ -18,11 +18,11 @@ _test_dir = dirname(abspath(__file__))
 if _test_dir not in sys.path:
     sys.path.insert(0, _test_dir)
 
-from base import isiOS, PyGeodesy_dir, Python_O, \
+from base import isiOS, PyGeodesy_dir, Python_X, \
           secs2str, tilde, versions  # PYCHOK expected
 
 __all__ = ('run2',)
-__version__ = '18.09.16'
+__version__ = '18.09.25'
 
 if isiOS:
 
@@ -81,7 +81,10 @@ else:  # non-iOS
         '''Invoke one test module and return
            the exit status and console output.
         '''
-        c = Python_O.split() + [test]
+        if __debug__:
+            c = [Python_X, test]
+        else:
+            c = [Python_X, '-O', test]
         p = Popen(c, creationflags=0,
                      executable   =sys.executable,
                    # shell        =True,
@@ -99,7 +102,7 @@ else:  # non-iOS
 
 
 # replace home dir with ~
-Python_O = Python_O.replace(environ.get('HOME', '~'), '~')
+Python_O = Python_X.replace(environ.get('HOME', '~'), '~')
 
 # shorten Python path [-OO]
 if len(Python_O) > 32:
