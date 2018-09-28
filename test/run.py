@@ -105,7 +105,7 @@ else:  # non-iOS
     # replace home dir with ~
     Python_O = PythonX.replace(environ.get('HOME', '~'), '~')
 
-if not debug__:
+if not __debug__:
     Python_O += ' -O'
 # shorten Python path [-OO]
 if len(Python_O) > 32:
