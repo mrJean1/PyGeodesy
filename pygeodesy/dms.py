@@ -21,7 +21,7 @@ except ImportError:  # Python 3+
     from string import ascii_letters as LETTERS
 import sys
 
-# all public contants, classes and functions
+# all public constants, classes and functions
 __all__ = ('F_D', 'F_DM', 'F_DMS',  # forms
            'F_DEG', 'F_MIN', 'F_SEC', 'F_RAD',
            'S_DEG', 'S_MIN', 'S_SEC', 'S_RAD', 'S_SEP',  # symbols
