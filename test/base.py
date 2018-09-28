@@ -33,11 +33,11 @@ from pygeodesy import anStr, iterNumpy2over, normDMS, \
 __all__ = ('geographiclib', 'numpy',  # constants
            'isIntelPython', 'isiOS', 'isNix', 'isPyPy',
            'isPython2', 'isPython3', 'isWindows',
-           'PyGeodesy_dir', 'Python_X',
+           'PyGeodesy_dir', 'Python_O',
            'TestsBase',  # classes
            'ios_ver', 'secs2str',  # functions
            'tilde', 'type2str', 'versions')
-__version__ = '18.09.25'
+__version__ = '18.09.23'
 
 try:
     _Ints = int, long
@@ -49,9 +49,9 @@ except NameError:  # Python 3+
 _os_bitstr = architecture()[0]  # XXX sys.maxsize
 _pseudo_home_dir = dirname(PyGeodesy_dir or '~') or '~'
 
-Python_X = sys.executable  # python or Pythonista path
+Python_O = sys.executable  # python or Pythonista path
 
-isIntelPython = 'intelpython' in Python_X
+isIntelPython = 'intelpython' in Python_O
 # isiOS is used by some tests known to fail on iOS only
 isiOS         = sys.platform == 'ios'  # public
 isNix         = uname()[0] in ('Linux', 'linux')
@@ -238,7 +238,7 @@ if isiOS:
         r = t[0] + ' ' + t[2].split(',')[0]
         return (r,) + t[1:]
 
-    Python_X = basename(Python_X)
+    Python_O = basename(Python_O)
 
 else:  # non-iOS
 
@@ -246,6 +246,9 @@ else:  # non-iOS
         '''Get the iOS version information.
         '''
         return ('', ('', '', ''), '')
+
+    if not __debug__:
+        Python_O += ' -O'  # optimized
 
 
 def secs2str(secs):

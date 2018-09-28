@@ -19,9 +19,8 @@ try:
     from string import letters as LETTERS
 except ImportError:  # Python 3+
     from string import ascii_letters as LETTERS
-import sys
 
-# all public constants, classes and functions
+# all public contants, classes and functions
 __all__ = ('F_D', 'F_DM', 'F_DMS',  # forms
            'F_DEG', 'F_MIN', 'F_SEC', 'F_RAD',
            'S_DEG', 'S_MIN', 'S_SEC', 'S_RAD', 'S_SEP',  # symbols
@@ -31,7 +30,7 @@ __all__ = ('F_D', 'F_DM', 'F_DMS',  # forms
            'latDMS', 'lonDMS', 'normDMS',
            'parseDMS', 'parseDMS2', 'parse3llh', 'precision',
            'rangerrors', 'toDMS')
-__version__ = '18.09.25'
+__version__ = '18.09.23'
 
 F_D   = 'd'    #: Format degrees as deg° (string).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (string).
@@ -41,14 +40,9 @@ F_MIN = 'min'  #: Format degrees as [D]DDMM without symbols (string).
 F_SEC = 'sec'  #: Format degrees as [D]DDMMSS without symbols (string).
 F_RAD = 'rad'  #: Convert degrees to radians and format as RR.r (string).
 
-if sys.platform.startswith('win'):
-    S_DEG = '^'  #: Degrees ° symbol (string).
-    S_MIN = "'"  #: Minutes ′ symbol (string).
-    S_SEC = '"'  #: Seconds ″ symbol (string).
-else:
-    S_DEG = '°'  #: Degrees ° symbol (string).
-    S_MIN = '′'  #: Minutes ′ symbol (string).
-    S_SEC = '″'  #: Seconds ″ symbol (string).
+S_DEG = '°'  #: Degrees ° symbol (string).
+S_MIN = '′'  #: Minutes ′ symbol (string).
+S_SEC = '″'  #: Seconds ″ symbol (string).
 S_RAD = ''   #: Radians symbol (string).
 S_SEP = ''   #: Separator between deg, min and sec (string).
 
