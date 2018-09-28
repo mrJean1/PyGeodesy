@@ -1,4 +1,3 @@
-# <https://github.com/pypa/setuptools/blob/master/appveyor.yml>
 environment:
 
   APPVEYOR: True
@@ -17,6 +16,7 @@ environment:
       PYTHON: "C:\\Python27-x64"
     - APPVEYOR_JOB_NAME: "Python27-32bit"
       PYTHON: "C:\\Python27"
+    # Python-26 no longer supported
 
 install:
   # symlink python from a directory with a space
@@ -35,6 +35,7 @@ build: off
 test_script:
   - "cd C:\\projects\\pygeodesy"
   - "python test\\run.py -failedonly"
+  # "python test\\run.py -results"
   # "type testresults\\testresults*Windows*.txt"
 
 # version: '{build}'
