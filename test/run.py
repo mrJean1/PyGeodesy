@@ -9,7 +9,7 @@
 
 from glob import glob
 from os import environ, linesep as NL
-from os.path import abspath, dirname, join
+from os.path import abspath, basename, dirname, join
 from time import time
 import sys
 
@@ -18,11 +18,11 @@ _test_dir = dirname(abspath(__file__))
 if _test_dir not in sys.path:
     sys.path.insert(0, _test_dir)
 
-from base import isiOS, PyGeodesy_dir, Python_O, \
+from base import isiOS, PyGeodesy_dir, PythonX, \
           secs2str, tilde, versions  # PYCHOK expected
 
 __all__ = ('run2',)
-__version__ = '18.09.16'
+__version__ = '18.09.25'
 
 if isiOS:
 
@@ -73,6 +73,8 @@ if isiOS:
             x = r.count('FAILED, expected')
         return x, r
 
+    Python_O = basename(PythonX)
+
 else:  # non-iOS
 
     from subprocess import PIPE, STDOUT, Popen
@@ -81,7 +83,10 @@ else:  # non-iOS
         '''Invoke one test module and return
            the exit status and console output.
         '''
-        c = Python_O.split() + [test]
+        if __debug__:
+            c = [PythonX, test]
+        else:
+            c = [PythonX, '-O', test]
         p = Popen(c, creationflags=0,
                      executable   =sys.executable,
                    # shell        =True,
@@ -97,10 +102,11 @@ else:  # non-iOS
         # test failures in the tested module
         return p.returncode, r
 
+    # replace home dir with ~
+    Python_O = PythonX.join(.replace(environ.get('HOME', '~'), '~')
 
-# replace home dir with ~
-Python_O = Python_O.replace(environ.get('HOME', '~'), '~')
-
+if not debug__:
+    Python_O += ' -O'
 # shorten Python path [-OO]
 if len(Python_O) > 32:
     Python_O = Python_O[:16] + '...' + Python_O[-16:]
