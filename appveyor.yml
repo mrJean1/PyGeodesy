@@ -24,7 +24,8 @@ build: off
 
 test_script:
   - "python C:\\projects\\pygeodesy\\test\\testBases.py"
+  - "del C:\\projects\\pygeodesy\\testresults\\testresults*Windows*.txt"
   - "python C:\\projects\\pygeodesy\\test\\run.py -results"
-  - "dir C:\\projects\\pygeodesy\\testresults"
+  - "type C:\\projects\\pygeodesy\\testresults\\testresults*Windows*.txt"
 
 # version: '{build}'
