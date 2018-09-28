@@ -2,7 +2,7 @@
 environment:
 
   APPVEYOR: True
-  CODECOV_ENV: APPVEYOR_JOB_NAME
+# CODECOV_ENV: APPVEYOR_JOB_NAME
 
   matrix:
     - APPVEYOR_JOB_NAME: "python36-x64"
@@ -16,6 +16,7 @@ install:
   - "set PYTHON=\"C:\\Program Files\\Python\""
   - "set PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
   - "set PYTHONIOENCODING=utf-8"
+  - "pip install geographiclib"
   # "pip install win_unicode_console"
 
 build: off
@@ -25,8 +26,7 @@ build: off
 
 test_script:
   - "cd C:\\projects\\pygeodesy"
-  - "python test\\testBases.py"
-  - "python test\\run.py -results"
-  - "type testresults\\testresults*Windows*.txt"
+  - "python test\\run.py -failedonly"
+  # "type testresults\\testresults*Windows*.txt"
 
 # version: '{build}'
