@@ -62,12 +62,13 @@ U{geographiclib<http://PyPI.org/project/geographiclib>} 1.49) and with
 U{PyPy 6.0.0<http://PyPy.org>} Python 2.7.13 and 3.5.3 on macOS 10.13.6
 High Sierra, with Python 2.6.9, 2.7.14, 3.5.6 and 3.6.3 (and
 U{geographiclib<http://PyPI.org/project/geographiclib>} 1.49) on U{Debian
-8<http://Travis-CI.org/mrJean1/PyGeodesy>}, with Python 3.7.0 (and
+8<http://Travis-CI.org/mrJean1/PyGeodesy>} and with Python 3.7.0 (and
 U{geographiclib<http://PyPI.org/project/geographiclib>} 1.49) on
-U{Debian 9<http://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>} and
-with Python 2.7.15 and 3.6.6 (both with U{geographiclib
-<http://PyPI.org/project/geographiclib>} 1.49) on U{Windows Server 2012R2
-<http://CI.AppVeyor.com/project/mrJean1/pygeodesy>}, all in 64-bit only.
+U{Debian 9<http://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>}, all
+in 64-bit only and with Python 2.7.15, 3.6.6 and 3.7.0 (all with
+U{geographiclib<http://PyPI.org/project/geographiclib>} 1.49) on
+U{Windows Server 2012R2<http://CI.AppVeyor.com/project/mrJean1/pygeodesy>}
+in 32- and 64-bit.
 
 Previously, the tests were run with 64-bit Python 2.6.9 (and numpy 1.6.2),
 2.7.10 (and numpy 1.8.0rc1), 2.7.13, 2.7.14 (and numpy 1.13.1), 3.5.3,
@@ -213,7 +214,7 @@ __all__ = ('bases', 'datum', 'dms', 'elevations',  # modules
            'pygeodesy_dirname',
            'version',
            'crosserrors')  # extended below
-__version__ = '18.09.27'
+__version__ = '18.09.28'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))

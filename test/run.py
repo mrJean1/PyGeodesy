@@ -14,7 +14,7 @@ from os import environ, linesep as NL
 import sys
 
 __all__ = ('run2',)
-__version__ = '18.09.27'
+__version__ = '18.09.28'
 
 if isiOS:  # MCCABE 14
 
@@ -148,20 +148,25 @@ def _run(test):
             raise SystemExit
 
     elif _failedonly:
-        for t in r.split(NL):
-            # print failures, KNOWN ones and totals
-            if 'FAILED,' in t or 'passed' in t or 'SKIPPED' in t:
-                print(t.rstrip())
-        print('')
+        for t in _testlines(r):
+            if ', KNOWN' not in t:
+                print(t)
 
     elif _verbose:
         print(r + NL)
 
     elif x:
-        for t in r.split(NL):
-            # print failures, without KNOWN ones
-            if 'FAILED,' in t and 'KNOWN' not in t:
-                print(t.rstrip())
+        for t in _testlines(r):
+            print(t)
+
+
+def _testlines(r):
+    '''(INTERNAL) Yield test lines.
+    '''
+    for t in r.split(NL):
+        if 'FAILED,' in t or 'passed' in t or 'SKIPPED' in t:
+            yield t.rstrip()
+    yield ''
 
 
 def _write(text):
@@ -226,4 +231,4 @@ if __name__ == '__main__':  # MCCABE 16
         x = 'all OK'
 
     t = '%s %s %s (%s) %s' % (argv0, PythonX_O, x, v, s)
-    _exit(t, t, 0)
+    _exit(t, t, 2 if _X else 0)

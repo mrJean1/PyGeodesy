@@ -9,7 +9,7 @@ See also U{Geodesic calculations for an ellipsoid done right
 '''
 
 __all__ = ('Tests',)
-__version__ = '18.09.14'
+__version__ = '18.09.28'
 
 from base import geographiclib, TestsBase
 
@@ -564,7 +564,8 @@ if __name__ == '__main__':
 64.60720493901 0 108.984728103641 -57.494440629886070709 113.054056725195484074 130.988276746435850126 16487654.3721395 148.441701929211374632 3333513.871827889334 15572115521240.964969
 '''.strip())
 
-    t = Tests(__file__, __version__, ellipsoidalVincenty, verbose=v)
+    m = ellipsoidalKarney if geographiclib else ellipsoidalVincenty
+    t = Tests(__file__, __version__, m, verbose=v)
 
     for n, test in enumerate(tests.readlines()):
         t.testGeodTest(test.rstrip(), 'line %d ' % (n + 1,), fmtV, epsV, fmtK, epsK)
