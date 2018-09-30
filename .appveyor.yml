@@ -4,6 +4,8 @@ environment:
 # CODECOV_ENV: APPVEYOR_JOB_NAME
 
   matrix:
+    - APPVEYOR_JOB_NAME: "MiniConda37-64bit"
+      PYTHON: "C:\\Miniconda37-x64"
     - APPVEYOR_JOB_NAME: "Python37-64bit"
       PYTHON: "C:\\Python37-x64"
     - APPVEYOR_JOB_NAME: "Python37-32bit"
