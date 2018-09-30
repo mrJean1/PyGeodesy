@@ -67,7 +67,7 @@
                  |        
        bases.Based --+    
                      |    
-bases.LatLonHeightBase --+
+<a href="pygeodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a> --+
                          |
                         <strong class="uidshort">LatLonSphericalBase</strong>
 </pre>
@@ -79,7 +79,7 @@ bases.LatLonHeightBase --+
 </dd></dl>
 
 <hr />
-<p>(INTERNAL) Base class for spherical Latlons.</p>
+<p>(INTERNAL) Base class for spherical <i>LatLon</i>s.</p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -157,7 +157,8 @@ bases.LatLonHeightBase --+
         <span class="summary-sig-arg">strll</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">,</code><code class="variable-quote">'</code></span>)</span><br />
-      Parse a string representing lat-/longitude point and return a LatLon.</td>
+      Parse a string representing lat-/longitude point and return a 
+      <i>LatLon</i>.</td>
           <td align="right" valign="top">
             
             
@@ -256,7 +257,7 @@ bases.LatLonHeightBase --+
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#toWm" class="summary-sig-name">toWm</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6378137.0</span>)</span><br />
-      Convert this <i>LatLon</i> point to a WM coordinate.</td>
+      Convert this <i>LatLon</i> point to a <i>WM</i> coordinate.</td>
           <td align="right" valign="top">
             
             
@@ -268,22 +269,24 @@ bases.LatLonHeightBase --+
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>bases.LatLonHeightBase</code></b>:
-      <code>__eq__</code>,
-      <code>__init__</code>,
-      <code>__ne__</code>,
-      <code>__str__</code>,
-      <code>antipode</code>,
-      <code>bounds</code>,
-      <code>copy</code>,
-      <code>equals</code>,
-      <code>equals3</code>,
-      <code>isantipode</code>,
-      <code>points</code>,
-      <code>to2ab</code>,
-      <code>to3llh</code>,
-      <code>to3xyz</code>,
-      <code>toStr</code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a></code></b>:
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#__eq__">__eq__</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#__init__">__init__</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#__ne__">__ne__</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#__str__">__str__</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#antipode">antipode</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#bounds">bounds</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#compassAngle">compassAngle</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#copy">copy</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equals">equals</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equals3">equals3</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#isantipode">isantipode</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#latlon_">latlon_</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#points">points</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#to2ab">to2ab</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#to3llh">to3llh</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#to3xyz">to3xyz</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#toStr">toStr</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>bases.Based</code></b>:
       <code>__repr__</code>,
@@ -341,11 +344,11 @@ bases.LatLonHeightBase --+
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>bases.LatLonHeightBase</code></b>:
-      <code>height</code>,
-      <code>lat</code>,
-      <code>latlon</code>,
-      <code>lon</code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a></code></b>:
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#height">height</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#lat">lat</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#latlon">latlon</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#lon">lon</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>bases.Named</code></b>:
       <code>classname</code>,
@@ -457,9 +460,7 @@ bases.LatLonHeightBase --+
   </tr></table>
   
   <p>Return the minimum latitude reached when travelling on a great circle 
-  on given bearing from this point. See method <a 
-  href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#maxLat" 
-  class="link">maxLat</a> for more details.</p>
+  on given bearing from this point.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -468,7 +469,12 @@ bases.LatLonHeightBase --+
     <dt>Returns:</dt>
         <dd>Minimum latitude (degrees90).</dd>
   </dl>
-<div class="fields">      <p><strong>JS name:</strong>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a 
+        href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#maxLat"
+        class="link">maxLat</a> for more details.
+      </p>
+      <p><strong>JS name:</strong>
         <i>minLatitude</i>.
       </p>
 </div></td></tr></table>
@@ -491,7 +497,7 @@ bases.LatLonHeightBase --+
   </tr></table>
   
   <p>Parse a string representing lat-/longitude point and return a 
-  LatLon.</p>
+  <i>LatLon</i>.</p>
   <p>The lat- and longitude must be separated by a sep[arator] character.  
   If height is present it must follow and be separated by another 
   sep[arator].  Lat- and longitude may be swapped, provided at least one 
@@ -508,10 +514,10 @@ bases.LatLonHeightBase --+
         <li><strong class="pname"><code>sep</code></strong> - Optional separator (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The point (spherical LatLon).</dd>
+        <dd>The point (spherical <i>LatLon</i>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid strll.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>strll</i>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -536,13 +542,13 @@ bases.LatLonHeightBase --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - The other point (spherical LatLon).</li>
+        <li><strong class="pname"><code>other</code></strong> - The other point (spherical <i>LatLon</i>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Initial bearing (compass degrees).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not spherical.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not spherical.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -577,14 +583,14 @@ bases.LatLonHeightBase --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>distance</code></strong> - Distance travelled (same units as radius).</li>
+        <li><strong class="pname"><code>distance</code></strong> - Distance travelled (same units as <i>radius</i>).</li>
         <li><strong class="pname"><code>bearing</code></strong> - Bearing from this point (compass degrees).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the default height (meter or same 
-          unit as radius).</li>
+          unit as <i>radius</i>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The destination point (spherical LatLon).</dd>
+        <dd>The destination point (spherical <i>LatLon</i>).</dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -617,14 +623,14 @@ bases.LatLonHeightBase --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - The other point (spherical LatLon).</li>
+        <li><strong class="pname"><code>other</code></strong> - The other point (spherical <i>LatLon</i>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional mean radius of earth (scalar, default meter).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Distance (in the same units as radius).</dd>
+        <dd>Distance (in the same units as <i>radius</i>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not spherical.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not spherical.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -660,10 +666,10 @@ bases.LatLonHeightBase --+
           as radius).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The midpoint (spherical LatLon).</dd>
+        <dd>The midpoint (spherical <i>LatLon</i>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not spherical.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not spherical.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -690,12 +696,7 @@ bases.LatLonHeightBase --+
     </td>
   </tr></table>
   
-  <p>Convert this <i>LatLon</i> point to a WM coordinate.</p>
-  <p>See function <a 
-  href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#toWm" 
-  class="link">toWm</a> in module <a 
-  href="pygeodesy.webmercator-module.html" class="link">webmercator</a> for
-  details.</p>
+  <p>Convert this <i>LatLon</i> point to a <i>WM</i> coordinate.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -705,7 +706,14 @@ bases.LatLonHeightBase --+
         <dd>The WM coordinate (<a href="pygeodesy.webmercator.Wm-class.html" 
           class="link">Wm</a>).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a 
+        href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#toWm" 
+        class="link">toWm</a> in module <a 
+        href="pygeodesy.webmercator-module.html" 
+        class="link">webmercator</a> for details.
+      </p>
+</div></td></tr></table>
 </div>
 <br />
 <!-- ==================== PROPERTY DETAILS ==================== -->
@@ -811,7 +819,7 @@ class="link">Datum</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Sep 29 12:14:13 2018
+    Generated by Epydoc 3.0.1 on Sun Sep 30 14:09:58 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

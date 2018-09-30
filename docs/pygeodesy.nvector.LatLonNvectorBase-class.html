@@ -3,7 +3,7 @@
           "DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>abc.ABCMeta</title>
+  <title>pygeodesy.nvector.LatLonNvectorBase</title>
   <link rel="stylesheet" href="epydoc.css" type="text/css" />
   <script type="text/javascript" src="epydoc.js"></script>
 </head>
@@ -42,9 +42,9 @@
   <tr valign="top">
     <td width="100%">
       <span class="breadcrumbs">
-        abc ::
-        ABCMeta ::
-        Class&nbsp;ABCMeta
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        <a href="pygeodesy.nvector-module.html">Module&nbsp;nvector</a> ::
+        Class&nbsp;LatLonNvectorBase
       </span>
     </td>
     <td>
@@ -52,32 +52,35 @@
         <!-- hide/show private -->
         <tr><td align="right"><span class="options"
             >[<a href="frames.html" target="_top">frames</a
-            >]&nbsp;|&nbsp;<a href="abc.ABCMeta-class.html"
+            >]&nbsp;|&nbsp;<a href="pygeodesy.nvector.LatLonNvectorBase-class.html"
             target="_top">no&nbsp;frames</a>]</span></td></tr>
       </table>
     </td>
   </tr>
 </table>
-<!-- ==================== TYPE DESCRIPTION ==================== -->
-<h1 class="epydoc">Type ABCMeta</h1><p class="nomargin-top"></p>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class LatLonNvectorBase</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-object --+    
-         |    
-      type --+
-             |
-            <strong class="uidshort">ABCMeta</strong>
+    object --+            
+             |            
+   bases.Named --+        
+                 |        
+       bases.Based --+    
+                     |    
+<a href="pygeodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a> --+
+                         |
+                        <strong class="uidshort">LatLonNvectorBase</strong>
 </pre>
 
+<dl><dt>Known Subclasses:</dt>
+<dd>
+      <ul class="subclass-list">
+<li><a href="pygeodesy.ellipsoidalNvector.LatLon-class.html">ellipsoidalNvector.LatLon</a></li><li>, <a href="pygeodesy.sphericalNvector.LatLon-class.html">sphericalNvector.LatLon</a></li>  </ul>
+</dd></dl>
+
 <hr />
-<p>Metaclass for defining Abstract Base Classes (ABCs).</p>
-  <p>Use this metaclass to create an ABC.  An ABC can be subclassed 
-  directly, and then acts as a mix-in class.  You can also register 
-  unrelated concrete classes (even built-in classes) and unrelated ABCs as 
-  'virtual subclasses' -- these and their descendants will be considered 
-  subclasses of the registering ABC by the built-in issubclass() function, 
-  but the registering ABC won't show up in their MRO (Method Resolution 
-  Order) nor will method implementations defined by the registering ABC be 
-  callable (not even via super()).</p>
+<p>(INTERNAL) Base class for n-vector-based ellipsoidal and spherical 
+  <i>LatLon</i> classes.</p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -89,31 +92,14 @@ object --+
 </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">bool</span>
+      <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="abc.ABCMeta-class.html#__instancecheck__" class="summary-sig-name">__instancecheck__</a>(<span class="summary-sig-arg">cls</span>,
-        <span class="summary-sig-arg">instance</span>)</span><br />
-      Override for isinstance(instance, cls).</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">bool</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="abc.ABCMeta-class.html#__subclasscheck__" class="summary-sig-name">__subclasscheck__</a>(<span class="summary-sig-arg">cls</span>,
-        <span class="summary-sig-arg">subclass</span>)</span><br />
-      Override for issubclass(subclass, cls).</td>
+          <td><span class="summary-sig"><a href="pygeodesy.nvector.LatLonNvectorBase-class.html#others" class="summary-sig-name">others</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">other</code><code class="variable-quote">'</code></span>)</span><br />
+      Refine the class comparison.</td>
           <td align="right" valign="top">
             
             
@@ -129,9 +115,9 @@ object --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="register"></a><span class="summary-sig-name">register</span>(<span class="summary-sig-arg">cls</span>,
-        <span class="summary-sig-arg">subclass</span>)</span><br />
-      Register a virtual subclass of an ABC.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.nvector.LatLonNvectorBase-class.html#to4xyzh" class="summary-sig-name">to4xyzh</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Convert this (geodetic) point to n-vector (normal to the earth's 
+      surface) x/y/z components and height.</td>
           <td align="right" valign="top">
             
             
@@ -143,59 +129,42 @@ object --+
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>type</code></b>:
-      <code>__call__</code>,
-      <code>__delattr__</code>,
-      <code>__eq__</code>,
-      <code>__ge__</code>,
-      <code>__getattribute__</code>,
-      <code>__gt__</code>,
-      <code>__hash__</code>,
-      <code>__init__</code>,
-      <code>__le__</code>,
-      <code>__lt__</code>,
-      <code>__ne__</code>,
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a></code></b>:
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#__eq__">__eq__</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#__init__">__init__</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#__ne__">__ne__</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#__str__">__str__</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#antipode">antipode</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#bounds">bounds</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#compassAngle">compassAngle</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#copy">copy</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equals">equals</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equals3">equals3</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#isantipode">isantipode</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#latlon_">latlon_</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#points">points</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#to2ab">to2ab</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#to3llh">to3llh</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#to3xyz">to3xyz</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#toStr">toStr</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>bases.Based</code></b>:
       <code>__repr__</code>,
-      <code>__setattr__</code>,
-      <code>__subclasses__</code>,
-      <code>mro</code>
+      <code>classof</code>,
+      <code>toStr2</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
       <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__new__</code>,
       <code>__reduce__</code>,
       <code>__reduce_ex__</code>,
+      <code>__setattr__</code>,
       <code>__sizeof__</code>,
-      <code>__str__</code>,
       <code>__subclasshook__</code>
       </p>
-    </td>
-  </tr>
-</table>
-<!-- ==================== STATIC METHODS ==================== -->
-<a name="section-StaticMethods"></a>
-<table class="summary" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td align="left" colspan="2" class="table-header">
-    <span class="table-header">Static Methods</span></td>
-</tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">a new object with type S, a subtype of T</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="abc.ABCMeta-class.html#__new__" class="summary-sig-name">__new__</a>(<span class="summary-sig-arg">mcls</span>,
-        <span class="summary-sig-arg">name</span>,
-        <span class="summary-sig-arg">bases</span>,
-        <span class="summary-sig-arg">namespace</span>)</span></td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
     </td>
   </tr>
 </table>
@@ -209,17 +178,16 @@ object --+
 </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>type</code></b>:
-      <code>__abstractmethods__</code>,
-      <code>__base__</code>,
-      <code>__bases__</code>,
-      <code>__basicsize__</code>,
-      <code>__dictoffset__</code>,
-      <code>__flags__</code>,
-      <code>__itemsize__</code>,
-      <code>__mro__</code>,
-      <code>__name__</code>,
-      <code>__weakrefoffset__</code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a></code></b>:
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#height">height</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#lat">lat</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#latlon">latlon</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#lon">lon</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>bases.Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>,
+      <code>name</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
@@ -236,79 +204,60 @@ object --+
     <span class="table-header">Method Details</span></td>
 </tr>
 </table>
-<a name="__instancecheck__"></a>
+<a name="others"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__instancecheck__</span>(<span class="sig-arg">cls</span>,
-        <span class="sig-arg">instance</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">others</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">other</code><code class="variable-quote">'</code></span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Override for isinstance(instance, cls).</p>
+  <p>Refine the class comparison.</p>
   <dl class="fields">
-    <dt>Returns: bool</dt>
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<i>LatLon</i>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional, other's name (string).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>None.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - This and type(<i>other</i>) incompatible.</li>
+    </ul></dd>
     <dt>Overrides:
-        type.__instancecheck__
+        bases.Based.others
     </dt>
   </dl>
 </td></tr></table>
 </div>
-<a name="__new__"></a>
+<a name="to4xyzh"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__new__</span>(<span class="sig-arg">mcls</span>,
-        <span class="sig-arg">name</span>,
-        <span class="sig-arg">bases</span>,
-        <span class="sig-arg">namespace</span>)</span>
-    <br /><em class="fname">Static Method</em>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">to4xyzh</span>(<span class="sig-arg">self</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  
+  <p>Convert this (geodetic) point to n-vector (normal to the earth's 
+  surface) x/y/z components and height.</p>
   <dl class="fields">
-    <dt>Returns: a new object with type S, a subtype of T</dt>
-    <dt>Overrides:
-        object.__new__
-        <dd><em class="note">(inherited documentation)</em></dd>
-    </dt>
-  </dl>
-</td></tr></table>
-</div>
-<a name="__subclasscheck__"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__subclasscheck__</span>(<span class="sig-arg">cls</span>,
-        <span class="sig-arg">subclass</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Override for issubclass(subclass, cls).</p>
-  <dl class="fields">
-    <dt>Returns: bool</dt>
-    <dt>Overrides:
-        type.__subclasscheck__
-    </dt>
+    <dt>Returns:</dt>
+        <dd>4-Tuple (x, y, z, h) in (meter).</dd>
   </dl>
 </td></tr></table>
 </div>

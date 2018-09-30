@@ -23,12 +23,12 @@ from math import atan2, copysign, cos, sin, sqrt
 
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
-__all__ = ('CartesianBase', 'LatLonEllipsoidalBase')
+__all__ = ('CartesianBase', 'LatLonEllipsoidalBase')  # for documentation
 __version__ = '18.09.23'
 
 
 class CartesianBase(Vector3d):
-    '''(INTERNAL) Base class for ellipsoidal Cartesians.
+    '''(INTERNAL) Base class for ellipsoidal I{Cartesian}s.
     '''
 
     def _applyHelmert(self, transform, inverse=False):
@@ -46,7 +46,7 @@ class CartesianBase(Vector3d):
 
     def to3llh(self, datum=Datums.WGS84):
         '''Convert this (geocentric) Cartesian (x/y/z) point to
-           (ellipsoidal) geodetic lat-, longitude and height on
+           (ellipsoidal, geodetic) lat-, longitude and height on
            the given datum.
 
            Uses Bowring’s (1985) formulation for μm precision in concise
@@ -55,10 +55,9 @@ class CartesianBase(Vector3d):
            233668213_The_Accuracy_of_Geodetic_Latitude_and_Height_Equations>},
            B. R. Bowring, Survey Review, Vol 28, 218, Oct 1985.
 
-           See also Ralph M. Toms U{'An Efficient Algorithm for Geocentric
-           to Geodetic Coordinate Conversion'
-           <http://www.OSTI.gov/scitech/biblio/110235>}, Sept 1995 and
-           U{'An Improved Algorithm for Geocentric to Geodetic Coordinate
+           See also Ralph M. Toms U{'An Efficient Algorithm for Geocentric to
+           Geodetic Coordinate Conversion'<http://www.OSTI.gov/scitech/biblio/110235>},
+           Sept 1995 and U{'An Improved Algorithm for Geocentric to Geodetic Coordinate
            Conversion'<http://www.OSTI.gov/scitech/servlets/purl/231228>},
            Apr 1996, from Lawrence Livermore National Laboratory.
 
@@ -120,7 +119,7 @@ class CartesianBase(Vector3d):
 
 
 class LatLonEllipsoidalBase(LatLonHeightBase):
-    '''(INTERNAL) Base class for ellipsoidal LatLons.
+    '''(INTERNAL) Base class for ellipsoidal I{LatLon}s.
     '''
     _convergence  = None  #: (INTERNAL) UTM meridian convergence (degrees).
     _datum        = Datums.WGS84  #: (INTERNAL) Datum (L{Datum}).
@@ -133,8 +132,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
 
     def __init__(self, lat, lon, height=0, datum=None, name=''):
         '''Create an (ellipsoidal) I{LatLon} point frome the given
-           lat-, longitude and height (elevation, altitude) on the
-           given datum.
+           lat-, longitude and height on the given datum.
 
            @param lat: Latitude (degrees or DMS string with N or S suffix).
            @param lon: Longitude (degrees or DMS string with E or W suffix).
@@ -152,9 +150,10 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
             self.datum = datum
 
     def _Radjust2(self, adjust, datum, meter, model):
-        # adjust elevation or geoidHeight with diference in
-        # Gaussian radii of curvature of given datum and NAD83
-        # (this an arbitrary, likely incorrect adjustment)
+        '''(INTERNAL) Adjust elevation or geoidHeight with diference
+           in Gaussian radii of curvature of given datum and NAD83.
+           This is an arbitrary, possibly incorrect adjustment.
+        '''
         if adjust and isinstance(meter, float):
             n = Datums.NAD83.ellipsoid.rocGauss(self.lat)
             if min(abs(meter), n) > EPS:
@@ -197,7 +196,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
         return self._convergence
 
     def convertDatum(self, datum):
-        '''Convert this I{LatLon} point to a new coordinate system.
+        '''Convert this I{LatLon} point to a new datum.
 
            @param datum: Datum to convert to (L{Datum}).
 
@@ -224,7 +223,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
 
         return ll.toCartesian()._applyHelmert(t, i).toLatLon(datum=datum)
 
-    @property_RO
+    @property
     def datum(self):
         '''Get this point's datum (L{Datum}).
         '''

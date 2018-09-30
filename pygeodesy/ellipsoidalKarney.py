@@ -36,7 +36,7 @@ from utily import polygon, property_RO, unroll180, \
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon',  # classes
            'areaOf', 'perimeterOf')  # functions
-__version__ = '18.09.23'
+__version__ = '18.09.29'
 
 
 class LatLon(LatLonEllipsoidalBase):
@@ -219,7 +219,7 @@ class LatLon(LatLonEllipsoidalBase):
 
     @property_RO
     def geodesic(self):
-        '''Get this C{LatLon}'s U{Geodesic
+        '''Get this I{LatLon}'s U{Geodesic
            <http://GeographicLib.SourceForge.io/html/python/code.html>},
            provided U{GeographicLib
            <http://PyPI.org/project/geographiclib>} is installed.

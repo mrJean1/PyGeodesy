@@ -20,9 +20,10 @@ from vector3d import Vector3d, sumOf as _sumOf
 
 # all public constants, classes and functions
 __all__ = ('NorthPole', 'SouthPole',  # constants
+           'LatLonNvectorBase',  # for documentation
            'Nvector',  # classes
            'sumOf')  # functions
-__version__ = '18.09.23'
+__version__ = '18.09.29'
 
 
 class Nvector(Vector3d):  # XXX kept private
@@ -164,13 +165,13 @@ SouthPole = Nvector(0, 0, -1, name='SouthPole')  #: South pole (L{Nvector}).
 
 class LatLonNvectorBase(LatLonHeightBase):
     '''(INTERNAL) Base class for n-vector-based ellipsoidal
-        and spherical C{LatLon} classes.
+        and spherical I{LatLon} classes.
     '''
 
     def others(self, other, name='other'):
         '''Refine the class comparison.
 
-           @param other: The other point (L{LatLon}).
+           @param other: The other point (I{LatLon}).
            @keyword name: Optional, other's name (string).
 
            @raise TypeError: This and type(I{other}) incompatible.

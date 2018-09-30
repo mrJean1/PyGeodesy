@@ -9,7 +9,8 @@ and U{http://www.Movable-Type.co.UK/scripts/latlong-vectors.html}.
 
 @newfield example: Example, Examples
 '''
-from dms   import F_D, F_DMS, latDMS, lonDMS, parseDMS, parseDMS2
+from dms import F_D, F_DMS, compassAngle, latDMS, lonDMS, \
+                parseDMS, parseDMS2
 from fmath import EPS, favg, map1, scalar
 from utily import R_M, antipode, isantipode, polygon, property_RO, unStr
 
@@ -17,10 +18,11 @@ from math import asin, cos, degrees, radians, sin
 
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
-__all__ = (  # 'Based', 'LatLonHeightBase', 'Named', 'VectorBased',
+__all__ = (  # 'Based', 'Named', 'VectorBased',
+           'LatLonHeightBase',  # for documentation
            'classname', 'classnaming',
            'inStr')
-__version__ = '18.09.23'
+__version__ = '18.09.29'
 
 __X = object()  # unique instance
 
@@ -250,10 +252,31 @@ class LatLonHeightBase(Based):
         return self.classof(self.lat - h, self.lon - w, height=self.height), \
                self.classof(self.lat + h, self.lon + w, height=self.height)
 
+    def compassAngle(self, other):
+        '''Return the angle from North for the direction vector between
+           this and an other point.
+
+           Suitable only for short, non-near-polar vectors up to a few
+           hundred Km or Miles.  Use I{LatLon} methods I{initialBearingTo}
+           or I{forward azimuth} for larger distances.
+
+           @param other: The other point (I{LatLon}).
+
+           @return: Angle from North (degrees360).
+
+           @raise TypeError: The I{other} point is not I{LatLon}.
+
+           @note: Courtesy Martin Schultz.
+
+           @see: U{Local, Flat Earth<http://www.EdWilliams.org/avform.htm#flat>}.
+        '''
+        self.others(other)
+        return compassAngle(self.lat, self.lon, other.lat, other.lon)
+
     def copy(self):
         '''Copy this point.
 
-           @return: The copy (C{LatLon} or subclass thereof).
+           @return: The copy (I{LatLon} or subclass thereof).
         '''
         return self._xcopy()
 
@@ -356,6 +379,18 @@ class LatLonHeightBase(Based):
         lat = parseDMS(lat, suffix='NS', clip=90)
         self._update(lat != self._lat)
         self._lat = lat
+
+    def latlon_(self, ndigits=0):
+        '''Return the latitude and longitude, rounded.
+
+           @keyword ndigits: Number of decimal digits (C{int}).
+
+           @return: 2-Tuple (lat, lon) in (degrees, degrees), rounded
+                    away from zero to I{ndigits}.
+
+           @see: Built-in function L{round}.
+        '''
+        return round(self.lat, ndigits), round(self.lon, ndigits)
 
     @property
     def latlon(self):
@@ -560,7 +595,7 @@ def classname(inst, prefixed=None):
 
 
 def classnaming(prefixed=None):
-    '''Set the default class naming for C{[module.].class} names.
+    '''Set the default class naming for C{[module.]class} names.
 
        @keyword prefixed: Include the module name (bool).
 
