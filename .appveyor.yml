@@ -20,8 +20,8 @@ environment:
 
 install:
   # symlink python from a directory with a space
-  - mklink /d \"C:\\Program Files\\Python\" %PYTHON%
-  - set PYTHON=\"C:\\Program Files\\Python\"
+  - "mklink /d \"C:\\Program Files\\Python\" %PYTHON%"
+  - "set PYTHON=\"C:\\Program Files\\Python\""
   - set PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%
   # UTF-8 for unicode test results
   - set PYTHONIOENCODING=utf-8
