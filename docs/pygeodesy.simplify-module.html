@@ -180,7 +180,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.09.23
+        18.09.30
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -202,6 +202,28 @@
         <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
       Basic simplification of a path of <i>LatLon</i> points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="simplify2"></a><span class="summary-sig-name">simplify2</span>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">pipe</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">**options</span>)</span><br />
+      DEPRECATED, use function <i>simplifyRW</i>.</td>
           <td align="right" valign="top">
             
             
@@ -264,28 +286,6 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.simplify-module.html#simplifyRW" class="summary-sig-name">simplifyRW</a>(<span class="summary-sig-arg">points</span>,
-        <span class="summary-sig-arg">pipe</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
-        <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">**options</span>)</span><br />
-      Reumann-Witkam simplification of a path of <i>LatLon</i> points.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.simplify-module.html#simplify2" class="summary-sig-name">simplify2</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">pipe</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>,
@@ -551,53 +551,6 @@
   </dl>
 </td></tr></table>
 </div>
-<a name="simplify2"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">simplify2</span>(<span class="sig-arg">points</span>,
-        <span class="sig-arg">pipe</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
-        <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">indices</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">**options</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Reumann-Witkam simplification of a path of <i>LatLon</i> points.</p>
-  <p>Eliminates any points too close together or within the given pipe 
-  tolerance along an edge.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
-        <li><strong class="pname"><code>pipe</code></strong> - Half pipe width (meter, same units as radius).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
-        <li><strong class="pname"><code>shortest</code></strong> - Optional, shortest or perpendicular distance (bool).</li>
-        <li><strong class="pname"><code>indices</code></strong> - Optionally return the simplified point indices instead of the 
-          simplified points (bool).</li>
-        <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
-          href="pygeodesy.utily-module.html#equirectangular_" 
-          class="link">equirectangular_</a>.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Simplified points (list of <i>LatLon</i>s).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
-        <a href="pygeodesy.utily-module.html#equirectangular_" 
-        class="link">equirectangular_</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Radius or pipe tolerance too small.</li>
-    </ul></dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="simplifyVW"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -734,7 +687,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Sep 30 14:09:57 2018
+    Generated by Epydoc 3.0.1 on Tue Oct  2 13:55:33 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

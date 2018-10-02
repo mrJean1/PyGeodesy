@@ -36,7 +36,7 @@ from utily import polygon, property_RO, unroll180, \
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon',  # classes
            'areaOf', 'perimeterOf')  # functions
-__version__ = '18.09.29'
+__version__ = '18.09.30'
 
 
 class LatLon(LatLonEllipsoidalBase):
@@ -50,6 +50,11 @@ class LatLon(LatLonEllipsoidalBase):
        @note: This L{LatLon}'s methods require the U{GeographicLib
        <http://PyPI.org/project/geographiclib>} package to be installed.
     '''
+
+    def bearingTo(self, other, wrap=False):
+        '''DEPRECATED, use method I{initialBearingTo}.
+        '''
+        return self.initialBearingTo(other, wrap=wrap)
 
     def destination(self, distance, bearing, height=None):
         '''Compute the destination point after having travelled
@@ -86,7 +91,7 @@ class LatLon(LatLonEllipsoidalBase):
            axes, conventionally meter.  The distance is measured on the
            surface of the ellipsoid, ignoring this point's height.
 
-           The initial and final bearing (aka forward and reverse azimuth)
+           The initial and final bearing (forward and reverse azimuth)
            are in compass degrees.
 
            The destination point's height and datum are set to this
@@ -148,7 +153,7 @@ class LatLon(LatLonEllipsoidalBase):
            conventially meter.  The distance is measured on the surface
            of the ellipsoid, ignoring this point's height.
 
-           The initial and final bearing (aka forward and reverse azimuth)
+           The initial and final bearing (forward and reverse azimuth)
            are in compass degrees from North.
 
            @param other: Destination point (L{LatLon}).
@@ -258,8 +263,6 @@ class LatLon(LatLonEllipsoidalBase):
            @JSname: I{bearingTo}.
         '''
         return self._inverse(other, True, wrap)[1]
-
-    bearingTo = initialBearingTo  # for backward compatibility
 
     def toCartesian(self):
         '''Convert this (geodetic) point to (geocentric) x/y/z

@@ -12,7 +12,8 @@ and U{http://www.Movable-Type.co.UK/scripts/latlong-vectors.html}.
 from dms import F_D, F_DMS, compassAngle, latDMS, lonDMS, \
                 parseDMS, parseDMS2
 from fmath import EPS, favg, map1, scalar
-from utily import R_M, antipode, isantipode, polygon, property_RO, unStr
+from utily import R_M, antipode, equirectangular, isantipode, \
+                  polygon, property_RO, unStr
 
 from math import asin, cos, degrees, radians, sin
 
@@ -22,7 +23,7 @@ __all__ = (  # 'Based', 'Named', 'VectorBased',
            'LatLonHeightBase',  # for documentation
            'classname', 'classnaming',
            'inStr')
-__version__ = '18.09.29'
+__version__ = '18.09.30'
 
 __X = object()  # unique instance
 
@@ -153,6 +154,7 @@ class LatLonHeightBase(Based):
        spherical or ellipsiodal earth models.
     '''
     _ab     = ()    #: (INTERNAL) Cache (lat, lon) radians (2-tuple)
+    _datum  = None  #: (INTERNAL) Datum, overriden
     _height = 0     #: (INTERNAL) Height (meter)
     _lat    = 0     #: (INTERNAL) Latitude (degrees)
     _lon    = 0     #: (INTERNAL) Longitude (degrees)
@@ -185,10 +187,10 @@ class LatLonHeightBase(Based):
             self.name = name
 
     def __eq__(self, other):
-        return self.equals(other)
+        return self.isequalTo(other)
 
     def __ne__(self, other):
-        return not self.equals(other)
+        return not self.isequalTo(other)
 
     def __str__(self):
         return self.toStr(form=F_D, prec=6)
@@ -253,12 +255,17 @@ class LatLonHeightBase(Based):
                self.classof(self.lat + h, self.lon + w, height=self.height)
 
     def compassAngle(self, other):
+        '''DEPRECATED, use method I{compassAngleTo}.
+        '''
+        return self.compassAngleTo(other)
+
+    def compassAngleTo(self, other):
         '''Return the angle from North for the direction vector between
            this and an other point.
 
            Suitable only for short, non-near-polar vectors up to a few
-           hundred Km or Miles.  Use I{LatLon} methods I{initialBearingTo}
-           or I{forward azimuth} for larger distances.
+           hundred Km or Miles.  Use method I{initialBearingTo} for
+           larger distances.
 
            @param other: The other point (I{LatLon}).
 
@@ -268,7 +275,8 @@ class LatLonHeightBase(Based):
 
            @note: Courtesy Martin Schultz.
 
-           @see: U{Local, Flat Earth<http://www.EdWilliams.org/avform.htm#flat>}.
+           @see: U{Local, flat earth approximation
+                 <http://www.EdWilliams.org/avform.htm#flat>}.
         '''
         self.others(other)
         return compassAngle(self.lat, self.lon, other.lat, other.lon)
@@ -281,53 +289,43 @@ class LatLonHeightBase(Based):
         return self._xcopy()
 
     def equals(self, other, eps=None):
-        '''Compare this point with an other point.
+        '''DEPRECATED, use method I{isequalTo}.
+        '''
+        return self.isequalTo(other, eps=eps)
+
+    def equals3(self, other, eps=None):
+        '''DEPRECATED, use method I{isequalTo3}.
+        '''
+        return self.isequalTo3(other, eps=eps)
+
+    def equirectangularTo(self, other, radius=None, **options):
+        '''Compute the distance between this and an other point
+           using the U{Equirectangular Approximation / Projection
+           <http://www.Movable-Type.co.UK/scripts/latlong.html>}.
+
+           Suitable only for short, non-near-polar distances up to a
+           few hundred Km or Miles.  Use method C{distanceTo*} for
+           more accurate and/or larger distances.
+
+           See function L{equirectangular_} for more details, the
+           available I{options} and errors raised.
 
            @param other: The other point (I{LatLon}).
-           @keyword eps: Tolerance for equality (degrees).
+           @keyword radius: Optional, mean earth radius (meter) or
+                            None for the mean radius of this point's
+                            datum ellipsoid.
+           @keyword options: Optional keyword arguments for function
+                             L{equirectangular}.
 
-           @return: True if both points are identical,
-                    ignoring height (bool).
+           @return: Distance (meter, same units as I{radius}).
 
            @raise TypeError: The I{other} point is not I{LatLon}.
-
-           @see: Method L{equals3}.
-
-           @example:
-
-           >>> p = LatLon(52.205, 0.119)
-           >>> q = LatLon(52.205, 0.119)
-           >>> e = p.equals(q)  # True
         '''
         self.others(other)
 
-        if eps and eps > 0:
-            return abs(self.lat - other.lat) < eps and \
-                   abs(self.lon - other.lon) < eps
-        else:
-            return self.lat == other.lat and \
-                   self.lon == other.lon
-
-    def equals3(self, other, eps=None):
-        '''Compare this point with an other point.
-
-           @param other: The other point (I{LatLon}).
-           @keyword eps: Tolerance for equality (degrees).
-
-           @return: True if both points are identical,
-                    I{including} height (bool).
-
-           @raise TypeError: The I{other} point is not I{LatLon}.
-
-           @see: Method L{equals}.
-
-           @example:
-
-           >>> p = LatLon(52.205, 0.119, 42)
-           >>> q = LatLon(52.205, 0.119)
-           >>> e = p.equals3(q)  # False
-        '''
-        return self.equals(other, eps=eps) and self.height == other.height
+        r = radius or (self._datum.ellipsoid.R1 if self._datum else R_M)
+        return equirectangular(self.lat, self.lon, other.lat, other.lon,
+                               radius=r, **options)
 
     @property
     def height(self):
@@ -349,7 +347,7 @@ class LatLonHeightBase(Based):
         self._update(h != self._height)
         self._height = h
 
-    def isantipode(self, other, eps=EPS):
+    def isantipodeTo(self, other, eps=EPS):
         '''Check whether this and an other point are antipodal,
            on diametrically opposite sides of the earth.
 
@@ -361,6 +359,60 @@ class LatLonHeightBase(Based):
         '''
         return isantipode(self.lat,  self.lon,
                          other.lat, other.lon, eps=eps)
+
+    def isantipode(self, other, eps=EPS):
+        '''DEPRECATED, use method I{isantipodeTo}.
+        '''
+        return self.isantipodeTo(other, eps=eps)
+
+    def isequalTo(self, other, eps=None):
+        '''Compare this point with an other point.
+
+           @param other: The other point (I{LatLon}).
+           @keyword eps: Tolerance for equality (degrees).
+
+           @return: True if both points are identical,
+                    ignoring height (bool).
+
+           @raise TypeError: The I{other} point is not I{LatLon}.
+
+           @see: Method L{isequalTo3}.
+
+           @example:
+
+           >>> p = LatLon(52.205, 0.119)
+           >>> q = LatLon(52.205, 0.119)
+           >>> e = p.isequalTo(q)  # True
+        '''
+        self.others(other)
+
+        if eps and eps > 0:
+            return abs(self.lat - other.lat) < eps and \
+                   abs(self.lon - other.lon) < eps
+        else:
+            return self.lat == other.lat and \
+                   self.lon == other.lon
+
+    def isequalTo3(self, other, eps=None):
+        '''Compare this point with an other point.
+
+           @param other: The other point (I{LatLon}).
+           @keyword eps: Tolerance for equality (degrees).
+
+           @return: True if both points are identical,
+                    I{including} height (bool).
+
+           @raise TypeError: The I{other} point is not I{LatLon}.
+
+           @see: Method L{isequalTo}.
+
+           @example:
+
+           >>> p = LatLon(52.205, 0.119, 42)
+           >>> q = LatLon(52.205, 0.119)
+           >>> e = p.isequalTo3(q)  # False
+        '''
+        return self.isequalTo(other, eps=eps) and self.height == other.height
 
     @property
     def lat(self):
@@ -379,18 +431,6 @@ class LatLonHeightBase(Based):
         lat = parseDMS(lat, suffix='NS', clip=90)
         self._update(lat != self._lat)
         self._lat = lat
-
-    def latlon_(self, ndigits=0):
-        '''Return the latitude and longitude, rounded.
-
-           @keyword ndigits: Number of decimal digits (C{int}).
-
-           @return: 2-Tuple (lat, lon) in (degrees, degrees), rounded
-                    away from zero to I{ndigits}.
-
-           @see: Built-in function L{round}.
-        '''
-        return round(self.lat, ndigits), round(self.lon, ndigits)
 
     @property
     def latlon(self):
@@ -427,6 +467,23 @@ class LatLonHeightBase(Based):
         self._update(lat != self._lat or
                      lon != self._lon or h != self._height)
         self._lat, self._lon, self._height = lat, lon, h
+
+    def latlon_(self, ndigits=0):
+        '''DEPRECATED, use method I{latlon2round}.
+        '''
+        return self.latlon2round(ndigits)
+
+    def latlon2round(self, ndigits=0):
+        '''Return the latitude and longitude, rounded.
+
+           @keyword ndigits: Number of decimal digits (C{int}).
+
+           @return: 2-Tuple (lat, lon) in (degrees, degrees), rounded
+                    away from zero.
+
+           @see: Built-in function C{round}.
+        '''
+        return round(self.lat, ndigits), round(self.lon, ndigits)
 
     @property
     def lon(self):

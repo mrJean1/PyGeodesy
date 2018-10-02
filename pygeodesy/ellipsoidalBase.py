@@ -261,8 +261,8 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
 
            @raise ValueError: Incompatible datum ellipsoids.
 
-           @see: Method L{Ellipsoid.distance2} and U{Local, Flat Earth
-                 <http://www.EdWilliams.org/avform.htm#flat>}.
+           @see: Method L{Ellipsoid.distance2} and U{Local, flat earth
+                 approximation<http://www.EdWilliams.org/avform.htm#flat>}.
         '''
         return self.ellipsoids(other).distance2(self.lat,  self.lon,
                                                other.lat, other.lon)

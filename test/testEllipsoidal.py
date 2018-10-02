@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '18.09.28'
+__version__ = '18.09.30'
 
 from base import geographiclib, isWindows
 from testLatLon import Tests as _TestsLL
@@ -85,7 +85,7 @@ class Tests(_TestsLL, _TestsV):
         self.test('isEllipsoidal', p.isEllipsoidal, True)
 
         q = p.copy()
-        self.test('copy', q.equals(p), True)
+        self.test('copy', q.isequalTo(p), True)
         self.test('isEllipsoidal', q.isEllipsoidal, True)
         self.test('isSpherical', q.isSpherical, False)
 
@@ -141,7 +141,7 @@ class Tests(_TestsLL, _TestsV):
         self.test('iterations', p.iterations, 50)
 
         q = p.copy()
-        self.test('copy', q.equals(p), True)
+        self.test('copy', q.isequalTo(p), True)
         self.test('isEllipsoidal', q.isEllipsoidal, True)
         self.test('isSpherical', q.isSpherical, False)
 

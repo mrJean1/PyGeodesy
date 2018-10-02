@@ -80,7 +80,7 @@ from math import degrees, radians, sqrt
 __all__ = ('simplify1', 'simplify2',  # backward compatibility
            'simplifyRDP', 'simplifyRDPm', 'simplifyRW',
            'simplifyVW', 'simplifyVWm')
-__version__ = '18.09.23'
+__version__ = '18.09.30'
 
 
 # try:
@@ -399,6 +399,14 @@ def simplify1(points, distance, radius=R_M, indices=False, **options):
     return S.points(r)
 
 
+def simplify2(points, pipe, radius=R_M, shortest=False,
+                            indices=False, **options):
+    '''DEPRECATED, use function I{simplifyRW}.
+    '''
+    return simplifyRW(points, pipe, radius=radius, shortest=shortest,
+                                    indices=indices, **options)
+
+
 def simplifyRDP(points, distance, radius=R_M, shortest=False,
                                   indices=False, **options):
     '''Ramer-Douglas-Peucker (RDP) simplification of a path of
@@ -508,9 +516,6 @@ def simplifyRW(points, pipe, radius=R_M, shortest=False,
                 e += 1
 
     return S.points(r)
-
-
-simplify2 = simplifyRW  # for backward compatibility
 
 
 def simplifyVW(points, area, radius=R_M, attr=None,

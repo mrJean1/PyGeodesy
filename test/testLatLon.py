@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '18.09.14'
+__version__ = '18.09.30'
 
 from base import geographiclib, TestsBase
 
@@ -32,12 +32,19 @@ class Tests(TestsBase):
         self.test('lat/lonDMS F_DMS', p.toStr(F_DMS, 1), '''52°12'17.0"N, 000°08'26.0"E''')
         self.test('lat/lonDMS F_RAD', p.toStr(F_RAD, 6), '0.911144N, 0.002453E')
         q = LatLon(*map(degrees, p.to2ab()))
-        self.test('equals', q.equals(p), True)
+        self.test('isequalTo', q.isequalTo(p), True)
+
+        self.test('latlon2round', fStr(q.latlon2round(5)), '52.20472, 0.14056')
+        self.test('latlon2round', fStr(q.latlon2round(4)), '52.2047, 0.1406')
+        self.test('latlon2round', fStr(q.latlon2round(3)), '52.205, 0.141')
+        self.test('latlon2round', fStr(q.latlon2round(2)), '52.2, 0.14')
+        self.test('latlon2round', fStr(q.latlon2round(1)), '52.2, 0.1')
+        self.test('latlon2round', fStr(q.latlon2round()),  '52.0, 0.0')
 
         # <http://www.EdWilliams.org/avform.htm#XTE>
         LAX = LatLon(33.+57./60, -(118.+24./60))
         JFK = LatLon(degrees(0.709186), -degrees(1.287762))
-        Rav = m2NM(6366710)  # av earth radius in NM
+        Rav = m2NM(6366710)  # avg. earth radius in NM
         # <http://GeographicLib.SourceForge.io/html/python/examples.html>
         WNZ = LatLon(-41.32, 174.81)  # Wellington, NZ
         SAL = LatLon(40.96, 5.50)  # Salamanca, Spain
@@ -46,15 +53,26 @@ class Tests(TestsBase):
 
         p = LatLon(52.205, 0.119)
         q = LatLon(48.857, 2.351)
-        self.test('equals', p.equals(q), False)
+        self.test('isequalTo', p.isequalTo(q), False)
 
         a = p.antipode()
         self.test('antipode1', a, '52.205°S, 179.881°W')
-        self.test('antipode2', a.isantipode(p), True)
+        self.test('antipode2', a.isantipodeTo(p), True)
         b = a.antipode()
         self.test('antipode3', b, '52.205°N, 000.119°E')
-        self.test('antipode4', a.isantipode(b), True)
+        self.test('antipode4', a.isantipodeTo(b), True)
         self.test('antipode5', b, p)
+
+        c = p.compassAngleTo(LatLon(p.lat + 1, p.lon))
+        self.test('compassAngleTo', c, '0.0')
+        c = p.compassAngleTo(LatLon(p.lat + 1, p.lon + 1))
+        self.test('compassAngleTo', c, '45.0')
+        c = p.compassAngleTo(LatLon(p.lat, p.lon + 1))
+        self.test('compassAngleTo', c, '90.0')
+        c = p.compassAngleTo(LatLon(p.lat - 1, p.lon))
+        self.test('compassAngleTo', c, '180.0')
+        c = p.compassAngleTo(LatLon(p.lat, p.lon - 1))
+        self.test('compassAngleTo', c, '270.0')
 
         if hasattr(LatLon, 'initialBearingTo'):
             b = p.initialBearingTo(q)
@@ -65,7 +83,10 @@ class Tests(TestsBase):
             self.test('initialBearingTo', b, 65.8921 if Sph else 65.9335, fmt='%.4f')  # PYCHOK false?  66
 
         c = p.copy()
-        self.test('copy', p.equals(c), 'True')
+        self.test('copy', p.isequalTo(c), 'True')
+
+        d = p.equirectangularTo(q)
+        self.test('equirectangularTo', d, '404329.56', fmt='%.2f')
 
         if hasattr(LatLon, 'distanceTo'):
             d = p.distanceTo(q)
@@ -75,13 +96,13 @@ class Tests(TestsBase):
             d = LAX.distanceTo(JFK, radius=R_NM) if Sph else LAX.distanceTo(JFK)
             self.test('distanceTo', d, 2145 if Sph else 3981601, fmt='%.0f')  # PYCHOK false?
             if not Nv:  # <http://GeographicLib.SourceForge.io/html/python/examples.html>
-                self.test('antipodal', WNZ.isantipode(SAL, eps=0.1), False)
+                self.test('antipodal', WNZ.isantipodeTo(SAL, eps=0.1), False)
                 d = WNZ.distanceTo(SAL, wrap=False)
                 self.test('distanceTo dateline', d, 19119590.551 if Sph else 19959679.267, fmt='%.3f', known=True)  # PYCHOK false?
                 d = WNZ.distanceTo(SAL, wrap=True)
                 self.test('distanceTo unrolled', d, 19119590.551 if Sph else 19959679.267, fmt='%.3f', known=True)  # PYCHOK false?
 
-                self.test('antipodal', BJS.isantipode(SFO, eps=0.1), False)
+                self.test('antipodal', BJS.isantipodeTo(SFO, eps=0.1), False)
                 d = BJS.distanceTo(SFO, wrap=False)
                 self.test('distanceTo dateline', d, 9491735 if Sph else 9513998, fmt='%.0f')  # PYCHOK false?
                 d = BJS.distanceTo(SFO, wrap=True)

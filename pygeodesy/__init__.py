@@ -60,11 +60,11 @@ The tests have been run with Python 2.7.15 (with U{geographiclib
 <http://PyPI.org/project/numpy>} 1.14.0), with Python 3.7.0 (with
 U{geographiclib<http://PyPI.org/project/geographiclib>} 1.49) and with
 U{PyPy 6.0.0<http://PyPy.org>} Python 2.7.13 and 3.5.3 on macOS 10.13.6
-High Sierra and/or macOS 10.14 Mojave, with Python 2.6.9, 2.7.14, 3.5.6
-and 3.6.3 (and U{geographiclib<http://PyPI.org/project/geographiclib>}
-1.49) on U{Debian 8<http://Travis-CI.org/mrJean1/PyGeodesy>} and with
-Python 3.7.0 (and U{geographiclib<http://PyPI.org/project/geographiclib>}
-1.49) on U{Debian 9<http://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>},
+High Sierra and macOS 10.14 Mojave, with Python 2.6.9, 2.7.14, 3.5.6 and
+3.6.3 (and U{geographiclib<http://PyPI.org/project/geographiclib>} 1.49)
+on U{Debian 8<http://Travis-CI.org/mrJean1/PyGeodesy>} and with Python
+3.7.0 (and U{geographiclib<http://PyPI.org/project/geographiclib>} 1.49)
+on U{Debian 9<http://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>},
 all in 64-bit only and with Python 2.7.15, 3.6.6 and 3.7.0 (all with
 U{geographiclib<http://PyPI.org/project/geographiclib>} 1.49) on
 U{Windows Server 2012R2<http://CI.AppVeyor.com/project/mrJean1/pygeodesy>}
@@ -214,7 +214,7 @@ __all__ = ('bases', 'datum', 'dms', 'elevations',  # modules
            'pygeodesy_dirname',
            'version',
            'crosserrors')  # extended below
-__version__ = '18.09.29'
+__version__ = '18.09.30'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))

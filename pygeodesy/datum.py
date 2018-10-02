@@ -132,10 +132,10 @@ R_VM = 6366707.0194937  #: Aviation/Navigation earth radius (meter).
 # R_ = 6372797.560856   #: XXX some other earth radius???
 
 # all public contants, classes and functions
-__all__ = ('R_MA', 'R_MB', 'R_KM', 'R_M', 'R_NM', 'R_SM', 'R_FM', 'R_VM',  # constants
+__all__ = ('R_M', 'R_MA', 'R_MB', 'R_KM', 'R_NM', 'R_SM', 'R_FM', 'R_VM',  # constants
            'Datum',  'Ellipsoid',  'Transform',  # classes
            'Datums', 'Ellipsoids', 'Transforms')  # enum-like
-__version__ = '18.09.23'
+__version__ = '18.09.30'
 
 division = 1 / 2  # double check int division, see .fmath.py, .utily.py
 if not division:
@@ -343,17 +343,17 @@ class Ellipsoid(_Based):
             self.e12 = 1 - e2  # for ellipsoidalNvector.Cartesian.toNvector and utm
             self.e22 = e2 / (1 - e2)  # 2nd eccentricity squared
             self.a_b = a / b  # for ellipsoidalNvector.Nvector.toCartesian
-        elif a > 0:
+        elif a > 0:  # sphere
             self.b = b = self._a2b = self._b2a = a
-            self._R = self._Rm = self._R2 = self._R3 = self._Rr = a
+            self._R1 = self._R2 = self._R3 = self._Rr = self._Rs = a
             f_ = f = n = 0
         else:
             raise ValueError('invalid %s: %s' % ('ellipsoid',
                              inStr(self, a, b, f_, name=name)))
-        self.a2_ = 1 / a**2  # for ellipsiodalNvector.Cartesian.toNvector
-
-        self._a2 = a**2
         self._b2 = b**2
+        self._a2 = a**2
+
+        self.a2_ = 1 / self._a2  # for ellipsiodalNvector.Cartesian.toNvector
 
         d = a - b
         self._ab_90 = d / 90  # for Rlat below
@@ -508,7 +508,8 @@ class Ellipsoid(_Based):
 
            @return: 2-Tuple (distance, bearing) in (meter, degrees360).
 
-           @see: U{Local, Flat Earth<http://www.EdWilliams.org/avform.htm#flat>}.
+           @see: U{Local, flat earth approximation
+                 <http://www.EdWilliams.org/avform.htm#flat>}.
         '''
         m, n = self.roc2(lat0)
         m *= radians(lat1 - lat0)
@@ -697,8 +698,9 @@ class Ellipsoid(_Based):
            @return: 2-Tuple (meridional, prime-vertical) with the
                     radii of curvature (meter, meter).
 
-           @see: U{Local, Flat Earth<http://www.EdWilliams.org/avform.htm#flat>}
-                 and U{Radii of Curvature
+           @see: U{Local, flat earth approximation
+                 <http://www.EdWilliams.org/avform.htm#flat>} and
+                 U{Radii of Curvature
                  <http://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
         '''
         r = self.e2s2(sin(radians(lat)))
@@ -771,8 +773,9 @@ class Ellipsoid(_Based):
 
            @return: Meridional radius of curvature (meter).
 
-           @see: U{Local, Flat Earth<http://www.EdWilliams.org/avform.htm#flat>}
-                 and U{Radii of Curvature
+           @see: U{Local, flat earth approximation
+                 <http://www.EdWilliams.org/avform.htm#flat>} and
+                 U{Radii of Curvature
                  <http://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
         '''
         m, _ = self.roc2(lat)
@@ -785,8 +788,9 @@ class Ellipsoid(_Based):
 
            @return: Prime-vertical radis of curvature (meter).
 
-           @see: U{Local, Flat Earth<http://www.EdWilliams.org/avform.htm#flat>}
-                 and U{Radii of Curvature
+           @see: U{Local, flat earth approximation
+                 <http://www.EdWilliams.org/avform.htm#flat>} and
+                 U{Radii of Curvature
                  <http://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
         '''
         _, n = self.roc2(lat)

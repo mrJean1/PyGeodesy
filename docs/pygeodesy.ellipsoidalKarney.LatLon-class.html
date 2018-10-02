@@ -105,6 +105,25 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a name="bearingTo"></a><span class="summary-sig-name">bearingTo</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      DEPRECATED, use method <i>initialBearingTo</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalKarney.LatLon-class.html#destination" class="summary-sig-name">destination</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">distance</span>,
         <span class="summary-sig-arg">bearing</span>,
@@ -252,27 +271,6 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalKarney.LatLon-class.html#bearingTo" class="summary-sig-name">bearingTo</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Compute the initial bearing (forward azimuth) to travel along a 
-      geodesic from this point to an other point, using Karney's Inverse 
-      method.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalKarney.LatLon-class.html#toCartesian" class="summary-sig-name">toCartesian</a>(<span class="summary-sig-arg">self</span>)</span><br />
       Convert this (geodetic) point to (geocentric) x/y/z Cartesian 
       coordinates.</td>
@@ -308,10 +306,16 @@
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#__str__">__str__</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#bounds">bounds</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#compassAngle">compassAngle</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#compassAngleTo">compassAngleTo</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#copy">copy</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equals">equals</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equals3">equals3</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equirectangularTo">equirectangularTo</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#isantipode">isantipode</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#isantipodeTo">isantipodeTo</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#isequalTo">isequalTo</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#isequalTo3">isequalTo3</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#latlon2round">latlon2round</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#latlon_">latlon_</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#points">points</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#to2ab">to2ab</a></code>,
@@ -465,7 +469,7 @@
   <p>The distance must be in the same units as this point's datum axes, 
   conventionally meter.  The distance is measured on the surface of the 
   ellipsoid, ignoring this point's height.</p>
-  <p>The initial and final bearing (aka forward and reverse azimuth) are in
+  <p>The initial and final bearing (forward and reverse azimuth) are in 
   compass degrees.</p>
   <p>The destination point's height and datum are set to this point's 
   height and datum.</p>
@@ -568,7 +572,7 @@
   <p>The distance is in the same units as this point's datum axes, 
   conventially meter.  The distance is measured on the surface of the 
   ellipsoid, ignoring this point's height.</p>
-  <p>The initial and final bearing (aka forward and reverse azimuth) are in
+  <p>The initial and final bearing (forward and reverse azimuth) are in 
   compass degrees from North.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -749,64 +753,6 @@
       </p>
 </div></td></tr></table>
 </div>
-<a name="bearingTo"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">bearingTo</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">other</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Compute the initial bearing (forward azimuth) to travel along a 
-  geodesic from this point to an other point, using Karney's Inverse 
-  method.  See method <a 
-  href="pygeodesy.ellipsoidalKarney.LatLon-class.html#distanceTo3" 
-  class="link">distanceTo3</a> for more details.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - The other point (<a 
-          href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
-          class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (bool).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Initial bearing in compass degrees (degrees360).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ImportError</strong></code> - Package <a href="http://PyPI.org/project/geographiclib" 
-        target="_top">GeographicLib</a> missing.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <a 
-        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
-        class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <i>other</i> point's <a 
-        href="pygeodesy.datum.Datum-class.html" class="link">Datum</a> 
-        ellipsoids are not compatible.</li>
-    </ul></dd>
-  </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(50.06632, -5.71475)
-<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(58.64402, -3.07009)
-<span class="py-prompt">&gt;&gt;&gt; </span>b = p.initialBearingTo(q)  <span class="py-comment"># 9.141877488906045&#176;</span></pre>
-<pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(52.205, 0.119)
-<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(48.857, 2.351)
-<span class="py-prompt">&gt;&gt;&gt; </span>b = p.initialBearingTo(q)  <span class="py-comment"># 156.1106404059787&#176;</span></pre>
-      </p>
-      <p><strong>JS name:</strong>
-        <i>bearingTo</i>.
-      </p>
-</div></td></tr></table>
-</div>
 <a name="toCartesian"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -901,7 +847,7 @@ target="_top">GeographicLib</a> is installed.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Sep 30 14:09:57 2018
+    Generated by Epydoc 3.0.1 on Tue Oct  2 13:55:33 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

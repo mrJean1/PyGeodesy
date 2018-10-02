@@ -132,8 +132,8 @@
   with Python 3.7.0 (with <a href="http://PyPI.org/project/geographiclib" 
   target="_top">geographiclib</a> 1.49) and with <a href="http://PyPy.org" 
   target="_top">PyPy 6.0.0</a> Python 2.7.13 and 3.5.3 on macOS 10.13.6 
-  High Sierra and/or macOS 10.14 Mojave, with Python 2.6.9, 2.7.14, 3.5.6 
-  and 3.6.3 (and <a href="http://PyPI.org/project/geographiclib" 
+  High Sierra and macOS 10.14 Mojave, with Python 2.6.9, 2.7.14, 3.5.6 and 
+  3.6.3 (and <a href="http://PyPI.org/project/geographiclib" 
   target="_top">geographiclib</a> 1.49) on <a 
   href="http://Travis-CI.org/mrJean1/PyGeodesy" target="_top">Debian 8</a> 
   and with Python 3.7.0 (and <a 
@@ -206,7 +206,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.09.29
+        18.09.30
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -2245,13 +2245,13 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#simplify2" class="summary-sig-name">simplify2</a>(<span class="summary-sig-arg">points</span>,
+          <td><span class="summary-sig"><a name="simplify2"></a><span class="summary-sig-name">simplify2</span>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">pipe</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
-      Reumann-Witkam simplification of a path of <i>LatLon</i> points.</td>
+      DEPRECATED, use function <i>simplifyRW</i>.</td>
           <td align="right" valign="top">
             
             
@@ -2752,7 +2752,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'18.9.29'"><code class="variable-quote">'</code><code class="variable-string">18.9.29</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'18.9.30'"><code class="variable-quote">'</code><code class="variable-string">18.9.30</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (string).
     </td>
   </tr>
@@ -3424,8 +3424,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <p>Return the angle from North for the direction vector <i 
   class="math">(lon1 - lon0, lat1 - lat0)</i> between two points.</p>
   <p>Suitable only for short, non-near-polar vectors up to a few hundred Km
-  or Miles.  Use <i>LatLon</i> methods <i>initialBearingTo</i> or 
-  <i>forward azimuth</i> for larger distances.</p>
+  or Miles.  Use <i>LatLon</i> methods <i>initialBearingTo</i> for larger 
+  distances.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -3442,7 +3442,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
       </p>
       <p><strong>See Also:</strong>
         <a href="http://www.EdWilliams.org/avform.htm#flat" 
-        target="_top">Local, Flat Earth</a>.
+        target="_top">Local, flat earth approximation</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -3733,12 +3733,12 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="http://www.EdWilliams.org/avform.htm#flat" 
-        target="_top">Local, Flat Earth</a>, method <a 
-        href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
-        class="link">Ellipsoid.distance2</a> or function <a 
+        target="_top">Local, flat earth approximation</a>, function <a 
         href="pygeodesy.utily-module.html#haversine" 
-        class="link">haversine</a> for more accurate and/or larger 
-        distances.
+        class="link">haversine</a>, method <a 
+        href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
+        class="link">Ellipsoid.distance2</a> and <code>LatLon</code> method
+        <code>distanceTo*</code> for more accurate and/or larger distances.
       </p>
 </div></td></tr></table>
 </div>
@@ -3802,13 +3802,14 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="http://www.EdWilliams.org/avform.htm#flat" 
-        target="_top">Local, Flat Earth</a>, method <a 
-        href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
-        class="link">Ellipsoid.distance2</a>, function <a 
+        target="_top">Local, flat earth approximation</a>, functions <a 
         href="pygeodesy.utily-module.html#equirectangular" 
-        class="link">equirectangular</a> for distance only and function <a 
+        class="link">equirectangular</a> and <a 
         href="pygeodesy.utily-module.html#haversine" 
-        class="link">haversine</a> for accurate and/or larger distances.
+        class="link">haversine</a>, method <a 
+        href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
+        class="link">Ellipsoid.distance2</a> and <code>LatLon</code> method
+        <code>distanceTo*</code> for more accurate and/or larger distances.
       </p>
 </div></td></tr></table>
 </div>
@@ -4323,11 +4324,12 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="http://www.EdWilliams.org/avform.htm#Dist" 
-        target="_top">Distance between two (spherical) points</a> and 
-        function <a href="pygeodesy.utily-module.html#equirectangular" 
-        class="link">equirectangular</a> or method <a 
+        target="_top">Distance between two (spherical) points</a>, function
+        <a href="pygeodesy.utily-module.html#equirectangular" 
+        class="link">equirectangular</a>. <a 
         href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
-        class="link">Ellipsoid.distance2</a> for distance approximations.
+        class="link">Ellipsoid.distance2</a> or <i>LatLon</i> methods 
+        <i>distanceTo*</i> and <i>equirectangular</i>.
       </p>
 </div></td></tr></table>
 </div>
@@ -6002,53 +6004,6 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 </td></tr></table>
 </div>
-<a name="simplify2"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">simplify2</span>(<span class="sig-arg">points</span>,
-        <span class="sig-arg">pipe</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
-        <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">indices</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">**options</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Reumann-Witkam simplification of a path of <i>LatLon</i> points.</p>
-  <p>Eliminates any points too close together or within the given pipe 
-  tolerance along an edge.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - Path points (<i>LatLon</i>s).</li>
-        <li><strong class="pname"><code>pipe</code></strong> - Half pipe width (meter, same units as radius).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
-        <li><strong class="pname"><code>shortest</code></strong> - Optional, shortest or perpendicular distance (bool).</li>
-        <li><strong class="pname"><code>indices</code></strong> - Optionally return the simplified point indices instead of the 
-          simplified points (bool).</li>
-        <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
-          href="pygeodesy.utily-module.html#equirectangular_" 
-          class="link">equirectangular_</a>.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Simplified points (list of <i>LatLon</i>s).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
-        <a href="pygeodesy.utily-module.html#equirectangular_" 
-        class="link">equirectangular_</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Radius or pipe tolerance too small.</li>
-    </ul></dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="simplifyRDP"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -7134,7 +7089,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Sep 30 14:09:57 2018
+    Generated by Epydoc 3.0.1 on Tue Oct  2 13:55:32 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

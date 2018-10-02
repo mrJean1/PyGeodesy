@@ -37,7 +37,7 @@ from math import asin, atan2, cos, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '18.09.23'
+__version__ = '18.09.30'
 
 
 class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
@@ -230,28 +230,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
         return v.toLatLon(datum=self.datum, LatLon=self.classof)  # Cartesian(v.x, v.y, v.z).toLatLon(...)
 
-#     def distanceTo(self, other):
-#         '''Compute the distance from this to an other point.
-#
-#            @param other: The other point (L{LatLon}).
-#
-#            @return: Distance (meter).
-#
-#            @raise TypeError: The I{other} point is not L{LatLon}.
-#
-#            @example:
-#
-#            >>> p = LatLon(52.205, 0.119)
-#            >>> q = LatLon(48.857, 2.351);
-#            >>> d = p.distanceTo(q)  # 404300
-#         '''
-#         self.others(other)
-#
-#         v1 = self.toNvector()
-#         v2 = other.toNvector()
-#         return v1.angleTo(v2) * self.datum.ellipsoid.R
-
-#     def distanceTo(self, other, radius=R_M):
+#     def distanceTo(self, other, radius=None):
 #         '''Compute the distance from this to an other point.
 #
 #            @param other: The other point (L{LatLon}).
@@ -271,9 +250,15 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #
 #         v1 = self.toVector3d()
 #         v2 = other.toVector3d()
-#         return v1.angleTo(v2) * float(radius)
+#         r = radius or self.datum.ellipsoid.R1
+#         return v1.angleTo(v2) * float(r)
 
     def equals(self, other, eps=None):
+        '''DEPRECATED, use method I{isequalTo}.
+        '''
+        return self.isequalTo(other, eps=eps)
+
+    def isequalTo(self, other, eps=None):
         '''Compare this point with an other point.
 
            @param other: The other point (L{LatLon}).
@@ -284,16 +269,16 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
            @raise TypeError: The I{other} point is not L{LatLon}.
 
-           @see: Use method L{equals3} to include height.
+           @see: Use method L{isequalTo3} to include I{height}.
 
            @example:
 
            >>> p = LatLon(52.205, 0.119)
            >>> q = LatLon(52.205, 0.119)
-           >>> e = p.equals(q)  # True
+           >>> e = p.isequalTo(q)  # True
         '''
-        return LatLonEllipsoidalBase.equals(self, other, eps=eps) \
-                                and self.datum == other.datum
+        return LatLonEllipsoidalBase.isequalTo(self, other, eps=eps) \
+                                   and self.datum == other.datum
 
 #     def greatCircle(self, bearing):
 #         '''Return the great circle heading on the given bearing
@@ -351,8 +336,6 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #
 #         # bearing is (signed) angle between gc1 & gc2
 #         return degrees360(gc1.angleTo(gc2, vSign=v1))
-#
-#     bearingTo = initialBearingTo  # for backward compatibility
 
     def intermediateTo(self, other, fraction, height=None):
         '''Return the point at given fraction between this and

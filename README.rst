@@ -41,7 +41,7 @@ High Sierra.
 
 The tests have been run with Python 2.7.15 (with geographiclib_ 1.49 and
 numpy_ 1.14.0), with Python 3.7.0 (with geographiclib_ 1.49) and with
-`PyPy 6.0.0`_ Python 2.7.13 and 3.5.3 on macOS 10.13.6 High Sierra and/or
+`PyPy 6.0.0`_ Python 2.7.13 and 3.5.3 on macOS 10.13.6 High Sierra and
 macOS 10.14 Mojave, with Python 2.6.9, 2.7.14, 3.5.6 and 3.6.3 (and
 geographiclib_ 1.49) on `Debian 8`_ and with Python 3.7.0 (and
 geographiclib_ 1.49) on `Debian 9`_, all in 64-bit only and with Python
@@ -75,7 +75,7 @@ latter is required for module *ellipsoidalKarney* classes *LatLon* and
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Sep 29, 2018.*
+*Last updated: Sep 30, 2018.*
 
 .. _checked: http://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor
 .. _Debian 8: http://Travis-CI.org/mrJean1/PyGeodesy

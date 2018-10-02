@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '17.08.31'
+__version__ = '18.09.30'
 
 from base import TestsBase
 
@@ -43,8 +43,8 @@ class Tests(TestsBase):
         self.test('toLatLon', p, '44.995674°N, 045.0°E')  # 45.0°N, 45.0°E
         c = p.toNvector()
         self.test('toNvector', c, '(0.50004, 0.50004, 0.70705)')  # 0.500, 0.500, 0.707
-        self.test('equals', c.equals(v), False)
-        self.test('equals', c.equals(v, units=True), True)
+        self.test('isequalTo', c.isequalTo(v), False)
+        self.test('isequalTo', c.isequalTo(v, units=True), True)
         self.test('length', v.length, '0.99992449715',  fmt='%.11f')
         self.test('length', c.length, '1.0')
 
@@ -58,7 +58,7 @@ class Tests(TestsBase):
         self.test('length', s.length, '52.7134151513',  fmt='%.10f')
 
         c = v.copy()
-        self.test('copy', c.equals(v), True)
+        self.test('copy', c.isequalTo(v), True)
         self.test('length', v.length, '52.2051356286',  fmt='%.10f')
         self.test('length', c.length, '52.2051356286',  fmt='%.10f')
 

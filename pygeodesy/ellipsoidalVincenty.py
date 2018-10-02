@@ -65,7 +65,7 @@ from math import atan2, cos, sin, tan
 
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'VincentyError')  # classes
-__version__ = '18.09.23'
+__version__ = '18.09.30'
 
 division = 1 / 2  # double check int division, see .datum.py
 if not division:
@@ -104,6 +104,11 @@ class LatLon(LatLonEllipsoidalBase):
         '''
         return LatLonEllipsoidalBase._xcopy(self, '_epsilon', '_iterations', *attrs)
 
+    def bearingTo(self, other, wrap=False):
+        '''DEPRECATED, use method I{initialBearingTo}.
+        '''
+        return self.initialBearingTo(other, wrap=wrap)
+
     def destination(self, distance, bearing, height=None):
         '''Compute the destination point after having travelled
            for the given distance from this point along a geodesic
@@ -138,7 +143,7 @@ class LatLon(LatLonEllipsoidalBase):
            axes, conventionally meter.  The distance is measured on the
            surface of the ellipsoid, ignoring this point's height.
 
-           The initial and final bearing (aka forward and reverse azimuth)
+           The initial and final bearing (forward and reverse azimuth)
            are in compass degrees.
 
            The destination point's height and datum are set to this
@@ -200,7 +205,7 @@ class LatLon(LatLonEllipsoidalBase):
            conventially meter.  The distance is measured on the surface
            of the ellipsoid, ignoring this point's height.
 
-           The initial and final bearing (aka forward and reverse azimuth)
+           The initial and final bearing (forward and reverse azimuth)
            are in compass degrees from North.
 
            @param other: Destination point (L{LatLon}).
@@ -330,8 +335,6 @@ class LatLon(LatLonEllipsoidalBase):
         '''
         return self._inverse(other, True, wrap)[1]
 
-    bearingTo = initialBearingTo  # for backward compatibility
-
     @property
     def iterations(self):
         '''Get the iteration limit (int).
@@ -456,10 +459,10 @@ class LatLon(LatLonEllipsoidalBase):
             # <http://GitHub.com/ChrisVeness/geodesy/blob/master/latlon-vincenty.js>
             # omitted and applied only after failure to converge, see footnote under
             # Inverse at <http://WikiPedia.org/wiki/Vincenty's_formulae>
-#           elif abs(ll) > PI and self.isantipode(other, eps=self._epsilon):
+#           elif abs(ll) > PI and self.isantipodeTo(other, eps=self._epsilon):
 #              raise VincentyError('%r antipodal to %r' % (self, other))
         else:
-            t = 'antipodal ' if self.isantipode(other, eps=self._epsilon) else ''
+            t = 'antipodal ' if self.isantipodeTo(other, eps=self._epsilon) else ''
             raise VincentyError('no convergence, %r %sto %r' % (self, t, other))
 
         if c2a:  # e22 == (a / b)**2 - 1

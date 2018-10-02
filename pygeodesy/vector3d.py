@@ -22,7 +22,7 @@ from math import atan2, cos, sin
 __all__ = ('CrossError', 'Vector3d',  # classes
            'crosserrors',
            'sumOf')  # functions
-__version__ = '18.09.23'
+__version__ = '18.09.30'
 
 try:
     _cmp = cmp
@@ -147,7 +147,7 @@ class Vector3d(VectorBased):
            @raise TypeError: Incompatible I{type(other)}.
         '''
         self.others(other)
-        return self.equals(other)
+        return self.isequalTo(other)
 
     def __ge__(self, other):
         '''Is this vector longer than or equal to an other vector?
@@ -231,7 +231,7 @@ class Vector3d(VectorBased):
            @raise TypeError: Incompatible I{type(other)}.
         '''
         self.others(other)
-        return not self.equals(other)
+        return not self.isequalTo(other)
 
     def __neg__(self):
         '''Negate this vector.
@@ -348,7 +348,7 @@ class Vector3d(VectorBased):
         z = self.x * other.y - self.y * other.x
 
         if raiser and self.crosserrors and max(map1(abs, x, y, z)) < EPS:
-            t = 'coincident' if self.equals(other) else 'colinear'
+            t = 'coincident' if self.isequalTo(other) else 'colinear'
             r = getattr(other, '_fromll', None) or other
             raise CrossError('%s %s: %r' % (t, raiser, r))
 
@@ -398,6 +398,11 @@ class Vector3d(VectorBased):
         return fdot(self.to3xyz(), *other.to3xyz())
 
     def equals(self, other, units=False):
+        '''DEPRECATED, use method I{isequalTo}.
+        '''
+        return self.isequalTo(other, units=units)
+
+    def isequalTo(self, other, units=False):
         '''Check if this and an other vector are equal or equivalent.
 
            @param other: The other vector (L{Vector3d}).
@@ -412,7 +417,7 @@ class Vector3d(VectorBased):
 
            >>> v1 = Vector3d(52.205, 0.119)
            >>> v2 = Vector3d(52.205, 0.119)
-           >>> e = v1.equals(v2)  # True
+           >>> e = v1.isequalTo(v2)  # True
         '''
         self.others(other)
 
@@ -504,7 +509,7 @@ class Vector3d(VectorBased):
     sum = plus  # alternate name
 
     def rotate(self, axis, theta):
-        '''Rotate this vector by a specified angle around an axis.
+        '''Rotate this vector around an axis by a specified angle.
 
            See U{Rotation matrix from axis and angle
            <http://WikiPedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle>}
@@ -532,7 +537,10 @@ class Vector3d(VectorBased):
                             fdot(p, a.y * b.x + s.z, a.y * b.y + c,   a.y * b.z - s.x),
                             fdot(p, a.z * b.x - s.y, a.z * b.y + s.x, a.z * b.z + c))
 
-    rotateAround = rotate  # alternate name
+    def rotateAround(self, axis, theta):
+        '''DEPRECATED, use method I{rotate}.
+        '''
+        return self.rotate(axis, theta)
 
     def times(self, factor):
         '''Multiply this vector by a scalar.

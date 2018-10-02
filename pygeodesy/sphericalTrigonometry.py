@@ -30,7 +30,7 @@ __all__ = ('LatLon',  # classes
            'meanOf',
            'nearestOn2',
            'perimeterOf')
-__version__ = '18.09.23'
+__version__ = '18.09.30'
 
 
 class LatLon(LatLonSphericalBase):
@@ -102,6 +102,11 @@ class LatLon(LatLonSphericalBase):
             return copysign(acos1(cos(r) / cx), cos(b)) * radius
         else:
             return 0.0
+
+    def bearingTo(self, other, wrap=False, raiser=False):
+        '''DEPRECATED, use method I{initialBearingTo}.
+        '''
+        return self.initialBearingTo(other, wrap=wrap, raiser=raiser)
 
     def crossingParallels(self, other, lat, wrap=False):
         '''Return the pair of meridians at which a great circle defined
@@ -246,8 +251,8 @@ class LatLon(LatLonSphericalBase):
                         ca * st)  # XXX .unit()?
 
     def initialBearingTo(self, other, wrap=False, raiser=False):
-        '''Compute the initial bearing (aka forward azimuth) from
-           this to an other point.
+        '''Compute the initial bearing (forward azimuth) from this
+           to an other point.
 
            @param other: The other point (L{LatLon}).
            @keyword wrap: Wrap and unroll longitudes (bool).
@@ -286,8 +291,6 @@ class LatLon(LatLonSphericalBase):
         y = sdb * ca2
 
         return degrees360(atan2(y, x))
-
-    bearingTo = initialBearingTo  # for backward compatibility
 
     def intermediateTo(self, other, fraction, height=None, wrap=False):
         '''Locate the point at given fraction between this and an
@@ -743,7 +746,7 @@ def isPoleEnclosedBy(points, wrap=False):
         b1 = p1.initialBearingTo(points[0], wrap=wrap)  # XXX p1.finalBearingTo(points[0])?
         for i in range(n):
             p2 = points[i]
-            if not p2.equals(p1, EPS):
+            if not p2.isequalTo(p1, EPS):
                 b = p1.initialBearingTo(p2, wrap=wrap)
                 yield wrap180(b - b1)  # (b - b1 + 540) % 360 - 180
                 b2 = p1.finalBearingTo(p2, wrap=wrap)

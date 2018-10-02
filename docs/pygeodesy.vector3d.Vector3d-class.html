@@ -679,7 +679,26 @@ bases.Named --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#equals" class="summary-sig-name">equals</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a name="equals"></a><span class="summary-sig-name">equals</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">False</span>)</span><br />
+      DEPRECATED, use method <i>isequalTo</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#isequalTo" class="summary-sig-name">isequalTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">False</span>)</span><br />
       Check if this and an other vector are equal or equivalent.</td>
@@ -793,7 +812,7 @@ bases.Named --+
           <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#rotate" class="summary-sig-name">rotate</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">axis</span>,
         <span class="summary-sig-arg">theta</span>)</span><br />
-      Rotate this vector by a specified angle around an axis.</td>
+      Rotate this vector around an axis by a specified angle.</td>
           <td align="right" valign="top">
             
             
@@ -809,10 +828,10 @@ bases.Named --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#rotateAround" class="summary-sig-name">rotateAround</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a name="rotateAround"></a><span class="summary-sig-name">rotateAround</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">axis</span>,
         <span class="summary-sig-arg">theta</span>)</span><br />
-      Rotate this vector by a specified angle around an axis.</td>
+      DEPRECATED, use method <i>rotate</i>.</td>
           <td align="right" valign="top">
             
             
@@ -2005,14 +2024,14 @@ bases.Named --+
   </dl>
 </td></tr></table>
 </div>
-<a name="equals"></a>
+<a name="isequalTo"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">equals</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isequalTo</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">False</span>)</span>
   </h3>
@@ -2041,7 +2060,7 @@ bases.Named --+
         <pre class="py-doctest">
 <span class="py-prompt">&gt;&gt;&gt; </span>v1 = Vector3d(52.205, 0.119)
 <span class="py-prompt">&gt;&gt;&gt; </span>v2 = Vector3d(52.205, 0.119)
-<span class="py-prompt">&gt;&gt;&gt; </span>e = v1.equals(v2)  <span class="py-comment"># True</span></pre>
+<span class="py-prompt">&gt;&gt;&gt; </span>e = v1.isequalTo(v2)  <span class="py-comment"># True</span></pre>
       </p>
 </div></td></tr></table>
 </div>
@@ -2222,47 +2241,7 @@ bases.Named --+
     </td>
   </tr></table>
   
-  <p>Rotate this vector by a specified angle around an axis.</p>
-  <p>See <a 
-  href="http://WikiPedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle"
-  target="_top">Rotation matrix from axis and angle</a> and <a 
-  href="http://WikiPedia.org/wiki/Quaternions_and_spatial_rotation#Quaternion-derived_rotation_matrix"
-  target="_top">Quaternion-derived rotation matrix</a>.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>axis</code></strong> - The axis being rotated around (<a 
-          href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>).</li>
-        <li><strong class="pname"><code>theta</code></strong> - The angle of rotation (radians).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>New, rotated vector (<a 
-          href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>).</dd>
-  </dl>
-<div class="fields">      <p><strong>JS name:</strong>
-        <i>rotateAround</i>.
-      </p>
-</div></td></tr></table>
-</div>
-<a name="rotateAround"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">rotateAround</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">axis</span>,
-        <span class="sig-arg">theta</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Rotate this vector by a specified angle around an axis.</p>
+  <p>Rotate this vector around an axis by a specified angle.</p>
   <p>See <a 
   href="http://WikiPedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle"
   target="_top">Rotation matrix from axis and angle</a> and <a 
@@ -2625,7 +2604,7 @@ class="link">CrossError</a>s (bool).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Sep 30 14:09:58 2018
+    Generated by Epydoc 3.0.1 on Tue Oct  2 13:55:34 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

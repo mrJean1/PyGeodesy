@@ -46,7 +46,7 @@ __all__ = ('LatLon', 'Nvector',  # classes
            'meanOf',
            'nearestOn2',
            'triangulate', 'trilaterate')
-__version__ = '18.09.23'
+__version__ = '18.09.30'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -122,6 +122,11 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         p = self.toNvector()
         a = gc.cross(p).cross(gc)  # along-track point gc × p × gc
         return start.toNvector().angleTo(a, vSign=gc) * radius
+
+    def bearingTo(self, other, **unused):
+        '''DEPRECATED, use method I{initialBearingTo}.
+        '''
+        return self.initialBearingTo(other)
 
     def copy(self):
         '''Copy this point.
@@ -275,7 +280,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         return gc.unit()
 
     def initialBearingTo(self, other, **unused):
-        '''Compute the initial bearing (aka forward azimuth) from this
+        '''Compute the initial bearing (forward azimuth) from this
            to an other point.
 
            @param other: The other point (L{LatLon}).
@@ -300,8 +305,6 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 #       gc2 = self.greatCircleTo(NorthPole)
 
         return degrees360(gc1.angleTo(gc2, vSign=self.toNvector()))
-
-    bearingTo = initialBearingTo  # for backward compatibility
 
     def intermediateChordTo(self, other, fraction, height=None):
         '''Locate the point projected from the point at given fraction
@@ -482,8 +485,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         n2 = point2.toNvector()
 
         # corner case, null segment
-        if n1.equals(n2):
-            return n0.equals(n1) or n0.equals(n2)
+        if n1.isequalTo(n2):
+            return n0.isequalTo(n1) or n0.isequalTo(n2)
 
         if n0.dot(n1) < 0 or n0.dot(n2) < 0:
             return False  # different hemisphere
@@ -551,7 +554,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @JSname: I{nearestPointOnSegment}.
         '''
-        if self.isWithin(point1, point2) and not point1.equals(point2, EPS):
+        if self.isWithin(point1, point2) and not point1.isequalTo(point2, EPS):
             # closer to segment than to its endpoints,
             # find the closest point on the segment
             gc1 = point1.toNvector().cross(point2.toNvector())
@@ -953,7 +956,7 @@ def triangulate(point1, bearing1, point2, bearing2,
     _Nvll.others(point1, name='point1')
     _Nvll.others(point2, name='point2')
 
-    if point1.equals(point2, EPS):
+    if point1.isequalTo(point2, EPS):
         raise ValueError('%s %s: %r' % ('coincident', 'points', point2))
 
     def _gc(p, b):
@@ -1005,7 +1008,7 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3,
         # return Nvector and radial distance squared
         _Nvll.others(p, name=name)
         for q in qs:
-            if p.equals(q, EPS):
+            if p.isequalTo(q, EPS):
                 raise ValueError('%s %s: %r' % ('coincident', 'points', p))
         return p.toNvector(), (float(d) / radius)**2
 

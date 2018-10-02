@@ -30,7 +30,7 @@ __all__ = ('F_D', 'F_DM', 'F_DMS',  # forms
            'latDMS', 'lonDMS', 'normDMS',
            'parseDMS', 'parseDMS2', 'parse3llh', 'precision',
            'rangerrors', 'toDMS')
-__version__ = '18.09.27'
+__version__ = '18.09.30'
 
 F_D   = 'd'    #: Format degrees as deg° (string).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (string).
@@ -161,7 +161,7 @@ def compassAngle(lat0, lon0, lat1, lon1):
 
        Suitable only for short, non-near-polar vectors up to a few
        hundred Km or Miles.  Use I{LatLon} methods I{initialBearingTo}
-       or I{forward azimuth} for larger distances.
+       for larger distances.
 
        @param lat0: From latitude (degrees).
        @param lon0: From longitude (degrees).
@@ -172,7 +172,8 @@ def compassAngle(lat0, lon0, lat1, lon1):
 
        @note: Courtesy Martin Schultz.
 
-       @see: U{Local, Flat Earth<http://www.EdWilliams.org/avform.htm#flat>}.
+       @see: U{Local, flat earth approximation
+             <http://www.EdWilliams.org/avform.htm#flat>}.
     '''
     return degrees360(atan2(lon1 - lon0, lat1 - lat0))
 

@@ -22,7 +22,7 @@ __all__ = ('EPS', 'EPS1',  # constants
            'len2',
            'map1', 'map2',
            'scalar', 'sqrt3')
-__version__ = '18.09.25'
+__version__ = '18.09.30'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -84,9 +84,9 @@ class Fsum(object):
     '''Precision floating point summation similar to standard
        Python function I{math.fsum}.
 
-       Unlike I{math.fsum}, this class accumulates the values to
-       be added incrementally and provides intermediate, precision
-       summations.  Accumulation may continue after intermediate
+       Unlike I{math.fsum}, this class accumulates the values
+       incrementally and provides intermediate, precision, running
+       sums.  Accumulation may continue after intermediate
        summations.
 
        @note: Exception and I{non-finite} handling differ from I{math.fsum}.
@@ -100,11 +100,11 @@ class Fsum(object):
     def __init__(self, *starts):
         '''Initialize a new accumulator with one or more start values.
 
-           @param starts: SNo, one or more start values (scalars).
+           @param starts: No, one or more start values (scalars).
 
            @raise OverflowError: Partial I{2sum} overflow.
 
-           @raise TypeError: A I{starts} value not a scalar number.
+           @raise TypeError: Non-scalar I{starts} value.
 
            @raise ValueError: Invalid or infinite I{starts} value.
         '''
@@ -125,7 +125,7 @@ class Fsum(object):
 
            @raise OverflowError: Partial I{2sum} overflow.
 
-           @raise TypeError: An I{iterable} value not a scalar number.
+           @raise TypeError: Non-scalar  I{iterable} value.
 
            @raise ValueError: Invalid or infinite I{iterable} value.
         '''
@@ -133,16 +133,15 @@ class Fsum(object):
         for a in iterable:
             if not isfinite(a):
                 raise ValueError('not %s: %r' %('finite', a))
-            if a:
-                i = 0
-                for p in ps:
-                    a, p = _2sum(a, p)
-                    if p:
-                        ps[i] = p
-                        i += 1
-                ps[i:] = [a]
+            i = 0
+            for p in ps:
+                a, p = _2sum(a, p)
+                if p:
+                    ps[i] = p
+                    i += 1
+            ps[i:] = [a]
             self._n += 1
-        # self._ps = ps
+        # assert self._ps is ps
 
     def fadd(self, *args):
         '''Accumulate more values from positional arguments.
@@ -151,7 +150,7 @@ class Fsum(object):
 
            @raise OverflowError: Partial I{2sum} overflow.
 
-           @raise TypeError: An I{arg} not a scalar number.
+           @raise TypeError: Non-scalar I{args} value.
 
            @raise ValueError: Invalid or infinite I{arg}.
         '''
@@ -162,13 +161,19 @@ class Fsum(object):
 
            @param factor: The multiplier (scalar).
 
-           @raise TypeError: An I{factor} value not a scalar number.
+           @raise TypeError: Non-scalar I{factor}.
 
            @raise ValueError: Invalid or infinite I{factor}.
         '''
         if not isfinite(factor):
             raise ValueError('not %s: %r' %('finite', factor))
-        self._ps[:] = [p * factor for p in self._ps]
+
+        ps = self._ps
+        if ps:  # multiply and adjust partial sums
+            ps[:] = [p * factor for p in ps]
+            self.fadd(ps.pop())
+            self._n -= 1
+        # assert self._ps is ps
 
     def fsum_(self, *args):
         '''Accumulated more values from positional arguments and sum all.
@@ -179,7 +184,7 @@ class Fsum(object):
 
            @raise OverflowError: Partial I{2sum} overflow.
 
-           @raise TypeError: An I{arg} not a scalar number.
+           @raise TypeError: Non-scalar I{args} value.
 
            @raise ValueError: Invalid or infinite I{arg}s value.
 
@@ -196,7 +201,7 @@ class Fsum(object):
 
            @raise OverflowError: Partial I{2sum} overflow.
 
-           @raise TypeError: An I{iterable} value not a scalar number.
+           @raise TypeError: Non-scalar I{iterable} value.
 
            @raise ValueError: Invalid or infinite I{iterable} value.
 
@@ -220,7 +225,7 @@ class Fsum(object):
                     if i > 0:  # half-even round if signs match
                         s = _2even(s, ps[i-1], p)
                     break
-            # self._ps = ps
+            # assert self._ps is ps
         return s
 
 

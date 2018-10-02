@@ -29,7 +29,7 @@ __all__ = ('Geohash',  # classes
            'bounds', 'decode', 'decode_error',  # functions
            'distance1', 'distance2', 'distance3',
            'encode', 'neighbors', 'sizes')
-__version__ = '18.09.23'
+__version__ = '18.09.30'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -206,6 +206,11 @@ class Geohash(str, Named):
         return LatLon(s, w, **kwds), LatLon(n, e, **kwds)
 
     def distance1(self, other):
+        '''DEPRECATED, use method I{distance1To}.
+        '''
+        return self.distance1To(other)
+
+    def distance1To(self, other):
         '''Estimate the distance between this and an other geohash
            (from the cell sizes).
 
@@ -225,6 +230,11 @@ class Geohash(str, Named):
         return float(_Sizes[n][2])
 
     def distance2(self, other, radius=R_M, adjust=False, wrap=False):
+        '''DEPRECATED, use method I{distance2To}.
+        '''
+        return self.distance2To(other, radius=radius, adjust=adjust, wrap=wrap)
+
+    def distance2To(self, other, radius=R_M, adjust=False, wrap=False):
         '''Compute the distance between this and an other geohash
            using the U{Equirectangular Approximation / Projection
            <http://www.Movable-Type.co.UK/scripts/latlong.html>}.
@@ -241,6 +251,9 @@ class Geohash(str, Named):
 
            @raise TypeError: The I{other} is not a L{Geohash}, I{LatLon}
                              or str.
+
+           @see: U{Local, flat earth approximation
+                 <http://www.EdWilliams.org/avform.htm#flat>}, functions
         '''
         other = _2Geohash(other)
 
@@ -254,6 +267,11 @@ class Geohash(str, Named):
                                    adjust=adjust, limit=None, wrap=wrap)[0]
 
     def distance3(self, other, radius=R_M, wrap=False):
+        '''DEPRECATED, use method I{distance3To}.
+        '''
+        return self.distance3To(other, radius=radius, wrap=wrap)
+
+    def distance3To(self, other, radius=R_M, wrap=False):
         '''Compute the great-circle distance between this and an other
            geohash using the U{Haversine
            <http://www.Movable-Type.co.UK/scripts/latlong.html>} formula.

@@ -179,9 +179,11 @@ def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **options):
 
        @return: Distance (meter, same units as I{radius}).
 
-       @see: U{Local, Flat Earth<http://www.EdWilliams.org/avform.htm#flat>},
-             method L{Ellipsoid.distance2} or function L{haversine} for
-             more accurate and/or larger distances.
+       @see: U{Local, flat earth approximation
+             <http://www.EdWilliams.org/avform.htm#flat>}, function
+             L{haversine}, method L{Ellipsoid.distance2} and C{LatLon}
+             method C{distanceTo*} for more accurate and/or larger
+             distances.
     '''
     _, dy, dx, _ = equirectangular_(lat1, lon1, lat2, lon2, **options)
     return radians(hypot(dx, dy)) * radius
@@ -221,10 +223,11 @@ def equirectangular_(lat1, lon1, lat2, lon2,
                           the I{-limit..+limit} range and I{limiterrors}
                           set to True.
 
-       @see: U{Local, Flat Earth<http://www.EdWilliams.org/avform.htm#flat>},
-             method L{Ellipsoid.distance2}, function L{equirectangular}
-             for distance only and function L{haversine} for accurate
-             and/or larger distances.
+       @see: U{Local, flat earth approximation
+             <http://www.EdWilliams.org/avform.htm#flat>}, functions
+             L{equirectangular} and L{haversine}, method
+             L{Ellipsoid.distance2} and C{LatLon} method C{distanceTo*}
+             for more accurate and/or larger distances.
     '''
     d_lat = lat2 - lat1
     d_lon, ulon2 = unroll180(lon1, lon2, wrap=wrap)
@@ -301,9 +304,9 @@ def haversine(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
        @return: Distance (meter, same units as I{radius}).
 
        @see: U{Distance between two (spherical) points
-             <http://www.EdWilliams.org/avform.htm#Dist>} and function
-             L{equirectangular} or method L{Ellipsoid.distance2}
-             for distance approximations.
+             <http://www.EdWilliams.org/avform.htm#Dist>}, function
+             L{equirectangular}. L{Ellipsoid.distance2} or I{LatLon}
+             methods I{distanceTo*} and I{equirectangular}.
     '''
     d, lon2 = unroll180(lon1, lon2, wrap=wrap)
     r = haversine_(radians(lat2), radians(lat1), radians(d))
