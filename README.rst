@@ -3,18 +3,6 @@
 PyGeodesy
 =========
 
-.. image:: https://img.shields.io/pypi/v/PyGeodesy.svg
-   :target: http://PyPI.org/project/PyGeodesy
-
-.. image:: https://img.shields.io/appveyor/ci/mrJean1/PyGeodesy.svg?branch=master&label=AppVeyor
-   :target: http://CI.AppVeyor.com/project/mrJean1/PyGeodesy/branch/master
-
-.. image:: https://img.shields.io/travis/mrJean1/PyGeodesy.svg?branch=master&label=Travis
-   :target: http://Travis-CI.org/mrJean1/PyGeodesy
-
-.. image:: https://API.Cirrus-CI.com/github/mrJean1/PyGeodesy.svg?branch=master&label=Cirrus
-   :target: http://Cirrus-CI.com/github/mrJean1/PyGeodesy
-
 A pure Python implementation of geodesy tools for various ellipsoidal and
 spherical earth models using precision trigonometric, vector-based and
 approximate methods for geodetic (lat-/longitude) and geocentric cartesian
@@ -88,6 +76,15 @@ Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
 *Last updated: Sep 30, 2018.*
+
+.. image:: https://img.shields.io/pypi/v/PyGeodesy.svg
+   :target: http://PyPI.org/project/PyGeodesy
+.. image:: https://img.shields.io/appveyor/ci/mrJean1/PyGeodesy.svg?branch=master&label=AppVeyor
+   :target: http://CI.AppVeyor.com/project/mrJean1/PyGeodesy/branch/master
+.. image:: https://img.shields.io/travis/mrJean1/PyGeodesy.svg?branch=master&label=Travis
+   :target: http://Travis-CI.org/mrJean1/PyGeodesy
+.. image:: https://API.Cirrus-CI.com/github/mrJean1/PyGeodesy.svg?branch=master&label=Cirrus
+   :target: http://Cirrus-CI.com/github/mrJean1/PyGeodesy
 
 .. _checked: http://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor
 .. _Debian 8: http://Travis-CI.org/mrJean1/PyGeodesy
