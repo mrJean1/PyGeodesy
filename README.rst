@@ -6,15 +6,13 @@ PyGeodesy
 .. image:: http://img.shields.io/pypi/v/PyGeodesy.svg
    :target: http://pypi.org/project/PyGeodesy
 
-.. image:: http://img.shields.io/pypi/pyversions/PyGeodesy.svg
-
-.. image:: http://img.shields.io/travis/mrJean1/PyGeodesy.svg?branch=master&label=Debian%208%20%40%20Travis%20CI
+.. image:: http://img.shields.io/travis/mrJean1/PyGeodesy.svg?branch=master&label=Travis%20CI
    :target: http://Travis-CI.org/mrJean1/PyGeodesy
 
-.. image:: http://API.Cirrus-CI.com/github/mrJean1/PyGeodesy.svg?label=Debian%209%20%40%20Cirrus%20CI
+.. image:: https://API.Cirrus-CI.com/github/mrJean1/PyGeodesy.svg?branch=master&label=Debian%209%20%40%20Cirrus%20CI
    :target: http://Cirrus-CI.com/github/mrJean1/PyGeodesy
 
-.. image:: http://img.shields.io/appveyor/ci/mrJean1/PyGeodesy.svg?branch=master&label=Windows%20%40%20Appveyor
+.. image:: http://img.shields.io/appveyor/ci/mrJean1/PyGeodesy.svg?branch=master&label=Appveyor
    :target: http://CI.AppVeyor.com/project/mrJean1/PyGeodesy/branch/master
 
 A pure Python implementation of geodesy tools for various ellipsoidal and
