@@ -77,9 +77,9 @@ cases documentation tag **JS name:** shows the original JavaScript name.
 
 *Last updated: Sep 30, 2018.*
 
-.. image:: https://img.shields.io/pypi/v/PyGeodesy.svg
+.. image:: https://img.shields.io/pypi/v/PyGeodesy.svg?label=PyPI
    :target: http://PyPI.org/project/PyGeodesy
-.. image:: https://img.shields.io/pypi/pyversions/PyGeodesy.svg
+.. image:: https://img.shields.io/pypi/pyversions/PyGeodesy.svg?label=Python
    :target: http://PyPI.org/project/PyGeodesy
 .. image:: https://img.shields.io/appveyor/ci/mrJean1/PyGeodesy.svg?branch=master&label=AppVeyor
    :target: http://CI.AppVeyor.com/project/mrJean1/PyGeodesy/branch/master
