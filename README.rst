@@ -9,7 +9,7 @@ PyGeodesy
 .. image:: https://img.shields.io/travis/mrJean1/PyGeodesy.svg?branch=master&label=Travis%20CI
    :target: http://Travis-CI.org/mrJean1/PyGeodesy
 
-.. image:: https://API.Cirrus-CI.com/github/mrJean1/PyGeodesy.svg?branch=master&label=Debian%209%20%40%20Cirrus%20CI
+.. image:: https://API.Cirrus-CI.com/github/mrJean1/PyGeodesy.svg?branch=master&label=Cirrus%20CI
    :target: http://Cirrus-CI.com/github/mrJean1/PyGeodesy
 
 .. image:: https://img.shields.io/appveyor/ci/mrJean1/PyGeodesy.svg?branch=master&label=Appveyor
