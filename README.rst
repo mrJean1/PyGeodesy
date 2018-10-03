@@ -76,7 +76,6 @@ Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
 *Last updated: Sep 30, 2018.*
-
 .. image:: https://img.shields.io/pypi/v/PyGeodesy.svg
    :target: http://PyPI.org/project/PyGeodesy
 .. image:: https://img.shields.io/appveyor/ci/mrJean1/PyGeodesy.svg?branch=master&label=AppVeyor
@@ -123,6 +122,7 @@ cases documentation tag **JS name:** shows the original JavaScript name.
 .. _Visvalingam-Whyatt: http://hydra.Hull.ac.UK/resources/hull:8338
 .. _Web Mercator: http://WikiPedia.org/wiki/Web_Mercator
 .. _Windows Server 2012R2: http://CI.AppVeyor.com/project/mrJean1/pygeodesy
+
 
 ``Copyright (C) 2016-2018 -- mrJean1 at Gmail dot com``
 
