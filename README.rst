@@ -76,6 +76,7 @@ Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
 *Last updated: Sep 30, 2018.*
+
 .. image:: https://img.shields.io/pypi/v/PyGeodesy.svg
    :target: http://PyPI.org/project/PyGeodesy
 .. image:: https://img.shields.io/appveyor/ci/mrJean1/PyGeodesy.svg?branch=master&label=AppVeyor
