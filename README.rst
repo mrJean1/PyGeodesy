@@ -12,7 +12,7 @@ PyGeodesy
 .. image:: http://API.Cirrus-CI.com/github/mrJean1/PyGeodesy.svg?branch=master&label=Debian%209%20%40%20Cirrus%20CI
    :target: http://Cirrus-CI.com/github/mrJean1/PyGeodesy
 
-.. image:: http://img.shields.io/appveyor/ci//mrJean1/PyGeodesy?branch=master&svg=true&label=Windows%20%40%20Appveyor
+.. image:: http://img.shields.io/appveyor/ci/mrJean1/PyGeodesy?branch=master&svg=true&label=Windows%20%40%20Appveyor
    :target: http://CI.AppVeyor.com/project/mrJean1/PyGeodesy/branch/master
 
 .. image:: http://img.shields.io/pypi/pyversions/PyGeodesy.svg
