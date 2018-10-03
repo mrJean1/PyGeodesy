@@ -3,17 +3,17 @@
 PyGeodesy
 =========
 
-.. image:: http://img.shields.io/pypi/v/PyGeodesy.svg
-   :target: http://pypi.org/project/PyGeodesy
+.. image:: https://img.shields.io/pypi/v/PyGeodesy.svg
+   :target: https://pypi.org/project/PyGeodesy
 
-.. image:: http://img.shields.io/travis/mrJean1/PyGeodesy.svg?branch=master&label=Travis%20CI
+.. image:: https://img.shields.io/travis/mrJean1/PyGeodesy.svg?branch=master&label=Travis%20CI
    :target: http://Travis-CI.org/mrJean1/PyGeodesy
 
 .. image:: https://API.Cirrus-CI.com/github/mrJean1/PyGeodesy.svg?branch=master&label=Debian%209%20%40%20Cirrus%20CI
    :target: http://Cirrus-CI.com/github/mrJean1/PyGeodesy
 
-.. image:: http://img.shields.io/appveyor/ci/mrJean1/PyGeodesy.svg?branch=master&label=Appveyor
-   :target: http://CI.AppVeyor.com/project/mrJean1/PyGeodesy/branch/master
+.. image:: https://img.shields.io/appveyor/ci/mrJean1/PyGeodesy.svg?branch=master&label=Appveyor
+   :target: https://CI.AppVeyor.com/project/mrJean1/PyGeodesy/branch/master
 
 A pure Python implementation of geodesy tools for various ellipsoidal and
 spherical earth models using precision trigonometric, vector-based and
