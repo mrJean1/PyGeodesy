@@ -396,7 +396,7 @@ object --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#latlon2round" class="summary-sig-name">latlon2round</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#latlon2" class="summary-sig-name">latlon2</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">ndigits</span>=<span class="summary-sig-default">0</span>)</span><br />
       Return the latitude and longitude, rounded.</td>
           <td align="right" valign="top">
@@ -414,9 +414,9 @@ object --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="latlon_"></a><span class="summary-sig-name">latlon_</span>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a name="latlon2round"></a><span class="summary-sig-name">latlon2round</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">ndigits</span>=<span class="summary-sig-default">0</span>)</span><br />
-      DEPRECATED, use method <i>latlon2round</i>.</td>
+      DEPRECATED, use method <i>latlon2</i>.</td>
           <td align="right" valign="top">
             
             
@@ -432,10 +432,48 @@ object --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#points" class="summary-sig-name">points</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a name="latlon_"></a><span class="summary-sig-name">latlon_</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ndigits</span>=<span class="summary-sig-default">0</span>)</span><br />
+      DEPRECATED, use method <i>latlon2</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="points"></a><span class="summary-sig-name">points</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Check a polygon given as list, set or tuple of points.</td>
+      DEPRECATED, use method <i>points2</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#points2" class="summary-sig-name">points2</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Check an array, generator, iterable, list, set, tuple or other 
+      sequence of points representing a polygon or path.</td>
           <td align="right" valign="top">
             
             
@@ -964,14 +1002,14 @@ object --+
       </p>
 </div></td></tr></table>
 </div>
-<a name="latlon2round"></a>
+<a name="latlon2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">latlon2round</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">latlon2</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">ndigits</span>=<span class="sig-default">0</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -993,14 +1031,14 @@ object --+
       </p>
 </div></td></tr></table>
 </div>
-<a name="points"></a>
+<a name="points2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">points</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">points2</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">points</span>,
         <span class="sig-arg">closed</span>=<span class="sig-default">True</span>)</span>
   </h3>
@@ -1009,12 +1047,14 @@ object --+
     </td>
   </tr></table>
   
-  <p>Check a polygon given as list, set or tuple of points.</p>
+  <p>Check an array, generator, iterable, list, set, tuple or other 
+  sequence of points representing a polygon or path.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The points of the polygon (<i>LatLon</i>[])</li>
-        <li><strong class="pname"><code>closed</code></strong> - Optionally, treat polygon as closed (bool).</li>
+        <li><strong class="pname"><code>points</code></strong> - The points (<i>LatLon</i>[])</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, treat points as closed polygon or path and remove any
+          duplicate or closing final <i>points</i> (bool).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple (number, sequence) of points (int, sequence).</dd>
@@ -1255,7 +1295,7 @@ object --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Oct  2 13:55:33 2018
+    Generated by Epydoc 3.0.1 on Thu Oct  4 14:55:33 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -13,7 +13,7 @@ from dms import F_D, F_DMS, compassAngle, latDMS, lonDMS, \
                 parseDMS, parseDMS2
 from fmath import EPS, favg, map1, scalar
 from utily import R_M, antipode, equirectangular, isantipode, \
-                  polygon, property_RO, unStr
+                  points2, property_RO, unStr
 
 from math import asin, cos, degrees, radians, sin
 
@@ -23,7 +23,7 @@ __all__ = (  # 'Based', 'Named', 'VectorBased',
            'LatLonHeightBase',  # for documentation
            'classname', 'classnaming',
            'inStr')
-__version__ = '18.09.30'
+__version__ = '18.10.02'
 
 __X = object()  # unique instance
 
@@ -469,11 +469,11 @@ class LatLonHeightBase(Based):
         self._lat, self._lon, self._height = lat, lon, h
 
     def latlon_(self, ndigits=0):
-        '''DEPRECATED, use method I{latlon2round}.
+        '''DEPRECATED, use method I{latlon2}.
         '''
-        return self.latlon2round(ndigits)
+        return self.latlon2(ndigits)
 
-    def latlon2round(self, ndigits=0):
+    def latlon2(self, ndigits=0):
         '''Return the latitude and longitude, rounded.
 
            @keyword ndigits: Number of decimal digits (C{int}).
@@ -484,6 +484,11 @@ class LatLonHeightBase(Based):
            @see: Built-in function C{round}.
         '''
         return round(self.lat, ndigits), round(self.lon, ndigits)
+
+    def latlon2round(self, ndigits=0):
+        '''DEPRECATED, use method I{latlon2}.
+        '''
+        return self.latlon2(ndigits)
 
     @property
     def lon(self):
@@ -504,10 +509,18 @@ class LatLonHeightBase(Based):
         self._lon = lon
 
     def points(self, points, closed=True):
-        '''Check a polygon given as list, set or tuple of points.
+        '''DEPRECATED, use method I{points2}.
+        '''
+        return self.points2(points, closed=closed)
 
-           @param points: The points of the polygon (I{LatLon}[])
-           @keyword closed: Optionally, treat polygon as closed (bool).
+    def points2(self, points, closed=True):
+        '''Check an array, generator, iterable, list, set, tuple or other
+           sequence of points representing a polygon or path.
+
+           @param points: The points (I{LatLon}[])
+           @keyword closed: Optionally, treat points as closed polygon or
+                            path and remove any duplicate or closing final
+                            I{points} (bool).
 
            @return: 2-Tuple (number, sequence) of points (int, sequence).
 
@@ -515,7 +528,7 @@ class LatLonHeightBase(Based):
 
            @raise ValueError: Insufficient number of I{points}.
         '''
-        return polygon(points, closed=closed, base=self)
+        return points2(points, closed=closed, base=self)
 
     def to2ab(self):
         '''Return this point's lat-/longitude in radians.

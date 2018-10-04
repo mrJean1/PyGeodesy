@@ -48,14 +48,15 @@ geographiclib_ 1.49) on `Debian 9`_, all in 64-bit only and with Python
 2.7.15, 3.6.6 and 3.7.0 (all with geographiclib_ 1.49) on
 `Windows Server 2012R2`_ in 32- and 64-bit.
 
-Previously, the tests were run with 64-bit Python 2.6.9 (and numpy 1.6.2),
-2.7.10 (and numpy 1.8.0rc1), 2.7.13, 2.7.14 (and numpy 1.13.1), 3.5.3,
-3.6.2, 3.6.3, 3.6.4, 3.6.5 and `Intel-Python`_ 3.5.3 (and numpy_ 1.11.3)
-on MacOS X 10.10 Yosemite, MacOS X 10.11 El Capitan, macOS 10.12 Sierra,
-macOS 10.13.4 and/or 10.13.5 High Sierra, with Pythonista_ 3.1 on iOS
-10.3.3, 11.0.3, 11.1.2 and 11.3, with Pythonista_ 3.2 on iOS 11.4.1, with
-32-bit Python 2.6.6 on Windows XP SP3, with 32-bit Python 2.7.14 on
-Windows 10 Pro.
+Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 2.7.10
+(and numpy 1.8.0rc1), 2.7.13, 2.7.14 (and numpy 1.13.1), 3.5.3, 3.6.2,
+3.6.3, 3.6.4, 3.6.5 and `Intel-Python`_ 3.5.3 (and numpy_ 1.11.3) on MacOS
+X 10.10 Yosemite, MacOS X 10.11 El Capitan, macOS 10.12 Sierra, macOS
+10.13.4 and/or 10.13.5 High Sierra, with Pythonista_ 3.1 on iOS 10.3.3,
+11.0.3, 11.1.2 and 11.3 on iPad4, with Pythonista_ 3.2 on iOS 11.4.1 and
+12.0 on iPad4, iPhone7 and iPhone10, all in 64-bit only and with 32-bit
+Python 2.6.6 on Windows XP SP3 and with 32-bit Python 2.7.14 on Windows
+10 Pro.
 
 In addition to the PyGeodesy_ package, the distribution files contain the
 tests, the test results (on macOS only) and the complete documentation
@@ -75,18 +76,18 @@ latter is required for module *ellipsoidalKarney* classes *LatLon* and
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Sep 30, 2018.*
+*Last updated: Oct 02, 2018.*
 
-.. image:: https://img.shields.io/pypi/v/PyGeodesy.svg?label=PyPI
+.. image:: https://Img.Shields.io/pypi/pyversions/PyGeodesy.svg?label=Python
    :target: http://PyPI.org/project/PyGeodesy
-.. image:: https://img.shields.io/pypi/pyversions/PyGeodesy.svg?label=Python
-   :target: http://PyPI.org/project/PyGeodesy
-.. image:: https://img.shields.io/appveyor/ci/mrJean1/PyGeodesy.svg?branch=master&label=AppVeyor
+.. image:: https://Img.Shields.io/appveyor/ci/mrJean1/PyGeodesy.svg?branch=master&label=AppVeyor
    :target: http://CI.AppVeyor.com/project/mrJean1/PyGeodesy/branch/master
-.. image:: https://img.shields.io/travis/mrJean1/PyGeodesy.svg?branch=master&label=Travis
+.. image:: https://Img.Shields.io/travis/mrJean1/PyGeodesy.svg?branch=master&label=Travis
    :target: http://Travis-CI.org/mrJean1/PyGeodesy
 .. image:: https://API.Cirrus-CI.com/github/mrJean1/PyGeodesy.svg?branch=master&label=Cirrus
    :target: http://Cirrus-CI.com/github/mrJean1/PyGeodesy
+.. image:: https://Img.Shields.io/pypi/v/PyGeodesy.svg?label=PyPI
+   :target: http://PyPI.org/project/PyGeodesy
 
 .. _checked: http://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor
 .. _Debian 8: http://Travis-CI.org/mrJean1/PyGeodesy
@@ -125,7 +126,6 @@ cases documentation tag **JS name:** shows the original JavaScript name.
 .. _Visvalingam-Whyatt: http://hydra.Hull.ac.UK/resources/hull:8338
 .. _Web Mercator: http://WikiPedia.org/wiki/Web_Mercator
 .. _Windows Server 2012R2: http://CI.AppVeyor.com/project/mrJean1/pygeodesy
-
 
 ``Copyright (C) 2016-2018 -- mrJean1 at Gmail dot com``
 

@@ -6,7 +6,7 @@
 
 # The MIT License (MIT)
 #
-# Copyright (c) 2016 Softwarenerd.
+# Copyright (C) 2016 Softwarenerd.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -30,10 +30,10 @@
 # GreatCircleTests
 #
 # Created by Brian Lambert on 6/5/16.
-# Copyright © 2016 Softwarenerd.
+# Copyright (C) 2016 Softwarenerd.
 
 __all__ = ()
-__version__ = '18.09.14'
+__version__ = '18.10.02'
 
 from base import TestsBase
 

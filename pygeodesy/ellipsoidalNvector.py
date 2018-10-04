@@ -37,7 +37,7 @@ from math import asin, atan2, cos, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '18.09.30'
+__version__ = '18.10.02'
 
 
 class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
@@ -581,9 +581,9 @@ class Ned(Named):
         return fmt % (sep.join('%s:%s' % t for t in zip('LBE', t3)),)
 
     def toVector3d(self):
-        '''Return this NED vector as a 3-d vector3.
+        '''Return this NED vector as a 3-d vector.
 
-           @return: North, east, down vector (L{Vector3d}).
+           @return: The vector(north, east, down) (L{Vector3d}).
         '''
         return Vector3d(*self.to3ned(), name=self.name)
 
@@ -712,7 +712,7 @@ def meanOf(points, datum=Datums.WGS84, height=None, LatLon=LatLon):
 
        @raise ValueError: Insufficient number of I{points}.
     '''
-    _, points = _Nvll.points(points, closed=False)
+    _, points = _Nvll.points2(points, closed=False)
     # geographic mean
     m = sumOf(p.toNvector() for p in points)
     a, b, h = m.to3llh()

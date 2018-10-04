@@ -22,7 +22,7 @@ __all__ = ('EPS', 'EPS1',  # constants
            'len2',
            'map1', 'map2',
            'scalar', 'sqrt3')
-__version__ = '18.09.30'
+__version__ = '18.10.02'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -324,6 +324,8 @@ def fhorner(x, *cs):
        @raise TypeError: Argument I{x} not a scalar number.
 
        @raise ValueError: No I{cs} coefficients or I{x} not finite.
+
+       @see: Function L{fpolynomial}.
     '''
     if not isfinite(x):
         raise ValueError('not %s: %r' %('finite', x))
@@ -367,6 +369,8 @@ def fpolynomial(x, *cs):
        @raise TypeError: Argument I{x} not a scalar number.
 
        @raise ValueError: No I{cs} coefficients or I{x} not finite.
+
+       @see: Function L{fhorner}.
     '''
     if not isfinite(x):
         raise ValueError('not %s: %r' %('finite', x))

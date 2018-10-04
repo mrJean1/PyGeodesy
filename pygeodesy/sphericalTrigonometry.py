@@ -15,7 +15,7 @@ U{Latitude/Longitude<http://www.Movable-Type.co.UK/scripts/latlong.html>}.
 
 from datum import R_M
 from fmath import EPS, favg, fmean, fsum, map1
-from sphericalBase import LatLonSphericalBase
+from sphericalBase import _imdex2, LatLonSphericalBase
 from utily import PI2, PI_2, acos1, degrees90, degrees180, degrees360, \
                   equirectangular_, haversine_, iterNumpy2, radians, \
                   radiansPI2, tan_2, unrollPI, wrap180, wrapPI
@@ -30,7 +30,7 @@ __all__ = ('LatLon',  # classes
            'meanOf',
            'nearestOn2',
            'perimeterOf')
-__version__ = '18.09.30'
+__version__ = '18.10.02'
 
 
 class LatLon(LatLonSphericalBase):
@@ -394,7 +394,7 @@ class LatLon(LatLonSphericalBase):
            >>> p = LatLon(45,1, 1.1)
            >>> inside = p.isEnclosedBy(b)  # True
         '''
-        n, points = self.points(points, closed=True)
+        n, points = self.points2(points, closed=True)
 
         n0 = self.toVector3d()
 
@@ -512,7 +512,7 @@ class LatLon(LatLonSphericalBase):
         p, _ = nearestOn2(self, [point1, point2], **options)
         return p
 
-    def nearestOn2(self, points, radius=R_M, **options):
+    def nearestOn2(self, points, closed=False, radius=R_M, **options):
         '''Locate the closest point on any segment between two
            consecutive points of a path.
 
@@ -524,13 +524,14 @@ class LatLon(LatLonSphericalBase):
            subject to the supplied I{options}.
 
            @param points: The points of the path (L{LatLon}[]).
+           @keyword closed: Optionally, treat path as closed (bool).
            @keyword radius: Optional, mean earth radius (meter).
            @keyword options: Optional keyword argument for function
                              L{equirectangular_}.
 
            @return: 2-Tuple (closest, distance) of the closest point
-           (L{LatLon}) on the path and the distance to that point in
-           meter, rather in the units of I{radius}.
+                    (L{LatLon}) on the path and the distance to that
+                    point in meter, rather the same units as I{radius}.
 
            @raise LimitError: Lat- and/or longitudinal delta exceeds
                               I{limit}, see function L{equirectangular_}.
@@ -539,7 +540,7 @@ class LatLon(LatLonSphericalBase):
 
            @raise ValueError: Insufficient number of I{points}.
         '''
-        return nearestOn2(self, points, radius=radius, **options)
+        return nearestOn2(self, points, closed=closed, radius=radius, **options)
 
     def toVector3d(self):
         '''Convert this point to a vector normal to earth's surface.
@@ -604,7 +605,7 @@ def areaOf(points, radius=R_M, wrap=True):
        >>> c = LatLon(0, 0), LatLon(1, 0), LatLon(0, 1)
        >>> areaOf(c)  # 6.18e9
     '''
-    n, points = _Trll.points(points, closed=True)
+    n, points = _Trll.points2(points, closed=True)
 
     # Area method due to Karney: for each edge of the polygon,
     #
@@ -739,7 +740,7 @@ def isPoleEnclosedBy(points, wrap=False):
 
        @raise TypeError: Some I{points} are not L{LatLon}.
     '''
-    n, points = _Trll.points(points)
+    n, points = _Trll.points2(points)
 
     def _cds(n, points):  # iterate over course deltas
         p1 = points[n-1]
@@ -779,7 +780,7 @@ def meanOf(points, height=None, LatLon=LatLon):
        @raise ValueError: No I{points}.
     '''
     # geographic mean
-    n, points = _Trll.points(points, closed=False)
+    n, points = _Trll.points2(points, closed=False)
 
     m = sumOf(points[i].toVector3d() for i in range(n))
     a, b = m.to2ll()
@@ -791,7 +792,7 @@ def meanOf(points, height=None, LatLon=LatLon):
     return (a, b, h) if LatLon is None else LatLon(a, b, height=h)
 
 
-def nearestOn2(point, points, radius=R_M, **options):
+def nearestOn2(point, points, closed=False, radius=R_M, **options):
     '''Locate the closest point on any segment between two consecutive
        points of a path.
 
@@ -804,6 +805,7 @@ def nearestOn2(point, points, radius=R_M, **options):
 
        @param point: The reference point (L{LatLon}).
        @param points: The points of the path (L{LatLon}[]).
+       @keyword closed: Optionally, treat path as closed (bool).
        @keyword radius: Optional, mean earth radius (meter).
        @keyword options: Optional keyword arguments for function
                          L{equirectangular_}.
@@ -812,7 +814,7 @@ def nearestOn2(point, points, radius=R_M, **options):
                 (L{LatLon}) on the path and the distance to that
                 point.  The distance is the L{equirectangular_}
                 distance between the given and the closest point
-                in meter, rather the units of I{radius}.
+                in meter, rather the same units as I{radius}.
 
        @raise LimitError: Lat- and/or longitudinal delta exceeds
                           I{limit}, see function L{equirectangular_}.
@@ -842,12 +844,13 @@ def nearestOn2(point, points, radius=R_M, **options):
     #   xc = w * dx / hypot(dx, dy)
     #   yc = w * dy / hypot(dx, dy)
 
-    n, points = point.points(points, closed=False)
+    n, points = point.points2(points, closed=closed)
 
+    i, m = _imdex2(closed, n)
+    c = p2 = points[i]
     u = 0
-    c = p2 = points[0]
-    d, _, _, _ = _d2yx(p2, point, 0)
-    for i in range(1, n):
+    d, _, _, _ = _d2yx(point, p2, u)
+    for i in range(m, n):
         p1, p2 = p2, points[i]
         # iff wrapped, unroll lon1 (actually previous
         # lon2) like function unroll180/-PI would've
@@ -895,13 +898,10 @@ def perimeterOf(points, closed=False, radius=R_M, wrap=True):
 
        @see: L{pygeodesy.perimeterOf} and L{ellipsoidalKarney.perimeterOf}.
     '''
-    n, points = _Trll.points(points, closed=closed)
+    n, points = _Trll.points2(points, closed=closed)
 
     def _rads(n, points, closed):  # angular edge lengths in radians
-        if closed:
-            m, i = 0, n - 1
-        else:
-            m, i = 1, 0
+        i, m = _imdex2(closed, n)
         a1, b1 = points[i].to2ab()
         for i in range(m, n):
             a2, b2 = points[i].to2ab()

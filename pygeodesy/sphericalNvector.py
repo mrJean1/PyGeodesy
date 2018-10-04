@@ -34,7 +34,7 @@ from datum import R_M
 from fmath import EPS, fmean, fsum, fsum_, isscalar
 from nvector import NorthPole, LatLonNvectorBase, \
                     Nvector as NvectorBase, sumOf
-from sphericalBase import LatLonSphericalBase
+from sphericalBase import _imdex2, LatLonSphericalBase
 from utily import PI, PI2, PI_2, degrees360, iterNumpy2
 
 from math import atan2, cos, radians, sin
@@ -46,7 +46,7 @@ __all__ = ('LatLon', 'Nvector',  # classes
            'meanOf',
            'nearestOn2',
            'triangulate', 'trilaterate')
-__version__ = '18.09.30'
+__version__ = '18.10.02'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -423,7 +423,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @JSname: I{enclosedBy}.
         '''
-        n, points = self.points(points, closed=True)
+        n, points = self.points2(points, closed=True)
 
         # use normal vector to this point for sign of α
         n0 = self.toNvector()
@@ -569,7 +569,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
         return p
 
-    def nearestOn2(self, points, radius=R_M, height=None):
+    def nearestOn2(self, points, closed=False, radius=R_M, height=None):
         '''Locate the closest point on the great circle segment between
            any two consecutive points of a path.
 
@@ -578,6 +578,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            point is the nearest of the segment end points.
 
            @param points: The points of the path (L{LatLon}[]).
+           @keyword closed: Optionally, treat path as closed (bool).
            @keyword radius: Optional, mean earth radius (meter).
            @keyword height: Optional height, overriding the mean height
                             for a point if within segment (meter).
@@ -590,12 +591,14 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @raise ValueError: No I{points}.
         '''
-        n, points = self.points(points, closed=False)
+        n, points = self.points2(points, closed=closed)
 
-        c = points[0]
+        i, m = _imdex2(closed, n)
+        c = p2 = points[i]
         d = self.distanceTo(c, radius=radius)
-        for i in range(1, n):
-            p = self.nearestOn(points[i-1], points[i], height=height)
+        for i in range(m, n):
+            p1, p2 = p2, points[i]
+            p = self.nearestOn(p1, p2, height=height)
             t = self.distanceTo(p, radius=radius)
             if t < d:
                 c, d = p, t
@@ -760,7 +763,7 @@ def areaOf(points, radius=R_M):
        >>> b = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
        >>> areaOf(b)  # 8666058750.718977
     '''
-    n, points = _Nvll.points(points, closed=True)
+    n, points = _Nvll.points2(points, closed=True)
 
     # use vector to 1st point as plane normal for sign of α
     n0 = points[0].toNvector()
@@ -890,7 +893,7 @@ def meanOf(points, height=None, LatLon=LatLon):
 
        @raise ValueError: Insufficient number of I{points}.
     '''
-    n, points = _Nvll.points(points, closed=False)
+    n, points = _Nvll.points2(points, closed=False)
     # geographic mean
     m = sumOf(points[i].toNvector() for i in range(n))
     a, b, h = m.to3llh()
@@ -898,7 +901,7 @@ def meanOf(points, height=None, LatLon=LatLon):
     return LatLon(a, b, height=h if height is None else height)
 
 
-def nearestOn2(point, points, radius=R_M, height=None):
+def nearestOn2(point, points, closed=False, radius=R_M, height=None):
     '''Locate the closest point on the great circle segment between
        any two consecutive points of a path.
 
@@ -908,6 +911,7 @@ def nearestOn2(point, points, radius=R_M, height=None):
 
        @param point: The reference point (L{LatLon}).
        @param points: The points of the path (L{LatLon}[]).
+       @keyword closed: Optionally, treat path as closed (bool).
        @keyword radius: Optional, mean earth radius (meter).
        @keyword height: Optional height, overriding the mean height
                         for a point if within segment (meter).
@@ -915,7 +919,7 @@ def nearestOn2(point, points, radius=R_M, height=None):
        @return: 2-Tuple (closest, distance) of the closest point
                 (L{LatLon}) on the path and the distance to that
                 point from the given point in meter, rather the
-                units of I{radius}.
+                same units as I{radius}.
 
        @raise TypeError: Some I{points} or the point not I{LatLon}.
 
@@ -924,7 +928,7 @@ def nearestOn2(point, points, radius=R_M, height=None):
     if not isinstance(point, LatLon):
         raise TypeError('%s not %r: %r' % ('point', LatLon, point))
 
-    return point.nearestOn2(points, radius=radius, height=height)
+    return point.nearestOn2(points, closed=closed, radius=radius, height=height)
 
 
 def triangulate(point1, bearing1, point2, bearing2,

@@ -1,4 +1,4 @@
-test/run.py typical test results (PyGeodesy 18.9.30 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6)
+test/run.py typical test results (PyGeodesy 18.10.2 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6)
 
 running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testBases.py
 
@@ -44,7 +44,7 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testBases.py
     test 39 isequalTo3: False
     test 40 isequalTo3: True
 
-    all 40 testBases.py tests passed (PyGeodesy 18.9.30 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 1.856 ms
+    all 40 testBases.py tests passed (PyGeodesy 18.10.2 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 2.340 ms
 
 running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testClasses.py
 
@@ -143,133 +143,135 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testClasses.py
     test 86 iterations property: pygeodesy.ellipsoidalVincenty
     test 87 lat property: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
     test 88 latlon property: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 89 latlon2round() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 90 latlon_() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 91 lon property: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 92 maxLat() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 93 midpointTo() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 94 minLat() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 95 name property: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 96 nearestOn() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 97 nearestOn2() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 98 others() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 99 parse() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 100 points() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 101 rhumbBearingTo() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 102 rhumbDestination() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 103 rhumbDistanceTo() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 104 rhumbMidpointTo() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 105 scale property: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 106 to2ab() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 107 to3llh() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 108 to3xyz() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 109 to4xyzh() method: pygeodesy.ellipsoidalNvector, pygeodesy.sphericalNvector
-    test 110 toCartesian() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 111 toNvector() method: pygeodesy.ellipsoidalNvector, pygeodesy.sphericalNvector
-    test 112 toOsgr() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 113 toStr() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 114 toStr2() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 115 toUtm() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
-    test 116 toVector3d() method: pygeodesy.sphericalTrigonometry
-    test 117 toWm() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
-    test 118 triangulate() method: pygeodesy.sphericalNvector
-    test 119 trilaterate() method: pygeodesy.sphericalNvector
+    test 89 latlon2() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 90 latlon2round() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 91 latlon_() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 92 lon property: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 93 maxLat() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 94 midpointTo() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 95 minLat() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 96 name property: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 97 nearestOn() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 98 nearestOn2() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 99 others() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 100 parse() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 101 points() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 102 points2() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 103 rhumbBearingTo() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 104 rhumbDestination() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 105 rhumbDistanceTo() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 106 rhumbMidpointTo() method: pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 107 scale property: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 108 to2ab() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 109 to3llh() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 110 to3xyz() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 111 to4xyzh() method: pygeodesy.ellipsoidalNvector, pygeodesy.sphericalNvector
+    test 112 toCartesian() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 113 toNvector() method: pygeodesy.ellipsoidalNvector, pygeodesy.sphericalNvector
+    test 114 toOsgr() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 115 toStr() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 116 toStr2() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 117 toUtm() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty
+    test 118 toVector3d() method: pygeodesy.sphericalTrigonometry
+    test 119 toWm() method: pygeodesy.ellipsoidalKarney, pygeodesy.ellipsoidalNvector, pygeodesy.ellipsoidalVincenty, pygeodesy.sphericalNvector, pygeodesy.sphericalTrigonometry
+    test 120 triangulate() method: pygeodesy.sphericalNvector
+    test 121 trilaterate() method: pygeodesy.sphericalNvector
 
     testLatLonMro(18.09.12)
-    test 120 pygeodesy.ellipsoidalKarney: pygeodesy.ellipsoidalKarney.LatLon, pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase, pygeodesy.bases.LatLonHeightBase, pygeodesy.bases.Based, pygeodesy.bases.Named
-    test 121 pygeodesy.ellipsoidalNvector: pygeodesy.ellipsoidalNvector.LatLon, pygeodesy.nvector.LatLonNvectorBase, pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase, pygeodesy.bases.LatLonHeightBase, pygeodesy.bases.Based, pygeodesy.bases.Named
-    test 122 pygeodesy.ellipsoidalVincenty: pygeodesy.ellipsoidalVincenty.LatLon, pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase, pygeodesy.bases.LatLonHeightBase, pygeodesy.bases.Based, pygeodesy.bases.Named
-    test 123 pygeodesy.sphericalNvector: pygeodesy.sphericalNvector.LatLon, pygeodesy.nvector.LatLonNvectorBase, pygeodesy.sphericalBase.LatLonSphericalBase, pygeodesy.bases.LatLonHeightBase, pygeodesy.bases.Based, pygeodesy.bases.Named
-    test 124 pygeodesy.sphericalTrigonometry: pygeodesy.sphericalTrigonometry.LatLon, pygeodesy.sphericalBase.LatLonSphericalBase, pygeodesy.bases.LatLonHeightBase, pygeodesy.bases.Based, pygeodesy.bases.Named
+    test 122 pygeodesy.ellipsoidalKarney: pygeodesy.ellipsoidalKarney.LatLon, pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase, pygeodesy.bases.LatLonHeightBase, pygeodesy.bases.Based, pygeodesy.bases.Named
+    test 123 pygeodesy.ellipsoidalNvector: pygeodesy.ellipsoidalNvector.LatLon, pygeodesy.nvector.LatLonNvectorBase, pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase, pygeodesy.bases.LatLonHeightBase, pygeodesy.bases.Based, pygeodesy.bases.Named
+    test 124 pygeodesy.ellipsoidalVincenty: pygeodesy.ellipsoidalVincenty.LatLon, pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase, pygeodesy.bases.LatLonHeightBase, pygeodesy.bases.Based, pygeodesy.bases.Named
+    test 125 pygeodesy.sphericalNvector: pygeodesy.sphericalNvector.LatLon, pygeodesy.nvector.LatLonNvectorBase, pygeodesy.sphericalBase.LatLonSphericalBase, pygeodesy.bases.LatLonHeightBase, pygeodesy.bases.Based, pygeodesy.bases.Named
+    test 126 pygeodesy.sphericalTrigonometry: pygeodesy.sphericalTrigonometry.LatLon, pygeodesy.sphericalBase.LatLonSphericalBase, pygeodesy.bases.LatLonHeightBase, pygeodesy.bases.Based, pygeodesy.bases.Named
 
     testNvectorAttrs(18.09.12)
-    test 125 H str: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 126 angleTo() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 127 classname property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 128 classnaming property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 129 classof() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 130 copy() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 131 cross() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 132 crosserrors property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 133 datum property: pygeodesy.ellipsoidalNvector
-    test 134 dividedBy() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 135 dot() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 136 equals() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 137 greatCircle() method: pygeodesy.sphericalNvector
-    test 138 h property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 139 isequalTo() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 140 length property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 141 minus() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 142 name property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 143 negate() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 144 others() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 145 parse() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 146 plus() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 147 rotate() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 148 rotateAround() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 149 sum() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 150 times() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 151 to2ab() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 152 to2ll() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 153 to3abh() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 154 to3llh() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 155 to3xyz() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 156 to4xyzh() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 157 toCartesian() method: pygeodesy.ellipsoidalNvector
-    test 158 toLatLon() method: pygeodesy.ellipsoidalNvector, pygeodesy.sphericalNvector
-    test 159 toStr() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 160 toStr2() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 161 toVector3d() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 162 unit() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 163 x property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 164 y property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
-    test 165 z property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 127 H str: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 128 angleTo() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 129 classname property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 130 classnaming property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 131 classof() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 132 copy() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 133 cross() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 134 crosserrors property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 135 datum property: pygeodesy.ellipsoidalNvector
+    test 136 dividedBy() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 137 dot() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 138 equals() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 139 greatCircle() method: pygeodesy.sphericalNvector
+    test 140 h property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 141 isequalTo() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 142 length property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 143 minus() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 144 name property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 145 negate() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 146 others() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 147 parse() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 148 plus() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 149 rotate() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 150 rotateAround() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 151 sum() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 152 times() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 153 to2ab() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 154 to2ll() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 155 to3abh() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 156 to3llh() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 157 to3xyz() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 158 to4xyzh() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 159 toCartesian() method: pygeodesy.ellipsoidalNvector
+    test 160 toLatLon() method: pygeodesy.ellipsoidalNvector, pygeodesy.sphericalNvector
+    test 161 toStr() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 162 toStr2() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 163 toVector3d() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 164 unit() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 165 x property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 166 y property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
+    test 167 z property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalNvector
 
     testNvectorMro(18.09.12)
-    test 166 pygeodesy.ellipsoidalNvector: pygeodesy.ellipsoidalNvector.Nvector, pygeodesy.nvector.Nvector, pygeodesy.vector3d.Vector3d, pygeodesy.bases.VectorBased, pygeodesy.bases.Based, pygeodesy.bases.Named
-    test 167 pygeodesy.sphericalNvector: pygeodesy.sphericalNvector.Nvector, pygeodesy.nvector.Nvector, pygeodesy.vector3d.Vector3d, pygeodesy.bases.VectorBased, pygeodesy.bases.Based, pygeodesy.bases.Named
-    test 168 pygeodesy.nvector: pygeodesy.nvector.Nvector, pygeodesy.vector3d.Vector3d, pygeodesy.bases.VectorBased, pygeodesy.bases.Based, pygeodesy.bases.Named
+    test 168 pygeodesy.ellipsoidalNvector: pygeodesy.ellipsoidalNvector.Nvector, pygeodesy.nvector.Nvector, pygeodesy.vector3d.Vector3d, pygeodesy.bases.VectorBased, pygeodesy.bases.Based, pygeodesy.bases.Named
+    test 169 pygeodesy.sphericalNvector: pygeodesy.sphericalNvector.Nvector, pygeodesy.nvector.Nvector, pygeodesy.vector3d.Vector3d, pygeodesy.bases.VectorBased, pygeodesy.bases.Based, pygeodesy.bases.Named
+    test 170 pygeodesy.nvector: pygeodesy.nvector.Nvector, pygeodesy.vector3d.Vector3d, pygeodesy.bases.VectorBased, pygeodesy.bases.Based, pygeodesy.bases.Named
 
     testVector3dAttrs(18.09.12)
-    test 169 angleTo() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 170 classname property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 171 classnaming property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 172 classof() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 173 copy() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 174 cross() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 175 crosserrors property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 176 dividedBy() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 177 dot() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 178 equals() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 179 isequalTo() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 180 length property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 181 minus() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 182 name property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 183 negate() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 184 others() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 185 parse() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 186 plus() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 187 rotate() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 188 rotateAround() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 189 sum() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 190 times() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 191 to2ab() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 192 to2ll() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 193 to3xyz() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 194 toStr() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 195 toStr2() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 196 unit() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 197 x property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 198 y property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
-    test 199 z property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 171 angleTo() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 172 classname property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 173 classnaming property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 174 classof() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 175 copy() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 176 cross() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 177 crosserrors property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 178 dividedBy() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 179 dot() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 180 equals() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 181 isequalTo() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 182 length property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 183 minus() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 184 name property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 185 negate() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 186 others() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 187 parse() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 188 plus() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 189 rotate() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 190 rotateAround() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 191 sum() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 192 times() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 193 to2ab() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 194 to2ll() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 195 to3xyz() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 196 toStr() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 197 toStr2() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 198 unit() method: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 199 x property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 200 y property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
+    test 201 z property: pygeodesy.ellipsoidalNvector, pygeodesy.nvector, pygeodesy.sphericalTrigonometry, pygeodesy.vector3d
 
     testVector3dMro(18.09.12)
-    test 200 pygeodesy.ellipsoidalNvector: pygeodesy.vector3d.Vector3d, pygeodesy.bases.VectorBased, pygeodesy.bases.Based, pygeodesy.bases.Named
-    test 201 pygeodesy.sphericalTrigonometry: pygeodesy.vector3d.Vector3d, pygeodesy.bases.VectorBased, pygeodesy.bases.Based, pygeodesy.bases.Named
-    test 202 pygeodesy.nvector: pygeodesy.vector3d.Vector3d, pygeodesy.bases.VectorBased, pygeodesy.bases.Based, pygeodesy.bases.Named
-    test 203 pygeodesy.vector3d: pygeodesy.vector3d.Vector3d, pygeodesy.bases.VectorBased, pygeodesy.bases.Based, pygeodesy.bases.Named
+    test 202 pygeodesy.ellipsoidalNvector: pygeodesy.vector3d.Vector3d, pygeodesy.bases.VectorBased, pygeodesy.bases.Based, pygeodesy.bases.Named
+    test 203 pygeodesy.sphericalTrigonometry: pygeodesy.vector3d.Vector3d, pygeodesy.bases.VectorBased, pygeodesy.bases.Based, pygeodesy.bases.Named
+    test 204 pygeodesy.nvector: pygeodesy.vector3d.Vector3d, pygeodesy.bases.VectorBased, pygeodesy.bases.Based, pygeodesy.bases.Named
+    test 205 pygeodesy.vector3d: pygeodesy.vector3d.Vector3d, pygeodesy.bases.VectorBased, pygeodesy.bases.Based, pygeodesy.bases.Named
 
-    all 203 testClasses.py tests passed (PyGeodesy 18.9.30 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 9.760 ms
+    all 205 testClasses.py tests passed (PyGeodesy 18.10.2 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 8.099 ms
 
 running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testDatum.py
 
@@ -359,7 +361,7 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testDatum.py
     test 83 WGS84.AlphaKs: 8.377318206304e-04, 7.608527714249e-07, 1.197638001561e-09, 2.443376194522e-12
     test 84 WGS84.BetaKs : 8.377321640601e-04, 5.905869567934e-08, 1.673488880355e-10, 2.167737763022e-13
 
-    all 84 testDatum.py tests passed (PyGeodesy 18.9.30 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 4.217 ms
+    all 84 testDatum.py tests passed (PyGeodesy 18.10.2 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 3.056 ms
 
 running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testDms.py
 
@@ -433,18 +435,18 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testDms.py
     test 67 equirectangular: 592.185
     test 68 distanceTo: 591.831
 
-    all 68 testDms.py tests passed (PyGeodesy 18.9.30 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 1.290 ms
+    all 68 testDms.py tests passed (PyGeodesy 18.10.2 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 1.324 ms
 
 running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testElevations.py
 
     testing testElevations.py 18.09.14
-    all testElevations.py tests SKIPPED (PyGeodesy 18.9.30 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 6.199 us
+    all testElevations.py tests SKIPPED (PyGeodesy 18.10.2 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 10.014 us
 
 running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testEllipsoidal.py
 
     testing testEllipsoidal.py 18.09.30
 
-    testEllipsoidal(pygeodesy.ellipsoidalNvector, 18.09.30)
+    testEllipsoidal(pygeodesy.ellipsoidalNvector, 18.10.02)
     test 1 isEllipsoidal: True
     test 2 isSpherical: False
     test 3 isEllipsoidal: True
@@ -462,7 +464,7 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testEllipsoidal.py
     test 15 toLatLon: True
     test 16 Nvector: (0.51, 0.512, 0.707, +1.00)
 
-    testLatLon(pygeodesy.ellipsoidalNvector, 18.09.30)
+    testLatLon(pygeodesy.ellipsoidalNvector, 18.10.02)
     test 17 isEllipsoidal: True
     test 18 isSpherical: False
     test 19 lat/lonDMS: 52.20472°N, 000.14056°E
@@ -472,12 +474,12 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testEllipsoidal.py
     test 23 lat/lonDMS F_DMS: 52°12′17.0″N, 000°08′26.0″E
     test 24 lat/lonDMS F_RAD: 0.911144N, 0.002453E
     test 25 isequalTo: True
-    test 26 latlon2round: 52.20472, 0.14056
-    test 27 latlon2round: 52.2047, 0.1406
-    test 28 latlon2round: 52.205, 0.141
-    test 29 latlon2round: 52.2, 0.14
-    test 30 latlon2round: 52.2, 0.1
-    test 31 latlon2round: 52.0, 0.0
+    test 26 latlon2: 52.20472, 0.14056
+    test 27 latlon2: 52.2047, 0.1406
+    test 28 latlon2: 52.205, 0.141
+    test 29 latlon2: 52.2, 0.14
+    test 30 latlon2: 52.2, 0.1
+    test 31 latlon2: 52.0, 0.0
     test 32 isequalTo: False
     test 33 antipode1: 52.205°S, 179.881°W
     test 34 antipode2: True
@@ -522,7 +524,7 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testEllipsoidal.py
     test 73 isenclosedby7: True
     test 74 isenclosedby7*: True
 
-    testVectorial(pygeodesy.ellipsoidalNvector, 18.09.30)
+    testVectorial(pygeodesy.ellipsoidalNvector, 18.10.02)
     test 75 toLatLon: 44.995674°N, 045.0°E
     test 76 toNvector: (0.50004, 0.50004, 0.70705)
     test 77 isequalTo: False
@@ -555,12 +557,12 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testEllipsoidal.py
     test 100 lat/lonDMS F_DMS: 52°12′17.0″N, 000°08′26.0″E
     test 101 lat/lonDMS F_RAD: 0.911144N, 0.002453E
     test 102 isequalTo: True
-    test 103 latlon2round: 52.20472, 0.14056
-    test 104 latlon2round: 52.2047, 0.1406
-    test 105 latlon2round: 52.205, 0.141
-    test 106 latlon2round: 52.2, 0.14
-    test 107 latlon2round: 52.2, 0.1
-    test 108 latlon2round: 52.0, 0.0
+    test 103 latlon2: 52.20472, 0.14056
+    test 104 latlon2: 52.2047, 0.1406
+    test 105 latlon2: 52.205, 0.141
+    test 106 latlon2: 52.2, 0.14
+    test 107 latlon2: 52.2, 0.1
+    test 108 latlon2: 52.0, 0.0
     test 109 isequalTo: False
     test 110 antipode1: 52.205°S, 179.881°W
     test 111 antipode2: True
@@ -735,12 +737,12 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testEllipsoidal.py
     test 270 lat/lonDMS F_DMS: 52°12′17.0″N, 000°08′26.0″E
     test 271 lat/lonDMS F_RAD: 0.911144N, 0.002453E
     test 272 isequalTo: True
-    test 273 latlon2round: 52.20472, 0.14056
-    test 274 latlon2round: 52.2047, 0.1406
-    test 275 latlon2round: 52.205, 0.141
-    test 276 latlon2round: 52.2, 0.14
-    test 277 latlon2round: 52.2, 0.1
-    test 278 latlon2round: 52.0, 0.0
+    test 273 latlon2: 52.20472, 0.14056
+    test 274 latlon2: 52.2047, 0.1406
+    test 275 latlon2: 52.205, 0.141
+    test 276 latlon2: 52.2, 0.14
+    test 277 latlon2: 52.2, 0.1
+    test 278 latlon2: 52.0, 0.0
     test 279 isequalTo: False
     test 280 antipode1: 52.205°S, 179.881°W
     test 281 antipode2: True
@@ -900,7 +902,7 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testEllipsoidal.py
     test 427 distanceTo3: 19959679.267353821546, 161.06766998616, 18.825195123247
     test 428 destination2: 40.96, -5.5, 18.825195123247
 
-    4 of 428 testEllipsoidal.py tests (0.9%) FAILED, ALL KNOWN (PyGeodesy 18.9.30 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 46.131 ms
+    4 of 428 testEllipsoidal.py tests (0.9%) FAILED, ALL KNOWN (PyGeodesy 18.10.2 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 58.177 ms
 
 running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testEllipsoidalGeodTest.py
 
@@ -3907,11 +3909,11 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testEllipsoidalGeod
     test 3000 line 500 azi2: 130.988276746436
     test 3001 WGS84.KsOrder: 8
 
-    16 of 3001 testEllipsoidalGeodTest.py tests (0.5%) FAILED, ALL KNOWN (PyGeodesy 18.9.30 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 179.254 ms
+    16 of 3001 testEllipsoidalGeodTest.py tests (0.5%) FAILED, ALL KNOWN (PyGeodesy 18.10.2 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 160.996 ms
 
 running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testFmath.py
 
-    testing testFmath.py 18.09.18 (module pygeodesy.fmath 18.09.30)
+    testing testFmath.py 18.09.18 (module pygeodesy.fmath 18.10.02)
     test 1 fpolynomialA: 1.21197509766
     test 2 fhornerA: 1.21197509766
     test 3 fpolynomialB: 0.1513671875
@@ -4077,406 +4079,406 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testFmath.py
     test 163 sum: 1.005
     test 164 fsum: 1.005
     test 165 Fsum: 1.005
-    test 166 sum: -3.88533778445e+84  FAILED, KNOWN, expected 0.0622372384337
-    test 167 fsum: 0.0622372384337
-    test 168 Fsum: 0.0622372384337
-    test 169 Fsum: 0.0622372384337
-    test 170 sum: 3.88533778445e+84  FAILED, KNOWN, expected -1.15070736707e-09
-    test 171 fsum: -1.15070736707e-09
-    test 172 Fsum: -1.15070736707e-09
-    test 173 Fsum: -1.15070736707e-09
-    test 174 sum: 3.88533778445e+84  FAILED, KNOWN, expected 1.98757533312
-    test 175 fsum: 1.98757533312
-    test 176 Fsum: 1.98757533312
-    test 177 Fsum: 1.98757533312
-    test 178 sum: -3.88533778445e+84  FAILED, KNOWN, expected -3.2571040718e-13
-    test 179 fsum: -3.2571040718e-13
-    test 180 Fsum: -3.2571040718e-13
-    test 181 Fsum: -3.2571040718e-13
-    test 182 sum: 3.88533778445e+84  FAILED, KNOWN, expected -0.34985909988
-    test 183 fsum: -0.34985909988
-    test 184 Fsum: -0.34985909988
-    test 185 Fsum: -0.34985909988
-    test 186 sum: -6.99841430219  FAILED, KNOWN, expected 8.94037790202e-07
-    test 187 fsum: 8.94037790202e-07
-    test 188 Fsum: 8.94037790202e-07
-    test 189 Fsum: 8.94037790202e-07
-    test 190 sum: 7.15396323643  FAILED, KNOWN, expected -0.0144175925159
-    test 191 fsum: -0.0144175925159
-    test 192 Fsum: -0.0144175925159
-    test 193 Fsum: -0.0144175925159
-    test 194 sum: 0.388327576152  FAILED, KNOWN, expected -1.29940591214e-06
-    test 195 fsum: -1.29940591214e-06
-    test 196 Fsum: -1.29940591214e-06
-    test 197 Fsum: -1.29940591214e-06
-    test 198 sum: 3.88533778445e+84  FAILED, KNOWN, expected -5.36521478901e-05
-    test 199 fsum: -5.36521478901e-05
-    test 200 Fsum: -5.36521478901e-05
-    test 201 Fsum: -5.36521478901e-05
-    test 202 sum: 3.88533778445e+84  FAILED, KNOWN, expected 0.000152492529018
-    test 203 fsum: 0.000152492529018
-    test 204 Fsum: 0.000152492529018
-    test 205 Fsum: 0.000152492529018
-    test 206 sum: 7.0  FAILED, KNOWN, expected 0.0481124886513
-    test 207 fsum: 0.0481124886513
-    test 208 Fsum: 0.0481124886513
-    test 209 Fsum: 0.0481124886513
-    test 210 sum: 3.88533778445e+84  FAILED, KNOWN, expected 9.52049476904e-17
-    test 211 fsum: 9.52049476904e-17
-    test 212 Fsum: 9.52049476904e-17
-    test 213 Fsum: 9.52049476904e-17
-    test 214 sum: 3.88533778445e+84  FAILED, KNOWN, expected -1.54326902182e-05
-    test 215 fsum: -1.54326902182e-05
-    test 216 Fsum: -1.54326902182e-05
-    test 217 Fsum: -1.54326902182e-05
-    test 218 sum: 3.88533778445e+84  FAILED, KNOWN, expected -0.00100325000552
-    test 219 fsum: -0.00100325000552
-    test 220 Fsum: -0.00100325000552
-    test 221 Fsum: -0.00100325000552
-    test 222 sum: 3.88533778445e+84  FAILED, KNOWN, expected 5.71535756068e-07
-    test 223 fsum: 5.71535756068e-07
-    test 224 Fsum: 5.71535756068e-07
-    test 225 Fsum: 5.71535756068e-07
-    test 226 sum: -3.88533778445e+84  FAILED, KNOWN, expected -1.60201390683e-09
-    test 227 fsum: -1.60201390683e-09
-    test 228 Fsum: -1.60201390683e-09
-    test 229 Fsum: -1.60201390683e-09
-    test 230 sum: 1.6208132494e-05  FAILED, KNOWN, expected 2.22787875925
-    test 231 fsum: 2.22787875925
-    test 232 Fsum: 2.22787875925
-    test 233 Fsum: 2.22787875925
-    test 234 sum: -3.88533778445e+84  FAILED, KNOWN, expected 8.37927879193e-05
-    test 235 fsum: 8.37927879193e-05
-    test 236 Fsum: 8.37927879193e-05
-    test 237 Fsum: 8.37927879193e-05
-    test 238 sum: -7.0  FAILED, KNOWN, expected 4.31840902812e-05
-    test 239 fsum: 4.31840902812e-05
-    test 240 Fsum: 4.31840902812e-05
-    test 241 Fsum: 4.31840902812e-05
-    test 242 sum: -13.8870986536  FAILED, KNOWN, expected -1.51872881327e-06
-    test 243 fsum: -1.51872881327e-06
-    test 244 Fsum: -1.51872881327e-06
-    test 245 Fsum: -1.51872881327e-06
-    test 246 sum: 3.88533778445e+84  FAILED, KNOWN, expected -0.00169157527416
-    test 247 fsum: -0.00169157527416
-    test 248 Fsum: -0.00169157527416
-    test 249 Fsum: -0.00169157527416
-    test 250 sum: 3.88533778445e+84  FAILED, KNOWN, expected -4.727335279e-09
-    test 251 fsum: -4.727335279e-09
-    test 252 Fsum: -4.727335279e-09
-    test 253 Fsum: -4.727335279e-09
-    test 254 sum: -3.88533778445e+84  FAILED, KNOWN, expected 3.02466246304e-06
-    test 255 fsum: 3.02466246304e-06
-    test 256 Fsum: 3.02466246304e-06
-    test 257 Fsum: 3.02466246304e-06
-    test 258 sum: -7.03146444815  FAILED, KNOWN, expected -0.140124540866
-    test 259 fsum: -0.140124540866
-    test 260 Fsum: -0.140124540866
-    test 261 Fsum: -0.140124540866
-    test 262 sum: 3.88533778445e+84  FAILED, KNOWN, expected -3.78650828215e-09
-    test 263 fsum: -3.78650828215e-09
-    test 264 Fsum: -3.78650828215e-09
-    test 265 Fsum: -3.78650828215e-09
-    test 266 sum: -3.88533778445e+84  FAILED, KNOWN, expected -1.33463265695e-13
-    test 267 fsum: -1.33463265695e-13
-    test 268 Fsum: -1.33463265695e-13
-    test 269 Fsum: -1.33463265695e-13
-    test 270 sum: -3.88533778445e+84  FAILED, KNOWN, expected -0.0258068139152
-    test 271 fsum: -0.0258068139152
-    test 272 Fsum: -0.0258068139152
-    test 273 Fsum: -0.0258068139152
-    test 274 sum: -3.88533778445e+84  FAILED, KNOWN, expected -0.0656790222028
-    test 275 fsum: -0.0656790222028
-    test 276 Fsum: -0.0656790222028
-    test 277 Fsum: -0.0656790222028
-    test 278 sum: 0.0  FAILED, KNOWN, expected 9.27459655636e-09
-    test 279 fsum: 9.27459655636e-09
-    test 280 Fsum: 9.27459655636e-09
-    test 281 Fsum: 9.27459655636e-09
-    test 282 sum: 3.88533778445e+84  FAILED, KNOWN, expected -4.78252559072e-05
-    test 283 fsum: -4.78252559072e-05
-    test 284 Fsum: -4.78252559072e-05
-    test 285 Fsum: -4.78252559072e-05
-    test 286 sum: -3.88533778445e+84  FAILED, KNOWN, expected 7.05440245167e-05
-    test 287 fsum: 7.05440245167e-05
-    test 288 Fsum: 7.05440245167e-05
-    test 289 Fsum: 7.05440245167e-05
-    test 290 sum: -3.88533778445e+84  FAILED, KNOWN, expected 0.000899181280184
-    test 291 fsum: 0.000899181280184
-    test 292 Fsum: 0.000899181280184
-    test 293 Fsum: 0.000899181280184
-    test 294 sum: 3.88533778445e+84  FAILED, KNOWN, expected 3.4168661611e-06
-    test 295 fsum: 3.4168661611e-06
-    test 296 Fsum: 3.4168661611e-06
-    test 297 Fsum: 3.4168661611e-06
-    test 298 sum: -3.88533778445e+84  FAILED, KNOWN, expected 1.33495927611e-06
-    test 299 fsum: 1.33495927611e-06
-    test 300 Fsum: 1.33495927611e-06
-    test 301 Fsum: 1.33495927611e-06
-    test 302 sum: 3.88533778445e+84  FAILED, KNOWN, expected 0.000952720394061
-    test 303 fsum: 0.000952720394061
-    test 304 Fsum: 0.000952720394061
-    test 305 Fsum: 0.000952720394061
-    test 306 sum: 12.473752104  FAILED, KNOWN, expected -1.82818917897e-05
-    test 307 fsum: -1.82818917897e-05
-    test 308 Fsum: -1.82818917897e-05
-    test 309 Fsum: -1.82818917897e-05
-    test 310 sum: 2.08449049576  FAILED, KNOWN, expected 1.54598746732e-12
-    test 311 fsum: 1.54598746732e-12
-    test 312 Fsum: 1.54598746732e-12
-    test 313 Fsum: 1.54598746732e-12
-    test 314 sum: 0.0  FAILED, KNOWN, expected 3.58078140116e-07
-    test 315 fsum: 3.58078140116e-07
-    test 316 Fsum: 3.58078140116e-07
-    test 317 Fsum: 3.58078140116e-07
-    test 318 sum: 3.88533778445e+84  FAILED, KNOWN, expected -5.78619096148e-05
-    test 319 fsum: -5.78619096148e-05
-    test 320 Fsum: -5.78619096148e-05
-    test 321 Fsum: -5.78619096148e-05
-    test 322 sum: 3.88533778445e+84  FAILED, KNOWN, expected 0.367331583013
-    test 323 fsum: 0.367331583013
-    test 324 Fsum: 0.367331583013
-    test 325 Fsum: 0.367331583013
-    test 326 sum: -3.88533778445e+84  FAILED, KNOWN, expected 0.000202305010344
-    test 327 fsum: 0.000202305010344
-    test 328 Fsum: 0.000202305010344
-    test 329 Fsum: 0.000202305010344
-    test 330 sum: 5.80235901499e-05  FAILED, KNOWN, expected -0.0141724743522
-    test 331 fsum: -0.0141724743522
-    test 332 Fsum: -0.0141724743522
-    test 333 Fsum: -0.0141724743522
-    test 334 sum: -3.88533778445e+84  FAILED, KNOWN, expected 0.000857532235174
-    test 335 fsum: 0.000857532235174
-    test 336 Fsum: 0.000857532235174
-    test 337 Fsum: 0.000857532235174
-    test 338 sum: 183.084960603  FAILED, KNOWN, expected 0.000409191014675
-    test 339 fsum: 0.000409191014675
-    test 340 Fsum: 0.000409191014675
-    test 341 Fsum: 0.000409191014675
-    test 342 sum: -3.88533778445e+84  FAILED, KNOWN, expected -3.28378624728e-12
-    test 343 fsum: -3.28378624728e-12
-    test 344 Fsum: -3.28378624728e-12
-    test 345 Fsum: -3.28378624728e-12
-    test 346 sum: 7.0  FAILED, KNOWN, expected -8.14190442383e-13
-    test 347 fsum: -8.14190442383e-13
-    test 348 Fsum: -8.14190442383e-13
-    test 349 Fsum: -8.14190442383e-13
-    test 350 sum: 3.88533778445e+84  FAILED, KNOWN, expected -8.91138948546e-10
-    test 351 fsum: -8.91138948546e-10
-    test 352 Fsum: -8.91138948546e-10
-    test 353 Fsum: -8.91138948546e-10
-    test 354 sum: 3.88533778445e+84  FAILED, KNOWN, expected 1.75490036916e-05
-    test 355 fsum: 1.75490036916e-05
-    test 356 Fsum: 1.75490036916e-05
-    test 357 Fsum: 1.75490036916e-05
-    test 358 sum: -3.88533778445e+84  FAILED, KNOWN, expected 0.0119433200489
-    test 359 fsum: 0.0119433200489
-    test 360 Fsum: 0.0119433200489
-    test 361 Fsum: 0.0119433200489
-    test 362 sum: -3.88533778445e+84  FAILED, KNOWN, expected -9.70545028365e-12
-    test 363 fsum: -9.70545028365e-12
-    test 364 Fsum: -9.70545028365e-12
-    test 365 Fsum: -9.70545028365e-12
-    test 366 sum: -3.88533778445e+84  FAILED, KNOWN, expected -2.16274280045e-09
-    test 367 fsum: -2.16274280045e-09
-    test 368 Fsum: -2.16274280045e-09
-    test 369 Fsum: -2.16274280045e-09
-    test 370 sum: 3.88533778445e+84  FAILED, KNOWN, expected 0.474092328285
-    test 371 fsum: 0.474092328285
-    test 372 Fsum: 0.474092328285
-    test 373 Fsum: 0.474092328285
-    test 374 sum: 8e-20  FAILED, KNOWN, expected 0.000399307617818
-    test 375 fsum: 0.000399307617818
-    test 376 Fsum: 0.000399307617818
-    test 377 Fsum: 0.000399307617818
-    test 378 sum: 3.88533778445e+84  FAILED, KNOWN, expected -0.000190322918456
-    test 379 fsum: -0.000190322918456
-    test 380 Fsum: -0.000190322918456
-    test 381 Fsum: -0.000190322918456
-    test 382 sum: -9e-20  FAILED, KNOWN, expected 5.06832694173e-06
-    test 383 fsum: 5.06832694173e-06
-    test 384 Fsum: 5.06832694173e-06
-    test 385 Fsum: 5.06832694173e-06
-    test 386 sum: -3.88533778445e+84  FAILED, KNOWN, expected 5.11367640101e-08
-    test 387 fsum: 5.11367640101e-08
-    test 388 Fsum: 5.11367640101e-08
-    test 389 Fsum: 5.11367640101e-08
-    test 390 sum: 3.88533778445e+84  FAILED, KNOWN, expected -1.1311249032e-06
-    test 391 fsum: -1.1311249032e-06
-    test 392 Fsum: -1.1311249032e-06
-    test 393 Fsum: -1.1311249032e-06
-    test 394 sum: -3.88533778445e+84  FAILED, KNOWN, expected 0.116121639254
-    test 395 fsum: 0.116121639254
-    test 396 Fsum: 0.116121639254
-    test 397 Fsum: 0.116121639254
-    test 398 sum: 0.0  FAILED, KNOWN, expected 5.73772216912e-05
-    test 399 fsum: 5.73772216912e-05
-    test 400 Fsum: 5.73772216912e-05
-    test 401 Fsum: 5.73772216912e-05
-    test 402 sum: 3.88533778445e+84  FAILED, KNOWN, expected 0.00468811342355
-    test 403 fsum: 0.00468811342355
-    test 404 Fsum: 0.00468811342355
-    test 405 Fsum: 0.00468811342355
-    test 406 sum: -3.88533778445e+84  FAILED, KNOWN, expected -3.07761924982e-13
-    test 407 fsum: -3.07761924982e-13
-    test 408 Fsum: -3.07761924982e-13
-    test 409 Fsum: -3.07761924982e-13
-    test 410 sum: 3.88533778445e+84  FAILED, KNOWN, expected 0.398418061111
-    test 411 fsum: 0.398418061111
-    test 412 Fsum: 0.398418061111
-    test 413 Fsum: 0.398418061111
-    test 414 sum: 3.88533778445e+84  FAILED, KNOWN, expected -0.00452079062854
-    test 415 fsum: -0.00452079062854
-    test 416 Fsum: -0.00452079062854
-    test 417 Fsum: -0.00452079062854
-    test 418 sum: -3.88533778445e+84  FAILED, KNOWN, expected 5.27018454921e-09
-    test 419 fsum: 5.27018454921e-09
-    test 420 Fsum: 5.27018454921e-09
-    test 421 Fsum: 5.27018454921e-09
-    test 422 sum: -3.88533778445e+84  FAILED, KNOWN, expected -2.21292870102e-05
-    test 423 fsum: -2.21292870102e-05
-    test 424 Fsum: -2.21292870102e-05
-    test 425 Fsum: -2.21292870102e-05
-    test 426 sum: 0.0  FAILED, KNOWN, expected -1.66323407214e-06
-    test 427 fsum: -1.66323407214e-06
-    test 428 Fsum: -1.66323407214e-06
-    test 429 Fsum: -1.66323407214e-06
-    test 430 sum: 3.88533778445e+84  FAILED, KNOWN, expected 0.0730396473952
-    test 431 fsum: 0.0730396473952
-    test 432 Fsum: 0.0730396473952
-    test 433 Fsum: 0.0730396473952
-    test 434 sum: 3.88533778445e+84  FAILED, KNOWN, expected 1.33897758681e-06
-    test 435 fsum: 1.33897758681e-06
-    test 436 Fsum: 1.33897758681e-06
-    test 437 Fsum: 1.33897758681e-06
-    test 438 sum: 0.0382165926873  FAILED, KNOWN, expected -0.709604647255
-    test 439 fsum: -0.709604647255
-    test 440 Fsum: -0.709604647255
-    test 441 Fsum: -0.709604647255
-    test 442 sum: 3.88533778445e+84  FAILED, KNOWN, expected -9.58395728079
-    test 443 fsum: -9.58395728079
-    test 444 Fsum: -9.58395728079
-    test 445 Fsum: -9.58395728079
-    test 446 sum: -3.88533778445e+84  FAILED, KNOWN, expected -0.0828367526379
-    test 447 fsum: -0.0828367526379
-    test 448 Fsum: -0.0828367526379
-    test 449 Fsum: -0.0828367526379
-    test 450 sum: 3.88533778445e+84  FAILED, KNOWN, expected 0.000110078423735
-    test 451 fsum: 0.000110078423735
-    test 452 Fsum: 0.000110078423735
-    test 453 Fsum: 0.000110078423735
-    test 454 sum: 3.88533778445e+84  FAILED, KNOWN, expected 9.27011442088e-16
-    test 455 fsum: 9.27011442088e-16
-    test 456 Fsum: 9.27011442088e-16
-    test 457 Fsum: 9.27011442088e-16
-    test 458 sum: -3.88533778445e+84  FAILED, KNOWN, expected -2.49652672972e-05
-    test 459 fsum: -2.49652672972e-05
-    test 460 Fsum: -2.49652672972e-05
-    test 461 Fsum: -2.49652672972e-05
-    test 462 sum: 3.88533778445e+84  FAILED, KNOWN, expected -0.00217797736388
-    test 463 fsum: -0.00217797736388
-    test 464 Fsum: -0.00217797736388
-    test 465 Fsum: -0.00217797736388
-    test 466 sum: 3.88533778445e+84  FAILED, KNOWN, expected -2.23389390988e-10
-    test 467 fsum: -2.23389390988e-10
-    test 468 Fsum: -2.23389390988e-10
-    test 469 Fsum: -2.23389390988e-10
-    test 470 sum: 3.88533778445e+84  FAILED, KNOWN, expected -5.6940121104e-11
-    test 471 fsum: -5.6940121104e-11
-    test 472 Fsum: -5.6940121104e-11
-    test 473 Fsum: -5.6940121104e-11
-    test 474 sum: -3.88533778445e+84  FAILED, KNOWN, expected -0.0170580409709
-    test 475 fsum: -0.0170580409709
-    test 476 Fsum: -0.0170580409709
-    test 477 Fsum: -0.0170580409709
-    test 478 sum: 3.88533778445e+84  FAILED, KNOWN, expected -0.000203323547012
-    test 479 fsum: -0.000203323547012
-    test 480 Fsum: -0.000203323547012
-    test 481 Fsum: -0.000203323547012
-    test 482 sum: -3.88533778445e+84  FAILED, KNOWN, expected 1.79418935143
-    test 483 fsum: 1.79418935143
-    test 484 Fsum: 1.79418935143
-    test 485 Fsum: 1.79418935143
-    test 486 sum: 0.0  FAILED, KNOWN, expected -3.81206768516e-18
-    test 487 fsum: -3.81206768516e-18
-    test 488 Fsum: -3.81206768516e-18
-    test 489 Fsum: -3.81206768516e-18
-    test 490 sum: 3.88533778445e+84  FAILED, KNOWN, expected 0.00757081584537
-    test 491 fsum: 0.00757081584537
-    test 492 Fsum: 0.00757081584537
-    test 493 Fsum: 0.00757081584537
-    test 494 sum: 0.0  FAILED, KNOWN, expected 0.0127397665264
-    test 495 fsum: 0.0127397665264
-    test 496 Fsum: 0.0127397665264
-    test 497 Fsum: 0.0127397665264
-    test 498 sum: -7.00002873887  FAILED, KNOWN, expected 1.0471922607e-08
-    test 499 fsum: 1.0471922607e-08
-    test 500 Fsum: 1.0471922607e-08
-    test 501 Fsum: 1.0471922607e-08
-    test 502 sum: -3.88533778445e+84  FAILED, KNOWN, expected -0.0123651606837
-    test 503 fsum: -0.0123651606837
-    test 504 Fsum: -0.0123651606837
-    test 505 Fsum: -0.0123651606837
-    test 506 sum: -3.88533778445e+84  FAILED, KNOWN, expected 7.80822337237e-06
-    test 507 fsum: 7.80822337237e-06
-    test 508 Fsum: 7.80822337237e-06
-    test 509 Fsum: 7.80822337237e-06
-    test 510 sum: 3.88533778445e+84  FAILED, KNOWN, expected 62.6401543932
-    test 511 fsum: 62.6401543932
-    test 512 Fsum: 62.6401543932
-    test 513 Fsum: 62.6401543932
-    test 514 sum: 3.88533778445e+84  FAILED, KNOWN, expected 0.0135613433486
-    test 515 fsum: 0.0135613433486
-    test 516 Fsum: 0.0135613433486
-    test 517 Fsum: 0.0135613433486
-    test 518 sum: 3.88533778445e+84  FAILED, KNOWN, expected 1.07449354699e-07
-    test 519 fsum: 1.07449354699e-07
-    test 520 Fsum: 1.07449354699e-07
-    test 521 Fsum: 1.07449354699e-07
-    test 522 sum: -3.88533778445e+84  FAILED, KNOWN, expected -2.79647103335e-06
-    test 523 fsum: -2.79647103335e-06
-    test 524 Fsum: -2.79647103335e-06
-    test 525 Fsum: -2.79647103335e-06
-    test 526 sum: 3.88533778445e+84  FAILED, KNOWN, expected -1.15519191507
-    test 527 fsum: -1.15519191507
-    test 528 Fsum: -1.15519191507
-    test 529 Fsum: -1.15519191507
-    test 530 sum: -3.88533778445e+84  FAILED, KNOWN, expected -3.47056404973e-08
-    test 531 fsum: -3.47056404973e-08
-    test 532 Fsum: -3.47056404973e-08
-    test 533 Fsum: -3.47056404973e-08
-    test 534 sum: 0.0  FAILED, KNOWN, expected 0.264139627903
-    test 535 fsum: 0.264139627903
-    test 536 Fsum: 0.264139627903
-    test 537 Fsum: 0.264139627903
-    test 538 sum: -3.88533778445e+84  FAILED, KNOWN, expected 1.08281983072
-    test 539 fsum: 1.08281983072
-    test 540 Fsum: 1.08281983072
-    test 541 Fsum: 1.08281983072
-    test 542 sum: 3.88533778445e+84  FAILED, KNOWN, expected 13.0365948602
-    test 543 fsum: 13.0365948602
-    test 544 Fsum: 13.0365948602
-    test 545 Fsum: 13.0365948602
-    test 546 sum: 3.88533778445e+84  FAILED, KNOWN, expected 4.49912783473e-05
-    test 547 fsum: 4.49912783473e-05
-    test 548 Fsum: 4.49912783473e-05
-    test 549 Fsum: 4.49912783473e-05
-    test 550 sum: 3.88533778445e+84  FAILED, KNOWN, expected 2.7385807858e-16
-    test 551 fsum: 2.7385807858e-16
-    test 552 Fsum: 2.7385807858e-16
-    test 553 Fsum: 2.7385807858e-16
-    test 554 sum: -3.88533778445e+84  FAILED, KNOWN, expected 4.4104592292e-21
-    test 555 fsum: 4.4104592292e-21
-    test 556 Fsum: 4.4104592292e-21
-    test 557 Fsum: 4.4104592292e-21
-    test 558 sum: 3.88533778445e+84  FAILED, KNOWN, expected -0.0029314708512
-    test 559 fsum: -0.0029314708512
-    test 560 Fsum: -0.0029314708512
-    test 561 Fsum: -0.0029314708512
-    test 562 sum: -3.88533778445e+84  FAILED, KNOWN, expected -1.13380762373
-    test 563 fsum: -1.13380762373
-    test 564 Fsum: -1.13380762373
-    test 565 Fsum: -1.13380762373
+    test 166 sum: -3.88533778445e+84  FAILED, KNOWN, expected -8.32069384193e-15
+    test 167 fsum: -8.32069384193e-15
+    test 168 Fsum: -8.32069384193e-15
+    test 169 Fsum: -8.32069384193e-15
+    test 170 sum: -3.88533778445e+84  FAILED, KNOWN, expected 5.34723022566e-07
+    test 171 fsum: 5.34723022566e-07
+    test 172 Fsum: 5.34723022566e-07
+    test 173 Fsum: 5.34723022566e-07
+    test 174 sum: 3.88533778445e+84  FAILED, KNOWN, expected -0.00105969196507
+    test 175 fsum: -0.00105969196507
+    test 176 Fsum: -0.00105969196507
+    test 177 Fsum: -0.00105969196507
+    test 178 sum: -3.88533778445e+84  FAILED, KNOWN, expected -9.01815542167
+    test 179 fsum: -9.01815542167
+    test 180 Fsum: -9.01815542167
+    test 181 Fsum: -9.01815542167
+    test 182 sum: -3.88533778445e+84  FAILED, KNOWN, expected 2.86738741517
+    test 183 fsum: 2.86738741517
+    test 184 Fsum: 2.86738741517
+    test 185 Fsum: 2.86738741517
+    test 186 sum: 3.88533778445e+84  FAILED, KNOWN, expected 1.58520662275e-15
+    test 187 fsum: 1.58520662275e-15
+    test 188 Fsum: 1.58520662275e-15
+    test 189 Fsum: 1.58520662275e-15
+    test 190 sum: -5.81410962068  FAILED, KNOWN, expected -4.22486969191e-14
+    test 191 fsum: -4.22486969191e-14
+    test 192 Fsum: -4.22486969191e-14
+    test 193 Fsum: -4.22486969191e-14
+    test 194 sum: -3.88533778445e+84  FAILED, KNOWN, expected 0.0221051478812
+    test 195 fsum: 0.0221051478812
+    test 196 Fsum: 0.0221051478812
+    test 197 Fsum: 0.0221051478812
+    test 198 sum: -3.88533778445e+84  FAILED, KNOWN, expected 8.96557982385e-05
+    test 199 fsum: 8.96557982385e-05
+    test 200 Fsum: 8.96557982385e-05
+    test 201 Fsum: 8.96557982385e-05
+    test 202 sum: -3.88533778445e+84  FAILED, KNOWN, expected 6.45561731237e-07
+    test 203 fsum: 6.45561731237e-07
+    test 204 Fsum: 6.45561731237e-07
+    test 205 Fsum: 6.45561731237e-07
+    test 206 sum: 3.88533778445e+84  FAILED, KNOWN, expected -2.46430443639e-05
+    test 207 fsum: -2.46430443639e-05
+    test 208 Fsum: -2.46430443639e-05
+    test 209 Fsum: -2.46430443639e-05
+    test 210 sum: -3.88533778445e+84  FAILED, KNOWN, expected -0.0373255448966
+    test 211 fsum: -0.0373255448966
+    test 212 Fsum: -0.0373255448966
+    test 213 Fsum: -0.0373255448966
+    test 214 sum: -3.88533778445e+84  FAILED, KNOWN, expected -0.115374511057
+    test 215 fsum: -0.115374511057
+    test 216 Fsum: -0.115374511057
+    test 217 Fsum: -0.115374511057
+    test 218 sum: -7.0  FAILED, KNOWN, expected -0.0253000590351
+    test 219 fsum: -0.0253000590351
+    test 220 Fsum: -0.0253000590351
+    test 221 Fsum: -0.0253000590351
+    test 222 sum: 3.88533778445e+84  FAILED, KNOWN, expected 0.0534647216625
+    test 223 fsum: 0.0534647216625
+    test 224 Fsum: 0.0534647216625
+    test 225 Fsum: 0.0534647216625
+    test 226 sum: 3.88533778445e+84  FAILED, KNOWN, expected 0.202713352222
+    test 227 fsum: 0.202713352222
+    test 228 Fsum: 0.202713352222
+    test 229 Fsum: 0.202713352222
+    test 230 sum: -3.88533778445e+84  FAILED, KNOWN, expected 3.6709723641e-05
+    test 231 fsum: 3.6709723641e-05
+    test 232 Fsum: 3.6709723641e-05
+    test 233 Fsum: 3.6709723641e-05
+    test 234 sum: 3.88533778445e+84  FAILED, KNOWN, expected -0.000391497012495
+    test 235 fsum: -0.000391497012495
+    test 236 Fsum: -0.000391497012495
+    test 237 Fsum: -0.000391497012495
+    test 238 sum: -3.88533778445e+84  FAILED, KNOWN, expected 1.25723657737
+    test 239 fsum: 1.25723657737
+    test 240 Fsum: 1.25723657737
+    test 241 Fsum: 1.25723657737
+    test 242 sum: -3.88533778445e+84  FAILED, KNOWN, expected -0.0323065518069
+    test 243 fsum: -0.0323065518069
+    test 244 Fsum: -0.0323065518069
+    test 245 Fsum: -0.0323065518069
+    test 246 sum: -3.88533778445e+84  FAILED, KNOWN, expected -1.45723547764e-05
+    test 247 fsum: -1.45723547764e-05
+    test 248 Fsum: -1.45723547764e-05
+    test 249 Fsum: -1.45723547764e-05
+    test 250 sum: 3.88533778445e+84  FAILED, KNOWN, expected -1.81731925872e-06
+    test 251 fsum: -1.81731925872e-06
+    test 252 Fsum: -1.81731925872e-06
+    test 253 Fsum: -1.81731925872e-06
+    test 254 sum: 3.88533778445e+84  FAILED, KNOWN, expected 0.239589065267
+    test 255 fsum: 0.239589065267
+    test 256 Fsum: 0.239589065267
+    test 257 Fsum: 0.239589065267
+    test 258 sum: -7.20720653767  FAILED, KNOWN, expected -4.76225172377e-14
+    test 259 fsum: -4.76225172377e-14
+    test 260 Fsum: -4.76225172377e-14
+    test 261 Fsum: -4.76225172377e-14
+    test 262 sum: 0.0  FAILED, KNOWN, expected 5.75838330338
+    test 263 fsum: 5.75838330338
+    test 264 Fsum: 5.75838330338
+    test 265 Fsum: 5.75838330338
+    test 266 sum: 3.88533778445e+84  FAILED, KNOWN, expected 3.50594875059e-17
+    test 267 fsum: 3.50594875059e-17
+    test 268 Fsum: 3.50594875059e-17
+    test 269 Fsum: 3.50594875059e-17
+    test 270 sum: 3.88533778445e+84  FAILED, KNOWN, expected 2.41377338284e-09
+    test 271 fsum: 2.41377338284e-09
+    test 272 Fsum: 2.41377338284e-09
+    test 273 Fsum: 2.41377338284e-09
+    test 274 sum: 3.88533778445e+84  FAILED, KNOWN, expected -0.194816797595
+    test 275 fsum: -0.194816797595
+    test 276 Fsum: -0.194816797595
+    test 277 Fsum: -0.194816797595
+    test 278 sum: -3.88533778445e+84  FAILED, KNOWN, expected -3.36112769966e-06
+    test 279 fsum: -3.36112769966e-06
+    test 280 Fsum: -3.36112769966e-06
+    test 281 Fsum: -3.36112769966e-06
+    test 282 sum: 3.88533778445e+84  FAILED, KNOWN, expected 3.69094271436e-13
+    test 283 fsum: 3.69094271436e-13
+    test 284 Fsum: 3.69094271436e-13
+    test 285 Fsum: 3.69094271436e-13
+    test 286 sum: 3.88533778445e+84  FAILED, KNOWN, expected -5.76509546325
+    test 287 fsum: -5.76509546325
+    test 288 Fsum: -5.76509546325
+    test 289 Fsum: -5.76509546325
+    test 290 sum: 3.88533778445e+84  FAILED, KNOWN, expected -0.11397820322
+    test 291 fsum: -0.11397820322
+    test 292 Fsum: -0.11397820322
+    test 293 Fsum: -0.11397820322
+    test 294 sum: 3.88533778445e+84  FAILED, KNOWN, expected 0.00778778658216
+    test 295 fsum: 0.00778778658216
+    test 296 Fsum: 0.00778778658216
+    test 297 Fsum: 0.00778778658216
+    test 298 sum: -7.0  FAILED, KNOWN, expected -3.86349315279e-09
+    test 299 fsum: -3.86349315279e-09
+    test 300 Fsum: -3.86349315279e-09
+    test 301 Fsum: -3.86349315279e-09
+    test 302 sum: -3.88533778445e+84  FAILED, KNOWN, expected -8.55390821123e-06
+    test 303 fsum: -8.55390821123e-06
+    test 304 Fsum: -8.55390821123e-06
+    test 305 Fsum: -8.55390821123e-06
+    test 306 sum: 0.357981341055  FAILED, KNOWN, expected -2.04637057891
+    test 307 fsum: -2.04637057891
+    test 308 Fsum: -2.04637057891
+    test 309 Fsum: -2.04637057891
+    test 310 sum: -3.88533778445e+84  FAILED, KNOWN, expected 0.000753830573705
+    test 311 fsum: 0.000753830573705
+    test 312 Fsum: 0.000753830573705
+    test 313 Fsum: 0.000753830573705
+    test 314 sum: 3.88533778445e+84  FAILED, KNOWN, expected 5.96405258589e-09
+    test 315 fsum: 5.96405258589e-09
+    test 316 Fsum: 5.96405258589e-09
+    test 317 Fsum: 5.96405258589e-09
+    test 318 sum: 3.88533778445e+84  FAILED, KNOWN, expected -2.22375680121e-15
+    test 319 fsum: -2.22375680121e-15
+    test 320 Fsum: -2.22375680121e-15
+    test 321 Fsum: -2.22375680121e-15
+    test 322 sum: 3.88533778445e+84  FAILED, KNOWN, expected 0.00716561202169
+    test 323 fsum: 0.00716561202169
+    test 324 Fsum: 0.00716561202169
+    test 325 Fsum: 0.00716561202169
+    test 326 sum: -3.88533778445e+84  FAILED, KNOWN, expected 0.0767466394036
+    test 327 fsum: 0.0767466394036
+    test 328 Fsum: 0.0767466394036
+    test 329 Fsum: 0.0767466394036
+    test 330 sum: -3.88533778445e+84  FAILED, KNOWN, expected -5.14027654394e-05
+    test 331 fsum: -5.14027654394e-05
+    test 332 Fsum: -5.14027654394e-05
+    test 333 Fsum: -5.14027654394e-05
+    test 334 sum: 3.88533778445e+84  FAILED, KNOWN, expected -0.330725823128
+    test 335 fsum: -0.330725823128
+    test 336 Fsum: -0.330725823128
+    test 337 Fsum: -0.330725823128
+    test 338 sum: -3.88533778445e+84  FAILED, KNOWN, expected -0.00094797289377
+    test 339 fsum: -0.00094797289377
+    test 340 Fsum: -0.00094797289377
+    test 341 Fsum: -0.00094797289377
+    test 342 sum: -3.88533778445e+84  FAILED, KNOWN, expected -2.75476564823e-14
+    test 343 fsum: -2.75476564823e-14
+    test 344 Fsum: -2.75476564823e-14
+    test 345 Fsum: -2.75476564823e-14
+    test 346 sum: -3.88533778445e+84  FAILED, KNOWN, expected -82.1359504963
+    test 347 fsum: -82.1359504963
+    test 348 Fsum: -82.1359504963
+    test 349 Fsum: -82.1359504963
+    test 350 sum: -3.88533778445e+84  FAILED, KNOWN, expected -0.00529748910669
+    test 351 fsum: -0.00529748910669
+    test 352 Fsum: -0.00529748910669
+    test 353 Fsum: -0.00529748910669
+    test 354 sum: -4.2415756703  FAILED, KNOWN, expected -1.03429535996e-10
+    test 355 fsum: -1.03429535996e-10
+    test 356 Fsum: -1.03429535996e-10
+    test 357 Fsum: -1.03429535996e-10
+    test 358 sum: 3.88533778445e+84  FAILED, KNOWN, expected -6.97511237654e-15
+    test 359 fsum: -6.97511237654e-15
+    test 360 Fsum: -6.97511237654e-15
+    test 361 Fsum: -6.97511237654e-15
+    test 362 sum: -3.88533778445e+84  FAILED, KNOWN, expected -1.26816598746e-07
+    test 363 fsum: -1.26816598746e-07
+    test 364 Fsum: -1.26816598746e-07
+    test 365 Fsum: -1.26816598746e-07
+    test 366 sum: 0.0  FAILED, KNOWN, expected -0.000902435618427
+    test 367 fsum: -0.000902435618427
+    test 368 Fsum: -0.000902435618427
+    test 369 Fsum: -0.000902435618427
+    test 370 sum: 3.88533778445e+84  FAILED, KNOWN, expected 3.31171580265e-05
+    test 371 fsum: 3.31171580265e-05
+    test 372 Fsum: 3.31171580265e-05
+    test 373 Fsum: 3.31171580265e-05
+    test 374 sum: 7.85867293308  FAILED, KNOWN, expected 0.000542247740864
+    test 375 fsum: 0.000542247740864
+    test 376 Fsum: 0.000542247740864
+    test 377 Fsum: 0.000542247740864
+    test 378 sum: -3.88533778445e+84  FAILED, KNOWN, expected -0.18229358334
+    test 379 fsum: -0.18229358334
+    test 380 Fsum: -0.18229358334
+    test 381 Fsum: -0.18229358334
+    test 382 sum: 3.88533778445e+84  FAILED, KNOWN, expected -2.6726876449e-14
+    test 383 fsum: -2.6726876449e-14
+    test 384 Fsum: -2.6726876449e-14
+    test 385 Fsum: -2.6726876449e-14
+    test 386 sum: -3.88533778445e+84  FAILED, KNOWN, expected 2.89968609948e-08
+    test 387 fsum: 2.89968609948e-08
+    test 388 Fsum: 2.89968609948e-08
+    test 389 Fsum: 2.89968609948e-08
+    test 390 sum: -3.88533778445e+84  FAILED, KNOWN, expected 1.46008027658e-05
+    test 391 fsum: 1.46008027658e-05
+    test 392 Fsum: 1.46008027658e-05
+    test 393 Fsum: 1.46008027658e-05
+    test 394 sum: 0.0339415844441  FAILED, KNOWN, expected -24.7368199546
+    test 395 fsum: -24.7368199546
+    test 396 Fsum: -24.7368199546
+    test 397 Fsum: -24.7368199546
+    test 398 sum: 3.88533778445e+84  FAILED, KNOWN, expected 0.262253352811
+    test 399 fsum: 0.262253352811
+    test 400 Fsum: 0.262253352811
+    test 401 Fsum: 0.262253352811
+    test 402 sum: -5.68820214186  FAILED, KNOWN, expected 0.00024605878368
+    test 403 fsum: 0.00024605878368
+    test 404 Fsum: 0.00024605878368
+    test 405 Fsum: 0.00024605878368
+    test 406 sum: -6.99616298957  FAILED, KNOWN, expected -1.10249398363e-10
+    test 407 fsum: -1.10249398363e-10
+    test 408 Fsum: -1.10249398363e-10
+    test 409 Fsum: -1.10249398363e-10
+    test 410 sum: 0.717118467879  FAILED, KNOWN, expected -7.67947398378e-05
+    test 411 fsum: -7.67947398378e-05
+    test 412 Fsum: -7.67947398378e-05
+    test 413 Fsum: -7.67947398378e-05
+    test 414 sum: 3.88533778445e+84  FAILED, KNOWN, expected -9.56872910383e-05
+    test 415 fsum: -9.56872910383e-05
+    test 416 Fsum: -9.56872910383e-05
+    test 417 Fsum: -9.56872910383e-05
+    test 418 sum: 3.88533778445e+84  FAILED, KNOWN, expected -1.89494208155e-08
+    test 419 fsum: -1.89494208155e-08
+    test 420 Fsum: -1.89494208155e-08
+    test 421 Fsum: -1.89494208155e-08
+    test 422 sum: 3.88533778445e+84  FAILED, KNOWN, expected 6.35319171044e-10
+    test 423 fsum: 6.35319171044e-10
+    test 424 Fsum: 6.35319171044e-10
+    test 425 Fsum: 6.35319171044e-10
+    test 426 sum: 0.0  FAILED, KNOWN, expected -0.000103132330921
+    test 427 fsum: -0.000103132330921
+    test 428 Fsum: -0.000103132330921
+    test 429 Fsum: -0.000103132330921
+    test 430 sum: -3.88533778445e+84  FAILED, KNOWN, expected -1.67619683213
+    test 431 fsum: -1.67619683213
+    test 432 Fsum: -1.67619683213
+    test 433 Fsum: -1.67619683213
+    test 434 sum: -3.88533778445e+84  FAILED, KNOWN, expected 0.682174275967
+    test 435 fsum: 0.682174275967
+    test 436 Fsum: 0.682174275967
+    test 437 Fsum: 0.682174275967
+    test 438 sum: -0.314493618461  FAILED, KNOWN, expected 0.000501314141388
+    test 439 fsum: 0.000501314141388
+    test 440 Fsum: 0.000501314141388
+    test 441 Fsum: 0.000501314141388
+    test 442 sum: -3.88533778445e+84  FAILED, KNOWN, expected 4.93832697793
+    test 443 fsum: 4.93832697793
+    test 444 Fsum: 4.93832697793
+    test 445 Fsum: 4.93832697793
+    test 446 sum: -3.88533778445e+84  FAILED, KNOWN, expected 0.194998693707
+    test 447 fsum: 0.194998693707
+    test 448 Fsum: 0.194998693707
+    test 449 Fsum: 0.194998693707
+    test 450 sum: -9e-20  FAILED, KNOWN, expected -8.86396984781e-06
+    test 451 fsum: -8.86396984781e-06
+    test 452 Fsum: -8.86396984781e-06
+    test 453 Fsum: -8.86396984781e-06
+    test 454 sum: 3.88533778445e+84  FAILED, KNOWN, expected 0.0026206098603
+    test 455 fsum: 0.0026206098603
+    test 456 Fsum: 0.0026206098603
+    test 457 Fsum: 0.0026206098603
+    test 458 sum: 4.92169684037  FAILED, KNOWN, expected 3.3537444287e-05
+    test 459 fsum: 3.3537444287e-05
+    test 460 Fsum: 3.3537444287e-05
+    test 461 Fsum: 3.3537444287e-05
+    test 462 sum: -3.88533778445e+84  FAILED, KNOWN, expected -3.897247843e-10
+    test 463 fsum: -3.897247843e-10
+    test 464 Fsum: -3.897247843e-10
+    test 465 Fsum: -3.897247843e-10
+    test 466 sum: 3.88533778445e+84  FAILED, KNOWN, expected -1.23567386284e-11
+    test 467 fsum: -1.23567386284e-11
+    test 468 Fsum: -1.23567386284e-11
+    test 469 Fsum: -1.23567386284e-11
+    test 470 sum: 3.88533778445e+84  FAILED, KNOWN, expected -1.00238894548
+    test 471 fsum: -1.00238894548
+    test 472 Fsum: -1.00238894548
+    test 473 Fsum: -1.00238894548
+    test 474 sum: 3.88533778445e+84  FAILED, KNOWN, expected -1.96639900604e-07
+    test 475 fsum: -1.96639900604e-07
+    test 476 Fsum: -1.96639900604e-07
+    test 477 Fsum: -1.96639900604e-07
+    test 478 sum: 3.88533778445e+84  FAILED, KNOWN, expected -0.013140608809
+    test 479 fsum: -0.013140608809
+    test 480 Fsum: -0.013140608809
+    test 481 Fsum: -0.013140608809
+    test 482 sum: 3.88533778445e+84  FAILED, KNOWN, expected 0.000177006639533
+    test 483 fsum: 0.000177006639533
+    test 484 Fsum: 0.000177006639533
+    test 485 Fsum: 0.000177006639533
+    test 486 sum: -3.88533778445e+84  FAILED, KNOWN, expected 8.39850130459e-08
+    test 487 fsum: 8.39850130459e-08
+    test 488 Fsum: 8.39850130459e-08
+    test 489 Fsum: 8.39850130459e-08
+    test 490 sum: 3.88533778445e+84  FAILED, KNOWN, expected -0.499496701733
+    test 491 fsum: -0.499496701733
+    test 492 Fsum: -0.499496701733
+    test 493 Fsum: -0.499496701733
+    test 494 sum: -14.0129455426  FAILED, KNOWN, expected 1.01866406867e-06
+    test 495 fsum: 1.01866406867e-06
+    test 496 Fsum: 1.01866406867e-06
+    test 497 Fsum: 1.01866406867e-06
+    test 498 sum: -3.88533778445e+84  FAILED, KNOWN, expected 0.000284760033175
+    test 499 fsum: 0.000284760033175
+    test 500 Fsum: 0.000284760033175
+    test 501 Fsum: 0.000284760033175
+    test 502 sum: 3.88533778445e+84  FAILED, KNOWN, expected 0.136519608673
+    test 503 fsum: 0.136519608673
+    test 504 Fsum: 0.136519608673
+    test 505 Fsum: 0.136519608673
+    test 506 sum: 0.150667617908  FAILED, KNOWN, expected 0.173271696611
+    test 507 fsum: 0.173271696611
+    test 508 Fsum: 0.173271696611
+    test 509 Fsum: 0.173271696611
+    test 510 sum: 7.0  FAILED, KNOWN, expected 0.0217708222596
+    test 511 fsum: 0.0217708222596
+    test 512 Fsum: 0.0217708222596
+    test 513 Fsum: 0.0217708222596
+    test 514 sum: -3.88533778445e+84  FAILED, KNOWN, expected -0.11774999106
+    test 515 fsum: -0.11774999106
+    test 516 Fsum: -0.11774999106
+    test 517 Fsum: -0.11774999106
+    test 518 sum: -3.88533778445e+84  FAILED, KNOWN, expected 1.27052700718e-10
+    test 519 fsum: 1.27052700718e-10
+    test 520 Fsum: 1.27052700718e-10
+    test 521 Fsum: 1.27052700718e-10
+    test 522 sum: -3.88533778445e+84  FAILED, KNOWN, expected -0.0727767566769
+    test 523 fsum: -0.0727767566769
+    test 524 Fsum: -0.0727767566769
+    test 525 Fsum: -0.0727767566769
+    test 526 sum: -3.88533778445e+84  FAILED, KNOWN, expected 1.62269834291e-05
+    test 527 fsum: 1.62269834291e-05
+    test 528 Fsum: 1.62269834291e-05
+    test 529 Fsum: 1.62269834291e-05
+    test 530 sum: -9e-20  FAILED, KNOWN, expected -3.94441910558e-13
+    test 531 fsum: -3.94441910558e-13
+    test 532 Fsum: -3.94441910558e-13
+    test 533 Fsum: -3.94441910558e-13
+    test 534 sum: -3.88533778445e+84  FAILED, KNOWN, expected -0.00197753033478
+    test 535 fsum: -0.00197753033478
+    test 536 Fsum: -0.00197753033478
+    test 537 Fsum: -0.00197753033478
+    test 538 sum: -3.88533778445e+84  FAILED, KNOWN, expected 0.000425229054232
+    test 539 fsum: 0.000425229054232
+    test 540 Fsum: 0.000425229054232
+    test 541 Fsum: 0.000425229054232
+    test 542 sum: 3.88533778445e+84  FAILED, KNOWN, expected -1.29708667295e-09
+    test 543 fsum: -1.29708667295e-09
+    test 544 Fsum: -1.29708667295e-09
+    test 545 Fsum: -1.29708667295e-09
+    test 546 sum: 3.88533778445e+84  FAILED, KNOWN, expected 0.0071177441462
+    test 547 fsum: 0.0071177441462
+    test 548 Fsum: 0.0071177441462
+    test 549 Fsum: 0.0071177441462
+    test 550 sum: 8e-20  FAILED, KNOWN, expected 8.72938322936e-08
+    test 551 fsum: 8.72938322936e-08
+    test 552 Fsum: 8.72938322936e-08
+    test 553 Fsum: 8.72938322936e-08
+    test 554 sum: 13.9999231073  FAILED, KNOWN, expected -3.00101251352e-05
+    test 555 fsum: -3.00101251352e-05
+    test 556 Fsum: -3.00101251352e-05
+    test 557 Fsum: -3.00101251352e-05
+    test 558 sum: 3.88533778445e+84  FAILED, KNOWN, expected 4.30314789464
+    test 559 fsum: 4.30314789464
+    test 560 Fsum: 4.30314789464
+    test 561 Fsum: 4.30314789464
+    test 562 sum: 0.0  FAILED, KNOWN, expected -6.97552897117e-08
+    test 563 fsum: -6.97552897117e-08
+    test 564 Fsum: -6.97552897117e-08
+    test 565 Fsum: -6.97552897117e-08
     test 566 fpowers: 10
     test 567 fpowers: 2
     test 568 fpowers: 1024
@@ -4657,7 +4659,7 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testFmath.py
     test 743 WGS84: 6367449.1458234144
     test 744 WGS84: 6367449.1458234144
 
-    110 of 744 testFmath.py tests (14.8%) FAILED, ALL KNOWN (PyGeodesy 18.9.30 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 335.004 ms
+    110 of 744 testFmath.py tests (14.8%) FAILED, ALL KNOWN (PyGeodesy 18.10.2 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 359.204 ms
 
 running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testGeohash.py
 
@@ -4736,13 +4738,13 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testGeohash.py
     test 72 decode_error: (2.8125, 5.625)
     test 73 decode_error: (22.5, 22.5)
 
-    all 73 testGeohash.py tests passed (PyGeodesy 18.9.30 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 8.892 ms
+    all 73 testGeohash.py tests passed (PyGeodesy 18.10.2 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 9.043 ms
 
 running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testGreatCircle.py
 
-    testing testGreatCircle.py 18.09.14
+    testing testGreatCircle.py 18.10.02
 
-    testGreatCircle(pygeodesy.sphericalNvector, 18.09.30)
+    testGreatCircle(pygeodesy.sphericalNvector, 18.10.02)
     test 1 InitialBearingSameLocations: 0.0
     test 2 InitialBearingEqualLocations: 0.0
     test 3 FinalBearingSameLocations: 180.0
@@ -4774,7 +4776,7 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testGreatCircle.py
     test 29 CrossTrackDistance200m+270°: -200.0
     test 30 CrossTrackDistanceCloseToZero: 0.0000000
 
-    testGreatCircle(pygeodesy.sphericalTrigonometry, 18.09.30)
+    testGreatCircle(pygeodesy.sphericalTrigonometry, 18.10.02)
     test 31 InitialBearingSameLocations: 0.0
     test 32 InitialBearingEqualLocations: 0.0
     test 33 FinalBearingSameLocations: 180.0
@@ -4806,7 +4808,7 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testGreatCircle.py
     test 59 CrossTrackDistance200m+270°: -200.0
     test 60 CrossTrackDistanceCloseToZero: 0.0000000
 
-    10 of 60 testGreatCircle.py tests (16.7%) FAILED, ALL KNOWN (PyGeodesy 18.9.30 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 5.284 ms
+    10 of 60 testGreatCircle.py tests (16.7%) FAILED, ALL KNOWN (PyGeodesy 18.10.2 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 5.574 ms
 
 running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testLatLon.py
 
@@ -4822,12 +4824,12 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testLatLon.py
     test 7 lat/lonDMS F_DMS: 52°12′17.0″N, 000°08′26.0″E
     test 8 lat/lonDMS F_RAD: 0.911144N, 0.002453E
     test 9 isequalTo: True
-    test 10 latlon2round: 52.20472, 0.14056
-    test 11 latlon2round: 52.2047, 0.1406
-    test 12 latlon2round: 52.205, 0.141
-    test 13 latlon2round: 52.2, 0.14
-    test 14 latlon2round: 52.2, 0.1
-    test 15 latlon2round: 52.0, 0.0
+    test 10 latlon2: 52.20472, 0.14056
+    test 11 latlon2: 52.2047, 0.1406
+    test 12 latlon2: 52.205, 0.141
+    test 13 latlon2: 52.2, 0.14
+    test 14 latlon2: 52.2, 0.1
+    test 15 latlon2: 52.0, 0.0
     test 16 isequalTo: False
     test 17 antipode1: 52.205°S, 179.881°W
     test 18 antipode2: True
@@ -4890,7 +4892,7 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testLatLon.py
     test 75 isenclosedby7: True
     test 76 isenclosedby7*: True
 
-    testLatLon(pygeodesy.ellipsoidalNvector, 18.09.30)
+    testLatLon(pygeodesy.ellipsoidalNvector, 18.10.02)
     test 77 isEllipsoidal: True
     test 78 isSpherical: False
     test 79 lat/lonDMS: 52.20472°N, 000.14056°E
@@ -4900,12 +4902,12 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testLatLon.py
     test 83 lat/lonDMS F_DMS: 52°12′17.0″N, 000°08′26.0″E
     test 84 lat/lonDMS F_RAD: 0.911144N, 0.002453E
     test 85 isequalTo: True
-    test 86 latlon2round: 52.20472, 0.14056
-    test 87 latlon2round: 52.2047, 0.1406
-    test 88 latlon2round: 52.205, 0.141
-    test 89 latlon2round: 52.2, 0.14
-    test 90 latlon2round: 52.2, 0.1
-    test 91 latlon2round: 52.0, 0.0
+    test 86 latlon2: 52.20472, 0.14056
+    test 87 latlon2: 52.2047, 0.1406
+    test 88 latlon2: 52.205, 0.141
+    test 89 latlon2: 52.2, 0.14
+    test 90 latlon2: 52.2, 0.1
+    test 91 latlon2: 52.0, 0.0
     test 92 isequalTo: False
     test 93 antipode1: 52.205°S, 179.881°W
     test 94 antipode2: True
@@ -4960,12 +4962,12 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testLatLon.py
     test 141 lat/lonDMS F_DMS: 52°12′17.0″N, 000°08′26.0″E
     test 142 lat/lonDMS F_RAD: 0.911144N, 0.002453E
     test 143 isequalTo: True
-    test 144 latlon2round: 52.20472, 0.14056
-    test 145 latlon2round: 52.2047, 0.1406
-    test 146 latlon2round: 52.205, 0.141
-    test 147 latlon2round: 52.2, 0.14
-    test 148 latlon2round: 52.2, 0.1
-    test 149 latlon2round: 52.0, 0.0
+    test 144 latlon2: 52.20472, 0.14056
+    test 145 latlon2: 52.2047, 0.1406
+    test 146 latlon2: 52.205, 0.141
+    test 147 latlon2: 52.2, 0.14
+    test 148 latlon2: 52.2, 0.1
+    test 149 latlon2: 52.0, 0.0
     test 150 isequalTo: False
     test 151 antipode1: 52.205°S, 179.881°W
     test 152 antipode2: True
@@ -5028,7 +5030,7 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testLatLon.py
     test 209 isenclosedby7: True
     test 210 isenclosedby7*: True
 
-    testLatLon(pygeodesy.sphericalNvector, 18.09.30)
+    testLatLon(pygeodesy.sphericalNvector, 18.10.02)
     test 211 isEllipsoidal: False
     test 212 isSpherical: True
     test 213 lat/lonDMS: 52.20472°N, 000.14056°E
@@ -5038,12 +5040,12 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testLatLon.py
     test 217 lat/lonDMS F_DMS: 52°12′17.0″N, 000°08′26.0″E
     test 218 lat/lonDMS F_RAD: 0.911144N, 0.002453E
     test 219 isequalTo: True
-    test 220 latlon2round: 52.20472, 0.14056
-    test 221 latlon2round: 52.2047, 0.1406
-    test 222 latlon2round: 52.205, 0.141
-    test 223 latlon2round: 52.2, 0.14
-    test 224 latlon2round: 52.2, 0.1
-    test 225 latlon2round: 52.0, 0.0
+    test 220 latlon2: 52.20472, 0.14056
+    test 221 latlon2: 52.2047, 0.1406
+    test 222 latlon2: 52.205, 0.141
+    test 223 latlon2: 52.2, 0.14
+    test 224 latlon2: 52.2, 0.1
+    test 225 latlon2: 52.0, 0.0
     test 226 isequalTo: False
     test 227 antipode1: 52.205°S, 179.881°W
     test 228 antipode2: True
@@ -5116,7 +5118,7 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testLatLon.py
     test 295 isenclosedby7: True
     test 296 isenclosedby7*: True
 
-    testLatLon(pygeodesy.sphericalTrigonometry, 18.09.30)
+    testLatLon(pygeodesy.sphericalTrigonometry, 18.10.02)
     test 297 isEllipsoidal: False
     test 298 isSpherical: True
     test 299 lat/lonDMS: 52.20472°N, 000.14056°E
@@ -5126,12 +5128,12 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testLatLon.py
     test 303 lat/lonDMS F_DMS: 52°12′17.0″N, 000°08′26.0″E
     test 304 lat/lonDMS F_RAD: 0.911144N, 0.002453E
     test 305 isequalTo: True
-    test 306 latlon2round: 52.20472, 0.14056
-    test 307 latlon2round: 52.2047, 0.1406
-    test 308 latlon2round: 52.205, 0.141
-    test 309 latlon2round: 52.2, 0.14
-    test 310 latlon2round: 52.2, 0.1
-    test 311 latlon2round: 52.0, 0.0
+    test 306 latlon2: 52.20472, 0.14056
+    test 307 latlon2: 52.2047, 0.1406
+    test 308 latlon2: 52.205, 0.141
+    test 309 latlon2: 52.2, 0.14
+    test 310 latlon2: 52.2, 0.1
+    test 311 latlon2: 52.0, 0.0
     test 312 isequalTo: False
     test 313 antipode1: 52.205°S, 179.881°W
     test 314 antipode2: True
@@ -5207,13 +5209,13 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testLatLon.py
     test 384 isenclosedby7: True
     test 385 isenclosedby7*: True
 
-    8 of 385 testLatLon.py tests (2.1%) FAILED, ALL KNOWN (PyGeodesy 18.9.30 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 29.403 ms
+    8 of 385 testLatLon.py tests (2.1%) FAILED, ALL KNOWN (PyGeodesy 18.10.2 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 28.939 ms
 
 running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testLcc.py
 
     testing testLcc.py 18.08.26 (module pygeodesy.lcc 18.09.23)
 
-    testLcc(pygeodesy.ellipsoidalNvector, 18.09.30)
+    testLcc(pygeodesy.ellipsoidalNvector, 18.10.02)
     test 1 lb1: 448251.0 5411932.0001
     test 2 lb1: 448251, 5411932
     test 3 lb1: WRF_Lb.WGS84
@@ -5465,13 +5467,13 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testLcc.py
     test 247 WRF_Lb: 45.0°N, 085.0°W
     test 248 WRF_Lb: WGS84
 
-    testConic(pygeodesy.ellipsoidalNvector, 18.09.30)
+    testConic(pygeodesy.ellipsoidalNvector, 18.10.02)
     test 249 SnyderN: name='SnyderN', lat0=23, lon0=-96, par1=33, par2=45, E0=0, N0=0, k0=1, SP=2, datum=(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27)
 
     testConic(pygeodesy.ellipsoidalVincenty, 18.09.30)
     test 250 SnyderV: name='SnyderV', lat0=23, lon0=-96, par1=33, par2=45, E0=0, N0=0, k0=1, SP=2, datum=(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27)
 
-    all 250 testLcc.py tests passed (PyGeodesy 18.9.30 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 14.825 ms
+    all 250 testLcc.py tests passed (PyGeodesy 18.10.2 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 14.805 ms
 
 running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testMgrs.py
 
@@ -5493,13 +5495,13 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testMgrs.py
     test 15 toUtm(76.0°N, 025.0°E).toMgrs: 35X ME 45999 36099
     test 16 toUtm(76.0°N, 037.0°E).toMgrs: 37X DE 45999 36099
 
-    all 16 testMgrs.py tests passed (PyGeodesy 18.9.30 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 4.340 ms
+    all 16 testMgrs.py tests passed (PyGeodesy 18.10.2 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 4.458 ms
 
 running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testModules.py
 
     testing testModules.py 17.08.04
 
-    testModule(pygeodesy, 18.09.30)
+    testModule(pygeodesy, 18.10.02)
     test 1 pygeodesy.Conic() class (pygeodesy.lcc): True
     test 2 pygeodesy.Conics class pygeodesy.datum._Enum (pygeodesy.datum): True
     test 3 pygeodesy.CrossError() class (pygeodesy.vector3d): True
@@ -5643,435 +5645,438 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testModules.py
     test 141 pygeodesy.parseWM() function (pygeodesy.webmercator): True
     test 142 pygeodesy.perimeterOf() function (pygeodesy.points): True
     test 143 pygeodesy.points module: True
-    test 144 pygeodesy.polygon() function (pygeodesy.utily): True
-    test 145 pygeodesy.precision() function (pygeodesy.dms): True
-    test 146 pygeodesy.property_RO() function (pygeodesy.utily): True
-    test 147 pygeodesy.pygeodesy_dirname str: True
-    test 148 pygeodesy.radians type builtin_function_or_method (math): True
-    test 149 pygeodesy.radiansPI() function (pygeodesy.utily): True
-    test 150 pygeodesy.radiansPI2() function (pygeodesy.utily): True
-    test 151 pygeodesy.radiansPI_2() function (pygeodesy.utily): True
-    test 152 pygeodesy.rangerrors() function (pygeodesy.dms): True
-    test 153 pygeodesy.scalar() function (pygeodesy.fmath): True
-    test 154 pygeodesy.simplify module: True
-    test 155 pygeodesy.simplify1() function (pygeodesy.simplify): True
-    test 156 pygeodesy.simplify2() function (pygeodesy.simplify): True
-    test 157 pygeodesy.simplifyRDP() function (pygeodesy.simplify): True
-    test 158 pygeodesy.simplifyRDPm() function (pygeodesy.simplify): True
-    test 159 pygeodesy.simplifyRW() function (pygeodesy.simplify): True
-    test 160 pygeodesy.simplifyVW() function (pygeodesy.simplify): True
-    test 161 pygeodesy.simplifyVWm() function (pygeodesy.simplify): True
-    test 162 pygeodesy.sphericalNvector module: True
-    test 163 pygeodesy.sphericalTrigonometry module: True
-    test 164 pygeodesy.sqrt3() function (pygeodesy.fmath): True
-    test 165 pygeodesy.tanPI_2_2() function (pygeodesy.utily): True
-    test 166 pygeodesy.tan_2() function (pygeodesy.utily): True
-    test 167 pygeodesy.toDMS() function (pygeodesy.dms): True
-    test 168 pygeodesy.toLcc() function (pygeodesy.lcc): True
-    test 169 pygeodesy.toMgrs() function (pygeodesy.mgrs): True
-    test 170 pygeodesy.toOsgr() function (pygeodesy.osgr): True
-    test 171 pygeodesy.toUtm() function (pygeodesy.utm): True
-    test 172 pygeodesy.toWm() function (pygeodesy.webmercator): True
-    test 173 pygeodesy.unStr() function (pygeodesy.utily): True
-    test 174 pygeodesy.unroll180() function (pygeodesy.utily): True
-    test 175 pygeodesy.unrollPI() function (pygeodesy.utily): True
-    test 176 pygeodesy.utily module: True
-    test 177 pygeodesy.utm module: True
-    test 178 pygeodesy.utmZoneBand2() function (pygeodesy.utm): True
-    test 179 pygeodesy.vector3d module: True
-    test 180 pygeodesy.version str: True
-    test 181 pygeodesy.webmercator module: True
-    test 182 pygeodesy.wrap180() function (pygeodesy.utily): True
-    test 183 pygeodesy.wrap360() function (pygeodesy.utily): True
-    test 184 pygeodesy.wrap90() function (pygeodesy.utily): True
-    test 185 pygeodesy.wrapPI() function (pygeodesy.utily): True
-    test 186 pygeodesy.wrapPI2() function (pygeodesy.utily): True
-    test 187 pygeodesy.wrapPI_2() function (pygeodesy.utily): True
+    test 144 pygeodesy.points2() function (pygeodesy.utily): True
+    test 145 pygeodesy.polygon() function (pygeodesy.utily): True
+    test 146 pygeodesy.precision() function (pygeodesy.dms): True
+    test 147 pygeodesy.property_RO() function (pygeodesy.utily): True
+    test 148 pygeodesy.pygeodesy_dirname str: True
+    test 149 pygeodesy.radians type builtin_function_or_method (math): True
+    test 150 pygeodesy.radiansPI() function (pygeodesy.utily): True
+    test 151 pygeodesy.radiansPI2() function (pygeodesy.utily): True
+    test 152 pygeodesy.radiansPI_2() function (pygeodesy.utily): True
+    test 153 pygeodesy.rangerrors() function (pygeodesy.dms): True
+    test 154 pygeodesy.scalar() function (pygeodesy.fmath): True
+    test 155 pygeodesy.simplify module: True
+    test 156 pygeodesy.simplify1() function (pygeodesy.simplify): True
+    test 157 pygeodesy.simplify2() function (pygeodesy.simplify): True
+    test 158 pygeodesy.simplifyRDP() function (pygeodesy.simplify): True
+    test 159 pygeodesy.simplifyRDPm() function (pygeodesy.simplify): True
+    test 160 pygeodesy.simplifyRW() function (pygeodesy.simplify): True
+    test 161 pygeodesy.simplifyVW() function (pygeodesy.simplify): True
+    test 162 pygeodesy.simplifyVWm() function (pygeodesy.simplify): True
+    test 163 pygeodesy.sphericalNvector module: True
+    test 164 pygeodesy.sphericalTrigonometry module: True
+    test 165 pygeodesy.sqrt3() function (pygeodesy.fmath): True
+    test 166 pygeodesy.tanPI_2_2() function (pygeodesy.utily): True
+    test 167 pygeodesy.tan_2() function (pygeodesy.utily): True
+    test 168 pygeodesy.toDMS() function (pygeodesy.dms): True
+    test 169 pygeodesy.toLcc() function (pygeodesy.lcc): True
+    test 170 pygeodesy.toMgrs() function (pygeodesy.mgrs): True
+    test 171 pygeodesy.toOsgr() function (pygeodesy.osgr): True
+    test 172 pygeodesy.toUtm() function (pygeodesy.utm): True
+    test 173 pygeodesy.toWm() function (pygeodesy.webmercator): True
+    test 174 pygeodesy.unStr() function (pygeodesy.utily): True
+    test 175 pygeodesy.unroll180() function (pygeodesy.utily): True
+    test 176 pygeodesy.unrollPI() function (pygeodesy.utily): True
+    test 177 pygeodesy.utily module: True
+    test 178 pygeodesy.utm module: True
+    test 179 pygeodesy.utmZoneBand2() function (pygeodesy.utm): True
+    test 180 pygeodesy.vector3d module: True
+    test 181 pygeodesy.version str: True
+    test 182 pygeodesy.webmercator module: True
+    test 183 pygeodesy.wrap180() function (pygeodesy.utily): True
+    test 184 pygeodesy.wrap360() function (pygeodesy.utily): True
+    test 185 pygeodesy.wrap90() function (pygeodesy.utily): True
+    test 186 pygeodesy.wrapPI() function (pygeodesy.utily): True
+    test 187 pygeodesy.wrapPI2() function (pygeodesy.utily): True
+    test 188 pygeodesy.wrapPI_2() function (pygeodesy.utily): True
 
-    testModule(pygeodesy.bases, 18.09.30)
-    test 188 bases.LatLonHeightBase() class: True
-    test 189 bases.classname() function: True
-    test 190 bases.classnaming() function: True
-    test 191 bases.inStr() function: True
+    testModule(pygeodesy.bases, 18.10.02)
+    test 189 bases.LatLonHeightBase() class: True
+    test 190 bases.classname() function: True
+    test 191 bases.classnaming() function: True
+    test 192 bases.inStr() function: True
 
     testModule(pygeodesy.datum, 18.09.30)
-    test 192 datum.Datum() class: True
-    test 193 datum.Datums class pygeodesy.datum._Enum: True
-    test 194 datum.Ellipsoid() class: True
-    test 195 datum.Ellipsoids class pygeodesy.datum._Enum: True
-    test 196 datum.R_FM float: True
-    test 197 datum.R_KM float: True
-    test 198 datum.R_M float: True
-    test 199 datum.R_MA float: True
-    test 200 datum.R_MB float: True
-    test 201 datum.R_NM float: True
-    test 202 datum.R_SM float: True
-    test 203 datum.R_VM float: True
-    test 204 datum.Transform() class: True
-    test 205 datum.Transforms class pygeodesy.datum._Enum: True
+    test 193 datum.Datum() class: True
+    test 194 datum.Datums class pygeodesy.datum._Enum: True
+    test 195 datum.Ellipsoid() class: True
+    test 196 datum.Ellipsoids class pygeodesy.datum._Enum: True
+    test 197 datum.R_FM float: True
+    test 198 datum.R_KM float: True
+    test 199 datum.R_M float: True
+    test 200 datum.R_MA float: True
+    test 201 datum.R_MB float: True
+    test 202 datum.R_NM float: True
+    test 203 datum.R_SM float: True
+    test 204 datum.R_VM float: True
+    test 205 datum.Transform() class: True
+    test 206 datum.Transforms class pygeodesy.datum._Enum: True
 
     testModule(pygeodesy.dms, 18.09.30)
-    test 206 dms.F_D str: True
-    test 207 dms.F_DEG str: True
-    test 208 dms.F_DM str: True
-    test 209 dms.F_DMS str: True
-    test 210 dms.F_MIN str: True
-    test 211 dms.F_RAD str: True
-    test 212 dms.F_SEC str: True
-    test 213 dms.RangeError() class: True
-    test 214 dms.S_DEG str: True
-    test 215 dms.S_MIN str: True
-    test 216 dms.S_RAD str: True
-    test 217 dms.S_SEC str: True
-    test 218 dms.S_SEP str: True
-    test 219 dms.bearingDMS() function: True
-    test 220 dms.clipDMS() function: True
-    test 221 dms.compassAngle() function: True
-    test 222 dms.compassDMS() function: True
-    test 223 dms.compassPoint() function: True
-    test 224 dms.latDMS() function: True
-    test 225 dms.lonDMS() function: True
-    test 226 dms.normDMS() function: True
-    test 227 dms.parse3llh() function: True
-    test 228 dms.parseDMS() function: True
-    test 229 dms.parseDMS2() function: True
-    test 230 dms.precision() function: True
-    test 231 dms.rangerrors() function: True
-    test 232 dms.toDMS() function: True
+    test 207 dms.F_D str: True
+    test 208 dms.F_DEG str: True
+    test 209 dms.F_DM str: True
+    test 210 dms.F_DMS str: True
+    test 211 dms.F_MIN str: True
+    test 212 dms.F_RAD str: True
+    test 213 dms.F_SEC str: True
+    test 214 dms.RangeError() class: True
+    test 215 dms.S_DEG str: True
+    test 216 dms.S_MIN str: True
+    test 217 dms.S_RAD str: True
+    test 218 dms.S_SEC str: True
+    test 219 dms.S_SEP str: True
+    test 220 dms.bearingDMS() function: True
+    test 221 dms.clipDMS() function: True
+    test 222 dms.compassAngle() function: True
+    test 223 dms.compassDMS() function: True
+    test 224 dms.compassPoint() function: True
+    test 225 dms.latDMS() function: True
+    test 226 dms.lonDMS() function: True
+    test 227 dms.normDMS() function: True
+    test 228 dms.parse3llh() function: True
+    test 229 dms.parseDMS() function: True
+    test 230 dms.parseDMS2() function: True
+    test 231 dms.precision() function: True
+    test 232 dms.rangerrors() function: True
+    test 233 dms.toDMS() function: True
 
     testModule(pygeodesy.elevations, 18.09.14)
-    test 233 elevations.elevation2() function: True
-    test 234 elevations.geoidHeight2() function: True
+    test 234 elevations.elevation2() function: True
+    test 235 elevations.geoidHeight2() function: True
 
     testModule(pygeodesy.ellipsoidalKarney, 18.09.30)
-    test 235 ellipsoidalKarney.Cartesian() class: True
-    test 236 ellipsoidalKarney.LatLon() class: True
-    test 237 ellipsoidalKarney.areaOf() function: True
-    test 238 ellipsoidalKarney.perimeterOf() function: True
+    test 236 ellipsoidalKarney.Cartesian() class: True
+    test 237 ellipsoidalKarney.LatLon() class: True
+    test 238 ellipsoidalKarney.areaOf() function: True
+    test 239 ellipsoidalKarney.perimeterOf() function: True
 
-    testModule(pygeodesy.ellipsoidalNvector, 18.09.30)
-    test 239 ellipsoidalNvector.Cartesian() class: True
-    test 240 ellipsoidalNvector.LatLon() class: True
-    test 241 ellipsoidalNvector.Ned() class: True
-    test 242 ellipsoidalNvector.Nvector() class: True
-    test 243 ellipsoidalNvector.meanOf() function: True
-    test 244 ellipsoidalNvector.toNed() function: True
+    testModule(pygeodesy.ellipsoidalNvector, 18.10.02)
+    test 240 ellipsoidalNvector.Cartesian() class: True
+    test 241 ellipsoidalNvector.LatLon() class: True
+    test 242 ellipsoidalNvector.Ned() class: True
+    test 243 ellipsoidalNvector.Nvector() class: True
+    test 244 ellipsoidalNvector.meanOf() function: True
+    test 245 ellipsoidalNvector.toNed() function: True
 
     testModule(pygeodesy.ellipsoidalVincenty, 18.09.30)
-    test 245 ellipsoidalVincenty.Cartesian() class: True
-    test 246 ellipsoidalVincenty.LatLon() class: True
-    test 247 ellipsoidalVincenty.VincentyError() class: True
+    test 246 ellipsoidalVincenty.Cartesian() class: True
+    test 247 ellipsoidalVincenty.LatLon() class: True
+    test 248 ellipsoidalVincenty.VincentyError() class: True
 
-    testModule(pygeodesy.fmath, 18.09.30)
-    test 248 fmath.EPS float: True
-    test 249 fmath.EPS1 float: True
-    test 250 fmath.Fsum() class: True
-    test 251 fmath.cbrt() function: True
-    test 252 fmath.cbrt2() function: True
-    test 253 fmath.fStr() function: True
-    test 254 fmath.fStrzs() function: True
-    test 255 fmath.favg() function: True
-    test 256 fmath.fdot() function: True
-    test 257 fmath.fdot3() function: True
-    test 258 fmath.fhorner() function: True
-    test 259 fmath.fmean() function: True
-    test 260 fmath.fpolynomial() function: True
-    test 261 fmath.fpowers() function: True
-    test 262 fmath.fsum type builtin_function_or_method (math): True
-    test 263 fmath.fsum_() function: True
-    test 264 fmath.hypot type builtin_function_or_method (math): True
-    test 265 fmath.hypot1() function: True
-    test 266 fmath.hypot3() function: True
-    test 267 fmath.isfinite() function: True
-    test 268 fmath.isint() function: True
-    test 269 fmath.isscalar() function: True
-    test 270 fmath.len2() function: True
-    test 271 fmath.map1() function: True
-    test 272 fmath.map2() function: True
-    test 273 fmath.scalar() function: True
-    test 274 fmath.sqrt3() function: True
+    testModule(pygeodesy.fmath, 18.10.02)
+    test 249 fmath.EPS float: True
+    test 250 fmath.EPS1 float: True
+    test 251 fmath.Fsum() class: True
+    test 252 fmath.cbrt() function: True
+    test 253 fmath.cbrt2() function: True
+    test 254 fmath.fStr() function: True
+    test 255 fmath.fStrzs() function: True
+    test 256 fmath.favg() function: True
+    test 257 fmath.fdot() function: True
+    test 258 fmath.fdot3() function: True
+    test 259 fmath.fhorner() function: True
+    test 260 fmath.fmean() function: True
+    test 261 fmath.fpolynomial() function: True
+    test 262 fmath.fpowers() function: True
+    test 263 fmath.fsum type builtin_function_or_method (math): True
+    test 264 fmath.fsum_() function: True
+    test 265 fmath.hypot type builtin_function_or_method (math): True
+    test 266 fmath.hypot1() function: True
+    test 267 fmath.hypot3() function: True
+    test 268 fmath.isfinite() function: True
+    test 269 fmath.isint() function: True
+    test 270 fmath.isscalar() function: True
+    test 271 fmath.len2() function: True
+    test 272 fmath.map1() function: True
+    test 273 fmath.map2() function: True
+    test 274 fmath.scalar() function: True
+    test 275 fmath.sqrt3() function: True
 
     testModule(pygeodesy.geohash, 18.09.30)
-    test 275 geohash.Geohash() class: True
-    test 276 geohash.bounds() function: True
-    test 277 geohash.decode() function: True
-    test 278 geohash.decode_error() function: True
-    test 279 geohash.distance1() function: True
-    test 280 geohash.distance2() function: True
-    test 281 geohash.distance3() function: True
-    test 282 geohash.encode() function: True
-    test 283 geohash.neighbors() function: True
-    test 284 geohash.sizes() function: True
+    test 276 geohash.Geohash() class: True
+    test 277 geohash.bounds() function: True
+    test 278 geohash.decode() function: True
+    test 279 geohash.decode_error() function: True
+    test 280 geohash.distance1() function: True
+    test 281 geohash.distance2() function: True
+    test 282 geohash.distance3() function: True
+    test 283 geohash.encode() function: True
+    test 284 geohash.neighbors() function: True
+    test 285 geohash.sizes() function: True
 
     testModule(pygeodesy.lcc, 18.09.23)
-    test 285 lcc.Conic() class: True
-    test 286 lcc.Conics class pygeodesy.datum._Enum (pygeodesy.datum): True
-    test 287 lcc.Lcc() class: True
-    test 288 lcc.toLcc() function: True
+    test 286 lcc.Conic() class: True
+    test 287 lcc.Conics class pygeodesy.datum._Enum (pygeodesy.datum): True
+    test 288 lcc.Lcc() class: True
+    test 289 lcc.toLcc() function: True
 
     testModule(pygeodesy.mgrs, 18.09.23)
-    test 289 mgrs.Mgrs() class: True
-    test 290 mgrs.parseMGRS() function: True
-    test 291 mgrs.toMgrs() function: True
+    test 290 mgrs.Mgrs() class: True
+    test 291 mgrs.parseMGRS() function: True
+    test 292 mgrs.toMgrs() function: True
 
     testModule(pygeodesy.nvector, 18.09.29)
-    test 292 nvector.LatLonNvectorBase() class: True
-    test 293 nvector.NorthPole class pygeodesy.nvector.Nvector: True
-    test 294 nvector.Nvector() class: True
-    test 295 nvector.SouthPole class pygeodesy.nvector.Nvector: True
-    test 296 nvector.sumOf() function: True
+    test 293 nvector.LatLonNvectorBase() class: True
+    test 294 nvector.NorthPole class pygeodesy.nvector.Nvector: True
+    test 295 nvector.Nvector() class: True
+    test 296 nvector.SouthPole class pygeodesy.nvector.Nvector: True
+    test 297 nvector.sumOf() function: True
 
     testModule(pygeodesy.osgr, 18.09.23)
-    test 297 osgr.Osgr() class: True
-    test 298 osgr.parseOSGR() function: True
-    test 299 osgr.toOsgr() function: True
+    test 298 osgr.Osgr() class: True
+    test 299 osgr.parseOSGR() function: True
+    test 300 osgr.toOsgr() function: True
 
     testModule(pygeodesy.points, 18.09.23)
-    test 300 points.LatLon2psxy() class: True
-    test 301 points.LatLon_() class: True
-    test 302 points.Numpy2LatLon() class: True
-    test 303 points.Tuple2LatLon() class: True
-    test 304 points.areaOf() function: True
-    test 305 points.bounds() function: True
-    test 306 points.isclockwise() function: True
-    test 307 points.isconvex() function: True
-    test 308 points.isenclosedby() function: True
-    test 309 points.perimeterOf() function: True
+    test 301 points.LatLon2psxy() class: True
+    test 302 points.LatLon_() class: True
+    test 303 points.Numpy2LatLon() class: True
+    test 304 points.Tuple2LatLon() class: True
+    test 305 points.areaOf() function: True
+    test 306 points.bounds() function: True
+    test 307 points.isclockwise() function: True
+    test 308 points.isconvex() function: True
+    test 309 points.isenclosedby() function: True
+    test 310 points.perimeterOf() function: True
 
     testModule(pygeodesy.simplify, 18.09.30)
-    test 310 simplify.simplify1() function: True
-    test 311 simplify.simplify2() function: True
-    test 312 simplify.simplifyRDP() function: True
-    test 313 simplify.simplifyRDPm() function: True
-    test 314 simplify.simplifyRW() function: True
-    test 315 simplify.simplifyVW() function: True
-    test 316 simplify.simplifyVWm() function: True
+    test 311 simplify.simplify1() function: True
+    test 312 simplify.simplify2() function: True
+    test 313 simplify.simplifyRDP() function: True
+    test 314 simplify.simplifyRDPm() function: True
+    test 315 simplify.simplifyRW() function: True
+    test 316 simplify.simplifyVW() function: True
+    test 317 simplify.simplifyVWm() function: True
 
-    testModule(pygeodesy.sphericalNvector, 18.09.30)
-    test 317 sphericalNvector.LatLon() class: True
-    test 318 sphericalNvector.Nvector() class: True
-    test 319 sphericalNvector.areaOf() function: True
-    test 320 sphericalNvector.intersection() function: True
-    test 321 sphericalNvector.meanOf() function: True
-    test 322 sphericalNvector.nearestOn2() function: True
-    test 323 sphericalNvector.triangulate() function: True
-    test 324 sphericalNvector.trilaterate() function: True
+    testModule(pygeodesy.sphericalNvector, 18.10.02)
+    test 318 sphericalNvector.LatLon() class: True
+    test 319 sphericalNvector.Nvector() class: True
+    test 320 sphericalNvector.areaOf() function: True
+    test 321 sphericalNvector.intersection() function: True
+    test 322 sphericalNvector.meanOf() function: True
+    test 323 sphericalNvector.nearestOn2() function: True
+    test 324 sphericalNvector.triangulate() function: True
+    test 325 sphericalNvector.trilaterate() function: True
 
-    testModule(pygeodesy.sphericalTrigonometry, 18.09.30)
-    test 325 sphericalTrigonometry.LatLon() class: True
-    test 326 sphericalTrigonometry.areaOf() function: True
-    test 327 sphericalTrigonometry.intersection() function: True
-    test 328 sphericalTrigonometry.isPoleEnclosedBy() function: True
-    test 329 sphericalTrigonometry.meanOf() function: True
-    test 330 sphericalTrigonometry.nearestOn2() function: True
-    test 331 sphericalTrigonometry.perimeterOf() function: True
+    testModule(pygeodesy.sphericalTrigonometry, 18.10.02)
+    test 326 sphericalTrigonometry.LatLon() class: True
+    test 327 sphericalTrigonometry.areaOf() function: True
+    test 328 sphericalTrigonometry.intersection() function: True
+    test 329 sphericalTrigonometry.isPoleEnclosedBy() function: True
+    test 330 sphericalTrigonometry.meanOf() function: True
+    test 331 sphericalTrigonometry.nearestOn2() function: True
+    test 332 sphericalTrigonometry.perimeterOf() function: True
 
-    testModule(pygeodesy.utily, 18.09.25)
-    test 332 utily.LimitError() class: True
-    test 333 utily.PI float: True
-    test 334 utily.PI2 float: True
-    test 335 utily.PI_2 float: True
-    test 336 utily.R_M float: True
-    test 337 utily.acos1() function: True
-    test 338 utily.anStr() function: True
-    test 339 utily.antipode() function: True
-    test 340 utily.degrees type builtin_function_or_method (math): True
-    test 341 utily.degrees180() function: True
-    test 342 utily.degrees360() function: True
-    test 343 utily.degrees90() function: True
-    test 344 utily.enStr2() function: True
-    test 345 utily.equirectangular() function: True
-    test 346 utily.equirectangular_() function: True
-    test 347 utily.false2f() function: True
-    test 348 utily.ft2m() function: True
-    test 349 utily.halfs() function: True
-    test 350 utily.haversine() function: True
-    test 351 utily.haversine_() function: True
-    test 352 utily.heightOf() function: True
-    test 353 utily.horizon() function: True
-    test 354 utily.isNumpy2() function: True
-    test 355 utily.isPoints2() function: True
-    test 356 utily.isTuple2() function: True
-    test 357 utily.isantipode() function: True
-    test 358 utily.issequence() function: True
-    test 359 utily.iterNumpy2() function: True
-    test 360 utily.iterNumpy2over() function: True
-    test 361 utily.limiterrors() function: True
-    test 362 utily.m2NM() function: True
-    test 363 utily.m2SM() function: True
-    test 364 utily.m2degrees() function: True
-    test 365 utily.m2ft() function: True
-    test 366 utily.m2km() function: True
-    test 367 utily.polygon() function: True
-    test 368 utily.property_RO() function: True
-    test 369 utily.radians type builtin_function_or_method (math): True
-    test 370 utily.radiansPI() function: True
-    test 371 utily.radiansPI2() function: True
-    test 372 utily.radiansPI_2() function: True
-    test 373 utily.tanPI_2_2() function: True
-    test 374 utily.tan_2() function: True
-    test 375 utily.unStr() function: True
-    test 376 utily.unroll180() function: True
-    test 377 utily.unrollPI() function: True
-    test 378 utily.wrap180() function: True
-    test 379 utily.wrap360() function: True
-    test 380 utily.wrap90() function: True
-    test 381 utily.wrapPI() function: True
-    test 382 utily.wrapPI2() function: True
-    test 383 utily.wrapPI_2() function: True
+    testModule(pygeodesy.utily, 18.10.02)
+    test 333 utily.LimitError() class: True
+    test 334 utily.PI float: True
+    test 335 utily.PI2 float: True
+    test 336 utily.PI_2 float: True
+    test 337 utily.R_M float: True
+    test 338 utily.acos1() function: True
+    test 339 utily.anStr() function: True
+    test 340 utily.antipode() function: True
+    test 341 utily.degrees type builtin_function_or_method (math): True
+    test 342 utily.degrees180() function: True
+    test 343 utily.degrees360() function: True
+    test 344 utily.degrees90() function: True
+    test 345 utily.enStr2() function: True
+    test 346 utily.equirectangular() function: True
+    test 347 utily.equirectangular_() function: True
+    test 348 utily.false2f() function: True
+    test 349 utily.ft2m() function: True
+    test 350 utily.halfs() function: True
+    test 351 utily.haversine() function: True
+    test 352 utily.haversine_() function: True
+    test 353 utily.heightOf() function: True
+    test 354 utily.horizon() function: True
+    test 355 utily.isNumpy2() function: True
+    test 356 utily.isPoints2() function: True
+    test 357 utily.isTuple2() function: True
+    test 358 utily.isantipode() function: True
+    test 359 utily.issequence() function: True
+    test 360 utily.iterNumpy2() function: True
+    test 361 utily.iterNumpy2over() function: True
+    test 362 utily.limiterrors() function: True
+    test 363 utily.m2NM() function: True
+    test 364 utily.m2SM() function: True
+    test 365 utily.m2degrees() function: True
+    test 366 utily.m2ft() function: True
+    test 367 utily.m2km() function: True
+    test 368 utily.points2() function: True
+    test 369 utily.polygon() function: True
+    test 370 utily.property_RO() function: True
+    test 371 utily.radians type builtin_function_or_method (math): True
+    test 372 utily.radiansPI() function: True
+    test 373 utily.radiansPI2() function: True
+    test 374 utily.radiansPI_2() function: True
+    test 375 utily.tanPI_2_2() function: True
+    test 376 utily.tan_2() function: True
+    test 377 utily.unStr() function: True
+    test 378 utily.unroll180() function: True
+    test 379 utily.unrollPI() function: True
+    test 380 utily.wrap180() function: True
+    test 381 utily.wrap360() function: True
+    test 382 utily.wrap90() function: True
+    test 383 utily.wrapPI() function: True
+    test 384 utily.wrapPI2() function: True
+    test 385 utily.wrapPI_2() function: True
 
     testModule(pygeodesy.utm, 18.09.23)
-    test 384 utm.UTMError() class: True
-    test 385 utm.Utm() class: True
-    test 386 utm.parseUTM() function: True
-    test 387 utm.toUtm() function: True
-    test 388 utm.utmZoneBand2() function: True
+    test 386 utm.UTMError() class: True
+    test 387 utm.Utm() class: True
+    test 388 utm.parseUTM() function: True
+    test 389 utm.toUtm() function: True
+    test 390 utm.utmZoneBand2() function: True
 
     testModule(pygeodesy.vector3d, 18.09.30)
-    test 389 vector3d.CrossError() class: True
-    test 390 vector3d.Vector3d() class: True
-    test 391 vector3d.crosserrors() function: True
-    test 392 vector3d.sumOf() function: True
+    test 391 vector3d.CrossError() class: True
+    test 392 vector3d.Vector3d() class: True
+    test 393 vector3d.crosserrors() function: True
+    test 394 vector3d.sumOf() function: True
 
     testModule(pygeodesy.webmercator, 18.09.23)
-    test 393 webmercator.Wm() class: True
-    test 394 webmercator.parseWM() function: True
-    test 395 webmercator.toWm() function: True
+    test 395 webmercator.Wm() class: True
+    test 396 webmercator.parseWM() function: True
+    test 397 webmercator.toWm() function: True
 
-    testPublic(pygeodesy, 18.09.30)
-    test 396 Conic() class: True
-    test 397 Conics class pygeodesy.datum._Enum: True
-    test 398 CrossError() class: True
-    test 399 Datum() class: True
-    test 400 Datums class pygeodesy.datum._Enum: True
-    test 401 Ellipsoid() class: True
-    test 402 Ellipsoids class pygeodesy.datum._Enum: True
-    test 403 Fsum() class: True
-    test 404 Geohash() class: True
-    test 405 LatLon2psxy() class: True
-    test 406 LatLon_() class: True
-    test 407 Lcc() class: True
-    test 408 LimitError() class: True
-    test 409 Mgrs() class: True
-    test 410 Numpy2LatLon() class: True
-    test 411 Osgr() class: True
-    test 412 RangeError() class: True
-    test 413 Transform() class: True
-    test 414 Transforms class pygeodesy.datum._Enum: True
-    test 415 Tuple2LatLon() class: True
-    test 416 UTMError() class: True
-    test 417 Utm() class: True
-    test 418 VincentyError() class: True
-    test 419 Wm() class: True
-    test 420 acos1() function: True
-    test 421 anStr() function: True
-    test 422 antipode() function: True
-    test 423 areaOf() function: True
-    test 424 bearingDMS() function: True
-    test 425 bounds() function: True
-    test 426 cbrt() function: True
-    test 427 cbrt2() function: True
-    test 428 clipDMS() function: True
-    test 429 compassAngle() function: True
-    test 430 compassDMS() function: True
-    test 431 compassPoint() function: True
-    test 432 crosserrors() function: True
-    test 433 degrees180() function: True
-    test 434 degrees360() function: True
-    test 435 degrees90() function: True
-    test 436 elevation2() function: True
-    test 437 enStr2() function: True
-    test 438 equirectangular() function: True
-    test 439 equirectangular_() function: True
-    test 440 fStr() function: True
-    test 441 fStrzs() function: True
-    test 442 false2f() function: True
-    test 443 favg() function: True
-    test 444 fdot() function: True
-    test 445 fdot3() function: True
-    test 446 fhorner() function: True
-    test 447 fmean() function: True
-    test 448 fpolynomial() function: True
-    test 449 fpowers() function: True
-    test 450 fsum_() function: True
-    test 451 ft2m() function: True
-    test 452 geoidHeight2() function: True
-    test 453 halfs() function: True
-    test 454 haversine() function: True
-    test 455 haversine_() function: True
-    test 456 heightOf() function: True
-    test 457 horizon() function: True
-    test 458 hypot1() function: True
-    test 459 hypot3() function: True
-    test 460 isNumpy2() function: True
-    test 461 isPoints2() function: True
-    test 462 isTuple2() function: True
-    test 463 isantipode() function: True
-    test 464 isclockwise() function: True
-    test 465 isconvex() function: True
-    test 466 isenclosedby() function: True
-    test 467 isfinite() function: True
-    test 468 isint() function: True
-    test 469 isscalar() function: True
-    test 470 issequence() function: True
-    test 471 iterNumpy2() function: True
-    test 472 iterNumpy2over() function: True
-    test 473 latDMS() function: True
-    test 474 len2() function: True
-    test 475 limiterrors() function: True
-    test 476 lonDMS() function: True
-    test 477 m2NM() function: True
-    test 478 m2SM() function: True
-    test 479 m2degrees() function: True
-    test 480 m2ft() function: True
-    test 481 m2km() function: True
-    test 482 map1() function: True
-    test 483 map2() function: True
-    test 484 normDMS() function: True
-    test 485 parse3llh() function: True
-    test 486 parseDMS() function: True
-    test 487 parseDMS2() function: True
-    test 488 parseMGRS() function: True
-    test 489 parseOSGR() function: True
-    test 490 parseUTM() function: True
-    test 491 parseWM() function: True
-    test 492 perimeterOf() function: True
-    test 493 polygon() function: True
-    test 494 precision() function: True
-    test 495 property_RO() function: True
-    test 496 radiansPI() function: True
-    test 497 radiansPI2() function: True
-    test 498 radiansPI_2() function: True
-    test 499 rangerrors() function: True
-    test 500 scalar() function: True
-    test 501 simplify1() function: True
-    test 502 simplify2() function: True
-    test 503 simplifyRDP() function: True
-    test 504 simplifyRDPm() function: True
-    test 505 simplifyRW() function: True
-    test 506 simplifyVW() function: True
-    test 507 simplifyVWm() function: True
-    test 508 sqrt3() function: True
-    test 509 tanPI_2_2() function: True
-    test 510 tan_2() function: True
-    test 511 toDMS() function: True
-    test 512 toLcc() function: True
-    test 513 toMgrs() function: True
-    test 514 toOsgr() function: True
-    test 515 toUtm() function: True
-    test 516 toWm() function: True
-    test 517 unStr() function: True
-    test 518 unroll180() function: True
-    test 519 unrollPI() function: True
-    test 520 utmZoneBand2() function: True
-    test 521 wrap180() function: True
-    test 522 wrap360() function: True
-    test 523 wrap90() function: True
-    test 524 wrapPI() function: True
-    test 525 wrapPI2() function: True
-    test 526 wrapPI_2() function: True
+    testPublic(pygeodesy, 18.10.02)
+    test 398 Conic() class: True
+    test 399 Conics class pygeodesy.datum._Enum: True
+    test 400 CrossError() class: True
+    test 401 Datum() class: True
+    test 402 Datums class pygeodesy.datum._Enum: True
+    test 403 Ellipsoid() class: True
+    test 404 Ellipsoids class pygeodesy.datum._Enum: True
+    test 405 Fsum() class: True
+    test 406 Geohash() class: True
+    test 407 LatLon2psxy() class: True
+    test 408 LatLon_() class: True
+    test 409 Lcc() class: True
+    test 410 LimitError() class: True
+    test 411 Mgrs() class: True
+    test 412 Numpy2LatLon() class: True
+    test 413 Osgr() class: True
+    test 414 RangeError() class: True
+    test 415 Transform() class: True
+    test 416 Transforms class pygeodesy.datum._Enum: True
+    test 417 Tuple2LatLon() class: True
+    test 418 UTMError() class: True
+    test 419 Utm() class: True
+    test 420 VincentyError() class: True
+    test 421 Wm() class: True
+    test 422 acos1() function: True
+    test 423 anStr() function: True
+    test 424 antipode() function: True
+    test 425 areaOf() function: True
+    test 426 bearingDMS() function: True
+    test 427 bounds() function: True
+    test 428 cbrt() function: True
+    test 429 cbrt2() function: True
+    test 430 clipDMS() function: True
+    test 431 compassAngle() function: True
+    test 432 compassDMS() function: True
+    test 433 compassPoint() function: True
+    test 434 crosserrors() function: True
+    test 435 degrees180() function: True
+    test 436 degrees360() function: True
+    test 437 degrees90() function: True
+    test 438 elevation2() function: True
+    test 439 enStr2() function: True
+    test 440 equirectangular() function: True
+    test 441 equirectangular_() function: True
+    test 442 fStr() function: True
+    test 443 fStrzs() function: True
+    test 444 false2f() function: True
+    test 445 favg() function: True
+    test 446 fdot() function: True
+    test 447 fdot3() function: True
+    test 448 fhorner() function: True
+    test 449 fmean() function: True
+    test 450 fpolynomial() function: True
+    test 451 fpowers() function: True
+    test 452 fsum_() function: True
+    test 453 ft2m() function: True
+    test 454 geoidHeight2() function: True
+    test 455 halfs() function: True
+    test 456 haversine() function: True
+    test 457 haversine_() function: True
+    test 458 heightOf() function: True
+    test 459 horizon() function: True
+    test 460 hypot1() function: True
+    test 461 hypot3() function: True
+    test 462 isNumpy2() function: True
+    test 463 isPoints2() function: True
+    test 464 isTuple2() function: True
+    test 465 isantipode() function: True
+    test 466 isclockwise() function: True
+    test 467 isconvex() function: True
+    test 468 isenclosedby() function: True
+    test 469 isfinite() function: True
+    test 470 isint() function: True
+    test 471 isscalar() function: True
+    test 472 issequence() function: True
+    test 473 iterNumpy2() function: True
+    test 474 iterNumpy2over() function: True
+    test 475 latDMS() function: True
+    test 476 len2() function: True
+    test 477 limiterrors() function: True
+    test 478 lonDMS() function: True
+    test 479 m2NM() function: True
+    test 480 m2SM() function: True
+    test 481 m2degrees() function: True
+    test 482 m2ft() function: True
+    test 483 m2km() function: True
+    test 484 map1() function: True
+    test 485 map2() function: True
+    test 486 normDMS() function: True
+    test 487 parse3llh() function: True
+    test 488 parseDMS() function: True
+    test 489 parseDMS2() function: True
+    test 490 parseMGRS() function: True
+    test 491 parseOSGR() function: True
+    test 492 parseUTM() function: True
+    test 493 parseWM() function: True
+    test 494 perimeterOf() function: True
+    test 495 points2() function: True
+    test 496 polygon() function: True
+    test 497 precision() function: True
+    test 498 property_RO() function: True
+    test 499 radiansPI() function: True
+    test 500 radiansPI2() function: True
+    test 501 radiansPI_2() function: True
+    test 502 rangerrors() function: True
+    test 503 scalar() function: True
+    test 504 simplify1() function: True
+    test 505 simplify2() function: True
+    test 506 simplifyRDP() function: True
+    test 507 simplifyRDPm() function: True
+    test 508 simplifyRW() function: True
+    test 509 simplifyVW() function: True
+    test 510 simplifyVWm() function: True
+    test 511 sqrt3() function: True
+    test 512 tanPI_2_2() function: True
+    test 513 tan_2() function: True
+    test 514 toDMS() function: True
+    test 515 toLcc() function: True
+    test 516 toMgrs() function: True
+    test 517 toOsgr() function: True
+    test 518 toUtm() function: True
+    test 519 toWm() function: True
+    test 520 unStr() function: True
+    test 521 unroll180() function: True
+    test 522 unrollPI() function: True
+    test 523 utmZoneBand2() function: True
+    test 524 wrap180() function: True
+    test 525 wrap360() function: True
+    test 526 wrap90() function: True
+    test 527 wrapPI() function: True
+    test 528 wrapPI2() function: True
+    test 529 wrapPI_2() function: True
 
-    all 526 testModules.py tests passed (PyGeodesy 18.9.30 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 7.628 ms
+    all 529 testModules.py tests passed (PyGeodesy 18.10.2 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 8.010 ms
 
 running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testNavlabExamples.py
 
@@ -6104,7 +6109,7 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testNavlabExamples.
     test 26 Example 9 intersection: 40.318643°N, 055.901868°E
     test 27 Example 10 crossTrackDistance: 11118
 
-    1 of 27 testNavlabExamples.py tests (3.7%) FAILED, ALL KNOWN (PyGeodesy 18.9.30 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 6.204 ms
+    1 of 27 testNavlabExamples.py tests (3.7%) FAILED, ALL KNOWN (PyGeodesy 18.10.2 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 5.886 ms
 
 running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testOsgr.py
 
@@ -6134,7 +6139,7 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testOsgr.py
     test 23 OSGR5: [OSGR:651409.000,313177.000]
     test 24 OSGR6: 651409,313177
 
-    6 of 24 testOsgr.py tests (25.0%) FAILED, ALL KNOWN (PyGeodesy 18.9.30 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 2.272 ms
+    6 of 24 testOsgr.py tests (25.0%) FAILED, ALL KNOWN (PyGeodesy 18.10.2 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 2.863 ms
 
 running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testPoints.py
 
@@ -6364,7 +6369,7 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testPoints.py
     test 223 areaOf: 7.09e+09
     test 224 isclockwise: True
 
-    all 224 testPoints.py tests passed (PyGeodesy 18.9.30 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 29.452 ms
+    all 224 testPoints.py tests passed (PyGeodesy 18.10.2 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 37.867 ms
 
 running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testRoutes.py
 
@@ -6460,93 +6465,93 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testRoutes.py
     test 89 isclockwise(_JFK_LHR1, adjust=False, wrap=True): 0.000
     test 90 isclockwise(_JFK_LHR2, adjust=False, wrap=True): 0.000
 
-    13 of 90 testRoutes.py tests (14.4%) FAILED, ALL KNOWN (PyGeodesy 18.9.30 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 12.883 sec
+    13 of 90 testRoutes.py tests (14.4%) FAILED, ALL KNOWN (PyGeodesy 18.10.2 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 13.122 sec
 
 running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testSimplify.py
 
     testing testSimplify.py 18.09.14 (module pygeodesy.simplify 18.09.30)
-    test 1 simplify1(16614, adjust=True) 1m (53.519 ms): 16597
-    test 2 simplifyRW(16614, adjust=True, indices=True, shortest=False) 1m (697.845 ms): 7095
-    test 3 simplifyRW(16614, adjust=True, shortest=False) 1m (700.546 ms): 7095
-    test 4 simplifyRW(16614, adjust=True, shortest=True) 1m (829.086 ms): 8302
-    test 5 simplifyVWm(16614, adjust=True, indices=True) 1m (143.132 ms): 16328
-    test 6 simplifyVWm(16614, adjust=True) 1m (157.557 ms): 16328
-    test 7 simplifyVWm(16614, adjust=False) 1m (123.616 ms): 16373
-    test 8 simplifyRDPm(16614, adjust=True, shortest=False) 1m (1.564 sec): 15864
-    test 9 simplifyRDPm(16614, adjust=True, shortest=True) 1m (1.567 sec): 15867
-    test 10 simplifyRDPgr(16614, adjust=True, modified=True, shortest=True) 1m (1.707 sec): 15867
-    test 11 simplifyRDPm(16614, adjust=False, shortest=False) 1m (2.075 sec): 15869
-    test 12 simplifyRDPfw(16614, adjust=False, modified=True, shortest=False) 1m (1.438 sec): 15869
-    test 13 simplifyRDP(16614, adjust=True, indices=True, shortest=True) 1m (968.250 ms): 10960
-    test 14 simplifyRDP(16614, adjust=True, shortest=True) 1m (970.011 ms): 10960
-    test 15 simplifyRDPgr(16614, adjust=True, modified=False, shortest=True) 1m (930.127 ms): 10960
-    test 16 simplifyRDP(16614, adjust=False, indices=True, shortest=False) 1m (778.564 ms): 11248
-    test 17 simplifyRDP(16614, adjust=False, shortest=False) 1m (780.398 ms): 11248
-    test 18 simplifyRDPfw(16614, adjust=False, modified=False, shortest=False) 1m (439.965 ms): 11248
-    test 19 simplifyVW(1661, adjust=True) 1m (19.693 ms): 1641
-    test 20 simplifyVW(1661, adjust=False) 1m (14.964 ms): 1646
-    test 21 simplifyRDP(1661, adjust=True, shortest=False) 1m (71.004 ms): 1231
-    test 22 simplifyRDP(1661, adjust=True, shortest=True) 1m (76.296 ms): 1231
-    test 23 simplifyRDPgr(1661, adjust=True, shortest=True) 1m (70.979 ms): 1231
-    test 24 simplifyRDP(1661, adjust=False, shortest=False) 1m (61.414 ms): 1267
-    test 25 simplifyRDPfw(1661, adjust=False, shortest=False) 1m (34.938 ms): 1267
-    test 26 simplifyRDPgr(1661, adjust=False, shortest=True) 1m (54.580 ms): 1267
-    test 27 simplifyVW(69, adjust=False) 1m (560.045 us): 69
-    test 28 simplifyRDP(69, adjust=False, shortest=False) 1m (1.530 ms): 50
-    test 29 simplifyRDPfw(69, adjust=False, shortest=False) 1m (838.995 us): 50
-    test 30 simplifyRDPgr(69, adjust=False, shortest=True) 1m (1.244 ms): 50
-    test 31 simplifyRDPgr(69, adjust=True, shortest=True) 1m (1.582 ms): 45
+    test 1 simplify1(16614, adjust=True) 1m (53.618 ms): 16597
+    test 2 simplifyRW(16614, adjust=True, indices=True, shortest=False) 1m (769.477 ms): 7095
+    test 3 simplifyRW(16614, adjust=True, shortest=False) 1m (723.878 ms): 7095
+    test 4 simplifyRW(16614, adjust=True, shortest=True) 1m (915.095 ms): 8302
+    test 5 simplifyVWm(16614, adjust=True, indices=True) 1m (149.082 ms): 16328
+    test 6 simplifyVWm(16614, adjust=True) 1m (180.804 ms): 16328
+    test 7 simplifyVWm(16614, adjust=False) 1m (133.600 ms): 16373
+    test 8 simplifyRDPm(16614, adjust=True, shortest=False) 1m (1.663 sec): 15864
+    test 9 simplifyRDPm(16614, adjust=True, shortest=True) 1m (1.686 sec): 15867
+    test 10 simplifyRDPgr(16614, adjust=True, modified=True, shortest=True) 1m (1.878 sec): 15867
+    test 11 simplifyRDPm(16614, adjust=False, shortest=False) 1m (2.245 sec): 15869
+    test 12 simplifyRDPfw(16614, adjust=False, modified=True, shortest=False) 1m (1.533 sec): 15869
+    test 13 simplifyRDP(16614, adjust=True, indices=True, shortest=True) 1m (1.053 sec): 10960
+    test 14 simplifyRDP(16614, adjust=True, shortest=True) 1m (1.114 sec): 10960
+    test 15 simplifyRDPgr(16614, adjust=True, modified=False, shortest=True) 1m (928.636 ms): 10960
+    test 16 simplifyRDP(16614, adjust=False, indices=True, shortest=False) 1m (811.399 ms): 11248
+    test 17 simplifyRDP(16614, adjust=False, shortest=False) 1m (852.298 ms): 11248
+    test 18 simplifyRDPfw(16614, adjust=False, modified=False, shortest=False) 1m (472.953 ms): 11248
+    test 19 simplifyVW(1661, adjust=True) 1m (24.181 ms): 1641
+    test 20 simplifyVW(1661, adjust=False) 1m (15.140 ms): 1646
+    test 21 simplifyRDP(1661, adjust=True, shortest=False) 1m (74.902 ms): 1231
+    test 22 simplifyRDP(1661, adjust=True, shortest=True) 1m (77.937 ms): 1231
+    test 23 simplifyRDPgr(1661, adjust=True, shortest=True) 1m (77.787 ms): 1231
+    test 24 simplifyRDP(1661, adjust=False, shortest=False) 1m (67.669 ms): 1267
+    test 25 simplifyRDPfw(1661, adjust=False, shortest=False) 1m (36.647 ms): 1267
+    test 26 simplifyRDPgr(1661, adjust=False, shortest=True) 1m (56.675 ms): 1267
+    test 27 simplifyVW(69, adjust=False) 1m (586.987 us): 69
+    test 28 simplifyRDP(69, adjust=False, shortest=False) 1m (1.518 ms): 50
+    test 29 simplifyRDPfw(69, adjust=False, shortest=False) 1m (867.128 us): 50
+    test 30 simplifyRDPgr(69, adjust=False, shortest=True) 1m (1.257 ms): 50
+    test 31 simplifyRDPgr(69, adjust=True, shortest=True) 1m (1.586 ms): 45
     test 32 numpy.__version__: 1.14.0
-    test 33 simplify1(69, adjust=False) 1m (1.034 ms): 69
+    test 33 simplify1(69, adjust=False) 1m (1.056 ms): 69
     test 34 <type 'numpy.ndarray'>: True
-    test 35 simplifyRW(69, adjust=False) 1m (1.839 ms): 33
+    test 35 simplifyRW(69, adjust=False) 1m (1.047 ms): 33
     test 36 <type 'numpy.ndarray'>: True
-    test 37 simplifyRDP(69, adjust=False) 1m (5.572 ms): 50
+    test 37 simplifyRDP(69, adjust=False) 1m (5.699 ms): 50
     test 38 <type 'numpy.ndarray'>: True
-    test 39 simplifyRDPm(69, adjust=False) 1m (1.993 ms): 67
+    test 39 simplifyRDPm(69, adjust=False) 1m (2.004 ms): 67
     test 40 <type 'numpy.ndarray'>: True
-    test 41 simplifyRDPfw(69, adjust=False) 1m (4.716 ms): 50
-    test 42 simplifyRDPgr(69, adjust=False) 1m (8.214 ms): 50
-    test 43 simplifyVW(69, adjust=False) 1m (1.864 ms): 69
+    test 41 simplifyRDPfw(69, adjust=False) 1m (4.754 ms): 50
+    test 42 simplifyRDPgr(69, adjust=False) 1m (8.206 ms): 50
+    test 43 simplifyVW(69, adjust=False) 1m (1.940 ms): 69
     test 44 <type 'numpy.ndarray'>: True
-    test 45 simplifyVWm(69, adjust=False) 1m (1.857 ms): 69
+    test 45 simplifyVWm(69, adjust=False) 1m (1.835 ms): 69
     test 46 <type 'numpy.ndarray'>: True
-    test 47 simplify1(69, adjust=True) 1m (1.002 ms): 69
+    test 47 simplify1(69, adjust=True) 1m (977.993 us): 69
     test 48 <type 'numpy.ndarray'>: True
-    test 49 simplifyRW(69, adjust=True) 1m (1.080 ms): 31
+    test 49 simplifyRW(69, adjust=True) 1m (1.104 ms): 31
     test 50 <type 'numpy.ndarray'>: True
-    test 51 simplifyRDP(69, adjust=True) 1m (5.857 ms): 45
+    test 51 simplifyRDP(69, adjust=True) 1m (6.064 ms): 45
     test 52 <type 'numpy.ndarray'>: True
-    test 53 simplifyRDPm(69, adjust=True) 1m (2.091 ms): 67
+    test 53 simplifyRDPm(69, adjust=True) 1m (2.144 ms): 67
     test 54 <type 'numpy.ndarray'>: True
-    test 55 simplifyRDPfw(69, adjust=True) 1m (4.975 ms): 45
-    test 56 simplifyRDPgr(69, adjust=True) 1m (8.694 ms): 45
-    test 57 simplifyVW(69, adjust=True) 1m (1.942 ms): 69
+    test 55 simplifyRDPfw(69, adjust=True) 1m (5.030 ms): 45
+    test 56 simplifyRDPgr(69, adjust=True) 1m (9.026 ms): 45
+    test 57 simplifyVW(69, adjust=True) 1m (1.997 ms): 69
     test 58 <type 'numpy.ndarray'>: True
-    test 59 simplifyVWm(69, adjust=True) 1m (1.948 ms): 69
+    test 59 simplifyVWm(69, adjust=True) 1m (1.936 ms): 69
     test 60 <type 'numpy.ndarray'>: True
-    test 61 simplify1(69, adjust=False, indices=True) 1m (793.934 us): 69
+    test 61 simplify1(69, adjust=False, indices=True) 1m (801.086 us): 69
     test 62 <type 'list'>: True
-    test 63 simplifyRW(69, adjust=False, indices=True) 1m (946.045 us): 33
+    test 63 simplifyRW(69, adjust=False, indices=True) 1m (954.866 us): 33
     test 64 <type 'list'>: True
-    test 65 simplifyRDP(69, adjust=False, indices=True) 1m (5.462 ms): 50
+    test 65 simplifyRDP(69, adjust=False, indices=True) 1m (5.577 ms): 50
     test 66 <type 'list'>: True
-    test 67 simplifyRDPm(69, adjust=False, indices=True) 1m (1.862 ms): 67
+    test 67 simplifyRDPm(69, adjust=False, indices=True) 1m (1.892 ms): 67
     test 68 <type 'list'>: True
-    test 69 simplifyRDPfw(69, adjust=True, indices=True) 1m (4.773 ms): 45
-    test 70 simplifyRDPgr(69, adjust=True, indices=True) 1m (8.508 ms): 45
-    test 71 simplifyVW(69, adjust=False, indices=True) 1m (1.714 ms): 69
+    test 69 simplifyRDPfw(69, adjust=True, indices=True) 1m (4.914 ms): 45
+    test 70 simplifyRDPgr(69, adjust=True, indices=True) 1m (9.997 ms): 45
+    test 71 simplifyVW(69, adjust=False, indices=True) 1m (1.760 ms): 69
     test 72 <type 'list'>: True
-    test 73 simplifyVWm(69, adjust=False, indices=True) 1m (1.707 ms): 69
+    test 73 simplifyVWm(69, adjust=False, indices=True) 1m (1.695 ms): 69
     test 74 <type 'list'>: True
 
-    all 74 testSimplify.py tests passed (PyGeodesy 18.9.30 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 16.419 sec
+    all 74 testSimplify.py tests passed (PyGeodesy 18.10.2 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 17.689 sec
 
 running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testSpherical.py
 
     testing testSpherical.py 18.09.27
 
-    testLatLon(pygeodesy.sphericalNvector, 18.09.30)
+    testLatLon(pygeodesy.sphericalNvector, 18.10.02)
     test 1 isEllipsoidal: False
     test 2 isSpherical: True
     test 3 lat/lonDMS: 52.20472°N, 000.14056°E
@@ -6556,12 +6561,12 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testSpherical.py
     test 7 lat/lonDMS F_DMS: 52°12′17.0″N, 000°08′26.0″E
     test 8 lat/lonDMS F_RAD: 0.911144N, 0.002453E
     test 9 isequalTo: True
-    test 10 latlon2round: 52.20472, 0.14056
-    test 11 latlon2round: 52.2047, 0.1406
-    test 12 latlon2round: 52.205, 0.141
-    test 13 latlon2round: 52.2, 0.14
-    test 14 latlon2round: 52.2, 0.1
-    test 15 latlon2round: 52.0, 0.0
+    test 10 latlon2: 52.20472, 0.14056
+    test 11 latlon2: 52.2047, 0.1406
+    test 12 latlon2: 52.205, 0.141
+    test 13 latlon2: 52.2, 0.14
+    test 14 latlon2: 52.2, 0.1
+    test 15 latlon2: 52.0, 0.0
     test 16 isequalTo: False
     test 17 antipode1: 52.205°S, 179.881°W
     test 18 antipode2: True
@@ -6634,7 +6639,7 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testSpherical.py
     test 85 isenclosedby7: True
     test 86 isenclosedby7*: True
 
-    testVectorial(pygeodesy.sphericalNvector, 18.09.30)
+    testVectorial(pygeodesy.sphericalNvector, 18.10.02)
     test 87 crossTrackDistanceTo: -305.67
     test 88 crossTrackDistanceTo: -307.55
     test 89 toLatLon: 44.995674°N, 045.0°E
@@ -6672,7 +6677,7 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testSpherical.py
     test 121 triangulate: 47.323667°N, 002.568501°W
     test 122 triangulate: True
 
-    testSpherical(pygeodesy.sphericalNvector, 18.09.30)
+    testSpherical(pygeodesy.sphericalNvector, 18.10.02)
     test 123 isSpherical: True
     test 124 isEllipsoidal: False
     test 125 isSpherical: True
@@ -6712,7 +6717,7 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testSpherical.py
     test 159 distanceTo: 64856.28
     test 160 difference: 1000.53
 
-    testLatLon(pygeodesy.sphericalTrigonometry, 18.09.30)
+    testLatLon(pygeodesy.sphericalTrigonometry, 18.10.02)
     test 161 isEllipsoidal: False
     test 162 isSpherical: True
     test 163 lat/lonDMS: 52.20472°N, 000.14056°E
@@ -6722,12 +6727,12 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testSpherical.py
     test 167 lat/lonDMS F_DMS: 52°12′17.0″N, 000°08′26.0″E
     test 168 lat/lonDMS F_RAD: 0.911144N, 0.002453E
     test 169 isequalTo: True
-    test 170 latlon2round: 52.20472, 0.14056
-    test 171 latlon2round: 52.2047, 0.1406
-    test 172 latlon2round: 52.205, 0.141
-    test 173 latlon2round: 52.2, 0.14
-    test 174 latlon2round: 52.2, 0.1
-    test 175 latlon2round: 52.0, 0.0
+    test 170 latlon2: 52.20472, 0.14056
+    test 171 latlon2: 52.2047, 0.1406
+    test 172 latlon2: 52.205, 0.141
+    test 173 latlon2: 52.2, 0.14
+    test 174 latlon2: 52.2, 0.1
+    test 175 latlon2: 52.0, 0.0
     test 176 isequalTo: False
     test 177 antipode1: 52.205°S, 179.881°W
     test 178 antipode2: True
@@ -6797,7 +6802,7 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testSpherical.py
     test 242 isenclosedby7: True
     test 243 isenclosedby7*: True
 
-    testSpherical(pygeodesy.sphericalTrigonometry, 18.09.30)
+    testSpherical(pygeodesy.sphericalTrigonometry, 18.10.02)
     test 244 isSpherical: True
     test 245 isEllipsoidal: False
     test 246 isSpherical: True
@@ -6860,11 +6865,11 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testSpherical.py
     test 303 isPoleEnclosedBy: False  FAILED, KNOWN, expected True
     test 304 isPoleEnclosedBy*: False  FAILED, KNOWN, expected True
 
-    2 of 304 testSpherical.py tests (0.7%) FAILED, ALL KNOWN (PyGeodesy 18.9.30 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 23.351 ms
+    2 of 304 testSpherical.py tests (0.7%) FAILED, ALL KNOWN (PyGeodesy 18.10.2 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 23.904 ms
 
 running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testUtily.py
 
-    testing testUtily.py 18.09.23 (module pygeodesy.utily 18.09.25)
+    testing testUtily.py 18.09.23 (module pygeodesy.utily 18.10.02)
     test 1 antipode1: (-89, -1)
     test 2 antipode2: (89, 1)
     test 3 isantipode1: True
@@ -6887,7 +6892,7 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testUtily.py
     test 20 unroll180: -160.0, -990.0
     test 21 unroll180: 920.0, 90.0
 
-    all 21 testUtily.py tests passed (PyGeodesy 18.9.30 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 617.027 us
+    all 21 testUtily.py tests passed (PyGeodesy 18.10.2 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 629.187 us
 
 running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testUtm.py
 
@@ -6939,7 +6944,7 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testUtm.py
     test 45 toUtm(76.0°N, 031.0°E): 35X N 607943 8438843
     test 46 toUtm(76.0°N, 037.0°E): 37X N 446000 8436100
 
-    all 46 testUtm.py tests passed (PyGeodesy 18.9.30 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 12.340 ms
+    all 46 testUtm.py tests passed (PyGeodesy 18.10.2 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 12.870 ms
 
 running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testUtmTMcoords.py
 
@@ -7762,13 +7767,13 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testUtmTMcoords.py
     test 745 line 258 scale: 1.6615
     test 746 WGS84.KsOrder: 8
 
-    1 of 746 testUtmTMcoords.py tests (0.1%) FAILED, ALL KNOWN, 71 skipped (PyGeodesy 18.9.30 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 69.696 ms
+    1 of 746 testUtmTMcoords.py tests (0.1%) FAILED, ALL KNOWN, 71 skipped (PyGeodesy 18.10.2 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 71.271 ms
 
 running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testVectorial.py
 
     testing testVectorial.py 18.09.30
 
-    testVectorial(pygeodesy.ellipsoidalNvector, 18.09.30)
+    testVectorial(pygeodesy.ellipsoidalNvector, 18.10.02)
     test 1 toLatLon: 44.995674°N, 045.0°E
     test 2 toNvector: (0.50004, 0.50004, 0.70705)
     test 3 isequalTo: False
@@ -7783,7 +7788,7 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testVectorial.py
     test 12 length: 52.2051356286
     test 13 length: 52.2051356286
 
-    testVectorial(pygeodesy.sphericalNvector, 18.09.30)
+    testVectorial(pygeodesy.sphericalNvector, 18.10.02)
     test 14 crossTrackDistanceTo: -305.67
     test 15 crossTrackDistanceTo: -307.55
     test 16 toLatLon: 44.995674°N, 045.0°E
@@ -7821,7 +7826,7 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testVectorial.py
     test 48 triangulate: 47.323667°N, 002.568501°W
     test 49 triangulate: True
 
-    all 49 testVectorial.py tests passed (PyGeodesy 18.9.30 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 4.765 ms
+    all 49 testVectorial.py tests passed (PyGeodesy 18.10.2 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 4.812 ms
 
 running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testWebMercator.py
 
@@ -7884,6 +7889,6 @@ running /Library/Framewo...nts/MacOS/Python ~/PyGeodesy/test/testWebMercator.py
     test 56 toWm(LatLonE(50.0003, 0)).y: 6413572.57
     test 57 toWm(LatLonE(60.0003, 0)).y: 8362760.29
 
-    all 57 testWebMercator.py tests passed (PyGeodesy 18.9.30 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 2.371 ms
+    all 57 testWebMercator.py tests passed (PyGeodesy 18.10.2 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 2.769 ms
 
-test/run.py /Library/Framewo...nts/MacOS/Python all 7611 tests OK (PyGeodesy 18.9.30 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 37.834 sec
+test/run.py /Library/Framewo...nts/MacOS/Python all 7616 tests OK (PyGeodesy 18.10.2 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 42.140 sec

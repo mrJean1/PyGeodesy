@@ -34,12 +34,12 @@ class Tests(TestsBase):
         q = LatLon(*map(degrees, p.to2ab()))
         self.test('isequalTo', q.isequalTo(p), True)
 
-        self.test('latlon2round', fStr(q.latlon2round(5)), '52.20472, 0.14056')
-        self.test('latlon2round', fStr(q.latlon2round(4)), '52.2047, 0.1406')
-        self.test('latlon2round', fStr(q.latlon2round(3)), '52.205, 0.141')
-        self.test('latlon2round', fStr(q.latlon2round(2)), '52.2, 0.14')
-        self.test('latlon2round', fStr(q.latlon2round(1)), '52.2, 0.1')
-        self.test('latlon2round', fStr(q.latlon2round()),  '52.0, 0.0')
+        self.test('latlon2', fStr(q.latlon2(5)), '52.20472, 0.14056')
+        self.test('latlon2', fStr(q.latlon2(4)), '52.2047, 0.1406')
+        self.test('latlon2', fStr(q.latlon2(3)), '52.205, 0.141')
+        self.test('latlon2', fStr(q.latlon2(2)), '52.2, 0.14')
+        self.test('latlon2', fStr(q.latlon2(1)), '52.2, 0.1')
+        self.test('latlon2', fStr(q.latlon2()),  '52.0, 0.0')
 
         # <http://www.EdWilliams.org/avform.htm#XTE>
         LAX = LatLon(33.+57./60, -(118.+24./60))

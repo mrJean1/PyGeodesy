@@ -34,13 +34,13 @@ __all__ = ('PI', 'PI2', 'PI_2', 'R_M',  # constants
            'iterNumpy2', 'iterNumpy2over',
            'limiterrors',
            'm2degrees', 'm2ft', 'm2km', 'm2NM', 'm2SM',
-           'polygon', 'property_RO',
+           'points2', 'polygon', 'property_RO',
            'radians', 'radiansPI_2', 'radiansPI', 'radiansPI2',
            'tan_2', 'tanPI_2_2',
            'unroll180', 'unrollPI', 'unStr',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '18.09.25'
+__version__ = '18.10.02'
 
 division = 1 / 2  # double check int division, see .datum.py
 if not division:
@@ -572,13 +572,14 @@ def m2SM(meter):
     return meter * 6.21369949e-4  # XXX 6.213712e-4 == 1.0 / 1609.344
 
 
-def polygon(points, closed=True, base=None):
-    '''Check a polygon given as an array, list, sequence, set or
-       tuple of points.
+def points2(points, closed=True, base=None):
+    '''Check an array, generator, iterable, list, set, tuple or other
+       sequence of points representing a polygon or path.
 
-       @param points: The points of the polygon (I{LatLon}[])
-       @keyword closed: Optionally, treat polygon as closed and remove
-                        any duplicate or closing final I{points} (bool).
+       @param points: The points (I{LatLon}[])
+       @keyword closed: Optionally, treat points as closed polygon or
+                        path and remove any duplicate or closing final
+                        I{points} (bool).
        @keyword base: Optional I{points} base class (None).
 
        @return: 2-Tuple (number, sequence) of points (int, sequence).
@@ -606,6 +607,12 @@ def polygon(points, closed=True, base=None):
             base.others(points[i], name='points[%s]' % (i,))
 
     return n, points
+
+
+def polygon(points, closed=True, base=None):
+    '''DEPRECATED, use function I{points2}.
+    '''
+    return points2(points, closed=closed, base=base)
 
 
 def property_RO(method):
