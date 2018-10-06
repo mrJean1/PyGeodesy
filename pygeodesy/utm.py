@@ -47,13 +47,13 @@ from operator import mul
 # all public contants, classes and functions
 __all__ = ('Utm', 'UTMError',  # classes
            'parseUTM', 'toUtm', 'utmZoneBand2')  # functions
-__version__ = '18.09.23'
+__version__ = '18.10.06'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
 _Bands         = 'CDEFGHJKLMNPQRSTUVWXX'  #: (INTERNAL) Latitude bands.
-_FalseEasting  =   500e3  #: (INTERNAL) False (meter).
-_FalseNorthing = 10000e3  #: (INTERNAL) False (meter).
+_FalseEasting  =   500e3  #: (INTERNAL) False (C{meter}).
+_FalseNorthing = 10000e3  #: (INTERNAL) False (C{meter}).
 _K0            = 0.9996   #: (INTERNAL) UTM scale central meridian.
 
 
@@ -68,15 +68,15 @@ class _Kseries(object):
 
        Krüger series summations for I{eta}, I{ksi}, I{p} and I{q}
        while caching the cos, sin, cosh and sinh values for the
-       given I{eta} and I{ksi} angles (in radians).
+       given I{eta} and I{ksi} angles (in C{radians}).
     '''
     def __init__(self, AB, x, y):
         '''(INTERNAL) New Alpha or Beta Krüger series
 
            @param AB: Krüger Alpha or Beta series coefficients (4-,
                       6- or 8-tuple).
-           @param x: Eta angle (radians).
-           @param y: Ksi angle (radians).
+           @param x: Eta angle (C{radians}).
+           @param y: Ksi angle (C{radians}).
         '''
         n, j2 = len2(range(2, len(AB) * 2 + 1, 2))
 
@@ -95,28 +95,28 @@ class _Kseries(object):
 #       assert len(y2) == len(self._cy) == len(self._sy) == n
 
     def xs(self, x0):
-        '''(INTERNAL) Eta summation (float).
+        '''(INTERNAL) Eta summation (C{float}).
         '''
         return fdot3(self._ab, self._cy, self._shx, start=x0)
 
     def ys(self, y0):
-        '''(INTERNAL) Ksi summation (float).
+        '''(INTERNAL) Ksi summation (C{float}).
         '''
         return fdot3(self._ab, self._sy, self._chx, start=y0)
 
     def ps(self, p0):
-        '''(INTERNAL) P summation (float).
+        '''(INTERNAL) P summation (C{float}).
         '''
         return fdot3(self._pq, self._cy, self._chx, start=p0)
 
     def qs(self, q0):
-        '''(INTERNAL) Q summation (float).
+        '''(INTERNAL) Q summation (C{float}).
         '''
         return fdot3(self._pq, self._sy, self._shx, start=q0)
 
 
 def _cmlon(zone):
-    '''(INTERNAL) Central meridian longitude (degrees180).
+    '''(INTERNAL) Central meridian longitude (C{degrees180}).
     '''
     return (zone * 6) - 183
 
@@ -124,14 +124,13 @@ def _cmlon(zone):
 def _toZBab4(lat, lon, cmoff=True):
     '''(INTERNAL) Return zone, Band and central lat- and longitude in radians.
 
-       @param lat: Latitude (degrees).
-       @param lon: Longitude (degrees).
+       @param lat: Latitude (C{degrees}).
+       @param lon: Longitude (C{degrees}).
        @keyword cmoff: Offset i{lon} from zone's central meridian.
 
        @return: 4-Tuple (zone, Band, a, b).
     '''
-    # return zone, Band and central
-    # lat- and longitude (in radians)
+    # return zone, Band and lat- and medidian (in C{radians})
     lat = wrap90(lat)
     if -80 > lat or lat > 84:
         raise RangeError('%s outside UTM: %s' % ('lat', lat))
@@ -157,7 +156,7 @@ def _toZBlat3(zone, band, mgrs=False):  # used by mgrs.Mgrs
 
        @param zone: Zone number or string.
        @param band: Band letter.
-       @param mgrs: Optionally, raise UTMError (bool).
+       @param mgrs: Optionally, raise UTMError (C{bool}).
 
        @return: 3-Tuple (zone, Band, latitude).
     '''
@@ -189,15 +188,15 @@ class Utm(Based):
     '''Universal Transverse Mercator (UTM) coordinate.
     '''
     _band        = ''    #: (INTERNAL) Latitude band letter ('C..X').
-    _convergence = None  #: (INTERNAL) Meridian conversion (degrees).
+    _convergence = None  #: (INTERNAL) Meridian conversion (C{degrees}).
     _datum       = Datums.WGS84  #: (INTERNAL) L{Datum}.
-    _easting     = 0     #: (INTERNAL) Easting from false easting (meter).
+    _easting     = 0     #: (INTERNAL) Easting from false easting (C{meter}).
     _hemi        = ''    #: (INTERNAL) Hemisphere ('N' or 'S')
     # _latlon also set by ellipsoidalBase.LatLonEllipsoidalBase.toUtm
     _latlon      = None  #: (INTERNAL) toLatLon cache.
     _mgrs        = None  #: (INTERNAL) toMgrs cache.
-    _northing    = 0     #: (INTERNAL) Northing from false northing (meter).
-    _scale       = None  #: (INTERNAL) Grid scale factor (scalar or None).
+    _northing    = 0     #: (INTERNAL) Northing from false northing (C{meter}).
+    _scale       = None  #: (INTERNAL) Grid scale factor (scalar or C{None}).
     _zone        = 0     #: (INTERNAL) Longitudinal zone (1..60).
 
     def __init__(self, zone, hemisphere, easting, northing, band='',
@@ -205,21 +204,21 @@ class Utm(Based):
                              scale=None, name=''):
         '''New UTM coordinate.
 
-           @param zone: UTM 6° longitudinal zone (int 1..60 covering 180°W.
-                        180°E) or '00B' zone and band letter (string).
+           @param zone: UTM 6° longitudinal zone (C{int}, 1..60 covering
+                        180°W..180°E) or '00B' (C{str}) zone and band letter.
            @param hemisphere: N for the northern or S for the southern
-                              hemisphere (string).
-           @param easting: Easting from false easting, -500km from
-                           central meridian (meter).
-           @param northing: Northing from equator N or from false
-                            northing -10,000km S (meter).
+                              hemisphere (C{str}).
+           @param easting: Easting from false easting (C{meter}), -500km
+                           from central meridian.
+           @param northing: Northing from equator (C{meter}), N or from
+                            false northing -10,000km S.
            @keyword band: Optional, latitudinal band (string, C..X).
            @keyword datum: Optional, this coordinate's datum (L{Datum}).
            @keyword convergence: Optional meridian convergence, bearing
                                  of grid North, clockwise from true
-                                 North (degrees or None).
-           @keyword scale: Optional grid scale factor (scalar or None).
-           @keyword name: Optional name (string).
+                                 North (C{degrees} or C{None}).
+           @keyword scale: Optional grid scale factor (C{scalar} or C{None}).
+           @keyword name: Optional name (C{str}).
 
            @raise RangeError: If I{easting} or I{northing} is outside
                               the valid UTM range.
@@ -272,7 +271,7 @@ class Utm(Based):
 
     @property_RO
     def convergence(self):
-        '''Get the meridian convergence (degrees or None).
+        '''Get the meridian convergence (C{degrees} or C{None}).
         '''
         return self._convergence
 
@@ -291,7 +290,7 @@ class Utm(Based):
 
     @property_RO
     def easting(self):
-        '''Get the easting (meter).'''
+        '''Get the easting (C{meter}).'''
         return self._easting
 
     @property_RO
@@ -302,7 +301,7 @@ class Utm(Based):
 
     @property_RO
     def northing(self):
-        '''Get the northing (meter).
+        '''Get the northing (C{meter}).
         '''
         return self._northing
 
@@ -316,19 +315,19 @@ class Utm(Based):
 
     @property_RO
     def scale(self):
-        '''Get the grid scale (scalar or None).
+        '''Get the grid scale (C{scalar} or C{None}).
         '''
         return self._scale
 
     def toLatLon(self, LatLon=None):
         '''Convert this UTM coordinate to an (ellipsoidal) geodetic point.
 
-           @keyword LatLon: The I{LatLon} class to use for the point
-                            (I{LatLon}) or None.
+           @keyword LatLon: Optional, ellipsoidal (sub-)class to use
+                            for the point (I{LatLon}) or C{None}.
 
            @return: Point of this UTM coordinate (I{LatLon}) or 5-tuple
                     (lat, lon, datum, convergence, scale) if I{LatLon}
-                    is None.
+                    is C{None}.
 
            @raise TypeError: If I{LatLon} is not ellipsoidal.
 
@@ -427,14 +426,14 @@ class Utm(Based):
            Note that UTM coordinates are rounded, not truncated
            (unlike MGRS grid references).
 
-           @keyword prec: Optional number of decimals, unstripped (int).
-           @keyword sep: Optional separator to join (string).
-           @keyword B: Optionally, include latitudinal band (bool).
+           @keyword prec: Optional number of decimals, unstripped (C{int}).
+           @keyword sep: Optional separator to join (C{str}).
+           @keyword B: Optionally, include latitudinal band (C{bool}).
            @keyword cs: Optionally, include meridian convergence and
-                        grid scale factor (bool).
+                        grid scale factor (C{bool}).
 
-           @return: This UTM as string "00 N|S meter meter" plus
-                    "degrees float" if I{cs} is True (string).
+           @return: This UTM as string "00 N|S meter meter" (C{str})
+                    plus " degrees float" if I{cs} is C{True}.
 
            @example:
 
@@ -459,15 +458,15 @@ class Utm(Based):
            Note that UTM coordinates are rounded, not truncated
            (unlike MGRS grid references).
 
-           @keyword prec: Optional number of decimals, unstripped (int).
-           @keyword fmt: Optional, enclosing backets format (string).
-           @keyword sep: Optional separator between name:value pairs (string).
-           @keyword B: Optionally, include latitudinal band (bool).
+           @keyword prec: Optional number of decimals, unstripped (C{int}).
+           @keyword fmt: Optional, enclosing backets format (C{str}).
+           @keyword sep: Optional separator between name:value pairs (C{str}).
+           @keyword B: Optionally, include latitudinal band (C{bool}).
            @keyword cs: Optionally, include meridian convergence and
-                        grid scale factor (bool).
+                        grid scale factor (C{bool}).
 
-           @return: This UTM as "[Z:00, H:N|S, E:meter, N:meter]"
-                    (string) plus "C:degrees, S:float" if I{cs} is True.
+           @return: This UTM as "[Z:00, H:N|S, E:meter, N:meter]" (C{str})
+                    plus "C:degrees, S:float" if I{cs} is C{True}.
         '''
         t = self.toStr(prec=prec, sep=' ', B=B, cs=cs).split()
         k = 'ZHENCS' if cs else 'ZHEN'
@@ -484,14 +483,14 @@ def parseUTM(strUTM, datum=Datums.WGS84, Utm=Utm, name=''):
     '''Parse a string representing a UTM coordinate, consisting
        of zone, hemisphere, easting and northing.
 
-       @param strUTM: A UTM coordinate (string).
+       @param strUTM: A UTM coordinate (C{str}).
        @keyword datum: Optional datum to use (L{Datum}).
-       @keyword Utm: Optional I{Utm} class to use for the UTM
-                     coordinate (L{Utm}) or None.
-       @keyword name: Optional I{Utm} name (string).
+       @keyword Utm: Optional (sub-)class to use for the UTM
+                     coordinate (L{Utm}) or C{None}.
+       @keyword name: Optional I{Utm} name (C{str}).
 
        @return: The UTM coordinate (L{Utm}) or 4-tuple (zone,
-                hemisphere, easting, northing) if I{Utm} is None.
+                hemisphere, easting, northing) if I{Utm} is C{None}.
 
        @raise UTMError: Invalid I{strUTM}.
 
@@ -525,29 +524,29 @@ def parseUTM(strUTM, datum=Datums.WGS84, Utm=Utm, name=''):
 def toUtm(latlon, lon=None, datum=None, Utm=Utm, name='', cmoff=True):
     '''Convert a lat-/longitude point to a UTM coordinate.
 
-       @param latlon: Latitude (degrees) or an (ellipsoidal)
+       @param latlon: Latitude (C{degrees}) or an (ellipsoidal)
                       geodetic I{LatLon} point.
-       @keyword lon: Optional longitude (degrees or None).
+       @keyword lon: Optional longitude (C{degrees} or C{None}).
        @keyword datum: Optional datum for this UTM coordinate,
                        overriding latlon's datum (I{Datum}).
-       @keyword Utm: Optional I{Utm} class to usefor the UTM
-                     coordinate (L{Utm}) or None.
-       @keyword name: Optional I{Utm} name (string).
+       @keyword Utm: Optional (sub-)class to usefor the UTM
+                     coordinate (L{Utm}) or C{None}.
+       @keyword name: Optional I{Utm} name (C{str}).
        @keyword cmoff: Offset longitude from zone's central meridian,
-                       apply false easting and false northing (bool).
+                       apply false easting and false northing (C{bool}).
 
        @return: The UTM coordinate (L{Utm}) or a 6-tuple (zone, easting,
-                northing, band, convergence, scale) if I{Utm} is None
-                or I{cmoff} is False.
+                northing, band, convergence, scale) if I{Utm} is C{None}
+                or I{cmoff} is C{False}.
 
        @raise TypeError: If I{latlon} is not ellipsoidal.
 
        @raise RangeError: If I{lat} is outside the valid UTM bands or if
                           I{lat} or I{lon} outside the valid range and
-                          I{rangerrrors} set to True.
+                          I{rangerrrors} set to C{True}.
 
        @raise ValueError: If I{lon} value is missing or if I{latlon}
-                          is not scalar.
+                          is invalid.
 
        @note: Implements Karney’s method, using 8-th order Krüger series,
               giving results accurate to 5 nm (or better) for distances
@@ -621,14 +620,14 @@ def toUtm(latlon, lon=None, datum=None, Utm=Utm, name='', cmoff=True):
 def utmZoneBand2(lat, lon):
     '''Return the UTM zone number and UTM Band letter for a location.
 
-       @param lat: Latitude (degrees) or string.
-       @param lon: Longitude (degrees) or string.
+       @param lat: Latitude (C{degrees}) or string.
+       @param lon: Longitude (C{degrees}) or string.
 
        @return: 2-Tuple (zone, Band) as (int, string).
 
        @raise RangeError: If I{lat} is outside the valid UTM bands or if
                           I{lat} or I{lon} outside the valid range and
-                          I{rangerrrors} set to True.
+                          I{rangerrrors} set to C{True}.
 
        @raise ValueError: Invalid I{lat} or I{lon}.
     '''

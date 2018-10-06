@@ -99,7 +99,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.10.02
+        18.10.06
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -299,7 +299,7 @@
         <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>[]).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Polygon area (float, same units as radius squared).</dd>
@@ -356,25 +356,25 @@
         <li><strong class="pname"><code>end1</code></strong> - End point of first path (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>) or the initial bearing at the first 
-          start point (compass degrees).</li>
+          start point (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>start2</code></strong> - Start point of the second path (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>end2</code></strong> - End point of second path (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>) or the initial bearing at the second 
-          start point (compass degrees).</li>
+          start point (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height at the intersection point, overriding the default
-          height (meter).</li>
-        <li><strong class="pname"><code>LatLon</code></strong> - Optional LatLon class for the intersection point (<a 
+          height (<code>meter</code>).</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional (sub-)class for the intersection point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Intersection point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>) or None if no unique intersection 
-          exists.</dd>
+          class="link">LatLon</a>) or <code>None</code> if no unique 
+          intersection exists.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Start or end point(s) not <a 
@@ -414,8 +414,8 @@
         <li><strong class="pname"><code>points</code></strong> - Array of points to be averaged (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>[]).</li>
-        <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the mean height (meter).</li>
-        <li><strong class="pname"><code>LatLon</code></strong> - Optional LatLon class for the mean point (<a 
+        <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the mean height (<code>meter</code>).</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional (sub-)class for the mean point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
     </ul></dd>
@@ -462,10 +462,10 @@
         <li><strong class="pname"><code>points</code></strong> - The points of the path (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>[]).</li>
-        <li><strong class="pname"><code>closed</code></strong> - Optionally, treat path as closed (bool).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
-        <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the mean height for a point if within
-          segment (meter).</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, treat path as closed (<code>bool</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the mean height for a point within 
+          segment (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple (closest, distance) of the closest point (<a 
@@ -508,14 +508,14 @@
         <li><strong class="pname"><code>point1</code></strong> - First reference point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>bearing1</code></strong> - Bearing at the first point (compass degrees).</li>
+        <li><strong class="pname"><code>bearing1</code></strong> - Bearing at the first point (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>point2</code></strong> - Second reference point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>bearing2</code></strong> - Bearing at the second point (compass degrees).</li>
+        <li><strong class="pname"><code>bearing2</code></strong> - Bearing at the second point (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height at the triangulated point, overriding the mean 
-          height (meter).</li>
-        <li><strong class="pname"><code>LatLon</code></strong> - Optional LatLon class for the triangulated point (<a 
+          height (<code>meter</code>).</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional (sub-)class for the triangulated point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
     </ul></dd>
@@ -570,19 +570,22 @@
         <li><strong class="pname"><code>point1</code></strong> - First point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>distance1</code></strong> - Distance to the first point (same units as radius).</li>
+        <li><strong class="pname"><code>distance1</code></strong> - Distance to the first point (<code>meter</code>, same units as 
+          <i>radius</i>).</li>
         <li><strong class="pname"><code>point2</code></strong> - Second point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>distance2</code></strong> - Distance to the second point (same units as radius).</li>
+        <li><strong class="pname"><code>distance2</code></strong> - Distance to the second point (<code>meter</code>, same units as 
+          <i>radius</i>).</li>
         <li><strong class="pname"><code>point3</code></strong> - Third point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>distance3</code></strong> - Distance to the third point (same units as radius).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
+        <li><strong class="pname"><code>distance3</code></strong> - Distance to the third point (<code>meter</code>, same units as 
+          <i>radius</i>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height at the trilaterated point, overriding the mean 
-          height (meter or same unit as radius).</li>
-        <li><strong class="pname"><code>LatLon</code></strong> - Optional LatLon class for the trilaterated point (<a 
+          height (<code>meter</code>, same units as <i>radius</i>).</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional (sub-)class for the trilaterated point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
     </ul></dd>
@@ -633,7 +636,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Oct  4 14:55:33 2018
+    Generated by Epydoc 3.0.1 on Sat Oct  6 16:22:25 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

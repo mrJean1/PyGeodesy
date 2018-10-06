@@ -425,9 +425,10 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>distance</code></strong> - Distance in meters (scalar).</li>
-        <li><strong class="pname"><code>bearing</code></strong> - Initial bearing in compass degrees (scalar).</li>
-        <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the default height (meter).</li>
+        <li><strong class="pname"><code>distance</code></strong> - Distance (<code>meter</code>).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Initial bearing in (compass <code>degrees360</code>).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the default height 
+          (<code>meter</code>, same units as <code>distance</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The destination point (<a 
@@ -478,14 +479,15 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>distance</code></strong> - Distance in meters (scalar).</li>
-        <li><strong class="pname"><code>bearing</code></strong> - Initial bearing in compass degrees (scalar).</li>
-        <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the default height (meter).</li>
+        <li><strong class="pname"><code>distance</code></strong> - Distance (<code>meter</code>).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Initial bearing (compass <code>degrees360</code>).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the default height 
+          (<code>meter</code>, same units as <code>distance</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple (destination, final bearing) in (<a 
           href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
-          class="link">LatLon</a>, degrees360).</dd>
+          class="link">LatLon</a>, <code>degrees360</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ImportError</strong></code> - Package <a href="http://PyPI.org/project/geographiclib" 
@@ -529,10 +531,10 @@
         <li><strong class="pname"><code>other</code></strong> - The other point (<a 
           href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (bool).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Distance in meters (scalar).</dd>
+        <dd>Distance (<code>meter</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <a 
@@ -582,11 +584,12 @@
         <li><strong class="pname"><code>other</code></strong> - Destination point (<a 
           href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (bool).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>3-Tuple (distance, initial bearing, final bearing) in (meter, 
-          degrees360, degree360).</dd>
+        <dd>3-Tuple (distance, initial bearing, final bearing) in 
+          (<code>meter</code>, compass <code>degrees360</code>, compass 
+          <code>degree360</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <a 
@@ -623,11 +626,11 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>distance</code></strong> - Distance in meter (scalar).</li>
-        <li><strong class="pname"><code>bearing</code></strong> - Initial bearing (compass degrees).</li>
+        <li><strong class="pname"><code>distance</code></strong> - Distance (<code>meter</code>).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Initial bearing (compass <code>degrees360</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Final bearing from North (degrees360).</dd>
+        <dd>Final bearing (compass <code>degrees360</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ImportError</strong></code> - Package <a href="http://PyPI.org/project/geographiclib" 
@@ -669,10 +672,10 @@
         <li><strong class="pname"><code>other</code></strong> - The other point (<a 
           href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (bool).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Final bearing in compass degrees (degrees360).</dd>
+        <dd>Final bearing (compass <code>degrees360</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ImportError</strong></code> - Package <a href="http://PyPI.org/project/geographiclib" 
@@ -724,10 +727,10 @@
         <li><strong class="pname"><code>other</code></strong> - The other point (<a 
           href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (bool).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Initial bearing in compass degrees (degrees360).</dd>
+        <dd>Initial bearing (compass <code>degrees360</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ImportError</strong></code> - Package <a href="http://PyPI.org/project/geographiclib" 
@@ -849,7 +852,7 @@ target="_top">GeographicLib</a> is installed.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Oct  4 14:55:33 2018
+    Generated by Epydoc 3.0.1 on Sat Oct  6 16:22:25 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

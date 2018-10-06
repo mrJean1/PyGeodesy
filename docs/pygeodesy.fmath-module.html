@@ -63,7 +63,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.10.02
+        18.10.06
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -393,7 +393,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#isfinite" class="summary-sig-name">isfinite</a>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Check for <i>Inf</i> and <i>NaN</i> values.</td>
+      Check for <code>Inf</code> and <code>NaN</code> values.</td>
           <td align="right" valign="top">
             
             
@@ -545,7 +545,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="EPS"></a><span class="summary-name">EPS</span> = <code title="2.22044604925e-16">2.22044604925e-16</code><br />
-      Approximate epsilon (float)
+      Approximate epsilon (<code>float</code>)
     </td>
   </tr>
 <tr>
@@ -553,7 +553,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="EPS1"></a><span class="summary-name">EPS1</span> = <code title="1.0">1.0</code><br />
-      <i class="math">1 - EPS</i> (float), about 0.9999999999999998
+      <i class="math">1 - EPS</i> (<code>float</code>), about 
+      0.9999999999999998
     </td>
   </tr>
 </table>
@@ -584,10 +585,10 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Value (scalar).</li>
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Cubic root (float).</dd>
+        <dd>Cubic root (<code>float</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -609,10 +610,10 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Value (scalar).</li>
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Cubic root squared (float).</dd>
+        <dd>Cubic root squared (<code>float</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.fmath-module.html#sqrt3" 
@@ -640,12 +641,12 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>v1</code></strong> - One value (scalar).</li>
-        <li><strong class="pname"><code>v2</code></strong> - Other value (scalar).</li>
-        <li><strong class="pname"><code>f</code></strong> - Optional fraction (scalar).</li>
+        <li><strong class="pname"><code>v1</code></strong> - One value (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>v2</code></strong> - Other value (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>f</code></strong> - Optional fraction (<code>float</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><i class="math">v1 + f * (v2 - v1)</i> (float).</dd>
+        <dd><i class="math">v1 + f * (v2 - v1)</i> (<code>float</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -673,7 +674,7 @@
         <li><strong class="pname"><code>b</code></strong> - All positional arguments (scalars).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Dot product (float).</dd>
+        <dd>Dot product (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Unequal len(a) and len(b).</li>
@@ -703,16 +704,17 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>a</code></strong> - List, sequence, tuple, etc. (scalars).</li>
-        <li><strong class="pname"><code>b</code></strong> - List, sequence, tuple, etc. (scalars).</li>
-        <li><strong class="pname"><code>c</code></strong> - List, sequence, tuple, etc. (scalars).</li>
-        <li><strong class="pname"><code>start</code></strong> - Optional bias (scalar).</li>
+        <li><strong class="pname"><code>a</code></strong> - List, sequence, tuple, etc. (<code>scalar</code>s).</li>
+        <li><strong class="pname"><code>b</code></strong> - List, sequence, tuple, etc. (<code>scalar</code>s).</li>
+        <li><strong class="pname"><code>c</code></strong> - List, sequence, tuple, etc. (<code>scalar</code>s).</li>
+        <li><strong class="pname"><code>start</code></strong> - Optional bias (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Dot product (float).</dd>
+        <dd>Dot product (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Unequal len(a), len(b) and/or len(c).</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Unequal <code>len</code>(<i>a</i>), <code>len</code>(<i>b</i>) 
+        and/or <code>len</code>(<i>c</i>).</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -737,15 +739,15 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Polynomial argument (scalar).</li>
-        <li><strong class="pname"><code>cs</code></strong> - Polynomial coeffients (scalars).</li>
+        <li><strong class="pname"><code>x</code></strong> - Polynomial argument (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>cs</code></strong> - Polynomial coeffients (<code>scalar</code>s).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Horner value (float).</dd>
+        <dd>Horner value (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Argument <i>x</i> not a scalar number.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - No <i>cs</i> coefficients or <i>x</i> not finite.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <i>x</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - No <i>cs</i> coefficients or <i>x</i> is not finite.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -776,7 +778,7 @@
         <li><strong class="pname"><code>xs</code></strong> - Values (scalars).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Mean value (float).</dd>
+        <dd>Mean value (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - No <i>xs</i> values.</li>
@@ -804,15 +806,15 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Polynomial argument (scalar).</li>
-        <li><strong class="pname"><code>cs</code></strong> - Polynomial coeffients (scalars).</li>
+        <li><strong class="pname"><code>x</code></strong> - Polynomial argument (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>cs</code></strong> - Polynomial coeffients (<code>scalar</code>s).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Polynomial value (float).</dd>
+        <dd>Polynomial value (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Argument <i>x</i> not a scalar number.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - No <i>cs</i> coefficients or <i>x</i> not finite.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <i>x</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - No <i>cs</i> coefficients or <i>x</i> is not finite.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -841,16 +843,17 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Value (scalar).</li>
-        <li><strong class="pname"><code>n</code></strong> - Highest exponent (int).</li>
-        <li><strong class="pname"><code>alts</code></strong> - Only alternating powers, starting with this exponent (int).</li>
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>n</code></strong> - Highest exponent (<code>int</code>).</li>
+        <li><strong class="pname"><code>alts</code></strong> - Only alternating powers, starting with this exponent 
+          (<code>int</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Powers of <i>x</i> (list of floats).</dd>
+        <dd>Powers of <i>x</i> (<code>list</code> of <code>float</code>s).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Argument <i>x</i> not scalar or <i>n</i> not int.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Argument <i>n</i> not positive or <i>x</i> not finite.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <i>x</i> or <i>n</i> not <code>int</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Non-positive <i>n</i> or <i>x</i> is not finite.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -880,11 +883,11 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>floats</code></strong> - List, sequence, tuple, etc. (scalars).</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional precision, number of decimal digits (0..9). Trailing 
-          zero decimals are stripped for prec values of 1 and above, but 
-          kept for negative prec values.</li>
+          zero decimals are stripped for <i>prec</i> values of 1 and above,
+          but kept for negative <i>prec</i> values.</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional, separator to join (string).</li>
         <li><strong class="pname"><code>fmt</code></strong> - Optional, float format (string).</li>
-        <li><strong class="pname"><code>ints</code></strong> - Optionally, remove decimal dot (bool).</li>
+        <li><strong class="pname"><code>ints</code></strong> - Optionally, remove decimal dot (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The floats as 'f, f, ... f' (string).</dd>
@@ -938,7 +941,7 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Accurate <a href="pygeodesy.fmath-module.html#fsum" 
-          class="link">fsum</a> (float).</dd>
+          class="link">fsum</a> (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <i>2sum</i> overflow.</li>
@@ -986,10 +989,10 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Argument (scalar).</li>
+        <li><strong class="pname"><code>x</code></strong> - Argument (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Norm (float).</dd>
+        <dd>Norm (<code>float</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1013,12 +1016,12 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - X argument (scalar).</li>
-        <li><strong class="pname"><code>y</code></strong> - Y argument (scalar).</li>
-        <li><strong class="pname"><code>z</code></strong> - Z argument (scalar).</li>
+        <li><strong class="pname"><code>x</code></strong> - X argument (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>y</code></strong> - Y argument (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>z</code></strong> - Z argument (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Norm (float).</dd>
+        <dd>Norm (<code>float</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1036,17 +1039,18 @@
     </td>
   </tr></table>
   
-  <p>Check for <i>Inf</i> and <i>NaN</i> values.</p>
+  <p>Check for <code>Inf</code> and <code>NaN</code> values.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>obj</code></strong> - Value (scalar).</li>
+        <li><strong class="pname"><code>obj</code></strong> - Value (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>False if <i>Inf</i> or <i>NaN</i>, True otherwise (bool).</dd>
+        <dd><code>False</code> if <i>obj</i> is <code>Inf</code> or 
+          <code>NaN</code>, <code>True</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - If <i>obj</i> value is not scalar number.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <i>obj</i>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1070,11 +1074,12 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>obj</code></strong> - The object (any).</li>
-        <li><strong class="pname"><code>both</code></strong> - Optionally, check both type and value (bool).</li>
+        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+        <li><strong class="pname"><code>both</code></strong> - Optionally, check both type and value (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if <i>obj</i> is integer (bool).</dd>
+        <dd><code>True</code> if <i>obj</i> is <code>int</code>, 
+          <code>False</code> otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1096,10 +1101,11 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>obj</code></strong> - The object (any).</li>
+        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if <i>obj</i> is scalar (bool).</dd>
+        <dd><code>True</code> if <i>obj</i> is <code>scalar</code>, 
+          <code>False</code> otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1118,14 +1124,16 @@
   </tr></table>
   
   <p>Make built-in function <code class="link">len</code> work for 
-  generators, iterators, etc. since those can only be started once.</p>
+  generators, iterators, etc. since those can only be started exactly 
+  once.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>seq</code></strong> - Generator, iterator, list, range, tuple, etc.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (number, list) of items (int, list).</dd>
+        <dd>2-Tuple (number, ...) of items (<code>int</code>, 
+          <code>list</code> or <code>range</code> or <code>tuple</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1153,7 +1161,7 @@
         <li><strong class="pname"><code>args</code></strong> - Arguments to apply (any positional).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Function results (tuple).</dd>
+        <dd>Function results (<code>tuple</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1185,7 +1193,7 @@
         <li><strong class="pname"><code>args</code></strong> - Arguments to apply (list, tuple, ...).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>N-Tuple of function results (tuple).</dd>
+        <dd>N-Tuple of function results (<code>tuple</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1210,17 +1218,17 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>value</code></strong> - The value (scalar).</li>
-        <li><strong class="pname"><code>low</code></strong> - Optional lower bound (scalar).</li>
-        <li><strong class="pname"><code>high</code></strong> - Optional upper bound (scalar).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name of value (string).</li>
+        <li><strong class="pname"><code>value</code></strong> - The value (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>low</code></strong> - Optional lower bound (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>high</code></strong> - Optional upper bound (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name of value (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>New value (type(low)).</dd>
+        <dd>New value (<code>type</code> of <i>low</i>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>value</i> is not a scalar number.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - The <i>value</i> is out of bounds.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <i>value</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Out-of-bounds <i>value</i>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1244,10 +1252,10 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Value (scalar).</li>
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Cubid square root (float).</dd>
+        <dd>Cubid square root (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Negative <i>x</i>.</li>
@@ -1291,7 +1299,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Oct  4 14:55:33 2018
+    Generated by Epydoc 3.0.1 on Sat Oct  6 16:22:25 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

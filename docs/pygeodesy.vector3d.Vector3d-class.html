@@ -114,7 +114,7 @@ bases.Named --+
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#__abs__" class="summary-sig-name">__abs__</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Return the norm of this vector (scalar).</td>
+      Return the norm of this vector.</td>
           <td align="right" valign="top">
             
             
@@ -772,7 +772,8 @@ bases.Named --+
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#parse" class="summary-sig-name">parse</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">str3d</span>)</span><br />
+        <span class="summary-sig-arg">str3d</span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">,</code><code class="variable-quote">'</code></span>)</span><br />
       Parse an &quot;x, y, z&quot; string representing a <a 
       href="pygeodesy.vector3d.Vector3d-class.html" 
       class="link">Vector3d</a>.</td>
@@ -1002,7 +1003,7 @@ bases.Named --+
     </td><td class="summary">
         <a href="pygeodesy.vector3d.Vector3d-class.html#crosserrors" class="summary-name">crosserrors</a><br />
       Get <a href="pygeodesy.vector3d.CrossError-class.html" 
-      class="link">CrossError</a>s (bool).
+      class="link">CrossError</a> exceptions (<code>bool</code>).
     </td>
   </tr>
 <tr>
@@ -1010,7 +1011,7 @@ bases.Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.vector3d.Vector3d-class.html#length" class="summary-name">length</a><br />
-      Get the length (norm, magnitude) of this vector (float).
+      Get the length (norm, magnitude) of this vector (<code>float</code>).
     </td>
   </tr>
 <tr>
@@ -1018,7 +1019,7 @@ bases.Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.vector3d.Vector3d-class.html#x" class="summary-name">x</a><br />
-      Get the X component (scalar).
+      Get the X component (<code>float</code>).
     </td>
   </tr>
 <tr>
@@ -1026,7 +1027,7 @@ bases.Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.vector3d.Vector3d-class.html#y" class="summary-name">y</a><br />
-      Get the Y component (scalar).
+      Get the Y component (<code>float</code>).
     </td>
   </tr>
 <tr>
@@ -1034,7 +1035,7 @@ bases.Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.vector3d.Vector3d-class.html#z" class="summary-name">z</a><br />
-      Get the Z component (scalar).
+      Get the Z component (<code>float</code>).
     </td>
   </tr>
   <tr>
@@ -1073,10 +1074,10 @@ bases.Named --+
     </td>
   </tr></table>
   
-  <p>Return the norm of this vector (scalar).</p>
+  <p>Return the norm of this vector.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>Norm, unit length (float);</dd>
+        <dd>Norm, unit length (<code>float</code>);</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1105,7 +1106,7 @@ bases.Named --+
           class="link">Vector3d</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>type(other)</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>other</i> <code>type</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1135,10 +1136,10 @@ bases.Named --+
           class="link">Vector3d</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>-1, 0 or +1 (int).</dd>
+        <dd>-1, 0 or +1 (<code>int</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>type(other)</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>other</i> <code>type</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1162,14 +1163,14 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>scalar</code></strong> - The divisor (scalar).</li>
+        <li><strong class="pname"><code>scalar</code></strong> - The divisor (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Quotient (<a href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - If scalar not <i>scalar</i>'</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <i>scalar</i>'</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1199,10 +1200,10 @@ bases.Named --+
           class="link">Vector3d</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if so (bool).</dd>
+        <dd><code>True</code> if equal, <code>False</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>type(other)</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>other</i> <code>type</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1232,10 +1233,10 @@ bases.Named --+
           class="link">Vector3d</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if so (bool).</dd>
+        <dd><code>True</code> if so, <code>False</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>type(other)</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>other</i> <code>type</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1265,10 +1266,10 @@ bases.Named --+
           class="link">Vector3d</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if so (bool).</dd>
+        <dd><code>True</code> if so, <code>False</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>type(other)</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>other</i> <code>type</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1297,7 +1298,7 @@ bases.Named --+
           class="link">Vector3d</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>type(other)</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>other</i> <code>type</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1330,7 +1331,7 @@ bases.Named --+
           class="link">Vector3d</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>type(other)</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>other</i> <code>type</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1354,7 +1355,7 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>scalar</code></strong> - Factor (scalar).</li>
+        <li><strong class="pname"><code>scalar</code></strong> - Factor (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Product (<a href="pygeodesy.vector3d.Vector3d-class.html" 
@@ -1389,11 +1390,11 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - X component of vector.</li>
-        <li><strong class="pname"><code>y</code></strong> - Y component of vector.</li>
-        <li><strong class="pname"><code>z</code></strong> - Z component of vector.</li>
+        <li><strong class="pname"><code>x</code></strong> - X component of vector (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>y</code></strong> - Y component of vector (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>z</code></strong> - Z component of vector (<code>scalar</code>).</li>
         <li><strong class="pname"><code>ll</code></strong> - Optional, original latlon (<i>LatLon</i>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (string).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
@@ -1429,7 +1430,7 @@ bases.Named --+
           class="link">Vector3d</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>type(other)</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>other</i> <code>type</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1453,14 +1454,14 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>scalar</code></strong> - The divisor (scalar).</li>
+        <li><strong class="pname"><code>scalar</code></strong> - The divisor (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Quotient (<a href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - If scalar not <i>scalar</i>'</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <i>scalar</i>'</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1490,10 +1491,10 @@ bases.Named --+
           class="link">Vector3d</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if so (bool).</dd>
+        <dd><code>True</code> if so, <code>False</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>type(other)</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>other</i> <code>type</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1523,10 +1524,10 @@ bases.Named --+
           class="link">Vector3d</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if so (bool).</dd>
+        <dd><code>True</code> if so, <code>False</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>type(other)</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>other</i> <code>type</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1559,7 +1560,7 @@ bases.Named --+
           class="link">Vector3d</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>type(other)</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>other</i> <code>type</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1583,7 +1584,7 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>scalar</code></strong> - Factor (scalar).</li>
+        <li><strong class="pname"><code>scalar</code></strong> - Factor (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Product (<a href="pygeodesy.vector3d.Vector3d-class.html" 
@@ -1615,10 +1616,10 @@ bases.Named --+
           class="link">Vector3d</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if so (bool).</dd>
+        <dd><code>True</code> if so, <code>False</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>type(other)</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>other</i> <code>type</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1692,7 +1693,7 @@ bases.Named --+
           class="link">Vector3d</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>type(other)</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>other</i> <code>type</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1725,7 +1726,7 @@ bases.Named --+
           class="link">Vector3d</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>type(other)</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>other</i> <code>type</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1749,7 +1750,7 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>scalar</code></strong> - Factor (scalar).</li>
+        <li><strong class="pname"><code>scalar</code></strong> - Factor (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Product (<a href="pygeodesy.vector3d.Vector3d-class.html" 
@@ -1785,7 +1786,7 @@ bases.Named --+
           class="link">Vector3d</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>type(other)</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>other</i> <code>type</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1819,7 +1820,7 @@ bases.Named --+
           class="link">Vector3d</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>type(other)</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>other</i> <code>type</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1843,14 +1844,14 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>scalar</code></strong> - The divisor (scalar).</li>
+        <li><strong class="pname"><code>scalar</code></strong> - The divisor (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Quotient (<a href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - If scalar not <i>scalar</i>'</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <i>scalar</i>'</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1884,10 +1885,10 @@ bases.Named --+
           otherwise angle is unsigned.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Angle (radians).</dd>
+        <dd>Angle (<code>radians</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - If other or vSign not a <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <i>other</i> or <i>vSign</i> not a <a 
         href="pygeodesy.vector3d.Vector3d-class.html" 
         class="link">Vector3d</a>.</li>
     </ul></dd>
@@ -1943,7 +1944,7 @@ bases.Named --+
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>).</li>
         <li><strong class="pname"><code>raiser</code></strong> - Optional, <a href="pygeodesy.vector3d.CrossError-class.html" 
-          class="link">CrossError</a> label if raised (string).</li>
+          class="link">CrossError</a> label if raised (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Cross product (<a href="pygeodesy.vector3d.Vector3d-class.html" 
@@ -1953,7 +1954,7 @@ bases.Named --+
         <li><code><strong class='fraise'><a href="pygeodesy.vector3d.CrossError-class.html">CrossError</a></strong></code> - Zero or near-zero cross product and both <i>raiser</i> and <a 
         href="pygeodesy.vector3d.Vector3d-class.html#crosserrors" 
         class="link">crosserrors</a> set.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>type(other)</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>other</i> <code>type</code>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Coincident or colinear to <i>other</i>.</li>
     </ul></dd>
   </dl>
@@ -1978,7 +1979,7 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>factor</code></strong> - The divisor (scalar).</li>
+        <li><strong class="pname"><code>factor</code></strong> - The divisor (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>New, scaled vector (<a 
@@ -1986,8 +1987,8 @@ bases.Named --+
           class="link">Vector3d</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - If factor not scalar.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or zero factor.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <i>factor</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or zero <i>factor</i>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -2016,10 +2017,10 @@ bases.Named --+
           class="link">Vector3d</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Dot product (float).</dd>
+        <dd>Dot product (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>type(other)</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>other</i> <code>type</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -2050,10 +2051,11 @@ bases.Named --+
         <li><strong class="pname"><code>units</code></strong> - Optionally, compare the normalized, unit version of both vectors.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if vectors are identical (bool).</dd>
+        <dd><code>True</code> if vectors are identical, <code>False</code> 
+          otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>type(other)</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>other</i> <code>type</code>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -2093,7 +2095,7 @@ bases.Named --+
           class="link">Vector3d</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>type(other)</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>other</i> <code>type</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -2144,13 +2146,13 @@ bases.Named --+
         <li><strong class="pname"><code>other</code></strong> - The other vector (<a 
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional, other's name (string).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional, other's name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>None.</dd>
+        <dd><code>None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>type(other)</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>other</i> <code>type</code>.</li>
     </ul></dd>
     <dt>Overrides:
         bases.Based.others
@@ -2166,7 +2168,8 @@ bases.Named --+
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">parse</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">str3d</span>)</span>
+        <span class="sig-arg">str3d</span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">,</code><code class="variable-quote">'</code></span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2176,18 +2179,18 @@ bases.Named --+
   <p>Parse an &quot;x, y, z&quot; string representing a <a 
   href="pygeodesy.vector3d.Vector3d-class.html" 
   class="link">Vector3d</a>.</p>
-  <p>The x, y and z must be separated by a comma.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>str3d</code></strong> - X, y and z string.</li>
+        <li><strong class="pname"><code>str3d</code></strong> - X, y and z value (<code>str</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>New vector (<a href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid str3d.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>str3d</i>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -2216,11 +2219,11 @@ bases.Named --+
           class="link">Vector3d</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>New vector sum (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+        <dd>Vectorial sum (<a href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>type(other)</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>other</i> <code>type</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -2253,7 +2256,7 @@ bases.Named --+
         <li><strong class="pname"><code>axis</code></strong> - The axis being rotated around (<a 
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>).</li>
-        <li><strong class="pname"><code>theta</code></strong> - The angle of rotation (radians).</li>
+        <li><strong class="pname"><code>theta</code></strong> - The angle of rotation (<code>radians</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>New, rotated vector (<a 
@@ -2289,11 +2292,11 @@ bases.Named --+
           class="link">Vector3d</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>New vector sum (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+        <dd>Vectorial sum (<a href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>type(other)</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>other</i> <code>type</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -2317,7 +2320,7 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>factor</code></strong> - Scale factor (scalar).</li>
+        <li><strong class="pname"><code>factor</code></strong> - Scale factor (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>New, scaled vector (<a 
@@ -2325,7 +2328,7 @@ bases.Named --+
           class="link">Vector3d</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - If factor not scalar.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <i>factor</i>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -2347,7 +2350,8 @@ bases.Named --+
   <p>Convert this vector to (geodetic) lat- and longitude.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>2-Tuple (lat, lon) in (radians, radians).</dd>
+        <dd>2-Tuple (lat, lon) in (<code>radians</code>, 
+          <code>radians</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -2373,7 +2377,8 @@ bases.Named --+
   <p>Convert this vector to (geodetic) lat- and longitude.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>2-Tuple (lat, lon) in (degrees90, degrees180).</dd>
+        <dd>2-Tuple (lat, lon) in (<code>degrees90</code>, 
+          <code>degrees180</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -2399,7 +2404,7 @@ bases.Named --+
   <p>Return this vector as a 3-tuple.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>3-Tuple (x, y, z) as (scalars).</dd>
+        <dd>3-Tuple (x, y, z) as (<code>float</code>s).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2424,12 +2429,12 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal places (int).</li>
-        <li><strong class="pname"><code>fmt</code></strong> - Optional, enclosing format to use (string).</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator between components (string).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal places (<code>int</code>).</li>
+        <li><strong class="pname"><code>fmt</code></strong> - Optional, enclosing format to use (<code>str</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator between components (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Vector as &quot;(x, y, z)&quot; (string).</dd>
+        <dd>Vector as &quot;(x, y, z)&quot; (<code>str</code>).</dd>
     <dt>Overrides:
         bases.Based.toStr
     </dt>
@@ -2476,18 +2481,18 @@ bases.Named --+
 <tr><td>
   <h3 class="epydoc">crosserrors</h3>
   <p>Get <a href="pygeodesy.vector3d.CrossError-class.html" 
-  class="link">CrossError</a>s (bool).</p>
+  class="link">CrossError</a> exceptions (<code>bool</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">crosserrors(<span class="summary-sig-arg">self</span>)</span>
         - Get <a href="pygeodesy.vector3d.CrossError-class.html" 
-class="link">CrossError</a>s (bool).
+class="link">CrossError</a> exceptions (<code>bool</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">crosserrors(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">raiser</span>)</span>
-        - Set the raising of <a href="pygeodesy.vector3d.CrossError-class.html" 
-class="link">CrossError</a>s (bool).
+        - Raise <a href="pygeodesy.vector3d.CrossError-class.html" 
+class="link">CrossError</a> exceptions (<code>bool</code>).
     </dd>
   </dl>
 </td></tr></table>
@@ -2498,11 +2503,12 @@ class="link">CrossError</a>s (bool).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">length</h3>
-  <p>Get the length (norm, magnitude) of this vector (float).</p>
+  <p>Get the length (norm, magnitude) of this vector 
+  (<code>float</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">length(<span class="summary-sig-arg">self</span>)</span>
-        - Get the length (norm, magnitude) of this vector (float).
+        - Get the length (norm, magnitude) of this vector (<code>float</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -2518,11 +2524,11 @@ class="link">CrossError</a>s (bool).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">x</h3>
-  <p>Get the X component (scalar).</p>
+  <p>Get the X component (<code>float</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">x(<span class="summary-sig-arg">self</span>)</span>
-        - Get the X component (scalar).
+        - Get the X component (<code>float</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -2538,11 +2544,11 @@ class="link">CrossError</a>s (bool).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">y</h3>
-  <p>Get the Y component (scalar).</p>
+  <p>Get the Y component (<code>float</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">y(<span class="summary-sig-arg">self</span>)</span>
-        - Get the Y component (scalar).
+        - Get the Y component (<code>float</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -2558,11 +2564,11 @@ class="link">CrossError</a>s (bool).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">z</h3>
-  <p>Get the Z component (scalar).</p>
+  <p>Get the Z component (<code>float</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">z(<span class="summary-sig-arg">self</span>)</span>
-        - Get the Z component (scalar).
+        - Get the Z component (<code>float</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -2604,7 +2610,7 @@ class="link">CrossError</a>s (bool).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Oct  4 14:55:34 2018
+    Generated by Epydoc 3.0.1 on Sat Oct  6 16:22:26 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

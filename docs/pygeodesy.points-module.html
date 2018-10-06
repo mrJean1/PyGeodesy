@@ -84,7 +84,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.09.23
+        18.10.06
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -229,11 +229,32 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.points-module.html#isenclosedby" class="summary-sig-name">isenclosedby</a>(<span class="summary-sig-arg">latlon</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.points-module.html#isenclosedBy" class="summary-sig-name">isenclosedBy</a>(<span class="summary-sig-arg">latlon</span>,
         <span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Determine whether a point is enclosed by a polygon defined by an 
       array, list, sequence, set or tuple of points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="isenclosedby"></a><span class="summary-sig-name">isenclosedby</span>(<span class="summary-sig-arg">latlon</span>,
+        <span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      DEPRECATED, use function <a 
+      href="pygeodesy.points-module.html#isenclosedBy" 
+      class="link">isenclosedBy</a>.</td>
           <td align="right" valign="top">
             
             
@@ -299,12 +320,13 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<i>LatLon</i>[]).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
-          the mean latitude (bool).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (bool).</li>
+          the mean latitude (<code>bool</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Approximate area (meter, same units as <i>radius</i>, squared).</dd>
+        <dd>Approximate area (<code>meter</code>, same units as 
+          <i>radius</i>, squared).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <i>LatLon</i>.</li>
@@ -348,13 +370,15 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<i>LatLon</i>[]).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap lat- and longitudes (bool).</li>
-        <li><strong class="pname"><code>LatLon</code></strong> - Optional class to use to return <i>bounds</i> (<i>LatLon</i>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap lat- and longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional (sub-)class to use to return <i>bounds</i> 
+          (<i>LatLon</i>) or <code>None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-tuple (loLatLon, hiLatLon) of <i>LatLon</i>s for the lower-left
           respectively upper-right corners or 4-Tuple (loLat, loLon, hiLat,
-          hiLon) of bounds (degrees) if <i>LatLon</i> is None.</dd>
+          hiLon) of bounds (<code>degrees</code>) if <i>LatLon</i> is 
+          <code>None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <i>LatLon</i>.</li>
@@ -392,11 +416,12 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<i>LatLon</i>[]).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
-          the mean latitude (bool).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (bool).</li>
+          the mean latitude (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if clockwise, False otherwise.</dd>
+        <dd><code>True</code> if <i>points</i> are clockwise, 
+          <code>False</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <i>LatLon</i>.</li>
@@ -436,14 +461,15 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<i>LatLon</i>[]).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
-          the mean latitude (bool).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (bool).</li>
+          the mean latitude (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if convex, False otherwise.</dd>
+        <dd><code>True</code> if <i>points</i> are convex, <code>False</code>
+          otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.vector3d.CrossError-class.html">CrossError</a></strong></code> - Colinear point.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.vector3d.CrossError-class.html">CrossError</a></strong></code> - Some <i>points</i> are colinear.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <i>LatLon</i>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
     </ul></dd>
@@ -458,14 +484,14 @@
       </p>
 </div></td></tr></table>
 </div>
-<a name="isenclosedby"></a>
+<a name="isenclosedBy"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">isenclosedby</span>(<span class="sig-arg">latlon</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isenclosedBy</span>(<span class="sig-arg">latlon</span>,
         <span class="sig-arg">points</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
@@ -481,10 +507,11 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>latlon</code></strong> - The point (<i>LatLon</i> or 2-tuple (lat, lon)).</li>
         <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<i>LatLon</i>[]).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (bool).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if <i>latlon</i> is inside the polygon, False otherwise.</dd>
+        <dd><code>True</code> if <i>latlon</i> is inside the polygon, 
+          <code>False</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <i>LatLon</i>.</li>
@@ -529,14 +556,15 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The points defining the polygon/-line (<i>LatLon</i>[]).</li>
-        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the polygon/-line (bool).</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the polygon/-line (<code>bool</code>).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
-          the mean latitude (bool).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (bool).</li>
+          the mean latitude (<code>bool</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Approximate perimeter (meter, same units as <i>radius</i>).</dd>
+        <dd>Approximate perimeter (<code>meter</code>, same units as 
+          <i>radius</i>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <i>LatLon</i>.</li>
@@ -590,7 +618,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Oct  4 14:55:33 2018
+    Generated by Epydoc 3.0.1 on Sat Oct  6 16:22:25 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

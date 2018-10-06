@@ -22,23 +22,23 @@ __all__ = ('EPS', 'EPS1',  # constants
            'len2',
            'map1', 'map2',
            'scalar', 'sqrt3')
-__version__ = '18.10.02'
+__version__ = '18.10.06'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
 except ImportError:
     try:
-        _Ints = int, long  #: (INTERNAL) Int objects (tuple)
+        _Ints = int, long  #: (INTERNAL) Int objects (C{tuple})
     except NameError:  # Python 3+
-        _Ints = int  #: (INTERNAL) Int objects (tuple)
+        _Ints = int,  #: (INTERNAL) Int objects (C{tuple})
 
 try:  # similarly ...
     from numbers import Real as _Scalars  #: (INTERNAL) Scalar objects
 except ImportError:
     try:
-        _Scalars = int, long, float  #: (INTERNAL) Scalar objects (tuple)
+        _Scalars = int, long, float  #: (INTERNAL) Scalar objects (C{tuple})
     except NameError:
-        _Scalars = int, float  #: (INTERNAL) Scalar objects (tuple)
+        _Scalars = int, float  #: (INTERNAL) Scalar objects (C{tuple})
 
 try:
     from collections import Sequence as _Seqs  #: (INTERNAL) incl MutableSequence
@@ -46,15 +46,15 @@ except ImportError:
     _Seqs = list, tuple, range  # XXX also set?
 
 try:
-    EPS = sys.float_info.epsilon  #: System's epsilon (float)
+    EPS = sys.float_info.epsilon  #: System's epsilon (C{float})
 except AttributeError:
-    EPS = 2.220446049250313e-16  #: Approximate epsilon (float)
-EPS1  = 1.0 - EPS  #: M{1 - EPS} (float), about 0.9999999999999998
-_1EPS = 1.0 + EPS  #: M{1 + EPS} (float)
+    EPS = 2.220446049250313e-16  #: Approximate epsilon (C{float})
+EPS1  = 1.0 - EPS  #: M{1 - EPS} (C{float}), about 0.9999999999999998
+_1EPS = 1.0 + EPS  #: M{1 + EPS} (C{float})
 
-_1_3rd = 1.0 / 3.0  #: (INTERNAL) One third (float)
-_2_3rd = 2.0 / 3.0  #: (INTERNAL) Two third (float)
-_3_2nd = 3.0 / 2.0  #: (INTERNAL) Three halfs (float)
+_1_3rd = 1.0 / 3.0  #: (INTERNAL) One third (C{float})
+_2_3rd = 2.0 / 3.0  #: (INTERNAL) Two third (C{float})
+_3_2nd = 3.0 / 2.0  #: (INTERNAL) Three halfs (C{float})
 
 
 def _2even(s, r, p):
@@ -92,8 +92,8 @@ class Fsum(object):
        @note: Exception and I{non-finite} handling differ from I{math.fsum}.
 
        @see: U{Hettinger<http://code.ActiveState.com/recipes/393090>},
-             U{Klein<http://link.Springer.com/article/10.1007/s00607-005-0139-x>},
              U{Kahan<http://WikiPedia.org/wiki/Kahan_summation_algorithm>},
+             U{Klein<http://link.Springer.com/article/10.1007/s00607-005-0139-x>},
              Python 2.6+ file I{Modules/mathmodule.c} and the issue log
              U{Full precision summation<http://bugs.Python.org/issue2819>}.
     '''
@@ -159,7 +159,7 @@ class Fsum(object):
     def fmul(self, factor):
         '''Multiple the current, partial sum by a factor.
 
-           @param factor: The multiplier (scalar).
+           @param factor: The multiplier (C{scalar}).
 
            @raise TypeError: Non-scalar I{factor}.
 
@@ -180,13 +180,13 @@ class Fsum(object):
 
            @param args: Values to add (scalars), all positional.
 
-           @return: Accurate, running sum (float).
+           @return: Accurate, running sum (C{float}).
 
            @raise OverflowError: Partial I{2sum} overflow.
 
            @raise TypeError: Non-scalar I{args} value.
 
-           @raise ValueError: Invalid or infinite I{arg}s value.
+           @raise ValueError: Invalid or infinite I{args} value.
 
            @note: Accumulation can continue after summation.
         '''
@@ -197,7 +197,7 @@ class Fsum(object):
 
            @param iterable: Sequence, list, tuple, etc. (scalars), optional.
 
-           @return: Accurate, running sum (float).
+           @return: Accurate, running sum (C{float}).
 
            @raise OverflowError: Partial I{2sum} overflow.
 
@@ -232,9 +232,9 @@ class Fsum(object):
 def cbrt(x):
     '''Compute the cubic root M{x**(1/3)}.
 
-       @param x: Value (scalar).
+       @param x: Value (C{scalar}).
 
-       @return: Cubic root (float).
+       @return: Cubic root (C{float}).
     '''
     # simpler and more accurate than Ken Turkowski's CubeRoot, see
     # <http://People.FreeBSD.org/~lstewart/references/apple_tr_kt32_cuberoot.pdf>
@@ -244,9 +244,9 @@ def cbrt(x):
 def cbrt2(x):
     '''Compute the cubic root squared M{x**(2/3)}.
 
-       @param x: Value (scalar).
+       @param x: Value (C{scalar}).
 
-       @return: Cubic root squared (float).
+       @return: Cubic root squared (C{float}).
 
        @see: Function L{sqrt3}.
     '''
@@ -256,11 +256,11 @@ def cbrt2(x):
 def favg(v1, v2, f=0.5):
     '''Return the weighted average of two values.
 
-       @param v1: One value (scalar).
-       @param v2: Other value (scalar).
-       @keyword f: Optional fraction (scalar).
+       @param v1: One value (C{scalar}).
+       @param v2: Other value (C{scalar}).
+       @keyword f: Optional fraction (C{float}).
 
-       @return: M{v1 + f * (v2 - v1)} (float).
+       @return: M{v1 + f * (v2 - v1)} (C{float}).
     '''
 #      @raise ValueError: Fraction out of range.
 #   '''
@@ -276,7 +276,7 @@ def fdot(a, *b):
        @param a: List, sequence, tuple, etc. (scalars).
        @param b: All positional arguments (scalars).
 
-       @return: Dot product (float).
+       @return: Dot product (C{float}).
 
        @raise ValueError: Unequal len(a) and len(b).
     '''
@@ -290,14 +290,15 @@ def fdot3(a, b, c, start=0):
     '''Return the precision dot product M{start +
        sum(a[i] * b[i] * c[i] for i=0..len(a))}.
 
-       @param a: List, sequence, tuple, etc. (scalars).
-       @param b: List, sequence, tuple, etc. (scalars).
-       @param c: List, sequence, tuple, etc. (scalars).
-       @keyword start: Optional bias (scalar).
+       @param a: List, sequence, tuple, etc. (C{scalar}s).
+       @param b: List, sequence, tuple, etc. (C{scalar}s).
+       @param c: List, sequence, tuple, etc. (C{scalar}s).
+       @keyword start: Optional bias (C{scalar}).
 
-       @return: Dot product (float).
+       @return: Dot product (C{float}).
 
-       @raise ValueError: Unequal len(a), len(b) and/or len(c).
+       @raise ValueError: Unequal C{len}(I{a}), C{len}(I{b})
+                          and/or C{len}(I{c}).
     '''
     def _mul3(a, b, c):  # map function
         return a * b * c
@@ -316,14 +317,14 @@ def fhorner(x, *cs):
     '''Evaluate the polynomial M{sum(cs[i] * x**i for
        i=0..len(cs))} using the Horner form.
 
-       @param x: Polynomial argument (scalar).
-       @param cs: Polynomial coeffients (scalars).
+       @param x: Polynomial argument (C{scalar}).
+       @param cs: Polynomial coeffients (C{scalar}s).
 
-       @return: Horner value (float).
+       @return: Horner value (C{float}).
 
-       @raise TypeError: Argument I{x} not a scalar number.
+       @raise TypeError: Non-scalar I{x}.
 
-       @raise ValueError: No I{cs} coefficients or I{x} not finite.
+       @raise ValueError: No I{cs} coefficients or I{x} is not finite.
 
        @see: Function L{fpolynomial}.
     '''
@@ -347,7 +348,7 @@ def fmean(xs):
 
        @param xs: Values (scalars).
 
-       @return: Mean value (float).
+       @return: Mean value (C{float}).
 
        @raise ValueError: No I{xs} values.
     '''
@@ -361,14 +362,14 @@ def fpolynomial(x, *cs):
     '''Evaluate the polynomial M{sum(cs[i] * x**i for
        i=0..len(cs))}.
 
-       @param x: Polynomial argument (scalar).
-       @param cs: Polynomial coeffients (scalars).
+       @param x: Polynomial argument (C{scalar}).
+       @param cs: Polynomial coeffients (C{scalar}s).
 
-       @return: Polynomial value (float).
+       @return: Polynomial value (C{float}).
 
-       @raise TypeError: Argument I{x} not a scalar number.
+       @raise TypeError: Non-scalar I{x}.
 
-       @raise ValueError: No I{cs} coefficients or I{x} not finite.
+       @raise ValueError: No I{cs} coefficients or I{x} is not finite.
 
        @see: Function L{fhorner}.
     '''
@@ -390,16 +391,16 @@ def fpolynomial(x, *cs):
 def fpowers(x, n, alts=0):
     '''Return a series of powers M{[x**i for i=1..n]}.
 
-       @param x: Value (scalar).
-       @param n: Highest exponent (int).
+       @param x: Value (C{scalar}).
+       @param n: Highest exponent (C{int}).
        @keyword alts: Only alternating powers, starting
-                      with this exponent (int).
+                      with this exponent (C{int}).
 
-       @return: Powers of I{x} (list of floats).
+       @return: Powers of I{x} (C{list} of C{float}s).
 
-       @raise TypeError: Argument I{x} not scalar or I{n} not int.
+       @raise TypeError: Non-scalar I{x} or I{n} not C{int}.
 
-       @raise ValueError: Argument I{n} not positive or I{x} not finite.
+       @raise ValueError: Non-positive I{n} or I{x} is not finite.
     '''
     if not isfinite(x):
         raise ValueError('not %s: %r' %('finite', x))
@@ -426,11 +427,11 @@ def fStr(floats, prec=6, sep=', ', fmt='%.*f', ints=False):
 
        @param floats: List, sequence, tuple, etc. (scalars).
        @keyword prec: Optional precision, number of decimal digits (0..9).
-                      Trailing zero decimals are stripped for prec values
-                      of 1 and above, but kept for negative prec values.
+                      Trailing zero decimals are stripped for I{prec} values
+                      of 1 and above, but kept for negative I{prec} values.
        @keyword sep: Optional, separator to join (string).
        @keyword fmt: Optional, float format (string).
-       @keyword ints: Optionally, remove decimal dot (bool).
+       @keyword ints: Optionally, remove decimal dot (C{bool}).
 
        @return: The floats as 'f, f, ... f' (string).
     '''
@@ -469,7 +470,7 @@ def fsum_(*args):
 
        @param args: Values to be added (scalars).
 
-       @return: Accurate L{fsum} (float).
+       @return: Accurate L{fsum} (C{float}).
 
        @raise OverflowError: Partial I{2sum} overflow.
 
@@ -499,11 +500,11 @@ except ImportError:
 
            @param iterable: Sequence, list, tuple, etc. (scalars).
 
-           @return: Accurate sum (float).
+           @return: Accurate sum (C{float}).
 
            @raise OverflowError: Partial I{2sum} overflow.
 
-           @raise TypeError: An I{iterable} value not a scalar number.
+           @raise TypeError: Non-scalar I{iterable} value.
 
            @raise ValueError: Invalid or infinite I{iterable} value.
 
@@ -516,9 +517,9 @@ except ImportError:
 def hypot1(x):
     '''Compute the norm M{sqrt(1 + x**2)}.
 
-       @param x: Argument (scalar).
+       @param x: Argument (C{scalar}).
 
-       @return: Norm (float).
+       @return: Norm (C{float}).
     '''
     return hypot(1.0, x)
 
@@ -526,11 +527,11 @@ def hypot1(x):
 def hypot3(x, y, z):
     '''Compute the norm M{sqrt(x**2 + y**2 + z**2)}.
 
-       @param x: X argument (scalar).
-       @param y: Y argument (scalar).
-       @param z: Z argument (scalar).
+       @param x: X argument (C{scalar}).
+       @param y: Y argument (C{scalar}).
+       @param z: Z argument (C{scalar}).
 
-       @return: Norm (float).
+       @return: Norm (C{float}).
     '''
     x, y, z = map1(abs, x, y, z)
     if x < z:
@@ -557,13 +558,14 @@ except ImportError:
     from math import isinf, isnan
 
     def isfinite(obj):
-        '''Check for I{Inf} and I{NaN} values.
+        '''Check for C{Inf} and C{NaN} values.
 
-           @param obj: Value (scalar).
+           @param obj: Value (C{scalar}).
 
-           @return: False if I{Inf} or I{NaN}, True otherwise (bool).
+           @return: C{False} if I{obj} is C{Inf} or C{NaN},
+                    C{True} otherwise.
 
-           @raise TypeError: If I{obj} value is not scalar number.
+           @raise TypeError: Non-scalar I{obj}.
         '''
         if isscalar(obj):
             return not (isinf(obj) or isnan(obj))
@@ -573,10 +575,10 @@ except ImportError:
 def isint(obj, both=False):
     '''Check for integer type or integer value.
 
-       @param obj: The object (any).
-       @keyword both: Optionally, check both type and value (bool).
+       @param obj: The object (any C{type}).
+       @keyword both: Optionally, check both type and value (C{bool}).
 
-       @return: True if I{obj} is integer (bool).
+       @return: C{True} if I{obj} is C{int}, C{False} otherwise.
     '''
     if both and isinstance(obj, float):  # NOT _Scalars!
         try:
@@ -589,20 +591,21 @@ def isint(obj, both=False):
 def isscalar(obj):
     '''Check for scalar types.
 
-       @param obj: The object (any).
+       @param obj: The object (any C{type}).
 
-       @return: True if I{obj} is scalar (bool).
+       @return: C{True} if I{obj} is C{scalar}, C{False} otherwise.
     '''
     return isinstance(obj, _Scalars)
 
 
 def len2(seq):
-    '''Make built-in function L{len} work for generators,
-       iterators, etc. since those can only be started once.
+    '''Make built-in function L{len} work for generators, iterators,
+       etc. since those can only be started exactly once.
 
        @param seq: Generator, iterator, list, range, tuple, etc.
 
-       @return: 2-Tuple (number, list) of items (int, list).
+       @return: 2-Tuple (number, ...) of items (C{int}, C{list} or
+                C{range} or C{tuple}).
     '''
     if not isinstance(seq, _Seqs):
         seq = list(seq)
@@ -616,7 +619,7 @@ def map1(func, *args):
        @param func: Function to apply (callable).
        @param args: Arguments to apply (any positional).
 
-       @return: Function results (tuple).
+       @return: Function results (C{tuple}).
     '''
     return tuple(map(func, args))
 
@@ -632,7 +635,7 @@ def map2(func, *args):
        @param func: Function to apply (callable).
        @param args: Arguments to apply (list, tuple, ...).
 
-       @return: N-Tuple of function results (tuple).
+       @return: N-Tuple of function results (C{tuple}).
     '''
     return tuple(map(func, *args))
 
@@ -640,16 +643,16 @@ def map2(func, *args):
 def scalar(value, low=EPS, high=1.0, name='scalar'):
     '''Validate a scalar.
 
-       @param value: The value (scalar).
-       @keyword low: Optional lower bound (scalar).
-       @keyword high: Optional upper bound (scalar).
-       @keyword name: Optional name of value (string).
+       @param value: The value (C{scalar}).
+       @keyword low: Optional lower bound (C{scalar}).
+       @keyword high: Optional upper bound (C{scalar}).
+       @keyword name: Optional name of value (C{str}).
 
-       @return: New value (type(low)).
+       @return: New value (C{type} of I{low}).
 
-       @raise TypeError: The I{value} is not a scalar number.
+       @raise TypeError: Non-scalar I{value}.
 
-       @raise ValueError: The I{value} is out of bounds.
+       @raise ValueError: Out-of-bounds I{value}.
     '''
     if not isscalar(value):
         raise TypeError('%s invalid: %r' % (name, value))
@@ -668,9 +671,9 @@ def scalar(value, low=EPS, high=1.0, name='scalar'):
 def sqrt3(x):
     '''Compute the square root cubed M{sqrt(x)**3} or M{sqrt(x**3)}.
 
-       @param x: Value (scalar).
+       @param x: Value (C{scalar}).
 
-       @return: Cubid square root (float).
+       @return: Cubid square root (C{float}).
 
        @raise ValueError: Negative I{x}.
 

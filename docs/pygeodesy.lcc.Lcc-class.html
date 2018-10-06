@@ -250,7 +250,7 @@ bases.Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.lcc.Lcc-class.html#easting" class="summary-name">easting</a><br />
-      Get the easting (meter).
+      Get the easting (<code>meter</code>).
     </td>
   </tr>
 <tr>
@@ -258,7 +258,7 @@ bases.Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.lcc.Lcc-class.html#height" class="summary-name">height</a><br />
-      Get the height (meter).
+      Get the height (<code>meter</code>).
     </td>
   </tr>
 <tr>
@@ -266,7 +266,7 @@ bases.Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.lcc.Lcc-class.html#northing" class="summary-name">northing</a><br />
-      Get the northing (meter).
+      Get the northing (<code>meter</code>).
     </td>
   </tr>
   <tr>
@@ -316,12 +316,12 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>e</code></strong> - Easting in meter (scalar).</li>
-        <li><strong class="pname"><code>n</code></strong> - Northing in meter (scalar).</li>
-        <li><strong class="pname"><code>h</code></strong> - Optional height in meter (scalar).</li>
+        <li><strong class="pname"><code>e</code></strong> - Easting (<code>meter</code>).</li>
+        <li><strong class="pname"><code>n</code></strong> - Northing (<code>meter</code>).</li>
+        <li><strong class="pname"><code>h</code></strong> - Optional height (<code>meter</code>).</li>
         <li><strong class="pname"><code>conic</code></strong> - Optional, the conic projection (<a 
           href="pygeodesy.lcc.Conic-class.html" class="link">Conic</a>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (string).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The Lambert location (<a href="pygeodesy.lcc.Lcc-class.html" 
@@ -421,16 +421,17 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>LatLon</code></strong> - Ellipsoidal LatLon class to use for the geodetic point 
-          (<i>LatLon</i>) or None.</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional, ellipsoidal (sub-)class to use for the geodetic point 
+          (<i>LatLon</i>) or <code>None</code>.</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional datum to use, otherwise use this <i>Lcc</i>'s 
           conic.datum (<i>Datum</i>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height for the point, overriding the default height 
-          (meter).</li>
+          (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The point (<i>LatLon</i>) or 4-tuple (degrees90, degrees180, 
-          height, datum) if <i>LatLon</i> is None.</dd>
+        <dd>The point (<i>LatLon</i>) or 4-tuple (<code>degrees90</code>, 
+          <code>degrees180</code>, height, datum) if <i>LatLon</i> is 
+          <code>None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - If <i>LatLon</i> or <i>datum</i> is not ellipsoidal.</li>
@@ -460,13 +461,15 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal, unstripped (int).</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator to join (string).</li>
-        <li><strong class="pname"><code>m</code></strong> - Optional height units, default meter (string).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal, unstripped (<code>int</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator to join (<code>str</code>).</li>
+        <li><strong class="pname"><code>m</code></strong> - Optional height units, default <code>meter</code> 
+          (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>This Lcc as string &quot;easting nothing&quot; in meter plus 
-          &quot; height&quot; and 'm' if heigth is non-zero (string).</dd>
+        <dd>This Lcc as &quot;easting nothing&quot; <code>str</code> in 
+          <code>meter</code> plus &quot; height&quot; and 'm' if heigth is 
+          non-zero (<code>str</code>).</dd>
     <dt>Overrides:
         bases.Based.toStr
     </dt>
@@ -503,15 +506,15 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimals, unstripped (int).</li>
-        <li><strong class="pname"><code>fmt</code></strong> - Optional, enclosing backets format (string).</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator between name:values (string).</li>
-        <li><strong class="pname"><code>m</code></strong> - Optional unit of the height, default meter (string).</li>
-        <li><strong class="pname"><code>C</code></strong> - Optionally, include name of conic and datum (bool).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimals, unstripped (<code>int</code>).</li>
+        <li><strong class="pname"><code>fmt</code></strong> - Optional, enclosing backets format (<code>str</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator between name:values (<code>str</code>).</li>
+        <li><strong class="pname"><code>m</code></strong> - Optional unit of the height, default meter (<code>str</code>).</li>
+        <li><strong class="pname"><code>C</code></strong> - Optionally, include name of conic and datum (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>This Lcc as &quot;[E:meter, N:meter, H:m, C:Conic.Datum]&quot; 
-          (string).</dd>
+          (<code>str</code>).</dd>
     <dt>Overrides:
         bases.Based.toStr2
     </dt>
@@ -556,11 +559,11 @@ class="link">Conic</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">easting</h3>
-  <p>Get the easting (meter).</p>
+  <p>Get the easting (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">easting(<span class="summary-sig-arg">self</span>)</span>
-        - Get the easting (meter).
+        - Get the easting (<code>meter</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -576,11 +579,11 @@ class="link">Conic</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">height</h3>
-  <p>Get the height (meter).</p>
+  <p>Get the height (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">height(<span class="summary-sig-arg">self</span>)</span>
-        - Get the height (meter).
+        - Get the height (<code>meter</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -596,11 +599,11 @@ class="link">Conic</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">northing</h3>
-  <p>Get the northing (meter).</p>
+  <p>Get the northing (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">northing(<span class="summary-sig-arg">self</span>)</span>
-        - Get the northing (meter).
+        - Get the northing (<code>meter</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -642,7 +645,7 @@ class="link">Conic</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Oct  4 14:55:34 2018
+    Generated by Epydoc 3.0.1 on Sat Oct  6 16:22:26 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

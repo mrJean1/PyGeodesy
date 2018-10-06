@@ -37,7 +37,7 @@ import re  # PYCHOK warning locale.Error
 # all public contants, classes and functions
 __all__ = ('Mgrs',  # classes
            'parseMGRS', 'toMgrs')  # functions
-__version__ = '18.09.23'
+__version__ = '18.10.06'
 
 _100km  =  100e3  #: (INTERNAL) 100 km in meter.
 _2000km = 2000e3  #: (INTERNAL) 2,000 km in meter.
@@ -57,24 +57,24 @@ class Mgrs(Based):
        with method to convert to UTM coordinates.
     '''
     _band     = ''  #: (INTERNAL) Latitudinal band (C..X).
-    _bandLat  = None  #: (INTERNAL) Band latitude (degrees90 or None).
+    _bandLat  = None  #: (INTERNAL) Band latitude (C{degrees90} or C{None}).
     _datum    = Datums.WGS84  #: (INTERNAL) Datum (L{Datum}).
-    _easting  = 0   #: (INTERNAL) Easting within 100 km grid square (meter).
-    _en100k   = ''  #: (INTERNAL) Grid EN digraph (string).
-    _northing = 0   #: (INTERNAL) Northing within 100 km grid square (meter).
-    _zone     = 0   #: (INTERNAL) Longitudinal zone (1..60)
+    _easting  = 0   #: (INTERNAL) Easting (C{meter}), within 100 km grid square.
+    _en100k   = ''  #: (INTERNAL) Grid EN digraph (C{str}), 100 km grid square.
+    _northing = 0   #: (INTERNAL) Northing (C{meter}), within 100 km grid square.
+    _zone     = 0   #: (INTERNAL) Longitudinal zone (C{int}), 1..60.
 
     def __init__(self, zone, en100k, easting, northing,
                              band='', datum=Datums.WGS84, name=''):
         '''New MGRS grid reference.
 
-           @param zone: 6° longitudinal zone, 1..60 covering 180°W..180°E (int).
-           @param en100k: Two-letter EN digraph, 100 km grid square (string).
-           @param easting: Easting in meter within 100 km grid square (scalar).
-           @param northing: Northing in meter within 100 km grid square (scalar).
-           @keyword band: Optional 8° latitudinal band, C..X covering 80°S..84°N (string).
+           @param zone: 6° longitudinal zone (C{int}), 1..60 covering 180°W..180°E.
+           @param en100k: Two-letter EN digraph (C{str}), 100 km grid square.
+           @param easting: Easting (C{meter}), within 100 km grid square.
+           @param northing: Northing (C{meter}), within 100 km grid square.
+           @keyword band: Optional 8° latitudinal band (C{str}), C..X covering 80°S..84°N.
            @keyword datum: Optional this reference's datum (L{Datum}).
-           @keyword name: Optional name (string).
+           @keyword name: Optional name (C{str}).
 
            @raise ValueError: Invalid MGRS grid reference, I{zone},
                               I{en100k} or I{band}.
@@ -123,13 +123,13 @@ class Mgrs(Based):
 
     @property_RO
     def band(self):
-        '''Get the latitudinal band A..Z (string).
+        '''Get the latitudinal band (A..Z C{str}).
         '''
         return self._band
 
     @property_RO
     def bandLatitude(self):
-        '''Get the band latitude (degrees90 or None).
+        '''Get the band latitude (C{degrees90} or C{None}).
         '''
         return self._bandLat
 
@@ -148,26 +148,26 @@ class Mgrs(Based):
 
     @property_RO
     def en100k(self):
-        '''Get the 2-character grid EN digraph (string).
+        '''Get the 2-character grid (EN digraph C{str}).
         '''
         return self._en100k
 
     @property_RO
     def easting(self):
-        '''Gets the easting (meter).
+        '''Gets the easting (C{meter}).
         '''
         return self._easting
 
     @property_RO
     def northing(self):
-        '''Get the northing (meter).
+        '''Get the northing (C{meter}).
         '''
         return self._northing
 
     def parse(self, strMGRS):
         '''Parse a string to a MGRS grid reference.
 
-           @param strMGRS: MGRS grid reference (string).
+           @param strMGRS: MGRS grid reference (C{str}).
 
            @return: MGRS reference (L{Mgrs}).
 
@@ -183,10 +183,10 @@ class Mgrs(Based):
            Note that MGRS grid references are truncated, not rounded
            (unlike UTM coordinates).
 
-           @keyword prec: Optional number of digits, 4:km, 10:m (int).
-           @keyword sep: Optional separator to join (string).
+           @keyword prec: Optional number of digits (C{int}), 4:km, 10:m.
+           @keyword sep: Optional separator to join (C{str}).
 
-           @return: This Mgrs as "00B EN easting northing" (string).
+           @return: This Mgrs as "00B EN easting northing" (C{str}).
 
            @raise ValueError: Invalid I{prec}.
 
@@ -202,11 +202,11 @@ class Mgrs(Based):
     def toStr2(self, prec=10, fmt='[%s]', sep=', '):  # PYCHOK expected
         '''Return a string representation of this MGRS grid reference.
 
-           @keyword prec: Optional number of digits, 4:km, 10:m (int).
-           @keyword fmt: Optional enclosing backets format (string).
-           @keyword sep: Optional separator between name:values (string).
+           @keyword prec: Optional number of digits (C{int}), 4:km, 10:m.
+           @keyword fmt: Optional enclosing backets format (C{str}).
+           @keyword sep: Optional separator between name:values (C{str}).
 
-           @return: This Mgrs as "[Z:00B, G:EN, E:meter, N:meter]" (string).
+           @return: This Mgrs as "[Z:00B, G:EN, E:meter, N:meter]" (C{str}).
         '''
         t = self.toStr(prec=prec, sep=' ').split()
         return fmt % (sep.join('%s:%s' % t for t in zip('ZGEN', t)),)
@@ -214,11 +214,11 @@ class Mgrs(Based):
     def toUtm(self, Utm=Utm):
         '''Convert this MGRS grid reference to a UTM coordinate.
 
-           @keyword Utm: Optional Utm class to use for the UTM
-                         coordinate (L{Utm}) or None.
+           @keyword Utm: Optional (sub-)class to use for the UTM
+                         coordinate (L{Utm}) or C{None}.
 
            @return: The UTM coordinate (L{Utm}) or 4-tuple (zone,
-                    hemisphere, easting, northing) if I{Utm} is None.
+                    hemisphere, easting, northing) if I{Utm} is C{None}.
 
            @example:
 
@@ -245,7 +245,7 @@ class Mgrs(Based):
 
     @property_RO
     def zone(self):
-        '''Get the longitudal zone 1..60 (int).
+        '''Get the longitudal zone (1..60 C{int}).
         '''
         return self._zone
 
@@ -254,14 +254,14 @@ def parseMGRS(strMGRS, datum=Datums.WGS84, Mgrs=Mgrs, name=''):
     '''Parse a string representing a MGRS grid reference,
        consisting of zoneBand, grid, easting and northing.
 
-       @param strMGRS: MGRS grid reference (string).
+       @param strMGRS: MGRS grid reference (C{str}).
        @keyword datum: Optional datum to use (L{Datum}).
        @keyword Mgrs: Optional Mgrs (sub-)class to use for the
-                      MGRS grid reference (L{Mgrs}) or None.
-       @keyword name: Optional I{Mgrs} name (string).
+                      MGRS grid reference (L{Mgrs}) or C{None}.
+       @keyword name: Optional I{Mgrs} name (C{str}).
 
        @return: The MGRS grid reference (L{Mgrs}) or 4-tuple (zone,
-                ENdigraph, easting, northing) if I{Mgrs} is None.
+                ENdigraph, easting, northing) if I{Mgrs} is C{None}.
 
        @raise ValueError: Invalid I{strMGRS}.
 
@@ -310,11 +310,11 @@ def toMgrs(utm, Mgrs=Mgrs, name=''):
     '''Convert a UTM coordinate to an MGRS grid reference.
 
        @param utm: A UTM coordinate (L{Utm}).
-       @keyword Mgrs: Optional Mgrs class to use for the MGRS
+       @keyword Mgrs: Optional (sub-)class to use for the MGRS
                       grid reference (L{Mgrs}).
 
        @return: The MGRS grid reference (L{Mgrs}).
-       @keyword name: Optional I{Mgrs} name (string).
+       @keyword name: Optional I{Mgrs} name (C{str}).
 
        @raise TypeError: If I{utm} is not L{Utm}.
 

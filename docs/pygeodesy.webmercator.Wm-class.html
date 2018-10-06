@@ -252,7 +252,7 @@ bases.Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.webmercator.Wm-class.html#radius" class="summary-name">radius</a><br />
-      Get the earth radius (meter).
+      Get the earth radius (<code>meter</code>).
     </td>
   </tr>
 <tr>
@@ -260,7 +260,7 @@ bases.Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.webmercator.Wm-class.html#x" class="summary-name">x</a><br />
-      Get the easting (meter).
+      Get the easting (<code>meter</code>).
     </td>
   </tr>
 <tr>
@@ -268,7 +268,7 @@ bases.Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.webmercator.Wm-class.html#y" class="summary-name">y</a><br />
-      Get the northing (meter).
+      Get the northing (<code>meter</code>).
     </td>
   </tr>
   <tr>
@@ -316,10 +316,10 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Easting from central meridian (meter).</li>
-        <li><strong class="pname"><code>y</code></strong> - Northing from equator (meter).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional earth radius (meter).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (string).</li>
+        <li><strong class="pname"><code>x</code></strong> - Easting from central meridian (<code>meter</code>).</li>
+        <li><strong class="pname"><code>y</code></strong> - Northing from equator (<code>meter</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -409,10 +409,11 @@ bases.Named --+
         <li><strong class="pname"><code>datum</code></strong> - Optional datum (<i>Datum</i>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (lat, lon) in (degrees90, degrees180).</dd>
+        <dd>2-Tuple (lat, lon) in (<code>degrees90</code>, 
+          <code>degrees180</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - If <i>datum</i> is not ellipsoidal.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-ellipsoidal <i>datum</i>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>radius</i>.</li>
     </ul></dd>
   </dl>
@@ -438,8 +439,8 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>LatLon</code></strong> - LatLon class to use for the point (<i>LatLon</i>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Optional datum for ellipsoidal or None for spherical 
+        <li><strong class="pname"><code>LatLon</code></strong> - Ellipsoidal (sub-)class to use for the point (<i>LatLon</i>).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Optional datum for ellipsoidal or <code>None</code> for spherical
           <i>LatLon</i> (<i>Datum</i>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -480,13 +481,15 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimals, unstripped (int).</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator to join (string).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optionally, include radius (bool or scalar).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimals, unstripped (<code>int</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator to join (<code>str</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optionally, include radius (<code>bool</code> or 
+          <code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>This WM as string &quot;meter meter&quot; plus &quot; radiuss if 
-          <i>radius</i> is True or scalar (string).</dd>
+        <dd>This WM as &quot;meter meter&quot; (<code>str</code>) plus &quot;
+          radius&quot; if <i>radius</i> is <code>True</code> or 
+          <code>scalar</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>radius</i>.</li>
@@ -525,14 +528,16 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimals, unstripped (int).</li>
-        <li><strong class="pname"><code>fmt</code></strong> - Optional, enclosing backets format (string).</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator between name:value pairs (string).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optionally, include radius (bool or scalar).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimals, unstripped (<code>int</code>).</li>
+        <li><strong class="pname"><code>fmt</code></strong> - Optional, enclosing backets format (<code>str</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator between name:value pairs (<code>str</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optionally, include radius (<code>bool</code> or 
+          <code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>This WM as &quot;[x:meter, y:meter]&quot; string plus &quot;, 
-          radius:meter]&quot; if <i>radius</i> is True or scalar (string).</dd>
+        <dd>This WM as &quot;[x:meter, y:meter]&quot; (<code>str</code>) plus
+          &quot;, radius:meter]&quot; if <i>radius</i> is <code>True</code>
+          or <code>scalar</code>.</dd>
     <dt>Overrides:
         bases.Based.toStr2
     </dt>
@@ -555,11 +560,11 @@ bases.Named --+
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">radius</h3>
-  <p>Get the earth radius (meter).</p>
+  <p>Get the earth radius (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">radius(<span class="summary-sig-arg">self</span>)</span>
-        - Get the earth radius (meter).
+        - Get the earth radius (<code>meter</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -575,11 +580,11 @@ bases.Named --+
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">x</h3>
-  <p>Get the easting (meter).</p>
+  <p>Get the easting (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">x(<span class="summary-sig-arg">self</span>)</span>
-        - Get the easting (meter).
+        - Get the easting (<code>meter</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -595,11 +600,11 @@ bases.Named --+
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">y</h3>
-  <p>Get the northing (meter).</p>
+  <p>Get the northing (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">y(<span class="summary-sig-arg">self</span>)</span>
-        - Get the northing (meter).
+        - Get the northing (<code>meter</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -641,7 +646,7 @@ bases.Named --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Oct  4 14:55:34 2018
+    Generated by Epydoc 3.0.1 on Sat Oct  6 16:22:26 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

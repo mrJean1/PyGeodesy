@@ -28,28 +28,28 @@ from math import atan, atanh, exp, sin, tanh
 # all public contants, classes and functions
 __all__ = ('Wm',  # classes
            'parseWM', 'toWm')  # functions
-__version__ = '18.09.23'
+__version__ = '18.10.06'
 
-# _FalseEasting  = 0   #: (INTERNAL) False Easting (meter).
-# _FalseNorthing = 0   #: (INTERNAL) False Northing (meter).
-_LatLimit = 85.051129  #: (INTERNAL) Latitudinal limit (degrees).
-# _LonOrigin     = 0   #: (INTERNAL) Longitude of natural origin (degrees).
+# _FalseEasting  = 0   #: (INTERNAL) False Easting (C{meter}).
+# _FalseNorthing = 0   #: (INTERNAL) False Northing (C{meter}).
+_LatLimit = 85.051129  #: (INTERNAL) Latitudinal limit (C{degrees}).
+# _LonOrigin     = 0   #: (INTERNAL) Longitude of natural origin (C{degrees}).
 
 
 class Wm(Based):
     '''Web Mercator (WM) coordinate.
     '''
-    _radius = 0  #: (INTERNAL) earth radius (meter).
-    _x      = 0  #: (INTERNAL) easting (meter).
-    _y      = 0  #: (INTERNAL) northing (meter).
+    _radius = 0  #: (INTERNAL) earth radius (C{meter}).
+    _x      = 0  #: (INTERNAL) easting (C{meter}).
+    _y      = 0  #: (INTERNAL) northing (C{meter}).
 
     def __init__(self, x, y, radius=R_MA, name=''):
         '''New Web Mercator (WM) coordinate.
 
-           @param x: Easting from central meridian (meter).
-           @param y: Northing from equator (meter).
-           @keyword radius: Optional earth radius (meter).
-           @keyword name: Optional name (string).
+           @param x: Easting from central meridian (C{meter}).
+           @param y: Northing from equator (C{meter}).
+           @keyword radius: Optional earth radius (C{meter}).
+           @keyword name: Optional name (C{str}).
 
            @raise ValueError: Invalid I{x}, I{y} or I{radius}.
 
@@ -88,7 +88,7 @@ class Wm(Based):
 
     @property_RO
     def radius(self):
-        '''Get the earth radius (meter).
+        '''Get the earth radius (C{meter}).
         '''
         return self._radius
 
@@ -97,9 +97,9 @@ class Wm(Based):
 
            @keyword datum: Optional datum (I{Datum}).
 
-           @return: 2-Tuple (lat, lon) in (degrees90, degrees180).
+           @return: 2-Tuple (lat, lon) in (C{degrees90}, C{degrees180}).
 
-           @raise TypeError: If I{datum} is not ellipsoidal.
+           @raise TypeError: Non-ellipsoidal I{datum}.
 
            @raise ValueError: Invalid I{radius}.
         '''
@@ -122,8 +122,9 @@ class Wm(Based):
     def toLatLon(self, LatLon, datum=None):
         '''Convert this WM coordinate to a geodetic point.
 
-           @param LatLon: LatLon class to use for the point (I{LatLon}).
-           @keyword datum: Optional datum for ellipsoidal or None for
+           @param LatLon: Ellipsoidal (sub-)class to use for the
+                          point (I{LatLon}).
+           @keyword datum: Optional datum for ellipsoidal or C{None} for
                            spherical I{LatLon} (I{Datum}).
 
            @return: Point of this WM coordinate (I{LatLon}).
@@ -150,12 +151,12 @@ class Wm(Based):
     def toStr(self, prec=3, sep=' ', radius=False):  # PYCHOK expected
         '''Return a string representation of this WM coordinate.
 
-           @keyword prec: Optional number of decimals, unstripped (int).
-           @keyword sep: Optional separator to join (string).
-           @keyword radius: Optionally, include radius (bool or scalar).
+           @keyword prec: Optional number of decimals, unstripped (C{int}).
+           @keyword sep: Optional separator to join (C{str}).
+           @keyword radius: Optionally, include radius (C{bool} or C{scalar}).
 
-           @return: This WM as string "meter meter" plus " radiuss
-                    if I{radius} is True or scalar (string).
+           @return: This WM as "meter meter" (C{str}) plus " radius"
+                    if I{radius} is C{True} or C{scalar}.
 
            @raise ValueError: Invalid I{radius}.
 
@@ -179,14 +180,14 @@ class Wm(Based):
     def toStr2(self, prec=3, fmt='[%s]', sep=', ', radius=False):  # PYCHOK expected
         '''Return a string representation of this WM coordinate.
 
-           @keyword prec: Optional number of decimals, unstripped (int).
-           @keyword fmt: Optional, enclosing backets format (string).
-           @keyword sep: Optional separator between name:value pairs (string).
-           @keyword radius: Optionally, include radius (bool or scalar).
+           @keyword prec: Optional number of decimals, unstripped (C{int}).
+           @keyword fmt: Optional, enclosing backets format (C{str}).
+           @keyword sep: Optional separator between name:value pairs (C{str}).
+           @keyword radius: Optionally, include radius (C{bool} or C{scalar}).
 
-           @return: This WM as "[x:meter, y:meter]" string plus
-                    ", radius:meter]" if I{radius} is True or scalar
-                    (string).
+           @return: This WM as "[x:meter, y:meter]" (C{str}) plus
+                    ", radius:meter]" if I{radius} is C{True} or
+                    C{scalar}.
         '''
         t = self.toStr(prec=prec, sep=' ', radius=radius).split()
         k = 'x', 'y', 'radius'
@@ -194,12 +195,12 @@ class Wm(Based):
 
     @property_RO
     def x(self):
-        '''Get the easting (meter).'''
+        '''Get the easting (C{meter}).'''
         return self._x
 
     @property_RO
     def y(self):
-        '''Get the northing (meter).
+        '''Get the northing (C{meter}).
         '''
         return self._y
 
@@ -208,13 +209,13 @@ def parseWM(strWM, radius=R_MA, Wm=Wm, name=''):
     '''Parse a string representing a WM coordinate, consisting
        of easting, northing and an optional radius.
 
-       @param strWM: A WM coordinate (string).
-       @keyword radius: Optional earth radius (meter).
-       @keyword Wm: Optional Wm class to use (L{Wm}) or None.
-       @keyword name: Optional name (string).
+       @param strWM: A WM coordinate (C{str}).
+       @keyword radius: Optional earth radius (C{meter}).
+       @keyword Wm: Optional (sub-)class to use (L{Wm}) or C{None}.
+       @keyword name: Optional name (C{str}).
 
        @return: The WM coordinate (L{Wm}) or 3-tuple (easting,
-                northing, radius) if I{Wm} is None.
+                northing, radius) if I{Wm} is C{None}.
 
        @raise ValueError: Invalid I{strWM}.
 
@@ -241,21 +242,21 @@ def parseWM(strWM, radius=R_MA, Wm=Wm, name=''):
 def toWm(latlon, lon=None, radius=R_MA, Wm=Wm, name=''):
     '''Convert a lat-/longitude point to a WM coordinate.
 
-       @param latlon: Latitude (degrees) or an (ellipsoidal or
+       @param latlon: Latitude (C{degrees}) or an (ellipsoidal or
                       spherical) geodetic I{LatLon} point.
-       @keyword lon: Optional longitude (degrees or None).
-       @keyword radius: Optional earth radius (meter).
-       @keyword Wm: Optional Wm class for the WM coordinate (L{Wm})
-                    or None.
-       @keyword name: Optional name (string).
+       @keyword lon: Optional longitude (C{degrees} or C{None}).
+       @keyword radius: Optional earth radius (C{meter}).
+       @keyword Wm: Optional (sub-)class for the WM coordinate
+                    (L{Wm}) or C{None}.
+       @keyword name: Optional name (C{str}).
 
-       @return: The WM coordinate (L{Wm}) or 3-tuple (easting, northing,
-                radius) id I{Wm} is None.
+       @return: The WM coordinate (L{Wm}) or 3-tuple (easting,
+                northing, radius) if I{Wm} is C{None}.
 
        @raise ValueError: If I{lon} value is missing, if I{latlon}
-                          is not scalar, if I{latlon} is beyond
-                          the valid WM range and L{rangerrors} is
-                          set to True or if I{radius} is invalid.
+                          is not scalar, if I{latlon} is beyond the
+                          valid WM range and L{rangerrors} is set
+                          to C{True} or if I{radius} is invalid.
 
        @example:
 

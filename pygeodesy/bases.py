@@ -23,7 +23,7 @@ __all__ = (  # 'Based', 'Named', 'VectorBased',
            'LatLonHeightBase',  # for documentation
            'classname', 'classnaming',
            'inStr')
-__version__ = '18.10.02'
+__version__ = '18.10.04'
 
 __X = object()  # unique instance
 
@@ -31,7 +31,7 @@ __X = object()  # unique instance
 class Named(object):
     '''(INTERNAL) Base class for object with a name.
     '''
-    _name   = ''  #: (INTERNAL) name (string)
+    _name   = ''  #: (INTERNAL) name (C{str})
     _classnaming = False  # set by function naming above
 
     def _xcopy(self, *attrs):
@@ -41,13 +41,13 @@ class Named(object):
 
     @property_RO
     def classname(self):
-        '''Get this object's C{[module.]class} name (string), see C{.classnaming}.
+        '''Get this object's C{[module.]class} name (C{str}), see L{classnaming}.
         '''
         return classname(self, prefixed=self._classnaming)
 
     @property
     def classnaming(self):
-        '''Get the class naming (bool).
+        '''Get the class naming (C{bool}).
         '''
         return self._classnaming
 
@@ -55,7 +55,7 @@ class Named(object):
     def classnaming(self, prefixed):
         '''Set the class naming for C{[module.].class} names.
 
-           @param prefixed: Include the module name (bool).
+           @param prefixed: Include the module name (C{bool}).
         '''
         self._classnaming = bool(prefixed)
 
@@ -68,7 +68,7 @@ class Named(object):
 
     @property
     def name(self):
-        '''Get the name (string).
+        '''Get the name (C{str}).
         '''
         return self._name
 
@@ -76,7 +76,7 @@ class Named(object):
     def name(self, name):
         '''Set the name.
 
-           @param name: New name (string).
+           @param name: New name (C{str}).
         '''
         self._name = str(name)
 
@@ -109,7 +109,7 @@ class Based(Named):
 #   def notImplemented(self, attr):
 #       '''Raise error for a missing method, function or attribute.
 #
-#          @param attr: Attribute name (string).
+#          @param attr: Attribute name (C{str}).
 #
 #          @raise NotImplementedError: No such attribute.
 #       '''
@@ -119,12 +119,12 @@ class Based(Named):
     def others(self, other, name='other'):
         '''Check this and an other instance for type compatiblility.
 
-           @param other: The other instance (any).
-           @keyword name: Optional, name for other (string).
+           @param other: The other instance (any C{type}).
+           @keyword name: Optional, name for other (C{str}).
 
-           @return: None.
+           @return: C{None}.
 
-           @raise TypeError: Mismatch of this and type(I{other}).
+           @raise TypeError: Mismatch of this and I{other} C{type}.
         '''
         if not (isinstance(self, other.__class__) or
                 isinstance(other, self.__class__)):
@@ -143,7 +143,7 @@ class Based(Named):
 
            @keyword kwds: Optional, keyword arguments.
 
-           @return: L{toStr}() plus keyword arguments (string).
+           @return: L{toStr}() plus keyword arguments (as C{str}).
         '''
         t = self.toStr(**kwds).lstrip('([{').rstrip('}])')
         return '%s(%s)' % (self.classname, t)
@@ -155,23 +155,23 @@ class LatLonHeightBase(Based):
     '''
     _ab     = ()    #: (INTERNAL) Cache (lat, lon) radians (2-tuple)
     _datum  = None  #: (INTERNAL) Datum, overriden
-    _height = 0     #: (INTERNAL) Height (meter)
-    _lat    = 0     #: (INTERNAL) Latitude (degrees)
-    _lon    = 0     #: (INTERNAL) Longitude (degrees)
-    _name   = ''    #: (INTERNAL) name (string)
+    _height = 0     #: (INTERNAL) Height (C{meter})
+    _lat    = 0     #: (INTERNAL) Latitude (C{degrees})
+    _lon    = 0     #: (INTERNAL) Longitude (C{degrees})
+    _name   = ''    #: (INTERNAL) name (C{str})
 
     def __init__(self, lat, lon, height=0, name=''):
         '''New I{LatLon}.
 
-           @param lat: Latitude (degrees or DMS string with N or S suffix).
-           @param lon: Longitude (degrees or DMS string with E or W suffix).
-           @keyword height: Optional height (meter above or below the earth surface).
-           @keyword name: Optional name (string).
+           @param lat: Latitude (C{degrees} or DMS C{str} with N or S suffix).
+           @param lon: Longitude (C{degrees} or DMS C{str} with E or W suffix).
+           @keyword height: Optional height (C{meter} above or below the earth surface).
+           @keyword name: Optional name (C{str}).
 
            @return: New instance (I{LatLon}).
 
            @raise RangeError: Value of I{lat} or I{lon} outside the valid
-                              range and I{rangerrrors} set to True.
+                              range and I{rangerrrors} set to C{True}.
 
            @raise ValueError: Invalid I{lat} or I{lon}.
 
@@ -199,9 +199,9 @@ class LatLonHeightBase(Based):
         '''(INTERNAL) Weighted, average height.
 
            @param other: An other point (I{LatLon}).
-           @keyword f: Optional fraction (float).
+           @keyword f: Optional fraction (C{float}).
 
-           @return: Average, fractional height (float).
+           @return: Average, fractional height (C{float}).
         '''
         return favg(self.height, other.height, f=f)
 
@@ -222,7 +222,7 @@ class LatLonHeightBase(Based):
            to this point.
 
            @keyword height: Optional height of the antipode, height
-                            of this point otherwise (meter).
+                            of this point otherwise (C{meter}).
 
            @return: The antipodal point (I{LatLon}).
         '''
@@ -234,9 +234,9 @@ class LatLonHeightBase(Based):
         '''Return the SE and NW lat-/longitude of a great circle
            bounding box centered at this location.
 
-           @param wide: Longitudinal box width (meter, like radius).
-           @param high: Latitudinal box height (meter, like radius).
-           @keyword radius: Optional, mean earth radius (meter).
+           @param wide: Longitudinal box width (C{meter}, same unts as I{radius}).
+           @param high: Latitudinal box height (C{meter}, same unts as I{radius}).
+           @keyword radius: Optional, mean earth radius (C{meter}).
 
            @return: 2-Tuple (LatLonSW, LatLonNE) of (I{LatLon}s).
 
@@ -269,7 +269,7 @@ class LatLonHeightBase(Based):
 
            @param other: The other point (I{LatLon}).
 
-           @return: Angle from North (degrees360).
+           @return: Compass angle from North (C{degrees360}).
 
            @raise TypeError: The I{other} point is not I{LatLon}.
 
@@ -311,13 +311,13 @@ class LatLonHeightBase(Based):
            available I{options} and errors raised.
 
            @param other: The other point (I{LatLon}).
-           @keyword radius: Optional, mean earth radius (meter) or
-                            None for the mean radius of this point's
-                            datum ellipsoid.
+           @keyword radius: Optional, mean earth radius (C{meter}) or
+                            C{None} for the mean radius of this
+                            point's datum ellipsoid.
            @keyword options: Optional keyword arguments for function
                              L{equirectangular}.
 
-           @return: Distance (meter, same units as I{radius}).
+           @return: Distance (C{meter}, same units as I{radius}).
 
            @raise TypeError: The I{other} point is not I{LatLon}.
         '''
@@ -329,7 +329,7 @@ class LatLonHeightBase(Based):
 
     @property
     def height(self):
-        '''Get the height (meter).
+        '''Get the height (C{meter}).
         '''
         return self._height
 
@@ -337,9 +337,9 @@ class LatLonHeightBase(Based):
     def height(self, height):
         '''Set the height.
 
-           @param height: New height (meter).
+           @param height: New height (C{meter}).
 
-           @raise TypeError: Invalid I{height}.
+           @raise TypeError: Invalid I{height} C{type}.
 
            @raise ValueError: Invalid I{height}.
         '''
@@ -352,10 +352,10 @@ class LatLonHeightBase(Based):
            on diametrically opposite sides of the earth.
 
            @param other: The other point (I{LatLon}).
-           @keyword eps: Tolerance for near-equality (degrees).
+           @keyword eps: Tolerance for near-equality (C{degrees}).
 
-           @return: True if points are antipodal within the given
-                    tolerance, False otherwise.
+           @return: C{True} if points are antipodal within the given
+                    tolerance, C{False} otherwise.
         '''
         return isantipode(self.lat,  self.lon,
                          other.lat, other.lon, eps=eps)
@@ -369,10 +369,10 @@ class LatLonHeightBase(Based):
         '''Compare this point with an other point.
 
            @param other: The other point (I{LatLon}).
-           @keyword eps: Tolerance for equality (degrees).
+           @keyword eps: Tolerance for equality (C{degrees}).
 
-           @return: True if both points are identical,
-                    ignoring height (bool).
+           @return: C{True} if both points are identical,
+                    I{ignoring} height, C{False} otherwise.
 
            @raise TypeError: The I{other} point is not I{LatLon}.
 
@@ -397,10 +397,10 @@ class LatLonHeightBase(Based):
         '''Compare this point with an other point.
 
            @param other: The other point (I{LatLon}).
-           @keyword eps: Tolerance for equality (degrees).
+           @keyword eps: Tolerance for equality (C{degrees}).
 
-           @return: True if both points are identical,
-                    I{including} height (bool).
+           @return: C{True} if both points are identical
+                    I{including} height, C{False} otherwise.
 
            @raise TypeError: The I{other} point is not I{LatLon}.
 
@@ -416,7 +416,7 @@ class LatLonHeightBase(Based):
 
     @property
     def lat(self):
-        '''Get the latitude (degrees).
+        '''Get the latitude (C{degrees90}).
         '''
         return self._lat
 
@@ -424,7 +424,7 @@ class LatLonHeightBase(Based):
     def lat(self, lat):
         '''Set the latitude.
 
-           @param lat: New latitude (degrees).
+           @param lat: New latitude (C{str[N|S]} or C{degrees}).
 
            @raise ValueError: Invalid I{lat}.
         '''
@@ -434,7 +434,7 @@ class LatLonHeightBase(Based):
 
     @property
     def latlon(self):
-        '''Get the latitude and longitude (2-tuple of degrees).
+        '''Get the lat- and longitude (2-tuple of C{degrees90}, C{degrees180}).
         '''
         return self._lat, self._lon
 
@@ -443,10 +443,10 @@ class LatLonHeightBase(Based):
         '''Set the lat- and longitude and optionally the height.
 
            @param latlonh: New lat-, longitude and height (2- or
-                           3-tuple of degrees and meter).
+                           3-tuple of C{degrees} and C{meter}).
 
-           @raise TypeError: Height of I{latlonh} not scalar or
-                             I{latlonh} not tuple or list.
+           @raise TypeError: Height of I{latlonh} not C{scalar} or
+                             I{latlonh} not C{list} or C{tuple}.
 
            @raise ValueError: Invalid I{latlonh} or M{len(latlonh)}.
 
@@ -474,12 +474,12 @@ class LatLonHeightBase(Based):
         return self.latlon2(ndigits)
 
     def latlon2(self, ndigits=0):
-        '''Return the latitude and longitude, rounded.
+        '''Return this point's lat- and longitude, rounded.
 
            @keyword ndigits: Number of decimal digits (C{int}).
 
-           @return: 2-Tuple (lat, lon) in (degrees, degrees), rounded
-                    away from zero.
+           @return: 2-Tuple (lat, lon) in (C{degrees90}, C{degrees180}),
+                    rounded away from zero.
 
            @see: Built-in function C{round}.
         '''
@@ -492,7 +492,7 @@ class LatLonHeightBase(Based):
 
     @property
     def lon(self):
-        '''Get the longitude (degrees).
+        '''Get the longitude (C{degrees180}).
         '''
         return self._lon
 
@@ -500,7 +500,7 @@ class LatLonHeightBase(Based):
     def lon(self, lon):
         '''Set the longitude.
 
-           @param lon: New longitude (degrees).
+           @param lon: New longitude (C{str[E|W]} or C{degrees}).
 
            @raise ValueError: Invalid I{lon}.
         '''
@@ -514,15 +514,16 @@ class LatLonHeightBase(Based):
         return self.points2(points, closed=closed)
 
     def points2(self, points, closed=True):
-        '''Check an array, generator, iterable, list, set, tuple or other
-           sequence of points representing a polygon or path.
+        '''Check a polygon or path represented as an array, generator,
+           iterable, list, set, tuple or other sequence of points.
 
            @param points: The points (I{LatLon}[])
-           @keyword closed: Optionally, treat points as closed polygon or
-                            path and remove any duplicate or closing final
-                            I{points} (bool).
+           @keyword closed: Optionally, treat the I{points} as a closed
+                            polygon or path and remove any duplicate or
+                            closing final I{points} (C{bool}).
 
-           @return: 2-Tuple (number, sequence) of points (int, sequence).
+           @return: 2-Tuple (number, ...) of points (C{int}, C{list} or
+                    C{tuple}).
 
            @raise TypeError: Some I{points} are not I{LatLon}.
 
@@ -531,9 +532,9 @@ class LatLonHeightBase(Based):
         return points2(points, closed=closed, base=self)
 
     def to2ab(self):
-        '''Return this point's lat-/longitude in radians.
+        '''Return this point's lat- and longitude in radians.
 
-           @return: 2-Tuple (lat, lon) in (radians, radians).
+           @return: 2-Tuple (lat, lon) in (C{radiansPI_2}, C{radiansPI}).
         '''
         if not self._ab:
             self._ab = map1(radians, self.lat, self.lon)
@@ -542,7 +543,7 @@ class LatLonHeightBase(Based):
     def to3llh(self):
         '''Return this point's lat-, longitude and height.
 
-           @return: 3-Tuple (lat, lon, h) in (degrees, degrees, meter).
+           @return: 3-Tuple (lat, lon, h) in (C{degrees90}, C{degrees180}, C{meter}).
         '''
         return self.lat, self.lon, self.height
 
@@ -564,12 +565,12 @@ class LatLonHeightBase(Based):
            formatted in the given form.
 
            @keyword form: Optional format, F_D, F_DM, F_DMS for
-                          deg°, deg°min′, deg°min′sec″ (string).
-           @keyword prec: Optional number of decimal digits (0..8 or None).
-           @keyword m: Optional unit of the height (string).
-           @keyword sep: Optional separator to join (string).
+                          deg°, deg°min′, deg°min′sec″ (C{str}).
+           @keyword prec: Optional number of decimal digits (0..8 or C{None}).
+           @keyword m: Optional unit of the height (C{str}).
+           @keyword sep: Optional separator to join (C{str}).
 
-           @return: Point in the specified form (string).
+           @return: Point in the specified form (C{str}).
 
            @example:
 
@@ -607,7 +608,7 @@ def _xattrs(inst, other, *attrs):
 
        @param inst: Instance to copy atrribute values to.
        @param other: Instance to copy atrribute values from.
-       @param attrs: Attribute names (string)s.
+       @param attrs: Attribute names (C{str})s.
 
        @return: The I{inst}, updated.
 
@@ -628,7 +629,7 @@ def _xattrs(inst, other, *attrs):
 def _xnamed(inst, name):
     '''(INTERNAL) Set the instance' C{.name = }C{name}.
 
-       @param name: The name (string).
+       @param name: The name (C{str}).
 
        @return: The I{inst}, named if unnamed before.
     '''
@@ -645,10 +646,10 @@ def classname(inst, prefixed=None):
     '''Return an instance' module and class name.
 
        @param inst: The object (any type).
-       @keyword prefixed: Prefix the module name (bool), see
+       @keyword prefixed: Prefix the module name (C{bool}), see
                           function L{classnaming}.
 
-       @return: The I{inst}'s C{[module.]class} name (string).
+       @return: The I{inst}'s C{[module.]class} name (C{str}).
     '''
     try:
         n = inst.__class__.__name__
@@ -667,9 +668,9 @@ def classname(inst, prefixed=None):
 def classnaming(prefixed=None):
     '''Set the default class naming for C{[module.]class} names.
 
-       @keyword prefixed: Include the module name (bool).
+       @keyword prefixed: Include the module name (C{bool}).
 
-       @return: Previous class naming setting (bool).
+       @return: Previous class naming setting (C{bool}).
     '''
     t = Named._classnaming
     if prefixed in (True, False):
@@ -681,10 +682,10 @@ def inStr(inst, *args, **kwds):
     '''Return the string representation of an instance.
 
        @param inst: The instance (any type).
-       @param args: Optional positional arguments (tuple).
-       @keyword kwds: Optional keyword arguments (dict).
+       @param args: Optional positional arguments.
+       @keyword kwds: Optional keyword arguments.
 
-       @return: The I{inst}'s representation (string).
+       @return: The I{inst}'s representation (C{str}).
     '''
     return unStr(classname(inst), *args, **kwds)
 

@@ -398,7 +398,7 @@ object --+
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#latlon2" class="summary-sig-name">latlon2</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">ndigits</span>=<span class="summary-sig-default">0</span>)</span><br />
-      Return the latitude and longitude, rounded.</td>
+      Return this point's lat- and longitude, rounded.</td>
           <td align="right" valign="top">
             
             
@@ -472,8 +472,8 @@ object --+
           <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#points2" class="summary-sig-name">points2</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Check an array, generator, iterable, list, set, tuple or other 
-      sequence of points representing a polygon or path.</td>
+      Check a polygon or path represented as an array, generator, iterable,
+      list, set, tuple or other sequence of points.</td>
           <td align="right" valign="top">
             
             
@@ -490,7 +490,7 @@ object --+
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#to2ab" class="summary-sig-name">to2ab</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Return this point's lat-/longitude in radians.</td>
+      Return this point's lat- and longitude in radians.</td>
           <td align="right" valign="top">
             
             
@@ -593,7 +593,7 @@ object --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.bases.LatLonHeightBase-class.html#height" class="summary-name">height</a><br />
-      Get the height (meter).
+      Get the height (<code>meter</code>).
     </td>
   </tr>
 <tr>
@@ -601,7 +601,7 @@ object --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.bases.LatLonHeightBase-class.html#lat" class="summary-name">lat</a><br />
-      Get the latitude (degrees).
+      Get the latitude (<code>degrees90</code>).
     </td>
   </tr>
 <tr>
@@ -609,7 +609,8 @@ object --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.bases.LatLonHeightBase-class.html#latlon" class="summary-name">latlon</a><br />
-      Get the latitude and longitude (2-tuple of degrees).
+      Get the lat- and longitude (2-tuple of <code>degrees90</code>, 
+      <code>degrees180</code>).
     </td>
   </tr>
 <tr>
@@ -617,7 +618,7 @@ object --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.bases.LatLonHeightBase-class.html#lon" class="summary-name">lon</a><br />
-      Get the longitude (degrees).
+      Get the longitude (<code>degrees180</code>).
     </td>
   </tr>
   <tr>
@@ -665,17 +666,20 @@ object --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lat</code></strong> - Latitude (degrees or DMS string with N or S suffix).</li>
-        <li><strong class="pname"><code>lon</code></strong> - Longitude (degrees or DMS string with E or W suffix).</li>
-        <li><strong class="pname"><code>height</code></strong> - Optional height (meter above or below the earth surface).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (string).</li>
+        <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees</code> or DMS <code>str</code> with N or 
+          S suffix).</li>
+        <li><strong class="pname"><code>lon</code></strong> - Longitude (<code>degrees</code> or DMS <code>str</code> with E or
+          W suffix).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height (<code>meter</code> above or below the earth 
+          surface).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>New instance (<i>LatLon</i>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - Value of <i>lat</i> or <i>lon</i> outside the valid range and 
-        <i>rangerrrors</i> set to True.</li>
+        <i>rangerrrors</i> set to <code>True</code>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>lat</i> or <i>lon</i>.</li>
     </ul></dd>
     <dt>Overrides:
@@ -734,7 +738,7 @@ object --+
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>height</code></strong> - Optional height of the antipode, height of this point otherwise 
-          (meter).</li>
+          (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The antipodal point (<i>LatLon</i>).</dd>
@@ -763,9 +767,11 @@ object --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>wide</code></strong> - Longitudinal box width (meter, like radius).</li>
-        <li><strong class="pname"><code>high</code></strong> - Latitudinal box height (meter, like radius).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
+        <li><strong class="pname"><code>wide</code></strong> - Longitudinal box width (<code>meter</code>, same unts as 
+          <i>radius</i>).</li>
+        <li><strong class="pname"><code>high</code></strong> - Latitudinal box height (<code>meter</code>, same unts as 
+          <i>radius</i>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple (LatLonSW, LatLonNE) of (<i>LatLon</i>s).</dd>
@@ -801,7 +807,7 @@ object --+
         <li><strong class="pname"><code>other</code></strong> - The other point (<i>LatLon</i>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Angle from North (degrees360).</dd>
+        <dd>Compass angle from North (<code>degrees360</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <i>LatLon</i>.</li>
@@ -870,14 +876,15 @@ object --+
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<i>LatLon</i>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter) or None for the mean radius 
-          of this point's datum ellipsoid.</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>) or 
+          <code>None</code> for the mean radius of this point's datum 
+          ellipsoid.</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments for function <a 
           href="pygeodesy.utily-module.html#equirectangular" 
           class="link">equirectangular</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Distance (meter, same units as <i>radius</i>).</dd>
+        <dd>Distance (<code>meter</code>, same units as <i>radius</i>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <i>LatLon</i>.</li>
@@ -907,11 +914,11 @@ object --+
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<i>LatLon</i>).</li>
-        <li><strong class="pname"><code>eps</code></strong> - Tolerance for near-equality (degrees).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance for near-equality (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if points are antipodal within the given tolerance, False 
-          otherwise.</dd>
+        <dd><code>True</code> if points are antipodal within the given 
+          tolerance, <code>False</code> otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -936,10 +943,11 @@ object --+
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<i>LatLon</i>).</li>
-        <li><strong class="pname"><code>eps</code></strong> - Tolerance for equality (degrees).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance for equality (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if both points are identical, ignoring height (bool).</dd>
+        <dd><code>True</code> if both points are identical, <i>ignoring</i> 
+          height, <code>False</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <i>LatLon</i>.</li>
@@ -979,11 +987,11 @@ object --+
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<i>LatLon</i>).</li>
-        <li><strong class="pname"><code>eps</code></strong> - Tolerance for equality (degrees).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance for equality (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if both points are identical, <i>including</i> height 
-          (bool).</dd>
+        <dd><code>True</code> if both points are identical <i>including</i> 
+          height, <code>False</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <i>LatLon</i>.</li>
@@ -1017,14 +1025,15 @@ object --+
     </td>
   </tr></table>
   
-  <p>Return the latitude and longitude, rounded.</p>
+  <p>Return this point's lat- and longitude, rounded.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>ndigits</code></strong> - Number of decimal digits (<code>int</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (lat, lon) in (degrees, degrees), rounded away from zero.</dd>
+        <dd>2-Tuple (lat, lon) in (<code>degrees90</code>, 
+          <code>degrees180</code>), rounded away from zero.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Built-in function <code>round</code>.
@@ -1047,17 +1056,19 @@ object --+
     </td>
   </tr></table>
   
-  <p>Check an array, generator, iterable, list, set, tuple or other 
-  sequence of points representing a polygon or path.</p>
+  <p>Check a polygon or path represented as an array, generator, iterable, 
+  list, set, tuple or other sequence of points.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The points (<i>LatLon</i>[])</li>
-        <li><strong class="pname"><code>closed</code></strong> - Optionally, treat points as closed polygon or path and remove any
-          duplicate or closing final <i>points</i> (bool).</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, treat the <i>points</i> as a closed polygon or path 
+          and remove any duplicate or closing final <i>points</i> 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (number, sequence) of points (int, sequence).</dd>
+        <dd>2-Tuple (number, ...) of points (<code>int</code>, 
+          <code>list</code> or <code>tuple</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <i>LatLon</i>.</li>
@@ -1080,10 +1091,11 @@ object --+
     </td>
   </tr></table>
   
-  <p>Return this point's lat-/longitude in radians.</p>
+  <p>Return this point's lat- and longitude in radians.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>2-Tuple (lat, lon) in (radians, radians).</dd>
+        <dd>2-Tuple (lat, lon) in (<code>radiansPI_2</code>, 
+          <code>radiansPI</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1104,7 +1116,8 @@ object --+
   <p>Return this point's lat-, longitude and height.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>3-Tuple (lat, lon, h) in (degrees, degrees, meter).</dd>
+        <dd>3-Tuple (lat, lon, h) in (<code>degrees90</code>, 
+          <code>degrees180</code>, <code>meter</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1154,13 +1167,13 @@ object --+
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>form</code></strong> - Optional format, F_D, F_DM, F_DMS for deg&#176;, deg&#176;min&#8242;, 
-          deg&#176;min&#8242;sec&#8243; (string).</li>
-        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..8 or None).</li>
-        <li><strong class="pname"><code>m</code></strong> - Optional unit of the height (string).</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator to join (string).</li>
+          deg&#176;min&#8242;sec&#8243; (<code>str</code>).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..8 or <code>None</code>).</li>
+        <li><strong class="pname"><code>m</code></strong> - Optional unit of the height (<code>str</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator to join (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Point in the specified form (string).</dd>
+        <dd>Point in the specified form (<code>str</code>).</dd>
     <dt>Overrides:
         Based.toStr
     </dt>
@@ -1189,11 +1202,11 @@ object --+
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">height</h3>
-  <p>Get the height (meter).</p>
+  <p>Get the height (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">height(<span class="summary-sig-arg">self</span>)</span>
-        - Get the height (meter).
+        - Get the height (<code>meter</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">height(<span class="summary-sig-arg">self</span>,
@@ -1209,11 +1222,11 @@ object --+
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">lat</h3>
-  <p>Get the latitude (degrees).</p>
+  <p>Get the latitude (<code>degrees90</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">lat(<span class="summary-sig-arg">self</span>)</span>
-        - Get the latitude (degrees).
+        - Get the latitude (<code>degrees90</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">lat(<span class="summary-sig-arg">self</span>,
@@ -1229,11 +1242,13 @@ object --+
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">latlon</h3>
-  <p>Get the latitude and longitude (2-tuple of degrees).</p>
+  <p>Get the lat- and longitude (2-tuple of <code>degrees90</code>, 
+  <code>degrees180</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">latlon(<span class="summary-sig-arg">self</span>)</span>
-        - Get the latitude and longitude (2-tuple of degrees).
+        - Get the lat- and longitude (2-tuple of <code>degrees90</code>, 
+<code>degrees180</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">latlon(<span class="summary-sig-arg">self</span>,
@@ -1249,11 +1264,11 @@ object --+
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">lon</h3>
-  <p>Get the longitude (degrees).</p>
+  <p>Get the longitude (<code>degrees180</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">lon(<span class="summary-sig-arg">self</span>)</span>
-        - Get the longitude (degrees).
+        - Get the longitude (<code>degrees180</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">lon(<span class="summary-sig-arg">self</span>,
@@ -1295,7 +1310,7 @@ object --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Oct  4 14:55:33 2018
+    Generated by Epydoc 3.0.1 on Sat Oct  6 16:22:25 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

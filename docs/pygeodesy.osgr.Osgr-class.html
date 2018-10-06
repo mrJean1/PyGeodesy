@@ -239,7 +239,7 @@ bases.Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.osgr.Osgr-class.html#easting" class="summary-name">easting</a><br />
-      Get the easting (meter).
+      Get the easting (<code>meter</code>).
     </td>
   </tr>
 <tr>
@@ -247,7 +247,7 @@ bases.Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.osgr.Osgr-class.html#northing" class="summary-name">northing</a><br />
-      Get the northing (meter).
+      Get the northing (<code>meter</code>).
     </td>
   </tr>
   <tr>
@@ -294,9 +294,9 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>easting</code></strong> - Easting from OS false easting (meter).</li>
-        <li><strong class="pname"><code>northing</code></strong> - Northing from from OS false northing (meter).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (string).</li>
+        <li><strong class="pname"><code>easting</code></strong> - Easting from OS false easting (<code>meter</code>).</li>
+        <li><strong class="pname"><code>northing</code></strong> - Northing from from OS false northing (<code>meter</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -386,12 +386,13 @@ bases.Named --+
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>LatLon</code></strong> - Optional ellipsoidal LatLon class to use for the point 
-          (<i>LatLon</i>).</li>
+          (<i>LatLon</i>) or <code>None</code>.</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional datum to use (<i>Datum</i>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The geodetic point (<i>LatLon</i>) or 3-tuple (degrees90, 
-          degrees180, datum) if <i>LatLon</i> is None.</dd>
+        <dd>The geodetic point (<i>LatLon</i>) or 3-tuple 
+          (<code>degrees90</code>, <code>degrees180</code>, <i>datum</i>) 
+          if <i>LatLon</i> is <code>None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - If <i>LatLon</i> is not ellipsoidal or if <i>datum</i> conversion 
@@ -430,12 +431,13 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>prec</code></strong> - Optional number of digits (int).</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator to join (string).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional number of digits (<code>int</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator to join (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>This OSGR as &quot;EN easting northing&quot; (string) or as 
-          &quot;easting,northing&quot; if <i>prec</i> is non-positive.</dd>
+        <dd>This OSGR as &quot;EN easting northing&quot; (<code>str</code>) 
+          or as &quot;easting,northing&quot; if <i>prec</i> is 
+          non-positive.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>prec</i>.</li>
@@ -473,14 +475,14 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>prec</code></strong> - Optional number of digits (int).</li>
-        <li><strong class="pname"><code>fmt</code></strong> - Optional enclosing backets format (string).</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator to join (string).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional number of digits (<code>int</code>).</li>
+        <li><strong class="pname"><code>fmt</code></strong> - Optional enclosing backets format (<code>str</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator to join (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>This OSGR as &quot;[G:00B, E:meter, N:meter]&quot; or as 
-          &quot;OSGR:meter,meter&quot; if <i>prec</i> is non-positive 
-          (string).</dd>
+        <dd>This OSGR (<code>str</code>) &quot;[G:00B, E:meter, 
+          N:meter]&quot; or &quot;OSGR:meter,meter&quot; if <i>prec</i> is 
+          non-positive.</dd>
     <dt>Overrides:
         bases.Based.toStr2
     </dt>
@@ -525,11 +527,11 @@ class="link">Datum</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">easting</h3>
-  <p>Get the easting (meter).</p>
+  <p>Get the easting (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">easting(<span class="summary-sig-arg">self</span>)</span>
-        - Get the easting (meter).
+        - Get the easting (<code>meter</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -545,11 +547,11 @@ class="link">Datum</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">northing</h3>
-  <p>Get the northing (meter).</p>
+  <p>Get the northing (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">northing(<span class="summary-sig-arg">self</span>)</span>
-        - Get the northing (meter).
+        - Get the northing (<code>meter</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -591,7 +593,7 @@ class="link">Datum</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Oct  4 14:55:34 2018
+    Generated by Epydoc 3.0.1 on Sat Oct  6 16:22:26 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

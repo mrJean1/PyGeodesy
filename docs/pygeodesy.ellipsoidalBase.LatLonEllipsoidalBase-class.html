@@ -393,9 +393,9 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convergence" class="summary-name">convergence</a><br />
-      Get this point's UTM meridian convergence (degrees) or None if not 
-      converted from <a href="pygeodesy.utm.Utm-class.html" 
-      class="link">Utm</a>.
+      Get this point's UTM meridian convergence (<code>degrees</code>) or 
+      <code>None</code> if not converted from <a 
+      href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>.
     </td>
   </tr>
 <tr>
@@ -412,7 +412,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#isEllipsoidal" class="summary-name">isEllipsoidal</a><br />
-      Check whether this <i>LatLon</i> point is ellipsoidal (bool).
+      Check whether this <i>LatLon</i> point is ellipsoidal 
+      (<code>bool</code>).
     </td>
   </tr>
 <tr>
@@ -420,7 +421,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#isSpherical" class="summary-name">isSpherical</a><br />
-      Check whether this <i>LatLon</i> point is spherical (bool).
+      Check whether this <i>LatLon</i> point is spherical 
+      (<code>bool</code>).
     </td>
   </tr>
 <tr>
@@ -428,9 +430,9 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#scale" class="summary-name">scale</a><br />
-      Get this point's UTM grid scale factor (float) or None if not 
-      converted from <a href="pygeodesy.utm.Utm-class.html" 
-      class="link">Utm</a>.
+      Get this point's UTM grid scale factor (<code>float</code>) or 
+      <code>None</code> if not converted from <a 
+      href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>.
     </td>
   </tr>
   <tr>
@@ -486,10 +488,10 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lat</code></strong> - Latitude (degrees or DMS string with N or S suffix).</li>
-        <li><strong class="pname"><code>lon</code></strong> - Longitude (degrees or DMS string with E or W suffix).</li>
-        <li><strong class="pname"><code>height</code></strong> - Optional elevation (meter or the same units as the datum's 
-          half-axes).</li>
+        <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees</code> or DMS <code>[N|S]</code>).</li>
+        <li><strong class="pname"><code>lon</code></strong> - Longitude (<code>degrees</code> or DMS <code>str[E|W]</code>).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional elevation (<code>meter</code>, the same units as the 
+          datum's half-axes).</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional datum to use (<a href="pygeodesy.datum.Datum-class.html"
           class="link">Datum</a>).</li>
         <li><strong class="pname"><code>name</code></strong> - Optional name (string).</li>
@@ -499,7 +501,7 @@
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - Value of <i>lat</i> or <i>lon</i> outside the valid range and 
-        <i>rangerrrors</i> set to True.</li>
+        <i>rangerrrors</i> set to <code>True</code>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>lat</i> or <i>lon</i>.</li>
     </ul></dd>
     <dt>Overrides:
@@ -533,7 +535,7 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>height</code></strong> - Optional height of the antipode, height of this point otherwise 
-          (meter).</li>
+          (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The antipodal point (<i>LatLon</i>).</dd>
@@ -600,7 +602,8 @@
         <li><strong class="pname"><code>other</code></strong> - The other point (<i>LatLon</i>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (distance, bearing) in (meter, degrees360).</dd>
+        <dd>2-Tuple (distance, bearing) in (<code>meter</code>, 
+          <code>degrees360</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <i>LatLon</i>.</li>
@@ -643,8 +646,9 @@
         <li><strong class="pname"><code>timeout</code></strong> - Optional query timeout (seconds).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (elevation, data_source) in (meter, string) or in case of
-          errors (None, &lt;error&gt;).</dd>
+        <dd>2-Tuple (elevation, data_source) in (<code>meter</code>, 
+          <code>str</code>) or in case of errors (<code>None</code>, 
+          <i>&lt;error&gt;</i>).</dd>
   </dl>
 <div class="fields">      <strong>Notes:</strong>
       <ul class="nomargin-top">
@@ -758,8 +762,9 @@
         <li><strong class="pname"><code>timeout</code></strong> - Optional query timeout (seconds).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (height, model_name) in (meter, string) or in case of 
-          errors (None, &lt;error&gt;).</dd>
+        <dd>2-Tuple (height, model_name) in (<code>meter</code>, 
+          <code>str</code>) or in case of errors (<code>None</code>, 
+          <i>&lt;error&gt;</i>).</dd>
   </dl>
 <div class="fields">      <strong>Notes:</strong>
       <ul class="nomargin-top">
@@ -816,7 +821,8 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>strll</code></strong> - Lat, lon [, height] (string).</li>
-        <li><strong class="pname"><code>height</code></strong> - Optional, default height (meter or None).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional, default height (<code>meter</code> or 
+          <code>None</code>).</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional, default datum (<a 
           href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional separator (string).</li>
@@ -850,7 +856,7 @@
   (geocentric) cartesian x/y/z components.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>3-Tuple (x, y, z) in (meter).</dd>
+        <dd>3-Tuple (x, y, z) in (<code>meter</code>).</dd>
     <dt>Overrides:
         <a href="pygeodesy.bases.LatLonHeightBase-class.html#to3xyz">bases.LatLonHeightBase.to3xyz</a>
     </dt>
@@ -952,14 +958,15 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">convergence</h3>
-  <p>Get this point's UTM meridian convergence (degrees) or None if not 
-  converted from <a href="pygeodesy.utm.Utm-class.html" 
-  class="link">Utm</a>.</p>
+  <p>Get this point's UTM meridian convergence (<code>degrees</code>) or 
+  <code>None</code> if not converted from <a 
+  href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>.</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">convergence(<span class="summary-sig-arg">self</span>)</span>
-        - Get this point's UTM meridian convergence (degrees) or None if not 
-converted from <a href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>.
+        - Get this point's UTM meridian convergence (<code>degrees</code>) or 
+<code>None</code> if not converted from <a 
+href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>.
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -997,11 +1004,12 @@ class="link">Datum</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">isEllipsoidal</h3>
-  <p>Check whether this <i>LatLon</i> point is ellipsoidal (bool).</p>
+  <p>Check whether this <i>LatLon</i> point is ellipsoidal 
+  (<code>bool</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">isEllipsoidal(<span class="summary-sig-arg">self</span>)</span>
-        - Check whether this <i>LatLon</i> point is ellipsoidal (bool).
+        - Check whether this <i>LatLon</i> point is ellipsoidal (<code>bool</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -1017,11 +1025,12 @@ class="link">Datum</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">isSpherical</h3>
-  <p>Check whether this <i>LatLon</i> point is spherical (bool).</p>
+  <p>Check whether this <i>LatLon</i> point is spherical 
+  (<code>bool</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">isSpherical(<span class="summary-sig-arg">self</span>)</span>
-        - Check whether this <i>LatLon</i> point is spherical (bool).
+        - Check whether this <i>LatLon</i> point is spherical (<code>bool</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -1037,14 +1046,15 @@ class="link">Datum</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">scale</h3>
-  <p>Get this point's UTM grid scale factor (float) or None if not 
-  converted from <a href="pygeodesy.utm.Utm-class.html" 
-  class="link">Utm</a>.</p>
+  <p>Get this point's UTM grid scale factor (<code>float</code>) or 
+  <code>None</code> if not converted from <a 
+  href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>.</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">scale(<span class="summary-sig-arg">self</span>)</span>
-        - Get this point's UTM grid scale factor (float) or None if not converted 
-from <a href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>.
+        - Get this point's UTM grid scale factor (<code>float</code>) or 
+<code>None</code> if not converted from <a 
+href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>.
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -1086,7 +1096,7 @@ from <a href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Oct  4 14:55:33 2018
+    Generated by Epydoc 3.0.1 on Sat Oct  6 16:22:25 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

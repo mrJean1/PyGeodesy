@@ -59,7 +59,7 @@ The tests have been run with Python 2.7.15 (with U{geographiclib
 <http://PyPI.org/project/geographiclib>} 1.49 and U{numpy
 <http://PyPI.org/project/numpy>} 1.14.0), with Python 3.7.0 (with
 U{geographiclib<http://PyPI.org/project/geographiclib>} 1.49) and with
-U{PyPy 6.0.0<http://PyPy.org>} Python 2.7.13 and 3.5.3 on macOS 10.13.6
+U{PyPy<http://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3) on macOS 10.13.6
 High Sierra and macOS 10.14 Mojave, with Python 2.6.9, 2.7.14, 3.5.6 and
 3.6.3 (and U{geographiclib<http://PyPI.org/project/geographiclib>} 1.49)
 on U{Debian 8<http://Travis-CI.org/mrJean1/PyGeodesy>} and with Python
@@ -78,9 +78,9 @@ U{numpy<http://PyPI.org/project/numpy>} 1.11.3) on MacOS X 10.10 Yosemite,
 MacOS X 10.11 El Capitan, macOS 10.12 Sierra, macOS 10.13.4 and/or 10.13.5
 High Sierra, with U{Pythonista 3.1<http://OMZ-Software.com/pythonista>} on
 iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4, with U{Pythonista 3.2
-<http://OMZ-Software.com/pythonista>} on iOS 11.4.1 and iPad4, iPhone7 and
-iPhone10, all in 64-bit only and with 32-bit Python 2.6.6 on Windows XP
-SP3 and with 32-bit Python 2.7.14 on Windows 10 Pro.
+<http://OMZ-Software.com/pythonista>} on iOS 11.4.1 and 12.0 on iPad4,
+iPhone7 and/or iPhone10, all in 64-bit only and with 32-bit Python 2.6.6
+on Windows XP SP3 and with 32-bit Python 2.7.14 on Windows 10 Pro.
 
 In addition to the U{PyGeodesy<http://PyPI.org/project/PyGeodesy>}
 package, the distribution files contain the tests, the test results (on
@@ -130,54 +130,54 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @newfield example: Example, Examples
 @newfield JSname: JS name, JS names
 
-@var EPS:  System's M{epsilon} (float)
-@var EPS1: M{1 - EPS} (float), about 0.9999999999999998
+@var EPS:  System's M{epsilon} (C{float})
+@var EPS1: M{1 - EPS} (C{float}), about 0.9999999999999998
 
-@var F_D:   Format degrees as deg° (string).
-@var F_DM:  Format degrees as deg°min′ (string).
-@var F_DMS: Format degrees as deg°min′sec″ (string).
-@var F_DEG: Format degrees as [D]DD without symbol (string).
-@var F_MIN: Format degrees as [D]DDMM without symbols (string).
-@var F_SEC: Format degrees as [D]DDMMSS without symbols (string).
-@var F_RAD: Convert degrees to radians and format as RR (string).
+@var F_D:   Format degrees as deg° (C{str}).
+@var F_DM:  Format degrees as deg°min′ (C{str}).
+@var F_DMS: Format degrees as deg°min′sec″ (C{str}).
+@var F_DEG: Format degrees as [D]DD without symbol (C{str}).
+@var F_MIN: Format degrees as [D]DDMM without symbols (C{str}).
+@var F_SEC: Format degrees as [D]DDMMSS without symbols (C{str}).
+@var F_RAD: Convert degrees to radians and format as RR (C{str}).
 
-@var PI:   Constant M{math.pi} (float)
-@var PI2:  Two PI, M{math.pi * 2} (float)
-@var PI_2: Half PI, M{math.pi / 2} (float)
+@var PI:   Constant M{math.pi} (C{float})
+@var PI2:  Two PI, M{math.pi * 2} (C{float})
+@var PI_2: Half PI, M{math.pi / 2} (C{float})
 
-@var R_M:  Mean, spherical earth radius (meter).
-@var R_MA: Equatorial earth radius (meter) WGS84, EPSG:3785.
-@var R_MB: Polar earth radius (meter) WGS84, EPSG:3785.
-@var R_KM: Mean, spherical earth radius (kilo meter).
-@var R_NM: Mean, spherical earth radius (nautical miles).
-@var R_SM: Mean, spherical earth radius (statute miles).
-@var R_FM: Former FAI Sphere earth radius (meter).
-@var R_VM: Aviation/Navigation earth radius (meter).
+@var R_M:  Mean, spherical earth radius (C{meter}).
+@var R_MA: Equatorial earth radius (C{meter}) WGS84, EPSG:3785.
+@var R_MB: Polar earth radius (C{meter}) WGS84, EPSG:3785.
+@var R_KM: Mean, spherical earth radius (C{km}, kilometer).
+@var R_NM: Mean, spherical earth radius (C{NM}, nautical miles).
+@var R_SM: Mean, spherical earth radius (C{SM}, statute miles).
+@var R_FM: Former FAI Sphere earth radius (C{meter}).
+@var R_VM: Aviation/Navigation earth radius (C{meter}).
 
-@var S_DEG: Degrees symbol ° (string).
-@var S_MIN: Minutes symbol ′ (string).
-@var S_SEC: Seconds symbol ″ (string).
-@var S_RAD: Radians symbol  (string).
-@var S_SEP: Separator between deg°, min′ and sec″  (string).
+@var S_DEG: Degrees symbol "°" (C{str}).
+@var S_MIN: Minutes symbol "′" (C{str}).
+@var S_SEC: Seconds symbol "″" (C{str}).
+@var S_RAD: Radians symbol "" (C{str}).
+@var S_SEP: Separator between deg°, min′ and sec″ "" (C{str}).
 
 @var Conics:     Registered conics (enum).
 @var Datums:     Registered datums (enum).
 @var Ellipsoids: Registered ellipsoids (enum).
 @var Transforms: Registered transforms (enum).
 
-@var pygeodesy_dirname: Fully qualified pygeodesy directory name
+@var pygeodesy_dirpath: Fully qualified C{pygeodesy} directory name (C{str}).
 
-@var version: Normalized C{PyGeodesy} version (string).
+@var version: Normalized C{PyGeodesy} version (C{str}).
 
 '''
 
 from os.path import abspath, basename, dirname, splitext
 
 _init_abspath     = abspath(__file__)
-pygeodesy_dirname = dirname(_init_abspath)
+pygeodesy_dirpath = dirname(_init_abspath)
 
 # setting __path__ should make ...
-__path__ = [pygeodesy_dirname]
+__path__ = [pygeodesy_dirpath]
 try:  # ... this import work, ...
     import bases as _  # PYCHOK expected
     del _
@@ -186,7 +186,7 @@ except ImportError:  # ... if it doesn't, extend
     # that all public and private sub-modules can
     # be imported (and checked by PyChecker, etc.)
     import sys
-    sys.path.insert(0, pygeodesy_dirname)  # XXX __path__[0]
+    sys.path.insert(0, pygeodesy_dirpath)  # XXX __path__[0]
     del sys
 
 # keep ellipsoidal, spherical and vector modules as sub-modules
@@ -212,10 +212,10 @@ __all__ = ('bases', 'datum', 'dms', 'elevations',  # modules
            'utily', 'utm', 'vector3d', 'webmercator',
            'CrossError', 'Geohash', 'VincentyError',  # classes
            'R_M',  # to avoid duplicates from .datum.py and .utily.py
-           'pygeodesy_dirname',
+           'pygeodesy_dirpath',
            'version',
            'crosserrors')  # extended below
-__version__ = '18.10.02'
+__version__ = '18.10.06'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
@@ -273,7 +273,7 @@ def equirectangular3(lat1, lon1, lat2, lon2, **options):
 
 def _ismodule(m):
     p = abspath(m.__file__)  # PYCHOK undefined?
-    if dirname(p) != pygeodesy_dirname:  # PYCHOK undefined?
+    if dirname(p) != pygeodesy_dirpath:  # PYCHOK undefined?
         raise ImportError('foreign module %r from %r' % (m.__name__, p))
 
 
@@ -297,7 +297,7 @@ __all__ = tuple(set(__all__))
 if __name__ == '__main__':
 
     # to shorten module names
-    b = basename(pygeodesy_dirname)
+    b = basename(pygeodesy_dirpath)
     m = _init_abspath[:-len(basename(_init_abspath))]
 
     d, e, p = locals(), 0, ''

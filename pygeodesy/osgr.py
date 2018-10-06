@@ -44,14 +44,14 @@ from math import cos, radians, sin, sqrt, tan
 # all public contants, classes and functions
 __all__ = ('Osgr',  # classes
            'parseOSGR', 'toOsgr')  # functions
-__version__ = '18.09.23'
+__version__ = '18.10.06'
 
-_10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (meter)
+_10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (C{meter})
 _100km   = 100000  #: (INTERNAL) 100 km (int meter)
 
 _A0, _B0 = radians(49), radians(-2)  #: (INTERNAL) NatGrid true origin, 49°N,2°W.
-_E0, _N0 = 400e3, -100e3  #: (INTERNAL) East-/northing of true origin (meter)
-_F0      = 0.9996012717   #: (INTERNAL) NatGrid scale of central meridian
+_E0, _N0 = 400e3, -100e3  #: (INTERNAL) East-/northing of true origin (C{meter}).
+_F0      = 0.9996012717   #: (INTERNAL) NatGrid scale of central meridian (C{float}).
 
 _OSGB36  = Datums.OSGB36  #: (INTERNAL) Airy130 ellipsoid
 
@@ -81,17 +81,17 @@ class Osgr(Based):
     '''Ordinance Survey Grid References (OSGR) coordinate.
     '''
     _datum    = _OSGB36  #: (INTERNAL) Datum (L{Datum})
-    _easting  = 0        #: (INTERNAL) Easting (meter).
+    _easting  = 0        #: (INTERNAL) Easting (C{meter}).
     # _latlon also set by ellipsoidalBase.LatLonEllipsoidalBase.toUtm.
-    _latlon   = None     #: (INTERNAL) Cache _toLatlon
-    _northing = 0        #: (INTERNAL) Nothing (meter).
+    _latlon   = None     #: (INTERNAL) Cache I{_toLatlon}.
+    _northing = 0        #: (INTERNAL) Nothing (C{meter}).
 
     def __init__(self, easting, northing, name=''):
         '''New OSGR National Grid Reference.
 
-           @param easting: Easting from OS false easting (meter).
-           @param northing: Northing from from OS false northing (meter).
-           @keyword name: Optional name (string).
+           @param easting: Easting from OS false easting (C{meter}).
+           @param northing: Northing from from OS false northing (C{meter}).
+           @keyword name: Optional name (C{str}).
 
            @raise ValueError: Invalid I{easting} or I{northing}.
 
@@ -127,13 +127,13 @@ class Osgr(Based):
 
     @property_RO
     def easting(self):
-        '''Get the easting (meter).
+        '''Get the easting (C{meter}).
         '''
         return self._easting
 
     @property_RO
     def northing(self):
-        '''Get the northing (meter).
+        '''Get the northing (C{meter}).
         '''
         return self._northing
 
@@ -153,11 +153,11 @@ class Osgr(Based):
            used by e.g. Karney 2011.}
 
            @keyword LatLon: Optional ellipsoidal LatLon class to use
-                            for the point (I{LatLon}).
+                            for the point (I{LatLon}) or C{None}.
            @keyword datum: Optional datum to use (I{Datum}).
 
-           @return: The geodetic point (I{LatLon}) or 3-tuple (degrees90,
-                    degrees180, datum) if I{LatLon} is None.
+           @return: The geodetic point (I{LatLon}) or 3-tuple (C{degrees90},
+                    C{degrees180}, I{datum}) if I{LatLon} is C{None}.
 
            @raise TypeError: If I{LatLon} is not ellipsoidal or if
                              I{datum} conversion failed.
@@ -240,10 +240,10 @@ class Osgr(Based):
            Note that OSGR coordinates are truncated, not rounded
            (unlike UTM grid references).
 
-           @keyword prec: Optional number of digits (int).
-           @keyword sep: Optional separator to join (string).
+           @keyword prec: Optional number of digits (C{int}).
+           @keyword sep: Optional separator to join (C{str}).
 
-           @return: This OSGR as "EN easting northing" (string) or
+           @return: This OSGR as "EN easting northing" (C{str}) or
                     as "easting,northing" if I{prec} is non-positive.
 
            @raise ValueError: Invalid I{prec}.
@@ -284,12 +284,12 @@ class Osgr(Based):
     def toStr2(self, prec=10, fmt='[%s]', sep=', '):  # PYCHOK expected
         '''Return a string representation of this OSGR coordinate.
 
-           @keyword prec: Optional number of digits (int).
-           @keyword fmt: Optional enclosing backets format (string).
-           @keyword sep: Optional separator to join (string).
+           @keyword prec: Optional number of digits (C{int}).
+           @keyword fmt: Optional enclosing backets format (C{str}).
+           @keyword sep: Optional separator to join (C{str}).
 
-           @return: This OSGR as "[G:00B, E:meter, N:meter]" or as
-                    "OSGR:meter,meter" if I{prec} is non-positive (string).
+           @return: This OSGR (C{str}) "[G:00B, E:meter, N:meter]" or
+                    "OSGR:meter,meter" if I{prec} is non-positive.
         '''
         t = self.toStr(prec=prec, sep=' ')
         if prec > 0:
@@ -308,13 +308,13 @@ def parseOSGR(strOSGR, Osgr=Osgr, name=''):
        numeric, comma-separated references in metres, for
        example '438700,114800'.
 
-       @param strOSGR: An OSGR coordinate (string).
-       @keyword Osgr: Optional Osgr class to use for the OSGR
-                      coordinate (L{Osgr}) or None.
-       @keyword name: Optional I{Osgr} name (string).
+       @param strOSGR: An OSGR coordinate (C{str}).
+       @keyword Osgr: Optional (sub-)class to use for the OSGR
+                      coordinate (L{Osgr}) or C{None}.
+       @keyword name: Optional I{Osgr} name (C{str}).
 
        @return: The OSGR coordinate (L{Osgr}) or the 2-tuple
-                (easting, northing) if I{Osgr} is None.
+                (easting, northing) if I{Osgr} is C{None}.
 
        @raise ValueError: Invalid I{strOSGR}.
 
@@ -383,19 +383,19 @@ def parseOSGR(strOSGR, Osgr=Osgr, name=''):
 def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr, name=''):
     '''Convert a lat-/longitude point to an OSGR coordinate.
 
-       @param latlon: Latitude (degrees) or an (ellipsoidal)
+       @param latlon: Latitude (C{degrees}) or an (ellipsoidal)
                       geodetic I{LatLon} point.
-       @keyword lon: Optional longitude in degrees (scalar or None).
+       @keyword lon: Optional longitude in degrees (scalar or C{None}).
        @keyword datum: Optional datum to convert (I{Datum}).
        @keyword Osgr: Optional Osgr (sub-)class to use for the
                       OSGR coordinate (L{Osgr}).
-       @keyword name: Optional I{Osgr} name (string).
+       @keyword name: Optional I{Osgr} name (C{str}).
 
        @return: The OSGR coordinate (L{Osgr}) or 2-tuple (easting,
-                northing) if I{Osgr} is None.
+                northing) if I{Osgr} is C{None}.
 
-       @raise TypeError: If I{latlon} is not ellipsoidal or if
-                         I{datum} conversion failed.
+       @raise TypeError: Non-ellipsoidal I{latlon} or I{datum}
+                         conversion failed.
 
        @raise ValueError: Invalid I{latlon} or I{lon}.
 

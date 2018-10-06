@@ -46,7 +46,7 @@ __all__ = ('LatLon', 'Nvector',  # classes
            'meanOf',
            'nearestOn2',
            'triangulate', 'trilaterate')
-__version__ = '18.10.02'
+__version__ = '18.10.06'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -97,8 +97,9 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @param start: Start point of great circle path (L{LatLon}).
            @param end: End point of great circle path (L{LatLon}) or
-                       initial bearing from start point (compass degrees).
-           @keyword radius: Optional, mean earth radius (meter).
+                       initial bearing from start point (compass
+                       C{degrees360}).
+           @keyword radius: Optional, mean earth radius (C{meter}).
 
            @return: Distance along the great circle path (positive if
                     after the start toward the end point of the path
@@ -141,8 +142,9 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @param start: Start point of great circle path (L{LatLon}).
            @param end: End point of great circle path (L{LatLon}) or
-                       initial bearing from start point (compass degrees).
-           @keyword radius: Optional, mean earth radius (meter).
+                       initial bearing from start point (compass
+                       C{degrees360}).
+           @keyword radius: Optional, mean earth radius (C{meter}).
 
            @return: Distance to great circle (negative if to the
                     left or positive if to the right of the path).
@@ -171,11 +173,13 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         '''Locate the destination from this point after having
            travelled the given distance on the given bearing.
 
-           @param distance: Distance travelled (same units radius).
-           @param bearing: Bearing from this point (compass degrees).
-           @keyword radius: Optional, mean earth radius (meter).
+           @param distance: Distance travelled (C{meter}, same units
+                            as I{radius}).
+           @param bearing: Bearing from this point (compass C{degrees360}).
+           @keyword radius: Optional, mean earth radius (C{meter}).
            @keyword height: Optional height at destination, overriding
-                            the default height (meter).
+                            the default height (C{meter}, same units as
+                            I{radius}).
 
            @return: Destination point (L{LatLon}).
 
@@ -205,10 +209,10 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         '''Compute the distance from this to an other point.
 
            @param other: The other point (L{LatLon}).
-           @keyword radius: Optional, mean earth radius (meter).
+           @keyword radius: Optional, mean earth radius (C{meter}).
 
            @return: Distance between this and the I{other} point
-                    (meter, same units as radius).
+                    (C{meter}, same units as I{radius}).
 
            @raise TypeError: The I{other} point is not L{LatLon}.
 
@@ -229,7 +233,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            Direction of vector is such that initial bearing vector
            b = c × n, where n is an n-vector representing this point.
 
-           @param bearing: Bearing from this point (compass degrees).
+           @param bearing: Bearing from this point (compass C{degrees360}).
 
            @return: N-vector representing great circle (L{Nvector}).
 
@@ -258,7 +262,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            b = c × n, where n is an n-vector representing this point.
 
            @param other: The other point (L{LatLon}) or the bearing
-                         from this point (compass degrees).
+                         from this point (compass C{degrees360}).
 
            @return: N-vector representing great circle (L{Nvector}).
 
@@ -286,7 +290,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @param other: The other point (L{LatLon}).
            @param unused: Optional keyword argument I{wrap} ignored.
 
-           @return: Initial bearing (compass degrees).
+           @return: Initial bearing (compass C{degrees360}).
 
            @raise TypeError: The I{other} point is not L{LatLon}.
 
@@ -314,7 +318,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @param fraction: Fraction between both points (float, 0.0 =
                             this point, 1.0 = other point).
            @keyword height: Optional height at the intermediate point,
-                            overriding the fractional height (meter).
+                            overriding the fractional height (C{meter}).
 
            @return: Intermediate point (L{LatLon}).
 
@@ -345,7 +349,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @param fraction: Fraction between both points (float, 0.0 =
                             this point, 1.0 = the other point).
            @keyword height: Optional height at the intermediate point,
-                            overriding the fractional height (meter).
+                            overriding the fractional height (C{meter}).
 
            @return: Intermediate point (L{LatLon}).
 
@@ -379,13 +383,14 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            by two points or a start point and bearing from North.
 
            @param end1: End point of first path (L{LatLon}) or the
-                        initial bearing at this point (compass degrees).
+                        initial bearing at this point (compass
+                        C{degrees360}).
            @param start2: Start point of the second path (L{LatLon}).
            @param end2: End point of second path (L{LatLon}) or the
                         initial bearing at the second point (compass
-                        degrees).
+                        C{degrees}).
            @keyword height: Optional height at the intersection point,
-                            overriding the mean height (meter).
+                            overriding the mean height (C{meter}).
 
            @return: Intersection point (L{LatLon}).
 
@@ -403,13 +408,13 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         return intersection(self, end1, start2, end2,
                             height=height, LatLon=self.classof)
 
-    def isEnclosedBy(self, points):
-        '''Test whether this point is enclosed by a (convex) polygon
-           defined by a list, sequence, set or tuple of points.
+    def isenclosedBy(self, points):
+        '''Check whether this point is enclosed by a (convex) polygon.
 
            @param points: The points defining the polygon (L{LatLon}[]).
 
-           @return: True if the polygon encloses this point (bool).
+           @return: C{True} if the polygon encloses this point,
+                    C{False} otherwise.
 
            @raise TypeError: Some I{points} are not L{LatLon}.
 
@@ -459,9 +464,13 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         # spherical surface?
         return abs(s) > PI
 
-    def isWithin(self, point1, point2):
-        '''Test whether this point is within the extent of a segment
-           joining two other points.
+    def isEnclosedBy(self, points):
+        '''DEPRECATED, used method I{isenclosedBy}.
+        '''
+        return self.isenclosedBy(points)
+
+    def iswithin(self, point1, point2):
+        '''Check whether this point is between two other points.
 
            If this point is not on the great circle defined by both
            points, return whether it is within the area bound by
@@ -471,7 +480,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @param point1: Start point of the segment (L{LatLon}).
            @param point2: End point of the segment (L{LatLon}).
 
-           @return: True if this point is within the segment (bool).
+           @return: C{True} if this point is within the segment,
+                    C{False} otherwise.
 
            @raise TypeError: If I{point1} or I{point2} is not L{LatLon}.
 
@@ -499,12 +509,17 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         return n0.minus(n1).dot(n2.minus(n1)) >= 0 and \
                n0.minus(n2).dot(n1.minus(n2)) >= 0
 
+    def isWithin(self, point1, point2):
+        '''DEPRECATED, used method I{iswithin}.
+        '''
+        return self.iswithin(point1, point2)
+
     def midpointTo(self, other, height=None):
         '''Find the midpoint between this and an other point.
 
            @param other: The other point (L{LatLon}).
            @keyword height: Optional height at the midpoint,
-                            overriding the mean height (meter).
+                            overriding the mean height (C{meter}).
 
            @return: Midpoint (L{LatLon}).
 
@@ -533,7 +548,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @param point1: Start point of the segment (L{LatLon}).
            @param point2: End point of the segment (L{LatLon}).
            @keyword height: Optional height, overriding the mean height
-                            for the point if within segment (meter).
+                            for the point if within segment (C{meter}).
 
            @return: Closest point on segment (L{LatLon}).
 
@@ -578,10 +593,10 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            point is the nearest of the segment end points.
 
            @param points: The points of the path (L{LatLon}[]).
-           @keyword closed: Optionally, treat path as closed (bool).
-           @keyword radius: Optional, mean earth radius (meter).
+           @keyword closed: Optionally, treat path as closed (C{bool}).
+           @keyword radius: Optional, mean earth radius (C{meter}).
            @keyword height: Optional height, overriding the mean height
-                            for a point if within segment (meter).
+                            for a point if within segment (C{meter}).
 
            @return: 2-Tuple (closest, distance) of the closest point
                     (L{LatLon}) on the path and the distance to that
@@ -627,11 +642,12 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         '''Locate a point given this and an other point and bearings
            at this and the other point.
 
-           @param bearing1: Bearing at this point (compass degrees).
+           @param bearing1: Bearing at this point (compass C{degrees360}).
            @param other: The other point (L{LatLon}).
-           @param bearing2: Bearing at the other point (compass degrees).
+           @param bearing2: Bearing at the other point (compass
+                            C{degrees360}).
            @keyword height: Optional height at the triangulated point,
-                            overriding the mean height (meter).
+                            overriding the mean height (C{meter}).
 
            @return: Triangulated point (L{LatLon}).
 
@@ -653,15 +669,18 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         '''Locate a point at given distances from this and two other points.
            See also U{Trilateration<http://WikiPedia.org/wiki/Trilateration>}.
 
-           @param distance1: Distance to this point (same units as radius).
+           @param distance1: Distance to this point (C{meter}, same units
+                             as I{radius}).
            @param point2: Second reference point (L{LatLon}).
-           @param distance2: Distance to point2 (same units as radius).
+           @param distance2: Distance to point2 (C{meter}, same units as
+                             I{radius}).
            @param point3: Third reference point (L{LatLon}).
-           @param distance3: Distance to point3 (same units as radius).
-           @keyword radius: Optional, mean earth radius (meter).
+           @param distance3: Distance to point3 (C{meter}, same units as
+                             I{radius}).
+           @keyword radius: Optional, mean earth radius (C{meter}).
            @keyword height: Optional height at trilaterated point,
-                            overriding the mean height (meter or same
-                            unit as radius).
+                            overriding the mean height (C{meter}, same
+                            units as I{radius}).
 
            @return: Trilaterated point (L{LatLon}).
 
@@ -695,13 +714,13 @@ class Nvector(NvectorBase):
         '''Convert this n-vector to a (spherical) geodetic point.
 
            @keyword height: Optional height above earth radius,
-                            overriding the default height (meter).
-           @keyword LatLon: Optional (spherical) LatLon (sub-) class
-                            to use for the point (L{LatLon}) or None.
+                            overriding the default height (C{meter}).
+           @keyword LatLon: Optional (spherical) LatLon (sub-)class
+                            to use for the point (L{LatLon}) or C{None}.
 
            @return: Point equivalent to this n-vector (L{LatLon}) or
-                    3-tuple (degrees90, degrees180, height) if
-                    I{LatLon} is None.
+                    3-tuple (C{degrees90}, C{degrees180}, height) if
+                    I{LatLon} is C{None}.
 
            @example:
 
@@ -718,7 +737,7 @@ class Nvector(NvectorBase):
            Direction of vector is such that initial bearing vector
            b = c × p.
 
-           @param bearing: Initial compass bearing (degrees).
+           @param bearing: Initial compass bearing (C{degrees}).
 
            @return: N-vector representing great circle (L{Nvector}).
 
@@ -747,7 +766,7 @@ def areaOf(points, radius=R_M):
        of the polygon are great circle arcs joining the points.
 
        @param points: The points defining the polygon (L{LatLon}[]).
-       @keyword radius: Optional, mean earth radius (meter).
+       @keyword radius: Optional, mean earth radius (C{meter}).
 
        @return: Polygon area (float, same units as radius squared).
 
@@ -813,17 +832,17 @@ def intersection(start1, end1, start2, end2,
        @param start1: Start point of the first path (L{LatLon}).
        @param end1: End point of first path (L{LatLon}) or the
                     initial bearing at the first start point
-                    (compass degrees).
+                    (compass C{degrees360}).
        @param start2: Start point of the second path (L{LatLon}).
        @param end2: End point of second path (L{LatLon}) or the
                     initial bearing at the second start point
-                    (compass degrees).
+                    (compass C{degrees360}).
        @keyword height: Optional height at the intersection point,
-                        overriding the default height (meter).
-       @keyword LatLon: Optional LatLon class for the intersection
+                        overriding the default height (C{meter}).
+       @keyword LatLon: Optional (sub-)class for the intersection
                         point (L{LatLon}).
 
-       @return: Intersection point (L{LatLon}) or None if no
+       @return: Intersection point (L{LatLon}) or C{None} if no
                 unique intersection exists.
 
        @raise TypeError: Start or end point(s) not L{LatLon}.
@@ -886,8 +905,8 @@ def meanOf(points, height=None, LatLon=LatLon):
     '''Compute the geographic mean of the supplied points.
 
        @param points: Array of points to be averaged (L{LatLon}[]).
-       @keyword height: Optional height, overriding the mean height (meter).
-       @keyword LatLon: Optional LatLon class for the mean point (L{LatLon}).
+       @keyword height: Optional height, overriding the mean height (C{meter}).
+       @keyword LatLon: Optional (sub-)class for the mean point (L{LatLon}).
 
        @return: Point at geographic mean and mean height (L{LatLon}).
 
@@ -911,10 +930,10 @@ def nearestOn2(point, points, closed=False, radius=R_M, height=None):
 
        @param point: The reference point (L{LatLon}).
        @param points: The points of the path (L{LatLon}[]).
-       @keyword closed: Optionally, treat path as closed (bool).
-       @keyword radius: Optional, mean earth radius (meter).
+       @keyword closed: Optionally, treat path as closed (C{bool}).
+       @keyword radius: Optional, mean earth radius (C{meter}).
        @keyword height: Optional height, overriding the mean height
-                        for a point if within segment (meter).
+                        for a point within segment (C{meter}).
 
        @return: 2-Tuple (closest, distance) of the closest point
                 (L{LatLon}) on the path and the distance to that
@@ -937,13 +956,13 @@ def triangulate(point1, bearing1, point2, bearing2,
        from those points.
 
        @param point1: First reference point (L{LatLon}).
-       @param bearing1: Bearing at the first point (compass degrees).
+       @param bearing1: Bearing at the first point (compass C{degrees360}).
        @param point2: Second reference point (L{LatLon}).
-       @param bearing2: Bearing at the second point (compass degrees).
+       @param bearing2: Bearing at the second point (compass C{degrees360}).
        @keyword height: Optional height at the triangulated point,
-                        overriding the mean height (meter).
-       @keyword LatLon: Optional LatLon class for the triangulated
-                        point (L{LatLon}).
+                        overriding the mean height (C{meter}).
+       @keyword LatLon: Optional (sub-)class for the triangulated point
+                        (L{LatLon}).
 
        @return: Triangulated point (L{LatLon}).
 
@@ -990,15 +1009,18 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3,
        See also U{Trilateration<http://WikiPedia.org/wiki/Trilateration>}.
 
        @param point1: First point (L{LatLon}).
-       @param distance1: Distance to the first point (same units as radius).
+       @param distance1: Distance to the first point (C{meter}, same units
+                         as I{radius}).
        @param point2: Second point (L{LatLon}).
-       @param distance2: Distance to the second point (same units as radius).
+       @param distance2: Distance to the second point (C{meter}, same units
+                         as I{radius}).
        @param point3: Third point (L{LatLon}).
-       @param distance3: Distance to the third point (same units as radius).
-       @keyword radius: Optional, mean earth radius (meter).
+       @param distance3: Distance to the third point (C{meter}, same units
+                         as I{radius}).
+       @keyword radius: Optional, mean earth radius (C{meter}).
        @keyword height: Optional height at the trilaterated point, overriding
-                        the mean height (meter or same unit as radius).
-       @keyword LatLon: Optional LatLon class for the trilaterated point
+                        the mean height (C{meter}, same units as I{radius}).
+       @keyword LatLon: Optional (sub-)class for the trilaterated point
                         (L{LatLon}).
 
        @return: Trilaterated point (L{LatLon}).

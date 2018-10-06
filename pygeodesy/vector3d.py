@@ -22,7 +22,7 @@ from math import atan2, cos, sin
 __all__ = ('CrossError', 'Vector3d',  # classes
            'crosserrors',
            'sumOf')  # functions
-__version__ = '18.09.30'
+__version__ = '18.10.06'
 
 try:
     _cmp = cmp
@@ -43,9 +43,10 @@ def crosserrors(raiser=None):
     '''Get/set raising of vectorial cross product errors.
 
        @keyword raiser: Use C{True} to raise or C{False} to ignore
-                        L{CrossError} exceptions.
+                        L{CrossError} exceptions.  Use C{None} to
+                        leave the setting unchanged.
 
-       @return: Previous setting (bool).
+       @return: Previous setting (C{bool}).
     '''
     t = Vector3d._crosserrors
     if raiser in (True, False):
@@ -80,11 +81,11 @@ class Vector3d(VectorBased):
            height relative to the surface of the sphere or ellipsoid,
            distance from earth centre, etc.
 
-           @param x: X component of vector.
-           @param y: Y component of vector.
-           @param z: Z component of vector.
+           @param x: X component of vector (C{scalar}).
+           @param y: Y component of vector (C{scalar}).
+           @param z: Z component of vector (C{scalar}).
            @keyword ll: Optional, original latlon (I{LatLon}).
-           @keyword name: Optional name (string).
+           @keyword name: Optional name (C{str}).
         '''
         VectorBased.__init__(self, name=name)
 
@@ -99,16 +100,16 @@ class Vector3d(VectorBased):
 
            @return: Vectorial sum (L{Vector3d}).
 
-           @raise TypeError: Incompatible I{type(other)}.
+           @raise TypeError: Incompatible I{other} C{type}.
         '''
         return self.plus(other)
     __iadd__ = __add__
     __radd__ = __add__
 
     def __abs__(self):
-        '''Return the norm of this vector (scalar).
+        '''Return the norm of this vector.
 
-           @return: Norm, unit length (float);
+           @return: Norm, unit length (C{float});
         '''
         return self.length
 
@@ -117,9 +118,9 @@ class Vector3d(VectorBased):
 
            @param other: The other vector (L{Vector3d}).
 
-           @return: -1, 0 or +1 (int).
+           @return: -1, 0 or +1 (C{int}).
 
-           @raise TypeError: Incompatible I{type(other)}.
+           @raise TypeError: Incompatible I{other} C{type}.
         '''
         self.others(other)
         return _cmp(self.length, other.length)
@@ -127,11 +128,11 @@ class Vector3d(VectorBased):
     def __div__(self, scalar):
         '''Divide this vector by a scalar.
 
-           @param scalar: The divisor (scalar).
+           @param scalar: The divisor (C{scalar}).
 
            @return: Quotient (L{Vector3d}).
 
-           @raise TypeError: If scalar not I{scalar}'
+           @raise TypeError: Non-scalar I{scalar}'
         '''
         return self.dividedBy(scalar)
     __itruediv__ = __div__
@@ -142,9 +143,9 @@ class Vector3d(VectorBased):
 
            @param other: The other vector (L{Vector3d}).
 
-           @return: True if so (bool).
+           @return: C{True} if equal, C{False} otherwise.
 
-           @raise TypeError: Incompatible I{type(other)}.
+           @raise TypeError: Incompatible I{other} C{type}.
         '''
         self.others(other)
         return self.isequalTo(other)
@@ -154,9 +155,9 @@ class Vector3d(VectorBased):
 
            @param other: The other vector (L{Vector3d}).
 
-           @return: True if so (bool).
+           @return: C{True} if so, C{False} otherwise.
 
-           @raise TypeError: Incompatible I{type(other)}.
+           @raise TypeError: Incompatible I{other} C{type}.
         '''
         self.others(other)
         return self.length >= other.length
@@ -166,9 +167,9 @@ class Vector3d(VectorBased):
 
            @param other: The other vector (L{Vector3d}).
 
-           @return: True if so (bool).
+           @return: C{True} if so, C{False} otherwise.
 
-           @raise TypeError: Incompatible I{type(other)}.
+           @raise TypeError: Incompatible I{other} C{type}.
         '''
         self.others(other)
         return self.length > other.length
@@ -178,9 +179,9 @@ class Vector3d(VectorBased):
 
            @param other: The other vector (L{Vector3d}).
 
-           @return: True if so (bool).
+           @return: C{True} if so, C{False} otherwise.
 
-           @raise TypeError: Incompatible I{type(other)}.
+           @raise TypeError: Incompatible I{other} C{type}.
         '''
         self.others(other)
         return self.length <= other.length
@@ -190,9 +191,9 @@ class Vector3d(VectorBased):
 
            @param other: The other vector (L{Vector3d}).
 
-           @return: True if so (bool).
+           @return: C{True} if so, C{False} otherwise.
 
-           @raise TypeError: Incompatible I{type(other)}.
+           @raise TypeError: Incompatible I{other} C{type}.
         '''
         self.others(other)
         return self.length < other.length
@@ -205,7 +206,7 @@ class Vector3d(VectorBased):
 
            @return: Cross product (L{Vector3d}).
 
-           @raise TypeError: Incompatible I{type(other)}.
+           @raise TypeError: Incompatible I{other} C{type}.
         '''
         return self.cross(other)
     __imatmul__ = __matmul__
@@ -213,7 +214,7 @@ class Vector3d(VectorBased):
     def __mul__(self, scalar):
         '''Multiply this vector by a scalar
 
-           @param scalar: Factor (scalar).
+           @param scalar: Factor (C{scalar}).
 
            @return: Product (L{Vector3d}).
         '''
@@ -226,9 +227,9 @@ class Vector3d(VectorBased):
 
            @param other: The other vector (L{Vector3d}).
 
-           @return: True if so (bool).
+           @return: C{True} if so, C{False} otherwise.
 
-           @raise TypeError: Incompatible I{type(other)}.
+           @raise TypeError: Incompatible I{other} C{type}.
         '''
         self.others(other)
         return not self.isequalTo(other)
@@ -255,7 +256,7 @@ class Vector3d(VectorBased):
 
            @return: Cross product (L{Vector3d}).
 
-           @raise TypeError: Incompatible I{type(other)}.
+           @raise TypeError: Incompatible I{other} C{type}.
         '''
         self.others(other)
         return other.cross(self)
@@ -267,7 +268,7 @@ class Vector3d(VectorBased):
 
            @return: Difference (L{Vector3d}).
 
-           @raise TypeError: Incompatible I{type(other)}.
+           @raise TypeError: Incompatible I{other} C{type}.
         '''
         self.others(other)
         return other.minus(self)
@@ -279,7 +280,7 @@ class Vector3d(VectorBased):
 
            @return: Difference (L{Vector3d}).
 
-           @raise TypeError: Incompatible I{type(other)}.
+           @raise TypeError: Incompatible I{other} C{type}.
         '''
         return self.minus(other)
     __isub__ = __sub__
@@ -306,9 +307,9 @@ class Vector3d(VectorBased):
                            along vSign or negative in opposite direction,
                            otherwise angle is unsigned.
 
-           @return: Angle (radians).
+           @return: Angle (C{radians}).
 
-           @raise TypeError: If other or vSign not a L{Vector3d}.
+           @raise TypeError: If I{other} or I{vSign} not a L{Vector3d}.
         '''
         x = self.cross(other)
         s = x.length
@@ -330,14 +331,14 @@ class Vector3d(VectorBased):
         '''Compute the cross product of this and an other vector.
 
            @param other: The other vector (L{Vector3d}).
-           @keyword raiser: Optional, L{CrossError} label if raised (string).
+           @keyword raiser: Optional, L{CrossError} label if raised (C{str}).
 
            @return: Cross product (L{Vector3d}).
 
            @raise CrossError: Zero or near-zero cross product and both
                               I{raiser} and L{crosserrors} set.
 
-           @raise TypeError: Incompatible I{type(other)}.
+           @raise TypeError: Incompatible I{other} C{type}.
 
            @raise ValueError: Coincident or colinear to I{other}.
         '''
@@ -356,26 +357,26 @@ class Vector3d(VectorBased):
 
     @property
     def crosserrors(self):
-        '''Get L{CrossError}s (bool).
+        '''Get L{CrossError} exceptions (C{bool}).
         '''
         return self._crosserrors
 
     @crosserrors.setter  # PYCHOK setter!
     def crosserrors(self, raiser):
-        '''Set the raising of L{CrossError}s (bool).
+        '''Raise L{CrossError} exceptions (C{bool}).
         '''
         self._crosserrors = bool(raiser)
 
     def dividedBy(self, factor):
         '''Divide this vector by a scalar.
 
-           @param factor: The divisor (scalar).
+           @param factor: The divisor (C{scalar}).
 
            @return: New, scaled vector (L{Vector3d}).
 
-           @raise TypeError: If factor not scalar.
+           @raise TypeError: Non-scalar I{factor}.
 
-           @raise ValueError: Invalid or zero factor.
+           @raise ValueError: Invalid or zero I{factor}.
         '''
         if not isscalar(factor):
             raise TypeError('%s not scalar: %r' % ('factor', factor))
@@ -389,9 +390,9 @@ class Vector3d(VectorBased):
 
            @param other: The other vector (L{Vector3d}).
 
-           @return: Dot product (float).
+           @return: Dot product (C{float}).
 
-           @raise TypeError: Incompatible I{type(other)}.
+           @raise TypeError: Incompatible I{other} C{type}.
         '''
         self.others(other)
 
@@ -409,9 +410,9 @@ class Vector3d(VectorBased):
            @keyword units: Optionally, compare the normalized,
                            unit version of both vectors.
 
-           @return: True if vectors are identical (bool).
+           @return: C{True} if vectors are identical, C{False} otherwise.
 
-           @raise TypeError: Incompatible I{type(other)}.
+           @raise TypeError: Incompatible I{other} C{type}.
 
            @example:
 
@@ -429,7 +430,7 @@ class Vector3d(VectorBased):
 
     @property_RO
     def length(self):
-        '''Get the length (norm, magnitude) of this vector (float).
+        '''Get the length (norm, magnitude) of this vector (C{float}).
         '''
         if self._length is None:
             self._length = hypot3(self.x, self.y, self.z)
@@ -442,7 +443,7 @@ class Vector3d(VectorBased):
 
            @return: New vector difference (L{Vector3d}).
 
-           @raise TypeError: Incompatible I{type(other)}.
+           @raise TypeError: Incompatible I{other} C{type}.
         '''
         self.others(other)
 
@@ -461,9 +462,9 @@ class Vector3d(VectorBased):
         '''Refined class comparison.
 
            @param other: The other vector (L{Vector3d}).
-           @keyword name: Optional, other's name (string).
+           @keyword name: Optional, other's name (C{str}).
 
-           @raise TypeError: Incompatible I{type(other)}.
+           @raise TypeError: Incompatible I{other} C{type}.
         '''
         try:
             VectorBased.others(self, other, name=name)
@@ -471,19 +472,18 @@ class Vector3d(VectorBased):
             if not isinstance(other, Vector3d):
                 raise
 
-    def parse(self, str3d):
+    def parse(self, str3d, sep=','):
         '''Parse an "x, y, z" string representing a L{Vector3d}.
 
-           The x, y and z must be separated by a comma.
-
-           @param str3d: X, y and z string.
+           @param str3d: X, y and z value (C{str}).
+           @keyword sep: Optional separator (C{str}).
 
            @return: New vector (L{Vector3d}).
 
-           @raise ValueError: Invalid str3d.
+           @raise ValueError: Invalid I{str3d}.
         '''
         try:
-            v = [float(v.strip()) for v in str3d.split(',')]
+            v = [float(v.strip()) for v in str3d.split(sep)]
             if len(v) != 3:
                 raise ValueError
         except ValueError:
@@ -496,9 +496,9 @@ class Vector3d(VectorBased):
 
            @param other: The other vector (L{Vector3d}).
 
-           @return: New vector sum (L{Vector3d}).
+           @return: Vectorial sum (L{Vector3d}).
 
-           @raise TypeError: Incompatible I{type(other)}.
+           @raise TypeError: Incompatible I{other} C{type}.
         '''
         self.others(other)
 
@@ -517,7 +517,7 @@ class Vector3d(VectorBased):
            <http://WikiPedia.org/wiki/Quaternions_and_spatial_rotation#Quaternion-derived_rotation_matrix>}.
 
            @param axis: The axis being rotated around (L{Vector3d}).
-           @param theta: The angle of rotation (radians).
+           @param theta: The angle of rotation (C{radians}).
 
            @return: New, rotated vector (L{Vector3d}).
 
@@ -545,11 +545,11 @@ class Vector3d(VectorBased):
     def times(self, factor):
         '''Multiply this vector by a scalar.
 
-           @param factor: Scale factor (scalar).
+           @param factor: Scale factor (C{scalar}).
 
            @return: New, scaled vector (L{Vector3d}).
 
-           @raise TypeError: If factor not scalar.
+           @raise TypeError: Non-scalar I{factor}.
         '''
         if not isscalar(factor):
             raise TypeError('%s not scalar: %r' % ('factor', factor))
@@ -560,7 +560,7 @@ class Vector3d(VectorBased):
     def to2ab(self):
         '''Convert this vector to (geodetic) lat- and longitude.
 
-           @return: 2-Tuple (lat, lon) in (radians, radians).
+           @return: 2-Tuple (lat, lon) in (C{radians}, C{radians}).
 
            @example:
 
@@ -574,7 +574,7 @@ class Vector3d(VectorBased):
     def to2ll(self):
         '''Convert this vector to (geodetic) lat- and longitude.
 
-           @return: 2-Tuple (lat, lon) in (degrees90, degrees180).
+           @return: 2-Tuple (lat, lon) in (C{degrees90}, C{degrees180}).
 
            @example:
 
@@ -587,18 +587,18 @@ class Vector3d(VectorBased):
     def to3xyz(self):
         '''Return this vector as a 3-tuple.
 
-           @return: 3-Tuple (x, y, z) as (scalars).
+           @return: 3-Tuple (x, y, z) as (C{float}s).
         '''
         return self.x, self.y, self.z
 
     def toStr(self, prec=5, fmt='(%s)', sep=', '):  # PYCHOK expected
         '''Return a string representation of this vector.
 
-           @keyword prec: Optional number of decimal places (int).
-           @keyword fmt: Optional, enclosing format to use (string).
-           @keyword sep: Optional separator between components (string).
+           @keyword prec: Optional number of decimal places (C{int}).
+           @keyword fmt: Optional, enclosing format to use (C{str}).
+           @keyword sep: Optional separator between components (C{str}).
 
-           @return: Vector as "(x, y, z)" (string).
+           @return: Vector as "(x, y, z)" (C{str}).
         '''
         return fmt % (fStr(self.to3xyz(), prec=prec, sep=sep),)
 
@@ -619,19 +619,19 @@ class Vector3d(VectorBased):
 
     @property_RO
     def x(self):
-        '''Get the X component (scalar).
+        '''Get the X component (C{float}).
         '''
         return self._x
 
     @property_RO
     def y(self):
-        '''Get the Y component (scalar).
+        '''Get the Y component (C{float}).
         '''
         return self._y
 
     @property_RO
     def z(self):
-        '''Get the Z component (scalar).
+        '''Get the Z component (C{float}).
         '''
         return self._z
 
@@ -641,11 +641,11 @@ def sumOf(vectors, Vector=Vector3d, **kwds):
 
        @param vectors: Vectors to be added (L{Vector3d}[]).
        @keyword Vector: Optional class for the vectorial sum (L{Vector3d}).
-       @keyword kwds: Optional, additional I{Vector} keyword argments.
+       @keyword kwds: Optional, additional I{Vector} keyword arguments.
 
        @return: Vectorial sum (I{Vector}).
 
-       @raise ValueError: No vectors.
+       @raise ValueError: No I{vectors}.
     '''
     n, vectors = len2(vectors)
     if n < 1:

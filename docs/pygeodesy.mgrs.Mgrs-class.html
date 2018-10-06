@@ -234,7 +234,7 @@ bases.Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.mgrs.Mgrs-class.html#band" class="summary-name">band</a><br />
-      Get the latitudinal band A..Z (string).
+      Get the latitudinal band (A..Z <code>str</code>).
     </td>
   </tr>
 <tr>
@@ -242,7 +242,7 @@ bases.Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.mgrs.Mgrs-class.html#bandLatitude" class="summary-name">bandLatitude</a><br />
-      Get the band latitude (degrees90 or None).
+      Get the band latitude (<code>degrees90</code> or <code>None</code>).
     </td>
   </tr>
 <tr>
@@ -259,7 +259,7 @@ bases.Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.mgrs.Mgrs-class.html#en100k" class="summary-name">en100k</a><br />
-      Get the 2-character grid EN digraph (string).
+      Get the 2-character grid (EN digraph <code>str</code>).
     </td>
   </tr>
 <tr>
@@ -267,7 +267,7 @@ bases.Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.mgrs.Mgrs-class.html#easting" class="summary-name">easting</a><br />
-      Gets the easting (meter).
+      Gets the easting (<code>meter</code>).
     </td>
   </tr>
 <tr>
@@ -275,7 +275,7 @@ bases.Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.mgrs.Mgrs-class.html#northing" class="summary-name">northing</a><br />
-      Get the northing (meter).
+      Get the northing (<code>meter</code>).
     </td>
   </tr>
 <tr>
@@ -283,7 +283,7 @@ bases.Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.mgrs.Mgrs-class.html#zone" class="summary-name">zone</a><br />
-      Get the longitudal zone 1..60 (int).
+      Get the longitudal zone (1..60 <code>int</code>).
     </td>
   </tr>
   <tr>
@@ -334,14 +334,16 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>zone</code></strong> - 6&#176; longitudinal zone, 1..60 covering 180&#176;W..180&#176;E (int).</li>
-        <li><strong class="pname"><code>en100k</code></strong> - Two-letter EN digraph, 100 km grid square (string).</li>
-        <li><strong class="pname"><code>easting</code></strong> - Easting in meter within 100 km grid square (scalar).</li>
-        <li><strong class="pname"><code>northing</code></strong> - Northing in meter within 100 km grid square (scalar).</li>
-        <li><strong class="pname"><code>band</code></strong> - Optional 8&#176; latitudinal band, C..X covering 80&#176;S..84&#176;N (string).</li>
+        <li><strong class="pname"><code>zone</code></strong> - 6&#176; longitudinal zone (<code>int</code>), 1..60 covering 
+          180&#176;W..180&#176;E.</li>
+        <li><strong class="pname"><code>en100k</code></strong> - Two-letter EN digraph (<code>str</code>), 100 km grid square.</li>
+        <li><strong class="pname"><code>easting</code></strong> - Easting (<code>meter</code>), within 100 km grid square.</li>
+        <li><strong class="pname"><code>northing</code></strong> - Northing (<code>meter</code>), within 100 km grid square.</li>
+        <li><strong class="pname"><code>band</code></strong> - Optional 8&#176; latitudinal band (<code>str</code>), C..X covering 
+          80&#176;S..84&#176;N.</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional this reference's datum (<a 
           href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (string).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -403,7 +405,7 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>strMGRS</code></strong> - MGRS grid reference (string).</li>
+        <li><strong class="pname"><code>strMGRS</code></strong> - MGRS grid reference (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>MGRS reference (<a href="pygeodesy.mgrs.Mgrs-class.html" 
@@ -442,11 +444,12 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>prec</code></strong> - Optional number of digits, 4:km, 10:m (int).</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator to join (string).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional number of digits (<code>int</code>), 4:km, 10:m.</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator to join (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>This Mgrs as &quot;00B EN easting northing&quot; (string).</dd>
+        <dd>This Mgrs as &quot;00B EN easting northing&quot; 
+          (<code>str</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>prec</i>.</li>
@@ -483,13 +486,13 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>prec</code></strong> - Optional number of digits, 4:km, 10:m (int).</li>
-        <li><strong class="pname"><code>fmt</code></strong> - Optional enclosing backets format (string).</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator between name:values (string).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional number of digits (<code>int</code>), 4:km, 10:m.</li>
+        <li><strong class="pname"><code>fmt</code></strong> - Optional enclosing backets format (<code>str</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator between name:values (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>This Mgrs as &quot;[Z:00B, G:EN, E:meter, N:meter]&quot; 
-          (string).</dd>
+          (<code>str</code>).</dd>
     <dt>Overrides:
         bases.Based.toStr2
     </dt>
@@ -515,14 +518,14 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>Utm</code></strong> - Optional Utm class to use for the UTM coordinate (<a 
+        <li><strong class="pname"><code>Utm</code></strong> - Optional (sub-)class to use for the UTM coordinate (<a 
           href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>) or 
-          None.</li>
+          <code>None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The UTM coordinate (<a href="pygeodesy.utm.Utm-class.html" 
           class="link">Utm</a>) or 4-tuple (zone, hemisphere, easting, 
-          northing) if <i>Utm</i> is None.</dd>
+          northing) if <i>Utm</i> is <code>None</code>.</dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -547,11 +550,11 @@ bases.Named --+
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">band</h3>
-  <p>Get the latitudinal band A..Z (string).</p>
+  <p>Get the latitudinal band (A..Z <code>str</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">band(<span class="summary-sig-arg">self</span>)</span>
-        - Get the latitudinal band A..Z (string).
+        - Get the latitudinal band (A..Z <code>str</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -567,11 +570,12 @@ bases.Named --+
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">bandLatitude</h3>
-  <p>Get the band latitude (degrees90 or None).</p>
+  <p>Get the band latitude (<code>degrees90</code> or 
+  <code>None</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">bandLatitude(<span class="summary-sig-arg">self</span>)</span>
-        - Get the band latitude (degrees90 or None).
+        - Get the band latitude (<code>degrees90</code> or <code>None</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -609,11 +613,11 @@ class="link">Datum</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">en100k</h3>
-  <p>Get the 2-character grid EN digraph (string).</p>
+  <p>Get the 2-character grid (EN digraph <code>str</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">en100k(<span class="summary-sig-arg">self</span>)</span>
-        - Get the 2-character grid EN digraph (string).
+        - Get the 2-character grid (EN digraph <code>str</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -629,11 +633,11 @@ class="link">Datum</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">easting</h3>
-  <p>Gets the easting (meter).</p>
+  <p>Gets the easting (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">easting(<span class="summary-sig-arg">self</span>)</span>
-        - Gets the easting (meter).
+        - Gets the easting (<code>meter</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -649,11 +653,11 @@ class="link">Datum</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">northing</h3>
-  <p>Get the northing (meter).</p>
+  <p>Get the northing (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">northing(<span class="summary-sig-arg">self</span>)</span>
-        - Get the northing (meter).
+        - Get the northing (<code>meter</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -669,11 +673,11 @@ class="link">Datum</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">zone</h3>
-  <p>Get the longitudal zone 1..60 (int).</p>
+  <p>Get the longitudal zone (1..60 <code>int</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">zone(<span class="summary-sig-arg">self</span>)</span>
-        - Get the longitudal zone 1..60 (int).
+        - Get the longitudal zone (1..60 <code>int</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -715,7 +719,7 @@ class="link">Datum</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Oct  4 14:55:34 2018
+    Generated by Epydoc 3.0.1 on Sat Oct  6 16:22:26 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

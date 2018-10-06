@@ -69,7 +69,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.10.02
+        18.10.06
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -687,8 +687,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#points2" class="summary-sig-name">points2</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">base</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Check an array, generator, iterable, list, set, tuple or other 
-      sequence of points representing a polygon or path.</td>
+      Check a polygon or path represented as an array, generator, iterable,
+      list, set, tuple or other sequence of points.</td>
           <td align="right" valign="top">
             
             
@@ -707,7 +707,8 @@
           <td><span class="summary-sig"><a name="polygon"></a><span class="summary-sig-name">polygon</span>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">base</span>=<span class="summary-sig-default">None</span>)</span><br />
-      DEPRECATED, use function <i>points2</i>.</td>
+      DEPRECATED, use function <a 
+      href="pygeodesy.utily-module.html#points2" class="link">points2</a>.</td>
           <td align="right" valign="top">
             
             
@@ -1000,7 +1001,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="PI2"></a><span class="summary-name">PI2</span> = <code title="6.28318530718">6.28318530718</code><br />
-      Two PI, <i class="math">PI * 2</i> (float)  # PYCHOK expected
+      Two PI, <i class="math">PI * 2</i> (<code>float</code>)  # PYCHOK 
+      expected
     </td>
   </tr>
 <tr>
@@ -1008,7 +1010,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="PI_2"></a><span class="summary-name">PI_2</span> = <code title="1.57079632679">1.57079632679</code><br />
-      Half PI, <i class="math">PI / 2</i> (float)
+      Half PI, <i class="math">PI / 2</i> (<code>float</code>)
     </td>
   </tr>
 <tr>
@@ -1016,7 +1018,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="R_M"></a><span class="summary-name">R_M</span> = <code title="6371008.77141">6371008.77141</code><br />
-      Mean, spherical earth radius (meter).
+      Mean, spherical earth radius (<code>meter</code>).
     </td>
   </tr>
 </table>
@@ -1082,11 +1084,12 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lat</code></strong> - Latitude (degrees).</li>
-        <li><strong class="pname"><code>lon</code></strong> - Longitude (degrees).</li>
+        <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon</code></strong> - Longitude (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (lat, lon) of the antipodal point (degrees, degrees180).</dd>
+        <dd>2-Tuple (lat, lon) of the antipodal point (<code>degrees</code>, 
+          <code>degrees180</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a 
@@ -1114,10 +1117,10 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
+        <li><strong class="pname"><code>rad</code></strong> - Angle (<code>radians</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Angle in degrees, wrapped (degrees90).</dd>
+        <dd>Angle in degrees, wrapped (<code>degrees90</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1140,10 +1143,10 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
+        <li><strong class="pname"><code>rad</code></strong> - Angle (<code>radians</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Angle in degrees, wrapped (degrees180).</dd>
+        <dd>Angle in degrees, wrapped (<code>degrees180</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1165,10 +1168,10 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
+        <li><strong class="pname"><code>rad</code></strong> - Angle (<code>radians</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Angle in degrees, wrapped (degrees360).</dd>
+        <dd>Angle in degrees, wrapped (<code>degrees360</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1193,9 +1196,9 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>easting</code></strong> - Easting from false easting (meter).</li>
-        <li><strong class="pname"><code>northing</code></strong> - Northing from from false northing (meter).</li>
-        <li><strong class="pname"><code>prec</code></strong> - Precision in number of digits (int).</li>
+        <li><strong class="pname"><code>easting</code></strong> - Easting from false easting (<code>meter</code>).</li>
+        <li><strong class="pname"><code>northing</code></strong> - Northing from from false northing (<code>meter</code>).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Precision in number of digits (<code>int</code>).</li>
         <li><strong class="pname"><code>extras</code></strong> - Optional leading items (strings).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -1235,17 +1238,17 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lat1</code></strong> - Start latitude (degrees).</li>
-        <li><strong class="pname"><code>lon1</code></strong> - Start longitude (degrees).</li>
-        <li><strong class="pname"><code>lat2</code></strong> - End latitude (degrees).</li>
-        <li><strong class="pname"><code>lon2</code></strong> - End longitude (degrees).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
+        <li><strong class="pname"><code>lat1</code></strong> - Start latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments for function <a 
           href="pygeodesy.utily-module.html#equirectangular_" 
           class="link">equirectangular_</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Distance (meter, same units as <i>radius</i>).</dd>
+        <dd>Distance (<code>meter</code>, same units as <i>radius</i>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="http://www.EdWilliams.org/avform.htm#flat" 
@@ -1253,8 +1256,9 @@
         href="pygeodesy.utily-module.html#haversine" 
         class="link">haversine</a>, method <a 
         href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
-        class="link">Ellipsoid.distance2</a> and <code>LatLon</code> method
-        <code>distanceTo*</code> for more accurate and/or larger distances.
+        class="link">Ellipsoid.distance2</a> and <code>LatLon</code> 
+        methods <code>distanceTo*</code> for more accurate and/or larger 
+        distances.
       </p>
 </div></td></tr></table>
 </div>
@@ -1288,17 +1292,17 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lat1</code></strong> - Start latitude (degrees).</li>
-        <li><strong class="pname"><code>lon1</code></strong> - Start longitude (degrees).</li>
-        <li><strong class="pname"><code>lat2</code></strong> - End latitude (degrees).</li>
-        <li><strong class="pname"><code>lon2</code></strong> - End longitude (degrees).</li>
+        <li><strong class="pname"><code>lat1</code></strong> - Start latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
-          the mean latitude (bool).</li>
-        <li><strong class="pname"><code>limit</code></strong> - Optional limit for the lat- and longitudinal deltas (degrees) or 
-          None or 0 for unlimited.</li>
+          the mean latitude (<code>bool</code>).</li>
+        <li><strong class="pname"><code>limit</code></strong> - Optional limit for the lat- and longitudinal deltas 
+          (<code>degrees</code>) or <code>None</code> or 0 for unlimited.</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
           class="link">unroll180</a> longitudes and longitudinal delta 
-          (bool).</li>
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>4-Tuple (distance2, delta_lat, delta_lon, lon2_unroll) with the 
@@ -1313,7 +1317,8 @@
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - If the lat- and/or longitudinal delta exceeds the 
-        <i>-limit..+limit</i> range and <i>limiterrors</i> set to True.</li>
+        <i>-limit..+limit</i> range and <i>limiterrors</i> set to 
+        <code>True</code>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -1324,8 +1329,9 @@
         href="pygeodesy.utily-module.html#haversine" 
         class="link">haversine</a>, method <a 
         href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
-        class="link">Ellipsoid.distance2</a> and <code>LatLon</code> method
-        <code>distanceTo*</code> for more accurate and/or larger distances.
+        class="link">Ellipsoid.distance2</a> and <code>LatLon</code> 
+        methods <code>distanceTo*</code> for more accurate and/or larger 
+        distances.
       </p>
 </div></td></tr></table>
 </div>
@@ -1349,15 +1355,15 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>value</code></strong> - Value to convert (scalar).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name of the value (string).</li>
-        <li><strong class="pname"><code>false</code></strong> - Optionally, value includes false origin (bool).</li>
+        <li><strong class="pname"><code>value</code></strong> - Value to convert (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name of the value (<code>str</code>).</li>
+        <li><strong class="pname"><code>false</code></strong> - Optionally, value includes false origin (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The value (float).</dd>
+        <dd>The value (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or negative value.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or negative <i>value</i>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1380,10 +1386,10 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>feet</code></strong> - Value in feet (scalar).</li>
+        <li><strong class="pname"><code>feet</code></strong> - Value in feet (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in m (float).</dd>
+        <dd>Value in m (<code>float</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1405,13 +1411,13 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>str2</code></strong> - String to split (string).</li>
+        <li><strong class="pname"><code>str2</code></strong> - String to split (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (1st, 2nd) half (strings).</dd>
+        <dd>2-Tuple (1st, 2nd) half (<code>str</code>s).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Zero or odd <i>len(str2)</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Zero or odd <code>len</code>(<i>str2</i>).</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1441,25 +1447,25 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lat1</code></strong> - Start latitude (degrees).</li>
-        <li><strong class="pname"><code>lon1</code></strong> - Start longitude (degrees).</li>
-        <li><strong class="pname"><code>lat2</code></strong> - End latitude (degrees).</li>
-        <li><strong class="pname"><code>lon2</code></strong> - End longitude (degrees).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
+        <li><strong class="pname"><code>lat1</code></strong> - Start latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unrollPI" 
-          class="link">unrollPI</a> longitudes (bool).</li>
+          class="link">unrollPI</a> longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Distance (meter, same units as <i>radius</i>).</dd>
+        <dd>Distance (<code>meter</code>, same units as <i>radius</i>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="http://www.EdWilliams.org/avform.htm#Dist" 
-        target="_top">Distance between two (spherical) points</a>, function
-        <a href="pygeodesy.utily-module.html#equirectangular" 
-        class="link">equirectangular</a>. <a 
+        target="_top">Distance between two (spherical) points</a>, 
+        functions <a href="pygeodesy.utily-module.html#equirectangular" 
+        class="link">equirectangular</a>, <a 
         href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
         class="link">Ellipsoid.distance2</a> or <i>LatLon</i> methods 
-        <i>distanceTo*</i> and <i>equirectangular</i>.
+        <i>distanceTo*</i> and <i>equirectangularTo</i>.
       </p>
 </div></td></tr></table>
 </div>
@@ -1485,12 +1491,13 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>a2</code></strong> - End latitude (radians).</li>
-        <li><strong class="pname"><code>a1</code></strong> - Start latitude (radians).</li>
-        <li><strong class="pname"><code>b21</code></strong> - Longitudinal delta, <i class="math">end-start</i> (radians).</li>
+        <li><strong class="pname"><code>a2</code></strong> - End latitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>a1</code></strong> - Start latitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>b21</code></strong> - Longitudinal delta, <i class="math">end-start</i> 
+          (<code>radians</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Angular distance (radians).</dd>
+        <dd>Angular distance (<code>radians</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.utily-module.html#haversine" 
@@ -1519,12 +1526,14 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>angle</code></strong> - Tilt angle above horizontal (degrees).</li>
-        <li><strong class="pname"><code>distance</code></strong> - Distance along the line (meter or same units as <i>radius</i>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional mean earth radius (meter).</li>
+        <li><strong class="pname"><code>angle</code></strong> - Tilt angle above horizontal (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>distance</code></strong> - Distance along the line (<code>meter</code> or same units as 
+          <i>radius</i>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional mean earth radius (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Height (meter, same units as <i>distance</i> and <i>radius</i>).</dd>
+        <dd>Height (<code>meter</code>, same units as <i>distance</i> and 
+          <i>radius</i>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>angle</i>, <i>distance</i> or <i>radius</i>.</li>
@@ -1561,12 +1570,13 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>height</code></strong> - Altitude (meter or same units as <i>radius</i>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional mean earth radius (meter).</li>
-        <li><strong class="pname"><code>refraction</code></strong> - Consider atmospheric refraction (bool).</li>
+        <li><strong class="pname"><code>height</code></strong> - Altitude (<code>meter</code> or same units as <i>radius</i>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>refraction</code></strong> - Consider atmospheric refraction (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Distance (meter, same units as <i>height</i> and <i>radius</i>).</dd>
+        <dd>Distance (<code>meter</code>, same units as <i>height</i> and 
+          <i>radius</i>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>height</i> or <i>radius</i>.</li>
@@ -1601,15 +1611,15 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lat1</code></strong> - Latitude of one point (degrees).</li>
-        <li><strong class="pname"><code>lon1</code></strong> - Longitude of one point (degrees).</li>
-        <li><strong class="pname"><code>lat2</code></strong> - Latitude of the other point (degrees).</li>
-        <li><strong class="pname"><code>lon2</code></strong> - Longitude of the other point (degrees).</li>
-        <li><strong class="pname"><code>eps</code></strong> - Tolerance for near-equality (degrees).</li>
+        <li><strong class="pname"><code>lat1</code></strong> - Latitude of one point (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - Longitude of one point (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lat2</code></strong> - Latitude of the other point (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon2</code></strong> - Longitude of the other point (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance for near-equality (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if points are antipodal within the given tolerance, False 
-          otherwise.</dd>
+        <dd><code>True</code> if points are antipodal within the <i>eps</i> 
+          tolerance, <code>False</code> otherwise.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a 
@@ -1636,11 +1646,11 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>obj</code></strong> - The object (any).</li>
+        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if obj is an <i>Numpy2LatLon</i> instance, False otherwise 
-          (bool).</dd>
+        <dd><code>True</code> if <i>obj</i> is an <i>Numpy2LatLon</i> 
+          instance, <code>False</code> otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1662,11 +1672,11 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>obj</code></strong> - The object (any).</li>
+        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if obj is an <i>LatLon2psxy</i> instance, False otherwise 
-          (bool).</dd>
+        <dd><code>True</code> if <i>obj</i> is an <i>LatLon2psxy</i> 
+          instance, <code>False</code> otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1689,14 +1699,16 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>obj</code></strong> - The object (any).</li>
-        <li><strong class="pname"><code>excluded</code></strong> - Optional, exclusions (types).</li>
+        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+        <li><strong class="pname"><code>excluded</code></strong> - Optional, exclusions (<code>type</code>s).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if obj is a sequence (bool).</dd>
+        <dd><code>True</code> if <i>obj</i> is a sequence, <code>False</code>
+          otherwise.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        Excluding tuple implies namedtuple.
+        Excluding <code>tuple</code> implies excluding 
+        <code>namedtuple</code>.
       </p>
 </div></td></tr></table>
 </div>
@@ -1721,8 +1733,8 @@
         <li><strong class="pname"><code>obj</code></strong> - The object (any).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if obj is an <i>Tuple2LatLon</i> instance, False otherwise 
-          (bool).</dd>
+        <dd><code>True</code> if <i>obj</i> is an <i>Tuple2LatLon</i> 
+          instance, <code>False</code> otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1748,7 +1760,7 @@
         <li><strong class="pname"><code>obj</code></strong> - Points array, list, sequence, set, etc. (any).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True, do iterate (bool).</dd>
+        <dd><code>True</code> do, <code>False</code> don't iterate.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1771,10 +1783,10 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>n</code></strong> - Optional, new threshold (integer).</li>
+        <li><strong class="pname"><code>n</code></strong> - Optional, new threshold (<code>int</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Previous threshold (integer).</dd>
+        <dd>Previous threshold (<code>int</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>n</i>.</li>
@@ -1800,13 +1812,13 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>raiser</code></strong> - Choose True to raise or False to not raise <a 
-          href="pygeodesy.utily.LimitError-class.html" 
-          class="link">LimitError</a> exceptions.  Use None to leave the 
-          setting unchanged.</li>
+        <li><strong class="pname"><code>raiser</code></strong> - Choose <code>True</code> to raise or <code>False</code> to ignore
+          <a href="pygeodesy.utily.LimitError-class.html" 
+          class="link">LimitError</a> exceptions.  Use <code>None</code> to
+          leave the setting unchanged.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Previous setting (bool).</dd>
+        <dd>Previous setting (<code>bool</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1829,10 +1841,10 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>meter</code></strong> - Value in meter (scalar).</li>
+        <li><strong class="pname"><code>meter</code></strong> - Value in meter (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in degrees (float).</dd>
+        <dd>Equatorial angle in degrees (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>radius</i>.</li>
@@ -1858,10 +1870,10 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>meter</code></strong> - Value in meter (scalar).</li>
+        <li><strong class="pname"><code>meter</code></strong> - Value in meter (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in ft (float).</dd>
+        <dd>Value in ft (<code>float</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1883,10 +1895,10 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>meter</code></strong> - Value in meter (scalar).</li>
+        <li><strong class="pname"><code>meter</code></strong> - Value in meter (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in km (float).</dd>
+        <dd>Value in km (<code>float</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1908,10 +1920,10 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>meter</code></strong> - Value in meter (scalar).</li>
+        <li><strong class="pname"><code>meter</code></strong> - Value in meter (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in NM (float).</dd>
+        <dd>Value in NM (<code>float</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1933,10 +1945,10 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>meter</code></strong> - Value in meter (scalar).</li>
+        <li><strong class="pname"><code>meter</code></strong> - Value in meter (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in SM (float).</dd>
+        <dd>Value in SM (<code>float</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1956,18 +1968,21 @@
     </td>
   </tr></table>
   
-  <p>Check an array, generator, iterable, list, set, tuple or other 
-  sequence of points representing a polygon or path.</p>
+  <p>Check a polygon or path represented as an array, generator, iterable, 
+  list, set, tuple or other sequence of points.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The points (<i>LatLon</i>[])</li>
-        <li><strong class="pname"><code>closed</code></strong> - Optionally, treat points as closed polygon or path and remove any
-          duplicate or closing final <i>points</i> (bool).</li>
-        <li><strong class="pname"><code>base</code></strong> - Optional <i>points</i> base class (None).</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, treat the <i>points</i> as a closed polygon or path 
+          and remove any duplicate or closing final <i>points</i> 
+          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>base</code></strong> - Optionally, check <i>points</i> against this base class 
+          <code>None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (number, sequence) of points (int, sequence).</dd>
+        <dd>2-Tuple (number, ...) of points (<code>int</code>, 
+          <code>list</code> or <code>tuple</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <i>LatLon</i>.</li>
@@ -2023,10 +2038,10 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>deg</code></strong> - Angle (degrees).</li>
+        <li><strong class="pname"><code>deg</code></strong> - Angle (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Radians, wrapped (radiansPI)</dd>
+        <dd>Radians, wrapped (<code>radiansPI</code>)</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2048,10 +2063,10 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>deg</code></strong> - Angle (degrees).</li>
+        <li><strong class="pname"><code>deg</code></strong> - Angle (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Radians, wrapped (radiansPI2)</dd>
+        <dd>Radians, wrapped (<code>radiansPI2</code>)</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2074,10 +2089,10 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>deg</code></strong> - Angle (degrees).</li>
+        <li><strong class="pname"><code>deg</code></strong> - Angle (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Radians, wrapped (radiansPI_2)</dd>
+        <dd>Radians, wrapped (<code>radiansPI_2</code>)</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2099,10 +2114,10 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
+        <li><strong class="pname"><code>rad</code></strong> - Angle (<code>radians</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><i class="math">tan(rad / 2)</i> (float).</dd>
+        <dd><i class="math">tan(rad / 2)</i> (<code>float</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2124,10 +2139,10 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
+        <li><strong class="pname"><code>rad</code></strong> - Angle (<code>radians</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><i class="math">tan((rad + PI/2) / 2)</i> (float).</dd>
+        <dd><i class="math">tan((rad + PI/2) / 2)</i> (<code>float</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2151,14 +2166,14 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lon1</code></strong> - Start longitude (degrees).</li>
-        <li><strong class="pname"><code>lon2</code></strong> - End longitude (degrees).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll to the <i class="math">(-180..+180]</i> range 
-          (bool).</li>
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple (delta <i>lon2</i>-<i>lon1</i>, <i>lon2</i>) unrolled 
-          (degrees, degrees).</dd>
+          (<code>degrees</code>, <code>degrees</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Capability <i>LONG_UNROLL</i> in <a 
@@ -2187,14 +2202,14 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>rad1</code></strong> - Start longitude (radians).</li>
-        <li><strong class="pname"><code>rad2</code></strong> - End longitude (radians).</li>
+        <li><strong class="pname"><code>rad1</code></strong> - Start longitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>rad2</code></strong> - End longitude (<code>radians</code>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll to the <i class="math">(-PI..+PI]</i> range 
-          (bool).</li>
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple (delta <i>rad2</i>-<i>rad1</i>, <i>rad2</i>) unrolled 
-          (radians, radians).</dd>
+          (<code>radians</code>, <code>radians</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Capability <i>LONG_UNROLL</i> in <a 
@@ -2223,12 +2238,12 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>name</code></strong> - Function, method or class name (string).</li>
-        <li><strong class="pname"><code>args</code></strong> - Optional positional arguments (tuple).</li>
-        <li><strong class="pname"><code>kwds</code></strong> - Optional keyword arguments (dict).</li>
+        <li><strong class="pname"><code>name</code></strong> - Function, method or class name (<code>str</code>).</li>
+        <li><strong class="pname"><code>args</code></strong> - Optional positional arguments.</li>
+        <li><strong class="pname"><code>kwds</code></strong> - Optional keyword arguments.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Representation (string).</dd>
+        <dd>Representation (<code>str</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2250,10 +2265,10 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>deg</code></strong> - Angle (degrees).</li>
+        <li><strong class="pname"><code>deg</code></strong> - Angle (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Degrees, wrapped (degrees90).</dd>
+        <dd>Degrees, wrapped (<code>degrees90</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2275,10 +2290,10 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>deg</code></strong> - Angle (degrees).</li>
+        <li><strong class="pname"><code>deg</code></strong> - Angle (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Degrees, wrapped (degrees180).</dd>
+        <dd>Degrees, wrapped (<code>degrees180</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2300,10 +2315,10 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>deg</code></strong> - Angle (degrees).</li>
+        <li><strong class="pname"><code>deg</code></strong> - Angle (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Degrees, wrapped (degrees360).</dd>
+        <dd>Degrees, wrapped (<code>degrees360</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2325,10 +2340,10 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
+        <li><strong class="pname"><code>rad</code></strong> - Angle (<code>radians</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Radians, wrapped (radiansPI).</dd>
+        <dd>Radians, wrapped (<code>radiansPI</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2350,10 +2365,10 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
+        <li><strong class="pname"><code>rad</code></strong> - Angle (<code>radians</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Radians, wrapped (radiansPI2).</dd>
+        <dd>Radians, wrapped (<code>radiansPI2</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2375,10 +2390,10 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>rad</code></strong> - Angle (radians).</li>
+        <li><strong class="pname"><code>rad</code></strong> - Angle (<code>radians</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Radians, wrapped (radiansPI_2).</dd>
+        <dd>Radians, wrapped (<code>radiansPI_2</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2414,7 +2429,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Oct  4 14:55:33 2018
+    Generated by Epydoc 3.0.1 on Sat Oct  6 16:22:25 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

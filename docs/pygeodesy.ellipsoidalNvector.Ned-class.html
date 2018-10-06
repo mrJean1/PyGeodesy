@@ -227,7 +227,7 @@ bases.Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoidalNvector.Ned-class.html#bearing" class="summary-name">bearing</a><br />
-      Get the bearing of this NED vector in compass degrees (degrees360).
+      Get the bearing of this NED vector (compass <code>degrees360</code>).
     </td>
   </tr>
 <tr>
@@ -244,7 +244,7 @@ bases.Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoidalNvector.Ned-class.html#length" class="summary-name">length</a><br />
-      Gets the length of this NED vector in meter (scalar).
+      Gets the length of this NED vector (<code>meter</code>).
     </td>
   </tr>
   <tr>
@@ -292,11 +292,11 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>north</code></strong> - North component in meter (scalar).</li>
-        <li><strong class="pname"><code>east</code></strong> - East component in meter (scalar).</li>
-        <li><strong class="pname"><code>down</code></strong> - Down component (normal to the surface of the ellipsoid) in meter 
-          (scalar).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (string).</li>
+        <li><strong class="pname"><code>north</code></strong> - North component (<code>meter</code>).</li>
+        <li><strong class="pname"><code>east</code></strong> - East component (<code>meter</code>).</li>
+        <li><strong class="pname"><code>down</code></strong> - Down component, normal to the surface of the ellipsoid 
+          (<code>meter</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
@@ -351,7 +351,7 @@ bases.Named --+
   <p>Return this NED vector as north/east/down components.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>3-Tuple (north, east, down) in (degrees).</dd>
+        <dd>3-Tuple (north, east, down) in (<code>degrees</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -376,12 +376,12 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimals, unstripped (int).</li>
-        <li><strong class="pname"><code>fmt</code></strong> - Optional enclosing backets format (string).</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator between NEDs (string).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimals, unstripped (<code>int</code>).</li>
+        <li><strong class="pname"><code>fmt</code></strong> - Optional enclosing backets format (<code>str</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator between NEDs (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>This Ned as &quot;[N:f, E:f, D:f]&quot; (string).</dd>
+        <dd>This Ned as &quot;[N:f, E:f, D:f]&quot; (<code>str</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -407,13 +407,13 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimals, unstripped (int).</li>
-        <li><strong class="pname"><code>fmt</code></strong> - Optional enclosing backets format (string).</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator between NEDs (string).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimals, unstripped (<code>int</code>).</li>
+        <li><strong class="pname"><code>fmt</code></strong> - Optional enclosing backets format (<code>str</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator between NEDs (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>This Ned as &quot;[L:f, B:degrees360, E:degrees90]&quot; 
-          (string).</dd>
+          (<code>str</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -456,12 +456,12 @@ bases.Named --+
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">bearing</h3>
-  <p>Get the bearing of this NED vector in compass degrees 
-  (degrees360).</p>
+  <p>Get the bearing of this NED vector (compass 
+  <code>degrees360</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">bearing(<span class="summary-sig-arg">self</span>)</span>
-        - Get the bearing of this NED vector in compass degrees (degrees360).
+        - Get the bearing of this NED vector (compass <code>degrees360</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -478,7 +478,7 @@ bases.Named --+
 <tr><td>
   <h3 class="epydoc">elevation</h3>
   <p>Get the elevation, tilt of this NED vector in degrees from horizontal,
-  i.e. tangent to ellipsoid surface (degrees90).</p>
+  i.e. tangent to ellipsoid surface (<code>degrees90</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">elevation(<span class="summary-sig-arg">self</span>)</span>
@@ -498,11 +498,11 @@ bases.Named --+
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">length</h3>
-  <p>Gets the length of this NED vector in meter (scalar).</p>
+  <p>Gets the length of this NED vector (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">length(<span class="summary-sig-arg">self</span>)</span>
-        - Gets the length of this NED vector in meter (scalar).
+        - Gets the length of this NED vector (<code>meter</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -544,7 +544,7 @@ bases.Named --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Oct  4 14:55:33 2018
+    Generated by Epydoc 3.0.1 on Sat Oct  6 16:22:25 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

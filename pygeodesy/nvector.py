@@ -23,25 +23,25 @@ __all__ = ('NorthPole', 'SouthPole',  # constants
            'LatLonNvectorBase',  # for documentation
            'Nvector',  # classes
            'sumOf')  # functions
-__version__ = '18.09.29'
+__version__ = '18.10.04'
 
 
 class Nvector(Vector3d):  # XXX kept private
     '''Base class for ellipsoidal and spherical L{Nvector}.
     '''
-    _h = 0     #: (INTERNAL) Height (meter).
+    _h = 0     #: (INTERNAL) Height (C{meter}).
 
-    H = ''  #: Heigth prefix (string), '↑' in JS version
+    H = ''  #: Heigth prefix (C{str}), '↑' in JS version
 
     def __init__(self, x, y, z, h=0, ll=None, name=''):
         '''New n-vector normal to the earth's surface.
 
-           @param x: X component (scalar).
-           @param y: Y component (scalar).
-           @param z: Z component (scalar).
-           @keyword h: Optional height above surface (meter).
+           @param x: X component (C{scalar}).
+           @param y: Y component (C{scalar}).
+           @param z: Z component (C{scalar}).
+           @keyword h: Optional height above surface (C{meter}).
            @keyword ll: Optional, original latlon (I{LatLon}).
-           @keyword name: Optional name (string).
+           @keyword name: Optional name (C{str}).
 
            @example:
 
@@ -67,7 +67,7 @@ class Nvector(Vector3d):  # XXX kept private
 
     @property
     def h(self):
-        '''Get the height above surface (meter).
+        '''Get the height above surface (C{meter}).
         '''
         return self._h
 
@@ -75,7 +75,7 @@ class Nvector(Vector3d):  # XXX kept private
     def h(self, h):
         '''Sets height above surface.
 
-           @param h: New height (meter).
+           @param h: New height (C{meter}).
 
            @raise TypeError: If I{h} invalid.
 
@@ -89,8 +89,8 @@ class Nvector(Vector3d):  # XXX kept private
         '''Convert this n-vector to (geodetic) lat-, longitude
            and height.
 
-           @return: 3-Tuple (lat, lon, height) in (radians,
-                    radians, meter).
+           @return: 3-Tuple (lat, lon, height) in (C{radians},
+                    C{radians}, C{meter}).
         '''
         return Vector3d.to2ab(self) + (self.h,)
 
@@ -98,8 +98,8 @@ class Nvector(Vector3d):  # XXX kept private
         '''Convert this n-vector to (geodetic) lat-, longitude
            and height.
 
-           @return: 3-Tuple (lat, lon, height) in (degrees90,
-                    degrees180, meter).
+           @return: 3-Tuple (lat, lon, height) in (C{degrees90},
+                    C{degrees180}, C{meter}).
         '''
         return Vector3d.to2ll(self) + (self.h,)
 
@@ -114,7 +114,7 @@ class Nvector(Vector3d):  # XXX kept private
     def to4xyzh(self):
         '''Return this n-vector as a 4-tuple.
 
-           @return: 4-Tuple (x, y, z, h) in (meter).
+           @return: 4-Tuple (x, y, z, h) in (C{meter}).
         '''
         return self.x, self.y, self.z, self.h
 
@@ -123,11 +123,11 @@ class Nvector(Vector3d):  # XXX kept private
 
            Height component is only included if non-zero.
 
-           @keyword prec: Optional number of decimals, unstripped (int).
-           @keyword fmt: Optional enclosing backets format (string).
-           @keyword sep: Optional separator between components (string).
+           @keyword prec: Optional number of decimals, unstripped (C{int}).
+           @keyword fmt: Optional enclosing backets format (C{str}).
+           @keyword sep: Optional separator between components (C{str}).
 
-           @return: Comma-separated "x, y, z [, h]" (string).
+           @return: Comma-separated "x, y, z [, h]" (C{str}).
 
            @example:
 
@@ -172,9 +172,9 @@ class LatLonNvectorBase(LatLonHeightBase):
         '''Refine the class comparison.
 
            @param other: The other point (I{LatLon}).
-           @keyword name: Optional, other's name (string).
+           @keyword name: Optional, other's name (C{str}).
 
-           @raise TypeError: This and type(I{other}) incompatible.
+           @raise TypeError: Incompatible I{other} C{type}.
         '''
         try:
             LatLonHeightBase.others(self, other, name=name)
@@ -186,7 +186,7 @@ class LatLonNvectorBase(LatLonHeightBase):
         '''Convert this (geodetic) point to n-vector (normal
            to the earth's surface) x/y/z components and height.
 
-           @return: 4-Tuple (x, y, z, h) in (meter).
+           @return: 4-Tuple (x, y, z, h) in (C{meter}).
         '''
         # Kenneth Gade eqn (3), but using right-handed
         # vector x -> 0°E,0°N, y -> 90°E,0°N, z -> 90°N
@@ -202,8 +202,8 @@ def sumOf(nvectors, Vector=Nvector, h=None, **kwds):
 
        @param nvectors: Vectors to be added (L{Nvector}[]).
        @keyword Vector: Optional class for the vectorial sum (L{Nvector}).
-       @keyword kwds: Optional, additional I{Vector} keyword argments.
-       @keyword h: Optional height, overriding the mean height (meter).
+       @keyword kwds: Optional, additional I{Vector} keyword arguments.
+       @keyword h: Optional height, overriding the mean height (C{meter}).
 
        @return: Vectorial sum (I{Vector}).
 

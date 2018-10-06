@@ -66,11 +66,11 @@ class LatLonSphericalBase(LatLonHeightBase):
 
            @param other: The other point (spherical LatLon).
            @keyword wrap: Optionally, unroll the longitudinal delta
-                          within the M{-180..+180} range (bool).
+                          within the M{-180..+180} range (C{bool}).
 
-           @return: Final bearing (compass degrees).
+           @return: Final bearing (compass C{degrees360}).
 
-           @raise TypeError: The other point is not spherical.
+           @raise TypeError: The I{other} point is not spherical.
 
            @example:
 
@@ -88,13 +88,13 @@ class LatLonSphericalBase(LatLonHeightBase):
 
     @property_RO
     def isEllipsoidal(self):
-        '''Check whether this I{LatLon} is ellipsoidal (bool).
+        '''Check whether this I{LatLon} is ellipsoidal (C{bool}).
         '''
         return self.datum.isEllipsoidal
 
     @property_RO
     def isSpherical(self):
-        '''Check whether this I{LatLon} is spherical (bool).
+        '''Check whether this I{LatLon} is spherical (C{bool}).
         '''
         return self.datum.isSpherical
 
@@ -109,9 +109,9 @@ class LatLonSphericalBase(LatLonHeightBase):
            Negate the result for the minimum latitude (on the
            Southern hemisphere).
 
-           @param bearing: Initial bearing (compass degrees).
+           @param bearing: Initial bearing (compass C{degrees360}).
 
-           @return: Maximum latitude (degrees90).
+           @return: Maximum latitude (C{degrees90}).
 
            @JSname: I{maxLatitude}.
         '''
@@ -123,9 +123,9 @@ class LatLonSphericalBase(LatLonHeightBase):
         '''Return the minimum latitude reached when travelling
            on a great circle on given bearing from this point.
 
-           @param bearing: Initial bearing (compass degrees).
+           @param bearing: Initial bearing (compass C{degrees360}).
 
-           @return: Minimum latitude (degrees90).
+           @return: Minimum latitude (C{degrees90}).
 
            @see: Method L{maxLat} for more details.
 
@@ -146,9 +146,9 @@ class LatLonSphericalBase(LatLonHeightBase):
            For more details, see functions L{parse3llh} and L{parseDMS}
            in module L{dms}.
 
-           @param strll: Lat, lon [, height] (string).
-           @keyword height: Optional , default height (meter).
-           @keyword sep: Optional separator (string).
+           @param strll: Lat, lon [, height] (C{str}).
+           @keyword height: Optional , default height (C{meter}).
+           @keyword sep: Optional separator (C{str}).
 
            @return: The point (spherical I{LatLon}).
 
@@ -177,7 +177,7 @@ class LatLonSphericalBase(LatLonHeightBase):
 
            @param other: The other point (spherical I{LatLon}).
 
-           @return: Initial bearing (compass degrees).
+           @return: Initial bearing (compass C{degrees360}).
 
            @raise TypeError: The I{other} point is not spherical.
 
@@ -196,11 +196,12 @@ class LatLonSphericalBase(LatLonHeightBase):
            (loxodrome) line from this point the given distance on the
            given bearing.
 
-           @param distance: Distance travelled (same units as I{radius}).
-           @param bearing: Bearing from this point (compass degrees).
-           @keyword radius: Optional, mean earth radius (meter).
+           @param distance: Distance travelled (C{meter}, same units as
+                            I{radius}).
+           @param bearing: Bearing from this point (compass C{degrees360}).
+           @keyword radius: Optional, mean earth radius (C{meter}).
            @keyword height: Optional height, overriding the default
-                            height (meter or same unit as I{radius}).
+                            height (C{meter}, same unit as I{radius}).
 
            @return: The destination point (spherical I{LatLon}).
 
@@ -239,7 +240,7 @@ class LatLonSphericalBase(LatLonHeightBase):
            @param other: The other point (spherical I{LatLon}).
            @keyword radius: Optional mean radius of earth (scalar, default meter).
 
-           @return: Distance (in the same units as I{radius}).
+           @return: Distance (C{meter}, the same units as I{radius}).
 
            @raise TypeError: The I{other} point is not spherical.
 
@@ -270,7 +271,7 @@ class LatLonSphericalBase(LatLonHeightBase):
 
            @param other: The other point (spherical LatLon).
            @keyword height: Optional height, overriding the mean height
-                            (meter or same unit as radius).
+                            (C{meter}).
 
            @return: The midpoint (spherical I{LatLon}).
 
@@ -311,7 +312,7 @@ class LatLonSphericalBase(LatLonHeightBase):
     def toWm(self, radius=R_MA):
         '''Convert this I{LatLon} point to a I{WM} coordinate.
 
-           @keyword radius: Optional earth radius (meter).
+           @keyword radius: Optional earth radius (C{meter}).
 
            @return: The WM coordinate (L{Wm}).
 

@@ -36,7 +36,7 @@ from utily import polygon, property_RO, unroll180, \
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon',  # classes
            'areaOf', 'perimeterOf')  # functions
-__version__ = '18.09.30'
+__version__ = '18.10.04'
 
 
 class LatLon(LatLonEllipsoidalBase):
@@ -62,10 +62,10 @@ class LatLon(LatLonEllipsoidalBase):
            given by an initial bearing, using Karney's Direct
            method.  See method L{destination2} for more details.
 
-           @param distance: Distance in meters (scalar).
-           @param bearing: Initial bearing in compass degrees (scalar).
+           @param distance: Distance (C{meter}).
+           @param bearing: Initial bearing in (compass C{degrees360}).
            @keyword height: Optional height, overriding the default
-                            height (meter).
+                            height (C{meter}, same units as C{distance}).
 
            @return: The destination point (L{LatLon}).
 
@@ -97,12 +97,13 @@ class LatLon(LatLonEllipsoidalBase):
            The destination point's height and datum are set to this
            point's height and datum.
 
-           @param distance: Distance in meters (scalar).
-           @param bearing: Initial bearing in compass degrees (scalar).
+           @param distance: Distance (C{meter}).
+           @param bearing: Initial bearing (compass C{degrees360}).
            @keyword height: Optional height, overriding the default
-                            height (meter).
+                            height (C{meter}, same units as C{distance}).
 
-           @return: 2-Tuple (destination, final bearing) in (L{LatLon}, degrees360).
+           @return: 2-Tuple (destination, final bearing) in (L{LatLon},
+                    C{degrees360}).
 
            @raise ImportError: Package U{GeographicLib
                   <http://PyPI.org/project/geographiclib>} missing.
@@ -124,9 +125,9 @@ class LatLon(LatLonEllipsoidalBase):
            See method L{distanceTo3} for more details.
 
            @param other: The other point (L{LatLon}).
-           @keyword wrap: Wrap and unroll longitudes (bool).
+           @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
-           @return: Distance in meters (scalar).
+           @return: Distance (C{meter}).
 
            @raise TypeError: The I{other} point is not L{LatLon}.
 
@@ -157,10 +158,10 @@ class LatLon(LatLonEllipsoidalBase):
            are in compass degrees from North.
 
            @param other: Destination point (L{LatLon}).
-           @keyword wrap: Wrap and unroll longitudes (bool).
+           @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
-           @return: 3-Tuple (distance, initial bearing, final bearing)
-                    in (meter, degrees360, degree360).
+           @return: 3-Tuple (distance, initial bearing, final bearing) in
+                    (C{meter}, compass C{degrees360}, compass C{degree360}).
 
            @raise TypeError: The I{other} point is not L{LatLon}.
 
@@ -175,10 +176,10 @@ class LatLon(LatLonEllipsoidalBase):
            by an initial bearing from this point, using Karney's
            Direct method.  See method L{destination2} for more details.
 
-           @param distance: Distance in meter (scalar).
-           @param bearing: Initial bearing (compass degrees).
+           @param distance: Distance (C{meter}).
+           @param bearing: Initial bearing (compass C{degrees360}).
 
-           @return: Final bearing from North (degrees360).
+           @return: Final bearing (compass C{degrees360}).
 
            @raise ImportError: Package U{GeographicLib
                   <http://PyPI.org/project/geographiclib>} missing.
@@ -198,9 +199,9 @@ class LatLon(LatLonEllipsoidalBase):
            L{distanceTo3} for more details.
 
            @param other: The other point (L{LatLon}).
-           @keyword wrap: Wrap and unroll longitudes (bool).
+           @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
-           @return: Final bearing in compass degrees (degrees360).
+           @return: Final bearing (compass C{degrees360}).
 
            @raise ImportError: Package U{GeographicLib
                   <http://PyPI.org/project/geographiclib>} missing.
@@ -238,9 +239,9 @@ class LatLon(LatLonEllipsoidalBase):
            L{distanceTo3} for more details.
 
            @param other: The other point (L{LatLon}).
-           @keyword wrap: Wrap and unroll longitudes (bool).
+           @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
-           @return: Initial bearing in compass degrees (degrees360).
+           @return: Initial bearing (compass C{degrees360}).
 
            @raise ImportError: Package U{GeographicLib
                   <http://PyPI.org/project/geographiclib>} missing.
@@ -318,11 +319,12 @@ class Cartesian(CartesianBase):
            an (ellipsoidal) geodetic point on the specified datum.
 
            @keyword datum: Optional datum to use (L{Datum}).
-           @keyword LatLon: Optional (ellipsoidal) LatLon (sub-)class
-                            to use for the point (L{LatLon}) or None.
+           @keyword LatLon: Optional (ellipsoidal) LatLon (sub-)class to
+                            use for the point (L{LatLon}) or C{None}.
 
            @return: The ellipsoidal geodetic point (L{LatLon}) or 3-tuple
-                    (degrees90, degrees180, height) if I{LatLon} is None.
+                    (C{degrees90}, C{degrees180}, height) if I{LatLon}
+                    is C{None}.
         '''
         return CartesianBase._toLLhd(self, LatLon, datum)
 
@@ -356,9 +358,9 @@ def areaOf(points, datum=Datums.WGS84, wrap=True):
 
        @param points: The points defining the polygon (L{LatLon}[]).
        @keyword datum: Optional datum (L{Datum}).
-       @keyword wrap: Wrap and unroll longitudes (bool).
+       @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
-       @return: Area (meter squared).
+       @return: Area (C{meter} squared).
 
        @raise ImportError: Package U{GeographicLib
               <http://PyPI.org/project/geographiclib>} missing.
@@ -382,11 +384,11 @@ def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):
        list, sequence, set or tuple of points on the given datum.
 
        @param points: The points defining the polygon (L{LatLon}[]).
-       @keyword closed: Optionally, close the polygon/-line (bool).
+       @keyword closed: Optionally, close the polygon/-line (C{bool}).
        @keyword datum: Optional datum (L{Datum}).
-       @keyword wrap: Wrap and unroll longitudes (bool).
+       @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
-       @return: Perimeter (meter).
+       @return: Perimeter (C{meter}).
 
        @raise ImportError: Package U{GeographicLib
               <http://PyPI.org/project/geographiclib>} missing.

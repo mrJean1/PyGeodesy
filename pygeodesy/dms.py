@@ -30,21 +30,21 @@ __all__ = ('F_D', 'F_DM', 'F_DMS',  # forms
            'latDMS', 'lonDMS', 'normDMS',
            'parseDMS', 'parseDMS2', 'parse3llh', 'precision',
            'rangerrors', 'toDMS')
-__version__ = '18.09.30'
+__version__ = '18.10.04'
 
-F_D   = 'd'    #: Format degrees as deg° (string).
-F_DM  = 'dm'   #: Format degrees as deg°min′ (string).
-F_DMS = 'dms'  #: Format degrees as deg°min′sec″ (string).
-F_DEG = 'deg'  #: Format degrees as [D]DD without symbol (string).
-F_MIN = 'min'  #: Format degrees as [D]DDMM without symbols (string).
-F_SEC = 'sec'  #: Format degrees as [D]DDMMSS without symbols (string).
-F_RAD = 'rad'  #: Convert degrees to radians and format as RR.r (string).
+F_D   = 'd'    #: Format degrees as deg° (C{str}).
+F_DM  = 'dm'   #: Format degrees as deg°min′ (C{str}).
+F_DMS = 'dms'  #: Format degrees as deg°min′sec″ (C{str}).
+F_DEG = 'deg'  #: Format degrees as [D]DD without symbol (C{str}).
+F_MIN = 'min'  #: Format degrees as [D]DDMM without symbols (C{str}).
+F_SEC = 'sec'  #: Format degrees as [D]DDMMSS without symbols (C{str}).
+F_RAD = 'rad'  #: Convert degrees to radians and format as RR.r (C{str}).
 
-S_DEG = '°'  #: Degrees ° symbol (string).
-S_MIN = '′'  #: Minutes ′ symbol (string).
-S_SEC = '″'  #: Seconds ″ symbol (string).
-S_RAD = ''   #: Radians symbol (string).
-S_SEP = ''   #: Separator between deg, min and sec (string).
+S_DEG = '°'  #: Degrees "°" symbol (C{str}).
+S_MIN = '′'  #: Minutes "′" symbol (C{str}).
+S_SEC = '″'  #: Seconds "″" symbol (C{str}).
+S_RAD = ''   #: Radians symbol "" (C{str}).
+S_SEP = ''   #: Separator between deg, min and sec "" (C{str}).
 
 _F_prec = {F_D:   6, F_DM:  4, F_DMS: 2,  #: (INTERNAL) default precs.
            F_DEG: 6, F_MIN: 4, F_SEC: 2, F_RAD: 5}
@@ -117,18 +117,18 @@ def _toDMS(deg, form, prec, sep, ddd):
 def bearingDMS(bearing, form=F_D, prec=None, sep=S_SEP):
     '''Convert bearing to a string.
 
-       @param bearing: Bearing from North (compass degrees).
+       @param bearing: Bearing from North (compass C{degrees360}).
        @keyword form: Optional format, L{F_D}, L{F_DM}, L{F_DMS},
                       L{F_DEG}, L{F_MIN}, L{F_SEC} or L{F_RAD} for
                       deg°, deg°min′, deg°min′sec″, [D]DD, [D]DDMM,
-                      [D]DDMMSS or radians (string).
+                      [D]DDMMSS or radians (C{str}).
        @keyword prec: Optional number of decimal digits (0..9 or
-                      None for default).  Trailing zero decimals
-                      are stripped for prec values of 1 and above,
-                      but kept for negative prec values.
-       @keyword sep: Optional separator (string).
+                      C{None} for default).  Trailing zero decimals
+                      are stripped for I{prec} values of 1 and above,
+                      but kept for negative I{prec} values.
+       @keyword sep: Optional separator (C{str}).
 
-       @return: Compass degrees per the specified form (string).
+       @return: Compass degrees per the specified form (C{str}).
 
        @JSname: I{toBrng}.
     '''
@@ -138,13 +138,13 @@ def bearingDMS(bearing, form=F_D, prec=None, sep=S_SEP):
 def clipDMS(deg, limit):
     '''Clip a lat- or longitude to the given range.
 
-       @param deg: Unclipped lat- or longitude (degrees).
-       @param limit: Valid I{-limit..+limit} range (degrees).
+       @param deg: Unclipped lat- or longitude (C{degrees}).
+       @param limit: Valid I{-limit..+limit} range (C{degrees}).
 
-       @return: Clipped value (degrees).
+       @return: Clipped value (C{degrees}).
 
        @raise RangeError: If I{deg} beyond I{limit} and L{rangerrors}
-                          set to True.
+                          set to C{True}.
     '''
     if limit > 0:
         c = min(limit, max(-limit, deg))
@@ -163,12 +163,12 @@ def compassAngle(lat0, lon0, lat1, lon1):
        hundred Km or Miles.  Use I{LatLon} methods I{initialBearingTo}
        for larger distances.
 
-       @param lat0: From latitude (degrees).
-       @param lon0: From longitude (degrees).
-       @param lat1: To latitude (degrees).
-       @param lon1: To longitude (degrees).
+       @param lat0: From latitude (C{degrees}).
+       @param lon0: From longitude (C{degrees}).
+       @param lat1: To latitude (C{degrees}).
+       @param lon1: To longitude (C{degrees}).
 
-       @return: Angle from North (degrees360).
+       @return: Compass angle from North (C{degrees360}).
 
        @note: Courtesy Martin Schultz.
 
@@ -181,18 +181,18 @@ def compassAngle(lat0, lon0, lat1, lon1):
 def compassDMS(bearing, form=F_D, prec=None, sep=S_SEP):
     '''Convert bearing to a string suffixed with compass point.
 
-       @param bearing: Bearing from North (compass degrees).
+       @param bearing: Bearing from North (compass C{degrees360}).
        @keyword form: Optional format, L{F_D}, L{F_DM}, L{F_DMS},
                       L{F_DEG}, L{F_MIN}, L{F_SEC} or L{F_RAD} for
                       deg°, deg°min′, deg°min′sec″, [D]DD, [D]DDMM,
-                      [D]DDMMSS or radians (string).
+                      [D]DDMMSS or radians (C{str}).
        @keyword prec: Optional number of decimal digits (0..9 or
-                      None for default).  Trailing zero decimals
-                      are stripped for prec values of 1 and above,
-                      but kept for negative prec values.
-       @keyword sep: Optional separator (string).
+                      C{None} for default).  Trailing zero decimals
+                      are stripped for I{prec} values of 1 and above,
+                      but kept for negative I{prec} values.
+       @keyword sep: Optional separator (C{str}).
 
-       @return: Compass degrees and point in the specified form (string).
+       @return: Compass degrees and point in the specified form (C{str}).
     '''
     t = bearingDMS(bearing, form, prec, sep), compassPoint(bearing)
     return sep.join(t)
@@ -209,13 +209,13 @@ _M_X = {1: (4, 8), 2: (8, 4), 3: (16, 2), 4: (32, 1)}  #: (INTERNAL) precs
 def compassPoint(bearing, prec=3):
     '''Convert bearing to a compass point.
 
-       @param bearing: Bearing from North (compass degrees).
+       @param bearing: Bearing from North (compass C{degrees360}).
        @keyword prec: Optional precision (1 for cardinal or basic winds,
                       2 for intercardinal or ordinal or principal winds,
                       3 for secondary-intercardinal or half-winds or
                       4 for quarter-winds).
 
-       @return: Compass point (1-, 2-, 3- or 4-letter string).
+       @return: Compass point (1-, 2-, 3- or 4-letter C{str}).
 
        @raise ValueError: Invalid I{prec}.
 
@@ -242,18 +242,18 @@ def compassPoint(bearing, prec=3):
 def latDMS(deg, form=F_DMS, prec=2, sep=S_SEP):
     '''Convert latitude to a string suffixed with N or S.
 
-       @param deg: Latitude to be formatted (degrees).
+       @param deg: Latitude to be formatted (C{degrees}).
        @keyword form: Optional format, L{F_D}, L{F_DM}, L{F_DMS},
                       L{F_DEG}, L{F_MIN}, L{F_SEC} or L{F_RAD} for
                       deg°, deg°min′, deg°min′sec″, DD, DDMM, DDMMSS
-                      or radians (string).
+                      or radians (C{str}).
        @keyword prec: Optional number of decimal digits (0..9 or
-                      None for default).  Trailing zero decimals
-                      are stripped for prec values of 1 and above,
-                      but kept for negative prec values.
-       @keyword sep: Optional separator (string).
+                      C{None} for default).  Trailing zero decimals
+                      are stripped for I{prec} values of 1 and above,
+                      but kept for negative I{prec} values.
+       @keyword sep: Optional separator (C{str}).
 
-       @return: Degrees in the specified form (string).
+       @return: Degrees in the specified form (C{str}).
 
        @JSname: I{toLat}.
     '''
@@ -264,18 +264,18 @@ def latDMS(deg, form=F_DMS, prec=2, sep=S_SEP):
 def lonDMS(deg, form=F_DMS, prec=2, sep=S_SEP):
     '''Convert longitude to a string suffixed with E or W.
 
-       @param deg: Longitude to be formatted (degrees).
+       @param deg: Longitude to be formatted (C{degrees}).
        @keyword form: Optional format, L{F_D}, L{F_DM}, L{F_DMS},
                       L{F_DEG}, L{F_MIN}, L{F_SEC} or L{F_RAD} for
                       deg°, deg°min′, deg°min′sec″, DDD, DDDMM,
-                      DDDMMSS or radians (string).
+                      DDDMMSS or radians (C{str}).
        @keyword prec: Optional number of decimal digits (0..9 or
-                      None for default).  Trailing zero decimals
-                      are stripped for prec values of 1 and above,
-                      but kept for negative prec values.
-       @keyword sep: Optional separator (string).
+                      C{None} for default).  Trailing zero decimals
+                      are stripped for I{prec} values of 1 and above,
+                      but kept for negative I{prec} values.
+       @keyword sep: Optional separator (C{str}).
 
-       @return: Degrees in the specified form (string).
+       @return: Degrees in the specified form (C{str}).
 
        @JSname: I{toLon}.
     '''
@@ -287,11 +287,11 @@ def normDMS(strDMS, norm=''):
     '''Normalize all degree ˚, minute ' and second " symbols in a
        string to the default symbols %s, %s and %s.
 
-       @param strDMS: DMS (string).
+       @param strDMS: DMS (C{str}).
        @keyword norm: Optional replacement symbol, default symbol
-                      otherwise (string).
+                      otherwise (C{str}).
 
-       @return: Normalized DMS (string).
+       @return: Normalized DMS (C{str}).
     '''
     if norm:
         for s in _S_ALL:
@@ -317,16 +317,16 @@ def parse3llh(strll, height=0, sep=',', clipLat=90, clipLon=180):
        The lat- and longitude values may be swapped, provided at least
        one ends with the proper compass point.
 
-       @param strll: Latitude, longitude[, height] (string).
-       @keyword height: Optional, default for missing height (meter).
-       @keyword sep: Optional separator (string).
-       @keyword clipLat: Keep latitude in I{-clipLat..+clipLat} (degrees).
-       @keyword clipLon: Keep longitude in I{-clipLon..+clipLon} range (degrees).
+       @param strll: Latitude, longitude[, height] (C{str}, ...).
+       @keyword height: Optional, default for missing height (C{meter}).
+       @keyword sep: Optional separator (C{str}).
+       @keyword clipLat: Keep latitude in I{-clipLat..+clipLat} (C{degrees}).
+       @keyword clipLon: Keep longitude in I{-clipLon..+clipLon} range (C{degrees}).
 
        @return: 3-Tuple (lat, lon, height) as (scalars).
 
        @raise RangeError: Lat- or longitude value of I{strll} outside
-                          valid range and I{rangerrrors} set to True.
+                          valid range and I{rangerrrors} set to C{True}.
 
        @raise ValueError: Invalid I{strll}.
 
@@ -366,15 +366,15 @@ def parseDMS(strDMS, suffix='NSEW', sep=S_SEP, clip=0):
        A variety of symbols, separators and suffixes are accepted,
        for example 3° 37′ 09″W.  Minutes and seconds may be omitted.
 
-       @param strDMS: Degrees in any of several forms (string or scalar).
+       @param strDMS: Degrees in any of several forms (C{str} or C{degrees}).
        @keyword suffix: Optional, valid compass directions (NSEW).
        @keyword sep: Optional separator between deg°, min′ and sec″ ('').
-       @keyword clip: Optionally, limit value to -clip..+clip (degrees).
+       @keyword clip: Optionally, limit value to -clip..+clip (C{degrees}).
 
-       @return: Degrees (float).
+       @return: Degrees (C{float}).
 
        @raise RangeError: Value of I{strDMS} outside the valid range
-                          and I{rangerrrors} set to True.
+                          and I{rangerrrors} set to C{True}.
 
        @raise ValueError: Invalid I{strDMS}.
 
@@ -410,16 +410,16 @@ def parseDMS(strDMS, suffix='NSEW', sep=S_SEP, clip=0):
 def parseDMS2(strLat, strLon, sep=S_SEP, clipLat=90, clipLon=180):
     '''Parse lat- and longitude representions.
 
-       @param strLat: Latitude in any of several forms (string or scalar).
-       @param strLon: Longitude in any of several forms (string or scalar).
+       @param strLat: Latitude in any of several forms (C{str} or C{degrees}).
+       @param strLon: Longitude in any of several forms (C{str} or C{degrees}).
        @keyword sep: Optional separator between deg°, min′ and sec″ ('').
-       @keyword clipLat: Keep latitude in I{-clipLat..+clipLat} range (degrees).
-       @keyword clipLon: Keep longitude in I{-clipLon..+clipLon} range (degrees).
+       @keyword clipLat: Keep latitude in I{-clipLat..+clipLat} range (C{degrees}).
+       @keyword clipLon: Keep longitude in I{-clipLon..+clipLon} range (C{degrees}).
 
-       @return: 2-Tuple (lat, lon) in (degrees, degrees).
+       @return: 2-Tuple (lat, lon) in (C{degrees}, C{degrees}).
 
        @raise RangeError: Value of I{strLat} or I{strLon} outside the
-                          valid range and I{rangerrrors} set to True.
+                          valid range and I{rangerrrors} set to C{True}.
 
        @raise ValueError: Invalid I{strLat} or I{strLon}.
 
@@ -435,15 +435,15 @@ def precision(form, prec=None):
     '''Set the default precison for a given F_ form.
 
        @param form: L{F_D}, L{F_DM}, L{F_DMS}, L{F_DEG}, L{F_MIN},
-                    L{F_SEC} or L{F_RAD} (string).
+                    L{F_SEC} or L{F_RAD} (C{str}).
        @keyword prec: Optional number of decimal digits (0..9 or
-                      None for default).  Trailing zero decimals
+                      C{None} for default).  Trailing zero decimals
                       are stripped for I{prec} values of 1 and
                       above, but kept for negative I{prec} values.
 
-       @return: Previous precision (int).
+       @return: Previous precision (C{int}).
 
-       @raise ValueError: If I{form} or I{prec} or beyond valid range.
+       @raise ValueError: Invalid I{form} or I{prec} or beyond valid range.
     '''
     try:
         p = _F_prec[form]
@@ -459,11 +459,11 @@ def precision(form, prec=None):
 def rangerrors(raiser=None):
     '''Gert/set raising of range errors.
 
-       @keyword raiser: Choose True to raise or False to ignore
-                        L{RangeError} exceptions.  Use None to leave
+       @keyword raiser: Choose C{True} to raise or C{False} to ignore
+                        L{RangeError} exceptions.  Use C{None} to leave
                         the setting unchanged.
 
-       @return: Previous setting (bool).
+       @return: Previous setting (C{bool}).
 
        @note: Out-of-range lat- and longitude values are always
               clipped to the nearest range limit.
@@ -478,21 +478,21 @@ def rangerrors(raiser=None):
 def toDMS(deg, form=F_DMS, prec=2, sep=S_SEP, ddd=2, neg='-', pos=''):
     '''Convert signed degrees to string, without suffix.
 
-       @param deg: Degrees to be formatted (scalar).
+       @param deg: Degrees to be formatted (C{degrees}).
        @keyword form: Optional format, L{F_D}, L{F_DM}, L{F_DMS},
                       L{F_DEG}, L{F_MIN}, L{F_SEC} or L{F_RAD} for
                       deg°, deg°min′, deg°min′sec″, [D]DD, [D]DDMM,
-                      [D]DDMMSS or radians (string).
+                      [D]DDMMSS or radians (C{str}).
        @keyword prec: Optional number of decimal digits (0..9 or
-                      None for default).  Trailing zero decimals
-                      are stripped for prec values of 1 and above,
-                      but kept for negative prec values.
-       @keyword sep: Optional separator (string).
+                      C{None} for default).  Trailing zero decimals
+                      are stripped for I{prec} values of 1 and above,
+                      but kept for negative I{prec} values.
+       @keyword sep: Optional separator (C{str}).
        @keyword ddd: Optional number of digits for deg° (2 or 3).
        @keyword neg: Optional sign for negative degrees ('-').
        @keyword pos: Optional sign for positive degrees ('').
 
-       @return: Degrees in the specified form (string).
+       @return: Degrees in the specified form (C{str}).
     '''
     t = _toDMS(deg, form, prec, sep, ddd)
     s = neg if deg < 0 else pos

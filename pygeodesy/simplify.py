@@ -30,15 +30,15 @@ in each iteration.
 
 Functions L{simplifyRDP}, L{simplifyRDPm} and L{simplifyRW} provide
 keyword argument I{shortest} to select the computation of the distance
-between a point and a path edge.  If True, use the shortest distance to
-the path edge or path end points, False use the perpendicular distance
-to the extended path edge line.
+between a point and a path edge.  If C{True}, use the shortest distance
+to the path edge or path end points, if C{False} use the perpendicular
+distance to the extended path edge line.
 
 Keyword argument I{radius} of all fuctions is set to the mean earth
 radius in meter.  Other units can be choosen, provided that the radius
 and tolerance are always specified in the same units.
 
-Use keyword argument I{indices}=True in any function to return a list
+Use keyword argument I{indices}=C{True} in any function to return a list
 of simplified point I{indices} instead of the simplified points.  The
 first and last index are always the first and last original index.
 
@@ -51,8 +51,8 @@ other values, use class L{Numpy2LatLon} to wrap the NumPy array into
 I{on-the-fly-LatLon} points.  Pass the L{Numpy2LatLon} instance to any
 I{simplify} function and the returned result will be a NumPy array
 containing the simplified subset, a partial copy of the original NumPy
-array.  Use keyword argument I{indices}=True to return a list of array
-row indices inlieu of the simplified array subset.
+array.  Use keyword argument I{indices}=C{True} to return a list of
+array row indices inlieu of the simplified array subset.
 
 See:
  - U{http://Bost.Ocks.org/mike/simplify}
@@ -77,10 +77,10 @@ from utily import equirectangular_, isNumpy2, isTuple2
 
 from math import degrees, radians, sqrt
 
-__all__ = ('simplify1', 'simplify2',  # backward compatibility
+__all__ = ('simplify1', 'simplify2',  # DEPRECATED
            'simplifyRDP', 'simplifyRDPm', 'simplifyRW',
            'simplifyVW', 'simplifyVWm')
-__version__ = '18.09.30'
+__version__ = '18.10.06'
 
 
 # try:
@@ -261,7 +261,7 @@ class _Sy(object):
         '''Ramer-Douglas-Peucker (RDP) simplification of a
            path of I{LatLon} points.
 
-           @param modified: Use modified RDP (bool).
+           @param modified: Use modified RDP (C{bool}).
         '''
         n, r = self.n, self.r
         if n > 1:
@@ -369,10 +369,10 @@ def simplify1(points, distance, radius=R_M, indices=False, **options):
        distance tolerance.
 
        @param points: Path points (I{LatLon}s).
-       @param distance: Tolerance (meter, same units as radius).
-       @keyword radius: Optional, mean earth radius (meter).
+       @param distance: Tolerance (C{meter}, same units as I{radius}).
+       @keyword radius: Optional, mean earth radius (C{meter}).
        @keyword indices: Optionally return the simplified point indices
-                         instead of the simplified points (bool).
+                         instead of the simplified points (C{bool}).
        @keyword options: Optional keyword arguments passed thru to
                          function L{equirectangular_}.
 
@@ -401,7 +401,7 @@ def simplify1(points, distance, radius=R_M, indices=False, **options):
 
 def simplify2(points, pipe, radius=R_M, shortest=False,
                             indices=False, **options):
-    '''DEPRECATED, use function I{simplifyRW}.
+    '''DEPRECATED, use function L{simplifyRW}.
     '''
     return simplifyRW(points, pipe, radius=radius, shortest=shortest,
                                     indices=indices, **options)
@@ -420,11 +420,12 @@ def simplifyRDP(points, distance, radius=R_M, shortest=False,
        O(n**2) where n is the number of points.
 
        @param points: Path points (I{LatLon}s).
-       @param distance: Tolerance (meter, same units as radius).
-       @keyword radius: Optional, mean earth radius (meter).
-       @keyword shortest: Optional, shortest or perpendicular distance (bool).
+       @param distance: Tolerance (C{meter}, same units as I{radius}).
+       @keyword radius: Optional, mean earth radius (C{meter}).
+       @keyword shortest: Optional, shortest or perpendicular distance
+                          (C{bool}).
        @keyword indices: Optionally return the simplified point indices
-                         instead of the simplified points (bool).
+                         instead of the simplified points (C{bool}).
        @keyword options: Optional keyword arguments passed thru to
                          function L{equirectangular_}.
 
@@ -453,11 +454,12 @@ def simplifyRDPm(points, distance, radius=R_M, shortest=False,
        (but producing results different from the original RDP method).
 
        @param points: Path points (I{LatLon}s).
-       @param distance: Tolerance (meter, same units as radius).
-       @keyword radius: Optional, mean earth radius (meter).
-       @keyword shortest: Optional, shortest or perpendicular distance (bool).
+       @param distance: Tolerance (C{meter}, same units as I{radius}).
+       @keyword radius: Optional, mean earth radius (C{meter}).
+       @keyword shortest: Optional, shortest or perpendicular distance
+                          (C{bool}).
        @keyword indices: Optionally return the simplified point indices
-                         instead of the simplified points (bool).
+                         instead of the simplified points (C{bool}).
        @keyword options: Optional keyword arguments passed thru to
                          function L{equirectangular_}.
 
@@ -481,11 +483,12 @@ def simplifyRW(points, pipe, radius=R_M, shortest=False,
        pipe tolerance along an edge.
 
        @param points: Path points (I{LatLon}s).
-       @param pipe: Half pipe width (meter, same units as radius).
-       @keyword radius: Optional, mean earth radius (meter).
-       @keyword shortest: Optional, shortest or perpendicular distance (bool).
+       @param pipe: Half pipe width (C{meter}, same units as I{radius}).
+       @keyword radius: Optional, mean earth radius (C{meter}).
+       @keyword shortest: Optional, shortest or perpendicular distance
+                          (C{bool}).
        @keyword indices: Optionally return the simplified point indices
-                         instead of the simplified points (bool).
+                         instead of the simplified points (C{bool}).
        @keyword options: Optional keyword arguments passed thru to
                          function L{equirectangular_}.
 
@@ -531,22 +534,22 @@ def simplifyVW(points, area, radius=R_M, attr=None,
        complexity O(n**2) where n is the number of points.
 
        @param points: Path points (I{LatLon}s).
-       @param area: Tolerance (meter, same units as radius).
-       @keyword radius: Optional, mean earth radius (meter).
-       @keyword attr: Optional, points attribute save area value (string).
+       @param area: Tolerance (C{meter}, same units as I{radius}).
+       @keyword radius: Optional, mean earth radius (C{meter}).
+       @keyword attr: Optional, points attribute save area value (C{str}).
        @keyword indices: Optionally return the simplified point indices
-                         instead of the simplified points (bool).
+                         instead of the simplified points (C{bool}).
        @keyword options: Optional keyword arguments passed thru to
                          function L{equirectangular_}.
 
        @return: Simplified points (list of I{LatLon}s).
 
-       @raise AttributeError: If attr is specified for I{Numpy2} points.
+       @raise AttributeError: If I{attr} is specified for I{Numpy2} points.
 
        @raise LimitError: Lat- and/or longitudinal delta exceeds I{limit},
                           see function L{equirectangular_}.
 
-       @raise ValueError: Radius or area tolerance too small.
+       @raise ValueError: Tolerance I{radius} or I{area} too small.
     '''
     S = _Sy(points, area, radius, False, indices, **options)
 
@@ -585,22 +588,22 @@ def simplifyVWm(points, area, radius=R_M, attr=None,
        VW method).
 
        @param points: Path points (I{LatLon}s).
-       @param area: Tolerance (meter, same units as radius).
-       @keyword radius: Optional, mean earth radius (meter).
-       @keyword attr: Optional attribute to save the area value (string).
+       @param area: Tolerance (C{meter}, same units as I{radius}).
+       @keyword radius: Optional, mean earth radius (C{meter}).
+       @keyword attr: Optional attribute to save the area value (C{str}).
        @keyword indices: Optionally return the simplified point indices
-                         instead of the simplified points (bool).
+                         instead of the simplified points (C{bool}).
        @keyword options: Optional keyword arguments passed thru to
                          function L{equirectangular_}.
 
        @return: Simplified points (list of I{LatLon}s).
 
-       @raise AttributeError: If attr is specified for I{Numpy2} points.
+       @raise AttributeError: If I{attr} is specified for I{Numpy2} points.
 
        @raise LimitError: Lat- and/or longitudinal delta exceeds I{limit},
                           see function L{equirectangular_}.
 
-       @raise ValueError: Radius or area tolerance too small.
+       @raise ValueError: Tolerance I{radius} or I{area} too small.
     '''
     S = _Sy(points, area, radius, False, indices, **options)
 

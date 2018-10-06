@@ -24,7 +24,7 @@ from math import atan2, copysign, cos, sin, sqrt
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('CartesianBase', 'LatLonEllipsoidalBase')  # for documentation
-__version__ = '18.09.23'
+__version__ = '18.10.04'
 
 
 class CartesianBase(Vector3d):
@@ -37,7 +37,7 @@ class CartesianBase(Vector3d):
 
            @param transform: Transform to apply (L{Transform}).
            @keyword inverse: Optionally, apply the inverse of
-                             Helmert transform (bool).
+                             Helmert transform (C{bool}).
 
            @return: The transformed point (L{Cartesian}).
         '''
@@ -63,8 +63,8 @@ class CartesianBase(Vector3d):
 
            @keyword datum: Optional datum to use (L{Datum}).
 
-           @return: 3-Tuple (lat, lon, heigth) in (degrees90,
-                    degrees180, meter).
+           @return: 3-Tuple (lat, lon, heigth) in (C{degrees90},
+                    C{degrees180}, C{meter}).
         '''
         E = datum.ellipsoid
         x, y, z = self.to3xyz()
@@ -109,7 +109,7 @@ class CartesianBase(Vector3d):
     def toStr(self, prec=3, fmt='[%s]', sep=', '):  # PYCHOK expected
         '''Return the string representation of this cartesian.
 
-           @keyword prec: Optional number of decimals, unstripped (int).
+           @keyword prec: Optional number of decimals, unstripped (C{int}).
            @keyword fmt: Optional enclosing backets format (string).
            @keyword sep: Optional separator to join (string).
 
@@ -121,12 +121,12 @@ class CartesianBase(Vector3d):
 class LatLonEllipsoidalBase(LatLonHeightBase):
     '''(INTERNAL) Base class for ellipsoidal I{LatLon}s.
     '''
-    _convergence  = None  #: (INTERNAL) UTM meridian convergence (degrees).
+    _convergence  = None  #: (INTERNAL) UTM meridian convergence (C{degrees}).
     _datum        = Datums.WGS84  #: (INTERNAL) Datum (L{Datum}).
     _elevation2   = ()    #: (INTERNAL) cached C{elevation2} result.
     _geoidHeight2 = ()    #: (INTERNAL) cached C{geoidHeight2} result.
     _osgr         = None  #: (INTERNAL) cache toOsgr (C{Osgr}).
-    _scale        = None  #: (INTERNAL) UTM grid scale factor (float).
+    _scale        = None  #: (INTERNAL) UTM grid scale factor (C{float}).
     _utm          = None  #: (INTERNAL) cache toUtm (L{Utm}).
     _wm           = None  #: (INTERNAL) cache toWm (webmercator.Wm instance).
 
@@ -134,9 +134,9 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
         '''Create an (ellipsoidal) I{LatLon} point frome the given
            lat-, longitude and height on the given datum.
 
-           @param lat: Latitude (degrees or DMS string with N or S suffix).
-           @param lon: Longitude (degrees or DMS string with E or W suffix).
-           @keyword height: Optional elevation (meter or the same units
+           @param lat: Latitude (C{degrees} or DMS C{[N|S]}).
+           @param lon: Longitude (C{degrees} or DMS C{str[E|W]}).
+           @keyword height: Optional elevation (C{meter}, the same units
                             as the datum's half-axes).
            @keyword datum: Optional datum to use (L{Datum}).
            @keyword name: Optional name (string).
@@ -179,7 +179,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
            to this point.
 
            @keyword height: Optional height of the antipode, height
-                            of this point otherwise (meter).
+                            of this point otherwise (C{meter}).
 
            @return: The antipodal point (I{LatLon}).
         '''
@@ -190,8 +190,8 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
 
     @property_RO
     def convergence(self):
-        '''Get this point's UTM meridian convergence (degrees) or
-           None if not converted from L{Utm}.
+        '''Get this point's UTM meridian convergence (C{degrees}) or
+           C{None} if not converted from L{Utm}.
         '''
         return self._convergence
 
@@ -255,7 +255,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
 
            @param other: The other point (I{LatLon}).
 
-           @return: 2-Tuple (distance, bearing) in (meter, degrees360).
+           @return: 2-Tuple (distance, bearing) in (C{meter}, C{degrees360}).
 
            @raise TypeError: The I{other} point is not I{LatLon}.
 
@@ -270,13 +270,13 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
     def elevation2(self, adjust=True, datum=Datums.WGS84, timeout=2):
         '''Return elevation of this point for its or the given datum.
 
-           @keyword adjust: Adjust the elevation for I{datum}s other than
-                            C{NAD83}.
+           @keyword adjust: Adjust the elevation for I{datum}s other
+                            than C{NAD83}.
            @keyword datum: Optional datum (L{Datum}).
            @keyword timeout: Optional query timeout (seconds).
 
-           @return: 2-Tuple (elevation, data_source) in (meter, string)
-                    or in case of errors (None, <error>).
+           @return: 2-Tuple (elevation, data_source) in (C{meter}, C{str})
+                    or in case of errors (C{None}, I{<error>}).
 
            @note: The adjustment applied the is difference in geocentric
                   earth radius for the I{datum} used and C{NAV83} upon
@@ -338,8 +338,8 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
            @keyword datum: Optional datum (L{Datum}).
            @keyword timeout: Optional query timeout (seconds).
 
-           @return: 2-Tuple (height, model_name) in (meter, string)
-                    or in case of errors (None, <error>).
+           @return: 2-Tuple (height, model_name) in (C{meter}, C{str})
+                    or in case of errors (C{None}, I{<error>}).
 
            @note: The adjustment applied the is difference in geocentric
                   earth radius for the I{datum} used and C{NAV83/NADV88}
@@ -359,13 +359,13 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
 
     @property_RO
     def isEllipsoidal(self):
-        '''Check whether this I{LatLon} point is ellipsoidal (bool).
+        '''Check whether this I{LatLon} point is ellipsoidal (C{bool}).
         '''
         return self.datum.isEllipsoidal
 
     @property_RO
     def isSpherical(self):
-        '''Check whether this I{LatLon} point is spherical (bool).
+        '''Check whether this I{LatLon} point is spherical (C{bool}).
         '''
         return self.datum.isSpherical
 
@@ -382,7 +382,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
            in sub-module L{dms}.
 
            @param strll: Lat, lon [, height] (string).
-           @keyword height: Optional, default height (meter or None).
+           @keyword height: Optional, default height (C{meter} or C{None}).
            @keyword datum: Optional, default datum (L{Datum}).
            @keyword sep: Optional separator (string).
 
@@ -395,7 +395,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
 
     @property_RO
     def scale(self):
-        '''Get this point's UTM grid scale factor (float) or None
+        '''Get this point's UTM grid scale factor (C{float}) or C{None}
            if not converted from L{Utm}.
         '''
         return self._scale
@@ -404,7 +404,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
         '''Convert this (ellipsoidal) geodetic I{LatLon} point to
            (geocentric) cartesian x/y/z components.
 
-           @return: 3-Tuple (x, y, z) in (meter).
+           @return: 3-Tuple (x, y, z) in (C{meter}).
         '''
         a, b = self.to2ab()
         sa = sin(a)

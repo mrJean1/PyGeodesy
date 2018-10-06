@@ -117,25 +117,25 @@ from utily import R_M, degrees360, m2degrees, m2km, m2NM, m2SM, \
 
 from math import atan2, atanh, cos, hypot, sin, sqrt
 
-R_M  = R_M        #: Mean, spherical earth radius (meter).
-R_MA = 6378137.0  #: Equatorial earth radius (meter) WGS84, EPSG:3785.
-R_MB = 6356752.0  #: Polar earth radius (meter) WGS84, EPSG:3785.
-R_KM = m2km(R_M)  #: Mean, spherical earth radius (kilo meter).
-R_NM = m2NM(R_M)  #: Mean, spherical earth radius (nautical miles).
-R_SM = m2SM(R_M)  #: Mean, spherical earth radius (statute miles).
+R_M  = R_M        #: Mean, spherical earth radius (C{meter}).
+R_MA = 6378137.0  #: Equatorial earth radius (C{meter}) WGS84, EPSG:3785.
+R_MB = 6356752.0  #: Polar earth radius (C{meter}) WGS84, EPSG:3785.
+R_KM = m2km(R_M)  #: Mean, spherical earth radius (C{KM}, kilo meter).
+R_NM = m2NM(R_M)  #: Mean, spherical earth radius (C{NM}, nautical miles).
+R_SM = m2SM(R_M)  #: Mean, spherical earth radius (C{SM}, statute miles).
 # See <http://www.EdWilliams.org/avform.htm>,
 # <http://www.dtic.mil/dtic/tr/fulltext/u2/a216843.pdf> and
 # <http://GitHub.com/NASA/MultiDop/blob/master/src/share/man/man3/geog_lib.3>
 # based on International Standard Nautical Mile of 1,852 meter (1' latitude)
-R_FM = 6371000.0  #: Former FAI Sphere earth radius (meter).
-R_VM = 6366707.0194937  #: Aviation/Navigation earth radius (meter).
+R_FM = 6371000.0  #: Former FAI Sphere earth radius (C{meter}).
+R_VM = 6366707.0194937  #: Aviation/Navigation earth radius (C{meter}).
 # R_ = 6372797.560856   #: XXX some other earth radius???
 
 # all public contants, classes and functions
 __all__ = ('R_M', 'R_MA', 'R_MB', 'R_KM', 'R_NM', 'R_SM', 'R_FM', 'R_VM',  # constants
            'Datum',  'Ellipsoid',  'Transform',  # classes
            'Datums', 'Ellipsoids', 'Transforms')  # enum-like
-__version__ = '18.09.30'
+__version__ = '18.10.06'
 
 division = 1 / 2  # double check int division, see .fmath.py, .utily.py
 if not division:
@@ -149,7 +149,7 @@ class _Enum(dict, Named):
     def __init__(self, name):
         '''New Enum.
 
-           @param name: Name (string).
+           @param name: Name (C{str}).
         '''
         if name:
             self.name = name
@@ -175,9 +175,9 @@ class _Enum(dict, Named):
     def find(self, inst):
         '''Find a registered instance.
 
-           @param inst: The instance (any).
+           @param inst: The instance (any C{type}).
 
-           @return: The I{inst}'s name if found, None otherwise.
+           @return: The I{inst}'s name (C{str}) if found, C{None} otherwise.
         '''
         for k, v in self.items():
             if v is inst:
@@ -187,11 +187,11 @@ class _Enum(dict, Named):
     def unregister(self, name_or_inst):
         '''Remove a registered instance.
 
-           @param name_or_inst: Name of or the instance (string or any).
+           @param name_or_inst: Name (C{str}) of or the instance (any C{type}).
 
            @return: The unregistered instance.
 
-           @raise NameError: No instance with that name.
+           @raise NameError: No instance with that I{name}.
 
            @raise ValueError: No such instance.
         '''
@@ -221,7 +221,7 @@ class _Based(Based):
     def __ne__(self, other):
         '''Compare this and an other ellipsoid.
 
-           @return: True if different (bool).
+           @return: C{True} if different, C{False} otherwise.
         '''
         return not self.__eq__(other)
 
@@ -247,7 +247,7 @@ class _Based(Based):
 
     @property
     def name(self):
-        '''Get the I{registered, immutable} name (string).
+        '''Get the I{registered, immutable} name (C{str}).
         '''
         return self._name
 
@@ -255,7 +255,7 @@ class _Based(Based):
     def name(self, name):
         '''Set the name.
 
-           @param name: New name (string).
+           @param name: New name (C{str}).
         '''
         if self._enum:
             raise ValueError('%s, %s: %r' % ('registered', 'immutable', self))
@@ -277,10 +277,10 @@ class _Based(Based):
 
 class Ellipsoid(_Based):
     '''Ellipsoid with semi-major, semi-minor axis, inverse flattening
-       and a number of other pre-computed, frequently used values.
+       and several other pre-computed, frequently used values.
     '''
-    a   = 0  #: Semi-major, equatorial axis (meter).
-    b   = 0  #: Semi-minor, polar axis (meter): a * (f - 1) / f.
+    a   = 0  #: Semi-major, equatorial axis (C{meter}).
+    b   = 0  #: Semi-minor, polar axis (C{meter}): a * (f - 1) / f.
     # pre-computed, frequently used values
     a2_ = 0  #: (1 / a**2)
     a_b = 1  #: (a / b) = 1 / (1 - f)
@@ -297,15 +297,15 @@ class Ellipsoid(_Based):
     _b2 = 0  #: (INTERNAL) b**2
 
     # curvatures <http://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>
-    _a2_b = None  #: (INTERNAL) Meridional radius of curvature at poles: a**2 / b (meter)
-    _b2_a = None  #: (INTERNAL) Meridional radius of curvature at equator: b**2 / a (meter)
+    _a2_b = None  #: (INTERNAL) Meridional radius of curvature at poles: a**2 / b (C{meter})
+    _b2_a = None  #: (INTERNAL) Meridional radius of curvature at equator: b**2 / a (C{meter})
 
     # fixed earth radii from <http://WikiPedia.org/wiki/Earth_radius>
-    _R1 = None  #: (INTERNAL) Mean earth radius: (2 * a + b) / 3 per IUGG definition (meter)
-    _R2 = None  #: (INTERNAL) Authalic radius: sqrt((a**2 + b**2 * atanh(e) / e) / 2) (meter)
-    _R3 = None  #: (INTERNAL) Volumetric radius: (a * a * b)**1/3 (meter)
-    _Rr = None  #: (INTERNAL) Rectifying radius: ((a**3/2 + b**3/2) / 2)**2/3 (meter)
-    _Rs = None  #: (INTERNAL) Mean earth radius: sqrt(a * b) (meter)
+    _R1 = None  #: (INTERNAL) Mean earth radius: (2 * a + b) / 3 per IUGG definition (C{meter})
+    _R2 = None  #: (INTERNAL) Authalic radius: sqrt((a**2 + b**2 * atanh(e) / e) / 2) (C{meter})
+    _R3 = None  #: (INTERNAL) Volumetric radius: (a * a * b)**1/3 (C{meter})
+    _Rr = None  #: (INTERNAL) Rectifying radius: ((a**3/2 + b**3/2) / 2)**2/3 (C{meter})
+    _Rs = None  #: (INTERNAL) Mean earth radius: sqrt(a * b) (C{meter})
 
     _A       = None  #: (INTERNAL) Meridional radius
     _AlphaKs = None  #: (INTERNAL) Up to 8th-order Krüger Alpha series
@@ -318,10 +318,10 @@ class Ellipsoid(_Based):
     def __init__(self, a, b, f_, name=''):
         '''New ellipsoid.
 
-           @param a: Semi-major, equatorial axis (meter).
-           @param b: Semi-minor, polar axis (meter).
-           @param f_: Inverse flattening: a / (a - b) (float >>> 1).
-           @keyword name: Optional, unique name (string).
+           @param a: Semi-major, equatorial axis (C{meter}).
+           @param b: Semi-minor, polar axis (C{meter}).
+           @param f_: Inverse flattening: a / (a - b) (C{float} >>> 1.0).
+           @keyword name: Optional, unique name (C{str}).
 
            @raise NameError: Ellipsoid with that I{name} already exists.
         '''
@@ -382,7 +382,7 @@ class Ellipsoid(_Based):
 
            @param other: The other ellipsoid (L{Ellipsoid}).
 
-           @return: True if equal (bool).
+           @return: C{True} if equal, C{False} otherwise.
         '''
         return self is other or (isinstance(other, Ellipsoid) and
                                  self.a == other.a and
@@ -416,7 +416,7 @@ class Ellipsoid(_Based):
 
     @property_RO
     def A(self):
-        '''Get the I{UTM} meridional radius (meter).
+        '''Get the I{UTM} meridional radius (C{meter}).
         '''
         if self._A is None:
             n = self.n
@@ -432,7 +432,7 @@ class Ellipsoid(_Based):
 
     @property_RO
     def a2_b(self):
-        '''Get the polar meridional radius of curvature: M{a**2 / b} (meter).
+        '''Get the polar meridional radius of curvature: M{a**2 / b} (C{meter}).
 
            @see: U{Radii of Curvature
                  <http://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
@@ -443,7 +443,7 @@ class Ellipsoid(_Based):
 
     @property_RO
     def b2_a(self):
-        '''Get the equatorial meridional radius of curvature: M{b**2 / a} (meter).
+        '''Get the equatorial meridional radius of curvature: M{b**2 / a} (C{meter}).
 
            @see: U{Radii of Curvature
                  <http://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
@@ -501,12 +501,12 @@ class Ellipsoid(_Based):
            Suitable only for short distances up to a few hundred Km
            or Miles and only between points not near-polar.
 
-           @param lat0: From latitude (degrees).
-           @param lon0: From longitude (degrees).
-           @param lat1: To latitude (degrees).
-           @param lon1: To longitude (degrees).
+           @param lat0: From latitude (C{degrees}).
+           @param lon0: From longitude (C{degrees}).
+           @param lat1: To latitude (C{degrees}).
+           @param lon1: To longitude (C{degrees}).
 
-           @return: 2-Tuple (distance, bearing) in (meter, degrees360).
+           @return: 2-Tuple (distance, bearing) in (C{meter}, C{degrees360}).
 
            @see: U{Local, flat earth approximation
                  <http://www.EdWilliams.org/avform.htm#flat>}.
@@ -519,9 +519,9 @@ class Ellipsoid(_Based):
     def e2s(self, s):
         '''Compute norm M{sqrt(1 - e2 * s**2)}.
 
-           @param s: S value (scalar).
+           @param s: S value (C{scalar}).
 
-           @return: Norm (float).
+           @return: Norm (C{float}).
 
            @raise ValueError: Invalid I{s}.
         '''
@@ -533,9 +533,9 @@ class Ellipsoid(_Based):
     def e2s2(self, s):
         '''Compute M{1 - e2 * s**2}.
 
-           @param s: S value (scalar).
+           @param s: S value (C{scalar}).
 
-           @return: Result (float).
+           @return: Result (C{float}).
 
            @raise ValueError: Invalid I{s}.
         '''
@@ -564,13 +564,13 @@ class Ellipsoid(_Based):
 
     @property_RO
     def isEllipsoidal(self):
-        '''Check whether this model is ellipsoidal (bool).
+        '''Check whether this model is ellipsoidal (C{bool}).
         '''
         return self.a > self.R1 > self.b
 
     @property_RO
     def isSpherical(self):
-        '''Check whether this model is spherical (bool).
+        '''Check whether this model is spherical (C{bool}).
         '''
         return self.a == self.R1 == self.b
 
@@ -609,15 +609,15 @@ class Ellipsoid(_Based):
     def m2degrees(self, meter):
         '''Convert distance to angle along equator.
 
-           @param meter: Distance (meter).
+           @param meter: Distance (C{meter}).
 
-           @return: Angle (degrees).
+           @return: Angle (C{degrees}).
         '''
         return m2degrees(meter, self.a)
 
     @property_RO
     def R1(self):
-        '''Get the mean earth radius per IUGG: M{(2 * a + b) / 3} (meter).
+        '''Get the mean earth radius per IUGG: M{(2 * a + b) / 3} (C{meter}).
 
            @see: U{Earth radius<http://WikiPedia.org/wiki/Earth_radius>}.
         '''
@@ -627,7 +627,7 @@ class Ellipsoid(_Based):
 
     @property_RO
     def R2(self):
-        '''Get the authalic earth radius: M{sqrt((a**2 + b**2 * atanh(e) / e) / 2)} (meter).
+        '''Get the authalic earth radius: M{sqrt((a**2 + b**2 * atanh(e) / e) / 2)} (C{meter}).
 
            @see: U{Earth radius<http://WikiPedia.org/wiki/Earth_radius>}.
         '''
@@ -637,7 +637,7 @@ class Ellipsoid(_Based):
 
     @property_RO
     def R3(self):
-        '''Get the volumetric earth radius: M{(a * a * b)**1/3} (meter).
+        '''Get the volumetric earth radius: M{(a * a * b)**1/3} (C{meter}).
 
            @see: U{Earth radius<http://WikiPedia.org/wiki/Earth_radius>}.
         '''
@@ -648,9 +648,9 @@ class Ellipsoid(_Based):
     def Rgeocentric(self, lat):
         '''Compute the geocentric earth radius at the given latitude.
 
-           @param lat: Latitude (degrees90).
+           @param lat: Latitude (C{degrees90}).
 
-           @return: Geocentric earth radius (meter).
+           @return: Geocentric earth radius (C{meter}).
 
            @see: U{Geocentric Radius
                  <http://WikiPedia.org/wiki/Earth_radius#Geocentric_radius>}
@@ -663,7 +663,7 @@ class Ellipsoid(_Based):
 
     @property_RO
     def Rr(self):
-        '''Get the rectifying earth radius: M{((a**3/2 + b**3/2) / 2)**2/3} (meter).
+        '''Get the rectifying earth radius: M{((a**3/2 + b**3/2) / 2)**2/3} (C{meter}).
 
            @see: U{Earth radius<http://WikiPedia.org/wiki/Earth_radius>}.
         '''
@@ -673,7 +673,7 @@ class Ellipsoid(_Based):
 
     @property_RO
     def Rs(self):
-        '''Get another mean earth radius: M{sqrt(a * b)} (meter).
+        '''Get another mean earth radius: M{sqrt(a * b)} (C{meter}).
         '''
         if self._Rs is None:
             self._Rs = sqrt(self.a * self.b)
@@ -682,9 +682,9 @@ class Ellipsoid(_Based):
     def Rlat(self, lat):
         '''Approximate the earth radius at the given latitude.
 
-           @param lat: Latitude (degrees90).
+           @param lat: Latitude (C{degrees90}).
 
-           @return: Approximate earth radius (meter).
+           @return: Approximate earth radius (C{meter}).
         '''
         # r = major - (major - minor) * |lat| / 90
         return self.a - self._ab_90 * min(abs(lat), 90)
@@ -693,10 +693,10 @@ class Ellipsoid(_Based):
         '''Compute the meridional and prime-vertical radii of curvature
            at the given latitude.
 
-           @param lat: Latitude (degrees90).
+           @param lat: Latitude (C{degrees90}).
 
            @return: 2-Tuple (meridional, prime-vertical) with the
-                    radii of curvature (meter, meter).
+                    radii of curvature (C{meter}, C{meter}).
 
            @see: U{Local, flat earth approximation
                  <http://www.EdWilliams.org/avform.htm#flat>} and
@@ -718,10 +718,10 @@ class Ellipsoid(_Based):
         '''Compute the directional radius of curvature at the
            given latitude and compass direction.
 
-           @param lat: Latitude (degrees90).
-           @param bearing: Direction (compass degrees).
+           @param lat: Latitude (C{degrees90}).
+           @param bearing: Direction (compass C{degrees360}).
 
-           @return: Directional radius of curvature (meter).
+           @return: Directional radius of curvature (C{meter}).
 
            @see: U{Radii of Curvature
                  <http://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}
@@ -739,9 +739,9 @@ class Ellipsoid(_Based):
     def rocGauss(self, lat):
         '''Compute the Gaussian radius of curvature at the given latitude.
 
-           @param lat: Latitude (degrees90).
+           @param lat: Latitude (C{degrees90}).
 
-           @return: Gaussian radius of curvature (meter).
+           @return: Gaussian radius of curvature (C{meter}).
 
            @see: U{Radii of Curvature
                  <http://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}
@@ -756,9 +756,9 @@ class Ellipsoid(_Based):
     def rocMean(self, lat):
         '''Compute the mean radius of curvature at the given latitude.
 
-           @param lat: Latitude (degrees90).
+           @param lat: Latitude (C{degrees90}).
 
-           @return: Mean radius of curvature (meter).
+           @return: Mean radius of curvature (C{meter}).
 
            @see: U{Radii of Curvature
                  <http://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}
@@ -769,9 +769,9 @@ class Ellipsoid(_Based):
     def rocMeridional(self, lat):
         '''Compute the meridional radius of curvature at the given latitude.
 
-           @param lat: Latitude (degrees90).
+           @param lat: Latitude (C{degrees90}).
 
-           @return: Meridional radius of curvature (meter).
+           @return: Meridional radius of curvature (C{meter}).
 
            @see: U{Local, flat earth approximation
                  <http://www.EdWilliams.org/avform.htm#flat>} and
@@ -784,9 +784,9 @@ class Ellipsoid(_Based):
     def rocPrimeVertical(self, lat):
         '''Compute the prime-vertical radius of curvature at the given latitude.
 
-           @param lat: Latitude (degrees90).
+           @param lat: Latitude (C{degrees90}).
 
-           @return: Prime-vertical radis of curvature (meter).
+           @return: Prime-vertical radis of curvature (C{meter}).
 
            @see: U{Local, flat earth approximation
                  <http://www.EdWilliams.org/avform.htm#flat>} and
@@ -797,11 +797,11 @@ class Ellipsoid(_Based):
         return n
 
     def toStr(self, prec=9):  # PYCHOK expected
-        '''Return this ellipsoid as a string.
+        '''Return this ellipsoid as a text string.
 
-           @keyword prec: Optional number of decimals, unstripped (int).
+           @keyword prec: Optional number of decimals, unstripped (C{int}).
 
-           @return: Ellipsoid attributes (string).
+           @return: Ellipsoid attributes (C{str}).
         '''
         return self._fStr(prec, 'a', 'b', 'f_', 'f', 'e', 'e2', 'e22',
                                 'n', 'R1', 'R2', 'R3', 'Rr', 'Rs')
@@ -861,16 +861,16 @@ Ellipsoids._assert(  # <http://WikiPedia.org/wiki/Earth_ellipsoid>
 class Transform(_Based):
     '''Helmert transformation.
     '''
-    tx = 0  #: X translation (meter).
-    ty = 0  #: Y translation (meter).
-    tz = 0  #: Z translation (meter).
+    tx = 0  #: X translation (C{meter}).
+    ty = 0  #: Y translation (C{meter}).
+    tz = 0  #: Z translation (C{meter}).
 
-    rx = 0  #: X rotation (radians).
-    ry = 0  #: Y rotation (radians).
-    rz = 0  #: Z rotation (radians).
+    rx = 0  #: X rotation (C{radians}).
+    ry = 0  #: Y rotation (C{radians}).
+    rz = 0  #: Z rotation (C{radians}).
 
-    s  = 0  #: Scale ppm (float).
-    s1 = 1  #: Scale + 1 (float).
+    s  = 0  #: Scale ppm (C{float}).
+    s1 = 1  #: Scale + 1 (C{float}).
 
     sx = 0  #: X rotation (degree seconds).
     sy = 0  #: Y rotation (degree seconds).
@@ -880,14 +880,14 @@ class Transform(_Based):
                                 sx=0, sy=0, sz=0, s=0):
         '''New transform.
 
-           @keyword name: Optional, unique name (string).
-           @keyword tx: Optional X translation (meter).
-           @keyword ty: Optional Y translation (meter).
-           @keyword tz: Optional Z translation (meter).
-           @keyword s: Optional scale ppm (float).
-           @keyword sx: Optional X rotation (degree seconds).
-           @keyword sy: Optional Y rotation (degree seconds).
-           @keyword sz: Optional Z rotation (degree seconds).
+           @keyword name: Optional, unique name (C{str}).
+           @keyword tx: Optional X translation (C{meter}).
+           @keyword ty: Optional Y translation (C{meter}).
+           @keyword tz: Optional Z translation (C{meter}).
+           @keyword s: Optional scale ppm (C{float}).
+           @keyword sx: Optional X rotation (C{degree seconds}).
+           @keyword sy: Optional Y rotation (C{degree seconds}).
+           @keyword sz: Optional Z rotation (C{degree seconds}).
 
            @raise NameError: Transform with that I{name} already exists.
         '''
@@ -925,7 +925,7 @@ class Transform(_Based):
 
            @param other: The other transform (L{Transform}).
 
-           @return: True if equal (bool).
+           @return: C{True} if equal, C{False} otherwise.
         '''
         return self is other or (isinstance(other, Transform) and
                                  self.tx == other.tx and
@@ -946,7 +946,7 @@ class Transform(_Based):
     def inverse(self, name=''):
         '''Return the inverse of this transform.
 
-           @keyword name: Optional, unique name (string).
+           @keyword name: Optional, unique name (C{str}).
 
            @return: Inverse (Transform).
 
@@ -959,9 +959,9 @@ class Transform(_Based):
     def toStr(self, prec=5):  # PYCHOK expected
         '''Return this transform as a string.
 
-           @keyword prec: Optional number of decimals, unstripped (int).
+           @keyword prec: Optional number of decimals, unstripped (C{int}).
 
-           @return: Transform attributes (string).
+           @return: Transform attributes (C{str}).
         '''
         return self._fStr(prec, 'tx', 'ty', 'tz',
                                 'rx', 'ry', 'rz', 's', 's1',
@@ -970,10 +970,10 @@ class Transform(_Based):
     def transform(self, x, y, z, inverse=False):
         '''Transform a (geocentric) Cartesian point, forward or inverse.
 
-           @param x: X coordinate (meter).
-           @param y: Y coordinate (meter).
-           @param z: Z coordinate (meter).
-           @keyword inverse: Optional direction, forward or inverse (bool).
+           @param x: X coordinate (C{meter}).
+           @param y: Y coordinate (C{meter}).
+           @param z: Z coordinate (C{meter}).
+           @keyword inverse: Optional direction, forward or inverse (C{bool}).
 
            @return: 3-Tuple (x, y, z) transformed.
         '''
@@ -1051,7 +1051,7 @@ class Datum(_Based):
 
            @param ellipsoid: The ellipsoid (L{Ellipsoid}).
            @keyword transform: Optional transform (L{Transform}).
-           @keyword name: Optional, unique name (string).
+           @keyword name: Optional, unique name (C{str}).
 
            @raise NameError: Datum with that I{name} already exists.
 
@@ -1073,7 +1073,7 @@ class Datum(_Based):
 
            @param other: The other datum (L{Datum}).
 
-           @return: True if equal (bool)
+           @return: C{True} if equal, C{False} otherwise.
         '''
         return self is other or (isinstance(other, Datum) and
                                  self.ellipsoid == other.ellipsoid and
@@ -1100,20 +1100,20 @@ class Datum(_Based):
 
     @property_RO
     def isEllipsoidal(self):
-        '''Check whether this datum is ellipsoidal (bool).
+        '''Check whether this datum is ellipsoidal (C{bool}).
         '''
         return self._ellipsoid.isEllipsoidal
 
     @property_RO
     def isSpherical(self):
-        '''Check whether this datum is spherical (bool).
+        '''Check whether this datum is spherical (C{bool}).
         '''
         return self._ellipsoid.isSpherical
 
     def toStr(self, **unused):  # PYCHOK expected
         '''Return this datum as a string.
 
-           @return: Datum attributes (string).
+           @return: Datum attributes (C{str}).
         '''
         t = []
         for a in ('ellipsoid', 'transform'):

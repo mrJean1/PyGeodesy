@@ -126,9 +126,9 @@ class TestsBase(object):
     def iterNumpy2over(self, n=None):
         '''Set the I{iterNumpy2} threshold.
 
-           @keyword n: Optional, new threshold value (integer).
+           @keyword n: Optional, new threshold value (C{int}).
 
-           @return: Previous threshold (integer).
+           @return: Previous threshold (C{int}).
         '''
         p = iterNumpy2over(n)
         self.test('iterNumpy2over', iterNumpy2over(), n)

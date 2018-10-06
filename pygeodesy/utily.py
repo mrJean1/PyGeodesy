@@ -34,13 +34,13 @@ __all__ = ('PI', 'PI2', 'PI_2', 'R_M',  # constants
            'iterNumpy2', 'iterNumpy2over',
            'limiterrors',
            'm2degrees', 'm2ft', 'm2km', 'm2NM', 'm2SM',
-           'points2', 'polygon', 'property_RO',
+           'points2', 'polygon', 'property_RO',  # DEPRECATED
            'radians', 'radiansPI_2', 'radiansPI', 'radiansPI2',
            'tan_2', 'tanPI_2_2',
            'unroll180', 'unrollPI', 'unStr',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '18.10.02'
+__version__ = '18.10.06'
 
 division = 1 / 2  # double check int division, see .datum.py
 if not division:
@@ -52,11 +52,11 @@ try:
 except NameError:
     _Strs = str,
 
-PI2  = PI * 2  #: Two PI, M{PI * 2} (float)  # PYCHOK expected
-PI_2 = PI / 2  #: Half PI, M{PI / 2} (float)
+PI2  = PI * 2  #: Two PI, M{PI * 2} (C{float})  # PYCHOK expected
+PI_2 = PI / 2  #: Half PI, M{PI / 2} (C{float})
 
 # R_M moved here to avoid circular import for bases and datum
-R_M = 6371008.771415  #: Mean, spherical earth radius (meter).
+R_M = 6371008.771415  #: Mean, spherical earth radius (C{meter}).
 
 _iterNumpy2len = 1  # adjustable for testing purposes
 _limiterrors   = True
@@ -100,10 +100,11 @@ def antipode(lat, lon):
     '''Return the antipode, the point diametrically opposite to the
        given lat- and longitude.
 
-       @param lat: Latitude (degrees).
-       @param lon: Longitude (degrees).
+       @param lat: Latitude (C{degrees}).
+       @param lon: Longitude (C{degrees}).
 
-       @return: 2-Tuple (lat, lon) of the antipodal point (degrees, degrees180).
+       @return: 2-Tuple (lat, lon) of the antipodal point
+                (C{degrees}, C{degrees180}).
 
        @see: U{Geosphere<http://CRAN.R-Project.org/web/packages/geosphere/geosphere.pdf>}.
     '''
@@ -113,9 +114,9 @@ def antipode(lat, lon):
 def degrees90(rad):
     '''Convert and wrap radians to degrees M{(-270..+90]}.
 
-       @param rad: Angle (radians).
+       @param rad: Angle (C{radians}).
 
-       @return: Angle in degrees, wrapped (degrees90).
+       @return: Angle in degrees, wrapped (C{degrees90}).
     '''
     return _wrap(degrees(rad), 90, 360)
 
@@ -123,9 +124,9 @@ def degrees90(rad):
 def degrees180(rad):
     '''Convert and wrap radians to degrees M{(-180..+180]}.
 
-       @param rad: Angle (radians).
+       @param rad: Angle (C{radians}).
 
-       @return: Angle in degrees, wrapped (degrees180).
+       @return: Angle in degrees, wrapped (C{degrees180}).
     '''
     return _wrap(degrees(rad), 180, 360)
 
@@ -133,9 +134,9 @@ def degrees180(rad):
 def degrees360(rad):
     '''Convert and wrap radians to degrees M{(0..+360]}.
 
-       @param rad: Angle (radians).
+       @param rad: Angle (C{radians}).
 
-       @return: Angle in degrees, wrapped (degrees360).
+       @return: Angle in degrees, wrapped (C{degrees360}).
     '''
     return _wrap(degrees(rad), 360, 360)
 
@@ -143,9 +144,9 @@ def degrees360(rad):
 def enStr2(easting, northing, prec, *extras):
     '''Return easting, northing string representations.
 
-       @param easting: Easting from false easting (meter).
-       @param northing: Northing from from false northing (meter).
-       @param prec: Precision in number of digits (int).
+       @param easting: Easting from false easting (C{meter}).
+       @param northing: Northing from from false northing (C{meter}).
+       @param prec: Precision in number of digits (C{int}).
        @param extras: Optional leading items (strings).
 
        @return: I{extras} + 2-Tuple (eastingStr, northingStr).
@@ -169,20 +170,20 @@ def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **options):
        See function L{equirectangular_} for more details, the
        available I{options} and errors raised.
 
-       @param lat1: Start latitude (degrees).
-       @param lon1: Start longitude (degrees).
-       @param lat2: End latitude (degrees).
-       @param lon2: End longitude (degrees).
-       @keyword radius: Optional, mean earth radius (meter).
+       @param lat1: Start latitude (C{degrees}).
+       @param lon1: Start longitude (C{degrees}).
+       @param lat2: End latitude (C{degrees}).
+       @param lon2: End longitude (C{degrees}).
+       @keyword radius: Optional, mean earth radius (C{meter}).
        @keyword options: Optional keyword arguments for function
                          L{equirectangular_}.
 
-       @return: Distance (meter, same units as I{radius}).
+       @return: Distance (C{meter}, same units as I{radius}).
 
        @see: U{Local, flat earth approximation
              <http://www.EdWilliams.org/avform.htm#flat>}, function
              L{haversine}, method L{Ellipsoid.distance2} and C{LatLon}
-             method C{distanceTo*} for more accurate and/or larger
+             methods C{distanceTo*} for more accurate and/or larger
              distances.
     '''
     _, dy, dx, _ = equirectangular_(lat1, lon1, lat2, lon2, **options)
@@ -199,16 +200,16 @@ def equirectangular_(lat1, lon1, lat2, lon2,
        hundred Km or Miles, see the I{limit} keyword argument and
        the L{LimitError}.
 
-       @param lat1: Start latitude (degrees).
-       @param lon1: Start longitude (degrees).
-       @param lat2: End latitude (degrees).
-       @param lon2: End longitude (degrees).
+       @param lat1: Start latitude (C{degrees}).
+       @param lon1: Start longitude (C{degrees}).
+       @param lat2: End latitude (C{degrees}).
+       @param lon2: End longitude (C{degrees}).
        @keyword adjust: Adjust the wrapped, unrolled longitudinal
-                        delta by the cosine of the mean latitude (bool).
+                        delta by the cosine of the mean latitude (C{bool}).
        @keyword limit: Optional limit for the lat- and longitudinal
-                       deltas (degrees) or None or 0 for unlimited.
+                       deltas (C{degrees}) or C{None} or 0 for unlimited.
        @keyword wrap: Wrap and L{unroll180} longitudes and longitudinal
-                      delta (bool).
+                      delta (C{bool}).
 
        @return: 4-Tuple (distance2, delta_lat, delta_lon, lon2_unroll)
                 with the distance in degrees squared, the latitudinal
@@ -221,12 +222,12 @@ def equirectangular_(lat1, lon1, lat2, lon2,
 
        @raise LimitError: If the lat- and/or longitudinal delta exceeds
                           the I{-limit..+limit} range and I{limiterrors}
-                          set to True.
+                          set to C{True}.
 
        @see: U{Local, flat earth approximation
              <http://www.EdWilliams.org/avform.htm#flat>}, functions
              L{equirectangular} and L{haversine}, method
-             L{Ellipsoid.distance2} and C{LatLon} method C{distanceTo*}
+             L{Ellipsoid.distance2} and C{LatLon} methods C{distanceTo*}
              for more accurate and/or larger distances.
     '''
     d_lat = lat2 - lat1
@@ -248,13 +249,13 @@ def equirectangular_(lat1, lon1, lat2, lon2,
 def false2f(value, name='value', false=True):
     '''Convert a false east-/northing to non-negative float.
 
-       @param value: Value to convert (scalar).
-       @keyword name: Optional name of the value (string).
-       @keyword false: Optionally, value includes false origin (bool).
+       @param value: Value to convert (C{scalar}).
+       @keyword name: Optional name of the value (C{str}).
+       @keyword false: Optionally, value includes false origin (C{bool}).
 
-       @return: The value (float).
+       @return: The value (C{float}).
 
-       @raise ValueError: Invalid or negative value.
+       @raise ValueError: Invalid or negative I{value}.
     '''
     try:
         f = float(value)
@@ -268,9 +269,9 @@ def false2f(value, name='value', false=True):
 def ft2m(feet):
     '''Convert I{International} feet to meter (m).
 
-       @param feet: Value in feet (scalar).
+       @param feet: Value in feet (C{scalar}).
 
-       @return: Value in m (float).
+       @return: Value in m (C{float}).
     '''
     return feet * 0.3048  # US Survey 1200./3937. == 0.3048006096012192
 
@@ -278,11 +279,11 @@ def ft2m(feet):
 def halfs(str2):
     '''Split a string in 2 halfs.
 
-       @param str2: String to split (string).
+       @param str2: String to split (C{str}).
 
-       @return: 2-Tuple (1st, 2nd) half (strings).
+       @return: 2-Tuple (1st, 2nd) half (C{str}s).
 
-       @raise ValueError: Zero or odd I{len(str2)}.
+       @raise ValueError: Zero or odd C{len}(I{str2}).
     '''
     h, r = divmod(len(str2), 2)
     if r or not h:
@@ -294,19 +295,19 @@ def haversine(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
     '''Compute the distance between two points using the U{Haversine
        <http://www.Movable-Type.co.UK/scripts/latlong.html>} formula.
 
-       @param lat1: Start latitude (degrees).
-       @param lon1: Start longitude (degrees).
-       @param lat2: End latitude (degrees).
-       @param lon2: End longitude (degrees).
-       @keyword radius: Optional, mean earth radius (meter).
-       @keyword wrap: Wrap and L{unrollPI} longitudes (bool).
+       @param lat1: Start latitude (C{degrees}).
+       @param lon1: Start longitude (C{degrees}).
+       @param lat2: End latitude (C{degrees}).
+       @param lon2: End longitude (C{degrees}).
+       @keyword radius: Optional, mean earth radius (C{meter}).
+       @keyword wrap: Wrap and L{unrollPI} longitudes (C{bool}).
 
-       @return: Distance (meter, same units as I{radius}).
+       @return: Distance (C{meter}, same units as I{radius}).
 
        @see: U{Distance between two (spherical) points
-             <http://www.EdWilliams.org/avform.htm#Dist>}, function
-             L{equirectangular}. L{Ellipsoid.distance2} or I{LatLon}
-             methods I{distanceTo*} and I{equirectangular}.
+             <http://www.EdWilliams.org/avform.htm#Dist>}, functions
+             L{equirectangular}, L{Ellipsoid.distance2} or I{LatLon}
+             methods I{distanceTo*} and I{equirectangularTo}.
     '''
     d, lon2 = unroll180(lon1, lon2, wrap=wrap)
     r = haversine_(radians(lat2), radians(lat1), radians(d))
@@ -318,11 +319,11 @@ def haversine_(a2, a1, b21):
        U{Haversine<http://www.Movable-Type.co.UK/scripts/latlong.html>}
        formula.
 
-       @param a2: End latitude (radians).
-       @param a1: Start latitude (radians).
-       @param b21: Longitudinal delta, M{end-start} (radians).
+       @param a2: End latitude (C{radians}).
+       @param a1: Start latitude (C{radians}).
+       @param b21: Longitudinal delta, M{end-start} (C{radians}).
 
-       @return: Angular distance (radians).
+       @return: Angular distance (C{radians}).
 
        @see: Function L{haversine}.
     '''
@@ -341,11 +342,12 @@ def heightOf(angle, distance, radius=R_M):
     '''Determine the height above the (spherical) earth after
        traveling along a straight line at a given tilt.
 
-       @param angle: Tilt angle above horizontal (degrees).
-       @param distance: Distance along the line (meter or same units as I{radius}).
-       @keyword radius: Optional mean earth radius (meter).
+       @param angle: Tilt angle above horizontal (C{degrees}).
+       @param distance: Distance along the line (C{meter} or same units
+                        as I{radius}).
+       @keyword radius: Optional mean earth radius (C{meter}).
 
-       @return: Height (meter, same units as I{distance} and I{radius}).
+       @return: Height (C{meter}, same units as I{distance} and I{radius}).
 
        @raise ValueError: Invalid I{angle}, I{distance} or I{radius}.
 
@@ -373,11 +375,11 @@ def horizon(height, radius=R_M, refraction=False):
     '''Determine the distance to the horizon from a given altitude
        above the (spherical) earth.
 
-       @param height: Altitude (meter or same units as I{radius}).
-       @keyword radius: Optional mean earth radius (meter).
-       @keyword refraction: Consider atmospheric refraction (bool).
+       @param height: Altitude (C{meter} or same units as I{radius}).
+       @keyword radius: Optional mean earth radius (C{meter}).
+       @keyword refraction: Consider atmospheric refraction (C{bool}).
 
-       @return: Distance (meter, same units as I{height} and I{radius}).
+       @return: Distance (C{meter}, same units as I{height} and I{radius}).
 
        @raise ValueError: Invalid I{height} or I{radius}.
 
@@ -397,14 +399,14 @@ def isantipode(lat1, lon1, lat2, lon2, eps=EPS):
     '''Check whether two points are anitpodal, on diametrically
        opposite sides of the earth.
 
-       @param lat1: Latitude of one point (degrees).
-       @param lon1: Longitude of one point (degrees).
-       @param lat2: Latitude of the other point (degrees).
-       @param lon2: Longitude of the other point (degrees).
-       @keyword eps: Tolerance for near-equality (degrees).
+       @param lat1: Latitude of one point (C{degrees}).
+       @param lon1: Longitude of one point (C{degrees}).
+       @param lat2: Latitude of the other point (C{degrees}).
+       @param lon2: Longitude of the other point (C{degrees}).
+       @keyword eps: Tolerance for near-equality (C{degrees}).
 
-       @return: True if points are antipodal within the given
-                tolerance, False otherwise.
+       @return: C{True} if points are antipodal within the
+                I{eps} tolerance, C{False} otherwise.
 
        @see: U{Geosphere<http://CRAN.R-Project.org/web/packages/geosphere/geosphere.pdf>}.
     '''
@@ -415,10 +417,10 @@ def isantipode(lat1, lon1, lat2, lon2, eps=EPS):
 def isNumpy2(obj):
     '''Check for an I{Numpy2LatLon} points wrapper.
 
-       @param obj: The object (any).
+       @param obj: The object (any C{type}).
 
-       @return: True if obj is an I{Numpy2LatLon}
-                instance, False otherwise (bool).
+       @return: C{True} if I{obj} is an I{Numpy2LatLon}
+                instance, C{False} otherwise.
     '''
     # isinstance(self, (Numpy2LatLon, ...))
     return getattr(obj, 'isNumpy2', False)
@@ -427,10 +429,10 @@ def isNumpy2(obj):
 def isPoints2(obj):
     '''Check for an I{LatLon2psxy} points wrapper.
 
-       @param obj: The object (any).
+       @param obj: The object (any C{type}).
 
-       @return: True if obj is an I{LatLon2psxy}
-                instance, False otherwise (bool).
+       @return: C{True} if I{obj} is an I{LatLon2psxy}
+                instance, C{False} otherwise.
     '''
     # isinstance(self, (LatLon2psxy, ...))
     return getattr(obj, 'isPoints2', False)
@@ -439,12 +441,12 @@ def isPoints2(obj):
 def issequence(obj, *excluded):
     '''Check for sequence types.
 
-       @param obj: The object (any).
-       @param excluded: Optional, exclusions (types).
+       @param obj: The object (any C{type}).
+       @param excluded: Optional, exclusions (C{type}s).
 
-       @note: Excluding tuple implies namedtuple.
+       @note: Excluding C{tuple} implies excluding C{namedtuple}.
 
-       @return: True if obj is a sequence (bool).
+       @return: C{True} if I{obj} is a sequence, C{False} otherwise.
     '''
     if excluded:
         return isinstance(obj, _Seqs) and not \
@@ -458,8 +460,8 @@ def isTuple2(obj):
 
        @param obj: The object (any).
 
-       @return: True if obj is an I{Tuple2LatLon}
-                instance, False otherwise (bool).
+       @return: C{True} if I{obj} is an I{Tuple2LatLon}
+                instance, C{False} otherwise.
     '''
     # isinstance(self, (Tuple2LatLon, ...))
     return getattr(obj, 'isTuple2', False)
@@ -471,7 +473,7 @@ def iterNumpy2(obj):
 
        @param obj: Points array, list, sequence, set, etc. (any).
 
-       @return: True, do iterate (bool).
+       @return: C{True} do, C{False} don't iterate.
     '''
     try:
         return isNumpy2(obj) or len(obj) > _iterNumpy2len
@@ -482,9 +484,9 @@ def iterNumpy2(obj):
 def iterNumpy2over(n=None):
     '''Get or set the L{iterNumpy2} threshold.
 
-       @keyword n: Optional, new threshold (integer).
+       @keyword n: Optional, new threshold (C{int}).
 
-       @return: Previous threshold (integer).
+       @return: Previous threshold (C{int}).
 
        @raise ValueError: Invalid I{n}.
     '''
@@ -505,11 +507,11 @@ def iterNumpy2over(n=None):
 def limiterrors(raiser=None):
     '''Get/set the raising of limit errors.
 
-       @keyword raiser: Choose True to raise or False to not raise
-                        L{LimitError} exceptions.  Use None to leave
-                        the setting unchanged.
+       @keyword raiser: Choose C{True} to raise or C{False} to
+                        ignore L{LimitError} exceptions.  Use
+                        C{None} to leave the setting unchanged.
 
-       @return: Previous setting (bool).
+       @return: Previous setting (C{bool}).
     '''
     global _limiterrors
     t = _limiterrors
@@ -521,9 +523,9 @@ def limiterrors(raiser=None):
 def m2degrees(meter, radius=R_M):
     '''Convert distance to angle along equator.
 
-       @param meter: Value in meter (scalar).
+       @param meter: Value in meter (C{scalar}).
 
-       @return: Value in degrees (float).
+       @return: Equatorial angle in degrees (C{float}).
 
        @raise ValueError: Invalid I{radius}.
     '''
@@ -535,9 +537,9 @@ def m2degrees(meter, radius=R_M):
 def m2ft(meter):
     '''Convert meter to I{International} feet (ft).
 
-       @param meter: Value in meter (scalar).
+       @param meter: Value in meter (C{scalar}).
 
-       @return: Value in ft (float).
+       @return: Value in ft (C{float}).
     '''
     return meter * 3.2808399  # US Survey == 3937./1200. = 3.2808333333333333
 
@@ -545,9 +547,9 @@ def m2ft(meter):
 def m2km(meter):
     '''Convert meter to kilo meter (km).
 
-       @param meter: Value in meter (scalar).
+       @param meter: Value in meter (C{scalar}).
 
-       @return: Value in km (float).
+       @return: Value in km (C{float}).
     '''
     return meter * 1.0e-3
 
@@ -555,9 +557,9 @@ def m2km(meter):
 def m2NM(meter):
     '''Convert meter to nautical miles (NM).
 
-       @param meter: Value in meter (scalar).
+       @param meter: Value in meter (C{scalar}).
 
-       @return: Value in NM (float).
+       @return: Value in NM (C{float}).
     '''
     return meter * 5.39956804e-4  # == * 1.0 / 1852.0
 
@@ -565,24 +567,26 @@ def m2NM(meter):
 def m2SM(meter):
     '''Convert meter to statute miles (SM).
 
-       @param meter: Value in meter (scalar).
+       @param meter: Value in meter (C{scalar}).
 
-       @return: Value in SM (float).
+       @return: Value in SM (C{float}).
     '''
     return meter * 6.21369949e-4  # XXX 6.213712e-4 == 1.0 / 1609.344
 
 
 def points2(points, closed=True, base=None):
-    '''Check an array, generator, iterable, list, set, tuple or other
-       sequence of points representing a polygon or path.
+    '''Check a polygon or path represented as an array, generator,
+       iterable, list, set, tuple or other sequence of points.
 
        @param points: The points (I{LatLon}[])
-       @keyword closed: Optionally, treat points as closed polygon or
-                        path and remove any duplicate or closing final
-                        I{points} (bool).
-       @keyword base: Optional I{points} base class (None).
+       @keyword closed: Optionally, treat the I{points} as a closed
+                        polygon or path and remove any duplicate or
+                        closing final I{points} (C{bool}).
+       @keyword base: Optionally, check I{points} against this
+                      base class C{None}.
 
-       @return: 2-Tuple (number, sequence) of points (int, sequence).
+       @return: 2-Tuple (number, ...) of points (C{int}, C{list} or
+                C{tuple}).
 
        @raise TypeError: Some I{points} are not I{LatLon}.
 
@@ -610,7 +614,7 @@ def points2(points, closed=True, base=None):
 
 
 def polygon(points, closed=True, base=None):
-    '''DEPRECATED, use function I{points2}.
+    '''DEPRECATED, use function L{points2}.
     '''
     return points2(points, closed=closed, base=base)
 
@@ -635,9 +639,9 @@ def property_RO(method):
 def radiansPI(deg):
     '''Convert and wrap degrees to radians M{(-PI..+PI]}.
 
-       @param deg: Angle (degrees).
+       @param deg: Angle (C{degrees}).
 
-       @return: Radians, wrapped (radiansPI)
+       @return: Radians, wrapped (C{radiansPI})
     '''
     return _wrap(radians(deg), PI, PI2)
 
@@ -645,9 +649,9 @@ def radiansPI(deg):
 def radiansPI2(deg):
     '''Convert and wrap degrees to radians M{(0..+2PI]}.
 
-       @param deg: Angle (degrees).
+       @param deg: Angle (C{degrees}).
 
-       @return: Radians, wrapped (radiansPI2)
+       @return: Radians, wrapped (C{radiansPI2})
     '''
     return _wrap(radians(deg), PI2, PI2)
 
@@ -655,9 +659,9 @@ def radiansPI2(deg):
 def radiansPI_2(deg):
     '''Convert and wrap degrees to radians M{(-3PI/2..+PI/2]}.
 
-       @param deg: Angle (degrees).
+       @param deg: Angle (C{degrees}).
 
-       @return: Radians, wrapped (radiansPI_2)
+       @return: Radians, wrapped (C{radiansPI_2})
     '''
     return _wrap(radians(deg), PI_2, PI2)
 
@@ -665,9 +669,9 @@ def radiansPI_2(deg):
 def tan_2(rad):
     '''Compute the tangent of half angle.
 
-       @param rad: Angle (radians).
+       @param rad: Angle (C{radians}).
 
-       @return: M{tan(rad / 2)} (float).
+       @return: M{tan(rad / 2)} (C{float}).
     '''
     return tan(rad * 0.5)
 
@@ -675,9 +679,9 @@ def tan_2(rad):
 def tanPI_2_2(rad):
     '''Compute the tangent of half angle, 90 degrees rotated.
 
-       @param rad: Angle (radians).
+       @param rad: Angle (C{radians}).
 
-       @return: M{tan((rad + PI/2) / 2)} (float).
+       @return: M{tan((rad + PI/2) / 2)} (C{float}).
     '''
     return tan((rad + PI_2) * 0.5)
 
@@ -685,12 +689,12 @@ def tanPI_2_2(rad):
 def unroll180(lon1, lon2, wrap=True):
     '''Unroll longitudinal delta and wrap longitude in degrees.
 
-       @param lon1: Start longitude (degrees).
-       @param lon2: End longitude (degrees).
-       @keyword wrap: Wrap and unroll to the M{(-180..+180]} range (bool).
+       @param lon1: Start longitude (C{degrees}).
+       @param lon2: End longitude (C{degrees}).
+       @keyword wrap: Wrap and unroll to the M{(-180..+180]} range (C{bool}).
 
        @return: 2-Tuple (delta I{lon2}-I{lon1}, I{lon2}) unrolled
-                (degrees, degrees).
+                (C{degrees}, C{degrees}).
 
        @see: Capability I{LONG_UNROLL} in U{GeographicLib
        <http://GeographicLib.SourceForge.io/html/python/interface.html#outmask>}.
@@ -706,12 +710,12 @@ def unroll180(lon1, lon2, wrap=True):
 def unrollPI(rad1, rad2, wrap=True):
     '''Unroll longitudinal delta and wrap longitude in radians.
 
-       @param rad1: Start longitude (radians).
-       @param rad2: End longitude (radians).
-       @keyword wrap: Wrap and unroll to the M{(-PI..+PI]} range (bool).
+       @param rad1: Start longitude (C{radians}).
+       @param rad2: End longitude (C{radians}).
+       @keyword wrap: Wrap and unroll to the M{(-PI..+PI]} range (C{bool}).
 
        @return: 2-Tuple (delta I{rad2}-I{rad1}, I{rad2}) unrolled
-                (radians, radians).
+                (C{radians}, C{radians}).
 
        @see: Capability I{LONG_UNROLL} in U{GeographicLib
        <http://GeographicLib.SourceForge.io/html/python/interface.html#outmask>}.
@@ -727,11 +731,11 @@ def unrollPI(rad1, rad2, wrap=True):
 def unStr(name, *args, **kwds):
     '''Return the string representation of an invokation.
 
-       @param name: Function, method or class name (string).
-       @param args: Optional positional arguments (tuple).
-       @keyword kwds: Optional keyword arguments (dict).
+       @param name: Function, method or class name (C{str}).
+       @param args: Optional positional arguments.
+       @keyword kwds: Optional keyword arguments.
 
-       @return: Representation (string).
+       @return: Representation (C{str}).
     '''
     t = tuple('%s=%s' % t for t in sorted(kwds.items()))
     if args:
@@ -742,11 +746,11 @@ def unStr(name, *args, **kwds):
 def _wrap(angle, wrap, limit):
     '''(INTERNAL) Angle wrapper M{((wrap-limit)..+wrap]}.
 
-       @param angle: Angle (radians or degrees).
-       @param wrap: Range (radians or degrees).
-       @param limit: Upper limit (PI2 radians or 360 degrees).
+       @param angle: Angle (C{radians} or C{degrees}).
+       @param wrap: Range (C{radians} or C{degrees}).
+       @param limit: Upper limit (PI2 C{radians} or 360 C{degrees}).
 
-       @return: The I{angle}, wrapped (radians or degrees).
+       @return: The I{angle}, wrapped (C{radians} or C{degrees}).
     '''
     if not wrap >= angle > (wrap - limit):
         # math.fmod(-1.5, 3.14) == -1.5, but -1.5 % 3.14 == 1.64
@@ -760,9 +764,9 @@ def _wrap(angle, wrap, limit):
 def wrap90(deg):
     '''Wrap degrees to M{(-270..+90]}.
 
-       @param deg: Angle (degrees).
+       @param deg: Angle (C{degrees}).
 
-       @return: Degrees, wrapped (degrees90).
+       @return: Degrees, wrapped (C{degrees90}).
     '''
     return _wrap(deg, 90, 360)
 
@@ -770,9 +774,9 @@ def wrap90(deg):
 def wrap180(deg):
     '''Wrap degrees to M{(-180..+180]}.
 
-       @param deg: Angle (degrees).
+       @param deg: Angle (C{degrees}).
 
-       @return: Degrees, wrapped (degrees180).
+       @return: Degrees, wrapped (C{degrees180}).
     '''
     return _wrap(deg, 180, 360)
 
@@ -780,9 +784,9 @@ def wrap180(deg):
 def wrap360(deg):
     '''Wrap degrees to M{(0..+360]}.
 
-       @param deg: Angle (degrees).
+       @param deg: Angle (C{degrees}).
 
-       @return: Degrees, wrapped (degrees360).
+       @return: Degrees, wrapped (C{degrees360}).
     '''
     return _wrap(deg, 360, 360)
 
@@ -790,9 +794,9 @@ def wrap360(deg):
 def wrapPI(rad):
     '''Wrap radians to M{(-PI..+PI]}.
 
-       @param rad: Angle (radians).
+       @param rad: Angle (C{radians}).
 
-       @return: Radians, wrapped (radiansPI).
+       @return: Radians, wrapped (C{radiansPI}).
     '''
     return _wrap(rad, PI, PI2)
 
@@ -800,9 +804,9 @@ def wrapPI(rad):
 def wrapPI2(rad):
     '''Wrap radians to M{(0..+2PI]}.
 
-       @param rad: Angle (radians).
+       @param rad: Angle (C{radians}).
 
-       @return: Radians, wrapped (radiansPI2).
+       @return: Radians, wrapped (C{radiansPI2}).
     '''
     return _wrap(rad, PI2, PI2)
 
@@ -810,9 +814,9 @@ def wrapPI2(rad):
 def wrapPI_2(rad):
     '''Wrap radians to M{(-3PI/2..+PI/2]}.
 
-       @param rad: Angle (radians).
+       @param rad: Angle (C{radians}).
 
-       @return: Radians, wrapped (radiansPI_2).
+       @return: Radians, wrapped (C{radiansPI_2}).
     '''
     return _wrap(rad, PI_2, PI2)
 

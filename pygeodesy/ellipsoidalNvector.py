@@ -37,7 +37,7 @@ from math import asin, atan2, cos, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '18.10.02'
+__version__ = '18.10.06'
 
 
 class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
@@ -90,12 +90,13 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #
 #            @param start: Start point of great circle path (L{LatLon}).
 #            @param end: End point of great circle path (L{LatLon}) or
-#                        initial bearing (in compass degrees) at the
-#                        start point.
-#            @keyword radius: Optional, mean earth radius (meter).
+#                        initial bearing (in compass C{degrees360}) at
+#                        the start point.
+#            @keyword radius: Optional, mean earth radius (C{meter}).
 #
 #            @return: Distance to great circle, negative if to left or
-#                     positive if to right of path (scalar).
+#                     positive if to right of path (C{meter}, same units
+#                     as I{radius}).
 #
 #            @raise TypeError: If I{start} or I{end} point is not L{LatLon}.
 #
@@ -165,13 +166,13 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #         '''Return the destination point after traveling from this
 #            point the given distance on the given initial bearing.
 #
-#            @param distance: Distance traveled (same units as the
-#                             given earth radius.
-#            @param bearing: Initial bearing (compass degrees).
-#            @keyword radius: Optional, mean earth radius (meter).
+#            @param distance: Distance traveled (C{meter}, same units as
+#                             given earth I{radius}).
+#            @param bearing: Initial bearing (compass C{degrees360}).
+#            @keyword radius: Optional, mean earth radius (C{meter}).
 #            @keyword height: Optional height at destination point,
-#                             overriding default (meter or same unit
-#                             as radius).
+#                             overriding default (C{meter}, same units
+#                             as I{radius}).
 #
 #            @return: Destination point (L{LatLon}).
 #
@@ -190,7 +191,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #         y = gc.cross(v1).times(sin(r))  # component of v2 perpendicular to v1
 #
 #         v2 = x.plus(y).unit()
-#         return v2.toLatLon(height=self.height if height is None else height)
+#         return v2.toLatLon(height=self.height if height is C{None} else height)
 
     def destinationNed(self, delta):
         '''Calculate the destination point using the supplied NED delta
@@ -234,9 +235,9 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #         '''Compute the distance from this to an other point.
 #
 #            @param other: The other point (L{LatLon}).
-#            @keyword radius: Optional, mean earth radius (meter).
+#            @keyword radius: Optional, mean earth radius (C{meter}).
 #
-#            @return: Distance (meter, same units as I{radius}).
+#            @return: Distance (C{meter}, same units as I{radius}).
 #
 #            @raise TypeError: The I{other} point is not L{LatLon}.
 #
@@ -262,10 +263,10 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         '''Compare this point with an other point.
 
            @param other: The other point (L{LatLon}).
-           @keyword eps: Optional margin (float).
+           @keyword eps: Optional margin (C{float}).
 
-           @return: True if points are identical, including
-                    datum, I{ignoring height} (bool).
+           @return: C{True} if points are identical, including
+                    datum, I{ignoring height}, C{False} otherwise.
 
            @raise TypeError: The I{other} point is not L{LatLon}.
 
@@ -287,7 +288,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #            Direction of vector is such that initial bearing vector
 #            b = c × p, where p is representing this point.
 #
-#            @param bearing: Bearing from this point (compass degrees).
+#            @param bearing: Bearing from this point (compass C{degrees360}).
 #
 #            @return: N-vector representing great circle (L{Nvector}).
 #
@@ -314,7 +315,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #
 #            @param other: The other point (L{LatLon}).
 #
-#            @return: Initial bearing in compass degrees (degrees360).
+#            @return: Initial bearing (compass C{degrees360}).
 #
 #            @raise TypeError: The I{other} point is not L{LatLon}.
 #
@@ -343,9 +344,9 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
            @param other: The other point (L{LatLon}).
            @param fraction: Fraction between both points ranging from
-                            0 = this point to 1 = other point (float).
+                            0 = this point to 1 = other point (C{float}).
            @keyword height: Optional height, overriding the fractional
-                            height (meter).
+                            height (C{meter}).
 
            @return: Intermediate point (L{LatLon}).
 
@@ -434,11 +435,12 @@ class Cartesian(CartesianBase):
            an (ellipsoidal) geodetic point on the specified datum.
 
            @keyword datum: Optional datum to use (L{Datum}).
-           @keyword LatLon: Optional (ellipsoidal) LatLon (sub-)class
-                            to use for the point (L{LatLon}) or None.
+           @keyword LatLon: Optional (ellipsoidal) LatLon (sub-)class to
+                            use for the point (L{LatLon}) or C{None}.
 
            @return: The ellipsoidal geodetic point (L{LatLon}) or 3-tuple
-                    (degrees90, degrees180, height) if I{LatLon} is None.
+                    (C{degrees90}, C{degrees180}, height) if I{LatLon}
+                    is C{None}.
         '''
         return CartesianBase._toLLhd(self, LatLon, datum)
 
@@ -493,18 +495,18 @@ class Ned(Named):
     '''North-Eeast-Down (NED), also known as Local Tangent Plane (LTP),
        is a vector in the local coordinate frame of a body.
     '''
-    _bearing   = None  #: (INTERNAL) Cache bearing (compass degrees).
-    _elevation = None  #: (INTERNAL) Cache elevation (degrees).
-    _length    = None  #: (INTERNAL) Cache length (scalar).
+    _bearing   = None  #: (INTERNAL) Cache bearing (compass C{degrees360}).
+    _elevation = None  #: (INTERNAL) Cache elevation (C{degrees}).
+    _length    = None  #: (INTERNAL) Cache length (C{float}).
 
     def __init__(self, north, east, down, name=''):
         '''New North-East-Down vector.
 
-           @param north: North component in meter (scalar).
-           @param east: East component in meter (scalar).
-           @param down: Down component (normal to the surface
-                        of the ellipsoid) in meter (scalar).
-           @keyword name: Optional name (string).
+           @param north: North component (C{meter}).
+           @param east: East component (C{meter}).
+           @param down: Down component, normal to the surface of
+                        the ellipsoid (C{meter}).
+           @keyword name: Optional name (C{str}).
 
            @example:
 
@@ -523,7 +525,7 @@ class Ned(Named):
 
     @property_RO
     def bearing(self):
-        '''Get the bearing of this NED vector in compass degrees (degrees360).
+        '''Get the bearing of this NED vector (compass C{degrees360}).
         '''
         if self._bearing is None:
             self._bearing = degrees360(atan2(self.east, self.north))
@@ -532,7 +534,7 @@ class Ned(Named):
     @property_RO
     def elevation(self):
         '''Get the elevation, tilt of this NED vector in degrees from
-           horizontal, i.e. tangent to ellipsoid surface (degrees90).
+           horizontal, i.e. tangent to ellipsoid surface (C{degrees90}).
         '''
         if self._elevation is None:
             self._elevation = -degrees90(asin(self.down / self.length))
@@ -540,7 +542,7 @@ class Ned(Named):
 
     @property_RO
     def length(self):
-        '''Gets the length of this NED vector in meter (scalar).
+        '''Gets the length of this NED vector (C{meter}).
         '''
         if self._length is None:
             self._length = hypot3(self.north, self.east, self.down)
@@ -549,18 +551,18 @@ class Ned(Named):
     def to3ned(self):
         '''Return this NED vector as north/east/down components.
 
-           @return: 3-Tuple (north, east, down) in (degrees).
+           @return: 3-Tuple (north, east, down) in (C{degrees}).
         '''
         return self.north, self.east, self.down
 
     def toStr(self, prec=3, fmt='[%s]', sep=', '):  # PYCHOK expected
         '''Return a string representation of this NED vector.
 
-           @keyword prec: Optional number of decimals, unstripped (int).
-           @keyword fmt: Optional enclosing backets format (string).
-           @keyword sep: Optional separator between NEDs (string).
+           @keyword prec: Optional number of decimals, unstripped (C{int}).
+           @keyword fmt: Optional enclosing backets format (C{str}).
+           @keyword sep: Optional separator between NEDs (C{str}).
 
-           @return: This Ned as "[N:f, E:f, D:f]" (string).
+           @return: This Ned as "[N:f, E:f, D:f]" (C{str}).
         '''
         t3 = fStr(self.to3ned(), prec=prec, sep=' ').split()
         return fmt % (sep.join('%s:%s' % t for t in zip('NED', t3)),)
@@ -569,11 +571,11 @@ class Ned(Named):
         '''Return a string representation of this NED vector as
            length, bearing and elevation.
 
-           @keyword prec: Optional number of decimals, unstripped (int).
-           @keyword fmt: Optional enclosing backets format (string).
-           @keyword sep: Optional separator between NEDs (string).
+           @keyword prec: Optional number of decimals, unstripped (C{int}).
+           @keyword fmt: Optional enclosing backets format (C{str}).
+           @keyword sep: Optional separator between NEDs (C{str}).
 
-           @return: This Ned as "[L:f, B:degrees360, E:degrees90]" (string).
+           @return: This Ned as "[L:f, B:degrees360, E:degrees90]" (C{str}).
         '''
         t3 = (fStr(self.length, prec=3 if prec is None else prec),
               toDMS(self.bearing, form=F_D, prec=prec, ddd=0),
@@ -607,14 +609,14 @@ class Nvector(NvectorBase):
     def __init__(self, x, y, z, h=0, datum=None, ll=None, name=''):
         '''New n-vector normal to the earth's surface.
 
-           @param x: X component (scalar).
-           @param y: Y component (scalar).
-           @param z: Z component (scalar).
-           @keyword h: Optional height above model surface (meter).
+           @param x: X component (C{meter}).
+           @param y: Y component (C{meter}).
+           @param z: Z component (C{meter}).
+           @keyword h: Optional height above model surface (C{meter}).
            @keyword datum: Optional datum this n-vector is defined
                            within (L{Datum}).
            @keyword ll: Optional, original latlon (I{LatLon}).
-           @keyword name: Optional name (string).
+           @keyword name: Optional name (C{str}).
 
            @raise TypeError: If I{datum} is not a L{Datum}.
 
@@ -650,13 +652,13 @@ class Nvector(NvectorBase):
         '''Convert this n-vector to an (ellipsoidal) geodetic point.
 
            @keyword height: Optional height, overriding the default
-                            height (meter).
+                            height (C{meter}).
            @keyword LatLon: Optional (ellipsoidal) LatLon (sub-)class
-                            to use for the point (L{LatLon}) or None.
+                            to use for the point (L{LatLon}) or C{None}.
 
            @return: Point equivalent to this n-vector (L{LatLon}) or
-                    3-tuple (degrees90, degrees180, height) if
-                    I{LatLon} is None.
+                    3-tuple (C{degrees90}, C{degrees180}, height) if
+                    I{LatLon} is C{None}.
 
            @example:
 
@@ -668,8 +670,8 @@ class Nvector(NvectorBase):
     def toCartesian(self, Cartesian=Cartesian):
         '''Convert this n-vector to a cartesian point.
 
-           @keyword Cartesian: Optional Cartesian class to use for
-                               the point (L{Cartesian}).
+           @keyword Cartesian: Optional, cartesion (sub-)class to use
+                               for the point (L{Cartesian}).
 
            @return: Cartesian equivalent to this n-vector (L{Cartesian}).
 
@@ -705,7 +707,7 @@ def meanOf(points, datum=Datums.WGS84, height=None, LatLon=LatLon):
 
        @param points: Array of points to be averaged (L{LatLon}[]).
        @keyword datum: Optional datum to use (L{Datum}).
-       @keyword height: Optional height, overriding the mean height (meter).
+       @keyword height: Optional height, overriding the mean height (C{meter}).
        @keyword LatLon: Optional LatLon class for the mean point (L{LatLon}).
 
        @return: Point at geographic mean and mean height (L{LatLon}).
@@ -726,14 +728,14 @@ def toNed(distance, bearing, elevation, name=''):
     '''Create an NED vector from distance, bearing and elevation
        (in local coordinate system).
 
-       @param distance: NED vector length in meter (scalar).
-       @param bearing: NED vector bearing in compass degrees (scalar).
-       @param elevation: NED vector elevation in degrees from local
-                         coordinate frame horizontal (scalar).
-       @keyword name: Optional name (string).
+       @param distance: NED vector length (C{meter}).
+       @param bearing: NED vector bearing (compass C{degrees360}).
+       @param elevation: NED vector elevation from local coordinate
+                         frame horizontal (C{degrees}).
+       @keyword name: Optional name (C{str}).
 
-       @return: NED vector equivalent to this distance, bearing and
-                elevation (L{Ned}).
+       @return: NED vector equivalent to this I{distance}, C{bearing}
+                and C{elevation} (L{Ned}).
 
        @JSname: I{fromDistanceBearingElevation}.
     '''

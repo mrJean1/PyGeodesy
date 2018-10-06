@@ -82,7 +82,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.10.02
+        18.10.06
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -161,8 +161,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry-module.html#isPoleEnclosedBy" class="summary-sig-name">isPoleEnclosedBy</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Test whether a pole is enclosed by a polygon defined by a list, 
-      sequence, set or tuple of points.</td>
+      Check whether a pole is enclosed by a polygon.</td>
           <td align="right" valign="top">
             
             
@@ -268,11 +267,12 @@
         <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>[]).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (bool).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Polygon area (float, same units as radius squared).</dd>
+        <dd>Polygon area (<code>float</code>, same units as <i>radius</i>, 
+          squared).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <a 
@@ -282,7 +282,7 @@
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        The area is based on Karney <a 
+        The area is based on Karney's <a 
         href="http://osgeo-org.1560.x6.nabble.com/Area-of-a-spherical-polygon-td3841625.html"
         target="_top">'Area of a spherical polygon'</a>.
       </p>
@@ -332,23 +332,24 @@
         <li><strong class="pname"><code>start1</code></strong> - Start point of first path (<a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>bearing1</code></strong> - Initial bearing from start1 (compass degrees).</li>
+        <li><strong class="pname"><code>bearing1</code></strong> - Initial bearing from start1 (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>start2</code></strong> - Start point of second path (<a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>bearing2</code></strong> - Initial bearing from start2 (compass degrees).</li>
+        <li><strong class="pname"><code>bearing2</code></strong> - Initial bearing from start2 (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height for the intersection point, overriding the mean 
-          height (meter).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (bool).</li>
-        <li><strong class="pname"><code>LatLon</code></strong> - Optional LatLon class for the intersection point (<a 
+          height (<code>meter</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional (sub-)class for the intersection point (<a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
-          class="link">LatLon</a>) or None.</li>
+          class="link">LatLon</a>) or <code>None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Intersection point (<a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
-          class="link">LatLon</a>) or 3-tuple (degrees90, degrees180, 
-          height) if <i>LatLon</i> is None.</dd>
+          class="link">LatLon</a>) or 3-tuple (<code>degrees90</code>, 
+          <code>degrees180</code>, height) if <i>LatLon</i> is 
+          <code>None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Point <i>start1</i> or <i>start2</i> is not <a 
@@ -381,18 +382,18 @@
     </td>
   </tr></table>
   
-  <p>Test whether a pole is enclosed by a polygon defined by a list, 
-  sequence, set or tuple of points.</p>
+  <p>Check whether a pole is enclosed by a polygon.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>[]).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (bool).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if the polygon encloses a pole (bool).</dd>
+        <dd><code>True</code> if the polygon encloses a pole, 
+          <code>False</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
@@ -426,16 +427,18 @@
         <li><strong class="pname"><code>points</code></strong> - Points to be averaged (<a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>[]).</li>
-        <li><strong class="pname"><code>height</code></strong> - Optional height at mean point overriding the mean height (meter).</li>
-        <li><strong class="pname"><code>LatLon</code></strong> - Optional LatLon class to return mean point (<a 
+        <li><strong class="pname"><code>height</code></strong> - Optional height at mean point overriding the mean height 
+          (<code>meter</code>).</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional (sub-)class to return mean point (<a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
-          class="link">LatLon</a>) or None.</li>
+          class="link">LatLon</a>) or <code>None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Point at geographic mean and height (<a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
-          class="link">LatLon</a>) or 3-tuple (degrees90, degrees180, 
-          height) if <i>LatLon</i> is None.</dd>
+          class="link">LatLon</a>) or 3-tuple (<code>degrees90</code>, 
+          <code>degrees180</code>, height) if <i>LatLon</i> is 
+          <code>None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <a 
@@ -482,8 +485,8 @@
         <li><strong class="pname"><code>points</code></strong> - The points of the path (<a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>[]).</li>
-        <li><strong class="pname"><code>closed</code></strong> - Optionally, treat path as closed (bool).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, treat path as closed (<code>bool</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments for function <a 
           href="pygeodesy.utily-module.html#equirectangular_" 
           class="link">equirectangular_</a>.</li>
@@ -533,12 +536,13 @@
         <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>[]).</li>
-        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the polygon/-line (bool).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (bool).</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the polygon/-line (<code>bool</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Polygon perimeter (float, same units as radius).</dd>
+        <dd>Polygon perimeter (<code>float</code>, same units as 
+          <i>radius</i>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <a 
@@ -592,7 +596,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Oct  4 14:55:33 2018
+    Generated by Epydoc 3.0.1 on Sat Oct  6 16:22:25 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

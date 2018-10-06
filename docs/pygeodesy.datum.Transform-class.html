@@ -241,7 +241,7 @@ bases.Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="tx"></a><span class="summary-name">tx</span> = <code title="0">0</code><br />
-      X translation (meter).
+      X translation (<code>meter</code>).
     </td>
   </tr>
 <tr>
@@ -249,7 +249,7 @@ bases.Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="ty"></a><span class="summary-name">ty</span> = <code title="0">0</code><br />
-      Y translation (meter).
+      Y translation (<code>meter</code>).
     </td>
   </tr>
 <tr>
@@ -257,7 +257,7 @@ bases.Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="tz"></a><span class="summary-name">tz</span> = <code title="0">0</code><br />
-      Z translation (meter).
+      Z translation (<code>meter</code>).
     </td>
   </tr>
 <tr>
@@ -265,7 +265,7 @@ bases.Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="rx"></a><span class="summary-name">rx</span> = <code title="0">0</code><br />
-      X rotation (radians).
+      X rotation (<code>radians</code>).
     </td>
   </tr>
 <tr>
@@ -273,7 +273,7 @@ bases.Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="ry"></a><span class="summary-name">ry</span> = <code title="0">0</code><br />
-      Y rotation (radians).
+      Y rotation (<code>radians</code>).
     </td>
   </tr>
 <tr>
@@ -281,7 +281,7 @@ bases.Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="rz"></a><span class="summary-name">rz</span> = <code title="0">0</code><br />
-      Z rotation (radians).
+      Z rotation (<code>radians</code>).
     </td>
   </tr>
 <tr>
@@ -289,7 +289,7 @@ bases.Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="s"></a><span class="summary-name">s</span> = <code title="0">0</code><br />
-      Scale ppm (float).
+      Scale ppm (<code>float</code>).
     </td>
   </tr>
 <tr>
@@ -297,7 +297,7 @@ bases.Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="s1"></a><span class="summary-name">s1</span> = <code title="1">1</code><br />
-      Scale + 1 (float).
+      Scale + 1 (<code>float</code>).
     </td>
   </tr>
 <tr>
@@ -384,14 +384,14 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>name</code></strong> - Optional, unique name (string).</li>
-        <li><strong class="pname"><code>tx</code></strong> - Optional X translation (meter).</li>
-        <li><strong class="pname"><code>ty</code></strong> - Optional Y translation (meter).</li>
-        <li><strong class="pname"><code>tz</code></strong> - Optional Z translation (meter).</li>
-        <li><strong class="pname"><code>s</code></strong> - Optional scale ppm (float).</li>
-        <li><strong class="pname"><code>sx</code></strong> - Optional X rotation (degree seconds).</li>
-        <li><strong class="pname"><code>sy</code></strong> - Optional Y rotation (degree seconds).</li>
-        <li><strong class="pname"><code>sz</code></strong> - Optional Z rotation (degree seconds).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional, unique name (<code>str</code>).</li>
+        <li><strong class="pname"><code>tx</code></strong> - Optional X translation (<code>meter</code>).</li>
+        <li><strong class="pname"><code>ty</code></strong> - Optional Y translation (<code>meter</code>).</li>
+        <li><strong class="pname"><code>tz</code></strong> - Optional Z translation (<code>meter</code>).</li>
+        <li><strong class="pname"><code>s</code></strong> - Optional scale ppm (<code>float</code>).</li>
+        <li><strong class="pname"><code>sx</code></strong> - Optional X rotation (<code>degree seconds</code>).</li>
+        <li><strong class="pname"><code>sy</code></strong> - Optional Y rotation (<code>degree seconds</code>).</li>
+        <li><strong class="pname"><code>sz</code></strong> - Optional Z rotation (<code>degree seconds</code>).</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -428,7 +428,7 @@ bases.Named --+
           class="link">Transform</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if equal (bool).</dd>
+        <dd><code>True</code> if equal, <code>False</code> otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -477,7 +477,7 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>name</code></strong> - Optional, unique name (string).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional, unique name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Inverse (Transform).</dd>
@@ -507,10 +507,10 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimals, unstripped (int).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimals, unstripped (<code>int</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Transform attributes (string).</dd>
+        <dd>Transform attributes (<code>str</code>).</dd>
     <dt>Overrides:
         bases.Based.toStr
     </dt>
@@ -539,10 +539,10 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - X coordinate (meter).</li>
-        <li><strong class="pname"><code>y</code></strong> - Y coordinate (meter).</li>
-        <li><strong class="pname"><code>z</code></strong> - Z coordinate (meter).</li>
-        <li><strong class="pname"><code>inverse</code></strong> - Optional direction, forward or inverse (bool).</li>
+        <li><strong class="pname"><code>x</code></strong> - X coordinate (<code>meter</code>).</li>
+        <li><strong class="pname"><code>y</code></strong> - Y coordinate (<code>meter</code>).</li>
+        <li><strong class="pname"><code>z</code></strong> - Z coordinate (<code>meter</code>).</li>
+        <li><strong class="pname"><code>inverse</code></strong> - Optional direction, forward or inverse (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>3-Tuple (x, y, z) transformed.</dd>
@@ -581,7 +581,7 @@ bases.Named --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Oct  4 14:55:33 2018
+    Generated by Epydoc 3.0.1 on Sat Oct  6 16:22:25 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

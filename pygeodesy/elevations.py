@@ -16,7 +16,7 @@ C{"/Applications/Python X.Y/Install Certificates.command"}
 '''
 
 __all__ = 'elevation2', 'geoidHeight2'
-__version__ = '18.09.14'
+__version__ = '18.10.04'
 
 from fmath import fStr
 
@@ -113,18 +113,18 @@ def _xml(tag, xml):
 def elevation2(lat, lon, timeout=2.0):
     '''Get the geoid elevation at an C{NAD83} to C{NAVD88} location.
 
-       @param lat: Latitude (degrees).
-       @param lon: Longitude (degrees).
+       @param lat: Latitude (C{degrees}).
+       @param lon: Longitude (C{degrees}).
        @keyword timeout: Optional, query timeout (seconds).
 
-       @return: 2-Tuple (elevation, data_source) in (meter, string)
-                or (None, <error>).
+       @return: 2-Tuple (elevation, data_source) in (C{meter}, C{str})
+                or (C{None}, I{<error>}).
 
-       @note: The returned elevation is None if I{lat} or I{lon}
+       @note: The returned elevation is C{None} if I{lat} or I{lon}
               is invalid or outside the C{Conterminous US (CONUS)},
-              if the query timed out or if conversion failed.  The
-              <error> is the HTTP-, IO-, SSL-, Type-, URL- or
-              ValueError as string.
+              if conversion failed or if the query timed out.  The
+              I{<error>} is the C{HTTP-, IO-, SSL-, Type-, URL-} or
+              C{ValueError} as C{str}.
 
        @see: U{USGS National Map<http://NationalMap.gov/epqs>},
              the U{FAQ<http://www.USGS.gov/faqs/what-are-projection-
@@ -156,19 +156,19 @@ def elevation2(lat, lon, timeout=2.0):
 def geoidHeight2(lat, lon, model=0, timeout=2.0):
     '''Get the C{NAVD88} geoid height at an C{NAD83} location.
 
-       @param lat: Latitude (degrees).
-       @param lon: Longitude (degrees).
-       @keyword model: Optional, geoid model ID (int).
+       @param lat: Latitude (C{degrees}).
+       @param lon: Longitude (C{degrees}).
+       @keyword model: Optional, geoid model ID (C{int}).
        @keyword timeout: Optional, query timeout (seconds).
 
-       @return: 2-Tuple (height, model_name) in (meter, string) or
-                (None, <error>).
+       @return: 2-Tuple (height, model_name) in (C{meter}, C{str}) or
+                (C{None}, I{<error>}).
 
-       @note: The returned height is CNone if I{lat} or I{lon} is
+       @note: The returned height is C{None} if I{lat} or I{lon} is
               invalid or outside the C{Conterminous US (CONUS)}, if
-              the I{model} was invalid, if the query timed out or if
-              conversion failed.  The <error> is the HTTP-, IO-, SSL-,
-              Type-, URL- or ValueError as string.
+              the I{model} was invalid, if conversion failed or if
+              the query timed out.  The I{<error>} is the C{HTTP-,
+              IO-, SSL-, Type-, URL-} or C{ValueError} as C{str}.
 
        @see: U{NOAA National Geodetic Survery
              <http://www.NGS.NOAA.gov/INFO/geodesy.shtml>} and

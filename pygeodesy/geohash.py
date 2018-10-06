@@ -29,7 +29,7 @@ __all__ = ('Geohash',  # classes
            'bounds', 'decode', 'decode_error',  # functions
            'distance1', 'distance2', 'distance3',
            'encode', 'neighbors', 'sizes')
-__version__ = '18.09.30'
+__version__ = '18.10.04'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -119,10 +119,10 @@ class Geohash(str, Named):
 
            @param cll: Cell or location (L{Geohash} or str, I{LatLon}
                        or string).
-           @keyword precision: Optional, desired geohash length (integer),
+           @keyword precision: Optional, desired geohash length (C{int}),
                                see function L{geohash.encode} for more
                                details.
-           @keyword name: Optional name (string).
+           @keyword name: Optional name (C{str}).
 
            @return: New L{Geohash}.
         '''
@@ -216,7 +216,7 @@ class Geohash(str, Named):
 
            @param other: The other geohash (L{Geohash}).
 
-           @return: Approximate distance (meter).
+           @return: Approximate distance (C{meter}).
 
            @raise TypeError: The I{other} is not a L{Geohash}, I{LatLon}
                              or str.
@@ -240,14 +240,16 @@ class Geohash(str, Named):
            <http://www.Movable-Type.co.UK/scripts/latlong.html>}.
 
            @param other: The other geohash (L{Geohash}).
-           @keyword radius: Optional, mean earth radius (meter) or None.
+           @keyword radius: Optional, mean earth radius (C{meter}) or
+                            C{None}.
            @keyword adjust: Adjust the wrapped, unrolled longitudinal
-                            delta by the cosine of the mean latitude (bool).
-           @keyword wrap: Wrap and unroll longitudes (bool).
+                            delta by the cosine of the mean latitude
+                            (C{bool}).
+           @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
-           @return: Approximate distance (meter, same units as I{radius})
-                    or distance squared (degrees squared) if I{radius}
-                    is None or 0.
+           @return: Approximate distance (C{meter}, same units as I{radius})
+                    or distance squared (C{degrees} squared) if I{radius}
+                    is C{None} or 0.
 
            @raise TypeError: The I{other} is not a L{Geohash}, I{LatLon}
                              or str.
@@ -277,10 +279,10 @@ class Geohash(str, Named):
            <http://www.Movable-Type.co.UK/scripts/latlong.html>} formula.
 
            @param other: The other geohash (L{Geohash}).
-           @keyword radius: Optional, mean earth radius (meter).
-           @keyword wrap: Wrap and unroll longitudes (bool).
+           @keyword radius: Optional, mean earth radius (C{meter}).
+           @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
-           @return: Great-circle distance (meter, same units as I{radius}).
+           @return: Great-circle distance (C{meter}, same units as I{radius}).
 
            @raise TypeError: The I{other} is not a L{Geohash}, I{LatLon}
                              or str.
@@ -409,7 +411,7 @@ class Geohash(str, Named):
 def bounds(geohash):
     '''Returns the SW and NE lat-/longitude bounds of a geohash.
 
-       @return: 4-Tuple (latS, lonW, latN, lonE) of bounds in (degrees).
+       @return: 4-Tuple (latS, lonW, latN, lonE) of bounds in (C{degrees}).
 
        @raise TypeError: The I{geohash} is not a L{Geohash}, I{LatLon} or str.
 
@@ -489,7 +491,7 @@ def decode_error(geohash):
 
        @param geohash: To be decoded (L{Geohash}).
 
-       @return: 2-Tuple (latErr, lonErr) in (degrees).
+       @return: 2-Tuple (latErr, lonErr) in (C{degrees}).
 
        @raise TypeError: The I{geohash} is not a L{Geohash}, I{LatLon} or str.
 
@@ -512,7 +514,7 @@ def distance1(geohash1, geohash2):
        @param geohash1: First geohash (L{Geohash}).
        @param geohash2: Second geohash (L{Geohash}).
 
-       @return: Approximate distance (meter).
+       @return: Approximate distance (C{meter}).
 
        @raise TypeError: A I{geohash*} is not a L{Geohash}, I{LatLon} or str.
 
@@ -529,11 +531,11 @@ def distance2(geohash1, geohash2, radius=R_M):
 
        @param geohash1: First geohash (L{Geohash}).
        @param geohash2: Second geohash (L{Geohash}).
-       @keyword radius: Optional, mean earth radius (meter) or None.
+       @keyword radius: Optional, mean earth radius (C{meter}) or C{None}.
 
-       @return: Approximate distance (meter, same units as I{radius}).
+       @return: Approximate distance (C{meter}, same units as I{radius}).
 
-       @raise TypeError: A I{geohash*} is not a L{Geohash}, I{LatLon} or str.
+       @raise TypeError: A I{geohash*} is not a L{Geohash}, I{LatLon} or C{str}.
 
        @example:
 
@@ -548,11 +550,11 @@ def distance3(geohash1, geohash2, radius=R_M):
 
        @param geohash1: First geohash (L{Geohash}).
        @param geohash2: Second geohash (L{Geohash}).
-       @keyword radius: Optional, mean earth radius (meter).
+       @keyword radius: Optional, mean earth radius (C{meter}).
 
-       @return: Great-circle distance (meter, same units as I{radius}).
+       @return: Great-circle distance (C{meter}, same units as I{radius}).
 
-       @raise TypeError: A I{geohash*} is not a L{Geohash}, I{LatLon} or str.
+       @raise TypeError: A I{geohash*} is not a L{Geohash}, I{LatLon} or C{str}.
 
        @example:
 
@@ -565,11 +567,11 @@ def encode(lat, lon, precision=None):
     '''Encode a lat-/longitude as a geohash, either to the specified
        or if not given, an automatically evaluated precision.
 
-       @param lat: Latitude in degrees (scalar).
-       @param lon: Longitude in degrees (scalar).
-       @keyword precision: Optional, desired geohash length (integer).
+       @param lat: Latitude (C{degrees}).
+       @param lon: Longitude (C{degrees}).
+       @keyword precision: Optional, desired geohash length (C{int}).
 
-       @return: The geohash (string).
+       @return: The geohash (C{str}).
 
        @raise ValueError: Invalid I{lat}, I{lon} or I{precision}.
 
@@ -638,7 +640,7 @@ def encode(lat, lon, precision=None):
 def neighbors(geohash):
     '''Return the L{Geohash}es for all 8 adjacent cells.
 
-       @param geohash: Cell for which neighbors are required (L{Geohash} or str).
+       @param geohash: Cell for which neighbors are required (L{Geohash} or C{str}).
 
        @return: Neighbors (dict(N=, NE=, E= ..., SW=) of L{Geohash}es).
 
@@ -652,11 +654,11 @@ def neighbors(geohash):
 def sizes(geohash):
     '''Return the lat- and longitudinal size of this L{Geohash} cell.
 
-       @param geohash: Cell for which size are required (L{Geohash} or str).
+       @param geohash: Cell for which size are required (L{Geohash} or C{str}).
 
-       @return: 2-Tuple (latHeight, lonWidth) in (meter).
+       @return: 2-Tuple (latHeight, lonWidth) in (C{meter}).
 
-       @raise TypeError: The I{geohash} is not a L{Geohash}, I{LatLon} or str.
+       @raise TypeError: The I{geohash} is not a L{Geohash}, I{LatLon} or C{str}.
     '''
     return _2Geohash(geohash).sizes
 

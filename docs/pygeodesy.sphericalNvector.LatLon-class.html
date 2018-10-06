@@ -349,10 +349,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector.LatLon-class.html#isEnclosedBy" class="summary-sig-name">isEnclosedBy</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector.LatLon-class.html#isenclosedBy" class="summary-sig-name">isenclosedBy</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">points</span>)</span><br />
-      Test whether this point is enclosed by a (convex) polygon defined by 
-      a list, sequence, set or tuple of points.</td>
+      Check whether this point is enclosed by a (convex) polygon.</td>
           <td align="right" valign="top">
             
             
@@ -368,11 +367,47 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector.LatLon-class.html#isWithin" class="summary-sig-name">isWithin</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a name="isEnclosedBy"></a><span class="summary-sig-name">isEnclosedBy</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">points</span>)</span><br />
+      DEPRECATED, used method <i>isenclosedBy</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector.LatLon-class.html#iswithin" class="summary-sig-name">iswithin</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">point1</span>,
         <span class="summary-sig-arg">point2</span>)</span><br />
-      Test whether this point is within the extent of a segment joining two
-      other points.</td>
+      Check whether this point is between two other points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="isWithin"></a><span class="summary-sig-name">isWithin</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">point1</span>,
+        <span class="summary-sig-arg">point2</span>)</span><br />
+      DEPRECATED, used method <i>iswithin</i>.</td>
           <td align="right" valign="top">
             
             
@@ -643,8 +678,8 @@
         <li><strong class="pname"><code>end</code></strong> - End point of great circle path (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>) or initial bearing from start point 
-          (compass degrees).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
+          (compass <code>degrees360</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance along the great circle path (positive if after the start
@@ -721,8 +756,8 @@
         <li><strong class="pname"><code>end</code></strong> - End point of great circle path (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>) or initial bearing from start point 
-          (compass degrees).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
+          (compass <code>degrees360</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance to great circle (negative if to the left or positive if 
@@ -770,11 +805,12 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>distance</code></strong> - Distance travelled (same units radius).</li>
-        <li><strong class="pname"><code>bearing</code></strong> - Bearing from this point (compass degrees).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
+        <li><strong class="pname"><code>distance</code></strong> - Distance travelled (<code>meter</code>, same units as 
+          <i>radius</i>).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Bearing from this point (compass <code>degrees360</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height at destination, overriding the default height 
-          (meter).</li>
+          (<code>meter</code>, same units as <i>radius</i>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Destination point (<a 
@@ -819,11 +855,11 @@
         <li><strong class="pname"><code>other</code></strong> - The other point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Distance between this and the <i>other</i> point (meter, same 
-          units as radius).</dd>
+        <dd>Distance between this and the <i>other</i> point 
+          (<code>meter</code>, same units as <i>radius</i>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <a 
@@ -861,7 +897,7 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>bearing</code></strong> - Bearing from this point (compass degrees).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Bearing from this point (compass <code>degrees360</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>N-vector representing great circle (<a 
@@ -901,7 +937,7 @@
         <li><strong class="pname"><code>other</code></strong> - The other point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>) or the bearing from this point (compass 
-          degrees).</li>
+          <code>degrees360</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>N-vector representing great circle (<a 
@@ -954,7 +990,7 @@
         <li><strong class="pname"><code>unused</code></strong> - Optional keyword argument <i>wrap</i> ignored.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Initial bearing (compass degrees).</dd>
+        <dd>Initial bearing (compass <code>degrees360</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <a 
@@ -1002,7 +1038,7 @@
         <li><strong class="pname"><code>fraction</code></strong> - Fraction between both points (float, 0.0 = this point, 1.0 = 
           other point).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height at the intermediate point, overriding the 
-          fractional height (meter).</li>
+          fractional height (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Intermediate point (<a 
@@ -1055,7 +1091,7 @@
         <li><strong class="pname"><code>fraction</code></strong> - Fraction between both points (float, 0.0 = this point, 1.0 = the 
           other point).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height at the intermediate point, overriding the 
-          fractional height (meter).</li>
+          fractional height (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Intermediate point (<a 
@@ -1106,16 +1142,16 @@
         <li><strong class="pname"><code>end1</code></strong> - End point of first path (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>) or the initial bearing at this point 
-          (compass degrees).</li>
+          (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>start2</code></strong> - Start point of the second path (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>end2</code></strong> - End point of second path (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>) or the initial bearing at the second 
-          point (compass degrees).</li>
+          point (compass <code>degrees</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height at the intersection point, overriding the mean 
-          height (meter).</li>
+          height (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Intersection point (<a 
@@ -1137,14 +1173,14 @@
       </p>
 </div></td></tr></table>
 </div>
-<a name="isEnclosedBy"></a>
+<a name="isenclosedBy"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">isEnclosedBy</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isenclosedBy</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">points</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1152,8 +1188,7 @@
     </td>
   </tr></table>
   
-  <p>Test whether this point is enclosed by a (convex) polygon defined by a
-  list, sequence, set or tuple of points.</p>
+  <p>Check whether this point is enclosed by a (convex) polygon.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -1162,7 +1197,8 @@
           class="link">LatLon</a>[]).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if the polygon encloses this point (bool).</dd>
+        <dd><code>True</code> if the polygon encloses this point, 
+          <code>False</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <a 
@@ -1182,14 +1218,14 @@
       </p>
 </div></td></tr></table>
 </div>
-<a name="isWithin"></a>
+<a name="iswithin"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">isWithin</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">iswithin</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">point1</span>,
         <span class="sig-arg">point2</span>)</span>
   </h3>
@@ -1198,8 +1234,7 @@
     </td>
   </tr></table>
   
-  <p>Test whether this point is within the extent of a segment joining two 
-  other points.</p>
+  <p>Check whether this point is between two other points.</p>
   <p>If this point is not on the great circle defined by both points, 
   return whether it is within the area bound by perpendiculars to the great
   circle at each point (in the same hemispere).</p>
@@ -1214,7 +1249,8 @@
           class="link">LatLon</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if this point is within the segment (bool).</dd>
+        <dd><code>True</code> if this point is within the segment, 
+          <code>False</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - If <i>point1</i> or <i>point2</i> is not <a 
@@ -1251,7 +1287,7 @@
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height at the midpoint, overriding the mean height 
-          (meter).</li>
+          (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Midpoint (<a href="pygeodesy.sphericalNvector.LatLon-class.html" 
@@ -1303,7 +1339,7 @@
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the mean height for the point if 
-          within segment (meter).</li>
+          within segment (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Closest point on segment (<a 
@@ -1363,10 +1399,10 @@
         <li><strong class="pname"><code>points</code></strong> - The points of the path (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>[]).</li>
-        <li><strong class="pname"><code>closed</code></strong> - Optionally, treat path as closed (bool).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, treat path as closed (<code>bool</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the mean height for a point if within
-          segment (meter).</li>
+          segment (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple (closest, distance) of the closest point (<a 
@@ -1437,13 +1473,13 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>bearing1</code></strong> - Bearing at this point (compass degrees).</li>
+        <li><strong class="pname"><code>bearing1</code></strong> - Bearing at this point (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>other</code></strong> - The other point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>bearing2</code></strong> - Bearing at the other point (compass degrees).</li>
+        <li><strong class="pname"><code>bearing2</code></strong> - Bearing at the other point (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height at the triangulated point, overriding the mean 
-          height (meter).</li>
+          height (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Triangulated point (<a 
@@ -1492,18 +1528,21 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>distance1</code></strong> - Distance to this point (same units as radius).</li>
+        <li><strong class="pname"><code>distance1</code></strong> - Distance to this point (<code>meter</code>, same units as 
+          <i>radius</i>).</li>
         <li><strong class="pname"><code>point2</code></strong> - Second reference point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>distance2</code></strong> - Distance to point2 (same units as radius).</li>
+        <li><strong class="pname"><code>distance2</code></strong> - Distance to point2 (<code>meter</code>, same units as 
+          <i>radius</i>).</li>
         <li><strong class="pname"><code>point3</code></strong> - Third reference point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>distance3</code></strong> - Distance to point3 (same units as radius).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
+        <li><strong class="pname"><code>distance3</code></strong> - Distance to point3 (<code>meter</code>, same units as 
+          <i>radius</i>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height at trilaterated point, overriding the mean height
-          (meter or same unit as radius).</li>
+          (<code>meter</code>, same units as <i>radius</i>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Trilaterated point (<a 
@@ -1551,7 +1590,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Oct  4 14:55:34 2018
+    Generated by Epydoc 3.0.1 on Sat Oct  6 16:22:26 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

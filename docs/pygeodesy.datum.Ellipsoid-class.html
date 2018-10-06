@@ -73,8 +73,8 @@ bases.Named --+
 </pre>
 
 <hr />
-<p>Ellipsoid with semi-major, semi-minor axis, inverse flattening and a 
-  number of other pre-computed, frequently used values.</p>
+<p>Ellipsoid with semi-major, semi-minor axis, inverse flattening and 
+  several other pre-computed, frequently used values.</p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -371,7 +371,7 @@ bases.Named --+
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.datum.Ellipsoid-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">9</span>)</span><br />
-      Return this ellipsoid as a string.</td>
+      Return this ellipsoid as a text string.</td>
           <td align="right" valign="top">
             
             
@@ -422,7 +422,7 @@ bases.Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="a"></a><span class="summary-name">a</span> = <code title="0">0</code><br />
-      Semi-major, equatorial axis (meter).
+      Semi-major, equatorial axis (<code>meter</code>).
     </td>
   </tr>
 <tr>
@@ -430,7 +430,7 @@ bases.Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="b"></a><span class="summary-name">b</span> = <code title="0">0</code><br />
-      Semi-minor, polar axis (meter): a * (f - 1) / f.
+      Semi-minor, polar axis (<code>meter</code>): a * (f - 1) / f.
     </td>
   </tr>
 <tr>
@@ -527,7 +527,7 @@ bases.Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.datum.Ellipsoid-class.html#A" class="summary-name">A</a><br />
-      Get the <i>UTM</i> meridional radius (meter).
+      Get the <i>UTM</i> meridional radius (<code>meter</code>).
     </td>
   </tr>
 <tr>
@@ -536,7 +536,7 @@ bases.Named --+
     </td><td class="summary">
         <a href="pygeodesy.datum.Ellipsoid-class.html#a2_b" class="summary-name">a2_b</a><br />
       Get the polar meridional radius of curvature: <i class="math">a**2 / 
-      b</i> (meter).
+      b</i> (<code>meter</code>).
     </td>
   </tr>
 <tr>
@@ -545,7 +545,7 @@ bases.Named --+
     </td><td class="summary">
         <a href="pygeodesy.datum.Ellipsoid-class.html#b2_a" class="summary-name">b2_a</a><br />
       Get the equatorial meridional radius of curvature: <i 
-      class="math">b**2 / a</i> (meter).
+      class="math">b**2 / a</i> (<code>meter</code>).
     </td>
   </tr>
 <tr>
@@ -585,7 +585,7 @@ bases.Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.datum.Ellipsoid-class.html#isEllipsoidal" class="summary-name">isEllipsoidal</a><br />
-      Check whether this model is ellipsoidal (bool).
+      Check whether this model is ellipsoidal (<code>bool</code>).
     </td>
   </tr>
 <tr>
@@ -593,7 +593,7 @@ bases.Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.datum.Ellipsoid-class.html#isSpherical" class="summary-name">isSpherical</a><br />
-      Check whether this model is spherical (bool).
+      Check whether this model is spherical (<code>bool</code>).
     </td>
   </tr>
 <tr>
@@ -618,7 +618,7 @@ bases.Named --+
     </td><td class="summary">
         <a href="pygeodesy.datum.Ellipsoid-class.html#R1" class="summary-name">R1</a><br />
       Get the mean earth radius per IUGG: <i class="math">(2 * a + b) / 
-      3</i> (meter).
+      3</i> (<code>meter</code>).
     </td>
   </tr>
 <tr>
@@ -627,7 +627,7 @@ bases.Named --+
     </td><td class="summary">
         <a href="pygeodesy.datum.Ellipsoid-class.html#R2" class="summary-name">R2</a><br />
       Get the authalic earth radius: <i class="math">sqrt((a**2 + b**2 * 
-      atanh(e) / e) / 2)</i> (meter).
+      atanh(e) / e) / 2)</i> (<code>meter</code>).
     </td>
   </tr>
 <tr>
@@ -636,7 +636,7 @@ bases.Named --+
     </td><td class="summary">
         <a href="pygeodesy.datum.Ellipsoid-class.html#R3" class="summary-name">R3</a><br />
       Get the volumetric earth radius: <i class="math">(a * a * b)**1/3</i>
-      (meter).
+      (<code>meter</code>).
     </td>
   </tr>
 <tr>
@@ -645,7 +645,7 @@ bases.Named --+
     </td><td class="summary">
         <a href="pygeodesy.datum.Ellipsoid-class.html#Rr" class="summary-name">Rr</a><br />
       Get the rectifying earth radius: <i class="math">((a**3/2 + b**3/2) /
-      2)**2/3</i> (meter).
+      2)**2/3</i> (<code>meter</code>).
     </td>
   </tr>
 <tr>
@@ -654,7 +654,7 @@ bases.Named --+
     </td><td class="summary">
         <a href="pygeodesy.datum.Ellipsoid-class.html#Rs" class="summary-name">Rs</a><br />
       Get another mean earth radius: <i class="math">sqrt(a * b)</i> 
-      (meter).
+      (<code>meter</code>).
     </td>
   </tr>
   <tr>
@@ -704,10 +704,11 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>a</code></strong> - Semi-major, equatorial axis (meter).</li>
-        <li><strong class="pname"><code>b</code></strong> - Semi-minor, polar axis (meter).</li>
-        <li><strong class="pname"><code>f_</code></strong> - Inverse flattening: a / (a - b) (float &gt;&gt;&gt; 1).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional, unique name (string).</li>
+        <li><strong class="pname"><code>a</code></strong> - Semi-major, equatorial axis (<code>meter</code>).</li>
+        <li><strong class="pname"><code>b</code></strong> - Semi-minor, polar axis (<code>meter</code>).</li>
+        <li><strong class="pname"><code>f_</code></strong> - Inverse flattening: a / (a - b) (<code>float</code> &gt;&gt;&gt; 
+          1.0).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional, unique name (<code>str</code>).</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -744,7 +745,7 @@ bases.Named --+
           class="link">Ellipsoid</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if equal (bool).</dd>
+        <dd><code>True</code> if equal, <code>False</code> otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -799,13 +800,14 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lat0</code></strong> - From latitude (degrees).</li>
-        <li><strong class="pname"><code>lon0</code></strong> - From longitude (degrees).</li>
-        <li><strong class="pname"><code>lat1</code></strong> - To latitude (degrees).</li>
-        <li><strong class="pname"><code>lon1</code></strong> - To longitude (degrees).</li>
+        <li><strong class="pname"><code>lat0</code></strong> - From latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon0</code></strong> - From longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lat1</code></strong> - To latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - To longitude (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (distance, bearing) in (meter, degrees360).</dd>
+        <dd>2-Tuple (distance, bearing) in (<code>meter</code>, 
+          <code>degrees360</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="http://www.EdWilliams.org/avform.htm#flat" 
@@ -832,10 +834,10 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>s</code></strong> - S value (scalar).</li>
+        <li><strong class="pname"><code>s</code></strong> - S value (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Norm (float).</dd>
+        <dd>Norm (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>s</i>.</li>
@@ -862,10 +864,10 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>s</code></strong> - S value (scalar).</li>
+        <li><strong class="pname"><code>s</code></strong> - S value (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Result (float).</dd>
+        <dd>Result (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>s</i>.</li>
@@ -892,10 +894,10 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>meter</code></strong> - Distance (meter).</li>
+        <li><strong class="pname"><code>meter</code></strong> - Distance (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Angle (degrees).</dd>
+        <dd>Angle (<code>degrees</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -918,10 +920,10 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lat</code></strong> - Latitude (degrees90).</li>
+        <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees90</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Geocentric earth radius (meter).</dd>
+        <dd>Geocentric earth radius (<code>meter</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="http://WikiPedia.org/wiki/Earth_radius#Geocentric_radius" 
@@ -948,10 +950,10 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lat</code></strong> - Latitude (degrees90).</li>
+        <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees90</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Approximate earth radius (meter).</dd>
+        <dd>Approximate earth radius (<code>meter</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -975,11 +977,11 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lat</code></strong> - Latitude (degrees90).</li>
+        <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees90</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple (meridional, prime-vertical) with the radii of curvature 
-          (meter, meter).</dd>
+          (<code>meter</code>, <code>meter</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="http://www.EdWilliams.org/avform.htm#flat" 
@@ -1010,11 +1012,11 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lat</code></strong> - Latitude (degrees90).</li>
-        <li><strong class="pname"><code>bearing</code></strong> - Direction (compass degrees).</li>
+        <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees90</code>).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Direction (compass <code>degrees360</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Directional radius of curvature (meter).</dd>
+        <dd>Directional radius of curvature (<code>meter</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="http://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature"
@@ -1041,10 +1043,10 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lat</code></strong> - Latitude (degrees90).</li>
+        <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees90</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Gaussian radius of curvature (meter).</dd>
+        <dd>Gaussian radius of curvature (<code>meter</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="http://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature"
@@ -1071,10 +1073,10 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lat</code></strong> - Latitude (degrees90).</li>
+        <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees90</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Mean radius of curvature (meter).</dd>
+        <dd>Mean radius of curvature (<code>meter</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="http://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature"
@@ -1101,10 +1103,10 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lat</code></strong> - Latitude (degrees90).</li>
+        <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees90</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Meridional radius of curvature (meter).</dd>
+        <dd>Meridional radius of curvature (<code>meter</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="http://www.EdWilliams.org/avform.htm#flat" 
@@ -1134,10 +1136,10 @@ bases.Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lat</code></strong> - Latitude (degrees90).</li>
+        <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees90</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Prime-vertical radis of curvature (meter).</dd>
+        <dd>Prime-vertical radis of curvature (<code>meter</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="http://www.EdWilliams.org/avform.htm#flat" 
@@ -1162,14 +1164,14 @@ bases.Named --+
     </td>
   </tr></table>
   
-  <p>Return this ellipsoid as a string.</p>
+  <p>Return this ellipsoid as a text string.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimals, unstripped (int).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimals, unstripped (<code>int</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Ellipsoid attributes (string).</dd>
+        <dd>Ellipsoid attributes (<code>str</code>).</dd>
     <dt>Overrides:
         bases.Based.toStr
     </dt>
@@ -1192,11 +1194,11 @@ bases.Named --+
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">A</h3>
-  <p>Get the <i>UTM</i> meridional radius (meter).</p>
+  <p>Get the <i>UTM</i> meridional radius (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">A(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>UTM</i> meridional radius (meter).
+        - Get the <i>UTM</i> meridional radius (<code>meter</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -1213,12 +1215,12 @@ bases.Named --+
 <tr><td>
   <h3 class="epydoc">a2_b</h3>
   <p>Get the polar meridional radius of curvature: <i class="math">a**2 / 
-  b</i> (meter).</p>
+  b</i> (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">a2_b(<span class="summary-sig-arg">self</span>)</span>
         - Get the polar meridional radius of curvature: <i class="math">a**2 / b</i> 
-(meter).
+(<code>meter</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -1239,12 +1241,12 @@ bases.Named --+
 <tr><td>
   <h3 class="epydoc">b2_a</h3>
   <p>Get the equatorial meridional radius of curvature: <i 
-  class="math">b**2 / a</i> (meter).</p>
+  class="math">b**2 / a</i> (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">b2_a(<span class="summary-sig-arg">self</span>)</span>
         - Get the equatorial meridional radius of curvature: <i class="math">b**2 / 
-a</i> (meter).
+a</i> (<code>meter</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -1338,11 +1340,11 @@ target="_top">GeographicLib</a> package is installed.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">isEllipsoidal</h3>
-  <p>Check whether this model is ellipsoidal (bool).</p>
+  <p>Check whether this model is ellipsoidal (<code>bool</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">isEllipsoidal(<span class="summary-sig-arg">self</span>)</span>
-        - Check whether this model is ellipsoidal (bool).
+        - Check whether this model is ellipsoidal (<code>bool</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -1358,11 +1360,11 @@ target="_top">GeographicLib</a> package is installed.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">isSpherical</h3>
-  <p>Check whether this model is spherical (bool).</p>
+  <p>Check whether this model is spherical (<code>bool</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">isSpherical(<span class="summary-sig-arg">self</span>)</span>
-        - Check whether this model is spherical (bool).
+        - Check whether this model is spherical (<code>bool</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -1419,12 +1421,12 @@ target="_top">GeographicLib</a> package is installed.
 <tr><td>
   <h3 class="epydoc">R1</h3>
   <p>Get the mean earth radius per IUGG: <i class="math">(2 * a + b) / 
-  3</i> (meter).</p>
+  3</i> (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">R1(<span class="summary-sig-arg">self</span>)</span>
         - Get the mean earth radius per IUGG: <i class="math">(2 * a + b) / 3</i> 
-(meter).
+(<code>meter</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -1445,12 +1447,12 @@ target="_top">GeographicLib</a> package is installed.
 <tr><td>
   <h3 class="epydoc">R2</h3>
   <p>Get the authalic earth radius: <i class="math">sqrt((a**2 + b**2 * 
-  atanh(e) / e) / 2)</i> (meter).</p>
+  atanh(e) / e) / 2)</i> (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">R2(<span class="summary-sig-arg">self</span>)</span>
         - Get the authalic earth radius: <i class="math">sqrt((a**2 + b**2 * atanh(e)
-/ e) / 2)</i> (meter).
+/ e) / 2)</i> (<code>meter</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -1471,12 +1473,12 @@ target="_top">GeographicLib</a> package is installed.
 <tr><td>
   <h3 class="epydoc">R3</h3>
   <p>Get the volumetric earth radius: <i class="math">(a * a * b)**1/3</i> 
-  (meter).</p>
+  (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">R3(<span class="summary-sig-arg">self</span>)</span>
         - Get the volumetric earth radius: <i class="math">(a * a * b)**1/3</i> 
-(meter).
+(<code>meter</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -1497,12 +1499,12 @@ target="_top">GeographicLib</a> package is installed.
 <tr><td>
   <h3 class="epydoc">Rr</h3>
   <p>Get the rectifying earth radius: <i class="math">((a**3/2 + b**3/2) / 
-  2)**2/3</i> (meter).</p>
+  2)**2/3</i> (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">Rr(<span class="summary-sig-arg">self</span>)</span>
         - Get the rectifying earth radius: <i class="math">((a**3/2 + b**3/2) / 
-2)**2/3</i> (meter).
+2)**2/3</i> (<code>meter</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -1523,11 +1525,12 @@ target="_top">GeographicLib</a> package is installed.
 <tr><td>
   <h3 class="epydoc">Rs</h3>
   <p>Get another mean earth radius: <i class="math">sqrt(a * b)</i> 
-  (meter).</p>
+  (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">Rs(<span class="summary-sig-arg">self</span>)</span>
-        - Get another mean earth radius: <i class="math">sqrt(a * b)</i> (meter).
+        - Get another mean earth radius: <i class="math">sqrt(a * b)</i> 
+(<code>meter</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -1569,7 +1572,7 @@ target="_top">GeographicLib</a> package is installed.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Oct  4 14:55:33 2018
+    Generated by Epydoc 3.0.1 on Sat Oct  6 16:22:25 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

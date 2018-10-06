@@ -30,7 +30,7 @@ __all__ = ('LatLon',  # classes
            'meanOf',
            'nearestOn2',
            'perimeterOf')
-__version__ = '18.10.02'
+__version__ = '18.10.06'
 
 
 class LatLon(LatLonSphericalBase):
@@ -79,12 +79,13 @@ class LatLon(LatLonSphericalBase):
 
            @param start: Start point of great circle path (L{LatLon}).
            @param end: End point of great circle path (L{LatLon}).
-           @keyword radius: Optional, mean earth radius (meter).
-           @keyword wrap: Wrap and unroll longitudes (bool).
+           @keyword radius: Optional, mean earth radius (C{meter}).
+           @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
-           @return: Distance along the great circle path (positive if
-                    after the start toward the end point of the path
-                    or negative if before the start point).
+           @return: Distance along the great circle path (C{meter},
+                    same units as I{radius}), positive if after the
+                    I{start} toward the I{end} point of the path or
+                    negative if before the I{start} point.
 
            @raise TypeError: The I{start} or I{end} point is not L{LatLon}.
 
@@ -113,11 +114,11 @@ class LatLon(LatLonSphericalBase):
            by this and an other point crosses the given latitude.
 
            @param other: The other point defining great circle (L{LatLon}).
-           @param lat: Latitude at the crossing (degrees).
-           @keyword wrap: Wrap and unroll longitudes (bool).
+           @param lat: Latitude at the crossing (C{degrees}).
+           @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
-           @return: 2-Tuple (lon1, lon2) in (degrees180) or None if the
-                    great circle doesn't reach the given I{lat}.
+           @return: 2-Tuple (lon1, lon2) in (C{degrees180}) or C{None}
+                    if the great circle doesn't reach the given I{lat}.
         '''
         self.others(other)
 
@@ -149,8 +150,8 @@ class LatLon(LatLonSphericalBase):
 
            @param start: Start point of great circle path (L{LatLon}).
            @param end: End point of great circle path (L{LatLon}).
-           @keyword radius: Optional, mean earth radius (meter).
-           @keyword wrap: Wrap and unroll longitudes (bool).
+           @keyword radius: Optional, mean earth radius (C{meter}).
+           @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
            @return: Distance to great circle (negative if to the
                     left or positive if to the right of the path).
@@ -172,10 +173,12 @@ class LatLon(LatLonSphericalBase):
         '''Locate the destination from this point after having
            travelled the given distance on the given initial bearing.
 
-           @param distance: Distance travelled (same units as radius).
-           @param bearing: Bearing from this point (compass degrees).
-           @keyword radius: Optional, mean earth radius (meter).
-           @keyword height: Optional height at destination (meter).
+           @param distance: Distance travelled (C{meter}, same units as
+                            I{radius}).
+           @param bearing: Bearing from this point (compass C{degrees360}).
+           @keyword radius: Optional, mean earth radius (C{meter}).
+           @keyword height: Optional height at destination (C{meter},
+                            same units a I{radius}).
 
            @return: Destination point (L{LatLon}).
 
@@ -200,11 +203,11 @@ class LatLon(LatLonSphericalBase):
         '''Compute the distance from this to an other point.
 
            @param other: The other point (L{LatLon}).
-           @keyword radius: Optional, mean earth radius (meter).
-           @keyword wrap: Wrap and unroll longitudes (bool).
+           @keyword radius: Optional, mean earth radius (C{meter}).
+           @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
            @return: Distance between this and the I{other} point
-                    (in the same units as radius).
+                    (C{meter}, same units as I{radius}).
 
            @raise TypeError: The I{other} point is not L{LatLon}.
 
@@ -230,7 +233,7 @@ class LatLon(LatLonSphericalBase):
            Direction of vector is such that initial bearing vector
            b = c × n, where n is an n-vector representing this point.
 
-           @param bearing: Bearing from this point (compass degrees).
+           @param bearing: Bearing from this point (compass C{degrees360}).
 
            @return: Vector representing great circle (L{Vector3d}).
 
@@ -255,13 +258,13 @@ class LatLon(LatLonSphericalBase):
            to an other point.
 
            @param other: The other point (L{LatLon}).
-           @keyword wrap: Wrap and unroll longitudes (bool).
-           @keyword raiser: Optionally, raise L{CrossError} (bool).
+           @keyword wrap: Wrap and unroll longitudes (C{bool}).
+           @keyword raiser: Optionally, raise L{CrossError} (C{bool}).
 
-           @return: Initial bearing (compass degrees).
+           @return: Initial bearing (compass C{degrees360}).
 
            @raise CrossError: I this and the I{other} point coincide,
-                              provided I{raiser} is True.
+                              provided I{raiser} is C{True}.
 
            @raise TypeError: The I{other} point is not L{LatLon}.
 
@@ -300,8 +303,8 @@ class LatLon(LatLonSphericalBase):
            @param fraction: Fraction between both points (float, 0.0 =
                             this point, 1.0 = the other point).
            @keyword height: Optional height, overriding the fractional
-                            height (meter).
-           @keyword wrap: Wrap and unroll longitudes (bool).
+                            height (C{meter}).
+           @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
            @return: Intermediate point (L{LatLon}).
 
@@ -351,12 +354,14 @@ class LatLon(LatLonSphericalBase):
         '''Locate the intersection of two paths each defined by
            a start point and an initial bearing.
 
-           @param bearing: Initial bearing from this point (compass degrees).
+           @param bearing: Initial bearing from this point (compass
+                           C{degrees360}).
            @param start2: Start point of second path (L{LatLon}).
-           @param bearing2: Initial bearing from start2 (compass degrees).
+           @param bearing2: Initial bearing from start2 (compass
+                            C{degrees360}).
            @keyword height: Optional height for intersection point,
-                            overriding the mean height (meter).
-           @keyword wrap: Wrap and unroll longitudes (bool).
+                            overriding the mean height (C{meter}).
+           @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
            @return: Intersection point (L{LatLon}).
 
@@ -375,13 +380,13 @@ class LatLon(LatLonSphericalBase):
                                   height=height, wrap=wrap,
                                   LatLon=self.classof)
 
-    def isEnclosedBy(self, points):
-        '''Test whether this point is enclosed by the polygon defined
-           as a list, sequence, set or tuple of points.
+    def isenclosedBy(self, points):
+        '''Check whether this point is enclosed by a (convex) polygon.
 
            @param points: The points defining the polygon (L{LatLon}[]).
 
-           @return: True if the polygon encloses this point (bool).
+           @return: C{True} if the polygon encloses this point,
+                    C{False} otherwise.
 
            @raise ValueError: Insufficient number of I{points} or
                               non-convex polygon.
@@ -445,13 +450,18 @@ class LatLon(LatLonSphericalBase):
 
         return True  # inside
 
+    def isEnclosedBy(self, points):
+        '''DEPRECATED, used method I{isenclosedBy}.
+        '''
+        return self.isenclosedBy(points)
+
     def midpointTo(self, other, height=None, wrap=False):
         '''Find the midpoint between this and an other point.
 
            @param other: The other point (L{LatLon}).
            @keyword height: Optional height for midpoint, overriding
-                            the mean height (meter).
-           @keyword wrap: Wrap and unroll longitudes (bool).
+                            the mean height (C{meter}).
+           @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
            @return: Midpoint (L{LatLon}).
 
@@ -524,14 +534,14 @@ class LatLon(LatLonSphericalBase):
            subject to the supplied I{options}.
 
            @param points: The points of the path (L{LatLon}[]).
-           @keyword closed: Optionally, treat path as closed (bool).
-           @keyword radius: Optional, mean earth radius (meter).
+           @keyword closed: Optionally, treat path as closed (C{bool}).
+           @keyword radius: Optional, mean earth radius (C{meter}).
            @keyword options: Optional keyword argument for function
                              L{equirectangular_}.
 
            @return: 2-Tuple (closest, distance) of the closest point
                     (L{LatLon}) on the path and the distance to that
-                    point in meter, rather the same units as I{radius}.
+                    point (C{meter}, same units as I{radius}).
 
            @raise LimitError: Lat- and/or longitudinal delta exceeds
                               I{limit}, see function L{equirectangular_}.
@@ -559,12 +569,12 @@ _Trll = LatLon(0, 0)  #: (INTERNAL) Reference instance (L{LatLon}).
 def _destination2(a, b, r, t):
     '''(INTERNAL) Computes destination lat-/longitude.
 
-       @param a: Latitude (radians).
-       @param b: Longitude (radians).
-       @param r: Angular distance (radians).
-       @param t: Bearing (compass radians).
+       @param a: Latitude (C{radians}).
+       @param b: Longitude (C{radians}).
+       @param r: Angular distance (C{radians}).
+       @param t: Bearing (compass C{radians}).
 
-       @return: 2-Tuple (lat, lon) of (degrees90, degrees180).
+       @return: 2-Tuple (lat, lon) of (C{degrees90}, C{degrees180}).
     '''
     # see <http://www.EdWilliams.org/avform.htm#LL>
     ca, cr, ct = map1(cos, a, r, t)
@@ -582,16 +592,16 @@ def areaOf(points, radius=R_M, wrap=True):
        of the polygon are great circle arcs joining the points.
 
        @param points: The points defining the polygon (L{LatLon}[]).
-       @keyword radius: Optional, mean earth radius (meter).
-       @keyword wrap: Wrap and unroll longitudes (bool).
+       @keyword radius: Optional, mean earth radius (C{meter}).
+       @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
-       @return: Polygon area (float, same units as radius squared).
+       @return: Polygon area (C{float}, same units as I{radius}, squared).
 
        @raise TypeError: Some I{points} are not L{LatLon}.
 
        @raise ValueError: Insufficient number of I{points}.
 
-       @note: The area is based on Karney U{'Area of a spherical polygon'
+       @note: The area is based on Karney's U{'Area of a spherical polygon'
               <http://osgeo-org.1560.x6.nabble.com/Area-of-a-spherical-polygon-td3841625.html>}.
 
        @see: L{pygeodesy.areaOf}, L{sphericalNvector.areaOf} and
@@ -654,17 +664,17 @@ def intersection(start1, bearing1, start2, bearing2,
        by a start point and an initial bearing.
 
        @param start1: Start point of first path (L{LatLon}).
-       @param bearing1: Initial bearing from start1 (compass degrees).
+       @param bearing1: Initial bearing from start1 (compass C{degrees360}).
        @param start2: Start point of second path (L{LatLon}).
-       @param bearing2: Initial bearing from start2 (compass degrees).
+       @param bearing2: Initial bearing from start2 (compass C{degrees360}).
        @keyword height: Optional height for the intersection point,
-                        overriding the mean height (meter).
-       @keyword wrap: Wrap and unroll longitudes (bool).
-       @keyword LatLon: Optional LatLon class for the intersection
-                        point (L{LatLon}) or None.
+                        overriding the mean height (C{meter}).
+       @keyword wrap: Wrap and unroll longitudes (C{bool}).
+       @keyword LatLon: Optional (sub-)class for the intersection point
+                        (L{LatLon}) or C{None}.
 
-       @return: Intersection point (L{LatLon}) or 3-tuple (degrees90,
-                degrees180, height) if I{LatLon} is None.
+       @return: Intersection point (L{LatLon}) or 3-tuple (C{degrees90},
+                C{degrees180}, height) if I{LatLon} is C{None}.
 
        @raise TypeError: Point I{start1} or I{start2} is not L{LatLon}.
 
@@ -728,13 +738,13 @@ def intersection(start1, bearing1, start2, bearing2,
 
 
 def isPoleEnclosedBy(points, wrap=False):
-    '''Test whether a pole is enclosed by a polygon defined by a list,
-       sequence, set or tuple of points.
+    '''Check whether a pole is enclosed by a polygon.
 
        @param points: The points defining the polygon (L{LatLon}[]).
-       @keyword wrap: Wrap and unroll longitudes (bool).
+       @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
-       @return: True if the polygon encloses a pole (bool).
+       @return: C{True} if the polygon encloses a pole,
+                C{False} otherwise.
 
        @raise ValueError: Insufficient number of I{points}.
 
@@ -767,13 +777,13 @@ def meanOf(points, height=None, LatLon=LatLon):
 
        @param points: Points to be averaged (L{LatLon}[]).
        @keyword height: Optional height at mean point overriding
-                        the mean height (meter).
-       @keyword LatLon: Optional LatLon class to return mean point
-                        (L{LatLon}) or None.
+                        the mean height (C{meter}).
+       @keyword LatLon: Optional (sub-)class to return mean point
+                        (L{LatLon}) or C{None}.
 
        @return: Point at geographic mean and height (L{LatLon}) or
-                3-tuple (degrees90, degrees180, height) if I{LatLon}
-                is None.
+                3-tuple (C{degrees90}, C{degrees180}, height) if
+                I{LatLon} is C{None}.
 
        @raise TypeError: Some I{points} are not L{LatLon}.
 
@@ -805,8 +815,8 @@ def nearestOn2(point, points, closed=False, radius=R_M, **options):
 
        @param point: The reference point (L{LatLon}).
        @param points: The points of the path (L{LatLon}[]).
-       @keyword closed: Optionally, treat path as closed (bool).
-       @keyword radius: Optional, mean earth radius (meter).
+       @keyword closed: Optionally, treat path as closed (C{bool}).
+       @keyword radius: Optional, mean earth radius (C{meter}).
        @keyword options: Optional keyword arguments for function
                          L{equirectangular_}.
 
@@ -831,7 +841,7 @@ def nearestOn2(point, points, closed=False, radius=R_M, **options):
         return equirectangular_(p1.lat, p1.lon + u,
                                 p2.lat, p2.lon, **options)
 
-    # point (x, y) on axis rotated by angle a ccw:
+    # point (x, y) on axis rotated ccw by angle a:
     #   x' = y * sin(a) + x * cos(a)
     #   y' = y * cos(a) - x * sin(a)
     #
@@ -851,13 +861,13 @@ def nearestOn2(point, points, closed=False, radius=R_M, **options):
     u = 0
     d, _, _, _ = _d2yx(point, p2, u)
     for i in range(m, n):
-        p1, p2 = p2, points[i]
+        p1, p2, p = p2, points[i], u
         # iff wrapped, unroll lon1 (actually previous
         # lon2) like function unroll180/-PI would've
-        d21, y21, x21, u = _d2yx(p2, p1, u)
+        d21, y21, x21, u = _d2yx(p2, p1, p)
         if d21 > EPS:
             # distance point to p1
-            d2, y01, x01, _ = _d2yx(point, p1, 0)
+            d2, y01, x01, _ = _d2yx(point, p1, p)
             if d2 > EPS:
                 w = y01 * y21 + x01 * x21
                 if w > 0:
@@ -884,11 +894,11 @@ def perimeterOf(points, closed=False, radius=R_M, wrap=True):
        list, sequence, set or tuple of points.
 
        @param points: The points defining the polygon (L{LatLon}[]).
-       @keyword closed: Optionally, close the polygon/-line (bool).
-       @keyword radius: Optional, mean earth radius (meter).
-       @keyword wrap: Wrap and unroll longitudes (bool).
+       @keyword closed: Optionally, close the polygon/-line (C{bool}).
+       @keyword radius: Optional, mean earth radius (C{meter}).
+       @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
-       @return: Polygon perimeter (float, same units as radius).
+       @return: Polygon perimeter (C{float}, same units as I{radius}).
 
        @raise TypeError: Some I{points} are not L{LatLon}.
 

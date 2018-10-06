@@ -339,7 +339,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#isEllipsoidal" class="summary-name">isEllipsoidal</a><br />
-      Check whether this <i>LatLon</i> is ellipsoidal (bool).
+      Check whether this <i>LatLon</i> is ellipsoidal (<code>bool</code>).
     </td>
   </tr>
 <tr>
@@ -347,7 +347,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#isSpherical" class="summary-name">isSpherical</a><br />
-      Check whether this <i>LatLon</i> is spherical (bool).
+      Check whether this <i>LatLon</i> is spherical (<code>bool</code>).
     </td>
   </tr>
   <tr>
@@ -401,13 +401,13 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (spherical LatLon).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Optionally, unroll the longitudinal delta within the <i 
-          class="math">-180..+180</i> range (bool).</li>
+          class="math">-180..+180</i> range (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Final bearing (compass degrees).</dd>
+        <dd>Final bearing (compass <code>degrees360</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The other point is not spherical.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not spherical.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -442,10 +442,10 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>bearing</code></strong> - Initial bearing (compass degrees).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Initial bearing (compass <code>degrees360</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Maximum latitude (degrees90).</dd>
+        <dd>Maximum latitude (<code>degrees90</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>JS name:</strong>
         <i>maxLatitude</i>.
@@ -472,10 +472,10 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>bearing</code></strong> - Initial bearing (compass degrees).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Initial bearing (compass <code>degrees360</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Minimum latitude (degrees90).</dd>
+        <dd>Minimum latitude (<code>degrees90</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Method <a 
@@ -517,9 +517,9 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>strll</code></strong> - Lat, lon [, height] (string).</li>
-        <li><strong class="pname"><code>height</code></strong> - Optional , default height (meter).</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator (string).</li>
+        <li><strong class="pname"><code>strll</code></strong> - Lat, lon [, height] (<code>str</code>).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional , default height (<code>meter</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The point (spherical <i>LatLon</i>).</dd>
@@ -553,7 +553,7 @@
         <li><strong class="pname"><code>other</code></strong> - The other point (spherical <i>LatLon</i>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Initial bearing (compass degrees).</dd>
+        <dd>Initial bearing (compass <code>degrees360</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not spherical.</li>
@@ -591,11 +591,12 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>distance</code></strong> - Distance travelled (same units as <i>radius</i>).</li>
-        <li><strong class="pname"><code>bearing</code></strong> - Bearing from this point (compass degrees).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
-        <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the default height (meter or same 
-          unit as <i>radius</i>).</li>
+        <li><strong class="pname"><code>distance</code></strong> - Distance travelled (<code>meter</code>, same units as 
+          <i>radius</i>).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Bearing from this point (compass <code>degrees360</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the default height 
+          (<code>meter</code>, same unit as <i>radius</i>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The destination point (spherical <i>LatLon</i>).</dd>
@@ -635,7 +636,7 @@
         <li><strong class="pname"><code>radius</code></strong> - Optional mean radius of earth (scalar, default meter).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Distance (in the same units as <i>radius</i>).</dd>
+        <dd>Distance (<code>meter</code>, the same units as <i>radius</i>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not spherical.</li>
@@ -670,8 +671,7 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (spherical LatLon).</li>
-        <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the mean height (meter or same unit 
-          as radius).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the mean height (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The midpoint (spherical <i>LatLon</i>).</dd>
@@ -708,7 +708,7 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>radius</code></strong> - Optional earth radius (meter).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional earth radius (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The WM coordinate (<a href="pygeodesy.webmercator.Wm-class.html" 
@@ -761,11 +761,12 @@ class="link">Datum</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">isEllipsoidal</h3>
-  <p>Check whether this <i>LatLon</i> is ellipsoidal (bool).</p>
+  <p>Check whether this <i>LatLon</i> is ellipsoidal 
+  (<code>bool</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">isEllipsoidal(<span class="summary-sig-arg">self</span>)</span>
-        - Check whether this <i>LatLon</i> is ellipsoidal (bool).
+        - Check whether this <i>LatLon</i> is ellipsoidal (<code>bool</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -781,11 +782,11 @@ class="link">Datum</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">isSpherical</h3>
-  <p>Check whether this <i>LatLon</i> is spherical (bool).</p>
+  <p>Check whether this <i>LatLon</i> is spherical (<code>bool</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">isSpherical(<span class="summary-sig-arg">self</span>)</span>
-        - Check whether this <i>LatLon</i> is spherical (bool).
+        - Check whether this <i>LatLon</i> is spherical (<code>bool</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -827,7 +828,7 @@ class="link">Datum</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Oct  4 14:55:34 2018
+    Generated by Epydoc 3.0.1 on Sat Oct  6 16:22:26 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

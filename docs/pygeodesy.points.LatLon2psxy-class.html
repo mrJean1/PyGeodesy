@@ -424,14 +424,6 @@ _abcoll.Container --+
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.points.LatLon2psxy-class.html#epsilon" class="summary-name">epsilon</a><br />
-      Get the tolerance for equality tests (float).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a href="pygeodesy.points.LatLon2psxy-class.html#isPoints2" class="summary-name">isPoints2</a><br />
       Is this a LatLon2 wrapper/converter?
     </td>
@@ -439,6 +431,7 @@ _abcoll.Container --+
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code>_Basequence</code></b>:
+      <code>epsilon</code>,
       <code>isNumpy2</code>,
       <code>isTuple2</code>
       </p>
@@ -480,15 +473,16 @@ _abcoll.Container --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>latlons</code></strong> - Points list, sequence, set, tuple, etc. (<i>LatLon[]</i>).</li>
-        <li><strong class="pname"><code>closed</code></strong> - Optionally, points form a closed polygon (bool).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (meter).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap lat- and longitudes (bool).</li>
+        <li><strong class="pname"><code>latlons</code></strong> - Points <code>list</code>, <code>sequence</code>, 
+          <code>set</code>, <code>tuple</code>, etc. (<i>LatLon[]</i>).</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, points form a closed polygon (<code>bool</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap lat- and longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <i>LatLon</i>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>latlons</i> are not <i>LatLon</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>latlons</i>.</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
@@ -521,13 +515,15 @@ _abcoll.Container --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xy</code></strong> - Point (<i>LatLon</i>) or 2-tuple (x, y) in (degrees).</li>
+        <li><strong class="pname"><code>xy</code></strong> - Point (<i>LatLon</i>) or 2-tuple (x, y) in 
+          (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>True if present, False otherwise.</dd>
+        <dd><code>True</code> if <i>xy</i> is present, <code>False</code> 
+          otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid xy.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <i>xy</i>.</li>
     </ul></dd>
     <dt>Overrides:
         _abcoll.Container.__contains__
@@ -693,13 +689,14 @@ _abcoll.Container --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xy</code></strong> - Point (<i>LatLon</i>) or 2-tuple (x, y) in (degrees).</li>
+        <li><strong class="pname"><code>xy</code></strong> - Point (<i>LatLon</i>) or 2-tuple (x, y) in 
+          (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns: integer</dt>
-        <dd>Count (integer).</dd>
+        <dd>Count (<code>int</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid xy.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <i>xy</i>.</li>
     </ul></dd>
     <dt>Overrides:
         _abcoll.Sequence.count
@@ -727,14 +724,15 @@ _abcoll.Container --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xy</code></strong> - Point (<i>LatLon</i>) or 2-tuple (x, y) in (degrees).</li>
-        <li><strong class="pname"><code>start_end</code></strong> - Optional [start [, end]] index (integers).</li>
+        <li><strong class="pname"><code>xy</code></strong> - Point (<i>LatLon</i>) or 2-tuple (x, y) in 
+          (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>start_end</code></strong> - Optional [start [, end]] index (<code>int</code>s).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Index or -1 if not found (integer).</dd>
+        <dd>Index or -1 if not found (<code>int</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid xy.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <i>xy</i>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -759,14 +757,15 @@ _abcoll.Container --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xy</code></strong> - Point (<i>LatLon</i>) or 2-tuple (x, y) in (degrees).</li>
-        <li><strong class="pname"><code>start_end</code></strong> - Optional [start [, end]] index (integers).</li>
+        <li><strong class="pname"><code>xy</code></strong> - Point (<i>LatLon</i>) or 2-tuple (x, y) in 
+          (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>start_end</code></strong> - Optional [start [, end]] index (<code>int</code>s).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Indices (iterator).</dd>
+        <dd>Indices (<code>iterator</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid xy.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <i>xy</i>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -791,14 +790,15 @@ _abcoll.Container --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xy</code></strong> - Point (<i>LatLon</i>) or 2-tuple (x, y) in (degrees).</li>
-        <li><strong class="pname"><code>start_end</code></strong> - Optional [start [, end]] index (integers).</li>
+        <li><strong class="pname"><code>xy</code></strong> - Point (<i>LatLon</i>) or 2-tuple (x, y) in 
+          (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>start_end</code></strong> - Optional [start [, end]] index (<code>int</code>s).</li>
     </ul></dd>
     <dt>Returns: integer</dt>
-        <dd>Index (integer).</dd>
+        <dd>Index (<code>int</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid xy.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <code>xy</code>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Point not found.</li>
     </ul></dd>
     <dt>Overrides:
@@ -856,14 +856,15 @@ _abcoll.Container --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xy</code></strong> - Point (<i>LatLon</i>) or 2-tuple (x, y) in (degrees).</li>
-        <li><strong class="pname"><code>start_end</code></strong> - Optional [start [, end]] index (integers).</li>
+        <li><strong class="pname"><code>xy</code></strong> - Point (<i>LatLon</i>) or 2-tuple (x, y) in 
+          (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>start_end</code></strong> - Optional [start [, end]] index (<code>int</code>s).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Index or -1 if not found (integer).</dd>
+        <dd>Index or -1 if not found (<code>int</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid xy.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <i>xy</i>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -878,26 +879,6 @@ _abcoll.Container --+
     <span class="table-header">Property Details</span></td>
 </tr>
 </table>
-<a name="epsilon"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">epsilon</h3>
-  <p>Get the tolerance for equality tests (float).</p>
-  <dl class="fields">
-    <dt>Get Method:</dt>
-    <dd class="value"><span class="summary-sig">epsilon(<span class="summary-sig-arg">self</span>)</span>
-        - Get the tolerance for equality tests (float).
-    </dd>
-    <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">epsilon(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">tol</span>)</span>
-        - Set the tolerance for equality tests.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="isPoints2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -950,7 +931,7 @@ _abcoll.Container --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Oct  4 14:55:34 2018
+    Generated by Epydoc 3.0.1 on Sat Oct  6 16:22:26 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

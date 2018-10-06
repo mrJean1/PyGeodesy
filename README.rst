@@ -41,7 +41,7 @@ High Sierra.
 
 The tests have been run with Python 2.7.15 (with geographiclib_ 1.49 and
 numpy_ 1.14.0), with Python 3.7.0 (with geographiclib_ 1.49) and with
-`PyPy 6.0.0`_ Python 2.7.13 and 3.5.3 on macOS 10.13.6 High Sierra and
+PyPy_ 6.0.0 (Python 2.7.13 and 3.5.3) on macOS 10.13.6 High Sierra and
 macOS 10.14 Mojave, with Python 2.6.9, 2.7.14, 3.5.6 and 3.6.3 (and
 geographiclib_ 1.49) on `Debian 8`_ and with Python 3.7.0 (and
 geographiclib_ 1.49) on `Debian 9`_, all in 64-bit only and with Python
@@ -54,7 +54,7 @@ Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 2.7.10
 X 10.10 Yosemite, MacOS X 10.11 El Capitan, macOS 10.12 Sierra, macOS
 10.13.4 and/or 10.13.5 High Sierra, with Pythonista_ 3.1 on iOS 10.3.3,
 11.0.3, 11.1.2 and 11.3 on iPad4, with Pythonista_ 3.2 on iOS 11.4.1 and
-12.0 on iPad4, iPhone7 and iPhone10, all in 64-bit only and with 32-bit
+12.0 on iPad4, iPhone7 and/or iPhone10, all in 64-bit only and with 32-bit
 Python 2.6.6 on Windows XP SP3 and with 32-bit Python 2.7.14 on Windows
 10 Pro.
 
@@ -76,7 +76,7 @@ latter is required for module *ellipsoidalKarney* classes *LatLon* and
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Oct 02, 2018.*
+*Last updated: Oct 06, 2018.*
 
 .. image:: https://Img.Shields.io/pypi/pyversions/PyGeodesy.svg?label=Python
    :target: http://PyPI.org/project/PyGeodesy
@@ -115,7 +115,7 @@ cases documentation tag **JS name:** shows the original JavaScript name.
 .. _PyFlakes: http://PyPI.org/project/pyflakes
 .. _PyGeodesy: http://PyPI.org/project/PyGeodesy
 .. _PyPI: http://PyPI.org/project/PyGeodesy
-.. _PyPy 6.0.0: http://PyPy.org
+.. _PyPy: http://PyPy.org
 .. _Pythonista: http://OMZ-Software.com/pythonista
 .. _Ramer-Douglas-Peucker: http://WikiPedia.org/wiki/Ramer-Douglas-Peucker_algorithm
 .. _Reumann-Witkam: http://psimpl.SourceForge.net/reumann-witkam.html

@@ -91,7 +91,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.09.23
+        18.10.06
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -219,18 +219,18 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>strUTM</code></strong> - A UTM coordinate (string).</li>
+        <li><strong class="pname"><code>strUTM</code></strong> - A UTM coordinate (<code>str</code>).</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional datum to use (<a href="pygeodesy.datum.Datum-class.html"
           class="link">Datum</a>).</li>
-        <li><strong class="pname"><code>Utm</code></strong> - Optional <i>Utm</i> class to use for the UTM coordinate (<a 
+        <li><strong class="pname"><code>Utm</code></strong> - Optional (sub-)class to use for the UTM coordinate (<a 
           href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>) or 
-          None.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional <i>Utm</i> name (string).</li>
+          <code>None</code>.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <i>Utm</i> name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The UTM coordinate (<a href="pygeodesy.utm.Utm-class.html" 
           class="link">Utm</a>) or 4-tuple (zone, hemisphere, easting, 
-          northing) if <i>Utm</i> is None.</dd>
+          northing) if <i>Utm</i> is <code>None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.utm.UTMError-class.html">UTMError</a></strong></code> - Invalid <i>strUTM</i>.</li>
@@ -268,30 +268,30 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>latlon</code></strong> - Latitude (degrees) or an (ellipsoidal) geodetic <i>LatLon</i> 
-          point.</li>
-        <li><strong class="pname"><code>lon</code></strong> - Optional longitude (degrees or None).</li>
+        <li><strong class="pname"><code>latlon</code></strong> - Latitude (<code>degrees</code>) or an (ellipsoidal) geodetic 
+          <i>LatLon</i> point.</li>
+        <li><strong class="pname"><code>lon</code></strong> - Optional longitude (<code>degrees</code> or <code>None</code>).</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional datum for this UTM coordinate, overriding latlon's datum
           (<i>Datum</i>).</li>
-        <li><strong class="pname"><code>Utm</code></strong> - Optional <i>Utm</i> class to usefor the UTM coordinate (<a 
+        <li><strong class="pname"><code>Utm</code></strong> - Optional (sub-)class to usefor the UTM coordinate (<a 
           href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>) or 
-          None.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional <i>Utm</i> name (string).</li>
+          <code>None</code>.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <i>Utm</i> name (<code>str</code>).</li>
         <li><strong class="pname"><code>cmoff</code></strong> - Offset longitude from zone's central meridian, apply false 
-          easting and false northing (bool).</li>
+          easting and false northing (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The UTM coordinate (<a href="pygeodesy.utm.Utm-class.html" 
           class="link">Utm</a>) or a 6-tuple (zone, easting, northing, 
-          band, convergence, scale) if <i>Utm</i> is None or <i>cmoff</i> 
-          is False.</dd>
+          band, convergence, scale) if <i>Utm</i> is <code>None</code> or 
+          <i>cmoff</i> is <code>False</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - If <i>latlon</i> is not ellipsoidal.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - If <i>lat</i> is outside the valid UTM bands or if <i>lat</i> or 
         <i>lon</i> outside the valid range and <i>rangerrrors</i> set to 
-        True.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - If <i>lon</i> value is missing or if <i>latlon</i> is not scalar.</li>
+        <code>True</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - If <i>lon</i> value is missing or if <i>latlon</i> is invalid.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -327,8 +327,8 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lat</code></strong> - Latitude (degrees) or string.</li>
-        <li><strong class="pname"><code>lon</code></strong> - Longitude (degrees) or string.</li>
+        <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees</code>) or string.</li>
+        <li><strong class="pname"><code>lon</code></strong> - Longitude (<code>degrees</code>) or string.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple (zone, Band) as (int, string).</dd>
@@ -336,7 +336,7 @@
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - If <i>lat</i> is outside the valid UTM bands or if <i>lat</i> or 
         <i>lon</i> outside the valid range and <i>rangerrrors</i> set to 
-        True.</li>
+        <code>True</code>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>lat</i> or <i>lon</i>.</li>
     </ul></dd>
   </dl>
@@ -374,7 +374,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Oct  4 14:55:33 2018
+    Generated by Epydoc 3.0.1 on Sat Oct  6 16:22:25 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
