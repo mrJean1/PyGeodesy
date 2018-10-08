@@ -215,7 +215,7 @@ __all__ = ('bases', 'datum', 'dms', 'elevations',  # modules
            'pygeodesy_dirpath',
            'version',
            'crosserrors')  # extended below
-__version__ = '18.10.06'
+__version__ = '18.10.08'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))

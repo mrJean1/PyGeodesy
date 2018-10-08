@@ -30,7 +30,7 @@ __all__ = ('LatLon',  # classes
            'meanOf',
            'nearestOn2',
            'perimeterOf')
-__version__ = '18.10.06'
+__version__ = '18.10.08'
 
 
 class LatLon(LatLonSphericalBase):
@@ -325,9 +325,10 @@ class LatLon(LatLonSphericalBase):
 
         db, b2 = unrollPI(b1, b2, wrap=wrap)
         r = haversine_(a2, a1, db)
-        if r > EPS:
-            cb1, cb2, ca1, ca2     = map1(cos, b1, b2, a1, a2)
-            sb1, sb2, sa1, sa2, sr = map1(sin, b1, b2, a1, a2, r)
+        sr = sin(r)
+        if abs(sr) > EPS:
+            cb1, cb2, ca1, ca2 = map1(cos, b1, b2, a1, a2)
+            sb1, sb2, sa1, sa2 = map1(sin, b1, b2, a1, a2)
 
             A = sin((1 - fraction) * r) / sr
             B = sin(     fraction  * r) / sr
@@ -821,10 +822,13 @@ def nearestOn2(point, points, closed=False, radius=R_M, **options):
                          L{equirectangular_}.
 
        @return: 2-Tuple (closest, distance) of the closest point
-                (L{LatLon}) on the path and the distance to that
+                (C{LatLon}) on the path and the distance to that
                 point.  The distance is the L{equirectangular_}
                 distance between the given and the closest point
                 in meter, rather the same units as I{radius}.
+
+       @note: The closest point is either one of the I{points} or
+              an instance of the class of I{point}.
 
        @raise LimitError: Lat- and/or longitudinal delta exceeds
                           I{limit}, see function L{equirectangular_}.
@@ -857,33 +861,38 @@ def nearestOn2(point, points, closed=False, radius=R_M, **options):
     n, points = point.points2(points, closed=closed)
 
     i, m = _imdex2(closed, n)
-    c = p2 = points[i]
-    u = 0
-    d, _, _, _ = _d2yx(point, p2, u)
+    p2 = c = points[i]
+    u2 = u = 0
+    d, _, _, _ = _d2yx(point, p2, u2)
     for i in range(m, n):
-        p1, p2, p = p2, points[i], u
+        p1, u1, p2 = p2, u2, points[i]
         # iff wrapped, unroll lon1 (actually previous
         # lon2) like function unroll180/-PI would've
-        d21, y21, x21, u = _d2yx(p2, p1, p)
+        d21, y21, x21, u2 = _d2yx(p2, p1, u1)
         if d21 > EPS:
             # distance point to p1
-            d2, y01, x01, _ = _d2yx(point, p1, p)
+            d2, y01, x01, _ = _d2yx(point, p1, u1)
             if d2 > EPS:
-                w = y01 * y21 + x01 * x21
-                if w > 0:
-                    if w < d21:
+                w2 = y01 * y21 + x01 * x21
+                if w2 > 0:
+                    if w2 < d21:
                         # closest is between p1 and p2, use
                         # original delta's, not y21 and x21
-                        f = w / d21
+                        f = w2 / d21
                         p1 = point.classof(favg(p1.lat, p2.lat, f=f),
-                                           favg(p1.lon, p2.lon + u, f=f))
-                        d2, _, _, _ = _d2yx(point, p1, 0)
+                                           favg(p1.lon, p2.lon + u2, f=f))
+                        u1 = 0
+                        d2, _, _, _ = _d2yx(point, p1, u1)
                     else:  # p2 is closer
-                        d2, _, _, _ = _d2yx(point, p2, u)
-                        p1 = p2  # in case d2 < d
+                        d2, _, _, _ = _d2yx(point, p2, u2)
+                        if d2 < d:
+                            c, u, d = p2, u2, d2
+                        continue
             if d2 < d:  # p1 is closer
-                c, d = p1, d2
+                c, u, d = p1, u1, d2
 
+    if u:  # unroll closest longitude
+        c = point.classof(c.lat, c.lon + u)
     # distance in degrees squared to meter
     d = radians(sqrt(d)) * float(radius)
     return c, d

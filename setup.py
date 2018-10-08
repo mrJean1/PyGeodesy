@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '18.09.18'
+__version__ = '18.10.08'
 
 
 def _c2(*names):
@@ -47,12 +47,12 @@ def _version():
 
 _KeyWords=('antipode', 'area', 'azimuth', 'bearing',
            'cartesian', 'conic', 'curvature',
-           'datum', 'Debian', 'development', 'distance',
+           'datum', 'development', 'distance',
            'earth', 'elevation', 'ellipsoid', 'equirectangular',
            'geocentric', 'geodesy', 'geodetic', 'GeodTest',
            'GeographicLib', 'geohash', 'geoid', 'geoidHeight',
            'haversine', 'Karney', 'Krueger', 'Krüger',
-           'Lambert', 'latitude', 'linearize', 'Linux', 'longitude',
+           'Lambert', 'latitude', 'linearize', 'longitude',
            'MGRS', 'numpy', 'n-vector', 'Nvector', 'OSGR',
            'perimeter', 'Pseudo-Mercator', 'PyGeodesy', 'PyPy',
            'radius', 'radii', 'Ramer-Douglas-Peucker', 'Reumann-Witkam', 'rhumb',
