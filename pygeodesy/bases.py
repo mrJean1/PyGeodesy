@@ -12,8 +12,8 @@ and U{http://www.Movable-Type.co.UK/scripts/latlong-vectors.html}.
 from dms import F_D, F_DMS, compassAngle, latDMS, lonDMS, \
                 parseDMS, parseDMS2
 from fmath import EPS, favg, map1, scalar
-from utily import R_M, antipode, equirectangular, isantipode, \
-                  points2, property_RO, unStr
+from utily import R_M, antipode, equirectangular, haversine, \
+                  isantipode, points2, property_RO, unStr
 
 from math import asin, cos, degrees, radians, sin
 
@@ -23,7 +23,7 @@ __all__ = (  # 'Based', 'Named', 'VectorBased',
            'LatLonHeightBase',  # for documentation
            'classname', 'classnaming',
            'inStr')
-__version__ = '18.10.04'
+__version__ = '18.10.10'
 
 __X = object()  # unique instance
 
@@ -304,8 +304,8 @@ class LatLonHeightBase(Based):
            <http://www.Movable-Type.co.UK/scripts/latlong.html>}.
 
            Suitable only for short, non-near-polar distances up to a
-           few hundred Km or Miles.  Use method C{distanceTo*} for
-           more accurate and/or larger distances.
+           few hundred Km or Miles.  Use method C{haversineTo} or
+           C{distanceTo*} for more accurate and/or larger distances.
 
            See function L{equirectangular_} for more details, the
            available I{options} and errors raised.
@@ -326,6 +326,30 @@ class LatLonHeightBase(Based):
         r = radius or (self._datum.ellipsoid.R1 if self._datum else R_M)
         return equirectangular(self.lat, self.lon, other.lat, other.lon,
                                radius=r, **options)
+
+    def haversineTo(self, other, radius=None, wrap=False):
+        '''Compute the distance between this and an other point using the
+           U{Haversine<http://www.Movable-Type.co.UK/scripts/latlong.html>}
+           formula.
+
+           @param other: The other point (I{LatLon}).
+           @keyword radius: Optional, mean earth radius (C{meter}) or
+                            C{None} for the mean radius of this
+                            point's datum ellipsoid.
+           @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
+
+           @return: Distance (C{meter}, same units as I{radius}).
+
+           @raise TypeError: The I{other} point is not I{LatLon}.
+
+           @see: Function L{haversine}, methods C{equirectangularTo}
+                 and C{distanceTo*}.
+        '''
+        self.others(other)
+
+        r = radius or (self._datum.ellipsoid.R1 if self._datum else R_M)
+        return haversine(self.lat, self.lon, other.lat, other.lon,
+                                             radius=r, wrap=wrap)
 
     @property
     def height(self):
@@ -514,13 +538,12 @@ class LatLonHeightBase(Based):
         return self.points2(points, closed=closed)
 
     def points2(self, points, closed=True):
-        '''Check a polygon or path represented as an array, generator,
-           iterable, list, set, tuple or other sequence of points.
+        '''Check a polygon represented by points.
 
-           @param points: The points (I{LatLon}[])
-           @keyword closed: Optionally, treat the I{points} as a closed
-                            polygon or path and remove any duplicate or
-                            closing final I{points} (C{bool}).
+           @param points: The polygon points (I{LatLon}s)
+           @keyword closed: Optionally, consider the polygon closed,
+                            ignoring any duplicate or closing final
+                            I{points} (C{bool}).
 
            @return: 2-Tuple (number, ...) of points (C{int}, C{list} or
                     C{tuple}).

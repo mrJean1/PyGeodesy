@@ -319,6 +319,28 @@ object --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#haversineTo" class="summary-sig-name">haversineTo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Compute the distance between this and an other point using the <a 
+      href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
+      target="_top">Haversine</a> formula.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a name="isantipode"></a><span class="summary-sig-name">isantipode</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>)</span><br />
@@ -472,8 +494,7 @@ object --+
           <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#points2" class="summary-sig-name">points2</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Check a polygon or path represented as an array, generator, iterable,
-      list, set, tuple or other sequence of points.</td>
+      Check a polygon represented by points.</td>
           <td align="right" valign="top">
             
             
@@ -867,8 +888,8 @@ object --+
   href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
   target="_top">Equirectangular Approximation / Projection</a>.</p>
   <p>Suitable only for short, non-near-polar distances up to a few hundred 
-  Km or Miles.  Use method <code>distanceTo*</code> for more accurate 
-  and/or larger distances.</p>
+  Km or Miles.  Use method <code>haversineTo</code> or 
+  <code>distanceTo*</code> for more accurate and/or larger distances.</p>
   <p>See function <a href="pygeodesy.utily-module.html#equirectangular_" 
   class="link">equirectangular_</a> for more details, the available 
   <i>options</i> and errors raised.</p>
@@ -891,6 +912,50 @@ object --+
     </ul></dd>
   </dl>
 </td></tr></table>
+</div>
+<a name="haversineTo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">haversineTo</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the distance between this and an other point using the <a 
+  href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
+  target="_top">Haversine</a> formula.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<i>LatLon</i>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>) or 
+          <code>None</code> for the mean radius of this point's datum 
+          ellipsoid.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
+          class="link">unroll180</a> longitudes (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Distance (<code>meter</code>, same units as <i>radius</i>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <i>LatLon</i>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.utily-module.html#haversine" 
+        class="link">haversine</a>, methods <code>equirectangularTo</code> 
+        and <code>distanceTo*</code>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="isantipodeTo"></a>
 <div>
@@ -1056,15 +1121,13 @@ object --+
     </td>
   </tr></table>
   
-  <p>Check a polygon or path represented as an array, generator, iterable, 
-  list, set, tuple or other sequence of points.</p>
+  <p>Check a polygon represented by points.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The points (<i>LatLon</i>[])</li>
-        <li><strong class="pname"><code>closed</code></strong> - Optionally, treat the <i>points</i> as a closed polygon or path 
-          and remove any duplicate or closing final <i>points</i> 
-          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<i>LatLon</i>s)</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, consider the polygon closed, ignoring any duplicate 
+          or closing final <i>points</i> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple (number, ...) of points (<code>int</code>, 
@@ -1310,7 +1373,7 @@ object --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Oct  8 17:20:20 2018
+    Generated by Epydoc 3.0.1 on Wed Oct 10 15:42:15 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

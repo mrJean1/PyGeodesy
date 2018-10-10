@@ -147,8 +147,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalKarney-module.html#areaOf" class="summary-sig-name">areaOf</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Compute the area of a polygon defined by an array, list, sequence, 
-      set or tuple of points on the given datum.</td>
+      Compute the area of a polygon.</td>
           <td align="right" valign="top">
             
             
@@ -168,8 +167,7 @@
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Compute the perimeter of a polygon/-line defined by an array, list, 
-      sequence, set or tuple of points on the given datum.</td>
+      Compute the perimeter of a polygon.</td>
           <td align="right" valign="top">
             
             
@@ -205,20 +203,20 @@
     </td>
   </tr></table>
   
-  <p>Compute the area of a polygon defined by an array, list, sequence, set
-  or tuple of points on the given datum.</p>
+  <p>Compute the area of a polygon.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<a 
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<a 
           href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
-          class="link">LatLon</a>[]).</li>
+          class="link">LatLon</a>s).</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional datum (<a href="pygeodesy.datum.Datum-class.html" 
           class="link">Datum</a>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Area (<code>meter</code> squared).</dd>
+        <dd>Area (<code>meter</code>, same as units of the <i>datum</i> 
+          ellipsoid, squared).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ImportError</strong></code> - Package <a href="http://PyPI.org/project/geographiclib" 
@@ -227,13 +225,13 @@
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
         class="link">LatLon</a>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i> or longitudes not wrapped, 
-        unrolled.</li>
+        unrolled, <i>wrap</i> is <code>False</code>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        This function requires the <a 
+        This function requires installation of the <a 
         href="http://PyPI.org/project/geographiclib" 
-        target="_top">GeographicLib</a> package to be installed.
+        target="_top">GeographicLib</a> package.
       </p>
       <p><strong>See Also:</strong>
         <a href="pygeodesy.points-module.html#areaOf" 
@@ -262,21 +260,21 @@
     </td>
   </tr></table>
   
-  <p>Compute the perimeter of a polygon/-line defined by an array, list, 
-  sequence, set or tuple of points on the given datum.</p>
+  <p>Compute the perimeter of a polygon.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<a 
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<a 
           href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
-          class="link">LatLon</a>[]).</li>
-        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the polygon/-line (<code>bool</code>).</li>
+          class="link">LatLon</a>s).</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the polygon (<code>bool</code>).</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional datum (<a href="pygeodesy.datum.Datum-class.html" 
           class="link">Datum</a>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Perimeter (<code>meter</code>).</dd>
+        <dd>Perimeter (<code>meter</code>, same as units of the <i>datum</i> 
+          ellipsoid).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ImportError</strong></code> - Package <a href="http://PyPI.org/project/geographiclib" 
@@ -285,13 +283,13 @@
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
         class="link">LatLon</a>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i> or longitudes not wrapped, 
-        unrolled.</li>
+        unrolled, <i>wrap</i> is <code>False</code>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        This function requires the <a 
+        This function requires installation of the <a 
         href="http://PyPI.org/project/geographiclib" 
-        target="_top">GeographicLib</a> package to be installed.
+        target="_top">GeographicLib</a> package.
       </p>
       <p><strong>See Also:</strong>
         <a href="pygeodesy.points-module.html#perimeterOf" 
@@ -333,7 +331,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Oct  8 17:20:19 2018
+    Generated by Epydoc 3.0.1 on Wed Oct 10 15:42:14 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

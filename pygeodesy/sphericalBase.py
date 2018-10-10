@@ -23,13 +23,7 @@ from math import acos, atan2, cos, log, sin
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('LatLonSphericalBase',)  # for documentation
-__version__ = '18.10.04'
-
-
-def _imdex2(closed, n):  # PYCHOK for import
-    '''(INTERNAL) Return first and second index.
-    '''
-    return (n-1, 0) if closed else (0, 1)
+__version__ = '18.10.10'
 
 
 class LatLonSphericalBase(LatLonHeightBase):

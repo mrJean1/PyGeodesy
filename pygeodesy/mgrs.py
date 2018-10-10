@@ -37,7 +37,7 @@ import re  # PYCHOK warning locale.Error
 # all public contants, classes and functions
 __all__ = ('Mgrs',  # classes
            'parseMGRS', 'toMgrs')  # functions
-__version__ = '18.10.06'
+__version__ = '18.10.10'
 
 _100km  =  100e3  #: (INTERNAL) 100 km in meter.
 _2000km = 2000e3  #: (INTERNAL) 2,000 km in meter.
@@ -256,8 +256,8 @@ def parseMGRS(strMGRS, datum=Datums.WGS84, Mgrs=Mgrs, name=''):
 
        @param strMGRS: MGRS grid reference (C{str}).
        @keyword datum: Optional datum to use (L{Datum}).
-       @keyword Mgrs: Optional Mgrs (sub-)class to use for the
-                      MGRS grid reference (L{Mgrs}) or C{None}.
+       @keyword Mgrs: Optional (sub-)class to use for the MGRS
+                      grid reference (L{Mgrs}) or C{None}.
        @keyword name: Optional I{Mgrs} name (C{str}).
 
        @return: The MGRS grid reference (L{Mgrs}) or 4-tuple (zone,

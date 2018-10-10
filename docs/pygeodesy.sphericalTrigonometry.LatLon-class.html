@@ -309,7 +309,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry.LatLon-class.html#isenclosedBy" class="summary-sig-name">isenclosedBy</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">points</span>)</span><br />
-      Check whether this point is enclosed by a (convex) polygon.</td>
+      Check whether a (convex) polygon encloses this point.</td>
           <td align="right" valign="top">
             
             
@@ -366,8 +366,9 @@
           <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry.LatLon-class.html#nearestOn" class="summary-sig-name">nearestOn</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">point1</span>,
         <span class="summary-sig-arg">point2</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
-      Locate the closest point between two points and this point.</td>
+      Locate the point between two points closest and this point.</td>
           <td align="right" valign="top">
             
             
@@ -388,8 +389,7 @@
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
-      Locate the closest point on any segment between two consecutive 
-      points of a path.</td>
+      Locate the point on a polygon closest to this point.</td>
           <td align="right" valign="top">
             
             
@@ -442,6 +442,7 @@
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equals">equals</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equals3">equals3</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equirectangularTo">equirectangularTo</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#haversineTo">haversineTo</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#isantipode">isantipode</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#isantipodeTo">isantipodeTo</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#isequalTo">isequalTo</a></code>,
@@ -966,13 +967,13 @@
     </td>
   </tr></table>
   
-  <p>Check whether this point is enclosed by a (convex) polygon.</p>
+  <p>Check whether a (convex) polygon encloses this point.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<a 
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
-          class="link">LatLon</a>[]).</li>
+          class="link">LatLon</a>s).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>True</code> if the polygon encloses this point, 
@@ -1050,6 +1051,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">point1</span>,
         <span class="sig-arg">point2</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
         <span class="sig-arg">**options</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1057,10 +1059,7 @@
     </td>
   </tr></table>
   
-  <p>Locate the closest point between two points and this point.</p>
-  <p>If this point is within the extent of the segment between both end 
-  points, the returned point is on the segment. Otherwise the returned 
-  point is the closest of the segment end points.</p>
+  <p>Locate the point between two points closest and this point.</p>
   <p>Distances are approximated by function <a 
   href="pygeodesy.utily-module.html#equirectangular_" 
   class="link">equirectangular_</a>, subject to the supplied 
@@ -1068,18 +1067,19 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>point1</code></strong> - Start point of the segment (<a 
+        <li><strong class="pname"><code>point1</code></strong> - Start point (<a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>point2</code></strong> - End point of the segment (<a 
+        <li><strong class="pname"><code>point2</code></strong> - End point (<a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>options</code></strong> - Optional keyword argument for function <a 
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments for function <a 
           href="pygeodesy.utily-module.html#equirectangular_" 
           class="link">equirectangular_</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Closest point on segment (<a 
+        <dd>Closest point on the arc (<a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>).</dd>
     <dt>Raises:</dt>
@@ -1092,7 +1092,15 @@
         class="link">LatLon</a>.</li>
     </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Functions  <a href="pygeodesy.utily-module.html#equirectangular_" 
+        class="link">equirectangular_</a>, <a 
+        href="pygeodesy.points-module.html#nearestOn3" 
+        class="link">nearestOn3</a> and <a 
+        href="pygeodesy.sphericalTrigonometry-module.html#nearestOn2" 
+        class="link">sphericalTrigonometry.nearestOn2</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="nearestOn2"></a>
 <div>
@@ -1112,11 +1120,7 @@
     </td>
   </tr></table>
   
-  <p>Locate the closest point on any segment between two consecutive points
-  of a path.</p>
-  <p>If this point is within the extent of any segment, the closest point 
-  is on the segment.  Otherwise the closest point is the nearest of the 
-  segment end points.</p>
+  <p>Locate the point on a polygon closest to this point.</p>
   <p>Distances are approximated by function <a 
   href="pygeodesy.utily-module.html#equirectangular_" 
   class="link">equirectangular_</a>, subject to the supplied 
@@ -1124,20 +1128,23 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The points of the path (<a 
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
-          class="link">LatLon</a>[]).</li>
-        <li><strong class="pname"><code>closed</code></strong> - Optionally, treat path as closed (<code>bool</code>).</li>
+          class="link">LatLon</a>s).</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the polygon (<code>bool</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
-        <li><strong class="pname"><code>options</code></strong> - Optional keyword argument for function <a 
+        <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments for function <a 
           href="pygeodesy.utily-module.html#equirectangular_" 
           class="link">equirectangular_</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (closest, distance) of the closest point (<a 
-          href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
-          class="link">LatLon</a>) on the path and the distance to that 
-          point (<code>meter</code>, same units as <i>radius</i>).</dd>
+        <dd>2-Tuple (<i>closest</i>, <i>distance</i>) of the closest point 
+          (<a href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
+          class="link">LatLon</a>) on the polygon and the distance to that 
+          point.  The <i>distance</i> is the <a 
+          href="pygeodesy.utily-module.html#equirectangular_" 
+          class="link">equirectangular_</a> distance between this and the 
+          closest point in <code>meter</code>, same units as <i>radius</i>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
@@ -1147,7 +1154,15 @@
         <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
     </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Functions  <a href="pygeodesy.utily-module.html#equirectangular_" 
+        class="link">equirectangular_</a>, <a 
+        href="pygeodesy.points-module.html#nearestOn3" 
+        class="link">nearestOn3</a> and <a 
+        href="pygeodesy.sphericalTrigonometry-module.html#nearestOn2" 
+        class="link">sphericalTrigonometry.nearestOn2</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="toVector3d"></a>
 <div>
@@ -1204,7 +1219,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Oct  8 17:20:21 2018
+    Generated by Epydoc 3.0.1 on Wed Oct 10 15:42:16 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -34,7 +34,8 @@ from datum import R_M
 from fmath import EPS, fmean, fsum, fsum_, isscalar
 from nvector import NorthPole, LatLonNvectorBase, \
                     Nvector as NvectorBase, sumOf
-from sphericalBase import _imdex2, LatLonSphericalBase
+from points import _imdex2
+from sphericalBase import LatLonSphericalBase
 from utily import PI, PI2, PI_2, degrees360, iterNumpy2
 
 from math import atan2, cos, radians, sin
@@ -46,7 +47,7 @@ __all__ = ('LatLon', 'Nvector',  # classes
            'meanOf',
            'nearestOn2',
            'triangulate', 'trilaterate')
-__version__ = '18.10.06'
+__version__ = '18.10.10'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -411,7 +412,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
     def isenclosedBy(self, points):
         '''Check whether this point is enclosed by a (convex) polygon.
 
-           @param points: The points defining the polygon (L{LatLon}[]).
+           @param points: The polygon points (L{LatLon}s).
 
            @return: C{True} if the polygon encloses this point,
                     C{False} otherwise.
@@ -472,15 +473,15 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
     def iswithin(self, point1, point2):
         '''Check whether this point is between two other points.
 
-           If this point is not on the great circle defined by both
-           points, return whether it is within the area bound by
-           perpendiculars to the great circle at each point (in
+           If this point is not on the great circle arc defined by
+           both points, return whether it is within the area bound
+           by perpendiculars to the great circle at each point (in
            the same hemispere).
 
-           @param point1: Start point of the segment (L{LatLon}).
-           @param point2: End point of the segment (L{LatLon}).
+           @param point1: Start point of the arc (L{LatLon}).
+           @param point2: End point of the arc (L{LatLon}).
 
-           @return: C{True} if this point is within the segment,
+           @return: C{True} if this point is within the arc,
                     C{False} otherwise.
 
            @raise TypeError: If I{point1} or I{point2} is not L{LatLon}.
@@ -494,7 +495,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         n1 = point1.toNvector()
         n2 = point2.toNvector()
 
-        # corner case, null segment
+        # corner case, null arc
         if n1.isequalTo(n2):
             return n0.isequalTo(n1) or n0.isequalTo(n2)
 
@@ -537,20 +538,19 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         return m.toLatLon(height=height, LatLon=self.classof)
 
     def nearestOn(self, point1, point2, height=None):
-        '''Locate the closest point on the great circle segment between
-           two points and this point.
+        '''Locate the point on the great circle arc between two
+           points closest to this point.
 
-           If this point is within the extent of the segment between
-           both end points, the returned point is on the segment.
-           Otherwise the returned point is the closest of the segment
-           end points.
+           If this point is within the extent of the arc between both
+           end points, return the closest point on the arc.  Otherwise,
+           return the closest of the arc's end points.
 
-           @param point1: Start point of the segment (L{LatLon}).
-           @param point2: End point of the segment (L{LatLon}).
+           @param point1: Start point of the arc (L{LatLon}).
+           @param point2: End point of the arc (L{LatLon}).
            @keyword height: Optional height, overriding the mean height
-                            for the point if within segment (C{meter}).
+                            for the point within the arc (C{meter}).
 
-           @return: Closest point on segment (L{LatLon}).
+           @return: Closest point on the arc (L{LatLon}).
 
            @raise TypeError: If I{point1} or I{point2} is not L{LatLon}.
 
@@ -570,13 +570,13 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @JSname: I{nearestPointOnSegment}.
         '''
         if self.isWithin(point1, point2) and not point1.isequalTo(point2, EPS):
-            # closer to segment than to its endpoints,
-            # find the closest point on the segment
+            # closer to arc than to its endpoints,
+            # find the closest point on the arc
             gc1 = point1.toNvector().cross(point2.toNvector())
             gc2 = self.toNvector().cross(gc1)
             p = gc1.cross(gc2).toLatLon(height=height, LatLon=self.classof)
 
-        # beyond segment extent, take closer endpoint
+        # beyond arc extent, take closer endpoint
         elif self.distanceTo(point1) < self.distanceTo(point2):
             p = point1
         else:
@@ -585,22 +585,23 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         return p
 
     def nearestOn2(self, points, closed=False, radius=R_M, height=None):
-        '''Locate the closest point on the great circle segment between
-           any two consecutive points of a path.
+        '''Locate the point on a polygon (with great circle arcs
+           joining consecutive points) closest to this point.
 
-           If this point is within the extent of any segment, the
-           closest point is on the segment.  Otherwise the closest
-           point is the nearest of the segment end points.
+           If this point is within the extent of any great circle
+           arc, the closest point is on that arc.  Otherwise,
+           the closest is the nearest of the arc's end points.
 
-           @param points: The points of the path (L{LatLon}[]).
-           @keyword closed: Optionally, treat path as closed (C{bool}).
+           @param points: The polygon points (L{LatLon}s).
+           @keyword closed: Optionally, close the polygon (C{bool}).
            @keyword radius: Optional, mean earth radius (C{meter}).
            @keyword height: Optional height, overriding the mean height
-                            for a point if within segment (C{meter}).
+                            for a point within the arc (C{meter}).
 
            @return: 2-Tuple (closest, distance) of the closest point
-                    (L{LatLon}) on the path and the distance to that
-                    point in meter, rather the units of I{radius}.
+                    (L{LatLon}) on the polygon and the distance to
+                    that point from the given point in C{meter}, same
+                    units of I{radius}.
 
            @raise TypeError: Some I{points} are not I{LatLon}.
 
@@ -639,7 +640,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         return self._Nv
 
     def triangulate(self, bearing1, other, bearing2, height=None):
-        '''Locate a point given this and an other point and bearings
+        '''Locate a point given this and an other point and a bearing
            at this and the other point.
 
            @param bearing1: Bearing at this point (compass C{degrees360}).
@@ -762,13 +763,13 @@ _Nvll = LatLon(0, 0, name='Nv00')  #: (INTERNAL) Reference instance (L{LatLon}).
 
 
 def areaOf(points, radius=R_M):
-    '''Calculate the area of a spherical polygon where the sides
-       of the polygon are great circle arcs joining the points.
+    '''Calculate the area of a (spherical) polygon (with great circle
+       arcs joining consecutive points).
 
-       @param points: The points defining the polygon (L{LatLon}[]).
+       @param points: The polygon points (L{LatLon}s).
        @keyword radius: Optional, mean earth radius (C{meter}).
 
-       @return: Polygon area (float, same units as radius squared).
+       @return: Polygon area (C{meter}, same units as I{radius}, squared).
 
        @raise TypeError: Some I{points} are not L{LatLon}.
 
@@ -904,7 +905,7 @@ def intersection(start1, end1, start2, end2,
 def meanOf(points, height=None, LatLon=LatLon):
     '''Compute the geographic mean of the supplied points.
 
-       @param points: Array of points to be averaged (L{LatLon}[]).
+       @param points: Array of points to be averaged (L{LatLon}s).
        @keyword height: Optional height, overriding the mean height (C{meter}).
        @keyword LatLon: Optional (sub-)class for the mean point (L{LatLon}).
 
@@ -921,24 +922,24 @@ def meanOf(points, height=None, LatLon=LatLon):
 
 
 def nearestOn2(point, points, closed=False, radius=R_M, height=None):
-    '''Locate the closest point on the great circle segment between
-       any two consecutive points of a path.
+    '''Locate the point on a polygon (with great circle arcs
+       joining consecutive points) closest to an other point.
 
-       If the given point is within the extent of any segment, the
-       closest point is on the segment.  Otherwise the closest point
-       is the nearest of the segment end points.
+       If the given point is within the extent of any great circle
+       arc, the closest point is on that arc.  Otherwise, the
+       closest is the nearest of the arc's end points.
 
-       @param point: The reference point (L{LatLon}).
-       @param points: The points of the path (L{LatLon}[]).
-       @keyword closed: Optionally, treat path as closed (C{bool}).
+       @param point: The other, reference point (L{LatLon}).
+       @param points: The polygon points (L{LatLon}s).
+       @keyword closed: Optionally, close the polygon (C{bool}).
        @keyword radius: Optional, mean earth radius (C{meter}).
        @keyword height: Optional height, overriding the mean height
-                        for a point within segment (C{meter}).
+                        for a point within the arc (C{meter}).
 
        @return: 2-Tuple (closest, distance) of the closest point
-                (L{LatLon}) on the path and the distance to that
-                point from the given point in meter, rather the
-                same units as I{radius}.
+                (L{LatLon}) on the polygon and the distance to that
+                that point from the given point in C{meter}, same
+                units as I{radius}.
 
        @raise TypeError: Some I{points} or the point not I{LatLon}.
 

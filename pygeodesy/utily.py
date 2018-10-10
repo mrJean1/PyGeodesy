@@ -22,7 +22,7 @@ from math import acos, atan2, cos, degrees, pi as PI, \
 __all__ = ('PI', 'PI2', 'PI_2', 'R_M',  # constants
            'LimitError',  # classes
            'acos1', 'anStr', 'antipode',
-           'degrees', 'degrees90', 'degrees180', 'degrees360',
+           'degrees', 'degrees90', 'degrees180', 'degrees360', 'degrees2m',
            'enStr2',
            'equirectangular', 'equirectangular_',
            'false2f', 'ft2m',
@@ -40,7 +40,7 @@ __all__ = ('PI', 'PI2', 'PI_2', 'R_M',  # constants
            'unroll180', 'unrollPI', 'unStr',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '18.10.06'
+__version__ = '18.10.10'
 
 division = 1 / 2  # double check int division, see .datum.py
 if not division:
@@ -141,6 +141,17 @@ def degrees360(rad):
     return _wrap(degrees(rad), 360, 360)
 
 
+def degrees2m(deg, radius=R_M):
+    '''Convert angle to distance along equator.
+
+       @param deg: Angle (C{degrees}).
+       @keyword radius: Mean earth radius (C{meter}).
+
+       @return: Distance (C{meter}, same units as I{radius}).
+    '''
+    return radians(deg) * radius
+
+
 def enStr2(easting, northing, prec, *extras):
     '''Return easting, northing string representations.
 
@@ -187,7 +198,7 @@ def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **options):
              distances.
     '''
     _, dy, dx, _ = equirectangular_(lat1, lon1, lat2, lon2, **options)
-    return radians(hypot(dx, dy)) * radius
+    return degrees2m(hypot(dx, dy), radius=radius)
 
 
 def equirectangular_(lat1, lon1, lat2, lon2,
@@ -215,10 +226,7 @@ def equirectangular_(lat1, lon1, lat2, lon2,
                 with the distance in degrees squared, the latitudinal
                 delta I{lat2}-I{lat1}, the wrapped, unrolled, and
                 adjusted longitudinal delta I{lon2}-I{lon1} and the
-                unrollment for I{lon2}.  To convert I{distance2} to
-                meter, use M{radians(sqrt(distance2)) * radius} where
-                I{radius} is the mean earth radius in the desired units,
-                for example L{R_M} meter.
+                unrollment for I{lon2}.
 
        @raise LimitError: If the lat- and/or longitudinal delta exceeds
                           the I{-limit..+limit} range and I{limiterrors}
@@ -229,6 +237,10 @@ def equirectangular_(lat1, lon1, lat2, lon2,
              L{equirectangular} and L{haversine}, method
              L{Ellipsoid.distance2} and C{LatLon} methods C{distanceTo*}
              for more accurate and/or larger distances.
+
+       @see: Function L{degrees2m} to convert C{degrees} to distance,
+             as M{degrees2m(sqrt(distance2), ...)} or
+             M{degrees2m(hypot(delta_lat, delta_lon), ...)}.
     '''
     d_lat = lat2 - lat1
     d_lon, ulon2 = unroll180(lon1, lon2, wrap=wrap)
@@ -300,7 +312,7 @@ def haversine(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
        @param lat2: End latitude (C{degrees}).
        @param lon2: End longitude (C{degrees}).
        @keyword radius: Optional, mean earth radius (C{meter}).
-       @keyword wrap: Wrap and L{unrollPI} longitudes (C{bool}).
+       @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
 
        @return: Distance (C{meter}, same units as I{radius}).
 
@@ -523,9 +535,10 @@ def limiterrors(raiser=None):
 def m2degrees(meter, radius=R_M):
     '''Convert distance to angle along equator.
 
-       @param meter: Value in meter (C{scalar}).
+       @param meter: Distance (C{meter}, same units as I{radius}).
+       @keyword radius: Mean earth radius (C{meter}).
 
-       @return: Equatorial angle in degrees (C{float}).
+       @return: Angle (C{degrees}).
 
        @raise ValueError: Invalid I{radius}.
     '''
@@ -575,18 +588,17 @@ def m2SM(meter):
 
 
 def points2(points, closed=True, base=None):
-    '''Check a polygon or path represented as an array, generator,
-       iterable, list, set, tuple or other sequence of points.
+    '''Check a polygon represented by points.
 
-       @param points: The points (I{LatLon}[])
-       @keyword closed: Optionally, treat the I{points} as a closed
-                        polygon or path and remove any duplicate or
-                        closing final I{points} (C{bool}).
-       @keyword base: Optionally, check I{points} against this
+       @param points: The polygon points (I{LatLon}s)
+       @keyword closed: Optionally, consider the polygon closed,
+                        ignoring any duplicate or closing final
+                        I{points} (C{bool}).
+       @keyword base: Optionally, check the I{points} against this
                       base class C{None}.
 
-       @return: 2-Tuple (number, ...) of points (C{int}, C{list} or
-                C{tuple}).
+       @return: 2-Tuple (n, points) with the number (C{int}) of points
+                and the points C{list} or C{tuple}.
 
        @raise TypeError: Some I{points} are not I{LatLon}.
 

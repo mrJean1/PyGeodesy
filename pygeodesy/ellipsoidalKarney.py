@@ -30,7 +30,7 @@ or by converting to anothor datum:
 
 from datum import Datums
 from ellipsoidalBase import CartesianBase, LatLonEllipsoidalBase
-from utily import polygon, property_RO, unroll180, \
+from utily import points2, property_RO, unroll180, \
                   wrap90, wrap180, wrap360
 
 # all public contants, classes and functions
@@ -330,14 +330,14 @@ class Cartesian(CartesianBase):
 
 
 def _geodesic(datum, points, closed, line, wrap):
-    # Compute the area or perimeter of a polygon/-line
+    # Compute the area or perimeter of a polygon,
     # using the GeographicLib package, iff installed
     g = datum.ellipsoid.geodesic
 
-    if not wrap:  # capability LONG_UNROLL always set
+    if not wrap:  # capability LONG_UNROLL can't be off
         raise ValueError('%s invalid: %s' % ('wrap', wrap))
 
-    _, points = polygon(points, closed=closed)  # base=LatLonEllipsoidalBase(0, 0)
+    _, points = points2(points, closed=closed)  # base=LatLonEllipsoidalBase(0, 0)
 
     g = g.Polygon(line)
 
@@ -353,14 +353,14 @@ def _geodesic(datum, points, closed, line, wrap):
 
 
 def areaOf(points, datum=Datums.WGS84, wrap=True):
-    '''Compute the area of a polygon defined by an array, list, sequence,
-       set or tuple of points on the given datum.
+    '''Compute the area of a polygon.
 
-       @param points: The points defining the polygon (L{LatLon}[]).
+       @param points: The polygon points (L{LatLon}s).
        @keyword datum: Optional datum (L{Datum}).
        @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
-       @return: Area (C{meter} squared).
+       @return: Area (C{meter}, same as units of the I{datum}
+                ellipsoid, squared).
 
        @raise ImportError: Package U{GeographicLib
               <http://PyPI.org/project/geographiclib>} missing.
@@ -368,10 +368,10 @@ def areaOf(points, datum=Datums.WGS84, wrap=True):
        @raise TypeError: Some I{points} are not L{LatLon}.
 
        @raise ValueError: Insufficient number of I{points} or longitudes
-                          not wrapped, unrolled.
+                          not wrapped, unrolled, I{wrap} is C{False}.
 
-       @note: This function requires the U{GeographicLib
-       <http://PyPI.org/project/geographiclib>} package to be installed.
+       @note: This function requires installation of the U{GeographicLib
+              <http://PyPI.org/project/geographiclib>} package.
 
        @see: L{pygeodesy.areaOf}, L{sphericalNvector.areaOf} and
              L{sphericalTrigonometry.areaOf}.
@@ -380,15 +380,15 @@ def areaOf(points, datum=Datums.WGS84, wrap=True):
 
 
 def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):
-    '''Compute the perimeter of a polygon/-line defined by an array,
-       list, sequence, set or tuple of points on the given datum.
+    '''Compute the perimeter of a polygon.
 
-       @param points: The points defining the polygon (L{LatLon}[]).
-       @keyword closed: Optionally, close the polygon/-line (C{bool}).
+       @param points: The polygon points (L{LatLon}s).
+       @keyword closed: Optionally, close the polygon (C{bool}).
        @keyword datum: Optional datum (L{Datum}).
        @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
-       @return: Perimeter (C{meter}).
+       @return: Perimeter (C{meter}, same as units of the I{datum}
+                ellipsoid).
 
        @raise ImportError: Package U{GeographicLib
               <http://PyPI.org/project/geographiclib>} missing.
@@ -396,10 +396,10 @@ def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):
        @raise TypeError: Some I{points} are not L{LatLon}.
 
        @raise ValueError: Insufficient number of I{points} or longitudes
-                          not wrapped, unrolled.
+                          not wrapped, unrolled, I{wrap} is C{False}.
 
-       @note: This function requires the U{GeographicLib
-       <http://PyPI.org/project/geographiclib>} package to be installed.
+       @note: This function requires installation of the U{GeographicLib
+              <http://PyPI.org/project/geographiclib>} package.
 
        @see: L{pygeodesy.perimeterOf} and L{sphericalTrigonometry.perimeterOf}.
     '''

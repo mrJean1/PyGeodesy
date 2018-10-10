@@ -4,15 +4,15 @@
 u'''Handle 2-d U{NumPy<http://www.NumPy.org>}, I{arrays} or tuples
 as I{LatLon}s or as I{pseudo-x/-y} pairs.
 
-NumPy arrays are assumed to contain rows of points with a lat-, a
+C{NumPy} arrays are assumed to contain rows of points with a lat-, a
 longitude -and possibly other- values in different columns.  While
 iterating over the array rows, create an instance of a given I{LatLon}
 class "on-the-fly" for each row with the row's lat- and longitude.
 
-The original NumPy array is read-accessed only and never duplicated,
+The original C{NumPy} array is read-accessed only and never duplicated,
 except to create a I{subset} of the original array.
 
-For example, to process a NumPy array, wrap the array by instantiating
+For example, to process a C{NumPy} array, wrap the array by instantiating
 class L{Numpy2LatLon} and specifying the column index for the lat- and
 longitude in each row.  Then, pass the L{Numpy2LatLon} instance to any
 L{pygeodesy} function or method accepting a I{points} argument.
@@ -25,8 +25,8 @@ the index for the lat- and longitude index in each 2+tuple.
 '''
 
 from bases import classname, inStr
-from fmath import EPS, fdot, fStr, Fsum, fsum, isint, scalar
-from utily import R_M, equirectangular_, issequence, polygon, \
+from fmath import EPS, favg, fdot, fStr, Fsum, fsum, isint, scalar
+from utily import R_M, equirectangular_, issequence, points2, \
                   property_RO, unroll180, unrollPI, wrap90, wrap180
 from vector3d import CrossError, crosserrors
 
@@ -35,7 +35,7 @@ try:
 except ImportError:
     _Sequence = object  # XXX or tuple
 from inspect import isclass
-from math import cos, radians, sin, sqrt
+from math import cos, hypot, radians, sin
 
 __all__ = ('LatLon_',  # classes
            'LatLon2psxy', 'Numpy2LatLon', 'Tuple2LatLon',
@@ -43,8 +43,9 @@ __all__ = ('LatLon_',  # classes
            'bounds',
            'isclockwise', 'isconvex',
            'isenclosedBy', 'isenclosedby',  # DEPRECATED
+           'nearestOn3',
            'perimeterOf')
-__version__ = '18.10.06'
+__version__ = '18.10.10'
 
 
 class LatLon_(object):
@@ -105,9 +106,9 @@ class LatLon_(object):
                              classname(other), classname(self)))
 
     def points(self, points, closed=False, base=None):
-        return polygon(points, closed=closed, base=base)
+        return points2(points, closed=closed, base=base)
 
-    points.__doc__ = polygon.__doc__
+    points.__doc__ = points2.__doc__
 
     def to2ab(self):
         '''Return the lat- and longitude in radians.
@@ -299,7 +300,7 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
     _shape  = ()
 
     def __init__(self, array, ilat=0, ilon=1, LatLon=None, shape=()):
-        '''Handle a NumPy or Tuple array as a sequence of I{LatLon} points.
+        '''Handle a C{NumPy} or C{Tuple} array as a sequence of I{LatLon} points.
         '''
         ais = ('ilat', ilat), ('ilon', ilon)
 
@@ -380,7 +381,7 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
         '''Find the first row with a specific lat-/longitude.
 
            @param latlon: Point (I{LatLon}) or 2-tuple (lat, lon).
-           @param start_end: Optional [start [, end]] index (integers).
+           @param start_end: Optional I{[start[, end]]} index (integers).
 
            @return: Index or -1 if not found (C{int}).
 
@@ -409,9 +410,9 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
         '''Yield indices of all rows with a specific lat-/longitude.
 
            @param latlon: Point (I{LatLon}) or 2-tuple (lat, lon).
-           @param start_end: Optional [start [, end]] index (C{int}s).
+           @param start_end: Optional I{[start[, end]]} index (C{int}s).
 
-           @return: Indices (iterator).
+           @return: Indices (C{iterable}).
 
            @raise TypeError: Invalid I{latlon}.
         '''
@@ -421,7 +422,7 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
         '''Find index of the first row with a specific lat-/longitude.
 
            @param latlon: Point (I{LatLon}) or 2-tuple (lat, lon).
-           @param start_end: Optional [start [, end]] index (C{int}s).
+           @param start_end: Optional I{[start[, end]]} index (C{int}s).
 
            @return: Index (C{int}).
 
@@ -458,7 +459,7 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
         '''Find the last row with a specific lat-/longitude.
 
            @param latlon: Point (I{LatLon}) or 2-tuple (lat, lon).
-           @param start_end: Optional [start [, end]] index (C{int}s).
+           @param start_end: Optional I{[start[, end]]} index (C{int}s).
 
            @note: Keyword order, first stop, then start.
 
@@ -475,8 +476,8 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
 
     @property_RO
     def shape(self):
-        '''Get the shape of the NumPy array or the Tuples, 2-tuple of
-           (number of rows, number of colums).
+        '''Get the shape of the C{NumPy} array or the C{Tuples} as
+           2-tuple of I{(number of rows, number of colums)}.
         '''
         return self._shape
 
@@ -486,17 +487,17 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
         raise NotImplementedError('method: %s' % ('_subset',))
 
     def subset(self, indices):
-        '''Return a subset of the NumPy array.
+        '''Return a subset of the C{NumPy} array.
 
            @param indices: Row indices (C{int}s).
 
            @note: A I{subset} is different from a I{slice} in 2 ways:
                   (a) the I{subset} is typically specified as a list of
                   (un-)ordered indices and (b) the I{subset} allocates
-                  a new, separate NumPy array while a I{slice} is just
-                  an other I{view} of the original NumPy array.
+                  a new, separate C{NumPy} array while a I{slice} is
+                  just an other I{view} of the original C{NumPy} array.
 
-           @return: Sub-array (numpy.array).
+           @return: Sub-array (C{numpy.array}).
 
            @raise IndexError: Out-of-range I{indices} value.
 
@@ -535,7 +536,7 @@ class LatLon2psxy(_Basequence):
 
            @param latlons: Points C{list}, C{sequence}, C{set}, C{tuple},
                            etc. (I{LatLon[]}).
-           @keyword closed: Optionally, points form a closed polygon (C{bool}).
+           @keyword closed: Optionally, close the polygon (C{bool}).
            @keyword radius: Optional, mean earth radius (C{meter}).
            @keyword wrap: Wrap lat- and longitudes (C{bool}).
 
@@ -544,7 +545,7 @@ class LatLon2psxy(_Basequence):
            @raise ValueError: Insufficient number of I{latlons}.
         '''
         self._closed = closed
-        self._len, self._array = polygon(latlons, closed=closed)
+        self._len, self._array = points2(latlons, closed=closed)
         if radius:
             self._radius = radius
             self._deg2m = radius * radians(1.0)
@@ -603,7 +604,7 @@ class LatLon2psxy(_Basequence):
         '''Find the first matching point.
 
            @param xy: Point (I{LatLon}) or 2-tuple (x, y) in (C{degrees}).
-           @param start_end: Optional [start [, end]] index (C{int}s).
+           @param start_end: Optional I{[start[, end]]} index (C{int}s).
 
            @return: Index or -1 if not found (C{int}).
 
@@ -638,7 +639,7 @@ class LatLon2psxy(_Basequence):
         '''Yield indices of all matching points.
 
            @param xy: Point (I{LatLon}) or 2-tuple (x, y) in (C{degrees}).
-           @param start_end: Optional [start [, end]] index (C{int}s).
+           @param start_end: Optional I{[start[, end]]} index (C{int}s).
 
            @return: Indices (C{iterator}).
 
@@ -650,7 +651,7 @@ class LatLon2psxy(_Basequence):
         '''Find the first matching point.
 
            @param xy: Point (I{LatLon}) or 2-tuple (x, y) in (C{degrees}).
-           @param start_end: Optional [start [, end]] index (C{int}s).
+           @param start_end: Optional I{[start[, end]]} index (C{int}s).
 
            @return: Index (C{int}).
 
@@ -686,7 +687,7 @@ class LatLon2psxy(_Basequence):
         '''Find the last matching point.
 
            @param xy: Point (I{LatLon}) or 2-tuple (x, y) in (C{degrees}).
-           @param start_end: Optional [start [, end]] index (C{int}s).
+           @param start_end: Optional I{[start[, end]]} index (C{int}s).
 
            @return: Index or -1 if not found (C{int}).
 
@@ -701,19 +702,19 @@ class LatLon2psxy(_Basequence):
 
 
 class Numpy2LatLon(_Array2LatLon):  # immutable, on purpose
-    '''Wrapper for NumPy arrays as "on-the-fly" I{LatLon} points.
+    '''Wrapper for C{NumPy} arrays as "on-the-fly" I{LatLon} points.
     '''
     def __init__(self, array, ilat=0, ilon=1, LatLon=None):
-        '''Handle a NumPy array as a sequence of I{LatLon} points.
+        '''Handle a C{NumPy} array as a sequence of I{LatLon} points.
 
-           @param array: NumPy array (I{numpy.array}).
+           @param array: C{NumPy} array (I{numpy.array}).
            @keyword ilat: Optional index of the latitudes column (C{int}).
            @keyword ilon: Optional index of the longitudes column (C{int}).
            @keyword LatLon: Optional I{LatLon} (sub-)class to use (L{LatLon_}).
 
            @raise IndexError: If I{array.shape} is not (1+, 2+).
 
-           @raise TypeError: If I{array} is not a NumPy array or
+           @raise TypeError: If I{array} is not a C{NumPy} array or
                              I{LatLon} is not a class with I{lat}
                              and I{lon} attributes.
 
@@ -839,10 +840,9 @@ def _areaOf(points, adjust, wrap):
 
 
 def areaOf(points, adjust=True, radius=R_M, wrap=True):
-    '''Approximate the area of a polygon defined by an array, list,
-       sequence, set or tuple of points.
+    '''Approximate the area of a polygon.
 
-       @param points: The points defining the polygon (I{LatLon}[]).
+       @param points: The polygon points (I{LatLon}s).
        @keyword adjust: Adjust the wrapped, unrolled longitudinal delta
                         by the cosine of the mean latitude (C{bool}).
        @keyword radius: Optional, mean earth radius (C{meter}).
@@ -865,10 +865,9 @@ def areaOf(points, adjust=True, radius=R_M, wrap=True):
 
 
 def bounds(points, wrap=True, LatLon=None):
-    '''Determine the lower-left and upper-right corners of a polygon/-line
-       defined by a list, sequence, set or tuple of points.
+    '''Determine the lower-left and upper-right corners of a polygon.
 
-       @param points: The points defining the polygon (I{LatLon}[]).
+       @param points: The polygon points (I{LatLon}s).
        @keyword wrap: Wrap lat- and longitudes (C{bool}).
        @keyword LatLon: Optional (sub-)class to use to return I{bounds}
                         (I{LatLon}) or C{None}.
@@ -910,11 +909,16 @@ def bounds(points, wrap=True, LatLon=None):
     return b
 
 
-def isclockwise(points, adjust=False, wrap=True):
-    '''Determine the direction of a polygon defined by an array, list,
-       sequence, set or tuple of points.
+def _imdex2(closed, n):  # imported by sphericalNvector, -Trigonometry
+    '''(INTERNAL) Return first and second index.
+    '''
+    return (n-1, 0) if closed else (0, 1)
 
-       @param points: The points defining the polygon (I{LatLon}[]).
+
+def isclockwise(points, adjust=False, wrap=True):
+    '''Determine the direction of a polygon.
+
+       @param points: The polygon points (I{LatLon}s).
        @keyword adjust: Adjust the wrapped, unrolled longitudinal delta
                         by the cosine of the mean latitude (C{bool}).
        @keyword wrap: Wrap lat-, wrap and unroll longitudes (C{bool}).
@@ -923,7 +927,8 @@ def isclockwise(points, adjust=False, wrap=True):
 
        @raise TypeError: Some I{points} are not I{LatLon}.
 
-       @raise ValueError: Insufficient number of I{points} or zero area polygon.
+       @raise ValueError: Insufficient number of I{points} or zero
+                          area polygon.
 
        @example:
 
@@ -943,10 +948,9 @@ def isclockwise(points, adjust=False, wrap=True):
 
 
 def isconvex(points, adjust=False, wrap=True):
-    '''Determine whether a polygon defined by an array, list, sequence,
-       set or tuple of points is convex.
+    '''Determine whether a polygon is convex.
 
-       @param points: The points defining the polygon (I{LatLon}[]).
+       @param points: The polygon points (I{LatLon}s).
        @keyword adjust: Adjust the wrapped, unrolled longitudinal delta
                         by the cosine of the mean latitude (C{bool}).
        @keyword wrap: Wrap lat-, wrap and unroll longitudes (C{bool}).
@@ -1011,14 +1015,14 @@ def isconvex(points, adjust=False, wrap=True):
 
 
 def isenclosedBy(latlon, points, wrap=False):  # MCCABE 14
-    '''Determine whether a point is enclosed by a polygon defined by
-       an array, list, sequence, set or tuple of points.
+    '''Determine whether a point is enclosed by a polygon.
 
        @param latlon: The point (I{LatLon} or 2-tuple (lat, lon)).
-       @param points: The points defining the polygon (I{LatLon}[]).
+       @param points: The polygon points (I{LatLon}s).
        @keyword wrap: Wrap lat-, wrap and unroll longitudes (C{bool}).
 
-       @return: C{True} if I{latlon} is inside the polygon, C{False} otherwise.
+       @return: C{True} if I{latlon} is inside the polygon, C{False}
+                otherwise.
 
        @raise TypeError: Some I{points} are not I{LatLon}.
 
@@ -1078,9 +1082,10 @@ def isenclosedBy(latlon, points, wrap=False):  # MCCABE 14
         s.fadd(sin(radians(y2)))
         x1, y1 = x2, y2
 
-    # an odd number of meridian crossings means polygon contains
-    # a pole, assume that is the hemisphere containing the polygon
-    # mean and if polygon contains North Pole, flip the result
+    # An odd number of meridian crossings means, the polygon
+    # contains a pole.  Assume that is the pole on the hemisphere
+    # containing the polygon mean point.  If the polygon does
+    # contain the North Pole, flip the result.
     if m and s.fsum() > 0:
         e = not e
 
@@ -1093,12 +1098,101 @@ def isenclosedby(latlon, points, wrap=False):
     return isenclosedBy(latlon, points, wrap=wrap)
 
 
-def perimeterOf(points, closed=False, adjust=True, radius=R_M, wrap=True):
-    '''Approximate the perimeter of a polygon/-line defined by an array,
-       list, sequence, set or tuple of points.
+def nearestOn3(point, points, closed=False, **options):
+    '''Locate the point on a polygon closest to an other point.
 
-       @param points: The points defining the polygon/-line (I{LatLon}[]).
-       @keyword closed: Optionally, close the polygon/-line (C{bool}).
+       If the given point is within the extent of a polygon edge,
+       the closest point is on that edge, otherwise the closest
+       point is the nearest of that edge's end points.
+
+       Distances are approximated by function L{equirectangular_},
+       subject to the supplied I{options}.
+
+       @param point: The other, reference point (C{LatLon}).
+       @param points: The polygon points (C{LatLon}s).
+       @keyword closed: Optionally, close the polygon (C{bool}).
+       @keyword options: Optional keyword arguments for function
+                         L{equirectangular_}.
+
+       @return: 3-Tuple (lat, lon, I{distance}) all in C{degrees}.
+                The I{distance} is the L{equirectangular_} distance
+                between the closest and the reference I{point} in
+                C{degrees}.
+
+       @raise LimitError: Lat- and/or longitudinal delta exceeds
+                          I{limit}, see function L{equirectangular_}.
+
+       @raise TypeError: Some I{points} are not I{LatLon}.
+
+       @raise ValueError: Insufficient number of I{points}.
+
+       @see: Function L{degrees2m} to convert C{degrees} to C{meter}.
+    '''
+    def _d2yx(p2, p1, u):
+        # equirectangular_ returns a 4-tuple (distance in
+        # degrees squared, delta lat, delta lon, p2.lon
+        # unroll/wrap); the previous p2.lon unroll/wrap
+        # is also applied to the next edge's p1.lon
+        return equirectangular_(p1.lat, p1.lon + u,
+                                p2.lat, p2.lon, **options)
+
+    # point (x, y) on axis rotated ccw by angle a:
+    #   x' = y * sin(a) + x * cos(a)
+    #   y' = y * cos(a) - x * sin(a)
+    #
+    # distance (w) along and perpendicular (h) to
+    # a line thru point (dx, dy) and the origin:
+    #   w = (y * dy + x * dx) / hypot(dx, dy)
+    #   h = (y * dx - x * dy) / hypot(dx, dy)
+    #
+    # closest point on that line thru (dx, dy):
+    #   xc = dx * w / hypot(dx, dy)
+    #   yc = dy * w / hypot(dx, dy)
+    # or
+    #   xc = dx * f
+    #   yc = dy * f
+    # with
+    #   f = w / hypot(dx, dy)
+    # or
+    #   f = (y * dy + x * dx) / (dx**2 + dy**2)
+
+    n, points = points2(points, closed=closed)
+
+    i, m = _imdex2(closed, n)
+    p2 = c = points[i]
+    u2 = u = 0
+    d, dy, dx, _ = _d2yx(point, p2, u2)
+    for i in range(m, n):
+        p1, u1, p2 = p2, u2, points[i]
+        # iff wrapped, unroll lon1 (actually previous
+        # lon2) like function unroll180/-PI would've
+        d21, y21, x21, u2 = _d2yx(p2, p1, u1)
+        if d21 > EPS:
+            # distance point to p1
+            d2, y01, x01, _ = _d2yx(point, p1, u1)
+            if d2 > EPS:
+                w2 = y01 * y21 + x01 * x21
+                if w2 > 0:
+                    if w2 < d21:
+                        # closest is between p1 and p2, use
+                        # original delta's, not y21 and x21
+                        f = w2 / d21
+                        p1 = LatLon_(favg(p1.lat, p2.lat, f=f),
+                                     favg(p1.lon, p2.lon + u2, f=f))
+                        u1 = 0
+                    else:  # p2 is closest
+                        p1, u1 = p2, u2
+                    d2, y01, x01, _ = _d2yx(point, p1, u1)
+            if d2 < d:  # p1 is closer
+                c, u, d, dy, dx = p1, u1, d2, y01, x01
+    return c.lat, c.lon + u, hypot(dy, dx)
+
+
+def perimeterOf(points, closed=False, adjust=True, radius=R_M, wrap=True):
+    '''Approximate the perimeter of a polygon.
+
+       @param points: The polygon points (I{LatLon}s).
+       @keyword closed: Optionally, close the polygon (C{bool}).
        @keyword adjust: Adjust the wrapped, unrolled longitudinal delta
                         by the cosine of the mean latitude (C{bool}).
        @keyword radius: Optional, mean earth radius (C{meter}).
@@ -1111,8 +1205,9 @@ def perimeterOf(points, closed=False, adjust=True, radius=R_M, wrap=True):
        @raise ValueError: Insufficient number of I{points}.
 
        @note: This perimeter is based on the L{equirectangular_}
-       distance approximation and is ill-suited for regions exceeding
-       several hundred Km or Miles or with near-polar latitudes.
+              distance approximation and is ill-suited for regions
+              exceeding several hundred Km or Miles or with
+              near-polar latitudes.
 
        @see: L{sphericalTrigonometry.perimeterOf} and
              L{ellipsoidalKarney.perimeterOf}.
@@ -1120,20 +1215,17 @@ def perimeterOf(points, closed=False, adjust=True, radius=R_M, wrap=True):
     pts = LatLon2psxy(points, closed=closed, radius=None, wrap=False)
 
     def _degs(n, pts, closed):  # angular edge lengths in degrees
-        u = 0  # previous x2's unroll/wrap
-        if closed:
-            j, i = 0, n-1
-        else:
-            j, i = 1, 0
+        i, m = _imdex2(closed, n)
         x1, y1, _ = pts[i]
-        for i in range(j, n):
+        u = 0  # previous x2's unroll/wrap
+        for i in range(m, n):
             x2, y2, _ = pts[i]
             # apply previous x2's unroll/wrap to new x1
-            d2, _, _, u = equirectangular_(y1, x1 + u, y2, x2,
-                                           adjust=adjust,
-                                           limit=None,
-                                           wrap=wrap)
-            yield sqrt(d2)
+            _, dy, dx, u = equirectangular_(y1, x1 + u, y2, x2,
+                                            adjust=adjust,
+                                            limit=None,
+                                            wrap=wrap)
+            yield hypot(dx, dy)
             x1, y1 = x2, y2
 
     d = fsum(_degs(len(pts), pts, closed))

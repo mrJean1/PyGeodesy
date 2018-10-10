@@ -30,7 +30,7 @@ __all__ = ('F_D', 'F_DM', 'F_DMS',  # forms
            'latDMS', 'lonDMS', 'normDMS',
            'parseDMS', 'parseDMS2', 'parse3llh', 'precision',
            'rangerrors', 'toDMS')
-__version__ = '18.10.04'
+__version__ = '18.10.10'
 
 F_D   = 'd'    #: Format degrees as deg° (C{str}).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (C{str}).
@@ -68,7 +68,7 @@ class RangeError(ValueError):
 
 
 def _toDMS(deg, form, prec, sep, ddd):
-    '''(INTERNAL) Convert degrees to string, without sign or suffix.
+    '''(INTERNAL) Convert degrees to C{str}, without sign or suffix.
     '''
     try:
         d = abs(float(deg))
@@ -318,12 +318,13 @@ def parse3llh(strll, height=0, sep=',', clipLat=90, clipLon=180):
        one ends with the proper compass point.
 
        @param strll: Latitude, longitude[, height] (C{str}, ...).
-       @keyword height: Optional, default for missing height (C{meter}).
+       @keyword height: Optional, default height (C{meter}).
        @keyword sep: Optional separator (C{str}).
        @keyword clipLat: Keep latitude in I{-clipLat..+clipLat} (C{degrees}).
        @keyword clipLon: Keep longitude in I{-clipLon..+clipLon} range (C{degrees}).
 
-       @return: 3-Tuple (lat, lon, height) as (scalars).
+       @return: 3-Tuple (lat, lon, height) as (C{degrees90},
+                C{degrees180}, C{float}).
 
        @raise RangeError: Lat- or longitude value of I{strll} outside
                           valid range and I{rangerrrors} set to C{True}.

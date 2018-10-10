@@ -44,7 +44,7 @@ from math import cos, radians, sin, sqrt, tan
 # all public contants, classes and functions
 __all__ = ('Osgr',  # classes
            'parseOSGR', 'toOsgr')  # functions
-__version__ = '18.10.06'
+__version__ = '18.10.10'
 
 _10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (C{meter})
 _100km   = 100000  #: (INTERNAL) 100 km (int meter)
@@ -152,7 +152,7 @@ class Osgr(Based):
            etc. is as published by OS, but is inferior to Krüger as
            used by e.g. Karney 2011.}
 
-           @keyword LatLon: Optional ellipsoidal LatLon class to use
+           @keyword LatLon: Optional ellipsoidal (sub-)class to use
                             for the point (I{LatLon}) or C{None}.
            @keyword datum: Optional datum to use (I{Datum}).
 
@@ -387,8 +387,8 @@ def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr, name=''):
                       geodetic I{LatLon} point.
        @keyword lon: Optional longitude in degrees (scalar or C{None}).
        @keyword datum: Optional datum to convert (I{Datum}).
-       @keyword Osgr: Optional Osgr (sub-)class to use for the
-                      OSGR coordinate (L{Osgr}).
+       @keyword Osgr: Optional (sub-)class to use for the OSGR
+                      coordinate (L{Osgr}) or C{None}.
        @keyword name: Optional I{Osgr} name (C{str}).
 
        @return: The OSGR coordinate (L{Osgr}) or 2-tuple (easting,

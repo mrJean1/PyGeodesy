@@ -47,7 +47,7 @@ from operator import mul
 # all public contants, classes and functions
 __all__ = ('Utm', 'UTMError',  # classes
            'parseUTM', 'toUtm', 'utmZoneBand2')  # functions
-__version__ = '18.10.06'
+__version__ = '18.10.10'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -325,7 +325,7 @@ class Utm(Based):
            @keyword LatLon: Optional, ellipsoidal (sub-)class to use
                             for the point (I{LatLon}) or C{None}.
 
-           @return: Point of this UTM coordinate (I{LatLon}) or 5-tuple
+           @return: This UTM coordinate as (I{LatLon}) or 5-tuple
                     (lat, lon, datum, convergence, scale) if I{LatLon}
                     is C{None}.
 
@@ -529,7 +529,7 @@ def toUtm(latlon, lon=None, datum=None, Utm=Utm, name='', cmoff=True):
        @keyword lon: Optional longitude (C{degrees} or C{None}).
        @keyword datum: Optional datum for this UTM coordinate,
                        overriding latlon's datum (I{Datum}).
-       @keyword Utm: Optional (sub-)class to usefor the UTM
+       @keyword Utm: Optional (sub-)class to use for the UTM
                      coordinate (L{Utm}) or C{None}.
        @keyword name: Optional I{Utm} name (C{str}).
        @keyword cmoff: Offset longitude from zone's central meridian,

@@ -207,7 +207,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.10.08
+        18.10.10
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -484,8 +484,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.points.Numpy2LatLon-class.html" class="summary-name">Numpy2LatLon</a><br />
-      Wrapper for NumPy arrays as &quot;on-the-fly&quot; <i>LatLon</i> 
-        points.
+      Wrapper for <code>NumPy</code> arrays as &quot;on-the-fly&quot; 
+        <i>LatLon</i> points.
     </td>
   </tr>
 <tr>
@@ -643,8 +643,7 @@
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Approximate the area of a polygon defined by an array, list, 
-      sequence, set or tuple of points.</td>
+      Approximate the area of a polygon.</td>
           <td align="right" valign="top">
             
             
@@ -683,8 +682,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#bounds" class="summary-sig-name">bounds</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Determine the lower-left and upper-right corners of a polygon/-line 
-      defined by a list, sequence, set or tuple of points.</td>
+      Determine the lower-left and upper-right corners of a polygon.</td>
           <td align="right" valign="top">
             
             
@@ -865,6 +863,24 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#degrees180" class="summary-sig-name">degrees180</a>(<span class="summary-sig-arg">rad</span>)</span><br />
       Convert and wrap radians to degrees <i class="math">(-180..+180]</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#degrees2m" class="summary-sig-name">degrees2m</a>(<span class="summary-sig-arg">deg</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
+      Convert angle to distance along equator.</td>
           <td align="right" valign="top">
             
             
@@ -1518,8 +1534,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isclockwise" class="summary-sig-name">isclockwise</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Determine the direction of a polygon defined by an array, list, 
-      sequence, set or tuple of points.</td>
+      Determine the direction of a polygon.</td>
           <td align="right" valign="top">
             
             
@@ -1538,8 +1553,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isconvex" class="summary-sig-name">isconvex</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Determine whether a polygon defined by an array, list, sequence, set 
-      or tuple of points is convex.</td>
+      Determine whether a polygon is convex.</td>
           <td align="right" valign="top">
             
             
@@ -1558,8 +1572,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isenclosedBy" class="summary-sig-name">isenclosedBy</a>(<span class="summary-sig-arg">latlon</span>,
         <span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Determine whether a point is enclosed by a polygon defined by an 
-      array, list, sequence, set or tuple of points.</td>
+      Determine whether a point is enclosed by a polygon.</td>
           <td align="right" valign="top">
             
             
@@ -1900,6 +1913,26 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#nearestOn3" class="summary-sig-name">nearestOn3</a>(<span class="summary-sig-arg">point</span>,
+        <span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">**options</span>)</span><br />
+      Locate the point on a polygon closest to an other point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#normDMS" class="summary-sig-name">normDMS</a>(<span class="summary-sig-arg">strDMS</span>,
         <span class="summary-sig-arg">norm</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       Normalize all degree &#730;, minute ' and second &quot; symbols in a 
@@ -2068,8 +2101,7 @@
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Approximate the perimeter of a polygon/-line defined by an array, 
-      list, sequence, set or tuple of points.</td>
+      Approximate the perimeter of a polygon.</td>
           <td align="right" valign="top">
             
             
@@ -2088,8 +2120,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#points2" class="summary-sig-name">points2</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">base</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Check a polygon or path represented as an array, generator, iterable,
-      list, set, tuple or other sequence of points.</td>
+      Check a polygon represented by points.</td>
           <td align="right" valign="top">
             
             
@@ -2797,7 +2828,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'18.10.8'"><code class="variable-quote">'</code><code class="variable-string">18.10.8</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'18.10.10'"><code class="variable-quote">'</code><code class="variable-string">18.10.10</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -3189,12 +3220,11 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Approximate the area of a polygon defined by an array, list, sequence,
-  set or tuple of points.</p>
+  <p>Approximate the area of a polygon.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<i>LatLon</i>[]).</li>
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<i>LatLon</i>s).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
           the mean latitude (<code>bool</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
@@ -3285,12 +3315,11 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Determine the lower-left and upper-right corners of a polygon/-line 
-  defined by a list, sequence, set or tuple of points.</p>
+  <p>Determine the lower-left and upper-right corners of a polygon.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<i>LatLon</i>[]).</li>
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<i>LatLon</i>s).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap lat- and longitudes (<code>bool</code>).</li>
         <li><strong class="pname"><code>LatLon</code></strong> - Optional (sub-)class to use to return <i>bounds</i> 
           (<i>LatLon</i>) or <code>None</code>.</li>
@@ -3614,6 +3643,33 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 </td></tr></table>
 </div>
+<a name="degrees2m"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">degrees2m</span>(<span class="sig-arg">deg</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert angle to distance along equator.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>deg</code></strong> - Angle (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Distance (<code>meter</code>, same units as <i>radius</i>).</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="degrees360"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -3845,11 +3901,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           distance in degrees squared, the latitudinal delta 
           <i>lat2</i>-<i>lat1</i>, the wrapped, unrolled, and adjusted 
           longitudinal delta <i>lon2</i>-<i>lon1</i> and the unrollment for
-          <i>lon2</i>.  To convert <i>distance2</i> to meter, use <i 
-          class="math">radians(sqrt(distance2)) * radius</i> where 
-          <i>radius</i> is the mean earth radius in the desired units, for 
-          example <a href="pygeodesy.utily-module.html#R_M" 
-          class="link">R_M</a> meter.</dd>
+          <i>lon2</i>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - If the lat- and/or longitudinal delta exceeds the 
@@ -3857,18 +3909,25 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <code>True</code>.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <a href="http://www.EdWilliams.org/avform.htm#flat" 
-        target="_top">Local, flat earth approximation</a>, functions <a 
-        href="pygeodesy.utily-module.html#equirectangular" 
-        class="link">equirectangular</a> and <a 
-        href="pygeodesy.utily-module.html#haversine" 
-        class="link">haversine</a>, method <a 
-        href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
-        class="link">Ellipsoid.distance2</a> and <code>LatLon</code> 
-        methods <code>distanceTo*</code> for more accurate and/or larger 
-        distances.
-      </p>
+<div class="fields">      <dl><dt>See Also:</dt>
+        <dd>
+          <a href="http://www.EdWilliams.org/avform.htm#flat" 
+          target="_top">Local, flat earth approximation</a>, functions <a 
+          href="pygeodesy.utily-module.html#equirectangular" 
+          class="link">equirectangular</a> and <a 
+          href="pygeodesy.utily-module.html#haversine" 
+          class="link">haversine</a>, method <a 
+          href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
+          class="link">Ellipsoid.distance2</a> and <code>LatLon</code> 
+          methods <code>distanceTo*</code> for more accurate and/or larger 
+          distances.,
+          Function <a href="pygeodesy.utily-module.html#degrees2m" 
+          class="link">degrees2m</a> to convert <code>degrees</code> to 
+          distance, as <i class="math">degrees2m(sqrt(distance2), ...)</i> 
+          or <i class="math">degrees2m(hypot(delta_lat, delta_lon), 
+          ...)</i>.
+        </dd>
+      </dl>
 </div></td></tr></table>
 </div>
 <a name="fStr"></a>
@@ -4385,8 +4444,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unrollPI" 
-          class="link">unrollPI</a> longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
+          class="link">unroll180</a> longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as <i>radius</i>).</dd>
@@ -4738,12 +4797,11 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Determine the direction of a polygon defined by an array, list, 
-  sequence, set or tuple of points.</p>
+  <p>Determine the direction of a polygon.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<i>LatLon</i>[]).</li>
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<i>LatLon</i>s).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
           the mean latitude (<code>bool</code>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (<code>bool</code>).</li>
@@ -4783,12 +4841,11 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Determine whether a polygon defined by an array, list, sequence, set 
-  or tuple of points is convex.</p>
+  <p>Determine whether a polygon is convex.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<i>LatLon</i>[]).</li>
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<i>LatLon</i>s).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
           the mean latitude (<code>bool</code>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (<code>bool</code>).</li>
@@ -4829,13 +4886,12 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Determine whether a point is enclosed by a polygon defined by an 
-  array, list, sequence, set or tuple of points.</p>
+  <p>Determine whether a point is enclosed by a polygon.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>latlon</code></strong> - The point (<i>LatLon</i> or 2-tuple (lat, lon)).</li>
-        <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<i>LatLon</i>[]).</li>
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<i>LatLon</i>s).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -5248,10 +5304,11 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>meter</code></strong> - Value in meter (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>meter</code></strong> - Distance (<code>meter</code>, same units as <i>radius</i>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Equatorial angle in degrees (<code>float</code>).</dd>
+        <dd>Angle (<code>degrees</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>radius</i>.</li>
@@ -5369,6 +5426,63 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 </td></tr></table>
 </div>
+<a name="nearestOn3"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn3</span>(<span class="sig-arg">point</span>,
+        <span class="sig-arg">points</span>,
+        <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">**options</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Locate the point on a polygon closest to an other point.</p>
+  <p>If the given point is within the extent of a polygon edge, the closest
+  point is on that edge, otherwise the closest point is the nearest of that
+  edge's end points.</p>
+  <p>Distances are approximated by function <a 
+  href="pygeodesy.utily-module.html#equirectangular_" 
+  class="link">equirectangular_</a>, subject to the supplied 
+  <i>options</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>point</code></strong> - The other, reference point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>s).</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the polygon (<code>bool</code>).</li>
+        <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments for function <a 
+          href="pygeodesy.utily-module.html#equirectangular_" 
+          class="link">equirectangular_</a>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>3-Tuple (lat, lon, <i>distance</i>) all in <code>degrees</code>. 
+          The <i>distance</i> is the <a 
+          href="pygeodesy.utily-module.html#equirectangular_" 
+          class="link">equirectangular_</a> distance between the closest 
+          and the reference <i>point</i> in <code>degrees</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
+        <a href="pygeodesy.utily-module.html#equirectangular_" 
+        class="link">equirectangular_</a>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <i>LatLon</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.utily-module.html#degrees2m" 
+        class="link">degrees2m</a> to convert <code>degrees</code> to 
+        <code>meter</code>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="normDMS"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -5426,7 +5540,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>strll</code></strong> - Latitude, longitude[, height] (<code>str</code>, ...).</li>
-        <li><strong class="pname"><code>height</code></strong> - Optional, default for missing height (<code>meter</code>).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional, default height (<code>meter</code>).</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional separator (<code>str</code>).</li>
         <li><strong class="pname"><code>clipLat</code></strong> - Keep latitude in <i>-clipLat..+clipLat</i> 
           (<code>degrees</code>).</li>
@@ -5434,7 +5548,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>3-Tuple (lat, lon, height) as (scalars).</dd>
+        <dd>3-Tuple (lat, lon, height) as (<code>degrees90</code>, 
+          <code>degrees180</code>, <code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - Lat- or longitude value of <i>strll</i> outside valid range and 
@@ -5580,7 +5695,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>strMGRS</code></strong> - MGRS grid reference (<code>str</code>).</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional datum to use (<a href="pygeodesy.datum.Datum-class.html"
           class="link">Datum</a>).</li>
-        <li><strong class="pname"><code>Mgrs</code></strong> - Optional Mgrs (sub-)class to use for the MGRS grid reference (<a 
+        <li><strong class="pname"><code>Mgrs</code></strong> - Optional (sub-)class to use for the MGRS grid reference (<a 
           href="pygeodesy.mgrs.Mgrs-class.html" class="link">Mgrs</a>) or 
           <code>None</code>.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional <i>Mgrs</i> name (<code>str</code>).</li>
@@ -5767,13 +5882,12 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Approximate the perimeter of a polygon/-line defined by an array, 
-  list, sequence, set or tuple of points.</p>
+  <p>Approximate the perimeter of a polygon.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The points defining the polygon/-line (<i>LatLon</i>[]).</li>
-        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the polygon/-line (<code>bool</code>).</li>
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<i>LatLon</i>s).</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the polygon (<code>bool</code>).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
           the mean latitude (<code>bool</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
@@ -5819,21 +5933,19 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Check a polygon or path represented as an array, generator, iterable, 
-  list, set, tuple or other sequence of points.</p>
+  <p>Check a polygon represented by points.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The points (<i>LatLon</i>[])</li>
-        <li><strong class="pname"><code>closed</code></strong> - Optionally, treat the <i>points</i> as a closed polygon or path 
-          and remove any duplicate or closing final <i>points</i> 
-          (<code>bool</code>).</li>
-        <li><strong class="pname"><code>base</code></strong> - Optionally, check <i>points</i> against this base class 
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<i>LatLon</i>s)</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, consider the polygon closed, ignoring any duplicate 
+          or closing final <i>points</i> (<code>bool</code>).</li>
+        <li><strong class="pname"><code>base</code></strong> - Optionally, check the <i>points</i> against this base class 
           <code>None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (number, ...) of points (<code>int</code>, 
-          <code>list</code> or <code>tuple</code>).</dd>
+        <dd>2-Tuple (n, points) with the number (<code>int</code>) of points 
+          and the points <code>list</code> or <code>tuple</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <i>LatLon</i>.</li>
@@ -6513,7 +6625,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           href="pygeodesy.lcc.Conic-class.html" class="link">Conic</a>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height for the point, overriding the default height 
           (<code>meter</code>).</li>
-        <li><strong class="pname"><code>Lcc</code></strong> - Optional Lcc (sub-)class to use for the Lambert location (<a 
+        <li><strong class="pname"><code>Lcc</code></strong> - Optional (sub-)class to use for the Lambert location (<a 
           href="pygeodesy.lcc.Lcc-class.html" class="link">Lcc</a>).</li>
         <li><strong class="pname"><code>name</code></strong> - Optional <i>Lcc</i> name (<code>str</code>).</li>
     </ul></dd>
@@ -6597,8 +6709,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           <i>LatLon</i> point.</li>
         <li><strong class="pname"><code>lon</code></strong> - Optional longitude in degrees (scalar or <code>None</code>).</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional datum to convert (<i>Datum</i>).</li>
-        <li><strong class="pname"><code>Osgr</code></strong> - Optional Osgr (sub-)class to use for the OSGR coordinate (<a 
-          href="pygeodesy.osgr.Osgr-class.html" class="link">Osgr</a>).</li>
+        <li><strong class="pname"><code>Osgr</code></strong> - Optional (sub-)class to use for the OSGR coordinate (<a 
+          href="pygeodesy.osgr.Osgr-class.html" class="link">Osgr</a>) or 
+          <code>None</code>.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional <i>Osgr</i> name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -6648,7 +6761,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>lon</code></strong> - Optional longitude (<code>degrees</code> or <code>None</code>).</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional datum for this UTM coordinate, overriding latlon's datum
           (<i>Datum</i>).</li>
-        <li><strong class="pname"><code>Utm</code></strong> - Optional (sub-)class to usefor the UTM coordinate (<a 
+        <li><strong class="pname"><code>Utm</code></strong> - Optional (sub-)class to use for the UTM coordinate (<a 
           href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>) or 
           <code>None</code>.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional <i>Utm</i> name (<code>str</code>).</li>
@@ -7185,7 +7298,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Oct  8 17:20:19 2018
+    Generated by Epydoc 3.0.1 on Wed Oct 10 15:42:14 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

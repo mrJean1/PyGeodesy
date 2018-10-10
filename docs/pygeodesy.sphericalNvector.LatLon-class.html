@@ -446,8 +446,8 @@
         <span class="summary-sig-arg">point1</span>,
         <span class="summary-sig-arg">point2</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Locate the closest point on the great circle segment between two 
-      points and this point.</td>
+      Locate the point on the great circle arc between two points closest 
+      to this point.</td>
           <td align="right" valign="top">
             
             
@@ -468,8 +468,8 @@
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Locate the closest point on the great circle segment between any two 
-      consecutive points of a path.</td>
+      Locate the point on a polygon (with great circle arcs joining 
+      consecutive points) closest to this point.</td>
           <td align="right" valign="top">
             
             
@@ -508,8 +508,8 @@
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">bearing2</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Locate a point given this and an other point and bearings at this and
-      the other point.</td>
+      Locate a point given this and an other point and a bearing at this 
+      and the other point.</td>
           <td align="right" valign="top">
             
             
@@ -572,6 +572,7 @@
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equals">equals</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equals3">equals3</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equirectangularTo">equirectangularTo</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#haversineTo">haversineTo</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#isantipode">isantipode</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#isantipodeTo">isantipodeTo</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#isequalTo">isequalTo</a></code>,
@@ -1192,9 +1193,9 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<a 
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>[]).</li>
+          class="link">LatLon</a>s).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>True</code> if the polygon encloses this point, 
@@ -1235,21 +1236,21 @@
   </tr></table>
   
   <p>Check whether this point is between two other points.</p>
-  <p>If this point is not on the great circle defined by both points, 
+  <p>If this point is not on the great circle arc defined by both points, 
   return whether it is within the area bound by perpendiculars to the great
   circle at each point (in the same hemispere).</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>point1</code></strong> - Start point of the segment (<a 
+        <li><strong class="pname"><code>point1</code></strong> - Start point of the arc (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>point2</code></strong> - End point of the segment (<a 
+        <li><strong class="pname"><code>point2</code></strong> - End point of the arc (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if this point is within the segment, 
+        <dd><code>True</code> if this point is within the arc, 
           <code>False</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -1324,25 +1325,25 @@
     </td>
   </tr></table>
   
-  <p>Locate the closest point on the great circle segment between two 
-  points and this point.</p>
-  <p>If this point is within the extent of the segment between both end 
-  points, the returned point is on the segment. Otherwise the returned 
-  point is the closest of the segment end points.</p>
+  <p>Locate the point on the great circle arc between two points closest to
+  this point.</p>
+  <p>If this point is within the extent of the arc between both end points,
+  return the closest point on the arc.  Otherwise, return the closest of 
+  the arc's end points.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>point1</code></strong> - Start point of the segment (<a 
+        <li><strong class="pname"><code>point1</code></strong> - Start point of the arc (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>point2</code></strong> - End point of the segment (<a 
+        <li><strong class="pname"><code>point2</code></strong> - End point of the arc (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the mean height for the point if 
-          within segment (<code>meter</code>).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the mean height for the point within 
+          the arc (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Closest point on segment (<a 
+        <dd>Closest point on the arc (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</dd>
     <dt>Raises:</dt>
@@ -1388,27 +1389,28 @@
     </td>
   </tr></table>
   
-  <p>Locate the closest point on the great circle segment between any two 
-  consecutive points of a path.</p>
-  <p>If this point is within the extent of any segment, the closest point 
-  is on the segment.  Otherwise the closest point is the nearest of the 
-  segment end points.</p>
+  <p>Locate the point on a polygon (with great circle arcs joining 
+  consecutive points) closest to this point.</p>
+  <p>If this point is within the extent of any great circle arc, the 
+  closest point is on that arc.  Otherwise, the closest is the nearest of 
+  the arc's end points.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The points of the path (<a 
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>[]).</li>
-        <li><strong class="pname"><code>closed</code></strong> - Optionally, treat path as closed (<code>bool</code>).</li>
+          class="link">LatLon</a>s).</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the polygon (<code>bool</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
-        <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the mean height for a point if within
-          segment (<code>meter</code>).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the mean height for a point within 
+          the arc (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple (closest, distance) of the closest point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>) on the path and the distance to that 
-          point in meter, rather the units of <i>radius</i>.</dd>
+          class="link">LatLon</a>) on the polygon and the distance to that 
+          point from the given point in <code>meter</code>, same units of 
+          <i>radius</i>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <i>LatLon</i>.</li>
@@ -1468,7 +1470,7 @@
     </td>
   </tr></table>
   
-  <p>Locate a point given this and an other point and bearings at this and 
+  <p>Locate a point given this and an other point and a bearing at this and
   the other point.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -1590,7 +1592,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Oct  8 17:20:21 2018
+    Generated by Epydoc 3.0.1 on Wed Oct 10 15:42:16 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

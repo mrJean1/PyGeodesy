@@ -215,7 +215,7 @@ __all__ = ('bases', 'datum', 'dms', 'elevations',  # modules
            'pygeodesy_dirpath',
            'version',
            'crosserrors')  # extended below
-__version__ = '18.10.08'
+__version__ = '18.10.10'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
@@ -260,11 +260,7 @@ ellipsoidalVincenty.perimeterOf = ellipsoidalKarney.perimeterOf
 
 
 def equirectangular3(lat1, lon1, lat2, lon2, **options):
-    '''For backward compatibility only, obsolete, replaced by
-       function L{utily.equirectangular_}.
-
-       See function L{utily.equirectangular_} for more details,
-       the available I{options} and errors raised.
+    '''DEPRECATED, use function L{equirectangular_}.
 
        @return: 3-Tuple (distance2, delta_lat, delta_lon).
     '''
@@ -294,25 +290,41 @@ for m in (bases, datum, dms, elevations, fmath, lcc, mgrs, osgr,
 # remove any duplicates, only R_M?
 __all__ = tuple(set(__all__))
 
+# XXX del ellipsoidalBase, sphericalBase  # PYCHOK expected
+
 if __name__ == '__main__':
 
+    from inspect import isfunction, ismodule
+
+    d = locals()
     # to shorten module names
     b = basename(pygeodesy_dirpath)
     m = _init_abspath[:-len(basename(_init_abspath))]
-
-    d, e, p = locals(), 0, ''
-    for i, n in enumerate(sorted(__all__, key=str.lower)):
-        r = repr(d[n]).replace(m, '').replace(' ' + n + ' ', ' ') \
-                                     .replace(" '" + n + "' ", ' ') \
-                                     .replace('__main__', b)
+    p = ''
+    e = i = 0
+    for n in sorted(__all__, key=str.lower):
         if n == p:  # duplicate
             e += 1
-            s = '***'
+            s = '*****'
         else:
             s = ''
             p = n
-        print('%3d %s%s %s' % (i + 1, n, s, r))
-
+        o = d[n]
+        if isfunction(o):
+            r = "<function '%s.%s'>" % (o.__module__, n)
+        elif ismodule(o):
+            r = '<module %r>' % (o.__name__,)
+        else:
+            r = repr(o)
+        r = r.replace(m, '').replace(' ' + n + ' ', ' ') \
+                            .replace(" '" + n + "' ", ' ') \
+                            .replace('__main__', b)
+        i += 1
+        if isinstance(o, datum._Enum):
+            for n in r.split(',\n'):
+                print('%3d %s.%s%s' % (i, b, n, s))
+        else:
+            print('%3d %s.%s%s %s' % (i, b, n, s, r))
     print('--- PyGeodesy %s (%s duplicates)' % (__version__, e or 'no'))
 
 del abspath, basename, dirname, _init_abspath, _ismodule, m, splitext

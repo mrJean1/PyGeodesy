@@ -67,20 +67,20 @@ class Tests(_TestsLL, _TestsV):
             t = ', '.join(map(lonDMS, ps))
             self.test('crossingParallels', t, '009°35′38.65″E, 170°24′21.35″E')
 
-        if hasattr(LatLon, 'isEnclosedBy'):
+        if hasattr(LatLon, 'isenclosedBy'):
             p = LatLon(45.1, 1.1)
 
             b = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
             for _ in self.testiter():
-                self.test('isEnclosedBy', p.isEnclosedBy(b), True)
+                self.test('isenclosedBy', p.isenclosedBy(b), True)
 
             b = LatLon(45, 1), LatLon(45, 3), LatLon(46, 2), LatLon(47, 3), LatLon(47, 1)
             for _ in self.testiter():
                 try:
-                    self.test('isEnclosedBy', p.isEnclosedBy(b), True)  # Nvector
+                    self.test('isenclosedBy', p.isenclosedBy(b), True)  # Nvector
                 except ValueError as x:
                     t = ' '.join(str(x).split()[:3] + ['...)'])
-                    self.test('isEnclosedBy', t, 'non-convex: (%s(45°00′00.0″N, 001°00′00.0″E), ...)' % (classname(p),))
+                    self.test('isenclosedBy', t, 'non-convex: (%s(45°00′00.0″N, 001°00′00.0″E), ...)' % (classname(p),))
 
         p = LatLon(51.127, 1.338)
         q = LatLon(50.964, 1.853)

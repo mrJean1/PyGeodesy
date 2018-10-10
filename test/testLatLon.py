@@ -4,12 +4,12 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '18.09.30'
+__version__ = '18.10.10'
 
 from base import geographiclib, TestsBase
 
 from pygeodesy import R_NM, F_D, F_DM, F_DMS, F_RAD, classname, degrees, \
-                      fStr, isclockwise, isconvex, isenclosedby, m2NM  # PYCHOK expected
+                      fStr, isclockwise, isconvex, isenclosedBy, m2NM  # PYCHOK expected
 
 
 class Tests(TestsBase):
@@ -246,24 +246,24 @@ class Tests(TestsBase):
                 except ValueError as x:
                     self.test('isconvex', x, 'too few points: 2')  # PYCHOK false?
 
-        if isenclosedby:
+        if isenclosedBy:
             b = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
             for _ in self.testiter():
-                self.test('isenclosedby1', isenclosedby(LatLon(45.5, 1.5), b), True)  # PYCHOK false?
+                self.test('isenclosedBy1', isenclosedBy(LatLon(45.5, 1.5), b), True)  # PYCHOK false?
             for _ in self.testiter():  # on polygon point is outside
-                self.test('isenclosedby2', isenclosedby((46, 2), b), False)  # PYCHOK false?
+                self.test('isenclosedBy2', isenclosedBy((46, 2), b), False)  # PYCHOK false?
             for _ in self.testiter():  # on polygon point is outside
-                self.test('isenclosedby3', isenclosedby((46, 1), b), False)  # PYCHOK false?
+                self.test('isenclosedBy3', isenclosedBy((46, 1), b), False)  # PYCHOK false?
             for _ in self.testiter():  # on polygon edge is outside
-                self.test('isenclosedby4', isenclosedby((46, 1.5), b), False)  # PYCHOK false?
+                self.test('isenclosedBy4', isenclosedBy((46, 1.5), b), False)  # PYCHOK false?
             for _ in self.testiter():  # on polygon is False
-                self.test('isenclosedby5', isenclosedby((45.5, 1), b), False)  # PYCHOK false?
+                self.test('isenclosedBy5', isenclosedBy((45.5, 1), b), False)  # PYCHOK false?
             p = LatLon(85, 90), LatLon(85, 0), LatLon(85, -90), LatLon(85, -180)
             for _ in self.testiter():
-                self.test('isenclosedby6', isenclosedby((90, 0), p), 'True')  # PYCHOK false?
+                self.test('isenclosedBy6', isenclosedBy((90, 0), p), 'True')  # PYCHOK false?
             p = LatLon(85, 90), LatLon(85, 0), LatLon(85, -90)
             for _ in self.testiter():
-                self.test('isenclosedby7', isenclosedby((90, 0), p), 'True')  # PYCHOK false?
+                self.test('isenclosedBy7', isenclosedBy((90, 0), p), 'True')  # PYCHOK false?
 
 
 if __name__ == '__main__':

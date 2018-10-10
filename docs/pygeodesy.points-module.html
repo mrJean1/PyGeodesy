@@ -62,15 +62,15 @@
 <p>Handle 2-d <a href="http://www.NumPy.org" target="_top">NumPy</a>, 
   <i>arrays</i> or tuples as <i>LatLon</i>s or as <i>pseudo-x/-y</i> 
   pairs.</p>
-  <p>NumPy arrays are assumed to contain rows of points with a lat-, a 
-  longitude -and possibly other- values in different columns.  While 
-  iterating over the array rows, create an instance of a given 
+  <p><code>NumPy</code> arrays are assumed to contain rows of points with a
+  lat-, a longitude -and possibly other- values in different columns.  
+  While iterating over the array rows, create an instance of a given 
   <i>LatLon</i> class &quot;on-the-fly&quot; for each row with the row's 
   lat- and longitude.</p>
-  <p>The original NumPy array is read-accessed only and never duplicated, 
-  except to create a <i>subset</i> of the original array.</p>
-  <p>For example, to process a NumPy array, wrap the array by instantiating
-  class <a href="pygeodesy.points.Numpy2LatLon-class.html" 
+  <p>The original <code>NumPy</code> array is read-accessed only and never 
+  duplicated, except to create a <i>subset</i> of the original array.</p>
+  <p>For example, to process a <code>NumPy</code> array, wrap the array by 
+  instantiating class <a href="pygeodesy.points.Numpy2LatLon-class.html" 
   class="link">Numpy2LatLon</a> and specifying the column index for the 
   lat- and longitude in each row.  Then, pass the <a 
   href="pygeodesy.points.Numpy2LatLon-class.html" 
@@ -84,7 +84,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.10.06
+        18.10.10
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -120,8 +120,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.points.Numpy2LatLon-class.html" class="summary-name">Numpy2LatLon</a><br />
-      Wrapper for NumPy arrays as &quot;on-the-fly&quot; <i>LatLon</i> 
-        points.
+      Wrapper for <code>NumPy</code> arrays as &quot;on-the-fly&quot; 
+        <i>LatLon</i> points.
     </td>
   </tr>
 <tr>
@@ -152,8 +152,7 @@
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Approximate the area of a polygon defined by an array, list, 
-      sequence, set or tuple of points.</td>
+      Approximate the area of a polygon.</td>
           <td align="right" valign="top">
             
             
@@ -172,8 +171,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.points-module.html#bounds" class="summary-sig-name">bounds</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Determine the lower-left and upper-right corners of a polygon/-line 
-      defined by a list, sequence, set or tuple of points.</td>
+      Determine the lower-left and upper-right corners of a polygon.</td>
           <td align="right" valign="top">
             
             
@@ -192,8 +190,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.points-module.html#isclockwise" class="summary-sig-name">isclockwise</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Determine the direction of a polygon defined by an array, list, 
-      sequence, set or tuple of points.</td>
+      Determine the direction of a polygon.</td>
           <td align="right" valign="top">
             
             
@@ -212,8 +209,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.points-module.html#isconvex" class="summary-sig-name">isconvex</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Determine whether a polygon defined by an array, list, sequence, set 
-      or tuple of points is convex.</td>
+      Determine whether a polygon is convex.</td>
           <td align="right" valign="top">
             
             
@@ -232,8 +228,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.points-module.html#isenclosedBy" class="summary-sig-name">isenclosedBy</a>(<span class="summary-sig-arg">latlon</span>,
         <span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Determine whether a point is enclosed by a polygon defined by an 
-      array, list, sequence, set or tuple of points.</td>
+      Determine whether a point is enclosed by a polygon.</td>
           <td align="right" valign="top">
             
             
@@ -270,13 +265,32 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.points-module.html#nearestOn3" class="summary-sig-name">nearestOn3</a>(<span class="summary-sig-arg">point</span>,
+        <span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">**options</span>)</span><br />
+      Locate the point on a polygon closest to an other point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.points-module.html#perimeterOf" class="summary-sig-name">perimeterOf</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Approximate the perimeter of a polygon/-line defined by an array, 
-      list, sequence, set or tuple of points.</td>
+      Approximate the perimeter of a polygon.</td>
           <td align="right" valign="top">
             
             
@@ -313,12 +327,11 @@
     </td>
   </tr></table>
   
-  <p>Approximate the area of a polygon defined by an array, list, sequence,
-  set or tuple of points.</p>
+  <p>Approximate the area of a polygon.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<i>LatLon</i>[]).</li>
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<i>LatLon</i>s).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
           the mean latitude (<code>bool</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
@@ -364,12 +377,11 @@
     </td>
   </tr></table>
   
-  <p>Determine the lower-left and upper-right corners of a polygon/-line 
-  defined by a list, sequence, set or tuple of points.</p>
+  <p>Determine the lower-left and upper-right corners of a polygon.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<i>LatLon</i>[]).</li>
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<i>LatLon</i>s).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap lat- and longitudes (<code>bool</code>).</li>
         <li><strong class="pname"><code>LatLon</code></strong> - Optional (sub-)class to use to return <i>bounds</i> 
           (<i>LatLon</i>) or <code>None</code>.</li>
@@ -409,12 +421,11 @@
     </td>
   </tr></table>
   
-  <p>Determine the direction of a polygon defined by an array, list, 
-  sequence, set or tuple of points.</p>
+  <p>Determine the direction of a polygon.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<i>LatLon</i>[]).</li>
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<i>LatLon</i>s).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
           the mean latitude (<code>bool</code>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (<code>bool</code>).</li>
@@ -454,12 +465,11 @@
     </td>
   </tr></table>
   
-  <p>Determine whether a polygon defined by an array, list, sequence, set 
-  or tuple of points is convex.</p>
+  <p>Determine whether a polygon is convex.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<i>LatLon</i>[]).</li>
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<i>LatLon</i>s).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
           the mean latitude (<code>bool</code>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (<code>bool</code>).</li>
@@ -500,13 +510,12 @@
     </td>
   </tr></table>
   
-  <p>Determine whether a point is enclosed by a polygon defined by an 
-  array, list, sequence, set or tuple of points.</p>
+  <p>Determine whether a point is enclosed by a polygon.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>latlon</code></strong> - The point (<i>LatLon</i> or 2-tuple (lat, lon)).</li>
-        <li><strong class="pname"><code>points</code></strong> - The points defining the polygon (<i>LatLon</i>[]).</li>
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<i>LatLon</i>s).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -532,6 +541,63 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="nearestOn3"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn3</span>(<span class="sig-arg">point</span>,
+        <span class="sig-arg">points</span>,
+        <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">**options</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Locate the point on a polygon closest to an other point.</p>
+  <p>If the given point is within the extent of a polygon edge, the closest
+  point is on that edge, otherwise the closest point is the nearest of that
+  edge's end points.</p>
+  <p>Distances are approximated by function <a 
+  href="pygeodesy.utily-module.html#equirectangular_" 
+  class="link">equirectangular_</a>, subject to the supplied 
+  <i>options</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>point</code></strong> - The other, reference point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>s).</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the polygon (<code>bool</code>).</li>
+        <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments for function <a 
+          href="pygeodesy.utily-module.html#equirectangular_" 
+          class="link">equirectangular_</a>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>3-Tuple (lat, lon, <i>distance</i>) all in <code>degrees</code>. 
+          The <i>distance</i> is the <a 
+          href="pygeodesy.utily-module.html#equirectangular_" 
+          class="link">equirectangular_</a> distance between the closest 
+          and the reference <i>point</i> in <code>degrees</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
+        <a href="pygeodesy.utily-module.html#equirectangular_" 
+        class="link">equirectangular_</a>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <i>LatLon</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.utily-module.html#degrees2m" 
+        class="link">degrees2m</a> to convert <code>degrees</code> to 
+        <code>meter</code>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="perimeterOf"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -550,13 +616,12 @@
     </td>
   </tr></table>
   
-  <p>Approximate the perimeter of a polygon/-line defined by an array, 
-  list, sequence, set or tuple of points.</p>
+  <p>Approximate the perimeter of a polygon.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The points defining the polygon/-line (<i>LatLon</i>[]).</li>
-        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the polygon/-line (<code>bool</code>).</li>
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<i>LatLon</i>s).</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the polygon (<code>bool</code>).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
           the mean latitude (<code>bool</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
@@ -618,7 +683,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Oct  8 17:20:19 2018
+    Generated by Epydoc 3.0.1 on Wed Oct 10 15:42:14 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

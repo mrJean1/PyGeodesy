@@ -69,7 +69,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.10.06
+        18.10.10
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -232,6 +232,24 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#degrees360" class="summary-sig-name">degrees360</a>(<span class="summary-sig-arg">rad</span>)</span><br />
       Convert and wrap radians to degrees <i class="math">(0..+360]</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#degrees2m" class="summary-sig-name">degrees2m</a>(<span class="summary-sig-arg">deg</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
+      Convert angle to distance along equator.</td>
           <td align="right" valign="top">
             
             
@@ -687,8 +705,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#points2" class="summary-sig-name">points2</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">base</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Check a polygon or path represented as an array, generator, iterable,
-      list, set, tuple or other sequence of points.</td>
+      Check a polygon represented by points.</td>
           <td align="right" valign="top">
             
             
@@ -1175,6 +1192,33 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="degrees2m"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">degrees2m</span>(<span class="sig-arg">deg</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert angle to distance along equator.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>deg</code></strong> - Angle (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Distance (<code>meter</code>, same units as <i>radius</i>).</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="enStr2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1309,11 +1353,7 @@
           distance in degrees squared, the latitudinal delta 
           <i>lat2</i>-<i>lat1</i>, the wrapped, unrolled, and adjusted 
           longitudinal delta <i>lon2</i>-<i>lon1</i> and the unrollment for
-          <i>lon2</i>.  To convert <i>distance2</i> to meter, use <i 
-          class="math">radians(sqrt(distance2)) * radius</i> where 
-          <i>radius</i> is the mean earth radius in the desired units, for 
-          example <a href="pygeodesy.utily-module.html#R_M" 
-          class="link">R_M</a> meter.</dd>
+          <i>lon2</i>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - If the lat- and/or longitudinal delta exceeds the 
@@ -1321,18 +1361,25 @@
         <code>True</code>.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <a href="http://www.EdWilliams.org/avform.htm#flat" 
-        target="_top">Local, flat earth approximation</a>, functions <a 
-        href="pygeodesy.utily-module.html#equirectangular" 
-        class="link">equirectangular</a> and <a 
-        href="pygeodesy.utily-module.html#haversine" 
-        class="link">haversine</a>, method <a 
-        href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
-        class="link">Ellipsoid.distance2</a> and <code>LatLon</code> 
-        methods <code>distanceTo*</code> for more accurate and/or larger 
-        distances.
-      </p>
+<div class="fields">      <dl><dt>See Also:</dt>
+        <dd>
+          <a href="http://www.EdWilliams.org/avform.htm#flat" 
+          target="_top">Local, flat earth approximation</a>, functions <a 
+          href="pygeodesy.utily-module.html#equirectangular" 
+          class="link">equirectangular</a> and <a 
+          href="pygeodesy.utily-module.html#haversine" 
+          class="link">haversine</a>, method <a 
+          href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
+          class="link">Ellipsoid.distance2</a> and <code>LatLon</code> 
+          methods <code>distanceTo*</code> for more accurate and/or larger 
+          distances.,
+          Function <a href="pygeodesy.utily-module.html#degrees2m" 
+          class="link">degrees2m</a> to convert <code>degrees</code> to 
+          distance, as <i class="math">degrees2m(sqrt(distance2), ...)</i> 
+          or <i class="math">degrees2m(hypot(delta_lat, delta_lon), 
+          ...)</i>.
+        </dd>
+      </dl>
 </div></td></tr></table>
 </div>
 <a name="false2f"></a>
@@ -1452,8 +1499,8 @@
         <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unrollPI" 
-          class="link">unrollPI</a> longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
+          class="link">unroll180</a> longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as <i>radius</i>).</dd>
@@ -1841,10 +1888,11 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>meter</code></strong> - Value in meter (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>meter</code></strong> - Distance (<code>meter</code>, same units as <i>radius</i>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Equatorial angle in degrees (<code>float</code>).</dd>
+        <dd>Angle (<code>degrees</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>radius</i>.</li>
@@ -1968,21 +2016,19 @@
     </td>
   </tr></table>
   
-  <p>Check a polygon or path represented as an array, generator, iterable, 
-  list, set, tuple or other sequence of points.</p>
+  <p>Check a polygon represented by points.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The points (<i>LatLon</i>[])</li>
-        <li><strong class="pname"><code>closed</code></strong> - Optionally, treat the <i>points</i> as a closed polygon or path 
-          and remove any duplicate or closing final <i>points</i> 
-          (<code>bool</code>).</li>
-        <li><strong class="pname"><code>base</code></strong> - Optionally, check <i>points</i> against this base class 
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<i>LatLon</i>s)</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, consider the polygon closed, ignoring any duplicate 
+          or closing final <i>points</i> (<code>bool</code>).</li>
+        <li><strong class="pname"><code>base</code></strong> - Optionally, check the <i>points</i> against this base class 
           <code>None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (number, ...) of points (<code>int</code>, 
-          <code>list</code> or <code>tuple</code>).</dd>
+        <dd>2-Tuple (n, points) with the number (<code>int</code>) of points 
+          and the points <code>list</code> or <code>tuple</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <i>LatLon</i>.</li>
@@ -2429,7 +2475,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Oct  8 17:20:20 2018
+    Generated by Epydoc 3.0.1 on Wed Oct 10 15:42:14 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

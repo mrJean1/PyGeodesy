@@ -28,7 +28,7 @@ from math import atan, copysign, cos, log, sin, sqrt
 # all public constants, classes and functions
 __all__ = ('Conic', 'Conics', 'Lcc',
            'toLcc')  # functions
-__version__ = '18.10.06'
+__version__ = '18.10.10'
 
 
 Conics = _Enum('Conics')  #: Registered conics (L{_Enum}).
@@ -506,7 +506,7 @@ def toLcc(latlon, conic=Conics.WRF_Lb, height=None, Lcc=Lcc, name=''):
        @keyword conic: Optional Lambert projection to use (L{Conic}).
        @keyword height: Optional height for the point, overriding
                         the default height (C{meter}).
-       @keyword Lcc: Optional Lcc (sub-)class to use for the Lambert
+       @keyword Lcc: Optional (sub-)class to use for the Lambert
                      location (L{Lcc}).
        @keyword name: Optional I{Lcc} name (C{str}).
 

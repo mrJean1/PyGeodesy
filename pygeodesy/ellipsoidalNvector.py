@@ -37,7 +37,7 @@ from math import asin, atan2, cos, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '18.10.06'
+__version__ = '18.10.10'
 
 
 class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
@@ -703,14 +703,18 @@ class Nvector(NvectorBase):
 
 
 def meanOf(points, datum=Datums.WGS84, height=None, LatLon=LatLon):
-    '''Compute the geographic mean of the supplied points.
+    '''Compute the geographic mean of several points.
 
-       @param points: Array of points to be averaged (L{LatLon}[]).
+       @param points: Points to be averaged (L{LatLon}s).
        @keyword datum: Optional datum to use (L{Datum}).
-       @keyword height: Optional height, overriding the mean height (C{meter}).
-       @keyword LatLon: Optional LatLon class for the mean point (L{LatLon}).
+       @keyword height: Optional height at mean point, overriding
+                        the mean height (C{meter}).
+       @keyword LatLon: Optional (sub-)class to return the mean
+                        point (L{LatLon}) or C{None}.
 
-       @return: Point at geographic mean and mean height (L{LatLon}).
+       @return: Geographic mean point and mean height (I{LatLon})
+                or 3-tuple (C{degrees90}, C{degrees180}, height)
+                if I{LatLon} is C{None}.
 
        @raise ValueError: Insufficient number of I{points}.
     '''
@@ -721,7 +725,8 @@ def meanOf(points, datum=Datums.WGS84, height=None, LatLon=LatLon):
 
     if height is not None:
         h = height
-    return LatLon(a, b, height=h, datum=datum)
+    return (a, b, h) if LatLon is None else LatLon(
+            a, b, height=h, datum=datum)
 
 
 def toNed(distance, bearing, elevation, name=''):

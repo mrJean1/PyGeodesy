@@ -15,22 +15,23 @@ U{Latitude/Longitude<http://www.Movable-Type.co.UK/scripts/latlong.html>}.
 
 from datum import R_M
 from fmath import EPS, favg, fmean, fsum, map1
-from sphericalBase import _imdex2, LatLonSphericalBase
+from points import _imdex2, nearestOn3
+from sphericalBase import LatLonSphericalBase
 from utily import PI2, PI_2, acos1, degrees90, degrees180, degrees360, \
-                  equirectangular_, haversine_, iterNumpy2, radians, \
-                  radiansPI2, tan_2, unrollPI, wrap180, wrapPI
+                  degrees2m, haversine_, iterNumpy2, radians, radiansPI2, \
+                  tan_2, unrollPI, wrap180, wrapPI
 from vector3d import CrossError, crosserrors, Vector3d, sumOf
 
-from math import asin, atan2, copysign, cos, degrees, hypot, sin, sqrt
+from math import asin, atan2, copysign, cos, degrees, hypot, sin
 
 # all public contants, classes and functions
 __all__ = ('LatLon',  # classes
            'areaOf',  # functions
            'intersection', 'isPoleEnclosedBy',
            'meanOf',
-           'nearestOn2',
+           'nearestOn2',  # DEPRECATED, use points.nearestOn3
            'perimeterOf')
-__version__ = '18.10.08'
+__version__ = '18.10.10'
 
 
 class LatLon(LatLonSphericalBase):
@@ -382,9 +383,9 @@ class LatLon(LatLonSphericalBase):
                                   LatLon=self.classof)
 
     def isenclosedBy(self, points):
-        '''Check whether this point is enclosed by a (convex) polygon.
+        '''Check whether a (convex) polygon encloses this point.
 
-           @param points: The points defining the polygon (L{LatLon}[]).
+           @param points: The polygon points (L{LatLon}s).
 
            @return: C{True} if the polygon encloses this point,
                     C{False} otherwise.
@@ -491,58 +492,51 @@ class LatLon(LatLonSphericalBase):
         a = atan2(sa1 + sa2, hypot(x, y))
         b = atan2(y, x) + b1
 
-        if height is None:
-            h = self._havg(other)
-        else:
-            h = height
+        h = self._havg(other) if height is None else height
         return self.classof(degrees90(a), degrees180(b), height=h)
 
-    def nearestOn(self, point1, point2, **options):
-        '''Locate the closest point between two points and this point.
-
-           If this point is within the extent of the segment between
-           both end points, the returned point is on the segment.
-           Otherwise the returned point is the closest of the segment
-           end points.
+    def nearestOn(self, point1, point2, radius=R_M, **options):
+        '''Locate the point between two points closest and this point.
 
            Distances are approximated by function L{equirectangular_},
            subject to the supplied I{options}.
 
-           @param point1: Start point of the segment (L{LatLon}).
-           @param point2: End point of the segment (L{LatLon}).
-           @keyword options: Optional keyword argument for function
+           @param point1: Start point (L{LatLon}).
+           @param point2: End point (L{LatLon}).
+           @keyword radius: Optional, mean earth radius (C{meter}).
+           @keyword options: Optional keyword arguments for function
                              L{equirectangular_}.
 
-           @return: Closest point on segment (L{LatLon}).
+           @return: Closest point on the arc (L{LatLon}).
 
            @raise LimitError: Lat- and/or longitudinal delta exceeds
                               I{limit}, see function L{equirectangular_}.
 
            @raise TypeError: If I{point1} or I{point2} is not L{LatLon}.
+
+           @see: Functions  L{equirectangular_}, L{nearestOn3} and
+                            L{sphericalTrigonometry.nearestOn2}.
         '''
-        p, _ = nearestOn2(self, [point1, point2], **options)
-        return p
+        return nearestOn2(self, [point1, point2], closed=False, radius=radius,
+                                                  **options)[0]
 
     def nearestOn2(self, points, closed=False, radius=R_M, **options):
-        '''Locate the closest point on any segment between two
-           consecutive points of a path.
-
-           If this point is within the extent of any segment, the
-           closest point is on the segment.  Otherwise the closest
-           point is the nearest of the segment end points.
+        '''Locate the point on a polygon closest to this point.
 
            Distances are approximated by function L{equirectangular_},
            subject to the supplied I{options}.
 
-           @param points: The points of the path (L{LatLon}[]).
-           @keyword closed: Optionally, treat path as closed (C{bool}).
+           @param points: The polygon points (L{LatLon}s).
+           @keyword closed: Optionally, close the polygon (C{bool}).
            @keyword radius: Optional, mean earth radius (C{meter}).
-           @keyword options: Optional keyword argument for function
+           @keyword options: Optional keyword arguments for function
                              L{equirectangular_}.
 
-           @return: 2-Tuple (closest, distance) of the closest point
-                    (L{LatLon}) on the path and the distance to that
-                    point (C{meter}, same units as I{radius}).
+           @return: 2-Tuple (I{closest}, I{distance}) of the closest
+                    point (L{LatLon}) on the polygon and the distance
+                    to that point.  The I{distance} is the L{equirectangular_}
+                    distance between this and the closest point in C{meter},
+                    same units as I{radius}.
 
            @raise LimitError: Lat- and/or longitudinal delta exceeds
                               I{limit}, see function L{equirectangular_}.
@@ -550,8 +544,12 @@ class LatLon(LatLonSphericalBase):
            @raise TypeError: Some I{points} are not I{LatLon}.
 
            @raise ValueError: Insufficient number of I{points}.
+
+           @see: Functions  L{equirectangular_}, L{nearestOn3} and
+                            L{sphericalTrigonometry.nearestOn2}.
         '''
-        return nearestOn2(self, points, closed=closed, radius=radius, **options)
+        return nearestOn2(self, points, closed=closed, radius=radius,
+                                        **options)
 
     def toVector3d(self):
         '''Convert this point to a vector normal to earth's surface.
@@ -589,14 +587,14 @@ def _destination2(a, b, r, t):
 
 
 def areaOf(points, radius=R_M, wrap=True):
-    '''Calculate the area of a spherical polygon where the sides
-       of the polygon are great circle arcs joining the points.
+    '''Calculate the area of a (spherical) polygon (with great circle
+       arcs joining the points).
 
-       @param points: The points defining the polygon (L{LatLon}[]).
+       @param points: The polygon points (L{LatLon}s).
        @keyword radius: Optional, mean earth radius (C{meter}).
        @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
-       @return: Polygon area (C{float}, same units as I{radius}, squared).
+       @return: Polygon area (C{meter}, same units as I{radius}, squared).
 
        @raise TypeError: Some I{points} are not L{LatLon}.
 
@@ -739,12 +737,12 @@ def intersection(start1, bearing1, start2, bearing2,
 
 
 def isPoleEnclosedBy(points, wrap=False):
-    '''Check whether a pole is enclosed by a polygon.
+    '''Check whether a polygon encloses a pole.
 
-       @param points: The points defining the polygon (L{LatLon}[]).
+       @param points: The polygon points (L{LatLon}s).
        @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
-       @return: C{True} if the polygon encloses a pole,
+       @return: C{True} if a pole is enclosed by the polygon,
                 C{False} otherwise.
 
        @raise ValueError: Insufficient number of I{points}.
@@ -774,13 +772,13 @@ def isPoleEnclosedBy(points, wrap=False):
 
 
 def meanOf(points, height=None, LatLon=LatLon):
-    '''Compute the geographic mean of the supplied points.
+    '''Compute the geographic mean of several points.
 
-       @param points: Points to be averaged (L{LatLon}[]).
-       @keyword height: Optional height at mean point overriding
+       @param points: Points to be averaged (L{LatLon}s).
+       @keyword height: Optional height at mean point, overriding
                         the mean height (C{meter}).
-       @keyword LatLon: Optional (sub-)class to return mean point
-                        (L{LatLon}) or C{None}.
+       @keyword LatLon: Optional (sub-)class to return the mean
+                        point (L{LatLon}) or C{None}.
 
        @return: Point at geographic mean and height (L{LatLon}) or
                 3-tuple (C{degrees90}, C{degrees180}, height) if
@@ -803,32 +801,28 @@ def meanOf(points, height=None, LatLon=LatLon):
     return (a, b, h) if LatLon is None else LatLon(a, b, height=h)
 
 
-def nearestOn2(point, points, closed=False, radius=R_M, **options):
-    '''Locate the closest point on any segment between two consecutive
-       points of a path.
-
-       If the given point is within the extent of any segment, the
-       closest point is on the segment.  Otherwise the closest point
-       is the nearest of the segment end points.
+def nearestOn2(point, points, closed=False, radius=R_M,
+                              LatLon=LatLon, **options):
+    '''Locate the point on a polygon closest to an other point.
 
        Distances are approximated by function L{equirectangular_},
        subject to the supplied I{options}.
 
-       @param point: The reference point (L{LatLon}).
-       @param points: The points of the path (L{LatLon}[]).
-       @keyword closed: Optionally, treat path as closed (C{bool}).
+       @param point: The other, reference points (L{LatLon}).
+       @param points: The polygon points (L{LatLon}s).
+       @keyword closed: Optionally, close the polygon (C{bool}).
        @keyword radius: Optional, mean earth radius (C{meter}).
+       @keyword LatLon: Optional (sub-)class for the closest point
+                        (L{LatLon}) or C{None}.
        @keyword options: Optional keyword arguments for function
                          L{equirectangular_}.
 
-       @return: 2-Tuple (closest, distance) of the closest point
-                (C{LatLon}) on the path and the distance to that
-                point.  The distance is the L{equirectangular_}
-                distance between the given and the closest point
-                in meter, rather the same units as I{radius}.
-
-       @note: The closest point is either one of the I{points} or
-              an instance of the class of I{point}.
+       @return: 2-Tuple (I{closest}, I{distance}) of the closest point
+                on the polygon and the distance to that point.  The
+                I{closest} is I{LatLon} or a 2-tuple (lat, lon) if
+                I{LatLon} is C{None}.  The I{distance} is the
+                L{equirectangular_} distance between the I{closest} and
+                reference point in C{meter}, same units as I{radius}.
 
        @raise LimitError: Lat- and/or longitudinal delta exceeds
                           I{limit}, see function L{equirectangular_}.
@@ -836,78 +830,23 @@ def nearestOn2(point, points, closed=False, radius=R_M, **options):
        @raise TypeError: Some I{points} are not I{LatLon}.
 
        @raise ValueError: Insufficient number of I{points}.
+
+       @see: Functions L{equirectangular_} and L{nearestOn3}.
     '''
-    def _d2yx(p2, p1, u):
-        # equirectangular_ returns a 4-tuple (distance in
-        # degrees squared, delta lat, delta lon, p2.lon
-        # unroll/wrap); the previous p2.lon unroll/wrap
-        # is also applied to the next edge's p1.lon
-        return equirectangular_(p1.lat, p1.lon + u,
-                                p2.lat, p2.lon, **options)
-
-    # point (x, y) on axis rotated ccw by angle a:
-    #   x' = y * sin(a) + x * cos(a)
-    #   y' = y * cos(a) - x * sin(a)
-    #
-    # distance (w) along and perpendicular (h) to
-    # a line thru point (dx, dy) and the origin:
-    #   w = (y * dy + x * dx) / hypot(dx, dy)
-    #   h = (y * dx - x * dy) / hypot(dx, dy)
-    #
-    # closest point on that line thru (dx, dy):
-    #   xc = w * dx / hypot(dx, dy)
-    #   yc = w * dy / hypot(dx, dy)
-
-    n, points = point.points2(points, closed=closed)
-
-    i, m = _imdex2(closed, n)
-    p2 = c = points[i]
-    u2 = u = 0
-    d, _, _, _ = _d2yx(point, p2, u2)
-    for i in range(m, n):
-        p1, u1, p2 = p2, u2, points[i]
-        # iff wrapped, unroll lon1 (actually previous
-        # lon2) like function unroll180/-PI would've
-        d21, y21, x21, u2 = _d2yx(p2, p1, u1)
-        if d21 > EPS:
-            # distance point to p1
-            d2, y01, x01, _ = _d2yx(point, p1, u1)
-            if d2 > EPS:
-                w2 = y01 * y21 + x01 * x21
-                if w2 > 0:
-                    if w2 < d21:
-                        # closest is between p1 and p2, use
-                        # original delta's, not y21 and x21
-                        f = w2 / d21
-                        p1 = point.classof(favg(p1.lat, p2.lat, f=f),
-                                           favg(p1.lon, p2.lon + u2, f=f))
-                        u1 = 0
-                        d2, _, _, _ = _d2yx(point, p1, u1)
-                    else:  # p2 is closer
-                        d2, _, _, _ = _d2yx(point, p2, u2)
-                        if d2 < d:
-                            c, u, d = p2, u2, d2
-                        continue
-            if d2 < d:  # p1 is closer
-                c, u, d = p1, u1, d2
-
-    if u:  # unroll closest longitude
-        c = point.classof(c.lat, c.lon + u)
-    # distance in degrees squared to meter
-    d = radians(sqrt(d)) * float(radius)
-    return c, d
+    a, b, d = nearestOn3(point, points, closed=closed, **options)
+    ll = (a, b) if LatLon is None else LatLon(a, b)
+    return ll, degrees2m(d, radius=radius)
 
 
 def perimeterOf(points, closed=False, radius=R_M, wrap=True):
-    '''Compute the perimeter of a polygon/-line defined by an array,
-       list, sequence, set or tuple of points.
+    '''Compute the perimeter of a polygon.
 
-       @param points: The points defining the polygon (L{LatLon}[]).
-       @keyword closed: Optionally, close the polygon/-line (C{bool}).
+       @param points: The polygon points (L{LatLon}s).
+       @keyword closed: Optionally, close the polygon (C{bool}).
        @keyword radius: Optional, mean earth radius (C{meter}).
        @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
-       @return: Polygon perimeter (C{float}, same units as I{radius}).
+       @return: Polygon perimeter (C{meter}, same units as I{radius}).
 
        @raise TypeError: Some I{points} are not L{LatLon}.
 
