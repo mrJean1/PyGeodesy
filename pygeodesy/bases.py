@@ -12,8 +12,8 @@ and U{http://www.Movable-Type.co.UK/scripts/latlong-vectors.html}.
 from dms import F_D, F_DMS, compassAngle, latDMS, lonDMS, \
                 parseDMS, parseDMS2
 from fmath import EPS, favg, map1, scalar
-from utily import R_M, antipode, equirectangular, haversine, \
-                  isantipode, points2, property_RO, unStr
+from formy import antipode, equirectangular, haversine, isantipode
+from utily import R_M, points2, property_RO, unStr
 
 from math import asin, cos, degrees, radians, sin
 
@@ -23,7 +23,7 @@ __all__ = (  # 'Based', 'Named', 'VectorBased',
            'LatLonHeightBase',  # for documentation
            'classname', 'classnaming',
            'inStr')
-__version__ = '18.10.10'
+__version__ = '18.10.12'
 
 __X = object()  # unique instance
 
@@ -31,8 +31,8 @@ __X = object()  # unique instance
 class Named(object):
     '''(INTERNAL) Base class for object with a name.
     '''
-    _name   = ''  #: (INTERNAL) name (C{str})
-    _classnaming = False  # set by function naming above
+    _name        = ''     #: (INTERNAL) name (C{str})
+    _classnaming = False  #: (INTERNAL) prefixed (C{bool})
 
     def _xcopy(self, *attrs):
         '''(INTERNAL) Must be overloaded.
@@ -150,7 +150,7 @@ class Based(Named):
 
 
 class LatLonHeightBase(Based):
-    '''(INTERNAL) Base class for I{LatLon} points on
+    '''(INTERNAL) Base class for C{LatLon} points on
        spherical or ellipsiodal earth models.
     '''
     _ab     = ()    #: (INTERNAL) Cache (lat, lon) radians (2-tuple)
@@ -161,14 +161,14 @@ class LatLonHeightBase(Based):
     _name   = ''    #: (INTERNAL) name (C{str})
 
     def __init__(self, lat, lon, height=0, name=''):
-        '''New I{LatLon}.
+        '''New C{LatLon}.
 
            @param lat: Latitude (C{degrees} or DMS C{str} with N or S suffix).
            @param lon: Longitude (C{degrees} or DMS C{str} with E or W suffix).
            @keyword height: Optional height (C{meter} above or below the earth surface).
            @keyword name: Optional name (C{str}).
 
-           @return: New instance (I{LatLon}).
+           @return: New instance (C{LatLon}).
 
            @raise RangeError: Value of I{lat} or I{lon} outside the valid
                               range and I{rangerrrors} set to C{True}.
@@ -198,7 +198,7 @@ class LatLonHeightBase(Based):
     def _havg(self, other, f=0.5):
         '''(INTERNAL) Weighted, average height.
 
-           @param other: An other point (I{LatLon}).
+           @param other: An other point (C{LatLon}).
            @keyword f: Optional fraction (C{float}).
 
            @return: Average, fractional height (C{float}).
@@ -224,7 +224,7 @@ class LatLonHeightBase(Based):
            @keyword height: Optional height of the antipode, height
                             of this point otherwise (C{meter}).
 
-           @return: The antipodal point (I{LatLon}).
+           @return: The antipodal point (C{LatLon}).
         '''
         a, b = antipode(self.lat, self.lon)
         h = self.height if height is None else height
@@ -238,7 +238,7 @@ class LatLonHeightBase(Based):
            @param high: Latitudinal box height (C{meter}, same unts as I{radius}).
            @keyword radius: Optional, mean earth radius (C{meter}).
 
-           @return: 2-Tuple (LatLonSW, LatLonNE) of (I{LatLon}s).
+           @return: 2-Tuple (LatLonSW, LatLonNE) of (C{LatLon}s).
 
            @see: U{http://www.Movable-Type.co.UK/scripts/latlong-db.html}
         '''
@@ -255,7 +255,7 @@ class LatLonHeightBase(Based):
                self.classof(self.lat + h, self.lon + w, height=self.height)
 
     def compassAngle(self, other):
-        '''DEPRECATED, use method I{compassAngleTo}.
+        '''DEPRECATED, use method C{compassAngleTo}.
         '''
         return self.compassAngleTo(other)
 
@@ -267,11 +267,11 @@ class LatLonHeightBase(Based):
            hundred Km or Miles.  Use method I{initialBearingTo} for
            larger distances.
 
-           @param other: The other point (I{LatLon}).
+           @param other: The other point (C{LatLon}).
 
            @return: Compass angle from North (C{degrees360}).
 
-           @raise TypeError: The I{other} point is not I{LatLon}.
+           @raise TypeError: The I{other} point is not C{LatLon}.
 
            @note: Courtesy Martin Schultz.
 
@@ -284,17 +284,17 @@ class LatLonHeightBase(Based):
     def copy(self):
         '''Copy this point.
 
-           @return: The copy (I{LatLon} or subclass thereof).
+           @return: The copy (C{LatLon} or subclass thereof).
         '''
         return self._xcopy()
 
     def equals(self, other, eps=None):
-        '''DEPRECATED, use method I{isequalTo}.
+        '''DEPRECATED, use method C{isequalTo}.
         '''
         return self.isequalTo(other, eps=eps)
 
     def equals3(self, other, eps=None):
-        '''DEPRECATED, use method I{isequalTo3}.
+        '''DEPRECATED, use method C{isequalTo3}.
         '''
         return self.isequalTo3(other, eps=eps)
 
@@ -310,7 +310,7 @@ class LatLonHeightBase(Based):
            See function L{equirectangular_} for more details, the
            available I{options} and errors raised.
 
-           @param other: The other point (I{LatLon}).
+           @param other: The other point (C{LatLon}).
            @keyword radius: Optional, mean earth radius (C{meter}) or
                             C{None} for the mean radius of this
                             point's datum ellipsoid.
@@ -319,7 +319,7 @@ class LatLonHeightBase(Based):
 
            @return: Distance (C{meter}, same units as I{radius}).
 
-           @raise TypeError: The I{other} point is not I{LatLon}.
+           @raise TypeError: The I{other} point is not C{LatLon}.
         '''
         self.others(other)
 
@@ -332,7 +332,7 @@ class LatLonHeightBase(Based):
            U{Haversine<http://www.Movable-Type.co.UK/scripts/latlong.html>}
            formula.
 
-           @param other: The other point (I{LatLon}).
+           @param other: The other point (C{LatLon}).
            @keyword radius: Optional, mean earth radius (C{meter}) or
                             C{None} for the mean radius of this
                             point's datum ellipsoid.
@@ -340,7 +340,7 @@ class LatLonHeightBase(Based):
 
            @return: Distance (C{meter}, same units as I{radius}).
 
-           @raise TypeError: The I{other} point is not I{LatLon}.
+           @raise TypeError: The I{other} point is not C{LatLon}.
 
            @see: Function L{haversine}, methods C{equirectangularTo}
                  and C{distanceTo*}.
@@ -375,7 +375,7 @@ class LatLonHeightBase(Based):
         '''Check whether this and an other point are antipodal,
            on diametrically opposite sides of the earth.
 
-           @param other: The other point (I{LatLon}).
+           @param other: The other point (C{LatLon}).
            @keyword eps: Tolerance for near-equality (C{degrees}).
 
            @return: C{True} if points are antipodal within the given
@@ -385,20 +385,20 @@ class LatLonHeightBase(Based):
                          other.lat, other.lon, eps=eps)
 
     def isantipode(self, other, eps=EPS):
-        '''DEPRECATED, use method I{isantipodeTo}.
+        '''DEPRECATED, use method C{isantipodeTo}.
         '''
         return self.isantipodeTo(other, eps=eps)
 
     def isequalTo(self, other, eps=None):
         '''Compare this point with an other point.
 
-           @param other: The other point (I{LatLon}).
+           @param other: The other point (C{LatLon}).
            @keyword eps: Tolerance for equality (C{degrees}).
 
            @return: C{True} if both points are identical,
                     I{ignoring} height, C{False} otherwise.
 
-           @raise TypeError: The I{other} point is not I{LatLon}.
+           @raise TypeError: The I{other} point is not C{LatLon}.
 
            @see: Method L{isequalTo3}.
 
@@ -420,13 +420,13 @@ class LatLonHeightBase(Based):
     def isequalTo3(self, other, eps=None):
         '''Compare this point with an other point.
 
-           @param other: The other point (I{LatLon}).
+           @param other: The other point (C{LatLon}).
            @keyword eps: Tolerance for equality (C{degrees}).
 
            @return: C{True} if both points are identical
                     I{including} height, C{False} otherwise.
 
-           @raise TypeError: The I{other} point is not I{LatLon}.
+           @raise TypeError: The I{other} point is not C{LatLon}.
 
            @see: Method L{isequalTo}.
 
@@ -493,7 +493,7 @@ class LatLonHeightBase(Based):
         self._lat, self._lon, self._height = lat, lon, h
 
     def latlon_(self, ndigits=0):
-        '''DEPRECATED, use method I{latlon2}.
+        '''DEPRECATED, use method C{latlon2}.
         '''
         return self.latlon2(ndigits)
 
@@ -510,7 +510,7 @@ class LatLonHeightBase(Based):
         return round(self.lat, ndigits), round(self.lon, ndigits)
 
     def latlon2round(self, ndigits=0):
-        '''DEPRECATED, use method I{latlon2}.
+        '''DEPRECATED, use method C{latlon2}.
         '''
         return self.latlon2(ndigits)
 
@@ -533,14 +533,14 @@ class LatLonHeightBase(Based):
         self._lon = lon
 
     def points(self, points, closed=True):
-        '''DEPRECATED, use method I{points2}.
+        '''DEPRECATED, use method C{points2}.
         '''
         return self.points2(points, closed=closed)
 
     def points2(self, points, closed=True):
         '''Check a polygon represented by points.
 
-           @param points: The polygon points (I{LatLon}s)
+           @param points: The polygon points (C{LatLon}s)
            @keyword closed: Optionally, consider the polygon closed,
                             ignoring any duplicate or closing final
                             I{points} (C{bool}).
@@ -548,7 +548,7 @@ class LatLonHeightBase(Based):
            @return: 2-Tuple (number, ...) of points (C{int}, C{list} or
                     C{tuple}).
 
-           @raise TypeError: Some I{points} are not I{LatLon}.
+           @raise TypeError: Some I{points} are not C{LatLon}.
 
            @raise ValueError: Insufficient number of I{points}.
         '''

@@ -82,7 +82,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.10.10
+        18.10.12
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -109,6 +109,24 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Functions</span></td>
 </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry-module.html#ispolar" class="summary-sig-name">ispolar</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Check whether a polygon encloses a pole.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -159,9 +177,10 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry-module.html#isPoleEnclosedBy" class="summary-sig-name">isPoleEnclosedBy</a>(<span class="summary-sig-arg">points</span>,
+          <td><span class="summary-sig"><a name="isPoleEnclosedBy"></a><span class="summary-sig-name">isPoleEnclosedBy</span>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Check whether a polygon encloses a pole.</td>
+      DEPRECATED, use function <a 
+      href="pygeodesy.points-module.html#ispolar" class="link">ispolar</a>.</td>
           <td align="right" valign="top">
             
             
@@ -242,6 +261,41 @@
     <span class="table-header">Function Details</span></td>
 </tr>
 </table>
+<a name="ispolar"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">ispolar</span>(<span class="sig-arg">points</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check whether a polygon encloses a pole.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>s).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if a pole is enclosed by the polygon, 
+          <code>False</code> otherwise.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <code>LatLon</code> or don't have 
+        <code>bearingTo2</code>, <code>initialBearingTo</code> and 
+        <code>finalBearingTo</code> methods.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="areaOf"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -347,7 +401,7 @@
         <dd>Intersection point (<a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>) or 3-tuple (<code>degrees90</code>, 
-          <code>degrees180</code>, height) if <i>LatLon</i> is 
+          <code>degrees180</code>, height) if <code>LatLon</code> is 
           <code>None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -365,43 +419,6 @@
 <span class="py-prompt">&gt;&gt;&gt; </span>i = intersection(p, 108.547, s, 32.435)  <span class="py-comment"># '50.9078&#176;N, 004.5084&#176;E'</span></pre>
       </p>
 </div></td></tr></table>
-</div>
-<a name="isPoleEnclosedBy"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">isPoleEnclosedBy</span>(<span class="sig-arg">points</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Check whether a polygon encloses a pole.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The polygon points (<a 
-          href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
-          class="link">LatLon</a>s).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd><code>True</code> if a pole is enclosed by the polygon, 
-          <code>False</code> otherwise.</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <a 
-        href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
-        class="link">LatLon</a>.</li>
-    </ul></dd>
-  </dl>
-</td></tr></table>
 </div>
 <a name="meanOf"></a>
 <div>
@@ -469,7 +486,7 @@
   
   <p>Locate the point on a polygon closest to an other point.</p>
   <p>Distances are approximated by function <a 
-  href="pygeodesy.utily-module.html#equirectangular_" 
+  href="pygeodesy.formy-module.html#equirectangular_" 
   class="link">equirectangular_</a>, subject to the supplied 
   <i>options</i>.</p>
   <dl class="fields">
@@ -487,29 +504,29 @@
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>) or <code>None</code>.</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments for function <a 
-          href="pygeodesy.utily-module.html#equirectangular_" 
+          href="pygeodesy.formy-module.html#equirectangular_" 
           class="link">equirectangular_</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple (<i>closest</i>, <i>distance</i>) of the closest point on
           the polygon and the distance to that point.  The <i>closest</i> 
-          is <i>LatLon</i> or a 2-tuple (lat, lon) if <i>LatLon</i> is 
+          as <i>LatLon</i> or a 2-tuple (lat, lon) if <i>LatLon</i> is 
           <code>None</code>.  The <i>distance</i> is the <a 
-          href="pygeodesy.utily-module.html#equirectangular_" 
+          href="pygeodesy.formy-module.html#equirectangular_" 
           class="link">equirectangular_</a> distance between the 
           <i>closest</i> and reference point in <code>meter</code>, same 
           units as <i>radius</i>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
-        <a href="pygeodesy.utily-module.html#equirectangular_" 
+        <a href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <i>LatLon</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <code>LatLon</code>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Functions <a href="pygeodesy.utily-module.html#equirectangular_" 
+        Functions <a href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a> and <a 
         href="pygeodesy.points-module.html#nearestOn3" 
         class="link">nearestOn3</a>.
@@ -557,7 +574,7 @@
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         This perimeter is based on the <a 
-        href="pygeodesy.utily-module.html#haversine" 
+        href="pygeodesy.formy-module.html#haversine" 
         class="link">haversine</a> formula.
       </p>
       <p><strong>See Also:</strong>
@@ -600,7 +617,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Oct 10 15:42:14 2018
+    Generated by Epydoc 3.0.1 on Mon Oct 15 20:59:40 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -23,7 +23,7 @@ __all__ = ('NorthPole', 'SouthPole',  # constants
            'LatLonNvectorBase',  # for documentation
            'Nvector',  # classes
            'sumOf')  # functions
-__version__ = '18.10.04'
+__version__ = '18.10.12'
 
 
 class Nvector(Vector3d):  # XXX kept private
@@ -40,7 +40,7 @@ class Nvector(Vector3d):  # XXX kept private
            @param y: Y component (C{scalar}).
            @param z: Z component (C{scalar}).
            @keyword h: Optional height above surface (C{meter}).
-           @keyword ll: Optional, original latlon (I{LatLon}).
+           @keyword ll: Optional, original latlon (C{LatLon}).
            @keyword name: Optional name (C{str}).
 
            @example:
@@ -165,13 +165,13 @@ SouthPole = Nvector(0, 0, -1, name='SouthPole')  #: South pole (L{Nvector}).
 
 class LatLonNvectorBase(LatLonHeightBase):
     '''(INTERNAL) Base class for n-vector-based ellipsoidal
-        and spherical I{LatLon} classes.
+        and spherical C{LatLon} classes.
     '''
 
     def others(self, other, name='other'):
         '''Refine the class comparison.
 
-           @param other: The other point (I{LatLon}).
+           @param other: The other point (C{LatLon}).
            @keyword name: Optional, other's name (C{str}).
 
            @raise TypeError: Incompatible I{other} C{type}.

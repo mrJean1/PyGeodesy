@@ -22,7 +22,7 @@ from math import atan2, cos, sin
 __all__ = ('CrossError', 'Vector3d',  # classes
            'crosserrors',
            'sumOf')  # functions
-__version__ = '18.10.06'
+__version__ = '18.10.12'
 
 try:
     _cmp = cmp
@@ -84,7 +84,7 @@ class Vector3d(VectorBased):
            @param x: X component of vector (C{scalar}).
            @param y: Y component of vector (C{scalar}).
            @param z: Z component of vector (C{scalar}).
-           @keyword ll: Optional, original latlon (I{LatLon}).
+           @keyword ll: Optional, original latlon (C{LatLon}).
            @keyword name: Optional name (C{str}).
         '''
         VectorBased.__init__(self, name=name)
@@ -399,7 +399,7 @@ class Vector3d(VectorBased):
         return fdot(self.to3xyz(), *other.to3xyz())
 
     def equals(self, other, units=False):
-        '''DEPRECATED, use method I{isequalTo}.
+        '''DEPRECATED, use method C{isequalTo}.
         '''
         return self.isequalTo(other, units=units)
 
@@ -538,7 +538,7 @@ class Vector3d(VectorBased):
                             fdot(p, a.z * b.x - s.y, a.z * b.y + s.x, a.z * b.z + c))
 
     def rotateAround(self, axis, theta):
-        '''DEPRECATED, use method I{rotate}.
+        '''DEPRECATED, use method C{rotate}.
         '''
         return self.rotate(axis, theta)
 

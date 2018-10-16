@@ -1,11 +1,11 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Seven functions to I{simplify} or linearize a path of I{LatLon} points.
+u'''Seven functions to I{simplify} or linearize a path of C{LatLon} points.
 
 Each of the I{simplify} functions is based on a different algorithm and
 produces different simplified results in (very) different run times for
-the same path of I{LatLon} points.
+the same path of C{LatLon} points.
 
 Function L{simplify1} eliminates points based on edge lengths shorter
 than a given tolerance.
@@ -73,14 +73,15 @@ See:
 
 from datum import R_M
 from fmath import EPS, len2
-from utily import equirectangular_, isNumpy2, isTuple2
+from formy import equirectangular_
+from utily import isNumpy2, isTuple2
 
 from math import degrees, radians, sqrt
 
 __all__ = ('simplify1', 'simplify2',  # DEPRECATED
            'simplifyRDP', 'simplifyRDPm', 'simplifyRW',
            'simplifyVW', 'simplifyVWm')
-__version__ = '18.10.06'
+__version__ = '18.10.12'
 
 
 # try:
@@ -259,7 +260,7 @@ class _Sy(object):
 
     def rdp(self, modified):
         '''Ramer-Douglas-Peucker (RDP) simplification of a
-           path of I{LatLon} points.
+           path of C{LatLon} points.
 
            @param modified: Use modified RDP (C{bool}).
         '''
@@ -363,12 +364,12 @@ class _Sy(object):
 
 
 def simplify1(points, distance, radius=R_M, indices=False, **options):
-    '''Basic simplification of a path of I{LatLon} points.
+    '''Basic simplification of a path of C{LatLon} points.
 
        Eliminates any points closer together than the given
        distance tolerance.
 
-       @param points: Path points (I{LatLon}s).
+       @param points: Path points (C{LatLon}s).
        @param distance: Tolerance (C{meter}, same units as I{radius}).
        @keyword radius: Optional, mean earth radius (C{meter}).
        @keyword indices: Optionally return the simplified point indices
@@ -376,7 +377,7 @@ def simplify1(points, distance, radius=R_M, indices=False, **options):
        @keyword options: Optional keyword arguments passed thru to
                          function L{equirectangular_}.
 
-       @return: Simplified points (list of I{LatLon}s).
+       @return: Simplified points (list of C{LatLon}s).
 
        @raise LimitError: Lat- and/or longitudinal delta exceeds I{limit},
                           see function L{equirectangular_}.
@@ -410,7 +411,7 @@ def simplify2(points, pipe, radius=R_M, shortest=False,
 def simplifyRDP(points, distance, radius=R_M, shortest=False,
                                   indices=False, **options):
     '''Ramer-Douglas-Peucker (RDP) simplification of a path of
-       I{LatLon} points.
+       C{LatLon} points.
 
        Eliminates any points too close together or closer to an
        edge than the given distance tolerance.
@@ -419,7 +420,7 @@ def simplifyRDP(points, distance, radius=R_M, shortest=False,
        the largest distance, resulting in worst-case complexity
        O(n**2) where n is the number of points.
 
-       @param points: Path points (I{LatLon}s).
+       @param points: Path points (C{LatLon}s).
        @param distance: Tolerance (C{meter}, same units as I{radius}).
        @keyword radius: Optional, mean earth radius (C{meter}).
        @keyword shortest: Optional, shortest or perpendicular distance
@@ -429,7 +430,7 @@ def simplifyRDP(points, distance, radius=R_M, shortest=False,
        @keyword options: Optional keyword arguments passed thru to
                          function L{equirectangular_}.
 
-       @return: Simplified points (list of I{LatLon}s).
+       @return: Simplified points (list of C{LatLon}s).
 
        @raise LimitError: Lat- and/or longitudinal delta exceeds I{limit},
                           see function L{equirectangular_}.
@@ -444,7 +445,7 @@ def simplifyRDP(points, distance, radius=R_M, shortest=False,
 def simplifyRDPm(points, distance, radius=R_M, shortest=False,
                                    indices=False, **options):
     '''Modified Ramer-Douglas-Peucker (RDP) simplification of a path
-       of I{LatLon} points.
+       of C{LatLon} points.
 
        Eliminates any points too close together or closer to an edge
        than the given distance tolerance.
@@ -453,7 +454,7 @@ def simplifyRDPm(points, distance, radius=R_M, shortest=False,
        given distance tolerance, significantly reducing the run time
        (but producing results different from the original RDP method).
 
-       @param points: Path points (I{LatLon}s).
+       @param points: Path points (C{LatLon}s).
        @param distance: Tolerance (C{meter}, same units as I{radius}).
        @keyword radius: Optional, mean earth radius (C{meter}).
        @keyword shortest: Optional, shortest or perpendicular distance
@@ -463,7 +464,7 @@ def simplifyRDPm(points, distance, radius=R_M, shortest=False,
        @keyword options: Optional keyword arguments passed thru to
                          function L{equirectangular_}.
 
-       @return: Simplified points (list of I{LatLon}s).
+       @return: Simplified points (list of C{LatLon}s).
 
        @raise LimitError: Lat- and/or longitudinal delta exceeds I{limit},
                           see function L{equirectangular_}.
@@ -477,12 +478,12 @@ def simplifyRDPm(points, distance, radius=R_M, shortest=False,
 
 def simplifyRW(points, pipe, radius=R_M, shortest=False,
                              indices=False, **options):
-    '''Reumann-Witkam simplification of a path of I{LatLon} points.
+    '''Reumann-Witkam simplification of a path of C{LatLon} points.
 
        Eliminates any points too close together or within the given
        pipe tolerance along an edge.
 
-       @param points: Path points (I{LatLon}s).
+       @param points: Path points (C{LatLon}s).
        @param pipe: Half pipe width (C{meter}, same units as I{radius}).
        @keyword radius: Optional, mean earth radius (C{meter}).
        @keyword shortest: Optional, shortest or perpendicular distance
@@ -492,7 +493,7 @@ def simplifyRW(points, pipe, radius=R_M, shortest=False,
        @keyword options: Optional keyword arguments passed thru to
                          function L{equirectangular_}.
 
-       @return: Simplified points (list of I{LatLon}s).
+       @return: Simplified points (list of C{LatLon}s).
 
        @raise LimitError: Lat- and/or longitudinal delta exceeds I{limit},
                           see function L{equirectangular_}.
@@ -523,7 +524,7 @@ def simplifyRW(points, pipe, radius=R_M, shortest=False,
 
 def simplifyVW(points, area, radius=R_M, attr=None,
                              indices=False, **options):
-    '''Visvalingam-Whyatt (VW) simplification of a path of I{LatLon}
+    '''Visvalingam-Whyatt (VW) simplification of a path of C{LatLon}
        points.
 
        Eliminates any points too close together or with a triangular
@@ -533,7 +534,7 @@ def simplifyVW(points, area, radius=R_M, attr=None,
        with the smallest triangular area, resulting in worst-case
        complexity O(n**2) where n is the number of points.
 
-       @param points: Path points (I{LatLon}s).
+       @param points: Path points (C{LatLon}s).
        @param area: Tolerance (C{meter}, same units as I{radius}).
        @keyword radius: Optional, mean earth radius (C{meter}).
        @keyword attr: Optional, points attribute save area value (C{str}).
@@ -542,7 +543,7 @@ def simplifyVW(points, area, radius=R_M, attr=None,
        @keyword options: Optional keyword arguments passed thru to
                          function L{equirectangular_}.
 
-       @return: Simplified points (list of I{LatLon}s).
+       @return: Simplified points (list of C{LatLon}s).
 
        @raise AttributeError: If I{attr} is specified for I{Numpy2} points.
 
@@ -577,7 +578,7 @@ def simplifyVW(points, area, radius=R_M, attr=None,
 def simplifyVWm(points, area, radius=R_M, attr=None,
                               indices=False, **options):
     '''Modified Visvalingam-Whyatt (VW) simplification of a path of
-       I{LatLon} points.
+       C{LatLon} points.
 
        Eliminates any points too close together or with a triangular
        area not exceeding the given area tolerance (squared).
@@ -587,7 +588,7 @@ def simplifyVWm(points, area, radius=R_M, attr=None,
        run time (but producing results different from the original
        VW method).
 
-       @param points: Path points (I{LatLon}s).
+       @param points: Path points (C{LatLon}s).
        @param area: Tolerance (C{meter}, same units as I{radius}).
        @keyword radius: Optional, mean earth radius (C{meter}).
        @keyword attr: Optional attribute to save the area value (C{str}).
@@ -596,7 +597,7 @@ def simplifyVWm(points, area, radius=R_M, attr=None,
        @keyword options: Optional keyword arguments passed thru to
                          function L{equirectangular_}.
 
-       @return: Simplified points (list of I{LatLon}s).
+       @return: Simplified points (list of C{LatLon}s).
 
        @raise AttributeError: If I{attr} is specified for I{Numpy2} points.
 

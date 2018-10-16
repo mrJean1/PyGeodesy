@@ -24,7 +24,7 @@ from math import atan2, copysign, cos, sin, sqrt
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('CartesianBase', 'LatLonEllipsoidalBase')  # for documentation
-__version__ = '18.10.04'
+__version__ = '18.10.12'
 
 
 class CartesianBase(Vector3d):
@@ -119,7 +119,7 @@ class CartesianBase(Vector3d):
 
 
 class LatLonEllipsoidalBase(LatLonHeightBase):
-    '''(INTERNAL) Base class for ellipsoidal I{LatLon}s.
+    '''(INTERNAL) Base class for ellipsoidal C{LatLon}s.
     '''
     _convergence  = None  #: (INTERNAL) UTM meridian convergence (C{degrees}).
     _datum        = Datums.WGS84  #: (INTERNAL) Datum (L{Datum}).
@@ -131,7 +131,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
     _wm           = None  #: (INTERNAL) cache toWm (webmercator.Wm instance).
 
     def __init__(self, lat, lon, height=0, datum=None, name=''):
-        '''Create an (ellipsoidal) I{LatLon} point frome the given
+        '''Create an (ellipsoidal) C{LatLon} point frome the given
            lat-, longitude and height on the given datum.
 
            @param lat: Latitude (C{degrees} or DMS C{[N|S]}).
@@ -181,7 +181,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
            @keyword height: Optional height of the antipode, height
                             of this point otherwise (C{meter}).
 
-           @return: The antipodal point (I{LatLon}).
+           @return: The antipodal point (C{LatLon}).
         '''
         lla = LatLonHeightBase.antipode(self, height=height)
         if lla.datum != self.datum:
@@ -196,11 +196,11 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
         return self._convergence
 
     def convertDatum(self, datum):
-        '''Convert this I{LatLon} point to a new datum.
+        '''Convert this C{LatLon} point to a new datum.
 
            @param datum: Datum to convert to (L{Datum}).
 
-           @return: The converted point (ellipsoidal I{LatLon}).
+           @return: The converted point (ellipsoidal C{LatLon}).
 
            @example:
 
@@ -253,11 +253,11 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
            Suitable only for short distances up to a few hundred Km
            or Miles and only between non-near-polar points.
 
-           @param other: The other point (I{LatLon}).
+           @param other: The other point (C{LatLon}).
 
            @return: 2-Tuple (distance, bearing) in (C{meter}, C{degrees360}).
 
-           @raise TypeError: The I{other} point is not I{LatLon}.
+           @raise TypeError: The I{other} point is not C{LatLon}.
 
            @raise ValueError: Incompatible datum ellipsoids.
 
@@ -306,11 +306,11 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
     def ellipsoids(self, other):
         '''Check the type and ellipsoid of this and an other point's datum.
 
-           @param other: The other point (I{LatLon}).
+           @param other: The other point (C{LatLon}).
 
            @return: This point's datum ellipsoid (L{Ellipsoid}).
 
-           @raise TypeError: The I{other} point is not I{LatLon}.
+           @raise TypeError: The I{other} point is not C{LatLon}.
 
            @raise ValueError: Incompatible datum ellipsoids.
         '''
@@ -359,18 +359,18 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
 
     @property_RO
     def isEllipsoidal(self):
-        '''Check whether this I{LatLon} point is ellipsoidal (C{bool}).
+        '''Check whether this C{LatLon} point is ellipsoidal (C{bool}).
         '''
         return self.datum.isEllipsoidal
 
     @property_RO
     def isSpherical(self):
-        '''Check whether this I{LatLon} point is spherical (C{bool}).
+        '''Check whether this C{LatLon} point is spherical (C{bool}).
         '''
         return self.datum.isSpherical
 
     def parse(self, strll, height=0, datum=None, sep=','):
-        '''Parse a string representing this I{LatLon} point.
+        '''Parse a string representing this C{LatLon} point.
 
            The lat- and longitude must be separated by a sep[arator]
            character.  If height is present it must follow and be
@@ -401,7 +401,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
         return self._scale
 
     def to3xyz(self):  # overloads _LatLonHeightBase.to3xyz
-        '''Convert this (ellipsoidal) geodetic I{LatLon} point to
+        '''Convert this (ellipsoidal) geodetic C{LatLon} point to
            (geocentric) cartesian x/y/z components.
 
            @return: 3-Tuple (x, y, z) in (C{meter}).
@@ -426,7 +426,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
                (h + r * E.e12) * sa)
 
     def toOsgr(self):
-        '''Convert this I{LatLon} point to an OSGR coordinate.
+        '''Convert this C{LatLon} point to an OSGR coordinate.
 
            See function L{toOsgr} in module L{osgr} for details.
 
@@ -439,7 +439,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
         return self._osgr
 
     def toUtm(self):
-        '''Convert this I{LatLon} point to a UTM coordinate.
+        '''Convert this C{LatLon} point to a UTM coordinate.
 
            See function L{toUtm} in module L{utm} for details.
 
@@ -452,7 +452,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
         return self._utm
 
     def toWm(self):
-        '''Convert this I{LatLon} point to a WM coordinate.
+        '''Convert this C{LatLon} point to a WM coordinate.
 
            See function L{toWm} in module L{webmercator} for details.
 

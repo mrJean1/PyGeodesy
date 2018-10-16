@@ -79,7 +79,7 @@
 </dd></dl>
 
 <hr />
-<p>(INTERNAL) Base class for spherical <i>LatLon</i>s.</p>
+<p>(INTERNAL) Base class for spherical <code>LatLon</code>s.</p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -95,9 +95,31 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#bearingTo2" class="summary-sig-name">bearingTo2</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Return the initial and final bearing (forward and reverse azimuth) 
+      from this to an other point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#finalBearingTo" class="summary-sig-name">finalBearingTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">False</span>)</span><br />
       Return the final bearing (reverse azimuth) from this to an other 
       point.</td>
           <td align="right" valign="top">
@@ -118,7 +140,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#maxLat" class="summary-sig-name">maxLat</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">bearing</span>)</span><br />
       Return the maximum latitude reached when travelling on a great circle
-      on given bearing from this point (based on 'Clairaut's formula').</td>
+      on given bearing from this point based on Clairaut's formula.</td>
           <td align="right" valign="top">
             
             
@@ -158,7 +180,7 @@
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">,</code><code class="variable-quote">'</code></span>)</span><br />
       Parse a string representing lat-/longitude point and return a 
-      <i>LatLon</i>.</td>
+      <code>LatLon</code>.</td>
           <td align="right" valign="top">
             
             
@@ -257,7 +279,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#toWm" class="summary-sig-name">toWm</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6378137.0</span>)</span><br />
-      Convert this <i>LatLon</i> point to a <i>WM</i> coordinate.</td>
+      Convert this <code>LatLon</code> point to a <i>WM</i> coordinate.</td>
           <td align="right" valign="top">
             
             
@@ -340,7 +362,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#isEllipsoidal" class="summary-name">isEllipsoidal</a><br />
-      Check whether this <i>LatLon</i> is ellipsoidal (<code>bool</code>).
+      Check whether this <code>LatLon</code> is ellipsoidal 
+      (<code>bool</code>).
     </td>
   </tr>
 <tr>
@@ -348,7 +371,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#isSpherical" class="summary-name">isSpherical</a><br />
-      Check whether this <i>LatLon</i> is spherical (<code>bool</code>).
+      Check whether this <code>LatLon</code> is spherical 
+      (<code>bool</code>).
     </td>
   </tr>
   <tr>
@@ -379,6 +403,48 @@
     <span class="table-header">Method Details</span></td>
 </tr>
 </table>
+<a name="bearingTo2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">bearingTo2</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">raiser</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the initial and final bearing (forward and reverse azimuth) 
+  from this to an other point.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>raiser</code></strong> - Optionally, raise <a 
+          href="pygeodesy.vector3d.CrossError-class.html" 
+          class="link">CrossError</a> (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>2-Tuple (initial, final) bearings (compass 
+          <code>degrees360</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not spherical.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Methods <code>initialBearingTo</code> and 
+        <code>finalBearingTo</code>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="finalBearingTo"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -388,7 +454,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">finalBearingTo</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">raiser</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -400,9 +467,11 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - The other point (spherical LatLon).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Optionally, unroll the longitudinal delta within the <i 
-          class="math">-180..+180</i> range (<code>bool</code>).</li>
+        <li><strong class="pname"><code>other</code></strong> - The other point (spherical <code>LatLon</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>raiser</code></strong> - Optionally, raise <a 
+          href="pygeodesy.vector3d.CrossError-class.html" 
+          class="link">CrossError</a> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Final bearing (compass <code>degrees360</code>).</dd>
@@ -435,9 +504,9 @@
   </tr></table>
   
   <p>Return the maximum latitude reached when travelling on a great circle 
-  on given bearing from this point (based on 'Clairaut's formula').</p>
-  <p>The maximum latitude is independent of longitude, it is the same for 
-  all points on a given latitude.</p>
+  on given bearing from this point based on Clairaut's formula.</p>
+  <p>The maximum latitude is independent of longitude and the same for all 
+  points on a given latitude.</p>
   <p>Negate the result for the minimum latitude (on the Southern 
   hemisphere).</p>
   <dl class="fields">
@@ -506,7 +575,7 @@
   </tr></table>
   
   <p>Parse a string representing lat-/longitude point and return a 
-  <i>LatLon</i>.</p>
+  <code>LatLon</code>.</p>
   <p>The lat- and longitude must be separated by a sep[arator] character.  
   If height is present it must follow and be separated by another 
   sep[arator].  Lat- and longitude may be swapped, provided at least one 
@@ -523,7 +592,7 @@
         <li><strong class="pname"><code>sep</code></strong> - Optional separator (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The point (spherical <i>LatLon</i>).</dd>
+        <dd>The point (spherical <code>LatLon</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>strll</i>.</li>
@@ -551,7 +620,7 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - The other point (spherical <i>LatLon</i>).</li>
+        <li><strong class="pname"><code>other</code></strong> - The other point (spherical <code>LatLon</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Initial bearing (compass <code>degrees360</code>).</dd>
@@ -600,7 +669,7 @@
           (<code>meter</code>, same unit as <i>radius</i>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The destination point (spherical <i>LatLon</i>).</dd>
+        <dd>The destination point (spherical <code>LatLon</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -633,7 +702,7 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - The other point (spherical <i>LatLon</i>).</li>
+        <li><strong class="pname"><code>other</code></strong> - The other point (spherical <code>LatLon</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional mean radius of earth (scalar, default meter).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -675,7 +744,7 @@
         <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the mean height (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The midpoint (spherical <i>LatLon</i>).</dd>
+        <dd>The midpoint (spherical <code>LatLon</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not spherical.</li>
@@ -705,7 +774,7 @@
     </td>
   </tr></table>
   
-  <p>Convert this <i>LatLon</i> point to a <i>WM</i> coordinate.</p>
+  <p>Convert this <code>LatLon</code> point to a <i>WM</i> coordinate.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -762,12 +831,12 @@ class="link">Datum</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">isEllipsoidal</h3>
-  <p>Check whether this <i>LatLon</i> is ellipsoidal 
+  <p>Check whether this <code>LatLon</code> is ellipsoidal 
   (<code>bool</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">isEllipsoidal(<span class="summary-sig-arg">self</span>)</span>
-        - Check whether this <i>LatLon</i> is ellipsoidal (<code>bool</code>).
+        - Check whether this <code>LatLon</code> is ellipsoidal (<code>bool</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -783,11 +852,12 @@ class="link">Datum</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">isSpherical</h3>
-  <p>Check whether this <i>LatLon</i> is spherical (<code>bool</code>).</p>
+  <p>Check whether this <code>LatLon</code> is spherical 
+  (<code>bool</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">isSpherical(<span class="summary-sig-arg">self</span>)</span>
-        - Check whether this <i>LatLon</i> is spherical (<code>bool</code>).
+        - Check whether this <code>LatLon</code> is spherical (<code>bool</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -829,7 +899,7 @@ class="link">Datum</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Oct 10 15:42:15 2018
+    Generated by Epydoc 3.0.1 on Mon Oct 15 20:59:41 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

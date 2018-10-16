@@ -14,24 +14,25 @@ U{Latitude/Longitude<http://www.Movable-Type.co.UK/scripts/latlong.html>}.
 '''
 
 from datum import R_M
-from fmath import EPS, favg, fmean, fsum, map1
-from points import _imdex2, nearestOn3
+from fmath import EPS, acos1, favg, fmean, fsum, map1
+from formy import bearing_, haversine_
+from points import _imdex2, ispolar, nearestOn3
 from sphericalBase import LatLonSphericalBase
-from utily import PI2, PI_2, acos1, degrees90, degrees180, degrees360, \
-                  degrees2m, haversine_, iterNumpy2, radians, radiansPI2, \
-                  tan_2, unrollPI, wrap180, wrapPI
+from utily import PI2, PI_2, degrees90, degrees180, degrees2m, \
+                  iterNumpy2, radiansPI2, tan_2, unrollPI, wrapPI
 from vector3d import CrossError, crosserrors, Vector3d, sumOf
 
-from math import asin, atan2, copysign, cos, degrees, hypot, sin
+from math import asin, atan2, copysign, cos, \
+                 degrees, hypot, radians, sin
 
 # all public contants, classes and functions
 __all__ = ('LatLon',  # classes
            'areaOf',  # functions
-           'intersection', 'isPoleEnclosedBy',
+           'intersection', 'ispolar', 'isPoleEnclosedBy',  # DEPRECATED, use ispolar
            'meanOf',
-           'nearestOn2',  # DEPRECATED, use points.nearestOn3
+           'nearestOn2',  # DEPRECATED, use nearestOn3
            'perimeterOf')
-__version__ = '18.10.10'
+__version__ = '18.10.12'
 
 
 class LatLon(LatLonSphericalBase):
@@ -106,7 +107,7 @@ class LatLon(LatLonSphericalBase):
             return 0.0
 
     def bearingTo(self, other, wrap=False, raiser=False):
-        '''DEPRECATED, use method I{initialBearingTo}.
+        '''DEPRECATED, use method C{initialBearingTo}.
         '''
         return self.initialBearingTo(other, wrap=wrap, raiser=raiser)
 
@@ -258,7 +259,7 @@ class LatLon(LatLonSphericalBase):
         '''Compute the initial bearing (forward azimuth) from this
            to an other point.
 
-           @param other: The other point (L{LatLon}).
+           @param other: The other point (spherical L{LatLon}).
            @keyword wrap: Wrap and unroll longitudes (C{bool}).
            @keyword raiser: Optionally, raise L{CrossError} (C{bool}).
 
@@ -282,19 +283,11 @@ class LatLon(LatLonSphericalBase):
         a1, b1 = self.to2ab()
         a2, b2 = other.to2ab()
 
-        db, b2 = unrollPI(b1, b2, wrap=wrap)
         # XXX behavior like sphericalNvector.LatLon.initialBearingTo
-        if raiser and crosserrors() and max(map1(abs, a1 - a2, db)) < EPS:
+        if raiser and crosserrors() and max(abs(a1 - a2), abs(b2 - b1)) < EPS:
             raise CrossError('%s %s: %r' % ('coincident', 'points', other))
 
-        ca1, ca2, cdb = map1(cos, a1, a2, db)
-        sa1, sa2, sdb = map1(sin, a1, a2, db)
-
-        # see <http://MathForum.org/library/drmath/view/55417.html>
-        x = ca1 * sa2 - sa1 * ca2 * cdb
-        y = sdb * ca2
-
-        return degrees360(atan2(y, x))
+        return degrees(bearing_(a1, b1, a2, b2, final=False, wrap=wrap))
 
     def intermediateTo(self, other, fraction, height=None, wrap=False):
         '''Locate the point at given fraction between this and an
@@ -453,7 +446,7 @@ class LatLon(LatLonSphericalBase):
         return True  # inside
 
     def isEnclosedBy(self, points):
-        '''DEPRECATED, used method I{isenclosedBy}.
+        '''DEPRECATED, use method C{isenclosedBy}.
         '''
         return self.isenclosedBy(points)
 
@@ -541,7 +534,7 @@ class LatLon(LatLonSphericalBase):
            @raise LimitError: Lat- and/or longitudinal delta exceeds
                               I{limit}, see function L{equirectangular_}.
 
-           @raise TypeError: Some I{points} are not I{LatLon}.
+           @raise TypeError: Some I{points} are not C{LatLon}.
 
            @raise ValueError: Insufficient number of I{points}.
 
@@ -673,7 +666,7 @@ def intersection(start1, bearing1, start2, bearing2,
                         (L{LatLon}) or C{None}.
 
        @return: Intersection point (L{LatLon}) or 3-tuple (C{degrees90},
-                C{degrees180}, height) if I{LatLon} is C{None}.
+                C{degrees180}, height) if C{LatLon} is C{None}.
 
        @raise TypeError: Point I{start1} or I{start2} is not L{LatLon}.
 
@@ -737,38 +730,9 @@ def intersection(start1, bearing1, start2, bearing2,
 
 
 def isPoleEnclosedBy(points, wrap=False):
-    '''Check whether a polygon encloses a pole.
-
-       @param points: The polygon points (L{LatLon}s).
-       @keyword wrap: Wrap and unroll longitudes (C{bool}).
-
-       @return: C{True} if a pole is enclosed by the polygon,
-                C{False} otherwise.
-
-       @raise ValueError: Insufficient number of I{points}.
-
-       @raise TypeError: Some I{points} are not L{LatLon}.
+    '''DEPRECATED, use function L{ispolar}.
     '''
-    n, points = _Trll.points2(points)
-
-    def _cds(n, points):  # iterate over course deltas
-        p1 = points[n-1]
-        b1 = p1.initialBearingTo(points[0], wrap=wrap)  # XXX p1.finalBearingTo(points[0])?
-        for i in range(n):
-            p2 = points[i]
-            if not p2.isequalTo(p1, EPS):
-                b = p1.initialBearingTo(p2, wrap=wrap)
-                yield wrap180(b - b1)  # (b - b1 + 540) % 360 - 180
-                b2 = p1.finalBearingTo(p2, wrap=wrap)
-                yield wrap180(b2 - b)  # (b2 - b + 540) % 360 - 180
-                p1, b1 = p2, b2
-
-    # sum of course deltas around pole is 0° rather than normally ±360°
-    # <http://blog.Element84.com/determining-if-a-spherical-polygon-contains-a-pole.html>
-    s = fsum(_cds(n, points))
-
-    # XXX fix (intermittant) edge crossing pole - eg (85,90), (85,0), (85,-90)
-    return abs(s) < 90  # "zero-ish"
+    return ispolar(points, wrap=wrap)
 
 
 def meanOf(points, height=None, LatLon=LatLon):
@@ -819,7 +783,7 @@ def nearestOn2(point, points, closed=False, radius=R_M,
 
        @return: 2-Tuple (I{closest}, I{distance}) of the closest point
                 on the polygon and the distance to that point.  The
-                I{closest} is I{LatLon} or a 2-tuple (lat, lon) if
+                I{closest} as I{LatLon} or a 2-tuple (lat, lon) if
                 I{LatLon} is C{None}.  The I{distance} is the
                 L{equirectangular_} distance between the I{closest} and
                 reference point in C{meter}, same units as I{radius}.
@@ -827,7 +791,7 @@ def nearestOn2(point, points, closed=False, radius=R_M,
        @raise LimitError: Lat- and/or longitudinal delta exceeds
                           I{limit}, see function L{equirectangular_}.
 
-       @raise TypeError: Some I{points} are not I{LatLon}.
+       @raise TypeError: Some I{points} are not C{LatLon}.
 
        @raise ValueError: Insufficient number of I{points}.
 

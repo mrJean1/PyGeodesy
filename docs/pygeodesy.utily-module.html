@@ -69,7 +69,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.10.10
+        18.10.12
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -86,9 +86,9 @@
         <a href="pygeodesy.utily.LimitError-class.html" class="summary-name">LimitError</a><br />
       Error raised for lat- and/or longitudinal deltas exceeding the 
         <i>limit</i> in functions <a 
-        href="pygeodesy.utily-module.html#equirectangular" 
+        href="pygeodesy.formy-module.html#equirectangular" 
         class="link">equirectangular</a> and <a 
-        href="pygeodesy.utily-module.html#equirectangular_" 
+        href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.
     </td>
   </tr>
@@ -141,46 +141,10 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="acos1"></a><span class="summary-sig-name">acos1</span>(<span class="summary-sig-arg">x</span>)</span><br />
-      Return <i class="math">math.acos(max(-1, min(1, x)))</i>.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#anStr" class="summary-sig-name">anStr</a>(<span class="summary-sig-arg">name</span>,
         <span class="summary-sig-arg">OKd</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">._-</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">sub</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">_</code><code class="variable-quote">'</code></span>)</span><br />
       Make string a valid name of alphanumeric and OKd characters.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#antipode" class="summary-sig-name">antipode</a>(<span class="summary-sig-arg">lat</span>,
-        <span class="summary-sig-arg">lon</span>)</span><br />
-      Return the antipode, the point diametrically opposite to the given 
-      lat- and longitude.</td>
           <td align="right" valign="top">
             
             
@@ -248,7 +212,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#degrees2m" class="summary-sig-name">degrees2m</a>(<span class="summary-sig-arg">deg</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>)</span><br />
       Convert angle to distance along equator.</td>
           <td align="right" valign="top">
             
@@ -270,55 +235,6 @@
         <span class="summary-sig-arg">prec</span>,
         <span class="summary-sig-arg">*extras</span>)</span><br />
       Return easting, northing string representations.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#equirectangular" class="summary-sig-name">equirectangular</a>(<span class="summary-sig-arg">lat1</span>,
-        <span class="summary-sig-arg">lon1</span>,
-        <span class="summary-sig-arg">lat2</span>,
-        <span class="summary-sig-arg">lon2</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
-        <span class="summary-sig-arg">**options</span>)</span><br />
-      Compute the distance between two points using the <a 
-      href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
-      target="_top">Equirectangular Approximation / Projection</a>.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#equirectangular_" class="summary-sig-name">equirectangular_</a>(<span class="summary-sig-arg">lat1</span>,
-        <span class="summary-sig-arg">lon1</span>,
-        <span class="summary-sig-arg">lat2</span>,
-        <span class="summary-sig-arg">lon2</span>,
-        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">limit</span>=<span class="summary-sig-default">45</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Compute the distance between two points using the <a 
-      href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
-      target="_top">Equirectangular Approximation / Projection</a>.</td>
           <td align="right" valign="top">
             
             
@@ -372,113 +288,6 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#halfs" class="summary-sig-name">halfs</a>(<span class="summary-sig-arg">str2</span>)</span><br />
       Split a string in 2 halfs.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#haversine" class="summary-sig-name">haversine</a>(<span class="summary-sig-arg">lat1</span>,
-        <span class="summary-sig-arg">lon1</span>,
-        <span class="summary-sig-arg">lat2</span>,
-        <span class="summary-sig-arg">lon2</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Compute the distance between two points using the <a 
-      href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
-      target="_top">Haversine</a> formula.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#haversine_" class="summary-sig-name">haversine_</a>(<span class="summary-sig-arg">a2</span>,
-        <span class="summary-sig-arg">a1</span>,
-        <span class="summary-sig-arg">b21</span>)</span><br />
-      Compute the <i>angular</i> distance between two points using the <a 
-      href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
-      target="_top">Haversine</a> formula.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#heightOf" class="summary-sig-name">heightOf</a>(<span class="summary-sig-arg">angle</span>,
-        <span class="summary-sig-arg">distance</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
-      Determine the height above the (spherical) earth after traveling 
-      along a straight line at a given tilt.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#horizon" class="summary-sig-name">horizon</a>(<span class="summary-sig-arg">height</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
-        <span class="summary-sig-arg">refraction</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Determine the distance to the horizon from a given altitude above the
-      (spherical) earth.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#isantipode" class="summary-sig-name">isantipode</a>(<span class="summary-sig-arg">lat1</span>,
-        <span class="summary-sig-arg">lon1</span>,
-        <span class="summary-sig-arg">lat2</span>,
-        <span class="summary-sig-arg">lon2</span>,
-        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>)</span><br />
-      Check whether two points are anitpodal, on diametrically opposite 
-      sides of the earth.</td>
           <td align="right" valign="top">
             
             
@@ -1081,40 +890,6 @@
       </p>
 </div></td></tr></table>
 </div>
-<a name="antipode"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">antipode</span>(<span class="sig-arg">lat</span>,
-        <span class="sig-arg">lon</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Return the antipode, the point diametrically opposite to the given 
-  lat- and longitude.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>lon</code></strong> - Longitude (<code>degrees</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>2-Tuple (lat, lon) of the antipodal point (<code>degrees</code>, 
-          <code>degrees180</code>).</dd>
-  </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <a 
-        href="http://CRAN.R-Project.org/web/packages/geosphere/geosphere.pdf"
-        target="_top">Geosphere</a>.
-      </p>
-</div></td></tr></table>
-</div>
 <a name="degrees90"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1200,7 +975,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">degrees2m</span>(<span class="sig-arg">deg</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>)</span>
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">lat</span>=<span class="sig-default">0</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1213,9 +989,15 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Angle (<code>degrees</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>lat</code></strong> - Latitude adjusting the distance (<code>degrees90</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as <i>radius</i>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - Latitude <i>lat</i> outside valid range and <i>rangerrrors</i> set 
+        to <code>True</code>.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1253,134 +1035,6 @@
     </ul></dd>
   </dl>
 </td></tr></table>
-</div>
-<a name="equirectangular"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">equirectangular</span>(<span class="sig-arg">lat1</span>,
-        <span class="sig-arg">lon1</span>,
-        <span class="sig-arg">lat2</span>,
-        <span class="sig-arg">lon2</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
-        <span class="sig-arg">**options</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Compute the distance between two points using the <a 
-  href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
-  target="_top">Equirectangular Approximation / Projection</a>.</p>
-  <p>See function <a href="pygeodesy.utily-module.html#equirectangular_" 
-  class="link">equirectangular_</a> for more details, the available 
-  <i>options</i> and errors raised.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lat1</code></strong> - Start latitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
-        <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments for function <a 
-          href="pygeodesy.utily-module.html#equirectangular_" 
-          class="link">equirectangular_</a>.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Distance (<code>meter</code>, same units as <i>radius</i>).</dd>
-  </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <a href="http://www.EdWilliams.org/avform.htm#flat" 
-        target="_top">Local, flat earth approximation</a>, function <a 
-        href="pygeodesy.utily-module.html#haversine" 
-        class="link">haversine</a>, method <a 
-        href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
-        class="link">Ellipsoid.distance2</a> and <code>LatLon</code> 
-        methods <code>distanceTo*</code> for more accurate and/or larger 
-        distances.
-      </p>
-</div></td></tr></table>
-</div>
-<a name="equirectangular_"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">equirectangular_</span>(<span class="sig-arg">lat1</span>,
-        <span class="sig-arg">lon1</span>,
-        <span class="sig-arg">lat2</span>,
-        <span class="sig-arg">lon2</span>,
-        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">limit</span>=<span class="sig-default">45</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Compute the distance between two points using the <a 
-  href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
-  target="_top">Equirectangular Approximation / Projection</a>.</p>
-  <p>This approximation is valid for smaller distance of several hundred Km
-  or Miles, see the <i>limit</i> keyword argument and the <a 
-  href="pygeodesy.utily.LimitError-class.html" 
-  class="link">LimitError</a>.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lat1</code></strong> - Start latitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
-          the mean latitude (<code>bool</code>).</li>
-        <li><strong class="pname"><code>limit</code></strong> - Optional limit for the lat- and longitudinal deltas 
-          (<code>degrees</code>) or <code>None</code> or 0 for unlimited.</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">unroll180</a> longitudes and longitudinal delta 
-          (<code>bool</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>4-Tuple (distance2, delta_lat, delta_lon, lon2_unroll) with the 
-          distance in degrees squared, the latitudinal delta 
-          <i>lat2</i>-<i>lat1</i>, the wrapped, unrolled, and adjusted 
-          longitudinal delta <i>lon2</i>-<i>lon1</i> and the unrollment for
-          <i>lon2</i>.</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - If the lat- and/or longitudinal delta exceeds the 
-        <i>-limit..+limit</i> range and <i>limiterrors</i> set to 
-        <code>True</code>.</li>
-    </ul></dd>
-  </dl>
-<div class="fields">      <dl><dt>See Also:</dt>
-        <dd>
-          <a href="http://www.EdWilliams.org/avform.htm#flat" 
-          target="_top">Local, flat earth approximation</a>, functions <a 
-          href="pygeodesy.utily-module.html#equirectangular" 
-          class="link">equirectangular</a> and <a 
-          href="pygeodesy.utily-module.html#haversine" 
-          class="link">haversine</a>, method <a 
-          href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
-          class="link">Ellipsoid.distance2</a> and <code>LatLon</code> 
-          methods <code>distanceTo*</code> for more accurate and/or larger 
-          distances.,
-          Function <a href="pygeodesy.utily-module.html#degrees2m" 
-          class="link">degrees2m</a> to convert <code>degrees</code> to 
-          distance, as <i class="math">degrees2m(sqrt(distance2), ...)</i> 
-          or <i class="math">degrees2m(hypot(delta_lat, delta_lon), 
-          ...)</i>.
-        </dd>
-      </dl>
-</div></td></tr></table>
 </div>
 <a name="false2f"></a>
 <div>
@@ -1468,212 +1122,6 @@
     </ul></dd>
   </dl>
 </td></tr></table>
-</div>
-<a name="haversine"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">haversine</span>(<span class="sig-arg">lat1</span>,
-        <span class="sig-arg">lon1</span>,
-        <span class="sig-arg">lat2</span>,
-        <span class="sig-arg">lon2</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Compute the distance between two points using the <a 
-  href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
-  target="_top">Haversine</a> formula.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lat1</code></strong> - Start latitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">unroll180</a> longitudes (<code>bool</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Distance (<code>meter</code>, same units as <i>radius</i>).</dd>
-  </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <a href="http://www.EdWilliams.org/avform.htm#Dist" 
-        target="_top">Distance between two (spherical) points</a>, 
-        functions <a href="pygeodesy.utily-module.html#equirectangular" 
-        class="link">equirectangular</a>, <a 
-        href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
-        class="link">Ellipsoid.distance2</a> or <i>LatLon</i> methods 
-        <i>distanceTo*</i> and <i>equirectangularTo</i>.
-      </p>
-</div></td></tr></table>
-</div>
-<a name="haversine_"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">haversine_</span>(<span class="sig-arg">a2</span>,
-        <span class="sig-arg">a1</span>,
-        <span class="sig-arg">b21</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Compute the <i>angular</i> distance between two points using the <a 
-  href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
-  target="_top">Haversine</a> formula.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>a2</code></strong> - End latitude (<code>radians</code>).</li>
-        <li><strong class="pname"><code>a1</code></strong> - Start latitude (<code>radians</code>).</li>
-        <li><strong class="pname"><code>b21</code></strong> - Longitudinal delta, <i class="math">end-start</i> 
-          (<code>radians</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Angular distance (<code>radians</code>).</dd>
-  </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.utily-module.html#haversine" 
-        class="link">haversine</a>.
-      </p>
-</div></td></tr></table>
-</div>
-<a name="heightOf"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">heightOf</span>(<span class="sig-arg">angle</span>,
-        <span class="sig-arg">distance</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Determine the height above the (spherical) earth after traveling along
-  a straight line at a given tilt.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>angle</code></strong> - Tilt angle above horizontal (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>distance</code></strong> - Distance along the line (<code>meter</code> or same units as 
-          <i>radius</i>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional mean earth radius (<code>meter</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Height (<code>meter</code>, same units as <i>distance</i> and 
-          <i>radius</i>).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>angle</i>, <i>distance</i> or <i>radius</i>.</li>
-    </ul></dd>
-  </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <a href="http://GitHub.com/NASA/MultiDop" target="_top">MultiDop 
-        GeogBeamHt</a> (<a 
-        href="http://journals.AMetSoc.org/doi/abs/10.1175/2009JTECHA1256.1"
-        target="_top">Shapiro et al. 2009, JTECH</a> and <a 
-        href="http://journals.AMetSoc.org/doi/abs/10.1175/JTECH-D-11-00019.1"
-        target="_top">Potvin et al. 2012, JTECH</a>).
-      </p>
-</div></td></tr></table>
-</div>
-<a name="horizon"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">horizon</span>(<span class="sig-arg">height</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
-        <span class="sig-arg">refraction</span>=<span class="sig-default">False</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Determine the distance to the horizon from a given altitude above the 
-  (spherical) earth.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>height</code></strong> - Altitude (<code>meter</code> or same units as <i>radius</i>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional mean earth radius (<code>meter</code>).</li>
-        <li><strong class="pname"><code>refraction</code></strong> - Consider atmospheric refraction (<code>bool</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Distance (<code>meter</code>, same units as <i>height</i> and 
-          <i>radius</i>).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>height</i> or <i>radius</i>.</li>
-    </ul></dd>
-  </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <a href="http://www.EdWilliams.org/avform.htm#Horizon" 
-        target="_top">Distance to horizon</a>.
-      </p>
-</div></td></tr></table>
-</div>
-<a name="isantipode"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">isantipode</span>(<span class="sig-arg">lat1</span>,
-        <span class="sig-arg">lon1</span>,
-        <span class="sig-arg">lat2</span>,
-        <span class="sig-arg">lon2</span>,
-        <span class="sig-arg">eps</span>=<span class="sig-default">2.22044604925e-16</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Check whether two points are anitpodal, on diametrically opposite 
-  sides of the earth.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lat1</code></strong> - Latitude of one point (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>lon1</code></strong> - Longitude of one point (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>lat2</code></strong> - Latitude of the other point (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>lon2</code></strong> - Longitude of the other point (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>eps</code></strong> - Tolerance for near-equality (<code>degrees</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd><code>True</code> if points are antipodal within the <i>eps</i> 
-          tolerance, <code>False</code> otherwise.</dd>
-  </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <a 
-        href="http://CRAN.R-Project.org/web/packages/geosphere/geosphere.pdf"
-        target="_top">Geosphere</a>.
-      </p>
-</div></td></tr></table>
 </div>
 <a name="isNumpy2"></a>
 <div>
@@ -2020,7 +1468,7 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The polygon points (<i>LatLon</i>s)</li>
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>s)</li>
         <li><strong class="pname"><code>closed</code></strong> - Optionally, consider the polygon closed, ignoring any duplicate 
           or closing final <i>points</i> (<code>bool</code>).</li>
         <li><strong class="pname"><code>base</code></strong> - Optionally, check the <i>points</i> against this base class 
@@ -2031,7 +1479,7 @@
           and the points <code>list</code> or <code>tuple</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <i>LatLon</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <code>LatLon</code>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
     </ul></dd>
   </dl>
@@ -2475,7 +1923,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Oct 10 15:42:14 2018
+    Generated by Epydoc 3.0.1 on Mon Oct 15 20:59:40 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -38,7 +38,7 @@ Two other modules provide Lambert conformal conic projections and positions
 (from U{John P. Snyder, "Map Projections -- A Working Manual", 1987, pp 107-109
 <http://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}) and several functions to
 U{simplify<http://Bost.Ocks.org/mike/simplify>} or linearize a path of
-I{LatLon} points (or a U{NumPy array
+C{LatLon} points (or a U{NumPy array
 <http://docs.SciPy.org/doc/numpy/reference/generated/numpy.array.html>}),
 including implementations of the U{Ramer-Douglas-Peucker
 <http://WikiPedia.org/wiki/Ramer-Douglas-Peucker_algorithm>}, the
@@ -98,7 +98,7 @@ before installation.
 
 Installation of U{NumPy<http://www.NumPy.org>} and U{GeographicLib
 <http://PyPI.org/project/geographiclib>} is optional.  However, the
-latter is required for module I{ellipsoidalKarney} classes I{LatLon} and
+latter is required for module I{ellipsoidalKarney} classes C{LatLon} and
 I{Cartesian} and the functions I{areaOf} and I{perimeterOf}.
 
 Some function and method names differ from the JavaScript version. In such
@@ -165,7 +165,7 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var Ellipsoids: Registered ellipsoids (enum).
 @var Transforms: Registered transforms (enum).
 
-@var pygeodesy_dirpath: Fully qualified C{pygeodesy} directory name (C{str}).
+@var pygeodesy_abspath: Fully qualified C{pygeodesy} directory name (C{str}).
 
 @var version: Normalized C{PyGeodesy} version (C{str}).
 
@@ -174,10 +174,10 @@ OTHER DEALINGS IN THE SOFTWARE.}
 from os.path import abspath, basename, dirname, splitext
 
 _init_abspath     = abspath(__file__)
-pygeodesy_dirpath = dirname(_init_abspath)
+pygeodesy_abspath = dirname(_init_abspath)
 
 # setting __path__ should make ...
-__path__ = [pygeodesy_dirpath]
+__path__ = [pygeodesy_abspath]
 try:  # ... this import work, ...
     import bases as _  # PYCHOK expected
     del _
@@ -186,7 +186,7 @@ except ImportError:  # ... if it doesn't, extend
     # that all public and private sub-modules can
     # be imported (and checked by PyChecker, etc.)
     import sys
-    sys.path.insert(0, pygeodesy_dirpath)  # XXX __path__[0]
+    sys.path.insert(0, pygeodesy_abspath)  # XXX __path__[0]
     del sys
 
 # keep ellipsoidal, spherical and vector modules as sub-modules
@@ -207,15 +207,16 @@ VincentyError = ellipsoidalVincenty.VincentyError
 # all public sub-modules, contants, classes and functions
 __all__ = ('bases', 'datum', 'dms', 'elevations',  # modules
            'ellipsoidalKarney', 'ellipsoidalNvector', 'ellipsoidalVincenty',
-           'fmath', 'geohash', 'lcc', 'mgrs', 'nvector', 'osgr', 'points',
+           'fmath', 'formy', 'geohash', 'lcc', 'mgrs',
+           'nvector', 'osgr', 'points',
            'simplify', 'sphericalNvector', 'sphericalTrigonometry',
            'utily', 'utm', 'vector3d', 'webmercator',
            'CrossError', 'Geohash', 'VincentyError',  # classes
            'R_M',  # to avoid duplicates from .datum.py and .utily.py
-           'pygeodesy_dirpath',
+           'pygeodesy_abspath',
            'version',
            'crosserrors')  # extended below
-__version__ = '18.10.10'
+__version__ = '18.10.12'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
@@ -228,6 +229,7 @@ from datum       import *  # PYCHOK __all__
 from dms         import *  # PYCHOK __all__
 from elevations  import *  # PYCHOK __all__
 from fmath       import *  # PYCHOK __all__
+from formy       import *  # PYCHOK __all__
 from lcc         import *  # PYCHOK __all__
 from mgrs        import *  # PYCHOK __all__
 from osgr        import *  # PYCHOK __all__
@@ -242,6 +244,7 @@ import datum        # PYCHOK expected
 import dms          # PYCHOK expected
 import elevations   # PYCHOK expected
 import fmath        # PYCHOK expected
+import formy        # PYCHOK expected
 import lcc          # PYCHOK expected
 import mgrs         # PYCHOK expected
 import osgr         # PYCHOK expected
@@ -260,16 +263,16 @@ ellipsoidalVincenty.perimeterOf = ellipsoidalKarney.perimeterOf
 
 
 def equirectangular3(lat1, lon1, lat2, lon2, **options):
-    '''DEPRECATED, use function L{equirectangular_}.
+    '''DEPRECATED, use function I{equirectangular_}.
 
        @return: 3-Tuple (distance2, delta_lat, delta_lon).
     '''
-    return utily.equirectangular_(lat1, lon1, lat2, lon2, **options)[:3]
+    return formy.equirectangular_(lat1, lon1, lat2, lon2, **options)[:3]
 
 
 def _ismodule(m):
     p = abspath(m.__file__)  # PYCHOK undefined?
-    if dirname(p) != pygeodesy_dirpath:  # PYCHOK undefined?
+    if dirname(p) != pygeodesy_abspath:  # PYCHOK undefined?
         raise ImportError('foreign module %r from %r' % (m.__name__, p))
 
 
@@ -282,7 +285,7 @@ for m in (ellipsoidalKarney, ellipsoidalNvector, ellipsoidalVincenty,
 
 # concat __all__ with the public classes, constants,
 # functions, etc. from the sub-modules mentioned above
-for m in (bases, datum, dms, elevations, fmath, lcc, mgrs, osgr,
+for m in (bases, datum, dms, elevations, fmath, formy, lcc, mgrs, osgr,
           points, simplify, utily, utm, webmercator):
     __all__ += m.__all__
     _ismodule(m)
@@ -290,43 +293,12 @@ for m in (bases, datum, dms, elevations, fmath, lcc, mgrs, osgr,
 # remove any duplicates, only R_M?
 __all__ = tuple(set(__all__))
 
-# XXX del ellipsoidalBase, sphericalBase  # PYCHOK expected
-
 if __name__ == '__main__':
 
-    from inspect import isfunction, ismodule
+    n = basename(pygeodesy_abspath)
+    print('%s %s (%s)' % (n, __version__, pygeodesy_abspath))
 
-    d = locals()
-    # to shorten module names
-    b = basename(pygeodesy_dirpath)
-    m = _init_abspath[:-len(basename(_init_abspath))]
-    p = ''
-    e = i = 0
-    for n in sorted(__all__, key=str.lower):
-        if n == p:  # duplicate
-            e += 1
-            s = '*****'
-        else:
-            s = ''
-            p = n
-        o = d[n]
-        if isfunction(o):
-            r = "<function '%s.%s'>" % (o.__module__, n)
-        elif ismodule(o):
-            r = '<module %r>' % (o.__name__,)
-        else:
-            r = repr(o)
-        r = r.replace(m, '').replace(' ' + n + ' ', ' ') \
-                            .replace(" '" + n + "' ", ' ') \
-                            .replace('__main__', b)
-        i += 1
-        if isinstance(o, datum._Enum):
-            for n in r.split(',\n'):
-                print('%3d %s.%s%s' % (i, b, n, s))
-        else:
-            print('%3d %s.%s%s %s' % (i, b, n, s, r))
-    print('--- PyGeodesy %s (%s duplicates)' % (__version__, e or 'no'))
-
+# XXX del ellipsoidalBase, sphericalBase  # PYCHOK expected
 del abspath, basename, dirname, _init_abspath, _ismodule, m, splitext
 
 # **) MIT License

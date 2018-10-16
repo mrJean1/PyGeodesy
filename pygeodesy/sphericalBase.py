@@ -14,22 +14,39 @@ U{Latitude/Longitude<http://www.Movable-Type.co.UK/scripts/latlong.html>}.
 from bases import LatLonHeightBase
 from datum import R_M, R_MA, Datum, Datums
 from dms   import parse3llh
-from fmath import EPS, favg, fsum_, hypot
+from fmath import EPS, acos1, favg, fsum_
 from utily import PI, PI2, PI_2, degrees90, degrees180, degrees360, \
-                  property_RO, radians, tanPI_2_2, wrapPI
+                  property_RO, tanPI_2_2, wrapPI
 
-from math import acos, atan2, cos, log, sin
+from math import atan2, cos, hypot, log, radians, sin
 
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('LatLonSphericalBase',)  # for documentation
-__version__ = '18.10.10'
+__version__ = '18.10.12'
 
 
 class LatLonSphericalBase(LatLonHeightBase):
-    '''(INTERNAL) Base class for spherical I{LatLon}s.
+    '''(INTERNAL) Base class for spherical C{LatLon}s.
     '''
     _datum = Datums.Sphere  #: (INTERNAL) XXX TBD
+
+    def bearingTo2(self, other, wrap=False, raiser=False):
+        '''Return the initial and final bearing (forward and reverse
+           azimuth) from this to an other point.
+
+           @param other: The other point (C{LatLon}).
+           @keyword wrap: Wrap and unroll longitudes (C{bool}).
+           @keyword raiser: Optionally, raise L{CrossError} (C{bool}).
+
+           @return: 2-Tuple (initial, final) bearings (compass C{degrees360}).
+
+           @raise TypeError: The I{other} point is not spherical.
+
+           @see: Methods C{initialBearingTo} and C{finalBearingTo}.
+        '''
+        return (self.initialBearingTo(other, wrap=wrap, raiser=raiser),  # PYCHOK expected
+                self.finalBearingTo(other, wrap=wrap, raiser=raiser))
 
     @property
     def datum(self):
@@ -54,13 +71,13 @@ class LatLonSphericalBase(LatLonHeightBase):
         self._update(datum != self._datum)
         self._datum = datum
 
-    def finalBearingTo(self, other, wrap=False):
+    def finalBearingTo(self, other, wrap=False, raiser=False):
         '''Return the final bearing (reverse azimuth) from this to
            an other point.
 
-           @param other: The other point (spherical LatLon).
-           @keyword wrap: Optionally, unroll the longitudinal delta
-                          within the M{-180..+180} range (C{bool}).
+           @param other: The other point (spherical C{LatLon}).
+           @keyword wrap: Wrap and unroll longitudes (C{bool}).
+           @keyword raiser: Optionally, raise L{CrossError} (C{bool}).
 
            @return: Final bearing (compass C{degrees360}).
 
@@ -74,31 +91,29 @@ class LatLonSphericalBase(LatLonHeightBase):
         '''
         self.others(other)
 
-        # final bearing is the reverse of initial one
-        b = other.initialBearingTo(self, wrap=wrap) + 180
-        if b > 360:
-            b -= 360
-        return b  # 0..360
+        # final bearing is the reverse of the other initial one
+        b = other.initialBearingTo(self, wrap=wrap, raiser=raiser)
+        return (b + 180) % 360
 
     @property_RO
     def isEllipsoidal(self):
-        '''Check whether this I{LatLon} is ellipsoidal (C{bool}).
+        '''Check whether this C{LatLon} is ellipsoidal (C{bool}).
         '''
         return self.datum.isEllipsoidal
 
     @property_RO
     def isSpherical(self):
-        '''Check whether this I{LatLon} is spherical (C{bool}).
+        '''Check whether this C{LatLon} is spherical (C{bool}).
         '''
         return self.datum.isSpherical
 
     def maxLat(self, bearing):
         '''Return the maximum latitude reached when travelling
            on a great circle on given bearing from this point
-           (based on 'Clairaut's formula').
+           based on Clairaut's formula.
 
-           The maximum latitude is independent of longitude,
-           it is the same for all points on a given latitude.
+           The maximum latitude is independent of longitude
+           and the same for all points on a given latitude.
 
            Negate the result for the minimum latitude (on the
            Southern hemisphere).
@@ -110,7 +125,7 @@ class LatLonSphericalBase(LatLonHeightBase):
            @JSname: I{maxLatitude}.
         '''
         a, _ = self.to2ab()
-        m = acos(abs(sin(radians(bearing)) * cos(a)))
+        m = acos1(abs(sin(radians(bearing)) * cos(a)))
         return degrees90(m)
 
     def minLat(self, bearing):
@@ -129,7 +144,7 @@ class LatLonSphericalBase(LatLonHeightBase):
 
     def parse(self, strll, height=0, sep=','):
         '''Parse a string representing lat-/longitude point and
-           return a I{LatLon}.
+           return a C{LatLon}.
 
            The lat- and longitude must be separated by a sep[arator]
            character.  If height is present it must follow and be
@@ -144,7 +159,7 @@ class LatLonSphericalBase(LatLonHeightBase):
            @keyword height: Optional , default height (C{meter}).
            @keyword sep: Optional separator (C{str}).
 
-           @return: The point (spherical I{LatLon}).
+           @return: The point (spherical C{LatLon}).
 
            @raise ValueError: Invalid I{strll}.
         '''
@@ -153,7 +168,7 @@ class LatLonSphericalBase(LatLonHeightBase):
     def _rhumb3(self, other):
         '''(INTERNAL) Rhumb_ helper function.
 
-           @param other: The other point (spherical I{LatLon}).
+           @param other: The other point (spherical C{LatLon}).
         '''
         self.others(other)
 
@@ -169,7 +184,7 @@ class LatLonSphericalBase(LatLonHeightBase):
         '''Return the initial bearing (forward azimuth) from this to
            an other point along a rhumb (loxodrome) line.
 
-           @param other: The other point (spherical I{LatLon}).
+           @param other: The other point (spherical C{LatLon}).
 
            @return: Initial bearing (compass C{degrees360}).
 
@@ -197,7 +212,7 @@ class LatLonSphericalBase(LatLonHeightBase):
            @keyword height: Optional height, overriding the default
                             height (C{meter}, same unit as I{radius}).
 
-           @return: The destination point (spherical I{LatLon}).
+           @return: The destination point (spherical C{LatLon}).
 
            @example:
 
@@ -231,7 +246,7 @@ class LatLonSphericalBase(LatLonHeightBase):
         '''Return the distance from this to an other point along a rhumb
            (loxodrome) line.
 
-           @param other: The other point (spherical I{LatLon}).
+           @param other: The other point (spherical C{LatLon}).
            @keyword radius: Optional mean radius of earth (scalar, default meter).
 
            @return: Distance (C{meter}, the same units as I{radius}).
@@ -267,7 +282,7 @@ class LatLonSphericalBase(LatLonHeightBase):
            @keyword height: Optional height, overriding the mean height
                             (C{meter}).
 
-           @return: The midpoint (spherical I{LatLon}).
+           @return: The midpoint (spherical C{LatLon}).
 
            @raise TypeError: The I{other} point is not spherical.
 
@@ -304,7 +319,7 @@ class LatLonSphericalBase(LatLonHeightBase):
         return self.classof(degrees90(a3), degrees180(b3), height=h)
 
     def toWm(self, radius=R_MA):
-        '''Convert this I{LatLon} point to a I{WM} coordinate.
+        '''Convert this C{LatLon} point to a I{WM} coordinate.
 
            @keyword radius: Optional earth radius (C{meter}).
 

@@ -4,13 +4,33 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '18.09.27'
+__version__ = '18.10.12'
 
 from base import isWindows
 from testLatLon import Tests as _TestsLL
 from testVectorial import Tests as _TestsV
 
 from pygeodesy import F_D, F_DMS, classname, lonDMS
+
+# <http://GeographicLib.SourceForge.io/html/python/examples.html>
+Antarctica = ((-63.1, -58),
+              (-72.9, -74),
+              (-71.9,-102),
+              (-74.9,-102),
+              (-74.3,-131),
+              (-77.5,-163),
+              (-77.4, 163),
+              (-71.7, 172),
+              (-65.9, 140),
+              (-65.7, 113),
+              (-66.6,  88),
+              (-66.9,  59),
+              (-69.8,  25),
+              (-70.0,  -4),
+              (-71.0, -14),
+              (-77.3, -33),
+              (-77.9, -46),
+              (-74.7, -61))  # open
 
 
 class Tests(_TestsLL, _TestsV):
@@ -136,7 +156,7 @@ class Tests(_TestsLL, _TestsV):
             # TrigTrue vs Nvector closests
             p = LatLon(45.330691, 001.318551)
             d = p.distanceTo(LatLon(45.331319, 001.331319))
-            self.test('difference', d, '1000.53', fmt='%.2f')  # PYCHOK false?
+            self.test('difference', d, '1000.53', fmt='%.2f')  # PYCHOK test attr?
 
             if not Vct:  # check nearestOn2 with closest on the segment
                 b = LatLon(0, 1), LatLon(2, 3), LatLon(4, 5), LatLon(6, 7), LatLon(8, 9)
@@ -148,13 +168,16 @@ class Tests(_TestsLL, _TestsV):
                     self.test('nearestOn2', c.toStr(F_D, prec=6), p.toStr(F_D, prec=6))
                     self.test('neartesOn2', d, '235880.385', fmt='%.3f')
 
-        if hasattr(module, 'isPoleEnclosedBy'):
+        if hasattr(module, 'ispolar'):
             p = LatLon(85, 90), LatLon(85, 0), LatLon(85, -90), LatLon(85, -180)
             for _ in self.testiter():
-                self.test('isPoleEnclosedBy', module.isPoleEnclosedBy(p), 'True')  # PYCHOK false?
+                self.test('ispolar', module.ispolar(p), 'True')  # PYCHOK test attr?
             p = LatLon(85, 90), LatLon(85, 0), LatLon(85, -180)
             for _ in self.testiter():
-                self.test('isPoleEnclosedBy', module.isPoleEnclosedBy(p), 'True', known=True)  # PYCHOK false?
+                self.test('ispolar', module.ispolar(p), 'True', known=True)  # PYCHOK test attr?
+            p = [LatLon(*ll) for ll in Antarctica]  # PYCHOK test attr?
+            for _ in self.testiter():
+                self.test('ispolar', module.ispolar(p), 'True', known=Vct)  # PYCHOK test attr?
 
 
 if __name__ == '__main__':

@@ -34,7 +34,7 @@ from datum import R_M
 from fmath import EPS, fmean, fsum, fsum_, isscalar
 from nvector import NorthPole, LatLonNvectorBase, \
                     Nvector as NvectorBase, sumOf
-from points import _imdex2
+from points import _imdex2, ispolar  # PYCHOK ispolar
 from sphericalBase import LatLonSphericalBase
 from utily import PI, PI2, PI_2, degrees360, iterNumpy2
 
@@ -43,11 +43,11 @@ from math import atan2, cos, radians, sin
 # all public contants, classes and functions
 __all__ = ('LatLon', 'Nvector',  # classes
            'areaOf',  # functions
-           'intersection',
+           'intersection', 'ispolar',
            'meanOf',
            'nearestOn2',
            'triangulate', 'trilaterate')
-__version__ = '18.10.10'
+__version__ = '18.10.12'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -126,7 +126,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         return start.toNvector().angleTo(a, vSign=gc) * radius
 
     def bearingTo(self, other, **unused):
-        '''DEPRECATED, use method I{initialBearingTo}.
+        '''DEPRECATED, use method C{initialBearingTo}.
         '''
         return self.initialBearingTo(other)
 
@@ -301,14 +301,13 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            >>> p1 = LatLon(52.205, 0.119)
            >>> p2 = LatLon(48.857, 2.351)
-           >>> b = p1.bearingTo(p2)  # 156.2
+           >>> b = p1.initialBearingTo(p2)  # 156.2
 
            @JSname: I{bearingTo}.
         '''
         gc1 = self.greatCircleTo(other)
         gc2 = self.toNvector().cross(NorthPole, raiser='pole')
 #       gc2 = self.greatCircleTo(NorthPole)
-
         return degrees360(gc1.angleTo(gc2, vSign=self.toNvector()))
 
     def intermediateChordTo(self, other, fraction, height=None):
@@ -466,7 +465,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         return abs(s) > PI
 
     def isEnclosedBy(self, points):
-        '''DEPRECATED, used method I{isenclosedBy}.
+        '''DEPRECATED, use method C{isenclosedBy}.
         '''
         return self.isenclosedBy(points)
 
@@ -511,7 +510,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
                n0.minus(n2).dot(n1.minus(n2)) >= 0
 
     def isWithin(self, point1, point2):
-        '''DEPRECATED, used method I{iswithin}.
+        '''DEPRECATED, use method C{iswithin}.
         '''
         return self.iswithin(point1, point2)
 
@@ -603,7 +602,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
                     that point from the given point in C{meter}, same
                     units of I{radius}.
 
-           @raise TypeError: Some I{points} are not I{LatLon}.
+           @raise TypeError: Some I{points} are not C{LatLon}.
 
            @raise ValueError: No I{points}.
         '''
@@ -941,7 +940,7 @@ def nearestOn2(point, points, closed=False, radius=R_M, height=None):
                 that point from the given point in C{meter}, same
                 units as I{radius}.
 
-       @raise TypeError: Some I{points} or the point not I{LatLon}.
+       @raise TypeError: Some I{points} or the point not C{LatLon}.
 
        @raise ValueError: No I{points}.
     '''

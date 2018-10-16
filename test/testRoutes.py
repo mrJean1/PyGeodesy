@@ -20,7 +20,7 @@ except ImportError:
 
 __all__ = ('Antarctica', 'Pts', 'PtsFFI', 'RdpFFI',
            'PtsJS', 'PtsJS5', 'VwPts')
-__version__ = '18.09.14'
+__version__ = '18.10.12'
 
 # <http://GeographicLib.SourceForge.io/html/python/examples.html>
 Antarctica = [LatLon_(_lat, _lon) for _lat, _lon in (
@@ -17128,7 +17128,7 @@ class Tests(TestsBase):
             self.test('ellipsoidalVincenty.areaOf', x, x)
 
     def testClockwise(self):
-        self.test7(isclockwise, (True,
+        self.test7(isclockwise, (False,  # since isPoleEnclosedBy is True
                    True, True, True, True,
                    False, False),
                    adjust=False)

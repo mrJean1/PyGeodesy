@@ -6,13 +6,14 @@ u'''Precision mathematical functions, utilities and constants.
 @newfield example: Example, Examples
 '''
 
-from math import copysign, hypot, sqrt  # pow
+from math import acos, copysign, hypot, sqrt  # pow
 from operator import mul
 import sys
 
 # all public contants, classes and functions
 __all__ = ('EPS', 'EPS1',  # constants
            'Fsum',  # classes
+           'acos1',
            'cbrt', 'cbrt2',  # functions
            'favg', 'fdot', 'fdot3', 'fmean',
            'fhorner', 'fpolynomial', 'fpowers',
@@ -22,7 +23,7 @@ __all__ = ('EPS', 'EPS1',  # constants
            'len2',
            'map1', 'map2',
            'scalar', 'sqrt3')
-__version__ = '18.10.06'
+__version__ = '18.10.12'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -227,6 +228,12 @@ class Fsum(object):
                     break
             # assert self._ps is ps
         return s
+
+
+def acos1(x):
+    '''Return M{math.acos(max(-1, min(1, x)))}.
+    '''
+    return acos(max(-1.0, min(1.0, x)))
 
 
 def cbrt(x):

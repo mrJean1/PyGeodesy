@@ -21,14 +21,14 @@ from datum import R_MA
 from dms import clipDMS, parseDMS2
 from ellipsoidalBase import LatLonEllipsoidalBase as _ELLB
 from fmath import EPS, fStr, isscalar, map1
-from utily import PI_2, degrees90, degrees180, property_RO, radians
+from utily import PI_2, degrees90, degrees180, property_RO
 
-from math import atan, atanh, exp, sin, tanh
+from math import atan, atanh, exp, radians, sin, tanh
 
 # all public contants, classes and functions
 __all__ = ('Wm',  # classes
            'parseWM', 'toWm')  # functions
-__version__ = '18.10.06'
+__version__ = '18.10.12'
 
 # _FalseEasting  = 0   #: (INTERNAL) False Easting (C{meter}).
 # _FalseNorthing = 0   #: (INTERNAL) False Northing (C{meter}).
@@ -95,7 +95,7 @@ class Wm(Based):
     def to2ll(self, datum=None):
         '''Convert this WM coordinate to a geodetic lat- and longitude.
 
-           @keyword datum: Optional datum (I{Datum}).
+           @keyword datum: Optional datum (C{Datum}).
 
            @return: 2-Tuple (lat, lon) in (C{degrees90}, C{degrees180}).
 
@@ -123,9 +123,9 @@ class Wm(Based):
         '''Convert this WM coordinate to a geodetic point.
 
            @param LatLon: Ellipsoidal (sub-)class to use for the
-                          point (I{LatLon}).
+                          point (C{LatLon}).
            @keyword datum: Optional datum for ellipsoidal or C{None} for
-                           spherical I{LatLon} (I{Datum}).
+                           spherical I{LatLon} (C{Datum}).
 
            @return: Point of this WM coordinate (I{LatLon}).
 
@@ -243,7 +243,7 @@ def toWm(latlon, lon=None, radius=R_MA, Wm=Wm, name=''):
     '''Convert a lat-/longitude point to a WM coordinate.
 
        @param latlon: Latitude (C{degrees}) or an (ellipsoidal or
-                      spherical) geodetic I{LatLon} point.
+                      spherical) geodetic C{LatLon} point.
        @keyword lon: Optional longitude (C{degrees} or C{None}).
        @keyword radius: Optional earth radius (C{meter}).
        @keyword Wm: Optional (sub-)class for the WM coordinate

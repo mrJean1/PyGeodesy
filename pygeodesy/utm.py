@@ -37,17 +37,16 @@ from dms import S_DEG, parseDMS2, RangeError
 from ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from fmath import EPS, fdot3, fStr, Fsum, hypot, hypot1, \
                   isscalar, len2, map2
-from utily import degrees, degrees90, degrees180, property_RO, \
-                  radians, wrap90, wrap180
+from utily import degrees90, degrees180, property_RO, wrap90, wrap180
 
-from math import asinh, atan, atanh, atan2, \
-                 cos, cosh, sin, sinh, tan, tanh
+from math import asinh, atan, atanh, atan2, cos, cosh, \
+                 degrees, radians, sin, sinh, tan, tanh
 from operator import mul
 
 # all public contants, classes and functions
 __all__ = ('Utm', 'UTMError',  # classes
            'parseUTM', 'toUtm', 'utmZoneBand2')  # functions
-__version__ = '18.10.10'
+__version__ = '18.10.12'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -323,7 +322,7 @@ class Utm(Based):
         '''Convert this UTM coordinate to an (ellipsoidal) geodetic point.
 
            @keyword LatLon: Optional, ellipsoidal (sub-)class to use
-                            for the point (I{LatLon}) or C{None}.
+                            for the point (C{LatLon}) or C{None}.
 
            @return: This UTM coordinate as (I{LatLon}) or 5-tuple
                     (lat, lon, datum, convergence, scale) if I{LatLon}
@@ -525,10 +524,10 @@ def toUtm(latlon, lon=None, datum=None, Utm=Utm, name='', cmoff=True):
     '''Convert a lat-/longitude point to a UTM coordinate.
 
        @param latlon: Latitude (C{degrees}) or an (ellipsoidal)
-                      geodetic I{LatLon} point.
+                      geodetic C{LatLon} point.
        @keyword lon: Optional longitude (C{degrees} or C{None}).
        @keyword datum: Optional datum for this UTM coordinate,
-                       overriding latlon's datum (I{Datum}).
+                       overriding I{latlon}'s datum (C{Datum}).
        @keyword Utm: Optional (sub-)class to use for the UTM
                      coordinate (L{Utm}) or C{None}.
        @keyword name: Optional I{Utm} name (C{str}).

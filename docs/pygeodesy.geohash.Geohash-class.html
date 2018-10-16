@@ -147,7 +147,7 @@ basestring --+
         <tr>
           <td><span class="summary-sig"><a name="distance1"></a><span class="summary-sig-name">distance1</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
-      DEPRECATED, use method <i>distance1To</i>.</td>
+      DEPRECATED, use method <code>distance1To</code>.</td>
           <td align="right" valign="top">
             
             
@@ -187,7 +187,7 @@ basestring --+
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
-      DEPRECATED, use method <i>distance2To</i>.</td>
+      DEPRECATED, use method <code>distance2To</code>.</td>
           <td align="right" valign="top">
             
             
@@ -230,7 +230,7 @@ basestring --+
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
-      DEPRECATED, use method <i>distance3To</i>.</td>
+      DEPRECATED, use method <code>distance3To</code>.</td>
           <td align="right" valign="top">
             
             
@@ -273,7 +273,7 @@ basestring --+
         <span class="summary-sig-arg">LatLon</span>,
         <span class="summary-sig-arg">**kwds</span>)</span><br />
       Return (the approximate center of) this geohash cell as an instance 
-      of the supplied <i>LatLon</i> class.</td>
+      of the supplied <code>LatLon</code> class.</td>
           <td align="right" valign="top">
             
             
@@ -379,8 +379,8 @@ basestring --+
         <span class="summary-sig-arg">precision</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       New Geohash from a <a href="pygeodesy.geohash.Geohash-class.html" 
-      class="link">Geohash</a> instance or str or from a <i>LatLon</i> 
-      instance or string.</td>
+      class="link">Geohash</a> instance or <code>str</code> or from a 
+      <code>LatLon</code> instance or <code>str</code>.</td>
           <td align="right" valign="top">
             
             
@@ -557,13 +557,14 @@ basestring --+
   </tr></table>
   
   <p>New Geohash from a <a href="pygeodesy.geohash.Geohash-class.html" 
-  class="link">Geohash</a> instance or str or from a <i>LatLon</i> instance
-  or string.</p>
+  class="link">Geohash</a> instance or <code>str</code> or from a 
+  <code>LatLon</code> instance or <code>str</code>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>cll</code></strong> - Cell or location (<a href="pygeodesy.geohash.Geohash-class.html" 
-          class="link">Geohash</a> or str, <i>LatLon</i> or string).</li>
+          class="link">Geohash</a> or <code>str</code>, <code>LatLon</code>
+          or <code>str</code>).</li>
         <li><strong class="pname"><code>precision</code></strong> - Optional, desired geohash length (<code>int</code>), see function
           <a href="pygeodesy.geohash-module.html#encode" 
           class="link">geohash.encode</a> for more details.</li>
@@ -654,7 +655,7 @@ basestring --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>LatLon</code></strong> - Class to use (<i>LatLon</i>).</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Class to use (<code>LatLon</code>).</li>
         <li><strong class="pname"><code>kwds</code></strong> - Optional keyword arguments for <i>LatLon</i>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -692,7 +693,7 @@ basestring --+
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> is not a <a 
         href="pygeodesy.geohash.Geohash-class.html" 
-        class="link">Geohash</a>, <i>LatLon</i> or str.</li>
+        class="link">Geohash</a>, <code>LatLon</code> or <code>str</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -737,7 +738,7 @@ basestring --+
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> is not a <a 
         href="pygeodesy.geohash.Geohash-class.html" 
-        class="link">Geohash</a>, <i>LatLon</i> or str.</li>
+        class="link">Geohash</a>, <code>LatLon</code> or <code>str</code>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -781,7 +782,7 @@ basestring --+
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> is not a <a 
         href="pygeodesy.geohash.Geohash-class.html" 
-        class="link">Geohash</a>, <i>LatLon</i> or str.</li>
+        class="link">Geohash</a>, <code>LatLon</code> or <code>str</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -803,11 +804,11 @@ basestring --+
   </tr></table>
   
   <p>Return (the approximate center of) this geohash cell as an instance of
-  the supplied <i>LatLon</i> class.</p>
+  the supplied <code>LatLon</code> class.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>LatLon</code></strong> - Class to use (<i>LatLon</i>).</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Class to use (<code>LatLon</code>).</li>
         <li><strong class="pname"><code>kwds</code></strong> - Optional keyword arguments for <i>LatLon</i>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -1142,7 +1143,7 @@ href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Oct 10 15:42:15 2018
+    Generated by Epydoc 3.0.1 on Mon Oct 15 20:59:41 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

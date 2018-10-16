@@ -30,7 +30,7 @@ __all__ = ('F_D', 'F_DM', 'F_DMS',  # forms
            'latDMS', 'lonDMS', 'normDMS',
            'parseDMS', 'parseDMS2', 'parse3llh', 'precision',
            'rangerrors', 'toDMS')
-__version__ = '18.10.10'
+__version__ = '18.10.12'
 
 F_D   = 'd'    #: Format degrees as deg° (C{str}).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (C{str}).
@@ -160,8 +160,8 @@ def compassAngle(lat0, lon0, lat1, lon1):
        M{(lon1 - lon0, lat1 - lat0)} between two points.
 
        Suitable only for short, non-near-polar vectors up to a few
-       hundred Km or Miles.  Use I{LatLon} methods I{initialBearingTo}
-       for larger distances.
+       hundred Km or Miles.  Use C{LatLon} methods I{initialBearingTo}
+       for longer vectors.
 
        @param lat0: From latitude (C{degrees}).
        @param lon0: From longitude (C{degrees}).

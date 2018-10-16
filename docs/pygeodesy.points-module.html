@@ -60,13 +60,13 @@
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module points</h1><p class="nomargin-top"></p>
 <p>Handle 2-d <a href="http://www.NumPy.org" target="_top">NumPy</a>, 
-  <i>arrays</i> or tuples as <i>LatLon</i>s or as <i>pseudo-x/-y</i> 
-  pairs.</p>
+  <code>arrays</code> or tuples as <code>LatLon</code>s or as 
+  <code>pseudo-x/-y</code> pairs.</p>
   <p><code>NumPy</code> arrays are assumed to contain rows of points with a
   lat-, a longitude -and possibly other- values in different columns.  
   While iterating over the array rows, create an instance of a given 
-  <i>LatLon</i> class &quot;on-the-fly&quot; for each row with the row's 
-  lat- and longitude.</p>
+  <code>LatLon</code> class &quot;on-the-fly&quot; for each row with the 
+  row's lat- and longitude.</p>
   <p>The original <code>NumPy</code> array is read-accessed only and never 
   duplicated, except to create a <i>subset</i> of the original array.</p>
   <p>For example, to process a <code>NumPy</code> array, wrap the array by 
@@ -78,13 +78,14 @@
   href="pygeodesy-module.html" class="link">pygeodesy</a> function or 
   method accepting a <i>points</i> argument.</p>
   <p>Similarly, class <a href="pygeodesy.points.Tuple2LatLon-class.html" 
-  class="link">Tuple2LatLon</a> is used to instantiate a <i>LatLon</i> for 
-  each 2+tuple in a list, tuple or sequence of such 2+tuples from the index
-  for the lat- and longitude index in each 2+tuple.</p>
+  class="link">Tuple2LatLon</a> is used to instantiate a 
+  <code>LatLon</code> for each 2+tuple in a list, tuple or sequence of such
+  2+tuples from the index for the lat- and longitude index in each 
+  2+tuple.</p>
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.10.10
+        18.10.12
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -99,7 +100,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.points.LatLon_-class.html" class="summary-name">LatLon_</a><br />
-      Low-overhead <i>LatLon</i> class for <a 
+      Low-overhead <code>LatLon</code> class for <a 
         href="pygeodesy.points.Numpy2LatLon-class.html" 
         class="link">Numpy2LatLon</a> or <a 
         href="pygeodesy.points.Tuple2LatLon-class.html" 
@@ -111,7 +112,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.points.LatLon2psxy-class.html" class="summary-name">LatLon2psxy</a><br />
-      Wrapper for <i>LatLon</i> points as &quot;on-the-fly&quot; 
+      Wrapper for <code>LatLon</code> points as &quot;on-the-fly&quot; 
         pseudo-xy coordinates.
     </td>
   </tr>
@@ -121,7 +122,7 @@
     </td><td class="summary">
         <a href="pygeodesy.points.Numpy2LatLon-class.html" class="summary-name">Numpy2LatLon</a><br />
       Wrapper for <code>NumPy</code> arrays as &quot;on-the-fly&quot; 
-        <i>LatLon</i> points.
+        <code>LatLon</code> points.
     </td>
   </tr>
 <tr>
@@ -129,8 +130,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.points.Tuple2LatLon-class.html" class="summary-name">Tuple2LatLon</a><br />
-      Wrapper for tuple sequences as &quot;on-the-fly&quot; <i>LatLon</i>
-        points.
+      Wrapper for tuple sequences as &quot;on-the-fly&quot; 
+        <code>LatLon</code> points.
     </td>
   </tr>
 </table>
@@ -225,7 +226,7 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.points-module.html#isenclosedBy" class="summary-sig-name">isenclosedBy</a>(<span class="summary-sig-arg">latlon</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.points-module.html#isenclosedBy" class="summary-sig-name">isenclosedBy</a>(<span class="summary-sig-arg">point</span>,
         <span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Determine whether a point is enclosed by a polygon.</td>
@@ -244,7 +245,7 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="isenclosedby"></a><span class="summary-sig-name">isenclosedby</span>(<span class="summary-sig-arg">latlon</span>,
+          <td><span class="summary-sig"><a name="isenclosedby"></a><span class="summary-sig-name">isenclosedby</span>(<span class="summary-sig-arg">point</span>,
         <span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       DEPRECATED, use function <a 
@@ -265,9 +266,28 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.points-module.html#ispolar" class="summary-sig-name">ispolar</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Check whether a polygon encloses a pole.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.points-module.html#nearestOn3" class="summary-sig-name">nearestOn3</a>(<span class="summary-sig-arg">point</span>,
         <span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
       Locate the point on a polygon closest to an other point.</td>
           <td align="right" valign="top">
@@ -331,7 +351,7 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The polygon points (<i>LatLon</i>s).</li>
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>s).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
           the mean latitude (<code>bool</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
@@ -342,7 +362,7 @@
           <i>radius</i>, squared).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <i>LatLon</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <code>LatLon</code>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
     </ul></dd>
   </dl>
@@ -381,10 +401,10 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The polygon points (<i>LatLon</i>s).</li>
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>s).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap lat- and longitudes (<code>bool</code>).</li>
         <li><strong class="pname"><code>LatLon</code></strong> - Optional (sub-)class to use to return <i>bounds</i> 
-          (<i>LatLon</i>) or <code>None</code>.</li>
+          (<code>LatLon</code>) or <code>None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-tuple (loLatLon, hiLatLon) of <i>LatLon</i>s for the lower-left
@@ -393,7 +413,7 @@
           <code>None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <i>LatLon</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <code>LatLon</code>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
     </ul></dd>
   </dl>
@@ -425,7 +445,7 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The polygon points (<i>LatLon</i>s).</li>
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>s).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
           the mean latitude (<code>bool</code>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (<code>bool</code>).</li>
@@ -435,17 +455,16 @@
           <code>False</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <i>LatLon</i>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i> or zero area polygon.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <code>LatLon</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i> or <i>points</i> enclose a 
+        pole or zero area.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
 <span class="py-prompt">&gt;&gt;&gt; </span>f = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
-<span class="py-prompt">&gt;&gt;&gt; </span>isclockwise(f)  <span class="py-comment"># False</span></pre>
-<pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>t = LatLon(45,1), LatLon(46,1), LatLon(46,2)
-<span class="py-prompt">&gt;&gt;&gt; </span>isclockwise(t)  <span class="py-comment"># True</span></pre>
+<span class="py-prompt">&gt;&gt;&gt; </span>isclockwise(f)  <span class="py-comment"># False</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>isclockwise(reversed(f))  <span class="py-comment"># True</span></pre>
       </p>
 </div></td></tr></table>
 </div>
@@ -469,7 +488,7 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The polygon points (<i>LatLon</i>s).</li>
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>s).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
           the mean latitude (<code>bool</code>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (<code>bool</code>).</li>
@@ -480,7 +499,7 @@
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.vector3d.CrossError-class.html">CrossError</a></strong></code> - Some <i>points</i> are colinear.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <i>LatLon</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <code>LatLon</code>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
     </ul></dd>
   </dl>
@@ -501,7 +520,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">isenclosedBy</span>(<span class="sig-arg">latlon</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isenclosedBy</span>(<span class="sig-arg">point</span>,
         <span class="sig-arg">points</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
@@ -514,17 +533,17 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>latlon</code></strong> - The point (<i>LatLon</i> or 2-tuple (lat, lon)).</li>
-        <li><strong class="pname"><code>points</code></strong> - The polygon points (<i>LatLon</i>s).</li>
+        <li><strong class="pname"><code>point</code></strong> - The point (<code>LatLon</code> or 2-tuple (lat, lon)).</li>
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>s).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if <i>latlon</i> is inside the polygon, 
+        <dd><code>True</code> if <i>point</i> is inside the polygon, 
           <code>False</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <i>LatLon</i>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i> or invalid <i>latlon</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <code>LatLon</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i> or invalid <i>point</i>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -541,6 +560,41 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="ispolar"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">ispolar</span>(<span class="sig-arg">points</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check whether a polygon encloses a pole.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>s).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if a pole is enclosed by the polygon, 
+          <code>False</code> otherwise.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <code>LatLon</code> or don't have 
+        <code>bearingTo2</code>, <code>initialBearingTo</code> and 
+        <code>finalBearingTo</code> methods.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="nearestOn3"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -551,6 +605,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn3</span>(<span class="sig-arg">point</span>,
         <span class="sig-arg">points</span>,
         <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">**options</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -563,7 +618,7 @@
   point is on that edge, otherwise the closest point is the nearest of that
   edge's end points.</p>
   <p>Distances are approximated by function <a 
-  href="pygeodesy.utily-module.html#equirectangular_" 
+  href="pygeodesy.formy-module.html#equirectangular_" 
   class="link">equirectangular_</a>, subject to the supplied 
   <i>options</i>.</p>
   <dl class="fields">
@@ -572,22 +627,27 @@
         <li><strong class="pname"><code>point</code></strong> - The other, reference point (<code>LatLon</code>).</li>
         <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>s).</li>
         <li><strong class="pname"><code>closed</code></strong> - Optionally, close the polygon (<code>bool</code>).</li>
-        <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments for function <a 
-          href="pygeodesy.utily-module.html#equirectangular_" 
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
+          class="link">unroll180</a> longitudes and longitudinal delta 
+          (<code>bool</code>) in function <a 
+          href="pygeodesy.formy-module.html#equirectangular_" 
+          class="link">equirectangular_</a>.</li>
+        <li><strong class="pname"><code>options</code></strong> - Other keyword arguments for function <a 
+          href="pygeodesy.formy-module.html#equirectangular_" 
           class="link">equirectangular_</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>3-Tuple (lat, lon, <i>distance</i>) all in <code>degrees</code>. 
           The <i>distance</i> is the <a 
-          href="pygeodesy.utily-module.html#equirectangular_" 
+          href="pygeodesy.formy-module.html#equirectangular_" 
           class="link">equirectangular_</a> distance between the closest 
           and the reference <i>point</i> in <code>degrees</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
-        <a href="pygeodesy.utily-module.html#equirectangular_" 
+        <a href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <i>LatLon</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <code>LatLon</code>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
     </ul></dd>
   </dl>
@@ -620,7 +680,7 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The polygon points (<i>LatLon</i>s).</li>
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>s).</li>
         <li><strong class="pname"><code>closed</code></strong> - Optionally, close the polygon (<code>bool</code>).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
           the mean latitude (<code>bool</code>).</li>
@@ -632,13 +692,13 @@
           <i>radius</i>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <i>LatLon</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <code>LatLon</code>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         This perimeter is based on the <a 
-        href="pygeodesy.utily-module.html#equirectangular_" 
+        href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a> distance approximation and is 
         ill-suited for regions exceeding several hundred Km or Miles or 
         with near-polar latitudes.
@@ -683,7 +743,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Oct 10 15:42:14 2018
+    Generated by Epydoc 3.0.1 on Mon Oct 15 20:59:40 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

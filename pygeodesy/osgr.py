@@ -44,7 +44,7 @@ from math import cos, radians, sin, sqrt, tan
 # all public contants, classes and functions
 __all__ = ('Osgr',  # classes
            'parseOSGR', 'toOsgr')  # functions
-__version__ = '18.10.10'
+__version__ = '18.10.12'
 
 _10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (C{meter})
 _100km   = 100000  #: (INTERNAL) 100 km (int meter)
@@ -153,8 +153,8 @@ class Osgr(Based):
            used by e.g. Karney 2011.}
 
            @keyword LatLon: Optional ellipsoidal (sub-)class to use
-                            for the point (I{LatLon}) or C{None}.
-           @keyword datum: Optional datum to use (I{Datum}).
+                            for the point (C{LatLon}) or C{None}.
+           @keyword datum: Optional datum to use (C{Datum}).
 
            @return: The geodetic point (I{LatLon}) or 3-tuple (C{degrees90},
                     C{degrees180}, I{datum}) if I{LatLon} is C{None}.
@@ -384,9 +384,9 @@ def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr, name=''):
     '''Convert a lat-/longitude point to an OSGR coordinate.
 
        @param latlon: Latitude (C{degrees}) or an (ellipsoidal)
-                      geodetic I{LatLon} point.
+                      geodetic C{LatLon} point.
        @keyword lon: Optional longitude in degrees (scalar or C{None}).
-       @keyword datum: Optional datum to convert (I{Datum}).
+       @keyword datum: Optional datum to convert (C{Datum}).
        @keyword Osgr: Optional (sub-)class to use for the OSGR
                       coordinate (L{Osgr}) or C{None}.
        @keyword name: Optional I{Osgr} name (C{str}).

@@ -19,8 +19,8 @@ U{Geohash-Javascript<http://GitHub.com/DaveTroy/geohash-js>}.
 from bases import Named, _xnamed
 from dms import parse3llh, parseDMS2
 from fmath import EPS, favg, fStr, map2
-from utily import R_M, equirectangular, equirectangular_, \
-                  haversine_, property_RO, _Strs, unrollPI
+from formy import equirectangular, equirectangular_, haversine_
+from utily import R_M, property_RO, _Strs, unrollPI
 
 from math import log10, radians
 
@@ -29,7 +29,7 @@ __all__ = ('Geohash',  # classes
            'bounds', 'decode', 'decode_error',  # functions
            'distance1', 'distance2', 'distance3',
            'encode', 'neighbors', 'sizes')
-__version__ = '18.10.04'
+__version__ = '18.10.12'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -114,11 +114,11 @@ class Geohash(str, Named):
 
     # no str.__init__ in Python 3
     def __new__(cls, cll, precision=None, name=''):
-        '''New Geohash from a L{Geohash} instance or str or from
-           a I{LatLon} instance or string.
+        '''New Geohash from a L{Geohash} instance or C{str} or from
+           a C{LatLon} instance or C{str}.
 
-           @param cll: Cell or location (L{Geohash} or str, I{LatLon}
-                       or string).
+           @param cll: Cell or location (L{Geohash} or C{str}, C{LatLon}
+                       or C{str}).
            @keyword precision: Optional, desired geohash length (C{int}),
                                see function L{geohash.encode} for more
                                details.
@@ -194,7 +194,7 @@ class Geohash(str, Named):
     def bounds(self, LatLon, **kwds):
         '''Return the SW and NE bounds of this geohash cell.
 
-           @param LatLon: Class to use (I{LatLon}).
+           @param LatLon: Class to use (C{LatLon}).
            @keyword kwds: Optional keyword arguments for I{LatLon}.
 
            @return: 2-Tuple (LatLonSW, LatLonNE) of I{LatLon}s for
@@ -206,7 +206,7 @@ class Geohash(str, Named):
         return LatLon(s, w, **kwds), LatLon(n, e, **kwds)
 
     def distance1(self, other):
-        '''DEPRECATED, use method I{distance1To}.
+        '''DEPRECATED, use method C{distance1To}.
         '''
         return self.distance1To(other)
 
@@ -218,8 +218,8 @@ class Geohash(str, Named):
 
            @return: Approximate distance (C{meter}).
 
-           @raise TypeError: The I{other} is not a L{Geohash}, I{LatLon}
-                             or str.
+           @raise TypeError: The I{other} is not a L{Geohash}, C{LatLon}
+                             or C{str}.
         '''
         other = _2Geohash(other)
 
@@ -230,7 +230,7 @@ class Geohash(str, Named):
         return float(_Sizes[n][2])
 
     def distance2(self, other, radius=R_M, adjust=False, wrap=False):
-        '''DEPRECATED, use method I{distance2To}.
+        '''DEPRECATED, use method C{distance2To}.
         '''
         return self.distance2To(other, radius=radius, adjust=adjust, wrap=wrap)
 
@@ -251,8 +251,8 @@ class Geohash(str, Named):
                     or distance squared (C{degrees} squared) if I{radius}
                     is C{None} or 0.
 
-           @raise TypeError: The I{other} is not a L{Geohash}, I{LatLon}
-                             or str.
+           @raise TypeError: The I{other} is not a L{Geohash}, C{LatLon}
+                             or C{str}.
 
            @see: U{Local, flat earth approximation
                  <http://www.EdWilliams.org/avform.htm#flat>}, functions
@@ -269,7 +269,7 @@ class Geohash(str, Named):
                                    adjust=adjust, limit=None, wrap=wrap)[0]
 
     def distance3(self, other, radius=R_M, wrap=False):
-        '''DEPRECATED, use method I{distance3To}.
+        '''DEPRECATED, use method C{distance3To}.
         '''
         return self.distance3To(other, radius=radius, wrap=wrap)
 
@@ -284,8 +284,8 @@ class Geohash(str, Named):
 
            @return: Great-circle distance (C{meter}, same units as I{radius}).
 
-           @raise TypeError: The I{other} is not a L{Geohash}, I{LatLon}
-                             or str.
+           @raise TypeError: The I{other} is not a L{Geohash}, C{LatLon}
+                             or C{str}.
         '''
         other = _2Geohash(other)
 
@@ -332,9 +332,9 @@ class Geohash(str, Named):
 
     def toLatLon(self, LatLon, **kwds):
         '''Return (the approximate center of) this geohash cell
-           as an instance of the supplied I{LatLon} class.
+           as an instance of the supplied C{LatLon} class.
 
-           @param LatLon: Class to use (I{LatLon}).
+           @param LatLon: Class to use (C{LatLon}).
            @keyword kwds: Optional keyword arguments for I{LatLon}.
 
            @return: This geohash location (I{LatLon}).
@@ -413,7 +413,8 @@ def bounds(geohash):
 
        @return: 4-Tuple (latS, lonW, latN, lonE) of bounds in (C{degrees}).
 
-       @raise TypeError: The I{geohash} is not a L{Geohash}, I{LatLon} or str.
+       @raise TypeError: The I{geohash} is not a L{Geohash}, C{LatLon}
+                         or C{str}.
 
        @raise ValueError: Invalid or null I{geohash}.
 
@@ -461,9 +462,10 @@ def decode(geohash):
 
        @param geohash: To be decoded (L{Geohash}).
 
-       @return: 2-Tuple (latStr, lonStr) in (strings).
+       @return: 2-Tuple (latStr, lonStr) in (C{str}s).
 
-       @raise TypeError: The I{geohash} is not a L{Geohash}, I{LatLon} or str.
+       @raise TypeError: The I{geohash} is not a L{Geohash}, C{LatLon}
+                         or C{str}.
 
        @raise ValueError: Invalid or null I{geohash}.
 
@@ -493,7 +495,8 @@ def decode_error(geohash):
 
        @return: 2-Tuple (latErr, lonErr) in (C{degrees}).
 
-       @raise TypeError: The I{geohash} is not a L{Geohash}, I{LatLon} or str.
+       @raise TypeError: The I{geohash} is not a L{Geohash}, C{LatLon}
+                         or C{str}.
 
        @raise ValueError: Invalid or null I{geohash}.
 
@@ -516,7 +519,8 @@ def distance1(geohash1, geohash2):
 
        @return: Approximate distance (C{meter}).
 
-       @raise TypeError: A I{geohash*} is not a L{Geohash}, I{LatLon} or str.
+       @raise TypeError: A I{geohash*} is not a L{Geohash}, C{LatLon}
+              or C{str}.
 
        @example:
 
@@ -535,7 +539,8 @@ def distance2(geohash1, geohash2, radius=R_M):
 
        @return: Approximate distance (C{meter}, same units as I{radius}).
 
-       @raise TypeError: A I{geohash*} is not a L{Geohash}, I{LatLon} or C{str}.
+       @raise TypeError: A I{geohash*} is not a L{Geohash}, C{LatLon}
+              or C{str}.
 
        @example:
 
@@ -554,7 +559,8 @@ def distance3(geohash1, geohash2, radius=R_M):
 
        @return: Great-circle distance (C{meter}, same units as I{radius}).
 
-       @raise TypeError: A I{geohash*} is not a L{Geohash}, I{LatLon} or C{str}.
+       @raise TypeError: A I{geohash*} is not a L{Geohash}, C{LatLon}
+              or C{str}.
 
        @example:
 
@@ -644,7 +650,8 @@ def neighbors(geohash):
 
        @return: Neighbors (dict(N=, NE=, E= ..., SW=) of L{Geohash}es).
 
-       @raise TypeError: The I{geohash} is not a L{Geohash}, I{LatLon} or str.
+       @raise TypeError: The I{geohash} is not a L{Geohash}, C{LatLon}
+              or C{str}.
 
        @JSname: I{neighbours}.
     '''
@@ -658,7 +665,8 @@ def sizes(geohash):
 
        @return: 2-Tuple (latHeight, lonWidth) in (C{meter}).
 
-       @raise TypeError: The I{geohash} is not a L{Geohash}, I{LatLon} or C{str}.
+       @raise TypeError: The I{geohash} is not a L{Geohash}, C{LatLon}
+              or C{str}.
     '''
     return _2Geohash(geohash).sizes
 

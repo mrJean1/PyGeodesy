@@ -30,13 +30,14 @@ or by converting to anothor datum:
 
 from datum import Datums
 from ellipsoidalBase import CartesianBase, LatLonEllipsoidalBase
+from points import ispolar  # PYCHOCK ispolar
 from utily import points2, property_RO, unroll180, \
                   wrap90, wrap180, wrap360
 
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon',  # classes
-           'areaOf', 'perimeterOf')  # functions
-__version__ = '18.10.04'
+           'areaOf', 'ispolar', 'perimeterOf')  # functions
+__version__ = '18.10.12'
 
 
 class LatLon(LatLonEllipsoidalBase):
@@ -52,9 +53,30 @@ class LatLon(LatLonEllipsoidalBase):
     '''
 
     def bearingTo(self, other, wrap=False):
-        '''DEPRECATED, use method I{initialBearingTo}.
+        '''DEPRECATED, use method C{initialBearingTo}.
         '''
         return self.initialBearingTo(other, wrap=wrap)
+
+    def bearingTo2(self, other, wrap=False):
+        '''Compute the initial and final bearing (forward and reverse
+           azimuth) from this to an other point, using Karney's
+           Inverse method.  See methods L{initialBearingTo} and
+           L{finalBearingTo} for more details.
+
+           @param other: The other point (L{LatLon}).
+           @keyword wrap: Wrap and unroll longitudes (C{bool}).
+
+           @return: 2-Tuple (initial, final) bearings (compass C{degrees360}).
+
+           @raise ImportError: Package U{GeographicLib
+                  <http://PyPI.org/project/geographiclib>} missing.
+
+           @raise TypeError: The I{other} point is not L{LatLon}.
+
+           @raise ValueError: If this and the I{other} point's L{Datum}
+                              ellipsoids are not compatible.
+        '''
+        return self._inverse(other, True, wrap)[1:]
 
     def destination(self, distance, bearing, height=None):
         '''Compute the destination point after having travelled
@@ -161,7 +183,7 @@ class LatLon(LatLonEllipsoidalBase):
            @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
            @return: 3-Tuple (distance, initial bearing, final bearing) in
-                    (C{meter}, compass C{degrees360}, compass C{degree360}).
+                    (C{meter}, compass C{degrees360}, compass C{degrees360}).
 
            @raise TypeError: The I{other} point is not L{LatLon}.
 
@@ -225,7 +247,7 @@ class LatLon(LatLonEllipsoidalBase):
 
     @property_RO
     def geodesic(self):
-        '''Get this I{LatLon}'s U{Geodesic
+        '''Get this C{LatLon}'s U{Geodesic
            <http://GeographicLib.SourceForge.io/html/python/code.html>},
            provided U{GeographicLib
            <http://PyPI.org/project/geographiclib>} is installed.
@@ -319,8 +341,8 @@ class Cartesian(CartesianBase):
            an (ellipsoidal) geodetic point on the specified datum.
 
            @keyword datum: Optional datum to use (L{Datum}).
-           @keyword LatLon: Optional (ellipsoidal) LatLon (sub-)class to
-                            use for the point (L{LatLon}) or C{None}.
+           @keyword LatLon: Optional ellipsoidal (sub-)class to use
+                            for the point (L{LatLon}) or C{None}.
 
            @return: The ellipsoidal geodetic point (L{LatLon}) or 3-tuple
                     (C{degrees90}, C{degrees180}, height) if I{LatLon}

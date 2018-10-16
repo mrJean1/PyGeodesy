@@ -4,7 +4,7 @@
 # Test elevations functions.
 
 __all__ = ('Tests',)
-__version__ = '18.09.14'
+__version__ = '18.10.12'
 
 from base import isPython2, isPython3, TestsBase
 
@@ -35,7 +35,7 @@ class Tests(TestsBase):
             m, _ = p.elevation2(datum=datum, timeout=timeout)
             self.test('elevation2', m, e, fmt='%s' if m is None else '%.3f')
             m, _ = p.geoidHeight2(datum=datum, timeout=timeout)
-            self.test('geodHeight2', m, h, fmt='%s' if m is None else '%.3f')  # PYCHOK invoked
+            self.test('geodHeight2', m, h, fmt='%s' if m is None else '%.3f')  # PYCHOK test attr?
 
         m, x = elevation2(0, 0, timeout=timeout)
         self.testError('elevation2', m, x, "ValueError('non-CONUS')")

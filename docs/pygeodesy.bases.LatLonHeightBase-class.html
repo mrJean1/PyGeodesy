@@ -77,7 +77,7 @@ object --+
 </dd></dl>
 
 <hr />
-<p>(INTERNAL) Base class for <i>LatLon</i> points on spherical or 
+<p>(INTERNAL) Base class for <code>LatLon</code> points on spherical or 
   ellipsiodal earth models.</p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
@@ -116,7 +116,7 @@ object --+
         <span class="summary-sig-arg">lon</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
-      New <i>LatLon</i>.</td>
+      New <code>LatLon</code>.</td>
           <td align="right" valign="top">
             
             
@@ -207,7 +207,7 @@ object --+
         <tr>
           <td><span class="summary-sig"><a name="compassAngle"></a><span class="summary-sig-name">compassAngle</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
-      DEPRECATED, use method <i>compassAngleTo</i>.</td>
+      DEPRECATED, use method <code>compassAngleTo</code>.</td>
           <td align="right" valign="top">
             
             
@@ -262,7 +262,7 @@ object --+
           <td><span class="summary-sig"><a name="equals"></a><span class="summary-sig-name">equals</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">None</span>)</span><br />
-      DEPRECATED, use method <i>isequalTo</i>.</td>
+      DEPRECATED, use method <code>isequalTo</code>.</td>
           <td align="right" valign="top">
             
             
@@ -281,7 +281,7 @@ object --+
           <td><span class="summary-sig"><a name="equals3"></a><span class="summary-sig-name">equals3</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">None</span>)</span><br />
-      DEPRECATED, use method <i>isequalTo3</i>.</td>
+      DEPRECATED, use method <code>isequalTo3</code>.</td>
           <td align="right" valign="top">
             
             
@@ -344,7 +344,7 @@ object --+
           <td><span class="summary-sig"><a name="isantipode"></a><span class="summary-sig-name">isantipode</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>)</span><br />
-      DEPRECATED, use method <i>isantipodeTo</i>.</td>
+      DEPRECATED, use method <code>isantipodeTo</code>.</td>
           <td align="right" valign="top">
             
             
@@ -438,7 +438,7 @@ object --+
         <tr>
           <td><span class="summary-sig"><a name="latlon2round"></a><span class="summary-sig-name">latlon2round</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">ndigits</span>=<span class="summary-sig-default">0</span>)</span><br />
-      DEPRECATED, use method <i>latlon2</i>.</td>
+      DEPRECATED, use method <code>latlon2</code>.</td>
           <td align="right" valign="top">
             
             
@@ -456,7 +456,7 @@ object --+
         <tr>
           <td><span class="summary-sig"><a name="latlon_"></a><span class="summary-sig-name">latlon_</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">ndigits</span>=<span class="summary-sig-default">0</span>)</span><br />
-      DEPRECATED, use method <i>latlon2</i>.</td>
+      DEPRECATED, use method <code>latlon2</code>.</td>
           <td align="right" valign="top">
             
             
@@ -475,7 +475,7 @@ object --+
           <td><span class="summary-sig"><a name="points"></a><span class="summary-sig-name">points</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">True</span>)</span><br />
-      DEPRECATED, use method <i>points2</i>.</td>
+      DEPRECATED, use method <code>points2</code>.</td>
           <td align="right" valign="top">
             
             
@@ -683,7 +683,7 @@ object --+
     </td>
   </tr></table>
   
-  <p>New <i>LatLon</i>.</p>
+  <p>New <code>LatLon</code>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -696,7 +696,7 @@ object --+
         <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>New instance (<i>LatLon</i>).</dd>
+        <dd>New instance (<code>LatLon</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - Value of <i>lat</i> or <i>lon</i> outside the valid range and 
@@ -762,7 +762,7 @@ object --+
           (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The antipodal point (<i>LatLon</i>).</dd>
+        <dd>The antipodal point (<code>LatLon</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -795,7 +795,7 @@ object --+
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (LatLonSW, LatLonNE) of (<i>LatLon</i>s).</dd>
+        <dd>2-Tuple (LatLonSW, LatLonNE) of (<code>LatLon</code>s).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="http://www.Movable-Type.co.UK/scripts/latlong-db.html" 
@@ -825,13 +825,13 @@ object --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - The other point (<i>LatLon</i>).</li>
+        <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Compass angle from North (<code>degrees360</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <i>LatLon</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <code>LatLon</code>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -860,7 +860,7 @@ object --+
   <p>Copy this point.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>The copy (<i>LatLon</i> or subclass thereof).</dd>
+        <dd>The copy (<code>LatLon</code> or subclass thereof).</dd>
     <dt>Overrides:
         Named.copy
     </dt>
@@ -890,25 +890,25 @@ object --+
   <p>Suitable only for short, non-near-polar distances up to a few hundred 
   Km or Miles.  Use method <code>haversineTo</code> or 
   <code>distanceTo*</code> for more accurate and/or larger distances.</p>
-  <p>See function <a href="pygeodesy.utily-module.html#equirectangular_" 
+  <p>See function <a href="pygeodesy.formy-module.html#equirectangular_" 
   class="link">equirectangular_</a> for more details, the available 
   <i>options</i> and errors raised.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - The other point (<i>LatLon</i>).</li>
+        <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>) or 
           <code>None</code> for the mean radius of this point's datum 
           ellipsoid.</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments for function <a 
-          href="pygeodesy.utily-module.html#equirectangular" 
+          href="pygeodesy.formy-module.html#equirectangular" 
           class="link">equirectangular</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as <i>radius</i>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <i>LatLon</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <code>LatLon</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -936,7 +936,7 @@ object --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - The other point (<i>LatLon</i>).</li>
+        <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>) or 
           <code>None</code> for the mean radius of this point's datum 
           ellipsoid.</li>
@@ -947,11 +947,11 @@ object --+
         <dd>Distance (<code>meter</code>, same units as <i>radius</i>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <i>LatLon</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <code>LatLon</code>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.utily-module.html#haversine" 
+        Function <a href="pygeodesy.formy-module.html#haversine" 
         class="link">haversine</a>, methods <code>equirectangularTo</code> 
         and <code>distanceTo*</code>.
       </p>
@@ -978,7 +978,7 @@ object --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - The other point (<i>LatLon</i>).</li>
+        <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
         <li><strong class="pname"><code>eps</code></strong> - Tolerance for near-equality (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -1007,7 +1007,7 @@ object --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - The other point (<i>LatLon</i>).</li>
+        <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
         <li><strong class="pname"><code>eps</code></strong> - Tolerance for equality (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -1015,7 +1015,7 @@ object --+
           height, <code>False</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <i>LatLon</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <code>LatLon</code>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -1051,7 +1051,7 @@ object --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - The other point (<i>LatLon</i>).</li>
+        <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
         <li><strong class="pname"><code>eps</code></strong> - Tolerance for equality (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -1059,7 +1059,7 @@ object --+
           height, <code>False</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <i>LatLon</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <code>LatLon</code>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -1125,7 +1125,7 @@ object --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The polygon points (<i>LatLon</i>s)</li>
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>s)</li>
         <li><strong class="pname"><code>closed</code></strong> - Optionally, consider the polygon closed, ignoring any duplicate 
           or closing final <i>points</i> (<code>bool</code>).</li>
     </ul></dd>
@@ -1134,7 +1134,7 @@ object --+
           <code>list</code> or <code>tuple</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <i>LatLon</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <code>LatLon</code>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
     </ul></dd>
   </dl>
@@ -1373,7 +1373,7 @@ object --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Oct 10 15:42:15 2018
+    Generated by Epydoc 3.0.1 on Mon Oct 15 20:59:41 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -113,9 +113,9 @@ from bases import Based, inStr, Named, _xattrs
 from fmath import EPS, EPS1, cbrt, cbrt2, fdot, fpowers, fStr, \
                   fsum_, sqrt3
 from utily import R_M, degrees360, m2degrees, m2km, m2NM, m2SM, \
-                  property_RO, radians, _Strs
+                  property_RO, _Strs
 
-from math import atan2, atanh, cos, hypot, sin, sqrt
+from math import atan2, atanh, cos, hypot, radians, sin, sqrt
 
 R_M  = R_M        #: Mean, spherical earth radius (C{meter}).
 R_MA = 6378137.0  #: Equatorial earth radius (C{meter}) WGS84, EPSG:3785.
@@ -135,7 +135,7 @@ R_VM = 6366707.0194937  #: Aviation/Navigation earth radius (C{meter}).
 __all__ = ('R_M', 'R_MA', 'R_MB', 'R_KM', 'R_NM', 'R_SM', 'R_FM', 'R_VM',  # constants
            'Datum',  'Ellipsoid',  'Transform',  # classes
            'Datums', 'Ellipsoids', 'Transforms')  # enum-like
-__version__ = '18.10.06'
+__version__ = '18.10.12'
 
 division = 1 / 2  # double check int division, see .fmath.py, .utily.py
 if not division:
@@ -144,10 +144,10 @@ del division
 
 
 class _Enum(dict, Named):
-    '''(INTERNAL) Enum-like dict sub-class.
+    '''(INTERNAL) Enum-like C{dict} sub-class.
     '''
     def __init__(self, name):
-        '''New Enum.
+        '''New C{Enum}.
 
            @param name: Name (C{str}).
         '''

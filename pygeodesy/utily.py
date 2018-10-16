@@ -13,23 +13,19 @@ U{Vector-based geodesy<http://www.Movable-Type.co.UK/scripts/latlong-vectors.htm
 # make sure int division yields float quotient
 from __future__ import division
 
-from fmath import _Seqs, EPS, fStr, fsum_, hypot, len2, map2
+from fmath import _Seqs, EPS, len2, map2
 
-from math import acos, atan2, cos, degrees, pi as PI, \
-                 radians, sin, sqrt, tan  # pow
+from math import cos, degrees, pi as PI, radians, tan  # pow
 
 # all public contants, classes and functions
 __all__ = ('PI', 'PI2', 'PI_2', 'R_M',  # constants
            'LimitError',  # classes
-           'acos1', 'anStr', 'antipode',
+           'anStr',
            'degrees', 'degrees90', 'degrees180', 'degrees360', 'degrees2m',
            'enStr2',
-           'equirectangular', 'equirectangular_',
            'false2f', 'ft2m',
            'halfs',
-           'haversine', 'haversine_',  # XXX removed 'hsin', 'hsin3',
-           'heightOf', 'horizon',
-           'isantipode', 'issequence',
+           'issequence',
            'isNumpy2', 'isPoints2', 'isTuple2',
            'iterNumpy2', 'iterNumpy2over',
            'limiterrors',
@@ -40,7 +36,7 @@ __all__ = ('PI', 'PI2', 'PI_2', 'R_M',  # constants
            'unroll180', 'unrollPI', 'unStr',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '18.10.10'
+__version__ = '18.10.12'
 
 division = 1 / 2  # double check int division, see .datum.py
 if not division:
@@ -70,12 +66,6 @@ class LimitError(ValueError):
     pass
 
 
-def acos1(x):
-    '''Return M{math.acos(max(-1, min(1, x)))}.
-    '''
-    return acos(max(-1.0, min(1.0, x)))
-
-
 def anStr(name, OKd='._-', sub='_'):
     '''Make string a valid name of alphanumeric and OKd characters.
 
@@ -94,21 +84,6 @@ def anStr(name, OKd='._-', sub='_'):
         if not (c.isalnum() or c in OKd or c in sub):
             s = s.replace(c, ' ')
     return sub.join(s.strip().split())
-
-
-def antipode(lat, lon):
-    '''Return the antipode, the point diametrically opposite to the
-       given lat- and longitude.
-
-       @param lat: Latitude (C{degrees}).
-       @param lon: Longitude (C{degrees}).
-
-       @return: 2-Tuple (lat, lon) of the antipodal point
-                (C{degrees}, C{degrees180}).
-
-       @see: U{Geosphere<http://CRAN.R-Project.org/web/packages/geosphere/geosphere.pdf>}.
-    '''
-    return -lat, _wrap(lon + 180, 180, 360)
 
 
 def degrees90(rad):
@@ -141,15 +116,23 @@ def degrees360(rad):
     return _wrap(degrees(rad), 360, 360)
 
 
-def degrees2m(deg, radius=R_M):
+def degrees2m(deg, radius=R_M, lat=0):
     '''Convert angle to distance along equator.
 
        @param deg: Angle (C{degrees}).
        @keyword radius: Mean earth radius (C{meter}).
+       @keyword lat: Latitude adjusting the distance (C{degrees90}).
 
        @return: Distance (C{meter}, same units as I{radius}).
+
+       @raise RangeError: Latitude I{lat} outside valid range
+                          and I{rangerrrors} set to C{True}.
     '''
-    return radians(deg) * radius
+    m = radians(deg) * radius
+    if lat:
+        from dms import clipDMS
+        m *= cos(radians(clipDMS(lat, 90)))
+    return m
 
 
 def enStr2(easting, northing, prec, *extras):
@@ -171,91 +154,6 @@ def enStr2(easting, northing, prec, *extras):
         raise ValueError('%s invalid: %r' % ('prec', prec))
     return extras + ('%0*d' % (w, int(easting * p10)),
                      '%0*d' % (w, int(northing * p10)))
-
-
-def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **options):
-    '''Compute the distance between two points using
-       the U{Equirectangular Approximation / Projection
-       <http://www.Movable-Type.co.UK/scripts/latlong.html>}.
-
-       See function L{equirectangular_} for more details, the
-       available I{options} and errors raised.
-
-       @param lat1: Start latitude (C{degrees}).
-       @param lon1: Start longitude (C{degrees}).
-       @param lat2: End latitude (C{degrees}).
-       @param lon2: End longitude (C{degrees}).
-       @keyword radius: Optional, mean earth radius (C{meter}).
-       @keyword options: Optional keyword arguments for function
-                         L{equirectangular_}.
-
-       @return: Distance (C{meter}, same units as I{radius}).
-
-       @see: U{Local, flat earth approximation
-             <http://www.EdWilliams.org/avform.htm#flat>}, function
-             L{haversine}, method L{Ellipsoid.distance2} and C{LatLon}
-             methods C{distanceTo*} for more accurate and/or larger
-             distances.
-    '''
-    _, dy, dx, _ = equirectangular_(lat1, lon1, lat2, lon2, **options)
-    return degrees2m(hypot(dx, dy), radius=radius)
-
-
-def equirectangular_(lat1, lon1, lat2, lon2,
-                     adjust=True, limit=45, wrap=False):
-    '''Compute the distance between two points using
-       the U{Equirectangular Approximation / Projection
-       <http://www.Movable-Type.co.UK/scripts/latlong.html>}.
-
-       This approximation is valid for smaller distance of several
-       hundred Km or Miles, see the I{limit} keyword argument and
-       the L{LimitError}.
-
-       @param lat1: Start latitude (C{degrees}).
-       @param lon1: Start longitude (C{degrees}).
-       @param lat2: End latitude (C{degrees}).
-       @param lon2: End longitude (C{degrees}).
-       @keyword adjust: Adjust the wrapped, unrolled longitudinal
-                        delta by the cosine of the mean latitude (C{bool}).
-       @keyword limit: Optional limit for the lat- and longitudinal
-                       deltas (C{degrees}) or C{None} or 0 for unlimited.
-       @keyword wrap: Wrap and L{unroll180} longitudes and longitudinal
-                      delta (C{bool}).
-
-       @return: 4-Tuple (distance2, delta_lat, delta_lon, lon2_unroll)
-                with the distance in degrees squared, the latitudinal
-                delta I{lat2}-I{lat1}, the wrapped, unrolled, and
-                adjusted longitudinal delta I{lon2}-I{lon1} and the
-                unrollment for I{lon2}.
-
-       @raise LimitError: If the lat- and/or longitudinal delta exceeds
-                          the I{-limit..+limit} range and I{limiterrors}
-                          set to C{True}.
-
-       @see: U{Local, flat earth approximation
-             <http://www.EdWilliams.org/avform.htm#flat>}, functions
-             L{equirectangular} and L{haversine}, method
-             L{Ellipsoid.distance2} and C{LatLon} methods C{distanceTo*}
-             for more accurate and/or larger distances.
-
-       @see: Function L{degrees2m} to convert C{degrees} to distance,
-             as M{degrees2m(sqrt(distance2), ...)} or
-             M{degrees2m(hypot(delta_lat, delta_lon), ...)}.
-    '''
-    d_lat = lat2 - lat1
-    d_lon, ulon2 = unroll180(lon1, lon2, wrap=wrap)
-
-    if limit and _limiterrors \
-             and max(abs(d_lat), abs(d_lon)) > limit > 0:
-        t = fStr((lat1, lon1, lat2, lon2), prec=4)
-        raise LimitError('%s(%s, limit=%s) delta exceeds limit' %
-                        ('equirectangular_', t, fStr(limit, prec=2)))
-
-    if adjust:  # scale delta lon
-        d_lon *= cos(radians(lat1 + lat2) * 0.5)
-
-    d2 = d_lat**2 + d_lon**2  # degrees squared!
-    return d2, d_lat, d_lon, ulon2 - lon2
 
 
 def false2f(value, name='value', false=True):
@@ -301,129 +199,6 @@ def halfs(str2):
     if r or not h:
         raise ValueError('%s invalid: %r' % ('str2', str2))
     return str2[:h], str2[h:]
-
-
-def haversine(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
-    '''Compute the distance between two points using the U{Haversine
-       <http://www.Movable-Type.co.UK/scripts/latlong.html>} formula.
-
-       @param lat1: Start latitude (C{degrees}).
-       @param lon1: Start longitude (C{degrees}).
-       @param lat2: End latitude (C{degrees}).
-       @param lon2: End longitude (C{degrees}).
-       @keyword radius: Optional, mean earth radius (C{meter}).
-       @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
-
-       @return: Distance (C{meter}, same units as I{radius}).
-
-       @see: U{Distance between two (spherical) points
-             <http://www.EdWilliams.org/avform.htm#Dist>}, functions
-             L{equirectangular}, L{Ellipsoid.distance2} or I{LatLon}
-             methods I{distanceTo*} and I{equirectangularTo}.
-    '''
-    d, lon2 = unroll180(lon1, lon2, wrap=wrap)
-    r = haversine_(radians(lat2), radians(lat1), radians(d))
-    return r * float(radius)
-
-
-def haversine_(a2, a1, b21):
-    '''Compute the I{angular} distance between two points using the
-       U{Haversine<http://www.Movable-Type.co.UK/scripts/latlong.html>}
-       formula.
-
-       @param a2: End latitude (C{radians}).
-       @param a1: Start latitude (C{radians}).
-       @param b21: Longitudinal delta, M{end-start} (C{radians}).
-
-       @return: Angular distance (C{radians}).
-
-       @see: Function L{haversine}.
-    '''
-    def _hsin(rad):
-        return sin(rad * 0.5)**2
-
-    h = _hsin(a2 - a1) + cos(a1) * cos(a2) * _hsin(b21)  # haversine
-    try:
-        r = atan2(sqrt(h), sqrt(1 - h)) * 2  # == asin(sqrt(h)) * 2
-    except ValueError:
-        r = 0 if h < 0.5 else PI
-    return r
-
-
-def heightOf(angle, distance, radius=R_M):
-    '''Determine the height above the (spherical) earth after
-       traveling along a straight line at a given tilt.
-
-       @param angle: Tilt angle above horizontal (C{degrees}).
-       @param distance: Distance along the line (C{meter} or same units
-                        as I{radius}).
-       @keyword radius: Optional mean earth radius (C{meter}).
-
-       @return: Height (C{meter}, same units as I{distance} and I{radius}).
-
-       @raise ValueError: Invalid I{angle}, I{distance} or I{radius}.
-
-       @see: U{MultiDop GeogBeamHt<http://GitHub.com/NASA/MultiDop>}
-             (U{Shapiro et al. 2009, JTECH
-             <http://journals.AMetSoc.org/doi/abs/10.1175/2009JTECHA1256.1>}
-             and U{Potvin et al. 2012, JTECH
-             <http://journals.AMetSoc.org/doi/abs/10.1175/JTECH-D-11-00019.1>}).
-    '''
-    d, r = distance, radius
-    if d > r:
-        d, r = r, d
-
-    if d > EPS:
-        d = d / float(r)
-        s = sin(radians(angle))
-        s = fsum_(1, 2 * s * d, d**2)
-        if s > 0:
-            return r * sqrt(s) - float(radius)
-
-    raise ValueError('%s%r' % ('heightOf', (angle, distance, radius)))
-
-
-def horizon(height, radius=R_M, refraction=False):
-    '''Determine the distance to the horizon from a given altitude
-       above the (spherical) earth.
-
-       @param height: Altitude (C{meter} or same units as I{radius}).
-       @keyword radius: Optional mean earth radius (C{meter}).
-       @keyword refraction: Consider atmospheric refraction (C{bool}).
-
-       @return: Distance (C{meter}, same units as I{height} and I{radius}).
-
-       @raise ValueError: Invalid I{height} or I{radius}.
-
-       @see: U{Distance to horizon<http://www.EdWilliams.org/avform.htm#Horizon>}.
-    '''
-    if min(height, radius) < 0:
-        raise ValueError('%s%r' % ('horizon', (height, radius)))
-
-    if refraction:
-        d2 = 2.415750694528 * height * radius  # 2.0 / 0.8279
-    else:
-        d2 = height * fsum_(radius, radius, height)
-    return sqrt(d2)
-
-
-def isantipode(lat1, lon1, lat2, lon2, eps=EPS):
-    '''Check whether two points are anitpodal, on diametrically
-       opposite sides of the earth.
-
-       @param lat1: Latitude of one point (C{degrees}).
-       @param lon1: Longitude of one point (C{degrees}).
-       @param lat2: Latitude of the other point (C{degrees}).
-       @param lon2: Longitude of the other point (C{degrees}).
-       @keyword eps: Tolerance for near-equality (C{degrees}).
-
-       @return: C{True} if points are antipodal within the
-                I{eps} tolerance, C{False} otherwise.
-
-       @see: U{Geosphere<http://CRAN.R-Project.org/web/packages/geosphere/geosphere.pdf>}.
-    '''
-    return abs( lat1 + lat2) < eps and \
-           abs((lon1 - lon2) % 360 - 180) < eps
 
 
 def isNumpy2(obj):
@@ -590,7 +365,7 @@ def m2SM(meter):
 def points2(points, closed=True, base=None):
     '''Check a polygon represented by points.
 
-       @param points: The polygon points (I{LatLon}s)
+       @param points: The polygon points (C{LatLon}s)
        @keyword closed: Optionally, consider the polygon closed,
                         ignoring any duplicate or closing final
                         I{points} (C{bool}).
@@ -600,7 +375,7 @@ def points2(points, closed=True, base=None):
        @return: 2-Tuple (n, points) with the number (C{int}) of points
                 and the points C{list} or C{tuple}.
 
-       @raise TypeError: Some I{points} are not I{LatLon}.
+       @raise TypeError: Some I{points} are not C{LatLon}.
 
        @raise ValueError: Insufficient number of I{points}.
     '''

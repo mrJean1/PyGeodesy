@@ -122,7 +122,7 @@
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">False</span>)</span><br />
-      DEPRECATED, use method <i>initialBearingTo</i>.</td>
+      DEPRECATED, use method <code>initialBearingTo</code>.</td>
           <td align="right" valign="top">
             
             
@@ -327,7 +327,7 @@
         <tr>
           <td><span class="summary-sig"><a name="isEnclosedBy"></a><span class="summary-sig-name">isEnclosedBy</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">points</span>)</span><br />
-      DEPRECATED, used method <i>isenclosedBy</i>.</td>
+      DEPRECATED, use method <code>isenclosedBy</code>.</td>
           <td align="right" valign="top">
             
             
@@ -419,6 +419,7 @@
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html">sphericalBase.LatLonSphericalBase</a></code></b>:
+      <code><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#bearingTo2">bearingTo2</a></code>,
       <code><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#finalBearingTo">finalBearingTo</a></code>,
       <code><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#maxLat">maxLat</a></code>,
       <code><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#minLat">minLat</a></code>,
@@ -813,7 +814,7 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - The other point (<a 
+        <li><strong class="pname"><code>other</code></strong> - The other point (spherical <a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
@@ -1061,7 +1062,7 @@
   
   <p>Locate the point between two points closest and this point.</p>
   <p>Distances are approximated by function <a 
-  href="pygeodesy.utily-module.html#equirectangular_" 
+  href="pygeodesy.formy-module.html#equirectangular_" 
   class="link">equirectangular_</a>, subject to the supplied 
   <i>options</i>.</p>
   <dl class="fields">
@@ -1075,7 +1076,7 @@
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments for function <a 
-          href="pygeodesy.utily-module.html#equirectangular_" 
+          href="pygeodesy.formy-module.html#equirectangular_" 
           class="link">equirectangular_</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -1085,7 +1086,7 @@
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
-        <a href="pygeodesy.utily-module.html#equirectangular_" 
+        <a href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - If <i>point1</i> or <i>point2</i> is not <a 
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
@@ -1093,7 +1094,7 @@
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Functions  <a href="pygeodesy.utily-module.html#equirectangular_" 
+        Functions  <a href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>, <a 
         href="pygeodesy.points-module.html#nearestOn3" 
         class="link">nearestOn3</a> and <a 
@@ -1122,7 +1123,7 @@
   
   <p>Locate the point on a polygon closest to this point.</p>
   <p>Distances are approximated by function <a 
-  href="pygeodesy.utily-module.html#equirectangular_" 
+  href="pygeodesy.formy-module.html#equirectangular_" 
   class="link">equirectangular_</a>, subject to the supplied 
   <i>options</i>.</p>
   <dl class="fields">
@@ -1134,7 +1135,7 @@
         <li><strong class="pname"><code>closed</code></strong> - Optionally, close the polygon (<code>bool</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments for function <a 
-          href="pygeodesy.utily-module.html#equirectangular_" 
+          href="pygeodesy.formy-module.html#equirectangular_" 
           class="link">equirectangular_</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -1142,20 +1143,20 @@
           (<a href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>) on the polygon and the distance to that 
           point.  The <i>distance</i> is the <a 
-          href="pygeodesy.utily-module.html#equirectangular_" 
+          href="pygeodesy.formy-module.html#equirectangular_" 
           class="link">equirectangular_</a> distance between this and the 
           closest point in <code>meter</code>, same units as <i>radius</i>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
-        <a href="pygeodesy.utily-module.html#equirectangular_" 
+        <a href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <i>LatLon</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <code>LatLon</code>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Functions  <a href="pygeodesy.utily-module.html#equirectangular_" 
+        Functions  <a href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>, <a 
         href="pygeodesy.points-module.html#nearestOn3" 
         class="link">nearestOn3</a> and <a 
@@ -1219,7 +1220,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Oct 10 15:42:16 2018
+    Generated by Epydoc 3.0.1 on Mon Oct 15 20:59:42 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -21,14 +21,14 @@ from ellipsoidalBase import LatLonEllipsoidalBase as _ELLB
 from datum import _Based, Datums, _Enum
 from fmath import EPS, fStr, hypot
 from utily import PI_2, degrees90, degrees180, false2f, \
-                  property_RO, radians, tanPI_2_2
+                  property_RO, tanPI_2_2
 
-from math import atan, copysign, cos, log, sin, sqrt
+from math import atan, copysign, cos, log, radians, sin, sqrt
 
 # all public constants, classes and functions
 __all__ = ('Conic', 'Conics', 'Lcc',
            'toLcc')  # functions
-__version__ = '18.10.10'
+__version__ = '18.10.12'
 
 
 Conics = _Enum('Conics')  #: Registered conics (L{_Enum}).
@@ -62,7 +62,7 @@ class Conic(_Based):
                        k0=1, opt3=0, name='', auth=''):
         '''New Lambert conformal conic projection.
 
-           @param latlon0: Origin including an ellipsoidal datum (I{LatLon}).
+           @param latlon0: Origin with (ellipsoidal) datum (C{LatLon}).
            @param par1: First standard parallel (C{degrees90}).
            @keyword par2: Optional, second standard parallel (C{degrees90}).
            @keyword E0: Optional, false easting (C{meter}).
@@ -405,10 +405,10 @@ class Lcc(Based):
         '''Convert this L{Lcc} to a geodetic lat- and longitude.
 
            @keyword datum: Optional datum to use, otherwise use this
-                           I{Lcc}'s conic.datum (I{Datum}).
+                           I{Lcc}'s conic.datum (C{Datum}).
 
-           @return: 3-Tuple (lat, lon, datum) in (degrees90,
-                    degrees180, datum).
+           @return: 3-Tuple (lat, lon, datum) in (C{degrees90},
+                    {degrees180}, I{datum}).
 
            @raise TypeError: If I{datum} is not ellipsoidal.
         '''
@@ -437,9 +437,9 @@ class Lcc(Based):
         '''Convert this L{Lcc} to an (ellipsoidal) geodetic point.
 
            @keyword LatLon: Optional, ellipsoidal (sub-)class to use for
-                            the geodetic point (I{LatLon}) or C{None}.
+                            the geodetic point (C{LatLon}) or C{None}.
            @keyword datum: Optional datum to use, otherwise use this
-                           I{Lcc}'s conic.datum (I{Datum}).
+                           I{Lcc}'s conic.datum (C{Datum}).
            @keyword height: Optional height for the point, overriding
                             the default height (C{meter}).
 
@@ -502,7 +502,7 @@ class Lcc(Based):
 def toLcc(latlon, conic=Conics.WRF_Lb, height=None, Lcc=Lcc, name=''):
     '''Convert an (ellipsoidal) geodetic point to a Lambert location.
 
-       @param latlon: Ellipsoidal point (I{LatLon}).
+       @param latlon: Ellipsoidal point (C{LatLon}).
        @keyword conic: Optional Lambert projection to use (L{Conic}).
        @keyword height: Optional height for the point, overriding
                         the default height (C{meter}).

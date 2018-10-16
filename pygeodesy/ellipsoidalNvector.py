@@ -29,15 +29,15 @@ from ellipsoidalBase import CartesianBase, LatLonEllipsoidalBase
 from fmath import EPS, cbrt, fdot, fStr, fsum_, hypot, hypot3
 from nvector import NorthPole, LatLonNvectorBase, \
                     Nvector as NvectorBase, sumOf
-from utily import degrees90, degrees360, property_RO, radians
+from utily import degrees90, degrees360, property_RO
 from vector3d import Vector3d
 
-from math import asin, atan2, cos, sin, sqrt
+from math import asin, atan2, cos, radians, sin, sqrt
 
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '18.10.10'
+__version__ = '18.10.12'
 
 
 class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
@@ -255,7 +255,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #         return v1.angleTo(v2) * float(r)
 
     def equals(self, other, eps=None):
-        '''DEPRECATED, use method I{isequalTo}.
+        '''DEPRECATED, use method C{isequalTo}.
         '''
         return self.isequalTo(other, eps=eps)
 
@@ -435,8 +435,8 @@ class Cartesian(CartesianBase):
            an (ellipsoidal) geodetic point on the specified datum.
 
            @keyword datum: Optional datum to use (L{Datum}).
-           @keyword LatLon: Optional (ellipsoidal) LatLon (sub-)class to
-                            use for the point (L{LatLon}) or C{None}.
+           @keyword LatLon: Optional ellipsoidal (sub-)class to use
+                            for the point (L{LatLon}) or C{None}.
 
            @return: The ellipsoidal geodetic point (L{LatLon}) or 3-tuple
                     (C{degrees90}, C{degrees180}, height) if I{LatLon}
@@ -653,8 +653,8 @@ class Nvector(NvectorBase):
 
            @keyword height: Optional height, overriding the default
                             height (C{meter}).
-           @keyword LatLon: Optional (ellipsoidal) LatLon (sub-)class
-                            to use for the point (L{LatLon}) or C{None}.
+           @keyword LatLon: Optional ellipsoidal (sub-)class to use
+                            for the point (L{LatLon}) or C{None}.
 
            @return: Point equivalent to this n-vector (L{LatLon}) or
                     3-tuple (C{degrees90}, C{degrees180}, height) if
