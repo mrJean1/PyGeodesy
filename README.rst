@@ -88,6 +88,8 @@ cases documentation tag **JS name:** shows the original JavaScript name.
    :target: http://Cirrus-CI.com/github/mrJean1/PyGeodesy
 .. image:: https://Img.Shields.io/pypi/v/PyGeodesy.svg?label=PyPI
    :target: http://PyPI.org/project/PyGeodesy
+.. image:: https://Img.Shields.io/pypi/wheel/PyGeodesy.svg
+   :target: http://PyPI.org/project/PyGeodesy/#files
 
 .. _checked: http://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor
 .. _Debian 8: http://Travis-CI.org/mrJean1/PyGeodesy
