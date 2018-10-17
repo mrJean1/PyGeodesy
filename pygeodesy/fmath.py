@@ -23,7 +23,7 @@ __all__ = ('EPS', 'EPS1',  # constants
            'len2',
            'map1', 'map2',
            'scalar', 'sqrt3')
-__version__ = '18.10.12'
+__version__ = '18.10.16'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -70,7 +70,7 @@ def _2even(s, r, p):
 
 
 def _2sum(a, b):
-    '''(INTERNAL) Precision I{2sum} of M{a + b}.
+    '''(INTERNAL) Precision C{2sum} of M{a + b}.
     '''
     s = a + b
     if not isfinite(s):
@@ -83,14 +83,14 @@ def _2sum(a, b):
 
 class Fsum(object):
     '''Precision floating point summation similar to standard
-       Python function I{math.fsum}.
+       Python function C{math.fsum}.
 
-       Unlike I{math.fsum}, this class accumulates the values
+       Unlike C{math.fsum}, this class accumulates the values
        incrementally and provides intermediate, precision, running
        sums.  Accumulation may continue after intermediate
        summations.
 
-       @note: Exception and I{non-finite} handling differ from I{math.fsum}.
+       @note: Exception and I{non-finite} handling differ from C{math.fsum}.
 
        @see: U{Hettinger<http://code.ActiveState.com/recipes/393090>},
              U{Kahan<http://WikiPedia.org/wiki/Kahan_summation_algorithm>},
@@ -103,7 +103,7 @@ class Fsum(object):
 
            @param starts: No, one or more start values (scalars).
 
-           @raise OverflowError: Partial I{2sum} overflow.
+           @raise OverflowError: Partial C{2sum} overflow.
 
            @raise TypeError: Non-scalar I{starts} value.
 
@@ -124,7 +124,7 @@ class Fsum(object):
 
            @param iterable: Sequence, list, tuple, etc. (scalars).
 
-           @raise OverflowError: Partial I{2sum} overflow.
+           @raise OverflowError: Partial C{2sum} overflow.
 
            @raise TypeError: Non-scalar  I{iterable} value.
 
@@ -149,7 +149,7 @@ class Fsum(object):
 
            @param args: Values to add (scalars), all positional.
 
-           @raise OverflowError: Partial I{2sum} overflow.
+           @raise OverflowError: Partial C{2sum} overflow.
 
            @raise TypeError: Non-scalar I{args} value.
 
@@ -183,7 +183,7 @@ class Fsum(object):
 
            @return: Accurate, running sum (C{float}).
 
-           @raise OverflowError: Partial I{2sum} overflow.
+           @raise OverflowError: Partial C{2sum} overflow.
 
            @raise TypeError: Non-scalar I{args} value.
 
@@ -200,7 +200,7 @@ class Fsum(object):
 
            @return: Accurate, running sum (C{float}).
 
-           @raise OverflowError: Partial I{2sum} overflow.
+           @raise OverflowError: Partial C{2sum} overflow.
 
            @raise TypeError: Non-scalar I{iterable} value.
 
@@ -473,15 +473,15 @@ def fStrzs(fstr):
 
 
 def fsum_(*args):
-    '''Precision floating point summation of the positional arguments.
+    '''Precision floating point sum of the positional argument vulues.
 
-       @param args: Values to be added (scalars).
+       @param args: Values to be added (C{scalar}s).
 
        @return: Accurate L{fsum} (C{float}).
 
-       @raise OverflowError: Partial I{2sum} overflow.
+       @raise OverflowError: Partial C{2sum} overflow.
 
-       @raise TypeError: An I{arg} not a scalar number.
+       @raise TypeError: Non-scalar I{arg}s value.
 
        @raise ValueError: Invalid or infinite I{arg}s value.
     '''
@@ -500,16 +500,16 @@ try:
 except ImportError:
 
     def fsum(iterable):
-        '''Precision floating point summation similar to standard
-           Python function I{math.fsum}.
+        '''Precision floating point sum similar to standard
+           Python function C{math.fsum}.
 
-           Exception and I{non-finite} handling differs from I{math.fsum}.
+           Exception and I{non-finite} handling differs from C{math.fsum}.
 
-           @param iterable: Sequence, list, tuple, etc. (scalars).
+           @param iterable: Values to be added (C{scalar}s).
 
-           @return: Accurate sum (C{float}).
+           @return: Accurate C{sum} (C{float}).
 
-           @raise OverflowError: Partial I{2sum} overflow.
+           @raise OverflowError: Partial C{2sum} overflow.
 
            @raise TypeError: Non-scalar I{iterable} value.
 

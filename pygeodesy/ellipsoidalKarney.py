@@ -37,7 +37,7 @@ from utily import points2, property_RO, unroll180, \
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon',  # classes
            'areaOf', 'ispolar', 'perimeterOf')  # functions
-__version__ = '18.10.12'
+__version__ = '18.10.16'
 
 
 class LatLon(LatLonEllipsoidalBase):
@@ -297,7 +297,7 @@ class LatLon(LatLonEllipsoidalBase):
         return Cartesian(x, y, z)  # this ellipsoidalVincenty.Cartesian
 
     def _direct(self, distance, bearing, llr, height=None):
-        '''(INTERNAL) Direct Vincenty method.
+        '''(INTERNAL) Direct Karney method.
         '''
         g = self.datum.ellipsoid.geodesic
         m = g.AZIMUTH

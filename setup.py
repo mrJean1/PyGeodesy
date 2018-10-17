@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '18.10.10'
+__version__ = '18.10.16'
 
 
 def _c2(*names):
@@ -51,11 +51,11 @@ _KeyWords=('antipode', 'area', 'azimuth', 'bearing',
            'earth', 'elevation', 'ellipsoid', 'equirectangular',
            'geocentric', 'geodesy', 'geodetic', 'GeodTest',
            'geographiclib', 'geohash', 'geoid', 'geoidHeight',
-           'haversine', 'Karney', 'Krueger', 'Krüger',
+           'haversine', 'horizon', 'Karney', 'Krueger', 'Krüger',
            'Lambert', 'latitude', 'linearize', 'longitude',
            'MGRS', 'nearest', 'numpy', 'n-vector', 'Nvector', 'OSGR',
-           'perimeter', 'Pseudo-Mercator', 'PyGeodesy', 'PyPy',
-           'radius', 'radii', 'Ramer-Douglas-Peucker', 'Reumann-Witkam', 'rhumb',
+           'perimeter', 'polar', 'Pseudo-Mercator', 'PyGeodesy', 'PyPy',
+           'radii', 'radius', 'Ramer-Douglas-Peucker', 'Reumann-Witkam', 'rhumb',
            'simplify', 'sphere', 'TMcoords', 'trigonometry', 'unroll', 'UTM',
            'Vincenty', 'Visvalingam-Whyatt', 'Web-Mercator', 'WGS')
 

@@ -37,7 +37,7 @@ from math import asin, atan2, cos, radians, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '18.10.12'
+__version__ = '18.10.16'
 
 
 class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
@@ -90,7 +90,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #
 #            @param start: Start point of great circle path (L{LatLon}).
 #            @param end: End point of great circle path (L{LatLon}) or
-#                        initial bearing (in compass C{degrees360}) at
+#                        initial bearing (compass C{degrees360}) at
 #                        the start point.
 #            @keyword radius: Optional, mean earth radius (C{meter}).
 #
@@ -496,8 +496,11 @@ class Ned(Named):
        is a vector in the local coordinate frame of a body.
     '''
     _bearing   = None  #: (INTERNAL) Cache bearing (compass C{degrees360}).
+    _down      = None  #: (INTERNAL) Down component (C{meter}).
+    _east      = None  #: (INTERNAL) East component (C{meter}).
     _elevation = None  #: (INTERNAL) Cache elevation (C{degrees}).
     _length    = None  #: (INTERNAL) Cache length (C{float}).
+    _north     = None  #: (INTERNAL) North component (C{meter}).
 
     def __init__(self, north, east, down, name=''):
         '''New North-East-Down vector.
@@ -514,9 +517,9 @@ class Ned(Named):
            >>> delta = Ned(110569, 111297, 1936)
            >>> delta.toStr(prec=0)  #  [N:110569, E:111297, D:1936]
         '''
-        self.north = north
-        self.east  = east
-        self.down  = down
+        self._north = north or 0
+        self._east  = east or 0
+        self._down  = down or 0
         if name:
             self.name = name
 
@@ -530,6 +533,18 @@ class Ned(Named):
         if self._bearing is None:
             self._bearing = degrees360(atan2(self.east, self.north))
         return self._bearing
+
+    @property_RO
+    def down(self):
+        '''Gets the Down component of this NED vector (C{meter}).
+        '''
+        return self._down
+
+    @property_RO
+    def east(self):
+        '''Gets the East component of this NED vector (C{meter}).
+        '''
+        return self._east
 
     @property_RO
     def elevation(self):
@@ -547,6 +562,12 @@ class Ned(Named):
         if self._length is None:
             self._length = hypot3(self.north, self.east, self.down)
         return self._length
+
+    @property_RO
+    def north(self):
+        '''Gets the North component of this NED vector (C{meter}).
+        '''
+        return self._north
 
     def to3ned(self):
         '''Return this NED vector as north/east/down components.

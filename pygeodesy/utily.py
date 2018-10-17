@@ -36,7 +36,7 @@ __all__ = ('PI', 'PI2', 'PI_2', 'R_M',  # constants
            'unroll180', 'unrollPI', 'unStr',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '18.10.12'
+__version__ = '18.10.16'
 
 division = 1 / 2  # double check int division, see .datum.py
 if not division:
@@ -530,21 +530,21 @@ def unStr(name, *args, **kwds):
     return '%s(%s)' % (name, ', '.join(t))
 
 
-def _wrap(angle, wrap, limit):
-    '''(INTERNAL) Angle wrapper M{((wrap-limit)..+wrap]}.
+def _wrap(angle, wrap, modulo):
+    '''(INTERNAL) Angle wrapper M{((wrap-modulo)..+wrap]}.
 
-       @param angle: Angle (C{radians} or C{degrees}).
-       @param wrap: Range (C{radians} or C{degrees}).
-       @param limit: Upper limit (PI2 C{radians} or 360 C{degrees}).
+       @param angle: Angle (C{degrees} or C{radians}).
+       @param wrap: Range (C{degrees} or C{radians}).
+       @param modulo: Upper limit (360 C{degrees} or PI2 C{radians}).
 
-       @return: The I{angle}, wrapped (C{radians} or C{degrees}).
+       @return: The I{angle}, wrapped (C{degrees} or C{radians}).
     '''
-    if not wrap >= angle > (wrap - limit):
+    if not wrap > angle >= (wrap - modulo):
         # math.fmod(-1.5, 3.14) == -1.5, but -1.5 % 3.14 == 1.64
         # math.fmod(-1.5, 360) == -1.5, but -1.5 % 360 == 358.5
-        angle %= limit
+        angle %= modulo
         if angle > wrap:
-            angle -= limit
+            angle -= modulo
     return angle
 
 

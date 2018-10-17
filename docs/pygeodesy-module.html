@@ -128,7 +128,7 @@
   <p>The tests have been run with Python 2.7.15 (with <a 
   href="http://PyPI.org/project/geographiclib" 
   target="_top">geographiclib</a> 1.49 and <a 
-  href="http://PyPI.org/project/numpy" target="_top">numpy</a> 1.14.0), 
+  href="http://PyPI.org/project/numpy" target="_top">numpy</a> 1.15.2), 
   with Python 3.7.0 (with <a href="http://PyPI.org/project/geographiclib" 
   target="_top">geographiclib</a> 1.49) and with <a href="http://PyPy.org" 
   target="_top">PyPy</a> 6.0.0 (Python 2.7.13 and 3.5.3) on macOS 10.13.6 
@@ -146,8 +146,8 @@
   href="http://CI.AppVeyor.com/project/mrJean1/pygeodesy" 
   target="_top">Windows Server 2012R2</a> in 32- and 64-bit.</p>
   <p>Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 
-  2.7.10 (and numpy 1.8.0rc1), 2.7.13, 2.7.14 (and numpy 1.13.1), 3.5.3, 
-  3.6.2, 3.6.3, 3.6.4, 3.6.5 and <a 
+  2.7.10 (and numpy 1.8.0rc1), 2.7.13, 2.7.14 (and numpy 1.13.1 or 1.14.0),
+  3.5.3, 3.6.2, 3.6.3, 3.6.4, 3.6.5 and <a 
   href="http://software.Intel.com/en-us/distribution-for-python" 
   target="_top">Intel-Python</a> 3.5.3 (and <a 
   href="http://PyPI.org/project/numpy" target="_top">numpy</a> 1.11.3) on 
@@ -207,7 +207,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.10.12
+        18.10.16
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -417,7 +417,7 @@
     </td><td class="summary">
         <a href="pygeodesy.fmath.Fsum-class.html" class="summary-name">Fsum</a><br />
       Precision floating point summation similar to standard Python 
-        function <i>math.fsum</i>.
+        function <code>math.fsum</code>.
     </td>
   </tr>
 <tr>
@@ -1277,7 +1277,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#fsum_" class="summary-sig-name">fsum_</a>(<span class="summary-sig-arg">*args</span>)</span><br />
-      Precision floating point summation of the positional arguments.</td>
+      Precision floating point sum of the positional argument vulues.</td>
           <td align="right" valign="top">
             
             
@@ -2897,7 +2897,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'18.10.12'"><code class="variable-quote">'</code><code class="variable-string">18.10.12</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'18.10.16'"><code class="variable-quote">'</code><code class="variable-string">18.10.16</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -2914,7 +2914,7 @@ Conics.Be72Lb: Conic(name='Be72Lb', lat0=90, lon0=4.3674867, par1=49.8\
 tum=(name='NAD83', ellipsoid=Ellipsoids.GRS80, transform=Transforms.NA\
 D83),
 ...">Conics.Be08Lb: Conic(name='Be08Lb', lat0=50.797815, l<code class="variable-ellipsis">...</code></code><br />
-      Registered conics (enum).
+      Registered conics (<code>enum-like</code>).
     </td>
   </tr>
 <tr>
@@ -2930,7 +2930,7 @@ rm=Transforms.ED50),
 Datums.GRS80: Datum(name='GRS80', ellipsoid=Ellipsoids.GRS80, transfor\
 m=Transforms.WGS84),
 ...">Datums.BD72: Datum(name='BD72', ellipsoid=Ellipsoids.<code class="variable-ellipsis">...</code></code><br />
-      Registered datums (enum).
+      Registered datums (<code>enum-like</code>).
     </td>
   </tr>
 <tr>
@@ -2963,7 +2963,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
 67054, e22=0.006715335, n=0.00167322, R1=6370238.275333334, R2=6370236\
 .696361165, R3=6370230.351810658, Rr=6366691.774649803, Rs=6366678.406\
 ...">Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a<code class="variable-ellipsis">...</code></code><br />
-      Registered ellipsoids (enum).
+      Registered ellipsoids (<code>enum-like</code>).
     </td>
   </tr>
 <tr>
@@ -3164,7 +3164,7 @@ tz=-414, rx=-0.00001, ry=-0, rz=0.00001, s=-8.3, s1=0.99999, sx=-1.04,\
 Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
 -176, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0),
 ...">Transforms.BD72: Transform(name='BD72', tx=106.86<code class="variable-ellipsis">...</code></code><br />
-      Registered transforms (enum).
+      Registered transforms (<code>enum-like</code>).
     </td>
   </tr>
 </table>
@@ -4435,19 +4435,19 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Precision floating point summation of the positional arguments.</p>
+  <p>Precision floating point sum of the positional argument vulues.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>args</code></strong> - Values to be added (scalars).</li>
+        <li><strong class="pname"><code>args</code></strong> - Values to be added (<code>scalar</code>s).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Accurate <a href="pygeodesy.fmath-module.html#fsum" 
           class="link">fsum</a> (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <i>2sum</i> overflow.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - An <i>arg</i> not a scalar number.</li>
+        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <i>arg</i>s value.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or infinite <i>arg</i>s value.</li>
     </ul></dd>
   </dl>
@@ -7349,7 +7349,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">Conics</h3>
-  Registered conics (enum).
+  Registered conics (<code>enum-like</code>).
   <dl class="fields">
   </dl>
   <dl class="fields">
@@ -7375,7 +7375,7 @@ D83),
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">Datums</h3>
-  Registered datums (enum).
+  Registered datums (<code>enum-like</code>).
   <dl class="fields">
   </dl>
   <dl class="fields">
@@ -7401,7 +7401,7 @@ m=Transforms.WGS84),
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">Ellipsoids</h3>
-  Registered ellipsoids (enum).
+  Registered ellipsoids (<code>enum-like</code>).
   <dl class="fields">
   </dl>
   <dl class="fields">
@@ -7427,7 +7427,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,<span clas
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">Transforms</h3>
-  Registered transforms (enum).
+  Registered transforms (<code>enum-like</code>).
   <dl class="fields">
   </dl>
   <dl class="fields">
@@ -7479,7 +7479,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Oct 15 20:59:40 2018
+    Generated by Epydoc 3.0.1 on Wed Oct 17 11:03:54 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
