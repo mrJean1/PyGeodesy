@@ -7,7 +7,8 @@ u'''Formulary of basic geodesy functions and approximations.
 '''
 
 from fmath import EPS, fStr, fsum_, map1
-from utily import PI, PI2, R_M, degrees2m, LimitError, _limiterrors, \
+from utily import PI, PI2, R_M, degrees2m, degrees360, \
+                  LimitError, _limiterrors, \
                   unroll180, unrollPI, wrap90, wrap180
 
 from math import atan2, cos, degrees, hypot, radians, sin, sqrt  # pow
@@ -15,11 +16,12 @@ from math import atan2, cos, degrees, hypot, radians, sin, sqrt  # pow
 # all public contants, classes and functions
 __all__ = ('antipode',
            'bearing', 'bearing_',
+           'compassAngle',
            'equirectangular', 'equirectangular_',
            'haversine', 'haversine_',  # XXX removed 'hsin', 'hsin3',
            'heightOf', 'horizon',
            'isantipode')
-__version__ = '18.10.12'
+__version__ = '18.10.20'
 
 
 def antipode(lat, lon):
@@ -46,9 +48,10 @@ def bearing(lat1, lon1, lat2, lon2, final=False, wrap=False):
        @param lat2: End latitude (C{degrees}).
        @param lon2: End longitude (C{degrees}).
        @keyword final: Return final or initial bearing (C{bool}).
-       @keyword wrap: Wrap and unroll longitudes (C{bool}).
+       @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
 
-       @return: Initial or final bearing (compass C{degrees360}).
+       @return: Initial or final bearing (compass C{degrees360}) or
+                zero if start and end point coincide.
     '''
     a1, b1, a2, b2 = map1(radians, lat1, lon1, lat2, lon2)
     return degrees(bearing_(a1, b1, a2, b2, final=final, wrap=wrap))
@@ -63,9 +66,10 @@ def bearing_(a1, b1, a2, b2, final=False, wrap=False):
        @param a2: End latitude (C{radians}).
        @param b2: End longitude (C{radians}).
        @keyword final: Return final or initial bearing (C{bool}).
-       @keyword wrap: Wrap and unroll longitudes (C{bool}).
+       @keyword wrap: Wrap and L{unrollPI}  longitudes (C{bool}).
 
-       @return: Initial or final bearing (compass C{radiansPI2}).
+       @return: Initial or final bearing (compass C{radiansPI2}) or
+                zero if start and end point coincide.
     '''
     if final:
         a1, b1, a2, b2 = a2, b2, a1, b1
@@ -82,6 +86,35 @@ def bearing_(a1, b1, a2, b2, final=False, wrap=False):
     y = sdb * ca2
 
     return (atan2(y, x) + r) % PI2
+
+
+def compassAngle(lat1, lon1, lat2, lon2, adjust=True, wrap=False):
+    '''Return the angle from North for the direction vector
+       M{(lon2 - lon1, lat2 - lat1)} between two points.
+
+       Suitable only for short, non-near-polar vectors up to a few
+       hundred Km or Miles.  Use function L{bearing} for longer
+       vectors.
+
+       @param lat1: From latitude (C{degrees}).
+       @param lon1: From longitude (C{degrees}).
+       @param lat2: To latitude (C{degrees}).
+       @param lon2: To longitude (C{degrees}).
+       @keyword adjust: Adjust the longitudinal delta by the
+                        cosine of the mean latitude (C{bool}).
+       @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
+
+       @return: Compass angle from North (C{degrees360}).
+
+       @note: Courtesy Martin Schultz.
+
+       @see: U{Local, flat earth approximation
+             <http://www.EdWilliams.org/avform.htm#flat>}.
+    '''
+    d_lon, _ = unroll180(lon1, lon2, wrap=wrap)
+    if adjust:  # scale delta lon
+        d_lon *= cos(radians((lat1 + lat2) * 0.5))
+    return degrees360(atan2(d_lon, lat2 - lat1))
 
 
 def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **options):
@@ -126,20 +159,19 @@ def equirectangular_(lat1, lon1, lat2, lon2,
                         delta by the cosine of the mean latitude (C{bool}).
        @keyword limit: Optional limit for lat- and longitudinal deltas
                        (C{degrees}) or C{None} or C{0} for unlimited.
-       @keyword wrap: Wrap and L{unroll180} longitudes and longitudinal
-                      delta (C{bool}).
+       @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
 
-       @return: 4-Tuple (distance2, delta_lat, delta_lon, lon2_unroll)
-                with the distance in degrees squared, the latitudinal
+       @return: 4-Tuple (distance2, delta_lat, delta_lon, unroll_lon2)
+                with the distance in C{degrees squared}, the latitudinal
                 delta I{lat2}-I{lat1}, the wrapped, unrolled, and
                 adjusted longitudinal delta I{lon2}-I{lon1} and the
                 unrollment for I{lon2}.  Use Function L{degrees2m} to
-                convert degrees squared to distance in C{meter} as
+                convert C{degrees squared} to distance in C{meter} as
                 M{degrees2m(sqrt(distance2), ...)} or
                 M{degrees2m(hypot(delta_lat, delta_lon), ...)}.
 
        @raise LimitError: If the lat- and/or longitudinal delta exceeds
-                          the I{-limit..+limit} range and I{limiterrors}
+                          the I{-limit..+limit} range and L{limiterrors}
                           set to C{True}.
 
        @see: U{Local, flat earth approximation

@@ -12,9 +12,8 @@ U{Vector-based geodesy<http://www.Movable-Type.co.UK/scripts/latlong-vectors.htm
 '''
 
 from fmath import fStr, fStrzs, isint
-from utily import degrees360
 
-from math import atan2, copysign, radians
+from math import copysign, radians
 try:
     from string import letters as LETTERS
 except ImportError:  # Python 3+
@@ -26,11 +25,11 @@ __all__ = ('F_D', 'F_DM', 'F_DMS',  # forms
            'S_DEG', 'S_MIN', 'S_SEC', 'S_RAD', 'S_SEP',  # symbols
            'RangeError',  # classes
            'bearingDMS',  # functions
-           'clipDMS', 'compassAngle', 'compassDMS', 'compassPoint',
+           'clipDMS', 'compassDMS', 'compassPoint',
            'latDMS', 'lonDMS', 'normDMS',
            'parseDMS', 'parseDMS2', 'parse3llh', 'precision',
            'rangerrors', 'toDMS')
-__version__ = '18.10.12'
+__version__ = '18.10.20'
 
 F_D   = 'd'    #: Format degrees as deg° (C{str}).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (C{str}).
@@ -153,29 +152,6 @@ def clipDMS(deg, limit):
                              fStr(copysign(limit, deg), prec=3, ints=True)))
         deg = c
     return deg
-
-
-def compassAngle(lat0, lon0, lat1, lon1):
-    '''Return the angle from North for the direction vector
-       M{(lon1 - lon0, lat1 - lat0)} between two points.
-
-       Suitable only for short, non-near-polar vectors up to a few
-       hundred Km or Miles.  Use C{LatLon} methods I{initialBearingTo}
-       for longer vectors.
-
-       @param lat0: From latitude (C{degrees}).
-       @param lon0: From longitude (C{degrees}).
-       @param lat1: To latitude (C{degrees}).
-       @param lon1: To longitude (C{degrees}).
-
-       @return: Compass angle from North (C{degrees360}).
-
-       @note: Courtesy Martin Schultz.
-
-       @see: U{Local, flat earth approximation
-             <http://www.EdWilliams.org/avform.htm#flat>}.
-    '''
-    return degrees360(atan2(lon1 - lon0, lat1 - lat0))
 
 
 def compassDMS(bearing, form=F_D, prec=None, sep=S_SEP):

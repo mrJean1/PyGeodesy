@@ -32,7 +32,7 @@ __all__ = ('LatLon',  # classes
            'meanOf',
            'nearestOn2',  # DEPRECATED, use nearestOn3
            'perimeterOf')
-__version__ = '18.10.12'
+__version__ = '18.10.18'
 
 
 class LatLon(LatLonSphericalBase):
@@ -261,12 +261,15 @@ class LatLon(LatLonSphericalBase):
 
            @param other: The other point (spherical L{LatLon}).
            @keyword wrap: Wrap and unroll longitudes (C{bool}).
-           @keyword raiser: Optionally, raise L{CrossError} (C{bool}).
+           @keyword raiser: Optionally, raise L{CrossError} (C{bool}),
+                            use I{raiser}=C{True} for behavior like
+                            C{sphericalNvector.LatLon.initialBearingTo}.
 
            @return: Initial bearing (compass C{degrees360}).
 
-           @raise CrossError: I this and the I{other} point coincide,
-                              provided I{raiser} is C{True}.
+           @raise CrossError: If this and the I{other} point coincide,
+                              provided I{raiser} is C{True} and
+                              L{crosserrors} is C{True}.
 
            @raise TypeError: The I{other} point is not L{LatLon}.
 
@@ -284,7 +287,7 @@ class LatLon(LatLonSphericalBase):
         a2, b2 = other.to2ab()
 
         # XXX behavior like sphericalNvector.LatLon.initialBearingTo
-        if raiser and crosserrors() and max(abs(a1 - a2), abs(b2 - b1)) < EPS:
+        if raiser and crosserrors() and max(abs(a2 - a1), abs(b2 - b1)) < EPS:
             raise CrossError('%s %s: %r' % ('coincident', 'points', other))
 
         return degrees(bearing_(a1, b1, a2, b2, final=False, wrap=wrap))

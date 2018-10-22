@@ -124,12 +124,12 @@
   (formerly Pep8) and <a href="http://PyPI.org/project/mccabe" 
   target="_top">McCabe</a> using Python 2.7.15 and with <a 
   href="http://PyPI.org/project/flake8" target="_top">Flake8</a> using 
-  Python 3.7.0, both in 64-bit on macOS 10.13.6 High Sierra.</p>
+  Python 3.7.1, both in 64-bit on macOS 10.13.6 High Sierra.</p>
   <p>The tests have been run with Python 2.7.15 (with <a 
   href="http://PyPI.org/project/geographiclib" 
   target="_top">geographiclib</a> 1.49 and <a 
   href="http://PyPI.org/project/numpy" target="_top">numpy</a> 1.15.2), 
-  with Python 3.7.0 (with <a href="http://PyPI.org/project/geographiclib" 
+  with Python 3.7.1 (with <a href="http://PyPI.org/project/geographiclib" 
   target="_top">geographiclib</a> 1.49) and with <a href="http://PyPy.org" 
   target="_top">PyPy</a> 6.0.0 (Python 2.7.13 and 3.5.3) on macOS 10.13.6 
   High Sierra and macOS 10.14 Mojave, with Python 2.6.9, 2.7.14, 3.5.6 and 
@@ -147,7 +147,7 @@
   target="_top">Windows Server 2012R2</a> in 32- and 64-bit.</p>
   <p>Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 
   2.7.10 (and numpy 1.8.0rc1), 2.7.13, 2.7.14 (and numpy 1.13.1 or 1.14.0),
-  3.5.3, 3.6.2, 3.6.3, 3.6.4, 3.6.5 and <a 
+  3.5.3, 3.6.2, 3.6.3, 3.6.4, 3.6.5, 3.7.0 and <a 
   href="http://software.Intel.com/en-us/distribution-for-python" 
   target="_top">Intel-Python</a> 3.5.3 (and <a 
   href="http://PyPI.org/project/numpy" target="_top">numpy</a> 1.11.3) on 
@@ -168,7 +168,7 @@
   pygeodesy</code>).</p>
   <p>To install PyGeodesy, type <code>pip install PyGeodesy</code> or 
   <code>easy_install PyGeodesy</code> in a terminal or command window.  
-  Alternatively, download <code>PyGeodesy-yy.m.d</code> from <a 
+  Alternatively, download <code>PyGeodesy-yy.m.d.zip</code> from <a 
   href="http://PyPI.org/project/PyGeodesy" target="_top">PyPI</a> or <a 
   href="http://GitHub.com/mrJean1/PyGeodesy" target="_top">GitHub</a>, 
   <code>unzip</code> the downloaded file, <code>cd</code> to directory 
@@ -179,7 +179,7 @@
   and <a href="http://PyPI.org/project/geographiclib" 
   target="_top">GeographicLib</a> is optional.  However, the latter is 
   required for module <i>ellipsoidalKarney</i> classes <code>LatLon</code> 
-  and <i>Cartesian</i> and the functions <i>areaOf</i> and 
+  and <i>Cartesian</i> and functions <i>areaOf</i> and 
   <i>perimeterOf</i>.</p>
   <p>Some function and method names differ from the JavaScript version. In 
   such cases documentation tag <b>JS name:</b> shows the original 
@@ -207,7 +207,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.10.16
+        18.10.20
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -832,12 +832,14 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#compassAngle" class="summary-sig-name">compassAngle</a>(<span class="summary-sig-arg">lat0</span>,
-        <span class="summary-sig-arg">lon0</span>,
-        <span class="summary-sig-arg">lat1</span>,
-        <span class="summary-sig-arg">lon1</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#compassAngle" class="summary-sig-name">compassAngle</a>(<span class="summary-sig-arg">lat1</span>,
+        <span class="summary-sig-arg">lon1</span>,
+        <span class="summary-sig-arg">lat2</span>,
+        <span class="summary-sig-arg">lon2</span>,
+        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Return the angle from North for the direction vector <i 
-      class="math">(lon1 - lon0, lat1 - lat0)</i> between two points.</td>
+      class="math">(lon2 - lon1, lat2 - lat1)</i> between two points.</td>
           <td align="right" valign="top">
             
             
@@ -2897,7 +2899,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'18.10.16'"><code class="variable-quote">'</code><code class="variable-string">18.10.16</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'18.10.20'"><code class="variable-quote">'</code><code class="variable-string">18.10.20</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -3352,10 +3354,12 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>final</code></strong> - Return final or initial bearing (<code>bool</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
+          class="link">unroll180</a> longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Initial or final bearing (compass <code>degrees360</code>).</dd>
+        <dd>Initial or final bearing (compass <code>degrees360</code>) or 
+          zero if start and end point coincide.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -3433,10 +3437,12 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>a2</code></strong> - End latitude (<code>radians</code>).</li>
         <li><strong class="pname"><code>b2</code></strong> - End longitude (<code>radians</code>).</li>
         <li><strong class="pname"><code>final</code></strong> - Return final or initial bearing (<code>bool</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unrollPI" 
+          class="link">unrollPI</a>  longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Initial or final bearing (compass <code>radiansPI2</code>).</dd>
+        <dd>Initial or final bearing (compass <code>radiansPI2</code>) or 
+          zero if start and end point coincide.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -3634,10 +3640,12 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">compassAngle</span>(<span class="sig-arg">lat0</span>,
-        <span class="sig-arg">lon0</span>,
-        <span class="sig-arg">lat1</span>,
-        <span class="sig-arg">lon1</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">compassAngle</span>(<span class="sig-arg">lat1</span>,
+        <span class="sig-arg">lon1</span>,
+        <span class="sig-arg">lat2</span>,
+        <span class="sig-arg">lon2</span>,
+        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3645,17 +3653,21 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </tr></table>
   
   <p>Return the angle from North for the direction vector <i 
-  class="math">(lon1 - lon0, lat1 - lat0)</i> between two points.</p>
+  class="math">(lon2 - lon1, lat2 - lat1)</i> between two points.</p>
   <p>Suitable only for short, non-near-polar vectors up to a few hundred Km
-  or Miles.  Use <code>LatLon</code> methods <i>initialBearingTo</i> for 
-  longer vectors.</p>
+  or Miles.  Use function <a href="pygeodesy.formy-module.html#bearing" 
+  class="link">bearing</a> for longer vectors.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lat0</code></strong> - From latitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>lon0</code></strong> - From longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>lat1</code></strong> - To latitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>lon1</code></strong> - To longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lat1</code></strong> - From latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - From longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lat2</code></strong> - To latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon2</code></strong> - To longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Adjust the longitudinal delta by the cosine of the mean latitude 
+          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
+          class="link">unroll180</a> longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Compass angle from North (<code>degrees360</code>).</dd>
@@ -4035,25 +4047,25 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           (<code>degrees</code>) or <code>None</code> or <code>0</code> for
           unlimited.</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">unroll180</a> longitudes and longitudinal delta 
-          (<code>bool</code>).</li>
+          class="link">unroll180</a> longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>4-Tuple (distance2, delta_lat, delta_lon, lon2_unroll) with the 
-          distance in degrees squared, the latitudinal delta 
+        <dd>4-Tuple (distance2, delta_lat, delta_lon, unroll_lon2) with the 
+          distance in <code>degrees squared</code>, the latitudinal delta 
           <i>lat2</i>-<i>lat1</i>, the wrapped, unrolled, and adjusted 
           longitudinal delta <i>lon2</i>-<i>lon1</i> and the unrollment for
           <i>lon2</i>.  Use Function <a 
           href="pygeodesy.utily-module.html#degrees2m" 
-          class="link">degrees2m</a> to convert degrees squared to distance
-          in <code>meter</code> as <i 
+          class="link">degrees2m</a> to convert <code>degrees 
+          squared</code> to distance in <code>meter</code> as <i 
           class="math">degrees2m(sqrt(distance2), ...)</i> or <i 
           class="math">degrees2m(hypot(delta_lat, delta_lon), ...)</i>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - If the lat- and/or longitudinal delta exceeds the 
-        <i>-limit..+limit</i> range and <i>limiterrors</i> set to 
-        <code>True</code>.</li>
+        <i>-limit..+limit</i> range and <a 
+        href="pygeodesy.utily-module.html#limiterrors" 
+        class="link">limiterrors</a> set to <code>True</code>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -7479,7 +7491,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Oct 17 11:03:54 2018
+    Generated by Epydoc 3.0.1 on Mon Oct 22 12:44:30 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

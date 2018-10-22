@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '18.09.30'
+__version__ = '18.10.20'
 
 from base import TestsBase
 
@@ -37,7 +37,6 @@ class Tests(TestsBase):
         q.latlon = p.latlon
         self.test('isequalTo', p.isequalTo(q), True)
         self.test('isequalTo3', p.isequalTo3(q), False)
-
         q.latlon = p.latlon + (p.height,)
         self.test('isequalTo3', p.isequalTo3(q), True)
 

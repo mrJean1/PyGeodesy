@@ -176,7 +176,7 @@ pygeodesy.bases.__X	pygeodesy.bases-module.html#__X
 pygeodesy.bases.unStr	pygeodesy.utily-module.html#unStr
 pygeodesy.bases.parseDMS	pygeodesy.dms-module.html#parseDMS
 pygeodesy.bases.map1	pygeodesy.fmath-module.html#map1
-pygeodesy.bases.compassAngle	pygeodesy.dms-module.html#compassAngle
+pygeodesy.bases.compassAngle	pygeodesy.formy-module.html#compassAngle
 pygeodesy.datum	pygeodesy.datum-module.html
 pygeodesy.datum._xattrs	pygeodesy.bases-module.html#_xattrs
 pygeodesy.datum.R_MB	pygeodesy.datum-module.html#R_MB
@@ -220,16 +220,15 @@ pygeodesy.dms.F_MIN	pygeodesy.dms-module.html#F_MIN
 pygeodesy.dms.__package__	pygeodesy.dms-module.html#__package__
 pygeodesy.dms.S_SEC	pygeodesy.dms-module.html#S_SEC
 pygeodesy.dms.clipDMS	pygeodesy.dms-module.html#clipDMS
-pygeodesy.dms.precision	pygeodesy.dms-module.html#precision
 pygeodesy.dms._toDMS	pygeodesy.dms-module.html#_toDMS
 pygeodesy.dms.parse3llh	pygeodesy.dms-module.html#parse3llh
 pygeodesy.dms.latDMS	pygeodesy.dms-module.html#latDMS
 pygeodesy.dms.isint	pygeodesy.fmath-module.html#isint
 pygeodesy.dms._S_ALL	pygeodesy.dms-module.html#_S_ALL
 pygeodesy.dms._rangerrors	pygeodesy.dms-module.html#_rangerrors
-pygeodesy.dms.degrees360	pygeodesy.utily-module.html#degrees360
-pygeodesy.dms.parseDMS2	pygeodesy.dms-module.html#parseDMS2
 pygeodesy.dms.normDMS	pygeodesy.dms-module.html#normDMS
+pygeodesy.dms.parseDMS2	pygeodesy.dms-module.html#parseDMS2
+pygeodesy.dms.precision	pygeodesy.dms-module.html#precision
 pygeodesy.dms._M_X	pygeodesy.dms-module.html#_M_X
 pygeodesy.dms._F_prec	pygeodesy.dms-module.html#_F_prec
 pygeodesy.dms.toDMS	pygeodesy.dms-module.html#toDMS
@@ -243,7 +242,6 @@ pygeodesy.dms.bearingDMS	pygeodesy.dms-module.html#bearingDMS
 pygeodesy.dms.S_DEG	pygeodesy.dms-module.html#S_DEG
 pygeodesy.dms._S_norm	pygeodesy.dms-module.html#_S_norm
 pygeodesy.dms.F_DMS	pygeodesy.dms-module.html#F_DMS
-pygeodesy.dms.compassAngle	pygeodesy.dms-module.html#compassAngle
 pygeodesy.elevations	pygeodesy.elevations-module.html
 pygeodesy.elevations._error	pygeodesy.elevations-module.html#_error
 pygeodesy.elevations._qURL	pygeodesy.elevations-module.html#_qURL
@@ -349,6 +347,7 @@ pygeodesy.formy.unroll180	pygeodesy.utily-module.html#unroll180
 pygeodesy.formy.equirectangular	pygeodesy.formy-module.html#equirectangular
 pygeodesy.formy.haversine	pygeodesy.formy-module.html#haversine
 pygeodesy.formy.equirectangular_	pygeodesy.formy-module.html#equirectangular_
+pygeodesy.formy.degrees360	pygeodesy.utily-module.html#degrees360
 pygeodesy.formy.haversine_	pygeodesy.formy-module.html#haversine_
 pygeodesy.formy.__package__	pygeodesy.formy-module.html#__package__
 pygeodesy.formy.wrap90	pygeodesy.utily-module.html#wrap90
@@ -363,6 +362,7 @@ pygeodesy.formy.degrees2m	pygeodesy.utily-module.html#degrees2m
 pygeodesy.formy.wrap180	pygeodesy.utily-module.html#wrap180
 pygeodesy.formy.fStr	pygeodesy.fmath-module.html#fStr
 pygeodesy.formy.horizon	pygeodesy.formy-module.html#horizon
+pygeodesy.formy.compassAngle	pygeodesy.formy-module.html#compassAngle
 pygeodesy.geohash	pygeodesy.geohash-module.html
 pygeodesy.geohash.neighbors	pygeodesy.geohash-module.html#neighbors
 pygeodesy.geohash._Sizes	pygeodesy.geohash-module.html#_Sizes

@@ -1,8 +1,8 @@
-test/run.py typical test results (PyGeodesy 18.10.16 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6)
+test/run.py typical test results (PyGeodesy 18.10.20 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6)
 
 running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testBases.py
 
-    testing testBases.py 18.09.30
+    testing testBases.py 18.10.20
     test 1 lat, lon: 50.06632°N, 005.71475°W
     test 2 lat, lon: 50.066389°N, 005.714722°W
     test 3 isequalTo: True
@@ -44,7 +44,7 @@ running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testBases.py
     test 39 isequalTo3: False
     test 40 isequalTo3: True
 
-    all 40 testBases.py tests passed (PyGeodesy 18.10.16 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 5.549 ms
+    all 40 testBases.py tests passed (PyGeodesy 18.10.20 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 5.409 ms
 
 running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testClasses.py
 
@@ -275,7 +275,7 @@ running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testClasses.py
     test 208 nvector: vector3d.Vector3d, bases.VectorBased, bases.Based, bases.Named
     test 209 vector3d: vector3d.Vector3d, bases.VectorBased, bases.Based, bases.Named
 
-    all 209 testClasses.py tests passed (PyGeodesy 18.10.16 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 31.212 ms
+    all 209 testClasses.py tests passed (PyGeodesy 18.10.20 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 34.496 ms
 
 running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testDatum.py
 
@@ -365,11 +365,11 @@ running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testDatum.py
     test 83 WGS84.AlphaKs: 8.377318206304e-04, 7.608527714249e-07, 1.197638001561e-09, 2.443376194522e-12
     test 84 WGS84.BetaKs : 8.377321640601e-04, 5.905869567934e-08, 1.673488880355e-10, 2.167737763022e-13
 
-    all 84 testDatum.py tests passed (PyGeodesy 18.10.16 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 9.083 ms
+    all 84 testDatum.py tests passed (PyGeodesy 18.10.20 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 9.177 ms
 
 running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testDms.py
 
-    testing testDms.py 18.09.18 (module dms 18.10.12)
+    testing testDms.py 18.09.20 (module dms 18.10.20)
     test 1 parseDMS: 0.0
     test 2 parseDMS: 0.0
     test 3 parseDMS: 0.0
@@ -394,57 +394,45 @@ running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testDms.py
     test 22 toDMS(min): 4545.75600
     test 23 toDMS(sec): 454545.360
     test 24 toDMS(rad): 0.798708
-    test 25 compassAngle0: 0.0
-    test 26 compassAngle1: 45.0
-    test 27 compassAngle2: 90.0
-    test 28 compassAngle3: 180.0
-    test 29 compassAngle4: 225.0
-    test 30 compassAngle5: 270.0
-    test 31 compassAngle6: 315.0
-    test 32 compassAngle7: 359.4
-    test 33 compassPoint: N
-    test 34 compassPoint: N
-    test 35 compassPoint: N
-    test 36 compassPoint: N
-    test 37 compassPoint: NNE
-    test 38 compassPoint: N
-    test 39 compassPoint: NE
-    test 40 compassPoint: NNE
-    test 41 compassPoint: SW
-    test 42 compassPoint: W
-    test 43 compassPoint: SW
-    test 44 compassPoint: SW
-    test 45 compassPoint: WSW
-    test 46 compassPoint: W
-    test 47 compassPoint: SW
-    test 48 compassPoint: WSW
-    test 49 compassPoint: NbE
-    test 50 compassPoint: NEbN
-    test 51 compassPoint: NEbE
-    test 52 compassPoint: EbN
-    test 53 compassPoint: EbS
-    test 54 compassPoint: SEbE
-    test 55 compassPoint: SEbS
-    test 56 compassPoint: SbE
-    test 57 compassPoint: SbW
-    test 58 compassPoint: SWbS
-    test 59 compassPoint: SWbW
-    test 60 compassPoint: WbS
-    test 61 compassPoint: WbN
-    test 62 compassPoint: NWbW
-    test 63 compassPoint: NWbN
-    test 64 compassPoint: NbW
-    test 65 compassAngle: 100.016848
-    test 66 initialBearingTo: 102.432182
-    test 67 equirectangular: 592.185
-    test 68 distanceTo: 591.831
+    test 25 compassPoint: N
+    test 26 compassPoint: N
+    test 27 compassPoint: N
+    test 28 compassPoint: N
+    test 29 compassPoint: NNE
+    test 30 compassPoint: N
+    test 31 compassPoint: NE
+    test 32 compassPoint: NNE
+    test 33 compassPoint: SW
+    test 34 compassPoint: W
+    test 35 compassPoint: SW
+    test 36 compassPoint: SW
+    test 37 compassPoint: WSW
+    test 38 compassPoint: W
+    test 39 compassPoint: SW
+    test 40 compassPoint: WSW
+    test 41 compassPoint: NbE
+    test 42 compassPoint: NEbN
+    test 43 compassPoint: NEbE
+    test 44 compassPoint: EbN
+    test 45 compassPoint: EbS
+    test 46 compassPoint: SEbE
+    test 47 compassPoint: SEbS
+    test 48 compassPoint: SbE
+    test 49 compassPoint: SbW
+    test 50 compassPoint: SWbS
+    test 51 compassPoint: SWbW
+    test 52 compassPoint: WbS
+    test 53 compassPoint: WbN
+    test 54 compassPoint: NWbW
+    test 55 compassPoint: NWbN
+    test 56 compassPoint: NbW
 
-    all 68 testDms.py tests passed (PyGeodesy 18.10.16 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 5.671 ms
+    all 56 testDms.py tests passed (PyGeodesy 18.10.20 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 4.009 ms
 
 running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testElevations.py
 
     testing testElevations.py 18.10.12
-    all testElevations.py tests SKIPPED (PyGeodesy 18.10.16 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 30.994 us
+    all testElevations.py tests SKIPPED (PyGeodesy 18.10.20 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 20.981 us
 
 running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testEllipsoidal.py
 
@@ -490,247 +478,263 @@ running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testEllipsoidal.py
     test 35 antipode3: 52.205°N, 000.119°E
     test 36 antipode4: True
     test 37 antipode5: 52.205°N, 000.119°E
-    test 38 compassAngleTo: 0.0
-    test 39 compassAngleTo: 45.0
-    test 40 compassAngleTo: 90.0
-    test 41 compassAngleTo: 180.0
-    test 42 compassAngleTo: 270.0
-    test 43 copy: True
-    test 44 equirectangularTo: 404329.56
-    test 45 intermediateTo: 51.372294°N, 000.707192°E
-    test 46 intermediateTo: True
-    test 47 intermediateTo+5: 35.560239°N, 008.833512°E
-    test 48 intermediateTo-4: 64.570387°N, 013.156352°W
-    test 49 isclockwise: False
-    test 50 isclockwise*: False
-    test 51 isclockwise: True
-    test 52 isclockwise*: True
-    test 53 isclockwise: too few points: 2
-    test 54 isclockwise*: too few points: 2
-    test 55 isclockwise: polar or zero area
-    test 56 isclockwise*: polar or zero area
-    test 57 isconvex: False
-    test 58 isconvex*: False
-    test 59 isconvex: True
-    test 60 isconvex*: True
-    test 61 isconvex: too few points: 2
-    test 62 isconvex*: too few points: 2
-    test 63 isenclosedBy1: True
-    test 64 isenclosedBy1*: True
-    test 65 isenclosedBy2: False
-    test 66 isenclosedBy2*: False
-    test 67 isenclosedBy3: False
-    test 68 isenclosedBy3*: False
-    test 69 isenclosedBy4: False
-    test 70 isenclosedBy4*: False
-    test 71 isenclosedBy5: False
-    test 72 isenclosedBy5*: False
-    test 73 isenclosedBy6: True
-    test 74 isenclosedBy6*: True
-    test 75 isenclosedBy7: True
-    test 76 isenclosedBy7*: True
+    test 38 copy: True
+    test 39 equirectangularTo: 404329.56
+    test 40 intermediateTo: 51.372294°N, 000.707192°E
+    test 41 intermediateTo: True
+    test 42 intermediateTo+5: 35.560239°N, 008.833512°E
+    test 43 intermediateTo-4: 64.570387°N, 013.156352°W
+    test 44 isclockwise: False
+    test 45 isclockwise*: False
+    test 46 isclockwise: True
+    test 47 isclockwise*: True
+    test 48 isclockwise: too few points: 2
+    test 49 isclockwise*: too few points: 2
+    test 50 isclockwise: polar or zero area
+    test 51 isclockwise*: polar or zero area
+    test 52 isconvex: False
+    test 53 isconvex*: False
+    test 54 isconvex: True
+    test 55 isconvex*: True
+    test 56 isconvex: too few points: 2
+    test 57 isconvex*: too few points: 2
+    test 58 isenclosedBy1: True
+    test 59 isenclosedBy1*: True
+    test 60 isenclosedBy2: False
+    test 61 isenclosedBy2*: False
+    test 62 isenclosedBy3: False
+    test 63 isenclosedBy3*: False
+    test 64 isenclosedBy4: False
+    test 65 isenclosedBy4*: False
+    test 66 isenclosedBy5: False
+    test 67 isenclosedBy5*: False
+    test 68 isenclosedBy6: True
+    test 69 isenclosedBy6*: True
+    test 70 isenclosedBy7: True
+    test 71 isenclosedBy7*: True
+    test 72 compassAngleTo: 100.016848
+    test 73 equirectangularTo: 592.185
+    test 74 compassAngleTo: 0.0
+    test 75 compassAngleTo: 45.0
+    test 76 compassAngleTo: 90.0
+    test 77 compassAngleTo: 180.0
+    test 78 compassAngleTo: 225.0
+    test 79 compassAngleTo: 315.0
+    test 80 compassAngleTo: 270.0
+    test 81 compassAngleTo: 359.4
+    test 82 compassAngleTo: 31
+    test 83 compassAngleTo: 45
 
     testVectorial(ellipsoidalNvector, 18.10.16)
-    test 77 toLatLon: 44.995674°N, 045.0°E
-    test 78 toNvector: (0.50004, 0.50004, 0.70705)
-    test 79 isequalTo: False
-    test 80 isequalTo: True
-    test 81 length: 0.99992449715
-    test 82 length: 1.0
-    test 83 sumOf: (52.70504, 0.61904, 0.70705)
-    test 84 sumOf: Nv
-    test 85 sumOf: sumOf
-    test 86 length: 52.7134151513
-    test 87 copy: True
-    test 88 length: 52.2051356286
-    test 89 length: 52.2051356286
+    test 84 toLatLon: 44.995674°N, 045.0°E
+    test 85 toNvector: (0.50004, 0.50004, 0.70705)
+    test 86 isequalTo: False
+    test 87 isequalTo: True
+    test 88 length: 0.99992449715
+    test 89 length: 1.0
+    test 90 sumOf: (52.70504, 0.61904, 0.70705)
+    test 91 sumOf: Nv
+    test 92 sumOf: sumOf
+    test 93 length: 52.7134151513
+    test 94 copy: True
+    test 95 length: 52.2051356286
+    test 96 length: 52.2051356286
 
     testEllipsoidal(ellipsoidalVincenty, 18.10.12)
-    test 90 isEllipsoidal: True
-    test 91 isSpherical: False
-    test 92 isEllipsoidal: True
-    test 93 isSpherical: False
-    test 94 convertDatum: 51.477284°N, 000.00002°E, -45.91m
-    test 95 convertDatum: 51.4773°N, 000.0°E, -45.91m
+    test 97 isEllipsoidal: True
+    test 98 isSpherical: False
+    test 99 isEllipsoidal: True
+    test 100 isSpherical: False
+    test 101 convertDatum: 51.477284°N, 000.00002°E, -45.91m
+    test 102 convertDatum: 51.4773°N, 000.0°E, -45.91m
 
     testLatLon(ellipsoidalVincenty, 18.10.12)
-    test 96 isEllipsoidal: True
-    test 97 isSpherical: False
-    test 98 lat/lonDMS: 52.20472°N, 000.14056°E
-    test 99 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
-    test 100 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
-    test 101 lat/lonDMS F_DMS: 52°12′17″N, 000°08′26″E
-    test 102 lat/lonDMS F_DMS: 52°12′17.0″N, 000°08′26.0″E
-    test 103 lat/lonDMS F_RAD: 0.911144N, 0.002453E
-    test 104 isequalTo: True
-    test 105 latlon2: 52.20472, 0.14056
-    test 106 latlon2: 52.2047, 0.1406
-    test 107 latlon2: 52.205, 0.141
-    test 108 latlon2: 52.2, 0.14
-    test 109 latlon2: 52.2, 0.1
-    test 110 latlon2: 52.0, 0.0
-    test 111 isequalTo: False
-    test 112 antipode1: 52.205°S, 179.881°W
-    test 113 antipode2: True
-    test 114 antipode3: 52.205°N, 000.119°E
-    test 115 antipode4: True
-    test 116 antipode5: 52.205°N, 000.119°E
-    test 117 compassAngleTo: 0.0
-    test 118 compassAngleTo: 45.0
-    test 119 compassAngleTo: 90.0
-    test 120 compassAngleTo: 180.0
-    test 121 compassAngleTo: 270.0
-    test 122 initialBearingTo: 156.1106
-    test 123 finalBearingTo: 157.8345
-    test 124 initialBearingTo: 65.9335
-    test 125 finalBearingTo: 93.9034
-    test 126 bearingTo2: 156.1106, 157.8345
-    test 127 ispolar: True
-    test 128 copy: True
-    test 129 equirectangularTo: 404329.56
-    test 130 distanceTo: 404607.805988
-    test 131 distanceTo: 404607.805988
-    test 132 distanceTo: 3981601
-    test 133 distanceTo3 dateline: 19125097.7012, 270.7159, 276.0288
-    test 134 distanceTo3 dateline: 9513997.9901, 42.9164, 138.8903
+    test 103 isEllipsoidal: True
+    test 104 isSpherical: False
+    test 105 lat/lonDMS: 52.20472°N, 000.14056°E
+    test 106 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
+    test 107 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
+    test 108 lat/lonDMS F_DMS: 52°12′17″N, 000°08′26″E
+    test 109 lat/lonDMS F_DMS: 52°12′17.0″N, 000°08′26.0″E
+    test 110 lat/lonDMS F_RAD: 0.911144N, 0.002453E
+    test 111 isequalTo: True
+    test 112 latlon2: 52.20472, 0.14056
+    test 113 latlon2: 52.2047, 0.1406
+    test 114 latlon2: 52.205, 0.141
+    test 115 latlon2: 52.2, 0.14
+    test 116 latlon2: 52.2, 0.1
+    test 117 latlon2: 52.0, 0.0
+    test 118 isequalTo: False
+    test 119 antipode1: 52.205°S, 179.881°W
+    test 120 antipode2: True
+    test 121 antipode3: 52.205°N, 000.119°E
+    test 122 antipode4: True
+    test 123 antipode5: 52.205°N, 000.119°E
+    test 124 initialBearingTo: 156.1106
+    test 125 finalBearingTo: 157.8345
+    test 126 initialBearingTo: 65.9335
+    test 127 finalBearingTo: 93.9034
+    test 128 bearingTo2: 156.1106, 157.8345
+    test 129 ispolar: True
+    test 130 copy: True
+    test 131 equirectangularTo: 404329.56
+    test 132 distanceTo: 404607.805988
+    test 133 distanceTo: 404607.805988
+    test 134 distanceTo: 3981601
     test 135 distanceTo3 dateline: 19125097.7012, 270.7159, 276.0288
     test 136 distanceTo3 dateline: 9513997.9901, 42.9164, 138.8903
-    test 137 destination: 51.513526°N, 000.098038°W
-    test 138 destination: 51°30′49″N, 000°05′53″W
-    test 139 destination: 33°57′N, 118°24′W
-    test 140 destination: 33.950367°N, 118.399012°W
-    test 141 destination: 0.592546N, 2.066453W
-    test 142 destination: 32.11195529°N, 064.56074722°E  FAILED, KNOWN, expected 32.11195529°N, 063.95925278°E
-    test 143 isclockwise: False
-    test 144 isclockwise*: False
-    test 145 isclockwise: True
-    test 146 isclockwise*: True
-    test 147 isclockwise: too few points: 2
-    test 148 isclockwise*: too few points: 2
-    test 149 isclockwise: polar or zero area
-    test 150 isclockwise*: polar or zero area
-    test 151 isconvex: False
-    test 152 isconvex*: False
-    test 153 isconvex: True
-    test 154 isconvex*: True
-    test 155 isconvex: too few points: 2
-    test 156 isconvex*: too few points: 2
-    test 157 isenclosedBy1: True
-    test 158 isenclosedBy1*: True
-    test 159 isenclosedBy2: False
-    test 160 isenclosedBy2*: False
-    test 161 isenclosedBy3: False
-    test 162 isenclosedBy3*: False
-    test 163 isenclosedBy4: False
-    test 164 isenclosedBy4*: False
-    test 165 isenclosedBy5: False
-    test 166 isenclosedBy5*: False
-    test 167 isenclosedBy6: True
-    test 168 isenclosedBy6*: True
-    test 169 isenclosedBy7: True
-    test 170 isenclosedBy7*: True
+    test 137 distanceTo3 dateline: 19125097.7012, 270.7159, 276.0288
+    test 138 distanceTo3 dateline: 9513997.9901, 42.9164, 138.8903
+    test 139 destination: 51.513526°N, 000.098038°W
+    test 140 destination: 51°30′49″N, 000°05′53″W
+    test 141 destination: 33°57′N, 118°24′W
+    test 142 destination: 33.950367°N, 118.399012°W
+    test 143 destination: 0.592546N, 2.066453W
+    test 144 destination: 32.11195529°N, 064.56074722°E  FAILED, KNOWN, expected 32.11195529°N, 063.95925278°E
+    test 145 isclockwise: False
+    test 146 isclockwise*: False
+    test 147 isclockwise: True
+    test 148 isclockwise*: True
+    test 149 isclockwise: too few points: 2
+    test 150 isclockwise*: too few points: 2
+    test 151 isclockwise: polar or zero area
+    test 152 isclockwise*: polar or zero area
+    test 153 isconvex: False
+    test 154 isconvex*: False
+    test 155 isconvex: True
+    test 156 isconvex*: True
+    test 157 isconvex: too few points: 2
+    test 158 isconvex*: too few points: 2
+    test 159 isenclosedBy1: True
+    test 160 isenclosedBy1*: True
+    test 161 isenclosedBy2: False
+    test 162 isenclosedBy2*: False
+    test 163 isenclosedBy3: False
+    test 164 isenclosedBy3*: False
+    test 165 isenclosedBy4: False
+    test 166 isenclosedBy4*: False
+    test 167 isenclosedBy5: False
+    test 168 isenclosedBy5*: False
+    test 169 isenclosedBy6: True
+    test 170 isenclosedBy6*: True
+    test 171 isenclosedBy7: True
+    test 172 isenclosedBy7*: True
+    test 173 compassAngleTo: 100.016848
+    test 174 initialBearingTo: 102.392291
+    test 175 equirectangularTo: 592.185
+    test 176 distanceTo: 593.571
+    test 177 compassAngleTo: 0.0
+    test 178 compassAngleTo: 45.0
+    test 179 compassAngleTo: 90.0
+    test 180 compassAngleTo: 180.0
+    test 181 compassAngleTo: 225.0
+    test 182 compassAngleTo: 315.0
+    test 183 compassAngleTo: 270.0
+    test 184 compassAngleTo: 359.4
+    test 185 compassAngleTo: 31
+    test 186 compassAngleTo: 45
 
     testNOAA(ellipsoidalVincenty, 18.10.12)
-    test 171 NOAAexample1: 191872.1190, 249 03 16.4237, 67 59 11.1619
-    test 172 NOAAexample2: 182009.1679, 254 42 44.6439, 73 09 21.3315
-    test 173 NOAAexample3: 123456.7891, 245 00 34.7001, 64 20 24.6864
-    test 174 NOAAexample4: 145239.0603, 114 29 26.9586, 295 21 32.6566
+    test 187 NOAAexample1: 191872.1190, 249 03 16.4237, 67 59 11.1619
+    test 188 NOAAexample2: 182009.1679, 254 42 44.6439, 73 09 21.3315
+    test 189 NOAAexample3: 123456.7891, 245 00 34.7001, 64 20 24.6864
+    test 190 NOAAexample4: 145239.0603, 114 29 26.9586, 295 21 32.6566
 
     testVincenty(ellipsoidalVincenty, 18.10.12, datum=WGS84)
-    test 175 distanceTo: 866455.43292
-    test 176 ValueError: other Ellipsoid mistmatch: Ellipsoids.Airy1830 vs Ellipsoids.WGS84
-    test 177 isEllipsoidal: True
-    test 178 isSpherical: False
-    test 179 epsilon: 1e-12
-    test 180 iterations: 50
-    test 181 copy: True
-    test 182 isEllipsoidal: True
-    test 183 isSpherical: False
-    test 184 copy: 37°57′03.7203″S, 144°25′29.5244″E
-    test 185 epsilon: 2.220446049250313e-16
-    test 186 iterations: 200
-    test 187 coincident: 0.0
-    test 188 coincident: 0.0, 0.0, 0.0
-    test 189 destination: 37.6528°S, 143.9265°E
-    test 190 destination: True
-    test 191 destination2: 37.652821°S, 143.926496°E, 307.1736°NW
-    test 192 destination2: True
-    test 193 finalBearingOn: 307.1736°, 307°10′25.07″NW
-    test 194 distanceTo: 969954.166
-    test 195 distanceTo3: 969954.166314, 9.141877, 11.29722
-    test 196 distanceTo2: 972708.16174, 11.22502
-    test 197 initialBearingTo: 9.1419°, 9°08′30.76″N
-    test 198 finalBearingTo: 11.2972°, 11°17′49.99″NNE
-    test 199 distanceTo: 404607.806
-    test 200 distanceTo3: 404607.805988, 156.11064, 157.8345
-    test 201 distanceTo2: 402574.597287, 157.726344
-    test 202 initialBearingTo: 156.1106°, 156°06′38.31″SSE
-    test 203 finalBearingTo: 157.8345°, 157°50′04.2″SSE
-    test 204 distanceTo: 54973.295
-    test 205 distanceTo3: 54973.29527, 233.13008, 232.82461
-    test 206 distanceTo2: 54903.41209, 232.9209
-    test 207 initialBearingTo: 233.1301°, 233°07′48.28″SW
-    test 208 finalBearingTo: 232.8246°, 232°49′28.59″SW
-    test 209 distanceToMP: 298396.057
-    test 210 distanceToSM: 185.414
-    test 211 distanceToMP: 111319.491
-    test 212 distanceToMP: 110574.389
-    test 213 distanceToKW: 222638.982
-    test 214 distanceToKW: 111319.491
-    test 215 distanceTo3: 54972.271
-    test 216 distanceTo3: 306°52′05.37″
-    test 217 distanceTo3: 307°10′25.07″
-    test 218 distanceTo2: 54902.390
-    test 219 distanceTo2: 307°04′38.41″
+    test 191 distanceTo: 866455.43292
+    test 192 ValueError: other Ellipsoid mistmatch: Ellipsoids.Airy1830 vs Ellipsoids.WGS84
+    test 193 isEllipsoidal: True
+    test 194 isSpherical: False
+    test 195 epsilon: 1e-12
+    test 196 iterations: 50
+    test 197 copy: True
+    test 198 isEllipsoidal: True
+    test 199 isSpherical: False
+    test 200 copy: 37°57′03.7203″S, 144°25′29.5244″E
+    test 201 epsilon: 2.220446049250313e-16
+    test 202 iterations: 200
+    test 203 coincident: 0.0
+    test 204 coincident: 0.0, 0.0, 0.0
+    test 205 destination: 37.6528°S, 143.9265°E
+    test 206 destination: True
+    test 207 destination2: 37.652821°S, 143.926496°E, 307.1736°NW
+    test 208 destination2: True
+    test 209 finalBearingOn: 307.1736°, 307°10′25.07″NW
+    test 210 distanceTo: 969954.166
+    test 211 distanceTo3: 969954.166314, 9.141877, 11.29722
+    test 212 distanceTo2: 972708.16174, 11.22502
+    test 213 initialBearingTo: 9.1419°, 9°08′30.76″N
+    test 214 finalBearingTo: 11.2972°, 11°17′49.99″NNE
+    test 215 distanceTo: 404607.806
+    test 216 distanceTo3: 404607.805988, 156.11064, 157.8345
+    test 217 distanceTo2: 402574.597287, 157.726344
+    test 218 initialBearingTo: 156.1106°, 156°06′38.31″SSE
+    test 219 finalBearingTo: 157.8345°, 157°50′04.2″SSE
+    test 220 distanceTo: 54973.295
+    test 221 distanceTo3: 54973.29527, 233.13008, 232.82461
+    test 222 distanceTo2: 54903.41209, 232.9209
+    test 223 initialBearingTo: 233.1301°, 233°07′48.28″SW
+    test 224 finalBearingTo: 232.8246°, 232°49′28.59″SW
+    test 225 distanceToMP: 298396.057
+    test 226 distanceToSM: 185.414
+    test 227 distanceToMP: 111319.491
+    test 228 distanceToMP: 110574.389
+    test 229 distanceToKW: 222638.982
+    test 230 distanceToKW: 111319.491
+    test 231 distanceTo3: 54972.271
+    test 232 distanceTo3: 306°52′05.37″
+    test 233 distanceTo3: 307°10′25.07″
+    test 234 distanceTo2: 54902.390
+    test 235 distanceTo2: 307°04′38.41″
 
     testVincenty(ellipsoidalVincenty, 18.10.12, datum=NAD83)
-    test 220 distanceTo: 866455.43292
-    test 221 ValueError: other Ellipsoid mistmatch: Ellipsoids.Airy1830 vs Ellipsoids.GRS80
-    test 222 isEllipsoidal: True
-    test 223 isSpherical: False
-    test 224 epsilon: 1e-12
-    test 225 iterations: 50
-    test 226 copy: True
-    test 227 isEllipsoidal: True
-    test 228 isSpherical: False
-    test 229 copy: 37°57′03.7203″S, 144°25′29.5244″E
-    test 230 epsilon: 2.220446049250313e-16
-    test 231 iterations: 200
-    test 232 coincident: 0.0
-    test 233 coincident: 0.0, 0.0, 0.0
-    test 234 destination: 37.6528°S, 143.9265°E
-    test 235 destination: True
-    test 236 destination2: 37.652821°S, 143.926496°E, 307.1736°NW
-    test 237 destination2: True
-    test 238 finalBearingOn: 307.1736°, 307°10′25.07″NW
-    test 239 distanceTo: 969954.166
-    test 240 distanceTo3: 969954.166314, 9.141877, 11.29722
-    test 241 distanceTo2: 972708.16174, 11.22502
-    test 242 initialBearingTo: 9.1419°, 9°08′30.76″N
-    test 243 finalBearingTo: 11.2972°, 11°17′49.99″NNE
-    test 244 distanceTo: 404607.806
-    test 245 distanceTo3: 404607.805988, 156.11064, 157.8345
-    test 246 distanceTo2: 402574.597287, 157.726344
-    test 247 initialBearingTo: 156.1106°, 156°06′38.31″SSE
-    test 248 finalBearingTo: 157.8345°, 157°50′04.2″SSE
-    test 249 distanceTo: 54973.295
-    test 250 distanceTo3: 54973.29527, 233.13008, 232.82461
-    test 251 distanceTo2: 54903.41209, 232.9209
-    test 252 initialBearingTo: 233.1301°, 233°07′48.28″SW
-    test 253 finalBearingTo: 232.8246°, 232°49′28.59″SW
-    test 254 distanceToMP: 298396.057
-    test 255 distanceToSM: 185.414
-    test 256 distanceToMP: 111319.491
-    test 257 distanceToMP: 110574.389
-    test 258 distanceToKW: 222638.982
-    test 259 distanceToKW: 111319.491
-    test 260 distanceTo3: 54972.271
-    test 261 distanceTo3: 306°52′05.37″
-    test 262 distanceTo3: 307°10′25.07″
-    test 263 distanceTo2: 54902.390
-    test 264 distanceTo2: 307°04′38.41″
+    test 236 distanceTo: 866455.43292
+    test 237 ValueError: other Ellipsoid mistmatch: Ellipsoids.Airy1830 vs Ellipsoids.GRS80
+    test 238 isEllipsoidal: True
+    test 239 isSpherical: False
+    test 240 epsilon: 1e-12
+    test 241 iterations: 50
+    test 242 copy: True
+    test 243 isEllipsoidal: True
+    test 244 isSpherical: False
+    test 245 copy: 37°57′03.7203″S, 144°25′29.5244″E
+    test 246 epsilon: 2.220446049250313e-16
+    test 247 iterations: 200
+    test 248 coincident: 0.0
+    test 249 coincident: 0.0, 0.0, 0.0
+    test 250 destination: 37.6528°S, 143.9265°E
+    test 251 destination: True
+    test 252 destination2: 37.652821°S, 143.926496°E, 307.1736°NW
+    test 253 destination2: True
+    test 254 finalBearingOn: 307.1736°, 307°10′25.07″NW
+    test 255 distanceTo: 969954.166
+    test 256 distanceTo3: 969954.166314, 9.141877, 11.29722
+    test 257 distanceTo2: 972708.16174, 11.22502
+    test 258 initialBearingTo: 9.1419°, 9°08′30.76″N
+    test 259 finalBearingTo: 11.2972°, 11°17′49.99″NNE
+    test 260 distanceTo: 404607.806
+    test 261 distanceTo3: 404607.805988, 156.11064, 157.8345
+    test 262 distanceTo2: 402574.597287, 157.726344
+    test 263 initialBearingTo: 156.1106°, 156°06′38.31″SSE
+    test 264 finalBearingTo: 157.8345°, 157°50′04.2″SSE
+    test 265 distanceTo: 54973.295
+    test 266 distanceTo3: 54973.29527, 233.13008, 232.82461
+    test 267 distanceTo2: 54903.41209, 232.9209
+    test 268 initialBearingTo: 233.1301°, 233°07′48.28″SW
+    test 269 finalBearingTo: 232.8246°, 232°49′28.59″SW
+    test 270 distanceToMP: 298396.057
+    test 271 distanceToSM: 185.414
+    test 272 distanceToMP: 111319.491
+    test 273 distanceToMP: 110574.389
+    test 274 distanceToKW: 222638.982
+    test 275 distanceToKW: 111319.491
+    test 276 distanceTo3: 54972.271
+    test 277 distanceTo3: 306°52′05.37″
+    test 278 distanceTo3: 307°10′25.07″
+    test 279 distanceTo2: 54902.390
+    test 280 distanceTo2: 307°04′38.41″
 
-    1 of 264 testEllipsoidal.py tests (0.4%) FAILED, ALL KNOWN (PyGeodesy 18.10.16 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 45.979 ms
+    1 of 280 testEllipsoidal.py tests (0.4%) FAILED, ALL KNOWN (PyGeodesy 18.10.20 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 71.951 ms
 
 running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testEllipsoidalGeodTest.py
 
@@ -2237,7 +2241,7 @@ running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testEllipsoidalGeodTest.py
     test 1500 line 500 fb: 130.988277
     test 1501 WGS84.KsOrder: 8
 
-    all 1501 testEllipsoidalGeodTest.py tests passed (PyGeodesy 18.10.16 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 251.095 ms
+    all 1501 testEllipsoidalGeodTest.py tests passed (PyGeodesy 18.10.20 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 225.447 ms
 
 running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testFmath.py
 
@@ -2407,406 +2411,406 @@ running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testFmath.py
     test 163 sum: 1.005000000001
     test 164 fsum: 1.005000000001
     test 165 Fsum: 1.005000000001
-    test 166 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 2.482484662152284e-08
-    test 167 fsum: 2.482484662152284e-08
-    test 168 Fsum: 2.482484662152284e-08
-    test 169 Fsum: 2.482484662152284e-08
-    test 170 sum: 7.0  FAILED, KNOWN, expected 0.01673243228307122
-    test 171 fsum: 0.01673243228307122
-    test 172 Fsum: 0.01673243228307122
-    test 173 Fsum: 0.01673243228307122
-    test 174 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.002334778836888776
-    test 175 fsum: -0.002334778836888776
-    test 176 Fsum: -0.002334778836888776
-    test 177 Fsum: -0.002334778836888776
-    test 178 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.0008698456500718493
-    test 179 fsum: -0.0008698456500718493
-    test 180 Fsum: -0.0008698456500718493
-    test 181 Fsum: -0.0008698456500718493
-    test 182 sum: 0.0  FAILED, KNOWN, expected 0.0007814010431900964
-    test 183 fsum: 0.0007814010431900964
-    test 184 Fsum: 0.0007814010431900964
-    test 185 Fsum: 0.0007814010431900964
-    test 186 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 1.0827597496409505e-07
-    test 187 fsum: 1.0827597496409505e-07
-    test 188 Fsum: 1.0827597496409505e-07
-    test 189 Fsum: 1.0827597496409505e-07
-    test 190 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.0005095692235182767
-    test 191 fsum: 0.0005095692235182767
-    test 192 Fsum: 0.0005095692235182767
-    test 193 Fsum: 0.0005095692235182767
-    test 194 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 1.1232115283375356e-13
-    test 195 fsum: 1.1232115283375356e-13
-    test 196 Fsum: 1.1232115283375356e-13
-    test 197 Fsum: 1.1232115283375356e-13
-    test 198 sum: 7.0  FAILED, KNOWN, expected 4.728188009880857e-07
-    test 199 fsum: 4.728188009880857e-07
-    test 200 Fsum: 4.728188009880857e-07
-    test 201 Fsum: 4.728188009880857e-07
-    test 202 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -2.7620050872267837e-05
-    test 203 fsum: -2.7620050872267837e-05
-    test 204 Fsum: -2.7620050872267837e-05
-    test 205 Fsum: -2.7620050872267837e-05
-    test 206 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.0017106593651403951
-    test 207 fsum: -0.0017106593651403951
-    test 208 Fsum: -0.0017106593651403951
-    test 209 Fsum: -0.0017106593651403951
-    test 210 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 6.106297932485508e-06
-    test 211 fsum: 6.106297932485508e-06
-    test 212 Fsum: 6.106297932485508e-06
-    test 213 Fsum: 6.106297932485508e-06
-    test 214 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.0018048025957184527
-    test 215 fsum: 0.0018048025957184527
-    test 216 Fsum: 0.0018048025957184527
-    test 217 Fsum: 0.0018048025957184527
-    test 218 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 2.5242095404819946e-07
-    test 219 fsum: 2.5242095404819946e-07
-    test 220 Fsum: 2.5242095404819946e-07
-    test 221 Fsum: 2.5242095404819946e-07
-    test 222 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.05541256095014547
-    test 223 fsum: 0.05541256095014547
-    test 224 Fsum: 0.05541256095014547
-    test 225 Fsum: 0.05541256095014547
-    test 226 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.015638647634390577
-    test 227 fsum: 0.015638647634390577
-    test 228 Fsum: 0.015638647634390577
-    test 229 Fsum: 0.015638647634390577
-    test 230 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 4.836206802143288
-    test 231 fsum: 4.836206802143288
-    test 232 Fsum: 4.836206802143288
-    test 233 Fsum: 4.836206802143288
-    test 234 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 2.07723149200721e-11
-    test 235 fsum: 2.07723149200721e-11
-    test 236 Fsum: 2.07723149200721e-11
-    test 237 Fsum: 2.07723149200721e-11
-    test 238 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -2.8850537531674486e-05
-    test 239 fsum: -2.8850537531674486e-05
-    test 240 Fsum: -2.8850537531674486e-05
-    test 241 Fsum: -2.8850537531674486e-05
-    test 242 sum: 14.01048179592334  FAILED, KNOWN, expected 0.004636347265420978
-    test 243 fsum: 0.004636347265420978
-    test 244 Fsum: 0.004636347265420978
-    test 245 Fsum: 0.004636347265420978
-    test 246 sum: -6.996511196644632  FAILED, KNOWN, expected -1.5865867176325324e-05
-    test 247 fsum: -1.5865867176325324e-05
-    test 248 Fsum: -1.5865867176325324e-05
-    test 249 Fsum: -1.5865867176325324e-05
-    test 250 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.1689916593574838
-    test 251 fsum: -0.1689916593574838
-    test 252 Fsum: -0.1689916593574838
-    test 253 Fsum: -0.1689916593574838
-    test 254 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -27.211385345776044
-    test 255 fsum: -27.211385345776044
-    test 256 Fsum: -27.211385345776044
-    test 257 Fsum: -27.211385345776044
-    test 258 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.0004988595368821724
-    test 259 fsum: 0.0004988595368821724
-    test 260 Fsum: 0.0004988595368821724
-    test 261 Fsum: 0.0004988595368821724
-    test 262 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 4.650745746138377e-09
-    test 263 fsum: 4.650745746138377e-09
-    test 264 Fsum: 4.650745746138377e-09
-    test 265 Fsum: 4.650745746138377e-09
-    test 266 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -2.894313307306464e-06
-    test 267 fsum: -2.894313307306464e-06
-    test 268 Fsum: -2.894313307306464e-06
-    test 269 Fsum: -2.894313307306464e-06
-    test 270 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 5.30027725120079e-10
-    test 271 fsum: 5.30027725120079e-10
-    test 272 Fsum: 5.30027725120079e-10
-    test 273 Fsum: 5.30027725120079e-10
-    test 274 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 1.2688745434620797e-06
-    test 275 fsum: 1.2688745434620797e-06
-    test 276 Fsum: 1.2688745434620797e-06
-    test 277 Fsum: 1.2688745434620797e-06
-    test 278 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 6.8486475816596795e-09
-    test 279 fsum: 6.8486475816596795e-09
-    test 280 Fsum: 6.8486475816596795e-09
-    test 281 Fsum: 6.8486475816596795e-09
-    test 282 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -2.3158914391224557e-15
-    test 283 fsum: -2.3158914391224557e-15
-    test 284 Fsum: -2.3158914391224557e-15
-    test 285 Fsum: -2.3158914391224557e-15
-    test 286 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 5.012311287894212e-12
-    test 287 fsum: 5.012311287894212e-12
-    test 288 Fsum: 5.012311287894212e-12
-    test 289 Fsum: 5.012311287894212e-12
-    test 290 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.0028093780795751897
-    test 291 fsum: 0.0028093780795751897
-    test 292 Fsum: 0.0028093780795751897
-    test 293 Fsum: 0.0028093780795751897
-    test 294 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.0024460119384226973
-    test 295 fsum: -0.0024460119384226973
-    test 296 Fsum: -0.0024460119384226973
-    test 297 Fsum: -0.0024460119384226973
-    test 298 sum: 0.0  FAILED, KNOWN, expected 0.08753878469678492
-    test 299 fsum: 0.08753878469678492
-    test 300 Fsum: 0.08753878469678492
-    test 301 Fsum: 0.08753878469678492
-    test 302 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.0028350012829676517
-    test 303 fsum: 0.0028350012829676517
-    test 304 Fsum: 0.0028350012829676517
-    test 305 Fsum: 0.0028350012829676517
-    test 306 sum: -0.0028404009599930003  FAILED, KNOWN, expected -0.0019620796412133782
-    test 307 fsum: -0.0019620796412133782
-    test 308 Fsum: -0.0019620796412133782
-    test 309 Fsum: -0.0019620796412133782
-    test 310 sum: -13.997690473054744  FAILED, KNOWN, expected 0.00010469870158312275
-    test 311 fsum: 0.00010469870158312275
-    test 312 Fsum: 0.00010469870158312275
-    test 313 Fsum: 0.00010469870158312275
-    test 314 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 9.050964239855289e-07
-    test 315 fsum: 9.050964239855289e-07
-    test 316 Fsum: 9.050964239855289e-07
-    test 317 Fsum: 9.050964239855289e-07
-    test 318 sum: 7.393857381159387  FAILED, KNOWN, expected 0.020257559563556043
-    test 319 fsum: 0.020257559563556043
-    test 320 Fsum: 0.020257559563556043
-    test 321 Fsum: 0.020257559563556043
-    test 322 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 1.4124236957112917
-    test 323 fsum: 1.4124236957112917
-    test 324 Fsum: 1.4124236957112917
-    test 325 Fsum: 1.4124236957112917
-    test 326 sum: 4.237730659936403  FAILED, KNOWN, expected -2.5461568099389368e-08
-    test 327 fsum: -2.5461568099389368e-08
-    test 328 Fsum: -2.5461568099389368e-08
-    test 329 Fsum: -2.5461568099389368e-08
-    test 330 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 8.542451056610325e-11
-    test 331 fsum: 8.542451056610325e-11
-    test 332 Fsum: 8.542451056610325e-11
-    test 333 Fsum: 8.542451056610325e-11
-    test 334 sum: 5.754652769852537  FAILED, KNOWN, expected 0.001043923666815143
-    test 335 fsum: 0.001043923666815143
-    test 336 Fsum: 0.001043923666815143
-    test 337 Fsum: 0.001043923666815143
-    test 338 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -1.2082724705950894e-15
-    test 339 fsum: -1.2082724705950894e-15
-    test 340 Fsum: -1.2082724705950894e-15
-    test 341 Fsum: -1.2082724705950894e-15
-    test 342 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 2.1811373683150973e-05
-    test 343 fsum: 2.1811373683150973e-05
-    test 344 Fsum: 2.1811373683150973e-05
-    test 345 Fsum: 2.1811373683150973e-05
-    test 346 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -4.430838366361834
-    test 347 fsum: -4.430838366361834
-    test 348 Fsum: -4.430838366361834
-    test 349 Fsum: -4.430838366361834
-    test 350 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.003610459736097071
-    test 351 fsum: 0.003610459736097071
-    test 352 Fsum: 0.003610459736097071
-    test 353 Fsum: 0.003610459736097071
-    test 354 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 1.8790388946670526e-07
-    test 355 fsum: 1.8790388946670526e-07
-    test 356 Fsum: 1.8790388946670526e-07
-    test 357 Fsum: 1.8790388946670526e-07
-    test 358 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.00691239919178789
-    test 359 fsum: 0.00691239919178789
-    test 360 Fsum: 0.00691239919178789
-    test 361 Fsum: 0.00691239919178789
-    test 362 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.020218729195577607
-    test 363 fsum: -0.020218729195577607
-    test 364 Fsum: -0.020218729195577607
-    test 365 Fsum: -0.020218729195577607
-    test 366 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 3.107405228192944e-08
-    test 367 fsum: 3.107405228192944e-08
-    test 368 Fsum: 3.107405228192944e-08
-    test 369 Fsum: 3.107405228192944e-08
-    test 370 sum: -1.1612588623318736  FAILED, KNOWN, expected -0.9544371098100284
-    test 371 fsum: -0.9544371098100284
-    test 372 Fsum: -0.9544371098100284
-    test 373 Fsum: -0.9544371098100284
-    test 374 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -1.831552538213327e-12
-    test 375 fsum: -1.831552538213327e-12
-    test 376 Fsum: -1.831552538213327e-12
-    test 377 Fsum: -1.831552538213327e-12
-    test 378 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -5.900868982678267e-15
-    test 379 fsum: -5.900868982678267e-15
-    test 380 Fsum: -5.900868982678267e-15
-    test 381 Fsum: -5.900868982678267e-15
-    test 382 sum: -6.804310466851435  FAILED, KNOWN, expected -4.4444686373425315e-07
-    test 383 fsum: -4.4444686373425315e-07
-    test 384 Fsum: -4.4444686373425315e-07
-    test 385 Fsum: -4.4444686373425315e-07
-    test 386 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 3.6937775203972305e-05
-    test 387 fsum: 3.6937775203972305e-05
-    test 388 Fsum: 3.6937775203972305e-05
-    test 389 Fsum: 3.6937775203972305e-05
-    test 390 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.0022823104360185217
-    test 391 fsum: -0.0022823104360185217
-    test 392 Fsum: -0.0022823104360185217
-    test 393 Fsum: -0.0022823104360185217
-    test 394 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -1.5205156661455695e-05
-    test 395 fsum: -1.5205156661455695e-05
-    test 396 Fsum: -1.5205156661455695e-05
-    test 397 Fsum: -1.5205156661455695e-05
-    test 398 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -8.630939954493275e-10
-    test 399 fsum: -8.630939954493275e-10
-    test 400 Fsum: -8.630939954493275e-10
-    test 401 Fsum: -8.630939954493275e-10
-    test 402 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.005312822930454451
-    test 403 fsum: 0.005312822930454451
-    test 404 Fsum: 0.005312822930454451
-    test 405 Fsum: 0.005312822930454451
-    test 406 sum: -9e-20  FAILED, KNOWN, expected -0.0038838172464389672
-    test 407 fsum: -0.0038838172464389672
-    test 408 Fsum: -0.0038838172464389672
-    test 409 Fsum: -0.0038838172464389672
-    test 410 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 7.085994889371106e-15
-    test 411 fsum: 7.085994889371106e-15
-    test 412 Fsum: 7.085994889371106e-15
-    test 413 Fsum: 7.085994889371106e-15
-    test 414 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.8449576785393988
-    test 415 fsum: -0.8449576785393988
-    test 416 Fsum: -0.8449576785393988
-    test 417 Fsum: -0.8449576785393988
-    test 418 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.03290243747347579
-    test 419 fsum: -0.03290243747347579
-    test 420 Fsum: -0.03290243747347579
-    test 421 Fsum: -0.03290243747347579
-    test 422 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -6.49287600364757e-07
-    test 423 fsum: -6.49287600364757e-07
-    test 424 Fsum: -6.49287600364757e-07
-    test 425 Fsum: -6.49287600364757e-07
-    test 426 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.015643079231955365
-    test 427 fsum: 0.015643079231955365
-    test 428 Fsum: 0.015643079231955365
-    test 429 Fsum: 0.015643079231955365
-    test 430 sum: 7.001059229274525  FAILED, KNOWN, expected -2.8249782602672296e-13
-    test 431 fsum: -2.8249782602672296e-13
-    test 432 Fsum: -2.8249782602672296e-13
-    test 433 Fsum: -2.8249782602672296e-13
-    test 434 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 1.481334295618703e-07
-    test 435 fsum: 1.481334295618703e-07
-    test 436 Fsum: 1.481334295618703e-07
-    test 437 Fsum: 1.481334295618703e-07
-    test 438 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -1.3100784582730842
-    test 439 fsum: -1.3100784582730842
-    test 440 Fsum: -1.3100784582730842
-    test 441 Fsum: -1.3100784582730842
-    test 442 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -8.680023916976553e-06
-    test 443 fsum: -8.680023916976553e-06
-    test 444 Fsum: -8.680023916976553e-06
-    test 445 Fsum: -8.680023916976553e-06
-    test 446 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 9.253895663253472e-07
-    test 447 fsum: 9.253895663253472e-07
-    test 448 Fsum: 9.253895663253472e-07
-    test 449 Fsum: 9.253895663253472e-07
-    test 450 sum: -7.0  FAILED, KNOWN, expected -5.295245430548065e-08
-    test 451 fsum: -5.295245430548065e-08
-    test 452 Fsum: -5.295245430548065e-08
-    test 453 Fsum: -5.295245430548065e-08
-    test 454 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -9.115919439475151
-    test 455 fsum: -9.115919439475151
-    test 456 Fsum: -9.115919439475151
-    test 457 Fsum: -9.115919439475151
-    test 458 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 754.6942409903761
-    test 459 fsum: 754.6942409903761
-    test 460 Fsum: 754.6942409903761
-    test 461 Fsum: 754.6942409903761
-    test 462 sum: 0.0  FAILED, KNOWN, expected 0.3450235396479066
-    test 463 fsum: 0.3450235396479066
-    test 464 Fsum: 0.3450235396479066
-    test 465 Fsum: 0.3450235396479066
-    test 466 sum: 14.0  FAILED, KNOWN, expected 2.476889842895869e-15
-    test 467 fsum: 2.476889842895869e-15
-    test 468 Fsum: 2.476889842895869e-15
-    test 469 Fsum: 2.476889842895869e-15
-    test 470 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 1.145774389174125e-10
-    test 471 fsum: 1.145774389174125e-10
-    test 472 Fsum: 1.145774389174125e-10
-    test 473 Fsum: 1.145774389174125e-10
-    test 474 sum: 7.0  FAILED, KNOWN, expected 0.013318110742849424
-    test 475 fsum: 0.013318110742849424
-    test 476 Fsum: 0.013318110742849424
-    test 477 Fsum: 0.013318110742849424
-    test 478 sum: 8e-20  FAILED, KNOWN, expected -2.0724138023144492e-07
-    test 479 fsum: -2.0724138023144492e-07
-    test 480 Fsum: -2.0724138023144492e-07
-    test 481 Fsum: -2.0724138023144492e-07
-    test 482 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -2.1300090319156673e-10
-    test 483 fsum: -2.1300090319156673e-10
-    test 484 Fsum: -2.1300090319156673e-10
-    test 485 Fsum: -2.1300090319156673e-10
-    test 486 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -3.4318120684428637e-11
-    test 487 fsum: -3.4318120684428637e-11
-    test 488 Fsum: -3.4318120684428637e-11
-    test 489 Fsum: -3.4318120684428637e-11
-    test 490 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.28741839128976654
-    test 491 fsum: -0.28741839128976654
-    test 492 Fsum: -0.28741839128976654
-    test 493 Fsum: -0.28741839128976654
-    test 494 sum: 0.0  FAILED, KNOWN, expected 6.07564638985316e-07
-    test 495 fsum: 6.07564638985316e-07
-    test 496 Fsum: 6.07564638985316e-07
-    test 497 Fsum: 6.07564638985316e-07
-    test 498 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 8.448933706608508e-05
-    test 499 fsum: 8.448933706608508e-05
-    test 500 Fsum: 8.448933706608508e-05
-    test 501 Fsum: 8.448933706608508e-05
-    test 502 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.10795141345761117
-    test 503 fsum: -0.10795141345761117
-    test 504 Fsum: -0.10795141345761117
-    test 505 Fsum: -0.10795141345761117
-    test 506 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 3.93299188695856e-10
-    test 507 fsum: 3.93299188695856e-10
-    test 508 Fsum: 3.93299188695856e-10
-    test 509 Fsum: 3.93299188695856e-10
-    test 510 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 4.8081107491911486e-05
-    test 511 fsum: 4.8081107491911486e-05
-    test 512 Fsum: 4.8081107491911486e-05
-    test 513 Fsum: 4.8081107491911486e-05
-    test 514 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 8.901348330389475e-15
-    test 515 fsum: 8.901348330389475e-15
-    test 516 Fsum: 8.901348330389475e-15
-    test 517 Fsum: 8.901348330389475e-15
-    test 518 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -1.0915981772581224e-10
-    test 519 fsum: -1.0915981772581224e-10
-    test 520 Fsum: -1.0915981772581224e-10
-    test 521 Fsum: -1.0915981772581224e-10
-    test 522 sum: 0.0  FAILED, KNOWN, expected -7.229575126222748e-10
-    test 523 fsum: -7.229575126222748e-10
-    test 524 Fsum: -7.229575126222748e-10
-    test 525 Fsum: -7.229575126222748e-10
-    test 526 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.19921731274132934
-    test 527 fsum: -0.19921731274132934
-    test 528 Fsum: -0.19921731274132934
-    test 529 Fsum: -0.19921731274132934
-    test 530 sum: -15.891570822621166  FAILED, KNOWN, expected -0.033659526975497116
-    test 531 fsum: -0.033659526975497116
-    test 532 Fsum: -0.033659526975497116
-    test 533 Fsum: -0.033659526975497116
-    test 534 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 3.597454809334693e-10
-    test 535 fsum: 3.597454809334693e-10
-    test 536 Fsum: 3.597454809334693e-10
-    test 537 Fsum: 3.597454809334693e-10
-    test 538 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.0007594051060314237
-    test 539 fsum: -0.0007594051060314237
-    test 540 Fsum: -0.0007594051060314237
-    test 541 Fsum: -0.0007594051060314237
-    test 542 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 3.003464370071138e-11
-    test 543 fsum: 3.003464370071138e-11
-    test 544 Fsum: 3.003464370071138e-11
-    test 545 Fsum: 3.003464370071138e-11
-    test 546 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 2.5330063441562977e-05
-    test 547 fsum: 2.5330063441562977e-05
-    test 548 Fsum: 2.5330063441562977e-05
-    test 549 Fsum: 2.5330063441562977e-05
-    test 550 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.01147076284828902
-    test 551 fsum: 0.01147076284828902
-    test 552 Fsum: 0.01147076284828902
-    test 553 Fsum: 0.01147076284828902
-    test 554 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.18699098393258007
-    test 555 fsum: 0.18699098393258007
-    test 556 Fsum: 0.18699098393258007
-    test 557 Fsum: 0.18699098393258007
-    test 558 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 6.384553981823187e-08
-    test 559 fsum: 6.384553981823187e-08
-    test 560 Fsum: 6.384553981823187e-08
-    test 561 Fsum: 6.384553981823187e-08
-    test 562 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.09845323806485053
-    test 563 fsum: 0.09845323806485053
-    test 564 Fsum: 0.09845323806485053
-    test 565 Fsum: 0.09845323806485053
+    test 166 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.019109830819307772
+    test 167 fsum: 0.019109830819307772
+    test 168 Fsum: 0.019109830819307772
+    test 169 Fsum: 0.019109830819307772
+    test 170 sum: 0.0  FAILED, KNOWN, expected -2.2299237267511226e-05
+    test 171 fsum: -2.2299237267511226e-05
+    test 172 Fsum: -2.2299237267511226e-05
+    test 173 Fsum: -2.2299237267511226e-05
+    test 174 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 5.823577790451394e-07
+    test 175 fsum: 5.823577790451394e-07
+    test 176 Fsum: 5.823577790451394e-07
+    test 177 Fsum: 5.823577790451394e-07
+    test 178 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.0020194670685210812
+    test 179 fsum: 0.0020194670685210812
+    test 180 Fsum: 0.0020194670685210812
+    test 181 Fsum: 0.0020194670685210812
+    test 182 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.0032026965164853884
+    test 183 fsum: 0.0032026965164853884
+    test 184 Fsum: 0.0032026965164853884
+    test 185 Fsum: 0.0032026965164853884
+    test 186 sum: -13.993517133156974  FAILED, KNOWN, expected -3.5621920356022235e-08
+    test 187 fsum: -3.5621920356022235e-08
+    test 188 Fsum: -3.5621920356022235e-08
+    test 189 Fsum: -3.5621920356022235e-08
+    test 190 sum: -7.0022035326193794  FAILED, KNOWN, expected -5.2253941530460905e-05
+    test 191 fsum: -5.2253941530460905e-05
+    test 192 Fsum: -5.2253941530460905e-05
+    test 193 Fsum: -5.2253941530460905e-05
+    test 194 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.00047466013804407244
+    test 195 fsum: -0.00047466013804407244
+    test 196 Fsum: -0.00047466013804407244
+    test 197 Fsum: -0.00047466013804407244
+    test 198 sum: 23.09656793150908  FAILED, KNOWN, expected -5.279330277277381e-06
+    test 199 fsum: -5.279330277277381e-06
+    test 200 Fsum: -5.279330277277381e-06
+    test 201 Fsum: -5.279330277277381e-06
+    test 202 sum: 6.643091465547705  FAILED, KNOWN, expected 2.6241186295456083
+    test 203 fsum: 2.6241186295456083
+    test 204 Fsum: 2.6241186295456083
+    test 205 Fsum: 2.6241186295456083
+    test 206 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -1.2402201931208226e-05
+    test 207 fsum: -1.2402201931208226e-05
+    test 208 Fsum: -1.2402201931208226e-05
+    test 209 Fsum: -1.2402201931208226e-05
+    test 210 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -7.273879848797511e-06
+    test 211 fsum: -7.273879848797511e-06
+    test 212 Fsum: -7.273879848797511e-06
+    test 213 Fsum: -7.273879848797511e-06
+    test 214 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 2.551897226070977e-15
+    test 215 fsum: 2.551897226070977e-15
+    test 216 Fsum: 2.551897226070977e-15
+    test 217 Fsum: 2.551897226070977e-15
+    test 218 sum: -286.0426815084664  FAILED, KNOWN, expected 0.0015196494720617943
+    test 219 fsum: 0.0015196494720617943
+    test 220 Fsum: 0.0015196494720617943
+    test 221 Fsum: 0.0015196494720617943
+    test 222 sum: 14.0  FAILED, KNOWN, expected 0.003952575600213276
+    test 223 fsum: 0.003952575600213276
+    test 224 Fsum: 0.003952575600213276
+    test 225 Fsum: 0.003952575600213276
+    test 226 sum: -0.0006321757163699701  FAILED, KNOWN, expected -0.4728881632729437
+    test 227 fsum: -0.4728881632729437
+    test 228 Fsum: -0.4728881632729437
+    test 229 Fsum: -0.4728881632729437
+    test 230 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -26.808170181448727
+    test 231 fsum: -26.808170181448727
+    test 232 Fsum: -26.808170181448727
+    test 233 Fsum: -26.808170181448727
+    test 234 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -1.770307733922698e-11
+    test 235 fsum: -1.770307733922698e-11
+    test 236 Fsum: -1.770307733922698e-11
+    test 237 Fsum: -1.770307733922698e-11
+    test 238 sum: 0.0  FAILED, KNOWN, expected -0.004452052800550856
+    test 239 fsum: -0.004452052800550856
+    test 240 Fsum: -0.004452052800550856
+    test 241 Fsum: -0.004452052800550856
+    test 242 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.0001385830000331179
+    test 243 fsum: 0.0001385830000331179
+    test 244 Fsum: 0.0001385830000331179
+    test 245 Fsum: 0.0001385830000331179
+    test 246 sum: 0.0  FAILED, KNOWN, expected 6.510304943823524e-06
+    test 247 fsum: 6.510304943823524e-06
+    test 248 Fsum: 6.510304943823524e-06
+    test 249 Fsum: 6.510304943823524e-06
+    test 250 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -1.75731466094212e-05
+    test 251 fsum: -1.75731466094212e-05
+    test 252 Fsum: -1.75731466094212e-05
+    test 253 Fsum: -1.75731466094212e-05
+    test 254 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.00047447238892964373
+    test 255 fsum: -0.00047447238892964373
+    test 256 Fsum: -0.00047447238892964373
+    test 257 Fsum: -0.00047447238892964373
+    test 258 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 1.9648805266002984
+    test 259 fsum: 1.9648805266002984
+    test 260 Fsum: 1.9648805266002984
+    test 261 Fsum: 1.9648805266002984
+    test 262 sum: 7.0  FAILED, KNOWN, expected -0.002125728410034061
+    test 263 fsum: -0.002125728410034061
+    test 264 Fsum: -0.002125728410034061
+    test 265 Fsum: -0.002125728410034061
+    test 266 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 1.218134620385854e-06
+    test 267 fsum: 1.218134620385854e-06
+    test 268 Fsum: 1.218134620385854e-06
+    test 269 Fsum: 1.218134620385854e-06
+    test 270 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 2.274333939276474e-07
+    test 271 fsum: 2.274333939276474e-07
+    test 272 Fsum: 2.274333939276474e-07
+    test 273 Fsum: 2.274333939276474e-07
+    test 274 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 1.2184696392197704e-05
+    test 275 fsum: 1.2184696392197704e-05
+    test 276 Fsum: 1.2184696392197704e-05
+    test 277 Fsum: 1.2184696392197704e-05
+    test 278 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -1.3780466507474995e-07
+    test 279 fsum: -1.3780466507474995e-07
+    test 280 Fsum: -1.3780466507474995e-07
+    test 281 Fsum: -1.3780466507474995e-07
+    test 282 sum: 14.010948232482473  FAILED, KNOWN, expected -40.26786065402809
+    test 283 fsum: -40.26786065402809
+    test 284 Fsum: -40.26786065402809
+    test 285 Fsum: -40.26786065402809
+    test 286 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -6.162311728673897e-05
+    test 287 fsum: -6.162311728673897e-05
+    test 288 Fsum: -6.162311728673897e-05
+    test 289 Fsum: -6.162311728673897e-05
+    test 290 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 7.372337969143067e-06
+    test 291 fsum: 7.372337969143067e-06
+    test 292 Fsum: 7.372337969143067e-06
+    test 293 Fsum: 7.372337969143067e-06
+    test 294 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.0009841715576154552
+    test 295 fsum: -0.0009841715576154552
+    test 296 Fsum: -0.0009841715576154552
+    test 297 Fsum: -0.0009841715576154552
+    test 298 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 5.051021035420719e-14
+    test 299 fsum: 5.051021035420719e-14
+    test 300 Fsum: 5.051021035420719e-14
+    test 301 Fsum: 5.051021035420719e-14
+    test 302 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 2.8453753405619304
+    test 303 fsum: 2.8453753405619304
+    test 304 Fsum: 2.8453753405619304
+    test 305 Fsum: 2.8453753405619304
+    test 306 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -6.5257778993978526e-12
+    test 307 fsum: -6.5257778993978526e-12
+    test 308 Fsum: -6.5257778993978526e-12
+    test 309 Fsum: -6.5257778993978526e-12
+    test 310 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 3.7251008380875984e-08
+    test 311 fsum: 3.7251008380875984e-08
+    test 312 Fsum: 3.7251008380875984e-08
+    test 313 Fsum: 3.7251008380875984e-08
+    test 314 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 20.13017856172979
+    test 315 fsum: 20.13017856172979
+    test 316 Fsum: 20.13017856172979
+    test 317 Fsum: 20.13017856172979
+    test 318 sum: 0.0  FAILED, KNOWN, expected -0.0070623468719290955
+    test 319 fsum: -0.0070623468719290955
+    test 320 Fsum: -0.0070623468719290955
+    test 321 Fsum: -0.0070623468719290955
+    test 322 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.057095846288290876
+    test 323 fsum: 0.057095846288290876
+    test 324 Fsum: 0.057095846288290876
+    test 325 Fsum: 0.057095846288290876
+    test 326 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.30584388933812146
+    test 327 fsum: -0.30584388933812146
+    test 328 Fsum: -0.30584388933812146
+    test 329 Fsum: -0.30584388933812146
+    test 330 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.02786695686710993
+    test 331 fsum: -0.02786695686710993
+    test 332 Fsum: -0.02786695686710993
+    test 333 Fsum: -0.02786695686710993
+    test 334 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -163.15627846678532
+    test 335 fsum: -163.15627846678532
+    test 336 Fsum: -163.15627846678532
+    test 337 Fsum: -163.15627846678532
+    test 338 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -4.3093138117372976e-05
+    test 339 fsum: -4.3093138117372976e-05
+    test 340 Fsum: -4.3093138117372976e-05
+    test 341 Fsum: -4.3093138117372976e-05
+    test 342 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -2.460590083617846e-09
+    test 343 fsum: -2.460590083617846e-09
+    test 344 Fsum: -2.460590083617846e-09
+    test 345 Fsum: -2.460590083617846e-09
+    test 346 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -5.108407108399038e-05
+    test 347 fsum: -5.108407108399038e-05
+    test 348 Fsum: -5.108407108399038e-05
+    test 349 Fsum: -5.108407108399038e-05
+    test 350 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -1.6188296155745464e-05
+    test 351 fsum: -1.6188296155745464e-05
+    test 352 Fsum: -1.6188296155745464e-05
+    test 353 Fsum: -1.6188296155745464e-05
+    test 354 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.0006082132853660291
+    test 355 fsum: 0.0006082132853660291
+    test 356 Fsum: 0.0006082132853660291
+    test 357 Fsum: 0.0006082132853660291
+    test 358 sum: 0.0  FAILED, KNOWN, expected -1.5020728463699833e-05
+    test 359 fsum: -1.5020728463699833e-05
+    test 360 Fsum: -1.5020728463699833e-05
+    test 361 Fsum: -1.5020728463699833e-05
+    test 362 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.003355390211235046
+    test 363 fsum: -0.003355390211235046
+    test 364 Fsum: -0.003355390211235046
+    test 365 Fsum: -0.003355390211235046
+    test 366 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.9587068619795882
+    test 367 fsum: 0.9587068619795882
+    test 368 Fsum: 0.9587068619795882
+    test 369 Fsum: 0.9587068619795882
+    test 370 sum: 0.0  FAILED, KNOWN, expected -0.46171294230738097
+    test 371 fsum: -0.46171294230738097
+    test 372 Fsum: -0.46171294230738097
+    test 373 Fsum: -0.46171294230738097
+    test 374 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -28.0667999235993
+    test 375 fsum: -28.0667999235993
+    test 376 Fsum: -28.0667999235993
+    test 377 Fsum: -28.0667999235993
+    test 378 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 9.532076565564259e-06
+    test 379 fsum: 9.532076565564259e-06
+    test 380 Fsum: 9.532076565564259e-06
+    test 381 Fsum: 9.532076565564259e-06
+    test 382 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.0027019222101171444
+    test 383 fsum: -0.0027019222101171444
+    test 384 Fsum: -0.0027019222101171444
+    test 385 Fsum: -0.0027019222101171444
+    test 386 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 9.737880989321743
+    test 387 fsum: 9.737880989321743
+    test 388 Fsum: 9.737880989321743
+    test 389 Fsum: 9.737880989321743
+    test 390 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.07994431355841389
+    test 391 fsum: 0.07994431355841389
+    test 392 Fsum: 0.07994431355841389
+    test 393 Fsum: 0.07994431355841389
+    test 394 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 1.734005894242643e-05
+    test 395 fsum: 1.734005894242643e-05
+    test 396 Fsum: 1.734005894242643e-05
+    test 397 Fsum: 1.734005894242643e-05
+    test 398 sum: 7.0  FAILED, KNOWN, expected -0.008652083300349904
+    test 399 fsum: -0.008652083300349904
+    test 400 Fsum: -0.008652083300349904
+    test 401 Fsum: -0.008652083300349904
+    test 402 sum: -1.7921460110617353  FAILED, KNOWN, expected 0.0008015853675313639
+    test 403 fsum: 0.0008015853675313639
+    test 404 Fsum: 0.0008015853675313639
+    test 405 Fsum: 0.0008015853675313639
+    test 406 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.05692034227312661
+    test 407 fsum: -0.05692034227312661
+    test 408 Fsum: -0.05692034227312661
+    test 409 Fsum: -0.05692034227312661
+    test 410 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.00012729987450609608
+    test 411 fsum: -0.00012729987450609608
+    test 412 Fsum: -0.00012729987450609608
+    test 413 Fsum: -0.00012729987450609608
+    test 414 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 6.997701197401145e-05
+    test 415 fsum: 6.997701197401145e-05
+    test 416 Fsum: 6.997701197401145e-05
+    test 417 Fsum: 6.997701197401145e-05
+    test 418 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.06394030656054239
+    test 419 fsum: -0.06394030656054239
+    test 420 Fsum: -0.06394030656054239
+    test 421 Fsum: -0.06394030656054239
+    test 422 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.00020838637969468853
+    test 423 fsum: 0.00020838637969468853
+    test 424 Fsum: 0.00020838637969468853
+    test 425 Fsum: 0.00020838637969468853
+    test 426 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -5.867276333837738e-08
+    test 427 fsum: -5.867276333837738e-08
+    test 428 Fsum: -5.867276333837738e-08
+    test 429 Fsum: -5.867276333837738e-08
+    test 430 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.001092178889219792
+    test 431 fsum: 0.001092178889219792
+    test 432 Fsum: 0.001092178889219792
+    test 433 Fsum: 0.001092178889219792
+    test 434 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.00010016760061261495
+    test 435 fsum: 0.00010016760061261495
+    test 436 Fsum: 0.00010016760061261495
+    test 437 Fsum: 0.00010016760061261495
+    test 438 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 1.0978196142864431e-05
+    test 439 fsum: 1.0978196142864431e-05
+    test 440 Fsum: 1.0978196142864431e-05
+    test 441 Fsum: 1.0978196142864431e-05
+    test 442 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 3.1616668044433814e-05
+    test 443 fsum: 3.1616668044433814e-05
+    test 444 Fsum: 3.1616668044433814e-05
+    test 445 Fsum: 3.1616668044433814e-05
+    test 446 sum: -7.0  FAILED, KNOWN, expected -1.2032403103487392
+    test 447 fsum: -1.2032403103487392
+    test 448 Fsum: -1.2032403103487392
+    test 449 Fsum: -1.2032403103487392
+    test 450 sum: 0.0  FAILED, KNOWN, expected 101.15804624683777
+    test 451 fsum: 101.15804624683777
+    test 452 Fsum: 101.15804624683777
+    test 453 Fsum: 101.15804624683777
+    test 454 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 2.538473946609933e-08
+    test 455 fsum: 2.538473946609933e-08
+    test 456 Fsum: 2.538473946609933e-08
+    test 457 Fsum: 2.538473946609933e-08
+    test 458 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 2.5950658769697856e-06
+    test 459 fsum: 2.5950658769697856e-06
+    test 460 Fsum: 2.5950658769697856e-06
+    test 461 Fsum: 2.5950658769697856e-06
+    test 462 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 2.7966863892318557e-06
+    test 463 fsum: 2.7966863892318557e-06
+    test 464 Fsum: 2.7966863892318557e-06
+    test 465 Fsum: 2.7966863892318557e-06
+    test 466 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 4.8077641722290786e-09
+    test 467 fsum: 4.8077641722290786e-09
+    test 468 Fsum: 4.8077641722290786e-09
+    test 469 Fsum: 4.8077641722290786e-09
+    test 470 sum: 7.0  FAILED, KNOWN, expected -0.0011895332152626402
+    test 471 fsum: -0.0011895332152626402
+    test 472 Fsum: -0.0011895332152626402
+    test 473 Fsum: -0.0011895332152626402
+    test 474 sum: -20.993089159946084  FAILED, KNOWN, expected 0.06488647090935137
+    test 475 fsum: 0.06488647090935137
+    test 476 Fsum: 0.06488647090935137
+    test 477 Fsum: 0.06488647090935137
+    test 478 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.00013861677862651584
+    test 479 fsum: 0.00013861677862651584
+    test 480 Fsum: 0.00013861677862651584
+    test 481 Fsum: 0.00013861677862651584
+    test 482 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 4.937329834832629e-05
+    test 483 fsum: 4.937329834832629e-05
+    test 484 Fsum: 4.937329834832629e-05
+    test 485 Fsum: 4.937329834832629e-05
+    test 486 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.11680559386245053
+    test 487 fsum: 0.11680559386245053
+    test 488 Fsum: 0.11680559386245053
+    test 489 Fsum: 0.11680559386245053
+    test 490 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.00016027396242970868
+    test 491 fsum: 0.00016027396242970868
+    test 492 Fsum: 0.00016027396242970868
+    test 493 Fsum: 0.00016027396242970868
+    test 494 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.07576508513746984
+    test 495 fsum: 0.07576508513746984
+    test 496 Fsum: 0.07576508513746984
+    test 497 Fsum: 0.07576508513746984
+    test 498 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.0013037288490526087
+    test 499 fsum: 0.0013037288490526087
+    test 500 Fsum: 0.0013037288490526087
+    test 501 Fsum: 0.0013037288490526087
+    test 502 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -4.592942296838857e-05
+    test 503 fsum: -4.592942296838857e-05
+    test 504 Fsum: -4.592942296838857e-05
+    test 505 Fsum: -4.592942296838857e-05
+    test 506 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -8.719566457891065e-06
+    test 507 fsum: -8.719566457891065e-06
+    test 508 Fsum: -8.719566457891065e-06
+    test 509 Fsum: -8.719566457891065e-06
+    test 510 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.0014809071782875415
+    test 511 fsum: 0.0014809071782875415
+    test 512 Fsum: 0.0014809071782875415
+    test 513 Fsum: 0.0014809071782875415
+    test 514 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.24197497517560435
+    test 515 fsum: 0.24197497517560435
+    test 516 Fsum: 0.24197497517560435
+    test 517 Fsum: 0.24197497517560435
+    test 518 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.1875457302730169
+    test 519 fsum: -0.1875457302730169
+    test 520 Fsum: -0.1875457302730169
+    test 521 Fsum: -0.1875457302730169
+    test 522 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -5.321070032040658e-05
+    test 523 fsum: -5.321070032040658e-05
+    test 524 Fsum: -5.321070032040658e-05
+    test 525 Fsum: -5.321070032040658e-05
+    test 526 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.26494382840461944
+    test 527 fsum: 0.26494382840461944
+    test 528 Fsum: 0.26494382840461944
+    test 529 Fsum: 0.26494382840461944
+    test 530 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 4.819866408558723e-10
+    test 531 fsum: 4.819866408558723e-10
+    test 532 Fsum: 4.819866408558723e-10
+    test 533 Fsum: 4.819866408558723e-10
+    test 534 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -2.3356021742223803
+    test 535 fsum: -2.3356021742223803
+    test 536 Fsum: -2.3356021742223803
+    test 537 Fsum: -2.3356021742223803
+    test 538 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.3069675385613192
+    test 539 fsum: -0.3069675385613192
+    test 540 Fsum: -0.3069675385613192
+    test 541 Fsum: -0.3069675385613192
+    test 542 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 7.604776610496074e-09
+    test 543 fsum: 7.604776610496074e-09
+    test 544 Fsum: 7.604776610496074e-09
+    test 545 Fsum: 7.604776610496074e-09
+    test 546 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.3179986377992368
+    test 547 fsum: 0.3179986377992368
+    test 548 Fsum: 0.3179986377992368
+    test 549 Fsum: 0.3179986377992368
+    test 550 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -2.4634781492734974e-05
+    test 551 fsum: -2.4634781492734974e-05
+    test 552 Fsum: -2.4634781492734974e-05
+    test 553 Fsum: -2.4634781492734974e-05
+    test 554 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.09598659858214588
+    test 555 fsum: -0.09598659858214588
+    test 556 Fsum: -0.09598659858214588
+    test 557 Fsum: -0.09598659858214588
+    test 558 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 4.656247185540135e-12
+    test 559 fsum: 4.656247185540135e-12
+    test 560 Fsum: 4.656247185540135e-12
+    test 561 Fsum: 4.656247185540135e-12
+    test 562 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.03194274411028481
+    test 563 fsum: 0.03194274411028481
+    test 564 Fsum: 0.03194274411028481
+    test 565 Fsum: 0.03194274411028481
     test 566 fpowers: 10
     test 567 fpowers: 2
     test 568 fpowers: 1024
@@ -2987,7 +2991,7 @@ running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testFmath.py
     test 743 WGS84: 6367449.1458234144
     test 744 WGS84: 6367449.1458234144
 
-    110 of 744 testFmath.py tests (14.8%) FAILED, ALL KNOWN (PyGeodesy 18.10.16 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 253.402 ms
+    110 of 744 testFmath.py tests (14.8%) FAILED, ALL KNOWN (PyGeodesy 18.10.20 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 281.740 ms
 
 running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testGeohash.py
 
@@ -3066,13 +3070,13 @@ running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testGeohash.py
     test 72 decode_error: (2.8125, 5.625)
     test 73 decode_error: (22.5, 22.5)
 
-    all 73 testGeohash.py tests passed (PyGeodesy 18.10.16 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 54.950 ms
+    all 73 testGeohash.py tests passed (PyGeodesy 18.10.20 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 62.393 ms
 
 running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testGreatCircle.py
 
     testing testGreatCircle.py 18.10.02
 
-    testGreatCircle(sphericalNvector, 18.10.12)
+    testGreatCircle(sphericalNvector, 18.10.18)
     test 1 InitialBearingSameLocations: 0.0
     test 2 InitialBearingEqualLocations: 0.0
     test 3 FinalBearingSameLocations: 180.0
@@ -3104,7 +3108,7 @@ running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testGreatCircle.py
     test 29 CrossTrackDistance200m+270°: -200.0
     test 30 CrossTrackDistanceCloseToZero: 0.0000000
 
-    testGreatCircle(sphericalTrigonometry, 18.10.12)
+    testGreatCircle(sphericalTrigonometry, 18.10.18)
     test 31 InitialBearingSameLocations: 0.0
     test 32 InitialBearingEqualLocations: 0.0
     test 33 FinalBearingSameLocations: 180.0
@@ -3136,11 +3140,11 @@ running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testGreatCircle.py
     test 59 CrossTrackDistance200m+270°: -200.0
     test 60 CrossTrackDistanceCloseToZero: 0.0000000
 
-    10 of 60 testGreatCircle.py tests (16.7%) FAILED, ALL KNOWN (PyGeodesy 18.10.16 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 15.756 ms
+    10 of 60 testGreatCircle.py tests (16.7%) FAILED, ALL KNOWN (PyGeodesy 18.10.20 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 16.105 ms
 
 running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testLatLon.py
 
-    testing testLatLon.py 18.10.12
+    testing testLatLon.py 18.10.20
 
     testLatLon(ellipsoidalNvector, 18.10.16)
     test 1 isEllipsoidal: True
@@ -3164,319 +3168,371 @@ running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testLatLon.py
     test 19 antipode3: 52.205°N, 000.119°E
     test 20 antipode4: True
     test 21 antipode5: 52.205°N, 000.119°E
-    test 22 compassAngleTo: 0.0
-    test 23 compassAngleTo: 45.0
-    test 24 compassAngleTo: 90.0
-    test 25 compassAngleTo: 180.0
-    test 26 compassAngleTo: 270.0
-    test 27 copy: True
-    test 28 equirectangularTo: 404329.56
-    test 29 intermediateTo: 51.372294°N, 000.707192°E
-    test 30 intermediateTo: True
-    test 31 intermediateTo+5: 35.560239°N, 008.833512°E
-    test 32 intermediateTo-4: 64.570387°N, 013.156352°W
-    test 33 isclockwise: False
-    test 34 isclockwise*: False
-    test 35 isclockwise: True
-    test 36 isclockwise*: True
-    test 37 isclockwise: too few points: 2
-    test 38 isclockwise*: too few points: 2
-    test 39 isclockwise: polar or zero area
-    test 40 isclockwise*: polar or zero area
-    test 41 isconvex: False
-    test 42 isconvex*: False
-    test 43 isconvex: True
-    test 44 isconvex*: True
-    test 45 isconvex: too few points: 2
-    test 46 isconvex*: too few points: 2
-    test 47 isenclosedBy1: True
-    test 48 isenclosedBy1*: True
-    test 49 isenclosedBy2: False
-    test 50 isenclosedBy2*: False
-    test 51 isenclosedBy3: False
-    test 52 isenclosedBy3*: False
-    test 53 isenclosedBy4: False
-    test 54 isenclosedBy4*: False
-    test 55 isenclosedBy5: False
-    test 56 isenclosedBy5*: False
-    test 57 isenclosedBy6: True
-    test 58 isenclosedBy6*: True
-    test 59 isenclosedBy7: True
-    test 60 isenclosedBy7*: True
+    test 22 copy: True
+    test 23 equirectangularTo: 404329.56
+    test 24 intermediateTo: 51.372294°N, 000.707192°E
+    test 25 intermediateTo: True
+    test 26 intermediateTo+5: 35.560239°N, 008.833512°E
+    test 27 intermediateTo-4: 64.570387°N, 013.156352°W
+    test 28 isclockwise: False
+    test 29 isclockwise*: False
+    test 30 isclockwise: True
+    test 31 isclockwise*: True
+    test 32 isclockwise: too few points: 2
+    test 33 isclockwise*: too few points: 2
+    test 34 isclockwise: polar or zero area
+    test 35 isclockwise*: polar or zero area
+    test 36 isconvex: False
+    test 37 isconvex*: False
+    test 38 isconvex: True
+    test 39 isconvex*: True
+    test 40 isconvex: too few points: 2
+    test 41 isconvex*: too few points: 2
+    test 42 isenclosedBy1: True
+    test 43 isenclosedBy1*: True
+    test 44 isenclosedBy2: False
+    test 45 isenclosedBy2*: False
+    test 46 isenclosedBy3: False
+    test 47 isenclosedBy3*: False
+    test 48 isenclosedBy4: False
+    test 49 isenclosedBy4*: False
+    test 50 isenclosedBy5: False
+    test 51 isenclosedBy5*: False
+    test 52 isenclosedBy6: True
+    test 53 isenclosedBy6*: True
+    test 54 isenclosedBy7: True
+    test 55 isenclosedBy7*: True
+    test 56 compassAngleTo: 100.016848
+    test 57 equirectangularTo: 592.185
+    test 58 compassAngleTo: 0.0
+    test 59 compassAngleTo: 45.0
+    test 60 compassAngleTo: 90.0
+    test 61 compassAngleTo: 180.0
+    test 62 compassAngleTo: 225.0
+    test 63 compassAngleTo: 315.0
+    test 64 compassAngleTo: 270.0
+    test 65 compassAngleTo: 359.4
+    test 66 compassAngleTo: 31
+    test 67 compassAngleTo: 45
 
     testLatLon(ellipsoidalVincenty, 18.10.12)
-    test 61 isEllipsoidal: True
-    test 62 isSpherical: False
-    test 63 lat/lonDMS: 52.20472°N, 000.14056°E
-    test 64 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
-    test 65 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
-    test 66 lat/lonDMS F_DMS: 52°12′17″N, 000°08′26″E
-    test 67 lat/lonDMS F_DMS: 52°12′17.0″N, 000°08′26.0″E
-    test 68 lat/lonDMS F_RAD: 0.911144N, 0.002453E
-    test 69 isequalTo: True
-    test 70 latlon2: 52.20472, 0.14056
-    test 71 latlon2: 52.2047, 0.1406
-    test 72 latlon2: 52.205, 0.141
-    test 73 latlon2: 52.2, 0.14
-    test 74 latlon2: 52.2, 0.1
-    test 75 latlon2: 52.0, 0.0
-    test 76 isequalTo: False
-    test 77 antipode1: 52.205°S, 179.881°W
-    test 78 antipode2: True
-    test 79 antipode3: 52.205°N, 000.119°E
-    test 80 antipode4: True
-    test 81 antipode5: 52.205°N, 000.119°E
-    test 82 compassAngleTo: 0.0
-    test 83 compassAngleTo: 45.0
-    test 84 compassAngleTo: 90.0
-    test 85 compassAngleTo: 180.0
-    test 86 compassAngleTo: 270.0
-    test 87 initialBearingTo: 156.1106
-    test 88 finalBearingTo: 157.8345
-    test 89 initialBearingTo: 65.9335
-    test 90 finalBearingTo: 93.9034
-    test 91 bearingTo2: 156.1106, 157.8345
-    test 92 ispolar: True
-    test 93 copy: True
-    test 94 equirectangularTo: 404329.56
-    test 95 distanceTo: 404607.805988
-    test 96 distanceTo: 404607.805988
-    test 97 distanceTo: 3981601
-    test 98 antipodal: False
-    test 99 distanceTo dateline: 19125097.701  FAILED, KNOWN, expected 19959679.267
-    test 100 distanceTo unrolled: 19125097.701  FAILED, KNOWN, expected 19959679.267
-    test 101 antipodal: False
-    test 102 distanceTo dateline: 9513998
-    test 103 distanceTo unrolled: 9513998
-    test 104 distanceTo3 dateline: 19125097.7012, 270.7159, 276.0288
-    test 105 distanceTo3 dateline: 9513997.9901, 42.9164, 138.8903
+    test 68 isEllipsoidal: True
+    test 69 isSpherical: False
+    test 70 lat/lonDMS: 52.20472°N, 000.14056°E
+    test 71 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
+    test 72 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
+    test 73 lat/lonDMS F_DMS: 52°12′17″N, 000°08′26″E
+    test 74 lat/lonDMS F_DMS: 52°12′17.0″N, 000°08′26.0″E
+    test 75 lat/lonDMS F_RAD: 0.911144N, 0.002453E
+    test 76 isequalTo: True
+    test 77 latlon2: 52.20472, 0.14056
+    test 78 latlon2: 52.2047, 0.1406
+    test 79 latlon2: 52.205, 0.141
+    test 80 latlon2: 52.2, 0.14
+    test 81 latlon2: 52.2, 0.1
+    test 82 latlon2: 52.0, 0.0
+    test 83 isequalTo: False
+    test 84 antipode1: 52.205°S, 179.881°W
+    test 85 antipode2: True
+    test 86 antipode3: 52.205°N, 000.119°E
+    test 87 antipode4: True
+    test 88 antipode5: 52.205°N, 000.119°E
+    test 89 initialBearingTo: 156.1106
+    test 90 finalBearingTo: 157.8345
+    test 91 initialBearingTo: 65.9335
+    test 92 finalBearingTo: 93.9034
+    test 93 bearingTo2: 156.1106, 157.8345
+    test 94 ispolar: True
+    test 95 copy: True
+    test 96 equirectangularTo: 404329.56
+    test 97 distanceTo: 404607.805988
+    test 98 distanceTo: 404607.805988
+    test 99 distanceTo: 3981601
+    test 100 antipodal: False
+    test 101 distanceTo dateline: 19125097.701  FAILED, KNOWN, expected 19959679.267
+    test 102 distanceTo unrolled: 19125097.701  FAILED, KNOWN, expected 19959679.267
+    test 103 antipodal: False
+    test 104 distanceTo dateline: 9513998
+    test 105 distanceTo unrolled: 9513998
     test 106 distanceTo3 dateline: 19125097.7012, 270.7159, 276.0288
     test 107 distanceTo3 dateline: 9513997.9901, 42.9164, 138.8903
-    test 108 destination: 51.513526°N, 000.098038°W
-    test 109 destination: 51°30′49″N, 000°05′53″W
-    test 110 destination: 33°57′N, 118°24′W
-    test 111 destination: 33.950367°N, 118.399012°W
-    test 112 destination: 0.592546N, 2.066453W
-    test 113 destination: 32.11195529°N, 064.56074722°E  FAILED, KNOWN, expected 32.11195529°N, 063.95925278°E
-    test 114 isclockwise: False
-    test 115 isclockwise*: False
-    test 116 isclockwise: True
-    test 117 isclockwise*: True
-    test 118 isclockwise: too few points: 2
-    test 119 isclockwise*: too few points: 2
-    test 120 isclockwise: polar or zero area
-    test 121 isclockwise*: polar or zero area
-    test 122 isconvex: False
-    test 123 isconvex*: False
-    test 124 isconvex: True
-    test 125 isconvex*: True
-    test 126 isconvex: too few points: 2
-    test 127 isconvex*: too few points: 2
-    test 128 isenclosedBy1: True
-    test 129 isenclosedBy1*: True
-    test 130 isenclosedBy2: False
-    test 131 isenclosedBy2*: False
-    test 132 isenclosedBy3: False
-    test 133 isenclosedBy3*: False
-    test 134 isenclosedBy4: False
-    test 135 isenclosedBy4*: False
-    test 136 isenclosedBy5: False
-    test 137 isenclosedBy5*: False
-    test 138 isenclosedBy6: True
-    test 139 isenclosedBy6*: True
-    test 140 isenclosedBy7: True
-    test 141 isenclosedBy7*: True
+    test 108 distanceTo3 dateline: 19125097.7012, 270.7159, 276.0288
+    test 109 distanceTo3 dateline: 9513997.9901, 42.9164, 138.8903
+    test 110 destination: 51.513526°N, 000.098038°W
+    test 111 destination: 51°30′49″N, 000°05′53″W
+    test 112 destination: 33°57′N, 118°24′W
+    test 113 destination: 33.950367°N, 118.399012°W
+    test 114 destination: 0.592546N, 2.066453W
+    test 115 destination: 32.11195529°N, 064.56074722°E  FAILED, KNOWN, expected 32.11195529°N, 063.95925278°E
+    test 116 isclockwise: False
+    test 117 isclockwise*: False
+    test 118 isclockwise: True
+    test 119 isclockwise*: True
+    test 120 isclockwise: too few points: 2
+    test 121 isclockwise*: too few points: 2
+    test 122 isclockwise: polar or zero area
+    test 123 isclockwise*: polar or zero area
+    test 124 isconvex: False
+    test 125 isconvex*: False
+    test 126 isconvex: True
+    test 127 isconvex*: True
+    test 128 isconvex: too few points: 2
+    test 129 isconvex*: too few points: 2
+    test 130 isenclosedBy1: True
+    test 131 isenclosedBy1*: True
+    test 132 isenclosedBy2: False
+    test 133 isenclosedBy2*: False
+    test 134 isenclosedBy3: False
+    test 135 isenclosedBy3*: False
+    test 136 isenclosedBy4: False
+    test 137 isenclosedBy4*: False
+    test 138 isenclosedBy5: False
+    test 139 isenclosedBy5*: False
+    test 140 isenclosedBy6: True
+    test 141 isenclosedBy6*: True
+    test 142 isenclosedBy7: True
+    test 143 isenclosedBy7*: True
+    test 144 compassAngleTo: 100.016848
+    test 145 initialBearingTo: 102.392291
+    test 146 equirectangularTo: 592.185
+    test 147 distanceTo: 593.571
+    test 148 bearingTo: 0.0
+    test 149 compassAngleTo: 0.0
+    test 150 bearingTo: 45.2  FAILED, KNOWN, expected 45.0
+    test 151 compassAngleTo: 45.0
+    test 152 bearingTo: 90.0
+    test 153 compassAngleTo: 90.0
+    test 154 bearingTo: 180.0
+    test 155 compassAngleTo: 180.0
+    test 156 bearingTo: 225.2  FAILED, KNOWN, expected 225.0
+    test 157 compassAngleTo: 225.0
+    test 158 bearingTo: 314.8  FAILED, KNOWN, expected 315.0
+    test 159 compassAngleTo: 315.0
+    test 160 bearingTo: 270.0
+    test 161 compassAngleTo: 270.0
+    test 162 bearingTo: 360.0  FAILED, KNOWN, expected 359.4
+    test 163 compassAngleTo: 359.4
+    test 164 bearingTo: 31
+    test 165 compassAngleTo: 31
+    test 166 compassAngleTo: 45
 
-    testLatLon(sphericalNvector, 18.10.12)
-    test 142 isEllipsoidal: False
-    test 143 isSpherical: True
-    test 144 lat/lonDMS: 52.20472°N, 000.14056°E
-    test 145 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
-    test 146 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
-    test 147 lat/lonDMS F_DMS: 52°12′17″N, 000°08′26″E
-    test 148 lat/lonDMS F_DMS: 52°12′17.0″N, 000°08′26.0″E
-    test 149 lat/lonDMS F_RAD: 0.911144N, 0.002453E
-    test 150 isequalTo: True
-    test 151 latlon2: 52.20472, 0.14056
-    test 152 latlon2: 52.2047, 0.1406
-    test 153 latlon2: 52.205, 0.141
-    test 154 latlon2: 52.2, 0.14
-    test 155 latlon2: 52.2, 0.1
-    test 156 latlon2: 52.0, 0.0
-    test 157 isequalTo: False
-    test 158 antipode1: 52.205°S, 179.881°W
-    test 159 antipode2: True
-    test 160 antipode3: 52.205°N, 000.119°E
-    test 161 antipode4: True
-    test 162 antipode5: 52.205°N, 000.119°E
-    test 163 compassAngleTo: 0.0
-    test 164 compassAngleTo: 45.0
-    test 165 compassAngleTo: 90.0
-    test 166 compassAngleTo: 180.0
-    test 167 compassAngleTo: 270.0
-    test 168 initialBearingTo: 156.1666
-    test 169 finalBearingTo: 157.8904
-    test 170 initialBearingTo: 65.8921
-    test 171 finalBearingTo: 93.8581
-    test 172 bearingTo2: 156.1666, 157.8904
-    test 173 ispolar: True
-    test 174 copy: True
-    test 175 equirectangularTo: 404329.56
-    test 176 distanceTo: 404279.720589
-    test 177 distanceTo: 404279.720589
-    test 178 distanceTo: 2145
-    test 179 intermediateTo: 51.372084°N, 000.707337°E
-    test 180 intermediateTo: True
-    test 181 intermediateTo: 404279.721
-    test 182 intermediateTo+5: 35.160975°N, 008.989542°E
-    test 183 intermediateTo+5: 5.000
-    test 184 intermediateTo-4: 64.911647°N, 013.726301°W
-    test 185 intermediateTo-4: 4.000
-    test 186 intermediateChordTo: 51.372294°N, 000.707192°E
-    test 187 intermediateChordTo: True
-    test 188 midpointTo: 50.536327°N, 001.274614°E
-    test 189 destination: 51.513546°N, 000.098345°W
-    test 190 destination: 51°30′49″N, 000°05′54″W
-    test 191 destination: 34°37′N, 116°33′W
-    test 192 destination: 34.613647°N, 116.55116°W
-    test 193 destination: 0.604122N, 2.034201W
-    test 194 destination: 31.96383509°N, 064.37329146°E
-    test 195 alongTrackDistanceTo: 62331.59
-    test 196 alongTrackDistanceTo: 62331.58
-    test 197 alongTrackDistanceTo: 99.588
-    test 198 alongTrackDistanceTo: -7702.7
-    test 199 alongTrackDistanceTo: 7587.6
-    test 200 crossTrackDistanceTo: -305.67
-    test 201 crossTrackDistanceTo: -307.55
-    test 202 crossTrackDistanceTo: 7.4524
-    test 203 greatCircle: (-0.79408, 0.12856, 0.59406)
-    test 204 greatCircleTo: (-0.79408, 0.12859, 0.59406)
-    test 205 isclockwise: False
-    test 206 isclockwise*: False
-    test 207 isclockwise: True
-    test 208 isclockwise*: True
-    test 209 isclockwise: too few points: 2
-    test 210 isclockwise*: too few points: 2
-    test 211 isclockwise: polar or zero area
-    test 212 isclockwise*: polar or zero area
-    test 213 isconvex: False
-    test 214 isconvex*: False
-    test 215 isconvex: True
-    test 216 isconvex*: True
-    test 217 isconvex: too few points: 2
-    test 218 isconvex*: too few points: 2
-    test 219 isenclosedBy1: True
-    test 220 isenclosedBy1*: True
-    test 221 isenclosedBy2: False
-    test 222 isenclosedBy2*: False
-    test 223 isenclosedBy3: False
-    test 224 isenclosedBy3*: False
-    test 225 isenclosedBy4: False
-    test 226 isenclosedBy4*: False
-    test 227 isenclosedBy5: False
-    test 228 isenclosedBy5*: False
-    test 229 isenclosedBy6: True
-    test 230 isenclosedBy6*: True
-    test 231 isenclosedBy7: True
-    test 232 isenclosedBy7*: True
+    testLatLon(sphericalNvector, 18.10.18)
+    test 167 isEllipsoidal: False
+    test 168 isSpherical: True
+    test 169 lat/lonDMS: 52.20472°N, 000.14056°E
+    test 170 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
+    test 171 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
+    test 172 lat/lonDMS F_DMS: 52°12′17″N, 000°08′26″E
+    test 173 lat/lonDMS F_DMS: 52°12′17.0″N, 000°08′26.0″E
+    test 174 lat/lonDMS F_RAD: 0.911144N, 0.002453E
+    test 175 isequalTo: True
+    test 176 latlon2: 52.20472, 0.14056
+    test 177 latlon2: 52.2047, 0.1406
+    test 178 latlon2: 52.205, 0.141
+    test 179 latlon2: 52.2, 0.14
+    test 180 latlon2: 52.2, 0.1
+    test 181 latlon2: 52.0, 0.0
+    test 182 isequalTo: False
+    test 183 antipode1: 52.205°S, 179.881°W
+    test 184 antipode2: True
+    test 185 antipode3: 52.205°N, 000.119°E
+    test 186 antipode4: True
+    test 187 antipode5: 52.205°N, 000.119°E
+    test 188 initialBearingTo: 156.1666
+    test 189 finalBearingTo: 157.8904
+    test 190 initialBearingTo: 65.8921
+    test 191 finalBearingTo: 93.8581
+    test 192 bearingTo2: 156.1666, 157.8904
+    test 193 ispolar: True
+    test 194 copy: True
+    test 195 equirectangularTo: 404329.56
+    test 196 distanceTo: 404279.720589
+    test 197 distanceTo: 404279.720589
+    test 198 distanceTo: 2145
+    test 199 intermediateTo: 51.372084°N, 000.707337°E
+    test 200 intermediateTo: True
+    test 201 intermediateTo: 404279.721
+    test 202 intermediateTo+5: 35.160975°N, 008.989542°E
+    test 203 intermediateTo+5: 5.000
+    test 204 intermediateTo-4: 64.911647°N, 013.726301°W
+    test 205 intermediateTo-4: 4.000
+    test 206 intermediateChordTo: 51.372294°N, 000.707192°E
+    test 207 intermediateChordTo: True
+    test 208 midpointTo: 50.536327°N, 001.274614°E
+    test 209 destination: 51.513546°N, 000.098345°W
+    test 210 destination: 51°30′49″N, 000°05′54″W
+    test 211 destination: 34°37′N, 116°33′W
+    test 212 destination: 34.613647°N, 116.55116°W
+    test 213 destination: 0.604122N, 2.034201W
+    test 214 destination: 31.96383509°N, 064.37329146°E
+    test 215 alongTrackDistanceTo: 62331.59
+    test 216 alongTrackDistanceTo: 62331.58
+    test 217 alongTrackDistanceTo: 99.588
+    test 218 alongTrackDistanceTo: -7702.7
+    test 219 alongTrackDistanceTo: 7587.6
+    test 220 crossTrackDistanceTo: -305.67
+    test 221 crossTrackDistanceTo: -307.55
+    test 222 crossTrackDistanceTo: 7.4524
+    test 223 greatCircle: (-0.79408, 0.12856, 0.59406)
+    test 224 greatCircleTo: (-0.79408, 0.12859, 0.59406)
+    test 225 isclockwise: False
+    test 226 isclockwise*: False
+    test 227 isclockwise: True
+    test 228 isclockwise*: True
+    test 229 isclockwise: too few points: 2
+    test 230 isclockwise*: too few points: 2
+    test 231 isclockwise: polar or zero area
+    test 232 isclockwise*: polar or zero area
+    test 233 isconvex: False
+    test 234 isconvex*: False
+    test 235 isconvex: True
+    test 236 isconvex*: True
+    test 237 isconvex: too few points: 2
+    test 238 isconvex*: too few points: 2
+    test 239 isenclosedBy1: True
+    test 240 isenclosedBy1*: True
+    test 241 isenclosedBy2: False
+    test 242 isenclosedBy2*: False
+    test 243 isenclosedBy3: False
+    test 244 isenclosedBy3*: False
+    test 245 isenclosedBy4: False
+    test 246 isenclosedBy4*: False
+    test 247 isenclosedBy5: False
+    test 248 isenclosedBy5*: False
+    test 249 isenclosedBy6: True
+    test 250 isenclosedBy6*: True
+    test 251 isenclosedBy7: True
+    test 252 isenclosedBy7*: True
+    test 253 compassAngleTo: 100.016848
+    test 254 initialBearingTo: 102.432182
+    test 255 equirectangularTo: 592.185
+    test 256 distanceTo: 591.831
+    test 257 compassAngleTo: 0.0
+    test 258 compassAngleTo: 45.0
+    test 259 compassAngleTo: 90.0
+    test 260 compassAngleTo: 180.0
+    test 261 compassAngleTo: 225.0
+    test 262 compassAngleTo: 315.0
+    test 263 compassAngleTo: 270.0
+    test 264 compassAngleTo: 359.4
+    test 265 compassAngleTo: 31
+    test 266 compassAngleTo: 45
 
-    testLatLon(sphericalTrigonometry, 18.10.12)
-    test 233 isEllipsoidal: False
-    test 234 isSpherical: True
-    test 235 lat/lonDMS: 52.20472°N, 000.14056°E
-    test 236 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
-    test 237 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
-    test 238 lat/lonDMS F_DMS: 52°12′17″N, 000°08′26″E
-    test 239 lat/lonDMS F_DMS: 52°12′17.0″N, 000°08′26.0″E
-    test 240 lat/lonDMS F_RAD: 0.911144N, 0.002453E
-    test 241 isequalTo: True
-    test 242 latlon2: 52.20472, 0.14056
-    test 243 latlon2: 52.2047, 0.1406
-    test 244 latlon2: 52.205, 0.141
-    test 245 latlon2: 52.2, 0.14
-    test 246 latlon2: 52.2, 0.1
-    test 247 latlon2: 52.0, 0.0
-    test 248 isequalTo: False
-    test 249 antipode1: 52.205°S, 179.881°W
-    test 250 antipode2: True
-    test 251 antipode3: 52.205°N, 000.119°E
-    test 252 antipode4: True
-    test 253 antipode5: 52.205°N, 000.119°E
-    test 254 compassAngleTo: 0.0
-    test 255 compassAngleTo: 45.0
-    test 256 compassAngleTo: 90.0
-    test 257 compassAngleTo: 180.0
-    test 258 compassAngleTo: 270.0
-    test 259 initialBearingTo: 156.1666
-    test 260 finalBearingTo: 157.8904
-    test 261 initialBearingTo: 65.8921
-    test 262 finalBearingTo: 93.8581
-    test 263 bearingTo2: 156.1666, 157.8904
-    test 264 ispolar: True
-    test 265 copy: True
-    test 266 equirectangularTo: 404329.56
-    test 267 distanceTo: 404279.720589
-    test 268 distanceTo: 404279.720589
-    test 269 distanceTo: 2145
-    test 270 antipodal: False
-    test 271 distanceTo dateline: 19119590.551
-    test 272 distanceTo unrolled: 19119590.551
-    test 273 antipodal: False
-    test 274 distanceTo dateline: 9491735
-    test 275 distanceTo unrolled: 9491735
-    test 276 intermediateTo: 51.372084°N, 000.707337°E
-    test 277 intermediateTo: True
-    test 278 intermediateTo: 404279.721
-    test 279 intermediateTo+5: 35.160975°N, 008.989542°E
-    test 280 intermediateTo+5: 5.000
-    test 281 intermediateTo-4: 64.911647°N, 013.726301°W
-    test 282 intermediateTo-4: 4.000
-    test 283 midpointTo: 50.536327°N, 001.274614°E
-    test 284 destination: 51.513546°N, 000.098345°W
-    test 285 destination: 51°30′49″N, 000°05′54″W
-    test 286 destination: 34°37′N, 116°33′W
-    test 287 destination: 34.613647°N, 116.55116°W
-    test 288 destination: 0.604122N, 2.034201W
-    test 289 destination: 31.96383509°N, 064.37329146°E
-    test 290 alongTrackDistanceTo: type(end) mismatch: int vs LatLon
-    test 291 alongTrackDistanceTo: 62331.58
-    test 292 alongTrackDistanceTo: 99.588
-    test 293 alongTrackDistanceTo: -7702.7
-    test 294 alongTrackDistanceTo: 7587.6
-    test 295 crossTrackDistanceTo: type(end) mismatch: int vs LatLon
-    test 296 crossTrackDistanceTo: -307.55
-    test 297 crossTrackDistanceTo: 7.4524
-    test 298 greatCircle: (-0.79408, 0.12856, 0.59406)
-    test 299 isclockwise: False
-    test 300 isclockwise*: False
-    test 301 isclockwise: True
-    test 302 isclockwise*: True
-    test 303 isclockwise: too few points: 2
-    test 304 isclockwise*: too few points: 2
-    test 305 isclockwise: polar or zero area
-    test 306 isclockwise*: polar or zero area
-    test 307 isconvex: False
-    test 308 isconvex*: False
-    test 309 isconvex: True
-    test 310 isconvex*: True
-    test 311 isconvex: too few points: 2
-    test 312 isconvex*: too few points: 2
-    test 313 isenclosedBy1: True
-    test 314 isenclosedBy1*: True
-    test 315 isenclosedBy2: False
-    test 316 isenclosedBy2*: False
-    test 317 isenclosedBy3: False
-    test 318 isenclosedBy3*: False
-    test 319 isenclosedBy4: False
-    test 320 isenclosedBy4*: False
-    test 321 isenclosedBy5: False
-    test 322 isenclosedBy5*: False
-    test 323 isenclosedBy6: True
-    test 324 isenclosedBy6*: True
-    test 325 isenclosedBy7: True
-    test 326 isenclosedBy7*: True
+    testLatLon(sphericalTrigonometry, 18.10.18)
+    test 267 isEllipsoidal: False
+    test 268 isSpherical: True
+    test 269 lat/lonDMS: 52.20472°N, 000.14056°E
+    test 270 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
+    test 271 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
+    test 272 lat/lonDMS F_DMS: 52°12′17″N, 000°08′26″E
+    test 273 lat/lonDMS F_DMS: 52°12′17.0″N, 000°08′26.0″E
+    test 274 lat/lonDMS F_RAD: 0.911144N, 0.002453E
+    test 275 isequalTo: True
+    test 276 latlon2: 52.20472, 0.14056
+    test 277 latlon2: 52.2047, 0.1406
+    test 278 latlon2: 52.205, 0.141
+    test 279 latlon2: 52.2, 0.14
+    test 280 latlon2: 52.2, 0.1
+    test 281 latlon2: 52.0, 0.0
+    test 282 isequalTo: False
+    test 283 antipode1: 52.205°S, 179.881°W
+    test 284 antipode2: True
+    test 285 antipode3: 52.205°N, 000.119°E
+    test 286 antipode4: True
+    test 287 antipode5: 52.205°N, 000.119°E
+    test 288 initialBearingTo: 156.1666
+    test 289 finalBearingTo: 157.8904
+    test 290 initialBearingTo: 65.8921
+    test 291 finalBearingTo: 93.8581
+    test 292 bearingTo2: 156.1666, 157.8904
+    test 293 ispolar: True
+    test 294 copy: True
+    test 295 equirectangularTo: 404329.56
+    test 296 distanceTo: 404279.720589
+    test 297 distanceTo: 404279.720589
+    test 298 distanceTo: 2145
+    test 299 antipodal: False
+    test 300 distanceTo dateline: 19119590.551
+    test 301 distanceTo unrolled: 19119590.551
+    test 302 antipodal: False
+    test 303 distanceTo dateline: 9491735
+    test 304 distanceTo unrolled: 9491735
+    test 305 intermediateTo: 51.372084°N, 000.707337°E
+    test 306 intermediateTo: True
+    test 307 intermediateTo: 404279.721
+    test 308 intermediateTo+5: 35.160975°N, 008.989542°E
+    test 309 intermediateTo+5: 5.000
+    test 310 intermediateTo-4: 64.911647°N, 013.726301°W
+    test 311 intermediateTo-4: 4.000
+    test 312 midpointTo: 50.536327°N, 001.274614°E
+    test 313 destination: 51.513546°N, 000.098345°W
+    test 314 destination: 51°30′49″N, 000°05′54″W
+    test 315 destination: 34°37′N, 116°33′W
+    test 316 destination: 34.613647°N, 116.55116°W
+    test 317 destination: 0.604122N, 2.034201W
+    test 318 destination: 31.96383509°N, 064.37329146°E
+    test 319 alongTrackDistanceTo: type(end) mismatch: int vs LatLon
+    test 320 alongTrackDistanceTo: 62331.58
+    test 321 alongTrackDistanceTo: 99.588
+    test 322 alongTrackDistanceTo: -7702.7
+    test 323 alongTrackDistanceTo: 7587.6
+    test 324 crossTrackDistanceTo: type(end) mismatch: int vs LatLon
+    test 325 crossTrackDistanceTo: -307.55
+    test 326 crossTrackDistanceTo: 7.4524
+    test 327 greatCircle: (-0.79408, 0.12856, 0.59406)
+    test 328 isclockwise: False
+    test 329 isclockwise*: False
+    test 330 isclockwise: True
+    test 331 isclockwise*: True
+    test 332 isclockwise: too few points: 2
+    test 333 isclockwise*: too few points: 2
+    test 334 isclockwise: polar or zero area
+    test 335 isclockwise*: polar or zero area
+    test 336 isconvex: False
+    test 337 isconvex*: False
+    test 338 isconvex: True
+    test 339 isconvex*: True
+    test 340 isconvex: too few points: 2
+    test 341 isconvex*: too few points: 2
+    test 342 isenclosedBy1: True
+    test 343 isenclosedBy1*: True
+    test 344 isenclosedBy2: False
+    test 345 isenclosedBy2*: False
+    test 346 isenclosedBy3: False
+    test 347 isenclosedBy3*: False
+    test 348 isenclosedBy4: False
+    test 349 isenclosedBy4*: False
+    test 350 isenclosedBy5: False
+    test 351 isenclosedBy5*: False
+    test 352 isenclosedBy6: True
+    test 353 isenclosedBy6*: True
+    test 354 isenclosedBy7: True
+    test 355 isenclosedBy7*: True
+    test 356 compassAngleTo: 100.016848
+    test 357 initialBearingTo: 102.432182
+    test 358 equirectangularTo: 592.185
+    test 359 distanceTo: 591.831
+    test 360 bearingTo: 0.0
+    test 361 compassAngleTo: 0.0
+    test 362 bearingTo: 45.0
+    test 363 compassAngleTo: 45.0
+    test 364 bearingTo: 90.0
+    test 365 compassAngleTo: 90.0
+    test 366 bearingTo: 180.0
+    test 367 compassAngleTo: 180.0
+    test 368 bearingTo: 225.0
+    test 369 compassAngleTo: 225.0
+    test 370 bearingTo: 315.0
+    test 371 compassAngleTo: 315.0
+    test 372 bearingTo: 270.0
+    test 373 compassAngleTo: 270.0
+    test 374 bearingTo: 0.0  FAILED, KNOWN, expected 359.4
+    test 375 compassAngleTo: 359.4
+    test 376 bearingTo: 31
+    test 377 compassAngleTo: 31
+    test 378 compassAngleTo: 45
 
-    3 of 326 testLatLon.py tests (0.9%) FAILED, ALL KNOWN (PyGeodesy 18.10.16 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 64.879 ms
+    8 of 378 testLatLon.py tests (2.1%) FAILED, ALL KNOWN (PyGeodesy 18.10.20 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 75.461 ms
 
 running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testLcc.py
 
@@ -3740,7 +3796,7 @@ running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testLcc.py
     testConic(ellipsoidalVincenty, 18.10.12)
     test 250 SnyderV: name='SnyderV', lat0=23, lon0=-96, par1=33, par2=45, E0=0, N0=0, k0=1, SP=2, datum=(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27)
 
-    all 250 testLcc.py tests passed (PyGeodesy 18.10.16 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 49.708 ms
+    all 250 testLcc.py tests passed (PyGeodesy 18.10.20 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 50.758 ms
 
 running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testMgrs.py
 
@@ -3762,13 +3818,13 @@ running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testMgrs.py
     test 15 toUtm(76.0°N, 025.0°E).toMgrs: 35X ME 45999 36099
     test 16 toUtm(76.0°N, 037.0°E).toMgrs: 37X DE 45999 36099
 
-    all 16 testMgrs.py tests passed (PyGeodesy 18.10.16 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 9.437 ms
+    all 16 testMgrs.py tests passed (PyGeodesy 18.10.20 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 9.612 ms
 
 running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testModules.py
 
     testing testModules.py 17.08.04
 
-    testModule(pygeodesy, 18.10.16)
+    testModule(pygeodesy, 18.10.20)
     test 1 pygeodesy.Conic() class (lcc): True
     test 2 pygeodesy.Conics class datum._Enum (datum): True
     test 3 pygeodesy.CrossError() class (vector3d): True
@@ -3833,7 +3889,7 @@ running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testModules.py
     test 62 pygeodesy.classname() function (bases): True
     test 63 pygeodesy.classnaming() function (bases): True
     test 64 pygeodesy.clipDMS() function (dms): True
-    test 65 pygeodesy.compassAngle() function (dms): True
+    test 65 pygeodesy.compassAngle() function (formy): True
     test 66 pygeodesy.compassDMS() function (dms): True
     test 67 pygeodesy.compassPoint() function (dms): True
     test 68 pygeodesy.crosserrors() function (vector3d): True
@@ -3965,7 +4021,7 @@ running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testModules.py
     test 194 pygeodesy.wrapPI2() function (utily): True
     test 195 pygeodesy.wrapPI_2() function (utily): True
 
-    testModule(bases, 18.10.12)
+    testModule(bases, 18.10.20)
     test 196 bases.LatLonHeightBase() class: True
     test 197 bases.classname() function: True
     test 198 bases.classnaming() function: True
@@ -3987,7 +4043,7 @@ running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testModules.py
     test 212 datum.Transform() class: True
     test 213 datum.Transforms class datum._Enum: True
 
-    testModule(dms, 18.10.12)
+    testModule(dms, 18.10.20)
     test 214 dms.F_D str: True
     test 215 dms.F_DEG str: True
     test 216 dms.F_DM str: True
@@ -4003,78 +4059,78 @@ running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testModules.py
     test 226 dms.S_SEP str: True
     test 227 dms.bearingDMS() function: True
     test 228 dms.clipDMS() function: True
-    test 229 dms.compassAngle() function: True
-    test 230 dms.compassDMS() function: True
-    test 231 dms.compassPoint() function: True
-    test 232 dms.latDMS() function: True
-    test 233 dms.lonDMS() function: True
-    test 234 dms.normDMS() function: True
-    test 235 dms.parse3llh() function: True
-    test 236 dms.parseDMS() function: True
-    test 237 dms.parseDMS2() function: True
-    test 238 dms.precision() function: True
-    test 239 dms.rangerrors() function: True
-    test 240 dms.toDMS() function: True
+    test 229 dms.compassDMS() function: True
+    test 230 dms.compassPoint() function: True
+    test 231 dms.latDMS() function: True
+    test 232 dms.lonDMS() function: True
+    test 233 dms.normDMS() function: True
+    test 234 dms.parse3llh() function: True
+    test 235 dms.parseDMS() function: True
+    test 236 dms.parseDMS2() function: True
+    test 237 dms.precision() function: True
+    test 238 dms.rangerrors() function: True
+    test 239 dms.toDMS() function: True
 
     testModule(elevations, 18.10.04)
-    test 241 elevations.elevation2() function: True
-    test 242 elevations.geoidHeight2() function: True
+    test 240 elevations.elevation2() function: True
+    test 241 elevations.geoidHeight2() function: True
 
     testModule(ellipsoidalKarney, 18.10.16)
-    test 243 ellipsoidalKarney.Cartesian() class: True
-    test 244 ellipsoidalKarney.LatLon() class: True
-    test 245 ellipsoidalKarney.areaOf() function: True
-    test 246 ellipsoidalKarney.ispolar() function (points): True
-    test 247 ellipsoidalKarney.perimeterOf() function: True
+    test 242 ellipsoidalKarney.Cartesian() class: True
+    test 243 ellipsoidalKarney.LatLon() class: True
+    test 244 ellipsoidalKarney.areaOf() function: True
+    test 245 ellipsoidalKarney.ispolar() function (points): True
+    test 246 ellipsoidalKarney.perimeterOf() function: True
 
     testModule(ellipsoidalNvector, 18.10.16)
-    test 248 ellipsoidalNvector.Cartesian() class: True
-    test 249 ellipsoidalNvector.LatLon() class: True
-    test 250 ellipsoidalNvector.Ned() class: True
-    test 251 ellipsoidalNvector.Nvector() class: True
-    test 252 ellipsoidalNvector.meanOf() function: True
-    test 253 ellipsoidalNvector.toNed() function: True
+    test 247 ellipsoidalNvector.Cartesian() class: True
+    test 248 ellipsoidalNvector.LatLon() class: True
+    test 249 ellipsoidalNvector.Ned() class: True
+    test 250 ellipsoidalNvector.Nvector() class: True
+    test 251 ellipsoidalNvector.meanOf() function: True
+    test 252 ellipsoidalNvector.toNed() function: True
 
     testModule(ellipsoidalVincenty, 18.10.12)
-    test 254 ellipsoidalVincenty.Cartesian() class: True
-    test 255 ellipsoidalVincenty.LatLon() class: True
-    test 256 ellipsoidalVincenty.VincentyError() class: True
-    test 257 ellipsoidalVincenty.ispolar() function (points): True
+    test 253 ellipsoidalVincenty.Cartesian() class: True
+    test 254 ellipsoidalVincenty.LatLon() class: True
+    test 255 ellipsoidalVincenty.VincentyError() class: True
+    test 256 ellipsoidalVincenty.ispolar() function (points): True
 
     testModule(fmath, 18.10.16)
-    test 258 fmath.EPS float: True
-    test 259 fmath.EPS1 float: True
-    test 260 fmath.Fsum() class: True
-    test 261 fmath.acos1() function: True
-    test 262 fmath.cbrt() function: True
-    test 263 fmath.cbrt2() function: True
-    test 264 fmath.fStr() function: True
-    test 265 fmath.fStrzs() function: True
-    test 266 fmath.favg() function: True
-    test 267 fmath.fdot() function: True
-    test 268 fmath.fdot3() function: True
-    test 269 fmath.fhorner() function: True
-    test 270 fmath.fmean() function: True
-    test 271 fmath.fpolynomial() function: True
-    test 272 fmath.fpowers() function: True
-    test 273 fmath.fsum class builtin_function (math): True
-    test 274 fmath.fsum_() function: True
-    test 275 fmath.hypot class builtin_function (math): True
-    test 276 fmath.hypot1() function: True
-    test 277 fmath.hypot3() function: True
-    test 278 fmath.isfinite class builtin_function (math): True
-    test 279 fmath.isint() function: True
-    test 280 fmath.isscalar() function: True
-    test 281 fmath.len2() function: True
-    test 282 fmath.map1() function: True
-    test 283 fmath.map2() function: True
-    test 284 fmath.scalar() function: True
-    test 285 fmath.sqrt3() function: True
+    test 257 fmath.EPS float: True
+    test 258 fmath.EPS1 float: True
+    test 259 fmath.Fsum() class: True
+    test 260 fmath.acos1() function: True
+    test 261 fmath.cbrt() function: True
+    test 262 fmath.cbrt2() function: True
+    test 263 fmath.fStr() function: True
+    test 264 fmath.fStrzs() function: True
+    test 265 fmath.favg() function: True
+    test 266 fmath.fdot() function: True
+    test 267 fmath.fdot3() function: True
+    test 268 fmath.fhorner() function: True
+    test 269 fmath.fmean() function: True
+    test 270 fmath.fpolynomial() function: True
+    test 271 fmath.fpowers() function: True
+    test 272 fmath.fsum class builtin_function (math): True
+    test 273 fmath.fsum_() function: True
+    test 274 fmath.hypot class builtin_function (math): True
+    test 275 fmath.hypot1() function: True
+    test 276 fmath.hypot3() function: True
+    test 277 fmath.isfinite class builtin_function (math): True
+    test 278 fmath.isint() function: True
+    test 279 fmath.isscalar() function: True
+    test 280 fmath.len2() function: True
+    test 281 fmath.map1() function: True
+    test 282 fmath.map2() function: True
+    test 283 fmath.scalar() function: True
+    test 284 fmath.sqrt3() function: True
 
-    testModule(formy, 18.10.12)
-    test 286 formy.antipode() function: True
-    test 287 formy.bearing() function: True
-    test 288 formy.bearing_() function: True
+    testModule(formy, 18.10.20)
+    test 285 formy.antipode() function: True
+    test 286 formy.bearing() function: True
+    test 287 formy.bearing_() function: True
+    test 288 formy.compassAngle() function: True
     test 289 formy.equirectangular() function: True
     test 290 formy.equirectangular_() function: True
     test 291 formy.haversine() function: True
@@ -4142,7 +4198,7 @@ running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testModules.py
     test 339 simplify.simplifyVW() function: True
     test 340 simplify.simplifyVWm() function: True
 
-    testModule(sphericalNvector, 18.10.12)
+    testModule(sphericalNvector, 18.10.18)
     test 341 sphericalNvector.LatLon() class: True
     test 342 sphericalNvector.Nvector() class: True
     test 343 sphericalNvector.areaOf() function: True
@@ -4153,7 +4209,7 @@ running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testModules.py
     test 348 sphericalNvector.triangulate() function: True
     test 349 sphericalNvector.trilaterate() function: True
 
-    testModule(sphericalTrigonometry, 18.10.12)
+    testModule(sphericalTrigonometry, 18.10.18)
     test 350 sphericalTrigonometry.LatLon() class: True
     test 351 sphericalTrigonometry.areaOf() function: True
     test 352 sphericalTrigonometry.intersection() function: True
@@ -4228,7 +4284,7 @@ running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testModules.py
     test 413 webmercator.parseWM() function: True
     test 414 webmercator.toWm() function: True
 
-    testPublic(pygeodesy, 18.10.16)
+    testPublic(pygeodesy, 18.10.20)
     test 415 Conic() class: True
     test 416 Conics class datum._Enum: True
     test 417 CrossError() class: True
@@ -4367,7 +4423,7 @@ running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testModules.py
     test 550 wrapPI2() function: True
     test 551 wrapPI_2() function: True
 
-    all 551 testModules.py tests passed (PyGeodesy 18.10.16 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 34.622 ms
+    all 551 testModules.py tests passed (PyGeodesy 18.10.20 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 50.095 ms
 
 running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testNavlabExamples.py
 
@@ -4399,7 +4455,7 @@ running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testNavlabExamples.py
     test 25 Example 9 intersection: 40.318643°N, 055.901868°E
     test 26 Example 10 crossTrackDistance: 11118
 
-    1 of 26 testNavlabExamples.py tests (3.8%) FAILED, ALL KNOWN (PyGeodesy 18.10.16 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 10.461 ms
+    1 of 26 testNavlabExamples.py tests (3.8%) FAILED, ALL KNOWN (PyGeodesy 18.10.20 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 17.093 ms
 
 running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testOsgr.py
 
@@ -4429,7 +4485,7 @@ running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testOsgr.py
     test 23 OSGR5: [OSGR:651409.000,313177.000]
     test 24 OSGR6: 651409,313177
 
-    6 of 24 testOsgr.py tests (25.0%) FAILED, ALL KNOWN (PyGeodesy 18.10.16 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 6.044 ms
+    6 of 24 testOsgr.py tests (25.0%) FAILED, ALL KNOWN (PyGeodesy 18.10.20 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 6.545 ms
 
 running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testPoints.py
 
@@ -4584,7 +4640,7 @@ running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testPoints.py
     test 148 areaOf: 7.09e+09
     test 149 isclockwise: True
 
-    all 149 testPoints.py tests passed (PyGeodesy 18.10.16 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 69.174 ms
+    all 149 testPoints.py tests passed (PyGeodesy 18.10.20 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 66.811 ms
 
 running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testRoutes.py
 
@@ -4635,51 +4691,51 @@ running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testRoutes.py
     test 44 isclockwise(_JFK_LHR1, adjust=False, wrap=True): 0.000
     test 45 isclockwise(_JFK_LHR2, adjust=False, wrap=True): 0.000
 
-    13 of 45 testRoutes.py tests (28.9%) FAILED, ALL KNOWN (PyGeodesy 18.10.16 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 450.413 ms
+    13 of 45 testRoutes.py tests (28.9%) FAILED, ALL KNOWN (PyGeodesy 18.10.20 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 528.811 ms
 
 running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testSimplify.py
 
     testing testSimplify.py 18.09.14 (module simplify 18.10.12)
-    test 1 simplify1(16614, adjust=True) 1m (42.917 ms): 16597
-    test 2 simplifyRW(16614, adjust=True, indices=True, shortest=False) 1m (150.738 ms): 7095
-    test 3 simplifyRW(16614, adjust=True, shortest=False) 1m (83.353 ms): 7095
-    test 4 simplifyRW(16614, adjust=True, shortest=True) 1m (51.184 ms): 8302
-    test 5 simplifyVWm(16614, adjust=True, indices=True) 1m (155.607 ms): 16328
-    test 6 simplifyVWm(16614, adjust=True) 1m (136.534 ms): 16328
-    test 7 simplifyVWm(16614, adjust=False) 1m (177.854 ms): 16373
-    test 8 simplifyRDPm(16614, adjust=True, shortest=False) 1m (61.713 ms): 15864
-    test 9 simplifyRDPm(16614, adjust=True, shortest=True) 1m (54.041 ms): 15867
-    test 10 simplifyRDPgr(16614, adjust=True, modified=True, shortest=True) 1m (54.215 ms): 15867
-    test 11 simplifyRDPm(16614, adjust=False, shortest=False) 1m (78.165 ms): 15869
-    test 12 simplifyRDPfw(16614, adjust=False, modified=True, shortest=False) 1m (47.662 ms): 15869
-    test 13 simplifyRDP(16614, adjust=True, indices=True, shortest=True) 1m (168.572 ms): 10960
-    test 14 simplifyRDP(16614, adjust=True, shortest=True) 1m (116.452 ms): 10960
-    test 15 simplifyRDPgr(16614, adjust=True, modified=False, shortest=True) 1m (44.632 ms): 10960
-    test 16 simplifyRDP(16614, adjust=False, indices=True, shortest=False) 1m (176.910 ms): 11248
-    test 17 simplifyRDP(16614, adjust=False, shortest=False) 1m (117.128 ms): 11248
-    test 18 simplifyRDPfw(16614, adjust=False, modified=False, shortest=False) 1m (50.654 ms): 11248
-    test 19 simplifyVW(1661, adjust=True) 1m (7.832 ms): 1641
-    test 20 simplifyVW(1661, adjust=False) 1m (5.180 ms): 1646
-    test 21 simplifyRDP(1661, adjust=True, shortest=False) 1m (33.329 ms): 1231
-    test 22 simplifyRDP(1661, adjust=True, shortest=True) 1m (3.894 ms): 1231
-    test 23 simplifyRDPgr(1661, adjust=True, shortest=True) 1m (56.251 ms): 1231
-    test 24 simplifyRDP(1661, adjust=False, shortest=False) 1m (3.787 ms): 1267
-    test 25 simplifyRDPfw(1661, adjust=False, shortest=False) 1m (60.185 ms): 1267
-    test 26 simplifyRDPgr(1661, adjust=False, shortest=True) 1m (43.371 ms): 1267
-    test 27 simplifyVW(69, adjust=False) 1m (431.061 us): 69
-    test 28 simplifyRDP(69, adjust=False, shortest=False) 1m (233.889 us): 50
-    test 29 simplifyRDPfw(69, adjust=False, shortest=False) 1m (594.854 us): 50
-    test 30 simplifyRDPgr(69, adjust=False, shortest=True) 1m (355.005 us): 50
-    test 31 simplifyRDPgr(69, adjust=True, shortest=True) 1m (366.926 us): 45
+    test 1 simplify1(16614, adjust=True) 1m (41.743 ms): 16597
+    test 2 simplifyRW(16614, adjust=True, indices=True, shortest=False) 1m (143.977 ms): 7095
+    test 3 simplifyRW(16614, adjust=True, shortest=False) 1m (76.945 ms): 7095
+    test 4 simplifyRW(16614, adjust=True, shortest=True) 1m (52.770 ms): 8302
+    test 5 simplifyVWm(16614, adjust=True, indices=True) 1m (146.891 ms): 16328
+    test 6 simplifyVWm(16614, adjust=True) 1m (138.162 ms): 16328
+    test 7 simplifyVWm(16614, adjust=False) 1m (186.430 ms): 16373
+    test 8 simplifyRDPm(16614, adjust=True, shortest=False) 1m (62.890 ms): 15864
+    test 9 simplifyRDPm(16614, adjust=True, shortest=True) 1m (56.133 ms): 15867
+    test 10 simplifyRDPgr(16614, adjust=True, modified=True, shortest=True) 1m (58.544 ms): 15867
+    test 11 simplifyRDPm(16614, adjust=False, shortest=False) 1m (100.843 ms): 15869
+    test 12 simplifyRDPfw(16614, adjust=False, modified=True, shortest=False) 1m (45.814 ms): 15869
+    test 13 simplifyRDP(16614, adjust=True, indices=True, shortest=True) 1m (159.418 ms): 10960
+    test 14 simplifyRDP(16614, adjust=True, shortest=True) 1m (116.303 ms): 10960
+    test 15 simplifyRDPgr(16614, adjust=True, modified=False, shortest=True) 1m (48.095 ms): 10960
+    test 16 simplifyRDP(16614, adjust=False, indices=True, shortest=False) 1m (184.667 ms): 11248
+    test 17 simplifyRDP(16614, adjust=False, shortest=False) 1m (119.891 ms): 11248
+    test 18 simplifyRDPfw(16614, adjust=False, modified=False, shortest=False) 1m (55.842 ms): 11248
+    test 19 simplifyVW(1661, adjust=True) 1m (7.546 ms): 1641
+    test 20 simplifyVW(1661, adjust=False) 1m (5.747 ms): 1646
+    test 21 simplifyRDP(1661, adjust=True, shortest=False) 1m (33.082 ms): 1231
+    test 22 simplifyRDP(1661, adjust=True, shortest=True) 1m (3.872 ms): 1231
+    test 23 simplifyRDPgr(1661, adjust=True, shortest=True) 1m (81.602 ms): 1231
+    test 24 simplifyRDP(1661, adjust=False, shortest=False) 1m (6.165 ms): 1267
+    test 25 simplifyRDPfw(1661, adjust=False, shortest=False) 1m (42.522 ms): 1267
+    test 26 simplifyRDPgr(1661, adjust=False, shortest=True) 1m (32.581 ms): 1267
+    test 27 simplifyVW(69, adjust=False) 1m (433.922 us): 69
+    test 28 simplifyRDP(69, adjust=False, shortest=False) 1m (226.974 us): 50
+    test 29 simplifyRDPfw(69, adjust=False, shortest=False) 1m (517.130 us): 50
+    test 30 simplifyRDPgr(69, adjust=False, shortest=True) 1m (185.966 us): 50
+    test 31 simplifyRDPgr(69, adjust=True, shortest=True) 1m (633.001 us): 45
     test 32 no module: numpy
 
-    all 32 testSimplify.py tests passed (PyGeodesy 18.10.16 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 1.992 sec
+    all 32 testSimplify.py tests passed (PyGeodesy 18.10.20 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 2.020 sec
 
 running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testSpherical.py
 
     testing testSpherical.py 18.10.12
 
-    testLatLon(sphericalNvector, 18.10.12)
+    testLatLon(sphericalNvector, 18.10.18)
     test 1 isEllipsoidal: False
     test 2 isSpherical: True
     test 3 lat/lonDMS: 52.20472°N, 000.14056°E
@@ -4701,317 +4757,335 @@ running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testSpherical.py
     test 19 antipode3: 52.205°N, 000.119°E
     test 20 antipode4: True
     test 21 antipode5: 52.205°N, 000.119°E
-    test 22 compassAngleTo: 0.0
-    test 23 compassAngleTo: 45.0
-    test 24 compassAngleTo: 90.0
-    test 25 compassAngleTo: 180.0
-    test 26 compassAngleTo: 270.0
-    test 27 initialBearingTo: 156.1666
-    test 28 finalBearingTo: 157.8904
-    test 29 initialBearingTo: 65.8921
-    test 30 finalBearingTo: 93.8581
-    test 31 bearingTo2: 156.1666, 157.8904
-    test 32 ispolar: True
-    test 33 copy: True
-    test 34 equirectangularTo: 404329.56
-    test 35 distanceTo: 404279.720589
-    test 36 distanceTo: 404279.720589
-    test 37 distanceTo: 2145
-    test 38 intermediateTo: 51.372084°N, 000.707337°E
-    test 39 intermediateTo: True
-    test 40 intermediateTo: 404279.721
-    test 41 intermediateTo+5: 35.160975°N, 008.989542°E
-    test 42 intermediateTo+5: 5.000
-    test 43 intermediateTo-4: 64.911647°N, 013.726301°W
-    test 44 intermediateTo-4: 4.000
-    test 45 intermediateChordTo: 51.372294°N, 000.707192°E
-    test 46 intermediateChordTo: True
-    test 47 midpointTo: 50.536327°N, 001.274614°E
-    test 48 destination: 51.513546°N, 000.098345°W
-    test 49 destination: 51°30′49″N, 000°05′54″W
-    test 50 destination: 34°37′N, 116°33′W
-    test 51 destination: 34.613647°N, 116.55116°W
-    test 52 destination: 0.604122N, 2.034201W
-    test 53 destination: 31.96383509°N, 064.37329146°E
-    test 54 alongTrackDistanceTo: 62331.59
-    test 55 alongTrackDistanceTo: 62331.58
-    test 56 alongTrackDistanceTo: 99.588
-    test 57 alongTrackDistanceTo: -7702.7
-    test 58 alongTrackDistanceTo: 7587.6
-    test 59 crossTrackDistanceTo: -305.67
-    test 60 crossTrackDistanceTo: -307.55
-    test 61 crossTrackDistanceTo: 7.4524
-    test 62 greatCircle: (-0.79408, 0.12856, 0.59406)
-    test 63 greatCircleTo: (-0.79408, 0.12859, 0.59406)
-    test 64 isclockwise: False
-    test 65 isclockwise*: False
-    test 66 isclockwise: True
-    test 67 isclockwise*: True
-    test 68 isclockwise: too few points: 2
-    test 69 isclockwise*: too few points: 2
-    test 70 isclockwise: polar or zero area
-    test 71 isclockwise*: polar or zero area
-    test 72 isconvex: False
-    test 73 isconvex*: False
-    test 74 isconvex: True
-    test 75 isconvex*: True
-    test 76 isconvex: too few points: 2
-    test 77 isconvex*: too few points: 2
-    test 78 isenclosedBy1: True
-    test 79 isenclosedBy1*: True
-    test 80 isenclosedBy2: False
-    test 81 isenclosedBy2*: False
-    test 82 isenclosedBy3: False
-    test 83 isenclosedBy3*: False
-    test 84 isenclosedBy4: False
-    test 85 isenclosedBy4*: False
-    test 86 isenclosedBy5: False
-    test 87 isenclosedBy5*: False
-    test 88 isenclosedBy6: True
-    test 89 isenclosedBy6*: True
-    test 90 isenclosedBy7: True
-    test 91 isenclosedBy7*: True
+    test 22 initialBearingTo: 156.1666
+    test 23 finalBearingTo: 157.8904
+    test 24 initialBearingTo: 65.8921
+    test 25 finalBearingTo: 93.8581
+    test 26 bearingTo2: 156.1666, 157.8904
+    test 27 ispolar: True
+    test 28 copy: True
+    test 29 equirectangularTo: 404329.56
+    test 30 distanceTo: 404279.720589
+    test 31 distanceTo: 404279.720589
+    test 32 distanceTo: 2145
+    test 33 intermediateTo: 51.372084°N, 000.707337°E
+    test 34 intermediateTo: True
+    test 35 intermediateTo: 404279.721
+    test 36 intermediateTo+5: 35.160975°N, 008.989542°E
+    test 37 intermediateTo+5: 5.000
+    test 38 intermediateTo-4: 64.911647°N, 013.726301°W
+    test 39 intermediateTo-4: 4.000
+    test 40 intermediateChordTo: 51.372294°N, 000.707192°E
+    test 41 intermediateChordTo: True
+    test 42 midpointTo: 50.536327°N, 001.274614°E
+    test 43 destination: 51.513546°N, 000.098345°W
+    test 44 destination: 51°30′49″N, 000°05′54″W
+    test 45 destination: 34°37′N, 116°33′W
+    test 46 destination: 34.613647°N, 116.55116°W
+    test 47 destination: 0.604122N, 2.034201W
+    test 48 destination: 31.96383509°N, 064.37329146°E
+    test 49 alongTrackDistanceTo: 62331.59
+    test 50 alongTrackDistanceTo: 62331.58
+    test 51 alongTrackDistanceTo: 99.588
+    test 52 alongTrackDistanceTo: -7702.7
+    test 53 alongTrackDistanceTo: 7587.6
+    test 54 crossTrackDistanceTo: -305.67
+    test 55 crossTrackDistanceTo: -307.55
+    test 56 crossTrackDistanceTo: 7.4524
+    test 57 greatCircle: (-0.79408, 0.12856, 0.59406)
+    test 58 greatCircleTo: (-0.79408, 0.12859, 0.59406)
+    test 59 isclockwise: False
+    test 60 isclockwise*: False
+    test 61 isclockwise: True
+    test 62 isclockwise*: True
+    test 63 isclockwise: too few points: 2
+    test 64 isclockwise*: too few points: 2
+    test 65 isclockwise: polar or zero area
+    test 66 isclockwise*: polar or zero area
+    test 67 isconvex: False
+    test 68 isconvex*: False
+    test 69 isconvex: True
+    test 70 isconvex*: True
+    test 71 isconvex: too few points: 2
+    test 72 isconvex*: too few points: 2
+    test 73 isenclosedBy1: True
+    test 74 isenclosedBy1*: True
+    test 75 isenclosedBy2: False
+    test 76 isenclosedBy2*: False
+    test 77 isenclosedBy3: False
+    test 78 isenclosedBy3*: False
+    test 79 isenclosedBy4: False
+    test 80 isenclosedBy4*: False
+    test 81 isenclosedBy5: False
+    test 82 isenclosedBy5*: False
+    test 83 isenclosedBy6: True
+    test 84 isenclosedBy6*: True
+    test 85 isenclosedBy7: True
+    test 86 isenclosedBy7*: True
+    test 87 compassAngleTo: 100.016848
+    test 88 initialBearingTo: 102.432182
+    test 89 equirectangularTo: 592.185
+    test 90 distanceTo: 591.831
+    test 91 compassAngleTo: 0.0
+    test 92 compassAngleTo: 45.0
+    test 93 compassAngleTo: 90.0
+    test 94 compassAngleTo: 180.0
+    test 95 compassAngleTo: 225.0
+    test 96 compassAngleTo: 315.0
+    test 97 compassAngleTo: 270.0
+    test 98 compassAngleTo: 359.4
+    test 99 compassAngleTo: 31
+    test 100 compassAngleTo: 45
 
-    testVectorial(sphericalNvector, 18.10.12)
-    test 92 crossTrackDistanceTo: -305.67
-    test 93 crossTrackDistanceTo: -307.55
-    test 94 toLatLon: 44.995674°N, 045.0°E
-    test 95 toNvector: (0.50004, 0.50004, 0.70705)
-    test 96 isequalTo: False
-    test 97 isequalTo: True
-    test 98 length: 0.99992449715
-    test 99 length: 1.0
-    test 100 sumOf: (52.70504, 0.61904, 0.70705)
-    test 101 sumOf: Nv
-    test 102 sumOf: sumOf
-    test 103 length: 52.7134151513
-    test 104 copy: True
-    test 105 length: 52.2051356286
-    test 106 length: 52.2051356286
-    test 107 isEnclosedBy: True
-    test 108 isEnclosedBy*: True
-    test 109 isEnclosedBy: True
-    test 110 isEnclosedBy*: True
-    test 111 isWithin: False
-    test 112 isWithin: True
-    test 113 nearestOn: 51.0004°N, 001.9°E
-    test 114 nearestOn: True
-    test 115 distanceTo: 42.712
-    test 116 nearestOn: 51.0°N, 002.0°E
-    test 117 nearestOn: True
-    test 118 nearestOn: 00.0°N, 000.0°E
-    test 119 nearestOn: True
-    test 120 nearestOn: 00.0°N, 020.0°E
-    test 121 nearestOn: True
-    test 122 nearestOn: 02.0°N, 002.0°E
-    test 123 nearestOn: 02.0°N, 002.0°E
-    test 124 BasseC: 47.3038°N, 002.5721°W
-    test 125 BasseH: 47.311067°N, 002.528617°W
-    test 126 triangulate: 47.323667°N, 002.568501°W
-    test 127 triangulate: True
+    testVectorial(sphericalNvector, 18.10.18)
+    test 101 crossTrackDistanceTo: -305.67
+    test 102 crossTrackDistanceTo: -307.55
+    test 103 toLatLon: 44.995674°N, 045.0°E
+    test 104 toNvector: (0.50004, 0.50004, 0.70705)
+    test 105 isequalTo: False
+    test 106 isequalTo: True
+    test 107 length: 0.99992449715
+    test 108 length: 1.0
+    test 109 sumOf: (52.70504, 0.61904, 0.70705)
+    test 110 sumOf: Nv
+    test 111 sumOf: sumOf
+    test 112 length: 52.7134151513
+    test 113 copy: True
+    test 114 length: 52.2051356286
+    test 115 length: 52.2051356286
+    test 116 isEnclosedBy: True
+    test 117 isEnclosedBy*: True
+    test 118 isEnclosedBy: True
+    test 119 isEnclosedBy*: True
+    test 120 isWithin: False
+    test 121 isWithin: True
+    test 122 nearestOn: 51.0004°N, 001.9°E
+    test 123 nearestOn: True
+    test 124 distanceTo: 42.712
+    test 125 nearestOn: 51.0°N, 002.0°E
+    test 126 nearestOn: True
+    test 127 nearestOn: 00.0°N, 000.0°E
+    test 128 nearestOn: True
+    test 129 nearestOn: 00.0°N, 020.0°E
+    test 130 nearestOn: True
+    test 131 nearestOn: 02.0°N, 002.0°E
+    test 132 nearestOn: 02.0°N, 002.0°E
+    test 133 BasseC: 47.3038°N, 002.5721°W
+    test 134 BasseH: 47.311067°N, 002.528617°W
+    test 135 triangulate: 47.323667°N, 002.568501°W
+    test 136 triangulate: True
 
-    testSpherical(sphericalNvector, 18.10.12)
-    test 128 isSpherical: True
-    test 129 isEllipsoidal: False
-    test 130 isSpherical: True
-    test 131 isEllipsoidal: False
-    test 132 intersection: 50.907608°N, 004.508575°E
-    test 133 intersection: 50°54′27.39″N, 004°30′30.87″E
-    test 134 intersection: True
-    test 135 intersection: True
-    test 136 intersection: 43.5719°N, 116.188757°W
-    test 137 intersection: 43°34′18.84″N, 116°11′19.53″W
-    test 138 intersection: 51.882166°N, 000.267801°E
-    test 139 intersection: 00.0°N, 026.565051°E
-    test 140 intersection: 26.565051°N, 000.0°W
-    test 141 maxLat0: 90.0
-    test 142 maxLat1: 89.0
-    test 143 maxLat90: 0.0
-    test 144 isenclosedBy: True
-    test 145 isenclosedBy*: True
-    test 146 isenclosedBy: True
-    test 147 isenclosedBy*: True
-    test 148 rhumbBearingTo: 116.722
-    test 149 rhumbDestination: 50.964155°N, 001.853°E
-    test 150 rhumbDestination: True
-    test 151 rhumbDistanceTo: 40307.8
-    test 152 rhumbMidpointo: 51.0455°N, 001.595727°E
-    test 153 rhumbMidpointo: True
-    test 154 areaOf: 8.6660587507e+09
-    test 155 areaOf: 6.18e+09
-    test 156 nearestOn2: 46.000996°N, 001.353049°E
-    test 157 nearestOn2: 569987.49
-    test 158 distanceTo: 569987.49
-    test 159 nearestOn2: 46.0°N, 002.0°E
-    test 160 nearestOn2: 134989.80
-    test 161 distanceTo: 134989.80
-    test 162 nearestOn2: 45.330691°N, 001.318551°E
-    test 163 distanceTo2: 64856.28
-    test 164 distanceTo: 64856.28
-    test 165 difference: 1000.53
-    test 166 ispolar: True
-    test 167 ispolar*: True
-    test 168 ispolar: False  FAILED, KNOWN, expected True
-    test 169 ispolar*: False  FAILED, KNOWN, expected True
-    test 170 ispolar: False  FAILED, KNOWN, expected True
-    test 171 ispolar*: False  FAILED, KNOWN, expected True
+    testSpherical(sphericalNvector, 18.10.18)
+    test 137 isSpherical: True
+    test 138 isEllipsoidal: False
+    test 139 isSpherical: True
+    test 140 isEllipsoidal: False
+    test 141 intersection: 50.907608°N, 004.508575°E
+    test 142 intersection: 50°54′27.39″N, 004°30′30.87″E
+    test 143 intersection: True
+    test 144 intersection: True
+    test 145 intersection: 43.5719°N, 116.188757°W
+    test 146 intersection: 43°34′18.84″N, 116°11′19.53″W
+    test 147 intersection: 51.882166°N, 000.267801°E
+    test 148 intersection: 00.0°N, 026.565051°E
+    test 149 intersection: 26.565051°N, 000.0°W
+    test 150 maxLat0: 90.0
+    test 151 maxLat1: 89.0
+    test 152 maxLat90: 0.0
+    test 153 isenclosedBy: True
+    test 154 isenclosedBy*: True
+    test 155 isenclosedBy: True
+    test 156 isenclosedBy*: True
+    test 157 rhumbBearingTo: 116.722
+    test 158 rhumbDestination: 50.964155°N, 001.853°E
+    test 159 rhumbDestination: True
+    test 160 rhumbDistanceTo: 40307.8
+    test 161 rhumbMidpointo: 51.0455°N, 001.595727°E
+    test 162 rhumbMidpointo: True
+    test 163 areaOf: 8.6660587507e+09
+    test 164 areaOf: 6.18e+09
+    test 165 nearestOn2: 46.000996°N, 001.353049°E
+    test 166 nearestOn2: 569987.49
+    test 167 distanceTo: 569987.49
+    test 168 nearestOn2: 46.0°N, 002.0°E
+    test 169 nearestOn2: 134989.80
+    test 170 distanceTo: 134989.80
+    test 171 nearestOn2: 45.330691°N, 001.318551°E
+    test 172 distanceTo2: 64856.28
+    test 173 distanceTo: 64856.28
+    test 174 difference: 1000.53
+    test 175 ispolar: True
+    test 176 ispolar*: True
+    test 177 ispolar: False  FAILED, KNOWN, expected True
+    test 178 ispolar*: False  FAILED, KNOWN, expected True
+    test 179 ispolar: False  FAILED, KNOWN, expected True
+    test 180 ispolar*: False  FAILED, KNOWN, expected True
 
-    testLatLon(sphericalTrigonometry, 18.10.12)
-    test 172 isEllipsoidal: False
-    test 173 isSpherical: True
-    test 174 lat/lonDMS: 52.20472°N, 000.14056°E
-    test 175 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
-    test 176 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
-    test 177 lat/lonDMS F_DMS: 52°12′17″N, 000°08′26″E
-    test 178 lat/lonDMS F_DMS: 52°12′17.0″N, 000°08′26.0″E
-    test 179 lat/lonDMS F_RAD: 0.911144N, 0.002453E
-    test 180 isequalTo: True
-    test 181 latlon2: 52.20472, 0.14056
-    test 182 latlon2: 52.2047, 0.1406
-    test 183 latlon2: 52.205, 0.141
-    test 184 latlon2: 52.2, 0.14
-    test 185 latlon2: 52.2, 0.1
-    test 186 latlon2: 52.0, 0.0
-    test 187 isequalTo: False
-    test 188 antipode1: 52.205°S, 179.881°W
-    test 189 antipode2: True
-    test 190 antipode3: 52.205°N, 000.119°E
-    test 191 antipode4: True
-    test 192 antipode5: 52.205°N, 000.119°E
-    test 193 compassAngleTo: 0.0
-    test 194 compassAngleTo: 45.0
-    test 195 compassAngleTo: 90.0
-    test 196 compassAngleTo: 180.0
-    test 197 compassAngleTo: 270.0
-    test 198 initialBearingTo: 156.1666
-    test 199 finalBearingTo: 157.8904
-    test 200 initialBearingTo: 65.8921
-    test 201 finalBearingTo: 93.8581
-    test 202 bearingTo2: 156.1666, 157.8904
-    test 203 ispolar: True
-    test 204 copy: True
-    test 205 equirectangularTo: 404329.56
-    test 206 distanceTo: 404279.720589
-    test 207 distanceTo: 404279.720589
-    test 208 distanceTo: 2145
-    test 209 intermediateTo: 51.372084°N, 000.707337°E
-    test 210 intermediateTo: True
-    test 211 intermediateTo: 404279.721
-    test 212 intermediateTo+5: 35.160975°N, 008.989542°E
-    test 213 intermediateTo+5: 5.000
-    test 214 intermediateTo-4: 64.911647°N, 013.726301°W
-    test 215 intermediateTo-4: 4.000
-    test 216 midpointTo: 50.536327°N, 001.274614°E
-    test 217 destination: 51.513546°N, 000.098345°W
-    test 218 destination: 51°30′49″N, 000°05′54″W
-    test 219 destination: 34°37′N, 116°33′W
-    test 220 destination: 34.613647°N, 116.55116°W
-    test 221 destination: 0.604122N, 2.034201W
-    test 222 destination: 31.96383509°N, 064.37329146°E
-    test 223 alongTrackDistanceTo: type(end) mismatch: int vs LatLon
-    test 224 alongTrackDistanceTo: 62331.58
-    test 225 alongTrackDistanceTo: 99.588
-    test 226 alongTrackDistanceTo: -7702.7
-    test 227 alongTrackDistanceTo: 7587.6
-    test 228 crossTrackDistanceTo: type(end) mismatch: int vs LatLon
-    test 229 crossTrackDistanceTo: -307.55
-    test 230 crossTrackDistanceTo: 7.4524
-    test 231 greatCircle: (-0.79408, 0.12856, 0.59406)
-    test 232 isclockwise: False
-    test 233 isclockwise*: False
-    test 234 isclockwise: True
-    test 235 isclockwise*: True
-    test 236 isclockwise: too few points: 2
-    test 237 isclockwise*: too few points: 2
-    test 238 isclockwise: polar or zero area
-    test 239 isclockwise*: polar or zero area
-    test 240 isconvex: False
-    test 241 isconvex*: False
-    test 242 isconvex: True
-    test 243 isconvex*: True
-    test 244 isconvex: too few points: 2
-    test 245 isconvex*: too few points: 2
-    test 246 isenclosedBy1: True
-    test 247 isenclosedBy1*: True
-    test 248 isenclosedBy2: False
-    test 249 isenclosedBy2*: False
-    test 250 isenclosedBy3: False
-    test 251 isenclosedBy3*: False
-    test 252 isenclosedBy4: False
-    test 253 isenclosedBy4*: False
-    test 254 isenclosedBy5: False
-    test 255 isenclosedBy5*: False
-    test 256 isenclosedBy6: True
-    test 257 isenclosedBy6*: True
-    test 258 isenclosedBy7: True
-    test 259 isenclosedBy7*: True
+    testLatLon(sphericalTrigonometry, 18.10.18)
+    test 181 isEllipsoidal: False
+    test 182 isSpherical: True
+    test 183 lat/lonDMS: 52.20472°N, 000.14056°E
+    test 184 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
+    test 185 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
+    test 186 lat/lonDMS F_DMS: 52°12′17″N, 000°08′26″E
+    test 187 lat/lonDMS F_DMS: 52°12′17.0″N, 000°08′26.0″E
+    test 188 lat/lonDMS F_RAD: 0.911144N, 0.002453E
+    test 189 isequalTo: True
+    test 190 latlon2: 52.20472, 0.14056
+    test 191 latlon2: 52.2047, 0.1406
+    test 192 latlon2: 52.205, 0.141
+    test 193 latlon2: 52.2, 0.14
+    test 194 latlon2: 52.2, 0.1
+    test 195 latlon2: 52.0, 0.0
+    test 196 isequalTo: False
+    test 197 antipode1: 52.205°S, 179.881°W
+    test 198 antipode2: True
+    test 199 antipode3: 52.205°N, 000.119°E
+    test 200 antipode4: True
+    test 201 antipode5: 52.205°N, 000.119°E
+    test 202 initialBearingTo: 156.1666
+    test 203 finalBearingTo: 157.8904
+    test 204 initialBearingTo: 65.8921
+    test 205 finalBearingTo: 93.8581
+    test 206 bearingTo2: 156.1666, 157.8904
+    test 207 ispolar: True
+    test 208 copy: True
+    test 209 equirectangularTo: 404329.56
+    test 210 distanceTo: 404279.720589
+    test 211 distanceTo: 404279.720589
+    test 212 distanceTo: 2145
+    test 213 intermediateTo: 51.372084°N, 000.707337°E
+    test 214 intermediateTo: True
+    test 215 intermediateTo: 404279.721
+    test 216 intermediateTo+5: 35.160975°N, 008.989542°E
+    test 217 intermediateTo+5: 5.000
+    test 218 intermediateTo-4: 64.911647°N, 013.726301°W
+    test 219 intermediateTo-4: 4.000
+    test 220 midpointTo: 50.536327°N, 001.274614°E
+    test 221 destination: 51.513546°N, 000.098345°W
+    test 222 destination: 51°30′49″N, 000°05′54″W
+    test 223 destination: 34°37′N, 116°33′W
+    test 224 destination: 34.613647°N, 116.55116°W
+    test 225 destination: 0.604122N, 2.034201W
+    test 226 destination: 31.96383509°N, 064.37329146°E
+    test 227 alongTrackDistanceTo: type(end) mismatch: int vs LatLon
+    test 228 alongTrackDistanceTo: 62331.58
+    test 229 alongTrackDistanceTo: 99.588
+    test 230 alongTrackDistanceTo: -7702.7
+    test 231 alongTrackDistanceTo: 7587.6
+    test 232 crossTrackDistanceTo: type(end) mismatch: int vs LatLon
+    test 233 crossTrackDistanceTo: -307.55
+    test 234 crossTrackDistanceTo: 7.4524
+    test 235 greatCircle: (-0.79408, 0.12856, 0.59406)
+    test 236 isclockwise: False
+    test 237 isclockwise*: False
+    test 238 isclockwise: True
+    test 239 isclockwise*: True
+    test 240 isclockwise: too few points: 2
+    test 241 isclockwise*: too few points: 2
+    test 242 isclockwise: polar or zero area
+    test 243 isclockwise*: polar or zero area
+    test 244 isconvex: False
+    test 245 isconvex*: False
+    test 246 isconvex: True
+    test 247 isconvex*: True
+    test 248 isconvex: too few points: 2
+    test 249 isconvex*: too few points: 2
+    test 250 isenclosedBy1: True
+    test 251 isenclosedBy1*: True
+    test 252 isenclosedBy2: False
+    test 253 isenclosedBy2*: False
+    test 254 isenclosedBy3: False
+    test 255 isenclosedBy3*: False
+    test 256 isenclosedBy4: False
+    test 257 isenclosedBy4*: False
+    test 258 isenclosedBy5: False
+    test 259 isenclosedBy5*: False
+    test 260 isenclosedBy6: True
+    test 261 isenclosedBy6*: True
+    test 262 isenclosedBy7: True
+    test 263 isenclosedBy7*: True
+    test 264 compassAngleTo: 100.016848
+    test 265 initialBearingTo: 102.432182
+    test 266 equirectangularTo: 592.185
+    test 267 distanceTo: 591.831
+    test 268 compassAngleTo: 0.0
+    test 269 compassAngleTo: 45.0
+    test 270 compassAngleTo: 90.0
+    test 271 compassAngleTo: 180.0
+    test 272 compassAngleTo: 225.0
+    test 273 compassAngleTo: 315.0
+    test 274 compassAngleTo: 270.0
+    test 275 compassAngleTo: 359.4
+    test 276 compassAngleTo: 31
+    test 277 compassAngleTo: 45
 
-    testSpherical(sphericalTrigonometry, 18.10.12)
-    test 260 isSpherical: True
-    test 261 isEllipsoidal: False
-    test 262 isSpherical: True
-    test 263 isEllipsoidal: False
-    test 264 intersection: 50.907608°N, 004.508575°E
-    test 265 intersection: 50°54′27.39″N, 004°30′30.87″E
-    test 266 intersection: True
-    test 267 intersection: True
-    test 268 intersection: 43.5719°N, 116.188757°W
-    test 269 intersection: 43°34′18.84″N, 116°11′19.53″W
-    test 270 intersection: 51.882166°N, 000.267801°E
-    test 271 intersection: 00.0°N, 026.565051°E
-    test 272 intersection: 26.565051°N, 000.0°W
-    test 273 maxLat0: 90.0
-    test 274 maxLat1: 89.0
-    test 275 maxLat90: 0.0
-    test 276 crossingParallels: 009°35′38.65″E, 170°24′21.35″E
-    test 277 isenclosedBy: True
-    test 278 isenclosedBy*: True
-    test 279 isenclosedBy: non-convex: (LatLon(45°00′00.0″N, 001°00′00.0″E), ...)
-    test 280 isenclosedBy*: non-convex: (LatLon(45°00′00.0″N, 001°00′00.0″E), ...)
-    test 281 rhumbBearingTo: 116.722
-    test 282 rhumbDestination: 50.964155°N, 001.853°E
-    test 283 rhumbDestination: True
-    test 284 rhumbDistanceTo: 40307.8
-    test 285 rhumbMidpointo: 51.0455°N, 001.595727°E
-    test 286 rhumbMidpointo: True
-    test 287 areaOf: 8.6660587507e+09
-    test 288 areaOf: 6.18e+09
-    test 289 nearestOn2: 46.0°N, 001.369324°E
-    test 290 nearestOn2: 570101.83
-    test 291 distanceTo: 570101.82
-    test 292 nearestOn2: 46.0°N, 002.0°E
-    test 293 nearestOn2: 134992.48
-    test 294 distanceTo: 134989.80
-    test 295 nearestOn2: 45.5°N, 001.5°E
-    test 296 distanceTo2: 78626.79
-    test 297 nearestOn2: 45.331319°N, 001.331319°E
-    test 298 distanceTo2: 64074.48
-    test 299 distanceTo: 64074.12
-    test 300 difference: 1000.53
-    test 301 nearestOn2: 00.5°N, 001.5°E
-    test 302 neartesOn2: 235880.385
-    test 303 nearestOn2: 01.5°N, 002.5°E
-    test 304 neartesOn2: 235880.385
-    test 305 nearestOn2: 02.5°N, 003.5°E
-    test 306 neartesOn2: 235880.385
-    test 307 nearestOn2: 03.5°N, 004.5°E
-    test 308 neartesOn2: 235880.385
-    test 309 nearestOn2: 04.5°N, 005.5°E
-    test 310 neartesOn2: 235880.385
-    test 311 nearestOn2: 05.5°N, 006.5°E
-    test 312 neartesOn2: 235880.385
-    test 313 nearestOn2: 06.5°N, 007.5°E
-    test 314 neartesOn2: 235880.385
-    test 315 nearestOn2: 07.5°N, 008.5°E
-    test 316 neartesOn2: 235880.385
-    test 317 ispolar: True
-    test 318 ispolar*: True
-    test 319 ispolar: False  FAILED, KNOWN, expected True
-    test 320 ispolar*: False  FAILED, KNOWN, expected True
-    test 321 ispolar: True
-    test 322 ispolar*: True
+    testSpherical(sphericalTrigonometry, 18.10.18)
+    test 278 isSpherical: True
+    test 279 isEllipsoidal: False
+    test 280 isSpherical: True
+    test 281 isEllipsoidal: False
+    test 282 intersection: 50.907608°N, 004.508575°E
+    test 283 intersection: 50°54′27.39″N, 004°30′30.87″E
+    test 284 intersection: True
+    test 285 intersection: True
+    test 286 intersection: 43.5719°N, 116.188757°W
+    test 287 intersection: 43°34′18.84″N, 116°11′19.53″W
+    test 288 intersection: 51.882166°N, 000.267801°E
+    test 289 intersection: 00.0°N, 026.565051°E
+    test 290 intersection: 26.565051°N, 000.0°W
+    test 291 maxLat0: 90.0
+    test 292 maxLat1: 89.0
+    test 293 maxLat90: 0.0
+    test 294 crossingParallels: 009°35′38.65″E, 170°24′21.35″E
+    test 295 isenclosedBy: True
+    test 296 isenclosedBy*: True
+    test 297 isenclosedBy: non-convex: (LatLon(45°00′00.0″N, 001°00′00.0″E), ...)
+    test 298 isenclosedBy*: non-convex: (LatLon(45°00′00.0″N, 001°00′00.0″E), ...)
+    test 299 rhumbBearingTo: 116.722
+    test 300 rhumbDestination: 50.964155°N, 001.853°E
+    test 301 rhumbDestination: True
+    test 302 rhumbDistanceTo: 40307.8
+    test 303 rhumbMidpointo: 51.0455°N, 001.595727°E
+    test 304 rhumbMidpointo: True
+    test 305 areaOf: 8.6660587507e+09
+    test 306 areaOf: 6.18e+09
+    test 307 nearestOn2: 46.0°N, 001.369324°E
+    test 308 nearestOn2: 570101.83
+    test 309 distanceTo: 570101.82
+    test 310 nearestOn2: 46.0°N, 002.0°E
+    test 311 nearestOn2: 134992.48
+    test 312 distanceTo: 134989.80
+    test 313 nearestOn2: 45.5°N, 001.5°E
+    test 314 distanceTo2: 78626.79
+    test 315 nearestOn2: 45.331319°N, 001.331319°E
+    test 316 distanceTo2: 64074.48
+    test 317 distanceTo: 64074.12
+    test 318 difference: 1000.53
+    test 319 nearestOn2: 00.5°N, 001.5°E
+    test 320 neartesOn2: 235880.385
+    test 321 nearestOn2: 01.5°N, 002.5°E
+    test 322 neartesOn2: 235880.385
+    test 323 nearestOn2: 02.5°N, 003.5°E
+    test 324 neartesOn2: 235880.385
+    test 325 nearestOn2: 03.5°N, 004.5°E
+    test 326 neartesOn2: 235880.385
+    test 327 nearestOn2: 04.5°N, 005.5°E
+    test 328 neartesOn2: 235880.385
+    test 329 nearestOn2: 05.5°N, 006.5°E
+    test 330 neartesOn2: 235880.385
+    test 331 nearestOn2: 06.5°N, 007.5°E
+    test 332 neartesOn2: 235880.385
+    test 333 nearestOn2: 07.5°N, 008.5°E
+    test 334 neartesOn2: 235880.385
+    test 335 ispolar: True
+    test 336 ispolar*: True
+    test 337 ispolar: False  FAILED, KNOWN, expected True
+    test 338 ispolar*: False  FAILED, KNOWN, expected True
+    test 339 ispolar: True
+    test 340 ispolar*: True
 
-    6 of 322 testSpherical.py tests (1.9%) FAILED, ALL KNOWN (PyGeodesy 18.10.16 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 137.776 ms
+    6 of 340 testSpherical.py tests (1.8%) FAILED, ALL KNOWN (PyGeodesy 18.10.20 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 133.073 ms
 
 running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testUtily.py
 
@@ -5038,7 +5112,7 @@ running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testUtily.py
     test 20 unroll180: -160.0, -990.0
     test 21 unroll180: 920.0, 90.0
 
-    all 21 testUtily.py tests passed (PyGeodesy 18.10.16 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 1.746 ms
+    all 21 testUtily.py tests passed (PyGeodesy 18.10.20 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 2.031 ms
 
 running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testUtm.py
 
@@ -5090,7 +5164,7 @@ running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testUtm.py
     test 45 toUtm(76.0°N, 031.0°E): 35X N 607943 8438843
     test 46 toUtm(76.0°N, 037.0°E): 37X N 446000 8436100
 
-    all 46 testUtm.py tests passed (PyGeodesy 18.10.16 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 32.547 ms
+    all 46 testUtm.py tests passed (PyGeodesy 18.10.20 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 32.784 ms
 
 running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testUtmTMcoords.py
 
@@ -5913,7 +5987,7 @@ running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testUtmTMcoords.py
     test 745 line 258 scale: 1.6615
     test 746 WGS84.KsOrder: 8
 
-    1 of 746 testUtmTMcoords.py tests (0.1%) FAILED, ALL KNOWN, 71 skipped (PyGeodesy 18.10.16 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 148.493 ms
+    1 of 746 testUtmTMcoords.py tests (0.1%) FAILED, ALL KNOWN, 71 skipped (PyGeodesy 18.10.20 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 152.043 ms
 
 running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testVectorial.py
 
@@ -5934,7 +6008,7 @@ running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testVectorial.py
     test 12 length: 52.2051356286
     test 13 length: 52.2051356286
 
-    testVectorial(sphericalNvector, 18.10.12)
+    testVectorial(sphericalNvector, 18.10.18)
     test 14 crossTrackDistanceTo: -305.67
     test 15 crossTrackDistanceTo: -307.55
     test 16 toLatLon: 44.995674°N, 045.0°E
@@ -5972,7 +6046,7 @@ running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testVectorial.py
     test 48 triangulate: 47.323667°N, 002.568501°W
     test 49 triangulate: True
 
-    all 49 testVectorial.py tests passed (PyGeodesy 18.10.16 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 13.597 ms
+    all 49 testVectorial.py tests passed (PyGeodesy 18.10.20 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 14.327 ms
 
 running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testWebMercator.py
 
@@ -6035,6 +6109,6 @@ running ~/Tools/bin/pypy3 ~/PyGeodesy/test/testWebMercator.py
     test 56 toWm(LatLonE(50.0003, 0)).y: 6413572.57
     test 57 toWm(LatLonE(60.0003, 0)).y: 8362760.29
 
-    all 57 testWebMercator.py tests passed (PyGeodesy 18.10.16 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 6.920 ms
+    all 57 testWebMercator.py tests passed (PyGeodesy 18.10.20 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 7.200 ms
 
-test/run.py ~/Tools/bin/pypy3 all 5774 tests OK (PyGeodesy 18.10.16 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 18.934 sec
+test/run.py ~/Tools/bin/pypy3 all 5848 tests OK (PyGeodesy 18.10.20 PyPy 6.0.0 Python 3.5.3 64bit macOS 10.13.6) 20.402 sec

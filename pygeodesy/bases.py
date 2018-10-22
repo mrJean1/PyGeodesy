@@ -9,10 +9,10 @@ and U{http://www.Movable-Type.co.UK/scripts/latlong-vectors.html}.
 
 @newfield example: Example, Examples
 '''
-from dms import F_D, F_DMS, compassAngle, latDMS, lonDMS, \
-                parseDMS, parseDMS2
+from dms import F_D, F_DMS, latDMS, lonDMS, parseDMS, parseDMS2
 from fmath import EPS, favg, map1, scalar
-from formy import antipode, equirectangular, haversine, isantipode
+from formy import antipode, compassAngle, equirectangular, \
+                  haversine, isantipode
 from utily import R_M, points2, property_RO, unStr
 
 from math import asin, cos, degrees, radians, sin
@@ -23,7 +23,7 @@ __all__ = (  # 'Based', 'Named', 'VectorBased',
            'LatLonHeightBase',  # for documentation
            'classname', 'classnaming',
            'inStr')
-__version__ = '18.10.12'
+__version__ = '18.10.20'
 
 __X = object()  # unique instance
 
@@ -259,7 +259,7 @@ class LatLonHeightBase(Based):
         '''
         return self.compassAngleTo(other)
 
-    def compassAngleTo(self, other):
+    def compassAngleTo(self, other, adjust=False, wrap=False):
         '''Return the angle from North for the direction vector between
            this and an other point.
 
@@ -268,6 +268,10 @@ class LatLonHeightBase(Based):
            larger distances.
 
            @param other: The other point (C{LatLon}).
+           @keyword adjust: Adjust the longitudinal delta by the
+                            cosine of the mean latitude (C{bool}).
+           @keyword wrap: Wrap and L{unroll180} longitudes and longitudinal
+                          delta (C{bool}).
 
            @return: Compass angle from North (C{degrees360}).
 
@@ -279,7 +283,8 @@ class LatLonHeightBase(Based):
                  <http://www.EdWilliams.org/avform.htm#flat>}.
         '''
         self.others(other)
-        return compassAngle(self.lat, self.lon, other.lat, other.lon)
+        return compassAngle(self.lat, self.lon, other.lat, other.lon,
+                            adjust=adjust, wrap=wrap)
 
     def copy(self):
         '''Copy this point.

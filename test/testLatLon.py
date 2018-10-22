@@ -4,13 +4,13 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '18.10.12'
+__version__ = '18.10.20'
 
 from base import geographiclib, TestsBase
 
 from pygeodesy import R_NM, F_D, F_DM, F_DMS, F_RAD, classname, \
                       degrees, fStr, isclockwise, isconvex, \
-                      isenclosedBy, ispolar, m2NM  # PYCHOK expected
+                      isenclosedBy, ispolar, m2km, m2NM  # PYCHOK expected
 
 
 class Tests(TestsBase):
@@ -42,9 +42,11 @@ class Tests(TestsBase):
         self.test('latlon2', fStr(q.latlon2(1)), '52.2, 0.1')
         self.test('latlon2', fStr(q.latlon2()),  '52.0, 0.0')
 
+        FRA = LatLon(50.0379, 8.5622)
+        LHR = LatLon(51.47, 0.4543)
         # <http://www.EdWilliams.org/avform.htm#XTE>
-        LAX = LatLon(33.+57./60, -(118.+24./60))
         JFK = LatLon(degrees(0.709186), -degrees(1.287762))
+        LAX = LatLon(33.+57./60, -(118.+24./60))
         Rav = m2NM(6366710)  # avg. earth radius in NM
         # <http://GeographicLib.SourceForge.io/html/python/examples.html>
         WNZ = LatLon(-41.32, 174.81)  # Wellington, NZ
@@ -63,17 +65,6 @@ class Tests(TestsBase):
         self.test('antipode3', b, '52.205°N, 000.119°E')
         self.test('antipode4', a.isantipodeTo(b), True)
         self.test('antipode5', b, p)
-
-        c = p.compassAngleTo(LatLon(p.lat + 1, p.lon))
-        self.test('compassAngleTo', c, '0.0')
-        c = p.compassAngleTo(LatLon(p.lat + 1, p.lon + 1))
-        self.test('compassAngleTo', c, '45.0')
-        c = p.compassAngleTo(LatLon(p.lat, p.lon + 1))
-        self.test('compassAngleTo', c, '90.0')
-        c = p.compassAngleTo(LatLon(p.lat - 1, p.lon))
-        self.test('compassAngleTo', c, '180.0')
-        c = p.compassAngleTo(LatLon(p.lat, p.lon - 1))
-        self.test('compassAngleTo', c, '270.0')
 
         if hasattr(LatLon, 'initialBearingTo'):
             b = p.initialBearingTo(q)
@@ -282,6 +273,39 @@ class Tests(TestsBase):
             p = LatLon(85, 90), LatLon(85, 0), LatLon(85, -90)
             for _ in self.testiter():
                 self.test('isenclosedBy7', isenclosedBy((90, 0), p), 'True')  # PYCHOK test attr?
+
+        a = LHR.compassAngleTo(FRA)  # adjust=True
+        self.test('compassAngleTo', a, 100.016848, fmt='%.6f')
+        if hasattr(LatLon, 'initialBearingTo'):
+            b = LHR.initialBearingTo(FRA)
+            self.test('initialBearingTo', b, 102.432182 if Sph else 102.392291, fmt='%.6f')  # PYCHOK test attr?
+        d = LHR.equirectangularTo(FRA)
+        self.test('equirectangularTo', m2km(d), 592.185, fmt='%.3f')
+        if hasattr(LatLon, 'distanceTo'):
+            d = LHR.distanceTo(FRA)
+            self.test('distanceTo', m2km(d), 591.831 if Sph else 593.571, fmt='%.3f')  # PYCHOK test attr?
+
+        p = LatLon(0, 0)
+        for a, b, d in ((1, 0, 0.0), ( 1, 1,  45.0), ( 0,  1,  90.0),
+                                     (-1, 0, 180.0), (-1, -1, 225.0),
+                                     (1, -1, 315.0), ( 0, -1, 270.0),
+                                     (90, -1, 359.4)):
+            q = LatLon(p.lat + a, p.lon + b)
+            if not Nv:
+                b = p.initialBearingTo(q)
+                self.test('bearingTo', b, d, fmt='%.1f', known=True)
+            c = p.compassAngleTo(q, adjust=False)
+            self.test('compassAngleTo', c, d, fmt='%.1f')
+
+        p = LatLon(52, 0)
+        q = LatLon(p.lat + 1, p.lon + 1)  # 45 unadjusted
+        if not Nv:
+            b = p.initialBearingTo(q)
+            self.test('bearingTo', b, 31.0, fmt='%.0f')
+        c = p.compassAngleTo(q, adjust=True)
+        self.test('compassAngleTo', c, 31.0, fmt='%.0f')
+        c = p.compassAngleTo(q, adjust=False)
+        self.test('compassAngleTo', c, 45.0, fmt='%.0f')
 
 
 if __name__ == '__main__':

@@ -47,7 +47,7 @@ __all__ = ('LatLon', 'Nvector',  # classes
            'meanOf',
            'nearestOn2',
            'triangulate', 'trilaterate')
-__version__ = '18.10.12'
+__version__ = '18.10.18'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -63,7 +63,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
     '''
     _Nv = None  #: (INTERNAL) cache _toNvector L{Nvector}).
 
-    def _gc3(self, start, end, namend):
+    def _gc3(self, start, end, namend, raiser='points'):
         '''(INTERNAL) Return great circle, start and end Nvectors.
         '''
         s = start.toNvector()
@@ -73,7 +73,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         else:
             self.others(end, name=namend)
             e = end.toNvector()
-            gc = s.cross(e, raiser='points')  # XXX .unit()?
+            gc = s.cross(e, raiser=raiser)  # XXX .unit()?
         return gc, s, e
 
     def _update(self, updated):
@@ -293,9 +293,11 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @return: Initial bearing (compass C{degrees360}).
 
-           @raise TypeError: The I{other} point is not L{LatLon}.
+           @raise Crosserror: This point coincides with the I{other}
+                              point or the C{NorthPole}, provided
+                              L{crosserrors} is C{True}.
 
-           @raise Valuerror: Points or polar coincidence.
+           @raise TypeError: The I{other} point is not L{LatLon}.
 
            @example:
 
@@ -305,10 +307,14 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @JSname: I{bearingTo}.
         '''
-        gc1 = self.greatCircleTo(other)
-        gc2 = self.toNvector().cross(NorthPole, raiser='pole')
+        self.others(other, name='other')
+        # see <http://MathForum.org/library/drmath/view/55417.html>
+        n = self.toNvector()
+#       gc1 = self.greatCircleTo(other)
+        gc1 = n.cross(other.toNvector(), raiser='points')  # .unit()
 #       gc2 = self.greatCircleTo(NorthPole)
-        return degrees360(gc1.angleTo(gc2, vSign=self.toNvector()))
+        gc2 = n.cross(NorthPole, raiser='pole')  # .unit()
+        return degrees360(gc1.angleTo(gc2, vSign=n))
 
     def intermediateChordTo(self, other, fraction, height=None):
         '''Locate the point projected from the point at given fraction
@@ -1051,17 +1057,15 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3,
     z = 0
 
     d = x.length  # distance n1->n2
-    d2 = d * 2
-    if d2 > EPS:  # and (y.length * 2) > EPS:
+    if d > EPS:  # and (y.length * 2) > EPS:
         X = x.unit()  # unit vector in x direction n1->n2
         i = X.dot(y)  # signed magnitude of x component of n1->n3
         Y = y.minus(X.times(i)).unit()  # unit vector in y direction
         j = Y.dot(y)  # signed magnitude of y component of n1->n3
-        j2 = j * 2
-        if abs(j2) > EPS:
-            x = fsum_(d12, -d22, d**2) / d2  # n1->intersection x- and ...
-            y = fsum_(d12, -d32, i**2, j**2, -2 * x * i) / j2  # ... y-component
-            z = x**2 + y**2
+        if abs(j) > EPS:
+            x = fsum_(d12, -d22, d**2) / d  # n1->intersection x- and ...
+            y = fsum_(d12, -d32, i**2, j**2, -2 * x * i) / j  # ... y-component
+            z = (x**2 + y**2) * 0.25
 
 #   z = sqrt(d12 - z)  # z will be NaN for no intersections
     if not 0 < z < d12:
