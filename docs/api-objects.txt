@@ -59,7 +59,7 @@ pygeodesy.favg	pygeodesy-module.html#favg
 pygeodesy.normDMS	pygeodesy-module.html#normDMS
 pygeodesy.parseOSGR	pygeodesy-module.html#parseOSGR
 pygeodesy.areaOf	pygeodesy-module.html#areaOf
-pygeodesy.parseDMS2	pygeodesy-module.html#parseDMS2
+pygeodesy.nearestOn4	pygeodesy-module.html#nearestOn4
 pygeodesy.isscalar	pygeodesy-module.html#isscalar
 pygeodesy.isPoints2	pygeodesy-module.html#isPoints2
 pygeodesy.compassPoint	pygeodesy-module.html#compassPoint
@@ -105,6 +105,7 @@ pygeodesy.isTuple2	pygeodesy-module.html#isTuple2
 pygeodesy.degrees2m	pygeodesy-module.html#degrees2m
 pygeodesy.pygeodesy_abspath	pygeodesy-module.html#pygeodesy_abspath
 pygeodesy.len2	pygeodesy-module.html#len2
+pygeodesy.parseDMS2	pygeodesy-module.html#parseDMS2
 pygeodesy.bounds	pygeodesy-module.html#bounds
 pygeodesy.parse3llh	pygeodesy-module.html#parse3llh
 pygeodesy.false2f	pygeodesy-module.html#false2f
@@ -471,9 +472,9 @@ pygeodesy.points.issequence	pygeodesy.utily-module.html#issequence
 pygeodesy.points.classname	pygeodesy.bases-module.html#classname
 pygeodesy.points.perimeterOf	pygeodesy.points-module.html#perimeterOf
 pygeodesy.points.scalar	pygeodesy.fmath-module.html#scalar
-pygeodesy.points.equirectangular_	pygeodesy.formy-module.html#equirectangular_
 pygeodesy.points._imdex2	pygeodesy.points-module.html#_imdex2
 pygeodesy.points.isclockwise	pygeodesy.points-module.html#isclockwise
+pygeodesy.points.degrees360	pygeodesy.utily-module.html#degrees360
 pygeodesy.points.unrollPI	pygeodesy.utily-module.html#unrollPI
 pygeodesy.points.nearestOn3	pygeodesy.points-module.html#nearestOn3
 pygeodesy.points.__package__	pygeodesy.points-module.html#__package__
@@ -486,6 +487,7 @@ pygeodesy.points.isint	pygeodesy.fmath-module.html#isint
 pygeodesy.points.isenclosedby	pygeodesy.points-module.html#isenclosedby
 pygeodesy.points.favg	pygeodesy.fmath-module.html#favg
 pygeodesy.points.areaOf	pygeodesy.points-module.html#areaOf
+pygeodesy.points.nearestOn4	pygeodesy.points-module.html#nearestOn4
 pygeodesy.points.wrap90	pygeodesy.utily-module.html#wrap90
 pygeodesy.points.isconvex	pygeodesy.points-module.html#isconvex
 pygeodesy.points.degrees2m	pygeodesy.utily-module.html#degrees2m
@@ -493,6 +495,7 @@ pygeodesy.points.bounds	pygeodesy.points-module.html#bounds
 pygeodesy.points.wrap180	pygeodesy.utily-module.html#wrap180
 pygeodesy.points.fStr	pygeodesy.fmath-module.html#fStr
 pygeodesy.points.fdot	pygeodesy.fmath-module.html#fdot
+pygeodesy.points.equirectangular_	pygeodesy.formy-module.html#equirectangular_
 pygeodesy.points.ispolar	pygeodesy.points-module.html#ispolar
 pygeodesy.points.points2	pygeodesy.utily-module.html#points2
 pygeodesy.simplify	pygeodesy.simplify-module.html
@@ -563,11 +566,11 @@ pygeodesy.sphericalTrigonometry.favg	pygeodesy.fmath-module.html#favg
 pygeodesy.sphericalTrigonometry.intersection	pygeodesy.sphericalTrigonometry-module.html#intersection
 pygeodesy.sphericalTrigonometry.degrees2m	pygeodesy.utily-module.html#degrees2m
 pygeodesy.sphericalTrigonometry.iterNumpy2	pygeodesy.utily-module.html#iterNumpy2
-pygeodesy.sphericalTrigonometry.nearestOn3	pygeodesy.points-module.html#nearestOn3
 pygeodesy.sphericalTrigonometry.fmean	pygeodesy.fmath-module.html#fmean
 pygeodesy.sphericalTrigonometry.map1	pygeodesy.fmath-module.html#map1
 pygeodesy.sphericalTrigonometry._destination2	pygeodesy.sphericalTrigonometry-module.html#_destination2
 pygeodesy.sphericalTrigonometry.ispolar	pygeodesy.sphericalTrigonometry-module.html#ispolar
+pygeodesy.sphericalTrigonometry.nearestOn4	pygeodesy.points-module.html#nearestOn4
 pygeodesy.utily	pygeodesy.utily-module.html
 pygeodesy.utily.unroll180	pygeodesy.utily-module.html#unroll180
 pygeodesy.utily.radiansPI	pygeodesy.utily-module.html#radiansPI
@@ -2000,6 +2003,7 @@ pygeodesy.sphericalBase.LatLonSphericalBase.finalBearingTo	pygeodesy.sphericalBa
 pygeodesy.bases.LatLonHeightBase.__ne__	pygeodesy.bases.LatLonHeightBase-class.html#__ne__
 pygeodesy.sphericalBase.LatLonSphericalBase.toWm	pygeodesy.sphericalBase.LatLonSphericalBase-class.html#toWm
 pygeodesy.bases.LatLonHeightBase.equals	pygeodesy.bases.LatLonHeightBase-class.html#equals
+pygeodesy.sphericalTrigonometry.LatLon.nearestOn3	pygeodesy.sphericalTrigonometry.LatLon-class.html#nearestOn3
 pygeodesy.sphericalTrigonometry.LatLon.nearestOn2	pygeodesy.sphericalTrigonometry.LatLon-class.html#nearestOn2
 pygeodesy.sphericalTrigonometry.LatLon.crossTrackDistanceTo	pygeodesy.sphericalTrigonometry.LatLon-class.html#crossTrackDistanceTo
 pygeodesy.sphericalTrigonometry.LatLon.toVector3d	pygeodesy.sphericalTrigonometry.LatLon-class.html#toVector3d

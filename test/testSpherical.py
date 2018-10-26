@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '18.10.12'
+__version__ = '18.10.24'
 
 from base import isWindows
 from testLatLon import Tests as _TestsLL
@@ -143,30 +143,36 @@ class Tests(_TestsLL, _TestsV):
             if Vct:
                 c, d = module.nearestOn2(p, b)
                 self.test('nearestOn2', c, '45.330691°N, 001.318551°E')
-                self.test('distanceTo2', d, '64856.28', fmt='%.2f')
+                self.test('distance', d, '64856.28', fmt='%.2f')
             else:
-                c, d = module.nearestOn2(p, b, adjust=False)
-                self.test('nearestOn2', c, '45.5°N, 001.5°E')
-                self.test('distanceTo2', d, '78626.79', fmt='%.2f')
-                c, d = module.nearestOn2(p, b, adjust=True)
-                self.test('nearestOn2', c, '45.331319°N, 001.331319°E')
-                self.test('distanceTo2', d, '64074.48', fmt='%.2f')
+                c, d, a = p.nearestOn3(b, adjust=False)
+                self.test('nearestOn3', c, '45.5°N, 001.5°E')
+                self.test('distance', d, '78626.79', fmt='%.2f')
+                self.test('angle', a, '315.00', fmt='%.2f')
+                a = p.compassAngleTo(c, adjust=False)
+                self.test('compassAngleTo', a, '315.00', fmt='%.2f')
+                c, d, a = p.nearestOn3(b, adjust=True)
+                self.test('nearestOn3', c, '45.331319°N, 001.331319°E')
+                self.test('distance', d, '64074.48', fmt='%.2f')
+                self.test('angle', a, '305.10', fmt='%.2f')
             d = p.distanceTo(c)
             self.test('distanceTo', d, '64856.28' if Vct else '64074.12', fmt='%.2f')
+            a = p.compassAngleTo(c)  # adjust=True
+            self.test('compassAngleTo', a, '304.54' if Vct else '305.10', fmt='%.2f')
             # TrigTrue vs Nvector closests
             p = LatLon(45.330691, 001.318551)
             d = p.distanceTo(LatLon(45.331319, 001.331319))
             self.test('difference', d, '1000.53', fmt='%.2f')  # PYCHOK test attr?
 
-            if not Vct:  # check nearestOn2 with closest on the segment
+            if not Vct:  # check nearestOn2/3 with closest on the segment
                 b = LatLon(0, 1), LatLon(2, 3), LatLon(4, 5), LatLon(6, 7), LatLon(8, 9)
                 for i in range(8):
                     p = LatLon(i + 2, i)
-                    c, d = module.nearestOn2(p, b, adjust=False)
-                    p.lat -= 1.5
-                    p.lon += 1.5
-                    self.test('nearestOn2', c.toStr(F_D, prec=6), p.toStr(F_D, prec=6))
-                    self.test('neartesOn2', d, '235880.385', fmt='%.3f')
+                    c, d, a = p.nearestOn3(b, adjust=False)
+                    q = LatLon(p.lat - 1.5, p.lon + 1.5)
+                    self.test('nearestOn3', c.toStr(F_D, prec=6), q.toStr(F_D, prec=6))
+                    self.test('distance', d, '235880.385', fmt='%.3f')
+                    self.test('angle', a, '135.00', fmt='%.2f')
 
         if hasattr(module, 'ispolar'):
             p = LatLon(85, 90), LatLon(85, 0), LatLon(85, -90), LatLon(85, -180)

@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '18.10.20'
+__version__ = '18.10.24'
 
 from base import geographiclib, TestsBase
 
@@ -274,11 +274,22 @@ class Tests(TestsBase):
             for _ in self.testiter():
                 self.test('isenclosedBy7', isenclosedBy((90, 0), p), 'True')  # PYCHOK test attr?
 
-        a = LHR.compassAngleTo(FRA)  # adjust=True
-        self.test('compassAngleTo', a, 100.016848, fmt='%.6f')
         if hasattr(LatLon, 'initialBearingTo'):
             b = LHR.initialBearingTo(FRA)
             self.test('initialBearingTo', b, 102.432182 if Sph else 102.392291, fmt='%.6f')  # PYCHOK test attr?
+        a = LHR.compassAngleTo(FRA, adjust=False)
+        self.test('compassAngleTo', a, 100.017, fmt='%.3f')
+        a = LHR.compassAngleTo(FRA)  # adjust=True
+        self.test('compassAngleTo', a, 105.599, fmt='%.3f')
+
+        if hasattr(LatLon, 'initialBearingTo'):
+            b = FRA.initialBearingTo(LHR)
+            self.test('initialBearingTo', b, 288.715918 if Sph else 288.676039, fmt='%.6f')  # PYCHOK test attr?
+        a = FRA.compassAngleTo(LHR, adjust=False)
+        self.test('compassAngleTo', a, 280.017, fmt='%.3f')
+        a = FRA.compassAngleTo(LHR)  # adjust=True
+        self.test('compassAngleTo', a, 285.599, fmt='%.3f')
+
         d = LHR.equirectangularTo(FRA)
         self.test('equirectangularTo', m2km(d), 592.185, fmt='%.3f')
         if hasattr(LatLon, 'distanceTo'):

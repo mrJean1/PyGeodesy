@@ -47,7 +47,7 @@ __all__ = ('LatLon', 'Nvector',  # classes
            'meanOf',
            'nearestOn2',
            'triangulate', 'trilaterate')
-__version__ = '18.10.18'
+__version__ = '18.10.24'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -941,9 +941,9 @@ def nearestOn2(point, points, closed=False, radius=R_M, height=None):
        @keyword height: Optional height, overriding the mean height
                         for a point within the arc (C{meter}).
 
-       @return: 2-Tuple (closest, distance) of the closest point
-                (L{LatLon}) on the polygon and the distance to that
-                that point from the given point in C{meter}, same
+       @return: 2-Tuple (I{closest}, I{distance}) of the closest point
+                (L{LatLon}) on the polygon and the I{distance} from the
+                I{closest} to the other I{point} in C{meter}, same
                 units as I{radius}.
 
        @raise TypeError: Some I{points} or the point not C{LatLon}.

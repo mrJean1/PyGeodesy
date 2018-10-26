@@ -23,7 +23,7 @@ __all__ = (  # 'Based', 'Named', 'VectorBased',
            'LatLonHeightBase',  # for documentation
            'classname', 'classnaming',
            'inStr')
-__version__ = '18.10.20'
+__version__ = '18.10.24'
 
 __X = object()  # unique instance
 
@@ -259,7 +259,7 @@ class LatLonHeightBase(Based):
         '''
         return self.compassAngleTo(other)
 
-    def compassAngleTo(self, other, adjust=False, wrap=False):
+    def compassAngleTo(self, other, adjust=True, wrap=False):
         '''Return the angle from North for the direction vector between
            this and an other point.
 

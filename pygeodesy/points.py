@@ -28,8 +28,8 @@ from bases import classname, inStr
 from fmath import EPS, favg, fdot, fStr, Fsum, fsum, \
                   isint, map1, scalar
 from formy import equirectangular_
-from utily import R_M, degrees2m, issequence, points2, property_RO, \
-                  unroll180, unrollPI, wrap90, wrap180
+from utily import R_M, degrees360, degrees2m, issequence, points2, \
+                  property_RO, unroll180, unrollPI, wrap90, wrap180
 from vector3d import CrossError, crosserrors
 
 try:
@@ -37,7 +37,7 @@ try:
 except ImportError:
     _Sequence = object  # XXX or tuple
 from inspect import isclass
-from math import cos, fmod, hypot, radians, sin
+from math import atan2, cos, fmod, hypot, radians, sin
 
 __all__ = ('LatLon_',  # classes
            'LatLon2psxy', 'Numpy2LatLon', 'Tuple2LatLon',
@@ -45,9 +45,9 @@ __all__ = ('LatLon_',  # classes
            'bounds',
            'isclockwise', 'isconvex',
            'isenclosedBy', 'isenclosedby',  # DEPRECATED
-           'ispolar', 'nearestOn3',
+           'ispolar', 'nearestOn3', 'nearestOn4',
            'perimeterOf')
-__version__ = '18.10.12'
+__version__ = '18.10.24'
 
 
 class LatLon_(object):
@@ -1175,7 +1175,47 @@ def nearestOn3(point, points, closed=False, wrap=False, **options):
 
        @raise ValueError: Insufficient number of I{points}.
 
-       @see: Function L{degrees2m} to convert C{degrees} to C{meter}.
+       @see: Function L{nearestOn4}.  Use function L{degrees2m} to
+             convert C{degrees} to C{meter}.
+    '''
+    return nearestOn4(point, points, closed=closed, wrap=wrap,
+                                   **options)[:3]
+
+
+def nearestOn4(point, points, closed=False, wrap=False, **options):
+    '''Locate the point on a polygon closest to an other point.
+
+       If the given point is within the extent of a polygon edge,
+       the closest point is on that edge, otherwise the closest
+       point is the nearest of that edge's end points.
+
+       Distances are approximated by function L{equirectangular_},
+       subject to the supplied I{options}.
+
+       @param point: The other, reference point (C{LatLon}).
+       @param points: The polygon points (C{LatLon}s).
+       @keyword closed: Optionally, close the polygon (C{bool}).
+       @keyword wrap: Wrap and L{unroll180} longitudes and longitudinal
+                      delta (C{bool}) in function L{equirectangular_}.
+       @keyword options: Other keyword arguments for function
+                         L{equirectangular_}.
+
+       @return: 4-Tuple (lat, lon, I{distance}, I{angle}) all in
+                C{degrees}.  The I{distance} is the L{equirectangular_}
+                distance between the closest and the reference I{point}
+                in C{degrees}.  The I{angle} from the reference I{point}
+                to the closest point is in compass C{degrees360}, like
+                function L{compassAngle}.
+
+       @raise LimitError: Lat- and/or longitudinal delta exceeds
+                          I{limit}, see function L{equirectangular_}.
+
+       @raise TypeError: Some I{points} are not C{LatLon}.
+
+       @raise ValueError: Insufficient number of I{points}.
+
+       @see: Function L{nearestOn3}.  Use function L{degrees2m} to
+             convert C{degrees} to C{meter}.
     '''
     n, points = points2(points, closed=closed)
 
@@ -1232,10 +1272,10 @@ def nearestOn3(point, points, closed=False, wrap=False, **options):
                         u1 = 0
                     else:  # p2 is closest
                         p1, u1 = p2, u2
-                    d2, y01, x01, _ = _d2yx(point, p1, u1, n)
+                    d2, y01, x01, _ = _d2yx(p1, point, u1, n)
             if d2 < d:  # p1 is closer
                 c, u, d, dy, dx = p1, u1, d2, y01, x01
-    return c.lat, c.lon + u, hypot(dy, dx)
+    return c.lat, c.lon + u, hypot(dx, dy), degrees360(atan2(dx, dy))
 
 
 def perimeterOf(points, closed=False, adjust=True, radius=R_M, wrap=True):

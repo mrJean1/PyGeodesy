@@ -16,7 +16,7 @@ U{Latitude/Longitude<http://www.Movable-Type.co.UK/scripts/latlong.html>}.
 from datum import R_M
 from fmath import EPS, acos1, favg, fmean, fsum, map1
 from formy import bearing_, haversine_
-from points import _imdex2, ispolar, nearestOn3
+from points import _imdex2, ispolar, nearestOn4
 from sphericalBase import LatLonSphericalBase
 from utily import PI2, PI_2, degrees90, degrees180, degrees2m, \
                   iterNumpy2, radiansPI2, tan_2, unrollPI, wrapPI
@@ -30,9 +30,9 @@ __all__ = ('LatLon',  # classes
            'areaOf',  # functions
            'intersection', 'ispolar', 'isPoleEnclosedBy',  # DEPRECATED, use ispolar
            'meanOf',
-           'nearestOn2',  # DEPRECATED, use nearestOn3
+           'nearestOn2',
            'perimeterOf')
-__version__ = '18.10.18'
+__version__ = '18.10.24'
 
 
 class LatLon(LatLonSphericalBase):
@@ -510,11 +510,11 @@ class LatLon(LatLonSphericalBase):
 
            @raise TypeError: If I{point1} or I{point2} is not L{LatLon}.
 
-           @see: Functions  L{equirectangular_}, L{nearestOn3} and
-                            L{sphericalTrigonometry.nearestOn2}.
+           @see: Functions L{equirectangular_} and L{nearestOn4} and
+                 method L{sphericalTrigonometry.nearestOn3}.
         '''
-        return nearestOn2(self, [point1, point2], closed=False, radius=radius,
-                                                  **options)[0]
+        return self.nearestOn3([point1, point2], closed=False, radius=radius,
+                                               **options)[0]
 
     def nearestOn2(self, points, closed=False, radius=R_M, **options):
         '''Locate the point on a polygon closest to this point.
@@ -530,9 +530,9 @@ class LatLon(LatLonSphericalBase):
 
            @return: 2-Tuple (I{closest}, I{distance}) of the closest
                     point (L{LatLon}) on the polygon and the distance
-                    to that point.  The I{distance} is the L{equirectangular_}
-                    distance between this and the closest point in C{meter},
-                    same units as I{radius}.
+                    to that point.  The I{distance} is the
+                    L{equirectangular_} distance between this and the
+                    closest point in C{meter}, same units as I{radius}.
 
            @raise LimitError: Lat- and/or longitudinal delta exceeds
                               I{limit}, see function L{equirectangular_}.
@@ -541,11 +541,45 @@ class LatLon(LatLonSphericalBase):
 
            @raise ValueError: Insufficient number of I{points}.
 
-           @see: Functions  L{equirectangular_}, L{nearestOn3} and
-                            L{sphericalTrigonometry.nearestOn2}.
+           @see: Functions L{equirectangular_} and L{nearestOn4} and
+                 method L{sphericalTrigonometry.nearestOn3}.
         '''
-        return nearestOn2(self, points, closed=closed, radius=radius,
-                                        **options)
+        return self.nearestOn3(points, closed=closed, radius=radius,
+                                     **options)[:2]
+
+    def nearestOn3(self, points, closed=False, radius=R_M, **options):
+        '''Locate the point on a polygon closest to this point.
+
+           Distances are approximated by function L{equirectangular_},
+           subject to the supplied I{options}.
+
+           @param points: The polygon points (L{LatLon}s).
+           @keyword closed: Optionally, close the polygon (C{bool}).
+           @keyword radius: Optional, mean earth radius (C{meter}).
+           @keyword options: Optional keyword arguments for function
+                             L{equirectangular_}.
+
+           @return: 3-Tuple (I{closest}, I{distance}, I{angle}) of the
+                    closest point (L{LatLon}) on the polygon, the distance
+                    and the compass angle to the I{closest} point.  The
+                    I{distance} is the L{equirectangular_} distance
+                    between this and the I{closest} point in C{meter},
+                    same units as I{radius}.  The I{angle} from this to
+                    the I{closest} point is in compass C{degrees360},
+                    like function L{compassAngle}.
+
+           @raise LimitError: Lat- and/or longitudinal delta exceeds
+                              I{limit}, see function L{equirectangular_}.
+
+           @raise TypeError: Some I{points} are not C{LatLon}.
+
+           @raise ValueError: Insufficient number of I{points}.
+
+           @see: Functions L{compassAngle}, L{equirectangular_} and
+                 L{nearestOn4}.
+        '''
+        a, b, d, c = nearestOn4(self, points, closed=closed, **options)
+        return self.classof(a, b), degrees2m(d, radius=radius), c
 
     def toVector3d(self):
         '''Convert this point to a vector normal to earth's surface.
@@ -775,7 +809,7 @@ def nearestOn2(point, points, closed=False, radius=R_M,
        Distances are approximated by function L{equirectangular_},
        subject to the supplied I{options}.
 
-       @param point: The other, reference points (L{LatLon}).
+       @param point: The other, reference point (L{LatLon}).
        @param points: The polygon points (L{LatLon}s).
        @keyword closed: Optionally, close the polygon (C{bool}).
        @keyword radius: Optional, mean earth radius (C{meter}).
@@ -789,7 +823,7 @@ def nearestOn2(point, points, closed=False, radius=R_M,
                 I{closest} as I{LatLon} or a 2-tuple (lat, lon) if
                 I{LatLon} is C{None}.  The I{distance} is the
                 L{equirectangular_} distance between the I{closest} and
-                reference point in C{meter}, same units as I{radius}.
+                reference I{point} in C{meter}, same units as I{radius}.
 
        @raise LimitError: Lat- and/or longitudinal delta exceeds
                           I{limit}, see function L{equirectangular_}.
@@ -800,7 +834,7 @@ def nearestOn2(point, points, closed=False, radius=R_M,
 
        @see: Functions L{equirectangular_} and L{nearestOn3}.
     '''
-    a, b, d = nearestOn3(point, points, closed=closed, **options)
+    a, b, d, _ = nearestOn4(point, points, closed=closed, **options)
     ll = (a, b) if LatLon is None else LatLon(a, b)
     return ll, degrees2m(d, radius=radius)
 
