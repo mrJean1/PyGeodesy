@@ -23,11 +23,11 @@ from math import atan2, cos, hypot, log, radians, sin
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('LatLonSphericalBase',)  # for documentation
-__version__ = '18.10.12'
+__version__ = '18.10.26'
 
 
 class LatLonSphericalBase(LatLonHeightBase):
-    '''(INTERNAL) Base class for spherical C{LatLon}s.
+    '''(INTERNAL) Base class for spherical C{LatLon}.
     '''
     _datum = Datums.Sphere  #: (INTERNAL) XXX TBD
 

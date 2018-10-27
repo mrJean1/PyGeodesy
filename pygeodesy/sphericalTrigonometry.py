@@ -32,7 +32,7 @@ __all__ = ('LatLon',  # classes
            'meanOf',
            'nearestOn2',
            'perimeterOf')
-__version__ = '18.10.24'
+__version__ = '18.10.26'
 
 
 class LatLon(LatLonSphericalBase):
@@ -381,7 +381,7 @@ class LatLon(LatLonSphericalBase):
     def isenclosedBy(self, points):
         '''Check whether a (convex) polygon encloses this point.
 
-           @param points: The polygon points (L{LatLon}s).
+           @param points: The polygon points (L{LatLon}[]).
 
            @return: C{True} if the polygon encloses this point,
                     C{False} otherwise.
@@ -511,7 +511,7 @@ class LatLon(LatLonSphericalBase):
            @raise TypeError: If I{point1} or I{point2} is not L{LatLon}.
 
            @see: Functions L{equirectangular_} and L{nearestOn4} and
-                 method L{sphericalTrigonometry.nearestOn3}.
+                 method L{sphericalTrigonometry.LatLon.nearestOn3}.
         '''
         return self.nearestOn3([point1, point2], closed=False, radius=radius,
                                                **options)[0]
@@ -522,7 +522,7 @@ class LatLon(LatLonSphericalBase):
            Distances are approximated by function L{equirectangular_},
            subject to the supplied I{options}.
 
-           @param points: The polygon points (L{LatLon}s).
+           @param points: The polygon points (L{LatLon}[]).
            @keyword closed: Optionally, close the polygon (C{bool}).
            @keyword radius: Optional, mean earth radius (C{meter}).
            @keyword options: Optional keyword arguments for function
@@ -542,7 +542,7 @@ class LatLon(LatLonSphericalBase):
            @raise ValueError: Insufficient number of I{points}.
 
            @see: Functions L{equirectangular_} and L{nearestOn4} and
-                 method L{sphericalTrigonometry.nearestOn3}.
+                 method L{sphericalTrigonometry.LatLon.nearestOn3}.
         '''
         return self.nearestOn3(points, closed=closed, radius=radius,
                                      **options)[:2]
@@ -553,7 +553,7 @@ class LatLon(LatLonSphericalBase):
            Distances are approximated by function L{equirectangular_},
            subject to the supplied I{options}.
 
-           @param points: The polygon points (L{LatLon}s).
+           @param points: The polygon points (L{LatLon}[]).
            @keyword closed: Optionally, close the polygon (C{bool}).
            @keyword radius: Optional, mean earth radius (C{meter}).
            @keyword options: Optional keyword arguments for function
@@ -620,7 +620,7 @@ def areaOf(points, radius=R_M, wrap=True):
     '''Calculate the area of a (spherical) polygon (with great circle
        arcs joining the points).
 
-       @param points: The polygon points (L{LatLon}s).
+       @param points: The polygon points (L{LatLon}[]).
        @keyword radius: Optional, mean earth radius (C{meter}).
        @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
@@ -775,7 +775,7 @@ def isPoleEnclosedBy(points, wrap=False):
 def meanOf(points, height=None, LatLon=LatLon):
     '''Compute the geographic mean of several points.
 
-       @param points: Points to be averaged (L{LatLon}s).
+       @param points: Points to be averaged (L{LatLon}[]).
        @keyword height: Optional height at mean point, overriding
                         the mean height (C{meter}).
        @keyword LatLon: Optional (sub-)class to return the mean
@@ -810,7 +810,7 @@ def nearestOn2(point, points, closed=False, radius=R_M,
        subject to the supplied I{options}.
 
        @param point: The other, reference point (L{LatLon}).
-       @param points: The polygon points (L{LatLon}s).
+       @param points: The polygon points (L{LatLon}[]).
        @keyword closed: Optionally, close the polygon (C{bool}).
        @keyword radius: Optional, mean earth radius (C{meter}).
        @keyword LatLon: Optional (sub-)class for the closest point
@@ -842,7 +842,7 @@ def nearestOn2(point, points, closed=False, radius=R_M,
 def perimeterOf(points, closed=False, radius=R_M, wrap=True):
     '''Compute the perimeter of a polygon.
 
-       @param points: The polygon points (L{LatLon}s).
+       @param points: The polygon points (L{LatLon}[]).
        @keyword closed: Optionally, close the polygon (C{bool}).
        @keyword radius: Optional, mean earth radius (C{meter}).
        @keyword wrap: Wrap and unroll longitudes (C{bool}).

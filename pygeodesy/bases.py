@@ -23,7 +23,7 @@ __all__ = (  # 'Based', 'Named', 'VectorBased',
            'LatLonHeightBase',  # for documentation
            'classname', 'classnaming',
            'inStr')
-__version__ = '18.10.24'
+__version__ = '18.10.26'
 
 __X = object()  # unique instance
 
@@ -238,7 +238,7 @@ class LatLonHeightBase(Based):
            @param high: Latitudinal box height (C{meter}, same unts as I{radius}).
            @keyword radius: Optional, mean earth radius (C{meter}).
 
-           @return: 2-Tuple (LatLonSW, LatLonNE) of (C{LatLon}s).
+           @return: 2-Tuple (LatLonSW, LatLonNE) of (C{LatLon}[]).
 
            @see: U{http://www.Movable-Type.co.UK/scripts/latlong-db.html}
         '''
@@ -545,7 +545,7 @@ class LatLonHeightBase(Based):
     def points2(self, points, closed=True):
         '''Check a polygon represented by points.
 
-           @param points: The polygon points (C{LatLon}s)
+           @param points: The polygon points (C{LatLon}[])
            @keyword closed: Optionally, consider the polygon closed,
                             ignoring any duplicate or closing final
                             I{points} (C{bool}).
@@ -615,7 +615,7 @@ class LatLonHeightBase(Based):
 
 
 class VectorBased(Based):
-    '''(INTERNAL) Base class for I{Vector3d}s.
+    '''(INTERNAL) Base class for I{Vector3d}.
     '''
     def __init__(self, name='', **unused):
         if name:

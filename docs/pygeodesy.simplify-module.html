@@ -181,7 +181,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.10.12
+        18.10.26
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -385,7 +385,7 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - Path points (<code>LatLon</code>s).</li>
+        <li><strong class="pname"><code>points</code></strong> - Path points (<code>LatLon</code>[]).</li>
         <li><strong class="pname"><code>distance</code></strong> - Tolerance (<code>meter</code>, same units as <i>radius</i>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
         <li><strong class="pname"><code>indices</code></strong> - Optionally return the simplified point indices instead of the 
@@ -395,7 +395,7 @@
           class="link">equirectangular_</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Simplified points (list of <code>LatLon</code>s).</dd>
+        <dd>Simplified points (<code>LatLon</code>[]).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
@@ -435,7 +435,7 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - Path points (<code>LatLon</code>s).</li>
+        <li><strong class="pname"><code>points</code></strong> - Path points (<code>LatLon</code>[]).</li>
         <li><strong class="pname"><code>distance</code></strong> - Tolerance (<code>meter</code>, same units as <i>radius</i>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
         <li><strong class="pname"><code>shortest</code></strong> - Optional, shortest or perpendicular distance (<code>bool</code>).</li>
@@ -446,7 +446,7 @@
           class="link">equirectangular_</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Simplified points (list of <code>LatLon</code>s).</dd>
+        <dd>Simplified points (<code>LatLon</code>[]).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
@@ -486,7 +486,7 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - Path points (<code>LatLon</code>s).</li>
+        <li><strong class="pname"><code>points</code></strong> - Path points (<code>LatLon</code>[]).</li>
         <li><strong class="pname"><code>distance</code></strong> - Tolerance (<code>meter</code>, same units as <i>radius</i>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
         <li><strong class="pname"><code>shortest</code></strong> - Optional, shortest or perpendicular distance (<code>bool</code>).</li>
@@ -497,7 +497,7 @@
           class="link">equirectangular_</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Simplified points (list of <code>LatLon</code>s).</dd>
+        <dd>Simplified points (<code>LatLon</code>[]).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
@@ -534,7 +534,7 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - Path points (<code>LatLon</code>s).</li>
+        <li><strong class="pname"><code>points</code></strong> - Path points (<code>LatLon</code>[]).</li>
         <li><strong class="pname"><code>pipe</code></strong> - Half pipe width (<code>meter</code>, same units as 
           <i>radius</i>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
@@ -546,7 +546,7 @@
           class="link">equirectangular_</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Simplified points (list of <code>LatLon</code>s).</dd>
+        <dd>Simplified points (<code>LatLon</code>[]).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
@@ -586,7 +586,7 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - Path points (<code>LatLon</code>s).</li>
+        <li><strong class="pname"><code>points</code></strong> - Path points (<code>LatLon</code>[]).</li>
         <li><strong class="pname"><code>area</code></strong> - Tolerance (<code>meter</code>, same units as <i>radius</i>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
         <li><strong class="pname"><code>attr</code></strong> - Optional, points attribute save area value (<code>str</code>).</li>
@@ -597,7 +597,7 @@
           class="link">equirectangular_</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Simplified points (list of <code>LatLon</code>s).</dd>
+        <dd>Simplified points (<code>LatLon</code>[]).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>AttributeError</strong></code> - If <i>attr</i> is specified for <i>Numpy2</i> points.</li>
@@ -638,7 +638,7 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - Path points (<code>LatLon</code>s).</li>
+        <li><strong class="pname"><code>points</code></strong> - Path points (<code>LatLon</code>[]).</li>
         <li><strong class="pname"><code>area</code></strong> - Tolerance (<code>meter</code>, same units as <i>radius</i>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
         <li><strong class="pname"><code>attr</code></strong> - Optional attribute to save the area value (<code>str</code>).</li>
@@ -649,7 +649,7 @@
           class="link">equirectangular_</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Simplified points (list of <code>LatLon</code>s).</dd>
+        <dd>Simplified points (<code>LatLon</code>[]).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>AttributeError</strong></code> - If <i>attr</i> is specified for <i>Numpy2</i> points.</li>
@@ -693,7 +693,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Oct 26 13:57:44 2018
+    Generated by Epydoc 3.0.1 on Sat Oct 27 15:39:38 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

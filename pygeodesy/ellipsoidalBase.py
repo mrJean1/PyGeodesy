@@ -24,11 +24,11 @@ from math import atan2, copysign, cos, sin, sqrt
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('CartesianBase', 'LatLonEllipsoidalBase')  # for documentation
-__version__ = '18.10.12'
+__version__ = '18.10.26'
 
 
 class CartesianBase(Vector3d):
-    '''(INTERNAL) Base class for ellipsoidal I{Cartesian}s.
+    '''(INTERNAL) Base class for ellipsoidal I{Cartesian}.
     '''
 
     def _applyHelmert(self, transform, inverse=False):
@@ -119,7 +119,7 @@ class CartesianBase(Vector3d):
 
 
 class LatLonEllipsoidalBase(LatLonHeightBase):
-    '''(INTERNAL) Base class for ellipsoidal C{LatLon}s.
+    '''(INTERNAL) Base class for ellipsoidal C{LatLon}.
     '''
     _convergence  = None  #: (INTERNAL) UTM meridian convergence (C{degrees}).
     _datum        = Datums.WGS84  #: (INTERNAL) Datum (L{Datum}).
@@ -270,7 +270,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
     def elevation2(self, adjust=True, datum=Datums.WGS84, timeout=2):
         '''Return elevation of this point for its or the given datum.
 
-           @keyword adjust: Adjust the elevation for I{datum}s other
+           @keyword adjust: Adjust the elevation for a I{datum} other
                             than C{NAD83}.
            @keyword datum: Optional datum (L{Datum}).
            @keyword timeout: Optional query timeout (seconds).
@@ -333,7 +333,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
     def geoidHeight2(self, adjust=False, datum=Datums.WGS84, timeout=2):
         '''Return geoid height of this point for its or the given datum.
 
-           @keyword adjust: Adjust the geoid height for I{datum}s other
+           @keyword adjust: Adjust the geoid height for a I{datum} other
                             than C{NAD83/NADV88}.
            @keyword datum: Optional datum (L{Datum}).
            @keyword timeout: Optional query timeout (seconds).

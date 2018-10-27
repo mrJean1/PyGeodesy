@@ -36,7 +36,7 @@ __all__ = ('PI', 'PI2', 'PI_2', 'R_M',  # constants
            'unroll180', 'unrollPI', 'unStr',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '18.10.16'
+__version__ = '18.10.26'
 
 division = 1 / 2  # double check int division, see .datum.py
 if not division:
@@ -191,7 +191,7 @@ def halfs(str2):
 
        @param str2: String to split (C{str}).
 
-       @return: 2-Tuple (1st, 2nd) half (C{str}s).
+       @return: 2-Tuple (1st, 2nd) half (C{str}).
 
        @raise ValueError: Zero or odd C{len}(I{str2}).
     '''
@@ -229,7 +229,7 @@ def issequence(obj, *excluded):
     '''Check for sequence types.
 
        @param obj: The object (any C{type}).
-       @param excluded: Optional, exclusions (C{type}s).
+       @param excluded: Optional, exclusions (C{type}).
 
        @note: Excluding C{tuple} implies excluding C{namedtuple}.
 
@@ -365,7 +365,7 @@ def m2SM(meter):
 def points2(points, closed=True, base=None):
     '''Check a polygon represented by points.
 
-       @param points: The polygon points (C{LatLon}s)
+       @param points: The polygon points (C{LatLon}[])
        @keyword closed: Optionally, consider the polygon closed,
                         ignoring any duplicate or closing final
                         I{points} (C{bool}).

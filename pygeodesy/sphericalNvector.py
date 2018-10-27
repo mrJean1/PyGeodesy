@@ -47,7 +47,7 @@ __all__ = ('LatLon', 'Nvector',  # classes
            'meanOf',
            'nearestOn2',
            'triangulate', 'trilaterate')
-__version__ = '18.10.24'
+__version__ = '18.10.26'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -417,7 +417,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
     def isenclosedBy(self, points):
         '''Check whether this point is enclosed by a (convex) polygon.
 
-           @param points: The polygon points (L{LatLon}s).
+           @param points: The polygon points (L{LatLon}[]).
 
            @return: C{True} if the polygon encloses this point,
                     C{False} otherwise.
@@ -597,7 +597,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            arc, the closest point is on that arc.  Otherwise,
            the closest is the nearest of the arc's end points.
 
-           @param points: The polygon points (L{LatLon}s).
+           @param points: The polygon points (L{LatLon}[]).
            @keyword closed: Optionally, close the polygon (C{bool}).
            @keyword radius: Optional, mean earth radius (C{meter}).
            @keyword height: Optional height, overriding the mean height
@@ -771,7 +771,7 @@ def areaOf(points, radius=R_M):
     '''Calculate the area of a (spherical) polygon (with great circle
        arcs joining consecutive points).
 
-       @param points: The polygon points (L{LatLon}s).
+       @param points: The polygon points (L{LatLon}[]).
        @keyword radius: Optional, mean earth radius (C{meter}).
 
        @return: Polygon area (C{meter}, same units as I{radius}, squared).
@@ -910,7 +910,7 @@ def intersection(start1, end1, start2, end2,
 def meanOf(points, height=None, LatLon=LatLon):
     '''Compute the geographic mean of the supplied points.
 
-       @param points: Array of points to be averaged (L{LatLon}s).
+       @param points: Array of points to be averaged (L{LatLon}[]).
        @keyword height: Optional height, overriding the mean height (C{meter}).
        @keyword LatLon: Optional (sub-)class for the mean point (L{LatLon}).
 
@@ -935,7 +935,7 @@ def nearestOn2(point, points, closed=False, radius=R_M, height=None):
        closest is the nearest of the arc's end points.
 
        @param point: The other, reference point (L{LatLon}).
-       @param points: The polygon points (L{LatLon}s).
+       @param points: The polygon points (L{LatLon}[]).
        @keyword closed: Optionally, close the polygon (C{bool}).
        @keyword radius: Optional, mean earth radius (C{meter}).
        @keyword height: Optional height, overriding the mean height

@@ -132,7 +132,7 @@ def elevation2(lat, lon, timeout=2.0):
              and U{USGS10mElev.py<http://gist.GitHub.com/pyRobShrk?page=2>}.
     '''
     try:
-        x = _qURL('http://NED.USGS.gov/epqs/pqs.php',
+        x = _qURL('http://NED.USGS.gov/epqs/',
                          'x=%.6f' % (lon,),
                          'y=%.6f' % (lat,),
                          'units=Meters',

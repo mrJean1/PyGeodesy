@@ -37,7 +37,7 @@ from math import asin, atan2, cos, radians, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '18.10.16'
+__version__ = '18.10.26'
 
 
 class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
@@ -50,7 +50,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
     '''
     _Nv  = None  #: (INTERNAL) Cache toNvector (L{Nvector}).
 #   _v3d = None  #: (INTERNAL) Cache toVector3d (L{Vector3d}).
-    _r3  = None  #: (INTERNAL) Cache _rotation3 (3-Tuple L{Nvector}s).
+    _r3  = None  #: (INTERNAL) Cache _rotation3 (3-Tuple L{Nvector}).
 
     def _rotation3(self):
         '''(INTERNAL) Build the rotation matrix from n-vector
@@ -726,7 +726,7 @@ class Nvector(NvectorBase):
 def meanOf(points, datum=Datums.WGS84, height=None, LatLon=LatLon):
     '''Compute the geographic mean of several points.
 
-       @param points: Points to be averaged (L{LatLon}s).
+       @param points: Points to be averaged (L{LatLon}[]).
        @keyword datum: Optional datum to use (L{Datum}).
        @keyword height: Optional height at mean point, overriding
                         the mean height (C{meter}).

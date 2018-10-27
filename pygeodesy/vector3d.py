@@ -22,7 +22,7 @@ from math import atan2, cos, sin
 __all__ = ('CrossError', 'Vector3d',  # classes
            'crosserrors',
            'sumOf')  # functions
-__version__ = '18.10.12'
+__version__ = '18.10.26'
 
 try:
     _cmp = cmp
@@ -587,7 +587,7 @@ class Vector3d(VectorBased):
     def to3xyz(self):
         '''Return this vector as a 3-tuple.
 
-           @return: 3-Tuple (x, y, z) as (C{float}s).
+           @return: 3-Tuple (x, y, z) as (C{float}).
         '''
         return self.x, self.y, self.z
 

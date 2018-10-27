@@ -37,7 +37,7 @@ from utily import points2, property_RO, unroll180, \
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon',  # classes
            'areaOf', 'ispolar', 'perimeterOf')  # functions
-__version__ = '18.10.16'
+__version__ = '18.10.26'
 
 
 class LatLon(LatLonEllipsoidalBase):
@@ -377,7 +377,7 @@ def _geodesic(datum, points, closed, line, wrap):
 def areaOf(points, datum=Datums.WGS84, wrap=True):
     '''Compute the area of a polygon.
 
-       @param points: The polygon points (L{LatLon}s).
+       @param points: The polygon points (L{LatLon}[]).
        @keyword datum: Optional datum (L{Datum}).
        @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
@@ -404,7 +404,7 @@ def areaOf(points, datum=Datums.WGS84, wrap=True):
 def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):
     '''Compute the perimeter of a polygon.
 
-       @param points: The polygon points (L{LatLon}s).
+       @param points: The polygon points (L{LatLon}[]).
        @keyword closed: Optionally, close the polygon (C{bool}).
        @keyword datum: Optional datum (L{Datum}).
        @keyword wrap: Wrap and unroll longitudes (C{bool}).

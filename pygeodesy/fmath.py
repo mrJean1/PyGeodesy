@@ -23,7 +23,7 @@ __all__ = ('EPS', 'EPS1',  # constants
            'len2',
            'map1', 'map2',
            'scalar', 'sqrt3')
-__version__ = '18.10.16'
+__version__ = '18.10.26'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -297,9 +297,9 @@ def fdot3(a, b, c, start=0):
     '''Return the precision dot product M{start +
        sum(a[i] * b[i] * c[i] for i=0..len(a))}.
 
-       @param a: List, sequence, tuple, etc. (C{scalar}s).
-       @param b: List, sequence, tuple, etc. (C{scalar}s).
-       @param c: List, sequence, tuple, etc. (C{scalar}s).
+       @param a: List, sequence, tuple, etc. (C{scalar}[]).
+       @param b: List, sequence, tuple, etc. (C{scalar}[]).
+       @param c: List, sequence, tuple, etc. (C{scalar}[]).
        @keyword start: Optional bias (C{scalar}).
 
        @return: Dot product (C{float}).
@@ -325,7 +325,7 @@ def fhorner(x, *cs):
        i=0..len(cs))} using the Horner form.
 
        @param x: Polynomial argument (C{scalar}).
-       @param cs: Polynomial coeffients (C{scalar}s).
+       @param cs: Polynomial coeffients (C{scalar}[]).
 
        @return: Horner value (C{float}).
 
@@ -370,7 +370,7 @@ def fpolynomial(x, *cs):
        i=0..len(cs))}.
 
        @param x: Polynomial argument (C{scalar}).
-       @param cs: Polynomial coeffients (C{scalar}s).
+       @param cs: Polynomial coeffients (C{scalar}[]).
 
        @return: Polynomial value (C{float}).
 
@@ -403,7 +403,7 @@ def fpowers(x, n, alts=0):
        @keyword alts: Only alternating powers, starting
                       with this exponent (C{int}).
 
-       @return: Powers of I{x} (C{list} of C{float}s).
+       @return: Powers of I{x} (C{float}[]).
 
        @raise TypeError: Non-scalar I{x} or I{n} not C{int}.
 
@@ -475,15 +475,15 @@ def fStrzs(fstr):
 def fsum_(*args):
     '''Precision floating point sum of the positional argument vulues.
 
-       @param args: Values to be added (C{scalar}s).
+       @param args: Values to be added (C{scalar}[]).
 
        @return: Accurate L{fsum} (C{float}).
 
        @raise OverflowError: Partial C{2sum} overflow.
 
-       @raise TypeError: Non-scalar I{arg}s value.
+       @raise TypeError: Non-scalar I{arg} value.
 
-       @raise ValueError: Invalid or infinite I{arg}s value.
+       @raise ValueError: Invalid or infinite I{arg} value.
     '''
     return fsum(args)
 
@@ -505,7 +505,7 @@ except ImportError:
 
            Exception and I{non-finite} handling differs from C{math.fsum}.
 
-           @param iterable: Values to be added (C{scalar}s).
+           @param iterable: Values to be added (C{scalar}[]).
 
            @return: Accurate C{sum} (C{float}).
 

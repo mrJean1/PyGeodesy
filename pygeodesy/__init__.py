@@ -75,7 +75,7 @@ Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 2.7.10
 3.6.2, 3.6.3, 3.6.4, 3.6.5, 3.7.0 and U{Intel-Python
 <http://software.Intel.com/en-us/distribution-for-python>} 3.5.3 (and
 U{numpy<http://PyPI.org/project/numpy>} 1.11.3) on MacOS X 10.10 Yosemite,
-MacOS X 10.11 El Capitan, macOS 10.12 Sierra, macOS 10.13 High Sierra and
+MacOS X 10.11 El Capitan, macOS 10.12 Sierra, macOS 10.13.5 High Sierra and
 macOS 10.14 Mojave, with U{Pythonista 3.1<http://OMZ-Software.com/pythonista>}
 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4, with U{Pythonista 3.2
 <http://OMZ-Software.com/pythonista>} on iOS 11.4.1 and 12.0 on iPad4,
@@ -216,7 +216,7 @@ __all__ = ('bases', 'datum', 'dms', 'elevations',  # modules
            'pygeodesy_abspath',
            'version',
            'crosserrors')  # extended below
-__version__ = '18.10.24'
+__version__ = '18.10.26'
 
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))

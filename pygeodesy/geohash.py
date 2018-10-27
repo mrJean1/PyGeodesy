@@ -29,7 +29,7 @@ __all__ = ('Geohash',  # classes
            'bounds', 'decode', 'decode_error',  # functions
            'distance1', 'distance2', 'distance3',
            'encode', 'neighbors', 'sizes')
-__version__ = '18.10.12'
+__version__ = '18.10.26'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -197,7 +197,7 @@ class Geohash(str, Named):
            @param LatLon: Class to use (C{LatLon}).
            @keyword kwds: Optional keyword arguments for I{LatLon}.
 
-           @return: 2-Tuple (LatLonSW, LatLonNE) of I{LatLon}s for
+           @return: 2-Tuple (LatLonSW, LatLonNE) of I{LatLon} for
                     the lower-left respectively upper-right corner.
         '''
         if not self._bounds:
@@ -462,7 +462,7 @@ def decode(geohash):
 
        @param geohash: To be decoded (L{Geohash}).
 
-       @return: 2-Tuple (latStr, lonStr) in (C{str}s).
+       @return: 2-Tuple (latStr, lonStr) in (C{str}).
 
        @raise TypeError: The I{geohash} is not a L{Geohash}, C{LatLon}
                          or C{str}.
