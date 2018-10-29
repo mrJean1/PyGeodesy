@@ -76,7 +76,7 @@ latter is required for module *ellipsoidalKarney* classes *LatLon* and
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Oct 26, 2018.*
+*Last updated: Oct 28, 2018.*
 
 .. image:: https://Img.Shields.io/pypi/pyversions/PyGeodesy.svg?label=Python
    :target: http://PyPI.org/project/PyGeodesy
@@ -90,6 +90,8 @@ cases documentation tag **JS name:** shows the original JavaScript name.
    :target: http://PyPI.org/project/PyGeodesy
 .. image:: https://Img.Shields.io/pypi/wheel/PyGeodesy.svg
    :target: http://PyPI.org/project/PyGeodesy/#files
+.. image:: https://Img.Shields.io/pypi/l/PyGeodesy.svg
+   :target: http://PyPI.org/project/PyGeodesy
 
 .. _checked: http://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor
 .. _Debian 8: http://Travis-CI.org/mrJean1/PyGeodesy

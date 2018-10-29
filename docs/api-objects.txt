@@ -230,10 +230,10 @@ pygeodesy.dms._rangerrors	pygeodesy.dms-module.html#_rangerrors
 pygeodesy.dms.normDMS	pygeodesy.dms-module.html#normDMS
 pygeodesy.dms.parseDMS2	pygeodesy.dms-module.html#parseDMS2
 pygeodesy.dms.precision	pygeodesy.dms-module.html#precision
-pygeodesy.dms._M_X	pygeodesy.dms-module.html#_M_X
 pygeodesy.dms._F_prec	pygeodesy.dms-module.html#_F_prec
 pygeodesy.dms.toDMS	pygeodesy.dms-module.html#toDMS
 pygeodesy.dms.rangerrors	pygeodesy.dms-module.html#rangerrors
+pygeodesy.dms._MXF	pygeodesy.dms-module.html#_MXF
 pygeodesy.dms.compassPoint	pygeodesy.dms-module.html#compassPoint
 pygeodesy.dms.F_DM	pygeodesy.dms-module.html#F_DM
 pygeodesy.dms.compassDMS	pygeodesy.dms-module.html#compassDMS

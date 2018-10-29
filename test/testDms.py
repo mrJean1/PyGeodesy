@@ -4,7 +4,7 @@
 # Test degrees, minutes, seconds functions.
 
 __all__ = ('Tests',)
-__version__ = '18.09.20'
+__version__ = '18.09.28'
 
 from base import TestsBase
 
@@ -74,15 +74,52 @@ class Tests(TestsBase):
                      ((237,),   'WSW'),
                      ((237, 1), 'W'),
                      ((237, 2), 'SW'),
-                     ((237, 3), 'WSW')):
-            self.test('compassPoint', compassPoint(*a), x)
+                     ((237, 3), 'WSW'),
+                     # Martin Schultz
+                     ((11.25,), 'NNE'),
+                     ((11.249,), 'N'),
+                     ((-11.25,), 'N'),
+                     ((348.749,), 'NNW'),
+                     ((45, 1), 'E'),
+                     ((44.99, 1), 'N'),
+                     ((45, 2), 'NE'),
+                     ((44.99, 2), 'NE'),
+                     ((45, 3), 'NE'),
+                     ((44.99, 3), 'NE'),
+                     ((45, 4), 'NE'),
+                     ((44.99, 4), 'NE'),  # XXX
+                     ((22.5, 1), 'N'),
+                     ((22.49, 1), 'N'),
+                     ((22.5, 2), 'NE'),
+                     ((22.49, 2), 'N'),
+                     ((22.5, 3), 'NNE'),
+                     ((22.49, 3), 'NNE'),
+                     ((22.5, 4), 'NNE'),
+                     ((22.49, 4), 'NNE'),  # XXX
+                     ((11.25, 1), 'N'),
+                     ((11.249, 1), 'N'),
+                     ((11.25, 2), 'N'),
+                     ((11.249, 2), 'N'),
+                     ((11.25, 3), 'NNE'),
+                     ((11.249, 3), 'N'),
+                     ((11.25, 4), 'NbE'),
+                     ((11.249, 4), 'NbE'),  # XXX
+                     # examples
+                     ((24, 1), 'N'),
+                     ((24, 2), 'NE'),
+                     ((24, 3), 'NNE'),
+                     ((24,),   'NNE'),
+                     ((18, 3), 'NNE'),
+                     ((11, 4), 'NbE'),
+                     ((30, 4), 'NEbN')):
+            self.test('compassPoint%s' % (a,), compassPoint(*a), x)
 
         for a, x in enumerate(('NbE', 'NEbN', 'NEbE', 'EbN',
                                'EbS', 'SEbE', 'SEbS', 'SbE',
                                'SbW', 'SWbS', 'SWbW', 'WbS',
                                'WbN', 'NWbW', 'NWbN', 'NbW')):
             a = 11.25 + a * 22.5
-            self.test('compassPoint', compassPoint(a, 4), x)
+            self.test('compassPoint(%s)' % (a,), compassPoint(a, 4), x)
 
 
 if __name__ == '__main__':
