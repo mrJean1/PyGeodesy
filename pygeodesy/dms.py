@@ -29,7 +29,7 @@ __all__ = ('F_D', 'F_DM', 'F_DMS',  # forms
            'latDMS', 'lonDMS', 'normDMS',
            'parseDMS', 'parseDMS2', 'parse3llh', 'precision',
            'rangerrors', 'toDMS')
-__version__ = '18.10.28'
+__version__ = '18.10.29'
 
 F_D   = 'd'    #: Format degrees as deg° (C{str}).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (C{str}).
@@ -127,7 +127,7 @@ def bearingDMS(bearing, form=F_D, prec=None, sep=S_SEP):
                       but kept for negative I{prec} values.
        @keyword sep: Optional separator (C{str}).
 
-       @return: Compass degrees per the specified form (C{str}).
+       @return: Compass degrees per the specified I{form} (C{str}).
 
        @JSname: I{toBrng}.
     '''
@@ -179,7 +179,7 @@ _COMPASS = ('N', 'NbE', 'NNE', 'NEbN', 'NE', 'NEbE', 'ENE', 'EbN',
             'S', 'SbW', 'SSW', 'SWbS', 'SW', 'SWbW', 'WSW', 'WbS',
             'W', 'WbN', 'WNW', 'NWbW', 'NW', 'NWbN', 'NNW', 'NbW')  #: (INTERNAL) points
 
-_MXF = (4, 8, 45.0), (8, 4, 22.5), (16, 2, 11.25), (32, 1, 5.625)  #: (INTERNAL) [prec-1]
+_M_X = {1: (4, 8), 2: (8, 4), 3: (16, 2), 4: (32, 1)}  #: (INTERNAL) [prec]
 
 
 def compassPoint(bearing, prec=3):
@@ -195,7 +195,9 @@ def compassPoint(bearing, prec=3):
 
        @raise ValueError: Invalid I{prec}.
 
-       @see: U{Compass rose<http://WikiPedia.org/wiki/Compass_rose>}
+       @see: U{Dms.compassPoint
+             <http://GitHub.com/chrisveness/geodesy/blob/master/dms.js>}
+             and U{Compass rose<http://WikiPedia.org/wiki/Compass_rose>}.
 
        @example:
 
@@ -206,17 +208,17 @@ def compassPoint(bearing, prec=3):
        >>> p = compassPoint(11, 4)  # 'NbE'
        >>> p = compassPoint(30, 4)  # 'NEbN'
 
-       >>> p = compassPoint(11.249)  # 'N’
+       >>> p = compassPoint(11.249)  # 'N'
        >>> p = compassPoint(11.25)   # 'NNE'
        >>> p = compassPoint(-11.25)  # 'N'
        >>> p = compassPoint(348.749) # 'NNW'
     '''
-    try:  # m = 2 << prec; x = 32 // m; f = 180.0 / m
-        m, x, f = _MXF[prec - 1]
-    except (IndexError, TypeError):
+    try:  # m = 2 << prec; x = 32 // m
+        m, x = _M_X[prec]
+    except KeyError:
         raise ValueError('invalid %s: %r' % ('prec', prec))
-
-    q = int(((bearing % 360) + f) * m / 360.0) % m
+    # using round() fails due to round-to-even in Python 3
+    q = int((bearing % 360) * m / 360.0 + 0.5) % m
     return _COMPASS[q * x]
 
 
