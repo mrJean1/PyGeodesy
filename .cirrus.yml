@@ -13,4 +13,5 @@ test_task:
     - python -c 'import distro; print(distro.id(), repr(distro.name()), distro.version())'
     - python -c 'import platform; print(platform.uname())'
     - python -c 'import geographiclib; print("geographiclib " + geographiclib.__version__)'
-    - python test/run.py -failedonly
+    - python -B test/run.py -failedonly
+    - env PYGEODESY_LAZY_IMPORT=0 python -B test/run.py -failedonly

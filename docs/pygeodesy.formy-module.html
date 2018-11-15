@@ -63,7 +63,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.10.20
+        18.11.07
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -102,8 +102,7 @@
         <span class="summary-sig-arg">lon1</span>,
         <span class="summary-sig-arg">lat2</span>,
         <span class="summary-sig-arg">lon2</span>,
-        <span class="summary-sig-arg">final</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">**options</span>)</span><br />
       Compute the initial or final bearing (forward or reverse azimuth) 
       between a (spherical) start and end point.</td>
           <td align="right" valign="top">
@@ -176,6 +175,27 @@
       Compute the distance between two points using the <a 
       href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
       target="_top">Equirectangular Approximation / Projection</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#equirectangular3" class="summary-sig-name">equirectangular3</a>(<span class="summary-sig-arg">lat1</span>,
+        <span class="summary-sig-arg">lon1</span>,
+        <span class="summary-sig-arg">lat2</span>,
+        <span class="summary-sig-arg">lon2</span>,
+        <span class="summary-sig-arg">**options</span>)</span><br />
+      DEPRECATED, use function <code>equirectangular_</code>.</td>
           <td align="right" valign="top">
             
             
@@ -373,8 +393,7 @@
         <span class="sig-arg">lon1</span>,
         <span class="sig-arg">lat2</span>,
         <span class="sig-arg">lon2</span>,
-        <span class="sig-arg">final</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">**options</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -390,9 +409,9 @@
         <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>final</code></strong> - Return final or initial bearing (<code>bool</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">unroll180</a> longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments for function <a 
+          href="pygeodesy.formy-module.html#bearing_" 
+          class="link">bearing_</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Initial or final bearing (compass <code>degrees360</code>) or 
@@ -428,9 +447,10 @@
         <li><strong class="pname"><code>b1</code></strong> - Start longitude (<code>radians</code>).</li>
         <li><strong class="pname"><code>a2</code></strong> - End latitude (<code>radians</code>).</li>
         <li><strong class="pname"><code>b2</code></strong> - End longitude (<code>radians</code>).</li>
-        <li><strong class="pname"><code>final</code></strong> - Return final or initial bearing (<code>bool</code>).</li>
+        <li><strong class="pname"><code>final</code></strong> - Return final bearing if <code>True</code>, initial otherwise 
+          (<code>bool</code>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unrollPI" 
-          class="link">unrollPI</a>  longitudes (<code>bool</code>).</li>
+          class="link">unrollPI</a> longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Initial or final bearing (compass <code>radiansPI2</code>) or 
@@ -530,6 +550,31 @@
         distance functions.
       </p>
 </div></td></tr></table>
+</div>
+<a name="equirectangular3"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">equirectangular3</span>(<span class="sig-arg">lat1</span>,
+        <span class="sig-arg">lon1</span>,
+        <span class="sig-arg">lat2</span>,
+        <span class="sig-arg">lon2</span>,
+        <span class="sig-arg">**options</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>DEPRECATED, use function <code>equirectangular_</code>.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>3-Tuple (distance2, delta_lat, delta_lon).</dd>
+  </dl>
+</td></tr></table>
 </div>
 <a name="equirectangular_"></a>
 <div>
@@ -844,7 +889,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Oct 30 09:40:15 2018
+    Generated by Epydoc 3.0.1 on Wed Nov 14 16:52:30 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

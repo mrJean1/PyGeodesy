@@ -66,7 +66,7 @@ from math import atan2, cos, radians, sin, tan
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'VincentyError',  # classes
            'ispolar')  # functions
-__version__ = '18.10.12'
+__version__ = '18.11.07'
 
 division = 1 / 2  # double check int division, see .datum.py
 if not division:
@@ -554,6 +554,20 @@ class Cartesian(CartesianBase):
                     is C{None}.
         '''
         return CartesianBase._toLLhd(self, LatLon, datum)
+
+
+def areaOf(points, datum=Datums.WGS84, wrap=True):
+    '''DEPRECATED, use function C{ellipsoidalKarney.areaOf}.
+    '''
+    from ellipsoidalKarney import areaOf
+    return areaOf(points, datum=datum, wrap=wrap)
+
+
+def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):
+    '''DEPRECATED, use function C{ellipsoidalKarney.perimeterOf}.
+    '''
+    from ellipsoidalKarney import perimeterOf
+    return perimeterOf(points, closed=closed, datum=datum, wrap=wrap)
 
 # **) MIT License
 #

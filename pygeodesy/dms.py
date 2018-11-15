@@ -29,7 +29,7 @@ __all__ = ('F_D', 'F_DM', 'F_DMS',  # forms
            'latDMS', 'lonDMS', 'normDMS',
            'parseDMS', 'parseDMS2', 'parse3llh', 'precision',
            'rangerrors', 'toDMS')
-__version__ = '18.10.29'
+__version__ = '18.11.01'
 
 F_D   = 'd'    #: Format degrees as deg° (C{str}).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (C{str}).
@@ -174,14 +174,6 @@ def compassDMS(bearing, form=F_D, prec=None, sep=S_SEP):
     return sep.join(t)
 
 
-_COMPASS = ('N', 'NbE', 'NNE', 'NEbN', 'NE', 'NEbE', 'ENE', 'EbN',
-            'E', 'EbS', 'ESE', 'SEbE', 'SE', 'SEbS', 'SSE', 'SbE',
-            'S', 'SbW', 'SSW', 'SWbS', 'SW', 'SWbW', 'WSW', 'WbS',
-            'W', 'WbN', 'WNW', 'NWbW', 'NW', 'NWbN', 'NNW', 'NbW')  #: (INTERNAL) points
-
-_M_X = {1: (4, 8), 2: (8, 4), 3: (16, 2), 4: (32, 1)}  #: (INTERNAL) [prec]
-
-
 def compassPoint(bearing, prec=3):
     '''Convert bearing to a compass point.
 
@@ -214,12 +206,21 @@ def compassPoint(bearing, prec=3):
        >>> p = compassPoint(348.749) # 'NNW'
     '''
     try:  # m = 2 << prec; x = 32 // m
-        m, x = _M_X[prec]
+        m, x = _MOD_X[prec]
     except KeyError:
         raise ValueError('invalid %s: %r' % ('prec', prec))
-    # using round() fails due to round-to-even in Python 3
+    # not round(), i.e. half-even rounding in Python 3,
+    # but round-away-from-zero as int(b + 0.5) iff b is
+    # non-negative, otherwise int(b + copysign(0.5, b))
     q = int((bearing % 360) * m / 360.0 + 0.5) % m
-    return _COMPASS[q * x]
+    return _WINDS[q * x]
+
+
+_MOD_X = {1: (4, 8), 2: (8, 4), 3: (16, 2), 4: (32, 1)}  #: (INTERNAL) [prec]
+_WINDS = ('N', 'NbE', 'NNE', 'NEbN', 'NE', 'NEbE', 'ENE', 'EbN',
+          'E', 'EbS', 'ESE', 'SEbE', 'SE', 'SEbS', 'SSE', 'SbE',
+          'S', 'SbW', 'SSW', 'SWbS', 'SW', 'SWbW', 'WSW', 'WbS',
+          'W', 'WbN', 'WNW', 'NWbW', 'NW', 'NWbN', 'NNW', 'NbW')  #: (INTERNAL) cardinals
 
 
 def latDMS(deg, form=F_DMS, prec=2, sep=S_SEP):

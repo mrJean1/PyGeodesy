@@ -8,6 +8,7 @@
 # and <http://www.Movable-Type.co.UK/scripts/latlong.html>.
 
 from inspect import isclass, isfunction, ismethod, ismodule
+from os import getenv
 from os.path import abspath, basename, dirname
 from platform import architecture, java_ver, mac_ver, win32_ver, uname
 import sys
@@ -29,17 +30,17 @@ PyGeodesy_dir = dirname(test_dir)
 if PyGeodesy_dir not in sys.path:  # Python 3+ ModuleNotFoundError
     sys.path.insert(0, PyGeodesy_dir)
 
-from pygeodesy import anStr, iterNumpy2over, normDMS, \
+from pygeodesy import anStr, isLazy, iterNumpy2over, normDMS, \
                       version as PyGeodesy_version  # PYCHOK expected
 
 __all__ = ('geographiclib', 'numpy',  # constants
-           'isIntelPython', 'isiOS', 'isNix', 'isPyPy',
-           'isPython2', 'isPython3', 'isWindows',
+           'isIntelPython', 'isiOS', 'ismacOS', 'isNix', 'isPyPy',
+           'isPython2', 'isPython3', 'isPython37', 'isWindows',
            'PyGeodesy_dir', 'PythonX',
            'TestsBase',  # classes
            'ios_ver', 'secs2str',  # functions
            'test_dir', 'tilde', 'type2str', 'versions')
-__version__ = '18.09.28'
+__version__ = '18.11.10'
 
 try:
     _Ints = int, long
@@ -56,10 +57,12 @@ PythonX = sys.executable  # python or Pythonista path
 isIntelPython = 'intelpython' in PythonX
 # isiOS is used by some tests known to fail on iOS only
 isiOS         = sys.platform == 'ios'  # public
+ismacOS       = sys.platform == 'darwin'  # public
 isNix         = uname()[0] in ('Linux', 'linux')
-isPyPy        = '[PyPy ' in sys.version  # platform.python_implementatio() == 'PyPy'
+isPyPy        = '[PyPy ' in sys.version  # platform.python_implementation() == 'PyPy'
 isPython2     = sys.version_info[0] == 2
 isPython3     = sys.version_info[0] == 3
+isPython37    = sys.version_info[:2] >= (3, 7)  # for testLazy
 isWindows     = sys.platform.startswith('win')
 
 try:
@@ -224,7 +227,11 @@ class TestsBase(object):
                                      module.__version__)
         else:
             m = ''
-        self.printf('testing %s %s%s', test, version, m, nl=1)
+        if isLazy:
+            z = ' isLazy=%s' % (isLazy,)
+        else:
+            z = ''
+        self.printf('testing %s %s%s%s', test, version, m, z, nl=1)
 
 
 if isiOS:
@@ -324,5 +331,11 @@ def versions():
         if r:
             vs += t, r
             break
+
+    if isinstance(isLazy, int):
+        vs += 'isLazy', str(isLazy)
+
+    if getenv('PYTHONDONTWRITEBYTECODE', None):
+        vs += 'B',
 
     return ' '.join(vs)

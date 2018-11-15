@@ -144,7 +144,8 @@
   3.6.6 and 3.7.0 (all with <a href="http://PyPI.org/project/geographiclib"
   target="_top">geographiclib</a> 1.49) on <a 
   href="http://CI.AppVeyor.com/project/mrJean1/pygeodesy" 
-  target="_top">Windows Server 2012R2</a> in 32- and 64-bit.</p>
+  target="_top">Windows Server 2012R2</a> in 32- and 64-bit.  The tests are
+  run with and without lazy import on Python 3.7.0 and 3.7.1.</p>
   <p>Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 
   2.7.10 (and numpy 1.8.0rc1), 2.7.13, 2.7.14 (and numpy 1.13.1 or 1.14.0),
   3.5.3, 3.6.2, 3.6.3, 3.6.4, 3.6.5, 3.7.0 and <a 
@@ -207,7 +208,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.10.29
+        18.11.12
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -267,15 +268,16 @@
         class="link">Cartesian</a> and <a 
         href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html" 
         class="link">VincentyError</a> and functions <a 
-        href="pygeodesy.ellipsoidalKarney-module.html#areaOf" 
-        class="link">areaOf</a> and <a 
-        href="pygeodesy.ellipsoidalKarney-module.html#perimeterOf" 
-        class="link">perimeterOf</a>.</em>    </li>
+        href="pygeodesy.ellipsoidalVincenty-module.html#areaOf" 
+        class="link" onclick="show_private();">areaOf</a> and <a 
+        href="pygeodesy.ellipsoidalVincenty-module.html#perimeterOf" 
+        class="link" onclick="show_private();">perimeterOf</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.fmath-module.html">pygeodesy.fmath</a></strong>: <em class="summary">Precision mathematical functions, utilities and constants.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.formy-module.html">pygeodesy.formy</a></strong>: <em class="summary">Formulary of basic geodesy functions and approximations.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geohash-module.html">pygeodesy.geohash</a></strong>: <em class="summary">Class <a href="pygeodesy.geohash.Geohash-class.html" 
         class="link">Geohash</a> and several functions to encode, decode 
         and inspect <i>geohashes</i>.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.lazily-module.html">pygeodesy.lazily</a></strong>: <em class="summary">Lazily import <code>pygeodesy</code> modules and attributes.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.lcc-module.html">pygeodesy.lcc</a></strong>: <em class="summary">Lambert conformal conic projection for 1- or 2-Standard Parallels 
         class <a href="pygeodesy.lcc.Conic-class.html" 
         class="link">Conic</a>, <a href="pygeodesy.lcc-module.html#Conics" 
@@ -360,6 +362,14 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Classes</span></td>
 </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.lazily.LazyImportError-class.html" class="summary-name">LazyImportError</a><br />
+      Lazy import is not supported, disabled or failed some other way.
+    </td>
+  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -585,6 +595,47 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#areaof" class="summary-sig-name">areaof</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Approximate the area of a polygon.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#perimeterof" class="summary-sig-name">perimeterof</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Approximate the perimeter of a polygon.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a name="acos1"></a><span class="summary-sig-name">acos1</span>(<span class="summary-sig-arg">x</span>)</span><br />
       Return <i class="math">math.acos(max(-1, min(1, x)))</i>.</td>
           <td align="right" valign="top">
@@ -664,8 +715,7 @@
         <span class="summary-sig-arg">lon1</span>,
         <span class="summary-sig-arg">lat2</span>,
         <span class="summary-sig-arg">lon2</span>,
-        <span class="summary-sig-arg">final</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">**options</span>)</span><br />
       Compute the initial or final bearing (forward or reverse azimuth) 
       between a (spherical) start and end point.</td>
           <td align="right" valign="top">
@@ -1029,6 +1079,27 @@
       Compute the distance between two points using the <a 
       href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
       target="_top">Equirectangular Approximation / Projection</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#equirectangular3" class="summary-sig-name">equirectangular3</a>(<span class="summary-sig-arg">lat1</span>,
+        <span class="summary-sig-arg">lon1</span>,
+        <span class="summary-sig-arg">lat2</span>,
+        <span class="summary-sig-arg">lon2</span>,
+        <span class="summary-sig-arg">**options</span>)</span><br />
+      DEPRECATED, use function <code>equirectangular_</code>.</td>
           <td align="right" valign="top">
             
             
@@ -2920,7 +2991,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'18.10.29'"><code class="variable-quote">'</code><code class="variable-string">18.10.29</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'18.11.12'"><code class="variable-quote">'</code><code class="variable-string">18.11.12</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -3190,6 +3261,14 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
       Registered transforms (<code>enum-like</code>).
     </td>
   </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="isLazy"></a><span class="summary-name">isLazy</span> = <code title="None">None</code><br />
+      hash(x)
+    </td>
+  </tr>
 </table>
 <!-- ==================== FUNCTION DETAILS ==================== -->
 <a name="section-FunctionDetails"></a>
@@ -3227,6 +3306,110 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <dd>Previous setting (<code>bool</code>).</dd>
   </dl>
 </td></tr></table>
+</div>
+<a name="areaof"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">areaof</span>(<span class="sig-arg">points</span>,
+        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Approximate the area of a polygon.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>[]).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
+          the mean latitude (<code>bool</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Approximate area (<code>meter</code>, same units as 
+          <i>radius</i>, squared).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <code>LatLon</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        This is an area approximation with limited accuracy, ill-suited for
+        regions exceeding several hundred Km or Miles or with near-polar 
+        latitudes.
+      </p>
+      <p><strong>See Also:</strong>
+        <a href="pygeodesy.sphericalNvector-module.html#areaOf" 
+        class="link">sphericalNvector.areaOf</a>, <a 
+        href="pygeodesy.sphericalTrigonometry-module.html#areaOf" 
+        class="link">sphericalTrigonometry.areaOf</a> and <a 
+        href="pygeodesy.ellipsoidalKarney-module.html#areaOf" 
+        class="link">ellipsoidalKarney.areaOf</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="perimeterof"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">perimeterof</span>(<span class="sig-arg">points</span>,
+        <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Approximate the perimeter of a polygon.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>[]).</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the polygon (<code>bool</code>).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
+          the mean latitude (<code>bool</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Approximate perimeter (<code>meter</code>, same units as 
+          <i>radius</i>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <code>LatLon</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        This perimeter is based on the <a 
+        href="pygeodesy.formy-module.html#equirectangular_" 
+        class="link">equirectangular_</a> distance approximation and is 
+        ill-suited for regions exceeding several hundred Km or Miles or 
+        with near-polar latitudes.
+      </p>
+      <p><strong>See Also:</strong>
+        <a href="pygeodesy.sphericalTrigonometry-module.html#perimeterOf" 
+        class="link">sphericalTrigonometry.perimeterOf</a> and <a 
+        href="pygeodesy.ellipsoidalKarney-module.html#perimeterOf" 
+        class="link">ellipsoidalKarney.perimeterOf</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="anStr"></a>
 <div>
@@ -3357,8 +3540,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">lon1</span>,
         <span class="sig-arg">lat2</span>,
         <span class="sig-arg">lon2</span>,
-        <span class="sig-arg">final</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">**options</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3374,9 +3556,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>final</code></strong> - Return final or initial bearing (<code>bool</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">unroll180</a> longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments for function <a 
+          href="pygeodesy.formy-module.html#bearing_" 
+          class="link">bearing_</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Initial or final bearing (compass <code>degrees360</code>) or 
@@ -3457,9 +3639,10 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>b1</code></strong> - Start longitude (<code>radians</code>).</li>
         <li><strong class="pname"><code>a2</code></strong> - End latitude (<code>radians</code>).</li>
         <li><strong class="pname"><code>b2</code></strong> - End longitude (<code>radians</code>).</li>
-        <li><strong class="pname"><code>final</code></strong> - Return final or initial bearing (<code>bool</code>).</li>
+        <li><strong class="pname"><code>final</code></strong> - Return final bearing if <code>True</code>, initial otherwise 
+          (<code>bool</code>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unrollPI" 
-          class="link">unrollPI</a>  longitudes (<code>bool</code>).</li>
+          class="link">unrollPI</a> longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Initial or final bearing (compass <code>radiansPI2</code>) or 
@@ -4034,6 +4217,31 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         distance functions.
       </p>
 </div></td></tr></table>
+</div>
+<a name="equirectangular3"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">equirectangular3</span>(<span class="sig-arg">lat1</span>,
+        <span class="sig-arg">lon1</span>,
+        <span class="sig-arg">lat2</span>,
+        <span class="sig-arg">lon2</span>,
+        <span class="sig-arg">**options</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>DEPRECATED, use function <code>equirectangular_</code>.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>3-Tuple (distance2, delta_lat, delta_lon).</dd>
+  </dl>
+</td></tr></table>
 </div>
 <a name="equirectangular_"></a>
 <div>
@@ -6780,7 +6988,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Cubid square root (<code>float</code>).</dd>
+        <dd>Cubed square root (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Negative <i>x</i>.</li>
@@ -7590,7 +7798,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Oct 30 09:40:15 2018
+    Generated by Epydoc 3.0.1 on Wed Nov 14 16:52:30 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

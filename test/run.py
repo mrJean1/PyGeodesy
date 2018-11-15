@@ -14,7 +14,7 @@ from os import environ, linesep as NL
 import sys
 
 __all__ = ('run2',)
-__version__ = '18.09.28'
+__version__ = '18.11.10'
 
 if isiOS:  # MCCABE 14
 
@@ -109,9 +109,9 @@ _failedonly = False
 _raiser     = False
 _results    = False  # or file
 _verbose    = False
-
-_T = 0  # total tests
-_X = 0  # failed tests
+_E = ''  # -B -Z -z
+_T = 0   # total tests
+_X = 0   # failed tests
 
 
 def _exit(last, text, exit):
@@ -129,7 +129,7 @@ def _run(test):
     '''
     global _T, _X
 
-    t = 'running %s %s' % (PythonX_O, tilde(test))
+    t = 'running%s %s %s' % (_E, PythonX_O, tilde(test))
     print(t)
 
     x, r = run2(test)
@@ -186,8 +186,10 @@ if __name__ == '__main__':  # MCCABE 16
     while args and args[0].startswith('-'):
         arg = args.pop(0)
         if '-help'.startswith(arg):
-            print('usage: %s [-failedonly] [-raiser] [-results] [-verbose] [test/test...py ...]' % (argv0,))
+            print('usage: %s [-B] [-failedonly] [-raiser] [-results] [-verbose] [-Z[0-9]] [test/test...py ...]' % (argv0,))
             sys.exit(0)
+        elif arg.startswith('-B'):
+            environ['PYTHONDONTWRITEBYTECODE'] = arg[2:]
         elif '-failedonly'.startswith(arg):
             _failedonly = True
         elif '-raiser'.startswith(arg):
@@ -196,6 +198,8 @@ if __name__ == '__main__':  # MCCABE 16
             _results = True
         elif '-verbose'.startswith(arg):
             _verbose = True
+        elif arg.startswith('-Z'):
+            environ['PYGEODESY_LAZY_IMPORT'] = arg[2:]
         else:
             print('%s invalid option: %s' % (argv0, arg))
             sys.exit(1)

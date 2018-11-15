@@ -12,6 +12,7 @@ pygeodesy.R_MB	pygeodesy-module.html#R_MB
 pygeodesy.R_MA	pygeodesy-module.html#R_MA
 pygeodesy.fStrzs	pygeodesy-module.html#fStrzs
 pygeodesy.equirectangular	pygeodesy-module.html#equirectangular
+pygeodesy.areaof	pygeodesy-module.html#areaof
 pygeodesy.S_SEC	pygeodesy-module.html#S_SEC
 pygeodesy.crosserrors	pygeodesy-module.html#crosserrors
 pygeodesy.degrees180	pygeodesy-module.html#degrees180
@@ -33,6 +34,7 @@ pygeodesy.issequence	pygeodesy-module.html#issequence
 pygeodesy.parseDMS	pygeodesy-module.html#parseDMS
 pygeodesy.bearingDMS	pygeodesy-module.html#bearingDMS
 pygeodesy.Transforms	pygeodesy-module.html#Transforms
+pygeodesy.isLazy	pygeodesy-module.html#isLazy
 pygeodesy.radiansPI_2	pygeodesy-module.html#radiansPI_2
 pygeodesy.isfinite	pygeodesy-module.html#isfinite
 pygeodesy.R_FM	pygeodesy-module.html#R_FM
@@ -46,6 +48,7 @@ pygeodesy.R_KM	pygeodesy-module.html#R_KM
 pygeodesy.m2ft	pygeodesy-module.html#m2ft
 pygeodesy.simplifyVWm	pygeodesy-module.html#simplifyVWm
 pygeodesy.PI_2	pygeodesy-module.html#PI_2
+pygeodesy.perimeterof	pygeodesy-module.html#perimeterof
 pygeodesy.parseWM	pygeodesy-module.html#parseWM
 pygeodesy.version	pygeodesy-module.html#version
 pygeodesy.clipDMS	pygeodesy-module.html#clipDMS
@@ -207,6 +210,7 @@ pygeodesy.datum.m2NM	pygeodesy.utily-module.html#m2NM
 pygeodesy.datum.R_VM	pygeodesy.datum-module.html#R_VM
 pygeodesy.datum.fdot	pygeodesy.fmath-module.html#fdot
 pygeodesy.dms	pygeodesy.dms-module.html
+pygeodesy.dms._MOD_X	pygeodesy.dms-module.html#_MOD_X
 pygeodesy.dms.F_DEG	pygeodesy.dms-module.html#F_DEG
 pygeodesy.dms.lonDMS	pygeodesy.dms-module.html#lonDMS
 pygeodesy.dms.F_SEC	pygeodesy.dms-module.html#F_SEC
@@ -214,7 +218,6 @@ pygeodesy.dms.S_MIN	pygeodesy.dms-module.html#S_MIN
 pygeodesy.dms.F_RAD	pygeodesy.dms-module.html#F_RAD
 pygeodesy.dms.F_D	pygeodesy.dms-module.html#F_D
 pygeodesy.dms.S_RAD	pygeodesy.dms-module.html#S_RAD
-pygeodesy.dms._COMPASS	pygeodesy.dms-module.html#_COMPASS
 pygeodesy.dms.S_SEP	pygeodesy.dms-module.html#S_SEP
 pygeodesy.dms.fStrzs	pygeodesy.fmath-module.html#fStrzs
 pygeodesy.dms.F_MIN	pygeodesy.dms-module.html#F_MIN
@@ -230,10 +233,10 @@ pygeodesy.dms._rangerrors	pygeodesy.dms-module.html#_rangerrors
 pygeodesy.dms.normDMS	pygeodesy.dms-module.html#normDMS
 pygeodesy.dms.parseDMS2	pygeodesy.dms-module.html#parseDMS2
 pygeodesy.dms.precision	pygeodesy.dms-module.html#precision
-pygeodesy.dms._M_X	pygeodesy.dms-module.html#_M_X
 pygeodesy.dms._F_prec	pygeodesy.dms-module.html#_F_prec
 pygeodesy.dms.toDMS	pygeodesy.dms-module.html#toDMS
 pygeodesy.dms.rangerrors	pygeodesy.dms-module.html#rangerrors
+pygeodesy.dms._WINDS	pygeodesy.dms-module.html#_WINDS
 pygeodesy.dms.compassPoint	pygeodesy.dms-module.html#compassPoint
 pygeodesy.dms.F_DM	pygeodesy.dms-module.html#F_DM
 pygeodesy.dms.compassDMS	pygeodesy.dms-module.html#compassDMS
@@ -296,6 +299,7 @@ pygeodesy.ellipsoidalNvector.fdot	pygeodesy.fmath-module.html#fdot
 pygeodesy.ellipsoidalVincenty	pygeodesy.ellipsoidalVincenty-module.html
 pygeodesy.ellipsoidalVincenty._dl	pygeodesy.ellipsoidalVincenty-module.html#_dl
 pygeodesy.ellipsoidalVincenty.unroll180	pygeodesy.utily-module.html#unroll180
+pygeodesy.ellipsoidalVincenty.perimeterOf	pygeodesy.ellipsoidalVincenty-module.html#perimeterOf
 pygeodesy.ellipsoidalVincenty.scalar	pygeodesy.fmath-module.html#scalar
 pygeodesy.ellipsoidalVincenty.hypot	pygeodesy.fmath-module.html#hypot
 pygeodesy.ellipsoidalVincenty.degrees90	pygeodesy.utily-module.html#degrees90
@@ -303,6 +307,7 @@ pygeodesy.ellipsoidalVincenty._ds	pygeodesy.ellipsoidalVincenty-module.html#_ds
 pygeodesy.ellipsoidalVincenty.degrees360	pygeodesy.utily-module.html#degrees360
 pygeodesy.ellipsoidalVincenty.__package__	pygeodesy.ellipsoidalVincenty-module.html#__package__
 pygeodesy.ellipsoidalVincenty.degrees180	pygeodesy.utily-module.html#degrees180
+pygeodesy.ellipsoidalVincenty.areaOf	pygeodesy.ellipsoidalVincenty-module.html#areaOf
 pygeodesy.ellipsoidalVincenty.fpolynomial	pygeodesy.fmath-module.html#fpolynomial
 pygeodesy.ellipsoidalVincenty._p2	pygeodesy.ellipsoidalVincenty-module.html#_p2
 pygeodesy.ellipsoidalVincenty.ispolar	pygeodesy.ellipsoidalVincenty-module.html#ispolar
@@ -345,6 +350,7 @@ pygeodesy.fmath._2_3rd	pygeodesy.fmath-module.html#_2_3rd
 pygeodesy.formy	pygeodesy.formy-module.html
 pygeodesy.formy.bearing	pygeodesy.formy-module.html#bearing
 pygeodesy.formy.unroll180	pygeodesy.utily-module.html#unroll180
+pygeodesy.formy.equirectangular3	pygeodesy.formy-module.html#equirectangular3
 pygeodesy.formy.equirectangular	pygeodesy.formy-module.html#equirectangular
 pygeodesy.formy.haversine	pygeodesy.formy-module.html#haversine
 pygeodesy.formy.equirectangular_	pygeodesy.formy-module.html#equirectangular_
@@ -394,6 +400,12 @@ pygeodesy.geohash.map2	pygeodesy.fmath-module.html#map2
 pygeodesy.geohash.fStr	pygeodesy.fmath-module.html#fStr
 pygeodesy.geohash._2geostr	pygeodesy.geohash-module.html#_2geostr
 pygeodesy.geohash.equirectangular_	pygeodesy.formy-module.html#equirectangular_
+pygeodesy.lazily	pygeodesy.lazily-module.html
+pygeodesy.lazily.__package__	pygeodesy.lazily-module.html#__package__
+pygeodesy.lazily._all_missing2	pygeodesy.lazily-module.html#_all_missing2
+pygeodesy.lazily.isLazy	pygeodesy.lazily-module.html#isLazy
+pygeodesy.lazily._lazy_import2	pygeodesy.lazily-module.html#_lazy_import2
+pygeodesy.lazily._all_imports	pygeodesy.lazily-module.html#_all_imports
 pygeodesy.lcc	pygeodesy.lcc-module.html
 pygeodesy.lcc.Conics	pygeodesy.lcc-module.html#Conics
 pygeodesy.lcc.hypot	pygeodesy.fmath-module.html#hypot
@@ -1511,6 +1523,8 @@ pygeodesy.geohash.Geohash.__repr__	pygeodesy.geohash.Geohash-class.html#__repr__
 pygeodesy.geohash.Geohash.E	pygeodesy.geohash.Geohash-class.html#E
 pygeodesy.geohash.Geohash.distance2To	pygeodesy.geohash.Geohash-class.html#distance2To
 pygeodesy.geohash.Geohash.distance1To	pygeodesy.geohash.Geohash-class.html#distance1To
+pygeodesy.lazily.LazyImportError	pygeodesy.lazily.LazyImportError-class.html
+pygeodesy.lazily.LazyImportError.__init__	pygeodesy.lazily.LazyImportError-class.html#__init__
 pygeodesy.lcc.Conic	pygeodesy.lcc.Conic-class.html
 pygeodesy.lcc.Conic._n_	pygeodesy.lcc.Conic-class.html#_n_
 pygeodesy.lcc.Conic.toStr	pygeodesy.lcc.Conic-class.html#toStr

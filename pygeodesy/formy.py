@@ -18,10 +18,11 @@ __all__ = ('antipode',
            'bearing', 'bearing_',
            'compassAngle',
            'equirectangular', 'equirectangular_',
+           'equirectangular3',  # DEPRECATED
            'haversine', 'haversine_',  # XXX removed 'hsin', 'hsin3',
            'heightOf', 'horizon',
            'isantipode')
-__version__ = '18.10.20'
+__version__ = '18.11.07'
 
 
 def antipode(lat, lon):
@@ -39,7 +40,7 @@ def antipode(lat, lon):
     return -lat, wrap180(lon + 180)
 
 
-def bearing(lat1, lon1, lat2, lon2, final=False, wrap=False):
+def bearing(lat1, lon1, lat2, lon2, **options):
     '''Compute the initial or final bearing (forward or reverse
        azimuth) between a (spherical) start and end point.
 
@@ -47,14 +48,14 @@ def bearing(lat1, lon1, lat2, lon2, final=False, wrap=False):
        @param lon1: Start longitude (C{degrees}).
        @param lat2: End latitude (C{degrees}).
        @param lon2: End longitude (C{degrees}).
-       @keyword final: Return final or initial bearing (C{bool}).
-       @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
+       @keyword options: Optional keyword arguments for function
+                         L{bearing_}.
 
        @return: Initial or final bearing (compass C{degrees360}) or
                 zero if start and end point coincide.
     '''
-    a1, b1, a2, b2 = map1(radians, lat1, lon1, lat2, lon2)
-    return degrees(bearing_(a1, b1, a2, b2, final=final, wrap=wrap))
+    ab4 = map1(radians, lat1, lon1, lat2, lon2)
+    return degrees(bearing_(*ab4, **options))
 
 
 def bearing_(a1, b1, a2, b2, final=False, wrap=False):
@@ -65,8 +66,9 @@ def bearing_(a1, b1, a2, b2, final=False, wrap=False):
        @param b1: Start longitude (C{radians}).
        @param a2: End latitude (C{radians}).
        @param b2: End longitude (C{radians}).
-       @keyword final: Return final or initial bearing (C{bool}).
-       @keyword wrap: Wrap and L{unrollPI}  longitudes (C{bool}).
+       @keyword final: Return final bearing if C{True}, initial
+                       otherwise (C{bool}).
+       @keyword wrap: Wrap and L{unrollPI} longitudes (C{bool}).
 
        @return: Initial or final bearing (compass C{radiansPI2}) or
                 zero if start and end point coincide.
@@ -85,7 +87,7 @@ def bearing_(a1, b1, a2, b2, final=False, wrap=False):
     x = ca1 * sa2 - sa1 * ca2 * cdb
     y = sdb * ca2
 
-    return (atan2(y, x) + r) % PI2
+    return (atan2(y, x) + r) % PI2  # wrapPI2
 
 
 def compassAngle(lat1, lon1, lat2, lon2, adjust=True, wrap=False):
@@ -139,6 +141,14 @@ def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **options):
     '''
     _, dy, dx, _ = equirectangular_(lat1, lon1, lat2, lon2, **options)
     return degrees2m(hypot(dx, dy), radius=radius)
+
+
+def equirectangular3(lat1, lon1, lat2, lon2, **options):
+    '''DEPRECATED, use function C{equirectangular_}.
+
+       @return: 3-Tuple (distance2, delta_lat, delta_lon).
+    '''
+    return equirectangular_(lat1, lon1, lat2, lon2, **options)[:3]
 
 
 def equirectangular_(lat1, lon1, lat2, lon2,

@@ -23,7 +23,7 @@ __all__ = ('EPS', 'EPS1',  # constants
            'len2',
            'map1', 'map2',
            'scalar', 'sqrt3')
-__version__ = '18.10.26'
+__version__ = '18.10.31'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -221,7 +221,7 @@ class Fsum(object):
                 i -= 1
                 s, p = _2sum(s, ps[i])
                 ps[i:] = [s]
-                if p:  # sum(ps) became inexaxt
+                if p:  # sum(ps) became inexact
                     ps.append(p)
                     if i > 0:  # half-even round if signs match
                         s = _2even(s, ps[i-1], p)
@@ -680,7 +680,7 @@ def sqrt3(x):
 
        @param x: Value (C{scalar}).
 
-       @return: Cubid square root (C{float}).
+       @return: Cubed square root (C{float}).
 
        @raise ValueError: Negative I{x}.
 

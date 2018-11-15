@@ -45,7 +45,9 @@ with PyPy_ 6.0.0 (Python 2.7.13 and 3.5.3) on macOS 10.13.6 High Sierra,
 with Python 2.6.9, 2.7.14, 3.5.6 and 3.6.3 (and geographiclib_ 1.49) on
 `Debian 8`_ and with Python 3.7.0 (and geographiclib_ 1.49) on
 `Debian 9`_, all in 64-bit only and with Python 2.7.15, 3.6.6 and 3.7.0
-(all with geographiclib_ 1.49) on `Windows Server 2012R2`_ in 32- and 64-bit.
+(all with geographiclib_ 1.49) on `Windows Server 2012R2`_ in 32- and
+64-bit.  The tests are run with and without lazy import on Python 3.7.0
+and 3.7.1.
 
 Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 2.7.10
 (and numpy 1.8.0rc1), 2.7.13, 2.7.14 (and numpy 1.13.1 or 1.14.0), 3.5.3,
@@ -76,7 +78,7 @@ latter is required for module *ellipsoidalKarney* classes *LatLon* and
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Oct 29, 2018.*
+*Last updated: Nov 12, 2018.*
 
 .. image:: https://Img.Shields.io/pypi/pyversions/PyGeodesy.svg?label=Python
    :target: http://PyPI.org/project/PyGeodesy

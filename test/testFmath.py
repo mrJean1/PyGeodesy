@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '18.09.18'
+__version__ = '18.10.31'
 
 from base import TestsBase
 from random import random, gauss, shuffle
@@ -47,6 +47,12 @@ class Tests(TestsBase):
         self.test('sum', sum(t), s, known=True)
         self.test('fsum', fsum(t), s)
         self.test('Fsum', Fsum().fsum(t), s)
+
+        # <http://GitHub.com/python/cpython/blob/master/Modules/mathmodule.c>
+        t = 1e-16, 1, 1e16
+        s = '1.0000000000000002e+16'  # half-even rounded
+        self.test('fsum', fsum(t), s, fmt='%.16e')
+        self.test('Fsum', Fsum().fsum(t), s, fmt='%.16e')
 
         # <http://GitHub.com/ActiveState/code/blob/master/recipes/Python/
         #       393090_Binary_floating_point_summatiaccurate_full/recipe-393090.py>

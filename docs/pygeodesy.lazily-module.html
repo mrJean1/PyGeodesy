@@ -3,7 +3,7 @@
           "DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>pygeodesy.ellipsoidalVincenty.VincentyError</title>
+  <title>pygeodesy.lazily</title>
   <link rel="stylesheet" href="epydoc.css" type="text/css" />
   <script type="text/javascript" src="epydoc.js"></script>
 </head>
@@ -43,8 +43,7 @@
     <td width="100%">
       <span class="breadcrumbs">
         <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
-        <a href="pygeodesy.ellipsoidalVincenty-module.html">Module&nbsp;ellipsoidalVincenty</a> ::
-        Class&nbsp;VincentyError
+        Module&nbsp;lazily
       </span>
     </td>
     <td>
@@ -52,85 +51,70 @@
         <!-- hide/show private -->
         <tr><td align="right"><span class="options"
             >[<a href="frames.html" target="_top">frames</a
-            >]&nbsp;|&nbsp;<a href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html"
+            >]&nbsp;|&nbsp;<a href="pygeodesy.lazily-module.html"
             target="_top">no&nbsp;frames</a>]</span></td></tr>
       </table>
     </td>
   </tr>
 </table>
-<!-- ==================== CLASS DESCRIPTION ==================== -->
-<h1 class="epydoc">Class VincentyError</h1><p class="nomargin-top"></p>
-<pre class="base-tree">
-              object --+                
-                       |                
-exceptions.BaseException --+            
-                           |            
-        exceptions.Exception --+        
-                               |        
-        exceptions.StandardError --+    
-                                   |    
-               exceptions.ValueError --+
-                                       |
-                                      <strong class="uidshort">VincentyError</strong>
-</pre>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module lazily</h1><p class="nomargin-top"></p>
+<p>Lazily import <code>pygeodesy</code> modules and attributes.</p>
+  <p><i>Lazy import is supported only for <a 
+  href="http://Snarky.CA/lazy-importing-in-python-3-7" target="_top">Python
+  3.7+</a> and is enabled by default in <a 
+  href="http://PyPI.org/project/PyGeodesy" target="_top">PyGeodesy 
+  18.11.10+</a></i>.</p>
+  <p>To disable lazy import set environment variable 
+  <code>PYGEODESY_LAZY_IMPORT</code> to <code>0</code> or an empty string.
+  Use <code>2</code> or higher to print a message for each lazily imported 
+  module and attribute, similar to environment variable 
+  <code>PYTHONVERBOSE</code> showing all imports.</p>
+  <p>Lazy import only applies to top-level modules of 
+  <code>pygeodesy</code>.  A lazy import of a top-level module also loads 
+  all sub-modules imported by that top-level module.</p>
+  <p>Based on <a href="http://modutil.ReadTheDocs.io/en/latest/" 
+  target="_top">modutil.lazy_import</a> by Brett Cannon's <a 
+  href="http://PyPI.org/project/modutil" target="_top">modutil</a>.</p>
 
 <hr />
-<p>Error raised from Vincenty's direct and inverse methods for coincident
-  points or lack of convergence.</p>
-
-<!-- ==================== INSTANCE METHODS ==================== -->
-<a name="section-InstanceMethods"></a>
+<div class="fields">      <p><strong>Version:</strong>
+        18.11.12
+      </p>
+</div><!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
 <table class="summary" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr bgcolor="#70b0f0" class="table-header">
   <td align="left" colspan="2" class="table-header">
-    <span class="table-header">Instance Methods</span></td>
+    <span class="table-header">Classes</span></td>
 </tr>
-  <tr>
-    <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>exceptions.ValueError</code></b>:
-      <code>__init__</code>,
-      <code>__new__</code>
-      </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code>exceptions.BaseException</code></b>:
-      <code>__delattr__</code>,
-      <code>__getattribute__</code>,
-      <code>__getitem__</code>,
-      <code>__getslice__</code>,
-      <code>__reduce__</code>,
-      <code>__repr__</code>,
-      <code>__setattr__</code>,
-      <code>__setstate__</code>,
-      <code>__str__</code>,
-      <code>__unicode__</code>
-      </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
-      <code>__format__</code>,
-      <code>__hash__</code>,
-      <code>__reduce_ex__</code>,
-      <code>__sizeof__</code>,
-      <code>__subclasshook__</code>
-      </p>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.lazily.LazyImportError-class.html" class="summary-name">LazyImportError</a><br />
+      Lazy import is not supported, disabled or failed some other way.
     </td>
   </tr>
 </table>
-<!-- ==================== PROPERTIES ==================== -->
-<a name="section-Properties"></a>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
 <table class="summary" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr bgcolor="#70b0f0" class="table-header">
   <td align="left" colspan="2" class="table-header">
-    <span class="table-header">Properties</span></td>
+    <span class="table-header">Variables</span></td>
 </tr>
-  <tr>
-    <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>exceptions.BaseException</code></b>:
-      <code>args</code>,
-      <code>message</code>
-      </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
-      <code>__class__</code>
-      </p>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="isLazy"></a><span class="summary-name">isLazy</span> = <code title="None">None</code><br />
+      Lazy import setting (<code>int</code>) from 
+      <code>PYGEODESY_LAZY_IMPORT</code>, <code>None</code> if lazy import 
+      is not supported or not enabled, or <code>False</code> if 
+      initializing lazy import failed.
     </td>
   </tr>
 </table>
@@ -165,7 +149,7 @@ exceptions.BaseException --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Nov 14 16:52:31 2018
+    Generated by Epydoc 3.0.1 on Wed Nov 14 16:52:30 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

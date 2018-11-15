@@ -68,7 +68,8 @@ on U{Debian 9<http://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>},
 all in 64-bit only and with Python 2.7.15, 3.6.6 and 3.7.0 (all with
 U{geographiclib<http://PyPI.org/project/geographiclib>} 1.49) on
 U{Windows Server 2012R2<http://CI.AppVeyor.com/project/mrJean1/pygeodesy>}
-in 32- and 64-bit.
+in 32- and 64-bit.  The tests are run with and without lazy import on
+Python 3.7.0 and 3.7.1.
 
 Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 2.7.10
 (and numpy 1.8.0rc1), 2.7.13, 2.7.14 (and numpy 1.13.1 or 1.14.0), 3.5.3,
@@ -171,10 +172,14 @@ OTHER DEALINGS IN THE SOFTWARE.}
 
 '''
 
-from os.path import abspath, basename, dirname, splitext
+from os.path import abspath, basename, dirname
 
 _init_abspath     = abspath(__file__)
 pygeodesy_abspath = dirname(_init_abspath)
+
+__version__ = '18.11.12'
+# see setup.py for similar logic
+version = '.'.join(map(str, map(int, __version__.split('.'))))
 
 # setting __path__ should make ...
 __path__ = [pygeodesy_abspath]
@@ -189,117 +194,118 @@ except ImportError:  # ... if it doesn't, extend
     sys.path.insert(0, pygeodesy_abspath)  # XXX __path__[0]
     del sys
 
-# keep ellipsoidal, spherical and vector modules as sub-modules
-import ellipsoidalKarney  # PYCHOK false
-import ellipsoidalNvector  # PYCHOK false
-import ellipsoidalVincenty  # PYCHOK false
-import geohash
-import nvector  # PYCHOK false
-import sphericalNvector  # PYCHOK false
-import sphericalTrigonometry  # PYCHOK false
-import vector3d  # PYCHOK false
+try:  # lazily requires Python 3.7+, see lazily.__doc__
+    from lazily import _lazy_import2, LazyImportError
+    _, __getattr__ = _lazy_import2('pygeodesy')
+except (LazyImportError, NotImplementedError):
 
-CrossError    = vector3d.CrossError
-crosserrors   = vector3d.crosserrors
-Geohash       = geohash.Geohash
-VincentyError = ellipsoidalVincenty.VincentyError
+    # keep ellipsoidal, spherical and vector modules as sub-modules
+    import ellipsoidalKarney  # PYCHOK false
+    import ellipsoidalNvector  # PYCHOK false
+    import ellipsoidalVincenty  # PYCHOK false
+    import geohash
+    import nvector  # PYCHOK false
+    import sphericalNvector  # PYCHOK false
+    import sphericalTrigonometry  # PYCHOK false
+    import vector3d  # PYCHOK false
 
-# all public sub-modules, contants, classes and functions
-__all__ = ('bases', 'datum', 'dms', 'elevations',  # modules
-           'ellipsoidalKarney', 'ellipsoidalNvector', 'ellipsoidalVincenty',
-           'fmath', 'formy', 'geohash', 'lcc', 'mgrs',
-           'nvector', 'osgr', 'points',
-           'simplify', 'sphericalNvector', 'sphericalTrigonometry',
-           'utily', 'utm', 'vector3d', 'webmercator',
-           'CrossError', 'Geohash', 'VincentyError',  # classes
-           'R_M',  # to avoid duplicates from .datum.py and .utily.py
-           'pygeodesy_abspath',
-           'version',
-           'crosserrors')  # extended below
-__version__ = '18.10.29'
+    CrossError    = vector3d.CrossError
+    crosserrors   = vector3d.crosserrors
+    Geohash       = geohash.Geohash
+    VincentyError = ellipsoidalVincenty.VincentyError
 
-# see setup.py for similar logic
-version = '.'.join(map(str, map(int, __version__.split('.'))))
+    # all public sub-modules, contants, classes and functions
+    __all__ = ('bases', 'datum', 'dms', 'elevations',  # modules
+               'ellipsoidalKarney', 'ellipsoidalNvector', 'ellipsoidalVincenty',
+               'fmath', 'formy', 'geohash', 'lazily', 'lcc', 'mgrs',
+               'nvector', 'osgr', 'points',
+               'simplify', 'sphericalNvector', 'sphericalTrigonometry',
+               'utily', 'utm', 'vector3d', 'webmercator',
+               'CrossError', 'Geohash', 'VincentyError',  # classes
+               'R_M',  # to avoid duplicates from .datum.py and .utily.py
+               'pygeodesy_abspath',
+               'version',
+               'crosserrors')  # extended below
 
-# lift all public classes, constants, functions, etc. but
-# only from the following sub-modules ... (see also David
-# Beazley's <http://DaBeaz.com/modulepackage/index.html>)
-from bases       import *  # PYCHOK __all__
-from datum       import *  # PYCHOK __all__
-from dms         import *  # PYCHOK __all__
-from elevations  import *  # PYCHOK __all__
-from fmath       import *  # PYCHOK __all__
-from formy       import *  # PYCHOK __all__
-from lcc         import *  # PYCHOK __all__
-from mgrs        import *  # PYCHOK __all__
-from osgr        import *  # PYCHOK __all__
-from points      import *  # PYCHOK __all__
-from simplify    import *  # PYCHOK __all__
-from utily       import *  # PYCHOK __all__
-from utm         import *  # PYCHOK __all__
-from webmercator import *  # PYCHOK __all__
+    # lift all public classes, constants, functions, etc. but
+    # only from the following sub-modules ... (see also David
+    # Beazley's <http://DaBeaz.com/modulepackage/index.html>)
+    from bases       import *  # PYCHOK __all__
+    from datum       import *  # PYCHOK __all__
+    from dms         import *  # PYCHOK __all__
+    from elevations  import *  # PYCHOK __all__
+    from fmath       import *  # PYCHOK __all__
+    from formy       import *  # PYCHOK __all__
+    from lazily      import *  # PYCHOK __all__
+    from lcc         import *  # PYCHOK __all__
+    from mgrs        import *  # PYCHOK __all__
+    from osgr        import *  # PYCHOK __all__
+    from points      import *  # PYCHOK __all__
+    from simplify    import *  # PYCHOK __all__
+    from utily       import *  # PYCHOK __all__
+    from utm         import *  # PYCHOK __all__
+    from webmercator import *  # PYCHOK __all__
 
-import bases        # PYCHOK expected
-import datum        # PYCHOK expected
-import dms          # PYCHOK expected
-import elevations   # PYCHOK expected
-import fmath        # PYCHOK expected
-import formy        # PYCHOK expected
-import lcc          # PYCHOK expected
-import mgrs         # PYCHOK expected
-import osgr         # PYCHOK expected
-import points       # PYCHOK expected
-import simplify     # PYCHOK expected
-import utily        # PYCHOK expected
-import utm          # PYCHOK expected
-import webmercator  # PYCHOK expected
+    import bases        # PYCHOK expected
+    import datum        # PYCHOK expected
+    import dms          # PYCHOK expected
+    import elevations   # PYCHOK expected
+    import fmath        # PYCHOK expected
+    import formy        # PYCHOK expected
+    import lazily       # PYCHOK expected
+    import lcc          # PYCHOK expected
+    import mgrs         # PYCHOK expected
+    import osgr         # PYCHOK expected
+    import points       # PYCHOK expected
+    import simplify     # PYCHOK expected
+    import utily        # PYCHOK expected
+    import utm          # PYCHOK expected
+    import webmercator  # PYCHOK expected
 
-# for backward compatibility with old, DEPRECATED names
-areaof      = points.areaOf
-perimeterof = points.perimeterOf
+    # for backward compatibility with old, DEPRECATED names
+    areaof      = points.areaOf
+    perimeterof = points.perimeterOf
+    __all__ += ('areaof', 'perimeterof')  # DECPRECATED
 
-ellipsoidalVincenty.areaOf      = ellipsoidalKarney.areaOf
-ellipsoidalVincenty.perimeterOf = ellipsoidalKarney.perimeterOf
+    def _ismodule(m):
+        p = abspath(m.__file__)  # PYCHOK undefined?
+        if dirname(p) != pygeodesy_abspath:  # PYCHOK undefined?
+            raise ImportError('foreign module %r from %r' % (m.__name__, p))
 
+    # check that all modules are from this very package, pygeodesy
+    for m in (ellipsoidalKarney, ellipsoidalNvector, ellipsoidalVincenty,
+              geohash, nvector,
+              sphericalNvector, sphericalTrigonometry,
+              vector3d):
+        _ismodule(m)
 
-def equirectangular3(lat1, lon1, lat2, lon2, **options):
-    '''DEPRECATED, use function C{equirectangular_}.
+    # concat __all__ with the public classes, constants,
+    # functions, etc. from the sub-modules mentioned above
+    for m in (bases, datum, dms, elevations, fmath, formy, lazily, lcc,
+              mgrs, osgr, points, simplify, utily, utm, webmercator):
+        __all__ += m.__all__
+        _ismodule(m)
 
-       @return: 3-Tuple (distance2, delta_lat, delta_lon).
-    '''
-    return formy.equirectangular_(lat1, lon1, lat2, lon2, **options)[:3]
+    # remove any duplicates, only R_M?
+    __all__ = tuple(set(__all__))
 
-
-def _ismodule(m):
-    p = abspath(m.__file__)  # PYCHOK undefined?
-    if dirname(p) != pygeodesy_abspath:  # PYCHOK undefined?
-        raise ImportError('foreign module %r from %r' % (m.__name__, p))
-
-
-# check that all modules are from this very package, pygeodesy
-for m in (ellipsoidalKarney, ellipsoidalNvector, ellipsoidalVincenty,
-          geohash, nvector,
-          sphericalNvector, sphericalTrigonometry,
-          vector3d):
-    _ismodule(m)
-
-# concat __all__ with the public classes, constants,
-# functions, etc. from the sub-modules mentioned above
-for m in (bases, datum, dms, elevations, fmath, formy, lcc, mgrs, osgr,
-          points, simplify, utily, utm, webmercator):
-    __all__ += m.__all__
-    _ismodule(m)
-
-# remove any duplicates, only R_M?
-__all__ = tuple(set(__all__))
+    del _ismodule
 
 if __name__ == '__main__':
 
-    n = basename(pygeodesy_abspath)
-    print('%s %s (%s)' % (n, __version__, pygeodesy_abspath))
+    from lazily import _all_missing2, isLazy  # PYCHOK expected
+
+    a = ['.%s=%r' % a for a in (('version',           version),
+                                ('isLazy',            isLazy),
+                                ('pygeodesy_abspath', pygeodesy_abspath))]
+    print('%s%s' % (basename(pygeodesy_abspath), ', '.join(a)))
+    # double check that __all__ and _all_imports match
+    for a, m in _all_missing2(__all__):
+        if m:
+            print('missing in %s: %s' % (a, m))
 
 # XXX del ellipsoidalBase, sphericalBase  # PYCHOK expected
-del abspath, basename, dirname, _init_abspath, _ismodule, m, splitext
+del abspath, basename, dirname, _init_abspath, _lazy_import2
 
 # **) MIT License
 #
