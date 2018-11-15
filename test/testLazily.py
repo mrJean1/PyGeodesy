@@ -4,7 +4,7 @@
 # Test the lazy import module lazily.
 
 __all__ = ('Tests',)
-__version__ = '18.11.09'
+__version__ = '18.11.12'
 
 from base import TestsBase, ismacOS, isNix, isPython37, isWindows, PythonX
 from pygeodesy import lazily, __all__ as _all_
@@ -17,7 +17,7 @@ _cmd = PythonX + " -c 'from pygeodesy import lazily, R_M, LimitError; " \
 if ismacOS or isNix:
     _env_cmd = 'env %s ' + _cmd + ' >>/dev/null'
 elif isWindows:  # XXX UNTESTED
-    _env_env = 'set %s;' + _cmd
+    _env_cmd = 'set %s;' + _cmd
 else:
     _env_cmd = None
 
