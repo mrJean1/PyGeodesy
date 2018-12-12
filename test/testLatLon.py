@@ -138,6 +138,11 @@ class Tests(TestsBase):
             if hasattr(p, 'distanceTo'):
                 self.test('intermediateTo-4', p.distanceTo(i) / d, '4.000', fmt='%.3f')  # PYCHOK test attr?
 
+            p_2 = LatLon(52.205, 0.119, 100)
+            q_2 = LatLon(48.857, 2.351, 200)
+            i = p_2.intermediateTo(q_2, 0.25)
+            self.test('intermediateTo-height', i.height, '125.000', fmt='%.3f')  # PYCHOK test attr?
+
         if hasattr(LatLon, 'intermediateChordTo'):
             i = p.intermediateChordTo(q, 0.25)
             self.test('intermediateChordTo', i, '51.372294°N, 000.707192°E')
