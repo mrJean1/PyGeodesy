@@ -382,7 +382,11 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         a = atan2(x.length, p.dot(q)) * fraction  # interpolated
         i = p.times(cos(a)).plus(d.times(sin(a)))  # p * cosα + d * sinα
 
-        return i.toLatLon(height=height, LatLon=self.classof)  # Nvector(i.x, i.y, i.z).toLatLon(...)
+        if height is None:
+            h = self._havg(other, f=fraction)
+        else:
+            h = height
+        return i.toLatLon(height=h, LatLon=self.classof)  # Nvector(i.x, i.y, i.z).toLatLon(...)
 
     def intersection(self, end1, start2, end2, height=None):
         '''Locates the point of intersection of two paths each defined
