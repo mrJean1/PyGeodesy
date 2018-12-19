@@ -288,7 +288,7 @@ def toWm(latlon, lon=None, radius=R_MA, Wm=Wm, name=''):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2018 -- mrJean1 at Gmail dot com
+# Copyright (C) 2016-2019 -- mrJean1 at Gmail dot com
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

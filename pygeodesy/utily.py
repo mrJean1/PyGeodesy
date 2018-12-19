@@ -36,7 +36,7 @@ __all__ = ('PI', 'PI2', 'PI_2', 'R_M',  # constants
            'unroll180', 'unrollPI', 'unStr',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '18.10.26'
+__version__ = '18.12.07'
 
 division = 1 / 2  # double check int division, see .datum.py
 if not division:
@@ -391,11 +391,11 @@ def points2(points, closed=True, base=None):
         points = points[:n]  # XXX numpy.array slice is a view!
 
     if n < (3 if closed else 1):
-        raise ValueError('too few points: %s' % (n,))
+        raise ValueError('too few %s: %s' % ('points', n))
 
     if base and not (isNumpy2(points) or isTuple2(points)):
         for i in range(n):
-            base.others(points[i], name='points[%s]' % (i,))
+            base.others(points[i], name='%s[%s]' % ('points', i))
 
     return n, points
 
@@ -609,7 +609,7 @@ def wrapPI_2(rad):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2018 -- mrJean1 at Gmail dot com
+# Copyright (C) 2016-2019 -- mrJean1 at Gmail dot com
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

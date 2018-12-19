@@ -27,12 +27,14 @@ MGRS_ (NATO Military Grid Reference System) and OSGR_ (British Ordinance
 Survery Grid Reference) grid references and a module for encoding and
 decoding Geohashes_.
 
-Two other modules provide Lambert conformal conic projections and positions
+Other modules provide Lambert conformal conic projections and positions
 (from `John P. Snyder`_, *Map Projections -- A Working Manual*, 1987, pp
-107-109) and several functions to simplify_ or linearize a path of *LatLon*
-points (or a `NumPy array`_), including implementations of the
-`Ramer-Douglas-Peucker`_, the `Visvalingam-Whyatt`_ and the `Reumann-Witkam`_
-algorithms and modified versions of the former.
+107-109), functions to clip a path or polygon of *LatLon* points using
+the `Cohen–Sutherland`_ and the `Sutherland-Hodgman`_ methods and
+functions to simplify_ or linearize a path of *LatLon* points (or a
+`NumPy array`_), including implementations of the `Ramer-Douglas-Peucker`_,
+the `Visvalingam-Whyatt`_ and the `Reumann-Witkam`_ algorithms and
+modified versions of the former.
 
 All Python source code has been statically checked_ with PyChecker_,
 PyFlakes_, PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.15
@@ -78,7 +80,7 @@ latter is required for module *ellipsoidalKarney* classes *LatLon* and
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Nov 12, 2018.*
+*Last updated: Dec 14, 2018.*
 
 .. image:: https://Img.Shields.io/pypi/pyversions/PyGeodesy.svg?label=Python
    :target: http://PyPI.org/project/PyGeodesy
@@ -96,6 +98,8 @@ cases documentation tag **JS name:** shows the original JavaScript name.
    :target: http://PyPI.org/project/PyGeodesy
 
 .. _checked: http://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor
+.. _clip: http://WikiPedia.org/wiki/Line_clipping
+.. _Cohen-Sutherland: http://WikiPedia.org/wiki/Cohen–Sutherland_algorithm
 .. _Debian 8: http://Travis-CI.org/mrJean1/PyGeodesy
 .. _Debian 9: http://Cirrus-CI.com/github/mrJean1/PyGeodesy/master
 .. _docs: http://www.Movable-Type.co.UK/scripts/geodesy/docs
@@ -126,6 +130,7 @@ cases documentation tag **JS name:** shows the original JavaScript name.
 .. _Ramer-Douglas-Peucker: http://WikiPedia.org/wiki/Ramer-Douglas-Peucker_algorithm
 .. _Reumann-Witkam: http://psimpl.SourceForge.net/reumann-witkam.html
 .. _simplify: http://Bost.Ocks.org/mike/simplify
+.. _Sutherland-Hodgman: http://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm
 .. _UTM: http://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html
 .. _Vector-based: http://www.Movable-Type.co.UK/scripts/latlong-vectors.html
 .. _Vincenty: http://www.Movable-Type.co.UK/scripts/latlong-vincenty.html
@@ -133,7 +138,7 @@ cases documentation tag **JS name:** shows the original JavaScript name.
 .. _Web Mercator: http://WikiPedia.org/wiki/Web_Mercator
 .. _Windows Server 2012R2: http://CI.AppVeyor.com/project/mrJean1/pygeodesy
 
-``Copyright (C) 2016-2018 -- mrJean1 at Gmail dot com``
+``Copyright (C) 2016-2019 -- mrJean1 at Gmail dot com``
 
 ``Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the "Software"),

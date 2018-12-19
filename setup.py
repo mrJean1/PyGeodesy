@@ -3,8 +3,9 @@
 
 # The setuptools script to build, install and test a PyGeodesy distribution.
 
-# Tested with 64-bit Python 2.7.13, 2.7.14, 3.6.1 and 3.6.2 (using setuptools
-# 28.8.0) but only on macOS 10.12.3, 10.12.4 and 10.12.5, 10.12.6 Sierra.
+# Tested with 64-bit Python 2.7.13-14, 3.6.1-2 and 3.7.0-1 (using
+# setuptools 28.8.0) but only on macOS 10.12.3-6 Sierra and 10.13.0-6
+# High Sierra.
 
 # python setup.py sdist --formats=gztar,bztar,zip  # ztar,tar
 # python setup.py bdist_wheel --universal  # XXX
@@ -22,7 +23,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '18.10.16'
+__version__ = '18.12.12'
 
 
 def _c2(*names):
@@ -46,7 +47,7 @@ def _version():
 
 
 _KeyWords=('antipode', 'area', 'azimuth', 'bearing',
-           'cartesian', 'conic', 'curvature',
+           'cartesian', 'clip', 'Cohen-Sutherland', 'conic', 'curvature',
            'datum', 'development', 'distance',
            'earth', 'elevation', 'ellipsoid', 'equirectangular',
            'geocentric', 'geodesy', 'geodetic', 'GeodTest',
@@ -56,7 +57,8 @@ _KeyWords=('antipode', 'area', 'azimuth', 'bearing',
            'MGRS', 'nearest', 'numpy', 'n-vector', 'Nvector', 'OSGR',
            'perimeter', 'polar', 'Pseudo-Mercator', 'PyGeodesy', 'PyPy',
            'radii', 'radius', 'Ramer-Douglas-Peucker', 'Reumann-Witkam', 'rhumb',
-           'simplify', 'sphere', 'TMcoords', 'trigonometry', 'unroll', 'UTM',
+           'simplify', 'sphere', 'Sutherland-Hodgman',
+           'TMcoords', 'trigonometry', 'unroll', 'UTM',
            'Vincenty', 'Visvalingam-Whyatt', 'Web-Mercator', 'WGS')
 
 setup(

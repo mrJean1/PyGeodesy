@@ -31,7 +31,7 @@ to a normalised version of an (ECEF) cartesian coordinate.
 '''
 
 from datum import R_M
-from fmath import EPS, fmean, fsum, fsum_, isscalar
+from fmath import EPS, fmean, fsum, fsum_, isscalar, map1
 from nvector import NorthPole, LatLonNvectorBase, \
                     Nvector as NvectorBase, sumOf
 from points import _imdex2, ispolar  # PYCHOK ispolar
@@ -47,7 +47,7 @@ __all__ = ('LatLon', 'Nvector',  # classes
            'meanOf',
            'nearestOn2',
            'triangulate', 'trilaterate')
-__version__ = '18.12.11'
+__version__ = '18.12.12'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -247,9 +247,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         a, b = self.to2ab()
         t = radians(bearing)
 
-        ca, sa = cos(a), sin(a)
-        cb, sb = cos(b), sin(b)
-        ct, st = cos(t), sin(t)
+        ca, cb, ct = map1(cos, a, b, t)
+        sa, sb, st = map1(sin, a, b, t)
 
         return Nvector(sb * ct - sa * cb * st,
                       -cb * ct - sa * sb * st,
@@ -1004,10 +1003,7 @@ def triangulate(point1, bearing1, point2, bearing2,
 
     n = gc1.cross(gc2, raiser='points')  # n-vector of intersection point
 
-    if height is None:
-        h = point1._havg(point2)
-    else:
-        h = height
+    h = point1._havg(point2) if height is None else height
     return n.toLatLon(height=h, LatLon=LatLon)  # Nvector(n.x, n.y, n.z).toLatLon(...)
 
 
@@ -1086,7 +1082,7 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3,
 
 # **) MIT License
 #
-# Copyright (C) 2016-2018 -- mrJean1 at Gmail dot com
+# Copyright (C) 2016-2019 -- mrJean1 at Gmail dot com
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

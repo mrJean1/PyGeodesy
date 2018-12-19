@@ -34,17 +34,20 @@ U{OSGR<http://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html>}
 (British Ordinance Survery Grid Reference) grid references and a module for
 encoding and decoding U{Geohashes<http://www.Movable-Type.co.UK/scripts/geohash.html>}.
 
-Two other modules provide Lambert conformal conic projections and positions
+Other modules provide Lambert conformal conic projections and positions
 (from U{John P. Snyder, "Map Projections -- A Working Manual", 1987, pp 107-109
-<http://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}) and several functions to
-U{simplify<http://Bost.Ocks.org/mike/simplify>} or linearize a path of
-C{LatLon} points (or a U{NumPy array
+<http://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}), functions to clip a path or
+polygon of C{LatLon} points using the U{Cohen–Sutherland
+<http://WikiPedia.org/wiki/Cohen–Sutherland_algorithm>} and the
+U{Sutherland-Hodgman<http://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm>}
+methods and functions to U{simplify<http://Bost.Ocks.org/mike/simplify>} or
+linearize a path of C{LatLon} points (or a U{NumPy array
 <http://docs.SciPy.org/doc/numpy/reference/generated/numpy.array.html>}),
 including implementations of the U{Ramer-Douglas-Peucker
-<http://WikiPedia.org/wiki/Ramer-Douglas-Peucker_algorithm>}, the
-U{Visvalingam-Whyatt<http://hydra.Hull.ac.UK/resources/hull:8338>} and the
+<http://WikiPedia.org/wiki/Ramer-Douglas-Peucker_algorithm>} the
+U{Visvalingam-Whyatt<http://hydra.Hull.ac.UK/resources/hull:8338>} and
 U{Reumann-Witkam<http://psimpl.SourceForge.net/reumann-witkam.html>}
-algorithms and modified versions of the former.
+the algorithms and modified versions of the former.
 
 All Python source code has been statically U{checked
 <http://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor>}
@@ -107,7 +110,7 @@ cases documentation tag B{JS name:} shows the original JavaScript name.
 
 __
 
-**) U{Copyright (C) 2016-2018 -- mrJean1 at Gmail dot com
+**) U{Copyright (C) 2016-2019 -- mrJean1 at Gmail dot com
 <http://OpenSource.org/licenses/MIT>}
 
 C{Permission is hereby granted, free of charge, to any person obtaining a
@@ -177,7 +180,7 @@ from os.path import abspath, basename, dirname
 _init_abspath     = abspath(__file__)
 pygeodesy_abspath = dirname(_init_abspath)
 
-__version__ = '18.11.12'
+__version__ = '18.12.14'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 
@@ -215,7 +218,7 @@ except (LazyImportError, NotImplementedError):
     VincentyError = ellipsoidalVincenty.VincentyError
 
     # all public sub-modules, contants, classes and functions
-    __all__ = ('bases', 'datum', 'dms', 'elevations',  # modules
+    __all__ = ('bases', 'clipy', 'datum', 'dms', 'elevations',  # modules
                'ellipsoidalKarney', 'ellipsoidalNvector', 'ellipsoidalVincenty',
                'fmath', 'formy', 'geohash', 'lazily', 'lcc', 'mgrs',
                'nvector', 'osgr', 'points',
@@ -231,6 +234,7 @@ except (LazyImportError, NotImplementedError):
     # only from the following sub-modules ... (see also David
     # Beazley's <http://DaBeaz.com/modulepackage/index.html>)
     from bases       import *  # PYCHOK __all__
+    from clipy       import *  # PYCHOK __all__
     from datum       import *  # PYCHOK __all__
     from dms         import *  # PYCHOK __all__
     from elevations  import *  # PYCHOK __all__
@@ -247,6 +251,7 @@ except (LazyImportError, NotImplementedError):
     from webmercator import *  # PYCHOK __all__
 
     import bases        # PYCHOK expected
+    import clipy        # PYCHOK expected
     import datum        # PYCHOK expected
     import dms          # PYCHOK expected
     import elevations   # PYCHOK expected
@@ -263,8 +268,16 @@ except (LazyImportError, NotImplementedError):
     import webmercator  # PYCHOK expected
 
     # for backward compatibility with old, DEPRECATED names
-    areaof      = points.areaOf
-    perimeterof = points.perimeterOf
+    def areaof(*args, **kwds):
+        '''DEPRECATED, use function areaOf.
+        '''
+        return points.areaOf(*args, **kwds)
+
+    def perimeterof(*args, **kwds):
+        '''DEPRECATED, use function perimeterOf.
+        '''
+        return points.perimeterOf(*args, **kwds)
+
     __all__ += ('areaof', 'perimeterof')  # DECPRECATED
 
     def _ismodule(m):
@@ -281,8 +294,9 @@ except (LazyImportError, NotImplementedError):
 
     # concat __all__ with the public classes, constants,
     # functions, etc. from the sub-modules mentioned above
-    for m in (bases, datum, dms, elevations, fmath, formy, lazily, lcc,
-              mgrs, osgr, points, simplify, utily, utm, webmercator):
+    for m in (bases, clipy, datum, dms, elevations, fmath, formy,
+              lazily, lcc, mgrs, osgr, points, simplify, utily, utm,
+              webmercator):
         __all__ += m.__all__
         _ismodule(m)
 
@@ -309,7 +323,7 @@ del abspath, basename, dirname, _init_abspath, _lazy_import2
 
 # **) MIT License
 #
-# Copyright (C) 2016-2018 -- mrJean1 at Gmail dot com
+# Copyright (C) 2016-2019 -- mrJean1 at Gmail dot com
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

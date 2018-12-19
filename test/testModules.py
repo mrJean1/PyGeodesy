@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '17.08.04'
+__version__ = '18.12.14'
 
 from base import TestsBase, type2str
 
@@ -43,7 +43,7 @@ if __name__ == '__main__':
     for a in sorted(pygeodesy.__all__):
         f = getattr(pygeodesy, a)
         m = getattr(f, '__module__', '.').split('.')[-1]
-        if m and m not in ('bases', 'math'):
+        if m and m not in ('bases', 'math', 'pygeodesy'):
             n = a + type2str(pygeodesy, a)
             t.test(n, m in pygeodesy.__all__, True)
 

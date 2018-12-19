@@ -26,7 +26,7 @@ by Brett Cannon's U{modutil<http://PyPI.org/project/modutil>}.
 
 __all__ = ('LazyImportError',
            'isLazy')
-__version__ = '18.11.12'
+__version__ = '18.12.10'
 
 # @module_property[_RO?] <http://GitHub.com/jtushman/proxy_tools/
 isLazy = None  # or 0..1+
@@ -48,12 +48,13 @@ def _all_imports(*more):
     #  <module.name> == from <module> import <name>
     #  <module.name> as <othername> == from <module> import <name> as <othername>
     for name in ('ellipsoidalKarney', 'ellipsoidalNvector', 'ellipsoidalVincenty', 'geohash', 'nvector', 'sphericalNvector', 'sphericalTrigonometry', 'vector3d',
-                 'bases', 'datum', 'dms', 'elevations', 'fmath', 'formy', 'lcc', 'mgrs', 'osgr', 'points', 'simplify', 'utily', 'utm', 'webmercator',
+                 'bases', 'clipy', 'datum', 'dms', 'elevations', 'fmath', 'formy', 'lcc', 'mgrs', 'osgr', 'points', 'simplify', 'utily', 'utm', 'webmercator',
                  'points.areaOf as areaof', 'points.perimeterOf as perimeterof',  # DEPRECATED
                  'geohash.Geohash',
                  'ellipsoidalVincenty.VincentyError',
                  'vector3d.CrossError', 'vector3d.crosserrors',
                  'bases.LatLonHeightBase', 'bases.classname', 'bases.classnaming', 'bases.inStr',
+                 'clipy.clipCS3', 'clipy.clipSH', 'clipy.clipSH3',
                  'datum.R_M', 'datum.R_MA', 'datum.R_MB', 'datum.R_KM', 'datum.R_NM', 'datum.R_SM', 'datum.R_FM', 'datum.R_VM', 'datum.Datum', 'datum.Ellipsoid',
                               'datum.Transform', 'datum.Datums', 'datum.Ellipsoids', 'datum.Transforms',
                  'dms.F_D', 'dms.F_DM', 'dms.F_DMS', 'dms.F_DEG', 'dms.F_MIN', 'dms.F_SEC', 'dms.F_RAD', 'dms.S_DEG', 'dms.S_MIN', 'dms.S_SEC', 'dms.S_RAD',
@@ -70,9 +71,9 @@ def _all_imports(*more):
                  'lcc.Conic', 'lcc.Conics', 'lcc.Lcc', 'lcc.toLcc',
                  'mgrs.Mgrs', 'mgrs.parseMGRS', 'mgrs.toMgrs',
                  'osgr.Osgr', 'osgr.parseOSGR', 'osgr.toOsgr',
-                 'points.LatLon_', 'points.LatLon2psxy', 'points.Numpy2LatLon', 'points.Tuple2LatLon', 'points.areaOf', 'points.bounds', 'points.isclockwise',
-                                   'points.isconvex', 'points.isenclosedBy', 'points.isenclosedby', 'points.ispolar', 'points.nearestOn3', 'points.nearestOn4',
-                                   'points.perimeterOf',
+                 'points.LatLon_', 'points.LatLon2psxy', 'points.Numpy2LatLon', 'points.Tuple2LatLon', 'points.areaOf', 'points.bounds',
+                                   'points.isclockwise', 'points.isconvex', 'points.isconvex_', 'points.isenclosedBy', 'points.isenclosedby', 'points.ispolar',
+                                   'points.nearestOn3', 'points.nearestOn4', 'points.perimeterOf',
                  'simplify.simplify1', 'simplify.simplify2', 'simplify.simplifyRDP', 'simplify.simplifyRDPm', 'simplify.simplifyRW', 'simplify.simplifyVW',
                                        'simplify.simplifyVWm',
                  'utily.PI', 'utily.PI2', 'utily.PI_2', 'utily.R_M', 'utily.LimitError', 'utily.anStr', 'utily.degrees', 'utily.degrees90', 'utily.degrees180',
@@ -94,8 +95,8 @@ def _all_missing2(_all_):
     '''(INTERNAL) Get deltas between pygeodesy.__all__ and lazily._all_imports.
     '''
     _alzy = _all_imports('pygeodesy_abspath', 'version')  # dict
-    return (('_all_imports', ', '.join(a for a in _all_ if a not in _alzy)),
-            ('__all__',      ', '.join(a for a in _alzy if a not in _all_)))
+    return (('lazily._all_imports', ', '.join(a for a in _all_ if a not in _alzy)),
+            ('pygeodesy.__all__',   ', '.join(a for a in _alzy if a not in _all_)))
 
 
 def _lazy_import2(package_name):  # MCCABE 20
@@ -200,7 +201,7 @@ def _lazy_import2(package_name):  # MCCABE 20
 
 # **) MIT License
 #
-# Copyright (C) 2016-2018 -- mrJean1 at Gmail dot com
+# Copyright (C) 2016-2019 -- mrJean1 at Gmail dot com
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

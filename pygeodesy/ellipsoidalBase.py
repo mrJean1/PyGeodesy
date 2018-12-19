@@ -13,8 +13,6 @@ and published under the same MIT Licence**, see for example U{latlon-ellipsoidal
 
 from bases import LatLonHeightBase, _xnamed
 from datum import Datum, Datums
-from dms import parse3llh
-from elevations import elevation2, geoidHeight2
 from fmath import EPS, EPS1, fsum_, hypot, hypot1
 from utily import degrees90, degrees180, property_RO
 from vector3d import Vector3d
@@ -24,7 +22,7 @@ from math import atan2, copysign, cos, sin, sqrt
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = ('CartesianBase', 'LatLonEllipsoidalBase')  # for documentation
-__version__ = '18.10.26'
+__version__ = '18.11.14'
 
 
 class CartesianBase(Vector3d):
@@ -278,9 +276,9 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
            @return: 2-Tuple (elevation, data_source) in (C{meter}, C{str})
                     or in case of errors (C{None}, I{<error>}).
 
-           @note: The adjustment applied the is difference in geocentric
-                  earth radius for the I{datum} used and C{NAV83} upon
-                  which L{elevation2} is based.
+           @note: The adjustment applied is the difference in geocentric
+                  earth radius for the I{datum} used and the C{NAV83}
+                  datum upon which L{elevation2} is based.
 
            @note: NED elevation is only available for locations in the
                   U{Conterminous US (CONUS)
@@ -290,6 +288,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
                  L{Ellipsoid.Rgeocentric} for further details.
         '''
         if not self._elevation2:  # get elevation and data source
+            from elevations import elevation2
             self._elevation2 = elevation2(self.lat, self.lon,
                                           timeout=timeout)
         return self._Radjust2(adjust, datum, *self._elevation2)
@@ -341,9 +340,9 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
            @return: 2-Tuple (height, model_name) in (C{meter}, C{str})
                     or in case of errors (C{None}, I{<error>}).
 
-           @note: The adjustment applied the is difference in geocentric
-                  earth radius for the I{datum} used and C{NAV83/NADV88}
-                  upon which L{geoidHeight2} is based.
+           @note: The adjustment applied is the difference in geocentric
+                  earth radius for the given I{datum} and the C{NAV83/NADV88}
+                  datum upon which L{geoidHeight2} is based.
 
            @note: NGS geoid height is only available for locations in
                   the U{Conterminous US (CONUS)
@@ -353,6 +352,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
                  L{Ellipsoid.Rgeocentric} for further details.
         '''
         if not self._geoidHeight2:  # get elevation and data source
+            from elevations import geoidHeight2
             self._geoidHeight2 = geoidHeight2(self.lat, self.lon,
                                               model=0, timeout=timeout)
         return self._Radjust2(adjust, datum, *self._geoidHeight2)
@@ -390,6 +390,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
 
            @raise ValueError: Invalid I{strll}.
         '''
+        from dms import parse3llh
         a, b, h = parse3llh(strll, height=height, sep=sep)
         return self.classof(a, b, height=h, datum=datum or self.datum)
 
@@ -465,7 +466,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2018 -- mrJean1 at Gmail dot com
+# Copyright (C) 2016-2019 -- mrJean1 at Gmail dot com
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

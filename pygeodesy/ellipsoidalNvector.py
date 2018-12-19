@@ -24,20 +24,18 @@ The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.
 
 from bases import Named, _xnamed
 from datum import Datum, Datums
-from dms import F_D, toDMS
 from ellipsoidalBase import CartesianBase, LatLonEllipsoidalBase
 from fmath import EPS, cbrt, fdot, fStr, fsum_, hypot, hypot3
 from nvector import NorthPole, LatLonNvectorBase, \
                     Nvector as NvectorBase, sumOf
 from utily import degrees90, degrees360, property_RO
-from vector3d import Vector3d
 
 from math import asin, atan2, cos, radians, sin, sqrt
 
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '18.10.26'
+__version__ = '18.11.14'
 
 
 class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
@@ -598,6 +596,7 @@ class Ned(Named):
 
            @return: This Ned as "[L:f, B:degrees360, E:degrees90]" (C{str}).
         '''
+        from dms import F_D, toDMS
         t3 = (fStr(self.length, prec=3 if prec is None else prec),
               toDMS(self.bearing, form=F_D, prec=prec, ddd=0),
               toDMS(self.elevation, form=F_D, prec=prec, ddd=0))
@@ -608,6 +607,7 @@ class Ned(Named):
 
            @return: The vector(north, east, down) (L{Vector3d}).
         '''
+        from vector3d import Vector3d
         return Vector3d(*self.to3ned(), name=self.name)
 
 
@@ -776,7 +776,7 @@ def toNed(distance, bearing, elevation, name=''):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2018 -- mrJean1 at Gmail dot com
+# Copyright (C) 2016-2019 -- mrJean1 at Gmail dot com
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

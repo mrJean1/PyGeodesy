@@ -23,7 +23,7 @@ __all__ = ('EPS', 'EPS1',  # constants
            'len2',
            'map1', 'map2',
            'scalar', 'sqrt3')
-__version__ = '18.10.31'
+__version__ = '18.12.14'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -614,7 +614,7 @@ def len2(seq):
        @return: 2-Tuple (number, ...) of items (C{int}, C{list} or
                 C{range} or C{tuple}).
     '''
-    if not isinstance(seq, _Seqs):
+    if not isinstance(seq, _Seqs):  # not hasattr(seq, '__len__'):
         seq = list(seq)
     return len(seq), seq
 
@@ -692,7 +692,7 @@ def sqrt3(x):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2018 -- mrJean1 at Gmail dot com
+# Copyright (C) 2016-2019 -- mrJean1 at Gmail dot com
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

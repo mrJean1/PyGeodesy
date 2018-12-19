@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '18.10.24'
+__version__ = '18.12.11'
 
 from base import geographiclib, TestsBase
 

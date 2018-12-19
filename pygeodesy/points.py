@@ -25,8 +25,8 @@ the index for the lat- and longitude index in each 2+tuple.
 '''
 
 from bases import classname, inStr
-from fmath import EPS, favg, fdot, fStr, Fsum, fsum, \
-                  isint, map1, scalar
+from dms import F_D, latDMS, lonDMS
+from fmath import EPS, favg, fdot, Fsum, fsum, isint, map1, scalar
 from formy import equirectangular_
 from utily import R_M, degrees360, degrees2m, issequence, points2, \
                   property_RO, unroll180, unrollPI, wrap90, wrap180
@@ -43,11 +43,11 @@ __all__ = ('LatLon_',  # classes
            'LatLon2psxy', 'Numpy2LatLon', 'Tuple2LatLon',
            'areaOf',  # functions
            'bounds',
-           'isclockwise', 'isconvex',
+           'isclockwise', 'isconvex', 'isconvex_',
            'isenclosedBy', 'isenclosedby',  # DEPRECATED
            'ispolar', 'nearestOn3', 'nearestOn4',
            'perimeterOf')
-__version__ = '18.10.26'
+__version__ = '18.12.10'
 
 
 class LatLon_(object):
@@ -92,6 +92,19 @@ class LatLon_(object):
     def __str__(self):
         return self.toStr()
 
+    def classof(self, *args, **kwds):
+        '''Instantiate this very class.
+
+           @param args: Optional, positional arguments.
+           @keyword kwds: Optional, keyword arguments.
+
+           @return: New instance (I{self.__class__}).
+        '''
+        if 'name' in kwds:
+            return self.__class__(*args, **kwds)
+        else:
+            return self.__class__(name=self.name, *args, **kwds)
+
     def others(self, other, name='other'):
         '''Check this and an other instance for type compatiblility.
 
@@ -119,17 +132,24 @@ class LatLon_(object):
         '''
         return radians(self.lat), radians(self.lon)
 
-    def toStr(self, **kwds):
+    def toStr(self, form=F_D, prec=6, sep=', ', **kwds):
         '''This L{LatLon_} as a string "<degrees>, <degrees>".
 
+           @keyword form: Optional format, F_D, F_DM, F_DMS for
+                          deg°, deg°min′, deg°min′sec″ (C{str}).
+           @keyword prec: Optional number of decimal digits (0..8 or C{None}).
+           @keyword sep: Optional separator to join (C{str}).
            @keyword kwds: Optional, keyword arguments.
 
            @return: Instance (C{str}).
         '''
-        t = [fStr(getattr(self, _)) for _ in self.__slots__]
+        t = [latDMS(self.lat, form=form, prec=prec),
+             lonDMS(self.lon, form=form, prec=prec)]
+        if self.name:
+            t += [repr(self.name)]
         if kwds:
             t += ['%s=%s' % _ for _ in sorted(kwds.items())]
-        return ', '.join(t)
+        return sep.join(t)
 
     def toStr2(self, **kwds):
         '''This L{LatLon_} as a string "class(<degrees>, ...)".
@@ -971,6 +991,34 @@ def isconvex(points, adjust=False, wrap=True):
        >>> f = LatLon(45,1), LatLon(46,2), LatLon(45,2), LatLon(46,1)
        >>> isconvex(f)  # False
     '''
+    return bool(isconvex_(points, adjust=adjust, wrap=wrap))
+
+
+def isconvex_(points, adjust=False, wrap=True):
+    '''Determine whether a polygon is convex and clockwise.
+
+       @param points: The polygon points (C{LatLon}[]).
+       @keyword adjust: Adjust the wrapped, unrolled longitudinal delta
+                        by the cosine of the mean latitude (C{bool}).
+       @keyword wrap: Wrap lat-, wrap and unroll longitudes (C{bool}).
+
+       @return: C{+1} if I{points} are convex clockwise, C{-1} for
+                convex counter-clockwise I{points}, C{0} otherwise.
+
+       @raise CrossError: Some I{points} are colinear.
+
+       @raise TypeError: Some I{points} are not C{LatLon}.
+
+       @raise ValueError: Insufficient number of I{points}.
+
+       @example:
+
+       >>> t = LatLon(45,1), LatLon(46,1), LatLon(46,2)
+       >>> isconvex_(t)  # +1
+
+       >>> f = LatLon(45,1), LatLon(46,2), LatLon(45,2), LatLon(46,1)
+       >>> isconvex_(f)  # 0
+    '''
     def _unroll_adjust(x1, y1, x2, y2, wrap):
         x21, x2 = unroll180(x1, x2, wrap=wrap)
         if adjust:
@@ -978,7 +1026,7 @@ def isconvex(points, adjust=False, wrap=True):
         return x21, x2
 
     pts = LatLon2psxy(points, closed=True, radius=None, wrap=wrap)
-    c, n, s = crosserrors(), len(pts), None
+    c, n, s = crosserrors(), len(pts), 0
 
     x1, y1, _ = pts[n-2]
     x2, y2, _ = pts[n-1]
@@ -993,17 +1041,15 @@ def isconvex(points, adjust=False, wrap=True):
         # x3, y3 to the line from x1, y1 to x2, y2
         # <http://WikiPedia.org/wiki/Distance_from_a_point_to_a_line>
         s3 = fdot((x3, y3, x1, y1), y2 - y1, -x21, -y2, x2)
-        if s3 > 0:  # x3, y3 on the left
-            if s is None:
-                s = True
-            elif not s:  # different side
-                return False
+        if s3 > 0:  # x3, y3 on the right
+            if s < 0:  # non-convex
+                return 0
+            s = +1
 
-        elif s3 < 0:  # x3, y3 on the right
-            if s is None:
-                s = False
-            elif s:  # different side
-                return False
+        elif s3 < 0:  # x3, y3 on the left
+            if s > 0:  # non-convex
+                return 0
+            s = -1
 
         elif c and fdot((x32, y1 - y2), y3 - y2, -x21) < 0:
             # colinear u-turn: x3, y3 not on the
@@ -1012,10 +1058,10 @@ def isconvex(points, adjust=False, wrap=True):
 
         x1, y1, x2, y2, x21 = x2, y2, x3, y3, x32
 
-    return True  # all points on the same side
+    return s  # all points on the same side
 
 
-def isenclosedBy(point, points, wrap=False):  # MCCABE 14
+def isenclosedBy(point, points, wrap=False):  # MCCABE 15
     '''Determine whether a point is enclosed by a polygon.
 
        @param point: The point (C{LatLon} or 2-tuple (lat, lon)).
@@ -1323,7 +1369,7 @@ def perimeterOf(points, closed=False, adjust=True, radius=R_M, wrap=True):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2018 -- mrJean1 at Gmail dot com
+# Copyright (C) 2016-2019 -- mrJean1 at Gmail dot com
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
