@@ -66,6 +66,12 @@ object --+
         <strong class="uidshort">LatLon_</strong>
 </pre>
 
+<dl><dt>Known Subclasses:</dt>
+<dd>
+      <ul class="subclass-list">
+<li class="private">clipy._LLi_</li>  </ul>
+</dd></dl>
+
 <hr />
 <p>Low-overhead <code>LatLon</code> class for <a 
   href="pygeodesy.points.Numpy2LatLon-class.html" 
@@ -177,6 +183,25 @@ object --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.points.LatLon_-class.html#classof" class="summary-sig-name">classof</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">*args</span>,
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
+      Instantiate this very class.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.points.LatLon_-class.html#others" class="summary-sig-name">others</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">other</code><code class="variable-quote">'</code></span>)</span><br />
@@ -234,6 +259,9 @@ object --+
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.points.LatLon_-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">**kwds</span>)</span><br />
       This <a href="pygeodesy.points.LatLon_-class.html" 
       class="link">LatLon_</a> as a string &quot;&lt;degrees&gt;, 
@@ -416,6 +444,34 @@ object --+
   </dl>
 </td></tr></table>
 </div>
+<a name="classof"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">classof</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">*args</span>,
+        <span class="sig-arg">**kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Instantiate this very class.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>args</code></strong> - Optional, positional arguments.</li>
+        <li><strong class="pname"><code>kwds</code></strong> - Optional, keyword arguments.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>New instance (<i>self.__class__</i>).</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="others"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -516,6 +572,9 @@ object --+
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">form</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">prec</span>=<span class="sig-default">6</span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">**kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -529,6 +588,10 @@ object --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>form</code></strong> - Optional format, F_D, F_DM, F_DMS for deg&#176;, deg&#176;min&#8242;, 
+          deg&#176;min&#8242;sec&#8243; (<code>str</code>).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..8 or <code>None</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator to join (<code>str</code>).</li>
         <li><strong class="pname"><code>kwds</code></strong> - Optional, keyword arguments.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -596,7 +659,7 @@ object --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Nov 14 16:52:31 2018
+    Generated by Epydoc 3.0.1 on Wed Dec 19 10:22:40 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
