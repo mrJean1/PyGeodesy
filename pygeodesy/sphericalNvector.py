@@ -47,7 +47,7 @@ __all__ = ('LatLon', 'Nvector',  # classes
            'meanOf',
            'nearestOn2',
            'triangulate', 'trilaterate')
-__version__ = '18.10.26'
+__version__ = '18.12.11'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -345,7 +345,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 #       i = other.toNvector() * fraction + \
 #            self.toNvector() * (1 - fraction))
 
-        return i.toLatLon(height=height, LatLon=self.classof)  # Nvector(i.x, i.y, i.z).toLatLon(...)
+        h = self._havg(other, f=fraction) if height is None else height
+        return i.toLatLon(height=h, LatLon=self.classof)  # Nvector(i.x, i.y, i.z).toLatLon(...)
 
     def intermediateTo(self, other, fraction, height=None):
         '''Locate the point at a given fraction between this and an
@@ -382,7 +383,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         a = atan2(x.length, p.dot(q)) * fraction  # interpolated
         i = p.times(cos(a)).plus(d.times(sin(a)))  # p * cosα + d * sinα
 
-        return i.toLatLon(height=height, LatLon=self.classof)  # Nvector(i.x, i.y, i.z).toLatLon(...)
+        h = self._havg(other, f=fraction) if height is None else height
+        return i.toLatLon(height=h, LatLon=self.classof)  # Nvector(i.x, i.y, i.z).toLatLon(...)
 
     def intersection(self, end1, start2, end2, height=None):
         '''Locates the point of intersection of two paths each defined
