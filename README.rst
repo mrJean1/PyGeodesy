@@ -30,7 +30,7 @@ decoding Geohashes_.
 Other modules provide Lambert conformal conic projections and positions
 (from `John P. Snyder`_, *Map Projections -- A Working Manual*, 1987, pp
 107-109), functions to clip a path or polygon of *LatLon* points using
-the `Cohen–Sutherland`_ and the `Sutherland-Hodgman`_ methods and
+the `Cohen-Sutherland`_ and the `Sutherland-Hodgman`_ methods and
 functions to simplify_ or linearize a path of *LatLon* points (or a
 `NumPy array`_), including implementations of the `Ramer-Douglas-Peucker`_,
 the `Visvalingam-Whyatt`_ and the `Reumann-Witkam`_ algorithms and
@@ -98,8 +98,7 @@ cases documentation tag **JS name:** shows the original JavaScript name.
    :target: http://PyPI.org/project/PyGeodesy
 
 .. _checked: http://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor
-.. _clip: http://WikiPedia.org/wiki/Line_clipping
-.. _Cohen-Sutherland: http://WikiPedia.org/wiki/Cohen–Sutherland_algorithm
+.. _Cohen-Sutherland: http://WikiPedia.org/wiki/Cohen-Sutherland_algorithm
 .. _Debian 8: http://Travis-CI.org/mrJean1/PyGeodesy
 .. _Debian 9: http://Cirrus-CI.com/github/mrJean1/PyGeodesy/master
 .. _docs: http://www.Movable-Type.co.UK/scripts/geodesy/docs
