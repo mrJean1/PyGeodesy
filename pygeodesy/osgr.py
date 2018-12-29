@@ -37,14 +37,14 @@ from dms import parseDMS2
 from ellipsoidalBase import LatLonEllipsoidalBase as _ELLB
 from fmath import fdot, fpowers, Fsum, fsum_, map1
 from utily import degrees90, degrees180, enStr2, false2f, \
-                  halfs, property_RO
+                  halfs2, property_RO
 
 from math import cos, radians, sin, sqrt, tan
 
 # all public contants, classes and functions
 __all__ = ('Osgr',  # classes
            'parseOSGR', 'toOsgr')  # functions
-__version__ = '18.10.12'
+__version__ = '18.12.16'
 
 _10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (C{meter})
 _100km   = 100000  #: (INTERNAL) 100 km (int meter)
@@ -365,7 +365,7 @@ def parseOSGR(strOSGR, Osgr=Osgr, name=''):
 
             g = s.split()
             if len(g) == 1:  # no whitespace
-                e, n = halfs(s)
+                e, n = halfs2(s)
             elif len(g) == 2:
                 e, n = g
             else:

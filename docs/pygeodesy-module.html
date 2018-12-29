@@ -213,7 +213,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.12.14
+        18.12.26
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -480,7 +480,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.utily.LimitError-class.html" class="summary-name">LimitError</a><br />
-      Error raised for lat- and/or longitudinal deltas exceeding the 
+      Error raised for lat- or longitudinal deltas exceeding the 
         <i>limit</i> in functions <a 
         href="pygeodesy.formy-module.html#equirectangular" 
         class="link">equirectangular</a> and <a 
@@ -658,7 +658,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#anStr" class="summary-sig-name">anStr</a>(<span class="summary-sig-arg">name</span>,
         <span class="summary-sig-arg">OKd</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">._-</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">sub</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">_</code><code class="variable-quote">'</code></span>)</span><br />
-      Make string a valid name of alphanumeric and OKd characters.</td>
+      Make a valid name of alphanumeric and OKd characters.</td>
           <td align="right" valign="top">
             
             
@@ -781,7 +781,8 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#bounds" class="summary-sig-name">bounds</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Determine the lower-left and upper-right corners of a polygon.</td>
+      Determine the lower-left and upper-right corners of a path or 
+      polygon.</td>
           <td align="right" valign="top">
             
             
@@ -873,7 +874,7 @@
         <span class="summary-sig-arg">inull</span>=<span class="summary-sig-default">False</span>)</span><br />
       Clip a path against a rectangular clip box using the <a 
       href="http://WikiPedia.org/wiki/Cohen&#8211;Sutherland_algorithm" 
-      target="_top">Cohen-Sutherland line clipping</a> algorithm.</td>
+      target="_top">Cohen-Sutherland</a> algorithm.</td>
           <td align="right" valign="top">
             
             
@@ -1030,7 +1031,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#degrees180" class="summary-sig-name">degrees180</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Convert and wrap radians to degrees <i class="math">(-180..+180]</i>.</td>
+      Convert radians to degrees and wrap <i class="math">(-180..+180]</i>.</td>
           <td align="right" valign="top">
             
             
@@ -1049,7 +1050,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#degrees2m" class="summary-sig-name">degrees2m</a>(<span class="summary-sig-arg">deg</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>)</span><br />
-      Convert angle to distance along equator.</td>
+      Convert angle to distance along equator or at other latitude.</td>
           <td align="right" valign="top">
             
             
@@ -1066,7 +1067,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#degrees360" class="summary-sig-name">degrees360</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Convert and wrap radians to degrees <i class="math">(0..+360]</i>.</td>
+      Convert radians to degrees and wrap <i class="math">(0..+360]</i>.</td>
           <td align="right" valign="top">
             
             
@@ -1083,7 +1084,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#degrees90" class="summary-sig-name">degrees90</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Convert and wrap radians to degrees <i class="math">(-270..+90]</i>.</td>
+      Convert radians to degrees and wrap <i class="math">(-270..+90]</i>.</td>
           <td align="right" valign="top">
             
             
@@ -1473,7 +1474,7 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#halfs" class="summary-sig-name">halfs</a>(<span class="summary-sig-arg">str2</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#halfs2" class="summary-sig-name">halfs2</a>(<span class="summary-sig-arg">str2</span>)</span><br />
       Split a string in 2 halfs.</td>
           <td align="right" valign="top">
             
@@ -1725,7 +1726,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isclockwise" class="summary-sig-name">isclockwise</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Determine the direction of a polygon.</td>
+      Determine the direction of a path or polygon.</td>
           <td align="right" valign="top">
             
             
@@ -2146,7 +2147,7 @@
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
-      Locate the point on a polygon closest to an other point.</td>
+      Locate the point on a path or polygon closest to an other point.</td>
           <td align="right" valign="top">
             
             
@@ -2167,7 +2168,7 @@
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
-      Locate the point on a polygon closest to an other point.</td>
+      Locate the point on a path or polygon closest to an other point.</td>
           <td align="right" valign="top">
             
             
@@ -2351,7 +2352,7 @@
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Approximate the perimeter of a polygon.</td>
+      Approximate the perimeter of a path or polygon.</td>
           <td align="right" valign="top">
             
             
@@ -2621,7 +2622,7 @@
         <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
-      Modified Ramer-Douglas-Peucker (RDP) simplification of a path of 
+      Modified Ramer-Douglas-Peucker (RDPm) simplification of a path of 
       <code>LatLon</code> points.</td>
           <td align="right" valign="top">
             
@@ -2644,7 +2645,7 @@
         <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
-      Reumann-Witkam simplification of a path of <code>LatLon</code> 
+      Reumann-Witkam (RW) simplification of a path of <code>LatLon</code> 
       points.</td>
           <td align="right" valign="top">
             
@@ -2690,7 +2691,7 @@
         <span class="summary-sig-arg">attr</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
-      Modified Visvalingam-Whyatt (VW) simplification of a path of 
+      Modified Visvalingam-Whyatt (VWm) simplification of a path of 
       <code>LatLon</code> points.</td>
           <td align="right" valign="top">
             
@@ -3079,7 +3080,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'18.12.14'"><code class="variable-quote">'</code><code class="variable-string">18.12.14</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'18.12.26'"><code class="variable-quote">'</code><code class="variable-string">18.12.26</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -3226,6 +3227,13 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
     </td><td class="summary">
         <a name="PI_2"></a><span class="summary-name">PI_2</span> = <code title="1.57079632679">1.57079632679</code><br />
       Half PI, <i class="math">math.pi / 2</i> (<code>float</code>)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="PI_4"></a><span class="summary-name">PI_4</span> = <code title="0.785398163397">0.785398163397</code>
     </td>
   </tr>
 <tr>
@@ -3411,7 +3419,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Make string a valid name of alphanumeric and OKd characters.</p>
+  <p>Make a valid name of alphanumeric and OKd characters.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -3650,11 +3658,12 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Determine the lower-left and upper-right corners of a polygon.</p>
+  <p>Determine the lower-left and upper-right corners of a path or 
+  polygon.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>[]).</li>
+        <li><strong class="pname"><code>points</code></strong> - The path or polygon points (<code>LatLon</code>[]).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap lat- and longitudes (<code>bool</code>).</li>
         <li><strong class="pname"><code>LatLon</code></strong> - Optional (sub-)class to use to return <i>bounds</i> 
           (<code>LatLon</code>) or <code>None</code>.</li>
@@ -3808,7 +3817,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   
   <p>Clip a path against a rectangular clip box using the <a 
   href="http://WikiPedia.org/wiki/Cohen&#8211;Sutherland_algorithm" 
-  target="_top">Cohen-Sutherland line clipping</a> algorithm.</p>
+  target="_top">Cohen-Sutherland</a> algorithm.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -4106,7 +4115,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Convert and wrap radians to degrees <i 
+  <p>Convert radians to degrees and wrap <i 
   class="math">(-180..+180]</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -4134,7 +4143,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Convert angle to distance along equator.</p>
+  <p>Convert angle to distance along equator or at other latitude.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -4166,7 +4175,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Convert and wrap radians to degrees <i class="math">(0..+360]</i>.</p>
+  <p>Convert radians to degrees and wrap <i class="math">(0..+360]</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -4191,7 +4200,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Convert and wrap radians to degrees <i 
+  <p>Convert radians to degrees and wrap <i 
   class="math">(-270..+90]</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -4884,14 +4893,14 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
       </p>
 </div></td></tr></table>
 </div>
-<a name="halfs"></a>
+<a name="halfs2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">halfs</span>(<span class="sig-arg">str2</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">halfs2</span>(<span class="sig-arg">str2</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -5296,11 +5305,11 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Determine the direction of a polygon.</p>
+  <p>Determine the direction of a path or polygon.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>[]).</li>
+        <li><strong class="pname"><code>points</code></strong> - The path or polygon points (<code>LatLon</code>[]).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
           the mean latitude (<code>bool</code>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (<code>bool</code>).</li>
@@ -6023,7 +6032,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Locate the point on a polygon closest to an other point.</p>
+  <p>Locate the point on a path or polygon closest to an other point.</p>
   <p>If the given point is within the extent of a polygon edge, the closest
   point is on that edge, otherwise the closest point is the nearest of that
   edge's end points.</p>
@@ -6035,8 +6044,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>point</code></strong> - The other, reference point (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>[]).</li>
-        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the polygon (<code>bool</code>).</li>
+        <li><strong class="pname"><code>points</code></strong> - The path or polygon points (<code>LatLon</code>[]).</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the path or polygon (<code>bool</code>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
           class="link">unroll180</a> longitudes and longitudinal delta 
           (<code>bool</code>) in function <a 
@@ -6088,7 +6097,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Locate the point on a polygon closest to an other point.</p>
+  <p>Locate the point on a path or polygon closest to an other point.</p>
   <p>If the given point is within the extent of a polygon edge, the closest
   point is on that edge, otherwise the closest point is the nearest of that
   edge's end points.</p>
@@ -6100,8 +6109,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>point</code></strong> - The other, reference point (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>[]).</li>
-        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the polygon (<code>bool</code>).</li>
+        <li><strong class="pname"><code>points</code></strong> - The path or polygon points (<code>LatLon</code>[]).</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the path or polygon (<code>bool</code>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
           class="link">unroll180</a> longitudes and longitudinal delta 
           (<code>bool</code>) in function <a 
@@ -6538,12 +6547,12 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Approximate the perimeter of a polygon.</p>
+  <p>Approximate the perimeter of a path or polygon.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>[]).</li>
-        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the polygon (<code>bool</code>).</li>
+        <li><strong class="pname"><code>points</code></strong> - The path or polygon points (<code>LatLon</code>[]).</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the path or polygon (<code>bool</code>).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
           the mean latitude (<code>bool</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
@@ -6863,7 +6872,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
         <a href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Radius or distance tolerance too small.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <i>distance</i> or <i>radius</i> too small.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -6914,7 +6923,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
         <a href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Radius or distance tolerance too small.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <i>distance</i> or <i>radius</i> too small.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -6938,7 +6947,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Modified Ramer-Douglas-Peucker (RDP) simplification of a path of 
+  <p>Modified Ramer-Douglas-Peucker (RDPm) simplification of a path of 
   <code>LatLon</code> points.</p>
   <p>Eliminates any points too close together or closer to an edge than the
   given distance tolerance.</p>
@@ -6965,7 +6974,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
         <a href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Radius or distance tolerance too small.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <i>distance</i> or <i>radius</i> too small.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -6989,7 +6998,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Reumann-Witkam simplification of a path of <code>LatLon</code> 
+  <p>Reumann-Witkam (RW) simplification of a path of <code>LatLon</code> 
   points.</p>
   <p>Eliminates any points too close together or within the given pipe 
   tolerance along an edge.</p>
@@ -7014,7 +7023,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
         <a href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Radius or pipe tolerance too small.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <i>pipe</i> or <i>radius</i> too small.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -7066,7 +7075,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
         <a href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <i>radius</i> or <i>area</i> too small.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <i>area</i> or <i>radius</i> too small.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -7090,12 +7099,12 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Modified Visvalingam-Whyatt (VW) simplification of a path of 
+  <p>Modified Visvalingam-Whyatt (VWm) simplification of a path of 
   <code>LatLon</code> points.</p>
   <p>Eliminates any points too close together or with a triangular area not
   exceeding the given area tolerance (squared).</p>
   <p>This VW method removes all points with a triangular area below the 
-  tolerance per iteration, significantly reducing the run time (but 
+  tolerance each iteration, significantly reducing the run time (but 
   producing results different from the original VW method).</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -7118,7 +7127,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
         <a href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <i>radius</i> or <i>area</i> too small.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <i>area</i> or <i>radius</i> too small.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -7955,7 +7964,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Dec 20 13:07:44 2018
+    Generated by Epydoc 3.0.1 on Sat Dec 29 11:47:47 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

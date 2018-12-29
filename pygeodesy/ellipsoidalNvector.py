@@ -35,7 +35,7 @@ from math import asin, atan2, cos, radians, sin, sqrt
 # all public contants, classes and functions
 __all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
            'meanOf', 'toNed')  # functions
-__version__ = '18.11.14'
+__version__ = '18.12.16'
 
 
 class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
@@ -710,13 +710,15 @@ class Nvector(NvectorBase):
         r = h + n * E.a_b**2
         return _xnamed(Cartesian(x * r, y * r, z * (n + h)), self.name)
 
-    def unit(self):
+    def unit(self, ll=None):
         '''Normalize this vector to unit length.
+
+           @keyword ll: Optional, original latlon (C{LatLon}).
 
            @return: Normalised vector (L{Nvector}).
         '''
         if self._united is None:
-            u = NvectorBase.unit(self)
+            u = NvectorBase.unit(self, ll=ll)
             if u.datum != self.datum:
                 u._datum = self.datum
 #           self._united = u._united = u

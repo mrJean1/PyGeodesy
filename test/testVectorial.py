@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '18.09.30'
+__version__ = '18.12.16'
 
 from base import TestsBase
 
@@ -61,6 +61,12 @@ class Tests(TestsBase):
         self.test('copy', c.isequalTo(v), True)
         self.test('length', v.length, '52.2051356286',  fmt='%.10f')
         self.test('length', c.length, '52.2051356286',  fmt='%.10f')
+
+        if hasattr(LatLon, 'intersection'):
+            # <http://GitHub.com/ChrisVeness/geodesy/blob/master/test/latlon-vectors-tests.js>
+            p = LatLon(1, 1)
+            i = p.intersection(LatLon(2, 2), LatLon(1, 4), LatLon(2, 3))
+            self.test('intersection', i, '02.499372°N, 002.5°E')
 
         if hasattr(LatLon, 'isEnclosedBy'):
             p = LatLon(45.1, 1.1)

@@ -18,8 +18,8 @@ each iteration, while modified L{simplifyRDPm} stops at the first point
 exceeding the distance tolerance.
 
 Function L{simplifyRW} use the Reumann-Witkam method, sliding a "pipe"
-over each path edge, removing all subsequent points closer than the pipe
-radius up to the first point outside the pipe.
+over each path edge, removing all subsequent points within, closer than
+the pipe radius up to the first point outside the pipe.
 
 Functions L{simplifyVW} and L{simplifyVWm} are based on the original,
 respectively modified Visvalingam-Whyatt (VW) method using the area of
@@ -46,13 +46,14 @@ Finally, any additional keyword arguments I{options} to all functions
 are passed thru to function L{equirectangular_} to specify the distance
 approximation.
 
-To process NumPy arrays containing rows of lat-, longitude and possibly
-other values, use class L{Numpy2LatLon} to wrap the NumPy array into
-I{on-the-fly-LatLon} points.  Pass the L{Numpy2LatLon} instance to any
-I{simplify} function and the returned result will be a NumPy array
-containing the simplified subset, a partial copy of the original NumPy
-array.  Use keyword argument I{indices}=C{True} to return a list of
-array row indices inlieu of the simplified array subset.
+To process C{NumPy} arrays containing rows of lat-, longitude and
+possibly other values, use class L{Numpy2LatLon} to wrap the C{NumPy}
+array into I{on-the-fly-LatLon} points.  Pass the L{Numpy2LatLon}
+instance to any I{simplify} function and the returned result will be
+a C{NumPy} array containing the simplified subset, a partial copy of
+the original C{NumPy} array.  Use keyword argument I{indices}=C{True}
+to return a list of array row indices inlieu of the simplified array
+subset.
 
 See:
  - U{http://Bost.Ocks.org/mike/simplify}
@@ -81,7 +82,7 @@ from math import degrees, radians, sqrt
 __all__ = ('simplify1', 'simplify2',  # DEPRECATED
            'simplifyRDP', 'simplifyRDPm', 'simplifyRW',
            'simplifyVW', 'simplifyVWm')
-__version__ = '18.10.26'
+__version__ = '18.12.16'
 
 
 # try:
@@ -382,7 +383,7 @@ def simplify1(points, distance, radius=R_M, indices=False, **options):
        @raise LimitError: Lat- and/or longitudinal delta exceeds I{limit},
                           see function L{equirectangular_}.
 
-       @raise ValueError: Radius or distance tolerance too small.
+       @raise ValueError: Tolerance I{distance} or I{radius} too small.
     '''
     S = _Sy(points, distance, radius, True, indices, **options)
 
@@ -435,7 +436,7 @@ def simplifyRDP(points, distance, radius=R_M, shortest=False,
        @raise LimitError: Lat- and/or longitudinal delta exceeds I{limit},
                           see function L{equirectangular_}.
 
-       @raise ValueError: Radius or distance tolerance too small.
+       @raise ValueError: Tolerance I{distance} or I{radius} too small.
     '''
     S = _Sy(points, distance, radius, shortest, indices, **options)
 
@@ -444,7 +445,7 @@ def simplifyRDP(points, distance, radius=R_M, shortest=False,
 
 def simplifyRDPm(points, distance, radius=R_M, shortest=False,
                                    indices=False, **options):
-    '''Modified Ramer-Douglas-Peucker (RDP) simplification of a path
+    '''Modified Ramer-Douglas-Peucker (RDPm) simplification of a path
        of C{LatLon} points.
 
        Eliminates any points too close together or closer to an edge
@@ -469,7 +470,7 @@ def simplifyRDPm(points, distance, radius=R_M, shortest=False,
        @raise LimitError: Lat- and/or longitudinal delta exceeds I{limit},
                           see function L{equirectangular_}.
 
-       @raise ValueError: Radius or distance tolerance too small.
+       @raise ValueError: Tolerance I{distance} or I{radius} too small.
     '''
     S = _Sy(points, distance, radius, shortest, indices, **options)
 
@@ -478,7 +479,7 @@ def simplifyRDPm(points, distance, radius=R_M, shortest=False,
 
 def simplifyRW(points, pipe, radius=R_M, shortest=False,
                              indices=False, **options):
-    '''Reumann-Witkam simplification of a path of C{LatLon} points.
+    '''Reumann-Witkam (RW) simplification of a path of C{LatLon} points.
 
        Eliminates any points too close together or within the given
        pipe tolerance along an edge.
@@ -498,7 +499,7 @@ def simplifyRW(points, pipe, radius=R_M, shortest=False,
        @raise LimitError: Lat- and/or longitudinal delta exceeds I{limit},
                           see function L{equirectangular_}.
 
-       @raise ValueError: Radius or pipe tolerance too small.
+       @raise ValueError: Tolerance I{pipe} or I{radius} too small.
     '''
     S = _Sy(points, pipe, radius, shortest, indices, **options)
 
@@ -550,7 +551,7 @@ def simplifyVW(points, area, radius=R_M, attr=None,
        @raise LimitError: Lat- and/or longitudinal delta exceeds I{limit},
                           see function L{equirectangular_}.
 
-       @raise ValueError: Tolerance I{radius} or I{area} too small.
+       @raise ValueError: Tolerance I{area} or I{radius} too small.
     '''
     S = _Sy(points, area, radius, False, indices, **options)
 
@@ -577,16 +578,16 @@ def simplifyVW(points, area, radius=R_M, attr=None,
 
 def simplifyVWm(points, area, radius=R_M, attr=None,
                               indices=False, **options):
-    '''Modified Visvalingam-Whyatt (VW) simplification of a path of
+    '''Modified Visvalingam-Whyatt (VWm) simplification of a path of
        C{LatLon} points.
 
        Eliminates any points too close together or with a triangular
        area not exceeding the given area tolerance (squared).
 
        This VW method removes all points with a triangular area
-       below the tolerance per iteration, significantly reducing the
-       run time (but producing results different from the original
-       VW method).
+       below the tolerance each iteration, significantly reducing
+       the run time (but producing results different from the
+       original VW method).
 
        @param points: Path points (C{LatLon}[]).
        @param area: Tolerance (C{meter}, same units as I{radius}).
@@ -604,7 +605,7 @@ def simplifyVWm(points, area, radius=R_M, attr=None,
        @raise LimitError: Lat- and/or longitudinal delta exceeds I{limit},
                           see function L{equirectangular_}.
 
-       @raise ValueError: Tolerance I{radius} or I{area} too small.
+       @raise ValueError: Tolerance I{area} or I{radius} too small.
     '''
     S = _Sy(points, area, radius, False, indices, **options)
 

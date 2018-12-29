@@ -69,7 +69,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.12.07
+        18.12.26
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -84,7 +84,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.utily.LimitError-class.html" class="summary-name">LimitError</a><br />
-      Error raised for lat- and/or longitudinal deltas exceeding the 
+      Error raised for lat- or longitudinal deltas exceeding the 
         <i>limit</i> in functions <a 
         href="pygeodesy.formy-module.html#equirectangular" 
         class="link">equirectangular</a> and <a 
@@ -144,7 +144,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#anStr" class="summary-sig-name">anStr</a>(<span class="summary-sig-arg">name</span>,
         <span class="summary-sig-arg">OKd</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">._-</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">sub</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">_</code><code class="variable-quote">'</code></span>)</span><br />
-      Make string a valid name of alphanumeric and OKd characters.</td>
+      Make a valid name of alphanumeric and OKd characters.</td>
           <td align="right" valign="top">
             
             
@@ -161,7 +161,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#degrees90" class="summary-sig-name">degrees90</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Convert and wrap radians to degrees <i class="math">(-270..+90]</i>.</td>
+      Convert radians to degrees and wrap <i class="math">(-270..+90]</i>.</td>
           <td align="right" valign="top">
             
             
@@ -178,7 +178,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#degrees180" class="summary-sig-name">degrees180</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Convert and wrap radians to degrees <i class="math">(-180..+180]</i>.</td>
+      Convert radians to degrees and wrap <i class="math">(-180..+180]</i>.</td>
           <td align="right" valign="top">
             
             
@@ -195,7 +195,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#degrees360" class="summary-sig-name">degrees360</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Convert and wrap radians to degrees <i class="math">(0..+360]</i>.</td>
+      Convert radians to degrees and wrap <i class="math">(0..+360]</i>.</td>
           <td align="right" valign="top">
             
             
@@ -214,7 +214,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#degrees2m" class="summary-sig-name">degrees2m</a>(<span class="summary-sig-arg">deg</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>)</span><br />
-      Convert angle to distance along equator.</td>
+      Convert angle to distance along equator or at other latitude.</td>
           <td align="right" valign="top">
             
             
@@ -286,7 +286,7 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#halfs" class="summary-sig-name">halfs</a>(<span class="summary-sig-arg">str2</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#halfs2" class="summary-sig-name">halfs2</a>(<span class="summary-sig-arg">str2</span>)</span><br />
       Split a string in 2 halfs.</td>
           <td align="right" valign="top">
             
@@ -843,6 +843,14 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a name="PI_4"></a><span class="summary-name">PI_4</span> = <code title="0.785398163397">0.785398163397</code><br />
+      Quarter PI, <i class="math">PI / 4</i> (<code>float</code>)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a name="R_M"></a><span class="summary-name">R_M</span> = <code title="6371008.77141">6371008.77141</code><br />
       Mean, spherical earth radius (<code>meter</code>).
     </td>
@@ -873,7 +881,7 @@
     </td>
   </tr></table>
   
-  <p>Make string a valid name of alphanumeric and OKd characters.</p>
+  <p>Make a valid name of alphanumeric and OKd characters.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -904,7 +912,7 @@
     </td>
   </tr></table>
   
-  <p>Convert and wrap radians to degrees <i 
+  <p>Convert radians to degrees and wrap <i 
   class="math">(-270..+90]</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -930,7 +938,7 @@
     </td>
   </tr></table>
   
-  <p>Convert and wrap radians to degrees <i 
+  <p>Convert radians to degrees and wrap <i 
   class="math">(-180..+180]</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -956,7 +964,7 @@
     </td>
   </tr></table>
   
-  <p>Convert and wrap radians to degrees <i class="math">(0..+360]</i>.</p>
+  <p>Convert radians to degrees and wrap <i class="math">(0..+360]</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -983,7 +991,7 @@
     </td>
   </tr></table>
   
-  <p>Convert angle to distance along equator.</p>
+  <p>Convert angle to distance along equator or at other latitude.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -1094,14 +1102,14 @@
   </dl>
 </td></tr></table>
 </div>
-<a name="halfs"></a>
+<a name="halfs2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">halfs</span>(<span class="sig-arg">str2</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">halfs2</span>(<span class="sig-arg">str2</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1923,7 +1931,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Dec 20 13:07:44 2018
+    Generated by Epydoc 3.0.1 on Sat Dec 29 11:47:48 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

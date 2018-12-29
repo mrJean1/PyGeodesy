@@ -20,13 +20,13 @@ Based on U{modutil.lazy_import<http://modutil.ReadTheDocs.io/en/latest/>}
 by Brett Cannon's U{modutil<http://PyPI.org/project/modutil>}.
 
 @var isLazy: Lazy import setting (C{int}) from C{PYGEODESY_LAZY_IMPORT},
-             C{None} if lazy import is not supported or not enabled, or
-             C{False} if initializing lazy import failed.
+             or C{None} if lazy import is not supported or not enabled,
+             or C{False} if initializing lazy import failed.
 '''
 
 __all__ = ('LazyImportError',
            'isLazy')
-__version__ = '18.12.10'
+__version__ = '18.12.26'
 
 # @module_property[_RO?] <http://GitHub.com/jtushman/proxy_tools/
 isLazy = None  # or 0..1+
@@ -43,47 +43,49 @@ def _all_imports(*more):
     '''(INTERNAL) Build C{dict} of all lazy imports.
     '''
     imports = {}
-    # import naming conventions below:
+    # imports naming conventions below:
     #  <module> == import <module>
     #  <module.name> == from <module> import <name>
-    #  <module.name> as <othername> == from <module> import <name> as <othername>
-    for name in ('ellipsoidalKarney', 'ellipsoidalNvector', 'ellipsoidalVincenty', 'geohash', 'nvector', 'sphericalNvector', 'sphericalTrigonometry', 'vector3d',
-                 'bases', 'clipy', 'datum', 'dms', 'elevations', 'fmath', 'formy', 'lcc', 'mgrs', 'osgr', 'points', 'simplify', 'utily', 'utm', 'webmercator',
+    #  <module.name> as <othername> == from <module> import <name> as <as_name>
+    for name in ('ellipsoidalKarney', 'ellipsoidalNvector', 'nvector', 'sphericalNvector', 'sphericalTrigonometry',
                  'points.areaOf as areaof', 'points.perimeterOf as perimeterof',  # DEPRECATED
-                 'geohash.Geohash',
-                 'ellipsoidalVincenty.VincentyError',
-                 'vector3d.CrossError', 'vector3d.crosserrors',
-                 'bases.LatLonHeightBase', 'bases.classname', 'bases.classnaming', 'bases.inStr',
-                 'clipy.clipCS3', 'clipy.clipSH', 'clipy.clipSH3',
-                 'datum.R_M', 'datum.R_MA', 'datum.R_MB', 'datum.R_KM', 'datum.R_NM', 'datum.R_SM', 'datum.R_FM', 'datum.R_VM', 'datum.Datum', 'datum.Ellipsoid',
-                              'datum.Transform', 'datum.Datums', 'datum.Ellipsoids', 'datum.Transforms',
-                 'dms.F_D', 'dms.F_DM', 'dms.F_DMS', 'dms.F_DEG', 'dms.F_MIN', 'dms.F_SEC', 'dms.F_RAD', 'dms.S_DEG', 'dms.S_MIN', 'dms.S_SEC', 'dms.S_RAD',
-                            'dms.S_SEP', 'dms.RangeError', 'dms.bearingDMS', 'dms.clipDMS', 'dms.compassDMS', 'dms.compassPoint', 'dms.latDMS', 'dms.lonDMS',
-                            'dms.normDMS', 'dms.parseDMS', 'dms.parseDMS2', 'dms.parse3llh', 'dms.precision', 'dms.rangerrors', 'dms.toDMS',
-                 'elevations.elevation2', 'elevations.geoidHeight2',
-                 'fmath.EPS', 'fmath.EPS1', 'fmath.Fsum', 'fmath.acos1', 'fmath.cbrt', 'fmath.cbrt2', 'fmath.favg', 'fmath.fdot', 'fmath.fdot3', 'fmath.fmean',
-                              'fmath.fhorner', 'fmath.fpolynomial', 'fmath.fpowers', 'fmath.fStr', 'fmath.fStrzs', 'fmath.fsum', 'fmath.fsum_', 'fmath.hypot',
-                              'fmath.hypot1', 'fmath.hypot3', 'fmath.isfinite', 'fmath.isint', 'fmath.isscalar', 'fmath.len2', 'fmath.map1', 'fmath.map2',
-                              'fmath.scalar', 'fmath.sqrt3',
-                 'formy.antipode', 'formy.bearing', 'formy.bearing_', 'formy.compassAngle', 'formy.equirectangular', 'formy.equirectangular3',  # DEPRECATED
-                                   'formy.equirectangular_', 'formy.haversine', 'formy.haversine_', 'formy.heightOf', 'formy.horizon', 'formy.isantipode',
+                 'geohash', 'geohash.Geohash',
+                 'ellipsoidalVincenty', 'ellipsoidalVincenty.VincentyError',
+                 'vector3d', 'vector3d.CrossError', 'vector3d.crosserrors',
+                 'bases', 'bases.LatLonHeightBase', 'bases.classname', 'bases.classnaming', 'bases.inStr',
+                 'clipy', 'clipy.clipCS3', 'clipy.clipSH', 'clipy.clipSH3',
+                 'datum', 'datum.R_M', 'datum.R_MA', 'datum.R_MB', 'datum.R_KM', 'datum.R_NM', 'datum.R_SM', 'datum.R_FM', 'datum.R_VM',
+                          'datum.Datum', 'datum.Ellipsoid', 'datum.Transform', 'datum.Datums', 'datum.Ellipsoids', 'datum.Transforms',
+                 'dms', 'dms.F_D', 'dms.F_DM', 'dms.F_DMS', 'dms.F_DEG', 'dms.F_MIN', 'dms.F_SEC', 'dms.F_RAD', 'dms.S_DEG', 'dms.S_MIN', 'dms.S_SEC', 'dms.S_RAD',
+                        'dms.S_SEP', 'dms.RangeError', 'dms.bearingDMS', 'dms.clipDMS', 'dms.compassDMS', 'dms.compassPoint', 'dms.latDMS', 'dms.lonDMS',
+                        'dms.normDMS', 'dms.parseDMS', 'dms.parseDMS2', 'dms.parse3llh', 'dms.precision', 'dms.rangerrors', 'dms.toDMS',
+                 'elevations', 'elevations.elevation2', 'elevations.geoidHeight2',
+                 'fmath', 'fmath.EPS', 'fmath.EPS1', 'fmath.Fsum', 'fmath.acos1', 'fmath.cbrt', 'fmath.cbrt2', 'fmath.favg', 'fmath.fdot', 'fmath.fdot3',
+                          'fmath.fmean', 'fmath.fhorner', 'fmath.fpolynomial', 'fmath.fpowers', 'fmath.fStr', 'fmath.fStrzs', 'fmath.fsum', 'fmath.fsum_',
+                          'fmath.hypot', 'fmath.hypot1', 'fmath.hypot3', 'fmath.isfinite', 'fmath.isint', 'fmath.isscalar', 'fmath.len2',
+                          'fmath.map1', 'fmath.map2', 'fmath.scalar', 'fmath.sqrt3',
+                 'formy', 'formy.antipode', 'formy.bearing', 'formy.bearing_', 'formy.compassAngle', 'formy.equirectangular', 'formy.equirectangular3',  # DEPRECATED
+                          'formy.equirectangular_', 'formy.haversine', 'formy.haversine_', 'formy.heightOf', 'formy.horizon', 'formy.isantipode',
                  'lazily', 'lazily.isLazy', 'lazily.LazyImportError',
-                 'lcc.Conic', 'lcc.Conics', 'lcc.Lcc', 'lcc.toLcc',
-                 'mgrs.Mgrs', 'mgrs.parseMGRS', 'mgrs.toMgrs',
-                 'osgr.Osgr', 'osgr.parseOSGR', 'osgr.toOsgr',
-                 'points.LatLon_', 'points.LatLon2psxy', 'points.Numpy2LatLon', 'points.Tuple2LatLon', 'points.areaOf', 'points.bounds',
-                                   'points.isclockwise', 'points.isconvex', 'points.isconvex_', 'points.isenclosedBy', 'points.isenclosedby', 'points.ispolar',
-                                   'points.nearestOn3', 'points.nearestOn4', 'points.perimeterOf',
-                 'simplify.simplify1', 'simplify.simplify2', 'simplify.simplifyRDP', 'simplify.simplifyRDPm', 'simplify.simplifyRW', 'simplify.simplifyVW',
-                                       'simplify.simplifyVWm',
-                 'utily.PI', 'utily.PI2', 'utily.PI_2', 'utily.R_M', 'utily.LimitError', 'utily.anStr', 'utily.degrees', 'utily.degrees90', 'utily.degrees180',
-                             'utily.degrees360', 'utily.degrees2m', 'utily.enStr2', 'utily.false2f', 'utily.ft2m', 'utily.halfs', 'utily.issequence',
-                             'utily.isNumpy2', 'utily.isPoints2', 'utily.isTuple2', 'utily.iterNumpy2', 'utily.iterNumpy2over', 'utily.limiterrors',
-                             'utily.m2degrees', 'utily.m2ft', 'utily.m2km', 'utily.m2NM', 'utily.m2SM', 'utily.points2', 'utily.polygon', 'utily.property_RO',
-                             'utily.radians', 'utily.radiansPI_2', 'utily.radiansPI', 'utily.radiansPI2', 'utily.tan_2', 'utily.tanPI_2_2', 'utily.unroll180',
-                             'utily.unrollPI', 'utily.unStr', 'utily.wrap90', 'utily.wrap180', 'utily.wrap360', 'utily.wrapPI_2','utily.wrapPI', 'utily.wrapPI2',
-                 'utm.Utm', 'utm.UTMError', 'utm.parseUTM', 'utm.toUtm', 'utm.utmZoneBand2',
-                 'webmercator.Wm', 'webmercator.parseWM', 'webmercator.toWm') + more:
+                 'lcc', 'lcc.Conic', 'lcc.Conics', 'lcc.Lcc', 'lcc.toLcc',
+                 'mgrs', 'mgrs.Mgrs', 'mgrs.parseMGRS', 'mgrs.toMgrs',
+                 'osgr', 'osgr.Osgr', 'osgr.parseOSGR', 'osgr.toOsgr',
+                 'points', 'points.LatLon_', 'points.LatLon2psxy', 'points.Numpy2LatLon', 'points.Tuple2LatLon', 'points.areaOf', 'points.bounds',
+                           'points.isclockwise', 'points.isconvex', 'points.isconvex_', 'points.isenclosedBy', 'points.isenclosedby', 'points.ispolar',
+                           'points.nearestOn3', 'points.nearestOn4', 'points.perimeterOf',
+                 'simplify', 'simplify.simplify1', 'simplify.simplify2', 'simplify.simplifyRDP', 'simplify.simplifyRDPm',
+                             'simplify.simplifyRW', 'simplify.simplifyVW', 'simplify.simplifyVWm',
+                 'utily', 'utily.PI', 'utily.PI2', 'utily.PI_2', 'utily.PI_4', 'utily.R_M', 'utily.LimitError', 'utily.anStr',
+                          'utily.degrees', 'utily.degrees90', 'utily.degrees180', 'utily.degrees360', 'utily.degrees2m',
+                          'utily.enStr2', 'utily.false2f', 'utily.ft2m', 'utily.halfs2',
+                          'utily.issequence', 'utily.isNumpy2', 'utily.isPoints2', 'utily.isTuple2', 'utily.iterNumpy2', 'utily.iterNumpy2over',
+                          'utily.limiterrors', 'utily.m2degrees', 'utily.m2ft', 'utily.m2km', 'utily.m2NM', 'utily.m2SM',
+                          'utily.points2', 'utily.polygon', 'utily.property_RO',
+                          'utily.radians', 'utily.radiansPI_2', 'utily.radiansPI', 'utily.radiansPI2', 'utily.tan_2', 'utily.tanPI_2_2',
+                          'utily.unroll180', 'utily.unrollPI', 'utily.unStr',
+                          'utily.wrap90', 'utily.wrap180', 'utily.wrap360', 'utily.wrapPI_2','utily.wrapPI', 'utily.wrapPI2',
+                 'utm', 'utm.Utm', 'utm.UTMError', 'utm.parseUTM', 'utm.toUtm', 'utm.utmZoneBand2',
+                 'webmercator', 'webmercator.Wm', 'webmercator.parseWM', 'webmercator.toWm') + more:
         import_from, _, as_name = name.partition(' as ')
         if not as_name:
             _, _, as_name = import_from.rpartition('.')
@@ -165,7 +167,7 @@ def _lazy_import2(package_name):  # MCCABE 20
     def __getattr__(as_name):  # __getattr__ only for Python 3.7+
         # only called once for each undefined pygeodesy attribute
         if as_name in imports:
-            # importlib.import_module() implicitly sets submodules
+            # importlib.import_module() implicitly sets sub-modules
             # on this module as appropriate for direct imports (see
             # note in the _lazy_import.__doc__ above).
             module_name, _, attr_name = imports[as_name].partition('.')
@@ -201,7 +203,7 @@ def _lazy_import2(package_name):  # MCCABE 20
 
 # **) MIT License
 #
-# Copyright (C) 2016-2019 -- mrJean1 at Gmail dot com
+# Copyright (C) 2018-2019 -- mrJean1 at Gmail dot com
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

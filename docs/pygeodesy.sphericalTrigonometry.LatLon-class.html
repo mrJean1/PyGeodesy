@@ -285,13 +285,13 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry.LatLon-class.html#intersection" class="summary-sig-name">intersection</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">bearing</span>,
+        <span class="summary-sig-arg">end1</span>,
         <span class="summary-sig-arg">start2</span>,
-        <span class="summary-sig-arg">bearing2</span>,
+        <span class="summary-sig-arg">end2</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Locate the intersection of two paths each defined by a start point 
-      and an initial bearing.</td>
+      Locate the intersection point of two paths both defined by two points
+      or a start point and bearing from North.</td>
           <td align="right" valign="top">
             
             
@@ -931,9 +931,9 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">intersection</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">bearing</span>,
+        <span class="sig-arg">end1</span>,
         <span class="sig-arg">start2</span>,
-        <span class="sig-arg">bearing2</span>,
+        <span class="sig-arg">end2</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
@@ -942,32 +942,40 @@
     </td>
   </tr></table>
   
-  <p>Locate the intersection of two paths each defined by a start point and
-  an initial bearing.</p>
+  <p>Locate the intersection point of two paths both defined by two points 
+  or a start point and bearing from North.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>bearing</code></strong> - Initial bearing from this point (compass 
-          <code>degrees360</code>).</li>
-        <li><strong class="pname"><code>start2</code></strong> - Start point of second path (<a 
+        <li><strong class="pname"><code>end1</code></strong> - End point of the first path (<a 
+          href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
+          class="link">LatLon</a>) or the initial bearing at this point 
+          (compass <code>degrees360</code>).</li>
+        <li><strong class="pname"><code>start2</code></strong> - Start point of the second path (<a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>bearing2</code></strong> - Initial bearing from start2 (compass <code>degrees360</code>).</li>
+        <li><strong class="pname"><code>end2</code></strong> - End point of the second path (<a 
+          href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
+          class="link">LatLon</a>) or the initial bearing at the second 
+          point (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height for intersection point, overriding the mean 
           height (<code>meter</code>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Intersection point (<a 
+        <dd>The intersection point (<a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
-          class="link">LatLon</a>).</dd>
+          class="link">LatLon</a>).  An alternate intersection point might 
+          be the <a 
+          href="pygeodesy.bases.LatLonHeightBase-class.html#antipode" 
+          class="link">antipode</a> to the returned result.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Point <i>start2</i> is not a <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>start2</i>, <i>end1</i> or <i>end2</i> is not <a 
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Intersection is ambiguous or infinite or the paths are parallel or 
-        coincide.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Intersection is ambiguous or infinite or the paths are parallel, 
+        coincident or null.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -1313,7 +1321,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Dec 20 13:07:45 2018
+    Generated by Epydoc 3.0.1 on Sat Dec 29 11:47:49 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

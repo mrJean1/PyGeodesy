@@ -18,13 +18,13 @@ from fmath import _Seqs, EPS, len2, map2
 from math import cos, degrees, pi as PI, radians, tan  # pow
 
 # all public contants, classes and functions
-__all__ = ('PI', 'PI2', 'PI_2', 'R_M',  # constants
+__all__ = ('PI', 'PI2', 'PI_2', 'PI_4', 'R_M',  # constants
            'LimitError',  # classes
            'anStr',
            'degrees', 'degrees90', 'degrees180', 'degrees360', 'degrees2m',
            'enStr2',
            'false2f', 'ft2m',
-           'halfs',
+           'halfs2',
            'issequence',
            'isNumpy2', 'isPoints2', 'isTuple2',
            'iterNumpy2', 'iterNumpy2over',
@@ -36,7 +36,7 @@ __all__ = ('PI', 'PI2', 'PI_2', 'R_M',  # constants
            'unroll180', 'unrollPI', 'unStr',
            'wrap90', 'wrap180', 'wrap360',
            'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '18.12.07'
+__version__ = '18.12.26'
 
 division = 1 / 2  # double check int division, see .datum.py
 if not division:
@@ -50,6 +50,7 @@ except NameError:
 
 PI2  = PI * 2  #: Two PI, M{PI * 2} (C{float})  # PYCHOK expected
 PI_2 = PI / 2  #: Half PI, M{PI / 2} (C{float})
+PI_4 = PI / 4  #: Quarter PI, M{PI / 4} (C{float})
 
 # R_M moved here to avoid circular import for bases and datum
 R_M = 6371008.771415  #: Mean, spherical earth radius (C{meter}).
@@ -59,7 +60,7 @@ _limiterrors   = True
 
 
 class LimitError(ValueError):
-    '''Error raised for lat- and/or longitudinal deltas exceeding
+    '''Error raised for lat- or longitudinal deltas exceeding
        the I{limit} in functions L{equirectangular} and
        L{equirectangular_}.
     '''
@@ -67,7 +68,7 @@ class LimitError(ValueError):
 
 
 def anStr(name, OKd='._-', sub='_'):
-    '''Make string a valid name of alphanumeric and OKd characters.
+    '''Make a valid name of alphanumeric and OKd characters.
 
        @param name: The original name (str).
        @keyword OKd: Other acceptable characters (str).
@@ -87,7 +88,7 @@ def anStr(name, OKd='._-', sub='_'):
 
 
 def degrees90(rad):
-    '''Convert and wrap radians to degrees M{(-270..+90]}.
+    '''Convert radians to degrees and wrap M{(-270..+90]}.
 
        @param rad: Angle (C{radians}).
 
@@ -97,7 +98,7 @@ def degrees90(rad):
 
 
 def degrees180(rad):
-    '''Convert and wrap radians to degrees M{(-180..+180]}.
+    '''Convert radians to degrees and wrap M{(-180..+180]}.
 
        @param rad: Angle (C{radians}).
 
@@ -107,7 +108,7 @@ def degrees180(rad):
 
 
 def degrees360(rad):
-    '''Convert and wrap radians to degrees M{(0..+360]}.
+    '''Convert radians to degrees and wrap M{(0..+360]}.
 
        @param rad: Angle (C{radians}).
 
@@ -117,7 +118,7 @@ def degrees360(rad):
 
 
 def degrees2m(deg, radius=R_M, lat=0):
-    '''Convert angle to distance along equator.
+    '''Convert angle to distance along equator or at other latitude.
 
        @param deg: Angle (C{degrees}).
        @keyword radius: Mean earth radius (C{meter}).
@@ -186,7 +187,7 @@ def ft2m(feet):
     return feet * 0.3048  # US Survey 1200./3937. == 0.3048006096012192
 
 
-def halfs(str2):
+def halfs2(str2):
     '''Split a string in 2 halfs.
 
        @param str2: String to split (C{str}).

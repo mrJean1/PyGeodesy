@@ -28,7 +28,7 @@ and U{Military Grid Reference System<http://WikiPedia.org/wiki/Military_grid_ref
 
 from bases import Based, _xattrs, _xnamed
 from datum import Datums
-from utily import enStr2, halfs, property_RO
+from utily import enStr2, halfs2, property_RO
 from utm import toUtm, Utm, _toZBlat3
 
 from math import log10
@@ -37,7 +37,7 @@ import re  # PYCHOK warning locale.Error
 # all public contants, classes and functions
 __all__ = ('Mgrs',  # classes
            'parseMGRS', 'toMgrs')  # functions
-__version__ = '18.10.10'
+__version__ = '18.12.16'
 
 _100km  =  100e3  #: (INTERNAL) 100 km in meter.
 _2000km = 2000e3  #: (INTERNAL) 2,000 km in meter.
@@ -290,9 +290,9 @@ def parseMGRS(strMGRS, datum=Datums.WGS84, Mgrs=Mgrs, name=''):
     try:
         if len(m) == 1:  # 01ABC1234512345'
             m = _mg(_MGRSre, m[0])
-            m = m[:2] + halfs(m[2])
+            m = m[:2] + halfs2(m[2])
         elif len(m) == 2:  # 01ABC 1234512345'
-            m = _mg(_GZDre, m[0]) + halfs(m[1])
+            m = _mg(_GZDre, m[0]) + halfs2(m[1])
         elif len(m) == 3:  # 01ABC 12345 12345'
             m = _mg(_GZDre, m[0]) + m[1:]
         if len(m) != 4:  # 01A BC 1234 12345

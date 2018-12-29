@@ -12,7 +12,7 @@ from points import _imdex2, bounds, isclockwise, isconvex_, \
 from utily  import points2
 
 __all__ = ('clipCS3', 'clipSH', 'clipSH3')
-__version__ = '18.12.14'
+__version__ = '18.12.16'
 
 
 def _eq(p1, p2):  # near-equal points
@@ -75,7 +75,7 @@ class _CS(object):
         self._x1, self._dx = p1.lon, float(p2.lon - p1.lon)
         return abs(self._dx) > EPS or abs(self._dy) > EPS
 
-    def lat4(self, x, p):  # new lat y and code at lon x
+    def lat4(self, x, p):  # new lat and code at lon x
         y = self._y1 + self._dy * float(x - self._x1) / self._dx
         if y < self._ymin:  # still outside
             return _CS._YMIN, self.lon4, self._ymin, p
@@ -84,7 +84,7 @@ class _CS(object):
         else:  # inside
             return _CS._IN, self.nop4, None, p.classof(y, x)
 
-    def lon4(self, y, p):  # new lon x and code at lat y
+    def lon4(self, y, p):  # new lon and code at lat y
         x = self._x1 + self._dx * float(y - self._y1) / self._dy
         if x < self._xmin:  # still outside
             return _CS._XMIN, self.lat4, self._xmin, p
@@ -101,7 +101,7 @@ class _CS(object):
 
 def clipCS3(points, lowerleft, upperright, closed=False, inull=False):  # MCCABE 25
     '''Clip a path against a rectangular clip box using the
-       U{Cohen-Sutherland line clipping
+       U{Cohen-Sutherland
        <http://WikiPedia.org/wiki/Cohen–Sutherland_algorithm>} algorithm.
 
        @param points: The points (C{LatLon}[]).
@@ -185,7 +185,7 @@ class _SH(object):
                 raise ValueError
         except ValueError:
             raise ValueError('invalid %s[%s]: %r' % ('corners', n, corners))
-        self._clipped = self.points = []
+        self._clipped = self._points = []
 
     def append(self, p, inull):  # save a clipped point
         if inull or (not self._clipped) or _neq(p, self._clipped[-1]):

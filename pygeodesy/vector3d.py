@@ -22,7 +22,7 @@ from math import atan2, cos, sin
 __all__ = ('CrossError', 'Vector3d',  # classes
            'crosserrors',
            'sumOf')  # functions
-__version__ = '18.10.26'
+__version__ = '18.12.16'
 
 try:
     _cmp = cmp
@@ -602,8 +602,10 @@ class Vector3d(VectorBased):
         '''
         return fmt % (fStr(self.to3xyz(), prec=prec, sep=sep),)
 
-    def unit(self):
+    def unit(self, ll=None):
         '''Normalize this vector to unit length.
+
+           @keyword ll: Optional, original latlon (C{LatLon}).
 
            @return: Normalized vector (L{Vector3d}).
         '''
@@ -614,6 +616,7 @@ class Vector3d(VectorBased):
                 u._length = 1
             else:
                 u = self.copy()
+            u._fromll = ll or self._fromll
             self._united = u._united = u
         return self._united
 

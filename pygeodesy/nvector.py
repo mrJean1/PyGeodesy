@@ -23,7 +23,7 @@ __all__ = ('NorthPole', 'SouthPole',  # constants
            'LatLonNvectorBase',  # for documentation
            'Nvector',  # classes
            'sumOf')  # functions
-__version__ = '18.10.12'
+__version__ = '18.12.16'
 
 
 class Nvector(Vector3d):  # XXX kept private
@@ -148,13 +148,15 @@ class Nvector(Vector3d):  # XXX kept private
         u = self.unit()
         return Vector3d(u.x, u.y, u.z, name=self.name)
 
-    def unit(self):
+    def unit(self, ll=None):
         '''Normalize this vector to unit length.
+
+           @keyword ll: Optional, original latlon (C{LatLon}).
 
            @return: Normalized vector (L{Nvector}).
         '''
         if self._united is None:
-            u = Vector3d.unit(self)  # .copy()
+            u = Vector3d.unit(self, ll=ll)  # .copy()
             self._united = u._united = _xattrs(u, self, '_h')
         return self._united
 

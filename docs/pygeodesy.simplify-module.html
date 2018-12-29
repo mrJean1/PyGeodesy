@@ -82,7 +82,8 @@
   <p>Function <a href="pygeodesy.simplify-module.html#simplifyRW" 
   class="link">simplifyRW</a> use the Reumann-Witkam method, sliding a 
   &quot;pipe&quot; over each path edge, removing all subsequent points 
-  closer than the pipe radius up to the first point outside the pipe.</p>
+  within, closer than the pipe radius up to the first point outside the 
+  pipe.</p>
   <p>Functions <a href="pygeodesy.simplify-module.html#simplifyVW" 
   class="link">simplifyVW</a> and <a 
   href="pygeodesy.simplify-module.html#simplifyVWm" 
@@ -116,17 +117,17 @@
   href="pygeodesy.formy-module.html#equirectangular_" 
   class="link">equirectangular_</a> to specify the distance 
   approximation.</p>
-  <p>To process NumPy arrays containing rows of lat-, longitude and 
-  possibly other values, use class <a 
+  <p>To process <code>NumPy</code> arrays containing rows of lat-, 
+  longitude and possibly other values, use class <a 
   href="pygeodesy.points.Numpy2LatLon-class.html" 
-  class="link">Numpy2LatLon</a> to wrap the NumPy array into 
+  class="link">Numpy2LatLon</a> to wrap the <code>NumPy</code> array into 
   <i>on-the-fly-LatLon</i> points.  Pass the <a 
   href="pygeodesy.points.Numpy2LatLon-class.html" 
   class="link">Numpy2LatLon</a> instance to any <i>simplify</i> function 
-  and the returned result will be a NumPy array containing the simplified 
-  subset, a partial copy of the original NumPy array.  Use keyword argument
-  <i>indices</i>=<code>True</code> to return a list of array row indices 
-  inlieu of the simplified array subset.</p>
+  and the returned result will be a <code>NumPy</code> array containing the
+  simplified subset, a partial copy of the original <code>NumPy</code> 
+  array.  Use keyword argument <i>indices</i>=<code>True</code> to return a
+  list of array row indices inlieu of the simplified array subset.</p>
   <p>See:</p>
   <ul>
     <li>
@@ -181,7 +182,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.10.26
+        18.12.16
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -271,7 +272,7 @@
         <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
-      Modified Ramer-Douglas-Peucker (RDP) simplification of a path of 
+      Modified Ramer-Douglas-Peucker (RDPm) simplification of a path of 
       <code>LatLon</code> points.</td>
           <td align="right" valign="top">
             
@@ -294,7 +295,7 @@
         <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
-      Reumann-Witkam simplification of a path of <code>LatLon</code> 
+      Reumann-Witkam (RW) simplification of a path of <code>LatLon</code> 
       points.</td>
           <td align="right" valign="top">
             
@@ -340,7 +341,7 @@
         <span class="summary-sig-arg">attr</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
-      Modified Visvalingam-Whyatt (VW) simplification of a path of 
+      Modified Visvalingam-Whyatt (VWm) simplification of a path of 
       <code>LatLon</code> points.</td>
           <td align="right" valign="top">
             
@@ -401,7 +402,7 @@
         <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
         <a href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Radius or distance tolerance too small.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <i>distance</i> or <i>radius</i> too small.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -452,7 +453,7 @@
         <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
         <a href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Radius or distance tolerance too small.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <i>distance</i> or <i>radius</i> too small.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -476,7 +477,7 @@
     </td>
   </tr></table>
   
-  <p>Modified Ramer-Douglas-Peucker (RDP) simplification of a path of 
+  <p>Modified Ramer-Douglas-Peucker (RDPm) simplification of a path of 
   <code>LatLon</code> points.</p>
   <p>Eliminates any points too close together or closer to an edge than the
   given distance tolerance.</p>
@@ -503,7 +504,7 @@
         <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
         <a href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Radius or distance tolerance too small.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <i>distance</i> or <i>radius</i> too small.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -527,7 +528,7 @@
     </td>
   </tr></table>
   
-  <p>Reumann-Witkam simplification of a path of <code>LatLon</code> 
+  <p>Reumann-Witkam (RW) simplification of a path of <code>LatLon</code> 
   points.</p>
   <p>Eliminates any points too close together or within the given pipe 
   tolerance along an edge.</p>
@@ -552,7 +553,7 @@
         <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
         <a href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Radius or pipe tolerance too small.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <i>pipe</i> or <i>radius</i> too small.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -604,7 +605,7 @@
         <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
         <a href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <i>radius</i> or <i>area</i> too small.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <i>area</i> or <i>radius</i> too small.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -628,12 +629,12 @@
     </td>
   </tr></table>
   
-  <p>Modified Visvalingam-Whyatt (VW) simplification of a path of 
+  <p>Modified Visvalingam-Whyatt (VWm) simplification of a path of 
   <code>LatLon</code> points.</p>
   <p>Eliminates any points too close together or with a triangular area not
   exceeding the given area tolerance (squared).</p>
   <p>This VW method removes all points with a triangular area below the 
-  tolerance per iteration, significantly reducing the run time (but 
+  tolerance each iteration, significantly reducing the run time (but 
   producing results different from the original VW method).</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -656,7 +657,7 @@
         <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
         <a href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <i>radius</i> or <i>area</i> too small.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <i>area</i> or <i>radius</i> too small.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -693,7 +694,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Dec 20 13:07:44 2018
+    Generated by Epydoc 3.0.1 on Sat Dec 29 11:47:48 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

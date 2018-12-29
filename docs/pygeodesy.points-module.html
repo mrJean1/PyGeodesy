@@ -85,7 +85,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.12.10
+        18.12.16
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -172,7 +172,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.points-module.html#bounds" class="summary-sig-name">bounds</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Determine the lower-left and upper-right corners of a polygon.</td>
+      Determine the lower-left and upper-right corners of a path or 
+      polygon.</td>
           <td align="right" valign="top">
             
             
@@ -191,7 +192,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.points-module.html#isclockwise" class="summary-sig-name">isclockwise</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Determine the direction of a polygon.</td>
+      Determine the direction of a path or polygon.</td>
           <td align="right" valign="top">
             
             
@@ -308,7 +309,7 @@
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
-      Locate the point on a polygon closest to an other point.</td>
+      Locate the point on a path or polygon closest to an other point.</td>
           <td align="right" valign="top">
             
             
@@ -329,7 +330,7 @@
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
-      Locate the point on a polygon closest to an other point.</td>
+      Locate the point on a path or polygon closest to an other point.</td>
           <td align="right" valign="top">
             
             
@@ -350,7 +351,7 @@
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Approximate the perimeter of a polygon.</td>
+      Approximate the perimeter of a path or polygon.</td>
           <td align="right" valign="top">
             
             
@@ -437,11 +438,12 @@
     </td>
   </tr></table>
   
-  <p>Determine the lower-left and upper-right corners of a polygon.</p>
+  <p>Determine the lower-left and upper-right corners of a path or 
+  polygon.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>[]).</li>
+        <li><strong class="pname"><code>points</code></strong> - The path or polygon points (<code>LatLon</code>[]).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap lat- and longitudes (<code>bool</code>).</li>
         <li><strong class="pname"><code>LatLon</code></strong> - Optional (sub-)class to use to return <i>bounds</i> 
           (<code>LatLon</code>) or <code>None</code>.</li>
@@ -481,11 +483,11 @@
     </td>
   </tr></table>
   
-  <p>Determine the direction of a polygon.</p>
+  <p>Determine the direction of a path or polygon.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>[]).</li>
+        <li><strong class="pname"><code>points</code></strong> - The path or polygon points (<code>LatLon</code>[]).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
           the mean latitude (<code>bool</code>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (<code>bool</code>).</li>
@@ -699,7 +701,7 @@
     </td>
   </tr></table>
   
-  <p>Locate the point on a polygon closest to an other point.</p>
+  <p>Locate the point on a path or polygon closest to an other point.</p>
   <p>If the given point is within the extent of a polygon edge, the closest
   point is on that edge, otherwise the closest point is the nearest of that
   edge's end points.</p>
@@ -711,8 +713,8 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>point</code></strong> - The other, reference point (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>[]).</li>
-        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the polygon (<code>bool</code>).</li>
+        <li><strong class="pname"><code>points</code></strong> - The path or polygon points (<code>LatLon</code>[]).</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the path or polygon (<code>bool</code>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
           class="link">unroll180</a> longitudes and longitudinal delta 
           (<code>bool</code>) in function <a 
@@ -764,7 +766,7 @@
     </td>
   </tr></table>
   
-  <p>Locate the point on a polygon closest to an other point.</p>
+  <p>Locate the point on a path or polygon closest to an other point.</p>
   <p>If the given point is within the extent of a polygon edge, the closest
   point is on that edge, otherwise the closest point is the nearest of that
   edge's end points.</p>
@@ -776,8 +778,8 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>point</code></strong> - The other, reference point (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>[]).</li>
-        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the polygon (<code>bool</code>).</li>
+        <li><strong class="pname"><code>points</code></strong> - The path or polygon points (<code>LatLon</code>[]).</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the path or polygon (<code>bool</code>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
           class="link">unroll180</a> longitudes and longitudinal delta 
           (<code>bool</code>) in function <a 
@@ -833,12 +835,12 @@
     </td>
   </tr></table>
   
-  <p>Approximate the perimeter of a polygon.</p>
+  <p>Approximate the perimeter of a path or polygon.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>[]).</li>
-        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the polygon (<code>bool</code>).</li>
+        <li><strong class="pname"><code>points</code></strong> - The path or polygon points (<code>LatLon</code>[]).</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the path or polygon (<code>bool</code>).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
           the mean latitude (<code>bool</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
@@ -900,7 +902,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Dec 20 13:07:44 2018
+    Generated by Epydoc 3.0.1 on Sat Dec 29 11:47:48 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

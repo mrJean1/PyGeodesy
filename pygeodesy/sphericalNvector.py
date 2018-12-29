@@ -47,7 +47,7 @@ __all__ = ('LatLon', 'Nvector',  # classes
            'meanOf',
            'nearestOn2',
            'triangulate', 'trilaterate')
-__version__ = '18.12.12'
+__version__ = '18.12.26'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -386,25 +386,28 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         return i.toLatLon(height=h, LatLon=self.classof)  # Nvector(i.x, i.y, i.z).toLatLon(...)
 
     def intersection(self, end1, start2, end2, height=None):
-        '''Locates the point of intersection of two paths each defined
+        '''Locate the intersection point of two paths each defined
            by two points or a start point and bearing from North.
 
-           @param end1: End point of first path (L{LatLon}) or the
-                        initial bearing at this point (compass
+           @param end1: End point of the first path (L{LatLon}) or
+                        the initial bearing at this point (compass
                         C{degrees360}).
            @param start2: Start point of the second path (L{LatLon}).
-           @param end2: End point of second path (L{LatLon}) or the
-                        initial bearing at the second point (compass
+           @param end2: End point of the second path (L{LatLon}) or
+                        the initial bearing at the second point (compass
                         C{degrees}).
            @keyword height: Optional height at the intersection point,
                             overriding the mean height (C{meter}).
 
-           @return: Intersection point (L{LatLon}).
+           @return: The intersection point (L{LatLon}) or 3-tuple
+                    (C{degrees90}, C{degrees180}, height) if I{LatLon}
+                    is C{None} or C{None} if no unique intersection exists.
 
            @raise TypeError: The I{start2}, I{end1} or I{end2} is
                              not L{LatLon}.
 
-           @raise Valuerror: Points coincide.
+           @raise ValueError: Intersection is ambiguous or infinite or
+                              the paths are parallel, coincident or null.
 
            @example:
 
@@ -837,24 +840,27 @@ def intersection(start1, end1, start2, end2,
        points or by a start point and an initial bearing.
 
        @param start1: Start point of the first path (L{LatLon}).
-       @param end1: End point of first path (L{LatLon}) or the
-                    initial bearing at the first start point
+       @param end1: End point of the first path (L{LatLon}) or
+                    the initial bearing at the first start point
                     (compass C{degrees360}).
        @param start2: Start point of the second path (L{LatLon}).
-       @param end2: End point of second path (L{LatLon}) or the
-                    initial bearing at the second start point
+       @param end2: End point of the second path (L{LatLon}) or
+                    the initial bearing at the second start point
                     (compass C{degrees360}).
        @keyword height: Optional height at the intersection point,
                         overriding the default height (C{meter}).
        @keyword LatLon: Optional (sub-)class for the intersection
                         point (L{LatLon}).
 
-       @return: Intersection point (L{LatLon}) or C{None} if no
-                unique intersection exists.
+       @return: The intersection point (L{LatLon}) or 3-tuple
+                (C{degrees90}, C{degrees180}, height) if I{LatLon}
+                is C{None} or C{None} if no unique intersection
+                exists.
 
        @raise TypeError: Start or end point(s) not L{LatLon}.
 
-       @raise Valuerror: Paths coincide.
+       @raise ValueError: Intersection is ambiguous or infinite or
+                          the paths are parallel, coincident or null.
 
        @example:
 
@@ -877,7 +883,8 @@ def intersection(start1, end1, start2, end2,
     # there are two (antipodal) candidate intersection
     # points ... we have to choose the one to return
     i1 = gc1.cross(gc2, raiser='paths')
-    i2 = gc2.cross(gc1, raiser='paths')
+    # postpone computing i2 until needed
+    # i2 = gc2.cross(gc1, raiser='paths')
 
     # selection of intersection point depends on how
     # paths are defined (by bearings or endpoints)
@@ -904,7 +911,7 @@ def intersection(start1, end1, start2, end2,
             # point of v1 and v2 [is this always true?]
             d = -s1.plus(s2).dot(i1)
 
-    i = i1 if d > 0 else i2
+    i = i1 if d > 0 else gc2.cross(gc1, raiser='paths')
     return i.toLatLon(height=height, LatLon=LatLon)  # Nvector(i.x, i.y, i.z).toLatLon(...)
 
 

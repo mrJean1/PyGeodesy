@@ -47,7 +47,7 @@ __all__ = ('LatLon_',  # classes
            'isenclosedBy', 'isenclosedby',  # DEPRECATED
            'ispolar', 'nearestOn3', 'nearestOn4',
            'perimeterOf')
-__version__ = '18.12.10'
+__version__ = '18.12.16'
 
 
 class LatLon_(object):
@@ -887,9 +887,10 @@ def areaOf(points, adjust=True, radius=R_M, wrap=True):
 
 
 def bounds(points, wrap=True, LatLon=None):
-    '''Determine the lower-left and upper-right corners of a polygon.
+    '''Determine the lower-left and upper-right corners of a
+       path or polygon.
 
-       @param points: The polygon points (C{LatLon}[]).
+       @param points: The path or polygon points (C{LatLon}[]).
        @keyword wrap: Wrap lat- and longitudes (C{bool}).
        @keyword LatLon: Optional (sub-)class to use to return I{bounds}
                         (C{LatLon}) or C{None}.
@@ -938,9 +939,9 @@ def _imdex2(closed, n):  # imported by sphericalNvector, -Trigonometry
 
 
 def isclockwise(points, adjust=False, wrap=True):
-    '''Determine the direction of a polygon.
+    '''Determine the direction of a path or polygon.
 
-       @param points: The polygon points (C{LatLon}[]).
+       @param points: The path or polygon points (C{LatLon}[]).
        @keyword adjust: Adjust the wrapped, unrolled longitudinal delta
                         by the cosine of the mean latitude (C{bool}).
        @keyword wrap: Wrap lat-, wrap and unroll longitudes (C{bool}).
@@ -1165,7 +1166,7 @@ def ispolar(points, wrap=False):
                          have C{bearingTo2}, C{initialBearingTo}
                          and C{finalBearingTo} methods.
     '''
-    n, points = points2(points)
+    n, points = points2(points, closed=True)
 
     def _cds(n, points):  # iterate over course deltas
         p1 = points[n-1]
@@ -1191,7 +1192,7 @@ def ispolar(points, wrap=False):
 
 
 def nearestOn3(point, points, closed=False, wrap=False, **options):
-    '''Locate the point on a polygon closest to an other point.
+    '''Locate the point on a path or polygon closest to an other point.
 
        If the given point is within the extent of a polygon edge,
        the closest point is on that edge, otherwise the closest
@@ -1201,8 +1202,8 @@ def nearestOn3(point, points, closed=False, wrap=False, **options):
        subject to the supplied I{options}.
 
        @param point: The other, reference point (C{LatLon}).
-       @param points: The polygon points (C{LatLon}[]).
-       @keyword closed: Optionally, close the polygon (C{bool}).
+       @param points: The path or polygon points (C{LatLon}[]).
+       @keyword closed: Optionally, close the path or polygon (C{bool}).
        @keyword wrap: Wrap and L{unroll180} longitudes and longitudinal
                       delta (C{bool}) in function L{equirectangular_}.
        @keyword options: Other keyword arguments for function
@@ -1228,7 +1229,7 @@ def nearestOn3(point, points, closed=False, wrap=False, **options):
 
 
 def nearestOn4(point, points, closed=False, wrap=False, **options):
-    '''Locate the point on a polygon closest to an other point.
+    '''Locate the point on a path or polygon closest to an other point.
 
        If the given point is within the extent of a polygon edge,
        the closest point is on that edge, otherwise the closest
@@ -1238,8 +1239,8 @@ def nearestOn4(point, points, closed=False, wrap=False, **options):
        subject to the supplied I{options}.
 
        @param point: The other, reference point (C{LatLon}).
-       @param points: The polygon points (C{LatLon}[]).
-       @keyword closed: Optionally, close the polygon (C{bool}).
+       @param points: The path or polygon points (C{LatLon}[]).
+       @keyword closed: Optionally, close the path or polygon (C{bool}).
        @keyword wrap: Wrap and L{unroll180} longitudes and longitudinal
                       delta (C{bool}) in function L{equirectangular_}.
        @keyword options: Other keyword arguments for function
@@ -1324,10 +1325,10 @@ def nearestOn4(point, points, closed=False, wrap=False, **options):
 
 
 def perimeterOf(points, closed=False, adjust=True, radius=R_M, wrap=True):
-    '''Approximate the perimeter of a polygon.
+    '''Approximate the perimeter of a path or polygon.
 
-       @param points: The polygon points (C{LatLon}[]).
-       @keyword closed: Optionally, close the polygon (C{bool}).
+       @param points: The path or polygon points (C{LatLon}[]).
+       @keyword closed: Optionally, close the path or polygon (C{bool}).
        @keyword adjust: Adjust the wrapped, unrolled longitudinal delta
                         by the cosine of the mean latitude (C{bool}).
        @keyword radius: Optional, mean earth radius (C{meter}).
