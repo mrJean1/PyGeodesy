@@ -66,7 +66,7 @@ U{PyPy<http://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3) on macOS
 10.13.6 High Sierra, with Python 2.6.9, 2.7.14, 3.5.6 and 3.6.3 (and
 U{geographiclib<http://PyPI.org/project/geographiclib>} 1.49) on
 U{Debian 8<http://Travis-CI.org/mrJean1/PyGeodesy>} and with Python
-3.7.0 (and U{geographiclib<http://PyPI.org/project/geographiclib>} 1.49)
+3.7.2 (and U{geographiclib<http://PyPI.org/project/geographiclib>} 1.49)
 on U{Debian 9<http://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>},
 all in 64-bit only and with Python 2.7.15, 3.6.6 and 3.7.0 (all with
 U{geographiclib<http://PyPI.org/project/geographiclib>} 1.49) on
