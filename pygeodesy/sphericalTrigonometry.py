@@ -14,8 +14,8 @@ U{Latitude/Longitude<http://www.Movable-Type.co.UK/scripts/latlong.html>}.
 '''
 
 from datum import R_M
-from fmath import EPS, acos1, favg, fmean, fsum, isscalar, map1
-from formy import bearing_, haversine_
+from fmath import EPS, acos1, favg, fdot, fmean, fsum, isscalar, map1
+from formy import antipode, bearing_, haversine_
 from points import _imdex2, ispolar, nearestOn4
 from sphericalBase import LatLonSphericalBase
 from utily import PI2, PI_2, PI_4, degrees90, degrees180, degrees2m, \
@@ -31,7 +31,7 @@ __all__ = ('LatLon',  # classes
            'meanOf',
            'nearestOn2',
            'perimeterOf')
-__version__ = '18.12.26'
+__version__ = '18.12.29'
 
 
 class LatLon(LatLonSphericalBase):
@@ -704,7 +704,7 @@ def areaOf(points, radius=R_M, wrap=True):
     return abs(s * radius**2)
 
 
-def _x3d(start, end, wrap, n):
+def _x3d2(start, end, wrap, n):
     # see <http://www.EdWilliams.org/intersect.htm> (5) ff
     a1, b1 = start.to2ab()
 
@@ -714,12 +714,12 @@ def _x3d(start, end, wrap, n):
         _Trll.others(end, name='end' + n)
         a2, b2 = end.to2ab()
 
-    d, b2 = unrollPI(b1, b2, wrap=wrap)
-    if max(abs(d), abs(a2 - a1)) < EPS:
+    db, b2 = unrollPI(b1, b2, wrap=wrap)
+    if max(abs(db), abs(a2 - a1)) < EPS:
         raise ValueError('intersection %s%s null: %r' % ('path', n, (start, end)))
 
     # note, in EdWilliams.org/avform.htm W is + and E is -
-    b21, b12 = d * 0.5, -(b1 + b2) * 0.5
+    b21, b12 = db * 0.5, -(b1 + b2) * 0.5
 
     cb21, cb12 = map1(cos, b21, b12)
     sb21, sb12 = map1(sin, b21, b12)
@@ -727,8 +727,14 @@ def _x3d(start, end, wrap, n):
 
     x = Vector3d(sa21 * sb12 * cb21 - sa12 * cb12 * sb21,
                  sa21 * cb12 * cb21 + sa12 * sb12 * sb21,
-                 cos(a1) * cos(a2) * sin(d), ll=start)
-    return x.unit(), a1, b1
+                 cos(a1) * cos(a2) * sin(db), ll=start)
+    return x.unit(), (db, (a2 - a1))  # negated d
+
+
+def _xdot(d, a, b, a1, b1, wrap):
+    # compute dot product d . (-b + b1, a - a1)
+    db, _ = unrollPI(b1, radians(b), wrap=wrap)
+    return fdot(d, db, radians(a) - a1)
 
 
 def intersection(start1, end1, start2, end2,
@@ -769,61 +775,64 @@ def intersection(start1, end1, start2, end2,
     _Trll.others(start1, name='start1')
     _Trll.others(start2, name='start2')
 
-    if isscalar(end1) and isscalar(end2):  # both bearings
+    a1, b1 = start1.to2ab()
+    a2, b2 = start2.to2ab()
 
-        # see <http://www.EdWilliams.org/avform.htm#Intersection>
-        a1, b1 = start1.to2ab()
-        a2, b2 = start2.to2ab()
+    db, b2 = unrollPI(b1, b2, wrap=wrap)
+    r12 = haversine_(a2, a1, db)
+    if abs(r12) < EPS:  # [nearly] coincident points
+        a, b = map1(degrees, favg(a1, a2), favg(b1, b2))
 
-        db, b2 = unrollPI(b1, b2, wrap=wrap)
-        r12 = haversine_(a2, a1, db)
-        if abs(r12) < EPS:  # [nearly] coincident points
-            a, b = map1(degrees, favg(a1, a2), favg(b1, b2))
+    # see <http://www.EdWilliams.org/avform.htm#Intersection>
+    elif isscalar(end1) and isscalar(end2):  # both bearings
+        ca1, ca2, cr12 = map1(cos, a1, a2, r12)
+        sa1, sa2, sr12 = map1(sin, a1, a2, r12)
+        x1, x2 = (sr12 * ca1), (sr12 * ca2)
+        if abs(x1) < EPS or abs(x2) < EPS:
+            raise ValueError('intersection %s: %r vs %r' % ('parallel',
+                             (start1, end1), (start2, end2)))
 
+        # handle domain error for equivalent longitudes,
+        # see also functions asin_safe and acos_safe at
+        # <http://www.EdWilliams.org/avform.htm#Math>
+        t1, t2 = map1(acos1, (sa2 - sa1 * cr12) / x1,
+                             (sa1 - sa2 * cr12) / x2)
+        if sin(db) > 0:
+            t12, t21 = t1, PI2 - t2
         else:
-            ca1, ca2, cr12 = map1(cos, a1, a2, r12)
-            sa1, sa2, sr12 = map1(sin, a1, a2, r12)
-            x1, x2 = (sr12 * ca1), (sr12 * ca2)
-            if abs(x1) < EPS or abs(x2) < EPS:
-                raise ValueError('intersection %s: %r vs %r' % ('parallel',
-                                 (start1, end1), (start2, end2)))
+            t12, t21 = PI2 - t1, t2
 
-            # handle domain error for equivalent longitudes,
-            # see also functions asin_safe and acos_safe at
-            # <http://www.EdWilliams.org/avform.htm#Math>
-            t1, t2 = map1(acos1, (sa2 - sa1 * cr12) / x1,
-                                 (sa1 - sa2 * cr12) / x2)
-            if sin(db) > 0:
-                t12, t21 = t1, PI2 - t2
-            else:
-                t12, t21 = PI2 - t1, t2
+        t13, t23 = map1(radiansPI2, end1, end2)
+        x1, x2 = map1(wrapPI, t13 - t12,  # angle 2-1-3
+                              t21 - t23)  # angle 1-2-3
+        sx1, sx2 = map1(sin, x1, x2)
+        if sx1 == 0 and sx2 == 0:  # max(abs(sx1), abs(sx2)) < EPS
+            raise ValueError('intersection %s: %r vs %r' % ('infinite',
+                             (start1, end1), (start2, end2)))
+        sx3 = sx1 * sx2
+#       if sx3 < 0:
+#           raise ValueError('intersection %s: %r vs %r' % ('ambiguous',
+#                            (start1, end1), (start2, end2)))
+        cx1, cx2 = map1(cos, x1, x2)
 
-            t13, t23 = map1(radiansPI2, end1, end2)
-            x1, x2 = map1(wrapPI, t13 - t12,  # angle 2-1-3
-                                  t21 - t23)  # angle 1-2-3
-            sx1, sx2 = map1(sin, x1, x2)
-            if sx1 == 0 and sx2 == 0:  # max(abs(sx1), abs(sx2)) < EPS
-                raise ValueError('intersection %s: %r vs %r' % ('infinite',
-                                 (start1, end1), (start2, end2)))
-            sx3 = sx1 * sx2
-#           if sx3 < 0:
-#               raise ValueError('intersection %s: %r vs %r' % ('ambiguous',
-#                                (start1, end1), (start2, end2)))
-            cx1, cx2 = map1(cos, x1, x2)
+        x3 = acos1(cr12 * sx3 - cx2 * cx1)
+        r13 = atan2(sr12 * sx3, cx2 + cx1 * cos(x3))
 
-            x3 = acos1(cr12 * sx3 - cx2 * cx1)
-            r13 = atan2(sr12 * sx3, cx2 + cx1 * cos(x3))
-
-            a, b = _destination2(a1, b1, r13, t13)
+        a, b = _destination2(a1, b1, r13, t13)
 
     else:  # end point(s) or bearing(s)
-        x1, a1, b1 = _x3d(start1, end1, wrap, '1')
-        x2, a2, b2 = _x3d(start2, end2, wrap, '2')
+        x1, d1 = _x3d2(start1, end1, wrap, '1')
+        x2, d2 = _x3d2(start2, end2, wrap, '2')
         x = x1.cross(x2)
-        if x.length < EPS:  # [nearly] coincident points
-            a, b = map1(degrees, favg(a1, a2), favg(b1, b2))
-        else:
-            a, b = x.to2ll()
+        if x.length < EPS:  # [nearly] colinear or parallel paths
+            raise ValueError('intersection %s: %r vs %r' % ('colinear',
+                             (start1, end1), (start2, end2)))
+        a, b = x.to2ll()
+        # choose intersection similar to sphericalNvector
+        d1 = _xdot(d1, a, b, a1, b1, wrap)
+        d2 = _xdot(d2, a, b, a2, b2, wrap)
+        if (d1 < 0 and d2 > 0) or (d1 > 0 and d2 < 0):
+            a, b = antipode(a, b)
 
     h = start1._havg(start2) if height is None else height
     return (a, b, h) if LatLon is None else LatLon(a, b, height=h)

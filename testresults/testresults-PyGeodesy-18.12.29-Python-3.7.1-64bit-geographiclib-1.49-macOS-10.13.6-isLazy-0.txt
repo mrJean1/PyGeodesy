@@ -1,19 +1,8 @@
-test/run.py typical test results (PyGeodesy 18.12.26 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 2 B)
+test/run.py typical test results (PyGeodesy 18.12.29 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 0)
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testBases.py
-# lazily imported pygeodesy.anStr from .utily
-# lazily imported pygeodesy.isLazy from .lazily
-# lazily imported pygeodesy.iterNumpy2over from .utily
-# lazily imported pygeodesy.normDMS from .dms
-# lazily imported pygeodesy.F_D from .dms
-# lazily imported pygeodesy.F_DMS from .dms
-# lazily imported pygeodesy.precision from .dms
-# lazily imported pygeodesy.ellipsoidalNvector
-# lazily imported pygeodesy.ellipsoidalVincenty
-# lazily imported pygeodesy.sphericalNvector
-# lazily imported pygeodesy.sphericalTrigonometry
 
-    testing testBases.py 18.10.20 isLazy=2
+    testing testBases.py 18.10.20
     test 1 lat, lon: 50.06632°N, 005.71475°W
     test 2 lat, lon: 50.066389°N, 005.714722°W
     test 3 isequalTo: True
@@ -55,22 +44,11 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testBases.py
     test 39 isequalTo3: False
     test 40 isequalTo3: True
 
-    all 40 testBases.py tests passed (PyGeodesy 18.12.26 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 2 B) 1.553 ms
+    all 40 testBases.py tests passed (PyGeodesy 18.12.29 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 0) 2.898 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testClasses.py
-# lazily imported pygeodesy.anStr from .utily
-# lazily imported pygeodesy.isLazy from .lazily
-# lazily imported pygeodesy.iterNumpy2over from .utily
-# lazily imported pygeodesy.normDMS from .dms
-# lazily imported pygeodesy.ellipsoidalKarney
-# lazily imported pygeodesy.ellipsoidalNvector
-# lazily imported pygeodesy.ellipsoidalVincenty
-# lazily imported pygeodesy.nvector
-# lazily imported pygeodesy.sphericalNvector
-# lazily imported pygeodesy.sphericalTrigonometry
-# lazily imported pygeodesy.vector3d
 
-    testing testClasses.py 18.09.12 isLazy=2
+    testing testClasses.py 18.09.12
 
     testCartesianAttrs(18.09.12)
     test 1 angleTo() method: ellipsoidalKarney, ellipsoidalNvector, ellipsoidalVincenty
@@ -297,23 +275,11 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testClasses.py
     test 208 nvector: vector3d.Vector3d, bases.VectorBased, bases.Based, bases.Named
     test 209 vector3d: vector3d.Vector3d, bases.VectorBased, bases.Based, bases.Named
 
-    all 209 testClasses.py tests passed (PyGeodesy 18.12.26 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 2 B) 5.553 ms
+    all 209 testClasses.py tests passed (PyGeodesy 18.12.29 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 0) 5.402 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testClipy.py
-# lazily imported pygeodesy.anStr from .utily
-# lazily imported pygeodesy.isLazy from .lazily
-# lazily imported pygeodesy.iterNumpy2over from .utily
-# lazily imported pygeodesy.normDMS from .dms
-# lazily imported pygeodesy.F_D from .dms
-# lazily imported pygeodesy.clipCS3 from .clipy
-# lazily imported pygeodesy.clipSH from .clipy
-# lazily imported pygeodesy.clipSH3 from .clipy
-# lazily imported pygeodesy.ellipsoidalNvector
-# lazily imported pygeodesy.ellipsoidalVincenty
-# lazily imported pygeodesy.sphericalNvector
-# lazily imported pygeodesy.sphericalTrigonometry
 
-    testing testClipy.py 18.12.14 isLazy=2
+    testing testClipy.py 18.12.14
     test 1 clipCS3.p1: 60.0°N, 123.333333°E
     test 2 clipCS3.p2: 62.857143°N, 130.0°E
     test 3 clipCS3.i: 1
@@ -903,24 +869,11 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testClipy.py
     test 587 clipSH.warpedreversed.: invalid corners[4]
     test 588 clipSH3.warpedreversed.: invalid corners[4]
 
-    all 588 testClipy.py tests passed (PyGeodesy 18.12.26 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 2 B) 32.249 ms
+    all 588 testClipy.py tests passed (PyGeodesy 18.12.29 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 0) 28.958 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testDatum.py
-# lazily imported pygeodesy.anStr from .utily
-# lazily imported pygeodesy.isLazy from .lazily
-# lazily imported pygeodesy.iterNumpy2over from .utily
-# lazily imported pygeodesy.normDMS from .dms
-# lazily imported pygeodesy.R_M from .utily
-# lazily imported pygeodesy.Datum from .datum
-# lazily imported pygeodesy.Datums from .datum
-# lazily imported pygeodesy.Ellipsoid from .datum
-# lazily imported pygeodesy.Ellipsoids from .datum
-# lazily imported pygeodesy.fStr from .fmath
-# lazily imported pygeodesy.Transform from .datum
-# lazily imported pygeodesy.Transforms from .datum
-# lazily imported pygeodesy.datum
 
-    testing testDatum.py 18.09.08 (module datum 18.10.12) isLazy=2
+    testing testDatum.py 18.09.08 (module datum 18.10.12)
     test 1 ellipsoid: True
     test 2 transform: True
     test 3 datum: True
@@ -1006,28 +959,11 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testDatum.py
     test 83 WGS84.AlphaKs: 8.377318206304e-04, 7.608527714249e-07, 1.197638001561e-09, 2.443376194522e-12
     test 84 WGS84.BetaKs : 8.377321640601e-04, 5.905869567934e-08, 1.673488880355e-10, 2.167737763022e-13
 
-    all 84 testDatum.py tests passed (PyGeodesy 18.12.26 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 2 B) 2.237 ms
+    all 84 testDatum.py tests passed (PyGeodesy 18.12.29 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 0) 2.437 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testDms.py
-# lazily imported pygeodesy.anStr from .utily
-# lazily imported pygeodesy.isLazy from .lazily
-# lazily imported pygeodesy.iterNumpy2over from .utily
-# lazily imported pygeodesy.normDMS from .dms
-# lazily imported pygeodesy.F_D from .dms
-# lazily imported pygeodesy.F_DM from .dms
-# lazily imported pygeodesy.F_DMS from .dms
-# lazily imported pygeodesy.F_DEG from .dms
-# lazily imported pygeodesy.F_MIN from .dms
-# lazily imported pygeodesy.F_SEC from .dms
-# lazily imported pygeodesy.F_RAD from .dms
-# lazily imported pygeodesy.compassPoint from .dms
-# lazily imported pygeodesy.parse3llh from .dms
-# lazily imported pygeodesy.parseDMS from .dms
-# lazily imported pygeodesy.rangerrors from .dms
-# lazily imported pygeodesy.toDMS from .dms
-# lazily imported pygeodesy.dms
 
-    testing testDms.py 18.09.28 (module dms 18.11.01) isLazy=2
+    testing testDms.py 18.09.28 (module dms 18.11.01)
     test 1 parseDMS: 0.0
     test 2 parseDMS: 0.0
     test 3 parseDMS: 0.0
@@ -1120,50 +1056,16 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testDms.py
     test 90 compassPoint(326.25): NWbN
     test 91 compassPoint(348.75): NbW
 
-    all 91 testDms.py tests passed (PyGeodesy 18.12.26 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 2 B) 1.508 ms
+    all 91 testDms.py tests passed (PyGeodesy 18.12.29 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 0) 1.358 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testElevations.py
-# lazily imported pygeodesy.anStr from .utily
-# lazily imported pygeodesy.isLazy from .lazily
-# lazily imported pygeodesy.iterNumpy2over from .utily
-# lazily imported pygeodesy.normDMS from .dms
-# lazily imported pygeodesy.elevation2 from .elevations
-# lazily imported pygeodesy.Datums from .datum
-# lazily imported pygeodesy.geoidHeight2 from .elevations
 
-    testing testElevations.py 18.10.12 isLazy=2
-    all testElevations.py tests SKIPPED (PyGeodesy 18.12.26 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 2 B) 6.914 us
+    testing testElevations.py 18.10.12
+    all testElevations.py tests SKIPPED (PyGeodesy 18.12.29 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 0) 10.014 us
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testEllipsoidal.py
-# lazily imported pygeodesy.anStr from .utily
-# lazily imported pygeodesy.isLazy from .lazily
-# lazily imported pygeodesy.iterNumpy2over from .utily
-# lazily imported pygeodesy.normDMS from .dms
-# lazily imported pygeodesy.R_NM from .datum
-# lazily imported pygeodesy.F_D from .dms
-# lazily imported pygeodesy.F_DM from .dms
-# lazily imported pygeodesy.F_DMS from .dms
-# lazily imported pygeodesy.F_RAD from .dms
-# lazily imported pygeodesy.classname from .bases
-# lazily imported pygeodesy.degrees from .utily
-# lazily imported pygeodesy.fStr from .fmath
-# lazily imported pygeodesy.isclockwise from .points
-# lazily imported pygeodesy.isconvex from .points
-# lazily imported pygeodesy.isenclosedBy from .points
-# lazily imported pygeodesy.ispolar from .points
-# lazily imported pygeodesy.m2km from .utily
-# lazily imported pygeodesy.m2NM from .utily
-# lazily imported pygeodesy.EPS from .fmath
-# lazily imported pygeodesy.bearingDMS from .dms
-# lazily imported pygeodesy.compassDMS from .dms
-# lazily imported pygeodesy.Datums from .datum
-# lazily imported pygeodesy.m2SM from .utily
-# lazily imported pygeodesy.wrap360 from .utily
-# lazily imported pygeodesy.ellipsoidalKarney
-# lazily imported pygeodesy.ellipsoidalNvector
-# lazily imported pygeodesy.ellipsoidalVincenty
 
-    testing testEllipsoidal.py 18.09.30 isLazy=2
+    testing testEllipsoidal.py 18.09.30
 
     testEllipsoidal(ellipsoidalNvector, 18.12.16)
     test 1 isEllipsoidal: True
@@ -1670,19 +1572,11 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testEllipsoidal.py
     test 476 distanceTo3: 19959679.267353821546, 161.06766998616, 18.825195123247
     test 477 destination2: 40.96, -5.5, 18.825195123247
 
-    4 of 477 testEllipsoidal.py tests (0.8%) FAILED, ALL KNOWN (PyGeodesy 18.12.26 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 2 B) 93.532 ms
+    4 of 477 testEllipsoidal.py tests (0.8%) FAILED, ALL KNOWN (PyGeodesy 18.12.29 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 0) 55.155 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testEllipsoidalGeodTest.py
-# lazily imported pygeodesy.anStr from .utily
-# lazily imported pygeodesy.isLazy from .lazily
-# lazily imported pygeodesy.iterNumpy2over from .utily
-# lazily imported pygeodesy.normDMS from .dms
-# lazily imported pygeodesy.ellipsoidalKarney
-# lazily imported pygeodesy.ellipsoidalVincenty
-# lazily imported pygeodesy.Ellipsoids from .datum
-# lazily imported pygeodesy.VincentyError from .ellipsoidalVincenty
 
-    testing testEllipsoidalGeodTest.py 18.09.28 (module ellipsoidalKarney 18.10.26) isLazy=2
+    testing testEllipsoidalGeodTest.py 18.09.28 (module ellipsoidalKarney 18.10.26)
     test 1 line 1 lat: -48.164271
     test 2 line 1 lon: 5.762345
     test 3 line 1 fb: 175.334308
@@ -4685,23 +4579,11 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testEllipsoidalGeodTest.py
     test 3000 line 500 azi2: 130.988276746436
     test 3001 WGS84.KsOrder: 8
 
-    16 of 3001 testEllipsoidalGeodTest.py tests (0.5%) FAILED, ALL KNOWN (PyGeodesy 18.12.26 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 2 B) 154.553 ms
+    16 of 3001 testEllipsoidalGeodTest.py tests (0.5%) FAILED, ALL KNOWN (PyGeodesy 18.12.29 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 0) 186.831 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testFmath.py
-# lazily imported pygeodesy.anStr from .utily
-# lazily imported pygeodesy.isLazy from .lazily
-# lazily imported pygeodesy.iterNumpy2over from .utily
-# lazily imported pygeodesy.normDMS from .dms
-# lazily imported pygeodesy.Ellipsoids from .datum
-# lazily imported pygeodesy.fhorner from .fmath
-# lazily imported pygeodesy.fpolynomial from .fmath
-# lazily imported pygeodesy.fpowers from .fmath
-# lazily imported pygeodesy.Fsum from .fmath
-# lazily imported pygeodesy.fsum from .fmath
-# lazily imported pygeodesy.isfinite from .fmath
-# lazily imported pygeodesy.fmath
 
-    testing testFmath.py 18.10.31 (module fmath 18.12.14) isLazy=2
+    testing testFmath.py 18.10.31 (module fmath 18.12.14)
     test 1 fpolynomialA: 1.21197509765625
     test 2 fhornerA: 1.21197509765625
     test 3 fpolynomialB: 0.1513671875
@@ -4869,406 +4751,406 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testFmath.py
     test 165 Fsum: 1.005000000001
     test 166 fsum: 1.0000000000000002e+16
     test 167 Fsum: 1.0000000000000002e+16
-    test 168 sum: -0.008872358333863442  FAILED, KNOWN, expected 4.426756603998393e-06
-    test 169 fsum: 4.426756603998393e-06
-    test 170 Fsum: 4.426756603998393e-06
-    test 171 Fsum: 4.426756603998393e-06
-    test 172 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 25.34365516026452
-    test 173 fsum: 25.34365516026452
-    test 174 Fsum: 25.34365516026452
-    test 175 Fsum: 25.34365516026452
-    test 176 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -4.3085778821404364e-07
-    test 177 fsum: -4.3085778821404364e-07
-    test 178 Fsum: -4.3085778821404364e-07
-    test 179 Fsum: -4.3085778821404364e-07
-    test 180 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.037707115423582016
-    test 181 fsum: 0.037707115423582016
-    test 182 Fsum: 0.037707115423582016
-    test 183 Fsum: 0.037707115423582016
-    test 184 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.05233089941854937
-    test 185 fsum: -0.05233089941854937
-    test 186 Fsum: -0.05233089941854937
-    test 187 Fsum: -0.05233089941854937
-    test 188 sum: -2.5852968389272946e-06  FAILED, KNOWN, expected 9.164795488520368e-11
-    test 189 fsum: 9.164795488520368e-11
-    test 190 Fsum: 9.164795488520368e-11
-    test 191 Fsum: 9.164795488520368e-11
-    test 192 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.0005821994635768831
-    test 193 fsum: 0.0005821994635768831
-    test 194 Fsum: 0.0005821994635768831
-    test 195 Fsum: 0.0005821994635768831
-    test 196 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.009024401654793996
-    test 197 fsum: -0.009024401654793996
-    test 198 Fsum: -0.009024401654793996
-    test 199 Fsum: -0.009024401654793996
-    test 200 sum: -9e-20  FAILED, KNOWN, expected 8.78709120422572e-06
-    test 201 fsum: 8.78709120422572e-06
-    test 202 Fsum: 8.78709120422572e-06
-    test 203 Fsum: 8.78709120422572e-06
-    test 204 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 7.906294944815531e-08
-    test 205 fsum: 7.906294944815531e-08
-    test 206 Fsum: 7.906294944815531e-08
-    test 207 Fsum: 7.906294944815531e-08
-    test 208 sum: -5.9145225988062834e-05  FAILED, KNOWN, expected 0.005257135467623245
-    test 209 fsum: 0.005257135467623245
-    test 210 Fsum: 0.005257135467623245
-    test 211 Fsum: 0.005257135467623245
-    test 212 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.014441235753010628
-    test 213 fsum: -0.014441235753010628
-    test 214 Fsum: -0.014441235753010628
-    test 215 Fsum: -0.014441235753010628
-    test 216 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.03146594161599383
-    test 217 fsum: 0.03146594161599383
-    test 218 Fsum: 0.03146594161599383
-    test 219 Fsum: 0.03146594161599383
-    test 220 sum: -4.22954277803935  FAILED, KNOWN, expected -8.75262782952279e-07
-    test 221 fsum: -8.75262782952279e-07
-    test 222 Fsum: -8.75262782952279e-07
-    test 223 Fsum: -8.75262782952279e-07
-    test 224 sum: 7.0  FAILED, KNOWN, expected 0.001214440908410955
-    test 225 fsum: 0.001214440908410955
-    test 226 Fsum: 0.001214440908410955
-    test 227 Fsum: 0.001214440908410955
-    test 228 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.00023030649415514904
-    test 229 fsum: -0.00023030649415514904
-    test 230 Fsum: -0.00023030649415514904
-    test 231 Fsum: -0.00023030649415514904
-    test 232 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -6.376837098173666
-    test 233 fsum: -6.376837098173666
-    test 234 Fsum: -6.376837098173666
-    test 235 Fsum: -6.376837098173666
-    test 236 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.00014372772475535676
-    test 237 fsum: -0.00014372772475535676
-    test 238 Fsum: -0.00014372772475535676
-    test 239 Fsum: -0.00014372772475535676
-    test 240 sum: 8.018595505546863  FAILED, KNOWN, expected 1.552379805700245e-05
-    test 241 fsum: 1.552379805700245e-05
-    test 242 Fsum: 1.552379805700245e-05
-    test 243 Fsum: 1.552379805700245e-05
-    test 244 sum: 0.0  FAILED, KNOWN, expected -7.631494603589917e-12
-    test 245 fsum: -7.631494603589917e-12
-    test 246 Fsum: -7.631494603589917e-12
-    test 247 Fsum: -7.631494603589917e-12
-    test 248 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -1.1198038190273372e-09
-    test 249 fsum: -1.1198038190273372e-09
-    test 250 Fsum: -1.1198038190273372e-09
-    test 251 Fsum: -1.1198038190273372e-09
-    test 252 sum: -7.015631608209465  FAILED, KNOWN, expected 2.6590976946743256e-08
-    test 253 fsum: 2.6590976946743256e-08
-    test 254 Fsum: 2.6590976946743256e-08
-    test 255 Fsum: 2.6590976946743256e-08
-    test 256 sum: 0.0  FAILED, KNOWN, expected 5.259737242527397e-07
-    test 257 fsum: 5.259737242527397e-07
-    test 258 Fsum: 5.259737242527397e-07
-    test 259 Fsum: 5.259737242527397e-07
-    test 260 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 46.85803520192194
-    test 261 fsum: 46.85803520192194
-    test 262 Fsum: 46.85803520192194
-    test 263 Fsum: 46.85803520192194
-    test 264 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.003762006737481371
-    test 265 fsum: -0.003762006737481371
-    test 266 Fsum: -0.003762006737481371
-    test 267 Fsum: -0.003762006737481371
-    test 268 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.08582264235532885
-    test 269 fsum: -0.08582264235532885
-    test 270 Fsum: -0.08582264235532885
-    test 271 Fsum: -0.08582264235532885
-    test 272 sum: 0.0  FAILED, KNOWN, expected 3.0386998052215236e-07
-    test 273 fsum: 3.0386998052215236e-07
-    test 274 Fsum: 3.0386998052215236e-07
-    test 275 Fsum: 3.0386998052215236e-07
-    test 276 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 1.435169619438004e-05
-    test 277 fsum: 1.435169619438004e-05
-    test 278 Fsum: 1.435169619438004e-05
-    test 279 Fsum: 1.435169619438004e-05
-    test 280 sum: -8.665466528852443  FAILED, KNOWN, expected -1.607044729927376
-    test 281 fsum: -1.607044729927376
-    test 282 Fsum: -1.607044729927376
-    test 283 Fsum: -1.607044729927376
-    test 284 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.026291026300668378
-    test 285 fsum: 0.026291026300668378
-    test 286 Fsum: 0.026291026300668378
-    test 287 Fsum: 0.026291026300668378
-    test 288 sum: 0.0  FAILED, KNOWN, expected 1.3553056696148959e-11
-    test 289 fsum: 1.3553056696148959e-11
-    test 290 Fsum: 1.3553056696148959e-11
-    test 291 Fsum: 1.3553056696148959e-11
-    test 292 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 4.816166215625815e-09
-    test 293 fsum: 4.816166215625815e-09
-    test 294 Fsum: 4.816166215625815e-09
-    test 295 Fsum: 4.816166215625815e-09
-    test 296 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 2.8181754720940864e-05
-    test 297 fsum: 2.8181754720940864e-05
-    test 298 Fsum: 2.8181754720940864e-05
-    test 299 Fsum: 2.8181754720940864e-05
-    test 300 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 2.8097200576981656e-12
-    test 301 fsum: 2.8097200576981656e-12
-    test 302 Fsum: 2.8097200576981656e-12
-    test 303 Fsum: 2.8097200576981656e-12
-    test 304 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 2.6591501985865584e-09
-    test 305 fsum: 2.6591501985865584e-09
-    test 306 Fsum: 2.6591501985865584e-09
-    test 307 Fsum: 2.6591501985865584e-09
-    test 308 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 2.3951220739854397
-    test 309 fsum: 2.3951220739854397
-    test 310 Fsum: 2.3951220739854397
-    test 311 Fsum: 2.3951220739854397
-    test 312 sum: 7.0  FAILED, KNOWN, expected 8.59119762244059e-05
-    test 313 fsum: 8.59119762244059e-05
-    test 314 Fsum: 8.59119762244059e-05
-    test 315 Fsum: 8.59119762244059e-05
-    test 316 sum: 0.0  FAILED, KNOWN, expected -0.07263772850976723
-    test 317 fsum: -0.07263772850976723
-    test 318 Fsum: -0.07263772850976723
-    test 319 Fsum: -0.07263772850976723
-    test 320 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.0008003286059054185
-    test 321 fsum: -0.0008003286059054185
-    test 322 Fsum: -0.0008003286059054185
-    test 323 Fsum: -0.0008003286059054185
-    test 324 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 26.965832905784723
-    test 325 fsum: 26.965832905784723
-    test 326 Fsum: 26.965832905784723
-    test 327 Fsum: 26.965832905784723
-    test 328 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.05758456305550762
-    test 329 fsum: 0.05758456305550762
-    test 330 Fsum: 0.05758456305550762
-    test 331 Fsum: 0.05758456305550762
-    test 332 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 2.3852839584141807e-08
-    test 333 fsum: 2.3852839584141807e-08
-    test 334 Fsum: 2.3852839584141807e-08
-    test 335 Fsum: 2.3852839584141807e-08
-    test 336 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.001611107656892814
-    test 337 fsum: -0.001611107656892814
-    test 338 Fsum: -0.001611107656892814
-    test 339 Fsum: -0.001611107656892814
-    test 340 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -3.2037193126586e-08
-    test 341 fsum: -3.2037193126586e-08
-    test 342 Fsum: -3.2037193126586e-08
-    test 343 Fsum: -3.2037193126586e-08
-    test 344 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -5.224999321237703e-05
-    test 345 fsum: -5.224999321237703e-05
-    test 346 Fsum: -5.224999321237703e-05
-    test 347 Fsum: -5.224999321237703e-05
-    test 348 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 3.587664943161669
-    test 349 fsum: 3.587664943161669
-    test 350 Fsum: 3.587664943161669
-    test 351 Fsum: 3.587664943161669
-    test 352 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -4.672525681604768e-05
-    test 353 fsum: -4.672525681604768e-05
-    test 354 Fsum: -4.672525681604768e-05
-    test 355 Fsum: -4.672525681604768e-05
-    test 356 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 4.687730529541719e-05
-    test 357 fsum: 4.687730529541719e-05
-    test 358 Fsum: 4.687730529541719e-05
-    test 359 Fsum: 4.687730529541719e-05
-    test 360 sum: -7.000148614744529  FAILED, KNOWN, expected 0.38417067757193374
-    test 361 fsum: 0.38417067757193374
-    test 362 Fsum: 0.38417067757193374
-    test 363 Fsum: 0.38417067757193374
-    test 364 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.1562290486375415
-    test 365 fsum: -0.1562290486375415
-    test 366 Fsum: -0.1562290486375415
-    test 367 Fsum: -0.1562290486375415
-    test 368 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.0823030038136585
-    test 369 fsum: -0.0823030038136585
-    test 370 Fsum: -0.0823030038136585
-    test 371 Fsum: -0.0823030038136585
-    test 372 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -1.1579816681689603e-07
-    test 373 fsum: -1.1579816681689603e-07
-    test 374 Fsum: -1.1579816681689603e-07
-    test 375 Fsum: -1.1579816681689603e-07
-    test 376 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.0001458564665745711
-    test 377 fsum: -0.0001458564665745711
-    test 378 Fsum: -0.0001458564665745711
-    test 379 Fsum: -0.0001458564665745711
-    test 380 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.0031543250087467545
-    test 381 fsum: -0.0031543250087467545
-    test 382 Fsum: -0.0031543250087467545
-    test 383 Fsum: -0.0031543250087467545
-    test 384 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.00342272190198787
-    test 385 fsum: 0.00342272190198787
-    test 386 Fsum: 0.00342272190198787
-    test 387 Fsum: 0.00342272190198787
-    test 388 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -4.461340334314209e-06
-    test 389 fsum: -4.461340334314209e-06
-    test 390 Fsum: -4.461340334314209e-06
-    test 391 Fsum: -4.461340334314209e-06
-    test 392 sum: 0.6525797463096633  FAILED, KNOWN, expected -1.6650022189143485e-05
-    test 393 fsum: -1.6650022189143485e-05
-    test 394 Fsum: -1.6650022189143485e-05
-    test 395 Fsum: -1.6650022189143485e-05
-    test 396 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -7.77653976491492e-05
-    test 397 fsum: -7.77653976491492e-05
-    test 398 Fsum: -7.77653976491492e-05
-    test 399 Fsum: -7.77653976491492e-05
-    test 400 sum: 13.289792292500769  FAILED, KNOWN, expected 0.00013918485582989612
-    test 401 fsum: 0.00013918485582989612
-    test 402 Fsum: 0.00013918485582989612
-    test 403 Fsum: 0.00013918485582989612
-    test 404 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -1.9701310077701215
-    test 405 fsum: -1.9701310077701215
-    test 406 Fsum: -1.9701310077701215
-    test 407 Fsum: -1.9701310077701215
-    test 408 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -4.448170658495851
-    test 409 fsum: -4.448170658495851
-    test 410 Fsum: -4.448170658495851
-    test 411 Fsum: -4.448170658495851
-    test 412 sum: 0.0  FAILED, KNOWN, expected 0.013925109959012062
-    test 413 fsum: 0.013925109959012062
-    test 414 Fsum: 0.013925109959012062
-    test 415 Fsum: 0.013925109959012062
-    test 416 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.0005220142183085358
-    test 417 fsum: 0.0005220142183085358
-    test 418 Fsum: 0.0005220142183085358
-    test 419 Fsum: 0.0005220142183085358
-    test 420 sum: 7.0  FAILED, KNOWN, expected 0.048188965973161337
-    test 421 fsum: 0.048188965973161337
-    test 422 Fsum: 0.048188965973161337
-    test 423 Fsum: 0.048188965973161337
-    test 424 sum: 0.0  FAILED, KNOWN, expected 6.445129578436774e-08
-    test 425 fsum: 6.445129578436774e-08
-    test 426 Fsum: 6.445129578436774e-08
-    test 427 Fsum: 6.445129578436774e-08
-    test 428 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 1.3373991098480808e-10
-    test 429 fsum: 1.3373991098480808e-10
-    test 430 Fsum: 1.3373991098480808e-10
-    test 431 Fsum: 1.3373991098480808e-10
-    test 432 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -14.167356476572305
-    test 433 fsum: -14.167356476572305
-    test 434 Fsum: -14.167356476572305
-    test 435 Fsum: -14.167356476572305
-    test 436 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -5.7840315407294055e-05
-    test 437 fsum: -5.7840315407294055e-05
-    test 438 Fsum: -5.7840315407294055e-05
-    test 439 Fsum: -5.7840315407294055e-05
-    test 440 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 1.077000053908298e-07
-    test 441 fsum: 1.077000053908298e-07
-    test 442 Fsum: 1.077000053908298e-07
-    test 443 Fsum: 1.077000053908298e-07
-    test 444 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.0001737913900633442
-    test 445 fsum: -0.0001737913900633442
-    test 446 Fsum: -0.0001737913900633442
-    test 447 Fsum: -0.0001737913900633442
-    test 448 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.37807634275638335
-    test 449 fsum: -0.37807634275638335
-    test 450 Fsum: -0.37807634275638335
-    test 451 Fsum: -0.37807634275638335
-    test 452 sum: -2.677041522547336e-05  FAILED, KNOWN, expected -1.2992400608928005e-06
-    test 453 fsum: -1.2992400608928005e-06
-    test 454 Fsum: -1.2992400608928005e-06
-    test 455 Fsum: -1.2992400608928005e-06
-    test 456 sum: -4.283368208619988  FAILED, KNOWN, expected -3.0512194525353134e-07
-    test 457 fsum: -3.0512194525353134e-07
-    test 458 Fsum: -3.0512194525353134e-07
-    test 459 Fsum: -3.0512194525353134e-07
-    test 460 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -2.1876520962247543
-    test 461 fsum: -2.1876520962247543
-    test 462 Fsum: -2.1876520962247543
-    test 463 Fsum: -2.1876520962247543
-    test 464 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.0006787659245307728
-    test 465 fsum: -0.0006787659245307728
-    test 466 Fsum: -0.0006787659245307728
-    test 467 Fsum: -0.0006787659245307728
-    test 468 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -1.7439761685831467e-07
-    test 469 fsum: -1.7439761685831467e-07
-    test 470 Fsum: -1.7439761685831467e-07
-    test 471 Fsum: -1.7439761685831467e-07
-    test 472 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -3.17815015850442e-13
-    test 473 fsum: -3.17815015850442e-13
-    test 474 Fsum: -3.17815015850442e-13
-    test 475 Fsum: -3.17815015850442e-13
-    test 476 sum: -7.0  FAILED, KNOWN, expected -4.016269643413633e-07
-    test 477 fsum: -4.016269643413633e-07
-    test 478 Fsum: -4.016269643413633e-07
-    test 479 Fsum: -4.016269643413633e-07
-    test 480 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.0041686071492471255
-    test 481 fsum: 0.0041686071492471255
-    test 482 Fsum: 0.0041686071492471255
-    test 483 Fsum: 0.0041686071492471255
-    test 484 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 5.0565326721077435e-08
-    test 485 fsum: 5.0565326721077435e-08
-    test 486 Fsum: 5.0565326721077435e-08
-    test 487 Fsum: 5.0565326721077435e-08
-    test 488 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.0006527078431703262
-    test 489 fsum: 0.0006527078431703262
-    test 490 Fsum: 0.0006527078431703262
-    test 491 Fsum: 0.0006527078431703262
-    test 492 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -4.3937136275448496e-05
-    test 493 fsum: -4.3937136275448496e-05
-    test 494 Fsum: -4.3937136275448496e-05
-    test 495 Fsum: -4.3937136275448496e-05
-    test 496 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 4.191524343284902e-10
-    test 497 fsum: 4.191524343284902e-10
-    test 498 Fsum: 4.191524343284902e-10
-    test 499 Fsum: 4.191524343284902e-10
-    test 500 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.002218968377949753
-    test 501 fsum: -0.002218968377949753
-    test 502 Fsum: -0.002218968377949753
-    test 503 Fsum: -0.002218968377949753
-    test 504 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.00011272000104752855
-    test 505 fsum: 0.00011272000104752855
-    test 506 Fsum: 0.00011272000104752855
-    test 507 Fsum: 0.00011272000104752855
-    test 508 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -19.383240068749167
-    test 509 fsum: -19.383240068749167
-    test 510 Fsum: -19.383240068749167
-    test 511 Fsum: -19.383240068749167
-    test 512 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -9.893074274509346e-16
-    test 513 fsum: -9.893074274509346e-16
-    test 514 Fsum: -9.893074274509346e-16
-    test 515 Fsum: -9.893074274509346e-16
-    test 516 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -2.596481023107453e-10
-    test 517 fsum: -2.596481023107453e-10
-    test 518 Fsum: -2.596481023107453e-10
-    test 519 Fsum: -2.596481023107453e-10
-    test 520 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 3.9375225862672994e-06
-    test 521 fsum: 3.9375225862672994e-06
-    test 522 Fsum: 3.9375225862672994e-06
-    test 523 Fsum: 3.9375225862672994e-06
-    test 524 sum: -7.000071691702705  FAILED, KNOWN, expected -2.148882982370672e-05
-    test 525 fsum: -2.148882982370672e-05
-    test 526 Fsum: -2.148882982370672e-05
-    test 527 Fsum: -2.148882982370672e-05
-    test 528 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 4.4050523962992424e-06
-    test 529 fsum: 4.4050523962992424e-06
-    test 530 Fsum: 4.4050523962992424e-06
-    test 531 Fsum: 4.4050523962992424e-06
-    test 532 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.11779818194114133
-    test 533 fsum: 0.11779818194114133
-    test 534 Fsum: 0.11779818194114133
-    test 535 Fsum: 0.11779818194114133
-    test 536 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 2.3303462720430516e-11
-    test 537 fsum: 2.3303462720430516e-11
-    test 538 Fsum: 2.3303462720430516e-11
-    test 539 Fsum: 2.3303462720430516e-11
-    test 540 sum: 7.0  FAILED, KNOWN, expected 3.896400743566118e-06
-    test 541 fsum: 3.896400743566118e-06
-    test 542 Fsum: 3.896400743566118e-06
-    test 543 Fsum: 3.896400743566118e-06
-    test 544 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 1.4611042457728149e-08
-    test 545 fsum: 1.4611042457728149e-08
-    test 546 Fsum: 1.4611042457728149e-08
-    test 547 Fsum: 1.4611042457728149e-08
-    test 548 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.027477035587722982
-    test 549 fsum: 0.027477035587722982
-    test 550 Fsum: 0.027477035587722982
-    test 551 Fsum: 0.027477035587722982
-    test 552 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.14704032221263838
-    test 553 fsum: 0.14704032221263838
-    test 554 Fsum: 0.14704032221263838
-    test 555 Fsum: 0.14704032221263838
-    test 556 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.029550234401988305
-    test 557 fsum: 0.029550234401988305
-    test 558 Fsum: 0.029550234401988305
-    test 559 Fsum: 0.029550234401988305
-    test 560 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -4.741229351309318e-05
-    test 561 fsum: -4.741229351309318e-05
-    test 562 Fsum: -4.741229351309318e-05
-    test 563 Fsum: -4.741229351309318e-05
-    test 564 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.07752251350455053
-    test 565 fsum: 0.07752251350455053
-    test 566 Fsum: 0.07752251350455053
-    test 567 Fsum: 0.07752251350455053
+    test 168 sum: 1.1375819750151868  FAILED, KNOWN, expected -0.002853637809783516
+    test 169 fsum: -0.002853637809783516
+    test 170 Fsum: -0.002853637809783516
+    test 171 Fsum: -0.002853637809783516
+    test 172 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.01824107259146285
+    test 173 fsum: 0.01824107259146285
+    test 174 Fsum: 0.01824107259146285
+    test 175 Fsum: 0.01824107259146285
+    test 176 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.09912501122488906
+    test 177 fsum: 0.09912501122488906
+    test 178 Fsum: 0.09912501122488906
+    test 179 Fsum: 0.09912501122488906
+    test 180 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 1.981158239770277e-08
+    test 181 fsum: 1.981158239770277e-08
+    test 182 Fsum: 1.981158239770277e-08
+    test 183 Fsum: 1.981158239770277e-08
+    test 184 sum: -9e-20  FAILED, KNOWN, expected 3.8967368243910676e-06
+    test 185 fsum: 3.8967368243910676e-06
+    test 186 Fsum: 3.8967368243910676e-06
+    test 187 Fsum: 3.8967368243910676e-06
+    test 188 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.030425075110823596
+    test 189 fsum: -0.030425075110823596
+    test 190 Fsum: -0.030425075110823596
+    test 191 Fsum: -0.030425075110823596
+    test 192 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.0008562524027648206
+    test 193 fsum: 0.0008562524027648206
+    test 194 Fsum: 0.0008562524027648206
+    test 195 Fsum: 0.0008562524027648206
+    test 196 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.1357832290103677
+    test 197 fsum: 0.1357832290103677
+    test 198 Fsum: 0.1357832290103677
+    test 199 Fsum: 0.1357832290103677
+    test 200 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 6.112235593206371e-06
+    test 201 fsum: 6.112235593206371e-06
+    test 202 Fsum: 6.112235593206371e-06
+    test 203 Fsum: 6.112235593206371e-06
+    test 204 sum: 68.5541971188602  FAILED, KNOWN, expected -2.420435568281525e-08
+    test 205 fsum: -2.420435568281525e-08
+    test 206 Fsum: -2.420435568281525e-08
+    test 207 Fsum: -2.420435568281525e-08
+    test 208 sum: -7.017762839832254  FAILED, KNOWN, expected 1.6227957752138682e-06
+    test 209 fsum: 1.6227957752138682e-06
+    test 210 Fsum: 1.6227957752138682e-06
+    test 211 Fsum: 1.6227957752138682e-06
+    test 212 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -15.007839010848777
+    test 213 fsum: -15.007839010848777
+    test 214 Fsum: -15.007839010848777
+    test 215 Fsum: -15.007839010848777
+    test 216 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -3.202047621464511e-11
+    test 217 fsum: -3.202047621464511e-11
+    test 218 Fsum: -3.202047621464511e-11
+    test 219 Fsum: -3.202047621464511e-11
+    test 220 sum: -7.0  FAILED, KNOWN, expected 4.5062986937779607e-17
+    test 221 fsum: 4.5062986937779607e-17
+    test 222 Fsum: 4.5062986937779607e-17
+    test 223 Fsum: 4.5062986937779607e-17
+    test 224 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 1.218833020332873
+    test 225 fsum: 1.218833020332873
+    test 226 Fsum: 1.218833020332873
+    test 227 Fsum: 1.218833020332873
+    test 228 sum: 0.0004741565713973466  FAILED, KNOWN, expected -5.2520078135117746e-05
+    test 229 fsum: -5.2520078135117746e-05
+    test 230 Fsum: -5.2520078135117746e-05
+    test 231 Fsum: -5.2520078135117746e-05
+    test 232 sum: -7.000190629226223  FAILED, KNOWN, expected -8.949154177826901e-13
+    test 233 fsum: -8.949154177826901e-13
+    test 234 Fsum: -8.949154177826901e-13
+    test 235 Fsum: -8.949154177826901e-13
+    test 236 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -7.595708186222969
+    test 237 fsum: -7.595708186222969
+    test 238 Fsum: -7.595708186222969
+    test 239 Fsum: -7.595708186222969
+    test 240 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -1.819993240667932e-05
+    test 241 fsum: -1.819993240667932e-05
+    test 242 Fsum: -1.819993240667932e-05
+    test 243 Fsum: -1.819993240667932e-05
+    test 244 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.05830499027840439
+    test 245 fsum: 0.05830499027840439
+    test 246 Fsum: 0.05830499027840439
+    test 247 Fsum: 0.05830499027840439
+    test 248 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.00010974251744882421
+    test 249 fsum: -0.00010974251744882421
+    test 250 Fsum: -0.00010974251744882421
+    test 251 Fsum: -0.00010974251744882421
+    test 252 sum: -1.4910072995082205e-08  FAILED, KNOWN, expected 7.13918708415398e-14
+    test 253 fsum: 7.13918708415398e-14
+    test 254 Fsum: 7.13918708415398e-14
+    test 255 Fsum: 7.13918708415398e-14
+    test 256 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 9.660575415829125e-05
+    test 257 fsum: 9.660575415829125e-05
+    test 258 Fsum: 9.660575415829125e-05
+    test 259 Fsum: 9.660575415829125e-05
+    test 260 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 6.905413591455218e-11
+    test 261 fsum: 6.905413591455218e-11
+    test 262 Fsum: 6.905413591455218e-11
+    test 263 Fsum: 6.905413591455218e-11
+    test 264 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.000192177191949608
+    test 265 fsum: -0.000192177191949608
+    test 266 Fsum: -0.000192177191949608
+    test 267 Fsum: -0.000192177191949608
+    test 268 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.8542042613543787
+    test 269 fsum: -0.8542042613543787
+    test 270 Fsum: -0.8542042613543787
+    test 271 Fsum: -0.8542042613543787
+    test 272 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 6.609729857404247e-05
+    test 273 fsum: 6.609729857404247e-05
+    test 274 Fsum: 6.609729857404247e-05
+    test 275 Fsum: 6.609729857404247e-05
+    test 276 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.001368731567125753
+    test 277 fsum: 0.001368731567125753
+    test 278 Fsum: 0.001368731567125753
+    test 279 Fsum: 0.001368731567125753
+    test 280 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 1.9114509713764384e-05
+    test 281 fsum: 1.9114509713764384e-05
+    test 282 Fsum: 1.9114509713764384e-05
+    test 283 Fsum: 1.9114509713764384e-05
+    test 284 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 1.418815167475648e-07
+    test 285 fsum: 1.418815167475648e-07
+    test 286 Fsum: 1.418815167475648e-07
+    test 287 Fsum: 1.418815167475648e-07
+    test 288 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 5.8645218155435985e-12
+    test 289 fsum: 5.8645218155435985e-12
+    test 290 Fsum: 5.8645218155435985e-12
+    test 291 Fsum: 5.8645218155435985e-12
+    test 292 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 14.776928876101003
+    test 293 fsum: 14.776928876101003
+    test 294 Fsum: 14.776928876101003
+    test 295 Fsum: 14.776928876101003
+    test 296 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 2.4506047013393004e-05
+    test 297 fsum: 2.4506047013393004e-05
+    test 298 Fsum: 2.4506047013393004e-05
+    test 299 Fsum: 2.4506047013393004e-05
+    test 300 sum: 6.825993515805551  FAILED, KNOWN, expected -1.3436141568254118e-06
+    test 301 fsum: -1.3436141568254118e-06
+    test 302 Fsum: -1.3436141568254118e-06
+    test 303 Fsum: -1.3436141568254118e-06
+    test 304 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -3.4536813786118242e-12
+    test 305 fsum: -3.4536813786118242e-12
+    test 306 Fsum: -3.4536813786118242e-12
+    test 307 Fsum: -3.4536813786118242e-12
+    test 308 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 1.5009990607167304e-05
+    test 309 fsum: 1.5009990607167304e-05
+    test 310 Fsum: 1.5009990607167304e-05
+    test 311 Fsum: 1.5009990607167304e-05
+    test 312 sum: -6.366246380762788  FAILED, KNOWN, expected -0.0017560695998551346
+    test 313 fsum: -0.0017560695998551346
+    test 314 Fsum: -0.0017560695998551346
+    test 315 Fsum: -0.0017560695998551346
+    test 316 sum: -1.927032173076485e-08  FAILED, KNOWN, expected -2.2436148005140778e-13
+    test 317 fsum: -2.2436148005140778e-13
+    test 318 Fsum: -2.2436148005140778e-13
+    test 319 Fsum: -2.2436148005140778e-13
+    test 320 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -2.254014753514362e-12
+    test 321 fsum: -2.254014753514362e-12
+    test 322 Fsum: -2.254014753514362e-12
+    test 323 Fsum: -2.254014753514362e-12
+    test 324 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -2.724971426708568e-07
+    test 325 fsum: -2.724971426708568e-07
+    test 326 Fsum: -2.724971426708568e-07
+    test 327 Fsum: -2.724971426708568e-07
+    test 328 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 1.0247617010944944e-15
+    test 329 fsum: 1.0247617010944944e-15
+    test 330 Fsum: 1.0247617010944944e-15
+    test 331 Fsum: 1.0247617010944944e-15
+    test 332 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -2.4820656266610344e-08
+    test 333 fsum: -2.4820656266610344e-08
+    test 334 Fsum: -2.4820656266610344e-08
+    test 335 Fsum: -2.4820656266610344e-08
+    test 336 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.0062033292455124225
+    test 337 fsum: -0.0062033292455124225
+    test 338 Fsum: -0.0062033292455124225
+    test 339 Fsum: -0.0062033292455124225
+    test 340 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -3.0943626297313416e-06
+    test 341 fsum: -3.0943626297313416e-06
+    test 342 Fsum: -3.0943626297313416e-06
+    test 343 Fsum: -3.0943626297313416e-06
+    test 344 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 2.0006504800496446e-12
+    test 345 fsum: 2.0006504800496446e-12
+    test 346 Fsum: 2.0006504800496446e-12
+    test 347 Fsum: 2.0006504800496446e-12
+    test 348 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -1.1584691002151618e-09
+    test 349 fsum: -1.1584691002151618e-09
+    test 350 Fsum: -1.1584691002151618e-09
+    test 351 Fsum: -1.1584691002151618e-09
+    test 352 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -1.1208614199093772
+    test 353 fsum: -1.1208614199093772
+    test 354 Fsum: -1.1208614199093772
+    test 355 Fsum: -1.1208614199093772
+    test 356 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 3.899321285638829e-10
+    test 357 fsum: 3.899321285638829e-10
+    test 358 Fsum: 3.899321285638829e-10
+    test 359 Fsum: 3.899321285638829e-10
+    test 360 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 3.014466103198796e-06
+    test 361 fsum: 3.014466103198796e-06
+    test 362 Fsum: 3.014466103198796e-06
+    test 363 Fsum: 3.014466103198796e-06
+    test 364 sum: 6.253887411289976  FAILED, KNOWN, expected 8.392224891353682e-11
+    test 365 fsum: 8.392224891353682e-11
+    test 366 Fsum: 8.392224891353682e-11
+    test 367 Fsum: 8.392224891353682e-11
+    test 368 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.14676706034491294
+    test 369 fsum: -0.14676706034491294
+    test 370 Fsum: -0.14676706034491294
+    test 371 Fsum: -0.14676706034491294
+    test 372 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.0005424252378316652
+    test 373 fsum: 0.0005424252378316652
+    test 374 Fsum: 0.0005424252378316652
+    test 375 Fsum: 0.0005424252378316652
+    test 376 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.0266172916872601
+    test 377 fsum: 0.0266172916872601
+    test 378 Fsum: 0.0266172916872601
+    test 379 Fsum: 0.0266172916872601
+    test 380 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 1.4900967936134396e-13
+    test 381 fsum: 1.4900967936134396e-13
+    test 382 Fsum: 1.4900967936134396e-13
+    test 383 Fsum: 1.4900967936134396e-13
+    test 384 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -15.121790274996275
+    test 385 fsum: -15.121790274996275
+    test 386 Fsum: -15.121790274996275
+    test 387 Fsum: -15.121790274996275
+    test 388 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -6.590500772161429e-07
+    test 389 fsum: -6.590500772161429e-07
+    test 390 Fsum: -6.590500772161429e-07
+    test 391 Fsum: -6.590500772161429e-07
+    test 392 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -1.9069075062603925e-13
+    test 393 fsum: -1.9069075062603925e-13
+    test 394 Fsum: -1.9069075062603925e-13
+    test 395 Fsum: -1.9069075062603925e-13
+    test 396 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.0012826027242943269
+    test 397 fsum: 0.0012826027242943269
+    test 398 Fsum: 0.0012826027242943269
+    test 399 Fsum: 0.0012826027242943269
+    test 400 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -1.0056886090255139e-05
+    test 401 fsum: -1.0056886090255139e-05
+    test 402 Fsum: -1.0056886090255139e-05
+    test 403 Fsum: -1.0056886090255139e-05
+    test 404 sum: 13.257544216187696  FAILED, KNOWN, expected 2.3722236784714973e-16
+    test 405 fsum: 2.3722236784714973e-16
+    test 406 Fsum: 2.3722236784714973e-16
+    test 407 Fsum: 2.3722236784714973e-16
+    test 408 sum: -7.0  FAILED, KNOWN, expected 7.896907290213361e-08
+    test 409 fsum: 7.896907290213361e-08
+    test 410 Fsum: 7.896907290213361e-08
+    test 411 Fsum: 7.896907290213361e-08
+    test 412 sum: 0.0  FAILED, KNOWN, expected -2.609508066402553e-06
+    test 413 fsum: -2.609508066402553e-06
+    test 414 Fsum: -2.609508066402553e-06
+    test 415 Fsum: -2.609508066402553e-06
+    test 416 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.00018636074682849471
+    test 417 fsum: -0.00018636074682849471
+    test 418 Fsum: -0.00018636074682849471
+    test 419 Fsum: -0.00018636074682849471
+    test 420 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 4.14560408748339
+    test 421 fsum: 4.14560408748339
+    test 422 Fsum: 4.14560408748339
+    test 423 Fsum: 4.14560408748339
+    test 424 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 5.73398601535916e-09
+    test 425 fsum: 5.73398601535916e-09
+    test 426 Fsum: 5.73398601535916e-09
+    test 427 Fsum: 5.73398601535916e-09
+    test 428 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.23859032837164723
+    test 429 fsum: 0.23859032837164723
+    test 430 Fsum: 0.23859032837164723
+    test 431 Fsum: 0.23859032837164723
+    test 432 sum: -2.88635016787137e-07  FAILED, KNOWN, expected 7.474878618949733e-06
+    test 433 fsum: 7.474878618949733e-06
+    test 434 Fsum: 7.474878618949733e-06
+    test 435 Fsum: 7.474878618949733e-06
+    test 436 sum: -6.248534473678694  FAILED, KNOWN, expected 3.0659577322061097e-06
+    test 437 fsum: 3.0659577322061097e-06
+    test 438 Fsum: 3.0659577322061097e-06
+    test 439 Fsum: 3.0659577322061097e-06
+    test 440 sum: -13.974627851545144  FAILED, KNOWN, expected -3.560844261203178e-09
+    test 441 fsum: -3.560844261203178e-09
+    test 442 Fsum: -3.560844261203178e-09
+    test 443 Fsum: -3.560844261203178e-09
+    test 444 sum: 0.0  FAILED, KNOWN, expected 0.0011618122549769485
+    test 445 fsum: 0.0011618122549769485
+    test 446 Fsum: 0.0011618122549769485
+    test 447 Fsum: 0.0011618122549769485
+    test 448 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.2284951820848382
+    test 449 fsum: -0.2284951820848382
+    test 450 Fsum: -0.2284951820848382
+    test 451 Fsum: -0.2284951820848382
+    test 452 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 5.519891272413884e-15
+    test 453 fsum: 5.519891272413884e-15
+    test 454 Fsum: 5.519891272413884e-15
+    test 455 Fsum: 5.519891272413884e-15
+    test 456 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 2.5974530943694635e-06
+    test 457 fsum: 2.5974530943694635e-06
+    test 458 Fsum: 2.5974530943694635e-06
+    test 459 Fsum: 2.5974530943694635e-06
+    test 460 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.023485514771192102
+    test 461 fsum: -0.023485514771192102
+    test 462 Fsum: -0.023485514771192102
+    test 463 Fsum: -0.023485514771192102
+    test 464 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.5438143772352244
+    test 465 fsum: 0.5438143772352244
+    test 466 Fsum: 0.5438143772352244
+    test 467 Fsum: 0.5438143772352244
+    test 468 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -1.1843624064440441e-08
+    test 469 fsum: -1.1843624064440441e-08
+    test 470 Fsum: -1.1843624064440441e-08
+    test 471 Fsum: -1.1843624064440441e-08
+    test 472 sum: 6.999463522551568  FAILED, KNOWN, expected -43.677180239685704
+    test 473 fsum: -43.677180239685704
+    test 474 Fsum: -43.677180239685704
+    test 475 Fsum: -43.677180239685704
+    test 476 sum: -15.612092881365253  FAILED, KNOWN, expected 7.379439385160653e-07
+    test 477 fsum: 7.379439385160653e-07
+    test 478 Fsum: 7.379439385160653e-07
+    test 479 Fsum: 7.379439385160653e-07
+    test 480 sum: 0.03525970478042602  FAILED, KNOWN, expected -0.01430467152832145
+    test 481 fsum: -0.01430467152832145
+    test 482 Fsum: -0.01430467152832145
+    test 483 Fsum: -0.01430467152832145
+    test 484 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 7.25363004042646e-17
+    test 485 fsum: 7.25363004042646e-17
+    test 486 Fsum: 7.25363004042646e-17
+    test 487 Fsum: 7.25363004042646e-17
+    test 488 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.013239547809712648
+    test 489 fsum: -0.013239547809712648
+    test 490 Fsum: -0.013239547809712648
+    test 491 Fsum: -0.013239547809712648
+    test 492 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.06172140759206149
+    test 493 fsum: -0.06172140759206149
+    test 494 Fsum: -0.06172140759206149
+    test 495 Fsum: -0.06172140759206149
+    test 496 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.002393648951027855
+    test 497 fsum: 0.002393648951027855
+    test 498 Fsum: 0.002393648951027855
+    test 499 Fsum: 0.002393648951027855
+    test 500 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.042651801557648146
+    test 501 fsum: -0.042651801557648146
+    test 502 Fsum: -0.042651801557648146
+    test 503 Fsum: -0.042651801557648146
+    test 504 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -3.044467458921217e-14
+    test 505 fsum: -3.044467458921217e-14
+    test 506 Fsum: -3.044467458921217e-14
+    test 507 Fsum: -3.044467458921217e-14
+    test 508 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 1.5652944801285548e-12
+    test 509 fsum: 1.5652944801285548e-12
+    test 510 Fsum: 1.5652944801285548e-12
+    test 511 Fsum: 1.5652944801285548e-12
+    test 512 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 4.6075495712213915e-17
+    test 513 fsum: 4.6075495712213915e-17
+    test 514 Fsum: 4.6075495712213915e-17
+    test 515 Fsum: 4.6075495712213915e-17
+    test 516 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 1.4029026892309045e-15
+    test 517 fsum: 1.4029026892309045e-15
+    test 518 Fsum: 1.4029026892309045e-15
+    test 519 Fsum: 1.4029026892309045e-15
+    test 520 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.0002400115158331681
+    test 521 fsum: -0.0002400115158331681
+    test 522 Fsum: -0.0002400115158331681
+    test 523 Fsum: -0.0002400115158331681
+    test 524 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 5.491218942211317e-10
+    test 525 fsum: 5.491218942211317e-10
+    test 526 Fsum: 5.491218942211317e-10
+    test 527 Fsum: 5.491218942211317e-10
+    test 528 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.0017793072606889185
+    test 529 fsum: 0.0017793072606889185
+    test 530 Fsum: 0.0017793072606889185
+    test 531 Fsum: 0.0017793072606889185
+    test 532 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.00022947110324905432
+    test 533 fsum: -0.00022947110324905432
+    test 534 Fsum: -0.00022947110324905432
+    test 535 Fsum: -0.00022947110324905432
+    test 536 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.00865718915932715
+    test 537 fsum: 0.00865718915932715
+    test 538 Fsum: 0.00865718915932715
+    test 539 Fsum: 0.00865718915932715
+    test 540 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -2.200040530073312e-05
+    test 541 fsum: -2.200040530073312e-05
+    test 542 Fsum: -2.200040530073312e-05
+    test 543 Fsum: -2.200040530073312e-05
+    test 544 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -1.4891048613619097e-05
+    test 545 fsum: -1.4891048613619097e-05
+    test 546 Fsum: -1.4891048613619097e-05
+    test 547 Fsum: -1.4891048613619097e-05
+    test 548 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.4599625491114664
+    test 549 fsum: 0.4599625491114664
+    test 550 Fsum: 0.4599625491114664
+    test 551 Fsum: 0.4599625491114664
+    test 552 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 2.068094457675343e-08
+    test 553 fsum: 2.068094457675343e-08
+    test 554 Fsum: 2.068094457675343e-08
+    test 555 Fsum: 2.068094457675343e-08
+    test 556 sum: 7.344450800155252  FAILED, KNOWN, expected -0.4189152548867789
+    test 557 fsum: -0.4189152548867789
+    test 558 Fsum: -0.4189152548867789
+    test 559 Fsum: -0.4189152548867789
+    test 560 sum: 3.0241874815378075e-06  FAILED, KNOWN, expected 4.902581196048065e-05
+    test 561 fsum: 4.902581196048065e-05
+    test 562 Fsum: 4.902581196048065e-05
+    test 563 Fsum: 4.902581196048065e-05
+    test 564 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.6555117257659976
+    test 565 fsum: -0.6555117257659976
+    test 566 Fsum: -0.6555117257659976
+    test 567 Fsum: -0.6555117257659976
     test 568 fpowers: 10
     test 569 fpowers: 2
     test 570 fpowers: 1024
@@ -5449,20 +5331,11 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testFmath.py
     test 745 WGS84: 6367449.1458234144
     test 746 WGS84: 6367449.1458234144
 
-    110 of 746 testFmath.py tests (14.7%) FAILED, ALL KNOWN (PyGeodesy 18.12.26 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 2 B) 129.411 ms
+    110 of 746 testFmath.py tests (14.7%) FAILED, ALL KNOWN (PyGeodesy 18.12.29 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 0) 142.990 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testGeohash.py
-# lazily imported pygeodesy.anStr from .utily
-# lazily imported pygeodesy.isLazy from .lazily
-# lazily imported pygeodesy.iterNumpy2over from .utily
-# lazily imported pygeodesy.normDMS from .dms
-# lazily imported pygeodesy.classname from .bases
-# lazily imported pygeodesy.fStr from .fmath
-# lazily imported pygeodesy.geohash
-# lazily imported pygeodesy.Geohash from .geohash
-# lazily imported pygeodesy.ellipsoidalVincenty
 
-    testing testGeohash.py 18.09.08 (module geohash 18.10.26) isLazy=2
+    testing testGeohash.py 18.09.08 (module geohash 18.10.26)
     test 1 Geohash: Geohash('geek')
     test 2 Geohash: geek
     test 3 Geohash: geek
@@ -5537,23 +5410,11 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testGeohash.py
     test 72 decode_error: (2.8125, 5.625)
     test 73 decode_error: (22.5, 22.5)
 
-    all 73 testGeohash.py tests passed (PyGeodesy 18.12.26 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 2 B) 9.321 ms
+    all 73 testGeohash.py tests passed (PyGeodesy 18.12.29 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 0) 10.563 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testGreatCircle.py
-# lazily imported pygeodesy.anStr from .utily
-# lazily imported pygeodesy.isLazy from .lazily
-# lazily imported pygeodesy.iterNumpy2over from .utily
-# lazily imported pygeodesy.normDMS from .dms
-# lazily imported pygeodesy.F_D from .dms
-# lazily imported pygeodesy.F_DMS from .dms
-# lazily imported pygeodesy.classname from .bases
-# lazily imported pygeodesy.bearingDMS from .dms
-# lazily imported pygeodesy.CrossError from .vector3d
-# lazily imported pygeodesy.crosserrors from .vector3d
-# lazily imported pygeodesy.sphericalNvector
-# lazily imported pygeodesy.sphericalTrigonometry
 
-    testing testGreatCircle.py 18.10.02 isLazy=2
+    testing testGreatCircle.py 18.10.02
 
     testGreatCircle(sphericalNvector, 18.12.26)
     test 1 InitialBearingSameLocations: 0.0
@@ -5587,7 +5448,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testGreatCircle.py
     test 29 CrossTrackDistance200m+270°: -200.0
     test 30 CrossTrackDistanceCloseToZero: 0.0000000
 
-    testGreatCircle(sphericalTrigonometry, 18.12.26)
+    testGreatCircle(sphericalTrigonometry, 18.12.29)
     test 31 InitialBearingSameLocations: 0.0
     test 32 InitialBearingEqualLocations: 0.0
     test 33 FinalBearingSameLocations: 180.0
@@ -5619,34 +5480,11 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testGreatCircle.py
     test 59 CrossTrackDistance200m+270°: -200.0
     test 60 CrossTrackDistanceCloseToZero: 0.0000000
 
-    10 of 60 testGreatCircle.py tests (16.7%) FAILED, ALL KNOWN (PyGeodesy 18.12.26 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 2 B) 4.259 ms
+    10 of 60 testGreatCircle.py tests (16.7%) FAILED, ALL KNOWN (PyGeodesy 18.12.29 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 0) 5.427 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testLatLon.py
-# lazily imported pygeodesy.anStr from .utily
-# lazily imported pygeodesy.isLazy from .lazily
-# lazily imported pygeodesy.iterNumpy2over from .utily
-# lazily imported pygeodesy.normDMS from .dms
-# lazily imported pygeodesy.R_NM from .datum
-# lazily imported pygeodesy.F_D from .dms
-# lazily imported pygeodesy.F_DM from .dms
-# lazily imported pygeodesy.F_DMS from .dms
-# lazily imported pygeodesy.F_RAD from .dms
-# lazily imported pygeodesy.classname from .bases
-# lazily imported pygeodesy.degrees from .utily
-# lazily imported pygeodesy.fStr from .fmath
-# lazily imported pygeodesy.isclockwise from .points
-# lazily imported pygeodesy.isconvex from .points
-# lazily imported pygeodesy.isenclosedBy from .points
-# lazily imported pygeodesy.ispolar from .points
-# lazily imported pygeodesy.m2km from .utily
-# lazily imported pygeodesy.m2NM from .utily
-# lazily imported pygeodesy.ellipsoidalNvector
-# lazily imported pygeodesy.ellipsoidalVincenty
-# lazily imported pygeodesy.sphericalNvector
-# lazily imported pygeodesy.sphericalTrigonometry
 
-    testing testLatLon.py 18.12.11 isLazy=2
-# lazily imported pygeodesy.ellipsoidalKarney
+    testing testLatLon.py 18.12.11
 
     testLatLon(ellipsoidalKarney, 18.10.26)
     test 1 isEllipsoidal: True
@@ -6039,7 +5877,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testLatLon.py
     test 382 compassAngleTo: 31
     test 383 compassAngleTo: 45
 
-    testLatLon(sphericalTrigonometry, 18.12.26)
+    testLatLon(sphericalTrigonometry, 18.12.29)
     test 384 isEllipsoidal: False
     test 385 isSpherical: True
     test 386 lat/lonDMS: 52.20472°N, 000.14056°E
@@ -6158,44 +5996,26 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testLatLon.py
     test 499 compassAngleTo: 31
     test 500 compassAngleTo: 45
 
-    17 of 500 testLatLon.py tests (3.4%) FAILED, ALL KNOWN (PyGeodesy 18.12.26 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 2 B) 41.824 ms
+    17 of 500 testLatLon.py tests (3.4%) FAILED, ALL KNOWN (PyGeodesy 18.12.29 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 0) 37.972 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testLazily.py
-# lazily imported pygeodesy.anStr from .utily
-# lazily imported pygeodesy.isLazy from .lazily
-# lazily imported pygeodesy.iterNumpy2over from .utily
-# lazily imported pygeodesy.normDMS from .dms
-# lazily imported pygeodesy.lazily
-# lazily imported pygeodesy.__all__
 
-    testing testLazily.py 18.11.12 isLazy=2
-    test 1 isLazy: 2
-    test 2 cmd: /usr/local/bin/python3 -c 'from pygeodesy import lazily, R_M, LimitError; import sys; sys.exit(0 if lazily.isLazy == %s else 1)'
-    test 3 PYGEODESY_LAZY_IMPORT=0: 0
-    test 4 PYGEODESY_LAZY_IMPORT=1: 0
-    test 5 PYGEODESY_LAZY_IMPORT=2: 0
-    test 6 PYGEODESY_LAZY_IMPORT=3: 0
-    test 7 PYGEODESY_LAZY_IMPORT=4: 0
+    testing testLazily.py 18.11.12
+    test 1 isLazy: 0
+    test 2 missing in lazily._all_imports: None
+    test 3 missing in pygeodesy.__all__: None
+    test 4 cmd: /usr/local/bin/python3 -c 'from pygeodesy import lazily, R_M, LimitError; import sys; sys.exit(0 if lazily.isLazy == %s else 1)'
+    test 5 PYGEODESY_LAZY_IMPORT=0: 0
+    test 6 PYGEODESY_LAZY_IMPORT=1: 0
+    test 7 PYGEODESY_LAZY_IMPORT=2: 0
+    test 8 PYGEODESY_LAZY_IMPORT=3: 0
+    test 9 PYGEODESY_LAZY_IMPORT=4: 0
 
-    all 7 testLazily.py tests passed (PyGeodesy 18.12.26 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 2 B) 759.517 ms
+    all 9 testLazily.py tests passed (PyGeodesy 18.12.29 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 0) 612.845 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testLcc.py
-# lazily imported pygeodesy.anStr from .utily
-# lazily imported pygeodesy.isLazy from .lazily
-# lazily imported pygeodesy.iterNumpy2over from .utily
-# lazily imported pygeodesy.normDMS from .dms
-# lazily imported pygeodesy.F_D from .dms
-# lazily imported pygeodesy.F_DMS from .dms
-# lazily imported pygeodesy.Conic from .lcc
-# lazily imported pygeodesy.Conics from .lcc
-# lazily imported pygeodesy.Datums from .datum
-# lazily imported pygeodesy.Lcc from .lcc
-# lazily imported pygeodesy.toLcc from .lcc
-# lazily imported pygeodesy.ellipsoidalNvector
-# lazily imported pygeodesy.ellipsoidalVincenty
-# lazily imported pygeodesy.lcc
 
-    testing testLcc.py 18.08.26 (module lcc 18.10.12) isLazy=2
+    testing testLcc.py 18.08.26 (module lcc 18.10.12)
 
     testLcc(ellipsoidalNvector, 18.12.16)
     test 1 lb1: 448251.0 5411932.0001
@@ -6455,17 +6275,11 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testLcc.py
     testConic(ellipsoidalVincenty, 18.11.07)
     test 250 SnyderV: name='SnyderV', lat0=23, lon0=-96, par1=33, par2=45, E0=0, N0=0, k0=1, SP=2, datum=(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27)
 
-    all 250 testLcc.py tests passed (PyGeodesy 18.12.26 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 2 B) 14.936 ms
+    all 250 testLcc.py tests passed (PyGeodesy 18.12.29 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 0) 15.266 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testMgrs.py
-# lazily imported pygeodesy.anStr from .utily
-# lazily imported pygeodesy.isLazy from .lazily
-# lazily imported pygeodesy.iterNumpy2over from .utily
-# lazily imported pygeodesy.normDMS from .dms
-# lazily imported pygeodesy.mgrs
-# lazily imported pygeodesy.ellipsoidalVincenty
 
-    testing testMgrs.py 18.09.08 (module mgrs 18.12.16) isLazy=2
+    testing testMgrs.py 18.09.08 (module mgrs 18.12.16)
     test 1 Mgrs1: 31U DQ 48251 11932
     test 2 Mgrs1: [Z:31U, G:DQ, E:48251, N:11932]
     test 3 Mgrs2: 31U DQ 48251 11932
@@ -6483,814 +6297,608 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testMgrs.py
     test 15 toUtm(76.0°N, 025.0°E).toMgrs: 35X ME 45999 36099
     test 16 toUtm(76.0°N, 037.0°E).toMgrs: 37X DE 45999 36099
 
-    all 16 testMgrs.py tests passed (PyGeodesy 18.12.26 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 2 B) 4.300 ms
+    all 16 testMgrs.py tests passed (PyGeodesy 18.12.29 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 0) 2.777 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testModules.py
-# lazily imported pygeodesy.anStr from .utily
-# lazily imported pygeodesy.isLazy from .lazily
-# lazily imported pygeodesy.iterNumpy2over from .utily
-# lazily imported pygeodesy.normDMS from .dms
 
-    testing testModules.py 18.12.14 isLazy=2
+    testing testModules.py 18.12.14
 
-    testModule(pygeodesy, 18.12.26)
-# lazily imported pygeodesy.__all__
-# lazily imported pygeodesy.Conic from .lcc
+    testModule(pygeodesy, 18.12.29)
     test 1 pygeodesy.Conic() class (lcc): True
-# lazily imported pygeodesy.Conics from .lcc
     test 2 pygeodesy.Conics class datum._Enum (datum): True
-# lazily imported pygeodesy.CrossError from .vector3d
     test 3 pygeodesy.CrossError() class (vector3d): True
-# lazily imported pygeodesy.Datum from .datum
     test 4 pygeodesy.Datum() class (datum): True
-# lazily imported pygeodesy.Datums from .datum
     test 5 pygeodesy.Datums class datum._Enum (datum): True
-# lazily imported pygeodesy.EPS from .fmath
     test 6 pygeodesy.EPS float: True
-# lazily imported pygeodesy.EPS1 from .fmath
     test 7 pygeodesy.EPS1 float: True
-# lazily imported pygeodesy.Ellipsoid from .datum
     test 8 pygeodesy.Ellipsoid() class (datum): True
-# lazily imported pygeodesy.Ellipsoids from .datum
     test 9 pygeodesy.Ellipsoids class datum._Enum (datum): True
-# lazily imported pygeodesy.F_D from .dms
     test 10 pygeodesy.F_D str: True
-# lazily imported pygeodesy.F_DEG from .dms
     test 11 pygeodesy.F_DEG str: True
-# lazily imported pygeodesy.F_DM from .dms
     test 12 pygeodesy.F_DM str: True
-# lazily imported pygeodesy.F_DMS from .dms
     test 13 pygeodesy.F_DMS str: True
-# lazily imported pygeodesy.F_MIN from .dms
     test 14 pygeodesy.F_MIN str: True
-# lazily imported pygeodesy.F_RAD from .dms
     test 15 pygeodesy.F_RAD str: True
-# lazily imported pygeodesy.F_SEC from .dms
     test 16 pygeodesy.F_SEC str: True
-# lazily imported pygeodesy.Fsum from .fmath
     test 17 pygeodesy.Fsum() class (fmath): True
-# lazily imported pygeodesy.Geohash from .geohash
     test 18 pygeodesy.Geohash() class (geohash): True
-# lazily imported pygeodesy.LatLon2psxy from .points
     test 19 pygeodesy.LatLon2psxy() class (points): True
-# lazily imported pygeodesy.LatLonHeightBase from .bases
     test 20 pygeodesy.LatLonHeightBase() class (bases): True
-# lazily imported pygeodesy.LatLon_ from .points
     test 21 pygeodesy.LatLon_() class (points): True
     test 22 pygeodesy.LazyImportError() class (lazily): True
-# lazily imported pygeodesy.Lcc from .lcc
     test 23 pygeodesy.Lcc() class (lcc): True
-# lazily imported pygeodesy.LimitError from .utily
     test 24 pygeodesy.LimitError() class (utily): True
-# lazily imported pygeodesy.Mgrs from .mgrs
     test 25 pygeodesy.Mgrs() class (mgrs): True
-# lazily imported pygeodesy.Numpy2LatLon from .points
     test 26 pygeodesy.Numpy2LatLon() class (points): True
-# lazily imported pygeodesy.Osgr from .osgr
     test 27 pygeodesy.Osgr() class (osgr): True
-# lazily imported pygeodesy.PI from .utily
     test 28 pygeodesy.PI float: True
-# lazily imported pygeodesy.PI2 from .utily
     test 29 pygeodesy.PI2 float: True
-# lazily imported pygeodesy.PI_2 from .utily
     test 30 pygeodesy.PI_2 float: True
-# lazily imported pygeodesy.PI_4 from .utily
     test 31 pygeodesy.PI_4 float: True
-# lazily imported pygeodesy.R_FM from .datum
     test 32 pygeodesy.R_FM float: True
-# lazily imported pygeodesy.R_KM from .datum
     test 33 pygeodesy.R_KM float: True
-# lazily imported pygeodesy.R_M from .utily
     test 34 pygeodesy.R_M float: True
-# lazily imported pygeodesy.R_MA from .datum
     test 35 pygeodesy.R_MA float: True
-# lazily imported pygeodesy.R_MB from .datum
     test 36 pygeodesy.R_MB float: True
-# lazily imported pygeodesy.R_NM from .datum
     test 37 pygeodesy.R_NM float: True
-# lazily imported pygeodesy.R_SM from .datum
     test 38 pygeodesy.R_SM float: True
-# lazily imported pygeodesy.R_VM from .datum
     test 39 pygeodesy.R_VM float: True
-# lazily imported pygeodesy.RangeError from .dms
     test 40 pygeodesy.RangeError() class (dms): True
-# lazily imported pygeodesy.S_DEG from .dms
     test 41 pygeodesy.S_DEG str: True
-# lazily imported pygeodesy.S_MIN from .dms
     test 42 pygeodesy.S_MIN str: True
-# lazily imported pygeodesy.S_RAD from .dms
     test 43 pygeodesy.S_RAD str: True
-# lazily imported pygeodesy.S_SEC from .dms
     test 44 pygeodesy.S_SEC str: True
-# lazily imported pygeodesy.S_SEP from .dms
     test 45 pygeodesy.S_SEP str: True
-# lazily imported pygeodesy.Transform from .datum
     test 46 pygeodesy.Transform() class (datum): True
-# lazily imported pygeodesy.Transforms from .datum
     test 47 pygeodesy.Transforms class datum._Enum (datum): True
-# lazily imported pygeodesy.Tuple2LatLon from .points
     test 48 pygeodesy.Tuple2LatLon() class (points): True
-# lazily imported pygeodesy.UTMError from .utm
     test 49 pygeodesy.UTMError() class (utm): True
-# lazily imported pygeodesy.Utm from .utm
     test 50 pygeodesy.Utm() class (utm): True
-# lazily imported pygeodesy.VincentyError from .ellipsoidalVincenty
     test 51 pygeodesy.VincentyError() class (ellipsoidalVincenty): True
-# lazily imported pygeodesy.Wm from .webmercator
     test 52 pygeodesy.Wm() class (webmercator): True
-# lazily imported pygeodesy.acos1 from .fmath
     test 53 pygeodesy.acos1() function (fmath): True
     test 54 pygeodesy.anStr() function (utily): True
-# lazily imported pygeodesy.antipode from .formy
     test 55 pygeodesy.antipode() function (formy): True
-# lazily imported pygeodesy.areaOf from .points
     test 56 pygeodesy.areaOf() function (points): True
-# lazily imported pygeodesy.areaof from .points
-    test 57 pygeodesy.areaof() function (points): True
-# lazily imported pygeodesy.bases
+    test 57 pygeodesy.areaof() function: True
     test 58 pygeodesy.bases module: True
-# lazily imported pygeodesy.bearing from .formy
     test 59 pygeodesy.bearing() function (formy): True
-# lazily imported pygeodesy.bearingDMS from .dms
     test 60 pygeodesy.bearingDMS() function (dms): True
-# lazily imported pygeodesy.bearing_ from .formy
     test 61 pygeodesy.bearing_() function (formy): True
-# lazily imported pygeodesy.bounds from .points
     test 62 pygeodesy.bounds() function (points): True
-# lazily imported pygeodesy.cbrt from .fmath
     test 63 pygeodesy.cbrt() function (fmath): True
-# lazily imported pygeodesy.cbrt2 from .fmath
     test 64 pygeodesy.cbrt2() function (fmath): True
-# lazily imported pygeodesy.classname from .bases
     test 65 pygeodesy.classname() function (bases): True
-# lazily imported pygeodesy.classnaming from .bases
     test 66 pygeodesy.classnaming() function (bases): True
-# lazily imported pygeodesy.clipCS3 from .clipy
     test 67 pygeodesy.clipCS3() function (clipy): True
-# lazily imported pygeodesy.clipDMS from .dms
     test 68 pygeodesy.clipDMS() function (dms): True
-# lazily imported pygeodesy.clipSH from .clipy
     test 69 pygeodesy.clipSH() function (clipy): True
-# lazily imported pygeodesy.clipSH3 from .clipy
     test 70 pygeodesy.clipSH3() function (clipy): True
-# lazily imported pygeodesy.clipy
     test 71 pygeodesy.clipy module: True
-# lazily imported pygeodesy.compassAngle from .formy
     test 72 pygeodesy.compassAngle() function (formy): True
-# lazily imported pygeodesy.compassDMS from .dms
     test 73 pygeodesy.compassDMS() function (dms): True
-# lazily imported pygeodesy.compassPoint from .dms
     test 74 pygeodesy.compassPoint() function (dms): True
-# lazily imported pygeodesy.crosserrors from .vector3d
     test 75 pygeodesy.crosserrors() function (vector3d): True
-# lazily imported pygeodesy.datum
     test 76 pygeodesy.datum module: True
-# lazily imported pygeodesy.degrees from .utily
     test 77 pygeodesy.degrees class builtin_function_or_method (math): True
-# lazily imported pygeodesy.degrees180 from .utily
     test 78 pygeodesy.degrees180() function (utily): True
-# lazily imported pygeodesy.degrees2m from .utily
     test 79 pygeodesy.degrees2m() function (utily): True
-# lazily imported pygeodesy.degrees360 from .utily
     test 80 pygeodesy.degrees360() function (utily): True
-# lazily imported pygeodesy.degrees90 from .utily
     test 81 pygeodesy.degrees90() function (utily): True
-# lazily imported pygeodesy.dms
     test 82 pygeodesy.dms module: True
-# lazily imported pygeodesy.elevation2 from .elevations
     test 83 pygeodesy.elevation2() function (elevations): True
-# lazily imported pygeodesy.elevations
     test 84 pygeodesy.elevations module: True
-# lazily imported pygeodesy.ellipsoidalKarney
     test 85 pygeodesy.ellipsoidalKarney module: True
-# lazily imported pygeodesy.ellipsoidalNvector
     test 86 pygeodesy.ellipsoidalNvector module: True
-# lazily imported pygeodesy.ellipsoidalVincenty
     test 87 pygeodesy.ellipsoidalVincenty module: True
-# lazily imported pygeodesy.enStr2 from .utily
     test 88 pygeodesy.enStr2() function (utily): True
-# lazily imported pygeodesy.equirectangular from .formy
     test 89 pygeodesy.equirectangular() function (formy): True
-# lazily imported pygeodesy.equirectangular3 from .formy
     test 90 pygeodesy.equirectangular3() function (formy): True
-# lazily imported pygeodesy.equirectangular_ from .formy
     test 91 pygeodesy.equirectangular_() function (formy): True
-# lazily imported pygeodesy.fStr from .fmath
     test 92 pygeodesy.fStr() function (fmath): True
-# lazily imported pygeodesy.fStrzs from .fmath
     test 93 pygeodesy.fStrzs() function (fmath): True
-# lazily imported pygeodesy.false2f from .utily
     test 94 pygeodesy.false2f() function (utily): True
-# lazily imported pygeodesy.favg from .fmath
     test 95 pygeodesy.favg() function (fmath): True
-# lazily imported pygeodesy.fdot from .fmath
     test 96 pygeodesy.fdot() function (fmath): True
-# lazily imported pygeodesy.fdot3 from .fmath
     test 97 pygeodesy.fdot3() function (fmath): True
-# lazily imported pygeodesy.fhorner from .fmath
     test 98 pygeodesy.fhorner() function (fmath): True
-# lazily imported pygeodesy.fmath
     test 99 pygeodesy.fmath module: True
-# lazily imported pygeodesy.fmean from .fmath
     test 100 pygeodesy.fmean() function (fmath): True
-# lazily imported pygeodesy.formy
     test 101 pygeodesy.formy module: True
-# lazily imported pygeodesy.fpolynomial from .fmath
     test 102 pygeodesy.fpolynomial() function (fmath): True
-# lazily imported pygeodesy.fpowers from .fmath
     test 103 pygeodesy.fpowers() function (fmath): True
-# lazily imported pygeodesy.fsum from .fmath
     test 104 pygeodesy.fsum class builtin_function_or_method (math): True
-# lazily imported pygeodesy.fsum_ from .fmath
     test 105 pygeodesy.fsum_() function (fmath): True
-# lazily imported pygeodesy.ft2m from .utily
     test 106 pygeodesy.ft2m() function (utily): True
-# lazily imported pygeodesy.geohash
     test 107 pygeodesy.geohash module: True
-# lazily imported pygeodesy.geoidHeight2 from .elevations
     test 108 pygeodesy.geoidHeight2() function (elevations): True
-# lazily imported pygeodesy.halfs2 from .utily
     test 109 pygeodesy.halfs2() function (utily): True
-# lazily imported pygeodesy.haversine from .formy
     test 110 pygeodesy.haversine() function (formy): True
-# lazily imported pygeodesy.haversine_ from .formy
     test 111 pygeodesy.haversine_() function (formy): True
-# lazily imported pygeodesy.heightOf from .formy
     test 112 pygeodesy.heightOf() function (formy): True
-# lazily imported pygeodesy.horizon from .formy
     test 113 pygeodesy.horizon() function (formy): True
-# lazily imported pygeodesy.hypot from .fmath
     test 114 pygeodesy.hypot class builtin_function_or_method (math): True
-# lazily imported pygeodesy.hypot1 from .fmath
     test 115 pygeodesy.hypot1() function (fmath): True
-# lazily imported pygeodesy.hypot3 from .fmath
     test 116 pygeodesy.hypot3() function (fmath): True
-# lazily imported pygeodesy.inStr from .bases
     test 117 pygeodesy.inStr() function (bases): True
     test 118 pygeodesy.isLazy int: True
-# lazily imported pygeodesy.isNumpy2 from .utily
     test 119 pygeodesy.isNumpy2() function (utily): True
-# lazily imported pygeodesy.isPoints2 from .utily
     test 120 pygeodesy.isPoints2() function (utily): True
-# lazily imported pygeodesy.isTuple2 from .utily
     test 121 pygeodesy.isTuple2() function (utily): True
-# lazily imported pygeodesy.isantipode from .formy
     test 122 pygeodesy.isantipode() function (formy): True
-# lazily imported pygeodesy.isclockwise from .points
     test 123 pygeodesy.isclockwise() function (points): True
-# lazily imported pygeodesy.isconvex from .points
     test 124 pygeodesy.isconvex() function (points): True
-# lazily imported pygeodesy.isconvex_ from .points
     test 125 pygeodesy.isconvex_() function (points): True
-# lazily imported pygeodesy.isenclosedBy from .points
     test 126 pygeodesy.isenclosedBy() function (points): True
-# lazily imported pygeodesy.isenclosedby from .points
     test 127 pygeodesy.isenclosedby() function (points): True
-# lazily imported pygeodesy.isfinite from .fmath
     test 128 pygeodesy.isfinite class builtin_function_or_method (math): True
-# lazily imported pygeodesy.isint from .fmath
     test 129 pygeodesy.isint() function (fmath): True
-# lazily imported pygeodesy.ispolar from .points
     test 130 pygeodesy.ispolar() function (points): True
-# lazily imported pygeodesy.isscalar from .fmath
     test 131 pygeodesy.isscalar() function (fmath): True
-# lazily imported pygeodesy.issequence from .utily
     test 132 pygeodesy.issequence() function (utily): True
-# lazily imported pygeodesy.iterNumpy2 from .utily
     test 133 pygeodesy.iterNumpy2() function (utily): True
     test 134 pygeodesy.iterNumpy2over() function (utily): True
-# lazily imported pygeodesy.latDMS from .dms
     test 135 pygeodesy.latDMS() function (dms): True
-# lazily imported pygeodesy.lazily
     test 136 pygeodesy.lazily module: True
-# lazily imported pygeodesy.lcc
     test 137 pygeodesy.lcc module: True
-# lazily imported pygeodesy.len2 from .fmath
     test 138 pygeodesy.len2() function (fmath): True
-# lazily imported pygeodesy.limiterrors from .utily
     test 139 pygeodesy.limiterrors() function (utily): True
-# lazily imported pygeodesy.lonDMS from .dms
     test 140 pygeodesy.lonDMS() function (dms): True
-# lazily imported pygeodesy.m2NM from .utily
     test 141 pygeodesy.m2NM() function (utily): True
-# lazily imported pygeodesy.m2SM from .utily
     test 142 pygeodesy.m2SM() function (utily): True
-# lazily imported pygeodesy.m2degrees from .utily
     test 143 pygeodesy.m2degrees() function (utily): True
-# lazily imported pygeodesy.m2ft from .utily
     test 144 pygeodesy.m2ft() function (utily): True
-# lazily imported pygeodesy.m2km from .utily
     test 145 pygeodesy.m2km() function (utily): True
-# lazily imported pygeodesy.map1 from .fmath
     test 146 pygeodesy.map1() function (fmath): True
-# lazily imported pygeodesy.map2 from .fmath
     test 147 pygeodesy.map2() function (fmath): True
-# lazily imported pygeodesy.mgrs
     test 148 pygeodesy.mgrs module: True
-# lazily imported pygeodesy.nearestOn3 from .points
     test 149 pygeodesy.nearestOn3() function (points): True
-# lazily imported pygeodesy.nearestOn4 from .points
     test 150 pygeodesy.nearestOn4() function (points): True
     test 151 pygeodesy.normDMS() function (dms): True
-# lazily imported pygeodesy.nvector
     test 152 pygeodesy.nvector module: True
-# lazily imported pygeodesy.osgr
     test 153 pygeodesy.osgr module: True
-# lazily imported pygeodesy.parse3llh from .dms
     test 154 pygeodesy.parse3llh() function (dms): True
-# lazily imported pygeodesy.parseDMS from .dms
     test 155 pygeodesy.parseDMS() function (dms): True
-# lazily imported pygeodesy.parseDMS2 from .dms
     test 156 pygeodesy.parseDMS2() function (dms): True
-# lazily imported pygeodesy.parseMGRS from .mgrs
     test 157 pygeodesy.parseMGRS() function (mgrs): True
-# lazily imported pygeodesy.parseOSGR from .osgr
     test 158 pygeodesy.parseOSGR() function (osgr): True
-# lazily imported pygeodesy.parseUTM from .utm
     test 159 pygeodesy.parseUTM() function (utm): True
-# lazily imported pygeodesy.parseWM from .webmercator
     test 160 pygeodesy.parseWM() function (webmercator): True
-# lazily imported pygeodesy.perimeterOf from .points
     test 161 pygeodesy.perimeterOf() function (points): True
-# lazily imported pygeodesy.perimeterof from .points
-    test 162 pygeodesy.perimeterof() function (points): True
-# lazily imported pygeodesy.points
+    test 162 pygeodesy.perimeterof() function: True
     test 163 pygeodesy.points module: True
-# lazily imported pygeodesy.points2 from .utily
     test 164 pygeodesy.points2() function (utily): True
-# lazily imported pygeodesy.polygon from .utily
     test 165 pygeodesy.polygon() function (utily): True
-# lazily imported pygeodesy.precision from .dms
     test 166 pygeodesy.precision() function (dms): True
-# lazily imported pygeodesy.property_RO from .utily
     test 167 pygeodesy.property_RO() function (utily): True
-# lazily imported pygeodesy.radians from .utily
-    test 168 pygeodesy.radians class builtin_function_or_method (math): True
-# lazily imported pygeodesy.radiansPI from .utily
-    test 169 pygeodesy.radiansPI() function (utily): True
-# lazily imported pygeodesy.radiansPI2 from .utily
-    test 170 pygeodesy.radiansPI2() function (utily): True
-# lazily imported pygeodesy.radiansPI_2 from .utily
-    test 171 pygeodesy.radiansPI_2() function (utily): True
-# lazily imported pygeodesy.rangerrors from .dms
-    test 172 pygeodesy.rangerrors() function (dms): True
-# lazily imported pygeodesy.scalar from .fmath
-    test 173 pygeodesy.scalar() function (fmath): True
-# lazily imported pygeodesy.simplify
-    test 174 pygeodesy.simplify module: True
-# lazily imported pygeodesy.simplify1 from .simplify
-    test 175 pygeodesy.simplify1() function (simplify): True
-# lazily imported pygeodesy.simplify2 from .simplify
-    test 176 pygeodesy.simplify2() function (simplify): True
-# lazily imported pygeodesy.simplifyRDP from .simplify
-    test 177 pygeodesy.simplifyRDP() function (simplify): True
-# lazily imported pygeodesy.simplifyRDPm from .simplify
-    test 178 pygeodesy.simplifyRDPm() function (simplify): True
-# lazily imported pygeodesy.simplifyRW from .simplify
-    test 179 pygeodesy.simplifyRW() function (simplify): True
-# lazily imported pygeodesy.simplifyVW from .simplify
-    test 180 pygeodesy.simplifyVW() function (simplify): True
-# lazily imported pygeodesy.simplifyVWm from .simplify
-    test 181 pygeodesy.simplifyVWm() function (simplify): True
-# lazily imported pygeodesy.sphericalNvector
-    test 182 pygeodesy.sphericalNvector module: True
-# lazily imported pygeodesy.sphericalTrigonometry
-    test 183 pygeodesy.sphericalTrigonometry module: True
-# lazily imported pygeodesy.sqrt3 from .fmath
-    test 184 pygeodesy.sqrt3() function (fmath): True
-# lazily imported pygeodesy.tanPI_2_2 from .utily
-    test 185 pygeodesy.tanPI_2_2() function (utily): True
-# lazily imported pygeodesy.tan_2 from .utily
-    test 186 pygeodesy.tan_2() function (utily): True
-# lazily imported pygeodesy.toDMS from .dms
-    test 187 pygeodesy.toDMS() function (dms): True
-# lazily imported pygeodesy.toLcc from .lcc
-    test 188 pygeodesy.toLcc() function (lcc): True
-# lazily imported pygeodesy.toMgrs from .mgrs
-    test 189 pygeodesy.toMgrs() function (mgrs): True
-# lazily imported pygeodesy.toOsgr from .osgr
-    test 190 pygeodesy.toOsgr() function (osgr): True
-# lazily imported pygeodesy.toUtm from .utm
-    test 191 pygeodesy.toUtm() function (utm): True
-# lazily imported pygeodesy.toWm from .webmercator
-    test 192 pygeodesy.toWm() function (webmercator): True
-# lazily imported pygeodesy.unStr from .utily
-    test 193 pygeodesy.unStr() function (utily): True
-# lazily imported pygeodesy.unroll180 from .utily
-    test 194 pygeodesy.unroll180() function (utily): True
-# lazily imported pygeodesy.unrollPI from .utily
-    test 195 pygeodesy.unrollPI() function (utily): True
-# lazily imported pygeodesy.utily
-    test 196 pygeodesy.utily module: True
-# lazily imported pygeodesy.utm
-    test 197 pygeodesy.utm module: True
-# lazily imported pygeodesy.utmZoneBand2 from .utm
-    test 198 pygeodesy.utmZoneBand2() function (utm): True
-# lazily imported pygeodesy.vector3d
-    test 199 pygeodesy.vector3d module: True
-# lazily imported pygeodesy.webmercator
-    test 200 pygeodesy.webmercator module: True
-# lazily imported pygeodesy.wrap180 from .utily
-    test 201 pygeodesy.wrap180() function (utily): True
-# lazily imported pygeodesy.wrap360 from .utily
-    test 202 pygeodesy.wrap360() function (utily): True
-# lazily imported pygeodesy.wrap90 from .utily
-    test 203 pygeodesy.wrap90() function (utily): True
-# lazily imported pygeodesy.wrapPI from .utily
-    test 204 pygeodesy.wrapPI() function (utily): True
-# lazily imported pygeodesy.wrapPI2 from .utily
-    test 205 pygeodesy.wrapPI2() function (utily): True
-# lazily imported pygeodesy.wrapPI_2 from .utily
-    test 206 pygeodesy.wrapPI_2() function (utily): True
+    test 168 pygeodesy.pygeodesy_abspath str: True
+    test 169 pygeodesy.radians class builtin_function_or_method (math): True
+    test 170 pygeodesy.radiansPI() function (utily): True
+    test 171 pygeodesy.radiansPI2() function (utily): True
+    test 172 pygeodesy.radiansPI_2() function (utily): True
+    test 173 pygeodesy.rangerrors() function (dms): True
+    test 174 pygeodesy.scalar() function (fmath): True
+    test 175 pygeodesy.simplify module: True
+    test 176 pygeodesy.simplify1() function (simplify): True
+    test 177 pygeodesy.simplify2() function (simplify): True
+    test 178 pygeodesy.simplifyRDP() function (simplify): True
+    test 179 pygeodesy.simplifyRDPm() function (simplify): True
+    test 180 pygeodesy.simplifyRW() function (simplify): True
+    test 181 pygeodesy.simplifyVW() function (simplify): True
+    test 182 pygeodesy.simplifyVWm() function (simplify): True
+    test 183 pygeodesy.sphericalNvector module: True
+    test 184 pygeodesy.sphericalTrigonometry module: True
+    test 185 pygeodesy.sqrt3() function (fmath): True
+    test 186 pygeodesy.tanPI_2_2() function (utily): True
+    test 187 pygeodesy.tan_2() function (utily): True
+    test 188 pygeodesy.toDMS() function (dms): True
+    test 189 pygeodesy.toLcc() function (lcc): True
+    test 190 pygeodesy.toMgrs() function (mgrs): True
+    test 191 pygeodesy.toOsgr() function (osgr): True
+    test 192 pygeodesy.toUtm() function (utm): True
+    test 193 pygeodesy.toWm() function (webmercator): True
+    test 194 pygeodesy.unStr() function (utily): True
+    test 195 pygeodesy.unroll180() function (utily): True
+    test 196 pygeodesy.unrollPI() function (utily): True
+    test 197 pygeodesy.utily module: True
+    test 198 pygeodesy.utm module: True
+    test 199 pygeodesy.utmZoneBand2() function (utm): True
+    test 200 pygeodesy.vector3d module: True
+    test 201 pygeodesy.version str: True
+    test 202 pygeodesy.webmercator module: True
+    test 203 pygeodesy.wrap180() function (utily): True
+    test 204 pygeodesy.wrap360() function (utily): True
+    test 205 pygeodesy.wrap90() function (utily): True
+    test 206 pygeodesy.wrapPI() function (utily): True
+    test 207 pygeodesy.wrapPI2() function (utily): True
+    test 208 pygeodesy.wrapPI_2() function (utily): True
 
     testModule(bases, 18.10.26)
-    test 207 bases.LatLonHeightBase() class: True
-    test 208 bases.classname() function: True
-    test 209 bases.classnaming() function: True
-    test 210 bases.inStr() function: True
+    test 209 bases.LatLonHeightBase() class: True
+    test 210 bases.classname() function: True
+    test 211 bases.classnaming() function: True
+    test 212 bases.inStr() function: True
 
     testModule(clipy, 18.12.16)
-    test 211 clipy.clipCS3() function: True
-    test 212 clipy.clipSH() function: True
-    test 213 clipy.clipSH3() function: True
+    test 213 clipy.clipCS3() function: True
+    test 214 clipy.clipSH() function: True
+    test 215 clipy.clipSH3() function: True
 
     testModule(datum, 18.10.12)
-    test 214 datum.Datum() class: True
-    test 215 datum.Datums class datum._Enum: True
-    test 216 datum.Ellipsoid() class: True
-    test 217 datum.Ellipsoids class datum._Enum: True
-    test 218 datum.R_FM float: True
-    test 219 datum.R_KM float: True
-    test 220 datum.R_M float: True
-    test 221 datum.R_MA float: True
-    test 222 datum.R_MB float: True
-    test 223 datum.R_NM float: True
-    test 224 datum.R_SM float: True
-    test 225 datum.R_VM float: True
-    test 226 datum.Transform() class: True
-    test 227 datum.Transforms class datum._Enum: True
+    test 216 datum.Datum() class: True
+    test 217 datum.Datums class datum._Enum: True
+    test 218 datum.Ellipsoid() class: True
+    test 219 datum.Ellipsoids class datum._Enum: True
+    test 220 datum.R_FM float: True
+    test 221 datum.R_KM float: True
+    test 222 datum.R_M float: True
+    test 223 datum.R_MA float: True
+    test 224 datum.R_MB float: True
+    test 225 datum.R_NM float: True
+    test 226 datum.R_SM float: True
+    test 227 datum.R_VM float: True
+    test 228 datum.Transform() class: True
+    test 229 datum.Transforms class datum._Enum: True
 
     testModule(dms, 18.11.01)
-    test 228 dms.F_D str: True
-    test 229 dms.F_DEG str: True
-    test 230 dms.F_DM str: True
-    test 231 dms.F_DMS str: True
-    test 232 dms.F_MIN str: True
-    test 233 dms.F_RAD str: True
-    test 234 dms.F_SEC str: True
-    test 235 dms.RangeError() class: True
-    test 236 dms.S_DEG str: True
-    test 237 dms.S_MIN str: True
-    test 238 dms.S_RAD str: True
-    test 239 dms.S_SEC str: True
-    test 240 dms.S_SEP str: True
-    test 241 dms.bearingDMS() function: True
-    test 242 dms.clipDMS() function: True
-    test 243 dms.compassDMS() function: True
-    test 244 dms.compassPoint() function: True
-    test 245 dms.latDMS() function: True
-    test 246 dms.lonDMS() function: True
-    test 247 dms.normDMS() function: True
-    test 248 dms.parse3llh() function: True
-    test 249 dms.parseDMS() function: True
-    test 250 dms.parseDMS2() function: True
-    test 251 dms.precision() function: True
-    test 252 dms.rangerrors() function: True
-    test 253 dms.toDMS() function: True
+    test 230 dms.F_D str: True
+    test 231 dms.F_DEG str: True
+    test 232 dms.F_DM str: True
+    test 233 dms.F_DMS str: True
+    test 234 dms.F_MIN str: True
+    test 235 dms.F_RAD str: True
+    test 236 dms.F_SEC str: True
+    test 237 dms.RangeError() class: True
+    test 238 dms.S_DEG str: True
+    test 239 dms.S_MIN str: True
+    test 240 dms.S_RAD str: True
+    test 241 dms.S_SEC str: True
+    test 242 dms.S_SEP str: True
+    test 243 dms.bearingDMS() function: True
+    test 244 dms.clipDMS() function: True
+    test 245 dms.compassDMS() function: True
+    test 246 dms.compassPoint() function: True
+    test 247 dms.latDMS() function: True
+    test 248 dms.lonDMS() function: True
+    test 249 dms.normDMS() function: True
+    test 250 dms.parse3llh() function: True
+    test 251 dms.parseDMS() function: True
+    test 252 dms.parseDMS2() function: True
+    test 253 dms.precision() function: True
+    test 254 dms.rangerrors() function: True
+    test 255 dms.toDMS() function: True
 
     testModule(elevations, 18.10.04)
-    test 254 elevations.elevation2() function: True
-    test 255 elevations.geoidHeight2() function: True
+    test 256 elevations.elevation2() function: True
+    test 257 elevations.geoidHeight2() function: True
 
     testModule(ellipsoidalKarney, 18.10.26)
-    test 256 ellipsoidalKarney.Cartesian() class: True
-    test 257 ellipsoidalKarney.LatLon() class: True
-    test 258 ellipsoidalKarney.areaOf() function: True
-    test 259 ellipsoidalKarney.ispolar() function (points): True
-    test 260 ellipsoidalKarney.perimeterOf() function: True
+    test 258 ellipsoidalKarney.Cartesian() class: True
+    test 259 ellipsoidalKarney.LatLon() class: True
+    test 260 ellipsoidalKarney.areaOf() function: True
+    test 261 ellipsoidalKarney.ispolar() function (points): True
+    test 262 ellipsoidalKarney.perimeterOf() function: True
 
     testModule(ellipsoidalNvector, 18.12.16)
-    test 261 ellipsoidalNvector.Cartesian() class: True
-    test 262 ellipsoidalNvector.LatLon() class: True
-    test 263 ellipsoidalNvector.Ned() class: True
-    test 264 ellipsoidalNvector.Nvector() class: True
-    test 265 ellipsoidalNvector.meanOf() function: True
-    test 266 ellipsoidalNvector.toNed() function: True
+    test 263 ellipsoidalNvector.Cartesian() class: True
+    test 264 ellipsoidalNvector.LatLon() class: True
+    test 265 ellipsoidalNvector.Ned() class: True
+    test 266 ellipsoidalNvector.Nvector() class: True
+    test 267 ellipsoidalNvector.meanOf() function: True
+    test 268 ellipsoidalNvector.toNed() function: True
 
     testModule(ellipsoidalVincenty, 18.11.07)
-    test 267 ellipsoidalVincenty.Cartesian() class: True
-    test 268 ellipsoidalVincenty.LatLon() class: True
-    test 269 ellipsoidalVincenty.VincentyError() class: True
-    test 270 ellipsoidalVincenty.ispolar() function (points): True
+    test 269 ellipsoidalVincenty.Cartesian() class: True
+    test 270 ellipsoidalVincenty.LatLon() class: True
+    test 271 ellipsoidalVincenty.VincentyError() class: True
+    test 272 ellipsoidalVincenty.ispolar() function (points): True
 
     testModule(fmath, 18.12.14)
-    test 271 fmath.EPS float: True
-    test 272 fmath.EPS1 float: True
-    test 273 fmath.Fsum() class: True
-    test 274 fmath.acos1() function: True
-    test 275 fmath.cbrt() function: True
-    test 276 fmath.cbrt2() function: True
-    test 277 fmath.fStr() function: True
-    test 278 fmath.fStrzs() function: True
-    test 279 fmath.favg() function: True
-    test 280 fmath.fdot() function: True
-    test 281 fmath.fdot3() function: True
-    test 282 fmath.fhorner() function: True
-    test 283 fmath.fmean() function: True
-    test 284 fmath.fpolynomial() function: True
-    test 285 fmath.fpowers() function: True
-    test 286 fmath.fsum class builtin_function_or_method (math): True
-    test 287 fmath.fsum_() function: True
-    test 288 fmath.hypot class builtin_function_or_method (math): True
-    test 289 fmath.hypot1() function: True
-    test 290 fmath.hypot3() function: True
-    test 291 fmath.isfinite class builtin_function_or_method (math): True
-    test 292 fmath.isint() function: True
-    test 293 fmath.isscalar() function: True
-    test 294 fmath.len2() function: True
-    test 295 fmath.map1() function: True
-    test 296 fmath.map2() function: True
-    test 297 fmath.scalar() function: True
-    test 298 fmath.sqrt3() function: True
+    test 273 fmath.EPS float: True
+    test 274 fmath.EPS1 float: True
+    test 275 fmath.Fsum() class: True
+    test 276 fmath.acos1() function: True
+    test 277 fmath.cbrt() function: True
+    test 278 fmath.cbrt2() function: True
+    test 279 fmath.fStr() function: True
+    test 280 fmath.fStrzs() function: True
+    test 281 fmath.favg() function: True
+    test 282 fmath.fdot() function: True
+    test 283 fmath.fdot3() function: True
+    test 284 fmath.fhorner() function: True
+    test 285 fmath.fmean() function: True
+    test 286 fmath.fpolynomial() function: True
+    test 287 fmath.fpowers() function: True
+    test 288 fmath.fsum class builtin_function_or_method (math): True
+    test 289 fmath.fsum_() function: True
+    test 290 fmath.hypot class builtin_function_or_method (math): True
+    test 291 fmath.hypot1() function: True
+    test 292 fmath.hypot3() function: True
+    test 293 fmath.isfinite class builtin_function_or_method (math): True
+    test 294 fmath.isint() function: True
+    test 295 fmath.isscalar() function: True
+    test 296 fmath.len2() function: True
+    test 297 fmath.map1() function: True
+    test 298 fmath.map2() function: True
+    test 299 fmath.scalar() function: True
+    test 300 fmath.sqrt3() function: True
 
     testModule(formy, 18.11.07)
-    test 299 formy.antipode() function: True
-    test 300 formy.bearing() function: True
-    test 301 formy.bearing_() function: True
-    test 302 formy.compassAngle() function: True
-    test 303 formy.equirectangular() function: True
-    test 304 formy.equirectangular3() function: True
-    test 305 formy.equirectangular_() function: True
-    test 306 formy.haversine() function: True
-    test 307 formy.haversine_() function: True
-    test 308 formy.heightOf() function: True
-    test 309 formy.horizon() function: True
-    test 310 formy.isantipode() function: True
+    test 301 formy.antipode() function: True
+    test 302 formy.bearing() function: True
+    test 303 formy.bearing_() function: True
+    test 304 formy.compassAngle() function: True
+    test 305 formy.equirectangular() function: True
+    test 306 formy.equirectangular3() function: True
+    test 307 formy.equirectangular_() function: True
+    test 308 formy.haversine() function: True
+    test 309 formy.haversine_() function: True
+    test 310 formy.heightOf() function: True
+    test 311 formy.horizon() function: True
+    test 312 formy.isantipode() function: True
 
     testModule(geohash, 18.10.26)
-    test 311 geohash.Geohash() class: True
-    test 312 geohash.bounds() function: True
-    test 313 geohash.decode() function: True
-    test 314 geohash.decode_error() function: True
-    test 315 geohash.distance1() function: True
-    test 316 geohash.distance2() function: True
-    test 317 geohash.distance3() function: True
-    test 318 geohash.encode() function: True
-    test 319 geohash.neighbors() function: True
-    test 320 geohash.sizes() function: True
+    test 313 geohash.Geohash() class: True
+    test 314 geohash.bounds() function: True
+    test 315 geohash.decode() function: True
+    test 316 geohash.decode_error() function: True
+    test 317 geohash.distance1() function: True
+    test 318 geohash.distance2() function: True
+    test 319 geohash.distance3() function: True
+    test 320 geohash.encode() function: True
+    test 321 geohash.neighbors() function: True
+    test 322 geohash.sizes() function: True
 
     testModule(lazily, 18.12.26)
-    test 321 lazily.LazyImportError() class: True
-    test 322 lazily.isLazy int: True
+    test 323 lazily.LazyImportError() class: True
+    test 324 lazily.isLazy int: True
 
     testModule(lcc, 18.10.12)
-    test 323 lcc.Conic() class: True
-    test 324 lcc.Conics class datum._Enum (datum): True
-    test 325 lcc.Lcc() class: True
-    test 326 lcc.toLcc() function: True
+    test 325 lcc.Conic() class: True
+    test 326 lcc.Conics class datum._Enum (datum): True
+    test 327 lcc.Lcc() class: True
+    test 328 lcc.toLcc() function: True
 
     testModule(mgrs, 18.12.16)
-    test 327 mgrs.Mgrs() class: True
-    test 328 mgrs.parseMGRS() function: True
-    test 329 mgrs.toMgrs() function: True
+    test 329 mgrs.Mgrs() class: True
+    test 330 mgrs.parseMGRS() function: True
+    test 331 mgrs.toMgrs() function: True
 
     testModule(nvector, 18.12.16)
-    test 330 nvector.LatLonNvectorBase() class: True
-    test 331 nvector.NorthPole class nvector.Nvector: True
-    test 332 nvector.Nvector() class: True
-    test 333 nvector.SouthPole class nvector.Nvector: True
-    test 334 nvector.sumOf() function: True
+    test 332 nvector.LatLonNvectorBase() class: True
+    test 333 nvector.NorthPole class nvector.Nvector: True
+    test 334 nvector.Nvector() class: True
+    test 335 nvector.SouthPole class nvector.Nvector: True
+    test 336 nvector.sumOf() function: True
 
     testModule(osgr, 18.12.16)
-    test 335 osgr.Osgr() class: True
-    test 336 osgr.parseOSGR() function: True
-    test 337 osgr.toOsgr() function: True
+    test 337 osgr.Osgr() class: True
+    test 338 osgr.parseOSGR() function: True
+    test 339 osgr.toOsgr() function: True
 
     testModule(points, 18.12.16)
-    test 338 points.LatLon2psxy() class: True
-    test 339 points.LatLon_() class: True
-    test 340 points.Numpy2LatLon() class: True
-    test 341 points.Tuple2LatLon() class: True
-    test 342 points.areaOf() function: True
-    test 343 points.bounds() function: True
-    test 344 points.isclockwise() function: True
-    test 345 points.isconvex() function: True
-    test 346 points.isconvex_() function: True
-    test 347 points.isenclosedBy() function: True
-    test 348 points.isenclosedby() function: True
-    test 349 points.ispolar() function: True
-    test 350 points.nearestOn3() function: True
-    test 351 points.nearestOn4() function: True
-    test 352 points.perimeterOf() function: True
+    test 340 points.LatLon2psxy() class: True
+    test 341 points.LatLon_() class: True
+    test 342 points.Numpy2LatLon() class: True
+    test 343 points.Tuple2LatLon() class: True
+    test 344 points.areaOf() function: True
+    test 345 points.bounds() function: True
+    test 346 points.isclockwise() function: True
+    test 347 points.isconvex() function: True
+    test 348 points.isconvex_() function: True
+    test 349 points.isenclosedBy() function: True
+    test 350 points.isenclosedby() function: True
+    test 351 points.ispolar() function: True
+    test 352 points.nearestOn3() function: True
+    test 353 points.nearestOn4() function: True
+    test 354 points.perimeterOf() function: True
 
     testModule(simplify, 18.12.16)
-    test 353 simplify.simplify1() function: True
-    test 354 simplify.simplify2() function: True
-    test 355 simplify.simplifyRDP() function: True
-    test 356 simplify.simplifyRDPm() function: True
-    test 357 simplify.simplifyRW() function: True
-    test 358 simplify.simplifyVW() function: True
-    test 359 simplify.simplifyVWm() function: True
+    test 355 simplify.simplify1() function: True
+    test 356 simplify.simplify2() function: True
+    test 357 simplify.simplifyRDP() function: True
+    test 358 simplify.simplifyRDPm() function: True
+    test 359 simplify.simplifyRW() function: True
+    test 360 simplify.simplifyVW() function: True
+    test 361 simplify.simplifyVWm() function: True
 
     testModule(sphericalNvector, 18.12.26)
-    test 360 sphericalNvector.LatLon() class: True
-    test 361 sphericalNvector.Nvector() class: True
-    test 362 sphericalNvector.areaOf() function: True
-    test 363 sphericalNvector.intersection() function: True
-    test 364 sphericalNvector.ispolar() function (points): True
-    test 365 sphericalNvector.meanOf() function: True
-    test 366 sphericalNvector.nearestOn2() function: True
-    test 367 sphericalNvector.triangulate() function: True
-    test 368 sphericalNvector.trilaterate() function: True
+    test 362 sphericalNvector.LatLon() class: True
+    test 363 sphericalNvector.Nvector() class: True
+    test 364 sphericalNvector.areaOf() function: True
+    test 365 sphericalNvector.intersection() function: True
+    test 366 sphericalNvector.ispolar() function (points): True
+    test 367 sphericalNvector.meanOf() function: True
+    test 368 sphericalNvector.nearestOn2() function: True
+    test 369 sphericalNvector.triangulate() function: True
+    test 370 sphericalNvector.trilaterate() function: True
 
-    testModule(sphericalTrigonometry, 18.12.26)
-    test 369 sphericalTrigonometry.LatLon() class: True
-    test 370 sphericalTrigonometry.areaOf() function: True
-    test 371 sphericalTrigonometry.intersection() function: True
-    test 372 sphericalTrigonometry.isPoleEnclosedBy() function: True
-    test 373 sphericalTrigonometry.ispolar() function (points): True
-    test 374 sphericalTrigonometry.meanOf() function: True
-    test 375 sphericalTrigonometry.nearestOn2() function: True
-    test 376 sphericalTrigonometry.perimeterOf() function: True
+    testModule(sphericalTrigonometry, 18.12.29)
+    test 371 sphericalTrigonometry.LatLon() class: True
+    test 372 sphericalTrigonometry.areaOf() function: True
+    test 373 sphericalTrigonometry.intersection() function: True
+    test 374 sphericalTrigonometry.isPoleEnclosedBy() function: True
+    test 375 sphericalTrigonometry.ispolar() function (points): True
+    test 376 sphericalTrigonometry.meanOf() function: True
+    test 377 sphericalTrigonometry.nearestOn2() function: True
+    test 378 sphericalTrigonometry.perimeterOf() function: True
 
     testModule(utily, 18.12.26)
-    test 377 utily.LimitError() class: True
-    test 378 utily.PI float: True
-    test 379 utily.PI2 float: True
-    test 380 utily.PI_2 float: True
-    test 381 utily.PI_4 float: True
-    test 382 utily.R_M float: True
-    test 383 utily.anStr() function: True
-    test 384 utily.degrees class builtin_function_or_method (math): True
-    test 385 utily.degrees180() function: True
-    test 386 utily.degrees2m() function: True
-    test 387 utily.degrees360() function: True
-    test 388 utily.degrees90() function: True
-    test 389 utily.enStr2() function: True
-    test 390 utily.false2f() function: True
-    test 391 utily.ft2m() function: True
-    test 392 utily.halfs2() function: True
-    test 393 utily.isNumpy2() function: True
-    test 394 utily.isPoints2() function: True
-    test 395 utily.isTuple2() function: True
-    test 396 utily.issequence() function: True
-    test 397 utily.iterNumpy2() function: True
-    test 398 utily.iterNumpy2over() function: True
-    test 399 utily.limiterrors() function: True
-    test 400 utily.m2NM() function: True
-    test 401 utily.m2SM() function: True
-    test 402 utily.m2degrees() function: True
-    test 403 utily.m2ft() function: True
-    test 404 utily.m2km() function: True
-    test 405 utily.points2() function: True
-    test 406 utily.polygon() function: True
-    test 407 utily.property_RO() function: True
-    test 408 utily.radians class builtin_function_or_method (math): True
-    test 409 utily.radiansPI() function: True
-    test 410 utily.radiansPI2() function: True
-    test 411 utily.radiansPI_2() function: True
-    test 412 utily.tanPI_2_2() function: True
-    test 413 utily.tan_2() function: True
-    test 414 utily.unStr() function: True
-    test 415 utily.unroll180() function: True
-    test 416 utily.unrollPI() function: True
-    test 417 utily.wrap180() function: True
-    test 418 utily.wrap360() function: True
-    test 419 utily.wrap90() function: True
-    test 420 utily.wrapPI() function: True
-    test 421 utily.wrapPI2() function: True
-    test 422 utily.wrapPI_2() function: True
+    test 379 utily.LimitError() class: True
+    test 380 utily.PI float: True
+    test 381 utily.PI2 float: True
+    test 382 utily.PI_2 float: True
+    test 383 utily.PI_4 float: True
+    test 384 utily.R_M float: True
+    test 385 utily.anStr() function: True
+    test 386 utily.degrees class builtin_function_or_method (math): True
+    test 387 utily.degrees180() function: True
+    test 388 utily.degrees2m() function: True
+    test 389 utily.degrees360() function: True
+    test 390 utily.degrees90() function: True
+    test 391 utily.enStr2() function: True
+    test 392 utily.false2f() function: True
+    test 393 utily.ft2m() function: True
+    test 394 utily.halfs2() function: True
+    test 395 utily.isNumpy2() function: True
+    test 396 utily.isPoints2() function: True
+    test 397 utily.isTuple2() function: True
+    test 398 utily.issequence() function: True
+    test 399 utily.iterNumpy2() function: True
+    test 400 utily.iterNumpy2over() function: True
+    test 401 utily.limiterrors() function: True
+    test 402 utily.m2NM() function: True
+    test 403 utily.m2SM() function: True
+    test 404 utily.m2degrees() function: True
+    test 405 utily.m2ft() function: True
+    test 406 utily.m2km() function: True
+    test 407 utily.points2() function: True
+    test 408 utily.polygon() function: True
+    test 409 utily.property_RO() function: True
+    test 410 utily.radians class builtin_function_or_method (math): True
+    test 411 utily.radiansPI() function: True
+    test 412 utily.radiansPI2() function: True
+    test 413 utily.radiansPI_2() function: True
+    test 414 utily.tanPI_2_2() function: True
+    test 415 utily.tan_2() function: True
+    test 416 utily.unStr() function: True
+    test 417 utily.unroll180() function: True
+    test 418 utily.unrollPI() function: True
+    test 419 utily.wrap180() function: True
+    test 420 utily.wrap360() function: True
+    test 421 utily.wrap90() function: True
+    test 422 utily.wrapPI() function: True
+    test 423 utily.wrapPI2() function: True
+    test 424 utily.wrapPI_2() function: True
 
     testModule(utm, 18.10.12)
-    test 423 utm.UTMError() class: True
-    test 424 utm.Utm() class: True
-    test 425 utm.parseUTM() function: True
-    test 426 utm.toUtm() function: True
-    test 427 utm.utmZoneBand2() function: True
+    test 425 utm.UTMError() class: True
+    test 426 utm.Utm() class: True
+    test 427 utm.parseUTM() function: True
+    test 428 utm.toUtm() function: True
+    test 429 utm.utmZoneBand2() function: True
 
     testModule(vector3d, 18.12.16)
-    test 428 vector3d.CrossError() class: True
-    test 429 vector3d.Vector3d() class: True
-    test 430 vector3d.crosserrors() function: True
-    test 431 vector3d.sumOf() function: True
+    test 430 vector3d.CrossError() class: True
+    test 431 vector3d.Vector3d() class: True
+    test 432 vector3d.crosserrors() function: True
+    test 433 vector3d.sumOf() function: True
 
     testModule(webmercator, 18.10.12)
-    test 432 webmercator.Wm() class: True
-    test 433 webmercator.parseWM() function: True
-    test 434 webmercator.toWm() function: True
+    test 434 webmercator.Wm() class: True
+    test 435 webmercator.parseWM() function: True
+    test 436 webmercator.toWm() function: True
 
-    testPublic(pygeodesy, 18.12.26)
-    test 435 Conic() class: True
-    test 436 Conics class datum._Enum: True
-    test 437 CrossError() class: True
-    test 438 Datum() class: True
-    test 439 Datums class datum._Enum: True
-    test 440 Ellipsoid() class: True
-    test 441 Ellipsoids class datum._Enum: True
-    test 442 Fsum() class: True
-    test 443 Geohash() class: True
-    test 444 LatLon2psxy() class: True
-    test 445 LatLon_() class: True
-    test 446 LazyImportError() class: True
-    test 447 Lcc() class: True
-    test 448 LimitError() class: True
-    test 449 Mgrs() class: True
-    test 450 Numpy2LatLon() class: True
-    test 451 Osgr() class: True
-    test 452 RangeError() class: True
-    test 453 Transform() class: True
-    test 454 Transforms class datum._Enum: True
-    test 455 Tuple2LatLon() class: True
-    test 456 UTMError() class: True
-    test 457 Utm() class: True
-    test 458 VincentyError() class: True
-    test 459 Wm() class: True
-    test 460 acos1() function: True
-    test 461 anStr() function: True
-    test 462 antipode() function: True
-    test 463 areaOf() function: True
-    test 464 areaof() function: True
-    test 465 bearing() function: True
-    test 466 bearingDMS() function: True
-    test 467 bearing_() function: True
-    test 468 bounds() function: True
-    test 469 cbrt() function: True
-    test 470 cbrt2() function: True
-    test 471 clipCS3() function: True
-    test 472 clipDMS() function: True
-    test 473 clipSH() function: True
-    test 474 clipSH3() function: True
-    test 475 compassAngle() function: True
-    test 476 compassDMS() function: True
-    test 477 compassPoint() function: True
-    test 478 crosserrors() function: True
-    test 479 degrees180() function: True
-    test 480 degrees2m() function: True
-    test 481 degrees360() function: True
-    test 482 degrees90() function: True
-    test 483 elevation2() function: True
-    test 484 enStr2() function: True
-    test 485 equirectangular() function: True
-    test 486 equirectangular3() function: True
-    test 487 equirectangular_() function: True
-    test 488 fStr() function: True
-    test 489 fStrzs() function: True
-    test 490 false2f() function: True
-    test 491 favg() function: True
-    test 492 fdot() function: True
-    test 493 fdot3() function: True
-    test 494 fhorner() function: True
-    test 495 fmean() function: True
-    test 496 fpolynomial() function: True
-    test 497 fpowers() function: True
-    test 498 fsum_() function: True
-    test 499 ft2m() function: True
-    test 500 geoidHeight2() function: True
-    test 501 halfs2() function: True
-    test 502 haversine() function: True
-    test 503 haversine_() function: True
-    test 504 heightOf() function: True
-    test 505 horizon() function: True
-    test 506 hypot1() function: True
-    test 507 hypot3() function: True
-    test 508 isNumpy2() function: True
-    test 509 isPoints2() function: True
-    test 510 isTuple2() function: True
-    test 511 isantipode() function: True
-    test 512 isclockwise() function: True
-    test 513 isconvex() function: True
-    test 514 isconvex_() function: True
-    test 515 isenclosedBy() function: True
-    test 516 isenclosedby() function: True
-    test 517 isint() function: True
-    test 518 ispolar() function: True
-    test 519 isscalar() function: True
-    test 520 issequence() function: True
-    test 521 iterNumpy2() function: True
-    test 522 iterNumpy2over() function: True
-    test 523 latDMS() function: True
-    test 524 len2() function: True
-    test 525 limiterrors() function: True
-    test 526 lonDMS() function: True
-    test 527 m2NM() function: True
-    test 528 m2SM() function: True
-    test 529 m2degrees() function: True
-    test 530 m2ft() function: True
-    test 531 m2km() function: True
-    test 532 map1() function: True
-    test 533 map2() function: True
-    test 534 nearestOn3() function: True
-    test 535 nearestOn4() function: True
-    test 536 normDMS() function: True
-    test 537 parse3llh() function: True
-    test 538 parseDMS() function: True
-    test 539 parseDMS2() function: True
-    test 540 parseMGRS() function: True
-    test 541 parseOSGR() function: True
-    test 542 parseUTM() function: True
-    test 543 parseWM() function: True
-    test 544 perimeterOf() function: True
-    test 545 perimeterof() function: True
+    testPublic(pygeodesy, 18.12.29)
+    test 437 Conic() class: True
+    test 438 Conics class datum._Enum: True
+    test 439 CrossError() class: True
+    test 440 Datum() class: True
+    test 441 Datums class datum._Enum: True
+    test 442 Ellipsoid() class: True
+    test 443 Ellipsoids class datum._Enum: True
+    test 444 Fsum() class: True
+    test 445 Geohash() class: True
+    test 446 LatLon2psxy() class: True
+    test 447 LatLon_() class: True
+    test 448 LazyImportError() class: True
+    test 449 Lcc() class: True
+    test 450 LimitError() class: True
+    test 451 Mgrs() class: True
+    test 452 Numpy2LatLon() class: True
+    test 453 Osgr() class: True
+    test 454 RangeError() class: True
+    test 455 Transform() class: True
+    test 456 Transforms class datum._Enum: True
+    test 457 Tuple2LatLon() class: True
+    test 458 UTMError() class: True
+    test 459 Utm() class: True
+    test 460 VincentyError() class: True
+    test 461 Wm() class: True
+    test 462 acos1() function: True
+    test 463 anStr() function: True
+    test 464 antipode() function: True
+    test 465 areaOf() function: True
+    test 466 bearing() function: True
+    test 467 bearingDMS() function: True
+    test 468 bearing_() function: True
+    test 469 bounds() function: True
+    test 470 cbrt() function: True
+    test 471 cbrt2() function: True
+    test 472 clipCS3() function: True
+    test 473 clipDMS() function: True
+    test 474 clipSH() function: True
+    test 475 clipSH3() function: True
+    test 476 compassAngle() function: True
+    test 477 compassDMS() function: True
+    test 478 compassPoint() function: True
+    test 479 crosserrors() function: True
+    test 480 degrees180() function: True
+    test 481 degrees2m() function: True
+    test 482 degrees360() function: True
+    test 483 degrees90() function: True
+    test 484 elevation2() function: True
+    test 485 enStr2() function: True
+    test 486 equirectangular() function: True
+    test 487 equirectangular3() function: True
+    test 488 equirectangular_() function: True
+    test 489 fStr() function: True
+    test 490 fStrzs() function: True
+    test 491 false2f() function: True
+    test 492 favg() function: True
+    test 493 fdot() function: True
+    test 494 fdot3() function: True
+    test 495 fhorner() function: True
+    test 496 fmean() function: True
+    test 497 fpolynomial() function: True
+    test 498 fpowers() function: True
+    test 499 fsum_() function: True
+    test 500 ft2m() function: True
+    test 501 geoidHeight2() function: True
+    test 502 halfs2() function: True
+    test 503 haversine() function: True
+    test 504 haversine_() function: True
+    test 505 heightOf() function: True
+    test 506 horizon() function: True
+    test 507 hypot1() function: True
+    test 508 hypot3() function: True
+    test 509 isNumpy2() function: True
+    test 510 isPoints2() function: True
+    test 511 isTuple2() function: True
+    test 512 isantipode() function: True
+    test 513 isclockwise() function: True
+    test 514 isconvex() function: True
+    test 515 isconvex_() function: True
+    test 516 isenclosedBy() function: True
+    test 517 isenclosedby() function: True
+    test 518 isint() function: True
+    test 519 ispolar() function: True
+    test 520 isscalar() function: True
+    test 521 issequence() function: True
+    test 522 iterNumpy2() function: True
+    test 523 iterNumpy2over() function: True
+    test 524 latDMS() function: True
+    test 525 len2() function: True
+    test 526 limiterrors() function: True
+    test 527 lonDMS() function: True
+    test 528 m2NM() function: True
+    test 529 m2SM() function: True
+    test 530 m2degrees() function: True
+    test 531 m2ft() function: True
+    test 532 m2km() function: True
+    test 533 map1() function: True
+    test 534 map2() function: True
+    test 535 nearestOn3() function: True
+    test 536 nearestOn4() function: True
+    test 537 normDMS() function: True
+    test 538 parse3llh() function: True
+    test 539 parseDMS() function: True
+    test 540 parseDMS2() function: True
+    test 541 parseMGRS() function: True
+    test 542 parseOSGR() function: True
+    test 543 parseUTM() function: True
+    test 544 parseWM() function: True
+    test 545 perimeterOf() function: True
     test 546 points2() function: True
     test 547 polygon() function: True
     test 548 precision() function: True
@@ -7327,22 +6935,11 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testModules.py
     test 579 wrapPI2() function: True
     test 580 wrapPI_2() function: True
 
-    all 580 testModules.py tests passed (PyGeodesy 18.12.26 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 2 B) 280.729 ms
+    all 580 testModules.py tests passed (PyGeodesy 18.12.29 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 0) 7.932 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testNavlabExamples.py
-# lazily imported pygeodesy.anStr from .utily
-# lazily imported pygeodesy.isLazy from .lazily
-# lazily imported pygeodesy.iterNumpy2over from .utily
-# lazily imported pygeodesy.normDMS from .dms
-# lazily imported pygeodesy.Datums from .datum
-# lazily imported pygeodesy.F_D from .dms
-# lazily imported pygeodesy.ellipsoidalKarney
-# lazily imported pygeodesy.ellipsoidalNvector
-# lazily imported pygeodesy.ellipsoidalVincenty
-# lazily imported pygeodesy.sphericalNvector
-# lazily imported pygeodesy.sphericalTrigonometry
 
-    testing testNavlabExamples.py 18.09.12 isLazy=2
+    testing testNavlabExamples.py 18.09.12
     test 1 Example 1 delta: [N:331730.863, E:332998.501, D:17398.304]
     test 2 Example 1 delta: [L:470357.384, B:45.109°, E:-2.12°]
     test 3 Example 1 elevation: -2.1198
@@ -7371,19 +6968,11 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testNavlabExamples.py
     test 26 Example 9 intersection: 40.318643°N, 055.901868°E
     test 27 Example 10 crossTrackDistance: 11118
 
-    1 of 27 testNavlabExamples.py tests (3.7%) FAILED, ALL KNOWN (PyGeodesy 18.12.26 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 2 B) 9.490 ms
+    1 of 27 testNavlabExamples.py tests (3.7%) FAILED, ALL KNOWN (PyGeodesy 18.12.29 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 0) 6.489 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testOsgr.py
-# lazily imported pygeodesy.anStr from .utily
-# lazily imported pygeodesy.isLazy from .lazily
-# lazily imported pygeodesy.iterNumpy2over from .utily
-# lazily imported pygeodesy.normDMS from .dms
-# lazily imported pygeodesy.F_DMS from .dms
-# lazily imported pygeodesy.Datums from .datum
-# lazily imported pygeodesy.osgr
-# lazily imported pygeodesy.ellipsoidalNvector
 
-    testing testOsgr.py 17.09.08 (module osgr 18.12.16) isLazy=2
+    testing testOsgr.py 17.09.08 (module osgr 18.12.16)
     test 1 WGS84: 51.4778°N, 000.0016°W
     test 2 OSGB36: 51.477284°N, 000.00002°E
     test 3 WGS84: 51.4778°N, 000.0016°W
@@ -7409,31 +6998,11 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testOsgr.py
     test 23 OSGR5: [OSGR:651409.000,313177.000]
     test 24 OSGR6: 651409,313177
 
-    6 of 24 testOsgr.py tests (25.0%) FAILED, ALL KNOWN (PyGeodesy 18.12.26 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 2 B) 1.795 ms
+    6 of 24 testOsgr.py tests (25.0%) FAILED, ALL KNOWN (PyGeodesy 18.12.29 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 0) 2.097 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testPoints.py
-# lazily imported pygeodesy.anStr from .utily
-# lazily imported pygeodesy.isLazy from .lazily
-# lazily imported pygeodesy.iterNumpy2over from .utily
-# lazily imported pygeodesy.normDMS from .dms
-# lazily imported pygeodesy.EPS from .fmath
-# lazily imported pygeodesy.R_MA from .datum
-# lazily imported pygeodesy.LatLon_ from .points
-# lazily imported pygeodesy.LatLon2psxy from .points
-# lazily imported pygeodesy.Numpy2LatLon from .points
-# lazily imported pygeodesy.Tuple2LatLon from .points
-# lazily imported pygeodesy.areaOf from .points
-# lazily imported pygeodesy.isclockwise from .points
-# lazily imported pygeodesy.classname from .bases
-# lazily imported pygeodesy.points
-# lazily imported pygeodesy.R_KM from .datum
-# lazily imported pygeodesy.R_M from .utily
-# lazily imported pygeodesy.ellipsoidalVincenty
-# lazily imported pygeodesy.sphericalTrigonometry
-# lazily imported pygeodesy.perimeterOf from .points
-# lazily imported pygeodesy.unStr from .utily
 
-    testing testPoints.py 18.09.08 (module points 18.12.16) isLazy=2
+    testing testPoints.py 18.09.08 (module points 18.12.16)
     test 1 LatLon_: 'LatLon_' object has no attribute '__dict__'
     test 2 LatLon2psxy.ABC: True
     test 3 LatLon2psxy.epsilon: 2.220446049250313e-16
@@ -7584,24 +7153,11 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testPoints.py
     test 148 areaOf: 7.09e+09
     test 149 isclockwise: True
 
-    all 149 testPoints.py tests passed (PyGeodesy 18.12.26 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 2 B) 26.115 ms
+    all 149 testPoints.py tests passed (PyGeodesy 18.12.29 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 0) 25.941 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testRoutes.py
-# lazily imported pygeodesy.anStr from .utily
-# lazily imported pygeodesy.isLazy from .lazily
-# lazily imported pygeodesy.iterNumpy2over from .utily
-# lazily imported pygeodesy.normDMS from .dms
-# lazily imported pygeodesy.LatLon_ from .points
-# lazily imported pygeodesy.R_KM from .datum
-# lazily imported pygeodesy.R_M from .utily
-# lazily imported pygeodesy.ellipsoidalVincenty
-# lazily imported pygeodesy.sphericalTrigonometry
-# lazily imported pygeodesy.areaOf from .points
-# lazily imported pygeodesy.isclockwise from .points
-# lazily imported pygeodesy.perimeterOf from .points
-# lazily imported pygeodesy.unStr from .utily
 
-    testing testRoutes.py 18.10.12 isLazy=2
+    testing testRoutes.py 18.10.12
     test 1 points.areaOf(Antarctica, adjust=True, radius=6371.008771415, wrap=True): 4469277.057  FAILED, KNOWN, expected 13552524.800
     test 2 points.areaOf(PtsFFI, adjust=True, radius=6371.008771415, wrap=True): 1.288
     test 3 points.areaOf(RdpFFI, adjust=True, radius=6371.008771415, wrap=True): 1.241
@@ -7693,92 +7249,49 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testRoutes.py
     test 89 isclockwise(_JFK_LHR1, adjust=False, wrap=True): 0.000
     test 90 isclockwise(_JFK_LHR2, adjust=False, wrap=True): 0.000
 
-    13 of 90 testRoutes.py tests (14.4%) FAILED, ALL KNOWN (PyGeodesy 18.12.26 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 2 B) 13.851 sec
+    13 of 90 testRoutes.py tests (14.4%) FAILED, ALL KNOWN (PyGeodesy 18.12.29 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 0) 13.663 sec
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testSimplify.py
-# lazily imported pygeodesy.anStr from .utily
-# lazily imported pygeodesy.isLazy from .lazily
-# lazily imported pygeodesy.iterNumpy2over from .utily
-# lazily imported pygeodesy.normDMS from .dms
-# lazily imported pygeodesy.EPS from .fmath
-# lazily imported pygeodesy.R_M from .utily
-# lazily imported pygeodesy.Numpy2LatLon from .points
-# lazily imported pygeodesy.simplify1 from .simplify
-# lazily imported pygeodesy.simplifyRW from .simplify
-# lazily imported pygeodesy.simplifyRDP from .simplify
-# lazily imported pygeodesy.simplifyRDPm from .simplify
-# lazily imported pygeodesy.simplifyVW from .simplify
-# lazily imported pygeodesy.simplifyVWm from .simplify
-# lazily imported pygeodesy.simplify
-# lazily imported pygeodesy.LatLon_ from .points
-# lazily imported pygeodesy.R_KM from .datum
-# lazily imported pygeodesy.ellipsoidalVincenty
-# lazily imported pygeodesy.sphericalTrigonometry
-# lazily imported pygeodesy.areaOf from .points
-# lazily imported pygeodesy.isclockwise from .points
-# lazily imported pygeodesy.perimeterOf from .points
-# lazily imported pygeodesy.unStr from .utily
 
-    testing testSimplify.py 18.09.14 (module simplify 18.12.16) isLazy=2
-    test 1 simplify1(16614, adjust=True) 1m (64.562 ms): 16597
-    test 2 simplifyRW(16614, adjust=True, indices=True, shortest=False) 1m (89.807 ms): 7095
-    test 3 simplifyRW(16614, adjust=True, shortest=False) 1m (92.546 ms): 7095
-    test 4 simplifyRW(16614, adjust=True, shortest=True) 1m (123.777 ms): 8302
-    test 5 simplifyVWm(16614, adjust=True, indices=True) 1m (162.054 ms): 16328
-    test 6 simplifyVWm(16614, adjust=True) 1m (163.742 ms): 16328
-    test 7 simplifyVWm(16614, adjust=False) 1m (145.730 ms): 16373
-    test 8 simplifyRDPm(16614, adjust=True, shortest=False) 1m (189.614 ms): 15864
-    test 9 simplifyRDPm(16614, adjust=True, shortest=True) 1m (197.631 ms): 15867
-    test 10 simplifyRDPgr(16614, adjust=True, modified=True, shortest=True) 1m (135.707 ms): 15867
-    test 11 simplifyRDPm(16614, adjust=False, shortest=False) 1m (162.602 ms): 15869
-    test 12 simplifyRDPfw(16614, adjust=False, modified=True, shortest=False) 1m (89.261 ms): 15869
-    test 13 simplifyRDP(16614, adjust=True, indices=True, shortest=True) 1m (1.151 sec): 10960
-    test 14 simplifyRDP(16614, adjust=True, shortest=True) 1m (1.202 sec): 10960
-    test 15 simplifyRDPgr(16614, adjust=True, modified=False, shortest=True) 1m (1.092 sec): 10960
-    test 16 simplifyRDP(16614, adjust=False, indices=True, shortest=False) 1m (917.594 ms): 11248
-    test 17 simplifyRDP(16614, adjust=False, shortest=False) 1m (910.349 ms): 11248
-    test 18 simplifyRDPfw(16614, adjust=False, modified=False, shortest=False) 1m (471.225 ms): 11248
-    test 19 simplifyVW(1661, adjust=True) 1m (21.331 ms): 1641
-    test 20 simplifyVW(1661, adjust=False) 1m (16.571 ms): 1646
-    test 21 simplifyRDP(1661, adjust=True, shortest=False) 1m (82.520 ms): 1231
-    test 22 simplifyRDP(1661, adjust=True, shortest=True) 1m (89.445 ms): 1231
-    test 23 simplifyRDPgr(1661, adjust=True, shortest=True) 1m (80.779 ms): 1231
-    test 24 simplifyRDP(1661, adjust=False, shortest=False) 1m (70.449 ms): 1267
-    test 25 simplifyRDPfw(1661, adjust=False, shortest=False) 1m (36.409 ms): 1267
-    test 26 simplifyRDPgr(1661, adjust=False, shortest=True) 1m (57.783 ms): 1267
-    test 27 simplifyVW(69, adjust=False) 1m (633.001 us): 69
-    test 28 simplifyRDP(69, adjust=False, shortest=False) 1m (1.972 ms): 50
-    test 29 simplifyRDPfw(69, adjust=False, shortest=False) 1m (813.007 us): 50
-    test 30 simplifyRDPgr(69, adjust=False, shortest=True) 1m (1.227 ms): 50
-    test 31 simplifyRDPgr(69, adjust=True, shortest=True) 1m (1.689 ms): 45
+    testing testSimplify.py 18.09.14 (module simplify 18.12.16)
+    test 1 simplify1(16614, adjust=True) 1m (59.406 ms): 16597
+    test 2 simplifyRW(16614, adjust=True, indices=True, shortest=False) 1m (83.333 ms): 7095
+    test 3 simplifyRW(16614, adjust=True, shortest=False) 1m (85.339 ms): 7095
+    test 4 simplifyRW(16614, adjust=True, shortest=True) 1m (112.270 ms): 8302
+    test 5 simplifyVWm(16614, adjust=True, indices=True) 1m (158.715 ms): 16328
+    test 6 simplifyVWm(16614, adjust=True) 1m (173.842 ms): 16328
+    test 7 simplifyVWm(16614, adjust=False) 1m (134.531 ms): 16373
+    test 8 simplifyRDPm(16614, adjust=True, shortest=False) 1m (180.884 ms): 15864
+    test 9 simplifyRDPm(16614, adjust=True, shortest=True) 1m (185.824 ms): 15867
+    test 10 simplifyRDPgr(16614, adjust=True, modified=True, shortest=True) 1m (129.137 ms): 15867
+    test 11 simplifyRDPm(16614, adjust=False, shortest=False) 1m (155.383 ms): 15869
+    test 12 simplifyRDPfw(16614, adjust=False, modified=True, shortest=False) 1m (84.859 ms): 15869
+    test 13 simplifyRDP(16614, adjust=True, indices=True, shortest=True) 1m (1.085 sec): 10960
+    test 14 simplifyRDP(16614, adjust=True, shortest=True) 1m (1.079 sec): 10960
+    test 15 simplifyRDPgr(16614, adjust=True, modified=False, shortest=True) 1m (1.010 sec): 10960
+    test 16 simplifyRDP(16614, adjust=False, indices=True, shortest=False) 1m (844.083 ms): 11248
+    test 17 simplifyRDP(16614, adjust=False, shortest=False) 1m (846.000 ms): 11248
+    test 18 simplifyRDPfw(16614, adjust=False, modified=False, shortest=False) 1m (438.135 ms): 11248
+    test 19 simplifyVW(1661, adjust=True) 1m (21.259 ms): 1641
+    test 20 simplifyVW(1661, adjust=False) 1m (15.595 ms): 1646
+    test 21 simplifyRDP(1661, adjust=True, shortest=False) 1m (80.143 ms): 1231
+    test 22 simplifyRDP(1661, adjust=True, shortest=True) 1m (85.192 ms): 1231
+    test 23 simplifyRDPgr(1661, adjust=True, shortest=True) 1m (78.361 ms): 1231
+    test 24 simplifyRDP(1661, adjust=False, shortest=False) 1m (67.087 ms): 1267
+    test 25 simplifyRDPfw(1661, adjust=False, shortest=False) 1m (34.446 ms): 1267
+    test 26 simplifyRDPgr(1661, adjust=False, shortest=True) 1m (55.810 ms): 1267
+    test 27 simplifyVW(69, adjust=False) 1m (563.860 us): 69
+    test 28 simplifyRDP(69, adjust=False, shortest=False) 1m (1.573 ms): 50
+    test 29 simplifyRDPfw(69, adjust=False, shortest=False) 1m (815.868 us): 50
+    test 30 simplifyRDPgr(69, adjust=False, shortest=True) 1m (1.242 ms): 50
+    test 31 simplifyRDPgr(69, adjust=True, shortest=True) 1m (1.722 ms): 45
     test 32 no module: numpy
 
-    all 32 testSimplify.py tests passed (PyGeodesy 18.12.26 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 2 B) 7.826 sec
+    all 32 testSimplify.py tests passed (PyGeodesy 18.12.29 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 0) 7.292 sec
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testSpherical.py
-# lazily imported pygeodesy.anStr from .utily
-# lazily imported pygeodesy.isLazy from .lazily
-# lazily imported pygeodesy.iterNumpy2over from .utily
-# lazily imported pygeodesy.normDMS from .dms
-# lazily imported pygeodesy.R_NM from .datum
-# lazily imported pygeodesy.F_D from .dms
-# lazily imported pygeodesy.F_DM from .dms
-# lazily imported pygeodesy.F_DMS from .dms
-# lazily imported pygeodesy.F_RAD from .dms
-# lazily imported pygeodesy.classname from .bases
-# lazily imported pygeodesy.degrees from .utily
-# lazily imported pygeodesy.fStr from .fmath
-# lazily imported pygeodesy.isclockwise from .points
-# lazily imported pygeodesy.isconvex from .points
-# lazily imported pygeodesy.isenclosedBy from .points
-# lazily imported pygeodesy.ispolar from .points
-# lazily imported pygeodesy.m2km from .utily
-# lazily imported pygeodesy.m2NM from .utily
-# lazily imported pygeodesy.lonDMS from .dms
-# lazily imported pygeodesy.sphericalNvector
-# lazily imported pygeodesy.sphericalTrigonometry
 
-    testing testSpherical.py 18.12.26 isLazy=2
+    testing testSpherical.py 18.12.29
 
     testLatLon(sphericalNvector, 18.12.26)
     test 1 isEllipsoidal: False
@@ -7991,7 +7504,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testSpherical.py
     test 204 ispolar: False  FAILED, KNOWN, expected True
     test 205 ispolar*: False  FAILED, KNOWN, expected True
 
-    testLatLon(sphericalTrigonometry, 18.12.26)
+    testLatLon(sphericalTrigonometry, 18.12.29)
     test 206 isEllipsoidal: False
     test 207 isSpherical: True
     test 208 lat/lonDMS: 52.20472°N, 000.14056°E
@@ -8095,7 +7608,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testSpherical.py
     test 306 compassAngleTo: 31
     test 307 compassAngleTo: 45
 
-    testSpherical(sphericalTrigonometry, 18.12.26)
+    testSpherical(sphericalTrigonometry, 18.12.29)
     test 308 isSpherical: True
     test 309 isEllipsoidal: False
     test 310 isSpherical: True
@@ -8121,9 +7634,9 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testSpherical.py
     test 330 away 1,1 W,S antipodal: 00.999848°S, 179.0°W
     test 331 1E/90E N,E antipodal: 00.017454°S, 179.0°W
     test 332 1E/90E N,E nearest: 00.017454°N, 179.0°W
-    test 333 brng+end 1a: 01.000305°S, 178.0°W  FAILED, KNOWN, expected 01.000305°N, 002.0°E
+    test 333 brng+end 1a: 01.000305°N, 002.0°E
     test 334 brng+end 1b: 01.000305°N, 002.0°E
-    test 335 brng+end 2a: 01.000305°N, 002.0°E  FAILED, KNOWN, expected 01.000305°S, 178.0°W
+    test 335 brng+end 2a: 01.000305°S, 178.0°W
     test 336 brng+end 2b: 01.000305°S, 178.0°W
     test 337 intersection7: 02.499372°N, 002.5°E
     test 338 maxLat0: 90.0
@@ -8189,23 +7702,11 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testSpherical.py
     test 398 ispolar: True
     test 399 ispolar*: True
 
-    11 of 399 testSpherical.py tests (2.8%) FAILED, ALL KNOWN (PyGeodesy 18.12.26 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 2 B) 36.529 ms
+    9 of 399 testSpherical.py tests (2.3%) FAILED, ALL KNOWN (PyGeodesy 18.12.29 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 0) 36.627 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testUtily.py
-# lazily imported pygeodesy.anStr from .utily
-# lazily imported pygeodesy.isLazy from .lazily
-# lazily imported pygeodesy.iterNumpy2over from .utily
-# lazily imported pygeodesy.normDMS from .dms
-# lazily imported pygeodesy.R_M from .utily
-# lazily imported pygeodesy.antipode from .formy
-# lazily imported pygeodesy.fStr from .fmath
-# lazily imported pygeodesy.heightOf from .formy
-# lazily imported pygeodesy.horizon from .formy
-# lazily imported pygeodesy.isantipode from .formy
-# lazily imported pygeodesy.unroll180 from .utily
-# lazily imported pygeodesy.utily
 
-    testing testUtily.py 18.09.23 (module utily 18.12.26) isLazy=2
+    testing testUtily.py 18.09.23 (module utily 18.12.26)
     test 1 antipode1: (-89, -1)
     test 2 antipode2: (89, 1)
     test 3 isantipode1: True
@@ -8228,20 +7729,11 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testUtily.py
     test 20 unroll180: -160.0, -990.0
     test 21 unroll180: 920.0, 90.0
 
-    all 21 testUtily.py tests passed (PyGeodesy 18.12.26 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 2 B) 436.068 us
+    all 21 testUtily.py tests passed (PyGeodesy 18.12.29 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 0) 458.002 us
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testUtm.py
-# lazily imported pygeodesy.anStr from .utily
-# lazily imported pygeodesy.isLazy from .lazily
-# lazily imported pygeodesy.iterNumpy2over from .utily
-# lazily imported pygeodesy.normDMS from .dms
-# lazily imported pygeodesy.F_DEG from .dms
-# lazily imported pygeodesy.F_DMS from .dms
-# lazily imported pygeodesy.parseUTM from .utm
-# lazily imported pygeodesy.utm
-# lazily imported pygeodesy.ellipsoidalVincenty
 
-    testing testUtm.py 17.09.08 (module utm 18.10.12) isLazy=2
+    testing testUtm.py 17.09.08 (module utm 18.10.12)
     test 1 Utm1: 03 N 448251.0 5411932.0001
     test 2 Utm2: 31 N 448252 5411933
     test 3 Utm2: 31 N 448251.795 5411932.678
@@ -8289,19 +7781,11 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testUtm.py
     test 45 toUtm(76.0°N, 031.0°E): 35X N 607943 8438843
     test 46 toUtm(76.0°N, 037.0°E): 37X N 446000 8436100
 
-    all 46 testUtm.py tests passed (PyGeodesy 18.12.26 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 2 B) 11.771 ms
+    all 46 testUtm.py tests passed (PyGeodesy 18.12.29 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 0) 7.736 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testUtmTMcoords.py
-# lazily imported pygeodesy.anStr from .utily
-# lazily imported pygeodesy.isLazy from .lazily
-# lazily imported pygeodesy.iterNumpy2over from .utily
-# lazily imported pygeodesy.normDMS from .dms
-# lazily imported pygeodesy.Ellipsoids from .datum
-# lazily imported pygeodesy.RangeError from .dms
-# lazily imported pygeodesy.toUtm from .utm
-# lazily imported pygeodesy.utm
 
-    testing testUtmTMcoords.py 18.09.16 (module utm 18.10.12) isLazy=2
+    testing testUtmTMcoords.py 18.09.16 (module utm 18.10.12)
     test 1 line 1 easting: 1548706.7916
     test 2 line 1 northing: 8451449.1988
     test 3 line 1 convergence: 43.9228
@@ -9120,18 +8604,11 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testUtmTMcoords.py
     test 745 line 258 scale: 1.6615
     test 746 WGS84.KsOrder: 8
 
-    1 of 746 testUtmTMcoords.py tests (0.1%) FAILED, ALL KNOWN, 71 skipped (PyGeodesy 18.12.26 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 2 B) 41.602 ms
+    1 of 746 testUtmTMcoords.py tests (0.1%) FAILED, ALL KNOWN, 71 skipped (PyGeodesy 18.12.29 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 0) 38.932 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testVectorial.py
-# lazily imported pygeodesy.anStr from .utily
-# lazily imported pygeodesy.isLazy from .lazily
-# lazily imported pygeodesy.iterNumpy2over from .utily
-# lazily imported pygeodesy.normDMS from .dms
-# lazily imported pygeodesy.F_D from .dms
-# lazily imported pygeodesy.ellipsoidalNvector
-# lazily imported pygeodesy.sphericalNvector
 
-    testing testVectorial.py 18.12.16 isLazy=2
+    testing testVectorial.py 18.12.16
 
     testVectorial(ellipsoidalNvector, 18.12.16)
     test 1 toLatLon: 44.995674°N, 045.0°E
@@ -9187,26 +8664,11 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testVectorial.py
     test 49 triangulate: 47.323667°N, 002.568501°W
     test 50 triangulate: True
 
-    all 50 testVectorial.py tests passed (PyGeodesy 18.12.26 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 2 B) 4.505 ms
+    all 50 testVectorial.py tests passed (PyGeodesy 18.12.29 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 0) 4.195 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testWebMercator.py
-# lazily imported pygeodesy.anStr from .utily
-# lazily imported pygeodesy.isLazy from .lazily
-# lazily imported pygeodesy.iterNumpy2over from .utily
-# lazily imported pygeodesy.normDMS from .dms
-# lazily imported pygeodesy.F_D from .dms
-# lazily imported pygeodesy.F_DMS from .dms
-# lazily imported pygeodesy.R_MA from .datum
-# lazily imported pygeodesy.Datums from .datum
-# lazily imported pygeodesy.LatLon_ from .points
-# lazily imported pygeodesy.fStr from .fmath
-# lazily imported pygeodesy.toWm from .webmercator
-# lazily imported pygeodesy.webmercator
-# lazily imported pygeodesy.Wm from .webmercator
-# lazily imported pygeodesy.ellipsoidalVincenty
-# lazily imported pygeodesy.sphericalTrigonometry
 
-    testing testWebMercator.py 18.09.08 (module webmercator 18.10.12) isLazy=2
+    testing testWebMercator.py 18.09.08 (module webmercator 18.10.12)
     test 1 toWm1: -626172.13571216 6887893.4928338
     test 2 Wm1.y: 6887893.49283380
     test 3 Wm2: 448251.795 5411932.678
@@ -9265,6 +8727,6 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testWebMercator.py
     test 56 toWm(LatLonE(50.0003, 0)).y: 6413572.57
     test 57 toWm(LatLonE(60.0003, 0)).y: 8362760.29
 
-    all 57 testWebMercator.py tests passed (PyGeodesy 18.12.26 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 2 B) 2.189 ms
+    all 57 testWebMercator.py tests passed (PyGeodesy 18.12.29 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 0) 2.172 ms
 
-test/run.py /usr/local/bin/python3 all 8434 tests OK (PyGeodesy 18.12.26 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 2 B) 32.457 sec
+test/run.py /usr/local/bin/python3 all 8436 tests OK (PyGeodesy 18.12.29 Python 3.7.1 64bit geographiclib 1.49 macOS 10.13.6 isLazy 0) 32.371 sec
