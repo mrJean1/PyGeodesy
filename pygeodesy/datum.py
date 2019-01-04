@@ -112,6 +112,7 @@ from __future__ import division
 from bases import Based, inStr, Named, _xattrs
 from fmath import EPS, EPS1, cbrt, cbrt2, fdot, fpowers, fStr, \
                   fsum_, sqrt3
+from lazily import _ALL_LAZY
 from utily import R_M, degrees360, m2degrees, m2km, m2NM, m2SM, \
                   property_RO, _Strs
 
@@ -132,10 +133,8 @@ R_VM = 6366707.0194937  #: Aviation/Navigation earth radius (C{meter}).
 # R_ = 6372797.560856   #: XXX some other earth radius???
 
 # all public contants, classes and functions
-__all__ = ('R_M', 'R_MA', 'R_MB', 'R_KM', 'R_NM', 'R_SM', 'R_FM', 'R_VM',  # constants
-           'Datum',  'Ellipsoid',  'Transform',  # classes
-           'Datums', 'Ellipsoids', 'Transforms')  # enum-like
-__version__ = '18.10.12'
+__all__ = _ALL_LAZY.datum
+__version__ = '19.01.02'
 
 division = 1 / 2  # double check int division, see .fmath.py, .utily.py
 if not division:

@@ -7,6 +7,7 @@ u'''Formulary of basic geodesy functions and approximations.
 '''
 
 from fmath import EPS, fStr, fsum_, map1
+from lazily import _ALL_LAZY
 from utily import PI, PI2, R_M, degrees2m, degrees360, \
                   LimitError, _limiterrors, \
                   unroll180, unrollPI, wrap90, wrap180
@@ -14,15 +15,13 @@ from utily import PI, PI2, R_M, degrees2m, degrees360, \
 from math import atan2, cos, degrees, hypot, radians, sin, sqrt  # pow
 
 # all public contants, classes and functions
-__all__ = ('antipode',
-           'bearing', 'bearing_',
-           'compassAngle',
-           'equirectangular', 'equirectangular_',
-           'equirectangular3',  # DEPRECATED
-           'haversine', 'haversine_',  # XXX removed 'hsin', 'hsin3',
-           'heightOf', 'horizon',
-           'isantipode')
-__version__ = '18.11.07'
+__all__ = _ALL_LAZY.formy + ('equirectangular3',)  # DEPRECATED
+__version__ = '19.01.02'
+
+
+def _scaled(lat1, lat2):
+    # scale delta lon by cos(avg lat)
+    return cos(radians(lat1 + lat2) * 0.5)
 
 
 def antipode(lat, lon):
@@ -115,7 +114,7 @@ def compassAngle(lat1, lon1, lat2, lon2, adjust=True, wrap=False):
     '''
     d_lon, _ = unroll180(lon1, lon2, wrap=wrap)
     if adjust:  # scale delta lon
-        d_lon *= cos(radians((lat1 + lat2) * 0.5))
+        d_lon *= _scaled(lat1, lat2)
     return degrees360(atan2(d_lon, lat2 - lat1))
 
 
@@ -200,7 +199,7 @@ def equirectangular_(lat1, lon1, lat2, lon2,
                         ('equirectangular_', t, fStr(limit, prec=2)))
 
     if adjust:  # scale delta lon
-        d_lon *= cos(radians(lat1 + lat2) * 0.5)
+        d_lon *= _scaled(lat1, lat2)
 
     d2 = d_lat**2 + d_lon**2  # degrees squared!
     return d2, d_lat, d_lon, ulon2 - lon2

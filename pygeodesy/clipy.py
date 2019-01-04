@@ -7,12 +7,13 @@ u'''Functions to I{clip} a path or polygon of C{LatLon} points.
 '''
 
 from fmath  import EPS, fsum_, len2
-from points import _imdex2, bounds, isclockwise, isconvex_, \
+from lazily import _ALL_LAZY
+from points import _imdex2, boundsOf, isclockwise, isconvex_, \
                    LatLon_ as LL_
 from utily  import points2
 
-__all__ = ('clipCS3', 'clipSH', 'clipSH3')
-__version__ = '18.12.16'
+__all__ = _ALL_LAZY.clipy
+__version__ = '19.01.02'
 
 
 def _eq(p1, p2):  # near-equal points
@@ -102,7 +103,7 @@ class _CS(object):
 def clipCS3(points, lowerleft, upperright, closed=False, inull=False):  # MCCABE 25
     '''Clip a path against a rectangular clip box using the
        U{Cohen-Sutherland
-       <http://WikiPedia.org/wiki/Cohen–Sutherland_algorithm>} algorithm.
+       <http://WikiPedia.org/wiki/Cohen-Sutherland_algorithm>} algorithm.
 
        @param points: The points (C{LatLon}[]).
        @param lowerleft: Bottom-left corner of the clip box (C{LatLon}).
@@ -175,7 +176,7 @@ class _SH(object):
         try:
             n, cs = len2(corners)
             if n == 2:  # make a box
-                b, l, t, r = bounds(cs, wrap=False)
+                b, l, t, r = boundsOf(cs, wrap=False)
                 cs = LL_(b, l), LL_(t, l), LL_(t, r), LL_(b, r)
             n, cs = points2(cs, closed=True)
             self._corners = cs = cs[:n]

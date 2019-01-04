@@ -14,15 +14,14 @@ U{Vector-based geodesy
 from bases import VectorBased, _xattrs
 from fmath import EPS, fdot, fStr, fsum, hypot, hypot3, \
                   isscalar, len2, map1
+from lazily import _ALL_LAZY
 from utily import degrees90, degrees180, property_RO
 
 from math import atan2, cos, sin
 
 # all public contants, classes and functions
-__all__ = ('CrossError', 'Vector3d',  # classes
-           'crosserrors',
-           'sumOf')  # functions
-__version__ = '18.12.16'
+__all__ = _ALL_LAZY.vector3d + ('Vector3d', 'sumOf')
+__version__ = '19.01.02'
 
 try:
     _cmp = cmp

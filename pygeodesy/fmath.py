@@ -5,25 +5,15 @@ u'''Precision mathematical functions, utilities and constants.
 
 @newfield example: Example, Examples
 '''
+from lazily import _ALL_LAZY
 
 from math import acos, copysign, hypot, sqrt  # pow
 from operator import mul
-import sys
+from sys import float_info as _float_info
 
 # all public contants, classes and functions
-__all__ = ('EPS', 'EPS1',  # constants
-           'Fsum',  # classes
-           'acos1',
-           'cbrt', 'cbrt2',  # functions
-           'favg', 'fdot', 'fdot3', 'fmean',
-           'fhorner', 'fpolynomial', 'fpowers',
-           'fStr', 'fStrzs', 'fsum', 'fsum_',
-           'hypot', 'hypot1', 'hypot3',
-           'isfinite', 'isint', 'isscalar',
-           'len2',
-           'map1', 'map2',
-           'scalar', 'sqrt3')
-__version__ = '18.12.14'
+__all__ = _ALL_LAZY.fmath
+__version__ = '19.01.02'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -47,7 +37,7 @@ except ImportError:
     _Seqs = list, tuple, range  # XXX also set?
 
 try:
-    EPS = sys.float_info.epsilon  #: System's epsilon (C{float})
+    EPS = _float_info.epsilon  #: System's epsilon (C{float})
 except AttributeError:
     EPS = 2.220446049250313e-16  #: Approximate epsilon (C{float})
 EPS1  = 1.0 - EPS  #: M{1 - EPS} (C{float}), about 0.9999999999999998

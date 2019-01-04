@@ -20,15 +20,15 @@ from bases import Based, _nameof, _xattrs, _xnamed
 from ellipsoidalBase import LatLonEllipsoidalBase as _ELLB
 from datum import _Based, Datums, _Enum
 from fmath import EPS, fStr, hypot
+from lazily import _ALL_LAZY
 from utily import PI_2, degrees90, degrees180, false2f, \
                   property_RO, tanPI_2_2
 
 from math import atan, copysign, cos, log, radians, sin, sqrt
 
 # all public constants, classes and functions
-__all__ = ('Conic', 'Conics', 'Lcc',
-           'toLcc')  # functions
-__version__ = '18.10.12'
+__all__ = _ALL_LAZY.lcc
+__version__ = '19.01.02'
 
 
 Conics = _Enum('Conics')  #: Registered conics (L{_Enum}).

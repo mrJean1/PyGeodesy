@@ -38,7 +38,7 @@ Other modules provide Lambert conformal conic projections and positions
 (from U{John P. Snyder, "Map Projections -- A Working Manual", 1987, pp 107-109
 <http://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}), functions to clip a path or
 polygon of C{LatLon} points using the U{Cohen–Sutherland
-<http://WikiPedia.org/wiki/Cohen–Sutherland_algorithm>} and the
+<http://WikiPedia.org/wiki/Cohen-Sutherland_algorithm>} and the
 U{Sutherland-Hodgman<http://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm>}
 methods and functions to U{simplify<http://Bost.Ocks.org/mike/simplify>} or
 linearize a path of C{LatLon} points (or a U{NumPy array
@@ -180,7 +180,7 @@ from os.path import abspath, basename, dirname
 _init_abspath     = abspath(__file__)
 pygeodesy_abspath = dirname(_init_abspath)
 
-__version__ = '18.12.29'
+__version__ = '19.01.02'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 
@@ -198,7 +198,7 @@ except ImportError:  # ... if it doesn't, extend
     del sys
 
 try:  # lazily requires Python 3.7+, see lazily.__doc__
-    from lazily import _lazy_import2, LazyImportError
+    from lazily import LazyImportError, _lazy_import2
     _, __getattr__ = _lazy_import2('pygeodesy')
 except (LazyImportError, NotImplementedError):
 
@@ -267,18 +267,28 @@ except (LazyImportError, NotImplementedError):
     import utm          # PYCHOK expected
     import webmercator  # PYCHOK expected
 
-    # for backward compatibility with old, DEPRECATED names
+    # for backward compatibility with previous, DEPRECATED names
     def areaof(*args, **kwds):
-        '''DEPRECATED, use function areaOf.
+        '''DEPRECATED, use function C{areaOf}.
         '''
         return points.areaOf(*args, **kwds)
 
+    def bounds(*args, **kwds):
+        '''DEPRECATED, use function C{boundsOf}.
+        '''
+        return points.boundsOf(*args, **kwds)
+
+    def isenclosedby(*args, **kwds):
+        '''DEPRECATED, use function C{isenclosedBy}.
+        '''
+        return points.isenclosedBy(*args, **kwds)
+
     def perimeterof(*args, **kwds):
-        '''DEPRECATED, use function perimeterOf.
+        '''DEPRECATED, use function C{perimeterOf}.
         '''
         return points.perimeterOf(*args, **kwds)
 
-    __all__ += ('areaof', 'perimeterof')  # DECPRECATED
+    __all__ += ('areaof', 'bounds', 'isenclosedby', 'perimeterof')  # DECPRECATED
 
     def _ismodule(m):
         p = abspath(m.__file__)  # PYCHOK undefined?

@@ -16,6 +16,7 @@ U{Latitude/Longitude<http://www.Movable-Type.co.UK/scripts/latlong.html>}.
 from datum import R_M
 from fmath import EPS, acos1, favg, fdot, fmean, fsum, isscalar, map1
 from formy import antipode, bearing_, haversine_
+from lazily import _ALL_LAZY
 from points import _imdex2, ispolar, nearestOn4
 from sphericalBase import LatLonSphericalBase
 from utily import PI2, PI_2, PI_4, degrees90, degrees180, degrees2m, \
@@ -25,13 +26,14 @@ from vector3d import CrossError, crosserrors, Vector3d, sumOf
 from math import asin, atan2, copysign, cos, degrees, hypot, radians, sin
 
 # all public contants, classes and functions
-__all__ = ('LatLon',  # classes
-           'areaOf',  # functions
-           'intersection', 'ispolar', 'isPoleEnclosedBy',  # DEPRECATED, use ispolar
-           'meanOf',
-           'nearestOn2',
-           'perimeterOf')
-__version__ = '18.12.29'
+__all__ = _ALL_LAZY.sphericalTrigonometry + (
+          'LatLon',  # classes
+          'areaOf',  # functions
+          'intersection', 'ispolar', 'isPoleEnclosedBy',  # DEPRECATED, use ispolar
+          'meanOf',
+          'nearestOn2',
+          'perimeterOf')
+__version__ = '19.01.02'
 
 
 class LatLon(LatLonSphericalBase):
@@ -731,7 +733,14 @@ def _x3d2(start, end, wrap, n):
     return x.unit(), (db, (a2 - a1))  # negated d
 
 
-def _xdot(d, a, b, a1, b1, wrap):
+def _xb(a1, b1, end, a, b, wrap):
+    # difference between the bearing to (a, b) and the given
+    # bearing is negative if both are in opposite directions
+    r = bearing_(a1, b1, radians(a), radians(b), wrap=wrap)
+    return PI_2 - abs(wrapPI(r - radians(end)))
+
+
+def _xdot(d, a1, b1, a, b, wrap):
     # compute dot product d . (-b + b1, a - a1)
     db, _ = unrollPI(b1, radians(b), wrap=wrap)
     return fdot(d, db, radians(a) - a1)
@@ -819,6 +828,10 @@ def intersection(start1, end1, start2, end2,
         r13 = atan2(sr12 * sx3, cx2 + cx1 * cos(x3))
 
         a, b = _destination2(a1, b1, r13, t13)
+        # choose antipode for opposing bearings
+        if _xb(a1, b1, end1, a, b, wrap) < 0 or \
+           _xb(a2, b2, end2, a, b, wrap) < 0:
+            a, b = antipode(a, b)
 
     else:  # end point(s) or bearing(s)
         x1, d1 = _x3d2(start1, end1, wrap, '1')
@@ -829,8 +842,8 @@ def intersection(start1, end1, start2, end2,
                              (start1, end1), (start2, end2)))
         a, b = x.to2ll()
         # choose intersection similar to sphericalNvector
-        d1 = _xdot(d1, a, b, a1, b1, wrap)
-        d2 = _xdot(d2, a, b, a2, b2, wrap)
+        d1 = _xdot(d1, a1, b1, a, b, wrap)
+        d2 = _xdot(d2, a2, b2, a, b, wrap)
         if (d1 < 0 and d2 > 0) or (d1 > 0 and d2 < 0):
             a, b = antipode(a, b)
 

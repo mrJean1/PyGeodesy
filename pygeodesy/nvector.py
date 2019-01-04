@@ -14,16 +14,18 @@ see U{Vector-based geodesy
 
 from bases import LatLonHeightBase, _xattrs, _xnamed
 from fmath import fsum, len2, scalar
+from lazily import _ALL_LAZY
 from vector3d import Vector3d, sumOf as _sumOf
 
 # from math import cos, sin
 
 # all public constants, classes and functions
-__all__ = ('NorthPole', 'SouthPole',  # constants
-           'LatLonNvectorBase',  # for documentation
-           'Nvector',  # classes
-           'sumOf')  # functions
-__version__ = '18.12.16'
+__all__ = _ALL_LAZY.nvector + (
+          'NorthPole', 'SouthPole',  # constants
+          'LatLonNvectorBase',  # for documentation
+          'Nvector',  # classes
+          'sumOf')  # functions
+__version__ = '19.01.02'
 
 
 class Nvector(Vector3d):  # XXX kept private

@@ -37,6 +37,7 @@ from dms import S_DEG, parseDMS2, RangeError
 from ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from fmath import EPS, fdot3, fStr, Fsum, hypot, hypot1, \
                   isscalar, len2, map2
+from lazily import _ALL_LAZY
 from utily import degrees90, degrees180, property_RO, wrap90, wrap180
 
 from math import asinh, atan, atanh, atan2, cos, cosh, \
@@ -44,9 +45,8 @@ from math import asinh, atan, atanh, atan2, cos, cosh, \
 from operator import mul
 
 # all public contants, classes and functions
-__all__ = ('Utm', 'UTMError',  # classes
-           'parseUTM', 'toUtm', 'utmZoneBand2')  # functions
-__version__ = '18.10.12'
+__all__ = _ALL_LAZY.utm
+__version__ = '19.01.02'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N

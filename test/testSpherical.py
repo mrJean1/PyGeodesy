@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '18.12.29'
+__version__ = '19.01.02'
 
 from base import isWindows
 from testLatLon import Tests as _TestsLL
@@ -88,14 +88,14 @@ class Tests(_TestsLL, _TestsV):
         N, E, S, W, p, q = 0, 90, 180, 270, LatLon(0, 1), LatLon(1, 0)
         self.test('toward 1,1 N,E nearest',        p.intersection(N, q, E), '00.999848°N, 001.0°E')
         self.test('toward 1,1 E,N nearest',        q.intersection(E, p, N), '00.999848°N, 001.0°E')
-        self.test('toward 1,1 N,E antipodal',      LatLon(2, 1).intersection(N, q, E), '00.999848°S, 179.0°W', known=Sph)
-        self.test('toward/away 1,1 N,W antipodal', p.intersection(N, q, W), '00.999848°S, 179.0°W')
-        self.test('toward/away 1,1 W,N antipodal', q.intersection(W, p, N), '00.999848°S, 179.0°W', known=Sph)
-        self.test('toward/away 1,1 S,E antipodal', p.intersection(S, q, E), '00.999848°S, 179.0°W', known=Sph)
-        self.test('toward/away 1,1 E,S antipodal', q.intersection(E, p, S), '00.999848°S, 179.0°W')
+        self.test('toward 1,1 N,E antipodal',      LatLon(2, 1).intersection(N, q, E), '00.999848°S, 179.0°W')
+        self.test('toward/away 1,1 N,W antipodal', p.intersection(N, q, W), '00.999848°S, 179.0°W', known=Sph)
+        self.test('toward/away 1,1 W,N antipodal', q.intersection(W, p, N), '00.999848°S, 179.0°W')
+        self.test('toward/away 1,1 S,E antipodal', p.intersection(S, q, E), '00.999848°S, 179.0°W')
+        self.test('toward/away 1,1 E,S antipodal', q.intersection(E, p, S), '00.999848°S, 179.0°W', known=Sph)
         self.test('away 1,1 S,W antipodal',        p.intersection(S, q, W), '00.999848°S, 179.0°W')
         self.test('away 1,1 W,S antipodal',        q.intersection(W, p, S), '00.999848°S, 179.0°W')
-        self.test('1E/90E N,E antipodal',          p.intersection(N, LatLon(1, 90), E), '00.017454°S, 179.0°W')
+        self.test('1E/90E N,E antipodal',          p.intersection(N, LatLon(1, 90), E), '00.017454°S, 179.0°W', known=Sph)
         self.test('1E/90E N,E nearest',            p.intersection(N, LatLon(1, 92), E), '00.017454°N, 179.0°W')
 
         # <http://GitHub.com/ChrisVeness/geodesy/blob/master/test/latlon-vectors-tests.js>

@@ -58,15 +58,17 @@ from __future__ import division
 from datum import Datums
 from ellipsoidalBase import CartesianBase, LatLonEllipsoidalBase
 from fmath import EPS, fpolynomial, hypot, scalar
-from points import ispolar  # PYCHOCK ispolar
+from lazily import _ALL_LAZY
+from points import ispolar  # PYCHOK ispolar
 from utily import degrees90, degrees180, degrees360, unroll180
 
 from math import atan2, cos, radians, sin, tan
 
 # all public contants, classes and functions
-__all__ = ('Cartesian', 'LatLon', 'VincentyError',  # classes
-           'ispolar')  # functions
-__version__ = '18.11.07'
+__all__ = _ALL_LAZY.ellipsoidalVincenty + (
+          'Cartesian', 'LatLon',
+          'ispolar')
+__version__ = '19.01.02'
 
 division = 1 / 2  # double check int division, see .datum.py
 if not division:

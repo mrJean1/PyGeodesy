@@ -26,6 +26,7 @@ from bases import Named, _xnamed
 from datum import Datum, Datums
 from ellipsoidalBase import CartesianBase, LatLonEllipsoidalBase
 from fmath import EPS, cbrt, fdot, fStr, fsum_, hypot, hypot3
+from lazily import _ALL_LAZY
 from nvector import NorthPole, LatLonNvectorBase, \
                     Nvector as NvectorBase, sumOf
 from utily import degrees90, degrees360, property_RO
@@ -33,9 +34,10 @@ from utily import degrees90, degrees360, property_RO
 from math import asin, atan2, cos, radians, sin, sqrt
 
 # all public contants, classes and functions
-__all__ = ('Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
-           'meanOf', 'toNed')  # functions
-__version__ = '18.12.16'
+__all__ = _ALL_LAZY.ellipsoidalNvector + (
+          'Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
+          'meanOf', 'toNed')  # functions
+__version__ = '19.01.02'
 
 
 class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):

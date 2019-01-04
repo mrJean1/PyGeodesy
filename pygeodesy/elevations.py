@@ -15,10 +15,11 @@ C{"/Applications/Python X.Y/Install Certificates.command"}
 @newfield example: Example, Examples
 '''
 
-__all__ = 'elevation2', 'geoidHeight2'
-__version__ = '18.10.04'
-
 from fmath import fStr
+from lazily import _ALL_LAZY
+
+__all__ = _ALL_LAZY.elevations
+__version__ = '19.01.02'
 
 try:
     from urllib2 import urlopen  # quote, urlcleanup

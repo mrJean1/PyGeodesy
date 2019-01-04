@@ -12,6 +12,7 @@ U{Vector-based geodesy<http://www.Movable-Type.co.UK/scripts/latlong-vectors.htm
 '''
 
 from fmath import fStr, fStrzs, isint
+from lazily import _ALL_LAZY
 
 from math import copysign, radians
 try:
@@ -20,16 +21,8 @@ except ImportError:  # Python 3+
     from string import ascii_letters as LETTERS
 
 # all public contants, classes and functions
-__all__ = ('F_D', 'F_DM', 'F_DMS',  # forms
-           'F_DEG', 'F_MIN', 'F_SEC', 'F_RAD',
-           'S_DEG', 'S_MIN', 'S_SEC', 'S_RAD', 'S_SEP',  # symbols
-           'RangeError',  # classes
-           'bearingDMS',  # functions
-           'clipDMS', 'compassDMS', 'compassPoint',
-           'latDMS', 'lonDMS', 'normDMS',
-           'parseDMS', 'parseDMS2', 'parse3llh', 'precision',
-           'rangerrors', 'toDMS')
-__version__ = '18.11.01'
+__all__ = _ALL_LAZY.dms
+__version__ = '19.01.02'
 
 F_D   = 'd'    #: Format degrees as deg° (C{str}).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (C{str}).

@@ -75,14 +75,13 @@ See:
 from datum import R_M
 from fmath import EPS, len2
 from formy import equirectangular_
+from lazily import _ALL_LAZY
 from utily import isNumpy2, isTuple2
 
 from math import degrees, radians, sqrt
 
-__all__ = ('simplify1', 'simplify2',  # DEPRECATED
-           'simplifyRDP', 'simplifyRDPm', 'simplifyRW',
-           'simplifyVW', 'simplifyVWm')
-__version__ = '18.12.16'
+__all__ = _ALL_LAZY.simplify
+__version__ = '19.01.02'
 
 
 # try:

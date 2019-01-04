@@ -85,7 +85,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.12.16
+        19.01.02
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -169,10 +169,10 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.points-module.html#bounds" class="summary-sig-name">bounds</a>(<span class="summary-sig-arg">points</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.points-module.html#boundsOf" class="summary-sig-name">boundsOf</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Determine the lower-left and upper-right corners of a path or 
+      Determine the lower-left SW and upper-right NE corners of a path or 
       polygon.</td>
           <td align="right" valign="top">
             
@@ -265,27 +265,6 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="isenclosedby"></a><span class="summary-sig-name">isenclosedby</span>(<span class="summary-sig-arg">point</span>,
-        <span class="summary-sig-arg">points</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
-      DEPRECATED, use function <a 
-      href="pygeodesy.points-module.html#isenclosedBy" 
-      class="link">isenclosedBy</a>.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.points-module.html#ispolar" class="summary-sig-name">ispolar</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Check whether a polygon encloses a pole.</td>
@@ -362,6 +341,22 @@
     </td>
   </tr>
 </table>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Variables</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__all__"></a><span class="summary-name">__all__</span> = <code title="_ALL_LAZY.points">_ALL_LAZY.points</code>
+    </td>
+  </tr>
+</table>
 <!-- ==================== FUNCTION DETAILS ==================== -->
 <a name="section-FunctionDetails"></a>
 <table class="details" border="1" cellpadding="3"
@@ -422,14 +417,14 @@
       </p>
 </div></td></tr></table>
 </div>
-<a name="bounds"></a>
+<a name="boundsOf"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">bounds</span>(<span class="sig-arg">points</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">boundsOf</span>(<span class="sig-arg">points</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>)</span>
   </h3>
@@ -438,7 +433,7 @@
     </td>
   </tr></table>
   
-  <p>Determine the lower-left and upper-right corners of a path or 
+  <p>Determine the lower-left SW and upper-right NE corners of a path or 
   polygon.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -449,8 +444,8 @@
           (<code>LatLon</code>) or <code>None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-tuple (loLatLon, hiLatLon) of <i>LatLon</i> for the lower-left 
-          respectively upper-right corners or 4-Tuple (loLat, loLon, hiLat,
+        <dd>2-Tuple (loLatLon, hiLatLon) of <i>LatLon</i> for the lower-left 
+          respectively upper-right corner or 4-tuple (loLat, loLon, hiLat, 
           hiLon) of bounds (<code>degrees</code>) if <i>LatLon</i> is 
           <code>None</code>.</dd>
     <dt>Raises:</dt>
@@ -462,7 +457,7 @@
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
 <span class="py-prompt">&gt;&gt;&gt; </span>b = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
-<span class="py-prompt">&gt;&gt;&gt; </span>bounds(b)  <span class="py-comment"># False</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>boundsOf(b)  <span class="py-comment"># False</span>
 <span class="py-prompt">&gt;&gt;&gt; </span>45.0, 1.0, 46.0, 2.0</pre>
       </p>
 </div></td></tr></table>
@@ -902,7 +897,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Dec 30 15:21:18 2018
+    Generated by Epydoc 3.0.1 on Fri Jan  4 08:05:12 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

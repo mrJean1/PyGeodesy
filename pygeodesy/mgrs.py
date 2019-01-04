@@ -28,6 +28,7 @@ and U{Military Grid Reference System<http://WikiPedia.org/wiki/Military_grid_ref
 
 from bases import Based, _xattrs, _xnamed
 from datum import Datums
+from lazily import _ALL_LAZY
 from utily import enStr2, halfs2, property_RO
 from utm import toUtm, Utm, _toZBlat3
 
@@ -35,9 +36,8 @@ from math import log10
 import re  # PYCHOK warning locale.Error
 
 # all public contants, classes and functions
-__all__ = ('Mgrs',  # classes
-           'parseMGRS', 'toMgrs')  # functions
-__version__ = '18.12.16'
+__all__ = _ALL_LAZY.mgrs
+__version__ = '19.01.02'
 
 _100km  =  100e3  #: (INTERNAL) 100 km in meter.
 _2000km = 2000e3  #: (INTERNAL) 2,000 km in meter.

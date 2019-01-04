@@ -20,16 +20,15 @@ from bases import Named, _xnamed
 from dms import parse3llh, parseDMS2
 from fmath import EPS, favg, fStr, map2
 from formy import equirectangular, equirectangular_, haversine_
+from lazily import _ALL_LAZY
 from utily import R_M, property_RO, _Strs, unrollPI
 
 from math import log10, radians
 
 # all public contants, classes and functions
-__all__ = ('Geohash',  # classes
-           'bounds', 'decode', 'decode_error',  # functions
-           'distance1', 'distance2', 'distance3',
-           'encode', 'neighbors', 'sizes')
-__version__ = '18.10.26'
+__all__ = _ALL_LAZY.geohash + ('bounds', 'decode', 'decode_error',  # functions
+          'distance1', 'distance2', 'distance3', 'encode', 'neighbors', 'sizes')
+__version__ = '19.01.02'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -65,6 +64,13 @@ _GeohashBase32 = '0123456789bcdefghjkmnpqrstuvwxyz'
 _DecodedBase32 = dict((c, i) for i, c in enumerate(_GeohashBase32))
 c = i = None
 del c, i
+
+
+def _2bounds(swne, LatLon, kwds):
+    '''(INTERNAL) return SW and NE bounds.
+    '''
+    return swne if LatLon is None else (
+           LatLon(*swne[:2], **kwds), LatLon(*swne[2:], **kwds))
 
 
 def _2fll(lat, lon, *unused):
@@ -191,19 +197,22 @@ class Geohash(str, Named):
         # append letter for direction to parent
         return Geohash(p + _GeohashBase32[i])
 
-    def bounds(self, LatLon, **kwds):
-        '''Return the SW and NE bounds of this geohash cell.
+    def bounds(self, LatLon=None, **kwds):
+        '''Return the lower-left SW and upper-right NE bounds of this
+           geohash cell.
 
-           @param LatLon: Class to use (C{LatLon}).
+           @keyword LatLon: Optional (sub-)class to use to return I{bounds}
+                            (C{LatLon}) or C{None}.
            @keyword kwds: Optional keyword arguments for I{LatLon}.
 
-           @return: 2-Tuple (LatLonSW, LatLonNE) of I{LatLon} for
-                    the lower-left respectively upper-right corner.
+           @return: 2-Tuple (loLatLon, hiLatLon) of I{LatLon} for the
+                    lower-left respectively upper-right corner or 4-tuple
+                    (loLat, loLon, hiLat, hiLon) of bounds in (C{degrees})
+                    if I{LatLon} is C{None}.
         '''
         if not self._bounds:
             self._bounds = bounds(self)
-        s, w, n, e = self._bounds
-        return LatLon(s, w, **kwds), LatLon(n, e, **kwds)
+        return _2bounds(self._bounds, LatLon, kwds)
 
     def distance1(self, other):
         '''DEPRECATED, use method C{distance1To}.
@@ -298,7 +307,7 @@ class Geohash(str, Named):
     @property_RO
     def latlon(self):
         '''Get the lat- and longitude of (the approximate center of)
-           this geohash as a 2-tuple (lat, lon) in degrees.
+           this geohash as a 2-tuple (lat, lon) in C{degrees}.
 
            B{Example:}
 
@@ -306,9 +315,7 @@ class Geohash(str, Named):
            >>> geohash.decode('geek')  # '65.48', '-17.75'
         '''
         if not self._latlon:
-            if not self._bounds:
-                self._bounds = bounds(self)
-            s, w, n, e = self._bounds
+            s, w, n, e = self.bounds()
             self._latlon = favg(n, s), favg(e, w)
         return self._latlon
 
@@ -408,10 +415,17 @@ class Geohash(str, Named):
         return self.S.W
 
 
-def bounds(geohash):
-    '''Returns the SW and NE lat-/longitude bounds of a geohash.
+def bounds(geohash, LatLon=None, **kwds):
+    '''Returns the lower-left SW and upper-right NE corners of a geohash.
 
-       @return: 4-Tuple (latS, lonW, latN, lonE) of bounds in (C{degrees}).
+       @param geohash: To be bound (L{Geohash}).
+       @keyword LatLon: Optional (sub-)class to use to return I{bounds}
+                        (C{LatLon}) or C{None}.
+       @keyword kwds: Optional keyword arguments for I{LatLon}.
+
+       @return: 4-Tuple (S, W, N, E) of bounds lat- and longitudes in
+                (C{degrees}) if I{LatLon} is C{None} otherwise 2-tuple
+                (I{LatLon(S, W)}, I{LatLon(N, E)} of the bounds.
 
        @raise TypeError: The I{geohash} is not a L{Geohash}, C{LatLon}
                          or C{str}.
@@ -428,10 +442,10 @@ def bounds(geohash):
     if len(geohash) < 1:
         raise ValueError('%s invalid: %s' % ('geohash', geohash))
 
-    latS, latN =  -90,  90
-    lonW, lonE = -180, 180
+    s, n =  -90,  90
+    w, e = -180, 180
 
-    e = True
+    d = True
     for c in geohash:  # .lower():
         try:
             i = _DecodedBase32[c]
@@ -439,21 +453,19 @@ def bounds(geohash):
             raise ValueError('%s invalid: %s' % ('geohash', geohash))
 
         for m in (16, 8, 4, 2, 1):
-            if e:  # longitude
-                lon = favg(lonW, lonE)
+            if d:  # longitude
                 if i & m:
-                    lonW = lon
+                    w = favg(w, e)
                 else:
-                    lonE = lon
+                    e = favg(w, e)
             else:  # latitude
-                lat = favg(latS, latN)
                 if i & m:
-                    latS = lat
+                    s = favg(s, n)
                 else:
-                    latN = lat
-            e = not e
+                    n = favg(s, n)
+            d = not d
 
-    return latS, lonW, latN, lonE
+    return _2bounds((s, w, n, e), LatLon, kwds)
 
 
 def decode(geohash):

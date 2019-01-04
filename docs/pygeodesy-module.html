@@ -105,7 +105,7 @@
   target="_top">John P. Snyder, &quot;Map Projections -- A Working 
   Manual&quot;, 1987, pp 107-109</a>), functions to clip a path or polygon 
   of <code>LatLon</code> points using the <a 
-  href="http://WikiPedia.org/wiki/Cohen&#8211;Sutherland_algorithm" 
+  href="http://WikiPedia.org/wiki/Cohen-Sutherland_algorithm" 
   target="_top">Cohen&#8211;Sutherland</a> and the <a 
   href="http://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm" 
   target="_top">Sutherland-Hodgman</a> methods and functions to <a 
@@ -213,7 +213,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        18.12.29
+        19.01.02
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -604,7 +604,43 @@
         <tr>
           <td><span class="summary-sig"><a name="areaof"></a><span class="summary-sig-name">areaof</span>(<span class="summary-sig-arg">*args</span>,
         <span class="summary-sig-arg">**kwds</span>)</span><br />
-      DEPRECATED, use function areaOf.</td>
+      DEPRECATED, use function <code>areaOf</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="bounds"></a><span class="summary-sig-name">bounds</span>(<span class="summary-sig-arg">*args</span>,
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
+      DEPRECATED, use function <code>boundsOf</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="isenclosedby"></a><span class="summary-sig-name">isenclosedby</span>(<span class="summary-sig-arg">*args</span>,
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
+      DEPRECATED, use function <code>isenclosedBy</code>.</td>
           <td align="right" valign="top">
             
             
@@ -622,7 +658,7 @@
         <tr>
           <td><span class="summary-sig"><a name="perimeterof"></a><span class="summary-sig-name">perimeterof</span>(<span class="summary-sig-arg">*args</span>,
         <span class="summary-sig-arg">**kwds</span>)</span><br />
-      DEPRECATED, use function perimeterOf.</td>
+      DEPRECATED, use function <code>perimeterOf</code>.</td>
           <td align="right" valign="top">
             
             
@@ -778,10 +814,10 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#bounds" class="summary-sig-name">bounds</a>(<span class="summary-sig-arg">points</span>,
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#boundsOf" class="summary-sig-name">boundsOf</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Determine the lower-left and upper-right corners of a path or 
+      Determine the lower-left SW and upper-right NE corners of a path or 
       polygon.</td>
           <td align="right" valign="top">
             
@@ -873,7 +909,7 @@
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">inull</span>=<span class="summary-sig-default">False</span>)</span><br />
       Clip a path against a rectangular clip box using the <a 
-      href="http://WikiPedia.org/wiki/Cohen&#8211;Sutherland_algorithm" 
+      href="http://WikiPedia.org/wiki/Cohen-Sutherland_algorithm" 
       target="_top">Cohen-Sutherland</a> algorithm.</td>
           <td align="right" valign="top">
             
@@ -1784,27 +1820,6 @@
         <span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Determine whether a point is enclosed by a polygon.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="isenclosedby"></a><span class="summary-sig-name">isenclosedby</span>(<span class="summary-sig-arg">point</span>,
-        <span class="summary-sig-arg">points</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
-      DEPRECATED, use function <a 
-      href="pygeodesy.points-module.html#isenclosedBy" 
-      class="link">isenclosedBy</a>.</td>
           <td align="right" valign="top">
             
             
@@ -3080,7 +3095,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'18.12.29'"><code class="variable-quote">'</code><code class="variable-string">18.12.29</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'19.1.2'"><code class="variable-quote">'</code><code class="variable-string">19.1.2</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -3642,14 +3657,14 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 </td></tr></table>
 </div>
-<a name="bounds"></a>
+<a name="boundsOf"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">bounds</span>(<span class="sig-arg">points</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">boundsOf</span>(<span class="sig-arg">points</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>)</span>
   </h3>
@@ -3658,7 +3673,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Determine the lower-left and upper-right corners of a path or 
+  <p>Determine the lower-left SW and upper-right NE corners of a path or 
   polygon.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -3669,8 +3684,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           (<code>LatLon</code>) or <code>None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-tuple (loLatLon, hiLatLon) of <i>LatLon</i> for the lower-left 
-          respectively upper-right corners or 4-Tuple (loLat, loLon, hiLat,
+        <dd>2-Tuple (loLatLon, hiLatLon) of <i>LatLon</i> for the lower-left 
+          respectively upper-right corner or 4-tuple (loLat, loLon, hiLat, 
           hiLon) of bounds (<code>degrees</code>) if <i>LatLon</i> is 
           <code>None</code>.</dd>
     <dt>Raises:</dt>
@@ -3682,7 +3697,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
 <span class="py-prompt">&gt;&gt;&gt; </span>b = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
-<span class="py-prompt">&gt;&gt;&gt; </span>bounds(b)  <span class="py-comment"># False</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>boundsOf(b)  <span class="py-comment"># False</span>
 <span class="py-prompt">&gt;&gt;&gt; </span>45.0, 1.0, 46.0, 2.0</pre>
       </p>
 </div></td></tr></table>
@@ -3816,7 +3831,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </tr></table>
   
   <p>Clip a path against a rectangular clip box using the <a 
-  href="http://WikiPedia.org/wiki/Cohen&#8211;Sutherland_algorithm" 
+  href="http://WikiPedia.org/wiki/Cohen-Sutherland_algorithm" 
   target="_top">Cohen-Sutherland</a> algorithm.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -7964,7 +7979,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Dec 30 15:21:18 2018
+    Generated by Epydoc 3.0.1 on Fri Jan  4 08:05:11 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

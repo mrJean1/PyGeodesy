@@ -36,15 +36,15 @@ from datum import Datums
 from dms import parseDMS2
 from ellipsoidalBase import LatLonEllipsoidalBase as _ELLB
 from fmath import fdot, fpowers, Fsum, fsum_, map1
+from lazily import _ALL_LAZY
 from utily import degrees90, degrees180, enStr2, false2f, \
                   halfs2, property_RO
 
 from math import cos, radians, sin, sqrt, tan
 
 # all public contants, classes and functions
-__all__ = ('Osgr',  # classes
-           'parseOSGR', 'toOsgr')  # functions
-__version__ = '18.12.16'
+__all__ = _ALL_LAZY.osgr
+__version__ = '19.01.02'
 
 _10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (C{meter})
 _100km   = 100000  #: (INTERNAL) 100 km (int meter)

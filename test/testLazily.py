@@ -4,7 +4,7 @@
 # Test the lazy import module lazily.
 
 __all__ = ('Tests',)
-__version__ = '18.11.12'
+__version__ = '19.01.02'
 
 from base import TestsBase, ismacOS, isNix, isPython37, isWindows, PythonX
 from pygeodesy import lazily, __all__ as _all_
@@ -20,6 +20,10 @@ elif isWindows:  # XXX UNTESTED
     _env_cmd = 'set %s;' + _cmd
 else:
     _env_cmd = None
+
+_HOME = os.environ.get('HOME', '')
+if _HOME and _cmd.startswith(_HOME):
+    _cmd = '~' + _cmd[len(_HOME):]
 
 
 class Tests(TestsBase):

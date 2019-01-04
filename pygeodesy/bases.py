@@ -13,17 +13,15 @@ from dms import F_D, F_DMS, latDMS, lonDMS, parseDMS, parseDMS2
 from fmath import EPS, favg, map1, scalar
 from formy import antipode, compassAngle, equirectangular, \
                   haversine, isantipode
+from lazily import _ALL_LAZY
 from utily import R_M, points2, property_RO, unStr
 
 from math import asin, cos, degrees, radians, sin
 
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
-__all__ = (  # 'Based', 'Named', 'VectorBased',
-           'LatLonHeightBase',  # for documentation
-           'classname', 'classnaming',
-           'inStr')
-__version__ = '18.10.26'
+__all__ = _ALL_LAZY.bases  # 'Based', 'Named', 'VectorBased',
+__version__ = '19.01.02'
 
 __X = object()  # unique instance
 
@@ -231,25 +229,34 @@ class LatLonHeightBase(Based):
         return self.classof(a, b, height=h)
 
     def bounds(self, wide, high, radius=R_M):
+        '''DEPRECATED, use method C{boundsOf}.
+        '''
+        return self.boundsOf(wide, high, radius=radius)
+
+    def boundsOf(self, wide, high, radius=R_M):
         '''Return the SE and NW lat-/longitude of a great circle
            bounding box centered at this location.
 
-           @param wide: Longitudinal box width (C{meter}, same unts as I{radius}).
-           @param high: Latitudinal box height (C{meter}, same unts as I{radius}).
+           @param wide: Longitudinal box width (C{meter}, same units as
+                        I{radius} or C{degrees} if I{radius} is C{None}).
+           @param high: Latitudinal box height (C{meter}, same units as
+                        I{radius} or C{degrees} if I{radius} is C{None}).
            @keyword radius: Optional, mean earth radius (C{meter}).
 
            @return: 2-Tuple (LatLonSW, LatLonNE) of (C{LatLon}[]).
 
            @see: U{http://www.Movable-Type.co.UK/scripts/latlong-db.html}
         '''
-        a, _ = self.to2ab()
-        ca = cos(a)
-
-        if ca > EPS:
-            w = abs(degrees(asin(wide * 0.5 / radius) / ca))
-        else:
-            w = 0  # XXX
-        h = abs(degrees(high * 0.5 / radius))
+        w = wide * 0.5
+        h = high * 0.5
+        if radius:
+            a, _ = self.to2ab()
+            ca = cos(a)
+            if ca > EPS:
+                w = abs(degrees(asin(w / radius) / ca))
+            else:
+                w = 0  # XXX
+            h = abs(degrees(h / radius))
 
         return self.classof(self.lat - h, self.lon - w, height=self.height), \
                self.classof(self.lat + h, self.lon + w, height=self.height)

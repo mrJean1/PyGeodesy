@@ -14,29 +14,13 @@ U{Vector-based geodesy<http://www.Movable-Type.co.UK/scripts/latlong-vectors.htm
 from __future__ import division
 
 from fmath import _Seqs, EPS, len2, map2
+from lazily import _ALL_LAZY
 
 from math import cos, degrees, pi as PI, radians, tan  # pow
 
 # all public contants, classes and functions
-__all__ = ('PI', 'PI2', 'PI_2', 'PI_4', 'R_M',  # constants
-           'LimitError',  # classes
-           'anStr',
-           'degrees', 'degrees90', 'degrees180', 'degrees360', 'degrees2m',
-           'enStr2',
-           'false2f', 'ft2m',
-           'halfs2',
-           'issequence',
-           'isNumpy2', 'isPoints2', 'isTuple2',
-           'iterNumpy2', 'iterNumpy2over',
-           'limiterrors',
-           'm2degrees', 'm2ft', 'm2km', 'm2NM', 'm2SM',
-           'points2', 'polygon', 'property_RO',  # DEPRECATED
-           'radians', 'radiansPI_2', 'radiansPI', 'radiansPI2',
-           'tan_2', 'tanPI_2_2',
-           'unroll180', 'unrollPI', 'unStr',
-           'wrap90', 'wrap180', 'wrap360',
-           'wrapPI_2', 'wrapPI', 'wrapPI2')
-__version__ = '18.12.26'
+__all__ = _ALL_LAZY.utily
+__version__ = '19.01.02'
 
 division = 1 / 2  # double check int division, see .datum.py
 if not division:

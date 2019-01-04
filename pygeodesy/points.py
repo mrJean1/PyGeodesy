@@ -28,6 +28,7 @@ from bases import classname, inStr
 from dms import F_D, latDMS, lonDMS
 from fmath import EPS, favg, fdot, Fsum, fsum, isint, map1, scalar
 from formy import equirectangular_
+from lazily import _ALL_LAZY
 from utily import R_M, degrees360, degrees2m, issequence, points2, \
                   property_RO, unroll180, unrollPI, wrap90, wrap180
 from vector3d import CrossError, crosserrors
@@ -39,15 +40,8 @@ except ImportError:
 from inspect import isclass
 from math import atan2, cos, fmod, hypot, radians, sin
 
-__all__ = ('LatLon_',  # classes
-           'LatLon2psxy', 'Numpy2LatLon', 'Tuple2LatLon',
-           'areaOf',  # functions
-           'bounds',
-           'isclockwise', 'isconvex', 'isconvex_',
-           'isenclosedBy', 'isenclosedby',  # DEPRECATED
-           'ispolar', 'nearestOn3', 'nearestOn4',
-           'perimeterOf')
-__version__ = '18.12.16'
+__all__ = _ALL_LAZY.points
+__version__ = '19.01.02'
 
 
 class LatLon_(object):
@@ -886,8 +880,8 @@ def areaOf(points, adjust=True, radius=R_M, wrap=True):
     return abs(a) * float(radius)**2
 
 
-def bounds(points, wrap=True, LatLon=None):
-    '''Determine the lower-left and upper-right corners of a
+def boundsOf(points, wrap=True, LatLon=None):
+    '''Determine the lower-left SW and upper-right NE corners of a
        path or polygon.
 
        @param points: The path or polygon points (C{LatLon}[]).
@@ -895,10 +889,10 @@ def bounds(points, wrap=True, LatLon=None):
        @keyword LatLon: Optional (sub-)class to use to return I{bounds}
                         (C{LatLon}) or C{None}.
 
-       @return: 2-tuple (loLatLon, hiLatLon) of I{LatLon} for the
-                lower-left respectively upper-right corners or 4-Tuple
-                (loLat, loLon, hiLat, hiLon) of bounds (C{degrees}) if
-                I{LatLon} is C{None}.
+       @return: 2-Tuple (loLatLon, hiLatLon) of I{LatLon} for the
+                lower-left respectively upper-right corner or 4-tuple
+                (loLat, loLon, hiLat, hiLon) of bounds (C{degrees})
+                if I{LatLon} is C{None}.
 
        @raise TypeError: Some I{points} are not C{LatLon}.
 
@@ -907,7 +901,7 @@ def bounds(points, wrap=True, LatLon=None):
        @example:
 
        >>> b = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
-       >>> bounds(b)  # False
+       >>> boundsOf(b)  # False
        >>> 45.0, 1.0, 46.0, 2.0
     '''
     pts = LatLon2psxy(points, closed=False, radius=None, wrap=wrap)
@@ -926,10 +920,9 @@ def bounds(points, wrap=True, LatLon=None):
             hiy = y
 
     if LatLon is None:
-        b = loy, lox, hiy, hix
+        return loy, lox, hiy, hix
     else:
-        b = LatLon(loy, lox), LatLon(hiy, hix)
-    return b
+        return LatLon(loy, lox), LatLon(hiy, hix)  # PYCHOK inconsistent
 
 
 def _imdex2(closed, n):  # imported by sphericalNvector, -Trigonometry
@@ -1143,12 +1136,6 @@ def isenclosedBy(point, points, wrap=False):  # MCCABE 15
     if m and s.fsum() > 0:
         e = not e
     return e
-
-
-def isenclosedby(point, points, wrap=False):
-    '''DEPRECATED, use function L{isenclosedBy}.
-    '''
-    return isenclosedBy(point, points, wrap=wrap)
 
 
 def ispolar(points, wrap=False):

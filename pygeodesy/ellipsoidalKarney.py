@@ -30,14 +30,16 @@ or by converting to anothor datum:
 
 from datum import Datums
 from ellipsoidalBase import CartesianBase, LatLonEllipsoidalBase
-from points import ispolar  # PYCHOCK ispolar
+from lazily import _ALL_LAZY
+from points import ispolar  # PYCHOK ispolar
 from utily import points2, property_RO, unroll180, \
                   wrap90, wrap180, wrap360
 
 # all public contants, classes and functions
-__all__ = ('Cartesian', 'LatLon',  # classes
-           'areaOf', 'ispolar', 'perimeterOf')  # functions
-__version__ = '18.10.26'
+__all__ = _ALL_LAZY.ellipsoidalKarney + (
+          'Cartesian', 'LatLon',  # classes
+          'areaOf', 'ispolar', 'perimeterOf')  # functions
+__version__ = '19.01.02'
 
 
 class LatLon(LatLonEllipsoidalBase):

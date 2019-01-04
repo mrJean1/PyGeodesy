@@ -32,6 +32,7 @@ to a normalised version of an (ECEF) cartesian coordinate.
 
 from datum import R_M
 from fmath import EPS, fmean, fsum, fsum_, isscalar, map1
+from lazily import _ALL_LAZY
 from nvector import NorthPole, LatLonNvectorBase, \
                     Nvector as NvectorBase, sumOf
 from points import _imdex2, ispolar  # PYCHOK ispolar
@@ -41,13 +42,14 @@ from utily import PI, PI2, PI_2, degrees360, iterNumpy2
 from math import atan2, cos, radians, sin
 
 # all public contants, classes and functions
-__all__ = ('LatLon', 'Nvector',  # classes
-           'areaOf',  # functions
-           'intersection', 'ispolar',
-           'meanOf',
-           'nearestOn2',
-           'triangulate', 'trilaterate')
-__version__ = '18.12.26'
+__all__ = _ALL_LAZY.sphericalNvector + (
+          'LatLon', 'Nvector',  # classes
+          'areaOf',  # functions
+          'intersection', 'ispolar',
+          'meanOf',
+          'nearestOn2',
+          'triangulate', 'trilaterate')
+__version__ = '19.01.02'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
