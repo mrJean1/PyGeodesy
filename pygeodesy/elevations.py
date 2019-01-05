@@ -19,7 +19,7 @@ from fmath import fStr
 from lazily import _ALL_LAZY
 
 __all__ = _ALL_LAZY.elevations
-__version__ = '19.01.02'
+__version__ = '19.01.05'
 
 try:
     from urllib2 import urlopen  # quote, urlcleanup
@@ -133,7 +133,7 @@ def elevation2(lat, lon, timeout=2.0):
              and U{USGS10mElev.py<http://gist.GitHub.com/pyRobShrk?page=2>}.
     '''
     try:
-        x = _qURL('http://NED.USGS.gov/epqs/',
+        x = _qURL('http://NED.USGS.gov/epqs/',  # http://NationalMap.gov/epqs/
                          'x=%.6f' % (lon,),
                          'y=%.6f' % (lat,),
                          'units=Meters',

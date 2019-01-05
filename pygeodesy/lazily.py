@@ -100,7 +100,7 @@ _ALL_LAZY = _Enum_RO(_name='_ALL_LAZY',
                webmercator=('Wm', 'parseWM', 'toWm'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '19.01.02'
+__version__ = '19.01.05'
 
 
 def _all_imports(**more):
@@ -228,10 +228,10 @@ def _lazy_import2(pack_name):  # MCCABE 23
             if mod_name and mod_name != name:
                 z = ' from .%s' % (mod_name,)
             if isLazy > 2:
-                # sys._getframe(1) ... 'importlib._bootstrap' line 1032
-                # may throw: ValueError('call stack not deep enough')
+                # sys._getframe(1) ... 'importlib._bootstrap' line 1032,
+                # may throw a ValueError('call stack not deep enough')
                 try:
-                    f = sys._getframe(2)  # import line ...
+                    f = sys._getframe(2)  # importing line ...
                     n = f.f_code.co_filename
                     if cwdir and n.startswith(cwdir):
                         n = n[len(cwdir):]

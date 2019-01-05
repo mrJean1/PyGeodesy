@@ -40,7 +40,7 @@ __all__ = ('geographiclib', 'numpy',  # constants
            'TestsBase',  # classes
            'ios_ver', 'secs2str',  # functions
            'test_dir', 'tilde', 'type2str', 'versions')
-__version__ = '18.11.10'
+__version__ = '19.01.05'
 
 try:
     _Ints = int, long
@@ -51,19 +51,20 @@ except NameError:  # Python 3+
 
 _os_bitstr = architecture()[0]  # XXX sys.maxsize
 _pseudo_home_dir = dirname(PyGeodesy_dir or '~') or '~'
+_SIsecs = 'fs', 'ps', 'ns', 'us', 'ms', 'sec'  # reversed
 
 PythonX = sys.executable  # python or Pythonista path
-
 isIntelPython = 'intelpython' in PythonX
+
 # isiOS is used by some tests known to fail on iOS only
-isiOS         = sys.platform == 'ios'  # public
-ismacOS       = sys.platform == 'darwin'  # public
-isNix         = uname()[0] in ('Linux', 'linux')
-isPyPy        = '[PyPy ' in sys.version  # platform.python_implementation() == 'PyPy'
-isPython2     = sys.version_info[0] == 2
-isPython3     = sys.version_info[0] == 3
-isPython37    = sys.version_info[:2] >= (3, 7)  # for testLazy
-isWindows     = sys.platform.startswith('win')
+isiOS      = sys.platform == 'ios'  # public
+ismacOS    = sys.platform == 'darwin'  # public
+isNix      = uname()[0] in ('Linux', 'linux')
+isPyPy     = '[PyPy ' in sys.version  # platform.python_implementation() == 'PyPy'
+isPython2  = sys.version_info[0] == 2
+isPython3  = sys.version_info[0] == 3
+isPython37 = sys.version_info[:2] >= (3, 7)  # for testLazy
+isWindows  = sys.platform.startswith('win')
 
 try:
     # use distro only for Linux, not macOS, etc.
@@ -140,8 +141,11 @@ class TestsBase(object):
     def printf(self, fmt, *args, **kwds):  # nl=0, nt=0
         '''Print a formatted line to sys.stdout.
         '''
-        nl = '\n' * kwds.get('nl', 0)
-        nt = '\n' * kwds.get('nt', 0)
+        if kwds:
+            nl = '\n' * kwds.get('nl', 0)
+            nt = '\n' * kwds.get('nt', 0)
+        else:
+            nl = nt = ''
         print(''.join((nl, self._prefix, (fmt % args), nt)))
 
     def results(self, passed='passed', nl=1):
@@ -184,7 +188,7 @@ class TestsBase(object):
              tuple('%s=%s' % t for t in sorted(kwds.items()))
         self.printf('test%s(%s)', testing, ', '.join(t), nl=1)
 
-    def test(self, name, value, expect, fmt='%s', known=False, nt=0):
+    def test(self, name, value, expect, fmt='%s', known=False, **kwds):
         '''Compare a test value with the expected one.
         '''
         if self._iterisk:
@@ -203,7 +207,7 @@ class TestsBase(object):
 
         self.total += 1  # tests
         if f or self._verbose:
-            self.printf('test %d %s: %s%s', self.total, name, v, f, nt=nt)
+            self.printf('test %d %s: %s%s', self.total, name, v, f, **kwds)
 
     def test__(self, fmt, *args, **kwds):
         '''Print subtotal test line.
@@ -254,13 +258,13 @@ else:  # non-iOS
 
 
 def secs2str(secs):
-    '''Convert a time value to string.
+    '''Convert a seconds value to string.
     '''
-    unit = ['sec', 'ms', 'us', 'ps']
-    while secs < 1 and len(unit) > 1:
+    unit = len(_SIsecs) - 1
+    while 0 < secs < 1 and unit > 0:
         secs *= 1000.0
-        unit.pop(0)
-    return '%.3f %s' % (secs, unit[0])
+        unit -= 1
+    return '%.3f %s' % (secs, _SIsecs[unit])
 
 
 def tilde(path):

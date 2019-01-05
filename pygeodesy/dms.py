@@ -16,13 +16,13 @@ from lazily import _ALL_LAZY
 
 from math import copysign, radians
 try:
-    from string import letters as LETTERS
+    from string import letters as _LETTERS
 except ImportError:  # Python 3+
-    from string import ascii_letters as LETTERS
+    from string import ascii_letters as _LETTERS
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.dms
-__version__ = '19.01.02'
+__version__ = '19.01.05'
 
 F_D   = 'd'    #: Format degrees as deg° (C{str}).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (C{str}).
@@ -319,7 +319,7 @@ def parse3llh(strll, height=0, sep=',', clipLat=90, clipLon=180):
     try:
         ll = strll.strip().split(sep)
         if len(ll) > 2:  # XXX interpret height unit
-            h = float(ll.pop(2).strip().rstrip(LETTERS).rstrip())
+            h = float(ll.pop(2).strip().rstrip(_LETTERS).rstrip())
         else:
             h = height
         if len(ll) != 2:

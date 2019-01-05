@@ -55,12 +55,12 @@ with U{PyChecker<http://PyPI.org/project/pychecker>},
 U{PyFlakes<http://PyPI.org/project/pyflakes>},
 U{PyCodeStyle<http://PyPI.org/project/pycodestyle>} (formerly Pep8) and
 U{McCabe<http://PyPI.org/project/mccabe>} using Python 2.7.15 and with
-U{Flake8<http://PyPI.org/project/flake8>} using Python 3.7.1, both in
+U{Flake8<http://PyPI.org/project/flake8>} using Python 3.7.2, both in
 64-bit on macOS 10.13.6 High Sierra.
 
 The tests have been run with Python 2.7.15 (with U{geographiclib
 <http://PyPI.org/project/geographiclib>} 1.49 and U{numpy
-<http://PyPI.org/project/numpy>} 1.15.2), with Python 3.7.1 (with
+<http://PyPI.org/project/numpy>} 1.15.2), with Python 3.7.2 (with
 U{geographiclib<http://PyPI.org/project/geographiclib>} 1.49) and with
 U{PyPy<http://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3) on macOS
 10.13.6 High Sierra, with Python 2.6.9, 2.7.14, 3.5.6 and 3.6.3 (and
@@ -72,7 +72,7 @@ all in 64-bit only and with Python 2.7.15, 3.6.6 and 3.7.0 (all with
 U{geographiclib<http://PyPI.org/project/geographiclib>} 1.49) on
 U{Windows Server 2012R2<http://CI.AppVeyor.com/project/mrJean1/pygeodesy>}
 in 32- and 64-bit.  The tests are run with and without lazy import on
-Python 3.7.0 and 3.7.1.
+Python 3.7.0 and 3.7.2.
 
 Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 2.7.10
 (and numpy 1.8.0rc1), 2.7.13, 2.7.14 (and numpy 1.13.1 or 1.14.0), 3.5.3,
@@ -180,7 +180,7 @@ from os.path import abspath, basename, dirname
 _init_abspath     = abspath(__file__)
 pygeodesy_abspath = dirname(_init_abspath)
 
-__version__ = '19.01.02'
+__version__ = '19.01.05'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 
