@@ -82,7 +82,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.01.02
+        19.02.11
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -221,7 +221,31 @@
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.sphericalTrigonometry.LatLon'&gt;</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
-      Locate the point on a polygon closest to an other point.</td>
+      DEPRECATED, use function <a 
+      href="pygeodesy.sphericalTrigonometry-module.html#nearestOn3" 
+      class="link">sphericalTrigonometry.nearestOn3</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry-module.html#nearestOn3" class="summary-sig-name">nearestOn3</a>(<span class="summary-sig-arg">point</span>,
+        <span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.sphericalTrigonometry.LatLon'&gt;</span>,
+        <span class="summary-sig-arg">**options</span>)</span><br />
+      Locate the point on a polygon closest to an other, reference point.</td>
           <td align="right" valign="top">
             
             
@@ -490,7 +514,37 @@
     </td>
   </tr></table>
   
-  <p>Locate the point on a polygon closest to an other point.</p>
+  <p>DEPRECATED, use function <a 
+  href="pygeodesy.sphericalTrigonometry-module.html#nearestOn3" 
+  class="link">sphericalTrigonometry.nearestOn3</a>.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>... <i>closest</i> as <i>LatLon</i> or a 2-tuple (lat, lon) 
+          without the height if <i>LatLon</i> is <code>None</code> ...</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="nearestOn3"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn3</span>(<span class="sig-arg">point</span>,
+        <span class="sig-arg">points</span>,
+        <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.sphericalTrigonometry.LatLon'&gt;</span>,
+        <span class="sig-arg">**options</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Locate the point on a polygon closest to an other, reference 
+  point.</p>
   <p>Distances are approximated by function <a 
   href="pygeodesy.formy-module.html#equirectangular_" 
   class="link">equirectangular_</a>, subject to the supplied 
@@ -514,14 +568,21 @@
           class="link">equirectangular_</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (<i>closest</i>, <i>distance</i>) of the closest point on
-          the polygon and the distance to that point.  The <i>closest</i> 
-          as <i>LatLon</i> or a 2-tuple (lat, lon) if <i>LatLon</i> is 
-          <code>None</code>.  The <i>distance</i> is the <a 
-          href="pygeodesy.formy-module.html#equirectangular_" 
+        <dd>3-Tuple (<i>closest</i>, <i>distance</i>, <i>angle</i>) of the 
+          closest point (<a 
+          href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
+          class="link">LatLon</a>) on the polygon, the distance and the 
+          compass angle to the <i>closest</i> point.  The <i>closest</i> is
+          an instance of <i>LatLon</i> or a 3-tuple (lat, lon, height) if 
+          <i>LatLon</i> is <code>None</code>.  The <i>distance</i> is the 
+          <a href="pygeodesy.formy-module.html#equirectangular_" 
           class="link">equirectangular_</a> distance between the 
           <i>closest</i> and reference <i>point</i> in <code>meter</code>, 
-          same units as <i>radius</i>.</dd>
+          same units as <i>radius</i>.  The <i>angle</i> from the reference
+          <i>point</i> to the <i>closest</i> is in compass 
+          <code>degrees360</code>, like function <a 
+          href="pygeodesy.formy-module.html#compassAngle" 
+          class="link">compassAngle</a>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
@@ -623,7 +684,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Feb 10 19:47:47 2019
+    Generated by Epydoc 3.0.1 on Mon Feb 11 15:24:59 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

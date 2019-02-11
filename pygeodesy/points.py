@@ -41,7 +41,7 @@ from inspect import isclass
 from math import atan2, cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '19.02.10'
+__version__ = '19.02.11'
 
 
 class LatLon_(object):
@@ -1219,7 +1219,8 @@ def nearestOn5(point, points, closed=False, wrap=False, **options):
                 and the reference I{point} in C{degrees}.  The I{angle}
                 from the reference I{point} to the closest point is in
                 compass C{degrees360}, like function L{compassAngle}.
-                The I{height} is the elevation in C{meter} or zero.
+                The I{height} is the (interpolated) height at the
+                closest point in C{meter} or zero.
 
        @raise LimitError: Lat- and/or longitudinal delta exceeds
                           I{limit}, see function L{equirectangular_}.

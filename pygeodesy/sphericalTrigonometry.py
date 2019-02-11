@@ -17,7 +17,7 @@ from datum import R_M
 from fmath import EPS, acos1, favg, fdot, fmean, fsum, isscalar, map1
 from formy import antipode, bearing_, haversine_
 from lazily import _ALL_LAZY
-from points import _imdex2, ispolar, nearestOn5
+from points import _imdex2, ispolar, nearestOn5 as _nearestOn5
 from sphericalBase import LatLonSphericalBase
 from utily import PI2, PI_2, PI_4, degrees90, degrees180, degrees2m, \
                   iterNumpy2, radiansPI2, tan_2, unrollPI, wrapPI
@@ -31,9 +31,9 @@ __all__ = _ALL_LAZY.sphericalTrigonometry + (
           'areaOf',  # functions
           'intersection', 'ispolar', 'isPoleEnclosedBy',  # DEPRECATED, use ispolar
           'meanOf',
-          'nearestOn2',
+          'nearestOn2', 'nearestOn3',
           'perimeterOf')
-__version__ = '19.01.02'
+__version__ = '19.02.11'
 
 
 class LatLon(LatLonSphericalBase):
@@ -528,27 +528,9 @@ class LatLon(LatLonSphericalBase):
            Distances are approximated by function L{equirectangular_},
            subject to the supplied I{options}.
 
-           @param points: The polygon points (L{LatLon}[]).
-           @keyword closed: Optionally, close the polygon (C{bool}).
-           @keyword radius: Optional, mean earth radius (C{meter}).
-           @keyword options: Optional keyword arguments for function
-                             L{equirectangular_}.
-
-           @return: 2-Tuple (I{closest}, I{distance}) of the closest
+           @return: ... 2-Tuple (I{closest}, I{distance}) of the closest
                     point (L{LatLon}) on the polygon and the distance
-                    to that point.  The I{distance} is the
-                    L{equirectangular_} distance between this and the
-                    closest point in C{meter}, same units as I{radius}.
-
-           @raise LimitError: Lat- and/or longitudinal delta exceeds
-                              I{limit}, see function L{equirectangular_}.
-
-           @raise TypeError: Some I{points} are not C{LatLon}.
-
-           @raise ValueError: Insufficient number of I{points}.
-
-           @see: Functions L{equirectangular_} and L{nearestOn5} and
-                 method L{sphericalTrigonometry.LatLon.nearestOn3}.
+                    to that point ...
         '''
         return self.nearestOn3(points, closed=closed, radius=radius,
                                      **options)[:2]
@@ -584,7 +566,7 @@ class LatLon(LatLonSphericalBase):
            @see: Functions L{compassAngle}, L{equirectangular_} and
                  L{nearestOn5}.
         '''
-        a, b, d, c, h = nearestOn5(self, points, closed=closed, **options)
+        a, b, d, c, h = _nearestOn5(self, points, closed=closed, **options)
         return self.classof(a, b, height=h), degrees2m(d, radius=radius), c
 
     def toVector3d(self):
@@ -889,7 +871,19 @@ def meanOf(points, height=None, LatLon=LatLon):
 
 def nearestOn2(point, points, closed=False, radius=R_M,
                               LatLon=LatLon, **options):
-    '''Locate the point on a polygon closest to an other point.
+    '''DEPRECATED, use function L{sphericalTrigonometry.nearestOn3}.
+
+       @return: ... I{closest} as I{LatLon} or a 2-tuple (lat, lon)
+                without the height if I{LatLon} is C{None} ...
+    '''
+    a, b, d, _, h = _nearestOn5(point, points, closed=closed, **options)
+    ll = (a, b) if LatLon is None else LatLon(a, b, height=h)
+    return ll, degrees2m(d, radius=radius)
+
+
+def nearestOn3(point, points, closed=False, radius=R_M,
+                              LatLon=LatLon, **options):
+    '''Locate the point on a polygon closest to an other, reference point.
 
        Distances are approximated by function L{equirectangular_},
        subject to the supplied I{options}.
@@ -903,12 +897,16 @@ def nearestOn2(point, points, closed=False, radius=R_M,
        @keyword options: Optional keyword arguments for function
                          L{equirectangular_}.
 
-       @return: 2-Tuple (I{closest}, I{distance}) of the closest point
-                on the polygon and the distance to that point.  The
-                I{closest} as I{LatLon} or a 2-tuple (lat, lon) if
-                I{LatLon} is C{None}.  The I{distance} is the
-                L{equirectangular_} distance between the I{closest} and
-                reference I{point} in C{meter}, same units as I{radius}.
+       @return: 3-Tuple (I{closest}, I{distance}, I{angle}) of the
+                closest point (L{LatLon}) on the polygon, the distance
+                and the compass angle to the I{closest} point.  The
+                I{closest} is an instance of I{LatLon} or a 3-tuple
+                (lat, lon, height) if I{LatLon} is C{None}.  The
+                I{distance} is the L{equirectangular_} distance between
+                the I{closest} and reference I{point} in C{meter}, same
+                units as I{radius}.  The I{angle} from the reference
+                I{point} to the I{closest} is in compass C{degrees360},
+                like function L{compassAngle}.
 
        @raise LimitError: Lat- and/or longitudinal delta exceeds
                           I{limit}, see function L{equirectangular_}.
@@ -919,9 +917,9 @@ def nearestOn2(point, points, closed=False, radius=R_M,
 
        @see: Functions L{equirectangular_} and L{nearestOn5}.
     '''
-    a, b, d, _, h = nearestOn5(point, points, closed=closed, **options)
-    ll = (a, b) if LatLon is None else LatLon(a, b, height=h)
-    return ll, degrees2m(d, radius=radius)
+    a, b, d, c, h = _nearestOn5(point, points, closed=closed, **options)
+    llh = (a, b, h) if LatLon is None else LatLon(a, b, height=h)
+    return llh, degrees2m(d, radius=radius), c
 
 
 def perimeterOf(points, closed=False, radius=R_M, wrap=True):

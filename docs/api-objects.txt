@@ -644,7 +644,6 @@ pygeodesy.sphericalTrigonometry._destination2_	pygeodesy.sphericalTrigonometry-m
 pygeodesy.sphericalTrigonometry.isPoleEnclosedBy	pygeodesy.sphericalTrigonometry-module.html#isPoleEnclosedBy
 pygeodesy.sphericalTrigonometry.areaOf	pygeodesy.sphericalTrigonometry-module.html#areaOf
 pygeodesy.sphericalTrigonometry.nearestOn2	pygeodesy.sphericalTrigonometry-module.html#nearestOn2
-pygeodesy.sphericalTrigonometry.nearestOn5	pygeodesy.points-module.html#nearestOn5
 pygeodesy.sphericalTrigonometry.acos1	pygeodesy.fmath-module.html#acos1
 pygeodesy.sphericalTrigonometry.antipode	pygeodesy.formy-module.html#antipode
 pygeodesy.sphericalTrigonometry.PI2	pygeodesy.sphericalTrigonometry-module.html#PI2
@@ -653,7 +652,9 @@ pygeodesy.sphericalTrigonometry.radiansPI2	pygeodesy.utily-module.html#radiansPI
 pygeodesy.sphericalTrigonometry.degrees2m	pygeodesy.utily-module.html#degrees2m
 pygeodesy.sphericalTrigonometry.haversine_	pygeodesy.formy-module.html#haversine_
 pygeodesy.sphericalTrigonometry.iterNumpy2	pygeodesy.utily-module.html#iterNumpy2
+pygeodesy.sphericalTrigonometry.nearestOn3	pygeodesy.sphericalTrigonometry-module.html#nearestOn3
 pygeodesy.sphericalTrigonometry.fmean	pygeodesy.fmath-module.html#fmean
+pygeodesy.sphericalTrigonometry._nearestOn5	pygeodesy.points-module.html#nearestOn5
 pygeodesy.sphericalTrigonometry.map1	pygeodesy.fmath-module.html#map1
 pygeodesy.sphericalTrigonometry.R_M	pygeodesy.sphericalTrigonometry-module.html#R_M
 pygeodesy.sphericalTrigonometry.fdot	pygeodesy.fmath-module.html#fdot
