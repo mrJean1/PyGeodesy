@@ -21,7 +21,7 @@ from math import asin, cos, degrees, radians, sin
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_LAZY.bases  # 'Based', 'Named', 'VectorBased',
-__version__ = '19.01.02'
+__version__ = '19.01.06'
 
 __X = object()  # unique instance
 
@@ -709,7 +709,7 @@ def classnaming(prefixed=None):
     '''
     t = Named._classnaming
     if prefixed in (True, False):
-        Named._classnaming = bool(prefixed)
+        Named._classnaming = prefixed
     return t
 
 

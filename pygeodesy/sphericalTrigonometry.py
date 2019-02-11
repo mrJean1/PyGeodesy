@@ -17,7 +17,7 @@ from datum import R_M
 from fmath import EPS, acos1, favg, fdot, fmean, fsum, isscalar, map1
 from formy import antipode, bearing_, haversine_
 from lazily import _ALL_LAZY
-from points import _imdex2, ispolar, nearestOn4
+from points import _imdex2, ispolar, nearestOn5
 from sphericalBase import LatLonSphericalBase
 from utily import PI2, PI_2, PI_4, degrees90, degrees180, degrees2m, \
                   iterNumpy2, radiansPI2, tan_2, unrollPI, wrapPI
@@ -516,7 +516,7 @@ class LatLon(LatLonSphericalBase):
 
            @raise TypeError: If I{point1} or I{point2} is not L{LatLon}.
 
-           @see: Functions L{equirectangular_} and L{nearestOn4} and
+           @see: Functions L{equirectangular_} and L{nearestOn5} and
                  method L{sphericalTrigonometry.LatLon.nearestOn3}.
         '''
         return self.nearestOn3([point1, point2], closed=False, radius=radius,
@@ -547,7 +547,7 @@ class LatLon(LatLonSphericalBase):
 
            @raise ValueError: Insufficient number of I{points}.
 
-           @see: Functions L{equirectangular_} and L{nearestOn4} and
+           @see: Functions L{equirectangular_} and L{nearestOn5} and
                  method L{sphericalTrigonometry.LatLon.nearestOn3}.
         '''
         return self.nearestOn3(points, closed=closed, radius=radius,
@@ -582,10 +582,10 @@ class LatLon(LatLonSphericalBase):
            @raise ValueError: Insufficient number of I{points}.
 
            @see: Functions L{compassAngle}, L{equirectangular_} and
-                 L{nearestOn4}.
+                 L{nearestOn5}.
         '''
-        a, b, d, c = nearestOn4(self, points, closed=closed, **options)
-        return self.classof(a, b), degrees2m(d, radius=radius), c
+        a, b, d, c, h = nearestOn5(self, points, closed=closed, **options)
+        return self.classof(a, b, height=h), degrees2m(d, radius=radius), c
 
     def toVector3d(self):
         '''Convert this point to a vector normal to earth's surface.
@@ -917,10 +917,10 @@ def nearestOn2(point, points, closed=False, radius=R_M,
 
        @raise ValueError: Insufficient number of I{points}.
 
-       @see: Functions L{equirectangular_} and L{nearestOn3}.
+       @see: Functions L{equirectangular_} and L{nearestOn5}.
     '''
-    a, b, d, _ = nearestOn4(point, points, closed=closed, **options)
-    ll = (a, b) if LatLon is None else LatLon(a, b)
+    a, b, d, _, h = nearestOn5(point, points, closed=closed, **options)
+    ll = (a, b) if LatLon is None else LatLon(a, b, height=h)
     return ll, degrees2m(d, radius=radius)
 
 

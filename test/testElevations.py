@@ -4,7 +4,7 @@
 # Test elevations functions.
 
 __all__ = ('Tests',)
-__version__ = '18.10.12'
+__version__ = '19.01.08'
 
 from base import isPython2, isPython3, TestsBase
 
@@ -38,7 +38,7 @@ class Tests(TestsBase):
             self.test('geodHeight2', m, h, fmt='%s' if m is None else '%.3f')  # PYCHOK test attr?
 
         m, x = elevation2(0, 0, timeout=timeout)
-        self.testError('elevation2', m, x, "ValueError('non-CONUS')")
+        self.testError('elevation2', m, x, 'non-CONUS -1000000.00')
         m, x = geoidHeight2(0, 0, timeout=timeout)
         self.testError('geoidHeight2', m, x, "<HTTPError 403: 'Forbidden'>" if isPython3
                                         else ('HTTPError()' if isPython2 else 'isPython?'))

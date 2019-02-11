@@ -41,7 +41,7 @@ from inspect import isclass
 from math import atan2, cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '19.01.02'
+__version__ = '19.02.10'
 
 
 class LatLon_(object):
@@ -55,9 +55,9 @@ class LatLon_(object):
     # 276+, O'Reilly, 2016, also at <http://Books.Google.ie/
     #   books?id=bIZHCgAAQBAJ&lpg=PP1&dq=fluent%20python&pg=
     #   PT364#v=onepage&q=“Problems%20with%20__slots__”&f=false>
-    __slots__ = ('lat', 'lon', 'name')
+    __slots__ = ('lat', 'lon', 'name', 'height')
 
-    def __init__(self, lat, lon, name=''):
+    def __init__(self, lat, lon, name='', height=0):
         '''Creat a new, mininal, low-overhead L{LatLon_} instance,
            without heigth and datum.
 
@@ -71,6 +71,7 @@ class LatLon_(object):
         self.lat = float(lat)
         self.lon = float(lon)
         self.name = str(name)
+        self.height = height
 
     def __eq__(self, other):
         return isinstance(other, LatLon_) and \
@@ -139,6 +140,8 @@ class LatLon_(object):
         '''
         t = [latDMS(self.lat, form=form, prec=prec),
              lonDMS(self.lon, form=form, prec=prec)]
+        if self.height:
+            t += ['%+.2f' % (self.height,)]
         if self.name:
             t += [repr(self.name)]
         if kwds:
@@ -1179,43 +1182,20 @@ def ispolar(points, wrap=False):
 
 
 def nearestOn3(point, points, closed=False, wrap=False, **options):
-    '''Locate the point on a path or polygon closest to an other point.
-
-       If the given point is within the extent of a polygon edge,
-       the closest point is on that edge, otherwise the closest
-       point is the nearest of that edge's end points.
-
-       Distances are approximated by function L{equirectangular_},
-       subject to the supplied I{options}.
-
-       @param point: The other, reference point (C{LatLon}).
-       @param points: The path or polygon points (C{LatLon}[]).
-       @keyword closed: Optionally, close the path or polygon (C{bool}).
-       @keyword wrap: Wrap and L{unroll180} longitudes and longitudinal
-                      delta (C{bool}) in function L{equirectangular_}.
-       @keyword options: Other keyword arguments for function
-                         L{equirectangular_}.
-
-       @return: 3-Tuple (lat, lon, I{distance}) all in C{degrees}.
-                The I{distance} is the L{equirectangular_} distance
-                between the closest and the reference I{point} in
-                C{degrees}.
-
-       @raise LimitError: Lat- and/or longitudinal delta exceeds
-                          I{limit}, see function L{equirectangular_}.
-
-       @raise TypeError: Some I{points} are not C{LatLon}.
-
-       @raise ValueError: Insufficient number of I{points}.
-
-       @see: Function L{nearestOn4}.  Use function L{degrees2m} to
-             convert C{degrees} to C{meter}.
+    '''DEPRECATED, use function L{nearestOn5}.
     '''
-    return nearestOn4(point, points, closed=closed, wrap=wrap,
+    return nearestOn5(point, points, closed=closed, wrap=wrap,
                                    **options)[:3]
 
 
 def nearestOn4(point, points, closed=False, wrap=False, **options):
+    '''DEPRECATED, use function L{nearestOn5}.
+    '''
+    return nearestOn5(point, points, closed=closed, wrap=wrap,
+                                   **options)[:4]
+
+
+def nearestOn5(point, points, closed=False, wrap=False, **options):
     '''Locate the point on a path or polygon closest to an other point.
 
        If the given point is within the extent of a polygon edge,
@@ -1233,12 +1213,13 @@ def nearestOn4(point, points, closed=False, wrap=False, **options):
        @keyword options: Other keyword arguments for function
                          L{equirectangular_}.
 
-       @return: 4-Tuple (lat, lon, I{distance}, I{angle}) all in
-                C{degrees}.  The I{distance} is the L{equirectangular_}
-                distance between the closest and the reference I{point}
-                in C{degrees}.  The I{angle} from the reference I{point}
-                to the closest point is in compass C{degrees360}, like
-                function L{compassAngle}.
+       @return: 5-Tuple (lat, lon, I{distance}, I{angle}, I{height})
+                all in C{degrees} except I{height}.  The I{distance}
+                is the L{equirectangular_} distance between the closest
+                and the reference I{point} in C{degrees}.  The I{angle}
+                from the reference I{point} to the closest point is in
+                compass C{degrees360}, like function L{compassAngle}.
+                The I{height} is the elevation in C{meter} or zero.
 
        @raise LimitError: Lat- and/or longitudinal delta exceeds
                           I{limit}, see function L{equirectangular_}.
@@ -1247,8 +1228,7 @@ def nearestOn4(point, points, closed=False, wrap=False, **options):
 
        @raise ValueError: Insufficient number of I{points}.
 
-       @see: Function L{nearestOn3}.  Use function L{degrees2m} to
-             convert C{degrees} to C{meter}.
+       @see: Use function L{degrees2m} to convert C{degrees} to C{meter}.
     '''
     n, points = points2(points, closed=closed)
 
@@ -1260,6 +1240,12 @@ def nearestOn4(point, points, closed=False, wrap=False, **options):
         # is also applied to the next edge's p1.lon
         return equirectangular_(p1.lat, p1.lon + u,
                                 p2.lat, p2.lon, wrap=w, **options)
+
+    def _h(p):
+        try:  # get height
+            return p.height
+        except AttributeError:
+            return 0
 
     # point (x, y) on axis rotated ccw by angle a:
     #   x' = y * sin(a) + x * cos(a)
@@ -1301,14 +1287,16 @@ def nearestOn4(point, points, closed=False, wrap=False, **options):
                         # original delta's, not y21 and x21
                         f = w2 / d21
                         p1 = LatLon_(favg(p1.lat, p2.lat, f=f),
-                                     favg(p1.lon, p2.lon + u2, f=f))
+                                     favg(p1.lon, p2.lon + u2, f=f),
+                              height=favg(_h(p1), _h(p2), f=f))
                         u1 = 0
                     else:  # p2 is closest
                         p1, u1 = p2, u2
                     d2, y01, x01, _ = _d2yx(point, p1, u1, n)
             if d2 < d:  # p1 is closer, y01 and x01 inverted
                 c, u, d, dy, dx = p1, u1, d2, -y01, -x01
-    return c.lat, c.lon + u, hypot(dx, dy), degrees360(atan2(dx, dy))
+    d = degrees360(atan2(dx, dy))
+    return c.lat, c.lon + u, hypot(dx, dy), d, _h(c)
 
 
 def perimeterOf(points, closed=False, adjust=True, radius=R_M, wrap=True):

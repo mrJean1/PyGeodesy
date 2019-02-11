@@ -82,12 +82,13 @@ _ALL_LAZY = _Enum_RO(_name='_ALL_LAZY',
                       osgr=('Osgr', 'parseOSGR', 'toOsgr'),
                     points=('LatLon_', 'LatLon2psxy', 'Numpy2LatLon', 'Tuple2LatLon',
                             'areaOf', 'boundsOf', 'isclockwise', 'isconvex', 'isconvex_', 'isenclosedBy', 'ispolar',
-                            'nearestOn3', 'nearestOn4', 'perimeterOf'),
+                            'nearestOn3', 'nearestOn4', 'nearestOn5', 'perimeterOf'),
           sphericalNvector=(),  # module only
      sphericalTrigonometry=(),  # module only
                   simplify=('simplify1', 'simplify2', 'simplifyRDP', 'simplifyRDPm', 'simplifyRW', 'simplifyVW', 'simplifyVWm'),
                      utily=('PI', 'PI2', 'PI_2', 'PI_4', 'R_M', 'LimitError',
-                            'anStr', 'degrees', 'degrees90', 'degrees180', 'degrees360', 'degrees2m',
+                            'anStr', 'clipStr',
+                            'degrees', 'degrees90', 'degrees180', 'degrees360', 'degrees2m',
                             'enStr2', 'false2f', 'ft2m', 'halfs2',
                             'issequence', 'isNumpy2', 'isPoints2', 'isTuple2', 'iterNumpy2', 'iterNumpy2over',
                             'limiterrors', 'm2degrees', 'm2ft', 'm2km', 'm2NM', 'm2SM',
@@ -100,7 +101,7 @@ _ALL_LAZY = _Enum_RO(_name='_ALL_LAZY',
                webmercator=('Wm', 'parseWM', 'toWm'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '19.01.05'
+__version__ = '19.02.10'
 
 
 def _all_imports(**more):

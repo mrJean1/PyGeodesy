@@ -17,9 +17,10 @@ C{"/Applications/Python X.Y/Install Certificates.command"}
 
 from fmath import fStr
 from lazily import _ALL_LAZY
+from utily import clipStr
 
 __all__ = _ALL_LAZY.elevations
-__version__ = '19.01.05'
+__version__ = '19.01.08'
 
 try:
     from urllib2 import urlopen  # quote, urlcleanup
@@ -66,20 +67,20 @@ except ImportError:
 
 
 def _error(fun, lat, lon, e):
-    '''(INTERNAL) Format an error'
+    '''(INTERNAL) Format an error
     '''
-    return '%s(%s): %r' % (fun.__name__, fStr((lat, lon)), e)
+    return '%s(%s): %s' % (fun.__name__, fStr((lat, lon)), e)
 
 
-def _qURL(url, *params, **timeout):
-    '''(INTERNAL) Build I{url} query and get response.
+def _qURL(url, params, timeout=2):
+    '''(INTERNAL) Build I{url} query, get and verify response.
     '''
     if params:  # build url query, do not map(quote, params)!
         url += '?' + '&'.join(_ for _ in map(str, params) if _)
-    u = urlopen(url, **timeout)  # secs
+    u = urlopen(url, timeout=timeout)  # secs
 
     s = u.getcode()
-    if s != 200:
+    if s != 200:  # http.HTTPStatus.OK or http.client.OK
         raise IOError('code %d: %s' % (s, u.geturl()))
 
     r = u.read()
@@ -88,7 +89,7 @@ def _qURL(url, *params, **timeout):
 
     if isinstance(r, _Bytes):
         r = r.decode('utf-8')
-    return r
+    return r.strip()
 
 
 def _xml(tag, xml):
@@ -108,7 +109,7 @@ def _xml(tag, xml):
         j = xml.find('</%s>' % (tag,), i)
         if j > i:
             return xml[i:j].strip()
-    return 'no <%s>' % (tag,)
+    return 'no XML tag <%s>' % (tag,)
 
 
 def elevation2(lat, lon, timeout=2.0):
@@ -130,28 +131,29 @@ def elevation2(lat, lon, timeout=2.0):
        @see: U{USGS National Map<http://NationalMap.gov/epqs>},
              the U{FAQ<http://www.USGS.gov/faqs/what-are-projection-
              horizontal-and-vertical-datum-units-and-resolution-3dep-standard-dems>}
-             and U{USGS10mElev.py<http://gist.GitHub.com/pyRobShrk?page=2>}.
+             and U{USGS10mElev.py<http://gist.GitHub.com/pyRobShrk>}.
     '''
     try:
-        x = _qURL('http://NED.USGS.gov/epqs/',  # http://NationalMap.gov/epqs/
-                         'x=%.6f' % (lon,),
+        x = _qURL('http://NED.USGS.gov/epqs/pqs.php',  # http://NationalMap.gov/epqs/pqs.php
+                        ('x=%.6f' % (lon,),
                          'y=%.6f' % (lat,),
-                         'units=Meters',
-                         'output=xml',
+                         'units=Meters',  # Feet
+                         'output=xml'),
                           timeout=float(timeout))
-
-        e = _xml('Elevation', x)
-        try:
-            e = float(e)
-            if -100000 < e < 1000000:
-                return e, _xml('Data_Source', x)
-            e = 'non-CONUS'
-        except ValueError:
-            pass
-
-        raise ValueError(e)
+        if x[:6] == '<?xml ':
+            e = _xml('Elevation', x)
+            try:
+                e = float(e)
+                if -1000000 < e < 1000000:
+                    return e, _xml('Data_Source', x)
+                e = 'non-CONUS %.2f' % (e,)
+            except ValueError:
+                pass
+        else:
+            e = 'no XML "%s"' % (clipStr(x, limit=128, white=' '),)
     except (IOError, TypeError, ValueError) as x:
-        return None, _error(elevation2, lat, lon, x)
+        e = repr(x)
+    return None, _error(elevation2, lat, lon, e)
 
 
 def geoidHeight2(lat, lon, model=0, timeout=2.0):
@@ -176,21 +178,24 @@ def geoidHeight2(lat, lon, model=0, timeout=2.0):
              U{Geoid<http://www.NGS.NOAA.gov/web_services/geoid.shtml>}
     '''
     try:
-        d = _json(_qURL('http://Geodesy.NOAA.gov/api/geoid/ght',
-                               'lat=%.6f' % (lat,),
-                               'lon=%.6f' % (lon,),
-                               'model=%d' % (model,) if model else '',
-                                timeout=float(timeout)))
-
-        e = d.get('error', 'N/A')
-        if isinstance(e, float):
-            h = d.get('geoidHeight', None)
-            if h is not None:
-                return h, d.get('geoidModel', 'N/A')
-
-        raise ValueError(e)
+        j = _qURL('http://Geodesy.NOAA.gov/api/geoid/ght',
+                        ('lat=%.6f' % (lat,),
+                         'lon=%.6f' % (lon,),
+                         'model=%s' % (model,) if model else ''),
+                          timeout=float(timeout))  # PYCHOK 5
+        if j[:1] == '{' and j[-1:] == '}' and j.find('"error":') > 0:
+            d = _json(j)
+            if isinstance(d.get('error', 'N/A'), float):
+                h = d.get('geoidHeight', None)
+                if h is not None:
+                    return h, d.get('geoidModel', 'N/A')
+            e = 'geoidHeight'
+        else:
+            e = 'JSON'
+        e = 'no %s "%s"' % (e, clipStr(j, limit=256, white=' '))
     except (IOError, TypeError, ValueError) as x:
-        return None, _error(geoidHeight2, lat, lon, x)
+        e = repr(x)
+    return None, _error(geoidHeight2, lat, lon, e)
 
 
 if __name__ == '__main__':

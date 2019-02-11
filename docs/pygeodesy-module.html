@@ -213,7 +213,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.01.05
+        19.02.10
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -973,6 +973,25 @@
       Clip a polygon against a clip region or box using the <a 
       href="http://WikiPedia.org/wiki/Sutherland_Hodgman_algorithm" 
       target="_top">Sutherland_Hodgman</a> algorithm.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#clipStr" class="summary-sig-name">clipStr</a>(<span class="summary-sig-arg">bstr</span>,
+        <span class="summary-sig-arg">limit</span>=<span class="summary-sig-default">50</span>,
+        <span class="summary-sig-arg">white</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+      Clip a string to the given length limit.</td>
           <td align="right" valign="top">
             
             
@@ -2157,12 +2176,14 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#nearestOn3" class="summary-sig-name">nearestOn3</a>(<span class="summary-sig-arg">point</span>,
+          <td><span class="summary-sig"><a name="nearestOn3"></a><span class="summary-sig-name">nearestOn3</span>(<span class="summary-sig-arg">point</span>,
         <span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
-      Locate the point on a path or polygon closest to an other point.</td>
+      DEPRECATED, use function <a 
+      href="pygeodesy.points-module.html#nearestOn5" 
+      class="link">nearestOn5</a>.</td>
           <td align="right" valign="top">
             
             
@@ -2178,7 +2199,30 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#nearestOn4" class="summary-sig-name">nearestOn4</a>(<span class="summary-sig-arg">point</span>,
+          <td><span class="summary-sig"><a name="nearestOn4"></a><span class="summary-sig-name">nearestOn4</span>(<span class="summary-sig-arg">point</span>,
+        <span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">**options</span>)</span><br />
+      DEPRECATED, use function <a 
+      href="pygeodesy.points-module.html#nearestOn5" 
+      class="link">nearestOn5</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#nearestOn5" class="summary-sig-name">nearestOn5</a>(<span class="summary-sig-arg">point</span>,
         <span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
@@ -3095,7 +3139,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'19.1.5'"><code class="variable-quote">'</code><code class="variable-string">19.1.5</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'19.2.10'"><code class="variable-quote">'</code><code class="variable-string">19.2.10</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -3972,6 +4016,34 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 </td></tr></table>
 </div>
+<a name="clipStr"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">clipStr</span>(<span class="sig-arg">bstr</span>,
+        <span class="sig-arg">limit</span>=<span class="sig-default">50</span>,
+        <span class="sig-arg">white</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Clip a string to the given length limit.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>bstr</code></strong> - String (<code>bytes</code> or <code>str</code>).</li>
+        <li><strong class="pname"><code>limit</code></strong> - Length limit (<code>int</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Clipped <code>bytes</code> or <code>str</code>.</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="compassAngle"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -4268,7 +4340,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         Map</a>, the <a 
         href="http://www.USGS.gov/faqs/what-are-projection-horizontal-and-vertical-datum-units-and-resolution-3dep-standard-dems"
         target="_top">FAQ</a> and <a 
-        href="http://gist.GitHub.com/pyRobShrk?page=2" 
+        href="http://gist.GitHub.com/pyRobShrk" 
         target="_top">USGS10mElev.py</a>.
       </p>
 </div></td></tr></table>
@@ -6029,14 +6101,14 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 </td></tr></table>
 </div>
-<a name="nearestOn3"></a>
+<a name="nearestOn5"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn3</span>(<span class="sig-arg">point</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn5</span>(<span class="sig-arg">point</span>,
         <span class="sig-arg">points</span>,
         <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
@@ -6071,80 +6143,17 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           class="link">equirectangular_</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>3-Tuple (lat, lon, <i>distance</i>) all in <code>degrees</code>. 
-          The <i>distance</i> is the <a 
-          href="pygeodesy.formy-module.html#equirectangular_" 
-          class="link">equirectangular_</a> distance between the closest 
-          and the reference <i>point</i> in <code>degrees</code>.</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
-        <a href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">equirectangular_</a>.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <code>LatLon</code>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
-    </ul></dd>
-  </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.points-module.html#nearestOn4" 
-        class="link">nearestOn4</a>.  Use function <a 
-        href="pygeodesy.utily-module.html#degrees2m" 
-        class="link">degrees2m</a> to convert <code>degrees</code> to 
-        <code>meter</code>.
-      </p>
-</div></td></tr></table>
-</div>
-<a name="nearestOn4"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn4</span>(<span class="sig-arg">point</span>,
-        <span class="sig-arg">points</span>,
-        <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">**options</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Locate the point on a path or polygon closest to an other point.</p>
-  <p>If the given point is within the extent of a polygon edge, the closest
-  point is on that edge, otherwise the closest point is the nearest of that
-  edge's end points.</p>
-  <p>Distances are approximated by function <a 
-  href="pygeodesy.formy-module.html#equirectangular_" 
-  class="link">equirectangular_</a>, subject to the supplied 
-  <i>options</i>.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>point</code></strong> - The other, reference point (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>points</code></strong> - The path or polygon points (<code>LatLon</code>[]).</li>
-        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the path or polygon (<code>bool</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">unroll180</a> longitudes and longitudinal delta 
-          (<code>bool</code>) in function <a 
-          href="pygeodesy.formy-module.html#equirectangular_" 
-          class="link">equirectangular_</a>.</li>
-        <li><strong class="pname"><code>options</code></strong> - Other keyword arguments for function <a 
-          href="pygeodesy.formy-module.html#equirectangular_" 
-          class="link">equirectangular_</a>.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>4-Tuple (lat, lon, <i>distance</i>, <i>angle</i>) all in 
-          <code>degrees</code>.  The <i>distance</i> is the <a 
+        <dd>5-Tuple (lat, lon, <i>distance</i>, <i>angle</i>, <i>height</i>) 
+          all in <code>degrees</code> except <i>height</i>.  The 
+          <i>distance</i> is the <a 
           href="pygeodesy.formy-module.html#equirectangular_" 
           class="link">equirectangular_</a> distance between the closest 
           and the reference <i>point</i> in <code>degrees</code>.  The 
           <i>angle</i> from the reference <i>point</i> to the closest point
           is in compass <code>degrees360</code>, like function <a 
           href="pygeodesy.formy-module.html#compassAngle" 
-          class="link">compassAngle</a>.</dd>
+          class="link">compassAngle</a>. The <i>height</i> is the elevation
+          in <code>meter</code> or zero.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
@@ -6155,9 +6164,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.points-module.html#nearestOn3" 
-        class="link">nearestOn3</a>.  Use function <a 
-        href="pygeodesy.utily-module.html#degrees2m" 
+        Use function <a href="pygeodesy.utily-module.html#degrees2m" 
         class="link">degrees2m</a> to convert <code>degrees</code> to 
         <code>meter</code>.
       </p>
@@ -7979,7 +7986,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Jan  5 11:59:12 2019
+    Generated by Epydoc 3.0.1 on Sun Feb 10 19:47:46 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

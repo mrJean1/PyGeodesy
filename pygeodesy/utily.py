@@ -20,7 +20,7 @@ from math import cos, degrees, pi as PI, radians, tan  # pow
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utily
-__version__ = '19.01.02'
+__version__ = '19.01.06'
 
 division = 1 / 2  # double check int division, see .datum.py
 if not division:
@@ -69,6 +69,25 @@ def anStr(name, OKd='._-', sub='_'):
         if not (c.isalnum() or c in OKd or c in sub):
             s = s.replace(c, ' ')
     return sub.join(s.strip().split())
+
+
+def clipStr(bstr, limit=50, white=''):
+    '''Clip a string to the given length limit.
+
+       @param bstr: String (C{bytes} or C{str}).
+       @keyword limit: Length limit (C{int}).
+
+       @return: Clipped C{bytes} or C{str}.
+    '''
+    t = type(bstr)
+    if bstr and limit > 8:
+        n = len(bstr)
+        if n > limit:
+            h = limit // 2
+            bstr = bstr[:h] + t('....') + bstr[-h:]
+    if white:  # replace whitespace
+        bstr = t(white).join(bstr.split())
+    return bstr
 
 
 def degrees90(rad):

@@ -49,7 +49,7 @@ __all__ = _ALL_LAZY.sphericalNvector + (
           'meanOf',
           'nearestOn2',
           'triangulate', 'trilaterate')
-__version__ = '19.01.02'
+__version__ = '19.02.10'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -586,6 +586,10 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
             gc1 = point1.toNvector().cross(point2.toNvector())
             gc2 = self.toNvector().cross(gc1)
             p = gc1.cross(gc2).toLatLon(height=height, LatLon=self.classof)
+            if height is None:  # interpolate height
+                d = point1.distanceTo(point2)
+                f = 0.5 if d < EPS else point1.distanceTo(p) / d
+                p.height = point1._havg(point2, f=f)
 
         # beyond arc extent, take closer endpoint
         elif self.distanceTo(point1) < self.distanceTo(point2):
