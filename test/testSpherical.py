@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '19.02.10'
+__version__ = '19.02.12'
 
 from base import isWindows
 from testLatLon import Tests as _TestsLL
@@ -222,6 +222,10 @@ class Tests(_TestsLL, _TestsV):
             b = LatLon(2, 2, height=200)
             t = LatLon(1, 2).nearestOn(a, b).toStr(form=F_D, prec=1)
             self.test('nearestOn', t, '01.5°N, 001.5°E, +149.99m')  # PYCHOK test attr?
+            t = LatLon(1, 2).nearestOn2([a, b])[0].toStr(form=F_D, prec=1)
+            self.test('nearestOn2', t, '01.5°N, 001.5°E, +149.99m')  # PYCHOK test attr?
+            t = a.midpointTo(b).toStr(form=F_D, prec=1)
+            self.test('midpointTo', t, '01.5°N, 001.5°E, +150.00m')  # PYCHOK test attr?
 
 
 if __name__ == '__main__':

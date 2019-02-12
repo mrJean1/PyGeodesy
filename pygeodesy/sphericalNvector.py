@@ -49,7 +49,7 @@ __all__ = _ALL_LAZY.sphericalNvector + (
           'meanOf',
           'nearestOn2',
           'triangulate', 'trilaterate')
-__version__ = '19.02.10'
+__version__ = '19.02.12'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -546,7 +546,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         self.others(other)
 
         m = self.toNvector().plus(other.toNvector())
-        return m.toLatLon(height=height, LatLon=self.classof)
+        h = self._havg(other) if height is None else height
+        return m.toLatLon(height=h, LatLon=self.classof)
 
     def nearestOn(self, point1, point2, height=None):
         '''Locate the point on the great circle arc between two
@@ -585,7 +586,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
             # find the closest point on the arc
             gc1 = point1.toNvector().cross(point2.toNvector())
             gc2 = self.toNvector().cross(gc1)
-            p = gc1.cross(gc2).toLatLon(height=height, LatLon=self.classof)
+            p = gc1.cross(gc2).toLatLon(height=height or 0, LatLon=self.classof)
             if height is None:  # interpolate height
                 d = point1.distanceTo(point2)
                 f = 0.5 if d < EPS else point1.distanceTo(p) / d
@@ -854,7 +855,7 @@ def intersection(start1, end1, start2, end2,
                     the initial bearing at the second start point
                     (compass C{degrees360}).
        @keyword height: Optional height at the intersection point,
-                        overriding the default height (C{meter}).
+                        overriding the mean height (C{meter}).
        @keyword LatLon: Optional (sub-)class for the intersection
                         point (L{LatLon}).
 
@@ -886,6 +887,7 @@ def intersection(start1, end1, start2, end2,
     gc1, s1, e1 = _Nvll._gc3(start1, end1, 'end1')
     gc2, s2, e2 = _Nvll._gc3(start2, end2, 'end2')
 
+    hs = start1.height, start2.height
     # there are two (antipodal) candidate intersection
     # points ... we have to choose the one to return
     i1 = gc1.cross(gc2, raiser='paths')
@@ -896,12 +898,15 @@ def intersection(start1, end1, start2, end2,
     # paths are defined (by bearings or endpoints)
     if e1 and e2:  # endpoint+endpoint
         d = sumOf((s1, s2, e1, e2)).dot(i1)
+        hs += end1.height, end2.height
     elif e1 and not e2:  # endpoint+bearing
         # gc2 x v2 . i1 +ve means v2 bearing points to i1
         d = gc2.cross(s2).dot(i1)
+        hs += end1.height,
     elif e2 and not e1:  # bearing+endpoint
         # gc1 x v1 . i1 +ve means v1 bearing points to i1
         d = gc1.cross(s1).dot(i1)
+        hs += end2.height,
     else:  # bearing+bearing
         # if gc x v . i1 is +ve, initial bearing is
         # towards i1, otherwise towards antipodal i2
@@ -917,8 +922,9 @@ def intersection(start1, end1, start2, end2,
             # point of v1 and v2 [is this always true?]
             d = -s1.plus(s2).dot(i1)
 
+    h = fmean(hs) if height is None else height
     i = i1 if d > 0 else gc2.cross(gc1, raiser='paths')
-    return i.toLatLon(height=height, LatLon=LatLon)  # Nvector(i.x, i.y, i.z).toLatLon(...)
+    return i.toLatLon(height=h, LatLon=LatLon)  # Nvector(i.x, i.y, i.z).toLatLon(...)
 
 
 def meanOf(points, height=None, LatLon=LatLon):

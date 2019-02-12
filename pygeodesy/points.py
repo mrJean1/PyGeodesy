@@ -1,8 +1,9 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Handle 2-d U{NumPy<http://www.NumPy.org>}, C{arrays} or tuples
-as C{LatLon} or as C{pseudo-x/-y} pairs.
+u'''Functions to handle collections and sequences of C{LatLon} points
+specified as 2-d U{NumPy<http://www.NumPy.org>}, C{arrays} or tuples as
+C{LatLon} or as C{pseudo-x/-y} pairs.
 
 C{NumPy} arrays are assumed to contain rows of points with a lat-, a
 longitude -and possibly other- values in different columns.  While
@@ -41,7 +42,7 @@ from inspect import isclass
 from math import atan2, cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '19.02.11'
+__version__ = '19.02.12'
 
 
 class LatLon_(object):
@@ -1183,6 +1184,8 @@ def ispolar(points, wrap=False):
 
 def nearestOn3(point, points, closed=False, wrap=False, **options):
     '''DEPRECATED, use function L{nearestOn5}.
+
+       @return: ... 3-Tuple (lat, lon, I{distance}) ...
     '''
     return nearestOn5(point, points, closed=closed, wrap=wrap,
                                    **options)[:3]
@@ -1190,6 +1193,8 @@ def nearestOn3(point, points, closed=False, wrap=False, **options):
 
 def nearestOn4(point, points, closed=False, wrap=False, **options):
     '''DEPRECATED, use function L{nearestOn5}.
+
+       @return: ... 4-Tuple (lat, lon, I{distance}, I{angle}) ...
     '''
     return nearestOn5(point, points, closed=closed, wrap=wrap,
                                    **options)[:4]
@@ -1244,7 +1249,7 @@ def nearestOn5(point, points, closed=False, wrap=False, **options):
 
     def _h(p):
         try:  # get height
-            return p.height
+            return p.height or 0
         except AttributeError:
             return 0
 

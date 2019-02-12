@@ -14,7 +14,7 @@ from os import environ, linesep as NL
 import sys
 
 __all__ = ('run2',)
-__version__ = '18.11.10'
+__version__ = '19.02.12'
 
 if isiOS:  # MCCABE 14
 
@@ -225,7 +225,10 @@ if __name__ == '__main__':  # MCCABE 16
         _exit('', '^C', 9)
     except SystemExit:
         pass
-    s = secs2str(time() - s)
+    s = time() - s
+    t = secs2str(s)
+    if _T > s > 1:
+        t = '%s (%.3f tps)' % (t, _T / s)
 
     if _X:
         x = '%d FAILED' % (_X,)
@@ -234,5 +237,5 @@ if __name__ == '__main__':  # MCCABE 16
     else:
         x = 'all OK'
 
-    t = '%s %s %s (%s) %s' % (argv0, PythonX_O, x, v, s)
+    t = '%s %s %s (%s) %s' % (argv0, PythonX_O, x, v, t)
     _exit(t, t, 2 if _X else 0)

@@ -33,7 +33,7 @@ __all__ = _ALL_LAZY.sphericalTrigonometry + (
           'meanOf',
           'nearestOn2', 'nearestOn3',
           'perimeterOf')
-__version__ = '19.02.11'
+__version__ = '19.02.12'
 
 
 class LatLon(LatLonSphericalBase):
@@ -523,10 +523,7 @@ class LatLon(LatLonSphericalBase):
                                                **options)[0]
 
     def nearestOn2(self, points, closed=False, radius=R_M, **options):
-        '''Locate the point on a polygon closest to this point.
-
-           Distances are approximated by function L{equirectangular_},
-           subject to the supplied I{options}.
+        '''DEPRECATED, use method L{sphericalTrigonometry.LatLon.nearestOn3}.
 
            @return: ... 2-Tuple (I{closest}, I{distance}) of the closest
                     point (L{LatLon}) on the polygon and the distance
@@ -688,7 +685,7 @@ def areaOf(points, radius=R_M, wrap=True):
     return abs(s * radius**2)
 
 
-def _x3d2(start, end, wrap, n):
+def _x3d2(start, end, wrap, n, hs):
     # see <http://www.EdWilliams.org/intersect.htm> (5) ff
     a1, b1 = start.to2ab()
 
@@ -696,6 +693,7 @@ def _x3d2(start, end, wrap, n):
         a2, b2 = _destination2_(a1, b1, PI_4, radians(end))
     else:  # must be a point
         _Trll.others(end, name='end' + n)
+        hs.append(end.height)
         a2, b2 = end.to2ab()
 
     db, b2 = unrollPI(b1, b2, wrap=wrap)
@@ -766,6 +764,8 @@ def intersection(start1, end1, start2, end2,
     _Trll.others(start1, name='start1')
     _Trll.others(start2, name='start2')
 
+    hs = [start1.height, start2. height]
+
     a1, b1 = start1.to2ab()
     a2, b2 = start2.to2ab()
 
@@ -816,8 +816,8 @@ def intersection(start1, end1, start2, end2,
             a, b = antipode(a, b)
 
     else:  # end point(s) or bearing(s)
-        x1, d1 = _x3d2(start1, end1, wrap, '1')
-        x2, d2 = _x3d2(start2, end2, wrap, '2')
+        x1, d1 = _x3d2(start1, end1, wrap, '1', hs)
+        x2, d2 = _x3d2(start2, end2, wrap, '2', hs)
         x = x1.cross(x2)
         if x.length < EPS:  # [nearly] colinear or parallel paths
             raise ValueError('intersection %s: %r vs %r' % ('colinear',
@@ -829,7 +829,7 @@ def intersection(start1, end1, start2, end2,
         if (d1 < 0 and d2 > 0) or (d1 > 0 and d2 < 0):
             a, b = antipode(a, b)
 
-    h = start1._havg(start2) if height is None else height
+    h = fmean(hs) if height is None else height
     return (a, b, h) if LatLon is None else LatLon(a, b, height=h)
 
 
@@ -901,12 +901,13 @@ def nearestOn3(point, points, closed=False, radius=R_M,
                 closest point (L{LatLon}) on the polygon, the distance
                 and the compass angle to the I{closest} point.  The
                 I{closest} is an instance of I{LatLon} or a 3-tuple
-                (lat, lon, height) if I{LatLon} is C{None}.  The
+                (lat, lon, I{height}) if I{LatLon} is C{None}.  The
                 I{distance} is the L{equirectangular_} distance between
                 the I{closest} and reference I{point} in C{meter}, same
                 units as I{radius}.  The I{angle} from the reference
                 I{point} to the I{closest} is in compass C{degrees360},
-                like function L{compassAngle}.
+                like function L{compassAngle}.  The I{height} is the
+                (interpolated) height at the I{closest} point.
 
        @raise LimitError: Lat- and/or longitudinal delta exceeds
                           I{limit}, see function L{equirectangular_}.

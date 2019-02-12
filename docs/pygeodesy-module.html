@@ -213,7 +213,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.02.11
+        19.02.12
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -303,7 +303,9 @@
         functions <a href="pygeodesy.osgr-module.html#parseOSGR" 
         class="link">parseOSGR</a> and <a 
         href="pygeodesy.osgr-module.html#toOsgr" class="link">toOsgr</a>.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.points-module.html">pygeodesy.points</a></strong>: <em class="summary">Handle 2-d <a href="http://www.NumPy.org" target="_top">NumPy</a>, 
+    <li> <strong class="uidlink"><a href="pygeodesy.points-module.html">pygeodesy.points</a></strong>: <em class="summary">Functions to handle collections and sequences of 
+        <code>LatLon</code> points specified as 2-d <a 
+        href="http://www.NumPy.org" target="_top">NumPy</a>, 
         <code>arrays</code> or tuples as <code>LatLon</code> or as 
         <code>pseudo-x/-y</code> pairs.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.simplify-module.html">pygeodesy.simplify</a></strong>: <em class="summary">Seven functions to <i>simplify</i> or linearize a path of 
@@ -2176,7 +2178,7 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="nearestOn3"></a><span class="summary-sig-name">nearestOn3</span>(<span class="summary-sig-arg">point</span>,
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#nearestOn3" class="summary-sig-name">nearestOn3</a>(<span class="summary-sig-arg">point</span>,
         <span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
@@ -2199,7 +2201,7 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="nearestOn4"></a><span class="summary-sig-name">nearestOn4</span>(<span class="summary-sig-arg">point</span>,
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#nearestOn4" class="summary-sig-name">nearestOn4</a>(<span class="summary-sig-arg">point</span>,
         <span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
@@ -3139,7 +3141,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'19.2.11'"><code class="variable-quote">'</code><code class="variable-string">19.2.11</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'19.2.12'"><code class="variable-quote">'</code><code class="variable-string">19.2.12</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -6101,6 +6103,60 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 </td></tr></table>
 </div>
+<a name="nearestOn3"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn3</span>(<span class="sig-arg">point</span>,
+        <span class="sig-arg">points</span>,
+        <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">**options</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>DEPRECATED, use function <a 
+  href="pygeodesy.points-module.html#nearestOn5" 
+  class="link">nearestOn5</a>.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>... 3-Tuple (lat, lon, <i>distance</i>) ...</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="nearestOn4"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn4</span>(<span class="sig-arg">point</span>,
+        <span class="sig-arg">points</span>,
+        <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">**options</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>DEPRECATED, use function <a 
+  href="pygeodesy.points-module.html#nearestOn5" 
+  class="link">nearestOn5</a>.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>... 4-Tuple (lat, lon, <i>distance</i>, <i>angle</i>) ...</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="nearestOn5"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -7987,7 +8043,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Feb 11 15:24:59 2019
+    Generated by Epydoc 3.0.1 on Tue Feb 12 12:35:03 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
