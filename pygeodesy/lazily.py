@@ -70,11 +70,13 @@ _ALL_LAZY = _Enum_RO(_name='_ALL_LAZY',
        ellipsoidalVincenty=('VincentyError',),  # nothing else
                      fmath=('EPS', 'EPS1', 'Fsum',
                             'acos1', 'cbrt', 'cbrt2',
-                            'favg', 'fdot', 'fdot3', 'fmean', 'fhorner', 'fpolynomial', 'fpowers', 'fStr', 'fStrzs', 'fsum', 'fsum_',
+                            'favg', 'fdot', 'fdot3', 'fmean', 'fhorner', 'fpolynomial', 'fpowers', 'fprod', 'freduce', 'fStr', 'fStrzs', 'fsum', 'fsum_',
                             'hypot', 'hypot1', 'hypot3', 'isfinite', 'isint', 'isscalar', 'len2', 'map1', 'map2', 'scalar', 'sqrt3'),
-                     formy=('antipode', 'bearing', 'bearing_', 'compassAngle', 'equirectangular', 'equirectangular_',
+                     formy=('antipode', 'bearing', 'bearing_', 'compassAngle', 'euclidean', 'euclidean_', 'equirectangular', 'equirectangular_',
                             'haversine', 'haversine_', 'heightOf', 'horizon', 'isantipode'),
                    geohash=('Geohash',),  # nothing else
+                   heights=('HeightError', 'SciPyError', 'SciPyWarning',
+                            'HeightCubic', 'HeightIDW', 'HeightLinear', 'HeightLSQBiSpline', 'HeightSmoothBiSpline'),
                     lazily=('LazyImportError', 'isLazy'),
                        lcc=('Conic', 'Conics', 'Lcc', 'toLcc'),
                       mgrs=('Mgrs', 'parseMGRS', 'toMgrs'),
@@ -101,7 +103,7 @@ _ALL_LAZY = _Enum_RO(_name='_ALL_LAZY',
                webmercator=('Wm', 'parseWM', 'toWm'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '19.02.10'
+__version__ = '19.02.23'
 
 
 def _all_imports(**more):

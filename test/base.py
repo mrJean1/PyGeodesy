@@ -22,6 +22,10 @@ try:
     import numpy
 except ImportError:
     numpy = None
+try:
+    import scipy
+except ImportError:
+    scipy = None
 
 test_dir = dirname(abspath(__file__))
 PyGeodesy_dir = dirname(test_dir)
@@ -36,11 +40,11 @@ from pygeodesy import anStr, isLazy, iterNumpy2over, normDMS, \
 __all__ = ('geographiclib', 'numpy',  # constants
            'isIntelPython', 'isiOS', 'ismacOS', 'isNix', 'isPyPy',
            'isPython2', 'isPython3', 'isPython37', 'isWindows',
-           'PyGeodesy_dir', 'PythonX',
+           'PyGeodesy_dir', 'PythonX', 'scipy',
            'TestsBase',  # classes
            'ios_ver', 'secs2str',  # functions
            'test_dir', 'tilde', 'type2str', 'versions')
-__version__ = '19.01.05'
+__version__ = '19.02.23'
 
 try:
     _Ints = int, long
@@ -174,12 +178,13 @@ class TestsBase(object):
         r = '%s%s (%s) %s' % (r, k, self._versions, secs2str(s))
         self.printf('%s %s tests %s', n, self._name, r, nl=nl)
 
-    def skip(self, text=''):
+    def skip(self, text='', n=1):
         '''Skip this test, leave a message.
         '''
-        self.skipped += 1
+        self.skipped += n
         if text and self._verbose:
-            self.printf('test skipped (%d): %s', self.skipped, text)
+            t = 'test' if n < 2 else '%s tests' % (n,)
+            self.printf('%s skipped (%d): %s', t, self.skipped, text)
 
     def subtitle(self, module, testing='ing', **kwds):
         '''Print the subtitle of a test suite.
@@ -316,6 +321,8 @@ def versions():
         vs += 'geographiclib', geographiclib.__version__
     if numpy:
         vs += 'numpy', numpy.__version__
+    if scipy:
+        vs += 'scipy', scipy.__version__
 
     # - mac_ver() returns ('10.12.5', ..., 'x86_64') on
     #   macOS and ('10.3.3', ..., 'iPad4,2') on iOS

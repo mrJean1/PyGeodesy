@@ -125,7 +125,7 @@ R_KM = m2km(R_M)  #: Mean, spherical earth radius (C{KM}, kilo meter).
 R_NM = m2NM(R_M)  #: Mean, spherical earth radius (C{NM}, nautical miles).
 R_SM = m2SM(R_M)  #: Mean, spherical earth radius (C{SM}, statute miles).
 # See <http://www.EdWilliams.org/avform.htm>,
-# <http://www.dtic.mil/dtic/tr/fulltext/u2/a216843.pdf> and
+# <http://www.DTIC.mil/dtic/tr/fulltext/u2/a216843.pdf> and
 # <http://GitHub.com/NASA/MultiDop/blob/master/src/share/man/man3/geog_lib.3>
 # based on International Standard Nautical Mile of 1,852 meter (1' latitude)
 R_FM = 6371000.0  #: Former FAI Sphere earth radius (C{meter}).
@@ -134,7 +134,7 @@ R_VM = 6366707.0194937  #: Aviation/Navigation earth radius (C{meter}).
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.datum
-__version__ = '19.01.02'
+__version__ = '19.02.24'
 
 division = 1 / 2  # double check int division, see .fmath.py, .utily.py
 if not division:

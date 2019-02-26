@@ -108,7 +108,7 @@
   href="http://WikiPedia.org/wiki/Cohen-Sutherland_algorithm" 
   target="_top">Cohen&#8211;Sutherland</a> and the <a 
   href="http://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm" 
-  target="_top">Sutherland-Hodgman</a> methods and functions to <a 
+  target="_top">Sutherland-Hodgman</a> methods, functions to <a 
   href="http://Bost.Ocks.org/mike/simplify" target="_top">simplify</a> or 
   linearize a path of <code>LatLon</code> points (or a <a 
   href="http://docs.SciPy.org/doc/numpy/reference/generated/numpy.array.html"
@@ -119,7 +119,10 @@
   target="_top">Visvalingam-Whyatt</a> and <a 
   href="http://psimpl.SourceForge.net/reumann-witkam.html" 
   target="_top">Reumann-Witkam</a> the algorithms and modified versions of 
-  the former.</p>
+  the former and classes to <a 
+  href="http://docs.SciPy.org/doc/scipy/reference/interpolate.html" 
+  target="_top">interpolate</a> the height of <code>LatLon</code> 
+  points.</p>
   <p>All Python source code has been statically <a 
   href="http://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor"
   target="_top">checked</a> with <a 
@@ -132,9 +135,11 @@
   Python 3.7.2, both in 64-bit on macOS 10.13.6 High Sierra.</p>
   <p>The tests have been run with Python 2.7.15 (with <a 
   href="http://PyPI.org/project/geographiclib" 
-  target="_top">geographiclib</a> 1.49 and <a 
-  href="http://PyPI.org/project/numpy" target="_top">numpy</a> 1.15.2), 
-  with Python 3.7.2 (with <a href="http://PyPI.org/project/geographiclib" 
+  target="_top">geographiclib</a> 1.49 , <a 
+  href="http://PyPI.org/project/numpy" target="_top">numpy</a> 1.16.1 and 
+  <a href="http://Scipy.org/scipylib/download.html" 
+  target="_top">scipy</a>), with Python 3.7.2 (with <a 
+  href="http://PyPI.org/project/geographiclib" 
   target="_top">geographiclib</a> 1.49) and with <a href="http://PyPy.org" 
   target="_top">PyPy</a> 6.0.0 (Python 2.7.13 and 3.5.3) on macOS 10.13.6 
   High Sierra, with Python 2.6.9, 2.7.14, 3.5.6 and 3.6.3 (and <a 
@@ -152,8 +157,8 @@
   target="_top">Windows Server 2012R2</a> in 32- and 64-bit.  The tests are
   run with and without lazy import on Python 3.7.0 and 3.7.2.</p>
   <p>Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 
-  2.7.10 (and numpy 1.8.0rc1), 2.7.13, 2.7.14 (and numpy 1.13.1 or 1.14.0),
-  3.5.3, 3.6.2, 3.6.3, 3.6.4, 3.6.5, 3.7.0 and <a 
+  2.7.10 (and numpy 1.8.0rc1), 2.7.13, 2.7.14 (and numpy 1.13.1, 1.14.0 or 
+  1.15.2), 3.5.3, 3.6.2, 3.6.3, 3.6.4, 3.6.5, 3.7.0 and <a 
   href="http://software.Intel.com/en-us/distribution-for-python" 
   target="_top">Intel-Python</a> 3.5.3 (and <a 
   href="http://PyPI.org/project/numpy" target="_top">numpy</a> 1.11.3) on 
@@ -181,12 +186,14 @@
   <code>Pygeodesy-yy.m.d</code> and type <code>python setup.py 
   install</code>.  To run all PyGeodesy tests, type <code>python setup.py 
   test</code> before installation.</p>
-  <p>Installation of <a href="http://www.NumPy.org" target="_top">NumPy</a>
-  and <a href="http://PyPI.org/project/geographiclib" 
-  target="_top">GeographicLib</a> is optional.  However, the latter is 
-  required for module <i>ellipsoidalKarney</i> classes <code>LatLon</code> 
-  and <i>Cartesian</i> and functions <i>areaOf</i> and 
-  <i>perimeterOf</i>.</p>
+  <p>Installation of <a href="http://PyPI.org/project/geographiclib" 
+  target="_top">GeographicLib</a>, <a href="http://www.NumPy.org" 
+  target="_top">NumPy</a> and <a href="http://SciPy.org" 
+  target="_top">SciPy</a> is optional. However, the latter are required for
+  module <code>ellipsoidalKarney</code> classes <code>LatLon</code> and 
+  <code>Cartesian</code> and functions <code>areaOf</code> and 
+  <code>perimeterOf</code> and for (most) <code>Height...</code> 
+  interpolators.</p>
   <p>Some function and method names differ from the JavaScript version. In 
   such cases documentation tag <b>JS name:</b> shows the original 
   JavaScript name.</p>
@@ -213,7 +220,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.02.12
+        19.02.24
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -284,6 +291,8 @@
     <li> <strong class="uidlink"><a href="pygeodesy.geohash-module.html">pygeodesy.geohash</a></strong>: <em class="summary">Class <a href="pygeodesy.geohash.Geohash-class.html" 
         class="link">Geohash</a> and several functions to encode, decode 
         and inspect <i>geohashes</i>.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.heights-module.html">pygeodesy.heights</a></strong>: <em class="summary">Classes to interpolate the height of <code>LatLon</code> locations 
+        or separate lat-/longitudes.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.lazily-module.html">pygeodesy.lazily</a></strong>: <em class="summary">Lazily import <code>pygeodesy</code> modules and attributes.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.lcc-module.html">pygeodesy.lcc</a></strong>: <em class="summary">Lambert conformal conic projection for 1- or 2-Standard Parallels 
         class <a href="pygeodesy.lcc.Conic-class.html" 
@@ -443,6 +452,64 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.heights.HeightCubic-class.html" class="summary-name">HeightCubic</a><br />
+      Height interpolator based on <code>SciPy</code> <a 
+        href="http://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
+        target="_top">interp2d</a> <code>kind='cubic'</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights.HeightError-class.html" class="summary-name">HeightError</a><br />
+      Height interpolator or interpolation error.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights.HeightIDW-class.html" class="summary-name">HeightIDW</a><br />
+      Height interpolator using <a 
+        href="http://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        target="_top">Inverse Distance Weighting</a> (IDW).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights.HeightLSQBiSpline-class.html" class="summary-name">HeightLSQBiSpline</a><br />
+      Height interpolator using <code>SciPy</code> <a 
+        href="http://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.LSQSphereBivariateSpline.html"
+        target="_top">LSQSphereBivariateSpline</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights.HeightLinear-class.html" class="summary-name">HeightLinear</a><br />
+      Height interpolator based on <code>SciPy</code> <a 
+        href="http://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
+        target="_top">interp2d</a> <code>kind='linear]</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights.HeightSmoothBiSpline-class.html" class="summary-name">HeightSmoothBiSpline</a><br />
+      Height interpolator using <code>SciPy</code> <a 
+        href="http://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.SmoothSphereBivariateSpline.html"
+        target="_top">SmoothSphereBivariateSpline</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.points.LatLon2psxy-class.html" class="summary-name">LatLon2psxy</a><br />
       Wrapper for <code>LatLon</code> points as &quot;on-the-fly&quot; 
         pseudo-xy coordinates.
@@ -464,9 +531,9 @@
         <a href="pygeodesy.points.LatLon_-class.html" class="summary-name">LatLon_</a><br />
       Low-overhead <code>LatLon</code> class for <a 
         href="pygeodesy.points.Numpy2LatLon-class.html" 
-        class="link">Numpy2LatLon</a> or <a 
+        class="link">Numpy2LatLon</a> and <a 
         href="pygeodesy.points.Tuple2LatLon-class.html" 
-        class="link">Tuple2LatLon</a>'
+        class="link">Tuple2LatLon</a>.
     </td>
   </tr>
 <tr>
@@ -529,6 +596,22 @@
         href="pygeodesy.dms-module.html#parseDMS" class="link">parseDMS</a>
         or <a href="pygeodesy.dms-module.html#parseDMS2" 
         class="link">parseDMS2</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights.SciPyError-class.html" class="summary-name">SciPyError</a><br />
+      Error raised for <code>SciPy</code> errors.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights.SciPyWarning-class.html" class="summary-name">SciPyWarning</a><br />
+      Exception thrown for <code>SciPy</code> warnings.
     </td>
   </tr>
 <tr>
@@ -1267,6 +1350,51 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#euclidean" class="summary-sig-name">euclidean</a>(<span class="summary-sig-arg">lat1</span>,
+        <span class="summary-sig-arg">lon1</span>,
+        <span class="summary-sig-arg">lat2</span>,
+        <span class="summary-sig-arg">lon2</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Approximate the <code>Euclidian</code> distance between two 
+      (spherical) points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#euclidean_" class="summary-sig-name">euclidean_</a>(<span class="summary-sig-arg">a2</span>,
+        <span class="summary-sig-arg">a1</span>,
+        <span class="summary-sig-arg">b21</span>,
+        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Approximate the <i>angular</i> <code>Euclidean</code> distance 
+      between two (spherical) points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#fStr" class="summary-sig-name">fStr</a>(<span class="summary-sig-arg">floats</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>,
@@ -1444,6 +1572,45 @@
         <span class="summary-sig-arg">n</span>,
         <span class="summary-sig-arg">alts</span>=<span class="summary-sig-default">0</span>)</span><br />
       Return a series of powers <i class="math">[x**i for i=1..n]</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#fprod" class="summary-sig-name">fprod</a>(<span class="summary-sig-arg">iterable</span>,
+        <span class="summary-sig-arg">start</span>=<span class="summary-sig-default">1.0</span>)</span><br />
+      Iterable product, like <code>numpy.prod</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">value</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#freduce" class="summary-sig-name">freduce</a>(<span class="summary-sig-arg">function</span>,
+        <span class="summary-sig-arg">sequence</span>,
+        <span class="summary-sig-arg">initial</span>=<span class="summary-sig-default">...</span>)</span><br />
+      Apply a function of two arguments cumulatively to the items of a 
+      sequence, from left to right, so as to reduce the sequence to a 
+      single value.</td>
           <td align="right" valign="top">
             
             
@@ -3141,7 +3308,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'19.2.12'"><code class="variable-quote">'</code><code class="variable-string">19.2.12</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'19.2.24'"><code class="variable-quote">'</code><code class="variable-string">19.2.24</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -4342,7 +4509,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         Map</a>, the <a 
         href="http://www.USGS.gov/faqs/what-are-projection-horizontal-and-vertical-datum-units-and-resolution-3dep-standard-dems"
         target="_top">FAQ</a> and <a 
-        href="http://gist.GitHub.com/pyRobShrk" 
+        href="http://Gist.GitHub.com/pyRobShrk" 
         target="_top">USGS10mElev.py</a>.
       </p>
 </div></td></tr></table>
@@ -4527,6 +4694,95 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
       </p>
 </div></td></tr></table>
 </div>
+<a name="euclidean"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">euclidean</span>(<span class="sig-arg">lat1</span>,
+        <span class="sig-arg">lon1</span>,
+        <span class="sig-arg">lat2</span>,
+        <span class="sig-arg">lon2</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Approximate the <code>Euclidian</code> distance between two 
+  (spherical) points.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat1</code></strong> - Start latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Adjust the longitudinal delta by the cosine of the mean latitude 
+          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
+          class="link">unroll180</a> longitudes (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Distance (<code>meter</code>, same units as <i>radius</i>).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="http://www.EdWilliams.org/avform.htm#Dist" 
+        target="_top">Distance between two (spherical) points</a>, 
+        functions <a href="pygeodesy.formy-module.html#equirectangular" 
+        class="link">equirectangular</a>, <a 
+        href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
+        class="link">Ellipsoid.distance2</a> or <code>LatLon</code> methods
+        <i>distanceTo*</i> and <i>equirectangularTo</i>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="euclidean_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">euclidean_</span>(<span class="sig-arg">a2</span>,
+        <span class="sig-arg">a1</span>,
+        <span class="sig-arg">b21</span>,
+        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Approximate the <i>angular</i> <code>Euclidean</code> distance between
+  two (spherical) points.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a2</code></strong> - End latitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>a1</code></strong> - Start latitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>b21</code></strong> - Longitudinal delta, <i class="math">end-start</i> 
+          (<code>radians</code>).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Adjust the longitudinal delta by the cosine of the mean latitude 
+          (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Angular distance (<code>radians</code>).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Functions <a href="pygeodesy.formy-module.html#euclidean" 
+        class="link">euclidean</a> and <a 
+        href="pygeodesy.formy-module.html#haversine_" 
+        class="link">haversine_</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="fStr"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -4677,7 +4933,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <dd>Dot product (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Unequal len(a) and len(b).</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Unequal <code>len</code>(<i>a</i>) and <code>len</code>(<i>b</i>).</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -4855,6 +5111,66 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <i>x</i> or <i>n</i> not <code>int</code>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Non-positive <i>n</i> or <i>x</i> is not finite.</li>
     </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="fprod"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fprod</span>(<span class="sig-arg">iterable</span>,
+        <span class="sig-arg">start</span>=<span class="sig-default">1.0</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Iterable product, like <code>numpy.prod</code>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>iterable</code></strong> - Values to be multiplied (<code>scalar</code>[]).</li>
+        <li><strong class="pname"><code>start</code></strong> - Initial product, also the value returned for an empty iterable 
+          (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The product (<code>float</code>).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="http://docs.SciPy.org/doc/numpy/reference/generated/numpy.prod.html"
+        target="_top">NumPy.prod</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="freduce"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">freduce</span>(<span class="sig-arg">function</span>,
+        <span class="sig-arg">sequence</span>,
+        <span class="sig-arg">initial</span>=<span class="sig-default">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Apply a function of two arguments cumulatively to the items of a 
+  sequence, from left to right, so as to reduce the sequence to a single 
+  value. For example, reduce(lambda x, y: x+y, [1, 2, 3, 4, 5]) calculates 
+  ((((1+2)+3)+4)+5).  If initial is present, it is placed before the items 
+  of the sequence in the calculation, and serves as a default when the 
+  sequence is empty.</p>
+  <dl class="fields">
+    <dt>Returns: value</dt>
   </dl>
 </td></tr></table>
 </div>
@@ -5089,8 +5405,10 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <dd>Angular distance (<code>radians</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.formy-module.html#haversine" 
-        class="link">haversine</a>.
+        Functions <a href="pygeodesy.formy-module.html#haversine" 
+        class="link">haversine</a> and <a 
+        href="pygeodesy.formy-module.html#euclidean_" 
+        class="link">euclidean_</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -8043,7 +8361,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Feb 12 12:35:03 2019
+    Generated by Epydoc 3.0.1 on Mon Feb 25 19:04:04 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

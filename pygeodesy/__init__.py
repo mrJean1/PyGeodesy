@@ -40,14 +40,16 @@ Other modules provide Lambert conformal conic projections and positions
 polygon of C{LatLon} points using the U{Cohen–Sutherland
 <http://WikiPedia.org/wiki/Cohen-Sutherland_algorithm>} and the
 U{Sutherland-Hodgman<http://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm>}
-methods and functions to U{simplify<http://Bost.Ocks.org/mike/simplify>} or
+methods, functions to U{simplify<http://Bost.Ocks.org/mike/simplify>} or
 linearize a path of C{LatLon} points (or a U{NumPy array
 <http://docs.SciPy.org/doc/numpy/reference/generated/numpy.array.html>}),
 including implementations of the U{Ramer-Douglas-Peucker
 <http://WikiPedia.org/wiki/Ramer-Douglas-Peucker_algorithm>} the
 U{Visvalingam-Whyatt<http://hydra.Hull.ac.UK/resources/hull:8338>} and
 U{Reumann-Witkam<http://psimpl.SourceForge.net/reumann-witkam.html>}
-the algorithms and modified versions of the former.
+the algorithms and modified versions of the former and classes to
+U{interpolate<http://docs.SciPy.org/doc/scipy/reference/interpolate.html>}
+the height of C{LatLon} points.
 
 All Python source code has been statically U{checked
 <http://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor>}
@@ -59,8 +61,9 @@ U{Flake8<http://PyPI.org/project/flake8>} using Python 3.7.2, both in
 64-bit on macOS 10.13.6 High Sierra.
 
 The tests have been run with Python 2.7.15 (with U{geographiclib
-<http://PyPI.org/project/geographiclib>} 1.49 and U{numpy
-<http://PyPI.org/project/numpy>} 1.15.2), with Python 3.7.2 (with
+<http://PyPI.org/project/geographiclib>} 1.49 , U{numpy
+<http://PyPI.org/project/numpy>} 1.16.1 and U{scipy
+<http://Scipy.org/scipylib/download.html>}), with Python 3.7.2 (with
 U{geographiclib<http://PyPI.org/project/geographiclib>} 1.49) and with
 U{PyPy<http://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3) on macOS
 10.13.6 High Sierra, with Python 2.6.9, 2.7.14, 3.5.6 and 3.6.3 (and
@@ -75,8 +78,8 @@ in 32- and 64-bit.  The tests are run with and without lazy import on
 Python 3.7.0 and 3.7.2.
 
 Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 2.7.10
-(and numpy 1.8.0rc1), 2.7.13, 2.7.14 (and numpy 1.13.1 or 1.14.0), 3.5.3,
-3.6.2, 3.6.3, 3.6.4, 3.6.5, 3.7.0 and U{Intel-Python
+(and numpy 1.8.0rc1), 2.7.13, 2.7.14 (and numpy 1.13.1, 1.14.0 or 1.15.2),
+3.5.3, 3.6.2, 3.6.3, 3.6.4, 3.6.5, 3.7.0 and U{Intel-Python
 <http://software.Intel.com/en-us/distribution-for-python>} 3.5.3 (and
 U{numpy<http://PyPI.org/project/numpy>} 1.11.3) on MacOS X 10.10 Yosemite,
 MacOS X 10.11 El Capitan, macOS 10.12 Sierra, macOS 10.13.5 High Sierra and
@@ -100,10 +103,11 @@ file, C{cd} to directory C{Pygeodesy-yy.m.d} and type C{python setup.py
 install}.  To run all PyGeodesy tests, type C{python setup.py test}
 before installation.
 
-Installation of U{NumPy<http://www.NumPy.org>} and U{GeographicLib
-<http://PyPI.org/project/geographiclib>} is optional.  However, the
-latter is required for module I{ellipsoidalKarney} classes C{LatLon} and
-I{Cartesian} and functions I{areaOf} and I{perimeterOf}.
+Installation of U{GeographicLib<http://PyPI.org/project/geographiclib>},
+U{NumPy<http://www.NumPy.org>} and U{SciPy<http://SciPy.org>} is optional.
+However, the latter are required for module C{ellipsoidalKarney} classes
+C{LatLon} and C{Cartesian} and functions C{areaOf} and C{perimeterOf} and
+for (most) C{Height...} interpolators.
 
 Some function and method names differ from the JavaScript version. In such
 cases documentation tag B{JS name:} shows the original JavaScript name.
@@ -180,7 +184,7 @@ from os.path import abspath, basename, dirname
 _init_abspath     = abspath(__file__)
 pygeodesy_abspath = dirname(_init_abspath)
 
-__version__ = '19.02.12'
+__version__ = '19.02.24'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 
@@ -220,8 +224,8 @@ except (LazyImportError, NotImplementedError):
     # all public sub-modules, contants, classes and functions
     __all__ = ('bases', 'clipy', 'datum', 'dms', 'elevations',  # modules
                'ellipsoidalKarney', 'ellipsoidalNvector', 'ellipsoidalVincenty',
-               'fmath', 'formy', 'geohash', 'lazily', 'lcc', 'mgrs',
-               'nvector', 'osgr', 'points',
+               'fmath', 'formy', 'geohash', 'heights',
+               'lazily', 'lcc', 'mgrs', 'nvector', 'osgr', 'points',
                'simplify', 'sphericalNvector', 'sphericalTrigonometry',
                'utily', 'utm', 'vector3d', 'webmercator',
                'CrossError', 'Geohash', 'VincentyError',  # classes
@@ -240,6 +244,7 @@ except (LazyImportError, NotImplementedError):
     from elevations  import *  # PYCHOK __all__
     from fmath       import *  # PYCHOK __all__
     from formy       import *  # PYCHOK __all__
+    from heights     import *  # PYCHOK __all__
     from lazily      import *  # PYCHOK __all__
     from lcc         import *  # PYCHOK __all__
     from mgrs        import *  # PYCHOK __all__
@@ -257,6 +262,7 @@ except (LazyImportError, NotImplementedError):
     import elevations   # PYCHOK expected
     import fmath        # PYCHOK expected
     import formy        # PYCHOK expected
+    import heights      # PYCHOK expected
     import lazily       # PYCHOK expected
     import lcc          # PYCHOK expected
     import mgrs         # PYCHOK expected
@@ -305,8 +311,8 @@ except (LazyImportError, NotImplementedError):
     # concat __all__ with the public classes, constants,
     # functions, etc. from the sub-modules mentioned above
     for m in (bases, clipy, datum, dms, elevations, fmath, formy,
-              lazily, lcc, mgrs, osgr, points, simplify, utily, utm,
-              webmercator):
+              heights, lazily, lcc, mgrs, osgr, points,
+              simplify, utily, utm, webmercator):
         __all__ += m.__all__
         _ismodule(m)
 

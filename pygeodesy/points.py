@@ -42,11 +42,11 @@ from inspect import isclass
 from math import atan2, cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '19.02.12'
+__version__ = '19.02.23'
 
 
-class LatLon_(object):
-    '''Low-overhead C{LatLon} class for L{Numpy2LatLon} or L{Tuple2LatLon}'
+class LatLon_(object):  # XXX imported by heights._HeightBase.height
+    '''Low-overhead C{LatLon} class for L{Numpy2LatLon} and L{Tuple2LatLon}.
     '''
     # __slots__ efficiency is voided if the __slots__ class attribute
     # is used in a subclass of a class with the traditional __dict__,

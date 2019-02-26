@@ -63,7 +63,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.01.02
+        19.02.21
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -285,6 +285,45 @@
         <span class="summary-sig-arg">n</span>,
         <span class="summary-sig-arg">alts</span>=<span class="summary-sig-default">0</span>)</span><br />
       Return a series of powers <i class="math">[x**i for i=1..n]</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fprod" class="summary-sig-name">fprod</a>(<span class="summary-sig-arg">iterable</span>,
+        <span class="summary-sig-arg">start</span>=<span class="summary-sig-default">1.0</span>)</span><br />
+      Iterable product, like <code>numpy.prod</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">value</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#freduce" class="summary-sig-name">freduce</a>(<span class="summary-sig-arg">function</span>,
+        <span class="summary-sig-arg">sequence</span>,
+        <span class="summary-sig-arg">initial</span>=<span class="summary-sig-default">...</span>)</span><br />
+      Apply a function of two arguments cumulatively to the items of a 
+      sequence, from left to right, so as to reduce the sequence to a 
+      single value.</td>
           <td align="right" valign="top">
             
             
@@ -701,7 +740,7 @@
         <dd>Dot product (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Unequal len(a) and len(b).</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Unequal <code>len</code>(<i>a</i>) and <code>len</code>(<i>b</i>).</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -879,6 +918,66 @@
         <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <i>x</i> or <i>n</i> not <code>int</code>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Non-positive <i>n</i> or <i>x</i> is not finite.</li>
     </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="fprod"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fprod</span>(<span class="sig-arg">iterable</span>,
+        <span class="sig-arg">start</span>=<span class="sig-default">1.0</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Iterable product, like <code>numpy.prod</code>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>iterable</code></strong> - Values to be multiplied (<code>scalar</code>[]).</li>
+        <li><strong class="pname"><code>start</code></strong> - Initial product, also the value returned for an empty iterable 
+          (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The product (<code>float</code>).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="http://docs.SciPy.org/doc/numpy/reference/generated/numpy.prod.html"
+        target="_top">NumPy.prod</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="freduce"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">freduce</span>(<span class="sig-arg">function</span>,
+        <span class="sig-arg">sequence</span>,
+        <span class="sig-arg">initial</span>=<span class="sig-default">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Apply a function of two arguments cumulatively to the items of a 
+  sequence, from left to right, so as to reduce the sequence to a single 
+  value. For example, reduce(lambda x, y: x+y, [1, 2, 3, 4, 5]) calculates 
+  ((((1+2)+3)+4)+5).  If initial is present, it is placed before the items 
+  of the sequence in the calculation, and serves as a default when the 
+  sequence is empty.</p>
+  <dl class="fields">
+    <dt>Returns: value</dt>
   </dl>
 </td></tr></table>
 </div>
@@ -1323,7 +1422,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Feb 12 12:35:03 2019
+    Generated by Epydoc 3.0.1 on Mon Feb 25 19:04:04 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

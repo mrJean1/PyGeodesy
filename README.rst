@@ -30,36 +30,37 @@ decoding Geohashes_.
 Other modules provide Lambert conformal conic projections and positions
 (from `John P. Snyder`_, *Map Projections -- A Working Manual*, 1987, pp
 107-109), functions to clip a path or polygon of *LatLon* points using
-the `Cohen-Sutherland`_ and the `Sutherland-Hodgman`_ methods and
-functions to simplify_ or linearize a path of *LatLon* points (or a
-`NumPy array`_), including implementations of the `Ramer-Douglas-Peucker`_,
-the `Visvalingam-Whyatt`_ and the `Reumann-Witkam`_ algorithms and
-modified versions of the former.
+the `Cohen-Sutherland`_ and the `Sutherland-Hodgman`_ methods, functions
+to simplify_ or linearize a path of *LatLon* points (or a `NumPy array`_),
+including implementations of the `Ramer-Douglas-Peucker`_, the
+`Visvalingam-Whyatt`_ and the `Reumann-Witkam`_ algorithms and modified
+versions of the former and classes to interpolate_ the height of
+*LatLon* points.
 
 All Python source code has been statically checked_ with PyChecker_,
 PyFlakes_, PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.15
 and with Flake8_ using Python 3.7.2, both in 64-bit on macOS 10.13.6
 High Sierra.
 
-The tests have been run with Python 2.7.15 (with geographiclib_ 1.49
-and numpy_ 1.15.2), with Python 3.7.2 (with geographiclib_ 1.49) and
-with PyPy_ 6.0.0 (Python 2.7.13 and 3.5.3) on macOS 10.13.6 High Sierra,
-with Python 2.6.9, 2.7.14, 3.5.6 and 3.6.3 (and geographiclib_ 1.49) on
-`Debian 8`_ and with Python 3.7.2 (and geographiclib_ 1.49) on
+The tests have been run with Python 2.7.15 (with geographiclib_ 1.49,
+numpy_ 1.16.1, and scipy_ 1.2.1), with Python 3.7.2 (with geographiclib_
+1.49) and with PyPy_ 6.0.0 (Python 2.7.13 and 3.5.3) on macOS 10.13.6
+High Sierra, with Python 2.6.9, 2.7.14, 3.5.6 and 3.6.3 (and geographiclib_
+1.49) on `Debian 8`_ and with Python 3.7.2 (and geographiclib_ 1.49) on
 `Debian 9`_, all in 64-bit only and with Python 2.7.15, 3.6.6 and 3.7.0
 (all with geographiclib_ 1.49) on `Windows Server 2012R2`_ in 32- and
 64-bit.  The tests are run with and without lazy import on Python 3.7.0
 and 3.7.2.
 
 Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 2.7.10
-(and numpy 1.8.0rc1), 2.7.13, 2.7.14 (and numpy 1.13.1 or 1.14.0), 3.5.3,
-3.6.2, 3.6.3, 3.6.4, 3.6.5, 3.7.0 and `Intel-Python`_ 3.5.3 (and numpy_
-1.11.3) on MacOS X 10.10 Yosemite, MacOS X 10.11 El Capitan, macOS 10.12
-Sierra, macOS 10.13.5 High Sierra and macOS 10.14 Mojave, with Pythonista_
-3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4, with Pythonista_ 3.2
-on iOS 11.4.1 and 12.0 on iPad4, iPhone7 and/or iPhone10, all in 64-bit
-only and with 32-bit Python 2.6.6 on Windows XP SP3 and with 32-bit
-Python 2.7.14 on Windows 10 Pro.
+(and numpy 1.8.0rc1), 2.7.13, 2.7.14 (and numpy 1.13.1, 1.14.0 or 1.15.2),
+3.5.3, 3.6.2, 3.6.3, 3.6.4, 3.6.5, 3.7.0 and `Intel-Python`_ 3.5.3 (and
+numpy_ 1.11.3) on MacOS X 10.10 Yosemite, MacOS X 10.11 El Capitan, macOS
+10.12 Sierra, macOS 10.13.5 High Sierra and macOS 10.14 Mojave, with
+Pythonista_ 3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4, with
+Pythonista_ 3.2 on iOS 11.4.1 and 12.0 on iPad4, iPhone7 and/or iPhone10,
+all in 64-bit only and with 32-bit Python 2.6.6 on Windows XP SP3 and
+with 32-bit Python 2.7.14 on Windows 10 Pro.
 
 In addition to the PyGeodesy_ package, the distribution files contain the
 tests, the test results (on macOS only) and the complete documentation
@@ -73,29 +74,30 @@ file, ``cd`` to directory ``PyGeodesy-yy.m.d`` and type ``python setup.py
 install``.  To run all PyGeodesy tests, type ``python setup.py test``
 before installation.
 
-Installation of `NumPy`_ and `GeographicLib`_ is optional.  However, the
-latter is required for module *ellipsoidalKarney* classes *LatLon* and
-*Cartesian* and functions *areaOf* and *perimeterOf*.
+Installation of `GeographicLib`_, `NumPy`_ and `SciPy`_ is optional.
+However, the latter are required for module *ellipsoidalKarney* classes
+*LatLon* and *Cartesian* and functions *areaOf* and *perimeterOf* and
+for (most) *Height...* interpolators.
 
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Feb 12, 2019.*
+*Last updated: Feb 24, 2019.*
 
-.. image:: https://Img.Shields.io/pypi/pyversions/PyGeodesy.svg?label=Python
-   :target: http://PyPI.org/project/PyGeodesy
-.. image:: https://Img.Shields.io/appveyor/ci/mrJean1/PyGeodesy.svg?branch=master&label=AppVeyor
-   :target: http://CI.AppVeyor.com/project/mrJean1/PyGeodesy/branch/master
-.. image:: https://Img.Shields.io/travis/mrJean1/PyGeodesy.svg?branch=master&label=Travis
-   :target: http://Travis-CI.org/mrJean1/PyGeodesy
-.. image:: https://API.Cirrus-CI.com/github/mrJean1/PyGeodesy.svg?branch=master&label=Cirrus
-   :target: http://Cirrus-CI.com/github/mrJean1/PyGeodesy
-.. image:: https://Img.Shields.io/pypi/v/PyGeodesy.svg?label=PyPI
-   :target: http://PyPI.org/project/PyGeodesy
-.. image:: https://Img.Shields.io/pypi/wheel/PyGeodesy.svg
-   :target: http://PyPI.org/project/PyGeodesy/#files
-.. image:: https://Img.Shields.io/pypi/l/PyGeodesy.svg
-   :target: http://PyPI.org/project/PyGeodesy
+.. image:: http://Img.Shields.io/pypi/pyversions/PyGeodesy.svg?label=Python
+  :target: http://PyPI.org/project/PyGeodesy
+.. image:: http://Img.Shields.io/appveyor/ci/mrJean1/PyGeodesy.svg?branch=master&label=AppVeyor
+  :target: http://CI.AppVeyor.com/project/mrJean1/PyGeodesy/branch/master
+.. image:: http://Img.Shields.io/travis/mrJean1/PyGeodesy.svg?branch=master&label=Travis
+  :target: http://Travis-CI.org/mrJean1/PyGeodesy
+.. image:: http://API.Cirrus-CI.com/github/mrJean1/PyGeodesy.svg?branch=master&label=Cirrus
+  :target: http://Cirrus-CI.com/github/mrJean1/PyGeodesy
+.. image:: http://Img.Shields.io/pypi/v/PyGeodesy.svg?label=PyPI
+  :target: http://PyPI.org/project/PyGeodesy
+.. image:: http://Img.Shields.io/pypi/wheel/PyGeodesy.svg
+  :target: http://PyPI.org/project/PyGeodesy/#files
+.. image:: http://Img.Shields.io/pypi/l/PyGeodesy.svg
+  :target: http://PyPI.org/project/PyGeodesy
 
 .. _checked: http://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor
 .. _Cohen-Sutherland: http://WikiPedia.org/wiki/Cohen-Sutherland_algorithm
@@ -109,6 +111,7 @@ cases documentation tag **JS name:** shows the original JavaScript name.
 .. _Geohashes: http://www.Movable-Type.co.UK/scripts/geohash.html
 .. _GitHub: http://GitHub.com/mrJean1/PyGeodesy
 .. _Intel-Python: http://software.Intel.com/en-us/distribution-for-python
+.. _interpolate: http://docs.SciPy.org/doc/scipy/reference/interpolate.html
 .. _JavaScript originals: http://GitHub.com/ChrisVeness/geodesy
 .. _JavaScript source: http://GitHub.com/ChrisVeness/geodesy
 .. _John P. Snyder: http://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf
@@ -128,6 +131,7 @@ cases documentation tag **JS name:** shows the original JavaScript name.
 .. _Pythonista: http://OMZ-Software.com/pythonista
 .. _Ramer-Douglas-Peucker: http://WikiPedia.org/wiki/Ramer-Douglas-Peucker_algorithm
 .. _Reumann-Witkam: http://psimpl.SourceForge.net/reumann-witkam.html
+.. _SciPy: http://SciPy.org
 .. _simplify: http://Bost.Ocks.org/mike/simplify
 .. _Sutherland-Hodgman: http://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm
 .. _UTM: http://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html

@@ -4,9 +4,9 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '18.09.14'
+__version__ = '19.02.19'
 
-from base import TestsBase, secs2str
+from base import numpy, TestsBase, secs2str
 
 from pygeodesy import EPS, R_M, Numpy2LatLon, \
                       simplify1, simplifyRW, \
@@ -16,11 +16,6 @@ from pygeodesy import EPS, R_M, Numpy2LatLon, \
 
 from math import cos, degrees, radians
 from time import time
-
-try:
-    import numpy
-except ImportError:
-    numpy = None
 
 _Simplifys = ()  # simplifyXYZ functions to run
 

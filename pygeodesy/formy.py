@@ -16,11 +16,11 @@ from math import atan2, cos, degrees, hypot, radians, sin, sqrt  # pow
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.formy + ('equirectangular3',)  # DEPRECATED
-__version__ = '19.01.02'
+__version__ = '19.02.22'
 
 
 def _scaled(lat1, lat2):
-    # scale delta lon by cos(avg lat)
+    # scale delta lon by cos(mean of lats)
     return cos(radians(lat1 + lat2) * 0.5)
 
 
@@ -116,6 +116,52 @@ def compassAngle(lat1, lon1, lat2, lon2, adjust=True, wrap=False):
     if adjust:  # scale delta lon
         d_lon *= _scaled(lat1, lat2)
     return degrees360(atan2(d_lon, lat2 - lat1))
+
+
+def euclidean(lat1, lon1, lat2, lon2, radius=R_M, adjust=True, wrap=False):
+    '''Approximate the C{Euclidian} distance between two (spherical) points.
+
+       @param lat1: Start latitude (C{degrees}).
+       @param lon1: Start longitude (C{degrees}).
+       @param lat2: End latitude (C{degrees}).
+       @param lon2: End longitude (C{degrees}).
+       @keyword radius: Optional, mean earth radius (C{meter}).
+       @keyword adjust: Adjust the longitudinal delta by the
+                        cosine of the mean latitude (C{bool}).
+       @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
+
+       @return: Distance (C{meter}, same units as I{radius}).
+
+       @see: U{Distance between two (spherical) points
+             <http://www.EdWilliams.org/avform.htm#Dist>}, functions
+             L{equirectangular}, L{Ellipsoid.distance2} or C{LatLon}
+             methods I{distanceTo*} and I{equirectangularTo}.
+    '''
+    d, lon2 = unroll180(lon1, lon2, wrap=wrap)
+    r = euclidean_(radians(lat2), radians(lat1), radians(d), adjust=adjust)
+    return r * float(radius)
+
+
+def euclidean_(a2, a1, b21, adjust=True):
+    '''Approximate the I{angular} C{Euclidean} distance between two
+       (spherical) points.
+
+       @param a2: End latitude (C{radians}).
+       @param a1: Start latitude (C{radians}).
+       @param b21: Longitudinal delta, M{end-start} (C{radians}).
+       @keyword adjust: Adjust the longitudinal delta by the
+                        cosine of the mean latitude (C{bool}).
+
+       @return: Angular distance (C{radians}).
+
+       @see: Functions L{euclidean} and L{haversine_}.
+    '''
+    a, b = abs(a2 - a1), abs(b21)
+    if adjust:
+        a *= cos((a2 + a1) * 0.5)
+    if a < b:
+        a, b = b, a
+    return a + b * 0.5
 
 
 def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **options):
@@ -240,7 +286,7 @@ def haversine_(a2, a1, b21):
 
        @return: Angular distance (C{radians}).
 
-       @see: Function L{haversine}.
+       @see: Functions L{haversine} and L{euclidean_}.
     '''
     def _hsin(rad):
         return sin(rad * 0.5)**2

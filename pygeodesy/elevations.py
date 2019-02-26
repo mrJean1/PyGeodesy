@@ -20,7 +20,7 @@ from lazily import _ALL_LAZY
 from utily import clipStr
 
 __all__ = _ALL_LAZY.elevations
-__version__ = '19.01.08'
+__version__ = '19.02.24'
 
 try:
     from urllib2 import urlopen  # quote, urlcleanup
@@ -131,7 +131,7 @@ def elevation2(lat, lon, timeout=2.0):
        @see: U{USGS National Map<http://NationalMap.gov/epqs>},
              the U{FAQ<http://www.USGS.gov/faqs/what-are-projection-
              horizontal-and-vertical-datum-units-and-resolution-3dep-standard-dems>}
-             and U{USGS10mElev.py<http://gist.GitHub.com/pyRobShrk>}.
+             and U{USGS10mElev.py<http://Gist.GitHub.com/pyRobShrk>}.
     '''
     try:
         x = _qURL('http://NED.USGS.gov/epqs/pqs.php',  # http://NationalMap.gov/epqs/pqs.php

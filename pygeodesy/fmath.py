@@ -13,7 +13,7 @@ from sys import float_info as _float_info
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.fmath
-__version__ = '19.01.02'
+__version__ = '19.02.21'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -275,7 +275,7 @@ def fdot(a, *b):
 
        @return: Dot product (C{float}).
 
-       @raise ValueError: Unequal len(a) and len(b).
+       @raise ValueError: Unequal C{len}(I{a}) and C{len}(I{b}).
     '''
     if not len(a) == len(b):
         raise ValueError('%s: %s vs %s' % ('len', len(a), len(b)))
@@ -416,6 +416,42 @@ def fpowers(x, n, alts=0):
 
     # XXX PyChecker claims result is None
     return xs
+
+
+def fprod(iterable, start=1.0):
+    '''Iterable product, like C{numpy.prod}.
+
+       @param iterable: Values to be multiplied (C{scalar}[]).
+       @keyword start: Initial product, also the value returned
+                       for an empty iterable (C{scalar}).
+
+       @return: The product (C{float}).
+
+       @see: U{NumPy.prod<http://docs.SciPy.org/doc/
+             numpy/reference/generated/numpy.prod.html>}.
+    '''
+    return freduce(mul, iterable, start)
+
+
+try:
+    from functools import reduce as freduce
+except ImportError:
+    try:
+        freduce = reduce  # PYCHOK expected
+    except NameError:  # Python 3+
+        def freduce(f, iterable, *start):
+            '''For missing C{functools.reduce}.
+            '''
+            if start:
+                r = start[0]
+            else:
+                n, iterable = len2(iterable)
+                if n <= 0:
+                    raise TypeError('empty reduce(), no start')
+                r, iterable = iterable[0], iterable[1:]
+            for v in iterable:
+                r = f(r, v)
+            return r
 
 
 def fStr(floats, prec=6, sep=', ', fmt='%.*f', ints=False):

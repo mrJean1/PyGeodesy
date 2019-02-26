@@ -629,7 +629,7 @@ def areaOf(points, radius=R_M, wrap=True):
        @raise ValueError: Insufficient number of I{points}.
 
        @note: The area is based on Karney's U{'Area of a spherical polygon'
-              <http://osgeo-org.1560.x6.nabble.com/Area-of-a-spherical-polygon-td3841625.html>}.
+              <http://OSGeo-org.1560.x6.nabble.com/Area-of-a-spherical-polygon-td3841625.html>}.
 
        @see: L{pygeodesy.areaOf}, L{sphericalNvector.areaOf} and
              L{ellipsoidalKarney.areaOf}.
