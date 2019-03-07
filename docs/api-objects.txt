@@ -279,6 +279,7 @@ pygeodesy.dms.F_DMS	pygeodesy.dms-module.html#F_DMS
 pygeodesy.elevations	pygeodesy.elevations-module.html
 pygeodesy.elevations._error	pygeodesy.elevations-module.html#_error
 pygeodesy.elevations.__all__	pygeodesy.elevations-module.html#__all__
+pygeodesy.elevations._str	pygeodesy.elevations-module.html#_str
 pygeodesy.elevations._qURL	pygeodesy.elevations-module.html#_qURL
 pygeodesy.elevations.geoidHeight2	pygeodesy.elevations-module.html#geoidHeight2
 pygeodesy.elevations._xml	pygeodesy.elevations-module.html#_xml
@@ -1604,13 +1605,15 @@ pygeodesy.bases.LatLonHeightBase.points	pygeodesy.bases.LatLonHeightBase-class.h
 pygeodesy.bases.LatLonHeightBase.compassAngle	pygeodesy.bases.LatLonHeightBase-class.html#compassAngle
 pygeodesy.ellipsoidalVincenty.VincentyError	pygeodesy.ellipsoidalVincenty.VincentyError-class.html
 pygeodesy.fmath.Fsum	pygeodesy.fmath.Fsum-class.html
-pygeodesy.fmath.Fsum.fmul	pygeodesy.fmath.Fsum-class.html#fmul
-pygeodesy.fmath.Fsum.fadd	pygeodesy.fmath.Fsum-class.html#fadd
+pygeodesy.fmath.Fsum.fsum2_	pygeodesy.fmath.Fsum-class.html#fsum2_
 pygeodesy.fmath.Fsum.fsum	pygeodesy.fmath.Fsum-class.html#fsum
-pygeodesy.fmath.Fsum._add	pygeodesy.fmath.Fsum-class.html#_add
+pygeodesy.fmath.Fsum.fmul	pygeodesy.fmath.Fsum-class.html#fmul
+pygeodesy.fmath.Fsum._fsum2_	pygeodesy.fmath.Fsum-class.html#_fsum2_
 pygeodesy.fmath.Fsum.__init__	pygeodesy.fmath.Fsum-class.html#__init__
-pygeodesy.fmath.Fsum.fsum_	pygeodesy.fmath.Fsum-class.html#fsum_
+pygeodesy.fmath.Fsum.fadd	pygeodesy.fmath.Fsum-class.html#fadd
 pygeodesy.fmath.Fsum.__len__	pygeodesy.fmath.Fsum-class.html#__len__
+pygeodesy.fmath.Fsum.fsum_	pygeodesy.fmath.Fsum-class.html#fsum_
+pygeodesy.fmath.Fsum._add	pygeodesy.fmath.Fsum-class.html#_add
 pygeodesy.geohash.Geohash	pygeodesy.geohash.Geohash-class.html
 pygeodesy.geohash.Geohash.neighbors	pygeodesy.geohash.Geohash-class.html#neighbors
 pygeodesy.geohash.Geohash._W	pygeodesy.geohash.Geohash-class.html#_W
@@ -2251,7 +2254,7 @@ pygeodesy.utm.Utm._convergence	pygeodesy.utm.Utm-class.html#_convergence
 pygeodesy.utm.Utm._zone	pygeodesy.utm.Utm-class.html#_zone
 pygeodesy.utm.Utm.toStr	pygeodesy.utm.Utm-class.html#toStr
 pygeodesy.utm.Utm._datum	pygeodesy.utm.Utm-class.html#_datum
-pygeodesy.utm.Utm._band	pygeodesy.utm.Utm-class.html#_band
+pygeodesy.utm.Utm._latlon_eps	pygeodesy.utm.Utm-class.html#_latlon_eps
 pygeodesy.utm.Utm.toStr2	pygeodesy.utm.Utm-class.html#toStr2
 pygeodesy.utm.Utm.band	pygeodesy.utm.Utm-class.html#band
 pygeodesy.utm.Utm.hemisphere	pygeodesy.utm.Utm-class.html#hemisphere
@@ -2259,6 +2262,7 @@ pygeodesy.utm.Utm.convergence	pygeodesy.utm.Utm-class.html#convergence
 pygeodesy.utm.Utm.copy	pygeodesy.utm.Utm-class.html#copy
 pygeodesy.utm.Utm.toMgrs	pygeodesy.utm.Utm-class.html#toMgrs
 pygeodesy.utm.Utm._hemi	pygeodesy.utm.Utm-class.html#_hemi
+pygeodesy.utm.Utm._band	pygeodesy.utm.Utm-class.html#_band
 pygeodesy.vector3d.CrossError	pygeodesy.vector3d.CrossError-class.html
 pygeodesy.vector3d.Vector3d	pygeodesy.vector3d.Vector3d-class.html
 pygeodesy.vector3d.Vector3d._update	pygeodesy.vector3d.Vector3d-class.html#_update

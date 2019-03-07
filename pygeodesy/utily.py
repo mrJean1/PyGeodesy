@@ -20,7 +20,7 @@ from math import cos, degrees, pi as PI, radians, tan  # pow
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utily
-__version__ = '19.01.06'
+__version__ = '19.02.25'
 
 division = 1 / 2  # double check int division, see .datum.py
 if not division:
@@ -54,11 +54,11 @@ class LimitError(ValueError):
 def anStr(name, OKd='._-', sub='_'):
     '''Make a valid name of alphanumeric and OKd characters.
 
-       @param name: The original name (str).
-       @keyword OKd: Other acceptable characters (str).
-       @keyword sub: Substitute for invalid charactes (str).
+       @param name: The original name (C{str}).
+       @keyword OKd: Other acceptable characters (C{str}).
+       @keyword sub: Substitute for invalid charactes (C{str}).
 
-       @return: The modified name (str).
+       @return: The modified name (C{str}).
 
        @note: Leading and trailing whitespace characters are removed
               and intermediate whitespace characters are coalesced

@@ -82,7 +82,7 @@ for (most) *Height...* interpolators.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Feb 24, 2019.*
+*Last updated: Mar 06, 2019.*
 
 .. image:: http://Img.Shields.io/pypi/pyversions/PyGeodesy.svg?label=Python
   :target: http://PyPI.org/project/PyGeodesy

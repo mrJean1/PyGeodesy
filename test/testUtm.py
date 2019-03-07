@@ -4,11 +4,11 @@
 # Test UTM functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.09.08'
+__version__ = '19.03.06'
 
 from base import TestsBase
 
-from pygeodesy import F_DEG, F_DMS, parseUTM, utm
+from pygeodesy import EPS, F_DEG, F_DMS, fStr, parseUTM, utm
 
 
 class Tests(TestsBase):
@@ -88,6 +88,25 @@ class Tests(TestsBase):
                 if x[2] in 'ABYZ':
                     x = u = str(e)
             self.test('toUtm(%s)' % (p,), u, x)
+
+        # Utm.toLatLon should converge, for any eps,
+        # but eps = max(eps, EPS) and cached as EPS
+        _EPSs = tuple(EPS * 10**(4 - e) for e in range(9))
+
+        # courtesy of sumnamazu <http://GitHub.com/mrJean1/PyGeodesy/issues/26>
+        u = utm.Utm(55, 'S', 321441.0425108216, 5810117.133231169)
+        self.test('Utm9', u, '55 S 321441 5810117')
+        for eps in _EPSs:
+            # u._latlon = None  # XXX hack to zap cache
+            ll = fStr(u.toLatLon(eps=eps)[:2], prec=8)
+            self.test('Utm9.toLatLon(eps=%.4e)' % (eps,), ll, '-37.83891644, 144.97077387')
+
+        u = utm.Utm(31, 'N', 400000, 5000000)
+        self.test('UtmX', u, '31 N 400000 5000000')
+        for eps in _EPSs:
+            # u._latlon = None  # XXX hack to zap cache
+            ll = fStr(u.toLatLon(eps=eps)[:2], prec=8)
+            self.test('UtmX.toLatLon(eps=%.4e)' % (eps,), ll, '45.14639288, 1.72796704')
 
 
 if __name__ == '__main__':

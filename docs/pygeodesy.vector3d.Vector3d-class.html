@@ -113,8 +113,13 @@ bases.Named --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#__abs__" class="summary-sig-name">__abs__</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Return the norm of this vector.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>,
+        <span class="summary-sig-arg">z</span>,
+        <span class="summary-sig-arg">ll</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+      New 3-D vector.</td>
           <td align="right" valign="top">
             
             
@@ -150,6 +155,63 @@ bases.Named --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#__iadd__" class="summary-sig-name">__iadd__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>)</span><br />
+      Add this to an other vector (<a 
+      href="pygeodesy.vector3d.Vector3d-class.html" 
+      class="link">Vector3d</a>).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#__radd__" class="summary-sig-name">__radd__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>)</span><br />
+      Add this to an other vector (<a 
+      href="pygeodesy.vector3d.Vector3d-class.html" 
+      class="link">Vector3d</a>).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#__abs__" class="summary-sig-name">__abs__</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Return the norm of this vector.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#__cmp__" class="summary-sig-name">__cmp__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
       Compare this and an other vector</td>
@@ -169,6 +231,42 @@ bases.Named --+
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#__div__" class="summary-sig-name">__div__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">scalar</span>)</span><br />
+      Divide this vector by a scalar.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#__itruediv__" class="summary-sig-name">__itruediv__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">scalar</span>)</span><br />
+      Divide this vector by a scalar.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#__truediv__" class="summary-sig-name">__truediv__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">scalar</span>)</span><br />
       Divide this vector by a scalar.</td>
           <td align="right" valign="top">
@@ -240,120 +338,6 @@ bases.Named --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#__iadd__" class="summary-sig-name">__iadd__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span><br />
-      Add this to an other vector (<a 
-      href="pygeodesy.vector3d.Vector3d-class.html" 
-      class="link">Vector3d</a>).</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#__imatmul__" class="summary-sig-name">__imatmul__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span><br />
-      Compute the cross product of this and an other vector.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#__imul__" class="summary-sig-name">__imul__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">scalar</span>)</span><br />
-      Multiply this vector by a scalar</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">x</span>,
-        <span class="summary-sig-arg">y</span>,
-        <span class="summary-sig-arg">z</span>,
-        <span class="summary-sig-arg">ll</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
-      New 3-D vector.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#__isub__" class="summary-sig-name">__isub__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span><br />
-      Subtract an other vector from this vector.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#__itruediv__" class="summary-sig-name">__itruediv__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">scalar</span>)</span><br />
-      Divide this vector by a scalar.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#__le__" class="summary-sig-name">__le__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
       Is this vector shorter than or equal to an other vector?</td>
@@ -408,7 +392,61 @@ bases.Named --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#__imatmul__" class="summary-sig-name">__imatmul__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>)</span><br />
+      Compute the cross product of this and an other vector.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#__mul__" class="summary-sig-name">__mul__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">scalar</span>)</span><br />
+      Multiply this vector by a scalar</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#__imul__" class="summary-sig-name">__imul__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">scalar</span>)</span><br />
+      Multiply this vector by a scalar</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#__rmul__" class="summary-sig-name">__rmul__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">scalar</span>)</span><br />
       Multiply this vector by a scalar</td>
           <td align="right" valign="top">
@@ -478,47 +516,9 @@ bases.Named --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#__radd__" class="summary-sig-name">__radd__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span><br />
-      Add this to an other vector (<a 
-      href="pygeodesy.vector3d.Vector3d-class.html" 
-      class="link">Vector3d</a>).</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#__rmatmul__" class="summary-sig-name">__rmatmul__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
       Compute the cross product of an other and this vector.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#__rmul__" class="summary-sig-name">__rmul__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">scalar</span>)</span><br />
-      Multiply this vector by a scalar</td>
           <td align="right" valign="top">
             
             
@@ -570,9 +570,9 @@ bases.Named --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#__truediv__" class="summary-sig-name">__truediv__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">scalar</span>)</span><br />
-      Divide this vector by a scalar.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#__isub__" class="summary-sig-name">__isub__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>)</span><br />
+      Subtract an other vector from this vector.</td>
           <td align="right" valign="top">
             
             
@@ -810,6 +810,24 @@ bases.Named --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#sum" class="summary-sig-name">sum</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>)</span><br />
+      Add this vector and an other vector.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#rotate" class="summary-sig-name">rotate</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">axis</span>,
         <span class="summary-sig-arg">theta</span>)</span><br />
@@ -833,24 +851,6 @@ bases.Named --+
         <span class="summary-sig-arg">axis</span>,
         <span class="summary-sig-arg">theta</span>)</span><br />
       DEPRECATED, use method <code>rotate</code>.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#sum" class="summary-sig-name">sum</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span><br />
-      Add this vector and an other vector.</td>
           <td align="right" valign="top">
             
             
@@ -1061,24 +1061,42 @@ bases.Named --+
     <span class="table-header">Method Details</span></td>
 </tr>
 </table>
-<a name="__abs__"></a>
+<a name="__init__"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__abs__</span>(<span class="sig-arg">self</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">x</span>,
+        <span class="sig-arg">y</span>,
+        <span class="sig-arg">z</span>,
+        <span class="sig-arg">ll</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+    <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Return the norm of this vector.</p>
+  <p>New 3-D vector.</p>
+  <p>The vector may be normalised, or use x/y/z values for height relative 
+  to the surface of the sphere or ellipsoid, distance from earth centre, 
+  etc.</p>
   <dl class="fields">
-    <dt>Returns:</dt>
-        <dd>Norm, unit length (<code>float</code>);</dd>
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - X component of vector (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>y</code></strong> - Y component of vector (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>z</code></strong> - Z component of vector (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>ll</code></strong> - Optional, original latlon (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Overrides:
+        object.__init__
+    </dt>
   </dl>
 </td></tr></table>
 </div>
@@ -1109,6 +1127,86 @@ bases.Named --+
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>other</i> <code>type</code>.</li>
     </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__iadd__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__iadd__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Add this to an other vector (<a 
+  href="pygeodesy.vector3d.Vector3d-class.html" 
+  class="link">Vector3d</a>).</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>Vectorial sum (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>other</i> <code>type</code>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__radd__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__radd__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>)</span>
+    <br /><em class="fname">(Right-side addition operator)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Add this to an other vector (<a 
+  href="pygeodesy.vector3d.Vector3d-class.html" 
+  class="link">Vector3d</a>).</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>Vectorial sum (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>other</i> <code>type</code>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__abs__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__abs__</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the norm of this vector.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>Norm, unit length (<code>float</code>);</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1153,6 +1251,68 @@ bases.Named --+
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__div__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">scalar</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Divide this vector by a scalar.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>scalar</code></strong> - The divisor (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Quotient (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <i>scalar</i>'</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__itruediv__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__itruediv__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">scalar</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Divide this vector by a scalar.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>scalar</code></strong> - The divisor (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Quotient (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <i>scalar</i>'</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__truediv__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__truediv__</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">scalar</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1275,198 +1435,6 @@ bases.Named --+
   </dl>
 </td></tr></table>
 </div>
-<a name="__iadd__"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__iadd__</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">other</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Add this to an other vector (<a 
-  href="pygeodesy.vector3d.Vector3d-class.html" 
-  class="link">Vector3d</a>).</p>
-  <dl class="fields">
-    <dt>Returns:</dt>
-        <dd>Vectorial sum (<a href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>other</i> <code>type</code>.</li>
-    </ul></dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="__imatmul__"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__imatmul__</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">other</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Compute the cross product of this and an other vector.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - The other vector (<a 
-          href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Cross product (<a href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>other</i> <code>type</code>.</li>
-    </ul></dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="__imul__"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__imul__</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">scalar</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Multiply this vector by a scalar</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>scalar</code></strong> - Factor (<code>scalar</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Product (<a href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>).</dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="__init__"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">x</span>,
-        <span class="sig-arg">y</span>,
-        <span class="sig-arg">z</span>,
-        <span class="sig-arg">ll</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
-    <br /><em class="fname">(Constructor)</em>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>New 3-D vector.</p>
-  <p>The vector may be normalised, or use x/y/z values for height relative 
-  to the surface of the sphere or ellipsoid, distance from earth centre, 
-  etc.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - X component of vector (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>y</code></strong> - Y component of vector (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>z</code></strong> - Z component of vector (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>ll</code></strong> - Optional, original latlon (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
-    </ul></dd>
-    <dt>Overrides:
-        object.__init__
-    </dt>
-  </dl>
-</td></tr></table>
-</div>
-<a name="__isub__"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__isub__</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">other</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Subtract an other vector from this vector.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - The other vector (<a 
-          href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Difference (<a href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>other</i> <code>type</code>.</li>
-    </ul></dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="__itruediv__"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__itruediv__</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">scalar</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Divide this vector by a scalar.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>scalar</code></strong> - The divisor (<code>scalar</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Quotient (<a href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <i>scalar</i>'</li>
-    </ul></dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="__le__"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1566,6 +1534,39 @@ bases.Named --+
   </dl>
 </td></tr></table>
 </div>
+<a name="__imatmul__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__imatmul__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the cross product of this and an other vector.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other vector (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Cross product (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>other</i> <code>type</code>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="__mul__"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1574,6 +1575,60 @@ bases.Named --+
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__mul__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">scalar</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Multiply this vector by a scalar</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>scalar</code></strong> - Factor (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Product (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__imul__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__imul__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">scalar</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Multiply this vector by a scalar</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>scalar</code></strong> - Factor (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Product (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__rmul__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__rmul__</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">scalar</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1669,36 +1724,6 @@ bases.Named --+
   </dl>
 </td></tr></table>
 </div>
-<a name="__radd__"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__radd__</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">other</span>)</span>
-    <br /><em class="fname">(Right-side addition operator)</em>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Add this to an other vector (<a 
-  href="pygeodesy.vector3d.Vector3d-class.html" 
-  class="link">Vector3d</a>).</p>
-  <dl class="fields">
-    <dt>Returns:</dt>
-        <dd>Vectorial sum (<a href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>other</i> <code>type</code>.</li>
-    </ul></dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="__rmatmul__"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1729,33 +1754,6 @@ bases.Named --+
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>other</i> <code>type</code>.</li>
     </ul></dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="__rmul__"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__rmul__</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">scalar</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Multiply this vector by a scalar</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>scalar</code></strong> - Factor (<code>scalar</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Product (<a href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1826,33 +1824,35 @@ bases.Named --+
   </dl>
 </td></tr></table>
 </div>
-<a name="__truediv__"></a>
+<a name="__isub__"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__truediv__</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">scalar</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__isub__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Divide this vector by a scalar.</p>
+  <p>Subtract an other vector from this vector.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>scalar</code></strong> - The divisor (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>other</code></strong> - The other vector (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Quotient (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+        <dd>Difference (<a href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <i>scalar</i>'</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>other</i> <code>type</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -2229,6 +2229,39 @@ bases.Named --+
   </dl>
 </td></tr></table>
 </div>
+<a name="sum"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">sum</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Add this vector and an other vector.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other vector (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Vectorial sum (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>other</i> <code>type</code>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="rotate"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -2268,39 +2301,6 @@ bases.Named --+
         <i>rotateAround</i>.
       </p>
 </div></td></tr></table>
-</div>
-<a name="sum"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">sum</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">other</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Add this vector and an other vector.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - The other vector (<a 
-          href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Vectorial sum (<a href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>other</i> <code>type</code>.</li>
-    </ul></dd>
-  </dl>
-</td></tr></table>
 </div>
 <a name="times"></a>
 <div>
@@ -2616,7 +2616,7 @@ class="link">CrossError</a> exceptions (<code>bool</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Feb 25 19:04:05 2019
+    Generated by Epydoc 3.0.1 on Thu Mar  7 10:47:23 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

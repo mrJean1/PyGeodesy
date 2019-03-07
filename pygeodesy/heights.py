@@ -34,11 +34,11 @@ or
 C{h0, h1, h2, ... = hinterpolator.height(lats, lons)}  # C{list, ...}
 
 
-The knots do not need to be ordered for any of the interpolators.
+The knots do not need to be ordered for any of the height interpolators.
 
-Errors from C{scipy} as raised as L{SciPyError}s.  Warnings issued
-by C{scipy} can be thrown as L{SciPyWarning} exceptions, provided
-Python C{warnings} are filtered accordingly, see L{SciPyWarning}.
+Errors from C{scipy} as raised as L{SciPyError}s.  Warnings issued by
+C{scipy} can be thrown as L{SciPyWarning} exceptions, provided Python
+C{warnings} are filtered accordingly, see L{SciPyWarning}.
 
 @see: U{SciPy<http://docs.SciPy.org/doc/scipy/reference/interpolate.html>}.
 '''
@@ -149,8 +149,8 @@ def _xyhs(lls, off=True):
         xf, yf = PI, PI_2
     try:
         for ll in lls:
-            yield (max(0.0, radiansPI2(ll.lon + 180.0)  - xf),
-                   max(0.0, radiansPI( ll.lat +  90.0)) - yf, ll.height)
+            yield (max(0.0, radiansPI2(ll.lon + 180.0)) - xf), \
+                  (max(0.0, radiansPI( ll.lat +  90.0)) - yf), ll.height
     except AttributeError as x:
         raise HeightError('%s: %r' % (x, ll))
 
@@ -180,7 +180,7 @@ class _HeightBase(object):
     def _ev(self, *unused):
         raise AssertionError('%s.%s not overloaded' % (self.__class__.__name__, '_ev'))
 
-    def _eval(self, llis):  # XXX not *llis
+    def _eval(self, llis):  # XXX single arg, not *args
         _as, xis, yis, _ = self._axyllis4(llis)
         try:  # SciPy .ev signature: y first, then x!
             return _as(self._ev(yis, xis))
@@ -196,7 +196,7 @@ class _HeightBase(object):
             if n != m:
                 raise HeightError('non-matching %s: %s vs %s' % ('len', n, m))
             llis = [LatLon_(*ll) for ll in zip(lats, lons)]
-        return self(llis)
+        return self(llis)  # __call__(lli) or __call__(llis)
 
     def _NumSciPy(self, throwarnings=False):
         # import numpy and scipy
@@ -256,7 +256,7 @@ class HeightCubic(_HeightBase):
                     or tuple of interpolated heights (C{float}s).
 
            @raise HeightError: Insufficient number of I{llis} or
-                               invalide I{lli}.
+                               invalid I{lli}.
 
            @raise SciPyError: A C{scipy.interpolate.interp2d} issue.
 

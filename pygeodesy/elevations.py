@@ -20,16 +20,16 @@ from lazily import _ALL_LAZY
 from utily import clipStr
 
 __all__ = _ALL_LAZY.elevations
-__version__ = '19.02.24'
+__version__ = '19.02.25'
 
 try:
-    from urllib2 import urlopen  # quote, urlcleanup
     _Bytes = unicode, bytearray  # PYCHOK expected
+    from urllib2 import urlopen  # quote, urlcleanup
 
 except (ImportError, NameError):  # Python 3+
+    _Bytes = bytes, bytearray
     from urllib.request import urlopen  # urlcleanup
     # from urllib.parse import quote
-    _Bytes = bytes, bytearray
 
 try:
     from json import loads as _json
@@ -86,10 +86,15 @@ def _qURL(url, params, timeout=2):
     r = u.read()
     u.close()
     # urlcleanup()
+    return _str(r).strip()
 
-    if isinstance(r, _Bytes):
-        r = r.decode('utf-8')
-    return r.strip()
+
+def _str(t):
+    '''Unicode or C{bytes} to C{str}.
+    '''
+    if isinstance(t, _Bytes):
+        t = str(t.decode('utf-8'))
+    return t
 
 
 def _xml(tag, xml):
@@ -188,7 +193,7 @@ def geoidHeight2(lat, lon, model=0, timeout=2.0):
             if isinstance(d.get('error', 'N/A'), float):
                 h = d.get('geoidHeight', None)
                 if h is not None:
-                    return h, d.get('geoidModel', 'N/A')
+                    return h, _str(d.get('geoidModel', 'N/A'))
             e = 'geoidHeight'
         else:
             e = 'JSON'

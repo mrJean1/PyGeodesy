@@ -13,7 +13,7 @@ from sys import float_info as _float_info
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.fmath
-__version__ = '19.02.21'
+__version__ = '19.03.06'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -88,6 +88,8 @@ class Fsum(object):
              Python 2.6+ file I{Modules/mathmodule.c} and the issue log
              U{Full precision summation<http://bugs.Python.org/issue2819>}.
     '''
+    _fsum2_ = 0
+
     def __init__(self, *starts):
         '''Initialize a new accumulator with one or more start values.
 
@@ -182,6 +184,27 @@ class Fsum(object):
            @note: Accumulation can continue after summation.
         '''
         return self.fsum(args)
+
+    def fsum2_(self, *args):
+        '''Accumulated more values from positional arguments, sum all
+           and provide the delta.
+
+           @param args: Values to add (scalars), all positional.
+
+           @return: 2-Tuple (fsum_, delta) with athe ccurate, running
+                    sum and the delta with the previous sum (C{float}s).
+
+           @raise OverflowError: Partial C{2sum} overflow.
+
+           @raise TypeError: Non-scalar I{args} value.
+
+           @raise ValueError: Invalid or infinite I{args} value.
+
+           @note: Accumulation can continue after summation.
+        '''
+        s = self.fsum(args)
+        self._fsum2_, d = s, s - self._fsum2_
+        return s, d
 
     def fsum(self, iterable=()):
         '''Accumulated more values from the iterable and sum all.

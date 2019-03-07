@@ -46,7 +46,7 @@ from operator import mul
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utm
-__version__ = '19.01.02'
+__version__ = '19.03.06'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -190,9 +190,10 @@ class Utm(Based):
     _convergence = None  #: (INTERNAL) Meridian conversion (C{degrees}).
     _datum       = Datums.WGS84  #: (INTERNAL) L{Datum}.
     _easting     = 0     #: (INTERNAL) Easting from false easting (C{meter}).
-    _hemi        = ''    #: (INTERNAL) Hemisphere ('N' or 'S')
+    _hemi        = ''    #: (INTERNAL) Hemisphere ('N' or 'S').
     # _latlon also set by ellipsoidalBase.LatLonEllipsoidalBase.toUtm
     _latlon      = None  #: (INTERNAL) toLatLon cache.
+    _latlon_eps  = EPS   #: (INTERNAL) eps from _latlon (C{float}).
     _mgrs        = None  #: (INTERNAL) toMgrs cache.
     _northing    = 0     #: (INTERNAL) Northing from false northing (C{meter}).
     _scale       = None  #: (INTERNAL) Grid scale factor (scalar or C{None}).
@@ -246,12 +247,12 @@ class Utm(Based):
         if 0 > n or n > _FalseNorthing:
             raise RangeError('%s invalid: %r' % ('northing', northing))
 
-        self._hemi        = h
-        self._easting     = e
-        self._northing    = n
         self._band        = B
-        self._datum       = datum
         self._convergence = convergence
+        self._datum       = datum
+        self._easting     = e
+        self._hemi        = h
+        self._northing    = n
         self._scale       = scale
 
     def _xcopy(self, *attrs):
@@ -318,11 +319,13 @@ class Utm(Based):
         '''
         return self._scale
 
-    def toLatLon(self, LatLon=None):
+    def toLatLon(self, LatLon=None, eps=EPS):
         '''Convert this UTM coordinate to an (ellipsoidal) geodetic point.
 
            @keyword LatLon: Optional, ellipsoidal (sub-)class to use
                             for the point (C{LatLon}) or C{None}.
+           @keyword eps: Optional convergence limit, L{EPS} or above
+                         (C{float}).
 
            @return: This UTM coordinate as (I{LatLon}) or 5-tuple
                     (lat, lon, datum, convergence, scale) if I{LatLon}
@@ -338,7 +341,10 @@ class Utm(Based):
            >>> from pygeodesy import ellipsoidalVincenty as eV
            >>> ll = u.toLatLon(eV.LatLon)  # 48°51′29.52″N, 002°17′40.20″E
         '''
-        if self._latlon:
+        if eps < EPS:
+            eps = EPS  # less doesn't converge
+
+        if self._latlon and self._latlon_eps == eps:
             return self._latlon5(LatLon)
 
         E = self._datum.ellipsoid  # XXX vs LatLon.datum.ellipsoid
@@ -368,15 +374,14 @@ class Utm(Based):
 
         T = t0 = sy / H  # τʹ
         q = 1.0 / E.e12
-        d = 1
+        d = 1.0 + eps
         sd = Fsum(T)
-        # toggles on +/-1.12e-16 eg. 31 N 400000 5000000
-        while abs(d) > EPS:  # 1e-12
+        while abs(d) > eps:
             h = hypot1(T)
             s = sinh(E.e * atanh(E.e * T / h))
             t = T * hypot1(s) - s * h
-            d = (t0 - t) / hypot1(t) * (q + T**2) / h
-            T = sd.fsum_(d)  # τi
+            d = (t0 - t) / hypot1(t) * ((q + T**2) / h)
+            T, d = sd.fsum2_(d)  # τi, (τi - τi-1)
 
         a = atan(T)  # lat
         b = atan2(shx, cy) + radians(_cmlon(self._zone))
@@ -390,7 +395,7 @@ class Utm(Based):
         # scale: Karney 2011 Eq 28
         ll._scale = E.e2s(sin(a)) * hypot1(T) * H * (A0 / E.a / hypot(p, q))
 
-        self._latlon = ll
+        self._latlon, self._latlon_eps = ll, eps
         return self._latlon5(LatLon)
 
     def _latlon5(self, LatLon):
@@ -431,8 +436,10 @@ class Utm(Based):
            @keyword cs: Optionally, include meridian convergence and
                         grid scale factor (C{bool}).
 
-           @return: This UTM as string "00 N|S meter meter" (C{str})
-                    plus " degrees float" if I{cs} is C{True}.
+           @return: This UTM as a string with I{zone[, band], hemisphere,
+                    eastring, northing, [convergence, scale]} in
+                    C{"00 N|S meter meter"} plus C{" degrees float"} if
+                    I{cs} is C{True} (C{str}).
 
            @example:
 
@@ -464,8 +471,8 @@ class Utm(Based):
            @keyword cs: Optionally, include meridian convergence and
                         grid scale factor (C{bool}).
 
-           @return: This UTM as "[Z:00, H:N|S, E:meter, N:meter]" (C{str})
-                    plus "C:degrees, S:float" if I{cs} is C{True}.
+           @return: This UTM as a string C{"[Z:00, H:N|S, E:meter, N:meter]"}
+                    plus C{"C:degrees, S:float"} if I{cs} is C{True} (C{str}).
         '''
         t = self.toStr(prec=prec, sep=' ', B=B, cs=cs).split()
         k = 'ZHENCS' if cs else 'ZHEN'
