@@ -22,7 +22,7 @@ The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.
 @newfield example: Example, Examples
 '''
 
-from bases import Named, _xnamed
+from bases import _Named, _xnamed
 from datum import Datum, Datums
 from ellipsoidalBase import CartesianBase, LatLonEllipsoidalBase
 from fmath import EPS, cbrt, fdot, fStr, fsum_, hypot, hypot3
@@ -37,7 +37,7 @@ from math import asin, atan2, cos, radians, sin, sqrt
 __all__ = _ALL_LAZY.ellipsoidalNvector + (
           'Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
           'meanOf', 'toNed')  # functions
-__version__ = '19.01.02'
+__version__ = '19.03.09'
 
 
 class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
@@ -491,7 +491,7 @@ class Cartesian(CartesianBase):
         return self._Nv
 
 
-class Ned(Named):
+class Ned(_Named):
     '''North-Eeast-Down (NED), also known as Local Tangent Plane (LTP),
        is a vector in the local coordinate frame of a body.
     '''

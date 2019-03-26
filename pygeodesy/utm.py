@@ -17,12 +17,12 @@ UTM is a set of 60 transverse Mercator projections, normally based on
 the WGS-84 ellipsoid.  Within each zone, coordinates are represented
 as eastings and northings, measured in metres.
 
-This method based on Karney U{'Transverse Mercator with an accuracy of
-a few nanometers'<http://Arxiv.org/pdf/1002.1417v3.pdf>}, 2011 (building
-on Krüger U{'Konforme Abbildung des Erdellipsoids in der Ebene'
+This method based on Charles F. F. Karney U{'Transverse Mercator with an
+accuracy of a few nanometers'<http://Arxiv.org/pdf/1002.1417v3.pdf>}, 2011
+(building on Krüger U{'Konforme Abbildung des Erdellipsoids in der Ebene'
 <http://bib.GFZ-Potsdam.DE/pub/digi/krueger2.pdf>}, 1912).
 
-Other references Seidel U{'Die Mathematik der Gauß-Krueger-Abbildung'
+Other references Henrik Seidel U{'Die Mathematik der Gauß-Krueger-Abbildung'
 <http://Henrik-Seidel.GMXhome.DE/gausskrueger.pdf>}, 2006,
 U{Transverse Mercator Projection<http://GeographicLib.SourceForge.io/tm.html>},
 and U{Universal Transverse Mercator coordinate system
@@ -31,7 +31,7 @@ and U{Universal Transverse Mercator coordinate system
 @newfield example: Example, Examples
 '''
 
-from bases import Based, _nameof, _xattrs, _xnamed
+from bases import _Based, _nameof, _xattrs, _xnamed
 from datum import Datums
 from dms import S_DEG, parseDMS2, RangeError
 from ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
@@ -46,7 +46,7 @@ from operator import mul
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utm
-__version__ = '19.03.06'
+__version__ = '19.03.17'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -183,7 +183,7 @@ def _toZBlat3(zone, band, mgrs=False):  # used by mgrs.Mgrs
     return z, B, b
 
 
-class Utm(Based):
+class Utm(_Based):
     '''Universal Transverse Mercator (UTM) coordinate.
     '''
     _band        = ''    #: (INTERNAL) Latitude band letter ('C..X').
@@ -600,9 +600,9 @@ def toUtm(latlon, lon=None, datum=None, Utm=Utm, name='', cmoff=True):
     x = Ks.xs(x) * A0  # η
 
     if cmoff:
-        # C.F.F. Karney, "Test data for the transverse Mercator projection (2009)",
-        # <http://GeographicLib.SourceForge.io/html/transversemercator.html> and
-        # <http://Zenodo.org/record/32470#.W4LEJS2ZON8>
+        # Charles F. F. Karney, "Test data for the transverse Mercator projection
+        # (2009)", <http://GeographicLib.SourceForge.io/html/transversemercator.html>
+        # and <http://Zenodo.org/record/32470#.W4LEJS2ZON8>
         x += _FalseEasting  # make x relative to false easting
         if y < 0:
             y += _FalseNorthing  # y relative to false northing in S
@@ -638,7 +638,6 @@ def utmZoneBand2(lat, lon):
        @raise ValueError: Invalid I{lat} or I{lon}.
     '''
     return _toZBab4(*parseDMS2(lat, lon))[:2]
-
 
 # **) MIT License
 #

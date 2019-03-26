@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Utility, geodetic/geometric functions and constants.
+u'''Geometric and other utility functions and constants.
 
 After I{(C) Chris Veness 2011-2015} published under the same MIT Licence**, see
 U{Latitude/Longitude<http://www.Movable-Type.co.UK/scripts/latlong.html>} and
@@ -17,10 +17,13 @@ from fmath import _Seqs, EPS, len2, map2
 from lazily import _ALL_LAZY
 
 from math import cos, degrees, pi as PI, radians, tan  # pow
+from os import environ as _environ
+
+_FOR_DOCS = _environ.get('PYGEODESY_FOR_DOCS', None)
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utily
-__version__ = '19.02.25'
+__version__ = '19.03.24'
 
 division = 1 / 2  # double check int division, see .datum.py
 if not division:
@@ -178,6 +181,14 @@ def false2f(value, name='value', false=True):
     except (TypeError, ValueError):
         raise ValueError('%s invalid: %r' % (name, value))
     return f
+
+
+def _for_docs(*names):
+    '''(INTERNAL) Only export I{names} when making docs to force
+       C{epydoc} to include classes, methods, functions and other
+       names in the documentation.
+    '''
+    return names if _FOR_DOCS else ()
 
 
 def ft2m(feet):

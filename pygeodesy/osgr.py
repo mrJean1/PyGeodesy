@@ -31,7 +31,7 @@ U{Transverse Mercator: Redfearn series
 @newfield example: Example, Examples
 '''
 
-from bases import Based, _nameof, _xattrs, _xnamed
+from bases import _Based, _nameof, _xattrs, _xnamed
 from datum import Datums
 from dms import parseDMS2
 from ellipsoidalBase import LatLonEllipsoidalBase as _ELLB
@@ -44,7 +44,7 @@ from math import cos, radians, sin, sqrt, tan
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.osgr
-__version__ = '19.01.02'
+__version__ = '19.03.09'
 
 _10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (C{meter})
 _100km   = 100000  #: (INTERNAL) 100 km (int meter)
@@ -77,7 +77,7 @@ def _M(Mabcd, a):
                            -sin(a_ * 3) * cos(_a * 3))
 
 
-class Osgr(Based):
+class Osgr(_Based):
     '''Ordinance Survey Grid References (OSGR) coordinate.
     '''
     _datum    = _OSGB36  #: (INTERNAL) Datum (L{Datum})

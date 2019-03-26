@@ -16,7 +16,7 @@ U{Geohash-Javascript<http://GitHub.com/DaveTroy/geohash-js>}.
 @newfield example: Example, Examples
 '''
 
-from bases import Named, _xnamed
+from bases import _Named, _xnamed
 from dms import parse3llh, parseDMS2
 from fmath import EPS, favg, fStr, map2
 from formy import equirectangular, equirectangular_, haversine_
@@ -28,7 +28,7 @@ from math import log10, radians
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.geohash + ('bounds', 'decode', 'decode_error',  # functions
           'distance1', 'distance2', 'distance3', 'encode', 'neighbors', 'sizes')
-__version__ = '19.01.02'
+__version__ = '19.03.09'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -107,7 +107,7 @@ def _2geostr(geohash):
     return geostr
 
 
-class Geohash(str, Named):
+class Geohash(str, _Named):
     '''Geohash class, sub-class of str.
     '''
     _bounds = None  # cached bounds property

@@ -14,7 +14,7 @@ from os import environ, linesep as NL
 import sys
 
 __all__ = ('run2',)
-__version__ = '19.02.12'
+__version__ = '19.03.08'
 
 if isiOS:  # MCCABE 14
 
@@ -26,7 +26,7 @@ if isiOS:  # MCCABE 14
     from runpy import run_path
     from traceback import format_exception
 
-    def run2(test):
+    def run2(test, *unused):
         '''Invoke one test module and return
            the exit status and console output.
         '''
@@ -72,14 +72,14 @@ else:  # non-iOS
 
     from subprocess import PIPE, STDOUT, Popen
 
-    def run2(test):  # PYCHOK expected
+    def run2(test, *argv):  # PYCHOK expected
         '''Invoke one test module and return
            the exit status and console output.
         '''
         if __debug__:
-            c = [PythonX, test]
+            c = (PythonX, test) + argv
         else:
-            c = [PythonX, '-O', test]
+            c = (PythonX, '-O', test) + argv
         p = Popen(c, creationflags=0,
                      executable   =sys.executable,
                    # shell        =True,

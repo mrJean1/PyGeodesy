@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Precision mathematical functions, utilities and constants.
+u'''Precision floating point functions, utilities and constants.
 
 @newfield example: Example, Examples
 '''
@@ -13,7 +13,7 @@ from sys import float_info as _float_info
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.fmath
-__version__ = '19.03.06'
+__version__ = '19.03.15'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -72,13 +72,11 @@ def _2sum(a, b):
 
 
 class Fsum(object):
-    '''Precision floating point summation similar to standard
-       Python function C{math.fsum}.
+    '''Precision summation similar to standard Python function C{math.fsum}.
 
-       Unlike C{math.fsum}, this class accumulates the values
-       incrementally and provides intermediate, precision, running
-       sums.  Accumulation may continue after intermediate
-       summations.
+       Unlike C{math.fsum}, this class accumulates the values repeatedly
+       and provides intermediate, precision running sums.  Accumulation
+       may continue after intermediate summations.
 
        @note: Exception and I{non-finite} handling differ from C{math.fsum}.
 
@@ -93,7 +91,7 @@ class Fsum(object):
     def __init__(self, *starts):
         '''Initialize a new accumulator with one or more start values.
 
-           @param starts: No, one or more start values (scalars).
+           @param starts: No, one or more start values (C{scalar}s).
 
            @raise OverflowError: Partial C{2sum} overflow.
 
@@ -104,17 +102,124 @@ class Fsum(object):
         self._n = 0
         self._ps = []
         if starts:
-            self._add(starts)
+            self.fadd(starts)
+
+    def __add__(self, other):
+        '''Sum of this and an other instance or a scalar.
+
+           @param other: L{Fsum} instance or C{scalar}.
+
+           @return: The sum, a new instance (L{Fsum}).
+
+           @see: Method L{Fsum.fadd}.
+        '''
+        f = self.fcopy()
+        f += other
+        return f  # self.fcopy().__iadd__(other)
+
+    def __iadd__(self, other):
+        '''Add a scalar or an other instance to this instance.
+
+           @param other: L{Fsum} instance or C{scalar}.
+
+           @return: This instance, updated (L{Fsum}).
+
+           @see: Method L{Fsum.fadd}.
+        '''
+        if isscalar(other):
+            self.fadd_(other)
+        elif other is self:
+            self.fmul(2)
+        elif isinstance(other, Fsum):
+            self.fadd(other._ps)
+        else:
+            raise TypeError('%s += %r' % (self, other))
+        return self
+
+    def __imul__(self, other):
+        '''Multiply this instance by a scalar or an other instance.
+
+           @param other: L{Fsum} instance or C{scalar}.
+
+           @return: This instance, updated (L{Fsum}).
+
+           @see: Method L{Fsum.fmul}.
+        '''
+        if isscalar(other):
+            self.fmul(other)
+        elif isinstance(other, Fsum):
+            ps = list(other._ps)
+            if ps:
+                s = self.fcopy()
+                self.fmul(ps.pop())
+                while ps:  # self += s * ps.pop()
+                    p = s.fcopy()
+                    p.fmul(ps.pop())
+                    self.fadd(p._ps)
+            else:
+                self._ps = []  # zero
+        else:
+            raise TypeError('%s *= %r' % (self, other))
+        return self
+
+    def __isub__(self, other):
+        '''Subtract a scalar or an other instance from this instance.
+
+           @param other: L{Fsum} instance or C{scalar}.
+
+           @return: This instance, updated (L{Fsum}).
+
+           @see: Method L{Fsum.fadd}.
+        '''
+        if isscalar(other):
+            self.fadd_(-other)
+        elif other is self:
+            self._ps = []  # zero
+        elif isinstance(other, Fsum):
+            self.fadd(-p for p in other._ps)
+        else:
+            raise TypeError('%s -= %r' % (self, other))
+        return self
 
     def __len__(self):
         '''Return the number of accumulated values.
         '''
         return self._n
 
-    def _add(self, iterable):
-        '''(INTERNAL) Accumulate more values.
+    def __mul__(self, other):
+        '''Product of this and an other instance or a scalar.
 
-           @param iterable: Sequence, list, tuple, etc. (scalars).
+           @param other: L{Fsum} instance or C{scalar}.
+
+           @return: The product, a new instance (L{Fsum}).
+
+           @see: Method L{Fsum.fmul}.
+        '''
+        f = self.fcopy()
+        f *= other
+        return f
+
+    def __str__(self):
+        # m = self.__module__.split('.')[-1]
+        return '%s.%s()' % (self.__module__, self.__class__.__name__)
+
+    def __sub__(self, other):
+        '''Difference of this and an other instance or a scalar.
+
+           @param other: L{Fsum} instance or C{scalar}.
+
+           @return: The difference, a new instance (L{Fsum}).
+
+           @see: Method L{Fsum.fadd}.
+        '''
+        f = self.fcopy()
+        f -= other
+        return f
+
+    def fadd(self, iterable):
+        '''Accumulate more values from an iterable.
+
+           @param iterable: Sequence, list, tuple, etc. (C{scalar}s).
 
            @raise OverflowError: Partial C{2sum} overflow.
 
@@ -122,6 +227,9 @@ class Fsum(object):
 
            @raise ValueError: Invalid or infinite I{iterable} value.
         '''
+        if isscalar(iterable):  # for backward compatibility
+            iterable = tuple(iterable)
+
         ps = self._ps
         for a in iterable:
             if not isfinite(a):
@@ -136,18 +244,31 @@ class Fsum(object):
             self._n += 1
         # assert self._ps is ps
 
-    def fadd(self, *args):
+    def fadd_(self, *xs):
         '''Accumulate more values from positional arguments.
 
-           @param args: Values to add (scalars), all positional.
+           @param xs: Values to add (C{scalar}s), all positional.
 
            @raise OverflowError: Partial C{2sum} overflow.
 
-           @raise TypeError: Non-scalar I{args} value.
+           @raise TypeError: Non-scalar I{xs} value.
 
            @raise ValueError: Invalid or infinite I{arg}.
         '''
-        self._add(args)
+        self.fadd(xs)
+
+    def fcopy(self):
+        '''Copy this instance.
+
+           @return: The copy, a new instance (L{Fsum}).
+         '''
+        f = Fsum()
+        f._fsum2_ = self._fsum2_
+        f._n      = self._n
+        f._ps     = list(self._ps)
+        return f
+
+    __copy__ = fcopy
 
     def fmul(self, factor):
         '''Multiple the current, partial sum by a factor.
@@ -164,52 +285,27 @@ class Fsum(object):
         ps = self._ps
         if ps:  # multiply and adjust partial sums
             ps[:] = [p * factor for p in ps]
-            self.fadd(ps.pop())
+            self.fadd_(ps.pop())
             self._n -= 1
         # assert self._ps is ps
 
-    def fsum_(self, *args):
-        '''Accumulated more values from positional arguments and sum all.
+    def fsub(self, *xs):
+        '''Accumulate more values from positional arguments.
 
-           @param args: Values to add (scalars), all positional.
-
-           @return: Accurate, running sum (C{float}).
+           @param xs: Values to subtract (C{scalar}s), all positional.
 
            @raise OverflowError: Partial C{2sum} overflow.
 
-           @raise TypeError: Non-scalar I{args} value.
+           @raise TypeError: Non-scalar I{xs} value.
 
-           @raise ValueError: Invalid or infinite I{args} value.
-
-           @note: Accumulation can continue after summation.
+           @raise ValueError: Invalid or infinite I{arg}.
         '''
-        return self.fsum(args)
-
-    def fsum2_(self, *args):
-        '''Accumulated more values from positional arguments, sum all
-           and provide the delta.
-
-           @param args: Values to add (scalars), all positional.
-
-           @return: 2-Tuple (fsum_, delta) with athe ccurate, running
-                    sum and the delta with the previous sum (C{float}s).
-
-           @raise OverflowError: Partial C{2sum} overflow.
-
-           @raise TypeError: Non-scalar I{args} value.
-
-           @raise ValueError: Invalid or infinite I{args} value.
-
-           @note: Accumulation can continue after summation.
-        '''
-        s = self.fsum(args)
-        self._fsum2_, d = s, s - self._fsum2_
-        return s, d
+        self.fadd(-x for x in xs)
 
     def fsum(self, iterable=()):
-        '''Accumulated more values from the iterable and sum all.
+        '''Accumulate more values from an iterable and sum all.
 
-           @param iterable: Sequence, list, tuple, etc. (scalars), optional.
+           @param iterable: Sequence, list, tuple, etc. (C{scalar}s), optional.
 
            @return: Accurate, running sum (C{float}).
 
@@ -222,7 +318,7 @@ class Fsum(object):
            @note: Accumulation can continue after summation.
         '''
         if iterable:
-            self._add(iterable)
+            self.fadd(iterable)
 
         ps = self._ps
         i = len(ps) - 1
@@ -241,6 +337,123 @@ class Fsum(object):
                     break
             # assert self._ps is ps
         return s
+
+    def fsum_(self, *xs):
+        '''Accumulate more values from positional arguments and sum all.
+
+           @param xs: Values to add (C{scalar}s), all positional.
+
+           @return: Accurate, running sum (C{float}).
+
+           @raise OverflowError: Partial C{2sum} overflow.
+
+           @raise TypeError: Non-scalar I{x} value.
+
+           @raise ValueError: Invalid or infinite I{x} value.
+
+           @note: Accumulation can continue after summation.
+        '''
+        return self.fsum(xs)
+
+    def fsum2_(self, *xs):
+        '''Accumulate more values from positional arguments, sum all
+           and provide the sum delta.
+
+           @param xs: Values to add (C{scalar}s), all positional.
+
+           @return: 2-Tuple (fsum_, delta) with athe ccurate, running
+                    sum and the delta with the previous sum (C{float}s).
+
+           @raise OverflowError: Partial C{2sum} overflow.
+
+           @raise TypeError: Non-scalar I{x} value.
+
+           @raise ValueError: Invalid or infinite I{x} value.
+
+           @note: Accumulation can continue after summation.
+        '''
+        s = self.fsum(xs)
+        self._fsum2_, d = s, s - self._fsum2_
+        return s, d
+
+
+class Fdot(Fsum):
+    '''Precision dot product.
+    '''
+    def __init__(self, a, *b):
+        '''New L{Fdot} precision dot product M{sum(a[i] * b[i]
+           for i=0..len(a))}.
+
+           @param a: List, sequence, tuple, etc. (C{scalar}s).
+           @param b: All positional arguments (C{scalar}s).
+
+           @raise ValueError: Unequal C{len}(I{a}) and C{len}(I{b}).
+
+           @see: Function L{fdot}.
+        '''
+        if not len(a) == len(b):
+            raise ValueError('%s: %s vs %s' % ('len', len(a), len(b)))
+
+        Fsum.__init__(self)
+        self.fadd(map(mul, a, b))
+
+
+class Fhorner(Fsum):
+    '''Precision polynomial evaluation using the Horner form.
+    '''
+    def __init__(self, x, *cs):
+        '''New L{Fhorner} evaluation of the polynomial
+           M{sum(cs[i] * x**i for i=0..len(cs))}.
+
+           @param x: Polynomial argument (C{scalar}).
+           @param cs: Polynomial coeffients (C{scalar}[]).
+
+           @raise TypeError: Non-scalar I{x}.
+
+           @raise ValueError: No I{cs} coefficients or I{x} is not finite.
+
+           @see: Function L{fhorner}.
+        '''
+        if not isfinite(x):
+            raise ValueError('not %s: %r' %('finite', x))
+        if not cs:
+            raise ValueError('no %s: %r' % ('coefficents', cs))
+
+        x, cs = float(x), list(cs)
+
+        Fsum.__init__(self, cs.pop())
+        while cs:
+            self.fmul(x)
+            self.fadd_(cs.pop())
+
+
+class Fpolynomial(Fsum):
+    '''Precision polynomial evaluation.
+    '''
+    def __init__(self, x, *cs):
+        '''New L{Fpolynomial} evaluation of the polynomial
+           M{sum(cs[i] * x**i for i=0..len(cs))}.
+
+           @param x: Polynomial argument (C{scalar}).
+           @param cs: Polynomial coeffients (C{scalar}[]).
+
+           @raise TypeError: Non-scalar I{x}.
+
+           @raise ValueError: No I{cs} coefficients or I{x} is not finite.
+
+           @see: Function L{fpolynomial}.
+        '''
+        if not isfinite(x):
+            raise ValueError('not %s: %r' %('finite', x))
+        if not cs:
+            raise ValueError('no %s: %r' % ('coefficents', cs))
+
+        x, cs, xp = float(x), list(cs), 1
+
+        Fsum.__init__(self, cs.pop(0))
+        while cs:
+            xp *= x
+            self.fadd_(xp * cs.pop(0))
 
 
 def acos1(x):
@@ -293,12 +506,14 @@ def fdot(a, *b):
     '''Return the precision dot product M{sum(a[i] * b[i] for
        i=0..len(a))}.
 
-       @param a: List, sequence, tuple, etc. (scalars).
-       @param b: All positional arguments (scalars).
+       @param a: List, sequence, tuple, etc. (C{scalar}s).
+       @param b: All positional arguments (C{scalar}s).
 
        @return: Dot product (C{float}).
 
        @raise ValueError: Unequal C{len}(I{a}) and C{len}(I{b}).
+
+       @see: Class L{Fdot}.
     '''
     if not len(a) == len(b):
         raise ValueError('%s: %s vs %s' % ('len', len(a), len(b)))
@@ -346,19 +561,9 @@ def fhorner(x, *cs):
 
        @raise ValueError: No I{cs} coefficients or I{x} is not finite.
 
-       @see: Function L{fpolynomial}.
+       @see: Function L{fpolynomial} and class L{Fhorner}.
     '''
-    if not isfinite(x):
-        raise ValueError('not %s: %r' %('finite', x))
-    if not cs:
-        raise ValueError('no %s: %r' % ('coefficents', cs))
-
-    x, cs = float(x), list(cs)
-
-    h = Fsum(cs.pop())
-    while cs:
-        h.fmul(x)
-        h.fadd(cs.pop())
+    h = Fhorner(x, *cs)
     return h.fsum()
 
 
@@ -366,7 +571,7 @@ def fmean(xs):
     '''Compute the accurate mean M{sum(xs[i] for
        i=0..len(xs)) / len(xs)}.
 
-       @param xs: Values (scalars).
+       @param xs: Values (C{scalar}s).
 
        @return: Mean value (C{float}).
 
@@ -391,21 +596,10 @@ def fpolynomial(x, *cs):
 
        @raise ValueError: No I{cs} coefficients or I{x} is not finite.
 
-       @see: Function L{fhorner}.
+       @see: Function L{fhorner} and class L{Fpolynomial}.
     '''
-    if not isfinite(x):
-        raise ValueError('not %s: %r' %('finite', x))
-    if not cs:
-        raise ValueError('no %s: %r' % ('coefficents', cs))
-
-    def _terms(x, c0, *cs):
-        xp = 1
-        yield float(c0)
-        for c in cs:
-            xp *= x
-            yield xp * c
-
-    return fsum(_terms(float(x), *cs))
+    p = Fpolynomial(x, *cs)
+    return p.fsum()
 
 
 def fpowers(x, n, alts=0):
@@ -456,24 +650,43 @@ def fprod(iterable, start=1.0):
     return freduce(mul, iterable, start)
 
 
+def frange(start, number, step=1):
+    '''Generate a range of C{float}s.
+
+       @param start: First value (C{float}).
+       @param number: The number of C{float}s to generate (C{int}).
+       @keyword step: Increment value (C{float}).
+
+       @return: A generator (C{float}s).
+
+       @see: U{NumPy.prod<http://docs.SciPy.org/doc/
+             numpy/reference/generated/numpy.arange.html>}.
+    '''
+    if not isinstance(number, _Ints):
+        raise TypeError('%s not %s: %r' % ('number', 'int', number))
+    for i in range(number):
+        yield start + i * step
+
+
 try:
     from functools import reduce as freduce
 except ImportError:
     try:
         freduce = reduce  # PYCHOK expected
     except NameError:  # Python 3+
+        _empty = object()
+
         def freduce(f, iterable, *start):
             '''For missing C{functools.reduce}.
             '''
             if start:
-                r = start[0]
+                r = v = start[0]
             else:
-                n, iterable = len2(iterable)
-                if n <= 0:
-                    raise TypeError('empty reduce(), no start')
-                r, iterable = iterable[0], iterable[1:]
+                r, v = 0, _empty
             for v in iterable:
                 r = f(r, v)
+            if v is _empty:
+                raise TypeError('%s() empty, no start' % ('freduce',))
             return r
 
 
@@ -481,7 +694,7 @@ def fStr(floats, prec=6, sep=', ', fmt='%.*f', ints=False):
     '''Convert floats to string, optionally with trailing zero
        decimals stripped.
 
-       @param floats: List, sequence, tuple, etc. (scalars).
+       @param floats: List, sequence, tuple, etc. (C{scalar}s).
        @keyword prec: Optional precision, number of decimal digits (0..9).
                       Trailing zero decimals are stripped for I{prec} values
                       of 1 and above, but kept for negative I{prec} values.
@@ -521,10 +734,10 @@ def fStrzs(fstr):
     return fstr
 
 
-def fsum_(*args):
-    '''Precision floating point sum of the positional argument vulues.
+def fsum_(*xs):
+    '''Precision summation of the positional argument vulues.
 
-       @param args: Values to be added (C{scalar}[]).
+       @param xs: Values to be added (C{scalar}[]).
 
        @return: Accurate L{fsum} (C{float}).
 
@@ -534,7 +747,7 @@ def fsum_(*args):
 
        @raise ValueError: Invalid or infinite I{arg} value.
     '''
-    return fsum(args)
+    return fsum(xs)
 
 
 try:
@@ -549,8 +762,7 @@ try:
 except ImportError:
 
     def fsum(iterable):
-        '''Precision floating point sum similar to standard
-           Python function C{math.fsum}.
+        '''Precision summation similar to standard Python function C{math.fsum}.
 
            Exception and I{non-finite} handling differs from C{math.fsum}.
 
@@ -668,19 +880,19 @@ def len2(seq):
     return len(seq), seq
 
 
-def map1(func, *args):
+def map1(func, *xs):
     '''Apply each argument to a single-argument function and
        return a tuple of results.
 
        @param func: Function to apply (callable).
-       @param args: Arguments to apply (any positional).
+       @param xs: Arguments to apply (any positional).
 
        @return: Function results (C{tuple}).
     '''
-    return tuple(map(func, args))
+    return tuple(map(func, xs))
 
 
-def map2(func, *args):
+def map2(func, *xs):
     '''Apply arguments to a function and return a tuple of results.
 
        Unlike Python 2's built-in L{map}, Python 3+ L{map} returns a
@@ -689,11 +901,11 @@ def map2(func, *args):
        maintains Python 2 behavior.
 
        @param func: Function to apply (callable).
-       @param args: Arguments to apply (list, tuple, ...).
+       @param xs: Arguments to apply (list, tuple, ...).
 
        @return: N-Tuple of function results (C{tuple}).
     '''
-    return tuple(map(func, *args))
+    return tuple(map(func, *xs))
 
 
 def scalar(value, low=EPS, high=1.0, name='scalar'):

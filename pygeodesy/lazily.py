@@ -57,7 +57,7 @@ _ALL_DEPRECATED = _Enum_RO(_name='_ALL_DEPRECATED',
 
 # __all__ value for most modules, accessible as _ALL_LAZY.<module>
 _ALL_LAZY = _Enum_RO(_name='_ALL_LAZY',
-                     bases=('LatLonHeightBase', 'classname', 'classnaming', 'inStr'),  # 'Based', 'Named', 'VectorBased'
+                     bases=('LatLonHeightBase', 'classname', 'classnaming', 'inStr'),
                      clipy=('clipCS3', 'clipSH', 'clipSH3'),
                      datum=('R_M', 'R_MA', 'R_MB', 'R_KM', 'R_NM', 'R_SM', 'R_FM', 'R_VM',
                             'Datum', 'Ellipsoid', 'Transform', 'Datums', 'Ellipsoids', 'Transforms'),
@@ -68,13 +68,14 @@ _ALL_LAZY = _Enum_RO(_name='_ALL_LAZY',
          ellipsoidalKarney=(),  # module only
         ellipsoidalNvector=(),  # module only
        ellipsoidalVincenty=('VincentyError',),  # nothing else
-                     fmath=('EPS', 'EPS1', 'Fsum',
+                     fmath=('EPS', 'EPS1', 'Fdot', 'Fhorner', 'Fpolynomial', 'Fsum',
                             'acos1', 'cbrt', 'cbrt2',
-                            'favg', 'fdot', 'fdot3', 'fmean', 'fhorner', 'fpolynomial', 'fpowers', 'fprod', 'freduce', 'fStr', 'fStrzs', 'fsum', 'fsum_',
+                            'favg', 'fdot', 'fdot3', 'fmean', 'fhorner', 'fpolynomial', 'fpowers', 'fprod', 'frange', 'freduce', 'fStr', 'fStrzs', 'fsum', 'fsum_',
                             'hypot', 'hypot1', 'hypot3', 'isfinite', 'isint', 'isscalar', 'len2', 'map1', 'map2', 'scalar', 'sqrt3'),
                      formy=('antipode', 'bearing', 'bearing_', 'compassAngle', 'euclidean', 'euclidean_', 'equirectangular', 'equirectangular_',
                             'haversine', 'haversine_', 'heightOf', 'horizon', 'isantipode'),
                    geohash=('Geohash',),  # nothing else
+                    geoids=('GeoidError', 'GeoidG2012B', 'GeoidKarney', 'GeoidPGM', 'egmGeoidHeights', 'PGMError'),
                    heights=('HeightError', 'SciPyError', 'SciPyWarning',
                             'HeightCubic', 'HeightIDW', 'HeightLinear', 'HeightLSQBiSpline', 'HeightSmoothBiSpline'),
                     lazily=('LazyImportError', 'isLazy'),
@@ -103,7 +104,7 @@ _ALL_LAZY = _Enum_RO(_name='_ALL_LAZY',
                webmercator=('Wm', 'parseWM', 'toWm'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '19.02.23'
+__version__ = '19.03.15'
 
 
 def _all_imports(**more):

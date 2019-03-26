@@ -2,8 +2,10 @@
 # -*- coding: utf-8 -*-
 
 u'''Functions to obtain elevations and geoid heights thru web services,
-for (lat, lon) locations, currently limited to the U{Conterminous US (CONUS)
-<http://WikiPedia.org/wiki/Contiguous_United_States>}.
+for (lat, lon) locations, currently limited to the U{Conterminous US
+(CONUS) <http://WikiPedia.org/wiki/Contiguous_United_States>}, see also
+module L{geoids} and classes L{GeoidG2012B}, L{GeoidKarney} and L{GeoidPGM}
+and U{USGS10mElev.py<http://Gist.GitHub.com/pyRobShrk>}.
 
 B{macOS}: If an C{SSLCertVerificationError} occurs, especially this
 I{"[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self
@@ -20,7 +22,7 @@ from lazily import _ALL_LAZY
 from utily import clipStr
 
 __all__ = _ALL_LAZY.elevations
-__version__ = '19.02.25'
+__version__ = '19.03.15'
 
 try:
     _Bytes = unicode, bytearray  # PYCHOK expected
@@ -124,19 +126,21 @@ def elevation2(lat, lon, timeout=2.0):
        @param lon: Longitude (C{degrees}).
        @keyword timeout: Optional, query timeout (seconds).
 
-       @return: 2-Tuple (elevation, data_source) in (C{meter}, C{str})
-                or (C{None}, I{<error>}).
+       @return: 2-Tuple (C{elevation, data_source}) in (C{meter, str})
+                or (C{None, error}).
 
-       @note: The returned elevation is C{None} if I{lat} or I{lon}
+       @note: The returned C{elevation} is C{None} if I{lat} or I{lon}
               is invalid or outside the C{Conterminous US (CONUS)},
               if conversion failed or if the query timed out.  The
-              I{<error>} is the C{HTTP-, IO-, SSL-, Type-, URL-} or
-              C{ValueError} as C{str}.
+              C{error} is the C{HTTP-, IO-, SSL-, Type-, URL-} or
+              C{ValueError} as a string (C{str}).
 
        @see: U{USGS National Map<http://NationalMap.gov/epqs>},
              the U{FAQ<http://www.USGS.gov/faqs/what-are-projection-
-             horizontal-and-vertical-datum-units-and-resolution-3dep-standard-dems>}
-             and U{USGS10mElev.py<http://Gist.GitHub.com/pyRobShrk>}.
+             horizontal-and-vertical-datum-units-and-resolution-3dep-standard-dems>},
+             U{geoid.py<http://Gist.GitHub.com/pyRobShrk>}, module
+             L{geoids}, classes L{GeoidG2012B}, L{GeoidKarney} and
+             L{GeoidPGM}.
     '''
     try:
         x = _qURL('http://NED.USGS.gov/epqs/pqs.php',  # http://NationalMap.gov/epqs/pqs.php
@@ -169,18 +173,21 @@ def geoidHeight2(lat, lon, model=0, timeout=2.0):
        @keyword model: Optional, geoid model ID (C{int}).
        @keyword timeout: Optional, query timeout (seconds).
 
-       @return: 2-Tuple (height, model_name) in (C{meter}, C{str}) or
-                (C{None}, I{<error>}).
+       @return: 2-Tuple (C{height, model_name}) in (C{meter, str})
+                or C{(None, error}).
 
-       @note: The returned height is C{None} if I{lat} or I{lon} is
-              invalid or outside the C{Conterminous US (CONUS)}, if
-              the I{model} was invalid, if conversion failed or if
-              the query timed out.  The I{<error>} is the C{HTTP-,
-              IO-, SSL-, Type-, URL-} or C{ValueError} as C{str}.
+       @note: The returned C{height} is C{None} if I{lat} or I{lon} is
+              invalid or outside the C{Conterminous US (CONUS)}, if the
+              I{model} was invalid, if conversion failed or if the
+              query timed out.  The C{error} is the C{HTTP-, IO-, SSL-,
+              Type-, URL-} or C{ValueError} as a string (C{str}).
 
        @see: U{NOAA National Geodetic Survery
-             <http://www.NGS.NOAA.gov/INFO/geodesy.shtml>} and
-             U{Geoid<http://www.NGS.NOAA.gov/web_services/geoid.shtml>}
+             <http://www.NGS.NOAA.gov/INFO/geodesy.shtml>},
+             U{Geoid<http://www.NGS.NOAA.gov/web_services/geoid.shtml>},
+             U{USGS10mElev.py<http://Gist.GitHub.com/pyRobShrk>}, module
+             L{geoids}, classes L{GeoidG2012B}, L{GeoidKarney} and
+             L{GeoidPGM}.
     '''
     try:
         j = _qURL('http://Geodesy.NOAA.gov/api/geoid/ght',

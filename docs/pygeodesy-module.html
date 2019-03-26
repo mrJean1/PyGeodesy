@@ -64,9 +64,11 @@
   cartesian (x/y/z) coordinates.</p>
   <p>Transcribed from <a href="http://GitHub.com/ChrisVeness/geodesy" 
   target="_top">JavaScript originals</a> by <i>Chris Veness (C) 
-  2005-2016</i> and published under the same <a 
-  href="http://OpenSource.org/licenses/MIT" target="_top">MIT 
-  License</a>**.</p>
+  2005-2016</i> and a <a 
+  href="http://GeographicLib.SourceForge.io/html/geoid.html" 
+  target="_top">C++ class</a> by <i>Charles Karney (C) 2008-2017</i> and 
+  published under the same <a href="http://OpenSource.org/licenses/MIT" 
+  target="_top">MIT License</a>**.</p>
   <p>There are three modules for ellipsoidal earth models, 
   <i>ellipsoidalKarney</i>, <i>-Vincenty</i> and <i>-Nvector</i> and two 
   for spherical ones, <i>sphericalTrigonometry</i> and <i>-Nvector</i>.  
@@ -121,8 +123,8 @@
   target="_top">Reumann-Witkam</a> the algorithms and modified versions of 
   the former and classes to <a 
   href="http://docs.SciPy.org/doc/scipy/reference/interpolate.html" 
-  target="_top">interpolate</a> the height of <code>LatLon</code> 
-  points.</p>
+  target="_top">interpolate</a> the height of <code>LatLon</code> points 
+  and several <code>Geoid</code> models.</p>
   <p>All Python source code has been statically <a 
   href="http://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor"
   target="_top">checked</a> with <a 
@@ -130,17 +132,15 @@
   href="http://PyPI.org/project/pyflakes" target="_top">PyFlakes</a>, <a 
   href="http://PyPI.org/project/pycodestyle" target="_top">PyCodeStyle</a> 
   (formerly Pep8) and <a href="http://PyPI.org/project/mccabe" 
-  target="_top">McCabe</a> using Python 2.7.15 and with <a 
+  target="_top">McCabe</a> using Python 2.7.16 and with <a 
   href="http://PyPI.org/project/flake8" target="_top">Flake8</a> using 
   Python 3.7.2, both in 64-bit on macOS 10.13.6 High Sierra.</p>
-  <p>The tests have been run with Python 2.7.15 (with <a 
+  <p>The tests have been run with Python 2.7.16 and 3.7.2 (both with <a 
   href="http://PyPI.org/project/geographiclib" 
-  target="_top">geographiclib</a> 1.49 , <a 
+  target="_top">geographiclib</a> 1.49, <a 
   href="http://PyPI.org/project/numpy" target="_top">numpy</a> 1.16.1 and 
   <a href="http://Scipy.org/scipylib/download.html" 
-  target="_top">scipy</a>), with Python 3.7.2 (with <a 
-  href="http://PyPI.org/project/geographiclib" 
-  target="_top">geographiclib</a> 1.49) and with <a href="http://PyPy.org" 
+  target="_top">scipy</a>) and with <a href="http://PyPy.org" 
   target="_top">PyPy</a> 6.0.0 (Python 2.7.13 and 3.5.3) on macOS 10.13.6 
   High Sierra, with Python 2.6.9, 2.7.14, 3.5.6 and 3.6.3 (and <a 
   href="http://PyPI.org/project/geographiclib" 
@@ -150,15 +150,16 @@
   href="http://PyPI.org/project/geographiclib" 
   target="_top">geographiclib</a> 1.49) on <a 
   href="http://Cirrus-CI.com/github/mrJean1/PyGeodesy/master" 
-  target="_top">Debian 9</a>, all in 64-bit only and with Python 2.7.15, 
-  3.6.6 and 3.7.0 (all with <a href="http://PyPI.org/project/geographiclib"
+  target="_top">Debian 9</a>, <i>all in 64-bit only</i> and with Python 
+  2.7.16, 3.6.6 and 3.7.0 (all with <a 
+  href="http://PyPI.org/project/geographiclib" 
   target="_top">geographiclib</a> 1.49) on <a 
   href="http://CI.AppVeyor.com/project/mrJean1/pygeodesy" 
-  target="_top">Windows Server 2012R2</a> in 32- and 64-bit.  The tests are
-  run with and without lazy import on Python 3.7.0 and 3.7.2.</p>
+  target="_top">Windows Server 2012R2</a> <i>in 32- and 64-bit</i>.  The 
+  tests are run with and without lazy import on Python 3.7.0 and 3.7.2.</p>
   <p>Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 
-  2.7.10 (and numpy 1.8.0rc1), 2.7.13, 2.7.14 (and numpy 1.13.1, 1.14.0 or 
-  1.15.2), 3.5.3, 3.6.2, 3.6.3, 3.6.4, 3.6.5, 3.7.0 and <a 
+  2.7.10 (and numpy 1.8.0rc1), 2.7.13, 2.7.14, 2.7.15 (and numpy 1.13.1, 
+  1.14.0 or 1.15.2), 3.5.3, 3.6.2, 3.6.3, 3.6.4, 3.6.5, 3.7.0 and <a 
   href="http://software.Intel.com/en-us/distribution-for-python" 
   target="_top">Intel-Python</a> 3.5.3 (and <a 
   href="http://PyPI.org/project/numpy" target="_top">numpy</a> 1.11.3) on 
@@ -220,7 +221,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.03.06
+        19.03.24
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -246,7 +247,16 @@
     <li> <strong class="uidlink"><a href="pygeodesy.elevations-module.html">pygeodesy.elevations</a></strong>: <em class="summary">Functions to obtain elevations and geoid heights thru web services,
         for (lat, lon) locations, currently limited to the <a 
         href="http://WikiPedia.org/wiki/Contiguous_United_States" 
-        target="_top">Conterminous US (CONUS)</a>.</em>    </li>
+        target="_top">Conterminous US (CONUS)</a>, see also module <a 
+        href="pygeodesy.geoids-module.html" class="link">geoids</a> and 
+        classes <a href="pygeodesy.geoids.GeoidG2012B-class.html" 
+        class="link">GeoidG2012B</a>, <a 
+        href="pygeodesy.geoids.GeoidKarney-class.html" 
+        class="link">GeoidKarney</a> and <a 
+        href="pygeodesy.geoids.GeoidPGM-class.html" 
+        class="link">GeoidPGM</a> and <a 
+        href="http://Gist.GitHub.com/pyRobShrk" 
+        target="_top">USGS10mElev.py</a>.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.ellipsoidalBase-module.html" onclick="show_private();">pygeodesy.ellipsoidalBase</a></strong>: <em class="summary">(INTERNAL) Ellipsoidal base classes.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney-module.html">pygeodesy.ellipsoidalKarney</a></strong>: <em class="summary">Ellipsoidal geodetic (lat-/longitude) and cartesian (x/y/z) classes
         <a href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
@@ -286,11 +296,19 @@
         class="link" onclick="show_private();">areaOf</a> and <a 
         href="pygeodesy.ellipsoidalVincenty-module.html#perimeterOf" 
         class="link" onclick="show_private();">perimeterOf</a>.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.fmath-module.html">pygeodesy.fmath</a></strong>: <em class="summary">Precision mathematical functions, utilities and constants.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.fmath-module.html">pygeodesy.fmath</a></strong>: <em class="summary">Precision floating point functions, utilities and constants.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.formy-module.html">pygeodesy.formy</a></strong>: <em class="summary">Formulary of basic geodesy functions and approximations.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geohash-module.html">pygeodesy.geohash</a></strong>: <em class="summary">Class <a href="pygeodesy.geohash.Geohash-class.html" 
         class="link">Geohash</a> and several functions to encode, decode 
         and inspect <i>geohashes</i>.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.geoids-module.html">pygeodesy.geoids</a></strong>: <em class="summary">Classes <a href="pygeodesy.geoids.GeoidG2012B-class.html" 
+        class="link">GeoidG2012B</a>, <a 
+        href="pygeodesy.geoids.GeoidKarney-class.html" 
+        class="link">GeoidKarney</a> and <a 
+        href="pygeodesy.geoids.GeoidPGM-class.html" 
+        class="link">GeoidPGM</a> to interpolate the height of various 
+        geoids at <code>LatLon</code> locations or separate lat-/longitudes
+        using different interpolation methods.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.heights-module.html">pygeodesy.heights</a></strong>: <em class="summary">Classes to interpolate the height of <code>LatLon</code> locations 
         or separate lat-/longitudes.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.lazily-module.html">pygeodesy.lazily</a></strong>: <em class="summary">Lazily import <code>pygeodesy</code> modules and attributes.</em>    </li>
@@ -352,7 +370,7 @@
         class="link">nearestOn2</a> and <a 
         href="pygeodesy.sphericalTrigonometry-module.html#perimeterOf" 
         class="link">perimeterOf</a>.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.utily-module.html">pygeodesy.utily</a></strong>: <em class="summary">Utility, geodetic/geometric functions and constants.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.utily-module.html">pygeodesy.utily</a></strong>: <em class="summary">Geometric and other utility functions and constants.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.utm-module.html">pygeodesy.utm</a></strong>: <em class="summary">Universal Transverse Mercator (UTM) class <a 
         href="pygeodesy.utm.Utm-class.html" class="link">Utm</a> and 
         functions <a href="pygeodesy.utm-module.html#parseUTM" 
@@ -443,9 +461,105 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.fmath.Fdot-class.html" class="summary-name">Fdot</a><br />
+      Precision dot product.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.fmath.Fhorner-class.html" class="summary-name">Fhorner</a><br />
+      Precision polynomial evaluation using the Horner form.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.fmath.Fpolynomial-class.html" class="summary-name">Fpolynomial</a><br />
+      Precision polynomial evaluation.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.fmath.Fsum-class.html" class="summary-name">Fsum</a><br />
-      Precision floating point summation similar to standard Python 
-        function <code>math.fsum</code>.
+      Precision summation similar to standard Python function 
+        <code>math.fsum</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geoids.GeoidError-class.html" class="summary-name">GeoidError</a><br />
+      Geoid interpolator or interpolation error.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geoids.GeoidG2012B-class.html" class="summary-name">GeoidG2012B</a><br />
+      Geoid height interpolator for <a 
+        href="http://www.NGS.NOAA.gov/GEOID/GEOID12B/" 
+        target="_top">GEOID12B Model</a> grids <a 
+        href="http://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_CONUS.shtml" 
+        target="_top">CONUS</a>, <a 
+        href="http://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_AK.shtml" 
+        target="_top">Alaska</a>, <a 
+        href="http://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_HI.shtml" 
+        target="_top">Hawaii</a>, <a 
+        href="http://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_GMNI.shtml" 
+        target="_top">Guam and Northern Mariana Islands</a>, <a 
+        href="http://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_PRVI.shtml" 
+        target="_top">Puerto Rico and U.S. Virgin Islands</a> and <a 
+        href="http://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_AS.shtml" 
+        target="_top">American Samoa</a> based on <code>SciPy</code> <a 
+        href="http://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html"
+        target="_top">RectBivariateSpline</a> or <a 
+        href="http://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
+        target="_top">interp2d</a> interpolation.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geoids.GeoidKarney-class.html" class="summary-name">GeoidKarney</a><br />
+      Geoid height interpolator for Charles Karney's <a 
+        href="http://GeographicLib.SourceForge.io/html/geoid.html" 
+        target="_top">GeographicLib Earth Gravitational Model (EGM)</a> 
+        geoid <a 
+        href="http://GeographicLib.SourceForge.io/html/geoid.html#geoidinst"
+        target="_top">egm*.pgm</a> datasets using bilinear or <a 
+        href="http://dl.ACM.org/citation.cfm?id=368443" 
+        target="_top">cubic</a> interpolation and <a 
+        href="http://GeographicLib.SourceForge.io/html/geoid.html#geoidcache"
+        target="_top">caching</a> in pure Python transcribed from Karney's 
+        <a 
+        href="http://GeographicLib.SourceForge.io/html/geoid.html#geoidinterp"
+        target="_top">C++ class Geoid</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geoids.GeoidPGM-class.html" class="summary-name">GeoidPGM</a><br />
+      Geoid height interpolator for Charles Karney's <a 
+        href="http://GeographicLib.SourceForge.io/html/geoid.html" 
+        target="_top">GeographicLib Earth Gravitational Model (EGM)</a> 
+        geoid <a 
+        href="http://GeographicLib.SourceForge.io/html/geoid.html#geoidinst"
+        target="_top">egm*.pgm</a> datasets but based on <code>SciPy</code>
+        <a 
+        href="http://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html"
+        target="_top">RectBivariateSpline</a> or <a 
+        href="http://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
+        target="_top">interp2d</a> interpolation.
     </td>
   </tr>
 <tr>
@@ -587,6 +701,15 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.geoids.PGMError-class.html" class="summary-name">PGMError</a><br />
+      Error parsing or cropping an <code>egm*.pgm</code> EGM geoid 
+        dataset.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.dms.RangeError-class.html" class="summary-name">RangeError</a><br />
       Error raised for lat- or longitude values outside the <i>clip</i>, 
         <i>clipLat</i>, <i>clipLon</i> or <i>limit</i> range in function <a
@@ -653,6 +776,54 @@
     </td><td class="summary">
         <a href="pygeodesy.webmercator.Wm-class.html" class="summary-name">Wm</a><br />
       Web Mercator (WM) coordinate.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.bases._Based-class.html" class="summary-name">_Based</a><br />
+      (INTERNAL) Base class with name.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.datum._Enum-class.html" class="summary-name">_Enum</a><br />
+      (INTERNAL) Enum-like <code>dict</code> sub-class.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geoids._GeoidBase-class.html" class="summary-name">_GeoidBase</a><br />
+      (INTERNAL) Base class for <code>Geoid...</code>s.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.bases._Named-class.html" class="summary-name">_Named</a><br />
+      (INTERNAL) Base class for named objects.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.datum._Registered-class.html" class="summary-name">_Registered</a><br />
+      (INTERNAL) Base class for registered instances.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.bases._VectorBased-class.html" class="summary-name">_VectorBased</a><br />
+      (INTERNAL) Base class for <i>Vector3d</i>.
     </td>
   </tr>
 </table>
@@ -1240,6 +1411,29 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#egmGeoidHeights" class="summary-sig-name">egmGeoidHeights</a>(<span class="summary-sig-arg">GeoidHeights_dat</span>)</span><br />
+      Generate geoid <a 
+      href="http://GeographicLib.SourceForge.io/html/geoid.html#geoidinst" 
+      target="_top">egm*.pgm</a> height tests from <a 
+      href="http://SourceForge.net/projects/geographiclib/files/testdata/" 
+      target="_top">GeoidHeights.dat</a> <a 
+      href="http://GeographicLib.SourceForge.io/html/geoid.html#testgeoid" 
+      target="_top">Test data for Geoids</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#elevation2" class="summary-sig-name">elevation2</a>(<span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">lon</span>,
         <span class="summary-sig-arg">timeout</span>=<span class="summary-sig-default">2.0</span>)</span><br />
@@ -1601,6 +1795,25 @@
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#frange" class="summary-sig-name">frange</a>(<span class="summary-sig-arg">start</span>,
+        <span class="summary-sig-arg">number</span>,
+        <span class="summary-sig-arg">step</span>=<span class="summary-sig-default">1</span>)</span><br />
+      Generate a range of <code>float</code>s.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">value</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -1643,8 +1856,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#fsum_" class="summary-sig-name">fsum_</a>(<span class="summary-sig-arg">*args</span>)</span><br />
-      Precision floating point sum of the positional argument vulues.</td>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#fsum_" class="summary-sig-name">fsum_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
+      Precision summation of the positional argument vulues.</td>
           <td align="right" valign="top">
             
             
@@ -2309,7 +2522,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#map1" class="summary-sig-name">map1</a>(<span class="summary-sig-arg">func</span>,
-        <span class="summary-sig-arg">*args</span>)</span><br />
+        <span class="summary-sig-arg">*xs</span>)</span><br />
       Apply each argument to a single-argument function and return a tuple 
       of results.</td>
           <td align="right" valign="top">
@@ -2328,7 +2541,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#map2" class="summary-sig-name">map2</a>(<span class="summary-sig-arg">func</span>,
-        <span class="summary-sig-arg">*args</span>)</span><br />
+        <span class="summary-sig-arg">*xs</span>)</span><br />
       Apply arguments to a function and return a tuple of results.</td>
           <td align="right" valign="top">
             
@@ -3299,7 +3512,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy-module.html#pygeodesy_abspath" class="summary-name">pygeodesy_abspath</a> = <code title="'..../PyGeodesy/pygeodesy'"><code class="variable-quote">'</code><code class="variable-string">..../PyGeodesy/pygeod</code><code class="variable-ellipsis">...</code></code><br />
+        <a href="pygeodesy-module.html#pygeodesy_abspath" class="summary-name">pygeodesy_abspath</a> = <code title="'..../PyGeodesy/pygeodesy'"><code class="variable-quote">'</code><code class="variable-string">..../PyGe</code><code class="variable-ellipsis">...</code></code><br />
       Fully qualified <code>pygeodesy</code> directory name 
       (<code>str</code>).
     </td>
@@ -3308,7 +3521,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'19.3.6'"><code class="variable-quote">'</code><code class="variable-string">19.3.6</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'19.3.24'"><code class="variable-quote">'</code><code class="variable-string">19.3.24</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -4468,6 +4681,54 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 </td></tr></table>
 </div>
+<a name="egmGeoidHeights"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">egmGeoidHeights</span>(<span class="sig-arg">GeoidHeights_dat</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Generate geoid <a 
+  href="http://GeographicLib.SourceForge.io/html/geoid.html#geoidinst" 
+  target="_top">egm*.pgm</a> height tests from <a 
+  href="http://SourceForge.net/projects/geographiclib/files/testdata/" 
+  target="_top">GeoidHeights.dat</a> <a 
+  href="http://GeographicLib.SourceForge.io/html/geoid.html#testgeoid" 
+  target="_top">Test data for Geoids</a>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>GeoidHeights_dat</code></strong> - The un-gz-ed <code>GeoidHeights.dat</code> file (<code>str</code>
+          or <code>file</code> handle).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>For each test, yield a 5-Tuple <code>(lat, lon, egm84, egm96, 
+          egm2008)</code> with the expected heights for 3 different EGM 
+          grids in <code>-90.0 &lt;= lat &lt;= 90.0</code> and <code>-180.0
+          &lt;= lat &lt;= 180.0</code> degrees.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.geoids.GeoidError-class.html">GeoidError</a></strong></code> - Invalid <i>GeoidHeights_dat</i>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Function <a href="pygeodesy.geoids-module.html#egmGeoidHeights" 
+        class="link">egmGeoidHeights</a> is used to test geoids <a 
+        href="pygeodesy.geoids.GeoidKarney-class.html" 
+        class="link">GeoidKarney</a> and <a 
+        href="pygeodesy.geoids.GeoidPGM-class.html" 
+        class="link">GeoidPGM</a>, see PyGeodesy module 
+        <code>test/testGeoids.py</code>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="elevation2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -4494,23 +4755,30 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>timeout</code></strong> - Optional, query timeout (seconds).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (elevation, data_source) in (<code>meter</code>, 
-          <code>str</code>) or (<code>None</code>, <i>&lt;error&gt;</i>).</dd>
+        <dd>2-Tuple (<code>elevation, data_source</code>) in (<code>meter, 
+          str</code>) or (<code>None, error</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        The returned elevation is <code>None</code> if <i>lat</i> or 
-        <i>lon</i> is invalid or outside the <code>Conterminous US 
-        (CONUS)</code>, if conversion failed or if the query timed out.  
-        The <i>&lt;error&gt;</i> is the <code>HTTP-, IO-, SSL-, Type-, 
-        URL-</code> or <code>ValueError</code> as <code>str</code>.
+        The returned <code>elevation</code> is <code>None</code> if 
+        <i>lat</i> or <i>lon</i> is invalid or outside the 
+        <code>Conterminous US (CONUS)</code>, if conversion failed or if 
+        the query timed out.  The <code>error</code> is the <code>HTTP-, 
+        IO-, SSL-, Type-, URL-</code> or <code>ValueError</code> as a 
+        string (<code>str</code>).
       </p>
       <p><strong>See Also:</strong>
         <a href="http://NationalMap.gov/epqs" target="_top">USGS National 
         Map</a>, the <a 
         href="http://www.USGS.gov/faqs/what-are-projection-horizontal-and-vertical-datum-units-and-resolution-3dep-standard-dems"
-        target="_top">FAQ</a> and <a 
-        href="http://Gist.GitHub.com/pyRobShrk" 
-        target="_top">USGS10mElev.py</a>.
+        target="_top">FAQ</a>, <a href="http://Gist.GitHub.com/pyRobShrk" 
+        target="_top">geoid.py</a>, module <a 
+        href="pygeodesy.geoids-module.html" class="link">geoids</a>, 
+        classes <a href="pygeodesy.geoids.GeoidG2012B-class.html" 
+        class="link">GeoidG2012B</a>, <a 
+        href="pygeodesy.geoids.GeoidKarney-class.html" 
+        class="link">GeoidKarney</a> and <a 
+        href="pygeodesy.geoids.GeoidPGM-class.html" 
+        class="link">GeoidPGM</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -4806,7 +5074,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>floats</code></strong> - List, sequence, tuple, etc. (scalars).</li>
+        <li><strong class="pname"><code>floats</code></strong> - List, sequence, tuple, etc. (<code>scalar</code>s).</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional precision, number of decimal digits (0..9). Trailing 
           zero decimals are stripped for <i>prec</i> values of 1 and above,
           but kept for negative <i>prec</i> values.</li>
@@ -4926,8 +5194,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>a</code></strong> - List, sequence, tuple, etc. (scalars).</li>
-        <li><strong class="pname"><code>b</code></strong> - All positional arguments (scalars).</li>
+        <li><strong class="pname"><code>a</code></strong> - List, sequence, tuple, etc. (<code>scalar</code>s).</li>
+        <li><strong class="pname"><code>b</code></strong> - All positional arguments (<code>scalar</code>s).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Dot product (<code>float</code>).</dd>
@@ -4936,7 +5204,11 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><code><strong class='fraise'>ValueError</strong></code> - Unequal <code>len</code>(<i>a</i>) and <code>len</code>(<i>b</i>).</li>
     </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Class <a href="pygeodesy.fmath.Fdot-class.html" 
+        class="link">Fdot</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="fdot3"></a>
 <div>
@@ -5008,7 +5280,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.fmath-module.html#fpolynomial" 
-        class="link">fpolynomial</a>.
+        class="link">fpolynomial</a> and class <a 
+        href="pygeodesy.fmath.Fhorner-class.html" class="link">Fhorner</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -5031,7 +5304,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Values (scalars).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Values (<code>scalar</code>s).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Mean value (<code>float</code>).</dd>
@@ -5075,7 +5348,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.fmath-module.html#fhorner" 
-        class="link">fhorner</a>.
+        class="link">fhorner</a> and class <a 
+        href="pygeodesy.fmath.Fpolynomial-class.html" 
+        class="link">Fpolynomial</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -5147,6 +5422,40 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
       </p>
 </div></td></tr></table>
 </div>
+<a name="frange"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">frange</span>(<span class="sig-arg">start</span>,
+        <span class="sig-arg">number</span>,
+        <span class="sig-arg">step</span>=<span class="sig-default">1</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Generate a range of <code>float</code>s.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>start</code></strong> - First value (<code>float</code>).</li>
+        <li><strong class="pname"><code>number</code></strong> - The number of <code>float</code>s to generate (<code>int</code>).</li>
+        <li><strong class="pname"><code>step</code></strong> - Increment value (<code>float</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A generator (<code>float</code>s).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="http://docs.SciPy.org/doc/numpy/reference/generated/numpy.arange.html"
+        target="_top">NumPy.prod</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="freduce"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -5201,18 +5510,18 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum_</span>(<span class="sig-arg">*args</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum_</span>(<span class="sig-arg">*xs</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Precision floating point sum of the positional argument vulues.</p>
+  <p>Precision summation of the positional argument vulues.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>args</code></strong> - Values to be added (<code>scalar</code>[]).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Values to be added (<code>scalar</code>[]).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Accurate <a href="pygeodesy.fmath-module.html#fsum" 
@@ -5279,22 +5588,30 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>timeout</code></strong> - Optional, query timeout (seconds).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (height, model_name) in (<code>meter</code>, 
-          <code>str</code>) or (<code>None</code>, <i>&lt;error&gt;</i>).</dd>
+        <dd>2-Tuple (<code>height, model_name</code>) in (<code>meter, 
+          str</code>) or <code>(None, error</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        The returned height is <code>None</code> if <i>lat</i> or 
-        <i>lon</i> is invalid or outside the <code>Conterminous US 
+        The returned <code>height</code> is <code>None</code> if <i>lat</i>
+        or <i>lon</i> is invalid or outside the <code>Conterminous US 
         (CONUS)</code>, if the <i>model</i> was invalid, if conversion 
-        failed or if the query timed out.  The <i>&lt;error&gt;</i> is the 
+        failed or if the query timed out.  The <code>error</code> is the 
         <code>HTTP-, IO-, SSL-, Type-, URL-</code> or 
-        <code>ValueError</code> as <code>str</code>.
+        <code>ValueError</code> as a string (<code>str</code>).
       </p>
       <p><strong>See Also:</strong>
         <a href="http://www.NGS.NOAA.gov/INFO/geodesy.shtml" 
-        target="_top">NOAA National Geodetic Survery</a> and <a 
+        target="_top">NOAA National Geodetic Survery</a>, <a 
         href="http://www.NGS.NOAA.gov/web_services/geoid.shtml" 
-        target="_top">Geoid</a>
+        target="_top">Geoid</a>, <a href="http://Gist.GitHub.com/pyRobShrk"
+        target="_top">USGS10mElev.py</a>, module <a 
+        href="pygeodesy.geoids-module.html" class="link">geoids</a>, 
+        classes <a href="pygeodesy.geoids.GeoidG2012B-class.html" 
+        class="link">GeoidG2012B</a>, <a 
+        href="pygeodesy.geoids.GeoidKarney-class.html" 
+        class="link">GeoidKarney</a> and <a 
+        href="pygeodesy.geoids.GeoidPGM-class.html" 
+        class="link">GeoidPGM</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -6369,7 +6686,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">map1</span>(<span class="sig-arg">func</span>,
-        <span class="sig-arg">*args</span>)</span>
+        <span class="sig-arg">*xs</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -6382,7 +6699,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>func</code></strong> - Function to apply (callable).</li>
-        <li><strong class="pname"><code>args</code></strong> - Arguments to apply (any positional).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Arguments to apply (any positional).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Function results (<code>tuple</code>).</dd>
@@ -6397,7 +6714,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">map2</span>(<span class="sig-arg">func</span>,
-        <span class="sig-arg">*args</span>)</span>
+        <span class="sig-arg">*xs</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -6414,7 +6731,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>func</code></strong> - Function to apply (callable).</li>
-        <li><strong class="pname"><code>args</code></strong> - Arguments to apply (list, tuple, ...).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Arguments to apply (list, tuple, ...).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>N-Tuple of function results (<code>tuple</code>).</dd>
@@ -8361,7 +8678,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Mar  7 10:47:21 2019
+    Generated by Epydoc 3.0.1 on Tue Mar 26 13:15:31 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

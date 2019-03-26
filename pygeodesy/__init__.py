@@ -7,8 +7,9 @@ and approximate methods for geodetic (lat-/longitude) and geocentric
 cartesian (x/y/z) coordinates.
 
 Transcribed from U{JavaScript originals<http://GitHub.com/ChrisVeness/geodesy>}
-by I{Chris Veness (C) 2005-2016} and published under the same U{MIT License
-<http://OpenSource.org/licenses/MIT>}**.
+by I{Chris Veness (C) 2005-2016} and a U{C++ class<http://GeographicLib.SourceForge.io/
+html/geoid.html>} by I{Charles Karney (C) 2008-2017} and published under the
+same U{MIT License<http://OpenSource.org/licenses/MIT>}**.
 
 There are three modules for ellipsoidal earth models, I{ellipsoidalKarney},
 I{-Vincenty} and I{-Nvector} and two for spherical ones, I{sphericalTrigonometry}
@@ -49,37 +50,36 @@ U{Visvalingam-Whyatt<http://hydra.Hull.ac.UK/resources/hull:8338>} and
 U{Reumann-Witkam<http://psimpl.SourceForge.net/reumann-witkam.html>}
 the algorithms and modified versions of the former and classes to
 U{interpolate<http://docs.SciPy.org/doc/scipy/reference/interpolate.html>}
-the height of C{LatLon} points.
+the height of C{LatLon} points and several C{Geoid} models.
 
 All Python source code has been statically U{checked
 <http://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor>}
 with U{PyChecker<http://PyPI.org/project/pychecker>},
 U{PyFlakes<http://PyPI.org/project/pyflakes>},
 U{PyCodeStyle<http://PyPI.org/project/pycodestyle>} (formerly Pep8) and
-U{McCabe<http://PyPI.org/project/mccabe>} using Python 2.7.15 and with
+U{McCabe<http://PyPI.org/project/mccabe>} using Python 2.7.16 and with
 U{Flake8<http://PyPI.org/project/flake8>} using Python 3.7.2, both in
 64-bit on macOS 10.13.6 High Sierra.
 
-The tests have been run with Python 2.7.15 (with U{geographiclib
-<http://PyPI.org/project/geographiclib>} 1.49 , U{numpy
-<http://PyPI.org/project/numpy>} 1.16.1 and U{scipy
-<http://Scipy.org/scipylib/download.html>}), with Python 3.7.2 (with
-U{geographiclib<http://PyPI.org/project/geographiclib>} 1.49) and with
+The tests have been run with Python 2.7.16 and 3.7.2 (both with
+U{geographiclib <http://PyPI.org/project/geographiclib>} 1.49,
+U{numpy<http://PyPI.org/project/numpy>} 1.16.1 and U{scipy
+<http://Scipy.org/scipylib/download.html>}) and with
 U{PyPy<http://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3) on macOS
 10.13.6 High Sierra, with Python 2.6.9, 2.7.14, 3.5.6 and 3.6.3 (and
 U{geographiclib<http://PyPI.org/project/geographiclib>} 1.49) on
 U{Debian 8<http://Travis-CI.org/mrJean1/PyGeodesy>} and with Python
 3.7.2 (and U{geographiclib<http://PyPI.org/project/geographiclib>} 1.49)
 on U{Debian 9<http://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>},
-all in 64-bit only and with Python 2.7.15, 3.6.6 and 3.7.0 (all with
+I{all in 64-bit only} and with Python 2.7.16, 3.6.6 and 3.7.0 (all with
 U{geographiclib<http://PyPI.org/project/geographiclib>} 1.49) on
 U{Windows Server 2012R2<http://CI.AppVeyor.com/project/mrJean1/pygeodesy>}
-in 32- and 64-bit.  The tests are run with and without lazy import on
+I{in 32- and 64-bit}.  The tests are run with and without lazy import on
 Python 3.7.0 and 3.7.2.
 
 Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 2.7.10
-(and numpy 1.8.0rc1), 2.7.13, 2.7.14 (and numpy 1.13.1, 1.14.0 or 1.15.2),
-3.5.3, 3.6.2, 3.6.3, 3.6.4, 3.6.5, 3.7.0 and U{Intel-Python
+(and numpy 1.8.0rc1), 2.7.13, 2.7.14, 2.7.15 (and numpy 1.13.1, 1.14.0 or
+1.15.2), 3.5.3, 3.6.2, 3.6.3, 3.6.4, 3.6.5, 3.7.0 and U{Intel-Python
 <http://software.Intel.com/en-us/distribution-for-python>} 3.5.3 (and
 U{numpy<http://PyPI.org/project/numpy>} 1.11.3) on MacOS X 10.10 Yosemite,
 MacOS X 10.11 El Capitan, macOS 10.12 Sierra, macOS 10.13.5 High Sierra and
@@ -184,7 +184,7 @@ from os.path import abspath, basename, dirname
 _init_abspath     = abspath(__file__)
 pygeodesy_abspath = dirname(_init_abspath)
 
-__version__ = '19.03.06'
+__version__ = '19.03.24'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 
@@ -224,7 +224,7 @@ except (LazyImportError, NotImplementedError):
     # all public sub-modules, contants, classes and functions
     __all__ = ('bases', 'clipy', 'datum', 'dms', 'elevations',  # modules
                'ellipsoidalKarney', 'ellipsoidalNvector', 'ellipsoidalVincenty',
-               'fmath', 'formy', 'geohash', 'heights',
+               'fmath', 'formy', 'geohash', 'geoids', 'heights',
                'lazily', 'lcc', 'mgrs', 'nvector', 'osgr', 'points',
                'simplify', 'sphericalNvector', 'sphericalTrigonometry',
                'utily', 'utm', 'vector3d', 'webmercator',
@@ -244,6 +244,7 @@ except (LazyImportError, NotImplementedError):
     from elevations  import *  # PYCHOK __all__
     from fmath       import *  # PYCHOK __all__
     from formy       import *  # PYCHOK __all__
+    from geoids      import *  # PYCHOK __all__
     from heights     import *  # PYCHOK __all__
     from lazily      import *  # PYCHOK __all__
     from lcc         import *  # PYCHOK __all__
@@ -262,6 +263,7 @@ except (LazyImportError, NotImplementedError):
     import elevations   # PYCHOK expected
     import fmath        # PYCHOK expected
     import formy        # PYCHOK expected
+    import geoids       # PYCHOK expected
     import heights      # PYCHOK expected
     import lazily       # PYCHOK expected
     import lcc          # PYCHOK expected
@@ -311,7 +313,7 @@ except (LazyImportError, NotImplementedError):
     # concat __all__ with the public classes, constants,
     # functions, etc. from the sub-modules mentioned above
     for m in (bases, clipy, datum, dms, elevations, fmath, formy,
-              heights, lazily, lcc, mgrs, osgr, points,
+              geoids, heights, lazily, lcc, mgrs, osgr, points,
               simplify, utily, utm, webmercator):
         __all__ += m.__all__
         _ismodule(m)

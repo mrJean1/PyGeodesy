@@ -14,15 +14,13 @@ and published under the same MIT Licence**, see for example U{latlon-ellipsoidal
 from bases import LatLonHeightBase, _xnamed
 from datum import Datum, Datums
 from fmath import EPS, EPS1, fsum_, hypot, hypot1
-from utily import degrees90, degrees180, property_RO
+from utily import degrees90, degrees180, _for_docs, property_RO
 from vector3d import Vector3d
 
 from math import atan2, copysign, cos, sin, sqrt
 
-# XXX the following classes are listed only to get
-# Epydoc to include class and method documentation
-__all__ = ('CartesianBase', 'LatLonEllipsoidalBase')  # for documentation
-__version__ = '18.11.14'
+__all__ = _for_docs('CartesianBase', 'LatLonEllipsoidalBase')
+__version__ = '19.03.09'
 
 
 class CartesianBase(Vector3d):
@@ -278,13 +276,13 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
 
            @note: The adjustment applied is the difference in geocentric
                   earth radius for the I{datum} used and the C{NAV83}
-                  datum upon which L{elevation2} is based.
+                  datum upon which L{elevations.elevation2} is based.
 
            @note: NED elevation is only available for locations in the
                   U{Conterminous US (CONUS)
                   <http://WikiPedia.org/wiki/Contiguous_United_States>}.
 
-           @see: Function L{elevation2} and method
+           @see: Function L{elevations.elevation2} and method
                  L{Ellipsoid.Rgeocentric} for further details.
         '''
         if not self._elevation2:  # get elevation and data source
@@ -342,13 +340,13 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
 
            @note: The adjustment applied is the difference in geocentric
                   earth radius for the given I{datum} and the C{NAV83/NADV88}
-                  datum upon which L{geoidHeight2} is based.
+                  datum upon which L{elevations.geoidHeight2} is based.
 
-           @note: NGS geoid height is only available for locations in
+           @note: Ths geoid height is only available for locations in
                   the U{Conterminous US (CONUS)
                   <http://WikiPedia.org/wiki/Contiguous_United_States>}.
 
-           @see: Function L{geoidHeight2} and method
+           @see: Function L{elevations.geoidHeight2} and method
                  L{Ellipsoid.Rgeocentric} for further details.
         '''
         if not self._geoidHeight2:  # get elevation and data source

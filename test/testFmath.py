@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '18.10.31'
+__version__ = '19.03.14'
 
 from base import TestsBase
 from random import random, gauss, shuffle
@@ -105,6 +105,21 @@ class Tests(TestsBase):
             self.test(E.name, Ah, E.A, fmt='%.10f')
             Ah = E.a / (1 + E.n) * (fhorner(E.n**2, 65536, 16384, 1024, 256, 100, 49) / 65536)
             self.test(E.name, Ah, E.A, fmt='%.10f')
+
+        t = 1, 1e101, 1, -1e101
+        for _ in range(10):
+            a = Fsum(*t)
+            b = a.fcopy()
+            c = a + b
+            self.test('FSum+', c.fsum(), a.fsum() + b.fsum())
+            c -= a
+            self.test('FSum-', c.fsum(), b.fsum())
+            c -= b
+            self.test('FSum-', c.fsum(), 0.0)
+            b = a * 2
+            a += a
+            self.test('FSum*', a.fsum(), b.fsum())
+            t += t
 
 
 if __name__ == '__main__':

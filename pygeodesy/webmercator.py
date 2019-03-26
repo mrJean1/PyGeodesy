@@ -16,7 +16,7 @@ U{Implementation Practice Web Mercator Map Projection
 @newfield example: Example, Examples
 '''
 
-from bases import Based, classname, _nameof, _xnamed
+from bases import _Based, classname, _nameof, _xnamed
 from datum import R_MA
 from dms import clipDMS, parseDMS2
 from ellipsoidalBase import LatLonEllipsoidalBase as _ELLB
@@ -28,7 +28,7 @@ from math import atan, atanh, exp, radians, sin, tanh
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.webmercator
-__version__ = '19.01.02'
+__version__ = '19.03.09'
 
 # _FalseEasting  = 0   #: (INTERNAL) False Easting (C{meter}).
 # _FalseNorthing = 0   #: (INTERNAL) False Northing (C{meter}).
@@ -36,7 +36,7 @@ _LatLimit = 85.051129  #: (INTERNAL) Latitudinal limit (C{degrees}).
 # _LonOrigin     = 0   #: (INTERNAL) Longitude of natural origin (C{degrees}).
 
 
-class Wm(Based):
+class Wm(_Based):
     '''Web Mercator (WM) coordinate.
     '''
     _radius = 0  #: (INTERNAL) earth radius (C{meter}).

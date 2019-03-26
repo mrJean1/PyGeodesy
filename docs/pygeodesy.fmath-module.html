@@ -59,11 +59,11 @@
 </table>
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module fmath</h1><p class="nomargin-top"></p>
-<p>Precision mathematical functions, utilities and constants.</p>
+<p>Precision floating point functions, utilities and constants.</p>
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.03.06
+        19.03.15
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -78,8 +78,32 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.fmath.Fsum-class.html" class="summary-name">Fsum</a><br />
-      Precision floating point summation similar to standard Python 
-        function <code>math.fsum</code>.
+      Precision summation similar to standard Python function 
+        <code>math.fsum</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.fmath.Fdot-class.html" class="summary-name">Fdot</a><br />
+      Precision dot product.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.fmath.Fhorner-class.html" class="summary-name">Fhorner</a><br />
+      Precision polynomial evaluation using the Horner form.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.fmath.Fpolynomial-class.html" class="summary-name">Fpolynomial</a><br />
+      Precision polynomial evaluation.
     </td>
   </tr>
 </table>
@@ -314,6 +338,25 @@
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#frange" class="summary-sig-name">frange</a>(<span class="summary-sig-arg">start</span>,
+        <span class="summary-sig-arg">number</span>,
+        <span class="summary-sig-arg">step</span>=<span class="summary-sig-default">1</span>)</span><br />
+      Generate a range of <code>float</code>s.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">value</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -378,8 +421,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fsum_" class="summary-sig-name">fsum_</a>(<span class="summary-sig-arg">*args</span>)</span><br />
-      Precision floating point sum of the positional argument vulues.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fsum_" class="summary-sig-name">fsum_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
+      Precision summation of the positional argument vulues.</td>
           <td align="right" valign="top">
             
             
@@ -519,7 +562,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#map1" class="summary-sig-name">map1</a>(<span class="summary-sig-arg">func</span>,
-        <span class="summary-sig-arg">*args</span>)</span><br />
+        <span class="summary-sig-arg">*xs</span>)</span><br />
       Apply each argument to a single-argument function and return a tuple 
       of results.</td>
           <td align="right" valign="top">
@@ -538,7 +581,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#map2" class="summary-sig-name">map2</a>(<span class="summary-sig-arg">func</span>,
-        <span class="summary-sig-arg">*args</span>)</span><br />
+        <span class="summary-sig-arg">*xs</span>)</span><br />
       Apply arguments to a function and return a tuple of results.</td>
           <td align="right" valign="top">
             
@@ -733,8 +776,8 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>a</code></strong> - List, sequence, tuple, etc. (scalars).</li>
-        <li><strong class="pname"><code>b</code></strong> - All positional arguments (scalars).</li>
+        <li><strong class="pname"><code>a</code></strong> - List, sequence, tuple, etc. (<code>scalar</code>s).</li>
+        <li><strong class="pname"><code>b</code></strong> - All positional arguments (<code>scalar</code>s).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Dot product (<code>float</code>).</dd>
@@ -743,7 +786,11 @@
         <li><code><strong class='fraise'>ValueError</strong></code> - Unequal <code>len</code>(<i>a</i>) and <code>len</code>(<i>b</i>).</li>
     </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Class <a href="pygeodesy.fmath.Fdot-class.html" 
+        class="link">Fdot</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="fdot3"></a>
 <div>
@@ -815,7 +862,8 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.fmath-module.html#fpolynomial" 
-        class="link">fpolynomial</a>.
+        class="link">fpolynomial</a> and class <a 
+        href="pygeodesy.fmath.Fhorner-class.html" class="link">Fhorner</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -838,7 +886,7 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Values (scalars).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Values (<code>scalar</code>s).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Mean value (<code>float</code>).</dd>
@@ -882,7 +930,9 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.fmath-module.html#fhorner" 
-        class="link">fhorner</a>.
+        class="link">fhorner</a> and class <a 
+        href="pygeodesy.fmath.Fpolynomial-class.html" 
+        class="link">Fpolynomial</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -954,6 +1004,40 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="frange"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">frange</span>(<span class="sig-arg">start</span>,
+        <span class="sig-arg">number</span>,
+        <span class="sig-arg">step</span>=<span class="sig-default">1</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Generate a range of <code>float</code>s.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>start</code></strong> - First value (<code>float</code>).</li>
+        <li><strong class="pname"><code>number</code></strong> - The number of <code>float</code>s to generate (<code>int</code>).</li>
+        <li><strong class="pname"><code>step</code></strong> - Increment value (<code>float</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A generator (<code>float</code>s).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="http://docs.SciPy.org/doc/numpy/reference/generated/numpy.arange.html"
+        target="_top">NumPy.prod</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="freduce"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1004,7 +1088,7 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>floats</code></strong> - List, sequence, tuple, etc. (scalars).</li>
+        <li><strong class="pname"><code>floats</code></strong> - List, sequence, tuple, etc. (<code>scalar</code>s).</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional precision, number of decimal digits (0..9). Trailing 
           zero decimals are stripped for <i>prec</i> values of 1 and above,
           but kept for negative <i>prec</i> values.</li>
@@ -1049,18 +1133,18 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum_</span>(<span class="sig-arg">*args</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum_</span>(<span class="sig-arg">*xs</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Precision floating point sum of the positional argument vulues.</p>
+  <p>Precision summation of the positional argument vulues.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>args</code></strong> - Values to be added (<code>scalar</code>[]).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Values to be added (<code>scalar</code>[]).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Accurate <a href="pygeodesy.fmath-module.html#fsum" 
@@ -1268,7 +1352,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">map1</span>(<span class="sig-arg">func</span>,
-        <span class="sig-arg">*args</span>)</span>
+        <span class="sig-arg">*xs</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1281,7 +1365,7 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>func</code></strong> - Function to apply (callable).</li>
-        <li><strong class="pname"><code>args</code></strong> - Arguments to apply (any positional).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Arguments to apply (any positional).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Function results (<code>tuple</code>).</dd>
@@ -1296,7 +1380,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">map2</span>(<span class="sig-arg">func</span>,
-        <span class="sig-arg">*args</span>)</span>
+        <span class="sig-arg">*xs</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1313,7 +1397,7 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>func</code></strong> - Function to apply (callable).</li>
-        <li><strong class="pname"><code>args</code></strong> - Arguments to apply (list, tuple, ...).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Arguments to apply (list, tuple, ...).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>N-Tuple of function results (<code>tuple</code>).</dd>
@@ -1422,7 +1506,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Mar  7 10:47:22 2019
+    Generated by Epydoc 3.0.1 on Tue Mar 26 13:15:31 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

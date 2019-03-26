@@ -16,13 +16,13 @@ from datum import R_M, R_MA, Datum, Datums
 from dms   import parse3llh
 from fmath import EPS, acos1, favg, fsum_
 from utily import PI, PI2, PI_2, degrees90, degrees180, degrees360, \
-                  property_RO, tanPI_2_2, wrapPI
+                  _for_docs, property_RO, tanPI_2_2, wrapPI
 
 from math import atan2, cos, hypot, log, radians, sin
 
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
-__all__ = ('LatLonSphericalBase',)  # for documentation
+__all__ = _for_docs('LatLonSphericalBase')
 __version__ = '18.10.26'
 
 

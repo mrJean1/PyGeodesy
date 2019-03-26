@@ -39,7 +39,7 @@ from utily import points2, property_RO, unroll180, \
 __all__ = _ALL_LAZY.ellipsoidalKarney + (
           'Cartesian', 'LatLon',  # classes
           'areaOf', 'ispolar', 'perimeterOf')  # functions
-__version__ = '19.01.02'
+__version__ = '19.03.09'
 
 
 class LatLon(LatLonEllipsoidalBase):
@@ -70,8 +70,9 @@ class LatLon(LatLonEllipsoidalBase):
 
            @return: 2-Tuple (initial, final) bearings (compass C{degrees360}).
 
-           @raise ImportError: Package U{GeographicLib
-                  <http://PyPI.org/project/geographiclib>} missing.
+           @raise ImportError: Package U{geographiclib
+                               <http://PyPI.org/project/geographiclib>}
+                               not installed or not found.
 
            @raise TypeError: The I{other} point is not L{LatLon}.
 
@@ -93,8 +94,9 @@ class LatLon(LatLonEllipsoidalBase):
 
            @return: The destination point (L{LatLon}).
 
-           @raise ImportError: Package U{GeographicLib
-                  <http://PyPI.org/project/geographiclib>} missing.
+           @raise ImportError: Package U{geographiclib
+                               <http://PyPI.org/project/geographiclib>}
+                               not installed or not found.
 
            @example:
 
@@ -129,8 +131,9 @@ class LatLon(LatLonEllipsoidalBase):
            @return: 2-Tuple (destination, final bearing) in (L{LatLon},
                     C{degrees360}).
 
-           @raise ImportError: Package U{GeographicLib
-                  <http://PyPI.org/project/geographiclib>} missing.
+           @raise ImportError: Package U{geographiclib
+                               <http://PyPI.org/project/geographiclib>}
+                               not installed or not found.
 
            @example:
 
@@ -153,13 +156,14 @@ class LatLon(LatLonEllipsoidalBase):
 
            @return: Distance (C{meter}).
 
+           @raise ImportError: Package U{geographiclib
+                               <http://PyPI.org/project/geographiclib>}
+                               not installed or not found.
+
            @raise TypeError: The I{other} point is not L{LatLon}.
 
            @raise ValueError: If this and the I{other} point's L{Datum}
                               ellipsoids are not compatible.
-
-           @raise ImportError: Package U{GeographicLib
-                  <http://PyPI.org/project/geographiclib>} missing.
 
            @example:
 
@@ -187,6 +191,10 @@ class LatLon(LatLonEllipsoidalBase):
            @return: 3-Tuple (distance, initial bearing, final bearing) in
                     (C{meter}, compass C{degrees360}, compass C{degrees360}).
 
+           @raise ImportError: Package U{geographiclib
+                               <http://PyPI.org/project/geographiclib>}
+                               not installed or not found.
+
            @raise TypeError: The I{other} point is not L{LatLon}.
 
            @raise ValueError: If this and the I{other} point's L{Datum}
@@ -205,8 +213,9 @@ class LatLon(LatLonEllipsoidalBase):
 
            @return: Final bearing (compass C{degrees360}).
 
-           @raise ImportError: Package U{GeographicLib
-                  <http://PyPI.org/project/geographiclib>} missing.
+           @raise ImportError: Package U{geographiclib
+                               <http://PyPI.org/project/geographiclib>}
+                               not installed or not found.
 
            @example:
 
@@ -227,8 +236,9 @@ class LatLon(LatLonEllipsoidalBase):
 
            @return: Final bearing (compass C{degrees360}).
 
-           @raise ImportError: Package U{GeographicLib
-                  <http://PyPI.org/project/geographiclib>} missing.
+           @raise ImportError: Package U{geographiclib
+                               <http://PyPI.org/project/geographiclib>}
+                               not installed or not found.
 
            @raise TypeError: The I{other} point is not L{LatLon}.
 
@@ -267,8 +277,9 @@ class LatLon(LatLonEllipsoidalBase):
 
            @return: Initial bearing (compass C{degrees360}).
 
-           @raise ImportError: Package U{GeographicLib
-                  <http://PyPI.org/project/geographiclib>} missing.
+           @raise ImportError: Package U{geographiclib
+                               <http://PyPI.org/project/geographiclib>}
+                               not installed or not found.
 
            @raise TypeError: The I{other} point is not L{LatLon}.
 

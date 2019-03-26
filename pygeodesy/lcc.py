@@ -16,9 +16,9 @@ and John P. Snyder U{'Map Projections - A Working Manual'
 @newfield example: Example, Examples
 '''
 
-from bases import Based, _nameof, _xattrs, _xnamed
+from bases import _Based, _nameof, _xattrs, _xnamed
 from ellipsoidalBase import LatLonEllipsoidalBase as _ELLB
-from datum import _Based, Datums, _Enum
+from datum import _Registered, Datums, _Enum
 from fmath import EPS, fStr, hypot
 from lazily import _ALL_LAZY
 from utily import PI_2, degrees90, degrees180, false2f, \
@@ -28,13 +28,13 @@ from math import atan, copysign, cos, log, radians, sin, sqrt
 
 # all public constants, classes and functions
 __all__ = _ALL_LAZY.lcc
-__version__ = '19.01.02'
+__version__ = '19.03.09'
 
 
 Conics = _Enum('Conics')  #: Registered conics (L{_Enum}).
 
 
-class Conic(_Based):
+class Conic(_Registered):
     '''Lambert conformal conic projection (1- or 2-SP).
     '''
     _auth  = ''  #: (INTERNAL) authorization (C{str}).
@@ -326,7 +326,7 @@ Conics._assert(  # <http://SpatialReference.org/ref/sr-org/...>
 )
 
 
-class Lcc(Based):
+class Lcc(_Based):
     '''Lambert conformal conic East-/Northing location.
     '''
     _easting  = 0  #: (INTERNAL) Easting (C{float}).

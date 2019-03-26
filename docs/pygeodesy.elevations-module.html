@@ -62,7 +62,15 @@
 <p>Functions to obtain elevations and geoid heights thru web services, 
   for (lat, lon) locations, currently limited to the <a 
   href="http://WikiPedia.org/wiki/Contiguous_United_States" 
-  target="_top">Conterminous US (CONUS)</a>.</p>
+  target="_top">Conterminous US (CONUS)</a>, see also module <a 
+  href="pygeodesy.geoids-module.html" class="link">geoids</a> and classes 
+  <a href="pygeodesy.geoids.GeoidG2012B-class.html" 
+  class="link">GeoidG2012B</a>, <a 
+  href="pygeodesy.geoids.GeoidKarney-class.html" 
+  class="link">GeoidKarney</a> and <a 
+  href="pygeodesy.geoids.GeoidPGM-class.html" class="link">GeoidPGM</a> and
+  <a href="http://Gist.GitHub.com/pyRobShrk" 
+  target="_top">USGS10mElev.py</a>.</p>
   <p><b>macOS</b>: If an <code>SSLCertVerificationError</code> occurs, 
   especially this <i>&quot;[SSL: CERTIFICATE_VERIFY_FAILED] certificate 
   verify failed: self &quot;signed certificate in certificate chain 
@@ -74,7 +82,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.02.25
+        19.03.15
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -177,23 +185,30 @@
         <li><strong class="pname"><code>timeout</code></strong> - Optional, query timeout (seconds).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (elevation, data_source) in (<code>meter</code>, 
-          <code>str</code>) or (<code>None</code>, <i>&lt;error&gt;</i>).</dd>
+        <dd>2-Tuple (<code>elevation, data_source</code>) in (<code>meter, 
+          str</code>) or (<code>None, error</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        The returned elevation is <code>None</code> if <i>lat</i> or 
-        <i>lon</i> is invalid or outside the <code>Conterminous US 
-        (CONUS)</code>, if conversion failed or if the query timed out.  
-        The <i>&lt;error&gt;</i> is the <code>HTTP-, IO-, SSL-, Type-, 
-        URL-</code> or <code>ValueError</code> as <code>str</code>.
+        The returned <code>elevation</code> is <code>None</code> if 
+        <i>lat</i> or <i>lon</i> is invalid or outside the 
+        <code>Conterminous US (CONUS)</code>, if conversion failed or if 
+        the query timed out.  The <code>error</code> is the <code>HTTP-, 
+        IO-, SSL-, Type-, URL-</code> or <code>ValueError</code> as a 
+        string (<code>str</code>).
       </p>
       <p><strong>See Also:</strong>
         <a href="http://NationalMap.gov/epqs" target="_top">USGS National 
         Map</a>, the <a 
         href="http://www.USGS.gov/faqs/what-are-projection-horizontal-and-vertical-datum-units-and-resolution-3dep-standard-dems"
-        target="_top">FAQ</a> and <a 
-        href="http://Gist.GitHub.com/pyRobShrk" 
-        target="_top">USGS10mElev.py</a>.
+        target="_top">FAQ</a>, <a href="http://Gist.GitHub.com/pyRobShrk" 
+        target="_top">geoid.py</a>, module <a 
+        href="pygeodesy.geoids-module.html" class="link">geoids</a>, 
+        classes <a href="pygeodesy.geoids.GeoidG2012B-class.html" 
+        class="link">GeoidG2012B</a>, <a 
+        href="pygeodesy.geoids.GeoidKarney-class.html" 
+        class="link">GeoidKarney</a> and <a 
+        href="pygeodesy.geoids.GeoidPGM-class.html" 
+        class="link">GeoidPGM</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -225,22 +240,30 @@
         <li><strong class="pname"><code>timeout</code></strong> - Optional, query timeout (seconds).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (height, model_name) in (<code>meter</code>, 
-          <code>str</code>) or (<code>None</code>, <i>&lt;error&gt;</i>).</dd>
+        <dd>2-Tuple (<code>height, model_name</code>) in (<code>meter, 
+          str</code>) or <code>(None, error</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        The returned height is <code>None</code> if <i>lat</i> or 
-        <i>lon</i> is invalid or outside the <code>Conterminous US 
+        The returned <code>height</code> is <code>None</code> if <i>lat</i>
+        or <i>lon</i> is invalid or outside the <code>Conterminous US 
         (CONUS)</code>, if the <i>model</i> was invalid, if conversion 
-        failed or if the query timed out.  The <i>&lt;error&gt;</i> is the 
+        failed or if the query timed out.  The <code>error</code> is the 
         <code>HTTP-, IO-, SSL-, Type-, URL-</code> or 
-        <code>ValueError</code> as <code>str</code>.
+        <code>ValueError</code> as a string (<code>str</code>).
       </p>
       <p><strong>See Also:</strong>
         <a href="http://www.NGS.NOAA.gov/INFO/geodesy.shtml" 
-        target="_top">NOAA National Geodetic Survery</a> and <a 
+        target="_top">NOAA National Geodetic Survery</a>, <a 
         href="http://www.NGS.NOAA.gov/web_services/geoid.shtml" 
-        target="_top">Geoid</a>
+        target="_top">Geoid</a>, <a href="http://Gist.GitHub.com/pyRobShrk"
+        target="_top">USGS10mElev.py</a>, module <a 
+        href="pygeodesy.geoids-module.html" class="link">geoids</a>, 
+        classes <a href="pygeodesy.geoids.GeoidG2012B-class.html" 
+        class="link">GeoidG2012B</a>, <a 
+        href="pygeodesy.geoids.GeoidKarney-class.html" 
+        class="link">GeoidKarney</a> and <a 
+        href="pygeodesy.geoids.GeoidPGM-class.html" 
+        class="link">GeoidPGM</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -276,7 +299,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Mar  7 10:47:22 2019
+    Generated by Epydoc 3.0.1 on Tue Mar 26 13:15:31 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

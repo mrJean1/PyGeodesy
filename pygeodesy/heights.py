@@ -50,10 +50,10 @@ from points import LatLon_
 from utily import PI, PI2, PI_2, radiansPI, radiansPI2
 
 __all__ = _ALL_LAZY.heights
-__version__ = '19.02.24'
+__version__ = '19.03.17'
 
 
-class HeightError(ValueError):
+class HeightError(ValueError):  # imported by .geoids
     '''Height interpolator or interpolation error.
     '''
     pass
@@ -85,21 +85,8 @@ def _alist(ais):
     return list(map(float, ais))
 
 
-def _ascalar(ais):
-    # return single float, not numpy.float64
-    ais = list(ais)  # np.array, etc. to list
-    if len(ais) != 1:
-        raise AssertionError('len[%r] = %s == 1' % (ais, len(ais)))
-    return float(ais[0])  # remove np.<type>
-
-
-def _atuple(ais):
-    # return tuple of floats, not numpy.float64s
-    return tuple(map(float, ais))
-
-
-def _axyllis4(atype, llis, m=1, off=True):
-    # convert lli C{LatLon}s to tuples or C{NumPy} arrays of C{SciPy} sphericals
+def _allis2(llis, m=1, Error=HeightError):  # imported by .geoids
+    # dtermine return type and convert lli C{LatLon}s to list
     if not isinstance(llis, tuple):  # llis are *args
         raise AssertionError('type(%s): %r' % ('*llis', llis))
 
@@ -116,7 +103,27 @@ def _axyllis4(atype, llis, m=1, off=True):
         _as = _atuple  # return tuple of interpolated heights
 
     if n < m:
-        raise HeightError('insufficient %s: %s, need %s' % ('llis', n, m))
+        raise Error('insufficient %s: %s, need %s' % ('llis', n, m))
+    return _as, llis
+
+
+def _ascalar(ais):  # imported by .geoids
+    # return single float, not numpy.float64
+    ais = list(ais)  # np.array, etc. to list
+    if len(ais) != 1:
+        raise AssertionError('len[%r] = %s == 1' % (ais, len(ais)))
+    return float(ais[0])  # remove np.<type>
+
+
+def _atuple(ais):
+    # return tuple of floats, not numpy.float64s
+    return tuple(map(float, ais))
+
+
+def _axyllis4(atype, llis, m=1, off=True):
+    # convert lli C{LatLon}s to tuples or C{NumPy} arrays of
+    # C{SciPy} sphericals and determine the return type
+    _as, llis = _allis2(llis, m=m)
     xis, yis, _ =  zip(*_xyhs(llis, off=off))  # unzip
     return _as, atype(xis), atype(yis), llis
 
@@ -131,8 +138,8 @@ def _ordedup(ts, lo=EPS, hi=PI2-EPS):
     return ks
 
 
-def _SciPyIssue(x):
-    t = ' '.join(str(x).strip().split())
+def _SciPyIssue(x, *extras):  # imported by .geoids
+    t = ' '.join(str(x).strip().split() + map(str, extras))
     if isinstance(x, (RuntimeWarning, UserWarning)):
         return SciPyWarning(t)
     else:
@@ -164,12 +171,14 @@ def _xyhs3(atype, m, knots, off=True):
     return map1(atype, xs, ys, hs)
 
 
-class _HeightBase(object):
+class _HeightBase(object):  # imported by .geoids
     '''Interpolator base class.
     '''
-    _kmin = 2  # min number of knots
+    _kmin = 2     # min number of knots
     _np   = None  # numpy
-    _sp   = None  # scipy
+    _np_v = None  # version
+    _spi  = None  # scipy.interpolate
+    _sp_v = None  # version
 
     def __call__(self, *unused):
         raise AssertionError('%s.%s not overloaded' % (self.__class__.__name__, '_()'))
@@ -187,28 +196,36 @@ class _HeightBase(object):
         except Exception as x:
             raise _SciPyIssue(x)
 
-    def _height(self, lats, lons):
+    def _height(self, lats, lons, Error=HeightError):
         if isscalar(lats) and isscalar(lons):
             llis = LatLon_(lats, lons)
         else:
             n, lats = len2(lats)
             m, lons = len2(lons)
             if n != m:
-                raise HeightError('non-matching %s: %s vs %s' % ('len', n, m))
+                raise Error('non-matching %s: %s vs %s' % ('len', n, m))
             llis = [LatLon_(*ll) for ll in zip(lats, lons)]
         return self(llis)  # __call__(lli) or __call__(llis)
 
     def _NumSciPy(self, throwarnings=False):
         # import numpy and scipy
-        if throwarnings:  # raise SciPyWarnings
-            import warnings
-            warnings.filterwarnings('error')
-        import scipy.interpolate as sp
+        if throwarnings:  # raise SciPyWarnings, but ...
+            # ... not if scipy has been imported already
+            import sys
+            if 'scipy' not in sys.modules:
+                import warnings
+                warnings.filterwarnings('error')
+
+        import scipy as sp
+        import scipy.interpolate as spi
         import numpy as np
 
-        self._np = np
-        self._sp = sp
-        return np, sp
+        _HeightBase._np   = np
+        _HeightBase._np_v = np.__version__
+        _HeightBase._spi  = spi
+        _HeightBase._sp_v = sp.__version__
+
+        return np, spi
 
     def _xyhs3(self, knots):
         return _xyhs3(self._np.array, self._kmin, knots)
@@ -231,18 +248,19 @@ class HeightCubic(_HeightBase):
            @raise HeightError: Insufficient number of I{knots} or
                                invalid I{knot}.
 
-           @raise ImportError: No C{numpy} or no C{scipy} module.
+           @raise ImportError: Package C{numpy} or C{scipy} not found
+                               or not installed.
 
            @raise SciPyError: A C{scipy.interpolate.interp2d} issue.
 
            @raise SciPyWarning: A C{scipy.interpolate.interp2d} warning
                                 as exception.
         '''
-        _, sp = self._NumSciPy()
+        _, spi = self._NumSciPy()
 
         xs, ys, hs = self._xyhs3(knots)
         try:  # SciPy.interpolate.interp2d kind 'linear' or 'cubic'
-            self._interp2d = sp.interp2d(xs, ys, hs, kind=self._kind)
+            self._interp2d = spi.interp2d(xs, ys, hs, kind=self._kind)
         except Exception as x:
             raise _SciPyIssue(x)
 
@@ -306,7 +324,8 @@ class HeightLinear(HeightCubic):
            @raise HeightError: Insufficient number of I{knots} or
                                invalid I{knot}.
 
-           @raise ImportError: No C{numpy} or no C{scipy} module.
+           @raise ImportError: Package C{numpy} or C{scipy} not found
+                               or not installed.
 
            @raise SciPyError: A C{scipy.interpolate.interp2d} issue.
 
@@ -429,14 +448,15 @@ class HeightLSQBiSpline(_HeightBase):
            @raise HeightError: Insufficient number of I{knots} or
                                I{weight}s or invalid I{knot} or I{weight}.
 
-           @raise ImportError: No C{numpy} or no C{scipy} module.
+           @raise ImportError: Package C{numpy} or C{scipy} not found
+                               or not installed.
 
            @raise SciPyError: A C{LSQSphereBivariateSpline} issue.
 
            @raise SciPyWarning: A C{LSQSphereBivariateSpline} warning
                                 as exception..
         '''
-        np, sp = self._NumSciPy()
+        np, spi = self._NumSciPy()
 
         xs, ys, hs = self._xyhs3(knots)
         m = len(hs)
@@ -463,8 +483,8 @@ class HeightLSQBiSpline(_HeightBase):
         ts = np.array(_ordedup(ys, T, PI  - T))
 
         try:
-            self._ev = sp.LSQSphereBivariateSpline(ys, xs, hs,
-                                                   ts, ps, eps=EPS, w=w).ev
+            self._ev = spi.LSQSphereBivariateSpline(ys, xs, hs,
+                                                    ts, ps, eps=EPS, w=w).ev
         except Exception as x:
             raise _SciPyIssue(x)
 
@@ -523,21 +543,23 @@ class HeightSmoothBiSpline(_HeightBase):
            @raise HeightError: Insufficient number of I{knots} or
                                invalid I{knot} or I{s}.
 
-           @raise ImportError: No C{numpy} or no C{scipy} module.
+           @raise ImportError: Package C{numpy} or C{scipy} not found
+                               or not installed.
 
            @raise SciPyError: A C{SmoothSphereBivariateSpline} issue.
 
            @raise SciPyWarning: A C{SmoothSphereBivariateSpline} warning
                                 as exception.
         '''
-        _, sp = self._NumSciPy()
+        _, spi = self._NumSciPy()
 
         if s < 4:
             raise HeightError('%s too small: %s' % ('smoothing', s))
 
         xs, ys, hs = self._xyhs3(knots)
         try:
-            self._ev = sp.SmoothSphereBivariateSpline(ys, xs, hs, eps=EPS, s=s).ev
+            self._ev = spi.SmoothSphereBivariateSpline(ys, xs, hs,
+                                                       eps=EPS, s=s).ev
         except Exception as x:
             raise _SciPyIssue(x)
 
@@ -578,3 +600,25 @@ class HeightSmoothBiSpline(_HeightBase):
                                 as exception.
         '''
         return _HeightBase._height(self, lats, lons)
+
+# **) MIT License
+#
+# Copyright (C) 2016-2019 -- mrJean1 at Gmail dot com
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+# OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+# ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.

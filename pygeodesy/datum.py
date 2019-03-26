@@ -22,8 +22,8 @@ references were used.
 
 The UK Ordnance Survey National Grid References are still based on the otherwise
 historical OSGB36 datum, q.v. U{Ordnance Survey 'A guide to coordinate systems
-in Great Britain', Section 6
-<http://www.OrdnanceSurvey.co.UK/docs/support/guide-coordinate-systems-great-britain.pdf>}.
+in Great Britain', Section 6<http://www.OrdnanceSurvey.co.UK/docs/support/
+guide-coordinate-systems-great-britain.pdf>}.
 
 @newfield example: Example, Examples
 
@@ -109,12 +109,12 @@ in Great Britain', Section 6
 # make sure int/int division yields float quotient
 from __future__ import division
 
-from bases import Based, inStr, Named, _xattrs
+from bases import _Based, inStr, _Named, _xattrs
 from fmath import EPS, EPS1, cbrt, cbrt2, fdot, fpowers, fStr, \
                   fsum_, sqrt3
 from lazily import _ALL_LAZY
-from utily import R_M, degrees360, m2degrees, m2km, m2NM, m2SM, \
-                  property_RO, _Strs
+from utily import R_M, degrees360, _for_docs, m2degrees, m2km, \
+                  m2NM, m2SM, property_RO, _Strs
 
 from math import atan2, atanh, cos, hypot, radians, sin, sqrt
 
@@ -133,8 +133,8 @@ R_VM = 6366707.0194937  #: Aviation/Navigation earth radius (C{meter}).
 # R_ = 6372797.560856   #: XXX some other earth radius???
 
 # all public contants, classes and functions
-__all__ = _ALL_LAZY.datum
-__version__ = '19.02.24'
+__all__ = _ALL_LAZY.datum + _for_docs('_Enum', '_Registered')
+__version__ = '19.03.09'
 
 division = 1 / 2  # double check int division, see .fmath.py, .utily.py
 if not division:
@@ -142,7 +142,7 @@ if not division:
 del division
 
 
-class _Enum(dict, Named):
+class _Enum(dict, _Named):
     '''(INTERNAL) Enum-like C{dict} sub-class.
     '''
     def __init__(self, name):
@@ -212,8 +212,8 @@ Ellipsoids = _Enum('Ellipsoids')  #: Registered ellipsoids (L{_Enum}).
 Transforms = _Enum('Transforms')  #: Registered transforms (L{_Enum}).
 
 
-class _Based(Based):
-    '''(INTERNAL) Base class.
+class _Registered(_Based):
+    '''(INTERNAL) Base class for registered instances.
     '''
     _enum = None
 
@@ -274,7 +274,7 @@ class _Based(Based):
                 raise TypeError('%r vs %r' % (inst, self))
 
 
-class Ellipsoid(_Based):
+class Ellipsoid(_Registered):
     '''Ellipsoid with semi-major, semi-minor axis, inverse flattening
        and several other pre-computed, frequently used values.
     '''
@@ -476,7 +476,7 @@ class Ellipsoid(_Based):
         if self._BetaKs is None:
             self._BetaKs = self._Kseries(  # XXX int/int quotients may require  from __future__ import division
                 # n    n**2  n**3     n**4        n**5            n**6                 n**7                   n**8
-                (1/2, -2/3, 37/96,   -1/360,    -81/512,      96199/604800,      -406467/38707200,      7944359/67737600),
+                (1/2, -2/3, 37/96,   -1/360,    -81/512,      96199/604800,     -5406467/38707200,      7944359/67737600),
                       (1/48, 1/15, -437/1440,    46/105,   -1118711/3870720,       51841/1209600,      24749483/348364800),       # PYCHOK unaligned
                            (17/480, -37/840,   -209/4480,      5569/90720,       9261899/58060800,     -6457463/17740800),        # PYCHOK unaligned
                                   (4397/161280, -11/504,    -830251/7257600,      466511/2494800,     324154477/7664025600),      # PYCHOK unaligned
@@ -857,7 +857,7 @@ Ellipsoids._assert(  # <http://WikiPedia.org/wiki/Earth_ellipsoid>
 )
 
 
-class Transform(_Based):
+class Transform(_Registered):
     '''Helmert transformation.
     '''
     tx = 0  #: X translation (C{meter}).
@@ -1039,7 +1039,7 @@ Transforms._assert(
 )
 
 
-class Datum(_Based):
+class Datum(_Registered):
     '''Ellipsoid and transform parameters for an earth model.
     '''
     _ellipsoid = Ellipsoids.WGS84  #: (INTERNAL) Default ellipsoid (L{Ellipsoid}).

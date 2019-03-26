@@ -9,7 +9,8 @@ approximate methods for geodetic (lat-/longitude) and geocentric cartesian
 (x/y/z) coordinates.
 
 Transcribed from `JavaScript originals`_ by *Chris Veness (C) 2005-2016*
-and published under the same `MIT License`_.
+and a `C++ class`_ by *Charles Karney (C) 2008-2017* and published
+under the same `MIT License`_.
 
 There are three modules for ellipsoidal earth models, *ellipsoidalKarney*,
 *-Vincenty* and *-Nvector* and two for spherical ones, *sphericalTrigonometry*
@@ -35,28 +36,28 @@ to simplify_ or linearize a path of *LatLon* points (or a `NumPy array`_),
 including implementations of the `Ramer-Douglas-Peucker`_, the
 `Visvalingam-Whyatt`_ and the `Reumann-Witkam`_ algorithms and modified
 versions of the former and classes to interpolate_ the height of
-*LatLon* points.
+*LatLon* points and several *Geoid* models.
 
 All Python source code has been statically checked_ with PyChecker_,
-PyFlakes_, PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.15
+PyFlakes_, PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.16
 and with Flake8_ using Python 3.7.2, both in 64-bit on macOS 10.13.6
 High Sierra.
 
-The tests have been run with Python 2.7.15 (with geographiclib_ 1.49,
-numpy_ 1.16.1, and scipy_ 1.2.1), with Python 3.7.2 (with geographiclib_
-1.49) and with PyPy_ 6.0.0 (Python 2.7.13 and 3.5.3) on macOS 10.13.6
-High Sierra, with Python 2.6.9, 2.7.14, 3.5.6 and 3.6.3 (and geographiclib_
-1.49) on `Debian 8`_ and with Python 3.7.2 (and geographiclib_ 1.49) on
-`Debian 9`_, all in 64-bit only and with Python 2.7.15, 3.6.6 and 3.7.0
-(all with geographiclib_ 1.49) on `Windows Server 2012R2`_ in 32- and
-64-bit.  The tests are run with and without lazy import on Python 3.7.0
-and 3.7.2.
+The tests have been run with Python 2.7.16 and 3.7.3 (both with
+geographiclib_ 1.49, numpy_ 1.16.1, and scipy_ 1.2.1) and with PyPy_
+6.0.0 (Python 2.7.13 and 3.5.3) on macOS 10.13.6 High Sierra, with
+Python 2.6.9, 2.7.14, 3.5.6 and 3.6.3 (and geographiclib_1.49) on
+`Debian 8`_ and with Python 3.7.2 (and geographiclib_ 1.49) on
+`Debian 9`_, *all in 64-bit only* and with Python 2.7.16, 3.6.6 and
+3.7.0 (all with geographiclib_ 1.49) on `Windows Server 2012R2`_ *in
+32- and 64-bit*.  The tests are run with and without lazy import on
+Python 3.7.0 and 3.7.2.
 
 Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 2.7.10
-(and numpy 1.8.0rc1), 2.7.13, 2.7.14 (and numpy 1.13.1, 1.14.0 or 1.15.2),
-3.5.3, 3.6.2, 3.6.3, 3.6.4, 3.6.5, 3.7.0 and `Intel-Python`_ 3.5.3 (and
-numpy_ 1.11.3) on MacOS X 10.10 Yosemite, MacOS X 10.11 El Capitan, macOS
-10.12 Sierra, macOS 10.13.5 High Sierra and macOS 10.14 Mojave, with
+(and numpy 1.8.0rc1), 2.7.13, 2.7.14, 2.7.15 (and numpy 1.13.1, 1.14.0 or
+1.15.2), 3.5.3, 3.6.2, 3.6.3, 3.6.4, 3.6.5, 3.7.0 and `Intel-Python`_ 3.5.3
+(and numpy_ 1.11.3) on MacOS X 10.10 Yosemite, MacOS X 10.11 El Capitan,
+macOS 10.12 Sierra, macOS 10.13.5 High Sierra and macOS 10.14 Mojave, with
 Pythonista_ 3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4, with
 Pythonista_ 3.2 on iOS 11.4.1 and 12.0 on iPad4, iPhone7 and/or iPhone10,
 all in 64-bit only and with 32-bit Python 2.6.6 on Windows XP SP3 and
@@ -82,7 +83,7 @@ for (most) *Height...* interpolators.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Mar 06, 2019.*
+*Last updated: Mar 24, 2019.*
 
 .. image:: http://Img.Shields.io/pypi/pyversions/PyGeodesy.svg?label=Python
   :target: http://PyPI.org/project/PyGeodesy
@@ -99,6 +100,7 @@ cases documentation tag **JS name:** shows the original JavaScript name.
 .. image:: http://Img.Shields.io/pypi/l/PyGeodesy.svg
   :target: http://PyPI.org/project/PyGeodesy
 
+.. _C++ class: http://GeographicLib.SourceForge.io/html/geoid.html
 .. _checked: http://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor
 .. _Cohen-Sutherland: http://WikiPedia.org/wiki/Cohen-Sutherland_algorithm
 .. _Debian 8: http://Travis-CI.org/mrJean1/PyGeodesy

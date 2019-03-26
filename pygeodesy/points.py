@@ -42,7 +42,7 @@ from inspect import isclass
 from math import atan2, cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '19.02.23'
+__version__ = '19.03.15'
 
 
 class LatLon_(object):  # XXX imported by heights._HeightBase.height
@@ -1130,7 +1130,7 @@ def isenclosedBy(point, points, wrap=False):  # MCCABE 15
                 if (dy > 0 and dx >= 0) or (dy < 0 and dx <= 0):
                     e = not e
 
-            s.fadd(sin(radians(y2)))
+            s.fadd_(sin(radians(y2)))
             x1, y1 = x2, y2
 
     # An odd number of meridian crossings means, the polygon

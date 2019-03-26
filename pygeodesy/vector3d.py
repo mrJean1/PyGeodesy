@@ -11,7 +11,7 @@ U{Vector-based geodesy
 @newfield example: Example, Examples
 '''
 
-from bases import VectorBased, _xattrs
+from bases import _VectorBased, _xattrs
 from fmath import EPS, fdot, fStr, fsum, hypot, hypot3, \
                   isscalar, len2, map1
 from lazily import _ALL_LAZY
@@ -21,7 +21,7 @@ from math import atan2, cos, sin
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.vector3d + ('Vector3d', 'sumOf')
-__version__ = '19.01.02'
+__version__ = '19.03.09'
 
 try:
     _cmp = cmp
@@ -53,7 +53,7 @@ def crosserrors(raiser=None):
     return t
 
 
-class Vector3d(VectorBased):
+class Vector3d(_VectorBased):
     '''Generic 3-D vector manipulation.
 
        In a geodesy context, these may be used to represent:
@@ -86,7 +86,7 @@ class Vector3d(VectorBased):
            @keyword ll: Optional, original latlon (C{LatLon}).
            @keyword name: Optional name (C{str}).
         '''
-        VectorBased.__init__(self, name=name)
+        _VectorBased.__init__(self, name=name)
 
         self._x = x
         self._y = y
@@ -466,7 +466,7 @@ class Vector3d(VectorBased):
            @raise TypeError: Incompatible I{other} C{type}.
         '''
         try:
-            VectorBased.others(self, other, name=name)
+            _VectorBased.others(self, other, name=name)
         except TypeError:
             if not isinstance(other, Vector3d):
                 raise

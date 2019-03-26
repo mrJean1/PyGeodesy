@@ -14,20 +14,20 @@ from fmath import EPS, favg, map1, scalar
 from formy import antipode, compassAngle, equirectangular, \
                   haversine, isantipode
 from lazily import _ALL_LAZY
-from utily import R_M, points2, property_RO, unStr
+from utily import R_M, _for_docs, points2, property_RO, unStr
 
 from math import asin, cos, degrees, radians, sin
 
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
-__all__ = _ALL_LAZY.bases  # 'Based', 'Named', 'VectorBased',
-__version__ = '19.01.06'
+__all__ = _ALL_LAZY.bases + _for_docs('_Based', '_Named', '_VectorBased')
+__version__ = '19.03.09'
 
 __X = object()  # unique instance
 
 
-class Named(object):
-    '''(INTERNAL) Base class for object with a name.
+class _Named(object):
+    '''(INTERNAL) Base class for named objects.
     '''
     _name        = ''     #: (INTERNAL) name (C{str})
     _classnaming = False  #: (INTERNAL) prefixed (C{bool})
@@ -39,7 +39,7 @@ class Named(object):
 
     @property_RO
     def classname(self):
-        '''Get this object's C{[module.]class} name (C{str}), see L{classnaming}.
+        '''Get this object's C{[module.]class} name (C{str}), see C{classnaming}.
         '''
         return classname(self, prefixed=self._classnaming)
 
@@ -79,7 +79,7 @@ class Named(object):
         self._name = str(name)
 
 
-class Based(Named):
+class _Based(_Named):
     '''(INTERNAL) Base class with name.
     '''
 
@@ -147,7 +147,15 @@ class Based(Named):
         return '%s(%s)' % (self.classname, t)
 
 
-class LatLonHeightBase(Based):
+class _VectorBased(_Based):
+    '''(INTERNAL) Base class for I{Vector3d}.
+    '''
+    def __init__(self, name='', **unused):
+        if name:
+            self.name = name
+
+
+class LatLonHeightBase(_Based):
     '''(INTERNAL) Base class for C{LatLon} points on
        spherical or ellipsiodal earth models.
     '''
@@ -621,14 +629,6 @@ class LatLonHeightBase(Based):
         return sep.join(t)
 
 
-class VectorBased(Based):
-    '''(INTERNAL) Base class for I{Vector3d}.
-    '''
-    def __init__(self, name='', **unused):
-        if name:
-            self.name = name
-
-
 def _nameof(inst):
     '''(INTERNAL) Get the instance' name or C{''}.
     '''
@@ -668,7 +668,7 @@ def _xnamed(inst, name):
 
        @return: The I{inst}, named if unnamed before.
     '''
-    if name and isinstance(inst, Named):
+    if name and isinstance(inst, _Named):
         try:
             if not inst.name:
                 inst.name = name
@@ -690,7 +690,7 @@ def classname(inst, prefixed=None):
         n = inst.__class__.__name__
     except AttributeError:
         n = 'Nn'
-    if prefixed or (getattr(inst, 'classnaming', Named._classnaming)
+    if prefixed or (getattr(inst, 'classnaming', _Named._classnaming)
                     if prefixed is None else False):
         try:
             m = inst.__module__
@@ -707,9 +707,9 @@ def classnaming(prefixed=None):
 
        @return: Previous class naming setting (C{bool}).
     '''
-    t = Named._classnaming
+    t = _Named._classnaming
     if prefixed in (True, False):
-        Named._classnaming = prefixed
+        _Named._classnaming = prefixed
     return t
 
 
