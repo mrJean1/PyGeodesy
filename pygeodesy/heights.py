@@ -50,7 +50,7 @@ from points import LatLon_
 from utily import PI, PI2, PI_2, radiansPI, radiansPI2
 
 __all__ = _ALL_LAZY.heights
-__version__ = '19.03.17'
+__version__ = '19.03.26'
 
 
 class HeightError(ValueError):  # imported by .geoids
@@ -352,7 +352,6 @@ class HeightIDW(_HeightBase):
     '''
     _adjust    = None
     _b         = 0  # negative distance power
-    _distances = None
     _hs        = ()  # known heights
     _xs        = ()  # knot lons
     _ys        = ()  # knot lats
@@ -376,9 +375,7 @@ class HeightIDW(_HeightBase):
         if adjust in (True, False):
             self._adjust = adjust
             self._distances = self._euclidean
-        elif adjust is None:
-            self._distances = self._haversine
-        else:
+        elif adjust is not None:
             raise HeightError('invalid %s=%r' % ('adjust', adjust))
 
         self._b = -int(beta)
@@ -393,8 +390,11 @@ class HeightIDW(_HeightBase):
         for xk, yk in zip(self._xs, self._ys):
             yield haversine_(y, yk, x - xk)
 
+    _distances = _haversine  # overridden for adjuts in (True, False)
+
     def _hIDW(self, x, y):
-        ws = tuple(self._distances(x, y))
+        # interpolate height at (x, y) radians
+        ws = tuple(self._distances(x, y))  # ._euclidean or ._haversine
         w, h = min(zip(ws, self._hs))
         if w > EPS:
             ws = tuple(w**self._b for w in ws)

@@ -65,6 +65,7 @@ from heights import _allis2, _ascalar, \
 from lazily import _ALL_LAZY
 from utily import _for_docs, property_RO
 
+from math import floor
 import os.path as _os_path
 from os import SEEK_CUR as _SEEK_CUR, SEEK_SET as _SEEK_SET
 from struct import calcsize as _calcsize, unpack as _unpack
@@ -80,7 +81,7 @@ except ImportError:  # Python 3+
         return bs.decode('utf-8')
 
 __all__ = _ALL_LAZY.geoids + _for_docs('_GeoidBase')
-__version__ = '19.03.24'
+__version__ = '19.03.28'
 
 _interp2d_ks = {-2: 'linear',
                 -3: 'cubic',
@@ -94,7 +95,7 @@ class GeoidError(HeightError):
 
 
 class PGMError(GeoidError):
-    '''Error parsing or cropping an C{egm*.pgm} EGM geoid dataset.
+    '''Error parsing or cropping an C{egm*.pgm} geoid dataset.
     '''
     pass
 
@@ -111,29 +112,29 @@ class _GeoidBase(_HeightBase):
     _knots    = 0  # nlat * nlon
     _mean     = None
     _name     = ''
-    _nBytes   = 0  # numpy size in bytes
-    _sizeB    = 0  # geoid file size
+    _nBytes   = 0  # numpy size in bytes, float64
+    _sizeB    = 0  # geoid file size in bytes
     _smooth   = 0  # used only for RectBivariateSpline
     _stdev    = None
 
-    _lat_d  = 0.0  # increment
-    _lat_lo = 0.0  # lower
-    _lat_hi = 0.0  # upper
-    _lon_d  = 0.0  # increment
-    _lon_lo = 0.0  # left
-    _lon_hi = 0.0  # right
-    _lon_of = 0.0  # forward offset
-    _lon_og = 0.0  # reverse offset
+    _lat_d  = 0.0  # increment, +tive
+    _lat_lo = 0.0  # lower lat, south
+    _lat_hi = 0.0  # upper lat, noth
+    _lon_d  = 0.0  # increment, +tive
+    _lon_lo = 0.0  # left lon, west
+    _lon_hi = 0.0  # right lon, east
+    _lon_of = 0.0  # forward lon offset
+    _lon_og = 0.0  # reverse lon offset
 
-    _center     = None
-    _highest    = None
-    _lowerleft  = None
-    _lowerright = None
-    _lowest     = None
-    _upperleft  = None
-    _upperright = None
+    _center     = None  # (lat, lon, height)
+    _highest    = None  # (lat, lon, height)
+    _lowerleft  = None  # (lat, lon, height)
+    _lowerright = None  # (lat, lon, height)
+    _lowest     = None  # (lat, lon, height)
+    _upperleft  = None  # (lat, lon, height)
+    _upperright = None  # (lat, lon, height)
 
-    _yx_hits    = None
+    _yx_hits    = None  # cache hits, ala Karney
 
     def __init__(self, hs, p):
         '''(INTERNAL) Set up the grid axes, the C{SciPy} interpolator
@@ -866,7 +867,7 @@ class GeoidKarney(_GeoidBase):
     def _ev(self, lat, lon):  # PYCHOK expected
         # interpolate the geoid height at grid (lat, lon)
         fy, fx = self._g2yx2(lat, lon)
-        y, x = int(fy), int(fx)  # floor
+        y, x = int(floor(fy)), int(floor(fx))
         fy -= y
         fx -= x
         H = self._evH(fy, fx, y, x)  # ._ev3H or ._ev2H
@@ -936,25 +937,25 @@ class GeoidKarney(_GeoidBase):
             lon += 360
         return lat, lon
 
-    def _llh3minmax(self, high):
+    def _llh3minmax(self, highest):
         # find highest or lowest, takes 10+ secs for egm2008-1.pgm geoid
         # (Python 2.7.16, macOS 10.13.6 High Sierra, iMac 3 GHz Core i3)
         y = x = 0
         h = self._raw(y, x)
-        if high:
+        if highest:
             for j, r in self._raw2():
                 m = max(r)
                 if m > h:
                     h, y, x = m, j, r
-        else:
+        else:  # lowest
             for j, r in self._raw2():
                 m = min(r)
                 if m < h:
                     h, y, x = m, j, r
-        try:
+        try:  # min/max index
             x = x.index(h)
         except AttributeError:
-            pass
+            x = 0
         h *= self._pgm.Scale
         h += self._pgm.Offset
         return self._g2ll2(*self._gyx2g2(y, x)) + (h,)
@@ -1431,7 +1432,7 @@ def egmGeoidHeights(GeoidHeights_dat):
         dat = _BytesIO(dat)
 
     try:
-        dat.seek(0, 0)  # reset
+        dat.seek(0, _SEEK_SET)  # reset
     except AttributeError:
         raise GeoidError('%s invalid: %s' % ('GeoidHeights_dat', type(dat)))
 
@@ -1556,7 +1557,6 @@ if __name__ == '__main__':
 #                                pgm='../geoids/egm96-5.pgm', rlat=-12.0, rlon=12.0, sizeB=18671448, skip=408, slat=90, u2B=2, wlon=0.0
 # Timbuktu GeoidKarney('egm96-5.pgm').height(16.775833, -3.009444): 28.7068 vs 28.7067
 # Timbuktu GeoidKarney('egm96-5.pgm').height(16.776, -3.009): 28.7067 vs 28.7067
-
 
 # % python pygeodesy/geoids.py -PGM ../geoids/egm*.pgm
 #

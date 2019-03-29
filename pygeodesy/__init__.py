@@ -58,13 +58,13 @@ with U{PyChecker<http://PyPI.org/project/pychecker>},
 U{PyFlakes<http://PyPI.org/project/pyflakes>},
 U{PyCodeStyle<http://PyPI.org/project/pycodestyle>} (formerly Pep8) and
 U{McCabe<http://PyPI.org/project/mccabe>} using Python 2.7.16 and with
-U{Flake8<http://PyPI.org/project/flake8>} using Python 3.7.2, both in
+U{Flake8<http://PyPI.org/project/flake8>} using Python 3.7.3, both in
 64-bit on macOS 10.13.6 High Sierra.
 
-The tests have been run with Python 2.7.16 and 3.7.2 (both with
+The tests have been run with Python 2.7.16 and 3.7.3 (both with
 U{geographiclib <http://PyPI.org/project/geographiclib>} 1.49,
 U{numpy<http://PyPI.org/project/numpy>} 1.16.1 and U{scipy
-<http://Scipy.org/scipylib/download.html>}) and with
+<http://Scipy.org/scipylib/download.html>} 1.2.1) and with
 U{PyPy<http://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3) on macOS
 10.13.6 High Sierra, with Python 2.6.9, 2.7.14, 3.5.6 and 3.6.3 (and
 U{geographiclib<http://PyPI.org/project/geographiclib>} 1.49) on
@@ -79,7 +79,7 @@ Python 3.7.0 and 3.7.2.
 
 Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 2.7.10
 (and numpy 1.8.0rc1), 2.7.13, 2.7.14, 2.7.15 (and numpy 1.13.1, 1.14.0 or
-1.15.2), 3.5.3, 3.6.2, 3.6.3, 3.6.4, 3.6.5, 3.7.0 and U{Intel-Python
+1.15.2), 3.5.3, 3.6.2, 3.6.3, 3.6.4, 3.6.5, 3.7.0, 3.7.2 and U{Intel-Python
 <http://software.Intel.com/en-us/distribution-for-python>} 3.5.3 (and
 U{numpy<http://PyPI.org/project/numpy>} 1.11.3) on MacOS X 10.10 Yosemite,
 MacOS X 10.11 El Capitan, macOS 10.12 Sierra, macOS 10.13.5 High Sierra and
@@ -107,7 +107,7 @@ Installation of U{GeographicLib<http://PyPI.org/project/geographiclib>},
 U{NumPy<http://www.NumPy.org>} and U{SciPy<http://SciPy.org>} is optional.
 However, the latter are required for module C{ellipsoidalKarney} classes
 C{LatLon} and C{Cartesian} and functions C{areaOf} and C{perimeterOf} and
-for (most) C{Height...} interpolators.
+for (most) C{Height...} and (most) C{Geoid...} interpolation classes.
 
 Some function and method names differ from the JavaScript version. In such
 cases documentation tag B{JS name:} shows the original JavaScript name.
@@ -184,7 +184,7 @@ from os.path import abspath, basename, dirname
 _init_abspath     = abspath(__file__)
 pygeodesy_abspath = dirname(_init_abspath)
 
-__version__ = '19.03.24'
+__version__ = '19.03.28'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 

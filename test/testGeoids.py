@@ -4,7 +4,7 @@
 # Test the height interpolators.
 
 __all__ = ('Tests',)
-__version__ = '19.03.24'
+__version__ = '19.03.26'
 
 import warnings  # PYCHOK expected
 # RuntimeWarning: numpy.ufunc size changed, may indicate binary
@@ -18,6 +18,7 @@ from pygeodesy import fStr, len2, egmGeoidHeights, GeoidError, \
                       GeoidG2012B, GeoidKarney, GeoidPGM, RangeError
 
 import os.path as _os_path
+from os import SEEK_SET as _SEEK_SET
 
 _GeoidHeights_dat = b'''
 # the first and last 100 tests from GeoidHeights.dat.gz
@@ -340,7 +341,12 @@ if __name__ == '__main__':  # PYCHOK internal error?
             break
         elif '-dat'.startswith(g_) and len(g_) > 1:
             # load GeoidHeights.dat from file
-            t._dat5tests = open(gs.pop(0), 'rb')
+            f = open(gs.pop(0), 'rb')
+            if f.read(2) == b'\037\213':  # .gz
+                t.test('-dat <file.dat>', f.name, '-.dat')
+                t.exit()
+            f.seek(0, _SEEK_SET)
+            t._dat5tests = f
         elif '-eps'.startswith(g_) and len(g_) > 1:
             t._epsHeight = float(gs.pop(0))
         elif '-hindex'.startswith(g_) and len(g_) > 1:

@@ -40,7 +40,7 @@ versions of the former and classes to interpolate_ the height of
 
 All Python source code has been statically checked_ with PyChecker_,
 PyFlakes_, PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.16
-and with Flake8_ using Python 3.7.2, both in 64-bit on macOS 10.13.6
+and with Flake8_ using Python 3.7.3, both in 64-bit on macOS 10.13.6
 High Sierra.
 
 The tests have been run with Python 2.7.16 and 3.7.3 (both with
@@ -55,13 +55,13 @@ Python 3.7.0 and 3.7.2.
 
 Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 2.7.10
 (and numpy 1.8.0rc1), 2.7.13, 2.7.14, 2.7.15 (and numpy 1.13.1, 1.14.0 or
-1.15.2), 3.5.3, 3.6.2, 3.6.3, 3.6.4, 3.6.5, 3.7.0 and `Intel-Python`_ 3.5.3
-(and numpy_ 1.11.3) on MacOS X 10.10 Yosemite, MacOS X 10.11 El Capitan,
-macOS 10.12 Sierra, macOS 10.13.5 High Sierra and macOS 10.14 Mojave, with
-Pythonista_ 3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4, with
-Pythonista_ 3.2 on iOS 11.4.1 and 12.0 on iPad4, iPhone7 and/or iPhone10,
-all in 64-bit only and with 32-bit Python 2.6.6 on Windows XP SP3 and
-with 32-bit Python 2.7.14 on Windows 10 Pro.
+1.15.2), 3.5.3, 3.6.2, 3.6.3, 3.6.4, 3.6.5, 3.7.0, 3.7.2 and `Intel-Python`_
+3.5.3 (and numpy_ 1.11.3) on MacOS X 10.10 Yosemite, MacOS X 10.11 El
+Capitan, macOS 10.12 Sierra, macOS 10.13.5 High Sierra and macOS 10.14
+Mojave, with Pythonista_ 3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on
+iPad4, with Pythonista_ 3.2 on iOS 11.4.1 and 12.0 on iPad4, iPhone7
+and/or iPhone10, all in 64-bit only and with 32-bit Python 2.6.6 on
+Windows XP SP3 and with 32-bit Python 2.7.14 on Windows 10 Pro.
 
 In addition to the PyGeodesy_ package, the distribution files contain the
 tests, the test results (on macOS only) and the complete documentation
@@ -78,12 +78,12 @@ before installation.
 Installation of `GeographicLib`_, `NumPy`_ and `SciPy`_ is optional.
 However, the latter are required for module *ellipsoidalKarney* classes
 *LatLon* and *Cartesian* and functions *areaOf* and *perimeterOf* and
-for (most) *Height...* interpolators.
+for (most) *Height...* and (most) *Geoid...* interpolation classes.
 
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Mar 24, 2019.*
+*Last updated: Mar 28, 2019.*
 
 .. image:: http://Img.Shields.io/pypi/pyversions/PyGeodesy.svg?label=Python
   :target: http://PyPI.org/project/PyGeodesy
