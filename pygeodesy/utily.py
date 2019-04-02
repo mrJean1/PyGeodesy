@@ -23,7 +23,7 @@ _FOR_DOCS = _environ.get('PYGEODESY_FOR_DOCS', None)
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utily
-__version__ = '19.03.24'
+__version__ = '19.04.02'
 
 division = 1 / 2  # double check int division, see .datum.py
 if not division:
@@ -35,7 +35,7 @@ try:
 except NameError:
     _Strs = str,
 
-PI2  = PI * 2  #: Two PI, M{PI * 2} (C{float})  # PYCHOK expected
+PI2  = PI * 2  #: Two PI, M{PI * 2} aka Tau (C{float})  # PYCHOK expected
 PI_2 = PI / 2  #: Half PI, M{PI / 2} (C{float})
 PI_4 = PI / 4  #: Quarter PI, M{PI / 4} (C{float})
 

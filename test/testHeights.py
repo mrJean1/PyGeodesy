@@ -4,7 +4,7 @@
 # Test the height interpolators.
 
 __all__ = ('Tests',)
-__version__ = '19.02.24'
+__version__ = '19.04.02'
 
 import warnings  # PYCHOK expected
 # RuntimeWarning: numpy.ufunc size changed, may indicate binary
@@ -85,7 +85,7 @@ class Tests(TestsBase):
               LatLon(1, 0.5, 5), LatLon(0.5, 1.4, 7), LatLon(1.2, 1, 7)
         lli = LatLon(1, 1)
         self.testHeightIDW(None,  kts, lli, '6.108538037')
-        self.testHeightIDW(True,  kts, lli, '6.167071011')
+        self.testHeightIDW(True,  kts, lli, '6.166852765')
         self.testHeightIDW(False, kts, lli, '6.166920194')
 
         kts = LatLon(1.1, 1, 2), LatLon(2.1, 2, 2), \
@@ -93,7 +93,7 @@ class Tests(TestsBase):
         lli = kts[0].intersection(*kts[1:])
         self.test('intersection', lli, '02.64932°N, 002.550079°E, +2.50m')  # mean height
         self.testHeightIDW(None,  kts, lli, '2.592742938')
-        self.testHeightIDW(True,  kts, lli, '2.592742049')
+        self.testHeightIDW(True,  kts, lli, '2.592747784')
         self.testHeightIDW(False, kts, lli, '2.592735027')
 
         if scipy:
@@ -112,7 +112,7 @@ class Tests(TestsBase):
             lats, lons = zip(*[(ll.lat, ll.lon) for ll in kts])
 
             self.testHeight(HeightCubic,          kts, lli, '3.000000000', lats, lons)
-            self.testHeight(HeightIDW,            kts, lli, '2.407864110', lats, lons)
+            self.testHeight(HeightIDW,            kts, lli, '2.408053308', lats, lons)
             self.testHeight(HeightLinear,         kts, lli, '3.000000000', lats, lons)
             self.testHeight(HeightLSQBiSpline,    kts, lli, '6.419251669', lats, lons)
             self.testHeight(HeightSmoothBiSpline, kts, lli, '2.598922541', lats, lons)

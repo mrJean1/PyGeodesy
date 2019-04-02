@@ -8,7 +8,7 @@ u'''Formulary of basic geodesy functions and approximations.
 
 from fmath import EPS, fStr, fsum_, map1
 from lazily import _ALL_LAZY
-from utily import PI, PI2, R_M, degrees2m, degrees360, \
+from utily import PI, PI2, PI_2, R_M, degrees2m, degrees360, \
                   LimitError, _limiterrors, \
                   unroll180, unrollPI, wrap90, wrap180
 
@@ -16,12 +16,13 @@ from math import atan2, cos, degrees, hypot, radians, sin, sqrt  # pow
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.formy + ('equirectangular3',)  # DEPRECATED
-__version__ = '19.03.31'
+__version__ = '19.04.02'
 
 
 def _scaled(lat1, lat2):
     # scale delta lon by cos(mean of lats)
-    return cos(radians(lat1 + lat2) * 0.5)
+    m = (lat1 + lat2) * 0.5
+    return cos(radians(m)) if abs(m) < 90 else 0
 
 
 def antipode(lat, lon):
@@ -134,10 +135,11 @@ def euclidean(lat1, lon1, lat2, lon2, radius=R_M, adjust=True, wrap=False):
 
        @see: U{Distance between two (spherical) points
              <http://www.EdWilliams.org/avform.htm#Dist>}, functions
-             L{equirectangular}, L{Ellipsoid.distance2} or C{LatLon}
-             methods I{distanceTo*} and I{equirectangularTo}.
+             L{equirectangular}, L{haversine} and L{vincentys} and
+             methods L{Ellipsoid.distance2}, C{LatLon} I{distanceTo*}
+             and I{equirectangularTo}.
     '''
-    d, lon2 = unroll180(lon1, lon2, wrap=wrap)
+    d, _ = unroll180(lon1, lon2, wrap=wrap)
     r = euclidean_(radians(lat2), radians(lat1), radians(d), adjust=adjust)
     return r * float(radius)
 
@@ -154,11 +156,16 @@ def euclidean_(a2, a1, b21, adjust=True):
 
        @return: Angular distance (C{radians}).
 
-       @see: Functions L{euclidean} and L{haversine_}.
+       @see: Functions L{euclidean}, L{equirectangular_}, L{haversine_}
+             and L{vincentys_}.
     '''
     a, b = abs(a2 - a1), abs(b21)
     if adjust:
-        a *= cos((a2 + a1) * 0.5)
+        m = (a2 + a1) * 0.5
+        if abs(m) < PI_2:
+            b *= cos(m)
+        else:
+            return a
     if a < b:
         a, b = b, a
     return a + b * 0.5
@@ -181,8 +188,7 @@ def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **options):
 
        @see: Function L{equirectangular_} for more details, the
              available I{options}, errors, restrictions and other,
-             more accurate distance functions.
-
+             approximate or accurate distance functions.
     '''
     _, dy, dx, _ = equirectangular_(lat1, lon1, lat2, lon2, **options)
     return degrees2m(hypot(dx, dy), radius=radius)
@@ -231,10 +237,9 @@ def equirectangular_(lat1, lon1, lat2, lon2,
 
        @see: U{Local, flat earth approximation
              <http://www.EdWilliams.org/avform.htm#flat>}, functions
-             L{equirectangular}, L{haversine} and L{vincentys} and methods
-             L{Ellipsoid.distance2}, C{LatLon} I{distanceTo*} and
-             I{equirectangularTo} for more accurate and/or larger
-             distances.
+             L{equirectangular}, L{euclidean}, L{haversine} and
+             L{vincentys} and methods L{Ellipsoid.distance2}, C{LatLon}
+             I{distanceTo*} and I{equirectangularTo}.
     '''
     d_lat = lat2 - lat1
     d_lon, ulon2 = unroll180(lon1, lon2, wrap=wrap)
@@ -268,9 +273,9 @@ def haversine(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
 
        @see: U{Distance between two (spherical) points
              <http://www.EdWilliams.org/avform.htm#Dist>}, functions
-             L{equirectangular} and L{vincentys} and methods
-             L{Ellipsoid.distance2}, C{LatLon} I{distanceTo*} and
-             I{equirectangularTo}.
+             L{equirectangular}, L{euclidean} and L{vincentys} and
+             methods L{Ellipsoid.distance2}, C{LatLon} I{distanceTo*}
+             and I{equirectangularTo}.
     '''
     d, _ = unroll180(lon1, lon2, wrap=wrap)
     r = haversine_(radians(lat2), radians(lat1), radians(d))
@@ -288,7 +293,8 @@ def haversine_(a2, a1, b21):
 
        @return: Angular distance (C{radians}).
 
-       @see: Functions L{haversine}, L{euclidean_} and L{vincentys_}.
+       @see: Functions L{haversine}, L{equirectangular_}, L{euclidean_}
+             and L{vincentys_}.
     '''
     def _hsin(rad):
         return sin(rad * 0.5)**2
@@ -391,9 +397,11 @@ def vincentys(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
 
        @return: Distance (C{meter}, same units as I{radius}).
 
-       @see: Functions L{equirectangular}, L{haversine} and methods
-             L{Ellipsoid.distance2}, C{LatLon} I{distanceTo*} and
-             I{equirectangularTo}.
+       @see: Functions L{equirectangular}, L{euclidean} and L{haversine}
+             and methods L{Ellipsoid.distance2}, C{LatLon} I{distanceTo*}
+             and I{equirectangularTo}.
+
+       @note: See note under L{vincentys_}.
     '''
     d, _ = unroll180(lon1, lon2, wrap=wrap)
     r = vincentys_(radians(lat2), radians(lat1), radians(d))
@@ -411,12 +419,14 @@ def vincentys_(a2, a1, b21):
 
        @return: Angular distance (C{radians}).
 
-       @see: Functions L{vincentys}, L{haversine_} and L{euclidean_}.
+       @see: Functions L{vincentys}, L{equirectangular_}, L{euclidean_}
+             and L{haversine_}.
 
-       @note: Function L{vincentys_} is suitable for antipodal points
-              but is slightly more compute-intensive than L{haversine_}
-              (3 cos, 3 sin, 1 hypot, 1 atan2, 7 mul, 2 add) vs (2 cos,
-              2 sin, 2 sqrt, 1 atan2, 5 mul, 2 add).
+       @note: Functions L{vincentys_} and L{haversine_} produce equivalent
+              results, but L{vincentys_} is suitable for antipodal points
+              and slightly more expensive than L{haversine_} (M{3 cos,
+              3 sin, 1 hypot, 1 atan2, 7 mul, 2 add} versus M{2 cos, 2
+              sin, 2 sqrt, 1 atan2, 5 mul, 1 add}).
     '''
     ca1, ca2, cb21 = map1(cos, a1, a2, b21)
     sa1, sa2, sb21 = map1(sin, a1, a2, b21)

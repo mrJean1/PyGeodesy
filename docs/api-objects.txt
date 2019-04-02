@@ -413,13 +413,13 @@ pygeodesy.formy.unroll180	pygeodesy.utily-module.html#unroll180
 pygeodesy.formy.EPS	pygeodesy.formy-module.html#EPS
 pygeodesy.formy._ALL_LAZY	pygeodesy.formy-module.html#_ALL_LAZY
 pygeodesy.formy.equirectangular3	pygeodesy.formy-module.html#equirectangular3
-pygeodesy.formy.equirectangular	pygeodesy.formy-module.html#equirectangular
 pygeodesy.formy.haversine	pygeodesy.formy-module.html#haversine
-pygeodesy.formy.equirectangular_	pygeodesy.formy-module.html#equirectangular_
+pygeodesy.formy.equirectangular	pygeodesy.formy-module.html#equirectangular
+pygeodesy.formy.bearing_	pygeodesy.formy-module.html#bearing_
 pygeodesy.formy.degrees360	pygeodesy.utily-module.html#degrees360
 pygeodesy.formy._limiterrors	pygeodesy.formy-module.html#_limiterrors
 pygeodesy.formy.euclidean	pygeodesy.formy-module.html#euclidean
-pygeodesy.formy._scaled	pygeodesy.formy-module.html#_scaled
+pygeodesy.formy.PI_2	pygeodesy.formy-module.html#PI_2
 pygeodesy.formy.haversine_	pygeodesy.formy-module.html#haversine_
 pygeodesy.formy.__package__	pygeodesy.formy-module.html#__package__
 pygeodesy.formy.wrap90	pygeodesy.utily-module.html#wrap90
@@ -428,7 +428,7 @@ pygeodesy.formy.fsum_	pygeodesy.fmath-module.html#fsum_
 pygeodesy.formy.PI	pygeodesy.formy-module.html#PI
 pygeodesy.formy.isantipode	pygeodesy.formy-module.html#isantipode
 pygeodesy.formy.euclidean_	pygeodesy.formy-module.html#euclidean_
-pygeodesy.formy.bearing_	pygeodesy.formy-module.html#bearing_
+pygeodesy.formy._scaled	pygeodesy.formy-module.html#_scaled
 pygeodesy.formy.heightOf	pygeodesy.formy-module.html#heightOf
 pygeodesy.formy.antipode	pygeodesy.formy-module.html#antipode
 pygeodesy.formy.PI2	pygeodesy.formy-module.html#PI2
@@ -440,6 +440,7 @@ pygeodesy.formy.wrap180	pygeodesy.utily-module.html#wrap180
 pygeodesy.formy.fStr	pygeodesy.fmath-module.html#fStr
 pygeodesy.formy.R_M	pygeodesy.formy-module.html#R_M
 pygeodesy.formy.horizon	pygeodesy.formy-module.html#horizon
+pygeodesy.formy.equirectangular_	pygeodesy.formy-module.html#equirectangular_
 pygeodesy.formy.compassAngle	pygeodesy.formy-module.html#compassAngle
 pygeodesy.geohash	pygeodesy.geohash-module.html
 pygeodesy.geohash.neighbors	pygeodesy.geohash-module.html#neighbors

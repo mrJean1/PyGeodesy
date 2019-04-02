@@ -4,11 +4,11 @@
 # Test formulary functions.
 
 __all__ = ('Tests',)
-__version__ = '19.03.31'
+__version__ = '19.04.02'
 
 from base import TestsBase
 
-from pygeodesy import equirectangular, haversine, vincentys
+from pygeodesy import equirectangular, euclidean, haversine, vincentys
 
 
 class Tests(TestsBase):
@@ -21,9 +21,13 @@ class Tests(TestsBase):
         d = vincentys(a1, b1, a2, b2)
         self.test('vincentys', d, x, fmt='%.3f', known=abs(d - x) < k)
 
-        k = x * 0.02  # allow 3% margin
+        k = x * 0.02  # allow 2% margin
         d = equirectangular(a1, b1, a2, b2, limit=90)
         self.test('equirectangular', d, x, fmt='%.3f', known=abs(d - x) < k)
+
+        k = x * 0.11  # allow 11% margin
+        d = euclidean(a1, b1, a2, b2)
+        self.test('euclidean', d, x, fmt='%.3f', known=abs(d - x) < k)
 
     def testFormy(self):
         Boston    = 42.3541165, -71.0693514

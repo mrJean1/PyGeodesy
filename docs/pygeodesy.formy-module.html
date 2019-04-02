@@ -63,7 +63,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.03.31
+        19.04.02
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -639,8 +639,12 @@
         target="_top">Distance between two (spherical) points</a>, 
         functions <a href="pygeodesy.formy-module.html#equirectangular" 
         class="link">equirectangular</a>, <a 
+        href="pygeodesy.formy-module.html#haversine" 
+        class="link">haversine</a> and <a 
+        href="pygeodesy.formy-module.html#vincentys" 
+        class="link">vincentys</a> and methods <a 
         href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
-        class="link">Ellipsoid.distance2</a> or <code>LatLon</code> methods
+        class="link">Ellipsoid.distance2</a>, <code>LatLon</code> 
         <i>distanceTo*</i> and <i>equirectangularTo</i>.
       </p>
 </div></td></tr></table>
@@ -679,9 +683,13 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.formy-module.html#euclidean" 
-        class="link">euclidean</a> and <a 
+        class="link">euclidean</a>, <a 
+        href="pygeodesy.formy-module.html#equirectangular_" 
+        class="link">equirectangular_</a>, <a 
         href="pygeodesy.formy-module.html#haversine_" 
-        class="link">haversine_</a>.
+        class="link">haversine_</a> and <a 
+        href="pygeodesy.formy-module.html#vincentys_" 
+        class="link">vincentys_</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -725,8 +733,8 @@
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a> for more details, the available 
-        <i>options</i>, errors, restrictions and other, more accurate 
-        distance functions.
+        <i>options</i>, errors, restrictions and other, approximate or 
+        accurate distance functions.
       </p>
 </div></td></tr></table>
 </div>
@@ -821,14 +829,15 @@
         target="_top">Local, flat earth approximation</a>, functions <a 
         href="pygeodesy.formy-module.html#equirectangular" 
         class="link">equirectangular</a>, <a 
+        href="pygeodesy.formy-module.html#euclidean" 
+        class="link">euclidean</a>, <a 
         href="pygeodesy.formy-module.html#haversine" 
         class="link">haversine</a> and <a 
         href="pygeodesy.formy-module.html#vincentys" 
         class="link">vincentys</a> and methods <a 
         href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
         class="link">Ellipsoid.distance2</a>, <code>LatLon</code> 
-        <i>distanceTo*</i> and <i>equirectangularTo</i> for more accurate 
-        and/or larger distances.
+        <i>distanceTo*</i> and <i>equirectangularTo</i>.
       </p>
 </div></td></tr></table>
 </div>
@@ -872,7 +881,9 @@
         <a href="http://www.EdWilliams.org/avform.htm#Dist" 
         target="_top">Distance between two (spherical) points</a>, 
         functions <a href="pygeodesy.formy-module.html#equirectangular" 
-        class="link">equirectangular</a> and <a 
+        class="link">equirectangular</a>, <a 
+        href="pygeodesy.formy-module.html#euclidean" 
+        class="link">euclidean</a> and <a 
         href="pygeodesy.formy-module.html#vincentys" 
         class="link">vincentys</a> and methods <a 
         href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
@@ -914,6 +925,8 @@
 <div class="fields">      <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.formy-module.html#haversine" 
         class="link">haversine</a>, <a 
+        href="pygeodesy.formy-module.html#equirectangular_" 
+        class="link">equirectangular_</a>, <a 
         href="pygeodesy.formy-module.html#euclidean_" 
         class="link">euclidean_</a> and <a 
         href="pygeodesy.formy-module.html#vincentys_" 
@@ -1083,11 +1096,17 @@
 <div class="fields">      <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.formy-module.html#equirectangular" 
         class="link">equirectangular</a>, <a 
+        href="pygeodesy.formy-module.html#euclidean" 
+        class="link">euclidean</a> and <a 
         href="pygeodesy.formy-module.html#haversine" 
         class="link">haversine</a> and methods <a 
         href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
         class="link">Ellipsoid.distance2</a>, <code>LatLon</code> 
         <i>distanceTo*</i> and <i>equirectangularTo</i>.
+      </p>
+      <p><strong>Note:</strong>
+        See note under <a href="pygeodesy.formy-module.html#vincentys_" 
+        class="link">vincentys_</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -1124,18 +1143,25 @@
 <div class="fields">      <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.formy-module.html#vincentys" 
         class="link">vincentys</a>, <a 
-        href="pygeodesy.formy-module.html#haversine_" 
-        class="link">haversine_</a> and <a 
+        href="pygeodesy.formy-module.html#equirectangular_" 
+        class="link">equirectangular_</a>, <a 
         href="pygeodesy.formy-module.html#euclidean_" 
-        class="link">euclidean_</a>.
+        class="link">euclidean_</a> and <a 
+        href="pygeodesy.formy-module.html#haversine_" 
+        class="link">haversine_</a>.
       </p>
       <p><strong>Note:</strong>
-        Function <a href="pygeodesy.formy-module.html#vincentys_" 
-        class="link">vincentys_</a> is suitable for antipodal points but is
-        slightly more compute-intensive than <a 
+        Functions <a href="pygeodesy.formy-module.html#vincentys_" 
+        class="link">vincentys_</a> and <a 
         href="pygeodesy.formy-module.html#haversine_" 
-        class="link">haversine_</a> (3 cos, 3 sin, 1 hypot, 1 atan2, 7 mul,
-        2 add) vs (2 cos, 2 sin, 2 sqrt, 1 atan2, 5 mul, 2 add).
+        class="link">haversine_</a> produce equivalent results, but <a 
+        href="pygeodesy.formy-module.html#vincentys_" 
+        class="link">vincentys_</a> is suitable for antipodal points and 
+        slightly more expensive than <a 
+        href="pygeodesy.formy-module.html#haversine_" 
+        class="link">haversine_</a> (<i class="math">3 cos, 3 sin, 1 hypot,
+        1 atan2, 7 mul, 2 add</i> versus <i class="math">2 cos, 2 sin, 2 
+        sqrt, 1 atan2, 5 mul, 1 add</i>).
       </p>
 </div></td></tr></table>
 </div>
@@ -1171,7 +1197,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Apr  1 16:07:35 2019
+    Generated by Epydoc 3.0.1 on Tue Apr  2 11:38:02 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
