@@ -81,7 +81,7 @@ except ImportError:  # Python 3+
         return bs.decode('utf-8')
 
 __all__ = _ALL_LAZY.geoids + _for_docs('_GeoidBase')
-__version__ = '19.03.28'
+__version__ = '19.03.31'
 
 _interp2d_ks = {-2: 'linear',
                 -3: 'cubic',
@@ -497,8 +497,8 @@ class _GeoidBase(_HeightBase):
         return self._np_v
 
     def outside(self, lat, lon):
-        '''Check whether a location is in- or outside the geoid
-           lat- and longitude range.
+        '''Check whether a location is outside this geoid's
+           lat-/longitude or crop range.
 
            @param lat: The latitude (C{degrees}).
            @param lon: The longitude (C{degrees}).
@@ -731,14 +731,14 @@ class GeoidKarney(_GeoidBase):
          (-122,   -2,  -27, -111,  -75,  27,   62, 124, 124,  62,  -64,   2),
             (0,    0,   93,  -93,  -93,  93,    0,   0,   0,   0,    0,   0),
           (120, -120,  147,  -57, -129,  39,    0,   0,   0,   0,   66, -66),  # PYCHOK indent
-          (135,   51,   -9, -192, -180,   9,    31, 62,  62,   31,  51, -51),
+          (135,   51,   -9, -192, -180,   9,   31,  62,  62,  31,   51, -51),
             (0,    0,    0,    0,    0,   0,    0,   0,   0,   0,    0,   0),
             (0,    0,  -93,   93,   93, -93,    0,   0,   0,   0,    0,   0),
           (-84,   84,   18,   12,  -12, -18,    0,   0,   0,   0, -102, 102),
           (-31,  -31,    0,   93,   93,   0,  -31, -62, -62, -31,   31,  31)))
 
     _egm     = None   # open geoid file
-    _endian  = '>H'   # struct.unpack 1 big endian unsigned short
+    _endian  = '>H'   # struct.unpack 1 ushort (big endian, unsigned short)
     _4endian = '>4H'  # struct.unpack 4 ushorts
     _Rendian = 0      # struct.unpack a row of ushorts
     _highest = -8.4, -32.633, 85.839   # egm2008-1.pgm, takes 10+ secs
@@ -1096,9 +1096,13 @@ class GeoidPGM(_GeoidBase):
            @note: The U{GeographicLib egm*.pgm<http://GeographicLib.SourceForge.io/
                   html/geoid.html#geoidinst>} file sizes are based on a 2-byte
                   C{int} height converted to 8-byte C{dtype float64} for C{scipy}
-                  interpolator.  Therefore, the internal memory usage is 4x the
+                  interpolators.  Therefore, internal memory usage is 4 times the
                   C{egm*.pgm} file size and may exceed the available memory,
-                  especially with 32-bit Python.
+                  especially with 32-bit Python.  To reduce memory usage, set
+                  keyword argument I{crop} to the region of interest.  For example
+                  I{crop=(20, -125, 50, -65)} covers the U{conterminous US<http://
+                  www.NGS.NOAA.gov/GEOID/GEOID12B/maps/GEOID12B_CONUS_grids.png>}
+                  (CONUS).
 
            @see: Class L{GeoidKarney} and function L{egmGeoidHeights}.
         '''
@@ -1114,9 +1118,9 @@ class GeoidPGM(_GeoidBase):
         try:
             # U{numpy dtype formats are different from Python struct formats
             # <http://docs.SciPy.org/doc/numpy-1.15.0/reference/arrays.dtypes.html>}
-            # read all i2 heights, skipping the PGM header lines, converted to float
+            # read all heights, skipping the PGM header lines, converted to float
             hs = self._load(g, self.endian, p.knots, p.skip).reshape(p.nlat, p.nlon) * p.Scale
-            if p.Offset:  # i4 to f4 or f4 offset
+            if p.Offset:  # offset
                 hs = p.Offset + hs
             if p.dlat < 0:  # flip the rows
                 hs = np.flipud(hs)
@@ -1190,6 +1194,23 @@ class _Gpars(object):
 
 class _PGM(_Gpars):
     '''(INTERNAL) Parse an C{egm*.pgm} geoid dataset file.
+
+       # Geoid file in PGM format for the GeographicLib::Geoid class
+       # Description WGS84 EGM96, 5-minute grid
+       # URL http://Earth-Info.NGA.mil/GandG/wgs84/gravitymod/egm96/egm96.html
+       # DateTime 2009-08-29 18:45:03
+       # MaxBilinearError 0.140
+       # RMSBilinearError 0.005
+       # MaxCubicError 0.003
+       # RMSCubicError 0.001
+       # Offset -108
+       # Scale 0.003
+       # Origin 90N 0E
+       # AREA_OR_POINT Point
+       # Vertical_Datum WGS84
+       <width> <height>
+       <pixel>
+       ...
     '''
     crop4 = ()  # 4-tuple (C{south, west, north, east}).
     egm   = None
@@ -1204,7 +1225,7 @@ class _PGM(_Gpars):
         lat, lon = latlon.split()
         return parseDMS2(lat, lon)
 
-    # PGM file attributes, CamelCase .istitle()
+    # PGM file attributes, CamelCase but not .istitle()
     AREA_OR_POINT    = str
     DateTime         = str
     Description      = str  # 'WGS84 EGM96, 5-minute grid'
@@ -1220,7 +1241,7 @@ class _PGM(_Gpars):
     URL              = str  # 'http://Earth-Info.NGA.mil/GandG/wgs84/...'
     Vertical_Datum   = str
 
-    def __init__(self, g, pgm='', itemsize=0, sizeB=0):  # MCCABE 21
+    def __init__(self, g, pgm='', itemsize=0, sizeB=0):  # MCCABE 22
         '''(INTERNAL) New C{_PGM} parsed C{egm*.pgm} geoid dataset.
         '''
         self.pgm = pgm  # geoid file name
@@ -1233,19 +1254,20 @@ class _PGM(_Gpars):
         if t != b'P5\n' or t.strip() != b'P5':
             raise self._Errorf('header %r', t)
 
-        while True:  # read all # Attr ... lines
-            try:
+        while True:  # read all # Attr ... lines,
+            try:  # ignore empty ones or comments
                 t = g.readline().strip()
-                if not t.startswith(b'#'):
+                if t.startswith(b'#'):
+                    t = t.lstrip(b'#').lstrip()
+                    a, v = map(_b2str, t.split(None, 1))
+                    f = getattr(_PGM, a, None)
+                    if callable(f) and a[:1].isupper():
+                        setattr(self, a, f(v))
+                elif t:
                     break
-                t = t.lstrip(b'#').lstrip()
-                a, v = map(_b2str, t.split(None, 1))
-                f = getattr(_PGM, a, None)
-                if callable(f) and a[:1].isupper():
-                    setattr(self, a, f(v))
             except (TypeError, ValueError):
                 raise self._Errorf('Attr %r', t)
-        else:
+        else:  # should never get here
             raise self._Errorf('header %r', g.tell())
 
         try:  # must be (even) width and (odd) height
@@ -1294,7 +1316,7 @@ class _PGM(_Gpars):
 
         n = self.sizeB - self.skip
         if n > 0 and n != (self.knots * self.u2B):
-            raise self._Errorf('%s x %s != %s', nlat, nlon, n)
+            raise self._Errorf('assert(%s x %s != %s)', nlat, nlon, n)
 
     def __str__(self):
         return '%s(%r)' % (self.__class__.__name__, self.pgm)
@@ -1458,7 +1480,7 @@ if __name__ == '__main__':
         geoid = geoids.pop(0)
 
         if '-crop'.startswith(geoid.lower()):
-            _crop = 25, -125, 55, -65  # CONUS
+            _crop = 20, -125, 50, -65  # CONUS
 
         elif '-karney'.startswith(geoid.lower()):
             _GeoidEGM = GeoidKarney
@@ -1520,6 +1542,19 @@ if __name__ == '__main__':
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
+# <http://GeographicLib.SourceForge.io/cgi-bin/GeoidEval>
+# _lowerleft = -90, -179, -30.1500  # egm2008-1.pgm
+# _lowerleft = -90, -179, -29.5350  # egm96-5.pgm
+# _lowerleft = -90, -179, -29.7120  # egm84-15.pgm
+
+# _center = 0, 0, 17.2260  # egm2008-1.pgm
+# _center = 0, 0, 17.1630  # egm96-5.pgm
+# _center = 0, 0, 18.3296  # egm84-15.pgm
+
+# _upperright = 90, 180, 14.8980  # egm2008-1.pgm
+# _upperright = 90, 180, 13.6050  # egm96-5.pgm
+# _upperright = 90, 180, 13.0980  # egm84-15.pgm
+
 # % python pygeodesy/geoids.py [-Karney] ../geoids/egm*.pgm
 #
 # GeoidKarney('egm2008-1.pgm'): lowerleft(-90.0, -180.0, -30.15), upperright(90.0, 180.0, 14.898), center(0.0, 0.0, 17.226),
@@ -1528,7 +1563,7 @@ if __name__ == '__main__':
 # _PGM('../geoids/egm2008-1.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-31 06:54:00', Description='WGS84 EGM2008, 1-minute grid',
 #                                  Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.025, MaxCubicError=0.003,
 #                                  Offset=-108.0, Origin=(90, 0.0), Pixel=65535, RMSBilinearError=0.001, RMSCubicError=0.001, Scale=0.003,
-#                                  URL='http://earth-info.nga.mil/GandG/wgs84/gravitymod/egm2008', Vertical_Datum='WGS84', crop4=(-90.0, -180.0, 90.0, 180.0),
+#                                  URL='http://Earth-Info.NGA.mil/GandG/wgs84/gravitymod/egm2008', Vertical_Datum='WGS84', crop4=(-90.0, -180.0, 90.0, 180.0),
 #                                  dlat=-0.016666666666666666, dlon=0.016666666666666666, egm=None, flon=0, glon=180, knots=233301600, nlat=10801, nlon=21600,
 #                                  pgm='../geoids/egm2008-1.pgm', rlat=-60.0, rlon=60.0, sizeB=466603604, skip=404, slat=90, u2B=2, wlon=0.0
 # Timbuktu GeoidKarney('egm2008-1.pgm').height(16.775833, -3.009444): 28.7881 vs 28.7880
@@ -1540,7 +1575,7 @@ if __name__ == '__main__':
 # _PGM('../geoids/egm84-15.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-29 18:45:02', Description='WGS84 EGM84, 15-minute grid',
 #                                 Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.413, MaxCubicError=0.02,
 #                                 Offset=-108.0, Origin=(90, 0.0), Pixel=65535, RMSBilinearError=0.018, RMSCubicError=0.001, Scale=0.003,
-#                                 URL='http://earth-info.nga.mil/GandG/wgs84/gravitymod/wgs84_180/wgs84_180.html', Vertical_Datum='WGS84', crop4=(-90.0, -180.0, 90.0, 180.0),
+#                                 URL='http://Earth-Info.NGA.mil/GandG/wgs84/gravitymod/wgs84_180/wgs84_180.html', Vertical_Datum='WGS84', crop4=(-90.0, -180.0, 90.0, 180.0),
 #                                 dlat=-0.25, dlon=0.25, egm=None, flon=0, glon=180, knots=1038240, nlat=721, nlon=1440,
 #                                 pgm='../geoids/egm84-15.pgm', rlat=-4.0, rlon=4.0, sizeB=2076896, skip=416, slat=90, u2B=2, wlon=0.0
 # Timbuktu GeoidKarney('egm84-15.pgm').height(16.775833, -3.009444): 31.2983 vs 31.2979
@@ -1552,7 +1587,7 @@ if __name__ == '__main__':
 # _PGM('../geoids/egm96-5.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-29 18:45:03', Description='WGS84 EGM96, 5-minute grid',
 #                                Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.14, MaxCubicError=0.003,
 #                                Offset=-108.0, Origin=(90, 0.0), Pixel=65535, RMSBilinearError=0.005, RMSCubicError=0.001, Scale=0.003,
-#                                URL='http://earth-info.nga.mil/GandG/wgs84/gravitymod/egm96/egm96.html', Vertical_Datum='WGS84', crop4=(),
+#                                URL='http://Earth-Info.NGA.mil/GandG/wgs84/gravitymod/egm96/egm96.html', Vertical_Datum='WGS84', crop4=(),
 #                                dlat=-0.08333333333333333, dlon=0.08333333333333333, egm=None, flon=0, glon=180, knots=9335520, nlat=2161, nlon=4320,
 #                                pgm='../geoids/egm96-5.pgm', rlat=-12.0, rlon=12.0, sizeB=18671448, skip=408, slat=90, u2B=2, wlon=0.0
 # Timbuktu GeoidKarney('egm96-5.pgm').height(16.775833, -3.009444): 28.7068 vs 28.7067
@@ -1566,7 +1601,7 @@ if __name__ == '__main__':
 # _PGM('../geoids/egm2008-1.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-31 06:54:00', Description='WGS84 EGM2008, 1-minute grid',
 #                                  Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.025, MaxCubicError=0.003,
 #                                  Offset=-108.0, Origin=(90, 0.0), Pixel=65535, RMSBilinearError=0.001, RMSCubicError=0.001, Scale=0.003,
-#                                  URL='http://earth-info.nga.mil/GandG/wgs84/gravitymod/egm2008', Vertical_Datum='WGS84', crop4=(-90.0, -180.0, 90.0, 180.0),
+#                                  URL='http://Earth-Info.NGA.mil/GandG/wgs84/gravitymod/egm2008', Vertical_Datum='WGS84', crop4=(-90.0, -180.0, 90.0, 180.0),
 #                                  dlat=-0.016666666666666666, dlon=0.016666666666666666, egm=None, flon=0, glon=180, knots=233301600, nlat=10801, nlon=21600,
 #                                  pgm='../geoids/egm2008-1.pgm', rlat=-60.0, rlon=60.0, sizeB=466603604, skip=404, slat=90, u2B=2, wlon=0.0
 # Timbuktu GeoidPGM('egm2008-1.pgm').height(16.775833, -3.009444): 28.7881 vs 28.7880
@@ -1578,7 +1613,7 @@ if __name__ == '__main__':
 # _PGM('../geoids/egm84-15.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-29 18:45:02', Description='WGS84 EGM84, 15-minute grid',
 #                                 Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.413, MaxCubicError=0.02,
 #                                 Offset=-108.0, Origin=(90, 0.0), Pixel=65535, RMSBilinearError=0.018, RMSCubicError=0.001, Scale=0.003,
-#                                 URL='http://earth-info.nga.mil/GandG/wgs84/gravitymod/wgs84_180/wgs84_180.html', Vertical_Datum='WGS84', crop4=(-90.0, -180.0, 90.0, 180.0),
+#                                 URL='http://Earth-Info.NGA.mil/GandG/wgs84/gravitymod/wgs84_180/wgs84_180.html', Vertical_Datum='WGS84', crop4=(-90.0, -180.0, 90.0, 180.0),
 #                                 dlat=-0.25, dlon=0.25, egm=None, flon=0, glon=180, knots=1038240, nlat=721, nlon=1440,
 #                                 pgm='../geoids/egm84-15.pgm', rlat=-4.0, rlon=4.0, sizeB=2076896, skip=416, slat=90, u2B=2, wlon=0.0
 # Timbuktu GeoidPGM('egm84-15.pgm').height(16.775833, -3.009444): 31.2979 vs 31.2979
@@ -1590,7 +1625,7 @@ if __name__ == '__main__':
 # _PGM('../geoids/egm96-5.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-29 18:45:03', Description='WGS84 EGM96, 5-minute grid',
 #                                Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.14, MaxCubicError=0.003,
 #                                Offset=-108.0, Origin=(90, 0.0), Pixel=65535, RMSBilinearError=0.005, RMSCubicError=0.001, Scale=0.003,
-#                                URL='http://earth-info.nga.mil/GandG/wgs84/gravitymod/egm96/egm96.html', Vertical_Datum='WGS84', crop4=(-90.0, -180.0, 90.0, 180.0),
+#                                URL='http://Earth-Info.NGA.mil/GandG/wgs84/gravitymod/egm96/egm96.html', Vertical_Datum='WGS84', crop4=(-90.0, -180.0, 90.0, 180.0),
 #                                dlat=-0.08333333333333333, dlon=0.08333333333333333, egm=None, flon=0, glon=180, knots=9335520, nlat=2161, nlon=4320,
 #                                pgm='../geoids/egm96-5.pgm', rlat=-12.0, rlon=12.0, sizeB=18671448, skip=408, slat=90, u2B=2, wlon=0.0
 # Timbuktu GeoidPGM('egm96-5.pgm').height(16.775833, -3.009444): 28.7065 vs 28.7067

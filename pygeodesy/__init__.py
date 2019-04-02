@@ -105,9 +105,10 @@ before installation.
 
 Installation of U{GeographicLib<http://PyPI.org/project/geographiclib>},
 U{NumPy<http://www.NumPy.org>} and U{SciPy<http://SciPy.org>} is optional.
-However, the latter are required for module C{ellipsoidalKarney} classes
+However, the former is required for module C{ellipsoidalKarney} classes
 C{LatLon} and C{Cartesian} and functions C{areaOf} and C{perimeterOf} and
-for (most) C{Height...} and (most) C{Geoid...} interpolation classes.
+the latter are needed to use (most) C{Height...} and (most) C{Geoid...}
+interpolation classes.
 
 Some function and method names differ from the JavaScript version. In such
 cases documentation tag B{JS name:} shows the original JavaScript name.
@@ -184,7 +185,7 @@ from os.path import abspath, basename, dirname
 _init_abspath     = abspath(__file__)
 pygeodesy_abspath = dirname(_init_abspath)
 
-__version__ = '19.03.28'
+__version__ = '19.03.31'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 

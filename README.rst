@@ -76,14 +76,15 @@ install``.  To run all PyGeodesy tests, type ``python setup.py test``
 before installation.
 
 Installation of `GeographicLib`_, `NumPy`_ and `SciPy`_ is optional.
-However, the latter are required for module *ellipsoidalKarney* classes
+However, the former is required for module *ellipsoidalKarney* classes
 *LatLon* and *Cartesian* and functions *areaOf* and *perimeterOf* and
-for (most) *Height...* and (most) *Geoid...* interpolation classes.
+the latter are needed to use (most) *Height...* and (most) *Geoid...*
+interpolation classes.
 
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Mar 28, 2019.*
+*Last updated: Mar 31, 2019.*
 
 .. image:: http://Img.Shields.io/pypi/pyversions/PyGeodesy.svg?label=Python
   :target: http://PyPI.org/project/PyGeodesy

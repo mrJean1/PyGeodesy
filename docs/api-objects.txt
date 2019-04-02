@@ -110,6 +110,7 @@ pygeodesy.precision	pygeodesy-module.html#precision
 pygeodesy.simplifyRDPm	pygeodesy-module.html#simplifyRDPm
 pygeodesy.toDMS	pygeodesy-module.html#toDMS
 pygeodesy.wrap90	pygeodesy-module.html#wrap90
+pygeodesy.vincentys_	pygeodesy-module.html#vincentys_
 pygeodesy.F_DM	pygeodesy-module.html#F_DM
 pygeodesy.degrees2m	pygeodesy-module.html#degrees2m
 pygeodesy.pygeodesy_abspath	pygeodesy-module.html#pygeodesy_abspath
@@ -127,6 +128,7 @@ pygeodesy.Conics	pygeodesy-module.html#Conics
 pygeodesy.lonDMS	pygeodesy-module.html#lonDMS
 pygeodesy.F_SEC	pygeodesy-module.html#F_SEC
 pygeodesy.m2SM	pygeodesy-module.html#m2SM
+pygeodesy.vincentys	pygeodesy-module.html#vincentys
 pygeodesy.fpowers	pygeodesy-module.html#fpowers
 pygeodesy.equirectangular3	pygeodesy-module.html#equirectangular3
 pygeodesy.tanPI_2_2	pygeodesy-module.html#tanPI_2_2
@@ -430,7 +432,9 @@ pygeodesy.formy.bearing_	pygeodesy.formy-module.html#bearing_
 pygeodesy.formy.heightOf	pygeodesy.formy-module.html#heightOf
 pygeodesy.formy.antipode	pygeodesy.formy-module.html#antipode
 pygeodesy.formy.PI2	pygeodesy.formy-module.html#PI2
+pygeodesy.formy.vincentys_	pygeodesy.formy-module.html#vincentys_
 pygeodesy.formy.unrollPI	pygeodesy.utily-module.html#unrollPI
+pygeodesy.formy.vincentys	pygeodesy.formy-module.html#vincentys
 pygeodesy.formy.degrees2m	pygeodesy.utily-module.html#degrees2m
 pygeodesy.formy.wrap180	pygeodesy.utily-module.html#wrap180
 pygeodesy.formy.fStr	pygeodesy.fmath-module.html#fStr

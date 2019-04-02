@@ -16,7 +16,7 @@ from math import atan2, cos, degrees, hypot, radians, sin, sqrt  # pow
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.formy + ('equirectangular3',)  # DEPRECATED
-__version__ = '19.02.22'
+__version__ = '19.03.31'
 
 
 def _scaled(lat1, lat2):
@@ -231,9 +231,10 @@ def equirectangular_(lat1, lon1, lat2, lon2,
 
        @see: U{Local, flat earth approximation
              <http://www.EdWilliams.org/avform.htm#flat>}, functions
-             L{equirectangular} and L{haversine}, L{Ellipsoid} method
-             C{distance2} and C{LatLon} methods C{distanceTo*}
-             for more accurate and/or larger distances.
+             L{equirectangular}, L{haversine} and L{vincentys} and methods
+             L{Ellipsoid.distance2}, C{LatLon} I{distanceTo*} and
+             I{equirectangularTo} for more accurate and/or larger
+             distances.
     '''
     d_lat = lat2 - lat1
     d_lon, ulon2 = unroll180(lon1, lon2, wrap=wrap)
@@ -253,7 +254,7 @@ def equirectangular_(lat1, lon1, lat2, lon2,
 
 def haversine(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
     '''Compute the distance between two (spherical) points using the
-       U{Haversine <http://www.Movable-Type.co.UK/scripts/latlong.html>}
+       U{Haversine<http://www.Movable-Type.co.UK/scripts/latlong.html>}
        formula.
 
        @param lat1: Start latitude (C{degrees}).
@@ -267,10 +268,11 @@ def haversine(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
 
        @see: U{Distance between two (spherical) points
              <http://www.EdWilliams.org/avform.htm#Dist>}, functions
-             L{equirectangular}, L{Ellipsoid.distance2} or C{LatLon}
-             methods I{distanceTo*} and I{equirectangularTo}.
+             L{equirectangular} and L{vincentys} and methods
+             L{Ellipsoid.distance2}, C{LatLon} I{distanceTo*} and
+             I{equirectangularTo}.
     '''
-    d, lon2 = unroll180(lon1, lon2, wrap=wrap)
+    d, _ = unroll180(lon1, lon2, wrap=wrap)
     r = haversine_(radians(lat2), radians(lat1), radians(d))
     return r * float(radius)
 
@@ -286,7 +288,7 @@ def haversine_(a2, a1, b21):
 
        @return: Angular distance (C{radians}).
 
-       @see: Functions L{haversine} and L{euclidean_}.
+       @see: Functions L{haversine}, L{euclidean_} and L{vincentys_}.
     '''
     def _hsin(rad):
         return sin(rad * 0.5)**2
@@ -373,6 +375,56 @@ def isantipode(lat1, lon1, lat2, lon2, eps=EPS):
     '''
     return abs(wrap90(lat1) + wrap90(lat2)) < eps and \
            abs(abs(wrap180(lon1) - wrap180(lon2)) % 360 - 180) < eps
+
+
+def vincentys(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
+    '''Compute the distance between two (spherical) points using
+       U{Vincenty's<http://WikiPedia.org/wiki/Great-circle_distance>}
+       spherical formula.
+
+       @param lat1: Start latitude (C{degrees}).
+       @param lon1: Start longitude (C{degrees}).
+       @param lat2: End latitude (C{degrees}).
+       @param lon2: End longitude (C{degrees}).
+       @keyword radius: Optional, mean earth radius (C{meter}).
+       @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
+
+       @return: Distance (C{meter}, same units as I{radius}).
+
+       @see: Functions L{equirectangular}, L{haversine} and methods
+             L{Ellipsoid.distance2}, C{LatLon} I{distanceTo*} and
+             I{equirectangularTo}.
+    '''
+    d, _ = unroll180(lon1, lon2, wrap=wrap)
+    r = vincentys_(radians(lat2), radians(lat1), radians(d))
+    return r * float(radius)
+
+
+def vincentys_(a2, a1, b21):
+    '''Compute the I{angular} distance between two (spherical) points using
+       U{Vincenty's<http://WikiPedia.org/wiki/Great-circle_distance>}
+       spherical formula.
+
+       @param a2: End latitude (C{radians}).
+       @param a1: Start latitude (C{radians}).
+       @param b21: Longitudinal delta, M{end-start} (C{radians}).
+
+       @return: Angular distance (C{radians}).
+
+       @see: Functions L{vincentys}, L{haversine_} and L{euclidean_}.
+
+       @note: Function L{vincentys_} is suitable for antipodal points
+              but is slightly more compute-intensive than L{haversine_}
+              (3 cos, 3 sin, 1 hypot, 1 atan2, 7 mul, 2 add) vs (2 cos,
+              2 sin, 2 sqrt, 1 atan2, 5 mul, 2 add).
+    '''
+    ca1, ca2, cb21 = map1(cos, a1, a2, b21)
+    sa1, sa2, sb21 = map1(sin, a1, a2, b21)
+
+    x = sa1 * sa2 + ca1 * ca2 * cb21
+    y = ca1 * sa2 - sa1 * ca2 * cb21
+    y = hypot(ca2 * sb21, y)
+    return atan2(y, x)
 
 # **) MIT License
 #

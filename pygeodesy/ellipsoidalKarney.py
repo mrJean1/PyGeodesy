@@ -39,7 +39,7 @@ from utily import points2, property_RO, unroll180, \
 __all__ = _ALL_LAZY.ellipsoidalKarney + (
           'Cartesian', 'LatLon',  # classes
           'areaOf', 'ispolar', 'perimeterOf')  # functions
-__version__ = '19.03.09'
+__version__ = '19.03.31'
 
 
 class LatLon(LatLonEllipsoidalBase):
@@ -261,7 +261,7 @@ class LatLon(LatLonEllipsoidalBase):
     def geodesic(self):
         '''Get this C{LatLon}'s U{Geodesic
            <http://GeographicLib.SourceForge.io/html/python/code.html>},
-           provided U{GeographicLib
+           provided package U{geographiclib
            <http://PyPI.org/project/geographiclib>} is installed.
         '''
         return self.datum.ellipsoid.geodesic

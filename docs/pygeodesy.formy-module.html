@@ -63,7 +63,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.02.22
+        19.03.31
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -374,6 +374,51 @@
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>)</span><br />
       Check whether two points are antipodal, on diametrically opposite 
       sides of the earth.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#vincentys" class="summary-sig-name">vincentys</a>(<span class="summary-sig-arg">lat1</span>,
+        <span class="summary-sig-arg">lon1</span>,
+        <span class="summary-sig-arg">lat2</span>,
+        <span class="summary-sig-arg">lon2</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Compute the distance between two (spherical) points using <a 
+      href="http://WikiPedia.org/wiki/Great-circle_distance" 
+      target="_top">Vincenty's</a> spherical formula.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#vincentys_" class="summary-sig-name">vincentys_</a>(<span class="summary-sig-arg">a2</span>,
+        <span class="summary-sig-arg">a1</span>,
+        <span class="summary-sig-arg">b21</span>)</span><br />
+      Compute the <i>angular</i> distance between two (spherical) points 
+      using <a href="http://WikiPedia.org/wiki/Great-circle_distance" 
+      target="_top">Vincenty's</a> spherical formula.</td>
           <td align="right" valign="top">
             
             
@@ -775,13 +820,15 @@
         <a href="http://www.EdWilliams.org/avform.htm#flat" 
         target="_top">Local, flat earth approximation</a>, functions <a 
         href="pygeodesy.formy-module.html#equirectangular" 
-        class="link">equirectangular</a> and <a 
+        class="link">equirectangular</a>, <a 
         href="pygeodesy.formy-module.html#haversine" 
-        class="link">haversine</a>, <a 
-        href="pygeodesy.datum.Ellipsoid-class.html" 
-        class="link">Ellipsoid</a> method <code>distance2</code> and 
-        <code>LatLon</code> methods <code>distanceTo*</code> for more 
-        accurate and/or larger distances.
+        class="link">haversine</a> and <a 
+        href="pygeodesy.formy-module.html#vincentys" 
+        class="link">vincentys</a> and methods <a 
+        href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
+        class="link">Ellipsoid.distance2</a>, <code>LatLon</code> 
+        <i>distanceTo*</i> and <i>equirectangularTo</i> for more accurate 
+        and/or larger distances.
       </p>
 </div></td></tr></table>
 </div>
@@ -825,9 +872,11 @@
         <a href="http://www.EdWilliams.org/avform.htm#Dist" 
         target="_top">Distance between two (spherical) points</a>, 
         functions <a href="pygeodesy.formy-module.html#equirectangular" 
-        class="link">equirectangular</a>, <a 
+        class="link">equirectangular</a> and <a 
+        href="pygeodesy.formy-module.html#vincentys" 
+        class="link">vincentys</a> and methods <a 
         href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
-        class="link">Ellipsoid.distance2</a> or <code>LatLon</code> methods
+        class="link">Ellipsoid.distance2</a>, <code>LatLon</code> 
         <i>distanceTo*</i> and <i>equirectangularTo</i>.
       </p>
 </div></td></tr></table>
@@ -864,9 +913,11 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.formy-module.html#haversine" 
-        class="link">haversine</a> and <a 
+        class="link">haversine</a>, <a 
         href="pygeodesy.formy-module.html#euclidean_" 
-        class="link">euclidean_</a>.
+        class="link">euclidean_</a> and <a 
+        href="pygeodesy.formy-module.html#vincentys_" 
+        class="link">vincentys_</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -993,6 +1044,101 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="vincentys"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">vincentys</span>(<span class="sig-arg">lat1</span>,
+        <span class="sig-arg">lon1</span>,
+        <span class="sig-arg">lat2</span>,
+        <span class="sig-arg">lon2</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the distance between two (spherical) points using <a 
+  href="http://WikiPedia.org/wiki/Great-circle_distance" 
+  target="_top">Vincenty's</a> spherical formula.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat1</code></strong> - Start latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
+          class="link">unroll180</a> longitudes (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Distance (<code>meter</code>, same units as <i>radius</i>).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Functions <a href="pygeodesy.formy-module.html#equirectangular" 
+        class="link">equirectangular</a>, <a 
+        href="pygeodesy.formy-module.html#haversine" 
+        class="link">haversine</a> and methods <a 
+        href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
+        class="link">Ellipsoid.distance2</a>, <code>LatLon</code> 
+        <i>distanceTo*</i> and <i>equirectangularTo</i>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="vincentys_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">vincentys_</span>(<span class="sig-arg">a2</span>,
+        <span class="sig-arg">a1</span>,
+        <span class="sig-arg">b21</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the <i>angular</i> distance between two (spherical) points 
+  using <a href="http://WikiPedia.org/wiki/Great-circle_distance" 
+  target="_top">Vincenty's</a> spherical formula.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a2</code></strong> - End latitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>a1</code></strong> - Start latitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>b21</code></strong> - Longitudinal delta, <i class="math">end-start</i> 
+          (<code>radians</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Angular distance (<code>radians</code>).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Functions <a href="pygeodesy.formy-module.html#vincentys" 
+        class="link">vincentys</a>, <a 
+        href="pygeodesy.formy-module.html#haversine_" 
+        class="link">haversine_</a> and <a 
+        href="pygeodesy.formy-module.html#euclidean_" 
+        class="link">euclidean_</a>.
+      </p>
+      <p><strong>Note:</strong>
+        Function <a href="pygeodesy.formy-module.html#vincentys_" 
+        class="link">vincentys_</a> is suitable for antipodal points but is
+        slightly more compute-intensive than <a 
+        href="pygeodesy.formy-module.html#haversine_" 
+        class="link">haversine_</a> (3 cos, 3 sin, 1 hypot, 1 atan2, 7 mul,
+        2 add) vs (2 cos, 2 sin, 2 sqrt, 1 atan2, 5 mul, 2 add).
+      </p>
+</div></td></tr></table>
+</div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
@@ -1025,7 +1171,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Mar 29 12:06:23 2019
+    Generated by Epydoc 3.0.1 on Mon Apr  1 16:07:35 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

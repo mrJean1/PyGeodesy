@@ -73,7 +73,7 @@ _ALL_LAZY = _Enum_RO(_name='_ALL_LAZY',
                             'favg', 'fdot', 'fdot3', 'fmean', 'fhorner', 'fpolynomial', 'fpowers', 'fprod', 'frange', 'freduce', 'fStr', 'fStrzs', 'fsum', 'fsum_',
                             'hypot', 'hypot1', 'hypot3', 'isfinite', 'isint', 'isscalar', 'len2', 'map1', 'map2', 'scalar', 'sqrt3'),
                      formy=('antipode', 'bearing', 'bearing_', 'compassAngle', 'euclidean', 'euclidean_', 'equirectangular', 'equirectangular_',
-                            'haversine', 'haversine_', 'heightOf', 'horizon', 'isantipode'),
+                            'haversine', 'haversine_', 'heightOf', 'horizon', 'isantipode', 'vincentys', 'vincentys_'),
                    geohash=('Geohash',),  # nothing else
                     geoids=('GeoidError', 'GeoidG2012B', 'GeoidKarney', 'GeoidPGM', 'egmGeoidHeights', 'PGMError'),
                    heights=('HeightError', 'SciPyError', 'SciPyWarning',
@@ -104,7 +104,7 @@ _ALL_LAZY = _Enum_RO(_name='_ALL_LAZY',
                webmercator=('Wm', 'parseWM', 'toWm'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '19.03.15'
+__version__ = '19.03.31'
 
 
 def _all_imports(**more):
