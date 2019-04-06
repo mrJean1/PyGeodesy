@@ -28,7 +28,7 @@ from math import log10, radians
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.geohash + ('bounds', 'decode', 'decode_error',  # functions
           'distance1', 'distance2', 'distance3', 'encode', 'neighbors', 'sizes')
-__version__ = '19.03.09'
+__version__ = '19.04.03'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -201,7 +201,7 @@ class Geohash(str, _Named):
         '''Return the lower-left SW and upper-right NE bounds of this
            geohash cell.
 
-           @keyword LatLon: Optional (sub-)class to use to return I{bounds}
+           @keyword LatLon: Optional (sub-)class to return I{bounds}
                             (C{LatLon}) or C{None}.
            @keyword kwds: Optional keyword arguments for I{LatLon}.
 
@@ -419,7 +419,7 @@ def bounds(geohash, LatLon=None, **kwds):
     '''Returns the lower-left SW and upper-right NE corners of a geohash.
 
        @param geohash: To be bound (L{Geohash}).
-       @keyword LatLon: Optional (sub-)class to use to return I{bounds}
+       @keyword LatLon: Optional (sub-)class to return I{bounds}
                         (C{LatLon}) or C{None}.
        @keyword kwds: Optional keyword arguments for I{LatLon}.
 

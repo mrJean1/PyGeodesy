@@ -49,7 +49,7 @@ __all__ = _ALL_LAZY.sphericalNvector + (
           'meanOf',
           'nearestOn2',
           'triangulate', 'trilaterate')
-__version__ = '19.02.12'
+__version__ = '19.04.03'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -732,8 +732,8 @@ class Nvector(NvectorBase):
 
            @keyword height: Optional height above earth radius,
                             overriding the default height (C{meter}).
-           @keyword LatLon: Optional (spherical) LatLon (sub-)class
-                            to use for the point (L{LatLon}) or C{None}.
+           @keyword LatLon: Optional (spherical) LatLon (sub-)class to
+                            return the point (L{LatLon}) or C{None}.
 
            @return: Point equivalent to this n-vector (L{LatLon}) or
                     3-tuple (C{degrees90}, C{degrees180}, height) if

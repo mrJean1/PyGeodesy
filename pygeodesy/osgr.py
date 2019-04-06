@@ -44,7 +44,7 @@ from math import cos, radians, sin, sqrt, tan
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.osgr
-__version__ = '19.03.09'
+__version__ = '19.04.03'
 
 _10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (C{meter})
 _100km   = 100000  #: (INTERNAL) 100 km (int meter)
@@ -152,8 +152,8 @@ class Osgr(_Based):
            etc. is as published by OS, but is inferior to Krüger as
            used by e.g. Karney 2011.}
 
-           @keyword LatLon: Optional ellipsoidal (sub-)class to use
-                            for the point (C{LatLon}) or C{None}.
+           @keyword LatLon: Optional ellipsoidal (sub-)class to return
+                            the point (C{LatLon}) or C{None}.
            @keyword datum: Optional datum to use (C{Datum}).
 
            @return: The geodetic point (I{LatLon}) or 3-tuple (C{degrees90},

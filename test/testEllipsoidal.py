@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '18.09.30'
+__version__ = '19.04.03'
 
 from base import geographiclib, isWindows
 from testLatLon import Tests as _TestsLL
@@ -112,6 +112,18 @@ class Tests(_TestsLL, _TestsV):
         self.test('distanceTo3', fStr(d3, prec=12), '19959679.267353821546, 161.06766998616, 18.825195123247', known=isWindows)
         ll2, d2 = ll1.destination2(19959679.26735382, 161.067669986160)
         self.test('destination2', fStr((ll2.lat, ll2.lon, d2), prec=12), '40.96, -5.5, 18.825195123247')
+
+        # <http://GeographicLib.SourceForge.io/scripts/geod-calc.html>
+        LL = module.LatLon
+        p = LL(-63.1,  -58), LL(-72.9,  -74), LL(-71.9, -102), \
+            LL(-74.9, -102), LL(-74.3, -131), LL(-77.5, -163), \
+            LL(-77.4,  163), LL(-71.7,  172), LL(-65.9,  140), \
+            LL(-65.7,  113), LL(-66.6,   88), LL(-66.9,   59), \
+            LL(-69.8,   25), LL(-70.0,   -4), LL(-71.0,  -14), \
+            LL(-77.3,  -33), LL(-77.9,  -46), LL(-74.7,  -61)  # on/around south pole!
+        self.test('areaOf', module.areaOf(p), '1.366270368e+13', fmt='%.9e')  # 1.366270368002013e+13'
+        self.test('perimeterOf', module.perimeterOf(p, closed=True), '1.683106789e+07', fmt='%.9e')  # 1.683106789279071e+07
+        self.test('isclockwise', module.isclockwise(p), True)  # polar
 
     def testVincenty(self, module, datum):
 

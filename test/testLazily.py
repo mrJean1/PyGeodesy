@@ -4,10 +4,14 @@
 # Test the lazy import module lazily.
 
 __all__ = ('Tests',)
-__version__ = '19.01.02'
+__version__ = '19.04.03'
 
-from base import TestsBase, ismacOS, isNix, isPython37, isWindows, PythonX
-from pygeodesy import lazily, __all__ as _all_
+from base import TestsBase, ismacOS, isNix, isPython37, isWindows, \
+                 PythonX, type2str
+import pygeodesy
+
+lazily = pygeodesy.lazily
+_all_  = pygeodesy.__all__
 
 import os
 
@@ -45,6 +49,10 @@ class Tests(TestsBase):
                 self.test(e, os.system(c), 0)
         else:
             self.skip('no _env_cmd')
+
+        for a in sorted(_all_, key=str.lower):
+            t = type2str(pygeodesy, a).replace('()', '').strip()
+            self.test(a, t, t)
 
 
 if __name__ == '__main__':

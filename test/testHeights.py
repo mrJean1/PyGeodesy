@@ -4,7 +4,7 @@
 # Test the height interpolators.
 
 __all__ = ('Tests',)
-__version__ = '19.04.02'
+__version__ = '19.04.03'
 
 import warnings  # PYCHOK expected
 # RuntimeWarning: numpy.ufunc size changed, may indicate binary
@@ -15,8 +15,8 @@ warnings.filterwarnings('ignore')  # or 'error'
 from base import scipy, TestsBase
 
 from pygeodesy import fStr, HeightError, \
-                      HeightCubic, HeightIDW, HeightLinear, \
-                      HeightLSQBiSpline, HeightSmoothBiSpline
+                      HeightCubic, HeightIDW, HeightIDW2, HeightIDW3, \
+                      HeightLinear, HeightLSQBiSpline, HeightSmoothBiSpline
 from pygeodesy.sphericalTrigonometry import LatLon
 
 
@@ -26,6 +26,10 @@ def _fStrs(floats):
     return fmt % (fStr(floats, prec=9),)
 
 
+def _kwdstr(kwds):
+    return ', '.join('%s=%r' % t for t in sorted(kwds.items()))
+
+
 class Tests(TestsBase):
 
     def testHeight(self, H, kts, lli, expected, lats, lons):
@@ -33,19 +37,19 @@ class Tests(TestsBase):
         self.testHeightError(interpolator)
         h = interpolator(lli)
         self.test(H.__name__, h, expected, fmt='%.9f')
-        self.test(H.__name__+'-float', type(h), float)
+        self.test(H.__name__+'(float)', type(h), float)
         h2 = interpolator.height(lli.lat, lli.lon)
-        self.test(H.__name__+'-latlon', h2 == h, True)
+        self.test(H.__name__+'(latlon)', h2 == h, True)
         hs = interpolator(*kts)  # return tuple
-        self.test(H.__name__+'-tuple', type(hs), tuple)
-        self.test(H.__name__+'-tuple-float', type(hs[0]), float)
-        self.test(H.__name__+'-tuple-float', type(hs[1]), float)
+        self.test(H.__name__+'(tuple)', type(hs), tuple)
+        self.test(H.__name__+'(tuple-float)', type(hs[0]), float)
+        self.test(H.__name__+'(tuple-float)', type(hs[1]), float)
         hs = interpolator(kts)  # return list
-        self.test(H.__name__+'-list', type(hs), list)
-        self.test(H.__name__+'-list-float', type(hs[0]), float)
-        self.test(H.__name__+'-list-float', type(hs[1]), float)
+        self.test(H.__name__+'(list)', type(hs), list)
+        self.test(H.__name__+'(list-float)', type(hs[0]), float)
+        self.test(H.__name__+'(list-float)', type(hs[1]), float)
         hs2 = interpolator.height(lats, lons)
-        self.test(H.__name__+'-latlon', hs2 == hs, True)
+        self.test(H.__name__+'(latlon)', hs2 == hs, True)
 
     def testHeightError(self, interpolator):
         try:  # force an error
@@ -54,55 +58,66 @@ class Tests(TestsBase):
             h = str(x)
         self.test('HeightError', h, "'float' object has no attribute 'lon': 0.0")
 
-    def testHeightIDW(self, adjust, kts, lli, expected):
-        interpolator = HeightIDW(kts, adjust=adjust)
+    def testIDW(self, IDW, kts, lli, expected, **kwds):
+        interpolator = IDW(kts, **kwds)
         self.testHeightError(interpolator)
-        kt, adjust = kts[2], str(adjust)
+        kt = kts[2]
         expected1 = '%.1f' % (kt.height,)
+        kwdstr = '(%s)' % (_kwdstr(kwds),)
         h = interpolator(lli)  # return scalar
-        self.test('HeightIDW-'+adjust, h, expected, fmt='%.9f')
-        self.test('HeightIDW-float', type(h), float)
+        self.test(IDW.__name__+kwdstr, h, expected, fmt='%.9f')
+        self.test(IDW.__name__+'(float)', type(h), float)
         h2 = interpolator.height(lli.lat, lli.lon)
-        self.test('HeightIDW-latlon', h2 == h, True)
+        self.test(IDW.__name__+'(latlon)', h2 == h, True)
         h = interpolator(kt)  # return scalar
-        self.test('HeightIDW-'+adjust, h, expected1, fmt='%.1f')
-        self.test('HeightIDW-float', type(h), float)
+        self.test(IDW.__name__+kwdstr, h, expected1, fmt='%.1f')
+        self.test(IDW.__name__+'(float)', type(h), float)
         h2 = interpolator.height(kt.lat, kt.lon)
-        self.test('HeightIDW-latlon', h2 == h, True)
+        self.test(IDW.__name__+'(latlon)', h2 == h, True)
         hs = interpolator(lli, kt)  # return tuple
-        self.test('HeightIDW-'+adjust, _fStrs(hs), '(%s, %s,)' % (expected, expected1))
-        self.test('HeightIDW-tuple', type(hs), tuple)
-        self.test('HeightIDW-tuple-float', type(hs[0]), float)
-        self.test('HeightIDW-tuple-float', type(hs[1]), float)
+        self.test(IDW.__name__+kwdstr, _fStrs(hs), '(%s, %s,)' % (expected, expected1))
+        self.test(IDW.__name__+'(tuple)', type(hs), tuple)
+        self.test(IDW.__name__+'(tuple-float)', type(hs[0]), float)
+        self.test(IDW.__name__+'(tuple-float)', type(hs[1]), float)
         hs = interpolator([lli, kt])  # return list
-        self.test('HeightIDW-'+adjust, _fStrs(hs), '[%s, %s]' % (expected, expected1))
-        self.test('HeightIDW-list', type(hs), list)
-        self.test('HeightIDW-list-float', type(hs[0]), float)
-        self.test('HeightIDW-list-float', type(hs[1]), float)
+        self.test(IDW.__name__+kwdstr, _fStrs(hs), '[%s, %s]' % (expected, expected1))
+        self.test(IDW.__name__+'(list', type(hs), list)
+        self.test(IDW.__name__+'(list-float)', type(hs[0]), float)
+        self.test(IDW.__name__+'(list-float)', type(hs[1]), float)
 
     def testHeights(self):
         kts = LatLon(0.4, 0.9, 1), LatLon(1.5, 1.5, 3), \
               LatLon(1, 0.5, 5), LatLon(0.5, 1.4, 7), LatLon(1.2, 1, 7)
         lli = LatLon(1, 1)
-        self.testHeightIDW(None,  kts, lli, '6.108538037')
-        self.testHeightIDW(True,  kts, lli, '6.166852765')
-        self.testHeightIDW(False, kts, lli, '6.166920194')
+        self.testIDW(HeightIDW,  kts, lli, '6.166852765', adjust=True)
+        self.testIDW(HeightIDW,  kts, lli, '6.166920194', adjust=False)
+        self.testIDW(HeightIDW2, kts, lli, '6.108538529', adjust=True, wrap=False)
+        self.testIDW(HeightIDW2, kts, lli, '6.108538529', adjust=True, wrap=True)
+        self.testIDW(HeightIDW2, kts, lli, '6.108614369', adjust=False, wrap=False)
+        self.testIDW(HeightIDW2, kts, lli, '6.108614369', adjust=False, wrap=True)
+        self.testIDW(HeightIDW3, kts, lli, '6.108538037', wrap=True)
+        self.testIDW(HeightIDW3, kts, lli, '6.108538037', wrap=False)
 
         kts = LatLon(1.1, 1, 2), LatLon(2.1, 2, 2), \
               LatLon(1.2, 4, 3), LatLon(2.2, 3, 3)
         lli = kts[0].intersection(*kts[1:])
         self.test('intersection', lli, '02.64932°N, 002.550079°E, +2.50m')  # mean height
-        self.testHeightIDW(None,  kts, lli, '2.592742938')
-        self.testHeightIDW(True,  kts, lli, '2.592747784')
-        self.testHeightIDW(False, kts, lli, '2.592735027')
+        self.testIDW(HeightIDW,  kts, lli, '2.592747784', adjust=True)
+        self.testIDW(HeightIDW,  kts, lli, '2.592735027', adjust=False)
+        self.testIDW(HeightIDW2, kts, lli, '2.592743455', adjust=True, wrap=False)
+        self.testIDW(HeightIDW2, kts, lli, '2.592743455', adjust=True, wrap=True)
+        self.testIDW(HeightIDW2, kts, lli, '2.592732915', adjust=False, wrap=False)
+        self.testIDW(HeightIDW2, kts, lli, '2.592732915', adjust=False, wrap=True)
+        self.testIDW(HeightIDW3, kts, lli, '2.592742938', wrap=True)
+        self.testIDW(HeightIDW3, kts, lli, '2.592742938', wrap=False)
 
         if scipy:
             interpolator = HeightLinear(kts)
             h = interpolator(lli)
-            self.test('HeightLinear', h, '2.536626441', fmt='%.9f')
-            self.test('HeightLinear-float', type(h), float)
+            self.test(HeightLinear.__name__, h, '2.536626441', fmt='%.9f')
+            self.test(HeightLinear.__name__+'(float)', type(h), float)
             h2 = interpolator.height(lli.lat, lli.lon)
-            self.test('HeightLinear-latlon', h2 == h, True)
+            self.test(HeightLinear.__name__+'(latlon)', h2 == h, True)
 
             kts = tuple(kts)  # XXX grid-, mesh-like
             kts += LatLon(1.1, 2, 2), LatLon(2.1, 3, 2), LatLon(1.2, 5, 3), LatLon(2.2, 4, 3)
@@ -113,12 +128,14 @@ class Tests(TestsBase):
 
             self.testHeight(HeightCubic,          kts, lli, '3.000000000', lats, lons)
             self.testHeight(HeightIDW,            kts, lli, '2.408053308', lats, lons)
+            self.testHeight(HeightIDW2,           kts, lli, '2.402157181', lats, lons)
+            self.testHeight(HeightIDW3,           kts, lli, '2.402157442', lats, lons)
             self.testHeight(HeightLinear,         kts, lli, '3.000000000', lats, lons)
             self.testHeight(HeightLSQBiSpline,    kts, lli, '6.419251669', lats, lons)
             self.testHeight(HeightSmoothBiSpline, kts, lli, '2.598922541', lats, lons)
 
         else:
-            self.skip('no scipy', n=53)
+            self.skip('no scipy', n=80)
 
 
 if __name__ == '__main__':  # PYCHOK internal error?

@@ -16,14 +16,14 @@ from __future__ import division
 from fmath import _Seqs, EPS, len2, map2
 from lazily import _ALL_LAZY
 
-from math import cos, degrees, pi as PI, radians, tan  # pow
+from math import cos, degrees, pi as PI, radians, sin, tan  # pow
 from os import environ as _environ
 
 _FOR_DOCS = _environ.get('PYGEODESY_FOR_DOCS', None)
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utily
-__version__ = '19.04.02'
+__version__ = '19.04.03'
 
 division = 1 / 2  # double check int division, see .datum.py
 if not division:
@@ -41,6 +41,9 @@ PI_4 = PI / 4  #: Quarter PI, M{PI / 4} (C{float})
 
 # R_M moved here to avoid circular import for bases and datum
 R_M = 6371008.771415  #: Mean, spherical earth radius (C{meter}).
+
+# <http://numbers.computation.free.fr/Constants/Miscellaneous/digits.html>
+_2_PI = 2 / PI  # 0.63661977236758134307553505349005744813783858296182
 
 _iterNumpy2len = 1  # adjustable for testing purposes
 _limiterrors   = True
@@ -466,6 +469,30 @@ def radiansPI_2(deg):
        @return: Radians, wrapped (C{radiansPI_2})
     '''
     return _wrap(radians(deg), PI_2, PI2)
+
+
+def sincos2(rad):
+    '''Return the C{sine} and C{cosine} of an angle.
+
+       @param rad: Angle (C{radians}).
+
+       @return: 2-Tuple C{(sin(rad), cos(rad))}.
+
+       @see: U{GeographicLib<http://GeographicLib.SourceForge.io>}
+             function U{sincosd<http://SourceForge.net/p/geographiclib/
+             code/ci/release/tree/python/geographiclib/geomath.py#l155>}
+             and C++ U{sincosd<http://SourceForge.net/p/geographiclib/
+             code/ci/release/tree/include/GeographicLib/Math.hpp#l558>}.
+    '''
+    q = int(rad * _2_PI - (1 if rad < 0 else 0))  # int(math.floor)
+    r = rad - q * PI_2  # 0 <= r < PI_2
+    if r:
+        s, c = sin(r), cos(r)
+        t = s, c, -s, -c, s
+    else:  # XXX sin(-0.0)
+        t = 0.0, 1.0, -0.0, -1.0, 0.0
+    q &= 3
+    return t[q], t[q + 1]
 
 
 def tan_2(rad):

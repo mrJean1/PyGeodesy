@@ -4,12 +4,14 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '18.09.23'
+__version__ = '19.04.03'
 
 from base import TestsBase
 
-from pygeodesy import R_M, antipode, fStr, heightOf, horizon, \
-                         isantipode, unroll180
+from pygeodesy import EPS, R_M, antipode, fStr, heightOf, horizon, \
+                         isantipode, sincos2, unroll180
+
+from math import cos, radians, sin
 
 
 class Tests(TestsBase):
@@ -44,6 +46,14 @@ class Tests(TestsBase):
 
         self.test('unroll180', fStr(unroll180(-830, 90, wrap=True)), '-160.0, -990.0')
         self.test('unroll180', fStr(unroll180(-830, 90, wrap=False)), '920.0, 90.0')
+
+        e = 0
+        for a in range(-500, 500):
+            r = radians(a)
+            s, c = sincos2(r)
+            e = max(e, abs(sin(r) - s))
+            e = max(e, abs(cos(r) - c))
+        self.test('sincos2', e, EPS * 2, known=a < EPS * 3)
 
 
 if __name__ == '__main__':

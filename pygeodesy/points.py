@@ -30,8 +30,9 @@ from dms import F_D, latDMS, lonDMS
 from fmath import EPS, favg, fdot, Fsum, fsum, isint, map1, scalar
 from formy import equirectangular_
 from lazily import _ALL_LAZY
-from utily import R_M, degrees360, degrees2m, issequence, points2, \
-                  property_RO, unroll180, unrollPI, wrap90, wrap180
+from utily import PI_2, R_M, degrees90, degrees180, degrees360, \
+                  degrees2m, issequence, points2, property_RO, \
+                  unroll180, unrollPI, wrap90, wrap180
 from vector3d import CrossError, crosserrors
 
 try:
@@ -42,7 +43,7 @@ from inspect import isclass
 from math import atan2, cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '19.03.15'
+__version__ = '19.04.03'
 
 
 class LatLon_(object):  # XXX imported by heights._HeightBase.height
@@ -698,8 +699,9 @@ class LatLon2psxy(_Basequence):
         x, y = ll.lon, ll.lat  # note, x, y = lon, lat
         if self._wrap:
             x, y = wrap180(x), wrap90(y)
-        if self._deg2m:  # convert degrees to meter
-            x, y = x * self._deg2m, y * self._deg2m
+        if self._deg2m:  # convert degrees to meter (or radians)
+            x *= self._deg2m
+            y *= self._deg2m
         return x, y, ll
 
     def rfind(self, xy, *start_end):
@@ -850,7 +852,8 @@ def _area2(points, adjust, wrap):
             # average and bottom width by some fudge factor
             h = (y2 + y1) * 0.5
             if adjust:
-                w *= (cos(h) + 1.2876) * 0.5
+                c = cos(h) if abs(h) < PI_2 else 0
+                w *= (c + 1.2876) * 0.5
             yield h * w  # signed trapezoidal area
 
             x1, y1 = x2, y2
@@ -874,8 +877,8 @@ def areaOf(points, adjust=True, radius=R_M, wrap=True):
        @raise ValueError: Insufficient number of I{points}.
 
        @note: This is an area approximation with limited accuracy,
-       ill-suited for regions exceeding several hundred Km or Miles
-       or with near-polar latitudes.
+              ill-suited for regions exceeding several hundred Km or
+              Miles or with near-polar latitudes.
 
        @see: L{sphericalNvector.areaOf}, L{sphericalTrigonometry.areaOf}
              and L{ellipsoidalKarney.areaOf}.
@@ -927,6 +930,56 @@ def boundsOf(points, wrap=True, LatLon=None):
         return loy, lox, hiy, hix
     else:
         return LatLon(loy, lox), LatLon(hiy, hix)  # PYCHOK inconsistent
+
+
+def centroidOf(points, wrap=True, LatLon=None):
+    '''Determine the centroid of a polygon.
+
+       @param points: The polygon points (C{LatLon}[]).
+       @keyword wrap: Wrap lat-, wrap and unroll longitudes (C{bool}).
+       @keyword LatLon: Optional (sub-)class for the centroid
+                        (L{LatLon}) or C{None}.
+
+       @return: Centroid location (I{LatLon}) or as 2-tuple (lat, lon)
+                in C{degrees} if I{LatLon} is C{None}.
+
+       @raise TypeError: Some I{points} are not C{LatLon}.
+
+       @raise ValueError: Insufficient number of I{points} or I{points}
+                          enclose a pole or zero area.
+
+       @see: U{Centroid<http://WikiPedia.org/wiki/Centroid#Of_a_polygon>}
+             and U{Calculating The Area And Centroid Of A Polygon
+             <http://www.Seas.UPenn.edu/~sys502/extra_materials/
+             Polygon%20Area%20and%20Centroid.pdf>}.
+    '''
+    # setting radius=1 converts degrees to radians
+    pts = LatLon2psxy(points, closed=True, radius=1, wrap=wrap)
+    n = len(pts)
+
+    A, X, Y = Fsum(), Fsum(), Fsum()
+
+    x1, y1, _ = pts[n-1]
+    for i in range(n):
+        x2, y2, _ = pts[i]
+        if wrap and i < (n - 1):
+            _, x2 = unrollPI(x1, x2, wrap=True)
+        t = x1 * y2 - x2 * y1
+        A += t
+        X += t * (x1 + x2)
+        Y += t * (y1 + y2)
+        # XXX more elaborately:
+        # t1, t2 = x1 * y2, -(x2 * y1)
+        # A.fadd_(t1, t2)
+        # X.fadd_(t1 * x1, t1 * x2, t2 * x1, t2 * x2)
+        # Y.fadd_(t1 * y1, t1 * y2, t2 * y1, t2 * y2)
+        x1, y1 = x2, y2
+
+    A = A.fsum() * 3.0  # 6.0 / 2.0
+    if abs(A) < EPS:
+        raise ValueError('polar or zero area: %r' % (pts,))
+    Y, X = degrees90(Y.fsum() / A), degrees180(X.fsum() / A)
+    return (Y, X) if LatLon is None else LatLon(Y, X)
 
 
 def _imdex2(closed, n):  # imported by sphericalNvector, -Trigonometry
@@ -1020,7 +1073,8 @@ def isconvex_(points, adjust=False, wrap=True):
     def _unroll_adjust(x1, y1, x2, y2, wrap):
         x21, x2 = unroll180(x1, x2, wrap=wrap)
         if adjust:
-            x21 *= cos(radians(y1 + y2) * 0.5)
+            y = radians(y1 + y2) * 0.5
+            x21 *= cos(y) if abs(y) < PI_2 else 0
         return x21, x2
 
     pts = LatLon2psxy(points, closed=True, radius=None, wrap=wrap)

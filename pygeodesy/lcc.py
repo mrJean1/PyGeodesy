@@ -28,7 +28,7 @@ from math import atan, copysign, cos, log, radians, sin, sqrt
 
 # all public constants, classes and functions
 __all__ = _ALL_LAZY.lcc
-__version__ = '19.03.09'
+__version__ = '19.04.03'
 
 
 Conics = _Enum('Conics')  #: Registered conics (L{_Enum}).
@@ -436,7 +436,7 @@ class Lcc(_Based):
     def toLatLon(self, LatLon=None, datum=None, height=None):
         '''Convert this L{Lcc} to an (ellipsoidal) geodetic point.
 
-           @keyword LatLon: Optional, ellipsoidal (sub-)class to use for
+           @keyword LatLon: Optional, ellipsoidal (sub-)class to return
                             the geodetic point (C{LatLon}) or C{None}.
            @keyword datum: Optional datum to use, otherwise use this
                            I{Lcc}'s conic.datum (C{Datum}).

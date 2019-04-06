@@ -68,7 +68,7 @@ from math import atan2, cos, radians, sin, tan
 __all__ = _ALL_LAZY.ellipsoidalVincenty + (
           'Cartesian', 'LatLon',
           'ispolar')
-__version__ = '19.01.02'
+__version__ = '19.04.03'
 
 division = 1 / 2  # double check int division, see .datum.py
 if not division:
@@ -548,8 +548,8 @@ class Cartesian(CartesianBase):
            an (ellipsoidal) geodetic point on the specified datum.
 
            @keyword datum: Optional datum to use (L{Datum}).
-           @keyword LatLon: Optional ellipsoidal (sub-)class to use
-                            for the point (L{LatLon}) or C{None}.
+           @keyword LatLon: Optional ellipsoidal (sub-)class to return
+                            the point (L{LatLon}) or C{None}.
 
            @return: The ellipsoidal geodetic point (L{LatLon}) or 3-tuple
                     (C{degrees90}, C{degrees180}, height) if I{LatLon}

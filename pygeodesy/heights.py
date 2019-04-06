@@ -44,13 +44,13 @@ C{warnings} are filtered accordingly, see L{SciPyWarning}.
 '''
 
 from fmath import EPS, fdot, fsum, isscalar, len2, map1
-from formy import euclidean_, haversine_
+from formy import euclidean_, haversine_, _scaler
 from lazily import _ALL_LAZY
 from points import LatLon_
-from utily import PI, PI2, PI_2, radiansPI, radiansPI2
+from utily import PI, PI2, PI_2, radiansPI, radiansPI2, unrollPI
 
 __all__ = _ALL_LAZY.heights
-__version__ = '19.03.26'
+__version__ = '19.04.03'
 
 
 class HeightError(ValueError):  # imported by .geoids
@@ -338,68 +338,24 @@ class HeightLinear(HeightCubic):
     height   = HeightCubic.height
 
 
-class HeightIDW(_HeightBase):
-    '''Height interpolator using U{Inverse Distance Weighting
-       <http://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW).
-
-       The distance is either the C{Euclidean} or C{Haversine} I{angular}
-       distance from function L{euclidean_} respectively L{haversine_}.
-
-       @see: U{IDW<http://www.Geo.FU-Berlin.De/en/v/soga/Geodata-analysis/
-             geostatistics/Inverse-Distance-Weighting/index.html>},
-             U{SHEPARD_INTERP_2D<http://People.SC.FSU.edu/~jburkardt/c_src/
-             shepard_interp_2d/shepard_interp_2d.html>} and function L{euclidean_}.
+class _HeightIDW(_HeightBase):
+    '''Base class for U{Inverse Distance Weighting
+       <http://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW)
+       height interpolators.
     '''
-    _adjust    = None
-    _b         = 0  # negative distance power
-    _hs        = ()  # known heights
-    _xs        = ()  # knot lons
-    _ys        = ()  # knot lats
+    _b  = 0  # negative distance power
+    _hs = ()  # known heights
+    _xs = ()  # knot lons
+    _ys = ()  # knot lats
 
-    def __init__(self, knots, adjust=True, beta=2):
-        '''New L{HeightIDW} interpolator.
-
-           @param knots: The points with known height (C{LatLon}s).
-           @keyword adjust: Set I{adjust}=C{None} to use the L{haversine_}
-                            distance.  Set I{adjust}=C{True} or C{False}
-                            for the L{euclidean_} distance and adjust
-                            the longitudinal delta by the cosine of the
-                            mean latitude for I{adjust}=C{True}.
-           @keyword beta: Inverse distance power (C{int} 1, 2, or 3).
-
-           @raise HeightError: Insufficient number of I{knots} or invalid
-                               I{knot}, I{adjust} or I{beta}.
+    def __init__(self, knots, beta=2):
+        '''New L{_HeightIDW} interpolator.
         '''
         self._xs, self._ys, self._hs = _xyhs3(tuple, self._kmin, knots, off=False)
-
-        if adjust in (True, False):
-            self._adjust = adjust
-            self._distances = self._euclidean
-        elif adjust is not None:
-            raise HeightError('invalid %s=%r' % ('adjust', adjust))
 
         self._b = -int(beta)
         if not (0 < beta < 4 and beta == -self._b):
             raise HeightError('invalid %s=%r' % ('beta', beta))
-
-    def _euclidean(self, x, y):
-        for xk, yk in zip(self._xs, self._ys):
-            yield euclidean_(y, yk, x - xk, adjust=self._adjust)
-
-    def _haversine(self, x, y):
-        for xk, yk in zip(self._xs, self._ys):
-            yield haversine_(y, yk, x - xk)
-
-    _distances = _haversine  # overridden for adjuts in (True, False)
-
-    def _hIDW(self, x, y):
-        # interpolate height at (x, y) radians
-        ws = tuple(self._distances(x, y))  # ._euclidean or ._haversine
-        w, h = min(zip(ws, self._hs))
-        if w > EPS:
-            ws = tuple(w**self._b for w in ws)
-            h = fdot(ws, *self._hs) / fsum(ws)
-        return h
 
     def __call__(self, *llis):
         '''Interpolate the height for one or several locations.
@@ -416,6 +372,20 @@ class HeightIDW(_HeightBase):
         _as, xis, yis, _ = _axyllis4(tuple, llis, off=False)
         return _as(map(self._hIDW, xis, yis))
 
+    def _distances(self, x, y):  # PYCHOK unused (x, y) radians
+        '''Must be overloaded.
+        '''
+        raise NotImplementedError('method: %s' % ('_distances',))
+
+    def _hIDW(self, x, y):
+        # interpolate height at (x, y) radians
+        ws = tuple(self._distances(x, y))
+        w, h = min(zip(ws, self._hs))
+        if w > EPS:
+            ws = tuple(w**self._b for w in ws)
+            h = fdot(ws, *self._hs) / fsum(ws)
+        return h
+
     def height(self, lats, lons):
         '''Interpolate the height for one or several lat-/longitudes.
 
@@ -429,6 +399,119 @@ class HeightIDW(_HeightBase):
                                I{lats} and I{lons}.
         '''
         return _HeightBase._height(self, lats, lons)
+
+
+class HeightIDW(_HeightIDW):
+    '''Height interpolator using U{Inverse Distance Weighting
+       <http://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW) and
+       the I{angular} C{Euclidean} distance from function L{euclidean_}.
+
+       @see: U{IDW<http://www.Geo.FU-Berlin.De/en/v/soga/Geodata-analysis/
+             geostatistics/Inverse-Distance-Weighting/index.html>},
+             U{SHEPARD_INTERP_2D<http://People.SC.FSU.edu/~jburkardt/c_src/
+             shepard_interp_2d/shepard_interp_2d.html>} and function L{euclidean_}.
+    '''
+    _adjust = True
+
+    def __init__(self, knots, adjust=True, beta=2):
+        '''New L{HeightIDW} interpolator.
+
+           @param knots: The points with known height (C{LatLon}s).
+           @keyword adjust: Adjust the longitudinal delta by the cosine
+                            of the mean latitude for I{adjust}=C{True}.
+           @keyword beta: Inverse distance power (C{int} 1, 2, or 3).
+
+           @raise HeightError: Insufficient number of I{knots} or invalid
+                               I{knot}, I{adjust} or I{beta}.
+        '''
+        if adjust not in (True, False):
+            raise HeightError('invalid %s=%r' % ('adjust', adjust))
+        self._adjust = adjust
+        _HeightIDW.__init__(self, knots, beta=beta)
+
+    def _distances(self, x, y):  # (x, y) radians
+        for xk, yk in zip(self._xs, self._ys):
+            yield euclidean_(y, yk, x - xk, adjust=self._adjust)
+
+    __call__ = _HeightIDW.__call__
+    height   = _HeightIDW.height
+
+
+class HeightIDW2(_HeightIDW):
+    '''Height interpolator using U{Inverse Distance Weighting
+       <http://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW)
+       and the C{equirectangular} distance (in radians squared) like
+       function L{equirectangular_}.
+
+       @see: U{IDW<http://www.Geo.FU-Berlin.De/en/v/soga/Geodata-analysis/
+             geostatistics/Inverse-Distance-Weighting/index.html>},
+             U{SHEPARD_INTERP_2D<http://People.SC.FSU.edu/~jburkardt/c_src/
+             shepard_interp_2d/shepard_interp_2d.html>} and function L{euclidean_}.
+    '''
+    _adjust = True
+    _wrap   = False
+
+    def __init__(self, knots, adjust=True, wrap=False):
+        '''New L{HeightIDW2} interpolator.
+
+           @param knots: The points with known height (C{LatLon}s).
+           @keyword adjust: Adjust the wrapped, unrolled longitudinal
+                            delta by the cosine of the mean latitude (C{bool}).
+           @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
+
+           @raise HeightError: Insufficient number of I{knots} or invalid
+                               I{knot}.
+        '''
+        if not adjust:
+            self._adjust = False
+        if wrap:
+            self._wrap = True
+        _HeightIDW.__init__(self, knots, beta=1)  # distance**2
+
+    def _distances(self, x, y):  # (x, y) radians
+        for xk, yk in zip(self._xs, self._ys):
+            dx, _ = unrollPI(xk, x, wrap=self._wrap)
+            if self._adjust:
+                dx *= _scaler(yk, y)
+            yield dx**2 + (y - yk)**2  # like equirectangular_ distance2
+
+    __call__ = _HeightIDW.__call__
+    height   = _HeightIDW.height
+
+
+class HeightIDW3(_HeightIDW):
+    '''Height interpolator using U{Inverse Distance Weighting
+       <http://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW) and
+       the I{angular} C{Haversine} distance from function L{haversine_}.
+
+       @see: U{IDW<http://www.Geo.FU-Berlin.De/en/v/soga/Geodata-analysis/
+             geostatistics/Inverse-Distance-Weighting/index.html>},
+             U{SHEPARD_INTERP_2D<http://People.SC.FSU.edu/~jburkardt/c_src/
+             shepard_interp_2d/shepard_interp_2d.html>} and function L{euclidean_}.
+    '''
+    _wrap = False
+
+    def __init__(self, knots, beta=2, wrap=False):
+        '''New L{HeightIDW3} interpolator.
+
+           @param knots: The points with known height (C{LatLon}s).
+           @keyword beta: Inverse distance power (C{int} 1, 2, or 3).
+           @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
+
+           @raise HeightError: Insufficient number of I{knots} or invalid
+                               I{knot} or I{beta}.
+        '''
+        if wrap:
+            self._warp = True
+        _HeightIDW.__init__(self, knots, beta=beta)
+
+    def _distances(self, x, y):  # (x, y) radians
+        for xk, yk in zip(self._xs, self._ys):
+            d, _ = unrollPI(xk, x, wrap=self._wrap)
+            yield haversine_(y, yk, d)
+
+    __call__ = _HeightIDW.__call__
+    height   = _HeightIDW.height
 
 
 class HeightLSQBiSpline(_HeightBase):

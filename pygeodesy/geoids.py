@@ -81,7 +81,7 @@ except ImportError:  # Python 3+
         return bs.decode('utf-8')
 
 __all__ = _ALL_LAZY.geoids + _for_docs('_GeoidBase')
-__version__ = '19.03.31'
+__version__ = '19.04.03'
 
 _interp2d_ks = {-2: 'linear',
                 -3: 'cubic',
@@ -158,7 +158,7 @@ class _GeoidBase(_HeightBase):
         # require the shape of hs to be (len(ys), len(xs)), note
         # the different (xs, ys, ...) and (ys, xs, ...) orders
         if (p.nlat, p.nlon) != hs.shape:
-            raise GeoidError('%s %s vs %r' % ('%s', hs.shape, (p.nlat, p.nlon)))
+            raise GeoidError('%s %s vs %r' % ('shape', hs.shape, (p.nlat, p.nlon)))
 
         # both axes and bounding box
         ys, self._lat_d = self._gaxis2(p.slat, p.dlat, p.nlat, 'lats')

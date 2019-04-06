@@ -46,7 +46,7 @@ from operator import mul
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utm
-__version__ = '19.03.17'
+__version__ = '19.04.03'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -322,8 +322,8 @@ class Utm(_Based):
     def toLatLon(self, LatLon=None, eps=EPS):
         '''Convert this UTM coordinate to an (ellipsoidal) geodetic point.
 
-           @keyword LatLon: Optional, ellipsoidal (sub-)class to use
-                            for the point (C{LatLon}) or C{None}.
+           @keyword LatLon: Optional, ellipsoidal (sub-)class to return
+                            the point (C{LatLon}) or C{None}.
            @keyword eps: Optional convergence limit, L{EPS} or above
                          (C{float}).
 

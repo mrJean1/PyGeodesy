@@ -33,7 +33,7 @@ __all__ = _ALL_LAZY.sphericalTrigonometry + (
           'meanOf',
           'nearestOn2', 'nearestOn3',
           'perimeterOf')
-__version__ = '19.02.12'
+__version__ = '19.04.03'
 
 
 class LatLon(LatLonSphericalBase):
@@ -629,7 +629,8 @@ def areaOf(points, radius=R_M, wrap=True):
        @raise ValueError: Insufficient number of I{points}.
 
        @note: The area is based on Karney's U{'Area of a spherical polygon'
-              <http://OSGeo-org.1560.x6.nabble.com/Area-of-a-spherical-polygon-td3841625.html>}.
+              <http://OSGeo-org.1560.x6.nabble.com/
+              Area-of-a-spherical-polygon-td3841625.html>}.
 
        @see: L{pygeodesy.areaOf}, L{sphericalNvector.areaOf} and
              L{ellipsoidalKarney.areaOf}.
@@ -653,31 +654,17 @@ def areaOf(points, radius=R_M, wrap=True):
     # where E is the spherical excess of the trapezium obtained by
     # extending the edge to the equator-circle vector for each edge
 
-    if iterNumpy2(points):
-
-        def _exs(n, points):  # iterate over spherical edge excess
-            a1, b1 = points[n-1].to2ab()
-            ta1 = tan_2(a1)
-            for i in range(n):
-                a2, b2 = points[i].to2ab()
-                db, b2 = unrollPI(b1, b2, wrap=wrap)
-                ta2, tdb = map1(tan_2, a2, db)
-                yield atan2(tdb * (ta1 + ta2), 1 + ta1 * ta2)
-                ta1, b1 = ta2, b2
-
-        s = fsum(_exs(n, points)) * 2
-
-    else:
+    def _exs(n, points):  # iterate over spherical edge excess
         a1, b1 = points[n-1].to2ab()
-        s, ta1 = [], tan_2(a1)
+        ta1 = tan_2(a1)
         for i in range(n):
             a2, b2 = points[i].to2ab()
             db, b2 = unrollPI(b1, b2, wrap=wrap)
             ta2, tdb = map1(tan_2, a2, db)
-            s.append(atan2(tdb * (ta1 + ta2), 1 + ta1 * ta2))
+            yield atan2(tdb * (ta1 + ta2), 1 + ta1 * ta2)
             ta1, b1 = ta2, b2
 
-        s = fsum(s) * 2
+    s = fsum(_exs(n, points)) * 2
 
     if isPoleEnclosedBy(points):
         s = abs(s) - PI2

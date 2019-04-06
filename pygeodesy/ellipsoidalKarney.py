@@ -39,7 +39,7 @@ from utily import points2, property_RO, unroll180, \
 __all__ = _ALL_LAZY.ellipsoidalKarney + (
           'Cartesian', 'LatLon',  # classes
           'areaOf', 'ispolar', 'perimeterOf')  # functions
-__version__ = '19.03.31'
+__version__ = '19.04.03'
 
 
 class LatLon(LatLonEllipsoidalBase):
@@ -354,8 +354,8 @@ class Cartesian(CartesianBase):
            an (ellipsoidal) geodetic point on the specified datum.
 
            @keyword datum: Optional datum to use (L{Datum}).
-           @keyword LatLon: Optional ellipsoidal (sub-)class to use
-                            for the point (L{LatLon}) or C{None}.
+           @keyword LatLon: Optional ellipsoidal (sub-)class to return
+                            the point (L{LatLon}) or C{None}.
 
            @return: The ellipsoidal geodetic point (L{LatLon}) or 3-tuple
                     (C{degrees90}, C{degrees180}, height) if I{LatLon}
@@ -412,6 +412,33 @@ def areaOf(points, datum=Datums.WGS84, wrap=True):
              L{sphericalTrigonometry.areaOf}.
     '''
     return abs(_geodesic(datum, points, True, False, wrap))
+
+
+def isclockwise(points, datum=Datums.WGS84, wrap=True):
+    '''Determine the direction of a path or polygon.
+
+       @param points: The path or polygon points (C{LatLon}[]).
+       @keyword datum: Optional datum (L{Datum}).
+       @keyword wrap: Wrap and unroll longitudes (C{bool}).
+
+       @return: C{True} if I{points} are clockwise, C{False} otherwise.
+
+       @raise TypeError: Some I{points} are not C{LatLon}.
+
+       @raise ValueError: Insufficient number of I{points} or I{points}
+                          enclose a pole or zero area.
+
+       @note: This function requires installation of the U{GeographicLib
+              <http://PyPI.org/project/geographiclib>} package.
+
+       @see: L{pygeodesy.isclockwise}.
+    '''
+    a = _geodesic(datum, points, True, False, wrap)
+    if a > 0:
+        return True
+    elif a < 0:
+        return False
+    raise ValueError('polar or zero area: %r' % (points,))
 
 
 def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):

@@ -37,7 +37,7 @@ from math import asin, atan2, cos, radians, sin, sqrt
 __all__ = _ALL_LAZY.ellipsoidalNvector + (
           'Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
           'meanOf', 'toNed')  # functions
-__version__ = '19.03.09'
+__version__ = '19.04.03'
 
 
 class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
@@ -435,8 +435,8 @@ class Cartesian(CartesianBase):
            an (ellipsoidal) geodetic point on the specified datum.
 
            @keyword datum: Optional datum to use (L{Datum}).
-           @keyword LatLon: Optional ellipsoidal (sub-)class to use
-                            for the point (L{LatLon}) or C{None}.
+           @keyword LatLon: Optional ellipsoidal (sub-)class to return
+                            the point (L{LatLon}) or C{None}.
 
            @return: The ellipsoidal geodetic point (L{LatLon}) or 3-tuple
                     (C{degrees90}, C{degrees180}, height) if I{LatLon}
@@ -676,8 +676,8 @@ class Nvector(NvectorBase):
 
            @keyword height: Optional height, overriding the default
                             height (C{meter}).
-           @keyword LatLon: Optional ellipsoidal (sub-)class to use
-                            for the point (L{LatLon}) or C{None}.
+           @keyword LatLon: Optional ellipsoidal (sub-)class to return
+                            the point (L{LatLon}) or C{None}.
 
            @return: Point equivalent to this n-vector (L{LatLon}) or
                     3-tuple (C{degrees90}, C{degrees180}, height) if

@@ -19,10 +19,16 @@ __all__ = _ALL_LAZY.formy + ('equirectangular3',)  # DEPRECATED
 __version__ = '19.04.02'
 
 
-def _scaled(lat1, lat2):
+def _scaled(lat1, lat2):  # degrees
     # scale delta lon by cos(mean of lats)
     m = (lat1 + lat2) * 0.5
     return cos(radians(m)) if abs(m) < 90 else 0
+
+
+def _scaler(rad1, rad2):  # radians, imported by heights.HeighIDW2
+    # scale delta lon by cos(mean of lats)
+    m = (rad1 + rad2) * 0.5
+    return cos(m) if abs(m) < PI_2 else 0
 
 
 def antipode(lat, lon):
@@ -161,11 +167,7 @@ def euclidean_(a2, a1, b21, adjust=True):
     '''
     a, b = abs(a2 - a1), abs(b21)
     if adjust:
-        m = (a2 + a1) * 0.5
-        if abs(m) < PI_2:
-            b *= cos(m)
-        else:
-            return a
+        b *= _scaler(a2, a1)
     if a < b:
         a, b = b, a
     return a + b * 0.5

@@ -77,14 +77,15 @@ _ALL_LAZY = _Enum_RO(_name='_ALL_LAZY',
                    geohash=('Geohash',),  # nothing else
                     geoids=('GeoidError', 'GeoidG2012B', 'GeoidKarney', 'GeoidPGM', 'egmGeoidHeights', 'PGMError'),
                    heights=('HeightError', 'SciPyError', 'SciPyWarning',
-                            'HeightCubic', 'HeightIDW', 'HeightLinear', 'HeightLSQBiSpline', 'HeightSmoothBiSpline'),
+                            'HeightCubic', 'HeightIDW', 'HeightIDW2', 'HeightIDW3', 'HeightLinear', 'HeightLSQBiSpline', 'HeightSmoothBiSpline'),
                     lazily=('LazyImportError', 'isLazy'),
                        lcc=('Conic', 'Conics', 'Lcc', 'toLcc'),
                       mgrs=('Mgrs', 'parseMGRS', 'toMgrs'),
                    nvector=(),  # module only
                       osgr=('Osgr', 'parseOSGR', 'toOsgr'),
                     points=('LatLon_', 'LatLon2psxy', 'Numpy2LatLon', 'Tuple2LatLon',
-                            'areaOf', 'boundsOf', 'isclockwise', 'isconvex', 'isconvex_', 'isenclosedBy', 'ispolar',
+                            'areaOf', 'boundsOf', 'centroidOf',
+                            'isclockwise', 'isconvex', 'isconvex_', 'isenclosedBy', 'ispolar',
                             'nearestOn3', 'nearestOn4', 'nearestOn5', 'perimeterOf'),
           sphericalNvector=(),  # module only
      sphericalTrigonometry=(),  # module only
@@ -96,7 +97,8 @@ _ALL_LAZY = _Enum_RO(_name='_ALL_LAZY',
                             'issequence', 'isNumpy2', 'isPoints2', 'isTuple2', 'iterNumpy2', 'iterNumpy2over',
                             'limiterrors', 'm2degrees', 'm2ft', 'm2km', 'm2NM', 'm2SM',
                             'points2', 'polygon', 'property_RO',
-                            'radians', 'radiansPI_2', 'radiansPI', 'radiansPI2', 'tan_2', 'tanPI_2_2',
+                            'radians', 'radiansPI_2', 'radiansPI', 'radiansPI2',
+                            'sincos2', 'tan_2', 'tanPI_2_2',
                             'unroll180', 'unrollPI', 'unStr',
                             'wrap90', 'wrap180', 'wrap360', 'wrapPI_2','wrapPI', 'wrapPI2'),
                        utm=('Utm', 'UTMError', 'parseUTM', 'toUtm', 'utmZoneBand2'),
@@ -104,7 +106,7 @@ _ALL_LAZY = _Enum_RO(_name='_ALL_LAZY',
                webmercator=('Wm', 'parseWM', 'toWm'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '19.03.31'
+__version__ = '19.04.03'
 
 
 def _all_imports(**more):
