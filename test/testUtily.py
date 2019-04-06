@@ -53,7 +53,7 @@ class Tests(TestsBase):
             s, c = sincos2(r)
             e = max(e, abs(sin(r) - s))
             e = max(e, abs(cos(r) - c))
-        self.test('sincos2', e, EPS * 2, known=a < EPS * 3)
+        self.test('sincos2', e, EPS * 2, known=e < EPS * 3)
 
 
 if __name__ == '__main__':
