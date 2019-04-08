@@ -25,7 +25,7 @@ __all__ = _ALL_LAZY.nvector + _for_docs('LatLonNvectorBase') + (
           'NorthPole', 'SouthPole',  # constants
           'Nvector',  # classes
           'sumOf')  # functions
-__version__ = '19.03.09'
+__version__ = '19.04.05'
 
 
 class Nvector(Vector3d):  # XXX kept private
@@ -195,8 +195,8 @@ class LatLonNvectorBase(LatLonHeightBase):
         # Kenneth Gade eqn (3), but using right-handed
         # vector x -> 0°E,0°N, y -> 90°E,0°N, z -> 90°N
 #       a, b = self.to2ab()
-#       ca = cos(a)
-#       x, y, z = ca * cos(b), ca * sin(b), sin(a)
+#       sa, ca, sb, cb = sincos2(a, b)
+#       x, y, z = ca * cb, ca * sb, sa
         # XXX don't use self.to3xyz() + ....
         return LatLonHeightBase.to3xyz(self) + (self.height,)
 

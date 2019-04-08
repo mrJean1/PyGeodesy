@@ -22,13 +22,13 @@ from datum import _Registered, Datums, _Enum
 from fmath import EPS, fStr, hypot
 from lazily import _ALL_LAZY
 from utily import PI_2, degrees90, degrees180, false2f, \
-                  property_RO, tanPI_2_2
+                  property_RO, sincos2, tanPI_2_2
 
-from math import atan, copysign, cos, log, radians, sin, sqrt
+from math import atan, copysign, log, radians, sin, sqrt
 
 # all public constants, classes and functions
 __all__ = _ALL_LAZY.lcc
-__version__ = '19.04.03'
+__version__ = '19.04.05'
 
 
 Conics = _Enum('Conics')  #: Registered conics (L{_Enum}).
@@ -288,8 +288,9 @@ class Conic(_Registered):
     def _mdef(self, lat):
         '''(INTERNAL) Compute m(lat).
         '''
-        s = self._e * sin(lat)
-        return cos(lat) / sqrt(1 - s**2)
+        s, c = sincos2(lat)
+        s *= self._e
+        return c / sqrt(1 - s**2)
 
     def _pdef(self, lat):
         '''(INTERNAL) Compute p(lat).
@@ -518,14 +519,15 @@ def toLcc(latlon, conic=Conics.WRF_Lb, height=None, Lcc=Lcc, name=''):
     if not isinstance(latlon, _ELLB):
         raise TypeError('%s not %s: %r' % ('latlon', 'ellipsoidal', latlon))
 
+    a, b = latlon.to2ab()
     c = conic.toDatum(latlon.datum)
 
-    lat, lon = latlon.to2ab()
-    r = c._rdef(c._tdef(lat))
-    t = c._n * (lon - c._lon0) - c._opt3
+    t = c._n * (b - c._lon0) - c._opt3
+    st, ct = sincos2(t)
 
-    e = c._E0         + r * sin(t)
-    n = c._N0 + c._r0 - r * cos(t)
+    r = c._rdef(c._tdef(a))
+    e = c._E0         + r * st
+    n = c._N0 + c._r0 - r * ct
 
     h = latlon.height if height is None else height
     return (e, n, h) if Lcc is None else _xnamed(Lcc(

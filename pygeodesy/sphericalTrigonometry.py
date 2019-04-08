@@ -20,7 +20,7 @@ from lazily import _ALL_LAZY
 from points import _imdex2, ispolar, nearestOn5 as _nearestOn5
 from sphericalBase import LatLonSphericalBase
 from utily import PI2, PI_2, PI_4, degrees90, degrees180, degrees2m, \
-                  iterNumpy2, radiansPI2, tan_2, unrollPI, wrapPI
+                  iterNumpy2, radiansPI2, sincos2, tan_2, unrollPI, wrapPI
 from vector3d import CrossError, crosserrors, Vector3d, sumOf
 
 from math import asin, atan2, copysign, cos, degrees, hypot, radians, sin
@@ -33,7 +33,7 @@ __all__ = _ALL_LAZY.sphericalTrigonometry + (
           'meanOf',
           'nearestOn2', 'nearestOn3',
           'perimeterOf')
-__version__ = '19.04.03'
+__version__ = '19.04.05'
 
 
 class LatLon(LatLonSphericalBase):
@@ -131,8 +131,8 @@ class LatLon(LatLonSphericalBase):
         a = radians(lat)
         db, b2 = unrollPI(b1, b2, wrap=wrap)
 
-        ca, ca1, ca2, cdb = map1(cos, a, a1, a2, db)
-        sa, sa1, sa2, sdb = map1(sin, a, a1, a2, db)
+        sa,  ca,  sa1, ca1, \
+        sa2, ca2, sdb, cdb = sincos2(a, a1, a2, db)
 
         x = sa1 * ca2 * ca * sdb
         y = sa1 * ca2 * ca * cdb - ca1 * sa2 * ca
@@ -249,8 +249,7 @@ class LatLon(LatLonSphericalBase):
         a, b = self.to2ab()
         t = radians(bearing)
 
-        ca, cb, ct = map1(cos, a, b, t)
-        sa, sb, st = map1(sin, a, b, t)
+        sa, ca, sb, cb, st, ct = sincos2(a, b, t)
 
         return Vector3d(sb * ct - cb * sa * st,
                        -cb * ct - sb * sa * st,
@@ -325,8 +324,8 @@ class LatLon(LatLonSphericalBase):
         r = haversine_(a2, a1, db)
         sr = sin(r)
         if abs(sr) > EPS:
-            cb1, cb2, ca1, ca2 = map1(cos, b1, b2, a1, a2)
-            sb1, sb2, sa1, sa2 = map1(sin, b1, b2, a1, a2)
+            sa1, ca1, sa2, ca2, \
+            sb1, cb1, sb2, cb2 = sincos2(a1, a2, b1, b2)
 
             A = sin((1 - fraction) * r) / sr
             B = sin(     fraction  * r) / sr
@@ -485,8 +484,7 @@ class LatLon(LatLonSphericalBase):
 
         db, b2 = unrollPI(b1, b2, wrap=wrap)
 
-        ca1, ca2, cdb = map1(cos, a1, a2, db)
-        sa1, sa2, sdb = map1(sin, a1, a2, db)
+        sa1, ca1, sa2, ca2, sdb, cdb = sincos2(a1, a2, db)
 
         x = ca2 * cdb + ca1
         y = ca2 * sdb
@@ -591,8 +589,7 @@ def _destination2_(a, b, r, t):
        @return: 2-Tuple (lat, lon) of (radians, radians).
     '''
     # see <http://www.EdWilliams.org/avform.htm#LL>
-    ca, cr, ct = map1(cos, a, r, t)
-    sa, sr, st = map1(sin, a, r, t)
+    sa, ca, sr, cr, st, ct = sincos2(a, r, t)
 
     a = asin(ct * sr * ca + cr * sa)
     d = atan2(st * sr * ca, cr - sa * sin(a))
@@ -690,9 +687,8 @@ def _x3d2(start, end, wrap, n, hs):
     # note, in EdWilliams.org/avform.htm W is + and E is -
     b21, b12 = db * 0.5, -(b1 + b2) * 0.5
 
-    cb21, cb12 = map1(cos, b21, b12)
-    sb21, sb12 = map1(sin, b21, b12)
-    sa21, sa12 = map1(sin, a1 - a2, a1 + a2)
+    sb21, cb21, sb12, cb12, \
+    sa21,    _, sa12,    _ = sincos2(b21, b12, a1 - a2, a1 + a2)
 
     x = Vector3d(sa21 * sb12 * cb21 - sa12 * cb12 * sb21,
                  sa21 * cb12 * cb21 + sa12 * sb12 * sb21,
@@ -763,8 +759,8 @@ def intersection(start1, end1, start2, end2,
 
     # see <http://www.EdWilliams.org/avform.htm#Intersection>
     elif isscalar(end1) and isscalar(end2):  # both bearings
-        ca1, ca2, cr12 = map1(cos, a1, a2, r12)
-        sa1, sa2, sr12 = map1(sin, a1, a2, r12)
+        sa1, ca1, sa2, ca2, sr12, cr12 = sincos2(a1, a2, r12)
+
         x1, x2 = (sr12 * ca1), (sr12 * ca2)
         if abs(x1) < EPS or abs(x2) < EPS:
             raise ValueError('intersection %s: %r vs %r' % ('parallel',
@@ -783,7 +779,7 @@ def intersection(start1, end1, start2, end2,
         t13, t23 = map1(radiansPI2, end1, end2)
         x1, x2 = map1(wrapPI, t13 - t12,  # angle 2-1-3
                               t21 - t23)  # angle 1-2-3
-        sx1, sx2 = map1(sin, x1, x2)
+        sx1, cx1, sx2, cx2 = sincos2(x1, x2)
         if sx1 == 0 and sx2 == 0:  # max(abs(sx1), abs(sx2)) < EPS
             raise ValueError('intersection %s: %r vs %r' % ('infinite',
                              (start1, end1), (start2, end2)))
@@ -791,8 +787,6 @@ def intersection(start1, end1, start2, end2,
 #       if sx3 < 0:
 #           raise ValueError('intersection %s: %r vs %r' % ('ambiguous',
 #                            (start1, end1), (start2, end2)))
-        cx1, cx2 = map1(cos, x1, x2)
-
         x3 = acos1(cr12 * sx3 - cx2 * cx1)
         r13 = atan2(sr12 * sx3, cx2 + cx1 * cos(x3))
 

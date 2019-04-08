@@ -13,12 +13,12 @@ from sys import float_info as _float_info
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.fmath
-__version__ = '19.03.15'
+__version__ = '19.04.05'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
 except ImportError:
-    try:
+    try:  # _Ints imported by .utily
         _Ints = int, long  #: (INTERNAL) Int objects (C{tuple})
     except NameError:  # Python 3+
         _Ints = int,  #: (INTERNAL) Int objects (C{tuple})
@@ -31,7 +31,7 @@ except ImportError:
     except NameError:
         _Scalars = int, float  #: (INTERNAL) Scalar objects (C{tuple})
 
-try:
+try:  # _Seqs imported by .utily
     from collections import Sequence as _Seqs  #: (INTERNAL) incl MutableSequence
 except ImportError:
     _Seqs = list, tuple, range  # XXX also set?
@@ -674,7 +674,7 @@ except ImportError:
     try:
         freduce = reduce  # PYCHOK expected
     except NameError:  # Python 3+
-        _empty = object()
+        _EMPTY = object()
 
         def freduce(f, iterable, *start):
             '''For missing C{functools.reduce}.
@@ -682,10 +682,10 @@ except ImportError:
             if start:
                 r = v = start[0]
             else:
-                r, v = 0, _empty
+                r, v = 0, _EMPTY
             for v in iterable:
                 r = f(r, v)
-            if v is _empty:
+            if v is _EMPTY:
                 raise TypeError('%s() empty, no start' % ('freduce',))
             return r
 

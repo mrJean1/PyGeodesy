@@ -31,15 +31,16 @@ to a normalised version of an (ECEF) cartesian coordinate.
 '''
 
 from datum import R_M
-from fmath import EPS, fmean, fsum, fsum_, isscalar, map1
+from fmath import EPS, fmean, fsum, fsum_, isscalar
 from lazily import _ALL_LAZY
 from nvector import NorthPole, LatLonNvectorBase, \
                     Nvector as NvectorBase, sumOf
 from points import _imdex2, ispolar  # PYCHOK ispolar
 from sphericalBase import LatLonSphericalBase
-from utily import PI, PI2, PI_2, degrees360, iterNumpy2
+from utily import PI, PI2, PI_2, degrees360, iterNumpy2, \
+                  sincos2, sincos2d
 
-from math import atan2, cos, radians, sin
+from math import atan2, radians
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.sphericalNvector + (
@@ -49,7 +50,7 @@ __all__ = _ALL_LAZY.sphericalNvector + (
           'meanOf',
           'nearestOn2',
           'triangulate', 'trilaterate')
-__version__ = '19.04.03'
+__version__ = '19.04.05'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -201,11 +202,11 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         e = NorthPole.cross(p, raiser='pole').unit()  # east vector at p
         n = p.cross(e)  # north vector at p
 
-        t = radians(bearing)
-        q = n.times(cos(t)).plus(e.times(sin(t)))  # direction vector @ p
+        s, c = sincos2d(bearing)
+        q = n.times(c).plus(e.times(s))  # direction vector @ p
 
-        r = float(distance) / float(radius)  # angular distance in radians
-        n = p.times(cos(r)).plus(q.times(sin(r)))
+        s, c = sincos2(float(distance) / float(radius))  # angular distance in radians
+        n = p.times(c).plus(q.times(s))
         return n.toLatLon(height=height, LatLon=self.classof)  # Nvector(n.x, n.y, n.z).toLatLon(...)
 
     def distanceTo(self, other, radius=R_M):
@@ -249,8 +250,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         a, b = self.to2ab()
         t = radians(bearing)
 
-        ca, cb, ct = map1(cos, a, b, t)
-        sa, sb, st = map1(sin, a, b, t)
+        sa, ca, sb, cb, st, ct = sincos2(a, b, t)
 
         return Nvector(sb * ct - sa * cb * st,
                       -cb * ct - sa * sb * st,
@@ -380,9 +380,9 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
         x = p.cross(q, raiser='points')
         d = x.unit().cross(p)  # unit(p × q) × p
-        # angular distance tan(a) = |p × q| / p ⋅ q
-        a = atan2(x.length, p.dot(q)) * fraction  # interpolated
-        i = p.times(cos(a)).plus(d.times(sin(a)))  # p * cosα + d * sinα
+        # angular distance α, tan(α) = |p × q| / p ⋅ q
+        s, c = sincos2(atan2(x.length, p.dot(q)) * fraction)  # interpolated
+        i = p.times(c).plus(d.times(s))  # p * cosα + d * sinα
 
         h = self._havg(other, f=fraction) if height is None else height
         return i.toLatLon(height=h, LatLon=self.classof)  # Nvector(i.x, i.y, i.z).toLatLon(...)
@@ -765,13 +765,13 @@ class Nvector(NvectorBase):
            >>> n = LatLon(53.3206, -1.7297).toNvector()
            >>> gc = n.greatCircle(96.0)  # [-0.794, 0.129, 0.594]
         '''
-        t = radians(bearing)
+        s, c = sincos2d(bearing)
 
         e = NorthPole.cross(self, raiser='pole')  # easting
         n = self.cross(e, raiser='point')  # northing
 
-        e = e.times(cos(t) / e.length)
-        n = n.times(sin(t) / n.length)
+        e = e.times(c / e.length)
+        n = n.times(s / n.length)
         return n.minus(e)
 
 
@@ -1009,11 +1009,12 @@ def triangulate(point1, bearing1, point2, bearing2,
         raise ValueError('%s %s: %r' % ('coincident', 'points', point2))
 
     def _gc(p, b):
-        n, t = p.toNvector(), radians(b)
+        n = p.toNvector()
         de = NorthPole.cross(n, raiser='pole').unit()  # east vector @ n
         dn = n.cross(de)  # north vector @ n
-        dest = de.times(sin(t))
-        dnct = dn.times(cos(t))
+        s, c = sincos2d(b)
+        dest = de.times(s)
+        dnct = dn.times(c)
         d = dnct.plus(dest)  # direction vector @ n
         return n.cross(d)  # great circle point + bearing
 

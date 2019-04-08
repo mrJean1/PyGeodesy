@@ -38,7 +38,8 @@ from ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from fmath import EPS, fdot3, fStr, Fsum, hypot, hypot1, \
                   isscalar, len2, map2
 from lazily import _ALL_LAZY
-from utily import degrees90, degrees180, property_RO, wrap90, wrap180
+from utily import degrees90, degrees180, property_RO, \
+                  sincos2, wrap90, wrap180  # splice
 
 from math import asinh, atan, atanh, atan2, cos, cosh, \
                  degrees, radians, sin, sinh, tan, tanh
@@ -46,7 +47,7 @@ from operator import mul
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utm
-__version__ = '19.04.03'
+__version__ = '19.04.05'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -65,15 +66,15 @@ class UTMError(ValueError):
 class _Kseries(object):
     '''(INTERNAL) Alpha or Beta Krüger series.
 
-       Krüger series summations for I{eta}, I{ksi}, I{p} and I{q}
-       while caching the cos, sin, cosh and sinh values for the
-       given I{eta} and I{ksi} angles (in C{radians}).
+       Krüger series summations for I{eta}, I{ksi}, I{p} and I{q},
+       caching the C{cos}, C{cosh}, C{sin} and C{sinh} values for
+       the given I{eta} and I{ksi} angles (in C{radians}).
     '''
     def __init__(self, AB, x, y):
         '''(INTERNAL) New Alpha or Beta Krüger series
 
-           @param AB: Krüger Alpha or Beta series coefficients (4-,
-                      6- or 8-tuple).
+           @param AB: Krüger Alpha or Beta series coefficients
+                      (C{4-, 6- or 8-tuple}).
            @param x: Eta angle (C{radians}).
            @param y: Ksi angle (C{radians}).
         '''
@@ -91,6 +92,7 @@ class _Kseries(object):
         y2 = map2(mul, j2, (y,) * n)
         self._cy = map2(cos, y2)
         self._sy = map2(sin, y2)
+        # self._sy, self._cy = splice(sincos2(*y2))  # PYCHOK false
 #       assert len(y2) == len(self._cy) == len(self._sy) == n
 
     def xs(self, x0):
@@ -366,7 +368,7 @@ class Utm(_Based):
         x = -Ks.xs(-x)  # η'
 
         shx = sinh(x)
-        cy, sy = cos(y), sin(y)
+        sy, cy = sincos2(y)
 
         H = hypot(shx, cy)
         if H < EPS:
@@ -581,7 +583,7 @@ def toUtm(latlon, lon=None, datum=None, Utm=Utm, name='', cmoff=True):
     z, B, a, b = _toZBab4(lat, lon, cmoff)
 
     # easting, northing: Karney 2011 Eq 7-14, 29, 35
-    cb, sb, tb = cos(b), sin(b), tan(b)
+    sb, cb = sincos2(b)
 
     T = tan(a)
     T12 = hypot1(T)
@@ -610,7 +612,7 @@ def toUtm(latlon, lon=None, datum=None, Utm=Utm, name='', cmoff=True):
     # convergence: Karney 2011 Eq 23, 24
     p_ = Ks.ps(1)
     q_ = Ks.qs(0)
-    c = degrees(atan(T_ / hypot1(T_) * tb) + atan2(q_, p_))
+    c = degrees(atan(T_ / hypot1(T_) * tan(b)) + atan2(q_, p_))
 
     # scale: Karney 2011 Eq 25
     s = E.e2s(sin(a)) * T12 / H * (A0 / E.a * hypot(p_, q_))

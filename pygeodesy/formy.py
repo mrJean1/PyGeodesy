@@ -9,14 +9,14 @@ u'''Formulary of basic geodesy functions and approximations.
 from fmath import EPS, fStr, fsum_, map1
 from lazily import _ALL_LAZY
 from utily import PI, PI2, PI_2, R_M, degrees2m, degrees360, \
-                  LimitError, _limiterrors, \
+                  LimitError, _limiterrors, sincos2, \
                   unroll180, unrollPI, wrap90, wrap180
 
 from math import atan2, cos, degrees, hypot, radians, sin, sqrt  # pow
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.formy + ('equirectangular3',)  # DEPRECATED
-__version__ = '19.04.02'
+__version__ = '19.04.05'
 
 
 def _scaled(lat1, lat2):  # degrees
@@ -86,8 +86,7 @@ def bearing_(a1, b1, a2, b2, final=False, wrap=False):
         r = PI2
 
     db, _ = unrollPI(b1, b2, wrap=wrap)
-    ca1, ca2, cdb = map1(cos, a1, a2, db)
-    sa1, sa2, sdb = map1(sin, a1, a2, db)
+    sa1, ca1, sa2, ca2, sdb, cdb = sincos2(a1, a2, db)
 
     # see <http://MathForum.org/library/drmath/view/55417.html>
     x = ca1 * sa2 - sa1 * ca2 * cdb
@@ -324,9 +323,9 @@ def heightOf(angle, distance, radius=R_M):
 
        @see: U{MultiDop GeogBeamHt<http://GitHub.com/NASA/MultiDop>}
              (U{Shapiro et al. 2009, JTECH
-             <http://journals.AMetSoc.org/doi/abs/10.1175/2009JTECHA1256.1>}
+             <http://Journals.AMetSoc.org/doi/abs/10.1175/2009JTECHA1256.1>}
              and U{Potvin et al. 2012, JTECH
-             <http://journals.AMetSoc.org/doi/abs/10.1175/JTECH-D-11-00019.1>}).
+             <http://Journals.AMetSoc.org/doi/abs/10.1175/JTECH-D-11-00019.1>}).
     '''
     d, r = distance, radius
     if d > r:
@@ -430,8 +429,7 @@ def vincentys_(a2, a1, b21):
               3 sin, 1 hypot, 1 atan2, 7 mul, 2 add} versus M{2 cos, 2
               sin, 2 sqrt, 1 atan2, 5 mul, 1 add}).
     '''
-    ca1, ca2, cb21 = map1(cos, a1, a2, b21)
-    sa1, sa2, sb21 = map1(sin, a1, a2, b21)
+    sa1, ca1, sa2, ca2, sb21, cb21 = sincos2(a1, a2, b21)
 
     x = sa1 * sa2 + ca1 * ca2 * cb21
     y = ca1 * sa2 - sa1 * ca2 * cb21

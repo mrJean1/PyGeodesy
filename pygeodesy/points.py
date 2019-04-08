@@ -43,7 +43,7 @@ from inspect import isclass
 from math import atan2, cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '19.04.03'
+__version__ = '19.04.05'
 
 
 class LatLon_(object):  # XXX imported by heights._HeightBase.height
@@ -1132,9 +1132,9 @@ def isenclosedBy(point, points, wrap=False):  # MCCABE 15
              L{sphericalTrigonometry.LatLon.isEnclosedBy} and
              U{MultiDop GeogContainPt<http://GitHub.com/NASA/MultiDop>}
              (U{Shapiro et al. 2009, JTECH
-             <http://journals.AMetSoc.org/doi/abs/10.1175/2009JTECHA1256.1>}
+             <http://Journals.AMetSoc.org/doi/abs/10.1175/2009JTECHA1256.1>}
              and U{Potvin et al. 2012, JTECH
-             <http://journals.AMetSoc.org/doi/abs/10.1175/JTECH-D-11-00019.1>}).
+             <http://Journals.AMetSoc.org/doi/abs/10.1175/JTECH-D-11-00019.1>}).
     '''
     try:
         y0, x0 = point.lat, point.lon

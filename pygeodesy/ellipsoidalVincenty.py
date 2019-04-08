@@ -60,15 +60,15 @@ from ellipsoidalBase import CartesianBase, LatLonEllipsoidalBase
 from fmath import EPS, fpolynomial, hypot, scalar
 from lazily import _ALL_LAZY
 from points import ispolar  # PYCHOK ispolar
-from utily import degrees90, degrees180, degrees360, unroll180
+from utily import degrees90, degrees180, degrees360, sincos2, unroll180
 
-from math import atan2, cos, radians, sin, tan
+from math import atan2, cos, radians, tan
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.ellipsoidalVincenty + (
           'Cartesian', 'LatLon',
           'ispolar')
-__version__ = '19.04.03'
+__version__ = '19.04.05'
 
 division = 1 / 2  # double check int division, see .datum.py
 if not division:
@@ -396,7 +396,7 @@ class LatLon(LatLonEllipsoidalBase):
         c1, s1, t1 = _r3(self.lat, E.f)
 
         i = radians(bearing)  # initial bearing (forward azimuth)
-        ci, si = cos(i), sin(i)
+        si, ci = sincos2(i)
         s12 = atan2(t1, ci) * 2
 
         sa = c1 * si
@@ -409,7 +409,8 @@ class LatLon(LatLonEllipsoidalBase):
 
         s = d = distance / (E.b * A)
         for _ in range(self._iterations):
-            cs, ss, c2sm = cos(s), sin(s), cos(s12 + s)
+            ss, cs = sincos2(s)
+            c2sm = cos(s12 + s)
             s_, s = s, d + _ds(B, cs, ss, c2sm)
             if abs(s - s_) < self._epsilon:
                 break
@@ -455,7 +456,8 @@ class LatLon(LatLonEllipsoidalBase):
         dl, _ = unroll180(self.lon, other.lon, wrap=wrap)
         ll = dl = radians(dl)
         for _ in range(self._iterations):
-            cll, sll, ll_ = cos(ll), sin(ll), ll
+            ll_ = ll
+            sll, cll = sincos2(ll)
 
             ss = hypot(c2 * sll, c1s2 - s1c2 * cll)
             if ss < EPS:  # coincident, ...
@@ -497,7 +499,7 @@ class LatLon(LatLonEllipsoidalBase):
         d = b * s
 
         if azis:  # forward and reverse azimuth
-            cll, sll = cos(ll), sin(ll)
+            sll, cll = sincos2(ll)
             f = degrees360(atan2(c2 * sll,  c1s2 - s1c2 * cll))
             r = degrees360(atan2(c1 * sll, -s1c2 + c1s2 * cll))
             d = d, f, r

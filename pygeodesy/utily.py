@@ -13,17 +13,18 @@ U{Vector-based geodesy<http://www.Movable-Type.co.UK/scripts/latlong-vectors.htm
 # make sure int division yields float quotient
 from __future__ import division
 
-from fmath import _Seqs, EPS, len2, map2
+from fmath import _Ints, _Seqs, EPS, len2, map2
 from lazily import _ALL_LAZY
 
 from math import cos, degrees, pi as PI, radians, sin, tan  # pow
 from os import environ as _environ
 
 _FOR_DOCS = _environ.get('PYGEODESY_FOR_DOCS', None)
+_MISSING  = object()  # singleton, imported by .utily
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utily
-__version__ = '19.04.03'
+__version__ = '19.04.05'
 
 division = 1 / 2  # double check int division, see .datum.py
 if not division:
@@ -42,6 +43,7 @@ PI_4 = PI / 4  #: Quarter PI, M{PI / 4} (C{float})
 # R_M moved here to avoid circular import for bases and datum
 R_M = 6371008.771415  #: Mean, spherical earth radius (C{meter}).
 
+_1_90 = 1 / 90.0  # 0.011111111111111111111111111111111111111111111111
 # <http://numbers.computation.free.fr/Constants/Miscellaneous/digits.html>
 _2_PI = 2 / PI  # 0.63661977236758134307553505349005744813783858296182
 
@@ -471,21 +473,9 @@ def radiansPI_2(deg):
     return _wrap(radians(deg), PI_2, PI2)
 
 
-def sincos2(rad):
-    '''Return the C{sine} and C{cosine} of an angle.
-
-       @param rad: Angle (C{radians}).
-
-       @return: 2-Tuple C{(sin(rad), cos(rad))}.
-
-       @see: U{GeographicLib<http://GeographicLib.SourceForge.io>}
-             function U{sincosd<http://SourceForge.net/p/geographiclib/
-             code/ci/release/tree/python/geographiclib/geomath.py#l155>}
-             and C++ U{sincosd<http://SourceForge.net/p/geographiclib/
-             code/ci/release/tree/include/GeographicLib/Math.hpp#l558>}.
+def _sincos2(q, r):
+    '''(INTERNAL) 2-tuple (C{sin(r), cos(r)}) in quadrant C{q}.
     '''
-    q = int(rad * _2_PI - (1 if rad < 0 else 0))  # int(math.floor)
-    r = rad - q * PI_2  # 0 <= r < PI_2
     if r:
         s, c = sin(r), cos(r)
         t = s, c, -s, -c, s
@@ -493,6 +483,105 @@ def sincos2(rad):
         t = 0.0, 1.0, -0.0, -1.0, 0.0
     q &= 3
     return t[q], t[q + 1]
+
+
+def sincos2(*rad):
+    '''Return the C{sine} and C{cosine} of angle(s).
+
+       @param rad: One or more angles (C{radians}).
+
+       @return: The C{sin(rad)} and C{cos(rad)} for each angle.
+
+       @see: U{GeographicLib<http://GeographicLib.SourceForge.io/html/
+             classGeographicLib_1_1Math.html#sincosd>} function U{sincosd
+             <http://SourceForge.net/p/geographiclib/code/ci/release/tree/
+             python/geographiclib/geomath.py#l155>} and C++ U{sincosd
+             <http://SourceForge.net/p/geographiclib/code/ci/release/tree/
+             include/GeographicLib/Math.hpp#l558>}.
+    '''
+    for r in rad:
+        q = int(r * _2_PI)  # int(math.floor)
+        if r < 0:
+            q -= 1
+        s, c = _sincos2(q, r - q * PI_2)  # 0 <= r < PI_2
+        yield s
+        yield c
+
+
+def sincos2d(*deg):
+    '''Return the C{sine} and C{cosine} of an angle.
+
+       @param deg: One or more angles (C{degrees}).
+
+       @return: The C{sin(rad)} and C{cos(rad)} for each angle.
+
+       @see: U{GeographicLib<http://GeographicLib.SourceForge.io/html/
+             classGeographicLib_1_1Math.html#sincosd>} function U{sincosd
+             <http://SourceForge.net/p/geographiclib/code/ci/release/tree/
+             python/geographiclib/geomath.py#l155>} and C++ U{sincosd
+             <http://SourceForge.net/p/geographiclib/code/ci/release/tree/
+             include/GeographicLib/Math.hpp#l558>}.
+    '''
+    for d in deg:
+        q = int(d * _1_90)  # int(math.floor)
+        if d < 0:
+            q -= 1
+        s, c = _sincos2(q, radians(d - q * 90))  # 0 <= r < PI_2
+        yield s
+        yield c
+
+
+def splice(iterable, n=2, fill=_MISSING):
+    '''Split an iterable into C{n} slices.
+
+       @param iterable: Items to be spliced (C{list}, C{tuple}, ...).
+       @keyword n: Number of slices to generate (C{int}).
+       @keyword fill: Fill value for missing items.
+
+       @return: Generator of I{n} slices M{iterable[i::n] for i=0..n}.
+
+       @note: Each generated slice is a C{tuple} or a C{list},
+              the latter only if the I{iterable} is a C{list}.
+
+       @raise ValueError: Non-C{int} or non-positive I{n}.
+
+       @example:
+
+       >>> from pygeodesy import splice
+
+       >>> a, b = splice(range(10))
+       >>> a, b
+       ((0, 2, 4, 6, 8), (1, 3, 5, 7, 9))
+
+       >>> a, b, c = splice(range(10), n=3)
+       >>> a, b, c
+       ((0, 3, 6, 9), (1, 4, 7], [2, 5, 8))
+
+       >>> a, b, c = splice(range(10), n=3, fill=-1)
+       >>> a, b, c
+       ((0, 3, 6, 9), (1, 4, 7, -1), (2, 5, 8, -1))
+
+       >>> list(splice(range(12), n=5))
+       [(0, 5, 10), (1, 6, 11), (2, 7), (3, 8), (4, 9)]
+
+       >>> splice(range(9), n=1)
+       <generator object splice at 0x0...>
+    '''
+    if not (isinstance(n, _Ints) and n > 0):
+        raise ValueError('%s %s=%s' % ('splice', 'n', n))
+
+    t = iterable
+    if not isinstance(t, (list, tuple)):
+        t = tuple(t)  # force tuple, also for PyPy3
+    if n > 1:
+        if fill is not _MISSING:
+            m = len(t) % n
+            if m > 0:  # fill with same type
+                t += type(t)((fill,)) * (n - m)
+        for i in range(n):
+            yield t[i::n]  # [i:None:n] pychok -Tb ...
+    else:
+        yield t
 
 
 def tan_2(rad):

@@ -14,14 +14,14 @@ from fmath import EPS, favg, map1, scalar
 from formy import antipode, compassAngle, equirectangular, \
                   haversine, isantipode
 from lazily import _ALL_LAZY
-from utily import R_M, _for_docs, points2, property_RO, unStr
+from utily import R_M, _for_docs, points2, property_RO, sincos2, unStr
 
-from math import asin, cos, degrees, radians, sin
+from math import asin, cos, degrees, radians
 
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_LAZY.bases + _for_docs('_Based', '_Named', '_VectorBased')
-__version__ = '19.03.09'
+__version__ = '19.04.05'
 
 __X = object()  # unique instance
 
@@ -600,8 +600,8 @@ class LatLonHeightBase(_Based):
         # Kenneth Gade eqn 3, but using right-handed
         # vector x -> 0°E,0°N, y -> 90°E,0°N, z -> 90°N
         a, b = self.to2ab()
-        ca = cos(a)
-        return ca * cos(b), ca * sin(b), sin(a)
+        sa, ca, sb, cb = sincos2(a, b)
+        return ca * cb, ca * sb, sa
 
     def toStr(self, form=F_DMS, prec=None, m='m', sep=', '):  # PYCHOK expected
         '''Convert this point to a "lat, lon [+/-height]" string,

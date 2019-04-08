@@ -38,13 +38,13 @@ from ellipsoidalBase import LatLonEllipsoidalBase as _ELLB
 from fmath import fdot, fpowers, Fsum, fsum_, map1
 from lazily import _ALL_LAZY
 from utily import degrees90, degrees180, enStr2, false2f, \
-                  halfs2, property_RO
+                  halfs2, property_RO, sincos2
 
 from math import cos, radians, sin, sqrt, tan
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.osgr
-__version__ = '19.04.03'
+__version__ = '19.04.05'
 
 _10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (C{meter})
 _100km   = 100000  #: (INTERNAL) 100 km (int meter)
@@ -189,7 +189,7 @@ class Osgr(_Based):
             a = sa.fsum_(t / a_F0)
             M = b_F0 * _M(E.Mabcd, a)
 
-        ca, sa, ta = cos(a), sin(a), tan(a)
+        sa, ca = sincos2(a)
 
         s = E.e2s2(sa)
         v = a_F0 / sqrt(s)  # nu
@@ -197,6 +197,7 @@ class Osgr(_Based):
 
         vr = v / r  # == s / E.e12
         x2 = vr - 1  # η2
+        ta = tan(a)
 
         v3, v5, v7 = fpowers(v, 7, 3)  # PYCHOK false!
         ta2, ta4, ta6 = fpowers(ta**2, 3)  # PYCHOK false!
@@ -419,13 +420,14 @@ def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr, name=''):
     ll = _ll2datum(latlon, _OSGB36, 'latlon')
     a, b = map1(radians, ll.lat, ll.lon)
 
-    ca, sa, ta = cos(a), sin(a), tan(a)
+    sa, ca = sincos2(a)
 
     s = E.e2s2(sa)
     v = E.a * _F0 / sqrt(s)  # nu
     r = s / E.e12  # nu / rho == v / (v * E.e12 / s)
 
     x2 = r - 1  # η2
+    ta = tan(a)
 
     ca3, ca5 = fpowers(ca, 5, 3)  # PYCHOK false!
     ta2, ta4 = fpowers(ta, 4, 2)  # PYCHOK false!

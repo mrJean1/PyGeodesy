@@ -16,14 +16,14 @@ from datum import R_M, R_MA, Datum, Datums
 from dms   import parse3llh
 from fmath import EPS, acos1, favg, fsum_
 from utily import PI, PI2, PI_2, degrees90, degrees180, degrees360, \
-                  _for_docs, property_RO, tanPI_2_2, wrapPI
+                 _for_docs, property_RO, sincos2d, tanPI_2_2, wrapPI
 
 from math import atan2, cos, hypot, log, radians, sin
 
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _for_docs('LatLonSphericalBase')
-__version__ = '18.10.26'
+__version__ = '19.04.05'
 
 
 class LatLonSphericalBase(LatLonHeightBase):
@@ -224,9 +224,10 @@ class LatLonSphericalBase(LatLonHeightBase):
         a1, b1 = self.to2ab()
 
         r = float(distance) / float(radius)  # angular distance in radians
-        t = radians(bearing)
 
-        da = r * cos(t)
+        sb, cb = sincos2d(bearing)
+
+        da = r * cb
         a2 = a1 + da
         # normalize latitude if past pole
         if a2 > PI_2:
@@ -237,7 +238,7 @@ class LatLonSphericalBase(LatLonHeightBase):
         dp = log(tanPI_2_2(a2) / tanPI_2_2(a1))
         # E-W course becomes ill-conditioned with 0/0
         q  = (da / dp) if abs(dp) > EPS else cos(a1)
-        b2 = (b1 + r * sin(t) / q) if abs(q) > EPS else b1
+        b2 = (b1 + r * sb / q) if abs(q) > EPS else b1
 
         h = self.height if height is None else height
         return self.classof(degrees90(a2), degrees180(b2), height=h)

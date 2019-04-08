@@ -14,13 +14,13 @@ and published under the same MIT Licence**, see for example U{latlon-ellipsoidal
 from bases import LatLonHeightBase, _xnamed
 from datum import Datum, Datums
 from fmath import EPS, EPS1, fsum_, hypot, hypot1
-from utily import degrees90, degrees180, _for_docs, property_RO
+from utily import degrees90, degrees180, _for_docs, property_RO, sincos2
 from vector3d import Vector3d
 
-from math import atan2, copysign, cos, sin, sqrt
+from math import atan2, copysign, sqrt
 
 __all__ = _for_docs('CartesianBase', 'LatLonEllipsoidalBase')
-__version__ = '19.03.09'
+__version__ = '19.04.05'
 
 
 class CartesianBase(Vector3d):
@@ -80,7 +80,7 @@ class CartesianBase(Vector3d):
             b = atan2(y, x)  # ... and longitude
 
             # height above ellipsoid (Bowring eqn 7)
-            ca, sa = cos(a), sin(a)
+            sa, ca = sincos2(a)
 #           r = E.a / E.e2s(sa)  # length of normal terminated by minor axis
 #           h = p * ca + z * sa - (E.a * E.a / r)
             h = fsum_(p * ca, z * sa, -E.a * E.e2s(sa))
@@ -406,7 +406,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
            @return: 3-Tuple (x, y, z) in (C{meter}).
         '''
         a, b = self.to2ab()
-        sa = sin(a)
+        sa, ca, sb, cb = sincos2(a, b)
 
         E = self.ellipsoid()
         # radius of curvature in prime vertical
@@ -419,9 +419,9 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
             r = 0
 
         h = self.height
-        t = (h + r) * cos(a)
-        return (t * cos(b),
-                t * sin(b),
+        t = (h + r) * ca
+        return (t * cb,
+                t * sb,
                (h + r * E.e12) * sa)
 
     def toOsgr(self):

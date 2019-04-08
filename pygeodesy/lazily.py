@@ -98,7 +98,7 @@ _ALL_LAZY = _Enum_RO(_name='_ALL_LAZY',
                             'limiterrors', 'm2degrees', 'm2ft', 'm2km', 'm2NM', 'm2SM',
                             'points2', 'polygon', 'property_RO',
                             'radians', 'radiansPI_2', 'radiansPI', 'radiansPI2',
-                            'sincos2', 'tan_2', 'tanPI_2_2',
+                            'sincos2', 'sincos2d', 'splice', 'tan_2', 'tanPI_2_2',
                             'unroll180', 'unrollPI', 'unStr',
                             'wrap90', 'wrap180', 'wrap360', 'wrapPI_2','wrapPI', 'wrapPI2'),
                        utm=('Utm', 'UTMError', 'parseUTM', 'toUtm', 'utmZoneBand2'),
@@ -106,7 +106,7 @@ _ALL_LAZY = _Enum_RO(_name='_ALL_LAZY',
                webmercator=('Wm', 'parseWM', 'toWm'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '19.04.03'
+__version__ = '19.04.05'
 
 
 def _all_imports(**more):
