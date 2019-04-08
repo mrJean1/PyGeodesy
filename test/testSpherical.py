@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '19.02.12'
+__version__ = '19.04.06'
 
 from base import isWindows
 from testLatLon import Tests as _TestsLL
@@ -75,7 +75,7 @@ class Tests(_TestsLL, _TestsV):
         p = LatLon(0, -30)
         q = LatLon(0, +30)  # identical, zero lat
         i = p.intersection(45, q, 315)
-        self.test('intersection5', i, '26.565051°N, 000.0°W', known=isWindows)
+        self.test('intersection5', i, '26.565051°N, 000.0°W', known=True)
 
         # <http://GitHub.com/ChrisVeness/geodesy/blob/master/test/latlon-vectors-tests.js>
         STN = LatLon(51.8853, 0.2545)
