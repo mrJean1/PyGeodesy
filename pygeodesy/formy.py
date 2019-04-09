@@ -16,7 +16,7 @@ from math import atan2, cos, degrees, hypot, radians, sin, sqrt  # pow
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.formy + ('equirectangular3',)  # DEPRECATED
-__version__ = '19.04.05'
+__version__ = '19.04.07'
 
 
 def _scaled(lat1, lat2):  # degrees
@@ -321,7 +321,7 @@ def heightOf(angle, distance, radius=R_M):
 
        @raise ValueError: Invalid I{angle}, I{distance} or I{radius}.
 
-       @see: U{MultiDop GeogBeamHt<http://GitHub.com/NASA/MultiDop>}
+       @see: U{MultiDop geog_lib.GeogBeamHt<http://GitHub.com/NASA/MultiDop>}
              (U{Shapiro et al. 2009, JTECH
              <http://Journals.AMetSoc.org/doi/abs/10.1175/2009JTECHA1256.1>}
              and U{Potvin et al. 2012, JTECH

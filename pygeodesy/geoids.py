@@ -7,7 +7,8 @@ lat-/longitudes using different interpolation methods.
 
 L{GeoidKarney} is a transcription of Charles Karney's U{C++ class Geoid
 <http://GeographicLib.SourceForge.io/html/geoid.html>} to pure Python.
-However, the L{GeoidG2012B} and L{GeoidPGM} interpolators both depend on
+
+The L{GeoidG2012B} and L{GeoidPGM} interpolators both depend on
 U{scipy<http://SciPy.org>} and U{numpy<http://PyPI.org/project/numpy>}
 and require those packages to be installed.
 
@@ -81,7 +82,7 @@ except ImportError:  # Python 3+
         return bs.decode('utf-8')
 
 __all__ = _ALL_LAZY.geoids + _for_docs('_GeoidBase')
-__version__ = '19.04.03'
+__version__ = '19.04.07'
 
 _interp2d_ks = {-2: 'linear',
                 -3: 'cubic',
@@ -740,7 +741,7 @@ class GeoidKarney(_GeoidBase):
     _egm     = None   # open geoid file
     _endian  = '>H'   # struct.unpack 1 ushort (big endian, unsigned short)
     _4endian = '>4H'  # struct.unpack 4 ushorts
-    _Rendian = 0      # struct.unpack a row of ushorts
+    _Rendian = ''     # struct.unpack a row of ushorts
     _highest = -8.4, -32.633, 85.839   # egm2008-1.pgm, takes 10+ secs
 #   _highest = -8.167, -32.75, 85.422  # egm96-5.pgm
 #   _highest = -4.5, -31.25, 81.33     # egm84-15.pgm
@@ -756,8 +757,8 @@ class GeoidKarney(_GeoidBase):
     _u2B     = _calcsize(_endian)  # pixelsize_ in bytes
     _4u2B    = _calcsize(_4endian)  # 4 pixelsize_s in bytes
     _Ru2B    = 0   # row of pixelsize_s in bytes
-    _yxH     = ()  # cache (y, x)
-    _yxHt    = ()  # cached 4- or 10-tuple
+    _yxH     = ()  # cache (y, x) indices
+    _yxHt    = ()  # cached 4- or 10-tuple for _ev2H resp. _ev3H
     _yx_hits = 0   # cache hits
 
     def __init__(self, egm_pgm, crop=None, datum=None,  # WGS84
@@ -871,8 +872,8 @@ class GeoidKarney(_GeoidBase):
         fy -= y
         fx -= x
         H = self._evH(fy, fx, y, x)  # ._ev3H or ._ev2H
-        H *= self._pgm.Scale
-        H += self._pgm.Offset
+        H *= self._pgm.Scale   # H.fmul(self._pgm.Scale)
+        H += self._pgm.Offset  # H.fadd(self._pgm.Offset)
         return H.fsum()
 
     def _ev2H(self, fy, fx, *yx):
@@ -886,7 +887,7 @@ class GeoidKarney(_GeoidBase):
                                                       (1, 0),
                                                       (0, 1),
                                                       (1, 1))]
-            self._yxHt = t
+            self._yxHt = t = tuple(t)
         v = 1.0, -fx, fx
         H = Fdot(v, t[0], t[0], t[1])  # a
         H -= H * fy  # c = (1 - fy) * a
@@ -902,7 +903,7 @@ class GeoidKarney(_GeoidBase):
             self._yxH = yx
             c0, c3, v = self._c0c3v(*yx)
             t = [fdot(v, *c3[i]) / c0 for i in range(self._nterms)]
-            self._yxHt = t
+            self._yxHt = t = tuple(t)
         # GeographicLib/Geoid.cpp Geoid::height(lat, lon) ...
         # real h = t[0] + fx * (t[1] + fx * (t[3] + fx * t[6])) +
         #                 fy * (t[2] + fx * (t[4] + fx * t[7]) +
@@ -1053,7 +1054,7 @@ class GeoidPGM(_GeoidBase):
        2-byte C{int} to 8-byte C{dtype float64}.  Therefore, internal memory
        usage is 4x the U{egm*.pgm<http://GeographicLib.SourceForge.io/html/
        geoid.html#geoidinst>} file size and may exceed the available memory,
-       especially with 32-bit Python.
+       especially with 32-bit Python, see properties C{.nBytes} and C{.sizeB}.
     '''
     _endian = '>u2'
     _pgm    = None
@@ -1102,7 +1103,7 @@ class GeoidPGM(_GeoidBase):
                   keyword argument I{crop} to the region of interest.  For example
                   I{crop=(20, -125, 50, -65)} covers the U{conterminous US<http://
                   www.NGS.NOAA.gov/GEOID/GEOID12B/maps/GEOID12B_CONUS_grids.png>}
-                  (CONUS).
+                  (CONUS), less than 3% of the entire C{egm2008-1.pgm} dataset.
 
            @see: Class L{GeoidKarney} and function L{egmGeoidHeights}.
         '''

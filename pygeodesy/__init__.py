@@ -69,16 +69,20 @@ U{geographiclib <http://PyPI.org/project/geographiclib>} 1.49,
 U{numpy<http://PyPI.org/project/numpy>} 1.16.1 and U{scipy
 <http://Scipy.org/scipylib/download.html>} 1.2.1) and with
 U{PyPy<http://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3) on macOS
-10.13.6 High Sierra, with Python 2.6.9, 2.7.14, 3.5.6 and 3.6.3 (and
+10.13.6 High Sierra.  The results of those tests are included in the
+distribution files.
+
+The tests also run with Python 2.6.9, 2.7.14, 3.5.6 and 3.6.3 (and
 U{geographiclib<http://PyPI.org/project/geographiclib>} 1.49) on
-U{Debian 8<http://Travis-CI.org/mrJean1/PyGeodesy>} and with Python
-3.7.2 (and U{geographiclib<http://PyPI.org/project/geographiclib>} 1.49)
-on U{Debian 9<http://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>},
-I{all in 64-bit only} and with Python 2.7.16, 3.6.6 and 3.7.0 (all with
+U{Ubuntu 14.04<http://Travis-CI.org/mrJean1/PyGeodesy>} and with Python
+3.7.3 (and U{geographiclib<http://PyPI.org/project/geographiclib>} 1.49)
+on U{Debian 9<http://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>}
+I{all in 64-bit only} and with Python 2.7.15, 3.6.8 and 3.7.2 (all with
 U{geographiclib<http://PyPI.org/project/geographiclib>} 1.49) on
 U{Windows Server 2012R2<http://CI.AppVeyor.com/project/mrJean1/pygeodesy>}
-I{in 32- and 64-bit}.  The tests are run with and without lazy import on
-Python 3.7+.
+I{in both 32- and 64-bit}.
+
+On Python 3.7+, the tests run with and without C{lazy import}.
 
 Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 2.7.10
 (and numpy 1.8.0rc1), 2.7.13, 2.7.14, 2.7.15 (and numpy 1.13.1, 1.14.0 or
@@ -115,9 +119,9 @@ before installation.
 Installation of U{GeographicLib<http://PyPI.org/project/geographiclib>},
 U{NumPy<http://www.NumPy.org>} and U{SciPy<http://SciPy.org>} is optional.
 However, the former is required for module C{ellipsoidalKarney} classes
-C{LatLon} and C{Cartesian} and functions C{areaOf} and C{perimeterOf} and
-the latter are needed to use (most) C{Height...} and (most) C{Geoid...}
-interpolation classes.
+C{LatLon} and C{Cartesian} and functions C{areaOf} and C{perimeterOf}.
+The latter are needed for the C{Geoid...} and C{Height...} interpolators,
+except L{GeoidKarney}, L{HeightIDW}, L{HeightIDW2} and L{HeightIDW3}.
 
 Notes
 =====
@@ -197,7 +201,7 @@ from os.path import abspath, basename, dirname
 _init_abspath     = abspath(__file__)
 pygeodesy_abspath = dirname(_init_abspath)
 
-__version__ = '19.04.06'
+__version__ = '19.04.08'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 

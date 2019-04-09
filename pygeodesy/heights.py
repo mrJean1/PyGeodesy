@@ -4,9 +4,9 @@
 u'''Classes to interpolate the height of C{LatLon} locations or
 separate lat-/longitudes.
 
-Except for the L{HeightIDW} interpolator, the height interpolators
-in this module require U{numpy<http://PyPI.org/project/numpy>} and
-U{scipy<http://SciPy.org>} to be installed.
+Except for L{HeightIDW}, L{HeightIDW2} and L{HeightIDW3}, the height
+interpolators in this module require U{numpy<http://PyPI.org/project/numpy>}
+and U{scipy<http://SciPy.org>} to be installed.
 
 Typical usage is as follows.  First create an interpolator from a
 given set of C{LatLon} points with known heights, called knots.
@@ -50,7 +50,7 @@ from points import LatLon_
 from utily import PI, PI2, PI_2, radiansPI, radiansPI2, unrollPI
 
 __all__ = _ALL_LAZY.heights
-__version__ = '19.04.03'
+__version__ = '19.04.07'
 
 
 class HeightError(ValueError):  # imported by .geoids
@@ -406,10 +406,11 @@ class HeightIDW(_HeightIDW):
        <http://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW) and
        the I{angular} C{Euclidean} distance from function L{euclidean_}.
 
-       @see: U{IDW<http://www.Geo.FU-Berlin.De/en/v/soga/Geodata-analysis/
-             geostatistics/Inverse-Distance-Weighting/index.html>},
-             U{SHEPARD_INTERP_2D<http://People.SC.FSU.edu/~jburkardt/c_src/
-             shepard_interp_2d/shepard_interp_2d.html>} and function L{euclidean_}.
+       @see: L{HeightIDW2}, L{HeightIDW3}, U{Inverse distance weighting
+             <http://WikiPedia.org/wiki/Inverse_distance_weighting>}, U{IDW
+             <http://www.Geo.FU-Berlin.De/en/v/soga/Geodata-analysis/geostatistics/
+             Inverse-Distance-Weighting/index.html>} and U{SHEPARD_INTERP_2D<http://
+             People.SC.FSU.edu/~jburkardt/c_src/shepard_interp_2d/shepard_interp_2d.html>}.
     '''
     _adjust = True
 
@@ -443,10 +444,11 @@ class HeightIDW2(_HeightIDW):
        and the C{equirectangular} distance (in radians squared) like
        function L{equirectangular_}.
 
-       @see: U{IDW<http://www.Geo.FU-Berlin.De/en/v/soga/Geodata-analysis/
-             geostatistics/Inverse-Distance-Weighting/index.html>},
-             U{SHEPARD_INTERP_2D<http://People.SC.FSU.edu/~jburkardt/c_src/
-             shepard_interp_2d/shepard_interp_2d.html>} and function L{euclidean_}.
+       @see: L{HeightIDW}, L{HeightIDW3}, U{Inverse distance weighting
+             <http://WikiPedia.org/wiki/Inverse_distance_weighting>}, U{IDW
+             <http://www.Geo.FU-Berlin.De/en/v/soga/Geodata-analysis/geostatistics/
+             Inverse-Distance-Weighting/index.html>} and U{SHEPARD_INTERP_2D<http://
+             People.SC.FSU.edu/~jburkardt/c_src/shepard_interp_2d/shepard_interp_2d.html>}..
     '''
     _adjust = True
     _wrap   = False
@@ -484,10 +486,11 @@ class HeightIDW3(_HeightIDW):
        <http://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW) and
        the I{angular} C{Haversine} distance from function L{haversine_}.
 
-       @see: U{IDW<http://www.Geo.FU-Berlin.De/en/v/soga/Geodata-analysis/
-             geostatistics/Inverse-Distance-Weighting/index.html>},
-             U{SHEPARD_INTERP_2D<http://People.SC.FSU.edu/~jburkardt/c_src/
-             shepard_interp_2d/shepard_interp_2d.html>} and function L{euclidean_}.
+       @see: L{HeightIDW}, L{HeightIDW2}, U{Inverse distance weighting
+             <http://WikiPedia.org/wiki/Inverse_distance_weighting>}, U{IDW
+             <http://www.Geo.FU-Berlin.De/en/v/soga/Geodata-analysis/geostatistics/
+             Inverse-Distance-Weighting/index.html>} and U{SHEPARD_INTERP_2D<http://
+             People.SC.FSU.edu/~jburkardt/c_src/shepard_interp_2d/shepard_interp_2d.html>}..
     '''
     _wrap = False
 

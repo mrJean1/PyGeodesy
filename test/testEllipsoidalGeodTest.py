@@ -9,7 +9,7 @@ See also U{Geodesic calculations for an ellipsoid done right
 '''
 
 __all__ = ('Tests',)
-__version__ = '18.09.28'
+__version__ = '19.04.08'
 
 from base import geographiclib, TestsBase
 
@@ -48,8 +48,8 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:  # get "GeodTest.dat" file
         tests = open(sys.argv[1], 'rb')
         v = False
-        fmtV, epsV = '%.3f', 1.5e-3
-        fmtK, epsK = '%.8f', 1.5e-8
+        fmtV, epsV = '%.3f', 1.9e-3
+        fmtK, epsK = '%.8f', 1.9e-8
 
     else:
         try:

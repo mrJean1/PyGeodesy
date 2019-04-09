@@ -13,7 +13,7 @@ from sys import float_info as _float_info
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.fmath
-__version__ = '19.04.05'
+__version__ = '19.04.07'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -468,6 +468,8 @@ def cbrt(x):
        @param x: Value (C{scalar}).
 
        @return: Cubic root (C{float}).
+
+       @see: Functions L{cbrt2} and L{sqrt3}.
     '''
     # simpler and more accurate than Ken Turkowski's CubeRoot, see
     # <http://People.FreeBSD.org/~lstewart/references/apple_tr_kt32_cuberoot.pdf>
@@ -481,7 +483,7 @@ def cbrt2(x):
 
        @return: Cubic root squared (C{float}).
 
-       @see: Function L{sqrt3}.
+       @see: Functions L{cbrt} and L{sqrt3}.
     '''
     return pow(abs(x), _2_3rd)
 
@@ -884,8 +886,8 @@ def map1(func, *xs):
     '''Apply each argument to a single-argument function and
        return a tuple of results.
 
-       @param func: Function to apply (callable).
-       @param xs: Arguments to apply (any positional).
+       @param func: Function to apply (C{callable}).
+       @param xs: Arguments to apply (C{any positional}).
 
        @return: Function results (C{tuple}).
     '''
@@ -900,10 +902,10 @@ def map2(func, *xs):
        results only once.  Converting the L{map} object to a tuple
        maintains Python 2 behavior.
 
-       @param func: Function to apply (callable).
-       @param xs: Arguments to apply (list, tuple, ...).
+       @param func: Function to apply (C{callable}).
+       @param xs: Arguments to apply (C{list, tuple, ...}).
 
-       @return: N-Tuple of function results (C{tuple}).
+       @return: Function results (C{tuple}).
     '''
     return tuple(map(func, *xs))
 
@@ -945,7 +947,7 @@ def sqrt3(x):
 
        @raise ValueError: Negative I{x}.
 
-       @see: Function L{cbrt2}.
+       @see: Functions L{cbrt} and L{cbrt2}.
     '''
     if x < 0:
         raise ValueError('%s(%r)' % ('sqrt3', x))

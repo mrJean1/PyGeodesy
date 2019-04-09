@@ -144,21 +144,25 @@
     <a href="http://Scipy.org/scipylib/download.html" 
     target="_top">scipy</a> 1.2.1) and with <a href="http://PyPy.org" 
     target="_top">PyPy</a> 6.0.0 (Python 2.7.13 and 3.5.3) on macOS 10.13.6
-    High Sierra, with Python 2.6.9, 2.7.14, 3.5.6 and 3.6.3 (and <a 
-    href="http://PyPI.org/project/geographiclib" 
+    High Sierra.  The results of those tests are included in the 
+    distribution files.</p>
+    <p>The tests also run with Python 2.6.9, 2.7.14, 3.5.6 and 3.6.3 (and 
+    <a href="http://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.49) on <a 
-    href="http://Travis-CI.org/mrJean1/PyGeodesy" target="_top">Debian 
-    8</a> and with Python 3.7.2 (and <a 
+    href="http://Travis-CI.org/mrJean1/PyGeodesy" target="_top">Ubuntu 
+    14.04</a> and with Python 3.7.3 (and <a 
     href="http://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.49) on <a 
     href="http://Cirrus-CI.com/github/mrJean1/PyGeodesy/master" 
-    target="_top">Debian 9</a>, <i>all in 64-bit only</i> and with Python 
-    2.7.16, 3.6.6 and 3.7.0 (all with <a 
+    target="_top">Debian 9</a> <i>all in 64-bit only</i> and with Python 
+    2.7.15, 3.6.8 and 3.7.2 (all with <a 
     href="http://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.49) on <a 
     href="http://CI.AppVeyor.com/project/mrJean1/pygeodesy" 
-    target="_top">Windows Server 2012R2</a> <i>in 32- and 64-bit</i>.  The 
-    tests are run with and without lazy import on Python 3.7+.</p>
+    target="_top">Windows Server 2012R2</a> <i>in both 32- and 
+    64-bit</i>.</p>
+    <p>On Python 3.7+, the tests run with and without <code>lazy 
+    import</code>.</p>
     <p>Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 
     2.7.10 (and numpy 1.8.0rc1), 2.7.13, 2.7.14, 2.7.15 (and numpy 1.13.1, 
     1.14.0 or 1.15.2), 3.5.3, 3.6.2, 3.6.3, 3.6.4, 3.6.5, 3.7.0, 3.7.2 and 
@@ -198,9 +202,16 @@
     target="_top">SciPy</a> is optional. However, the former is required 
     for module <code>ellipsoidalKarney</code> classes <code>LatLon</code> 
     and <code>Cartesian</code> and functions <code>areaOf</code> and 
-    <code>perimeterOf</code> and the latter are needed to use (most) 
-    <code>Height...</code> and (most) <code>Geoid...</code> interpolation 
-    classes.</p>
+    <code>perimeterOf</code>. The latter are needed for the 
+    <code>Geoid...</code> and <code>Height...</code> interpolators, except 
+    <a href="pygeodesy.geoids.GeoidKarney-class.html" 
+    class="link">GeoidKarney</a>, <a 
+    href="pygeodesy.heights.HeightIDW-class.html" 
+    class="link">HeightIDW</a>, <a 
+    href="pygeodesy.heights.HeightIDW2-class.html" 
+    class="link">HeightIDW2</a> and <a 
+    href="pygeodesy.heights.HeightIDW3-class.html" 
+    class="link">HeightIDW3</a>.</p>
   <h1 class="heading">Notes</h1>
     <p>Some function and method names differ from the JavaScript version. 
     In such cases documentation tag <b>JS name:</b> shows the original 
@@ -230,7 +241,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.04.06
+        19.04.08
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -3675,7 +3686,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'19.4.6'"><code class="variable-quote">'</code><code class="variable-string">19.4.6</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'19.4.8'"><code class="variable-quote">'</code><code class="variable-string">19.4.8</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -4305,7 +4316,12 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Returns:</dt>
         <dd>Cubic root (<code>float</code>).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Functions <a href="pygeodesy.fmath-module.html#cbrt2" 
+        class="link">cbrt2</a> and <a 
+        href="pygeodesy.fmath-module.html#sqrt3" class="link">sqrt3</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="cbrt2"></a>
 <div>
@@ -4331,8 +4347,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <dd>Cubic root squared (<code>float</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.fmath-module.html#sqrt3" 
-        class="link">sqrt3</a>.
+        Functions <a href="pygeodesy.fmath-module.html#cbrt" 
+        class="link">cbrt</a> and <a 
+        href="pygeodesy.fmath-module.html#sqrt3" class="link">sqrt3</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -4617,6 +4634,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>bstr</code></strong> - String (<code>bytes</code> or <code>str</code>).</li>
         <li><strong class="pname"><code>limit</code></strong> - Length limit (<code>int</code>).</li>
+        <li><strong class="pname"><code>white</code></strong> - Whitespace replacement (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Clipped <code>bytes</code> or <code>str</code>.</dd>
@@ -5981,7 +5999,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="http://GitHub.com/NASA/MultiDop" target="_top">MultiDop 
-        GeogBeamHt</a> (<a 
+        geog_lib.GeogBeamHt</a> (<a 
         href="http://Journals.AMetSoc.org/doi/abs/10.1175/2009JTECHA1256.1"
         target="_top">Shapiro et al. 2009, JTECH</a> and <a 
         href="http://Journals.AMetSoc.org/doi/abs/10.1175/JTECH-D-11-00019.1"
@@ -6914,8 +6932,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>func</code></strong> - Function to apply (callable).</li>
-        <li><strong class="pname"><code>xs</code></strong> - Arguments to apply (any positional).</li>
+        <li><strong class="pname"><code>func</code></strong> - Function to apply (<code>callable</code>).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Arguments to apply (<code>any positional</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Function results (<code>tuple</code>).</dd>
@@ -6946,11 +6964,11 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>func</code></strong> - Function to apply (callable).</li>
-        <li><strong class="pname"><code>xs</code></strong> - Arguments to apply (list, tuple, ...).</li>
+        <li><strong class="pname"><code>func</code></strong> - Function to apply (<code>callable</code>).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Arguments to apply (<code>list, tuple, ...</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>N-Tuple of function results (<code>tuple</code>).</dd>
+        <dd>Function results (<code>tuple</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -8222,8 +8240,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.fmath-module.html#cbrt2" 
-        class="link">cbrt2</a>.
+        Functions <a href="pygeodesy.fmath-module.html#cbrt" 
+        class="link">cbrt</a> and <a 
+        href="pygeodesy.fmath-module.html#cbrt2" class="link">cbrt2</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -9133,7 +9152,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Apr  7 20:51:52 2019
+    Generated by Epydoc 3.0.1 on Tue Apr  9 13:08:46 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

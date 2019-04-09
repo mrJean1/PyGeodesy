@@ -48,13 +48,16 @@ High Sierra.
 
 The tests have been run with Python 2.7.16 and 3.7.3 (both with
 geographiclib_ 1.49, numpy_ 1.16.1, and scipy_ 1.2.1) and with PyPy_
-6.0.0 (Python 2.7.13 and 3.5.3) on macOS 10.13.6 High Sierra, with
-Python 2.6.9, 2.7.14, 3.5.6 and 3.6.3 (and geographiclib_ 1.49) on
-`Debian 8`_ and with Python 3.7.2 (and geographiclib_ 1.49) on
-`Debian 9`_, *all in 64-bit only* and with Python 2.7.16, 3.6.6 and
-3.7.0 (all with geographiclib_ 1.49) on `Windows Server 2012R2`_ *in
-32- and 64-bit*.  The tests are run with and without lazy import on
-Python 3.7+.
+6.0.0 (Python 2.7.13 and 3.5.3) on macOS 10.13.6 High Sierra.  The
+results of those tests are included in the distribution files.
+
+The tests also run with Python 2.6.9, 2.7.14, 3.5.6 and 3.6.3 (and
+geographiclib_ 1.49) on `Ubuntu 14.04`_ and with Python 3.7.3 (and
+geographiclib_ 1.49) on `Debian 9`_, *all in 64-bit only* and with
+Python 2.7.15, 3.6.8 and 3.7.2 (all with geographiclib_ 1.49) on
+`Windows Server 2012R2`_ *in both 32- and 64-bit*.
+
+On Python 3.7+, the tests run with and without *lazy import*.
 
 Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 2.7.10
 (and numpy 1.8.0rc1), 2.7.13, 2.7.14, 2.7.15 (and numpy 1.13.1, 1.14.0 or
@@ -86,9 +89,9 @@ before installation.
 
 Installation of `GeographicLib`_, `NumPy`_ and `SciPy`_ is optional.
 However, the former is required for module *ellipsoidalKarney* classes
-*LatLon* and *Cartesian* and functions *areaOf* and *perimeterOf* and
-the latter are needed to use (most) *Height...* and (most) *Geoid...*
-interpolation classes.
+*LatLon* and *Cartesian* and functions *areaOf* and *perimeterOf*.  The
+latter are needed for the *Geoid...* and *Height...* interpolators,
+except *GeoidKarney*, *HeightIDW*, *HeightIDW2* and *HeightIDW3*.
 
 Notes
 =====
@@ -96,7 +99,7 @@ Notes
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Apr 06, 2019.*
+*Last updated: Apr 08, 2019.*
 
 .. image:: http://Img.Shields.io/pypi/pyversions/PyGeodesy.svg?label=Python
   :target: http://PyPI.org/project/PyGeodesy
@@ -116,7 +119,6 @@ cases documentation tag **JS name:** shows the original JavaScript name.
 .. _C++ class: http://GeographicLib.SourceForge.io/html/geoid.html
 .. _checked: http://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor
 .. _Cohen-Sutherland: http://WikiPedia.org/wiki/Cohen-Sutherland_algorithm
-.. _Debian 8: http://Travis-CI.org/mrJean1/PyGeodesy
 .. _Debian 9: http://Cirrus-CI.com/github/mrJean1/PyGeodesy/master
 .. _docs: http://www.Movable-Type.co.UK/scripts/geodesy/docs
 .. _documentation: http://mrJean1.GitHub.io/PyGeodesy
@@ -149,6 +151,7 @@ cases documentation tag **JS name:** shows the original JavaScript name.
 .. _SciPy: http://SciPy.org
 .. _simplify: http://Bost.Ocks.org/mike/simplify
 .. _Sutherland-Hodgman: http://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm
+.. _Ubuntu 14.04: http://Travis-CI.org/mrJean1/PyGeodesy
 .. _UTM: http://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html
 .. _Vector-based: http://www.Movable-Type.co.UK/scripts/latlong-vectors.html
 .. _Vincenty: http://www.Movable-Type.co.UK/scripts/latlong-vincenty.html

@@ -24,7 +24,7 @@ _MISSING  = object()  # singleton, imported by .utily
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utily
-__version__ = '19.04.05'
+__version__ = '19.04.08'
 
 division = 1 / 2  # double check int division, see .datum.py
 if not division:
@@ -84,6 +84,7 @@ def clipStr(bstr, limit=50, white=''):
 
        @param bstr: String (C{bytes} or C{str}).
        @keyword limit: Length limit (C{int}).
+       @keyword white: Whitespace replacement (C{str}).
 
        @return: Clipped C{bytes} or C{str}.
     '''
@@ -479,7 +480,7 @@ def _sincos2(q, r):
     if r:
         s, c = sin(r), cos(r)
         t = s, c, -s, -c, s
-    else:  # XXX sin(-0.0)
+    else:  # XXX sin(-0.0)?
         t = 0.0, 1.0, -0.0, -1.0, 0.0
     q &= 3
     return t[q], t[q + 1]
