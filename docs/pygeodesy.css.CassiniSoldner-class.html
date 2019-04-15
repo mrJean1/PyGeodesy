@@ -1,0 +1,944 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.css.CassiniSoldner</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        <a href="pygeodesy.css-module.html">Module&nbsp;css</a> ::
+        Class&nbsp;CassiniSoldner
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.css.CassiniSoldner-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class CassiniSoldner</h1><p class="nomargin-top"></p>
+<pre class="base-tree">
+  object --+        
+           |        
+<a href="pygeodesy.bases._Named-class.html">bases._Named</a> --+    
+               |    
+    <a href="pygeodesy.bases._Based-class.html">bases._Based</a> --+
+                   |
+                  <strong class="uidshort">CassiniSoldner</strong>
+</pre>
+
+<hr />
+<p>A Python version of Charles Karney's <a 
+  href="http://GeographicLib.SourceForge.io/1.49/classGeographicLib_1_1CassiniSoldner.html"
+  target="_top">CassiniSoldner</a> C++ class.</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Instance Methods</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.css.CassiniSoldner-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lat0</span>,
+        <span class="summary-sig-arg">lon0</span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+      New <a href="pygeodesy.css.CassiniSoldner-class.html" 
+      class="link">CassiniSoldner</a> projection.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.css.CassiniSoldner-class.html#copy" class="summary-sig-name">copy</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Copy this Cassini-Soldner projection.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.css.CassiniSoldner-class.html#forward" class="summary-sig-name">forward</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lat</span>,
+        <span class="summary-sig-arg">lon</span>)</span><br />
+      Convert an (ellipsoidal) geodetic location Cassini-Soldner easting 
+      and northing.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.css.CassiniSoldner-class.html#forward4" class="summary-sig-name">forward4</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lat</span>,
+        <span class="summary-sig-arg">lon</span>)</span><br />
+      Convert an (ellipsoidal) geodetic location Cassini-Soldner easting 
+      and northing.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.css.CassiniSoldner-class.html#reset" class="summary-sig-name">reset</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lat0</span>,
+        <span class="summary-sig-arg">lon0</span>)</span><br />
+      Set the center point of this projection.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.css.CassiniSoldner-class.html#reverse" class="summary-sig-name">reverse</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">easting</span>,
+        <span class="summary-sig-arg">northing</span>,
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Convert a Cassini-Soldner location to (ellipsoidal) geodetic lat- and
+      longitude.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.css.CassiniSoldner-class.html#toLatLon" class="summary-sig-name">toLatLon</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">easting</span>,
+        <span class="summary-sig-arg">northing</span>,
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Convert a Cassini-Soldner location to (ellipsoidal) geodetic lat- and
+      longitude.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.css.CassiniSoldner-class.html#reverse4" class="summary-sig-name">reverse4</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">easting</span>,
+        <span class="summary-sig-arg">northing</span>)</span><br />
+      Convert a Cassini-Soldner location to (ellipsoidal) geodetic lat- and
+      longitude.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.css.CassiniSoldner-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"> </code><code class="variable-quote">'</code></span>)</span><br />
+      Return a string representation of this projection.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.css.CassiniSoldner-class.html#toStr2" class="summary-sig-name">toStr2</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>)</span><br />
+      Return a string representation of this projection.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases._Based-class.html">bases._Based</a></code></b>:
+      <code><a href="pygeodesy.bases._Based-class.html#__repr__">__repr__</a></code>,
+      <code><a href="pygeodesy.bases._Based-class.html#__str__">__str__</a></code>,
+      <code><a href="pygeodesy.bases._Based-class.html#classof">classof</a></code>,
+      <code><a href="pygeodesy.bases._Based-class.html#others">others</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__new__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Properties</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.css.CassiniSoldner-class.html#datum" class="summary-name">datum</a><br />
+      Get the datum (<a href="pygeodesy.datum.Datum-class.html" 
+      class="link">Datum</a>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.css.CassiniSoldner-class.html#flattening" class="summary-name">flattening</a><br />
+      Get the geodesic's flattening (<code>float</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.css.CassiniSoldner-class.html#geodesic" class="summary-name">geodesic</a><br />
+      Get this projection's <a 
+      href="http://GeographicLib.SourceForge.io/html/python/code.html" 
+      target="_top">Geodesic</a>, provided package <a 
+      href="http://PyPI.org/project/geographiclib" 
+      target="_top">geographiclib</a> is installed.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.css.CassiniSoldner-class.html#lat0" class="summary-name">lat0</a><br />
+      Get the center latitude (<code>degrees90</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.css.CassiniSoldner-class.html#latlon0" class="summary-name">latlon0</a><br />
+      Get the center lat- and longitude (<code>degrees90</code>, 
+      <code>degrees180</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.css.CassiniSoldner-class.html#lon0" class="summary-name">lon0</a><br />
+      Get the center longitude (<code>degrees180</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.css.CassiniSoldner-class.html#majoradius" class="summary-name">majoradius</a><br />
+      Get the geodesic's major (equatorial) radius (<code>float</code>).
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases._Named-class.html">bases._Named</a></code></b>:
+      <code><a href="pygeodesy.bases._Named-class.html#classname">classname</a></code>,
+      <code><a href="pygeodesy.bases._Named-class.html#classnaming">classnaming</a></code>,
+      <code><a href="pygeodesy.bases._Named-class.html#name">name</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Method Details</span></td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">lat0</span>,
+        <span class="sig-arg">lon0</span>,
+        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>New <a href="pygeodesy.css.CassiniSoldner-class.html" 
+  class="link">CassiniSoldner</a> projection.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat0</code></strong> - Latitude of center point (<code>degrees90</code>).</li>
+        <li><strong class="pname"><code>lon0</code></strong> - Longitude of center point (<code>degrees180</code>).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Optional, the geodesic datum (<a 
+          href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ImportError</strong></code> - Package <a href="http://PyPI.org/project/geographiclib" 
+        target="_top">GeographicLib</a> missing.</li>
+    </ul></dd>
+    <dt>Overrides:
+        object.__init__
+    </dt>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = CassiniSoldner(48 + 50/60.0, 2 + 20/60.0)  <span class="py-comment"># Paris</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>p.forward(50.9, 1.8)  <span class="py-comment"># Calais</span>
+<span class="py-output">(-37518.854545, 230003.561828)</span></pre>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p.reverse4(-38e3, 230e3)
+<span class="py-output">(50.899937, 1.793161, 89.580797, 0.999982)</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="copy"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">copy</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Copy this Cassini-Soldner projection.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>The copy (<a href="pygeodesy.utm.Utm-class.html" 
+          class="link">Utm</a> or subclass thereof).</dd>
+    <dt>Overrides:
+        <a href="pygeodesy.bases._Named-class.html#copy">bases._Named.copy</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="forward"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">forward</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">lat</span>,
+        <span class="sig-arg">lon</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert an (ellipsoidal) geodetic location Cassini-Soldner easting and
+  northing.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat</code></strong> - Latitude of the location (<code>degrees90</code>).</li>
+        <li><strong class="pname"><code>lon</code></strong> - Longitude of the location (<code>degrees180</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>2-Tuple (<code>easting, northing</code>) with 
+          <code>easting</code> and <code>northing</code> in 
+          <code>meters</code>.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="forward4"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">forward4</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">lat</span>,
+        <span class="sig-arg">lon</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert an (ellipsoidal) geodetic location Cassini-Soldner easting and
+  northing.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat</code></strong> - Latitude of the location (<code>degrees90</code>).</li>
+        <li><strong class="pname"><code>lon</code></strong> - Longitude of the location (<code>degrees180</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>4-Tuple (<code>easting, northing, azi, rk</code>) for the 
+          Cassini-Soldner location with <code>easting</code> and 
+          <code>northing</code> in <code>meters</code>, the azimuth of 
+          easting direction <code>azi</code> and the reciprocal of 
+          azimuthal northing scale <code>rk</code> in <code>degrees</code>.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="reset"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">reset</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">lat0</span>,
+        <span class="sig-arg">lon0</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set the center point of this projection.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat0</code></strong> - Latitude of center point (<code>degrees90</code>).</li>
+        <li><strong class="pname"><code>lon0</code></strong> - Longitude of center point (<code>degrees180</code>).</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="reverse"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">reverse</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">easting</span>,
+        <span class="sig-arg">northing</span>,
+        <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert a Cassini-Soldner location to (ellipsoidal) geodetic lat- and 
+  longitude.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>easting</code></strong> - Easting of the location (<code>meter</code>).</li>
+        <li><strong class="pname"><code>northing</code></strong> - Northing of the location (<code>meter</code>).</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional, ellipsoidal (sub-)class to return the location as 
+          (<code>LatLon</code>) or <code>None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Geodetic location as <i>LatLon</i> or 2-tuple (<code>lat, 
+          lon</code>) if <i>LatLon</i> is <code>None</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <i>LatLon</i> is not ellipsoidal.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toLatLon"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toLatLon</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">easting</span>,
+        <span class="sig-arg">northing</span>,
+        <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert a Cassini-Soldner location to (ellipsoidal) geodetic lat- and 
+  longitude.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>easting</code></strong> - Easting of the location (<code>meter</code>).</li>
+        <li><strong class="pname"><code>northing</code></strong> - Northing of the location (<code>meter</code>).</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional, ellipsoidal (sub-)class to return the location as 
+          (<code>LatLon</code>) or <code>None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Geodetic location as <i>LatLon</i> or 2-tuple (<code>lat, 
+          lon</code>) if <i>LatLon</i> is <code>None</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <i>LatLon</i> is not ellipsoidal.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="reverse4"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">reverse4</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">easting</span>,
+        <span class="sig-arg">northing</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert a Cassini-Soldner location to (ellipsoidal) geodetic lat- and 
+  longitude.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>easting</code></strong> - Easting of the location (<code>meter</code>).</li>
+        <li><strong class="pname"><code>northing</code></strong> - Northing of the location (<code>meter</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>4-Tuple (<code>lat, lon, azi, rk</code>), all in 
+          <code>degrees</code> where <code>azi</code> is the azimuth of 
+          easting direction and <code>rk</code> the reciprocal of azimuthal
+          northing scale.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toStr"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">prec</span>=<span class="sig-default">6</span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"> </code><code class="variable-quote">'</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return a string representation of this projection.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal, unstripped (<code>int</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator to join (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>This projection as <code>&quot;lat0 lon0&quot;</code> 
+          (<code>str</code>).</dd>
+    <dt>Overrides:
+        <a href="pygeodesy.bases._Based-class.html#toStr">bases._Based.toStr</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toStr2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr2</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">prec</span>=<span class="sig-default">6</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return a string representation of this projection.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimals, unstripped (<code>int</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>This projection as <code>&quot;&lt;classname&gt;(lat0, lon0, 
+          ...)&quot;</code> (<code>str</code>).</dd>
+    <dt>Overrides:
+        <a href="pygeodesy.bases._Based-class.html#toStr2">bases._Based.toStr2</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== PROPERTY DETAILS ==================== -->
+<a name="section-PropertyDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Property Details</span></td>
+</tr>
+</table>
+<a name="datum"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">datum</h3>
+  <p>Get the datum (<a href="pygeodesy.datum.Datum-class.html" 
+  class="link">Datum</a>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">datum(<span class="summary-sig-arg">self</span>)</span>
+        - Get the datum (<a href="pygeodesy.datum.Datum-class.html" 
+class="link">Datum</a>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="flattening"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">flattening</h3>
+  <p>Get the geodesic's flattening (<code>float</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">flattening(<span class="summary-sig-arg">self</span>)</span>
+        - Get the geodesic's flattening (<code>float</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="geodesic"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">geodesic</h3>
+  <p>Get this projection's <a 
+  href="http://GeographicLib.SourceForge.io/html/python/code.html" 
+  target="_top">Geodesic</a>, provided package <a 
+  href="http://PyPI.org/project/geographiclib" 
+  target="_top">geographiclib</a> is installed.</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">geodesic(<span class="summary-sig-arg">self</span>)</span>
+        - Get this projection's <a 
+href="http://GeographicLib.SourceForge.io/html/python/code.html" 
+target="_top">Geodesic</a>, provided package <a 
+href="http://PyPI.org/project/geographiclib" 
+target="_top">geographiclib</a> is installed.
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="lat0"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">lat0</h3>
+  <p>Get the center latitude (<code>degrees90</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">lat0(<span class="summary-sig-arg">self</span>)</span>
+        - Get the center latitude (<code>degrees90</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="latlon0"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">latlon0</h3>
+  <p>Get the center lat- and longitude (<code>degrees90</code>, 
+  <code>degrees180</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">latlon0(<span class="summary-sig-arg">self</span>)</span>
+        - Get the center lat- and longitude (<code>degrees90</code>, 
+<code>degrees180</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="lon0"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">lon0</h3>
+  <p>Get the center longitude (<code>degrees180</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">lon0(<span class="summary-sig-arg">self</span>)</span>
+        - Get the center longitude (<code>degrees180</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="majoradius"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">majoradius</h3>
+  <p>Get the geodesic's major (equatorial) radius (<code>float</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">majoradius(<span class="summary-sig-arg">self</span>)</span>
+        - Get the geodesic's major (equatorial) radius (<code>float</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Mon Apr 15 18:45:19 2019
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

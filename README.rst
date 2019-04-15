@@ -9,7 +9,7 @@ approximate methods for geodetic (lat-/longitude) and geocentric cartesian
 (x/y/z) coordinates.
 
 Transcribed from `JavaScript originals`_ by *Chris Veness (C) 2005-2016*
-and a `C++ class`_ by *Charles Karney (C) 2008-2017* and published
+and several `C++ classes`_ by *Charles Karney (C) 2008-2017* and published
 under the same `MIT License`_.
 
 There are three modules for ellipsoidal earth models, *ellipsoidalKarney*,
@@ -22,11 +22,11 @@ documentation_, the descriptions of `Latitude/Longitude`_, Vincenty_ and
 `Vector-based`_ geodesy, the original `JavaScript source`_ or docs_ and
 the Python `GeographicLib`_.
 
-Also included are modules for conversions to and from UTM_ (Universal
-Transverse Mercator) and `Web Mercator`_ (Pseudo-Mercator) coordinates,
-MGRS_ (NATO Military Grid Reference System) and OSGR_ (British Ordinance
-Survery Grid Reference) grid references and a module for encoding and
-decoding Geohashes_.
+Also included are modules for conversions to and from `Cassini-Soldner`_,
+UTM_ (Universal Transverse Mercator) and `Web Mercator`_ (Pseudo-Mercator)
+coordinates, MGRS_ (NATO Military Grid Reference System) and OSGR_ (British
+Ordinance Survery Grid Reference) grid references and a module for encoding
+and decoding Geohashes_, `Georefs (WGRS)`_ and `Garefs (GARS)`_ .
 
 Other modules provide Lambert conformal conic projections and positions
 (from `John P. Snyder`_, *Map Projections -- A Working Manual*, 1987, pp
@@ -88,10 +88,11 @@ install``.  To run all PyGeodesy tests, type ``python setup.py test``
 before installation.
 
 Installation of `GeographicLib`_, `NumPy`_ and `SciPy`_ is optional.
-However, the former is required for module *ellipsoidalKarney* classes
+However, the former is required for module *css* classes *CassiniSoldner*
+and *Css* and function *toCss* and for module *ellipsoidalKarney* classes
 *LatLon* and *Cartesian* and functions *areaOf* and *perimeterOf*.  The
-latter are needed for the *Geoid...* and *Height...* interpolators,
-except *GeoidKarney*, *HeightIDW*, *HeightIDW2* and *HeightIDW3*.
+latter are needed for the *Geoid...* and *Height...* interpolators, except
+*GeoidKarney*, *HeightIDW*, *HeightIDW2* and *HeightIDW3*.
 
 Notes
 =====
@@ -99,7 +100,7 @@ Notes
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Apr 08, 2019.*
+*Last updated: Apr 12, 2019.*
 
 .. image:: http://Img.Shields.io/pypi/pyversions/PyGeodesy.svg?label=Python
   :target: http://PyPI.org/project/PyGeodesy
@@ -116,7 +117,8 @@ cases documentation tag **JS name:** shows the original JavaScript name.
 .. image:: http://Img.Shields.io/pypi/l/PyGeodesy.svg
   :target: http://PyPI.org/project/PyGeodesy
 
-.. _C++ class: http://GeographicLib.SourceForge.io/html/geoid.html
+.. _C++ classes: http://GeographicLib.SourceForge.io/html/annotated.html
+.. _Cassini-Soldner: http://GeographicLib.SourceForge.io/html/classGeographicLib_1_1CassiniSoldner.html
 .. _checked: http://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor
 .. _Cohen-Sutherland: http://WikiPedia.org/wiki/Cohen-Sutherland_algorithm
 .. _Debian 9: http://Cirrus-CI.com/github/mrJean1/PyGeodesy/master
@@ -124,8 +126,10 @@ cases documentation tag **JS name:** shows the original JavaScript name.
 .. _documentation: http://mrJean1.GitHub.io/PyGeodesy
 .. _Epydoc: http://PyPI.org/project/epydoc
 .. _Flake8: http://PyPI.org/project/flake8
+.. _Garefs (GARS): http://WikiPedia.org/wiki/Global_Area_Reference_System
 .. _geographiclib: http://PyPI.org/project/geographiclib
 .. _Geohashes: http://www.Movable-Type.co.UK/scripts/geohash.html
+.. _Georefs (WGRS): http://WikiPedia.org/wiki/World_Geographic_Reference_System
 .. _GitHub: http://GitHub.com/mrJean1/PyGeodesy
 .. _Intel-Python: http://software.Intel.com/en-us/distribution-for-python
 .. _interpolate: http://docs.SciPy.org/doc/scipy/reference/interpolate.html

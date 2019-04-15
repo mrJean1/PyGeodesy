@@ -11,7 +11,7 @@ from os.path import join
 import unittest
 
 __all__ = ('TestSuite',)
-__version__ = '19.03.31'
+__version__ = '19.04.12'
 
 
 class TestSuite(unittest.TestCase):
@@ -34,6 +34,9 @@ class TestSuite(unittest.TestCase):
     def test_Clipy(self):
         self._run('testClipy')
 
+    def test_Css(self):
+        self._run('testCss')
+
     def test_Datum(self):
         self._run('testDatum')
 
@@ -54,6 +57,9 @@ class TestSuite(unittest.TestCase):
 
     def test_Formy(self):
         self._run('testFormy')
+
+    def test_Gars(self):
+        self._run('testGars')
 
     def test_Geohash(self):
         self._run('testGeohash')
@@ -115,6 +121,9 @@ class TestSuite(unittest.TestCase):
 
     def test_WebMercator(self):
         self._run('testWebMercator')
+
+    def test_Wgrs(self):
+        self._run('testWgrs')
 
     def test_Ztotal(self):
         # final test to make sure all tests were run

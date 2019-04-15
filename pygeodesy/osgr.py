@@ -34,7 +34,7 @@ U{Transverse Mercator: Redfearn series
 from bases import _Based, _nameof, _xattrs, _xnamed
 from datum import Datums
 from dms import parseDMS2
-from ellipsoidalBase import LatLonEllipsoidalBase as _ELLB
+from ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from fmath import fdot, fpowers, Fsum, fsum_, map1
 from lazily import _ALL_LAZY
 from utily import degrees90, degrees180, enStr2, false2f, \
@@ -44,7 +44,7 @@ from math import cos, radians, sin, sqrt, tan
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.osgr
-__version__ = '19.04.05'
+__version__ = '19.04.09'
 
 _10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (C{meter})
 _100km   = 100000  #: (INTERNAL) 100 km (int meter)
@@ -219,7 +219,7 @@ class Osgr(_Based):
         a = fdot(V4, 1,    -d2, d4, -d6)
         b = fdot(X5, 1, d, -d3, d5, -d7)
 
-        self._latlon = _ELLB(degrees90(a), degrees180(b), datum=_OSGB36, name=self.name)
+        self._latlon = _LLEB(degrees90(a), degrees180(b), datum=_OSGB36, name=self.name)
         return self._latlon3(LatLon, datum)
 
     def _latlon3(self, LatLon, datum):
@@ -230,7 +230,7 @@ class Osgr(_Based):
             if datum and datum != ll.datum:
                 raise TypeError('no %s.convertDatum: %r' % (LatLon, ll))
             return ll.lat, ll.lon, ll.datum
-        elif issubclass(LatLon, _ELLB):
+        elif issubclass(LatLon, _LLEB):
             ll = _xnamed(LatLon(ll.lat, ll.lon, datum=ll.datum), ll.name)
             return _ll2datum(ll, datum, 'LatLon')
         raise TypeError('%s not ellipsoidal: %r' % ('LatLon', LatLon))
@@ -407,9 +407,9 @@ def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr, name=''):
        >>> # for conversion of (historical) OSGB36 lat-/longitude:
        >>> r = toOsgr(52.65757, 1.71791, datum=Datums.OSGB36)
     '''
-    if not isinstance(latlon, _ELLB):
-        # XXX fix failing _ELLB.convertDatum()
-        latlon = _ELLB(*parseDMS2(latlon, lon), datum=datum)
+    if not isinstance(latlon, _LLEB):
+        # XXX fix failing _LLEB.convertDatum()
+        latlon = _LLEB(*parseDMS2(latlon, lon), datum=datum)
     elif lon is not None:
         raise ValueError('%s not %s: %r' % ('lon', None, lon))
     elif not name:  # use latlon.name

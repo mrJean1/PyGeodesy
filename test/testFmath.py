@@ -4,12 +4,13 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '19.03.14'
+__version__ = '19.04.09'
 
 from base import TestsBase
 from random import random, gauss, shuffle
 
-from pygeodesy import Ellipsoids, fhorner, fpolynomial, fpowers, Fsum, fsum, isfinite
+from pygeodesy import Ellipsoids, fhorner, fpolynomial, fpowers, \
+                      Fsum, fsum, INF, isfinite, isneg0, NAN, NEG0
 
 
 class Tests(TestsBase):
@@ -88,12 +89,17 @@ class Tests(TestsBase):
         self.test('fpowers', p[0], 2**3)
         self.test('fpowers', p[3], 2**9)
 
-        self.test('isfinite', isfinite(0), 'True')
-        self.test('isfinite', isfinite(1e300), 'True')
-        self.test('isfinite', isfinite(-1e300), 'True')
-        self.test('isfinite', isfinite(1e1234), 'False')
-        self.test('isfinite', isfinite(float('inf')), 'False')
-        self.test('isfinite', isfinite(float('nan')), 'False')
+        self.test('isfinite(0)',      isfinite(0), 'True')
+        self.test('isfinite(1e300)',  isfinite(1e300), 'True')
+        self.test('isfinite(-1e300)', isfinite(-1e300), 'True')
+        self.test('isfinite(1e1234)', isfinite(1e1234), 'False')
+        self.test('isfinite(INF)',    isfinite(INF), 'False')
+        self.test('isfinite(NAN)',    isfinite(NAN), 'False')
+        self.test('isfinite(NEG0)',   isfinite(NEG0), 'True')
+
+        self.test('isneg0(NEG0)', isneg0(NEG0), True)
+        self.test('isneg0(0.0)',  isneg0(0.0), False)
+        self.test('isneg0(NAN)',  isneg0(NAN), False)
 
         for _, E in sorted(Ellipsoids.items()):
             Ah = E.a / (1 + E.n) * fhorner(E.n**2, 1., 1./4, 1./64, 1./256, 25./16384)

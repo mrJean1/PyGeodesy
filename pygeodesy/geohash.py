@@ -23,18 +23,21 @@ from formy import equirectangular, equirectangular_, haversine_
 from lazily import _ALL_LAZY
 from utily import R_M, property_RO, _Strs, unrollPI
 
-from math import log10, radians
+from math import ldexp, log10, radians
 
 # all public contants, classes and functions
-__all__ = _ALL_LAZY.geohash + ('bounds', 'decode', 'decode_error',  # functions
-          'distance1', 'distance2', 'distance3', 'encode', 'neighbors', 'sizes')
-__version__ = '19.04.03'
+__all__ = _ALL_LAZY.geohash + ('bounds',  # functions
+          'decode', 'decode_error', 'distance1', 'distance2', 'distance3',
+          'encode', 'neighbors', 'precision', 'resolution2', 'sizes')
+__version__ = '19.04.12'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
     S=('028b',     '0145hjnp'),
     E=('bcfguvyz', 'prxz'),
     W=('0145hjnp', '028b'))
+
+_MaxPrec = 12
 
 _Neighbor = dict(
     N=('p0r21436x8zb9dcf5h7kjnmqesgutwvy', 'bc01fg45238967deuvhjyznpkmstqrwx'),
@@ -56,7 +59,7 @@ _Sizes = (  # radius = sqrt(latHeight * lonWidth / PI)
     (      4.77,    4.77,     2.691),  # 9
     (      0.596,   1.19,     0.475),  # 10
     (      0.149,   0.149,    0.084),  # 11
-    (      0.0186,  0.0372,   0.015))  # 12
+    (      0.0186,  0.0372,   0.015))  # 12  _MaxPrec
 
 # Geohash-specific base32 map
 _GeohashBase32 = '0123456789bcdefghjkmnpqrstuvwxyz'
@@ -95,7 +98,7 @@ def _2geostr(geohash):
     '''(INTERNAL) Check a geohash string.
     '''
     try:
-        if not (0 < len(geohash) < 13):
+        if not (0 < len(geohash) <= _MaxPrec):
             raise ValueError
         geostr = geohash.lower()
         for c in geostr:
@@ -108,7 +111,7 @@ def _2geostr(geohash):
 
 
 class Geohash(str, _Named):
-    '''Geohash class, sub-class of str.
+    '''Geohash class, sub-class of C{str}.
     '''
     _bounds = None  # cached bounds property
     _latlon = None  # cached latlon property
@@ -120,37 +123,39 @@ class Geohash(str, _Named):
 
     # no str.__init__ in Python 3
     def __new__(cls, cll, precision=None, name=''):
-        '''New Geohash from a L{Geohash} instance or C{str} or from
-           a C{LatLon} instance or C{str}.
+        '''New L{Geohash} from an other L{Geohash} instance or C{str}
+           or from a C{LatLon} instance or C{str}.
 
            @param cll: Cell or location (L{Geohash} or C{str}, C{LatLon}
                        or C{str}).
-           @keyword precision: Optional, desired geohash length (C{int}),
-                               see function L{geohash.encode} for more
-                               details.
+           @keyword precision: Optional, the desired geohash length
+                               (C{int} 1..12), see function
+                               L{geohash.encode} for examples.
            @keyword name: Optional name (C{str}).
 
            @return: New L{Geohash}.
         '''
         if isinstance(cll, Geohash):
-            self = str.__new__(cls, _2geostr('%s' % (cll,)))
+            gh = _2geostr(str(cll))
+            self = str.__new__(cls, gh)
 
         elif isinstance(cll, _Strs):
             if ',' in cll:
                 lat, lon = _2fll(*parse3llh(cll))
-                cll = encode(lat, lon, precision=precision)
-                self = str.__new__(cls, cll)
+                gh = encode(lat, lon, precision=precision)
+                self = str.__new__(cls, gh)
                 self._latlon = lat, lon
             else:
-                self = str.__new__(cls, _2geostr(cll))
+                gh = _2geostr(cll)
+                self = str.__new__(cls, gh)
 
         else:  # assume LatLon
             try:
                 lat, lon = _2fll(cll.lat, cll.lon)
             except AttributeError:
                 raise TypeError('%s: %r' % (Geohash.__name__, cll))
-            cll = encode(lat, lon, precision=precision)
-            self = str.__new__(cls, cll)
+            gh = encode(lat, lon, precision=precision)
+            self = str.__new__(cls, gh)
             self._latlon = lat, lon
 
         if name:
@@ -163,7 +168,7 @@ class Geohash(str, _Named):
     @property_RO
     def ab(self):
         '''Get the lat- and longitude of (the approximate center of)
-           this geohash as a 2-tuple (lat, lon) in radians.
+           this geohash as a 2-tuple (lat, lon) in C{radians}.
         '''
         return map2(radians, self.latlon)
 
@@ -301,7 +306,7 @@ class Geohash(str, _Named):
         a1, b1 = self.ab
         a2, b2 = other.ab
 
-        db, b2 = unrollPI(b1, b2, wrap=wrap)
+        db, _ = unrollPI(b1, b2, wrap=wrap)
         return haversine_(a2, a1, db) * float(radius)
 
     @property_RO
@@ -314,6 +319,7 @@ class Geohash(str, _Named):
            >>> geohash.Geohash('geek').latlon  # 65.478515625, -17.75390625
            >>> geohash.decode('geek')  # '65.48', '-17.75'
         '''
+        # B{Example:} not @example: since that causes Epydoc error
         if not self._latlon:
             s, w, n, e = self.bounds()
             self._latlon = favg(n, s), favg(e, w)
@@ -330,11 +336,17 @@ class Geohash(str, _Named):
                                                     'S', 'SW', 'W', 'NW'))
 
     @property_RO
+    def precision(self):
+        '''Get this geohash's precision (C{int}).
+        '''
+        return len(self)
+
+    @property_RO
     def sizes(self):
         '''Get the lat- and longitudinal size of this cell as
            a 2-tuple (latHeight, lonWidth) in meter.
         '''
-        n = min(len(_Sizes) - 1, len(self) or 1)
+        n = min(len(_Sizes) - 1, self.precision or 1)
         return map2(float, _Sizes[n][:2])
 
     def toLatLon(self, LatLon, **kwds):
@@ -582,14 +594,15 @@ def distance3(geohash1, geohash2, radius=R_M):
 
 
 def encode(lat, lon, precision=None):
-    '''Encode a lat-/longitude as a geohash, either to the specified
+    '''Encode a lat-/longitude as a C{geohash}, either to the specified
        or if not given, an automatically evaluated precision.
 
        @param lat: Latitude (C{degrees}).
        @param lon: Longitude (C{degrees}).
-       @keyword precision: Optional, desired geohash length (C{int}).
+       @keyword precision: Optional, the desired geohash length (C{int}
+                           1..12).
 
-       @return: The geohash (C{str}).
+       @return: The C{geohash} (C{str}).
 
        @raise ValueError: Invalid I{lat}, I{lon} or I{precision}.
 
@@ -603,23 +616,23 @@ def encode(lat, lon, precision=None):
     '''
     lat, lon = _2fll(lat, lon)
 
-    if not precision:
+    if precision:
+        try:
+            p = int(precision)
+            if not 0 < p <= _MaxPrec:
+                raise ValueError
+        except ValueError:
+            raise ValueError('%s invalid: %r' % ('precision', precision))
+    else:
         # Infer precision by refining geohash until
         # it matches precision of supplied lat/lon.
-        for prec in range(1, 13):
-            gh = encode(lat, lon, prec)
+        for p in range(1, _MaxPrec + 1):
+            gh = encode(lat, lon, p)
             ll = map2(float, decode(gh))
             if abs(lat - ll[0]) < EPS and \
                abs(lon - ll[1]) < EPS:
                 return gh
-        prec = 12  # maximum
-    else:
-        try:
-            prec = int(precision)
-            if not 0 < prec < 13:
-                raise ValueError
-        except ValueError:
-            raise ValueError('%s invalid: %r' % ('precision', precision))
+        p = _MaxPrec
 
     latS, latN =  -90,  90
     lonW, lonE = -180, 180
@@ -627,7 +640,7 @@ def encode(lat, lon, precision=None):
     b = i = 0
     e, gh = True, []
 
-    while len(gh) < prec:
+    while len(gh) < p:
         i += i
         if e:  # bisect longitude
             m = favg(lonE, lonW)
@@ -668,6 +681,57 @@ def neighbors(geohash):
        @JSname: I{neighbours}.
     '''
     return _2Geohash(geohash).neighbors
+
+
+def precision(res1, res2=None):
+    '''Determine the L{Geohash} precisions to meet a given (geographic)
+       resolutions.
+
+       @param res1: The required, primary (longitudional) resolution
+                    (C{degrees}).
+       @keyword pes2: Optional, required, secondary (latitudional
+                      resolution (C{degrees}).
+
+       @return: The L{Geohash} precision or length (C{int} 1..12).
+
+       @see: C++ class U{Geohash
+             <http://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geohash.html>}.
+    '''
+    r2 = abs(res1), abs(res1 if res2 is None else res2)
+    for p in range(1, _MaxPrec):
+        if resolution2(p, None if res2 is None else p) <= r2:
+            return p
+    return _MaxPrec
+
+
+def resolution2(prec1, prec2=None):
+    '''Determine the (geographic) resolutions of given L{Geohash}
+       precisions.
+
+       @param prec1: The given primary (longitudional) precision
+                     (C{int} 1..12).
+       @keyword prec2: Optional, secondary (latitudional) precision
+                       (C{int} 1..12).
+
+       @return: 2-Tuple (C{res1, res2}) with the (geographic) resolutions
+                (C{degrees}) where C{res2} is C{res1} if no I{prec2} is
+                given.
+
+       @see: C++ class U{Geohash
+             <http://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geohash.html>}.
+    '''
+    res1, res2 = 360.0, 180.0
+
+    if prec1:
+        p = 5 * max(0, min(int(prec1), _MaxPrec))
+        res1 = ldexp(res1, -(p - p // 2))
+    if prec2:
+        p = 5 * max(0, min(int(prec2), _MaxPrec))
+        res2 = ldexp(res2, -(p // 2))
+    elif prec2 is None:
+        res2 = res1
+
+    return res1, res2
 
 
 def sizes(geohash):

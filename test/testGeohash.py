@@ -4,18 +4,16 @@
 # Test geohash module.
 
 __all__ = ('Tests',)
-__version__ = '18.09.08'
+__version__ = '19.04.12'
 
 from base import TestsBase
 
-from pygeodesy import classname, fStr, geohash, Geohash, ellipsoidalVincenty
+from pygeodesy import classname, fStr, geohash, Geohash
 
 
 class Tests(TestsBase):
 
-    def testGeohash(self):
-        # geohash module tests
-        LL = ellipsoidalVincenty.LatLon
+    def testGeohash(self, LL):
         cn = classname(LL(0, 0))
 
         g = Geohash('geek')
@@ -74,10 +72,19 @@ class Tests(TestsBase):
         self.test('decode_error', geohash.decode_error('fu'), '(2.8125, 5.625)')
         self.test('decode_error', geohash.decode_error('f'), '(22.5, 22.5)')
 
+        for t in range(0, 14):
+            r = geohash.resolution2(t, t)
+            p = geohash.precision(*r)
+            self.test('precision', t, p, known=t < 1 or t > 12)
+            b = fStr(r, prec=t + 1)
+            self.test('resolution', b, b)  # just to show
+
 
 if __name__ == '__main__':
 
+    from pygeodesy import ellipsoidalVincenty
+
     t = Tests(__file__, __version__, geohash)
-    t.testGeohash()
+    t.testGeohash(ellipsoidalVincenty.LatLon)
     t.results()
     t.exit()

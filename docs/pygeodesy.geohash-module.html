@@ -75,7 +75,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.04.03
+        19.04.12
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -90,7 +90,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.geohash.Geohash-class.html" class="summary-name">Geohash</a><br />
-      Geohash class, sub-class of str.
+      Geohash class, sub-class of <code>str</code>.
     </td>
   </tr>
 </table>
@@ -223,8 +223,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.geohash-module.html#encode" class="summary-sig-name">encode</a>(<span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">lon</span>,
         <span class="summary-sig-arg">precision</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Encode a lat-/longitude as a geohash, either to the specified or if 
-      not given, an automatically evaluated precision.</td>
+      Encode a lat-/longitude as a <code>geohash</code>, either to the 
+      specified or if not given, an automatically evaluated precision.</td>
           <td align="right" valign="top">
             
             
@@ -243,6 +243,46 @@
           <td><span class="summary-sig"><a href="pygeodesy.geohash-module.html#neighbors" class="summary-sig-name">neighbors</a>(<span class="summary-sig-arg">geohash</span>)</span><br />
       Return the <a href="pygeodesy.geohash.Geohash-class.html" 
       class="link">Geohash</a>es for all 8 adjacent cells.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geohash-module.html#precision" class="summary-sig-name">precision</a>(<span class="summary-sig-arg">res1</span>,
+        <span class="summary-sig-arg">res2</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Determine the <a href="pygeodesy.geohash.Geohash-class.html" 
+      class="link">Geohash</a> precisions to meet a given (geographic) 
+      resolutions.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geohash-module.html#resolution2" class="summary-sig-name">resolution2</a>(<span class="summary-sig-arg">prec1</span>,
+        <span class="summary-sig-arg">prec2</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Determine the (geographic) resolutions of given <a 
+      href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a> 
+      precisions.</td>
           <td align="right" valign="top">
             
             
@@ -553,17 +593,17 @@
     </td>
   </tr></table>
   
-  <p>Encode a lat-/longitude as a geohash, either to the specified or if 
-  not given, an automatically evaluated precision.</p>
+  <p>Encode a lat-/longitude as a <code>geohash</code>, either to the 
+  specified or if not given, an automatically evaluated precision.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon</code></strong> - Longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>precision</code></strong> - Optional, desired geohash length (<code>int</code>).</li>
+        <li><strong class="pname"><code>precision</code></strong> - Optional, the desired geohash length (<code>int</code> 1..12).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The geohash (<code>str</code>).</dd>
+        <dd>The <code>geohash</code> (<code>str</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>lat</i>, <i>lon</i> or <i>precision</i>.</li>
@@ -615,6 +655,82 @@
   </dl>
 <div class="fields">      <p><strong>JS name:</strong>
         <i>neighbours</i>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="precision"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">precision</span>(<span class="sig-arg">res1</span>,
+        <span class="sig-arg">res2</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Determine the <a href="pygeodesy.geohash.Geohash-class.html" 
+  class="link">Geohash</a> precisions to meet a given (geographic) 
+  resolutions.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>res1</code></strong> - The required, primary (longitudional) resolution 
+          (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>pes2</code></strong> - Optional, required, secondary (latitudional resolution 
+          (<code>degrees</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The <a href="pygeodesy.geohash.Geohash-class.html" 
+          class="link">Geohash</a> precision or length (<code>int</code> 
+          1..12).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        C++ class <a 
+        href="http://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geohash.html"
+        target="_top">Geohash</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="resolution2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">resolution2</span>(<span class="sig-arg">prec1</span>,
+        <span class="sig-arg">prec2</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Determine the (geographic) resolutions of given <a 
+  href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a> 
+  precisions.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>prec1</code></strong> - The given primary (longitudional) precision (<code>int</code> 
+          1..12).</li>
+        <li><strong class="pname"><code>prec2</code></strong> - Optional, secondary (latitudional) precision (<code>int</code> 
+          1..12).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>2-Tuple (<code>res1, res2</code>) with the (geographic) 
+          resolutions (<code>degrees</code>) where <code>res2</code> is 
+          <code>res1</code> if no <i>prec2</i> is given.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        C++ class <a 
+        href="http://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geohash.html"
+        target="_top">Geohash</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -685,7 +801,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Apr  9 13:08:47 2019
+    Generated by Epydoc 3.0.1 on Mon Apr 15 18:45:19 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -73,8 +73,8 @@
 </pre>
 
 <hr />
-<p>Ellipsoid with semi-major, semi-minor axis, inverse flattening and 
-  several other pre-computed, frequently used values.</p>
+<p>Ellipsoid with major and minor radius, semi-axis, (inverse) flattening
+  and other pre-computed, frequently used attributes.</p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -95,7 +95,8 @@
         <span class="summary-sig-arg">b</span>,
         <span class="summary-sig-arg">f_</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
-      New ellipsoid.</td>
+      New <a href="pygeodesy.datum.Ellipsoid-class.html" 
+      class="link">Ellipsoid</a>.</td>
           <td align="right" valign="top">
             
             
@@ -421,23 +422,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="a"></a><span class="summary-name">a</span> = <code title="0">0</code><br />
-      Semi-major, equatorial axis (<code>meter</code>).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="b"></a><span class="summary-name">b</span> = <code title="0">0</code><br />
-      Semi-minor, polar axis (<code>meter</code>): a * (f - 1) / f.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="a2_"></a><span class="summary-name">a2_</span> = <code title="0">0</code><br />
+        <a name="_a2_"></a><span class="summary-name">_a2_</span> = <code title="0">0</code><br />
       (1 / a**2)
     </td>
   </tr>
@@ -445,72 +430,8 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="a_b"></a><span class="summary-name">a_b</span> = <code title="1">1</code><br />
-      (a / b) = 1 / (1 - f)
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="e"></a><span class="summary-name">e</span> = <code title="0">0</code><br />
-      1st Eccentricity: sqrt(1 - (b / a)**2))
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="e2"></a><span class="summary-name">e2</span> = <code title="0">0</code><br />
-      1st Eccentricity squared: f * (2 - f) = 1 - (b / a)**2
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="e4"></a><span class="summary-name">e4</span> = <code title="0">0</code><br />
-      e2**2
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="e12"></a><span class="summary-name">e12</span> = <code title="1">1</code><br />
-      1 - e2
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="e22"></a><span class="summary-name">e22</span> = <code title="0">0</code><br />
-      2nd Eccentricity squared: e2 / (1 - e2) = ab**2 - 1
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="f"></a><span class="summary-name">f</span> = <code title="0">0</code><br />
-      Flattening: (a - b) / a
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="f_"></a><span class="summary-name">f_</span> = <code title="0">0</code><br />
+        <a name="_f_"></a><span class="summary-name">_f_</span> = <code title="0">0</code><br />
       Inverse flattening: a / (a - b) = 1 / f
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="n"></a><span class="summary-name">n</span> = <code title="0">0</code><br />
-      3rd Flattening: f / (2 - f) = (a - b) / (a + b)
     </td>
   </tr>
 </table>
@@ -526,8 +447,16 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.datum.Ellipsoid-class.html#A" class="summary-name">A</a><br />
-      Get the <i>UTM</i> meridional radius (<code>meter</code>).
+        <a href="pygeodesy.datum.Ellipsoid-class.html#a" class="summary-name">a</a><br />
+      Get the major (equatorial) radius, semi-axis (<code>meter</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.datum.Ellipsoid-class.html#a2_" class="summary-name">a2_</a><br />
+      Get the inverse of the major radius squared (<code>float</code>).
     </td>
   </tr>
 <tr>
@@ -543,9 +472,25 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.datum.Ellipsoid-class.html#b2_a" class="summary-name">b2_a</a><br />
-      Get the equatorial meridional radius of curvature: <i 
-      class="math">b**2 / a</i> (<code>meter</code>).
+        <a href="pygeodesy.datum.Ellipsoid-class.html#a_b" class="summary-name">a_b</a><br />
+      Get the 2nd Flattening (<code>float</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.datum.Ellipsoid-class.html#area" class="summary-name">area</a><br />
+      Get the surface area <i class="math">4 * PI * R2**2</i> 
+      (<code>meter**2</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.datum.Ellipsoid-class.html#A" class="summary-name">A</a><br />
+      Get the <i>UTM</i> meridional radius (<code>meter</code>).
     </td>
   </tr>
 <tr>
@@ -562,10 +507,92 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.datum.Ellipsoid-class.html#b" class="summary-name">b</a><br />
+      Get the minor (polar) radius, semi-axis (<code>meter</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.datum.Ellipsoid-class.html#b2_a" class="summary-name">b2_a</a><br />
+      Get the equatorial meridional radius of curvature: <i 
+      class="math">b**2 / a</i> (<code>meter</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.datum.Ellipsoid-class.html#BetaKs" class="summary-name">BetaKs</a><br />
       Get the <a 
       href="http://GeographicLib.SourceForge.io/html/tmseries30.html" 
       target="_top">Kr&#252;ger Beta series coefficients</a> (KsOrder-tuple).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.datum.Ellipsoid-class.html#c" class="summary-name">c</a><br />
+      Get the authalic earth radius: see <code>R2</code> 
+      (<code>meter</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.datum.Ellipsoid-class.html#e" class="summary-name">e</a><br />
+      Get the (1st) Eccentricity (<code>float</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.datum.Ellipsoid-class.html#e12" class="summary-name">e12</a><br />
+      Get the (<code>float</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.datum.Ellipsoid-class.html#e2" class="summary-name">e2</a><br />
+      Get the (1st) Eccentricity squared (<code>float</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.datum.Ellipsoid-class.html#e22" class="summary-name">e22</a><br />
+      Get the 2nd Eccentricity squared (<code>float</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.datum.Ellipsoid-class.html#e4" class="summary-name">e4</a><br />
+      Get the (1st) Eccentricity to 4th power (<code>float</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.datum.Ellipsoid-class.html#f" class="summary-name">f</a><br />
+      Get the Flattening (<code>float</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.datum.Ellipsoid-class.html#f_" class="summary-name">f_</a><br />
+      Get the Inverse flattening (<code>float</code>).
     </td>
   </tr>
 <tr>
@@ -616,6 +643,14 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.datum.Ellipsoid-class.html#n" class="summary-name">n</a><br />
+      Get the 3rd Flattening (<code>float</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.datum.Ellipsoid-class.html#R1" class="summary-name">R1</a><br />
       Get the mean earth radius per IUGG: <i class="math">(2 * a + b) / 
       3</i> (<code>meter</code>).
@@ -644,8 +679,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.datum.Ellipsoid-class.html#Rr" class="summary-name">Rr</a><br />
-      Get the rectifying earth radius: <i class="math">((a**3/2 + b**3/2) /
-      2)**2/3</i> (<code>meter</code>).
+      Get the rectifying earth radius: <i class="math">((a**(3.2) + 
+      b**(3/2)) / 2)**(2/3)</i> (<code>meter</code>).
     </td>
   </tr>
 <tr>
@@ -655,6 +690,15 @@
         <a href="pygeodesy.datum.Ellipsoid-class.html#Rs" class="summary-name">Rs</a><br />
       Get another mean earth radius: <i class="math">sqrt(a * b)</i> 
       (<code>meter</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.datum.Ellipsoid-class.html#volume" class="summary-name">volume</a><br />
+      Get the volume: <i class="math">4 / 3 * PI * a**2 * b</i> 
+      (<code>meter**3</code>).
     </td>
   </tr>
   <tr>
@@ -700,7 +744,8 @@
     </td>
   </tr></table>
   
-  <p>New ellipsoid.</p>
+  <p>New <a href="pygeodesy.datum.Ellipsoid-class.html" 
+  class="link">Ellipsoid</a>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -1188,17 +1233,37 @@
     <span class="table-header">Property Details</span></td>
 </tr>
 </table>
-<a name="A"></a>
+<a name="a"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
-  <h3 class="epydoc">A</h3>
-  <p>Get the <i>UTM</i> meridional radius (<code>meter</code>).</p>
+  <h3 class="epydoc">a</h3>
+  <p>Get the major (equatorial) radius, semi-axis (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
-    <dd class="value"><span class="summary-sig">A(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>UTM</i> meridional radius (<code>meter</code>).
+    <dd class="value"><span class="summary-sig">a(<span class="summary-sig-arg">self</span>)</span>
+        - Get the major (equatorial) radius, semi-axis (<code>meter</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="a2_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">a2_</h3>
+  <p>Get the inverse of the major radius squared (<code>float</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">a2_(<span class="summary-sig-arg">self</span>)</span>
+        - Get the inverse of the major radius squared (<code>float</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -1234,6 +1299,111 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="a_b"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">a_b</h3>
+  <p>Get the 2nd Flattening (<code>float</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">a_b(<span class="summary-sig-arg">self</span>)</span>
+        - Get the 2nd Flattening (<code>float</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="area"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">area</h3>
+  <p>Get the surface area <i class="math">4 * PI * R2**2</i> 
+  (<code>meter**2</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">area(<span class="summary-sig-arg">self</span>)</span>
+        - Get the surface area <i class="math">4 * PI * R2**2</i> 
+(<code>meter**2</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="A"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">A</h3>
+  <p>Get the <i>UTM</i> meridional radius (<code>meter</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">A(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <i>UTM</i> meridional radius (<code>meter</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="AlphaKs"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">AlphaKs</h3>
+  <p>Get the <a 
+  href="http://GeographicLib.SourceForge.io/html/tmseries30.html" 
+  target="_top">Kr&#252;ger Alpha series coefficients</a> (KsOrder-tuple).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">AlphaKs(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <a href="http://GeographicLib.SourceForge.io/html/tmseries30.html" 
+target="_top">Kr&#252;ger Alpha series coefficients</a> (KsOrder-tuple).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="b"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">b</h3>
+  <p>Get the minor (polar) radius, semi-axis (<code>meter</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">b(<span class="summary-sig-arg">self</span>)</span>
+        - Get the minor (polar) radius, semi-axis (<code>meter</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="b2_a"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1260,29 +1430,6 @@ a</i> (<code>meter</code>).
       </p>
 </div></td></tr></table>
 </div>
-<a name="AlphaKs"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">AlphaKs</h3>
-  <p>Get the <a 
-  href="http://GeographicLib.SourceForge.io/html/tmseries30.html" 
-  target="_top">Kr&#252;ger Alpha series coefficients</a> (KsOrder-tuple).</p>
-  <dl class="fields">
-    <dt>Get Method:</dt>
-    <dd class="value"><span class="summary-sig">AlphaKs(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <a href="http://GeographicLib.SourceForge.io/html/tmseries30.html" 
-target="_top">Kr&#252;ger Alpha series coefficients</a> (KsOrder-tuple).
-    </dd>
-    <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="BetaKs"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1297,6 +1444,172 @@ target="_top">Kr&#252;ger Alpha series coefficients</a> (KsOrder-tuple).
     <dd class="value"><span class="summary-sig">BetaKs(<span class="summary-sig-arg">self</span>)</span>
         - Get the <a href="http://GeographicLib.SourceForge.io/html/tmseries30.html" 
 target="_top">Kr&#252;ger Beta series coefficients</a> (KsOrder-tuple).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="c"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">c</h3>
+  <p>Get the authalic earth radius: see <code>R2</code> 
+  (<code>meter</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">c(<span class="summary-sig-arg">self</span>)</span>
+        - Get the authalic earth radius: see <code>R2</code> (<code>meter</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Symbol <i>c</i> in <a 
+        href="http://link.Springer.com/article/10.1007%2Fs00190-012-0578-z"
+        target="_top">equation 60</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="e"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">e</h3>
+  <p>Get the (1st) Eccentricity (<code>float</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">e(<span class="summary-sig-arg">self</span>)</span>
+        - Get the (1st) Eccentricity (<code>float</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="e12"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">e12</h3>
+  <p>Get the (<code>float</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">e12(<span class="summary-sig-arg">self</span>)</span>
+        - Get the (<code>float</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="e2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">e2</h3>
+  <p>Get the (1st) Eccentricity squared (<code>float</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">e2(<span class="summary-sig-arg">self</span>)</span>
+        - Get the (1st) Eccentricity squared (<code>float</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="e22"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">e22</h3>
+  <p>Get the 2nd Eccentricity squared (<code>float</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">e22(<span class="summary-sig-arg">self</span>)</span>
+        - Get the 2nd Eccentricity squared (<code>float</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="e4"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">e4</h3>
+  <p>Get the (1st) Eccentricity to 4th power (<code>float</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">e4(<span class="summary-sig-arg">self</span>)</span>
+        - Get the (1st) Eccentricity to 4th power (<code>float</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="f"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">f</h3>
+  <p>Get the Flattening (<code>float</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">f(<span class="summary-sig-arg">self</span>)</span>
+        - Get the Flattening (<code>float</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="f_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">f_</h3>
+  <p>Get the Inverse flattening (<code>float</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">f_(<span class="summary-sig-arg">self</span>)</span>
+        - Get the Inverse flattening (<code>float</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -1414,6 +1727,26 @@ target="_top">GeographicLib</a> package is installed.
   </dl>
 </td></tr></table>
 </div>
+<a name="n"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">n</h3>
+  <p>Get the 3rd Flattening (<code>float</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">n(<span class="summary-sig-arg">self</span>)</span>
+        - Get the 3rd Flattening (<code>float</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="R1"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1462,7 +1795,9 @@ target="_top">GeographicLib</a> package is installed.
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="http://WikiPedia.org/wiki/Earth_radius" 
-        target="_top">Earth radius</a>.
+        target="_top">Earth radius</a> and <a 
+        href="http://link.Springer.com/article/10.1007%2Fs00190-012-0578-z"
+        target="_top">c</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -1498,13 +1833,13 @@ target="_top">GeographicLib</a> package is installed.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">Rr</h3>
-  <p>Get the rectifying earth radius: <i class="math">((a**3/2 + b**3/2) / 
-  2)**2/3</i> (<code>meter</code>).</p>
+  <p>Get the rectifying earth radius: <i class="math">((a**(3.2) + 
+  b**(3/2)) / 2)**(2/3)</i> (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">Rr(<span class="summary-sig-arg">self</span>)</span>
-        - Get the rectifying earth radius: <i class="math">((a**3/2 + b**3/2) / 
-2)**2/3</i> (<code>meter</code>).
+        - Get the rectifying earth radius: <i class="math">((a**(3.2) + b**(3/2)) / 
+2)**(2/3)</i> (<code>meter</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -1531,6 +1866,28 @@ target="_top">GeographicLib</a> package is installed.
     <dd class="value"><span class="summary-sig">Rs(<span class="summary-sig-arg">self</span>)</span>
         - Get another mean earth radius: <i class="math">sqrt(a * b)</i> 
 (<code>meter</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="volume"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">volume</h3>
+  <p>Get the volume: <i class="math">4 / 3 * PI * a**2 * b</i> 
+  (<code>meter**3</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">volume(<span class="summary-sig-arg">self</span>)</span>
+        - Get the volume: <i class="math">4 / 3 * PI * a**2 * b</i> 
+(<code>meter**3</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -1572,7 +1929,7 @@ target="_top">GeographicLib</a> package is installed.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Apr  9 13:08:47 2019
+    Generated by Epydoc 3.0.1 on Mon Apr 15 18:45:19 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

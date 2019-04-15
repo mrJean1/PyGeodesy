@@ -19,7 +19,7 @@ U{Implementation Practice Web Mercator Map Projection
 from bases import _Based, classname, _nameof, _xnamed
 from datum import R_MA
 from dms import clipDMS, parseDMS2
-from ellipsoidalBase import LatLonEllipsoidalBase as _ELLB
+from ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from fmath import EPS, fStr, isscalar, map1
 from lazily import _ALL_LAZY
 from utily import PI_2, degrees90, degrees180, property_RO
@@ -28,7 +28,7 @@ from math import atan, atanh, exp, radians, sin, tanh
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.webmercator
-__version__ = '19.03.09'
+__version__ = '19.04.09'
 
 # _FalseEasting  = 0   #: (INTERNAL) False Easting (C{meter}).
 # _FalseNorthing = 0   #: (INTERNAL) False Northing (C{meter}).
@@ -140,7 +140,7 @@ class Wm(_Based):
            >>> from pygeodesy import sphericalTrigonometry as sT
            >>> ll = w.toLatLon(sT.LatLon)  # 43°39′11.58″N, 004°01′36.17″E
         '''
-        if issubclass(LatLon, _ELLB):
+        if issubclass(LatLon, _LLEB):
             if datum:
                 return _xnamed(LatLon(*self.to2ll(datum=datum), datum=datum),
                                self.name)
@@ -268,7 +268,7 @@ def toWm(latlon, lon=None, radius=R_MA, Wm=Wm, name=''):
     r, e = radius, None
     try:
         lat, lon = latlon.lat, latlon.lon
-        if isinstance(latlon, _ELLB):
+        if isinstance(latlon, _LLEB):
             r = latlon.datum.ellipsoid.a
             e = latlon.datum.ellipsoid.e
             if not name:  # use latlon.name

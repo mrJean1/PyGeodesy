@@ -23,7 +23,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '19.04.03'
+__version__ = '19.04.12'
 
 
 def _c2(*names):
@@ -47,20 +47,20 @@ def _version():
 
 
 _KeyWords=('antipode', 'area', 'azimuth', 'bearing',
-           'cartesian', 'clip', 'Cohen-Sutherland', 'conic', 'curvature',
+           'cartesian', 'Cassini', 'clip', 'Cohen-Sutherland', 'conic', 'curvature',
            'datum', 'development', 'distance',
            'earth', 'elevation', 'ellipsoid', 'equirectangular', 'Euclidean',
-           'geocentric', 'geodesy', 'geodetic', 'GeodTest',
-           'geographiclib', 'geohash', 'geoid', 'geoidHeight', 'GeoidHeights',
+           'GARS', 'geocentric', 'geodesy', 'geodetic', 'GeodTest',
+           'geographiclib', 'geohash', 'geoid', 'geoidHeight', 'GeoidHeights', 'georef',
            'haversine', 'height', 'horizon', 'interpolate',
            'Karney', 'Krueger', 'Krüger',
            'Lambert', 'latitude', 'Lesh', 'linearize', 'longitude',
            'MGRS', 'nearest', 'numpy', 'n-vector', 'Nvector', 'OSGR',
            'perimeter', 'polar', 'Pseudo-Mercator', 'PyGeodesy', 'PyPy',
            'radii', 'radius', 'Ramer-Douglas-Peucker', 'Reumann-Witkam', 'rhumb',
-           'scipy', 'simplify', 'sphere', 'Sutherland-Hodgman',
+           'scipy', 'simplify', 'Soldner', 'sphere', 'Sutherland-Hodgman',
            'TMcoords', 'trigonometry', 'unroll', 'UTM',
-           'Vincenty', 'Visvalingam-Whyatt', 'Web-Mercator', 'WGS')
+           'Vincenty', 'Visvalingam-Whyatt', 'Web-Mercator', 'WGRS', 'WGS')
 
 setup(
     name='PyGeodesy',

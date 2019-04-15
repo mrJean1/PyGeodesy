@@ -17,7 +17,7 @@ and John P. Snyder U{'Map Projections - A Working Manual'
 '''
 
 from bases import _Based, _nameof, _xattrs, _xnamed
-from ellipsoidalBase import LatLonEllipsoidalBase as _ELLB
+from ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from datum import _Registered, Datums, _Enum
 from fmath import EPS, fStr, hypot
 from lazily import _ALL_LAZY
@@ -28,7 +28,7 @@ from math import atan, copysign, log, radians, sin, sqrt
 
 # all public constants, classes and functions
 __all__ = _ALL_LAZY.lcc
-__version__ = '19.04.05'
+__version__ = '19.04.09'
 
 
 Conics = _Enum('Conics')  #: Registered conics (L{_Enum}).
@@ -83,7 +83,7 @@ class Conic(_Registered):
            >>> Snyder = Conic(ll0, 33, 45, E0=0, N0=0, name='Snyder')
         '''
         if latlon0 is not None:
-            if not isinstance(latlon0, _ELLB):
+            if not isinstance(latlon0, _LLEB):
                 raise TypeError('%s not %s: %r' % ('latlon0', 'ellipsoidal', latlon0))
 
             self._lat0, self._lon0 = latlon0.to2ab()
@@ -315,15 +315,15 @@ class Conic(_Registered):
 
 
 Conics._assert(  # <http://SpatialReference.org/ref/sr-org/...>
-#   AsLb   = Conic(_ELLB(-14.2666667, 170, datum=Datums.NAD27), 0, 0, E0=500000, N0=0, name='AsLb', auth='EPSG:2155'),  # American Samoa ... SP=1 !
-    Be08Lb = Conic(_ELLB(50.7978150, 4.359215833, datum=Datums.GRS80), 49.833333, 51.166667, E0=649328.0, N0=665262.0, name='Be08Lb', auth='EPSG:9802'),  # Belgium
-    Be72Lb = Conic(_ELLB(90, 4.3674867, datum=Datums.NAD83), 49.8333339, 51.1666672, E0=150000.013, N0=5400088.438, name='Be72Lb', auth='EPSG:31370'),  # Belgium
-    Fr93Lb = Conic(_ELLB(46.5, 3, datum=Datums.WGS84), 49, 44, E0=700000, N0=6600000, name='Fr93Lb', auth='EPSG:2154'),  # RFG93, France
-    MaNLb  = Conic(_ELLB(33.3, -5.4, datum=Datums.NTF), 31.73, 34.87, E0=500000, N0=300000, name='MaNLb'),  # Marocco
-    MxLb   = Conic(_ELLB(12, -102, datum=Datums.WGS84), 17.5, 29.5, E0=2500000, N0=0, name='MxLb', auth='EPSG:2155'),  # Mexico
-    PyT_Lb = Conic(_ELLB(46.8, 2.33722917, datum=Datums.NTF), 45.89893890000052, 47.69601440000037, E0=600000, N0=200000, name='PyT_Lb', auth='Test'),  # France?
-    USA_Lb = Conic(_ELLB(23, -96, datum=Datums.WGS84), 33, 45, E0=0, N0=0, name='USA_Lb'),  # Conterminous, contiguous USA?
-    WRF_Lb = Conic(_ELLB(40, -97, datum=Datums.WGS84), 33, 45, E0=0, N0=0, name='WRF_Lb', auth='EPSG:4326')  # World
+#   AsLb   = Conic(_LLEB(-14.2666667, 170, datum=Datums.NAD27), 0, 0, E0=500000, N0=0, name='AsLb', auth='EPSG:2155'),  # American Samoa ... SP=1 !
+    Be08Lb = Conic(_LLEB(50.7978150, 4.359215833, datum=Datums.GRS80), 49.833333, 51.166667, E0=649328.0, N0=665262.0, name='Be08Lb', auth='EPSG:9802'),  # Belgium
+    Be72Lb = Conic(_LLEB(90, 4.3674867, datum=Datums.NAD83), 49.8333339, 51.1666672, E0=150000.013, N0=5400088.438, name='Be72Lb', auth='EPSG:31370'),  # Belgium
+    Fr93Lb = Conic(_LLEB(46.5, 3, datum=Datums.WGS84), 49, 44, E0=700000, N0=6600000, name='Fr93Lb', auth='EPSG:2154'),  # RFG93, France
+    MaNLb  = Conic(_LLEB(33.3, -5.4, datum=Datums.NTF), 31.73, 34.87, E0=500000, N0=300000, name='MaNLb'),  # Marocco
+    MxLb   = Conic(_LLEB(12, -102, datum=Datums.WGS84), 17.5, 29.5, E0=2500000, N0=0, name='MxLb', auth='EPSG:2155'),  # Mexico
+    PyT_Lb = Conic(_LLEB(46.8, 2.33722917, datum=Datums.NTF), 45.89893890000052, 47.69601440000037, E0=600000, N0=200000, name='PyT_Lb', auth='Test'),  # France?
+    USA_Lb = Conic(_LLEB(23, -96, datum=Datums.WGS84), 33, 45, E0=0, N0=0, name='USA_Lb'),  # Conterminous, contiguous USA?
+    WRF_Lb = Conic(_LLEB(40, -97, datum=Datums.WGS84), 33, 45, E0=0, N0=0, name='WRF_Lb', auth='EPSG:4326')  # World
 )
 
 
@@ -449,7 +449,7 @@ class Lcc(_Based):
 
            @raise TypeError: If I{LatLon} or I{datum} is not ellipsoidal.
         '''
-        if LatLon and not issubclass(LatLon, _ELLB):
+        if LatLon and not issubclass(LatLon, _LLEB):
             raise TypeError('%s not %s: %r' % ('LatLon', 'ellipsoidal', LatLon))
 
         a, b, d = self.to3lld(datum=datum)
@@ -516,7 +516,7 @@ def toLcc(latlon, conic=Conics.WRF_Lb, height=None, Lcc=Lcc, name=''):
 
        @raise TypeError: If I{latlon} is not ellipsoidal.
     '''
-    if not isinstance(latlon, _ELLB):
+    if not isinstance(latlon, _LLEB):
         raise TypeError('%s not %s: %r' % ('latlon', 'ellipsoidal', latlon))
 
     a, b = latlon.to2ab()

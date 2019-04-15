@@ -64,9 +64,9 @@
   cartesian (x/y/z) coordinates.</p>
   <p>Transcribed from <a href="http://GitHub.com/ChrisVeness/geodesy" 
   target="_top">JavaScript originals</a> by <i>Chris Veness (C) 
-  2005-2016</i> and a <a 
-  href="http://GeographicLib.SourceForge.io/html/geoid.html" 
-  target="_top">C++ class</a> by <i>Charles Karney (C) 2008-2017</i> and 
+  2005-2016</i> and several <a 
+  href="http://GeographicLib.SourceForge.io/html/annotated.html" 
+  target="_top">C++ classes</a> by <i>Charles Karney (C) 2008-2017</i> and 
   published under the same <a href="http://OpenSource.org/licenses/MIT" 
   target="_top">MIT License</a>**.</p>
   <p>There are three modules for ellipsoidal earth models, 
@@ -91,6 +91,8 @@
   href="http://PyPI.org/project/geographiclib" 
   target="_top">GeographicLib</a>.</p>
   <p>Also included are modules for conversions to and from <a 
+  href="http://GeographicLib.SourceForge.io/html/classGeographicLib_1_1CassiniSoldner.html"
+  target="_top">Cassini-Soldner</a>, <a 
   href="http://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html" 
   target="_top">UTM</a> (Universal Transverse Mercator) and <a 
   href="http://WikiPedia.org/wiki/Web_Mercator" target="_top">Web 
@@ -101,7 +103,11 @@
   target="_top">OSGR</a> (British Ordinance Survery Grid Reference) grid 
   references and a module for encoding and decoding <a 
   href="http://www.Movable-Type.co.UK/scripts/geohash.html" 
-  target="_top">Geohashes</a>.</p>
+  target="_top">Geohashes</a>, <a 
+  href="http://WikiPedia.org/wiki/World_Geographic_Reference_System" 
+  target="_top">Georefs (WGRS)</a> and <a 
+  href="http://WikiPedia.org/wiki/Global_Area_Reference_System" 
+  target="_top">Garefs (GARS)</a>.</p>
   <p>Other modules provide Lambert conformal conic projections and 
   positions (from <a href="http://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf" 
   target="_top">John P. Snyder, &quot;Map Projections -- A Working 
@@ -200,9 +206,15 @@
     target="_top">GeographicLib</a>, <a href="http://www.NumPy.org" 
     target="_top">NumPy</a> and <a href="http://SciPy.org" 
     target="_top">SciPy</a> is optional. However, the former is required 
-    for module <code>ellipsoidalKarney</code> classes <code>LatLon</code> 
-    and <code>Cartesian</code> and functions <code>areaOf</code> and 
-    <code>perimeterOf</code>. The latter are needed for the 
+    for module <a href="pygeodesy.css-module.html" class="link">css</a> 
+    classes <a href="pygeodesy.css.CassiniSoldner-class.html" 
+    class="link">CassiniSoldner</a> and <a 
+    href="pygeodesy.css.Css-class.html" class="link">Css</a> and function 
+    <a href="pygeodesy.css-module.html#toCss" class="link">toCss</a> and 
+    for module <a href="pygeodesy.ellipsoidalKarney-module.html" 
+    class="link">ellipsoidalKarney</a> classes <code>LatLon</code> and 
+    <code>Cartesian</code> and functions <code>areaOf</code> and 
+    <code>perimeterOf</code>.  The latter are needed for the 
     <code>Geoid...</code> and <code>Height...</code> interpolators, except 
     <a href="pygeodesy.geoids.GeoidKarney-class.html" 
     class="link">GeoidKarney</a>, <a 
@@ -241,7 +253,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.04.08
+        19.04.12
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -256,6 +268,11 @@
     <li> <strong class="uidlink"><a href="pygeodesy.bases-module.html">pygeodesy.bases</a></strong>: <em class="summary">(INTERNAL) Common base classes.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.clipy-module.html">pygeodesy.clipy</a></strong>: <em class="summary">Functions to <i>clip</i> a path or polygon of <code>LatLon</code> 
         points.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.css-module.html">pygeodesy.css</a></strong>: <em class="summary">Cassini-Soldner projection class <a 
+        href="pygeodesy.css.CassiniSoldner-class.html" 
+        class="link">CassiniSoldner</a> requiring <a 
+        href="http://PyPI.org/project/geographiclib/" 
+        target="_top">GeographicLib</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.datum-module.html">pygeodesy.datum</a></strong>: <em class="summary">Classes <a href="pygeodesy.datum.Datum-class.html" 
         class="link">Datum</a>, <a 
         href="pygeodesy.datum.Ellipsoid-class.html" 
@@ -318,6 +335,9 @@
         class="link" onclick="show_private();">perimeterOf</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.fmath-module.html">pygeodesy.fmath</a></strong>: <em class="summary">Precision floating point functions, utilities and constants.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.formy-module.html">pygeodesy.formy</a></strong>: <em class="summary">Formulary of basic geodesy functions and approximations.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.gars-module.html">pygeodesy.gars</a></strong>: <em class="summary">Class <a href="pygeodesy.gars.Garef-class.html" 
+        class="link">Garef</a> and several functions to encode, decode and 
+        inspect <i>Global Area Reference System (GARS)</i> references.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geohash-module.html">pygeodesy.geohash</a></strong>: <em class="summary">Class <a href="pygeodesy.geohash.Geohash-class.html" 
         class="link">Geohash</a> and several functions to encode, decode 
         and inspect <i>geohashes</i>.</em>    </li>
@@ -406,6 +426,9 @@
         class="link">parseWM</a> and <a 
         href="pygeodesy.webmercator-module.html#toWm" 
         class="link">toWm</a>.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.wgrs-module.html">pygeodesy.wgrs</a></strong>: <em class="summary">Class <a href="pygeodesy.wgrs.Georef-class.html" 
+        class="link">Georef</a> and several functions to encode, decode and
+        inspect <i>World Geographic Reference System (WGRS)</i> references.</em>    </li>
   </ul></td></tr>
 </table>
 
@@ -439,8 +462,24 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.gars.Garef-class.html" class="summary-name">Garef</a><br />
+      Garef class, sub-class of <code>str</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.geohash.Geohash-class.html" class="summary-name">Geohash</a><br />
-      Geohash class, sub-class of str.
+      Geohash class, sub-class of <code>str</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.wgrs.Georef-class.html" class="summary-name">Georef</a><br />
+      Georef class, sub-class of <code>str</code>.
     </td>
   </tr>
 <tr>
@@ -456,8 +495,26 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.css.CassiniSoldner-class.html" class="summary-name">CassiniSoldner</a><br />
+      A Python version of Charles Karney's <a 
+        href="http://GeographicLib.SourceForge.io/1.49/classGeographicLib_1_1CassiniSoldner.html"
+        target="_top">CassiniSoldner</a> C++ class.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.lcc.Conic-class.html" class="summary-name">Conic</a><br />
       Lambert conformal conic projection (1- or 2-SP).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.css.Css-class.html" class="summary-name">Css</a><br />
+      Cassini-Soldner East-/Northing location.
     </td>
   </tr>
 <tr>
@@ -473,8 +530,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.datum.Ellipsoid-class.html" class="summary-name">Ellipsoid</a><br />
-      Ellipsoid with semi-major, semi-minor axis, inverse flattening and 
-        several other pre-computed, frequently used values.
+      Ellipsoid with major and minor radius, semi-axis, (inverse) 
+        flattening and other pre-computed, frequently used attributes.
     </td>
   </tr>
 <tr>
@@ -2316,6 +2373,23 @@
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">bool</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="isinf"></a><span class="summary-sig-name">isinf</span>(<span class="summary-sig-arg">x</span>)</span><br />
+      Check if float x is infinite (positive or negative).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -2323,6 +2397,40 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isint" class="summary-sig-name">isint</a>(<span class="summary-sig-arg">obj</span>,
         <span class="summary-sig-arg">both</span>=<span class="summary-sig-default">False</span>)</span><br />
       Check for integer type or integer value.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">bool</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="isnan"></a><span class="summary-sig-name">isnan</span>(<span class="summary-sig-arg">x</span>)</span><br />
+      Check if float x is not a number (NaN).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#isneg0" class="summary-sig-name">isneg0</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Check for NEG0, negative 0.0.</td>
           <td align="right" valign="top">
             
             
@@ -3321,6 +3429,28 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#toCss" class="summary-sig-name">toCss</a>(<span class="summary-sig-arg">latlon</span>,
+        <span class="summary-sig-arg">cs0</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">Css</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.css.Css'&gt;</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+      Convert an (ellipsoidal) geodetic point to a Cassini-Soldner 
+      location.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#toDMS" class="summary-sig-name">toDMS</a>(<span class="summary-sig-arg">deg</span>,
         <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">2</span>,
@@ -3686,7 +3816,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'19.4.8'"><code class="variable-quote">'</code><code class="variable-string">19.4.8</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'19.4.12'"><code class="variable-quote">'</code><code class="variable-string">19.4.12</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -3727,7 +3857,7 @@ m=Transforms.WGS84),
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="EPS"></a><span class="summary-name">EPS</span> = <code title="2.22044604925e-16">2.22044604925e-16</code><br />
-      System's <i class="math">epsilon</i> (<code>float</code>)
+      System's <i class="math">epsilon</i> &#8776;2.22e-16 (<code>float</code>).
     </td>
   </tr>
 <tr>
@@ -3735,8 +3865,16 @@ m=Transforms.WGS84),
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="EPS1"></a><span class="summary-name">EPS1</span> = <code title="1.0">1.0</code><br />
-      <i class="math">1 - EPS</i> (<code>float</code>), about 
-      0.9999999999999998
+      <i class="math">1 - EPS</i> &#8776;0.9999999999999998 (<code>float</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="EPS1_2"></a><span class="summary-name">EPS1_2</span> = <code title="1.0">1.0</code><br />
+      <i class="math">1 - EPS / 2</i> &#8776;0.9999999999999999 
+      (<code>float</code>).
     </td>
   </tr>
 <tr>
@@ -3760,7 +3898,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_D"></a><span class="summary-name">F_D</span> = <code title="'d'"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></code><br />
-      Format degrees as deg&#176; (<code>str</code>).
+      Format degrees as &quot;deg&#176;&quot; (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -3768,7 +3906,8 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_DEG"></a><span class="summary-name">F_DEG</span> = <code title="'deg'"><code class="variable-quote">'</code><code class="variable-string">deg</code><code class="variable-quote">'</code></code><br />
-      Format degrees as [D]DD without symbol (<code>str</code>).
+      Format degrees as &quot;[D]DD&quot; without symbol 
+      (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -3776,7 +3915,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_DM"></a><span class="summary-name">F_DM</span> = <code title="'dm'"><code class="variable-quote">'</code><code class="variable-string">dm</code><code class="variable-quote">'</code></code><br />
-      Format degrees as deg&#176;min&#8242; (<code>str</code>).
+      Format degrees as &quot;deg&#176;min&#8242;&quot; (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -3784,7 +3923,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_DMS"></a><span class="summary-name">F_DMS</span> = <code title="'dms'"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></code><br />
-      Format degrees as deg&#176;min&#8242;sec&#8243; (<code>str</code>).
+      Format degrees as &quot;deg&#176;min&#8242;sec&#8243;&quot; (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -3792,7 +3931,8 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_MIN"></a><span class="summary-name">F_MIN</span> = <code title="'min'"><code class="variable-quote">'</code><code class="variable-string">min</code><code class="variable-quote">'</code></code><br />
-      Format degrees as [D]DDMM without symbols (<code>str</code>).
+      Format degrees as &quot;[D]DDMM&quot; without symbols 
+      (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -3800,7 +3940,8 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_RAD"></a><span class="summary-name">F_RAD</span> = <code title="'rad'"><code class="variable-quote">'</code><code class="variable-string">rad</code><code class="variable-quote">'</code></code><br />
-      Convert degrees to radians and format as RR (<code>str</code>).
+      Convert degrees to radians and format as &quot;RR&quot; 
+      (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -3808,7 +3949,59 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_SEC"></a><span class="summary-name">F_SEC</span> = <code title="'sec'"><code class="variable-quote">'</code><code class="variable-string">sec</code><code class="variable-quote">'</code></code><br />
-      Format degrees as [D]DDMMSS without symbols (<code>str</code>).
+      Format degrees as &quot;[D]DDMMSS&quot; without symbols 
+      (<code>str</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="INF"></a><span class="summary-name">INF</span> = <code title="inf">inf</code><br />
+      Infinity (<code>float</code>), see <code>isinf</code>, 
+      <code>isfinite</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="MANTIS"></a><span class="summary-name">MANTIS</span> = <code title="53">53</code><br />
+      System's <i class="math">mantissa bits</i> &#8776;53 (<code>int</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="MAX"></a><span class="summary-name">MAX</span> = <code title="1.79769313486e+308">1.79769313486e+308</code><br />
+      System's <i class="math">float max</i> &#8776;1.798e+308 
+      (<code>float</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="MIN"></a><span class="summary-name">MIN</span> = <code title="2.22507385851e-308">2.22507385851e-308</code><br />
+      System's <i class="math">float min</i> &#8776;2.225e-308 
+      (<code>float</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="NAN"></a><span class="summary-name">NAN</span> = <code title="nan">nan</code><br />
+      Not-A-Number (<code>float</code>), see <code>isnan</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="NEG0"></a><span class="summary-name">NEG0</span> = <code title="-0.0">-0.0</code><br />
+      Negative 0.0 (<code>float</code>), see <code>isneg0</code>.
     </td>
   </tr>
 <tr>
@@ -3816,7 +4009,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="PI"></a><span class="summary-name">PI</span> = <code title="3.14159265359">3.14159265359</code><br />
-      Constant <i class="math">math.pi</i> (<code>float</code>)
+      Constant <i class="math">math.pi</i> (<code>float</code>).
     </td>
   </tr>
 <tr>
@@ -3824,7 +4017,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="PI2"></a><span class="summary-name">PI2</span> = <code title="6.28318530718">6.28318530718</code><br />
-      Two PI, <i class="math">math.pi * 2</i> (<code>float</code>)
+      Two PI, <i class="math">math.pi * 2</i> (<code>float</code>).
     </td>
   </tr>
 <tr>
@@ -3832,14 +4025,15 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="PI_2"></a><span class="summary-name">PI_2</span> = <code title="1.57079632679">1.57079632679</code><br />
-      Half PI, <i class="math">math.pi / 2</i> (<code>float</code>)
+      Half PI, <i class="math">math.pi / 2</i> (<code>float</code>).
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="PI_4"></a><span class="summary-name">PI_4</span> = <code title="0.785398163397">0.785398163397</code>
+        <a name="PI_4"></a><span class="summary-name">PI_4</span> = <code title="0.785398163397">0.785398163397</code><br />
+      Quarter PI, <i class="math">PI / 4</i> (<code>float</code>).
     </td>
   </tr>
 <tr>
@@ -3855,7 +4049,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="R_KM"></a><span class="summary-name">R_KM</span> = <code title="6371.00877142">6371.00877142</code><br />
-      Mean, spherical earth radius (<code>km</code>, kilometer).
+      Mean (spherical) earth radius (<code>km</code>, kilometer).
     </td>
   </tr>
 <tr>
@@ -3863,7 +4057,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="R_M"></a><span class="summary-name">R_M</span> = <code title="6371008.77141">6371008.77141</code><br />
-      Mean, spherical earth radius (<code>meter</code>).
+      Mean (spherical) earth radius (<code>meter</code>).
     </td>
   </tr>
 <tr>
@@ -3871,7 +4065,8 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="R_MA"></a><span class="summary-name">R_MA</span> = <code title="6378137.0">6378137.0</code><br />
-      Equatorial earth radius (<code>meter</code>) WGS84, EPSG:3785.
+      Major (equatorial) earth radius (<code>meter</code>) WGS84, 
+      EPSG:3785.
     </td>
   </tr>
 <tr>
@@ -3879,7 +4074,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="R_MB"></a><span class="summary-name">R_MB</span> = <code title="6356752.0">6356752.0</code><br />
-      Polar earth radius (<code>meter</code>) WGS84, EPSG:3785.
+      Minor (polar) earth radius (<code>meter</code>) WGS84, EPSG:3785.
     </td>
   </tr>
 <tr>
@@ -3887,7 +4082,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="R_NM"></a><span class="summary-name">R_NM</span> = <code title="3440.06953447">3440.06953447</code><br />
-      Mean, spherical earth radius (<code>NM</code>, nautical miles).
+      Mean (spherical) earth radius (<code>NM</code>, nautical miles).
     </td>
   </tr>
 <tr>
@@ -3895,7 +4090,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="R_SM"></a><span class="summary-name">R_SM</span> = <code title="3958.75339537">3958.75339537</code><br />
-      Mean, spherical earth radius (<code>SM</code>, statute miles).
+      Mean (spherical) earth radius (<code>SM</code>, statute miles).
     </td>
   </tr>
 <tr>
@@ -6449,8 +6644,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>obj</code></strong> - Value (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>False</code> if <i>obj</i> is <code>Inf</code> or 
-          <code>NaN</code>, <code>True</code> otherwise.</dd>
+        <dd><code>False</code> if <i>obj</i> is <code>INF</code> or 
+          <code>NAN</code>, <code>True</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <i>obj</i>.</li>
@@ -6482,6 +6677,32 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>True</code> if <i>obj</i> is <code>int</code>, 
+          <code>False</code> otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isneg0"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isneg0</span>(<span class="sig-arg">obj</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check for NEG0, negative 0.0.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - Value (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if <i>obj</i> is <code>NEG0</code> or -0.0, 
           <code>False</code> otherwise.</dd>
   </dl>
 </td></tr></table>
@@ -8296,6 +8517,54 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 </td></tr></table>
 </div>
+<a name="toCss"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toCss</span>(<span class="sig-arg">latlon</span>,
+        <span class="sig-arg">cs0</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">Css</span>=<span class="sig-default">&lt;class 'pygeodesy.css.Css'&gt;</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert an (ellipsoidal) geodetic point to a Cassini-Soldner 
+  location.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>latlon</code></strong> - Ellipsoidal point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>cs0</code></strong> - Optional, the Cassini-Soldner projection to use (<a 
+          href="pygeodesy.css.CassiniSoldner-class.html" 
+          class="link">CassiniSoldner</a>).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height for the point, overriding the default height 
+          (<code>meter</code>).</li>
+        <li><strong class="pname"><code>Css</code></strong> - Optional (sub-)class to use for the location (<a 
+          href="pygeodesy.css.Css-class.html" class="link">Css</a>) or 
+          <code>None</code>.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <i>Css</i> name (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The Cassini-Soldner location (<a 
+          href="pygeodesy.css.Css-class.html" class="link">Css</a>) or 
+          3-tuple (easting, northing, height) if <i>Css</i> is 
+          <code>None</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ImportError</strong></code> - Package <a href="http://PyPI.org/project/geographiclib" 
+        target="_top">GeographicLib</a> missing.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <i>latlon</i> is not ellipsoidal.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="toDMS"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -9152,7 +9421,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Apr  9 13:08:46 2019
+    Generated by Epydoc 3.0.1 on Mon Apr 15 18:45:18 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

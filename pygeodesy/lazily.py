@@ -59,6 +59,7 @@ _ALL_DEPRECATED = _Enum_RO(_name='_ALL_DEPRECATED',
 _ALL_LAZY = _Enum_RO(_name='_ALL_LAZY',
                      bases=('LatLonHeightBase', 'classname', 'classnaming', 'inStr'),
                      clipy=('clipCS3', 'clipSH', 'clipSH3'),
+                       css=('CassiniSoldner', 'Css', 'toCss'),
                      datum=('R_M', 'R_MA', 'R_MB', 'R_KM', 'R_NM', 'R_SM', 'R_FM', 'R_VM',
                             'Datum', 'Ellipsoid', 'Transform', 'Datums', 'Ellipsoids', 'Transforms'),
                        dms=('F_D', 'F_DM', 'F_DMS', 'F_DEG', 'F_MIN', 'F_SEC', 'F_RAD', 'S_DEG', 'S_MIN', 'S_SEC', 'S_RAD', 'S_SEP',
@@ -68,12 +69,14 @@ _ALL_LAZY = _Enum_RO(_name='_ALL_LAZY',
          ellipsoidalKarney=(),  # module only
         ellipsoidalNvector=(),  # module only
        ellipsoidalVincenty=('VincentyError',),  # nothing else
-                     fmath=('EPS', 'EPS1', 'Fdot', 'Fhorner', 'Fpolynomial', 'Fsum',
+                     fmath=('EPS', 'EPS1', 'EPS1_2', 'INF', 'MANTIS', 'MAX', 'MIN', 'NAN', 'NEG0',  # contants
+                            'Fdot', 'Fhorner', 'Fpolynomial', 'Fsum',
                             'acos1', 'cbrt', 'cbrt2',
                             'favg', 'fdot', 'fdot3', 'fmean', 'fhorner', 'fpolynomial', 'fpowers', 'fprod', 'frange', 'freduce', 'fStr', 'fStrzs', 'fsum', 'fsum_',
-                            'hypot', 'hypot1', 'hypot3', 'isfinite', 'isint', 'isscalar', 'len2', 'map1', 'map2', 'scalar', 'sqrt3'),
+                            'hypot', 'hypot1', 'hypot3', 'isfinite', 'isinf', 'isint', 'isnan', 'isneg0', 'isscalar', 'len2', 'map1', 'map2', 'scalar', 'sqrt3'),
                      formy=('antipode', 'bearing', 'bearing_', 'compassAngle', 'euclidean', 'euclidean_', 'equirectangular', 'equirectangular_',
                             'haversine', 'haversine_', 'heightOf', 'horizon', 'isantipode', 'vincentys', 'vincentys_'),
+                      gars=('Garef',),  # nothing else
                    geohash=('Geohash',),  # nothing else
                     geoids=('GeoidError', 'GeoidG2012B', 'GeoidKarney', 'GeoidPGM', 'egmGeoidHeights', 'PGMError'),
                    heights=('HeightError', 'SciPyError', 'SciPyWarning',
@@ -103,10 +106,11 @@ _ALL_LAZY = _Enum_RO(_name='_ALL_LAZY',
                             'wrap90', 'wrap180', 'wrap360', 'wrapPI_2','wrapPI', 'wrapPI2'),
                        utm=('Utm', 'UTMError', 'parseUTM', 'toUtm', 'utmZoneBand2'),
                   vector3d=('CrossError', 'crosserrors'),  # nothing else
-               webmercator=('Wm', 'parseWM', 'toWm'))
+               webmercator=('Wm', 'parseWM', 'toWm'),
+                      wgrs=('Georef',))  # nothing else
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '19.04.05'
+__version__ = '19.04.12'
 
 
 def _all_imports(**more):

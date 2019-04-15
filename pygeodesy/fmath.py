@@ -7,13 +7,13 @@ u'''Precision floating point functions, utilities and constants.
 '''
 from lazily import _ALL_LAZY
 
-from math import acos, copysign, hypot, sqrt  # pow
+from math import acos, copysign, hypot, isinf, isnan, sqrt  # pow
 from operator import mul
 from sys import float_info as _float_info
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.fmath
-__version__ = '19.04.07'
+__version__ = '19.04.09'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -37,11 +37,22 @@ except ImportError:
     _Seqs = list, tuple, range  # XXX also set?
 
 try:
-    EPS = _float_info.epsilon  #: System's epsilon (C{float})
+    EPS    = _float_info.epsilon   #: System's epsilon (C{float})
+    MANTIS = _float_info.mant_dig  #: System's mantissa bits (C{int})
+    MAX    = _float_info.max       #: System's float max (C{float})
+    MIN    = _float_info.min       #: System's float min (C{float})
 except AttributeError:
-    EPS = 2.220446049250313e-16  #: Approximate epsilon (C{float})
-EPS1  = 1.0 - EPS  #: M{1 - EPS} (C{float}), about 0.9999999999999998
-_1EPS = 1.0 + EPS  #: M{1 + EPS} (C{float})
+    EPS    = 2.220446049250313e-16  #: Epsilon (C{float}) 2**-52?
+    MANTIS = 53  #: Mantissa bits ≈53 (C{int})
+    MAX    = pow(2.0,  1023) * (2 - EPS)  #: Float max (C{float}) ≈10**308, 2**1024?
+    MIN    = pow(2.0, -1021)  # Float min (C{float}) ≈10**-308, 2**-1021?
+EPS1   = 1.0 - EPS        #: M{1 - EPS}     ≈0.9999999999999998 (C{float})
+EPS1_2 = 1.0 - (EPS / 2)  #: M{1 - EPS / 2} ≈0.9999999999999999 (C{float})
+_1EPS  = 1.0 + EPS        #: M{1 + EPS}     ≈1.0000000000000002 (C{float})
+
+INF  = float('inf')  #: Infinity (C{float}), see C{isinf}, C{isfinite}
+NAN  = float('nan')  #: Not-A-Number (C{float}), see C{isnan}
+NEG0 = -0.0          #: Negative 0.0 (C{float}), see C{isneg0}
 
 _1_3rd = 1.0 / 3.0  #: (INTERNAL) One third (C{float})
 _2_3rd = 2.0 / 3.0  #: (INTERNAL) Two third (C{float})
@@ -825,14 +836,13 @@ def hypot3(x, y, z):
 try:
     from math import isfinite  # new in Python 3+
 except ImportError:
-    from math import isinf, isnan
 
     def isfinite(obj):
         '''Check for C{Inf} and C{NaN} values.
 
            @param obj: Value (C{scalar}).
 
-           @return: C{False} if I{obj} is C{Inf} or C{NaN},
+           @return: C{False} if I{obj} is C{INF} or C{NAN},
                     C{True} otherwise.
 
            @raise TypeError: Non-scalar I{obj}.
@@ -856,6 +866,18 @@ def isint(obj, both=False):
         except AttributeError:
             return False  # XXX float(int(obj)) == obj?
     return isinstance(obj, _Ints)
+
+
+def isneg0(obj):
+    '''Check for NEG0, negative 0.0.
+
+       @param obj: Value (C{scalar}).
+
+       @return: C{True} if I{obj} is C{NEG0} or -0.0,
+                C{False} otherwise.
+    '''
+    return obj in (0.0, NEG0) and copysign(1, obj) < 0
+#                             and str(obj).rstrip('0') == '-0.'
 
 
 def isscalar(obj):

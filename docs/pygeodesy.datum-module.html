@@ -89,7 +89,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.03.09
+        19.04.09
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -120,8 +120,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.datum.Ellipsoid-class.html" class="summary-name">Ellipsoid</a><br />
-      Ellipsoid with semi-major, semi-minor axis, inverse flattening and 
-        several other pre-computed, frequently used values.
+      Ellipsoid with major and minor radius, semi-axis, (inverse) 
+        flattening and other pre-computed, frequently used attributes.
     </td>
   </tr>
 <tr>
@@ -154,7 +154,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="R_M"></a><span class="summary-name">R_M</span> = <code title="6371008.77141">6371008.77141</code><br />
-      Mean, spherical earth radius (<code>meter</code>).
+      Mean (spherical) earth radius (<code>meter</code>).
     </td>
   </tr>
 <tr>
@@ -162,7 +162,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="R_MA"></a><span class="summary-name">R_MA</span> = <code title="6378137.0">6378137.0</code><br />
-      Equatorial earth radius (<code>meter</code>) WGS84, EPSG:3785.
+      Major (equatorial) earth radius (<code>meter</code>) WGS84, 
+      EPSG:3785.
     </td>
   </tr>
 <tr>
@@ -170,7 +171,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="R_MB"></a><span class="summary-name">R_MB</span> = <code title="6356752.0">6356752.0</code><br />
-      Polar earth radius (<code>meter</code>) WGS84, EPSG:3785.
+      Minor (polar) earth radius (<code>meter</code>) WGS84, EPSG:3785.
     </td>
   </tr>
 <tr>
@@ -178,7 +179,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="R_KM"></a><span class="summary-name">R_KM</span> = <code title="6371.00877142">6371.00877142</code><br />
-      Mean, spherical earth radius (<code>KM</code>, kilo meter).
+      Mean (spherical) earth radius (<code>KM</code>, kilo meter).
     </td>
   </tr>
 <tr>
@@ -186,7 +187,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="R_NM"></a><span class="summary-name">R_NM</span> = <code title="3440.06953447">3440.06953447</code><br />
-      Mean, spherical earth radius (<code>NM</code>, nautical miles).
+      Mean (spherical) earth radius (<code>NM</code>, nautical miles).
     </td>
   </tr>
 <tr>
@@ -194,7 +195,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="R_SM"></a><span class="summary-name">R_SM</span> = <code title="3958.75339537">3958.75339537</code><br />
-      Mean, spherical earth radius (<code>SM</code>, statute miles).
+      Mean (spherical) earth radius (<code>SM</code>, statute miles).
     </td>
   </tr>
 <tr>
@@ -471,7 +472,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <a name="Ellipsoids.CPM1799"></a><span class="summary-name">Ellipsoids.CPM1799</span><br />
       Ellipsoid(name='CPM1799', a=6375738.7, b=6356671.92557493, f_=334.39,
       f=0.00299052, e=0.077279343, e2=0.005972097, e22=0.006007977, 
-      n=0.001497499, R1=6369383.108524977, R2=6369381.8434158, 
+      n=0.001497499, R1=6369383.108524977, R2=6369381.843415799, 
       R3=6369376.762470212, Rr=6366208.881847335, Rs=6366198.174663714)
     </td>
   </tr>
@@ -566,7 +567,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <a name="Ellipsoids.Fisher1968"></a><span class="summary-name">Ellipsoids.Fisher1968</span><br />
       Ellipsoid(name='Fisher1968', a=6378150, b=6356768.33724438, f_=298.3,
       f=0.00335233, e=0.081813334, e2=0.006693422, e22=0.006738525, 
-      n=0.001678979, R1=6371022.77908146, R2=6371021.189037351, 
+      n=0.001678979, R1=6371022.77908146, R2=6371021.189037352, 
       R3=6371014.799950343, Rr=6367463.656043012, Rs=6367450.193774211)
     </td>
   </tr>
@@ -636,7 +637,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
       Ellipsoid(name='IERS1992TOPEX', a=6378136.3, b=6356751.61659215, 
       f_=298.257223563, f=0.003352811, e=0.081819191, e2=0.00669438, 
       e22=0.006739497, n=0.00167922, R1=6371008.072197382, 
-      R2=6371006.481700973, R3=6371000.090792353, Rr=6367448.446995611, 
+      R2=6371006.481700972, R3=6371000.090792353, Rr=6367448.446995611, 
       Rs=6367434.980890662)
     </td>
   </tr>
@@ -718,7 +719,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
       Ellipsoid(name='Mercury1960', a=6378166, b=6356784.28360711, 
       f_=298.3, f=0.00335233, e=0.081813334, e2=0.006693422, 
       e22=0.006738525, n=0.001678979, R1=6371038.76120237, 
-      R2=6371037.171154275, R3=6371030.782051236, Rr=6367479.629235634, 
+      R2=6371037.171154276, R3=6371030.782051236, Rr=6367479.629235634, 
       Rs=6367466.166933062)
     </td>
   </tr>
@@ -730,7 +731,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
       Ellipsoid(name='Mercury1968Mod', a=6378150, b=6356768.33724438, 
       f_=298.3, f=0.00335233, e=0.081813334, e2=0.006693422, 
       e22=0.006738525, n=0.001678979, R1=6371022.77908146, 
-      R2=6371021.189037351, R3=6371014.799950343, Rr=6367463.656043012, 
+      R2=6371021.189037352, R3=6371014.799950343, Rr=6367463.656043012, 
       Rs=6367450.193774211)
     </td>
   </tr>
@@ -1172,7 +1173,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Apr  9 13:08:47 2019
+    Generated by Epydoc 3.0.1 on Mon Apr 15 18:45:19 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
