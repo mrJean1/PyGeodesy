@@ -4,11 +4,11 @@
 # Test wgrs module.
 
 __all__ = ('Tests',)
-__version__ = '19.04.12'
+__version__ = '19.04.15'
 
 from base import TestsBase
 
-from pygeodesy import bearingDMS, F_DM, fStr, Georef, wgrs
+from pygeodesy import degDMS, fStr, Georef, wgrs
 
 
 def _fStr(floats, prec=6):
@@ -65,7 +65,7 @@ class Tests(TestsBase):
             r = wgrs.resolution(t)
             p = wgrs.precision(r)
             self.test('precision', t, p, known=t < 0 or t > 11)
-            b = bearingDMS(r, form=F_DM, prec=t if r < 1 else 0)
+            b = degDMS(r, prec=t if r < 1 else 0, s_S='')
             self.test('resolution', b, b)  # just to show
 
 

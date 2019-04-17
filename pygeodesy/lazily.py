@@ -63,7 +63,7 @@ _ALL_LAZY = _Enum_RO(_name='_ALL_LAZY',
                      datum=('R_M', 'R_MA', 'R_MB', 'R_KM', 'R_NM', 'R_SM', 'R_FM', 'R_VM',
                             'Datum', 'Ellipsoid', 'Transform', 'Datums', 'Ellipsoids', 'Transforms'),
                        dms=('F_D', 'F_DM', 'F_DMS', 'F_DEG', 'F_MIN', 'F_SEC', 'F_RAD', 'S_DEG', 'S_MIN', 'S_SEC', 'S_RAD', 'S_SEP',
-                            'RangeError', 'bearingDMS', 'clipDMS', 'compassDMS', 'compassPoint', 'latDMS', 'lonDMS',
+                            'RangeError', 'bearingDMS', 'clipDMS', 'compassDMS', 'compassPoint', 'degDMS', 'latDMS', 'lonDMS',
                             'normDMS', 'parseDMS', 'parseDMS2', 'parse3llh', 'precision', 'rangerrors', 'toDMS'),
                 elevations=('elevation2', 'geoidHeight2'),
          ellipsoidalKarney=(),  # module only
@@ -110,7 +110,7 @@ _ALL_LAZY = _Enum_RO(_name='_ALL_LAZY',
                       wgrs=('Georef',))  # nothing else
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '19.04.12'
+__version__ = '19.04.15'
 
 
 def _all_imports(**more):

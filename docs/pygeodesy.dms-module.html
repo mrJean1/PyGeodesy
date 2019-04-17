@@ -70,7 +70,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.01.05
+        19.04.15
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -171,6 +171,29 @@
           <td><span class="summary-sig"><a href="pygeodesy.dms-module.html#compassPoint" class="summary-sig-name">compassPoint</a>(<span class="summary-sig-arg">bearing</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">3</span>)</span><br />
       Convert bearing to a compass point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.dms-module.html#degDMS" class="summary-sig-name">degDMS</a>(<span class="summary-sig-arg">deg</span>,
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
+        <span class="summary-sig-arg">s_D</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">&deg;</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">s_M</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">&prime;</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">s_S</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">&Prime;</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">neg</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">-</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">pos</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+      Convert degrees to a string in degrees, minutes or seconds.</td>
           <td align="right" valign="top">
             
             
@@ -435,7 +458,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="S_DEG"></a><span class="summary-name">S_DEG</span> = <code title="'\xc2\xb0'"><code class="variable-quote">'</code><code class="variable-string">\xc2\xb0</code><code class="variable-quote">'</code></code><br />
+        <a name="S_DEG"></a><span class="summary-name">S_DEG</span> = <code title="'\xc2\xb0'"><code class="variable-quote">'</code><code class="variable-string">&deg;</code><code class="variable-quote">'</code></code><br />
       Degrees &quot;&#176;&quot; symbol (<code>str</code>).
     </td>
   </tr>
@@ -443,7 +466,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="S_MIN"></a><span class="summary-name">S_MIN</span> = <code title="'\xe2\x80\xb2'"><code class="variable-quote">'</code><code class="variable-string">\xe2\x80\xb2</code><code class="variable-quote">'</code></code><br />
+        <a name="S_MIN"></a><span class="summary-name">S_MIN</span> = <code title="'\xe2\x80\xb2'"><code class="variable-quote">'</code><code class="variable-string">&prime;</code><code class="variable-quote">'</code></code><br />
       Minutes &quot;&#8242;&quot; symbol (<code>str</code>).
     </td>
   </tr>
@@ -451,7 +474,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="S_SEC"></a><span class="summary-name">S_SEC</span> = <code title="'\xe2\x80\xb3'"><code class="variable-quote">'</code><code class="variable-string">\xe2\x80\xb3</code><code class="variable-quote">'</code></code><br />
+        <a name="S_SEC"></a><span class="summary-name">S_SEC</span> = <code title="'\xe2\x80\xb3'"><code class="variable-quote">'</code><code class="variable-string">&Prime;</code><code class="variable-quote">'</code></code><br />
       Seconds &quot;&#8243;&quot; symbol (<code>str</code>).
     </td>
   </tr>
@@ -552,7 +575,7 @@
         <dd>Clipped value (<code>degrees</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - If <i>deg</i> beyond <i>limit</i> and <a 
+        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - If <i>abs(deg)</i> beyond <i>limit</i> and <a 
         href="pygeodesy.dms-module.html#rangerrors" 
         class="link">rangerrors</a> set to <code>True</code>.</li>
     </ul></dd>
@@ -654,6 +677,45 @@
 <span class="py-prompt">&gt;&gt;&gt; </span>p = compassPoint(348.749) <span class="py-comment"># 'NNW'</span></pre>
       </p>
 </div></td></tr></table>
+</div>
+<a name="degDMS"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">degDMS</span>(<span class="sig-arg">deg</span>,
+        <span class="sig-arg">prec</span>=<span class="sig-default">6</span>,
+        <span class="sig-arg">s_D</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">&deg;</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">s_M</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">&prime;</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">s_S</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">&Prime;</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">neg</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">-</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">pos</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert degrees to a string in degrees, minutes or seconds.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>deg</code></strong> - Value in degrees (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or <code>None</code> for 
+          default).  Trailing zero decimals are stripped for <i>prec</i> 
+          values of 1 and above, but kept for negative <i>prec</i> values.</li>
+        <li><strong class="pname"><code>s_D</code></strong> - Symbol for degrees (<code>str</code>).</li>
+        <li><strong class="pname"><code>s_M</code></strong> - Symbol for minutes (<code>str</code>) or <code>''</code>.</li>
+        <li><strong class="pname"><code>s_S</code></strong> - Symbol for seconds (<code>str</code>) or <code>''</code>.</li>
+        <li><strong class="pname"><code>neg</code></strong> - Optional sign for negative ('-').</li>
+        <li><strong class="pname"><code>pos</code></strong> - Optional sign for positive ('').</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Either degrees, minutes or seconds (<code>str</code>).</dd>
+  </dl>
+</td></tr></table>
 </div>
 <a name="latDMS"></a>
 <div>
@@ -1084,7 +1146,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Apr 15 18:45:19 2019
+    Generated by Epydoc 3.0.1 on Wed Apr 17 12:48:26 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

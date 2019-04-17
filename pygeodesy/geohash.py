@@ -29,7 +29,7 @@ from math import ldexp, log10, radians
 __all__ = _ALL_LAZY.geohash + ('bounds',  # functions
           'decode', 'decode_error', 'distance1', 'distance2', 'distance3',
           'encode', 'neighbors', 'precision', 'resolution2', 'sizes')
-__version__ = '19.04.12'
+__version__ = '19.04.15'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -687,9 +687,9 @@ def precision(res1, res2=None):
     '''Determine the L{Geohash} precisions to meet a given (geographic)
        resolutions.
 
-       @param res1: The required, primary (longitudional) resolution
+       @param res1: The required, primary (longitudinal) resolution
                     (C{degrees}).
-       @keyword pes2: Optional, required, secondary (latitudional
+       @keyword res2: Optional, required, secondary (latitudinal
                       resolution (C{degrees}).
 
        @return: The L{Geohash} precision or length (C{int} 1..12).
@@ -708,9 +708,9 @@ def resolution2(prec1, prec2=None):
     '''Determine the (geographic) resolutions of given L{Geohash}
        precisions.
 
-       @param prec1: The given primary (longitudional) precision
+       @param prec1: The given primary (longitudinal) precision
                      (C{int} 1..12).
-       @keyword prec2: Optional, secondary (latitudional) precision
+       @keyword prec2: Optional, secondary (latitudinal) precision
                        (C{int} 1..12).
 
        @return: 2-Tuple (C{res1, res2}) with the (geographic) resolutions

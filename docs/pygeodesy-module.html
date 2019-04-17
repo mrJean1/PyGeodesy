@@ -253,7 +253,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.04.12
+        19.04.15
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -1448,6 +1448,29 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#degDMS" class="summary-sig-name">degDMS</a>(<span class="summary-sig-arg">deg</span>,
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
+        <span class="summary-sig-arg">s_D</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">&deg;</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">s_M</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">&prime;</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">s_S</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">&Prime;</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">neg</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">-</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">pos</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+      Convert degrees to a string in degrees, minutes or seconds.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a name="degrees"></a><span class="summary-sig-name">degrees</span>(<span class="summary-sig-arg">x</span>)</span><br />
       Convert angle x from radians to degrees.</td>
           <td align="right" valign="top">
@@ -1485,7 +1508,8 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#degrees2m" class="summary-sig-name">degrees2m</a>(<span class="summary-sig-arg">deg</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>)</span><br />
-      Convert angle to distance along equator or at other latitude.</td>
+      Convert angle to distance along the equator or along a parallel at an
+      other latitude.</td>
           <td align="right" valign="top">
             
             
@@ -3816,7 +3840,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'19.4.12'"><code class="variable-quote">'</code><code class="variable-string">19.4.12</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'19.4.15'"><code class="variable-quote">'</code><code class="variable-string">19.4.15</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -4105,7 +4129,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="S_DEG"></a><span class="summary-name">S_DEG</span> = <code title="'\xc2\xb0'"><code class="variable-quote">'</code><code class="variable-string">\xc2\xb0</code><code class="variable-quote">'</code></code><br />
+        <a name="S_DEG"></a><span class="summary-name">S_DEG</span> = <code title="'\xc2\xb0'"><code class="variable-quote">'</code><code class="variable-string">&deg;</code><code class="variable-quote">'</code></code><br />
       Degrees symbol &quot;&#176;&quot; (<code>str</code>).
     </td>
   </tr>
@@ -4113,7 +4137,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="S_MIN"></a><span class="summary-name">S_MIN</span> = <code title="'\xe2\x80\xb2'"><code class="variable-quote">'</code><code class="variable-string">\xe2\x80\xb2</code><code class="variable-quote">'</code></code><br />
+        <a name="S_MIN"></a><span class="summary-name">S_MIN</span> = <code title="'\xe2\x80\xb2'"><code class="variable-quote">'</code><code class="variable-string">&prime;</code><code class="variable-quote">'</code></code><br />
       Minutes symbol &quot;&#8242;&quot; (<code>str</code>).
     </td>
   </tr>
@@ -4129,7 +4153,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="S_SEC"></a><span class="summary-name">S_SEC</span> = <code title="'\xe2\x80\xb3'"><code class="variable-quote">'</code><code class="variable-string">\xe2\x80\xb3</code><code class="variable-quote">'</code></code><br />
+        <a name="S_SEC"></a><span class="summary-name">S_SEC</span> = <code title="'\xe2\x80\xb3'"><code class="variable-quote">'</code><code class="variable-string">&Prime;</code><code class="variable-quote">'</code></code><br />
       Seconds symbol &quot;&#8243;&quot; (<code>str</code>).
     </td>
   </tr>
@@ -4716,7 +4740,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <dd>Clipped value (<code>degrees</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - If <i>deg</i> beyond <i>limit</i> and <a 
+        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - If <i>abs(deg)</i> beyond <i>limit</i> and <a 
         href="pygeodesy.dms-module.html#rangerrors" 
         class="link">rangerrors</a> set to <code>True</code>.</li>
     </ul></dd>
@@ -4980,6 +5004,45 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
       </p>
 </div></td></tr></table>
 </div>
+<a name="degDMS"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">degDMS</span>(<span class="sig-arg">deg</span>,
+        <span class="sig-arg">prec</span>=<span class="sig-default">6</span>,
+        <span class="sig-arg">s_D</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">&deg;</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">s_M</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">&prime;</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">s_S</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">&Prime;</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">neg</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">-</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">pos</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert degrees to a string in degrees, minutes or seconds.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>deg</code></strong> - Value in degrees (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or <code>None</code> for 
+          default).  Trailing zero decimals are stripped for <i>prec</i> 
+          values of 1 and above, but kept for negative <i>prec</i> values.</li>
+        <li><strong class="pname"><code>s_D</code></strong> - Symbol for degrees (<code>str</code>).</li>
+        <li><strong class="pname"><code>s_M</code></strong> - Symbol for minutes (<code>str</code>) or <code>''</code>.</li>
+        <li><strong class="pname"><code>s_S</code></strong> - Symbol for seconds (<code>str</code>) or <code>''</code>.</li>
+        <li><strong class="pname"><code>neg</code></strong> - Optional sign for negative ('-').</li>
+        <li><strong class="pname"><code>pos</code></strong> - Optional sign for positive ('').</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Either degrees, minutes or seconds (<code>str</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="degrees180"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -5022,13 +5085,14 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Convert angle to distance along equator or at other latitude.</p>
+  <p>Convert angle to distance along the equator or along a parallel at an 
+  other latitude.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Angle (<code>degrees</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
-        <li><strong class="pname"><code>lat</code></strong> - Latitude adjusting the distance (<code>degrees90</code>).</li>
+        <li><strong class="pname"><code>lat</code></strong> - Parallel latitude (<code>degrees90</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as <i>radius</i>).</dd>
@@ -9421,7 +9485,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Apr 15 18:45:18 2019
+    Generated by Epydoc 3.0.1 on Wed Apr 17 12:48:26 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -24,7 +24,7 @@ _MISSING  = object()  # singleton, imported by .utily
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utily
-__version__ = '19.04.08'
+__version__ = '19.04.15'
 
 division = 1 / 2  # double check int division, see .datum.py
 if not division:
@@ -130,11 +130,12 @@ def degrees360(rad):
 
 
 def degrees2m(deg, radius=R_M, lat=0):
-    '''Convert angle to distance along equator or at other latitude.
+    '''Convert angle to distance along the equator or along a
+       parallel at an other latitude.
 
        @param deg: Angle (C{degrees}).
        @keyword radius: Mean earth radius (C{meter}).
-       @keyword lat: Latitude adjusting the distance (C{degrees90}).
+       @keyword lat: Parallel latitude (C{degrees90}).
 
        @return: Distance (C{meter}, same units as I{radius}).
 

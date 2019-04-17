@@ -22,7 +22,7 @@ except ImportError:  # Python 3+
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.dms
-__version__ = '19.01.05'
+__version__ = '19.04.15'
 
 F_D   = 'd'    #: Format degrees as deg° (C{str}).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (C{str}).
@@ -135,8 +135,8 @@ def clipDMS(deg, limit):
 
        @return: Clipped value (C{degrees}).
 
-       @raise RangeError: If I{deg} beyond I{limit} and L{rangerrors}
-                          set to C{True}.
+       @raise RangeError: If I{abs(deg)} beyond I{limit} and
+                          L{rangerrors} set to C{True}.
     '''
     if limit > 0:
         c = min(limit, max(-limit, deg))
@@ -214,6 +214,43 @@ _WINDS = ('N', 'NbE', 'NNE', 'NEbN', 'NE', 'NEbE', 'ENE', 'EbN',
           'E', 'EbS', 'ESE', 'SEbE', 'SE', 'SEbS', 'SSE', 'SbE',
           'S', 'SbW', 'SSW', 'SWbS', 'SW', 'SWbW', 'WSW', 'WbS',
           'W', 'WbN', 'WNW', 'NWbW', 'NW', 'NWbN', 'NNW', 'NbW')  #: (INTERNAL) cardinals
+
+
+def degDMS(deg, prec=6, s_D=S_DEG, s_M=S_MIN, s_S=S_SEC, neg='-', pos=''):
+    '''Convert degrees to a string in degrees, minutes or seconds.
+
+       @param deg: Value in degrees (C{scalar}).
+       @keyword prec: Optional number of decimal digits (0..9 or
+                      C{None} for default).  Trailing zero decimals
+                      are stripped for I{prec} values of 1 and above,
+                      but kept for negative I{prec} values.
+       @keyword s_D: Symbol for degrees (C{str}).
+       @keyword s_M: Symbol for minutes (C{str}) or C{''}.
+       @keyword s_S: Symbol for seconds (C{str}) or C{''}.
+       @keyword neg: Optional sign for negative ('-').
+       @keyword pos: Optional sign for positive ('').
+
+       @return: Either degrees, minutes or seconds (C{str}).
+    '''
+    d, s = abs(deg), s_D
+    if d < 1:
+        if s_M:
+            d *= 60
+            if d < 1 and s_S:
+                d *= 60
+                s = s_S
+            else:
+                s = s_M
+        elif s_S:
+            d *= 3600
+            s = s_S
+
+    n = neg if deg < 0 else pos
+    z = int(prec)
+    t = '%s%.*f' % (n, abs(z),d)
+    if z > 1:
+        t = fStrzs(t)
+    return t + s
 
 
 def latDMS(deg, form=F_DMS, prec=2, sep=S_SEP):

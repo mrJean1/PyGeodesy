@@ -41,6 +41,7 @@ pygeodesy.fprod	pygeodesy-module.html#fprod
 pygeodesy.radiansPI_2	pygeodesy-module.html#radiansPI_2
 pygeodesy.isfinite	pygeodesy-module.html#isfinite
 pygeodesy.R_FM	pygeodesy-module.html#R_FM
+pygeodesy.degDMS	pygeodesy-module.html#degDMS
 pygeodesy.Datums	pygeodesy-module.html#Datums
 pygeodesy.radians	pygeodesy-module.html#radians
 pygeodesy.hypot	pygeodesy-module.html#hypot
@@ -285,6 +286,7 @@ pygeodesy.dms._MOD_X	pygeodesy.dms-module.html#_MOD_X
 pygeodesy.dms.F_DEG	pygeodesy.dms-module.html#F_DEG
 pygeodesy.dms.lonDMS	pygeodesy.dms-module.html#lonDMS
 pygeodesy.dms.F_SEC	pygeodesy.dms-module.html#F_SEC
+pygeodesy.dms.degDMS	pygeodesy.dms-module.html#degDMS
 pygeodesy.dms.S_MIN	pygeodesy.dms-module.html#S_MIN
 pygeodesy.dms.F_RAD	pygeodesy.dms-module.html#F_RAD
 pygeodesy.dms.F_D	pygeodesy.dms-module.html#F_D
