@@ -22,7 +22,7 @@ except ImportError:  # Python 3+
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.dms
-__version__ = '19.04.15'
+__version__ = '19.04.20'
 
 F_D   = 'd'    #: Format degrees as deg° (C{str}).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (C{str}).
@@ -217,7 +217,7 @@ _WINDS = ('N', 'NbE', 'NNE', 'NEbN', 'NE', 'NEbE', 'ENE', 'EbN',
 
 
 def degDMS(deg, prec=6, s_D=S_DEG, s_M=S_MIN, s_S=S_SEC, neg='-', pos=''):
-    '''Convert degrees to a string in degrees, minutes or seconds.
+    '''Convert degrees to a string in degrees, minutes I{or} seconds.
 
        @param deg: Value in degrees (C{scalar}).
        @keyword prec: Optional number of decimal digits (0..9 or
@@ -225,12 +225,12 @@ def degDMS(deg, prec=6, s_D=S_DEG, s_M=S_MIN, s_S=S_SEC, neg='-', pos=''):
                       are stripped for I{prec} values of 1 and above,
                       but kept for negative I{prec} values.
        @keyword s_D: Symbol for degrees (C{str}).
-       @keyword s_M: Symbol for minutes (C{str}) or C{''}.
-       @keyword s_S: Symbol for seconds (C{str}) or C{''}.
+       @keyword s_M: Symbol for minutes (C{str}) or C{""}.
+       @keyword s_S: Symbol for seconds (C{str}) or C{""}.
        @keyword neg: Optional sign for negative ('-').
        @keyword pos: Optional sign for positive ('').
 
-       @return: Either degrees, minutes or seconds (C{str}).
+       @return: I{Either} degrees, minutes I{or} seconds (C{str}).
     '''
     d, s = abs(deg), s_D
     if d < 1:
@@ -444,6 +444,46 @@ def parseDMS2(strLat, strLon, sep=S_SEP, clipLat=90, clipLon=180):
     '''
     return (parseDMS(strLat, suffix='NS', sep=sep, clip=clipLat),
             parseDMS(strLon, suffix='EW', sep=sep, clip=clipLon))
+
+
+def _parseUTMUPS(strUTMUPS, band=''):
+    '''(INTERNAL) Parse a string representing a UTM or UPS coordinate
+       consisting of I{"zone[band] hemisphere/pole easting northing"}.
+
+       @param strUTMUPS: A UTM or UPS coordinate (C{str}).
+       @keyword band: Optional, default Band letter (C{str}).
+
+       @return: 5-Tuple (C{zone, hemisphere/pole, easting, northing,
+                band}).
+
+       @raise Value: Invalid I{strUTMUPS}.
+    '''
+    try:
+        u = strUTMUPS.strip().replace(',', ' ').split()
+        if len(u) < 4:
+            raise ValueError
+
+        z, h = u[:2]
+        if h[:1] not in 'NnSs':
+            raise ValueError
+
+        if z.isdigit():
+            z, B = int(z), band
+        else:
+            for i in range(len(z)):
+                if not z[i].isdigit():
+                    # int('') raises ValueError
+                    z, B = int(z[:i]), z[i:]
+                    break
+            else:
+                raise ValueError
+
+        e, n = map(float, u[2:4])
+
+    except (AttributeError, TypeError, ValueError):
+        raise ValueError('%s invalid: %r' % ('strUTMUPS', strUTMUPS))
+
+    return z, h.upper(), e, n, B.upper()
 
 
 def precision(form, prec=None):

@@ -457,12 +457,12 @@ def toCss(latlon, cs0=_CassiniSoldner0, height=None, Css=Css, name=''):
                      (L{CassiniSoldner}).
        @keyword height: Optional height for the point, overriding
                         the default height (C{meter}).
-       @keyword Css: Optional (sub-)class to use for the location (L{Css})
-                     or C{None}.
+       @keyword Css: Optional (sub-)class to return the location
+                     (L{Css}) or C{None}.
        @keyword name: Optional I{Css} name (C{str}).
 
        @return: The Cassini-Soldner location (L{Css}) or 3-tuple
-                (easting, northing, height) if I{Css} is C{None}.
+                (C{easting, northing, height}) if I{Css} is C{None}.
 
        @raise ImportError: Package U{GeographicLib<http://PyPI.org/
                            project/geographiclib>} missing.

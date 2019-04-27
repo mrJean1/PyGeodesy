@@ -21,7 +21,7 @@ from math import asin, cos, degrees, radians
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_LAZY.bases + _for_docs('_Based', '_Named', '_VectorBased')
-__version__ = '19.04.05'
+__version__ = '19.04.20'
 
 __X = object()  # unique instance
 
@@ -630,7 +630,7 @@ class LatLonHeightBase(_Based):
 
 
 def _nameof(inst):
-    '''(INTERNAL) Get the instance' name or C{''}.
+    '''(INTERNAL) Get the instance' name or C{""}.
     '''
     try:
         return inst.name

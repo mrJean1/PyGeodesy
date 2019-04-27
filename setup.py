@@ -3,7 +3,7 @@
 
 # The setuptools script to build, install and test a PyGeodesy distribution.
 
-# Tested with 64-bit Python 2.7.13-14, 3.6.1-2 and 3.7.0-1 (using
+# Tested with 64-bit Python 2.7.13-16, 3.6.1-2 and 3.7.0-3 (using
 # setuptools 28.8.0) but only on macOS 10.12.3-6 Sierra and 10.13.0-6
 # High Sierra.
 
@@ -23,7 +23,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '19.04.12'
+__version__ = '19.04.22'
 
 
 def _c2(*names):
@@ -49,17 +49,17 @@ def _version():
 _KeyWords=('antipode', 'area', 'azimuth', 'bearing',
            'cartesian', 'Cassini', 'clip', 'Cohen-Sutherland', 'conic', 'curvature',
            'datum', 'development', 'distance',
-           'earth', 'elevation', 'ellipsoid', 'equirectangular', 'Euclidean',
+           'earth', 'elevation', 'ellipsoid', 'EPSG', 'equirectangular', 'Euclidean',
            'GARS', 'geocentric', 'geodesy', 'geodetic', 'GeodTest',
            'geographiclib', 'geohash', 'geoid', 'geoidHeight', 'GeoidHeights', 'georef',
            'haversine', 'height', 'horizon', 'interpolate',
            'Karney', 'Krueger', 'Krüger',
            'Lambert', 'latitude', 'Lesh', 'linearize', 'longitude',
-           'MGRS', 'nearest', 'numpy', 'n-vector', 'Nvector', 'OSGR',
+           'Mercator', 'MGRS', 'nearest', 'numpy', 'n-vector', 'Nvector', 'OSGR',
            'perimeter', 'polar', 'Pseudo-Mercator', 'PyGeodesy', 'PyPy',
            'radii', 'radius', 'Ramer-Douglas-Peucker', 'Reumann-Witkam', 'rhumb',
-           'scipy', 'simplify', 'Soldner', 'sphere', 'Sutherland-Hodgman',
-           'TMcoords', 'trigonometry', 'unroll', 'UTM',
+           'scipy', 'simplify', 'Soldner', 'sphere', 'stereographic', 'Sutherland-Hodgman',
+           'TMcoords', 'trigonometry', 'unroll', 'UPS', 'UTM', 'UTM/UPS',
            'Vincenty', 'Visvalingam-Whyatt', 'Web-Mercator', 'WGRS', 'WGS')
 
 setup(
@@ -91,7 +91,7 @@ setup(
 
     zip_safe=False,
 
-    # <http://PyPI.org/project?%3Aaction=list_classifiers>
+    # <http://PyPI.org/pypi?%3Aaction=list_classifiers>
     classifiers=[
         _c2('Development Status', '5 - Production/Stable'),
         _c2('Environment', 'Console'),

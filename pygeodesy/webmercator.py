@@ -28,7 +28,7 @@ from math import atan, atanh, exp, radians, sin, tanh
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.webmercator
-__version__ = '19.04.09'
+__version__ = '19.04.20'
 
 # _FalseEasting  = 0   #: (INTERNAL) False Easting (C{meter}).
 # _FalseNorthing = 0   #: (INTERNAL) False Northing (C{meter}).
@@ -122,10 +122,10 @@ class Wm(_Based):
     def toLatLon(self, LatLon, datum=None):
         '''Convert this WM coordinate to a geodetic point.
 
-           @param LatLon: Ellipsoidal (sub-)class to use for the
+           @param LatLon: Ellipsoidal (sub-)class to return the
                           point (C{LatLon}).
-           @keyword datum: Optional datum for ellipsoidal or C{None} for
-                           spherical I{LatLon} (C{Datum}).
+           @keyword datum: Optional datum for ellipsoidal or C{None}
+                           for spherical I{LatLon} (C{Datum}).
 
            @return: Point of this WM coordinate (I{LatLon}).
 
@@ -211,7 +211,8 @@ def parseWM(strWM, radius=R_MA, Wm=Wm, name=''):
 
        @param strWM: A WM coordinate (C{str}).
        @keyword radius: Optional earth radius (C{meter}).
-       @keyword Wm: Optional (sub-)class to use (L{Wm}) or C{None}.
+       @keyword Wm: Optional (sub-)class to return the WM coordinate
+                    (L{Wm}) or C{None}.
        @keyword name: Optional name (C{str}).
 
        @return: The WM coordinate (L{Wm}) or 3-tuple (easting,
@@ -246,7 +247,7 @@ def toWm(latlon, lon=None, radius=R_MA, Wm=Wm, name=''):
                       spherical) geodetic C{LatLon} point.
        @keyword lon: Optional longitude (C{degrees} or C{None}).
        @keyword radius: Optional earth radius (C{meter}).
-       @keyword Wm: Optional (sub-)class for the WM coordinate
+       @keyword Wm: Optional (sub-)class to return the WM coordinate
                     (L{Wm}) or C{None}.
        @keyword name: Optional name (C{str}).
 

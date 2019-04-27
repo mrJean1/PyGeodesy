@@ -8,7 +8,7 @@ Transcribed from C++ class U{GARS
 <http://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GARS.html>}
 by I{Charles Karney}.  See also U{Global Area Reference System
 <http://WikiPedia.org/wiki/Global_Area_Reference_System>} and U{NGA (GARS)
-<http://Earth-Info.NGA.mil/GandG/coordsys/grids/gars.html>}
+<http://Earth-Info.NGA.mil/GandG/coordsys/grids/gars.html>}.
 
 @newfield example: Example, Examples
 '''
@@ -22,7 +22,7 @@ from utily import property_RO, _Strs
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.gars + ('decode3',  # functions
           'encode', 'precision', 'resolution')
-__version__ = '19.04.12'
+__version__ = '19.04.19'
 
 _Digits  = '0123456789'
 _LatLen  = 2

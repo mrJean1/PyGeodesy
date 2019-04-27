@@ -44,7 +44,7 @@ from math import cos, radians, sin, sqrt, tan
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.osgr
-__version__ = '19.04.09'
+__version__ = '19.04.20'
 
 _10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (C{meter})
 _100km   = 100000  #: (INTERNAL) 100 km (int meter)
@@ -310,7 +310,7 @@ def parseOSGR(strOSGR, Osgr=Osgr, name=''):
        example '438700,114800'.
 
        @param strOSGR: An OSGR coordinate (C{str}).
-       @keyword Osgr: Optional (sub-)class to use for the OSGR
+       @keyword Osgr: Optional (sub-)class to return the OSGR
                       coordinate (L{Osgr}) or C{None}.
        @keyword name: Optional I{Osgr} name (C{str}).
 
@@ -388,7 +388,7 @@ def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr, name=''):
                       geodetic C{LatLon} point.
        @keyword lon: Optional longitude in degrees (scalar or C{None}).
        @keyword datum: Optional datum to convert (C{Datum}).
-       @keyword Osgr: Optional (sub-)class to use for the OSGR
+       @keyword Osgr: Optional (sub-)class to return the OSGR
                       coordinate (L{Osgr}) or C{None}.
        @keyword name: Optional I{Osgr} name (C{str}).
 

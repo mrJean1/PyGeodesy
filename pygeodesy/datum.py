@@ -111,12 +111,13 @@ from __future__ import division
 
 from bases import _Based, inStr, _Named, _xattrs
 from fmath import _1_3rd, EPS, EPS1, cbrt, cbrt2, fdot, fpowers, \
-                  fStr, fsum_, sqrt3
+                  fStr, Fsum, fsum_, hypot1, sqrt3
 from lazily import _ALL_LAZY
-from utily import PI, R_M, degrees360, _for_docs, m2degrees, m2km, \
-                  m2NM, m2SM, property_RO, _Strs
+from utily import PI, R_M, degrees360, _for_docs, m2degrees, \
+                  m2km, m2NM, m2SM, property_RO, _Strs
 
-from math import atan, atan2, atanh, cos, hypot, radians, sin, sqrt
+from math import atan, atan2, atanh, cos, exp, hypot, radians, \
+                 sin, sinh, sqrt
 
 R_M  = R_M        #: Mean (spherical) earth radius (C{meter}).
 R_MA = 6378137.0  #: Major (equatorial) earth radius (C{meter}) WGS84, EPSG:3785.
@@ -134,12 +135,14 @@ R_VM = 6366707.0194937  #: Aviation/Navigation earth radius (C{meter}).
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.datum + _for_docs('_Enum', '_Registered')
-__version__ = '19.04.09'
+__version__ = '19.04.15'
 
 division = 1 / 2  # double check int division, see .fmath.py, .utily.py
 if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
+
+_TOL = sqrt(EPS * 0.1)  # for Ellipsoid.estauf, imported by .ups
 
 
 class _Enum(dict, _Named):
@@ -299,6 +302,7 @@ class Ellipsoid(_Registered):
     # curvatures <http://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>
     _a2_b = None  #: (INTERNAL) Meridional radius of curvature at poles: a**2 / b (C{meter})
     _b2_a = None  #: (INTERNAL) Meridional radius of curvature at equator: b**2 / a (C{meter})
+    _es_c = None  #: (INTERNAL) M{(1 - f) * exp(es_atanh(1))}
 
     # fixed earth radii from <http://WikiPedia.org/wiki/Earth_radius>
     _R1 = None  #: (INTERNAL) Mean earth radius: (2 * a + b) / 3 per IUGG definition (C{meter})
@@ -620,6 +624,64 @@ class Ellipsoid(_Registered):
         except (TypeError, ValueError):
             pass
         raise ValueError('invalid %s.%s: %r' % (self.name, 'e2s2', s))
+
+    @property_RO
+    def es(self):
+        '''Get the (1st) Eccentricity I{signed} (C{float}).
+        '''
+        # note, self.e is always non-negative
+        return (-self.e) if self.f < 0 else self.e  # see .ups
+
+    def es_atanh(self, x):
+        '''Compute M{es * atanh(es * x)} where I{es} is the I{signed}
+           1st Eccentricity.
+
+           @see: Function U{Math::eatanhe<http://GeographicLib.SourceForge.io/
+                 html/classGeographicLib_1_1Math.html>}.
+        '''
+        # note, self.e is always non-negative
+        r = atanh(self.e * x) if self.f > 0 else (
+            atan(-self.e * x) if self.f < 0 else 0)
+        return self.e * r
+
+    @property_RO
+    def es_c(self):
+        '''Compute M{(1 - f) * exp(es_atanh(1))} where I{f} is the
+           I{flattening}.
+        '''
+        if self._es_c is None:
+            self._es_c = (1 - self.f) * exp(self.es_atanh(1.0))
+        return self._es_c
+
+    def es_tauf(self, taup):
+        '''Compute U{Karney's<http://arXiv.org/abs/1002.1417>}
+           equations (19), (20) and (21).
+
+           @see: Function U{Math::tauf<http://GeographicLib.SourceForge.io/
+                 html/classGeographicLib_1_1Math.html>}.
+        '''
+        tol = max(abs(taup), 1) * _TOL
+        e2m = 1 - abs(self.e2)  # == self.e**2
+        t = taup / e2m
+        T = Fsum(t)
+        for _ in range(5):
+            a = self.es_taupf(t)
+            d = (taup - a) * (1 + e2m * t**2) / (e2m * hypot1(t) * hypot1(a))
+            t, d = T.fsum2_(d)
+            if abs(d) < tol:
+                break
+        return t
+
+    def es_taupf(self, tau):
+        '''Compute U{Karney's<http://arXiv.org/abs/1002.1417>}
+           equations (7), (8) and (9).
+
+           @see: Function U{Math::taupf<http://GeographicLib.SourceForge.io/
+                 html/classGeographicLib_1_1Math.html>}.
+        '''
+        t = hypot1(tau)
+        s = sinh(self.es_atanh(tau / t))
+        return hypot1(s) * tau - s * t
 
     @property_RO
     def f(self):

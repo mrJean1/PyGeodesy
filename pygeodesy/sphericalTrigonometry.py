@@ -33,7 +33,7 @@ __all__ = _ALL_LAZY.sphericalTrigonometry + (
           'meanOf',
           'nearestOn2', 'nearestOn3',
           'perimeterOf')
-__version__ = '19.04.05'
+__version__ = '19.04.20'
 
 
 class LatLon(LatLonSphericalBase):
@@ -725,8 +725,8 @@ def intersection(start1, end1, start2, end2,
        @keyword height: Optional height for the intersection point,
                         overriding the mean height (C{meter}).
        @keyword wrap: Wrap and unroll longitudes (C{bool}).
-       @keyword LatLon: Optional (sub-)class for the intersection point
-                        (L{LatLon}) or C{None}.
+       @keyword LatLon: Optional (sub-)class to return the intersection
+                        point (L{LatLon}) or C{None}.
 
        @return: The intersection point (I{LatLon}) or 3-tuple
                 (C{degrees90}, C{degrees180}, height) if I{LatLon}
@@ -873,8 +873,8 @@ def nearestOn3(point, points, closed=False, radius=R_M,
        @param points: The polygon points (L{LatLon}[]).
        @keyword closed: Optionally, close the polygon (C{bool}).
        @keyword radius: Optional, mean earth radius (C{meter}).
-       @keyword LatLon: Optional (sub-)class for the closest point
-                        (L{LatLon}) or C{None}.
+       @keyword LatLon: Optional (sub-)class to return the closest
+                        point (L{LatLon}) or C{None}.
        @keyword options: Optional keyword arguments for function
                          L{equirectangular_}.
 

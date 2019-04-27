@@ -43,7 +43,7 @@ from inspect import isclass
 from math import atan2, cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '19.04.05'
+__version__ = '19.04.20'
 
 
 class LatLon_(object):  # XXX imported by heights._HeightBase.height
@@ -893,12 +893,12 @@ def boundsOf(points, wrap=True, LatLon=None):
 
        @param points: The path or polygon points (C{LatLon}[]).
        @keyword wrap: Wrap lat- and longitudes (C{bool}).
-       @keyword LatLon: Optional (sub-)class to use to return I{bounds}
+       @keyword LatLon: Optional (sub-)class to return the I{bounds}
                         (C{LatLon}) or C{None}.
 
-       @return: 2-Tuple (loLatLon, hiLatLon) of I{LatLon} for the
+       @return: 2-Tuple (C{loLatLon, hiLatLon}) of I{LatLon} for the
                 lower-left respectively upper-right corner or 4-tuple
-                (loLat, loLon, hiLat, hiLon) of bounds (C{degrees})
+                (C{loLat, loLon, hiLat, hiLon}) of bounds (C{degrees})
                 if I{LatLon} is C{None}.
 
        @raise TypeError: Some I{points} are not C{LatLon}.
@@ -937,10 +937,10 @@ def centroidOf(points, wrap=True, LatLon=None):
 
        @param points: The polygon points (C{LatLon}[]).
        @keyword wrap: Wrap lat-, wrap and unroll longitudes (C{bool}).
-       @keyword LatLon: Optional (sub-)class for the centroid
+       @keyword LatLon: Optional (sub-)class to return the centroid
                         (L{LatLon}) or C{None}.
 
-       @return: Centroid location (I{LatLon}) or as 2-tuple (lat, lon)
+       @return: Centroid location (I{LatLon}) or as 2-tuple (C{lat, lon})
                 in C{degrees} if I{LatLon} is C{None}.
 
        @raise TypeError: Some I{points} are not C{LatLon}.
@@ -1272,14 +1272,14 @@ def nearestOn5(point, points, closed=False, wrap=False, **options):
        @keyword options: Other keyword arguments for function
                          L{equirectangular_}.
 
-       @return: 5-Tuple (lat, lon, I{distance}, I{angle}, I{height})
-                all in C{degrees} except I{height}.  The I{distance}
-                is the L{equirectangular_} distance between the closest
+       @return: 5-Tuple (C{lat, lon, distance, angle, height}) all
+                in C{degrees} except I{height}.  The I{distance} is
+                the L{equirectangular_} distance between the closest
                 and the reference I{point} in C{degrees}.  The I{angle}
                 from the reference I{point} to the closest point is in
-                compass C{degrees360}, like function L{compassAngle}.
+                compass C{degrees360}, see function L{compassAngle}.
                 The I{height} is the (interpolated) height at the
-                closest point in C{meter} or zero.
+                closest point in C{meter} or C{0}.
 
        @raise LimitError: Lat- and/or longitudinal delta exceeds
                           I{limit}, see function L{equirectangular_}.
@@ -1288,7 +1288,7 @@ def nearestOn5(point, points, closed=False, wrap=False, **options):
 
        @raise ValueError: Insufficient number of I{points}.
 
-       @see: Use function L{degrees2m} to convert C{degrees} to C{meter}.
+       @see: Function L{degrees2m} to convert C{degrees} to C{meter}.
     '''
     n, points = points2(points, closed=closed)
 

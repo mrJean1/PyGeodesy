@@ -11,7 +11,7 @@ from os.path import join
 import unittest
 
 __all__ = ('TestSuite',)
-__version__ = '19.04.12'
+__version__ = '19.04.20'
 
 
 class TestSuite(unittest.TestCase):
@@ -51,6 +51,9 @@ class TestSuite(unittest.TestCase):
 
     def test_EllipsoidalGeodTest(self):
         self._run('testEllipsoidalGeodTest')
+
+    def test_Espg(self):
+        self._run('testEpsg')
 
     def test_Fmath(self):
         self._run('testFmath')
@@ -107,6 +110,9 @@ class TestSuite(unittest.TestCase):
     def test_Spherical(self):
         self._run('testSpherical')
 
+    def test_Ups(self):
+        self._run('testUps')
+
     def test_Utily(self):
         self._run('testUtily')
 
@@ -115,6 +121,9 @@ class TestSuite(unittest.TestCase):
 
     def test_UtmTMcoords(self):
         self._run('testUtmTMcoords')
+
+    def test_UtmUps(self):
+        self._run('testUtmUps')
 
     def test_Vectorial(self):
         self._run('testVectorial')

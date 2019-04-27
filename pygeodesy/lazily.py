@@ -69,6 +69,7 @@ _ALL_LAZY = _Enum_RO(_name='_ALL_LAZY',
          ellipsoidalKarney=(),  # module only
         ellipsoidalNvector=(),  # module only
        ellipsoidalVincenty=('VincentyError',),  # nothing else
+                      epsg=('decodeEPSG2', 'encodeEPSG', 'EPSGError'),
                      fmath=('EPS', 'EPS1', 'EPS1_2', 'INF', 'MANTIS', 'MAX', 'MIN', 'NAN', 'NEG0',  # contants
                             'Fdot', 'Fhorner', 'Fpolynomial', 'Fsum',
                             'acos1', 'cbrt', 'cbrt2',
@@ -93,7 +94,8 @@ _ALL_LAZY = _Enum_RO(_name='_ALL_LAZY',
           sphericalNvector=(),  # module only
      sphericalTrigonometry=(),  # module only
                   simplify=('simplify1', 'simplify2', 'simplifyRDP', 'simplifyRDPm', 'simplifyRW', 'simplifyVW', 'simplifyVWm'),
-                     utily=('PI', 'PI2', 'PI_2', 'PI_4', 'R_M', 'LimitError',
+                       ups=('Ups', 'UPSError', 'parseUPS5', 'toUps8', 'upsZoneBand5'),
+                     utily=('OK', 'PI', 'PI2', 'PI_2', 'PI_4', 'R_M', 'LimitError',
                             'anStr', 'clipStr',
                             'degrees', 'degrees90', 'degrees180', 'degrees360', 'degrees2m',
                             'enStr2', 'false2f', 'ft2m', 'halfs2',
@@ -104,13 +106,14 @@ _ALL_LAZY = _Enum_RO(_name='_ALL_LAZY',
                             'sincos2', 'sincos2d', 'splice', 'tan_2', 'tanPI_2_2',
                             'unroll180', 'unrollPI', 'unStr',
                             'wrap90', 'wrap180', 'wrap360', 'wrapPI_2','wrapPI', 'wrapPI2'),
-                       utm=('Utm', 'UTMError', 'parseUTM', 'toUtm', 'utmZoneBand2'),
+                       utm=('Utm', 'UTMError', 'parseUTM', 'parseUTM5', 'toUtm', 'toUtm8', 'utmZoneBand2', 'utmZoneBand5'),
+                    utmups=('parseUTMUPS5', 'toUtmUps8', 'UtmUps', 'UTMUPSError', 'utmupsValidate', 'utmupsValidateOK', 'utmupsZoneBand5'),
                   vector3d=('CrossError', 'crosserrors'),  # nothing else
                webmercator=('Wm', 'parseWM', 'toWm'),
                       wgrs=('Georef',))  # nothing else
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '19.04.15'
+__version__ = '19.04.22'
 
 
 def _all_imports(**more):

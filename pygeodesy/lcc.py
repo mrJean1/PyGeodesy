@@ -507,12 +507,12 @@ def toLcc(latlon, conic=Conics.WRF_Lb, height=None, Lcc=Lcc, name=''):
        @keyword conic: Optional Lambert projection to use (L{Conic}).
        @keyword height: Optional height for the point, overriding
                         the default height (C{meter}).
-       @keyword Lcc: Optional (sub-)class to use for the Lambert
+       @keyword Lcc: Optional (sub-)class to return the Lambert
                      location (L{Lcc}).
        @keyword name: Optional I{Lcc} name (C{str}).
 
-       @return: The Lambert location (L{Lcc}) or 3-tuple (easting,
-                northing, height) if I{Lcc} is C{None}.
+       @return: The Lambert location (L{Lcc}) or 3-tuple (C{easting,
+                northing, height}) if I{Lcc} is C{None}.
 
        @raise TypeError: If I{latlon} is not ellipsoidal.
     '''

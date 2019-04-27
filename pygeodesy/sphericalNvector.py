@@ -50,7 +50,7 @@ __all__ = _ALL_LAZY.sphericalNvector + (
           'meanOf',
           'nearestOn2',
           'triangulate', 'trilaterate')
-__version__ = '19.04.05'
+__version__ = '19.04.20'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -856,8 +856,8 @@ def intersection(start1, end1, start2, end2,
                     (compass C{degrees360}).
        @keyword height: Optional height at the intersection point,
                         overriding the mean height (C{meter}).
-       @keyword LatLon: Optional (sub-)class for the intersection
-                        point (L{LatLon}).
+       @keyword LatLon: Optional (sub-)class to return the
+                        intersection point (L{LatLon}).
 
        @return: The intersection point (L{LatLon}) or 3-tuple
                 (C{degrees90}, C{degrees180}, height) if I{LatLon}
@@ -931,8 +931,10 @@ def meanOf(points, height=None, LatLon=LatLon):
     '''Compute the geographic mean of the supplied points.
 
        @param points: Array of points to be averaged (L{LatLon}[]).
-       @keyword height: Optional height, overriding the mean height (C{meter}).
-       @keyword LatLon: Optional (sub-)class for the mean point (L{LatLon}).
+       @keyword height: Optional height, overriding the mean height
+                        (C{meter}).
+       @keyword LatLon: Optional (sub-)class to return the mean point
+                        (L{LatLon}).
 
        @return: Point at geographic mean and mean height (L{LatLon}).
 
@@ -987,8 +989,8 @@ def triangulate(point1, bearing1, point2, bearing2,
        @param bearing2: Bearing at the second point (compass C{degrees360}).
        @keyword height: Optional height at the triangulated point,
                         overriding the mean height (C{meter}).
-       @keyword LatLon: Optional (sub-)class for the triangulated point
-                        (L{LatLon}).
+       @keyword LatLon: Optional (sub-)class to return the triangulated
+                        point (L{LatLon}).
 
        @return: Triangulated point (L{LatLon}).
 
@@ -1044,8 +1046,8 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3,
        @keyword radius: Optional, mean earth radius (C{meter}).
        @keyword height: Optional height at the trilaterated point, overriding
                         the mean height (C{meter}, same units as I{radius}).
-       @keyword LatLon: Optional (sub-)class for the trilaterated point
-                        (L{LatLon}).
+       @keyword LatLon: Optional (sub-)class to return the trilaterated
+                        point (L{LatLon}).
 
        @return: Trilaterated point (L{LatLon}).
 

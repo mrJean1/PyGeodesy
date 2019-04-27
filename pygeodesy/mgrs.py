@@ -28,16 +28,17 @@ and U{Military Grid Reference System<http://WikiPedia.org/wiki/Military_grid_ref
 
 from bases import _Based, _xattrs, _xnamed
 from datum import Datums
+from ellipsoidalBase import _hemi
 from lazily import _ALL_LAZY
 from utily import enStr2, halfs2, property_RO
-from utm import toUtm, Utm, _toZBlat3
+from utm import toUtm, Utm, _to3zBlat
 
 from math import log10
 import re  # PYCHOK warning locale.Error
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.mgrs
-__version__ = '19.03.09'
+__version__ = '19.04.20'
 
 _100km  =  100e3  #: (INTERNAL) 100 km in meter.
 _2000km = 2000e3  #: (INTERNAL) 2,000 km in meter.
@@ -87,7 +88,7 @@ class Mgrs(_Based):
         if name:
             self.name = name
 
-        self._zone, self._band, self._bandLat = _toZBlat3(zone, band, True)
+        self._zone, self._band, self._bandLat = _to3zBlat(zone, band, True)
 
         try:
             en = str(en100k).upper()
@@ -214,11 +215,11 @@ class Mgrs(_Based):
     def toUtm(self, Utm=Utm):
         '''Convert this MGRS grid reference to a UTM coordinate.
 
-           @keyword Utm: Optional (sub-)class to use for the UTM
+           @keyword Utm: Optional (sub-)class to return the UTM
                          coordinate (L{Utm}) or C{None}.
 
-           @return: The UTM coordinate (L{Utm}) or 4-tuple (zone,
-                    hemisphere, easting, northing) if I{Utm} is C{None}.
+           @return: The UTM coordinate (L{Utm}) or 4-tuple (C{zone,
+                    hemisphere, easting, northing}) if I{Utm} is C{None}.
 
            @example:
 
@@ -238,8 +239,7 @@ class Mgrs(_Based):
         while n < nb:
             n += _2000km
 
-        h = 'S' if self._bandLat < 0 else 'N'  # if self._band < 'N'
-
+        h = _hemi(self.bandLatitude)  # if self._band < 'N'
         return (self.zone, h, e, n) if Utm is None else _xnamed(Utm(
                 self.zone, h, e, n, band=self.band, datum=self.datum), self.name)
 
@@ -256,7 +256,7 @@ def parseMGRS(strMGRS, datum=Datums.WGS84, Mgrs=Mgrs, name=''):
 
        @param strMGRS: MGRS grid reference (C{str}).
        @keyword datum: Optional datum to use (L{Datum}).
-       @keyword Mgrs: Optional (sub-)class to use for the MGRS
+       @keyword Mgrs: Optional (sub-)class to return the MGRS
                       grid reference (L{Mgrs}) or C{None}.
        @keyword name: Optional I{Mgrs} name (C{str}).
 
@@ -310,7 +310,7 @@ def toMgrs(utm, Mgrs=Mgrs, name=''):
     '''Convert a UTM coordinate to an MGRS grid reference.
 
        @param utm: A UTM coordinate (L{Utm}).
-       @keyword Mgrs: Optional (sub-)class to use for the MGRS
+       @keyword Mgrs: Optional (sub-)class to return the MGRS
                       grid reference (L{Mgrs}).
 
        @return: The MGRS grid reference (L{Mgrs}).

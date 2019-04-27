@@ -37,7 +37,7 @@ from math import asin, atan2, cos, radians, sin, sqrt
 __all__ = _ALL_LAZY.ellipsoidalNvector + (
           'Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
           'meanOf', 'toNed')  # functions
-__version__ = '19.04.03'
+__version__ = '19.04.20'
 
 
 class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
@@ -693,8 +693,8 @@ class Nvector(NvectorBase):
     def toCartesian(self, Cartesian=Cartesian):
         '''Convert this n-vector to a cartesian point.
 
-           @keyword Cartesian: Optional, cartesion (sub-)class to use
-                               for the point (L{Cartesian}).
+           @keyword Cartesian: Optional, cartesion (sub-)class to
+                               return the point (L{Cartesian}).
 
            @return: Cartesian equivalent to this n-vector (L{Cartesian}).
 

@@ -205,6 +205,63 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.datum.Ellipsoid-class.html#es_atanh" class="summary-sig-name">es_atanh</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">x</span>)</span><br />
+      Compute <i class="math">es * atanh(es * x)</i> where <i>es</i> is the
+      <i>signed</i> 1st Eccentricity.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.datum.Ellipsoid-class.html#es_tauf" class="summary-sig-name">es_tauf</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">taup</span>)</span><br />
+      Compute <a href="http://arXiv.org/abs/1002.1417" 
+      target="_top">Karney's</a> equations (19), (20) and (21).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.datum.Ellipsoid-class.html#es_taupf" class="summary-sig-name">es_taupf</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">tau</span>)</span><br />
+      Compute <a href="http://arXiv.org/abs/1002.1417" 
+      target="_top">Karney's</a> equations (7), (8) and (9).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.datum.Ellipsoid-class.html#m2degrees" class="summary-sig-name">m2degrees</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">meter</span>)</span><br />
       Convert distance to angle along equator.</td>
@@ -583,6 +640,23 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.datum.Ellipsoid-class.html#es" class="summary-name">es</a><br />
+      Get the (1st) Eccentricity <i>signed</i> (<code>float</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.datum.Ellipsoid-class.html#es_c" class="summary-name">es_c</a><br />
+      Compute <i class="math">(1 - f) * exp(es_atanh(1))</i> where <i>f</i>
+      is the <i>flattening</i>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.datum.Ellipsoid-class.html#f" class="summary-name">f</a><br />
       Get the Flattening (<code>float</code>).
     </td>
@@ -919,6 +993,84 @@
     </ul></dd>
   </dl>
 </td></tr></table>
+</div>
+<a name="es_atanh"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">es_atanh</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute <i class="math">es * atanh(es * x)</i> where <i>es</i> is the 
+  <i>signed</i> 1st Eccentricity.</p>
+  <dl class="fields">
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a 
+        href="http://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Math.html"
+        target="_top">Math::eatanhe</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="es_tauf"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">es_tauf</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">taup</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute <a href="http://arXiv.org/abs/1002.1417" 
+  target="_top">Karney's</a> equations (19), (20) and (21).</p>
+  <dl class="fields">
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a 
+        href="http://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Math.html"
+        target="_top">Math::tauf</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="es_taupf"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">es_taupf</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">tau</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute <a href="http://arXiv.org/abs/1002.1417" 
+  target="_top">Karney's</a> equations (7), (8) and (9).</p>
+  <dl class="fields">
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a 
+        href="http://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Math.html"
+        target="_top">Math::taupf</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="m2degrees"></a>
 <div>
@@ -1579,6 +1731,48 @@ target="_top">Kr&#252;ger Beta series coefficients</a> (KsOrder-tuple).
   </dl>
 </td></tr></table>
 </div>
+<a name="es"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">es</h3>
+  <p>Get the (1st) Eccentricity <i>signed</i> (<code>float</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">es(<span class="summary-sig-arg">self</span>)</span>
+        - Get the (1st) Eccentricity <i>signed</i> (<code>float</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="es_c"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">es_c</h3>
+  <p>Compute <i class="math">(1 - f) * exp(es_atanh(1))</i> where <i>f</i> 
+  is the <i>flattening</i>.</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">es_c(<span class="summary-sig-arg">self</span>)</span>
+        - Compute <i class="math">(1 - f) * exp(es_atanh(1))</i> where <i>f</i> is 
+the <i>flattening</i>.
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="f"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1929,7 +2123,7 @@ target="_top">GeographicLib</a> package is installed.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Apr 17 12:48:27 2019
+    Generated by Epydoc 3.0.1 on Sat Apr 27 14:50:34 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

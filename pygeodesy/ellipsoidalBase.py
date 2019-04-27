@@ -13,14 +13,101 @@ and published under the same MIT Licence**, see for example U{latlon-ellipsoidal
 
 from bases import LatLonHeightBase, _xnamed
 from datum import Datum, Datums
-from fmath import EPS, EPS1, fsum_, hypot, hypot1
-from utily import degrees90, degrees180, _for_docs, property_RO, sincos2
+from fmath import EPS, EPS1, fsum_, hypot, hypot1, isscalar
+from utily import degrees90, degrees180, _for_docs, property_RO, \
+                  sincos2, wrap90, wrap360
 from vector3d import Vector3d
 
 from math import atan2, copysign, sqrt
 
 __all__ = _for_docs('CartesianBase', 'LatLonEllipsoidalBase')
-__version__ = '19.04.05'
+__version__ = '19.04.21'
+
+# some INTERNAL constants, to avoid circular ups, utm, utmups imports
+_UTM_LAT_MAX      =  84  # PYCHOK for export (C{degrees})
+_UTM_LAT_MIN      = -80  # PYCHOK for export (C{degrees})
+_UTM_ZONE_MAX     =  60  # PYCHOK for export
+_UTM_ZONE_MIN     =   1  # PYCHOK for export
+_UTM_ZONE_OFF_MAX =  60  # PYCHOK max Central meridian offset (C{degrees})
+
+_UPS_LAT_MAX  = _UTM_LAT_MAX - 0.5     # PYCHOK includes 30' UTM overlap
+_UPS_LAT_MIN  = _UTM_LAT_MIN + 0.5     # PYCHOK includes 30' UTM overlap
+_UPS_ZONE     = _UTM_ZONE_MIN - 1      # PYCHOK for export
+_UPS_ZONE_STR = '%02d' % (_UPS_ZONE,)  # PYCHOK for export
+
+_UTMUPS_ZONE_INVALID = -4             # PYCHOK for export too
+_UTMUPS_ZONE_MIN     = _UPS_ZONE      # PYCHOK for export too
+_UTMUPS_ZONE_MAX     = _UTM_ZONE_MAX  # PYCHOK for export too
+
+# _MAX_PSEUDO_ZONE      = -1
+# _MIN_PSEUDO_ZONE      = -4
+# _UTMUPS_ZONE_MATCH    = -3
+# _UTMUPS_ZONE_STANDARD = -1
+# _UTM                  = -2
+
+
+def _hemi(lat):  # imported by .ups, .utm
+    '''Return the hemisphere letter.
+
+       @param lat: Latitude (C{degrees} or C{radians}).
+
+       @return: C{'N'|'S'} for north-/southern hemisphere.
+    '''
+    return 'S' if lat < 0 else 'N'
+
+
+def _to3zBhp(zone, band, hemipole=''):  # imported by .epsg, .ups, .utm, .utmups
+    '''Parse UTM/UPS zone, Band letter and hemisphere/pole letter.
+
+       @param zone: Zone with/-out Band (C{scalar} or C{str}).
+       @keyword band: Optional (longitudinal/polar) Band letter (C{str}).
+       @keyword hemipole: Optional hemisphere/pole letter (C{str}).
+
+       @return: 3-Tuple (C{zone, Band, hemisphere/pole}) as (C{int,
+                str, 'N'|'S'}) where C{zone} is C{0} for UPS or
+                C{1..60} for UTM and C{Band} is C{'A'..'Z'} I{NOT}
+                checked for valid UTM/UPS bands.
+
+       @raise ValueError: Invalid I{zone}, I{band} or I{hemipole}.
+    '''
+    B = band
+    try:
+        if isscalar(zone) or zone.isdigit():
+            z = int(zone)
+        elif zone:
+            B = zone[-1:]
+            z = int(zone[:-1] or _UTMUPS_ZONE_INVALID)
+        else:
+            raise ValueError
+
+        if _UTMUPS_ZONE_MIN <= z <= _UTMUPS_ZONE_MAX:
+            hp = hemipole[:1].upper()
+            if hp in ('N', 'S') or not hp:
+                B = B.upper()
+                if B.isalpha():
+                    return z, B, (hp or ('S' if B < 'N' else 'N'))
+                elif not B:
+                    return z, B, hp
+
+    except (AttributeError, TypeError, ValueError):
+        pass
+    raise ValueError('%s, %s or %s invalid: %r' %
+                     ('zone', 'band', 'hemipole', (zone, B, hemipole)))
+
+
+def _to3zll(lat, lon):  # imported by .ups, .utm
+    '''Wrap lat- and longitude and determine UTM zone.
+
+       @param lat: Latitude (C{degrees}).
+       @param lon: Longitude (C{degrees}).
+
+       @return: 3-Tuple (C{zone, lat, lon}) as (C{int}, C{degrees90},
+                C{degrees180}) where C{zone} is C{1..60} for UTM.
+    '''
+    x = wrap360(lon + 180)  # use wrap360 to get ...
+    z = int(x) // 6 + 1  # ... longitudinal UTM zone [1, 60] and ...
+    lon = x - 180  # ... lon [-180, 180) i.e. -180 <= lon < 180
+    return z, wrap90(lat), lon
 
 
 class CartesianBase(Vector3d):
@@ -117,12 +204,13 @@ class CartesianBase(Vector3d):
 class LatLonEllipsoidalBase(LatLonHeightBase):
     '''(INTERNAL) Base class for ellipsoidal C{LatLon}.
     '''
-    _convergence  = None  #: (INTERNAL) UTM meridian convergence (C{degrees}).
+    _convergence  = None  #: (INTERNAL) UTM/UPS meridian convergence (C{degrees}).
     _datum        = Datums.WGS84  #: (INTERNAL) Datum (L{Datum}).
     _elevation2   = ()    #: (INTERNAL) cached C{elevation2} result.
     _geoidHeight2 = ()    #: (INTERNAL) cached C{geoidHeight2} result.
     _osgr         = None  #: (INTERNAL) cache toOsgr (C{Osgr}).
-    _scale        = None  #: (INTERNAL) UTM grid scale factor (C{float}).
+    _scale        = None  #: (INTERNAL) UTM/UPS scale factor (C{float}).
+    _ups          = None  #: (INTERNAL) cache toUps (L{Ups}).
     _utm          = None  #: (INTERNAL) cache toUtm (L{Utm}).
     _wm           = None  #: (INTERNAL) cache toWm (webmercator.Wm instance).
 
@@ -186,8 +274,8 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
 
     @property_RO
     def convergence(self):
-        '''Get this point's UTM meridian convergence (C{degrees}) or
-           C{None} if not converted from L{Utm}.
+        '''Get this point's UTM or UPS meridian convergence (C{degrees})
+           or C{None} if not converted from L{Utm} ot L{Ups}.
         '''
         return self._convergence
 
@@ -394,8 +482,8 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
 
     @property_RO
     def scale(self):
-        '''Get this point's UTM grid scale factor (C{float}) or C{None}
-           if not converted from L{Utm}.
+        '''Get this point's UTM grid or UPS point scale factor (C{float})
+           or C{None} if not converted from L{Utm} or L{Ups}.
         '''
         return self._scale
 
@@ -427,7 +515,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
     def toOsgr(self):
         '''Convert this C{LatLon} point to an OSGR coordinate.
 
-           See function L{toOsgr} in module L{osgr} for details.
+           @see: Function L{toOsgr} in module L{osgr}.
 
            @return: The OSGR coordinate (L{Osgr}).
         '''
@@ -437,23 +525,69 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
             self._osgr._latlon = self
         return self._osgr
 
+    def toUps(self, pole='N', falsed=True):
+        '''Convert this C{LatLon} point to a UPS coordinate.
+
+           @keyword pole: Optional top/center of (stereographic)
+                          projection (C{str}, 'N[orth]' or 'S[outh]').
+           @keyword falsed: False easting and northing (C{bool}).
+
+           @return: The UPS coordinate (L{Ups}).
+
+           @see: Function L{toUps8}.
+        '''
+        if self._ups is None:
+            from ups import toUps8, Ups  # PYCHOK recursive import
+            self._ups = toUps8(self, datum=self.datum, Ups=Ups,
+                                     pole=pole, falsed=falsed)
+            self._ups._latlon = self
+        return self._ups
+
     def toUtm(self):
         '''Convert this C{LatLon} point to a UTM coordinate.
 
-           See function L{toUtm} in module L{utm} for details.
-
            @return: The UTM coordinate (L{Utm}).
+
+           @see: Function L{toUtm8}.
         '''
         if self._utm is None:
-            from utm import toUtm  # PYCHOK recursive import
-            self._utm = toUtm(self, datum=self.datum)
+            from utm import toUtm8, Utm  # PYCHOK recursive import
+            self._utm = toUtm8(self, datum=self.datum, Utm=Utm)
             self._utm._latlon = self
         return self._utm
+
+    def toUtmUps(self, pole=''):
+        '''Convert this C{LatLon} point to a UTM or UPS coordinate.
+
+           @keyword pole: Optional top/center of UPS (stereographic)
+                          projection (C{str}, 'N[orth]' or 'S[outh]').
+
+           @return: The UTM or UPS coordinate (L{Utm} or L{Ups}).
+
+           @raise TypeError: Result in L{Utm} or L{Ups}.
+
+           @see: Function L{toUtmUps}.
+        '''
+        if self._utm:
+            u = self._utm
+        elif self._ups and (self._utm.pole == pole or not pole):
+            u = self._ups
+        else:
+            from utmups import toUtmUps8, Utm, Ups  # PYCHOK recursive import
+            u = toUtmUps8(self, datum=self.datum, Utm=Utm, Ups=Ups, pole=pole)
+            u._latlon = self
+            if isinstance(u, Utm):
+                self._utm = u
+            elif isinstance(u, Ups):
+                self._ups = u
+            else:
+                raise TypeError('%s: %r' % ('toUtmUps8', u))
+        return u
 
     def toWm(self):
         '''Convert this C{LatLon} point to a WM coordinate.
 
-           See function L{toWm} in module L{webmercator} for details.
+           @see: Function L{toWm} in module L{webmercator}.
 
            @return: The WM coordinate (L{Wm}).
         '''

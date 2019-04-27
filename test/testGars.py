@@ -4,11 +4,11 @@
 # Test gars module.
 
 __all__ = ('Tests',)
-__version__ = '19.04.15'
+__version__ = '19.04.17'
 
 from base import TestsBase
 
-from pygeodesy import degDMS, fStr, gars, Garef
+from pygeodesy import degDMS, fStr, gars, Garef, S_MIN
 
 
 class Tests(TestsBase):
@@ -35,8 +35,10 @@ class Tests(TestsBase):
             r = gars.resolution(t)
             p = gars.precision(r)
             self.test('precision', t, p, known=t < 0 or t > 2)
-            b = degDMS(r, prec=0, s_D='')
-            self.test('resolution', b, b)  # just to show
+            b = degDMS(r, prec=0, s_D='', s_S='')  # only S_MIN
+            x = ('30' + S_MIN) if p < 1 else (
+                ('15' + S_MIN) if p < 2 else ('5' + S_MIN))
+            self.test('resolution', b, x)  # also to test degDMS
 
 
 if __name__ == '__main__':

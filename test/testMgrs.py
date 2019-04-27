@@ -4,7 +4,7 @@
 # Test MGRS functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '18.09.08'
+__version__ = '19.04.20'
 
 from base import TestsBase
 
@@ -29,7 +29,7 @@ class Tests(TestsBase):
 
         u = m.toUtm()
         self.test('toUtm1', str(u), '31 N 448251 5411932')
-        self.test('toUtm1', repr(u), '[Z:31, H:N, E:448251, N:5411932]')
+        self.test('toUtm1', repr(u), '[Z:31U, H:N, E:448251, N:5411932]')
 
         m = u.toMgrs()
         self.test('toMgrs', str(m), '31U DQ 48251 11932')

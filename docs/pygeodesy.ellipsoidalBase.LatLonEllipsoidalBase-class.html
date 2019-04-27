@@ -305,8 +305,45 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toUps" class="summary-sig-name">toUps</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">pole</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">N</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Convert this <code>LatLon</code> point to a UPS coordinate.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toUtm" class="summary-sig-name">toUtm</a>(<span class="summary-sig-arg">self</span>)</span><br />
       Convert this <code>LatLon</code> point to a UTM coordinate.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toUtmUps" class="summary-sig-name">toUtmUps</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">pole</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+      Convert this <code>LatLon</code> point to a UTM or UPS coordinate.</td>
           <td align="right" valign="top">
             
             
@@ -395,9 +432,10 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convergence" class="summary-name">convergence</a><br />
-      Get this point's UTM meridian convergence (<code>degrees</code>) or 
-      <code>None</code> if not converted from <a 
-      href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>.
+      Get this point's UTM or UPS meridian convergence 
+      (<code>degrees</code>) or <code>None</code> if not converted from <a 
+      href="pygeodesy.utm.Utm-class.html" class="link">Utm</a> ot <a 
+      href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.
     </td>
   </tr>
 <tr>
@@ -432,9 +470,10 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#scale" class="summary-name">scale</a><br />
-      Get this point's UTM grid scale factor (<code>float</code>) or 
-      <code>None</code> if not converted from <a 
-      href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>.
+      Get this point's UTM grid or UPS point scale factor 
+      (<code>float</code>) or <code>None</code> if not converted from <a 
+      href="pygeodesy.utm.Utm-class.html" class="link">Utm</a> or <a 
+      href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.
     </td>
   </tr>
   <tr>
@@ -877,16 +916,52 @@
   </tr></table>
   
   <p>Convert this <code>LatLon</code> point to an OSGR coordinate.</p>
-  <p>See function <a 
-  href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toOsgr" 
-  class="link">toOsgr</a> in module <a href="pygeodesy.osgr-module.html" 
-  class="link">osgr</a> for details.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>The OSGR coordinate (<a href="pygeodesy.osgr.Osgr-class.html" 
           class="link">Osgr</a>).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a 
+        href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toOsgr"
+        class="link">toOsgr</a> in module <a 
+        href="pygeodesy.osgr-module.html" class="link">osgr</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="toUps"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toUps</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">pole</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">N</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">falsed</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this <code>LatLon</code> point to a UPS coordinate.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>pole</code></strong> - Optional top/center of (stereographic) projection 
+          (<code>str</code>, 'N[orth]' or 'S[outh]').</li>
+        <li><strong class="pname"><code>falsed</code></strong> - False easting and northing (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The UPS coordinate (<a href="pygeodesy.ups.Ups-class.html" 
+          class="link">Ups</a>).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.ups-module.html#toUps8" 
+        class="link">toUps8</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="toUtm"></a>
 <div>
@@ -903,16 +978,56 @@
   </tr></table>
   
   <p>Convert this <code>LatLon</code> point to a UTM coordinate.</p>
-  <p>See function <a 
-  href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toUtm" 
-  class="link">toUtm</a> in module <a href="pygeodesy.utm-module.html" 
-  class="link">utm</a> for details.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>The UTM coordinate (<a href="pygeodesy.utm.Utm-class.html" 
           class="link">Utm</a>).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.utm-module.html#toUtm8" 
+        class="link">toUtm8</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="toUtmUps"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toUtmUps</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">pole</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this <code>LatLon</code> point to a UTM or UPS coordinate.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>pole</code></strong> - Optional top/center of UPS (stereographic) projection 
+          (<code>str</code>, 'N[orth]' or 'S[outh]').</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The UTM or UPS coordinate (<a href="pygeodesy.utm.Utm-class.html"
+          class="link">Utm</a> or <a href="pygeodesy.ups.Ups-class.html" 
+          class="link">Ups</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Result in <a href="pygeodesy.utm.Utm-class.html" 
+        class="link">Utm</a> or <a href="pygeodesy.ups.Ups-class.html" 
+        class="link">Ups</a>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a 
+        href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toUtmUps"
+        class="link">toUtmUps</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="toWm"></a>
 <div>
@@ -929,17 +1044,19 @@
   </tr></table>
   
   <p>Convert this <code>LatLon</code> point to a WM coordinate.</p>
-  <p>See function <a 
-  href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toWm" 
-  class="link">toWm</a> in module <a 
-  href="pygeodesy.webmercator-module.html" class="link">webmercator</a> for
-  details.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>The WM coordinate (<a href="pygeodesy.webmercator.Wm-class.html" 
           class="link">Wm</a>).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a 
+        href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toWm"
+        class="link">toWm</a> in module <a 
+        href="pygeodesy.webmercator-module.html" 
+        class="link">webmercator</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <br />
 <!-- ==================== PROPERTY DETAILS ==================== -->
@@ -957,15 +1074,17 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">convergence</h3>
-  <p>Get this point's UTM meridian convergence (<code>degrees</code>) or 
-  <code>None</code> if not converted from <a 
-  href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>.</p>
+  <p>Get this point's UTM or UPS meridian convergence 
+  (<code>degrees</code>) or <code>None</code> if not converted from <a 
+  href="pygeodesy.utm.Utm-class.html" class="link">Utm</a> ot <a 
+  href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">convergence(<span class="summary-sig-arg">self</span>)</span>
-        - Get this point's UTM meridian convergence (<code>degrees</code>) or 
+        - Get this point's UTM or UPS meridian convergence (<code>degrees</code>) or 
 <code>None</code> if not converted from <a 
-href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>.
+href="pygeodesy.utm.Utm-class.html" class="link">Utm</a> ot <a 
+href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -1047,15 +1166,17 @@ class="link">Datum</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">scale</h3>
-  <p>Get this point's UTM grid scale factor (<code>float</code>) or 
-  <code>None</code> if not converted from <a 
-  href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>.</p>
+  <p>Get this point's UTM grid or UPS point scale factor 
+  (<code>float</code>) or <code>None</code> if not converted from <a 
+  href="pygeodesy.utm.Utm-class.html" class="link">Utm</a> or <a 
+  href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">scale(<span class="summary-sig-arg">self</span>)</span>
-        - Get this point's UTM grid scale factor (<code>float</code>) or 
+        - Get this point's UTM grid or UPS point scale factor (<code>float</code>) or
 <code>None</code> if not converted from <a 
-href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>.
+href="pygeodesy.utm.Utm-class.html" class="link">Utm</a> or <a 
+href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -1097,7 +1218,7 @@ href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Apr 17 12:48:27 2019
+    Generated by Epydoc 3.0.1 on Sat Apr 27 14:50:34 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

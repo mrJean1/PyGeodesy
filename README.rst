@@ -23,10 +23,11 @@ documentation_, the descriptions of `Latitude/Longitude`_, Vincenty_ and
 the Python `GeographicLib`_.
 
 Also included are modules for conversions to and from `Cassini-Soldner`_,
-UTM_ (Universal Transverse Mercator) and `Web Mercator`_ (Pseudo-Mercator)
-coordinates, MGRS_ (NATO Military Grid Reference System) and OSGR_ (British
-Ordinance Survery Grid Reference) grid references and a module for encoding
-and decoding Geohashes_, `Georefs (WGRS)`_ and `Garefs (GARS)`_ .
+UTM_ (Universal Transverse Mercator), UPS_ (Universal Polar Stereographic)
+and `Web Mercator`_ (Pseudo-Mercator) coordinates, MGRS_ (NATO Military
+Grid Reference System) and OSGR_ (British Ordinance Survery Grid Reference)
+grid references and a module for encoding and decoding Geohashes_,
+`Georefs (WGRS)`_ and `Garefs (GARS)`_ .
 
 Other modules provide Lambert conformal conic projections and positions
 (from `John P. Snyder`_, *Map Projections -- A Working Manual*, 1987, pp
@@ -100,7 +101,7 @@ Notes
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Apr 15, 2019.*
+*Last updated: Apr 22, 2019.*
 
 .. image:: http://Img.Shields.io/pypi/pyversions/PyGeodesy.svg?label=Python
   :target: http://PyPI.org/project/PyGeodesy
@@ -156,6 +157,7 @@ cases documentation tag **JS name:** shows the original JavaScript name.
 .. _simplify: http://Bost.Ocks.org/mike/simplify
 .. _Sutherland-Hodgman: http://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm
 .. _Ubuntu 14.04: http://Travis-CI.org/mrJean1/PyGeodesy
+.. _UPS: http://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system
 .. _UTM: http://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html
 .. _Vector-based: http://www.Movable-Type.co.UK/scripts/latlong-vectors.html
 .. _Vincenty: http://www.Movable-Type.co.UK/scripts/latlong-vincenty.html

@@ -24,7 +24,7 @@ _MISSING  = object()  # singleton, imported by .utily
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utily
-__version__ = '19.04.15'
+__version__ = '19.04.22'
 
 division = 1 / 2  # double check int division, see .datum.py
 if not division:
@@ -35,6 +35,8 @@ try:
     _Strs = basestring, str  # PYCHOK .datum.py, .geohash.py
 except NameError:
     _Strs = str,
+
+OK = 'OK'  # OK for test like I{if ... is OK: ...}
 
 PI2  = PI * 2  #: Two PI, M{PI * 2} aka Tau (C{float})  # PYCHOK expected
 PI_2 = PI / 2  #: Half PI, M{PI / 2} (C{float})
@@ -100,7 +102,7 @@ def clipStr(bstr, limit=50, white=''):
 
 
 def degrees90(rad):
-    '''Convert radians to degrees and wrap M{(-270..+90]}.
+    '''Convert radians to degrees and wrap M{[-270..+90]}.
 
        @param rad: Angle (C{radians}).
 
@@ -110,7 +112,7 @@ def degrees90(rad):
 
 
 def degrees180(rad):
-    '''Convert radians to degrees and wrap M{(-180..+180]}.
+    '''Convert radians to degrees and wrap M{[-180..+180]}.
 
        @param rad: Angle (C{radians}).
 
@@ -120,7 +122,7 @@ def degrees180(rad):
 
 
 def degrees360(rad):
-    '''Convert radians to degrees and wrap M{(0..+360]}.
+    '''Convert radians to degrees and wrap M{[0..+360)}.
 
        @param rad: Angle (C{radians}).
 
@@ -446,7 +448,7 @@ def property_RO(method):
 
 
 def radiansPI(deg):
-    '''Convert and wrap degrees to radians M{(-PI..+PI]}.
+    '''Convert and wrap degrees to radians M{[-PI..+PI]}.
 
        @param deg: Angle (C{degrees}).
 
@@ -456,7 +458,7 @@ def radiansPI(deg):
 
 
 def radiansPI2(deg):
-    '''Convert and wrap degrees to radians M{(0..+2PI]}.
+    '''Convert and wrap degrees to radians M{[0..+2PI)}.
 
        @param deg: Angle (C{degrees}).
 
@@ -466,7 +468,7 @@ def radiansPI2(deg):
 
 
 def radiansPI_2(deg):
-    '''Convert and wrap degrees to radians M{(-3PI/2..+PI/2]}.
+    '''Convert and wrap degrees to radians M{[-3PI/2..+PI/2]}.
 
        @param deg: Angle (C{degrees}).
 
@@ -682,7 +684,7 @@ def _wrap(angle, wrap, modulo):
 
 
 def wrap90(deg):
-    '''Wrap degrees to M{(-270..+90]}.
+    '''Wrap degrees to M{[-270..+90]}.
 
        @param deg: Angle (C{degrees}).
 
@@ -692,7 +694,7 @@ def wrap90(deg):
 
 
 def wrap180(deg):
-    '''Wrap degrees to M{(-180..+180]}.
+    '''Wrap degrees to M{[-180..+180]}.
 
        @param deg: Angle (C{degrees}).
 
@@ -702,7 +704,7 @@ def wrap180(deg):
 
 
 def wrap360(deg):
-    '''Wrap degrees to M{(0..+360]}.
+    '''Wrap degrees to M{[0..+360)}.
 
        @param deg: Angle (C{degrees}).
 
@@ -712,7 +714,7 @@ def wrap360(deg):
 
 
 def wrapPI(rad):
-    '''Wrap radians to M{(-PI..+PI]}.
+    '''Wrap radians to M{[-PI..+PI]}.
 
        @param rad: Angle (C{radians}).
 
@@ -722,7 +724,7 @@ def wrapPI(rad):
 
 
 def wrapPI2(rad):
-    '''Wrap radians to M{(0..+2PI]}.
+    '''Wrap radians to M{[0..+2PI)}.
 
        @param rad: Angle (C{radians}).
 
@@ -732,7 +734,7 @@ def wrapPI2(rad):
 
 
 def wrapPI_2(rad):
-    '''Wrap radians to M{(-3PI/2..+PI/2]}.
+    '''Wrap radians to M{[-3PI/2..+PI/2]}.
 
        @param rad: Angle (C{radians}).
 

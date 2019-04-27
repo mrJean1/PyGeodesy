@@ -4,7 +4,7 @@
 # Test UTM functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '19.03.06'
+__version__ = '19.04.19'
 
 from base import TestsBase
 
@@ -13,7 +13,7 @@ from pygeodesy import EPS, F_DEG, F_DMS, fStr, parseUTM, utm
 
 class Tests(TestsBase):
 
-    def testUtm(self, LatLon):
+    def testUtm(self, LL):
         u = utm.Utm(3, 'N', 448251, 5411932.0001)
         self.test('Utm1', u.toStr(4), '03 N 448251.0 5411932.0001')
 
@@ -22,24 +22,24 @@ class Tests(TestsBase):
         self.test('Utm2', u.toStr(prec=3), '31 N 448251.795 5411932.678')
         self.test('Utm2', u.toStr(prec=1, cs=True), '31 N 448251.8 5411932.7 n/a n/a')
 
-        ll = u.toLatLon(LatLon)  # 48.85820000°N, 002.29450000°E
+        ll = u.toLatLon(LL)  # 48.85820000°N, 002.29450000°E
         self.test('Utm.toLatLon1', ll, '48.8582°N, 002.2945°E')
         self.test('Utm.toLatLon1', ll.toStr(form=F_DMS),  '48°51′29.52″N, 002°17′40.2″E')
 
-        u = ll.toUtm()  # 31U N 448251.795205746 5411932.67761691
+        u = ll.toUtm()  # 31U N 448251.795205746 5411932.67761691 -000.53131221° 0.9996329
         self.test('toUtm1', u, '31 N 448252 5411933')
         self.test('toUtm1', u.toStr(prec=3), '31 N 448251.795 5411932.678')
-        self.test('toUtm2', u.toStr2(cs=True), '[Z:31, H:N, E:448252, N:5411933, C:-000.53131221°, S:0.9996329]')
+        self.test('toUtm2', u.toStr2(B=True, cs=True), '[Z:31U, H:N, E:448252, N:5411933, C:-31.87873265′, S:0.9996329]')
 
-        ll = LatLon(13.4125, 103.8667)
+        ll = LL(13.4125, 103.8667)
         u = utm.toUtm(ll)  # 48P N 377302.354182663 1483034.77706381 -000.26291348° 0.999786229
         self.test('toUtm4', u, '48 N 377302 1483035')
-        self.test('toUtm5', u.toStr(prec=6, B=True, cs=True), '48P N 377302.354183 1483034.777084 -000.26291348° 0.99978623')
+        self.test('toUtm5', u.toStr(prec=6, B=True, cs=True), '48P N 377302.354183 1483034.777084 -15.77480856′ 0.99978623')
 
-        ll = LatLon(-13.4125, -103.8667)
+        ll = LL(-13.4125, -103.8667)
         u = ll.toUtm()  # 13L S 622697.645817337 8516965.22293619 -000.26291348° 0.999786229
         self.test('toUtm6', u, '13 S 622698 8516965')
-        self.test('toUtm7', u.toStr(prec=6, B=True, cs=True), '13L S 622697.645817 8516965.222916 -000.26291348° 0.99978623')
+        self.test('toUtm7', u.toStr(prec=6, B=True, cs=True), '13L S 622697.645817 8516965.222916 -15.77480856′ 0.99978623')
 
         m = u.toMgrs()
         self.test('toMgrs1', m, '13L FF 22697 16965')
@@ -49,7 +49,7 @@ class Tests(TestsBase):
 
         u = parseUTM('18 N 516620 4574500')  # Milford, PA
         self.test('Utm8', u, '18 N 516620 4574500')
-        ll = u.toLatLon(LatLon)
+        ll = u.toLatLon(LL)
         self.test('Utm8.toLatLon', ll, '41.321801°N, 074.801413°W')
         self.test('Utm8.toLatLon', ll.toStr(F_DEG), '41.321801N, 074.801413W')
 
@@ -81,7 +81,7 @@ class Tests(TestsBase):
                             (  76.0,      25.0,    '35X N 446000 8436100'),
                             (  76.0,      31.0,    '35X N 607943 8438843'),
                             (  76.0,      37.0,    '37X N 446000 8436100')):
-            p = LatLon(lat, lon)
+            p = LL(lat, lon)
             try:
                 u = p.toUtm().toStr(prec=0, B=True)
             except ValueError as e:

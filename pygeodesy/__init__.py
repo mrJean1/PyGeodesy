@@ -29,7 +29,9 @@ U{GeographicLib<http://PyPI.org/project/geographiclib>}.
 Also included are modules for conversions to and from U{Cassini-Soldner
 <http://GeographicLib.SourceForge.io/html/classGeographicLib_1_1CassiniSoldner.html>},
 U{UTM<http://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>}
-(Universal Transverse Mercator) and U{Web Mercator
+(Universal Transverse Mercator),
+U{UPS<http://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system>}
+(Universal Polar Stereographic) and U{Web Mercator
 <http://WikiPedia.org/wiki/Web_Mercator>} (Pseudo-Mercator) coordinates,
 U{MGRS<http://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>}
 (NATO Military Grid Reference System) and
@@ -180,6 +182,8 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var NAN:    Not-A-Number (C{float}), see C{isnan}.
 @var NEG0:   Negative 0.0 (C{float}), see C{isneg0}.
 
+@var OK:   Unique OK object (C{str}).
+
 @var PI:   Constant M{math.pi} (C{float}).
 @var PI2:  Two PI, M{math.pi * 2} (C{float}).
 @var PI_2: Half PI, M{math.pi / 2} (C{float}).
@@ -216,7 +220,7 @@ from os.path import abspath, basename, dirname
 _init_abspath     = abspath(__file__)
 pygeodesy_abspath = dirname(_init_abspath)
 
-__version__ = '19.04.15'
+__version__ = '19.04.22'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 
@@ -260,10 +264,10 @@ except (LazyImportError, NotImplementedError):
     # all public sub-modules, contants, classes and functions
     __all__ = ('bases', 'clipy', 'css', 'datum', 'dms', 'elevations',  # modules
                'ellipsoidalKarney', 'ellipsoidalNvector', 'ellipsoidalVincenty',
-               'fmath', 'formy', 'gars', 'geohash', 'geoids', 'heights',
+               'epsg', 'fmath', 'formy', 'gars', 'geohash', 'geoids', 'heights',
                'lazily', 'lcc', 'mgrs', 'nvector', 'osgr', 'points',
                'simplify', 'sphericalNvector', 'sphericalTrigonometry',
-               'utily', 'utm', 'vector3d', 'webmercator', 'wgrs',
+               'ups', 'utily', 'utm', 'utmups', 'vector3d', 'webmercator', 'wgrs',
                'CrossError', 'Garef', 'Geohash', 'Georef', 'VincentyError',  # classes
                'R_M',  # to avoid duplicates from .datum.py and .utily.py
                'pygeodesy_abspath',
@@ -279,6 +283,7 @@ except (LazyImportError, NotImplementedError):
     from datum       import *  # PYCHOK __all__
     from dms         import *  # PYCHOK __all__
     from elevations  import *  # PYCHOK __all__
+    from epsg        import *  # PYCHOK __all__
     from fmath       import *  # PYCHOK __all__
     from formy       import *  # PYCHOK __all__
     from geoids      import *  # PYCHOK __all__
@@ -289,8 +294,10 @@ except (LazyImportError, NotImplementedError):
     from osgr        import *  # PYCHOK __all__
     from points      import *  # PYCHOK __all__
     from simplify    import *  # PYCHOK __all__
+    from ups         import *  # PYCHOK __all__
     from utily       import *  # PYCHOK __all__
     from utm         import *  # PYCHOK __all__
+    from utmups      import *  # PYCHOK __all__
     from webmercator import *  # PYCHOK __all__
 
     import bases        # PYCHOK expected
@@ -299,6 +306,7 @@ except (LazyImportError, NotImplementedError):
     import datum        # PYCHOK expected
     import dms          # PYCHOK expected
     import elevations   # PYCHOK expected
+    import epsg         # PYCHOK expected
     import fmath        # PYCHOK expected
     import formy        # PYCHOK expected
     import geoids       # PYCHOK expected
@@ -309,8 +317,10 @@ except (LazyImportError, NotImplementedError):
     import osgr         # PYCHOK expected
     import points       # PYCHOK expected
     import simplify     # PYCHOK expected
+    import ups          # PYCHOK expected
     import utily        # PYCHOK expected
     import utm          # PYCHOK expected
+    import utmups       # PYCHOK expected
     import webmercator  # PYCHOK expected
 
     # for backward compatibility with previous, DEPRECATED names
@@ -350,9 +360,10 @@ except (LazyImportError, NotImplementedError):
 
     # concat __all__ with the public classes, constants,
     # functions, etc. from the sub-modules mentioned above
-    for m in (bases, clipy, css, datum, dms, elevations,
+    for m in (bases, clipy, css, datum, dms, elevations, epsg,
               fmath, formy, geoids, heights, lazily, lcc, mgrs,
-              osgr, points, simplify, utily, utm, webmercator):
+              osgr, points, simplify, ups, utily, utm, utmups,
+              webmercator):
         __all__ += m.__all__
         _ismodule(m)
 
