@@ -37,7 +37,7 @@ U{MGRS<http://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>}
 (NATO Military Grid Reference System) and
 U{OSGR<http://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html>}
 (British Ordinance Survery Grid Reference) grid references and a module for
-encoding and decoding
+encoding and decoding U{EPSG<http://www.EPSG-Registry.org>},
 U{Geohashes<http://www.Movable-Type.co.UK/scripts/geohash.html>},
 U{Georefs (WGRS)<http://WikiPedia.org/wiki/World_Geographic_Reference_System>}
 and U{Garefs (GARS)<http://WikiPedia.org/wiki/Global_Area_Reference_System>}.
@@ -137,7 +137,8 @@ Notes
 Some function and method names differ from the JavaScript version. In such
 cases documentation tag B{JS name:} shows the original JavaScript name.
 
-__
+Copyright and License
+=====================
 
 **) U{Copyright (C) 2016-2019 -- mrJean1 at Gmail dot com
 <http://OpenSource.org/licenses/MIT>}
@@ -220,7 +221,7 @@ from os.path import abspath, basename, dirname
 _init_abspath     = abspath(__file__)
 pygeodesy_abspath = dirname(_init_abspath)
 
-__version__ = '19.04.23'
+__version__ = '19.04.26'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 
@@ -237,7 +238,8 @@ except ImportError:  # ... if it doesn't, extend
     sys.path.insert(0, pygeodesy_abspath)  # XXX __path__[0]
     del sys
 
-try:  # lazily requires Python 3.7+, see lazily.__doc__
+try:  # MCCABE 13
+    # lazily requires Python 3.7+, see lazily.__doc__
     from lazily import LazyImportError, _lazy_import2
     _, __getattr__ = _lazy_import2('pygeodesy')
 except (LazyImportError, NotImplementedError):
@@ -246,6 +248,7 @@ except (LazyImportError, NotImplementedError):
     import ellipsoidalKarney  # PYCHOK false
     import ellipsoidalNvector  # PYCHOK false
     import ellipsoidalVincenty  # PYCHOK false
+    import epsg
     import gars
     import geohash
     import nvector  # PYCHOK false
@@ -256,6 +259,8 @@ except (LazyImportError, NotImplementedError):
 
     CrossError    = vector3d.CrossError
     crosserrors   = vector3d.crosserrors
+    Epsg          = epsg.Epsg
+    EPSGError     = epsg.EPSGError
     Garef         = gars.Garef
     Geohash       = geohash.Geohash
     Georef        = wgrs.Georef
@@ -268,7 +273,8 @@ except (LazyImportError, NotImplementedError):
                'lazily', 'lcc', 'mgrs', 'nvector', 'osgr', 'points',
                'simplify', 'sphericalNvector', 'sphericalTrigonometry',
                'ups', 'utily', 'utm', 'utmups', 'vector3d', 'webmercator', 'wgrs',
-               'CrossError', 'Garef', 'Geohash', 'Georef', 'VincentyError',  # classes
+               'CrossError', 'Epsg', 'EPSGError',  # classes
+               'Garef', 'Geohash', 'Georef', 'VincentyError',
                'R_M',  # to avoid duplicates from .datum.py and .utily.py
                'pygeodesy_abspath',
                'version',
@@ -283,7 +289,6 @@ except (LazyImportError, NotImplementedError):
     from datum       import *  # PYCHOK __all__
     from dms         import *  # PYCHOK __all__
     from elevations  import *  # PYCHOK __all__
-    from epsg        import *  # PYCHOK __all__
     from fmath       import *  # PYCHOK __all__
     from formy       import *  # PYCHOK __all__
     from geoids      import *  # PYCHOK __all__
@@ -306,7 +311,6 @@ except (LazyImportError, NotImplementedError):
     import datum        # PYCHOK expected
     import dms          # PYCHOK expected
     import elevations   # PYCHOK expected
-    import epsg         # PYCHOK expected
     import fmath        # PYCHOK expected
     import formy        # PYCHOK expected
     import geoids       # PYCHOK expected
@@ -334,6 +338,16 @@ except (LazyImportError, NotImplementedError):
         '''
         return points.boundsOf(*args, **kwds)
 
+    def decodeEPSG2(arg):
+        '''DEPRECATED, use function L{epsg.decode2}.
+        '''
+        return epsg.decode2(arg)
+
+    def encodeEPSG(zone, hemipole='', band=''):
+        '''DEPRECATED, use function L{epsg.encode}.
+        '''
+        return int(epsg.encode(zone, hemipole=hemipole, band=band))
+
     def isenclosedby(*args, **kwds):
         '''DEPRECATED, use function C{isenclosedBy}.
         '''
@@ -344,7 +358,8 @@ except (LazyImportError, NotImplementedError):
         '''
         return points.perimeterOf(*args, **kwds)
 
-    __all__ += ('areaof', 'bounds', 'isenclosedby', 'perimeterof')  # DECPRECATED
+    __all__ += ('areaof', 'bounds', 'decodeEPSG2', 'encodeEPSG',
+                'isenclosedby', 'perimeterof')  # DECPRECATED
 
     def _ismodule(m):
         p = abspath(m.__file__)  # PYCHOK undefined?
@@ -353,14 +368,14 @@ except (LazyImportError, NotImplementedError):
 
     # check that all modules are from this very package, pygeodesy
     for m in (ellipsoidalKarney, ellipsoidalNvector, ellipsoidalVincenty,
-              gars, geohash, nvector,
+              epsg, gars, geohash, nvector,
               sphericalNvector, sphericalTrigonometry,
               vector3d, wgrs):
         _ismodule(m)
 
     # concat __all__ with the public classes, constants,
     # functions, etc. from the sub-modules mentioned above
-    for m in (bases, clipy, css, datum, dms, elevations, epsg,
+    for m in (bases, clipy, css, datum, dms, elevations,
               fmath, formy, geoids, heights, lazily, lcc, mgrs,
               osgr, points, simplify, ups, utily, utm, utmups,
               webmercator):
@@ -370,7 +385,7 @@ except (LazyImportError, NotImplementedError):
     # remove any duplicates, only R_M?
     __all__ = tuple(set(__all__))
 
-    del _ismodule
+    del _ismodule, m
 
 if __name__ == '__main__':
 

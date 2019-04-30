@@ -110,10 +110,10 @@ guide-coordinate-systems-great-britain.pdf>}.
 from __future__ import division
 
 from bases import _Based, inStr, _Named, _xattrs
-from fmath import _1_3rd, EPS, EPS1, cbrt, cbrt2, fdot, fpowers, \
+from fmath import _2_3rd, EPS, EPS1, cbrt, cbrt2, fdot, fpowers, \
                   fStr, Fsum, fsum_, hypot1, sqrt3
 from lazily import _ALL_LAZY
-from utily import PI, R_M, degrees360, _for_docs, m2degrees, \
+from utily import PI2, R_M, degrees360, _for_docs, m2degrees, \
                   m2km, m2NM, m2SM, property_RO, _Strs
 
 from math import atan, atan2, atanh, cos, exp, hypot, radians, \
@@ -135,7 +135,7 @@ R_VM = 6366707.0194937  #: Aviation/Navigation earth radius (C{meter}).
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.datum + _for_docs('_Enum', '_Registered')
-__version__ = '19.04.15'
+__version__ = '19.04.24'
 
 division = 1 / 2  # double check int division, see .fmath.py, .utily.py
 if not division:
@@ -455,7 +455,7 @@ class Ellipsoid(_Registered):
         '''Get the surface area M{4 * PI * R2**2} (C{meter**2}).
         '''
         if self._area is None:
-            self._area = 4 * PI * self.R2**2
+            self._area = 2 * PI2 * self.R2**2
         return self._area
 
     @property_RO
@@ -477,7 +477,6 @@ class Ellipsoid(_Registered):
     @property_RO
     def AlphaKs(self):
         '''Get the U{Krüger Alpha series coefficients<http://GeographicLib.SourceForge.io/html/tmseries30.html>} (KsOrder-tuple).
-
         '''
         if self._AlphaKs is None:
             self._AlphaKs = self._Kseries(  # XXX int/int quotients may require  from __future__ import division
@@ -640,9 +639,13 @@ class Ellipsoid(_Registered):
                  html/classGeographicLib_1_1Math.html>}.
         '''
         # note, self.e is always non-negative
-        r = atanh(self.e * x) if self.f > 0 else (
-            atan(-self.e * x) if self.f < 0 else 0)
-        return self.e * r
+        if self.f > 0:
+            r = self.e * atanh(self.e * x)
+        elif self.f < 0:
+            r = self.e * atan(-self.e * x)
+        else:
+            r = 0
+        return r
 
     @property_RO
     def es_c(self):
@@ -986,7 +989,7 @@ class Ellipsoid(_Registered):
         '''Get the volume: M{4 / 3 * PI * a**2 * b} (C{meter**3}).
         '''
         if self._volume is None:
-            self._volume = 4 * PI * self._a2 * self._b * _1_3rd
+            self._volume = PI2 * _2_3rd * self._a2 * self._b
         return self._volume
 
 

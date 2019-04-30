@@ -44,7 +44,7 @@ __all__ = ('geographiclib', 'numpy',  # constants
            'TestsBase',  # classes
            'ios_ver', 'secs2str',  # functions
            'test_dir', 'tilde', 'type2str', 'versions')
-__version__ = '19.04.22'
+__version__ = '19.04.24'
 
 try:
     _Ints = int, long
@@ -163,8 +163,7 @@ class TestsBase(object):
             k = self.known or ''
             if k:
                 if k == f:
-                    k = {1: '', 2: ' BOTH'}.get(k, ' ALL')
-                    k = ',%s KNOWN' % (k,)
+                    k = ', ALL KNOWN'
                 else:
                     k = ', incl. %s KNOWN' % (k,)
             r = '(%.1f%%) FAILED%s' % (100.0 * f / t, k)

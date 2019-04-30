@@ -22,7 +22,7 @@ from lazily import _ALL_LAZY
 from utily import clipStr
 
 __all__ = _ALL_LAZY.elevations
-__version__ = '19.03.15'
+__version__ = '19.04.24'
 
 try:
     _Bytes = unicode, bytearray  # PYCHOK expected
@@ -182,7 +182,7 @@ def geoidHeight2(lat, lon, model=0, timeout=2.0):
               query timed out.  The C{error} is the C{HTTP-, IO-, SSL-,
               Type-, URL-} or C{ValueError} as a string (C{str}).
 
-       @see: U{NOAA National Geodetic Survery
+       @see: U{NOAA National Geodetic Survey
              <http://www.NGS.NOAA.gov/INFO/geodesy.shtml>},
              U{Geoid<http://www.NGS.NOAA.gov/web_services/geoid.shtml>},
              U{USGS10mElev.py<http://Gist.GitHub.com/pyRobShrk>}, module

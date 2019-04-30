@@ -51,6 +51,7 @@ class _Enum_RO(dict):
 
 # DEPRECATED __all__ values for backward compatibility
 _ALL_DEPRECATED = _Enum_RO(_name='_ALL_DEPRECATED',
+                            epsg=('decode2 as decodeEPSG2', 'encode as encodeEPSG'),  # DEPRECATED
                            formy=('equirectangular3',),  # DEPRECATED
                           points=('areaOf as areaof', 'boundsOf as bounds',  # DEPRECATED
                                   'isenclosedBy as isenclosedby', 'perimeterOf as perimeterof'))
@@ -69,7 +70,7 @@ _ALL_LAZY = _Enum_RO(_name='_ALL_LAZY',
          ellipsoidalKarney=(),  # module only
         ellipsoidalNvector=(),  # module only
        ellipsoidalVincenty=('VincentyError',),  # nothing else
-                      epsg=('decodeEPSG2', 'encodeEPSG', 'EPSGError'),
+                      epsg=('Epsg', 'EPSGError'),
                      fmath=('EPS', 'EPS1', 'EPS1_2', 'INF', 'MANTIS', 'MAX', 'MIN', 'NAN', 'NEG0',  # contants
                             'Fdot', 'Fhorner', 'Fpolynomial', 'Fsum',
                             'acos1', 'cbrt', 'cbrt2',
@@ -113,7 +114,7 @@ _ALL_LAZY = _Enum_RO(_name='_ALL_LAZY',
                       wgrs=('Georef',))  # nothing else
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '19.04.22'
+__version__ = '19.04.26'
 
 
 def _all_imports(**more):

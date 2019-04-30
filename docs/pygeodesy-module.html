@@ -104,6 +104,7 @@
   href="http://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html" 
   target="_top">OSGR</a> (British Ordinance Survery Grid Reference) grid 
   references and a module for encoding and decoding <a 
+  href="http://www.EPSG-Registry.org" target="_top">EPSG</a>, <a 
   href="http://www.Movable-Type.co.UK/scripts/geohash.html" 
   target="_top">Geohashes</a>, <a 
   href="http://WikiPedia.org/wiki/World_Geographic_Reference_System" 
@@ -230,7 +231,7 @@
     <p>Some function and method names differ from the JavaScript version. 
     In such cases documentation tag <b>JS name:</b> shows the original 
     JavaScript name.</p>
-    <p>__</p>
+  <h1 class="heading">Copyright and License</h1>
     <p>**) <a href="http://OpenSource.org/licenses/MIT" 
     target="_top">Copyright (C) 2016-2019 -- mrJean1 at Gmail dot 
     com</a></p>
@@ -255,7 +256,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.04.23
+        19.04.26
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -335,11 +336,15 @@
         class="link" onclick="show_private();">areaOf</a> and <a 
         href="pygeodesy.ellipsoidalVincenty-module.html#perimeterOf" 
         class="link" onclick="show_private();">perimeterOf</a>.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.epsg-module.html">pygeodesy.epsg</a></strong>: <em class="summary">Functions <a href="pygeodesy.epsg-module.html#encodeEPSG" 
-        class="link">encodeEPSG</a> and <a 
-        href="pygeodesy.epsg-module.html#decodeEPSG2" 
-        class="link">decodeEPSG2</a> provide en- and decoding of <i>EPSG 
-        (European Petroleum Survery Group)</i> codes from and to <a 
+    <li> <strong class="uidlink"><a href="pygeodesy.epsg-module.html">pygeodesy.epsg</a></strong>: <em class="summary">Classes <a href="pygeodesy.epsg.Epsg-class.html" 
+        class="link">Epsg</a> and <a 
+        href="pygeodesy.epsg.EPSGError-class.html" 
+        class="link">EPSGError</a> and functions to <a 
+        href="pygeodesy.epsg-module.html#encode" class="link">encode</a> 
+        and <a href="pygeodesy.epsg-module.html#decode2" 
+        class="link">decode2</a> <a href="http://www.EPSG-Registry.org" 
+        target="_top">EPSG (European Petroleum Survey Group)</a> codes from
+        and to <a 
         href="http://WikiPedia.org/wiki/Universal_Transverse_Mercator_coordinate_system"
         target="_top">UTM</a> and <a 
         href="http://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system"
@@ -497,6 +502,23 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.epsg.Epsg-class.html" class="summary-name">Epsg</a><br />
+      <a href="http://www.EPSG-Registry.org" target="_top">EPSG</a> 
+        class, sub-class of <code>int</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.epsg.EPSGError-class.html" class="summary-name">EPSGError</a><br />
+      EPSG encode or decode error.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.gars.Garef-class.html" class="summary-name">Garef</a><br />
       Garef class, sub-class of <code>str</code>.
     </td>
@@ -558,14 +580,6 @@
     </td><td class="summary">
         <a href="pygeodesy.datum.Datum-class.html" class="summary-name">Datum</a><br />
       Ellipsoid and transform parameters for an earth model.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.epsg.EPSGError-class.html" class="summary-name">EPSGError</a><br />
-      EPSG encode or decode error.
     </td>
   </tr>
 <tr>
@@ -1066,6 +1080,44 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a name="decodeEPSG2"></a><span class="summary-sig-name">decodeEPSG2</span>(<span class="summary-sig-arg">arg</span>)</span><br />
+      DEPRECATED, use function <a href="pygeodesy.epsg-module.html#decode2"
+      class="link">epsg.decode2</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="encodeEPSG"></a><span class="summary-sig-name">encodeEPSG</span>(<span class="summary-sig-arg">zone</span>,
+        <span class="summary-sig-arg">hemipole</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">band</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+      DEPRECATED, use function <a href="pygeodesy.epsg-module.html#encode" 
+      class="link">epsg.encode</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a name="isenclosedby"></a><span class="summary-sig-name">isenclosedby</span>(<span class="summary-sig-arg">*args</span>,
         <span class="summary-sig-arg">**kwds</span>)</span><br />
       DEPRECATED, use function <code>isenclosedBy</code>.</td>
@@ -1539,24 +1591,6 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#decodeEPSG2" class="summary-sig-name">decodeEPSG2</a>(<span class="summary-sig-arg">epsg</span>)</span><br />
-      Determine the UTM/USP zone number and hemisphere from a given <i>EPSG
-      (European Petroleum Survery Group)</i> code.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#degDMS" class="summary-sig-name">degDMS</a>(<span class="summary-sig-arg">deg</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
         <span class="summary-sig-arg">s_D</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">&deg;</code><code class="variable-quote">'</code></span>,
@@ -1716,26 +1750,6 @@
         <span class="summary-sig-arg">prec</span>,
         <span class="summary-sig-arg">*extras</span>)</span><br />
       Return easting, northing string representations.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#encodeEPSG" class="summary-sig-name">encodeEPSG</a>(<span class="summary-sig-arg">zone</span>,
-        <span class="summary-sig-arg">hemipole</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">band</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
-      Determine the <i>EPSG (European Petroleum Survery Group)</i> code for
-      a given UTM/UPS zone number and hemipole or Band.</td>
           <td align="right" valign="top">
             
             
@@ -3080,8 +3094,10 @@
         <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       Parse a string representing a UPS coordinate, consisting of 
-      <i>&quot;zone[band] pole easting northing&quot;</i> where <i>zone</i>
-      is UPS zone <i>&quot;00&quot;</i>.</td>
+      <i>&quot;[zone][band] pole easting northing&quot;</i> where 
+      <i>zone</i> is pseudo zone 
+      <i>&quot;00&quot;|&quot;0&quot;|&quot;&quot;</i> and <i>band</i> is 
+      <i>'A'|'B'|'Y'|'Z'|''</i>.</td>
           <td align="right" valign="top">
             
             
@@ -4207,7 +4223,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'19.4.23'"><code class="variable-quote">'</code><code class="variable-string">19.4.23</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'19.4.26'"><code class="variable-quote">'</code><code class="variable-string">19.4.26</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -5439,38 +5455,6 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
       </p>
 </div></td></tr></table>
 </div>
-<a name="decodeEPSG2"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">decodeEPSG2</span>(<span class="sig-arg">epsg</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Determine the UTM/USP zone number and hemisphere from a given <i>EPSG 
-  (European Petroleum Survery Group)</i> code.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>epsg</code></strong> - The EPSG code (<code>str</code> or <code>scalar</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>2-Tuple (<code>zone, 'N'|'S'</code>) as (<code>int</code>, 
-          <code>str</code>) where <code>zone</code> is <code>1..60</code> 
-          for UTM or <code>0</code> for UPS.</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.utmups.UTMUPSError-class.html">UTMUPSError</a></strong></code> - Invalid <i>epsg</i>.</li>
-    </ul></dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="degDMS"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -5757,44 +5741,6 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>prec</i>.</li>
-    </ul></dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="encodeEPSG"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">encodeEPSG</span>(<span class="sig-arg">zone</span>,
-        <span class="sig-arg">hemipole</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">band</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Determine the <i>EPSG (European Petroleum Survery Group)</i> code for 
-  a given UTM/UPS zone number and hemipole or Band.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>zone</code></strong> - The (longitudinal) UTM zone (<code>int</code>, 1..60) or zone 
-          with/-out (latitudinal) Band letter (<code>str</code>, 
-          '01C'..'60X') or <code>0</code> for UPS.</li>
-        <li><strong class="pname"><code>hemipole</code></strong> - UTM hemisphere or UPS projection top/center pole 
-          (<code>str</code>, <code>'N[orth]'</code> or 
-          <code>'S[outh]'</code>).</li>
-        <li><strong class="pname"><code>band</code></strong> - Optional (latitudinal) UTM Band letter (<code>str</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd><code>EPSG</code> code (<code>int</code>).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.epsg.EPSGError-class.html">EPSGError</a></strong></code> - Invalid <i>zone</i>, <i>band</i> or <i>pole</i>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -6594,7 +6540,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
       </p>
       <p><strong>See Also:</strong>
         <a href="http://www.NGS.NOAA.gov/INFO/geodesy.shtml" 
-        target="_top">NOAA National Geodetic Survery</a>, <a 
+        target="_top">NOAA National Geodetic Survey</a>, <a 
         href="http://www.NGS.NOAA.gov/web_services/geoid.shtml" 
         target="_top">Geoid</a>, <a href="http://Gist.GitHub.com/pyRobShrk"
         target="_top">USGS10mElev.py</a>, module <a 
@@ -8195,8 +8141,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </tr></table>
   
   <p>Parse a string representing a UPS coordinate, consisting of 
-  <i>&quot;zone[band] pole easting northing&quot;</i> where <i>zone</i> is 
-  UPS zone <i>&quot;00&quot;</i>.</p>
+  <i>&quot;[zone][band] pole easting northing&quot;</i> where <i>zone</i> 
+  is pseudo zone <i>&quot;00&quot;|&quot;0&quot;|&quot;&quot;</i> and 
+  <i>band</i> is <i>'A'|'B'|'Y'|'Z'|''</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -8341,7 +8288,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           <code>1..60</code> for UTM or <code>0</code> for UPS and 
           <code>Band</code> is <code>&quot;&quot;</code> or 
           <code>'C'|'D'..'W'|'X'</code> for UTM or 
-          <code>'A'|'B'|'Y'|'Z'</code> for UPS or <code>''</code>.</dd>
+          <code>'A'|'B'|'Y'|'Z'</code> for UPS.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.utmups.UTMUPSError-class.html">UTMUPSError</a></strong></code> - Invalid <i>strUTMUPS</i>.</li>
@@ -9661,7 +9608,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           <code>1..60</code> for UTM or <code>0</code> for UPS and 
           <code>Band</code> is <code>&quot;&quot;</code> or 
           <code>'C'|'D'..'W'|'X'</code> for UTM or 
-          <code>'A'|'B'|'Y'|'Z'</code> for UPS or <code>''</code>.</dd>
+          <code>'A'|'B'|'Y'|'Z'</code> for UPS.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - If <i>lat</i> outside the valid UTM or UPS bands or if <i>lat</i> 
@@ -10464,7 +10411,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Apr 27 17:09:03 2019
+    Generated by Epydoc 3.0.1 on Tue Apr 30 11:36:17 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

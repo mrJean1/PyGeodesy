@@ -26,7 +26,7 @@ Also included are modules for conversions to and from `Cassini-Soldner`_,
 UTM_ (Universal Transverse Mercator), UPS_ (Universal Polar Stereographic)
 and `Web Mercator`_ (Pseudo-Mercator) coordinates, MGRS_ (NATO Military
 Grid Reference System) and OSGR_ (British Ordinance Survery Grid Reference)
-grid references and a module for encoding and decoding Geohashes_,
+grid references and a module for encoding and decoding EPSG_, Geohashes_,
 `Georefs (WGRS)`_ and `Garefs (GARS)`_ .
 
 Other modules provide Lambert conformal conic projections and positions
@@ -101,7 +101,30 @@ Notes
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Apr 23, 2019.*
+*Last updated: Apr 26, 2019.*
+
+Copyright and License
+=====================
+
+``Copyright (C) 2016-2019 -- mrJean1 at Gmail dot com``
+
+``Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:``
+
+``The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.``
+
+``THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.``
 
 .. image:: http://Img.Shields.io/pypi/pyversions/PyGeodesy.svg?label=Python
   :target: http://PyPI.org/project/PyGeodesy
@@ -125,6 +148,7 @@ cases documentation tag **JS name:** shows the original JavaScript name.
 .. _Debian 9: http://Cirrus-CI.com/github/mrJean1/PyGeodesy/master
 .. _docs: http://www.Movable-Type.co.UK/scripts/geodesy/docs
 .. _documentation: http://mrJean1.GitHub.io/PyGeodesy
+.. _EPSG: http://www.EPSG-Registry.org
 .. _Epydoc: http://PyPI.org/project/epydoc
 .. _Flake8: http://PyPI.org/project/flake8
 .. _Garefs (GARS): http://WikiPedia.org/wiki/Global_Area_Reference_System
@@ -164,23 +188,3 @@ cases documentation tag **JS name:** shows the original JavaScript name.
 .. _Visvalingam-Whyatt: http://hydra.Hull.ac.UK/resources/hull:8338
 .. _Web Mercator: http://WikiPedia.org/wiki/Web_Mercator
 .. _Windows Server 2012R2: http://CI.AppVeyor.com/project/mrJean1/pygeodesy
-
-``Copyright (C) 2016-2019 -- mrJean1 at Gmail dot com``
-
-``Permission is hereby granted, free of charge, to any person obtaining a
-copy of this software and associated documentation files (the "Software"),
-to deal in the Software without restriction, including without limitation
-the rights to use, copy, modify, merge, publish, distribute, sublicense,
-and/or sell copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following conditions:``
-
-``The above copyright notice and this permission notice shall be included
-in all copies or substantial portions of the Software.``
-
-``THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-OTHER DEALINGS IN THE SOFTWARE.``

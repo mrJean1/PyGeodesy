@@ -11,17 +11,18 @@ and published under the same MIT Licence**, see for example U{latlon-ellipsoidal
 @newfield example: Example, Examples
 '''
 
-from bases import LatLonHeightBase, _xnamed
+from bases import LatLonHeightBase, _nameof, _xnamed
 from datum import Datum, Datums
+from dms import parseDMS2
 from fmath import EPS, EPS1, fsum_, hypot, hypot1, isscalar
 from utily import degrees90, degrees180, _for_docs, property_RO, \
-                  sincos2, wrap90, wrap360
+                  sincos2, _Strs, wrap90, wrap360
 from vector3d import Vector3d
 
 from math import atan2, copysign, sqrt
 
 __all__ = _for_docs('CartesianBase', 'LatLonEllipsoidalBase')
-__version__ = '19.04.21'
+__version__ = '19.04.24'
 
 # some INTERNAL constants, to avoid circular ups, utm, utmups imports
 _UTM_LAT_MAX      =  84  # PYCHOK for export (C{degrees})
@@ -56,6 +57,22 @@ def _hemi(lat):  # imported by .ups, .utm
     return 'S' if lat < 0 else 'N'
 
 
+def _to4lldn(latlon, lon, datum, name):
+    '''(INTERNAL) Return 4-tuple (C{lat, lon, datum, name}).
+    '''
+    try:
+        # if lon is not None:
+        #     raise AttributeError
+        lat, lon = latlon.lat, latlon.lon
+        if not isinstance(latlon, LatLonEllipsoidalBase):
+            raise TypeError('%s not %s: %r' % ('latlon', 'ellipsoidal', latlon))
+        d = datum or latlon.datum
+    except AttributeError:
+        lat, lon = parseDMS2(latlon, lon)
+        d = datum or Datums.WGS84
+    return lat, lon, d, (name or _nameof(latlon))
+
+
 def _to3zBhp(zone, band, hemipole=''):  # imported by .epsg, .ups, .utm, .utmups
     '''Parse UTM/UPS zone, Band letter and hemisphere/pole letter.
 
@@ -72,13 +89,16 @@ def _to3zBhp(zone, band, hemipole=''):  # imported by .epsg, .ups, .utm, .utmups
     '''
     B = band
     try:
+        z = _UTMUPS_ZONE_INVALID
         if isscalar(zone) or zone.isdigit():
             z = int(zone)
-        elif zone:
-            B = zone[-1:]
-            z = int(zone[:-1] or _UTMUPS_ZONE_INVALID)
-        else:
-            raise ValueError
+        elif zone and isinstance(zone, _Strs):
+            if len(zone) > 1:
+                B = zone[-1:]
+                z = int(zone[:-1])
+            elif zone in 'AaBbYyZz':  # single letter
+                B = zone
+                z = _UPS_ZONE
 
         if _UTMUPS_ZONE_MIN <= z <= _UTMUPS_ZONE_MAX:
             hp = hemipole[:1].upper()

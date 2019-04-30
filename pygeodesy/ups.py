@@ -17,11 +17,11 @@ and north of 83.5°N (slightly overlapping the UTM range from 80°S to 84°N).
 @newfield example: Example, Examples
 '''
 
-from bases import _Based, _nameof, _xattrs, _xnamed
+from bases import _Based, _xattrs, _xnamed
 from datum import Datums, _TOL
 from dms import clipDMS, degDMS, parseDMS2, _parseUTMUPS, RangeError
 from ellipsoidalBase import LatLonEllipsoidalBase as _LLEB, _hemi, \
-                           _to3zBhp, _to3zll, _UPS_LAT_MAX, \
+                           _to4lldn, _to3zBhp, _to3zll, _UPS_LAT_MAX, \
                            _UPS_LAT_MIN, _UPS_ZONE, _UPS_ZONE_STR
 from fmath import EPS, fStr, hypot, hypot1
 from lazily import _ALL_LAZY
@@ -31,7 +31,7 @@ from math import atan, atan2, sqrt, tan
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.ups
-__version__ = '19.04.22'
+__version__ = '19.04.26'
 
 _Bands   = 'A', 'B', 'Y', 'Z'    #: (INTERNAL) Polar bands.
 _Falsing = 2000e3  #: (INTERNAL) False easting and northing (C{meter}).
@@ -63,6 +63,7 @@ class Ups(_Based):
     _convergence = None  #: (INTERNAL) Gamma meridian conversion (C{degrees}).
     _datum       = Datums.WGS84  #: (INTERNAL) L{Datum}.
     _easting     = 0     #: (INTERNAL) Easting from false easting (C{meter}).
+    _epsg        = None  #: (INTERNAL) toEpsg cache (L{Epsg}).
     _falsed      = 0     #: (INTERANL) Falsed easting and northing (C{meter}).
     _hemisphere  = ''    #: (INTERNAL) Hemisphere ('N' or 'S'), different from pole.
     # _latlon also set by ellipsoidalBase.LatLonEllipsoidalBase.toUtm, .toUps and .toUtmUps
@@ -80,12 +81,12 @@ class Ups(_Based):
         '''New UPS coordinate.
 
            @param zone: UPS zone (C{int}, zero) or zone with/-out Band
-                        letter (C{str}, '00'|'00A'|'00B'|'00Y'|'00Z').
+                        letter (C{str}, '00', '00A', '00B', '00Y' or '00Z').
            @param pole: Top/center of (stereographic) projection
                         (C{str}, C{'N[orth]'} or C{'S[outh]'}).
            @param easting: Easting (C{meter}).
            @param northing: Northing (C{meter}).
-           @keyword band: Optional, polar band (C{str}, 'A'|'B'|'Y'|'Z').
+           @keyword band: Optional, polar Band (C{str}, 'A'|'B'|'Y'|'Z').
            @keyword datum: Optional, this coordinate's datum (L{Datum}).
            @keyword falsed: Both I{easting} and I{northing} are falsed (C{str}).
            @keyword convergence: Optionally, save gamma meridian convergence
@@ -236,6 +237,18 @@ class Ups(_Based):
         '''
         return self._scale0
 
+    def toEpsg(self):
+        '''Determine the I{EPSG (European Petroleum Survey Group)} code.
+
+           @return: C{EPSG} code (C{int}).
+
+           @raise EPSGError: See L{Epsg}.
+        '''
+        if self._epsg is None:
+            from epsg import Epsg  # PYCHOK circular import
+            self._epsg = Epsg(self)
+        return self._epsg
+
     def toLatLon(self, LatLon=None, unfalse=True):
         '''Convert this UPS coordinate to an (ellipsoidal) geodetic point.
 
@@ -296,14 +309,12 @@ class Ups(_Based):
     def toMgrs(self):
         '''Convert this UPS coordinate to an MGRS grid reference.
 
-           @see: Function L{toMgrs} in module L{mgrs}.
-
            @return: The MGRS grid reference (L{Mgrs}).
+
+           @see: Methods L{Ups.toUtm} and L{Utm.toMgrs}.
         '''
         if self._mgrs is None:
-            from utm import toUtm8  # PYCHOK recursive import
-            ll = self.toLatLon(LatLon=_LLEB, unfalse=True)
-            self._mgrs = toUtm8(ll, name=self.name).toMgrs()
+            self._mgrs = self.toUtm(None).toMgrs()
         return self._mgrs
 
     def toStr(self, prec=0, sep=' ', B=False, cs=False):  # PYCHOK expected
@@ -411,8 +422,8 @@ class _UpsK1(Ups):
 
 def parseUPS5(strUPS, datum=Datums.WGS84, Ups=Ups, falsed=True, name=''):
     '''Parse a string representing a UPS coordinate, consisting of
-       I{"zone[band] pole easting northing"} where I{zone} is UPS
-       zone I{"00"}.
+       I{"[zone][band] pole easting northing"} where I{zone} is pseudo
+       zone I{"00"|"0"|""} and I{band} is I{'A'|'B'|'Y'|'Z'|''}.
 
        @param strUPS: A UPS coordinate (C{str}).
        @keyword datum: Optional datum to use (L{Datum}).
@@ -475,19 +486,7 @@ def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole='',
        @see: Karney's C++ class U{UPS
              <http://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UPS.html>}.
     '''
-    try:
-        # if lon is not None:
-        #     raise AttributeError
-        lat, lon = latlon.lat, latlon.lon
-        if not isinstance(latlon, _LLEB):
-            raise TypeError('%s not %s: %r' % ('latlon', 'ellipsoidal', latlon))
-        if not name:  # use latlon.name
-            name = _nameof(latlon) or ''
-        d = datum or latlon.datum
-    except AttributeError:
-        lat = latlon
-        d = datum or Datums.WGS84
-
+    lat, lon, d, name = _to4lldn(latlon, lon, datum, name)
     z, B, p, lat, lon = upsZoneBand5(lat, lon, strict=strict)
 
     p = str(pole or p)[:1]
@@ -526,7 +525,8 @@ def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole='',
         r = _xnamed(Ups(z, p, x, y, band=B, datum=d,
                                     convergence=c, scale=k,
                                     falsed=falsed), name)
-        r._hemisphere = _hemi(lat)
+        if hasattr(Ups, '_hemisphere'):
+            r._hemisphere = _hemi(lat)
     return r
 
 

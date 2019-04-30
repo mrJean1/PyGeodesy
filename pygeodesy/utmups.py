@@ -13,11 +13,10 @@ A pure Python implementation, partially transcribed from C++ class U{UTMUPS
 by I{Charles Karney}.
 '''
 
-from bases import _nameof
 from datum import Datums
 from dms import RangeError
-from ellipsoidalBase import LatLonEllipsoidalBase as _LLEB, \
-                            _to3zBhp, _UPS_ZONE, _UPS_ZONE_STR, \
+from ellipsoidalBase import _to4lldn, _to3zBhp, \
+                            _UPS_ZONE, _UPS_ZONE_STR, \
                             _UTMUPS_ZONE_MIN, _UTMUPS_ZONE_MAX
 from lazily import _ALL_LAZY
 from utily import OK
@@ -26,7 +25,7 @@ from utm import parseUTM5, toUtm8, Utm, UTMError, utmZoneBand5
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utmups
-__version__ = '19.04.22'
+__version__ = '19.04.26'
 
 _MGRS_TILE = 100e3  # block size (C{meter})
 
@@ -85,7 +84,7 @@ def parseUTMUPS5(strUTMUPS, datum=Datums.WGS84, Utm=Utm, Ups=Ups, name=''):
                 'N'|'S', meter, meter, str}) where C{zone} is C{1..60}
                 for UTM or C{0} for UPS and C{Band} is C{""} or
                 C{'C'|'D'..'W'|'X'} for UTM or C{'A'|'B'|'Y'|'Z'} for
-                UPS or C{''}.
+                UPS.
 
        @raise UTMUPSError: Invalid I{strUTMUPS}.
 
@@ -124,7 +123,7 @@ def toUtmUps8(latlon, lon=None, datum=None, Utm=Utm, Ups=Ups, pole='', name=''):
                 'N'|'S', meter, meter, str, degrees, scalar}) where C{zone}
                 is C{1..60} for UTM or C{0} for UPS and C{Band} is C{""}
                 or C{'C'|'D'..'W'|'X'} for UTM or C{'A'|'B'|'Y'|'Z'} for
-                UPS or C{''}.
+                UPS.
 
        @raise RangeError: If I{lat} outside the valid UTM or UPS bands
                           or if I{lat} or I{lon} outside the valid range
@@ -139,19 +138,7 @@ def toUtmUps8(latlon, lon=None, datum=None, Utm=Utm, Ups=Ups, pole='', name=''):
 
        @see: Functions L{toUtm8} and L{toUps8}.
     '''
-    try:
-        # if lon is not None:
-        #     raise AttributeError
-        lat, lon = latlon.lat, latlon.lon
-        if not isinstance(latlon, _LLEB):
-            raise TypeError('%s not %s: %r' % ('latlon', 'ellipsoidal', latlon))
-        if not name:  # use latlon.name
-            name = _nameof(latlon) or ''
-        d = datum or latlon.datum
-    except AttributeError:
-        lat = latlon
-        d = datum or Datums.WGS84
-
+    lat, lon, d, name = _to4lldn(latlon, lon, datum, name)
     z, B, p, lat, lon = utmupsZoneBand5(lat, lon)
 
     if z == _UPS_ZONE:

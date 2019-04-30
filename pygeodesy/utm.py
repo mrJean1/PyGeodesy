@@ -33,12 +33,14 @@ and Henrik Seidel U{'Die Mathematik der Gauß-Krueger-Abbildung'
 @newfield example: Example, Examples
 '''
 
-from bases import _Based, _nameof, _xattrs, _xnamed
+from bases import _Based, _xattrs, _xnamed
 from datum import Datums
 from dms import degDMS, parseDMS2, _parseUTMUPS, RangeError
-from ellipsoidalBase import LatLonEllipsoidalBase as _LLEB, _hemi, \
-                           _to3zBhp, _to3zll, _UTM_LAT_MAX, _UTM_LAT_MIN, \
-                           _UTM_ZONE_MIN, _UTM_ZONE_MAX, _UTM_ZONE_OFF_MAX
+from ellipsoidalBase import LatLonEllipsoidalBase as _LLEB, \
+                            _hemi, _to4lldn, _to3zBhp, _to3zll, \
+                            _UTM_LAT_MAX, _UTM_LAT_MIN, \
+                            _UTM_ZONE_MIN, _UTM_ZONE_MAX, \
+                            _UTM_ZONE_OFF_MAX
 from fmath import EPS, fdot3, fStr, Fsum, hypot, hypot1, len2, map2
 from lazily import _ALL_LAZY
 from utily import degrees90, degrees180, property_RO, sincos2  # splice
@@ -49,7 +51,7 @@ from operator import mul
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utm
-__version__ = '19.04.22'
+__version__ = '19.04.24'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -192,6 +194,7 @@ class Utm(_Based):
     _convergence = None  #: (INTERNAL) Meridian conversion (C{degrees}).
     _datum       = Datums.WGS84  #: (INTERNAL) L{Datum}.
     _easting     = 0     #: (INTERNAL) Easting from false easting (C{meter}).
+    _epsg        = None  #: (INTERNAL) toEpsg cache (L{Epsg}).
     _falsed      = True  #: (INTERNAL) Falsed easting and northing (C{bool}).
     _hemisphere  = ''    #: (INTERNAL) Hemisphere ('N' or 'S').
     # _latlon also set by ellipsoidalBase.LatLonEllipsoidalBase.toUtm
@@ -343,6 +346,18 @@ class Utm(_Based):
         '''Get the grid scale (C{scalar}) or C{None}.
         '''
         return self._scale
+
+    def toEpsg(self):
+        '''Determine the I{EPSG (European Petroleum Survey Group)} code.
+
+           @return: C{EPSG} code (C{int}).
+
+           @raise EPSGError: See L{Epsg}.
+        '''
+        if self._epsg is None:
+            from epsg import Epsg  # PYCHOK circular import
+            self._epsg = Epsg(self)
+        return self._epsg
 
     def toLatLon(self, LatLon=None, eps=EPS, unfalse=True):
         '''Convert this UTM coordinate to an (ellipsoidal) geodetic point.
@@ -652,23 +667,9 @@ def toUtm8(latlon, lon=None, datum=None, Utm=Utm, cmoff=True, name='', zone=None
        >>> p = LatLon(13.4125, 103.8667) # 48 N 377302.4 1483034.8
        >>> u = toUtm(p)  # 48 N 377302 1483035
     '''
-    try:
-        # if lon is not None:
-        #     raise AttributeError
-        lat, lon = latlon.lat, latlon.lon
-        if not isinstance(latlon, _LLEB):
-            raise TypeError('%s not %s: %r' % ('latlon', 'ellipsoidal', latlon))
-        if not name:  # use latlon.name
-            name = _nameof(latlon) or ''
-        d = datum or latlon.datum
-    except AttributeError:
-        lat, lon = parseDMS2(latlon, lon)
-        d = datum or Datums.WGS84
-
-    E = d.ellipsoid
-
+    lat, lon, d, name = _to4lldn(latlon, lon, datum, name)
     z, B, lat, lon = _to3zBll(lat, lon, cmoff=cmoff)
-    if zone:  # re-zone
+    if zone:  # re-zone for UTM
         r, _, _ = _to3zBhp(zone, band=B)
         if r != z:
             if not _UTM_ZONE_MIN <= r <= _UTM_ZONE_MAX:
@@ -677,8 +678,9 @@ def toUtm8(latlon, lon=None, datum=None, Utm=Utm, cmoff=True, name='', zone=None
                 lon += _cmlon(z) - _cmlon(r)
             z = r
 
-    a, b = radians(lat), radians(lon)
+    E = d.ellipsoid
 
+    a, b = radians(lat), radians(lon)
     # easting, northing: Karney 2011 Eq 7-14, 29, 35
     sb, cb = sincos2(b)
 
