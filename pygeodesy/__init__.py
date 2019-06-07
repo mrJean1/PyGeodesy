@@ -367,11 +367,15 @@ except (LazyImportError, NotImplementedError):
             raise ImportError('foreign module %r from %r' % (m.__name__, p))
 
     # check that all modules are from this very package, pygeodesy
-    for m in (ellipsoidalKarney, ellipsoidalNvector, ellipsoidalVincenty,
-              epsg, gars, geohash, nvector,
-              sphericalNvector, sphericalTrigonometry,
-              vector3d, wgrs):
-        _ismodule(m)
+    # only check when package is not bundled with pyinstaller,
+    # since the file-layout is different and this breaks.
+    import sys
+    if not getattr(sys, 'frozen', False):  # <https://pyinstaller.readthedocs.io/en/stable/runtime-information.html>
+        for m in (ellipsoidalKarney, ellipsoidalNvector, ellipsoidalVincenty,
+                  epsg, gars, geohash, nvector,
+                  sphericalNvector, sphericalTrigonometry,
+                  vector3d, wgrs):
+            _ismodule(m)
 
     # concat __all__ with the public classes, constants,
     # functions, etc. from the sub-modules mentioned above
