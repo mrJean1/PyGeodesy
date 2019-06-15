@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '18.12.16'
+__version__ = '19.06.14'
 
 from base import TestsBase
 
@@ -13,7 +13,7 @@ from pygeodesy import F_D
 
 class Tests(TestsBase):
 
-    def testVectorial(self, module):
+    def testVectorial(self, module):  # MCCABE 13
 
         self.subtitle(module, 'Vectorial')
 
@@ -132,6 +132,14 @@ class Tests(TestsBase):
             t = p.triangulate(7, s, 295)
             self.test('triangulate', t, '47.323667°N, 002.568501°W')
             self.test('triangulate', isinstance(t, LatLon), True)
+
+        if hasattr(LatLon, 'trilaterate'):
+            # <http://GitHub.com/chrisveness/geodesy/blob/master/test/latlon-nvector-spherical-tests.js>
+            p = LatLon(37.418436, -121.963477)
+            t = p.trilaterate(265.710701754, LatLon(37.417243, -121.961889), 234.592423446,
+                                             LatLon(37.418692, -121.960194), 54.8954278262)
+            self.test('trilaterate', t, '37.419078°N, 121.960579°W')
+            self.test('trilaterate', isinstance(t, LatLon), True)
 
 
 if __name__ == '__main__':

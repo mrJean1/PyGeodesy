@@ -50,7 +50,7 @@ __all__ = _ALL_LAZY.sphericalNvector + (
           'meanOf',
           'nearestOn2',
           'triangulate', 'trilaterate')
-__version__ = '19.04.20'
+__version__ = '19.06.14'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -1083,18 +1083,19 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3,
         Y = y.minus(X.times(i)).unit()  # unit vector in y direction
         j = Y.dot(y)  # signed magnitude of y component of n1->n3
         if abs(j) > EPS:
-            x = fsum_(d12, -d22, d**2) / d  # n1->intersection x- and ...
-            y = fsum_(d12, -d32, i**2, j**2, -2 * x * i) / j  # ... y-component
-            z = (x**2 + y**2) * 0.25
+            # Carlos Freitas <http://GitHub.com/mrJean1/PyGeodesy/issues/33>
+            x = fsum_(d12, -d22, d**2) / (2 * d)  # n1->intersection x- and ...
+            y = fsum_(d12, -d32, i**2, j**2) / (2 * j) - (x * i / j)  # ... y-component
+            z = fsum_(d12, -(x**2), -(y**2))
 
-#   z = sqrt(d12 - z)  # z will be NaN for no intersections
-    if not 0 < z < d12:
+    if z > 0:
+        # Z = X.cross(Y)  # unit vector perpendicular to plane
+        # note don't use Z component; assume points at same height
+        n = n1.plus(X.times(x)).plus(Y.times(y))  # .plus(Z.times(z))
+    else:  # no intersection, sqrt(z) is NaN
         raise ValueError('no %s for %r, %r, %r at %r, %r, %r' %
                         ('trilaterate', point1, point2, point3,
                           distance1, distance2, distance3))
-#   Z = X.cross(Y)  # unit vector perpendicular to plane
-    # note don't use Z component; assume points at same height
-    n = n1.plus(X.times(x)).plus(Y.times(y))  # .plus(Z.times(z))
 
     if height is None:
         h = fmean((point1.height, point2.height, point3.height))

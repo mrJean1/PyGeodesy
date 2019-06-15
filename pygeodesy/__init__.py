@@ -236,9 +236,8 @@ except ImportError:  # ... if it doesn't, extend
     # sys.path to include this very directory such
     # that all public and private sub-modules can
     # be imported (and checked by PyChecker, etc.)
-    import sys
     sys.path.insert(0, pygeodesy_abspath)  # XXX __path__[0]
-    del sys
+del sys
 
 try:  # MCCABE 13
     # lazily requires Python 3.7+, see lazily.__doc__

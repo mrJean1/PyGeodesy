@@ -101,7 +101,7 @@ Notes
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Apr 26, 2019.*
+*Last updated: June 14, 2019.*
 
 Copyright and License
 =====================
