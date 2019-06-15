@@ -57,6 +57,7 @@ pygeodesy.Ellipsoids	pygeodesy-module.html#Ellipsoids
 pygeodesy.S_MIN	pygeodesy-module.html#S_MIN
 pygeodesy.toUtm	pygeodesy-module.html#toUtm
 pygeodesy.R_KM	pygeodesy-module.html#R_KM
+pygeodesy._isfrozen	pygeodesy-module.html#_isfrozen
 pygeodesy.sincos2d	pygeodesy-module.html#sincos2d
 pygeodesy.isnan	pygeodesy-module.html#isnan
 pygeodesy.m2ft	pygeodesy-module.html#m2ft
