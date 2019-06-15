@@ -217,11 +217,13 @@ OTHER DEALINGS IN THE SOFTWARE.}
 '''
 
 from os.path import abspath, basename, dirname
+import sys
 
 _init_abspath     = abspath(__file__)
 pygeodesy_abspath = dirname(_init_abspath)
-
-__version__ = '19.04.26'
+# <http://PyInstaller.ReadTheDocs.io/en/stable/runtime-information.html>
+_isfrozen   = getattr(sys, 'frozen', False)
+__version__ = '19.06.14'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 
@@ -367,10 +369,10 @@ except (LazyImportError, NotImplementedError):
             raise ImportError('foreign module %r from %r' % (m.__name__, p))
 
     # check that all modules are from this very package, pygeodesy
-    # only check when package is not bundled with pyinstaller,
-    # since the file-layout is different and this breaks.
-    import sys
-    if not getattr(sys, 'frozen', False):  # <https://pyinstaller.readthedocs.io/en/stable/runtime-information.html>
+    # (only check when package is not bundled with PyInstaller or
+    # Py2Exe, since the file-layout is different.  Courtesy of
+    # GilderGeek <http://GitHub.com/mrJean1/PyGeodesy/issues/31>)
+    if not _isfrozen:
         for m in (ellipsoidalKarney, ellipsoidalNvector, ellipsoidalVincenty,
                   epsg, gars, geohash, nvector,
                   sphericalNvector, sphericalTrigonometry,
