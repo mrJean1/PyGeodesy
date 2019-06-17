@@ -385,7 +385,8 @@ except (LazyImportError, NotImplementedError):
               osgr, points, simplify, ups, utily, utm, utmups,
               webmercator):
         __all__ += m.__all__
-        _ismodule(m)
+        if not _isfrozen:
+            _ismodule(m)
 
     # remove any duplicates, only R_M?
     __all__ = tuple(set(__all__))
