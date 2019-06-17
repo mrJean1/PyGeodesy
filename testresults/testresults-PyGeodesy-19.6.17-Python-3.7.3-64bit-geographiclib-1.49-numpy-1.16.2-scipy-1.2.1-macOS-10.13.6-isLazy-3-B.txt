@@ -1,4 +1,4 @@
-test/run.py typical test results (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B)
+test/run.py typical test results (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B)
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testBases.py
 # lazily imported pygeodesy.anStr from .utily by PyGeodesy/test/base.py line 37
@@ -55,7 +55,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testBases.py
     test 39 isequalTo3: False
     test 40 isequalTo3: True
 
-    all 40 testBases.py tests passed (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 3.050 ms
+    all 40 testBases.py tests passed (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 1.424 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testClasses.py
 # lazily imported pygeodesy.anStr from .utily by PyGeodesy/test/base.py line 37
@@ -300,7 +300,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testClasses.py
     test 211 nvector: vector3d.Vector3d, bases._VectorBased, bases._Based, bases._Named
     test 212 vector3d: vector3d.Vector3d, bases._VectorBased, bases._Based, bases._Named
 
-    all 212 testClasses.py tests passed (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 7.674 ms
+    all 212 testClasses.py tests passed (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 5.409 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testClipy.py
 # lazily imported pygeodesy.anStr from .utily by PyGeodesy/test/base.py line 37
@@ -906,7 +906,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testClipy.py
     test 587 clipSH.warpedreversed.: invalid corners[4]
     test 588 clipSH3.warpedreversed.: invalid corners[4]
 
-    all 588 testClipy.py tests passed (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 52.456 ms
+    all 588 testClipy.py tests passed (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 25.923 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testCss.py
 # lazily imported pygeodesy.anStr from .utily by PyGeodesy/test/base.py line 37
@@ -952,7 +952,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testCss.py
     test 26 Css.toLatLon.name: Calais
     test 27 Css.toLatLon.datum.name: WGS84
 
-    1 of 27 testCss.py tests (3.7%) FAILED, ALL KNOWN (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 53.378 ms
+    1 of 27 testCss.py tests (3.7%) FAILED, ALL KNOWN (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 6.506 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testDatum.py
 # lazily imported pygeodesy.anStr from .utily by PyGeodesy/test/base.py line 37
@@ -1055,7 +1055,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testDatum.py
     test 83 WGS84.AlphaKs: 8.377318206304e-04, 7.608527714249e-07, 1.197638001561e-09, 2.443376194522e-12
     test 84 WGS84.BetaKs : 8.377321640601e-04, 5.905869567934e-08, 1.673488880355e-10, 2.167737763022e-13
 
-    all 84 testDatum.py tests passed (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 3.386 ms
+    all 84 testDatum.py tests passed (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 2.433 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testDms.py
 # lazily imported pygeodesy.anStr from .utily by PyGeodesy/test/base.py line 37
@@ -1169,7 +1169,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testDms.py
     test 90 compassPoint(326.25): NWbN
     test 91 compassPoint(348.75): NbW
 
-    all 91 testDms.py tests passed (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 1.347 ms
+    all 91 testDms.py tests passed (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 1.364 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testElevations.py
 # lazily imported pygeodesy.anStr from .utily by PyGeodesy/test/base.py line 37
@@ -1181,7 +1181,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testElevations.py
 # lazily imported pygeodesy.geoidHeight2 from .elevations by PyGeodesy/test/testElevations.py line 11
 
     testing testElevations.py 19.01.08 isLazy=3
-    all testElevations.py tests SKIPPED (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 15.974 us
+    all testElevations.py tests SKIPPED (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 6.914 us
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testEllipsoidal.py
 # lazily imported pygeodesy.anStr from .utily by PyGeodesy/test/base.py line 37
@@ -1722,7 +1722,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testEllipsoidal.py
     test 479 perimeterOf: 1.683106789e+07
     test 480 isclockwise: True
 
-    4 of 480 testEllipsoidal.py tests (0.8%) FAILED, ALL KNOWN (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 109.891 ms
+    4 of 480 testEllipsoidal.py tests (0.8%) FAILED, ALL KNOWN (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 62.480 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testEllipsoidalGeodTest.py
 # lazily imported pygeodesy.anStr from .utily by PyGeodesy/test/base.py line 37
@@ -4737,7 +4737,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testEllipsoidalGeodTest.py
     test 3000 line 500 azi2: 130.988276746436
     test 3001 WGS84.KsOrder: 8
 
-    16 of 3001 testEllipsoidalGeodTest.py tests (0.5%) FAILED, ALL KNOWN (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 206.176 ms
+    16 of 3001 testEllipsoidalGeodTest.py tests (0.5%) FAILED, ALL KNOWN (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 184.271 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testEpsg.py
 # lazily imported pygeodesy.anStr from .utily by PyGeodesy/test/base.py line 37
@@ -5253,7 +5253,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testEpsg.py
     test 501 TMcoord 257: 39N N
     test 502 TMcoord 258: 40Q N
 
-    all 502 testEpsg.py tests passed (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 71.534 ms
+    all 502 testEpsg.py tests passed (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 72.131 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testFmath.py
 # lazily imported pygeodesy.anStr from .utily by PyGeodesy/test/base.py line 37
@@ -5441,406 +5441,406 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testFmath.py
     test 165 Fsum: 1.005000000001
     test 166 fsum: 1.0000000000000002e+16
     test 167 Fsum: 1.0000000000000002e+16
-    test 168 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.00036511821277555374
-    test 169 fsum: -0.00036511821277555374
-    test 170 Fsum: -0.00036511821277555374
-    test 171 Fsum: -0.00036511821277555374
-    test 172 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -23.17871943708288
-    test 173 fsum: -23.17871943708288
-    test 174 Fsum: -23.17871943708288
-    test 175 Fsum: -23.17871943708288
-    test 176 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.00011486139690178086
-    test 177 fsum: -0.00011486139690178086
-    test 178 Fsum: -0.00011486139690178086
-    test 179 Fsum: -0.00011486139690178086
-    test 180 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 4.6820190704599956e-08
-    test 181 fsum: 4.6820190704599956e-08
-    test 182 Fsum: 4.6820190704599956e-08
-    test 183 Fsum: 4.6820190704599956e-08
-    test 184 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.019025102394474434
-    test 185 fsum: -0.019025102394474434
-    test 186 Fsum: -0.019025102394474434
-    test 187 Fsum: -0.019025102394474434
-    test 188 sum: 8.16407886146188  FAILED, KNOWN, expected -0.00013086274210048039
-    test 189 fsum: -0.00013086274210048039
-    test 190 Fsum: -0.00013086274210048039
-    test 191 Fsum: -0.00013086274210048039
-    test 192 sum: -1.9587986542349854e-05  FAILED, KNOWN, expected 1.264035995004497e-06
-    test 193 fsum: 1.264035995004497e-06
-    test 194 Fsum: 1.264035995004497e-06
-    test 195 Fsum: 1.264035995004497e-06
-    test 196 sum: 7.0  FAILED, KNOWN, expected -85.96848627068012
-    test 197 fsum: -85.96848627068012
-    test 198 Fsum: -85.96848627068012
-    test 199 Fsum: -85.96848627068012
-    test 200 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -2.4897429392464052e-14
-    test 201 fsum: -2.4897429392464052e-14
-    test 202 Fsum: -2.4897429392464052e-14
-    test 203 Fsum: -2.4897429392464052e-14
-    test 204 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -1.304174058564669
-    test 205 fsum: -1.304174058564669
-    test 206 Fsum: -1.304174058564669
-    test 207 Fsum: -1.304174058564669
-    test 208 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 4.823010869655181e-08
-    test 209 fsum: 4.823010869655181e-08
-    test 210 Fsum: 4.823010869655181e-08
-    test 211 Fsum: 4.823010869655181e-08
-    test 212 sum: 8e-20  FAILED, KNOWN, expected 1.298472281878147e-07
-    test 213 fsum: 1.298472281878147e-07
-    test 214 Fsum: 1.298472281878147e-07
-    test 215 Fsum: 1.298472281878147e-07
-    test 216 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -5.779401467200442e-07
-    test 217 fsum: -5.779401467200442e-07
-    test 218 Fsum: -5.779401467200442e-07
-    test 219 Fsum: -5.779401467200442e-07
-    test 220 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.02682987567756403
-    test 221 fsum: 0.02682987567756403
-    test 222 Fsum: 0.02682987567756403
-    test 223 Fsum: 0.02682987567756403
-    test 224 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 4.232427601421709e-06
-    test 225 fsum: 4.232427601421709e-06
-    test 226 Fsum: 4.232427601421709e-06
-    test 227 Fsum: 4.232427601421709e-06
-    test 228 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.05081053633885466
-    test 229 fsum: -0.05081053633885466
-    test 230 Fsum: -0.05081053633885466
-    test 231 Fsum: -0.05081053633885466
-    test 232 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.0036380230998510846
-    test 233 fsum: 0.0036380230998510846
-    test 234 Fsum: 0.0036380230998510846
-    test 235 Fsum: 0.0036380230998510846
-    test 236 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.024275966257393318
-    test 237 fsum: -0.024275966257393318
-    test 238 Fsum: -0.024275966257393318
-    test 239 Fsum: -0.024275966257393318
-    test 240 sum: -0.0013131069549315864  FAILED, KNOWN, expected -0.0029904407486769234
-    test 241 fsum: -0.0029904407486769234
-    test 242 Fsum: -0.0029904407486769234
-    test 243 Fsum: -0.0029904407486769234
-    test 244 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.0011735647642700084
-    test 245 fsum: -0.0011735647642700084
-    test 246 Fsum: -0.0011735647642700084
-    test 247 Fsum: -0.0011735647642700084
-    test 248 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 1.1550444518846434e-05
-    test 249 fsum: 1.1550444518846434e-05
-    test 250 Fsum: 1.1550444518846434e-05
-    test 251 Fsum: 1.1550444518846434e-05
-    test 252 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 1.1970599324024115e-12
-    test 253 fsum: 1.1970599324024115e-12
-    test 254 Fsum: 1.1970599324024115e-12
-    test 255 Fsum: 1.1970599324024115e-12
-    test 256 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 1.4845186493356795e-06
-    test 257 fsum: 1.4845186493356795e-06
-    test 258 Fsum: 1.4845186493356795e-06
-    test 259 Fsum: 1.4845186493356795e-06
-    test 260 sum: 6.677412744463335  FAILED, KNOWN, expected -1.2649400255615588e-09
-    test 261 fsum: -1.2649400255615588e-09
-    test 262 Fsum: -1.2649400255615588e-09
-    test 263 Fsum: -1.2649400255615588e-09
-    test 264 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.24666288659644406
-    test 265 fsum: -0.24666288659644406
-    test 266 Fsum: -0.24666288659644406
-    test 267 Fsum: -0.24666288659644406
-    test 268 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.0016437859378097563
-    test 269 fsum: -0.0016437859378097563
-    test 270 Fsum: -0.0016437859378097563
-    test 271 Fsum: -0.0016437859378097563
-    test 272 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 3.5083990222746227e-06
-    test 273 fsum: 3.5083990222746227e-06
-    test 274 Fsum: 3.5083990222746227e-06
-    test 275 Fsum: 3.5083990222746227e-06
-    test 276 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 1.0369195582923293e-09
-    test 277 fsum: 1.0369195582923293e-09
-    test 278 Fsum: 1.0369195582923293e-09
-    test 279 Fsum: 1.0369195582923293e-09
-    test 280 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.0002909739477230211
-    test 281 fsum: 0.0002909739477230211
-    test 282 Fsum: 0.0002909739477230211
-    test 283 Fsum: 0.0002909739477230211
-    test 284 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -4.166085150296809e-07
-    test 285 fsum: -4.166085150296809e-07
-    test 286 Fsum: -4.166085150296809e-07
-    test 287 Fsum: -4.166085150296809e-07
-    test 288 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.6562822758828144
-    test 289 fsum: -0.6562822758828144
-    test 290 Fsum: -0.6562822758828144
-    test 291 Fsum: -0.6562822758828144
-    test 292 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -3.0785487172675886e-07
-    test 293 fsum: -3.0785487172675886e-07
-    test 294 Fsum: -3.0785487172675886e-07
-    test 295 Fsum: -3.0785487172675886e-07
-    test 296 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 49.60284079606347
-    test 297 fsum: 49.60284079606347
-    test 298 Fsum: 49.60284079606347
-    test 299 Fsum: 49.60284079606347
-    test 300 sum: -1886.184614035114  FAILED, KNOWN, expected 9.10778716167781e-07
-    test 301 fsum: 9.10778716167781e-07
-    test 302 Fsum: 9.10778716167781e-07
-    test 303 Fsum: 9.10778716167781e-07
-    test 304 sum: 0.0  FAILED, KNOWN, expected 0.012159485381847735
-    test 305 fsum: 0.012159485381847735
-    test 306 Fsum: 0.012159485381847735
-    test 307 Fsum: 0.012159485381847735
-    test 308 sum: -7.0  FAILED, KNOWN, expected -1.2101996950172856e-17
-    test 309 fsum: -1.2101996950172856e-17
-    test 310 Fsum: -1.2101996950172856e-17
-    test 311 Fsum: -1.2101996950172856e-17
-    test 312 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.00014827834400528208
-    test 313 fsum: 0.00014827834400528208
-    test 314 Fsum: 0.00014827834400528208
-    test 315 Fsum: 0.00014827834400528208
-    test 316 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.023417154793185378
-    test 317 fsum: -0.023417154793185378
-    test 318 Fsum: -0.023417154793185378
-    test 319 Fsum: -0.023417154793185378
-    test 320 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -3.8672552560426973e-13
-    test 321 fsum: -3.8672552560426973e-13
-    test 322 Fsum: -3.8672552560426973e-13
-    test 323 Fsum: -3.8672552560426973e-13
-    test 324 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.20400620839286873
-    test 325 fsum: 0.20400620839286873
-    test 326 Fsum: 0.20400620839286873
-    test 327 Fsum: 0.20400620839286873
-    test 328 sum: 7.0  FAILED, KNOWN, expected -1.7716241457633626
-    test 329 fsum: -1.7716241457633626
-    test 330 Fsum: -1.7716241457633626
-    test 331 Fsum: -1.7716241457633626
-    test 332 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -2.094918115082754
-    test 333 fsum: -2.094918115082754
-    test 334 Fsum: -2.094918115082754
-    test 335 Fsum: -2.094918115082754
-    test 336 sum: 0.0  FAILED, KNOWN, expected -8.928509047227868e-12
-    test 337 fsum: -8.928509047227868e-12
-    test 338 Fsum: -8.928509047227868e-12
-    test 339 Fsum: -8.928509047227868e-12
-    test 340 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -1.8855217667614097e-06
-    test 341 fsum: -1.8855217667614097e-06
-    test 342 Fsum: -1.8855217667614097e-06
-    test 343 Fsum: -1.8855217667614097e-06
-    test 344 sum: 0.0  FAILED, KNOWN, expected 2.291113286135854e-07
-    test 345 fsum: 2.291113286135854e-07
-    test 346 Fsum: 2.291113286135854e-07
-    test 347 Fsum: 2.291113286135854e-07
-    test 348 sum: -21.0  FAILED, KNOWN, expected 0.0017877532513911841
-    test 349 fsum: 0.0017877532513911841
-    test 350 Fsum: 0.0017877532513911841
-    test 351 Fsum: 0.0017877532513911841
-    test 352 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.0020986418010604945
-    test 353 fsum: -0.0020986418010604945
-    test 354 Fsum: -0.0020986418010604945
-    test 355 Fsum: -0.0020986418010604945
-    test 356 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -2.517459458402635e-07
-    test 357 fsum: -2.517459458402635e-07
-    test 358 Fsum: -2.517459458402635e-07
-    test 359 Fsum: -2.517459458402635e-07
-    test 360 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.2366859655256802
-    test 361 fsum: -0.2366859655256802
-    test 362 Fsum: -0.2366859655256802
-    test 363 Fsum: -0.2366859655256802
-    test 364 sum: 0.0  FAILED, KNOWN, expected -1.0342819395583112
-    test 365 fsum: -1.0342819395583112
-    test 366 Fsum: -1.0342819395583112
-    test 367 Fsum: -1.0342819395583112
-    test 368 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 1.0829090862680614e-05
-    test 369 fsum: 1.0829090862680614e-05
-    test 370 Fsum: 1.0829090862680614e-05
-    test 371 Fsum: 1.0829090862680614e-05
-    test 372 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -2.9653073761784347e-13
-    test 373 fsum: -2.9653073761784347e-13
-    test 374 Fsum: -2.9653073761784347e-13
-    test 375 Fsum: -2.9653073761784347e-13
-    test 376 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -7.078523145463974e-11
-    test 377 fsum: -7.078523145463974e-11
-    test 378 Fsum: -7.078523145463974e-11
-    test 379 Fsum: -7.078523145463974e-11
-    test 380 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.15567870364127218
-    test 381 fsum: 0.15567870364127218
-    test 382 Fsum: 0.15567870364127218
-    test 383 Fsum: 0.15567870364127218
-    test 384 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 4.7769835707659595e-12
-    test 385 fsum: 4.7769835707659595e-12
-    test 386 Fsum: 4.7769835707659595e-12
-    test 387 Fsum: 4.7769835707659595e-12
-    test 388 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -4.640803144993716
-    test 389 fsum: -4.640803144993716
-    test 390 Fsum: -4.640803144993716
-    test 391 Fsum: -4.640803144993716
-    test 392 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.040952827733531386
-    test 393 fsum: -0.040952827733531386
-    test 394 Fsum: -0.040952827733531386
-    test 395 Fsum: -0.040952827733531386
-    test 396 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -8.642125196027361e-16
-    test 397 fsum: -8.642125196027361e-16
-    test 398 Fsum: -8.642125196027361e-16
-    test 399 Fsum: -8.642125196027361e-16
-    test 400 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.0017113811367957463
-    test 401 fsum: -0.0017113811367957463
-    test 402 Fsum: -0.0017113811367957463
-    test 403 Fsum: -0.0017113811367957463
-    test 404 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 1.0270204345525225e-05
-    test 405 fsum: 1.0270204345525225e-05
-    test 406 Fsum: 1.0270204345525225e-05
-    test 407 Fsum: 1.0270204345525225e-05
-    test 408 sum: -7.0  FAILED, KNOWN, expected 0.00019090483173493783
-    test 409 fsum: 0.00019090483173493783
-    test 410 Fsum: 0.00019090483173493783
-    test 411 Fsum: 0.00019090483173493783
-    test 412 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -1.0157710048340801e-10
-    test 413 fsum: -1.0157710048340801e-10
-    test 414 Fsum: -1.0157710048340801e-10
-    test 415 Fsum: -1.0157710048340801e-10
-    test 416 sum: 0.0  FAILED, KNOWN, expected -0.019504457144696116
-    test 417 fsum: -0.019504457144696116
-    test 418 Fsum: -0.019504457144696116
-    test 419 Fsum: -0.019504457144696116
-    test 420 sum: -2.8243110842048565e-07  FAILED, KNOWN, expected 8.684958285566786e-06
-    test 421 fsum: 8.684958285566786e-06
-    test 422 Fsum: 8.684958285566786e-06
-    test 423 Fsum: 8.684958285566786e-06
-    test 424 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.00012177112662885306
-    test 425 fsum: 0.00012177112662885306
-    test 426 Fsum: 0.00012177112662885306
-    test 427 Fsum: 0.00012177112662885306
-    test 428 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 4.2682194422884605e-06
-    test 429 fsum: 4.2682194422884605e-06
-    test 430 Fsum: 4.2682194422884605e-06
-    test 431 Fsum: 4.2682194422884605e-06
-    test 432 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -2.446129374815425e-11
-    test 433 fsum: -2.446129374815425e-11
-    test 434 Fsum: -2.446129374815425e-11
-    test 435 Fsum: -2.446129374815425e-11
-    test 436 sum: -14.0  FAILED, KNOWN, expected -2.2257551129510085
-    test 437 fsum: -2.2257551129510085
-    test 438 Fsum: -2.2257551129510085
-    test 439 Fsum: -2.2257551129510085
-    test 440 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 2.822828778086832e-16
-    test 441 fsum: 2.822828778086832e-16
-    test 442 Fsum: 2.822828778086832e-16
-    test 443 Fsum: 2.822828778086832e-16
-    test 444 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.001044219763049209
-    test 445 fsum: -0.001044219763049209
-    test 446 Fsum: -0.001044219763049209
-    test 447 Fsum: -0.001044219763049209
-    test 448 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.0182712141270465
-    test 449 fsum: -0.0182712141270465
-    test 450 Fsum: -0.0182712141270465
-    test 451 Fsum: -0.0182712141270465
-    test 452 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.007136297645806474
-    test 453 fsum: -0.007136297645806474
-    test 454 Fsum: -0.007136297645806474
-    test 455 Fsum: -0.007136297645806474
-    test 456 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.2457576289109734
-    test 457 fsum: 0.2457576289109734
-    test 458 Fsum: 0.2457576289109734
-    test 459 Fsum: 0.2457576289109734
-    test 460 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.004827482027670479
-    test 461 fsum: 0.004827482027670479
-    test 462 Fsum: 0.004827482027670479
-    test 463 Fsum: 0.004827482027670479
-    test 464 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.05873287533565108
-    test 465 fsum: 0.05873287533565108
-    test 466 Fsum: 0.05873287533565108
-    test 467 Fsum: 0.05873287533565108
-    test 468 sum: 7.009517419192006  FAILED, KNOWN, expected 8.214489329715391e-14
-    test 469 fsum: 8.214489329715391e-14
-    test 470 Fsum: 8.214489329715391e-14
-    test 471 Fsum: 8.214489329715391e-14
-    test 472 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.034210643352662586
-    test 473 fsum: -0.034210643352662586
-    test 474 Fsum: -0.034210643352662586
-    test 475 Fsum: -0.034210643352662586
-    test 476 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.5054919607844286
-    test 477 fsum: -0.5054919607844286
-    test 478 Fsum: -0.5054919607844286
-    test 479 Fsum: -0.5054919607844286
-    test 480 sum: 6.999470723975566  FAILED, KNOWN, expected 1.0811245411376231
-    test 481 fsum: 1.0811245411376231
-    test 482 Fsum: 1.0811245411376231
-    test 483 Fsum: 1.0811245411376231
-    test 484 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -1.4498790057749517e-08
-    test 485 fsum: -1.4498790057749517e-08
-    test 486 Fsum: -1.4498790057749517e-08
-    test 487 Fsum: -1.4498790057749517e-08
-    test 488 sum: 0.0  FAILED, KNOWN, expected 1.002532399320851e-13
-    test 489 fsum: 1.002532399320851e-13
-    test 490 Fsum: 1.002532399320851e-13
-    test 491 Fsum: 1.002532399320851e-13
-    test 492 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 2.014134606619046e-06
-    test 493 fsum: 2.014134606619046e-06
-    test 494 Fsum: 2.014134606619046e-06
-    test 495 Fsum: 2.014134606619046e-06
-    test 496 sum: 21.409275649499776  FAILED, KNOWN, expected 17.640087538272713
-    test 497 fsum: 17.640087538272713
-    test 498 Fsum: 17.640087538272713
-    test 499 Fsum: 17.640087538272713
-    test 500 sum: 0.0  FAILED, KNOWN, expected -4.272168408083923e-12
-    test 501 fsum: -4.272168408083923e-12
-    test 502 Fsum: -4.272168408083923e-12
-    test 503 Fsum: -4.272168408083923e-12
-    test 504 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -2.0336502795320437e-06
-    test 505 fsum: -2.0336502795320437e-06
-    test 506 Fsum: -2.0336502795320437e-06
-    test 507 Fsum: -2.0336502795320437e-06
-    test 508 sum: 8e-20  FAILED, KNOWN, expected 5.420978178659559e-05
-    test 509 fsum: 5.420978178659559e-05
-    test 510 Fsum: 5.420978178659559e-05
-    test 511 Fsum: 5.420978178659559e-05
-    test 512 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 8.00934237289988
-    test 513 fsum: 8.00934237289988
-    test 514 Fsum: 8.00934237289988
-    test 515 Fsum: 8.00934237289988
-    test 516 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -2.8632945782843267e-07
-    test 517 fsum: -2.8632945782843267e-07
-    test 518 Fsum: -2.8632945782843267e-07
-    test 519 Fsum: -2.8632945782843267e-07
-    test 520 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.0003870091199394961
-    test 521 fsum: 0.0003870091199394961
-    test 522 Fsum: 0.0003870091199394961
-    test 523 Fsum: 0.0003870091199394961
-    test 524 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 3.7842644802567585e-08
-    test 525 fsum: 3.7842644802567585e-08
-    test 526 Fsum: 3.7842644802567585e-08
-    test 527 Fsum: 3.7842644802567585e-08
-    test 528 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 8.313098177087579e-11
-    test 529 fsum: 8.313098177087579e-11
-    test 530 Fsum: 8.313098177087579e-11
-    test 531 Fsum: 8.313098177087579e-11
-    test 532 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -4.338370719316712e-06
-    test 533 fsum: -4.338370719316712e-06
-    test 534 Fsum: -4.338370719316712e-06
-    test 535 Fsum: -4.338370719316712e-06
-    test 536 sum: 28.186557676281517  FAILED, KNOWN, expected 0.00017073496389134093
-    test 537 fsum: 0.00017073496389134093
-    test 538 Fsum: 0.00017073496389134093
-    test 539 Fsum: 0.00017073496389134093
-    test 540 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -9.348557574933936e-06
-    test 541 fsum: -9.348557574933936e-06
-    test 542 Fsum: -9.348557574933936e-06
-    test 543 Fsum: -9.348557574933936e-06
-    test 544 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -6.214321385493653e-14
-    test 545 fsum: -6.214321385493653e-14
-    test 546 Fsum: -6.214321385493653e-14
-    test 547 Fsum: -6.214321385493653e-14
-    test 548 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 4.440806894083661e-16
-    test 549 fsum: 4.440806894083661e-16
-    test 550 Fsum: 4.440806894083661e-16
-    test 551 Fsum: 4.440806894083661e-16
-    test 552 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.006521360474259418
-    test 553 fsum: 0.006521360474259418
-    test 554 Fsum: 0.006521360474259418
-    test 555 Fsum: 0.006521360474259418
-    test 556 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.0001440170932750791
-    test 557 fsum: 0.0001440170932750791
-    test 558 Fsum: 0.0001440170932750791
-    test 559 Fsum: 0.0001440170932750791
-    test 560 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 2.088885632904565e-09
-    test 561 fsum: 2.088885632904565e-09
-    test 562 Fsum: 2.088885632904565e-09
-    test 563 Fsum: 2.088885632904565e-09
-    test 564 sum: 19.498654803004722  FAILED, KNOWN, expected -0.00905760533502835
-    test 565 fsum: -0.00905760533502835
-    test 566 Fsum: -0.00905760533502835
-    test 567 Fsum: -0.00905760533502835
+    test 168 sum: 6.999318737882035  FAILED, KNOWN, expected 2.1244399350061525e-06
+    test 169 fsum: 2.1244399350061525e-06
+    test 170 Fsum: 2.1244399350061525e-06
+    test 171 Fsum: 2.1244399350061525e-06
+    test 172 sum: 14.000010504973917  FAILED, KNOWN, expected -8.173771899120043e-09
+    test 173 fsum: -8.173771899120043e-09
+    test 174 Fsum: -8.173771899120043e-09
+    test 175 Fsum: -8.173771899120043e-09
+    test 176 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 7.260478050739951e-05
+    test 177 fsum: 7.260478050739951e-05
+    test 178 Fsum: 7.260478050739951e-05
+    test 179 Fsum: 7.260478050739951e-05
+    test 180 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.05803423672538431
+    test 181 fsum: 0.05803423672538431
+    test 182 Fsum: 0.05803423672538431
+    test 183 Fsum: 0.05803423672538431
+    test 184 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 3.6024669853839497e-06
+    test 185 fsum: 3.6024669853839497e-06
+    test 186 Fsum: 3.6024669853839497e-06
+    test 187 Fsum: 3.6024669853839497e-06
+    test 188 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.0025197608621685776
+    test 189 fsum: -0.0025197608621685776
+    test 190 Fsum: -0.0025197608621685776
+    test 191 Fsum: -0.0025197608621685776
+    test 192 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 3.768492689428147e-09
+    test 193 fsum: 3.768492689428147e-09
+    test 194 Fsum: 3.768492689428147e-09
+    test 195 Fsum: 3.768492689428147e-09
+    test 196 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 1.5583888462850641e-07
+    test 197 fsum: 1.5583888462850641e-07
+    test 198 Fsum: 1.5583888462850641e-07
+    test 199 Fsum: 1.5583888462850641e-07
+    test 200 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.0006925201391607044
+    test 201 fsum: -0.0006925201391607044
+    test 202 Fsum: -0.0006925201391607044
+    test 203 Fsum: -0.0006925201391607044
+    test 204 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -8.483445263414355e-05
+    test 205 fsum: -8.483445263414355e-05
+    test 206 Fsum: -8.483445263414355e-05
+    test 207 Fsum: -8.483445263414355e-05
+    test 208 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.02550582427230972
+    test 209 fsum: -0.02550582427230972
+    test 210 Fsum: -0.02550582427230972
+    test 211 Fsum: -0.02550582427230972
+    test 212 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -3.269791102119818e-08
+    test 213 fsum: -3.269791102119818e-08
+    test 214 Fsum: -3.269791102119818e-08
+    test 215 Fsum: -3.269791102119818e-08
+    test 216 sum: -7.0  FAILED, KNOWN, expected -54.789812172486954
+    test 217 fsum: -54.789812172486954
+    test 218 Fsum: -54.789812172486954
+    test 219 Fsum: -54.789812172486954
+    test 220 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.0002921248098059615
+    test 221 fsum: 0.0002921248098059615
+    test 222 Fsum: 0.0002921248098059615
+    test 223 Fsum: 0.0002921248098059615
+    test 224 sum: 6.999999999999999e-20  FAILED, KNOWN, expected -6.3181266995500855e-09
+    test 225 fsum: -6.3181266995500855e-09
+    test 226 Fsum: -6.3181266995500855e-09
+    test 227 Fsum: -6.3181266995500855e-09
+    test 228 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -3.083523117006176e-08
+    test 229 fsum: -3.083523117006176e-08
+    test 230 Fsum: -3.083523117006176e-08
+    test 231 Fsum: -3.083523117006176e-08
+    test 232 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 4.825764923899553e-07
+    test 233 fsum: 4.825764923899553e-07
+    test 234 Fsum: 4.825764923899553e-07
+    test 235 Fsum: 4.825764923899553e-07
+    test 236 sum: 7.0  FAILED, KNOWN, expected 3.8388012567641005e-05
+    test 237 fsum: 3.8388012567641005e-05
+    test 238 Fsum: 3.8388012567641005e-05
+    test 239 Fsum: 3.8388012567641005e-05
+    test 240 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.07059692280120586
+    test 241 fsum: 0.07059692280120586
+    test 242 Fsum: 0.07059692280120586
+    test 243 Fsum: 0.07059692280120586
+    test 244 sum: 0.0  FAILED, KNOWN, expected -1.127851104507648e-06
+    test 245 fsum: -1.127851104507648e-06
+    test 246 Fsum: -1.127851104507648e-06
+    test 247 Fsum: -1.127851104507648e-06
+    test 248 sum: -7.000859271379492  FAILED, KNOWN, expected -1.570852268349497e-05
+    test 249 fsum: -1.570852268349497e-05
+    test 250 Fsum: -1.570852268349497e-05
+    test 251 Fsum: -1.570852268349497e-05
+    test 252 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 9.96375422009472
+    test 253 fsum: 9.96375422009472
+    test 254 Fsum: 9.96375422009472
+    test 255 Fsum: 9.96375422009472
+    test 256 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -8.658781498734115e-07
+    test 257 fsum: -8.658781498734115e-07
+    test 258 Fsum: -8.658781498734115e-07
+    test 259 Fsum: -8.658781498734115e-07
+    test 260 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.000546766167719662
+    test 261 fsum: 0.000546766167719662
+    test 262 Fsum: 0.000546766167719662
+    test 263 Fsum: 0.000546766167719662
+    test 264 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -7.618439924233499
+    test 265 fsum: -7.618439924233499
+    test 266 Fsum: -7.618439924233499
+    test 267 Fsum: -7.618439924233499
+    test 268 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 5.442870620755802e-10
+    test 269 fsum: 5.442870620755802e-10
+    test 270 Fsum: 5.442870620755802e-10
+    test 271 Fsum: 5.442870620755802e-10
+    test 272 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.38674337555002236
+    test 273 fsum: -0.38674337555002236
+    test 274 Fsum: -0.38674337555002236
+    test 275 Fsum: -0.38674337555002236
+    test 276 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.0024770755948350515
+    test 277 fsum: -0.0024770755948350515
+    test 278 Fsum: -0.0024770755948350515
+    test 279 Fsum: -0.0024770755948350515
+    test 280 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.0009622121174918824
+    test 281 fsum: 0.0009622121174918824
+    test 282 Fsum: 0.0009622121174918824
+    test 283 Fsum: 0.0009622121174918824
+    test 284 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 4.2037417854011437e-11
+    test 285 fsum: 4.2037417854011437e-11
+    test 286 Fsum: 4.2037417854011437e-11
+    test 287 Fsum: 4.2037417854011437e-11
+    test 288 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.048712719998292485
+    test 289 fsum: -0.048712719998292485
+    test 290 Fsum: -0.048712719998292485
+    test 291 Fsum: -0.048712719998292485
+    test 292 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 3.610123827787279e-15
+    test 293 fsum: 3.610123827787279e-15
+    test 294 Fsum: 3.610123827787279e-15
+    test 295 Fsum: 3.610123827787279e-15
+    test 296 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.001265098942052164
+    test 297 fsum: 0.001265098942052164
+    test 298 Fsum: 0.001265098942052164
+    test 299 Fsum: 0.001265098942052164
+    test 300 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 3.439642804345622e-07
+    test 301 fsum: 3.439642804345622e-07
+    test 302 Fsum: 3.439642804345622e-07
+    test 303 Fsum: 3.439642804345622e-07
+    test 304 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -1.794244493161178e-06
+    test 305 fsum: -1.794244493161178e-06
+    test 306 Fsum: -1.794244493161178e-06
+    test 307 Fsum: -1.794244493161178e-06
+    test 308 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -3.1665415556618284e-14
+    test 309 fsum: -3.1665415556618284e-14
+    test 310 Fsum: -3.1665415556618284e-14
+    test 311 Fsum: -3.1665415556618284e-14
+    test 312 sum: 0.0  FAILED, KNOWN, expected -0.5455561548997665
+    test 313 fsum: -0.5455561548997665
+    test 314 Fsum: -0.5455561548997665
+    test 315 Fsum: -0.5455561548997665
+    test 316 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.006737850634869137
+    test 317 fsum: 0.006737850634869137
+    test 318 Fsum: 0.006737850634869137
+    test 319 Fsum: 0.006737850634869137
+    test 320 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -8.673734592261304e-11
+    test 321 fsum: -8.673734592261304e-11
+    test 322 Fsum: -8.673734592261304e-11
+    test 323 Fsum: -8.673734592261304e-11
+    test 324 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.2853150213931138
+    test 325 fsum: 0.2853150213931138
+    test 326 Fsum: 0.2853150213931138
+    test 327 Fsum: 0.2853150213931138
+    test 328 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.0004203142386053948
+    test 329 fsum: -0.0004203142386053948
+    test 330 Fsum: -0.0004203142386053948
+    test 331 Fsum: -0.0004203142386053948
+    test 332 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 9.955004056974432e-09
+    test 333 fsum: 9.955004056974432e-09
+    test 334 Fsum: 9.955004056974432e-09
+    test 335 Fsum: 9.955004056974432e-09
+    test 336 sum: 8e-20  FAILED, KNOWN, expected -0.20506615163339592
+    test 337 fsum: -0.20506615163339592
+    test 338 Fsum: -0.20506615163339592
+    test 339 Fsum: -0.20506615163339592
+    test 340 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.0020816201907652328
+    test 341 fsum: -0.0020816201907652328
+    test 342 Fsum: -0.0020816201907652328
+    test 343 Fsum: -0.0020816201907652328
+    test 344 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.001954527915664705
+    test 345 fsum: -0.001954527915664705
+    test 346 Fsum: -0.001954527915664705
+    test 347 Fsum: -0.001954527915664705
+    test 348 sum: 0.0003928692483050611  FAILED, KNOWN, expected 0.2536461797092238
+    test 349 fsum: 0.2536461797092238
+    test 350 Fsum: 0.2536461797092238
+    test 351 Fsum: 0.2536461797092238
+    test 352 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -1.8007928581438992e-07
+    test 353 fsum: -1.8007928581438992e-07
+    test 354 Fsum: -1.8007928581438992e-07
+    test 355 Fsum: -1.8007928581438992e-07
+    test 356 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.00018784309531898836
+    test 357 fsum: -0.00018784309531898836
+    test 358 Fsum: -0.00018784309531898836
+    test 359 Fsum: -0.00018784309531898836
+    test 360 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 4.4181291758002966e-05
+    test 361 fsum: 4.4181291758002966e-05
+    test 362 Fsum: 4.4181291758002966e-05
+    test 363 Fsum: 4.4181291758002966e-05
+    test 364 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 1.5550897280471923e-09
+    test 365 fsum: 1.5550897280471923e-09
+    test 366 Fsum: 1.5550897280471923e-09
+    test 367 Fsum: 1.5550897280471923e-09
+    test 368 sum: -13.99809750265701  FAILED, KNOWN, expected 0.0024371290477953884
+    test 369 fsum: 0.0024371290477953884
+    test 370 Fsum: 0.0024371290477953884
+    test 371 Fsum: 0.0024371290477953884
+    test 372 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 6.178144688882197e-05
+    test 373 fsum: 6.178144688882197e-05
+    test 374 Fsum: 6.178144688882197e-05
+    test 375 Fsum: 6.178144688882197e-05
+    test 376 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.0009094208242486518
+    test 377 fsum: 0.0009094208242486518
+    test 378 Fsum: 0.0009094208242486518
+    test 379 Fsum: 0.0009094208242486518
+    test 380 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 9.26288914483652e-11
+    test 381 fsum: 9.26288914483652e-11
+    test 382 Fsum: 9.26288914483652e-11
+    test 383 Fsum: 9.26288914483652e-11
+    test 384 sum: 0.0  FAILED, KNOWN, expected 0.0015784254934716414
+    test 385 fsum: 0.0015784254934716414
+    test 386 Fsum: 0.0015784254934716414
+    test 387 Fsum: 0.0015784254934716414
+    test 388 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -8.613663298254599e-05
+    test 389 fsum: -8.613663298254599e-05
+    test 390 Fsum: -8.613663298254599e-05
+    test 391 Fsum: -8.613663298254599e-05
+    test 392 sum: -7.0  FAILED, KNOWN, expected 0.0027251766695233666
+    test 393 fsum: 0.0027251766695233666
+    test 394 Fsum: 0.0027251766695233666
+    test 395 Fsum: 0.0027251766695233666
+    test 396 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -5.6394911975897875e-06
+    test 397 fsum: -5.6394911975897875e-06
+    test 398 Fsum: -5.6394911975897875e-06
+    test 399 Fsum: -5.6394911975897875e-06
+    test 400 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.06070804041354409
+    test 401 fsum: -0.06070804041354409
+    test 402 Fsum: -0.06070804041354409
+    test 403 Fsum: -0.06070804041354409
+    test 404 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.00223447582513243
+    test 405 fsum: 0.00223447582513243
+    test 406 Fsum: 0.00223447582513243
+    test 407 Fsum: 0.00223447582513243
+    test 408 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -8.756484245760485e-12
+    test 409 fsum: -8.756484245760485e-12
+    test 410 Fsum: -8.756484245760485e-12
+    test 411 Fsum: -8.756484245760485e-12
+    test 412 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -29.85298210298904
+    test 413 fsum: -29.85298210298904
+    test 414 Fsum: -29.85298210298904
+    test 415 Fsum: -29.85298210298904
+    test 416 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 6.18038352288462e-08
+    test 417 fsum: 6.18038352288462e-08
+    test 418 Fsum: 6.18038352288462e-08
+    test 419 Fsum: 6.18038352288462e-08
+    test 420 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 3.8399989681982476e-08
+    test 421 fsum: 3.8399989681982476e-08
+    test 422 Fsum: 3.8399989681982476e-08
+    test 423 Fsum: 3.8399989681982476e-08
+    test 424 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 1.2185935122709398e-06
+    test 425 fsum: 1.2185935122709398e-06
+    test 426 Fsum: 1.2185935122709398e-06
+    test 427 Fsum: 1.2185935122709398e-06
+    test 428 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 5.849042692959447e-12
+    test 429 fsum: 5.849042692959447e-12
+    test 430 Fsum: 5.849042692959447e-12
+    test 431 Fsum: 5.849042692959447e-12
+    test 432 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -3.7063058280113836e-05
+    test 433 fsum: -3.7063058280113836e-05
+    test 434 Fsum: -3.7063058280113836e-05
+    test 435 Fsum: -3.7063058280113836e-05
+    test 436 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -4.821895280441157e-09
+    test 437 fsum: -4.821895280441157e-09
+    test 438 Fsum: -4.821895280441157e-09
+    test 439 Fsum: -4.821895280441157e-09
+    test 440 sum: 0.0  FAILED, KNOWN, expected -3.1646562443481905
+    test 441 fsum: -3.1646562443481905
+    test 442 Fsum: -3.1646562443481905
+    test 443 Fsum: -3.1646562443481905
+    test 444 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -2.7504171280566267
+    test 445 fsum: -2.7504171280566267
+    test 446 Fsum: -2.7504171280566267
+    test 447 Fsum: -2.7504171280566267
+    test 448 sum: -6.936678218646965  FAILED, KNOWN, expected 1.5307914566122694e-12
+    test 449 fsum: 1.5307914566122694e-12
+    test 450 Fsum: 1.5307914566122694e-12
+    test 451 Fsum: 1.5307914566122694e-12
+    test 452 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -1.5868500803383774
+    test 453 fsum: -1.5868500803383774
+    test 454 Fsum: -1.5868500803383774
+    test 455 Fsum: -1.5868500803383774
+    test 456 sum: -21.000051509158197  FAILED, KNOWN, expected -8.199344397309178e-16
+    test 457 fsum: -8.199344397309178e-16
+    test 458 Fsum: -8.199344397309178e-16
+    test 459 Fsum: -8.199344397309178e-16
+    test 460 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.5021665884055909
+    test 461 fsum: -0.5021665884055909
+    test 462 Fsum: -0.5021665884055909
+    test 463 Fsum: -0.5021665884055909
+    test 464 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 2.4526599441721898e-08
+    test 465 fsum: 2.4526599441721898e-08
+    test 466 Fsum: 2.4526599441721898e-08
+    test 467 Fsum: 2.4526599441721898e-08
+    test 468 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -6.447833630669589e-16
+    test 469 fsum: -6.447833630669589e-16
+    test 470 Fsum: -6.447833630669589e-16
+    test 471 Fsum: -6.447833630669589e-16
+    test 472 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -3.5064092232124926e-11
+    test 473 fsum: -3.5064092232124926e-11
+    test 474 Fsum: -3.5064092232124926e-11
+    test 475 Fsum: -3.5064092232124926e-11
+    test 476 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -2.670767273885504e-15
+    test 477 fsum: -2.670767273885504e-15
+    test 478 Fsum: -2.670767273885504e-15
+    test 479 Fsum: -2.670767273885504e-15
+    test 480 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -2.4582844998390716e-05
+    test 481 fsum: -2.4582844998390716e-05
+    test 482 Fsum: -2.4582844998390716e-05
+    test 483 Fsum: -2.4582844998390716e-05
+    test 484 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 12.224207071308117
+    test 485 fsum: 12.224207071308117
+    test 486 Fsum: 12.224207071308117
+    test 487 Fsum: 12.224207071308117
+    test 488 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -7.07134957066949e-10
+    test 489 fsum: -7.07134957066949e-10
+    test 490 Fsum: -7.07134957066949e-10
+    test 491 Fsum: -7.07134957066949e-10
+    test 492 sum: 0.0  FAILED, KNOWN, expected -2.4754714890569613
+    test 493 fsum: -2.4754714890569613
+    test 494 Fsum: -2.4754714890569613
+    test 495 Fsum: -2.4754714890569613
+    test 496 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 8.060565630571059
+    test 497 fsum: 8.060565630571059
+    test 498 Fsum: 8.060565630571059
+    test 499 Fsum: 8.060565630571059
+    test 500 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 1.6719204760191582e-11
+    test 501 fsum: 1.6719204760191582e-11
+    test 502 Fsum: 1.6719204760191582e-11
+    test 503 Fsum: 1.6719204760191582e-11
+    test 504 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.03660666405532684
+    test 505 fsum: -0.03660666405532684
+    test 506 Fsum: -0.03660666405532684
+    test 507 Fsum: -0.03660666405532684
+    test 508 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 6.869187786879252e-06
+    test 509 fsum: 6.869187786879252e-06
+    test 510 Fsum: 6.869187786879252e-06
+    test 511 Fsum: 6.869187786879252e-06
+    test 512 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 1.6263444477723922e-15
+    test 513 fsum: 1.6263444477723922e-15
+    test 514 Fsum: 1.6263444477723922e-15
+    test 515 Fsum: 1.6263444477723922e-15
+    test 516 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -2.3060815813399627e-16
+    test 517 fsum: -2.3060815813399627e-16
+    test 518 Fsum: -2.3060815813399627e-16
+    test 519 Fsum: -2.3060815813399627e-16
+    test 520 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 4.1009598455237056e-08
+    test 521 fsum: 4.1009598455237056e-08
+    test 522 Fsum: 4.1009598455237056e-08
+    test 523 Fsum: 4.1009598455237056e-08
+    test 524 sum: -7.0  FAILED, KNOWN, expected 0.00011398613310299009
+    test 525 fsum: 0.00011398613310299009
+    test 526 Fsum: 0.00011398613310299009
+    test 527 Fsum: 0.00011398613310299009
+    test 528 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -1.93730622150428e-12
+    test 529 fsum: -1.93730622150428e-12
+    test 530 Fsum: -1.93730622150428e-12
+    test 531 Fsum: -1.93730622150428e-12
+    test 532 sum: 24.46079051482202  FAILED, KNOWN, expected 6.1001905166180224e-05
+    test 533 fsum: 6.1001905166180224e-05
+    test 534 Fsum: 6.1001905166180224e-05
+    test 535 Fsum: 6.1001905166180224e-05
+    test 536 sum: 6.927823719884038  FAILED, KNOWN, expected -1.5725456760664157e-08
+    test 537 fsum: -1.5725456760664157e-08
+    test 538 Fsum: -1.5725456760664157e-08
+    test 539 Fsum: -1.5725456760664157e-08
+    test 540 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 2.944864540785157e-10
+    test 541 fsum: 2.944864540785157e-10
+    test 542 Fsum: 2.944864540785157e-10
+    test 543 Fsum: 2.944864540785157e-10
+    test 544 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.1977156181251486
+    test 545 fsum: 0.1977156181251486
+    test 546 Fsum: 0.1977156181251486
+    test 547 Fsum: 0.1977156181251486
+    test 548 sum: 14.0  FAILED, KNOWN, expected -0.00018867244881415202
+    test 549 fsum: -0.00018867244881415202
+    test 550 Fsum: -0.00018867244881415202
+    test 551 Fsum: -0.00018867244881415202
+    test 552 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -1.1260013340963283e-13
+    test 553 fsum: -1.1260013340963283e-13
+    test 554 Fsum: -1.1260013340963283e-13
+    test 555 Fsum: -1.1260013340963283e-13
+    test 556 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 1.3751419667807026e-10
+    test 557 fsum: 1.3751419667807026e-10
+    test 558 Fsum: 1.3751419667807026e-10
+    test 559 Fsum: 1.3751419667807026e-10
+    test 560 sum: 0.0  FAILED, KNOWN, expected 0.9558721717866135
+    test 561 fsum: 0.9558721717866135
+    test 562 Fsum: 0.9558721717866135
+    test 563 Fsum: 0.9558721717866135
+    test 564 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.6086964711917555
+    test 565 fsum: 0.6086964711917555
+    test 566 Fsum: 0.6086964711917555
+    test 567 Fsum: 0.6086964711917555
     test 568 fpowers: 10
     test 569 fpowers: 2
     test 570 fpowers: 1024
@@ -6065,7 +6065,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testFmath.py
     test 789 FSum-: 0.0
     test 790 FSum*: 2048.0
 
-    110 of 790 testFmath.py tests (13.9%) FAILED, ALL KNOWN (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 137.797 ms
+    110 of 790 testFmath.py tests (13.9%) FAILED, ALL KNOWN (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 131.295 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testFormy.py
 # lazily imported pygeodesy.anStr from .utily by PyGeodesy/test/base.py line 37
@@ -6113,7 +6113,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testFormy.py
     test 28 equirectangular: 4136407.022  FAILED, KNOWN, expected 4094953.628
     test 29 euclidean: 4284936.300  FAILED, KNOWN, expected 4094953.628
 
-    16 of 29 testFormy.py tests (55.2%) FAILED, ALL KNOWN (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 1.021 ms
+    16 of 29 testFormy.py tests (55.2%) FAILED, ALL KNOWN (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 524.998 us
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testGars.py
 # lazily imported pygeodesy.anStr from .utily by PyGeodesy/test/base.py line 37
@@ -6146,7 +6146,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testGars.py
     test 16 precision: 3  FAILED, KNOWN, expected 2
     test 17 resolution: 5′
 
-    2 of 17 testGars.py tests (11.8%) FAILED, ALL KNOWN (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 579.119 us
+    2 of 17 testGars.py tests (11.8%) FAILED, ALL KNOWN (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 549.078 us
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testGeohash.py
 # lazily imported pygeodesy.anStr from .utily by PyGeodesy/test/base.py line 37
@@ -6262,7 +6262,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testGeohash.py
     test 100 precision: 13  FAILED, KNOWN, expected 12
     test 101 resolution: 0.00000033527613, 0.00000016763806
 
-    2 of 101 testGeohash.py tests (2.0%) FAILED, ALL KNOWN (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 13.636 ms
+    2 of 101 testGeohash.py tests (2.0%) FAILED, ALL KNOWN (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 9.198 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testGeoids.py
 # lazily imported pygeodesy.anStr from .utily by PyGeodesy/test/base.py line 37
@@ -6279,659 +6279,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testGeoids.py
 # lazily imported pygeodesy.RangeError from .dms by PyGeodesy/test/testGeoids.py line 17
 
     testing testGeoids.py 19.03.26 isLazy=3
-    test 1 GeoidKarney('egm2008-1.pgm').height(-76.981, 34.17) kind 3: 12.637  FAILED, KNOWN, expected 12.636
-    test 2 GeoidKarney('egm2008-1.pgm').height(79.695, 88.806) kind 3: 0.749
-    test 3 GeoidKarney('egm2008-1.pgm').height(-15.245, 168.748) kind 3: 65.110  FAILED, KNOWN, expected 65.109
-    test 4 GeoidKarney('egm2008-1.pgm').height(-19.379, 15.855) kind 3: 24.889
-    test 5 GeoidKarney('egm2008-1.pgm').height(43.378, -130.552) kind 3: -29.556  FAILED, KNOWN, expected -29.557
-    test 6 GeoidKarney('egm2008-1.pgm').height(-16.075, 21.795) kind 3: 9.741  FAILED, KNOWN, expected 9.742
-    test 7 GeoidKarney('egm2008-1.pgm').height(-11.256, -73.75) kind 3: 30.060  FAILED, KNOWN, expected 30.059
-    test 8 GeoidKarney('egm2008-1.pgm').height(69.017, -15.921) kind 3: 60.690
-    test 9 GeoidKarney('egm2008-1.pgm').height(2.221, 139.739) kind 3: 69.134  FAILED, KNOWN, expected 69.133
-    test 10 GeoidKarney('egm2008-1.pgm').height(-9.097, 119.142) kind 3: 36.521  FAILED, KNOWN, expected 36.520
-    test 11 GeoidKarney('egm2008-1.pgm').height(-28.524, -22.192) kind 3: 6.801
-    test 12 GeoidKarney('egm2008-1.pgm').height(12.272, -136.424) kind 3: -20.652  FAILED, KNOWN, expected -20.651
-    test 13 GeoidKarney('egm2008-1.pgm').height(-15.203, -85.604) kind 3: -3.040
-    test 14 GeoidKarney('egm2008-1.pgm').height(-63.736, -77.17) kind 3: -1.329  FAILED, KNOWN, expected -1.328
-    test 15 GeoidKarney('egm2008-1.pgm').height(-48.771, -90.102) kind 3: -2.171  FAILED, KNOWN, expected -2.172
-    test 16 GeoidKarney('egm2008-1.pgm').height(-0.179, -126.368) kind 3: -17.411
-    test 17 GeoidKarney('egm2008-1.pgm').height(1.586, -128.887) kind 3: -16.426  FAILED, KNOWN, expected -16.425
-    test 18 GeoidKarney('egm2008-1.pgm').height(-48.781, -2.684) kind 3: 24.699  FAILED, KNOWN, expected 24.698
-    test 19 GeoidKarney('egm2008-1.pgm').height(-49.092, 136.862) kind 3: -18.328  FAILED, KNOWN, expected -18.329
-    test 20 GeoidKarney('egm2008-1.pgm').height(47.732, 17.552) kind 3: 43.802
-    test 21 GeoidKarney('egm2008-1.pgm').height(-49.11, 85.706) kind 3: 18.716
-    test 22 GeoidKarney('egm2008-1.pgm').height(-49.162, 40.321) kind 3: 44.468  FAILED, KNOWN, expected 44.469
-    test 23 GeoidKarney('egm2008-1.pgm').height(3.498, 158.118) kind 3: 49.943  FAILED, KNOWN, expected 49.944
-    test 24 GeoidKarney('egm2008-1.pgm').height(-35.616, 122.648) kind 3: -35.878
-    test 25 GeoidKarney('egm2008-1.pgm').height(56.598, -96.114) kind 3: -40.777
-    test 26 GeoidKarney('egm2008-1.pgm').height(-31.85, 149.121) kind 3: 26.559
-    test 27 GeoidKarney('egm2008-1.pgm').height(-26.569, -177.792) kind 3: 49.362  FAILED, KNOWN, expected 49.361
-    test 28 GeoidKarney('egm2008-1.pgm').height(76.735, -65.753) kind 3: 21.106  FAILED, KNOWN, expected 21.107
-    test 29 GeoidKarney('egm2008-1.pgm').height(-21.404, -122.268) kind 3: -7.203  FAILED, KNOWN, expected -7.202
-    test 30 GeoidKarney('egm2008-1.pgm').height(-77.133, -65.474) kind 3: -17.167  FAILED, KNOWN, expected -17.168
-    test 31 GeoidKarney('egm2008-1.pgm').height(-58.812, 2.276) kind 3: 18.359
-    test 32 GeoidKarney('egm2008-1.pgm').height(4.415, 155.683) kind 3: 52.117  FAILED, KNOWN, expected 52.118
-    test 33 GeoidKarney('egm2008-1.pgm').height(-28.146, 107.081) kind 3: -38.950
-    test 34 GeoidKarney('egm2008-1.pgm').height(-10.551, -126.69) kind 3: -9.935  FAILED, KNOWN, expected -9.934
-    test 35 GeoidKarney('egm2008-1.pgm').height(-25.444, -103.337) kind 3: -2.879
-    test 36 GeoidKarney('egm2008-1.pgm').height(24.436, 46.159) kind 3: -5.025
-    test 37 GeoidKarney('egm2008-1.pgm').height(-72.889, 37.107) kind 3: 24.296
-    test 38 GeoidKarney('egm2008-1.pgm').height(-19.629, 13.245) kind 3: 25.131
-    test 39 GeoidKarney('egm2008-1.pgm').height(-7.602, 171.265) kind 3: 40.720  FAILED, KNOWN, expected 40.721
-    test 40 GeoidKarney('egm2008-1.pgm').height(-45.364, -1.876) kind 3: 22.387  FAILED, KNOWN, expected 22.388
-    test 41 GeoidKarney('egm2008-1.pgm').height(-7.292, -69.18) kind 3: 22.485  FAILED, KNOWN, expected 22.486
-    test 42 GeoidKarney('egm2008-1.pgm').height(-31.566, -166.689) kind 3: 14.942  FAILED, KNOWN, expected 14.943
-    test 43 GeoidKarney('egm2008-1.pgm').height(-82.751, -162.085) kind 3: -47.387
-    test 44 GeoidKarney('egm2008-1.pgm').height(-40.7, 99.466) kind 3: -18.404  FAILED, KNOWN, expected -18.403
-    test 45 GeoidKarney('egm2008-1.pgm').height(48.676, 39.69) kind 3: 10.185
-    test 46 GeoidKarney('egm2008-1.pgm').height(74.817, -78.404) kind 3: 5.670  FAILED, KNOWN, expected 5.671
-    test 47 GeoidKarney('egm2008-1.pgm').height(-81.032, -63.865) kind 3: -24.577
-    test 48 GeoidKarney('egm2008-1.pgm').height(74.022, 9.432) kind 3: 43.288
-    test 49 GeoidKarney('egm2008-1.pgm').height(-75.071, 17.579) kind 3: 13.747  FAILED, KNOWN, expected 13.748
-    test 50 GeoidKarney('egm2008-1.pgm').height(-12.546, -54.851) kind 3: -5.342
-    test 51 GeoidKarney('egm2008-1.pgm').height(-13.621, 42.408) kind 3: -25.579
-    test 52 GeoidKarney('egm2008-1.pgm').height(-2.266, -91.951) kind 3: -9.849
-    test 53 GeoidKarney('egm2008-1.pgm').height(-18.672, 42.547) kind 3: -10.490  FAILED, KNOWN, expected -10.491
-    test 54 GeoidKarney('egm2008-1.pgm').height(-41.44, 157.413) kind 3: 0.243  FAILED, KNOWN, expected 0.244
-    test 55 GeoidKarney('egm2008-1.pgm').height(53.686, -79.375) kind 3: -43.820  FAILED, KNOWN, expected -43.821
-    test 56 GeoidKarney('egm2008-1.pgm').height(39.26, -30.351) kind 3: 57.401
-    test 57 GeoidKarney('egm2008-1.pgm').height(-51.699, -141.493) kind 3: -17.889  FAILED, KNOWN, expected -17.890
-    test 58 GeoidKarney('egm2008-1.pgm').height(36.585, 4.515) kind 3: 46.423  FAILED, KNOWN, expected 46.421
-    test 59 GeoidKarney('egm2008-1.pgm').height(39.642, -54.659) kind 3: -14.475
-    test 60 GeoidKarney('egm2008-1.pgm').height(59.761, 166.567) kind 3: 11.118
-    test 61 GeoidKarney('egm2008-1.pgm').height(51.83, 13.357) kind 3: 42.291
-    test 62 GeoidKarney('egm2008-1.pgm').height(-36.531, -175.431) kind 3: 22.327  FAILED, KNOWN, expected 22.326
-    test 63 GeoidKarney('egm2008-1.pgm').height(-37.08, 125.264) kind 3: -33.098
-    test 64 GeoidKarney('egm2008-1.pgm').height(-68.651, 92.732) kind 3: 9.431  FAILED, KNOWN, expected 9.430
-    test 65 GeoidKarney('egm2008-1.pgm').height(35.087, 45.336) kind 3: 6.032
-    test 66 GeoidKarney('egm2008-1.pgm').height(-61.356, -169.379) kind 3: -44.330
-    test 67 GeoidKarney('egm2008-1.pgm').height(-36.955, 179.12) kind 3: 21.775
-    test 68 GeoidKarney('egm2008-1.pgm').height(10.248, -6.714) kind 3: 29.243
-    test 69 GeoidKarney('egm2008-1.pgm').height(36.868, 84.602) kind 3: -40.677  FAILED, KNOWN, expected -40.676
-    test 70 GeoidKarney('egm2008-1.pgm').height(28.637, 88.933) kind 3: -31.352  FAILED, KNOWN, expected -31.353
-    test 71 GeoidKarney('egm2008-1.pgm').height(54.811, -99.968) kind 3: -32.700  FAILED, KNOWN, expected -32.701
-    test 72 GeoidKarney('egm2008-1.pgm').height(7.611, 145.911) kind 3: 60.628  FAILED, KNOWN, expected 60.629
-    test 73 GeoidKarney('egm2008-1.pgm').height(59.412, 170.102) kind 3: 6.617
-    test 74 GeoidKarney('egm2008-1.pgm').height(-61.469, 126.144) kind 3: -31.887
-    test 75 GeoidKarney('egm2008-1.pgm').height(18.514, -137.083) kind 3: -26.536  FAILED, KNOWN, expected -26.535
-    test 76 GeoidKarney('egm2008-1.pgm').height(7.854, -126.799) kind 3: -29.631  FAILED, KNOWN, expected -29.630
-    test 77 GeoidKarney('egm2008-1.pgm').height(47.489, 134.183) kind 3: 22.274  FAILED, KNOWN, expected 22.275
-    test 78 GeoidKarney('egm2008-1.pgm').height(-34.144, -11.922) kind 3: 17.095  FAILED, KNOWN, expected 17.094
-    test 79 GeoidKarney('egm2008-1.pgm').height(-58.389, 117.458) kind 3: -20.940  FAILED, KNOWN, expected -20.941
-    test 80 GeoidKarney('egm2008-1.pgm').height(9.773, 95.846) kind 3: -42.740
-    test 81 GeoidKarney('egm2008-1.pgm').height(-53.12, 136.994) kind 3: -21.651
-    test 82 GeoidKarney('egm2008-1.pgm').height(-50.35, 0.075) kind 3: 25.240
-    test 83 GeoidKarney('egm2008-1.pgm').height(31.438, -170.879) kind 3: -8.758
-    test 84 GeoidKarney('egm2008-1.pgm').height(37.541, -153.024) kind 3: -19.606  FAILED, KNOWN, expected -19.607
-    test 85 GeoidKarney('egm2008-1.pgm').height(27.586, 2.444) kind 3: 26.258
-    test 86 GeoidKarney('egm2008-1.pgm').height(-26.139, -106.201) kind 3: -3.823  FAILED, KNOWN, expected -3.824
-    test 87 GeoidKarney('egm2008-1.pgm').height(-33.426, -14.84) kind 3: 18.195
-    test 88 GeoidKarney('egm2008-1.pgm').height(39.586, -153.019) kind 3: -17.724  FAILED, KNOWN, expected -17.725
-    test 89 GeoidKarney('egm2008-1.pgm').height(-60.79, -2.578) kind 3: 14.512  FAILED, KNOWN, expected 14.513
-    test 90 GeoidKarney('egm2008-1.pgm').height(-20.131, 21.975) kind 3: 16.808  FAILED, KNOWN, expected 16.809
-    test 91 GeoidKarney('egm2008-1.pgm').height(75.649, 99.921) kind 3: -8.025  FAILED, KNOWN, expected -8.026
-    test 92 GeoidKarney('egm2008-1.pgm').height(-0.385, -23.788) kind 3: 9.689  FAILED, KNOWN, expected 9.688
-    test 93 GeoidKarney('egm2008-1.pgm').height(-51.56, -50.327) kind 3: 6.218
-    test 94 GeoidKarney('egm2008-1.pgm').height(-43.129, -167.271) kind 3: -2.725  FAILED, KNOWN, expected -2.724
-    test 95 GeoidKarney('egm2008-1.pgm').height(46.374, 71.948) kind 3: -42.566  FAILED, KNOWN, expected -42.565
-    test 96 GeoidKarney('egm2008-1.pgm').height(-22.783, 140.657) kind 3: 38.342  FAILED, KNOWN, expected 38.341
-    test 97 GeoidKarney('egm2008-1.pgm').height(-12.056, 122.804) kind 3: 33.888  FAILED, KNOWN, expected 33.889
-    test 98 GeoidKarney('egm2008-1.pgm').height(30.127, 94.738) kind 3: -37.381  FAILED, KNOWN, expected -37.380
-    test 99 GeoidKarney('egm2008-1.pgm').height(46.296, -174.479) kind 3: -1.857  FAILED, KNOWN, expected -1.858
-    test 100 GeoidKarney('egm2008-1.pgm').height(34.99, 15.052) kind 3: 34.196  FAILED, KNOWN, expected 34.195
-    test 101 GeoidKarney('egm2008-1.pgm').height(-51.287, 90.565) kind 3: 12.767
-    test 102 GeoidKarney('egm2008-1.pgm').height(34.217, 141.302) kind 3: 15.612
-    test 103 GeoidKarney('egm2008-1.pgm').height(-40.423, -142.787) kind 3: -11.063
-    test 104 GeoidKarney('egm2008-1.pgm').height(-17.854, -170.216) kind 3: 27.386  FAILED, KNOWN, expected 27.387
-    test 105 GeoidKarney('egm2008-1.pgm').height(47.803, 112.701) kind 3: -23.817
-    test 106 GeoidKarney('egm2008-1.pgm').height(-23.276, 133.454) kind 3: 18.713  FAILED, KNOWN, expected 18.712
-    test 107 GeoidKarney('egm2008-1.pgm').height(-26.884, -36.571) kind 3: -7.343  FAILED, KNOWN, expected -7.344
-    test 108 GeoidKarney('egm2008-1.pgm').height(-37.106, 31.128) kind 3: 29.997  FAILED, KNOWN, expected 29.998
-    test 109 GeoidKarney('egm2008-1.pgm').height(-75.363, -173.674) kind 3: -61.869
-    test 110 GeoidKarney('egm2008-1.pgm').height(-18.305, 69.016) kind 3: -24.938  FAILED, KNOWN, expected -24.937
-    test 111 GeoidKarney('egm2008-1.pgm').height(39.527, 23.58) kind 3: 38.557  FAILED, KNOWN, expected 38.556
-    test 112 GeoidKarney('egm2008-1.pgm').height(68.903, 30.97) kind 3: 19.671
-    test 113 GeoidKarney('egm2008-1.pgm').height(53.937, 168.318) kind 3: 2.273  FAILED, KNOWN, expected 2.272
-    test 114 GeoidKarney('egm2008-1.pgm').height(-38.6, 64.812) kind 3: 24.863
-    test 115 GeoidKarney('egm2008-1.pgm').height(-41.396, -69.739) kind 3: 21.636
-    test 116 GeoidKarney('egm2008-1.pgm').height(50.158, 72.319) kind 3: -33.850  FAILED, KNOWN, expected -33.851
-    test 117 GeoidKarney('egm2008-1.pgm').height(27.692, 176.153) kind 3: -5.299
-    test 118 GeoidKarney('egm2008-1.pgm').height(-48.419, 170.454) kind 3: -6.789
-    test 119 GeoidKarney('egm2008-1.pgm').height(-65.346, -124.976) kind 3: -35.030
-    test 120 GeoidKarney('egm2008-1.pgm').height(-51.873, 167.266) kind 3: -15.338
-    test 121 GeoidKarney('egm2008-1.pgm').height(-7.263, 84.308) kind 3: -79.356
-    test 122 GeoidKarney('egm2008-1.pgm').height(-1.461, -105.458) kind 3: -16.649  FAILED, KNOWN, expected -16.650
-    test 123 GeoidKarney('egm2008-1.pgm').height(7.684, 161.873) kind 3: 36.359
-    test 124 GeoidKarney('egm2008-1.pgm').height(-31.475, -158.52) kind 3: 3.614  FAILED, KNOWN, expected 3.615
-    test 125 GeoidKarney('egm2008-1.pgm').height(-36.187, 62.917) kind 3: 23.946  FAILED, KNOWN, expected 23.947
-    test 126 GeoidKarney('egm2008-1.pgm').height(16.003, 141.687) kind 3: 51.494  FAILED, KNOWN, expected 51.495
-    test 127 GeoidKarney('egm2008-1.pgm').height(30.182, 86.261) kind 3: -30.909  FAILED, KNOWN, expected -30.910
-    test 128 GeoidKarney('egm2008-1.pgm').height(-77.304, 159.498) kind 3: -52.131
-    test 129 GeoidKarney('egm2008-1.pgm').height(39.536, 139.795) kind 3: 37.046  FAILED, KNOWN, expected 37.045
-    test 130 GeoidKarney('egm2008-1.pgm').height(8.569, 134.618) kind 3: 64.181  FAILED, KNOWN, expected 64.180
-    test 131 GeoidKarney('egm2008-1.pgm').height(14.473, 90.596) kind 3: -62.475
-    test 132 GeoidKarney('egm2008-1.pgm').height(-13.138, -99.589) kind 3: -8.454
-    test 133 GeoidKarney('egm2008-1.pgm').height(34.212, -26.307) kind 3: 40.834
-    test 134 GeoidKarney('egm2008-1.pgm').height(21.89, 76.371) kind 3: -60.455
-    test 135 GeoidKarney('egm2008-1.pgm').height(29.793, 120.487) kind 3: 9.728  FAILED, KNOWN, expected 9.727
-    test 136 GeoidKarney('egm2008-1.pgm').height(15.724, 122.714) kind 3: 32.141  FAILED, KNOWN, expected 32.142
-    test 137 GeoidKarney('egm2008-1.pgm').height(-66.208, -78.499) kind 3: -6.221  FAILED, KNOWN, expected -6.220
-    test 138 GeoidKarney('egm2008-1.pgm').height(-39.507, 55.809) kind 3: 32.488  FAILED, KNOWN, expected 32.489
-    test 139 GeoidKarney('egm2008-1.pgm').height(28.159, 51.476) kind 3: -24.692
-    test 140 GeoidKarney('egm2008-1.pgm').height(-36.207, 120.205) kind 3: -38.749
-    test 141 GeoidKarney('egm2008-1.pgm').height(30.575, -99.998) kind 3: -23.254  FAILED, KNOWN, expected -23.255
-    test 142 GeoidKarney('egm2008-1.pgm').height(-16.993, 37.136) kind 3: -13.454  FAILED, KNOWN, expected -13.455
-    test 143 GeoidKarney('egm2008-1.pgm').height(-11.477, 12.039) kind 3: 16.627
-    test 144 GeoidKarney('egm2008-1.pgm').height(30.428, -144.765) kind 3: -22.221
-    test 145 GeoidKarney('egm2008-1.pgm').height(-17.44, -92.424) kind 3: -4.836
-    test 146 GeoidKarney('egm2008-1.pgm').height(40.203, 143.43) kind 3: 19.571
-    test 147 GeoidKarney('egm2008-1.pgm').height(-37.098, -106.574) kind 3: -9.227
-    test 148 GeoidKarney('egm2008-1.pgm').height(54.62, -68.413) kind 3: -23.248
-    test 149 GeoidKarney('egm2008-1.pgm').height(-31.633, 148.182) kind 3: 24.829
-    test 150 GeoidKarney('egm2008-1.pgm').height(-56.07, -141.407) kind 3: -21.706  FAILED, KNOWN, expected -21.705
-    test 151 GeoidKarney('egm2008-1.pgm').height(-8.195, -52.691) kind 3: -17.054  FAILED, KNOWN, expected -17.053
-    test 152 GeoidKarney('egm2008-1.pgm').height(17.851, 24.749) kind 3: 11.715  FAILED, KNOWN, expected 11.716
-    test 153 GeoidKarney('egm2008-1.pgm').height(0.349, -108.333) kind 3: -19.529  FAILED, KNOWN, expected -19.530
-    test 154 GeoidKarney('egm2008-1.pgm').height(15.038, 126.191) kind 3: 45.929
-    test 155 GeoidKarney('egm2008-1.pgm').height(-21.111, -123.696) kind 3: -8.283
-    test 156 GeoidKarney('egm2008-1.pgm').height(30.947, 173.002) kind 3: -8.467
-    test 157 GeoidKarney('egm2008-1.pgm').height(-10.698, -144.091) kind 3: -1.829
-    test 158 GeoidKarney('egm2008-1.pgm').height(-29.412, 124.753) kind 3: -16.505  FAILED, KNOWN, expected -16.506
-    test 159 GeoidKarney('egm2008-1.pgm').height(38.224, -137.189) kind 3: -35.384
-    test 160 GeoidKarney('egm2008-1.pgm').height(36.064, -132.409) kind 3: -38.962  FAILED, KNOWN, expected -38.963
-    test 161 GeoidKarney('egm2008-1.pgm').height(29.975, 178.076) kind 3: -6.956
-    test 162 GeoidKarney('egm2008-1.pgm').height(-21.346, 169.26) kind 3: 51.006  FAILED, KNOWN, expected 51.005
-    test 163 GeoidKarney('egm2008-1.pgm').height(49.282, -152.934) kind 3: 1.193  FAILED, KNOWN, expected 1.192
-    test 164 GeoidKarney('egm2008-1.pgm').height(16.349, -99.962) kind 3: -15.038
-    test 165 GeoidKarney('egm2008-1.pgm').height(-14.293, -167.34) kind 3: 17.791
-    test 166 GeoidKarney('egm2008-1.pgm').height(47.166, -38.523) kind 3: 44.653  FAILED, KNOWN, expected 44.652
-    test 167 GeoidKarney('egm2008-1.pgm').height(-58.911, 114.347) kind 3: -17.972  FAILED, KNOWN, expected -17.971
-    test 168 GeoidKarney('egm2008-1.pgm').height(-9.055, 111.294) kind 3: 11.630  FAILED, KNOWN, expected 11.631
-    test 169 GeoidKarney('egm2008-1.pgm').height(18.391, 29.692) kind 3: 7.394
-    test 170 GeoidKarney('egm2008-1.pgm').height(-15.074, 22.153) kind 3: 7.932
-    test 171 GeoidKarney('egm2008-1.pgm').height(-4.235, 62.001) kind 3: -60.594  FAILED, KNOWN, expected -60.593
-    test 172 GeoidKarney('egm2008-1.pgm').height(15.171, -86.583) kind 3: 4.384
-    test 173 GeoidKarney('egm2008-1.pgm').height(79.254, 112.116) kind 3: 1.296  FAILED, KNOWN, expected 1.297
-    test 174 GeoidKarney('egm2008-1.pgm').height(15.947, 156.093) kind 3: 30.852
-    test 175 GeoidKarney('egm2008-1.pgm').height(68.371, -177.382) kind 3: 2.705  FAILED, KNOWN, expected 2.704
-    test 176 GeoidKarney('egm2008-1.pgm').height(-41.931, -72.093) kind 3: 21.264
-    test 177 GeoidKarney('egm2008-1.pgm').height(-1.193, -143.133) kind 3: 5.443
-    test 178 GeoidKarney('egm2008-1.pgm').height(-37.006, 154.513) kind 3: 9.998
-    test 179 GeoidKarney('egm2008-1.pgm').height(-22.148, 9.938) kind 3: 22.428
-    test 180 GeoidKarney('egm2008-1.pgm').height(24.329, 109.044) kind 3: -23.155  FAILED, KNOWN, expected -23.154
-    test 181 GeoidKarney('egm2008-1.pgm').height(-54.878, 114.691) kind 3: -17.662
-    test 182 GeoidKarney('egm2008-1.pgm').height(45.601, -80.458) kind 3: -36.840  FAILED, KNOWN, expected -36.839
-    test 183 GeoidKarney('egm2008-1.pgm').height(2.372, 58.974) kind 3: -61.220  FAILED, KNOWN, expected -61.221
-    test 184 GeoidKarney('egm2008-1.pgm').height(15.937, 165.854) kind 3: 20.355
-    test 185 GeoidKarney('egm2008-1.pgm').height(4.889, -24.213) kind 3: 13.147
-    test 186 GeoidKarney('egm2008-1.pgm').height(-11.392, 179.558) kind 3: 41.073  FAILED, KNOWN, expected 41.072
-    test 187 GeoidKarney('egm2008-1.pgm').height(58.246, 4.862) kind 3: 42.982
-    test 188 GeoidKarney('egm2008-1.pgm').height(34.302, -109.109) kind 3: -22.997  FAILED, KNOWN, expected -22.998
-    test 189 GeoidKarney('egm2008-1.pgm').height(-58.196, 117.306) kind 3: -20.662
-    test 190 GeoidKarney('egm2008-1.pgm').height(44.5, 173.769) kind 3: -8.438
-    test 191 GeoidKarney('egm2008-1.pgm').height(-28.863, -139.775) kind 3: -8.711  FAILED, KNOWN, expected -8.712
-    test 192 GeoidKarney('egm2008-1.pgm').height(19.507, -96.099) kind 3: -12.653
-    test 193 GeoidKarney('egm2008-1.pgm').height(-42.488, -73.907) kind 3: 17.166
-    test 194 GeoidKarney('egm2008-1.pgm').height(46.138, -141.429) kind 3: -19.873  FAILED, KNOWN, expected -19.874
-    test 195 GeoidKarney('egm2008-1.pgm').height(60.507, 93.743) kind 3: -31.124
-    test 196 GeoidKarney('egm2008-1.pgm').height(26.219, -145.434) kind 3: -17.306  FAILED, KNOWN, expected -17.307
-    test 197 GeoidKarney('egm2008-1.pgm').height(-28.687, 3.37) kind 3: 23.435  FAILED, KNOWN, expected 23.434
-    test 198 GeoidKarney('egm2008-1.pgm').height(-15.008, 117.45) kind 3: 4.508
-    test 199 GeoidKarney('egm2008-1.pgm').height(40.71, 144.095) kind 3: 11.550  FAILED, KNOWN, expected 11.549
-    test 200 GeoidKarney('egm2008-1.pgm').height(20.823, -173.611) kind 3: 5.749  FAILED, KNOWN, expected 5.748
-    test 201 GeoidKarney('egm2008-1.pgm').height(16.776, -3.009) kind 3: 28.788
-    test 202 GeoidKarney('egm2008-1.pgm').height(41.0, -95.0) kind 3: -30.589
-    test 203 GeoidKarney('egm2008-1.pgm').height(49.0, -120.5) kind 3: -15.273
-    test 204 GeoidKarney('egm2008-1.pgm').height(49.0, -103.5) kind 3: -18.624
-    test 205 GeoidKarney('egm2008-1.pgm').height(49.0, -86.5) kind 3: -37.872  FAILED, KNOWN, expected -37.873
-    test 206 GeoidKarney('egm2008-1.pgm').height(49.0, -69.5) kind 3: -26.511
-    test 207 GeoidKarney('egm2008-1.pgm').height(33.0, -120.5) kind 3: -39.600
-    test 208 GeoidKarney('egm2008-1.pgm').height(33.0, -103.5) kind 3: -22.689
-    test 209 GeoidKarney('egm2008-1.pgm').height(33.0, -86.5) kind 3: -30.067
-    test 210 GeoidKarney('egm2008-1.pgm').height(33.0, -69.5) kind 3: -48.093
-
-    test 211 GeoidKarney('egm2008-1.pgm').height() kind 3, hits 0, eps max (in 0 FAILED): 0.001
-
-    test 212 GeoidKarney('egm84-15.pgm').height(-76.981, 34.17) kind 3: 11.729
-    test 213 GeoidKarney('egm84-15.pgm').height(79.695, 88.806) kind 3: 0.271  FAILED, KNOWN, expected 0.270
-    test 214 GeoidKarney('egm84-15.pgm').height(-15.245, 168.748) kind 3: 67.074
-    test 215 GeoidKarney('egm84-15.pgm').height(-19.379, 15.855) kind 3: 25.345  FAILED, KNOWN, expected 25.344
-    test 216 GeoidKarney('egm84-15.pgm').height(43.378, -130.552) kind 3: -28.919
-    test 217 GeoidKarney('egm84-15.pgm').height(-16.075, 21.795) kind 3: 14.386
-    test 218 GeoidKarney('egm84-15.pgm').height(-11.256, -73.75) kind 3: 30.699  FAILED, KNOWN, expected 30.700
-    test 219 GeoidKarney('egm84-15.pgm').height(69.017, -15.921) kind 3: 62.226  FAILED, KNOWN, expected 62.225
-    test 220 GeoidKarney('egm84-15.pgm').height(2.221, 139.739) kind 3: 70.222
-    test 221 GeoidKarney('egm84-15.pgm').height(-9.097, 119.142) kind 3: 34.334  FAILED, KNOWN, expected 34.336
-    test 222 GeoidKarney('egm84-15.pgm').height(-28.524, -22.192) kind 3: 8.206
-    test 223 GeoidKarney('egm84-15.pgm').height(12.272, -136.424) kind 3: -20.073  FAILED, KNOWN, expected -20.074
-    test 224 GeoidKarney('egm84-15.pgm').height(-15.203, -85.604) kind 3: -3.129
-    test 225 GeoidKarney('egm84-15.pgm').height(-63.736, -77.17) kind 3: -3.216  FAILED, KNOWN, expected -3.217
-    test 226 GeoidKarney('egm84-15.pgm').height(-48.771, -90.102) kind 3: -1.532  FAILED, KNOWN, expected -1.531
-    test 227 GeoidKarney('egm84-15.pgm').height(-0.179, -126.368) kind 3: -16.741  FAILED, KNOWN, expected -16.742
-    test 228 GeoidKarney('egm84-15.pgm').height(1.586, -128.887) kind 3: -15.413  FAILED, KNOWN, expected -15.412
-    test 229 GeoidKarney('egm84-15.pgm').height(-48.781, -2.684) kind 3: 25.079  FAILED, KNOWN, expected 25.078
-    test 230 GeoidKarney('egm84-15.pgm').height(-49.092, 136.862) kind 3: -18.120
-    test 231 GeoidKarney('egm84-15.pgm').height(47.732, 17.552) kind 3: 46.225  FAILED, KNOWN, expected 46.224
-    test 232 GeoidKarney('egm84-15.pgm').height(-49.11, 85.706) kind 3: 18.649
-    test 233 GeoidKarney('egm84-15.pgm').height(-49.162, 40.321) kind 3: 44.763  FAILED, KNOWN, expected 44.764
-    test 234 GeoidKarney('egm84-15.pgm').height(3.498, 158.118) kind 3: 51.090  FAILED, KNOWN, expected 51.089
-    test 235 GeoidKarney('egm84-15.pgm').height(-35.616, 122.648) kind 3: -34.470  FAILED, KNOWN, expected -34.471
-    test 236 GeoidKarney('egm84-15.pgm').height(56.598, -96.114) kind 3: -39.125  FAILED, KNOWN, expected -39.124
-    test 237 GeoidKarney('egm84-15.pgm').height(-31.85, 149.121) kind 3: 28.142
-    test 238 GeoidKarney('egm84-15.pgm').height(-26.569, -177.792) kind 3: 49.620  FAILED, KNOWN, expected 49.619
-    test 239 GeoidKarney('egm84-15.pgm').height(76.735, -65.753) kind 3: 22.576  FAILED, KNOWN, expected 22.575
-    test 240 GeoidKarney('egm84-15.pgm').height(-21.404, -122.268) kind 3: -6.893
-    test 241 GeoidKarney('egm84-15.pgm').height(-77.133, -65.474) kind 3: -15.013  FAILED, KNOWN, expected -15.012
-    test 242 GeoidKarney('egm84-15.pgm').height(-58.812, 2.276) kind 3: 18.777  FAILED, KNOWN, expected 18.776
-    test 243 GeoidKarney('egm84-15.pgm').height(4.415, 155.683) kind 3: 53.645
-    test 244 GeoidKarney('egm84-15.pgm').height(-28.146, 107.081) kind 3: -39.073  FAILED, KNOWN, expected -39.074
-    test 245 GeoidKarney('egm84-15.pgm').height(-10.551, -126.69) kind 3: -9.645
-    test 246 GeoidKarney('egm84-15.pgm').height(-25.444, -103.337) kind 3: -2.527  FAILED, KNOWN, expected -2.528
-    test 247 GeoidKarney('egm84-15.pgm').height(24.436, 46.159) kind 3: -6.907
-    test 248 GeoidKarney('egm84-15.pgm').height(-72.889, 37.107) kind 3: 21.715  FAILED, KNOWN, expected 21.711
-    test 249 GeoidKarney('egm84-15.pgm').height(-19.629, 13.245) kind 3: 25.612  FAILED, KNOWN, expected 25.611
-    test 250 GeoidKarney('egm84-15.pgm').height(-7.602, 171.265) kind 3: 41.570  FAILED, KNOWN, expected 41.569
-    test 251 GeoidKarney('egm84-15.pgm').height(-45.364, -1.876) kind 3: 23.280
-    test 252 GeoidKarney('egm84-15.pgm').height(-7.292, -69.18) kind 3: 24.502
-    test 253 GeoidKarney('egm84-15.pgm').height(-31.566, -166.689) kind 3: 14.825  FAILED, KNOWN, expected 14.826
-    test 254 GeoidKarney('egm84-15.pgm').height(-82.751, -162.085) kind 3: -45.104
-    test 255 GeoidKarney('egm84-15.pgm').height(-40.7, 99.466) kind 3: -17.252
-    test 256 GeoidKarney('egm84-15.pgm').height(48.676, 39.69) kind 3: 12.972
-    test 257 GeoidKarney('egm84-15.pgm').height(74.817, -78.404) kind 3: 4.777  FAILED, KNOWN, expected 4.776
-    test 258 GeoidKarney('egm84-15.pgm').height(-81.032, -63.865) kind 3: -23.578  FAILED, KNOWN, expected -23.577
-    test 259 GeoidKarney('egm84-15.pgm').height(74.022, 9.432) kind 3: 43.886  FAILED, KNOWN, expected 43.885
-    test 260 GeoidKarney('egm84-15.pgm').height(-75.071, 17.579) kind 3: 17.071  FAILED, KNOWN, expected 17.072
-    test 261 GeoidKarney('egm84-15.pgm').height(-12.546, -54.851) kind 3: -6.643
-    test 262 GeoidKarney('egm84-15.pgm').height(-13.621, 42.408) kind 3: -23.326  FAILED, KNOWN, expected -23.325
-    test 263 GeoidKarney('egm84-15.pgm').height(-2.266, -91.951) kind 3: -10.699  FAILED, KNOWN, expected -10.698
-    test 264 GeoidKarney('egm84-15.pgm').height(-18.672, 42.547) kind 3: -10.268  FAILED, KNOWN, expected -10.265
-    test 265 GeoidKarney('egm84-15.pgm').height(-41.44, 157.413) kind 3: 0.690  FAILED, KNOWN, expected 0.689
-    test 266 GeoidKarney('egm84-15.pgm').height(53.686, -79.375) kind 3: -43.759  FAILED, KNOWN, expected -43.758
-    test 267 GeoidKarney('egm84-15.pgm').height(39.26, -30.351) kind 3: 57.553  FAILED, KNOWN, expected 57.554
-    test 268 GeoidKarney('egm84-15.pgm').height(-51.699, -141.493) kind 3: -16.937  FAILED, KNOWN, expected -16.936
-    test 269 GeoidKarney('egm84-15.pgm').height(36.585, 4.515) kind 3: 45.291  FAILED, KNOWN, expected 45.295
-    test 270 GeoidKarney('egm84-15.pgm').height(39.642, -54.659) kind 3: -13.585  FAILED, KNOWN, expected -13.586
-    test 271 GeoidKarney('egm84-15.pgm').height(59.761, 166.567) kind 3: 11.467  FAILED, KNOWN, expected 11.468
-    test 272 GeoidKarney('egm84-15.pgm').height(51.83, 13.357) kind 3: 42.092
-    test 273 GeoidKarney('egm84-15.pgm').height(-36.531, -175.431) kind 3: 22.830
-    test 274 GeoidKarney('egm84-15.pgm').height(-37.08, 125.264) kind 3: -32.302
-    test 275 GeoidKarney('egm84-15.pgm').height(-68.651, 92.732) kind 3: 9.228
-    test 276 GeoidKarney('egm84-15.pgm').height(35.087, 45.336) kind 3: 5.966  FAILED, KNOWN, expected 5.965
-    test 277 GeoidKarney('egm84-15.pgm').height(-61.356, -169.379) kind 3: -45.012  FAILED, KNOWN, expected -45.013
-    test 278 GeoidKarney('egm84-15.pgm').height(-36.955, 179.12) kind 3: 21.118
-    test 279 GeoidKarney('egm84-15.pgm').height(10.248, -6.714) kind 3: 30.497
-    test 280 GeoidKarney('egm84-15.pgm').height(36.868, 84.602) kind 3: -40.397  FAILED, KNOWN, expected -40.396
-    test 281 GeoidKarney('egm84-15.pgm').height(28.637, 88.933) kind 3: -31.701  FAILED, KNOWN, expected -31.704
-    test 282 GeoidKarney('egm84-15.pgm').height(54.811, -99.968) kind 3: -32.276  FAILED, KNOWN, expected -32.277
-    test 283 GeoidKarney('egm84-15.pgm').height(7.611, 145.911) kind 3: 61.024
-    test 284 GeoidKarney('egm84-15.pgm').height(59.412, 170.102) kind 3: 4.996  FAILED, KNOWN, expected 4.994
-    test 285 GeoidKarney('egm84-15.pgm').height(-61.469, 126.144) kind 3: -30.238  FAILED, KNOWN, expected -30.237
-    test 286 GeoidKarney('egm84-15.pgm').height(18.514, -137.083) kind 3: -26.006
-    test 287 GeoidKarney('egm84-15.pgm').height(7.854, -126.799) kind 3: -29.283
-    test 288 GeoidKarney('egm84-15.pgm').height(47.489, 134.183) kind 3: 22.393  FAILED, KNOWN, expected 22.394
-    test 289 GeoidKarney('egm84-15.pgm').height(-34.144, -11.922) kind 3: 17.550
-    test 290 GeoidKarney('egm84-15.pgm').height(-58.389, 117.458) kind 3: -20.623  FAILED, KNOWN, expected -20.622
-    test 291 GeoidKarney('egm84-15.pgm').height(9.773, 95.846) kind 3: -41.482  FAILED, KNOWN, expected -41.484
-    test 292 GeoidKarney('egm84-15.pgm').height(-53.12, 136.994) kind 3: -20.968
-    test 293 GeoidKarney('egm84-15.pgm').height(-50.35, 0.075) kind 3: 25.567  FAILED, KNOWN, expected 25.568
-    test 294 GeoidKarney('egm84-15.pgm').height(31.438, -170.879) kind 3: -8.581
-    test 295 GeoidKarney('egm84-15.pgm').height(37.541, -153.024) kind 3: -18.330  FAILED, KNOWN, expected -18.329
-    test 296 GeoidKarney('egm84-15.pgm').height(27.586, 2.444) kind 3: 25.000  FAILED, KNOWN, expected 25.001
-    test 297 GeoidKarney('egm84-15.pgm').height(-26.139, -106.201) kind 3: -2.941  FAILED, KNOWN, expected -2.940
-    test 298 GeoidKarney('egm84-15.pgm').height(-33.426, -14.84) kind 3: 18.229  FAILED, KNOWN, expected 18.228
-    test 299 GeoidKarney('egm84-15.pgm').height(39.586, -153.019) kind 3: -16.507
-    test 300 GeoidKarney('egm84-15.pgm').height(-60.79, -2.578) kind 3: 14.275
-    test 301 GeoidKarney('egm84-15.pgm').height(-20.131, 21.975) kind 3: 16.853  FAILED, KNOWN, expected 16.852
-    test 302 GeoidKarney('egm84-15.pgm').height(75.649, 99.921) kind 3: -6.872
-    test 303 GeoidKarney('egm84-15.pgm').height(-0.385, -23.788) kind 3: 9.005  FAILED, KNOWN, expected 9.006
-    test 304 GeoidKarney('egm84-15.pgm').height(-51.56, -50.327) kind 3: 6.294  FAILED, KNOWN, expected 6.296
-    test 305 GeoidKarney('egm84-15.pgm').height(-43.129, -167.271) kind 3: -1.482  FAILED, KNOWN, expected -1.481
-    test 306 GeoidKarney('egm84-15.pgm').height(46.374, 71.948) kind 3: -40.916  FAILED, KNOWN, expected -40.915
-    test 307 GeoidKarney('egm84-15.pgm').height(-22.783, 140.657) kind 3: 37.495
-    test 308 GeoidKarney('egm84-15.pgm').height(-12.056, 122.804) kind 3: 32.255  FAILED, KNOWN, expected 32.258
-    test 309 GeoidKarney('egm84-15.pgm').height(30.127, 94.738) kind 3: -41.528  FAILED, KNOWN, expected -41.529
-    test 310 GeoidKarney('egm84-15.pgm').height(46.296, -174.479) kind 3: -1.376  FAILED, KNOWN, expected -1.377
-    test 311 GeoidKarney('egm84-15.pgm').height(34.99, 15.052) kind 3: 35.279  FAILED, KNOWN, expected 35.280
-    test 312 GeoidKarney('egm84-15.pgm').height(-51.287, 90.565) kind 3: 12.958
-    test 313 GeoidKarney('egm84-15.pgm').height(34.217, 141.302) kind 3: 18.313  FAILED, KNOWN, expected 18.307
-    test 314 GeoidKarney('egm84-15.pgm').height(-40.423, -142.787) kind 3: -10.400
-    test 315 GeoidKarney('egm84-15.pgm').height(-17.854, -170.216) kind 3: 28.640  FAILED, KNOWN, expected 28.638
-    test 316 GeoidKarney('egm84-15.pgm').height(47.803, 112.701) kind 3: -24.059
-    test 317 GeoidKarney('egm84-15.pgm').height(-23.276, 133.454) kind 3: 18.806
-    test 318 GeoidKarney('egm84-15.pgm').height(-26.884, -36.571) kind 3: -6.819  FAILED, KNOWN, expected -6.820
-    test 319 GeoidKarney('egm84-15.pgm').height(-37.106, 31.128) kind 3: 31.486
-    test 320 GeoidKarney('egm84-15.pgm').height(-75.363, -173.674) kind 3: -62.024
-    test 321 GeoidKarney('egm84-15.pgm').height(-18.305, 69.016) kind 3: -24.247  FAILED, KNOWN, expected -24.248
-    test 322 GeoidKarney('egm84-15.pgm').height(39.527, 23.58) kind 3: 43.255
-    test 323 GeoidKarney('egm84-15.pgm').height(68.903, 30.97) kind 3: 18.499  FAILED, KNOWN, expected 18.498
-    test 324 GeoidKarney('egm84-15.pgm').height(53.937, 168.318) kind 3: 4.069  FAILED, KNOWN, expected 4.067
-    test 325 GeoidKarney('egm84-15.pgm').height(-38.6, 64.812) kind 3: 25.455  FAILED, KNOWN, expected 25.454
-    test 326 GeoidKarney('egm84-15.pgm').height(-41.396, -69.739) kind 3: 26.655  FAILED, KNOWN, expected 26.657
-    test 327 GeoidKarney('egm84-15.pgm').height(50.158, 72.319) kind 3: -31.967  FAILED, KNOWN, expected -31.966
-    test 328 GeoidKarney('egm84-15.pgm').height(27.692, 176.153) kind 3: -4.416  FAILED, KNOWN, expected -4.415
-    test 329 GeoidKarney('egm84-15.pgm').height(-48.419, 170.454) kind 3: -6.741
-    test 330 GeoidKarney('egm84-15.pgm').height(-65.346, -124.976) kind 3: -34.902  FAILED, KNOWN, expected -34.900
-    test 331 GeoidKarney('egm84-15.pgm').height(-51.873, 167.266) kind 3: -14.223
-    test 332 GeoidKarney('egm84-15.pgm').height(-7.263, 84.308) kind 3: -79.317
-    test 333 GeoidKarney('egm84-15.pgm').height(-1.461, -105.458) kind 3: -16.162  FAILED, KNOWN, expected -16.163
-    test 334 GeoidKarney('egm84-15.pgm').height(7.684, 161.873) kind 3: 36.288  FAILED, KNOWN, expected 36.287
-    test 335 GeoidKarney('egm84-15.pgm').height(-31.475, -158.52) kind 3: 4.067  FAILED, KNOWN, expected 4.068
-    test 336 GeoidKarney('egm84-15.pgm').height(-36.187, 62.917) kind 3: 24.406  FAILED, KNOWN, expected 24.407
-    test 337 GeoidKarney('egm84-15.pgm').height(16.003, 141.687) kind 3: 53.053  FAILED, KNOWN, expected 53.054
-    test 338 GeoidKarney('egm84-15.pgm').height(30.182, 86.261) kind 3: -30.621  FAILED, KNOWN, expected -30.622
-    test 339 GeoidKarney('egm84-15.pgm').height(-77.304, 159.498) kind 3: -53.540
-    test 340 GeoidKarney('egm84-15.pgm').height(39.536, 139.795) kind 3: 36.262
-    test 341 GeoidKarney('egm84-15.pgm').height(8.569, 134.618) kind 3: 64.367  FAILED, KNOWN, expected 64.369
-    test 342 GeoidKarney('egm84-15.pgm').height(14.473, 90.596) kind 3: -61.301  FAILED, KNOWN, expected -61.300
-    test 343 GeoidKarney('egm84-15.pgm').height(-13.138, -99.589) kind 3: -8.000  FAILED, KNOWN, expected -7.999
-    test 344 GeoidKarney('egm84-15.pgm').height(34.212, -26.307) kind 3: 41.479  FAILED, KNOWN, expected 41.477
-    test 345 GeoidKarney('egm84-15.pgm').height(21.89, 76.371) kind 3: -59.875  FAILED, KNOWN, expected -59.876
-    test 346 GeoidKarney('egm84-15.pgm').height(29.793, 120.487) kind 3: 8.404
-    test 347 GeoidKarney('egm84-15.pgm').height(15.724, 122.714) kind 3: 39.154  FAILED, KNOWN, expected 39.152
-    test 348 GeoidKarney('egm84-15.pgm').height(-66.208, -78.499) kind 3: -7.076
-    test 349 GeoidKarney('egm84-15.pgm').height(-39.507, 55.809) kind 3: 33.179  FAILED, KNOWN, expected 33.178
-    test 350 GeoidKarney('egm84-15.pgm').height(28.159, 51.476) kind 3: -23.832
-    test 351 GeoidKarney('egm84-15.pgm').height(-36.207, 120.205) kind 3: -38.206
-    test 352 GeoidKarney('egm84-15.pgm').height(30.575, -99.998) kind 3: -22.144  FAILED, KNOWN, expected -22.142
-    test 353 GeoidKarney('egm84-15.pgm').height(-16.993, 37.136) kind 3: -13.763  FAILED, KNOWN, expected -13.765
-    test 354 GeoidKarney('egm84-15.pgm').height(-11.477, 12.039) kind 3: 16.899  FAILED, KNOWN, expected 16.898
-    test 355 GeoidKarney('egm84-15.pgm').height(30.428, -144.765) kind 3: -22.475  FAILED, KNOWN, expected -22.474
-    test 356 GeoidKarney('egm84-15.pgm').height(-17.44, -92.424) kind 3: -4.717  FAILED, KNOWN, expected -4.718
-    test 357 GeoidKarney('egm84-15.pgm').height(40.203, 143.43) kind 3: 16.635
-    test 358 GeoidKarney('egm84-15.pgm').height(-37.098, -106.574) kind 3: -9.011  FAILED, KNOWN, expected -9.012
-    test 359 GeoidKarney('egm84-15.pgm').height(54.62, -68.413) kind 3: -23.544  FAILED, KNOWN, expected -23.543
-    test 360 GeoidKarney('egm84-15.pgm').height(-31.633, 148.182) kind 3: 26.236
-    test 361 GeoidKarney('egm84-15.pgm').height(-56.07, -141.407) kind 3: -21.955  FAILED, KNOWN, expected -21.953
-    test 362 GeoidKarney('egm84-15.pgm').height(-8.195, -52.691) kind 3: -17.959
-    test 363 GeoidKarney('egm84-15.pgm').height(17.851, 24.749) kind 3: 9.078
-    test 364 GeoidKarney('egm84-15.pgm').height(0.349, -108.333) kind 3: -19.157  FAILED, KNOWN, expected -19.158
-    test 365 GeoidKarney('egm84-15.pgm').height(15.038, 126.191) kind 3: 46.776
-    test 366 GeoidKarney('egm84-15.pgm').height(-21.111, -123.696) kind 3: -8.055
-    test 367 GeoidKarney('egm84-15.pgm').height(30.947, 173.002) kind 3: -7.695  FAILED, KNOWN, expected -7.696
-    test 368 GeoidKarney('egm84-15.pgm').height(-10.698, -144.091) kind 3: -1.048  FAILED, KNOWN, expected -1.049
-    test 369 GeoidKarney('egm84-15.pgm').height(-29.412, 124.753) kind 3: -16.082  FAILED, KNOWN, expected -16.081
-    test 370 GeoidKarney('egm84-15.pgm').height(38.224, -137.189) kind 3: -35.426  FAILED, KNOWN, expected -35.427
-    test 371 GeoidKarney('egm84-15.pgm').height(36.064, -132.409) kind 3: -38.648
-    test 372 GeoidKarney('egm84-15.pgm').height(29.975, 178.076) kind 3: -5.519
-    test 373 GeoidKarney('egm84-15.pgm').height(-21.346, 169.26) kind 3: 53.430  FAILED, KNOWN, expected 53.431
-    test 374 GeoidKarney('egm84-15.pgm').height(49.282, -152.934) kind 3: 1.978  FAILED, KNOWN, expected 1.979
-    test 375 GeoidKarney('egm84-15.pgm').height(16.349, -99.962) kind 3: -13.194  FAILED, KNOWN, expected -13.197
-    test 376 GeoidKarney('egm84-15.pgm').height(-14.293, -167.34) kind 3: 18.945
-    test 377 GeoidKarney('egm84-15.pgm').height(47.166, -38.523) kind 3: 45.185  FAILED, KNOWN, expected 45.187
-    test 378 GeoidKarney('egm84-15.pgm').height(-58.911, 114.347) kind 3: -17.146  FAILED, KNOWN, expected -17.145
-    test 379 GeoidKarney('egm84-15.pgm').height(-9.055, 111.294) kind 3: 13.145  FAILED, KNOWN, expected 13.146
-    test 380 GeoidKarney('egm84-15.pgm').height(18.391, 29.692) kind 3: 4.932  FAILED, KNOWN, expected 4.933
-    test 381 GeoidKarney('egm84-15.pgm').height(-15.074, 22.153) kind 3: 12.327  FAILED, KNOWN, expected 12.326
-    test 382 GeoidKarney('egm84-15.pgm').height(-4.235, 62.001) kind 3: -60.029  FAILED, KNOWN, expected -60.030
-    test 383 GeoidKarney('egm84-15.pgm').height(15.171, -86.583) kind 3: 3.107  FAILED, KNOWN, expected 3.110
-    test 384 GeoidKarney('egm84-15.pgm').height(79.254, 112.116) kind 3: -2.741
-    test 385 GeoidKarney('egm84-15.pgm').height(15.947, 156.093) kind 3: 32.086  FAILED, KNOWN, expected 32.085
-    test 386 GeoidKarney('egm84-15.pgm').height(68.371, -177.382) kind 3: 2.060
-    test 387 GeoidKarney('egm84-15.pgm').height(-41.931, -72.093) kind 3: 22.916
-    test 388 GeoidKarney('egm84-15.pgm').height(-1.193, -143.133) kind 3: 5.519
-    test 389 GeoidKarney('egm84-15.pgm').height(-37.006, 154.513) kind 3: 11.021  FAILED, KNOWN, expected 11.020
-    test 390 GeoidKarney('egm84-15.pgm').height(-22.148, 9.938) kind 3: 22.171
-    test 391 GeoidKarney('egm84-15.pgm').height(24.329, 109.044) kind 3: -22.945  FAILED, KNOWN, expected -22.944
-    test 392 GeoidKarney('egm84-15.pgm').height(-54.878, 114.691) kind 3: -17.579  FAILED, KNOWN, expected -17.580
-    test 393 GeoidKarney('egm84-15.pgm').height(45.601, -80.458) kind 3: -35.737  FAILED, KNOWN, expected -35.738
-    test 394 GeoidKarney('egm84-15.pgm').height(2.372, 58.974) kind 3: -61.040
-    test 395 GeoidKarney('egm84-15.pgm').height(15.937, 165.854) kind 3: 20.906  FAILED, KNOWN, expected 20.907
-    test 396 GeoidKarney('egm84-15.pgm').height(4.889, -24.213) kind 3: 13.874
-    test 397 GeoidKarney('egm84-15.pgm').height(-11.392, 179.558) kind 3: 40.928  FAILED, KNOWN, expected 40.929
-    test 398 GeoidKarney('egm84-15.pgm').height(58.246, 4.862) kind 3: 43.191
-    test 399 GeoidKarney('egm84-15.pgm').height(34.302, -109.109) kind 3: -22.006
-    test 400 GeoidKarney('egm84-15.pgm').height(-58.196, 117.306) kind 3: -20.375
-    test 401 GeoidKarney('egm84-15.pgm').height(44.5, 173.769) kind 3: -7.851  FAILED, KNOWN, expected -7.852
-    test 402 GeoidKarney('egm84-15.pgm').height(-28.863, -139.775) kind 3: -8.675  FAILED, KNOWN, expected -8.674
-    test 403 GeoidKarney('egm84-15.pgm').height(19.507, -96.099) kind 3: -14.116  FAILED, KNOWN, expected -14.117
-    test 404 GeoidKarney('egm84-15.pgm').height(-42.488, -73.907) kind 3: 17.252  FAILED, KNOWN, expected 17.251
-    test 405 GeoidKarney('egm84-15.pgm').height(46.138, -141.429) kind 3: -19.435  FAILED, KNOWN, expected -19.436
-    test 406 GeoidKarney('egm84-15.pgm').height(60.507, 93.743) kind 3: -31.331  FAILED, KNOWN, expected -31.330
-    test 407 GeoidKarney('egm84-15.pgm').height(26.219, -145.434) kind 3: -17.091  FAILED, KNOWN, expected -17.090
-    test 408 GeoidKarney('egm84-15.pgm').height(-28.687, 3.37) kind 3: 24.184
-    test 409 GeoidKarney('egm84-15.pgm').height(-15.008, 117.45) kind 3: 6.142
-    test 410 GeoidKarney('egm84-15.pgm').height(40.71, 144.095) kind 3: 11.693
-    test 411 GeoidKarney('egm84-15.pgm').height(20.823, -173.611) kind 3: 6.839  FAILED, KNOWN, expected 6.840
-    test 412 GeoidKarney('egm84-15.pgm').height(16.776, -3.009) kind 3: 31.298
-    test 413 GeoidKarney('egm84-15.pgm').height(41.0, -95.0) kind 3: -31.952
-    test 414 GeoidKarney('egm84-15.pgm').height(49.0, -120.5) kind 3: -14.946
-    test 415 GeoidKarney('egm84-15.pgm').height(49.0, -103.5) kind 3: -17.032
-    test 416 GeoidKarney('egm84-15.pgm').height(49.0, -86.5) kind 3: -37.962
-    test 417 GeoidKarney('egm84-15.pgm').height(49.0, -69.5) kind 3: -26.492
-    test 418 GeoidKarney('egm84-15.pgm').height(33.0, -120.5) kind 3: -39.543
-    test 419 GeoidKarney('egm84-15.pgm').height(33.0, -103.5) kind 3: -22.556
-    test 420 GeoidKarney('egm84-15.pgm').height(33.0, -86.5) kind 3: -28.710
-    test 421 GeoidKarney('egm84-15.pgm').height(33.0, -69.5) kind 3: -46.590
-
-    test 422 GeoidKarney('egm84-15.pgm').height() kind 3, hits 0, eps max (in 0 FAILED): 0.005
-
-    test 423 GeoidKarney('egm96-5.pgm').height(-76.981, 34.17) kind 3: 11.424  FAILED, KNOWN, expected 11.423
-    test 424 GeoidKarney('egm96-5.pgm').height(79.695, 88.806) kind 3: 0.892
-    test 425 GeoidKarney('egm96-5.pgm').height(-15.245, 168.748) kind 3: 65.225  FAILED, KNOWN, expected 65.226
-    test 426 GeoidKarney('egm96-5.pgm').height(-19.379, 15.855) kind 3: 24.464  FAILED, KNOWN, expected 24.463
-    test 427 GeoidKarney('egm96-5.pgm').height(43.378, -130.552) kind 3: -29.682
-    test 428 GeoidKarney('egm96-5.pgm').height(-16.075, 21.795) kind 3: 10.503
-    test 429 GeoidKarney('egm96-5.pgm').height(-11.256, -73.75) kind 3: 29.325  FAILED, KNOWN, expected 29.326
-    test 430 GeoidKarney('egm96-5.pgm').height(69.017, -15.921) kind 3: 60.423  FAILED, KNOWN, expected 60.424
-    test 431 GeoidKarney('egm96-5.pgm').height(2.221, 139.739) kind 3: 68.996
-    test 432 GeoidKarney('egm96-5.pgm').height(-9.097, 119.142) kind 3: 36.287
-    test 433 GeoidKarney('egm96-5.pgm').height(-28.524, -22.192) kind 3: 6.626
-    test 434 GeoidKarney('egm96-5.pgm').height(12.272, -136.424) kind 3: -20.861  FAILED, KNOWN, expected -20.860
-    test 435 GeoidKarney('egm96-5.pgm').height(-15.203, -85.604) kind 3: -3.267
-    test 436 GeoidKarney('egm96-5.pgm').height(-63.736, -77.17) kind 3: -1.295  FAILED, KNOWN, expected -1.294
-    test 437 GeoidKarney('egm96-5.pgm').height(-48.771, -90.102) kind 3: -2.323  FAILED, KNOWN, expected -2.322
-    test 438 GeoidKarney('egm96-5.pgm').height(-0.179, -126.368) kind 3: -17.555  FAILED, KNOWN, expected -17.557
-    test 439 GeoidKarney('egm96-5.pgm').height(1.586, -128.887) kind 3: -16.594
-    test 440 GeoidKarney('egm96-5.pgm').height(-48.781, -2.684) kind 3: 24.454  FAILED, KNOWN, expected 24.453
-    test 441 GeoidKarney('egm96-5.pgm').height(-49.092, 136.862) kind 3: -18.592
-    test 442 GeoidKarney('egm96-5.pgm').height(47.732, 17.552) kind 3: 44.048  FAILED, KNOWN, expected 44.049
-    test 443 GeoidKarney('egm96-5.pgm').height(-49.11, 85.706) kind 3: 18.582  FAILED, KNOWN, expected 18.581
-    test 444 GeoidKarney('egm96-5.pgm').height(-49.162, 40.321) kind 3: 44.290  FAILED, KNOWN, expected 44.289
-    test 445 GeoidKarney('egm96-5.pgm').height(3.498, 158.118) kind 3: 49.817  FAILED, KNOWN, expected 49.816
-    test 446 GeoidKarney('egm96-5.pgm').height(-35.616, 122.648) kind 3: -36.114
-    test 447 GeoidKarney('egm96-5.pgm').height(56.598, -96.114) kind 3: -41.047  FAILED, KNOWN, expected -41.048
-    test 448 GeoidKarney('egm96-5.pgm').height(-31.85, 149.121) kind 3: 26.456
-    test 449 GeoidKarney('egm96-5.pgm').height(-26.569, -177.792) kind 3: 49.317
-    test 450 GeoidKarney('egm96-5.pgm').height(76.735, -65.753) kind 3: 20.714
-    test 451 GeoidKarney('egm96-5.pgm').height(-21.404, -122.268) kind 3: -7.362
-    test 452 GeoidKarney('egm96-5.pgm').height(-77.133, -65.474) kind 3: -16.491  FAILED, KNOWN, expected -16.492
-    test 453 GeoidKarney('egm96-5.pgm').height(-58.812, 2.276) kind 3: 18.110
-    test 454 GeoidKarney('egm96-5.pgm').height(4.415, 155.683) kind 3: 51.858
-    test 455 GeoidKarney('egm96-5.pgm').height(-28.146, 107.081) kind 3: -38.979  FAILED, KNOWN, expected -38.981
-    test 456 GeoidKarney('egm96-5.pgm').height(-10.551, -126.69) kind 3: -9.913
-    test 457 GeoidKarney('egm96-5.pgm').height(-25.444, -103.337) kind 3: -2.828
-    test 458 GeoidKarney('egm96-5.pgm').height(24.436, 46.159) kind 3: -5.718  FAILED, KNOWN, expected -5.719
-    test 459 GeoidKarney('egm96-5.pgm').height(-72.889, 37.107) kind 3: 22.427  FAILED, KNOWN, expected 22.426
-    test 460 GeoidKarney('egm96-5.pgm').height(-19.629, 13.245) kind 3: 24.545
-    test 461 GeoidKarney('egm96-5.pgm').height(-7.602, 171.265) kind 3: 40.651  FAILED, KNOWN, expected 40.652
-    test 462 GeoidKarney('egm96-5.pgm').height(-45.364, -1.876) kind 3: 22.383
-    test 463 GeoidKarney('egm96-5.pgm').height(-7.292, -69.18) kind 3: 22.183  FAILED, KNOWN, expected 22.182
-    test 464 GeoidKarney('egm96-5.pgm').height(-31.566, -166.689) kind 3: 14.929  FAILED, KNOWN, expected 14.930
-    test 465 GeoidKarney('egm96-5.pgm').height(-82.751, -162.085) kind 3: -47.094
-    test 466 GeoidKarney('egm96-5.pgm').height(-40.7, 99.466) kind 3: -18.421
-    test 467 GeoidKarney('egm96-5.pgm').height(48.676, 39.69) kind 3: 10.055
-    test 468 GeoidKarney('egm96-5.pgm').height(74.817, -78.404) kind 3: 5.786
-    test 469 GeoidKarney('egm96-5.pgm').height(-81.032, -63.865) kind 3: -22.838
-    test 470 GeoidKarney('egm96-5.pgm').height(74.022, 9.432) kind 3: 42.989
-    test 471 GeoidKarney('egm96-5.pgm').height(-75.071, 17.579) kind 3: 15.352  FAILED, KNOWN, expected 15.353
-    test 472 GeoidKarney('egm96-5.pgm').height(-12.546, -54.851) kind 3: -6.338  FAILED, KNOWN, expected -6.337
-    test 473 GeoidKarney('egm96-5.pgm').height(-13.621, 42.408) kind 3: -25.554  FAILED, KNOWN, expected -25.555
-    test 474 GeoidKarney('egm96-5.pgm').height(-2.266, -91.951) kind 3: -9.922  FAILED, KNOWN, expected -9.923
-    test 475 GeoidKarney('egm96-5.pgm').height(-18.672, 42.547) kind 3: -10.853  FAILED, KNOWN, expected -10.852
-    test 476 GeoidKarney('egm96-5.pgm').height(-41.44, 157.413) kind 3: -0.135
-    test 477 GeoidKarney('egm96-5.pgm').height(53.686, -79.375) kind 3: -43.809
-    test 478 GeoidKarney('egm96-5.pgm').height(39.26, -30.351) kind 3: 57.150
-    test 479 GeoidKarney('egm96-5.pgm').height(-51.699, -141.493) kind 3: -17.656  FAILED, KNOWN, expected -17.657
-    test 480 GeoidKarney('egm96-5.pgm').height(36.585, 4.515) kind 3: 46.359  FAILED, KNOWN, expected 46.358
-    test 481 GeoidKarney('egm96-5.pgm').height(39.642, -54.659) kind 3: -14.404
-    test 482 GeoidKarney('egm96-5.pgm').height(59.761, 166.567) kind 3: 11.242
-    test 483 GeoidKarney('egm96-5.pgm').height(51.83, 13.357) kind 3: 42.237
-    test 484 GeoidKarney('egm96-5.pgm').height(-36.531, -175.431) kind 3: 22.147
-    test 485 GeoidKarney('egm96-5.pgm').height(-37.08, 125.264) kind 3: -33.396
-    test 486 GeoidKarney('egm96-5.pgm').height(-68.651, 92.732) kind 3: 7.961
-    test 487 GeoidKarney('egm96-5.pgm').height(35.087, 45.336) kind 3: 7.228  FAILED, KNOWN, expected 7.229
-    test 488 GeoidKarney('egm96-5.pgm').height(-61.356, -169.379) kind 3: -44.290  FAILED, KNOWN, expected -44.292
-    test 489 GeoidKarney('egm96-5.pgm').height(-36.955, 179.12) kind 3: 21.874  FAILED, KNOWN, expected 21.875
-    test 490 GeoidKarney('egm96-5.pgm').height(10.248, -6.714) kind 3: 28.933
-    test 491 GeoidKarney('egm96-5.pgm').height(36.868, 84.602) kind 3: -41.238
-    test 492 GeoidKarney('egm96-5.pgm').height(28.637, 88.933) kind 3: -31.331
-    test 493 GeoidKarney('egm96-5.pgm').height(54.811, -99.968) kind 3: -32.702
-    test 494 GeoidKarney('egm96-5.pgm').height(7.611, 145.911) kind 3: 60.117
-    test 495 GeoidKarney('egm96-5.pgm').height(59.412, 170.102) kind 3: 6.457
-    test 496 GeoidKarney('egm96-5.pgm').height(-61.469, 126.144) kind 3: -31.961
-    test 497 GeoidKarney('egm96-5.pgm').height(18.514, -137.083) kind 3: -26.572  FAILED, KNOWN, expected -26.571
-    test 498 GeoidKarney('egm96-5.pgm').height(7.854, -126.799) kind 3: -29.761  FAILED, KNOWN, expected -29.760
-    test 499 GeoidKarney('egm96-5.pgm').height(47.489, 134.183) kind 3: 21.981  FAILED, KNOWN, expected 21.980
-    test 500 GeoidKarney('egm96-5.pgm').height(-34.144, -11.922) kind 3: 16.849
-    test 501 GeoidKarney('egm96-5.pgm').height(-58.389, 117.458) kind 3: -20.923
-    test 502 GeoidKarney('egm96-5.pgm').height(9.773, 95.846) kind 3: -42.749
-    test 503 GeoidKarney('egm96-5.pgm').height(-53.12, 136.994) kind 3: -21.840  FAILED, KNOWN, expected -21.841
-    test 504 GeoidKarney('egm96-5.pgm').height(-50.35, 0.075) kind 3: 25.481  FAILED, KNOWN, expected 25.482
-    test 505 GeoidKarney('egm96-5.pgm').height(31.438, -170.879) kind 3: -8.846  FAILED, KNOWN, expected -8.847
-    test 506 GeoidKarney('egm96-5.pgm').height(37.541, -153.024) kind 3: -19.603  FAILED, KNOWN, expected -19.604
-    test 507 GeoidKarney('egm96-5.pgm').height(27.586, 2.444) kind 3: 25.668
-    test 508 GeoidKarney('egm96-5.pgm').height(-26.139, -106.201) kind 3: -3.772
-    test 509 GeoidKarney('egm96-5.pgm').height(-33.426, -14.84) kind 3: 17.747  FAILED, KNOWN, expected 17.748
-    test 510 GeoidKarney('egm96-5.pgm').height(39.586, -153.019) kind 3: -17.838  FAILED, KNOWN, expected -17.839
-    test 511 GeoidKarney('egm96-5.pgm').height(-60.79, -2.578) kind 3: 14.292
-    test 512 GeoidKarney('egm96-5.pgm').height(-20.131, 21.975) kind 3: 16.529
-    test 513 GeoidKarney('egm96-5.pgm').height(75.649, 99.921) kind 3: -8.230  FAILED, KNOWN, expected -8.229
-    test 514 GeoidKarney('egm96-5.pgm').height(-0.385, -23.788) kind 3: 9.831  FAILED, KNOWN, expected 9.830
-    test 515 GeoidKarney('egm96-5.pgm').height(-51.56, -50.327) kind 3: 6.215
-    test 516 GeoidKarney('egm96-5.pgm').height(-43.129, -167.271) kind 3: -2.960
-    test 517 GeoidKarney('egm96-5.pgm').height(46.374, 71.948) kind 3: -42.323
-    test 518 GeoidKarney('egm96-5.pgm').height(-22.783, 140.657) kind 3: 38.356
-    test 519 GeoidKarney('egm96-5.pgm').height(-12.056, 122.804) kind 3: 34.259
-    test 520 GeoidKarney('egm96-5.pgm').height(30.127, 94.738) kind 3: -37.397
-    test 521 GeoidKarney('egm96-5.pgm').height(46.296, -174.479) kind 3: -2.017  FAILED, KNOWN, expected -2.016
-    test 522 GeoidKarney('egm96-5.pgm').height(34.99, 15.052) kind 3: 33.912
-    test 523 GeoidKarney('egm96-5.pgm').height(-51.287, 90.565) kind 3: 12.676
-    test 524 GeoidKarney('egm96-5.pgm').height(34.217, 141.302) kind 3: 15.692
-    test 525 GeoidKarney('egm96-5.pgm').height(-40.423, -142.787) kind 3: -11.117
-    test 526 GeoidKarney('egm96-5.pgm').height(-17.854, -170.216) kind 3: 27.437
-    test 527 GeoidKarney('egm96-5.pgm').height(47.803, 112.701) kind 3: -23.894
-    test 528 GeoidKarney('egm96-5.pgm').height(-23.276, 133.454) kind 3: 18.765  FAILED, KNOWN, expected 18.766
-    test 529 GeoidKarney('egm96-5.pgm').height(-26.884, -36.571) kind 3: -7.452
-    test 530 GeoidKarney('egm96-5.pgm').height(-37.106, 31.128) kind 3: 30.143
-    test 531 GeoidKarney('egm96-5.pgm').height(-75.363, -173.674) kind 3: -61.172
-    test 532 GeoidKarney('egm96-5.pgm').height(-18.305, 69.016) kind 3: -24.890
-    test 533 GeoidKarney('egm96-5.pgm').height(39.527, 23.58) kind 3: 39.519
-    test 534 GeoidKarney('egm96-5.pgm').height(68.903, 30.97) kind 3: 19.420  FAILED, KNOWN, expected 19.419
-    test 535 GeoidKarney('egm96-5.pgm').height(53.937, 168.318) kind 3: 2.067  FAILED, KNOWN, expected 2.069
-    test 536 GeoidKarney('egm96-5.pgm').height(-38.6, 64.812) kind 3: 25.049  FAILED, KNOWN, expected 25.048
-    test 537 GeoidKarney('egm96-5.pgm').height(-41.396, -69.739) kind 3: 22.546  FAILED, KNOWN, expected 22.547
-    test 538 GeoidKarney('egm96-5.pgm').height(50.158, 72.319) kind 3: -34.358  FAILED, KNOWN, expected -34.359
-    test 539 GeoidKarney('egm96-5.pgm').height(27.692, 176.153) kind 3: -5.454  FAILED, KNOWN, expected -5.453
-    test 540 GeoidKarney('egm96-5.pgm').height(-48.419, 170.454) kind 3: -6.804
-    test 541 GeoidKarney('egm96-5.pgm').height(-65.346, -124.976) kind 3: -35.053  FAILED, KNOWN, expected -35.054
-    test 542 GeoidKarney('egm96-5.pgm').height(-51.873, 167.266) kind 3: -15.417  FAILED, KNOWN, expected -15.418
-    test 543 GeoidKarney('egm96-5.pgm').height(-7.263, 84.308) kind 3: -79.557
-    test 544 GeoidKarney('egm96-5.pgm').height(-1.461, -105.458) kind 3: -16.894
-    test 545 GeoidKarney('egm96-5.pgm').height(7.684, 161.873) kind 3: 36.215
-    test 546 GeoidKarney('egm96-5.pgm').height(-31.475, -158.52) kind 3: 3.523
-    test 547 GeoidKarney('egm96-5.pgm').height(-36.187, 62.917) kind 3: 23.797
-    test 548 GeoidKarney('egm96-5.pgm').height(16.003, 141.687) kind 3: 51.587  FAILED, KNOWN, expected 51.586
-    test 549 GeoidKarney('egm96-5.pgm').height(30.182, 86.261) kind 3: -30.131
-    test 550 GeoidKarney('egm96-5.pgm').height(-77.304, 159.498) kind 3: -51.849  FAILED, KNOWN, expected -51.848
-    test 551 GeoidKarney('egm96-5.pgm').height(39.536, 139.795) kind 3: 37.191  FAILED, KNOWN, expected 37.192
-    test 552 GeoidKarney('egm96-5.pgm').height(8.569, 134.618) kind 3: 63.596  FAILED, KNOWN, expected 63.597
-    test 553 GeoidKarney('egm96-5.pgm').height(14.473, 90.596) kind 3: -62.636
-    test 554 GeoidKarney('egm96-5.pgm').height(-13.138, -99.589) kind 3: -8.718  FAILED, KNOWN, expected -8.717
-    test 555 GeoidKarney('egm96-5.pgm').height(34.212, -26.307) kind 3: 40.645
-    test 556 GeoidKarney('egm96-5.pgm').height(21.89, 76.371) kind 3: -60.729
-    test 557 GeoidKarney('egm96-5.pgm').height(29.793, 120.487) kind 3: 8.784  FAILED, KNOWN, expected 8.783
-    test 558 GeoidKarney('egm96-5.pgm').height(15.724, 122.714) kind 3: 31.523
-    test 559 GeoidKarney('egm96-5.pgm').height(-66.208, -78.499) kind 3: -6.251  FAILED, KNOWN, expected -6.250
-    test 560 GeoidKarney('egm96-5.pgm').height(-39.507, 55.809) kind 3: 32.598  FAILED, KNOWN, expected 32.599
-    test 561 GeoidKarney('egm96-5.pgm').height(28.159, 51.476) kind 3: -24.536
-    test 562 GeoidKarney('egm96-5.pgm').height(-36.207, 120.205) kind 3: -38.869
-    test 563 GeoidKarney('egm96-5.pgm').height(30.575, -99.998) kind 3: -23.212  FAILED, KNOWN, expected -23.213
-    test 564 GeoidKarney('egm96-5.pgm').height(-16.993, 37.136) kind 3: -11.824
-    test 565 GeoidKarney('egm96-5.pgm').height(-11.477, 12.039) kind 3: 16.710  FAILED, KNOWN, expected 16.709
-    test 566 GeoidKarney('egm96-5.pgm').height(30.428, -144.765) kind 3: -22.378  FAILED, KNOWN, expected -22.379
-    test 567 GeoidKarney('egm96-5.pgm').height(-17.44, -92.424) kind 3: -4.941
-    test 568 GeoidKarney('egm96-5.pgm').height(40.203, 143.43) kind 3: 19.394
-    test 569 GeoidKarney('egm96-5.pgm').height(-37.098, -106.574) kind 3: -9.381
-    test 570 GeoidKarney('egm96-5.pgm').height(54.62, -68.413) kind 3: -23.318  FAILED, KNOWN, expected -23.319
-    test 571 GeoidKarney('egm96-5.pgm').height(-31.633, 148.182) kind 3: 24.467  FAILED, KNOWN, expected 24.468
-    test 572 GeoidKarney('egm96-5.pgm').height(-56.07, -141.407) kind 3: -21.761
-    test 573 GeoidKarney('egm96-5.pgm').height(-8.195, -52.691) kind 3: -18.798
-    test 574 GeoidKarney('egm96-5.pgm').height(17.851, 24.749) kind 3: 12.612
-    test 575 GeoidKarney('egm96-5.pgm').height(0.349, -108.333) kind 3: -19.708  FAILED, KNOWN, expected -19.706
-    test 576 GeoidKarney('egm96-5.pgm').height(15.038, 126.191) kind 3: 45.792
-    test 577 GeoidKarney('egm96-5.pgm').height(-21.111, -123.696) kind 3: -8.406
-    test 578 GeoidKarney('egm96-5.pgm').height(30.947, 173.002) kind 3: -8.367
-    test 579 GeoidKarney('egm96-5.pgm').height(-10.698, -144.091) kind 3: -2.026  FAILED, KNOWN, expected -2.025
-    test 580 GeoidKarney('egm96-5.pgm').height(-29.412, 124.753) kind 3: -16.567  FAILED, KNOWN, expected -16.569
-    test 581 GeoidKarney('egm96-5.pgm').height(38.224, -137.189) kind 3: -35.435
-    test 582 GeoidKarney('egm96-5.pgm').height(36.064, -132.409) kind 3: -39.008  FAILED, KNOWN, expected -39.009
-    test 583 GeoidKarney('egm96-5.pgm').height(29.975, 178.076) kind 3: -6.921
-    test 584 GeoidKarney('egm96-5.pgm').height(-21.346, 169.26) kind 3: 50.795
-    test 585 GeoidKarney('egm96-5.pgm').height(49.282, -152.934) kind 3: 1.071  FAILED, KNOWN, expected 1.070
-    test 586 GeoidKarney('egm96-5.pgm').height(16.349, -99.962) kind 3: -14.214
-    test 587 GeoidKarney('egm96-5.pgm').height(-14.293, -167.34) kind 3: 17.600
-    test 588 GeoidKarney('egm96-5.pgm').height(47.166, -38.523) kind 3: 44.803  FAILED, KNOWN, expected 44.804
-    test 589 GeoidKarney('egm96-5.pgm').height(-58.911, 114.347) kind 3: -17.923  FAILED, KNOWN, expected -17.922
-    test 590 GeoidKarney('egm96-5.pgm').height(-9.055, 111.294) kind 3: 10.662
-    test 591 GeoidKarney('egm96-5.pgm').height(18.391, 29.692) kind 3: 7.670
-    test 592 GeoidKarney('egm96-5.pgm').height(-15.074, 22.153) kind 3: 8.624  FAILED, KNOWN, expected 8.623
-    test 593 GeoidKarney('egm96-5.pgm').height(-4.235, 62.001) kind 3: -60.722  FAILED, KNOWN, expected -60.723
-    test 594 GeoidKarney('egm96-5.pgm').height(15.171, -86.583) kind 3: 3.820  FAILED, KNOWN, expected 3.818
-    test 595 GeoidKarney('egm96-5.pgm').height(79.254, 112.116) kind 3: -1.871
-    test 596 GeoidKarney('egm96-5.pgm').height(15.947, 156.093) kind 3: 30.634  FAILED, KNOWN, expected 30.633
-    test 597 GeoidKarney('egm96-5.pgm').height(68.371, -177.382) kind 3: 2.800  FAILED, KNOWN, expected 2.801
-    test 598 GeoidKarney('egm96-5.pgm').height(-41.931, -72.093) kind 3: 19.858  FAILED, KNOWN, expected 19.859
-    test 599 GeoidKarney('egm96-5.pgm').height(-1.193, -143.133) kind 3: 5.347  FAILED, KNOWN, expected 5.348
-    test 600 GeoidKarney('egm96-5.pgm').height(-37.006, 154.513) kind 3: 9.941
-    test 601 GeoidKarney('egm96-5.pgm').height(-22.148, 9.938) kind 3: 22.322  FAILED, KNOWN, expected 22.321
-    test 602 GeoidKarney('egm96-5.pgm').height(24.329, 109.044) kind 3: -24.135
-    test 603 GeoidKarney('egm96-5.pgm').height(-54.878, 114.691) kind 3: -17.680  FAILED, KNOWN, expected -17.679
-    test 604 GeoidKarney('egm96-5.pgm').height(45.601, -80.458) kind 3: -37.151  FAILED, KNOWN, expected -37.150
-    test 605 GeoidKarney('egm96-5.pgm').height(2.372, 58.974) kind 3: -61.158
-    test 606 GeoidKarney('egm96-5.pgm').height(15.937, 165.854) kind 3: 20.603  FAILED, KNOWN, expected 20.602
-    test 607 GeoidKarney('egm96-5.pgm').height(4.889, -24.213) kind 3: 13.056  FAILED, KNOWN, expected 13.055
-    test 608 GeoidKarney('egm96-5.pgm').height(-11.392, 179.558) kind 3: 40.133  FAILED, KNOWN, expected 40.132
-    test 609 GeoidKarney('egm96-5.pgm').height(58.246, 4.862) kind 3: 43.263
-    test 610 GeoidKarney('egm96-5.pgm').height(34.302, -109.109) kind 3: -23.126
-    test 611 GeoidKarney('egm96-5.pgm').height(-58.196, 117.306) kind 3: -20.678
-    test 612 GeoidKarney('egm96-5.pgm').height(44.5, 173.769) kind 3: -8.530  FAILED, KNOWN, expected -8.529
-    test 613 GeoidKarney('egm96-5.pgm').height(-28.863, -139.775) kind 3: -8.666
-    test 614 GeoidKarney('egm96-5.pgm').height(19.507, -96.099) kind 3: -12.795  FAILED, KNOWN, expected -12.796
-    test 615 GeoidKarney('egm96-5.pgm').height(-42.488, -73.907) kind 3: 15.774  FAILED, KNOWN, expected 15.773
-    test 616 GeoidKarney('egm96-5.pgm').height(46.138, -141.429) kind 3: -19.955  FAILED, KNOWN, expected -19.954
-    test 617 GeoidKarney('egm96-5.pgm').height(60.507, 93.743) kind 3: -31.480
-    test 618 GeoidKarney('egm96-5.pgm').height(26.219, -145.434) kind 3: -17.428  FAILED, KNOWN, expected -17.429
-    test 619 GeoidKarney('egm96-5.pgm').height(-28.687, 3.37) kind 3: 24.037
-    test 620 GeoidKarney('egm96-5.pgm').height(-15.008, 117.45) kind 3: 4.519  FAILED, KNOWN, expected 4.520
-    test 621 GeoidKarney('egm96-5.pgm').height(40.71, 144.095) kind 3: 11.393  FAILED, KNOWN, expected 11.394
-    test 622 GeoidKarney('egm96-5.pgm').height(20.823, -173.611) kind 3: 5.678  FAILED, KNOWN, expected 5.679
-    test 623 GeoidKarney('egm96-5.pgm').height(16.776, -3.009) kind 3: 28.707
-    test 624 GeoidKarney('egm96-5.pgm').height(41.0, -95.0) kind 3: -30.261  FAILED, KNOWN, expected -30.262
-    test 625 GeoidKarney('egm96-5.pgm').height(49.0, -120.5) kind 3: -15.984
-    test 626 GeoidKarney('egm96-5.pgm').height(49.0, -103.5) kind 3: -18.635
-    test 627 GeoidKarney('egm96-5.pgm').height(49.0, -86.5) kind 3: -37.749
-    test 628 GeoidKarney('egm96-5.pgm').height(49.0, -69.5) kind 3: -26.691
-    test 629 GeoidKarney('egm96-5.pgm').height(33.0, -120.5) kind 3: -39.561
-    test 630 GeoidKarney('egm96-5.pgm').height(33.0, -103.5) kind 3: -22.562
-    test 631 GeoidKarney('egm96-5.pgm').height(33.0, -86.5) kind 3: -30.012
-    test 632 GeoidKarney('egm96-5.pgm').height(33.0, -69.5) kind 3: -48.039
-
-    test 633 GeoidKarney('egm96-5.pgm').height() kind 3, hits 0, eps max (in 0 FAILED): 0.002
-
-    test 634 GeoidG2012B('g2012bu0.bin').height(41.0, -95.0) kind 3: -30.312
-    test 635 GeoidG2012B('g2012bu0.bin').height(49.0, -120.5) kind 3: -16.112
-    test 636 GeoidG2012B('g2012bu0.bin').height(49.0, -103.5) kind 3: -18.955
-    test 637 GeoidG2012B('g2012bu0.bin').height(49.0, -86.5) kind 3: -37.584
-    test 638 GeoidG2012B('g2012bu0.bin').height(49.0, -69.5) kind 3: -25.867
-    test 639 GeoidG2012B('g2012bu0.bin').height(33.0, -120.5) kind 3: -39.554
-    test 640 GeoidG2012B('g2012bu0.bin').height(33.0, -103.5) kind 3: -21.917
-    test 641 GeoidG2012B('g2012bu0.bin').height(33.0, -86.5) kind 3: -29.001
-    test 642 GeoidG2012B('g2012bu0.bin').height(33.0, -69.5) kind 3: -46.725
-
-    test 643 GeoidG2012B('g2012bu0.bin').height() kind 3, eps max (in 0 FAILED): 0.000
-
-
-    326 of 643 testGeoids.py tests (50.7%) FAILED, ALL KNOWN (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 14.369 sec
+    all testGeoids.py tests SKIPPED (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 1.610 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testGreatCircle.py
 # lazily imported pygeodesy.anStr from .utily by PyGeodesy/test/base.py line 37
@@ -6949,7 +6297,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testGreatCircle.py
 
     testing testGreatCircle.py 18.10.02 isLazy=3
 
-    testGreatCircle(sphericalNvector, 19.06.14)
+    testGreatCircle(sphericalNvector, 19.06.17)
     test 1 InitialBearingSameLocations: 0.0
     test 2 InitialBearingEqualLocations: 0.0
     test 3 FinalBearingSameLocations: 180.0
@@ -7013,7 +6361,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testGreatCircle.py
     test 59 CrossTrackDistance200m+270°: -200.0
     test 60 CrossTrackDistanceCloseToZero: 0.0000000
 
-    10 of 60 testGreatCircle.py tests (16.7%) FAILED, ALL KNOWN (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 4.429 ms
+    10 of 60 testGreatCircle.py tests (16.7%) FAILED, ALL KNOWN (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 4.298 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testHeights.py
 # lazily imported pygeodesy.anStr from .utily by PyGeodesy/test/base.py line 37
@@ -7353,7 +6701,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testHeights.py
     test 320 HeightSmoothBiSpline(list-float): <class 'float'>
     test 321 HeightSmoothBiSpline(latlon): True
 
-    all 321 testHeights.py tests passed (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 4.247 sec
+    all 321 testHeights.py tests passed (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 117.409 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testLatLon.py
 # lazily imported pygeodesy.anStr from .utily by PyGeodesy/test/base.py line 37
@@ -7665,7 +7013,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testLatLon.py
     test 276 compassAngleTo: 31
     test 277 compassAngleTo: 45
 
-    testLatLon(sphericalNvector, 19.06.14)
+    testLatLon(sphericalNvector, 19.06.17)
     test 278 isEllipsoidal: False
     test 279 isSpherical: True
     test 280 lat/lonDMS: 52.20472°N, 000.14056°E
@@ -7892,7 +7240,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testLatLon.py
     test 499 compassAngleTo: 31
     test 500 compassAngleTo: 45
 
-    17 of 500 testLatLon.py tests (3.4%) FAILED, ALL KNOWN (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 104.727 ms
+    17 of 500 testLatLon.py tests (3.4%) FAILED, ALL KNOWN (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 41.221 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testLazily.py
 # lazily imported pygeodesy.anStr from .utily by PyGeodesy/test/base.py line 37
@@ -8471,7 +7819,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testLazily.py
 # lazily imported pygeodesy.wrapPI_2 from .utily by PyGeodesy/test/testLazily.py line 54
     test 290 wrapPI_2: function
 
-    all 290 testLazily.py tests passed (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 2.683 sec
+    all 290 testLazily.py tests passed (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 775.408 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testLcc.py
 # lazily imported pygeodesy.anStr from .utily by PyGeodesy/test/base.py line 37
@@ -8749,7 +8097,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testLcc.py
     testConic(ellipsoidalVincenty, 19.04.05)
     test 250 SnyderV: name='SnyderV', lat0=23, lon0=-96, par1=33, par2=45, E0=0, N0=0, k0=1, SP=2, datum=(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27)
 
-    all 250 testLcc.py tests passed (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 13.875 ms
+    all 250 testLcc.py tests passed (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 14.018 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testMgrs.py
 # lazily imported pygeodesy.anStr from .utily by PyGeodesy/test/base.py line 37
@@ -8777,7 +8125,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testMgrs.py
     test 15 toUtm(76.0°N, 025.0°E).toMgrs: 35X ME 45999 36099
     test 16 toUtm(76.0°N, 037.0°E).toMgrs: 37X DE 45999 36099
 
-    all 16 testMgrs.py tests passed (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 3.049 ms
+    all 16 testMgrs.py tests passed (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 3.183 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testModules.py
 # lazily imported pygeodesy.anStr from .utily by PyGeodesy/test/base.py line 37
@@ -8787,7 +8135,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testModules.py
 
     testing testModules.py 19.02.21 isLazy=3
 
-    testModule(pygeodesy, 19.06.14)
+    testModule(pygeodesy, 19.06.17)
 # lazily imported pygeodesy.__all__ by PyGeodesy/test/testModules.py line 35
 # lazily imported pygeodesy.CassiniSoldner from .css by PyGeodesy/test/testModules.py line 20
     test 1 pygeodesy.CassiniSoldner() class (css): True
@@ -9601,7 +8949,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testModules.py
     test 486 simplify.simplifyVW() function: True
     test 487 simplify.simplifyVWm() function: True
 
-    testModule(sphericalNvector, 19.06.14)
+    testModule(sphericalNvector, 19.06.17)
     test 488 sphericalNvector.LatLon() class: True
     test 489 sphericalNvector.Nvector() class: True
     test 490 sphericalNvector.areaOf() function: True
@@ -9721,7 +9069,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testModules.py
     test 588 wgrs.precision() function: True
     test 589 wgrs.resolution() function: True
 
-    testPublic(pygeodesy, 19.06.14)
+    testPublic(pygeodesy, 19.06.17)
     test 590 CassiniSoldner() class: True
     test 591 Conic() class: True
     test 592 Conics class datum._Enum: True
@@ -9928,7 +9276,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testModules.py
     test 793 wrapPI2() function: True
     test 794 wrapPI_2() function: True
 
-    all 794 testModules.py tests passed (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 178.070 ms
+    all 794 testModules.py tests passed (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 184.641 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testNavlabExamples.py
 # lazily imported pygeodesy.anStr from .utily by PyGeodesy/test/base.py line 37
@@ -9972,7 +9320,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testNavlabExamples.py
     test 26 Example 9 intersection: 40.318643°N, 055.901868°E
     test 27 Example 10 crossTrackDistance: 11118
 
-    1 of 27 testNavlabExamples.py tests (3.7%) FAILED, ALL KNOWN (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 5.866 ms
+    1 of 27 testNavlabExamples.py tests (3.7%) FAILED, ALL KNOWN (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 5.837 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testOsgr.py
 # lazily imported pygeodesy.anStr from .utily by PyGeodesy/test/base.py line 37
@@ -10010,7 +9358,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testOsgr.py
     test 23 OSGR5: [OSGR:651409.000,313177.000]
     test 24 OSGR6: 651409,313177
 
-    6 of 24 testOsgr.py tests (25.0%) FAILED, ALL KNOWN (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 2.253 ms
+    6 of 24 testOsgr.py tests (25.0%) FAILED, ALL KNOWN (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 2.027 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testPoints.py
 # lazily imported pygeodesy.anStr from .utily by PyGeodesy/test/base.py line 37
@@ -10421,7 +9769,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testPoints.py
     test 379 centroidOf: -72.112, 92.032
     test 380 isclockwise: False
 
-    12 of 380 testPoints.py tests (3.2%) FAILED, ALL KNOWN (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 82.470 ms
+    12 of 380 testPoints.py tests (3.2%) FAILED, ALL KNOWN (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 52.313 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testRoutes.py
 # lazily imported pygeodesy.anStr from .utily by PyGeodesy/test/base.py line 37
@@ -10530,7 +9878,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testRoutes.py
     test 89 isclockwise(_JFK_LHR1, adjust=False, wrap=True): 0.000
     test 90 isclockwise(_JFK_LHR2, adjust=False, wrap=True): 0.000
 
-    13 of 90 testRoutes.py tests (14.4%) FAILED, ALL KNOWN (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 12.779 sec
+    13 of 90 testRoutes.py tests (14.4%) FAILED, ALL KNOWN (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 13.468 sec
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testSimplify.py
 # lazily imported pygeodesy.anStr from .utily by PyGeodesy/test/base.py line 37
@@ -10557,82 +9905,82 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testSimplify.py
 # lazily imported pygeodesy.unStr from .utily by PyGeodesy/test/testRoutes.py line 13
 
     testing testSimplify.py 19.02.19 (module simplify 19.01.02) isLazy=3
-    test 1 simplify1(16614, adjust=True) 1m (64.750 ms): 16597
-    test 2 simplifyRW(16614, adjust=True, indices=True, shortest=False) 1m (92.385 ms): 7095
-    test 3 simplifyRW(16614, adjust=True, shortest=False) 1m (88.328 ms): 7095
-    test 4 simplifyRW(16614, adjust=True, shortest=True) 1m (127.220 ms): 8302
-    test 5 simplifyVWm(16614, adjust=True, indices=True) 1m (180.339 ms): 16328
-    test 6 simplifyVWm(16614, adjust=True) 1m (178.629 ms): 16328
-    test 7 simplifyVWm(16614, adjust=False) 1m (151.535 ms): 16373
-    test 8 simplifyRDPm(16614, adjust=True, shortest=False) 1m (203.238 ms): 15864
-    test 9 simplifyRDPm(16614, adjust=True, shortest=True) 1m (197.476 ms): 15867
-    test 10 simplifyRDPgr(16614, adjust=True, modified=True, shortest=True) 1m (126.928 ms): 15867
-    test 11 simplifyRDPm(16614, adjust=False, shortest=False) 1m (156.909 ms): 15869
-    test 12 simplifyRDPfw(16614, adjust=False, modified=True, shortest=False) 1m (84.589 ms): 15869
-    test 13 simplifyRDP(16614, adjust=True, indices=True, shortest=True) 1m (1.176 sec): 10960
-    test 14 simplifyRDP(16614, adjust=True, shortest=True) 1m (1.187 sec): 10960
-    test 15 simplifyRDPgr(16614, adjust=True, modified=False, shortest=True) 1m (1.053 sec): 10960
-    test 16 simplifyRDP(16614, adjust=False, indices=True, shortest=False) 1m (837.124 ms): 11248
-    test 17 simplifyRDP(16614, adjust=False, shortest=False) 1m (851.781 ms): 11248
-    test 18 simplifyRDPfw(16614, adjust=False, modified=False, shortest=False) 1m (448.617 ms): 11248
-    test 19 simplifyVW(1661, adjust=True) 1m (20.751 ms): 1641
-    test 20 simplifyVW(1661, adjust=False) 1m (14.387 ms): 1646
-    test 21 simplifyRDP(1661, adjust=True, shortest=False) 1m (85.124 ms): 1231
-    test 22 simplifyRDP(1661, adjust=True, shortest=True) 1m (90.256 ms): 1231
-    test 23 simplifyRDPgr(1661, adjust=True, shortest=True) 1m (81.224 ms): 1231
-    test 24 simplifyRDP(1661, adjust=False, shortest=False) 1m (64.398 ms): 1267
-    test 25 simplifyRDPfw(1661, adjust=False, shortest=False) 1m (37.120 ms): 1267
-    test 26 simplifyRDPgr(1661, adjust=False, shortest=True) 1m (56.242 ms): 1267
-    test 27 simplifyVW(69, adjust=False) 1m (576.973 us): 69
-    test 28 simplifyRDP(69, adjust=False, shortest=False) 1m (1.704 ms): 50
-    test 29 simplifyRDPfw(69, adjust=False, shortest=False) 1m (777.960 us): 50
-    test 30 simplifyRDPgr(69, adjust=False, shortest=True) 1m (1.184 ms): 50
-    test 31 simplifyRDPgr(69, adjust=True, shortest=True) 1m (1.593 ms): 45
+    test 1 simplify1(16614, adjust=True) 1m (67.721 ms): 16597
+    test 2 simplifyRW(16614, adjust=True, indices=True, shortest=False) 1m (93.465 ms): 7095
+    test 3 simplifyRW(16614, adjust=True, shortest=False) 1m (94.497 ms): 7095
+    test 4 simplifyRW(16614, adjust=True, shortest=True) 1m (131.404 ms): 8302
+    test 5 simplifyVWm(16614, adjust=True, indices=True) 1m (178.060 ms): 16328
+    test 6 simplifyVWm(16614, adjust=True) 1m (175.974 ms): 16328
+    test 7 simplifyVWm(16614, adjust=False) 1m (153.468 ms): 16373
+    test 8 simplifyRDPm(16614, adjust=True, shortest=False) 1m (194.094 ms): 15864
+    test 9 simplifyRDPm(16614, adjust=True, shortest=True) 1m (266.225 ms): 15867
+    test 10 simplifyRDPgr(16614, adjust=True, modified=True, shortest=True) 1m (127.427 ms): 15867
+    test 11 simplifyRDPm(16614, adjust=False, shortest=False) 1m (158.020 ms): 15869
+    test 12 simplifyRDPfw(16614, adjust=False, modified=True, shortest=False) 1m (90.037 ms): 15869
+    test 13 simplifyRDP(16614, adjust=True, indices=True, shortest=True) 1m (1.144 sec): 10960
+    test 14 simplifyRDP(16614, adjust=True, shortest=True) 1m (1.221 sec): 10960
+    test 15 simplifyRDPgr(16614, adjust=True, modified=False, shortest=True) 1m (1.022 sec): 10960
+    test 16 simplifyRDP(16614, adjust=False, indices=True, shortest=False) 1m (791.514 ms): 11248
+    test 17 simplifyRDP(16614, adjust=False, shortest=False) 1m (891.583 ms): 11248
+    test 18 simplifyRDPfw(16614, adjust=False, modified=False, shortest=False) 1m (413.071 ms): 11248
+    test 19 simplifyVW(1661, adjust=True) 1m (21.166 ms): 1641
+    test 20 simplifyVW(1661, adjust=False) 1m (14.129 ms): 1646
+    test 21 simplifyRDP(1661, adjust=True, shortest=False) 1m (82.259 ms): 1231
+    test 22 simplifyRDP(1661, adjust=True, shortest=True) 1m (86.361 ms): 1231
+    test 23 simplifyRDPgr(1661, adjust=True, shortest=True) 1m (75.137 ms): 1231
+    test 24 simplifyRDP(1661, adjust=False, shortest=False) 1m (59.949 ms): 1267
+    test 25 simplifyRDPfw(1661, adjust=False, shortest=False) 1m (31.853 ms): 1267
+    test 26 simplifyRDPgr(1661, adjust=False, shortest=True) 1m (52.325 ms): 1267
+    test 27 simplifyVW(69, adjust=False) 1m (522.137 us): 69
+    test 28 simplifyRDP(69, adjust=False, shortest=False) 1m (1.431 ms): 50
+    test 29 simplifyRDPfw(69, adjust=False, shortest=False) 1m (740.767 us): 50
+    test 30 simplifyRDPgr(69, adjust=False, shortest=True) 1m (1.366 ms): 50
+    test 31 simplifyRDPgr(69, adjust=True, shortest=True) 1m (1.607 ms): 45
     test 32 numpy.__version__: 1.16.2
-    test 33 simplify1(69, adjust=False) 1m (946.999 us): 69
+    test 33 simplify1(69, adjust=False) 1m (963.926 us): 69
     test 34 <class 'numpy.ndarray'>: True
-    test 35 simplifyRW(69, adjust=False) 1m (898.123 us): 33
+    test 35 simplifyRW(69, adjust=False) 1m (912.189 us): 33
     test 36 <class 'numpy.ndarray'>: True
-    test 37 simplifyRDP(69, adjust=False) 1m (5.084 ms): 50
+    test 37 simplifyRDP(69, adjust=False) 1m (4.940 ms): 50
     test 38 <class 'numpy.ndarray'>: True
-    test 39 simplifyRDPm(69, adjust=False) 1m (1.751 ms): 67
+    test 39 simplifyRDPm(69, adjust=False) 1m (1.767 ms): 67
     test 40 <class 'numpy.ndarray'>: True
-    test 41 simplifyRDPfw(69, adjust=False) 1m (4.003 ms): 50
-    test 42 simplifyRDPgr(69, adjust=False) 1m (8.124 ms): 50
-    test 43 simplifyVW(69, adjust=False) 1m (1.634 ms): 69
+    test 41 simplifyRDPfw(69, adjust=False) 1m (4.131 ms): 50
+    test 42 simplifyRDPgr(69, adjust=False) 1m (7.219 ms): 50
+    test 43 simplifyVW(69, adjust=False) 1m (1.643 ms): 69
     test 44 <class 'numpy.ndarray'>: True
-    test 45 simplifyVWm(69, adjust=False) 1m (1.669 ms): 69
+    test 45 simplifyVWm(69, adjust=False) 1m (1.616 ms): 69
     test 46 <class 'numpy.ndarray'>: True
-    test 47 simplify1(69, adjust=True) 1m (920.057 us): 69
+    test 47 simplify1(69, adjust=True) 1m (924.826 us): 69
     test 48 <class 'numpy.ndarray'>: True
-    test 49 simplifyRW(69, adjust=True) 1m (1.164 ms): 31
+    test 49 simplifyRW(69, adjust=True) 1m (964.880 us): 31
     test 50 <class 'numpy.ndarray'>: True
-    test 51 simplifyRDP(69, adjust=True) 1m (5.995 ms): 45
+    test 51 simplifyRDP(69, adjust=True) 1m (5.720 ms): 45
     test 52 <class 'numpy.ndarray'>: True
-    test 53 simplifyRDPm(69, adjust=True) 1m (1.897 ms): 67
+    test 53 simplifyRDPm(69, adjust=True) 1m (1.911 ms): 67
     test 54 <class 'numpy.ndarray'>: True
-    test 55 simplifyRDPfw(69, adjust=True) 1m (4.281 ms): 45
-    test 56 simplifyRDPgr(69, adjust=True) 1m (8.943 ms): 45
-    test 57 simplifyVW(69, adjust=True) 1m (1.888 ms): 69
+    test 55 simplifyRDPfw(69, adjust=True) 1m (4.411 ms): 45
+    test 56 simplifyRDPgr(69, adjust=True) 1m (7.789 ms): 45
+    test 57 simplifyVW(69, adjust=True) 1m (1.800 ms): 69
     test 58 <class 'numpy.ndarray'>: True
-    test 59 simplifyVWm(69, adjust=True) 1m (1.770 ms): 69
+    test 59 simplifyVWm(69, adjust=True) 1m (1.783 ms): 69
     test 60 <class 'numpy.ndarray'>: True
-    test 61 simplify1(69, adjust=False, indices=True) 1m (699.759 us): 69
+    test 61 simplify1(69, adjust=False, indices=True) 1m (703.096 us): 69
     test 62 <class 'list'>: True
-    test 63 simplifyRW(69, adjust=False, indices=True) 1m (809.193 us): 33
+    test 63 simplifyRW(69, adjust=False, indices=True) 1m (818.968 us): 33
     test 64 <class 'list'>: True
-    test 65 simplifyRDP(69, adjust=False, indices=True) 1m (4.785 ms): 50
+    test 65 simplifyRDP(69, adjust=False, indices=True) 1m (4.804 ms): 50
     test 66 <class 'list'>: True
-    test 67 simplifyRDPm(69, adjust=False, indices=True) 1m (1.983 ms): 67
+    test 67 simplifyRDPm(69, adjust=False, indices=True) 1m (1.619 ms): 67
     test 68 <class 'list'>: True
-    test 69 simplifyRDPfw(69, adjust=True, indices=True) 1m (4.159 ms): 45
-    test 70 simplifyRDPgr(69, adjust=True, indices=True) 1m (7.528 ms): 45
-    test 71 simplifyVW(69, adjust=False, indices=True) 1m (1.493 ms): 69
+    test 69 simplifyRDPfw(69, adjust=True, indices=True) 1m (4.293 ms): 45
+    test 70 simplifyRDPgr(69, adjust=True, indices=True) 1m (7.900 ms): 45
+    test 71 simplifyVW(69, adjust=False, indices=True) 1m (1.498 ms): 69
     test 72 <class 'list'>: True
-    test 73 simplifyVWm(69, adjust=False, indices=True) 1m (1.477 ms): 69
+    test 73 simplifyVWm(69, adjust=False, indices=True) 1m (1.474 ms): 69
     test 74 <class 'list'>: True
 
-    all 74 testSimplify.py tests passed (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 7.741 sec
+    all 74 testSimplify.py tests passed (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 7.719 sec
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testSpherical.py
 # lazily imported pygeodesy.anStr from .utily by PyGeodesy/test/base.py line 37
@@ -10659,7 +10007,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testSpherical.py
 
     testing testSpherical.py 19.04.06 isLazy=3
 
-    testLatLon(sphericalNvector, 19.06.14)
+    testLatLon(sphericalNvector, 19.06.17)
     test 1 isEllipsoidal: False
     test 2 isSpherical: True
     test 3 lat/lonDMS: 52.20472°N, 000.14056°E
@@ -10767,7 +10115,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testSpherical.py
     test 105 compassAngleTo: 31
     test 106 compassAngleTo: 45
 
-    testVectorial(sphericalNvector, 19.06.14)
+    testVectorial(sphericalNvector, 19.06.17)
     test 107 crossTrackDistanceTo: -305.67
     test 108 crossTrackDistanceTo: -307.55
     test 109 toLatLon: 44.995674°N, 045.0°E
@@ -10807,276 +10155,278 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testSpherical.py
     test 143 triangulate: True
     test 144 trilaterate: 37.419078°N, 121.960579°W
     test 145 trilaterate: True
+    test 146 trilaterate: 08.068912°S, 034.888699°W
+    test 147 trilaterate: True
 
-    testSpherical(sphericalNvector, 19.06.14)
-    test 146 isSpherical: True
-    test 147 isEllipsoidal: False
+    testSpherical(sphericalNvector, 19.06.17)
     test 148 isSpherical: True
     test 149 isEllipsoidal: False
-    test 150 intersection1: 50.907608°N, 004.508575°E
-    test 151 intersection1: 50°54′27.39″N, 004°30′30.87″E
-    test 152 intersection1: True
-    test 153 intersection2: True
-    test 154 intersection2: 43.5719°N, 116.188757°W
-    test 155 intersection2: 43°34′18.84″N, 116°11′19.53″W
-    test 156 intersection3: 51.882166°N, 000.267801°E
-    test 157 intersection4: 00.0°N, 026.565051°E
-    test 158 intersection5: 26.565051°N, 000.0°W
-    test 159 intersection6: 50.907809°N, 004.50841°E
-    test 160 toward 1,1 N,E nearest: 00.999848°N, 001.0°E
-    test 161 toward 1,1 E,N nearest: 00.999848°N, 001.0°E
-    test 162 toward 1,1 N,E antipodal: 00.999848°S, 179.0°W
-    test 163 toward/away 1,1 N,W antipodal: 00.999848°S, 179.0°W
-    test 164 toward/away 1,1 W,N antipodal: 00.999848°S, 179.0°W
-    test 165 toward/away 1,1 S,E antipodal: 00.999848°S, 179.0°W
-    test 166 toward/away 1,1 E,S antipodal: 00.999848°S, 179.0°W
-    test 167 away 1,1 S,W antipodal: 00.999848°S, 179.0°W
-    test 168 away 1,1 W,S antipodal: 00.999848°S, 179.0°W
-    test 169 1E/90E N,E antipodal: 00.017454°S, 179.0°W
-    test 170 1E/90E N,E nearest: 00.017454°N, 179.0°W
-    test 171 brng+end 1a: 01.000305°N, 002.0°E
-    test 172 brng+end 1b: 01.000305°N, 002.0°E
-    test 173 brng+end 2a: 01.000305°S, 178.0°W
-    test 174 brng+end 2b: 01.000305°S, 178.0°W
-    test 175 intersection7: 02.499372°N, 002.5°E
-    test 176 maxLat0: 90.0
-    test 177 maxLat1: 89.0
-    test 178 maxLat90: 0.0
-    test 179 isenclosedBy: True
-    test 180 isenclosedBy*: True
+    test 150 isSpherical: True
+    test 151 isEllipsoidal: False
+    test 152 intersection1: 50.907608°N, 004.508575°E
+    test 153 intersection1: 50°54′27.39″N, 004°30′30.87″E
+    test 154 intersection1: True
+    test 155 intersection2: True
+    test 156 intersection2: 43.5719°N, 116.188757°W
+    test 157 intersection2: 43°34′18.84″N, 116°11′19.53″W
+    test 158 intersection3: 51.882166°N, 000.267801°E
+    test 159 intersection4: 00.0°N, 026.565051°E
+    test 160 intersection5: 26.565051°N, 000.0°W
+    test 161 intersection6: 50.907809°N, 004.50841°E
+    test 162 toward 1,1 N,E nearest: 00.999848°N, 001.0°E
+    test 163 toward 1,1 E,N nearest: 00.999848°N, 001.0°E
+    test 164 toward 1,1 N,E antipodal: 00.999848°S, 179.0°W
+    test 165 toward/away 1,1 N,W antipodal: 00.999848°S, 179.0°W
+    test 166 toward/away 1,1 W,N antipodal: 00.999848°S, 179.0°W
+    test 167 toward/away 1,1 S,E antipodal: 00.999848°S, 179.0°W
+    test 168 toward/away 1,1 E,S antipodal: 00.999848°S, 179.0°W
+    test 169 away 1,1 S,W antipodal: 00.999848°S, 179.0°W
+    test 170 away 1,1 W,S antipodal: 00.999848°S, 179.0°W
+    test 171 1E/90E N,E antipodal: 00.017454°S, 179.0°W
+    test 172 1E/90E N,E nearest: 00.017454°N, 179.0°W
+    test 173 brng+end 1a: 01.000305°N, 002.0°E
+    test 174 brng+end 1b: 01.000305°N, 002.0°E
+    test 175 brng+end 2a: 01.000305°S, 178.0°W
+    test 176 brng+end 2b: 01.000305°S, 178.0°W
+    test 177 intersection7: 02.499372°N, 002.5°E
+    test 178 maxLat0: 90.0
+    test 179 maxLat1: 89.0
+    test 180 maxLat90: 0.0
     test 181 isenclosedBy: True
     test 182 isenclosedBy*: True
-    test 183 rhumbBearingTo: 116.722
-    test 184 rhumbDestination: 50.964155°N, 001.853°E
-    test 185 rhumbDestination: True
-    test 186 rhumbDistanceTo: 40307.8
-    test 187 rhumbMidpointo: 51.0455°N, 001.595727°E
-    test 188 rhumbMidpointo: True
-    test 189 areaOf: 8.6660587507e+09
-    test 190 areaOf: 6.18e+09
-    test 191 nearestOn2: 46.000996°N, 001.353049°E
-    test 192 nearestOn2: 569987.49
-    test 193 distanceTo: 569987.49
-    test 194 nearestOn2: 46.0°N, 002.0°E
-    test 195 nearestOn2: 134989.80
-    test 196 distanceTo: 134989.80
-    test 197 nearestOn2: 45.330691°N, 001.318551°E
-    test 198 distance: 64856.28
-    test 199 distanceTo: 64856.28
-    test 200 compassAngleTo: 304.54
-    test 201 difference: 1000.53
-    test 202 ispolar: True
-    test 203 ispolar*: True
-    test 204 ispolar: False  FAILED, KNOWN, expected True
-    test 205 ispolar*: False  FAILED, KNOWN, expected True
+    test 183 isenclosedBy: True
+    test 184 isenclosedBy*: True
+    test 185 rhumbBearingTo: 116.722
+    test 186 rhumbDestination: 50.964155°N, 001.853°E
+    test 187 rhumbDestination: True
+    test 188 rhumbDistanceTo: 40307.8
+    test 189 rhumbMidpointo: 51.0455°N, 001.595727°E
+    test 190 rhumbMidpointo: True
+    test 191 areaOf: 8.6660587507e+09
+    test 192 areaOf: 6.18e+09
+    test 193 nearestOn2: 46.000996°N, 001.353049°E
+    test 194 nearestOn2: 569987.49
+    test 195 distanceTo: 569987.49
+    test 196 nearestOn2: 46.0°N, 002.0°E
+    test 197 nearestOn2: 134989.80
+    test 198 distanceTo: 134989.80
+    test 199 nearestOn2: 45.330691°N, 001.318551°E
+    test 200 distance: 64856.28
+    test 201 distanceTo: 64856.28
+    test 202 compassAngleTo: 304.54
+    test 203 difference: 1000.53
+    test 204 ispolar: True
+    test 205 ispolar*: True
     test 206 ispolar: False  FAILED, KNOWN, expected True
     test 207 ispolar*: False  FAILED, KNOWN, expected True
-    test 208 nearestOn: 01.5°N, 001.5°E, +149.99m
-    test 209 nearestOn2: 01.5°N, 001.5°E, +149.99m
-    test 210 midpointTo: 01.5°N, 001.5°E, +150.00m
+    test 208 ispolar: False  FAILED, KNOWN, expected True
+    test 209 ispolar*: False  FAILED, KNOWN, expected True
+    test 210 nearestOn: 01.5°N, 001.5°E, +149.99m
+    test 211 nearestOn2: 01.5°N, 001.5°E, +149.99m
+    test 212 midpointTo: 01.5°N, 001.5°E, +150.00m
 
     testLatLon(sphericalTrigonometry, 19.04.20)
-    test 211 isEllipsoidal: False
-    test 212 isSpherical: True
-    test 213 lat/lonDMS: 52.20472°N, 000.14056°E
-    test 214 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
-    test 215 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
-    test 216 lat/lonDMS F_DMS: 52°12′17″N, 000°08′26″E
-    test 217 lat/lonDMS F_DMS: 52°12′17.0″N, 000°08′26.0″E
-    test 218 lat/lonDMS F_RAD: 0.911144N, 0.002453E
-    test 219 isequalTo: True
-    test 220 latlon2: 52.20472, 0.14056
-    test 221 latlon2: 52.2047, 0.1406
-    test 222 latlon2: 52.205, 0.141
-    test 223 latlon2: 52.2, 0.14
-    test 224 latlon2: 52.2, 0.1
-    test 225 latlon2: 52.0, 0.0
-    test 226 isequalTo: False
-    test 227 antipode1: 52.205°S, 179.881°W
-    test 228 antipode2: True
-    test 229 antipode3: 52.205°N, 000.119°E
-    test 230 antipode4: True
-    test 231 antipode5: 52.205°N, 000.119°E
-    test 232 initialBearingTo: 156.1666
-    test 233 finalBearingTo: 157.8904
-    test 234 initialBearingTo: 65.8921
-    test 235 finalBearingTo: 93.8581
-    test 236 bearingTo2: 156.1666, 157.8904
-    test 237 ispolar: True
-    test 238 copy: True
-    test 239 equirectangularTo: 404329.56
-    test 240 distanceTo: 404279.720589
-    test 241 distanceTo: 404279.720589
-    test 242 distanceTo: 2145
-    test 243 intermediateTo: 51.372084°N, 000.707337°E
-    test 244 intermediateTo: True
-    test 245 intermediateTo: 404279.721
-    test 246 intermediateTo+5: 35.160975°N, 008.989542°E
-    test 247 intermediateTo+5: 5.000
-    test 248 intermediateTo-4: 64.911647°N, 013.726301°W
-    test 249 intermediateTo-4: 4.000
-    test 250 intermediateTo-h: 125.000
-    test 251 midpointTo: 50.536327°N, 001.274614°E
-    test 252 destination: 51.513546°N, 000.098345°W
-    test 253 destination: 51°30′49″N, 000°05′54″W
-    test 254 destination: 34°37′N, 116°33′W
-    test 255 destination: 34.613647°N, 116.55116°W
-    test 256 destination: 0.604122N, 2.034201W
-    test 257 destination: 31.96383509°N, 064.37329146°E
-    test 258 alongTrackDistanceTo: type(end) mismatch: int vs LatLon
-    test 259 alongTrackDistanceTo: 62331.58
-    test 260 alongTrackDistanceTo: 99.588
-    test 261 alongTrackDistanceTo: -7702.7
-    test 262 alongTrackDistanceTo: 7587.6
-    test 263 crossTrackDistanceTo: type(end) mismatch: int vs LatLon
-    test 264 crossTrackDistanceTo: -307.55
-    test 265 crossTrackDistanceTo: 7.4524
-    test 266 greatCircle: (-0.79408, 0.12856, 0.59406)
-    test 267 isclockwise: False
-    test 268 isclockwise*: False
-    test 269 isclockwise: True
-    test 270 isclockwise*: True
-    test 271 isclockwise: too few points: 2
-    test 272 isclockwise*: too few points: 2
-    test 273 isclockwise: polar or zero area
-    test 274 isclockwise*: polar or zero area
-    test 275 isconvex: False
-    test 276 isconvex*: False
-    test 277 isconvex: True
-    test 278 isconvex*: True
-    test 279 isconvex: too few points: 2
-    test 280 isconvex*: too few points: 2
-    test 281 isenclosedBy1: True
-    test 282 isenclosedBy1*: True
-    test 283 isenclosedBy2: False
-    test 284 isenclosedBy2*: False
-    test 285 isenclosedBy3: False
-    test 286 isenclosedBy3*: False
-    test 287 isenclosedBy4: False
-    test 288 isenclosedBy4*: False
-    test 289 isenclosedBy5: False
-    test 290 isenclosedBy5*: False
-    test 291 isenclosedBy6: True
-    test 292 isenclosedBy6*: True
-    test 293 isenclosedBy7: True
-    test 294 isenclosedBy7*: True
-    test 295 initialBearingTo: 102.432182
-    test 296 compassAngleTo: 100.017
-    test 297 compassAngleTo: 105.599
-    test 298 initialBearingTo: 288.715918
-    test 299 compassAngleTo: 280.017
-    test 300 compassAngleTo: 285.599
-    test 301 equirectangularTo: 592.185
-    test 302 distanceTo: 591.831
-    test 303 compassAngleTo: 0.0
-    test 304 compassAngleTo: 45.0
-    test 305 compassAngleTo: 90.0
-    test 306 compassAngleTo: 180.0
-    test 307 compassAngleTo: 225.0
-    test 308 compassAngleTo: 315.0
-    test 309 compassAngleTo: 270.0
-    test 310 compassAngleTo: 359.4
-    test 311 compassAngleTo: 31
-    test 312 compassAngleTo: 45
+    test 213 isEllipsoidal: False
+    test 214 isSpherical: True
+    test 215 lat/lonDMS: 52.20472°N, 000.14056°E
+    test 216 lat/lonDMS F_DM: 52°12.283′N, 000°08.434′E
+    test 217 lat/lonDMS F_DM: 52°12.2832′N, 000°08.4336′E
+    test 218 lat/lonDMS F_DMS: 52°12′17″N, 000°08′26″E
+    test 219 lat/lonDMS F_DMS: 52°12′17.0″N, 000°08′26.0″E
+    test 220 lat/lonDMS F_RAD: 0.911144N, 0.002453E
+    test 221 isequalTo: True
+    test 222 latlon2: 52.20472, 0.14056
+    test 223 latlon2: 52.2047, 0.1406
+    test 224 latlon2: 52.205, 0.141
+    test 225 latlon2: 52.2, 0.14
+    test 226 latlon2: 52.2, 0.1
+    test 227 latlon2: 52.0, 0.0
+    test 228 isequalTo: False
+    test 229 antipode1: 52.205°S, 179.881°W
+    test 230 antipode2: True
+    test 231 antipode3: 52.205°N, 000.119°E
+    test 232 antipode4: True
+    test 233 antipode5: 52.205°N, 000.119°E
+    test 234 initialBearingTo: 156.1666
+    test 235 finalBearingTo: 157.8904
+    test 236 initialBearingTo: 65.8921
+    test 237 finalBearingTo: 93.8581
+    test 238 bearingTo2: 156.1666, 157.8904
+    test 239 ispolar: True
+    test 240 copy: True
+    test 241 equirectangularTo: 404329.56
+    test 242 distanceTo: 404279.720589
+    test 243 distanceTo: 404279.720589
+    test 244 distanceTo: 2145
+    test 245 intermediateTo: 51.372084°N, 000.707337°E
+    test 246 intermediateTo: True
+    test 247 intermediateTo: 404279.721
+    test 248 intermediateTo+5: 35.160975°N, 008.989542°E
+    test 249 intermediateTo+5: 5.000
+    test 250 intermediateTo-4: 64.911647°N, 013.726301°W
+    test 251 intermediateTo-4: 4.000
+    test 252 intermediateTo-h: 125.000
+    test 253 midpointTo: 50.536327°N, 001.274614°E
+    test 254 destination: 51.513546°N, 000.098345°W
+    test 255 destination: 51°30′49″N, 000°05′54″W
+    test 256 destination: 34°37′N, 116°33′W
+    test 257 destination: 34.613647°N, 116.55116°W
+    test 258 destination: 0.604122N, 2.034201W
+    test 259 destination: 31.96383509°N, 064.37329146°E
+    test 260 alongTrackDistanceTo: type(end) mismatch: int vs LatLon
+    test 261 alongTrackDistanceTo: 62331.58
+    test 262 alongTrackDistanceTo: 99.588
+    test 263 alongTrackDistanceTo: -7702.7
+    test 264 alongTrackDistanceTo: 7587.6
+    test 265 crossTrackDistanceTo: type(end) mismatch: int vs LatLon
+    test 266 crossTrackDistanceTo: -307.55
+    test 267 crossTrackDistanceTo: 7.4524
+    test 268 greatCircle: (-0.79408, 0.12856, 0.59406)
+    test 269 isclockwise: False
+    test 270 isclockwise*: False
+    test 271 isclockwise: True
+    test 272 isclockwise*: True
+    test 273 isclockwise: too few points: 2
+    test 274 isclockwise*: too few points: 2
+    test 275 isclockwise: polar or zero area
+    test 276 isclockwise*: polar or zero area
+    test 277 isconvex: False
+    test 278 isconvex*: False
+    test 279 isconvex: True
+    test 280 isconvex*: True
+    test 281 isconvex: too few points: 2
+    test 282 isconvex*: too few points: 2
+    test 283 isenclosedBy1: True
+    test 284 isenclosedBy1*: True
+    test 285 isenclosedBy2: False
+    test 286 isenclosedBy2*: False
+    test 287 isenclosedBy3: False
+    test 288 isenclosedBy3*: False
+    test 289 isenclosedBy4: False
+    test 290 isenclosedBy4*: False
+    test 291 isenclosedBy5: False
+    test 292 isenclosedBy5*: False
+    test 293 isenclosedBy6: True
+    test 294 isenclosedBy6*: True
+    test 295 isenclosedBy7: True
+    test 296 isenclosedBy7*: True
+    test 297 initialBearingTo: 102.432182
+    test 298 compassAngleTo: 100.017
+    test 299 compassAngleTo: 105.599
+    test 300 initialBearingTo: 288.715918
+    test 301 compassAngleTo: 280.017
+    test 302 compassAngleTo: 285.599
+    test 303 equirectangularTo: 592.185
+    test 304 distanceTo: 591.831
+    test 305 compassAngleTo: 0.0
+    test 306 compassAngleTo: 45.0
+    test 307 compassAngleTo: 90.0
+    test 308 compassAngleTo: 180.0
+    test 309 compassAngleTo: 225.0
+    test 310 compassAngleTo: 315.0
+    test 311 compassAngleTo: 270.0
+    test 312 compassAngleTo: 359.4
+    test 313 compassAngleTo: 31
+    test 314 compassAngleTo: 45
 
     testSpherical(sphericalTrigonometry, 19.04.20)
-    test 313 isSpherical: True
-    test 314 isEllipsoidal: False
     test 315 isSpherical: True
     test 316 isEllipsoidal: False
-    test 317 intersection1: 50.907608°N, 004.508575°E
-    test 318 intersection1: 50°54′27.39″N, 004°30′30.87″E
-    test 319 intersection1: True
-    test 320 intersection2: True
-    test 321 intersection2: 43.5719°N, 116.188757°W
-    test 322 intersection2: 43°34′18.84″N, 116°11′19.53″W
-    test 323 intersection3: 51.882166°N, 000.267801°E
-    test 324 intersection4: 00.0°N, 026.565051°E
-    test 325 intersection5: 26.565051°N, 000.0°W
-    test 326 intersection6: 50.907809°N, 004.50841°E
-    test 327 toward 1,1 N,E nearest: 00.999848°N, 001.0°E
-    test 328 toward 1,1 E,N nearest: 00.999848°N, 001.0°E
-    test 329 toward 1,1 N,E antipodal: 00.999848°S, 179.0°W
-    test 330 toward/away 1,1 N,W antipodal: 00.999848°N, 001.0°E  FAILED, KNOWN, expected 00.999848°S, 179.0°W
-    test 331 toward/away 1,1 W,N antipodal: 00.999848°S, 179.0°W
-    test 332 toward/away 1,1 S,E antipodal: 00.999848°S, 179.0°W
-    test 333 toward/away 1,1 E,S antipodal: 00.999848°N, 001.0°E  FAILED, KNOWN, expected 00.999848°S, 179.0°W
-    test 334 away 1,1 S,W antipodal: 00.999848°S, 179.0°W
-    test 335 away 1,1 W,S antipodal: 00.999848°S, 179.0°W
-    test 336 1E/90E N,E antipodal: 00.017454°N, 001.0°E  FAILED, KNOWN, expected 00.017454°S, 179.0°W
-    test 337 1E/90E N,E nearest: 00.017454°N, 179.0°W
-    test 338 brng+end 1a: 01.000305°N, 002.0°E
-    test 339 brng+end 1b: 01.000305°N, 002.0°E
-    test 340 brng+end 2a: 01.000305°S, 178.0°W
-    test 341 brng+end 2b: 01.000305°S, 178.0°W
-    test 342 intersection7: 02.499372°N, 002.5°E
-    test 343 maxLat0: 90.0
-    test 344 maxLat1: 89.0
-    test 345 maxLat90: 0.0
-    test 346 crossingParallels: 009°35′38.65″E, 170°24′21.35″E
-    test 347 isenclosedBy: True
-    test 348 isenclosedBy*: True
-    test 349 isenclosedBy: non-convex: (LatLon(45°00′00.0″N, 001°00′00.0″E), ...)
-    test 350 isenclosedBy*: non-convex: (LatLon(45°00′00.0″N, 001°00′00.0″E), ...)
-    test 351 rhumbBearingTo: 116.722
-    test 352 rhumbDestination: 50.964155°N, 001.853°E
-    test 353 rhumbDestination: True
-    test 354 rhumbDistanceTo: 40307.8
-    test 355 rhumbMidpointo: 51.0455°N, 001.595727°E
-    test 356 rhumbMidpointo: True
-    test 357 areaOf: 8.6660587507e+09
-    test 358 areaOf: 6.18e+09
-    test 359 nearestOn2: 46.0°N, 001.369324°E
-    test 360 nearestOn2: 570101.83
-    test 361 distanceTo: 570101.82
-    test 362 nearestOn2: 46.0°N, 002.0°E
-    test 363 nearestOn2: 134992.48
-    test 364 distanceTo: 134989.80
-    test 365 nearestOn3: 45.5°N, 001.5°E
-    test 366 distance: 78626.79
-    test 367 angle: 315.00
-    test 368 compassAngleTo: 315.00
-    test 369 nearestOn3: 45.331319°N, 001.331319°E
-    test 370 distance: 64074.48
-    test 371 angle: 305.10
-    test 372 distanceTo: 64074.12
-    test 373 compassAngleTo: 305.10
-    test 374 difference: 1000.53
-    test 375 nearestOn3: 00.5°N, 001.5°E
-    test 376 distance: 235880.385
-    test 377 angle: 135.00
-    test 378 nearestOn3: 01.5°N, 002.5°E
-    test 379 distance: 235880.385
-    test 380 angle: 135.00
-    test 381 nearestOn3: 02.5°N, 003.5°E
-    test 382 distance: 235880.385
-    test 383 angle: 135.00
-    test 384 nearestOn3: 03.5°N, 004.5°E
-    test 385 distance: 235880.385
-    test 386 angle: 135.00
-    test 387 nearestOn3: 04.5°N, 005.5°E
-    test 388 distance: 235880.385
-    test 389 angle: 135.00
-    test 390 nearestOn3: 05.5°N, 006.5°E
-    test 391 distance: 235880.385
-    test 392 angle: 135.00
-    test 393 nearestOn3: 06.5°N, 007.5°E
-    test 394 distance: 235880.385
-    test 395 angle: 135.00
-    test 396 nearestOn3: 07.5°N, 008.5°E
-    test 397 distance: 235880.385
-    test 398 angle: 135.00
-    test 399 ispolar: True
-    test 400 ispolar*: True
-    test 401 ispolar: False  FAILED, KNOWN, expected True
-    test 402 ispolar*: False  FAILED, KNOWN, expected True
-    test 403 ispolar: True
-    test 404 ispolar*: True
-    test 405 nearestOn: 01.5°N, 001.5°E, +149.99m
-    test 406 nearestOn2: 01.5°N, 001.5°E, +149.99m
-    test 407 midpointTo: 01.5°N, 001.5°E, +150.00m
+    test 317 isSpherical: True
+    test 318 isEllipsoidal: False
+    test 319 intersection1: 50.907608°N, 004.508575°E
+    test 320 intersection1: 50°54′27.39″N, 004°30′30.87″E
+    test 321 intersection1: True
+    test 322 intersection2: True
+    test 323 intersection2: 43.5719°N, 116.188757°W
+    test 324 intersection2: 43°34′18.84″N, 116°11′19.53″W
+    test 325 intersection3: 51.882166°N, 000.267801°E
+    test 326 intersection4: 00.0°N, 026.565051°E
+    test 327 intersection5: 26.565051°N, 000.0°W
+    test 328 intersection6: 50.907809°N, 004.50841°E
+    test 329 toward 1,1 N,E nearest: 00.999848°N, 001.0°E
+    test 330 toward 1,1 E,N nearest: 00.999848°N, 001.0°E
+    test 331 toward 1,1 N,E antipodal: 00.999848°S, 179.0°W
+    test 332 toward/away 1,1 N,W antipodal: 00.999848°N, 001.0°E  FAILED, KNOWN, expected 00.999848°S, 179.0°W
+    test 333 toward/away 1,1 W,N antipodal: 00.999848°S, 179.0°W
+    test 334 toward/away 1,1 S,E antipodal: 00.999848°S, 179.0°W
+    test 335 toward/away 1,1 E,S antipodal: 00.999848°N, 001.0°E  FAILED, KNOWN, expected 00.999848°S, 179.0°W
+    test 336 away 1,1 S,W antipodal: 00.999848°S, 179.0°W
+    test 337 away 1,1 W,S antipodal: 00.999848°S, 179.0°W
+    test 338 1E/90E N,E antipodal: 00.017454°N, 001.0°E  FAILED, KNOWN, expected 00.017454°S, 179.0°W
+    test 339 1E/90E N,E nearest: 00.017454°N, 179.0°W
+    test 340 brng+end 1a: 01.000305°N, 002.0°E
+    test 341 brng+end 1b: 01.000305°N, 002.0°E
+    test 342 brng+end 2a: 01.000305°S, 178.0°W
+    test 343 brng+end 2b: 01.000305°S, 178.0°W
+    test 344 intersection7: 02.499372°N, 002.5°E
+    test 345 maxLat0: 90.0
+    test 346 maxLat1: 89.0
+    test 347 maxLat90: 0.0
+    test 348 crossingParallels: 009°35′38.65″E, 170°24′21.35″E
+    test 349 isenclosedBy: True
+    test 350 isenclosedBy*: True
+    test 351 isenclosedBy: non-convex: (LatLon(45°00′00.0″N, 001°00′00.0″E), ...)
+    test 352 isenclosedBy*: non-convex: (LatLon(45°00′00.0″N, 001°00′00.0″E), ...)
+    test 353 rhumbBearingTo: 116.722
+    test 354 rhumbDestination: 50.964155°N, 001.853°E
+    test 355 rhumbDestination: True
+    test 356 rhumbDistanceTo: 40307.8
+    test 357 rhumbMidpointo: 51.0455°N, 001.595727°E
+    test 358 rhumbMidpointo: True
+    test 359 areaOf: 8.6660587507e+09
+    test 360 areaOf: 6.18e+09
+    test 361 nearestOn2: 46.0°N, 001.369324°E
+    test 362 nearestOn2: 570101.83
+    test 363 distanceTo: 570101.82
+    test 364 nearestOn2: 46.0°N, 002.0°E
+    test 365 nearestOn2: 134992.48
+    test 366 distanceTo: 134989.80
+    test 367 nearestOn3: 45.5°N, 001.5°E
+    test 368 distance: 78626.79
+    test 369 angle: 315.00
+    test 370 compassAngleTo: 315.00
+    test 371 nearestOn3: 45.331319°N, 001.331319°E
+    test 372 distance: 64074.48
+    test 373 angle: 305.10
+    test 374 distanceTo: 64074.12
+    test 375 compassAngleTo: 305.10
+    test 376 difference: 1000.53
+    test 377 nearestOn3: 00.5°N, 001.5°E
+    test 378 distance: 235880.385
+    test 379 angle: 135.00
+    test 380 nearestOn3: 01.5°N, 002.5°E
+    test 381 distance: 235880.385
+    test 382 angle: 135.00
+    test 383 nearestOn3: 02.5°N, 003.5°E
+    test 384 distance: 235880.385
+    test 385 angle: 135.00
+    test 386 nearestOn3: 03.5°N, 004.5°E
+    test 387 distance: 235880.385
+    test 388 angle: 135.00
+    test 389 nearestOn3: 04.5°N, 005.5°E
+    test 390 distance: 235880.385
+    test 391 angle: 135.00
+    test 392 nearestOn3: 05.5°N, 006.5°E
+    test 393 distance: 235880.385
+    test 394 angle: 135.00
+    test 395 nearestOn3: 06.5°N, 007.5°E
+    test 396 distance: 235880.385
+    test 397 angle: 135.00
+    test 398 nearestOn3: 07.5°N, 008.5°E
+    test 399 distance: 235880.385
+    test 400 angle: 135.00
+    test 401 ispolar: True
+    test 402 ispolar*: True
+    test 403 ispolar: False  FAILED, KNOWN, expected True
+    test 404 ispolar*: False  FAILED, KNOWN, expected True
+    test 405 ispolar: True
+    test 406 ispolar*: True
+    test 407 nearestOn: 01.5°N, 001.5°E, +149.99m
+    test 408 nearestOn2: 01.5°N, 001.5°E, +149.99m
+    test 409 midpointTo: 01.5°N, 001.5°E, +150.00m
 
-    9 of 407 testSpherical.py tests (2.2%) FAILED, ALL KNOWN (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 38.722 ms
+    9 of 409 testSpherical.py tests (2.2%) FAILED, ALL KNOWN (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 38.864 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testUps.py
 # lazily imported pygeodesy.anStr from .utily by PyGeodesy/test/base.py line 37
@@ -11159,7 +10509,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testUps.py
     test 63 NGA-10.3-24: -70.0552944014 26.5650511771
     test 64 NGA-10.3-25: -64.9164123332 45.0
 
-    2 of 64 testUps.py tests (3.1%) FAILED, ALL KNOWN (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 9.770 ms
+    2 of 64 testUps.py tests (3.1%) FAILED, ALL KNOWN (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 10.687 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testUtily.py
 # lazily imported pygeodesy.anStr from .utily by PyGeodesy/test/base.py line 37
@@ -11280,7 +10630,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testUtily.py
     test 87 splice: ((0, 3, 6, 9), (1, 4, 7, -1), (2, 5, 8, -1))
     test 88 splice: ((0, 5, 10), (1, 6, 11), (2, 7), (3, 8), (4, 9))
 
-    3 of 88 testUtily.py tests (3.4%) FAILED, ALL KNOWN (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 26.227 ms
+    3 of 88 testUtily.py tests (3.4%) FAILED, ALL KNOWN (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 26.927 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testUtm.py
 # lazily imported pygeodesy.anStr from .utily by PyGeodesy/test/base.py line 37
@@ -11363,7 +10713,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testUtm.py
     test 65 UtmX.toLatLon(eps=2.2204e-19): 45.14639288, 1.72796704
     test 66 UtmX.toLatLon(eps=2.2204e-20): 45.14639288, 1.72796704
 
-    all 66 testUtm.py tests passed (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 14.769 ms
+    all 66 testUtm.py tests passed (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 13.635 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testUtmTMcoords.py
 # lazily imported pygeodesy.anStr from .utily by PyGeodesy/test/base.py line 37
@@ -12198,7 +11548,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testUtmTMcoords.py
     test 745 line 258 scale: 1.6615
     test 746 WGS84.KsOrder: 8
 
-    1 of 746 testUtmTMcoords.py tests (0.1%) FAILED, ALL KNOWN, 71 skipped (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 40.906 ms
+    1 of 746 testUtmTMcoords.py tests (0.1%) FAILED, ALL KNOWN, 71 skipped (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 40.222 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testUtmUps.py
 # lazily imported pygeodesy.anStr from .utily by PyGeodesy/test/base.py line 37
@@ -12309,7 +11659,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testUtmUps.py
     test 91 UtmUps: 00Z N 400000 5000000
     test 92 UtmUps.ValidateOK: OK
 
-    4 of 92 testUtmUps.py tests (4.3%) FAILED, ALL KNOWN (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 10.620 ms
+    4 of 92 testUtmUps.py tests (4.3%) FAILED, ALL KNOWN (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 12.467 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testVectorial.py
 # lazily imported pygeodesy.anStr from .utily by PyGeodesy/test/base.py line 37
@@ -12317,10 +11667,10 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testVectorial.py
 # lazily imported pygeodesy.iterNumpy2over from .utily by PyGeodesy/test/base.py line 37
 # lazily imported pygeodesy.normDMS from .dms by PyGeodesy/test/base.py line 37
 # lazily imported pygeodesy.F_D from .dms by PyGeodesy/test/testVectorial.py line 11
-# lazily imported pygeodesy.ellipsoidalNvector by PyGeodesy/test/testVectorial.py line 147
-# lazily imported pygeodesy.sphericalNvector by PyGeodesy/test/testVectorial.py line 147
+# lazily imported pygeodesy.ellipsoidalNvector by PyGeodesy/test/testVectorial.py line 159
+# lazily imported pygeodesy.sphericalNvector by PyGeodesy/test/testVectorial.py line 159
 
-    testing testVectorial.py 19.06.14 isLazy=3
+    testing testVectorial.py 19.06.17 isLazy=3
 
     testVectorial(ellipsoidalNvector, 19.04.20)
     test 1 toLatLon: 44.995674°N, 045.0°E
@@ -12337,7 +11687,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testVectorial.py
     test 12 length: 52.2051356286
     test 13 length: 52.2051356286
 
-    testVectorial(sphericalNvector, 19.06.14)
+    testVectorial(sphericalNvector, 19.06.17)
     test 14 crossTrackDistanceTo: -305.67
     test 15 crossTrackDistanceTo: -307.55
     test 16 toLatLon: 44.995674°N, 045.0°E
@@ -12377,8 +11727,10 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testVectorial.py
     test 50 triangulate: True
     test 51 trilaterate: 37.419078°N, 121.960579°W
     test 52 trilaterate: True
+    test 53 trilaterate: 08.068912°S, 034.888699°W
+    test 54 trilaterate: True
 
-    all 52 testVectorial.py tests passed (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 4.133 ms
+    all 54 testVectorial.py tests passed (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 4.863 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testWebMercator.py
 # lazily imported pygeodesy.anStr from .utily by PyGeodesy/test/base.py line 37
@@ -12456,7 +11808,7 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testWebMercator.py
     test 56 toWm(LatLonE(50.0003, 0)).y: 6413572.57
     test 57 toWm(LatLonE(60.0003, 0)).y: 8362760.29
 
-    all 57 testWebMercator.py tests passed (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 2.029 ms
+    all 57 testWebMercator.py tests passed (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 1.877 ms
 
 running /usr/local/bin/python3 ~/PyGeodesy/test/testWgrs.py
 # lazily imported pygeodesy.anStr from .utily by PyGeodesy/test/base.py line 37
@@ -12530,6 +11882,6 @@ running /usr/local/bin/python3 ~/PyGeodesy/test/testWgrs.py
     test 56 precision: 12  FAILED, KNOWN, expected 11
     test 57 resolution: 0.0000000001′
 
-    2 of 57 testWgrs.py tests (3.5%) FAILED, ALL KNOWN (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 2.786 ms
+    2 of 57 testWgrs.py tests (3.5%) FAILED, ALL KNOWN (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 1.923 ms
 
-test/run.py /usr/local/bin/python3 all 11131 tests OK (PyGeodesy 19.6.14 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 62.512 sec (178.063 tps)
+test/run.py /usr/local/bin/python3 all 10492 tests OK (PyGeodesy 19.6.17 Python 3.7.3 64bit geographiclib 1.49 numpy 1.16.2 scipy 1.2.1 macOS 10.13.6 isLazy 3 B) 35.903 sec (292.233 tps)

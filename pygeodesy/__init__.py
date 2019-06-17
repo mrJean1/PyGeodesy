@@ -223,7 +223,7 @@ _init_abspath     = abspath(__file__)
 pygeodesy_abspath = dirname(_init_abspath)
 # <http://PyInstaller.ReadTheDocs.io/en/stable/runtime-information.html>
 _isfrozen   = getattr(sys, 'frozen', False)
-__version__ = '19.06.14'
+__version__ = '19.06.17'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 

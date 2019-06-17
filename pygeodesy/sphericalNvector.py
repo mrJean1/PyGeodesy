@@ -50,7 +50,7 @@ __all__ = _ALL_LAZY.sphericalNvector + (
           'meanOf',
           'nearestOn2',
           'triangulate', 'trilaterate')
-__version__ = '19.06.14'
+__version__ = '19.06.17'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -1072,9 +1072,8 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3,
     n3, d32 = _nd2(point3, distance3, 'point3', point1, point2)
 
     # the following uses x,y coordinate system with origin at n1, x axis n1->n2
-    x = n2.minus(n1)
     y = n3.minus(n1)
-    z = 0
+    x = n2.minus(n1)
 
     d = x.length  # distance n1->n2
     if d > EPS:  # and (y.length * 2) > EPS:
@@ -1083,25 +1082,24 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3,
         Y = y.minus(X.times(i)).unit()  # unit vector in y direction
         j = Y.dot(y)  # signed magnitude of y component of n1->n3
         if abs(j) > EPS:
-            # Carlos Freitas <http://GitHub.com/mrJean1/PyGeodesy/issues/33>
+            # courtesy Carlos Freitas <http://GitHub.com/mrJean1/PyGeodesy/issues/33>
             x = fsum_(d12, -d22, d**2) / (2 * d)  # n1->intersection x- and ...
             y = fsum_(d12, -d32, i**2, j**2) / (2 * j) - (x * i / j)  # ... y-component
-            z = fsum_(d12, -(x**2), -(y**2))
+            # Z = X.cross(Y)  # unit vector perpendicular to plane
+            # z = sqrt(fsum_(d12, -(x**2), -(y**2)))
+            # don't use Z component; assume points at same height
+            n = n1.plus(X.times(x)).plus(Y.times(y))  # .plus(Z.times(z))
 
-    if z > 0:
-        # Z = X.cross(Y)  # unit vector perpendicular to plane
-        # note don't use Z component; assume points at same height
-        n = n1.plus(X.times(x)).plus(Y.times(y))  # .plus(Z.times(z))
-    else:  # no intersection, sqrt(z) is NaN
-        raise ValueError('no %s for %r, %r, %r at %r, %r, %r' %
-                        ('trilaterate', point1, point2, point3,
-                          distance1, distance2, distance3))
+            if height is None:
+                h = fmean((point1.height, point2.height, point3.height))
+            else:
+                h = height
+            return n.toLatLon(height=h, LatLon=LatLon)  # Nvector(n.x, n.y, n.z).toLatLon(...)
 
-    if height is None:
-        h = fmean((point1.height, point2.height, point3.height))
-    else:
-        h = height
-    return n.toLatLon(height=h, LatLon=LatLon)  # Nvector(n.x, n.y, n.z).toLatLon(...)
+    # no intersection, d < EPS, j < EPS or z is NaN
+    raise ValueError('no %s for %r, %r, %r at %r, %r, %r' %
+                     ('trilaterate', point1, point2, point3,
+                      distance1, distance2, distance3))
 
 # **) MIT License
 #

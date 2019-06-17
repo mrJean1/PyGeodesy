@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '19.06.14'
+__version__ = '19.06.17'
 
 from base import TestsBase
 
@@ -139,6 +139,18 @@ class Tests(TestsBase):
             t = p.trilaterate(265.710701754, LatLon(37.417243, -121.961889), 234.592423446,
                                              LatLon(37.418692, -121.960194), 54.8954278262)
             self.test('trilaterate', t, '37.419078°N, 121.960579°W')
+            self.test('trilaterate', isinstance(t, LatLon), True)
+
+            # courtesy Carlos Freitas <http://GitHub.com/mrJean1/PyGeodesy/issues/33>
+            b1 = LatLon(-8.068361, -34.892722)
+            b2 = LatLon(-8.075917, -34.894611)
+            b3 = LatLon(-8.076361, -34.908000)
+            p  = LatLon(-8.068912, -34.888699)
+            d1 = b1.distanceTo(p)
+            d2 = b2.distanceTo(p)
+            d3 = b3.distanceTo(p)
+            t = b1.trilaterate(d1, b2, d2, b3, d3)
+            self.test('trilaterate', t, p)
             self.test('trilaterate', isinstance(t, LatLon), True)
 
 
