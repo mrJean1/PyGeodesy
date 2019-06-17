@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '19.06.17'
+__version__ = '19.06.18'
 
 from base import TestsBase
 
@@ -150,6 +150,9 @@ class Tests(TestsBase):
             d2 = b2.distanceTo(p)
             d3 = b3.distanceTo(p)
             t = b1.trilaterate(d1, b2, d2, b3, d3)
+            self.test('trilaterate', t, p)
+            self.test('trilaterate', isinstance(t, LatLon), True)
+            t = b1.trilaterate(d1, b2, d2, b3, d3, useZ=True)
             self.test('trilaterate', t, p)
             self.test('trilaterate', isinstance(t, LatLon), True)
 

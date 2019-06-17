@@ -71,7 +71,7 @@ _ALL_LAZY = _Enum_RO(_name='_ALL_LAZY',
         ellipsoidalNvector=(),  # module only
        ellipsoidalVincenty=('VincentyError',),  # nothing else
                       epsg=('Epsg', 'EPSGError'),
-                     fmath=('EPS', 'EPS1', 'EPS1_2', 'INF', 'MANTIS', 'MAX', 'MIN', 'NAN', 'NEG0',  # contants
+                     fmath=('EPS', 'EPS_2', 'EPS1', 'EPS1_2', 'INF', 'MANTIS', 'MAX', 'MIN', 'NAN', 'NEG0',  # contants
                             'Fdot', 'Fhorner', 'Fpolynomial', 'Fsum',
                             'acos1', 'cbrt', 'cbrt2',
                             'favg', 'fdot', 'fdot3', 'fmean', 'fhorner', 'fpolynomial', 'fpowers', 'fprod', 'frange', 'freduce', 'fStr', 'fStrzs', 'fsum', 'fsum_',
@@ -114,7 +114,7 @@ _ALL_LAZY = _Enum_RO(_name='_ALL_LAZY',
                       wgrs=('Georef',))  # nothing else
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '19.04.26'
+__version__ = '19.06.18'
 
 
 def _all_imports(**more):

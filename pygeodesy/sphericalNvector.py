@@ -31,7 +31,7 @@ to a normalised version of an (ECEF) cartesian coordinate.
 '''
 
 from datum import R_M
-from fmath import EPS, fmean, fsum, fsum_, isscalar
+from fmath import EPS, EPS_2, fmean, fsum, fsum_, isscalar
 from lazily import _ALL_LAZY
 from nvector import NorthPole, LatLonNvectorBase, \
                     Nvector as NvectorBase, sumOf
@@ -40,7 +40,7 @@ from sphericalBase import LatLonSphericalBase
 from utily import PI, PI2, PI_2, degrees360, iterNumpy2, \
                   sincos2, sincos2d
 
-from math import atan2, radians
+from math import atan2, radians, sqrt
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.sphericalNvector + (
@@ -50,7 +50,7 @@ __all__ = _ALL_LAZY.sphericalNvector + (
           'meanOf',
           'nearestOn2',
           'triangulate', 'trilaterate')
-__version__ = '19.06.17'
+__version__ = '19.06.18'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -682,7 +682,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
                                  height=height, LatLon=self.classof)
 
     def trilaterate(self, distance1, point2, distance2, point3, distance3,
-                          radius=R_M, height=None):
+                          radius=R_M, height=None, useZ=False):
         '''Locate a point at given distances from this and two other points.
            See also U{Trilateration<http://WikiPedia.org/wiki/Trilateration>}.
 
@@ -698,6 +698,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @keyword height: Optional height at trilaterated point,
                             overriding the mean height (C{meter}, same
                             units as I{radius}).
+           @keyword useZ: Include Z component iff non-NaN, non-zero (C{bool}).
 
            @return: Trilaterated point (L{LatLon}).
 
@@ -709,7 +710,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         return trilaterate(self, distance1, point2, distance2,
                                             point3, distance3,
                                  radius=radius, height=height,
-                                 LatLon=self.classof)
+                                 LatLon=self.classof, useZ=useZ)
 
 
 class Nvector(NvectorBase):
@@ -1030,7 +1031,7 @@ def triangulate(point1, bearing1, point2, bearing2,
 
 
 def trilaterate(point1, distance1, point2, distance2, point3, distance3,
-                radius=R_M, height=None, LatLon=LatLon):
+                radius=R_M, height=None, LatLon=LatLon, useZ=False):
     '''Locate a point at given distances from three other points.
        See also U{Trilateration<http://WikiPedia.org/wiki/Trilateration>}.
 
@@ -1048,6 +1049,7 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3,
                         the mean height (C{meter}, same units as I{radius}).
        @keyword LatLon: Optional (sub-)class to return the trilaterated
                         point (L{LatLon}).
+       @keyword useZ: Include Z component iff non-NaN, non-zero (C{bool}).
 
        @return: Trilaterated point (L{LatLon}).
 
@@ -1076,19 +1078,22 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3,
     x = n2.minus(n1)
 
     d = x.length  # distance n1->n2
-    if d > EPS:  # and (y.length * 2) > EPS:
+    if d > EPS_2:  # and (y.length * 2) > EPS:
         X = x.unit()  # unit vector in x direction n1->n2
         i = X.dot(y)  # signed magnitude of x component of n1->n3
         Y = y.minus(X.times(i)).unit()  # unit vector in y direction
         j = Y.dot(y)  # signed magnitude of y component of n1->n3
-        if abs(j) > EPS:
+        if abs(j) > EPS_2:
             # courtesy Carlos Freitas <http://GitHub.com/mrJean1/PyGeodesy/issues/33>
             x = fsum_(d12, -d22, d**2) / (2 * d)  # n1->intersection x- and ...
             y = fsum_(d12, -d32, i**2, j**2) / (2 * j) - (x * i / j)  # ... y-component
-            # Z = X.cross(Y)  # unit vector perpendicular to plane
-            # z = sqrt(fsum_(d12, -(x**2), -(y**2)))
-            # don't use Z component; assume points at same height
+
             n = n1.plus(X.times(x)).plus(Y.times(y))  # .plus(Z.times(z))
+            if useZ:  # include non-NaN, non-zero Z component
+                z = fsum_(d12, -(x**2), -(y**2))
+                if z > EPS:
+                    Z = X.cross(Y)  # unit vector perpendicular to plane
+                    n = n.plus(Z.times(sqrt(z)))
 
             if height is None:
                 h = fmean((point1.height, point2.height, point3.height))

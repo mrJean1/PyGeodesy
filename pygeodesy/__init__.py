@@ -165,8 +165,9 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @newfield JSname: JS name, JS names
 
 @var EPS:    System's M{epsilon} ≈2.22e-16 (C{float}).
+@var EPS_2:  Half system's M{epsilon} ≈1.11e-16 (C{float}).
 @var EPS1:   M{1 - EPS} ≈0.9999999999999998 (C{float}).
-@var EPS1_2: M{1 - EPS / 2} ≈0.9999999999999999 (C{float}).
+@var EPS1_2: M{1 - EPS_2} ≈0.9999999999999999 (C{float}).
 
 @var F_D:   Format degrees as "deg°" (C{str}).
 @var F_DM:  Format degrees as "deg°min′" (C{str}).
@@ -223,7 +224,7 @@ _init_abspath     = abspath(__file__)
 pygeodesy_abspath = dirname(_init_abspath)
 # <http://PyInstaller.ReadTheDocs.io/en/stable/runtime-information.html>
 _isfrozen   = getattr(sys, 'frozen', False)
-__version__ = '19.06.17'
+__version__ = '19.06.18'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 
@@ -385,7 +386,9 @@ except (LazyImportError, NotImplementedError):
               osgr, points, simplify, ups, utily, utm, utmups,
               webmercator):
         __all__ += m.__all__
-        _ismodule(m)
+        # GilderGeek <http://GitHub.com/mrJean1/PyGeodesy/issues/31>)
+        if not _isfrozen:
+            _ismodule(m)
 
     # remove any duplicates, only R_M?
     __all__ = tuple(set(__all__))
