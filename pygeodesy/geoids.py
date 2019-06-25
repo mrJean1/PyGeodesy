@@ -6,10 +6,10 @@ the height of various geoids at C{LatLon} locations or separate
 lat-/longitudes using different interpolation methods.
 
 L{GeoidKarney} is a transcription of Charles Karney's U{C++ class Geoid
-<http://GeographicLib.SourceForge.io/html/geoid.html>} to pure Python.
+<https://GeographicLib.SourceForge.io/html/geoid.html>} to pure Python.
 
 The L{GeoidG2012B} and L{GeoidPGM} interpolators both depend on
-U{scipy<http://SciPy.org>} and U{numpy<http://PyPI.org/project/numpy>}
+U{scipy<https://SciPy.org>} and U{numpy<https://PyPI.org/project/numpy>}
 and require those packages to be installed.
 
 In addition, each geoid interpolator needs grid knots to be (down)loaded
@@ -46,14 +46,14 @@ Errors from C{scipy} as raised as L{SciPyError}s.  Warnings issued by
 C{scipy} can be thrown as L{SciPyWarning} exceptions, provided Python
 C{warnings} are filtered accordingly, see L{SciPyWarning}.
 
-@see: Charles Karney's U{GeographicLib<http://GeographicLib.SourceForge.io/
-      html/index.html>}, U{Geoid height<http://GeographicLib.SourceForge.io/
-      html/geoid.html>} and U{Installing the Geoid datasets <http://
+@see: Charles Karney's U{GeographicLib<https://GeographicLib.SourceForge.io/
+      html/index.html>}, U{Geoid height<https://GeographicLib.SourceForge.io/
+      html/geoid.html>} and U{Installing the Geoid datasets <https://
       GeographicLib.SourceForge.io/html/geoid.html#geoidinst>}, U{SciPy
-      <http://docs.SciPy.org/doc/scipy/reference/interpolate.html>}
-      interpolation U{RectBivariateSpline<http://docs.SciPy.org/doc/scipy/
+      <https://docs.SciPy.org/doc/scipy/reference/interpolate.html>}
+      interpolation U{RectBivariateSpline<https://docs.SciPy.org/doc/scipy/
       reference/generated/scipy.interpolate.RectBivariateSpline.html>}
-      and U{interp2d<http://docs.SciPy.org/doc/scipy/reference/generated/
+      and U{interp2d<https://docs.SciPy.org/doc/scipy/reference/generated/
       scipy.interpolate.interp2d.html>} and the functions
       L{elevations.elevation2} and L{elevations.geoidHeight2}.
 '''
@@ -63,8 +63,9 @@ from dms import parseDMS2, RangeError
 from fmath import EPS, favg, Fdot, fdot, Fhorner, frange, fStr, len2
 from heights import _allis2, _ascalar, \
                     _HeightBase, HeightError, _SciPyIssue
-from lazily import _ALL_LAZY
-from utily import _for_docs, property_RO
+from lazily import _ALL_LAZY, _ALL_DOCS
+from named import GeoidHeight5Tuple, LatLon3Tuple, _Named
+from utily import property_RO
 
 from math import floor
 import os.path as _os_path
@@ -81,8 +82,8 @@ except ImportError:  # Python 3+
     def _b2str(bs):  # used only egm*.pgm text
         return bs.decode('utf-8')
 
-__all__ = _ALL_LAZY.geoids + _for_docs('_GeoidBase')
-__version__ = '19.04.07'
+__all__ = _ALL_LAZY.geoids + _ALL_DOCS('_GeoidBase')
+__version__ = '19.05.09'
 
 _interp2d_ks = {-2: 'linear',
                 -3: 'cubic',
@@ -112,7 +113,7 @@ class _GeoidBase(_HeightBase):
     _kind     = 3  # order for interp2d, RectBivariateSpline
     _knots    = 0  # nlat * nlon
     _mean     = None
-    _name     = ''
+#   _name     = '' # _Named
     _nBytes   = 0  # numpy size in bytes, float64
     _sizeB    = 0  # geoid file size in bytes
     _smooth   = 0  # used only for RectBivariateSpline
@@ -145,7 +146,7 @@ class _GeoidBase(_HeightBase):
            @param p: The C{slat, wlon, nlat, nlon, dlat, dlon} and
                      other geoid parameters (C{INTERNAL}).
 
-           @raise GeoidError: Invalid I{kind}.
+           @raise GeoidError: Invalid B{C{kind}}.
 
            @raise SciPyError: A C{scipy.interpolate.inter2d} or
                               C{-.RectBivariateSpline} issue.
@@ -201,10 +202,10 @@ class _GeoidBase(_HeightBase):
                     a list or tuple of interpolated geoid heights
                     (C{float}s).
 
-           @raise GeoidError: Insufficient number of I{llis} or an
-                              invalid I{lli}.
+           @raise GeoidError: Insufficient number of B{C{llis}} or an
+                              invalid B{C{lli}}.
 
-           @raise RangeError: An I{lli} is outside this geoid's lat-
+           @raise RangeError: An B{C{lli}} is outside this geoid's lat-
                               or longitude range.
 
            @raise SciPyError: A C{scipy.interpolate.inter2d} or
@@ -220,7 +221,7 @@ class _GeoidBase(_HeightBase):
         return self.toStr()
 
     def __str__(self):
-        return '%s(%r)' % (self.__class__.__name__, self.name)
+        return '%s(%r)' % (self.classname, self.name)
 
     def _called(self, llis, scipy):
         # handle __call__
@@ -261,7 +262,7 @@ class _GeoidBase(_HeightBase):
         return self._np.array(a), d
 
     def _g2ll2(self, lat, lon):  # PYCHOK not used
-        raise AssertionError('%s.%s not overloaded' % (self.__class__.__name__,
+        raise AssertionError('%s.%s not overloaded' % (self.classname,
                                                        self._g2ll2.__name__))
 
     def _gyx2g2(self, y, x):
@@ -276,18 +277,19 @@ class _GeoidBase(_HeightBase):
         return float(self._ev(*self._ll2g2(lat, lon)))
 
     def _ll2g2(self, lat, lon):  # PYCHOK not used
-        raise AssertionError('%s.%s not overloaded' % (self.__class__.__name__,
+        raise AssertionError('%s.%s not overloaded' % (self.classname,
                                                        self._ll2g2.__name__))
 
     def _llh3(self, lat, lon):
-        return lat, lon, self._hGeoid(lat, lon)
+        r = LatLon3Tuple(lat, lon, self._hGeoid(lat, lon))
+        return self._xnamed(r)
 
     def _llh3LL(self, llh, LatLon):
         return llh if LatLon is None else LatLon(*llh)
 
     def _llh3minmax(self, high):
         hs, np = self._hs_y_x, self._np
-        # <http://docs.SciPy.org/doc/numpy/reference/generated/
+        # <https://docs.SciPy.org/doc/numpy/reference/generated/
         #         numpy.argmin.html#numpy.argmin>
         arg = self._np.argmax if high else self._np.argmin
         y, x = np.unravel_index(arg(hs, axis=None), hs.shape)
@@ -311,7 +313,7 @@ class _GeoidBase(_HeightBase):
             self._datum = datum
         self._kind = int(kind)
         if name:
-            self._name = str(name)
+            _HeightBase.name.fset(self, name)  # recursion
         if smooth:
             if int(smooth) < 0:
                 raise GeoidError('%s invalid: %r' % ('smooth', smooth))
@@ -345,9 +347,9 @@ class _GeoidBase(_HeightBase):
            @keyword LatLon: Optional (sub-)class to return the location
                             (C{LatLon}) and height or C{None}.
 
-           @return: 3-Tuple C{(lat, lon, height)} if I{LatLon} is C{None}
-                    or a I{LatLon(lat, lon, height)} instance with the
-                    lat-, longitude and height of the grid center
+           @return: A L{LatLon3Tuple}C{(lat, lon, height)} if
+                    B{C{LatLon}} is C{None} or a B{C{LatLon}} instance with
+                    the lat-, longitude and height of the grid center
                     location.
         '''
         if self._center is None:
@@ -357,14 +359,14 @@ class _GeoidBase(_HeightBase):
 
     @property_RO
     def dtype(self):
-        '''Get the grid C{scipy} U{dtype<http://docs.SciPy.org/doc/numpy/
+        '''Get the grid C{scipy} U{dtype<https://docs.SciPy.org/doc/numpy/
            reference/generated/numpy.ndarray.dtype.html>} (C{numpy.dtype}).
         '''
         return self._hs_y_x.dtype
 
     @property_RO
     def endian(self):
-        '''Get the geoid endianess and U{dtype<http://docs.SciPy.org/
+        '''Get the geoid endianess and U{dtype<https://docs.SciPy.org/
            doc/numpy/reference/generated/numpy.dtype.html>} (C{str}).
         '''
         return self._endian
@@ -379,9 +381,9 @@ class _GeoidBase(_HeightBase):
                     list of interpolated geoid heights (C{float}s).
 
            @raise GeoidError: Insufficient or non-matching number of
-                              I{lats} and I{lons}.
+                              B{C{lats}} and B{C{lons}}.
 
-           @raise RangeError: A I{lat} or I{lon} is outside this geoid's
+           @raise RangeError: A B{C{lat}} or B{C{lon}} is outside this geoid's
                               lat- or longitude range.
 
            @raise SciPyError: A C{scipy.interpolate.inter2d} or
@@ -399,10 +401,10 @@ class _GeoidBase(_HeightBase):
            @keyword LatLon: Optional (sub-)class to return the location
                             (C{LatLon}) and height or C{None}.
 
-           @return: 3-Tuple C{(lat, lon, height)} if I{LatLon} is C{None}
-                    or a I{LatLon(lat, lon, height)} instance with the
-                    lat-, longitude and height of the highest grid
-                    location.
+           @return: A L{LatLon3Tuple}C{(lat, lon, height)} if
+                    B{C{LatLon}} is C{None} or a B{C{LatLon}} instance with
+                    the lat-, longitude and height of the highest
+                    grid location.
         '''
         if self._highest is None:
             self._highest = self._llh3minmax(True)
@@ -432,10 +434,10 @@ class _GeoidBase(_HeightBase):
            @keyword LatLon: Optional (sub-)class to return the location
                             (C{LatLon}) and height or C{None}.
 
-           @return: 3-Tuple C{(lat, lon, height)} if I{LatLon} is C{None}
-                    or a I{LatLon(lat, lon, height)} instance with the
-                    lat-, longitude and height of the lower-left, SW
-                    grid corner.
+           @return: A L{LatLon3Tuple}C{(lat, lon, height)} if
+                    B{C{LatLon}} is C{None} or a B{C{LatLon}} instance with
+                    the lat-, longitude and height of the lower-left,
+                    SW grid corner.
         '''
         if self._lowerleft is None:
             self._lowerleft = self._llh3(self._lat_lo, self._lon_lo)
@@ -447,10 +449,10 @@ class _GeoidBase(_HeightBase):
            @keyword LatLon: Optional (sub-)class to return the location
                             (C{LatLon}) and height or C{None}.
 
-           @return: 3-Tuple C{(lat, lon, height)} if I{LatLon} is C{None}
-                    or a I{LatLon(lat, lon, height)} instance with the
-                    lat-, longitude and height of the lower-right, SE
-                    grid corner.
+           @return: A L{LatLon3Tuple}C{(lat, lon, height)} if
+                    B{C{LatLon}} is C{None} or a B{C{LatLon}} instance with
+                    the lat-, longitude and height of the lower-right,
+                    SE grid corner.
         '''
         if self._lowerright is None:
             self._lowerright = self._llh3(self._lat_lo, self._lon_hi)
@@ -462,10 +464,10 @@ class _GeoidBase(_HeightBase):
            @keyword LatLon: Optional (sub-)class to return the location
                             (C{LatLon}) and height or C{None}.
 
-           @return: 3-Tuple C{(lat, lon, height)} if I{LatLon} is C{None}
-                    or a I{LatLon(lat, lon, height)} instance with the
-                    lat-, longitude and height of the lowest grid
-                    location.
+           @return: A L{LatLon3Tuple}C{(lat, lon, height)} if
+                    B{C{LatLon}} is C{None} or a B{C{LatLon}} instance with
+                    the lat-, longitude and height of the lowest
+                    grid location.
         '''
         if self._lowest is None:
             self._lowest = self._llh3minmax(False)
@@ -483,7 +485,7 @@ class _GeoidBase(_HeightBase):
     def name(self):
         '''Get the name of this geoid (C{str}).
         '''
-        return self._name or self._geoid
+        return _HeightBase.name.fget(self) or self._geoid  # recursion
 
     @property_RO
     def nBytes(self):
@@ -543,8 +545,8 @@ class _GeoidBase(_HeightBase):
 
            @keyword prec: Optional number of decimal digits (0..9 or
                           C{None} for default).  Trailing zero decimals
-                          are stripped for I{prec} values of 1 and above,
-                          but kept for negative I{prec} values.
+                          are stripped for B{C{prec}} values of 1 and above,
+                          but kept for negative B{C{prec}} values.
            @keyword sep: Optional separator (C{str}).
 
            @return: Geoid name and attributes (C{str}).
@@ -571,10 +573,10 @@ class _GeoidBase(_HeightBase):
            @keyword LatLon: Optional (sub-)class to return the location
                             (C{LatLon}) and height or C{None}.
 
-           @return: 3-Tuple C{(lat, lon, height)} if I{LatLon} is C{None}
-                    or a I{LatLon(lat, lon, height)} instance with the
-                    lat-, longitude and height of the upper-left, NW
-                    grid corner.
+           @return: A L{LatLon3Tuple}C{(lat, lon, height)} if
+                    B{C{LatLon}} is C{None} or a B{C{LatLon}} instance with
+                    the lat-, longitude and height of the upper-left,
+                    NW grid corner.
         '''
         if self._upperleft is None:
             self._upperleft = self._llh3(self._lat_hi, self._lon_lo)
@@ -586,10 +588,10 @@ class _GeoidBase(_HeightBase):
            @keyword LatLon: Optional (sub-)class to return the location
                             (C{LatLon}) and height or C{None}.
 
-           @return: 3-Tuple C{(lat, lon, height)} if I{LatLon} is C{None}
-                    or a I{LatLon(lat, lon, height)} instance with the
-                    lat-, longitude and height of the upper-right, NE
-                    grid corner.
+           @return: A L{LatLon3Tuple}C{(lat, lon, height)} if
+                    B{C{LatLon}} is C{None} or a B{C{LatLon}} instance with
+                    the lat-, longitude and height of the upper-right,
+                    NE grid corner.
         '''
         if self._upperright is None:
             self._upperright = self._llh3(self._lat_hi, self._lon_hi)
@@ -598,18 +600,18 @@ class _GeoidBase(_HeightBase):
 
 class GeoidG2012B(_GeoidBase):
     '''Geoid height interpolator for U{GEOID12B Model
-       <http://www.NGS.NOAA.gov/GEOID/GEOID12B/>} grids U{CONUS
-       <http://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_CONUS.shtml>},
-       U{Alaska<http://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_AK.shtml>},
-       U{Hawaii<http://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_HI.shtml>},
+       <https://www.NGS.NOAA.gov/GEOID/GEOID12B/>} grids U{CONUS
+       <https://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_CONUS.shtml>},
+       U{Alaska<https://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_AK.shtml>},
+       U{Hawaii<https://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_HI.shtml>},
        U{Guam and Northern Mariana Islands
-       <http://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_GMNI.shtml>},
+       <https://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_GMNI.shtml>},
        U{Puerto Rico and U.S. Virgin Islands
-       <http://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_PRVI.shtml>} and
-       U{American Samoa<http://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_AS.shtml>}
-       based on C{SciPy} U{RectBivariateSpline<http://docs.SciPy.org/doc/
+       <https://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_PRVI.shtml>} and
+       U{American Samoa<https://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_AS.shtml>}
+       based on C{SciPy} U{RectBivariateSpline<https://docs.SciPy.org/doc/
        scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html>}
-       or U{interp2d<http://docs.SciPy.org/doc/scipy/reference/generated/
+       or U{interp2d<https://docs.SciPy.org/doc/scipy/reference/generated/
        scipy.interpolate.interp2d.html>} interpolation.
 
        Use any of the binary C{le} (little endian) or C{be} (big endian)
@@ -623,19 +625,19 @@ class GeoidG2012B(_GeoidBase):
            @keyword crop: Optional crop box, not supported (C{None}).
            @keyword datum: Optional grid datum (C{Datum}), default C{WGS84}.
            @keyword kind: C{scipy.interpolate} order (C{int}), use 1..5 for
-                          U{RectBivariateSpline<http://docs.SciPy.org/doc/scipy/
+                          U{RectBivariateSpline<https://docs.SciPy.org/doc/scipy/
                           reference/generated/scipy.interpolate.RectBivariateSpline.html>},
-                          -2 for U{interp2d linear<http://docs.SciPy.org/doc/scipy/
+                          -2 for U{interp2d linear<https://docs.SciPy.org/doc/scipy/
                           reference/generated/scipy.interpolate.interp2d.html>}, -3
                           for C{interp2d cubic} or -5 for C{interp2d quintic}.
            @keyword name: Optional geoid name (C{str}).
            @keyword smooth: Smoothing factor for U{RectBivariateSpline
-                            <http://docs.SciPy.org/doc/scipy/reference/generated/
+                            <https://docs.SciPy.org/doc/scipy/reference/generated/
                             scipy.interpolate.RectBivariateSpline.html>}
                             only (C{int}).
 
-           @raise GeoidError: G2012B grid file I{g2012b_bin} issue, non-C{None}
-                              I{crop} or invalid I{kind} or I{smooth}.
+           @raise GeoidError: G2012B grid file B{C{g2012b_bin}} issue, non-C{None}
+                              B{C{crop}} or invalid B{C{kind}} or B{C{smooth}}.
 
            @raise ImportError: Package C{numpy} or C{scipy} not found
                                or not installed.
@@ -654,7 +656,7 @@ class GeoidG2012B(_GeoidBase):
             p = _Gpars()
             n = self.sizeB // 4 - 11  # number of f4 heights
             # U{numpy dtype formats are different from Python struct formats
-            # <http://docs.SciPy.org/doc/numpy-1.15.0/reference/arrays.dtypes.html>}
+            # <https://docs.SciPy.org/doc/numpy-1.15.0/reference/arrays.dtypes.html>}
             for en_f4 in ('<f4', '>f4'):
                 en_ = en_f4[:1]
                 # skip 4xf8, get 3xi4
@@ -691,16 +693,16 @@ class GeoidG2012B(_GeoidBase):
 
 class GeoidKarney(_GeoidBase):
     '''Geoid height interpolator for Charles Karney's U{GeographicLib
-       Earth Gravitational Model (EGM)<http://GeographicLib.SourceForge.io/
-       html/geoid.html>} geoid U{egm*.pgm<http://GeographicLib.SourceForge.io/
+       Earth Gravitational Model (EGM)<https://GeographicLib.SourceForge.io/
+       html/geoid.html>} geoid U{egm*.pgm<https://GeographicLib.SourceForge.io/
        html/geoid.html#geoidinst>} datasets using bilinear or U{cubic
-       <http://dl.ACM.org/citation.cfm?id=368443>} interpolation and U{caching
-       <http://GeographicLib.SourceForge.io/html/geoid.html#geoidcache>}
+       <https://dl.ACM.org/citation.cfm?id=368443>} interpolation and U{caching
+       <https://GeographicLib.SourceForge.io/html/geoid.html#geoidcache>}
        in pure Python transcribed from Karney's U{C++ class Geoid
-       <http://GeographicLib.SourceForge.io/html/geoid.html#geoidinterp>}.
+       <https://GeographicLib.SourceForge.io/html/geoid.html#geoidinterp>}.
 
        Use any of the geoid U{egm84-, egm96- or egm2008-*.pgm
-       <http://GeographicLib.SourceForge.io/html/geoid.html#geoidinst>}
+       <https://GeographicLib.SourceForge.io/html/geoid.html#geoidinst>}
        datasets.
     '''
     _C0 = (372.0, 240.0, 372.0)  # n, _ and s common denominators
@@ -765,7 +767,7 @@ class GeoidKarney(_GeoidBase):
                                 kind=3, name='', smooth=None):
         '''New L{GeoidKarney} interpolator.
 
-           @param egm_pgm: An U{EGM geoid dataset<http://GeographicLib.SourceForge.io/
+           @param egm_pgm: An U{EGM geoid dataset<https://GeographicLib.SourceForge.io/
                            html/geoid.html#geoidinst>} file name (C{egm*.pgm}).
            @keyword crop: Optional box to limit geoid locations, a 4-tuple (C{south,
                           west, north, east}), 2-tuple (C{(south, west), (north,
@@ -778,8 +780,8 @@ class GeoidKarney(_GeoidBase):
            @keyword name: Optional geoid name (C{str}).
            @keyword smooth: Smoothing factor, unsupported (C{None}).
 
-           @raise GeoidError: EGM dataset I{egm_pgm} issue or invalid I{crop},
-                              I{kind} or I{smooth}.
+           @raise GeoidError: EGM dataset B{C{egm_pgm}} issue or invalid B{C{crop}},
+                              B{C{kind}} or B{C{smooth}}.
 
            @see: Class L{GeoidPGM} and function L{egmGeoidHeights}.
         '''
@@ -816,10 +818,10 @@ class GeoidKarney(_GeoidBase):
                     a list or tuple of interpolated geoid heights
                     (C{float}s).
 
-           @raise GeoidError: Insufficient number of I{llis} or an
-                              invalid I{lli}.
+           @raise GeoidError: Insufficient number of B{C{llis}} or an
+                              invalid B{C{lli}}.
 
-           @raise RangeError: An I{lli} is outside this geoid's lat-
+           @raise RangeError: An B{C{lli}} is outside this geoid's lat-
                               or longitude range.
         '''
         return self._called(llis, False)
@@ -1014,9 +1016,9 @@ class GeoidKarney(_GeoidBase):
                     list of interpolated geoid heights (C{float}s).
 
            @raise GeoidError: Insufficient or non-matching number of
-                              I{lats} and I{lons}.
+                              B{C{lats}} and B{C{lons}}.
 
-           @raise RangeError: A I{lat} or I{lon} is outside this geoid's
+           @raise RangeError: A B{C{lat}} or B{C{lon}} is outside this geoid's
                               lat- or longitude range.
         '''
         return _HeightBase._height(self, lats, lons, Error=GeoidError)
@@ -1036,23 +1038,23 @@ class GeoidKarney(_GeoidBase):
 
 class GeoidPGM(_GeoidBase):
     '''Geoid height interpolator for Charles Karney's U{GeographicLib
-       Earth Gravitational Model (EGM)<http://GeographicLib.SourceForge.io/
-       html/geoid.html>} geoid U{egm*.pgm<http://GeographicLib.SourceForge.io/
+       Earth Gravitational Model (EGM)<https://GeographicLib.SourceForge.io/
+       html/geoid.html>} geoid U{egm*.pgm<https://GeographicLib.SourceForge.io/
        html/geoid.html#geoidinst>} datasets but based on C{SciPy}
-       U{RectBivariateSpline<http://docs.SciPy.org/doc/scipy/reference/
+       U{RectBivariateSpline<https://docs.SciPy.org/doc/scipy/reference/
        generated/scipy.interpolate.RectBivariateSpline.html>} or
-       U{interp2d<http://docs.SciPy.org/doc/scipy/reference/generated/
+       U{interp2d<https://docs.SciPy.org/doc/scipy/reference/generated/
        scipy.interpolate.interp2d.html>} interpolation.
 
        Use any of the U{egm84-, egm96- or egm2008-*.pgm
-       <http://GeographicLib.SourceForge.io/html/geoid.html#geoidinst>}
+       <https://GeographicLib.SourceForge.io/html/geoid.html#geoidinst>}
        datasets.  However, unless cropped, an entire C{egm*.pgm} dataset
-       is loaded into the C{SciPy} U{RectBivariateSpline<http://docs.SciPy.org/
+       is loaded into the C{SciPy} U{RectBivariateSpline<https://docs.SciPy.org/
        doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html>}
-       or U{interp2d<http://docs.SciPy.org/doc/scipy/reference/generated/
+       or U{interp2d<https://docs.SciPy.org/doc/scipy/reference/generated/
        scipy.interpolate.interp2d.html>} interpolator and converted from
        2-byte C{int} to 8-byte C{dtype float64}.  Therefore, internal memory
-       usage is 4x the U{egm*.pgm<http://GeographicLib.SourceForge.io/html/
+       usage is 4x the U{egm*.pgm<https://GeographicLib.SourceForge.io/html/
        geoid.html#geoidinst>} file size and may exceed the available memory,
        especially with 32-bit Python, see properties C{.nBytes} and C{.sizeB}.
     '''
@@ -1064,27 +1066,27 @@ class GeoidPGM(_GeoidBase):
                                 kind=3, name='', smooth=0):
         '''New L{GeoidPGM} interpolator.
 
-           @param egm_pgm: An U{EGM geoid dataset<http://GeographicLib.SourceForge.io/
+           @param egm_pgm: An U{EGM geoid dataset<https://GeographicLib.SourceForge.io/
                            html/geoid.html#geoidinst>} file name (C{egm*.pgm}).
-           @keyword crop: Optional box to crop I{egm_pgm}, a 4-tuple (C{south, west,
+           @keyword crop: Optional box to crop B{C{egm_pgm}}, a 4-tuple (C{south, west,
                           north, east}) or 2-tuple (C{(south, west), (north, east)}),
                           in C{degrees90} lat- and C{degrees180} longitudes or a
                           2-tuple (C{LatLonSW, LatLonNE}) of C{LatLon} instances.
            @keyword datum: Optional grid datum (C{Datum}), default C{WGS84}.
            @keyword kind: C{scipy.interpolate} order (C{int}), use 1..5 for
-                          U{RectBivariateSpline<http://docs.SciPy.org/doc/scipy/
+                          U{RectBivariateSpline<https://docs.SciPy.org/doc/scipy/
                           reference/generated/scipy.interpolate.RectBivariateSpline.html>},
-                          -2 for U{interp2d linear<http://docs.SciPy.org/doc/scipy/
+                          -2 for U{interp2d linear<https://docs.SciPy.org/doc/scipy/
                           reference/generated/scipy.interpolate.interp2d.html>}, -3
                           for C{interp2d cubic} or -5 for C{interp2d quintic}.
            @keyword name: Optional geoid name (C{str}).
            @keyword smooth: Smoothing factor for U{RectBivariateSpline
-                            <http://docs.SciPy.org/doc/scipy/reference/generated/
+                            <https://docs.SciPy.org/doc/scipy/reference/generated/
                             scipy.interpolate.RectBivariateSpline.html>}
                             only (C{int}).
 
-           @raise GeoidError: EGM dataset I{egm_pgm} issue or invalid I{crop},
-                              I{kind} or I{smooth}.
+           @raise GeoidError: EGM dataset B{C{egm_pgm}} issue or invalid B{C{crop}},
+                              B{C{kind}} or B{C{smooth}}.
 
            @raise ImportError: Package C{numpy} or C{scipy} not found
                                or not installed.
@@ -1094,14 +1096,14 @@ class GeoidPGM(_GeoidBase):
            @raise SciPyWarning: A C{RectBivariateSpline} or C{inter2d}
                                 warning as exception.
 
-           @note: The U{GeographicLib egm*.pgm<http://GeographicLib.SourceForge.io/
+           @note: The U{GeographicLib egm*.pgm<https://GeographicLib.SourceForge.io/
                   html/geoid.html#geoidinst>} file sizes are based on a 2-byte
                   C{int} height converted to 8-byte C{dtype float64} for C{scipy}
                   interpolators.  Therefore, internal memory usage is 4 times the
                   C{egm*.pgm} file size and may exceed the available memory,
                   especially with 32-bit Python.  To reduce memory usage, set
-                  keyword argument I{crop} to the region of interest.  For example
-                  I{crop=(20, -125, 50, -65)} covers the U{conterminous US<http://
+                  keyword argument B{C{crop}} to the region of interest.  For example
+                  B{crop=(20, -125, 50, -65)} covers the U{conterminous US<https://
                   www.NGS.NOAA.gov/GEOID/GEOID12B/maps/GEOID12B_CONUS_grids.png>}
                   (CONUS), less than 3% of the entire C{egm2008-1.pgm} dataset.
 
@@ -1118,7 +1120,7 @@ class GeoidPGM(_GeoidBase):
             self._ll2g2 = self._ll2g2_cropped
         try:
             # U{numpy dtype formats are different from Python struct formats
-            # <http://docs.SciPy.org/doc/numpy-1.15.0/reference/arrays.dtypes.html>}
+            # <https://docs.SciPy.org/doc/numpy-1.15.0/reference/arrays.dtypes.html>}
             # read all heights, skipping the PGM header lines, converted to float
             hs = self._load(g, self.endian, p.knots, p.skip).reshape(p.nlat, p.nlon) * p.Scale
             if p.Offset:  # offset
@@ -1164,7 +1166,7 @@ class GeoidPGM(_GeoidBase):
         return self._u2B
 
 
-class _Gpars(object):
+class _Gpars(_Named):
     '''(INTERNAL) Basic geoid parameters.
     '''
     # interpolator parameters
@@ -1190,7 +1192,7 @@ class _Gpars(object):
         return '%s: %s' % (self, t)
 
     def __str__(self):
-        return '%s()' % (self.__class__.__name__,)
+        return '%s(%r)' % (self.classname, self.name)
 
 
 class _PGM(_Gpars):
@@ -1198,7 +1200,7 @@ class _PGM(_Gpars):
 
        # Geoid file in PGM format for the GeographicLib::Geoid class
        # Description WGS84 EGM96, 5-minute grid
-       # URL http://Earth-Info.NGA.mil/GandG/wgs84/gravitymod/egm96/egm96.html
+       # URL https://Earth-Info.NGA.mil/GandG/wgs84/gravitymod/egm96/egm96.html
        # DateTime 2009-08-29 18:45:03
        # MaxBilinearError 0.140
        # RMSBilinearError 0.005
@@ -1216,7 +1218,7 @@ class _PGM(_Gpars):
     crop4 = ()  # 4-tuple (C{south, west, north, east}).
     egm   = None
     glon  = 180  # reverse offset, uncropped
-    pgm   = ''
+#   pgm   = ''   # name
     sizeB = 0
     u2B   = 2  # item size of grid height (C{int}).
 
@@ -1239,13 +1241,13 @@ class _PGM(_Gpars):
     RMSBilinearError = float
     RMSCubicError    = float
     Scale            = float
-    URL              = str  # 'http://Earth-Info.NGA.mil/GandG/wgs84/...'
+    URL              = str  # 'https://Earth-Info.NGA.mil/GandG/wgs84/...'
     Vertical_Datum   = str
 
     def __init__(self, g, pgm='', itemsize=0, sizeB=0):  # MCCABE 22
         '''(INTERNAL) New C{_PGM} parsed C{egm*.pgm} geoid dataset.
         '''
-        self.pgm = pgm  # geoid file name
+        self.name = pgm  # geoid file name
         if itemsize:
             self._u2B = itemsize
         if sizeB:
@@ -1318,9 +1320,6 @@ class _PGM(_Gpars):
         n = self.sizeB - self.skip
         if n > 0 and n != (self.knots * self.u2B):
             raise self._Errorf('assert(%s x %s != %s)', nlat, nlon, n)
-
-    def __str__(self):
-        return '%s(%r)' % (self.__class__.__name__, self.pgm)
 
     def _cropped(self, g, k1, south, west, north, east):  # MCCABE 15
         '''Crop the geoid to (south, west, north, east) box.
@@ -1428,25 +1427,29 @@ class _PGM(_Gpars):
         f.seek(0, _SEEK_SET)  # force overwrite
         return f
 
+    @property_RO
+    def pgm(self):
+        '''Get the geoid file name (C{str}).
+        '''
+        return self.name
+
 
 def egmGeoidHeights(GeoidHeights_dat):
-    '''Generate geoid U{egm*.pgm<http://GeographicLib.SourceForge.io/
+    '''Generate geoid U{egm*.pgm<https://GeographicLib.SourceForge.io/
        html/geoid.html#geoidinst>} height tests from U{GeoidHeights.dat
-       <http://SourceForge.net/projects/geographiclib/files/testdata/>}
-       U{Test data for Geoids <http://GeographicLib.SourceForge.io/html/
+       <https://SourceForge.net/projects/geographiclib/files/testdata/>}
+       U{Test data for Geoids <https://GeographicLib.SourceForge.io/html/
        geoid.html#testgeoid>}.
 
        @param GeoidHeights_dat: The un-gz-ed C{GeoidHeights.dat} file
                                 (C{str} or C{file} handle).
 
-       @return: For each test, yield a 5-Tuple C{(lat, lon, egm84, egm96,
-                egm2008)} with the expected heights for 3 different EGM
-                grids in C{-90.0 <= lat <= 90.0} and C{-180.0 <= lat <=
-                180.0} degrees.
+       @return: For each test, yield a L{GeoidHeight5Tuple}C{(lat, lon,
+                egm84, egm96, egm2008)}.
 
-       @raise GeoidError: Invalid I{GeoidHeights_dat}.
+       @raise GeoidError: Invalid B{C{GeoidHeights_dat}}.
 
-       @note: Function L{egmGeoidHeights} is used to test geoids
+       @note: Function L{egmGeoidHeights} is used to test the geoids
               L{GeoidKarney} and L{GeoidPGM}, see PyGeodesy module
               C{test/testGeoids.py}.
     '''
@@ -1463,9 +1466,9 @@ def egmGeoidHeights(GeoidHeights_dat):
         t = t.strip()
         if t and not t.startswith(b'#'):
             lat, lon, egm84, egm96, egm2008 = map(float, t.split())
-            if lon > 180:  # Eastern lon to earth lon
+            if lon > 180:  # EasternLon to earth lon
                 lon -= 360
-            yield lat, lon, egm84, egm96, egm2008
+            yield GeoidHeight5Tuple(lat, lon, egm84, egm96, egm2008)
 
 
 if __name__ == '__main__':
@@ -1496,7 +1499,7 @@ if __name__ == '__main__':
             g = _GeoidEGM(geoid, crop=_crop, kind=_kind)
             print('\n%s\n' % (g.toStr(),))
             print('%r\n' % (g.pgm,))
-            # <http://GeographicLib.SourceForge.io/cgi-bin/GeoidEval>:
+            # <https://GeographicLib.SourceForge.io/cgi-bin/GeoidEval>:
             # The height of the EGM96 geoid at Timbuktu
             #    echo 16:46:33N 3:00:34W | GeoidEval
             #    => 28.7068 -0.02e-6 -1.73e-6
@@ -1543,7 +1546,7 @@ if __name__ == '__main__':
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-# <http://GeographicLib.SourceForge.io/cgi-bin/GeoidEval>
+# <https://GeographicLib.SourceForge.io/cgi-bin/GeoidEval>
 # _lowerleft = -90, -179, -30.1500  # egm2008-1.pgm
 # _lowerleft = -90, -179, -29.5350  # egm96-5.pgm
 # _lowerleft = -90, -179, -29.7120  # egm84-15.pgm
@@ -1564,7 +1567,7 @@ if __name__ == '__main__':
 # _PGM('../geoids/egm2008-1.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-31 06:54:00', Description='WGS84 EGM2008, 1-minute grid',
 #                                  Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.025, MaxCubicError=0.003,
 #                                  Offset=-108.0, Origin=(90, 0.0), Pixel=65535, RMSBilinearError=0.001, RMSCubicError=0.001, Scale=0.003,
-#                                  URL='http://Earth-Info.NGA.mil/GandG/wgs84/gravitymod/egm2008', Vertical_Datum='WGS84', crop4=(-90.0, -180.0, 90.0, 180.0),
+#                                  URL='https://Earth-Info.NGA.mil/GandG/wgs84/gravitymod/egm2008', Vertical_Datum='WGS84', crop4=(-90.0, -180.0, 90.0, 180.0),
 #                                  dlat=-0.016666666666666666, dlon=0.016666666666666666, egm=None, flon=0, glon=180, knots=233301600, nlat=10801, nlon=21600,
 #                                  pgm='../geoids/egm2008-1.pgm', rlat=-60.0, rlon=60.0, sizeB=466603604, skip=404, slat=90, u2B=2, wlon=0.0
 # Timbuktu GeoidKarney('egm2008-1.pgm').height(16.775833, -3.009444): 28.7881 vs 28.7880
@@ -1576,7 +1579,7 @@ if __name__ == '__main__':
 # _PGM('../geoids/egm84-15.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-29 18:45:02', Description='WGS84 EGM84, 15-minute grid',
 #                                 Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.413, MaxCubicError=0.02,
 #                                 Offset=-108.0, Origin=(90, 0.0), Pixel=65535, RMSBilinearError=0.018, RMSCubicError=0.001, Scale=0.003,
-#                                 URL='http://Earth-Info.NGA.mil/GandG/wgs84/gravitymod/wgs84_180/wgs84_180.html', Vertical_Datum='WGS84', crop4=(-90.0, -180.0, 90.0, 180.0),
+#                                 URL='https://Earth-Info.NGA.mil/GandG/wgs84/gravitymod/wgs84_180/wgs84_180.html', Vertical_Datum='WGS84', crop4=(-90.0, -180.0, 90.0, 180.0),
 #                                 dlat=-0.25, dlon=0.25, egm=None, flon=0, glon=180, knots=1038240, nlat=721, nlon=1440,
 #                                 pgm='../geoids/egm84-15.pgm', rlat=-4.0, rlon=4.0, sizeB=2076896, skip=416, slat=90, u2B=2, wlon=0.0
 # Timbuktu GeoidKarney('egm84-15.pgm').height(16.775833, -3.009444): 31.2983 vs 31.2979
@@ -1588,7 +1591,7 @@ if __name__ == '__main__':
 # _PGM('../geoids/egm96-5.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-29 18:45:03', Description='WGS84 EGM96, 5-minute grid',
 #                                Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.14, MaxCubicError=0.003,
 #                                Offset=-108.0, Origin=(90, 0.0), Pixel=65535, RMSBilinearError=0.005, RMSCubicError=0.001, Scale=0.003,
-#                                URL='http://Earth-Info.NGA.mil/GandG/wgs84/gravitymod/egm96/egm96.html', Vertical_Datum='WGS84', crop4=(),
+#                                URL='https://Earth-Info.NGA.mil/GandG/wgs84/gravitymod/egm96/egm96.html', Vertical_Datum='WGS84', crop4=(),
 #                                dlat=-0.08333333333333333, dlon=0.08333333333333333, egm=None, flon=0, glon=180, knots=9335520, nlat=2161, nlon=4320,
 #                                pgm='../geoids/egm96-5.pgm', rlat=-12.0, rlon=12.0, sizeB=18671448, skip=408, slat=90, u2B=2, wlon=0.0
 # Timbuktu GeoidKarney('egm96-5.pgm').height(16.775833, -3.009444): 28.7068 vs 28.7067
@@ -1602,7 +1605,7 @@ if __name__ == '__main__':
 # _PGM('../geoids/egm2008-1.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-31 06:54:00', Description='WGS84 EGM2008, 1-minute grid',
 #                                  Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.025, MaxCubicError=0.003,
 #                                  Offset=-108.0, Origin=(90, 0.0), Pixel=65535, RMSBilinearError=0.001, RMSCubicError=0.001, Scale=0.003,
-#                                  URL='http://Earth-Info.NGA.mil/GandG/wgs84/gravitymod/egm2008', Vertical_Datum='WGS84', crop4=(-90.0, -180.0, 90.0, 180.0),
+#                                  URL='https://Earth-Info.NGA.mil/GandG/wgs84/gravitymod/egm2008', Vertical_Datum='WGS84', crop4=(-90.0, -180.0, 90.0, 180.0),
 #                                  dlat=-0.016666666666666666, dlon=0.016666666666666666, egm=None, flon=0, glon=180, knots=233301600, nlat=10801, nlon=21600,
 #                                  pgm='../geoids/egm2008-1.pgm', rlat=-60.0, rlon=60.0, sizeB=466603604, skip=404, slat=90, u2B=2, wlon=0.0
 # Timbuktu GeoidPGM('egm2008-1.pgm').height(16.775833, -3.009444): 28.7881 vs 28.7880
@@ -1614,7 +1617,7 @@ if __name__ == '__main__':
 # _PGM('../geoids/egm84-15.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-29 18:45:02', Description='WGS84 EGM84, 15-minute grid',
 #                                 Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.413, MaxCubicError=0.02,
 #                                 Offset=-108.0, Origin=(90, 0.0), Pixel=65535, RMSBilinearError=0.018, RMSCubicError=0.001, Scale=0.003,
-#                                 URL='http://Earth-Info.NGA.mil/GandG/wgs84/gravitymod/wgs84_180/wgs84_180.html', Vertical_Datum='WGS84', crop4=(-90.0, -180.0, 90.0, 180.0),
+#                                 URL='https://Earth-Info.NGA.mil/GandG/wgs84/gravitymod/wgs84_180/wgs84_180.html', Vertical_Datum='WGS84', crop4=(-90.0, -180.0, 90.0, 180.0),
 #                                 dlat=-0.25, dlon=0.25, egm=None, flon=0, glon=180, knots=1038240, nlat=721, nlon=1440,
 #                                 pgm='../geoids/egm84-15.pgm', rlat=-4.0, rlon=4.0, sizeB=2076896, skip=416, slat=90, u2B=2, wlon=0.0
 # Timbuktu GeoidPGM('egm84-15.pgm').height(16.775833, -3.009444): 31.2979 vs 31.2979
@@ -1626,7 +1629,7 @@ if __name__ == '__main__':
 # _PGM('../geoids/egm96-5.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-29 18:45:03', Description='WGS84 EGM96, 5-minute grid',
 #                                Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.14, MaxCubicError=0.003,
 #                                Offset=-108.0, Origin=(90, 0.0), Pixel=65535, RMSBilinearError=0.005, RMSCubicError=0.001, Scale=0.003,
-#                                URL='http://Earth-Info.NGA.mil/GandG/wgs84/gravitymod/egm96/egm96.html', Vertical_Datum='WGS84', crop4=(-90.0, -180.0, 90.0, 180.0),
+#                                URL='https://Earth-Info.NGA.mil/GandG/wgs84/gravitymod/egm96/egm96.html', Vertical_Datum='WGS84', crop4=(-90.0, -180.0, 90.0, 180.0),
 #                                dlat=-0.08333333333333333, dlon=0.08333333333333333, egm=None, flon=0, glon=180, knots=9335520, nlat=2161, nlon=4320,
 #                                pgm='../geoids/egm96-5.pgm', rlat=-12.0, rlon=12.0, sizeB=18671448, skip=408, slat=90, u2B=2, wlon=0.0
 # Timbuktu GeoidPGM('egm96-5.pgm').height(16.775833, -3.009444): 28.7065 vs 28.7067

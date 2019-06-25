@@ -2,29 +2,29 @@
 # -*- coding: utf-8 -*-
 
 u'''Classes L{Epsg} and L{EPSGError} and functions to L{encode} and L{decode2}
-U{EPSG (European Petroleum Survey Group)<http://www.EPSG-Registry.org>} codes
+U{EPSG (European Petroleum Survey Group)<https://www.EPSG-Registry.org>} codes
 from and to U{UTM
-<http://WikiPedia.org/wiki/Universal_Transverse_Mercator_coordinate_system>} and
-U{UPS<http://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system>}
+<https://WikiPedia.org/wiki/Universal_Transverse_Mercator_coordinate_system>} and
+U{UPS<https://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system>}
 zones.
 
 A pure Python implementation transcribed from C++ class U{UTMUPS
-<http://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html>}
+<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html>}
 by I{Charles Karney}, including coverage of UPS as zone C{0}.
 '''
 
-from bases import _Named
-from ellipsoidalBase import _to3zBhp, _UPS_ZONE, \
-                            _UTM_ZONE_MIN, _UTM_ZONE_MAX, \
-                            _UTMUPS_ZONE_INVALID
 from lazily import _ALL_LAZY
+from named import _NamedInt, UtmUps2Tuple
 from utily import property_RO, _Strs
 from ups import Ups
 from utm import Utm
+from utmupsBase import _to3zBhp, _UPS_ZONE, \
+                       _UTM_ZONE_MIN, _UTM_ZONE_MAX, \
+                       _UTMUPS_ZONE_INVALID
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.epsg + ('decode2', 'encode')
-__version__ = '19.04.26'
+__version__ = '19.05.10'
 
 # _EPSG_INVALID = _UTMUPS_ZONE_INVALID
 _EPSG_N_01 = 32601  # EPSG code for UTM zone 01 N
@@ -42,8 +42,8 @@ class EPSGError(ValueError):
     pass
 
 
-class Epsg(int, _Named):
-    '''U{EPSG<http://www.EPSG-Registry.org>} class, sub-class of C{int}.
+class Epsg(_NamedInt):
+    '''U{EPSG<https://www.EPSG-Registry.org>} class, a C{_NamedInt}.
     '''
     _band       = ''
     _epsg       = None
@@ -58,9 +58,9 @@ class Epsg(int, _Named):
 
            @return: New L{Epsg}.
 
-           @raise TypeError: Invalid I{eisu}.
+           @raise TypeError: Invalid B{C{eisu}}.
 
-           @raise EPSGError: Invalid I{eisu}.
+           @raise EPSGError: Invalid B{C{eisu}}.
         '''
         if isinstance(eisu, Epsg):
             self = int.__new__(cls, int(eisu))
@@ -75,7 +75,7 @@ class Epsg(int, _Named):
         elif isinstance(eisu, int):
             self = int.__new__(cls, eisu)
             self._epsg = eisu
-            self._zone, self._hemisphere = decode2(eisu)
+            self._zone, self._hemisphere = decode2(eisu)  # PYCHOK UtmUps2Tuple
 
         elif isinstance(eisu, _Strs):
             self = encode(eisu)
@@ -85,14 +85,14 @@ class Epsg(int, _Named):
             self = encode(u.zone, hemipole=u.hemisphere, band=u.band)  # PYCHOK **kwds
             self._utmups = u
             if u.name:
-                self._name = u.name
+                self.name = u.name
         else:
             raise TypeError('%s invalid: %r' % ('eisu', eisu))
 
         return self
 
     def __repr__(self):
-        return '%s(%s)' % (self.name or self.classname, self)
+        return '%s(%s)' % (self.named, int.__repr__(self))
 
     def __str__(self):
         return int.__str__(self)
@@ -134,42 +134,45 @@ class Epsg(int, _Named):
 
 def decode2(epsg):
     '''Determine the UTM/USP zone and hemisphere from a given
-       U{EPSG<http://www.EPSG-Registry.org>}.
+       U{EPSG<https://www.EPSG-Registry.org>}.
 
        @param epsg: The EPSG (L{Epsg}, C{str} or C{scalar}).
 
-       @return: 2-Tuple (C{zone, 'N'|'S'}) as (C{int}, C{str})
-                where C{zone} is C{1..60} for UTM or C{0} for UPS.
+       @return: A L{UtmUps2Tuple}C{(zone, hemipole)}.
 
-       @raise EPSGError: Invalid I{epsg}.
+       @raise EPSGError: Invalid B{C{epsg}}.
 
-       @note: Coverage of UPS follows Karney's function U{UTMUPS::DecodeEPSG
-              <http://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html>}.
+       @note: Coverage of UPS as zone C{0} follows Karney's function U{UTMUPS::DecodeEPSG
+              <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html>}.
     '''
     if isinstance(epsg, Epsg):
-        return epsg.zone, epsg.hemisphere
+        z, h = epsg.zone, epsg.hemisphere
 
-    try:
-        e = int(epsg)
-        if _EPSG_N_01 <= e <= _EPSG_N_60:
-            return (e - _EPSG_N_01 + _UTM_ZONE_MIN), 'N'
+    else:
+        try:
+            e = int(epsg)
+            if _EPSG_N_01 <= e <= _EPSG_N_60:
+                z, h = (e - _EPSG_N_01 + _UTM_ZONE_MIN), 'N'
 
-        elif _EPSG_S_01 <= e <= _EPSG_S_60:
-            return (e - _EPSG_S_01 + _UTM_ZONE_MIN), 'S'
+            elif _EPSG_S_01 <= e <= _EPSG_S_60:
+                z, h = (e - _EPSG_S_01 + _UTM_ZONE_MIN), 'S'
 
-        elif e == _EPSG_N:
-            return _UPS_ZONE, 'N'
+            elif e == _EPSG_N:
+                z, h = _UPS_ZONE, 'N'
 
-        elif e == _EPSG_S:
-            return _UPS_ZONE, 'S'
+            elif e == _EPSG_S:
+                z, h = _UPS_ZONE, 'S'
 
-    except (TypeError, ValueError):
-        pass
-    raise EPSGError('%s invalid: %r' % ('epsg', epsg))
+            else:
+                raise ValueError
+        except (TypeError, ValueError):
+            raise EPSGError('%s invalid: %r' % ('epsg', epsg))
+
+    return UtmUps2Tuple(z, h)
 
 
 def encode(zone, hemipole='', band=''):
-    '''Determine the U{EPSG<http://www.EPSG-Registry.org>} code for
+    '''Determine the U{EPSG<https://www.EPSG-Registry.org>} code for
        a given UTM/UPS zone number, hemisphere/pole and/or Band.
 
        @param zone: The (longitudinal) UTM zone (C{int}, 1..60) or UPS
@@ -184,10 +187,10 @@ def encode(zone, hemipole='', band=''):
 
        @return: C{EPSG} code (L{Epsg}).
 
-       @raise EPSGError: Invalid I{zone}, I{hemipole} or I{band}.
+       @raise EPSGError: Invalid B{C{zone}}, B{C{hemipole}} or B{C{band}}.
 
-       @note: Coverage of UPS follows Karney's function U{UTMUPS::EncodeEPSG
-              <http://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html>}.
+       @note: Coverage of UPS as zone C{0} follows Karney's function U{UTMUPS::EncodeEPSG
+              <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html>}.
     '''
     try:
         z, B, hp = _to3zBhp(zone, band, hemipole=hemipole)  # in .ellipsoidalBase

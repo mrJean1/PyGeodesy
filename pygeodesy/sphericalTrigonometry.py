@@ -8,7 +8,7 @@ L{meanOf}, L{nearestOn2} and L{perimeterOf}.
 Pure Python implementation of geodetic (lat-/longitude) methods using
 spherical trigonometry, transcribed from JavaScript originals by
 I{(C) Chris Veness 2011-2016} published under the same MIT Licence**, see
-U{Latitude/Longitude<http://www.Movable-Type.co.UK/scripts/latlong.html>}.
+U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 
 @newfield example: Example, Examples
 '''
@@ -17,10 +17,12 @@ from datum import R_M
 from fmath import EPS, acos1, favg, fdot, fmean, fsum, isscalar, map1
 from formy import antipode, bearing_, haversine_
 from lazily import _ALL_LAZY
+from named import LatLon3Tuple, NearestOn3Tuple, _xnamed
 from points import _imdex2, ispolar, nearestOn5 as _nearestOn5
 from sphericalBase import LatLonSphericalBase
 from utily import PI2, PI_2, PI_4, degrees90, degrees180, degrees2m, \
-                  iterNumpy2, radiansPI2, sincos2, tan_2, unrollPI, wrapPI
+                  iterNumpy2, radiansPI2, sincos2, tan_2, \
+                  unrollPI, wrapPI
 from vector3d import CrossError, crosserrors, Vector3d, sumOf
 
 from math import asin, atan2, copysign, cos, degrees, hypot, radians, sin
@@ -33,7 +35,7 @@ __all__ = _ALL_LAZY.sphericalTrigonometry + (
           'meanOf',
           'nearestOn2', 'nearestOn3',
           'perimeterOf')
-__version__ = '19.04.20'
+__version__ = '19.05.09'
 
 
 class LatLon(LatLonSphericalBase):
@@ -86,11 +88,11 @@ class LatLon(LatLonSphericalBase):
            @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
            @return: Distance along the great circle path (C{meter},
-                    same units as I{radius}), positive if after the
-                    I{start} toward the I{end} point of the path or
-                    negative if before the I{start} point.
+                    same units as B{C{radius}}), positive if after the
+                    B{C{start}} toward the B{C{end}} point of the path or
+                    negative if before the B{C{start}} point.
 
-           @raise TypeError: The I{start} or I{end} point is not L{LatLon}.
+           @raise TypeError: The B{C{start}} or B{C{end}} point is not L{LatLon}.
 
            @example:
 
@@ -120,8 +122,8 @@ class LatLon(LatLonSphericalBase):
            @param lat: Latitude at the crossing (C{degrees}).
            @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
-           @return: 2-Tuple (lon1, lon2) in (C{degrees180}) or C{None}
-                    if the great circle doesn't reach the given I{lat}.
+           @return: 2-Tuple C{(lon1, lon2)}, both in C{degrees180} or
+                    C{None} if the great circle doesn't reach B{C{lat}}.
         '''
         self.others(other)
 
@@ -144,7 +146,6 @@ class LatLon(LatLonSphericalBase):
 
         m = atan2(-y, x) + b1  # longitude at max latitude
         d = acos1(z / h)  # delta longitude to intersections
-
         return degrees180(m - d), degrees180(m + d)
 
     def crossTrackDistanceTo(self, start, end, radius=R_M, wrap=False):
@@ -159,7 +160,7 @@ class LatLon(LatLonSphericalBase):
            @return: Distance to great circle (negative if to the
                     left or positive if to the right of the path).
 
-           @raise TypeError: The I{start} or I{end} point is not L{LatLon}.
+           @raise TypeError: The B{C{start}} or B{C{end}} point is not L{LatLon}.
 
            @example:
 
@@ -177,11 +178,11 @@ class LatLon(LatLonSphericalBase):
            travelled the given distance on the given initial bearing.
 
            @param distance: Distance travelled (C{meter}, same units as
-                            I{radius}).
+                            B{C{radius}}).
            @param bearing: Bearing from this point (compass C{degrees360}).
            @keyword radius: Optional, mean earth radius (C{meter}).
            @keyword height: Optional height at destination (C{meter},
-                            same units a I{radius}).
+                            same units a B{C{radius}}).
 
            @return: Destination point (L{LatLon}).
 
@@ -209,10 +210,10 @@ class LatLon(LatLonSphericalBase):
            @keyword radius: Optional, mean earth radius (C{meter}).
            @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
-           @return: Distance between this and the I{other} point
-                    (C{meter}, same units as I{radius}).
+           @return: Distance between this and the B{C{other}} point
+                    (C{meter}, same units as B{C{radius}}).
 
-           @raise TypeError: The I{other} point is not L{LatLon}.
+           @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
            @example:
 
@@ -262,16 +263,16 @@ class LatLon(LatLonSphericalBase):
            @param other: The other point (spherical L{LatLon}).
            @keyword wrap: Wrap and unroll longitudes (C{bool}).
            @keyword raiser: Optionally, raise L{CrossError} (C{bool}),
-                            use I{raiser}=C{True} for behavior like
+                            use B{C{raiser}}=C{True} for behavior like
                             C{sphericalNvector.LatLon.initialBearingTo}.
 
            @return: Initial bearing (compass C{degrees360}).
 
-           @raise CrossError: If this and the I{other} point coincide,
-                              provided I{raiser} is C{True} and
+           @raise CrossError: If this and the B{C{other}} point coincide,
+                              provided B{C{raiser}} is C{True} and
                               L{crosserrors} is C{True}.
 
-           @raise TypeError: The I{other} point is not L{LatLon}.
+           @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
            @example:
 
@@ -305,7 +306,7 @@ class LatLon(LatLonSphericalBase):
 
            @return: Intermediate point (L{LatLon}).
 
-           @raise TypeError: The I{other} point is not L{LatLon}.
+           @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
            @example:
 
@@ -367,7 +368,7 @@ class LatLon(LatLonSphericalBase):
                     intersection point might be the L{antipode} to
                     the returned result.
 
-           @raise TypeError: The I{start2}, I{end1} or I{end2} is
+           @raise TypeError: The B{C{start2}}, B{C{end1}} or B{C{end2}} is
                              not L{LatLon}.
 
            @raise ValueError: Intersection is ambiguous or infinite or
@@ -391,10 +392,10 @@ class LatLon(LatLonSphericalBase):
            @return: C{True} if the polygon encloses this point,
                     C{False} otherwise.
 
-           @raise ValueError: Insufficient number of I{points} or
+           @raise ValueError: Insufficient number of B{C{points}} or
                               non-convex polygon.
 
-           @raise TypeError: Some I{points} are not L{LatLon}.
+           @raise TypeError: Some B{C{points}} are not L{LatLon}.
 
            @example:
 
@@ -468,7 +469,7 @@ class LatLon(LatLonSphericalBase):
 
            @return: Midpoint (L{LatLon}).
 
-           @raise TypeError: The I{other} point is not L{LatLon}.
+           @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
            @example:
 
@@ -478,7 +479,7 @@ class LatLon(LatLonSphericalBase):
         '''
         self.others(other)
 
-        # see <http://MathForum.org/library/drmath/view/51822.html>
+        # see <https://MathForum.org/library/drmath/view/51822.html>
         a1, b1 = self.to2ab()
         a2, b2 = other.to2ab()
 
@@ -499,7 +500,7 @@ class LatLon(LatLonSphericalBase):
         '''Locate the point between two points closest and this point.
 
            Distances are approximated by function L{equirectangular_},
-           subject to the supplied I{options}.
+           subject to the supplied B{C{options}}.
 
            @param point1: Start point (L{LatLon}).
            @param point2: End point (L{LatLon}).
@@ -510,9 +511,9 @@ class LatLon(LatLonSphericalBase):
            @return: Closest point on the arc (L{LatLon}).
 
            @raise LimitError: Lat- and/or longitudinal delta exceeds
-                              I{limit}, see function L{equirectangular_}.
+                              B{C{limit}}, see function L{equirectangular_}.
 
-           @raise TypeError: If I{point1} or I{point2} is not L{LatLon}.
+           @raise TypeError: If B{C{point1}} or B{C{point2}} is not L{LatLon}.
 
            @see: Functions L{equirectangular_} and L{nearestOn5} and
                  method L{sphericalTrigonometry.LatLon.nearestOn3}.
@@ -523,7 +524,7 @@ class LatLon(LatLonSphericalBase):
     def nearestOn2(self, points, closed=False, radius=R_M, **options):
         '''DEPRECATED, use method L{sphericalTrigonometry.LatLon.nearestOn3}.
 
-           @return: ... 2-Tuple (I{closest}, I{distance}) of the closest
+           @return: ... 2-Tuple C{(closest, distance)} of the closest
                     point (L{LatLon}) on the polygon and the distance
                     to that point ...
         '''
@@ -534,7 +535,7 @@ class LatLon(LatLonSphericalBase):
         '''Locate the point on a polygon closest to this point.
 
            Distances are approximated by function L{equirectangular_},
-           subject to the supplied I{options}.
+           subject to the supplied B{C{options}}.
 
            @param points: The polygon points (L{LatLon}[]).
            @keyword closed: Optionally, close the polygon (C{bool}).
@@ -542,27 +543,26 @@ class LatLon(LatLonSphericalBase):
            @keyword options: Optional keyword arguments for function
                              L{equirectangular_}.
 
-           @return: 3-Tuple (I{closest}, I{distance}, I{angle}) of the
-                    closest point (L{LatLon}) on the polygon, the distance
-                    and the compass angle to the I{closest} point.  The
-                    I{distance} is the L{equirectangular_} distance
-                    between this and the I{closest} point in C{meter},
-                    same units as I{radius}.  The I{angle} from this to
-                    the I{closest} point is in compass C{degrees360},
+           @return: A L{NearestOn3Tuple}C{(closest, distance, angle)}
+                    where C{distance} is the L{equirectangular_} distance
+                    between this and the C{closest} point in C{meter},
+                    same units as B{C{radius}}.  The C{angle} from this to
+                    the C{closest} point is in compass C{degrees360},
                     like function L{compassAngle}.
 
            @raise LimitError: Lat- and/or longitudinal delta exceeds
-                              I{limit}, see function L{equirectangular_}.
+                              B{C{limit}}, see function L{equirectangular_}.
 
-           @raise TypeError: Some I{points} are not C{LatLon}.
+           @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
-           @raise ValueError: Insufficient number of I{points}.
+           @raise ValueError: Insufficient number of B{C{points}}.
 
            @see: Functions L{compassAngle}, L{equirectangular_} and
                  L{nearestOn5}.
         '''
         a, b, d, c, h = _nearestOn5(self, points, closed=closed, **options)
-        return self.classof(a, b, height=h), degrees2m(d, radius=radius), c
+        return NearestOn3Tuple(self.classof(a, b, height=h),
+                               degrees2m(d, radius=radius), c)
 
     def toVector3d(self):
         '''Convert this point to a vector normal to earth's surface.
@@ -588,7 +588,7 @@ def _destination2_(a, b, r, t):
 
        @return: 2-Tuple (lat, lon) of (radians, radians).
     '''
-    # see <http://www.EdWilliams.org/avform.htm#LL>
+    # see <https://www.EdWilliams.org/avform.htm#LL>
     sa, ca, sr, cr, st, ct = sincos2(a, r, t)
 
     a = asin(ct * sr * ca + cr * sa)
@@ -619,14 +619,14 @@ def areaOf(points, radius=R_M, wrap=True):
        @keyword radius: Optional, mean earth radius (C{meter}).
        @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
-       @return: Polygon area (C{meter}, same units as I{radius}, squared).
+       @return: Polygon area (C{meter}, same units as B{C{radius}}, squared).
 
-       @raise TypeError: Some I{points} are not L{LatLon}.
+       @raise TypeError: Some B{C{points}} are not L{LatLon}.
 
-       @raise ValueError: Insufficient number of I{points}.
+       @raise ValueError: Insufficient number of B{C{points}}.
 
        @note: The area is based on Karney's U{'Area of a spherical polygon'
-              <http://OSGeo-org.1560.x6.nabble.com/
+              <https://OSGeo-org.1560.x6.nabble.com/
               Area-of-a-spherical-polygon-td3841625.html>}.
 
        @see: L{pygeodesy.areaOf}, L{sphericalNvector.areaOf} and
@@ -670,7 +670,7 @@ def areaOf(points, radius=R_M, wrap=True):
 
 
 def _x3d2(start, end, wrap, n, hs):
-    # see <http://www.EdWilliams.org/intersect.htm> (5) ff
+    # see <https://www.EdWilliams.org/intersect.htm> (5) ff
     a1, b1 = start.to2ab()
 
     if isscalar(end):  # bearing, make a point
@@ -728,12 +728,12 @@ def intersection(start1, end1, start2, end2,
        @keyword LatLon: Optional (sub-)class to return the intersection
                         point (L{LatLon}) or C{None}.
 
-       @return: The intersection point (I{LatLon}) or 3-tuple
-                (C{degrees90}, C{degrees180}, height) if I{LatLon}
+       @return: The intersection point (B{C{LatLon}}) or a
+                L{LatLon3Tuple}C{(lat, lon, height)} if B{C{LatLon}}
                 is C{None}.  An alternate intersection point might
                 be the L{antipode} to the returned result.
 
-       @raise TypeError: Start or end point(s) not L{LatLon}.
+       @raise TypeError: A B{C{start}} or B{C{end}} point not L{LatLon}.
 
        @raise ValueError: Intersection is ambiguous or infinite or
                           the paths are parallel, coincident or null.
@@ -757,7 +757,7 @@ def intersection(start1, end1, start2, end2,
     if abs(r12) < EPS:  # [nearly] coincident points
         a, b = map1(degrees, favg(a1, a2), favg(b1, b2))
 
-    # see <http://www.EdWilliams.org/avform.htm#Intersection>
+    # see <https://www.EdWilliams.org/avform.htm#Intersection>
     elif isscalar(end1) and isscalar(end2):  # both bearings
         sa1, ca1, sa2, ca2, sr12, cr12 = sincos2(a1, a2, r12)
 
@@ -768,7 +768,7 @@ def intersection(start1, end1, start2, end2,
 
         # handle domain error for equivalent longitudes,
         # see also functions asin_safe and acos_safe at
-        # <http://www.EdWilliams.org/avform.htm#Math>
+        # <https://www.EdWilliams.org/avform.htm#Math>
         t1, t2 = map1(acos1, (sa2 - sa1 * cr12) / x1,
                              (sa1 - sa2 * cr12) / x2)
         if sin(db) > 0:
@@ -811,7 +811,9 @@ def intersection(start1, end1, start2, end2,
             a, b = antipode(a, b)
 
     h = fmean(hs) if height is None else height
-    return (a, b, h) if LatLon is None else LatLon(a, b, height=h)
+    r = LatLon3Tuple(a, b, h) if LatLon is None else \
+              LatLon(a, b, height=h)
+    return _xnamed(r, intersection.__name__)
 
 
 def isPoleEnclosedBy(points, wrap=False):
@@ -829,13 +831,13 @@ def meanOf(points, height=None, LatLon=LatLon):
        @keyword LatLon: Optional (sub-)class to return the mean
                         point (L{LatLon}) or C{None}.
 
-       @return: Point at geographic mean and height (L{LatLon}) or
-                3-tuple (C{degrees90}, C{degrees180}, height) if
-                I{LatLon} is C{None}.
+       @return: Point at geographic mean and height (B{C{LatLon}}) or
+                a L{LatLon3Tuple}C{(lat, lon, height)} if
+                B{C{LatLon}} is C{None}.
 
-       @raise TypeError: Some I{points} are not L{LatLon}.
+       @raise TypeError: Some B{C{points}} are not L{LatLon}.
 
-       @raise ValueError: No I{points}.
+       @raise ValueError: No B{C{points}}.
     '''
     # geographic mean
     n, points = _Trll.points2(points, closed=False)
@@ -847,15 +849,17 @@ def meanOf(points, height=None, LatLon=LatLon):
         h = fmean(points[i].height for i in range(n))
     else:
         h = height
-    return (a, b, h) if LatLon is None else LatLon(a, b, height=h)
+    r = LatLon3Tuple(a, b, h) if LatLon is None else \
+              LatLon(a, b, height=h)
+    return _xnamed(r, meanOf.__name__)
 
 
 def nearestOn2(point, points, closed=False, radius=R_M,
                               LatLon=LatLon, **options):
     '''DEPRECATED, use function L{sphericalTrigonometry.nearestOn3}.
 
-       @return: ... I{closest} as I{LatLon} or a 2-tuple (lat, lon)
-                without the height if I{LatLon} is C{None} ...
+       @return: ... C{closest} as B{C{LatLon}} or a 2-tuple C{(lat, lon)}
+                without the height if B{C{LatLon}} is C{None} ...
     '''
     a, b, d, _, h = _nearestOn5(point, points, closed=closed, **options)
     ll = (a, b) if LatLon is None else LatLon(a, b, height=h)
@@ -867,7 +871,7 @@ def nearestOn3(point, points, closed=False, radius=R_M,
     '''Locate the point on a polygon closest to an other, reference point.
 
        Distances are approximated by function L{equirectangular_},
-       subject to the supplied I{options}.
+       subject to the supplied B{C{options}}.
 
        @param point: The other, reference point (L{LatLon}).
        @param points: The polygon points (L{LatLon}[]).
@@ -878,30 +882,29 @@ def nearestOn3(point, points, closed=False, radius=R_M,
        @keyword options: Optional keyword arguments for function
                          L{equirectangular_}.
 
-       @return: 3-Tuple (I{closest}, I{distance}, I{angle}) of the
-                closest point (L{LatLon}) on the polygon, the distance
-                and the compass angle to the I{closest} point.  The
-                I{closest} is an instance of I{LatLon} or a 3-tuple
-                (lat, lon, I{height}) if I{LatLon} is C{None}.  The
-                I{distance} is the L{equirectangular_} distance between
-                the I{closest} and reference I{point} in C{meter}, same
-                units as I{radius}.  The I{angle} from the reference
-                I{point} to the I{closest} is in compass C{degrees360},
-                like function L{compassAngle}.  The I{height} is the
-                (interpolated) height at the I{closest} point.
+       @return: A L{NearestOn3Tuple}C{(closest, distance, angle)}.  The
+                C{distance} is the L{equirectangular_} distance between
+                the C{closest} and reference B{C{point}} in C{meter}, same
+                units as B{C{radius}}.  The C{angle} from the reference
+                B{C{point}} to the C{closest} is in compass C{degrees360},
+                like function L{compassAngle}.  The C{height} is the
+                (interpolated) height at the C{closest} point.
 
-       @raise LimitError: Lat- and/or longitudinal delta exceeds
-                          I{limit}, see function L{equirectangular_}.
+       @raise LimitError: Lat- and/or longitudinal delta exceeds the
+                          B{C{limit}}, see function L{equirectangular_}.
 
        @raise TypeError: Some I{points} are not C{LatLon}.
 
-       @raise ValueError: Insufficient number of I{points}.
+       @raise ValueError: Insufficient number of B{C{points}}.
 
        @see: Functions L{equirectangular_} and L{nearestOn5}.
     '''
-    a, b, d, c, h = _nearestOn5(point, points, closed=closed, **options)
-    llh = (a, b, h) if LatLon is None else LatLon(a, b, height=h)
-    return llh, degrees2m(d, radius=radius), c
+    a, b, d, c, h = _nearestOn5(point, points, closed=closed,
+                                               LatLon=None, **options)
+    r = LatLon3Tuple(a, b, h) if LatLon is None else \
+              LatLon(a, b, height=h)
+    r = NearestOn3Tuple(r, degrees2m(d, radius=radius), c)
+    return _xnamed(r, nearestOn3.__name__)
 
 
 def perimeterOf(points, closed=False, radius=R_M, wrap=True):

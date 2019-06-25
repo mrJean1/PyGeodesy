@@ -74,7 +74,7 @@ class Tests(TestsBase):
         self.test('UtmUps.toLatLonID6', ll.toStr(form=F_DMS), '87°17′14.4″S, 132°14′52.3″E')
         self.test('UtmUps.toLatLonID6', ll, '87.287333°S, 132.247861°E')
 
-        # <http://GeographicLib.SourceForge.io/cgi-bin/GeoConvert>
+        # <https://GeographicLib.SourceForge.io/cgi-bin/GeoConvert>
         ll = LL(61.2, -149.9, name='Anchorage')
         self.test('latlon1', ll, ll)
         u = toUtmUps8(ll)  # 06n 344174 6788521 (61°12'00.0"N 149°54'00.0"W) MGRS 06VUN4417388521
@@ -160,7 +160,7 @@ class Tests(TestsBase):
         ll = u.toLatLon(LL)
         self.test('UtmUps.toLatLon', ll, '41.321801°N, 074.801413°W')
 
-        # courtesy of sumnamazu <http://GitHub.com/mrJean1/PyGeodesy/issues/26>
+        # courtesy of sumnamazu <https://GitHub.com/mrJean1/PyGeodesy/issues/26>
         u = UtmUps(0, 'S', 321441.0425108216, 5810117.133231169)  # falsed=False
         self.test('UtmUps', u.toStr(B=True), '00A S 321441 5810117')
         self.test('UtmUps.ValidateOK', utmupsValidateOK(u), OK, known=True)

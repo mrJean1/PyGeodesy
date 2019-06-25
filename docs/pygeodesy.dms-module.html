@@ -63,14 +63,14 @@
   various forms of degrees, minutes and seconds.</p>
   <p>After <i>(C) Chris Veness 2011-2015</i> published under the same MIT 
   Licence**, see <a 
-  href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
+  href="https://www.Movable-Type.co.UK/scripts/latlong.html" 
   target="_top">Latitude/Longitude</a> and <a 
-  href="http://www.Movable-Type.co.UK/scripts/latlong-vectors.html" 
+  href="https://www.Movable-Type.co.UK/scripts/latlong-vectors.html" 
   target="_top">Vector-based geodesy</a>.</p>
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.04.20
+        19.04.30
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -85,10 +85,12 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.dms.RangeError-class.html" class="summary-name">RangeError</a><br />
-      Error raised for lat- or longitude values outside the <i>clip</i>, 
-        <i>clipLat</i>, <i>clipLon</i> or <i>limit</i> range in function <a
-        href="pygeodesy.dms-module.html#clipDMS" class="link">clipDMS</a>, 
-        <a href="pygeodesy.dms-module.html#parse3llh" 
+      Error raised for lat- or longitude values outside the 
+        <b><code>clip</code></b>, <b><code>clipLat</code></b>, 
+        <b><code>clipLon</code></b> or <b><code>limit</code></b> range in 
+        function <a href="pygeodesy.dms-module.html#clipDMS" 
+        class="link">clipDMS</a>, <a 
+        href="pygeodesy.dms-module.html#parse3llh" 
         class="link">parse3llh</a>, <a 
         href="pygeodesy.dms-module.html#parseDMS" class="link">parseDMS</a>
         or <a href="pygeodesy.dms-module.html#parseDMS2" 
@@ -537,12 +539,14 @@
           deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, [D]DD, [D]DDMM, [D]DDMMSS or 
           radians (<code>str</code>).</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or <code>None</code> for 
-          default).  Trailing zero decimals are stripped for <i>prec</i> 
-          values of 1 and above, but kept for negative <i>prec</i> values.</li>
+          default).  Trailing zero decimals are stripped for 
+          <b><code>prec</code></b> values of 1 and above, but kept for 
+          negative <b><code>prec</code></b> values.</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional separator (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Compass degrees per the specified <i>form</i> (<code>str</code>).</dd>
+        <dd>Compass degrees per the specified <b><code>form</code></b> 
+          (<code>str</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>JS name:</strong>
         <i>toBrng</i>.
@@ -569,14 +573,15 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Unclipped lat- or longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>limit</code></strong> - Valid <i>-limit..+limit</i> range (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>limit</code></strong> - Valid <b><code>-limit..+limit</code></b> range 
+          (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Clipped value (<code>degrees</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - If <i>abs(deg)</i> beyond <i>limit</i> and <a 
-        href="pygeodesy.dms-module.html#rangerrors" 
+        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - If <b><code>abs(deg)</code></b> beyond <b><code>limit</code></b> 
+        and <a href="pygeodesy.dms-module.html#rangerrors" 
         class="link">rangerrors</a> set to <code>True</code>.</li>
     </ul></dd>
   </dl>
@@ -615,8 +620,9 @@
           deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, [D]DD, [D]DDMM, [D]DDMMSS or 
           radians (<code>str</code>).</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or <code>None</code> for 
-          default).  Trailing zero decimals are stripped for <i>prec</i> 
-          values of 1 and above, but kept for negative <i>prec</i> values.</li>
+          default).  Trailing zero decimals are stripped for 
+          <b><code>prec</code></b> values of 1 and above, but kept for 
+          negative <b><code>prec</code></b> values.</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional separator (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -653,14 +659,14 @@
         <dd>Compass point (1-, 2-, 3- or 4-letter <code>str</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>prec</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>prec</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a href="http://GitHub.com/chrisveness/geodesy/blob/master/dms.js" 
+        <a href="https://GitHub.com/chrisveness/geodesy/blob/master/dms.js"
         target="_top">Dms.compassPoint</a> and <a 
-        href="http://WikiPedia.org/wiki/Compass_rose" target="_top">Compass
-        rose</a>.
+        href="https://WikiPedia.org/wiki/Compass_rose" 
+        target="_top">Compass rose</a>.
       </p>
       <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -704,8 +710,9 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Value in degrees (<code>scalar</code>).</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or <code>None</code> for 
-          default).  Trailing zero decimals are stripped for <i>prec</i> 
-          values of 1 and above, but kept for negative <i>prec</i> values.</li>
+          default).  Trailing zero decimals are stripped for 
+          <b><code>prec</code></b> values of 1 and above, but kept for 
+          negative <b><code>prec</code></b> values.</li>
         <li><strong class="pname"><code>s_D</code></strong> - Symbol for degrees (<code>str</code>).</li>
         <li><strong class="pname"><code>s_M</code></strong> - Symbol for minutes (<code>str</code>) or 
           <code>&quot;&quot;</code>.</li>
@@ -753,8 +760,9 @@
           deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, DD, DDMM, DDMMSS or radians 
           (<code>str</code>).</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or <code>None</code> for 
-          default).  Trailing zero decimals are stripped for <i>prec</i> 
-          values of 1 and above, but kept for negative <i>prec</i> values.</li>
+          default).  Trailing zero decimals are stripped for 
+          <b><code>prec</code></b> values of 1 and above, but kept for 
+          negative <b><code>prec</code></b> values.</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional separator (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -798,8 +806,9 @@
           deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, DDD, DDDMM, DDDMMSS or radians 
           (<code>str</code>).</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or <code>None</code> for 
-          default).  Trailing zero decimals are stripped for <i>prec</i> 
-          values of 1 and above, but kept for negative <i>prec</i> values.</li>
+          default).  Trailing zero decimals are stripped for 
+          <b><code>prec</code></b> values of 1 and above, but kept for 
+          negative <b><code>prec</code></b> values.</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional separator (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -869,19 +878,22 @@
         <li><strong class="pname"><code>strll</code></strong> - Latitude, longitude[, height] (<code>str</code>, ...).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional, default height (<code>meter</code>).</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional separator (<code>str</code>).</li>
-        <li><strong class="pname"><code>clipLat</code></strong> - Keep latitude in <i>-clipLat..+clipLat</i> 
+        <li><strong class="pname"><code>clipLat</code></strong> - Keep latitude in <b><code>-clipLat..+clipLat</code></b> 
           (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>clipLon</code></strong> - Keep longitude in <i>-clipLon..+clipLon</i> range 
+        <li><strong class="pname"><code>clipLon</code></strong> - Keep longitude in <b><code>-clipLon..+clipLon</code></b> range 
           (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>3-Tuple (lat, lon, height) as (<code>degrees90</code>, 
-          <code>degrees180</code>, <code>float</code>).</dd>
+        <dd>A <a href="pygeodesy.named.LatLon3Tuple-class.html" 
+          class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> in 
+          <code>degrees</code>, <code>degrees</code> and 
+          <code>float</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - Lat- or longitude value of <i>strll</i> outside valid range and 
-        <i>rangerrrors</i> set to <code>True</code>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>strll</i>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - Lat- or longitude value of <b><code>strll</code></b> outside valid 
+        range and <a href="pygeodesy.dms-module.html#rangerrors" 
+        class="link">rangerrors</a> set to <code>True</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>strll</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -934,9 +946,10 @@
         <dd>Degrees (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - Value of <i>strDMS</i> outside the valid range and 
-        <i>rangerrrors</i> set to <code>True</code>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>strDMS</i>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - Value of <b><code>strDMS</code></b> outside the valid range and <a 
+        href="pygeodesy.dms-module.html#rangerrors" 
+        class="link">rangerrors</a> set to <code>True</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>strDMS</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -973,19 +986,22 @@
         <li><strong class="pname"><code>strLon</code></strong> - Longitude in any of several forms (<code>str</code> or 
           <code>degrees</code>).</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional separator between deg&#176;, min&#8242; and sec&#8243; ('').</li>
-        <li><strong class="pname"><code>clipLat</code></strong> - Keep latitude in <i>-clipLat..+clipLat</i> range 
+        <li><strong class="pname"><code>clipLat</code></strong> - Keep latitude in <b><code>-clipLat..+clipLat</code></b> range 
           (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>clipLon</code></strong> - Keep longitude in <i>-clipLon..+clipLon</i> range 
+        <li><strong class="pname"><code>clipLon</code></strong> - Keep longitude in <b><code>-clipLon..+clipLon</code></b> range 
           (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (lat, lon) in (<code>degrees</code>, 
-          <code>degrees</code>).</dd>
+        <dd>A <a href="pygeodesy.named.LatLon2Tuple-class.html" 
+          class="link">LatLon2Tuple</a><code>(lat, lon)</code> in 
+          <code>degrees</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - Value of <i>strLat</i> or <i>strLon</i> outside the valid range and
-        <i>rangerrrors</i> set to <code>True</code>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>strLat</i> or <i>strLon</i>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - Value of <b><code>strLat</code></b> or <b><code>strLon</code></b> 
+        outside the valid range and <a 
+        href="pygeodesy.dms-module.html#rangerrors" 
+        class="link">rangerrors</a> set to <code>True</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>strLat</code></b> or <b><code>strLon</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -1025,14 +1041,16 @@
           <a href="pygeodesy.dms-module.html#F_RAD" class="link">F_RAD</a> 
           (<code>str</code>).</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or <code>None</code> for 
-          default).  Trailing zero decimals are stripped for <i>prec</i> 
-          values of 1 and above, but kept for negative <i>prec</i> values.</li>
+          default).  Trailing zero decimals are stripped for 
+          <b><code>prec</code></b> values of 1 and above, but kept for 
+          negative <b><code>prec</code></b> values.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Previous precision (<code>int</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>form</i> or <i>prec</i> or beyond valid range.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>form</code></b> or <b><code>prec</code></b> or 
+        beyond valid range.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1105,8 +1123,9 @@
           deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, [D]DD, [D]DDMM, [D]DDMMSS or 
           radians (<code>str</code>).</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or <code>None</code> for 
-          default).  Trailing zero decimals are stripped for <i>prec</i> 
-          values of 1 and above, but kept for negative <i>prec</i> values.</li>
+          default).  Trailing zero decimals are stripped for 
+          <b><code>prec</code></b> values of 1 and above, but kept for 
+          negative <b><code>prec</code></b> values.</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional separator (<code>str</code>).</li>
         <li><strong class="pname"><code>ddd</code></strong> - Optional number of digits for deg&#176; (2 or 3).</li>
         <li><strong class="pname"><code>neg</code></strong> - Optional sign for negative degrees ('-').</li>
@@ -1149,7 +1168,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 17 12:19:02 2019
+    Generated by Epydoc 3.0.1 on Tue Jun 25 11:55:33 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

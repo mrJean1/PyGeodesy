@@ -90,14 +90,14 @@ class Tests(TestsBase):
         for r in ('', 'reversed.'):
             try:
                 # use list to force exception, see
-                # <http://RickardLindberg.me/writing/bitten-by-python-generators>
+                # <https://RickardLindberg.me/writing/bitten-by-python-generators>
                 sh = list(clipSH(ps, cs))
             except Exception as x:
                 sh = str(x).split(':')[0]
             self.test('clipSH.warped' + r, sh, 'invalid corners[4]')
             try:
                 # use list to force exception, see
-                # <http://RickardLindberg.me/writing/bitten-by-python-generators>
+                # <https://RickardLindberg.me/writing/bitten-by-python-generators>
                 sh = list(clipSH3(ps, cs))
             except Exception as x:
                 sh = str(x).split(':')[0]

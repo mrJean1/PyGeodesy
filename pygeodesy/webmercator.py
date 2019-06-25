@@ -3,32 +3,34 @@
 
 u'''Web Mercator (WM) class L{Wm} and functions L{parseWM} and L{toWm}.
 
-Pure Python implementation of a U{Web Mercator<http://WikiPedia.org/wiki/Web_Mercator>}
+Pure Python implementation of a U{Web Mercator<https://WikiPedia.org/wiki/Web_Mercator>}
 (aka I{Pseudo-Mercator}) class and conversion functions for spherical and
 near-spherical earth models.
 
 References U{Google Maps / Bing Maps Spherical Mercator Projection
-<http://alastaira.WordPress.com/2011/01/23/the-google-maps-bing-maps-spherical-mercator-projection>},
-U{Geomatics Guidance Note 7, part 2<http://www.EPSG.org/Portals/0/373-07-02.pdf>} and
+<https://alastaira.WordPress.com/2011/01/23/the-google-maps-bing-maps-spherical-mercator-projection>},
+U{Geomatics Guidance Note 7, part 2<https://www.EPSG.org/Portals/0/373-07-02.pdf>} and
 U{Implementation Practice Web Mercator Map Projection
-<http://Earth-Info.NGA.mil/GandG/wgs84/web_mercator/%28U%29%20NGA_SIG_0011_1.0.0_WEBMERC.pdf>}.
+<https://Earth-Info.NGA.mil/GandG/wgs84/web_mercator/%28U%29%20NGA_SIG_0011_1.0.0_WEBMERC.pdf>}.
 
 @newfield example: Example, Examples
 '''
 
-from bases import _Based, classname, _nameof, _xnamed
 from datum import R_MA
 from dms import clipDMS, parseDMS2
 from ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from fmath import EPS, fStr, isscalar, map1
 from lazily import _ALL_LAZY
-from utily import PI_2, degrees90, degrees180, property_RO
+from named import EasNorRadius3Tuple, LatLon2Tuple, \
+                 _NamedBase, nameof, _xnamed
+from utily import PI_2, degrees90, degrees180, issubclassof, \
+                  property_RO
 
 from math import atan, atanh, exp, radians, sin, tanh
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.webmercator
-__version__ = '19.04.20'
+__version__ = '19.05.09'
 
 # _FalseEasting  = 0   #: (INTERNAL) False Easting (C{meter}).
 # _FalseNorthing = 0   #: (INTERNAL) False Northing (C{meter}).
@@ -36,7 +38,7 @@ _LatLimit = 85.051129  #: (INTERNAL) Latitudinal limit (C{degrees}).
 # _LonOrigin     = 0   #: (INTERNAL) Longitude of natural origin (C{degrees}).
 
 
-class Wm(_Based):
+class Wm(_NamedBase):
     '''Web Mercator (WM) coordinate.
     '''
     _radius = 0  #: (INTERNAL) earth radius (C{meter}).
@@ -51,7 +53,7 @@ class Wm(_Based):
            @keyword radius: Optional earth radius (C{meter}).
            @keyword name: Optional name (C{str}).
 
-           @raise ValueError: Invalid I{x}, I{y} or I{radius}.
+           @raise ValueError: Invalid B{C{x}}, B{C{y}} or B{C{radius}}.
 
            @example:
 
@@ -67,7 +69,7 @@ class Wm(_Based):
             raise ValueError('%s invalid: %r' % (Wm.__name__, (x, y, radius)))
 
         if r < EPS:  # check radius
-            t = '%s.%s' % (classname(self), 'radius')
+            t = '%s.%s' % (self.classname, 'radius')
             raise ValueError('%s invalid: %r' % (t, r))
         self._radius = r
 
@@ -97,11 +99,9 @@ class Wm(_Based):
 
            @keyword datum: Optional datum (C{Datum}).
 
-           @return: 2-Tuple (lat, lon) in (C{degrees90}, C{degrees180}).
+           @return: A L{LatLon2Tuple}C{(lat, lon)}.
 
-           @raise TypeError: Non-ellipsoidal I{datum}.
-
-           @raise ValueError: Invalid I{radius}.
+           @raise TypeError: Non-ellipsoidal B{C{datum}}.
         '''
         r = self.radius
         x = self._x / r
@@ -110,14 +110,14 @@ class Wm(_Based):
             E = datum.ellipsoid
             if not E.isEllipsoidal:
                 raise TypeError('%s not %s: %r' % ('datum', 'ellipsoidal', datum))
-            # <http://Earth-Info.NGA.mil/GandG/wgs84/web_mercator/
+            # <https://Earth-Info.NGA.mil/GandG/wgs84/web_mercator/
             #       %28U%29%20NGA_SIG_0011_1.0.0_WEBMERC.pdf>
             y = y / r
             if E.e:
                 y -= E.e * atanh(E.e * tanh(y))
             y *= E.a
             x *= E.a / r
-        return degrees90(y), degrees180(x)
+        return self._xnamed(LatLon2Tuple(degrees90(y), degrees180(x)))
 
     def toLatLon(self, LatLon, datum=None):
         '''Convert this WM coordinate to a geodetic point.
@@ -125,14 +125,13 @@ class Wm(_Based):
            @param LatLon: Ellipsoidal (sub-)class to return the
                           point (C{LatLon}).
            @keyword datum: Optional datum for ellipsoidal or C{None}
-                           for spherical I{LatLon} (C{Datum}).
+                           for spherical B{C{LatLon}} (C{Datum}).
 
-           @return: Point of this WM coordinate (I{LatLon}).
+           @return: Point of this WM coordinate (B{C{LatLon}}).
 
-           @raise TypeError: If I{LatLon} and I{datum} are not compatible
-                             or if I{datum} is not ellipsoidal.
-
-           @raise ValueError: Invalid I{radius}.
+           @raise TypeError: If B{C{LatLon}} and B{C{datum}} are
+                             incompatible or if B{C{datum}} is not
+                             ellipsoidal.
 
            @example:
 
@@ -140,13 +139,15 @@ class Wm(_Based):
            >>> from pygeodesy import sphericalTrigonometry as sT
            >>> ll = w.toLatLon(sT.LatLon)  # 43°39′11.58″N, 004°01′36.17″E
         '''
-        if issubclass(LatLon, _LLEB):
-            if datum:
-                return _xnamed(LatLon(*self.to2ll(datum=datum), datum=datum),
-                               self.name)
-        elif datum is None:
-            return _xnamed(LatLon(*self.to2ll(datum=datum)), self.name)
-        raise TypeError('%r and %s %r' % (LatLon, 'datum', datum))
+        e = issubclassof(LatLon, _LLEB)
+        if e and datum:
+            r = LatLon(*self.to2ll(datum=datum), datum=datum)
+        elif LatLon and not (e or datum):
+            r = LatLon(*self.to2ll(datum=None))
+        else:
+            raise TypeError('%s %r and %s %r' % ('spherical', LatLon,
+                                                 'datum', datum))
+        return self._xnamed(r)
 
     def toStr(self, prec=3, sep=' ', radius=False):  # PYCHOK expected
         '''Return a string representation of this WM coordinate.
@@ -156,9 +157,9 @@ class Wm(_Based):
            @keyword radius: Optionally, include radius (C{bool} or C{scalar}).
 
            @return: This WM as "meter meter" (C{str}) plus " radius"
-                    if I{radius} is C{True} or C{scalar}.
+                    if B{C{radius}} is C{True} or C{scalar}.
 
-           @raise ValueError: Invalid I{radius}.
+           @raise ValueError: Invalid B{C{radius}}.
 
            @example:
 
@@ -186,7 +187,7 @@ class Wm(_Based):
            @keyword radius: Optionally, include radius (C{bool} or C{scalar}).
 
            @return: This WM as "[x:meter, y:meter]" (C{str}) plus
-                    ", radius:meter]" if I{radius} is C{True} or
+                    ", radius:meter]" if B{C{radius}} is C{True} or
                     C{scalar}.
         '''
         t = self.toStr(prec=prec, sep=' ', radius=radius).split()
@@ -215,10 +216,11 @@ def parseWM(strWM, radius=R_MA, Wm=Wm, name=''):
                     (L{Wm}) or C{None}.
        @keyword name: Optional name (C{str}).
 
-       @return: The WM coordinate (L{Wm}) or 3-tuple (easting,
-                northing, radius) if I{Wm} is C{None}.
+       @return: The WM coordinate (B{C{Wm}}) or an
+                L{EasNorRadius3Tuple}C{(easting, northing, radius)}
+                if B{C{Wm}} is C{None}.
 
-       @raise ValueError: Invalid I{strWM}.
+       @raise ValueError: Invalid B{C{strWM}}.
 
        @example:
 
@@ -236,8 +238,9 @@ def parseWM(strWM, radius=R_MA, Wm=Wm, name=''):
     except (TypeError, ValueError):
         raise ValueError('%s invalid: %r' % ('strWM', strWM))
 
-    return (x, y, r) if Wm is None else _xnamed(Wm(
-            x, y, radius=r), name)
+    r = EasNorRadius3Tuple(x, y, r) if Wm is None else \
+                        Wm(x, y, radius=r)
+    return _xnamed(r, name)
 
 
 def toWm(latlon, lon=None, radius=R_MA, Wm=Wm, name=''):
@@ -251,13 +254,14 @@ def toWm(latlon, lon=None, radius=R_MA, Wm=Wm, name=''):
                     (L{Wm}) or C{None}.
        @keyword name: Optional name (C{str}).
 
-       @return: The WM coordinate (L{Wm}) or 3-tuple (easting,
-                northing, radius) if I{Wm} is C{None}.
+       @return: The WM coordinate (B{C{Wm}}) or an
+                L{EasNorRadius3Tuple}C{(easting, northing, radius)}
+                if B{C{Wm}} is C{None}.
 
-       @raise ValueError: If I{lon} value is missing, if I{latlon}
-                          is not scalar, if I{latlon} is beyond the
+       @raise ValueError: If B{C{lon}} value is missing, if B{C{latlon}}
+                          is not scalar, if B{C{latlon}} is beyond the
                           valid WM range and L{rangerrors} is set
-                          to C{True} or if I{radius} is invalid.
+                          to C{True} or if B{C{radius}} is invalid.
 
        @example:
 
@@ -273,7 +277,7 @@ def toWm(latlon, lon=None, radius=R_MA, Wm=Wm, name=''):
             r = latlon.datum.ellipsoid.a
             e = latlon.datum.ellipsoid.e
             if not name:  # use latlon.name
-                name = _nameof(latlon) or name  # PYCHOK no effect
+                name = nameof(latlon)
         lat = clipDMS(lat, _LatLimit)
     except AttributeError:
         lat, lon = parseDMS2(latlon, lon, clipLat=_LatLimit)
@@ -284,8 +288,9 @@ def toWm(latlon, lon=None, radius=R_MA, Wm=Wm, name=''):
         y -= e * atanh(e * s)
 
     e, n = r * radians(lon), r * y
-    return (e, n, r) if Wm is None else _xnamed(Wm(
-            e, n, radius=r), name)
+    r = EasNorRadius3Tuple(e, n, r) if Wm is None else \
+                        Wm(e, n, radius=r)
+    return _xnamed(r, name)
 
 # **) MIT License
 #

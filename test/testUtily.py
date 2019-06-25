@@ -4,13 +4,14 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '19.04.23'
+__version__ = '19.05.02'
 
 from base import TestsBase, geographiclib
 
 from pygeodesy import EPS, fStr, map1, PI, PI2, PI_2, \
                       sincos2, sincos2d, splice, unroll180, \
                       degrees90, degrees180, degrees360, \
+                      ft2m, m2ft, \
                       radiansPI, radiansPI2, radiansPI_2, \
                       wrap90, wrap180, wrap360, \
                       wrapPI, wrapPI2, wrapPI_2
@@ -158,6 +159,17 @@ class Tests(TestsBase):
         self.test('splice', (a, b, c), map1(type(a), (0, 3, 6, 9), (1, 4, 7, -1), (2, 5, 8, -1)))
         t = tuple(splice(range(12), n=5))  # PYCHOK false
         self.test('splice', t, map1(type(t[0]), (0, 5, 10), (1, 6, 11), (2, 7), (3, 8), (4, 9)))
+
+        # <https://www.CivilGeo.com/when-a-foot-isnt-really-a-foot/>
+        self.test('iFt2m',  ft2m(614963.91), 187441, fmt='%.0f')
+        self.test('iFt2m', ft2m(2483759.84), 757050, fmt='%.0f')
+        self.test('sFt2m',  ft2m(614962.68, usurvey=True), 187441, fmt='%.0f')
+        self.test('sFt2m', ft2m(2483754.87, usurvey=True), 757050, fmt='%.0f')
+
+        self.test('m2iFt',  m2ft(187441),  614963.91, fmt='%.0f')
+        self.test('m2iFt',  m2ft(757050), 2483759.84, fmt='%.0f')
+        self.test('m2sFt',  m2ft(187441, usurvey=True),  614962.68, fmt='%.0f')
+        self.test('m2sFt',  m2ft(757050, usurvey=True), 2483754.87, fmt='%.0f')
 
 
 if __name__ == '__main__':

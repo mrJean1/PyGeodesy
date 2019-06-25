@@ -5,24 +5,25 @@ u'''Class L{Garef} and several functions to encode, decode and
 inspect I{Global Area Reference System (GARS)} references.
 
 Transcribed from C++ class U{GARS
-<http://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GARS.html>}
+<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GARS.html>}
 by I{Charles Karney}.  See also U{Global Area Reference System
-<http://WikiPedia.org/wiki/Global_Area_Reference_System>} and U{NGA (GARS)
-<http://Earth-Info.NGA.mil/GandG/coordsys/grids/gars.html>}.
+<https://WikiPedia.org/wiki/Global_Area_Reference_System>} and U{NGA (GARS)
+<https://Earth-Info.NGA.mil/GandG/coordsys/grids/gars.html>}.
 
 @newfield example: Example, Examples
 '''
 
-from bases import _Named, _xnamed
 from dms import parse3llh, parseDMS2
 from fmath import EPS1_2
 from lazily import _ALL_LAZY
+from named import LatLon2Tuple, LatLonPrec3Tuple, \
+                 _NamedStr, nameof, _xnamed
 from utily import property_RO, _Strs
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.gars + ('decode3',  # functions
           'encode', 'precision', 'resolution')
-__version__ = '19.04.19'
+__version__ = '19.05.10'
 
 _Digits  = '0123456789'
 _LatLen  = 2
@@ -93,8 +94,8 @@ def _2garstr2(garef):
     return garstr, n - _MinLen
 
 
-class Garef(str, _Named):
-    '''Garef class, sub-class of C{str}.
+class Garef(_NamedStr):
+    '''Garef class, a C{_NamedStr}.
     '''
     _latlon    =  None  # cached latlon property
     _precision =  None
@@ -113,16 +114,16 @@ class Garef(str, _Named):
 
            @return: New L{Garef}.
 
-           @raise RangeError: Invalid C{cll} lat- or longitude.
+           @raise RangeError: Invalid B{C{cll}} lat- or longitude.
 
-           @raise TypeError: Invalid I{cll}.
+           @raise TypeError: Invalid B{C{cll}}.
 
-           @raise ValueError: INValid or non-alphanumeric I{cll}.
+           @raise ValueError: INValid or non-alphanumeric B{C{cll}}.
         '''
         if isinstance(cll, Garef):
             g, p = _2garstr2(str(cll))
             self = str.__new__(cls, g)
-            self._latlon = cll._latlon
+            self._latlon = LatLon2Tuple(*cll._latlon)
             self._name = cll._name
             self._precision = p  # cll._precision
 
@@ -131,7 +132,7 @@ class Garef(str, _Named):
                 lat, lon = _2fll(*parse3llh(cll))
                 cll = encode(lat, lon, precision=precision)  # PYCHOK false
                 self = str.__new__(cls, cll)
-                self._latlon = lat, lon
+                self._latlon = LatLon2Tuple(lat, lon)
                 self._precision = precision
             else:
                 self = str.__new__(cls, cll.upper())
@@ -144,27 +145,24 @@ class Garef(str, _Named):
                 raise TypeError('%s: %r' % (Garef.__name__, cll))
             cll = encode(lat, lon, precision=precision)  # PYCHOK false
             self = str.__new__(cls, cll)
-            self._latlon = lat, lon
+            self._latlon = LatLon2Tuple(lat, lon)
             self._precision = precision
 
         if name:
             self.name = name
         return self
 
-    def __repr__(self):
-        return "%s('%s')" % (Garef.__name__, self)  # str.__str__(self))
-
     def _decode(self):
         # cache all decoded attrs
         lat, lon, p = decode3(self)
         if self._latlon is None:
-            self._latlon = lat, lon
+            self._latlon = LatLon2Tuple(lat, lon)
         if self._precision is None:
             self._precision = p
 
     @property_RO
     def latlon(self):
-        '''Get this garef's (center) lat- and longitude in C{degrees}.
+        '''Get this garef's (center) lat- and longitude (L{LatLon2Tuple}).
         '''
         if self._latlon is None:
             self._decode()
@@ -183,16 +181,16 @@ class Garef(str, _Named):
            of the supplied C{LatLon} class.
 
            @param LatLon: Class to use (C{LatLon}).
-           @keyword kwds: Optional keyword arguments for I{LatLon}.
+           @keyword kwds: Optional keyword arguments for B{C{LatLon}}.
 
-           @return: This garef location (I{LatLon}).
+           @return: This garef location (B{C{LatLon}}).
 
-           @raise ValueError: Invalid I{LatLon}.
+           @raise ValueError: Invalid B{C{LatLon}}.
         '''
         if LatLon is None:
             raise ValueError('%s invalid: %r' % ('LatLon', LatLon))
 
-        return _xnamed(LatLon(*self.latlon, **kwds), self.name)
+        return self._xnamed(LatLon(*self.latlon, **kwds))
 
 
 def decode3(garef, center=True):
@@ -202,10 +200,10 @@ def decode3(garef, center=True):
        @keyword center: If C{True} the center, otherwise the south-west,
                         lower-left corner (C{bool}).
 
-       @return: 3-Tuple (C{lat, lon, precision}).
+       @return: A L{LatLonPrec3Tuple}C{(lat, lon, precision)}.
 
-       @raise ValueError: Invalid I{garef}, INValid, non-alphanumeric
-                          or bad length I{garef}.
+       @raise ValueError: Invalid B{C{garef}}, INValid, non-alphanumeric
+                          or bad length B{C{garef}}.
     '''
     def _Error(i):
         return ValueError('%s invalid: %r[%s]' % ('garef', garef, i))
@@ -246,7 +244,7 @@ def decode3(garef, center=True):
         r *= 0.5
     lon *= r
     lat *= r
-    return lat, lon, precision
+    return _xnamed(LatLonPrec3Tuple(lat, lon, precision), nameof(garef))
 
 
 def encode(lat, lon, precision=1):  # MCCABE 14
@@ -259,13 +257,13 @@ def encode(lat, lon, precision=1):  # MCCABE 14
 
        @return: The C{garef} (C{str}).
 
-       @raise RangeError: Invalid I{lat} or I{lon}.
+       @raise RangeError: Invalid B{C{lat}} or B{C{lon}}.
 
-       @raise ValueError: Invalid I{precision}.
+       @raise ValueError: Invalid B{C{precision}}.
 
        @note: The C{garef} length is M{precision + 5} and the C{garef}
-              resolution is I{30′} for I{precision} 0, I{15′} for 1 and
-              I{5′} for 2.
+              resolution is B{30′} for B{C{precision}} 0, B{15′} for 1
+              and B{5′} for 2, respectively.
     '''
     def _digit(x, y, m):
         return _Digits[m * (m - y - 1) + x + 1],

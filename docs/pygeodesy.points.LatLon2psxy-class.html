@@ -474,24 +474,27 @@ _abcoll.Container --+
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>latlons</code></strong> - Points <code>list</code>, <code>sequence</code>, 
-          <code>set</code>, <code>tuple</code>, etc. (<i>LatLon[]</i>).</li>
+          <code>set</code>, <code>tuple</code>, etc. 
+          (<code>LatLon[]</code>).</li>
         <li><strong class="pname"><code>closed</code></strong> - Optionally, close the polygon (<code>bool</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap lat- and longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>latlons</i> are not <code>LatLon</code>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>latlons</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>latlons</code></b> are not <code>LatLon</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <b><code>latlons</code></b>.</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
     </dt>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        The <code>LatLon</code> latitude is considered the pseudo-y and 
-        longitude the pseudo-x coordinate.  Similarly, 2-tuples (x, y) are 
-        (longitude, latitude).
+        The <code>LatLon</code> latitude is considered the <i>pseudo-y</i> 
+        and longitude the <i>pseudo-x</i> coordinate, likewise for <a 
+        href="pygeodesy.named.LatLon2Tuple-class.html" 
+        class="link">LatLon2Tuple</a>.  However, 2-tuples <code>(x, 
+        y)</code> are considered as <i>(longitude, latitude)</i>.
       </p>
 </div></td></tr></table>
 </div>
@@ -515,15 +518,17 @@ _abcoll.Container --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xy</code></strong> - Point (<code>LatLon</code>) or 2-tuple (x, y) in 
-          (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>xy</code></strong> - Point (<code>LatLon</code>, <a 
+          href="pygeodesy.named.LatLon2Tuple-class.html" 
+          class="link">LatLon2Tuple</a> or 2-tuple <code>(x, y)</code>) in 
+          (<code>degrees</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if <i>xy</i> is present, <code>False</code> 
-          otherwise.</dd>
+        <dd><code>True</code> if <b><code>xy</code></b> is present, 
+          <code>False</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <i>xy</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>xy</code></b>.</li>
     </ul></dd>
     <dt>Overrides:
         _abcoll.Container.__contains__
@@ -689,14 +694,16 @@ _abcoll.Container --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xy</code></strong> - Point (<code>LatLon</code>) or 2-tuple (x, y) in 
-          (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>xy</code></strong> - Point (<code>LatLon</code>, <a 
+          href="pygeodesy.named.LatLon2Tuple-class.html" 
+          class="link">LatLon2Tuple</a> or 2-tuple <code>(x, y)</code>) in 
+          (<code>degrees</code>.</li>
     </ul></dd>
     <dt>Returns: integer</dt>
         <dd>Count (<code>int</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <i>xy</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>xy</code></b>.</li>
     </ul></dd>
     <dt>Overrides:
         _abcoll.Sequence.count
@@ -724,15 +731,17 @@ _abcoll.Container --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xy</code></strong> - Point (<code>LatLon</code>) or 2-tuple (x, y) in 
-          (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>start_end</code></strong> - Optional <i>[start[, end]]</i> index (<code>int</code>).</li>
+        <li><strong class="pname"><code>xy</code></strong> - Point (<code>LatLon</code>, <a 
+          href="pygeodesy.named.LatLon2Tuple-class.html" 
+          class="link">LatLon2Tuple</a> or 2-tuple <code>(x, y)</code>) in 
+          (<code>degrees</code>.</li>
+        <li><strong class="pname"><code>start_end</code></strong> - Optional <code>[start[, end]]</code> index (<code>int</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Index or -1 if not found (<code>int</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <i>xy</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>xy</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -757,15 +766,17 @@ _abcoll.Container --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xy</code></strong> - Point (<code>LatLon</code>) or 2-tuple (x, y) in 
-          (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>start_end</code></strong> - Optional <i>[start[, end]]</i> index (<code>int</code>).</li>
+        <li><strong class="pname"><code>xy</code></strong> - Point (<code>LatLon</code>, <a 
+          href="pygeodesy.named.LatLon2Tuple-class.html" 
+          class="link">LatLon2Tuple</a> or 2-tuple <code>(x, y)</code>) in 
+          (<code>degrees</code>.</li>
+        <li><strong class="pname"><code>start_end</code></strong> - Optional <code>[start[, end]]</code> index (<code>int</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Indices (<code>iterator</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <i>xy</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>xy</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -792,13 +803,13 @@ _abcoll.Container --+
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>xy</code></strong> - Point (<code>LatLon</code>) or 2-tuple (x, y) in 
           (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>start_end</code></strong> - Optional <i>[start[, end]]</i> index (<code>int</code>).</li>
+        <li><strong class="pname"><code>start_end</code></strong> - Optional <code>[start[, end]]</code> index (<code>int</code>).</li>
     </ul></dd>
     <dt>Returns: integer</dt>
         <dd>Index (<code>int</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <code>xy</code>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>xy</code></b>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Point not found.</li>
     </ul></dd>
     <dt>Overrides:
@@ -829,7 +840,8 @@ _abcoll.Container --+
         <li><strong class="pname"><code>ll</code></strong> - Point (<code>LatLon</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>3-Tuple (x, y, ll) of (float, float, <i>ll</i>).</dd>
+        <dd>An <a href="pygeodesy.named.Point3Tuple-class.html" 
+          class="link">Point3Tuple</a><code>(x, y, ll)</code>.</dd>
     <dt>Overrides:
         _Basequence.point
     </dt>
@@ -856,15 +868,17 @@ _abcoll.Container --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xy</code></strong> - Point (<code>LatLon</code>) or 2-tuple (x, y) in 
-          (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>start_end</code></strong> - Optional <i>[start[, end]]</i> index (<code>int</code>).</li>
+        <li><strong class="pname"><code>xy</code></strong> - Point (<code>LatLon</code>, <a 
+          href="pygeodesy.named.LatLon2Tuple-class.html" 
+          class="link">LatLon2Tuple</a> or 2-tuple <code>(x, y)</code>) in 
+          (<code>degrees</code>.</li>
+        <li><strong class="pname"><code>start_end</code></strong> - Optional <code>[start[, end]]</code> index (<code>int</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Index or -1 if not found (<code>int</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <i>xy</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>xy</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -931,7 +945,7 @@ _abcoll.Container --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 17 12:19:03 2019
+    Generated by Epydoc 3.0.1 on Tue Jun 25 11:55:36 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

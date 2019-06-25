@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '18.10.20'
+__version__ = '19.04.28'
 
 from base import TestsBase
 
@@ -43,10 +43,12 @@ class Tests(TestsBase):
 
 if __name__ == '__main__':
 
-    from pygeodesy import ellipsoidalNvector, ellipsoidalVincenty, \
-                          sphericalNvector, sphericalTrigonometry
+    from pygeodesy import ellipsoidalKarney, ellipsoidalNvector, \
+                          ellipsoidalVincenty, sphericalNvector, \
+                          sphericalTrigonometry
 
     t = Tests(__file__, __version__)
+    t.testBases(ellipsoidalKarney.LatLon)
     t.testBases(ellipsoidalNvector.LatLon)
     t.testBases(ellipsoidalVincenty.LatLon)
     t.testBases(sphericalNvector.LatLon)

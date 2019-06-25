@@ -63,11 +63,11 @@
 <pre class="base-tree">
   object --+            
            |            
-<a href="pygeodesy.bases._Named-class.html">bases._Named</a> --+        
+named._Named --+        
                |        
-    <a href="pygeodesy.bases._Based-class.html">bases._Based</a> --+    
+named._NamedBase --+    
                    |    
-         <a href="pygeodesy.datum._Registered-class.html">_Registered</a> --+
+named._NamedEnumItem --+
                        |
                       <strong class="uidshort">Datum</strong>
 </pre>
@@ -159,16 +159,19 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.datum._Registered-class.html">_Registered</a></code></b>:
-      <code><a href="pygeodesy.datum._Registered-class.html#__ne__">__ne__</a></code>,
-      <code><a href="pygeodesy.datum._Registered-class.html#unregister">unregister</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedEnumItem</code></b>:
+      <code>__ne__</code>,
+      <code>unregister</code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases._Based-class.html">bases._Based</a></code></b>:
-      <code><a href="pygeodesy.bases._Based-class.html#__repr__">__repr__</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#__str__">__str__</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#others">others</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#toStr2">toStr2</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedBase</code></b>:
+      <code>__repr__</code>,
+      <code>__str__</code>,
+      <code>others</code>,
+      <code>toStr2</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>__copy__</code>,
+      <code>classof</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -207,6 +210,16 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.datum.Datum-class.html#exactTM" class="summary-name">exactTM</a><br />
+      Get the <code>ExactTM</code> projection (<a 
+      href="pygeodesy.etm.ExactTransverseMercator-class.html" 
+      class="link">ExactTransverseMercator</a>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.datum.Datum-class.html#isEllipsoidal" class="summary-name">isEllipsoidal</a><br />
       Check whether this datum is ellipsoidal (<code>bool</code>).
     </td>
@@ -231,12 +244,14 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.datum._Registered-class.html">_Registered</a></code></b>:
-      <code><a href="pygeodesy.datum._Registered-class.html#name">name</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedEnumItem</code></b>:
+      <code>name</code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases._Named-class.html">bases._Named</a></code></b>:
-      <code><a href="pygeodesy.bases._Named-class.html#classname">classname</a></code>,
-      <code><a href="pygeodesy.bases._Named-class.html#classnaming">classnaming</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>,
+      <code>named</code>,
+      <code>named2</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
@@ -285,11 +300,11 @@
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>NameError</strong></code> - Datum with that <i>name</i> already exists.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - If <i>ellipsoid</i> is not an <a 
+        <li><code><strong class='fraise'>NameError</strong></code> - Datum with that <b><code>name</code></b> already exists.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>ellipsoid</code></b> is not an <a 
         href="pygeodesy.datum.Ellipsoid-class.html" 
-        class="link">Ellipsoid</a> or <i>transform</i> is not a <a 
-        href="pygeodesy.datum.Transform-class.html" 
+        class="link">Ellipsoid</a> or <b><code>transform</code></b> is not 
+        a <a href="pygeodesy.datum.Transform-class.html" 
         class="link">Transform</a>.</li>
     </ul></dd>
     <dt>Overrides:
@@ -347,7 +362,7 @@
           href="pygeodesy.datum.Datum-class.html" class="link">Datum</a> or
           subclass thereof).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.bases._Named-class.html#copy">bases._Named.copy</a>
+        named._Named.copy
     </dt>
   </dl>
 </td></tr></table>
@@ -376,7 +391,7 @@
     <dt>Returns:</dt>
         <dd>Datum attributes (<code>str</code>).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.bases._Based-class.html#toStr">bases._Based.toStr</a>
+        named._NamedBase.toStr
     </dt>
   </dl>
 </td></tr></table>
@@ -405,6 +420,30 @@
     <dd class="value"><span class="summary-sig">ellipsoid(<span class="summary-sig-arg">self</span>)</span>
         - Get this datum's ellipsoid (<a href="pygeodesy.datum.Ellipsoid-class.html" 
 class="link">Ellipsoid</a>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="exactTM"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">exactTM</h3>
+  <p>Get the <code>ExactTM</code> projection (<a 
+  href="pygeodesy.etm.ExactTransverseMercator-class.html" 
+  class="link">ExactTransverseMercator</a>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">exactTM(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <code>ExactTM</code> projection (<a 
+href="pygeodesy.etm.ExactTransverseMercator-class.html" 
+class="link">ExactTransverseMercator</a>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -509,7 +548,7 @@ class="link">Transform</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 17 12:19:03 2019
+    Generated by Epydoc 3.0.1 on Tue Jun 25 11:55:34 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

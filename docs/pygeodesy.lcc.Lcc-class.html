@@ -63,9 +63,9 @@
 <pre class="base-tree">
   object --+        
            |        
-<a href="pygeodesy.bases._Named-class.html">bases._Named</a> --+    
+named._Named --+    
                |    
-    <a href="pygeodesy.bases._Based-class.html">bases._Based</a> --+
+named._NamedBase --+
                    |
                   <strong class="uidshort">Lcc</strong>
 </pre>
@@ -207,11 +207,14 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases._Based-class.html">bases._Based</a></code></b>:
-      <code><a href="pygeodesy.bases._Based-class.html#__repr__">__repr__</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#__str__">__str__</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#others">others</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedBase</code></b>:
+      <code>__repr__</code>,
+      <code>__str__</code>,
+      <code>others</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>__copy__</code>,
+      <code>classof</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -271,10 +274,12 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases._Named-class.html">bases._Named</a></code></b>:
-      <code><a href="pygeodesy.bases._Named-class.html#classname">classname</a></code>,
-      <code><a href="pygeodesy.bases._Named-class.html#classnaming">classnaming</a></code>,
-      <code><a href="pygeodesy.bases._Named-class.html#name">name</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>,
+      <code>name</code>,
+      <code>named</code>,
+      <code>named2</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
@@ -328,9 +333,9 @@
           class="link">Lcc</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - If <i>conic</i> is not <a href="pygeodesy.lcc.Conic-class.html" 
-        class="link">Conic</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - If <i>e</i> or <i>n</i> is invalid or negative.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>conic</code></b> is not <a 
+        href="pygeodesy.lcc.Conic-class.html" class="link">Conic</a>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or negative <b><code>e</code></b> or <b><code>n</code></b>.</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
@@ -362,7 +367,7 @@
         <dd>The copy (<a href="pygeodesy.lcc.Lcc-class.html" 
           class="link">Lcc</a> or subclass thereof).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.bases._Named-class.html#copy">bases._Named.copy</a>
+        named._Named.copy
     </dt>
   </dl>
 </td></tr></table>
@@ -387,15 +392,15 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>datum</code></strong> - Optional datum to use, otherwise use this <i>Lcc</i>'s 
-          conic.datum (<code>Datum</code>).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Optional datum to use, otherwise use this 
+          <b><code>Lcc</code></b>'s conic.datum (<code>Datum</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>3-Tuple (lat, lon, datum) in (<code>degrees90</code>, 
-          {degrees180}, <i>datum</i>).</dd>
+        <dd>A <a href="pygeodesy.named.LatLonDatum3Tuple-class.html" 
+          class="link">LatLonDatum3Tuple</a><code>(lat, lon, datum)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - If <i>datum</i> is not ellipsoidal.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>datum</code></b> is not ellipsoidal.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -424,18 +429,20 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>LatLon</code></strong> - Optional, ellipsoidal (sub-)class to return the geodetic point 
           (<code>LatLon</code>) or <code>None</code>.</li>
-        <li><strong class="pname"><code>datum</code></strong> - Optional datum to use, otherwise use this <i>Lcc</i>'s 
-          conic.datum (<code>Datum</code>).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Optional datum to use, otherwise use this 
+          <b><code>Lcc</code></b>'s conic.datum (<code>Datum</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height for the point, overriding the default height 
           (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The point (<i>LatLon</i>) or 4-tuple (<code>degrees90</code>, 
-          <code>degrees180</code>, height, datum) if <i>LatLon</i> is 
-          <code>None</code>.</dd>
+        <dd>The point (<b><code>LatLon</code></b>) or a <a 
+          href="pygeodesy.named.LatLon4Tuple-class.html" 
+          class="link">LatLon4Tuple</a><code>(lat, lon, height, 
+          datum)</code> if <b><code>LatLon</code></b> is <code>None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - If <i>LatLon</i> or <i>datum</i> is not ellipsoidal.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>LatLon</code></b> or <b><code>datum</code></b> is not 
+        ellipsoidal.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -472,7 +479,7 @@
           <code>meter</code> plus &quot; height&quot; and 'm' if heigth is 
           non-zero (<code>str</code>).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.bases._Based-class.html#toStr">bases._Based.toStr</a>
+        named._NamedBase.toStr
     </dt>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -517,7 +524,7 @@
         <dd>This Lcc as &quot;[E:meter, N:meter, H:m, C:Conic.Datum]&quot; 
           (<code>str</code>).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.bases._Based-class.html#toStr2">bases._Based.toStr2</a>
+        named._NamedBase.toStr2
     </dt>
   </dl>
 </td></tr></table>
@@ -646,7 +653,7 @@ class="link">Conic</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 17 12:19:03 2019
+    Generated by Epydoc 3.0.1 on Tue Jun 25 11:55:35 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

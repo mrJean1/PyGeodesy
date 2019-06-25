@@ -63,16 +63,16 @@
   class="link">Georef</a> and several functions to encode, decode and 
   inspect <i>World Geographic Reference System (WGRS)</i> references.</p>
   <p>Transcribed from C++ class <a 
-  href="http://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Georef.html"
+  href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Georef.html"
   target="_top">Georef</a> by <i>Charles Karney</i>, but with modified 
   <code>precision</code> and extended with <code>height</code> and 
   <code>radius</code>.  See also <a 
-  href="http://WikiPedia.org/wiki/World_Geographic_Reference_System" 
+  href="https://WikiPedia.org/wiki/World_Geographic_Reference_System" 
   target="_top">World Geographic Reference System</a>.</p>
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.04.12
+        19.05.07
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -87,7 +87,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.wgrs.Georef-class.html" class="summary-name">Georef</a><br />
-      Georef class, sub-class of <code>str</code>.
+      Georef class, a <code>_NamedStr</code>.
     </td>
   </tr>
 </table>
@@ -231,11 +231,13 @@
           lower-left corner (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>3-Tuple (<code>lat, lon, precision</code>).</dd>
+        <dd>A <a href="pygeodesy.named.LatLonPrec3Tuple-class.html" 
+          class="link">LatLonPrec3Tuple</a><code>(lat, lon, 
+          precision)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>georef</i>, INValid, non-alphanumeric or odd length 
-        <i>georef</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>georef</code></b>, INValid, non-alphanumeric or 
+        odd length <b><code>georef</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -266,13 +268,14 @@
           lower-left corner (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>5-Tuple (<code>lat, lon, precision, height, radius</code>) where 
-          <code>height</code> and <code>radius</code> are in 
-          <code>meter</code> or <code>None</code> if missing.</dd>
+        <dd>A <a href="pygeodesy.named.LatLonPrec5Tuple-class.html" 
+          class="link">LatLonPrec5Tuple</a><code>(lat, lon, precision, 
+          height, radius)</code> where <code>height</code> and/or 
+          <code>radius</code> are <code>None</code> if missing.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>georef</i>, INValid, non-alphanumeric or odd length 
-        <i>georef</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>georef</code></b>, INValid, non-alphanumeric or 
+        odd length <b><code>georef</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -305,28 +308,29 @@
         <li><strong class="pname"><code>precision</code></strong> - Optional, the desired <code>georef</code> resolution and length 
           (<code>int</code> 0..11).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional, height in <code>meter</code>, see <a 
-          href="http://WikiPedia.org/wiki/World_Geographic_Reference_System"
+          href="https://WikiPedia.org/wiki/World_Geographic_Reference_System"
           target="_top">Designation of area</a>.</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, radius in <code>meter</code>, see <a 
-          href="http://WikiPedia.org/wiki/World_Geographic_Reference_System"
+          href="https://WikiPedia.org/wiki/World_Geographic_Reference_System"
           target="_top">Designation of area</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The <code>georef</code> (<code>str</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - Invalid <i>lat</i> or <i>lon</i>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>precision</i>, <i>height</i> or <i>radius</i>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - Invalid <b><code>lat</code></b> or <b><code>lon</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>precision</code></b>, <b><code>height</code></b> 
+        or <b><code>radius</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        The <i>precision</i> value differs from <a 
-        href="http://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Georef.html"
+        The <b><code>precision</code></b> value differs from <a 
+        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Georef.html"
         target="_top">Georef</a>. The <code>georef</code> length is <i 
         class="math">2 * (precision + 1)</i> and the <code>georef</code> 
-        resolution is <i>15&#176;</i> for <i>precision</i> 0, <i>1&#176;</i> for 1, 
-        <i>1&#8242;</i> for 2, <i>0.1&#8242;</i> for 3, <i>0.01&#8242;</i> for 4, ... <i 
-        class="math">10**(2 - precision)</i>.
+        resolution is <i>15&#176;</i> for <b><code>precision</code></b> 0, 
+        <i>1&#176;</i> for 1, <i>1&#8242;</i> for 2, <i>0.1&#8242;</i> for 3, <i>0.01&#8242;</i> 
+        for 4, ... <i class="math">10**(2 - precision)</i>.
       </p>
 </div></td></tr></table>
 </div>
@@ -427,7 +431,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 17 12:19:03 2019
+    Generated by Epydoc 3.0.1 on Tue Jun 25 11:55:34 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

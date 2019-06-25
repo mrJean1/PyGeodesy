@@ -64,20 +64,20 @@
   class="link">EPSGError</a> and functions to <a 
   href="pygeodesy.epsg-module.html#encode" class="link">encode</a> and <a 
   href="pygeodesy.epsg-module.html#decode2" class="link">decode2</a> <a 
-  href="http://www.EPSG-Registry.org" target="_top">EPSG (European 
+  href="https://www.EPSG-Registry.org" target="_top">EPSG (European 
   Petroleum Survey Group)</a> codes from and to <a 
-  href="http://WikiPedia.org/wiki/Universal_Transverse_Mercator_coordinate_system"
+  href="https://WikiPedia.org/wiki/Universal_Transverse_Mercator_coordinate_system"
   target="_top">UTM</a> and <a 
-  href="http://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system"
+  href="https://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system"
   target="_top">UPS</a> zones.</p>
   <p>A pure Python implementation transcribed from C++ class <a 
-  href="http://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html"
+  href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html"
   target="_top">UTMUPS</a> by <i>Charles Karney</i>, including coverage of 
   UPS as zone <code>0</code>.</p>
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.04.26
+        19.05.10
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -100,8 +100,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.epsg.Epsg-class.html" class="summary-name">Epsg</a><br />
-      <a href="http://www.EPSG-Registry.org" target="_top">EPSG</a> 
-        class, sub-class of <code>int</code>.
+      <a href="https://www.EPSG-Registry.org" target="_top">EPSG</a> 
+        class, a <code>_NamedInt</code>.
     </td>
   </tr>
 </table>
@@ -121,7 +121,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.epsg-module.html#decode2" class="summary-sig-name">decode2</a>(<span class="summary-sig-arg">epsg</span>)</span><br />
       Determine the UTM/USP zone and hemisphere from a given <a 
-      href="http://www.EPSG-Registry.org" target="_top">EPSG</a>.</td>
+      href="https://www.EPSG-Registry.org" target="_top">EPSG</a>.</td>
           <td align="right" valign="top">
             
             
@@ -140,7 +140,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.epsg-module.html#encode" class="summary-sig-name">encode</a>(<span class="summary-sig-arg">zone</span>,
         <span class="summary-sig-arg">hemipole</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">band</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
-      Determine the <a href="http://www.EPSG-Registry.org" 
+      Determine the <a href="https://www.EPSG-Registry.org" 
       target="_top">EPSG</a> code for a given UTM/UPS zone number, 
       hemisphere/pole and/or Band.</td>
           <td align="right" valign="top">
@@ -177,7 +177,7 @@
   </tr></table>
   
   <p>Determine the UTM/USP zone and hemisphere from a given <a 
-  href="http://www.EPSG-Registry.org" target="_top">EPSG</a>.</p>
+  href="https://www.EPSG-Registry.org" target="_top">EPSG</a>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -185,17 +185,17 @@
           class="link">Epsg</a>, <code>str</code> or <code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (<code>zone, 'N'|'S'</code>) as (<code>int</code>, 
-          <code>str</code>) where <code>zone</code> is <code>1..60</code> 
-          for UTM or <code>0</code> for UPS.</dd>
+        <dd>A <a href="pygeodesy.named.UtmUps2Tuple-class.html" 
+          class="link">UtmUps2Tuple</a><code>(zone, hemipole)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.epsg.EPSGError-class.html">EPSGError</a></strong></code> - Invalid <i>epsg</i>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.epsg.EPSGError-class.html">EPSGError</a></strong></code> - Invalid <b><code>epsg</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        Coverage of UPS follows Karney's function <a 
-        href="http://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html"
+        Coverage of UPS as zone <code>0</code> follows Karney's function <a
+        
+        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html"
         target="_top">UTMUPS::DecodeEPSG</a>.
       </p>
 </div></td></tr></table>
@@ -216,7 +216,7 @@
     </td>
   </tr></table>
   
-  <p>Determine the <a href="http://www.EPSG-Registry.org" 
+  <p>Determine the <a href="https://www.EPSG-Registry.org" 
   target="_top">EPSG</a> code for a given UTM/UPS zone number, 
   hemisphere/pole and/or Band.</p>
   <dl class="fields">
@@ -238,12 +238,14 @@
           class="link">Epsg</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.epsg.EPSGError-class.html">EPSGError</a></strong></code> - Invalid <i>zone</i>, <i>hemipole</i> or <i>band</i>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.epsg.EPSGError-class.html">EPSGError</a></strong></code> - Invalid <b><code>zone</code></b>, <b><code>hemipole</code></b> or 
+        <b><code>band</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        Coverage of UPS follows Karney's function <a 
-        href="http://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html"
+        Coverage of UPS as zone <code>0</code> follows Karney's function <a
+        
+        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html"
         target="_top">UTMUPS::EncodeEPSG</a>.
       </p>
 </div></td></tr></table>
@@ -280,7 +282,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 17 12:19:02 2019
+    Generated by Epydoc 3.0.1 on Tue Jun 25 11:55:33 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

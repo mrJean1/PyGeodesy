@@ -1,19 +1,21 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Functions to I{clip} a path or polygon of C{LatLon} points.
+u'''Functions to I{clip} a path or polygon of C{LatLon} points
+against a rectangular box or clip region.
 
 @newfield example: Example, Examples
 '''
 
 from fmath  import EPS, fsum_, len2
 from lazily import _ALL_LAZY
+from named import ClipCS3Tuple, ClipSH3Tuple
 from points import _imdex2, boundsOf, isclockwise, isconvex_, \
                    LatLon_ as LL_
 from utily  import points2
 
 __all__ = _ALL_LAZY.clipy
-__version__ = '19.01.02'
+__version__ = '19.05.20'
 
 
 def _eq(p1, p2):  # near-equal points
@@ -103,7 +105,7 @@ class _CS(object):
 def clipCS3(points, lowerleft, upperright, closed=False, inull=False):  # MCCABE 25
     '''Clip a path against a rectangular clip box using the
        U{Cohen-Sutherland
-       <http://WikiPedia.org/wiki/Cohen-Sutherland_algorithm>} algorithm.
+       <https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm>} algorithm.
 
        @param points: The points (C{LatLon}[]).
        @param lowerleft: Bottom-left corner of the clip box (C{LatLon}).
@@ -111,14 +113,11 @@ def clipCS3(points, lowerleft, upperright, closed=False, inull=False):  # MCCABE
        @keyword closed: Optionally, close the path (C{bool}).
        @keyword inull: Optionally, include null edges if inside (C{bool}).
 
-       @return: Yield a 3-tuple (start, end, index) for each edge
-                of the clipped path with the start and end points
-                C{LatLon} of the portion of the edge inside or on the
-                clip box and the index C{int} of the edge in the
-                original path.
+       @return: Yield a L{ClipCS3Tuple}C{(start, end, index)} for each
+                edge of the clipped path.
 
-       @raise ValueError: The I{lowerleft} corner is not below and/or
-                          not to the left of the I{upperright} corner.
+       @raise ValueError: The B{C{lowerleft}} corner is not below and/or
+                          not to the left of the B{C{upperright}} corner.
     '''
 
     cs = _CS(lowerleft, upperright)
@@ -135,9 +134,9 @@ def clipCS3(points, lowerleft, upperright, closed=False, inull=False):  # MCCABE
         if not cs.edge(p1, p2):
             if inull:  # null edge
                 if not c1:
-                    yield p1, p1, i
+                    yield ClipCS3Tuple(p1, p1, i)
                 elif not c2:
-                    yield p2, p2, i
+                    yield ClipCS3Tuple(p2, p2, i)
             continue
 
         for _ in range(5):
@@ -147,12 +146,12 @@ def clipCS3(points, lowerleft, upperright, closed=False, inull=False):  # MCCABE
                 c2, m2, b2, p2 = m2(b2, p2)
             else:  # inside
                 if inull or _neq(p1, p2):
-                    yield p1, p2, i
+                    yield ClipCS3Tuple(p1, p2, i)
                 break
             if c1 & c2:  # edge outside
                 break
         else:  # should never get here
-            raise AssertionError('clipCS3.for_')
+            raise AssertionError('clipCS3.for _')
 
 
 class _LLi_(LL_):
@@ -281,7 +280,7 @@ class _SH(object):
         # of polygon edge p1 to p2 and the current clip edge,
         # where p1 and p2 are known to NOT be located on the
         # same side of or on the current clip edge
-        # <http://StackOverflow.com/questions/563198/
+        # <https://StackOverflow.com/questions/563198/
         #       how-do-you-detect-where-two-line-segments-intersect>
         fy = float(p2.lat - p1.lat)
         fx = float(p2.lon - p1.lon)
@@ -296,8 +295,8 @@ class _SH(object):
 
 def clipSH(points, corners, inull=False, closed=False):
     '''Clip a polygon against a clip region or box using the
-       U{Sutherland_Hodgman
-       <http://WikiPedia.org/wiki/Sutherland_Hodgman_algorithm>} algorithm.
+       U{Sutherland-Hodgman
+       <https://WikiPedia.org/wiki/Sutherland_Hodgman_algorithm>} algorithm.
 
        @param points: The polygon points (C{LatLon}[]).
        @param corners: Three or more points defining a convex clip
@@ -308,8 +307,8 @@ def clipSH(points, corners, inull=False, closed=False):
 
        @return: Yield the clipped points (C{LatLon}[]).
 
-       @raise ValueError: Insufficient number of I{points} or the
-                          I{corners} specify a polar, zero-area,
+       @raise ValueError: Insufficient number of B{C{points}} or the
+                          B{C{corners}} specify a polar, zero-area,
                           non-convex or otherwise invalid clip region.
     '''
     sh = _SH(corners)
@@ -320,8 +319,8 @@ def clipSH(points, corners, inull=False, closed=False):
 
 def clipSH3(points, corners, inull=False, closed=False):
     '''Clip a polygon against a clip region or box using the
-       U{Sutherland_Hodgman
-       <http://WikiPedia.org/wiki/Sutherland_Hodgman_algorithm>} algorithm.
+       U{Sutherland-Hodgman
+       <https://WikiPedia.org/wiki/Sutherland_Hodgman_algorithm>} algorithm.
 
        @param points: The polygon points (C{LatLon}[]).
        @param corners: Three or more points defining a convex clip
@@ -330,15 +329,11 @@ def clipSH3(points, corners, inull=False, closed=False):
        @keyword inull: Optionally, include null edges (C{bool}).
        @keyword closed: Close the clipped points (C{bool}).
 
-       @return: Yield a 3-tuple (start, end, original) for each edge
-                of the clipped polygon.  The start and end points
-                C{LatLon} of the portion of the edge inside or on
-                the clip region.  The original C{bool} indicates
-                whether the edge is part of the original polygon or
-                part of the clip region.
+       @return: Yield a L{ClipSH3Tuple}C{(start, end, original)} for
+                each edge of the clipped polygon.
 
-       @raise ValueError: Insufficient number of I{points} or the
-                          I{corners} specify a polar, zero-area,
+       @raise ValueError: Insufficient number of B{C{points}} or the
+                          B{C{corners}} specify a polar, zero-area,
                           non-convex or otherwise invalid clip region.
     '''
     sh = _SH(corners)
@@ -348,8 +343,7 @@ def clipSH3(points, corners, inull=False, closed=False):
         for i in range(1, n):
             p1, e1 = p2, e2
             p2, e2 = sh.clipped2(i)
-            yield p1, p2, not bool(e1 == e2 and e1 and e2)
-
+            yield ClipSH3Tuple(p1, p2, not bool(e1 == e2 and e1 and e2))
 
 # **) MIT License
 #

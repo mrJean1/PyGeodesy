@@ -11,7 +11,7 @@ from os.path import join
 import unittest
 
 __all__ = ('TestSuite',)
-__version__ = '19.04.20'
+__version__ = '19.05.21'
 
 
 class TestSuite(unittest.TestCase):
@@ -40,6 +40,9 @@ class TestSuite(unittest.TestCase):
     def test_Datum(self):
         self._run('testDatum')
 
+    def test_Deprecated(self):
+        self._run('testDeprecated')
+
     def test_Dms(self):
         self._run('testDms')
 
@@ -52,8 +55,20 @@ class TestSuite(unittest.TestCase):
     def test_EllipsoidalGeodTest(self):
         self._run('testEllipsoidalGeodTest')
 
+    def test_Elliptic(self):
+        self._run('testElliptic')
+
     def test_Espg(self):
         self._run('testEpsg')
+
+    def test_Etm(self):
+        self._run('testEtm')
+
+    def test_EtmTMcoords(self):
+        self._run('testEtmTMcoords')
+
+    def test_ExactTMcoords(self):
+        self._run('testExactTMcoords')
 
     def test_Fmath(self):
         self._run('testFmath')
@@ -92,6 +107,9 @@ class TestSuite(unittest.TestCase):
     def test_Modules(self):
         self._run('testModules')
 
+    def test_Named(self):
+        self._run('testNamed')
+
     def test_NavlabExamples(self):
         self._run('testNavlabExamples')
 
@@ -110,6 +128,9 @@ class TestSuite(unittest.TestCase):
     def test_Spherical(self):
         self._run('testSpherical')
 
+    def test_TMcoords(self):
+        self._run('testTMcoords')
+
     def test_Ups(self):
         self._run('testUps')
 
@@ -124,6 +145,9 @@ class TestSuite(unittest.TestCase):
 
     def test_UtmUps(self):
         self._run('testUtmUps')
+
+    def test_UtmUpsTMcoords(self):
+        self._run('testUtmUpsTMcoords')
 
     def test_Vectorial(self):
         self._run('testVectorial')

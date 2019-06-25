@@ -4,7 +4,7 @@
 # Test geohash module.
 
 __all__ = ('Tests',)
-__version__ = '19.04.12'
+__version__ = '19.05.06'
 
 from base import TestsBase
 
@@ -36,6 +36,25 @@ class Tests(TestsBase):
         self.test('distance2', g.distance2('geehpb'),  '682.760', fmt='%.3f')
         self.test('distance3', g.distance3('geehpb'),  '397.404', fmt='%.3f')
         self.test('sizes', fStr(g.sizes, prec=1), '4.8, 4.8')
+
+        for d in (g.neighbors, geohash.neighbors(g)):
+            self.test('N',  d.N,  g.N)
+            self.test('NE', d.NE, g.NE)
+            self.test('E',  d.E,  g.E)
+            self.test('SE', d.SE, g.SE)
+            self.test('S',  d.S,  g.S)
+            self.test('SW', d.SW, g.SW)
+            self.test('W',  d.W,  g.W)
+            self.test('NW', d.NW, g.NW)
+
+            self.test('N',  d['N'],  g.N)
+            self.test('NE', d['NE'], g.NE)
+            self.test('E',  d['E'],  g.E)
+            self.test('SE', d['SE'], g.SE)
+            self.test('S',  d['S'],  g.S)
+            self.test('SW', d['SW'], g.SW)
+            self.test('W',  d['W'],  g.W)
+            self.test('NW', d['NW'], g.NW)
 
         for g in ('u120fxw', 'geek', 'fur', 'geehpbpbp', 'u4pruydqqvj8', 'bgr96qxvpd46', '0123456789', 'zzzzzz'):
             self.test('encode-decode', geohash.encode(*geohash.decode(g)), g)

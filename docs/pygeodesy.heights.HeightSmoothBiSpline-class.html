@@ -61,16 +61,18 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class HeightSmoothBiSpline</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
- object --+    
-          |    
-_HeightBase --+
-              |
-             <strong class="uidshort">HeightSmoothBiSpline</strong>
+  object --+        
+           |        
+named._Named --+    
+               |    
+     _HeightBase --+
+                   |
+                  <strong class="uidshort">HeightSmoothBiSpline</strong>
 </pre>
 
 <hr />
 <p>Height interpolator using <code>SciPy</code> <a 
-  href="http://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.SmoothSphereBivariateSpline.html"
+  href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.SmoothSphereBivariateSpline.html"
   target="_top">SmoothSphereBivariateSpline</a>.</p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
@@ -89,7 +91,8 @@ _HeightBase --+
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.heights.HeightSmoothBiSpline-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">knots</span>,
-        <span class="summary-sig-arg">s</span>=<span class="summary-sig-default">4</span>)</span><br />
+        <span class="summary-sig-arg">s</span>=<span class="summary-sig-default">4</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       New <a href="pygeodesy.heights.HeightSmoothBiSpline-class.html" 
       class="link">HeightSmoothBiSpline</a> interpolator.</td>
           <td align="right" valign="top">
@@ -140,6 +143,13 @@ _HeightBase --+
   </tr>
   <tr>
     <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>__copy__</code>,
+      <code>__repr__</code>,
+      <code>__str__</code>,
+      <code>classof</code>,
+      <code>copy</code>
+      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
       <code>__format__</code>,
@@ -148,10 +158,8 @@ _HeightBase --+
       <code>__new__</code>,
       <code>__reduce__</code>,
       <code>__reduce_ex__</code>,
-      <code>__repr__</code>,
       <code>__setattr__</code>,
       <code>__sizeof__</code>,
-      <code>__str__</code>,
       <code>__subclasshook__</code>
       </p>
     </td>
@@ -167,6 +175,13 @@ _HeightBase --+
 </tr>
   <tr>
     <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>,
+      <code>name</code>,
+      <code>named</code>,
+      <code>named2</code>
+      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
       </p>
@@ -191,7 +206,8 @@ _HeightBase --+
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">knots</span>,
-        <span class="sig-arg">s</span>=<span class="sig-default">4</span>)</span>
+        <span class="sig-arg">s</span>=<span class="sig-default">4</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -206,11 +222,12 @@ _HeightBase --+
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>knots</code></strong> - The points with known height (<code>LatLon</code>s).</li>
         <li><strong class="pname"><code>s</code></strong> - The spline smoothing factor (<code>4</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional height name (<code>str</code>).</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.heights.HeightError-class.html">HeightError</a></strong></code> - Insufficient number of <i>knots</i> or invalid <i>knot</i> or 
-        <i>s</i>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.heights.HeightError-class.html">HeightError</a></strong></code> - Insufficient number of <b><code>knots</code></b> or invalid 
+        <b><code>knot</code></b> or <b><code>s</code></b>.</li>
         <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> or <code>scipy</code> not found or not 
         installed.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.heights.SciPyError-class.html">SciPyError</a></strong></code> - A <code>SmoothSphereBivariateSpline</code> issue.</li>
@@ -250,7 +267,8 @@ _HeightBase --+
           tuple of interpolated heights (<code>float</code>s).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.heights.HeightError-class.html">HeightError</a></strong></code> - Insufficient number of <i>llis</i> or invalid <i>lli</i>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.heights.HeightError-class.html">HeightError</a></strong></code> - Insufficient number of <b><code>llis</code></b> or invalid 
+        <b><code>lli</code></b>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.heights.SciPyError-class.html">SciPyError</a></strong></code> - A <code>SmoothSphereBivariateSpline</code> issue.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.heights.SciPyWarning-class.html">SciPyWarning</a></strong></code> - A <code>SmoothSphereBivariateSpline</code> warning as exception.</li>
     </ul></dd>
@@ -290,7 +308,8 @@ _HeightBase --+
           interpolated heights (<code>float</code>s).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.heights.HeightError-class.html">HeightError</a></strong></code> - Insufficient or non-matching number of <i>lats</i> and <i>lons</i>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.heights.HeightError-class.html">HeightError</a></strong></code> - Insufficient or non-matching number of <b><code>lats</code></b> and
+        <b><code>lons</code></b>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.heights.SciPyError-class.html">SciPyError</a></strong></code> - A <code>SmoothSphereBivariateSpline</code> issue.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.heights.SciPyWarning-class.html">SciPyWarning</a></strong></code> - A <code>SmoothSphereBivariateSpline</code> warning as exception.</li>
     </ul></dd>
@@ -329,7 +348,7 @@ _HeightBase --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 17 12:19:03 2019
+    Generated by Epydoc 3.0.1 on Tue Jun 25 11:55:35 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

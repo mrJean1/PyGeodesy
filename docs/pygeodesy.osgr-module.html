@@ -67,35 +67,35 @@
   <p>Pure Python implementation of OS Grid Reference functions using an 
   ellipsoidal earth model, transcribed from JavaScript originals by <i>(C) 
   Chris Veness 2005-2016</i> published under the same MIT Licence**, see <a
-  href="http://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html" 
+  href="https://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html" 
   target="_top">OS National Grid</a> and <a 
-  href="http://www.Movable-Type.co.UK/scripts/geodesy/docs/module-osgridref.html"
+  href="https://www.Movable-Type.co.UK/scripts/geodesy/docs/module-osgridref.html"
   target="_top">Module osgridref</a>.</p>
   <p>OSGR provides geocoordinate references for UK mapping purposes, 
   converted in 2015 to work with WGS84 datum by default or OSGB36 as 
   option.</p>
   <p>See <a 
-  href="http://www.OrdnanceSurvey.co.UK/docs/support/guide-coordinate-systems-great-britain.pdf"
+  href="https://www.OrdnanceSurvey.co.UK/docs/support/guide-coordinate-systems-great-britain.pdf"
   target="_top">Guide</a>, <a 
-  href="http://www.OrdnanceSurvey.co.UK/blog/2014/09/proposed-changes-to-latitude-and-longitude-representation-on-paper-maps-tell-us-your-thoughts"
+  href="https://www.OrdnanceSurvey.co.UK/blog/2014/09/proposed-changes-to-latitude-and-longitude-representation-on-paper-maps-tell-us-your-thoughts"
   target="_top">Proposed Changes</a>, <a 
-  href="http://www.OrdnanceSurvey.co.UK/blog/2014/12/confirmation-on-changes-to-latitude-and-longitude"
+  href="https://www.OrdnanceSurvey.co.UK/blog/2014/12/confirmation-on-changes-to-latitude-and-longitude"
   target="_top">Confirmation</a> and <a 
-  href="http://WikiPedia.org/wiki/Ordnance_Survey_National_Grid" 
+  href="https://WikiPedia.org/wiki/Ordnance_Survey_National_Grid" 
   target="_top">Ordnance Survey National Grid</a>.</p>
-  <p>See also Karney <a href="http://Arxiv.org/pdf/1002.1417v3.pdf" 
+  <p>See also Karney <a href="https://Arxiv.org/pdf/1002.1417v3.pdf" 
   target="_top">'Transverse Mercator with an accuracy of a few 
   nanometers'</a>, 2011 (building on Kr&#252;ger <a 
-  href="http://bib.GFZ-Potsdam.DE/pub/digi/krueger2.pdf" 
+  href="https://bib.GFZ-Potsdam.DE/pub/digi/krueger2.pdf" 
   target="_top">'Konforme Abbildung des Erdellipsoids in der Ebene'</a>, 
-  1912), Seidel <a href="http://Henrik-Seidel.GMXhome.DE/gausskrueger.pdf" 
+  1912), Seidel <a href="https://Henrik-Seidel.GMXhome.DE/gausskrueger.pdf"
   target="_top">'Die Mathematik der Gau&#223;-Krueger-Abbildung'</a>, 2006 and 
-  <a href="http://WikiPedia.org/wiki/Transverse_Mercator:_Redfearn_series" 
+  <a href="https://WikiPedia.org/wiki/Transverse_Mercator:_Redfearn_series"
   target="_top">Transverse Mercator: Redfearn series</a>.</p>
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.04.20
+        19.05.20
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -216,15 +216,16 @@
         <li><strong class="pname"><code>Osgr</code></strong> - Optional (sub-)class to return the OSGR coordinate (<a 
           href="pygeodesy.osgr.Osgr-class.html" class="link">Osgr</a>) or 
           <code>None</code>.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional <i>Osgr</i> name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Osgr</code></b> name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The OSGR coordinate (<a href="pygeodesy.osgr.Osgr-class.html" 
-          class="link">Osgr</a>) or the 2-tuple (easting, northing) if 
-          <i>Osgr</i> is <code>None</code>.</dd>
+        <dd>The OSGR coordinate (<b><code>Osgr</code></b>) or an <a 
+          href="pygeodesy.named.EasNor2Tuple-class.html" 
+          class="link">EasNor2Tuple</a><code>(easting, northing)</code> if 
+          <b><code>Osgr</code></b> is <code>None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>strOSGR</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>strOSGR</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -270,16 +271,18 @@
         <li><strong class="pname"><code>Osgr</code></strong> - Optional (sub-)class to return the OSGR coordinate (<a 
           href="pygeodesy.osgr.Osgr-class.html" class="link">Osgr</a>) or 
           <code>None</code>.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional <i>Osgr</i> name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Osgr</code></b> name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The OSGR coordinate (<a href="pygeodesy.osgr.Osgr-class.html" 
-          class="link">Osgr</a>) or 2-tuple (easting, northing) if 
-          <i>Osgr</i> is <code>None</code>.</dd>
+        <dd>The OSGR coordinate (<b><code>Osgr</code></b>) or an <a 
+          href="pygeodesy.named.EasNor2Tuple-class.html" 
+          class="link">EasNor2Tuple</a><code>(easting, northing)</code> if 
+          <b><code>Osgr</code></b> is <code>None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Non-ellipsoidal <i>latlon</i> or <i>datum</i> conversion failed.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>latlon</i> or <i>lon</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-ellipsoidal <b><code>latlon</code></b> or 
+        <b><code>datum</code></b> conversion failed.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>latlon</code></b> or <b><code>lon</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -323,7 +326,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 17 12:19:02 2019
+    Generated by Epydoc 3.0.1 on Tue Jun 25 11:55:33 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

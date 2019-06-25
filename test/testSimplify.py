@@ -54,7 +54,7 @@ def simplifyRDPfw(points, epsilon, radius=R_M, adjust=False, shortest=False,  # 
                                    modified=False, indices=False):  # PYCHOK expected
     '''Iterative Ramer-Douglas-Peucker algorithm.
 
-       <http://GitHub.com/FlorianWilhelm/gps_data_with_python>
+       <https://GitHub.com/FlorianWilhelm/gps_data_with_python>
 
        points[] -- Input coordinates as LatLon's in degrees
        epsilon -- distance tolerance in meter
@@ -132,7 +132,7 @@ def simplifyRDPgr(source, kink, radius=R_M, adjust=True, shortest=True,  # MCCAB
     '''Stack-based Douglas Peucker line simplification.
 
        Transcribed from JavaScript original after code by U{Dr. Gary J.
-       Robinson<http://www.BDCC.co.UK/Gmaps/GDouglasPeuker.js>},
+       Robinson<https://www.BDCC.co.UK/Gmaps/GDouglasPeuker.js>},
        Environmental Systems Science Centre, University of Reading,
        Reading, UK.
 
@@ -281,11 +281,11 @@ if __name__ == '__main__':  # PYCHOK internal error?
     t.test2(simplifyRDPgr, PtsFFI, _ms({1000: 3, 100:  7, 10: 18, 1: 50}), adjust=False, shortest=True)
     t.test2(simplifyRDPgr, PtsFFI, _ms({1000: 2, 100:  7, 10: 15, 1: 45}), adjust=True, shortest=True)
 
-    # <http://docs.RS/geo/0.8.3/geo/algorithm/simplify/trait.Simplify.html>
+    # <https://docs.RS/geo/0.8.3/geo/algorithm/simplify/trait.Simplify.html>
 #   t.test2(simplifyRDP, [_LatLon(*ll) for ll in ((0.0, 0.0), (5.0, 4.0), (11.0, 5.5), (17.3, 3.2), (27.8, 0.1))],
 #                         _ms({1: 4}), adjust=False, shortest=True)  # (0.0, 0.0), (5.0, 4.0), (11.0, 5.5), (27.8, 0.1)
 
-    # <http://docs.RS/geo/0.8.3/geo/algorithm/simplifyvw/trait.SimplifyVW.html>
+    # <https://docs.RS/geo/0.8.3/geo/algorithm/simplifyvw/trait.SimplifyVW.html>
 #   t.test2(simplifyVW, [_LatLon(*ll) for ll in ((5.0, 2.0), (3.0, 8.0), (6.0, 20.0), (7.0, 25.0), (10.0, 10.0))],
 #                        _ms({30: 3}), adjust=False)  # (5.0, 2.0), (7.0, 25.0), (10.0, 10.0)
 

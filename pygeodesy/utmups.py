@@ -3,31 +3,30 @@
 
 u'''Functions L{parseUTMUPS5}, L{toUtmUps8},  L{UtmUps} and
 L{utmupsZoneBand5} to handle both I{Universal Transverse Mercator
-(U{UTM<http://WikiPedia.org/wiki/Universal_Transverse_Mercator_coordinate_system>})}
+(U{UTM<https://WikiPedia.org/wiki/Universal_Transverse_Mercator_coordinate_system>})}
 and I{Universal Polar Stereographic
-(U{UPS<http://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system>})}
+(U{UPS<https://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system>})}
 coordinates.
 
 A pure Python implementation, partially transcribed from C++ class U{UTMUPS
-<http://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html>}
+<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html>}
 by I{Charles Karney}.
 '''
 
 from datum import Datums
 from dms import RangeError
-from ellipsoidalBase import _to4lldn, _to3zBhp, \
-                            _UPS_ZONE, _UPS_ZONE_STR, \
-                            _UTMUPS_ZONE_MIN, _UTMUPS_ZONE_MAX
 from lazily import _ALL_LAZY
+from named import UtmUps5Tuple, UtmUps8Tuple
 from utily import OK
 from ups import parseUPS5, toUps8, Ups, UPSError, upsZoneBand5
 from utm import parseUTM5, toUtm8, Utm, UTMError, utmZoneBand5
+from utmupsBase import _MGRS_TILE, _to4lldn, _to3zBhp, \
+                       _UPS_ZONE, _UPS_ZONE_STR, \
+                       _UTMUPS_ZONE_MIN, _UTMUPS_ZONE_MAX
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utmups
-__version__ = '19.04.26'
-
-_MGRS_TILE = 100e3  # block size (C{meter})
+__version__ = '19.05.10'
 
 _UPS_N_MAX = 27 * _MGRS_TILE
 _UPS_N_MIN = 13 * _MGRS_TILE
@@ -68,7 +67,7 @@ class UTMUPSError(ValueError):
 
 def parseUTMUPS5(strUTMUPS, datum=Datums.WGS84, Utm=Utm, Ups=Ups, name=''):
     '''Parse a string representing a UTM or UPS coordinate, consisting
-       of I{"zone[band] hemisphere/pole easting northing"}.
+       of C{"zone[band] hemisphere/pole easting northing"}.
 
        @param strUTMUPS: A UTM or UPS coordinate (C{str}).
        @keyword datum: Optional datum to use (L{Datum}).
@@ -78,15 +77,14 @@ def parseUTMUPS5(strUTMUPS, datum=Datums.WGS84, Utm=Utm, Ups=Ups, name=''):
                      (L{Ups}) or C{None}.
        @keyword name: Optional name (C{str}).
 
-       @return: The UTM or UPS coordinate (L{Utm} or L{Ups}) or 5-tuple
-                (C{zone, hemisphere/pole, easting, northing, Band}) if
-                I{Utm} respectively I{Ups} or both are C{None} as (C{int,
-                'N'|'S', meter, meter, str}) where C{zone} is C{1..60}
-                for UTM or C{0} for UPS and C{Band} is C{""} or
-                C{'C'|'D'..'W'|'X'} for UTM or C{'A'|'B'|'Y'|'Z'} for
-                UPS.
+       @return: The UTM or UPS coordinate (B{C{Utm}} or B{C{Ups}}) or
+                a L{UtmUps5Tuple}C{(zone,
+                hemipole, easting, northing, band)} if B{C{Utm}}
+                respectively B{C{Ups}} or both are C{None}.  The
+                C{hemipole} is C{'N'|'S'}, the UTM hemisphere
+                or UPS pole, the UPS projection top/center.
 
-       @raise UTMUPSError: Invalid I{strUTMUPS}.
+       @raise UTMUPSError: Invalid B{C{strUTMUPS}}.
 
        @see: Functions L{parseUTM5} and L{parseUPS5}.
     '''
@@ -100,14 +98,16 @@ def parseUTMUPS5(strUTMUPS, datum=Datums.WGS84, Utm=Utm, Ups=Ups, name=''):
     return u
 
 
-def toUtmUps8(latlon, lon=None, datum=None, Utm=Utm, Ups=Ups, pole='', name=''):
+def toUtmUps8(latlon, lon=None, datum=None, falsed=True, Utm=Utm, Ups=Ups,
+                                            pole='', name='', **cmoff):
     '''Convert a lat-/longitude point to a UTM or UPS coordinate.
 
        @param latlon: Latitude (C{degrees}) or an (ellipsoidal)
                       geodetic C{LatLon} point.
        @keyword lon: Optional longitude (C{degrees}) or C{None}.
        @keyword datum: Optional datum to use this UTM coordinate,
-                       overriding I{latlon}'s datum (C{Datum}).
+                       overriding B{C{latlon}}'s datum (C{Datum}).
+       @keyword falsed: False both easting and northing (C{bool}).
        @keyword Utm: Optional (sub-)class to return the UTM coordinate
                      (L{Utm}) or C{None}.
        @keyword Ups: Optional (sub-)class to return the UPS coordinate
@@ -115,36 +115,36 @@ def toUtmUps8(latlon, lon=None, datum=None, Utm=Utm, Ups=Ups, pole='', name=''):
        @keyword pole: Optional top/center of UPS (stereographic)
                       projection (C{str}, C{'N[orth]'} or C{'S[outh]'}).
        @keyword name: Optional name (C{str}).
+       @keyword cmoff: DEPRECATED, use B{C{falsed}}.  Offset longitude
+                       from zone's central meridian, for UTM only (C{bool}).
 
-       @return: The UTM or UPS coordinate (L{Utm} respectively L{Ups})
-                or an 8-tuple (C{zone, hemisphere/pole, easting, northing,
-                Band, datum, convergence, scale}) if I{Utm} respectively
-                I{Ups} is C{None} or I{cmoff} is C{False} as (C{int,
-                'N'|'S', meter, meter, str, degrees, scalar}) where C{zone}
-                is C{1..60} for UTM or C{0} for UPS and C{Band} is C{""}
-                or C{'C'|'D'..'W'|'X'} for UTM or C{'A'|'B'|'Y'|'Z'} for
-                UPS.
+       @return: The UTM or UPS coordinate (B{C{Utm}} respectively B{C{Ups}})
+                or a L{UtmUps8Tuple}C{(zone,
+                hemipole, easting, northing, band, datum, convergence,
+                scale)} if B{C{Utm}} respectively B{C{Ups}} is C{None} or
+                B{C{cmoff}} is C{False}.
 
-       @raise RangeError: If I{lat} outside the valid UTM or UPS bands
-                          or if I{lat} or I{lon} outside the valid range
-                          and I{rangerrrors} set to C{True}.
+       @raise RangeError: If B{C{lat}} outside the valid UTM or UPS bands
+                          or if B{C{lat}} or B{C{lon}} outside the valid
+                          range and L{rangerrors} set to C{True}.
 
-       @raise TypeError: If I{latlon} is not ellipsoidal or I{lon}
+       @raise TypeError: If B{C{latlon}} is not ellipsoidal or B{C{lon}}
                          value is missing.
 
        @raise UTMUPSError: UTM or UPS validation failed.
 
-       @raise ValueError: Invalid I{lat} or I{lon}.
+       @raise ValueError: Invalid B{C{lat}} or B{C{lon}}.
 
        @see: Functions L{toUtm8} and L{toUps8}.
     '''
     lat, lon, d, name = _to4lldn(latlon, lon, datum, name)
     z, B, p, lat, lon = utmupsZoneBand5(lat, lon)
 
+    f = falsed and cmoff.get('cmoff', True)
     if z == _UPS_ZONE:
-        u = toUps8(lat, lon, datum=d, Ups=Ups, pole=pole or p, falsed=True, name=name)
+        u = toUps8(lat, lon, datum=d, falsed=f, Ups=Ups, pole=pole or p, name=name)
     else:
-        u = toUtm8(lat, lon, datum=d, Utm=Utm, cmoff=True, name=name)
+        u = toUtm8(lat, lon, datum=d, falsed=f, Utm=Utm, name=name)
     return u
 
 
@@ -157,13 +157,13 @@ def UtmUps(zone, hemipole, easting, northing, band='', datum=Datums.WGS84,
                       C{0} (C{str} or C{int}).
        @keyword hemipole: UTM hemisphere or UPS top/center of projection
                           (C{str}, C{'N[orth]'} or C{'S[outh]'}).
-       @param easting: Easting, see I{falsed} (C{meter}).
-       @param northing: Northing, see I{falsed} (C{meter}).
+       @param easting: Easting, see B{C{falsed}} (C{meter}).
+       @param northing: Northing, see B{C{falsed}} (C{meter}).
        @keyword band: Optional, UTM (latitudinal) Band letter
                       C{'C'|'D'..'W'|'X'} or UPS (polar) Band letter
                       C{'A'|'B'|'Y'|'Z'} (C{str}).
        @keyword datum: Optional, the coordinate's datum (L{Datum}).
-       @keyword falsed: Both I{easting} and I{northing} are falsed (C{bool}).
+       @keyword falsed: Both B{C{easting}} and B{C{northing}} are falsed (C{bool}).
        @keyword name: Optional name (C{str}).
 
        @return: New UTM or UPS instance (L{Utm} or L{Ups}).
@@ -171,7 +171,7 @@ def UtmUps(zone, hemipole, easting, northing, band='', datum=Datums.WGS84,
        @raise UTMUPSError: UTM or UPS validation failed.
 
        @see: Classes L{Utm} and L{Ups} and Karney's U{UTMUPS
-             <http://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html>}.
+             <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html>}.
     '''
     z, B, hp = _to3zBhp(zone, band=band, hemipole=hemipole)
     U = Ups if z in (_UPS_ZONE, _UPS_ZONE_STR) else Utm
@@ -207,8 +207,11 @@ def utmupsValidate(coord, falsed=False, MGRS=False):
         e, n = coord.easting, coord.northing
         band = coord.band
         enMM = coord.falsed
-    elif isinstance(coord, tuple) and len(coord) > 4:
-        zone, hemi, e, n, band = coord[:5]
+    elif isinstance(coord, (UtmUps5Tuple, UtmUps8Tuple)):
+        zone = coord.zone
+        hemi = coord.hemipole
+        e, n = coord.easting, coord.northing
+        band = coord.band
         enMM = falsed
     else:
         raise UTMUPSError('%s invalid: %r' % ('coord', coord))
@@ -246,9 +249,9 @@ def utmupsValidateOK(coord, falsed=False, ok=OK):
 
        @param coord: The UTM or UPS coordinate (L{Utm}, L{Ups} or C{5+Tuple}).
        @keyword falsed: C{5+Tuple} easting and northing are falsed (C{bool}).
-       @keyword ok: Result to return if validation passed (I{OK}).
+       @keyword ok: Result to return if validation passed (B{C{ok}}).
 
-       @return: I{ok} if validation passed, the L{UTMUPSError} otherwise.
+       @return: B{C{ok}} if validation passed, the L{UTMUPSError} otherwise.
 
        @see: Function L{utmupsValidate}.
     '''
@@ -268,17 +271,17 @@ def utmupsZoneBand5(lat, lon, cmoff=False):
        @keyword cmoff: Offset longitude from the zone's central
                        meridian, for UTM only (C{bool}).
 
-       @return: 5-Tuple (C{zone, Band, hemisphere/pole, lat, lon}) as
-                (C{int, str, 'N'|'S', degrees90, degrees180}) where
-                C{zone} is C{1..60} for UTM or C{0} for UPS and
-                C{Band} is C{""} or C{'C'|'D'..'W'|'X'} for UTM or
-                C{'A'|'B'|'Y'|'Z'} for UPS.
+       @return: A L{UtmUpsLatLon5Tuple}C{(zone, band, hemipole,
+                lat, lon)} where C{hemipole} is C{'N'|'S'}, the
+                UTM hemisphere or UPS pole, the UPS projection
+                top/center.
 
-       @raise RangeError: If I{lat} outside the valid UTM or UPS bands
-                          or if I{lat} or I{lon} outside the valid range
-                          and I{rangerrrors} set to C{True}.
+       @raise RangeError: If B{C{lat}} outside the valid UTM or UPS
+                          bands or if B{C{lat}} or B{C{lon}} outside
+                          the valid range and L{rangerrors} set to
+                          C{True}.
 
-       @raise ValueError: Invalid I{lat} or I{lon}.
+       @raise ValueError: Invalid B{C{lat}} or B{C{lon}}.
 
        @see: Functions L{utmZoneBand5} and L{upsZoneBand5}.
     '''

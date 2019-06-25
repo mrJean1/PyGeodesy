@@ -63,16 +63,16 @@
 <pre class="base-tree">
   object --+        
            |        
-<a href="pygeodesy.bases._Named-class.html">bases._Named</a> --+    
+named._Named --+    
                |    
-    <a href="pygeodesy.bases._Based-class.html">bases._Based</a> --+
+named._NamedBase --+
                    |
                   <strong class="uidshort">CassiniSoldner</strong>
 </pre>
 
 <hr />
 <p>A Python version of Charles Karney's <a 
-  href="http://GeographicLib.SourceForge.io/1.49/classGeographicLib_1_1CassiniSoldner.html"
+  href="https://GeographicLib.SourceForge.io/1.49/classGeographicLib_1_1CassiniSoldner.html"
   target="_top">CassiniSoldner</a> C++ class.</p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
@@ -282,11 +282,14 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases._Based-class.html">bases._Based</a></code></b>:
-      <code><a href="pygeodesy.bases._Based-class.html#__repr__">__repr__</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#__str__">__str__</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#others">others</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedBase</code></b>:
+      <code>__repr__</code>,
+      <code>__str__</code>,
+      <code>others</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>__copy__</code>,
+      <code>classof</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -334,9 +337,9 @@
     </td><td class="summary">
         <a href="pygeodesy.css.CassiniSoldner-class.html#geodesic" class="summary-name">geodesic</a><br />
       Get this projection's <a 
-      href="http://GeographicLib.SourceForge.io/html/python/code.html" 
+      href="https://GeographicLib.SourceForge.io/html/python/code.html" 
       target="_top">Geodesic</a>, provided package <a 
-      href="http://PyPI.org/project/geographiclib" 
+      href="https://PyPI.org/project/geographiclib" 
       target="_top">geographiclib</a> is installed.
     </td>
   </tr>
@@ -353,8 +356,9 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.css.CassiniSoldner-class.html#latlon0" class="summary-name">latlon0</a><br />
-      Get the center lat- and longitude (<code>degrees90</code>, 
-      <code>degrees180</code>).
+      Get the center lat- and longitude (<a 
+      href="pygeodesy.named.LatLon2Tuple-class.html" 
+      class="link">LatLon2Tuple</a>).
     </td>
   </tr>
 <tr>
@@ -375,10 +379,12 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases._Named-class.html">bases._Named</a></code></b>:
-      <code><a href="pygeodesy.bases._Named-class.html#classname">classname</a></code>,
-      <code><a href="pygeodesy.bases._Named-class.html#classnaming">classnaming</a></code>,
-      <code><a href="pygeodesy.bases._Named-class.html#name">name</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>,
+      <code>name</code>,
+      <code>named</code>,
+      <code>named2</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
@@ -427,7 +433,7 @@
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ImportError</strong></code> - Package <a href="http://PyPI.org/project/geographiclib" 
+        <li><code><strong class='fraise'>ImportError</strong></code> - Package <a href="https://PyPI.org/project/geographiclib" 
         target="_top">GeographicLib</a> missing.</li>
     </ul></dd>
     <dt>Overrides:
@@ -465,7 +471,7 @@
         <dd>The copy (<a href="pygeodesy.utm.Utm-class.html" 
           class="link">Utm</a> or subclass thereof).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.bases._Named-class.html#copy">bases._Named.copy</a>
+        named._Named.copy
     </dt>
   </dl>
 </td></tr></table>
@@ -495,9 +501,8 @@
         <li><strong class="pname"><code>lon</code></strong> - Longitude of the location (<code>degrees180</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (<code>easting, northing</code>) with 
-          <code>easting</code> and <code>northing</code> in 
-          <code>meters</code>.</dd>
+        <dd>An <a href="pygeodesy.named.EasNor2Tuple-class.html" 
+          class="link">EasNor2Tuple</a><code>(easting, northing)</code>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -526,11 +531,9 @@
         <li><strong class="pname"><code>lon</code></strong> - Longitude of the location (<code>degrees180</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>4-Tuple (<code>easting, northing, azi, rk</code>) for the 
-          Cassini-Soldner location with <code>easting</code> and 
-          <code>northing</code> in <code>meters</code>, the azimuth of 
-          easting direction <code>azi</code> and the reciprocal of 
-          azimuthal northing scale <code>rk</code> in <code>degrees</code>.</dd>
+        <dd>An <a href="pygeodesy.named.EasNorAziRk4Tuple-class.html" 
+          class="link">EasNorAziRk4Tuple</a><code>(easting, northing, 
+          azimuth, reciprocal)</code>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -588,11 +591,13 @@
           (<code>LatLon</code>) or <code>None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Geodetic location as <i>LatLon</i> or 2-tuple (<code>lat, 
-          lon</code>) if <i>LatLon</i> is <code>None</code>.</dd>
+        <dd>Geodetic location <b><code>LatLon</code></b> or a <a 
+          href="pygeodesy.named.LatLon2Tuple-class.html" 
+          class="link">LatLon2Tuple</a><code>(lat, lon)</code> if 
+          <b><code>LatLon</code></b> is <code>None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - If <i>LatLon</i> is not ellipsoidal.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>LatLon</code></b> is not ellipsoidal.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -625,11 +630,13 @@
           (<code>LatLon</code>) or <code>None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Geodetic location as <i>LatLon</i> or 2-tuple (<code>lat, 
-          lon</code>) if <i>LatLon</i> is <code>None</code>.</dd>
+        <dd>Geodetic location <b><code>LatLon</code></b> or a <a 
+          href="pygeodesy.named.LatLon2Tuple-class.html" 
+          class="link">LatLon2Tuple</a><code>(lat, lon)</code> if 
+          <b><code>LatLon</code></b> is <code>None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - If <i>LatLon</i> is not ellipsoidal.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>LatLon</code></b> is not ellipsoidal.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -659,10 +666,9 @@
         <li><strong class="pname"><code>northing</code></strong> - Northing of the location (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>4-Tuple (<code>lat, lon, azi, rk</code>), all in 
-          <code>degrees</code> where <code>azi</code> is the azimuth of 
-          easting direction and <code>rk</code> the reciprocal of azimuthal
-          northing scale.</dd>
+        <dd>A <a href="pygeodesy.named.LatLonAziRk4Tuple-class.html" 
+          class="link">LatLonAziRk4Tuple</a><code>(lat, lon, azimuth, 
+          reciprocal)</code>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -693,7 +699,7 @@
         <dd>This projection as <code>&quot;lat0 lon0&quot;</code> 
           (<code>str</code>).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.bases._Based-class.html#toStr">bases._Based.toStr</a>
+        named._NamedBase.toStr
     </dt>
   </dl>
 </td></tr></table>
@@ -723,7 +729,7 @@
         <dd>This projection as <code>&quot;&lt;classname&gt;(lat0, lon0, 
           ...)&quot;</code> (<code>str</code>).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.bases._Based-class.html#toStr2">bases._Based.toStr2</a>
+        named._NamedBase.toStr2
     </dt>
   </dl>
 </td></tr></table>
@@ -787,17 +793,17 @@ class="link">Datum</a>).
 <tr><td>
   <h3 class="epydoc">geodesic</h3>
   <p>Get this projection's <a 
-  href="http://GeographicLib.SourceForge.io/html/python/code.html" 
+  href="https://GeographicLib.SourceForge.io/html/python/code.html" 
   target="_top">Geodesic</a>, provided package <a 
-  href="http://PyPI.org/project/geographiclib" 
+  href="https://PyPI.org/project/geographiclib" 
   target="_top">geographiclib</a> is installed.</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">geodesic(<span class="summary-sig-arg">self</span>)</span>
         - Get this projection's <a 
-href="http://GeographicLib.SourceForge.io/html/python/code.html" 
+href="https://GeographicLib.SourceForge.io/html/python/code.html" 
 target="_top">Geodesic</a>, provided package <a 
-href="http://PyPI.org/project/geographiclib" 
+href="https://PyPI.org/project/geographiclib" 
 target="_top">geographiclib</a> is installed.
     </dd>
     <dt>Set Method:</dt>
@@ -834,13 +840,15 @@ target="_top">geographiclib</a> is installed.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">latlon0</h3>
-  <p>Get the center lat- and longitude (<code>degrees90</code>, 
-  <code>degrees180</code>).</p>
+  <p>Get the center lat- and longitude (<a 
+  href="pygeodesy.named.LatLon2Tuple-class.html" 
+  class="link">LatLon2Tuple</a>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">latlon0(<span class="summary-sig-arg">self</span>)</span>
-        - Get the center lat- and longitude (<code>degrees90</code>, 
-<code>degrees180</code>).
+        - Get the center lat- and longitude (<a 
+href="pygeodesy.named.LatLon2Tuple-class.html" 
+class="link">LatLon2Tuple</a>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -922,7 +930,7 @@ target="_top">geographiclib</a> is installed.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 17 12:19:03 2019
+    Generated by Epydoc 3.0.1 on Tue Jun 25 11:55:34 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

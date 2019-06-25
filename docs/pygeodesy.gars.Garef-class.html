@@ -61,21 +61,23 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Garef</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-object --+        
-         |        
-basestring --+    
-             |    
-           str --+
-                 |
-    object --+   |
-             |   |
-  <a href="pygeodesy.bases._Named-class.html">bases._Named</a> --+
-                 |
-                <strong class="uidshort">Garef</strong>
+object --+            
+         |            
+basestring --+        
+             |        
+           str --+    
+                 |    
+    object --+   |    
+             |   |    
+  named._Named --+    
+                 |    
+   named._NamedStr --+
+                     |
+                    <strong class="uidshort">Garef</strong>
 </pre>
 
 <hr />
-<p>Garef class, sub-class of <code>str</code>.</p>
+<p>Garef class, a <code>_NamedStr</code>.</p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -85,23 +87,6 @@ basestring --+
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Instance Methods</span></td>
 </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.gars.Garef-class.html#__repr__" class="summary-sig-name">__repr__</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      repr(x)</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -124,6 +109,10 @@ basestring --+
   </tr>
   <tr>
     <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedStr</code></b>:
+      <code>__repr__</code>,
+      <code>__str__</code>
+      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>str</code></b>:
       <code>__add__</code>,
       <code>__contains__</code>,
@@ -145,7 +134,6 @@ basestring --+
       <code>__rmod__</code>,
       <code>__rmul__</code>,
       <code>__sizeof__</code>,
-      <code>__str__</code>,
       <code>capitalize</code>,
       <code>center</code>,
       <code>count</code>,
@@ -185,8 +173,10 @@ basestring --+
       <code>upper</code>,
       <code>zfill</code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases._Named-class.html">bases._Named</a></code></b>:
-      <code><a href="pygeodesy.bases._Named-class.html#copy">copy</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>__copy__</code>,
+      <code>classof</code>,
+      <code>copy</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -244,7 +234,9 @@ basestring --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.gars.Garef-class.html#latlon" class="summary-name">latlon</a><br />
-      Get this garef's (center) lat- and longitude in <code>degrees</code>.
+      Get this garef's (center) lat- and longitude (<a 
+      href="pygeodesy.named.LatLon2Tuple-class.html" 
+      class="link">LatLon2Tuple</a>).
     </td>
   </tr>
 <tr>
@@ -257,10 +249,12 @@ basestring --+
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases._Named-class.html">bases._Named</a></code></b>:
-      <code><a href="pygeodesy.bases._Named-class.html#classname">classname</a></code>,
-      <code><a href="pygeodesy.bases._Named-class.html#classnaming">classnaming</a></code>,
-      <code><a href="pygeodesy.bases._Named-class.html#name">name</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>,
+      <code>name</code>,
+      <code>named</code>,
+      <code>named2</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
@@ -316,36 +310,12 @@ basestring --+
           class="link">Garef</a>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - Invalid <code>cll</code> lat- or longitude.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <i>cll</i>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - INValid or non-alphanumeric <i>cll</i>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - Invalid <b><code>cll</code></b> lat- or longitude.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>cll</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - INValid or non-alphanumeric <b><code>cll</code></b>.</li>
     </ul></dd>
     <dt>Overrides:
         object.__new__
-    </dt>
-  </dl>
-</td></tr></table>
-</div>
-<a name="__repr__"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__repr__</span>(<span class="sig-arg">self</span>)</span>
-    <br /><em class="fname">(Representation operator)</em>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>repr(x)</p>
-  <dl class="fields">
-    <dt>Overrides:
-        object.__repr__
-        <dd><em class="note">(inherited documentation)</em></dd>
     </dt>
   </dl>
 </td></tr></table>
@@ -372,13 +342,13 @@ basestring --+
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>LatLon</code></strong> - Class to use (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>kwds</code></strong> - Optional keyword arguments for <i>LatLon</i>.</li>
+        <li><strong class="pname"><code>kwds</code></strong> - Optional keyword arguments for <b><code>LatLon</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>This garef location (<i>LatLon</i>).</dd>
+        <dd>This garef location (<b><code>LatLon</code></b>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>LatLon</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>LatLon</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -399,12 +369,15 @@ basestring --+
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">latlon</h3>
-  <p>Get this garef's (center) lat- and longitude in 
-  <code>degrees</code>.</p>
+  <p>Get this garef's (center) lat- and longitude (<a 
+  href="pygeodesy.named.LatLon2Tuple-class.html" 
+  class="link">LatLon2Tuple</a>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">latlon(<span class="summary-sig-arg">self</span>)</span>
-        - Get this garef's (center) lat- and longitude in <code>degrees</code>.
+        - Get this garef's (center) lat- and longitude (<a 
+href="pygeodesy.named.LatLon2Tuple-class.html" 
+class="link">LatLon2Tuple</a>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -466,7 +439,7 @@ basestring --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 17 12:19:03 2019
+    Generated by Epydoc 3.0.1 on Tue Jun 25 11:55:34 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

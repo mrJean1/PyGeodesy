@@ -44,11 +44,11 @@ class Tests(TestsBase):
 
         FRA = LatLon(50.0379, 8.5622)
         LHR = LatLon(51.47, 0.4543)
-        # <http://www.EdWilliams.org/avform.htm#XTE>
+        # <https://www.EdWilliams.org/avform.htm#XTE>
         JFK = LatLon(degrees(0.709186), -degrees(1.287762))
         LAX = LatLon(33.+57./60, -(118.+24./60))
         Rav = m2NM(6366710)  # avg. earth radius in NM
-        # <http://GeographicLib.SourceForge.io/html/python/examples.html>
+        # <https://GeographicLib.SourceForge.io/html/python/examples.html>
         WNZ = LatLon(-41.32, 174.81)  # Wellington, NZ
         SAL = LatLon(40.96, 5.50)  # Salamanca, Spain
         BJS = LatLon(40.1, 116.6)  # Beijing Airport
@@ -79,7 +79,7 @@ class Tests(TestsBase):
         if hasattr(LatLon, 'bearingTo2'):
             b = p.bearingTo2(q)
             self.test('bearingTo2', fStr(b, prec=4), '156.1666, 157.8904' if Sph else '156.1106, 157.8345')  # 156.2
-            # <http://blog.Element84.com/determining-if-a-spherical-polygon-contains-a-pole.html>
+            # <https://blog.Element84.com/determining-if-a-spherical-polygon-contains-a-pole.html>
             b = LatLon(85, -135), LatLon(85, -45), LatLon(85, 45), LatLon(85, 135), LatLon(85, -135)
             self.test('ispolar', ispolar(b), True)  # PYCHOK test attr?
 
@@ -96,7 +96,7 @@ class Tests(TestsBase):
             self.test('distanceTo', d, '404279.720589' if Sph else '404607.805988', fmt='%.6f')  # 404300
             d = LAX.distanceTo(JFK, radius=R_NM) if Sph else LAX.distanceTo(JFK)
             self.test('distanceTo', d, 2145 if Sph else 3981601, fmt='%.0f')  # PYCHOK test attr?
-            if not Nv:  # <http://GeographicLib.SourceForge.io/html/python/examples.html>
+            if not Nv:  # <https://GeographicLib.SourceForge.io/html/python/examples.html>
                 self.test('antipodal', WNZ.isantipodeTo(SAL, eps=0.1), False)
                 d = WNZ.distanceTo(SAL, wrap=False)
                 self.test('distanceTo dateline', d, 19119590.551 if Sph else 19959679.267, fmt='%.3f', known=True)  # PYCHOK test attr?
@@ -138,7 +138,7 @@ class Tests(TestsBase):
             if hasattr(p, 'distanceTo'):
                 self.test('intermediateTo-4', p.distanceTo(i) / d, '4.000', fmt='%.3f')  # PYCHOK test attr?
 
-            # courtesy of <http://GitHub.com/bakakaldsas>
+            # courtesy of <https://GitHub.com/bakakaldsas>
             i = LatLon(52, 0, 100).intermediateTo(LatLon(48, 2, 200), 0.25)
             self.test('intermediateTo-h', i.height, '125.000', fmt='%.3f')  # PYCHOK test attr?
 
@@ -147,7 +147,7 @@ class Tests(TestsBase):
             self.test('intermediateChordTo', i, '51.372294°N, 000.707192°E')
             self.test('intermediateChordTo', isinstance(i, LatLon), True)  # PYCHOK test attr?
 
-            # courtesy of <http://GitHub.com/bakakaldsas>
+            # courtesy of <https://GitHub.com/bakakaldsas>
             i = LatLon(52, 0, 100).intermediateChordTo(LatLon(48, 2, 200), 0.25)
             self.test('intermediateChordTo-h', i.height, '125.000', fmt='%.3f')  # PYCHOK test attr?
 
@@ -162,7 +162,7 @@ class Tests(TestsBase):
                                    else '51.513526°N, 000.098038°W')  # 51.5135°N, 0.0983°W ???
             self.test('destination', d.toStr(F_DMS, 0), '51°30′49″N, 000°05′54″W' if Sph
                                                    else '51°30′49″N, 000°05′53″W')
-            # <http://www.EdWilliams.org/avform.htm#LL>
+            # <https://www.EdWilliams.org/avform.htm#LL>
             d = LAX.destination(100, 66, radius=R_NM) if Sph else LAX.destination(100, 66)
             self.test('destination', d.toStr(F_DM, prec=0), "34°37′N, 116°33′W" if Sph
                                                        else "33°57′N, 118°24′W")
@@ -170,7 +170,7 @@ class Tests(TestsBase):
                                    else '33.950367°N, 118.399012°W')
             self.test('destination', d.toStr(F_RAD, prec=6), '0.604122N, 2.034201W' if Sph
                                                         else '0.592546N, 2.066453W')  # PYCHOK expected
-            # <http://GeographicLib.SourceForge.io/html/python/examples.html>
+            # <https://GeographicLib.SourceForge.io/html/python/examples.html>
             d = LatLon(-32.06, -115.74).destination(20e6, 225).toStr(F_D, prec=8)
             self.test('destination', d, '31.96383509°N, 064.37329146°E' if Sph
                                    else '32.11195529°N, 063.95925278°E', known=True)  # PYCHOK test attr?
@@ -187,7 +187,7 @@ class Tests(TestsBase):
             d = p.alongTrackDistanceTo(s, e)
             self.test('alongTrackDistanceTo', d, 62331.58, fmt='%.2f')
 
-            # <http://www.EdWilliams.org/avform.htm#XTE>
+            # <https://www.EdWilliams.org/avform.htm#XTE>
             p = LatLon(34.5, -116.5)  # 34:30N, 116:30W
             d = p.alongTrackDistanceTo(LAX, JFK, radius=Rav)
             self.test('alongTrackDistanceTo', d, 99.588, fmt='%.3f')  # NM
@@ -213,7 +213,7 @@ class Tests(TestsBase):
             d = p.crossTrackDistanceTo(s, e)
             self.test('crossTrackDistanceTo', d, -307.55, fmt='%.2f')  # -307.5
 
-            # <http://www.EdWilliams.org/avform.htm#XTE>
+            # <https://www.EdWilliams.org/avform.htm#XTE>
             p = LatLon(34.5, -116.5)  # 34:30N, 116:30W
             d = p.crossTrackDistanceTo(LAX, JFK, radius=Rav)
             self.test('crossTrackDistanceTo', d, 7.4524, fmt='%.4f')  # PYCHOK test attr? # XXX 7.4512 NM
@@ -241,7 +241,7 @@ class Tests(TestsBase):
                     self.test('isclockwise', isclockwise(t[:2]), ValueError)
                 except ValueError as x:
                     self.test('isclockwise', x, 'too few points: 2')  # PYCHOK test attr?
-            # <http://blog.Element84.com/determining-if-a-spherical-polygon-contains-a-pole.html>
+            # <https://blog.Element84.com/determining-if-a-spherical-polygon-contains-a-pole.html>
             p = LatLon(85, -135), LatLon(85, -45), LatLon(85, 45), LatLon(85, 135), LatLon(85, -135)
             for _ in self.testiter():
                 try:

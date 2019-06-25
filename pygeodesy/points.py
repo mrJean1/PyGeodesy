@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 u'''Functions to handle collections and sequences of C{LatLon} points
-specified as 2-d U{NumPy<http://www.NumPy.org>}, C{arrays} or tuples as
+specified as 2-d U{NumPy<https://www.NumPy.org>}, C{arrays} or tuples as
 C{LatLon} or as C{pseudo-x/-y} pairs.
 
 C{NumPy} arrays are assumed to contain rows of points with a lat-, a
@@ -25,11 +25,14 @@ the index for the lat- and longitude index in each 2+tuple.
 @newfield example: Example, Examples
 '''
 
-from bases import classname, inStr
 from dms import F_D, latDMS, lonDMS
 from fmath import EPS, favg, fdot, Fsum, fsum, isint, map1, scalar
 from formy import equirectangular_
 from lazily import _ALL_LAZY
+from named import Bounds2Tuple, Bounds4Tuple, classname, inStr, \
+                  LatLon2Tuple, NearestOn3Tuple, NearestOn5Tuple, \
+                  PhiLam2Tuple, Point3Tuple, Shape2Tuple, \
+                  nameof, _xnamed
 from utily import PI_2, R_M, degrees90, degrees180, degrees360, \
                   degrees2m, issequence, points2, property_RO, \
                   unroll180, unrollPI, wrap90, wrap180
@@ -43,7 +46,7 @@ from inspect import isclass
 from math import atan2, cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '19.04.20'
+__version__ = '19.05.09'
 
 
 class LatLon_(object):  # XXX imported by heights._HeightBase.height
@@ -51,10 +54,10 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
     '''
     # __slots__ efficiency is voided if the __slots__ class attribute
     # is used in a subclass of a class with the traditional __dict__,
-    # see <http://docs.Python.org/2/reference/datamodel.html#slots>
+    # see <https://docs.Python.org/2/reference/datamodel.html#slots>
     # and __slots__ must be repeated in sub-classes, see "Problems
     # with __slots__" in Luciano Ramalho, "Fluent Python", page
-    # 276+, O'Reilly, 2016, also at <http://Books.Google.ie/
+    # 276+, O'Reilly, 2016, also at <https://Books.Google.ie/
     #   books?id=bIZHCgAAQBAJ&lpg=PP1&dq=fluent%20python&pg=
     #   PT364#v=onepage&q=“Problems%20with%20__slots__”&f=false>
     __slots__ = ('lat', 'lon', 'name', 'height')
@@ -95,7 +98,7 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
            @param args: Optional, positional arguments.
            @keyword kwds: Optional, keyword arguments.
 
-           @return: New instance (I{self.__class__}).
+           @return: New instance (C{self.__class__}).
         '''
         if 'name' in kwds:
             return self.__class__(*args, **kwds)
@@ -110,7 +113,7 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
 
            @return: C{None}.
 
-           @raise TypeError: Incompatible I{other} C{type}.
+           @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         if not (isinstance(other, self.__class__) or
                 (hasattr(other, 'lat') and hasattr(other, 'lon'))):
@@ -125,9 +128,9 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
     def to2ab(self):
         '''Return the lat- and longitude in radians.
 
-           @return: 2-Tuple (lat, lon) in (C{radians}, C{radians}).
+           @return: A L{PhiLam2Tuple}C{(phi, lambda)}.
         '''
-        return radians(self.lat), radians(self.lon)
+        return PhiLam2Tuple(radians(self.lat), radians(self.lon))
 
     def toStr(self, form=F_D, prec=6, sep=', ', **kwds):
         '''This L{LatLon_} as a string "<degrees>, <degrees>".
@@ -286,9 +289,9 @@ class _Basequence(_Sequence):  # immutable, on purpose
 
            @param tol: New tolerance (C{scalar}).
 
-           @raise TypeError: Non-scalar I{tol}.
+           @raise TypeError: Non-scalar B{C{tol}}.
 
-           @raise ValueError: Out-of-bounds I{tol}.
+           @raise ValueError: Out-of-bounds B{C{tol}}.
         '''
         self._epsilon = scalar(tol, 0.0, name='tolerance')
 
@@ -326,9 +329,10 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
         ais = ('ilat', ilat), ('ilon', ilon)
 
         if len(shape) != 2 or shape[0] < 1 or shape[1] < len(ais):
-            raise IndexError('%s shape invalid: %r' % ('array', shape))
+            raise IndexError('%s invalid: %r' % ('array shape', shape))
+
         self._array = array
-        self._shape = shape
+        self._shape = Shape2Tuple(*shape)
 
         # check the point class
         if LatLon is not None:
@@ -352,11 +356,12 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
     def __contains__(self, latlon):
         '''Check for a specific lat-/longitude.
 
-           @param latlon: Point (C{LatLon}) or 2-tuple (lat, lon).
+           @param latlon: Point (C{LatLon}, L{LatLon2Tuple} or 2-tuple
+                          C{(lat, lon)}).
 
-           @return: C{True} if I{latlon} is present, C{False} otherwise.
+           @return: C{True} if B{C{latlon}} is present, C{False} otherwise.
 
-           @raise TypeError: Invalid I{latlon}.
+           @raise TypeError: Invalid B{C{latlon}}.
         '''
         return self._contains(latlon)
 
@@ -390,11 +395,12 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
     def count(self, latlon):
         '''Count the number of rows with a specific lat-/longitude.
 
-           @param latlon: Point (C{LatLon}) or 2-tuple (lat, lon)
+           @param latlon: Point (C{LatLon}, L{LatLon2Tuple} or 2-tuple
+                          C{(lat, lon)}).
 
            @return: Count (C{int}).
 
-           @raise TypeError: Invalid I{latlon}.
+           @raise TypeError: Invalid B{C{latlon}}.
         '''
         return self._count(latlon)
 
@@ -402,7 +408,7 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
         '''Find the first row with a specific lat-/longitude.
 
            @param latlon: Point (C{LatLon}) or 2-tuple (lat, lon).
-           @param start_end: Optional I{[start[, end]]} index (integers).
+           @param start_end: Optional C{[start[, end]]} index (integers).
 
            @return: Index or -1 if not found (C{int}).
 
@@ -430,24 +436,26 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
     def findall(self, latlon, *start_end):
         '''Yield indices of all rows with a specific lat-/longitude.
 
-           @param latlon: Point (C{LatLon}) or 2-tuple (lat, lon).
-           @param start_end: Optional I{[start[, end]]} index (C{int}).
+           @param latlon: Point (C{LatLon}, L{LatLon2Tuple} or 2-tuple
+                          C{(lat, lon)}).
+           @param start_end: Optional C{[start[, end]]} index (C{int}).
 
            @return: Indices (C{iterable}).
 
-           @raise TypeError: Invalid I{latlon}.
+           @raise TypeError: Invalid B{C{latlon}}.
         '''
         return self._findall(latlon, start_end)
 
     def index(self, latlon, *start_end):  # PYCHOK Python 2- issue
         '''Find index of the first row with a specific lat-/longitude.
 
-           @param latlon: Point (C{LatLon}) or 2-tuple (lat, lon).
-           @param start_end: Optional I{[start[, end]]} index (C{int}).
+           @param latlon: Point (C{LatLon}, L{LatLon2Tuple} or 2-tuple
+                          C{(lat, lon)}).
+           @param start_end: Optional C{[start[, end]]} index (C{int}).
 
            @return: Index (C{int}).
 
-           @raise TypeError: Invalid I{latlon}.
+           @raise TypeError: Invalid B{C{latlon}}.
 
            @raise ValueError: Point not found.
         '''
@@ -479,14 +487,15 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
     def rfind(self, latlon, *start_end):
         '''Find the last row with a specific lat-/longitude.
 
-           @param latlon: Point (C{LatLon}) or 2-tuple (lat, lon).
-           @param start_end: Optional I{[start[, end]]} index (C{int}).
+           @param latlon: Point (C{LatLon}, L{LatLon2Tuple} or 2-tuple
+                          C{(lat, lon)}).
+           @param start_end: Optional C{[start[, end]]} index (C{int}).
 
            @note: Keyword order, first stop, then start.
 
            @return: Index or -1 if not found (C{int}).
 
-           @raise TypeError: Invalid I{latlon}.
+           @raise TypeError: Invalid B{C{latlon}}.
         '''
         return self._rfind(latlon, start_end)
 
@@ -498,7 +507,7 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
     @property_RO
     def shape(self):
         '''Get the shape of the C{NumPy} array or the C{Tuples} as
-           2-tuple of I{(number of rows, number of colums)}.
+           L{Shape2Tuple}C{(nrows, ncols)}.
         '''
         return self._shape
 
@@ -512,17 +521,18 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
 
            @param indices: Row indices (C{range} or C{int}[]).
 
-           @note: A I{subset} is different from a I{slice} in 2 ways:
-                  (a) the I{subset} is typically specified as a list of
-                  (un-)ordered indices and (b) the I{subset} allocates
-                  a new, separate C{NumPy} array while a I{slice} is
-                  just an other I{view} of the original C{NumPy} array.
+           @note: A C{subset} is different from a C{slice} in 2 ways:
+                  (a) the C{subset} is typically specified as a list of
+                  (un-)ordered indices and (b) the C{subset} allocates
+                  a new, separate C{NumPy} array while a C{slice} is
+                  just an other C{view} of the original C{NumPy} array.
 
            @return: Sub-array (C{numpy.array}).
 
-           @raise IndexError: Out-of-range I{indices} value.
+           @raise IndexError: Out-of-range B{C{indices}} value.
 
-           @raise TypeError: If I{indices} is not a C{range} or C{int}[].
+           @raise TypeError: If B{C{indices}} is not a C{range}
+                             nor an C{int}[].
         '''
         if not issequence(indices, tuple):  # NO tuple, only list
             # and range work properly to get Numpy array sub-sets
@@ -550,19 +560,20 @@ class LatLon2psxy(_Basequence):
     def __init__(self, latlons, closed=False, radius=None, wrap=True):
         '''Handle C{LatLon} points as pseudo-xy coordinates.
 
-           @note: The C{LatLon} latitude is considered the pseudo-y
-                  and longitude the pseudo-x coordinate.  Similarly,
-                  2-tuples (x, y) are (longitude, latitude).
+           @note: The C{LatLon} latitude is considered the I{pseudo-y}
+                  and longitude the I{pseudo-x} coordinate, likewise
+                  for L{LatLon2Tuple}.  However, 2-tuples C{(x, y)} are
+                  considered as I{(longitude, latitude)}.
 
            @param latlons: Points C{list}, C{sequence}, C{set}, C{tuple},
-                           etc. (I{LatLon[]}).
+                           etc. (C{LatLon[]}).
            @keyword closed: Optionally, close the polygon (C{bool}).
            @keyword radius: Optional, mean earth radius (C{meter}).
            @keyword wrap: Wrap lat- and longitudes (C{bool}).
 
-           @raise TypeError: Some I{latlons} are not C{LatLon}.
+           @raise TypeError: Some B{C{latlons}} are not C{LatLon}.
 
-           @raise ValueError: Insufficient number of I{latlons}.
+           @raise ValueError: Insufficient number of B{C{latlons}}.
         '''
         self._closed = closed
         self._len, self._array = points2(latlons, closed=closed)
@@ -574,11 +585,12 @@ class LatLon2psxy(_Basequence):
     def __contains__(self, xy):
         '''Check for a matching point.
 
-           @param xy: Point (C{LatLon}) or 2-tuple (x, y) in (C{degrees}).
+           @param xy: Point (C{LatLon}, L{LatLon2Tuple} or 2-tuple
+                      C{(x, y)}) in (C{degrees}.
 
-           @return: C{True} if I{xy} is present, C{False} otherwise.
+           @return: C{True} if B{C{xy}} is present, C{False} otherwise.
 
-           @raise TypeError: Invalid I{xy}.
+           @raise TypeError: Invalid B{C{xy}}.
         '''
         return self._contains(xy)
 
@@ -612,23 +624,25 @@ class LatLon2psxy(_Basequence):
     def count(self, xy):
         '''Count the number of matching points.
 
-           @param xy: Point (C{LatLon}) or 2-tuple (x, y) in (C{degrees}).
+           @param xy: Point (C{LatLon}, L{LatLon2Tuple} or 2-tuple
+                      C{(x, y)}) in (C{degrees}.
 
            @return: Count (C{int}).
 
-           @raise TypeError: Invalid I{xy}.
+           @raise TypeError: Invalid B{C{xy}}.
         '''
         return self._count(xy)
 
     def find(self, xy, *start_end):
         '''Find the first matching point.
 
-           @param xy: Point (C{LatLon}) or 2-tuple (x, y) in (C{degrees}).
-           @param start_end: Optional I{[start[, end]]} index (C{int}).
+           @param xy: Point (C{LatLon}, L{LatLon2Tuple} or 2-tuple
+                      C{(x, y)}) in (C{degrees}.
+           @param start_end: Optional C{[start[, end]]} index (C{int}).
 
            @return: Index or -1 if not found (C{int}).
 
-           @raise TypeError: Invalid I{xy}.
+           @raise TypeError: Invalid B{C{xy}}.
         '''
         return self._find(xy, start_end)
 
@@ -658,12 +672,13 @@ class LatLon2psxy(_Basequence):
     def findall(self, xy, *start_end):
         '''Yield indices of all matching points.
 
-           @param xy: Point (C{LatLon}) or 2-tuple (x, y) in (C{degrees}).
-           @param start_end: Optional I{[start[, end]]} index (C{int}).
+           @param xy: Point (C{LatLon}, L{LatLon2Tuple} or 2-tuple
+                      C{(x, y)}) in (C{degrees}.
+           @param start_end: Optional C{[start[, end]]} index (C{int}).
 
            @return: Indices (C{iterator}).
 
-           @raise TypeError: Invalid I{xy}.
+           @raise TypeError: Invalid B{C{xy}}.
         '''
         return self._findall(xy, start_end)
 
@@ -671,11 +686,11 @@ class LatLon2psxy(_Basequence):
         '''Find the first matching point.
 
            @param xy: Point (C{LatLon}) or 2-tuple (x, y) in (C{degrees}).
-           @param start_end: Optional I{[start[, end]]} index (C{int}).
+           @param start_end: Optional C{[start[, end]]} index (C{int}).
 
            @return: Index (C{int}).
 
-           @raise TypeError: Invalid C{xy}.
+           @raise TypeError: Invalid B{C{xy}}.
 
            @raise ValueError: Point not found.
         '''
@@ -694,7 +709,7 @@ class LatLon2psxy(_Basequence):
 
            @param ll: Point (C{LatLon}).
 
-           @return: 3-Tuple (x, y, ll) of (float, float, I{ll}).
+           @return: An L{Point3Tuple}C{(x, y, ll)}.
         '''
         x, y = ll.lon, ll.lat  # note, x, y = lon, lat
         if self._wrap:
@@ -702,17 +717,18 @@ class LatLon2psxy(_Basequence):
         if self._deg2m:  # convert degrees to meter (or radians)
             x *= self._deg2m
             y *= self._deg2m
-        return x, y, ll
+        return Point3Tuple(x, y, ll)
 
     def rfind(self, xy, *start_end):
         '''Find the last matching point.
 
-           @param xy: Point (C{LatLon}) or 2-tuple (x, y) in (C{degrees}).
-           @param start_end: Optional I{[start[, end]]} index (C{int}).
+           @param xy: Point (C{LatLon}, L{LatLon2Tuple} or 2-tuple
+                      C{(x, y)}) in (C{degrees}.
+           @param start_end: Optional C{[start[, end]]} index (C{int}).
 
            @return: Index or -1 if not found (C{int}).
 
-           @raise TypeError: Invalid I{xy}.
+           @raise TypeError: Invalid B{C{xy}}.
         '''
         return self._rfind(xy, start_end)
 
@@ -728,19 +744,19 @@ class Numpy2LatLon(_Array2LatLon):  # immutable, on purpose
     def __init__(self, array, ilat=0, ilon=1, LatLon=None):
         '''Handle a C{NumPy} array as a sequence of C{LatLon} points.
 
-           @param array: C{NumPy} array (I{numpy.array}).
+           @param array: C{NumPy} array (C{numpy.array}).
            @keyword ilat: Optional index of the latitudes column (C{int}).
            @keyword ilon: Optional index of the longitudes column (C{int}).
            @keyword LatLon: Optional C{LatLon} (sub-)class to use (L{LatLon_}).
 
-           @raise IndexError: If I{array.shape} is not (1+, 2+).
+           @raise IndexError: If B{C{array.shape}} is not (1+, 2+).
 
-           @raise TypeError: If I{array} is not a C{NumPy} array or
-                             C{LatLon} is not a class with I{lat}
-                             and I{lon} attributes.
+           @raise TypeError: If B{C{array}} is not a C{NumPy} array or
+                             C{LatLon} is not a class with C{lat}
+                             and C{lon} attributes.
 
-           @raise ValueError: If the I{ilat} and/or I{ilon} values are
-                              the same or out of range.
+           @raise ValueError: If the B{C{ilat}} and/or B{C{ilon}} values
+                              are the same or out of range.
 
            @example:
 
@@ -784,15 +800,16 @@ class Tuple2LatLon(_Array2LatLon):
            @keyword ilon: Optional index of the longitudes value (C{int}).
            @keyword LatLon: Optional C{LatLon} (sub-)class to use (L{LatLon_}).
 
-           @raise IndexError: If I{(len(tuples), min(len(t) for t in tuples))}
-                              is not (1+, 2+).
+           @raise IndexError: If I{(len(B{C{tuples}}), min(len(t) for t
+                              in B{C{tuples}}))} is not (1+, 2+).
 
-           @raise TypeError: If I{tuples} is not a C{list}, C{tuple} or
-                             C{sequence} or if I{LatLon} is not a C{LatLon}
-                             with I{lat}, I{lon} and I{name} attributes.
+           @raise TypeError: If B{C{tuples}} is not a C{list}, C{tuple}
+                             or C{sequence} or if B{C{LatLon}} is not a
+                             C{LatLon} with C{lat}, C{lon} and C{name}
+                             attributes.
 
-           @raise ValueError: If the I{ilat} and/or I{ilon} values are
-                              the same or out of range.
+           @raise ValueError: If the B{C{ilat}} and/or B{C{ilon}} values
+                              are the same or out of range.
 
            @example:
 
@@ -870,15 +887,16 @@ def areaOf(points, adjust=True, radius=R_M, wrap=True):
        @keyword radius: Optional, mean earth radius (C{meter}).
        @keyword wrap: Wrap lat-, wrap and unroll longitudes (C{bool}).
 
-       @return: Approximate area (C{meter}, same units as I{radius}, squared).
+       @return: Approximate area (C{meter}, same units as B{C{radius}},
+                I{squared}).
 
-       @raise TypeError: Some I{points} are not C{LatLon}.
+       @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
-       @raise ValueError: Insufficient number of I{points}.
+       @raise ValueError: Insufficient number of B{C{points}}.
 
-       @note: This is an area approximation with limited accuracy,
-              ill-suited for regions exceeding several hundred Km or
-              Miles or with near-polar latitudes.
+       @note: This area approximation has limited accuracy and is
+              ill-suited for regions exceeding several hundred Km
+              or Miles or with near-polar latitudes.
 
        @see: L{sphericalNvector.areaOf}, L{sphericalTrigonometry.areaOf}
              and L{ellipsoidalKarney.areaOf}.
@@ -893,17 +911,16 @@ def boundsOf(points, wrap=True, LatLon=None):
 
        @param points: The path or polygon points (C{LatLon}[]).
        @keyword wrap: Wrap lat- and longitudes (C{bool}).
-       @keyword LatLon: Optional (sub-)class to return the I{bounds}
-                        (C{LatLon}) or C{None}.
+       @keyword LatLon: Optional (sub-)class to return the C{bounds}
+                        corners (C{LatLon}) or C{None}.
 
-       @return: 2-Tuple (C{loLatLon, hiLatLon}) of I{LatLon} for the
-                lower-left respectively upper-right corner or 4-tuple
-                (C{loLat, loLon, hiLat, hiLon}) of bounds (C{degrees})
-                if I{LatLon} is C{None}.
+       @return: A L{Bounds2Tuple}C{(latlonSW, latlonNE)} as B{C{LatLon}}
+                or a L{Bounds4Tuple}C{(latS, lonW, latN, lonE)} if
+                B{C{LatLon}} is C{None}.
 
-       @raise TypeError: Some I{points} are not C{LatLon}.
+       @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
-       @raise ValueError: Insufficient number of I{points}.
+       @raise ValueError: Insufficient number of B{C{points}}.
 
        @example:
 
@@ -926,10 +943,8 @@ def boundsOf(points, wrap=True, LatLon=None):
         elif hiy < y:
             hiy = y
 
-    if LatLon is None:
-        return loy, lox, hiy, hix
-    else:
-        return LatLon(loy, lox), LatLon(hiy, hix)  # PYCHOK inconsistent
+    return Bounds4Tuple(loy, lox, hiy, hix) if LatLon is None else \
+           Bounds2Tuple(LatLon(loy, lox), LatLon(hiy, hix))  # PYCHOK inconsistent
 
 
 def centroidOf(points, wrap=True, LatLon=None):
@@ -940,17 +955,18 @@ def centroidOf(points, wrap=True, LatLon=None):
        @keyword LatLon: Optional (sub-)class to return the centroid
                         (L{LatLon}) or C{None}.
 
-       @return: Centroid location (I{LatLon}) or as 2-tuple (C{lat, lon})
-                in C{degrees} if I{LatLon} is C{None}.
+       @return: Centroid location (B{C{LatLon}}) or a
+                L{LatLon2Tuple}C{(lat, lon)} if B{C{LatLon}}
+                is C{None}.
 
-       @raise TypeError: Some I{points} are not C{LatLon}.
+       @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
-       @raise ValueError: Insufficient number of I{points} or I{points}
-                          enclose a pole or zero area.
+       @raise ValueError: Insufficient number of B{C{points}} or
+                          B{C{points}} enclose a pole or zero area.
 
-       @see: U{Centroid<http://WikiPedia.org/wiki/Centroid#Of_a_polygon>}
+       @see: U{Centroid<https://WikiPedia.org/wiki/Centroid#Of_a_polygon>}
              and U{Calculating The Area And Centroid Of A Polygon
-             <http://www.Seas.UPenn.edu/~sys502/extra_materials/
+             <https://www.Seas.UPenn.edu/~sys502/extra_materials/
              Polygon%20Area%20and%20Centroid.pdf>}.
     '''
     # setting radius=1 converts degrees to radians
@@ -979,7 +995,7 @@ def centroidOf(points, wrap=True, LatLon=None):
     if abs(A) < EPS:
         raise ValueError('polar or zero area: %r' % (pts,))
     Y, X = degrees90(Y.fsum() / A), degrees180(X.fsum() / A)
-    return (Y, X) if LatLon is None else LatLon(Y, X)
+    return LatLon2Tuple(Y, X) if LatLon is None else LatLon(Y, X)
 
 
 def _imdex2(closed, n):  # imported by sphericalNvector, -Trigonometry
@@ -996,12 +1012,12 @@ def isclockwise(points, adjust=False, wrap=True):
                         by the cosine of the mean latitude (C{bool}).
        @keyword wrap: Wrap lat-, wrap and unroll longitudes (C{bool}).
 
-       @return: C{True} if I{points} are clockwise, C{False} otherwise.
+       @return: C{True} if B{C{points}} are clockwise, C{False} otherwise.
 
-       @raise TypeError: Some I{points} are not C{LatLon}.
+       @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
-       @raise ValueError: Insufficient number of I{points} or I{points}
-                          enclose a pole or zero area.
+       @raise ValueError: Insufficient number of B{C{points}} or the
+                          B{C{points}} enclose a pole or zero area.
 
        @example:
 
@@ -1014,7 +1030,7 @@ def isclockwise(points, adjust=False, wrap=True):
         return True
     elif a < 0:
         return False
-    # <http://blog.Element84.com/determining-if-a-spherical-polygon-contains-a-pole.html>
+    # <https://blog.Element84.com/determining-if-a-spherical-polygon-contains-a-pole.html>
     raise ValueError('polar or zero area: %r' % (pts,))
 
 
@@ -1026,13 +1042,13 @@ def isconvex(points, adjust=False, wrap=True):
                         by the cosine of the mean latitude (C{bool}).
        @keyword wrap: Wrap lat-, wrap and unroll longitudes (C{bool}).
 
-       @return: C{True} if I{points} are convex, C{False} otherwise.
+       @return: C{True} if B{C{points}} are convex, C{False} otherwise.
 
-       @raise CrossError: Some I{points} are colinear.
+       @raise CrossError: Some B{C{points}} are colinear.
 
-       @raise TypeError: Some I{points} are not C{LatLon}.
+       @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
-       @raise ValueError: Insufficient number of I{points}.
+       @raise ValueError: Insufficient number of B{C{points}}.
 
        @example:
 
@@ -1053,14 +1069,14 @@ def isconvex_(points, adjust=False, wrap=True):
                         by the cosine of the mean latitude (C{bool}).
        @keyword wrap: Wrap lat-, wrap and unroll longitudes (C{bool}).
 
-       @return: C{+1} if I{points} are convex clockwise, C{-1} for
-                convex counter-clockwise I{points}, C{0} otherwise.
+       @return: C{+1} if B{C{points}} are convex clockwise, C{-1} for
+                convex counter-clockwise B{C{points}}, C{0} otherwise.
 
-       @raise CrossError: Some I{points} are colinear.
+       @raise CrossError: Some B{C{points}} are colinear.
 
-       @raise TypeError: Some I{points} are not C{LatLon}.
+       @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
-       @raise ValueError: Insufficient number of I{points}.
+       @raise ValueError: Insufficient number of B{C{points}}.
 
        @example:
 
@@ -1091,7 +1107,7 @@ def isconvex_(points, adjust=False, wrap=True):
 
         # get the sign of the distance from point
         # x3, y3 to the line from x1, y1 to x2, y2
-        # <http://WikiPedia.org/wiki/Distance_from_a_point_to_a_line>
+        # <https://WikiPedia.org/wiki/Distance_from_a_point_to_a_line>
         s3 = fdot((x3, y3, x1, y1), y2 - y1, -x21, -y2, x2)
         if s3 > 0:  # x3, y3 on the right
             if s < 0:  # non-convex
@@ -1116,25 +1132,25 @@ def isconvex_(points, adjust=False, wrap=True):
 def isenclosedBy(point, points, wrap=False):  # MCCABE 15
     '''Determine whether a point is enclosed by a polygon.
 
-       @param point: The point (C{LatLon} or 2-tuple (lat, lon)).
+       @param point: The point (C{LatLon} or 2-tuple C{(lat, lon)}).
        @param points: The polygon points (C{LatLon}[]).
        @keyword wrap: Wrap lat-, wrap and unroll longitudes (C{bool}).
 
-       @return: C{True} if I{point} is inside the polygon, C{False}
+       @return: C{True} if B{C{point}} is inside the polygon, C{False}
                 otherwise.
 
-       @raise TypeError: Some I{points} are not C{LatLon}.
+       @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
-       @raise ValueError: Insufficient number of I{points} or invalid
-                          I{point}.
+       @raise ValueError: Insufficient number of B{C{points}} or
+                          invalid B{C{point}}.
 
        @see: L{sphericalNvector.LatLon.isEnclosedBy},
              L{sphericalTrigonometry.LatLon.isEnclosedBy} and
-             U{MultiDop GeogContainPt<http://GitHub.com/NASA/MultiDop>}
+             U{MultiDop GeogContainPt<https://GitHub.com/NASA/MultiDop>}
              (U{Shapiro et al. 2009, JTECH
-             <http://Journals.AMetSoc.org/doi/abs/10.1175/2009JTECHA1256.1>}
+             <https://Journals.AMetSoc.org/doi/abs/10.1175/2009JTECHA1256.1>}
              and U{Potvin et al. 2012, JTECH
-             <http://Journals.AMetSoc.org/doi/abs/10.1175/JTECH-D-11-00019.1>}).
+             <https://Journals.AMetSoc.org/doi/abs/10.1175/JTECH-D-11-00019.1>}).
     '''
     try:
         y0, x0 = point.lat, point.lon
@@ -1202,12 +1218,12 @@ def ispolar(points, wrap=False):
        @param points: The polygon points (C{LatLon}[]).
        @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
-       @return: C{True} if a pole is enclosed by the polygon,
-                C{False} otherwise.
+       @return: C{True} if the polygon encloses a pole, C{False}
+                otherwise.
 
-       @raise ValueError: Insufficient number of I{points}.
+       @raise ValueError: Insufficient number of B{C{points}}.
 
-       @raise TypeError: Some I{points} are not C{LatLon} or don't
+       @raise TypeError: Some B{C{points}} are not C{LatLon} or don't
                          have C{bearingTo2}, C{initialBearingTo}
                          and C{finalBearingTo} methods.
     '''
@@ -1229,32 +1245,14 @@ def ispolar(points, wrap=False):
                 p1, b1 = p2, b2
 
     # sum of course deltas around pole is 0° rather than normally ±360°
-    # <http://blog.Element84.com/determining-if-a-spherical-polygon-contains-a-pole.html>
+    # <https://blog.Element84.com/determining-if-a-spherical-polygon-contains-a-pole.html>
     s = fsum(_cds(n, points))
 
     # XXX fix (intermittant) edge crossing pole - eg (85,90), (85,0), (85,-90)
     return abs(s) < 90  # "zero-ish"
 
 
-def nearestOn3(point, points, closed=False, wrap=False, **options):
-    '''DEPRECATED, use function L{nearestOn5}.
-
-       @return: ... 3-Tuple (lat, lon, I{distance}) ...
-    '''
-    return nearestOn5(point, points, closed=closed, wrap=wrap,
-                                   **options)[:3]
-
-
-def nearestOn4(point, points, closed=False, wrap=False, **options):
-    '''DEPRECATED, use function L{nearestOn5}.
-
-       @return: ... 4-Tuple (lat, lon, I{distance}, I{angle}) ...
-    '''
-    return nearestOn5(point, points, closed=closed, wrap=wrap,
-                                   **options)[:4]
-
-
-def nearestOn5(point, points, closed=False, wrap=False, **options):
+def nearestOn5(point, points, closed=False, wrap=False, LatLon=None, **options):
     '''Locate the point on a path or polygon closest to an other point.
 
        If the given point is within the extent of a polygon edge,
@@ -1262,31 +1260,28 @@ def nearestOn5(point, points, closed=False, wrap=False, **options):
        point is the nearest of that edge's end points.
 
        Distances are approximated by function L{equirectangular_},
-       subject to the supplied I{options}.
+       subject to the supplied B{C{options}}.
 
        @param point: The other, reference point (C{LatLon}).
        @param points: The path or polygon points (C{LatLon}[]).
        @keyword closed: Optionally, close the path or polygon (C{bool}).
        @keyword wrap: Wrap and L{unroll180} longitudes and longitudinal
                       delta (C{bool}) in function L{equirectangular_}.
+       @keyword LatLon: Optional (sub-)class to return the closest
+                        point (L{LatLon}) or C{None}.
        @keyword options: Other keyword arguments for function
                          L{equirectangular_}.
 
-       @return: 5-Tuple (C{lat, lon, distance, angle, height}) all
-                in C{degrees} except I{height}.  The I{distance} is
-                the L{equirectangular_} distance between the closest
-                and the reference I{point} in C{degrees}.  The I{angle}
-                from the reference I{point} to the closest point is in
-                compass C{degrees360}, see function L{compassAngle}.
-                The I{height} is the (interpolated) height at the
-                closest point in C{meter} or C{0}.
+       @return: A L{NearestOn3Tuple}C{(closest, distance, angle)} or
+                a L{NearestOn5Tuple}C{(lat, lon, distance, angle,
+                height)} if B{C{LatLon}} is C{None}.
 
-       @raise LimitError: Lat- and/or longitudinal delta exceeds
-                          I{limit}, see function L{equirectangular_}.
+       @raise LimitError: Lat- and/or longitudinal delta exceeds the
+                          B{C{limit}}, see function L{equirectangular_}.
 
-       @raise TypeError: Some I{points} are not C{LatLon}.
+       @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
-       @raise ValueError: Insufficient number of I{points}.
+       @raise ValueError: Insufficient number of B{C{points}}.
 
        @see: Function L{degrees2m} to convert C{degrees} to C{meter}.
     '''
@@ -1294,8 +1289,8 @@ def nearestOn5(point, points, closed=False, wrap=False, **options):
 
     def _d2yx(p2, p1, u, i):
         w = wrap if (not closed or i < (n - 1)) else False
-        # equirectangular_ returns a 4-tuple (distance in
-        # degrees squared, delta lat, delta lon, p2.lon
+        # equirectangular_ returns a Distance4Tuple(distance
+        # in degrees squared, delta lat, delta lon, p2.lon
         # unroll/wrap); the previous p2.lon unroll/wrap
         # is also applied to the next edge's p1.lon
         return equirectangular_(p1.lat, p1.lon + u,
@@ -1355,8 +1350,13 @@ def nearestOn5(point, points, closed=False, wrap=False, **options):
                     d2, y01, x01, _ = _d2yx(point, p1, u1, n)
             if d2 < d:  # p1 is closer, y01 and x01 inverted
                 c, u, d, dy, dx = p1, u1, d2, -y01, -x01
-    d = degrees360(atan2(dx, dy))
-    return c.lat, c.lon + u, hypot(dx, dy), d, _h(c)
+
+    d, a, h = hypot(dx, dy), degrees360(atan2(dx, dy)), _h(c)
+    if LatLon is None:
+        r = NearestOn5Tuple(c.lat, c.lon + u, d, a, h)
+    else:
+        r = NearestOn3Tuple(LatLon(c.lat, c.lon + u, height=h), d, a)
+    return _xnamed(r, nameof(point))
 
 
 def perimeterOf(points, closed=False, adjust=True, radius=R_M, wrap=True):
@@ -1369,11 +1369,12 @@ def perimeterOf(points, closed=False, adjust=True, radius=R_M, wrap=True):
        @keyword radius: Optional, mean earth radius (C{meter}).
        @keyword wrap: Wrap lat-, wrap and unroll longitudes (C{bool}).
 
-       @return: Approximate perimeter (C{meter}, same units as I{radius}).
+       @return: Approximate perimeter (C{meter}, same units as
+                B{C{radius}}).
 
-       @raise TypeError: Some I{points} are not C{LatLon}.
+       @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
-       @raise ValueError: Insufficient number of I{points}.
+       @raise ValueError: Insufficient number of B{C{points}}.
 
        @note: This perimeter is based on the L{equirectangular_}
               distance approximation and is ill-suited for regions

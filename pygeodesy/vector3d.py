@@ -6,22 +6,23 @@ u'''Generic 3-D vector base class L{Vector3d} and function L{sumOf}.
 Pure Python implementation of vector-based functions by I{(C) Chris
 Veness 2011-2015} published under the same MIT Licence**, see
 U{Vector-based geodesy
-<http://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
+<https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
 
 @newfield example: Example, Examples
 '''
 
-from bases import _VectorBased, _xattrs
-from fmath import EPS, fdot, fStr, fsum, hypot, hypot3, \
+from bases import _VectorBase
+from fmath import EPS, fdot, fStr, fsum, hypot, hypot_, \
                   isscalar, len2, map1
 from lazily import _ALL_LAZY
+from named import LatLon2Tuple, PhiLam2Tuple, Vector3Tuple, _xattrs
 from utily import degrees90, degrees180, property_RO
 
 from math import atan2, cos, sin
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.vector3d + ('Vector3d', 'sumOf')
-__version__ = '19.03.09'
+__version__ = '19.05.09'
 
 try:
     _cmp = cmp
@@ -53,7 +54,7 @@ def crosserrors(raiser=None):
     return t
 
 
-class Vector3d(_VectorBased):
+class Vector3d(_VectorBase):
     '''Generic 3-D vector manipulation.
 
        In a geodesy context, these may be used to represent:
@@ -86,7 +87,7 @@ class Vector3d(_VectorBased):
            @keyword ll: Optional, original latlon (C{LatLon}).
            @keyword name: Optional name (C{str}).
         '''
-        _VectorBased.__init__(self, name=name)
+        _VectorBase.__init__(self, name=name)
 
         self._x = x
         self._y = y
@@ -99,7 +100,7 @@ class Vector3d(_VectorBased):
 
            @return: Vectorial sum (L{Vector3d}).
 
-           @raise TypeError: Incompatible I{other} C{type}.
+           @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         return self.plus(other)
     __iadd__ = __add__
@@ -119,7 +120,7 @@ class Vector3d(_VectorBased):
 
            @return: -1, 0 or +1 (C{int}).
 
-           @raise TypeError: Incompatible I{other} C{type}.
+           @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         self.others(other)
         return _cmp(self.length, other.length)
@@ -131,7 +132,7 @@ class Vector3d(_VectorBased):
 
            @return: Quotient (L{Vector3d}).
 
-           @raise TypeError: Non-scalar I{scalar}'
+           @raise TypeError: Non-scalar B{C{scalar}}.
         '''
         return self.dividedBy(scalar)
     __itruediv__ = __div__
@@ -144,7 +145,7 @@ class Vector3d(_VectorBased):
 
            @return: C{True} if equal, C{False} otherwise.
 
-           @raise TypeError: Incompatible I{other} C{type}.
+           @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         self.others(other)
         return self.isequalTo(other)
@@ -156,7 +157,7 @@ class Vector3d(_VectorBased):
 
            @return: C{True} if so, C{False} otherwise.
 
-           @raise TypeError: Incompatible I{other} C{type}.
+           @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         self.others(other)
         return self.length >= other.length
@@ -168,7 +169,7 @@ class Vector3d(_VectorBased):
 
            @return: C{True} if so, C{False} otherwise.
 
-           @raise TypeError: Incompatible I{other} C{type}.
+           @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         self.others(other)
         return self.length > other.length
@@ -180,7 +181,7 @@ class Vector3d(_VectorBased):
 
            @return: C{True} if so, C{False} otherwise.
 
-           @raise TypeError: Incompatible I{other} C{type}.
+           @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         self.others(other)
         return self.length <= other.length
@@ -192,7 +193,7 @@ class Vector3d(_VectorBased):
 
            @return: C{True} if so, C{False} otherwise.
 
-           @raise TypeError: Incompatible I{other} C{type}.
+           @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         self.others(other)
         return self.length < other.length
@@ -205,7 +206,7 @@ class Vector3d(_VectorBased):
 
            @return: Cross product (L{Vector3d}).
 
-           @raise TypeError: Incompatible I{other} C{type}.
+           @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         return self.cross(other)
     __imatmul__ = __matmul__
@@ -228,7 +229,7 @@ class Vector3d(_VectorBased):
 
            @return: C{True} if so, C{False} otherwise.
 
-           @raise TypeError: Incompatible I{other} C{type}.
+           @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         self.others(other)
         return not self.isequalTo(other)
@@ -255,7 +256,7 @@ class Vector3d(_VectorBased):
 
            @return: Cross product (L{Vector3d}).
 
-           @raise TypeError: Incompatible I{other} C{type}.
+           @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         self.others(other)
         return other.cross(self)
@@ -267,7 +268,7 @@ class Vector3d(_VectorBased):
 
            @return: Difference (L{Vector3d}).
 
-           @raise TypeError: Incompatible I{other} C{type}.
+           @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         self.others(other)
         return other.minus(self)
@@ -279,7 +280,7 @@ class Vector3d(_VectorBased):
 
            @return: Difference (L{Vector3d}).
 
-           @raise TypeError: Incompatible I{other} C{type}.
+           @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         return self.minus(other)
     __isub__ = __sub__
@@ -308,7 +309,7 @@ class Vector3d(_VectorBased):
 
            @return: Angle (C{radians}).
 
-           @raise TypeError: If I{other} or I{vSign} not a L{Vector3d}.
+           @raise TypeError: If B{C{other}} or B{C{vSign}} not a L{Vector3d}.
         '''
         x = self.cross(other)
         s = x.length
@@ -335,11 +336,11 @@ class Vector3d(_VectorBased):
            @return: Cross product (L{Vector3d}).
 
            @raise CrossError: Zero or near-zero cross product and both
-                              I{raiser} and L{crosserrors} set.
+                              B{C{raiser}} and L{crosserrors} set.
 
-           @raise TypeError: Incompatible I{other} C{type}.
+           @raise TypeError: Incompatible B{C{other}} C{type}.
 
-           @raise ValueError: Coincident or colinear to I{other}.
+           @raise ValueError: Coincident or colinear to B{C{other}}.
         '''
         self.others(other)
 
@@ -373,9 +374,9 @@ class Vector3d(_VectorBased):
 
            @return: New, scaled vector (L{Vector3d}).
 
-           @raise TypeError: Non-scalar I{factor}.
+           @raise TypeError: Non-scalar B{C{factor}}.
 
-           @raise ValueError: Invalid or zero I{factor}.
+           @raise ValueError: Invalid or zero B{C{factor}}.
         '''
         if not isscalar(factor):
             raise TypeError('%s not scalar: %r' % ('factor', factor))
@@ -391,7 +392,7 @@ class Vector3d(_VectorBased):
 
            @return: Dot product (C{float}).
 
-           @raise TypeError: Incompatible I{other} C{type}.
+           @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         self.others(other)
 
@@ -411,7 +412,7 @@ class Vector3d(_VectorBased):
 
            @return: C{True} if vectors are identical, C{False} otherwise.
 
-           @raise TypeError: Incompatible I{other} C{type}.
+           @raise TypeError: Incompatible B{C{other}} C{type}.
 
            @example:
 
@@ -432,7 +433,7 @@ class Vector3d(_VectorBased):
         '''Get the length (norm, magnitude) of this vector (C{float}).
         '''
         if self._length is None:
-            self._length = hypot3(self.x, self.y, self.z)
+            self._length = hypot_(self.x, self.y, self.z)
         return self._length
 
     def minus(self, other):
@@ -442,7 +443,7 @@ class Vector3d(_VectorBased):
 
            @return: New vector difference (L{Vector3d}).
 
-           @raise TypeError: Incompatible I{other} C{type}.
+           @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         self.others(other)
 
@@ -463,10 +464,10 @@ class Vector3d(_VectorBased):
            @param other: The other vector (L{Vector3d}).
            @keyword name: Optional, other's name (C{str}).
 
-           @raise TypeError: Incompatible I{other} C{type}.
+           @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         try:
-            _VectorBased.others(self, other, name=name)
+            _VectorBase.others(self, other, name=name)
         except TypeError:
             if not isinstance(other, Vector3d):
                 raise
@@ -479,7 +480,7 @@ class Vector3d(_VectorBased):
 
            @return: New vector (L{Vector3d}).
 
-           @raise ValueError: Invalid I{str3d}.
+           @raise ValueError: Invalid B{C{str3d}}.
         '''
         try:
             v = [float(v.strip()) for v in str3d.split(sep)]
@@ -497,7 +498,7 @@ class Vector3d(_VectorBased):
 
            @return: Vectorial sum (L{Vector3d}).
 
-           @raise TypeError: Incompatible I{other} C{type}.
+           @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         self.others(other)
 
@@ -511,9 +512,9 @@ class Vector3d(_VectorBased):
         '''Rotate this vector around an axis by a specified angle.
 
            See U{Rotation matrix from axis and angle
-           <http://WikiPedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle>}
+           <https://WikiPedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle>}
            and U{Quaternion-derived rotation matrix
-           <http://WikiPedia.org/wiki/Quaternions_and_spatial_rotation#Quaternion-derived_rotation_matrix>}.
+           <https://WikiPedia.org/wiki/Quaternions_and_spatial_rotation#Quaternion-derived_rotation_matrix>}.
 
            @param axis: The axis being rotated around (L{Vector3d}).
            @param theta: The angle of rotation (C{radians}).
@@ -548,7 +549,7 @@ class Vector3d(_VectorBased):
 
            @return: New, scaled vector (L{Vector3d}).
 
-           @raise TypeError: Non-scalar I{factor}.
+           @raise TypeError: Non-scalar B{C{factor}}.
         '''
         if not isscalar(factor):
             raise TypeError('%s not scalar: %r' % ('factor', factor))
@@ -559,7 +560,7 @@ class Vector3d(_VectorBased):
     def to2ab(self):
         '''Convert this vector to (geodetic) lat- and longitude.
 
-           @return: 2-Tuple (lat, lon) in (C{radians}, C{radians}).
+           @return: A L{PhiLam2Tuple}C{(phi, lambda)}.
 
            @example:
 
@@ -568,12 +569,12 @@ class Vector3d(_VectorBased):
         '''
         a = atan2(self.z, hypot(self.x, self.y))
         b = atan2(self.y, self.x)
-        return a, b
+        return self._xnamed(PhiLam2Tuple(a, b))
 
     def to2ll(self):
         '''Convert this vector to (geodetic) lat- and longitude.
 
-           @return: 2-Tuple (lat, lon) in (C{degrees90}, C{degrees180}).
+           @return: A L{LatLon2Tuple}C{(lat, lon)}.
 
            @example:
 
@@ -581,14 +582,15 @@ class Vector3d(_VectorBased):
            >>> a, b = v.to2ll()  # 44.99567, 45.0
         '''
         a, b = self.to2ab()
-        return degrees90(a), degrees180(b)
+        r = LatLon2Tuple(degrees90(a), degrees180(b))
+        return self._xnamed(r)
 
     def to3xyz(self):
         '''Return this vector as a 3-tuple.
 
-           @return: 3-Tuple (x, y, z) as (C{float}).
+           @return: A L{Vector3Tuple}C{(x, y, z)}.
         '''
-        return self.x, self.y, self.z
+        return self._xnamed(Vector3Tuple(self.x, self.y, self.z))
 
     def toStr(self, prec=5, fmt='(%s)', sep=', '):  # PYCHOK expected
         '''Return a string representation of this vector.
@@ -643,11 +645,11 @@ def sumOf(vectors, Vector=Vector3d, **kwds):
 
        @param vectors: Vectors to be added (L{Vector3d}[]).
        @keyword Vector: Optional class for the vectorial sum (L{Vector3d}).
-       @keyword kwds: Optional, additional I{Vector} keyword arguments.
+       @keyword kwds: Optional, additional B{C{Vector}} keyword arguments.
 
-       @return: Vectorial sum (I{Vector}).
+       @return: Vectorial sum (B{C{Vector}}).
 
-       @raise ValueError: No I{vectors}.
+       @raise ValueError: No B{C{vectors}}.
     '''
     n, vectors = len2(vectors)
     if n < 1:

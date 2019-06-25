@@ -63,13 +63,13 @@
         trigonometric, vector-based and approximate methods for geodetic 
         (lat-/longitude) and geocentric cartesian (x/y/z) coordinates.</em>
     <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.bases-module.html">pygeodesy.bases</a></strong>: <em class="summary">(INTERNAL) Common base classes.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.bases-module.html" onclick="show_private();">pygeodesy.bases</a></strong>: <em class="summary">(INTERNAL) Common base classes.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.clipy-module.html">pygeodesy.clipy</a></strong>: <em class="summary">Functions to <i>clip</i> a path or polygon of <code>LatLon</code> 
-        points.</em>    </li>
+        points against a rectangular box or clip region.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.css-module.html">pygeodesy.css</a></strong>: <em class="summary">Cassini-Soldner projection class <a 
         href="pygeodesy.css.CassiniSoldner-class.html" 
         class="link">CassiniSoldner</a> requiring <a 
-        href="http://PyPI.org/project/geographiclib/" 
+        href="https://PyPI.org/project/geographiclib/" 
         target="_top">GeographicLib</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.datum-module.html">pygeodesy.datum</a></strong>: <em class="summary">Classes <a href="pygeodesy.datum.Datum-class.html" 
         class="link">Datum</a>, <a 
@@ -77,11 +77,12 @@
         class="link">Ellipsoid</a> and <a 
         href="pygeodesy.datum.Transform-class.html" 
         class="link">Transform</a> and registries thereof.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated-module.html">pygeodesy.deprecated</a></strong>: <em class="summary">DEPRECATED functions, etc.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.dms-module.html">pygeodesy.dms</a></strong>: <em class="summary">Functions to parse and format bearing, compass, lat- and longitudes
         in various forms of degrees, minutes and seconds.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.elevations-module.html">pygeodesy.elevations</a></strong>: <em class="summary">Functions to obtain elevations and geoid heights thru web services,
         for (lat, lon) locations, currently limited to the <a 
-        href="http://WikiPedia.org/wiki/Contiguous_United_States" 
+        href="https://WikiPedia.org/wiki/Contiguous_United_States" 
         target="_top">Conterminous US (CONUS)</a>, see also module <a 
         href="pygeodesy.geoids-module.html" class="link">geoids</a> and 
         classes <a href="pygeodesy.geoids.GeoidG2012B-class.html" 
@@ -90,7 +91,7 @@
         class="link">GeoidKarney</a> and <a 
         href="pygeodesy.geoids.GeoidPGM-class.html" 
         class="link">GeoidPGM</a> and <a 
-        href="http://Gist.GitHub.com/pyRobShrk" 
+        href="https://Gist.GitHub.com/pyRobShrk" 
         target="_top">USGS10mElev.py</a>.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.ellipsoidalBase-module.html" onclick="show_private();">pygeodesy.ellipsoidalBase</a></strong>: <em class="summary">(INTERNAL) Ellipsoidal base classes.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney-module.html">pygeodesy.ellipsoidalKarney</a></strong>: <em class="summary">Ellipsoidal geodetic (lat-/longitude) and cartesian (x/y/z) classes
@@ -103,7 +104,7 @@
         href="pygeodesy.ellipsoidalKarney-module.html#perimeterOf" 
         class="link">perimeterOf</a> based on the Python implementation of 
         <i>Charles F. F. Karney's</i> <a 
-        href="http://PyPI.org/project/geographiclib" 
+        href="https://PyPI.org/project/geographiclib" 
         target="_top">GeographicLib</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector-module.html">pygeodesy.ellipsoidalNvector</a></strong>: <em class="summary">N-vector-based ellipsoidal geodetic (lat-/longitude) and cartesion 
         (x/y/z) classes <a 
@@ -131,19 +132,29 @@
         class="link" onclick="show_private();">areaOf</a> and <a 
         href="pygeodesy.ellipsoidalVincenty-module.html#perimeterOf" 
         class="link" onclick="show_private();">perimeterOf</a>.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.elliptic-module.html">pygeodesy.elliptic</a></strong>: <em class="summary">Elliptic integrals and functions transcribed from Karney's C++ 
+        class <a 
+        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1EllipticFunction.html"
+        target="_top">EllipticFunction</a> as Python class <a 
+        href="pygeodesy.elliptic.Elliptic-class.html" 
+        class="link">Elliptic</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.epsg-module.html">pygeodesy.epsg</a></strong>: <em class="summary">Classes <a href="pygeodesy.epsg.Epsg-class.html" 
         class="link">Epsg</a> and <a 
         href="pygeodesy.epsg.EPSGError-class.html" 
         class="link">EPSGError</a> and functions to <a 
         href="pygeodesy.epsg-module.html#encode" class="link">encode</a> 
         and <a href="pygeodesy.epsg-module.html#decode2" 
-        class="link">decode2</a> <a href="http://www.EPSG-Registry.org" 
+        class="link">decode2</a> <a href="https://www.EPSG-Registry.org" 
         target="_top">EPSG (European Petroleum Survey Group)</a> codes from
         and to <a 
-        href="http://WikiPedia.org/wiki/Universal_Transverse_Mercator_coordinate_system"
+        href="https://WikiPedia.org/wiki/Universal_Transverse_Mercator_coordinate_system"
         target="_top">UTM</a> and <a 
-        href="http://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system"
+        href="https://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system"
         target="_top">UPS</a> zones.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.etm-module.html">pygeodesy.etm</a></strong>: <em class="summary">A Python implementation of Karney's C++ class <a 
+        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercatorExact.html"
+        target="_top">TransverseMercatorExact</a>, abbreviated below to 
+        <code>TMExact</code>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.fmath-module.html">pygeodesy.fmath</a></strong>: <em class="summary">Precision floating point functions, utilities and constants.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.formy-module.html">pygeodesy.formy</a></strong>: <em class="summary">Formulary of basic geodesy functions and approximations.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.gars-module.html">pygeodesy.gars</a></strong>: <em class="summary">Class <a href="pygeodesy.gars.Garef-class.html" 
@@ -162,7 +173,10 @@
         using different interpolation methods.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.heights-module.html">pygeodesy.heights</a></strong>: <em class="summary">Classes to interpolate the height of <code>LatLon</code> locations 
         or separate lat-/longitudes.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.lazily-module.html">pygeodesy.lazily</a></strong>: <em class="summary">Lazily import <code>pygeodesy</code> modules and attributes.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.lazily-module.html">pygeodesy.lazily</a></strong>: <em class="summary">Lazily import <code>pygeodesy</code> modules and attributes, based 
+        on <a href="https://modutil.ReadTheDocs.io/en/latest/#lazy_import" 
+        target="_top">lazy_import</a> from Brett Cannon's <a 
+        href="https://PyPI.org/project/modutil" target="_top">modutil</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.lcc-module.html">pygeodesy.lcc</a></strong>: <em class="summary">Lambert conformal conic projection for 1- or 2-Standard Parallels 
         class <a href="pygeodesy.lcc.Conic-class.html" 
         class="link">Conic</a>, <a href="pygeodesy.lcc-module.html#Conics" 
@@ -173,6 +187,9 @@
         functions <a href="pygeodesy.mgrs-module.html#parseMGRS" 
         class="link">parseMGRS</a> and <a 
         href="pygeodesy.mgrs-module.html#toMgrs" class="link">toMgrs</a>.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named-module.html">pygeodesy.named</a></strong>: <em class="summary">(INTERNAL) Classes <code>_Named</code>, <code>_NamedDict</code>, 
+        <code>_NamedInt</code>, <code>_NamedStr</code> and 
+        <code>_NamedTuple</code> with nameable instances.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.nvector-module.html">pygeodesy.nvector</a></strong>: <em class="summary">N-vector base class <a href="pygeodesy.nvector.Nvector-class.html" 
         class="link">Nvector</a> and function <a 
         href="pygeodesy.nvector-module.html#sumOf" class="link">sumOf</a>.</em>    </li>
@@ -183,7 +200,7 @@
         href="pygeodesy.osgr-module.html#toOsgr" class="link">toOsgr</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.points-module.html">pygeodesy.points</a></strong>: <em class="summary">Functions to handle collections and sequences of 
         <code>LatLon</code> points specified as 2-d <a 
-        href="http://www.NumPy.org" target="_top">NumPy</a>, 
+        href="https://www.NumPy.org" target="_top">NumPy</a>, 
         <code>arrays</code> or tuples as <code>LatLon</code> or as 
         <code>pseudo-x/-y</code> pairs.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.simplify-module.html">pygeodesy.simplify</a></strong>: <em class="summary">Seven functions to <i>simplify</i> or linearize a path of 
@@ -246,11 +263,12 @@
         and <a href="pygeodesy.utmups-module.html#utmupsZoneBand5" 
         class="link">utmupsZoneBand5</a> to handle both <i>Universal 
         Transverse Mercator (<a 
-        href="http://WikiPedia.org/wiki/Universal_Transverse_Mercator_coordinate_system"
+        href="https://WikiPedia.org/wiki/Universal_Transverse_Mercator_coordinate_system"
         target="_top">UTM</a>)</i> and <i>Universal Polar Stereographic (<a
         
-        href="http://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system"
+        href="https://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system"
         target="_top">UPS</a>)</i> coordinates.</em>    </li>
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.utmupsBase-module.html" onclick="show_private();">pygeodesy.utmupsBase</a></strong>: <em class="summary">(INTERNAL) Some UTM, UPS, Mgrs and Epsg functions.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.vector3d-module.html">pygeodesy.vector3d</a></strong>: <em class="summary">Generic 3-D vector base class <a 
         href="pygeodesy.vector3d.Vector3d-class.html" 
         class="link">Vector3d</a> and function <a 
@@ -298,7 +316,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 17 12:19:02 2019
+    Generated by Epydoc 3.0.1 on Tue Jun 25 11:55:32 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

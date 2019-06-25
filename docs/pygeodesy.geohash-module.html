@@ -64,18 +64,18 @@
   inspect <i>geohashes</i>.</p>
   <p>Transcribed from JavaScript originals by <i>(C) Chris Veness 
   2011-2015</i> and published under the same MIT Licence**, see <a 
-  href="http://www.Movable-Type.co.UK/scripts/geohash.html" 
+  href="https://www.Movable-Type.co.UK/scripts/geohash.html" 
   target="_top">Geohashes</a>.</p>
-  <p>See also <a href="http://WikiPedia.org/wiki/Geohash" 
-  target="_top">Geohash</a>, <a href="http://GitHub.com/vinsci/geohash" 
-  target="_top">Geohash</a>, <a href="http://PyPI.org/project/pygeohash" 
+  <p>See also <a href="https://WikiPedia.org/wiki/Geohash" 
+  target="_top">Geohash</a>, <a href="https://GitHub.com/vinsci/geohash" 
+  target="_top">Geohash</a>, <a href="https://PyPI.org/project/pygeohash" 
   target="_top">PyGeohash</a> and <a 
-  href="http://GitHub.com/DaveTroy/geohash-js" 
+  href="https://GitHub.com/DaveTroy/geohash-js" 
   target="_top">Geohash-Javascript</a>.</p>
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.04.15
+        19.05.08
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -90,7 +90,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.geohash.Geohash-class.html" class="summary-name">Geohash</a><br />
-      Geohash class, sub-class of <code>str</code>.
+      Geohash class, a _NamedStr.
     </td>
   </tr>
 </table>
@@ -224,7 +224,8 @@
         <span class="summary-sig-arg">lon</span>,
         <span class="summary-sig-arg">precision</span>=<span class="summary-sig-default">None</span>)</span><br />
       Encode a lat-/longitude as a <code>geohash</code>, either to the 
-      specified or if not given, an automatically evaluated precision.</td>
+      specified precision or if not provided, to an automatically evaluated
+      precision.</td>
           <td align="right" valign="top">
             
             
@@ -343,21 +344,23 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>geohash</code></strong> - To be bound (<a href="pygeodesy.geohash.Geohash-class.html" 
           class="link">Geohash</a>).</li>
-        <li><strong class="pname"><code>LatLon</code></strong> - Optional (sub-)class to return <i>bounds</i> 
-          (<code>LatLon</code>) or <code>None</code>.</li>
-        <li><strong class="pname"><code>kwds</code></strong> - Optional keyword arguments for <i>LatLon</i>.</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional (sub-)class to return the bounds (<code>LatLon</code>) 
+          or <code>None</code>.</li>
+        <li><strong class="pname"><code>kwds</code></strong> - Optional keyword arguments for <b><code>LatLon</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>4-Tuple (S, W, N, E) of bounds lat- and longitudes in 
-          (<code>degrees</code>) if <i>LatLon</i> is <code>None</code> 
-          otherwise 2-tuple (<i>LatLon(S, W)</i>, <i>LatLon(N, E)</i> of 
-          the bounds.</dd>
+        <dd>A <a href="pygeodesy.named.Bounds2Tuple-class.html" 
+          class="link">Bounds2Tuple</a><code>(latlonSW, latlonNE)</code> as
+          <b><code>LatLon</code></b> or a <a 
+          href="pygeodesy.named.Bounds4Tuple-class.html" 
+          class="link">Bounds4Tuple</a><code>(latS, lonW, latN, 
+          lonE)</code> if <b><code>LatLon</code></b> is <code>None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>geohash</i> is not a <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>geohash</code></b> is not a <a 
         href="pygeodesy.geohash.Geohash-class.html" 
         class="link">Geohash</a>, <code>LatLon</code> or <code>str</code>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or null <i>geohash</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or null <b><code>geohash</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -391,13 +394,14 @@
           class="link">Geohash</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (latStr, lonStr) in (<code>str</code>).</dd>
+        <dd>2-Tuple <code>&quot;(latStr, lonStr)&quot;</code> in 
+          (<code>str</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>geohash</i> is not a <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>geohash</code></b> is not a <a 
         href="pygeodesy.geohash.Geohash-class.html" 
         class="link">Geohash</a>, <code>LatLon</code> or <code>str</code>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or null <i>geohash</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or null <b><code>geohash</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -433,13 +437,15 @@
           class="link">Geohash</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (latErr, lonErr) in (<code>degrees</code>).</dd>
+        <dd>A <a href="pygeodesy.named.LatLon2Tuple-class.html" 
+          class="link">LatLon2Tuple</a><code>(lat, lon)</code> with the 
+          lat- and longitudinal errors in (<code>degrees</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>geohash</i> is not a <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>geohash</code></b> is not a <a 
         href="pygeodesy.geohash.Geohash-class.html" 
         class="link">Geohash</a>, <code>LatLon</code> or <code>str</code>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or null <i>geohash</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or null <b><code>geohash</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -479,8 +485,8 @@
         <dd>Approximate distance (<code>meter</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - A <i>geohash*</i> is not a <a 
-        href="pygeodesy.geohash.Geohash-class.html" 
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>geohash1</code></b> or <b><code>geohash2</code></b> is 
+        not a <a href="pygeodesy.geohash.Geohash-class.html" 
         class="link">Geohash</a>, <code>LatLon</code> or <code>str</code>.</li>
     </ul></dd>
   </dl>
@@ -520,11 +526,11 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Approximate distance (<code>meter</code>, same units as 
-          <i>radius</i>).</dd>
+          <b><code>radius</code></b>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - A <i>geohash*</i> is not a <a 
-        href="pygeodesy.geohash.Geohash-class.html" 
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>geohash1</code></b> or <b><code>geohash2</code></b> is 
+        not a <a href="pygeodesy.geohash.Geohash-class.html" 
         class="link">Geohash</a>, <code>LatLon</code> or <code>str</code>.</li>
     </ul></dd>
   </dl>
@@ -563,11 +569,11 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Great-circle distance (<code>meter</code>, same units as 
-          <i>radius</i>).</dd>
+          <b><code>radius</code></b>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - A <i>geohash*</i> is not a <a 
-        href="pygeodesy.geohash.Geohash-class.html" 
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>geohash1</code></b> or <b><code>geohash2</code></b> is 
+        not a <a href="pygeodesy.geohash.Geohash-class.html" 
         class="link">Geohash</a>, <code>LatLon</code> or <code>str</code>.</li>
     </ul></dd>
   </dl>
@@ -594,7 +600,8 @@
   </tr></table>
   
   <p>Encode a lat-/longitude as a <code>geohash</code>, either to the 
-  specified or if not given, an automatically evaluated precision.</p>
+  specified precision or if not provided, to an automatically evaluated 
+  precision.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -606,7 +613,8 @@
         <dd>The <code>geohash</code> (<code>str</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>lat</i>, <i>lon</i> or <i>precision</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>lat</code></b>, <b><code>lon</code></b> or 
+        <b><code>precision</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -638,17 +646,18 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>geohash</code></strong> - Cell for which neighbors are required (<a 
+        <li><strong class="pname"><code>geohash</code></strong> - Cell for which neighbors are requested (<a 
           href="pygeodesy.geohash.Geohash-class.html" 
           class="link">Geohash</a> or <code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Neighbors (dict(N=, NE=, E= ..., SW=) of <a 
-          href="pygeodesy.geohash.Geohash-class.html" 
-          class="link">Geohash</a>es).</dd>
+        <dd>A <a href="pygeodesy.named.Neighbors8Dict-class.html" 
+          class="link">Neighbors8Dict</a><code>(N, NE, E, SE, S, SW, W, 
+          NW)</code> of <a href="pygeodesy.geohash.Geohash-class.html" 
+          class="link">Geohash</a>es.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>geohash</i> is not a <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>geohash</code></b> is not a <a 
         href="pygeodesy.geohash.Geohash-class.html" 
         class="link">Geohash</a>, <code>LatLon</code> or <code>str</code>.</li>
     </ul></dd>
@@ -691,7 +700,7 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         C++ class <a 
-        href="http://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geohash.html"
+        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geohash.html"
         target="_top">Geohash</a>.
       </p>
 </div></td></tr></table>
@@ -729,7 +738,7 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         C++ class <a 
-        href="http://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geohash.html"
+        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geohash.html"
         target="_top">Geohash</a>.
       </p>
 </div></td></tr></table>
@@ -759,10 +768,13 @@
           class="link">Geohash</a> or <code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (latHeight, lonWidth) in (<code>meter</code>).</dd>
+        <dd>A <a href="pygeodesy.named.LatLon2Tuple-class.html" 
+          class="link">LatLon2Tuple</a><code>(lat, lon)</code> with the 
+          latitudinal height and longitudinal width in 
+          (<code>meter</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>geohash</i> is not a <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>geohash</code></b> is not a <a 
         href="pygeodesy.geohash.Geohash-class.html" 
         class="link">Geohash</a>, <code>LatLon</code> or <code>str</code>.</li>
     </ul></dd>
@@ -801,7 +813,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 17 12:19:02 2019
+    Generated by Epydoc 3.0.1 on Tue Jun 25 11:55:33 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

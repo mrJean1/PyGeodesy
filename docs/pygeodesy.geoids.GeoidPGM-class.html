@@ -61,7 +61,9 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class GeoidPGM</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-         object --+        
+     object --+            
+              |            
+   named._Named --+        
                   |        
 heights._HeightBase --+    
                       |    
@@ -72,26 +74,26 @@ heights._HeightBase --+
 
 <hr />
 <p>Geoid height interpolator for Charles Karney's <a 
-  href="http://GeographicLib.SourceForge.io/html/geoid.html" 
+  href="https://GeographicLib.SourceForge.io/html/geoid.html" 
   target="_top">GeographicLib Earth Gravitational Model (EGM)</a> geoid <a 
-  href="http://GeographicLib.SourceForge.io/html/geoid.html#geoidinst" 
+  href="https://GeographicLib.SourceForge.io/html/geoid.html#geoidinst" 
   target="_top">egm*.pgm</a> datasets but based on <code>SciPy</code> <a 
-  href="http://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html"
+  href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html"
   target="_top">RectBivariateSpline</a> or <a 
-  href="http://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
+  href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
   target="_top">interp2d</a> interpolation.</p>
   <p>Use any of the <a 
-  href="http://GeographicLib.SourceForge.io/html/geoid.html#geoidinst" 
+  href="https://GeographicLib.SourceForge.io/html/geoid.html#geoidinst" 
   target="_top">egm84-, egm96- or egm2008-*.pgm</a> datasets.  However, 
   unless cropped, an entire <code>egm*.pgm</code> dataset is loaded into 
   the <code>SciPy</code> <a 
-  href="http://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html"
+  href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html"
   target="_top">RectBivariateSpline</a> or <a 
-  href="http://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
+  href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
   target="_top">interp2d</a> interpolator and converted from 2-byte 
   <code>int</code> to 8-byte <code>dtype float64</code>.  Therefore, 
   internal memory usage is 4x the <a 
-  href="http://GeographicLib.SourceForge.io/html/geoid.html#geoidinst" 
+  href="https://GeographicLib.SourceForge.io/html/geoid.html#geoidinst" 
   target="_top">egm*.pgm</a> file size and may exceed the available memory,
   especially with 32-bit Python, see properties <code>.nBytes</code> and 
   <code>.sizeB</code>.</p>
@@ -144,6 +146,11 @@ heights._HeightBase --+
       <code><a href="pygeodesy.geoids._GeoidBase-class.html#toStr">toStr</a></code>,
       <code><a href="pygeodesy.geoids._GeoidBase-class.html#upperleft">upperleft</a></code>,
       <code><a href="pygeodesy.geoids._GeoidBase-class.html#upperright">upperright</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>__copy__</code>,
+      <code>classof</code>,
+      <code>copy</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -201,6 +208,12 @@ heights._HeightBase --+
       <code><a href="pygeodesy.geoids._GeoidBase-class.html#smooth">smooth</a></code>,
       <code><a href="pygeodesy.geoids._GeoidBase-class.html#stdev">stdev</a></code>
       </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>,
+      <code>named</code>,
+      <code>named2</code>
+      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
       </p>
@@ -243,32 +256,33 @@ heights._HeightBase --+
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>egm_pgm</code></strong> - An <a 
-          href="http://GeographicLib.SourceForge.io/html/geoid.html#geoidinst"
+          href="https://GeographicLib.SourceForge.io/html/geoid.html#geoidinst"
           target="_top">EGM geoid dataset</a> file name 
           (<code>egm*.pgm</code>).</li>
-        <li><strong class="pname"><code>crop</code></strong> - Optional box to crop <i>egm_pgm</i>, a 4-tuple (<code>south, 
-          west, north, east</code>) or 2-tuple (<code>(south, west), 
-          (north, east)</code>), in <code>degrees90</code> lat- and 
+        <li><strong class="pname"><code>crop</code></strong> - Optional box to crop <b><code>egm_pgm</code></b>, a 4-tuple 
+          (<code>south, west, north, east</code>) or 2-tuple (<code>(south,
+          west), (north, east)</code>), in <code>degrees90</code> lat- and 
           <code>degrees180</code> longitudes or a 2-tuple (<code>LatLonSW, 
           LatLonNE</code>) of <code>LatLon</code> instances.</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional grid datum (<code>Datum</code>), default 
           <code>WGS84</code>.</li>
         <li><strong class="pname"><code>kind</code></strong> - <code>scipy.interpolate</code> order (<code>int</code>), use 1..5
           for <a 
-          href="http://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html"
+          href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html"
           target="_top">RectBivariateSpline</a>, -2 for <a 
-          href="http://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
+          href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
           target="_top">interp2d linear</a>, -3 for <code>interp2d 
           cubic</code> or -5 for <code>interp2d quintic</code>.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional geoid name (<code>str</code>).</li>
         <li><strong class="pname"><code>smooth</code></strong> - Smoothing factor for <a 
-          href="http://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html"
+          href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html"
           target="_top">RectBivariateSpline</a> only (<code>int</code>).</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.geoids.GeoidError-class.html">GeoidError</a></strong></code> - EGM dataset <i>egm_pgm</i> issue or invalid <i>crop</i>, 
-        <i>kind</i> or <i>smooth</i>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.geoids.GeoidError-class.html">GeoidError</a></strong></code> - EGM dataset <b><code>egm_pgm</code></b> issue or invalid 
+        <b><code>crop</code></b>, <b><code>kind</code></b> or 
+        <b><code>smooth</code></b>.</li>
         <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> or <code>scipy</code> not found or not 
         installed.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.heights.SciPyError-class.html">SciPyError</a></strong></code> - A <code>RectBivariateSpline</code> or <code>inter2d</code> issue.</li>
@@ -281,16 +295,16 @@ heights._HeightBase --+
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         The <a 
-        href="http://GeographicLib.SourceForge.io/html/geoid.html#geoidinst"
+        href="https://GeographicLib.SourceForge.io/html/geoid.html#geoidinst"
         target="_top">GeographicLib egm*.pgm</a> file sizes are based on a 
         2-byte <code>int</code> height converted to 8-byte <code>dtype 
         float64</code> for <code>scipy</code> interpolators.  Therefore, 
         internal memory usage is 4 times the <code>egm*.pgm</code> file 
         size and may exceed the available memory, especially with 32-bit 
-        Python.  To reduce memory usage, set keyword argument <i>crop</i> 
-        to the region of interest.  For example <i>crop=(20, -125, 50, 
-        -65)</i> covers the <a 
-        href="http://www.NGS.NOAA.gov/GEOID/GEOID12B/maps/GEOID12B_CONUS_grids.png"
+        Python.  To reduce memory usage, set keyword argument 
+        <b><code>crop</code></b> to the region of interest.  For example 
+        <b>crop=(20, -125, 50, -65)</b> covers the <a 
+        href="https://www.NGS.NOAA.gov/GEOID/GEOID12B/maps/GEOID12B_CONUS_grids.png"
         target="_top">conterminous US</a> (CONUS), less than 3% of the 
         entire <code>egm2008-1.pgm</code> dataset.
       </p>
@@ -384,7 +398,7 @@ heights._HeightBase --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 17 12:19:03 2019
+    Generated by Epydoc 3.0.1 on Tue Jun 25 11:55:35 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

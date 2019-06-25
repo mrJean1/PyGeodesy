@@ -3,14 +3,14 @@
 
 u'''Functions to obtain elevations and geoid heights thru web services,
 for (lat, lon) locations, currently limited to the U{Conterminous US
-(CONUS) <http://WikiPedia.org/wiki/Contiguous_United_States>}, see also
+(CONUS) <https://WikiPedia.org/wiki/Contiguous_United_States>}, see also
 module L{geoids} and classes L{GeoidG2012B}, L{GeoidKarney} and L{GeoidPGM}
-and U{USGS10mElev.py<http://Gist.GitHub.com/pyRobShrk>}.
+and U{USGS10mElev.py<https://Gist.GitHub.com/pyRobShrk>}.
 
 B{macOS}: If an C{SSLCertVerificationError} occurs, especially this
 I{"[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self
 "signed certificate in certificate chain ..."}, review U{this post
-<http://StackOverflow.com/questions/27835619/urllib-and-ssl-certificate
+<https://StackOverflow.com/questions/27835619/urllib-and-ssl-certificate
 -verify-failed-error>} for a remedy.  From a Terminal window run:
 C{"/Applications/Python X.Y/Install Certificates.command"}
 
@@ -19,10 +19,11 @@ C{"/Applications/Python X.Y/Install Certificates.command"}
 
 from fmath import fStr
 from lazily import _ALL_LAZY
+from named import Elevation2Tuple, GeoidHeight2Tuple
 from utily import clipStr
 
 __all__ = _ALL_LAZY.elevations
-__version__ = '19.04.24'
+__version__ = '19.05.07'
 
 try:
     _Bytes = unicode, bytearray  # PYCHOK expected
@@ -75,7 +76,7 @@ def _error(fun, lat, lon, e):
 
 
 def _qURL(url, params, timeout=2):
-    '''(INTERNAL) Build I{url} query, get and verify response.
+    '''(INTERNAL) Build B{C{url}} query, get and verify response.
     '''
     if params:  # build url query, do not map(quote, params)!
         url += '?' + '&'.join(_ for _ in map(str, params) if _)
@@ -126,24 +127,24 @@ def elevation2(lat, lon, timeout=2.0):
        @param lon: Longitude (C{degrees}).
        @keyword timeout: Optional, query timeout (seconds).
 
-       @return: 2-Tuple (C{elevation, data_source}) in (C{meter, str})
-                or (C{None, error}).
+       @return: An L{Elevation2Tuple}C{(elevation, data_source)}
+                or (C{None, error}) in case of errors.
 
-       @note: The returned C{elevation} is C{None} if I{lat} or I{lon}
+       @note: The returned C{elevation} is C{None} if B{C{lat}} or B{C{lon}}
               is invalid or outside the C{Conterminous US (CONUS)},
               if conversion failed or if the query timed out.  The
               C{error} is the C{HTTP-, IO-, SSL-, Type-, URL-} or
               C{ValueError} as a string (C{str}).
 
-       @see: U{USGS National Map<http://NationalMap.gov/epqs>},
-             the U{FAQ<http://www.USGS.gov/faqs/what-are-projection-
+       @see: U{USGS National Map<https://NationalMap.gov/epqs>},
+             the U{FAQ<https://www.USGS.gov/faqs/what-are-projection-
              horizontal-and-vertical-datum-units-and-resolution-3dep-standard-dems>},
-             U{geoid.py<http://Gist.GitHub.com/pyRobShrk>}, module
+             U{geoid.py<https://Gist.GitHub.com/pyRobShrk>}, module
              L{geoids}, classes L{GeoidG2012B}, L{GeoidKarney} and
              L{GeoidPGM}.
     '''
     try:
-        x = _qURL('http://NED.USGS.gov/epqs/pqs.php',  # http://NationalMap.gov/epqs/pqs.php
+        x = _qURL('https://NED.USGS.gov/epqs/pqs.php',  # https://NationalMap.gov/epqs/pqs.php
                         ('x=%.6f' % (lon,),
                          'y=%.6f' % (lat,),
                          'units=Meters',  # Feet
@@ -154,7 +155,7 @@ def elevation2(lat, lon, timeout=2.0):
             try:
                 e = float(e)
                 if -1000000 < e < 1000000:
-                    return e, _xml('Data_Source', x)
+                    return Elevation2Tuple(e, _xml('Data_Source', x))
                 e = 'non-CONUS %.2f' % (e,)
             except ValueError:
                 pass
@@ -162,7 +163,7 @@ def elevation2(lat, lon, timeout=2.0):
             e = 'no XML "%s"' % (clipStr(x, limit=128, white=' '),)
     except (IOError, TypeError, ValueError) as x:
         e = repr(x)
-    return None, _error(elevation2, lat, lon, e)
+    return Elevation2Tuple(None, _error(elevation2, lat, lon, e))
 
 
 def geoidHeight2(lat, lon, model=0, timeout=2.0):
@@ -173,24 +174,24 @@ def geoidHeight2(lat, lon, model=0, timeout=2.0):
        @keyword model: Optional, geoid model ID (C{int}).
        @keyword timeout: Optional, query timeout (seconds).
 
-       @return: 2-Tuple (C{height, model_name}) in (C{meter, str})
-                or C{(None, error}).
+       @return: An L{GeoidHeight2Tuple}C{(height, model_name)}
+                or C{(None, error}) in case of errors.
 
-       @note: The returned C{height} is C{None} if I{lat} or I{lon} is
+       @note: The returned C{height} is C{None} if B{C{lat}} or B{C{lon}} is
               invalid or outside the C{Conterminous US (CONUS)}, if the
-              I{model} was invalid, if conversion failed or if the
+              B{C{model}} was invalid, if conversion failed or if the
               query timed out.  The C{error} is the C{HTTP-, IO-, SSL-,
               Type-, URL-} or C{ValueError} as a string (C{str}).
 
        @see: U{NOAA National Geodetic Survey
-             <http://www.NGS.NOAA.gov/INFO/geodesy.shtml>},
-             U{Geoid<http://www.NGS.NOAA.gov/web_services/geoid.shtml>},
-             U{USGS10mElev.py<http://Gist.GitHub.com/pyRobShrk>}, module
+             <https://www.NGS.NOAA.gov/INFO/geodesy.shtml>},
+             U{Geoid<https://www.NGS.NOAA.gov/web_services/geoid.shtml>},
+             U{USGS10mElev.py<https://Gist.GitHub.com/pyRobShrk>}, module
              L{geoids}, classes L{GeoidG2012B}, L{GeoidKarney} and
              L{GeoidPGM}.
     '''
     try:
-        j = _qURL('http://Geodesy.NOAA.gov/api/geoid/ght',
+        j = _qURL('https://Geodesy.NOAA.gov/api/geoid/ght',
                         ('lat=%.6f' % (lat,),
                          'lon=%.6f' % (lon,),
                          'model=%s' % (model,) if model else ''),
@@ -200,19 +201,21 @@ def geoidHeight2(lat, lon, model=0, timeout=2.0):
             if isinstance(d.get('error', 'N/A'), float):
                 h = d.get('geoidHeight', None)
                 if h is not None:
-                    return h, _str(d.get('geoidModel', 'N/A'))
+                    m = _str(d.get('geoidModel', 'N/A'))
+                    return GeoidHeight2Tuple(h, m)
             e = 'geoidHeight'
         else:
             e = 'JSON'
         e = 'no %s "%s"' % (e, clipStr(j, limit=256, white=' '))
     except (IOError, TypeError, ValueError) as x:
         e = repr(x)
-    return None, _error(geoidHeight2, lat, lon, e)
+    e = _error(geoidHeight2, lat, lon, e)
+    return GeoidHeight2Tuple(None, e)
 
 
 if __name__ == '__main__':
 
-    # <http://WikiPedia.org/wiki/Mount_Diablo>
+    # <https://WikiPedia.org/wiki/Mount_Diablo>
     for f in (elevation2,     # (1173.79, '3DEP 1/3 arc-second')
               geoidHeight2):  # (-31.703, 'GEOID12B')
         t = f(37.8816, -121.9142)

@@ -8,9 +8,9 @@ L{nearestOn2}, L{triangulate} and L{trilaterate}.
 Pure Python implementation of n-vector-based spherical geodetic (lat-/longitude)
 methods, transcribed from JavaScript originals by I{(C) Chris Veness 2011-2016},
 published under the same MIT Licence**.  See U{Vector-based geodesy
-<http://www.Movable-Type.co.UK/scripts/latlong-vectors.html>} and
+<https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>} and
 U{Module latlon-nvector-spherical
-<http://www.Movable-Type.co.UK/scripts/geodesy/docs/module-latlon-nvector-spherical.html>}.
+<https://www.Movable-Type.co.UK/scripts/geodesy/docs/module-latlon-nvector-spherical.html>}.
 
 Tools for working with points and paths on (a spherical model of) the
 earth’s surface using using n-vectors rather than the more common
@@ -18,7 +18,7 @@ spherical trigonometry.  N-vectors make many calculations much simpler,
 and easier to follow, compared with the trigonometric equivalents.
 
 Based on Kenneth Gade’s U{‘Non-singular Horizontal Position Representation’
-<http://www.NavLab.net/Publications/A_Nonsingular_Horizontal_Position_Representation.pdf>},
+<https://www.NavLab.net/Publications/A_Nonsingular_Horizontal_Position_Representation.pdf>},
 The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.
 
 Note that the formulations below take x => 0°N,0°E, y => 0°N,90°E and
@@ -31,7 +31,7 @@ to a normalised version of an (ECEF) cartesian coordinate.
 '''
 
 from datum import R_M
-from fmath import EPS, EPS_2, fmean, fsum, fsum_, isscalar
+from fmath import EPS, EPS_2, fidw, fmean, fsum, fsum_, isscalar, map1
 from lazily import _ALL_LAZY
 from nvector import NorthPole, LatLonNvectorBase, \
                     Nvector as NvectorBase, sumOf
@@ -40,7 +40,7 @@ from sphericalBase import LatLonSphericalBase
 from utily import PI, PI2, PI_2, degrees360, iterNumpy2, \
                   sincos2, sincos2d
 
-from math import atan2, radians, sqrt
+from math import atan2, fabs, radians, sqrt
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.sphericalNvector + (
@@ -109,7 +109,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
                     after the start toward the end point of the path
                     or negative if before the start point).
 
-           @raise TypeError: The I{start} or I{end} point is not L{LatLon}.
+           @raise TypeError: If B{C{start}} or B{C{end}} point is not L{LatLon}.
 
            @raise Valuerror: Some points coincide.
 
@@ -153,7 +153,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @return: Distance to great circle (negative if to the
                     left or positive if to the right of the path).
 
-           @raise TypeError: The I{start} or I{end} point is not L{LatLon}.
+           @raise TypeError: If B{C{start}} or B{C{end}} point is not L{LatLon}.
 
            @raise Valuerror: Some points coincide.
 
@@ -178,12 +178,12 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            travelled the given distance on the given bearing.
 
            @param distance: Distance travelled (C{meter}, same units
-                            as I{radius}).
+                            as B{C{radius}}).
            @param bearing: Bearing from this point (compass C{degrees360}).
            @keyword radius: Optional, mean earth radius (C{meter}).
            @keyword height: Optional height at destination, overriding
                             the default height (C{meter}, same units as
-                            I{radius}).
+                            B{C{radius}}).
 
            @return: Destination point (L{LatLon}).
 
@@ -215,10 +215,10 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @param other: The other point (L{LatLon}).
            @keyword radius: Optional, mean earth radius (C{meter}).
 
-           @return: Distance between this and the I{other} point
-                    (C{meter}, same units as I{radius}).
+           @return: Distance between this and the B{C{other}} point
+                    (C{meter}, same units as B{C{radius}}).
 
-           @raise TypeError: The I{other} point is not L{LatLon}.
+           @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
            @example:
 
@@ -268,7 +268,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @return: N-vector representing great circle (L{Nvector}).
 
-           @raise TypeError: The I{other} point is not L{LatLon}.
+           @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
            @raise Valuerror: Points coincide.
 
@@ -290,15 +290,15 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            to an other point.
 
            @param other: The other point (L{LatLon}).
-           @param unused: Optional keyword argument I{wrap} ignored.
+           @param unused: Optional keyword argument B{C{wrap}} ignored.
 
            @return: Initial bearing (compass C{degrees360}).
 
-           @raise Crosserror: This point coincides with the I{other}
+           @raise Crosserror: This point coincides with the B{C{other}}
                               point or the C{NorthPole}, provided
                               L{crosserrors} is C{True}.
 
-           @raise TypeError: The I{other} point is not L{LatLon}.
+           @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
            @example:
 
@@ -309,7 +309,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @JSname: I{bearingTo}.
         '''
         self.others(other, name='other')
-        # see <http://MathForum.org/library/drmath/view/55417.html>
+        # see <https://MathForum.org/library/drmath/view/55417.html>
         n = self.toNvector()
 #       gc1 = self.greatCircleTo(other)
         gc1 = n.cross(other.toNvector(), raiser='points')  # .unit()
@@ -329,7 +329,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @return: Intermediate point (L{LatLon}).
 
-           @raise TypeError: The I{other} point is not L{LatLon}.
+           @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
            @example:
 
@@ -361,7 +361,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @return: Intermediate point (L{LatLon}).
 
-           @raise TypeError: The I{other} point is not L{LatLon}.
+           @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
            @raise Valuerror: Points coincide.
 
@@ -401,12 +401,11 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @keyword height: Optional height at the intersection point,
                             overriding the mean height (C{meter}).
 
-           @return: The intersection point (L{LatLon}) or 3-tuple
-                    (C{degrees90}, C{degrees180}, height) if I{LatLon}
-                    is C{None} or C{None} if no unique intersection exists.
+           @return: The intersection point (L{LatLon}) or C{None}
+                    if no unique intersection exists.
 
-           @raise TypeError: The I{start2}, I{end1} or I{end2} is
-                             not L{LatLon}.
+           @raise TypeError: If B{C{start2}}, B{C{end1}} or B{C{end2}} point
+                             is not L{LatLon}.
 
            @raise ValueError: Intersection is ambiguous or infinite or
                               the paths are parallel, coincident or null.
@@ -428,9 +427,9 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @return: C{True} if the polygon encloses this point,
                     C{False} otherwise.
 
-           @raise TypeError: Some I{points} are not L{LatLon}.
+           @raise TypeError: Some B{C{points}} are not L{LatLon}.
 
-           @raise ValueError: Insufficient number of I{points}.
+           @raise ValueError: Insufficient number of B{C{points}}.
 
            @example:
 
@@ -495,7 +494,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @return: C{True} if this point is within the arc,
                     C{False} otherwise.
 
-           @raise TypeError: If I{point1} or I{point2} is not L{LatLon}.
+           @raise TypeError: If B{C{point1}} or B{C{point2}} is not L{LatLon}.
 
            @JSname: I{isBetween}.
         '''
@@ -535,7 +534,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @return: Midpoint (L{LatLon}).
 
-           @raise TypeError: The I{other} point is not L{LatLon}.
+           @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
            @example:
 
@@ -564,7 +563,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @return: Closest point on the arc (L{LatLon}).
 
-           @raise TypeError: If I{point1} or I{point2} is not L{LatLon}.
+           @raise TypeError: If B{C{point1}} or B{C{point2}} is not L{LatLon}.
 
            @example:
 
@@ -617,11 +616,11 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @return: 2-Tuple (closest, distance) of the closest point
                     (L{LatLon}) on the polygon and the distance to
                     that point from the given point in C{meter}, same
-                    units of I{radius}.
+                    units of B{C{radius}}.
 
-           @raise TypeError: Some I{points} are not C{LatLon}.
+           @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
-           @raise ValueError: No I{points}.
+           @raise ValueError: No B{C{points}}.
         '''
         n, points = self.points2(points, closed=closed)
 
@@ -668,7 +667,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @return: Triangulated point (L{LatLon}).
 
-           @raise TypeError: The I{other} point is not L{LatLon}.
+           @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
            @raise Valuerror: Points coincide.
 
@@ -684,28 +683,28 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
     def trilaterate(self, distance1, point2, distance2, point3, distance3,
                           radius=R_M, height=None, useZ=False):
         '''Locate a point at given distances from this and two other points.
-           See also U{Trilateration<http://WikiPedia.org/wiki/Trilateration>}.
+           See also U{Trilateration<https://WikiPedia.org/wiki/Trilateration>}.
 
            @param distance1: Distance to this point (C{meter}, same units
-                             as I{radius}).
+                             as B{C{radius}}).
            @param point2: Second reference point (L{LatLon}).
            @param distance2: Distance to point2 (C{meter}, same units as
-                             I{radius}).
+                             B{C{radius}}).
            @param point3: Third reference point (L{LatLon}).
            @param distance3: Distance to point3 (C{meter}, same units as
-                             I{radius}).
+                             B{C{radius}}).
            @keyword radius: Optional, mean earth radius (C{meter}).
            @keyword height: Optional height at trilaterated point,
                             overriding the mean height (C{meter}, same
-                            units as I{radius}).
+                            units as B{C{radius}}).
            @keyword useZ: Include Z component iff non-NaN, non-zero (C{bool}).
 
            @return: Trilaterated point (L{LatLon}).
 
-           @raise TypeError: One of the I{points} is not L{LatLon}.
+           @raise TypeError: Some B{C{points}} are not L{LatLon}.
 
            @raise ValueError: Distance(s) exceeds trilateration or
-                              some I{points} coincide.
+                              some B{C{points}} coincide.
         '''
         return trilaterate(self, distance1, point2, distance2,
                                             point3, distance3,
@@ -736,16 +735,16 @@ class Nvector(NvectorBase):
            @keyword LatLon: Optional (spherical) LatLon (sub-)class to
                             return the point (L{LatLon}) or C{None}.
 
-           @return: Point equivalent to this n-vector (L{LatLon}) or
-                    3-tuple (C{degrees90}, C{degrees180}, height) if
-                    I{LatLon} is C{None}.
+           @return: Point equivalent to this n-vector (B{C{LatLon}})
+                    or a L{LatLon3Tuple}C{(lat, lon, height)}
+                    if B{C{LatLon}} is C{None}.
 
            @example:
 
            >>> n = Nvector(0.5, 0.5, 0.7071)
            >>> p = n.toLatLon()  # 45.0°N, 45.0°E
         '''
-        return self._toLLh(LatLon, height)
+        return self._to3LLh(LatLon, height)
 
     def greatCircle(self, bearing):
         '''Compute the n-vector normal to great circle obtained by
@@ -786,11 +785,11 @@ def areaOf(points, radius=R_M):
        @param points: The polygon points (L{LatLon}[]).
        @keyword radius: Optional, mean earth radius (C{meter}).
 
-       @return: Polygon area (C{meter}, same units as I{radius}, squared).
+       @return: Polygon area (C{meter}, same units as B{C{radius}}, squared).
 
-       @raise TypeError: Some I{points} are not L{LatLon}.
+       @raise TypeError: Some B{C{points}} are not L{LatLon}.
 
-       @raise ValueError: Insufficient number of I{points}.
+       @raise ValueError: Insufficient number of B{C{points}}.
 
        @see: L{pygeodesy.areaOf}, L{sphericalTrigonometry.areaOf} and
              L{ellipsoidalKarney.areaOf}.
@@ -860,12 +859,12 @@ def intersection(start1, end1, start2, end2,
        @keyword LatLon: Optional (sub-)class to return the
                         intersection point (L{LatLon}).
 
-       @return: The intersection point (L{LatLon}) or 3-tuple
-                (C{degrees90}, C{degrees180}, height) if I{LatLon}
+       @return: The intersection point (B{C{LatLon}}) or 3-tuple
+                (C{degrees90}, C{degrees180}, height) if B{C{LatLon}}
                 is C{None} or C{None} if no unique intersection
                 exists.
 
-       @raise TypeError: Start or end point(s) not L{LatLon}.
+       @raise TypeError: If B{C{start*}} or B{C{end*}} is not L{LatLon}.
 
        @raise ValueError: Intersection is ambiguous or infinite or
                           the paths are parallel, coincident or null.
@@ -937,9 +936,9 @@ def meanOf(points, height=None, LatLon=LatLon):
        @keyword LatLon: Optional (sub-)class to return the mean point
                         (L{LatLon}).
 
-       @return: Point at geographic mean and mean height (L{LatLon}).
+       @return: Point at geographic mean and mean height (B{C{LatLon}}).
 
-       @raise ValueError: Insufficient number of I{points}.
+       @raise ValueError: Insufficient number of B{C{points}}.
     '''
     n, points = _Nvll.points2(points, closed=False)
     # geographic mean
@@ -964,14 +963,14 @@ def nearestOn2(point, points, closed=False, radius=R_M, height=None):
        @keyword height: Optional height, overriding the mean height
                         for a point within the arc (C{meter}).
 
-       @return: 2-Tuple (I{closest}, I{distance}) of the closest point
-                (L{LatLon}) on the polygon and the I{distance} from the
-                I{closest} to the other I{point} in C{meter}, same
-                units as I{radius}.
+       @return: 2-Tuple C{(closest, distance)} of the closest point
+                (L{LatLon}) on the polygon and the C{distance} from
+                the C{closest} to the other B{C{point}} in C{meter},
+                same units as B{C{radius}}.
 
-       @raise TypeError: Some I{points} or the point not C{LatLon}.
+       @raise TypeError: Some B{C{points}} or B{C{point}} not C{LatLon}.
 
-       @raise ValueError: No I{points}.
+       @raise ValueError: No B{C{points}}.
     '''
     if not isinstance(point, LatLon):
         raise TypeError('%s not %r: %r' % ('point', LatLon, point))
@@ -993,9 +992,9 @@ def triangulate(point1, bearing1, point2, bearing2,
        @keyword LatLon: Optional (sub-)class to return the triangulated
                         point (L{LatLon}).
 
-       @return: Triangulated point (L{LatLon}).
+       @return: Triangulated point (B{C{LatLon}}).
 
-       @raise TypeError: One of the I{points} is not L{LatLon}.
+       @raise TypeError: If B{C{point1}} or B{C{point2}} is not L{LatLon}.
 
        @raise Valuerror: Points coincide.
 
@@ -1033,30 +1032,31 @@ def triangulate(point1, bearing1, point2, bearing2,
 def trilaterate(point1, distance1, point2, distance2, point3, distance3,
                 radius=R_M, height=None, LatLon=LatLon, useZ=False):
     '''Locate a point at given distances from three other points.
-       See also U{Trilateration<http://WikiPedia.org/wiki/Trilateration>}.
+       See also U{Trilateration<https://WikiPedia.org/wiki/Trilateration>}.
 
        @param point1: First point (L{LatLon}).
        @param distance1: Distance to the first point (C{meter}, same units
-                         as I{radius}).
+                         as B{C{radius}}).
        @param point2: Second point (L{LatLon}).
        @param distance2: Distance to the second point (C{meter}, same units
-                         as I{radius}).
+                         as B{C{radius}}).
        @param point3: Third point (L{LatLon}).
        @param distance3: Distance to the third point (C{meter}, same units
-                         as I{radius}).
+                         as B{C{radius}}).
        @keyword radius: Optional, mean earth radius (C{meter}).
        @keyword height: Optional height at the trilaterated point, overriding
-                        the mean height (C{meter}, same units as I{radius}).
+                        the IDW height (C{meter}, same units as B{C{radius}}).
        @keyword LatLon: Optional (sub-)class to return the trilaterated
                         point (L{LatLon}).
        @keyword useZ: Include Z component iff non-NaN, non-zero (C{bool}).
 
-       @return: Trilaterated point (L{LatLon}).
+       @return: Trilaterated point (B{C{LatLon}}).
 
-       @raise TypeError: One of the I{points} is not L{LatLon}.
+       @raise TypeError: If B{C{point1}}, B{C{point2}} or B{C{point3}}
+                         is not L{LatLon}.
 
-       @raise ValueError: Invalid I{radius}, some I{distances} exceed
-                          trilateration or some I{points} coincide.
+       @raise ValueError: Invalid B{C{radius}}, some B{C{distances}} exceed
+                          trilateration or some B{C{points}} coincide.
     '''
     def _nd2(p, d, name, *qs):
         # return Nvector and radial distance squared
@@ -1078,13 +1078,13 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3,
     x = n2.minus(n1)
 
     d = x.length  # distance n1->n2
-    if d > EPS_2:  # and (y.length * 2) > EPS:
+    if d > EPS_2:  # and y.length > EPS_2:
         X = x.unit()  # unit vector in x direction n1->n2
         i = X.dot(y)  # signed magnitude of x component of n1->n3
         Y = y.minus(X.times(i)).unit()  # unit vector in y direction
         j = Y.dot(y)  # signed magnitude of y component of n1->n3
         if abs(j) > EPS_2:
-            # courtesy Carlos Freitas <http://GitHub.com/mrJean1/PyGeodesy/issues/33>
+            # courtesy Carlos Freitas <https://GitHub.com/mrJean1/PyGeodesy/issues/33>
             x = fsum_(d12, -d22, d**2) / (2 * d)  # n1->intersection x- and ...
             y = fsum_(d12, -d32, i**2, j**2) / (2 * j) - (x * i / j)  # ... y-component
 
@@ -1096,12 +1096,13 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3,
                     n = n.plus(Z.times(sqrt(z)))
 
             if height is None:
-                h = fmean((point1.height, point2.height, point3.height))
+                h = fidw((point1.height, point2.height, point3.height),
+                         map1(fabs, distance1, distance2, distance3))
             else:
                 h = height
             return n.toLatLon(height=h, LatLon=LatLon)  # Nvector(n.x, n.y, n.z).toLatLon(...)
 
-    # no intersection, d < EPS, j < EPS or z is NaN
+    # no intersection, d < EPS_2 or j < EPS_2
     raise ValueError('no %s for %r, %r, %r at %r, %r, %r' %
                      ('trilaterate', point1, point2, point3,
                       distance1, distance2, distance3))

@@ -16,7 +16,7 @@ from pygeodesy import F_D, F_DMS, R_MA, Datums, LatLon_, \
 class Tests(TestsBase):
 
     def testWebMercator(self, LatLon, LatLonE):
-        # <http://alastaira.WordPress.com/2011/01/23/
+        # <https://alastaira.WordPress.com/2011/01/23/
         #         the-google-maps-bing-maps-spherical-mercator-projection>
         lat = 52.4827802220782
         w = toWm(lat, -5.625)
@@ -51,7 +51,7 @@ class Tests(TestsBase):
         self.test('toWm4E', w.toStr(prec=0), '11562388 1496994')
         self.test('toWm4E', w.toStr(prec=6), '11562388.154378 1496993.698095')
 
-        # <http://www.EPSG.org/Portals/0/373-07-02.pdf> page 42
+        # <https://www.EPSG.org/Portals/0/373-07-02.pdf> page 42
         ll = LatLon('''24°22'54.433"N''', '''100°20'0"W''')
         w = ll.toWm()
         self.test('toWm5', w.toStr(prec=0), '-11169056 2800000')
@@ -78,7 +78,7 @@ class Tests(TestsBase):
         self.test('Wm7.toLatLonE', ll, '24.218566°N, 100.333333°W')
         self.test('Wm7.toLatLonE', ll.toStr(form=F_DMS), '24°13′06.84″N, 100°20′00.0″W')
 
-        # <http://alastaira.WordPress.com/2011/01/23/
+        # <https://alastaira.WordPress.com/2011/01/23/
         #         the-google-maps-bing-maps-spherical-mercator-projection>
         w = toWm(51.4085960537841, -0.304339270784791)
         self.test('Wm8.toWm', w.toStr2(), '[x:-33878.893, y:6693890.382]')
@@ -86,16 +86,18 @@ class Tests(TestsBase):
         self.test('Wm8.toLatLon', ll.toStr(form=F_D, prec=12), '51.408596053784°N, 000.304339270785°W')
         self.test('Wm8.toLatLon', ll.toStr(form=F_DMS, prec=6), '51°24′30.945794″N, 000°18′15.621375″W')
 
-        for LL, datum in ((LatLonE, None),
-                          (LatLon , Datums.WGS84),
-                          (LatLon_, Datums.WGS84)):
+        for LL, datum in ((LatLon , Datums.WGS84),
+                          (LatLon_, Datums.WGS84),
+                          (LatLonE, None),
+                          (None,    Datums.WGS84),
+                          (None,    None)):
             try:
                 ll = w.toLatLon(LL, datum=datum)
             except TypeError:
                 ll = 'TypeError'
             self.test('Wm9.toLatLon', ll, 'TypeError')
 
-        # <http://Earth-Info.NGA.mil/GandG/wgs84/web_mercator/
+        # <https://Earth-Info.NGA.mil/GandG/wgs84/web_mercator/
         #         %28U%29%20NGA_SIG_0011_1.0.0_WEBMERC.pdf>
         self._TableA1(LatLon, '', 0,
                       '1118889.97', '2273030.93', '3503549.84',

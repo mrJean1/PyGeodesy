@@ -61,7 +61,9 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class GeoidG2012B</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-         object --+        
+     object --+            
+              |            
+   named._Named --+        
                   |        
 heights._HeightBase --+    
                       |    
@@ -72,23 +74,23 @@ heights._HeightBase --+
 
 <hr />
 <p>Geoid height interpolator for <a 
-  href="http://www.NGS.NOAA.gov/GEOID/GEOID12B/" target="_top">GEOID12B 
+  href="https://www.NGS.NOAA.gov/GEOID/GEOID12B/" target="_top">GEOID12B 
   Model</a> grids <a 
-  href="http://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_CONUS.shtml" 
+  href="https://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_CONUS.shtml" 
   target="_top">CONUS</a>, <a 
-  href="http://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_AK.shtml" 
+  href="https://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_AK.shtml" 
   target="_top">Alaska</a>, <a 
-  href="http://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_HI.shtml" 
+  href="https://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_HI.shtml" 
   target="_top">Hawaii</a>, <a 
-  href="http://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_GMNI.shtml" 
+  href="https://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_GMNI.shtml" 
   target="_top">Guam and Northern Mariana Islands</a>, <a 
-  href="http://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_PRVI.shtml" 
+  href="https://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_PRVI.shtml" 
   target="_top">Puerto Rico and U.S. Virgin Islands</a> and <a 
-  href="http://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_AS.shtml" 
+  href="https://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_AS.shtml" 
   target="_top">American Samoa</a> based on <code>SciPy</code> <a 
-  href="http://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html"
+  href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html"
   target="_top">RectBivariateSpline</a> or <a 
-  href="http://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
+  href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
   target="_top">interp2d</a> interpolation.</p>
   <p>Use any of the binary <code>le</code> (little endian) or 
   <code>be</code> (big endian) <code>g2012b*.bin</code> grid files.</p>
@@ -142,6 +144,11 @@ heights._HeightBase --+
       <code><a href="pygeodesy.geoids._GeoidBase-class.html#upperleft">upperleft</a></code>,
       <code><a href="pygeodesy.geoids._GeoidBase-class.html#upperright">upperright</a></code>
       </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>__copy__</code>,
+      <code>classof</code>,
+      <code>copy</code>
+      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
       <code>__format__</code>,
@@ -181,6 +188,12 @@ heights._HeightBase --+
       <code><a href="pygeodesy.geoids._GeoidBase-class.html#sizeB">sizeB</a></code>,
       <code><a href="pygeodesy.geoids._GeoidBase-class.html#smooth">smooth</a></code>,
       <code><a href="pygeodesy.geoids._GeoidBase-class.html#stdev">stdev</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>,
+      <code>named</code>,
+      <code>named2</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
@@ -229,20 +242,21 @@ heights._HeightBase --+
           <code>WGS84</code>.</li>
         <li><strong class="pname"><code>kind</code></strong> - <code>scipy.interpolate</code> order (<code>int</code>), use 1..5
           for <a 
-          href="http://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html"
+          href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html"
           target="_top">RectBivariateSpline</a>, -2 for <a 
-          href="http://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
+          href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
           target="_top">interp2d linear</a>, -3 for <code>interp2d 
           cubic</code> or -5 for <code>interp2d quintic</code>.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional geoid name (<code>str</code>).</li>
         <li><strong class="pname"><code>smooth</code></strong> - Smoothing factor for <a 
-          href="http://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html"
+          href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html"
           target="_top">RectBivariateSpline</a> only (<code>int</code>).</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.geoids.GeoidError-class.html">GeoidError</a></strong></code> - G2012B grid file <i>g2012b_bin</i> issue, non-<code>None</code> 
-        <i>crop</i> or invalid <i>kind</i> or <i>smooth</i>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.geoids.GeoidError-class.html">GeoidError</a></strong></code> - G2012B grid file <b><code>g2012b_bin</code></b> issue, 
+        non-<code>None</code> <b><code>crop</code></b> or invalid 
+        <b><code>kind</code></b> or <b><code>smooth</code></b>.</li>
         <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> or <code>scipy</code> not found or not 
         installed.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.heights.SciPyError-class.html">SciPyError</a></strong></code> - A <code>RectBivariateSpline</code> or <code>inter2d</code> issue.</li>
@@ -287,7 +301,7 @@ heights._HeightBase --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 17 12:19:03 2019
+    Generated by Epydoc 3.0.1 on Tue Jun 25 11:55:35 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

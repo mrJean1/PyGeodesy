@@ -4,37 +4,36 @@
 u'''Lambert conformal conic projection for 1- or 2-Standard Parallels
 class L{Conic}, L{Conics} registry and position class L{Lcc}.
 
-See U{LCC<http://WikiPedia.org/wiki/Lambert_conformal_conic_projection>},
+See U{LCC<https://WikiPedia.org/wiki/Lambert_conformal_conic_projection>},
 U{Lambert Conformal Conic to Geographic Transformation Formulae
-<http://www.Linz.govt.NZ/data/geodetic-system/coordinate-conversion/
+<https://www.Linz.govt.NZ/data/geodetic-system/coordinate-conversion/
 projection-conversions/lambert-conformal-conic-geographic>},
 U{Lambert Conformal Conic Projection
-<http://MathWorld.Wolfram.com/LambertConformalConicProjection.html>}
+<https://MathWorld.Wolfram.com/LambertConformalConicProjection.html>}
 and John P. Snyder U{'Map Projections - A Working Manual'
-<http://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}, 1987, pp 107-109.
+<https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}, 1987, pp 107-109.
 
 @newfield example: Example, Examples
 '''
 
-from bases import _Based, _nameof, _xattrs, _xnamed
 from ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
-from datum import _Registered, Datums, _Enum
+from datum import Datums
 from fmath import EPS, fStr, hypot
 from lazily import _ALL_LAZY
+from named import EasNor3Tuple, LatLon4Tuple, LatLonDatum3Tuple, \
+                 _NamedBase, _NamedEnum, _NamedEnumItem, nameof, \
+                 _xattrs, _xnamed
 from utily import PI_2, degrees90, degrees180, false2f, \
-                  property_RO, sincos2, tanPI_2_2
+                  issubclassof, property_RO, sincos2, tanPI_2_2
 
 from math import atan, copysign, log, radians, sin, sqrt
 
 # all public constants, classes and functions
 __all__ = _ALL_LAZY.lcc
-__version__ = '19.04.09'
+__version__ = '19.05.10'
 
 
-Conics = _Enum('Conics')  #: Registered conics (L{_Enum}).
-
-
-class Conic(_Registered):
+class Conic(_NamedEnumItem):
     '''Lambert conformal conic projection (1- or 2-SP).
     '''
     _auth  = ''  #: (INTERNAL) authorization (C{str}).
@@ -74,7 +73,7 @@ class Conic(_Registered):
 
            @return: A Lambert projection (L{Conic}).
 
-           @raise TypeError: Non-ellipsoidal I{latlon0}.
+           @raise TypeError: Non-ellipsoidal B{C{latlon0}}.
 
            @example:
 
@@ -201,7 +200,7 @@ class Conic(_Registered):
 
            @return: Converted conic, unregistered (L{Conic}).
 
-           @raise TypeError: Non-ellipsoidal I{datum}.
+           @raise TypeError: Non-ellipsoidal B{C{datum}}.
         '''
         E = datum.ellipsoid
         if not E.isEllipsoidal:
@@ -314,7 +313,8 @@ class Conic(_Registered):
         return PI_2 - 2 * atan(t_x)  # XXX + self._lat0
 
 
-Conics._assert(  # <http://SpatialReference.org/ref/sr-org/...>
+Conics = _NamedEnum('Conics', Conic)  #: Registered conics.
+Conics._assert(  # <https://SpatialReference.org/ref/sr-org/...>
 #   AsLb   = Conic(_LLEB(-14.2666667, 170, datum=Datums.NAD27), 0, 0, E0=500000, N0=0, name='AsLb', auth='EPSG:2155'),  # American Samoa ... SP=1 !
     Be08Lb = Conic(_LLEB(50.7978150, 4.359215833, datum=Datums.GRS80), 49.833333, 51.166667, E0=649328.0, N0=665262.0, name='Be08Lb', auth='EPSG:9802'),  # Belgium
     Be72Lb = Conic(_LLEB(90, 4.3674867, datum=Datums.NAD83), 49.8333339, 51.1666672, E0=150000.013, N0=5400088.438, name='Be72Lb', auth='EPSG:31370'),  # Belgium
@@ -327,7 +327,7 @@ Conics._assert(  # <http://SpatialReference.org/ref/sr-org/...>
 )
 
 
-class Lcc(_Based):
+class Lcc(_NamedBase):
     '''Lambert conformal conic East-/Northing location.
     '''
     _easting  = 0  #: (INTERNAL) Easting (C{float}).
@@ -346,9 +346,9 @@ class Lcc(_Based):
 
            @return: The Lambert location (L{Lcc}).
 
-           @raise TypeError: If I{conic} is not L{Conic}.
+           @raise TypeError: If B{C{conic}} is not L{Conic}.
 
-           @raise ValueError: If I{e} or I{n} is invalid or negative.
+           @raise ValueError: Invalid or negative B{C{e}} or B{C{n}}.
 
            @example:
 
@@ -406,12 +406,11 @@ class Lcc(_Based):
         '''Convert this L{Lcc} to a geodetic lat- and longitude.
 
            @keyword datum: Optional datum to use, otherwise use this
-                           I{Lcc}'s conic.datum (C{Datum}).
+                           B{C{Lcc}}'s conic.datum (C{Datum}).
 
-           @return: 3-Tuple (lat, lon, datum) in (C{degrees90},
-                    {degrees180}, I{datum}).
+           @return: A L{LatLonDatum3Tuple}C{(lat, lon, datum)}.
 
-           @raise TypeError: If I{datum} is not ellipsoidal.
+           @raise TypeError: If B{C{datum}} is not ellipsoidal.
         '''
         c = self.conic
         if datum:
@@ -432,7 +431,7 @@ class Lcc(_Based):
         a = degrees90(x)
         b = degrees180((atan(e / n) + c._opt3) * c._n_ + c._lon0)
 
-        return a, b, c.datum
+        return LatLonDatum3Tuple(a, b, c.datum)
 
     def toLatLon(self, LatLon=None, datum=None, height=None):
         '''Convert this L{Lcc} to an (ellipsoidal) geodetic point.
@@ -440,23 +439,25 @@ class Lcc(_Based):
            @keyword LatLon: Optional, ellipsoidal (sub-)class to return
                             the geodetic point (C{LatLon}) or C{None}.
            @keyword datum: Optional datum to use, otherwise use this
-                           I{Lcc}'s conic.datum (C{Datum}).
+                           B{C{Lcc}}'s conic.datum (C{Datum}).
            @keyword height: Optional height for the point, overriding
                             the default height (C{meter}).
 
-           @return: The point (I{LatLon}) or 4-tuple (C{degrees90},
-                    C{degrees180}, height, datum) if I{LatLon} is C{None}.
+           @return: The point (B{C{LatLon}}) or a
+                    L{LatLon4Tuple}C{(lat, lon, height, datum)}
+                    if B{C{LatLon}} is C{None}.
 
-           @raise TypeError: If I{LatLon} or I{datum} is not ellipsoidal.
+           @raise TypeError: If B{C{LatLon}} or B{C{datum}} is not ellipsoidal.
         '''
-        if LatLon and not issubclass(LatLon, _LLEB):
+        if LatLon and not issubclassof(LatLon, _LLEB):
             raise TypeError('%s not %s: %r' % ('LatLon', 'ellipsoidal', LatLon))
 
         a, b, d = self.to3lld(datum=datum)
         h = self.height if height is None else height
 
-        return (a, b, h, d) if LatLon is None else _xnamed(LatLon(
-                a, b, height=h, datum=d), self.name)
+        r = LatLon4Tuple(a, b, h, d) if LatLon is None else \
+                  LatLon(a, b, height=h, datum=d)
+        return self._xnamed(r)
 
     def toStr(self, prec=0, sep=' ', m='m'):  # PYCHOK expected
         '''Return a string representation of this L{Lcc} position.
@@ -509,12 +510,13 @@ def toLcc(latlon, conic=Conics.WRF_Lb, height=None, Lcc=Lcc, name=''):
                         the default height (C{meter}).
        @keyword Lcc: Optional (sub-)class to return the Lambert
                      location (L{Lcc}).
-       @keyword name: Optional I{Lcc} name (C{str}).
+       @keyword name: Optional B{C{Lcc}} name (C{str}).
 
-       @return: The Lambert location (L{Lcc}) or 3-tuple (C{easting,
-                northing, height}) if I{Lcc} is C{None}.
+       @return: The Lambert location (L{Lcc}) or an
+                L{EasNor3Tuple}C{(easting, northing, height)}
+                if B{C{Lcc}} is C{None}.
 
-       @raise TypeError: If I{latlon} is not ellipsoidal.
+       @raise TypeError: If B{C{latlon}} is not ellipsoidal.
     '''
     if not isinstance(latlon, _LLEB):
         raise TypeError('%s not %s: %r' % ('latlon', 'ellipsoidal', latlon))
@@ -530,8 +532,9 @@ def toLcc(latlon, conic=Conics.WRF_Lb, height=None, Lcc=Lcc, name=''):
     n = c._N0 + c._r0 - r * ct
 
     h = latlon.height if height is None else height
-    return (e, n, h) if Lcc is None else _xnamed(Lcc(
-            e, n, h=h, conic=c), name or _nameof(latlon))
+    r = EasNor3Tuple(e, n, h) if Lcc is None else \
+                 Lcc(e, n, h=h, conic=c)
+    return _xnamed(r, name or nameof(latlon))
 
 
 if __name__ == '__main__':

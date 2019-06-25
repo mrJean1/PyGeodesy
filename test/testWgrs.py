@@ -4,7 +4,7 @@
 # Test wgrs module.
 
 __all__ = ('Tests',)
-__version__ = '19.04.17'
+__version__ = '19.05.07'
 
 from base import TestsBase
 
@@ -32,7 +32,7 @@ class Tests(TestsBase):
     def testGeoref(self, LL):
 
         # Karney's geographiclib/1.49/examples/example-Georef.cpp
-        # <http://SourceForge.net/p/geographiclib/code/ci/release/tree/examples/example-Georef.cpp>
+        # <https://SourceForge.net/p/geographiclib/code/ci/release/tree/examples/example-Georef.cpp>
         g = Georef('57.64911, 10.40744', precision=6)
         self.test('Georef', g, 'NKLN2444638946')
         self.test('Georef', repr(g), "Georef('NKLN2444638946')")
@@ -41,7 +41,7 @@ class Tests(TestsBase):
         self.test('Georef.toLatLon', repr(t), 'LatLon(57°38′56.8″N, 010°24′26.78″E)')
         self.testCodec3(g, '57.64911, 10.40744, 6.0', prec=5)
 
-        # <http://WikiPedia.org/wiki/World_Geographic_Reference_System>
+        # <https://WikiPedia.org/wiki/World_Geographic_Reference_System>
         g = Georef('38.286108, -76.4291704', precision=6)
         self.test('Georef', g, 'GJPJ3424917166')
         self.test('Georef', repr(g), "Georef('GJPJ3424917166')")
@@ -50,13 +50,13 @@ class Tests(TestsBase):
         self.test('Georef.toLatLon', repr(t), 'LatLon(38°17′09.99″N, 076°25′45.01″W)')
         self.testCodec3(g, '38.286108, -76.429175, 6.0', prec=6)
 
-        # <http://Earth-Info.NGA.mil/GandG/coordsys/grids/georef.pdf>
+        # <https://Earth-Info.NGA.mil/GandG/coordsys/grids/georef.pdf>
         self.testCodec3('MKPG1204', '51.075, -1.7917, 3.0', prec=4)
 
-        # <http://www.map-reading.com/ch4-4.php>
+        # <https://www.Map-Reading.com/ch4-4.php>
         self.testCodec3('WJKG1503', '36.0583, 129.2583, 3.0', prec=4)
 
-        # <http://WikiPedia.org/wiki/World_Geographic_Reference_System>
+        # <https://WikiPedia.org/wiki/World_Geographic_Reference_System>
         self.testCodec5('GJPJ4103R5',    '38.0583, -76.3083, 3.0, None, 9260.0',   prec=4)
         self.testCodec5('GJPJ4103H17',   '38.0583, -76.3083, 3.0, 5181.6, None',   prec=4)
         self.testCodec5('GJPJ4103R5H17', '38.0583, -76.3083, 3.0, 5181.6, 9260.0', prec=4)

@@ -63,7 +63,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.06.18
+        19.06.19
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -302,6 +302,27 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fidw" class="summary-sig-name">fidw</a>(<span class="summary-sig-arg">xs</span>,
+        <span class="summary-sig-arg">ds</span>,
+        <span class="summary-sig-arg">beta</span>=<span class="summary-sig-default">2</span>)</span><br />
+      Interpolate using using <a 
+      href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+      target="_top">Inverse Distance Weighting</a> (IDW).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fmean" class="summary-sig-name">fmean</a>(<span class="summary-sig-arg">xs</span>)</span><br />
       Compute the accurate mean <i class="math">sum(xs[i] for i=0..len(xs))
       / len(xs)</i>.</td>
@@ -506,10 +527,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#hypot3" class="summary-sig-name">hypot3</a>(<span class="summary-sig-arg">x</span>,
-        <span class="summary-sig-arg">y</span>,
-        <span class="summary-sig-arg">z</span>)</span><br />
-      Compute the norm <i class="math">sqrt(x**2 + y**2 + z**2)</i>.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#hypot_" class="summary-sig-name">hypot_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
+      Compute the norm <i class="math">sqrt(sum(xs[i]**2)) for 
+      i=0..len(xs)</i>.</td>
           <td align="right" valign="top">
             
             
@@ -907,7 +927,7 @@
         <dd>Dot product (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Unequal <code>len</code>(<i>a</i>) and <code>len</code>(<i>b</i>).</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Unequal <code>len(<b>a</b>)</code> and <code>len(<b>b</b>)</code>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -947,8 +967,9 @@
         <dd>Dot product (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Unequal <code>len</code>(<i>a</i>), <code>len</code>(<i>b</i>) 
-        and/or <code>len</code>(<i>c</i>).</li>
+        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Unequal <code>len(<b>a</b>)</code>, <code>len(<b>b</b>)</code> 
+        and/or <code>len(<b>c</b>)</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -980,14 +1001,59 @@
         <dd>Horner value (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <i>x</i>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - No <i>cs</i> coefficients or <i>x</i> is not finite.</li>
+        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>x</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - No <b><code>cs</code></b> coefficients or <b><code>x</code></b> is 
+        not finite.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.fmath-module.html#fpolynomial" 
         class="link">fpolynomial</a> and class <a 
         href="pygeodesy.fmath.Fhorner-class.html" class="link">Fhorner</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="fidw"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fidw</span>(<span class="sig-arg">xs</span>,
+        <span class="sig-arg">ds</span>,
+        <span class="sig-arg">beta</span>=<span class="sig-default">2</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Interpolate using using <a 
+  href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+  target="_top">Inverse Distance Weighting</a> (IDW).</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>xs</code></strong> - Known values (<code>scalar</code>[]).</li>
+        <li><strong class="pname"><code>ds</code></strong> - Non-negative distances (<code>scalar</code>[]).</li>
+        <li><strong class="pname"><code>beta</code></strong> - Inverse distance power (<code>int</code>, 0, 1, 2, or 3).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Interpolated value <code>x</code> (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>beta</code></b>, negative <b><code>ds</code></b> 
+        value, weighted <b><code>ds</code></b> below <a 
+        href="pygeodesy.fmath-module.html#EPS" class="link">EPS</a> or 
+        unequal <code>len(<b>ds</b>)</code> and 
+        <code>len(<b>xs</b>)</code>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Using <code><b>beta</b>=0</code> returns the mean of 
+        <b><code>xs</code></b>.
       </p>
 </div></td></tr></table>
 </div>
@@ -1016,7 +1082,8 @@
         <dd>Mean value (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - No <i>xs</i> values.</li>
+        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - No <b><code>xs</code></b> values.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1048,8 +1115,10 @@
         <dd>Polynomial value (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <i>x</i>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - No <i>cs</i> coefficients or <i>x</i> is not finite.</li>
+        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>x</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - No <b><code>cs</code></b> coefficients or <b><code>x</code></b> is 
+        not finite.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -1086,11 +1155,13 @@
           (<code>int</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Powers of <i>x</i> (<code>float</code>[]).</dd>
+        <dd>Powers of <b><code>x</code></b> (<code>float</code>[]).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <i>x</i> or <i>n</i> not <code>int</code>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Non-positive <i>n</i> or <i>x</i> is not finite.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>x</code></b> or <b><code>n</code></b> not 
+        <code>int</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Non-finite <b><code>x</code></b> or non-positive 
+        <b><code>n</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1123,7 +1194,7 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a 
-        href="http://docs.SciPy.org/doc/numpy/reference/generated/numpy.prod.html"
+        href="https://docs.SciPy.org/doc/numpy/reference/generated/numpy.prod.html"
         target="_top">NumPy.prod</a>.
       </p>
 </div></td></tr></table>
@@ -1157,7 +1228,7 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a 
-        href="http://docs.SciPy.org/doc/numpy/reference/generated/numpy.arange.html"
+        href="https://docs.SciPy.org/doc/numpy/reference/generated/numpy.arange.html"
         target="_top">NumPy.prod</a>.
       </p>
 </div></td></tr></table>
@@ -1214,8 +1285,9 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>floats</code></strong> - List, sequence, tuple, etc. (<code>scalar</code>s).</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional precision, number of decimal digits (0..9). Trailing 
-          zero decimals are stripped for <i>prec</i> values of 1 and above,
-          but kept for negative <i>prec</i> values.</li>
+          zero decimals are stripped for <b><code>prec</code></b> values of
+          1 and above, but kept for negative <b><code>prec</code></b> 
+          values.</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional, separator to join (string).</li>
         <li><strong class="pname"><code>fmt</code></strong> - Optional, float format (string).</li>
         <li><strong class="pname"><code>ints</code></strong> - Optionally, remove decimal dot (<code>bool</code>).</li>
@@ -1276,8 +1348,8 @@
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <i>arg</i> value.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or infinite <i>arg</i> value.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>xs</code></b> value.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or non-finite <b><code>xs</code></b> value.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1327,34 +1399,51 @@
   </dl>
 </td></tr></table>
 </div>
-<a name="hypot3"></a>
+<a name="hypot_"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">hypot3</span>(<span class="sig-arg">x</span>,
-        <span class="sig-arg">y</span>,
-        <span class="sig-arg">z</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">hypot_</span>(<span class="sig-arg">*xs</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Compute the norm <i class="math">sqrt(x**2 + y**2 + z**2)</i>.</p>
+  <p>Compute the norm <i class="math">sqrt(sum(xs[i]**2)) for 
+  i=0..len(xs)</i>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - X argument (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>y</code></strong> - Y argument (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>z</code></strong> - Z argument (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>xs</code></strong> - X arguments, positional (<code>scalar</code>[]).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Norm (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or no <b><code>xs</code></b> value.</li>
+    </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Similar to Python 3.8+ <a 
+        href="https://docs.Python.org/3.8/library/math.html#math.hypot" 
+        target="_top">math.hypot</a>, but handling of exceptions, 
+        <code>nan</code> and <code>infinite</code> values is different.
+      </p>
+      <p><strong>Note:</strong>
+        The Python 3.8+ <a 
+        href="https://docs.Python.org/3.8/library/math.html#math.dist" 
+        target="_top">math.dist</a> Euclidian distance between 2 
+        <i>n</i>-dimensional points <i>p1</i> and <i>p2</i> can be computed
+        as <i class="math">hypot_(*((c1 - c2) for c1, c2 in zip(p1, 
+        p2)))</i>, provided <i>p1</i> and <i>p2</i> have the same, non-zero
+        length <i>n</i>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="isfinite"></a>
 <div>
@@ -1377,11 +1466,11 @@
         <li><strong class="pname"><code>obj</code></strong> - Value (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>False</code> if <i>obj</i> is <code>INF</code> or 
-          <code>NAN</code>, <code>True</code> otherwise.</dd>
+        <dd><code>False</code> if <b><code>obj</code></b> is <code>INF</code>
+          or <code>NAN</code>, <code>True</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <i>obj</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>obj</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1409,7 +1498,7 @@
         <li><strong class="pname"><code>both</code></strong> - Optionally, check both type and value (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if <i>obj</i> is <code>int</code>, 
+        <dd><code>True</code> if <b><code>obj</code></b> is <code>int</code>,
           <code>False</code> otherwise.</dd>
   </dl>
 </td></tr></table>
@@ -1435,8 +1524,8 @@
         <li><strong class="pname"><code>obj</code></strong> - Value (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if <i>obj</i> is <code>NEG0</code> or -0.0, 
-          <code>False</code> otherwise.</dd>
+        <dd><code>True</code> if <b><code>obj</code></b> is <code>NEG0</code>
+          or -0.0, <code>False</code> otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1461,8 +1550,8 @@
         <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if <i>obj</i> is <code>scalar</code>, 
-          <code>False</code> otherwise.</dd>
+        <dd><code>True</code> if <b><code>obj</code></b> is 
+          <code>scalar</code>, <code>False</code> otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1581,11 +1670,11 @@
         <li><strong class="pname"><code>name</code></strong> - Optional name of value (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>New value (<code>type</code> of <i>low</i>).</dd>
+        <dd>New value (<code>type</code> of <b><code>low</code></b>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <i>value</i>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Out-of-bounds <i>value</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>value</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Out-of-bounds <b><code>value</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1615,7 +1704,7 @@
         <dd>Cubed square root (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Negative <i>x</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Negative <b><code>x</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -1657,7 +1746,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 17 12:19:02 2019
+    Generated by Epydoc 3.0.1 on Tue Jun 25 11:55:33 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

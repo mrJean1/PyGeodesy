@@ -4,7 +4,7 @@
 # Test formulary functions.
 
 __all__ = ('Tests',)
-__version__ = '19.04.05'
+__version__ = '19.05.02'
 
 from base import TestsBase
 
@@ -34,7 +34,7 @@ class Tests(TestsBase):
     def testFormy(self):
 
         self.test('antipode1', antipode( 89,  179), (-89, -1))
-        self.test('antipode2', antipode(-89, -179),  (89,  1))
+        self.test('antipode2', antipode(-89, -179), (89, 1))
 
         self.test('isantipode1', isantipode( 89,  179, -89, -1), True)
         self.test('isantipode2', isantipode(-89, -179,  89,  1), True)
@@ -55,7 +55,7 @@ class Tests(TestsBase):
         MtDiablo  = 37.8816, -121.9142
         Newport   = 41.49008, -71.312796
         NewYork   = 40.7791472, -73.9680804
-        # <http://GeographicLib.SourceForge.io/cgi-bin/GeodSolve>
+        # <https://GeographicLib.SourceForge.io/cgi-bin/GeodSolve>
         for ll1, ll2, x in ((Boston, NewYork,    298396.057),
                             (Boston, Newport,     98071.559),
                             (Cleveland, NewYork, 653456.173),

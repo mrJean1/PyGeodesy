@@ -7,43 +7,43 @@ and functions L{parseUTM5}, L{toUtm8} and L{utmZoneBand5}.
 Pure Python implementation of UTM / WGS-84 conversion functions using
 an ellipsoidal earth model, transcribed from JavaScript originals by
 I{(C) Chris Veness 2011-2016} published under the same MIT Licence**, see
-U{UTM<http://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>} and
-U{Module utm<http://www.Movable-Type.co.UK/scripts/geodesy/docs/module-utm.html>}.
+U{UTM<https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>} and
+U{Module utm<https://www.Movable-Type.co.UK/scripts/geodesy/docs/module-utm.html>}.
 
-The U{UTM<http://WikiPedia.org/wiki/Universal_Transverse_Mercator_coordinate_system>}
+The U{UTM<https://WikiPedia.org/wiki/Universal_Transverse_Mercator_coordinate_system>}
 system is a 2-dimensional Cartesian coordinate system providing another way
 to identify locations on the surface of the earth.  UTM is a set of 60
 transverse Mercator projections, normally based on the WGS-84 ellipsoid.
-Within each zone, coordinates are represented as I{easting}s and I{northing}s,
+Within each zone, coordinates are represented as B{C{easting}}s and B{C{northing}}s,
 measured in metres.
 
 This module includes some of Charles Karney's U{'Transverse Mercator with an
-accuracy of a few nanometers'<http://Arxiv.org/pdf/1002.1417v3.pdf>}, 2011
+accuracy of a few nanometers'<https://Arxiv.org/pdf/1002.1417v3.pdf>}, 2011
 (building on Krüger's U{'Konforme Abbildung des Erdellipsoids in der Ebene'
-<http://bib.GFZ-Potsdam.DE/pub/digi/krueger2.pdf>}, 1912) and C++ class
+<https://bib.GFZ-Potsdam.DE/pub/digi/krueger2.pdf>}, 1912) and C++ class
 U{TransverseMercator
-<http://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercator.html>}.
+<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercator.html>}.
 
 Some other references are U{Universal Transverse Mercator coordinate system
-<http://WikiPedia.org/wiki/Universal_Transverse_Mercator_coordinate_system>},
-U{Transverse Mercator Projection<http://GeographicLib.SourceForge.io/tm.html>}
+<https://WikiPedia.org/wiki/Universal_Transverse_Mercator_coordinate_system>},
+U{Transverse Mercator Projection<https://GeographicLib.SourceForge.io/tm.html>}
 and Henrik Seidel U{'Die Mathematik der Gauß-Krueger-Abbildung'
-<http://Henrik-Seidel.GMXhome.DE/gausskrueger.pdf>}, 2006.
+<https://Henrik-Seidel.GMXhome.DE/gausskrueger.pdf>}, 2006.
 
 @newfield example: Example, Examples
 '''
 
-from bases import _Based, _xattrs, _xnamed
 from datum import Datums
 from dms import degDMS, parseDMS2, _parseUTMUPS, RangeError
-from ellipsoidalBase import LatLonEllipsoidalBase as _LLEB, \
-                            _hemi, _to4lldn, _to3zBhp, _to3zll, \
-                            _UTM_LAT_MAX, _UTM_LAT_MIN, \
-                            _UTM_ZONE_MIN, _UTM_ZONE_MAX, \
-                            _UTM_ZONE_OFF_MAX
-from fmath import EPS, fdot3, fStr, Fsum, hypot, hypot1, len2, map2
+from fmath import EPS, fdot3, Fsum, hypot, hypot1, len2, map2
 from lazily import _ALL_LAZY
+from named import EasNor2Tuple, UtmUps5Tuple, UtmUps8Tuple, \
+                  UtmUpsLatLon5Tuple, _xattrs, _xnamed
 from utily import degrees90, degrees180, property_RO, sincos2  # splice
+from utmupsBase import _LLEB, _hemi, _to4lldn, _to3zBhp, _to3zll, \
+                       _UTM_LAT_MAX, _UTM_LAT_MIN, \
+                       _UTM_ZONE_MIN, _UTM_ZONE_MAX, \
+                       _UTM_ZONE_OFF_MAX, UtmUpsBase
 
 from math import asinh, atan, atanh, atan2, cos, cosh, \
                  degrees, radians, sin, sinh, tan, tanh
@@ -51,7 +51,7 @@ from operator import mul
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utm
-__version__ = '19.04.24'
+__version__ = '19.06.14'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -70,9 +70,9 @@ class UTMError(ValueError):
 class _Kseries(object):
     '''(INTERNAL) Alpha or Beta Krüger series.
 
-       Krüger series summations for I{eta}, I{ksi}, I{p} and I{q},
+       Krüger series summations for B{C{eta}}, B{C{ksi}}, B{C{p}} and B{C{q}},
        caching the C{cos}, C{cosh}, C{sin} and C{sinh} values for
-       the given I{eta} and I{ksi} angles (in C{radians}).
+       the given B{C{eta}} and B{C{ksi}} angles (in C{radians}).
     '''
     def __init__(self, AB, x, y):
         '''(INTERNAL) New Alpha or Beta Krüger series
@@ -126,7 +126,19 @@ def _cmlon(zone):
     return (zone * 6) - 183
 
 
-def _to3zBlat(zone, band, mgrs=False):  # imported by .mgrs.Mgrs
+def _false2(e, n, h):
+    '''(INTERNAL) False easting and northing.
+    '''
+    # Karney, "Test data for the transverse Mercator projection (2009)"
+    # <https://GeographicLib.SourceForge.io/html/transversemercator.html>
+    # and <https://Zenodo.org/record/32470#.W4LEJS2ZON8>
+    e += _FalseEasting  # make e relative to central meridian
+    if h == 'S':
+        n += _FalseNorthing  # make n relative to equator
+    return e, n
+
+
+def _to3zBlat(zone, band, mgrs=False):  # imported by .mgrs.py
     '''(INTERNAL) Check and return zone, Band and band latitude.
 
        @param zone: Zone number or string.
@@ -159,7 +171,7 @@ def _to3zBll(lat, lon, cmoff=True):
 
        @param lat: Latitude (C{degrees}).
        @param lon: Longitude (C{degrees}).
-       @keyword cmoff: Offset I{lon} from zone's central meridian.
+       @keyword cmoff: Offset B{C{lon}} from zone's central meridian.
 
        @return: 4-Tuple (zone, Band, lat, lon).
     '''
@@ -187,25 +199,33 @@ def _to3zBll(lat, lon, cmoff=True):
     return z, B, lat, lon
 
 
-class Utm(_Based):
+def _to7zBlldfn(latlon, lon, datum, falsed, name, zone, Error, **cmoff):
+    '''(INTERNAL) Determine 7-tuple (zone, band, lat, lon, datum,
+        falsed, name) for L{toEtm8} and L{toUtm8}.
+    '''
+    f = falsed and cmoff.get('cmoff', True)  # DEPRECATED
+    lat, lon, d, name = _to4lldn(latlon, lon, datum, name)
+    z, B, lat, lon = _to3zBll(lat, lon, cmoff=f)
+    if zone:  # re-zone for ETM/UTM
+        r, _, _ = _to3zBhp(zone, band=B)
+        if r != z:
+            if not _UTM_ZONE_MIN <= r <= _UTM_ZONE_MAX:
+                raise Error('%s invalid: %r' % ('zone', zone))
+            if f:  # re-offset from central meridian
+                lon += _cmlon(z) - _cmlon(r)
+            z = r
+    return z, B, lat, lon, d, f, name
+
+
+class Utm(UtmUpsBase):
     '''Universal Transverse Mercator (UTM) coordinate.
     '''
     _band        = ''    #: (INTERNAL) Latitude band letter ('C..X').
-    _convergence = None  #: (INTERNAL) Meridian conversion (C{degrees}).
-    _datum       = Datums.WGS84  #: (INTERNAL) L{Datum}.
-    _easting     = 0     #: (INTERNAL) Easting from false easting (C{meter}).
-    _epsg        = None  #: (INTERNAL) toEpsg cache (L{Epsg}).
-    _falsed      = True  #: (INTERNAL) Falsed easting and northing (C{bool}).
-    _hemisphere  = ''    #: (INTERNAL) Hemisphere ('N' or 'S').
-    # _latlon also set by ellipsoidalBase.LatLonEllipsoidalBase.toUtm
-    _latlon      = None  #: (INTERNAL) toLatLon cache (C{LatLon}).
-    _latlon_eps  = EPS   #: (INTERNAL) eps from _latlon (C{float}).
-    _mgrs        = None  #: (INTERNAL) toMgrs cache (L{Mgrs}).
-    _northing    = 0     #: (INTERNAL) Northing from false northing (C{meter}).
+    _Error       = UTMError  # or etm.ETMError
+    _latlon_args = ()    #: (INTERNAL) (eps, unfalse) from _latlon (C{float}, C{bool}).
     _scale       = None  #: (INTERNAL) Grid scale factor (C{scalar}) or C{None}.
-    _ups         = None  #: (INTERNAL) toUps cache (L{Ups}).
-    _utm         = None  #: (INTERNAL) toUtm cache (L{Utm}).
-    _zone        = 0     #: (INTERNAL) Longitudinal zone, zero always.
+    _scale0      = _K0   #: (INTERNAL) Central scale factor (C{scalar}).
+    _zone        = 0     #: (INTERNAL) Longitudinal zone (C{int} 1..60).
 
     def __init__(self, zone, hemisphere, easting, northing, band='',  # PYCHOK expected
                              datum=Datums.WGS84, falsed=True,
@@ -217,23 +237,21 @@ class Utm(_Based):
                         '01C'..'60X').
            @param hemisphere: Northern or southern hemisphere (C{str},
                               C{'N[orth]'} or C{'S[outh]'}).
-           @param easting: Easting from false easting (C{meter}, -500km
-                           from central meridian).
-           @param northing: Northing from equator (C{meter}, N or from
-                            false northing -10,000km S).
+           @param easting: Easting, see B{C{falsed}} (C{meter}).
+           @param northing: Northing, see B{C{falsed}} (C{meter}).
            @keyword band: Optional, (latitudinal) band (C{str}, 'C'..'X').
            @keyword datum: Optional, this coordinate's datum (L{Datum}).
-           @keyword falsed: Both I{easting} and I{northing} are falsed (C{str}).
+           @keyword falsed: Both B{C{easting}} and B{C{northing}} are
+                            falsed (C{bool}).
            @keyword convergence: Optional meridian convergence, bearing
                                  off grid North, clockwise from true
                                  North (C{degrees}) or C{None}.
-           @keyword scale: Optional grid scale factor (C{scalar}) or C{None}.
+           @keyword scale: Optional grid scale factor (C{scalar}) or
+                           C{None}.
            @keyword name: Optional name (C{str}).
 
-           @raise RangeError: If I{easting} or I{northing} outside the
-                              valid UTM range.
-
-           @raise UTMError: Invalid I{zone}, I{hemishere} or I{band}.
+           @raise UTMError: Invalid B{C{zone}}, B{C{hemishere}} or
+                            B{C{band}}.
 
            @example:
 
@@ -247,27 +265,36 @@ class Utm(_Based):
 
         h = str(hemisphere)[:1].upper()
         if h not in ('N', 'S'):
-            raise UTMError('%s invalid: %r' % ('hemisphere', hemisphere))
+            raise self._Error('%s invalid: %r' % ('hemisphere', hemisphere))
 
         e, n = float(easting), float(northing)
-        if not falsed:
-            e += _FalseEasting  # relative to central meridian
-            if h == 'S':  # relative to equator
-                n += _FalseNorthing
-        # check easting/northing (with 40km overlap
-        # between zones) - is this worthwhile?
-        if 120e3 > e or e > 880e3:
-            raise RangeError('%s invalid: %r' % ('easting', easting))
-        if 0 > n or n > _FalseNorthing:
-            raise RangeError('%s invalid: %r' % ('northing', northing))
+#       if not falsed:
+#           e, n = _false2(e, n, h)
+#       # check easting/northing (with 40km overlap
+#       # between zones) - is this worthwhile?
+#       @raise RangeError: If B{C{easting}} or B{C{northing}} outside
+#                          the valid UTM range.
+#       if 120e3 > e or e > 880e3:
+#           raise RangeError('%s invalid: %r' % ('easting', easting))
+#       if 0 > n or n > _FalseNorthing:
+#           raise RangeError('%s invalid: %r' % ('northing', northing))
 
         self._band        = B
         self._convergence = convergence
         self._datum       = datum
         self._easting     = e
+        self._falsed      = falsed
         self._hemisphere  = h
         self._northing    = n
         self._scale       = scale
+
+    def __eq__(self, other):
+        return isinstance(other, Utm) and other.zone       == self.zone \
+                                      and other.hemisphere == self.hemisphere \
+                                      and other.easting    == self.easting \
+                                      and other.northing   == self.northing \
+                                      and other.band       == self.band \
+                                      and other.datum      == self.datum
 
     def __repr__(self):
         return self.toStr2(B=True)
@@ -278,22 +305,26 @@ class Utm(_Based):
     def _xcopy(self, *attrs):
         '''(INTERNAL) Make copy with add'l, subclass attributes.
         '''
-        return _xattrs(self.classof(self.zone, self.hemisphere,
-                                    self.easting, self.northing,
-                                    band=self.band, datum=self.datum),
+        return _xattrs(self._xcopy2(self.classof),
                        self, *attrs)
+
+    def _xcopy2(self, Xtm):
+        '''(INTERNAL) Make copy as an B{C{Xtm}} instance.
+
+           @param Xtm: Class to return the copy (C{Xtm=Etm},
+                       C{Xtm=Utm} or C{self.classof}).
+        '''
+        return Xtm(self.zone, self.hemisphere,
+                   self.easting, self.northing,
+                   band=self.band, datum=self.datum,
+                   falsed=self.falsed, scale=self.scale,
+                   convergence=self.convergence)
 
     @property_RO
     def band(self):
         '''Get the (latitudinal) band (C{str}, 'C'..'X' or '').
         '''
         return self._band
-
-    @property_RO
-    def convergence(self):
-        '''Get the meridian convergence (C{degrees}) or C{None}.
-        '''
-        return self._convergence
 
     def copy(self):
         '''Copy this UTM coordinate.
@@ -303,34 +334,15 @@ class Utm(_Based):
         return self._xcopy()
 
     @property_RO
-    def datum(self):
-        '''Get the datum (L{Datum}).
+    def falsed2(self):
+        '''Get the easting and northing falsing (L{EasNor2Tuple}C{(easting, northing)}).
         '''
-        return self._datum
-
-    @property_RO
-    def easting(self):
-        '''Get the easting (C{meter}).
-        '''
-        return self._easting
-
-    @property_RO
-    def falsed(self):
-        '''Get the easting and northing falsing (C{bool}).
-        '''
-        return self._falsed
-
-    @property_RO
-    def hemisphere(self):
-        '''Get the hemisphere (C{str}, 'N'|'S').
-        '''
-        return self._hemisphere
-
-    @property_RO
-    def northing(self):
-        '''Get the northing (C{meter}).
-        '''
-        return self._northing
+        e = n = 0
+        if self.falsed:
+            e = _FalseEasting  # relative to central meridian
+            if self.hemisphere == 'S':  # relative to equator
+                n = _FalseNorthing
+        return EasNor2Tuple(e, n)
 
     def parseUTM(self, strUTM):
         '''Parse a string to a UTM coordinate.
@@ -342,22 +354,18 @@ class Utm(_Based):
         return parseUTM5(strUTM, datum=self.datum, Utm=self.classof)
 
     @property_RO
-    def scale(self):
-        '''Get the grid scale (C{scalar}) or C{None}.
+    def pole(self):
+        '''Get the top center of (stereographic) projection, C{""} always.
         '''
-        return self._scale
+        return ''  # n/a for UTM
 
-    def toEpsg(self):
-        '''Determine the I{EPSG (European Petroleum Survey Group)} code.
+    def toEtm(self):
+        '''Copy this UTM to an ETM coordinate.
 
-           @return: C{EPSG} code (C{int}).
-
-           @raise EPSGError: See L{Epsg}.
+           @return: The ETM coordinate (L{Etm}).
         '''
-        if self._epsg is None:
-            from epsg import Epsg  # PYCHOK circular import
-            self._epsg = Epsg(self)
-        return self._epsg
+        from etm import Etm  # PYCHOK recursive import
+        return self._xnamed(self._xcopy2(Etm))
 
     def toLatLon(self, LatLon=None, eps=EPS, unfalse=True):
         '''Convert this UTM coordinate to an (ellipsoidal) geodetic point.
@@ -366,14 +374,14 @@ class Utm(_Based):
                             the point (C{LatLon}) or C{None}.
            @keyword eps: Optional convergence limit, L{EPS} or above
                          (C{float}).
-           @keyword unfalse: Unfalse I{easting} and I{northing} if falsed
-                             (C{bool}).
+           @keyword unfalse: Unfalse B{C{easting}} and B{C{northing}}
+                             if falsed (C{bool}).
 
-           @return: This UTM coordinate as (I{LatLon}) or 5-tuple
-                    (lat, lon, datum, convergence, scale) if I{LatLon}
-                    is C{None}.
+           @return: This UTM coordinate as (B{C{LatLon}}) or a
+                    L{LatLonDatum5Tuple}C{(lat, lon, datum,
+                    convergence, scale)} if B{C{LatLon}} is C{None}.
 
-           @raise TypeError: If I{LatLon} is not ellipsoidal.
+           @raise TypeError: If B{C{LatLon}} is not ellipsoidal.
 
            @raise UTMError: Invalid meridional radius or H-value.
 
@@ -386,72 +394,69 @@ class Utm(_Based):
         if eps < EPS:
             eps = EPS  # less doesn't converge
 
-        if self._latlon and self._latlon_eps == eps:
+        if self._latlon and self._latlon_args == (eps, unfalse):
             return self._latlon5(LatLon)
 
-        E = self._datum.ellipsoid  # XXX vs LatLon.datum.ellipsoid
+        E = self.datum.ellipsoid  # XXX vs LatLon.datum.ellipsoid
 
-        x = self._easting
-        y = self._northing
-        if unfalse and self._falsed:
-            x -= _FalseEasting  # relative to central meridian
-            if self._hemisphere == 'S':  # relative to equator
-                y -= _FalseNorthing
+        x, y = self.to2en(falsed=not unfalse)
 
         # from Karney 2011 Eq 15-22, 36
-        A0 = _K0 * E.A
+        A0 = self.scale0 * E.A
         if A0 < EPS:
-            raise UTMError('%s invalid: %r' % ('meridional', E.A))
+            raise self._Error('%s invalid: %r' % ('meridional', E.A))
         x /= A0  # η eta
         y /= A0  # ξ ksi
 
-        Ks = _Kseries(E.BetaKs, x, y)  # Krüger series
-        y = -Ks.ys(-y)  # ξ'
-        x = -Ks.xs(-x)  # η'
+        K = _Kseries(E.BetaKs, x, y)  # Krüger series
+        y = -K.ys(-y)  # ξ'
+        x = -K.xs(-x)  # η'
 
         shx = sinh(x)
         sy, cy = sincos2(y)
 
         H = hypot(shx, cy)
         if H < EPS:
-            raise UTMError('%s invalid: %r' % ('H', H))
+            raise self._Error('%s invalid: %r' % ('H', H))
 
-        d = 1.0 + eps
-        q = 1.0 / E.e12
         T = t0 = sy / H  # τʹ
-        sd = Fsum(T)
-        while abs(d) > eps:
+        S = Fsum(T)
+        q = 1.0 / E.e12
+        P = 7  # -/+ toggle trips
+        d = 1.0 + eps
+        while abs(d) > eps and P > 0:
+            p = -d  # previous d, toggled
             h = hypot1(T)
             s = sinh(E.e * atanh(E.e * T / h))
             t = T * hypot1(s) - s * h
             d = (t0 - t) / hypot1(t) * ((q + T**2) / h)
-            T, d = sd.fsum2_(d)  # τi, (τi - τi-1)
+            T, d = S.fsum2_(d)  # τi, (τi - τi-1)
+            if d == p:  # catch -/+ toggling of d
+                P -= 1
+            # else:
+            #   P = 0
 
         a = atan(T)  # lat
-        b = atan2(shx, cy) + radians(_cmlon(self._zone))
-        ll = _LLEB(degrees90(a), degrees180(b), datum=self._datum, name=self.name)
+        b = atan2(shx, cy)
+        if unfalse and self.falsed:
+            b += radians(_cmlon(self.zone))
+        ll = _LLEB(degrees90(a), degrees180(b), datum=self.datum, name=self.name)
 
         # convergence: Karney 2011 Eq 26, 27
-        p = -Ks.ps(-1)
-        q =  Ks.qs(0)
+        p = -K.ps(-1)
+        q =  K.qs(0)
         ll._convergence = degrees(atan(tan(y) * tanh(x)) + atan2(q, p))
 
         # scale: Karney 2011 Eq 28
         ll._scale = E.e2s(sin(a)) * hypot1(T) * H * (A0 / E.a / hypot(p, q))
 
-        self._latlon, self._latlon_eps = ll, eps
+        self._latlon_to(ll, eps, unfalse)
         return self._latlon5(LatLon)
 
-    def _latlon5(self, LatLon):
-        '''(INTERNAL) Convert cached LatLon
+    def _latlon_to(self, ll, eps, unfalse):
+        '''(INTERNAL) See C{.toLatLon}, C{toUtm8}, C{_toXtm8}.
         '''
-        ll = self._latlon
-        if LatLon is None:
-            return ll.lat, ll.lon, ll.datum, ll.convergence, ll.scale
-        elif issubclass(LatLon, _LLEB):
-            return _xnamed(_xattrs(LatLon(ll.lat, ll.lon, datum=ll.datum),
-                                   ll, '_convergence', '_scale'), ll.name)
-        raise TypeError('%s not ellipsoidal: %r' % ('LatLon', LatLon))
+        self._latlon, self._latlon_args = ll, (eps, unfalse)
 
     def toMgrs(self):
         '''Convert this UTM coordinate to an MGRS grid reference.
@@ -480,10 +485,10 @@ class Utm(_Based):
            @keyword cs: Optionally, include meridian convergence and
                         grid scale factor (C{bool}).
 
-           @return: This UTM as a string with I{zone[band], hemisphere,
+           @return: This UTM as a string with C{zone[band], hemisphere,
                     easting, northing, [convergence, scale]} in
                     C{"00 N|S meter meter"} plus C{" degrees float"} if
-                    I{cs} is C{True} (C{str}).
+                    B{C{cs}} is C{True} (C{str}).
 
            @example:
 
@@ -491,15 +496,8 @@ class Utm(_Based):
            >>> u.toStr(4)  # 03 N 448251.0 5411932.0001
            >>> u.toStr(sep=', ')  # 03 N, 448251, 5411932
         '''
-        z = '%02d%s' % (self.zone, self.band if B else '')
-        t = (z, self.hemisphere, fStr(self.easting,  prec=prec),
-                                 fStr(self.northing, prec=prec))
-        if cs:
-            t += ('n/a' if self.convergence is None else
-                    degDMS(self.convergence, prec=8, pos='+'),
-                  'n/a' if self.scale is None else
-                      fStr(self.scale, prec=8))
-        return sep.join(t)
+
+        return self._toStr4_6(self.hemisphere, B, cs, prec, sep)
 
     def toStr2(self, prec=0, fmt='[%s]', sep=', ', B=False, cs=False):  # PYCHOK expected
         '''Return a string representation of this UTM coordinate.
@@ -515,47 +513,49 @@ class Utm(_Based):
                         grid scale factor (C{bool}).
 
            @return: This UTM as a string C{"[Z:09[band], H:N|S, E:meter,
-                    N:meter]"} plus C{", C:degrees, S:float"} if I{cs} is
+                    N:meter]"} plus C{", C:degrees, S:float"} if B{C{cs}} is
                     C{True} (C{str}).
         '''
-        t = self.toStr(prec=prec, sep=' ', B=B, cs=cs).split()
-        return fmt % (sep.join('%s:%s' % t for t in zip('ZHENCS', t)),)
+        return self._toStr2(prec=prec, fmt=fmt, sep=sep, B=B, cs=cs)
 
-    def toUps(self, pole='', eps=EPS, **unused):
+    def toUps(self, pole='', eps=EPS, falsed=True, **unused):
         '''Convert this UTM coordinate to a UPS coordinate.
 
            @keyword pole: Optional top/center of the UPS projection,
                           (C{str}, 'N[orth]'|'S[outh]').
            @keyword eps: Optional convergence limit, L{EPS} or above
                          (C{float}), see method L{Utm.toLatLon}.
+           @keyword falsed: False both easting and northing (C{bool}).
 
            @return: The UPS coordinate (L{Ups}).
         '''
         u = self._ups
-        if u is None or u.pole != (pole or u.pole):
-            from ups import toUps8  # PYCHOK recursive import
-            ll = self.toLatLon(LatLon=_LLEB, eps=eps)
-            self._ups = u = toUps8(ll, pole=pole, strict=False)
+        if u is None or u.pole != (pole or u.pole) or falsed != bool(u.falsed):
+            from ups import toUps8, Ups  # PYCHOK recursive import
+            ll = self.toLatLon(LatLon=_LLEB, eps=eps, unfalse=True)
+            self._ups = u = toUps8(ll, Ups=Ups, falsed=falsed, pole=pole, strict=False)
         return u
 
-    def toUtm(self, zone, eps=EPS, **unused):
-        '''Convert this UTM coordinate to a different one.
+    def toUtm(self, zone, eps=EPS, falsed=True, **unused):
+        '''Convert this UTM coordinate to a different zone.
 
            @param zone: New UTM zone (C{int}).
            @keyword eps: Optional convergence limit, L{EPS} or above
                          (C{float}), see method L{Utm.toLatLon}.
+           @keyword falsed: False both easting and northing (C{bool}).
 
            @return: The UTM coordinate (L{Utm}).
         '''
-        if zone == self.zone:
+        if zone == self.zone and falsed == self.falsed:
             return self.copy()
         elif zone:
             u = self._utm
-            if u is None or u.zone != zone:
-                ll = self.toLatLon(LatLon=_LLEB, eps=eps)
-                self._utm = u = toUtm8(ll, name=self.name, zone=zone)
+            if u is None or u.zone != zone or falsed != u.falsed:
+                ll = self.toLatLon(LatLon=_LLEB, eps=eps, unfalse=True)
+                self._utm = u = toUtm8(ll, Utm=self.classof, falsed=falsed,
+                                           name=self.name, zone=zone)
             return u
-        raise UTMError('%s invalid: %r' % ('zone', zone))
+        raise self._Error('%s invalid: %r' % ('zone', zone))
 
     @property_RO
     def zone(self):
@@ -564,97 +564,87 @@ class Utm(_Based):
         return self._zone
 
 
-def parseUTM(strUTM, datum=Datums.WGS84, Utm=Utm, name=''):
-    '''DEPRECATED, use function L{parseUTM5}.
-
-       @return: The UTM coordinate (L{Utm}) or 4-tuple (C{zone,
-                hemisphere, easting, northing}) if I{Utm} is C{None}.
+def _parseUTM5(strUTM, Error):
+    '''(INTERNAL) Parse a string representing a UTM coordinate,
+       consisting of C{"zone[band] hemisphere easting northing"},
+       see L{parseETM5} and L{parseUTM5}.
     '''
-    r = parseUTM5(strUTM, datum=datum, Utm=Utm, name=name)
-    if isinstance(r, tuple):
-        r = r[:4]  # remove band
-    return r
+    try:
+        z, h, e, n, B = _parseUTMUPS(strUTM)
+        if _UTM_ZONE_MIN <= z <= _UTM_ZONE_MAX and \
+                           (B in _Bands or not B):
+            return UtmUps5Tuple(z, h, e, n, B)
+    except ValueError:
+        pass
+    raise Error('%s invalid: %r' % ('strUTM', strUTM))
 
 
-def parseUTM5(strUTM, datum=Datums.WGS84, Utm=Utm, name=''):
+def parseUTM5(strUTM, datum=Datums.WGS84, Utm=Utm, falsed=True, name=''):
     '''Parse a string representing a UTM coordinate, consisting
-       of I{"zone[band] hemisphere easting northing"}.
+       of C{"zone[band] hemisphere easting northing"}.
 
        @param strUTM: A UTM coordinate (C{str}).
        @keyword datum: Optional datum to use (L{Datum}).
        @keyword Utm: Optional (sub-)class to return the UTM
                      coordinate (L{Utm}) or C{None}.
-       @keyword name: Optional I{Utm} name (C{str}).
+       @keyword falsed: Both easting and northing are falsed (C{bool}).
+       @keyword name: Optional B{C{Utm}} name (C{str}).
 
-       @return: The UTM coordinate (L{Utm}) or 5-tuple (C{zone,
-                hemisphere, easting, northing, band}) if I{Utm}
-                is C{None}.
+       @return: The UTM coordinate (B{C{Utm}}) or a
+                L{UtmUps5Tuple}C{(zone, hemipole,
+                easting, northing, band)} if B{C{Utm}} is
+                C{None}.  The C{hemipole} is the hemisphere
+                C{'N'|'S'}.
 
-       @raise UTMError: Invalid I{strUTM}.
+       @raise UTMError: Invalid B{C{strUTM}}.
 
        @example:
 
-       >>> u = parseUTM('31 N 448251 5411932')
+       >>> u = parseUTM5('31 N 448251 5411932')
        >>> u.toStr2()  # [Z:31, H:N, E:448251, N:5411932]
-       >>> u = parseUTM('31 N 448251.8 5411932.7')
+       >>> u = parseUTM5('31 N 448251.8 5411932.7')
        >>> u.toStr()  # 31 N 448252 5411933
     '''
-    try:
-        z, h, e, n, B = _parseUTMUPS(strUTM)
-        if _UTM_ZONE_MIN > z or z > _UTM_ZONE_MAX \
-                             or (B and B not in _Bands):
-            raise ValueError
-    except ValueError:
-        raise UTMError('%s invalid: %r' % ('strUTM', strUTM))
-
-    return (z, h, e, n, B) if Utm is None else _xnamed(Utm(
-            z, h, e, n, band=B, datum=datum), name)
+    r = _parseUTM5(strUTM, UTMError)
+    if Utm is not None:
+        z, h, e, n, B = r
+        r = Utm(z, h, e, n, band=B, datum=datum, falsed=falsed)
+    return _xnamed(r, name)
 
 
-def toUtm(latlon, lon=None, datum=None, Utm=Utm, name='', cmoff=True):
-    '''DEPRECATED, use function L{toUtm8}.
-
-       @return: The UTM coordinate (L{Utm}) or a 6-tuple (zone,
-                easting, northing, band, convergence, scale) if
-                I{Utm} is C{None} or I{cmoff} is C{False}.
-    '''
-    r = toUtm8(latlon, lon=lon, datum=datum, Utm=Utm, name=name, cmoff=cmoff)
-    if isinstance(r, tuple):
-        # remove hemisphere and datum
-        z, _, x, y, B, _, c, s = r
-        r = z, x, y, B, c, s
-    return r
-
-
-def toUtm8(latlon, lon=None, datum=None, Utm=Utm, cmoff=True, name='', zone=None):
+def toUtm8(latlon, lon=None, datum=None, Utm=Utm, falsed=True, name='',
+                                         zone=None, **cmoff):
     '''Convert a lat-/longitude point to a UTM coordinate.
 
        @param latlon: Latitude (C{degrees}) or an (ellipsoidal)
                       geodetic C{LatLon} point.
        @keyword lon: Optional longitude (C{degrees}) or C{None}.
        @keyword datum: Optional datum for this UTM coordinate,
-                       overriding I{latlon}'s datum (C{Datum}).
+                       overriding B{C{latlon}}'s datum (C{Datum}).
        @keyword Utm: Optional (sub-)class to return the UTM
                      coordinate (L{Utm}) or C{None}.
-       @keyword cmoff: Offset longitude from zone's central meridian,
-                       apply false easting and false northing (C{bool}).
-       @keyword name: Optional I{Utm} name (C{str}).
-       @keyword zone: Optional zone to enforce (C{int} or C{str}).
+       @keyword falsed: False both easting and northing (C{bool}).
+       @keyword name: Optional B{C{Utm}} name (C{str}).
+       @keyword zone: Optional UTM zone to enforce (C{int} or C{str}).
+       @keyword cmoff: DEPRECATED, use B{C{falsed}}.  Offset longitude
+                       from the zone's central meridian (C{bool}).
 
-       @return: The UTM coordinate (L{Utm}) or a 8-tuple (C{zone, hemisphere,
-                easting, northing, band, datum, convergence, scale}) if
-                I{Utm} is C{None} or I{cmoff} is C{False}.
+       @return: The UTM coordinate (B{C{Utm}}) or a
+                L{UtmUps8Tuple}C{(zone, hemipole, easting, northing,
+                band, datum, convergence, scale)} if B{C{Utm}} is
+                C{None} or not B{C{falsed}}.  The C{hemipole} is the
+                C{'N'|'S'} hemisphere.
 
-       @raise TypeError: If I{latlon} is not ellipsoidal.
+       @raise TypeError: If B{C{latlon}} is not ellipsoidal.
 
-       @raise RangeError: If I{lat} outside the valid UTM bands or if
-                          I{lat} or I{lon} outside the valid range and
-                          I{rangerrrors} set to C{True}.
+       @raise RangeError: If B{C{lat}} outside the valid UTM bands or
+                          if B{C{lat}} or B{C{lon}} outside the valid
+                          range and L{rangerrors} set to C{True}.
 
-       @raise UTMError: Invlid I{zone}.
+       @raise UTMError: Invalid B{C{zone}}.
 
-       @raise ValueError: If I{lon} value is missing or if I{latlon}
-                          is invalid.
+       @raise ValueError: If B{C{lon}} value is missing or if
+                          B{C{latlon}} is invalid.
 
        @note: Implements Karney’s method, using 8-th order Krüger series,
               giving results accurate to 5 nm (or better) for distances
@@ -667,17 +657,9 @@ def toUtm8(latlon, lon=None, datum=None, Utm=Utm, cmoff=True, name='', zone=None
        >>> p = LatLon(13.4125, 103.8667) # 48 N 377302.4 1483034.8
        >>> u = toUtm(p)  # 48 N 377302 1483035
     '''
-    lat, lon, d, name = _to4lldn(latlon, lon, datum, name)
-    z, B, lat, lon = _to3zBll(lat, lon, cmoff=cmoff)
-    if zone:  # re-zone for UTM
-        r, _, _ = _to3zBhp(zone, band=B)
-        if r != z:
-            if not _UTM_ZONE_MIN <= r <= _UTM_ZONE_MAX:
-                raise UTMError('%s invalid: %r' % ('zone', zone))
-            if cmoff:  # re-offset from central meridian
-                lon += _cmlon(z) - _cmlon(r)
-            z = r
-
+    z, B, lat, lon, d, f, name = _to7zBlldfn(latlon, lon, datum,
+                                             falsed, name, zone,
+                                             UTMError, **cmoff)
     E = d.ellipsoid
 
     a, b = radians(lat), radians(lon)
@@ -694,66 +676,66 @@ def toUtm8(latlon, lon=None, datum=None, Utm=Utm, cmoff=True, name='', zone=None
     y = atan2(T_, cb)  # ξ' ksi
     x = asinh(sb / H)  # η' eta
 
-    A0 = _K0 * E.A
+    A0 = E.A * getattr(Utm, '_scale0', _K0)  # Utm is class or None
 
-    Ks = _Kseries(E.AlphaKs, x, y)  # Krüger series
-    y = Ks.ys(y) * A0  # ξ
-    x = Ks.xs(x) * A0  # η
-
-    if cmoff:
-        # Charles Karney, "Test data for the transverse Mercator projection (2009)"
-        # <http://GeographicLib.SourceForge.io/html/transversemercator.html>
-        # and <http://Zenodo.org/record/32470#.W4LEJS2ZON8>
-        x += _FalseEasting  # make x relative to false easting
-        if y < 0:
-            y += _FalseNorthing  # y relative to false northing in S
+    K = _Kseries(E.AlphaKs, x, y)  # Krüger series
+    y = K.ys(y) * A0  # ξ
+    x = K.xs(x) * A0  # η
 
     # convergence: Karney 2011 Eq 23, 24
-    p_ = Ks.ps(1)
-    q_ = Ks.qs(0)
+    p_ = K.ps(1)
+    q_ = K.qs(0)
     c = degrees(atan(T_ / hypot1(T_) * tan(b)) + atan2(q_, p_))
 
     # scale: Karney 2011 Eq 25
-    s = E.e2s(sin(a)) * T12 / H * (A0 / E.a * hypot(p_, q_))
+    k = E.e2s(sin(a)) * T12 / H * (A0 / E.a * hypot(p_, q_))
 
-    h = _hemi(a)
-    if Utm is None or not cmoff:
-        r = z, h, x, y, B, d, c, s
-    else:
-        r = _xnamed(Utm(z, h, x, y, band=B, datum=d,
-                                    convergence=c, scale=s), name)
-    return r
+    t = z, lat, x, y, B, d, c, k, f
+    return _toXtm8(Utm, t, name, latlon, EPS)
 
 
-def utmZoneBand2(lat, lon):
-    '''DEPRECATED, use function L{utmZoneBand5}.
+def _toXtm8(Xtm, zlxyBdckf, name, latlon, eps):
+    '''(INTERNAL) Helper for L{toEtm8} and L{toUtm8}.
     '''
-    return utmZoneBand5(lat, lon)[:2]
+    z, lat, x, y, B, d, c, k, f = zlxyBdckf
+    h = _hemi(lat)
+    if f:
+        x, y = _false2(x, y, h)
+    if Xtm is None:  # DEPRECATED
+        r = UtmUps8Tuple(z, h, x, y, B, d, c, k)
+    else:
+        r = Xtm(z, h, x, y, band=B, datum=d, falsed=f, convergence=c, scale=k)
+        if isinstance(latlon, _LLEB) and d is latlon.datum:
+            r._latlon_to(latlon, eps, f)  # XXX weakref(latlon)?
+            latlon._convergence = c
+            latlon._scale = k
+    return _xnamed(r, name)
 
 
 def utmZoneBand5(lat, lon, cmoff=False):
     '''Return the UTM zone number, Band letter, hemisphere and
-       clipped lat- and longitude for a given location.
+       (clipped) lat- and longitude for a given location.
 
        @param lat: Latitude in degrees (C{scalar} or C{str}).
        @param lon: Longitude in degrees (C{scalar} or C{str}).
-       @keyword cmoff: Offset longitude from zone's central meridian
-                       (C{bool}).
+       @keyword cmoff: Offset longitude from the zone's central
+                       meridian (C{bool}).
 
-       @return: 5-Tuple (C{zone, Band, hemisphere, lat, lon}) as
-                (C{int, str, 'N'|'S', degrees90, degrees180}) where
-                C{zone} is C{1..60} and C{Band} is C{'C'|'D'..'W'|'X'}
-                for UTM.
+       @return: A L{UtmUpsLatLon5Tuple}C{(zone, band, hemipole,
+                lat, lon)} where C{hemipole} is the C{'N'|'S'}
+                UTM hemisphere.
 
-       @raise RangeError: If I{lat} outside the valid UTM bands or if
-                          I{lat} or I{lon} outside the valid range and
-                          I{rangerrrors} set to C{True}.
+       @raise RangeError: If B{C{lat}} outside the valid UTM bands
+                          or if B{C{lat}} or B{C{lon}} outside the
+                          valid range and L{rangerrors} set to
+                          C{True}.
 
-       @raise ValueError: Invalid I{lat} or I{lon}.
+       @raise ValueError: Invalid B{C{lat}} or B{C{lon}}.
     '''
     lat, lon = parseDMS2(lat, lon)
     z, B, lat, lon = _to3zBll(lat, lon, cmoff=cmoff)
-    return z, B, _hemi(lat), lat, lon
+    return UtmUpsLatLon5Tuple(z, B, _hemi(lat), lat, lon)
+
 
 # **) MIT License
 #

@@ -63,11 +63,11 @@
 <pre class="base-tree">
   object --+            
            |            
-<a href="pygeodesy.bases._Named-class.html">bases._Named</a> --+        
+named._Named --+        
                |        
-    <a href="pygeodesy.bases._Based-class.html">bases._Based</a> --+    
+named._NamedBase --+    
                    |    
-   <a href="pygeodesy.datum._Registered-class.html">datum._Registered</a> --+
+named._NamedEnumItem --+
                        |
                       <strong class="uidshort">Conic</strong>
 </pre>
@@ -182,16 +182,19 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.datum._Registered-class.html">datum._Registered</a></code></b>:
-      <code><a href="pygeodesy.datum._Registered-class.html#__ne__">__ne__</a></code>,
-      <code><a href="pygeodesy.datum._Registered-class.html#unregister">unregister</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedEnumItem</code></b>:
+      <code>__ne__</code>,
+      <code>unregister</code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases._Based-class.html">bases._Based</a></code></b>:
-      <code><a href="pygeodesy.bases._Based-class.html#__repr__">__repr__</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#__str__">__str__</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#others">others</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#toStr2">toStr2</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedBase</code></b>:
+      <code>__repr__</code>,
+      <code>__str__</code>,
+      <code>others</code>,
+      <code>toStr2</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>__copy__</code>,
+      <code>classof</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -333,12 +336,14 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.datum._Registered-class.html">datum._Registered</a></code></b>:
-      <code><a href="pygeodesy.datum._Registered-class.html#name">name</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedEnumItem</code></b>:
+      <code>name</code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases._Named-class.html">bases._Named</a></code></b>:
-      <code><a href="pygeodesy.bases._Named-class.html#classname">classname</a></code>,
-      <code><a href="pygeodesy.bases._Named-class.html#classnaming">classnaming</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>,
+      <code>named</code>,
+      <code>named2</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
@@ -398,7 +403,7 @@
           class="link">Conic</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Non-ellipsoidal <i>latlon0</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-ellipsoidal <b><code>latlon0</code></b>.</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
@@ -432,7 +437,7 @@
         <dd>The copy, unregistered (<a href="pygeodesy.lcc.Conic-class.html" 
           class="link">Conic</a> or subclass thereof).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.bases._Named-class.html#copy">bases._Named.copy</a>
+        named._Named.copy
     </dt>
   </dl>
 </td></tr></table>
@@ -464,7 +469,7 @@
           href="pygeodesy.lcc.Conic-class.html" class="link">Conic</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Non-ellipsoidal <i>datum</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-ellipsoidal <b><code>datum</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -496,7 +501,7 @@
           href="pygeodesy.lcc.Conic-class.html" class="link">Conic</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Non-ellipsoidal <i>datum</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-ellipsoidal <b><code>datum</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -525,7 +530,7 @@
     <dt>Returns:</dt>
         <dd>Conic attributes (<code>str</code>).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.bases._Based-class.html#toStr">bases._Based.toStr</a>
+        named._NamedBase.toStr
     </dt>
   </dl>
 </td></tr></table>
@@ -816,7 +821,7 @@ class="link">Datum</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 17 12:19:03 2019
+    Generated by Epydoc 3.0.1 on Tue Jun 25 11:55:35 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

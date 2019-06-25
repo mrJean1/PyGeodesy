@@ -4,13 +4,16 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '19.04.09'
+__version__ = '19.05.08'
 
 from base import TestsBase
+# from math import sqrt
 from random import random, gauss, shuffle
 
 from pygeodesy import Ellipsoids, fhorner, fpolynomial, fpowers, \
-                      Fsum, fsum, INF, isfinite, isneg0, NAN, NEG0
+                      Fsum, fsum, hypot3, hypot_, INF, isfinite, \
+                      isneg0, NAN, NEG0
+from math import sqrt
 
 
 class Tests(TestsBase):
@@ -33,7 +36,7 @@ class Tests(TestsBase):
             h = fhorner(x, 0, 256, -128, 74, -47) / 1024.0
             self.test('fhornerB', h, p)
 
-        # U{Neumaier<http://WikiPedia.org/wiki/Kahan_summation_algorithm>}
+        # U{Neumaier<https://WikiPedia.org/wiki/Kahan_summation_algorithm>}
         t = 1, 1e101, 1, -1e101
         for _ in range(10):
             s = float(len(t) / 2)  # number of ones
@@ -42,21 +45,21 @@ class Tests(TestsBase):
             self.test('Fsum', Fsum().fsum(t), s)
             t += t
 
-        # <http://code.ActiveState.com/recipes/393090>
-        t = 1.00, 0.00500, 0.00000000000100
-        s = 1.00500000000100
+        # <https://code.ActiveState.com/recipes/393090>
+        t = 1.0, 0.0050, 0.0000000000010
+        s = 1.0050000000010
         self.test('sum', sum(t), s, known=True)
         self.test('fsum', fsum(t), s)
         self.test('Fsum', Fsum().fsum(t), s)
 
-        # <http://GitHub.com/python/cpython/blob/master/Modules/mathmodule.c>
+        # <https://GitHub.com/python/cpython/blob/master/Modules/mathmodule.c>
         t = 1e-16, 1, 1e16
         s = '1.0000000000000002e+16'  # half-even rounded
         self.test('fsum', fsum(t), s, fmt='%.16e')
         self.test('Fsum', Fsum().fsum(t), s, fmt='%.16e')
 
-        # <http://GitHub.com/ActiveState/code/blob/master/recipes/Python/
-        #       393090_Binary_floating_point_summatiaccurate_full/recipe-393090.py>
+        # <https://GitHub.com/ActiveState/code/blob/master/recipes/Python/
+        #        393090_Binary_floating_point_summatiaccurate_full/recipe-393090.py>
         for _ in range(100):
             t = [7, 1e100, -7, -1e100, -9e-20, 8e-20] * 10
             s = 0
@@ -126,6 +129,20 @@ class Tests(TestsBase):
             a += a
             self.test('FSum*', a.fsum(), b.fsum())
             t += t
+
+        h = hypot_(1.0, 0.0050, 0.0000000000010)
+        self.test('hypot_', h, '1.0000124999219', fmt='%.13f')
+        s = hypot3(1.0, 0.0050, 0.0000000000010)  # DEPRECATED
+        self.test('hypot3', s, h, fmt='%.13f')
+
+        h = hypot_(3000, 2000, 100)  # note, all C{int}
+        self.test('hypot_', h, '3606.937759', fmt='%.6f')
+        s = hypot3(3000, 2000, 100)  # DEPRECATED
+        self.test('hypot3', s, h, fmt='%.6f')
+
+        h = hypot_(40000, 3000, 200, 10.0)
+        s = sqrt(40000**2 + 3000**2 + 200**2 + 100)
+        self.test('hypot_', h, s, fmt='%.3f')
 
 
 if __name__ == '__main__':

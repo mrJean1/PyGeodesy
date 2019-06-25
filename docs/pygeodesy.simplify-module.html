@@ -93,8 +93,8 @@
   href="pygeodesy.simplify-module.html#simplifyVW" 
   class="link">simplifyVW</a> removes only a single point per iteration, 
   while modified <a href="pygeodesy.simplify-module.html#simplifyVWm" 
-  class="link">simplifyVWm</a> eliminates all points with a triangular area
-  not exceeding the tolerance in each iteration.</p>
+  class="link">simplifyVWm</a> eliminates in each iteration all points with
+  a triangular area not exceeding the tolerance.</p>
   <p>Functions <a href="pygeodesy.simplify-module.html#simplifyRDP" 
   class="link">simplifyRDP</a>, <a 
   href="pygeodesy.simplify-module.html#simplifyRDPm" 
@@ -105,15 +105,15 @@
   If <code>True</code>, use the shortest distance to the path edge or path 
   end points, if <code>False</code> use the perpendicular distance to the 
   extended path edge line.</p>
-  <p>Keyword argument <i>radius</i> of all fuctions is set to the mean 
-  earth radius in meter.  Other units can be choosen, provided that the 
-  radius and tolerance are always specified in the same units.</p>
-  <p>Use keyword argument <i>indices</i>=<code>True</code> in any function 
-  to return a list of simplified point <i>indices</i> instead of the 
-  simplified points.  The first and last index are always the first and 
-  last original index.</p>
-  <p>Finally, any additional keyword arguments <i>options</i> to all 
-  functions are passed thru to function <a 
+  <p>Keyword argument <b><code>radius</code></b> of all fuctions is set to 
+  the mean earth radius in meter.  Other units can be choosen, provided 
+  that the radius and tolerance are always specified in the same units.</p>
+  <p>Use keyword argument <b><code>indices</code></b>=<code>True</code> in 
+  any function to return a list of simplified point <i>indices</i> instead 
+  of the simplified points. The first and last index are always the first 
+  and last original index.</p>
+  <p>Finally, any additional keyword arguments <b><code>options</code></b> 
+  to all functions are passed thru to function <a 
   href="pygeodesy.formy-module.html#equirectangular_" 
   class="link">equirectangular_</a> to specify the distance 
   approximation.</p>
@@ -126,63 +126,64 @@
   class="link">Numpy2LatLon</a> instance to any <i>simplify</i> function 
   and the returned result will be a <code>NumPy</code> array containing the
   simplified subset, a partial copy of the original <code>NumPy</code> 
-  array.  Use keyword argument <i>indices</i>=<code>True</code> to return a
-  list of array row indices inlieu of the simplified array subset.</p>
+  array.  Use keyword argument 
+  <b><code>indices</code></b>=<code>True</code> to return a list of array 
+  row indices inlieu of the simplified array subset.</p>
   <p>See:</p>
   <ul>
     <li>
-      <a href="http://Bost.Ocks.org/mike/simplify" 
-      target="_top">http://Bost.Ocks.org/mike/simplify</a>
+      <a href="https://Bost.Ocks.org/mike/simplify" 
+      target="_top">https://Bost.Ocks.org/mike/simplify</a>
     </li>
     <li>
-      <a href="http://WikiPedia.org/wiki/Ramer-Douglas-Peucker_algorithm" 
-      target="_top">http://WikiPedia.org/wiki/Ramer-Douglas-Peucker_algorithm</a>
+      <a href="https://WikiPedia.org/wiki/Ramer-Douglas-Peucker_algorithm" 
+      target="_top">https://WikiPedia.org/wiki/Ramer-Douglas-Peucker_algorithm</a>
     </li>
     <li>
-      <a href="http://hydra.Hull.ac.UK/resources/hull:8338" 
-      target="_top">http://hydra.Hull.ac.UK/resources/hull:8338</a>
+      <a href="https://hydra.Hull.ac.UK/resources/hull:8338" 
+      target="_top">https://hydra.Hull.ac.UK/resources/hull:8338</a>
     </li>
     <li>
-      <a href="http://psimpl.SourceForge.net/reumann-witkam.html" 
-      target="_top">http://psimpl.SourceForge.net/reumann-witkam.html</a>
+      <a href="https://psimpl.SourceForge.net/reumann-witkam.html" 
+      target="_top">https://psimpl.SourceForge.net/reumann-witkam.html</a>
     </li>
     <li>
-      <a href="http://www.CS.UBC.CA/cgi-bin/tr/1992/TR-92-07.pdf" 
-      target="_top">http://www.CS.UBC.CA/cgi-bin/tr/1992/TR-92-07.pdf</a>
+      <a href="https://www.CS.UBC.CA/cgi-bin/tr/1992/TR-92-07.pdf" 
+      target="_top">https://www.CS.UBC.CA/cgi-bin/tr/1992/TR-92-07.pdf</a>
     </li>
     <li>
-      <a href="http://GitHub.com/FlorianWilhelm/gps_data_with_python" 
-      target="_top">http://GitHub.com/FlorianWilhelm/gps_data_with_python</a>
+      <a href="https://GitHub.com/FlorianWilhelm/gps_data_with_python" 
+      target="_top">https://GitHub.com/FlorianWilhelm/gps_data_with_python</a>
     </li>
     <li>
-      <a href="http://www.BDCC.co.UK/Gmaps/GDouglasPeuker.js" 
-      target="_top">http://www.BDCC.co.UK/Gmaps/GDouglasPeuker.js</a>
+      <a href="https://www.BDCC.co.UK/Gmaps/GDouglasPeuker.js" 
+      target="_top">https://www.BDCC.co.UK/Gmaps/GDouglasPeuker.js</a>
     </li>
     <li>
-      <a href="http://GitHub.com/mourner/simplify-js" 
-      target="_top">http://GitHub.com/mourner/simplify-js</a>
+      <a href="https://GitHub.com/mourner/simplify-js" 
+      target="_top">https://GitHub.com/mourner/simplify-js</a>
     </li>
     <li>
-      <a href="http://GitHub.com/OmarEstrella/simplify.py" 
-      target="_top">http://GitHub.com/OmarEstrella/simplify.py</a>
+      <a href="https://GitHub.com/OmarEstrella/simplify.py" 
+      target="_top">https://GitHub.com/OmarEstrella/simplify.py</a>
     </li>
     <li>
-      <a href="http://PyPI.org/project/rdp" 
-      target="_top">http://PyPI.org/project/rdp</a>
+      <a href="https://PyPI.org/project/rdp" 
+      target="_top">https://PyPI.org/project/rdp</a>
     </li>
     <li>
-      <a href="http://PyPI.org/project/visvalingam" 
-      target="_top">http://PyPI.org/project/visvalingam</a>
+      <a href="https://PyPI.org/project/visvalingam" 
+      target="_top">https://PyPI.org/project/visvalingam</a>
     </li>
     <li>
-      <a href="http://PyPI.org/project/simplification" 
-      target="_top">http://PyPI.org/project/simplification</a>
+      <a href="https://PyPI.org/project/simplification" 
+      target="_top">https://PyPI.org/project/simplification</a>
     </li>
   </ul>
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.01.02
+        19.05.08
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -204,30 +205,6 @@
         <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
       Basic simplification of a path of <code>LatLon</code> points.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="simplify2"></a><span class="summary-sig-name">simplify2</span>(<span class="summary-sig-arg">points</span>,
-        <span class="summary-sig-arg">pipe</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
-        <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">**options</span>)</span><br />
-      DEPRECATED, use function <a 
-      href="pygeodesy.simplify-module.html#simplifyRW" 
-      class="link">simplifyRW</a>.</td>
           <td align="right" valign="top">
             
             
@@ -403,7 +380,8 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - Path points (<code>LatLon</code>[]).</li>
-        <li><strong class="pname"><code>distance</code></strong> - Tolerance (<code>meter</code>, same units as <i>radius</i>).</li>
+        <li><strong class="pname"><code>distance</code></strong> - Tolerance (<code>meter</code>, same units as 
+          <b><code>radius</code></b>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
         <li><strong class="pname"><code>indices</code></strong> - Optionally return the simplified point indices instead of the 
           simplified points (<code>bool</code>).</li>
@@ -415,10 +393,12 @@
         <dd>Simplified points (<code>LatLon</code>[]).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
-        <a href="pygeodesy.formy-module.html#equirectangular_" 
+        <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
+        <b><code>limit</code></b>, see function <a 
+        href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <i>distance</i> or <i>radius</i> too small.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <b><code>distance</code></b> or 
+        <b><code>radius</code></b> too small.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -453,7 +433,8 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - Path points (<code>LatLon</code>[]).</li>
-        <li><strong class="pname"><code>distance</code></strong> - Tolerance (<code>meter</code>, same units as <i>radius</i>).</li>
+        <li><strong class="pname"><code>distance</code></strong> - Tolerance (<code>meter</code>, same units as 
+          <b><code>radius</code></b>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
         <li><strong class="pname"><code>shortest</code></strong> - Optional, shortest or perpendicular distance (<code>bool</code>).</li>
         <li><strong class="pname"><code>indices</code></strong> - Optionally return the simplified point indices instead of the 
@@ -466,10 +447,12 @@
         <dd>Simplified points (<code>LatLon</code>[]).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
-        <a href="pygeodesy.formy-module.html#equirectangular_" 
+        <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
+        <b><code>limit</code></b>, see function <a 
+        href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <i>distance</i> or <i>radius</i> too small.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <b><code>distance</code></b> or 
+        <b><code>radius</code></b> too small.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -504,7 +487,8 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - Path points (<code>LatLon</code>[]).</li>
-        <li><strong class="pname"><code>distance</code></strong> - Tolerance (<code>meter</code>, same units as <i>radius</i>).</li>
+        <li><strong class="pname"><code>distance</code></strong> - Tolerance (<code>meter</code>, same units as 
+          <b><code>radius</code></b>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
         <li><strong class="pname"><code>shortest</code></strong> - Optional, shortest or perpendicular distance (<code>bool</code>).</li>
         <li><strong class="pname"><code>indices</code></strong> - Optionally return the simplified point indices instead of the 
@@ -517,10 +501,12 @@
         <dd>Simplified points (<code>LatLon</code>[]).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
-        <a href="pygeodesy.formy-module.html#equirectangular_" 
+        <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
+        <b><code>limit</code></b>, see function <a 
+        href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <i>distance</i> or <i>radius</i> too small.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <b><code>distance</code></b> or 
+        <b><code>radius</code></b> too small.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -553,7 +539,7 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - Path points (<code>LatLon</code>[]).</li>
         <li><strong class="pname"><code>pipe</code></strong> - Half pipe width (<code>meter</code>, same units as 
-          <i>radius</i>).</li>
+          <b><code>radius</code></b>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
         <li><strong class="pname"><code>shortest</code></strong> - Optional, shortest or perpendicular distance (<code>bool</code>).</li>
         <li><strong class="pname"><code>indices</code></strong> - Optionally return the simplified point indices instead of the 
@@ -566,10 +552,12 @@
         <dd>Simplified points (<code>LatLon</code>[]).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
-        <a href="pygeodesy.formy-module.html#equirectangular_" 
+        <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
+        <b><code>limit</code></b>, see function <a 
+        href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <i>pipe</i> or <i>radius</i> too small.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <b><code>pipe</code></b> or <b><code>radius</code></b> 
+        too small.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -604,7 +592,8 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - Path points (<code>LatLon</code>[]).</li>
-        <li><strong class="pname"><code>area</code></strong> - Tolerance (<code>meter</code>, same units as <i>radius</i>).</li>
+        <li><strong class="pname"><code>area</code></strong> - Tolerance (<code>meter</code>, same units as 
+          <b><code>radius</code></b>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
         <li><strong class="pname"><code>attr</code></strong> - Optional, points attribute save area value (<code>str</code>).</li>
         <li><strong class="pname"><code>indices</code></strong> - Optionally return the simplified point indices instead of the 
@@ -617,11 +606,14 @@
         <dd>Simplified points (<code>LatLon</code>[]).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>AttributeError</strong></code> - If <i>attr</i> is specified for <i>Numpy2</i> points.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
-        <a href="pygeodesy.formy-module.html#equirectangular_" 
+        <li><code><strong class='fraise'>AttributeError</strong></code> - If <b><code>attr</code></b> is specified for <i>Numpy2</i> 
+        <b><code>points</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
+        <b><code>limit</code></b>, see function <a 
+        href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <i>area</i> or <i>radius</i> too small.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <b><code>area</code></b> or <b><code>radius</code></b> 
+        too small.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -656,7 +648,8 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - Path points (<code>LatLon</code>[]).</li>
-        <li><strong class="pname"><code>area</code></strong> - Tolerance (<code>meter</code>, same units as <i>radius</i>).</li>
+        <li><strong class="pname"><code>area</code></strong> - Tolerance (<code>meter</code>, same units as 
+          <b><code>radius</code></b>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
         <li><strong class="pname"><code>attr</code></strong> - Optional attribute to save the area value (<code>str</code>).</li>
         <li><strong class="pname"><code>indices</code></strong> - Optionally return the simplified point indices instead of the 
@@ -669,11 +662,14 @@
         <dd>Simplified points (<code>LatLon</code>[]).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>AttributeError</strong></code> - If <i>attr</i> is specified for <i>Numpy2</i> points.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
-        <a href="pygeodesy.formy-module.html#equirectangular_" 
+        <li><code><strong class='fraise'>AttributeError</strong></code> - If <b><code>attr</code></b> is specified for 
+        <b><code>Numpy2</code></b> points.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
+        <b><code>limit</code></b>, see function <a 
+        href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <i>area</i> or <i>radius</i> too small.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <b><code>area</code></b> or <b><code>radius</code></b> 
+        too small.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -710,7 +706,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 17 12:19:02 2019
+    Generated by Epydoc 3.0.1 on Tue Jun 25 11:55:33 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

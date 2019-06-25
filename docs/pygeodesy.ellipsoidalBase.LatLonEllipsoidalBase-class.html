@@ -63,9 +63,9 @@
 <pre class="base-tree">
     object --+            
              |            
-  <a href="pygeodesy.bases._Named-class.html">bases._Named</a> --+        
+  named._Named --+        
                  |        
-      <a href="pygeodesy.bases._Based-class.html">bases._Based</a> --+    
+  named._NamedBase --+    
                      |    
 <a href="pygeodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a> --+
                          |
@@ -156,8 +156,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#distanceTo2" class="summary-sig-name">distanceTo2</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
-      Approximate the distance and bearing between this and an other 
-      (ellipsoidal) point based on the radii of curvature.</td>
+      Approximate the distance and (initial) bearing between this and an 
+      other (ellipsoidal) point based on the radii of curvature.</td>
           <td align="right" valign="top">
             
             
@@ -288,6 +288,40 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toEtm" class="summary-sig-name">toEtm</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Convert this <code>LatLon</code> point to an ETM coordinate.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toLcc" class="summary-sig-name">toLcc</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Convert this <code>LatLon</code> point to a Lambert location.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toOsgr" class="summary-sig-name">toOsgr</a>(<span class="summary-sig-arg">self</span>)</span><br />
       Convert this <code>LatLon</code> point to an OSGR coordinate.</td>
           <td align="right" valign="top">
@@ -384,6 +418,7 @@
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equals">equals</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equals3">equals3</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equirectangularTo">equirectangularTo</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#euclideanTo">euclideanTo</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#haversineTo">haversineTo</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#isantipode">isantipode</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#isantipodeTo">isantipodeTo</a></code>,
@@ -396,13 +431,17 @@
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#points2">points2</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#to2ab">to2ab</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#to3llh">to3llh</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#toStr">toStr</a></code>
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#toStr">toStr</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#vincentysTo">vincentysTo</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases._Based-class.html">bases._Based</a></code></b>:
-      <code><a href="pygeodesy.bases._Based-class.html#__repr__">__repr__</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#others">others</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#toStr2">toStr2</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedBase</code></b>:
+      <code>__repr__</code>,
+      <code>others</code>,
+      <code>toStr2</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>__copy__</code>,
+      <code>classof</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -484,10 +523,12 @@
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#latlon">latlon</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#lon">lon</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases._Named-class.html">bases._Named</a></code></b>:
-      <code><a href="pygeodesy.bases._Named-class.html#classname">classname</a></code>,
-      <code><a href="pygeodesy.bases._Named-class.html#classnaming">classnaming</a></code>,
-      <code><a href="pygeodesy.bases._Named-class.html#name">name</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>,
+      <code>name</code>,
+      <code>named</code>,
+      <code>named2</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
@@ -541,9 +582,10 @@
         <dd>New instance (<code>LatLon</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - Value of <i>lat</i> or <i>lon</i> outside the valid range and 
-        <i>rangerrrors</i> set to <code>True</code>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>lat</i> or <i>lon</i>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - Value of <b><code>lat</code></b> or <b><code>lon</code></b> outside
+        the valid range and <code>rangerrors</code> set to 
+        <code>True</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>lat</code></b> or <b><code>lon</code></b>.</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
@@ -633,8 +675,8 @@
     </td>
   </tr></table>
   
-  <p>Approximate the distance and bearing between this and an other 
-  (ellipsoidal) point based on the radii of curvature.</p>
+  <p>Approximate the distance and (initial) bearing between this and an 
+  other (ellipsoidal) point based on the radii of curvature.</p>
   <p>Suitable only for short distances up to a few hundred Km or Miles and 
   only between non-near-polar points.</p>
   <dl class="fields">
@@ -643,18 +685,18 @@
         <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (distance, bearing) in (<code>meter</code>, 
-          <code>degrees360</code>).</dd>
+        <dd>An <a href="pygeodesy.named.Distance2Tuple-class.html" 
+          class="link">Distance2Tuple</a><code>(distance, initial)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <code>LatLon</code>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <code>LatLon</code>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Incompatible datum ellipsoids.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Method <a href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
         class="link">Ellipsoid.distance2</a> and <a 
-        href="http://www.EdWilliams.org/avform.htm#flat" 
+        href="https://www.EdWilliams.org/avform.htm#flat" 
         target="_top">Local, flat earth approximation</a>.
       </p>
 </div></td></tr></table>
@@ -680,28 +722,30 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>adjust</code></strong> - Adjust the elevation for a <i>datum</i> other than 
+        <li><strong class="pname"><code>adjust</code></strong> - Adjust the elevation for a <b><code>datum</code></b> other than 
           <code>NAD83</code>.</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional datum (<a href="pygeodesy.datum.Datum-class.html" 
           class="link">Datum</a>).</li>
         <li><strong class="pname"><code>timeout</code></strong> - Optional query timeout (seconds).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (elevation, data_source) in (<code>meter</code>, 
-          <code>str</code>) or in case of errors (<code>None</code>, 
-          <i>&lt;error&gt;</i>).</dd>
+        <dd>An <a href="pygeodesy.named.Elevation2Tuple-class.html" 
+          class="link">Elevation2Tuple</a><code>(elevation, 
+          data_source)</code> or <code>(None, error)</code> in case of 
+          errors.</dd>
   </dl>
 <div class="fields">      <strong>Notes:</strong>
       <ul class="nomargin-top">
         <li>
         The adjustment applied is the difference in geocentric earth radius
-        for the <i>datum</i> used and the <code>NAV83</code> datum upon 
-        which <a href="pygeodesy.elevations-module.html#elevation2" 
+        for the <b><code>datum</code></b> used and the <code>NAV83</code> 
+        datum upon which <a 
+        href="pygeodesy.elevations-module.html#elevation2" 
         class="link">elevations.elevation2</a> is based.
         </li>
         <li>
-        NED elevation is only available for locations in the <a 
-        href="http://WikiPedia.org/wiki/Contiguous_United_States" 
+        NED elevation is only available for locations within the <a 
+        href="https://WikiPedia.org/wiki/Contiguous_United_States" 
         target="_top">Conterminous US (CONUS)</a>.
         </li>
       </ul>
@@ -709,7 +753,8 @@
         Function <a href="pygeodesy.elevations-module.html#elevation2" 
         class="link">elevations.elevation2</a> and method <a 
         href="pygeodesy.datum.Ellipsoid-class.html#Rgeocentric" 
-        class="link">Ellipsoid.Rgeocentric</a> for further details.
+        class="link">Ellipsoid.Rgeocentric</a> for further details and 
+        possible <code>error</code>s.
       </p>
 </div></td></tr></table>
 </div>
@@ -768,7 +813,7 @@
           class="link">Ellipsoid</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <code>LatLon</code>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <code>LatLon</code>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Incompatible datum ellipsoids.</li>
     </ul></dd>
   </dl>
@@ -795,28 +840,30 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>adjust</code></strong> - Adjust the geoid height for a <i>datum</i> other than 
-          <code>NAD83/NADV88</code>.</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Adjust the geoid height for a <b><code>datum</code></b> other 
+          than <code>NAD83/NADV88</code>.</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional datum (<a href="pygeodesy.datum.Datum-class.html" 
           class="link">Datum</a>).</li>
         <li><strong class="pname"><code>timeout</code></strong> - Optional query timeout (seconds).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (height, model_name) in (<code>meter</code>, 
-          <code>str</code>) or in case of errors (<code>None</code>, 
-          <i>&lt;error&gt;</i>).</dd>
+        <dd>An <a href="pygeodesy.named.GeoidHeight2Tuple-class.html" 
+          class="link">GeoidHeight2Tuple</a><code>(height, 
+          model_name)</code> or <code>(None, error)</code> in case of 
+          errors.</dd>
   </dl>
 <div class="fields">      <strong>Notes:</strong>
       <ul class="nomargin-top">
         <li>
         The adjustment applied is the difference in geocentric earth radius
-        for the given <i>datum</i> and the <code>NAV83/NADV88</code> datum 
-        upon which <a href="pygeodesy.elevations-module.html#geoidHeight2" 
+        for the given <b><code>datum</code></b> and the 
+        <code>NAV83/NADV88</code> datum upon which <a 
+        href="pygeodesy.elevations-module.html#geoidHeight2" 
         class="link">elevations.geoidHeight2</a> is based.
         </li>
         <li>
-        Ths geoid height is only available for locations in the <a 
-        href="http://WikiPedia.org/wiki/Contiguous_United_States" 
+        The geoid height is only available for locations within the <a 
+        href="https://WikiPedia.org/wiki/Contiguous_United_States" 
         target="_top">Conterminous US (CONUS)</a>.
         </li>
       </ul>
@@ -824,7 +871,8 @@
         Function <a href="pygeodesy.elevations-module.html#geoidHeight2" 
         class="link">elevations.geoidHeight2</a> and method <a 
         href="pygeodesy.datum.Ellipsoid-class.html#Rgeocentric" 
-        class="link">Ellipsoid.Rgeocentric</a> for further details.
+        class="link">Ellipsoid.Rgeocentric</a> for further details and 
+        possible <code>error</code>s.
       </p>
 </div></td></tr></table>
 </div>
@@ -871,7 +919,7 @@
           class="link">LatLonEllipsoidalBase</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>strll</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>strll</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -894,12 +942,67 @@
   (geocentric) cartesian x/y/z components.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>3-Tuple (x, y, z) in (<code>meter</code>).</dd>
+        <dd>A <a href="pygeodesy.named.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a><code>(x, y, z)</code>.</dd>
     <dt>Overrides:
         <a href="pygeodesy.bases.LatLonHeightBase-class.html#to3xyz">bases.LatLonHeightBase.to3xyz</a>
     </dt>
   </dl>
 </td></tr></table>
+</div>
+<a name="toEtm"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toEtm</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this <code>LatLon</code> point to an ETM coordinate.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>The ETM coordinate (<a href="pygeodesy.etm.Etm-class.html" 
+          class="link">Etm</a>).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.etm-module.html#toEtm8" 
+        class="link">toEtm8</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="toLcc"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toLcc</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this <code>LatLon</code> point to a Lambert location.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>The Lambert location (<a href="pygeodesy.lcc.Lcc-class.html" 
+          class="link">Lcc</a>).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a 
+        href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toLcc"
+        class="link">toLcc</a> in module <a 
+        href="pygeodesy.lcc-module.html" class="link">lcc</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="toOsgr"></a>
 <div>
@@ -1218,7 +1321,7 @@ href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 17 12:19:03 2019
+    Generated by Epydoc 3.0.1 on Tue Jun 25 11:55:34 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

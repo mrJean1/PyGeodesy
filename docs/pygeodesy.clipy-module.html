@@ -60,11 +60,11 @@
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module clipy</h1><p class="nomargin-top"></p>
 <p>Functions to <i>clip</i> a path or polygon of <code>LatLon</code> 
-  points.</p>
+  points against a rectangular box or clip region.</p>
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.01.02
+        19.05.20
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -86,7 +86,7 @@
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">inull</span>=<span class="summary-sig-default">False</span>)</span><br />
       Clip a path against a rectangular clip box using the <a 
-      href="http://WikiPedia.org/wiki/Cohen-Sutherland_algorithm" 
+      href="https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm" 
       target="_top">Cohen-Sutherland</a> algorithm.</td>
           <td align="right" valign="top">
             
@@ -108,8 +108,8 @@
         <span class="summary-sig-arg">inull</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>)</span><br />
       Clip a polygon against a clip region or box using the <a 
-      href="http://WikiPedia.org/wiki/Sutherland_Hodgman_algorithm" 
-      target="_top">Sutherland_Hodgman</a> algorithm.</td>
+      href="https://WikiPedia.org/wiki/Sutherland_Hodgman_algorithm" 
+      target="_top">Sutherland-Hodgman</a> algorithm.</td>
           <td align="right" valign="top">
             
             
@@ -130,8 +130,8 @@
         <span class="summary-sig-arg">inull</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>)</span><br />
       Clip a polygon against a clip region or box using the <a 
-      href="http://WikiPedia.org/wiki/Sutherland_Hodgman_algorithm" 
-      target="_top">Sutherland_Hodgman</a> algorithm.</td>
+      href="https://WikiPedia.org/wiki/Sutherland_Hodgman_algorithm" 
+      target="_top">Sutherland-Hodgman</a> algorithm.</td>
           <td align="right" valign="top">
             
             
@@ -186,7 +186,7 @@
   </tr></table>
   
   <p>Clip a path against a rectangular clip box using the <a 
-  href="http://WikiPedia.org/wiki/Cohen-Sutherland_algorithm" 
+  href="https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm" 
   target="_top">Cohen-Sutherland</a> algorithm.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -198,14 +198,13 @@
         <li><strong class="pname"><code>inull</code></strong> - Optionally, include null edges if inside (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Yield a 3-tuple (start, end, index) for each edge of the clipped 
-          path with the start and end points <code>LatLon</code> of the 
-          portion of the edge inside or on the clip box and the index 
-          <code>int</code> of the edge in the original path.</dd>
+        <dd>Yield a <a href="pygeodesy.named.ClipCS3Tuple-class.html" 
+          class="link">ClipCS3Tuple</a><code>(start, end, index)</code> for
+          each edge of the clipped path.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - The <i>lowerleft</i> corner is not below and/or not to the left of 
-        the <i>upperright</i> corner.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - The <b><code>lowerleft</code></b> corner is not below and/or not to
+        the left of the <b><code>upperright</code></b> corner.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -228,8 +227,8 @@
   </tr></table>
   
   <p>Clip a polygon against a clip region or box using the <a 
-  href="http://WikiPedia.org/wiki/Sutherland_Hodgman_algorithm" 
-  target="_top">Sutherland_Hodgman</a> algorithm.</p>
+  href="https://WikiPedia.org/wiki/Sutherland_Hodgman_algorithm" 
+  target="_top">Sutherland-Hodgman</a> algorithm.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -244,8 +243,9 @@
         <dd>Yield the clipped points (<code>LatLon</code>[]).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i> or the <i>corners</i> specify 
-        a polar, zero-area, non-convex or otherwise invalid clip region.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <b><code>points</code></b> or the 
+        <b><code>corners</code></b> specify a polar, zero-area, non-convex 
+        or otherwise invalid clip region.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -268,8 +268,8 @@
   </tr></table>
   
   <p>Clip a polygon against a clip region or box using the <a 
-  href="http://WikiPedia.org/wiki/Sutherland_Hodgman_algorithm" 
-  target="_top">Sutherland_Hodgman</a> algorithm.</p>
+  href="https://WikiPedia.org/wiki/Sutherland_Hodgman_algorithm" 
+  target="_top">Sutherland-Hodgman</a> algorithm.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -281,15 +281,14 @@
         <li><strong class="pname"><code>closed</code></strong> - Close the clipped points (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Yield a 3-tuple (start, end, original) for each edge of the 
-          clipped polygon.  The start and end points <code>LatLon</code> of
-          the portion of the edge inside or on the clip region.  The 
-          original <code>bool</code> indicates whether the edge is part of 
-          the original polygon or part of the clip region.</dd>
+        <dd>Yield a <a href="pygeodesy.named.ClipSH3Tuple-class.html" 
+          class="link">ClipSH3Tuple</a><code>(start, end, original)</code> 
+          for each edge of the clipped polygon.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i> or the <i>corners</i> specify 
-        a polar, zero-area, non-convex or otherwise invalid clip region.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <b><code>points</code></b> or the 
+        <b><code>corners</code></b> specify a polar, zero-area, non-convex 
+        or otherwise invalid clip region.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -326,7 +325,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 17 12:19:02 2019
+    Generated by Epydoc 3.0.1 on Tue Jun 25 11:55:33 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -62,14 +62,14 @@
 <p>(INTERNAL) Common base classes.</p>
   <p>After <i>(C) Chris Veness 2011-2015</i> published under the same MIT 
   Licence**, see <a 
-  href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
-  target="_top">http://www.Movable-Type.co.UK/scripts/latlong.html</a> and 
-  <a href="http://www.Movable-Type.co.UK/scripts/latlong-vectors.html" 
-  target="_top">http://www.Movable-Type.co.UK/scripts/latlong-vectors.html</a>.</p>
+  href="https://www.Movable-Type.co.UK/scripts/latlong.html" 
+  target="_top">https://www.Movable-Type.co.UK/scripts/latlong.html</a> and
+  <a href="https://www.Movable-Type.co.UK/scripts/latlong-vectors.html" 
+  target="_top">https://www.Movable-Type.co.UK/scripts/latlong-vectors.html</a>.</p>
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.04.20
+        19.05.09
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -83,24 +83,10 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.bases._Named-class.html" class="summary-name">_Named</a><br />
-      (INTERNAL) Base class for named objects.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.bases._Based-class.html" class="summary-name">_Based</a><br />
-      (INTERNAL) Base class with name.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.bases._VectorBased-class.html" class="summary-name">_VectorBased</a><br />
-      (INTERNAL) Base class for <i>Vector3d</i>.
+        <a href="pygeodesy.bases._VectorBase-class.html" class="summary-name">_VectorBase</a><br />
+      (INTERNAL) Base class for <a 
+        href="pygeodesy.vector3d.Vector3d-class.html" 
+        class="link">Vector3d</a>.
     </td>
   </tr>
 <tr>
@@ -113,164 +99,6 @@
     </td>
   </tr>
 </table>
-<!-- ==================== FUNCTIONS ==================== -->
-<a name="section-Functions"></a>
-<table class="summary" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td align="left" colspan="2" class="table-header">
-    <span class="table-header">Functions</span></td>
-</tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.bases-module.html#classname" class="summary-sig-name">classname</a>(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">prefixed</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Return an instance' module and class name.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.bases-module.html#classnaming" class="summary-sig-name">classnaming</a>(<span class="summary-sig-arg">prefixed</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Set the default class naming for <code>[module.]class</code> names.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.bases-module.html#inStr" class="summary-sig-name">inStr</a>(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">*args</span>,
-        <span class="summary-sig-arg">**kwds</span>)</span><br />
-      Return the string representation of an instance.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-</table>
-<!-- ==================== FUNCTION DETAILS ==================== -->
-<a name="section-FunctionDetails"></a>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td align="left" colspan="2" class="table-header">
-    <span class="table-header">Function Details</span></td>
-</tr>
-</table>
-<a name="classname"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">classname</span>(<span class="sig-arg">inst</span>,
-        <span class="sig-arg">prefixed</span>=<span class="sig-default">None</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Return an instance' module and class name.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>inst</code></strong> - The object (any type).</li>
-        <li><strong class="pname"><code>prefixed</code></strong> - Prefix the module name (<code>bool</code>), see function <a 
-          href="pygeodesy.bases-module.html#classnaming" 
-          class="link">classnaming</a>.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>The <i>inst</i>'s <code>[module.]class</code> name 
-          (<code>str</code>).</dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="classnaming"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">classnaming</span>(<span class="sig-arg">prefixed</span>=<span class="sig-default">None</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Set the default class naming for <code>[module.]class</code> 
-  names.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>prefixed</code></strong> - Include the module name (<code>bool</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Previous class naming setting (<code>bool</code>).</dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="inStr"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">inStr</span>(<span class="sig-arg">inst</span>,
-        <span class="sig-arg">*args</span>,
-        <span class="sig-arg">**kwds</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Return the string representation of an instance.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>inst</code></strong> - The instance (any type).</li>
-        <li><strong class="pname"><code>args</code></strong> - Optional positional arguments.</li>
-        <li><strong class="pname"><code>kwds</code></strong> - Optional keyword arguments.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>The <i>inst</i>'s representation (<code>str</code>).</dd>
-  </dl>
-</td></tr></table>
-</div>
-<br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
        bgcolor="#a0c0ff" cellspacing="0">
@@ -302,7 +130,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 17 12:19:02 2019
+    Generated by Epydoc 3.0.1 on Tue Jun 25 11:55:33 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

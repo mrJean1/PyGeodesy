@@ -61,21 +61,23 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Geohash</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-object --+        
-         |        
-basestring --+    
-             |    
-           str --+
-                 |
-    object --+   |
-             |   |
-  <a href="pygeodesy.bases._Named-class.html">bases._Named</a> --+
-                 |
-                <strong class="uidshort">Geohash</strong>
+object --+            
+         |            
+basestring --+        
+             |        
+           str --+    
+                 |    
+    object --+   |    
+             |   |    
+  named._Named --+    
+                 |    
+   named._NamedStr --+
+                     |
+                    <strong class="uidshort">Geohash</strong>
 </pre>
 
 <hr />
-<p>Geohash class, sub-class of <code>str</code>.</p>
+<p>Geohash class, a _NamedStr.</p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -85,23 +87,6 @@ basestring --+
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Instance Methods</span></td>
 </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.geohash.Geohash-class.html#__repr__" class="summary-sig-name">__repr__</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      repr(x)</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -210,7 +195,7 @@ basestring --+
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the distance between this and an other geohash using the <a 
-      href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
+      href="https://www.Movable-Type.co.UK/scripts/latlong.html" 
       target="_top">Equirectangular Approximation / Projection</a>.</td>
           <td align="right" valign="top">
             
@@ -253,7 +238,7 @@ basestring --+
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the great-circle distance between this and an other geohash 
       using the <a 
-      href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
+      href="https://www.Movable-Type.co.UK/scripts/latlong.html" 
       target="_top">Haversine</a> formula.</td>
           <td align="right" valign="top">
             
@@ -286,6 +271,10 @@ basestring --+
   </tr>
   <tr>
     <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedStr</code></b>:
+      <code>__repr__</code>,
+      <code>__str__</code>
+      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>str</code></b>:
       <code>__add__</code>,
       <code>__contains__</code>,
@@ -307,7 +296,6 @@ basestring --+
       <code>__rmod__</code>,
       <code>__rmul__</code>,
       <code>__sizeof__</code>,
-      <code>__str__</code>,
       <code>capitalize</code>,
       <code>center</code>,
       <code>count</code>,
@@ -347,8 +335,10 @@ basestring --+
       <code>upper</code>,
       <code>zfill</code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases._Named-class.html">bases._Named</a></code></b>:
-      <code><a href="pygeodesy.bases._Named-class.html#copy">copy</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>__copy__</code>,
+      <code>classof</code>,
+      <code>copy</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -425,8 +415,10 @@ basestring --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.geohash.Geohash-class.html#neighbors" class="summary-name">neighbors</a><br />
-      Get all 8 adjacent cells as a dict(N=, NE=, E= ..., SW=) of <a 
-      href="pygeodesy.geohash.Geohash-class.html" 
+      Get all 8 adjacent cells as a <a 
+      href="pygeodesy.named.Neighbors8Dict-class.html" 
+      class="link">Neighbors8Dict</a><code>(N, NE, E, SE, S, SW, W, 
+      NW)</code> of <a href="pygeodesy.geohash.Geohash-class.html" 
       class="link">Geohash</a>es.
     </td>
   </tr>
@@ -443,8 +435,10 @@ basestring --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.geohash.Geohash-class.html#sizes" class="summary-name">sizes</a><br />
-      Get the lat- and longitudinal size of this cell as a 2-tuple 
-      (latHeight, lonWidth) in meter.
+      Get the lat- and longitudinal size of this cell as a <a 
+      href="pygeodesy.named.LatLon2Tuple-class.html" 
+      class="link">LatLon2Tuple</a><code>(lat, lon)</code> with the 
+      latitudinal height and longitudinal width in (<code>meter</code>).
     </td>
   </tr>
 <tr>
@@ -529,10 +523,12 @@ basestring --+
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases._Named-class.html">bases._Named</a></code></b>:
-      <code><a href="pygeodesy.bases._Named-class.html#classname">classname</a></code>,
-      <code><a href="pygeodesy.bases._Named-class.html#classnaming">classnaming</a></code>,
-      <code><a href="pygeodesy.bases._Named-class.html#name">name</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>,
+      <code>name</code>,
+      <code>named</code>,
+      <code>named2</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
@@ -592,30 +588,6 @@ basestring --+
   </dl>
 </td></tr></table>
 </div>
-<a name="__repr__"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__repr__</span>(<span class="sig-arg">self</span>)</span>
-    <br /><em class="fname">(Representation operator)</em>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>repr(x)</p>
-  <dl class="fields">
-    <dt>Overrides:
-        object.__repr__
-        <dd><em class="note">(inherited documentation)</em></dd>
-    </dt>
-  </dl>
-</td></tr></table>
-</div>
 <a name="adjacent"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -643,7 +615,7 @@ basestring --+
           class="link">Geohash</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - If this geohash or <i>direction</i> invalid.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - If this geohash or <b><code>direction</code></b> invalid.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -674,10 +646,12 @@ basestring --+
         <li><strong class="pname"><code>kwds</code></strong> - Optional keyword arguments for <i>LatLon</i>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (loLatLon, hiLatLon) of <i>LatLon</i> for the lower-left 
-          respectively upper-right corner or 4-tuple (loLat, loLon, hiLat, 
-          hiLon) of bounds in (<code>degrees</code>) if <i>LatLon</i> is 
-          <code>None</code>.</dd>
+        <dd>A <a href="pygeodesy.named.Bounds2Tuple-class.html" 
+          class="link">Bounds2Tuple</a><code>(latlonSW, latlonNE)</code> as
+          <b><code>LatLon</code></b> or a <a 
+          href="pygeodesy.named.Bounds4Tuple-class.html" 
+          class="link">Bounds4Tuple</a><code>(latS, lonW, latN, 
+          lonE)</code> if <b><code>LatLon</code></b> is <code>None</code>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -708,7 +682,7 @@ basestring --+
         <dd>Approximate distance (<code>meter</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> is not a <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> is not a <a 
         href="pygeodesy.geohash.Geohash-class.html" 
         class="link">Geohash</a>, <code>LatLon</code> or <code>str</code>.</li>
     </ul></dd>
@@ -734,7 +708,7 @@ basestring --+
   </tr></table>
   
   <p>Compute the distance between this and an other geohash using the <a 
-  href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
+  href="https://www.Movable-Type.co.UK/scripts/latlong.html" 
   target="_top">Equirectangular Approximation / Projection</a>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -759,7 +733,7 @@ basestring --+
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a href="http://www.EdWilliams.org/avform.htm#flat" 
+        <a href="https://www.EdWilliams.org/avform.htm#flat" 
         target="_top">Local, flat earth approximation</a>, functions
       </p>
 </div></td></tr></table>
@@ -782,7 +756,7 @@ basestring --+
   </tr></table>
   
   <p>Compute the great-circle distance between this and an other geohash 
-  using the <a href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
+  using the <a href="https://www.Movable-Type.co.UK/scripts/latlong.html" 
   target="_top">Haversine</a> formula.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -826,10 +800,14 @@ basestring --+
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>LatLon</code></strong> - Class to use (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>kwds</code></strong> - Optional keyword arguments for <i>LatLon</i>.</li>
+        <li><strong class="pname"><code>kwds</code></strong> - Optional keyword arguments for <b><code>LatLon</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>This geohash location (<i>LatLon</i>).</dd>
+        <dd>This geohash location (<b><code>LatLon</code></b>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - <b><code>LatLon</code></b> invalid.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -904,15 +882,19 @@ basestring --+
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">neighbors</h3>
-  <p>Get all 8 adjacent cells as a dict(N=, NE=, E= ..., SW=) of <a 
-  href="pygeodesy.geohash.Geohash-class.html" 
+  <p>Get all 8 adjacent cells as a <a 
+  href="pygeodesy.named.Neighbors8Dict-class.html" 
+  class="link">Neighbors8Dict</a><code>(N, NE, E, SE, S, SW, W, NW)</code> 
+  of <a href="pygeodesy.geohash.Geohash-class.html" 
   class="link">Geohash</a>es.</p>
   <p><b>JSname:</b> <i>neighbours</i>.</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">neighbors(<span class="summary-sig-arg">self</span>)</span>
-        - Get all 8 adjacent cells as a dict(N=, NE=, E= ..., SW=) of <a 
-href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>es.
+        - Get all 8 adjacent cells as a <a 
+href="pygeodesy.named.Neighbors8Dict-class.html" 
+class="link">Neighbors8Dict</a><code>(N, NE, E, SE, S, SW, W, NW)</code> of
+<a href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>es.
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -948,13 +930,17 @@ href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>es.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">sizes</h3>
-  <p>Get the lat- and longitudinal size of this cell as a 2-tuple 
-  (latHeight, lonWidth) in meter.</p>
+  <p>Get the lat- and longitudinal size of this cell as a <a 
+  href="pygeodesy.named.LatLon2Tuple-class.html" 
+  class="link">LatLon2Tuple</a><code>(lat, lon)</code> with the latitudinal
+  height and longitudinal width in (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">sizes(<span class="summary-sig-arg">self</span>)</span>
-        - Get the lat- and longitudinal size of this cell as a 2-tuple (latHeight, 
-lonWidth) in meter.
+        - Get the lat- and longitudinal size of this cell as a <a 
+href="pygeodesy.named.LatLon2Tuple-class.html" 
+class="link">LatLon2Tuple</a><code>(lat, lon)</code> with the latitudinal 
+height and longitudinal width in (<code>meter</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -1180,7 +1166,7 @@ href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 17 12:19:03 2019
+    Generated by Epydoc 3.0.1 on Tue Jun 25 11:55:35 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

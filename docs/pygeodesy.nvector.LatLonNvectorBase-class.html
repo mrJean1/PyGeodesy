@@ -63,9 +63,9 @@
 <pre class="base-tree">
     object --+            
              |            
-  <a href="pygeodesy.bases._Named-class.html">bases._Named</a> --+        
+  named._Named --+        
                  |        
-      <a href="pygeodesy.bases._Based-class.html">bases._Based</a> --+    
+  named._NamedBase --+    
                      |    
 <a href="pygeodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a> --+
                          |
@@ -115,7 +115,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.nvector.LatLonNvectorBase-class.html#to4xyzh" class="summary-sig-name">to4xyzh</a>(<span class="summary-sig-arg">self</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy.nvector.LatLonNvectorBase-class.html#to4xyzh" class="summary-sig-name">to4xyzh</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">h</span>=<span class="summary-sig-default">None</span>)</span><br />
       Convert this (geodetic) point to n-vector (normal to the earth's 
       surface) x/y/z components and height.</td>
           <td align="right" valign="top">
@@ -143,6 +144,7 @@
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equals">equals</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equals3">equals3</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equirectangularTo">equirectangularTo</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#euclideanTo">euclideanTo</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#haversineTo">haversineTo</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#isantipode">isantipode</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#isantipodeTo">isantipodeTo</a></code>,
@@ -156,12 +158,16 @@
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#to2ab">to2ab</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#to3llh">to3llh</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#to3xyz">to3xyz</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#toStr">toStr</a></code>
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#toStr">toStr</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#vincentysTo">vincentysTo</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases._Based-class.html">bases._Based</a></code></b>:
-      <code><a href="pygeodesy.bases._Based-class.html#__repr__">__repr__</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#toStr2">toStr2</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedBase</code></b>:
+      <code>__repr__</code>,
+      <code>toStr2</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>__copy__</code>,
+      <code>classof</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -194,10 +200,12 @@
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#latlon">latlon</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#lon">lon</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases._Named-class.html">bases._Named</a></code></b>:
-      <code><a href="pygeodesy.bases._Named-class.html#classname">classname</a></code>,
-      <code><a href="pygeodesy.bases._Named-class.html#classnaming">classnaming</a></code>,
-      <code><a href="pygeodesy.bases._Named-class.html#name">name</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>,
+      <code>name</code>,
+      <code>named</code>,
+      <code>named2</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
@@ -241,10 +249,10 @@
         <dd><code>None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <i>other</i> <code>type</code>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <b><code>other</code></b> <code>type</code>.</li>
     </ul></dd>
     <dt>Overrides:
-        <a href="pygeodesy.bases._Based-class.html#others">bases._Based.others</a>
+        named._NamedBase.others
     </dt>
   </dl>
 </td></tr></table>
@@ -256,7 +264,8 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">to4xyzh</span>(<span class="sig-arg">self</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">to4xyzh</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">h</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -266,8 +275,15 @@
   <p>Convert this (geodetic) point to n-vector (normal to the earth's 
   surface) x/y/z components and height.</p>
   <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>h</code></strong> - Optional height, overriding this point's height 
+          (<code>meter</code>).</li>
+    </ul></dd>
     <dt>Returns:</dt>
-        <dd>4-Tuple (x, y, z, h) in (<code>meter</code>).</dd>
+        <dd>A <a href="pygeodesy.named.Vector4Tuple-class.html" 
+          class="link">Vector4Tuple</a><code>(x, y, z, h)</code>, all in 
+          (<code>meter</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -303,7 +319,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 17 12:19:03 2019
+    Generated by Epydoc 3.0.1 on Tue Jun 25 11:55:35 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

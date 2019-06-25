@@ -98,7 +98,7 @@ class Tests(_TestsLL, _TestsV):
         self.subtitle(module, 'KarneyPython')
 
         ll1 = module.LatLon(-41.32, 174.81)
-        # <http://GeographicLib.SourceForge.io/1.49/python>
+        # <https://GeographicLib.SourceForge.io/1.49/python>
         d = ll1.geodesic.Inverse(-41.32, 174.81, 40.96, -5.50)
         self.test('lat1', d['lat1'], -41.320, fmt='%.3f')
         self.test('lon1', d['lon1'], 174.810, fmt='%.3f')
@@ -113,7 +113,7 @@ class Tests(_TestsLL, _TestsV):
         ll2, d2 = ll1.destination2(19959679.26735382, 161.067669986160)
         self.test('destination2', fStr((ll2.lat, ll2.lon, d2), prec=12), '40.96, -5.5, 18.825195123247')
 
-        # <http://GeographicLib.SourceForge.io/scripts/geod-calc.html>
+        # <https://GeographicLib.SourceForge.io/scripts/geod-calc.html>
         LL = module.LatLon
         p = LL(-63.1,  -58), LL(-72.9,  -74), LL(-71.9, -102), \
             LL(-74.9, -102), LL(-74.3, -131), LL(-77.5, -163), \
@@ -250,7 +250,7 @@ class Tests(_TestsLL, _TestsV):
         t = bearingDMS(f, prec=4) + ', ' + compassDMS(f, form=F_DMS, prec=2)
         self.test('finalBearingTo', t, '232.8246°, 232°49′28.59″SW')
 
-        # <http://GitHub.com/maurycyp/vincenty> Maurycy Pietrzak
+        # <https://GitHub.com/maurycyp/vincenty> Maurycy Pietrzak
         Boston = LatLon(42.3541165, -71.0693514, datum=d)
         NewYork = LatLon(40.7791472, -73.9680804, datum=d)
         m = Boston.distanceTo(NewYork)
@@ -266,7 +266,7 @@ class Tests(_TestsLL, _TestsV):
         m = p.distanceTo(q)
         self.test('distanceToMP', m, '110574.389', fmt='%.3f')
 
-        # <http://PyPI.org/project/pygc> Kyle Wilcox
+        # <https://PyPI.org/project/pygc> Kyle Wilcox
         p = LatLon(0, 50, datum=d)
         q = LatLon(0, 52, datum=d)
         m = p.distanceTo(q)
@@ -276,7 +276,7 @@ class Tests(_TestsLL, _TestsV):
         m = p.distanceTo(q)
         self.test('distanceToKW', m, '111319.491', fmt='%.3f')
 
-        # <http://www.Movable-Type.co.UK/scripts/latlong-vincenty.html>
+        # <https://www.Movable-Type.co.UK/scripts/latlong-vincenty.html>
         # ... Test case (from Geoscience Australia), using WGS-84
         FindersPeak = LatLon('37°57′03.72030″S', '144°25′29.52440″E')
         Buninyong = LatLon('37°39′10.15610″S', '143°55′35.38390″E')
@@ -289,7 +289,7 @@ class Tests(_TestsLL, _TestsV):
         self.test('distanceTo2', bearingDMS(b, F_DMS), '307°04′38.41″')
 
     def testNOAA(self, module):
-        # <http://www.NGS.NOAA.gov/PC_PROD/Inv_Fwd/readme.htm>
+        # <https://www.NGS.NOAA.gov/PC_PROD/Inv_Fwd/readme.htm>
 
         self.subtitle(module, 'NOAA')
 

@@ -6,7 +6,7 @@ u'''(INTERNAL) Spherical base classes.
 Pure Python implementation of geodetic (lat-/longitude) functions,
 transcribed in part from JavaScript originals by I{(C) Chris Veness 2011-2016}
 and published under the same MIT Licence**, see
-U{Latitude/Longitude<http://www.Movable-Type.co.UK/scripts/latlong.html>}.
+U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 
 @newfield example: Example, Examples
 '''
@@ -15,15 +15,17 @@ from bases import LatLonHeightBase
 from datum import R_M, R_MA, Datum, Datums
 from dms   import parse3llh
 from fmath import EPS, acos1, favg, fsum_
+from lazily import _ALL_DOCS
+from named import Bearing2Tuple
 from utily import PI, PI2, PI_2, degrees90, degrees180, degrees360, \
-                 _for_docs, property_RO, sincos2d, tanPI_2_2, wrapPI
+                  property_RO, sincos2d, tanPI_2_2, wrapPI
 
 from math import atan2, cos, hypot, log, radians, sin
 
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
-__all__ = _for_docs('LatLonSphericalBase')
-__version__ = '19.04.05'
+__all__ = _ALL_DOCS('LatLonSphericalBase')
+__version__ = '19.05.04'
 
 
 class LatLonSphericalBase(LatLonHeightBase):
@@ -39,14 +41,16 @@ class LatLonSphericalBase(LatLonHeightBase):
            @keyword wrap: Wrap and unroll longitudes (C{bool}).
            @keyword raiser: Optionally, raise L{CrossError} (C{bool}).
 
-           @return: 2-Tuple (initial, final) bearings (compass C{degrees360}).
+           @return: A L{Bearing2Tuple}C{(initial, final)}.
 
            @raise TypeError: The I{other} point is not spherical.
 
            @see: Methods C{initialBearingTo} and C{finalBearingTo}.
         '''
-        return (self.initialBearingTo(other, wrap=wrap, raiser=raiser),  # PYCHOK expected
-                self.finalBearingTo(other, wrap=wrap, raiser=raiser))
+        # .initialBearingTo is inside .-Nvector and .-Trigonometry
+        r = Bearing2Tuple(self.initialBearingTo(other, wrap=wrap, raiser=raiser),  # PYCHOK .initialBearingTo
+                          self.finalBearingTo(  other, wrap=wrap, raiser=raiser))
+        return self._xnamed(r)
 
     @property
     def datum(self):
@@ -60,9 +64,9 @@ class LatLonSphericalBase(LatLonHeightBase):
 
            @param datum: New datum (L{Datum}).
 
-           @raise TypeError: If datum is not a L{Datum}.
+           @raise TypeError: If B{C{datum}} is not a L{Datum}.
 
-           @raise ValueError: If datum is not spherical.
+           @raise ValueError: If B{C{datum}} is not spherical.
         '''
         if not isinstance(datum, Datum):
             raise TypeError('%r not a %s: %r' % ('datum', Datum.__name__, datum))
@@ -91,9 +95,10 @@ class LatLonSphericalBase(LatLonHeightBase):
         '''
         self.others(other)
 
-        # final bearing is the reverse of the other initial one
+        # final bearing is the reverse of the other, initial one;
+        # .initialBearingTo is inside .-Nvector and .-Trigonometry
         b = other.initialBearingTo(self, wrap=wrap, raiser=raiser)
-        return (b + 180) % 360
+        return (b + 180) % 360  # == wrap360 since b >= 0
 
     @property_RO
     def isEllipsoidal(self):
@@ -197,7 +202,6 @@ class LatLonSphericalBase(LatLonHeightBase):
            >>> b = p.rhumbBearingTo(q)  # 116.7
         '''
         _, db, dp = self._rhumb3(other)
-
         return degrees360(atan2(db, dp))
 
     def rhumbDestination(self, distance, bearing, radius=R_M, height=None):
@@ -260,7 +264,7 @@ class LatLonSphericalBase(LatLonHeightBase):
            >>> q = LatLon(50.964, 1.853)
            >>> d = p.rhumbDistanceTo(q)  # 403100
         '''
-        # see <http://www.EdWilliams.org/avform.htm#Rhumb>
+        # see <https://www.EdWilliams.org/avform.htm#Rhumb>
         da, db, dp = self._rhumb3(other)
 
         # on Mercator projection, longitude distances shrink
@@ -272,7 +276,6 @@ class LatLonSphericalBase(LatLonHeightBase):
         else:
             a, _ = self.to2ab()
             q = cos(a)
-
         return float(radius) * hypot(da, q * db)
 
     def rhumbMidpointTo(self, other, height=None):
@@ -296,7 +299,7 @@ class LatLonSphericalBase(LatLonHeightBase):
         '''
         self.others(other)
 
-        # see <http://MathForum.org/library/drmath/view/51822.html>
+        # see <https://MathForum.org/library/drmath/view/51822.html>
         a1, b1 = self.to2ab()
         a2, b2 = other.to2ab()
         if abs(b2 - b1) > PI:

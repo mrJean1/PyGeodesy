@@ -3,29 +3,29 @@
 
 u'''N-vector base class L{Nvector} and function L{sumOf}.
 
-Pure Python implementation of I{n-vector}-based geodesy tools for
+Pure Python implementation of C{n-vector}-based geodesy tools for
 ellipsoidal earth models, transcribed from JavaScript originals by
 I{(C) Chris Veness 2005-2016} and published under the same MIT Licence**,
 see U{Vector-based geodesy
-<http://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
+<https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
 
 @newfield example: Example, Examples
 '''
 
-from bases import LatLonHeightBase, _xattrs, _xnamed
+from bases import LatLonHeightBase
 from fmath import fsum, len2, scalar
-from lazily import _ALL_LAZY
-from utily import _for_docs
+from lazily import _ALL_LAZY, _ALL_DOCS
+from named import Vector4Tuple, _xattrs
 from vector3d import Vector3d, sumOf as _sumOf
 
 # from math import cos, sin
 
 # all public constants, classes and functions
-__all__ = _ALL_LAZY.nvector + _for_docs('LatLonNvectorBase') + (
+__all__ = _ALL_LAZY.nvector + _ALL_DOCS('LatLonNvectorBase') + (
           'NorthPole', 'SouthPole',  # constants
           'Nvector',  # classes
           'sumOf')  # functions
-__version__ = '19.04.05'
+__version__ = '19.06.17'
 
 
 class Nvector(Vector3d):  # XXX kept private
@@ -79,46 +79,59 @@ class Nvector(Vector3d):  # XXX kept private
 
            @param h: New height (C{meter}).
 
-           @raise TypeError: If I{h} invalid.
+           @raise TypeError: If B{C{h}} invalid.
 
-           @raise ValueError: If I{h} invalid.
+           @raise ValueError: If B{C{h}} invalid.
         '''
         h = scalar(h, None, name='h')
         self._update(h != self._h)
         self._h = h
 
-    def to3abh(self):
+    def to3abh(self, height=None):
         '''Convert this n-vector to (geodetic) lat-, longitude
            and height.
 
-           @return: 3-Tuple (lat, lon, height) in (C{radians},
-                    C{radians}, C{meter}).
-        '''
-        return Vector3d.to2ab(self) + (self.h,)
+           @keyword height: Optional height, overriding this
+                            n-vector's height (C{meter}).
 
-    def to3llh(self):
-        '''Convert this n-vector to (geodetic) lat-, longitude
-           and height.
-
-           @return: 3-Tuple (lat, lon, height) in (C{degrees90},
-                    C{degrees180}, C{meter}).
+           @return: A L{PhiLam3Tuple}C{(phi, lambda, height)}.
         '''
-        return Vector3d.to2ll(self) + (self.h,)
-
-    def _toLLh(self, LL, height, **kwds):
-        '''(INTERNAL) Helper for I{subclass.toLatLon}.
-        '''
-        a, b = Vector3d.to2ll(self)
         h = self.h if height is None else height
-        return (a, b, h) if LL is None else _xnamed(LL(
-                a, b, height=h, **kwds), self.name)
+        return Vector3d.to2ab(self)._3Tuple(h)
 
-    def to4xyzh(self):
+    def to3llh(self, height=None):
+        '''Convert this n-vector to (geodetic) lat-, longitude
+           and height.
+
+           @keyword height: Optional height, overriding this
+                            n-vector's height (C{meter}).
+
+           @return: A L{LatLon3Tuple}C{(lat, lon, height)}.
+        '''
+        return self._to3LLh(None, height)
+
+    def _to3LLh(self, LL, height, **kwds):
+        '''(INTERNAL) Helper for C{subclass.toLatLon} and C{.to3llh}.
+        '''
+        h = self.h if height is None else height
+        r = Vector3d.to2ll(self)  # LatLon2Tuple
+        if LL is None:
+            r = r._3Tuple(h)  # already ._xnamed
+        else:
+            r = self._xnamed(LL(r.lat, r.lon, height=h, **kwds))
+        return r
+
+    def to4xyzh(self, h=None):
         '''Return this n-vector as a 4-tuple.
 
-           @return: 4-Tuple (x, y, z, h) in (C{meter}).
+           @keyword h: Optional height, overriding this n-vector's
+                       height (C{meter}).
+
+           @return: A L{Vector4Tuple}C{(x, y, z, h)} in C{meter}.
         '''
-        return self.x, self.y, self.z, self.h
+        r = Vector4Tuple(self.x, self.y, self.z,
+                         self.h if h is None else h)
+        return self._xnamed(r)
 
     def toStr(self, prec=5, fmt='(%s)', sep=', '):  # PYCHOK expected
         '''Return a string representation of this n-vector.
@@ -129,7 +142,8 @@ class Nvector(Vector3d):  # XXX kept private
            @keyword fmt: Optional enclosing backets format (C{str}).
            @keyword sep: Optional separator between components (C{str}).
 
-           @return: Comma-separated "x, y, z [, h]" (C{str}).
+           @return: Comma-separated C{"(x, y, z [, h])"} enclosed in
+                    B{C{fmt}} brackets (C{str}).
 
            @example:
 
@@ -178,7 +192,7 @@ class LatLonNvectorBase(LatLonHeightBase):
            @param other: The other point (C{LatLon}).
            @keyword name: Optional, other's name (C{str}).
 
-           @raise TypeError: Incompatible I{other} C{type}.
+           @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         try:
             LatLonHeightBase.others(self, other, name=name)
@@ -186,11 +200,15 @@ class LatLonNvectorBase(LatLonHeightBase):
             if not isinstance(other, Nvector):
                 raise
 
-    def to4xyzh(self):
+    def to4xyzh(self, h=None):
         '''Convert this (geodetic) point to n-vector (normal
            to the earth's surface) x/y/z components and height.
 
-           @return: 4-Tuple (x, y, z, h) in (C{meter}).
+           @keyword h: Optional height, overriding this point's
+                       height (C{meter}).
+
+           @return: A L{Vector4Tuple}C{(x, y, z, h)}, all in
+                    (C{meter}).
         '''
         # Kenneth Gade eqn (3), but using right-handed
         # vector x -> 0°E,0°N, y -> 90°E,0°N, z -> 90°N
@@ -198,20 +216,22 @@ class LatLonNvectorBase(LatLonHeightBase):
 #       sa, ca, sb, cb = sincos2(a, b)
 #       x, y, z = ca * cb, ca * sb, sa
         # XXX don't use self.to3xyz() + ....
-        return LatLonHeightBase.to3xyz(self) + (self.height,)
+        x, y, z = LatLonHeightBase.to3xyz(self)
+        r = Vector4Tuple(x, y, z, self.height if h is None else h)
+        return self._xnamed(r)
 
 
 def sumOf(nvectors, Vector=Nvector, h=None, **kwds):
-    '''Return the vectorial sum of any number of n-vectors.
+    '''Return the vectorial sum of two or more n-vectors.
 
        @param nvectors: Vectors to be added (L{Nvector}[]).
        @keyword Vector: Optional class for the vectorial sum (L{Nvector}).
-       @keyword kwds: Optional, additional I{Vector} keyword arguments.
+       @keyword kwds: Optional, additional B{C{Vector}} keyword arguments.
        @keyword h: Optional height, overriding the mean height (C{meter}).
 
-       @return: Vectorial sum (I{Vector}).
+       @return: Vectorial sum (B{C{Vector}}).
 
-       @raise ValueError: No I{nvectors}.
+       @raise ValueError: No B{C{nvectors}}.
     '''
     n, nvectors = len2(nvectors)
     if n < 1:

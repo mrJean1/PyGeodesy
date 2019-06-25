@@ -12,18 +12,18 @@
 # python setup.py test
 # python setup.py install
 
-# <http://packaging.Python.org/key_projects/#setuptools>
-# <http://packaging.Python.org/distributing>
-# <http://docs.Python.org/2/distutils/sourcedist.html>
-# <http://docs.Python.org/3.6/distutils/sourcedist.html>
-# <http://setuptools.ReadTheDocs.io/en/latest/setuptools.html#developer-s-guide>
-# <http://setuptools.ReadTheDocs.io/en/latest/setuptools.html#test-build-package-and-run-a-unittest-suite>
-# <http://ZetCode.com/articles/packageinpython>
+# <https://packaging.Python.org/key_projects/#setuptools>
+# <https://packaging.Python.org/distributing>
+# <https://docs.Python.org/2/distutils/sourcedist.html>
+# <https://docs.Python.org/3.6/distutils/sourcedist.html>
+# <https://setuptools.ReadTheDocs.io/en/latest/setuptools.html#developer-s-guide>
+# <https://setuptools.ReadTheDocs.io/en/latest/setuptools.html#test-build-package-and-run-a-unittest-suite>
+# <https://ZetCode.com/articles/packageinpython>
 
 from setuptools import setup
 
 __all__ = ()
-__version__ = '19.04.22'
+__version__ = '19.05.20'
 
 
 def _c2(*names):
@@ -47,20 +47,30 @@ def _version():
 
 
 _KeyWords=('antipode', 'area', 'azimuth', 'bearing',
-           'cartesian', 'Cassini', 'clip', 'Cohen-Sutherland', 'conic', 'curvature',
-           'datum', 'development', 'distance',
-           'earth', 'elevation', 'ellipsoid', 'EPSG', 'equirectangular', 'Euclidean',
+           'cartesian', 'Cassini', 'Cassini-Soldner', 'clip',
+           'Cohen', 'Cohen-Sutherland', 'conic', 'curvature',
+           'datum', 'development', 'distance', 'Douglas',
+           'earth', 'elevation', 'ellipsoid', 'elliptic', 'EPSG',
+           'equirectangular', 'Euclidean', 'exact',
            'GARS', 'geocentric', 'geodesy', 'geodetic', 'GeodTest',
-           'geographiclib', 'geohash', 'geoid', 'geoidHeight', 'GeoidHeights', 'georef',
-           'haversine', 'height', 'horizon', 'interpolate',
+           'geographiclib', 'geohash', 'geoid', 'geoidHeight',
+           'GeoidHeights', 'georef',
+           'haversine', 'height', 'Hodgman', 'horizon', 'interpolate',
            'Karney', 'Krueger', 'Krüger',
            'Lambert', 'latitude', 'Lesh', 'linearize', 'longitude',
-           'Mercator', 'MGRS', 'nearest', 'numpy', 'n-vector', 'Nvector', 'OSGR',
-           'perimeter', 'polar', 'Pseudo-Mercator', 'PyGeodesy', 'PyPy',
-           'radii', 'radius', 'Ramer-Douglas-Peucker', 'Reumann-Witkam', 'rhumb',
-           'scipy', 'simplify', 'Soldner', 'sphere', 'stereographic', 'Sutherland-Hodgman',
-           'TMcoords', 'trigonometry', 'unroll', 'UPS', 'UTM', 'UTM/UPS',
-           'Vincenty', 'Visvalingam-Whyatt', 'Web-Mercator', 'WGRS', 'WGS')
+           'Mercator', 'MGRS',
+           'nearest', 'numpy', 'n-vector', 'Nvector',
+           'OSGR',
+           'perimeter', 'Peucker', 'polar', 'Pseudo-Mercator',
+           'PyGeodesy', 'PyPy',
+           'radii', 'radius', 'Ramer', 'Ramer-Douglas-Peucker',
+           'Reumann', 'Reumann-Witkam', 'rhumb',
+           'scipy', 'simplify', 'Soldner', 'sphere', 'stereographic',
+           'Sutherland', 'Sutherland-Hodgman',
+           'TMcoords', 'TransverseMercatorExact', 'trigonometry',
+           'unroll', 'UPS', 'UTM', 'UTM/UPS',
+           'Vincenty', 'Visvalingam', 'Visvalingam-Whyatt',
+           'Web-Mercator', 'WGRS', 'WGS', 'Whyatt', 'Witkam')
 
 setup(
     name='PyGeodesy',
@@ -75,7 +85,7 @@ setup(
 
     license='MIT',
     keywords=' '.join(_KeyWords),
-    url='http://GitHub.com/mrJean1/PyGeodesy',
+    url='https://GitHub.com/mrJean1/PyGeodesy',
 
     long_description=_long_description(),
 
@@ -91,7 +101,7 @@ setup(
 
     zip_safe=False,
 
-    # <http://PyPI.org/pypi?%3Aaction=list_classifiers>
+    # <https://PyPI.org/pypi?%3Aaction=list_classifiers>
     classifiers=[
         _c2('Development Status', '5 - Production/Stable'),
         _c2('Environment', 'Console'),
@@ -108,7 +118,7 @@ setup(
         _c2('Topic', 'Scientific/Engineering', 'GIS'),
     ],
 
-#   download_url='http://GitHub.com/mrJean1/PyGeodesy',
+#   download_url='https://GitHub.com/mrJean1/PyGeodesy',
 #   entry_points={},
 #   include_package_data=False,
 #   install_requires=[],

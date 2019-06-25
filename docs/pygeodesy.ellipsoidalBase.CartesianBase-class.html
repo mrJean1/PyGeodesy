@@ -63,11 +63,11 @@
 <pre class="base-tree">
   object --+                
            |                
-<a href="pygeodesy.bases._Named-class.html">bases._Named</a> --+            
+named._Named --+            
                |            
-    <a href="pygeodesy.bases._Based-class.html">bases._Based</a> --+        
+named._NamedBase --+        
                    |        
-  <a href="pygeodesy.bases._VectorBased-class.html">bases._VectorBased</a> --+    
+   <a href="pygeodesy.bases._VectorBase-class.html">bases._VectorBase</a> --+    
                        |    
        <a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a> --+
                            |
@@ -81,7 +81,7 @@
 </dd></dl>
 
 <hr />
-<p>(INTERNAL) Base class for ellipsoidal <i>Cartesian</i>.</p>
+<p>(INTERNAL) Base class for ellipsoidal <code>Cartesian</code>.</p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -180,11 +180,14 @@
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#to3xyz">to3xyz</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#unit">unit</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases._Based-class.html">bases._Based</a></code></b>:
-      <code><a href="pygeodesy.bases._Based-class.html#__repr__">__repr__</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#__str__">__str__</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#toStr2">toStr2</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedBase</code></b>:
+      <code>__repr__</code>,
+      <code>__str__</code>,
+      <code>toStr2</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>__copy__</code>,
+      <code>classof</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -218,10 +221,12 @@
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#y">y</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#z">z</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases._Named-class.html">bases._Named</a></code></b>:
-      <code><a href="pygeodesy.bases._Named-class.html#classname">classname</a></code>,
-      <code><a href="pygeodesy.bases._Named-class.html#classnaming">classnaming</a></code>,
-      <code><a href="pygeodesy.bases._Named-class.html#name">name</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>,
+      <code>name</code>,
+      <code>named</code>,
+      <code>named2</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
@@ -257,16 +262,17 @@
   geodetic) lat-, longitude and height on the given datum.</p>
   <p>Uses Bowring&#8217;s (1985) formulation for &#956;m precision in concise form: <a
   
-  href="http://www.ResearchGate.net/publication/233668213_The_Accuracy_of_Geodetic_Latitude_and_Height_Equations"
+  href="https://www.ResearchGate.net/publication/233668213_The_Accuracy_of_Geodetic_Latitude_and_Height_Equations"
   target="_top">'The accuracy of geodetic latitude and height 
   equations'</a>, B. R. Bowring, Survey Review, Vol 28, 218, Oct 1985.</p>
   <p>See also Ralph M. Toms <a 
-  href="http://www.OSTI.gov/scitech/biblio/110235" target="_top">'An 
+  href="https://www.OSTI.gov/scitech/biblio/110235" target="_top">'An 
   Efficient Algorithm for Geocentric to Geodetic Coordinate 
   Conversion'</a>, Sept 1995 and <a 
-  href="http://www.OSTI.gov/scitech/servlets/purl/231228" target="_top">'An
-  Improved Algorithm for Geocentric to Geodetic Coordinate Conversion'</a>,
-  Apr 1996, from Lawrence Livermore National Laboratory.</p>
+  href="https://www.OSTI.gov/scitech/servlets/purl/231228" 
+  target="_top">'An Improved Algorithm for Geocentric to Geodetic 
+  Coordinate Conversion'</a>, Apr 1996, from Lawrence Livermore National 
+  Laboratory.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -274,8 +280,8 @@
           class="link">Datum</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>3-Tuple (lat, lon, heigth) in (<code>degrees90</code>, 
-          <code>degrees180</code>, <code>meter</code>).</dd>
+        <dd>A <a href="pygeodesy.named.LatLon3Tuple-class.html" 
+          class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -307,7 +313,7 @@
     <dt>Returns:</dt>
         <dd>Cartesian represented as &quot;[x, y, z]&quot; (string).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.bases._Based-class.html#toStr">bases._Based.toStr</a>
+        named._NamedBase.toStr
     </dt>
   </dl>
 </td></tr></table>
@@ -344,7 +350,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 17 12:19:03 2019
+    Generated by Epydoc 3.0.1 on Tue Jun 25 11:55:34 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

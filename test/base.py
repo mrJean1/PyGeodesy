@@ -4,8 +4,8 @@
 # Base class and functions for PyGeodesy tests.
 
 # After (C) Chris Veness 2011-2015 published under the same MIT Licence,
-# see <http://www.Movable-Type.co.UK/scripts/latlong-vectors.html>
-# and <http://www.Movable-Type.co.UK/scripts/latlong.html>.
+# see <https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>
+# and <https://www.Movable-Type.co.UK/scripts/latlong.html>.
 
 from inspect import isclass, isfunction, ismethod, ismodule
 from os import getenv
@@ -35,7 +35,7 @@ if PyGeodesy_dir not in sys.path:  # Python 3+ ModuleNotFoundError
     sys.path.insert(0, PyGeodesy_dir)
 
 from pygeodesy import anStr, isLazy, iterNumpy2over, normDMS, \
-                      version as PyGeodesy_version  # PYCHOK expected
+                      property_RO, version as PyGeodesy_version  # PYCHOK expected
 
 __all__ = ('geographiclib', 'numpy',  # constants
            'isIntelPython', 'isiOS', 'ismacOS', 'isNix', 'isPyPy',
@@ -44,7 +44,7 @@ __all__ = ('geographiclib', 'numpy',  # constants
            'TestsBase',  # classes
            'ios_ver', 'secs2str',  # functions
            'test_dir', 'tilde', 'type2str', 'versions')
-__version__ = '19.04.24'
+__version__ = '19.05.20'
 
 try:
     _Ints = int, long
@@ -73,7 +73,7 @@ isWindows  = sys.platform.startswith('win')
 try:
     # use distro only for Linux, not macOS, etc.
     if isNix:
-        import distro  # <http://PyPI.org/project/distro>
+        import distro  # <https://PyPI.org/project/distro>
     else:
         raise ImportError
 
@@ -95,7 +95,7 @@ except ImportError:
 
 class TestsBase(object):
     '''Tests based on @examples from the original JavaScript code
-       and examples in <http://www.EdWilliams.org/avform.htm> or
+       and examples in <https://www.EdWilliams.org/avform.htm> or
        elsewhere as indicated.
     '''
     _file     = ''
@@ -141,6 +141,10 @@ class TestsBase(object):
         p = iterNumpy2over(n)
         self.test('iterNumpy2over', iterNumpy2over(), n)
         return p
+
+    @property_RO
+    def name(self):
+        return self._name
 
     def printf(self, fmt, *args, **kwds):  # nl=0, nt=0
         '''Print a formatted line to sys.stdout.
@@ -241,6 +245,18 @@ class TestsBase(object):
         else:
             z = ''
         self.printf('testing %s %s%s%s', test, version, m, z, nl=1)
+
+    @property
+    def verbose(self):
+        '''Get verbosity (C{bool}).
+        '''
+        return self._verbose
+
+    @verbose.setter  # PYCHOK setter!
+    def verbose(self, v):
+        '''Set verbosity (C{bool}).
+        '''
+        self._verbose = bool(v)
 
 
 if isiOS:

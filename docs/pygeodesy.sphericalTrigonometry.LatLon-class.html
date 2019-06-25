@@ -63,9 +63,9 @@
 <pre class="base-tree">
            object --+                
                     |                
-         <a href="pygeodesy.bases._Named-class.html">bases._Named</a> --+            
+         named._Named --+            
                         |            
-             <a href="pygeodesy.bases._Based-class.html">bases._Based</a> --+        
+         named._NamedBase --+        
                             |        
        <a href="pygeodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a> --+    
                                 |    
@@ -467,6 +467,7 @@
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equals">equals</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equals3">equals3</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equirectangularTo">equirectangularTo</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#euclideanTo">euclideanTo</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#haversineTo">haversineTo</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#isantipode">isantipode</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#isantipodeTo">isantipodeTo</a></code>,
@@ -480,13 +481,17 @@
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#to2ab">to2ab</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#to3llh">to3llh</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#to3xyz">to3xyz</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#toStr">toStr</a></code>
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#toStr">toStr</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#vincentysTo">vincentysTo</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases._Based-class.html">bases._Based</a></code></b>:
-      <code><a href="pygeodesy.bases._Based-class.html#__repr__">__repr__</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#others">others</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#toStr2">toStr2</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedBase</code></b>:
+      <code>__repr__</code>,
+      <code>others</code>,
+      <code>toStr2</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>__copy__</code>,
+      <code>classof</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -524,10 +529,12 @@
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#latlon">latlon</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#lon">lon</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases._Named-class.html">bases._Named</a></code></b>:
-      <code><a href="pygeodesy.bases._Named-class.html#classname">classname</a></code>,
-      <code><a href="pygeodesy.bases._Named-class.html#classnaming">classnaming</a></code>,
-      <code><a href="pygeodesy.bases._Named-class.html#name">name</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>,
+      <code>name</code>,
+      <code>named</code>,
+      <code>named2</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
@@ -581,13 +588,14 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance along the great circle path (<code>meter</code>, same 
-          units as <i>radius</i>), positive if after the <i>start</i> 
-          toward the <i>end</i> point of the path or negative if before the
-          <i>start</i> point.</dd>
+          units as <b><code>radius</code></b>), positive if after the 
+          <b><code>start</code></b> toward the <b><code>end</code></b> 
+          point of the path or negative if before the 
+          <b><code>start</code></b> point.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>start</i> or <i>end</i> point is not <a 
-        href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>start</code></b> or <b><code>end</code></b> point is 
+        not <a href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
   </dl>
@@ -630,9 +638,9 @@
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (lon1, lon2) in (<code>degrees180</code>) or 
-          <code>None</code> if the great circle doesn't reach the given 
-          <i>lat</i>.</dd>
+        <dd>2-Tuple <code>(lon1, lon2)</code>, both in 
+          <code>degrees180</code> or <code>None</code> if the great circle 
+          doesn't reach <b><code>lat</code></b>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -673,8 +681,8 @@
           to the right of the path).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>start</i> or <i>end</i> point is not <a 
-        href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>start</code></b> or <b><code>end</code></b> point is 
+        not <a href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
   </dl>
@@ -712,11 +720,11 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>distance</code></strong> - Distance travelled (<code>meter</code>, same units as 
-          <i>radius</i>).</li>
+          <b><code>radius</code></b>).</li>
         <li><strong class="pname"><code>bearing</code></strong> - Bearing from this point (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height at destination (<code>meter</code>, same units a 
-          <i>radius</i>).</li>
+          <b><code>radius</code></b>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Destination point (<a 
@@ -762,11 +770,11 @@
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Distance between this and the <i>other</i> point 
-          (<code>meter</code>, same units as <i>radius</i>).</dd>
+        <dd>Distance between this and the <b><code>other</code></b> point 
+          (<code>meter</code>, same units as <b><code>radius</code></b>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <a 
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -845,18 +853,18 @@
         <li><strong class="pname"><code>raiser</code></strong> - Optionally, raise <a 
           href="pygeodesy.vector3d.CrossError-class.html" 
           class="link">CrossError</a> (<code>bool</code>), use 
-          <i>raiser</i>=<code>True</code> for behavior like 
+          <b><code>raiser</code></b>=<code>True</code> for behavior like 
           <code>sphericalNvector.LatLon.initialBearingTo</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Initial bearing (compass <code>degrees360</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.vector3d.CrossError-class.html">CrossError</a></strong></code> - If this and the <i>other</i> point coincide, provided <i>raiser</i>
-        is <code>True</code> and <a 
+        <li><code><strong class='fraise'><a href="pygeodesy.vector3d.CrossError-class.html">CrossError</a></strong></code> - If this and the <b><code>other</code></b> point coincide, provided 
+        <b><code>raiser</code></b> is <code>True</code> and <a 
         href="pygeodesy.vector3d-module.html#crosserrors" 
         class="link">crosserrors</a> is <code>True</code>.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <a 
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -910,7 +918,7 @@
           class="link">LatLon</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <a 
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -974,7 +982,8 @@
           class="link">antipode</a> to the returned result.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>start2</i>, <i>end1</i> or <i>end2</i> is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>start2</code></b>, <b><code>end1</code></b> or 
+        <b><code>end2</code></b> is not <a 
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Intersection is ambiguous or infinite or the paths are parallel, 
@@ -1017,8 +1026,9 @@
           <code>False</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i> or non-convex polygon.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <a 
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <b><code>points</code></b> or non-convex 
+        polygon.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <a 
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -1065,7 +1075,7 @@
           class="link">LatLon</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <a 
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -1100,7 +1110,7 @@
   <p>Distances are approximated by function <a 
   href="pygeodesy.formy-module.html#equirectangular_" 
   class="link">equirectangular_</a>, subject to the supplied 
-  <i>options</i>.</p>
+  <b><code>options</code></b>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -1121,11 +1131,11 @@
           class="link">LatLon</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
-        <a href="pygeodesy.formy-module.html#equirectangular_" 
+        <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <b><code>limit</code></b>, 
+        see function <a href="pygeodesy.formy-module.html#equirectangular_"
         class="link">equirectangular_</a>.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - If <i>point1</i> or <i>point2</i> is not <a 
-        href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>point1</code></b> or <b><code>point2</code></b> is not 
+        <a href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
   </dl>
@@ -1162,9 +1172,8 @@
   class="link">sphericalTrigonometry.LatLon.nearestOn3</a>.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>... 2-Tuple (<i>closest</i>, <i>distance</i>) of the closest 
-          point (<a 
-          href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
+        <dd>... 2-Tuple <code>(closest, distance)</code> of the closest point
+          (<a href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>) on the polygon and the distance to that 
           point ...</dd>
   </dl>
@@ -1192,7 +1201,7 @@
   <p>Distances are approximated by function <a 
   href="pygeodesy.formy-module.html#equirectangular_" 
   class="link">equirectangular_</a>, subject to the supplied 
-  <i>options</i>.</p>
+  <b><code>options</code></b>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -1206,25 +1215,24 @@
           class="link">equirectangular_</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>3-Tuple (<i>closest</i>, <i>distance</i>, <i>angle</i>) of the 
-          closest point (<a 
-          href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
-          class="link">LatLon</a>) on the polygon, the distance and the 
-          compass angle to the <i>closest</i> point.  The <i>distance</i> 
-          is the <a href="pygeodesy.formy-module.html#equirectangular_" 
+        <dd>A <a href="pygeodesy.named.NearestOn3Tuple-class.html" 
+          class="link">NearestOn3Tuple</a><code>(closest, distance, 
+          angle)</code> where <code>distance</code> is the <a 
+          href="pygeodesy.formy-module.html#equirectangular_" 
           class="link">equirectangular_</a> distance between this and the 
-          <i>closest</i> point in <code>meter</code>, same units as 
-          <i>radius</i>.  The <i>angle</i> from this to the <i>closest</i> 
-          point is in compass <code>degrees360</code>, like function <a 
+          <code>closest</code> point in <code>meter</code>, same units as 
+          <b><code>radius</code></b>.  The <code>angle</code> from this to 
+          the <code>closest</code> point is in compass 
+          <code>degrees360</code>, like function <a 
           href="pygeodesy.bases.LatLonHeightBase-class.html#compassAngle" 
           class="link">compassAngle</a>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <i>limit</i>, see function 
-        <a href="pygeodesy.formy-module.html#equirectangular_" 
+        <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds <b><code>limit</code></b>, 
+        see function <a href="pygeodesy.formy-module.html#equirectangular_"
         class="link">equirectangular_</a>.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <code>LatLon</code>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <b><code>points</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -1293,7 +1301,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 17 12:19:04 2019
+    Generated by Epydoc 3.0.1 on Tue Jun 25 11:55:36 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

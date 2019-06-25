@@ -4,7 +4,7 @@
 # Test the height interpolators.
 
 __all__ = ('Tests',)
-__version__ = '19.03.26'
+__version__ = '19.05.07'
 
 import warnings  # PYCHOK expected
 # RuntimeWarning: numpy.ufunc size changed, may indicate binary
@@ -22,8 +22,8 @@ from os import SEEK_SET as _SEEK_SET
 
 _GeoidHeights_dat = b'''
 # the first and last 100 tests from GeoidHeights.dat.gz
-# <http://GeographicLib.sourceforge.io/html/geoid.html> or
-# <http://SourceForge.net/projects/geographiclib/files/testdata/>
+# <https://GeographicLib.sourceforge.io/html/geoid.html> or
+# <https://SourceForge.net/projects/geographiclib/files/testdata/>
 
 # Lat EasternLon egm84-15 egm96-5 egm2008-1-height
 
@@ -230,7 +230,7 @@ _GeoidHeights_dat = b'''
 20.823096 186.389203 6.839505 5.679085 5.74824
 
 # the Timbuktu example from online GeoidEval
-# <http://GeographicLib.SourceForge.io/cgi-bin/GeoidEval>
+# <https://GeographicLib.SourceForge.io/cgi-bin/GeoidEval>
 16.776 -3.009 31.2979 28.7067 28.7880
 
 # the G2012B/g2012bu*.bin centers, heights from GeoidEval
@@ -266,9 +266,9 @@ class Tests(TestsBase):
             raise ValueError('%s: %s' % ('-hindex', h))
 
         for t5 in egmGeoidHeights(self._dat5tests):
-            lat, lon = t5[:2]
-            if lon > 180:  # latEastern to earth lat
-                lon -= 360
+            lat, lon = t5.lat, t5.lon
+#           if lon > 180:  # EasternLon to earth lon
+#               lon -= 360
             yield lat, lon, t5[h]
 
     def testGeoid(self, G, grid, llh3, crop=None):

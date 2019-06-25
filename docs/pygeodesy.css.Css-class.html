@@ -63,9 +63,9 @@
 <pre class="base-tree">
   object --+        
            |        
-<a href="pygeodesy.bases._Named-class.html">bases._Named</a> --+    
+named._Named --+    
                |    
-    <a href="pygeodesy.bases._Based-class.html">bases._Based</a> --+
+named._NamedBase --+
                    |
                   <strong class="uidshort">Css</strong>
 </pre>
@@ -187,11 +187,14 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases._Based-class.html">bases._Based</a></code></b>:
-      <code><a href="pygeodesy.bases._Based-class.html#__repr__">__repr__</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#__str__">__str__</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#others">others</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedBase</code></b>:
+      <code>__repr__</code>,
+      <code>__str__</code>,
+      <code>others</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>__copy__</code>,
+      <code>classof</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -228,6 +231,14 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.css.Css-class.html#azimuth" class="summary-name">azimuth</a><br />
+      Get the azimuth of easting direction (<code>degrees</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.css.Css-class.html#cs0" class="summary-name">cs0</a><br />
       Get the projection (<a href="pygeodesy.css.CassiniSoldner-class.html"
       class="link">CassiniSoldner</a>).
@@ -254,8 +265,9 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.css.Css-class.html#latlon" class="summary-name">latlon</a><br />
-      Get the lat- and longitude (<code>degrees</code>, 
-      <code>degrees</code>).
+      Get the lat- and longitude (<a 
+      href="pygeodesy.named.LatLon2Tuple-class.html" 
+      class="link">LatLon2Tuple</a>).
     </td>
   </tr>
 <tr>
@@ -271,16 +283,27 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.css.Css-class.html#rk" class="summary-name">rk</a><br />
-      Get the reciprocal of azimuthal northing scale (<code 
-      class="link">float</code>).
+      Get the reciprocal of azimuthal northing scale 
+      (<code>degrees</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.css.Css-class.html#reciprocal" class="summary-name">reciprocal</a><br />
+      Get the reciprocal of azimuthal northing scale 
+      (<code>degrees</code>).
     </td>
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases._Named-class.html">bases._Named</a></code></b>:
-      <code><a href="pygeodesy.bases._Named-class.html#classname">classname</a></code>,
-      <code><a href="pygeodesy.bases._Named-class.html#classnaming">classnaming</a></code>,
-      <code><a href="pygeodesy.bases._Named-class.html#name">name</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>,
+      <code>name</code>,
+      <code>named</code>,
+      <code>named2</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
@@ -335,12 +358,12 @@
           href="pygeodesy.css.Css-class.html" class="link">Css</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ImportError</strong></code> - Package <a href="http://PyPI.org/project/geographiclib" 
+        <li><code><strong class='fraise'>ImportError</strong></code> - Package <a href="https://PyPI.org/project/geographiclib" 
         target="_top">GeographicLib</a> missing.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - If <i>cs0</i> is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>cs0</code></b> is not <a 
         href="pygeodesy.css.CassiniSoldner-class.html" 
         class="link">CassiniSoldner</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - If <i>e</i> or <i>n</i> is invalid.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - If <b><code>e</code></b> or <b><code>n</code></b> is invalid.</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
@@ -372,7 +395,7 @@
         <dd>The copy (<a href="pygeodesy.css.Css-class.html" 
           class="link">Css</a> or subclass thereof).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.bases._Named-class.html#copy">bases._Named.copy</a>
+        named._Named.copy
     </dt>
   </dl>
 </td></tr></table>
@@ -404,12 +427,14 @@
           (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The point (<i>LatLon</i>) or 4-tuple (<code>degrees90</code>, 
-          <code>degrees180</code>, height, datum) if <i>LatLon</i> is 
-          <code>None</code>.</dd>
+        <dd>The point (<b><code>LatLon</code></b>) or a <a 
+          href="pygeodesy.named.LatLon4Tuple-class.html" 
+          class="link">LatLon4Tuple</a><code>(lat, lon, height, 
+          datum)</code> if <b><code>LatLon</code></b> is <code>None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - If <i>LatLon</i> or <i>datum</i> is not ellipsoidal.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>LatLon</code></b> or <b><code>datum</code></b> is not 
+        ellipsoidal.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -442,11 +467,12 @@
           (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>This Css as &quot;easting nothing&quot; <code>str</code> in 
-          <code>meter</code> plus &quot; height&quot; and 'm' if heigth is 
-          non-zero (<code>str</code>).</dd>
+        <dd>This position as <code>&quot;easting nothing&quot;</code> 
+          <code>str</code> in <code>meter</code> plus <code>&quot; 
+          height&quot;</code> and <code>'m'</code> if heigth is non-zero 
+          (<code>str</code>).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.bases._Based-class.html#toStr">bases._Based.toStr</a>
+        named._NamedBase.toStr
     </dt>
   </dl>
 </td></tr></table>
@@ -482,10 +508,10 @@
         <li><strong class="pname"><code>C</code></strong> - Optionally, include name of projection (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>This Css as &quot;[E:meter, N:meter, H:m, name:'', 
-          C:Conic.Datum]&quot; (<code>str</code>).</dd>
+        <dd>This position as <code>&quot;[E:meter, N:meter, H:m, name:'', 
+          C:Conic.Datum]&quot;</code> (<code>str</code>).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.bases._Based-class.html#toStr2">bases._Based.toStr2</a>
+        named._NamedBase.toStr2
     </dt>
   </dl>
 </td></tr></table>
@@ -506,6 +532,26 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">azi</h3>
+  <p>Get the azimuth of easting direction (<code>degrees</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">azi(<span class="summary-sig-arg">self</span>)</span>
+        - Get the azimuth of easting direction (<code>degrees</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="azimuth"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">azimuth</h3>
   <p>Get the azimuth of easting direction (<code>degrees</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
@@ -588,12 +634,15 @@ class="link">CassiniSoldner</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">latlon</h3>
-  <p>Get the lat- and longitude (<code>degrees</code>, 
-  <code>degrees</code>).</p>
+  <p>Get the lat- and longitude (<a 
+  href="pygeodesy.named.LatLon2Tuple-class.html" 
+  class="link">LatLon2Tuple</a>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">latlon(<span class="summary-sig-arg">self</span>)</span>
-        - Get the lat- and longitude (<code>degrees</code>, <code>degrees</code>).
+        - Get the lat- and longitude (<a 
+href="pygeodesy.named.LatLon2Tuple-class.html" 
+class="link">LatLon2Tuple</a>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -629,13 +678,33 @@ class="link">CassiniSoldner</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">rk</h3>
-  <p>Get the reciprocal of azimuthal northing scale (<code 
-  class="link">float</code>).</p>
+  <p>Get the reciprocal of azimuthal northing scale 
+  (<code>degrees</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">rk(<span class="summary-sig-arg">self</span>)</span>
-        - Get the reciprocal of azimuthal northing scale (<code 
-class="link">float</code>).
+        - Get the reciprocal of azimuthal northing scale (<code>degrees</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="reciprocal"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">reciprocal</h3>
+  <p>Get the reciprocal of azimuthal northing scale 
+  (<code>degrees</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">rk(<span class="summary-sig-arg">self</span>)</span>
+        - Get the reciprocal of azimuthal northing scale (<code>degrees</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -677,7 +746,7 @@ class="link">float</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 17 12:19:03 2019
+    Generated by Epydoc 3.0.1 on Tue Jun 25 11:55:34 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

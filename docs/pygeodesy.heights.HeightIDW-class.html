@@ -61,18 +61,20 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class HeightIDW</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
- object --+        
-          |        
-_HeightBase --+    
-              |    
-     _HeightIDW --+
-                  |
-                 <strong class="uidshort">HeightIDW</strong>
+  object --+            
+           |            
+named._Named --+        
+               |        
+     _HeightBase --+    
+                   |    
+          _HeightIDW --+
+                       |
+                      <strong class="uidshort">HeightIDW</strong>
 </pre>
 
 <hr />
 <p>Height interpolator using <a 
-  href="http://WikiPedia.org/wiki/Inverse_distance_weighting" 
+  href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
   target="_top">Inverse Distance Weighting</a> (IDW) and the <i>angular</i>
   <code>Euclidean</code> distance from function <a 
   href="pygeodesy.formy-module.html#euclidean_" 
@@ -84,11 +86,11 @@ _HeightBase --+
         class="link">HeightIDW2</a>, <a 
         href="pygeodesy.heights.HeightIDW3-class.html" 
         class="link">HeightIDW3</a>, <a 
-        href="http://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
         target="_top">Inverse distance weighting</a>, <a 
-        href="http://www.Geo.FU-Berlin.De/en/v/soga/Geodata-analysis/geostatistics/Inverse-Distance-Weighting/index.html"
+        href="https://www.Geo.FU-Berlin.De/en/v/soga/Geodata-analysis/geostatistics/Inverse-Distance-Weighting/index.html"
         target="_top">IDW</a> and <a 
-        href="http://People.SC.FSU.edu/~jburkardt/c_src/shepard_interp_2d/shepard_interp_2d.html"
+        href="https://People.SC.FSU.edu/~jburkardt/c_src/shepard_interp_2d/shepard_interp_2d.html"
         target="_top">SHEPARD_INTERP_2D</a>.
       </p>
 </div><!-- ==================== INSTANCE METHODS ==================== -->
@@ -108,7 +110,8 @@ _HeightBase --+
           <td><span class="summary-sig"><a href="pygeodesy.heights.HeightIDW-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">knots</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">beta</span>=<span class="summary-sig-default">2</span>)</span><br />
+        <span class="summary-sig-arg">beta</span>=<span class="summary-sig-default">2</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       New <a href="pygeodesy.heights.HeightIDW-class.html" 
       class="link">HeightIDW</a> interpolator.</td>
           <td align="right" valign="top">
@@ -159,6 +162,13 @@ _HeightBase --+
   </tr>
   <tr>
     <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>__copy__</code>,
+      <code>__repr__</code>,
+      <code>__str__</code>,
+      <code>classof</code>,
+      <code>copy</code>
+      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
       <code>__format__</code>,
@@ -167,10 +177,8 @@ _HeightBase --+
       <code>__new__</code>,
       <code>__reduce__</code>,
       <code>__reduce_ex__</code>,
-      <code>__repr__</code>,
       <code>__setattr__</code>,
       <code>__sizeof__</code>,
-      <code>__str__</code>,
       <code>__subclasshook__</code>
       </p>
     </td>
@@ -186,6 +194,13 @@ _HeightBase --+
 </tr>
   <tr>
     <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>,
+      <code>name</code>,
+      <code>named</code>,
+      <code>named2</code>
+      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
       </p>
@@ -211,7 +226,8 @@ _HeightBase --+
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">knots</span>,
         <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">beta</span>=<span class="sig-default">2</span>)</span>
+        <span class="sig-arg">beta</span>=<span class="sig-default">2</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -226,13 +242,15 @@ _HeightBase --+
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>knots</code></strong> - The points with known height (<code>LatLon</code>s).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the longitudinal delta by the cosine of the mean latitude 
-          for <i>adjust</i>=<code>True</code>.</li>
+          for <b><code>adjust</code></b>=<code>True</code>.</li>
         <li><strong class="pname"><code>beta</code></strong> - Inverse distance power (<code>int</code> 1, 2, or 3).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional height name (<code>str</code>).</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.heights.HeightError-class.html">HeightError</a></strong></code> - Insufficient number of <i>knots</i> or invalid <i>knot</i>, 
-        <i>adjust</i> or <i>beta</i>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.heights.HeightError-class.html">HeightError</a></strong></code> - Insufficient number of <b><code>knots</code></b> or invalid 
+        <b><code>knot</code></b>, <b><code>adjust</code></b> or 
+        <b><code>beta</code></b>.</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
@@ -268,7 +286,10 @@ _HeightBase --+
           tuple of interpolated heights (<code>float</code>s).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.heights.HeightError-class.html">HeightError</a></strong></code> - Insufficient number of <i>llis</i> or invalid <i>lli</i>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.heights.HeightError-class.html">HeightError</a></strong></code> - Insufficient number of <b><code>llis</code></b>, invalid 
+        <b><code>lli</code></b> or an <a 
+        href="pygeodesy.fmath-module.html#fidw" class="link">fidw</a> 
+        issue.</li>
     </ul></dd>
     <dt>Overrides:
         _HeightBase.__call__
@@ -306,7 +327,10 @@ _HeightBase --+
           interpolated heights (<code>float</code>s).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.heights.HeightError-class.html">HeightError</a></strong></code> - Insufficient or non-matching number of <i>lats</i> and <i>lons</i>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.heights.HeightError-class.html">HeightError</a></strong></code> - Insufficient or non-matching number of <b><code>lats</code></b> and
+        <b><code>lons</code></b> or an <a 
+        href="pygeodesy.fmath-module.html#fidw" class="link">fidw</a> 
+        issue.</li>
     </ul></dd>
     <dt>Overrides:
         _HeightIDW.height
@@ -346,7 +370,7 @@ _HeightBase --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 17 12:19:03 2019
+    Generated by Epydoc 3.0.1 on Tue Jun 25 11:55:35 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

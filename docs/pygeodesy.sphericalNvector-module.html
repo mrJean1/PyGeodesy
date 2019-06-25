@@ -79,16 +79,16 @@
   <p>Pure Python implementation of n-vector-based spherical geodetic 
   (lat-/longitude) methods, transcribed from JavaScript originals by <i>(C)
   Chris Veness 2011-2016</i>, published under the same MIT Licence**.  See 
-  <a href="http://www.Movable-Type.co.UK/scripts/latlong-vectors.html" 
+  <a href="https://www.Movable-Type.co.UK/scripts/latlong-vectors.html" 
   target="_top">Vector-based geodesy</a> and <a 
-  href="http://www.Movable-Type.co.UK/scripts/geodesy/docs/module-latlon-nvector-spherical.html"
+  href="https://www.Movable-Type.co.UK/scripts/geodesy/docs/module-latlon-nvector-spherical.html"
   target="_top">Module latlon-nvector-spherical</a>.</p>
   <p>Tools for working with points and paths on (a spherical model of) the 
   earth&#8217;s surface using using n-vectors rather than the more common 
   spherical trigonometry.  N-vectors make many calculations much simpler, 
   and easier to follow, compared with the trigonometric equivalents.</p>
   <p>Based on Kenneth Gade&#8217;s <a 
-  href="http://www.NavLab.net/Publications/A_Nonsingular_Horizontal_Position_Representation.pdf"
+  href="https://www.NavLab.net/Publications/A_Nonsingular_Horizontal_Position_Representation.pdf"
   target="_top">&#8216;Non-singular Horizontal Position Representation&#8217;</a>, The 
   Journal of Navigation (2010), vol 63, nr 3, pp 395-417.</p>
   <p>Note that the formulations below take x =&gt; 0&#176;N,0&#176;E, y =&gt; 
@@ -318,14 +318,14 @@
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if a pole is enclosed by the polygon, 
+        <dd><code>True</code> if the polygon encloses a pole, 
           <code>False</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <code>LatLon</code> or don't have 
-        <code>bearingTo2</code>, <code>initialBearingTo</code> and 
-        <code>finalBearingTo</code> methods.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <b><code>points</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code> or 
+        don't have <code>bearingTo2</code>, <code>initialBearingTo</code> 
+        and <code>finalBearingTo</code> methods.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -356,14 +356,14 @@
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Polygon area (<code>meter</code>, same units as <i>radius</i>, 
-          squared).</dd>
+        <dd>Polygon area (<code>meter</code>, same units as 
+          <b><code>radius</code></b>, squared).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <a 
         href="pygeodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <b><code>points</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -426,15 +426,13 @@
           class="link">LatLon</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The intersection point (<a 
-          href="pygeodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>) or 3-tuple (<code>degrees90</code>, 
-          <code>degrees180</code>, height) if <i>LatLon</i> is 
-          <code>None</code> or <code>None</code> if no unique intersection 
-          exists.</dd>
+        <dd>The intersection point (<b><code>LatLon</code></b>) or 3-tuple 
+          (<code>degrees90</code>, <code>degrees180</code>, height) if 
+          <b><code>LatLon</code></b> is <code>None</code> or 
+          <code>None</code> if no unique intersection exists.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Start or end point(s) not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>start*</code></b> or <b><code>end*</code></b> is not <a
         href="pygeodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Intersection is ambiguous or infinite or the paths are parallel, 
@@ -478,12 +476,11 @@
           class="link">LatLon</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Point at geographic mean and mean height (<a 
-          href="pygeodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>).</dd>
+        <dd>Point at geographic mean and mean height 
+          (<b><code>LatLon</code></b>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <b><code>points</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -526,15 +523,17 @@
           the arc (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (<i>closest</i>, <i>distance</i>) of the closest point 
-          (<a href="pygeodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>) on the polygon and the <i>distance</i> 
-          from the <i>closest</i> to the other <i>point</i> in 
-          <code>meter</code>, same units as <i>radius</i>.</dd>
+        <dd>2-Tuple <code>(closest, distance)</code> of the closest point (<a
+          href="pygeodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>) on the polygon and the 
+          <code>distance</code> from the <code>closest</code> to the other 
+          <b><code>point</code></b> in <code>meter</code>, same units as 
+          <b><code>radius</code></b>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> or the point not <code>LatLon</code>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - No <i>points</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> or <b><code>point</code></b> not 
+        <code>LatLon</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - No <b><code>points</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -578,13 +577,11 @@
           class="link">LatLon</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Triangulated point (<a 
-          href="pygeodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>).</dd>
+        <dd>Triangulated point (<b><code>LatLon</code></b>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - One of the <i>points</i> is not <a 
-        href="pygeodesy.sphericalNvector.LatLon-class.html" 
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>point1</code></b> or <b><code>point2</code></b> is not 
+        <a href="pygeodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
         <li><code><strong class='fraise'>Valuerror</strong></code> - Points coincide.</li>
     </ul></dd>
@@ -621,7 +618,7 @@
   </tr></table>
   
   <p>Locate a point at given distances from three other points. See also <a
-  href="http://WikiPedia.org/wiki/Trilateration" 
+  href="https://WikiPedia.org/wiki/Trilateration" 
   target="_top">Trilateration</a>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -630,36 +627,37 @@
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>distance1</code></strong> - Distance to the first point (<code>meter</code>, same units as 
-          <i>radius</i>).</li>
+          <b><code>radius</code></b>).</li>
         <li><strong class="pname"><code>point2</code></strong> - Second point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>distance2</code></strong> - Distance to the second point (<code>meter</code>, same units as 
-          <i>radius</i>).</li>
+          <b><code>radius</code></b>).</li>
         <li><strong class="pname"><code>point3</code></strong> - Third point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>distance3</code></strong> - Distance to the third point (<code>meter</code>, same units as 
-          <i>radius</i>).</li>
+          <b><code>radius</code></b>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
-        <li><strong class="pname"><code>height</code></strong> - Optional height at the trilaterated point, overriding the mean 
-          height (<code>meter</code>, same units as <i>radius</i>).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height at the trilaterated point, overriding the IDW 
+          height (<code>meter</code>, same units as 
+          <b><code>radius</code></b>).</li>
         <li><strong class="pname"><code>LatLon</code></strong> - Optional (sub-)class to return the trilaterated point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>useZ</code></strong> - Include Z component iff non-NaN, non-zero (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Trilaterated point (<a 
-          href="pygeodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>).</dd>
+        <dd>Trilaterated point (<b><code>LatLon</code></b>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - One of the <i>points</i> is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>point1</code></b>, <b><code>point2</code></b> or 
+        <b><code>point3</code></b> is not <a 
         href="pygeodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>radius</i>, some <i>distances</i> exceed trilateration 
-        or some <i>points</i> coincide.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>radius</code></b>, some 
+        <b><code>distances</code></b> exceed trilateration or some 
+        <b><code>points</code></b> coincide.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -696,7 +694,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 17 12:19:02 2019
+    Generated by Epydoc 3.0.1 on Tue Jun 25 11:55:33 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

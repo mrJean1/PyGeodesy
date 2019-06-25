@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Transcribed from Objective-C GreatCircleTests by Brian Lambert (C)
-# 2016 Softwarenerd at <http://GitHub.com/softwarenerd/GreatCircle>
+# 2016 Softwarenerd at <https://GitHub.com/softwarenerd/GreatCircle>
 
 # The MIT License (MIT)
 #

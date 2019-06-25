@@ -58,7 +58,7 @@ class Tests(TestsBase):
             t = 'toDMS(%s)' % (a[:1] or '')
             self.test(t, toDMS(45.76260, *a), x)
 
-        # <http://GitHub.com/chrisveness/geodesy/blob/master/test/dms-tests.js>
+        # <https://GitHub.com/chrisveness/geodesy/blob/master/test/dms-tests.js>
         for a, x in (((1,),   'N'),
                      ((0,),   'N'),
                      ((-1,),  'N'),

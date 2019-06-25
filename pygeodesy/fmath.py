@@ -5,6 +5,9 @@ u'''Precision floating point functions, utilities and constants.
 
 @newfield example: Example, Examples
 '''
+# make sure int/int division yields float quotient
+from __future__ import division
+
 from lazily import _ALL_LAZY
 
 from math import acos, copysign, hypot, isinf, isnan, sqrt  # pow
@@ -13,7 +16,7 @@ from sys import float_info as _float_info
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.fmath
-__version__ = '19.06.18'
+__version__ = '19.06.19'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -36,6 +39,11 @@ try:  # _Seqs imported by .utily
 except ImportError:
     _Seqs = list, tuple, range  # XXX also set?
 
+division = 1 / 2  # double check int division, see .datum.py, .utily.py
+if not division:
+    raise ImportError('%s 1/2 == %d' % ('division', division))
+del division
+
 try:
     EPS    = _float_info.epsilon   #: System's epsilon (C{float})
     MANTIS = _float_info.mant_dig  #: System's mantissa bits (C{int})
@@ -49,14 +57,14 @@ except AttributeError:
 EPS_2  = EPS / 2      #: M{EPS / 2}   ≈1.110223024625e-16 (C{float})
 EPS1   = 1.0 - EPS    #: M{1 - EPS}   ≈0.9999999999999998 (C{float})
 EPS1_2 = 1.0 - EPS_2  #: M{1 - EPS_2} ≈0.9999999999999999 (C{float})
-_1EPS  = 1.0 + EPS    #: M{1 + EPS}   ≈1.0000000000000002 (C{float})
+# _1EPS  = 1.0 + EPS  #: M{1 + EPS}   ≈1.0000000000000002 (C{float})
 
 INF  = float('inf')  #: Infinity (C{float}), see C{isinf}, C{isfinite}
 NAN  = float('nan')  #: Not-A-Number (C{float}), see C{isnan}
 NEG0 = -0.0          #: Negative 0.0 (C{float}), see C{isneg0}
 
 _1_3rd = 1.0 / 3.0  #: (INTERNAL) One third (C{float})
-_2_3rd = 2.0 / 3.0  #: (INTERNAL) Two third (C{float})
+_2_3rd = 2.0 / 3.0  #: (INTERNAL) Two thirds (C{float})
 _3_2nd = 3.0 / 2.0  #: (INTERNAL) Three halfs (C{float})
 
 
@@ -78,9 +86,8 @@ def _2sum(a, b):
     if not isfinite(s):
         raise OverflowError('%s: %r' % ('2sum', s))
     if abs(a) < abs(b):
-        return s, a - (s - b)
-    else:
-        return s, b - (s - a)
+        a, b = b, a
+    return s, b - (s - a)
 
 
 class Fsum(object):
@@ -90,13 +97,14 @@ class Fsum(object):
        and provides intermediate, precision running sums.  Accumulation
        may continue after intermediate summations.
 
-       @note: Exception and I{non-finite} handling differ from C{math.fsum}.
+       @note: Handling of exceptions, C{nan} and C{finite} values is
+              different from C{math.fsum}.
 
-       @see: U{Hettinger<http://code.ActiveState.com/recipes/393090>},
-             U{Kahan<http://WikiPedia.org/wiki/Kahan_summation_algorithm>},
-             U{Klein<http://link.Springer.com/article/10.1007/s00607-005-0139-x>},
+       @see: U{Hettinger<https://code.ActiveState.com/recipes/393090>},
+             U{Kahan<https://WikiPedia.org/wiki/Kahan_summation_algorithm>},
+             U{Klein<https://Link.Springer.com/article/10.1007/s00607-005-0139-x>},
              Python 2.6+ file I{Modules/mathmodule.c} and the issue log
-             U{Full precision summation<http://bugs.Python.org/issue2819>}.
+             U{Full precision summation<https://Bugs.Python.org/issue2819>}.
     '''
     _fsum2_ = 0
 
@@ -107,9 +115,9 @@ class Fsum(object):
 
            @raise OverflowError: Partial C{2sum} overflow.
 
-           @raise TypeError: Non-scalar I{starts} value.
+           @raise TypeError: Non-scalar B{C{starts}} value.
 
-           @raise ValueError: Invalid or infinite I{starts} value.
+           @raise ValueError: Invalid or non-finite B{C{starts}} value.
         '''
         self._n = 0
         self._ps = []
@@ -123,7 +131,7 @@ class Fsum(object):
 
            @return: The sum, a new instance (L{Fsum}).
 
-           @see: Method L{Fsum.fadd}.
+           @see: Method L{Fsum.__iadd__}.
         '''
         f = self.fcopy()
         f += other
@@ -135,6 +143,8 @@ class Fsum(object):
            @param other: L{Fsum} instance or C{scalar}.
 
            @return: This instance, updated (L{Fsum}).
+
+           @raise TypeError: Invalid B{C{other}} type.
 
            @see: Method L{Fsum.fadd}.
         '''
@@ -154,6 +164,8 @@ class Fsum(object):
            @param other: L{Fsum} instance or C{scalar}.
 
            @return: This instance, updated (L{Fsum}).
+
+           @raise TypeError: Invalid B{C{other}} type.
 
            @see: Method L{Fsum.fmul}.
         '''
@@ -181,6 +193,8 @@ class Fsum(object):
 
            @return: This instance, updated (L{Fsum}).
 
+           @raise TypeError: Invalid B{C{other}} type.
+
            @see: Method L{Fsum.fadd}.
         '''
         if isscalar(other):
@@ -205,7 +219,7 @@ class Fsum(object):
 
            @return: The product, a new instance (L{Fsum}).
 
-           @see: Method L{Fsum.fmul}.
+           @see: Method L{Fsum.__imul__}.
         '''
         f = self.fcopy()
         f *= other
@@ -222,7 +236,7 @@ class Fsum(object):
 
            @return: The difference, a new instance (L{Fsum}).
 
-           @see: Method L{Fsum.fadd}.
+           @see: Method L{Fsum.__isub__}.
         '''
         f = self.fcopy()
         f -= other
@@ -235,15 +249,26 @@ class Fsum(object):
 
            @raise OverflowError: Partial C{2sum} overflow.
 
-           @raise TypeError: Non-scalar  I{iterable} value.
+           @raise TypeError: Non-scalar B{C{iterable}} value.
 
-           @raise ValueError: Invalid or infinite I{iterable} value.
+           @raise ValueError: Invalid or non-finite B{C{iterable}} value.
         '''
         if isscalar(iterable):  # for backward compatibility
             iterable = tuple(iterable)
 
+#       def _iter():
+#           for a in iterable:
+#               if isinstance(a, Fsum):
+#                   if a is self:
+#                       self.fmul(2)
+#                   else:
+#                       for a in a._ps:
+#                           yield a
+#               else:
+#                   yield a
+
         ps = self._ps
-        for a in iterable:
+        for a in iterable:  # _iter()
             if not isfinite(a):
                 raise ValueError('not %s: %r' %('finite', a))
             i = 0
@@ -261,11 +286,7 @@ class Fsum(object):
 
            @param xs: Values to add (C{scalar}s), all positional.
 
-           @raise OverflowError: Partial C{2sum} overflow.
-
-           @raise TypeError: Non-scalar I{xs} value.
-
-           @raise ValueError: Invalid or infinite I{arg}.
+           @see: Method L{Fsum.fadd}.
         '''
         self.fadd(xs)
 
@@ -287,9 +308,11 @@ class Fsum(object):
 
            @param factor: The multiplier (C{scalar}).
 
-           @raise TypeError: Non-scalar I{factor}.
+           @raise TypeError: Non-scalar B{C{factor}}.
 
-           @raise ValueError: Invalid or infinite I{factor}.
+           @raise ValueError: Invalid or non-finite B{C{factor}}.
+
+           @see: Method L{Fsum.fadd}.
         '''
         if not isfinite(factor):
             raise ValueError('not %s: %r' %('finite', factor))
@@ -301,31 +324,37 @@ class Fsum(object):
             self._n -= 1
         # assert self._ps is ps
 
-    def fsub(self, *xs):
+    def fsub(self, iterable):
+        '''Accumulate more values from an iterable.
+
+           @param iterable: Sequence, list, tuple, etc. (C{scalar}s).
+
+           @see: Method L{Fsum.fadd}.
+        '''
+        if iterable:
+            self.fadd(-s for s in iterable)
+
+    def fsub_(self, *xs):
         '''Accumulate more values from positional arguments.
 
            @param xs: Values to subtract (C{scalar}s), all positional.
 
-           @raise OverflowError: Partial C{2sum} overflow.
-
-           @raise TypeError: Non-scalar I{xs} value.
-
-           @raise ValueError: Invalid or infinite I{arg}.
+           @see: Method L{Fsum.fadd}.
         '''
-        self.fadd(-x for x in xs)
+        self.fsub(xs)
 
     def fsum(self, iterable=()):
         '''Accumulate more values from an iterable and sum all.
 
-           @param iterable: Sequence, list, tuple, etc. (C{scalar}s), optional.
+           @keyword iterable: Sequence, list, tuple, etc. (C{scalar}s), optional.
 
            @return: Accurate, running sum (C{float}).
 
            @raise OverflowError: Partial C{2sum} overflow.
 
-           @raise TypeError: Non-scalar I{iterable} value.
+           @raise TypeError: Non-scalar B{C{iterable}} value.
 
-           @raise ValueError: Invalid or infinite I{iterable} value.
+           @raise ValueError: Invalid or non-finite B{C{iterable}} value.
 
            @note: Accumulation can continue after summation.
         '''
@@ -357,11 +386,7 @@ class Fsum(object):
 
            @return: Accurate, running sum (C{float}).
 
-           @raise OverflowError: Partial C{2sum} overflow.
-
-           @raise TypeError: Non-scalar I{x} value.
-
-           @raise ValueError: Invalid or infinite I{x} value.
+           @see: Method L{Fsum.fsum}.
 
            @note: Accumulation can continue after summation.
         '''
@@ -369,18 +394,15 @@ class Fsum(object):
 
     def fsum2_(self, *xs):
         '''Accumulate more values from positional arguments, sum all
-           and provide the sum delta.
+           and provide the sum and delta.
 
            @param xs: Values to add (C{scalar}s), all positional.
 
-           @return: 2-Tuple (fsum_, delta) with athe ccurate, running
-                    sum and the delta with the previous sum (C{float}s).
+           @return: 2-Tuple C{(sum, delta)} with the accurate,
+                    running C{sum} and the C{delta} with the
+                    previous running C{sum}, both (C{float}).
 
-           @raise OverflowError: Partial C{2sum} overflow.
-
-           @raise TypeError: Non-scalar I{x} value.
-
-           @raise ValueError: Invalid or infinite I{x} value.
+           @see: Method L{Fsum.fsum_}.
 
            @note: Accumulation can continue after summation.
         '''
@@ -399,9 +421,11 @@ class Fdot(Fsum):
            @param a: List, sequence, tuple, etc. (C{scalar}s).
            @param b: All positional arguments (C{scalar}s).
 
-           @raise ValueError: Unequal C{len}(I{a}) and C{len}(I{b}).
+           @raise OverflowError: Partial C{2sum} overflow.
 
-           @see: Function L{fdot}.
+           @raise ValueError: Unequal C{len}(B{a}) and C{len}(B{b}).
+
+           @see: Function L{fdot} and method L{Fsum.fadd}.
         '''
         if not len(a) == len(b):
             raise ValueError('%s: %s vs %s' % ('len', len(a), len(b)))
@@ -420,11 +444,13 @@ class Fhorner(Fsum):
            @param x: Polynomial argument (C{scalar}).
            @param cs: Polynomial coeffients (C{scalar}[]).
 
-           @raise TypeError: Non-scalar I{x}.
+           @raise OverflowError: Partial C{2sum} overflow.
 
-           @raise ValueError: No I{cs} coefficients or I{x} is not finite.
+           @raise TypeError: Non-scalar B{C{x}}.
 
-           @see: Function L{fhorner}.
+           @raise ValueError: No B{C{cs}} coefficients or B{C{x}} is not finite.
+
+           @see: Function L{fhorner} and methods L{Fsum.fadd} and L{Fsum.fmul}.
         '''
         if not isfinite(x):
             raise ValueError('not %s: %r' %('finite', x))
@@ -449,11 +475,13 @@ class Fpolynomial(Fsum):
            @param x: Polynomial argument (C{scalar}).
            @param cs: Polynomial coeffients (C{scalar}[]).
 
-           @raise TypeError: Non-scalar I{x}.
+           @raise OverflowError: Partial C{2sum} overflow.
 
-           @raise ValueError: No I{cs} coefficients or I{x} is not finite.
+           @raise TypeError: Non-scalar B{C{x}}.
 
-           @see: Function L{fpolynomial}.
+           @raise ValueError: No B{C{cs}} coefficients or B{C{x}} is not finite.
+
+           @see: Function L{fpolynomial} and method L{Fsum.fadd}.
         '''
         if not isfinite(x):
             raise ValueError('not %s: %r' %('finite', x))
@@ -484,7 +512,7 @@ def cbrt(x):
        @see: Functions L{cbrt2} and L{sqrt3}.
     '''
     # simpler and more accurate than Ken Turkowski's CubeRoot, see
-    # <http://People.FreeBSD.org/~lstewart/references/apple_tr_kt32_cuberoot.pdf>
+    # <https://People.FreeBSD.org/~lstewart/references/apple_tr_kt32_cuberoot.pdf>
     return copysign(pow(abs(x), _1_3rd), x)
 
 
@@ -525,7 +553,7 @@ def fdot(a, *b):
 
        @return: Dot product (C{float}).
 
-       @raise ValueError: Unequal C{len}(I{a}) and C{len}(I{b}).
+       @raise ValueError: Unequal C{len(B{a})} and C{len(B{b})}.
 
        @see: Class L{Fdot}.
     '''
@@ -546,8 +574,10 @@ def fdot3(a, b, c, start=0):
 
        @return: Dot product (C{float}).
 
-       @raise ValueError: Unequal C{len}(I{a}), C{len}(I{b})
-                          and/or C{len}(I{c}).
+       @raise OverflowError: Partial C{2sum} overflow.
+
+       @raise ValueError: Unequal C{len(B{a})}, C{len(B{b})}
+                          and/or C{len(B{c})}.
     '''
     def _mul3(a, b, c):  # map function
         return a * b * c
@@ -571,14 +601,56 @@ def fhorner(x, *cs):
 
        @return: Horner value (C{float}).
 
-       @raise TypeError: Non-scalar I{x}.
+       @raise OverflowError: Partial C{2sum} overflow.
 
-       @raise ValueError: No I{cs} coefficients or I{x} is not finite.
+       @raise TypeError: Non-scalar B{C{x}}.
+
+       @raise ValueError: No B{C{cs}} coefficients or B{C{x}} is not finite.
 
        @see: Function L{fpolynomial} and class L{Fhorner}.
     '''
     h = Fhorner(x, *cs)
     return h.fsum()
+
+
+def fidw(xs, ds, beta=2):
+    '''Interpolate using using U{Inverse Distance Weighting
+       <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW).
+
+       @param xs: Known values (C{scalar}[]).
+       @param ds: Non-negative distances (C{scalar}[]).
+       @keyword beta: Inverse distance power (C{int}, 0, 1, 2, or 3).
+
+       @return: Interpolated value C{x} (C{float}).
+
+       @raise ValueError: Invalid B{C{beta}}, negative B{C{ds}} value,
+                          weighted B{C{ds}} below L{EPS} or unequal
+                          C{len(B{ds})} and C{len(B{xs})}.
+
+       @note: Using C{B{beta}=0} returns the mean of B{C{xs}}.
+    '''
+    n, xs = len2(xs)
+    d, ds = len2(ds)
+    if n != d or n < 1:
+        raise ValueError('%s: %s vs %s' % ('len', n, d))
+
+    d, x = min(zip(ds, xs))
+    if d > EPS and n > 1:
+        b = -int(beta)
+        if -4 < b < 0:  # and b == -beta
+            ds = tuple(d**b for d in ds)
+            d = fsum(ds)
+            if d < EPS:
+                raise ValueError('invalid %s[%s]: %r' % ('ds', '', d))
+            x = fdot(xs, *ds) / d
+        elif b == 0:
+            x = fmean(xs)
+        else:
+            raise ValueError('invalid %s=%r' % ('beta', beta))
+    elif d < 0:
+        i = ds.index(d)
+        raise ValueError('invalid %s[%s]: %r' % ('ds', i, d))
+    return x
 
 
 def fmean(xs):
@@ -589,7 +661,9 @@ def fmean(xs):
 
        @return: Mean value (C{float}).
 
-       @raise ValueError: No I{xs} values.
+       @raise OverflowError: Partial C{2sum} overflow.
+
+       @raise ValueError: No B{C{xs}} values.
     '''
     n, xs = len2(xs)
     if n > 0:
@@ -606,9 +680,11 @@ def fpolynomial(x, *cs):
 
        @return: Polynomial value (C{float}).
 
-       @raise TypeError: Non-scalar I{x}.
+       @raise OverflowError: Partial C{2sum} overflow.
 
-       @raise ValueError: No I{cs} coefficients or I{x} is not finite.
+       @raise TypeError: Non-scalar B{C{x}}.
+
+       @raise ValueError: No B{C{cs}} coefficients or B{C{x}} is not finite.
 
        @see: Function L{fhorner} and class L{Fpolynomial}.
     '''
@@ -624,11 +700,11 @@ def fpowers(x, n, alts=0):
        @keyword alts: Only alternating powers, starting
                       with this exponent (C{int}).
 
-       @return: Powers of I{x} (C{float}[]).
+       @return: Powers of B{C{x}} (C{float}[]).
 
-       @raise TypeError: Non-scalar I{x} or I{n} not C{int}.
+       @raise TypeError: Non-scalar B{C{x}} or B{C{n}} not C{int}.
 
-       @raise ValueError: Non-positive I{n} or I{x} is not finite.
+       @raise ValueError: Non-finite B{C{x}} or non-positive B{C{n}}.
     '''
     if not isfinite(x):
         raise ValueError('not %s: %r' %('finite', x))
@@ -658,7 +734,7 @@ def fprod(iterable, start=1.0):
 
        @return: The product (C{float}).
 
-       @see: U{NumPy.prod<http://docs.SciPy.org/doc/
+       @see: U{NumPy.prod<https://docs.SciPy.org/doc/
              numpy/reference/generated/numpy.prod.html>}.
     '''
     return freduce(mul, iterable, start)
@@ -673,7 +749,7 @@ def frange(start, number, step=1):
 
        @return: A generator (C{float}s).
 
-       @see: U{NumPy.prod<http://docs.SciPy.org/doc/
+       @see: U{NumPy.prod<https://docs.SciPy.org/doc/
              numpy/reference/generated/numpy.arange.html>}.
     '''
     if not isinstance(number, _Ints):
@@ -710,8 +786,8 @@ def fStr(floats, prec=6, sep=', ', fmt='%.*f', ints=False):
 
        @param floats: List, sequence, tuple, etc. (C{scalar}s).
        @keyword prec: Optional precision, number of decimal digits (0..9).
-                      Trailing zero decimals are stripped for I{prec} values
-                      of 1 and above, but kept for negative I{prec} values.
+                      Trailing zero decimals are stripped for B{C{prec}} values
+                      of 1 and above, but kept for negative B{C{prec}} values.
        @keyword sep: Optional, separator to join (string).
        @keyword fmt: Optional, float format (string).
        @keyword ints: Optionally, remove decimal dot (C{bool}).
@@ -757,9 +833,9 @@ def fsum_(*xs):
 
        @raise OverflowError: Partial C{2sum} overflow.
 
-       @raise TypeError: Non-scalar I{arg} value.
+       @raise TypeError: Non-scalar B{C{xs}} value.
 
-       @raise ValueError: Invalid or infinite I{arg} value.
+       @raise ValueError: Invalid or non-finite B{C{xs}} value.
     '''
     return fsum(xs)
 
@@ -786,9 +862,9 @@ except ImportError:
 
            @raise OverflowError: Partial C{2sum} overflow.
 
-           @raise TypeError: Non-scalar I{iterable} value.
+           @raise TypeError: Non-scalar B{C{iterable}} value.
 
-           @raise ValueError: Invalid or infinite I{iterable} value.
+           @raise ValueError: Invalid or non-finite B{C{iterable}} value.
 
            @see: Class L{Fsum}.
         '''
@@ -806,32 +882,47 @@ def hypot1(x):
     return hypot(1.0, x)
 
 
-def hypot3(x, y, z):
-    '''Compute the norm M{sqrt(x**2 + y**2 + z**2)}.
+try:
+    _ = hypot(1, 2, 3)  # new in Python 3.8+
+    hypot_ = hypot
+    del _
+except TypeError:  # Python 3.7-
 
-       @param x: X argument (C{scalar}).
-       @param y: Y argument (C{scalar}).
-       @param z: Z argument (C{scalar}).
+    def hypot_(*xs):
+        '''Compute the norm M{sqrt(sum(xs[i]**2)) for i=0..len(xs)}.
 
-       @return: Norm (C{float}).
-    '''
-    x, y, z = map1(abs, x, y, z)
-    if x < z:
-        x, z = z, x
-    if y < z:
-        y, z = z, y
-    if z:
-        if x < y:
-            x, y = y, x
-        h = float(x)
-        if h > EPS:
-            # XXX PyChecker chokes on /= and *=
-            t = fsum_(1.0, (y / h)**2, (z / h)**2)
-            if t > _1EPS:
-                h *= sqrt(t)
-    else:
-        h = hypot(x, y)
-    return h
+           @param xs: X arguments, positional (C{scalar}[]).
+
+           @return: Norm (C{float}).
+
+           @raise OverflowError: Partial C{2sum} overflow.
+
+           @raise ValueError: Invalid or no B{C{xs}} value.
+
+           @see: Similar to Python 3.8+ U{math.hypot
+                 <https://docs.Python.org/3.8/library/math.html#math.hypot>},
+                 but handling of exceptions, C{nan} and C{infinite} values
+                 is different.
+
+           @note: The Python 3.8+ U{math.dist
+                  <https://docs.Python.org/3.8/library/math.html#math.dist>}
+                  Euclidian distance between 2 I{n}-dimensional points I{p1}
+                  and I{p2} can be computed as M{hypot_(*((c1 - c2) for c1,
+                  c2 in zip(p1, p2)))}, provided I{p1} and I{p2} have the
+                  same, non-zero length I{n}.
+        '''
+        if xs:
+            n, xs = len2(xs)
+            if n > 0:
+                h = float(max(abs(x) for x in xs))
+                if h > 0 and n > 1:
+                    X = Fsum(1.0)
+                    X.fadd((x / h)**2 for x in xs)
+                    h *= sqrt(X.fsum_(-1.0))
+                return h
+        else:
+            n = ''
+        raise ValueError('%s(): %r[%s]' % ('hypot_', xs, n))
 
 
 try:
@@ -843,10 +934,10 @@ except ImportError:
 
            @param obj: Value (C{scalar}).
 
-           @return: C{False} if I{obj} is C{INF} or C{NAN},
+           @return: C{False} if B{C{obj}} is C{INF} or C{NAN},
                     C{True} otherwise.
 
-           @raise TypeError: Non-scalar I{obj}.
+           @raise TypeError: Non-scalar B{C{obj}}.
         '''
         if isscalar(obj):
             return not (isinf(obj) or isnan(obj))
@@ -859,7 +950,7 @@ def isint(obj, both=False):
        @param obj: The object (any C{type}).
        @keyword both: Optionally, check both type and value (C{bool}).
 
-       @return: C{True} if I{obj} is C{int}, C{False} otherwise.
+       @return: C{True} if B{C{obj}} is C{int}, C{False} otherwise.
     '''
     if both and isinstance(obj, float):  # NOT _Scalars!
         try:
@@ -874,7 +965,7 @@ def isneg0(obj):
 
        @param obj: Value (C{scalar}).
 
-       @return: C{True} if I{obj} is C{NEG0} or -0.0,
+       @return: C{True} if B{C{obj}} is C{NEG0} or -0.0,
                 C{False} otherwise.
     '''
     return obj in (0.0, NEG0) and copysign(1, obj) < 0
@@ -886,7 +977,7 @@ def isscalar(obj):
 
        @param obj: The object (any C{type}).
 
-       @return: C{True} if I{obj} is C{scalar}, C{False} otherwise.
+       @return: C{True} if B{C{obj}} is C{scalar}, C{False} otherwise.
     '''
     return isinstance(obj, _Scalars)
 
@@ -941,11 +1032,11 @@ def scalar(value, low=EPS, high=1.0, name='scalar'):
        @keyword high: Optional upper bound (C{scalar}).
        @keyword name: Optional name of value (C{str}).
 
-       @return: New value (C{type} of I{low}).
+       @return: New value (C{type} of B{C{low}}).
 
-       @raise TypeError: Non-scalar I{value}.
+       @raise TypeError: Non-scalar B{C{value}}.
 
-       @raise ValueError: Out-of-bounds I{value}.
+       @raise ValueError: Out-of-bounds B{C{value}}.
     '''
     if not isscalar(value):
         raise TypeError('%s invalid: %r' % (name, value))
@@ -968,7 +1059,7 @@ def sqrt3(x):
 
        @return: Cubed square root (C{float}).
 
-       @raise ValueError: Negative I{x}.
+       @raise ValueError: Negative B{C{x}}.
 
        @see: Functions L{cbrt} and L{cbrt2}.
     '''

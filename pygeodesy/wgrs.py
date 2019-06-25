@@ -5,24 +5,25 @@ u'''Class L{Georef} and several functions to encode, decode and
 inspect I{World Geographic Reference System (WGRS)} references.
 
 Transcribed from C++ class U{Georef
-<http://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Georef.html>}
+<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Georef.html>}
 by I{Charles Karney}, but with modified C{precision} and extended with
 C{height} and C{radius}.  See also U{World Geographic Reference System
-<http://WikiPedia.org/wiki/World_Geographic_Reference_System>}.
+<https://WikiPedia.org/wiki/World_Geographic_Reference_System>}.
 
 @newfield example: Example, Examples
 '''
 
-from bases import _Named, _xnamed
 from dms import parse3llh, parseDMS2
 from fmath import EPS1_2
 from lazily import _ALL_LAZY
+from named import LatLon2Tuple, LatLonPrec3Tuple, \
+                  LatLonPrec5Tuple, _NamedStr
 from utily import _MISSING, ft2m, m2ft, m2NM, property_RO, _Strs
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.wgrs + ('decode3', 'decode5',  # functions
           'encode', 'precision', 'resolution')
-__version__ = '19.04.12'
+__version__ = '19.05.07'
 
 _Base    = 10
 _BaseLen = 4
@@ -90,8 +91,8 @@ def _2geostr2(georef):
     return geostr, p - 1
 
 
-class Georef(str, _Named):
-    '''Georef class, sub-class of C{str}.
+class Georef(_NamedStr):
+    '''Georef class, a C{_NamedStr}.
     '''
     _height    = _MISSING  # meter
     _latlon    =  None  # cached latlon property
@@ -112,16 +113,16 @@ class Georef(str, _Named):
 
            @return: New L{Georef}.
 
-           @raise RangeError: Invalid C{cll} lat- or longitude.
+           @raise RangeError: Invalid B{C{cll}} lat- or longitude.
 
-           @raise TypeError: Invalid I{cll}.
+           @raise TypeError: Invalid B{C{cll}}.
 
-           @raise ValueError: INValid or non-alphanumeric I{cll}.
+           @raise ValueError: INValid or non-alphanumeric B{C{cll}}.
         '''
         if isinstance(cll, Georef):
             g, p = _2geostr2(str(cll))
             self = str.__new__(cls, g)
-            self._latlon = cll._latlon
+            self._latlon = LatLon2Tuple(*cll._latlon)
             self._name = cll._name
             self._precision = p  # cll._precision
 
@@ -130,7 +131,7 @@ class Georef(str, _Named):
                 lat, lon, h = _2fllh(*parse3llh(cll, height=None))
                 g = encode(lat, lon, precision=precision, height=h)  # PYCHOK false
                 self = str.__new__(cls, g)
-                self._latlon = lat, lon
+                self._latlon = LatLon2Tuple(lat, lon)
                 self._precision = precision
                 if h not in (None, _MISSING):
                     self._height = h
@@ -146,7 +147,7 @@ class Georef(str, _Named):
                 raise TypeError('%s: %r' % (Georef.__name__, cll))
             g = encode(lat, lon, precision=precision, height=h)  # PYCHOK false
             self = str.__new__(cls, g)
-            self._latlon = lat, lon
+            self._latlon = LatLon2Tuple(lat, lon)
             self._precision = precision
             if h not in (None, _MISSING):
                 self._height = h
@@ -155,14 +156,11 @@ class Georef(str, _Named):
             self.name = name
         return self
 
-    def __repr__(self):
-        return "%s('%s')" % (Georef.__name__, self)  # str.__str__(self))
-
     def _decode(self):
         # cache all decoded attrs
-        lat, lon, p, h, r = decode5(self)
+        lat, lon, p, h, r = decode5(self)  # PYCHOK LatLonPrec5Tuple
         if self._latlon is None:
-            self._latlon = lat, lon
+            self._latlon = LatLon2Tuple(lat, lon)
         if self._precision is None:
             self._precision = p
         if self._height is _MISSING:
@@ -180,7 +178,7 @@ class Georef(str, _Named):
 
     @property_RO
     def latlon(self):
-        '''Get this georef's (center) lat- and longitude in C{degrees}.
+        '''Get this georef's (center) lat- and longitude (L{LatLon2Tuple}).
         '''
         if self._latlon is None:
             self._decode()
@@ -208,17 +206,17 @@ class Georef(str, _Named):
 
            @param LatLon: Class to use (C{LatLon}).
            @keyword height: Optional height ({meter}).
-           @keyword kwds: Optional keyword arguments for I{LatLon}.
+           @keyword kwds: Optional keyword arguments for B{C{LatLon}}.
 
-           @return: This georef location (I{LatLon}).
+           @return: This georef location (B{C{LatLon}}).
 
-           @raise ValueError: Invalid I{LatLon}.
+           @raise ValueError: Invalid B{C{LatLon}}.
         '''
         if LatLon is None:
             raise ValueError('%s invalid: %r' % ('LatLon', LatLon))
 
         h = height if height is not None else (self.height or 0)
-        return _xnamed(LatLon(*self.latlon, height=h, **kwds), self.name)
+        return self._xnamed(LatLon(*self.latlon, height=h, **kwds))
 
 
 def decode3(georef, center=True):
@@ -228,10 +226,10 @@ def decode3(georef, center=True):
        @keyword center: If C{True} the center, otherwise the south-west,
                         lower-left corner (C{bool}).
 
-       @return: 3-Tuple (C{lat, lon, precision}).
+       @return: A L{LatLonPrec3Tuple}C{(lat, lon, precision)}.
 
-       @raise ValueError: Invalid I{georef}, INValid, non-alphanumeric
-                          or odd length I{georef}.
+       @raise ValueError: Invalid B{C{georef}}, INValid, non-alphanumeric
+                          or odd length B{C{georef}}.
     '''
     def _digit(ll, g, i, m):
         d = _Digits.find(g[i])
@@ -272,7 +270,7 @@ def decode3(georef, center=True):
     u = _Tile / u
     lon *= u
     lat *= u
-    return lat, lon, precision
+    return LatLonPrec3Tuple(lat, lon, precision)
 
 
 def decode5(georef, center=True):
@@ -282,12 +280,12 @@ def decode5(georef, center=True):
        @keyword center: If C{True} the center, otherwise the south-west,
                         lower-left corner (C{bool}).
 
-       @return: 5-Tuple (C{lat, lon, precision, height, radius}) where
-                C{height} and C{radius} are in C{meter} or C{None} if
-                missing.
+       @return: A L{LatLonPrec5Tuple}C{(lat, lon,
+                precision, height, radius)} where C{height} and/or
+                C{radius} are C{None} if missing.
 
-       @raise ValueError: Invalid I{georef}, INValid, non-alphanumeric
-                          or odd length I{georef}.
+       @raise ValueError: Invalid B{C{georef}}, INValid, non-alphanumeric
+                          or odd length B{C{georef}}.
     '''
     def _h2m(kft):
         return ft2m(kft * 1000.0)
@@ -312,7 +310,8 @@ def decode5(georef, center=True):
     g, h = _split2(g, 'height', _h2m)  # H is last
     g, r = _split2(g, 'radius', _r2m)  # R before H
 
-    return decode3(g, center=center) + (h, r)
+    a, b, p = decode3(g, center=center)
+    return LatLonPrec5Tuple(a, b, p, h, r)
 
 
 def encode(lat, lon, precision=3, height=None, radius=None):  # MCCABE 14
@@ -323,20 +322,20 @@ def encode(lat, lon, precision=3, height=None, radius=None):  # MCCABE 14
        @keyword precision: Optional, the desired C{georef} resolution
                            and length (C{int} 0..11).
        @keyword height: Optional, height in C{meter}, see U{Designation of area
-                        <http://WikiPedia.org/wiki/World_Geographic_Reference_System>}.
+                        <https://WikiPedia.org/wiki/World_Geographic_Reference_System>}.
        @keyword radius: Optional, radius in C{meter}, see U{Designation of area
-                        <http://WikiPedia.org/wiki/World_Geographic_Reference_System>}.
+                        <https://WikiPedia.org/wiki/World_Geographic_Reference_System>}.
 
        @return: The C{georef} (C{str}).
 
-       @raise RangeError: Invalid I{lat} or I{lon}.
+       @raise RangeError: Invalid B{C{lat}} or B{C{lon}}.
 
-       @raise ValueError: Invalid I{precision}, I{height} or I{radius}.
+       @raise ValueError: Invalid B{C{precision}}, B{C{height}} or B{C{radius}}.
 
-       @note: The I{precision} value differs from U{Georef<http://
+       @note: The B{C{precision}} value differs from U{Georef<https://
               GeographicLib.SourceForge.io/html/classGeographicLib_1_1Georef.html>}.
               The C{georef} length is M{2 * (precision + 1)} and the
-              C{georef} resolution is I{15°} for I{precision} 0, I{1°}
+              C{georef} resolution is I{15°} for B{C{precision}} 0, I{1°}
               for 1, I{1′} for 2, I{0.1′} for 3, I{0.01′} for 4, ...
               M{10**(2 - precision)}.
     '''

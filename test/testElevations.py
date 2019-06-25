@@ -15,7 +15,7 @@ class Tests(TestsBase):
 
     def testElevations(self, LatLon, datum, timeout):
 
-        # <http://WikiPedia.org/wiki/Mount_Diablo>
+        # <https://WikiPedia.org/wiki/Mount_Diablo>
         m, _ = elevation2(37.8816, -121.9142, timeout=timeout)
         self.test('elevation2', m, 1173.79)
         m, _ = geoidHeight2(37.8816, -121.9142, timeout=timeout)
@@ -25,7 +25,7 @@ class Tests(TestsBase):
         NewYork = LatLon(40.7791472, -73.9680804)
         Newport_RI = LatLon(41.49008, -71.312796)
         Cleveland_OH = LatLon(41.499498, -81.695391)
-        # <http://GitHub.com/maurycyp/vincenty> Maurycy Pietrzak
+        # <https://GitHub.com/maurycyp/vincenty> Maurycy Pietrzak
         Boston = LatLon(42.3541165, -71.0693514)
         for p, e, h in ((MtDiablo,    1173.79, -31.703),
                         (Boston,         2.03, -27.765),

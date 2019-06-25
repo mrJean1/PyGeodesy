@@ -63,9 +63,9 @@
 <pre class="base-tree">
   object --+        
            |        
-<a href="pygeodesy.bases._Named-class.html">bases._Named</a> --+    
+named._Named --+    
                |    
-    <a href="pygeodesy.bases._Based-class.html">bases._Based</a> --+
+named._NamedBase --+
                    |
                   <strong class="uidshort">Mgrs</strong>
 </pre>
@@ -200,11 +200,14 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases._Based-class.html">bases._Based</a></code></b>:
-      <code><a href="pygeodesy.bases._Based-class.html#__repr__">__repr__</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#__str__">__str__</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#others">others</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedBase</code></b>:
+      <code>__repr__</code>,
+      <code>__str__</code>,
+      <code>others</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>__copy__</code>,
+      <code>classof</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -234,7 +237,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.mgrs.Mgrs-class.html#band" class="summary-name">band</a><br />
-      Get the latitudinal band (A..Z <code>str</code>).
+      Get the latitudinal band (<code>str, 'A'|'B'..'Y'|'Z'</code>).
     </td>
   </tr>
 <tr>
@@ -259,7 +262,15 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.mgrs.Mgrs-class.html#en100k" class="summary-name">en100k</a><br />
-      Get the 2-character grid (EN digraph <code>str</code>).
+      Get the 2-character grid EN digraph (<code>str</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.mgrs.Mgrs-class.html#digraph" class="summary-name">digraph</a><br />
+      Get the 2-character grid EN digraph (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -283,15 +294,17 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.mgrs.Mgrs-class.html#zone" class="summary-name">zone</a><br />
-      Get the longitudal zone (1..60 <code>int</code>).
+      Get the longitudal zone (<code>int</code>, 1..60).
     </td>
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases._Named-class.html">bases._Named</a></code></b>:
-      <code><a href="pygeodesy.bases._Named-class.html#classname">classname</a></code>,
-      <code><a href="pygeodesy.bases._Named-class.html#classnaming">classnaming</a></code>,
-      <code><a href="pygeodesy.bases._Named-class.html#name">name</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>,
+      <code>name</code>,
+      <code>named</code>,
+      <code>named2</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
@@ -347,8 +360,8 @@
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid MGRS grid reference, <i>zone</i>, <i>en100k</i> or 
-        <i>band</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid MGRS grid reference, <b><code>zone</code></b>, 
+        <b><code>en100k</code></b> or <b><code>band</code></b>.</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
@@ -381,7 +394,7 @@
         <dd>The copy (<a href="pygeodesy.mgrs.Mgrs-class.html" 
           class="link">Mgrs</a> or subclass thereof).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.bases._Named-class.html#copy">bases._Named.copy</a>
+        named._Named.copy
     </dt>
   </dl>
 </td></tr></table>
@@ -412,7 +425,7 @@
           class="link">Mgrs</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>strMGRS</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>strMGRS</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -452,10 +465,10 @@
           (<code>str</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>prec</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>prec</code></b>.</li>
     </ul></dd>
     <dt>Overrides:
-        <a href="pygeodesy.bases._Based-class.html#toStr">bases._Based.toStr</a>
+        named._NamedBase.toStr
     </dt>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -494,7 +507,7 @@
         <dd>This Mgrs as &quot;[Z:00B, G:EN, E:meter, N:meter]&quot; 
           (<code>str</code>).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.bases._Based-class.html#toStr2">bases._Based.toStr2</a>
+        named._NamedBase.toStr2
     </dt>
   </dl>
 </td></tr></table>
@@ -524,8 +537,10 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The UTM coordinate (<a href="pygeodesy.utm.Utm-class.html" 
-          class="link">Utm</a>) or 4-tuple (<code>zone, hemisphere, 
-          easting, northing</code>) if <i>Utm</i> is <code>None</code>.</dd>
+          class="link">Utm</a>) or a <a 
+          href="pygeodesy.named.UtmUps4Tuple-class.html" 
+          class="link">UtmUps4Tuple</a><code>(zone, hemipole, easting, 
+          northing)</code> if <b><code>Utm</code></b> is <code>None</code>.</dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -550,11 +565,11 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">band</h3>
-  <p>Get the latitudinal band (A..Z <code>str</code>).</p>
+  <p>Get the latitudinal band (<code>str, 'A'|'B'..'Y'|'Z'</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">band(<span class="summary-sig-arg">self</span>)</span>
-        - Get the latitudinal band (A..Z <code>str</code>).
+        - Get the latitudinal band (<code>str, 'A'|'B'..'Y'|'Z'</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -613,11 +628,31 @@ class="link">Datum</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">en100k</h3>
-  <p>Get the 2-character grid (EN digraph <code>str</code>).</p>
+  <p>Get the 2-character grid EN digraph (<code>str</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">en100k(<span class="summary-sig-arg">self</span>)</span>
-        - Get the 2-character grid (EN digraph <code>str</code>).
+        - Get the 2-character grid EN digraph (<code>str</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="digraph"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">digraph</h3>
+  <p>Get the 2-character grid EN digraph (<code>str</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">en100k(<span class="summary-sig-arg">self</span>)</span>
+        - Get the 2-character grid EN digraph (<code>str</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -673,11 +708,11 @@ class="link">Datum</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">zone</h3>
-  <p>Get the longitudal zone (1..60 <code>int</code>).</p>
+  <p>Get the longitudal zone (<code>int</code>, 1..60).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">zone(<span class="summary-sig-arg">self</span>)</span>
-        - Get the longitudal zone (1..60 <code>int</code>).
+        - Get the longitudal zone (<code>int</code>, 1..60).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -719,7 +754,7 @@ class="link">Datum</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 17 12:19:03 2019
+    Generated by Epydoc 3.0.1 on Tue Jun 25 11:55:35 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

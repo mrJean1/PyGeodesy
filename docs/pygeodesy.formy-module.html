@@ -63,7 +63,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.04.07
+        19.05.08
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -218,29 +218,8 @@
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
       Compute the distance between two points using the <a 
-      href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
+      href="https://www.Movable-Type.co.UK/scripts/latlong.html" 
       target="_top">Equirectangular Approximation / Projection</a>.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#equirectangular3" class="summary-sig-name">equirectangular3</a>(<span class="summary-sig-arg">lat1</span>,
-        <span class="summary-sig-arg">lon1</span>,
-        <span class="summary-sig-arg">lat2</span>,
-        <span class="summary-sig-arg">lon2</span>,
-        <span class="summary-sig-arg">**options</span>)</span><br />
-      DEPRECATED, use function <code>equirectangular_</code>.</td>
           <td align="right" valign="top">
             
             
@@ -264,7 +243,7 @@
         <span class="summary-sig-arg">limit</span>=<span class="summary-sig-default">45</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the distance between two points using the <a 
-      href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
+      href="https://www.Movable-Type.co.UK/scripts/latlong.html" 
       target="_top">Equirectangular Approximation / Projection</a>.</td>
           <td align="right" valign="top">
             
@@ -288,7 +267,7 @@
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the distance between two (spherical) points using the <a 
-      href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
+      href="https://www.Movable-Type.co.UK/scripts/latlong.html" 
       target="_top">Haversine</a> formula.</td>
           <td align="right" valign="top">
             
@@ -310,7 +289,7 @@
         <span class="summary-sig-arg">b21</span>)</span><br />
       Compute the <i>angular</i> distance between two (spherical) points 
       using the <a 
-      href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
+      href="https://www.Movable-Type.co.UK/scripts/latlong.html" 
       target="_top">Haversine</a> formula.</td>
           <td align="right" valign="top">
             
@@ -396,7 +375,7 @@
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the distance between two (spherical) points using <a 
-      href="http://WikiPedia.org/wiki/Great-circle_distance" 
+      href="https://WikiPedia.org/wiki/Great-circle_distance" 
       target="_top">Vincenty's</a> spherical formula.</td>
           <td align="right" valign="top">
             
@@ -417,7 +396,7 @@
         <span class="summary-sig-arg">a1</span>,
         <span class="summary-sig-arg">b21</span>)</span><br />
       Compute the <i>angular</i> distance between two (spherical) points 
-      using <a href="http://WikiPedia.org/wiki/Great-circle_distance" 
+      using <a href="https://WikiPedia.org/wiki/Great-circle_distance" 
       target="_top">Vincenty's</a> spherical formula.</td>
           <td align="right" valign="top">
             
@@ -426,6 +405,22 @@
         </tr>
       </table>
       
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Variables</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__all__"></a><span class="summary-name">__all__</span> = <code title="_ALL_LAZY.formy">_ALL_LAZY.formy</code>
     </td>
   </tr>
 </table>
@@ -462,12 +457,12 @@
         <li><strong class="pname"><code>lon</code></strong> - Longitude (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (lat, lon) of the antipodal point (<code>degrees</code>, 
-          <code>degrees180</code>).</dd>
+        <dd>A <a href="pygeodesy.named.LatLon2Tuple-class.html" 
+          class="link">LatLon2Tuple</a><code>(lat, lon)</code>.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a 
-        href="http://CRAN.R-Project.org/web/packages/geosphere/geosphere.pdf"
+        href="https://CRAN.R-Project.org/web/packages/geosphere/geosphere.pdf"
         target="_top">Geosphere</a>.
       </p>
 </div></td></tr></table>
@@ -591,7 +586,7 @@
         Courtesy Martin Schultz.
       </p>
       <p><strong>See Also:</strong>
-        <a href="http://www.EdWilliams.org/avform.htm#flat" 
+        <a href="https://www.EdWilliams.org/avform.htm#flat" 
         target="_top">Local, flat earth approximation</a>.
       </p>
 </div></td></tr></table>
@@ -632,10 +627,11 @@
           class="link">unroll180</a> longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Distance (<code>meter</code>, same units as <i>radius</i>).</dd>
+        <dd>Distance (<code>meter</code>, same units as 
+          <b><code>radius</code></b>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a href="http://www.EdWilliams.org/avform.htm#Dist" 
+        <a href="https://www.EdWilliams.org/avform.htm#Dist" 
         target="_top">Distance between two (spherical) points</a>, 
         functions <a href="pygeodesy.formy-module.html#equirectangular" 
         class="link">equirectangular</a>, <a 
@@ -644,8 +640,9 @@
         href="pygeodesy.formy-module.html#vincentys" 
         class="link">vincentys</a> and methods <a 
         href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
-        class="link">Ellipsoid.distance2</a>, <code>LatLon</code> 
-        <i>distanceTo*</i> and <i>equirectangularTo</i>.
+        class="link">Ellipsoid.distance2</a>, 
+        <code>LatLon.distanceTo*</code> and 
+        <code>LatLon.equirectangularTo</code>.
       </p>
 </div></td></tr></table>
 </div>
@@ -713,7 +710,7 @@
   </tr></table>
   
   <p>Compute the distance between two points using the <a 
-  href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
+  href="https://www.Movable-Type.co.UK/scripts/latlong.html" 
   target="_top">Equirectangular Approximation / Projection</a>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -728,40 +725,16 @@
           class="link">equirectangular_</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Distance (<code>meter</code>, same units as <i>radius</i>).</dd>
+        <dd>Distance (<code>meter</code>, same units as 
+          <b><code>radius</code></b>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a> for more details, the available 
-        <i>options</i>, errors, restrictions and other, approximate or 
-        accurate distance functions.
+        <b><code>options</code></b>, errors, restrictions and other, 
+        approximate or accurate distance functions.
       </p>
 </div></td></tr></table>
-</div>
-<a name="equirectangular3"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">equirectangular3</span>(<span class="sig-arg">lat1</span>,
-        <span class="sig-arg">lon1</span>,
-        <span class="sig-arg">lat2</span>,
-        <span class="sig-arg">lon2</span>,
-        <span class="sig-arg">**options</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>DEPRECATED, use function <code>equirectangular_</code>.</p>
-  <dl class="fields">
-    <dt>Returns:</dt>
-        <dd>3-Tuple (distance2, delta_lat, delta_lon).</dd>
-  </dl>
-</td></tr></table>
 </div>
 <a name="equirectangular_"></a>
 <div>
@@ -784,10 +757,10 @@
   </tr></table>
   
   <p>Compute the distance between two points using the <a 
-  href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
+  href="https://www.Movable-Type.co.UK/scripts/latlong.html" 
   target="_top">Equirectangular Approximation / Projection</a>.</p>
   <p>This approximation is valid for short distance of several hundred Km 
-  or Miles, see the <i>limit</i> keyword argument and the <a 
+  or Miles, see the <b><code>limit</code></b> keyword argument and the <a 
   href="pygeodesy.utily.LimitError-class.html" 
   class="link">LimitError</a>.</p>
   <dl class="fields">
@@ -806,26 +779,19 @@
           class="link">unroll180</a> longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>4-Tuple (distance2, delta_lat, delta_lon, unroll_lon2) with the 
-          distance in <code>degrees squared</code>, the latitudinal delta 
-          <i>lat2</i>-<i>lat1</i>, the wrapped, unrolled, and adjusted 
-          longitudinal delta <i>lon2</i>-<i>lon1</i> and the unrollment for
-          <i>lon2</i>.  Use Function <a 
-          href="pygeodesy.utily-module.html#degrees2m" 
-          class="link">degrees2m</a> to convert <code>degrees 
-          squared</code> to distance in <code>meter</code> as <i 
-          class="math">degrees2m(sqrt(distance2), ...)</i> or <i 
-          class="math">degrees2m(hypot(delta_lat, delta_lon), ...)</i>.</dd>
+        <dd>A <a href="pygeodesy.named.Distance4Tuple-class.html" 
+          class="link">Distance4Tuple</a><code>(distance2, delta_lat, 
+          delta_lon, unroll_lon2)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - If the lat- and/or longitudinal delta exceeds the 
-        <i>-limit..+limit</i> range and <a 
+        <b><code>-limit..+limit</code></b> range and <a 
         href="pygeodesy.utily-module.html#limiterrors" 
         class="link">limiterrors</a> set to <code>True</code>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a href="http://www.EdWilliams.org/avform.htm#flat" 
+        <a href="https://www.EdWilliams.org/avform.htm#flat" 
         target="_top">Local, flat earth approximation</a>, functions <a 
         href="pygeodesy.formy-module.html#equirectangular" 
         class="link">equirectangular</a>, <a 
@@ -836,8 +802,9 @@
         href="pygeodesy.formy-module.html#vincentys" 
         class="link">vincentys</a> and methods <a 
         href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
-        class="link">Ellipsoid.distance2</a>, <code>LatLon</code> 
-        <i>distanceTo*</i> and <i>equirectangularTo</i>.
+        class="link">Ellipsoid.distance2</a>, 
+        <code>LatLon.distanceTo*</code> and 
+        <code>LatLon.equirectangularTo</code>.
       </p>
 </div></td></tr></table>
 </div>
@@ -861,7 +828,7 @@
   </tr></table>
   
   <p>Compute the distance between two (spherical) points using the <a 
-  href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
+  href="https://www.Movable-Type.co.UK/scripts/latlong.html" 
   target="_top">Haversine</a> formula.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -875,10 +842,11 @@
           class="link">unroll180</a> longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Distance (<code>meter</code>, same units as <i>radius</i>).</dd>
+        <dd>Distance (<code>meter</code>, same units as 
+          <b><code>radius</code></b>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a href="http://www.EdWilliams.org/avform.htm#Dist" 
+        <a href="https://www.EdWilliams.org/avform.htm#Dist" 
         target="_top">Distance between two (spherical) points</a>, 
         functions <a href="pygeodesy.formy-module.html#equirectangular" 
         class="link">equirectangular</a>, <a 
@@ -887,8 +855,13 @@
         href="pygeodesy.formy-module.html#vincentys" 
         class="link">vincentys</a> and methods <a 
         href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
-        class="link">Ellipsoid.distance2</a>, <code>LatLon</code> 
-        <i>distanceTo*</i> and <i>equirectangularTo</i>.
+        class="link">Ellipsoid.distance2</a>, 
+        <code>LatLon.distanceTo*</code> and 
+        <code>LatLon.equirectangularTo</code>.
+      </p>
+      <p><strong>Note:</strong>
+        See note under <a href="pygeodesy.formy-module.html#vincentys_" 
+        class="link">vincentys_</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -909,7 +882,7 @@
   </tr></table>
   
   <p>Compute the <i>angular</i> distance between two (spherical) points 
-  using the <a href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
+  using the <a href="https://www.Movable-Type.co.UK/scripts/latlong.html" 
   target="_top">Haversine</a> formula.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -930,6 +903,10 @@
         href="pygeodesy.formy-module.html#euclidean_" 
         class="link">euclidean_</a> and <a 
         href="pygeodesy.formy-module.html#vincentys_" 
+        class="link">vincentys_</a>.
+      </p>
+      <p><strong>Note:</strong>
+        See note under <a href="pygeodesy.formy-module.html#vincentys_" 
         class="link">vincentys_</a>.
       </p>
 </div></td></tr></table>
@@ -957,23 +934,24 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>angle</code></strong> - Tilt angle above horizontal (<code>degrees</code>).</li>
         <li><strong class="pname"><code>distance</code></strong> - Distance along the line (<code>meter</code> or same units as 
-          <i>radius</i>).</li>
+          <b><code>radius</code></b>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional mean earth radius (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Height (<code>meter</code>, same units as <i>distance</i> and 
-          <i>radius</i>).</dd>
+        <dd>Height (<code>meter</code>, same units as 
+          <b><code>distance</code></b> and <b><code>radius</code></b>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>angle</i>, <i>distance</i> or <i>radius</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>angle</code></b>, <b><code>distance</code></b> or 
+        <b><code>radius</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a href="http://GitHub.com/NASA/MultiDop" target="_top">MultiDop 
+        <a href="https://GitHub.com/NASA/MultiDop" target="_top">MultiDop 
         geog_lib.GeogBeamHt</a> (<a 
-        href="http://Journals.AMetSoc.org/doi/abs/10.1175/2009JTECHA1256.1"
+        href="https://Journals.AMetSoc.org/doi/abs/10.1175/2009JTECHA1256.1"
         target="_top">Shapiro et al. 2009, JTECH</a> and <a 
-        href="http://Journals.AMetSoc.org/doi/abs/10.1175/JTECH-D-11-00019.1"
+        href="https://Journals.AMetSoc.org/doi/abs/10.1175/JTECH-D-11-00019.1"
         target="_top">Potvin et al. 2012, JTECH</a>).
       </p>
 </div></td></tr></table>
@@ -999,20 +977,21 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>height</code></strong> - Altitude (<code>meter</code> or same units as <i>radius</i>).</li>
+        <li><strong class="pname"><code>height</code></strong> - Altitude (<code>meter</code> or same units as 
+          <b><code>radius</code></b>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional mean earth radius (<code>meter</code>).</li>
         <li><strong class="pname"><code>refraction</code></strong> - Consider atmospheric refraction (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Distance (<code>meter</code>, same units as <i>height</i> and 
-          <i>radius</i>).</dd>
+        <dd>Distance (<code>meter</code>, same units as 
+          <b><code>height</code></b> and <b><code>radius</code></b>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>height</i> or <i>radius</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>height</code></b> or <b><code>radius</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a href="http://www.EdWilliams.org/avform.htm#Horizon" 
+        <a href="https://www.EdWilliams.org/avform.htm#Horizon" 
         target="_top">Distance to horizon</a>.
       </p>
 </div></td></tr></table>
@@ -1047,12 +1026,12 @@
         <li><strong class="pname"><code>eps</code></strong> - Tolerance for near-equality (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if points are antipodal within the <i>eps</i> 
-          tolerance, <code>False</code> otherwise.</dd>
+        <dd><code>True</code> if points are antipodal within the 
+          <b><code>eps</code></b> tolerance, <code>False</code> otherwise.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a 
-        href="http://CRAN.R-Project.org/web/packages/geosphere/geosphere.pdf"
+        href="https://CRAN.R-Project.org/web/packages/geosphere/geosphere.pdf"
         target="_top">Geosphere</a>.
       </p>
 </div></td></tr></table>
@@ -1077,7 +1056,7 @@
   </tr></table>
   
   <p>Compute the distance between two (spherical) points using <a 
-  href="http://WikiPedia.org/wiki/Great-circle_distance" 
+  href="https://WikiPedia.org/wiki/Great-circle_distance" 
   target="_top">Vincenty's</a> spherical formula.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -1091,7 +1070,8 @@
           class="link">unroll180</a> longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Distance (<code>meter</code>, same units as <i>radius</i>).</dd>
+        <dd>Distance (<code>meter</code>, same units as 
+          <b><code>radius</code></b>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.formy-module.html#equirectangular" 
@@ -1101,8 +1081,9 @@
         href="pygeodesy.formy-module.html#haversine" 
         class="link">haversine</a> and methods <a 
         href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
-        class="link">Ellipsoid.distance2</a>, <code>LatLon</code> 
-        <i>distanceTo*</i> and <i>equirectangularTo</i>.
+        class="link">Ellipsoid.distance2</a>, 
+        <code>LatLon.distanceTo*</code> and 
+        <code>LatLon.equirectangularTo</code>.
       </p>
       <p><strong>Note:</strong>
         See note under <a href="pygeodesy.formy-module.html#vincentys_" 
@@ -1127,7 +1108,7 @@
   </tr></table>
   
   <p>Compute the <i>angular</i> distance between two (spherical) points 
-  using <a href="http://WikiPedia.org/wiki/Great-circle_distance" 
+  using <a href="https://WikiPedia.org/wiki/Great-circle_distance" 
   target="_top">Vincenty's</a> spherical formula.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -1197,7 +1178,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 17 12:19:02 2019
+    Generated by Epydoc 3.0.1 on Tue Jun 25 11:55:33 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

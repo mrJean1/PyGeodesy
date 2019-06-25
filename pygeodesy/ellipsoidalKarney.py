@@ -4,7 +4,7 @@
 u'''Ellipsoidal geodetic (lat-/longitude) and cartesian (x/y/z) classes
 L{LatLon} and L{Cartesian} and functions L{areaOf} and L{perimeterOf}
 based on the Python implementation of I{Charles F. F. Karney's}
-U{GeographicLib<http://PyPI.org/project/geographiclib>}.
+U{GeographicLib<https://PyPI.org/project/geographiclib>}.
 
 Here's an example usage of C{ellipsoidalKarney}:
 
@@ -31,6 +31,7 @@ or by converting to anothor datum:
 from datum import Datums
 from ellipsoidalBase import CartesianBase, LatLonEllipsoidalBase
 from lazily import _ALL_LAZY
+from named import Bearing2Tuple, Destination2Tuple, Distance3Tuple
 from points import ispolar  # PYCHOK ispolar
 from utily import points2, property_RO, unroll180, \
                   wrap90, wrap180, wrap360
@@ -39,19 +40,19 @@ from utily import points2, property_RO, unroll180, \
 __all__ = _ALL_LAZY.ellipsoidalKarney + (
           'Cartesian', 'LatLon',  # classes
           'areaOf', 'ispolar', 'perimeterOf')  # functions
-__version__ = '19.04.03'
+__version__ = '19.05.06'
 
 
 class LatLon(LatLonEllipsoidalBase):
     '''An ellipsoidal L{LatLon} similar to L{ellipsoidalVincenty.LatLon}
        but using I{Charles F. F. Karney's} Python U{GeographicLib
-       <http://PyPI.org/project/geographiclib>} to compute the geodesic
+       <https://PyPI.org/project/geographiclib>} to compute the geodesic
        distance, initial and final bearing (azimuths) between two given
        points or the destination point given a start point and an initial
        bearing.
 
        @note: This L{LatLon}'s methods require the U{GeographicLib
-       <http://PyPI.org/project/geographiclib>} package to be installed.
+       <https://PyPI.org/project/geographiclib>} package to be installed.
     '''
 
     def bearingTo(self, other, wrap=False):
@@ -68,18 +69,19 @@ class LatLon(LatLonEllipsoidalBase):
            @param other: The other point (L{LatLon}).
            @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
-           @return: 2-Tuple (initial, final) bearings (compass C{degrees360}).
+           @return: A L{Bearing2Tuple}C{(initial, final)}.
 
            @raise ImportError: Package U{geographiclib
-                               <http://PyPI.org/project/geographiclib>}
+                               <https://PyPI.org/project/geographiclib>}
                                not installed or not found.
 
-           @raise TypeError: The I{other} point is not L{LatLon}.
+           @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
-           @raise ValueError: If this and the I{other} point's L{Datum}
+           @raise ValueError: If this and the B{C{other}} point's L{Datum}
                               ellipsoids are not compatible.
         '''
-        return self._inverse(other, True, wrap)[1:]
+        r = Bearing2Tuple(*self._inverse(other, True, wrap)[1:])
+        return self._xnamed(r)
 
     def destination(self, distance, bearing, height=None):
         '''Compute the destination point after having travelled
@@ -95,7 +97,7 @@ class LatLon(LatLonEllipsoidalBase):
            @return: The destination point (L{LatLon}).
 
            @raise ImportError: Package U{geographiclib
-                               <http://PyPI.org/project/geographiclib>}
+                               <https://PyPI.org/project/geographiclib>}
                                not installed or not found.
 
            @example:
@@ -128,11 +130,10 @@ class LatLon(LatLonEllipsoidalBase):
            @keyword height: Optional height, overriding the default
                             height (C{meter}, same units as C{distance}).
 
-           @return: 2-Tuple (destination, final bearing) in (L{LatLon},
-                    C{degrees360}).
+           @return: A L{Destination2Tuple}C{(destination, final)}.
 
            @raise ImportError: Package U{geographiclib
-                               <http://PyPI.org/project/geographiclib>}
+                               <https://PyPI.org/project/geographiclib>}
                                not installed or not found.
 
            @example:
@@ -144,7 +145,9 @@ class LatLon(LatLonEllipsoidalBase):
            >>> f
            307.1736313846665
         '''
-        return self._direct(distance, bearing, True, height=height)
+        r = Destination2Tuple(*self._direct(distance, bearing, True,
+                                            height=height)[:2])
+        return self._xnamed(r)
 
     def distanceTo(self, other, wrap=False):
         '''Compute the distance between this and an other point
@@ -157,12 +160,12 @@ class LatLon(LatLonEllipsoidalBase):
            @return: Distance (C{meter}).
 
            @raise ImportError: Package U{geographiclib
-                               <http://PyPI.org/project/geographiclib>}
+                               <https://PyPI.org/project/geographiclib>}
                                not installed or not found.
 
-           @raise TypeError: The I{other} point is not L{LatLon}.
+           @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
-           @raise ValueError: If this and the I{other} point's L{Datum}
+           @raise ValueError: If this and the B{C{other}} point's L{Datum}
                               ellipsoids are not compatible.
 
            @example:
@@ -188,19 +191,19 @@ class LatLon(LatLonEllipsoidalBase):
            @param other: Destination point (L{LatLon}).
            @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
-           @return: 3-Tuple (distance, initial bearing, final bearing) in
-                    (C{meter}, compass C{degrees360}, compass C{degrees360}).
+           @return: A L{Distance3Tuple}C{(distance, initial, final)}.
 
            @raise ImportError: Package U{geographiclib
-                               <http://PyPI.org/project/geographiclib>}
+                               <https://PyPI.org/project/geographiclib>}
                                not installed or not found.
 
-           @raise TypeError: The I{other} point is not L{LatLon}.
+           @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
-           @raise ValueError: If this and the I{other} point's L{Datum}
+           @raise ValueError: If this and the B{C{other}} point's L{Datum}
                               ellipsoids are not compatible.
         '''
-        return self._inverse(other, True, wrap)
+        r = Distance3Tuple(*self._inverse(other, True, wrap))
+        return self._xnamed(r)
 
     def finalBearingOn(self, distance, bearing):
         '''Compute the final bearing (reverse azimuth) after having
@@ -214,7 +217,7 @@ class LatLon(LatLonEllipsoidalBase):
            @return: Final bearing (compass C{degrees360}).
 
            @raise ImportError: Package U{geographiclib
-                               <http://PyPI.org/project/geographiclib>}
+                               <https://PyPI.org/project/geographiclib>}
                                not installed or not found.
 
            @example:
@@ -237,12 +240,12 @@ class LatLon(LatLonEllipsoidalBase):
            @return: Final bearing (compass C{degrees360}).
 
            @raise ImportError: Package U{geographiclib
-                               <http://PyPI.org/project/geographiclib>}
+                               <https://PyPI.org/project/geographiclib>}
                                not installed or not found.
 
-           @raise TypeError: The I{other} point is not L{LatLon}.
+           @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
-           @raise ValueError: If this and the I{other} point's L{Datum}
+           @raise ValueError: If this and the B{C{other}} point's L{Datum}
                               ellipsoids are not compatible.
 
            @example:
@@ -260,9 +263,9 @@ class LatLon(LatLonEllipsoidalBase):
     @property_RO
     def geodesic(self):
         '''Get this C{LatLon}'s U{Geodesic
-           <http://GeographicLib.SourceForge.io/html/python/code.html>},
+           <https://GeographicLib.SourceForge.io/html/python/code.html>},
            provided package U{geographiclib
-           <http://PyPI.org/project/geographiclib>} is installed.
+           <https://PyPI.org/project/geographiclib>} is installed.
         '''
         return self.datum.ellipsoid.geodesic
 
@@ -278,12 +281,12 @@ class LatLon(LatLonEllipsoidalBase):
            @return: Initial bearing (compass C{degrees360}).
 
            @raise ImportError: Package U{geographiclib
-                               <http://PyPI.org/project/geographiclib>}
+                               <https://PyPI.org/project/geographiclib>}
                                not installed or not found.
 
-           @raise TypeError: The I{other} point is not L{LatLon}.
+           @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
-           @raise ValueError: If this and the I{other} point's L{Datum}
+           @raise ValueError: If this and the B{C{other}} point's L{Datum}
                               ellipsoids are not compatible.
 
            @example:
@@ -327,9 +330,9 @@ class LatLon(LatLonEllipsoidalBase):
     def _inverse(self, other, azis, wrap):
         '''(INTERNAL) Inverse Karney method.
 
-           @raise TypeError: The other point is not L{LatLon}.
+           @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
-           @raise ValueError: If this and the I{other} point's L{Datum}
+           @raise ValueError: If this and the B{C{other}} point's L{Datum}
                               ellipsoids are not compatible.
         '''
         g = self.ellipsoids(other).geodesic
@@ -357,11 +360,11 @@ class Cartesian(CartesianBase):
            @keyword LatLon: Optional ellipsoidal (sub-)class to return
                             the point (L{LatLon}) or C{None}.
 
-           @return: The ellipsoidal geodetic point (L{LatLon}) or 3-tuple
-                    (C{degrees90}, C{degrees180}, height) if I{LatLon}
-                    is C{None}.
+           @return: The ellipsoidal geodetic point (B{C{LatLon}}) or
+                    a L{LatLon3Tuple}C{(lat, lon, height)} if
+                    B{C{LatLon}} is C{None}.
         '''
-        return CartesianBase._toLLhd(self, LatLon, datum)
+        return CartesianBase._to3LLh(self, datum, LatLon)
 
 
 def _geodesic(datum, points, closed, line, wrap):
@@ -394,19 +397,19 @@ def areaOf(points, datum=Datums.WGS84, wrap=True):
        @keyword datum: Optional datum (L{Datum}).
        @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
-       @return: Area (C{meter}, same as units of the I{datum}
+       @return: Area (C{meter}, same as units of the B{C{datum}}
                 ellipsoid, squared).
 
        @raise ImportError: Package U{GeographicLib
-              <http://PyPI.org/project/geographiclib>} missing.
+              <https://PyPI.org/project/geographiclib>} missing.
 
-       @raise TypeError: Some I{points} are not L{LatLon}.
+       @raise TypeError: Some B{C{points}} are not L{LatLon}.
 
-       @raise ValueError: Insufficient number of I{points} or longitudes
-                          not wrapped, unrolled, I{wrap} is C{False}.
+       @raise ValueError: Insufficient number of B{C{points}} or longitudes
+                          not wrapped, unrolled, B{C{wrap}} is C{False}.
 
        @note: This function requires installation of the U{GeographicLib
-              <http://PyPI.org/project/geographiclib>} package.
+              <https://PyPI.org/project/geographiclib>} package.
 
        @see: L{pygeodesy.areaOf}, L{sphericalNvector.areaOf} and
              L{sphericalTrigonometry.areaOf}.
@@ -421,15 +424,15 @@ def isclockwise(points, datum=Datums.WGS84, wrap=True):
        @keyword datum: Optional datum (L{Datum}).
        @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
-       @return: C{True} if I{points} are clockwise, C{False} otherwise.
+       @return: C{True} if B{C{points}} are clockwise, C{False} otherwise.
 
-       @raise TypeError: Some I{points} are not C{LatLon}.
+       @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
-       @raise ValueError: Insufficient number of I{points} or I{points}
+       @raise ValueError: Insufficient number of B{C{points}} or B{C{points}}
                           enclose a pole or zero area.
 
        @note: This function requires installation of the U{GeographicLib
-              <http://PyPI.org/project/geographiclib>} package.
+              <https://PyPI.org/project/geographiclib>} package.
 
        @see: L{pygeodesy.isclockwise}.
     '''
@@ -449,19 +452,19 @@ def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):
        @keyword datum: Optional datum (L{Datum}).
        @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
-       @return: Perimeter (C{meter}, same as units of the I{datum}
+       @return: Perimeter (C{meter}, same as units of the B{C{datum}}
                 ellipsoid).
 
        @raise ImportError: Package U{GeographicLib
-              <http://PyPI.org/project/geographiclib>} missing.
+              <https://PyPI.org/project/geographiclib>} missing.
 
-       @raise TypeError: Some I{points} are not L{LatLon}.
+       @raise TypeError: Some B{C{points}} are not L{LatLon}.
 
-       @raise ValueError: Insufficient number of I{points} or longitudes
-                          not wrapped, unrolled, I{wrap} is C{False}.
+       @raise ValueError: Insufficient number of B{C{points}} or longitudes
+                          not wrapped, unrolled, B{C{wrap}} is C{False}.
 
        @note: This function requires installation of the U{GeographicLib
-              <http://PyPI.org/project/geographiclib>} package.
+              <https://PyPI.org/project/geographiclib>} package.
 
        @see: L{pygeodesy.perimeterOf} and L{sphericalTrigonometry.perimeterOf}.
     '''

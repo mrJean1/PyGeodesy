@@ -61,7 +61,9 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class _GeoidBase</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-         object --+    
+     object --+        
+              |        
+   named._Named --+    
                   |    
 heights._HeightBase --+
                       |
@@ -343,6 +345,11 @@ heights._HeightBase --+
   </tr>
   <tr>
     <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>__copy__</code>,
+      <code>classof</code>,
+      <code>copy</code>
+      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
       <code>__format__</code>,
@@ -372,7 +379,7 @@ heights._HeightBase --+
     </td><td class="summary">
         <a href="pygeodesy.geoids._GeoidBase-class.html#dtype" class="summary-name">dtype</a><br />
       Get the grid <code>scipy</code> <a 
-      href="http://docs.SciPy.org/doc/numpy/reference/generated/numpy.ndarray.dtype.html"
+      href="https://docs.SciPy.org/doc/numpy/reference/generated/numpy.ndarray.dtype.html"
       target="_top">dtype</a> (<code>numpy.dtype</code>).
     </td>
   </tr>
@@ -382,7 +389,7 @@ heights._HeightBase --+
     </td><td class="summary">
         <a href="pygeodesy.geoids._GeoidBase-class.html#endian" class="summary-name">endian</a><br />
       Get the geoid endianess and <a 
-      href="http://docs.SciPy.org/doc/numpy/reference/generated/numpy.dtype.html"
+      href="https://docs.SciPy.org/doc/numpy/reference/generated/numpy.dtype.html"
       target="_top">dtype</a> (<code>str</code>).
     </td>
   </tr>
@@ -478,6 +485,12 @@ heights._HeightBase --+
   </tr>
   <tr>
     <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>,
+      <code>named</code>,
+      <code>named2</code>
+      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
       </p>
@@ -521,7 +534,7 @@ heights._HeightBase --+
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.geoids.GeoidError-class.html">GeoidError</a></strong></code> - Invalid <i>kind</i>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.geoids.GeoidError-class.html">GeoidError</a></strong></code> - Invalid <b><code>kind</code></b>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.heights.SciPyError-class.html">SciPyError</a></strong></code> - A <code>scipy.interpolate.inter2d</code> or 
         <code>-.RectBivariateSpline</code> issue.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.heights.SciPyWarning-class.html">SciPyWarning</a></strong></code> - A <code>scipy.interpolate.inter2d</code> or 
@@ -561,8 +574,10 @@ heights._HeightBase --+
           or tuple of interpolated geoid heights (<code>float</code>s).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.geoids.GeoidError-class.html">GeoidError</a></strong></code> - Insufficient number of <i>llis</i> or an invalid <i>lli</i>.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - An <i>lli</i> is outside this geoid's lat- or longitude range.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.geoids.GeoidError-class.html">GeoidError</a></strong></code> - Insufficient number of <b><code>llis</code></b> or an invalid 
+        <b><code>lli</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - An <b><code>lli</code></b> is outside this geoid's lat- or 
+        longitude range.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.heights.SciPyError-class.html">SciPyError</a></strong></code> - A <code>scipy.interpolate.inter2d</code> or 
         <code>-.RectBivariateSpline</code> issue.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.heights.SciPyWarning-class.html">SciPyWarning</a></strong></code> - A <code>scipy.interpolate.inter2d</code> or 
@@ -645,9 +660,11 @@ heights._HeightBase --+
           and height or <code>None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>3-Tuple <code>(lat, lon, height)</code> if <i>LatLon</i> is 
-          <code>None</code> or a <i>LatLon(lat, lon, height)</i> instance 
-          with the lat-, longitude and height of the grid center location.</dd>
+        <dd>A <a href="pygeodesy.named.LatLon3Tuple-class.html" 
+          class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> if 
+          <b><code>LatLon</code></b> is <code>None</code> or a 
+          <b><code>LatLon</code></b> instance with the lat-, longitude and 
+          height of the grid center location.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -681,9 +698,10 @@ heights._HeightBase --+
           of interpolated geoid heights (<code>float</code>s).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.geoids.GeoidError-class.html">GeoidError</a></strong></code> - Insufficient or non-matching number of <i>lats</i> and <i>lons</i>.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - A <i>lat</i> or <i>lon</i> is outside this geoid's lat- or 
-        longitude range.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.geoids.GeoidError-class.html">GeoidError</a></strong></code> - Insufficient or non-matching number of <b><code>lats</code></b> and
+        <b><code>lons</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - A <b><code>lat</code></b> or <b><code>lon</code></b> is outside 
+        this geoid's lat- or longitude range.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.heights.SciPyError-class.html">SciPyError</a></strong></code> - A <code>scipy.interpolate.inter2d</code> or 
         <code>-.RectBivariateSpline</code> issue.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.heights.SciPyWarning-class.html">SciPyWarning</a></strong></code> - A <code>scipy.interpolate.inter2d</code> or 
@@ -715,9 +733,11 @@ heights._HeightBase --+
           and height or <code>None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>3-Tuple <code>(lat, lon, height)</code> if <i>LatLon</i> is 
-          <code>None</code> or a <i>LatLon(lat, lon, height)</i> instance 
-          with the lat-, longitude and height of the highest grid location.</dd>
+        <dd>A <a href="pygeodesy.named.LatLon3Tuple-class.html" 
+          class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> if 
+          <b><code>LatLon</code></b> is <code>None</code> or a 
+          <b><code>LatLon</code></b> instance with the lat-, longitude and 
+          height of the highest grid location.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -744,10 +764,11 @@ heights._HeightBase --+
           and height or <code>None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>3-Tuple <code>(lat, lon, height)</code> if <i>LatLon</i> is 
-          <code>None</code> or a <i>LatLon(lat, lon, height)</i> instance 
-          with the lat-, longitude and height of the lower-left, SW grid 
-          corner.</dd>
+        <dd>A <a href="pygeodesy.named.LatLon3Tuple-class.html" 
+          class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> if 
+          <b><code>LatLon</code></b> is <code>None</code> or a 
+          <b><code>LatLon</code></b> instance with the lat-, longitude and 
+          height of the lower-left, SW grid corner.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -774,10 +795,11 @@ heights._HeightBase --+
           and height or <code>None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>3-Tuple <code>(lat, lon, height)</code> if <i>LatLon</i> is 
-          <code>None</code> or a <i>LatLon(lat, lon, height)</i> instance 
-          with the lat-, longitude and height of the lower-right, SE grid 
-          corner.</dd>
+        <dd>A <a href="pygeodesy.named.LatLon3Tuple-class.html" 
+          class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> if 
+          <b><code>LatLon</code></b> is <code>None</code> or a 
+          <b><code>LatLon</code></b> instance with the lat-, longitude and 
+          height of the lower-right, SE grid corner.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -804,9 +826,11 @@ heights._HeightBase --+
           and height or <code>None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>3-Tuple <code>(lat, lon, height)</code> if <i>LatLon</i> is 
-          <code>None</code> or a <i>LatLon(lat, lon, height)</i> instance 
-          with the lat-, longitude and height of the lowest grid location.</dd>
+        <dd>A <a href="pygeodesy.named.LatLon3Tuple-class.html" 
+          class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> if 
+          <b><code>LatLon</code></b> is <code>None</code> or a 
+          <b><code>LatLon</code></b> instance with the lat-, longitude and 
+          height of the lowest grid location.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -861,8 +885,9 @@ heights._HeightBase --+
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or <code>None</code> for 
-          default).  Trailing zero decimals are stripped for <i>prec</i> 
-          values of 1 and above, but kept for negative <i>prec</i> values.</li>
+          default).  Trailing zero decimals are stripped for 
+          <b><code>prec</code></b> values of 1 and above, but kept for 
+          negative <b><code>prec</code></b> values.</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional separator (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -893,10 +918,11 @@ heights._HeightBase --+
           and height or <code>None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>3-Tuple <code>(lat, lon, height)</code> if <i>LatLon</i> is 
-          <code>None</code> or a <i>LatLon(lat, lon, height)</i> instance 
-          with the lat-, longitude and height of the upper-left, NW grid 
-          corner.</dd>
+        <dd>A <a href="pygeodesy.named.LatLon3Tuple-class.html" 
+          class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> if 
+          <b><code>LatLon</code></b> is <code>None</code> or a 
+          <b><code>LatLon</code></b> instance with the lat-, longitude and 
+          height of the upper-left, NW grid corner.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -923,10 +949,11 @@ heights._HeightBase --+
           and height or <code>None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>3-Tuple <code>(lat, lon, height)</code> if <i>LatLon</i> is 
-          <code>None</code> or a <i>LatLon(lat, lon, height)</i> instance 
-          with the lat-, longitude and height of the upper-right, NE grid 
-          corner.</dd>
+        <dd>A <a href="pygeodesy.named.LatLon3Tuple-class.html" 
+          class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> if 
+          <b><code>LatLon</code></b> is <code>None</code> or a 
+          <b><code>LatLon</code></b> instance with the lat-, longitude and 
+          height of the upper-right, NE grid corner.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -947,13 +974,13 @@ heights._HeightBase --+
 <tr><td>
   <h3 class="epydoc">dtype</h3>
   <p>Get the grid <code>scipy</code> <a 
-  href="http://docs.SciPy.org/doc/numpy/reference/generated/numpy.ndarray.dtype.html"
+  href="https://docs.SciPy.org/doc/numpy/reference/generated/numpy.ndarray.dtype.html"
   target="_top">dtype</a> (<code>numpy.dtype</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">dtype(<span class="summary-sig-arg">self</span>)</span>
         - Get the grid <code>scipy</code> <a 
-href="http://docs.SciPy.org/doc/numpy/reference/generated/numpy.ndarray.dtype.html"
+href="https://docs.SciPy.org/doc/numpy/reference/generated/numpy.ndarray.dtype.html"
 target="_top">dtype</a> (<code>numpy.dtype</code>).
     </dd>
     <dt>Set Method:</dt>
@@ -971,13 +998,13 @@ target="_top">dtype</a> (<code>numpy.dtype</code>).
 <tr><td>
   <h3 class="epydoc">endian</h3>
   <p>Get the geoid endianess and <a 
-  href="http://docs.SciPy.org/doc/numpy/reference/generated/numpy.dtype.html"
+  href="https://docs.SciPy.org/doc/numpy/reference/generated/numpy.dtype.html"
   target="_top">dtype</a> (<code>str</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">endian(<span class="summary-sig-arg">self</span>)</span>
         - Get the geoid endianess and <a 
-href="http://docs.SciPy.org/doc/numpy/reference/generated/numpy.dtype.html"
+href="https://docs.SciPy.org/doc/numpy/reference/generated/numpy.dtype.html"
 target="_top">dtype</a> (<code>str</code>).
     </dd>
     <dt>Set Method:</dt>
@@ -1243,7 +1270,7 @@ target="_top">dtype</a> (<code>str</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 17 12:19:03 2019
+    Generated by Epydoc 3.0.1 on Tue Jun 25 11:55:35 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

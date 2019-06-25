@@ -8,7 +8,7 @@ including datums and ellipsoid parameters for different geographic coordinate
 systems and methods for converting between them and to cartesian coordinates.
 Transcribed from JavaScript originals by I{(C) Chris Veness 2005-2016} and
 published under the same MIT Licence**, see U{latlon-ellipsoidal.js
-<http://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html>}.
+<https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html>}.
 
 Historical geodetic datums: a latitude/longitude point defines a geographic
 location on or above/below the earth’s surface, measured in degrees from
@@ -22,7 +22,7 @@ references were used.
 
 The UK Ordnance Survey National Grid References are still based on the otherwise
 historical OSGB36 datum, q.v. U{Ordnance Survey 'A guide to coordinate systems
-in Great Britain', Section 6<http://www.OrdnanceSurvey.co.UK/docs/support/
+in Great Britain', Section 6<https://www.OrdnanceSurvey.co.UK/docs/support/
 guide-coordinate-systems-great-britain.pdf>}.
 
 @newfield example: Example, Examples
@@ -30,6 +30,7 @@ guide-coordinate-systems-great-britain.pdf>}.
 @var Datums.BD72: Datum(name='BD72', ellipsoid=Ellipsoids.Intl1924, transform=Transforms.BD72)
 @var Datums.DHDN: Datum(name='DHDN', ellipsoid=Ellipsoids.Bessel1841, transform=Transforms.DHDN)
 @var Datums.ED50: Datum(name='ED50', ellipsoid=Ellipsoids.Intl1924, transform=Transforms.ED50)
+@var Datums.GDA2020: Datum(name='GDA2020', ellipsoid=Ellipsoids.GRS80, transform=Transforms.WGS84)
 @var Datums.GRS80: Datum(name='GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.WGS84)
 @var Datums.Irl1975: Datum(name='Irl1975', ellipsoid=Ellipsoids.AiryModified, transform=Transforms.Irl1975)
 @var Datums.Krassovski1940: Datum(name='Krassovski1940', ellipsoid=Ellipsoids.Krassovski1940, transform=Transforms.Krassovski1940)
@@ -109,15 +110,16 @@ guide-coordinate-systems-great-britain.pdf>}.
 # make sure int/int division yields float quotient
 from __future__ import division
 
-from bases import _Based, inStr, _Named, _xattrs
 from fmath import _2_3rd, EPS, EPS1, cbrt, cbrt2, fdot, fpowers, \
-                  fStr, Fsum, fsum_, hypot1, sqrt3
+                  Fsum, fsum_, hypot1, sqrt3
 from lazily import _ALL_LAZY
-from utily import PI2, R_M, degrees360, _for_docs, m2degrees, \
-                  m2km, m2NM, m2SM, property_RO, _Strs
+from named import Curvature2Tuple, Distance2Tuple, inStr, \
+                 _NamedEnum, _NamedEnumItem, Vector3Tuple, _xattrs
+from utily import PI2, R_M, degrees360, m2degrees, m2km, \
+                  m2NM, m2SM, property_RO
 
-from math import atan, atan2, atanh, cos, exp, hypot, radians, \
-                 sin, sinh, sqrt
+from math import atan, atan2, atanh, copysign, cos, exp, hypot, \
+                 radians, sin, sinh, sqrt
 
 R_M  = R_M        #: Mean (spherical) earth radius (C{meter}).
 R_MA = 6378137.0  #: Major (equatorial) earth radius (C{meter}) WGS84, EPSG:3785.
@@ -125,17 +127,17 @@ R_MB = 6356752.0  #: Minor (polar) earth radius (C{meter}) WGS84, EPSG:3785.
 R_KM = m2km(R_M)  #: Mean (spherical) earth radius (C{KM}, kilo meter).
 R_NM = m2NM(R_M)  #: Mean (spherical) earth radius (C{NM}, nautical miles).
 R_SM = m2SM(R_M)  #: Mean (spherical) earth radius (C{SM}, statute miles).
-# See <http://www.EdWilliams.org/avform.htm>,
-# <http://www.DTIC.mil/dtic/tr/fulltext/u2/a216843.pdf> and
-# <http://GitHub.com/NASA/MultiDop/blob/master/src/share/man/man3/geog_lib.3>
+# See <https://www.EdWilliams.org/avform.htm>,
+# <https://www.DTIC.mil/dtic/tr/fulltext/u2/a216843.pdf> and
+# <https://GitHub.com/NASA/MultiDop/blob/master/src/share/man/man3/geog_lib.3>
 # based on International Standard Nautical Mile of 1,852 meter (1' latitude)
 R_FM = 6371000.0  #: Former FAI Sphere earth radius (C{meter}).
 R_VM = 6366707.0194937  #: Aviation/Navigation earth radius (C{meter}).
 # R_ = 6372797.560856   #: XXX some other earth radius???
 
 # all public contants, classes and functions
-__all__ = _ALL_LAZY.datum + _for_docs('_Enum', '_Registered')
-__version__ = '19.04.24'
+__all__ = _ALL_LAZY.datum
+__version__ = '19.05.19'
 
 division = 1 / 2  # double check int division, see .fmath.py, .utily.py
 if not division:
@@ -145,166 +147,36 @@ del division
 _TOL = sqrt(EPS * 0.1)  # for Ellipsoid.estauf, imported by .ups
 
 
-class _Enum(dict, _Named):
-    '''(INTERNAL) Enum-like C{dict} sub-class.
-    '''
-    def __init__(self, name):
-        '''New C{Enum}.
-
-           @param name: Name (C{str}).
-        '''
-        if name:
-            self.name = name
-
-    def __getattr__(self, attr):
-        try:
-            return self[attr]
-        except KeyError:
-            raise AttributeError("%s.%s doesn't exist" % (self.name, attr))
-
-    def __repr__(self):
-        return '\n'.join('%s.%s: %r,' % (self.name, n, v) for n, v in sorted(self.items()))
-
-    def __str__(self):
-        return self.name + ', '.join(sorted('.' + n for n in self.keys()))
-
-    def _assert(self, **kwds):
-        '''(INTERNAL) Check names against given names.
-        '''
-        for a, v in kwds.items():
-            assert getattr(self, a) is v
-
-    def find(self, inst):
-        '''Find a registered instance.
-
-           @param inst: The instance (any C{type}).
-
-           @return: The I{inst}'s name (C{str}) if found, C{None} otherwise.
-        '''
-        for k, v in self.items():
-            if v is inst:
-                return k
-        return None
-
-    def unregister(self, name_or_inst):
-        '''Remove a registered instance.
-
-           @param name_or_inst: Name (C{str}) of or the instance (any C{type}).
-
-           @return: The unregistered instance.
-
-           @raise NameError: No instance with that I{name}.
-
-           @raise ValueError: No such instance.
-        '''
-        name = name_or_inst
-        if not isinstance(name, _Strs):
-            name = self.find(name_or_inst)
-            if name is None:
-                raise ValueError('no such %r' % (name_or_inst,))
-        try:
-            inst = dict.pop(self, name)
-        except KeyError:
-            raise NameError('no %s.%r' % (self.name, name))
-        inst._enum = None
-        return inst
-
-
-Datums     = _Enum('Datums')      #: Registered datums (L{_Enum}).
-Ellipsoids = _Enum('Ellipsoids')  #: Registered ellipsoids (L{_Enum}).
-Transforms = _Enum('Transforms')  #: Registered transforms (L{_Enum}).
-
-
-class _Registered(_Based):
-    '''(INTERNAL) Base class for registered instances.
-    '''
-    _enum = None
-
-    def __ne__(self, other):
-        '''Compare this and an other ellipsoid.
-
-           @return: C{True} if different, C{False} otherwise.
-        '''
-        return not self.__eq__(other)
-
-    def _fStr(self, prec, *attrs, **others):
-        '''(INTERNAL) Format.
-        '''
-        t = fStr([getattr(self, a) for a in attrs], prec=prec, sep=' ', ints=True)
-        t = ['%s=%s' % (a, v) for a, v in zip(attrs, t.split())]
-        if others:
-            t += ['%s=%s' % (a, v) for a, v in sorted(others.items())]
-        return ', '.join(['name=%r' % (self.name,)] + t)
-
-    def _register(self, enum, name):
-        '''(INTERNAL) Add this as I{enum.name}.
-        '''
-        if name:
-            self.name = name
-            if name[:1].isalpha():
-                if name in enum:
-                    raise NameError('%s.%s exists' % (enum.name, name))
-                enum[name] = self
-                self._enum = enum
-
-    @property
-    def name(self):
-        '''Get the I{registered, immutable} name (C{str}).
-        '''
-        return self._name
-
-    @name.setter  # PYCHOK setter!
-    def name(self, name):
-        '''Set the name.
-
-           @param name: New name (C{str}).
-        '''
-        if self._enum:
-            raise ValueError('%s, %s: %r' % ('registered', 'immutable', self))
-        self._name = str(name)
-
-    def unregister(self):
-        '''Remove this instance from its registry.
-
-           @raise NameError: Instance not registered.
-
-           @raise TypeError: Instance mismatch.
-        '''
-        enum = self._enum
-        if enum and self.name and self.name in enum:
-            inst = enum.unregister(self.name)
-            if inst is not self:
-                raise TypeError('%r vs %r' % (inst, self))
-
-
-class Ellipsoid(_Registered):
+class Ellipsoid(_NamedEnumItem):
     '''Ellipsoid with major and minor radius, semi-axis, (inverse)
        flattening and other pre-computed, frequently used attributes.
     '''
-    _a   = 0  #: Semi-major, equatorial axis (C{meter}).
-    _b   = 0  #: Semi-minor, polar axis (C{meter}): a * (f - 1) / f.
-    # pre-computed, frequently used values
-    _a2_ = 0  #: (1 / a**2)
-    _a_b = 1  #: 2nd Flattening: (a / b) = 1 / (1 - f)
-    _e   = 0  #: 1st Eccentricity: sqrt(1 - (b / a)**2))
-    _e2  = 0  #: 1st Eccentricity squared: f * (2 - f) = 1 - (b / a)**2
-    _e4  = 0  #: e2**2
-    _e12 = 1  #: 1 - e2
-    _e22 = 0  #: 2nd Eccentricity squared: e2 / (1 - e2) = ab**2 - 1
-    _f   = 0  #: Flattening: (a - b) / a
-#   _f2  = 0  #: 2nd Flattening: (a - b) / b
-    _f_  = 0  #: Inverse flattening: a / (a - b) = 1 / f
-    _n   = 0  #: 3rd Flattening: f / (2 - f) = (a - b) / (a + b)
+    _a  = 0  #: Major (equatorial) radius, semi-axis (C{meter}).
+    _b  = 0  #: Minor (polar) radius, semi-axis (C{meter}): a * (f - 1) / f.
+    _f  = 0  #: Flattening: (a - b) / a
+    _f_ = 0  #: Inverse flattening: a / (a - b) = 1 / f
 
-    _a2 = 0  #: (INTERNAL) a**2
-    _b2 = 0  #: (INTERNAL) b**2
+    _f2 = None  #: 2nd Flattening: (a - b) / b  # un-/rarely used
+    _n  = None  #: 3rd Flattening: f / (2 - f) = (a - b) / (a + b)  # for .A and utm
 
-    # curvatures <http://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>
+    _a2  = None  #: a**2
+    _a2_ = None  #: (1 / a**2)  # for ellipsiodalNvector.Cartesian.toNvector
+    _a_b = None  #: (a / b) = 1 / (1 - f)  # for ellipsoidalNvector.Nvector.toCartesian
+    _b2  = None  #: b**2
+
+    # curvatures <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>
     _a2_b = None  #: (INTERNAL) Meridional radius of curvature at poles: a**2 / b (C{meter})
     _b2_a = None  #: (INTERNAL) Meridional radius of curvature at equator: b**2 / a (C{meter})
-    _es_c = None  #: (INTERNAL) M{(1 - f) * exp(es_atanh(1))}
 
-    # fixed earth radii from <http://WikiPedia.org/wiki/Earth_radius>
+    # eccentricities
+    _e    = None  #: 1st Eccentricity: sqrt(1 - (b / a)**2))  # for utm
+    _es_c = None  #: M{(1 - f) * exp(es_atanh(1))}
+    _e2   = None  #: 1st Eccentricity squared: f * (2 - f) = 1 - (b / a)**2
+    _e4   = None  #: e2**2  # for ellipsoidalNvector.Cartesian.toNvector
+    _e12  = None  #: 1 - e2  # for ellipsoidalNvector.Cartesian.toNvector and utm
+    _e22  = None  #: 2nd Eccentricity squared: e2 / (1 - e2) = ab**2 - 1
+
+    # fixed earth radii from <https://WikiPedia.org/wiki/Earth_radius>
     _R1 = None  #: (INTERNAL) Mean earth radius: (2 * a + b) / 3 per IUGG definition (C{meter})
     _R2 = None  #: (INTERNAL) Authalic radius: sqrt((a**2 + b**2 * atanh(e) / e) / 2) (C{meter})
 #   _c  = None  #: (INTERNAL) authalic radius: equ (60) in Karney's "Algorithms for Geodesics"
@@ -312,8 +184,9 @@ class Ellipsoid(_Registered):
     _Rr = None  #: (INTERNAL) Rectifying radius: ((a**3/2 + b**3/2) / 2)**2/3 (C{meter})
     _Rs = None  #: (INTERNAL) Mean earth radius: sqrt(a * b) (C{meter})
 
-    _area    = None  #: (INTERNAL) Surface area: 4 * PI * R2**2
-    _volume  = None  #: (INTERNAL) Volume: 4 / 3 * PI * a**2 * b
+    _ab_90  = None  #: (a - b) / 90  # for .Rlat below
+    _area   = None  #: (INTERNAL) Surface area: 4 * PI * R2**2
+    _volume = None  #: (INTERNAL) Volume: 4 / 3 * PI * a**2 * b
 
     _A       = None  #: (INTERNAL) Meridional radius
     _AlphaKs = None  #: (INTERNAL) Up to 8th-order Krüger Alpha series
@@ -331,41 +204,29 @@ class Ellipsoid(_Registered):
            @param f_: Inverse flattening: a / (a - b) (C{float} >>> 1.0).
            @keyword name: Optional, unique name (C{str}).
 
-           @raise NameError: Ellipsoid with that I{name} already exists.
+           @raise NameError: Ellipsoid with that B{C{name}} already exists.
         '''
         self._a = a = float(a)  # major half-axis in meter
-        if not b:  # get b from a and f_
+        if not b:  # get b from a and f_, minor half-axis in meter
             self._b = b = a * (f_ - 1) / float(f_)
         else:  # get f_ from a and b if not spherical
-            self._b = b = float(b)  # minor half-axis in meter
+            self._b = b = float(b)
             if not f_ and a > b:
                 f_ = a / (a - b)
 
         if f_ > 0 and a > b > 0:
             self._f_ = f_ = float(f_)  # inverse flattening
             self._f  = f  = 1 / f_  # flattening
-            self._f2 = (a - b) / b  # 2nd flattening
-            self._n  = n  = f / (2 - f)  # 3rd flattening for utm
-            self._e2 = e2 = f * (2 - f)  # 1st eccentricity squared
-            self._e4 = e2**2  # for ellipsoidalNvector.Cartesian.toNvector
-            self._e  = sqrt(abs(e2))  # eccentricity for utm
-            self._e12 = 1 - e2  # for ellipsoidalNvector.Cartesian.toNvector and utm
-            self._e22 = e2 / (1 - e2)  # 2nd eccentricity squared
-            self._a_b = a / b  # for ellipsoidalNvector.Nvector.toCartesian
         elif a > 0:  # sphere
             self._b = b = self._a2b = self._b2a = a
+            self._f2 = self._n = f_ = f = 0
+            self._a_b = 1
             self._R1 = self._R2 = self._R3 = self._Rr = self._Rs = a
-            f_ = f = n = 0
         else:
             raise ValueError('invalid %s: %s' % ('ellipsoid',
                              inStr(self, a, b, f_, name=name)))
-        self._b2  = b**2
-        self._a2  = a**2
-        self._a2_ = 1 / self._a2  # for ellipsiodalNvector.Cartesian.toNvector
 
         d = a - b
-        self._ab_90 = d / 90  # for Rlat below
-
         # some sanity checks to catch mistakes
         if d < 0 or min(a, b) < 1:
             raise AssertionError('%s: %s=%0.9f vs %s=%0.9f' % (name,
@@ -374,15 +235,6 @@ class Ellipsoid(_Registered):
         if abs(f - t) > 1e-8:
             raise AssertionError('%s: %s=%.9e vs %s=%.9e' % (name,
                                  'f', f, '(a-b)/a', t))
-        t = d / (a + b)
-        if abs(n - t) > 1e-8:
-            raise AssertionError('%s: %s=%.9e vs %s=%.9e' % (name,
-                                 'n', n, '(a-b)/(a+b)', t))
-        t = self.a_b**2 - 1
-        if abs(self.e22 - t) > 1e-8:
-            raise AssertionError('%s: %s=%.9e vs %s=%.9e' % (name,
-                                 'e22', self.e22, 'ab**2-1', t))
-
         self._register(Ellipsoids, name)
 
     def __eq__(self, other):
@@ -398,21 +250,21 @@ class Ellipsoid(_Registered):
                                  self.f == other.f))
 
     def _Kseries(self, *AB8Ks):
-        '''(INTERNAL) Compute the 4-, 6- or 8-th order Krüger Alpha or
-           Beta series coefficients per Karney 2011, 'Transverse Mercator
-           with an accuracy of a few nanometers', U{page 7, equations 35
-           and 36<http://Arxiv.org/pdf/1002.1417v3.pdf>}.
+        '''(INTERNAL) Compute the 4-, 6- or 8-th order Krüger Alpha
+           or Beta series coefficients per Karney 2011, 'Transverse
+           Mercator with an accuracy of a few nanometers', U{page 7,
+           equations 35 and 36<https://Arxiv.org/pdf/1002.1417v3.pdf>}.
 
            @param AB8Ks: 8-Tuple of 8-th order Krüger Alpha or Beta
-                         series coefficent tuples.
+                         series coefficient tuples.
 
-           @return: Krüger series coefficients (I{.KsOrder}-tuple).
+           @return: Krüger series coefficients (C{.KsOrder}-tuple).
 
            @see: The 30-th order U{TMseries30
-                 <http://GeographicLib.SourceForge.io/html/tmseries30.html>}.
+                 <https://GeographicLib.SourceForge.io/html/tmseries30.html>}.
         '''
         k = self.KsOrder
-        ns = fpowers(self.n, k)  # PYCHOK incorrect!
+        ns = fpowers(self.n, k)
         return tuple(fdot(AB8Ks[i][:k-i], *ns[i:]) for i in range(k))
 
     def _xcopy(self, *attrs):
@@ -428,31 +280,43 @@ class Ellipsoid(_Registered):
         return self._a
 
     @property_RO
-    def a2_(self):
-        '''Get the inverse of the major radius squared (C{float}).
+    def a2(self):
+        '''Get the major radius I{squared} (C{float}), M{a**2}.
         '''
+        if self._a2 is None:
+            self._a2 = self.a**2
+        return self._a2
+
+    @property_RO
+    def a2_(self):
+        '''Get the inverse of the major radius I{squared} (C{float}), M{1 / a**2}.
+        '''
+        if self._a2_ is None:
+            self._a2_ = 1 / self.a2
         return self._a2_  # (1 / a**2)
 
     @property_RO
+    def a_b(self):
+        '''Get ratio M{a / b} (C{float}).
+        '''
+        if self._a_b is None:
+            self._a_b = self.a / self.b
+        return self._a_b
+
+    @property_RO
     def a2_b(self):
-        '''Get the polar meridional radius of curvature: M{a**2 / b} (C{meter}).
+        '''Get the polar meridional radius of curvature (C{meter}), M{a**2 / b}.
 
            @see: U{Radii of Curvature
-                 <http://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
+                 <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
         '''
         if self._a2_b is None:
-            self._a2_b = self._a2 / self.b
+            self._a2_b = self.a2 / self.b
         return self._a2_b
 
     @property_RO
-    def a_b(self):
-        '''Get the 2nd Flattening (C{float}).
-        '''
-        return self._a_b  # (a / b) = 1 / (1 - f)
-
-    @property_RO
     def area(self):
-        '''Get the surface area M{4 * PI * R2**2} (C{meter**2}).
+        '''Get the ellipsoid's surface area (C{meter**2}), M{4 * PI * R2**2}.
         '''
         if self._area is None:
             self._area = 2 * PI2 * self.R2**2
@@ -460,23 +324,23 @@ class Ellipsoid(_Registered):
 
     @property_RO
     def A(self):
-        '''Get the I{UTM} meridional radius (C{meter}).
+        '''Get the UTM meridional radius (C{meter}).
         '''
         if self._A is None:
             n = self.n
-            # <http://GeographicLib.SourceForge.io/html/transversemercator.html>
+            # <https://GeographicLib.SourceForge.io/html/transversemercator.html>
             self._A = self.a / (1 + n) * (fsum_(65536, 16384 * n**2,
                                                         1024 * n**4,
                                                          256 * n**6,
                                                          100 * n**8,
                                                           49 * n**10) / 65536)
-            # <http://www.MyGeodesy.id.AU/documents/Karney-Krueger%20equations.pdf>
+            # <https://www.MyGeodesy.id.AU/documents/Karney-Krueger%20equations.pdf>
             # self._A = self.a / (1 + n) * (fhorner(n**2, 16384, 4096, 256, 64, 25) / 16384)
         return self._A
 
     @property_RO
     def AlphaKs(self):
-        '''Get the U{Krüger Alpha series coefficients<http://GeographicLib.SourceForge.io/html/tmseries30.html>} (KsOrder-tuple).
+        '''Get the U{Krüger Alpha series coefficients<https://GeographicLib.SourceForge.io/html/tmseries30.html>} (C{KsOrder}-tuple).
         '''
         if self._AlphaKs is None:
             self._AlphaKs = self._Kseries(  # XXX int/int quotients may require  from __future__ import division
@@ -498,19 +362,27 @@ class Ellipsoid(_Registered):
         return self._b
 
     @property_RO
+    def b2(self):
+        '''Get the minor radius I{squared} (C{float}), M{b**2}.
+        '''
+        if self._b2 is None:
+            self._b2 = self.b**2
+        return self._b2
+
+    @property_RO
     def b2_a(self):
-        '''Get the equatorial meridional radius of curvature: M{b**2 / a} (C{meter}).
+        '''Get the equatorial meridional radius of curvature (C{meter}), M{b**2 / a}.
 
            @see: U{Radii of Curvature
-                 <http://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
+                 <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
         '''
         if self._b2_a is None:
-            self._b2_a = self._b2 / self.a
+            self._b2_a = self.b2 / self.a
         return self._b2_a
 
     @property_RO
     def BetaKs(self):
-        '''Get the U{Krüger Beta series coefficients<http://GeographicLib.SourceForge.io/html/tmseries30.html>} (KsOrder-tuple).
+        '''Get the U{Krüger Beta series coefficients<https://GeographicLib.SourceForge.io/html/tmseries30.html>} (C{KsOrder}-tuple).
         '''
         if self._BetaKs is None:
             self._BetaKs = self._Kseries(  # XXX int/int quotients may require  from __future__ import division
@@ -527,10 +399,10 @@ class Ellipsoid(_Registered):
 
     @property_RO
     def c(self):
-        '''Get the authalic earth radius: see C{R2} (C{meter}).
+        '''Get the authalic earth radius (C{meter}), see C{R2}.
 
-           @see: Symbol I{c} in U{equation 60
-                 <http://link.Springer.com/article/10.1007%2Fs00190-012-0578-z>}.
+           @see: Symbol C{c} in U{equation 60
+                 <https://Link.Springer.com/article/10.1007%2Fs00190-012-0578-z>}.
         '''
         return self.R2
 
@@ -542,8 +414,8 @@ class Ellipsoid(_Registered):
         return self._xcopy()
 
     def distance2(self, lat0, lon0, lat1, lon1):
-        '''Approximate the distance and bearing between two points
-           based on the radii of curvature.
+        '''Approximate the distance and (initial) bearing between two
+           points based on the radii of curvature.
 
            Suitable only for short distances up to a few hundred Km
            or Miles and only between points not near-polar.
@@ -553,45 +425,55 @@ class Ellipsoid(_Registered):
            @param lat1: To latitude (C{degrees}).
            @param lon1: To longitude (C{degrees}).
 
-           @return: 2-Tuple (distance, bearing) in (C{meter}, C{degrees360}).
+           @return: A L{Distance2Tuple}C{(distance, initial)}.
 
            @see: U{Local, flat earth approximation
-                 <http://www.EdWilliams.org/avform.htm#flat>}.
+                 <https://www.EdWilliams.org/avform.htm#flat>}.
         '''
         m, n = self.roc2(lat0)
         m *= radians(lat1 - lat0)
         n *= radians(lon1 - lon0) * cos(radians(lat0))
-        return hypot(m, n), degrees360(atan2(n, m))
+        return Distance2Tuple(hypot(m, n), degrees360(atan2(n, m)))
 
     @property_RO
     def e(self):
-        '''Get the (1st) Eccentricity (C{float}).
+        '''Get the (1st) Eccentricity (C{float}), M{sqrt(1 - (b / a)**2))}.
         '''
-        return self._e  # sqrt(1 - (b / a)**2))
+        if self._e is None:
+            self._e = sqrt(abs(self.e2))
+        return self._e
 
     @property_RO
     def e12(self):
-        '''Get the (C{float}).
+        '''Get M{1 - e**2} (C{float}).
         '''
+        if self._e12 is None:
+            self._e12 = 1 - self.e2
         return self._e12  # 1 - e2
 
     @property_RO
     def e2(self):
-        '''Get the (1st) Eccentricity squared (C{float}).
+        '''Get the (1st) Eccentricity squared (C{float}), M{f * (2 - f) == 1 - (b / a)**2}.
         '''
-        return self._e2  # f * (2 - f) = 1 - (b / a)**2
-
-    @property_RO
-    def e22(self):
-        '''Get the 2nd Eccentricity squared (C{float}).
-        '''
-        return self._e22  # e2 / (1 - e2) = ab**2 - 1
+        if self._e2 is None:
+            self._e2 = self.f * (2 - self.f)
+        return self._e2
 
     @property_RO
     def e4(self):
-        '''Get the (1st) Eccentricity to 4th power (C{float}).
+        '''Get the (1st) Eccentricity to 4th power (C{float}), M{e**4 == e2**2}.
         '''
-        return self._e4  # e2**2
+        if self._e4 is None:
+            self._e4 = self.e2**2
+        return self._e4
+
+    @property_RO
+    def e22(self):
+        '''Get the 2nd Eccentricity I{squared} (C{float}), M{e2 / (1 - e2) == ab**2 - 1}.
+        '''
+        if self._e22 is None:
+            self._e22 = self.e2 / (1 - self.e2)
+        return self._e22
 
     def e2s(self, s):
         '''Compute norm M{sqrt(1 - e2 * s**2)}.
@@ -600,7 +482,7 @@ class Ellipsoid(_Registered):
 
            @return: Norm (C{float}).
 
-           @raise ValueError: Invalid I{s}.
+           @raise ValueError: Invalid B{C{s}}.
         '''
         try:
             return sqrt(self.e2s2(s))
@@ -614,12 +496,12 @@ class Ellipsoid(_Registered):
 
            @return: Result (C{float}).
 
-           @raise ValueError: Invalid I{s}.
+           @raise ValueError: Invalid B{C{s}}.
         '''
         try:
-            s2 = s**2
-            if s2 <= 1:
-                return 1 - s2 * self.e2
+            r = 1 - self.e2 * s**2
+            if r >= 0:
+                return r
         except (TypeError, ValueError):
             pass
         raise ValueError('invalid %s.%s: %r' % (self.name, 'e2s2', s))
@@ -629,13 +511,13 @@ class Ellipsoid(_Registered):
         '''Get the (1st) Eccentricity I{signed} (C{float}).
         '''
         # note, self.e is always non-negative
-        return (-self.e) if self.f < 0 else self.e  # see .ups
+        return copysign(self.e, self.f)  # see .ups.py
 
     def es_atanh(self, x):
         '''Compute M{es * atanh(es * x)} where I{es} is the I{signed}
            1st Eccentricity.
 
-           @see: Function U{Math::eatanhe<http://GeographicLib.SourceForge.io/
+           @see: Function U{Math::eatanhe<https://GeographicLib.SourceForge.io/
                  html/classGeographicLib_1_1Math.html>}.
         '''
         # note, self.e is always non-negative
@@ -649,18 +531,17 @@ class Ellipsoid(_Registered):
 
     @property_RO
     def es_c(self):
-        '''Compute M{(1 - f) * exp(es_atanh(1))} where I{f} is the
-           I{flattening}.
+        '''Get M{(1 - f) * exp(es_atanh(1))} C{float}.
         '''
         if self._es_c is None:
             self._es_c = (1 - self.f) * exp(self.es_atanh(1.0))
         return self._es_c
 
     def es_tauf(self, taup):
-        '''Compute U{Karney's<http://arXiv.org/abs/1002.1417>}
+        '''Compute U{Karney's<https://arXiv.org/abs/1002.1417>}
            equations (19), (20) and (21).
 
-           @see: Function U{Math::tauf<http://GeographicLib.SourceForge.io/
+           @see: Function U{Math::tauf<https://GeographicLib.SourceForge.io/
                  html/classGeographicLib_1_1Math.html>}.
         '''
         tol = max(abs(taup), 1) * _TOL
@@ -676,10 +557,10 @@ class Ellipsoid(_Registered):
         return t
 
     def es_taupf(self, tau):
-        '''Compute U{Karney's<http://arXiv.org/abs/1002.1417>}
+        '''Compute U{Karney's<https://arXiv.org/abs/1002.1417>}
            equations (7), (8) and (9).
 
-           @see: Function U{Math::taupf<http://GeographicLib.SourceForge.io/
+           @see: Function U{Math::taupf<https://GeographicLib.SourceForge.io/
                  html/classGeographicLib_1_1Math.html>}.
         '''
         t = hypot1(tau)
@@ -688,28 +569,30 @@ class Ellipsoid(_Registered):
 
     @property_RO
     def f(self):
-        '''Get the Flattening (C{float}).
+        '''Get the Flattening (C{float}), M{(a - b) / a}.
         '''
-        return self._f  # (a - b) / a
-
-#   @property_RO
-#   def f2(self):
-#       '''Get the 2nd Flattening (C{float}).
-#       '''
-#       return self._f2  # (a - b) / b
+        return self._f
 
     @property_RO
     def f_(self):
-        '''Get the Inverse flattening (C{float}).
+        '''Get the Inverse flattening (C{float}), M{1 / f == a / (a - b)}.
         '''
-        return self._f_  # a / (a - b) = 1 / f
+        return self._f_
+
+    @property_RO
+    def f2(self):
+        '''Get the 2nd Flattening (C{float}), M{(a - b) / b}.
+        '''
+        if self._f2 is None:
+            self._f2 = (self.a - self.b) / self.b
+        return self._f2
 
     @property_RO
     def geodesic(self):
         '''Get this ellipsoid's U{Karney Geodesic
-           <http://GeographicLib.SourceForge.io/html/python/code.html>},
+           <https://GeographicLib.SourceForge.io/html/python/code.html>},
            provided the U{GeographicLib
-           <http://PyPI.org/project/geographiclib>} package is installed.
+           <https://PyPI.org/project/geographiclib>} package is installed.
         '''
         if self._geodesic is None:
             try:
@@ -721,7 +604,7 @@ class Ellipsoid(_Registered):
 
     @property_RO
     def _geodesic2(self):
-        '''(INTERNAL) Get this ellipsoid's C{Geodesic} and C{Math}.
+        '''(INTERNAL) Get this ellipsoid's C{Geodesic} and C{Math} module.
         '''
         g = self.geodesic
         from geographiclib.geomath import Math
@@ -741,7 +624,7 @@ class Ellipsoid(_Registered):
 
     @property
     def KsOrder(self):
-        '''Get the Krüger series order (4, 6 or 8).
+        '''Get the Krüger series order (C{int} 4, 6 or 8).
         '''
         return self._KsOrder
 
@@ -749,9 +632,9 @@ class Ellipsoid(_Registered):
     def KsOrder(self, order):
         '''Set the Krüger series order.
 
-           @param order: New Krüger series order (4, 6 or 8).
+           @param order: New Krüger series order (C{int} 4, 6 or 8).
 
-           @raise ValueError: Invalid I{order}.
+           @raise ValueError: Invalid B{C{order}}.
         '''
         if order not in (4, 6, 8):
             raise ValueError('%s invalid: %r' % ('order', order))
@@ -770,7 +653,7 @@ class Ellipsoid(_Registered):
 
     @property_RO
     def Mabcd(self):
-        '''Get the OSGR meridional coefficients, Airy130 only (4-tuple).
+        '''Get the OSGR meridional coefficients (4-tuple), Airy130 only.
         '''
         if self._Mabcd is None:
             n, n2, n3 = fpowers(self.n, 3)  # PYCHOK false!
@@ -782,15 +665,21 @@ class Ellipsoid(_Registered):
 
     @property_RO
     def n(self):
-        '''Get the 3rd Flattening (C{float}).
+        '''Get the 3rd Flattening (C{float}), M{f / (2 - f) == (a - b) / (a + b)}.
         '''
-        return self._n  # f / (2 - f) = (a - b) / (a + b)
+        if self._n is None:
+            self._n = n = self.f / (2 - self.f)
+            t = (self.a - self.b) / (self.a + self.b)
+            if abs(n - t) > 1e-8:
+                raise AssertionError('%s: %s=%.9e vs %s=%.9e' % (self.name,
+                                     'n', n, '(a-b)/(a+b)', t))
+        return self._n
 
     @property_RO
     def R1(self):
-        '''Get the mean earth radius per IUGG: M{(2 * a + b) / 3} (C{meter}).
+        '''Get the mean earth radius per IUGG (C{meter}), M{(2 * a + b) / 3}.
 
-           @see: U{Earth radius<http://WikiPedia.org/wiki/Earth_radius>}.
+           @see: U{Earth radius<https://WikiPedia.org/wiki/Earth_radius>}.
         '''
         if self._R1 is None:
             self._R1 = (self.a * 2 + self.b) / 3
@@ -798,10 +687,10 @@ class Ellipsoid(_Registered):
 
     @property_RO
     def R2(self):
-        '''Get the authalic earth radius: M{sqrt((a**2 + b**2 * atanh(e) / e) / 2)} (C{meter}).
+        '''Get the authalic earth radius (C{meter}), M{sqrt((a**2 + b**2 * atanh(e) / e) / 2)}.
 
-           @see: U{Earth radius<http://WikiPedia.org/wiki/Earth_radius>} and
-                 U{c<http://link.Springer.com/article/10.1007%2Fs00190-012-0578-z>}.
+           @see: U{Earth radius<https://WikiPedia.org/wiki/Earth_radius>} and
+                 U{c<https://Link.Springer.com/article/10.1007%2Fs00190-012-0578-z>}.
         '''
         if self._R2 is None:
             if self.e2 > 0:
@@ -810,17 +699,17 @@ class Ellipsoid(_Registered):
                 r = atan(self.e) / self.e
             else:
                 r = 1
-            self._R2 = sqrt((self._a2 + self._b2 * r) * 0.5)
+            self._R2 = sqrt((self.a2 + self.b2 * r) * 0.5)
         return self._R2
 
     @property_RO
     def R3(self):
-        '''Get the volumetric earth radius: M{(a * a * b)**1/3} (C{meter}).
+        '''Get the volumetric earth radius (C{meter}), M{(a * a * b)**(1/3)}.
 
-           @see: U{Earth radius<http://WikiPedia.org/wiki/Earth_radius>}.
+           @see: U{Earth radius<https://WikiPedia.org/wiki/Earth_radius>}.
         '''
         if self._R3 is None:
-            self._R3 = cbrt(self._a2 * self.b)
+            self._R3 = cbrt(self.a2 * self.b)
         return self._R3
 
     def Rgeocentric(self, lat):
@@ -831,19 +720,19 @@ class Ellipsoid(_Registered):
            @return: Geocentric earth radius (C{meter}).
 
            @see: U{Geocentric Radius
-                 <http://WikiPedia.org/wiki/Earth_radius#Geocentric_radius>}
+                 <https://WikiPedia.org/wiki/Earth_radius#Geocentric_radius>}
         '''
-        a2 = self._a2
-        b2 = self._b2
+        a2 = self.a2
+        b2 = self.b2
         c2 = cos(radians(lat))**2
         s2 = 1 - c2
         return sqrt((a2**2 * c2 + b2**2 * s2) / (a2 * c2 + b2 * s2))
 
     @property_RO
     def Rr(self):
-        '''Get the rectifying earth radius: M{((a**(3.2) + b**(3/2)) / 2)**(2/3)} (C{meter}).
+        '''Get the rectifying earth radius (C{meter}), M{((a**(3/2) + b**(3/2)) / 2)**(2/3)}.
 
-           @see: U{Earth radius<http://WikiPedia.org/wiki/Earth_radius>}.
+           @see: U{Earth radius<https://WikiPedia.org/wiki/Earth_radius>}.
         '''
         if self._Rr is None:
             self._Rr = cbrt2((sqrt3(self.a) + sqrt3(self.b)) * 0.5)
@@ -851,7 +740,7 @@ class Ellipsoid(_Registered):
 
     @property_RO
     def Rs(self):
-        '''Get another mean earth radius: M{sqrt(a * b)} (C{meter}).
+        '''Get another mean earth radius (C{meter}), M{sqrt(a * b)}.
         '''
         if self._Rs is None:
             self._Rs = sqrt(self.a * self.b)
@@ -864,6 +753,8 @@ class Ellipsoid(_Registered):
 
            @return: Approximate earth radius (C{meter}).
         '''
+        if self._ab_90 is None:
+            self._ab_90 = (self.a - self.b) / 90.0
         # r = major - (major - minor) * |lat| / 90
         return self.a - self._ab_90 * min(abs(lat), 90)
 
@@ -873,13 +764,13 @@ class Ellipsoid(_Registered):
 
            @param lat: Latitude (C{degrees90}).
 
-           @return: 2-Tuple (meridional, prime-vertical) with the
-                    radii of curvature (C{meter}, C{meter}).
+           @return: An L{Curvature2Tuple}C{(meridional, prime_vertical)}
+                    radii of curvature.
 
            @see: U{Local, flat earth approximation
-                 <http://www.EdWilliams.org/avform.htm#flat>} and
+                 <https://www.EdWilliams.org/avform.htm#flat>} and
                  U{Radii of Curvature
-                 <http://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
+                 <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
         '''
         r = self.e2s2(sin(radians(lat)))
         if r < EPS:
@@ -890,7 +781,7 @@ class Ellipsoid(_Registered):
         else:
             n = self.a
             m = n * self.e12
-        return m, n
+        return Curvature2Tuple(m, n)
 
     def rocBearing(self, lat, bearing):
         '''Compute the directional radius of curvature at the
@@ -902,7 +793,7 @@ class Ellipsoid(_Registered):
            @return: Directional radius of curvature (C{meter}).
 
            @see: U{Radii of Curvature
-                 <http://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}
+                 <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}
         '''
         c2 = cos(radians(bearing))**2
         s2 = 1 - c2
@@ -922,14 +813,14 @@ class Ellipsoid(_Registered):
            @return: Gaussian radius of curvature (C{meter}).
 
            @see: U{Radii of Curvature
-                 <http://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}
+                 <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}
         '''
         # using ...
         #    m, n = self.roc2(lat)
         #    return sqrt(m * n)
         # ... requires 1 or 2 sqrt
-        a2, c2 = self._a2, cos(radians(lat))**2
-        return a2 * self.b / (a2 * c2 + self._b2 * (1 - c2))
+        a2, c2 = self.a2, cos(radians(lat))**2
+        return a2 * self.b / (a2 * c2 + self.b2 * (1 - c2))
 
     def rocMean(self, lat):
         '''Compute the mean radius of curvature at the given latitude.
@@ -939,7 +830,7 @@ class Ellipsoid(_Registered):
            @return: Mean radius of curvature (C{meter}).
 
            @see: U{Radii of Curvature
-                 <http://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}
+                 <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}
         '''
         m, n = self.roc2(lat)
         return 2 * m * n / (m + n)  # == 2 / (1 / m + 1 / n)
@@ -952,12 +843,11 @@ class Ellipsoid(_Registered):
            @return: Meridional radius of curvature (C{meter}).
 
            @see: U{Local, flat earth approximation
-                 <http://www.EdWilliams.org/avform.htm#flat>} and
+                 <https://www.EdWilliams.org/avform.htm#flat>} and
                  U{Radii of Curvature
-                 <http://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
+                 <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
         '''
-        m, _ = self.roc2(lat)
-        return m
+        return self.roc2(lat).meridional
 
     def rocPrimeVertical(self, lat):
         '''Compute the prime-vertical radius of curvature at the given latitude.
@@ -967,12 +857,11 @@ class Ellipsoid(_Registered):
            @return: Prime-vertical radis of curvature (C{meter}).
 
            @see: U{Local, flat earth approximation
-                 <http://www.EdWilliams.org/avform.htm#flat>} and
+                 <https://www.EdWilliams.org/avform.htm#flat>} and
                  U{Radii of Curvature
-                 <http://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
+                 <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
         '''
-        _, n = self.roc2(lat)
-        return n
+        return self.roc2(lat).prime_vertical
 
     def toStr(self, prec=9):  # PYCHOK expected
         '''Return this ellipsoid as a text string.
@@ -986,18 +875,19 @@ class Ellipsoid(_Registered):
 
     @property_RO
     def volume(self):
-        '''Get the volume: M{4 / 3 * PI * a**2 * b} (C{meter**3}).
+        '''Get the ellipsoid's volume (C{meter**3}), M{4 / 3 * PI * a**2 * b}.
         '''
         if self._volume is None:
-            self._volume = PI2 * _2_3rd * self._a2 * self._b
+            self._volume = PI2 * _2_3rd * self.a2 * self.b
         return self._volume
 
 
-# <http://www.GNU.org/software/gama/manual/html_node/Supported-ellipsoids.html>
-# <http://w3.Energistics.org/archive/Epicentre/Epicentre_v3.0/DataModel/
+Ellipsoids = _NamedEnum('Ellipsoids', Ellipsoid)  #: Registered ellipsoids.
+# <https://www.GNU.org/software/gama/manual/html_node/Supported-ellipsoids.html>
+# <https://w3.Energistics.org/archive/Epicentre/Epicentre_v3.0/DataModel/
 #         LogicalDictionary/StandardValues/ellipsoid.html>
-# <http://kb.OSU.edu/dspace/handle/1811/77986>
-Ellipsoids._assert(  # <http://WikiPedia.org/wiki/Earth_ellipsoid>
+# <https://kb.OSU.edu/dspace/handle/1811/77986>
+Ellipsoids._assert(  # <https://WikiPedia.org/wiki/Earth_ellipsoid>
     Airy1830       = Ellipsoid(6377563.396, 6356256.909,       299.3249646,   'Airy1830'),
     AiryModified   = Ellipsoid(6377340.189, 6356034.448,       299.3249646,   'AiryModified'),
     Australia1966  = Ellipsoid(6378160.0,   6356774.719,       298.25,        'Australia1966'),
@@ -1044,7 +934,7 @@ Ellipsoids._assert(  # <http://WikiPedia.org/wiki/Earth_ellipsoid>
 )
 
 
-class Transform(_Registered):
+class Transform(_NamedEnumItem):
     '''Helmert transformation.
     '''
     tx = 0  #: X translation (C{meter}).
@@ -1075,7 +965,7 @@ class Transform(_Registered):
            @keyword sy: Optional Y rotation (C{degree seconds}).
            @keyword sz: Optional Z rotation (C{degree seconds}).
 
-           @raise NameError: Transform with that I{name} already exists.
+           @raise NameError: Transform with that B{C{name}} already exists.
         '''
         if tx:
             self.tx = float(tx)
@@ -1136,7 +1026,7 @@ class Transform(_Registered):
 
            @return: Inverse (Transform).
 
-           @raise NameError: Transform with that I{name} already exists.
+           @raise NameError: Transform with that B{C{name}} already exists.
         '''
         return Transform(name=name or (self.name + 'Inverse'),
                          tx=-self.tx, ty=-self.ty, tz=-self.tz,
@@ -1161,7 +1051,7 @@ class Transform(_Registered):
            @param z: Z coordinate (C{meter}).
            @keyword inverse: Optional direction, forward or inverse (C{bool}).
 
-           @return: 3-Tuple (x, y, z) transformed.
+           @return: A L{Vector3Tuple}C{(x, y, z)}, transformed.
         '''
         if inverse:
             xyz = -1, -x, -y, -z
@@ -1172,16 +1062,18 @@ class Transform(_Registered):
         # x', y', z' = (.tx + x * .s1 - y * .rz + z * .ry,
         #               .ty + x * .rz + y * .s1 - z * .rx,
         #               .tz - x * .ry + y * .rx + z * .s1)
-        return (fdot(xyz, self.tx,      _s1, -self.rz,  self.ry),
-                fdot(xyz, self.ty,  self.rz,      _s1, -self.rx),
-                fdot(xyz, self.tz, -self.ry,  self.rx,      _s1))
+        r = Vector3Tuple(fdot(xyz, self.tx,      _s1, -self.rz,  self.ry),
+                         fdot(xyz, self.ty,  self.rz,      _s1, -self.rx),
+                         fdot(xyz, self.tz, -self.ry,  self.rx,      _s1))
+        return self._xnamed(r)
 
 
-# <http://WikiPedia.org/wiki/Helmert_transformation> from WGS84
+Transforms = _NamedEnum('Transforms', Transform)  #: Registered transforms.
+# <https://WikiPedia.org/wiki/Helmert_transformation> from WGS84
 Transforms._assert(
     BD72           = Transform('BD72', tx=106.868628, ty=-52.297783, tz=103.723893,
-                     # <http://www.NGI.BE/FR/FR4-4.shtm> ETRS89 == WG84
-                     # <http://GeoRepository.com/transformation_15929/BD72-to-WGS-84-3.html>
+                     # <https://www.NGI.BE/FR/FR4-4.shtm> ETRS89 == WG84
+                     # <https://GeoRepository.com/transformation_15929/BD72-to-WGS-84-3.html>
                                        sx=-0.33657,   sy= -0.456955, sz= -1.84218,
                                         s= 1.2727),
     Bessel1841     = Transform('Bessel1841', tx=-582.0,  ty=-105.0, tz=-414.0,
@@ -1192,9 +1084,9 @@ Transforms._assert(
                                        sx=   1.477, sy= -0.0736, sz=  -1.458,
                                         s=  -9.82),  # Germany
     ED50           = Transform('ED50', tx=89.5, ty=93.8, tz=123.1,
-                     # <http://GeoNet.ESRI.com/thread/36583> sz=-0.156
-                     # <http://GitHub.com/ChrisVeness/geodesy/blob/master/latlon-ellipsoidal.js>
-                     # <http://www.Gov.UK/guidance/oil-and-gas-petroleum-operations-notices#pon-4>
+                     # <https://GeoNet.ESRI.com/thread/36583> sz=-0.156
+                     # <https://GitHub.com/ChrisVeness/geodesy/blob/master/latlon-ellipsoidal.js>
+                     # <https://www.Gov.UK/guidance/oil-and-gas-petroleum-operations-notices#pon-4>
                                                          sz=  0.156, s=-1.2),
     Irl1965        = Transform('Irl1965', tx=-482.530, ty=130.596, tz=-564.557,
                                           sx=   1.042, sy=  0.214, sz=   0.631,
@@ -1226,10 +1118,11 @@ Transforms._assert(
 )
 
 
-class Datum(_Registered):
+class Datum(_NamedEnumItem):
     '''Ellipsoid and transform parameters for an earth model.
     '''
     _ellipsoid = Ellipsoids.WGS84  #: (INTERNAL) Default ellipsoid (L{Ellipsoid}).
+    _exactTM   = None              #: (INTERNAL) L{ExactTransverseMercator} projection.
     _transform = Transforms.WGS84  #: (INTERNAL) Default transform (L{Transform}).
 
     def __init__(self, ellipsoid, transform=None, name=''):
@@ -1239,10 +1132,10 @@ class Datum(_Registered):
            @keyword transform: Optional transform (L{Transform}).
            @keyword name: Optional, unique name (C{str}).
 
-           @raise NameError: Datum with that I{name} already exists.
+           @raise NameError: Datum with that B{C{name}} already exists.
 
-           @raise TypeError: If I{ellipsoid} is not an L{Ellipsoid}
-                             or I{transform} is not a L{Transform}.
+           @raise TypeError: If B{C{ellipsoid}} is not an L{Ellipsoid}
+                             or B{C{transform}} is not a L{Transform}.
         '''
         self._ellipsoid = ellipsoid or Datum._ellipsoid
         if not isinstance(self.ellipsoid, Ellipsoid):
@@ -1285,6 +1178,15 @@ class Datum(_Registered):
         return self._ellipsoid
 
     @property_RO
+    def exactTM(self):
+        '''Get the C{ExactTM} projection (L{ExactTransverseMercator}).
+        '''
+        if self._exactTM is None:
+            from etm import ExactTransverseMercator
+            self._exactTM = ExactTransverseMercator(datum=self)
+        return self._exactTM
+
+    @property_RO
     def isEllipsoidal(self):
         '''Check whether this datum is ellipsoidal (C{bool}).
         '''
@@ -1304,8 +1206,8 @@ class Datum(_Registered):
         t = []
         for a in ('ellipsoid', 'transform'):
             v = getattr(self, a)
-            t.append('%s=%ss.%s' % (a, v.__class__.__name__, v.name))
-        return ', '.join(['name=%r' % (self.name,)] + t)
+            t.append('%s=%ss.%s' % (a, v.classname, v.name))
+        return ', '.join(['name=%r' % (self.named,)] + t)
 
     @property_RO
     def transform(self):
@@ -1314,58 +1216,64 @@ class Datum(_Registered):
         return self._transform
 
 
+Datums = _NamedEnum('Datums', Datum)      #: Registered datums.
 # Datums with associated ellipsoid and Helmert transform parameters
 # to convert from WGS84 into the given datum.  More are available at
-# <http://Earth-Info.NGA.mil/GandG/coordsys/datums/NATO_DT.pdf> and
+# <https://Earth-Info.NGA.mil/GandG/coordsys/datums/NATO_DT.pdf> and
 # <XXX://www.FieldenMaps.info/cconv/web/cconv_params.js>.
 Datums._assert(
     # Belgian Datum 1972, based on Hayford ellipsoid.
-    # <http://NL.WikiPedia.org/wiki/Belgian_Datum_1972>
-    # <http://SpatialReference.org/ref/sr-org/7718/html/>
+    # <https://NL.WikiPedia.org/wiki/Belgian_Datum_1972>
+    # <https://SpatialReference.org/ref/sr-org/7718/html/>
     BD72           = Datum(Ellipsoids.Intl1924, Transforms.BD72),
-    # Germany <http://WikiPedia.org/wiki/Bessel-Ellipsoid>
-    #         <http://WikiPedia.org/wiki/Helmert_transformation>
+
+    # Germany <https://WikiPedia.org/wiki/Bessel-Ellipsoid>
+    #         <https://WikiPedia.org/wiki/Helmert_transformation>
     DHDN           = Datum(Ellipsoids.Bessel1841, Transforms.DHDN),
 
-    # <http://www.Gov.UK/guidance/oil-and-gas-petroleum-operations-notices#pon-4>
+    # <https://www.Gov.UK/guidance/oil-and-gas-petroleum-operations-notices#pon-4>
     ED50           = Datum(Ellipsoids.Intl1924, Transforms.ED50),
 
-    # <http://WikiPedia.org/wiki/GRS_80>
+    # Australia <https://ICSM.Gov.AU/datum/gda2020-and-gda94-technical-manuals>
+#   GDA94          = Datum(Ellipsoids.GRS80, Transforms.WGS84, name='GDA94'),
+    GDA2020        = Datum(Ellipsoids.GRS80, Transforms.WGS84, name='GDA2020'),  # XXX Transform?
+
+    # <https://WikiPedia.org/wiki/GRS_80>
     GRS80          = Datum(Ellipsoids.GRS80, Transforms.WGS84, name='GRS80'),
 
-    # <http://OSI.IE/OSI/media/OSI/Content/Publications/transformations_booklet.pdf>
+    # <https://OSI.IE/OSI/media/OSI/Content/Publications/transformations_booklet.pdf>
     Irl1975        = Datum(Ellipsoids.AiryModified, Transforms.Irl1975),
 
-    # Germany <http://WikiPedia.org/wiki/Helmert_transformation>
+    # Germany <https://WikiPedia.org/wiki/Helmert_transformation>
     Krassovski1940 = Datum(Ellipsoids.Krassovski1940, Transforms.Krassovski1940),  # spelling
     Krassowsky1940 = Datum(Ellipsoids.Krassowsky1940, Transforms.Krassowsky1940),  # spelling
 
-    # Austria <http://DE.WikiPedia.org/wiki/Datum_Austria>
+    # Austria <https://DE.WikiPedia.org/wiki/Datum_Austria>
     MGI            = Datum(Ellipsoids.Bessel1841, Transforms.MGI),
 
-    # <http://WikiPedia.org/wiki/Helmert_transformation>
+    # <https://WikiPedia.org/wiki/Helmert_transformation>
     NAD27          = Datum(Ellipsoids.Clarke1866, Transforms.NAD27),
 
-    # NAD83 (2009) == WGS84 - <http://www.UVM.edu/giv/resources/WGS84_NAD83.pdf>
+    # NAD83 (2009) == WGS84 - <https://www.UVM.edu/giv/resources/WGS84_NAD83.pdf>
     # (If you *really* must convert WGS84<->NAD83, you need more than this!)
     NAD83          = Datum(Ellipsoids.GRS80, Transforms.NAD83),
 
     #  Nouvelle Triangulation Francaise (Paris)  XXX verify
     NTF            = Datum(Ellipsoids.Clarke1880IGN, Transforms.NTF),
 
-    # <http://www.OrdnanceSurvey.co.UK/docs/support/guide-coordinate-systems-great-britain.pdf>
+    # <https://www.OrdnanceSurvey.co.UK/docs/support/guide-coordinate-systems-great-britain.pdf>
     OSGB36         = Datum(Ellipsoids.Airy1830, Transforms.OSGB36),
 
-    # Germany <http://WikiPedia.org/wiki/Helmert_transformation>
+    # Germany <https://WikiPedia.org/wiki/Helmert_transformation>
     Potsdam        = Datum(Ellipsoids.Bessel1841, Transforms.Bessel1841, name='Potsdam'),
 
     # XXX psuedo-ellipsoids for spherical LatLon
     Sphere         = Datum(Ellipsoids.Sphere, Transforms.WGS84, name='Sphere'),
 
-    # <http://www.GeoCachingToolbox.com?page=datumEllipsoidDetails>
+    # <https://www.GeoCachingToolbox.com?page=datumEllipsoidDetails>
     TokyoJapan     = Datum(Ellipsoids.Bessel1841, Transforms.TokyoJapan),
 
-    # <http://www.ICAO.int/safety/pbn/documentation/eurocontrol/eurocontrol%20wgs%2084%20implementation%20manual.pdf>
+    # <https://www.ICAO.int/safety/pbn/documentation/eurocontrol/eurocontrol%20wgs%2084%20implementation%20manual.pdf>
     WGS72          = Datum(Ellipsoids.WGS72, Transforms.WGS72),
 
     WGS84          = Datum(Ellipsoids.WGS84, Transforms.WGS84),

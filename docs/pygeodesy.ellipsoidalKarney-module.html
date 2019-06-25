@@ -69,7 +69,7 @@
   href="pygeodesy.ellipsoidalKarney-module.html#perimeterOf" 
   class="link">perimeterOf</a> based on the Python implementation of 
   <i>Charles F. F. Karney's</i> <a 
-  href="http://PyPI.org/project/geographiclib" 
+  href="https://PyPI.org/project/geographiclib" 
   target="_top">GeographicLib</a>.</p>
   <p>Here's an example usage of <code>ellipsoidalKarney</code>:</p>
 <pre class="py-doctest">
@@ -90,7 +90,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.04.03
+        19.05.06
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -111,7 +111,7 @@
         href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">ellipsoidalVincenty.LatLon</a> but using <i>Charles F.
         F. Karney's</i> Python <a 
-        href="http://PyPI.org/project/geographiclib" 
+        href="https://PyPI.org/project/geographiclib" 
         target="_top">GeographicLib</a> to compute the geodesic distance, 
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an initial bearing.
@@ -228,14 +228,14 @@
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if a pole is enclosed by the polygon, 
+        <dd><code>True</code> if the polygon encloses a pole, 
           <code>False</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <code>LatLon</code> or don't have 
-        <code>bearingTo2</code>, <code>initialBearingTo</code> and 
-        <code>finalBearingTo</code> methods.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <b><code>points</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code> or 
+        don't have <code>bearingTo2</code>, <code>initialBearingTo</code> 
+        and <code>finalBearingTo</code> methods.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -268,22 +268,22 @@
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Area (<code>meter</code>, same as units of the <i>datum</i> 
-          ellipsoid, squared).</dd>
+        <dd>Area (<code>meter</code>, same as units of the 
+          <b><code>datum</code></b> ellipsoid, squared).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ImportError</strong></code> - Package <a href="http://PyPI.org/project/geographiclib" 
+        <li><code><strong class='fraise'>ImportError</strong></code> - Package <a href="https://PyPI.org/project/geographiclib" 
         target="_top">GeographicLib</a> missing.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <a 
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
         class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i> or longitudes not wrapped, 
-        unrolled, <i>wrap</i> is <code>False</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <b><code>points</code></b> or longitudes not
+        wrapped, unrolled, <b><code>wrap</code></b> is <code>False</code>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         This function requires installation of the <a 
-        href="http://PyPI.org/project/geographiclib" 
+        href="https://PyPI.org/project/geographiclib" 
         target="_top">GeographicLib</a> package.
       </p>
       <p><strong>See Also:</strong>
@@ -326,22 +326,22 @@
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Perimeter (<code>meter</code>, same as units of the <i>datum</i> 
-          ellipsoid).</dd>
+        <dd>Perimeter (<code>meter</code>, same as units of the 
+          <b><code>datum</code></b> ellipsoid).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ImportError</strong></code> - Package <a href="http://PyPI.org/project/geographiclib" 
+        <li><code><strong class='fraise'>ImportError</strong></code> - Package <a href="https://PyPI.org/project/geographiclib" 
         target="_top">GeographicLib</a> missing.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <a 
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
         class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i> or longitudes not wrapped, 
-        unrolled, <i>wrap</i> is <code>False</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <b><code>points</code></b> or longitudes not
+        wrapped, unrolled, <b><code>wrap</code></b> is <code>False</code>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         This function requires installation of the <a 
-        href="http://PyPI.org/project/geographiclib" 
+        href="https://PyPI.org/project/geographiclib" 
         target="_top">GeographicLib</a> package.
       </p>
       <p><strong>See Also:</strong>
@@ -384,7 +384,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 17 12:19:02 2019
+    Generated by Epydoc 3.0.1 on Tue Jun 25 11:55:33 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

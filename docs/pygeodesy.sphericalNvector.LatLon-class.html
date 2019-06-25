@@ -63,9 +63,9 @@
 <pre class="base-tree">
            object --+                
                     |                
-         <a href="pygeodesy.bases._Named-class.html">bases._Named</a> --+            
+         named._Named --+            
                         |            
-             <a href="pygeodesy.bases._Based-class.html">bases._Based</a> --+        
+         named._NamedBase --+        
                             |        
        <a href="pygeodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a> --+    
                                 |    
@@ -73,9 +73,9 @@
                                     |
            object --+               |
                     |               |
-         <a href="pygeodesy.bases._Named-class.html">bases._Named</a> --+           |
+         named._Named --+           |
                         |           |
-             <a href="pygeodesy.bases._Based-class.html">bases._Based</a> --+       |
+         named._NamedBase --+       |
                             |       |
        <a href="pygeodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a> --+   |
                                 |   |
@@ -575,6 +575,7 @@
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equals">equals</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equals3">equals3</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equirectangularTo">equirectangularTo</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#euclideanTo">euclideanTo</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#haversineTo">haversineTo</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#isantipode">isantipode</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#isantipodeTo">isantipodeTo</a></code>,
@@ -588,12 +589,16 @@
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#to2ab">to2ab</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#to3llh">to3llh</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#to3xyz">to3xyz</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#toStr">toStr</a></code>
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#toStr">toStr</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#vincentysTo">vincentysTo</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases._Based-class.html">bases._Based</a></code></b>:
-      <code><a href="pygeodesy.bases._Based-class.html#__repr__">__repr__</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#toStr2">toStr2</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedBase</code></b>:
+      <code>__repr__</code>,
+      <code>toStr2</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>__copy__</code>,
+      <code>classof</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -631,10 +636,12 @@
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#latlon">latlon</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#lon">lon</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases._Named-class.html">bases._Named</a></code></b>:
-      <code><a href="pygeodesy.bases._Named-class.html#classname">classname</a></code>,
-      <code><a href="pygeodesy.bases._Named-class.html#classnaming">classnaming</a></code>,
-      <code><a href="pygeodesy.bases._Named-class.html#name">name</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>,
+      <code>name</code>,
+      <code>named</code>,
+      <code>named2</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
@@ -691,8 +698,8 @@
           point).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>start</i> or <i>end</i> point is not <a 
-        href="pygeodesy.sphericalNvector.LatLon-class.html" 
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>start</code></b> or <b><code>end</code></b> point is 
+        not <a href="pygeodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
         <li><code><strong class='fraise'>Valuerror</strong></code> - Some points coincide.</li>
     </ul></dd>
@@ -727,7 +734,7 @@
         <dd>The copy (<a href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a> or subclass thereof).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.bases._Named-class.html#copy">bases._Named.copy</a>
+        named._Named.copy
     </dt>
   </dl>
 </td></tr></table>
@@ -768,8 +775,8 @@
           to the right of the path).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>start</i> or <i>end</i> point is not <a 
-        href="pygeodesy.sphericalNvector.LatLon-class.html" 
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>start</code></b> or <b><code>end</code></b> point is 
+        not <a href="pygeodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
         <li><code><strong class='fraise'>Valuerror</strong></code> - Some points coincide.</li>
     </ul></dd>
@@ -810,11 +817,11 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>distance</code></strong> - Distance travelled (<code>meter</code>, same units as 
-          <i>radius</i>).</li>
+          <b><code>radius</code></b>).</li>
         <li><strong class="pname"><code>bearing</code></strong> - Bearing from this point (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height at destination, overriding the default height 
-          (<code>meter</code>, same units as <i>radius</i>).</li>
+          (<code>meter</code>, same units as <b><code>radius</code></b>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Destination point (<a 
@@ -862,11 +869,11 @@
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Distance between this and the <i>other</i> point 
-          (<code>meter</code>, same units as <i>radius</i>).</dd>
+        <dd>Distance between this and the <b><code>other</code></b> point 
+          (<code>meter</code>, same units as <b><code>radius</code></b>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <a 
         href="pygeodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -949,7 +956,7 @@
           class="link">Nvector</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <a 
         href="pygeodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
         <li><code><strong class='fraise'>Valuerror</strong></code> - Points coincide.</li>
@@ -991,17 +998,17 @@
         <li><strong class="pname"><code>other</code></strong> - The other point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>unused</code></strong> - Optional keyword argument <i>wrap</i> ignored.</li>
+        <li><strong class="pname"><code>unused</code></strong> - Optional keyword argument <b><code>wrap</code></b> ignored.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Initial bearing (compass <code>degrees360</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>Crosserror</strong></code> - This point coincides with the <i>other</i> point or the 
-        <code>NorthPole</code>, provided <a 
+        <li><code><strong class='fraise'>Crosserror</strong></code> - This point coincides with the <b><code>other</code></b> point or 
+        the <code>NorthPole</code>, provided <a 
         href="pygeodesy.vector3d-module.html#crosserrors" 
         class="link">crosserrors</a> is <code>True</code>.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <a 
         href="pygeodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -1053,7 +1060,7 @@
           class="link">LatLon</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <a 
         href="pygeodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -1106,7 +1113,7 @@
           class="link">LatLon</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <a 
         href="pygeodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
         <li><code><strong class='fraise'>Valuerror</strong></code> - Points coincide.</li>
@@ -1163,13 +1170,12 @@
     <dt>Returns:</dt>
         <dd>The intersection point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>) or 3-tuple (<code>degrees90</code>, 
-          <code>degrees180</code>, height) if <i>LatLon</i> is 
-          <code>None</code> or <code>None</code> if no unique intersection 
-          exists.</dd>
+          class="link">LatLon</a>) or <code>None</code> if no unique 
+          intersection exists.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>start2</i>, <i>end1</i> or <i>end2</i> is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>start2</code></b>, <b><code>end1</code></b> or 
+        <b><code>end2</code></b> point is not <a 
         href="pygeodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Intersection is ambiguous or infinite or the paths are parallel, 
@@ -1212,10 +1218,10 @@
           <code>False</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <a 
         href="pygeodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <b><code>points</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -1264,8 +1270,8 @@
           <code>False</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - If <i>point1</i> or <i>point2</i> is not <a 
-        href="pygeodesy.sphericalNvector.LatLon-class.html" 
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>point1</code></b> or <b><code>point2</code></b> is not 
+        <a href="pygeodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
   </dl>
@@ -1305,7 +1311,7 @@
           class="link">LatLon</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <a 
         href="pygeodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
@@ -1358,8 +1364,8 @@
           class="link">LatLon</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - If <i>point1</i> or <i>point2</i> is not <a 
-        href="pygeodesy.sphericalNvector.LatLon-class.html" 
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>point1</code></b> or <b><code>point2</code></b> is not 
+        <a href="pygeodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
     </ul></dd>
   </dl>
@@ -1420,11 +1426,11 @@
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>) on the polygon and the distance to that 
           point from the given point in <code>meter</code>, same units of 
-          <i>radius</i>.</dd>
+          <b><code>radius</code></b>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <code>LatLon</code>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - No <i>points</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - No <b><code>points</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1499,7 +1505,7 @@
           class="link">LatLon</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <a 
         href="pygeodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
         <li><code><strong class='fraise'>Valuerror</strong></code> - Points coincide.</li>
@@ -1536,26 +1542,26 @@
   </tr></table>
   
   <p>Locate a point at given distances from this and two other points. See 
-  also <a href="http://WikiPedia.org/wiki/Trilateration" 
+  also <a href="https://WikiPedia.org/wiki/Trilateration" 
   target="_top">Trilateration</a>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>distance1</code></strong> - Distance to this point (<code>meter</code>, same units as 
-          <i>radius</i>).</li>
+          <b><code>radius</code></b>).</li>
         <li><strong class="pname"><code>point2</code></strong> - Second reference point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>distance2</code></strong> - Distance to point2 (<code>meter</code>, same units as 
-          <i>radius</i>).</li>
+          <b><code>radius</code></b>).</li>
         <li><strong class="pname"><code>point3</code></strong> - Third reference point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>distance3</code></strong> - Distance to point3 (<code>meter</code>, same units as 
-          <i>radius</i>).</li>
+          <b><code>radius</code></b>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height at trilaterated point, overriding the mean height
-          (<code>meter</code>, same units as <i>radius</i>).</li>
+          (<code>meter</code>, same units as <b><code>radius</code></b>).</li>
         <li><strong class="pname"><code>useZ</code></strong> - Include Z component iff non-NaN, non-zero (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -1564,10 +1570,11 @@
           class="link">LatLon</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - One of the <i>points</i> is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <a 
         href="pygeodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Distance(s) exceeds trilateration or some <i>points</i> coincide.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Distance(s) exceeds trilateration or some 
+        <b><code>points</code></b> coincide.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1604,7 +1611,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 17 12:19:04 2019
+    Generated by Epydoc 3.0.1 on Tue Jun 25 11:55:36 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -8,12 +8,12 @@ L{areaOf} and L{perimeterOf}.
 Pure Python implementation of geodesy tools for ellipsoidal earth models,
 transcribed from JavaScript originals by I{(C) Chris Veness 2005-2016}
 and published under the same MIT Licence**, see U{Vincenty geodesics
-<http://www.Movable-Type.co.UK/scripts/LatLongVincenty.html>}.  More at
-U{GeographicLib<http://PyPI.org/project/geographiclib>} and
-U{GeoPy<http://PyPI.org/project/geopy>}.
+<https://www.Movable-Type.co.UK/scripts/LatLongVincenty.html>}.  More at
+U{GeographicLib<https://PyPI.org/project/geographiclib>} and
+U{GeoPy<https://PyPI.org/project/geopy>}.
 
 Calculate geodesic distance between two points using the U{Vincenty
-<http://WikiPedia.org/wiki/Vincenty's_formulae>} formulae and one of
+<https://WikiPedia.org/wiki/Vincenty's_formulae>} formulae and one of
 several ellipsoidal earth models.  The default model is WGS-84, the
 most accurate and widely used globally-applicable model for the earth
 ellipsoid.
@@ -59,6 +59,7 @@ from datum import Datums
 from ellipsoidalBase import CartesianBase, LatLonEllipsoidalBase
 from fmath import EPS, fpolynomial, hypot, scalar
 from lazily import _ALL_LAZY
+from named import Bearing2Tuple, Destination2Tuple, Distance3Tuple
 from points import ispolar  # PYCHOK ispolar
 from utily import degrees90, degrees180, degrees360, sincos2, unroll180
 
@@ -68,7 +69,7 @@ from math import atan2, cos, radians, tan
 __all__ = _ALL_LAZY.ellipsoidalVincenty + (
           'Cartesian', 'LatLon',
           'ispolar')
-__version__ = '19.04.05'
+__version__ = '19.05.06'
 
 division = 1 / 2  # double check int division, see .datum.py
 if not division:
@@ -121,14 +122,15 @@ class LatLon(LatLonEllipsoidalBase):
            @param other: The other point (L{LatLon}).
            @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
-           @return: 2-Tuple (initial, final) bearings (compass C{degrees360}).
+           @return: A L{Bearing2Tuple}C{(initial, final)}..
 
-           @raise TypeError: The I{other} point is not L{LatLon}.
+           @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
-           @raise ValueError: If this and the I{other} point's L{Datum}
+           @raise ValueError: If this and the B{C{other}} point's L{Datum}
                               ellipsoids are not compatible.
         '''
-        return self._inverse(other, True, wrap)[1:]
+        r = Bearing2Tuple(*self._inverse(other, True, wrap)[1:])
+        return self._xnamed(r)
 
     def destination(self, distance, bearing, height=None):
         '''Compute the destination point after having travelled
@@ -173,10 +175,9 @@ class LatLon(LatLonEllipsoidalBase):
            @param distance: Distance (C{meter}).
            @param bearing: Initial bearing (compass C{degrees360}).
            @keyword height: Optional height, overriding the default
-                            height (C{meter}, same units as I{distance}).
+                            height (C{meter}, same units as B{C{distance}}).
 
-           @return: 2-Tuple (destination, final bearing) in (L{LatLon},
-                    C{degrees360}).
+           @return: A L{Destination2Tuple}C{(destination, final)}.
 
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
@@ -188,7 +189,9 @@ class LatLon(LatLonEllipsoidalBase):
            >>> b = 306.86816
            >>> d, f = p.destination2(54972.271, b)  # 37.652818°S, 143.926498°E, 307.1736
         '''
-        return self._direct(distance, bearing, True, height=height)
+        r = Destination2Tuple(*self._direct(distance, bearing, True,
+                                            height=height))
+        return self._xnamed(r)
 
     def distanceTo(self, other, wrap=False):
         '''Compute the distance between this and an other point
@@ -200,14 +203,14 @@ class LatLon(LatLonEllipsoidalBase):
 
            @return: Distance (C{meter}).
 
-           @raise TypeError: The I{other} point is not L{LatLon}.
+           @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
-           @raise ValueError: If this and the I{other} point's L{Datum}
+           @raise ValueError: If this and the B{C{other}} point's L{Datum}
                               ellipsoids are not compatible.
 
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limit and/or if this and the I{other} point
+                                 limit and/or if this and the B{C{other}} point
                                  are near-antipodal.
 
            @example:
@@ -233,20 +236,20 @@ class LatLon(LatLonEllipsoidalBase):
            @param other: Destination point (L{LatLon}).
            @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
-           @return: 3-Tuple (distance, initial bearing, final bearing) in
-                    (C{meter}, compass C{degrees360}, compass C{degrees360}).
+           @return: A L{Distance3Tuple}C{(distance, initial, final)}.
 
-           @raise TypeError: The I{other} point is not L{LatLon}.
+           @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
-           @raise ValueError: If this and the I{other} point's L{Datum}
+           @raise ValueError: If this and the B{C{other}} point's L{Datum}
                               ellipsoids are not compatible.
 
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limit and/or if this and the I{other} point
+                                 limit and/or if this and the B{C{other}} point
                                  are near-antipodal.
         '''
-        return self._inverse(other, True, wrap)
+        r = Distance3Tuple(*self._inverse(other, True, wrap))
+        return self._xnamed(r)
 
     @property
     def epsilon(self):
@@ -260,9 +263,9 @@ class LatLon(LatLonEllipsoidalBase):
 
            @param eps: New epsilon (scalar).
 
-           @raise TypeError: Non-scalar I{eps}.
+           @raise TypeError: Non-scalar B{C{eps}}.
 
-           @raise ValueError: Out of bounds I{eps}.
+           @raise ValueError: Out of bounds B{C{eps}}.
         '''
         self._epsilon = scalar(eps, name='epsilon')
 
@@ -300,14 +303,14 @@ class LatLon(LatLonEllipsoidalBase):
 
            @return: Final bearing (compass C{degrees360}).
 
-           @raise TypeError: The I{other} point is not L{LatLon}.
+           @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
-           @raise ValueError: If this and the I{other} point's L{Datum}
+           @raise ValueError: If this and the B{C{other}} point's L{Datum}
                               ellipsoids are not compatible.
 
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limit and/or if this and the I{other} point
+                                 limit and/or if this and the B{C{other}} point
                                  are near-antipodal.
 
            @example:
@@ -333,14 +336,14 @@ class LatLon(LatLonEllipsoidalBase):
 
            @return: Initial bearing (compass C{degrees360}).
 
-           @raise TypeError: The I{other} point is not L{LatLon}.
+           @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
-           @raise ValueError: If this and the I{other} point's L{Datum}
+           @raise ValueError: If this and the B{C{other}} point's L{Datum}
                               ellipsoids are not compatible.
 
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limit and/or if this and the I{other} point
+                                 limit and/or if this and the B{C{other}} point
                                  are near-antipodal.
 
            @example:
@@ -369,9 +372,9 @@ class LatLon(LatLonEllipsoidalBase):
 
            @param limit: New iteration limit (scalar).
 
-           @raise TypeError: Non-scalar I{limit}.
+           @raise TypeError: Non-scalar B{C{limit}}.
 
-           @raise ValueError: Out-of-bounds I{limit}.
+           @raise ValueError: Out-of-bounds B{C{limit}}.
         '''
         self._iterations = scalar(limit, 4, 200, name='limit')
 
@@ -437,12 +440,12 @@ class LatLon(LatLonEllipsoidalBase):
 
            @raise TypeError: The other point is not L{LatLon}.
 
-           @raise ValueError: If this and the I{other} point's L{Datum}
+           @raise ValueError: If this and the B{C{other}} point's L{Datum}
                               ellipsoids are not compatible.
 
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limit and/or if this and the I{other} point
+                                 limit and/or if this and the B{C{other}} point
                                  are near-antipodal or coincide.
         '''
         E = self.ellipsoids(other)
@@ -480,9 +483,9 @@ class LatLon(LatLonEllipsoidalBase):
 
             if abs(ll - ll_) < self._epsilon:
                 break
-            # <http://GitHub.com/ChrisVeness/geodesy/blob/master/latlon-vincenty.js>
+            # <https://GitHub.com/ChrisVeness/geodesy/blob/master/latlon-vincenty.js>
             # omitted and applied only after failure to converge, see footnote under
-            # Inverse at <http://WikiPedia.org/wiki/Vincenty's_formulae>
+            # Inverse at <https://WikiPedia.org/wiki/Vincenty's_formulae>
 #           elif abs(ll) > PI and self.isantipodeTo(other, eps=self._epsilon):
 #              raise VincentyError('%r antipodal to %r' % (self, other))
         else:
@@ -553,11 +556,11 @@ class Cartesian(CartesianBase):
            @keyword LatLon: Optional ellipsoidal (sub-)class to return
                             the point (L{LatLon}) or C{None}.
 
-           @return: The ellipsoidal geodetic point (L{LatLon}) or 3-tuple
-                    (C{degrees90}, C{degrees180}, height) if I{LatLon}
-                    is C{None}.
+           @return: The ellipsoidal geodetic point (B{C{LatLon}}) or
+                    a L{LatLon3Tuple}C{(lat, lon, height)} if
+                    B{C{LatLon}} is C{None}.
         '''
-        return CartesianBase._toLLhd(self, LatLon, datum)
+        return CartesianBase._to3LLh(self, datum, LatLon)
 
 
 def areaOf(points, datum=Datums.WGS84, wrap=True):

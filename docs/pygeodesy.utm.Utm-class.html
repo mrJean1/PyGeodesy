@@ -61,14 +61,22 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Utm</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-  object --+        
-           |        
-<a href="pygeodesy.bases._Named-class.html">bases._Named</a> --+    
-               |    
-    <a href="pygeodesy.bases._Based-class.html">bases._Based</a> --+
-                   |
-                  <strong class="uidshort">Utm</strong>
+   object --+            
+            |            
+ named._Named --+        
+                |        
+ named._NamedBase --+    
+                    |    
+<a href="pygeodesy.utmupsBase.UtmUpsBase-class.html">utmupsBase.UtmUpsBase</a> --+
+                        |
+                       <strong class="uidshort">Utm</strong>
 </pre>
+
+<dl><dt>Known Subclasses:</dt>
+<dd>
+      <ul class="subclass-list">
+<li><a href="pygeodesy.etm.Etm-class.html">etm.Etm</a></li>  </ul>
+</dd></dl>
 
 <hr />
 <p>Universal Transverse Mercator (UTM) coordinate.</p>
@@ -81,6 +89,23 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Instance Methods</span></td>
 </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="__eq__"></a><span class="summary-sig-name">__eq__</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>)</span></td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -115,7 +140,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utm.Utm-class.html#__repr__" class="summary-sig-name">__repr__</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      repr(x)</td>
+      str(x)</td>
           <td align="right" valign="top">
             
             
@@ -183,8 +208,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.utm.Utm-class.html#toEpsg" class="summary-sig-name">toEpsg</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Determine the <i>EPSG (European Petroleum Survey Group)</i> code.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.utm.Utm-class.html#toEtm" class="summary-sig-name">toEtm</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Copy this UTM to an ETM coordinate.</td>
           <td align="right" valign="top">
             
             
@@ -283,6 +308,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.utm.Utm-class.html#toUps" class="summary-sig-name">toUps</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">pole</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>,
+        <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">**unused</span>)</span><br />
       Convert this UTM coordinate to a UPS coordinate.</td>
           <td align="right" valign="top">
@@ -303,8 +329,9 @@
           <td><span class="summary-sig"><a href="pygeodesy.utm.Utm-class.html#toUtm" class="summary-sig-name">toUtm</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">zone</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>,
+        <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">**unused</span>)</span><br />
-      Convert this UTM coordinate to a different one.</td>
+      Convert this UTM coordinate to a different zone.</td>
           <td align="right" valign="top">
             
             
@@ -316,9 +343,16 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases._Based-class.html">bases._Based</a></code></b>:
-      <code><a href="pygeodesy.bases._Based-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#others">others</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html">utmupsBase.UtmUpsBase</a></code></b>:
+      <code><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html#to2en">to2en</a></code>,
+      <code><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html#toEpsg">toEpsg</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedBase</code></b>:
+      <code>others</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>__copy__</code>,
+      <code>classof</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -355,58 +389,19 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.utm.Utm-class.html#convergence" class="summary-name">convergence</a><br />
-      Get the meridian convergence (<code>degrees</code>) or 
-      <code>None</code>.
+        <a href="pygeodesy.utm.Utm-class.html#falsed2" class="summary-name">falsed2</a><br />
+      Get the easting and northing falsing (<a 
+      href="pygeodesy.named.EasNor2Tuple-class.html" 
+      class="link">EasNor2Tuple</a><code>(easting, northing)</code>).
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.utm.Utm-class.html#datum" class="summary-name">datum</a><br />
-      Get the datum (<a href="pygeodesy.datum.Datum-class.html" 
-      class="link">Datum</a>).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.utm.Utm-class.html#easting" class="summary-name">easting</a><br />
-      Get the easting (<code>meter</code>).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.utm.Utm-class.html#falsed" class="summary-name">falsed</a><br />
-      Get the easting and northing falsing (<code>bool</code>).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.utm.Utm-class.html#hemisphere" class="summary-name">hemisphere</a><br />
-      Get the hemisphere (<code>str</code>, 'N'|'S').
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.utm.Utm-class.html#northing" class="summary-name">northing</a><br />
-      Get the northing (<code>meter</code>).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.utm.Utm-class.html#scale" class="summary-name">scale</a><br />
-      Get the grid scale (<code>scalar</code>) or <code>None</code>.
+        <a href="pygeodesy.utm.Utm-class.html#pole" class="summary-name">pole</a><br />
+      Get the top center of (stereographic) projection, 
+      <code>&quot;&quot;</code> always.
     </td>
   </tr>
 <tr>
@@ -419,10 +414,22 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases._Named-class.html">bases._Named</a></code></b>:
-      <code><a href="pygeodesy.bases._Named-class.html#classname">classname</a></code>,
-      <code><a href="pygeodesy.bases._Named-class.html#classnaming">classnaming</a></code>,
-      <code><a href="pygeodesy.bases._Named-class.html#name">name</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html">utmupsBase.UtmUpsBase</a></code></b>:
+      <code><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html#convergence">convergence</a></code>,
+      <code><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html#datum">datum</a></code>,
+      <code><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html#easting">easting</a></code>,
+      <code><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html#falsed">falsed</a></code>,
+      <code><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html#hemisphere">hemisphere</a></code>,
+      <code><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html#northing">northing</a></code>,
+      <code><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html#scale">scale</a></code>,
+      <code><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html#scale0">scale0</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>,
+      <code>name</code>,
+      <code>named</code>,
+      <code>named2</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
@@ -472,15 +479,13 @@
           (latitudinal) Band letter (<code>str</code>, '01C'..'60X').</li>
         <li><strong class="pname"><code>hemisphere</code></strong> - Northern or southern hemisphere (<code>str</code>, 
           <code>'N[orth]'</code> or <code>'S[outh]'</code>).</li>
-        <li><strong class="pname"><code>easting</code></strong> - Easting from false easting (<code>meter</code>, -500km from 
-          central meridian).</li>
-        <li><strong class="pname"><code>northing</code></strong> - Northing from equator (<code>meter</code>, N or from false 
-          northing -10,000km S).</li>
+        <li><strong class="pname"><code>easting</code></strong> - Easting, see <b><code>falsed</code></b> (<code>meter</code>).</li>
+        <li><strong class="pname"><code>northing</code></strong> - Northing, see <b><code>falsed</code></b> (<code>meter</code>).</li>
         <li><strong class="pname"><code>band</code></strong> - Optional, (latitudinal) band (<code>str</code>, 'C'..'X').</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional, this coordinate's datum (<a 
           href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).</li>
-        <li><strong class="pname"><code>falsed</code></strong> - Both <i>easting</i> and <i>northing</i> are falsed 
-          (<code>str</code>).</li>
+        <li><strong class="pname"><code>falsed</code></strong> - Both <b><code>easting</code></b> and <b><code>northing</code></b>
+          are falsed (<code>bool</code>).</li>
         <li><strong class="pname"><code>convergence</code></strong> - Optional meridian convergence, bearing off grid North, clockwise 
           from true North (<code>degrees</code>) or <code>None</code>.</li>
         <li><strong class="pname"><code>scale</code></strong> - Optional grid scale factor (<code>scalar</code>) or 
@@ -489,8 +494,8 @@
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - If <i>easting</i> or <i>northing</i> outside the valid UTM range.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.utm.UTMError-class.html">UTMError</a></strong></code> - Invalid <i>zone</i>, <i>hemishere</i> or <i>band</i>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.utm.UTMError-class.html">UTMError</a></strong></code> - Invalid <b><code>zone</code></b>, <b><code>hemishere</code></b> or 
+        <b><code>band</code></b>.</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
@@ -518,7 +523,7 @@
     </td>
   </tr></table>
   
-  <p>repr(x)</p>
+  <p>str(x)</p>
   <dl class="fields">
     <dt>Overrides:
         object.__repr__
@@ -571,7 +576,7 @@
         <dd>The copy (<a href="pygeodesy.utm.Utm-class.html" 
           class="link">Utm</a> or subclass thereof).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.bases._Named-class.html#copy">bases._Named.copy</a>
+        named._Named.copy
     </dt>
   </dl>
 </td></tr></table>
@@ -604,28 +609,25 @@
       </p>
 </div></td></tr></table>
 </div>
-<a name="toEpsg"></a>
+<a name="toEtm"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toEpsg</span>(<span class="sig-arg">self</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toEtm</span>(<span class="sig-arg">self</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Determine the <i>EPSG (European Petroleum Survey Group)</i> code.</p>
+  <p>Copy this UTM to an ETM coordinate.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd><code>EPSG</code> code (<code>int</code>).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.epsg.EPSGError-class.html">EPSGError</a></strong></code> - See <a href="pygeodesy.epsg.Epsg-class.html" class="link">Epsg</a>.</li>
-    </ul></dd>
+        <dd>The ETM coordinate (<a href="pygeodesy.etm.Etm-class.html" 
+          class="link">Etm</a>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -653,15 +655,18 @@
         <li><strong class="pname"><code>LatLon</code></strong> - Optional, ellipsoidal (sub-)class to return the point 
           (<code>LatLon</code>) or <code>None</code>.</li>
         <li><strong class="pname"><code>eps</code></strong> - Optional convergence limit, EPS or above (<code>float</code>).</li>
-        <li><strong class="pname"><code>unfalse</code></strong> - Unfalse <i>easting</i> and <i>northing</i> if falsed 
-          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>unfalse</code></strong> - Unfalse <b><code>easting</code></b> and 
+          <b><code>northing</code></b> if falsed (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>This UTM coordinate as (<i>LatLon</i>) or 5-tuple (lat, lon, 
-          datum, convergence, scale) if <i>LatLon</i> is <code>None</code>.</dd>
+        <dd>This UTM coordinate as (<b><code>LatLon</code></b>) or a <a 
+          href="pygeodesy.named.LatLonDatum5Tuple-class.html" 
+          class="link">LatLonDatum5Tuple</a><code>(lat, lon, datum, 
+          convergence, scale)</code> if <b><code>LatLon</code></b> is 
+          <code>None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - If <i>LatLon</i> is not ellipsoidal.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>LatLon</code></b> is not ellipsoidal.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.utm.UTMError-class.html">UTMError</a></strong></code> - Invalid meridional radius or H-value.</li>
     </ul></dd>
   </dl>
@@ -731,12 +736,13 @@
           (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>This UTM as a string with <i>zone[band], hemisphere, easting, 
-          northing, [convergence, scale]</i> in <code>&quot;00 N|S meter 
+        <dd>This UTM as a string with <code>zone[band], hemisphere, easting, 
+          northing, [convergence, scale]</code> in <code>&quot;00 N|S meter
           meter&quot;</code> plus <code>&quot; degrees float&quot;</code> 
-          if <i>cs</i> is <code>True</code> (<code>str</code>).</dd>
+          if <b><code>cs</code></b> is <code>True</code> 
+          (<code>str</code>).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.bases._Based-class.html#toStr">bases._Based.toStr</a>
+        named._NamedBase.toStr
     </dt>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -782,10 +788,10 @@
     <dt>Returns:</dt>
         <dd>This UTM as a string <code>&quot;[Z:09[band], H:N|S, E:meter, 
           N:meter]&quot;</code> plus <code>&quot;, C:degrees, 
-          S:float&quot;</code> if <i>cs</i> is <code>True</code> 
-          (<code>str</code>).</dd>
+          S:float&quot;</code> if <b><code>cs</code></b> is 
+          <code>True</code> (<code>str</code>).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.bases._Based-class.html#toStr2">bases._Based.toStr2</a>
+        named._NamedBase.toStr2
     </dt>
   </dl>
 </td></tr></table>
@@ -800,6 +806,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toUps</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">pole</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">eps</span>=<span class="sig-default">2.22044604925e-16</span>,
+        <span class="sig-arg">falsed</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">**unused</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -816,6 +823,7 @@
         <li><strong class="pname"><code>eps</code></strong> - Optional convergence limit, EPS or above (<code>float</code>), 
           see method <a href="pygeodesy.utm.Utm-class.html#toLatLon" 
           class="link">Utm.toLatLon</a>.</li>
+        <li><strong class="pname"><code>falsed</code></strong> - False both easting and northing (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The UPS coordinate (<a href="pygeodesy.ups.Ups-class.html" 
@@ -833,6 +841,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toUtm</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">zone</span>,
         <span class="sig-arg">eps</span>=<span class="sig-default">2.22044604925e-16</span>,
+        <span class="sig-arg">falsed</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">**unused</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -840,7 +849,7 @@
     </td>
   </tr></table>
   
-  <p>Convert this UTM coordinate to a different one.</p>
+  <p>Convert this UTM coordinate to a different zone.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -848,6 +857,7 @@
         <li><strong class="pname"><code>eps</code></strong> - Optional convergence limit, EPS or above (<code>float</code>), 
           see method <a href="pygeodesy.utm.Utm-class.html#toLatLon" 
           class="link">Utm.toLatLon</a>.</li>
+        <li><strong class="pname"><code>falsed</code></strong> - False both easting and northing (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The UTM coordinate (<a href="pygeodesy.utm.Utm-class.html" 
@@ -885,18 +895,21 @@
   </dl>
 </td></tr></table>
 </div>
-<a name="convergence"></a>
+<a name="falsed2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
-  <h3 class="epydoc">convergence</h3>
-  <p>Get the meridian convergence (<code>degrees</code>) or 
-  <code>None</code>.</p>
+  <h3 class="epydoc">falsed2</h3>
+  <p>Get the easting and northing falsing (<a 
+  href="pygeodesy.named.EasNor2Tuple-class.html" 
+  class="link">EasNor2Tuple</a><code>(easting, northing)</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
-    <dd class="value"><span class="summary-sig">convergence(<span class="summary-sig-arg">self</span>)</span>
-        - Get the meridian convergence (<code>degrees</code>) or <code>None</code>.
+    <dd class="value"><span class="summary-sig">falsed2(<span class="summary-sig-arg">self</span>)</span>
+        - Get the easting and northing falsing (<a 
+href="pygeodesy.named.EasNor2Tuple-class.html" 
+class="link">EasNor2Tuple</a><code>(easting, northing)</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -906,119 +919,19 @@
   </dl>
 </td></tr></table>
 </div>
-<a name="datum"></a>
+<a name="pole"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
-  <h3 class="epydoc">datum</h3>
-  <p>Get the datum (<a href="pygeodesy.datum.Datum-class.html" 
-  class="link">Datum</a>).</p>
+  <h3 class="epydoc">pole</h3>
+  <p>Get the top center of (stereographic) projection, 
+  <code>&quot;&quot;</code> always.</p>
   <dl class="fields">
     <dt>Get Method:</dt>
-    <dd class="value"><span class="summary-sig">datum(<span class="summary-sig-arg">self</span>)</span>
-        - Get the datum (<a href="pygeodesy.datum.Datum-class.html" 
-class="link">Datum</a>).
-    </dd>
-    <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="easting"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">easting</h3>
-  <p>Get the easting (<code>meter</code>).</p>
-  <dl class="fields">
-    <dt>Get Method:</dt>
-    <dd class="value"><span class="summary-sig">easting(<span class="summary-sig-arg">self</span>)</span>
-        - Get the easting (<code>meter</code>).
-    </dd>
-    <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="falsed"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">falsed</h3>
-  <p>Get the easting and northing falsing (<code>bool</code>).</p>
-  <dl class="fields">
-    <dt>Get Method:</dt>
-    <dd class="value"><span class="summary-sig">falsed(<span class="summary-sig-arg">self</span>)</span>
-        - Get the easting and northing falsing (<code>bool</code>).
-    </dd>
-    <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="hemisphere"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">hemisphere</h3>
-  <p>Get the hemisphere (<code>str</code>, 'N'|'S').</p>
-  <dl class="fields">
-    <dt>Get Method:</dt>
-    <dd class="value"><span class="summary-sig">hemisphere(<span class="summary-sig-arg">self</span>)</span>
-        - Get the hemisphere (<code>str</code>, 'N'|'S').
-    </dd>
-    <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="northing"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">northing</h3>
-  <p>Get the northing (<code>meter</code>).</p>
-  <dl class="fields">
-    <dt>Get Method:</dt>
-    <dd class="value"><span class="summary-sig">northing(<span class="summary-sig-arg">self</span>)</span>
-        - Get the northing (<code>meter</code>).
-    </dd>
-    <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="scale"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">scale</h3>
-  <p>Get the grid scale (<code>scalar</code>) or <code>None</code>.</p>
-  <dl class="fields">
-    <dt>Get Method:</dt>
-    <dd class="value"><span class="summary-sig">scale(<span class="summary-sig-arg">self</span>)</span>
-        - Get the grid scale (<code>scalar</code>) or <code>None</code>.
+    <dd class="value"><span class="summary-sig">pole(<span class="summary-sig-arg">self</span>)</span>
+        - Get the top center of (stereographic) projection, <code>&quot;&quot;</code>
+always.
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -1080,7 +993,7 @@ class="link">Datum</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 17 12:19:04 2019
+    Generated by Epydoc 3.0.1 on Tue Jun 25 11:55:36 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

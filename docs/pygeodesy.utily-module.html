@@ -62,14 +62,14 @@
 <p>Geometric and other utility functions and constants.</p>
   <p>After <i>(C) Chris Veness 2011-2015</i> published under the same MIT 
   Licence**, see <a 
-  href="http://www.Movable-Type.co.UK/scripts/latlong.html" 
+  href="https://www.Movable-Type.co.UK/scripts/latlong.html" 
   target="_top">Latitude/Longitude</a> and <a 
-  href="http://www.Movable-Type.co.UK/scripts/latlong-vectors.html" 
+  href="https://www.Movable-Type.co.UK/scripts/latlong-vectors.html" 
   target="_top">Vector-based geodesy</a>.</p>
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.04.22
+        19.05.09
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -85,7 +85,7 @@
     </td><td class="summary">
         <a href="pygeodesy.utily.LimitError-class.html" class="summary-name">LimitError</a><br />
       Error raised for lat- or longitudinal deltas exceeding the 
-        <i>limit</i> in functions <a 
+        <b><code>limit</code></b> in functions <a 
         href="pygeodesy.formy-module.html#equirectangular" 
         class="link">equirectangular</a> and <a 
         href="pygeodesy.formy-module.html#equirectangular_" 
@@ -289,8 +289,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#ft2m" class="summary-sig-name">ft2m</a>(<span class="summary-sig-arg">feet</span>)</span><br />
-      Convert <i>International</i> feet to meter (m).</td>
+          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#ft2m" class="summary-sig-name">ft2m</a>(<span class="summary-sig-arg">feet</span>,
+        <span class="summary-sig-arg">usurvey</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Convert <i>International</i> or <i>US Survey</i> feet to meter.</td>
           <td align="right" valign="top">
             
             
@@ -324,7 +325,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#isNumpy2" class="summary-sig-name">isNumpy2</a>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Check for an <i>Numpy2LatLon</i> points wrapper.</td>
+      Check for an <b><code>Numpy2LatLon</code></b> points wrapper.</td>
           <td align="right" valign="top">
             
             
@@ -341,7 +342,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#isPoints2" class="summary-sig-name">isPoints2</a>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Check for an <i>LatLon2psxy</i> points wrapper.</td>
+      Check for an <b><code>LatLon2psxy</code></b> points wrapper.</td>
           <td align="right" valign="top">
             
             
@@ -375,8 +376,26 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#issubclassof" class="summary-sig-name">issubclassof</a>(<span class="summary-sig-arg">sub</span>,
+        <span class="summary-sig-arg">sup</span>)</span><br />
+      Check whether a class is a subclass of a super class.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#isTuple2" class="summary-sig-name">isTuple2</a>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Check for an <i>Tuple2LatLon</i> points wrapper.</td>
+      Check for an <b><code>Tuple2LatLon</code></b> points wrapper.</td>
           <td align="right" valign="top">
             
             
@@ -463,8 +482,10 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#m2ft" class="summary-sig-name">m2ft</a>(<span class="summary-sig-arg">meter</span>)</span><br />
-      Convert meter to <i>International</i> feet (ft).</td>
+          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#m2ft" class="summary-sig-name">m2ft</a>(<span class="summary-sig-arg">meter</span>,
+        <span class="summary-sig-arg">usurvey</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Convert meter to <i>International</i> or <i>US Survey</i> feet 
+      (<code>ft</code>).</td>
           <td align="right" valign="top">
             
             
@@ -535,26 +556,6 @@
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">base</span>=<span class="summary-sig-default">None</span>)</span><br />
       Check a polygon represented by points.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="polygon"></a><span class="summary-sig-name">polygon</span>(<span class="summary-sig-arg">points</span>,
-        <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">base</span>=<span class="summary-sig-default">None</span>)</span><br />
-      DEPRECATED, use function <a 
-      href="pygeodesy.utily-module.html#points2" class="link">points2</a>.</td>
           <td align="right" valign="top">
             
             
@@ -675,7 +676,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#splice" class="summary-sig-name">splice</a>(<span class="summary-sig-arg">iterable</span>,
         <span class="summary-sig-arg">n</span>=<span class="summary-sig-default">2</span>,
-        <span class="summary-sig-arg">fill</span>=<span class="summary-sig-default">_MISSING</span>)</span><br />
+        <span class="summary-sig-arg">fill</span>=<span class="summary-sig-default">object()</span>)</span><br />
       Split an iterable into <code>n</code> slices.</td>
           <td align="right" valign="top">
             
@@ -1117,11 +1118,13 @@
         <li><strong class="pname"><code>lat</code></strong> - Parallel latitude (<code>degrees90</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Distance (<code>meter</code>, same units as <i>radius</i>).</dd>
+        <dd>Distance (<code>meter</code>, same units as 
+          <b><code>radius</code></b>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - Latitude <i>lat</i> outside valid range and <i>rangerrrors</i> set 
-        to <code>True</code>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
+        href="pygeodesy.dms-module.html#rangerrors" 
+        class="link">rangerrors</a> set to <code>True</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1153,10 +1156,11 @@
         <li><strong class="pname"><code>extras</code></strong> - Optional leading items (strings).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><i>extras</i> + 2-Tuple (eastingStr, northingStr).</dd>
+        <dd><b><code>extras</code></b> + 2-Tuple <code>(eastingStr, 
+          northingStr)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>prec</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>prec</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1189,7 +1193,7 @@
         <dd>The value (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or negative <i>value</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or negative <b><code>value</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1201,21 +1205,24 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">ft2m</span>(<span class="sig-arg">feet</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">ft2m</span>(<span class="sig-arg">feet</span>,
+        <span class="sig-arg">usurvey</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Convert <i>International</i> feet to meter (m).</p>
+  <p>Convert <i>International</i> or <i>US Survey</i> feet to meter.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>feet</code></strong> - Value in feet (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>usurvery</code></strong> - Convert <i>US Survey</i> feet (<code>bool</code>), 
+          <i>International</i> feet otherwise.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in m (<code>float</code>).</dd>
+        <dd>Value in <code>meter</code> (<code>float</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1243,7 +1250,7 @@
         <dd>2-Tuple (1st, 2nd) half (<code>str</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Zero or odd <code>len</code>(<i>str2</i>).</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Zero or odd <code>len</code>(<b>str2</b>).</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1262,15 +1269,16 @@
     </td>
   </tr></table>
   
-  <p>Check for an <i>Numpy2LatLon</i> points wrapper.</p>
+  <p>Check for an <b><code>Numpy2LatLon</code></b> points wrapper.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if <i>obj</i> is an <i>Numpy2LatLon</i> 
-          instance, <code>False</code> otherwise.</dd>
+        <dd><code>True</code> if <b><code>obj</code></b> is an 
+          <b><code>Numpy2LatLon</code></b> instance, <code>False</code> 
+          otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1288,15 +1296,16 @@
     </td>
   </tr></table>
   
-  <p>Check for an <i>LatLon2psxy</i> points wrapper.</p>
+  <p>Check for an <b><code>LatLon2psxy</code></b> points wrapper.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if <i>obj</i> is an <i>LatLon2psxy</i> 
-          instance, <code>False</code> otherwise.</dd>
+        <dd><code>True</code> if <b><code>obj</code></b> is an 
+          <b><code>LatLon2psxy</code></b> instance, <code>False</code> 
+          otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1323,14 +1332,42 @@
         <li><strong class="pname"><code>excluded</code></strong> - Optional, exclusions (<code>type</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if <i>obj</i> is a sequence, <code>False</code>
-          otherwise.</dd>
+        <dd><code>True</code> if <b><code>obj</code></b> is a sequence, 
+          <code>False</code> otherwise.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         Excluding <code>tuple</code> implies excluding 
         <code>namedtuple</code>.
       </p>
 </div></td></tr></table>
+</div>
+<a name="issubclassof"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">issubclassof</span>(<span class="sig-arg">sub</span>,
+        <span class="sig-arg">sup</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check whether a class is a subclass of a super class.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>sub</code></strong> - The sub class (<code>class</code>).</li>
+        <li><strong class="pname"><code>sup</code></strong> - The super class (<code>class</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if <b><code>sub</code></b> is a subclass of 
+          <b><code>sup</code></b>.</dd>
+  </dl>
+</td></tr></table>
 </div>
 <a name="isTuple2"></a>
 <div>
@@ -1346,15 +1383,16 @@
     </td>
   </tr></table>
   
-  <p>Check for an <i>Tuple2LatLon</i> points wrapper.</p>
+  <p>Check for an <b><code>Tuple2LatLon</code></b> points wrapper.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>obj</code></strong> - The object (any).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if <i>obj</i> is an <i>Tuple2LatLon</i> 
-          instance, <code>False</code> otherwise.</dd>
+        <dd><code>True</code> if <b><code>obj</code></b> is an 
+          <b><code>Tuple2LatLon</code></b> instance, <code>False</code> 
+          otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1409,7 +1447,7 @@
         <dd>Previous threshold (<code>int</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>n</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>n</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1461,14 +1499,15 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>meter</code></strong> - Distance (<code>meter</code>, same units as <i>radius</i>).</li>
+        <li><strong class="pname"><code>meter</code></strong> - Distance (<code>meter</code>, same units as 
+          <b><code>radius</code></b>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Angle (<code>degrees</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <i>radius</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>radius</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1480,21 +1519,25 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">m2ft</span>(<span class="sig-arg">meter</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">m2ft</span>(<span class="sig-arg">meter</span>,
+        <span class="sig-arg">usurvey</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Convert meter to <i>International</i> feet (ft).</p>
+  <p>Convert meter to <i>International</i> or <i>US Survey</i> feet 
+  (<code>ft</code>).</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>meter</code></strong> - Value in meter (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>usurvery</code></strong> - Convert to <i>US Survey</i> feet (<code>bool</code>), 
+          <i>International</i> feet otherwise.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in ft (<code>float</code>).</dd>
+        <dd>Value in <code>feet</code> (<code>float</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1595,17 +1638,17 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>[])</li>
         <li><strong class="pname"><code>closed</code></strong> - Optionally, consider the polygon closed, ignoring any duplicate 
-          or closing final <i>points</i> (<code>bool</code>).</li>
-        <li><strong class="pname"><code>base</code></strong> - Optionally, check the <i>points</i> against this base class 
-          <code>None</code>.</li>
+          or closing final <b><code>points</code></b> (<code>bool</code>).</li>
+        <li><strong class="pname"><code>base</code></strong> - Optionally, check the <b><code>points</code></b> against this 
+          base class <code>None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple (n, points) with the number (<code>int</code>) of points 
           and the points <code>list</code> or <code>tuple</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <i>points</i> are not <code>LatLon</code>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <i>points</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <b><code>points</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1741,11 +1784,11 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a 
-        href="http://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Math.html#sincosd"
+        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Math.html#sincosd"
         target="_top">GeographicLib</a> function <a 
-        href="http://SourceForge.net/p/geographiclib/code/ci/release/tree/python/geographiclib/geomath.py#l155"
+        href="https://SourceForge.net/p/geographiclib/code/ci/release/tree/python/geographiclib/geomath.py#l155"
         target="_top">sincosd</a> and C++ <a 
-        href="http://SourceForge.net/p/geographiclib/code/ci/release/tree/include/GeographicLib/Math.hpp#l558"
+        href="https://SourceForge.net/p/geographiclib/code/ci/release/tree/include/GeographicLib/Math.hpp#l558"
         target="_top">sincosd</a>.
       </p>
 </div></td></tr></table>
@@ -1776,11 +1819,11 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a 
-        href="http://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Math.html#sincosd"
+        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Math.html#sincosd"
         target="_top">GeographicLib</a> function <a 
-        href="http://SourceForge.net/p/geographiclib/code/ci/release/tree/python/geographiclib/geomath.py#l155"
+        href="https://SourceForge.net/p/geographiclib/code/ci/release/tree/python/geographiclib/geomath.py#l155"
         target="_top">sincosd</a> and C++ <a 
-        href="http://SourceForge.net/p/geographiclib/code/ci/release/tree/include/GeographicLib/Math.hpp#l558"
+        href="https://SourceForge.net/p/geographiclib/code/ci/release/tree/include/GeographicLib/Math.hpp#l558"
         target="_top">sincosd</a>.
       </p>
 </div></td></tr></table>
@@ -1794,7 +1837,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">splice</span>(<span class="sig-arg">iterable</span>,
         <span class="sig-arg">n</span>=<span class="sig-default">2</span>,
-        <span class="sig-arg">fill</span>=<span class="sig-default">_MISSING</span>)</span>
+        <span class="sig-arg">fill</span>=<span class="sig-default">object()</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1810,17 +1853,17 @@
         <li><strong class="pname"><code>fill</code></strong> - Fill value for missing items.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Generator of <i>n</i> slices <i class="math">iterable[i::n] for 
-          i=0..n</i>.</dd>
+        <dd>Generator of <b><code>n</code></b> slices <i 
+          class="math">iterable[i::n] for i=0..n</i>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Non-<code>int</code> or non-positive <i>n</i>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Non-<code>int</code> or non-positive <b><code>n</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         Each generated slice is a <code>tuple</code> or a 
-        <code>list</code>, the latter only if the <i>iterable</i> is a 
-        <code>list</code>.
+        <code>list</code>, the latter only if the 
+        <b><code>iterable</code></b> is a <code>list</code>.
       </p>
       <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -1922,12 +1965,13 @@
           (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (delta <i>lon2</i>-<i>lon1</i>, <i>lon2</i>) unrolled 
-          (<code>degrees</code>, <code>degrees</code>).</dd>
+        <dd>2-Tuple (delta <b><code>lon2</code></b>-<b>lon1</b>, 
+          <b><code>lon2</code></b>) unrolled (<code>degrees</code>, 
+          <code>degrees</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Capability <i>LONG_UNROLL</i> in <a 
-        href="http://GeographicLib.SourceForge.io/html/python/interface.html#outmask"
+        Capability <b><code>LONG_UNROLL</code></b> in <a 
+        href="https://GeographicLib.SourceForge.io/html/python/interface.html#outmask"
         target="_top">GeographicLib</a>.
       </p>
 </div></td></tr></table>
@@ -1958,12 +2002,13 @@
           (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (delta <i>rad2</i>-<i>rad1</i>, <i>rad2</i>) unrolled 
-          (<code>radians</code>, <code>radians</code>).</dd>
+        <dd>2-Tuple (delta <b><code>rad2</code></b>-<b>rad1</b>, 
+          <b><code>rad2</code></b>) unrolled (<code>radians</code>, 
+          <code>radians</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Capability <i>LONG_UNROLL</i> in <a 
-        href="http://GeographicLib.SourceForge.io/html/python/interface.html#outmask"
+        Capability <b><code>LONG_UNROLL</code></b> in <a 
+        href="https://GeographicLib.SourceForge.io/html/python/interface.html#outmask"
         target="_top">GeographicLib</a>.
       </p>
 </div></td></tr></table>
@@ -2179,7 +2224,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 17 12:19:02 2019
+    Generated by Epydoc 3.0.1 on Tue Jun 25 11:55:34 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

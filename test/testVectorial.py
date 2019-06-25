@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '19.06.18'
+__version__ = '19.06.19'
 
 from base import TestsBase
 
@@ -63,7 +63,7 @@ class Tests(TestsBase):
         self.test('length', c.length, '52.2051356286',  fmt='%.10f')
 
         if hasattr(LatLon, 'intersection'):
-            # <http://GitHub.com/ChrisVeness/geodesy/blob/master/test/latlon-vectors-tests.js>
+            # <https://GitHub.com/ChrisVeness/geodesy/blob/master/test/latlon-vectors-tests.js>
             p = LatLon(1, 1)
             i = p.intersection(LatLon(2, 2), LatLon(1, 4), LatLon(2, 3))
             self.test('intersection', i, '02.499372°N, 002.5°E')
@@ -134,14 +134,14 @@ class Tests(TestsBase):
             self.test('triangulate', isinstance(t, LatLon), True)
 
         if hasattr(LatLon, 'trilaterate'):
-            # <http://GitHub.com/chrisveness/geodesy/blob/master/test/latlon-nvector-spherical-tests.js>
+            # <https://GitHub.com/chrisveness/geodesy/blob/master/test/latlon-nvector-spherical-tests.js>
             p = LatLon(37.418436, -121.963477)
             t = p.trilaterate(265.710701754, LatLon(37.417243, -121.961889), 234.592423446,
                                              LatLon(37.418692, -121.960194), 54.8954278262)
             self.test('trilaterate', t, '37.419078°N, 121.960579°W')
             self.test('trilaterate', isinstance(t, LatLon), True)
 
-            # courtesy Carlos Freitas <http://GitHub.com/mrJean1/PyGeodesy/issues/33>
+            # courtesy Carlos Freitas <https://GitHub.com/mrJean1/PyGeodesy/issues/33>
             b1 = LatLon(-8.068361, -34.892722)
             b2 = LatLon(-8.075917, -34.894611)
             b3 = LatLon(-8.076361, -34.908000)

@@ -22,7 +22,7 @@ class Tests(TestsBase):
     def testGars(self, LL):
 
         # Karney's geographiclib/1.49/examples/example-GARS.cpp
-        # <http://SourceForge.net/p/geographiclib/code/ci/release/tree/examples/example-GARS.cpp>
+        # <https://SourceForge.net/p/geographiclib/code/ci/release/tree/examples/example-GARS.cpp>
         g = Garef('57.64911, 10.40744', precision=2)
         self.test('Garef', g, '381NH45')
         self.test('Garef', repr(g), "Garef('381NH45')")

@@ -63,7 +63,7 @@ class Tests(TestsBase):
         self.test('Ups.toLatLonID6', ll.toStr(form=F_DMS),  '87°17′14.4″S, 132°14′52.3″E')
         self.test('Ups.toLatLonID6', ll, '87.287333°S, 132.247861°E')
 
-        # <http://GeographicLib.SourceForge.io/cgi-bin/GeoConvert>
+        # <https://GeographicLib.SourceForge.io/cgi-bin/GeoConvert>
         ll = LL(84, 84)
         self.test('latlon', ll, ll)
         u = toUps8(ll)  # n 2663075 1930308 (84°00'00.0"N 084°00'00.0"E) MGRS ZJG6307530307
@@ -71,9 +71,9 @@ class Tests(TestsBase):
         self.test('toUps', u.toStr(prec=6, cs=True), '00 N 2663075.299562 1930307.977716 +84.0° 0.99673')
         # self.test('toMgrs5', u.toMgrs(), 'Z JG 63075 30307')
 
-        # <http://Earth-Info.NGA.mil/GandG/publications/NGA_SIG_0012_2_0_0_UTMUPS/NGA.SIG.0012_2.0.0_UTMUPS.pdf>
+        # <https://Earth-Info.NGA.mil/GandG/publications/NGA_SIG_0012_2_0_0_UTMUPS/NGA.SIG.0012_2.0.0_UTMUPS.pdf>
         # 10.2 Examples of computng {x, y, sigma, gamma}, given {lambda, phi, Z} page 41
-        # replaced with Karney's results from <http://GeographicLib.SourceForge.io/cgi-bin/GeoConvert>
+        # replaced with Karney's results from <https://GeographicLib.SourceForge.io/cgi-bin/GeoConvert>
         #  8: lat lon 83   90  UTM/UPS 46n 459200.256323 9217519.441609  MGRS 46X DT 5920025632317519441609
         #  9: lat lon 82   91  UTM/UPS 46n 468930.934996 9105366.008486  MGRS 46X DS 6893093499605366008486
         # 10: lat lon 81  179  UTM/UPS 60n 534921.971582 8993806.415149  MGRS 60X WQ 3492197158193806415148
@@ -129,7 +129,7 @@ class Tests(TestsBase):
                 t = ' '.join(t.split()[:-1] + [s])
             self.test('NGA-10.2-' + i, t, x)
 
-        # <http://Earth-Info.NGA.mil/GandG/publications/NGA_SIG_0012_2_0_0_UTMUPS/NGA.SIG.0012_2.0.0_UTMUPS.pdf>
+        # <https://Earth-Info.NGA.mil/GandG/publications/NGA_SIG_0012_2_0_0_UTMUPS/NGA.SIG.0012_2.0.0_UTMUPS.pdf>
         # 10.3 Examples of computing {lambda, phi}, given {Z, x, y} page 41
         for t in ('1 S       0       0 -135.0          -64.9164123332',
                   '2 S 1000000       0 -153.4349488229 -70.0552944014',

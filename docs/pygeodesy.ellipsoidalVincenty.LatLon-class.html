@@ -63,9 +63,9 @@
 <pre class="base-tree">
                object --+                
                         |                
-             <a href="pygeodesy.bases._Named-class.html">bases._Named</a> --+            
+             named._Named --+            
                             |            
-                 <a href="pygeodesy.bases._Based-class.html">bases._Based</a> --+        
+             named._NamedBase --+        
                                 |        
            <a href="pygeodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a> --+    
                                     |    
@@ -316,6 +316,8 @@
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#geoidHeight2">geoidHeight2</a></code>,
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#parse">parse</a></code>,
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#to3xyz">to3xyz</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toEtm">toEtm</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toLcc">toLcc</a></code>,
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toOsgr">toOsgr</a></code>,
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toUps">toUps</a></code>,
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toUtm">toUtm</a></code>,
@@ -334,6 +336,7 @@
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equals">equals</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equals3">equals3</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equirectangularTo">equirectangularTo</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#euclideanTo">euclideanTo</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#haversineTo">haversineTo</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#isantipode">isantipode</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#isantipodeTo">isantipodeTo</a></code>,
@@ -346,13 +349,17 @@
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#points2">points2</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#to2ab">to2ab</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#to3llh">to3llh</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#toStr">toStr</a></code>
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#toStr">toStr</a></code>,
+      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#vincentysTo">vincentysTo</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases._Based-class.html">bases._Based</a></code></b>:
-      <code><a href="pygeodesy.bases._Based-class.html#__repr__">__repr__</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#others">others</a></code>,
-      <code><a href="pygeodesy.bases._Based-class.html#toStr2">toStr2</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedBase</code></b>:
+      <code>__repr__</code>,
+      <code>others</code>,
+      <code>toStr2</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>__copy__</code>,
+      <code>classof</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -408,10 +415,12 @@
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#latlon">latlon</a></code>,
       <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#lon">lon</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases._Named-class.html">bases._Named</a></code></b>:
-      <code><a href="pygeodesy.bases._Named-class.html#classname">classname</a></code>,
-      <code><a href="pygeodesy.bases._Named-class.html#classnaming">classnaming</a></code>,
-      <code><a href="pygeodesy.bases._Named-class.html#name">name</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>,
+      <code>name</code>,
+      <code>named</code>,
+      <code>named2</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
@@ -460,14 +469,14 @@
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (initial, final) bearings (compass 
-          <code>degrees360</code>).</dd>
+        <dd>A <a href="pygeodesy.named.Bearing2Tuple-class.html" 
+          class="link">Bearing2Tuple</a><code>(initial, final)</code>..</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <a 
         href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <i>other</i> point's <a 
+        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <b><code>other</code></b> point's <a 
         href="pygeodesy.datum.Datum-class.html" class="link">Datum</a> 
         ellipsoids are not compatible.</li>
     </ul></dd>
@@ -557,12 +566,12 @@
         <li><strong class="pname"><code>distance</code></strong> - Distance (<code>meter</code>).</li>
         <li><strong class="pname"><code>bearing</code></strong> - Initial bearing (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the default height 
-          (<code>meter</code>, same units as <i>distance</i>).</li>
+          (<code>meter</code>, same units as <b><code>distance</code></b>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (destination, final bearing) in (<a 
-          href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
-          class="link">LatLon</a>, <code>degrees360</code>).</dd>
+        <dd>A <a href="pygeodesy.named.Destination2Tuple-class.html" 
+          class="link">Destination2Tuple</a><code>(destination, 
+          final)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html">VincentyError</a></strong></code> - Vincenty fails to converge for the current <a 
@@ -612,10 +621,10 @@
         <dd>Distance (<code>meter</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <a 
         href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <i>other</i> point's <a 
+        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <b><code>other</code></b> point's <a 
         href="pygeodesy.datum.Datum-class.html" class="link">Datum</a> 
         ellipsoids are not compatible.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html">VincentyError</a></strong></code> - Vincenty fails to converge for the current <a 
@@ -623,7 +632,7 @@
         class="link">LatLon.epsilon</a> and <a 
         href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#iterations" 
         class="link">LatLon.iterations</a> limit and/or if this and the 
-        <i>other</i> point are near-antipodal.</li>
+        <b><code>other</code></b> point are near-antipodal.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -666,15 +675,15 @@
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>3-Tuple (distance, initial bearing, final bearing) in 
-          (<code>meter</code>, compass <code>degrees360</code>, compass 
-          <code>degrees360</code>).</dd>
+        <dd>A <a href="pygeodesy.named.Distance3Tuple-class.html" 
+          class="link">Distance3Tuple</a><code>(distance, initial, 
+          final)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <a 
         href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <i>other</i> point's <a 
+        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <b><code>other</code></b> point's <a 
         href="pygeodesy.datum.Datum-class.html" class="link">Datum</a> 
         ellipsoids are not compatible.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html">VincentyError</a></strong></code> - Vincenty fails to converge for the current <a 
@@ -682,7 +691,7 @@
         class="link">LatLon.epsilon</a> and <a 
         href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#iterations" 
         class="link">LatLon.iterations</a> limit and/or if this and the 
-        <i>other</i> point are near-antipodal.</li>
+        <b><code>other</code></b> point are near-antipodal.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -766,10 +775,10 @@
         <dd>Final bearing (compass <code>degrees360</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <a 
         href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <i>other</i> point's <a 
+        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <b><code>other</code></b> point's <a 
         href="pygeodesy.datum.Datum-class.html" class="link">Datum</a> 
         ellipsoids are not compatible.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html">VincentyError</a></strong></code> - Vincenty fails to converge for the current <a 
@@ -777,7 +786,7 @@
         class="link">LatLon.epsilon</a> and <a 
         href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#iterations" 
         class="link">LatLon.iterations</a> limit and/or if this and the 
-        <i>other</i> point are near-antipodal.</li>
+        <b><code>other</code></b> point are near-antipodal.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -825,10 +834,10 @@
         <dd>Initial bearing (compass <code>degrees360</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> point is not <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <a 
         href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <i>other</i> point's <a 
+        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <b><code>other</code></b> point's <a 
         href="pygeodesy.datum.Datum-class.html" class="link">Datum</a> 
         ellipsoids are not compatible.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html">VincentyError</a></strong></code> - Vincenty fails to converge for the current <a 
@@ -836,7 +845,7 @@
         class="link">LatLon.epsilon</a> and <a 
         href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#iterations" 
         class="link">LatLon.iterations</a> limit and/or if this and the 
-        <i>other</i> point are near-antipodal.</li>
+        <b><code>other</code></b> point are near-antipodal.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -960,7 +969,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 17 12:19:03 2019
+    Generated by Epydoc 3.0.1 on Tue Jun 25 11:55:34 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

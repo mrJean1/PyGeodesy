@@ -81,18 +81,18 @@ object --+
 
 <hr />
 <div class="fields">      <p><strong>Note:</strong>
-        Exception and <i>non-finite</i> handling differ from 
-        <code>math.fsum</code>.
+        Handling of exceptions, <code>nan</code> and <code>finite</code> 
+        values is different from <code>math.fsum</code>.
       </p>
       <p><strong>See Also:</strong>
-        <a href="http://code.ActiveState.com/recipes/393090" 
+        <a href="https://code.ActiveState.com/recipes/393090" 
         target="_top">Hettinger</a>, <a 
-        href="http://WikiPedia.org/wiki/Kahan_summation_algorithm" 
+        href="https://WikiPedia.org/wiki/Kahan_summation_algorithm" 
         target="_top">Kahan</a>, <a 
-        href="http://link.Springer.com/article/10.1007/s00607-005-0139-x" 
+        href="https://Link.Springer.com/article/10.1007/s00607-005-0139-x" 
         target="_top">Klein</a>, Python 2.6+ file 
         <i>Modules/mathmodule.c</i> and the issue log <a 
-        href="http://bugs.Python.org/issue2819" target="_top">Full 
+        href="https://Bugs.Python.org/issue2819" target="_top">Full 
         precision summation</a>.
       </p>
 </div><!-- ==================== INSTANCE METHODS ==================== -->
@@ -358,6 +358,24 @@ object --+
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fmath.Fsum-class.html#fsub" class="summary-sig-name">fsub</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">iterable</span>)</span><br />
+      Accumulate more values from an iterable.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath.Fsum-class.html#fsub_" class="summary-sig-name">fsub_</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">*xs</span>)</span><br />
       Accumulate more values from positional arguments.</td>
           <td align="right" valign="top">
@@ -414,7 +432,7 @@ object --+
           <td><span class="summary-sig"><a href="pygeodesy.fmath.Fsum-class.html#fsum2_" class="summary-sig-name">fsum2_</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">*xs</span>)</span><br />
       Accumulate more values from positional arguments, sum all and provide
-      the sum delta.</td>
+      the sum and delta.</td>
           <td align="right" valign="top">
             
             
@@ -509,8 +527,8 @@ object --+
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <i>starts</i> value.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or infinite <i>starts</i> value.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>starts</code></b> value.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or non-finite <b><code>starts</code></b> value.</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
@@ -546,8 +564,8 @@ object --+
           href="pygeodesy.fmath.Fsum-class.html" class="link">Fsum</a>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Method <a href="pygeodesy.fmath.Fsum-class.html#fadd" 
-        class="link">Fsum.fadd</a>.
+        Method <a href="pygeodesy.fmath.Fsum-class.html#__iadd__" 
+        class="link">Fsum.__iadd__</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -576,6 +594,10 @@ object --+
     <dt>Returns:</dt>
         <dd>This instance, updated (<a href="pygeodesy.fmath.Fsum-class.html"
           class="link">Fsum</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>other</code></b> type.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Method <a href="pygeodesy.fmath.Fsum-class.html#fadd" 
@@ -608,6 +630,10 @@ object --+
     <dt>Returns:</dt>
         <dd>This instance, updated (<a href="pygeodesy.fmath.Fsum-class.html"
           class="link">Fsum</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>other</code></b> type.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Method <a href="pygeodesy.fmath.Fsum-class.html#fmul" 
@@ -640,6 +666,10 @@ object --+
     <dt>Returns:</dt>
         <dd>This instance, updated (<a href="pygeodesy.fmath.Fsum-class.html"
           class="link">Fsum</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>other</code></b> type.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Method <a href="pygeodesy.fmath.Fsum-class.html#fadd" 
@@ -674,8 +704,8 @@ object --+
           href="pygeodesy.fmath.Fsum-class.html" class="link">Fsum</a>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Method <a href="pygeodesy.fmath.Fsum-class.html#fmul" 
-        class="link">Fsum.fmul</a>.
+        Method <a href="pygeodesy.fmath.Fsum-class.html#__imul__" 
+        class="link">Fsum.__imul__</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -731,8 +761,8 @@ object --+
           href="pygeodesy.fmath.Fsum-class.html" class="link">Fsum</a>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Method <a href="pygeodesy.fmath.Fsum-class.html#fadd" 
-        class="link">Fsum.fadd</a>.
+        Method <a href="pygeodesy.fmath.Fsum-class.html#__isub__" 
+        class="link">Fsum.__isub__</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -760,8 +790,8 @@ object --+
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar  <i>iterable</i> value.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or infinite <i>iterable</i> value.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>iterable</code></b> value.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or non-finite <b><code>iterable</code></b> value.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -787,14 +817,12 @@ object --+
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>xs</code></strong> - Values to add (<code>scalar</code>s), all positional.</li>
     </ul></dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <i>xs</i> value.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or infinite <i>arg</i>.</li>
-    </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a href="pygeodesy.fmath.Fsum-class.html#fadd" 
+        class="link">Fsum.fadd</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="fcopy"></a>
 <div>
@@ -863,11 +891,15 @@ object --+
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <i>factor</i>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or infinite <i>factor</i>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>factor</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or non-finite <b><code>factor</code></b>.</li>
     </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a href="pygeodesy.fmath.Fsum-class.html#fadd" 
+        class="link">Fsum.fadd</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="fsub"></a>
 <div>
@@ -877,6 +909,34 @@ object --+
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fsub</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">iterable</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Accumulate more values from an iterable.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>iterable</code></strong> - Sequence, list, tuple, etc. (<code>scalar</code>s).</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a href="pygeodesy.fmath.Fsum-class.html#fadd" 
+        class="link">Fsum.fadd</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="fsub_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fsub_</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">*xs</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -890,14 +950,12 @@ object --+
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>xs</code></strong> - Values to subtract (<code>scalar</code>s), all positional.</li>
     </ul></dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <i>xs</i> value.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or infinite <i>arg</i>.</li>
-    </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a href="pygeodesy.fmath.Fsum-class.html#fadd" 
+        class="link">Fsum.fadd</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="fsum"></a>
 <div>
@@ -925,8 +983,8 @@ object --+
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <i>iterable</i> value.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or infinite <i>iterable</i> value.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>iterable</code></b> value.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or non-finite <b><code>iterable</code></b> value.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -957,14 +1015,12 @@ object --+
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Accurate, running sum (<code>float</code>).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <i>x</i> value.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or infinite <i>x</i> value.</li>
-    </ul></dd>
   </dl>
-<div class="fields">      <p><strong>Note:</strong>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a href="pygeodesy.fmath.Fsum-class.html#fsum" 
+        class="link">Fsum.fsum</a>.
+      </p>
+      <p><strong>Note:</strong>
         Accumulation can continue after summation.
       </p>
 </div></td></tr></table>
@@ -985,23 +1041,22 @@ object --+
   </tr></table>
   
   <p>Accumulate more values from positional arguments, sum all and provide 
-  the sum delta.</p>
+  the sum and delta.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>xs</code></strong> - Values to add (<code>scalar</code>s), all positional.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (fsum_, delta) with athe ccurate, running sum and the 
-          delta with the previous sum (<code>float</code>s).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <i>x</i> value.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or infinite <i>x</i> value.</li>
-    </ul></dd>
+        <dd>2-Tuple <code>(sum, delta)</code> with the accurate, running 
+          <code>sum</code> and the <code>delta</code> with the previous 
+          running <code>sum</code>, both (<code>float</code>).</dd>
   </dl>
-<div class="fields">      <p><strong>Note:</strong>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a href="pygeodesy.fmath.Fsum-class.html#fsum_" 
+        class="link">Fsum.fsum_</a>.
+      </p>
+      <p><strong>Note:</strong>
         Accumulation can continue after summation.
       </p>
 </div></td></tr></table>
@@ -1038,7 +1093,7 @@ object --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 17 12:19:03 2019
+    Generated by Epydoc 3.0.1 on Tue Jun 25 11:55:34 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

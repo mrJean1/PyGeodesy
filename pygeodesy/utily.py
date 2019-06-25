@@ -4,29 +4,27 @@
 u'''Geometric and other utility functions and constants.
 
 After I{(C) Chris Veness 2011-2015} published under the same MIT Licence**, see
-U{Latitude/Longitude<http://www.Movable-Type.co.UK/scripts/latlong.html>} and
-U{Vector-based geodesy<http://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
+U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>} and
+U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
 
 @newfield example: Example, Examples
 '''
-
 # make sure int division yields float quotient
 from __future__ import division
 
 from fmath import _Ints, _Seqs, EPS, len2, map2
 from lazily import _ALL_LAZY
 
+from inspect import isclass
 from math import cos, degrees, pi as PI, radians, sin, tan  # pow
-from os import environ as _environ
 
-_FOR_DOCS = _environ.get('PYGEODESY_FOR_DOCS', None)
 _MISSING  = object()  # singleton, imported by .utily
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utily
-__version__ = '19.04.22'
+__version__ = '19.05.09'
 
-division = 1 / 2  # double check int division, see .datum.py
+division = 1 / 2  # double check int division, see .datum.py, .fmath.py
 if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
@@ -46,7 +44,7 @@ PI_4 = PI / 4  #: Quarter PI, M{PI / 4} (C{float})
 R_M = 6371008.771415  #: Mean, spherical earth radius (C{meter}).
 
 _1_90 = 1 / 90.0  # 0.011111111111111111111111111111111111111111111111
-# <http://numbers.computation.free.fr/Constants/Miscellaneous/digits.html>
+# <https://numbers.computation.free.fr/Constants/Miscellaneous/digits.html>
 _2_PI = 2 / PI  # 0.63661977236758134307553505349005744813783858296182
 
 _iterNumpy2len = 1  # adjustable for testing purposes
@@ -55,7 +53,7 @@ _limiterrors   = True
 
 class LimitError(ValueError):
     '''Error raised for lat- or longitudinal deltas exceeding
-       the I{limit} in functions L{equirectangular} and
+       the B{C{limit}} in functions L{equirectangular} and
        L{equirectangular_}.
     '''
     pass
@@ -139,10 +137,10 @@ def degrees2m(deg, radius=R_M, lat=0):
        @keyword radius: Mean earth radius (C{meter}).
        @keyword lat: Parallel latitude (C{degrees90}).
 
-       @return: Distance (C{meter}, same units as I{radius}).
+       @return: Distance (C{meter}, same units as B{C{radius}}).
 
-       @raise RangeError: Latitude I{lat} outside valid range
-                          and I{rangerrrors} set to C{True}.
+       @raise RangeError: Latitude B{C{lat}} outside valid range
+                          and L{rangerrors} set to C{True}.
     '''
     m = radians(deg) * radius
     if lat:
@@ -159,9 +157,9 @@ def enStr2(easting, northing, prec, *extras):
        @param prec: Precision in number of digits (C{int}).
        @param extras: Optional leading items (strings).
 
-       @return: I{extras} + 2-Tuple (eastingStr, northingStr).
+       @return: B{C{extras}} + 2-Tuple C{(eastingStr, northingStr)}.
 
-       @raise ValueError: Invalid I{prec}.
+       @raise ValueError: Invalid B{C{prec}}.
     '''
     w = prec // 2
     try:
@@ -181,7 +179,7 @@ def false2f(value, name='value', false=True):
 
        @return: The value (C{float}).
 
-       @raise ValueError: Invalid or negative I{value}.
+       @raise ValueError: Invalid or negative B{C{value}}.
     '''
     try:
         f = float(value)
@@ -192,22 +190,17 @@ def false2f(value, name='value', false=True):
     return f
 
 
-def _for_docs(*names):
-    '''(INTERNAL) Only export I{names} when making docs to force
-       C{epydoc} to include classes, methods, functions and other
-       names in the documentation.
-    '''
-    return names if _FOR_DOCS else ()
-
-
-def ft2m(feet):
-    '''Convert I{International} feet to meter (m).
+def ft2m(feet, usurvey=False):
+    '''Convert I{International} or I{US Survey} feet to meter.
 
        @param feet: Value in feet (C{scalar}).
+       @keyword usurvery: Convert I{US Survey} feet (C{bool}),
+                          I{International} feet otherwise.
 
-       @return: Value in m (C{float}).
+       @return: Value in C{meter} (C{float}).
     '''
-    return feet * 0.3048  # US Survey 1200./3937. == 0.3048006096012192
+    # US Survey 1200./3937. == 0.3048006096012192
+    return feet * (0.3048006096012192 if usurvey else 0.3048)
 
 
 def halfs2(str2):
@@ -217,7 +210,7 @@ def halfs2(str2):
 
        @return: 2-Tuple (1st, 2nd) half (C{str}).
 
-       @raise ValueError: Zero or odd C{len}(I{str2}).
+       @raise ValueError: Zero or odd C{len}(B{str2}).
     '''
     h, r = divmod(len(str2), 2)
     if r or not h:
@@ -226,11 +219,11 @@ def halfs2(str2):
 
 
 def isNumpy2(obj):
-    '''Check for an I{Numpy2LatLon} points wrapper.
+    '''Check for an B{C{Numpy2LatLon}} points wrapper.
 
        @param obj: The object (any C{type}).
 
-       @return: C{True} if I{obj} is an I{Numpy2LatLon}
+       @return: C{True} if B{C{obj}} is an B{C{Numpy2LatLon}}
                 instance, C{False} otherwise.
     '''
     # isinstance(self, (Numpy2LatLon, ...))
@@ -238,11 +231,11 @@ def isNumpy2(obj):
 
 
 def isPoints2(obj):
-    '''Check for an I{LatLon2psxy} points wrapper.
+    '''Check for an B{C{LatLon2psxy}} points wrapper.
 
        @param obj: The object (any C{type}).
 
-       @return: C{True} if I{obj} is an I{LatLon2psxy}
+       @return: C{True} if B{C{obj}} is an B{C{LatLon2psxy}}
                 instance, C{False} otherwise.
     '''
     # isinstance(self, (LatLon2psxy, ...))
@@ -257,7 +250,7 @@ def issequence(obj, *excluded):
 
        @note: Excluding C{tuple} implies excluding C{namedtuple}.
 
-       @return: C{True} if I{obj} is a sequence, C{False} otherwise.
+       @return: C{True} if B{C{obj}} is a sequence, C{False} otherwise.
     '''
     if excluded:
         return isinstance(obj, _Seqs) and not \
@@ -266,12 +259,23 @@ def issequence(obj, *excluded):
         return isinstance(obj, _Seqs)
 
 
+def issubclassof(sub, sup):
+    '''Check whether a class is a subclass of a super class.
+
+       @param sub: The sub class (C{class}).
+       @param sup: The super class (C{class}).
+
+       @return: C{True} if B{C{sub}} is a subclass of B{C{sup}}.
+    '''
+    return isclass(sub) and isclass(sup) and issubclass(sub, sup)
+
+
 def isTuple2(obj):
-    '''Check for an I{Tuple2LatLon} points wrapper.
+    '''Check for an B{C{Tuple2LatLon}} points wrapper.
 
        @param obj: The object (any).
 
-       @return: C{True} if I{obj} is an I{Tuple2LatLon}
+       @return: C{True} if B{C{obj}} is an B{C{Tuple2LatLon}}
                 instance, C{False} otherwise.
     '''
     # isinstance(self, (Tuple2LatLon, ...))
@@ -299,7 +303,7 @@ def iterNumpy2over(n=None):
 
        @return: Previous threshold (C{int}).
 
-       @raise ValueError: Invalid I{n}.
+       @raise ValueError: Invalid B{C{n}}.
     '''
     global _iterNumpy2len
     p = _iterNumpy2len
@@ -334,26 +338,29 @@ def limiterrors(raiser=None):
 def m2degrees(meter, radius=R_M):
     '''Convert distance to angle along equator.
 
-       @param meter: Distance (C{meter}, same units as I{radius}).
+       @param meter: Distance (C{meter}, same units as B{C{radius}}).
        @keyword radius: Mean earth radius (C{meter}).
 
        @return: Angle (C{degrees}).
 
-       @raise ValueError: Invalid I{radius}.
+       @raise ValueError: Invalid B{C{radius}}.
     '''
     if radius < EPS:
         raise ValueError('%s invalid: %r' % ('radius', radius))
     return degrees(meter / radius)
 
 
-def m2ft(meter):
-    '''Convert meter to I{International} feet (ft).
+def m2ft(meter, usurvey=False):
+    '''Convert meter to I{International} or I{US Survey} feet (C{ft}).
 
        @param meter: Value in meter (C{scalar}).
+       @keyword usurvery: Convert to I{US Survey} feet (C{bool}),
+                          I{International} feet otherwise.
 
-       @return: Value in ft (C{float}).
+       @return: Value in C{feet} (C{float}).
     '''
-    return meter * 3.2808399  # US Survey == 3937./1200. = 3.2808333333333333
+    # US Survey == 3937./1200. = 3.2808333333333333
+    return meter * (3.2808333333333333 if usurvey else 3.2808399)
 
 
 def m2km(meter):
@@ -392,16 +399,16 @@ def points2(points, closed=True, base=None):
        @param points: The polygon points (C{LatLon}[])
        @keyword closed: Optionally, consider the polygon closed,
                         ignoring any duplicate or closing final
-                        I{points} (C{bool}).
-       @keyword base: Optionally, check the I{points} against this
+                        B{C{points}} (C{bool}).
+       @keyword base: Optionally, check the B{C{points}} against this
                       base class C{None}.
 
        @return: 2-Tuple (n, points) with the number (C{int}) of points
                 and the points C{list} or C{tuple}.
 
-       @raise TypeError: Some I{points} are not C{LatLon}.
+       @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
-       @raise ValueError: Insufficient number of I{points}.
+       @raise ValueError: Insufficient number of B{C{points}}.
     '''
     n, points = len2(points)
 
@@ -422,12 +429,6 @@ def points2(points, closed=True, base=None):
             base.others(points[i], name='%s[%s]' % ('points', i))
 
     return n, points
-
-
-def polygon(points, closed=True, base=None):
-    '''DEPRECATED, use function L{points2}.
-    '''
-    return points2(points, closed=closed, base=base)
 
 
 def property_RO(method):
@@ -496,11 +497,11 @@ def sincos2(*rad):
 
        @return: The C{sin(rad)} and C{cos(rad)} for each angle.
 
-       @see: U{GeographicLib<http://GeographicLib.SourceForge.io/html/
+       @see: U{GeographicLib<https://GeographicLib.SourceForge.io/html/
              classGeographicLib_1_1Math.html#sincosd>} function U{sincosd
-             <http://SourceForge.net/p/geographiclib/code/ci/release/tree/
+             <https://SourceForge.net/p/geographiclib/code/ci/release/tree/
              python/geographiclib/geomath.py#l155>} and C++ U{sincosd
-             <http://SourceForge.net/p/geographiclib/code/ci/release/tree/
+             <https://SourceForge.net/p/geographiclib/code/ci/release/tree/
              include/GeographicLib/Math.hpp#l558>}.
     '''
     for r in rad:
@@ -519,11 +520,11 @@ def sincos2d(*deg):
 
        @return: The C{sin(rad)} and C{cos(rad)} for each angle.
 
-       @see: U{GeographicLib<http://GeographicLib.SourceForge.io/html/
+       @see: U{GeographicLib<https://GeographicLib.SourceForge.io/html/
              classGeographicLib_1_1Math.html#sincosd>} function U{sincosd
-             <http://SourceForge.net/p/geographiclib/code/ci/release/tree/
+             <https://SourceForge.net/p/geographiclib/code/ci/release/tree/
              python/geographiclib/geomath.py#l155>} and C++ U{sincosd
-             <http://SourceForge.net/p/geographiclib/code/ci/release/tree/
+             <https://SourceForge.net/p/geographiclib/code/ci/release/tree/
              include/GeographicLib/Math.hpp#l558>}.
     '''
     for d in deg:
@@ -542,12 +543,12 @@ def splice(iterable, n=2, fill=_MISSING):
        @keyword n: Number of slices to generate (C{int}).
        @keyword fill: Fill value for missing items.
 
-       @return: Generator of I{n} slices M{iterable[i::n] for i=0..n}.
+       @return: Generator of B{C{n}} slices M{iterable[i::n] for i=0..n}.
 
        @note: Each generated slice is a C{tuple} or a C{list},
-              the latter only if the I{iterable} is a C{list}.
+              the latter only if the B{C{iterable}} is a C{list}.
 
-       @raise ValueError: Non-C{int} or non-positive I{n}.
+       @raise ValueError: Non-C{int} or non-positive B{C{n}}.
 
        @example:
 
@@ -615,11 +616,11 @@ def unroll180(lon1, lon2, wrap=True):
        @param lon2: End longitude (C{degrees}).
        @keyword wrap: Wrap and unroll to the M{(-180..+180]} range (C{bool}).
 
-       @return: 2-Tuple (delta I{lon2}-I{lon1}, I{lon2}) unrolled
+       @return: 2-Tuple (delta B{C{lon2}}-B{lon1}, B{C{lon2}}) unrolled
                 (C{degrees}, C{degrees}).
 
-       @see: Capability I{LONG_UNROLL} in U{GeographicLib
-       <http://GeographicLib.SourceForge.io/html/python/interface.html#outmask>}.
+       @see: Capability B{C{LONG_UNROLL}} in U{GeographicLib
+       <https://GeographicLib.SourceForge.io/html/python/interface.html#outmask>}.
     '''
     d = lon2 - lon1
     if wrap and abs(d) > 180:
@@ -636,11 +637,11 @@ def unrollPI(rad1, rad2, wrap=True):
        @param rad2: End longitude (C{radians}).
        @keyword wrap: Wrap and unroll to the M{(-PI..+PI]} range (C{bool}).
 
-       @return: 2-Tuple (delta I{rad2}-I{rad1}, I{rad2}) unrolled
+       @return: 2-Tuple (delta B{C{rad2}}-B{rad1}, B{C{rad2}}) unrolled
                 (C{radians}, C{radians}).
 
-       @see: Capability I{LONG_UNROLL} in U{GeographicLib
-       <http://GeographicLib.SourceForge.io/html/python/interface.html#outmask>}.
+       @see: Capability B{C{LONG_UNROLL}} in U{GeographicLib
+       <https://GeographicLib.SourceForge.io/html/python/interface.html#outmask>}.
     '''
     r = rad2 - rad1
     if wrap and abs(r) > PI:
@@ -672,7 +673,7 @@ def _wrap(angle, wrap, modulo):
        @param wrap: Range (C{degrees} or C{radians}).
        @param modulo: Upper limit (360 C{degrees} or PI2 C{radians}).
 
-       @return: The I{angle}, wrapped (C{degrees} or C{radians}).
+       @return: The B{C{angle}}, wrapped (C{degrees} or C{radians}).
     '''
     if not wrap > angle >= (wrap - modulo):
         # math.fmod(-1.5, 3.14) == -1.5, but -1.5 % 3.14 == 1.64

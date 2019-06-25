@@ -123,7 +123,7 @@ class Tests(TestsBase):
         self.test('centroidOf', fStr(centroidOf(p), prec=3), '-19.444, -133.333',)
         self.test('isclockwise', isclockwise(p), True)
 
-        # <http://GeographicLib.SourceForge.io/scripts/geod-calc.html>
+        # <https://GeographicLib.SourceForge.io/scripts/geod-calc.html>
         p = LatLon(-63.1,  -58), LatLon(-72.9,  -74), LatLon(-71.9, -102), \
             LatLon(-74.9, -102), LatLon(-74.3, -131), LatLon(-77.5, -163), \
             LatLon(-77.4,  163), LatLon(-71.7,  172), LatLon(-65.9,  140), \

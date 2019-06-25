@@ -5,14 +5,15 @@ u'''Functions to parse and format bearing, compass, lat- and longitudes
 in various forms of degrees, minutes and seconds.
 
 After I{(C) Chris Veness 2011-2015} published under the same MIT Licence**, see
-U{Latitude/Longitude<http://www.Movable-Type.co.UK/scripts/latlong.html>} and
-U{Vector-based geodesy<http://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
+U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>} and
+U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
 
 @newfield example: Example, Examples
 '''
 
 from fmath import fStr, fStrzs, isint
 from lazily import _ALL_LAZY
+from named import LatLon2Tuple, LatLon3Tuple
 
 from math import copysign, radians
 try:
@@ -22,7 +23,7 @@ except ImportError:  # Python 3+
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.dms
-__version__ = '19.04.20'
+__version__ = '19.04.30'
 
 F_D   = 'd'    #: Format degrees as deg° (C{str}).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (C{str}).
@@ -50,8 +51,8 @@ _rangerrors = True
 
 
 class RangeError(ValueError):
-    '''Error raised for lat- or longitude values outside the I{clip},
-       I{clipLat}, I{clipLon} or I{limit} range in function L{clipDMS},
+    '''Error raised for lat- or longitude values outside the B{C{clip}},
+       B{C{clipLat}}, B{C{clipLon}} or B{C{limit}} range in function L{clipDMS},
        L{parse3llh}, L{parseDMS} or L{parseDMS2}.
 
        @see: Function L{rangerrors}.
@@ -116,11 +117,11 @@ def bearingDMS(bearing, form=F_D, prec=None, sep=S_SEP):
                       [D]DDMMSS or radians (C{str}).
        @keyword prec: Optional number of decimal digits (0..9 or
                       C{None} for default).  Trailing zero decimals
-                      are stripped for I{prec} values of 1 and above,
-                      but kept for negative I{prec} values.
+                      are stripped for B{C{prec}} values of 1 and above,
+                      but kept for negative B{C{prec}} values.
        @keyword sep: Optional separator (C{str}).
 
-       @return: Compass degrees per the specified I{form} (C{str}).
+       @return: Compass degrees per the specified B{C{form}} (C{str}).
 
        @JSname: I{toBrng}.
     '''
@@ -131,11 +132,11 @@ def clipDMS(deg, limit):
     '''Clip a lat- or longitude to the given range.
 
        @param deg: Unclipped lat- or longitude (C{degrees}).
-       @param limit: Valid I{-limit..+limit} range (C{degrees}).
+       @param limit: Valid B{C{-limit..+limit}} range (C{degrees}).
 
        @return: Clipped value (C{degrees}).
 
-       @raise RangeError: If I{abs(deg)} beyond I{limit} and
+       @raise RangeError: If B{C{abs(deg)}} beyond B{C{limit}} and
                           L{rangerrors} set to C{True}.
     '''
     if limit > 0:
@@ -157,8 +158,8 @@ def compassDMS(bearing, form=F_D, prec=None, sep=S_SEP):
                       [D]DDMMSS or radians (C{str}).
        @keyword prec: Optional number of decimal digits (0..9 or
                       C{None} for default).  Trailing zero decimals
-                      are stripped for I{prec} values of 1 and above,
-                      but kept for negative I{prec} values.
+                      are stripped for B{C{prec}} values of 1 and above,
+                      but kept for negative B{C{prec}} values.
        @keyword sep: Optional separator (C{str}).
 
        @return: Compass degrees and point in the specified form (C{str}).
@@ -178,11 +179,11 @@ def compassPoint(bearing, prec=3):
 
        @return: Compass point (1-, 2-, 3- or 4-letter C{str}).
 
-       @raise ValueError: Invalid I{prec}.
+       @raise ValueError: Invalid B{C{prec}}.
 
        @see: U{Dms.compassPoint
-             <http://GitHub.com/chrisveness/geodesy/blob/master/dms.js>}
-             and U{Compass rose<http://WikiPedia.org/wiki/Compass_rose>}.
+             <https://GitHub.com/chrisveness/geodesy/blob/master/dms.js>}
+             and U{Compass rose<https://WikiPedia.org/wiki/Compass_rose>}.
 
        @example:
 
@@ -222,8 +223,8 @@ def degDMS(deg, prec=6, s_D=S_DEG, s_M=S_MIN, s_S=S_SEC, neg='-', pos=''):
        @param deg: Value in degrees (C{scalar}).
        @keyword prec: Optional number of decimal digits (0..9 or
                       C{None} for default).  Trailing zero decimals
-                      are stripped for I{prec} values of 1 and above,
-                      but kept for negative I{prec} values.
+                      are stripped for B{C{prec}} values of 1 and above,
+                      but kept for negative B{C{prec}} values.
        @keyword s_D: Symbol for degrees (C{str}).
        @keyword s_M: Symbol for minutes (C{str}) or C{""}.
        @keyword s_S: Symbol for seconds (C{str}) or C{""}.
@@ -263,8 +264,8 @@ def latDMS(deg, form=F_DMS, prec=2, sep=S_SEP):
                       or radians (C{str}).
        @keyword prec: Optional number of decimal digits (0..9 or
                       C{None} for default).  Trailing zero decimals
-                      are stripped for I{prec} values of 1 and above,
-                      but kept for negative I{prec} values.
+                      are stripped for B{C{prec}} values of 1 and above,
+                      but kept for negative B{C{prec}} values.
        @keyword sep: Optional separator (C{str}).
 
        @return: Degrees in the specified form (C{str}).
@@ -285,8 +286,8 @@ def lonDMS(deg, form=F_DMS, prec=2, sep=S_SEP):
                       DDDMMSS or radians (C{str}).
        @keyword prec: Optional number of decimal digits (0..9 or
                       C{None} for default).  Trailing zero decimals
-                      are stripped for I{prec} values of 1 and above,
-                      but kept for negative I{prec} values.
+                      are stripped for B{C{prec}} values of 1 and above,
+                      but kept for negative B{C{prec}} values.
        @keyword sep: Optional separator (C{str}).
 
        @return: Degrees in the specified form (C{str}).
@@ -334,16 +335,16 @@ def parse3llh(strll, height=0, sep=',', clipLat=90, clipLon=180):
        @param strll: Latitude, longitude[, height] (C{str}, ...).
        @keyword height: Optional, default height (C{meter}).
        @keyword sep: Optional separator (C{str}).
-       @keyword clipLat: Keep latitude in I{-clipLat..+clipLat} (C{degrees}).
-       @keyword clipLon: Keep longitude in I{-clipLon..+clipLon} range (C{degrees}).
+       @keyword clipLat: Keep latitude in B{C{-clipLat..+clipLat}} (C{degrees}).
+       @keyword clipLon: Keep longitude in B{C{-clipLon..+clipLon}} range (C{degrees}).
 
-       @return: 3-Tuple (lat, lon, height) as (C{degrees90},
-                C{degrees180}, C{float}).
+       @return: A L{LatLon3Tuple}C{(lat, lon, height)} in
+                C{degrees}, C{degrees} and C{float}.
 
-       @raise RangeError: Lat- or longitude value of I{strll} outside
-                          valid range and I{rangerrrors} set to C{True}.
+       @raise RangeError: Lat- or longitude value of B{C{strll}} outside
+                          valid range and L{rangerrors} set to C{True}.
 
-       @raise ValueError: Invalid I{strll}.
+       @raise ValueError: Invalid B{C{strll}}.
 
        @see: Functions L{parseDMS} and L{parseDMS2} for more details
              on the forms and symbols accepted.
@@ -367,8 +368,8 @@ def parse3llh(strll, height=0, sep=',', clipLat=90, clipLon=180):
     a, b = [_.strip() for _ in ll]
     if a[-1:] in 'EW' or b[-1:] in 'NS':
         a, b = b, a
-    a, b = parseDMS2(a, b, clipLat=clipLat, clipLon=clipLon)
-    return a, b, h
+    a, b = parseDMS2(a, b, clipLat=clipLat, clipLon=clipLon)  # PYCHOK LatLon2Tuple
+    return LatLon3Tuple(a, b, h)
 
 
 def parseDMS(strDMS, suffix='NSEW', sep=S_SEP, clip=0):
@@ -388,10 +389,10 @@ def parseDMS(strDMS, suffix='NSEW', sep=S_SEP, clip=0):
 
        @return: Degrees (C{float}).
 
-       @raise RangeError: Value of I{strDMS} outside the valid range
-                          and I{rangerrrors} set to C{True}.
+       @raise RangeError: Value of B{C{strDMS}} outside the valid range
+                          and L{rangerrors} set to C{True}.
 
-       @raise ValueError: Invalid I{strDMS}.
+       @raise ValueError: Invalid B{C{strDMS}}.
 
        @see: Function L{parse3llh} to parse a string with lat-,
              longitude and height values.
@@ -428,27 +429,27 @@ def parseDMS2(strLat, strLon, sep=S_SEP, clipLat=90, clipLon=180):
        @param strLat: Latitude in any of several forms (C{str} or C{degrees}).
        @param strLon: Longitude in any of several forms (C{str} or C{degrees}).
        @keyword sep: Optional separator between deg°, min′ and sec″ ('').
-       @keyword clipLat: Keep latitude in I{-clipLat..+clipLat} range (C{degrees}).
-       @keyword clipLon: Keep longitude in I{-clipLon..+clipLon} range (C{degrees}).
+       @keyword clipLat: Keep latitude in B{C{-clipLat..+clipLat}} range (C{degrees}).
+       @keyword clipLon: Keep longitude in B{C{-clipLon..+clipLon}} range (C{degrees}).
 
-       @return: 2-Tuple (lat, lon) in (C{degrees}, C{degrees}).
+       @return: A L{LatLon2Tuple}C{(lat, lon)} in C{degrees}.
 
-       @raise RangeError: Value of I{strLat} or I{strLon} outside the
-                          valid range and I{rangerrrors} set to C{True}.
+       @raise RangeError: Value of B{C{strLat}} or B{C{strLon}} outside the
+                          valid range and L{rangerrors} set to C{True}.
 
-       @raise ValueError: Invalid I{strLat} or I{strLon}.
+       @raise ValueError: Invalid B{C{strLat}} or B{C{strLon}}.
 
        @see: Function L{parse3llh} to parse a string with lat-,
              longitude and height values and function L{parseDMS}
              to parse individual lat- or longitudes.
     '''
-    return (parseDMS(strLat, suffix='NS', sep=sep, clip=clipLat),
-            parseDMS(strLon, suffix='EW', sep=sep, clip=clipLon))
+    return LatLon2Tuple(parseDMS(strLat, suffix='NS', sep=sep, clip=clipLat),
+                        parseDMS(strLon, suffix='EW', sep=sep, clip=clipLon))
 
 
-def _parseUTMUPS(strUTMUPS, band=''):
+def _parseUTMUPS(strUTMUPS, band=''):  # see .utm.py
     '''(INTERNAL) Parse a string representing a UTM or UPS coordinate
-       consisting of I{"zone[band] hemisphere/pole easting northing"}.
+       consisting of C{"zone[band] hemisphere/pole easting northing"}.
 
        @param strUTMUPS: A UTM or UPS coordinate (C{str}).
        @keyword band: Optional, default Band letter (C{str}).
@@ -456,7 +457,7 @@ def _parseUTMUPS(strUTMUPS, band=''):
        @return: 5-Tuple (C{zone, hemisphere/pole, easting, northing,
                 band}).
 
-       @raise Value: Invalid I{strUTMUPS}.
+       @raise Value: Invalid B{C{strUTMUPS}}.
     '''
     try:
         u = strUTMUPS.strip().replace(',', ' ').split()
@@ -493,12 +494,12 @@ def precision(form, prec=None):
                     L{F_SEC} or L{F_RAD} (C{str}).
        @keyword prec: Optional number of decimal digits (0..9 or
                       C{None} for default).  Trailing zero decimals
-                      are stripped for I{prec} values of 1 and
-                      above, but kept for negative I{prec} values.
+                      are stripped for B{C{prec}} values of 1 and
+                      above, but kept for negative B{C{prec}} values.
 
        @return: Previous precision (C{int}).
 
-       @raise ValueError: Invalid I{form} or I{prec} or beyond valid range.
+       @raise ValueError: Invalid B{C{form}} or B{C{prec}} or beyond valid range.
     '''
     try:
         p = _F_prec[form]
@@ -540,8 +541,8 @@ def toDMS(deg, form=F_DMS, prec=2, sep=S_SEP, ddd=2, neg='-', pos=''):
                       [D]DDMMSS or radians (C{str}).
        @keyword prec: Optional number of decimal digits (0..9 or
                       C{None} for default).  Trailing zero decimals
-                      are stripped for I{prec} values of 1 and above,
-                      but kept for negative I{prec} values.
+                      are stripped for B{C{prec}} values of 1 and above,
+                      but kept for negative B{C{prec}} values.
        @keyword sep: Optional separator (C{str}).
        @keyword ddd: Optional number of digits for deg° (2 or 3).
        @keyword neg: Optional sign for negative degrees ('-').

@@ -4,11 +4,11 @@
 # Test UTM functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '19.04.19'
+__version__ = '19.05.09'
 
 from base import TestsBase
 
-from pygeodesy import EPS, F_DEG, F_DMS, fStr, parseUTM, utm
+from pygeodesy import EPS, F_DEG, F_DMS, fStr, parseUTM5, toUtm8, Utm
 
 
 class Tests(TestsBase):
@@ -32,7 +32,7 @@ class Tests(TestsBase):
         self.test('toUtm2', u.toStr2(B=True, cs=True), '[Z:31U, H:N, E:448252, N:5411933, C:-31.87873265′, S:0.9996329]')
 
         ll = LL(13.4125, 103.8667)
-        u = utm.toUtm(ll)  # 48P N 377302.354182663 1483034.77706381 -000.26291348° 0.999786229
+        u = toUtm8(ll)  # 48P N 377302.354182663 1483034.77706381 -000.26291348° 0.999786229
         self.test('toUtm4', u, '48 N 377302 1483035')
         self.test('toUtm5', u.toStr(prec=6, B=True, cs=True), '48P N 377302.354183 1483034.777084 -15.77480856′ 0.99978623')
 
@@ -44,10 +44,10 @@ class Tests(TestsBase):
         m = u.toMgrs()
         self.test('toMgrs1', m, '13L FF 22697 16965')
 
-        m = utm.Utm('31U', 'N', 448251, 5411932).toMgrs()
+        m = Utm('31U', 'N', 448251, 5411932).toMgrs()
         self.test('toMgrs2', m, '31U DQ 48251 11932')
 
-        u = parseUTM('18 N 516620 4574500')  # Milford, PA
+        u = parseUTM5('18 N 516620 4574500')  # Milford, PA
         self.test('Utm8', u, '18 N 516620 4574500')
         ll = u.toLatLon(LL)
         self.test('Utm8.toLatLon', ll, '41.321801°N, 074.801413°W')
@@ -89,29 +89,41 @@ class Tests(TestsBase):
                     x = u = str(e)
             self.test('toUtm(%s)' % (p,), u, x)
 
+        # <https://WikiPedia.org/wiki/Easting_and_northing>
+        m = toUtm8('50°52′10″N', '115°39′03″W', name='Mt Assiniboine')
+        self.test('toUtm(%r)' % (m.name,), repr(m), '[Z:11U, H:N, E:594934, N:5636174]')
+
         # Utm.toLatLon should converge, for any eps,
         # but eps = max(eps, EPS) and cached as EPS
         _EPSs = tuple(EPS * 10**(4 - e) for e in range(9))
 
-        # courtesy of sumnamazu <http://GitHub.com/mrJean1/PyGeodesy/issues/26>
-        u = utm.Utm(55, 'S', 321441.0425108216, 5810117.133231169)
+        # courtesy of sumnamazu <https://GitHub.com/mrJean1/PyGeodesy/issues/26>
+        u = Utm(55, 'S', 321441.0425108216, 5810117.133231169)
         self.test('Utm9', u, '55 S 321441 5810117')
         for eps in _EPSs:
             # u._latlon = None  # XXX hack to zap cache
             ll = fStr(u.toLatLon(eps=eps)[:2], prec=8)
             self.test('Utm9.toLatLon(eps=%.4e)' % (eps,), ll, '-37.83891644, 144.97077387')
 
-        u = utm.Utm(31, 'N', 400000, 5000000)
-        self.test('UtmX', u, '31 N 400000 5000000')
+        u = Utm(31, 'N', 400000, 5000000)
+        self.test('Utm10', u, '31 N 400000 5000000')
         for eps in _EPSs:
             # u._latlon = None  # XXX hack to zap cache
             ll = fStr(u.toLatLon(eps=eps)[:2], prec=8)
-            self.test('UtmX.toLatLon(eps=%.4e)' % (eps,), ll, '45.14639288, 1.72796704')
+            self.test('Utm10.toLatLon(eps=%.4e)' % (eps,), ll, '45.14639288, 1.72796704')
+
+        # TMcoords.dat line 111:  70.542985267281 40.282054589142 1399093.4917923557236 8314607.120342236932 ...
+        u = toUtm8(70.542985267281, 40.282054589142, falsed=False, name='TMcoords.dat.110')
+        self.test('Utm111', u, '37 N 1399093 8314607')
+        for eps in _EPSs:
+            # u._latlon = None  # XXX hack to zap cache
+            ll = fStr(u.toLatLon(eps=eps)[:2], prec=8)
+            self.test('Utm111.toLatLon(eps=%.4e)' % (eps,), ll, '70.54298527, 40.28205459')
 
 
 if __name__ == '__main__':
 
-    from pygeodesy import ellipsoidalVincenty
+    from pygeodesy import ellipsoidalVincenty, utm
 
     t = Tests(__file__, __version__, utm)
     t.testUtm(ellipsoidalVincenty.LatLon)
