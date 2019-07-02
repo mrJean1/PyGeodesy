@@ -40,7 +40,7 @@ from utily import points2, property_RO, unroll180, \
 __all__ = _ALL_LAZY.ellipsoidalKarney + (
           'Cartesian', 'LatLon',  # classes
           'areaOf', 'ispolar', 'perimeterOf')  # functions
-__version__ = '19.05.06'
+__version__ = '19.06.29'
 
 
 class LatLon(LatLonEllipsoidalBase):
@@ -352,19 +352,21 @@ class Cartesian(CartesianBase):
        Karney-based (ellipsoidal) geodetic L{LatLon}.
     '''
 
-    def toLatLon(self, datum=Datums.WGS84, LatLon=LatLon):  # PYCHOK XXX
+    def toLatLon(self, datum=Datums.WGS84, LatLon=LatLon, **pairs):  # PYCHOK XXX
         '''Convert this (geocentric) Cartesian (x/y/z) point to
            an (ellipsoidal) geodetic point on the specified datum.
 
            @keyword datum: Optional datum to use (L{Datum}).
            @keyword LatLon: Optional ellipsoidal (sub-)class to return
                             the point (L{LatLon}) or C{None}.
+           @keyword pairs: Optional C{name=value} pairs to be set at
+                           the B{C{LatLon}} instance.
 
            @return: The ellipsoidal geodetic point (B{C{LatLon}}) or
                     a L{LatLon3Tuple}C{(lat, lon, height)} if
                     B{C{LatLon}} is C{None}.
         '''
-        return CartesianBase._to3LLh(self, datum, LatLon)
+        return CartesianBase._to3LLh(self, datum, LatLon, **pairs)
 
 
 def _geodesic(datum, points, closed, line, wrap):
@@ -391,7 +393,7 @@ def _geodesic(datum, points, closed, line, wrap):
 
 
 def areaOf(points, datum=Datums.WGS84, wrap=True):
-    '''Compute the area of a polygon.
+    '''Compute the area of a (n ellipsoidal) polygon.
 
        @param points: The polygon points (L{LatLon}[]).
        @keyword datum: Optional datum (L{Datum}).
@@ -445,7 +447,7 @@ def isclockwise(points, datum=Datums.WGS84, wrap=True):
 
 
 def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):
-    '''Compute the perimeter of a polygon.
+    '''Compute the perimeter of a (n ellipsoidal) polygon.
 
        @param points: The polygon points (L{LatLon}[]).
        @keyword closed: Optionally, close the polygon (C{bool}).

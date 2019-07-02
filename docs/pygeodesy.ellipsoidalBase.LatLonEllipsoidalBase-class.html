@@ -100,9 +100,12 @@
         <span class="summary-sig-arg">lon</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">reframe</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">epoch</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       Create an (ellipsoidal) <code>LatLon</code> point frome the given 
-      lat-, longitude and height on the given datum.</td>
+      lat-, longitude and height on the given datum and with the given 
+      reference frame and epoch.</td>
           <td align="right" valign="top">
             
             
@@ -137,8 +140,26 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convertDatum" class="summary-sig-name">convertDatum</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">datum</span>)</span><br />
-      Convert this <code>LatLon</code> point to a new datum.</td>
+        <span class="summary-sig-arg">datum2</span>)</span><br />
+      Convert this point to an other datum.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convertRefFrame" class="summary-sig-name">convertRefFrame</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">reframe2</span>)</span><br />
+      Convert this point to an other reference frame.</td>
           <td align="right" valign="top">
             
             
@@ -273,6 +294,24 @@
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#to3xyz" class="summary-sig-name">to3xyz</a>(<span class="summary-sig-arg">self</span>)</span><br />
       Convert this (ellipsoidal) geodetic <code>LatLon</code> point to 
       (geocentric) cartesian x/y/z components.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toCartesian" class="summary-sig-name">toCartesian</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Convert this (geodetic) point to (geocentric) x/y/z Cartesian 
+      coordinates.</td>
           <td align="right" valign="top">
             
             
@@ -490,6 +529,15 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#epoch" class="summary-name">epoch</a><br />
+      Get this point's observed epoch (<code>float</code>) or 
+      <code>None</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#isEllipsoidal" class="summary-name">isEllipsoidal</a><br />
       Check whether this <code>LatLon</code> point is ellipsoidal 
       (<code>bool</code>).
@@ -502,6 +550,16 @@
         <a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#isSpherical" class="summary-name">isSpherical</a><br />
       Check whether this <code>LatLon</code> point is spherical 
       (<code>bool</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#reframe" class="summary-name">reframe</a><br />
+      Get this point's reference frame (<a 
+      href="pygeodesy.trf.RefFrame-class.html" class="link">RefFrame</a>) 
+      or <code>None</code>.
     </td>
   </tr>
 <tr>
@@ -557,6 +615,8 @@
         <span class="sig-arg">lon</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">reframe</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">epoch</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
@@ -566,7 +626,8 @@
   </tr></table>
   
   <p>Create an (ellipsoidal) <code>LatLon</code> point frome the given 
-  lat-, longitude and height on the given datum.</p>
+  lat-, longitude and height on the given datum and with the given 
+  reference frame and epoch.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -576,16 +637,22 @@
           datum's half-axes).</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional datum to use (<a href="pygeodesy.datum.Datum-class.html"
           class="link">Datum</a>).</li>
+        <li><strong class="pname"><code>reframe</code></strong> - Optional reference frame (<a 
+          href="pygeodesy.trf.RefFrame-class.html" 
+          class="link">RefFrame</a>).</li>
+        <li><strong class="pname"><code>epoch</code></strong> - Optional epoch to observe for <b><code>reframe</code></b> 
+          (<code>scalar</code>), a non-zero, fractional calendar year.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional name (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>New instance (<code>LatLon</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - Value of <b><code>lat</code></b> or <b><code>lon</code></b> outside
-        the valid range and <code>rangerrors</code> set to 
-        <code>True</code>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>lat</code></b> or <b><code>lon</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - <b><code>datum</code></b> is not a <a 
+        href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#datum"
+        class="link">datum</a>, <b><code>reframe</code></b> is not a <a 
+        href="pygeodesy.trf.RefFrame-class.html" class="link">RefFrame</a> 
+        or <b><code>epoch</code></b> is not <code>scalar</code> non-zero.</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
@@ -636,27 +703,73 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">convertDatum</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">datum</span>)</span>
+        <span class="sig-arg">datum2</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Convert this <code>LatLon</code> point to a new datum.</p>
+  <p>Convert this point to an other datum.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>datum</code></strong> - Datum to convert to (<a href="pygeodesy.datum.Datum-class.html" 
-          class="link">Datum</a>).</li>
+        <li><strong class="pname"><code>datum2</code></strong> - Datum to convert <i>to</i> (<a 
+          href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The converted point (ellipsoidal <code>LatLon</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>datum2</code></b> is not a <a 
+        href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>pWGS84 = LatLon(51.4778, -0.0016)  <span class="py-comment"># default Datums.WGS84</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>pOSGB  = pWGS84.convertDatum(Datums.OSGB36)  <span class="py-comment"># 51.477284&#176;N, 000.00002&#176;E</span></pre>
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(51.4778, -0.0016)  <span class="py-comment"># default Datums.WGS84</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>p.convertDatum(Datums.OSGB36)  <span class="py-comment"># 51.477284&#176;N, 000.00002&#176;E</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="convertRefFrame"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">convertRefFrame</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">reframe2</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this point to an other reference frame.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>reframe2</code></strong> - Reference frame to convert <i>to</i> (<a 
+          href="pygeodesy.trf.RefFrame-class.html" 
+          class="link">RefFrame</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The converted point (ellipsoidal <code>LatLon</code>) or this 
+          point if conversion is <code>nil</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.trf.RefFrameError-class.html">RefFrameError</a></strong></code> - No <b><code>.reframe</code></b> or no conversion available from 
+        <b><code>.reframe</code></b> to <b><code>reframe2</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>reframe2</code></b> is not a <a 
+        href="pygeodesy.trf.RefFrame-class.html" class="link">RefFrame</a>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(51.4778, -0.0016, reframe=RefFrames.ETRF2000)  <span class="py-comment"># default Datums.WGS84</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>p.convertRefFrame(RefFrames.ITRF2014)  <span class="py-comment"># 51.477803&#176;N, 000.001597&#176;W, +0.01m</span></pre>
       </p>
 </div></td></tr></table>
 </div>
@@ -777,7 +890,7 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>datum</code></strong> - Optional datum (<a href="pygeodesy.datum.Datum-class.html" 
+        <li><strong class="pname"><code>datum</code></strong> - Default datum (<a href="pygeodesy.datum.Datum-class.html" 
           class="link">Datum</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -857,9 +970,9 @@
         <li>
         The adjustment applied is the difference in geocentric earth radius
         for the given <b><code>datum</code></b> and the 
-        <code>NAV83/NADV88</code> datum upon which <a 
+        <code>NAV83/NADV88</code> datum of the <a 
         href="pygeodesy.elevations-module.html#geoidHeight2" 
-        class="link">elevations.geoidHeight2</a> is based.
+        class="link">elevations.geoidHeight2</a>.
         </li>
         <li>
         The geoid height is only available for locations within the <a 
@@ -947,6 +1060,26 @@
     <dt>Overrides:
         <a href="pygeodesy.bases.LatLonHeightBase-class.html#to3xyz">bases.LatLonHeightBase.to3xyz</a>
     </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toCartesian"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toCartesian</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this (geodetic) point to (geocentric) x/y/z Cartesian 
+  coordinates.  Must be overloaded.</p>
+  <dl class="fields">
   </dl>
 </td></tr></table>
 </div>
@@ -1214,7 +1347,28 @@ class="link">Datum</a>).
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">datum(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">datum</span>)</span>
-        - Set this point's datum without conversion.
+        - Set this point's datum <i>without conversion</i>.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="epoch"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">epoch</h3>
+  <p>Get this point's observed epoch (<code>float</code>) or 
+  <code>None</code>.</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">epoch(<span class="summary-sig-arg">self</span>)</span>
+        - Get this point's observed epoch (<code>float</code>) or <code>None</code>.
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">epoch(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">epoch</span>)</span>
+        - Set or clear this point's observed epoch.
     </dd>
   </dl>
 </td></tr></table>
@@ -1259,6 +1413,30 @@ class="link">Datum</a>).
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">ignored</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="reframe"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">reframe</h3>
+  <p>Get this point's reference frame (<a 
+  href="pygeodesy.trf.RefFrame-class.html" class="link">RefFrame</a>) or 
+  <code>None</code>.</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">reframe(<span class="summary-sig-arg">self</span>)</span>
+        - Get this point's reference frame (<a 
+href="pygeodesy.trf.RefFrame-class.html" class="link">RefFrame</a>) or 
+<code>None</code>.
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">reframe(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">reframe</span>)</span>
+        - Set or clear this point's reference frame.
     </dd>
   </dl>
 </td></tr></table>
@@ -1321,7 +1499,7 @@ href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Jun 25 15:12:16 2019
+    Generated by Epydoc 3.0.1 on Tue Jul  2 11:49:46 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

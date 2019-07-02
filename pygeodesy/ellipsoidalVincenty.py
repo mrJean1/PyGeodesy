@@ -69,7 +69,7 @@ from math import atan2, cos, radians, tan
 __all__ = _ALL_LAZY.ellipsoidalVincenty + (
           'Cartesian', 'LatLon',
           'ispolar')
-__version__ = '19.05.06'
+__version__ = '19.06.29'
 
 division = 1 / 2  # double check int division, see .datum.py
 if not division:
@@ -128,6 +128,11 @@ class LatLon(LatLonEllipsoidalBase):
 
            @raise ValueError: If this and the B{C{other}} point's L{Datum}
                               ellipsoids are not compatible.
+
+           @raise VincentyError: Vincenty fails to converge for the current
+                                 L{LatLon.epsilon} and L{LatLon.iterations}
+                                 limit and/or if this and the B{C{other}}
+                                 point are coincident or near-antipodal.
         '''
         r = Bearing2Tuple(*self._inverse(other, True, wrap)[1:])
         return self._xnamed(r)
@@ -144,6 +149,11 @@ class LatLon(LatLonEllipsoidalBase):
                             height (C{meter}, same units as C{distance}).
 
            @return: The destination point (L{LatLon}).
+
+           @raise TypeError: The B{C{other}} point is not L{LatLon}.
+
+           @raise ValueError: If this and the B{C{other}} point's L{Datum}
+                              ellipsoids are not compatible.
 
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
@@ -179,6 +189,11 @@ class LatLon(LatLonEllipsoidalBase):
 
            @return: A L{Destination2Tuple}C{(destination, final)}.
 
+           @raise TypeError: The B{C{other}} point is not L{LatLon}.
+
+           @raise ValueError: If this and the B{C{other}} point's L{Datum}
+                              ellipsoids are not compatible.
+
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
                                  limit.
@@ -210,8 +225,8 @@ class LatLon(LatLonEllipsoidalBase):
 
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limit and/or if this and the B{C{other}} point
-                                 are near-antipodal.
+                                 limit and/or if this and the B{C{other}}
+                                 point are coincident or near-antipodal.
 
            @example:
 
@@ -245,8 +260,8 @@ class LatLon(LatLonEllipsoidalBase):
 
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limit and/or if this and the B{C{other}} point
-                                 are near-antipodal.
+                                 limit and/or if this and the B{C{other}}
+                                 point are coincident or near-antipodal.
         '''
         r = Distance3Tuple(*self._inverse(other, True, wrap))
         return self._xnamed(r)
@@ -280,6 +295,11 @@ class LatLon(LatLonEllipsoidalBase):
 
            @return: Final bearing (compass C{degrees360}).
 
+           @raise TypeError: The B{C{other}} point is not L{LatLon}.
+
+           @raise ValueError: If this and the B{C{other}} point's L{Datum}
+                              ellipsoids are not compatible.
+
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
                                  limit.
@@ -310,8 +330,8 @@ class LatLon(LatLonEllipsoidalBase):
 
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limit and/or if this and the B{C{other}} point
-                                 are near-antipodal.
+                                 limit and/or if this and the B{C{other}}
+                                 point are coincident or near-antipodal.
 
            @example:
 
@@ -343,8 +363,8 @@ class LatLon(LatLonEllipsoidalBase):
 
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limit and/or if this and the B{C{other}} point
-                                 are near-antipodal.
+                                 limit and/or if this and the B{C{other}}
+                                 point are coincident or near-antipodal.
 
            @example:
 
@@ -390,6 +410,11 @@ class LatLon(LatLonEllipsoidalBase):
     def _direct(self, distance, bearing, llr, height=None):
         '''(INTERNAL) Direct Vincenty method.
 
+           @raise TypeError: The B{C{other}} point is not L{LatLon}.
+
+           @raise ValueError: If this and the B{C{other}} point's L{Datum}
+                              ellipsoids are not compatible.
+
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
                                  limit.
@@ -418,7 +443,7 @@ class LatLon(LatLonEllipsoidalBase):
             if abs(s - s_) < self._epsilon:
                 break
         else:
-            raise VincentyError('no convergence %r' % (self,))
+            raise VincentyError('%s, %r' % ('no convergence', self))
 
         t = s1 * ss - c1 * cs * ci
         # final bearing (reverse azimuth +/- 180)
@@ -438,15 +463,15 @@ class LatLon(LatLonEllipsoidalBase):
     def _inverse(self, other, azis, wrap):
         '''(INTERNAL) Inverse Vincenty method.
 
-           @raise TypeError: The other point is not L{LatLon}.
+           @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
            @raise ValueError: If this and the B{C{other}} point's L{Datum}
                               ellipsoids are not compatible.
 
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limit and/or if this and the B{C{other}} point
-                                 are near-antipodal or coincide.
+                                 limit and/or if this and the B{C{other}}
+                                 point are coincident or near-antipodal.
         '''
         E = self.ellipsoids(other)
 
@@ -463,7 +488,10 @@ class LatLon(LatLonEllipsoidalBase):
             sll, cll = sincos2(ll)
 
             ss = hypot(c2 * sll, c1s2 - s1c2 * cll)
-            if ss < EPS:  # coincident, ...
+            if ss < EPS:  # coincident or antipodal, ...
+                if self.isantipodeTo(other, eps=self._epsilon):
+                    raise VincentyError('%s, %r %sto %r' % ('ambiguous',
+                                        self, 'antipodal ', other))
                 d = 0.0  # like Karney, ...
                 if azis:  # return zeros
                     d = d, 0, 0
@@ -487,10 +515,11 @@ class LatLon(LatLonEllipsoidalBase):
             # omitted and applied only after failure to converge, see footnote under
             # Inverse at <https://WikiPedia.org/wiki/Vincenty's_formulae>
 #           elif abs(ll) > PI and self.isantipodeTo(other, eps=self._epsilon):
-#              raise VincentyError('%r antipodal to %r' % (self, other))
+#              raise VincentyError('%s, %r %sto %r' % ('ambiguous', self,
+#                                  'antipodal ', other))
         else:
             t = 'antipodal ' if self.isantipodeTo(other, eps=self._epsilon) else ''
-            raise VincentyError('no convergence, %r %sto %r' % (self, t, other))
+            raise VincentyError('%s, %r %sto %r' % ('no convergence', self, t, other))
 
         if c2a:  # e22 == (a / b)**2 - 1
             A, B = _p2(c2a * E.e22)
@@ -548,19 +577,21 @@ class Cartesian(CartesianBase):
        Vincenty-based (ellipsoidal) geodetic L{LatLon}.
     '''
 
-    def toLatLon(self, datum=Datums.WGS84, LatLon=LatLon):  # PYCHOK XXX
+    def toLatLon(self, datum=Datums.WGS84, LatLon=LatLon, **pairs):  # PYCHOK XXX
         '''Convert this (geocentric) Cartesian (x/y/z) point to
            an (ellipsoidal) geodetic point on the specified datum.
 
            @keyword datum: Optional datum to use (L{Datum}).
            @keyword LatLon: Optional ellipsoidal (sub-)class to return
                             the point (L{LatLon}) or C{None}.
+           @keyword pairs: Optional C{name=value} pairs to be set at
+                           the B{C{LatLon}} instance.
 
            @return: The ellipsoidal geodetic point (B{C{LatLon}}) or
                     a L{LatLon3Tuple}C{(lat, lon, height)} if
                     B{C{LatLon}} is C{None}.
         '''
-        return CartesianBase._to3LLh(self, datum, LatLon)
+        return CartesianBase._to3LLh(self, datum, LatLon, **pairs)
 
 
 def areaOf(points, datum=Datums.WGS84, wrap=True):

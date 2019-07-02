@@ -22,7 +22,7 @@ _MISSING  = object()  # singleton, imported by .utily
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utily
-__version__ = '19.05.09'
+__version__ = '19.06.29'
 
 division = 1 / 2  # double check int division, see .datum.py, .fmath.py
 if not division:
@@ -44,11 +44,23 @@ PI_4 = PI / 4  #: Quarter PI, M{PI / 4} (C{float})
 R_M = 6371008.771415  #: Mean, spherical earth radius (C{meter}).
 
 _1_90 = 1 / 90.0  # 0.011111111111111111111111111111111111111111111111
-# <https://numbers.computation.free.fr/Constants/Miscellaneous/digits.html>
+# <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
 _2_PI = 2 / PI  # 0.63661977236758134307553505349005744813783858296182
 
 _iterNumpy2len = 1  # adjustable for testing purposes
 _limiterrors   = True
+
+
+def _TypeError(*Types, **pairs):
+    '''(INTERNAL) Check name=value pairs Types.
+    '''
+    for n, v in pairs.items():
+        if not isinstance(v, Types):
+            t = ' or '.join(t.__name__ for t in Types)
+            c = len(Types) - 2
+            if c > 0:
+                t = t.replace(' or ', ', ', c)
+            raise TypeError('%s not a %s: %r' % (n, t, v))
 
 
 class LimitError(ValueError):

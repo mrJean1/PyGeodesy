@@ -118,6 +118,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                sphericalNvector=(),  # module only
           sphericalTrigonometry=(),  # module only
                        simplify=('simplify1', 'simplifyRDP', 'simplifyRDPm', 'simplifyRW', 'simplifyVW', 'simplifyVWm'),
+                            trf=('RefFrame', 'RefFrameError', 'RefFrames', 'date2epoch'),
                             ups=('Ups', 'UPSError', 'parseUPS5', 'toUps8', 'upsZoneBand5'),
                           utily=('OK', 'PI', 'PI2', 'PI_2', 'PI_4', 'R_M', 'LimitError',
                                  'anStr', 'clipStr',
@@ -146,7 +147,7 @@ _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                 utily=('points2 as polygon',))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '19.06.19'
+__version__ = '19.06.29'
 
 
 def _all_imports(**more):

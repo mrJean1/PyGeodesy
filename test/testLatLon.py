@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '18.12.11'
+__version__ = '19.06.27'
 
 from base import geographiclib, TestsBase
 
@@ -108,6 +108,16 @@ class Tests(TestsBase):
                 self.test('distanceTo dateline', d, 9491735 if Sph else 9513998, fmt='%.0f')  # PYCHOK test attr?
                 d = BJS.distanceTo(SFO, wrap=True)
                 self.test('distanceTo unrolled', d, 9491735 if Sph else 9513998, fmt='%.0f')  # PYCHOK test attr?
+
+            # <https://GitHub.com/chrisveness/geodesy/issues/64>
+            d = LatLon(20, 0).distanceTo(LatLon(-2, 180))
+            self.test('distanceTo', d, 18013602.92 if Sph else 18012714.66, fmt='%.2f')
+            try:
+                d = LatLon(0, 0).distanceTo(LatLon(0, 180))  # antipodal
+                self.test('distanceTo', d, 20015114.35 if Sph else 20003931.46, fmt='%.2f', known=Nv)  # PYCHOK 0.0 for Nv
+            except ValueError as d:
+                d = str(d)
+                self.test('distanceTo', d, 'ambiguous, LatLon(00°00′00.0″N, 000°00′00.0″E) antipodal to LatLon(00°00′00.0″N, 180°00′00.0″E)')
 
         if hasattr(LatLon, 'distanceTo3') and not Sph:
             for w in (False, True):

@@ -18,14 +18,14 @@ from fmath import EPS, acos1, favg, fsum_
 from lazily import _ALL_DOCS
 from named import Bearing2Tuple
 from utily import PI, PI2, PI_2, degrees90, degrees180, degrees360, \
-                  property_RO, sincos2d, tanPI_2_2, wrapPI
+                  property_RO, sincos2d, tanPI_2_2, _TypeError, wrapPI
 
 from math import atan2, cos, hypot, log, radians, sin
 
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_DOCS('LatLonSphericalBase')
-__version__ = '19.05.04'
+__version__ = '19.06.29'
 
 
 class LatLonSphericalBase(LatLonHeightBase):
@@ -68,8 +68,7 @@ class LatLonSphericalBase(LatLonHeightBase):
 
            @raise ValueError: If B{C{datum}} is not spherical.
         '''
-        if not isinstance(datum, Datum):
-            raise TypeError('%r not a %s: %r' % ('datum', Datum.__name__, datum))
+        _TypeError(Datum, datum=datum)
         if not datum.isSpherical:
             raise ValueError('%r not %s: %r' % ('datum', 'spherical', datum))
         self._update(datum != self._datum)

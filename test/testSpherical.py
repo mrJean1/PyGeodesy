@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '19.04.06'
+__version__ = '19.06.29'
 
 from base import isWindows
 from testLatLon import Tests as _TestsLL
@@ -150,10 +150,14 @@ class Tests(_TestsLL, _TestsV):
         self.test('rhumbMidpointo', isinstance(m, LatLon), True)
 
         b = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
-        self.test('areaOf', module.areaOf(b), '8.6660587507e+09', fmt='%.10e')  # 8666058750.718977
+        self.test('areaOf', module.areaOf(b), '8.66605875e+09', fmt='%.8e')  # 8666058750.718977
+        self.test('perimeterOf', module.perimeterOf(b, closed=True),  '3.78258541e+05', fmt='%.8e')
+        self.test('perimeterOf', module.perimeterOf(b, closed=False), '2.67063461e+05', fmt='%.8e')
 
         c = LatLon(0, 0), LatLon(1, 0), LatLon(0, 1)
         self.test('areaOf', module.areaOf(c), '6.18e+09', fmt='%.2e')
+        self.test('perimeterOf', module.perimeterOf(c, closed=True),  '3.79639757e+05', fmt='%.8e')
+        self.test('perimeterOf', module.perimeterOf(c, closed=False), '2.68444678e+05', fmt='%.8e')
 
         if hasattr(module, 'nearestOn2'):
             c, d = module.nearestOn2(p, b)

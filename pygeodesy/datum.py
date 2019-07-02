@@ -1,7 +1,8 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Classes L{Datum}, L{Ellipsoid} and L{Transform} and registries thereof.
+u'''Classes L{Datum}, L{Ellipsoid} and L{Transform} and registries thereof
+L{Datums}, L{Ellipsoids} and L{Transforms}, respectively.
 
 Pure Python implementation of geodesy tools for ellipsoidal earth models,
 including datums and ellipsoid parameters for different geographic coordinate
@@ -116,7 +117,7 @@ from lazily import _ALL_LAZY
 from named import Curvature2Tuple, Distance2Tuple, inStr, \
                  _NamedEnum, _NamedEnumItem, Vector3Tuple, _xattrs
 from utily import PI2, R_M, degrees360, m2degrees, m2km, \
-                  m2NM, m2SM, property_RO
+                  m2NM, m2SM, property_RO, _TypeError
 
 from math import atan, atan2, atanh, copysign, cos, exp, hypot, \
                  radians, sin, sinh, sqrt
@@ -137,7 +138,7 @@ R_VM = 6366707.0194937  #: Aviation/Navigation earth radius (C{meter}).
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.datum
-__version__ = '19.05.19'
+__version__ = '19.06.29'
 
 division = 1 / 2  # double check int division, see .fmath.py, .utily.py
 if not division:
@@ -1138,12 +1139,10 @@ class Datum(_NamedEnumItem):
                              or B{C{transform}} is not a L{Transform}.
         '''
         self._ellipsoid = ellipsoid or Datum._ellipsoid
-        if not isinstance(self.ellipsoid, Ellipsoid):
-            raise TypeError('%s not an %s: %r' % ('ellipsoid', Ellipsoid.__name__, self.ellipsoid))
+        _TypeError(Ellipsoid, ellipsoid=self.ellipsoid)
 
         self._transform = transform or Datum._transform
-        if not isinstance(self.transform, Transform):
-            raise TypeError('%s not a %s: %r' % ('transform', Transform.__name__, self.transform))
+        _TypeError(Transform, transform=self.transform)
 
         self._register(Datums, name or self.transform.name or self.ellipsoid.name)
 

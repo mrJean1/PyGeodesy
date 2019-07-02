@@ -41,7 +41,7 @@ __all__ = _ALL_LAZY.named + _ALL_DOCS(  # '_Named', '_NamedBase',
          'UtmUps2Tuple', 'UtmUps4Tuple', 'UtmUps5Tuple', 'UtmUps8Tuple',
          'UtmUpsLatLon5Tuple',
          'Vector3Tuple', 'Vector4Tuple')
-__version__ = '19.05.20'
+__version__ = '19.06.29'
 
 _NAME_ = 'name'  # __NAME gets mangled in class
 
@@ -430,7 +430,7 @@ class _NamedEnum(_NamedDict):
 
 
 class _NamedEnumItem(_NamedBase):
-    '''(INTERNAL) Base class for registered C{_NamedEnum} items.
+    '''(INTERNAL) Base class for items in a C{_NamedEnum} registery.
     '''
     _enum = None
 
@@ -452,6 +452,9 @@ class _NamedEnumItem(_NamedBase):
 
     def _register(self, enum, name):
         '''(INTERNAL) Add this item as B{C{enum.name}}.
+
+           @note: Don't register if name is empty or doesn't
+                  start with a letter.
         '''
         if name:
             self.name = name

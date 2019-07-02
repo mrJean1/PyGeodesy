@@ -35,7 +35,7 @@ __all__ = _ALL_LAZY.sphericalTrigonometry + (
           'meanOf',
           'nearestOn2', 'nearestOn3',
           'perimeterOf')
-__version__ = '19.05.09'
+__version__ = '19.06.29'
 
 
 class LatLon(LatLonSphericalBase):
@@ -908,22 +908,24 @@ def nearestOn3(point, points, closed=False, radius=R_M,
 
 
 def perimeterOf(points, closed=False, radius=R_M, wrap=True):
-    '''Compute the perimeter of a polygon.
+    '''Compute the perimeter of a (spherical) polygon (with great circle
+       arcs joining the points).
 
        @param points: The polygon points (L{LatLon}[]).
        @keyword closed: Optionally, close the polygon (C{bool}).
        @keyword radius: Optional, mean earth radius (C{meter}).
        @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
-       @return: Polygon perimeter (C{meter}, same units as I{radius}).
+       @return: Polygon perimeter (C{meter}, same units as B{C{radius}}).
 
-       @raise TypeError: Some I{points} are not L{LatLon}.
+       @raise TypeError: Some B{C{points}} are not L{LatLon}.
 
-       @raise ValueError: Insufficient number of I{points}.
+       @raise ValueError: Insufficient number of B{C{points}}.
 
        @note: This perimeter is based on the L{haversine} formula.
 
-       @see: L{pygeodesy.perimeterOf} and L{ellipsoidalKarney.perimeterOf}.
+       @see: L{pygeodesy.perimeterOf}, L{sphericalNvector.perimeterOf}
+             and L{ellipsoidalKarney.perimeterOf}.
     '''
     n, points = _Trll.points2(points, closed=closed)
 

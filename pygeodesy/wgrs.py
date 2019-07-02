@@ -23,7 +23,7 @@ from utily import _MISSING, ft2m, m2ft, m2NM, property_RO, _Strs
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.wgrs + ('decode3', 'decode5',  # functions
           'encode', 'precision', 'resolution')
-__version__ = '19.05.07'
+__version__ = '19.06.29'
 
 _Base    = 10
 _BaseLen = 4
@@ -70,7 +70,7 @@ def _2Georef(georef):
         try:
             georef = Georef(georef)
         except (TypeError, ValueError):
-            raise TypeError('%r not %s, %s or str' % (georef,
+            raise TypeError('%r not a %s, %s or str' % (georef,
                              Georef.__name__, 'LatLon'))
     return georef
 

@@ -23,7 +23,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '19.05.20'
+__version__ = '19.06.29'
 
 
 def _c2(*names):
@@ -55,7 +55,8 @@ _KeyWords=('antipode', 'area', 'azimuth', 'bearing',
            'GARS', 'geocentric', 'geodesy', 'geodetic', 'GeodTest',
            'geographiclib', 'geohash', 'geoid', 'geoidHeight',
            'GeoidHeights', 'georef',
-           'haversine', 'height', 'Hodgman', 'horizon', 'interpolate',
+           'haversine', 'height', 'Hodgman', 'horizon',
+           'interpolate', 'ITRF',
            'Karney', 'Krueger', 'Krüger',
            'Lambert', 'latitude', 'Lesh', 'linearize', 'longitude',
            'Mercator', 'MGRS',
@@ -67,7 +68,8 @@ _KeyWords=('antipode', 'area', 'azimuth', 'bearing',
            'Reumann', 'Reumann-Witkam', 'rhumb',
            'scipy', 'simplify', 'Soldner', 'sphere', 'stereographic',
            'Sutherland', 'Sutherland-Hodgman',
-           'TMcoords', 'TransverseMercatorExact', 'trigonometry',
+           'Terrestrial Reference Frame', 'TMcoords',
+           'TransverseMercatorExact', 'TRF', 'trigonometry',
            'unroll', 'UPS', 'UTM', 'UTM/UPS',
            'Vincenty', 'Visvalingam', 'Visvalingam-Whyatt',
            'Web-Mercator', 'WGRS', 'WGS', 'Whyatt', 'Witkam')

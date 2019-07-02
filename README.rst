@@ -26,8 +26,9 @@ Also included are modules for conversions to and from `Cassini-Soldner`_,
 UPS_ (Universal Polar Stereographic), UTM_ (Exact_ and Universal Transverse
 Mercator) and `Web Mercator`_ (Pseudo-Mercator) coordinates, MGRS_ (NATO
 Military Grid Reference System) and OSGR_ (British Ordinance Survery Grid
-Reference) grid references and a module for encoding and decoding EPSG_,
-Geohashes_, `Georefs (WGRS)`_ and `Garefs (GARS)`_ .
+Reference) grid references, TRF_ (Terrestrial Reference Frames) and
+modules to encode and decode EPSG_, Geohashes_, `Georefs (WGRS)`_ and
+`Garefs (GARS)`_ .
 
 Other modules provide Lambert conformal conic projections and positions
 (from `John P. Snyder`_, *Map Projections -- A Working Manual*, 1987, pp
@@ -81,8 +82,8 @@ Python 2.7.15, 3.6.8 and 3.7.2 (all with geographiclib_ 1.49) on
 
 On Python 3.7+, the tests run with and without *lazy import*.
 
-PyGeodesy has been bundled into both a single file and a single directory
-application using PyInstaller_ 3.4 and 64-bit Python 3.7.3 on macOS
+A single file and single directory application with ``pygeodesy`` has
+been bundled using PyInstaller_ 3.4 and 64-bit Python 3.7.3 on macOS
 10.13.6 High Sierra.
 
 Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 2.7.10
@@ -107,7 +108,7 @@ High Sierra.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: June 26, 2019.*
+*Last updated: June 29, 2019.*
 
 License
 =======
@@ -188,6 +189,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. _SciPy: https://SciPy.org
 .. _simplify: https://Bost.Ocks.org/mike/simplify
 .. _Sutherland-Hodgman: https://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm
+.. _TRF: http://ITRF.ENSG.IGN.FR
 .. _Ubuntu 14.04: https://Travis-CI.org/mrJean1/PyGeodesy
 .. _UPS: https://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system
 .. _UTM: https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html

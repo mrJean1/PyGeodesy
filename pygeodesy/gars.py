@@ -23,7 +23,7 @@ from utily import property_RO, _Strs
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.gars + ('decode3',  # functions
           'encode', 'precision', 'resolution')
-__version__ = '19.05.10'
+__version__ = '19.06.29'
 
 _Digits  = '0123456789'
 _LatLen  = 2
@@ -74,7 +74,7 @@ def _2Garef(garef):
         try:
             garef = Garef(garef)
         except (TypeError, ValueError):
-            raise TypeError('%r not %s, %s or str' % (garef,
+            raise TypeError('%r not a %s, %s or str' % (garef,
                              Garef.__name__, 'LatLon'))
     return garef
 

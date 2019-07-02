@@ -29,19 +29,20 @@ U{GeographicLib<https://PyPI.org/project/geographiclib>}.
 Also included are modules for conversions to and from U{Cassini-Soldner
 <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1CassiniSoldner.html>},
 U{UPS<https://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system>}
-(Universal Polar Stereographic),
-U{UTM<https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>} (U{Exact
+(Universal Polar Stereographic), U{UTM
+<https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>} (U{Exact
 <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercatorExact.html>}
 and Universal Transverse Mercator) and U{Web Mercator
 <https://WikiPedia.org/wiki/Web_Mercator>} (Pseudo-Mercator) coordinates,
-U{MGRS<https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>}
-(NATO Military Grid Reference System) and
-U{OSGR<https://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html>}
-(British Ordinance Survery Grid Reference) grid references and a module for
-encoding and decoding U{EPSG<https://www.EPSG-Registry.org>},
-U{Geohashes<https://www.Movable-Type.co.UK/scripts/geohash.html>},
-U{Georefs (WGRS)<https://WikiPedia.org/wiki/World_Geographic_Reference_System>}
-and U{Garefs (GARS)<https://WikiPedia.org/wiki/Global_Area_Reference_System>}.
+U{MGRS<https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>} (NATO
+Military Grid Reference System) and U{OSGR
+<https://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html>}
+(British Ordinance Survery Grid Reference) grid references, U{TRF
+<http://ITRF.ENSG.IGN.FR>} (Terrestrial Reference Frames), and modules
+to encode and decode U{EPSG<https://www.EPSG-Registry.org>}, U{Geohashes
+<https://www.Movable-Type.co.UK/scripts/geohash.html>}, U{Georefs (WGRS)
+<https://WikiPedia.org/wiki/World_Geographic_Reference_System>} and
+U{Garefs (GARS)<https://WikiPedia.org/wiki/Global_Area_Reference_System>}.
 
 Other modules provide Lambert conformal conic projections and positions
 (from U{John P. Snyder, "Map Projections -- A Working Manual", 1987, pp 107-109
@@ -111,9 +112,9 @@ I{in both 32- and 64-bit}.
 
 On Python 3.7+, the tests run with and without C{lazy import}.
 
-PyGeodesy has been bundled into both a single file and a single directory
-application using U{PyInstaller<https://www.PyInstaller.org>} 3.4 and
-64-bit Python 3.7.3 on macOS 10.13.6 High Sierra.
+A single file and single directory application with C{pygeodesy} has
+been bundled using U{PyInstaller<https://www.PyInstaller.org>} 3.4
+and 64-bit Python 3.7.3 on macOS 10.13.6 High Sierra.
 
 Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 2.7.10
 (and numpy 1.8.0rc1), 2.7.13, 2.7.14, 2.7.15 (and numpy 1.13.1, 1.14.0 or
@@ -215,6 +216,7 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var Conics:     Registered conics (C{enum-like}).
 @var Datums:     Registered datums (C{enum-like}).
 @var Ellipsoids: Registered ellipsoids (C{enum-like}).
+@var RefFrames:  Registered reference frames (C{enum-like}).
 @var Transforms: Registered transforms (C{enum-like}).
 
 @var pygeodesy_abspath: Fully qualified C{pygeodesy} directory name (C{str}).
@@ -230,7 +232,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy        = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '19.06.26'
+__version__ = '19.06.29'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 
@@ -303,6 +305,7 @@ if not _lazy_import2:  # import and set __all__
     from osgr        import *  # PYCHOK __all__
     from points      import *  # PYCHOK __all__
     from simplify    import *  # PYCHOK __all__
+    from trf         import *  # PYCHOK __all__
     from ups         import *  # PYCHOK __all__
     from utily       import *  # PYCHOK __all__
     from utm         import *  # PYCHOK __all__
@@ -329,6 +332,7 @@ if not _lazy_import2:  # import and set __all__
     import osgr         # PYCHOK expected
     import points       # PYCHOK expected
     import simplify     # PYCHOK expected
+    import trf          # PYCHOK expected
     import ups          # PYCHOK expected
     import utily        # PYCHOK expected
     import utm          # PYCHOK expected

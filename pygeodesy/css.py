@@ -14,11 +14,11 @@ from lazily import _ALL_LAZY
 from named import EasNor2Tuple, EasNor3Tuple, EasNorAziRk4Tuple, \
                   LatLon2Tuple, LatLon4Tuple, LatLonAziRk4Tuple, \
                   _NamedBase, nameof, _xattrs, _xnamed
-from utily import issubclassof, property_RO
+from utily import issubclassof, property_RO, _TypeError
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.css
-__version__ = '19.05.10'
+__version__ = '19.06.29'
 
 _CassiniSoldner0 = None  # default projection
 
@@ -30,12 +30,10 @@ def _CassiniSoldner(cs0):
         global _CassiniSoldner0
         if _CassiniSoldner0 is None:
             _CassiniSoldner0 = CassiniSoldner(0, 0, name='Default')
-        return _CassiniSoldner0
-
-    elif isinstance(cs0, CassiniSoldner):
-        return cs0
-
-    raise TypeError('%s not %s: %r' % ('cs0', CassiniSoldner.__name__, cs0))
+        cs0 = _CassiniSoldner0
+    else:
+        _TypeError(CassiniSoldner, cs0=cs0)
+    return cs0
 
 
 class CassiniSoldner(_NamedBase):

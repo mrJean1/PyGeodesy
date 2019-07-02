@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.trf</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        Module&nbsp;trf
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.trf-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module trf</h1><p class="nomargin-top"></p>
+<p>Terrestrial Reference Frame (TRF) class <a 
+  href="pygeodesy.trf.RefFrame-class.html" class="link">RefFrame</a> and 
+  registry thereof <a href="pygeodesy.trf-module.html#RefFrames" 
+  class="link">RefFrames</a>.</p>
+  <p>Transcribed from Chris Veness' (C) 2006-2019 JavaScript originals <a 
+  href="https://GitHub.com/chrisveness/geodesy/blob/master/latlon-ellipsoidal-referenceframe.js"
+  target="_top">latlon-ellipsoidal-referenceframe.js</a> and <a 
+  href="https://GitHub.com/chrisveness/geodesy/blob/master/latlon-ellipsoidal-referenceframe-txparams.js"
+  target="_top">latlon-ellipsoidal-referenceframe-txparams.js</a>.</p>
+  <p>Modern geodetic reference frames: a latitude/longitude point defines a
+  geographic location on, above or below the earth&#8217;s surface, measured in 
+  degrees from the equator and the <a 
+  href="https://WikiPedia.org/wiki/IERS_Reference_Meridian" 
+  target="_top">International Reference Meridian</a> (IRM) and metres above
+  the ellipsoid within a given <i>Terrestrial Reference Frame</i> at a 
+  given <i>epoch</i>.</p>
+  <p>This is scratching the surface of complexities involved in high 
+  precision geodesy, but may be of interest and/or value to those with less
+  demanding requirements.  More information <a 
+  href="https://www.Movable-Type.co.UK/scripts/geodesy-library.html" 
+  target="_top">here</a> and <a 
+  href="https://www.Movable-Type.co.UK/scripts/geodesy-library.html#latlon-ellipsoidal-referenceframe"
+  target="_top">here</a>.</p>
+  <p>Note that <i>ITRF solutions</i> do not directly use an ellipsoid, but 
+  are specified by Cartesian coordinates.  The GRS80 ellipsoid is 
+  recommended for transformations to geographical coordinates.</p>
+  <p>Note WGS84(G730/G873/G1150) are coincident with ITRF at 10-centimetre 
+  level, see also <a href="ftp://ITRF.ENSG.IGN.FR/pub/itrf/WGS84.TXT" 
+  target="_top">here</a>.  WGS84(G1674) and ITRF20014 / ITRF2008 &#8216;are 
+  likely to agree at the centimeter level&#8217;, see also <a 
+  href="https://Confluence.QPS.NL/qinsy/en/how-to-deal-with-etrs89-datum-and-time-dependent-transformation-parameters-45353274.html"
+  target="_top">QPS/QINSy</a>.</p>
+
+<hr />
+<div class="fields">      <p><strong>Version:</strong>
+        19.06.29
+      </p>
+</div><!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Classes</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.trf.RefFrameError-class.html" class="summary-name">RefFrameError</a><br />
+      Reference frame or conversion issue.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.trf.RefFrame-class.html" class="summary-name">RefFrame</a><br />
+      Terrestrial Reference Frame (TRF).
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTIONS ==================== -->
+<a name="section-Functions"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Functions</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.trf-module.html#date2epoch" class="summary-sig-name">date2epoch</a>(<span class="summary-sig-arg">year</span>,
+        <span class="summary-sig-arg">month</span>,
+        <span class="summary-sig-arg">day</span>)</span><br />
+      Return the reference frame <code>epoch</code> for a calendar day.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Variables</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__all__"></a><span class="summary-name">__all__</span> = <code title="_ALL_LAZY.trf">_ALL_LAZY.trf</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.trf-module.html#RefFrames" class="summary-name">RefFrames</a> = <code title="RefFrames.ETRF2000: RefFrame(name='ETRF2000', epoch=2005.0, ellipsoid=\
+Ellipsoid(name='GRS80'),
+RefFrames.GDA94: RefFrame(name='GDA94', epoch=1994.0, ellipsoid=Ellips\
+oid(name='GRS80'),
+RefFrames.ITRF2000: RefFrame(name='ITRF2000', epoch=1997.0, ellipsoid=\
+Ellipsoid(name='GRS80'),
+RefFrames.ITRF2005: RefFrame(name='ITRF2005', epoch=2000.0, ellipsoid=\
+Ellipsoid(name='GRS80'),
+...">RefFrames.ETRF2000: RefFrame(name='ETRF2000', epoc<code class="variable-ellipsis">...</code></code><br />
+      Registered reference frames.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ETRF2000"></a><span class="summary-name">RefFrames.ETRF2000</span><br />
+      RefFrame(name='ETRF2000', epoch=2005.0, 
+      ellipsoid=Ellipsoid(name='GRS80')
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.GDA94"></a><span class="summary-name">RefFrames.GDA94</span><br />
+      RefFrame(name='GDA94', epoch=1994.0, 
+      ellipsoid=Ellipsoid(name='GRS80')
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ITRF2000"></a><span class="summary-name">RefFrames.ITRF2000</span><br />
+      RefFrame(name='ITRF2000', epoch=1997.0, 
+      ellipsoid=Ellipsoid(name='GRS80')
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ITRF2005"></a><span class="summary-name">RefFrames.ITRF2005</span><br />
+      RefFrame(name='ITRF2005', epoch=2000.0, 
+      ellipsoid=Ellipsoid(name='GRS80')
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ITRF2008"></a><span class="summary-name">RefFrames.ITRF2008</span><br />
+      RefFrame(name='ITRF2008', epoch=2005.0, 
+      ellipsoid=Ellipsoid(name='GRS80')
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ITRF2014"></a><span class="summary-name">RefFrames.ITRF2014</span><br />
+      RefFrame(name='ITRF2014', epoch=2010.0, 
+      ellipsoid=Ellipsoid(name='GRS80')
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ITRF91"></a><span class="summary-name">RefFrames.ITRF91</span><br />
+      RefFrame(name='ITRF91', epoch=1988.0, 
+      ellipsoid=Ellipsoid(name='GRS80')
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ITRF93"></a><span class="summary-name">RefFrames.ITRF93</span><br />
+      RefFrame(name='ITRF93', epoch=1988.0, 
+      ellipsoid=Ellipsoid(name='GRS80')
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.NAD83"></a><span class="summary-name">RefFrames.NAD83</span><br />
+      RefFrame(name='NAD83', epoch=1997.0, 
+      ellipsoid=Ellipsoid(name='GRS80')
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.WGS84g1150"></a><span class="summary-name">RefFrames.WGS84g1150</span><br />
+      RefFrame(name='WGS84g1150', epoch=2001.0, 
+      ellipsoid=Ellipsoid(name='WGS84')
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.WGS84g1674"></a><span class="summary-name">RefFrames.WGS84g1674</span><br />
+      RefFrame(name='WGS84g1674', epoch=2005.0, 
+      ellipsoid=Ellipsoid(name='WGS84')
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.WGS84g1762"></a><span class="summary-name">RefFrames.WGS84g1762</span><br />
+      RefFrame(name='WGS84g1762', epoch=2005.0, 
+      ellipsoid=Ellipsoid(name='WGS84')
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTION DETAILS ==================== -->
+<a name="section-FunctionDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Function Details</span></td>
+</tr>
+</table>
+<a name="date2epoch"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">date2epoch</span>(<span class="sig-arg">year</span>,
+        <span class="sig-arg">month</span>,
+        <span class="sig-arg">day</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the reference frame <code>epoch</code> for a calendar day.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>year</code></strong> - Year of the date (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>month</code></strong> - Month in the <b><code>year</code></b> (<code>scalar</code>, 
+          1..12).</li>
+        <li><strong class="pname"><code>day</code></strong> - Day in the <b><code>month</code></b> (<code>scalar</code>, 
+          1..31).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Epoch, the fractional year (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>year</code></b>, <b><code>month</code></b> or 
+        <b><code>day</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Any <b><code>year</code></b> is considered a leap year, i.e. having
+        29 days in February.
+      </p>
+</div></td></tr></table>
+</div>
+<br />
+<!-- ==================== VARIABLES DETAILS ==================== -->
+<a name="section-VariablesDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Variables Details</span></td>
+</tr>
+</table>
+<a name="RefFrames"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">RefFrames</h3>
+  <p>Registered reference frames.</p>
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+RefFrames.ETRF2000: RefFrame(name='ETRF2000', epoch=2005.0, ellipsoid=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+Ellipsoid(name='GRS80'),
+RefFrames.GDA94: RefFrame(name='GDA94', epoch=1994.0, ellipsoid=Ellips<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+oid(name='GRS80'),
+RefFrames.ITRF2000: RefFrame(name='ITRF2000', epoch=1997.0, ellipsoid=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+Ellipsoid(name='GRS80'),
+RefFrames.ITRF2005: RefFrame(name='ITRF2005', epoch=2000.0, ellipsoid=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+Ellipsoid(name='GRS80'),
+<code class="variable-ellipsis">...</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Tue Jul  2 11:49:45 2019
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

@@ -30,7 +30,7 @@ from math import ldexp, log10, radians
 __all__ = _ALL_LAZY.geohash + ('bounds',  # functions
           'decode', 'decode_error', 'distance1', 'distance2', 'distance3',
           'encode', 'neighbors', 'precision', 'resolution2', 'sizes')
-__version__ = '19.05.08'
+__version__ = '19.06.29'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -90,7 +90,7 @@ def _2Geohash(geohash):
         try:
             geohash = Geohash(geohash)
         except (TypeError, ValueError):
-            raise TypeError('%r not %s, %s or str' % (geohash,
+            raise TypeError('%r not a %s, %s or str' % (geohash,
                              Geohash.__name__, 'LatLon'))
     return geohash
 

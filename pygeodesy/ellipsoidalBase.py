@@ -16,13 +16,15 @@ from datum import Datum, Datums
 from fmath import EPS, EPS1, fsum_, hypot, hypot1
 from lazily import _ALL_DOCS
 from named import LatLon3Tuple, Vector3Tuple
-from utily import degrees90, degrees180, property_RO, sincos2
+from trf import _2epoch, RefFrame, RefFrameError, _reframeTransforms
+from utily import degrees90, degrees180, property_RO, sincos2, \
+                 _TypeError, unStr
 from vector3d import Vector3d
 
 from math import atan2, copysign, sqrt
 
 __all__ = _ALL_DOCS('CartesianBase', 'LatLonEllipsoidalBase')
-__version__ = '19.05.10'
+__version__ = '19.06.29'
 
 
 class CartesianBase(Vector3d):
@@ -42,16 +44,70 @@ class CartesianBase(Vector3d):
         x, y, z = self.to3xyz()
         return self.classof(*transform.transform(x, y, z, inverse))
 
+    def convertDatum(self, datum2, datum):
+        '''Convert this Cartesian point from one to an other datum.
+
+           @param datum2: Datum to convert I{to} (L{Datum}).
+           @param datum: Datum to convert I{from} (L{Datum}).
+
+           @return: The converted Cartesian point (C{Cartesian}).
+
+           @raise TypeError: B{C{datum2}} or B{C{datum}} not a
+                             L{Datum}.
+        '''
+        _TypeError(Datum, datum2=datum2, datum=datum)
+
+        if datum == datum2:
+            return self.copy()
+
+        elif datum == Datums.WGS84:
+            # converting from WGS 84
+            c, d, i = self, datum2, False
+
+        elif datum2 == Datums.WGS84:
+            # converting to WGS84, use inverse transform
+            c, d, i = self, datum, True
+
+        else:  # neither datum2 nor datum is WGS84, convert to WGS84 first
+            c, d, i = self._applyHelmert(datum.transform, True), datum2, False
+
+        return c._applyHelmert(d.transform, i)
+
+    def convertRefFrame(self, reframe2, reframe, epoch=None):
+        '''Convert this Cartesian point from one to an other reference frame.
+
+           @param reframe2: Reference frame to convert I{to} (L{RefFrame}).
+           @param reframe: Reference frame to convert I{from} (L{RefFrame}).
+           @keyword epoch: Optional epoch to observe for B{C{reframe}}, a
+                           fractional calendar year (C{scalar}).
+
+           @return: The converted Cartesian point (C{Cartesian}) or
+                    this Cartesian point if conversion is C{nil}.
+
+           @raise RefFrameError: No conversion available from
+                                 B{C{reframe}} to B{C{reframe2}}.
+
+           @raise TypeError: B{C{reframe2}} or B{C{reframe}} not a
+                             L{RefFrame} or B{C{epoch}} not C{scalar}.
+        '''
+        _TypeError(RefFrame, reframe2=reframe2, reframe=reframe)
+
+        c = self
+        for t in _reframeTransforms(reframe2, reframe, reframe.epoch if
+                                    epoch is None else _2epoch(epoch)):
+            c = c._applyHelmert(t, False)
+        return c
+
     def to3llh(self, datum=Datums.WGS84):
         '''Convert this (geocentric) Cartesian (x/y/z) point to
            (ellipsoidal, geodetic) lat-, longitude and height on
            the given datum.
 
-           Uses Bowring’s (1985) formulation for μm precision in concise
+           Uses B. R. Bowring’s formulation for μm precision in concise
            form: U{'The accuracy of geodetic latitude and height equations'
            <https://www.ResearchGate.net/publication/
            233668213_The_Accuracy_of_Geodetic_Latitude_and_Height_Equations>},
-           B. R. Bowring, Survey Review, Vol 28, 218, Oct 1985.
+           Survey Review, Vol 28, 218, Oct 1985.
 
            See also Ralph M. Toms U{'An Efficient Algorithm for Geocentric to
            Geodetic Coordinate Conversion'<https://www.OSTI.gov/scitech/biblio/110235>},
@@ -95,12 +151,14 @@ class CartesianBase(Vector3d):
             a, b, h = copysign(90.0, z), 0.0, abs(z) - E.b
         return self._xnamed(LatLon3Tuple(a, b, h))
 
-    def _to3LLh(self, datum, LL):
+    def _to3LLh(self, datum, LL, **pairs):
         '''(INTERNAL) Helper for C{subclass.toLatLon} and C{.to3llh}.
         '''
         r = self.to3llh(datum)  # LatLon3Tuple
         if LL is not None:
             r = LL(r.lat, r.lon, height=r.height, datum=datum)
+            for n, v in pairs.items():
+                setattr(r, n, v)
             r = self._xnamed(r)
         return r
 
@@ -122,34 +180,49 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
     _convergence  = None  #: (INTERNAL) UTM/UPS meridian convergence (C{degrees}).
     _datum        = Datums.WGS84  #: (INTERNAL) Datum (L{Datum}).
     _elevation2   = ()    #: (INTERNAL) cached C{elevation2} result.
+    _epoch        = None  #: (INTERNAL) overriding .reframe.epoch (C{float}).
     _etm          = None  #: (INTERNAL) cache toEtm (L{Etm}).
     _geoidHeight2 = ()    #: (INTERNAL) cached C{geoidHeight2} result.
     _lcc          = None  #: (INTERNAL) cache toLcc (C{Lcc}).
     _osgr         = None  #: (INTERNAL) cache toOsgr (C{Osgr}).
+    _reframe      = None  #: (INTERNAL) reference frame (L{RefFrame}).
     _scale        = None  #: (INTERNAL) UTM/UPS scale factor (C{float}).
     _ups          = None  #: (INTERNAL) cache toUps (L{Ups}).
     _utm          = None  #: (INTERNAL) cache toUtm (L{Utm}).
     _wm           = None  #: (INTERNAL) cache toWm (webmercator.Wm instance).
     _3xyz         = None  #: (INTERNAL) Cache (L{Vector3Tuple})
 
-    def __init__(self, lat, lon, height=0, datum=None, name=''):
+    def __init__(self, lat, lon, height=0, datum=None, reframe=None,
+                                           epoch=None, name=''):
         '''Create an (ellipsoidal) C{LatLon} point frome the given
-           lat-, longitude and height on the given datum.
+           lat-, longitude and height on the given datum and with
+           the given reference frame and epoch.
 
            @param lat: Latitude (C{degrees} or DMS C{[N|S]}).
            @param lon: Longitude (C{degrees} or DMS C{str[E|W]}).
            @keyword height: Optional elevation (C{meter}, the same units
                             as the datum's half-axes).
            @keyword datum: Optional datum to use (L{Datum}).
+           @keyword reframe: Optional reference frame (L{RefFrame}).
+           @keyword epoch: Optional epoch to observe for B{C{reframe}}
+                           (C{scalar}), a non-zero, fractional calendar
+                           year.
            @keyword name: Optional name (string).
+
+           @raise TypeError: B{C{datum}} is not a L{datum}, B{C{reframe}}
+                             is not a L{RefFrame} or B{C{epoch}} is not
+                             C{scalar} non-zero.
 
            @example:
 
            >>> p = LatLon(51.4778, -0.0016)  # height=0, datum=Datums.WGS84
         '''
         LatLonHeightBase.__init__(self, lat, lon, height=height, name=name)
-        if datum:  # check datum
+        if datum:
             self.datum = datum
+        if reframe:
+            self.reframe = reframe
+            self.epoch = epoch
 
     def _Radjust2(self, adjust, datum, meter_text2):
         '''(INTERNAL) Adjust elevation or geoidHeight with difference
@@ -179,7 +252,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
     def _xcopy(self, *attrs):
         '''(INTERNAL) Make copy with add'l, subclass attributes.
         '''
-        return LatLonHeightBase._xcopy(self, '_datum', *attrs)
+        return LatLonHeightBase._xcopy(self, '_datum', '_epoch', '_reframe', *attrs)
 
     def antipode(self, height=None):
         '''Return the antipode, the point diametrically opposite
@@ -202,33 +275,61 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
         '''
         return self._convergence
 
-    def convertDatum(self, datum):
-        '''Convert this C{LatLon} point to a new datum.
+    def convertDatum(self, datum2):
+        '''Convert this point to an other datum.
 
-           @param datum: Datum to convert to (L{Datum}).
+           @param datum2: Datum to convert I{to} (L{Datum}).
 
            @return: The converted point (ellipsoidal C{LatLon}).
 
+           @raise TypeError: The B{C{datum2}} is not a L{Datum}.
+
            @example:
 
-           >>> pWGS84 = LatLon(51.4778, -0.0016)  # default Datums.WGS84
-           >>> pOSGB  = pWGS84.convertDatum(Datums.OSGB36)  # 51.477284°N, 000.00002°E
+           >>> p = LatLon(51.4778, -0.0016)  # default Datums.WGS84
+           >>> p.convertDatum(Datums.OSGB36)  # 51.477284°N, 000.00002°E
         '''
-        if self.datum == datum:
+        if self.datum == datum2:
             return self.copy()
 
-        elif self.datum == Datums.WGS84:
-            # converting from WGS 84
-            ll, t, i = self, datum.transform, False
+        c = self.toCartesian().convertDatum(datum2, self.datum)
+        return c.toLatLon(datum=datum2, LatLon=self.classof)
 
-        elif datum == Datums.WGS84:
-            # converting to WGS84, use inverse transform
-            ll, t, i = self, self.datum.transform, True
+    def convertRefFrame(self, reframe2):
+        '''Convert this point to an other reference frame.
 
-        else:  # neither self.datum nor datum is WGS84, convert to WGS84 first
-            ll, t, i = self.convertDatum(Datums.WGS84), datum.transform, False
+           @param reframe2: Reference frame to convert I{to} (L{RefFrame}).
 
-        return ll.toCartesian()._applyHelmert(t, i).toLatLon(datum=datum)
+           @return: The converted point (ellipsoidal C{LatLon}) or
+                    this point if conversion is C{nil}.
+
+           @raise RefFrameError: No B{C{.reframe}} or no conversion
+                                 available from B{C{.reframe}} to
+                                 B{C{reframe2}}.
+
+           @raise TypeError: The B{C{reframe2}} is not a L{RefFrame}.
+
+           @example:
+
+           >>> p = LatLon(51.4778, -0.0016, reframe=RefFrames.ETRF2000)  # default Datums.WGS84
+           >>> p.convertRefFrame(RefFrames.ITRF2014)  # 51.477803°N, 000.001597°W, +0.01m
+        '''
+        _TypeError(RefFrame, reframe2=reframe2)
+
+        if not self.reframe:
+            raise RefFrameError('no %r.%s' % (self, 'reframe'))
+
+        ts = _reframeTransforms(reframe2, self.reframe, self.epoch)
+        if ts:
+            c = self.toCartesian()
+            for t in ts:
+                c = c._applyHelmert(t, False)
+            ll = c.toLatLon(datum=self.datum, LatLon=self.classof,
+                            epoch=self.epoch, reframe=reframe2)
+            # ll.reframe, ll.epoch = reframe2, self.epoch
+        else:
+            ll = self
+        return ll
 
     @property
     def datum(self):
@@ -238,7 +339,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
 
     @datum.setter  # PYCHOK setter!
     def datum(self, datum):
-        '''Set this point's datum without conversion.
+        '''Set this point's datum I{without conversion}.
 
            @param datum: New datum (L{Datum}).
 
@@ -246,8 +347,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
 
            @raise ValueError: The B{C{datum}} is not ellipsoidal.
         '''
-        if not isinstance(datum, Datum):
-            raise TypeError('%r not a %s: %r' % ('datum', Datum.__name__, datum))
+        _TypeError(Datum, datum=datum)
         if not datum.isEllipsoidal:
             raise ValueError('%r not %s: %r' % ('datum', 'ellipsoidal', datum))
         self._update(datum != self._datum)
@@ -306,7 +406,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
     def ellipsoid(self, datum=Datums.WGS84):
         '''Return the ellipsoid of this point's datum or the given datum.
 
-           @keyword datum: Optional datum (L{Datum}).
+           @keyword datum: Default datum (L{Datum}).
 
            @return: The ellipsoid (L{Ellipsoid}).
         '''
@@ -339,6 +439,23 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
                              ('other', c, c, e.name, c, E.name))
         return E
 
+    @property
+    def epoch(self):
+        '''Get this point's observed epoch (C{float}) or C{None}.
+        '''
+        return self._epoch or (self.reframe.epoch if self.reframe else None)
+
+    @epoch.setter  # PYCHOK setter!
+    def epoch(self, epoch):
+        '''Set or clear this point's observed epoch.
+
+           @param epoch: Observed epoch, a fractional calendar year
+                         (C{scalar}) or C{None}.
+
+           @raise TypeError: The B{C{epoch}} is not C{scalar}.
+        '''
+        self._epoch = None if epoch is None else _2epoch(epoch)
+
     def geoidHeight2(self, adjust=False, datum=Datums.WGS84, timeout=2):
         '''Return geoid height of this point for its or the given datum.
 
@@ -347,12 +464,12 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
            @keyword datum: Optional datum (L{Datum}).
            @keyword timeout: Optional query timeout (seconds).
 
-           @return: An L{GeoidHeight2Tuple}C{(height,
-                    model_name)} or C{(None, error)} in case of errors.
+           @return: An L{GeoidHeight2Tuple}C{(height, model_name)} or
+                    C{(None, error)} in case of errors.
 
            @note: The adjustment applied is the difference in geocentric
                   earth radius for the given B{C{datum}} and the C{NAV83/NADV88}
-                  datum upon which L{elevations.geoidHeight2} is based.
+                  datum of the L{elevations.geoidHeight2}.
 
            @note: The geoid height is only available for locations within
                   the U{Conterminous US (CONUS)
@@ -405,6 +522,27 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
         a, b, h = parse3llh(strll, height=height, sep=sep)
         return self.classof(a, b, height=h, datum=datum or self.datum)
 
+    @property
+    def reframe(self):
+        '''Get this point's reference frame (L{RefFrame}) or C{None}.
+        '''
+        return self._reframe
+
+    @reframe.setter  # PYCHOK setter!
+    def reframe(self, reframe):
+        '''Set or clear this point's reference frame.
+
+           @param reframe: Reference frame (L{RefFrame}) or C{None}.
+
+           @raise TypeError: The B{C{reframe}} is not a L{RefFrame}.
+        '''
+        if isinstance(reframe, RefFrame):
+            self._reframe = reframe
+        elif reframe is not None:
+            _TypeError(RefFrame, reframe=reframe)
+        elif self.reframe is not None:
+            self._reframe = None
+
     @property_RO
     def scale(self):
         '''Get this point's UTM grid or UPS point scale factor (C{float})
@@ -424,18 +562,24 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
 
             E = self.ellipsoid()
             # radius of curvature in prime vertical
-            t = E.e2s2(sa)
-            if t > EPS1:
-                r = E.a
-            elif t > EPS:
-                r = E.a / sqrt(t)
-            else:
+            t = E.e2s2(sa)  # r, _ = E.roc2_(sa, 1)
+            if t < EPS:
                 r = 0
+            elif t > EPS1:
+                r = E.a
+            else:
+                r = E.a / sqrt(t)
 
             h = self.height
             t = (h + r) * ca
             self._3xyz = Vector3Tuple(t * cb, t * sb, (h + r * E.e12) * sa)
         return self._xrenamed(self._3xyz)
+
+    def toCartesian(self):
+        '''Convert this (geodetic) point to (geocentric) x/y/z
+           Cartesian coordinates.  Must be overloaded.
+        '''
+        raise AssertionError(unStr(self.classname + '.toCartesian'))
 
     def toEtm(self):
         '''Convert this C{LatLon} point to an ETM coordinate.

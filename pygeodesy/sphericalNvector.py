@@ -49,8 +49,9 @@ __all__ = _ALL_LAZY.sphericalNvector + (
           'intersection', 'ispolar',
           'meanOf',
           'nearestOn2',
+          'perimeterOf',
           'triangulate', 'trilaterate')
-__version__ = '19.06.18'
+__version__ = '19.06.29'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -976,6 +977,37 @@ def nearestOn2(point, points, closed=False, radius=R_M, height=None):
         raise TypeError('%s not %r: %r' % ('point', LatLon, point))
 
     return point.nearestOn2(points, closed=closed, radius=radius, height=height)
+
+
+def perimeterOf(points, closed=False, radius=R_M):
+    '''Compute the perimeter of a (spherical) polygon (with great circle
+       arcs joining consecutive points).
+
+       @param points: The polygon points (L{LatLon}[]).
+       @keyword closed: Optionally, close the polygon (C{bool}).
+       @keyword radius: Optional, mean earth radius (C{meter}).
+
+       @return: Polygon perimeter (C{meter}, same units as B{C{radius}}).
+
+       @raise TypeError: Some B{C{points}} are not L{LatLon}.
+
+       @raise ValueError: Insufficient number of B{C{points}}.
+
+       @see: L{pygeodesy.perimeterOf}, L{sphericalTrigonometry.perimeterOf}
+             and L{ellipsoidalKarney.perimeterOf}.
+    '''
+    n, points = _Nvll.points2(points, closed=closed)
+
+    def _rads(n, points, closed):  # angular edge lengths in radians
+        i, m = _imdex2(closed, n)
+        v1 = points[i].toNvector()
+        for i in range(m, n):
+            v2 = points[i].toNvector()
+            yield v1.angleTo(v2)
+            v1 = v2
+
+    r = fsum(_rads(n, points, closed))
+    return r * float(radius)
 
 
 def triangulate(point1, bearing1, point2, bearing2,

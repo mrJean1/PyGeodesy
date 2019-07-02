@@ -37,7 +37,7 @@ from math import asin, atan2, cos, radians, sin, sqrt
 __all__ = _ALL_LAZY.ellipsoidalNvector + (
           'Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
           'meanOf', 'toNed')  # functions
-__version__ = '19.05.09'
+__version__ = '19.06.29'
 
 
 class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
@@ -430,19 +430,21 @@ class Cartesian(CartesianBase):
             self._Nv = None
             CartesianBase._update(self, updated)
 
-    def toLatLon(self, datum=Datums.WGS84, LatLon=LatLon):  # PYCHOK XXX
+    def toLatLon(self, datum=Datums.WGS84, LatLon=LatLon, **pairs):  # PYCHOK XXX
         '''Convert this (geocentric) cartesian (x/y/z) point to
            an (ellipsoidal) geodetic point on the specified datum.
 
            @keyword datum: Optional datum to use (L{Datum}).
            @keyword LatLon: Optional ellipsoidal (sub-)class to return
                             the point (L{LatLon}) or C{None}.
+           @keyword pairs: Optional C{name=value} pairs to be set at
+                           the B{C{LatLon}} instance.
 
            @return: The ellipsoidal geodetic point (B{C{LatLon}}) or
                     a L{LatLon3Tuple}C{(lat, lon, height)} if
                     B{C{LatLon}} is C{None}.
         '''
-        return CartesianBase._to3LLh(self, datum, LatLon)
+        return CartesianBase._to3LLh(self, datum, LatLon, **pairs)
 
     def toNvector(self, datum=Datums.WGS84):
         '''Convert this cartesian to an (ellipsoidal) n-vector.

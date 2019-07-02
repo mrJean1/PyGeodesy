@@ -105,7 +105,8 @@
   target="_top">MGRS</a> (NATO Military Grid Reference System) and <a 
   href="https://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html" 
   target="_top">OSGR</a> (British Ordinance Survery Grid Reference) grid 
-  references and a module for encoding and decoding <a 
+  references, <a href="http://ITRF.ENSG.IGN.FR" target="_top">TRF</a> 
+  (Terrestrial Reference Frames), and modules to encode and decode <a 
   href="https://www.EPSG-Registry.org" target="_top">EPSG</a>, <a 
   href="https://www.Movable-Type.co.UK/scripts/geohash.html" 
   target="_top">Geohashes</a>, <a 
@@ -204,10 +205,10 @@
     64-bit</i>.</p>
     <p>On Python 3.7+, the tests run with and without <code>lazy 
     import</code>.</p>
-    <p>PyGeodesy has been bundled into both a single file and a single 
-    directory application using <a href="https://www.PyInstaller.org" 
-    target="_top">PyInstaller</a> 3.4 and 64-bit Python 3.7.3 on macOS 
-    10.13.6 High Sierra.</p>
+    <p>A single file and single directory application with 
+    <code>pygeodesy</code> has been bundled using <a 
+    href="https://www.PyInstaller.org" target="_top">PyInstaller</a> 3.4 
+    and 64-bit Python 3.7.3 on macOS 10.13.6 High Sierra.</p>
     <p>Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 
     2.7.10 (and numpy 1.8.0rc1), 2.7.13, 2.7.14, 2.7.15 (and numpy 1.13.1, 
     1.14.0 or 1.15.2), 3.5.3, 3.6.2, 3.6.3, 3.6.4, 3.6.5, 3.7.0, 3.7.2 and 
@@ -263,7 +264,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.06.26
+        19.06.29
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -288,7 +289,12 @@
         href="pygeodesy.datum.Ellipsoid-class.html" 
         class="link">Ellipsoid</a> and <a 
         href="pygeodesy.datum.Transform-class.html" 
-        class="link">Transform</a> and registries thereof.</em>    </li>
+        class="link">Transform</a> and registries thereof <a 
+        href="pygeodesy.datum-module.html#Datums" class="link">Datums</a>, 
+        <a href="pygeodesy.datum-module.html#Ellipsoids" 
+        class="link">Ellipsoids</a> and <a 
+        href="pygeodesy.datum-module.html#Transforms" 
+        class="link">Transforms</a>, respectively.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated-module.html">pygeodesy.deprecated</a></strong>: <em class="summary">DEPRECATED functions, etc.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.dms-module.html">pygeodesy.dms</a></strong>: <em class="summary">Functions to parse and format bearing, compass, lat- and longitudes
         in various forms of degrees, minutes and seconds.</em>    </li>
@@ -450,6 +456,10 @@
         class="link">nearestOn2</a> and <a 
         href="pygeodesy.sphericalTrigonometry-module.html#perimeterOf" 
         class="link">perimeterOf</a>.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.trf-module.html">pygeodesy.trf</a></strong>: <em class="summary">Terrestrial Reference Frame (TRF) class <a 
+        href="pygeodesy.trf.RefFrame-class.html" class="link">RefFrame</a> 
+        and registry thereof <a href="pygeodesy.trf-module.html#RefFrames" 
+        class="link">RefFrames</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ups-module.html">pygeodesy.ups</a></strong>: <em class="summary">Universal Polar Stereographic (UPS) classes <a 
         href="pygeodesy.ups.Ups-class.html" class="link">Ups</a> and <a 
         href="pygeodesy.ups.UPSError-class.html" class="link">UPSError</a> 
@@ -957,6 +967,22 @@
         href="pygeodesy.dms-module.html#parseDMS" class="link">parseDMS</a>
         or <a href="pygeodesy.dms-module.html#parseDMS2" 
         class="link">parseDMS2</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.trf.RefFrame-class.html" class="summary-name">RefFrame</a><br />
+      Terrestrial Reference Frame (TRF).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.trf.RefFrameError-class.html" class="summary-name">RefFrameError</a><br />
+      Reference frame or conversion issue.
     </td>
   </tr>
 <tr>
@@ -1537,6 +1563,25 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#compassPoint" class="summary-sig-name">compassPoint</a>(<span class="summary-sig-arg">bearing</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">3</span>)</span><br />
       Convert bearing to a compass point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#date2epoch" class="summary-sig-name">date2epoch</a>(<span class="summary-sig-arg">year</span>,
+        <span class="summary-sig-arg">month</span>,
+        <span class="summary-sig-arg">day</span>)</span><br />
+      Return the reference frame <code>epoch</code> for a calendar day.</td>
           <td align="right" valign="top">
             
             
@@ -4395,7 +4440,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'19.6.26'"><code class="variable-quote">'</code><code class="variable-string">19.6.26</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'19.6.29'"><code class="variable-quote">'</code><code class="variable-string">19.6.29</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -4695,6 +4740,22 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
     </td><td class="summary">
         <a name="R_VM"></a><span class="summary-name">R_VM</span> = <code title="6366707.01949">6366707.01949</code><br />
       Aviation/Navigation earth radius (<code>meter</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy-module.html#RefFrames" class="summary-name">RefFrames</a> = <code title="RefFrames.ETRF2000: RefFrame(name='ETRF2000', epoch=2005.0, ellipsoid=\
+Ellipsoid(name='GRS80'),
+RefFrames.GDA94: RefFrame(name='GDA94', epoch=1994.0, ellipsoid=Ellips\
+oid(name='GRS80'),
+RefFrames.ITRF2000: RefFrame(name='ITRF2000', epoch=1997.0, ellipsoid=\
+Ellipsoid(name='GRS80'),
+RefFrames.ITRF2005: RefFrame(name='ITRF2005', epoch=2000.0, ellipsoid=\
+Ellipsoid(name='GRS80'),
+...">RefFrames.ETRF2000: RefFrame(name='ETRF2000', epoc<code class="variable-ellipsis">...</code></code><br />
+      Registered reference frames (<code>enum-like</code>).
     </td>
   </tr>
 <tr>
@@ -5666,6 +5727,46 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
 <span class="py-prompt">&gt;&gt;&gt; </span>p = compassPoint(11.25)   <span class="py-comment"># 'NNE'</span>
 <span class="py-prompt">&gt;&gt;&gt; </span>p = compassPoint(-11.25)  <span class="py-comment"># 'N'</span>
 <span class="py-prompt">&gt;&gt;&gt; </span>p = compassPoint(348.749) <span class="py-comment"># 'NNW'</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="date2epoch"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">date2epoch</span>(<span class="sig-arg">year</span>,
+        <span class="sig-arg">month</span>,
+        <span class="sig-arg">day</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the reference frame <code>epoch</code> for a calendar day.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>year</code></strong> - Year of the date (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>month</code></strong> - Month in the <b><code>year</code></b> (<code>scalar</code>, 
+          1..12).</li>
+        <li><strong class="pname"><code>day</code></strong> - Day in the <b><code>month</code></b> (<code>scalar</code>, 
+          1..31).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Epoch, the fractional year (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>year</code></b>, <b><code>month</code></b> or 
+        <b><code>day</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Any <b><code>year</code></b> is considered a leap year, i.e. having
+        29 days in February.
       </p>
 </div></td></tr></table>
 </div>
@@ -10989,6 +11090,32 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,<span clas
   </dl>
 </td></tr></table>
 </div>
+<a name="RefFrames"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">RefFrames</h3>
+  Registered reference frames (<code>enum-like</code>).
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+RefFrames.ETRF2000: RefFrame(name='ETRF2000', epoch=2005.0, ellipsoid=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+Ellipsoid(name='GRS80'),
+RefFrames.GDA94: RefFrame(name='GDA94', epoch=1994.0, ellipsoid=Ellips<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+oid(name='GRS80'),
+RefFrames.ITRF2000: RefFrame(name='ITRF2000', epoch=1997.0, ellipsoid=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+Ellipsoid(name='GRS80'),
+RefFrames.ITRF2005: RefFrame(name='ITRF2005', epoch=2000.0, ellipsoid=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+Ellipsoid(name='GRS80'),
+<code class="variable-ellipsis">...</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="Transforms"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -11047,7 +11174,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Jun 25 15:12:15 2019
+    Generated by Epydoc 3.0.1 on Tue Jul  2 11:49:45 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
