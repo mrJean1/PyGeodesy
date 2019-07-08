@@ -138,7 +138,7 @@ R_VM = 6366707.0194937  #: Aviation/Navigation earth radius (C{meter}).
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.datum
-__version__ = '19.06.29'
+__version__ = '19.07.06'
 
 division = 1 / 2  # double check int division, see .fmath.py, .utily.py
 if not division:
@@ -539,7 +539,7 @@ class Ellipsoid(_NamedEnumItem):
         return self._es_c
 
     def es_tauf(self, taup):
-        '''Compute U{Karney's<https://arXiv.org/abs/1002.1417>}
+        '''Compute U{Karney's<https://ArXiv.org/abs/1002.1417>}
            equations (19), (20) and (21).
 
            @see: Function U{Math::tauf<https://GeographicLib.SourceForge.io/
@@ -558,7 +558,7 @@ class Ellipsoid(_NamedEnumItem):
         return t
 
     def es_taupf(self, tau):
-        '''Compute U{Karney's<https://arXiv.org/abs/1002.1417>}
+        '''Compute U{Karney's<https://ArXiv.org/abs/1002.1417>}
            equations (7), (8) and (9).
 
            @see: Function U{Math::taupf<https://GeographicLib.SourceForge.io/

@@ -48,14 +48,16 @@ from named import classname, _NamedDict as _X, \
 from utily import property_RO, _TypeError
 
 __all__ = _ALL_LAZY.trf
-__version__ = '19.06.29'
+__version__ = '19.07.02'
 
 _mDays = (0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 # temporarily hold a single instance for each float value
 _trfFs = {}
 
 
-def _F(f):  # single float
+def _F(f):
+    '''Cache a single C{float}.
+    '''
     try:
         f = _trfFs[f]  # PYCHOK del _trfFs
     except KeyError:
@@ -63,7 +65,9 @@ def _F(f):  # single float
     return f
 
 
-def _T(*fs):  # tuple of single floats
+def _T(*fs):
+    '''(INTERNAL) Cache a tuple of single C{float}s.
+    '''
     return map1(_F, *fs)
 
 
@@ -161,9 +165,9 @@ def date2epoch(year, month, day):
               29 days in February.
     '''
     try:
-        m = int(month)
-        if year > 0 and 1 <= month <= 12 and 1 <= day <= _mDays[m]:
-            return year + float(sum(_mDays[:m]) + day) / 366
+        y, m, d = map1(int, year, month, day)
+        if y > 0 and 1 <= m <= 12 and 1 <= d <= _mDays[m]:
+            return y + float(sum(_mDays[:m]) + d) / 366.0
     except (ValueError, TypeError):
         pass
     raise ValueError('%s invalid: %s-%s-%s' % ('date', year, month, day))
@@ -173,7 +177,7 @@ def date2epoch(year, month, day):
 # from U{Transformation Parameters<http://ITRF.IGN.FR/trans_para.php>}, more at U{QPS
 # <https://Confluence.QPS.NL/qinsy/files/en/29856813/45482834/2/1453459502000/ITRF_Transformation_Parameters.xlsx>}.
 _trfNs =                                   ('tx',    'ty',    'tz',   's',   'sx',    'sy',    'sz')
-_trfXs = {                                 # mm       mm       mm     ppb     mas      mas      mas
+_trfXs = {  # (from_TRF, to_TRF):            mm       mm       mm     ppb     mas      mas      mas
     # see U{Transformation Parameters ITRF2014<http://ITRF.IGN.FR/doc_ITRF/Transfo-ITRF2014_ITRFs.txt>}
     ('ITRF2014', 'ITRF2008'): _X(epoch=_F(2010.0),  # <http://ITRF.ENSG.IGN.FR/ITRF_solutions/2014/tp_14-08.php>
                                  xform=_T(  1.6,     1.9,     2.4,  -0.02,   0.0,     0.0,     0.0),

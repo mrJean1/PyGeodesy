@@ -81,7 +81,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                             dms=('F_D', 'F_DM', 'F_DMS', 'F_DEG', 'F_MIN', 'F_SEC', 'F_RAD', 'S_DEG', 'S_MIN', 'S_SEC', 'S_RAD', 'S_SEP',
                                  'RangeError', 'bearingDMS', 'clipDMS', 'compassDMS', 'compassPoint', 'degDMS', 'latDMS', 'lonDMS',
                                  'normDMS', 'parseDMS', 'parseDMS2', 'parse3llh', 'precision', 'rangerrors', 'toDMS'),
-                     deprecated=('areaof', 'bounds', 'decodeEPSG2', 'encodeEPSG',  # most of the DEPRECATED functions
+                     deprecated=('HeightIDW', 'HeightIDW2', 'HeightIDW3',  # DEPRECATED classes
+                                 'areaof', 'bounds', 'decodeEPSG2', 'encodeEPSG',  # most of the DEPRECATED functions
                                  'equirectangular3', 'hypot3', 'isenclosedby', 'nearestOn3', 'nearestOn4',
                                  'parseUTM', 'perimeterof', 'polygon', 'simplify2', 'toUtm', 'utmZoneBand2'),
                      elevations=('elevation2', 'geoidHeight2'),
@@ -104,7 +105,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                         geohash=('Geohash',),  # nothing else
                          geoids=('GeoidError', 'GeoidG2012B', 'GeoidKarney', 'GeoidPGM', 'egmGeoidHeights', 'PGMError'),
                         heights=('HeightError', 'SciPyError', 'SciPyWarning',
-                                 'HeightCubic', 'HeightIDW', 'HeightIDW2', 'HeightIDW3', 'HeightLinear', 'HeightLSQBiSpline', 'HeightSmoothBiSpline'),
+                                 'HeightIDWequirectangular', 'HeightIDWeuclidean', 'HeightIDWhaversine', 'HeightIDWkarney', 'HeightIDWvincentys',
+                                 'HeightCubic', 'HeightLinear', 'HeightLSQBiSpline', 'HeightSmoothBiSpline'),
                          lazily=('LazyImportError', 'isLazy'),
                             lcc=('Conic', 'Conics', 'Lcc', 'toLcc'),
                            mgrs=('Mgrs', 'parseMGRS', 'toMgrs'),
@@ -141,13 +143,14 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
 # the new name is fully backward compatible in signature and return value
 _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                 fmath=('hypot_ as hypot3',),
+                              heights=('HeightIDWequirectangular as HeightIDW2', 'HeightIDWeuclidean as HeightIDW', 'HeightIDWhaversine as HeightIDW3'),
                                points=('areaOf as areaof',
                                        'isenclosedBy as isenclosedby', 'perimeterOf as perimeterof'),
                              simplify=('simplifyRW as simplify2',),
                                 utily=('points2 as polygon',))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '19.06.29'
+__version__ = '19.07.06'
 
 
 def _all_imports(**more):

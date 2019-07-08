@@ -78,7 +78,7 @@ from math import asinh, atan, atan2, ceil, copysign, cosh, \
                  floor, sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '19.05.24'
+__version__ = '19.07.06'
 
 _INFINITY = float('inf')  # ??
 _tolJAC   = sqrt(EPS * 0.01)
@@ -407,7 +407,7 @@ class Elliptic(_Named):
                   Google.com/books?id=riIOAAAAQAAJ&pg=PA181>}.
 
            @see: U{Geodesics in terms of elliptic integrals<https://
-                 GeographicLib.DourceForge.io/html/geodesic.html#geodellip>}
+                 GeographicLib.SourceForge.io/html/geodesic.html#geodellip>}
                  for the expression for the longitude in terms of this function.
         '''
         return self._fXa(phi_or_sn, cn, dn, self.alpha2 - self.k2,
@@ -429,7 +429,7 @@ class Elliptic(_Named):
                   <https://Books.Google.com/books?id=Zk0wAAAAIAAJ&pg=PA333>}.
 
            @see: U{Geodesics in terms of elliptic integrals<https://
-                 GeographicLib.DourceForge.io/html/geodesic.html#geodellip>}
+                 GeographicLib.SourceForge.io/html/geodesic.html#geodellip>}
                  for the expression for the longitude in terms of this function.
         '''
         return self._fXa(phi_or_sn, cn, dn, self.alphap2,

@@ -4,14 +4,19 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '19.05.08'
+__version__ = '19.07.05'
 
 from base import TestsBase
 
 from pygeodesy import R_MA, map2, \
+                      HeightIDW, HeightIDW2, HeightIDW3, \
+                      HeightIDWequirectangular, HeightIDWeuclidean, \
+                      HeightIDWhaversine, \
                       areaof, bounds, decodeEPSG2, encodeEPSG, \
-                      equirectangular3, hypot3, isenclosedby, nearestOn3, nearestOn4, \
-                      parseUTM, perimeterof, polygon, simplify2, toUtm, utmZoneBand2
+                      equirectangular3, hypot3, isenclosedby, \
+                      nearestOn3, nearestOn4, \
+                      parseUTM, perimeterof, polygon,\
+                      simplify2, toUtm, utmZoneBand2
 from testRoutes import RdpFFI
 
 from math import sqrt
@@ -20,6 +25,13 @@ from math import sqrt
 class Tests(TestsBase):
 
     def testDeprecated(self, LatLon):
+
+        c = HeightIDW  # == HeightIDWeuclidean in Python 3.7+
+        self.test(c.__name__, issubclass(c, HeightIDWeuclidean), True)
+        c = HeightIDW2  # == HeightIDWequirectangular in Python 3.7+
+        self.test(c.__name__, issubclass(c, HeightIDWequirectangular), True)
+        c = HeightIDW3  # == HeightIDWhaversine in Python 3.7+
+        self.test(c.__name__, issubclass(c, HeightIDWhaversine), True)
 
         p = LatLon(0, 0), LatLon(1, 0), LatLon(0, 1)
         self.test('areaof', areaof(p, radius=R_MA), '7.086883e+09', fmt='%.6e')

@@ -9,11 +9,11 @@ reference frames<https://www.Movable-Type.co.UK/scripts/geodesy-library.html>} J
 '''
 
 __all__ = ('Tests',)
-__version__ = '19.06.29'
+__version__ = '19.07.02'
 
 from base import TestsBase
 
-from pygeodesy import F_D, F_DMS, RefFrames, RefFrameError
+from pygeodesy import date2epoch, F_D, F_DMS, RefFrames, RefFrameError
 
 
 class Tests(TestsBase):
@@ -71,7 +71,7 @@ class Tests(TestsBase):
         # <https://www.NGS.NOAA.gov/cgi-bin/ds_mark.prl?PidBox=kg0640>
         p = LatLon('39 13 26.71220', '098 32 31.74540', height=573.961, reframe=RefFrames.NAD83, epoch=2010.0)
         c = p.toCartesian()  # NGS Data Sheet Meades Ranch
-        self.test('cartesian', c, '[-734972.563, 4893188.492, 4011982.811]')
+        self.test('Cartesian', c, '[-734972.563, 4893188.492, 4011982.811]')
 
         # <https://EPNCB.OMA.BE/_productsservices/coord_trans> (tutorial)
         c = Cartesian(4027894.006, 307045.600, 4919474.910)
@@ -126,6 +126,17 @@ class Tests(TestsBase):
         except TypeError as x:
             t = str(x)
         self.test('TypeError', t, "epoch not scalar: '2000'")
+
+        e = date2epoch(2020, 1, 1)
+        self.test('epoch', e, 2020.003, fmt='%.3f')
+        e = date2epoch(2020, 4, 1)
+        self.test('epoch', e, 2020.251, fmt='%.3f')
+        e = date2epoch(2020, 7, 1)
+        self.test('epoch', e, 2020.5, fmt='%.3f')
+        e = date2epoch(2020, 10, 1)
+        self.test('epoch', e, 2020.751, fmt='%.3f')
+        e = date2epoch(2020, 12, 31)
+        self.test('epoch', e, 2021.0, fmt='%.3f')
 
 
 if __name__ == '__main__':

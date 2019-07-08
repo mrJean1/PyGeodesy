@@ -320,7 +320,7 @@
     <li> <strong class="uidlink"><a href="pygeodesy.heights.HeightLinear-class.html">pygeodesy.heights.HeightLinear</a></strong>:
       <em class="summary">Height interpolator based on <code>SciPy</code> <a 
         href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
-        target="_top">interp2d</a> <code>kind='linear]</code>.</em>
+        target="_top">interp2d</a> <code>kind='linear</code>.</em>
     </li>
     </ul>
     </li>
@@ -394,29 +394,68 @@
         target="_top">Inverse Distance Weighting</a> (IDW) height 
         interpolators.</em>
     <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.heights.HeightIDW-class.html">pygeodesy.heights.HeightIDW</a></strong>:
-      <em class="summary">Height interpolator using <a 
-        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
-        target="_top">Inverse Distance Weighting</a> (IDW) and the 
-        <i>angular</i> <code>Euclidean</code> distance from function <a 
-        href="pygeodesy.formy-module.html#euclidean_" 
-        class="link">euclidean_</a>.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.heights.HeightIDW2-class.html">pygeodesy.heights.HeightIDW2</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.heights.HeightIDWequirectangular-class.html">pygeodesy.heights.HeightIDWequirectangular</a></strong>:
       <em class="summary">Height interpolator using <a 
         href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
         target="_top">Inverse Distance Weighting</a> (IDW) and the 
         <code>equirectangular</code> distance (in radians squared) like 
         function <a href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.HeightIDW2-class.html">pygeodesy.deprecated.HeightIDW2</a></strong>:
+      <em class="summary">DEPRECATED, use class <a 
+        href="pygeodesy.heights.HeightIDWequirectangular-class.html" 
+        class="link">HeightIDWequirectangular</a>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.heights.HeightIDW3-class.html">pygeodesy.heights.HeightIDW3</a></strong>:
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.heights.HeightIDWeuclidean-class.html">pygeodesy.heights.HeightIDWeuclidean</a></strong>:
+      <em class="summary">Height interpolator using <a 
+        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <code>Euclidean</code> distance from function <a 
+        href="pygeodesy.formy-module.html#euclidean_" 
+        class="link">euclidean_</a>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.HeightIDW-class.html">pygeodesy.deprecated.HeightIDW</a></strong>:
+      <em class="summary">DEPRECATED, use class <a 
+        href="pygeodesy.heights.HeightIDWeuclidean-class.html" 
+        class="link">HeightIDWeuclidean</a>.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.heights.HeightIDWhaversine-class.html">pygeodesy.heights.HeightIDWhaversine</a></strong>:
       <em class="summary">Height interpolator using <a 
         href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
         target="_top">Inverse Distance Weighting</a> (IDW) and the 
         <i>angular</i> <code>Haversine</code> distance from function <a 
         href="pygeodesy.formy-module.html#haversine_" 
         class="link">haversine_</a>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.HeightIDW3-class.html">pygeodesy.deprecated.HeightIDW3</a></strong>:
+      <em class="summary">DEPRECATED, use class <a 
+        href="pygeodesy.heights.HeightIDWhaversine-class.html" 
+        class="link">HeightIDWhaversine</a>.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.heights.HeightIDWkarney-class.html">pygeodesy.heights.HeightIDWkarney</a></strong>:
+      <em class="summary">Height interpolator using <a 
+        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <i>angular</i> distance from <i>Charles F. F. Karney's</i> <a 
+        href="https://PyPI.org/project/geographiclib" 
+        target="_top">GeographicLib</a> <a 
+        href="https://geographiclib.sourceforge.io/1.49/python/code.html" 
+        target="_top">Geodesic</a> Inverse method.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.heights.HeightIDWvincentys-class.html">pygeodesy.heights.HeightIDWvincentys</a></strong>:
+      <em class="summary">Height interpolator using <a 
+        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <i>angular</i> <code>Vincenty</code> distance from function <a 
+        href="pygeodesy.formy-module.html#vincentys_" 
+        class="link">vincentys_</a>.</em>
     </li>
     </ul>
     </li>
@@ -1276,7 +1315,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Jul  2 11:49:44 2019
+    Generated by Epydoc 3.0.1 on Mon Jul  8 10:00:03 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -1,16 +1,37 @@
 
 # -*- coding: utf-8 -*-
 
-u'''DEPRECATED functions, etc. for backward compatibility.
+u'''DEPRECATED classes, functions, etc. exported for backward compatibility.
 '''
 
+from heights import HeightIDWequirectangular, HeightIDWeuclidean, \
+                    HeightIDWhaversine
 # avoid importing other modules
 from lazily import _ALL_LAZY
 
 __all__ = _ALL_LAZY.deprecated
-__version__ = '19.06.25'
+__version__ = '19.07.05'
 
 _R_M = _WGS84 = _UTM = object()
+
+
+# DEPRECATED classes, for export only
+class HeightIDW(HeightIDWeuclidean):  # PYCHOK exported
+    '''DEPRECATED, use class L{HeightIDWeuclidean}.
+    '''
+    pass
+
+
+class HeightIDW2(HeightIDWequirectangular):  # PYCHOK exported
+    '''DEPRECATED, use class L{HeightIDWequirectangular}.
+    '''
+    pass
+
+
+class HeightIDW3(HeightIDWhaversine):  # PYCHOK exported
+    '''DEPRECATED, use class L{HeightIDWhaversine}.
+    '''
+    pass
 
 
 def areaof(points, adjust=True, radius=_R_M, wrap=True):
