@@ -451,7 +451,6 @@ pygeodesy.elliptic._Q	pygeodesy.elliptic-module.html#_Q
 pygeodesy.elliptic._RD_3	pygeodesy.elliptic-module.html#_RD_3
 pygeodesy.elliptic._Hf	pygeodesy.elliptic-module.html#_Hf
 pygeodesy.elliptic.sincos2d	pygeodesy.utily-module.html#sincos2d
-pygeodesy.elliptic._INFINITY	pygeodesy.elliptic-module.html#_INFINITY
 pygeodesy.elliptic._RJ	pygeodesy.elliptic-module.html#_RJ
 pygeodesy.elliptic.__all__	pygeodesy.elliptic-module.html#__all__
 pygeodesy.elliptic._RF	pygeodesy.elliptic-module.html#_RF
@@ -490,7 +489,6 @@ pygeodesy.epsg._EPSG_S_01	pygeodesy.epsg-module.html#_EPSG_S_01
 pygeodesy.epsg._EPSG_N_60	pygeodesy.epsg-module.html#_EPSG_N_60
 pygeodesy.epsg._UTM_ZONE_MIN	pygeodesy.epsg-module.html#_UTM_ZONE_MIN
 pygeodesy.etm	pygeodesy.etm-module.html
-pygeodesy.etm._NaN	pygeodesy.etm-module.html#_NaN
 pygeodesy.etm._parseUTM5	pygeodesy.utm-module.html#_parseUTM5
 pygeodesy.etm._TAYTOL2	pygeodesy.etm-module.html#_TAYTOL2
 pygeodesy.etm.hypot	pygeodesy.fmath-module.html#hypot

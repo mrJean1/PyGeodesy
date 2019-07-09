@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 
 u'''A pure Python implementation of geodesy tools for various ellipsoidal
-and spherical earth models using precision trigonometric, vector-based and
-approximate methods for geodetic (lat-/longitude) and geocentric cartesian
-(x/y/z) coordinates.
+and spherical earth models using precision trigonometric, vector-based,
+elliptic and approximate methods for geodetic (lat-/longitude) and
+geocentric cartesian (x/y/z) coordinates.
 
 Transcribed from U{JavaScript originals<https://GitHub.com/ChrisVeness/geodesy>}
 by I{Chris Veness (C) 2005-2016} and several U{C++ classes
@@ -75,10 +75,11 @@ before installation.
 Installation of U{GeographicLib<https://PyPI.org/project/geographiclib>},
 U{NumPy<https://www.NumPy.org>} and U{SciPy<https://SciPy.org>} is optional.
 However, the former is required for module L{css} classes L{CassiniSoldner}
-and L{Css} and function L{toCss} and for module L{ellipsoidalKarney} classes
-C{LatLon} and C{Cartesian} and functions C{areaOf} and C{perimeterOf}.  The
-latter are needed for the C{Geoid...} and C{Height...} interpolators, except
-L{GeoidKarney}, L{HeightIDW}, L{HeightIDW2} and L{HeightIDW3}.
+and L{Css} and function L{toCss}, for module L{ellipsoidalKarney} classes
+C{LatLon} and C{Cartesian} and functions C{areaOf} and C{perimeterOf} and
+for the L{HeightIDWkarney} interpolator.  The latter are needed for the
+C{Geoid...} and C{Height...} interpolator classes, except L{GeoidKarney}
+and all C{HeightIDW...}.
 
 Documentation
 =============
@@ -92,13 +93,13 @@ C{epydoc --html --no-private --no-source --name=PyGeodesy --url=... -v pygeodesy
 Tests
 =====
 
-The tests have been run with Python 2.7.16 and 3.7.3 (both with
+The tests have been run with Python 2.7.16 and 3.7.4 (both with
 U{geographiclib <https://PyPI.org/project/geographiclib>} 1.49,
-U{numpy<https://PyPI.org/project/numpy>} 1.16.1 and U{scipy
-<https://Scipy.org/scipylib/download.html>} 1.2.1) and with
-U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3) on macOS
-10.13.6 High Sierra, I{all in 64-bit only}.  The results of those
-tests are included in the distribution files.
+U{numpy<https://PyPI.org/project/numpy>} 1.16.4 and U{scipy
+<https://Scipy.org/scipylib/download.html>} 1.2.2 respectively 1.3.0)
+and with U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3) on
+macOS 10.13.6 High Sierra, I{all in 64-bit only}.  The results of
+those tests are included in the distribution files.
 
 The tests also run with Python 2.6.9, 2.7.14, 3.5.6 and 3.6.3 (and
 U{geographiclib<https://PyPI.org/project/geographiclib>} 1.49) on
@@ -112,34 +113,35 @@ I{in both 32- and 64-bit}.
 
 On Python 3.7+, the tests run with and without C{lazy import}.
 
-A single file and single directory application with C{pygeodesy} has
+A single-File and single-Directory application with C{pygeodesy} has
 been bundled using U{PyInstaller<https://www.PyInstaller.org>} 3.4
 and 64-bit Python 3.7.3 on macOS 10.13.6 High Sierra.
 
 Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 2.7.10
-(and numpy 1.8.0rc1), 2.7.13, 2.7.14, 2.7.15 (and numpy 1.13.1, 1.14.0 or
-1.15.2), 3.5.3, 3.6.2, 3.6.3, 3.6.4, 3.6.5, 3.7.0, 3.7.2 and U{Intel-Python
-<https://software.Intel.com/en-us/distribution-for-python>} 3.5.3 (and
-U{numpy<https://PyPI.org/project/numpy>} 1.11.3) on MacOS X 10.10 Yosemite,
-MacOS X 10.11 El Capitan, macOS 10.12 Sierra, macOS 10.13.5 High Sierra and
-macOS 10.14 Mojave, with U{Pythonista 3.1<https://OMZ-Software.com/pythonista>}
-on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4, with U{Pythonista 3.2
-<https://OMZ-Software.com/pythonista>} (with geographiclib 1.49 and numpy
-1.8.0) on iOS 11.4.1, 12.0 and 12.2 on iPad4, iPhone7 and/or iPhone10, all
-in 64-bit only and with 32-bit Python 2.6.6 on Windows XP SP3 and with
-32-bit Python 2.7.14 on Windows 10 Pro.
+(and numpy 1.8.0rc1), 2.7.13, 2.7.14, 2.7.15 (and numpy 1.13.1, 1.14.0,
+1.15.2 or 1.16.2), 3.5.3, 3.6.2, 3.6.3, 3.6.4, 3.6.5, 3.7.0, 3.7.2, 3.7.3 and
+U{Intel-Python<https://software.Intel.com/en-us/distribution-for-python>}
+3.5.3 (and U{numpy<https://PyPI.org/project/numpy>} 1.11.3) on MacOS X
+10.10 Yosemite, MacOS X 10.11 El Capitan, macOS 10.12 Sierra, macOS
+10.13.5 High Sierra and macOS 10.14 Mojave, with U{Pythonista 3.1
+<https://OMZ-Software.com/pythonista>} on iOS 10.3.3, 11.0.3, 11.1.2 and
+11.3 on iPad4, with U{Pythonista 3.2<https://OMZ-Software.com/pythonista>}
+(with geographiclib 1.49 and numpy 1.8.0) on iOS 11.4.1, 12.0, 12.2 and
+12.3 on iPad4, iPhone7 and/or iPhone10, all in 64-bit only and with
+32-bit Python 2.6.6 on Windows XP SP3 and with 32-bit Python 2.7.14 on
+Windows 10 Pro.
 
 Notes
 =====
 
 All Python source code has been statically U{checked
 <https://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor>}
-with U{PyChecker<https://PyPI.org/project/pychecker>},
-U{PyFlakes<https://PyPI.org/project/pyflakes>},
-U{PyCodeStyle<https://PyPI.org/project/pycodestyle>} (formerly Pep8) and
-U{McCabe<https://PyPI.org/project/mccabe>} using Python 2.7.16 and with
-U{Flake8<https://PyPI.org/project/flake8>} using Python 3.7.3, both in
-64-bit on macOS 10.13.6 High Sierra.
+with U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes
+<https://PyPI.org/project/pyflakes>}, U{PyCodeStyle
+<https://PyPI.org/project/pycodestyle>} (formerly Pep8) and U{McCabe
+<https://PyPI.org/project/mccabe>} using Python 2.7.16 and with U{Flake8
+<https://PyPI.org/project/flake8>} using Python 3.7.4, both in 64-bit
+on macOS 10.13.6 High Sierra.
 
 Some function and method names differ from the JavaScript version. In such
 cases documentation tag B{JS name:} shows the original JavaScript name.
@@ -232,7 +234,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy        = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '19.07.06'
+__version__ = '19.07.08'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 

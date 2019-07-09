@@ -59,9 +59,9 @@
 <!-- ==================== PACKAGE DESCRIPTION ==================== -->
 <h1 class="epydoc">Package pygeodesy</h1><p class="nomargin-top"></p>
 <p>A pure Python implementation of geodesy tools for various ellipsoidal 
-  and spherical earth models using precision trigonometric, vector-based 
-  and approximate methods for geodetic (lat-/longitude) and geocentric 
-  cartesian (x/y/z) coordinates.</p>
+  and spherical earth models using precision trigonometric, vector-based, 
+  elliptic and approximate methods for geodetic (lat-/longitude) and 
+  geocentric cartesian (x/y/z) coordinates.</p>
   <p>Transcribed from <a href="https://GitHub.com/ChrisVeness/geodesy" 
   target="_top">JavaScript originals</a> by <i>Chris Veness (C) 
   2005-2016</i> and several <a 
@@ -155,20 +155,16 @@
     classes <a href="pygeodesy.css.CassiniSoldner-class.html" 
     class="link">CassiniSoldner</a> and <a 
     href="pygeodesy.css.Css-class.html" class="link">Css</a> and function 
-    <a href="pygeodesy.css-module.html#toCss" class="link">toCss</a> and 
-    for module <a href="pygeodesy.ellipsoidalKarney-module.html" 
+    <a href="pygeodesy.css-module.html#toCss" class="link">toCss</a>, for 
+    module <a href="pygeodesy.ellipsoidalKarney-module.html" 
     class="link">ellipsoidalKarney</a> classes <code>LatLon</code> and 
     <code>Cartesian</code> and functions <code>areaOf</code> and 
-    <code>perimeterOf</code>.  The latter are needed for the 
-    <code>Geoid...</code> and <code>Height...</code> interpolators, except 
-    <a href="pygeodesy.geoids.GeoidKarney-class.html" 
-    class="link">GeoidKarney</a>, <a 
-    href="pygeodesy.deprecated.HeightIDW-class.html" 
-    class="link">HeightIDW</a>, <a 
-    href="pygeodesy.deprecated.HeightIDW2-class.html" 
-    class="link">HeightIDW2</a> and <a 
-    href="pygeodesy.deprecated.HeightIDW3-class.html" 
-    class="link">HeightIDW3</a>.</p>
+    <code>perimeterOf</code> and for the <a 
+    href="pygeodesy.heights.HeightIDWkarney-class.html" 
+    class="link">HeightIDWkarney</a> interpolator.  The latter are needed 
+    for the <code>Geoid...</code> and <code>Height...</code> interpolator 
+    classes, except <a href="pygeodesy.geoids.GeoidKarney-class.html" 
+    class="link">GeoidKarney</a> and all <code>HeightIDW...</code>.</p>
   <h1 class="heading">Documentation</h1>
     <p>In addition to the <a href="https://PyPI.org/project/PyGeodesy" 
     target="_top">PyGeodesy</a> package, the distribution files contain the
@@ -179,15 +175,15 @@
     command line: <code>epydoc --html --no-private --no-source 
     --name=PyGeodesy --url=... -v pygeodesy</code>).</p>
   <h1 class="heading">Tests</h1>
-    <p>The tests have been run with Python 2.7.16 and 3.7.3 (both with <a 
+    <p>The tests have been run with Python 2.7.16 and 3.7.4 (both with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.49, <a 
-    href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.16.1 
+    href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.16.4 
     and <a href="https://Scipy.org/scipylib/download.html" 
-    target="_top">scipy</a> 1.2.1) and with <a href="https://PyPy.org" 
-    target="_top">PyPy</a> 6.0.0 (Python 2.7.13 and 3.5.3) on macOS 10.13.6
-    High Sierra, <i>all in 64-bit only</i>.  The results of those tests are
-    included in the distribution files.</p>
+    target="_top">scipy</a> 1.2.2 respectively 1.3.0) and with <a 
+    href="https://PyPy.org" target="_top">PyPy</a> 6.0.0 (Python 2.7.13 and
+    3.5.3) on macOS 10.13.6 High Sierra, <i>all in 64-bit only</i>.  The 
+    results of those tests are included in the distribution files.</p>
     <p>The tests also run with Python 2.6.9, 2.7.14, 3.5.6 and 3.6.3 (and 
     <a href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.49) on <a 
@@ -205,14 +201,15 @@
     64-bit</i>.</p>
     <p>On Python 3.7+, the tests run with and without <code>lazy 
     import</code>.</p>
-    <p>A single file and single directory application with 
+    <p>A single-File and single-Directory application with 
     <code>pygeodesy</code> has been bundled using <a 
     href="https://www.PyInstaller.org" target="_top">PyInstaller</a> 3.4 
     and 64-bit Python 3.7.3 on macOS 10.13.6 High Sierra.</p>
     <p>Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 
     2.7.10 (and numpy 1.8.0rc1), 2.7.13, 2.7.14, 2.7.15 (and numpy 1.13.1, 
-    1.14.0 or 1.15.2), 3.5.3, 3.6.2, 3.6.3, 3.6.4, 3.6.5, 3.7.0, 3.7.2 and 
-    <a href="https://software.Intel.com/en-us/distribution-for-python" 
+    1.14.0, 1.15.2 or 1.16.2), 3.5.3, 3.6.2, 3.6.3, 3.6.4, 3.6.5, 3.7.0, 
+    3.7.2, 3.7.3 and <a 
+    href="https://software.Intel.com/en-us/distribution-for-python" 
     target="_top">Intel-Python</a> 3.5.3 (and <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.11.3) 
     on MacOS X 10.10 Yosemite, MacOS X 10.11 El Capitan, macOS 10.12 
@@ -220,10 +217,10 @@
     href="https://OMZ-Software.com/pythonista" target="_top">Pythonista 
     3.1</a> on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4, with <a 
     href="https://OMZ-Software.com/pythonista" target="_top">Pythonista 
-    3.2</a> (with geographiclib 1.49 and numpy 1.8.0) on iOS 11.4.1, 12.0 
-    and 12.2 on iPad4, iPhone7 and/or iPhone10, all in 64-bit only and with
-    32-bit Python 2.6.6 on Windows XP SP3 and with 32-bit Python 2.7.14 on 
-    Windows 10 Pro.</p>
+    3.2</a> (with geographiclib 1.49 and numpy 1.8.0) on iOS 11.4.1, 12.0, 
+    12.2 and 12.3 on iPad4, iPhone7 and/or iPhone10, all in 64-bit only and
+    with 32-bit Python 2.6.6 on Windows XP SP3 and with 32-bit Python 
+    2.7.14 on Windows 10 Pro.</p>
   <h1 class="heading">Notes</h1>
     <p>All Python source code has been statically <a 
     href="https://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor"
@@ -234,7 +231,7 @@
     target="_top">PyCodeStyle</a> (formerly Pep8) and <a 
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
     Python 2.7.16 and with <a href="https://PyPI.org/project/flake8" 
-    target="_top">Flake8</a> using Python 3.7.3, both in 64-bit on macOS 
+    target="_top">Flake8</a> using Python 3.7.4, both in 64-bit on macOS 
     10.13.6 High Sierra.</p>
     <p>Some function and method names differ from the JavaScript version. 
     In such cases documentation tag <b>JS name:</b> shows the original 
@@ -264,7 +261,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.07.06
+        19.07.08
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -4517,7 +4514,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'19.7.6'"><code class="variable-quote">'</code><code class="variable-string">19.7.6</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'19.7.8'"><code class="variable-quote">'</code><code class="variable-string">19.7.8</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -11251,7 +11248,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jul  8 10:00:03 2019
+    Generated by Epydoc 3.0.1 on Tue Jul  9 14:48:55 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

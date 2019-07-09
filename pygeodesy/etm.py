@@ -73,9 +73,8 @@ from math import asinh, atan, atan2, copysign, degrees, \
                  fmod, radians, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '19.06.19'
+__version__ = '19.07.08'
 
-_NaN      = float('nan')  # PYCHOK see Math::nan for Python 2.6-
 _OVERFLOW = 1.0 / EPS**2
 _TOL      = EPS
 _TOL_10   = 0.1 * _TOL
@@ -94,6 +93,8 @@ try:
 
 except ImportError:  # no geographiclib
 
+    from fmath import NAN as _NAN
+
     def _diff182(deg0, deg):  # mimick Math.AngDiff
         '''Compute C{deg - deg0}, reduced to C{[-180,180]} accurately.
         '''
@@ -106,7 +107,7 @@ except ImportError:  # no geographiclib
     def _fix90(deg):  # mimick Math.LatFix
         '''Replace angles outside [-90,90] by NaN.
         '''
-        return _NaN if abs(deg) > 90 else deg
+        return _NAN if abs(deg) > 90 else deg
 
     def _sum2(u, v):  # mimick Math::sum, actually sum2
         '''Error free transformation of a C{sum}.

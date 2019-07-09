@@ -48,7 +48,7 @@ from named import classname, _NamedDict as _X, \
 from utily import property_RO, _TypeError
 
 __all__ = _ALL_LAZY.trf
-__version__ = '19.07.02'
+__version__ = '19.07.08'
 
 _mDays = (0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 # temporarily hold a single instance for each float value
@@ -310,8 +310,8 @@ _trfXs = {  # (from_TRF, to_TRF):            mm       mm       mm     ppb     ma
                                  xform=_T(995.6, -1901.3,  -521.5,   0.62,  25.915,   9.426,  11.599),
                                  rates=_T(  0.7,    -0.7,     0.5,  -0.18,   0.067,  -0.757,  -0.051)),
 
-    # see Table 2 in U{Dawson, J. & Woods, A. "ITRF to GDA94 coordinate transformations", Journal
-    # of Applied Geodesy 4 (2010), 189-199<https://www.GA.gov.AU/webtemp/image_cache/GA19050.pdf>}
+    # see Table 2 in U{Dawson, J. & Woods, A. "ITRF to GDA94 coordinate transformations", Journal of
+    # Applied Geodesy 4 (2010), 189-199<https://www.ResearchGate.net/publication/258401581_ITRF_to_GDA94_coordinate_transformations>}
     # (note, sign of rotations for GDA94 reversed as "Australia assumes rotation to be of coordinate
     # axes" rather than the more conventional "position around the coordinate axes")
     ('ITRF2008', 'GDA94'):    _X(epoch=_F(1994.0),

@@ -69,7 +69,7 @@ The notation follows U{NIST Digital Library of Mathematical Functions
 U{22<https://DLMF.NIST.gov/22>}.
 '''
 
-from fmath import EPS, fdot, Fsum, fsum_, hypot1, map2
+from fmath import EPS, fdot, Fsum, fsum_, hypot1, INF as _INF, map2
 from lazily import _ALL_LAZY
 from named import _Named
 from utily import PI, PI_2, PI_4, property_RO, sincos2, sincos2d
@@ -78,14 +78,13 @@ from math import asinh, atan, atan2, ceil, copysign, cosh, \
                  floor, sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '19.07.06'
+__version__ = '19.07.08'
 
-_INFINITY = float('inf')  # ??
-_tolJAC   = sqrt(EPS * 0.01)
-_tolRD    =  pow(EPS * 0.002, 0.125)
-_tolRF    =  pow(EPS * 0.030, 0.125)
-_tolRG0   = _tolJAC * 2.7
-_TRIPS    =  13  # Max depth for sncndn, etc, 5-7 might be enough
+_tolJAC = sqrt(EPS * 0.01)
+_tolRD  =  pow(EPS * 0.002, 0.125)
+_tolRF  =  pow(EPS * 0.030, 0.125)
+_tolRG0 = _tolJAC * 2.7
+_TRIPS  =  13  # Max depth for sncndn, etc, 5-7 might be enough
 
 
 class EllipticError(ValueError):
@@ -107,13 +106,13 @@ class Elliptic(_Named):
     _kp2     = 0
     _trips_  = _TRIPS
 
-    _Dc      = _INFINITY
+    _Dc      = _INF
     _Ec      = 1.0
-    _Gc      = _INFINITY
-    _Hc      = _INFINITY
-    _Kc      = _INFINITY
-    _KEc     = _INFINITY
-    _Pic     = _INFINITY
+    _Gc      = _INF
+    _Hc      = _INF
+    _Kc      = _INF
+    _KEc     = _INF
+    _Pic     = _INF
 
     def __init__(self, k2=0, alpha2=0, kp2=None, alphap2=None):
         '''Constructor specifying the C{modulus} and C{parameter}.
@@ -580,7 +579,7 @@ class Elliptic(_Named):
                     # Pi(alpha^2, k)
                     self._Pic = self._Kc + alpha2 * rj_3
                 # else:
-                #   self._Gc = self._Hc = self._Pc = _INFINITY  # XXX _Nan?
+                #   self._Gc = self._Hc = self._Pc = _INF  # XXX _NAN?
             elif alphap2:
                 self._Gc = self._Hc = _RC(1, alphap2)
         else:

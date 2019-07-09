@@ -23,7 +23,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '19.07.06'
+__version__ = '19.07.08'
 
 
 def _c2(*names):
@@ -56,14 +56,14 @@ _KeyWords=('antipode', 'area', 'azimuth', 'bearing',
            'geographiclib', 'geohash', 'geoid', 'geoidHeight',
            'GeoidHeights', 'georef',
            'Haversine', 'height', 'Hodgman', 'horizon',
-           'interpolate', 'Inverse Distance Weighting', 'IDW', 'ITRF',
+           'IDW', 'interpolate', 'Inverse Distance Weighting', 'ITRF',
            'Karney', 'Krueger', 'Krüger',
            'Lambert', 'latitude', 'Lesh', 'linearize', 'longitude',
            'Mercator', 'MGRS',
            'nearest', 'numpy', 'n-vector', 'Nvector',
            'OSGR',
            'perimeter', 'Peucker', 'polar', 'Pseudo-Mercator',
-           'PyGeodesy', 'PyPy',
+           'PyGeodesy', 'PyInstaller', 'PyPy',
            'radii', 'radius', 'Ramer', 'Ramer-Douglas-Peucker',
            'Reumann', 'Reumann-Witkam', 'rhumb',
            'scipy', 'simplify', 'Soldner', 'sphere', 'stereographic',
