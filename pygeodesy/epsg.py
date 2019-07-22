@@ -2,29 +2,29 @@
 # -*- coding: utf-8 -*-
 
 u'''Classes L{Epsg} and L{EPSGError} and functions to L{encode} and L{decode2}
-U{EPSG (European Petroleum Survey Group)<https://www.EPSG-Registry.org>} codes
+European Petroleum Survey Group (U{EPSG<https://www.EPSG-Registry.org>}) codes
 from and to U{UTM
 <https://WikiPedia.org/wiki/Universal_Transverse_Mercator_coordinate_system>} and
 U{UPS<https://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system>}
 zones.
 
-A pure Python implementation transcribed from C++ class U{UTMUPS
-<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html>}
-by I{Charles Karney}, including coverage of UPS as zone C{0}.
+A pure Python implementation transcribed from I{Charles Karney's} C++ class
+U{UTMUPS<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html>},
+including coverage of UPS as zone C{0}.
 '''
 
-from lazily import _ALL_LAZY
-from named import _NamedInt, UtmUps2Tuple
-from utily import property_RO, _Strs
-from ups import Ups
-from utm import Utm
-from utmupsBase import _to3zBhp, _UPS_ZONE, \
-                       _UTM_ZONE_MIN, _UTM_ZONE_MAX, \
-                       _UTMUPS_ZONE_INVALID
+from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.named import _NamedInt, UtmUps2Tuple
+from pygeodesy.utily import property_RO, _Strs
+from pygeodesy.ups import Ups
+from pygeodesy.utm import Utm
+from pygeodesy.utmupsBase import _to3zBhp, _UPS_ZONE, \
+                                 _UTM_ZONE_MIN, _UTM_ZONE_MAX, \
+                                 _UTMUPS_ZONE_INVALID
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.epsg + ('decode2', 'encode')
-__version__ = '19.05.10'
+__version__ = '19.07.14'
 
 # _EPSG_INVALID = _UTMUPS_ZONE_INVALID
 _EPSG_N_01 = 32601  # EPSG code for UTM zone 01 N
@@ -37,7 +37,7 @@ _EPSG_S    = 32761  # EPSG code for UPS pole S
 
 
 class EPSGError(ValueError):
-    '''EPSG encode or decode error.
+    '''European Petroleum Survey Group (EPSG) encode, decode or other L{Epsg} issue.
     '''
     pass
 
@@ -52,7 +52,8 @@ class Epsg(_NamedInt):
     _zone       = _UTMUPS_ZONE_INVALID
 
     def __new__(cls, eisu):
-        '''New L{Epsg} from a UTM/USP coordinate or other EPSG.
+        '''New L{Epsg} European Petroleum Survey Group (EPSG) code from
+           a UTM/USP coordinate or other EPSG code.
 
            @param eisu: Other (L{Epsg}, C{int}, C{str}, L{Utm} or L{Ups}).
 

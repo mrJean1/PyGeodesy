@@ -1,7 +1,8 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Web Mercator (WM) class L{Wm} and functions L{parseWM} and L{toWm}.
+u'''Web Mercator (WM) classes L{Wm} and L{WebMercatorError} and functions
+L{parseWM} and L{toWm}.
 
 Pure Python implementation of a U{Web Mercator<https://WikiPedia.org/wiki/Web_Mercator>}
 (aka I{Pseudo-Mercator}) class and conversion functions for spherical and
@@ -16,26 +17,32 @@ U{Implementation Practice Web Mercator Map Projection
 @newfield example: Example, Examples
 '''
 
-from datum import R_MA
-from dms import clipDMS, parseDMS2
-from ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
-from fmath import EPS, fStr, isscalar, map1
-from lazily import _ALL_LAZY
-from named import EasNorRadius3Tuple, LatLon2Tuple, \
-                 _NamedBase, nameof, _xnamed
-from utily import PI_2, degrees90, degrees180, issubclassof, \
-                  property_RO
+from pygeodesy.datum import R_MA
+from pygeodesy.dms import clipDMS, parseDMS2
+from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
+from pygeodesy.fmath import EPS, fStr, isscalar, map1
+from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.named import EasNorRadius3Tuple, LatLon2Tuple, \
+                           _NamedBase, nameof, _xnamed
+from pygeodesy.utily import PI_2, degrees90, degrees180, \
+                            issubclassof, property_RO
 
 from math import atan, atanh, exp, radians, sin, tanh
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.webmercator
-__version__ = '19.05.09'
+__version__ = '19.07.12'
 
 # _FalseEasting  = 0   #: (INTERNAL) False Easting (C{meter}).
 # _FalseNorthing = 0   #: (INTERNAL) False Northing (C{meter}).
 _LatLimit = 85.051129  #: (INTERNAL) Latitudinal limit (C{degrees}).
 # _LonOrigin     = 0   #: (INTERNAL) Longitude of natural origin (C{degrees}).
+
+
+class WebMercatorError(ValueError):
+    '''Web Mercator (WM) parse or L{Wm} issue.
+    '''
+    pass
 
 
 class Wm(_NamedBase):
@@ -46,14 +53,14 @@ class Wm(_NamedBase):
     _y      = 0  #: (INTERNAL) northing (C{meter}).
 
     def __init__(self, x, y, radius=R_MA, name=''):
-        '''New Web Mercator (WM) coordinate.
+        '''New L{Wm} Web Mercator (WM) coordinate.
 
            @param x: Easting from central meridian (C{meter}).
            @param y: Northing from equator (C{meter}).
            @keyword radius: Optional earth radius (C{meter}).
            @keyword name: Optional name (C{str}).
 
-           @raise ValueError: Invalid B{C{x}}, B{C{y}} or B{C{radius}}.
+           @raise WebMercatorError: Invalid B{C{x}}, B{C{y}} or B{C{radius}}.
 
            @example:
 
@@ -66,15 +73,15 @@ class Wm(_NamedBase):
         try:
             self._x, self._y, r = map1(float, x, y, radius)
         except (TypeError, ValueError):
-            raise ValueError('%s invalid: %r' % (Wm.__name__, (x, y, radius)))
+            raise WebMercatorError('%s invalid: %r' % (Wm.__name__, (x, y, radius)))
 
         if r < EPS:  # check radius
             t = '%s.%s' % (self.classname, 'radius')
-            raise ValueError('%s invalid: %r' % (t, r))
+            raise WebMercatorError('%s invalid: %r' % (t, r))
         self._radius = r
 
     def copy(self):
-        '''Copy this Web Marcator coordinate.
+        '''Copy this WM coordinate.
 
            @return: The copy (L{Wm} or subclass thereof).
         '''
@@ -159,7 +166,7 @@ class Wm(_NamedBase):
            @return: This WM as "meter meter" (C{str}) plus " radius"
                     if B{C{radius}} is C{True} or C{scalar}.
 
-           @raise ValueError: Invalid B{C{radius}}.
+           @raise WebMercatorError: Invalid B{C{radius}}.
 
            @example:
 
@@ -175,7 +182,7 @@ class Wm(_NamedBase):
         elif isscalar(radius):
             fs += (radius,)
         else:
-            raise ValueError('% invalid: %r' % ('radius', radius))
+            raise WebMercatorError('% invalid: %r' % ('radius', radius))
         return fStr(fs, prec=prec, sep=sep)
 
     def toStr2(self, prec=3, fmt='[%s]', sep=', ', radius=False):  # PYCHOK expected
@@ -189,6 +196,8 @@ class Wm(_NamedBase):
            @return: This WM as "[x:meter, y:meter]" (C{str}) plus
                     ", radius:meter]" if B{C{radius}} is C{True} or
                     C{scalar}.
+
+           @raise WebMercatorError: Invalid B{C{radius}}.
         '''
         t = self.toStr(prec=prec, sep=' ', radius=radius).split()
         k = 'x', 'y', 'radius'
@@ -220,7 +229,7 @@ def parseWM(strWM, radius=R_MA, Wm=Wm, name=''):
                 L{EasNorRadius3Tuple}C{(easting, northing, radius)}
                 if B{C{Wm}} is C{None}.
 
-       @raise ValueError: Invalid B{C{strWM}}.
+       @raise WebMercatorError: Invalid B{C{strWM}}.
 
        @example:
 
@@ -236,7 +245,7 @@ def parseWM(strWM, radius=R_MA, Wm=Wm, name=''):
         x, y, r = map(float, w)
 
     except (TypeError, ValueError):
-        raise ValueError('%s invalid: %r' % ('strWM', strWM))
+        raise WebMercatorError('%s invalid: %r' % ('strWM', strWM))
 
     r = EasNorRadius3Tuple(x, y, r) if Wm is None else \
                         Wm(x, y, radius=r)

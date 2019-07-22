@@ -1,30 +1,31 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Cassini-Soldner projection class L{CassiniSoldner} requiring
-U{GeographicLib<https://PyPI.org/project/geographiclib/>}.
+u'''Cassini-Soldner projection classes L{CassiniSoldner}, L{Css} and
+L{CSSError} requiring I{Charles Karney's} U{geographiclib
+<https://PyPI.org/project/geographiclib/>} package to be installed.
 
 @newfield example: Example, Examples
 '''
 
-from datum import Datums
-from ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
-from fmath import fStr
-from lazily import _ALL_LAZY
-from named import EasNor2Tuple, EasNor3Tuple, EasNorAziRk4Tuple, \
-                  LatLon2Tuple, LatLon4Tuple, LatLonAziRk4Tuple, \
-                  _NamedBase, nameof, _xattrs, _xnamed
-from utily import issubclassof, property_RO, _TypeError
+from pygeodesy.datum import Datums
+from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
+from pygeodesy.fmath import fStr
+from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.named import EasNor2Tuple, EasNor3Tuple, EasNorAziRk4Tuple, \
+                            LatLon2Tuple, LatLon4Tuple, LatLonAziRk4Tuple, \
+                            _NamedBase, nameof, _xattrs, _xnamed
+from pygeodesy.utily import false2f, issubclassof, property_RO, _TypeError
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.css
-__version__ = '19.06.29'
+__version__ = '19.07.12'
 
 _CassiniSoldner0 = None  # default projection
 
 
 def _CassiniSoldner(cs0):
-    '''(INTERNAL) Get/det default projection.
+    '''(INTERNAL) Get/set default projection.
     '''
     if cs0 is None:
         global _CassiniSoldner0
@@ -37,9 +38,8 @@ def _CassiniSoldner(cs0):
 
 
 class CassiniSoldner(_NamedBase):
-    '''A Python version of Charles Karney's U{CassiniSoldner
-       <https://GeographicLib.SourceForge.io/1.49/classGeographicLib_1_1CassiniSoldner.html>}
-       C++ class.
+    '''A Python version of Karney's C++ class U{CassiniSoldner
+       <https://GeographicLib.SourceForge.io/1.49/classGeographicLib_1_1CassiniSoldner.html>}.
     '''
     _cb0      = 0
     _datum    = Datums.WGS84  #: (INTERNAL) L{Datum}.
@@ -85,7 +85,7 @@ class CassiniSoldner(_NamedBase):
     def copy(self):
         '''Copy this Cassini-Soldner projection.
 
-           @return: The copy (L{Utm} or subclass thereof).
+           @return: The copy (L{CassiniSoldner} or subclass thereof).
         '''
         return self._xcopy()
 
@@ -271,6 +271,12 @@ class CassiniSoldner(_NamedBase):
         return '%s(%s%s)' % (self.classname, t, n)
 
 
+class CSSError(ValueError):
+    '''Cassini-Soldner (CSS) conversion or other L{Css} issue.
+    '''
+    pass
+
+
 class Css(_NamedBase):
     '''Cassini-Soldner East-/Northing location.
     '''
@@ -283,7 +289,7 @@ class Css(_NamedBase):
     _rk       = None  #: (INTERNAL) reciprocal of azimuthal northing scale (C{float})
 
     def __init__(self, e, n, h=0, cs0=_CassiniSoldner0, name=''):
-        '''New L{Css} position.
+        '''New L{Css} Cassini-Soldner position.
 
            @param e: Easting (C{meter}).
            @param n: Northing (C{meter}).
@@ -294,20 +300,20 @@ class Css(_NamedBase):
 
            @return: The Cassini-Soldner location (L{Css}).
 
+           @raise CSSError: If B{C{e}} or B{C{n}} is invalid.
+
            @raise ImportError: Package U{GeographicLib<https://PyPI.org/
                                project/geographiclib>} missing.
 
            @raise TypeError: If B{C{cs0}} is not L{CassiniSoldner}.
-
-           @raise ValueError: If B{C{e}} or B{C{n}} is invalid.
 
            @example:
 
            >>> cs = Css(448251, 5411932.0001)
         '''
         self._cs0 = _CassiniSoldner(cs0)
-        self._easting  = float(e)
-        self._northing = float(n)
+        self._easting  = false2f(e, 'easting',  false=False, Error=CSSError)
+        self._northing = false2f(n, 'northing', false=False, Error=CSSError)
         if h:
             self._height = float(h)
         if name:
@@ -468,6 +474,8 @@ def toCss(latlon, cs0=_CassiniSoldner0, height=None, Css=Css, name=''):
                 L{EasNor3Tuple}C{(easting, northing, height)}
                 if B{C{Css}} is C{None}.
 
+       @raise CSSError: Mismatch of this and the B{C{latlon}} ellipsoidal.
+
        @raise ImportError: Package U{GeographicLib<https://PyPI.org/
                            project/geographiclib>} missing.
 
@@ -480,7 +488,7 @@ def toCss(latlon, cs0=_CassiniSoldner0, height=None, Css=Css, name=''):
 
     C, E = cs.datum.ellipsoid, latlon.datum.ellipsoid
     if C != E:
-        raise ValueError('%s mistmatch: %r vs %r' % ('ellipsoidal', C, E))
+        raise CSSError('%s mistmatch: %r vs %r' % ('ellipsoidal', C, E))
 
     c = cs.forward4(latlon.lat, latlon.lon)
     h = latlon.height if height is None else height

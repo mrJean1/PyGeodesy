@@ -3,7 +3,7 @@
           "DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>pygeodesy.deprecated.HeightIDW</title>
+  <title>pygeodesy.wgrs.WGRSError</title>
   <link rel="stylesheet" href="epydoc.css" type="text/css" />
   <script type="text/javascript" src="epydoc.js"></script>
 </head>
@@ -43,8 +43,8 @@
     <td width="100%">
       <span class="breadcrumbs">
         <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
-        <a href="pygeodesy.deprecated-module.html">Module&nbsp;deprecated</a> ::
-        Class&nbsp;HeightIDW
+        <a href="pygeodesy.wgrs-module.html">Module&nbsp;wgrs</a> ::
+        Class&nbsp;WGRSError
       </span>
     </td>
     <td>
@@ -52,32 +52,32 @@
         <!-- hide/show private -->
         <tr><td align="right"><span class="options"
             >[<a href="frames.html" target="_top">frames</a
-            >]&nbsp;|&nbsp;<a href="pygeodesy.deprecated.HeightIDW-class.html"
+            >]&nbsp;|&nbsp;<a href="pygeodesy.wgrs.WGRSError-class.html"
             target="_top">no&nbsp;frames</a>]</span></td></tr>
       </table>
     </td>
   </tr>
 </table>
 <!-- ==================== CLASS DESCRIPTION ==================== -->
-<h1 class="epydoc">Class HeightIDW</h1><p class="nomargin-top"></p>
+<h1 class="epydoc">Class WGRSError</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-     object --+                
-              |                
-   named._Named --+            
-                  |            
-heights._HeightBase --+        
-                      |        
-     heights._HeightIDW --+    
-                          |    
- <a href="pygeodesy.heights.HeightIDWeuclidean-class.html">heights.HeightIDWeuclidean</a> --+
-                              |
-                             <strong class="uidshort">HeightIDW</strong>
+              object --+                
+                       |                
+exceptions.BaseException --+            
+                           |            
+        exceptions.Exception --+        
+                               |        
+        exceptions.StandardError --+    
+                                   |    
+               exceptions.ValueError --+
+                                       |
+                                      <strong class="uidshort">WGRSError</strong>
 </pre>
 
 <hr />
-<p>DEPRECATED, use class <a 
-  href="pygeodesy.heights.HeightIDWeuclidean-class.html" 
-  class="link">HeightIDWeuclidean</a>.</p>
+<p>World Geographic Reference System (WGRS) encode, decode or other <a 
+  href="pygeodesy.wgrs.Georef-class.html" class="link">Georef</a> 
+  issue.</p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -89,27 +89,26 @@ heights._HeightBase --+
 </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.heights.HeightIDWeuclidean-class.html">heights.HeightIDWeuclidean</a></code></b>:
-      <code><a href="pygeodesy.heights.HeightIDWeuclidean-class.html#__call__">__call__</a></code>,
-      <code><a href="pygeodesy.heights.HeightIDWeuclidean-class.html#__init__">__init__</a></code>,
-      <code><a href="pygeodesy.heights.HeightIDWeuclidean-class.html#height">height</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>exceptions.ValueError</code></b>:
+      <code>__init__</code>,
+      <code>__new__</code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
-      <code>__copy__</code>,
+    <p class="indent-wrapped-lines"><b>Inherited from <code>exceptions.BaseException</code></b>:
+      <code>__delattr__</code>,
+      <code>__getattribute__</code>,
+      <code>__getitem__</code>,
+      <code>__getslice__</code>,
+      <code>__reduce__</code>,
       <code>__repr__</code>,
+      <code>__setattr__</code>,
+      <code>__setstate__</code>,
       <code>__str__</code>,
-      <code>classof</code>,
-      <code>copy</code>
+      <code>__unicode__</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
-      <code>__delattr__</code>,
       <code>__format__</code>,
-      <code>__getattribute__</code>,
       <code>__hash__</code>,
-      <code>__new__</code>,
-      <code>__reduce__</code>,
       <code>__reduce_ex__</code>,
-      <code>__setattr__</code>,
       <code>__sizeof__</code>,
       <code>__subclasshook__</code>
       </p>
@@ -126,15 +125,9 @@ heights._HeightBase --+
 </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>heights._HeightIDW</code></b>:
-      <code>beta</code>
-      </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
-      <code>classname</code>,
-      <code>classnaming</code>,
-      <code>name</code>,
-      <code>named</code>,
-      <code>named2</code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>exceptions.BaseException</code></b>:
+      <code>args</code>,
+      <code>message</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
@@ -173,7 +166,7 @@ heights._HeightBase --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Jul  9 14:48:56 2019
+    Generated by Epydoc 3.0.1 on Mon Jul 22 13:42:47 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

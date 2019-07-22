@@ -54,27 +54,26 @@ or by converting to anothor datum:
 
 # make sure int division yields float quotient
 from __future__ import division
+division = 1 / 2  # double check int division, see .datum.py
+if not division:
+    raise ImportError('%s 1/2 == %d' % ('division', division))
+del division
 
-from datum import Datums
-from ellipsoidalBase import CartesianBase, LatLonEllipsoidalBase
-from fmath import EPS, fpolynomial, hypot, scalar
-from lazily import _ALL_LAZY
-from named import Bearing2Tuple, Destination2Tuple, Distance3Tuple
-from points import ispolar  # PYCHOK ispolar
-from utily import degrees90, degrees180, degrees360, sincos2, unroll180
+from pygeodesy.datum import Datums
+from pygeodesy.ellipsoidalBase import CartesianBase, LatLonEllipsoidalBase
+from pygeodesy.fmath import EPS, fpolynomial, hypot, scalar
+from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.named import Bearing2Tuple, Destination2Tuple, Distance3Tuple
+from pygeodesy.points import ispolar  # PYCHOK exported
+from pygeodesy.utily import degrees90, degrees180, degrees360, sincos2, unroll180
 
 from math import atan2, cos, radians, tan
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.ellipsoidalVincenty + (
           'Cartesian', 'LatLon',
-          'ispolar')
-__version__ = '19.06.29'
-
-division = 1 / 2  # double check int division, see .datum.py
-if not division:
-    raise ImportError('%s 1/2 == %d' % ('division', division))
-del division
+          'ispolar')  # from .points
+__version__ = '19.07.09'
 
 
 class VincentyError(ValueError):
@@ -597,14 +596,14 @@ class Cartesian(CartesianBase):
 def areaOf(points, datum=Datums.WGS84, wrap=True):
     '''DEPRECATED, use function C{ellipsoidalKarney.areaOf}.
     '''
-    from ellipsoidalKarney import areaOf
+    from pygeodesy.ellipsoidalKarney import areaOf
     return areaOf(points, datum=datum, wrap=wrap)
 
 
 def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):
     '''DEPRECATED, use function C{ellipsoidalKarney.perimeterOf}.
     '''
-    from ellipsoidalKarney import perimeterOf
+    from pygeodesy.ellipsoidalKarney import perimeterOf
     return perimeterOf(points, closed=closed, datum=datum, wrap=wrap)
 
 # **) MIT License

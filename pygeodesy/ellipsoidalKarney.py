@@ -3,8 +3,8 @@
 
 u'''Ellipsoidal geodetic (lat-/longitude) and cartesian (x/y/z) classes
 L{LatLon} and L{Cartesian} and functions L{areaOf} and L{perimeterOf}
-based on the Python implementation of I{Charles F. F. Karney's}
-U{GeographicLib<https://PyPI.org/project/geographiclib>}.
+based on I{Charles Karney's} Python implementation of U{GeographicLib
+<https://PyPI.org/project/geographiclib>}.
 
 Here's an example usage of C{ellipsoidalKarney}:
 
@@ -28,19 +28,19 @@ or by converting to anothor datum:
 @newfield example: Example, Examples
 '''
 
-from datum import Datums
-from ellipsoidalBase import CartesianBase, LatLonEllipsoidalBase
-from lazily import _ALL_LAZY
-from named import Bearing2Tuple, Destination2Tuple, Distance3Tuple
-from points import ispolar  # PYCHOK ispolar
-from utily import points2, property_RO, unroll180, \
-                  wrap90, wrap180, wrap360
+from pygeodesy.datum import Datums
+from pygeodesy.ellipsoidalBase import CartesianBase, LatLonEllipsoidalBase
+from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.named import Bearing2Tuple, Destination2Tuple, Distance3Tuple
+from pygeodesy.points import ispolar  # PYCHOK exported
+from pygeodesy.utily import points2, property_RO, unroll180, \
+                            wrap90, wrap180, wrap360
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.ellipsoidalKarney + (
           'Cartesian', 'LatLon',  # classes
-          'areaOf', 'ispolar', 'perimeterOf')  # functions
-__version__ = '19.06.29'
+          'areaOf', 'isclockwise', 'ispolar', 'perimeterOf')  # functions
+__version__ = '19.07.14'
 
 
 class LatLon(LatLonEllipsoidalBase):

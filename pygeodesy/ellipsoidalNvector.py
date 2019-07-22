@@ -22,14 +22,14 @@ The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.
 @newfield example: Example, Examples
 '''
 
-from datum import Datum, Datums
-from ellipsoidalBase import CartesianBase, LatLonEllipsoidalBase
-from fmath import EPS, cbrt, fdot, fStr, fsum_, hypot, hypot_
-from lazily import _ALL_LAZY
-from named import LatLon3Tuple, _Named, Ned3Tuple, _xnamed
-from nvector import NorthPole, LatLonNvectorBase, \
-                    Nvector as NvectorBase, sumOf
-from utily import degrees90, degrees360, property_RO
+from pygeodesy.datum import Datum, Datums
+from pygeodesy.ellipsoidalBase import CartesianBase, LatLonEllipsoidalBase
+from pygeodesy.fmath import EPS, cbrt, fdot, fStr, fsum_, hypot, hypot_
+from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.named import LatLon3Tuple, _Named, Ned3Tuple, _xnamed
+from pygeodesy.nvector import NorthPole, LatLonNvectorBase, \
+                              Nvector as NvectorBase, sumOf
+from pygeodesy.utily import degrees90, degrees360, property_RO
 
 from math import asin, atan2, cos, radians, sin, sqrt
 
@@ -37,7 +37,7 @@ from math import asin, atan2, cos, radians, sin, sqrt
 __all__ = _ALL_LAZY.ellipsoidalNvector + (
           'Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
           'meanOf', 'toNed')  # functions
-__version__ = '19.06.29'
+__version__ = '19.07.12'
 
 
 class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
@@ -251,7 +251,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #
 #         v1 = self.toVector3d()
 #         v2 = other.toVector3d()
-#         r = radius or self.datum.ellipsoid.R1
+#         r = self.datum.ellipsoid.R1 if radius is None else radius
 #         return v1.angleTo(v2) * float(r)
 
     def equals(self, other, eps=None):
@@ -601,7 +601,7 @@ class Ned(_Named):
 
            @return: This Ned as "[L:f, B:degrees360, E:degrees90]" (C{str}).
         '''
-        from dms import F_D, toDMS
+        from pygeodesy.dms import F_D, toDMS
         t3 = (fStr(self.length, prec=3 if prec is None else prec),
               toDMS(self.bearing, form=F_D, prec=prec, ddd=0),
               toDMS(self.elevation, form=F_D, prec=prec, ddd=0))
@@ -612,7 +612,7 @@ class Ned(_Named):
 
            @return: The vector(north, east, down) (L{Vector3d}).
         '''
-        from vector3d import Vector3d
+        from pygeodesy.vector3d import Vector3d
         return Vector3d(*self.to3ned(), name=self.name)
 
 
@@ -770,8 +770,8 @@ def toNed(distance, bearing, elevation, name=''):
                          frame horizontal (C{degrees}).
        @keyword name: Optional name (C{str}).
 
-       @return: NED vector equivalent to this B{C{distance}}, B{C{bearing}}
-                and B{C{elevation}} (L{Ned}).
+       @return: NED vector equivalent to this B{C{distance}},
+                B{C{bearing}} and B{C{elevation}} (L{Ned}).
 
        @JSname: I{fromDistanceBearingElevation}.
     '''

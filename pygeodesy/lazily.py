@@ -75,13 +75,13 @@ _ALL_INIT = 'pygeodesy_abspath', 'version'
 _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                           bases=('LatLonHeightBase',),
                           clipy=('clipCS3', 'clipSH', 'clipSH3'),
-                            css=('CassiniSoldner', 'Css', 'toCss'),
+                            css=('CassiniSoldner', 'Css', 'CSSError', 'toCss'),
                           datum=('R_M', 'R_MA', 'R_MB', 'R_KM', 'R_NM', 'R_SM', 'R_FM', 'R_VM',
                                  'Datum', 'Ellipsoid', 'Transform', 'Datums', 'Ellipsoids', 'Transforms'),
                             dms=('F_D', 'F_DM', 'F_DMS', 'F_DEG', 'F_MIN', 'F_SEC', 'F_RAD', 'S_DEG', 'S_MIN', 'S_SEC', 'S_RAD', 'S_SEP',
                                  'RangeError', 'bearingDMS', 'clipDMS', 'compassDMS', 'compassPoint', 'degDMS', 'latDMS', 'lonDMS',
                                  'normDMS', 'parseDMS', 'parseDMS2', 'parse3llh', 'precision', 'rangerrors', 'toDMS'),
-                     deprecated=('HeightIDW', 'HeightIDW2', 'HeightIDW3',  # DEPRECATED classes
+                     deprecated=('HeightIDW', 'HeightIDW2', 'HeightIDW3', 'RefFrameError',  # DEPRECATED classes
                                  'areaof', 'bounds', 'decodeEPSG2', 'encodeEPSG',  # most of the DEPRECATED functions
                                  'equirectangular3', 'hypot3', 'isenclosedby', 'nearestOn3', 'nearestOn4',
                                  'parseUTM', 'perimeterof', 'polygon', 'simplify2', 'toUtm', 'utmZoneBand2'),
@@ -101,18 +101,18 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'len2', 'map1', 'map2', 'scalar', 'sqrt3'),
                           formy=('antipode', 'bearing', 'bearing_', 'compassAngle', 'euclidean', 'euclidean_', 'equirectangular', 'equirectangular_',
                                  'haversine', 'haversine_', 'heightOf', 'horizon', 'isantipode', 'vincentys', 'vincentys_'),
-                           gars=('Garef',),  # nothing else
-                        geohash=('Geohash',),  # nothing else
+                           gars=('Garef', 'GARSError'),
+                        geohash=('Geohash', 'GeohashError'),
                          geoids=('GeoidError', 'GeoidG2012B', 'GeoidKarney', 'GeoidPGM', 'egmGeoidHeights', 'PGMError'),
                         heights=('HeightError', 'SciPyError', 'SciPyWarning',
                                  'HeightIDWequirectangular', 'HeightIDWeuclidean', 'HeightIDWhaversine', 'HeightIDWkarney', 'HeightIDWvincentys',
                                  'HeightCubic', 'HeightLinear', 'HeightLSQBiSpline', 'HeightSmoothBiSpline'),
                          lazily=('LazyImportError', 'isLazy'),
-                            lcc=('Conic', 'Conics', 'Lcc', 'toLcc'),
-                           mgrs=('Mgrs', 'parseMGRS', 'toMgrs'),
+                            lcc=('Conic', 'Conics', 'Lcc', 'LCCError', 'toLcc'),
+                           mgrs=('Mgrs', 'MGRSError', 'parseMGRS', 'toMgrs'),
                           named=('classname', 'classnaming', 'inStr', 'nameof'),
                         nvector=(),  # module only
-                           osgr=('Osgr', 'parseOSGR', 'toOsgr'),
+                           osgr=('Osgr', 'OSGRError', 'parseOSGR', 'toOsgr'),
                          points=('LatLon_', 'LatLon2psxy', 'Numpy2LatLon', 'Tuple2LatLon',
                                  'areaOf', 'boundsOf', 'centroidOf',
                                  'isclockwise', 'isconvex', 'isconvex_', 'isenclosedBy', 'ispolar',
@@ -120,7 +120,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                sphericalNvector=(),  # module only
           sphericalTrigonometry=(),  # module only
                        simplify=('simplify1', 'simplifyRDP', 'simplifyRDPm', 'simplifyRW', 'simplifyVW', 'simplifyVWm'),
-                            trf=('RefFrame', 'RefFrameError', 'RefFrames', 'date2epoch'),
+                            trf=('RefFrame', 'RefFrames', 'TRFError', 'date2epoch'),
                             ups=('Ups', 'UPSError', 'parseUPS5', 'toUps8', 'upsZoneBand5'),
                           utily=('OK', 'PI', 'PI2', 'PI_2', 'PI_4', 'R_M', 'LimitError',
                                  'anStr', 'clipStr',
@@ -135,9 +135,9 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'wrap90', 'wrap180', 'wrap360', 'wrapPI_2','wrapPI', 'wrapPI2'),
                             utm=('Utm', 'UTMError', 'parseUTM5', 'toUtm8', 'utmZoneBand5'),
                          utmups=('UtmUps', 'UTMUPSError', 'parseUTMUPS5', 'toUtmUps8', 'utmupsValidate', 'utmupsValidateOK', 'utmupsZoneBand5'),
-                       vector3d=('CrossError', 'crosserrors'),  # nothing else
-                    webmercator=('Wm', 'parseWM', 'toWm'),
-                           wgrs=('Georef',))  # nothing else
+                       vector3d=('CrossError', 'crosserrors', 'VectorError'),  # nothing else
+                    webmercator=('Wm', 'WebMercatorError', 'parseWM', 'toWm'),
+                           wgrs=('Georef', 'WGRSError'))
 
 # DEPRECATED __all__ names overloading those in _ALL_LAZY.deprecated where
 # the new name is fully backward compatible in signature and return value
@@ -150,7 +150,7 @@ _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                 utily=('points2 as polygon',))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '19.07.06'
+__version__ = '19.07.12'
 
 
 def _all_imports(**more):
@@ -250,6 +250,7 @@ def _lazy_import2(_package_):  # MCCABE 23
     else:  # no import path names
         cwdir = ''
 
+    import_ = _package_ + '.'  # namespace
     imports = _all_imports()
 
     def __getattr__(name):  # __getattr__ only for Python 3.7+
@@ -261,7 +262,7 @@ def _lazy_import2(_package_):  # MCCABE 23
             mod, _, attr = imports[name].partition('.')
             if mod not in imports:
                 raise LazyImportError('no %s %s.%s', 'module', parent, mod)
-            imported = import_module(mod, parent)  # XXX '.' + mod
+            imported = import_module(import_ + mod, parent)  # XXX '.' + mod
             if imported.__package__ not in (parent, '__main__', ''):
                 raise LazyImportError('%s.%s %r' % (mod, '__package__', imported.__package__))
             # import the module or module attribute

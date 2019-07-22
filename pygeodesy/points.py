@@ -25,18 +25,18 @@ the index for the lat- and longitude index in each 2+tuple.
 @newfield example: Example, Examples
 '''
 
-from dms import F_D, latDMS, lonDMS
-from fmath import EPS, favg, fdot, Fsum, fsum, isint, map1, scalar
-from formy import equirectangular_
-from lazily import _ALL_LAZY
-from named import Bounds2Tuple, Bounds4Tuple, classname, inStr, \
-                  LatLon2Tuple, NearestOn3Tuple, NearestOn5Tuple, \
-                  PhiLam2Tuple, Point3Tuple, Shape2Tuple, \
-                  nameof, _xnamed
-from utily import PI_2, R_M, degrees90, degrees180, degrees360, \
-                  degrees2m, issequence, points2, property_RO, \
-                  unroll180, unrollPI, wrap90, wrap180
-from vector3d import CrossError, crosserrors
+from pygeodesy.dms import F_D, latDMS, lonDMS
+from pygeodesy.fmath import EPS, favg, fdot, Fsum, fsum, isint, map1, scalar
+from pygeodesy.formy import equirectangular_
+from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.named import Bounds2Tuple, Bounds4Tuple, classname, inStr, \
+                            LatLon2Tuple, NearestOn3Tuple, NearestOn5Tuple, \
+                            PhiLam2Tuple, Point3Tuple, Shape2Tuple, \
+                            nameof, _xnamed
+from pygeodesy.utily import PI_2, R_M, degrees90, degrees180, degrees360, \
+                            degrees2m, issequence, points2, property_RO, \
+                            unroll180, unrollPI, wrap90, wrap180
+from pygeodesy.vector3d import CrossError, crosserrors
 
 try:
     from collections import Sequence as _Sequence  # immutable
@@ -46,7 +46,7 @@ from inspect import isclass
 from math import atan2, cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '19.05.09'
+__version__ = '19.07.09'
 
 
 class LatLon_(object):  # XXX imported by heights._HeightBase.height

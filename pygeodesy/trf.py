@@ -1,9 +1,10 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Terrestrial Reference Frame (TRF) class L{RefFrame} and registry thereof L{RefFrames}.
+u'''Terrestrial Reference Frame (TRF) classes L{RefFrame}, registry
+L{RefFrames} and L{TRFError}.
 
-Transcribed from Chris Veness' (C) 2006-2019 JavaScript originals
+Transcribed from I{Chris Veness'} (C) 2006-2019 JavaScript originals
 U{latlon-ellipsoidal-referenceframe.js<https://GitHub.com/chrisveness/geodesy/blob/master/
 latlon-ellipsoidal-referenceframe.js>} and U{latlon-ellipsoidal-referenceframe-txparams.js
 <https://GitHub.com/chrisveness/geodesy/blob/master/latlon-ellipsoidal-referenceframe-txparams.js>}.
@@ -40,15 +41,15 @@ en/how-to-deal-with-etrs89-datum-and-time-dependent-transformation-parameters-45
 @var RefFrames.WGS84g1762: RefFrame(name='WGS84g1762', epoch=2005.0, ellipsoid=Ellipsoid(name='WGS84')
 '''
 
-from datum import Ellipsoid, Ellipsoids, Transform
-from fmath import isscalar, map1
-from lazily import _ALL_LAZY
-from named import classname, _NamedDict as _X, \
-                 _NamedEnum, _NamedEnumItem
-from utily import property_RO, _TypeError
+from pygeodesy.datum import Ellipsoid, Ellipsoids, Transform
+from pygeodesy.fmath import fStrzs, isscalar, map1
+from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.named import classname, _NamedDict as _X, \
+                           _NamedEnum, _NamedEnumItem
+from pygeodesy.utily import property_RO, _TypeError
 
 __all__ = _ALL_LAZY.trf
-__version__ = '19.07.08'
+__version__ = '19.07.14'
 
 _mDays = (0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 # temporarily hold a single instance for each float value
@@ -79,14 +80,14 @@ def _2epoch(epoch):  # imported by .ellipsoidalBase.py
     raise TypeError('%s not %s: %r' % ('epoch', 'scalar', epoch))
 
 
-class RefFrameError(ValueError):
-    '''Reference frame or conversion issue.
+class TRFError(ValueError):
+    '''Terrestrial Reference Frame (TRF) or L{RefFrame} conversion issue.
     '''
     pass
 
 
 class RefFrame(_NamedEnumItem):
-    '''Terrestrial Reference Frame (TRF).
+    '''Terrestrial Reference Frame (TRF) parameters.
     '''
     _ellipsoid = None  #: Ellipsoid GRS80 or WGS84 (L{Ellipsoid}).
     _epoch     = 0     #: Epoch, calendar year (C{float}).
@@ -128,7 +129,7 @@ class RefFrame(_NamedEnumItem):
         '''
         e = self.ellipsoid
         t = ('name=%r'               % (self.name,),
-             'epoch=%.1f'            % (self.epoch,),
+             'epoch=%s'              % (fStrzs('%.3f' % (self.epoch,)),),
              'ellipsoid=%s(name=%r)' % (classname(e), e.name))
         return ', '.join(t)
 
@@ -159,7 +160,7 @@ def date2epoch(year, month, day):
 
        @return: Epoch, the fractional year (C{float}).
 
-       @raise ValueError: Invalid B{C{year}}, B{C{month}} or B{C{day}}.
+       @raise TRFError: Invalid B{C{year}}, B{C{month}} or B{C{day}}.
 
        @note: Any B{C{year}} is considered a leap year, i.e. having
               29 days in February.
@@ -170,7 +171,7 @@ def date2epoch(year, month, day):
             return y + float(sum(_mDays[:m]) + d) / 366.0
     except (ValueError, TypeError):
         pass
-    raise ValueError('%s invalid: %s-%s-%s' % ('date', year, month, day))
+    raise TRFError('%s invalid: %s-%s-%s' % ('date', year, month, day))
 
 
 # TRF conversions specified as 7-parameter Helmert transforms and an epoch.  Most
@@ -364,7 +365,7 @@ def _reframeTransforms(rf2, rf, epoch):
         return (_2Transform((n, n1), epoch, _Reverse),
                 _2Transform((n2, n), epoch, _Reverse))
 
-    raise RefFrameError('no %s % to %s' % ('conversion', n1, n2))
+    raise TRFError('no %s % to %s' % ('conversion', n1, n2))
 
 
 def _2Transform(n1_n2, epoch, _Forward_Reverse):
@@ -394,3 +395,25 @@ if __name__ == '__main__':
 
 _F = float  # float back to normal
 del _trfFs  # trash floats cache
+
+# **) MIT License
+#
+# Copyright (C) 2016-2019 -- mrJean1 at Gmail dot com
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+# OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+# ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.

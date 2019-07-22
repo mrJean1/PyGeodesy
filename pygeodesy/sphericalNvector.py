@@ -30,15 +30,16 @@ to a normalised version of an (ECEF) cartesian coordinate.
 @newfield example: Example, Examples
 '''
 
-from datum import R_M
-from fmath import EPS, EPS_2, fidw, fmean, fsum, fsum_, isscalar, map1
-from lazily import _ALL_LAZY
-from nvector import NorthPole, LatLonNvectorBase, \
-                    Nvector as NvectorBase, sumOf
-from points import _imdex2, ispolar  # PYCHOK ispolar
-from sphericalBase import LatLonSphericalBase
-from utily import PI, PI2, PI_2, degrees360, iterNumpy2, \
-                  sincos2, sincos2d
+from pygeodesy.datum import R_M
+from pygeodesy.fmath import EPS, EPS_2, fidw, fmean, fsum, fsum_, \
+                            isscalar, map1
+from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.nvector import NorthPole, LatLonNvectorBase, \
+                              Nvector as NvectorBase, sumOf
+from pygeodesy.points import _imdex2, ispolar  # PYCHOK exported
+from pygeodesy.sphericalBase import LatLonSphericalBase
+from pygeodesy.utily import PI, PI2, PI_2, degrees360, iterNumpy2, \
+                            sincos2, sincos2d
 
 from math import atan2, fabs, radians, sqrt
 
@@ -51,7 +52,7 @@ __all__ = _ALL_LAZY.sphericalNvector + (
           'nearestOn2',
           'perimeterOf',
           'triangulate', 'trilaterate')
-__version__ = '19.06.29'
+__version__ = '19.07.09'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):

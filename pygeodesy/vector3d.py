@@ -11,18 +11,19 @@ U{Vector-based geodesy
 @newfield example: Example, Examples
 '''
 
-from bases import _VectorBase
-from fmath import EPS, fdot, fStr, fsum, hypot, hypot_, \
-                  isscalar, len2, map1
-from lazily import _ALL_LAZY
-from named import LatLon2Tuple, PhiLam2Tuple, Vector3Tuple, _xattrs
-from utily import degrees90, degrees180, property_RO
+from pygeodesy.bases import _VectorBase
+from pygeodesy.fmath import EPS, fdot, fStr, fsum, hypot, hypot_, \
+                            isscalar, len2, map1
+from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.named import LatLon2Tuple, PhiLam2Tuple, Vector3Tuple, \
+                           _xattrs
+from pygeodesy.utily import degrees90, degrees180, property_RO
 
 from math import atan2, cos, sin
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.vector3d + ('Vector3d', 'sumOf')
-__version__ = '19.05.09'
+__version__ = '19.07.12'
 
 try:
     _cmp = cmp
@@ -52,6 +53,12 @@ def crosserrors(raiser=None):
     if raiser in (True, False):
         Vector3d._crosserrors = raiser
     return t
+
+
+class VectorError(ValueError):
+    '''L{Vector3d} or C{*Nvector} issue.
+    '''
+    pass
 
 
 class Vector3d(_VectorBase):
@@ -339,8 +346,6 @@ class Vector3d(_VectorBase):
                               B{C{raiser}} and L{crosserrors} set.
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
-
-           @raise ValueError: Coincident or colinear to B{C{other}}.
         '''
         self.others(other)
 
@@ -376,14 +381,14 @@ class Vector3d(_VectorBase):
 
            @raise TypeError: Non-scalar B{C{factor}}.
 
-           @raise ValueError: Invalid or zero B{C{factor}}.
+           @raise VectorError: Invalid or zero B{C{factor}}.
         '''
         if not isscalar(factor):
             raise TypeError('%s not scalar: %r' % ('factor', factor))
         try:
             return self.times(1.0 / factor)
         except (ValueError, ZeroDivisionError):
-            raise ValueError('%s invalid: %r' % ('factor', factor))
+            raise VectorError('%s invalid: %r' % ('factor', factor))
 
     def dot(self, other):
         '''Compute the dot (scalar) product of this and an other vector.
@@ -480,14 +485,14 @@ class Vector3d(_VectorBase):
 
            @return: New vector (L{Vector3d}).
 
-           @raise ValueError: Invalid B{C{str3d}}.
+           @raise VectorError: Invalid B{C{str3d}}.
         '''
         try:
             v = [float(v.strip()) for v in str3d.split(sep)]
             if len(v) != 3:
                 raise ValueError
-        except ValueError:
-            raise ValueError('%s invalid: %r' % ('str3d', str3d))
+        except (TypeError, ValueError):
+            raise VectorError('%s invalid: %r' % ('str3d', str3d))
 
         return self.classof(*v)
 
@@ -649,11 +654,11 @@ def sumOf(vectors, Vector=Vector3d, **kwds):
 
        @return: Vectorial sum (B{C{Vector}}).
 
-       @raise ValueError: No B{C{vectors}}.
+       @raise VectorError: No B{C{vectors}}.
     '''
     n, vectors = len2(vectors)
     if n < 1:
-        raise ValueError('no vectors: %r' & (n,))
+        raise VectorError('no vectors: %r' & (n,))
     return Vector(fsum(v.x for v in vectors),
                   fsum(v.y for v in vectors),
                   fsum(v.z for v in vectors), **kwds)

@@ -1,8 +1,8 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Class L{Garef} and several functions to encode, decode and
-inspect I{Global Area Reference System (GARS)} references.
+u'''Classes L{Garef} and L{GARSError} and several functions to encode,
+decode and inspect I{Global Area Reference System (GARS)} references.
 
 Transcribed from C++ class U{GARS
 <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GARS.html>}
@@ -13,17 +13,17 @@ by I{Charles Karney}.  See also U{Global Area Reference System
 @newfield example: Example, Examples
 '''
 
-from dms import parse3llh, parseDMS2
-from fmath import EPS1_2
-from lazily import _ALL_LAZY
-from named import LatLon2Tuple, LatLonPrec3Tuple, \
-                 _NamedStr, nameof, _xnamed
-from utily import property_RO, _Strs
+from pygeodesy.dms import parse3llh, parseDMS2
+from pygeodesy.fmath import EPS1_2
+from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.named import LatLon2Tuple, LatLonPrec3Tuple, \
+                           _NamedStr, nameof, _xnamed
+from pygeodesy.utily import property_RO, _Strs
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.gars + ('decode3',  # functions
           'encode', 'precision', 'resolution')
-__version__ = '19.06.29'
+__version__ = '19.07.12'
 
 _Digits  = '0123456789'
 _LatLen  = 2
@@ -88,10 +88,16 @@ def _2garstr2(garef):
                        or garstr[:3] == 'INV' \
                        or not garstr.isalnum():
             raise ValueError
-    except (AttributeError, ValueError, TypeError):
-        raise ValueError('%s: %r[%s]' % (Garef.__name__,
+    except (AttributeError, TypeError, ValueError):
+        raise GARSError('%s: %r[%s]' % (Garef.__name__,
                           garef, len(garef)))
     return garstr, n - _MinLen
+
+
+class GARSError(ValueError):
+    '''Global Area Reference System (GARS) encode, decode or other L{Garef} issue.
+    '''
+    pass
 
 
 class Garef(_NamedStr):
@@ -118,7 +124,7 @@ class Garef(_NamedStr):
 
            @raise TypeError: Invalid B{C{cll}}.
 
-           @raise ValueError: INValid or non-alphanumeric B{C{cll}}.
+           @raise GARSError: INValid or non-alphanumeric B{C{cll}}.
         '''
         if isinstance(cll, Garef):
             g, p = _2garstr2(str(cll))
@@ -185,10 +191,10 @@ class Garef(_NamedStr):
 
            @return: This garef location (B{C{LatLon}}).
 
-           @raise ValueError: Invalid B{C{LatLon}}.
+           @raise GARSError: Invalid B{C{LatLon}}.
         '''
         if LatLon is None:
-            raise ValueError('%s invalid: %r' % ('LatLon', LatLon))
+            raise GARSError('%s invalid: %r' % ('LatLon', LatLon))
 
         return self._xnamed(LatLon(*self.latlon, **kwds))
 
@@ -202,11 +208,11 @@ def decode3(garef, center=True):
 
        @return: A L{LatLonPrec3Tuple}C{(lat, lon, precision)}.
 
-       @raise ValueError: Invalid B{C{garef}}, INValid, non-alphanumeric
-                          or bad length B{C{garef}}.
+       @raise GARSError: Invalid B{C{garef}}, INValid, non-alphanumeric
+                         or bad length B{C{garef}}.
     '''
     def _Error(i):
-        return ValueError('%s invalid: %r[%s]' % ('garef', garef, i))
+        return GARSError('%s invalid: %r[%s]' % ('garef', garef, i))
 
     def _ll(chars, g, i, j, lo, hi):
         ll, b = 0, len(chars)
@@ -259,7 +265,7 @@ def encode(lat, lon, precision=1):  # MCCABE 14
 
        @raise RangeError: Invalid B{C{lat}} or B{C{lon}}.
 
-       @raise ValueError: Invalid B{C{precision}}.
+       @raise GARSError: Invalid B{C{precision}}.
 
        @note: The C{garef} length is M{precision + 5} and the C{garef}
               resolution is B{30′} for B{C{precision}} 0, B{15′} for 1
@@ -279,8 +285,8 @@ def encode(lat, lon, precision=1):  # MCCABE 14
         p = int(precision)
         if p < 0 or p > _MaxPrec:
             raise ValueError
-    except ValueError:
-        raise ValueError('%s invalid: %r' % ('precision', precision))
+    except (TypeError, ValueError):
+        raise GARSError('%s invalid: %r' % ('precision', precision))
 
     lat, lon = _2fll(lat, lon)
     if lat == 90:

@@ -4,18 +4,18 @@
 u'''(INTERNAL) Some UTM, UPS, Mgrs and Epsg functions.
 '''
 
-from ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
-from datum import Datums
-from dms import degDMS, parseDMS2
-from fmath import fStr, isscalar
-from lazily import _ALL_DOCS
-from named import EasNor2Tuple, LatLonDatum5Tuple, _NamedBase, \
-                  nameof, _xattrs, _xnamed
-from utily import issubclassof, property_RO, _Strs, unStr, \
-                  wrap90, wrap360
+from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
+from pygeodesy.datum import Datums
+from pygeodesy.dms import degDMS, parseDMS2
+from pygeodesy.fmath import fStr, isscalar
+from pygeodesy.lazily import _ALL_DOCS
+from pygeodesy.named import EasNor2Tuple, LatLonDatum5Tuple, \
+                           _NamedBase, nameof, _xattrs, _xnamed
+from pygeodesy.utily import issubclassof, property_RO, _Strs, unStr, \
+                            wrap90, wrap360
 
 __all__ = _ALL_DOCS('UtmUpsBase')
-__version__ = '19.06.14'
+__version__ = '19.07.09'
 
 _MGRS_TILE = 100e3  # PYCHOK block size (C{meter})
 
@@ -247,7 +247,7 @@ class UtmUpsBase(_NamedBase):
            @raise EPSGError: See L{Epsg}.
         '''
         if self._epsg is None:
-            from epsg import Epsg  # PYCHOK circular import
+            from pygeodesy.epsg import Epsg  # PYCHOK circular import
             self._epsg = Epsg(self)
         return self._epsg
 

@@ -11,20 +11,20 @@ and published under the same MIT Licence**, see for example U{latlon-ellipsoidal
 @newfield example: Example, Examples
 '''
 
-from bases import LatLonHeightBase
-from datum import Datum, Datums
-from fmath import EPS, EPS1, fsum_, hypot, hypot1
-from lazily import _ALL_DOCS
-from named import LatLon3Tuple, Vector3Tuple
-from trf import _2epoch, RefFrame, RefFrameError, _reframeTransforms
-from utily import degrees90, degrees180, property_RO, sincos2, \
-                 _TypeError, unStr
-from vector3d import Vector3d
+from pygeodesy.bases import LatLonHeightBase
+from pygeodesy.datum import Datum, Datums
+from pygeodesy.fmath import EPS, EPS1, fsum_, hypot, hypot1
+from pygeodesy.lazily import _ALL_DOCS
+from pygeodesy.named import LatLon3Tuple, Vector3Tuple
+from pygeodesy.trf import _2epoch, RefFrame, TRFError, _reframeTransforms
+from pygeodesy.utily import degrees90, degrees180, property_RO, sincos2, \
+                           _TypeError, unStr
+from pygeodesy.vector3d import Vector3d
 
 from math import atan2, copysign, sqrt
 
 __all__ = _ALL_DOCS('CartesianBase', 'LatLonEllipsoidalBase')
-__version__ = '19.06.29'
+__version__ = '19.07.09'
 
 
 class CartesianBase(Vector3d):
@@ -84,7 +84,7 @@ class CartesianBase(Vector3d):
            @return: The converted Cartesian point (C{Cartesian}) or
                     this Cartesian point if conversion is C{nil}.
 
-           @raise RefFrameError: No conversion available from
+           @raise TRFError: No conversion available from
                                  B{C{reframe}} to B{C{reframe2}}.
 
            @raise TypeError: B{C{reframe2}} or B{C{reframe}} not a
@@ -303,9 +303,9 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
            @return: The converted point (ellipsoidal C{LatLon}) or
                     this point if conversion is C{nil}.
 
-           @raise RefFrameError: No B{C{.reframe}} or no conversion
-                                 available from B{C{.reframe}} to
-                                 B{C{reframe2}}.
+           @raise TRFError: No B{C{.reframe}} or no conversion
+                            available from B{C{.reframe}} to
+                            B{C{reframe2}}.
 
            @raise TypeError: The B{C{reframe2}} is not a L{RefFrame}.
 
@@ -317,7 +317,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
         _TypeError(RefFrame, reframe2=reframe2)
 
         if not self.reframe:
-            raise RefFrameError('no %r.%s' % (self, 'reframe'))
+            raise TRFError('no %r.%s' % (self, 'reframe'))
 
         ts = _reframeTransforms(reframe2, self.reframe, self.epoch)
         if ts:
@@ -398,7 +398,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
                  possible C{error}s.
         '''
         if not self._elevation2:  # get elevation and data source
-            from elevations import elevation2
+            from pygeodesy.elevations import elevation2
             self._elevation2 = elevation2(self.lat, self.lon,
                                           timeout=timeout)
         return self._Radjust2(adjust, datum, self._elevation2)
@@ -480,7 +480,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
                  possible C{error}s.
         '''
         if not self._geoidHeight2:  # get elevation and data source
-            from elevations import geoidHeight2
+            from pygeodesy.elevations import geoidHeight2
             self._geoidHeight2 = geoidHeight2(self.lat, self.lon,
                                               model=0, timeout=timeout)
         return self._Radjust2(adjust, datum, self._geoidHeight2)
@@ -518,7 +518,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
 
            @raise ValueError: Invalid B{C{strll}}.
         '''
-        from dms import parse3llh
+        from pygeodesy.dms import parse3llh
         a, b, h = parse3llh(strll, height=height, sep=sep)
         return self.classof(a, b, height=h, datum=datum or self.datum)
 
@@ -589,7 +589,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
            @see: Function L{toEtm8}.
         '''
         if self._etm is None:
-            from etm import toEtm8, Etm  # PYCHOK recursive import
+            from pygeodesy.etm import toEtm8, Etm  # PYCHOK recursive import
             self._etm = toEtm8(self, datum=self.datum, Etm=Etm)
         return self._etm
 
@@ -601,7 +601,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
            @return: The Lambert location (L{Lcc}).
         '''
         if self._lcc is None:
-            from lcc import Lcc, toLcc  # PYCHOK recursive import
+            from pygeodesy.lcc import Lcc, toLcc  # PYCHOK recursive import
             self._lcc = toLcc(self, height=self.height, Lcc=Lcc,
                                                         name=self.name)
         return self._lcc
@@ -614,7 +614,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
            @return: The OSGR coordinate (L{Osgr}).
         '''
         if self._osgr is None:
-            from osgr import Osgr, toOsgr  # PYCHOK recursive import
+            from pygeodesy.osgr import Osgr, toOsgr  # PYCHOK recursive import
             self._osgr = toOsgr(self, datum=self.datum, Osgr=Osgr,
                                                         name=self.name)
         return self._osgr
@@ -631,7 +631,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
            @see: Function L{toUps8}.
         '''
         if self._ups is None:
-            from ups import toUps8, Ups  # PYCHOK recursive import
+            from pygeodesy.ups import toUps8, Ups  # PYCHOK recursive import
             self._ups = toUps8(self, datum=self.datum, Ups=Ups,
                                      pole=pole, falsed=falsed)
         return self._ups
@@ -644,7 +644,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
            @see: Function L{toUtm8}.
         '''
         if self._utm is None:
-            from utm import toUtm8, Utm  # PYCHOK recursive import
+            from pygeodesy.utm import toUtm8, Utm  # PYCHOK recursive import
             self._utm = toUtm8(self, datum=self.datum, Utm=Utm)
         return self._utm
 
@@ -665,7 +665,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
         elif self._ups and (self._utm.pole == pole or not pole):
             u = self._ups
         else:
-            from utmups import toUtmUps8, Utm, Ups  # PYCHOK recursive import
+            from pygeodesy.utmups import toUtmUps8, Utm, Ups  # PYCHOK recursive import
             u = toUtmUps8(self, datum=self.datum, Utm=Utm, Ups=Ups, pole=pole)
             if isinstance(u, Utm):
                 self._utm = u
@@ -683,7 +683,7 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
            @return: The WM coordinate (L{Wm}).
         '''
         if self._wm is None:
-            from webmercator import toWm  # PYCHOK recursive import
+            from pygeodesy.webmercator import toWm  # PYCHOK recursive import
             self._wm = toWm(self)
         return self._wm
 

@@ -9,21 +9,21 @@ and U{https://www.Movable-Type.co.UK/scripts/latlong-vectors.html}.
 
 @newfield example: Example, Examples
 '''
-from dms import F_D, F_DMS, latDMS, lonDMS, parseDMS, parseDMS2
-from fmath import EPS, favg, map1, scalar
-from formy import antipode, compassAngle, equirectangular, \
-                  euclidean, haversine, isantipode, vincentys
-from lazily import _ALL_LAZY, _ALL_DOCS
-from named import Bounds2Tuple, LatLon2Tuple, LatLon3Tuple, \
-                 _NamedBase, PhiLam2Tuple, Vector3Tuple, _xattrs
-from utily import R_M, points2, sincos2
+from pygeodesy.dms import F_D, F_DMS, latDMS, lonDMS, parseDMS, parseDMS2
+from pygeodesy.fmath import EPS, favg, map1, scalar
+from pygeodesy.formy import antipode, compassAngle, equirectangular, \
+                            euclidean, haversine, isantipode, vincentys
+from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS
+from pygeodesy.named import Bounds2Tuple, LatLon2Tuple, LatLon3Tuple, \
+                           _NamedBase, PhiLam2Tuple, Vector3Tuple, _xattrs
+from pygeodesy.utily import R_M, points2, sincos2
 
 from math import asin, cos, degrees, radians
 
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_LAZY.bases + _ALL_DOCS('_VectorBase')
-__version__ = '19.05.09'
+__version__ = '19.07.09'
 
 
 class _VectorBase(_NamedBase):

@@ -64,14 +64,19 @@
         geodetic (lat-/longitude) and geocentric cartesian (x/y/z) 
         coordinates.</em>
     <ul>
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.__main__-module.html">pygeodesy.__main__</a></strong>: <em class="summary">Print <a href="pygeodesy-module.html" class="link">pygeodesy</a> 
+        version, etc.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.bases-module.html" onclick="show_private();">pygeodesy.bases</a></strong>: <em class="summary">(INTERNAL) Common base classes.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.clipy-module.html">pygeodesy.clipy</a></strong>: <em class="summary">Functions to <i>clip</i> a path or polygon of <code>LatLon</code> 
         points against a rectangular box or clip region.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.css-module.html">pygeodesy.css</a></strong>: <em class="summary">Cassini-Soldner projection class <a 
+    <li> <strong class="uidlink"><a href="pygeodesy.css-module.html">pygeodesy.css</a></strong>: <em class="summary">Cassini-Soldner projection classes <a 
         href="pygeodesy.css.CassiniSoldner-class.html" 
-        class="link">CassiniSoldner</a> requiring <a 
+        class="link">CassiniSoldner</a>, <a 
+        href="pygeodesy.css.Css-class.html" class="link">Css</a> and <a 
+        href="pygeodesy.css.CSSError-class.html" class="link">CSSError</a> 
+        requiring <i>Charles Karney's</i> <a 
         href="https://PyPI.org/project/geographiclib/" 
-        target="_top">GeographicLib</a>.</em>    </li>
+        target="_top">geographiclib</a> package to be installed.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.datum-module.html">pygeodesy.datum</a></strong>: <em class="summary">Classes <a href="pygeodesy.datum.Datum-class.html" 
         class="link">Datum</a>, <a 
         href="pygeodesy.datum.Ellipsoid-class.html" 
@@ -108,8 +113,8 @@
         href="pygeodesy.ellipsoidalKarney-module.html#areaOf" 
         class="link">areaOf</a> and <a 
         href="pygeodesy.ellipsoidalKarney-module.html#perimeterOf" 
-        class="link">perimeterOf</a> based on the Python implementation of 
-        <i>Charles F. F. Karney's</i> <a 
+        class="link">perimeterOf</a> based on <i>Charles Karney's</i> 
+        Python implementation of <a 
         href="https://PyPI.org/project/geographiclib" 
         target="_top">GeographicLib</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector-module.html">pygeodesy.ellipsoidalNvector</a></strong>: <em class="summary">N-vector-based ellipsoidal geodetic (lat-/longitude) and cartesion 
@@ -138,10 +143,10 @@
         class="link" onclick="show_private();">areaOf</a> and <a 
         href="pygeodesy.ellipsoidalVincenty-module.html#perimeterOf" 
         class="link" onclick="show_private();">perimeterOf</a>.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.elliptic-module.html">pygeodesy.elliptic</a></strong>: <em class="summary">Elliptic integrals and functions transcribed from Karney's C++ 
-        class <a 
+    <li> <strong class="uidlink"><a href="pygeodesy.elliptic-module.html">pygeodesy.elliptic</a></strong>: <em class="summary">Elliptic integrals and functions transcribed from <i>Charles 
+        Karney's</i> C++ class <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1EllipticFunction.html"
-        target="_top">EllipticFunction</a> as Python class <a 
+        target="_top">EllipticFunction</a> into pure Python class <a 
         href="pygeodesy.elliptic.Elliptic-class.html" 
         class="link">Elliptic</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.epsg-module.html">pygeodesy.epsg</a></strong>: <em class="summary">Classes <a href="pygeodesy.epsg.Epsg-class.html" 
@@ -150,25 +155,32 @@
         class="link">EPSGError</a> and functions to <a 
         href="pygeodesy.epsg-module.html#encode" class="link">encode</a> 
         and <a href="pygeodesy.epsg-module.html#decode2" 
-        class="link">decode2</a> <a href="https://www.EPSG-Registry.org" 
-        target="_top">EPSG (European Petroleum Survey Group)</a> codes from
-        and to <a 
+        class="link">decode2</a> European Petroleum Survey Group (<a 
+        href="https://www.EPSG-Registry.org" target="_top">EPSG</a>) codes 
+        from and to <a 
         href="https://WikiPedia.org/wiki/Universal_Transverse_Mercator_coordinate_system"
         target="_top">UTM</a> and <a 
         href="https://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system"
         target="_top">UPS</a> zones.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.etm-module.html">pygeodesy.etm</a></strong>: <em class="summary">A Python implementation of Karney's C++ class <a 
+    <li> <strong class="uidlink"><a href="pygeodesy.etm-module.html">pygeodesy.etm</a></strong>: <em class="summary">Classes <a href="pygeodesy.etm.ETMError-class.html" 
+        class="link">ETMError</a> and <a 
+        href="pygeodesy.etm.Etm-class.html" class="link">Etm</a>, a pure 
+        Python implementation of <i>Charles Karney's</i> C++ class <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercatorExact.html"
-        target="_top">TransverseMercatorExact</a>, abbreviated below to 
-        <code>TMExact</code>.</em>    </li>
+        target="_top">TransverseMercatorExact</a> (abbreviated as 
+        <code>TMExact</code> below).</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.fmath-module.html">pygeodesy.fmath</a></strong>: <em class="summary">Precision floating point functions, utilities and constants.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.formy-module.html">pygeodesy.formy</a></strong>: <em class="summary">Formulary of basic geodesy functions and approximations.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.gars-module.html">pygeodesy.gars</a></strong>: <em class="summary">Class <a href="pygeodesy.gars.Garef-class.html" 
-        class="link">Garef</a> and several functions to encode, decode and 
-        inspect <i>Global Area Reference System (GARS)</i> references.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.geohash-module.html">pygeodesy.geohash</a></strong>: <em class="summary">Class <a href="pygeodesy.geohash.Geohash-class.html" 
-        class="link">Geohash</a> and several functions to encode, decode 
-        and inspect <i>geohashes</i>.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.gars-module.html">pygeodesy.gars</a></strong>: <em class="summary">Classes <a href="pygeodesy.gars.Garef-class.html" 
+        class="link">Garef</a> and <a 
+        href="pygeodesy.gars.GARSError-class.html" 
+        class="link">GARSError</a> and several functions to encode, decode 
+        and inspect <i>Global Area Reference System (GARS)</i> references.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.geohash-module.html">pygeodesy.geohash</a></strong>: <em class="summary">Classes <a href="pygeodesy.geohash.Geohash-class.html" 
+        class="link">Geohash</a> and <a 
+        href="pygeodesy.geohash.GeohashError-class.html" 
+        class="link">GeohashError</a> and several functions to encode, 
+        decode and inspect <i>geohashes</i>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geoids-module.html">pygeodesy.geoids</a></strong>: <em class="summary">Classes <a href="pygeodesy.geoids.GeoidG2012B-class.html" 
         class="link">GeoidG2012B</a>, <a 
         href="pygeodesy.geoids.GeoidKarney-class.html" 
@@ -203,24 +215,31 @@
         target="_top">lazy_import</a> from Brett Cannon's <a 
         href="https://PyPI.org/project/modutil" target="_top">modutil</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.lcc-module.html">pygeodesy.lcc</a></strong>: <em class="summary">Lambert conformal conic projection for 1- or 2-Standard Parallels 
-        class <a href="pygeodesy.lcc.Conic-class.html" 
+        classes <a href="pygeodesy.lcc.Conic-class.html" 
         class="link">Conic</a>, <a href="pygeodesy.lcc-module.html#Conics" 
-        class="link">Conics</a> registry and position class <a 
-        href="pygeodesy.lcc.Lcc-class.html" class="link">Lcc</a>.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.mgrs-module.html">pygeodesy.mgrs</a></strong>: <em class="summary">Military Grid Reference System (MGRS/NATO) class <a 
-        href="pygeodesy.mgrs.Mgrs-class.html" class="link">Mgrs</a> and 
-        functions <a href="pygeodesy.mgrs-module.html#parseMGRS" 
+        class="link">Conics</a> registry, <a 
+        href="pygeodesy.lcc.LCCError-class.html" class="link">LCCError</a> 
+        and position class <a href="pygeodesy.lcc.Lcc-class.html" 
+        class="link">Lcc</a>.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.mgrs-module.html">pygeodesy.mgrs</a></strong>: <em class="summary">Military Grid Reference System (MGRS/NATO) classes <a 
+        href="pygeodesy.mgrs.Mgrs-class.html" class="link">Mgrs</a> and <a 
+        href="pygeodesy.mgrs.MGRSError-class.html" 
+        class="link">MGRSError</a> and functions <a 
+        href="pygeodesy.mgrs-module.html#parseMGRS" 
         class="link">parseMGRS</a> and <a 
         href="pygeodesy.mgrs-module.html#toMgrs" class="link">toMgrs</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.named-module.html">pygeodesy.named</a></strong>: <em class="summary">(INTERNAL) Classes <code>_Named</code>, <code>_NamedDict</code>, 
         <code>_NamedInt</code>, <code>_NamedStr</code> and 
-        <code>_NamedTuple</code> with nameable instances.</em>    </li>
+        <code>_NamedTuple</code> with nameable instances and several 
+        subclasses thereof.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.nvector-module.html">pygeodesy.nvector</a></strong>: <em class="summary">N-vector base class <a href="pygeodesy.nvector.Nvector-class.html" 
         class="link">Nvector</a> and function <a 
         href="pygeodesy.nvector-module.html#sumOf" class="link">sumOf</a>.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.osgr-module.html">pygeodesy.osgr</a></strong>: <em class="summary">Ordinance Survey Grid References (OSGR) class <a 
-        href="pygeodesy.osgr.Osgr-class.html" class="link">Osgr</a> and 
-        functions <a href="pygeodesy.osgr-module.html#parseOSGR" 
+    <li> <strong class="uidlink"><a href="pygeodesy.osgr-module.html">pygeodesy.osgr</a></strong>: <em class="summary">Ordinance Survey Grid References (OSGR) classes <a 
+        href="pygeodesy.osgr.Osgr-class.html" class="link">Osgr</a> an <a 
+        href="pygeodesy.osgr.OSGRError-class.html" 
+        class="link">OSGRError</a> and functions <a 
+        href="pygeodesy.osgr-module.html#parseOSGR" 
         class="link">parseOSGR</a> and <a 
         href="pygeodesy.osgr-module.html#toOsgr" class="link">toOsgr</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.points-module.html">pygeodesy.points</a></strong>: <em class="summary">Functions to handle collections and sequences of 
@@ -263,10 +282,11 @@
         class="link">nearestOn2</a> and <a 
         href="pygeodesy.sphericalTrigonometry-module.html#perimeterOf" 
         class="link">perimeterOf</a>.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.trf-module.html">pygeodesy.trf</a></strong>: <em class="summary">Terrestrial Reference Frame (TRF) class <a 
-        href="pygeodesy.trf.RefFrame-class.html" class="link">RefFrame</a> 
-        and registry thereof <a href="pygeodesy.trf-module.html#RefFrames" 
-        class="link">RefFrames</a>.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.trf-module.html">pygeodesy.trf</a></strong>: <em class="summary">Terrestrial Reference Frame (TRF) classes <a 
+        href="pygeodesy.trf.RefFrame-class.html" class="link">RefFrame</a>,
+        registry <a href="pygeodesy.trf-module.html#RefFrames" 
+        class="link">RefFrames</a> and <a 
+        href="pygeodesy.trf.TRFError-class.html" class="link">TRFError</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ups-module.html">pygeodesy.ups</a></strong>: <em class="summary">Universal Polar Stereographic (UPS) classes <a 
         href="pygeodesy.ups.Ups-class.html" class="link">Ups</a> and <a 
         href="pygeodesy.ups.UPSError-class.html" class="link">UPSError</a> 
@@ -302,15 +322,20 @@
         href="pygeodesy.vector3d.Vector3d-class.html" 
         class="link">Vector3d</a> and function <a 
         href="pygeodesy.vector3d-module.html#sumOf" class="link">sumOf</a>.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.webmercator-module.html">pygeodesy.webmercator</a></strong>: <em class="summary">Web Mercator (WM) class <a 
+    <li> <strong class="uidlink"><a href="pygeodesy.webmercator-module.html">pygeodesy.webmercator</a></strong>: <em class="summary">Web Mercator (WM) classes <a 
         href="pygeodesy.webmercator.Wm-class.html" class="link">Wm</a> and 
-        functions <a href="pygeodesy.webmercator-module.html#parseWM" 
+        <a href="pygeodesy.webmercator.WebMercatorError-class.html" 
+        class="link">WebMercatorError</a> and functions <a 
+        href="pygeodesy.webmercator-module.html#parseWM" 
         class="link">parseWM</a> and <a 
         href="pygeodesy.webmercator-module.html#toWm" 
         class="link">toWm</a>.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.wgrs-module.html">pygeodesy.wgrs</a></strong>: <em class="summary">Class <a href="pygeodesy.wgrs.Georef-class.html" 
-        class="link">Georef</a> and several functions to encode, decode and
-        inspect <i>World Geographic Reference System (WGRS)</i> references.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.wgrs-module.html">pygeodesy.wgrs</a></strong>: <em class="summary">Classes <a href="pygeodesy.wgrs.Georef-class.html" 
+        class="link">Georef</a> and <a 
+        href="pygeodesy.wgrs.WGRSError-class.html" 
+        class="link">WGRSError</a> and several functions to encode, decode 
+        and inspect <i>World Geographic Reference System (WGRS)</i> 
+        references.</em>    </li>
     </ul>
     </li>
 </ul>
@@ -345,7 +370,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Jul  9 14:48:54 2019
+    Generated by Epydoc 3.0.1 on Mon Jul 22 13:42:42 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

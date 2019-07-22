@@ -1,8 +1,8 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Ordinance Survey Grid References (OSGR) class L{Osgr} and functions
-L{parseOSGR} and L{toOsgr}.
+u'''Ordinance Survey Grid References (OSGR) classes L{Osgr} an L{OSGRError}
+and functions L{parseOSGR} and L{toOsgr}.
 
 Pure Python implementation of OS Grid Reference functions using an
 ellipsoidal earth model, transcribed from JavaScript originals by
@@ -31,21 +31,21 @@ U{Transverse Mercator: Redfearn series
 @newfield example: Example, Examples
 '''
 
-from datum import Datums
-from dms import parseDMS2
-from ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
-from fmath import fdot, fpowers, Fsum, fsum_, map1
-from lazily import _ALL_LAZY
-from named import EasNor2Tuple, LatLonDatum3Tuple, _NamedBase, \
-                  nameof, _xattrs, _xnamed
-from utily import degrees90, degrees180, enStr2, false2f, \
-                  halfs2, issubclassof, property_RO, sincos2
+from pygeodesy.datum import Datums
+from pygeodesy.dms import parseDMS2
+from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
+from pygeodesy.fmath import fdot, fpowers, Fsum, fsum_, map1
+from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.named import EasNor2Tuple, LatLonDatum3Tuple, \
+                           _NamedBase, nameof, _xattrs, _xnamed
+from pygeodesy.utily import degrees90, degrees180, enStr2, false2f, \
+                            halfs2, issubclassof, property_RO, sincos2
 
 from math import cos, radians, sin, sqrt, tan
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.osgr
-__version__ = '19.06.27'
+__version__ = '19.07.12'
 
 _10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (C{meter})
 _100km   = 100000  #: (INTERNAL) 100 km (int meter)
@@ -78,6 +78,12 @@ def _M(Mabcd, a):
                            -sin(a_ * 3) * cos(_a * 3))
 
 
+class OSGRError(ValueError):
+    '''Ordinance Survey Grid References (OSGR) parse or other L{Osgr} issue.
+    '''
+    pass
+
+
 class Osgr(_NamedBase):
     '''Ordinance Survey Grid References (OSGR) coordinate.
     '''
@@ -87,13 +93,13 @@ class Osgr(_NamedBase):
     _northing = 0        #: (INTERNAL) Nothing (C{meter}).
 
     def __init__(self, easting, northing, name=''):
-        '''New OSGR National Grid Reference.
+        '''New L{Osgr} National Grid Reference.
 
            @param easting: Easting from OS false easting (C{meter}).
            @param northing: Northing from from OS false northing (C{meter}).
            @keyword name: Optional name (C{str}).
 
-           @raise ValueError: Invalid B{C{easting}} or B{C{northing}}.
+           @raise OSGRError: Invalid B{C{easting}} or B{C{northing}}.
 
            @example:
 
@@ -103,8 +109,8 @@ class Osgr(_NamedBase):
         if name:
             self.name = name
 
-        self._easting  = false2f(easting, 'easting')
-        self._northing = false2f(northing, 'northing')
+        self._easting  = false2f(easting, 'easting',   Error=OSGRError)
+        self._northing = false2f(northing, 'northing', Error=OSGRError)
 
     def _xcopy(self, *attrs):
         '''(INTERNAL) Make copy with add'l, subclass attributes.
@@ -320,7 +326,7 @@ def parseOSGR(strOSGR, Osgr=Osgr, name=''):
                 L{EasNor2Tuple}C{(easting, northing)} if B{C{Osgr}}
                 is C{None}.
 
-       @raise ValueError: Invalid B{C{strOSGR}}.
+       @raise OSGRError: Invalid B{C{strOSGR}}.
 
        @example:
 
@@ -379,7 +385,7 @@ def parseOSGR(strOSGR, Osgr=Osgr, name=''):
             n = _s2i(N, n)
 
     except ValueError:
-        raise ValueError('%s invalid: %r' % ('strOSGR', strOSGR))
+        raise OSGRError('%s invalid: %r' % ('strOSGR', strOSGR))
 
     r = EasNor2Tuple(e, n) if Osgr is None else Osgr(e, n)
     return _xnamed(r, name)
@@ -403,7 +409,7 @@ def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr, name=''):
        @raise TypeError: Non-ellipsoidal B{C{latlon}} or B{C{datum}}
                          conversion failed.
 
-       @raise ValueError: Invalid B{C{latlon}} or B{C{lon}}.
+       @raise OSGRError: Invalid B{C{latlon}} or B{C{lon}}.
 
        @example:
 
@@ -416,7 +422,7 @@ def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr, name=''):
         # XXX fix failing _LLEB.convertDatum()
         latlon = _LLEB(*parseDMS2(latlon, lon), datum=datum)
     elif lon is not None:
-        raise ValueError('%s not %s: %r' % ('lon', None, lon))
+        raise OSGRError('%s not %s: %r' % ('lon', None, lon))
     elif not name:  # use latlon.name
         name = nameof(latlon)
 

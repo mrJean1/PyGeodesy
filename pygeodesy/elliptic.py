@@ -1,10 +1,10 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Elliptic integrals and functions transcribed from Karney's C++ class
-U{EllipticFunction
+u'''Elliptic integrals and functions transcribed from I{Charles Karney's}
+C++ class U{EllipticFunction
 <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1EllipticFunction.html>}
-as Python class L{Elliptic}.
+into pure Python class L{Elliptic}.
 
 Python method names follow the C++ member functions, except:
 
@@ -69,16 +69,18 @@ The notation follows U{NIST Digital Library of Mathematical Functions
 U{22<https://DLMF.NIST.gov/22>}.
 '''
 
-from fmath import EPS, fdot, Fsum, fsum_, hypot1, INF as _INF, map2
-from lazily import _ALL_LAZY
-from named import _Named
-from utily import PI, PI_2, PI_4, property_RO, sincos2, sincos2d
+from pygeodesy.fmath import EPS, fdot, Fsum, fsum_, hypot1, \
+                            INF as _INF, map2
+from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.named import _Named
+from pygeodesy.utily import PI, PI_2, PI_4, property_RO, \
+                            sincos2, sincos2d
 
 from math import asinh, atan, atan2, ceil, copysign, cosh, \
                  floor, sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '19.07.08'
+__version__ = '19.07.14'
 
 _tolJAC = sqrt(EPS * 0.01)
 _tolRD  =  pow(EPS * 0.002, 0.125)
@@ -88,7 +90,7 @@ _TRIPS  =  13  # Max depth for sncndn, etc, 5-7 might be enough
 
 
 class EllipticError(ValueError):
-    '''Elliptic integral, function, convergence or value issue.
+    '''Elliptic integral, function, convergence or other L{Elliptic} issue.
     '''
     pass
 
@@ -115,7 +117,7 @@ class Elliptic(_Named):
     _Pic     = _INF
 
     def __init__(self, k2=0, alpha2=0, kp2=None, alphap2=None):
-        '''Constructor specifying the C{modulus} and C{parameter}.
+        '''Constructor, specifying the C{modulus} and C{parameter}.
 
            @keyword k2: Modulus squared (C{scalar} k^2 <= 1).
            @keyword alpha2: Parameter squared (C{scalar} α^2 <= 1).
@@ -359,15 +361,15 @@ class Elliptic(_Named):
         x -= E2 * n  # x now in [-ec, ec)
         # linear approximation
         phi = PI * x / E2  # phi in [-pi/2, pi/2)
-        P   = Fsum(phi)
+        Phi = Fsum(phi)
         # first order correction
-        phi = P.fsum(-self._eps * sin(2 * phi) * 0.5)
+        phi = Phi.fsum_(-self._eps * sin(2 * phi) * 0.5)
         # For kp2 close to zero use asin(x/.cE) or J. P. Boyd,
         # Applied Math. and Computation 218, 7005-7013 (2012)
         # <https://DOI.org/10.1016/j.amc.2011.12.021>
         for _ in range(self._trips_):  # GEOGRAPHICLIB_PANIC
             sn, cn, dn = self._sncndn3(phi)
-            phi, e = P.fsum2_((x - self.fE(sn, cn, dn)) / dn)
+            phi, e = Phi.fsum2_((x - self.fE(sn, cn, dn)) / dn)
             if abs(e) < _tolJAC:
                 return n * PI + phi
         raise EllipticError('no %s convergence' % ('fEinv',))
@@ -878,3 +880,25 @@ def _rsT(T):
     r = fdot(s[:3], s[1], s[2], s[0])
     T[:] = [(t + r) * 0.25 for t in T]
     return r, s, T
+
+# **) MIT License
+#
+# Copyright (C) 2016-2019 -- mrJean1 at Gmail dot com
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+# OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+# ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.

@@ -11,9 +11,9 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 @newfield example: Example, Examples
 '''
 
-from fmath import fStr, fStrzs, isint
-from lazily import _ALL_LAZY
-from named import LatLon2Tuple, LatLon3Tuple
+from pygeodesy.fmath import fStr, fStrzs, isint
+from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.named import LatLon2Tuple, LatLon3Tuple
 
 from math import copysign, radians
 try:
@@ -23,7 +23,7 @@ except ImportError:  # Python 3+
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.dms
-__version__ = '19.04.30'
+__version__ = '19.07.12'
 
 F_D   = 'd'    #: Format degrees as deg° (C{str}).
 F_DM  = 'dm'   #: Format degrees as deg°min′ (C{str}).
@@ -417,7 +417,7 @@ def parseDMS(strDMS, suffix='NSEW', sep=S_SEP, clip=0):
             if strDMS[:1] == '-' or strDMS[-1:] in 'SW':
                 d = -d
 
-        except (IndexError, ValueError):
+        except (AttributeError, IndexError, TypeError, ValueError):
             raise ValueError('parsing %r failed' % (strDMS,))
 
     return clipDMS(d, clip)

@@ -11,9 +11,13 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 '''
 # make sure int division yields float quotient
 from __future__ import division
+division = 1 / 2  # double check int division, see .datum.py, .fmath.py
+if not division:
+    raise ImportError('%s 1/2 == %d' % ('division', division))
+del division
 
-from fmath import _Ints, _Seqs, EPS, len2, map2
-from lazily import _ALL_LAZY
+from pygeodesy.fmath import _Ints, _Seqs, EPS, len2, map2
+from pygeodesy.lazily import _ALL_LAZY
 
 from inspect import isclass
 from math import cos, degrees, pi as PI, radians, sin, tan  # pow
@@ -22,12 +26,7 @@ _MISSING  = object()  # singleton, imported by .utily
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utily
-__version__ = '19.06.29'
-
-division = 1 / 2  # double check int division, see .datum.py, .fmath.py
-if not division:
-    raise ImportError('%s 1/2 == %d' % ('division', division))
-del division
+__version__ = '19.07.12'
 
 try:
     _Strs = basestring, str  # PYCHOK .datum.py, .geohash.py
@@ -156,7 +155,7 @@ def degrees2m(deg, radius=R_M, lat=0):
     '''
     m = radians(deg) * radius
     if lat:
-        from dms import clipDMS
+        from pygeodesy.dms import clipDMS
         m *= cos(radians(clipDMS(lat, 90)))
     return m
 
@@ -182,23 +181,24 @@ def enStr2(easting, northing, prec, *extras):
                      '%0*d' % (w, int(northing * p10)))
 
 
-def false2f(value, name='value', false=True):
+def false2f(value, name='value', false=True, Error=ValueError):
     '''Convert a false east-/northing to non-negative float.
 
        @param value: Value to convert (C{scalar}).
        @keyword name: Optional name of the value (C{str}).
        @keyword false: Optionally, value includes false origin (C{bool}).
+       @keyword Error: Exception to raise (C{ValueError}).
 
        @return: The value (C{float}).
 
-       @raise ValueError: Invalid or negative B{C{value}}.
+       @raise Error: Invalid or negative B{C{value}}.
     '''
     try:
         f = float(value)
         if f < 0 and false:
             raise ValueError
     except (TypeError, ValueError):
-        raise ValueError('%s invalid: %r' % (name, value))
+        raise Error('%s invalid: %r' % (name, value))
     return f
 
 

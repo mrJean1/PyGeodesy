@@ -33,17 +33,17 @@ and Henrik Seidel U{'Die Mathematik der Gauß-Krueger-Abbildung'
 @newfield example: Example, Examples
 '''
 
-from datum import Datums
-from dms import degDMS, parseDMS2, _parseUTMUPS, RangeError
-from fmath import EPS, fdot3, Fsum, hypot, hypot1, len2, map2
-from lazily import _ALL_LAZY
-from named import EasNor2Tuple, UtmUps5Tuple, UtmUps8Tuple, \
-                  UtmUpsLatLon5Tuple, _xattrs, _xnamed
-from utily import degrees90, degrees180, property_RO, sincos2  # splice
-from utmupsBase import _LLEB, _hemi, _to4lldn, _to3zBhp, _to3zll, \
-                       _UTM_LAT_MAX, _UTM_LAT_MIN, \
-                       _UTM_ZONE_MIN, _UTM_ZONE_MAX, \
-                       _UTM_ZONE_OFF_MAX, UtmUpsBase
+from pygeodesy.datum import Datums
+from pygeodesy.dms import degDMS, parseDMS2, _parseUTMUPS, RangeError
+from pygeodesy.fmath import EPS, fdot3, Fsum, hypot, hypot1, len2, map2
+from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.named import EasNor2Tuple, UtmUps5Tuple, UtmUps8Tuple, \
+                            UtmUpsLatLon5Tuple, _xattrs, _xnamed
+from pygeodesy.utily import degrees90, degrees180, property_RO, sincos2  # splice
+from pygeodesy.utmupsBase import _LLEB, _hemi, _to4lldn, _to3zBhp, _to3zll, \
+                                 _UTM_LAT_MAX, _UTM_LAT_MIN, \
+                                 _UTM_ZONE_MIN, _UTM_ZONE_MAX, \
+                                 _UTM_ZONE_OFF_MAX, UtmUpsBase
 
 from math import asinh, atan, atanh, atan2, cos, cosh, \
                  degrees, radians, sin, sinh, tan, tanh
@@ -51,7 +51,7 @@ from operator import mul
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utm
-__version__ = '19.06.14'
+__version__ = '19.07.12'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -62,7 +62,7 @@ _K0            = 0.9996   #: (INTERNAL) UTM scale central meridian.
 
 
 class UTMError(ValueError):
-    '''UTM parse or other error.
+    '''Universal Transverse Mercator (UTM parse or other L{Utm} issue.
     '''
     pass
 
@@ -138,12 +138,12 @@ def _false2(e, n, h):
     return e, n
 
 
-def _to3zBlat(zone, band, mgrs=False):  # imported by .mgrs.py
+def _to3zBlat(zone, band, Error=UTMError):  # imported by .mgrs.py
     '''(INTERNAL) Check and return zone, Band and band latitude.
 
        @param zone: Zone number or string.
        @param band: Band letter.
-       @param mgrs: Optionally, raise UTMError (C{bool}).
+       @param Error: Exception to raise (L{UTMError}).
 
        @return: 3-Tuple (zone, Band, latitude).
     '''
@@ -152,16 +152,16 @@ def _to3zBlat(zone, band, mgrs=False):  # imported by .mgrs.py
         if _UTM_ZONE_MIN > z or z > _UTM_ZONE_MAX:
             raise ValueError
     except ValueError:
-        raise UTMError('%s invalid: %r' % ('zone', zone))
+        raise Error('%s invalid: %r' % ('zone', zone))
 
     b = None
     if B:
         b = _Bands.find(B)
         if b < 0:
-            raise UTMError('%s invalid: %r' % ('band', band or B))
+            raise Error('%s invalid: %r' % ('band', band or B))
         b = (b << 3) - 80
-    elif mgrs:
-        raise UTMError('%s missing: %r' % ('band', band))
+    elif Error is not UTMError:
+        raise Error('%s missing: %r' % ('band', band))
 
     return z, B, b
 
@@ -230,7 +230,7 @@ class Utm(UtmUpsBase):
     def __init__(self, zone, hemisphere, easting, northing, band='',  # PYCHOK expected
                              datum=Datums.WGS84, falsed=True,
                              convergence=None, scale=None, name=''):
-        '''New UTM coordinate.
+        '''New L{Utm} UTM coordinate.
 
            @param zone: Longitudinal UTM zone (C{int}, 1..60) or zone
                         with/-out (latitudinal) Band letter (C{str},
@@ -364,7 +364,7 @@ class Utm(UtmUpsBase):
 
            @return: The ETM coordinate (L{Etm}).
         '''
-        from etm import Etm  # PYCHOK recursive import
+        from pygeodesy.etm import Etm  # PYCHOK recursive import
         return self._xnamed(self._xcopy2(Etm))
 
     def toLatLon(self, LatLon=None, eps=EPS, unfalse=True):
@@ -466,7 +466,7 @@ class Utm(UtmUpsBase):
            @return: The MGRS grid reference (L{Mgrs}).
         '''
         if self._mgrs is None:
-            from mgrs import toMgrs  # PYCHOK recursive import
+            from pygeodesy.mgrs import toMgrs  # PYCHOK recursive import
             self._mgrs = toMgrs(self, name=self.name)
         return self._mgrs
 
@@ -531,7 +531,7 @@ class Utm(UtmUpsBase):
         '''
         u = self._ups
         if u is None or u.pole != (pole or u.pole) or falsed != bool(u.falsed):
-            from ups import toUps8, Ups  # PYCHOK recursive import
+            from pygeodesy.ups import toUps8, Ups  # PYCHOK recursive import
             ll = self.toLatLon(LatLon=_LLEB, eps=eps, unfalse=True)
             self._ups = u = toUps8(ll, Ups=Ups, falsed=falsed, pole=pole, strict=False)
         return u

@@ -1,11 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-u'''A Python implementation of Karney's C++ class U{TransverseMercatorExact
-<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercatorExact.html>},
-abbreviated below to C{TMExact}.
+u'''Classes L{ETMError} and L{Etm}, a pure Python implementation of I{Charles
+Karney's} C++ class U{TransverseMercatorExact
+<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercatorExact.html>}
+(abbreviated as C{TMExact} below).
 
-Python class L{ExactTransverseMercator} is the C{Exact Transverse
+Python class L{ExactTransverseMercator} implements the C{Exact Transverse
 Mercator} (ETM) projection.  Instances of class L{Etm} represent ETM
 C{easting, nothing} locations.
 
@@ -58,22 +59,22 @@ replaced by C{asinh(tan(phi))} which maintains accuracy near
 C{phi = pi/2}.  Such changes are noted in the code.
 '''
 
-from datum import Datum, Datums
-from elliptic import Elliptic, EllipticError, _TRIPS
-from fmath import cbrt, EPS, Fsum, hypot, hypot1
-from lazily import _ALL_LAZY
-from named import EasNorExact4Tuple, LatLonExact4Tuple, \
-                 _NamedBase, _xnamed
-from utily import PI_2, PI_4, property_RO, sincos2
-from utm import _cmlon, _K0, _parseUTM5, Utm, UTMError, \
-                _toXtm8, _to7zBlldfn
-from utmupsBase import _LLEB
+from pygeodesy.datum import Datum, Datums
+from pygeodesy.elliptic import Elliptic, EllipticError, _TRIPS
+from pygeodesy.fmath import cbrt, EPS, Fsum, hypot, hypot1
+from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.named import EasNorExact4Tuple, LatLonExact4Tuple, \
+                           _NamedBase, _xnamed
+from pygeodesy.utily import PI_2, PI_4, property_RO, sincos2
+from pygeodesy.utm import _cmlon, _K0, _parseUTM5, Utm, UTMError, \
+                          _toXtm8, _to7zBlldfn
+from pygeodesy.utmupsBase import _LLEB
 
 from math import asinh, atan, atan2, copysign, degrees, \
                  fmod, radians, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '19.07.08'
+__version__ = '19.07.12'
 
 _OVERFLOW = 1.0 / EPS**2
 _TOL      = EPS
@@ -93,7 +94,7 @@ try:
 
 except ImportError:  # no geographiclib
 
-    from fmath import NAN as _NAN
+    from pygeodesy.fmath import NAN as _NAN
 
     def _diff182(deg0, deg):  # mimick Math.AngDiff
         '''Compute C{deg - deg0}, reduced to C{[-180,180]} accurately.
@@ -155,7 +156,7 @@ except ImportError:  # no geographiclib
 
 
 class ETMError(UTMError):
-    '''ETM parse, projection or other error.
+    '''Exact Transverse Mercator (ETM) parse, projection or other L{Etm} error.
     '''
     pass
 
@@ -178,7 +179,7 @@ class Etm(Utm):
     def __init__(self, zone, hemisphere, easting, northing, band='',  # PYCHOK expected
                              datum=Datums.WGS84, falsed=True,
                              convergence=None, scale=None, name=''):
-        '''New UTM coordinate.
+        '''New L{Etm} coordinate.
 
            @param zone: Longitudinal UTM zone (C{int}, 1..60) or zone
                         with/-out (latitudinal) Band letter (C{str},
@@ -334,7 +335,7 @@ class ExactTransverseMercator(_NamedBase):
 
            @raise EllipticError: No convergence.
 
-           @raise EtmError: Invalid B{C{k0}}.
+           @raise ETMError: Invalid B{C{k0}}.
 
            @raise TypeError: Invalid B{C{datum}}.
 
@@ -916,7 +917,7 @@ def parseETM5(strUTM, datum=Datums.WGS84, Etm=Etm, falsed=True, name=''):
        >>> u = parseETM5('31 N 448251.8 5411932.7')
        >>> u.toStr()  # 31 N 448252 5411933
     '''
-    r = _parseUTM5(strUTM, UTMError)
+    r = _parseUTM5(strUTM, ETMError)
     if Etm is not None:
         z, h, e, n, B = r
         r = Etm(z, h, e, n, band=B, datum=datum, falsed=falsed)

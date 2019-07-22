@@ -1,8 +1,8 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Class L{Georef} and several functions to encode, decode and
-inspect I{World Geographic Reference System (WGRS)} references.
+u'''Classes L{Georef} and L{WGRSError} and several functions to encode,
+decode and inspect I{World Geographic Reference System (WGRS)} references.
 
 Transcribed from C++ class U{Georef
 <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Georef.html>}
@@ -13,17 +13,18 @@ C{height} and C{radius}.  See also U{World Geographic Reference System
 @newfield example: Example, Examples
 '''
 
-from dms import parse3llh, parseDMS2
-from fmath import EPS1_2
-from lazily import _ALL_LAZY
-from named import LatLon2Tuple, LatLonPrec3Tuple, \
-                  LatLonPrec5Tuple, _NamedStr
-from utily import _MISSING, ft2m, m2ft, m2NM, property_RO, _Strs
+from pygeodesy.dms import parse3llh, parseDMS2
+from pygeodesy.fmath import EPS1_2
+from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.named import LatLon2Tuple, LatLonPrec3Tuple, \
+                            LatLonPrec5Tuple, _NamedStr
+from pygeodesy.utily import _MISSING, ft2m, m2ft, m2NM, \
+                             property_RO, _Strs
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.wgrs + ('decode3', 'decode5',  # functions
           'encode', 'precision', 'resolution')
-__version__ = '19.06.29'
+__version__ = '19.07.12'
 
 _Base    = 10
 _BaseLen = 4
@@ -85,10 +86,16 @@ def _2geostr2(georef):
              or geostr[:3] == 'INV' \
              or not geostr.isalnum():
             raise ValueError
-    except (AttributeError, ValueError, TypeError):
-        raise ValueError('%s: %r[%s]' % (Georef.__name__,
-                          georef, len(georef)))
+    except (AttributeError, TypeError, ValueError):
+        raise WGRSError('%s: %r[%s]' % (Georef.__name__,
+                           georef, len(georef)))
     return geostr, p - 1
+
+
+class WGRSError(ValueError):
+    '''World Geographic Reference System (WGRS) encode, decode or other L{Georef} issue.
+    '''
+    pass
 
 
 class Georef(_NamedStr):
@@ -117,7 +124,7 @@ class Georef(_NamedStr):
 
            @raise TypeError: Invalid B{C{cll}}.
 
-           @raise ValueError: INValid or non-alphanumeric B{C{cll}}.
+           @raise WGRSError: INValid or non-alphanumeric B{C{cll}}.
         '''
         if isinstance(cll, Georef):
             g, p = _2geostr2(str(cll))
@@ -210,10 +217,10 @@ class Georef(_NamedStr):
 
            @return: This georef location (B{C{LatLon}}).
 
-           @raise ValueError: Invalid B{C{LatLon}}.
+           @raise WGRSError: Invalid B{C{LatLon}}.
         '''
         if LatLon is None:
-            raise ValueError('%s invalid: %r' % ('LatLon', LatLon))
+            raise WGRSError('%s invalid: %r' % ('LatLon', LatLon))
 
         h = height if height is not None else (self.height or 0)
         return self._xnamed(LatLon(*self.latlon, height=h, **kwds))
@@ -228,8 +235,8 @@ def decode3(georef, center=True):
 
        @return: A L{LatLonPrec3Tuple}C{(lat, lon, precision)}.
 
-       @raise ValueError: Invalid B{C{georef}}, INValid, non-alphanumeric
-                          or odd length B{C{georef}}.
+       @raise WGRSError: Invalid B{C{georef}}, INValid, non-alphanumeric
+                           or odd length B{C{georef}}.
     '''
     def _digit(ll, g, i, m):
         d = _Digits.find(g[i])
@@ -238,7 +245,7 @@ def decode3(georef, center=True):
         return ll * m + d
 
     def _Error(i):
-        return ValueError('%s invalid: %r[%s]' % ('georef', georef, i))
+        return WGRSError('%s invalid: %r[%s]' % ('georef', georef, i))
 
     def _index(chars, g, i):
         k = chars.find(g[i])
@@ -284,8 +291,8 @@ def decode5(georef, center=True):
                 precision, height, radius)} where C{height} and/or
                 C{radius} are C{None} if missing.
 
-       @raise ValueError: Invalid B{C{georef}}, INValid, non-alphanumeric
-                          or odd length B{C{georef}}.
+       @raise WGRSError: Invalid B{C{georef}}, INValid, non-alphanumeric
+                           or odd length B{C{georef}}.
     '''
     def _h2m(kft):
         return ft2m(kft * 1000.0)
@@ -298,14 +305,14 @@ def decode5(georef, center=True):
         if i > _BaseLen:
             try:
                 return g[:i], _2m(int(g[i+1:]))
-            except ValueError:
-                raise ValueError('%s invalid: %r' % (name, georef))
+            except (IndexError, ValueError):
+                raise WGRSError('%s invalid: %r' % (name, georef))
         return g, None
 
     try:
         g = str(georef)
     except (TypeError, ValueError):
-        raise ValueError('%s invalid: %r' % ('georef', georef))
+        raise WGRSError('%s invalid: %r' % ('georef', georef))
 
     g, h = _split2(g, 'height', _h2m)  # H is last
     g, r = _split2(g, 'radius', _r2m)  # R before H
@@ -330,7 +337,7 @@ def encode(lat, lon, precision=3, height=None, radius=None):  # MCCABE 14
 
        @raise RangeError: Invalid B{C{lat}} or B{C{lon}}.
 
-       @raise ValueError: Invalid B{C{precision}}, B{C{height}} or B{C{radius}}.
+       @raise WGRSError: Invalid B{C{precision}}, B{C{height}} or B{C{radius}}.
 
        @note: The B{C{precision}} value differs from U{Georef<https://
               GeographicLib.SourceForge.io/html/classGeographicLib_1_1Georef.html>}.
@@ -345,7 +352,7 @@ def encode(lat, lon, precision=3, height=None, radius=None):  # MCCABE 14
             if f < 0:
                 raise ValueError
         except (TypeError, ValueError):
-            raise ValueError('%s invalid: %r' % (name, m))
+            raise WGRSError('%s invalid: %r' % (name, m))
         return '%s%d' % (name[0].upper(), int(f + 0.5))
 
     def _pstr(p, x):
@@ -355,8 +362,8 @@ def encode(lat, lon, precision=3, height=None, radius=None):  # MCCABE 14
         p = int(precision)
         if p < 0 or p > _MaxPrec:
             raise ValueError
-    except ValueError:
-        raise ValueError('%s invalid: %r' % ('precision', precision))
+    except (TypeError, ValueError):
+        raise WGRSError('%s invalid: %r' % ('precision', precision))
 
     lat, lon, _ = _2fllh(lat, lon)
     if lat == 90:

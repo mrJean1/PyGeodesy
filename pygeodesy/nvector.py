@@ -12,11 +12,11 @@ see U{Vector-based geodesy
 @newfield example: Example, Examples
 '''
 
-from bases import LatLonHeightBase
-from fmath import fsum, len2, scalar
-from lazily import _ALL_LAZY, _ALL_DOCS
-from named import Vector4Tuple, _xattrs
-from vector3d import Vector3d, sumOf as _sumOf
+from pygeodesy.bases import LatLonHeightBase
+from pygeodesy.fmath import fsum, len2, scalar
+from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS
+from pygeodesy.named import Vector4Tuple, _xattrs
+from pygeodesy.vector3d import Vector3d, VectorError, sumOf as _sumOf
 
 # from math import cos, sin
 
@@ -25,15 +25,14 @@ __all__ = _ALL_LAZY.nvector + _ALL_DOCS('LatLonNvectorBase') + (
           'NorthPole', 'SouthPole',  # constants
           'Nvector',  # classes
           'sumOf')  # functions
-__version__ = '19.06.17'
+__version__ = '19.07.12'
 
 
 class Nvector(Vector3d):  # XXX kept private
     '''Base class for ellipsoidal and spherical L{Nvector}.
     '''
-    _h = 0     #: (INTERNAL) Height (C{meter}).
-
-    H = ''  #: Heigth prefix (C{str}), '↑' in JS version
+    _h = 0   #: (INTERNAL) Height (C{meter}).
+    _H = ''  #: Heigth prefix (C{str}), '↑' in JS version
 
     def __init__(self, x, y, z, h=0, ll=None, name=''):
         '''New n-vector normal to the earth's surface.
@@ -47,7 +46,7 @@ class Nvector(Vector3d):  # XXX kept private
 
            @example:
 
-           >>> from sphericalNvector import Nvector
+           >>> from pygeodesy.sphericalNvector import Nvector
            >>> v = Nvector(0.5, 0.5, 0.7071, 1)
            >>> v.toLatLon()  # 45.0°N, 045.0°E, +1.00m
         '''
@@ -75,17 +74,31 @@ class Nvector(Vector3d):  # XXX kept private
 
     @h.setter  # PYCHOK setter!
     def h(self, h):
-        '''Sets height above surface.
+        '''Set the height above surface.
 
            @param h: New height (C{meter}).
 
            @raise TypeError: If B{C{h}} invalid.
 
-           @raise ValueError: If B{C{h}} invalid.
+           @raise VectorError: If B{C{h}} invalid.
         '''
-        h = scalar(h, None, name='h')
+        h = scalar(h, None, name='h', Error=VectorError)
         self._update(h != self._h)
         self._h = h
+
+    @property
+    def H(self):
+        '''Get the height prefix (C{str}).
+        '''
+        return self._H
+
+    @H.setter  # PYCHOK setter!
+    def H(self, H):
+        '''Set the height prefix.
+
+           @param H: New height prefix (C{str}).
+        '''
+        self._H = str(H) if H else ''
 
     def to3abh(self, height=None):
         '''Convert this n-vector to (geodetic) lat-, longitude
@@ -231,11 +244,11 @@ def sumOf(nvectors, Vector=Nvector, h=None, **kwds):
 
        @return: Vectorial sum (B{C{Vector}}).
 
-       @raise ValueError: No B{C{nvectors}}.
+       @raise VectorError: No B{C{nvectors}}.
     '''
     n, nvectors = len2(nvectors)
     if n < 1:
-        raise ValueError('no nvectors: %r' & (n,))
+        raise VectorError('no nvectors: %r' & (n,))
 
     if h is None:
         h = fsum(v.h for v in nvectors) / float(n)

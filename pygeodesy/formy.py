@@ -5,18 +5,18 @@ u'''Formulary of basic geodesy functions and approximations.
 
 @newfield example: Example, Examples
 '''
-from fmath import EPS, fStr, fsum_, map1
-from lazily import _ALL_LAZY
-from named import Distance4Tuple, LatLon2Tuple
-from utily import PI, PI2, PI_2, R_M, degrees2m, degrees360, \
-                  LimitError, _limiterrors, sincos2, \
-                  unroll180, unrollPI, wrap90, wrap180
+from pygeodesy.fmath import EPS, fStr, fsum_, map1
+from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.named import Distance4Tuple, LatLon2Tuple
+from pygeodesy.utily import PI, PI2, PI_2, R_M, degrees2m, degrees360, \
+                            LimitError, _limiterrors, sincos2, \
+                            unroll180, unrollPI, wrap90, wrap180
 
 from math import atan2, cos, degrees, hypot, radians, sin, sqrt  # pow
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.formy
-__version__ = '19.05.08'
+__version__ = '19.07.09'
 
 
 def _scaled(lat1, lat2):  # degrees

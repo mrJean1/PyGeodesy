@@ -13,19 +13,21 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 @newfield example: Example, Examples
 '''
 
-from datum import R_M
-from fmath import EPS, acos1, favg, fdot, fmean, fsum, isscalar, map1
-from formy import antipode, bearing_, haversine_
-from lazily import _ALL_LAZY
-from named import LatLon3Tuple, NearestOn3Tuple, _xnamed
-from points import _imdex2, ispolar, nearestOn5 as _nearestOn5
-from sphericalBase import LatLonSphericalBase
-from utily import PI2, PI_2, PI_4, degrees90, degrees180, degrees2m, \
-                  iterNumpy2, radiansPI2, sincos2, tan_2, \
-                  unrollPI, wrapPI
-from vector3d import CrossError, crosserrors, Vector3d, sumOf
+from pygeodesy.datum import R_M
+from pygeodesy.fmath import EPS, acos1, favg, fdot, fmean, fsum, \
+                            isscalar, map1
+from pygeodesy.formy import antipode, bearing_, haversine_
+from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.named import LatLon3Tuple, NearestOn3Tuple, _xnamed
+from pygeodesy.points import _imdex2, ispolar, nearestOn5 as _nearestOn5
+from pygeodesy.sphericalBase import LatLonSphericalBase
+from pygeodesy.utily import PI2, PI_2, PI_4, degrees90, degrees180, \
+                            degrees2m, iterNumpy2, radiansPI2, \
+                            sincos2, tan_2, unrollPI, wrapPI
+from pygeodesy.vector3d import CrossError, crosserrors, Vector3d, sumOf
 
-from math import asin, atan2, copysign, cos, degrees, hypot, radians, sin
+from math import asin, atan2, copysign, cos, degrees, hypot, \
+                 radians, sin
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.sphericalTrigonometry + (
@@ -35,7 +37,7 @@ __all__ = _ALL_LAZY.sphericalTrigonometry + (
           'meanOf',
           'nearestOn2', 'nearestOn3',
           'perimeterOf')
-__version__ = '19.06.29'
+__version__ = '19.07.09'
 
 
 class LatLon(LatLonSphericalBase):

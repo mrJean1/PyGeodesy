@@ -72,16 +72,16 @@ See:
 @newfield example: Example, Examples
 '''
 
-from datum import R_M
-from fmath import EPS, len2
-from formy import equirectangular_
-from lazily import _ALL_LAZY
-from utily import isNumpy2, isTuple2
+from pygeodesy.datum import R_M
+from pygeodesy.fmath import EPS, len2
+from pygeodesy.formy import equirectangular_
+from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.utily import isNumpy2, isTuple2
 
 from math import degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.simplify
-__version__ = '19.05.08'
+__version__ = '19.07.12'
 
 
 # try:
@@ -121,7 +121,7 @@ class _Sy(object):
 
     def __init__(self, points, tolerance, radius, shortest,
                                           indices, **options):
-        '''New state.
+        '''New C{Simplify} state.
         '''
         n, self.pts = len2(points)
         if n > 0:
@@ -366,8 +366,8 @@ class _Sy(object):
 def simplify1(points, distance, radius=R_M, indices=False, **options):
     '''Basic simplification of a path of C{LatLon} points.
 
-       Eliminates any points closer together than the given
-       distance tolerance.
+       Eliminates any points closer together than the given distance
+       tolerance.
 
        @param points: Path points (C{LatLon}[]).
        @param distance: Tolerance (C{meter}, same units as B{C{radius}}).
@@ -408,9 +408,9 @@ def simplifyRDP(points, distance, radius=R_M, shortest=False,
        Eliminates any points too close together or closer to an
        edge than the given distance tolerance.
 
-       This RDP method exhaustively searches for the point with
+       This C{RDP} method exhaustively searches for the point with
        the largest distance, resulting in worst-case complexity
-       O(n**2) where n is the number of points.
+       M{O(n**2)} where M{n} is the number of points.
 
        @param points: Path points (C{LatLon}[]).
        @param distance: Tolerance (C{meter}, same units as B{C{radius}}).
@@ -442,9 +442,9 @@ def simplifyRDPm(points, distance, radius=R_M, shortest=False,
        Eliminates any points too close together or closer to an edge
        than the given distance tolerance.
 
-       This RDP method stops at the first point farther than the
+       This C{RDPm} method stops at the first point farther than the
        given distance tolerance, significantly reducing the run time
-       (but producing results different from the original RDP method).
+       (but producing results different from the original C{RDP} method).
 
        @param points: Path points (C{LatLon}[]).
        @param distance: Tolerance (C{meter}, same units as B{C{radius}}).
@@ -522,9 +522,9 @@ def simplifyVW(points, area, radius=R_M, attr=None,
        Eliminates any points too close together or with a triangular
        area not exceeding the given area tolerance (squared).
 
-       This VW method exhaustively searches for the single point
+       This C{VW} method exhaustively searches for the single point
        with the smallest triangular area, resulting in worst-case
-       complexity O(n**2) where n is the number of points.
+       complexity M{O(n**2)} where M{n} is the number of points.
 
        @param points: Path points (C{LatLon}[]).
        @param area: Tolerance (C{meter}, same units as B{C{radius}}).
@@ -537,7 +537,7 @@ def simplifyVW(points, area, radius=R_M, attr=None,
 
        @return: Simplified points (C{LatLon}[]).
 
-       @raise AttributeError: If B{C{attr}} is specified for I{Numpy2}
+       @raise AttributeError: If an B{C{attr}} is specified for I{Numpy2}
                               B{C{points}}.
 
        @raise LimitError: Lat- and/or longitudinal delta exceeds the
@@ -576,10 +576,10 @@ def simplifyVWm(points, area, radius=R_M, attr=None,
        Eliminates any points too close together or with a triangular
        area not exceeding the given area tolerance (squared).
 
-       This VW method removes all points with a triangular area
-       below the tolerance each iteration, significantly reducing
+       This C{VWm} method removes all points with a triangular area
+       below the tolerance in each iteration, significantly reducing
        the run time (but producing results different from the
-       original VW method).
+       original C{VW} method).
 
        @param points: Path points (C{LatLon}[]).
        @param area: Tolerance (C{meter}, same units as B{C{radius}}).
@@ -592,8 +592,8 @@ def simplifyVWm(points, area, radius=R_M, attr=None,
 
        @return: Simplified points (C{LatLon}[]).
 
-       @raise AttributeError: If B{C{attr}} is specified for
-                              B{C{Numpy2}} points.
+       @raise AttributeError: If an B{C{attr}} is specified for I{Numpy2}
+                              B{C{points}}.
 
        @raise LimitError: Lat- and/or longitudinal delta exceeds the
                           B{C{limit}}, see function L{equirectangular_}.

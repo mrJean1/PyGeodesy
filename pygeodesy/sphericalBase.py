@@ -11,21 +11,22 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 @newfield example: Example, Examples
 '''
 
-from bases import LatLonHeightBase
-from datum import R_M, R_MA, Datum, Datums
-from dms   import parse3llh
-from fmath import EPS, acos1, favg, fsum_
-from lazily import _ALL_DOCS
-from named import Bearing2Tuple
-from utily import PI, PI2, PI_2, degrees90, degrees180, degrees360, \
-                  property_RO, sincos2d, tanPI_2_2, _TypeError, wrapPI
+from pygeodesy.bases import LatLonHeightBase
+from pygeodesy.datum import R_M, R_MA, Datum, Datums
+from pygeodesy.dms import parse3llh
+from pygeodesy.fmath import EPS, acos1, favg, fsum_
+from pygeodesy.lazily import _ALL_DOCS
+from pygeodesy.named import Bearing2Tuple
+from pygeodesy.utily import PI, PI2, PI_2, degrees90, degrees180, \
+                            degrees360, property_RO, sincos2d, \
+                            tanPI_2_2, _TypeError, wrapPI
 
 from math import atan2, cos, hypot, log, radians, sin
 
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_DOCS('LatLonSphericalBase')
-__version__ = '19.06.29'
+__version__ = '19.07.09'
 
 
 class LatLonSphericalBase(LatLonHeightBase):
@@ -330,7 +331,7 @@ class LatLonSphericalBase(LatLonHeightBase):
 
            @see: Function L{toWm} in module L{webmercator} for details.
         '''
-        from webmercator import toWm  # PYCHOK recursive import
+        from pygeodesy.webmercator import toWm  # PYCHOK recursive import
         return toWm(self, radius=radius)
 
 # **) MIT License

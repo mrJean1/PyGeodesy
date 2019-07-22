@@ -7,8 +7,12 @@ u'''Precision floating point functions, utilities and constants.
 '''
 # make sure int/int division yields float quotient
 from __future__ import division
+division = 1 / 2  # double check int division, see .datum.py, .utily.py
+if not division:
+    raise ImportError('%s 1/2 == %d' % ('division', division))
+del division
 
-from lazily import _ALL_LAZY
+from pygeodesy.lazily import _ALL_LAZY
 
 from math import acos, copysign, hypot, isinf, isnan, sqrt  # pow
 from operator import mul
@@ -16,7 +20,7 @@ from sys import float_info as _float_info
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.fmath
-__version__ = '19.06.19'
+__version__ = '19.07.14'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -38,11 +42,6 @@ try:  # _Seqs imported by .utily
     from collections import Sequence as _Seqs  #: (INTERNAL) incl MutableSequence
 except ImportError:
     _Seqs = list, tuple, range  # XXX also set?
-
-division = 1 / 2  # double check int division, see .datum.py, .utily.py
-if not division:
-    raise ImportError('%s 1/2 == %d' % ('division', division))
-del division
 
 try:
     EPS    = _float_info.epsilon   #: System's epsilon (C{float})
@@ -106,7 +105,7 @@ class Fsum(object):
              Python 2.6+ file I{Modules/mathmodule.c} and the issue log
              U{Full precision summation<https://Bugs.Python.org/issue2819>}.
     '''
-    _fsum2_ = 0
+    _fsum2_ = None
 
     def __init__(self, *starts):
         '''Initialize a new accumulator with one or more start values.
@@ -182,6 +181,7 @@ class Fsum(object):
                     self.fadd(p._ps)
             else:
                 self._ps = []  # zero
+                self._fsum2_ = None
         else:
             raise TypeError('%s *= %r' % (self, other))
         return self
@@ -201,6 +201,7 @@ class Fsum(object):
             self.fadd_(-other)
         elif other is self:
             self._ps = []  # zero
+            self._fsum2_ = None
         elif isinstance(other, Fsum):
             self.fadd(-p for p in other._ps)
         else:
@@ -280,6 +281,7 @@ class Fsum(object):
             ps[i:] = [a]
             self._n += 1
         # assert self._ps is ps
+        self._fsum2_ = None
 
     def fadd_(self, *xs):
         '''Accumulate more values from positional arguments.
@@ -296,9 +298,8 @@ class Fsum(object):
            @return: The copy, a new instance (L{Fsum}).
          '''
         f = Fsum()
-        f._fsum2_ = self._fsum2_
-        f._n      = self._n
-        f._ps     = list(self._ps)
+        f._n  = self._n
+        f._ps = list(self._ps)
         return f
 
     __copy__ = fcopy
@@ -377,6 +378,7 @@ class Fsum(object):
                         s = _2even(s, ps[i-1], p)
                     break
             # assert self._ps is ps
+        self._fsum2_ = s
         return s
 
     def fsum_(self, *xs):
@@ -406,9 +408,11 @@ class Fsum(object):
 
            @note: Accumulation can continue after summation.
         '''
-        s = self.fsum(xs)
-        self._fsum2_, d = s, s - self._fsum2_
-        return s, d
+        p = self._fsum2_
+        if p is None:
+            p = self.fsum()
+        s = self.fsum(xs)  # if xs else self._fsum2_
+        return s, s - p
 
 
 class Fdot(Fsum):
@@ -1024,13 +1028,14 @@ def map2(func, *xs):
     return tuple(map(func, *xs))
 
 
-def scalar(value, low=EPS, high=1.0, name='scalar'):
+def scalar(value, low=EPS, high=1.0, name='scalar', Error=ValueError):
     '''Validate a scalar.
 
        @param value: The value (C{scalar}).
        @keyword low: Optional lower bound (C{scalar}).
        @keyword high: Optional upper bound (C{scalar}).
        @keyword name: Optional name of value (C{str}).
+       @keyword Error: Exception to raise (C{ValueError}).
 
        @return: New value (C{type} of B{C{low}}).
 
@@ -1048,7 +1053,7 @@ def scalar(value, low=EPS, high=1.0, name='scalar'):
             if v < low or v > high:
                 raise ValueError
     except (TypeError, ValueError):
-        raise ValueError('%s invalid: %r' % (name, value))
+        raise Error('%s invalid: %r' % (name, value))
     return v
 
 

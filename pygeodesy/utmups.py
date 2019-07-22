@@ -13,20 +13,20 @@ A pure Python implementation, partially transcribed from C++ class U{UTMUPS
 by I{Charles Karney}.
 '''
 
-from datum import Datums
-from dms import RangeError
-from lazily import _ALL_LAZY
-from named import UtmUps5Tuple, UtmUps8Tuple
-from utily import OK
-from ups import parseUPS5, toUps8, Ups, UPSError, upsZoneBand5
-from utm import parseUTM5, toUtm8, Utm, UTMError, utmZoneBand5
-from utmupsBase import _MGRS_TILE, _to4lldn, _to3zBhp, \
-                       _UPS_ZONE, _UPS_ZONE_STR, \
-                       _UTMUPS_ZONE_MIN, _UTMUPS_ZONE_MAX
+from pygeodesy.datum import Datums
+from pygeodesy.dms import RangeError
+from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.named import UtmUps5Tuple, UtmUps8Tuple
+from pygeodesy.utily import OK
+from pygeodesy.ups import parseUPS5, toUps8, Ups, UPSError, upsZoneBand5
+from pygeodesy.utm import parseUTM5, toUtm8, Utm, UTMError, utmZoneBand5
+from pygeodesy.utmupsBase import _MGRS_TILE, _to4lldn, _to3zBhp, \
+                                 _UPS_ZONE, _UPS_ZONE_STR, \
+                                 _UTMUPS_ZONE_MIN, _UTMUPS_ZONE_MAX
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utmups
-__version__ = '19.05.10'
+__version__ = '19.07.12'
 
 _UPS_N_MAX = 27 * _MGRS_TILE
 _UPS_N_MIN = 13 * _MGRS_TILE
@@ -60,7 +60,8 @@ class _UtmMinMax(object):
 
 
 class UTMUPSError(ValueError):
-    '''UTM/UPS parse, validate or other error.
+    '''Universal Transverse Mercator/Universal Polar Stereographic
+       (UTM/UPS) parse, validate or other issue.
     '''
     pass
 
@@ -219,10 +220,10 @@ def utmupsValidate(coord, falsed=False, MGRS=False):
     z, B, h = _to3zBhp(zone, band, hemipole=hemi)
 
     if z == _UPS_ZONE:  # UPS
-        import ups as u  # PYCHOK expected
+        import pygeodesy.ups as u  # PYCHOK expected
         U, M = 'UPS', _UpsMinMax
     else:  # UTM
-        import utm as u  # PYCHOK expected
+        import pygeodesy.utm as u  # PYCHOK expected
         U, M = 'UTM', _UtmMinMax
 
     if MGRS:

@@ -1,8 +1,8 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Military Grid Reference System (MGRS/NATO) class L{Mgrs} and
-functions L{parseMGRS} and L{toMgrs}.
+u'''Military Grid Reference System (MGRS/NATO) classes L{Mgrs} and
+L{MGRSError} and functions L{parseMGRS} and L{toMgrs}.
 
 Pure Python implementation of MGRS / UTM conversion functions using
 an ellipsoidal earth model, transcribed from JavaScript originals by
@@ -26,20 +26,20 @@ and U{Military Grid Reference System<https://WikiPedia.org/wiki/Military_grid_re
 @newfield example: Example, Examples
 '''
 
-from datum import Datums
-from lazily import _ALL_LAZY
-from named import _NamedBase, Mgrs4Tuple, Mgrs6Tuple, \
-                   UtmUps4Tuple, _xattrs, _xnamed
-from utily import enStr2, halfs2, property_RO
-from utm import toUtm8, _to3zBlat, Utm
-from utmupsBase import _hemi
+from pygeodesy.datum import Datums
+from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.named import _NamedBase, Mgrs4Tuple, Mgrs6Tuple, \
+                             UtmUps4Tuple, _xattrs, _xnamed
+from pygeodesy.utily import enStr2, halfs2, property_RO
+from pygeodesy.utm import toUtm8, _to3zBlat, Utm
+from pygeodesy.utmupsBase import _hemi
 
 from math import log10
 import re  # PYCHOK warning locale.Error
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.mgrs
-__version__ = '19.05.21'
+__version__ = '19.07.12'
 
 _100km  =  100e3  #: (INTERNAL) 100 km in meter.
 _2000km = 2000e3  #: (INTERNAL) 2,000 km in meter.
@@ -52,6 +52,12 @@ _Ln100k = 'ABCDEFGHJKLMNPQRSTUV', 'FGHJKLMNPQRSTUVABCDE'  #: (INTERNAL) Grid N r
 # split an MGRS string "12ABC1235..." into 3 parts
 _MGRSre = re.compile('([0-9]{1,2}[C-X]{1})([A-Z]{2})([0-9]+)', re.IGNORECASE)  #: (INTERNAL) Regex.
 _GZDre  = re.compile('([0-9]{1,2}[C-X]{1})', re.IGNORECASE)  #: (INTERNAL) Regex.
+
+
+class MGRSError(ValueError):
+    '''Military Grid Reference System (MGRS) parse or other L{Mgrs} issue.
+    '''
+    pass
 
 
 class Mgrs(_NamedBase):
@@ -68,7 +74,7 @@ class Mgrs(_NamedBase):
 
     def __init__(self, zone, en100k, easting, northing,
                              band='', datum=Datums.WGS84, name=''):
-        '''New MGRS grid reference.
+        '''New L{Mgrs} Military grid reference.
 
            @param zone: 6° longitudinal zone (C{int}), 1..60 covering 180°W..180°E.
            @param en100k: Two-letter EN digraph (C{str}), 100 km grid square.
@@ -78,18 +84,18 @@ class Mgrs(_NamedBase):
            @keyword datum: Optional this reference's datum (L{Datum}).
            @keyword name: Optional name (C{str}).
 
-           @raise ValueError: Invalid MGRS grid reference, B{C{zone}},
-                              B{C{en100k}} or B{C{band}}.
+           @raise MGRSError: Invalid MGRS grid reference, B{C{zone}}, B{C{en100k}}
+                             or B{C{band}}.
 
            @example:
 
-           >>> from mgrs import Mgrs
+           >>> from pygeodesy import Mgrs
            >>> m = Mgrs('31U', 'DQ', 48251, 11932)  # 31U DQ 48251 11932
         '''
         if name:
             self.name = name
 
-        self._zone, self._band, self._bandLat = _to3zBlat(zone, band, True)
+        self._zone, self._band, self._bandLat = _to3zBlat(zone, band, MGRSError)
 
         try:
             en = str(en100k).upper()
@@ -98,7 +104,7 @@ class Mgrs(_NamedBase):
             self._en100k = en
             self._en100k2m()
         except IndexError:
-            raise ValueError('%s invalid: %r' ('en100k', en100k))
+            raise MGRSError('%s invalid: %r' ('en100k', en100k))
 
         self._easting, self._northing = float(easting), float(northing)
 
@@ -175,7 +181,7 @@ class Mgrs(_NamedBase):
 
            @return: MGRS reference (L{Mgrs}).
 
-           @raise ValueError: Invalid B{C{strMGRS}}.
+           @raise MGRSError: Invalid B{C{strMGRS}}.
 
            @see: Function L{parseMGRS} in this module L{mgrs}.
         '''
@@ -271,7 +277,7 @@ def parseMGRS(strMGRS, datum=Datums.WGS84, Mgrs=Mgrs, name=''):
                 L{Mgrs4Tuple}C{(zone, digraph, easting, northing)}
                 if B{C{Mgrs}} is C{None}.
 
-       @raise ValueError: Invalid B{C{strMGRS}}.
+       @raise MGRSError: Invalid B{C{strMGRS}}.
 
        @example:
 
@@ -306,8 +312,8 @@ def parseMGRS(strMGRS, datum=Datums.WGS84, Mgrs=Mgrs, name=''):
         if len(m) != 4:  # 01A BC 1234 12345
             raise ValueError
         e, n = map(_s2m, m[2:])
-    except ValueError:
-        raise ValueError('%s invalid: %r' % ('strMGRS', strMGRS))
+    except (TypeError, ValueError):
+        raise MGRSError('%s invalid: %r' % ('strMGRS', strMGRS))
 
     z, EN = m[0], m[1].upper()
     r = Mgrs4Tuple(z, EN, e, n) if Mgrs is None else \
@@ -327,9 +333,9 @@ def toMgrs(utm, Mgrs=Mgrs, name=''):
                 L{Mgrs6Tuple}C{(zone, digraph, easting, northing,
                 band, datum)} if B{L{Mgrs}} is C{None}.
 
-       @raise TypeError: If B{C{utm}} is not L{Utm} not L{Etm}.
+       @raise TypeError: If B{C{utm}} is not L{Utm} nor L{Etm}.
 
-       @raise ValueError: Invalid B{C{utm}}.
+       @raise MGRSError: Invalid B{C{utm}}.
 
        @example:
 

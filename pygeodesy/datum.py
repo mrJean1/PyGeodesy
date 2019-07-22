@@ -110,14 +110,19 @@ guide-coordinate-systems-great-britain.pdf>}.
 
 # make sure int/int division yields float quotient
 from __future__ import division
+division = 1 / 2  # double check int division, see .fmath.py, .utily.py
+if not division:
+    raise ImportError('%s 1/2 == %d' % ('division', division))
+del division
 
-from fmath import _2_3rd, EPS, EPS1, cbrt, cbrt2, fdot, fpowers, \
-                  Fsum, fsum_, hypot1, sqrt3
-from lazily import _ALL_LAZY
-from named import Curvature2Tuple, Distance2Tuple, inStr, \
-                 _NamedEnum, _NamedEnumItem, Vector3Tuple, _xattrs
-from utily import PI2, R_M, degrees360, m2degrees, m2km, \
-                  m2NM, m2SM, property_RO, _TypeError
+from pygeodesy.fmath import _2_3rd, EPS, EPS1, cbrt, cbrt2, fdot, \
+                             fpowers, Fsum, fsum_, hypot1, sqrt3
+from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.named import Curvature2Tuple, Distance2Tuple, inStr, \
+                           _NamedEnum, _NamedEnumItem, Vector3Tuple, \
+                           _xattrs
+from pygeodesy.utily import PI2, R_M, degrees360, m2degrees, m2km, \
+                            m2NM, m2SM, property_RO, _TypeError
 
 from math import atan, atan2, atanh, copysign, cos, exp, hypot, \
                  radians, sin, sinh, sqrt
@@ -138,12 +143,7 @@ R_VM = 6366707.0194937  #: Aviation/Navigation earth radius (C{meter}).
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.datum
-__version__ = '19.07.06'
-
-division = 1 / 2  # double check int division, see .fmath.py, .utily.py
-if not division:
-    raise ImportError('%s 1/2 == %d' % ('division', division))
-del division
+__version__ = '19.07.09'
 
 _TOL = sqrt(EPS * 0.1)  # for Ellipsoid.estauf, imported by .ups
 
@@ -1181,7 +1181,7 @@ class Datum(_NamedEnumItem):
         '''Get the C{ExactTM} projection (L{ExactTransverseMercator}).
         '''
         if self._exactTM is None:
-            from etm import ExactTransverseMercator
+            from pygeodesy.etm import ExactTransverseMercator
             self._exactTM = ExactTransverseMercator(datum=self)
         return self._exactTM
 

@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 u'''(INTERNAL) Classes C{_Named}, C{_NamedDict}, C{_NamedInt},
-C{_NamedStr} and C{_NamedTuple} with nameable instances.
+C{_NamedStr} and C{_NamedTuple} with nameable instances and several
+subclasses thereof.
 
 In addition, the items in a C{_NamedDict} are accessable as attributes
 and the items in a C{_NamedTuple} can be named to be accessable as
@@ -15,9 +16,9 @@ sub-classes of C{_NamedTuple} defined here.
 @newfield example: Example, Examples
 '''
 
-from fmath import fStr
-from lazily import _ALL_LAZY, _ALL_DOCS
-from utily import issubclassof, property_RO, _Strs, unStr
+from pygeodesy.fmath import fStr
+from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS
+from pygeodesy.utily import issubclassof, property_RO, _Strs, unStr
 
 # XXX 'FsumDelta2Tuple' is in _ALL_LAZY.named
 __all__ = _ALL_LAZY.named + _ALL_DOCS(  # '_Named', '_NamedBase',
@@ -41,7 +42,7 @@ __all__ = _ALL_LAZY.named + _ALL_DOCS(  # '_Named', '_NamedBase',
          'UtmUps2Tuple', 'UtmUps4Tuple', 'UtmUps5Tuple', 'UtmUps8Tuple',
          'UtmUpsLatLon5Tuple',
          'Vector3Tuple', 'Vector4Tuple')
-__version__ = '19.06.29'
+__version__ = '19.07.12'
 
 _NAME_ = 'name'  # __NAME gets mangled in class
 
@@ -1026,7 +1027,7 @@ def nameof(inst):
 
 if __name__ == '__main__':
 
-    from lazily import _FOR_DOCS
+    from pygeodesy.lazily import _FOR_DOCS
     if not _FOR_DOCS:
         raise NameError('usage: %s' % ('env PYGEODESY_FOR_DOCS=1 python ...',))
 

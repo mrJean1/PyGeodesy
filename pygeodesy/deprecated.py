@@ -3,42 +3,39 @@
 
 u'''DEPRECATED classes, functions, etc. exported for backward compatibility.
 '''
-
-from heights import HeightIDWequirectangular, HeightIDWeuclidean, \
-                    HeightIDWhaversine
-# avoid importing other modules
-from lazily import _ALL_LAZY
+from pygeodesy.heights import HeightIDWequirectangular, \
+                              HeightIDWeuclidean, \
+                              HeightIDWhaversine
+from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.trf import TRFError
 
 __all__ = _ALL_LAZY.deprecated
-__version__ = '19.07.05'
+__version__ = '19.07.12'
 
 _R_M = _WGS84 = _UTM = object()
 
 
 # DEPRECATED classes, for export only
-class HeightIDW(HeightIDWeuclidean):  # PYCHOK exported
-    '''DEPRECATED, use class L{HeightIDWeuclidean}.
-    '''
-    pass
+HeightIDW = HeightIDWeuclidean  # PYCHOK exported
+'''DEPRECATED, use class L{HeightIDWeuclidean}.
+'''
+HeightIDW2 = HeightIDWequirectangular  # PYCHOK exported
+'''DEPRECATED, use class L{HeightIDWequirectangular}.
+'''
+HeightIDW3 = HeightIDWhaversine  # PYCHOK exported
+'''DEPRECATED, use class L{HeightIDWhaversine}.
+'''
 
-
-class HeightIDW2(HeightIDWequirectangular):  # PYCHOK exported
-    '''DEPRECATED, use class L{HeightIDWequirectangular}.
-    '''
-    pass
-
-
-class HeightIDW3(HeightIDWhaversine):  # PYCHOK exported
-    '''DEPRECATED, use class L{HeightIDWhaversine}.
-    '''
-    pass
+RefFrameError = TRFError  # PYCHOK exported
+'''DEPRECATED, use class L{TRFError}.
+'''
 
 
 def areaof(points, adjust=True, radius=_R_M, wrap=True):
     '''DEPRECATED, use function L{areaOf}.
     '''
-    from points import areaOf
-    from utily import R_M  # PYCHOK shadows?
+    from pygeodesy.points import areaOf
+    from pygeodesy.utily import R_M  # PYCHOK shadows?
     r = R_M if radius is _R_M else radius  # PYCHOK shadows?
     return areaOf(points, adjust=adjust, radius=r, wrap=wrap)
 
@@ -50,7 +47,7 @@ def bounds(points, wrap=True, LatLon=None):
                 or 4-Tuple C{(latS, lonW, latN, lonE)} if
                 B{C{LatLon}} is C{None}.
     '''
-    from points import boundsOf
+    from pygeodesy.points import boundsOf
     return tuple(boundsOf(points, wrap=wrap, LatLon=LatLon))
 
 
@@ -59,7 +56,7 @@ def decodeEPSG2(arg):
 
        @return: 2-Tuple C{(zone, hemipole)}
     '''
-    from epsg import decode2
+    from pygeodesy.epsg import decode2
     return tuple(decode2(arg))
 
 
@@ -68,7 +65,7 @@ def encodeEPSG(zone, hemipole='', band=''):
 
        @return: C{EPSG} code (C{int}).
     '''
-    from epsg import encode
+    from pygeodesy.epsg import encode
     return int(encode(zone, hemipole=hemipole, band=band))
 
 
@@ -77,21 +74,21 @@ def equirectangular3(lat1, lon1, lat2, lon2, **options):
 
        @return: 3-Tuple C{(distance2, delta_lat, delta_lon)}.
     '''
-    from formy import equirectangular_
+    from pygeodesy.formy import equirectangular_
     return tuple(equirectangular_(lat1, lon1, lat2, lon2, **options)[:3])
 
 
 def hypot3(x, y, z):
     '''(DEPRECATED), use function L{hypot_}.
     '''
-    from fmath import hypot_
+    from pygeodesy.fmath import hypot_
     return hypot_(x, y, z)
 
 
 def isenclosedby(point, points, wrap=False):
     '''DEPRECATED, use function L{isenclosedBy}.
     '''
-    from points import isenclosedBy
+    from pygeodesy.points import isenclosedBy
     return isenclosedBy(point, points, wrap=wrap)
 
 
@@ -100,7 +97,7 @@ def nearestOn3(point, points, closed=False, wrap=False, **options):
 
        @return: 3-Tuple C{(lat, lon, distance)}
     '''
-    from points import nearestOn5  # no name conflict
+    from pygeodesy.points import nearestOn5  # no name conflict
     return tuple(nearestOn5(point, points, closed=closed, wrap=wrap, **options)[:3])
 
 
@@ -109,7 +106,7 @@ def nearestOn4(point, points, closed=False, wrap=False, **options):
 
        @return: 4-Tuple C{(lat, lon, distance, angle)}
     '''
-    from points import nearestOn5  # no name conflict
+    from pygeodesy.points import nearestOn5  # no name conflict
     return tuple(nearestOn5(point, points, closed=closed, wrap=wrap, **options)[:4])
 
 
@@ -119,8 +116,8 @@ def parseUTM(strUTM, datum=_WGS84, Utm=_UTM, name=''):
        @return: The UTM coordinate (B{L{Utm}}) or 4-tuple C{(zone,
                 hemisphere, easting, northing)} if B{C{Utm}} is C{None}.
     '''
-    from datum import Datums  # PYCHOK shadows?
-    from utm import parseUTM5, Utm as _Utm
+    from pygeodesy.datum import Datums  # PYCHOK shadows?
+    from pygeodesy.utm import parseUTM5, Utm as _Utm
     d = Datums.WGS84 if datum is _WGS84 else datum  # PYCHOK shadows?
     U = _Utm if Utm is _UTM else Utm
     r = parseUTM5(strUTM, datum=d, Utm=U, name=name)
@@ -132,8 +129,8 @@ def parseUTM(strUTM, datum=_WGS84, Utm=_UTM, name=''):
 def perimeterof(points, closed=False, adjust=True, radius=_R_M, wrap=True):
     '''DEPRECATED, use function L{perimeterOf}.
     '''
-    from points import perimeterOf
-    from utily import R_M  # PYCHOK shadows?
+    from pygeodesy.points import perimeterOf
+    from pygeodesy.utily import R_M  # PYCHOK shadows?
     r = R_M if radius is _R_M else radius  # PYCHOK shadows?
     return perimeterOf(points, closed=closed, adjust=adjust, radius=r, wrap=wrap)
 
@@ -141,15 +138,15 @@ def perimeterof(points, closed=False, adjust=True, radius=_R_M, wrap=True):
 def polygon(points, closed=True, base=None):
     '''DEPRECATED, use function L{points2}.
     '''
-    from utily import points2
+    from pygeodesy.utily import points2
     return points2(points, closed=closed, base=base)
 
 
 def simplify2(points, pipe, radius=_R_M, shortest=False, indices=False, **options):
     '''DEPRECATED, use function L{simplifyRW}.
     '''
-    from simplify import simplifyRW
-    from utily import R_M  # PYCHOK shadows?
+    from pygeodesy.simplify import simplifyRW
+    from pygeodesy.utily import R_M  # PYCHOK shadows?
     r = R_M if radius is _R_M else radius  # PYCHOK shadows?
     return simplifyRW(points, pipe, radius=r, shortest=shortest, indices=indices, **options)
 
@@ -161,7 +158,7 @@ def toUtm(latlon, lon=None, datum=None, Utm=_UTM, cmoff=True, name=''):
                 easting, northing, band, convergence, scale)} if
                 B{C{Utm}} is C{None} or B{C{cmoff}} is C{False}.
     '''
-    from utm import toUtm8, Utm as _Utm
+    from pygeodesy.utm import toUtm8, Utm as _Utm
     U = _Utm if Utm is _UTM else Utm
     r = toUtm8(latlon, lon=lon, datum=datum, Utm=U, name=name, falsed=cmoff)
     if isinstance(r, tuple):  # UtmUps8Tuple
@@ -175,7 +172,7 @@ def utmZoneBand2(lat, lon):
 
        @return: 2-Tuple C{(zone, band)}.
     '''
-    from utm import utmZoneBand5
+    from pygeodesy.utm import utmZoneBand5
     r = utmZoneBand5(lat, lon)  # UtmUpsLatLon5Tuple
     return r.zone, r.band
 

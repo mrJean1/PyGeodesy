@@ -51,21 +51,21 @@ Python C{warnings} are filtered accordingly, see L{SciPyWarning}.
 @see: U{SciPy<https://docs.SciPy.org/doc/scipy/reference/interpolate.html>}.
 '''
 
-from datum import Datum
-from fmath import EPS, fidw, isscalar, len2, map1
-from formy import euclidean_, haversine_, _scaler, vincentys_
-from lazily import _ALL_LAZY
-from named import _Named
-from points import LatLon_
-from utily import PI, PI2, PI_2, property_RO, radiansPI, radiansPI2, \
-                  unroll180, unrollPI
+from pygeodesy.datum import Datum
+from pygeodesy.fmath import EPS, fidw, isscalar, len2, map1
+from pygeodesy.formy import euclidean_, haversine_, _scaler, vincentys_
+from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.named import _Named
+from pygeodesy.points import LatLon_
+from pygeodesy.utily import PI, PI2, PI_2, property_RO, \
+                            radiansPI, radiansPI2, unroll180, unrollPI
 
 __all__ = _ALL_LAZY.heights
-__version__ = '19.07.06'
+__version__ = '19.07.12'
 
 
 class HeightError(ValueError):  # imported by .geoids
-    '''Height interpolator or interpolation error.
+    '''Height interpolator C{Height...} or interpolation issue.
     '''
     pass
 

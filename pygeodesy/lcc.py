@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 u'''Lambert conformal conic projection for 1- or 2-Standard Parallels
-class L{Conic}, L{Conics} registry and position class L{Lcc}.
+classes L{Conic}, L{Conics} registry, L{LCCError} and position class
+L{Lcc}.
 
 See U{LCC<https://WikiPedia.org/wiki/Lambert_conformal_conic_projection>},
 U{Lambert Conformal Conic to Geographic Transformation Formulae
@@ -16,21 +17,21 @@ and John P. Snyder U{'Map Projections - A Working Manual'
 @newfield example: Example, Examples
 '''
 
-from ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
-from datum import Datums
-from fmath import EPS, fStr, hypot
-from lazily import _ALL_LAZY
-from named import EasNor3Tuple, LatLon4Tuple, LatLonDatum3Tuple, \
-                 _NamedBase, _NamedEnum, _NamedEnumItem, nameof, \
-                 _xattrs, _xnamed
-from utily import PI_2, degrees90, degrees180, false2f, \
-                  issubclassof, property_RO, sincos2, tanPI_2_2
+from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
+from pygeodesy.datum import Datums
+from pygeodesy.fmath import EPS, fStr, hypot
+from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.named import EasNor3Tuple, LatLon4Tuple, LatLonDatum3Tuple, \
+                           _NamedBase, _NamedEnum, _NamedEnumItem, nameof, \
+                           _xattrs, _xnamed
+from pygeodesy.utily import PI_2, degrees90, degrees180, false2f, \
+                            issubclassof, property_RO, sincos2, tanPI_2_2
 
 from math import atan, copysign, log, radians, sin, sqrt
 
 # all public constants, classes and functions
 __all__ = _ALL_LAZY.lcc
-__version__ = '19.05.10'
+__version__ = '19.07.12'
 
 
 class Conic(_NamedEnumItem):
@@ -327,6 +328,12 @@ Conics._assert(  # <https://SpatialReference.org/ref/sr-org/...>
 )
 
 
+class LCCError(ValueError):
+    '''Lambert Conformal Conic C{LCC} or other L{Lcc} issue.
+    '''
+    pass
+
+
 class Lcc(_NamedBase):
     '''Lambert conformal conic East-/Northing location.
     '''
@@ -336,7 +343,7 @@ class Lcc(_NamedBase):
     _conic = None  #: (INTERNAL) Lamber projection (L{Conic}).
 
     def __init__(self, e, n, h=0, conic=Conics.WRF_Lb, name=''):
-        '''New L{Lcc} position.
+        '''New L{Lcc} Lamber conformal conic position.
 
            @param e: Easting (C{meter}).
            @param n: Northing (C{meter}).
@@ -348,7 +355,7 @@ class Lcc(_NamedBase):
 
            @raise TypeError: If B{C{conic}} is not L{Conic}.
 
-           @raise ValueError: Invalid or negative B{C{e}} or B{C{n}}.
+           @raise LCCError: Invalid or negative B{C{e}} or B{C{n}}.
 
            @example:
 
@@ -357,8 +364,8 @@ class Lcc(_NamedBase):
         if not isinstance(conic, Conic):
             raise TypeError('%s not Conic: %r' % ('conic', conic))
         self._conic = conic
-        self._easting  = false2f(e, 'easting',  false=conic.E0 > 0)
-        self._northing = false2f(n, 'northing', false=conic.N0 > 0)
+        self._easting  = false2f(e, 'easting',  false=conic.E0 > 0, Error=LCCError)
+        self._northing = false2f(n, 'northing', false=conic.N0 > 0, Error=LCCError)
         if h:
             self._height = float(h)
         if name:

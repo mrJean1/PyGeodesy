@@ -9,11 +9,11 @@ reference frames<https://www.Movable-Type.co.UK/scripts/geodesy-library.html>} J
 '''
 
 __all__ = ('Tests',)
-__version__ = '19.07.02'
+__version__ = '19.07.12'
 
 from base import TestsBase
 
-from pygeodesy import date2epoch, F_D, F_DMS, RefFrames, RefFrameError
+from pygeodesy import date2epoch, F_D, F_DMS, RefFrames, TRFError
 
 
 class Tests(TestsBase):
@@ -104,9 +104,9 @@ class Tests(TestsBase):
 
         try:
             t = LatLon(0, 0).convertRefFrame(RefFrames.ITRF2000)
-        except RefFrameError as x:
+        except TRFError as x:
             t = str(x)
-        self.test('RefFrameError', t, 'no LatLon(00°00′00.0″N, 000°00′00.0″E).reframe')
+        self.test('TRFError', t, 'no LatLon(00°00′00.0″N, 000°00′00.0″E).reframe')
 
         c = Cartesian(0, 0, 0)
         try:

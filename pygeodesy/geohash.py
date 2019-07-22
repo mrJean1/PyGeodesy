@@ -1,8 +1,8 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Class L{Geohash} and several functions to encode, decode and
-inspect I{geohashes}.
+u'''Classes L{Geohash} and L{GeohashError} and several functions to
+encode, decode and inspect I{geohashes}.
 
 Transcribed from JavaScript originals by I{(C) Chris Veness 2011-2015}
 and published under the same MIT Licence**, see U{Geohashes
@@ -16,13 +16,13 @@ U{Geohash-Javascript<https://GitHub.com/DaveTroy/geohash-js>}.
 @newfield example: Example, Examples
 '''
 
-from dms import parse3llh, parseDMS2
-from fmath import EPS, favg, fStr, map2
-from formy import equirectangular, equirectangular_, haversine_
-from lazily import _ALL_LAZY
-from named import Bounds2Tuple, Bounds4Tuple, LatLon2Tuple, \
-                 _NamedStr, Neighbors8Dict
-from utily import R_M, property_RO, _Strs, unrollPI
+from pygeodesy.dms import parse3llh, parseDMS2
+from pygeodesy.fmath import EPS, favg, fStr, map2
+from pygeodesy.formy import equirectangular, equirectangular_, haversine_
+from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.named import Bounds2Tuple, Bounds4Tuple, LatLon2Tuple, \
+                           _NamedStr, Neighbors8Dict
+from pygeodesy.utily import R_M, property_RO, _Strs, unrollPI
 
 from math import ldexp, log10, radians
 
@@ -30,7 +30,7 @@ from math import ldexp, log10, radians
 __all__ = _ALL_LAZY.geohash + ('bounds',  # functions
           'decode', 'decode_error', 'distance1', 'distance2', 'distance3',
           'encode', 'neighbors', 'precision', 'resolution2', 'sizes')
-__version__ = '19.06.29'
+__version__ = '19.07.12'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -105,10 +105,16 @@ def _2geostr(geohash):
         for c in geostr:
             if c not in _DecodedBase32:
                 raise ValueError
-    except (AttributeError, ValueError, TypeError):
-        raise ValueError('%s: %r[%s]' % (Geohash.__name__,
-                          geohash, len(geohash)))
+    except (AttributeError, TypeError, ValueError):
+        raise GeohashError('%s: %r[%s]' % (Geohash.__name__,
+                            geohash, len(geohash)))
     return geostr
+
+
+class GeohashError(ValueError):
+    '''Geohash encode, decode or other L{Geohash} issue.
+    '''
+    pass
 
 
 class Geohash(_NamedStr):
@@ -135,6 +141,10 @@ class Geohash(_NamedStr):
            @keyword name: Optional name (C{str}).
 
            @return: New L{Geohash}.
+
+           @raise TypeError: Invalid B{C{cll}}.
+
+           @raise GeohashError: INValid or non-alphanumeric B{C{cll}}.
         '''
         if isinstance(cll, Geohash):
             gh = _2geostr(str(cll))
@@ -177,20 +187,20 @@ class Geohash(_NamedStr):
 
            @return: Geohash of adjacent cell (L{Geohash}).
 
-           @raise ValueError: If this geohash or B{C{direction}} invalid.
+           @raise GeohashError: Invalid geohash or B{C{direction}}.
         '''
         # based on <https://GitHub.com/DaveTroy/geohash-js>
 
         d = direction[:1].upper()
         if d not in _Neighbor:
-            raise ValueError('%s invalid: %s' % ('direction', direction))
+            raise GeohashError('%s invalid: %s' % ('direction', direction))
 
         e = len(self) & 1  # % 2
 
         c = self[-1:]  # last hash char
         i = _Neighbor[d][e].find(c)
         if i < 0:
-            raise ValueError('%s invalid: %s' % ('geohash', self))
+            raise GeohashError('%s invalid: %s' % ('geohash', self))
 
         p = self[:-1]  # hash without last char
         # check for edge-cases which don't share common prefix
@@ -357,7 +367,7 @@ class Geohash(_NamedStr):
 
            @return: This geohash location (B{C{LatLon}}).
 
-           @raise ValueError: B{C{LatLon}} invalid.
+           @raise GeohashError: B{C{LatLon}} invalid.
 
            @example:
 
@@ -367,7 +377,7 @@ class Geohash(_NamedStr):
            >>> print(ll)  # 52.204971°N, 000.11879°E
         '''
         if not LatLon:
-            raise ValueError('%s invalid: %r' % ('LatLon', LatLon))
+            raise GeohashError('%s invalid: %r' % ('LatLon', LatLon))
 
         return self._xnamed(LatLon(*self.latlon, **kwds))
 
@@ -443,7 +453,7 @@ def bounds(geohash, LatLon=None, **kwds):
        @raise TypeError: The B{C{geohash}} is not a L{Geohash}, C{LatLon}
                          or C{str}.
 
-       @raise ValueError: Invalid or null B{C{geohash}}.
+       @raise GeohashError: Invalid or null B{C{geohash}}.
 
        @example:
 
@@ -453,7 +463,7 @@ def bounds(geohash, LatLon=None, **kwds):
     '''
     geohash = _2Geohash(geohash)
     if len(geohash) < 1:
-        raise ValueError('%s invalid: %s' % ('geohash', geohash))
+        raise GeohashError('%s invalid: %s' % ('geohash', geohash))
 
     s, n =  -90,  90
     w, e = -180, 180
@@ -463,7 +473,7 @@ def bounds(geohash, LatLon=None, **kwds):
         try:
             i = _DecodedBase32[c]
         except KeyError:
-            raise ValueError('%s invalid: %s' % ('geohash', geohash))
+            raise GeohashError('%s invalid: %s' % ('geohash', geohash))
 
         for m in (16, 8, 4, 2, 1):
             if d:  # longitude
@@ -492,7 +502,7 @@ def decode(geohash):
        @raise TypeError: The B{C{geohash}} is not a L{Geohash},
                          C{LatLon} or C{str}.
 
-       @raise ValueError: Invalid or null B{C{geohash}}.
+       @raise GeohashError: Invalid or null B{C{geohash}}.
 
        @example:
 
@@ -524,7 +534,7 @@ def decode_error(geohash):
        @raise TypeError: The B{C{geohash}} is not a L{Geohash},
                          C{LatLon} or C{str}.
 
-       @raise ValueError: Invalid or null B{C{geohash}}.
+       @raise GeohashError: Invalid or null B{C{geohash}}.
 
        @example:
 
@@ -607,7 +617,7 @@ def encode(lat, lon, precision=None):
 
        @return: The C{geohash} (C{str}).
 
-       @raise ValueError: Invalid B{C{lat}}, B{C{lon}} or B{C{precision}}.
+       @raise GeohashError: Invalid B{C{lat}}, B{C{lon}} or B{C{precision}}.
 
        @example:
 
@@ -624,8 +634,8 @@ def encode(lat, lon, precision=None):
             p = int(precision)
             if not 0 < p <= _MaxPrec:
                 raise ValueError
-        except ValueError:
-            raise ValueError('%s invalid: %r' % ('precision', precision))
+        except (TypeError, ValueError):
+            raise GeohashError('%s invalid: %r' % ('precision', precision))
     else:
         # Infer precision by refining geohash until
         # it matches precision of supplied lat/lon.

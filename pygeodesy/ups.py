@@ -17,22 +17,22 @@ and north of 83.5°N (slightly overlapping the UTM range from 80°S to 84°N).
 @newfield example: Example, Examples
 '''
 
-from datum import Datums, _TOL
-from dms import clipDMS, degDMS, parseDMS2, _parseUTMUPS, RangeError
-from fmath import EPS, hypot, hypot1
-from lazily import _ALL_LAZY
-from named import EasNor2Tuple, UtmUps5Tuple, UtmUps8Tuple, \
-                  UtmUpsLatLon5Tuple, _xattrs, _xnamed
-from utily import degrees90, degrees180, property_RO, radians, sincos2d
-from utmupsBase import _LLEB, _hemi, _to4lldn, _to3zBhp, _to3zll, \
-                       _UPS_LAT_MAX, _UPS_LAT_MIN, _UPS_ZONE, \
-                       _UPS_ZONE_STR, UtmUpsBase
+from pygeodesy.datum import Datums, _TOL
+from pygeodesy.dms import clipDMS, degDMS, parseDMS2, _parseUTMUPS, RangeError
+from pygeodesy.fmath import EPS, hypot, hypot1
+from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.named import EasNor2Tuple, UtmUps5Tuple, UtmUps8Tuple, \
+                            UtmUpsLatLon5Tuple, _xattrs, _xnamed
+from pygeodesy.utily import degrees90, degrees180, property_RO, sincos2d
+from pygeodesy.utmupsBase import _LLEB, _hemi, _to4lldn, _to3zBhp, _to3zll, \
+                                 _UPS_LAT_MAX, _UPS_LAT_MIN, _UPS_ZONE, \
+                                 _UPS_ZONE_STR, UtmUpsBase
 
-from math import atan, atan2, sqrt, tan
+from math import atan, atan2, radians, sqrt, tan
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.ups
-__version__ = '19.06.14'
+__version__ = '19.07.12'
 
 _Bands   = 'A', 'B', 'Y', 'Z'    #: (INTERNAL) Polar bands.
 _Falsing = 2000e3  #: (INTERNAL) False easting and northing (C{meter}).
@@ -41,7 +41,7 @@ _K1      = 1.0     #: (INTERNAL) Rescale point scale factor.
 
 
 class UPSError(ValueError):
-    '''UPS parse or other error.
+    '''Universal Polar Stereographic (UPS) parse or other L{Ups} issue.
     '''
     pass
 
@@ -70,7 +70,7 @@ class Ups(UtmUpsBase):
     def __init__(self, zone, pole, easting, northing, band='',  # PYCHOK expected
                                    datum=Datums.WGS84, falsed=True,
                                    convergence=None, scale=None, name=''):
-        '''New UPS coordinate.
+        '''New L{Ups} UPS coordinate.
 
            @param zone: UPS zone (C{int}, zero) or zone with/-out Band
                         letter (C{str}, '00', '00A', '00B', '00Y' or '00Z').
@@ -333,7 +333,7 @@ class Ups(UtmUpsBase):
         '''
         u = self._utm
         if u is None or u.zone != zone or falsed != u.falsed:
-            from utm import toUtm8, Utm  # PYCHOK recursive import
+            from pygeodesy.utm import toUtm8, Utm  # PYCHOK recursive import
             ll = self.toLatLon(LatLon=None, unfalse=True)
             self._utm = toUtm8(ll, Utm=Utm, falsed=falsed, name=self.name, zone=zone)
         return self._utm

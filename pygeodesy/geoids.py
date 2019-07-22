@@ -59,14 +59,14 @@ C{warnings} are filtered accordingly, see L{SciPyWarning}.
       L{elevations.elevation2} and L{elevations.geoidHeight2}.
 '''
 
-from datum import Datum, Datums
-from dms import parseDMS2, RangeError
-from fmath import EPS, favg, Fdot, fdot, Fhorner, frange, fStr, len2
-from heights import _allis2, _ascalar, \
-                    _HeightBase, HeightError, _SciPyIssue
-from lazily import _ALL_LAZY, _ALL_DOCS
-from named import GeoidHeight5Tuple, LatLon3Tuple, _Named
-from utily import property_RO
+from pygeodesy.datum import Datum, Datums
+from pygeodesy.dms import parseDMS2, RangeError
+from pygeodesy.fmath import EPS, favg, Fdot, fdot, Fhorner, frange, fStr, len2
+from pygeodesy.heights import _allis2, _ascalar, \
+                              _HeightBase, HeightError, _SciPyIssue
+from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS
+from pygeodesy.named import GeoidHeight5Tuple, LatLon3Tuple, _Named
+from pygeodesy.utily import property_RO
 
 from math import floor
 import os.path as _os_path
@@ -84,7 +84,7 @@ except ImportError:  # Python 3+
         return bs.decode('utf-8')
 
 __all__ = _ALL_LAZY.geoids + _ALL_DOCS('_GeoidBase')
-__version__ = '19.07.02'
+__version__ = '19.07.12'
 
 _interp2d_ks = {-2: 'linear',
                 -3: 'cubic',
@@ -92,13 +92,13 @@ _interp2d_ks = {-2: 'linear',
 
 
 class GeoidError(HeightError):
-    '''Geoid interpolator or interpolation error.
+    '''Geoid interpolator C{Geoid...} or interpolation issue.
     '''
     pass
 
 
 class PGMError(GeoidError):
-    '''Error parsing or cropping an C{egm*.pgm} geoid dataset.
+    '''Issue parsing or cropping an C{egm*.pgm} geoid dataset.
     '''
     pass
 
