@@ -20,7 +20,7 @@ from sys import float_info as _float_info
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.fmath
-__version__ = '19.07.14'
+__version__ = '19.08.14'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -584,7 +584,7 @@ def fdot3(a, b, c, start=0):
                           and/or C{len(B{c})}.
     '''
     def _mul3(a, b, c):  # map function
-        return a * b * c
+        return a * b * c  # PYCHOK returns
 
     if not len(a) == len(b) == len(c):
         raise ValueError('%s: %s vs %s vs %s' % ('len', len(a), len(b), len(c)))
@@ -806,7 +806,7 @@ def fStr(floats, prec=6, sep=', ', fmt='%.*f', ints=False):
             t = t.split('.')[0]
         elif p > 1:
             t = fStrzs(t)
-        return t
+        return t  # PYCHOK returns
 
     if isscalar(floats):
         return _fstr(prec, floats)

@@ -1,0 +1,652 @@
+
+# -*- coding: utf-8 -*-
+
+u'''Classes L{Hausdorff}, L{HausdorffDegrees}, L{HausdorffRadians},
+L{HausdorffEquirectangular}, L{HausdorffEuclidean}, L{HausdorffHaversine},
+L{HausdorffKarney} and L{HausdorffVincentys} to compute the U{Hausdorff
+<https://WikiPedia.org/wiki/Hausdorff_distance>} distances between two
+sets of C{LatLon}, C{NumPy}, C{tuples} or other types of points.
+
+Only L{HausdorffKarney} depends on an external package, Charles Karney's
+U{geographiclib<https://PyPI.org/project/geographiclib>}.
+
+Typical usage is as follows.  First, create a C{Hausdorff} calculator
+from a given set of C{LatLon} points, called the C{model} or C{template}
+points.
+
+C{h = HausdorffXyz(points1, ...)}
+
+Get the C{directed} or C{symmetric} Hausdorff distance to a second set
+of C{LatLon} points, named the C{target} points, by using
+
+C{t6 = h.directed(points2)}
+
+respectively
+
+C{t6 = h.symmetric(points2)}.
+
+Or, use function C{hausdorff_} with a proper C{distance} function and
+optionally a C{point} function passed as keyword arguments as follows
+
+C{t6 = hausdorff_(points1, points2, ..., distance=..., point=...)}.
+
+In all cases, the returned result C{t6} is a L{Hausdorff6Tuple}.
+
+For C{(lat, lon, ...)} points in a C{NumPy} array or plain C{tuples},
+wrap the points in a L{Numpy2LatLon} respectively L{Tuple2LatLon}
+instance, more details in the documentation thereof.
+
+For other points, create a L{Hausdorff} sub-class with the appropriate
+C{distance} method overloading L{Hausdorff.distance} and optionally a
+C{point} method overriding L{Hausdorff.point} as the next example.
+
+    >>> from pygeodesy import Hausdorff, hypot_
+    >>>
+    >>> class H3D(Hausdorff):
+    >>>     """Custom Hausdorff example.
+    >>>     """
+    >>>     def distance(self, p1, p2):
+    >>>         return hypot_(p1.x - p2.x, p1.y - p2.y, p1.z - p2.z)
+    >>>
+    >>> h3D = H3D(xyz1, ..., units="...")
+    >>> d6 = h3D.directed(xyz2)
+
+Transcribed from the original SciPy U{Directed Hausdorff Code
+<https://GitHub.com/scipy/scipy/blob/master/scipy/spatial/_hausdorff.pyx>}
+version 0.19.0, Copyright (C) Tyler Reddy, Richard Gowers, and Max Linke,
+2016, distributed under the same BSD license as SciPy, including C{early
+breaking} and C{random sampling} as in: Abdel Aziz Taha, Allan Hanbury:
+U{"An Efficient Algorithm for Calculating the Exact Hausdorff Distance"
+<https://Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}, IEEE Trans.
+Pattern Analysis Machine Intelligence (PAMI), vol 37, no 11, pp 2153-2163,
+Nov 2015.
+'''
+
+from pygeodesy.datum import Datum
+from pygeodesy.fmath import INF
+from pygeodesy.formy import euclidean_, haversine_, _scaler, vincentys_
+from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS
+from pygeodesy.named import _Named, _NamedTuple
+from pygeodesy.utily import points2, property_RO, unroll180, unrollPI
+
+from math import radians
+from random import Random
+
+__all__ = _ALL_LAZY.hausdorff + _ALL_DOCS('Hausdorff6Tuple')
+__version__ = '19.08.14'
+
+
+class _LLab2Tuple(_NamedTuple):
+    '''2-Tuple C{(a, b)} with C{lat} and C{lon} in C{radians}.
+    '''
+    _Names_ = ('a', 'b')
+
+
+class HausdorffError(ValueError):
+    '''Hausdorff issue.
+    '''
+    pass
+
+
+class Hausdorff6Tuple(_NamedTuple):
+    '''6-Tuple C{(hd, i, j, mn, md, units)} with the U{Hausdorff
+       <https://WikiPedia.org/wiki/Hausdorff_distance>} distance C{hd},
+       indices C{i} and C{j}, the total count C{mn}, the C{I{mean}
+       Hausdorff} distance C{md} and the name of the distance C{units}.
+
+       For C{directed Hausdorff} distances, count C{mn} is the number
+       of model points considered. For C{symmetric Hausdorff} distances
+       count C{mn} twice that.
+
+       Indices C{i} and C{j} are the C{model} respectively C{target}
+       point with the C{hd} distance.
+
+       Mean distance C{md} is C{None} if an C{early break} occurred and
+       U{early breaking<https://Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}
+       was enabled by keyword argument C{early=True}.
+    '''
+    _Names_ = ('hd', 'i', 'j', 'mn', 'md', 'units')
+
+
+class Hausdorff(_Named):
+    '''Hausdorff base class, requires method L{Hausdorff.distance} to
+       be overloaded.
+    '''
+    _model = ()
+    _seed  = None
+    _units = ''
+
+    def __init__(self, points, seed=None, name='', units=''):
+        '''New L{Hausdorff} interpolator.
+
+           @param points: Initial set of points, aka the C{model} or
+                          C{template} (C{LatLon}[], C{Numpy2LatLon}[],
+                          C{Tuple2LatLon}[] or C{other}[]).
+           @keyword seed: Random sampling seed (C{any}) or C{None}, C{0}
+                          or C{False} for no U{random sampling<https://
+                          Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
+           @keyword name: Optional calculator name (C{str}).
+           @keyword units: Optional, distance units (C{str}).
+
+           @raise HausdorffError: Insufficient number of B{C{points}} or
+                                  invalid B{C{seed}}.
+        '''
+        _, self._model = points2(points, closed=False, Error=HausdorffError)
+        if seed:
+            self.seed = seed
+        if name:
+            self.name = name
+        if units:
+            self.units = units
+
+    def directed(self, points, early=True):
+        '''Compute only the C{forward Hausdorff} distance.
+
+           @param points: Second set of points, aka the C{target} (C{LatLon}[],
+                          C{Numpy2LatLon}[], C{Tuple2LatLon}[] or C{other}[]).
+           @keyword early: Enable or disable U{early breaking<https://
+                           Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}
+                           (C{bool}).
+
+           @return: A L{Hausdorff6Tuple}C{(hd, i, j, mn, md, units)}.
+
+           @raise HausdorffError: Insufficient number of B{C{points}}.
+        '''
+        _, ps2 = points2(points, closed=False, Error=HausdorffError)
+        return _hausdorff_(self._model, ps2, False, early, self.seed,
+                           self.units, self.distance, self.point)
+
+    def distance(self, point1, point2):  # PYCHOK unused
+        '''Distance between 2 points from C{.point}.
+
+           @note: This method I{must be overloaded}.
+
+           @raise AssertionError: Not overloaded.
+        '''
+        raise AssertionError('method %s.%s not overloaded' % (self.named, 'distance'))
+
+    def point(self, point):
+        '''Convert a C{model} or C{target} point for the C{.distance} method.
+        '''
+        return point  # pass thru
+
+    @property
+    def seed(self):
+        '''Get the random sampling seed (C{any} or C{None}).
+        '''
+        return self._seed
+
+    @seed.setter  # PYCHOK setter!
+    def seed(self, seed):
+        '''Set the random sampling seed.
+
+           @param seed: Valid L{Random(seed)} or C{None}, C{0} or
+                        C{False} for no U{random sampling<https://
+                        Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
+
+           @raise HausdorffError: Invalid B{C{seed}}.
+        '''
+        if seed:
+            try:
+                Random(seed)
+            except (TypeError, ValueError):
+                raise HausdorffError('%s invalid: %r' % ('seed', seed))
+            self._seed = seed
+        else:
+            self._seed = None
+
+    def symmetric(self, points, early=True):
+        '''Compute the combined C{forward and reverse Hausdorff} distance.
+
+           @param points: Second set of points, aka the C{target} (C{LatLon}[],
+                          C{Numpy2LatLon}[], C{Tuple2LatLon}[] or C{other}[]).
+           @keyword early: Enable or disable U{early breaking<https://
+                           Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}
+                           (C{bool}).
+
+           @return: A L{Hausdorff6Tuple}C{(hd, i, j, mn, md, units)}.
+
+           @raise HausdorffError: Insufficient number of B{C{points}}.
+        '''
+        _, ps2 = points2(points, closed=False, Error=HausdorffError)
+        return _hausdorff_(self._model, ps2, True, early, self.seed,
+                           self.units, self.distance, self.point)
+
+    @property
+    def units(self):
+        '''Get the distance units (C{str} or C{""}).
+        '''
+        return self._units
+
+    @units.setter  # PYCHOK setter!
+    def units(self, units):
+        '''Set the distance units.
+
+           @param units: New units name (C{str}).
+        '''
+        self._units = str(units or "")
+
+
+class HausdorffDegrees(Hausdorff):
+    '''L{Hausdorff} base class for distances in C{degrees} from
+       C{LatLon} points in C{degrees}.
+    '''
+    _units    = 'degrees'
+
+    directed  = Hausdorff.directed   # for __doc__
+    symmetric = Hausdorff.symmetric  # for __doc__
+
+
+class HausdorffRadians(Hausdorff):
+    '''L{Hausdorff} base class for distances in C{radians} from
+       C{LatLon} points converted from C{degrees} to C{radians}.
+    '''
+    _units    = 'radians'
+
+    directed  = Hausdorff.directed   # for __doc__
+    symmetric = Hausdorff.symmetric  # for __doc__
+
+    def point(self, point):
+        '''Convert C{(lat, lon)} point in degrees to C{(a, b)}
+           in radians.
+
+           @return: An L{_LLab2Tuple}C{(a, b)}.
+        '''
+        return _LLab2Tuple(radians(point.lat), radians(point.lon))
+
+
+class HausdorffEquirectangular(HausdorffRadians):
+    '''Compute the C{Hausdorff} distance based on the C{equirectangular}
+       distance (in radians squared) like function L{equirectangular_}.
+
+       @see: L{HausdorffEuclidean}, L{HausdorffHaversine},
+             L{HausdorffKarney} and L{HausdorffVincentys}.
+    '''
+    _adjust = True
+    _wrap   = False
+
+    def __init__(self, points, adjust=True, wrap=False, seed=None, name=''):
+        '''New L{HausdorffEquirectangular} calculator.
+
+           @param points: Initial set of points, aka the C{model} or
+                          C{template} (C{LatLon}[], C{Numpy2LatLon}[],
+                          C{Tuple2LatLon}[] or C{other}[]).
+           @keyword adjust: Adjust the wrapped, unrolled longitudinal
+                            delta by the cosine of the mean latitude (C{bool}).
+           @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
+           @keyword seed: Random seed (C{any}) or C{None}, C{0} or
+                          C{False} for no U{random sampling<https://
+                          Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
+           @keyword name: Optional calculator name (C{str}).
+
+           @raise HausdorffError: Insufficient number of B{C{points}} or
+                                  invalid B{C{adjust}} or B{C{seed}}.
+        '''
+        if not adjust:
+            self._adjust = False
+        if wrap:
+            self._wrap = True
+        super(HausdorffRadians, self).__init__(points, seed=seed, name=name)  # distance**2
+
+    def distance(self, p1, p2):
+        '''Return the L{equirectangular_} distance in C{radians squared}.
+        '''
+        d, _ = unrollPI(p1.b, p2.b, wrap=self._wrap)
+        if self._adjust:
+            d *= _scaler(p1.a, p2.a)
+        return d**2 + (p2.a - p1.a)**2  # like equirectangular_ d2
+
+    directed  = Hausdorff.directed   # for __doc__
+    symmetric = Hausdorff.symmetric  # for __doc__
+
+
+class HausdorffEuclidean(HausdorffRadians):
+    '''Compute the C{Hausdorff} distance based on the C{Euclidean}
+       distance (in radians) from function L{euclidean_}.
+
+       @see: L{HausdorffEquirectangular}, L{HausdorffHaversine},
+             L{HausdorffKarney} and L{HausdorffVincentys}.
+    '''
+    _adjust = True
+
+    def __init__(self, points, adjust=True, seed=None, name=''):
+        '''New L{HausdorffEuclidean} calculator.
+
+           @param points: Initial set of points, aka the C{model} or
+                          C{template} (C{LatLon}[], C{Numpy2LatLon}[],
+                          C{Tuple2LatLon}[] or C{other}[]).
+           @keyword adjust: Adjust the wrapped, unrolled longitudinal
+                            delta by the cosine of the mean latitude (C{bool}).
+           @keyword seed: Random sampling seed (C{any}) or C{None}, C{0}
+                          or C{False} for no U{random sampling<https://
+                          Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
+           @keyword name: Optional calculator name (C{str}).
+
+           @raise HausdorffError: Insufficient number of B{C{points}} or
+                                  invalid B{C{seed}}.
+        '''
+        if not adjust:
+            self._adjust = False
+        super(HausdorffRadians, self).__init__(points, seed=seed, name=name)
+
+    def distance(self, p1, p2):
+        '''Return the L{euclidean_} distance in C{radians}.
+        '''
+        return euclidean_(p2.a, p1.a, p2.b - p1.b, adjust=self._adjust)
+
+    directed  = Hausdorff.directed   # for __doc__
+    symmetric = Hausdorff.symmetric  # for __doc__
+
+
+class HausdorffHaversine(HausdorffRadians):
+    '''Compute the C{Hausdorff} distance based on the I{angular}
+       C{Haversine} distance (in radians) from function L{haversine_}.
+
+       @note: See note under L{HausdorffVincentys}.
+
+       @see: L{HausdorffEquirectangular}, L{HausdorffEuclidean},
+             L{HausdorffKarney} and L{HausdorffVincentys}.
+    '''
+    _wrap = False
+
+    def __init__(self, points, wrap=False, seed=None, name=''):
+        '''New L{HausdorffHaversine} calculator.
+
+           @param points: Initial set of points, aka the C{model} or
+                          C{template} (C{LatLon}[], C{Numpy2LatLon}[],
+                          C{Tuple2LatLon}[] or C{other}[]).
+           @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
+           @keyword seed: Random sampling seed (C{any}) or C{None}, C{0}
+                          or C{False} for no U{random sampling<https://
+                          Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
+           @keyword name: Optional calculator name (C{str}).
+
+           @raise HausdorffError: Insufficient number of B{C{points}} or
+                                  invalid B{C{seed}}.
+        '''
+        if wrap:
+            self._warp = True
+        super(HausdorffRadians, self).__init__(points, seed=seed, name=name)
+
+    def distance(self, p1, p2):
+        '''Return the L{haversine_} distance in C{radians}.
+        '''
+        d, _ = unrollPI(p1.b, p2.b, wrap=self._wrap)
+        return haversine_(p2.a, p1.a, d)
+
+    directed  = Hausdorff.directed   # for __doc__
+    symmetric = Hausdorff.symmetric  # for __doc__
+
+
+class HausdorffKarney(HausdorffDegrees):
+    '''Compute the C{Hausdorff} distance based on the I{angular}
+       distance (in degrees) from I{Charles Karney's} U{GeographicLib
+       <https://PyPI.org/project/geographiclib>} U{Geodesic
+       <https://geographiclib.sourceforge.io/1.49/python/code.html>}
+       Inverse method.
+
+       @see: L{HausdorffEquirectangular}, L{HausdorffEuclidean},
+             L{HausdorffHaversine} and L{HausdorffVincentys}.
+    '''
+    _datum   = None
+    _Inverse = None
+    _wrap    = False
+
+    def __init__(self, points, datum=None, wrap=False, seed=None, name=''):
+        '''New L{HausdorffKarney} calculator.
+
+           @param points: Initial set of points, aka the C{model} or
+                          C{template} (C{LatLon}[], C{Numpy2LatLon}[],
+                          C{Tuple2LatLon}[] or C{other}[]).
+           @keyword datum: Optional datum (L{Datum} to use, overriding
+                           the default C{I{model} points[0].datum}.
+           @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
+           @keyword seed: Random sampling seed (C{any}) or C{None}, C{0}
+                          or C{False} for no U{random sampling<https://
+                          Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
+           @keyword name: Optional calculator name (C{str}).
+
+           @raise HausdorffError: Insufficient number of B{C{points}} or
+                                  invalid B{C{seed}}.
+
+           @raise ImportError: Package U{GeographicLib
+                  <https://PyPI.org/project/geographiclib>} missing.
+
+           @raise TypeError: Invalid B{C{datum}}.
+        '''
+        if wrap:
+            self._warp = True
+        super(HausdorffDegrees, self).__init__(points, seed=seed, name=name)
+        try:
+            self._datum = self._model[0].datum if datum is None else datum
+            if not isinstance(self.datum, Datum):
+                raise TypeError
+        except (AttributeError, TypeError):
+            raise TypeError('%s invalid: %r' % ('datum', self.datum or datum))
+        self._Inverse = self.datum.ellipsoid.geodesic.Inverse
+
+    @property_RO
+    def datum(self):
+        '''Get the datum of this calculator (L{Datum}).
+        '''
+        return self._datum
+
+    def distance(self, p1, p2):
+        '''Return the non-negative I{angular} distance in C{degrees}.
+        '''
+        # see .ellipsoidalKarney.LatLon._inverse
+        _, lon2 = unroll180(p1.lon, p2.lon, wrap=self._wrap)  # g.LONG_UNROLL
+        # XXX g.DISTANCE needed for 's12', distance in meters?
+        return abs(self._Inverse(p1.lat, p1.lon, p2.lat, lon2)['a12'])
+
+    directed  = Hausdorff.directed   # for __doc__
+    symmetric = Hausdorff.symmetric  # for __doc__
+
+
+class HausdorffVincentys(HausdorffRadians):
+    '''Compute the C{Hausdorff} distance based on the I{angular}
+       C{Vincenty} distance (in radians) from function L{vincentys_}.
+
+       @note: See note under L{vincentys_}.
+
+       @see: L{HausdorffEquirectangular}, L{HausdorffEuclidean},
+             L{HausdorffHaversine} and L{HausdorffKarney}.
+    '''
+    _wrap = False
+
+    def __init__(self, points, wrap=False, seed=None, name=''):
+        '''New L{HausdorffVincentys} calculator.
+
+           @param points: Initial set of points, aka the C{model} or
+                          C{template} (C{LatLon}[], C{Numpy2LatLon}[],
+                          C{Tuple2LatLon}[] or C{other}[]).
+           @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
+           @keyword seed: Random sampling seed (C{any}) or C{None}, C{0}
+                          or C{False} for no U{random sampling<https://
+                          Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
+           @keyword name: Optional calculator name (C{str}).
+
+           @raise HausdorffError: Insufficient number of B{C{points}} or
+                                  invalid B{C{seed}}.
+        '''
+        if wrap:
+            self._warp = True
+        super(HausdorffRadians, self).__init__(points, seed=seed, name=name)
+
+    def distance(self, p1, p2):
+        '''Return the L{vincentys_} distance in C{radians}.
+        '''
+        d, _ = unrollPI(p1.b, p2.b, wrap=self._wrap)
+        return vincentys_(p2.a, p1.a, d)
+
+    directed  = Hausdorff.directed   # for __doc__
+    symmetric = Hausdorff.symmetric  # for __doc__
+
+
+def _hausdorff_(ps1, ps2, both, early, seed, units, distance, point):
+    '''(INTERNAL) Core of function L{hausdorff.hausdorff} and methods
+       C{directed} and C{symmetric} of classes C{hausdorff.Hausdorff...}.
+    '''
+    # shuffling the points generally increases the
+    # chance of an early break in the inner j loop
+    rr = randomrangenerator(seed) if seed else range
+
+    hd = -INF
+    hi = hj = mn = nm = 0
+    md = 0.0
+
+    # forward and/or backward
+    for fb in range(2 if both else 1):
+        n = len(ps2)
+        for i in rr(len(ps1)):
+            p1 = point(ps1[i])
+            dh, dj = INF, 0
+            for j in rr(n):
+                p2 = point(ps2[j])
+                d = distance(p1, p2)
+                if early and d < hd:
+                    break  # early
+                elif d < dh:
+                    dh, dj = d, j
+            else:  # no early break
+                if hd < dh:
+                    hd = dh
+                    if fb:
+                        hi, hj = dj, i
+                    else:
+                        hi, hj = i, dj
+                md += dh
+                mn += 1
+            nm += 1
+        # swap model and target
+        ps1, ps2 = ps2, ps1
+
+    md = None if mn < nm else (md / float(mn))
+    return Hausdorff6Tuple(hd, hi, hj, nm, md, units)
+
+
+def _point(p):
+    '''Default B{C{point}} callable for function L{hausdorff.hausdorff}.
+
+       @param p: The original C{model} or C{target} point (C{any}).
+
+       @return: The point, suitable for the L{hausdorff.hausdorff}
+                B{C{distance}} callable.
+    '''
+    return p
+
+
+def hausdorff_(model, target, both=False, early=True, seed=None, units='',
+                              distance=None, point=_point):
+    '''Compute the C{directed} or C{symmetric} U{Hausdorff distance<https://
+       WikiPedia.org/wiki/Hausdorff_distance>} between 2 sets of points with or
+       without U{early breaking<https://Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}
+       and U{random sampling<https://Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
+
+       @param model: First set of points (C{LatLon}[], C{Numpy2LatLon}[],
+                     C{Tuple2LatLon}[] or C{other}[]).
+       @param target: Second set of points (C{LatLon}[], C{Numpy2LatLon}[],
+                      C{Tuple2LatLon}[] or C{other}[]).
+       @keyword both: Return the C{directed} (forward only) or the C{symmetric}
+                      (combined forward and reverse) C{Hausdorff} distance (C{bool}).
+       @keyword early: Enable or disable U{early breaking<https://
+                       Publik.TUWien.ac.AT/files/PubDat_247739.pdf>} (C{bool}).
+       @keyword seed: Random sampling seed (C{any}) or C{None}, C{0} or
+                      C{False} for no U{random sampling<https://
+                      Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
+       @keyword units: Optional, name of the distance units (C{str}).
+       @keyword distance: Callable returning the distance between a B{C{model}}
+                          and B{C{target}} point (signature C{(point1, point2)}).
+       @Keyword point: Callable returning the B{C{model}} or B{C{target}} point
+                       suitable for B{C{distance}} (signature C{(point)}).
+
+       @return: A L{Hausdorff6Tuple}C{(hd, i, j, mn, md, units)}.
+
+       @raise HausdorffError: Insufficient number of B{C{model}} or
+                              B{C{target}} points.
+
+       @raise TypeError: If B{C{distance}} or B{C{point}} is not callable.
+    '''
+    if not callable(distance):
+        raise TypeError('%s not callable: %r' % ('distance', distance))
+    if not callable(point):
+        raise TypeError('%s not callable: %r' % ('point', point))
+
+    _, ps1 = points2(model,  closed=False, Error=HausdorffError)
+    _, ps2 = points2(target, closed=False, Error=HausdorffError)
+    return _hausdorff_(ps1, ps2, both, early, seed, units, distance, point)
+
+
+def randomrangenerator(seed):
+    '''Return a C{seed}ed random range function generator.
+
+       @param seed: Initial, internal L{Random} state (C{hashable}).
+
+       @note: L{Random} B{C{seed}} C{None} seeds from the
+              current time or from a platform-specific
+              randomness source, if available.
+
+       @return: A generator of random range functions.
+
+       @example:
+
+       >>> rrange = randomrangenerator('R')
+       >>> for r in rrange(n):
+       >>>    ...  # r is random in 0..n-1
+    '''
+    R = Random(seed)
+
+    def _range(n, *stop_step):
+        '''Like standard L{range}C{start, stop=..., step=...)},
+           except the returned values are in random order.
+
+           @note: Especially C{range(n)} behaves like standard
+                  L{Random.sample}C{(range(n), n)} but avoids
+                  creating a tuple with the entire C{population}
+                  and a list containing all sample values (for
+                  large C{n}).
+        '''
+        if stop_step:
+            s = range(n, *stop_step)
+
+        elif n > 32:
+            r = R.randrange  # Random._randbelow
+            s = set()
+            for _ in range(n - 32):
+                i = r(n)
+                while i in s:
+                    i = r(n)
+                s.add(i)
+                yield i
+            s = set(range(n)) - s  # [i for i in range(n) if i not in s]
+        else:
+            s = range(n)
+
+        s = list(s)
+        R.shuffle(s)
+        while s:
+            yield s.pop(0)
+
+    return _range
+
+# **) MIT License
+#
+# Copyright (C) 2016-2019 -- mrJean1 at Gmail dot com
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+# OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+# ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.

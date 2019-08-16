@@ -52,7 +52,7 @@ __all__ = _ALL_LAZY.sphericalNvector + (
           'nearestOn2',
           'perimeterOf',
           'triangulate', 'trilaterate')
-__version__ = '19.07.09'
+__version__ = '19.08.14'
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
@@ -509,10 +509,10 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
         # corner case, null arc
         if n1.isequalTo(n2):
-            return n0.isequalTo(n1) or n0.isequalTo(n2)
+            return n0.isequalTo(n1) or n0.isequalTo(n2)  # PYCHOK returns
 
-        if n0.dot(n1) < 0 or n0.dot(n2) < 0:
-            return False  # different hemisphere
+        if n0.dot(n1) < 0 or n0.dot(n2) < 0:  # different hemisphere
+            return False  # PYCHOK returns
 
         # get vectors representing d0=p0->p1 and d2=p2->p1
         # and dot product d0⋅d2 tells us if p0 is on the

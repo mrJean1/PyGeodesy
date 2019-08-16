@@ -16,7 +16,7 @@ from math import atan2, cos, degrees, hypot, radians, sin, sqrt  # pow
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.formy
-__version__ = '19.07.09'
+__version__ = '19.08.14'
 
 
 def _scaled(lat1, lat2):  # degrees
@@ -123,54 +123,6 @@ def compassAngle(lat1, lon1, lat2, lon2, adjust=True, wrap=False):
     return degrees360(atan2(d_lon, lat2 - lat1))
 
 
-def euclidean(lat1, lon1, lat2, lon2, radius=R_M, adjust=True, wrap=False):
-    '''Approximate the C{Euclidian} distance between two (spherical) points.
-
-       @param lat1: Start latitude (C{degrees}).
-       @param lon1: Start longitude (C{degrees}).
-       @param lat2: End latitude (C{degrees}).
-       @param lon2: End longitude (C{degrees}).
-       @keyword radius: Optional, mean earth radius (C{meter}).
-       @keyword adjust: Adjust the longitudinal delta by the
-                        cosine of the mean latitude (C{bool}).
-       @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
-
-       @return: Distance (C{meter}, same units as B{C{radius}}).
-
-       @see: U{Distance between two (spherical) points
-             <https://www.EdWilliams.org/avform.htm#Dist>}, functions
-             L{equirectangular}, L{haversine} and L{vincentys} and
-             methods L{Ellipsoid.distance2}, C{LatLon.distanceTo*}
-             and C{LatLon.equirectangularTo}.
-    '''
-    d, _ = unroll180(lon1, lon2, wrap=wrap)
-    r = euclidean_(radians(lat2), radians(lat1), radians(d), adjust=adjust)
-    return r * float(radius)
-
-
-def euclidean_(a2, a1, b21, adjust=True):
-    '''Approximate the I{angular} C{Euclidean} distance between two
-       (spherical) points.
-
-       @param a2: End latitude (C{radians}).
-       @param a1: Start latitude (C{radians}).
-       @param b21: Longitudinal delta, M{end-start} (C{radians}).
-       @keyword adjust: Adjust the longitudinal delta by the
-                        cosine of the mean latitude (C{bool}).
-
-       @return: Angular distance (C{radians}).
-
-       @see: Functions L{euclidean}, L{equirectangular_}, L{haversine_}
-             and L{vincentys_}.
-    '''
-    a, b = abs(a2 - a1), abs(b21)
-    if adjust:
-        b *= _scaler(a2, a1)
-    if a < b:
-        a, b = b, a
-    return a + b * 0.5
-
-
 def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **options):
     '''Compute the distance between two points using
        the U{Equirectangular Approximation / Projection
@@ -190,7 +142,7 @@ def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **options):
              available B{C{options}}, errors, restrictions and other,
              approximate or accurate distance functions.
     '''
-    _, dy, dx, _ = equirectangular_(lat1, lon1, lat2, lon2, **options)  # PYCHOK Equirectangular4Tuple
+    _, dy, dx, _ = equirectangular_(lat1, lon1, lat2, lon2, **options)  # PYCHOK Distance4Tuple
     return degrees2m(hypot(dx, dy), radius=radius)
 
 
@@ -241,6 +193,54 @@ def equirectangular_(lat1, lon1, lat2, lon2,
 
     d2 = d_lat**2 + d_lon**2  # degrees squared!
     return Distance4Tuple(d2, d_lat, d_lon, ulon2 - lon2)
+
+
+def euclidean(lat1, lon1, lat2, lon2, radius=R_M, adjust=True, wrap=False):
+    '''Approximate the C{Euclidian} distance between two (spherical) points.
+
+       @param lat1: Start latitude (C{degrees}).
+       @param lon1: Start longitude (C{degrees}).
+       @param lat2: End latitude (C{degrees}).
+       @param lon2: End longitude (C{degrees}).
+       @keyword radius: Optional, mean earth radius (C{meter}).
+       @keyword adjust: Adjust the longitudinal delta by the
+                        cosine of the mean latitude (C{bool}).
+       @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
+
+       @return: Distance (C{meter}, same units as B{C{radius}}).
+
+       @see: U{Distance between two (spherical) points
+             <https://www.EdWilliams.org/avform.htm#Dist>}, functions
+             L{equirectangular}, L{haversine} and L{vincentys} and
+             methods L{Ellipsoid.distance2}, C{LatLon.distanceTo*}
+             and C{LatLon.equirectangularTo}.
+    '''
+    d, _ = unroll180(lon1, lon2, wrap=wrap)
+    r = euclidean_(radians(lat2), radians(lat1), radians(d), adjust=adjust)
+    return r * float(radius)
+
+
+def euclidean_(a2, a1, b21, adjust=True):
+    '''Approximate the I{angular} C{Euclidean} distance between two
+       (spherical) points.
+
+       @param a2: End latitude (C{radians}).
+       @param a1: Start latitude (C{radians}).
+       @param b21: Longitudinal delta, M{end-start} (C{radians}).
+       @keyword adjust: Adjust the longitudinal delta by the
+                        cosine of the mean latitude (C{bool}).
+
+       @return: Angular distance (C{radians}).
+
+       @see: Functions L{euclidean}, L{equirectangular_}, L{haversine_}
+             and L{vincentys_}.
+    '''
+    a, b = abs(a2 - a1), abs(b21)
+    if adjust:
+        b *= _scaler(a2, a1)
+    if a < b:
+        a, b = b, a
+    return a + b * 0.5  # 0.4142135623731
 
 
 def haversine(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):

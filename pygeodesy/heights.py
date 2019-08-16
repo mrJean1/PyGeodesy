@@ -61,7 +61,7 @@ from pygeodesy.utily import PI, PI2, PI_2, property_RO, \
                             radiansPI, radiansPI2, unroll180, unrollPI
 
 __all__ = _ALL_LAZY.heights
-__version__ = '19.07.12'
+__version__ = '19.08.08'
 
 
 class HeightError(ValueError):  # imported by .geoids
@@ -614,7 +614,7 @@ class HeightIDWkarney(_HeightIDW):
             if not isinstance(self.datum, Datum):
                 raise TypeError
         except (AttributeError, TypeError):
-            raise TypeError('%d invalid: %r' % ('datum', self.datum or datum))
+            raise TypeError('%s invalid: %r' % ('datum', self.datum or datum))
         self._geodesic = self.datum.ellipsoid.geodesic
 
         self.beta = beta
@@ -628,7 +628,7 @@ class HeightIDWkarney(_HeightIDW):
         for ll in self._lls:
             # see .ellipsoidalKarney.LatLon._inverse
             _, lon = unroll180(x, ll.lon, wrap=self._wrap)  # g.LONG_UNROLL
-            # g.DISTANCE only needed to get 's12'
+            # XXX g.DISTANCE needed for 's12', distance in meters?
             yield abs(g.Inverse(y, x, ll.lat, lon)['a12'])
 
     @property_RO

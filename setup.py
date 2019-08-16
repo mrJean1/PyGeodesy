@@ -23,7 +23,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '19.07.08'
+__version__ = '19.08.14'
 
 
 def _c2(*names):
@@ -55,7 +55,7 @@ _KeyWords=('antipode', 'area', 'azimuth', 'bearing',
            'GARS', 'geocentric', 'geodesy', 'geodetic', 'GeodTest',
            'geographiclib', 'geohash', 'geoid', 'geoidHeight',
            'GeoidHeights', 'georef',
-           'Haversine', 'height', 'Hodgman', 'horizon',
+           'Hausdorff', 'Haversine', 'height', 'Hodgman', 'horizon',
            'IDW', 'interpolate', 'Inverse Distance Weighting', 'ITRF',
            'Karney', 'Krueger', 'Krüger',
            'Lambert', 'latitude', 'Lesh', 'linearize', 'longitude',
@@ -111,7 +111,7 @@ setup(
         _c2('License', 'OSI Approved', 'MIT License'),
         _c2('Operating System', 'OS Independent'),
         _c2('Programming Language', 'Python'),
-        _c2('Programming Language', 'Python', '2.6'),
+#       _c2('Programming Language', 'Python', '2.6'),
         _c2('Programming Language', 'Python', '2.7'),
         _c2('Programming Language', 'Python', '3.5'),
         _c2('Programming Language', 'Python', '3.6'),

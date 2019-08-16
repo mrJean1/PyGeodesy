@@ -26,7 +26,7 @@ _MISSING  = object()  # singleton, imported by .utily
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utily
-__version__ = '19.07.12'
+__version__ = '19.08.08'
 
 try:
     _Strs = basestring, str  # PYCHOK .datum.py, .geohash.py
@@ -405,7 +405,7 @@ def m2SM(meter):
     return meter * 6.21369949e-4  # XXX 6.213712e-4 == 1.0 / 1609.344
 
 
-def points2(points, closed=True, base=None):
+def points2(points, closed=True, base=None, Error=ValueError):
     '''Check a polygon represented by points.
 
        @param points: The polygon points (C{LatLon}[])
@@ -414,13 +414,14 @@ def points2(points, closed=True, base=None):
                         B{C{points}} (C{bool}).
        @keyword base: Optionally, check the B{C{points}} against this
                       base class C{None}.
+       @keyword Error: Exception for raise (C{ValueError}).
 
        @return: 2-Tuple (n, points) with the number (C{int}) of points
                 and the points C{list} or C{tuple}.
 
        @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
-       @raise ValueError: Insufficient number of B{C{points}}.
+       @raise Error: Insufficient number of B{C{points}}.
     '''
     n, points = len2(points)
 
@@ -434,7 +435,7 @@ def points2(points, closed=True, base=None):
         points = points[:n]  # XXX numpy.array slice is a view!
 
     if n < (3 if closed else 1):
-        raise ValueError('too few %s: %s' % ('points', n))
+        raise Error('too few %s: %s' % ('points', n))
 
     if base and not (isNumpy2(points) or isTuple2(points)):
         for i in range(n):

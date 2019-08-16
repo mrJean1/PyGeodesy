@@ -4,13 +4,15 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '19.06.27'
+__version__ = '19.08.14'
 
 from base import geographiclib, TestsBase
 
 from pygeodesy import R_NM, F_D, F_DM, F_DMS, F_RAD, classname, \
                       degrees, fStr, isclockwise, isconvex, \
                       isenclosedBy, ispolar, m2km, m2NM  # PYCHOK expected
+from pygeodesy.named import Bounds2Tuple, LatLon2Tuple, LatLon3Tuple, \
+                            PhiLam2Tuple, Vector3Tuple
 
 
 class Tests(TestsBase):
@@ -335,6 +337,23 @@ class Tests(TestsBase):
         self.test('compassAngleTo', c, 31.0, fmt='%.0f')
         c = p.compassAngleTo(q, adjust=False)
         self.test('compassAngleTo', c, 45.0, fmt='%.0f')
+
+        # check return types
+        self.testReturnType(p.boundsOf(2, 4), Bounds2Tuple, 'boundsOf')
+        self.testReturnType(p.latlon,    LatLon2Tuple, 'latlon')
+        self.testReturnType(p.latlon2(), LatLon2Tuple, 'latlon2')
+        self.testReturnType(p.isequalTo(p), bool, 'isequalTo')
+        self.testReturnType(p.to2ab(),   PhiLam2Tuple, 'to2ab')
+        self.testReturnType(p.to3llh(0), LatLon3Tuple, 'to3llh')
+        self.testReturnType(p.to3xyz(),  Vector3Tuple, 'to3xyz')
+        self.testReturnType(p.compassAngleTo(q),    float, 'compassAngleTo')
+        self.testReturnType(p.equirectangularTo(q), float, 'equirectangularTo')
+        self.testReturnType(p.euclideanTo(q),       float, 'euclideanTo')
+        self.testReturnType(p.euclideanTo(q),       float, 'euclideanTo')
+        self.testReturnType(p.vincentysTo(q),       float, 'vincentysTo')
+
+    def testReturnType(self, inst, clas, name):
+        self.test(name, type(inst), clas)  # type(inst).__name__ == clas.__name__
 
 
 if __name__ == '__main__':

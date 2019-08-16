@@ -49,7 +49,7 @@ from pygeodesy.named import classname, _NamedDict as _X, \
 from pygeodesy.utily import property_RO, _TypeError
 
 __all__ = _ALL_LAZY.trf
-__version__ = '19.07.14'
+__version__ = '19.08.14'
 
 _mDays = (0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 # temporarily hold a single instance for each float value
@@ -347,22 +347,22 @@ def _reframeTransforms(rf2, rf, epoch):
     n1 = rf.name   # .upper()
     if n1 == n2 or (n1.startswith('ITRF') and n2.startswith('WGS84')) \
                 or (n2.startswith('ITRF') and n1.startswith('WGS84')):
-        return ()
+        return ()  # PYCHOK returns
 
     if (n1, n2) in _trfXs:
-        return (_2Transform((n1, n2), epoch, _Forward),)
+        return (_2Transform((n1, n2), epoch, _Forward),)  # PYCHOK returns
 
     if (n2, n1) in _trfXs:
-        return (_2Transform((n2, n1), epoch, _Reverse),)
+        return (_2Transform((n2, n1), epoch, _Reverse),)  # PYCHOK returns
 
     n = _intermediate(n1, n2)
     if n:
-        return (_2Transform((n1, n), epoch, _Forward),
+        return (_2Transform((n1, n), epoch, _Forward),  # PYCHOK returns
                 _2Transform((n, n2), epoch, _Forward))
 
     n = _intermediate(n2, n1)
     if n:
-        return (_2Transform((n, n1), epoch, _Reverse),
+        return (_2Transform((n, n1), epoch, _Reverse),  # PYCHOK returns
                 _2Transform((n2, n), epoch, _Reverse))
 
     raise TRFError('no %s % to %s' % ('conversion', n1, n2))

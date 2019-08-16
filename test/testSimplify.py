@@ -4,7 +4,7 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '19.02.19'
+__version__ = '19.08.14'
 
 from base import numpy, TestsBase, secs2str
 
@@ -75,7 +75,7 @@ def simplifyRDPfw(points, epsilon, radius=R_M, adjust=False, shortest=False,  # 
             dx *= cos(radians((p1.lat + p2.lat) * 0.5))
         dy = p2.lat - p1.lat
         d2 = dx**2 + dy**2
-        return d2, dx, dy
+        return d2, dx, dy  # PYCHOK returns
 
     if shortest:
         raise NotImplementedError('shortest=%s' % (shortest,))
@@ -157,7 +157,7 @@ def simplifyRDPgr(source, kink, radius=R_M, adjust=True, shortest=True,  # MCCAB
             dx *= cos(radians((p1.lat + p2.lat) * 0.5))
         dy = p2.lat - p1.lat
         d2 = dx**2 + dy**2
-        return d2, dx, dy
+        return d2, dx, dy  # PYCHOK returns
 
     if not shortest:
         raise NotImplementedError('shortest=%s' % (shortest,))
