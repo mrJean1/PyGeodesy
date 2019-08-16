@@ -104,6 +104,9 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                            gars=('Garef', 'GARSError'),
                         geohash=('Geohash', 'GeohashError'),
                          geoids=('GeoidError', 'GeoidG2012B', 'GeoidKarney', 'GeoidPGM', 'egmGeoidHeights', 'PGMError'),
+                      hausdorff=('Hausdorff', 'HausdorffDegrees', 'HausdorffRadians', 'HausdorffError',
+                                 'HausdorffEquirectangular', 'HausdorffEuclidean', 'HausdorffHaversine', 'HausdorffKarney', 'HausdorffVincentys',
+                                 'hausdorff_', 'randomrangenerator'),
                         heights=('HeightError', 'SciPyError', 'SciPyWarning',
                                  'HeightIDWequirectangular', 'HeightIDWeuclidean', 'HeightIDWhaversine', 'HeightIDWkarney', 'HeightIDWvincentys',
                                  'HeightCubic', 'HeightLinear', 'HeightLSQBiSpline', 'HeightSmoothBiSpline'),
@@ -150,7 +153,7 @@ _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                 utily=('points2 as polygon',))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '19.07.12'
+__version__ = '19.08.14'
 
 
 def _all_imports(**more):

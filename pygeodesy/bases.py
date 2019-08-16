@@ -14,8 +14,8 @@ from pygeodesy.fmath import EPS, favg, map1, scalar
 from pygeodesy.formy import antipode, compassAngle, equirectangular, \
                             euclidean, haversine, isantipode, vincentys
 from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS
-from pygeodesy.named import Bounds2Tuple, LatLon2Tuple, LatLon3Tuple, \
-                           _NamedBase, PhiLam2Tuple, Vector3Tuple, _xattrs
+from pygeodesy.named import Bounds2Tuple, LatLon2Tuple, _NamedBase, \
+                            PhiLam2Tuple, Vector3Tuple, _xattrs
 from pygeodesy.utily import R_M, points2, sincos2
 
 from math import asin, cos, degrees, radians
@@ -23,7 +23,7 @@ from math import asin, cos, degrees, radians
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_LAZY.bases + _ALL_DOCS('_VectorBase')
-__version__ = '19.07.09'
+__version__ = '19.08.14'
 
 
 class _VectorBase(_NamedBase):
@@ -506,8 +506,6 @@ class LatLonHeightBase(_NamedBase):
         '''
         h = self.height if height is None else height
         return self.latlon._3Tuple(h)
-        r = LatLon3Tuple(self.lat, self.lon, h)
-        return self._xnamed(r)
 
     def to3xyz(self):
         '''Convert this (geodetic) point to (n-)vector (normal

@@ -4,7 +4,7 @@
 # Test named module.
 
 __all__ = ('Tests',)
-__version__ = '19.05.09'
+__version__ = '19.08.08'
 
 from base import PyGeodesy_dir, TestsBase
 
@@ -78,6 +78,7 @@ class Tests(TestsBase):
             self.test(m, t, _Ndict.get(n, 'signature'))
 
     def testNamed_xtend(self, named):
+        # test extending a _NamedTuple class
         t = named.LatLon2Tuple(0, 1)
         x = t._3Tuple(2)
         r = named.LatLon3Tuple(0, 1, 2)
@@ -114,7 +115,7 @@ if __name__ == '__main__':
     from glob import glob
     import os.path as os_path
 
-    from pygeodesy import named
+    from pygeodesy import hausdorff, named
 
     t = Tests(__file__, __version__)
     t.testNamed(named._Named)
@@ -126,8 +127,10 @@ if __name__ == '__main__':
     t.testNamed(named._NamedStr, '')
 #   t.testNamed(named._NamedTuple)
 
+    # find all _NamedDict and _NamedTuple class
     t.testNamedDicts(named)
     t.testNamedTuples(named)
+    t.testNamedTuples(hausdorff)
 
     # test __doc__ strings in all pygeodesy modules
     for m in glob(os_path.join(PyGeodesy_dir, 'pygeodesy', '*.py')):

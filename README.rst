@@ -37,8 +37,9 @@ the `Cohen-Sutherland`_ and the `Sutherland-Hodgman`_ methods, functions
 to simplify_ or linearize a path of *LatLon* points (or a `NumPy array`_),
 including implementations of the `Ramer-Douglas-Peucker`_, the
 `Visvalingam-Whyatt`_ and the `Reumann-Witkam`_ algorithms and modified
-versions of the former and classes to interpolate_ the height of
-*LatLon* points and several *Geoid* models.
+versions of the former.  Other classes interpolate_ the height of
+*LatLon* points and several *Geoid* models or calculate various
+Hausdorff_ distances.
 
 Installation
 ============
@@ -73,14 +74,14 @@ Tests
 The tests have been run with Python 2.7.16 and 3.7.4 (both with
 geographiclib_ 1.49, numpy_ 1.16.4, and scipy_ 1.2.2 respectively 1.3.0)
 and with PyPy_ 6.0.0 (Python 2.7.13 and 3.5.3) on macOS 10.13.6 High
-Sierra, *all 3in 64-bit only*.  The results of those tests are included
+Sierra, *all in 64-bit only*.  The results of those tests are included
 in the distribution files.
 
-The tests also run with Python 2.6.9, 2.7.14, 3.5.6 and 3.6.3 (and
-geographiclib_ 1.49) on `Ubuntu 14.04`_ and with Python 3.7.3 (and
-geographiclib_ 1.49) on `Debian 9`_ *all in 64-bit only* and with
-Python 2.7.15, 3.6.8 and 3.7.2 (all with geographiclib_ 1.49) on
-`Windows Server 2012R2`_ *in both 32- and 64-bit*.
+The tests also run with Python 2.7.14, 3.5.6 and 3.6.3 (and geographiclib_
+1.49) on `Ubuntu 14.04`_ and with Python 3.7.3 (and geographiclib_ 1.49)
+on `Debian 9`_ *all in 64-bit only* and with Python 2.7.15, 3.6.8 and
+3.7.2 (all with geographiclib_ 1.49) on `Windows Server 2012R2`_ *in both
+32- and 64-bit*.
 
 On Python 3.7+, the tests run with and without *lazy import*.
 
@@ -110,7 +111,7 @@ High Sierra.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: July 14, 2019.*
+*Last updated: Aug 14, 2019.*
 
 License
 =======
@@ -166,6 +167,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. _Geohashes: https://www.Movable-Type.co.UK/scripts/geohash.html
 .. _Georefs (WGRS): https://WikiPedia.org/wiki/World_Geographic_Reference_System
 .. _GitHub: https://GitHub.com/mrJean1/PyGeodesy
+.. _Hausdorff: https://WikiPedia.org/wiki/Hausdorff_distance
 .. _Intel-Python: https://software.Intel.com/en-us/distribution-for-python
 .. _interpolate: https://docs.SciPy.org/doc/scipy/reference/interpolate.html
 .. _JavaScript originals: https://GitHub.com/ChrisVeness/geodesy

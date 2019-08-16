@@ -42,7 +42,7 @@ __all__ = _ALL_LAZY.named + _ALL_DOCS(  # '_Named', '_NamedBase',
          'UtmUps2Tuple', 'UtmUps4Tuple', 'UtmUps5Tuple', 'UtmUps8Tuple',
          'UtmUpsLatLon5Tuple',
          'Vector3Tuple', 'Vector4Tuple')
-__version__ = '19.07.12'
+__version__ = '19.07.14'
 
 _NAME_ = 'name'  # __NAME gets mangled in class
 
@@ -249,7 +249,7 @@ class _NamedBase(_Named):
 #               t = map(repr, args) + t
 #           s = ', '.join(t)
 #       else:
-#           s = super(self.__class__, self).__str__(self)
+#           s = super(self.__class__, self).__str__()
 #       return s
 
     def toStr2(self, **kwds):
@@ -266,7 +266,7 @@ class _NamedBase(_Named):
 #       if args or kwds:
 #           s = self.toStr(*args, **kwds)
 #       else:
-#           s = super(self.__class__, self).__repr__(self)
+#           s = super(self.__class__, self).__repr__()
 #       return '%s(%s)' % (self.named, s)  # clip(s)
 
 

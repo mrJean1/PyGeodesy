@@ -57,9 +57,11 @@ including implementations of the U{Ramer-Douglas-Peucker
 <https://WikiPedia.org/wiki/Ramer-Douglas-Peucker_algorithm>} the
 U{Visvalingam-Whyatt<https://hydra.Hull.ac.UK/resources/hull:8338>} and
 U{Reumann-Witkam<https://psimpl.SourceForge.net/reumann-witkam.html>}
-the algorithms and modified versions of the former and classes to
+the algorithms and modified versions of the former.  Other classes
 U{interpolate<https://docs.SciPy.org/doc/scipy/reference/interpolate.html>}
-the height of C{LatLon} points and several C{Geoid} models.
+the height of C{LatLon} points and several C{Geoid} models or calculate
+various U{Hausdorff<https://WikiPedia.org/wiki/Hausdorff_distance>}
+distances.
 
 Installation
 ============
@@ -97,20 +99,19 @@ Tests
 The tests have been run with Python 2.7.16 and 3.7.4 (both with
 U{geographiclib <https://PyPI.org/project/geographiclib>} 1.49,
 U{numpy<https://PyPI.org/project/numpy>} 1.16.4 and U{scipy
-<https://Scipy.org/scipylib/download.html>} 1.2.2 respectively 1.3.0)
+<https://SciPy.org/scipylib/download.html>} 1.2.2 respectively 1.3.0)
 and with U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3) on
 macOS 10.13.6 High Sierra, I{all in 64-bit only}.  The results of
 those tests are included in the distribution files.
 
-The tests also run with Python 2.6.9, 2.7.14, 3.5.6 and 3.6.3 (and
-U{geographiclib<https://PyPI.org/project/geographiclib>} 1.49) on
-U{Ubuntu 14.04<https://Travis-CI.org/mrJean1/PyGeodesy>} and with Python
-3.7.3 (and U{geographiclib<https://PyPI.org/project/geographiclib>} 1.49)
-on U{Debian 9<https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>}
-I{all in 64-bit only} and with Python 2.7.15, 3.6.8 and 3.7.2 (all with
-U{geographiclib<https://PyPI.org/project/geographiclib>} 1.49) on
-U{Windows Server 2012R2<https://CI.AppVeyor.com/project/mrJean1/pygeodesy>}
-I{in both 32- and 64-bit}.
+The tests also run with Python 2.7.14, 3.5.6 and 3.6.3 (and U{geographiclib
+<https://PyPI.org/project/geographiclib>} 1.49) on U{Ubuntu 14.04
+<https://Travis-CI.org/mrJean1/PyGeodesy>} and with Python 3.7.3 (and
+U{geographiclib<https://PyPI.org/project/geographiclib>} 1.49) on U{Debian
+9<https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>} I{all in 64-bit
+only} and with Python 2.7.15, 3.6.8 and 3.7.2 (all with U{geographiclib
+<https://PyPI.org/project/geographiclib>} 1.49) on U{Windows Server 2012R2
+<https://CI.AppVeyor.com/project/mrJean1/pygeodesy>} I{in both 32- and 64-bit}.
 
 On Python 3.7+, the tests run with and without C{lazy import}.
 
@@ -235,7 +236,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy        = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '19.07.14'
+__version__ = '19.08.14'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 
@@ -281,6 +282,7 @@ if not _lazy_import2:  # import and set __all__
     import pygeodesy.gars                  as gars                   # PYCHOK exported
     import pygeodesy.geohash               as geohash                # PYCHOK exported
     import pygeodesy.geoids                as geoids                 # PYCHOK exported
+    import pygeodesy.hausdorff             as hausdorff              # PYCHOK exported
     import pygeodesy.heights               as heights                # PYCHOK exported
     import pygeodesy.lazily                as lazily                 # PYCHOK exported
     import pygeodesy.lcc                   as lcc                    # PYCHOK exported
@@ -324,6 +326,7 @@ if not _lazy_import2:  # import and set __all__
     from pygeodesy.gars                  import Garef, GARSError  # PYCHOK exported
     from pygeodesy.geohash               import Geohash, GeohashError  # PYCHOK exported
     from pygeodesy.geoids                import *  # PYCHOK __all__
+    from pygeodesy.hausdorff             import *  # PYCHOK __all__
     from pygeodesy.heights               import *  # PYCHOK __all__
     from pygeodesy.lazily                import *  # PYCHOK __all__
     from pygeodesy.lcc                   import *  # PYCHOK __all__

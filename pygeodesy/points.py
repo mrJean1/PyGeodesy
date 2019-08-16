@@ -46,7 +46,7 @@ from inspect import isclass
 from math import atan2, cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '19.07.09'
+__version__ = '19.8.14'
 
 
 class LatLon_(object):  # XXX imported by heights._HeightBase.height
@@ -261,7 +261,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
         '''(INTERNAL) Find the last matching point index.
         '''
         def _r3(start=None, end=None, step=-1):
-            return (start, end, step)
+            return (start, end, step)  # PYCHOK returns
 
         for i in self._findall(point, _r3(*start_end)):
             return i
