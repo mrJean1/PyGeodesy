@@ -6,7 +6,7 @@
 __all__ = ('Tests',)
 __version__ = '19.08.14'
 
-from base import geographiclib, isPython3, TestsBase
+from base import geographiclib, isPython3, isWindows, TestsBase
 
 from pygeodesy import fStr, LatLon_, randomrangenerator
 
@@ -39,7 +39,7 @@ class Tests(TestsBase):
             self.test(h.named, t, y)  # + (h.units,)
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # MCCABE 13
 
     from pygeodesy import Datums, \
                           HausdorffDegrees, HausdorffRadians, \
@@ -105,7 +105,30 @@ if __name__ == '__main__':
             t.test4(HausdorffKarney, *_4((28.79903, 35, 3,  90, 12.16138),
                                          (28.79903, 35, 3, 150, 11.53021)),
                                      datum=Datums.WGS84)
-    else:  # Python 2
+    elif isWindows:  # Python 2
+        t.test4(HausdorffDegrees_, *_4((51.0, 10, 50,  90, 15.92222),
+                                       (51.0, 10, 50, 150, 14.32667)))
+
+        t.test4(HausdorffRadians_, *_4((0.89012, 10, 50,  90, 0.2779),
+                                       (0.89012, 10, 50, 150, 0.25005)))
+
+        t.test4(HausdorffEquirectangular, *_4((0.30982, 40, 0,  90, 0.04843),
+                                              (0.30982, 40, 0, 150, 0.04072)))
+
+        t.test4(HausdorffEuclidean, *_4((0.60207, 69, 13,  90, 0.20222),
+                                        (0.60207, 69, 13, 150, 0.18415)))
+
+        t.test4(HausdorffHaversine, *_4((0.52674, 74, 45,  90, 0.18192),
+                                        (0.52674, 74, 45, 150, 0.16555)))
+
+        t.test4(HausdorffVincentys, *_4((0.52674, 74, 45,  90, 0.18192),
+                                        (0.52674, 74, 45, 150, 0.16555)))
+
+        if geographiclib:
+            t.test4(HausdorffKarney, *_4((30.11794, 74, 45,  90, 10.43166),
+                                         (30.11794, 74, 45, 150,  9.49554)),
+                                     datum=Datums.WGS84)
+    else:  # Python 2, elsewhere
         t.test4(HausdorffDegrees_, *_4((50.5, 61, 7,  90, 18.45556),
                                        (50.5, 61, 7, 150, 16.05)))
 
